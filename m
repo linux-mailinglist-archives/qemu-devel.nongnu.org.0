@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24D84C906E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 17:33:50 +0100 (CET)
-Received: from localhost ([::1]:56464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6098F4C9078
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 17:35:40 +0100 (CET)
+Received: from localhost ([::1]:58812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP5Rd-0003j1-Rq
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 11:33:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56012)
+	id 1nP5TP-0005KV-Fu
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 11:35:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nP5Oe-0001XS-4H
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 11:30:47 -0500
-Received: from [2607:f8b0:4864:20::b2a] (port=43756
- helo=mail-yb1-xb2a.google.com)
+ (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>)
+ id 1nP5SA-0004dK-JX; Tue, 01 Mar 2022 11:34:22 -0500
+Received: from [2607:f8b0:4864:20::52e] (port=33458
+ helo=mail-pg1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nP5Oc-00043D-M7
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 11:30:43 -0500
-Received: by mail-yb1-xb2a.google.com with SMTP id g26so2680774ybj.10
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 08:30:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bKVk10tObS6Zdp/IbgEapmTajXCeX0hwnk+7DEiX7gk=;
- b=b3KJsZCBZbZnrqH3KJ2XoWS1MTM/RX8dGQzNjc67HVxH9ML0fun2YyMlHAnoL0LAza
- MhnXPKQ4l+OW9tzyBBA36rzM1NWuoEqLVayehzW0cLa44culfa4DJ+erMdNwqpnPNUSi
- apaxiPu9QN4c7f3s9K4OQgY7/OPjHgTJOPsrlpDu9b0/vR4PgijUfnZ/FD1DUnNDnrg7
- qoeQfihrv0+RrNTQB/xtoeJKv9VU4K4KaxQdcnv37224Ky7X9FCvdWT1auhSJrIiSRq3
- kC/iCoiY8eQC7Fl+TciddYJEGO8BBTb2j8rSCUc5TIviJsIyOsDAdUVogwb/IAFc8ScY
- LxLg==
+ (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>)
+ id 1nP5S5-0004Sk-5Z; Tue, 01 Mar 2022 11:34:20 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id 12so14822539pgd.0;
+ Tue, 01 Mar 2022 08:34:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:from:subject:to:cc
+ :references:content-language:in-reply-to:content-transfer-encoding;
+ bh=zMs6geIRZGUb21w3O6Ms1ZjgZzSB7UuC0q+zp+Woh2E=;
+ b=oksVQSMRhuFOTUwhQuWKaHCCZlwBDXjljSc7bxSnHT7t8T1NE+BLoW24ELYGzpiUda
+ dvE4+Hmdq3UaM+WzIbQJJrrTxpRRO7Raar2c0W8yD9JXagt4KPCKJaLDLnbzQKEuiX3b
+ 1BsGtp4vVeUQl6Su04yf6Sv841yBpX9DQ0BjEWWtjvpByL9m+HPPpNA3p0yylxx0zK2f
+ jv5cMOM9wLItmbF7359CY8OnP2qhZfdFR+ZBi5oYVCW+Mc+VFWSv/E2QHhJn0oL0CGa4
+ H38drHFVkmmj5mb5w8AXm2HKOtWjGk/6FNM4aeCkJmNaobC/V9/UZczGlqOEUTu98dFf
+ 14Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bKVk10tObS6Zdp/IbgEapmTajXCeX0hwnk+7DEiX7gk=;
- b=0ZDjQQXBcDj0Oz+bV+SkYNbXozB9pi5Lv9+iB0e3T88tO0YiV+2fh+NWR5sx82rOUI
- xr6oe3grHllLofuPFkdX5i+Ez2vXU9k9WqG4JYEkJJJu7cNSYm8hGEgUIMzuVceexm+T
- 4hOgZnxek4MDOXKa+oQCr64HdUu9xgaW/VJou3sPHnZaB1ifVbnoTzKS3bO3Zo6r8ZzV
- Eb5HuSplNJ3qVwXhFYqdRwNJ+AAWccC5bxf6uLJheLu7aY5LBQd99PH3eLJ+hyOq+HxO
- 353LFz7M2+wDXZbMEBFKOhYqdb4XWIZBfN7bhK6KYcmS0GsE+O504nvHyH+fol2f7Jpc
- pXSg==
-X-Gm-Message-State: AOAM533pFFOpQ+r0yb8UHM2YxcCG26qD1jXdvywnux9Sddtf+tXEwfZb
- 0wYySwpXuHEfUx1yeoyTgttIXlKPFjeKSGNTfq5WYA==
-X-Google-Smtp-Source: ABdhPJxBZU//e2cY51NLwGh9hDDqJQNvpYmkNU8IoxFgRGwwjRegsPZSI/LwN1+7TcvEOcrY/lPjiZZGo8w5zwNmM+4=
-X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
- h3-20020a056902008300b0061a709bd841mr23693445ybs.140.1646152241450; Tue, 01
- Mar 2022 08:30:41 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+ :subject:to:cc:references:content-language:in-reply-to
+ :content-transfer-encoding;
+ bh=zMs6geIRZGUb21w3O6Ms1ZjgZzSB7UuC0q+zp+Woh2E=;
+ b=7KwOHVMODb8fWnEGwe2ddNkNGsy3npXghl8vbkGEvGhEYsywCXdn1NnHjjccsPZZMZ
+ OWTMOkENVr82qtD2wgsp/pEpwpuBmYaA9FTTFocsICgvoA5aoV25bL8loULbLn22888w
+ Prx1gHPSEGY0d26xj1OoVjzQDC69QMaOX5EStrgaXN3EKpoiU58I5lETUgSQQcDmomgv
+ O/ycrnOxreOoRxTaBNbGLBdKyG5reKLQACIXgXuLGUjwovNj1hyYBqmMoa3BBtuinvww
+ HkG+L/Bfv24my+SbtFs1DC8oapZGZ6XzupNVwiJpp8uczyeU1Ao1ZH2aqFkarXDHHF5u
+ nL7w==
+X-Gm-Message-State: AOAM533Tf2FSleuan8w0hx5rmTLwqxrxRlkE2xhW8kfwDfHHsQKbgxJz
+ RwymlMBzQsfWZ92kGb1ZY9Q=
+X-Google-Smtp-Source: ABdhPJzORhNSxksi2vqx5FjT41Znz9pBqZ6JOmbOG/hZ/cox1BopgxNWOD1NIllpO0PXf+JK825j4Q==
+X-Received: by 2002:a62:7990:0:b0:4e0:5ae8:6c11 with SMTP id
+ u138-20020a627990000000b004e05ae86c11mr28623358pfc.34.1646152452829; 
+ Tue, 01 Mar 2022 08:34:12 -0800 (PST)
+Received: from ?IPV6:2001:b011:e000:59d7:401f:1cea:ecc0:9594?
+ (2001-b011-e000-59d7-401f-1cea-ecc0-9594.dynamic-ip6.hinet.net.
+ [2001:b011:e000:59d7:401f:1cea:ecc0:9594])
+ by smtp.gmail.com with ESMTPSA id
+ e30-20020a056a0000de00b004ef299a4f89sm18172590pfj.180.2022.03.01.08.34.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Mar 2022 08:34:12 -0800 (PST)
+Message-ID: <2da2f0bc-6c54-0a26-aafb-1f866cf93de8@gmail.com>
+Date: Wed, 2 Mar 2022 00:34:09 +0800
 MIME-Version: 1.0
-References: <20220223223137.114264-1-richard.henderson@linaro.org>
- <CAFEAcA84cFnF9EygS6Xun3VorjeGKf+Lw7zRdkBbcRp6YT_OeQ@mail.gmail.com>
- <CAFEAcA_+70hkNaRhbT=ZT457x+cgD-qSad5QoJY8VAEds5UKeA@mail.gmail.com>
- <Yh5Jqg8oDDfPZ2c9@redhat.com>
-In-Reply-To: <Yh5Jqg8oDDfPZ2c9@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Mar 2022 16:30:30 +0000
-Message-ID: <CAFEAcA-6C9XmP_HGwL8CarBrcuvg6n1wbR5Ys0jZBC-RrA0-AA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/17] target/arm: Implement LVA, LPA, LPA2 features
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2a
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+From: Yan-Jie Wang <ubzeme@gmail.com>
+Subject: Re: [PATCH qemu 0/7] Many improvements to HVF memory-related codes
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <164603074537.20094.1732342403585879912-0@git.sr.ht>
+ <CAFEAcA8hWy3rfGtYkyQjJSGgsX448_t01xmM4cwyCO0op4h1xw@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAFEAcA8hWy3rfGtYkyQjJSGgsX448_t01xmM4cwyCO0op4h1xw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=ubzeme@gmail.com; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,48 +93,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Mar 2022 at 16:28, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
+For the dirty-tracking part in my patch series, the major difference 
+between this patch and Alex's patch is that the dirty-tracking logic in 
+my patch will only mark the page being written dirty instead of marking 
+the whole memory slot dirty, and will only restore the write permission 
+to the page being written instead of the whole memory slot.
+
+When memory regions overlap, "region_add" in memory listeners may be 
+called with structure MemoryRegionSection containing non-zero 
+offset_within_region.  This makes the start address of memory slots 
+(member "start" in struct hvf_slot) not the same as the start address of 
+the memory region. However, the dirty-tracking logics in both 
+target/i386/hvf and Alex's patch assume that they are the same.
+
+Currently, there is a bug in the dirty-tracking logic in 
+target/i386/hvf. I modified codes in target/i386/hvf to fix the problem.
+
+On the x86 platform, Ubuntu ISO boot menu did not show properly.
+
+The link of the bug is https://bugs.launchpad.net/qemu/+bug/1827005
+
+The modified codes use the new function, "hvf_access_memory",
+introduced in this patch series to handle dirty-tracking.
+
+Following is the dirty-tracking logic in original codes in
+target/i386/hvf.
+
+     if (write && slot) {
+         if (slot->flags & HVF_SLOT_LOG) {
+             memory_region_set_dirty(slot->region, gpa - slot->start, 1);
+             hv_vm_protect((hv_gpaddr_t)slot->start, (size_t)slot->size,
+                           HV_MEMORY_READ | HV_MEMORY_WRITE);
+         }
+     }
+
+The problem of the above code is:
+
+'memory_region_set_dirty' sets only the page that is being written 
+dirty, but hv_vm_protect makes the whole memory slot writable.
+
+Any write to the memory slot excluding the previous written page
+and before the next call to "log_sync" in memory listener
+will not be correctly tracked.
+
+
+On Mon, Feb 28, 2022 at 10:11 PM Peter Maydell 
+<peter.maydell@linaro.org> wrote:
 >
-> On Tue, Mar 01, 2022 at 04:16:25PM +0000, Peter Maydell wrote:
-> > On Tue, 1 Mar 2022 at 16:08, Peter Maydell <peter.maydell@linaro.org> w=
-rote:
-> > >
-> > > On Wed, 23 Feb 2022 at 22:31, Richard Henderson
-> > > <richard.henderson@linaro.org> wrote:
-> > > >
-> > > > Changes for v3:
-> > > >   * Update emulation.rst.
-> > > >   * Split out separate update to ID_AA64MMFR0.
-> > > >   * Hack for avocado.
-> > > >
-> > > > If the avocado hack isn't acceptable, perhaps just drop the
-> > > > last two patches for now?
-> > >
-> > > I think that given that there are Linux kernels out there
-> > > that won't boot if LPA2 is enabled, we should probably have
-> > > a -cpu command line option to disable it. Otherwise we might
-> > > get a bunch of "why did my kernel stop booting" bug reports.
+> On Mon, 28 Feb 2022 at 14:07, ~ubzeme <ubzeme@git.sr.ht> wrote:
 > >
-> > ...and should using a versioned machine type also default
-> > -cpu max to not enabling that? Not sure what x86 or other
-> > precedent is there.
+> > I recently bought a Mac with M1 Pro chip, and use QEMU to setup a Linux
+> > virtual machine.  QEMU crashed when I started a VM with HVF accelerator
+> > enabled and with the device, bochs-display, added.
+> >
+> > After digging into the source code, I found that dirty-tracking in HVF
+> > did not work properly, which made QEMU crashed. Therefore I made this
+> > series of patches to fix the problem.
 >
-> I don't recall us coming across an important scenario where a guest
-> would fail to boot when we /enable/ a given CPU feature on x86,
-> requiring us to hide it from -cpu max/host.
+> How does this series compare with Alex's patch to enable
+> hvf dirty tracking for target/arm/hvf ?
+> https://patchew.org/QEMU/20220203142320.33022-1-agraf@csgraf.de/
 >
-> Assuming the QEMU/KVM implementation of a CPU feature is correct
-> per the relevant spec, then artificially hiding it by default from
-> -cpu max feels questionable, as that penalizes non-buggy guest OS.
-
-Yeah. It's just unfortunate that "buggy guest OS" here is
-"every Linux up to 5.11".
-
--- PMM
+> thanks
+> -- PMM
 
