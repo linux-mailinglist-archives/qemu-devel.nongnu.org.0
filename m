@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B084C981A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:03:28 +0100 (CET)
-Received: from localhost ([::1]:34032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C95D4C981B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:03:29 +0100 (CET)
+Received: from localhost ([::1]:33846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPAac-0004No-Ud
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:03:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58238)
+	id 1nPAad-0004Fk-6V
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:03:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPAXU-0001F9-Qv
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:13 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=44926
- helo=mail-pl1-x62a.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nPAXG-0001Dk-56
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 16:59:58 -0500
+Received: from [2607:f8b0:4864:20::b2a] (port=36632
+ helo=mail-yb1-xb2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPAXT-0004wB-6B
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:12 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id q11so14577561pln.11
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:00:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nPAXE-0004j3-EV
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 16:59:57 -0500
+Received: by mail-yb1-xb2a.google.com with SMTP id f38so18171793ybi.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 13:59:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=E1rlJYYazfRdVeynNKa6RTb/vpD+L0sCNF3QpW/Zvp8=;
- b=iWENCHPYZqKwbsB8w9uYNeYg9InVg6/l1aX3WDGZzSjCc5EK9ycc/+CwlktONCfPCa
- hPfYWpllMJqmgylTcktcbf6FC69B6wjIEoksowCHtRFj3XF6SZrz/NPJNE52UlaBnBdg
- D9VChukulTP79+uRMGFmtMKrKaopmQ0qUoobCkqFrrX3yjv4t1BLy12aBqpOQC4pH25U
- mcm6yfXmIVA7nkJpdKuFUfK/ZTg+wNWvqKMFMQPUsaqHAcbj7mneiZ+K/b/grOyIJ0te
- +/Q861Vlr3WcEEQPVRvCEtq9vh9bKisEEUQaFhTzN1j+yGLIYjNI9gZPBuC1aZeAuPKq
- qLIw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8m6W4451GQnE+xmXeZjgAsQN3m0xYTDn8fhfZjazWmo=;
+ b=S1tDAFJxX6yub3xP/GXaRMWAB3IJAFLq4pXKKNqDK8fOxyL79Etti1UI1/2YyIksqH
+ EeL49WaIk9llm0o41FPZFaRnJSPpM09QWGJrzL/7UM1V8wjc7aKli6TiHz9tSrLql5kC
+ g16h/YKfbEWu9mmy8OzBXYrQJd2av38/Xj5Obbj+o/XYVGepKr4SgIr1+H+Ky8v2y0no
+ /W2vgbJQBxcMuwHcJZx57JpSz9t1aGVf+H7c+2YK3Aa5fR0jzQbj8gK6zs332swieDJn
+ VBGmpk0My/rnYhTVV4oZviLCodlyXWJAhjqFO2CeetROmQ+L8vElxKhMYWvWvujm//8C
+ +b2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=E1rlJYYazfRdVeynNKa6RTb/vpD+L0sCNF3QpW/Zvp8=;
- b=5+tBV/QEn+BoTCVr4JXmtT+lSkYXmDweS87Fm0WzClpnm8CkyqlhUGGfzxz4YlmwRq
- AOHO4ieCsOFmQAEaTq0Lj81KfUN/SlDU2D464vP2ylvfwZ4BVHjSEho/f2/J8PuUEuHL
- eGRsJbqA76NO6Q/ecVv07xFUcZBcnH9TAUChbtb86tp2pPa5NqD+DzRgbVj7Uf0EnU0x
- UUYr2kaHc1ijhh4EvDIyn4l5T6GOJcUvxmHBhkBEIuuq/Y+xBWqU27PPmr0Yt/yJXqae
- WMIjVqtd5Mcm9LyQKv0OJkHWATIm+d+v3dQayHjflF3oU+5rA9H0CSk8e14BWxmu66xd
- uYnA==
-X-Gm-Message-State: AOAM532C4dQ9dFHYKeN+l3gIFxm7bMNMf6E7Fegf9tJtrkeQmPcsPklJ
- ExxopxuPhRUExeG9TY+1dkASk0n494/GnQ==
-X-Google-Smtp-Source: ABdhPJxsLWUEHCSRx5y6+idMrcUWQioEy8o+e4wivRjqPDiY4+t5NktOzFpUTisz2QcYRZhmg8a/Ug==
-X-Received: by 2002:a17:902:bd04:b0:151:6cec:4b3 with SMTP id
- p4-20020a170902bd0400b001516cec04b3mr11176922pls.106.1646172006144; 
- Tue, 01 Mar 2022 14:00:06 -0800 (PST)
-Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- m4-20020a17090a7f8400b001bef3fc3938sm284392pjl.49.2022.03.01.14.00.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 14:00:05 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/18] target/arm: Set TCR_EL1.TSZ for user-only
-Date: Tue,  1 Mar 2022 11:59:42 -1000
-Message-Id: <20220301215958.157011-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220301215958.157011-1-richard.henderson@linaro.org>
-References: <20220301215958.157011-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8m6W4451GQnE+xmXeZjgAsQN3m0xYTDn8fhfZjazWmo=;
+ b=H6QElxpJowTzKJhWcok7Sh7FtRfIjB4uiprIdATjBSC3BQhiZMl4aPkbi9mYpMY+Lf
+ wcIYbtdCyGES4ZtBdXPtCsDGuVR0JNO2F3WgCIbk8oxKECGX8jHn311kQa9N0Wu+Ihdy
+ 1OS8btiZnlW1X38ZvJdZRrLd+47so0g7xymsSGJxOvDnvnqHfXOy6vtjv9gdOnnLm0tf
+ BBafNThYsWawBIWaVsmc1QKvcf47EPw5scIZ7Z9s5oGIYybGMH2TCuzlFr6iV0bQD+4R
+ F8C3/RqUN8zqx2M/zJJwG0orL/c+fWG143st3Jlj9SUNNHXJZW8/RWkWaQpRXtP/m2iH
+ x+9A==
+X-Gm-Message-State: AOAM5312RUdagQv1l9SggiYFdGiVI0VBlENYQxdNUivlha+S+QlXcVAI
+ qRG/DlGrM2aUjuLW7KdbeMk8PJFPVHdoCicTLYQf5xBiuP4=
+X-Google-Smtp-Source: ABdhPJxWopusBxDMFUfj/wuoh+BeQNHH+jnQLH3RVl2ZOnRHVc7cQ+19r3yoPZlFt+WkXVnj3nWtbaEWrp4Zs8cqzfQ=
+X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
+ h3-20020a056902008300b0061a709bd841mr25113872ybs.140.1646171995194; Tue, 01
+ Mar 2022 13:59:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+References: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+In-Reply-To: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 1 Mar 2022 21:59:43 +0000
+Message-ID: <CAFEAcA89+ENOM6x19OEF53Kd2DWkhN5SN21Va0D7yepJSa3Jyg@mail.gmail.com>
+Subject: Re: [PATCH] 9pfs: move qemu_dirent_dup() from osdep -> 9p-util
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,37 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set this as the kernel would, to 48 bits, to keep the computation
-of the address space correct for PAuth.
+On Tue, 1 Mar 2022 at 20:47, Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
+>
+> Function qemu_dirent_dup() is currently only used by 9pfs server, so move
+> it from project global header osdep.h to 9pfs specific header 9p-util.h.
+>
+> Link: https://lore.kernel.org/qemu-devel/CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com/
+> Based-on: <20220227223522.91937-12-wwcohen@gmail.com>
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  hw/9pfs/9p-util.h    | 30 ++++++++++++++++++++++++++++++
+>  include/qemu/osdep.h | 13 -------------
+>  util/osdep.c         | 21 ---------------------
+>  3 files changed, 30 insertions(+), 34 deletions(-)
+>
+> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> index 1f74d37558..8b92614e6c 100644
+> --- a/hw/9pfs/9p-util.h
+> +++ b/hw/9pfs/9p-util.h
+> @@ -112,6 +112,36 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
+>  #endif
+>  }
+>
+> +/**
+> + * Duplicate directory entry @dent.
+> + *
+> + * It is highly recommended to use this function instead of open coding
+> + * duplication of @c dirent objects, because the actual @c struct @c dirent
+> + * size may be bigger or shorter than @c sizeof(struct dirent) and correct
+> + * handling is platform specific (see gitlab issue #841).
+> + *
+> + * @dent - original directory entry to be duplicated
+> + * @returns duplicated directory entry which should be freed with g_free()
+> + */
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index c085dc10ee..e251f0df4b 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -206,10 +206,11 @@ static void arm_cpu_reset(DeviceState *dev)
-                 aarch64_sve_zcr_get_valid_len(cpu, cpu->sve_default_vq - 1);
-         }
-         /*
-+         * Enable 48-bit address space (TODO: take reserved_va into account).
-          * Enable TBI0 but not TBI1.
-          * Note that this must match useronly_clean_ptr.
-          */
--        env->cp15.tcr_el[1].raw_tcr = (1ULL << 37);
-+        env->cp15.tcr_el[1].raw_tcr = 5 | (1ULL << 37);
- 
-         /* Enable MTE */
-         if (cpu_isar_feature(aa64_mte, cpu)) {
--- 
-2.25.1
+since it's just code movement, but those "@c"s look a bit weird:
+are they really valid kerneldoc comment markup?
 
+thanks
+-- PMM
 
