@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABFC44C876F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:09:43 +0100 (CET)
-Received: from localhost ([::1]:45590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED8C4C87A6
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:18:08 +0100 (CET)
+Received: from localhost ([::1]:54470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOyVq-0005Ol-Os
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:09:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54714)
+	id 1nOydz-0003Aq-Oy
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:18:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3R-0004Fv-S8
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55743)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3T-0004Kh-Hm
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3O-0008Fe-W4
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:20 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOy3R-0008GO-Jd
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 03:40:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646124018;
+ s=mimecast20190719; t=1646124020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VC80P80l7wFMnNypuT8Iab0jvjyzZ7olmZZPDsWbNdY=;
- b=UngRo37f1MFbAGvd9z3lSMhb6URxiqsJVKHcxVHEux4IySxHC6s2u2zgDwCPV0LSGRA2IR
- LXjfLpRYFpdLgGrbQHlmQOO/TJKENKfHJw9Xm3TDtuk9HGGLRvbhJ2+v3uYikcxUNa+el4
- e/MgvzZeZR7G/XnIC6heez7RYKc/0/g=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6TAoGPC83WG2WE9uR3fdoGBug6yf6QOx7nZQCRz0NcE=;
+ b=Q+7PIlQ0r6YqsqJf4MJgroWg/FqWJfsDIpE9AgCkTj5aCvnbg0FMzgdVhgAh+WursZR9si
+ qXUEJn8HMnxp8cdN886T+cKDp1X6dwaCPaQjzG1PC+rsfc4x3A8KrjIIvojPT/QUtXApdj
+ tdzMtlCxT21a+EyvQEoqGieCRQ3qIEY=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-505-eygwp5KBMjC8DkbA3q1huw-1; Tue, 01 Mar 2022 03:40:17 -0500
-X-MC-Unique: eygwp5KBMjC8DkbA3q1huw-1
-Received: by mail-pg1-f198.google.com with SMTP id
- v4-20020a63f844000000b003745fd0919aso8148862pgj.20
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:40:17 -0800 (PST)
+ us-mta-104-WL3FOHRENfWnZor6p4wMRw-1; Tue, 01 Mar 2022 03:40:20 -0500
+X-MC-Unique: WL3FOHRENfWnZor6p4wMRw-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ p5-20020a17090a748500b001bee6752974so140315pjk.8
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 00:40:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VC80P80l7wFMnNypuT8Iab0jvjyzZ7olmZZPDsWbNdY=;
- b=TQA0HqqHIdSId3KwwAkJgaS90aNodDzycYA0wpc73aB4Cx6tB8N1GTXTptsm9jpA0u
- lcn3DnWlGA1DgzonIwW1ShXkUy+ldad871rUHrleBddm6DZe1UOgjaiTsnrh2FKEjgqs
- rChTbhV8o2dm9cAQDGzKAGSAZstULprQ0VLnNyvn9qbEMq1mghT97oK/gj6J+m7O0Wkb
- LkUikQJsj4USlP6DQrzUR6RipAR/G/EBpI7VmWaHSkv016TThbbHuK5HqyU0lwqvZziK
- uacaNbjAfBKC3ovlFhQbTDHTn10p1HOX97CjM2G3vDSNBzKK8PJrkU4ZK8JtnnD3q1xM
- kUgQ==
-X-Gm-Message-State: AOAM531fafjkFmVG0LA9ZxqnzaTKpzKIa2WSuHPqtqtEy27S7zhA66EC
- B/jaWa9hFo6B9cZm/ofHwEZTUCkWRJ9W5PeBg3FH52kSICTEIlYSK7y5rVWZ/L5ngQcwjYQynPR
- wqstPCfBiiEuJS6rBPPv/ppx/faW7f96x0ORNjrcowdO6DbwXu8cgolPHcLcZ7qD9
-X-Received: by 2002:a17:902:6acb:b0:150:c60:294a with SMTP id
- i11-20020a1709026acb00b001500c60294amr24633293plt.71.1646124016231; 
- Tue, 01 Mar 2022 00:40:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxIMDjWYvWQ2AJgJcmyODC4UbipY2XIyQEX3Ffz7aDb4yKxcTkxGlav7W0WFgkZalEHliEuJA==
-X-Received: by 2002:a17:902:6acb:b0:150:c60:294a with SMTP id
- i11-20020a1709026acb00b001500c60294amr24633257plt.71.1646124015672; 
- Tue, 01 Mar 2022 00:40:15 -0800 (PST)
+ bh=6TAoGPC83WG2WE9uR3fdoGBug6yf6QOx7nZQCRz0NcE=;
+ b=TUsNJHHLzwv95CzdNh3zpS0aq0NrlUyu2SXzsPO2nUp+NxEPvuWWI4e/TCVR/P1Vn1
+ mw6oWNLZyfMXtwCopDIQaXxDiT0rKs71w1vHd5j/3epnCkpQA2OMSF5U57oxJrUldPsB
+ x9P4hch1cAdJWmiZCGRUvj6aMqm4T2FSzDbvV5lRx7sBpkqyUzoOZLAjy8qMc5E3Nzvi
+ wbKPJYn1pg72Z0HFb36gvaenGbnJ7YRYwx/3N7ILfQEo2PqmLArGm3KdCInFApK4CYOj
+ hWb90EeD6mMMGaAjRLf7nFZyaMLLd0iiF3/Dlw2zELK7WORvM+wSyq0rPS8MKigbmEPs
+ TfWA==
+X-Gm-Message-State: AOAM533g+wwk9oK2RSczqmKcj/CHZdHgrH7OnlR0Y4+q0PtPTuoQraN9
+ LopqOyUy+ghXGc6M6mx2+6Y8/OIiVpZDtTSvxCZcS9Yac/R0yVw3fYI51Hxy1qaYkpKnL+BABIc
+ pLZQL1zYuuHR48a8DHpZgKLi5bLKy4milCgWjVx2FE914LDKPgAbzlw6eIr2OV9TN
+X-Received: by 2002:aa7:81c3:0:b0:4f2:6d3f:6158 with SMTP id
+ c3-20020aa781c3000000b004f26d3f6158mr26364367pfn.82.1646124018652; 
+ Tue, 01 Mar 2022 00:40:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwq7FZgTqBlkOhdhz2NkPC8xaZ7IqE+dRb+pqhwfce/6oRmXZXRMCeUvLJbgLNv8VrUpTVSWg==
+X-Received: by 2002:aa7:81c3:0:b0:4f2:6d3f:6158 with SMTP id
+ c3-20020aa781c3000000b004f26d3f6158mr26364334pfn.82.1646124018224; 
+ Tue, 01 Mar 2022 00:40:18 -0800 (PST)
 Received: from localhost.localdomain ([94.177.118.144])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.40.13
+ l1-20020a17090aec0100b001bc6d8bb27dsm1439987pjy.37.2022.03.01.00.40.16
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 01 Mar 2022 00:40:15 -0800 (PST)
+ Tue, 01 Mar 2022 00:40:17 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/25] migration: Allow migrate-recover to run multiple
- times
-Date: Tue,  1 Mar 2022 16:39:15 +0800
-Message-Id: <20220301083925.33483-16-peterx@redhat.com>
+Subject: [PATCH v2 16/25] migration: Add postcopy-preempt capability
+Date: Tue,  1 Mar 2022 16:39:16 +0800
+Message-Id: <20220301083925.33483-17-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220301083925.33483-1-peterx@redhat.com>
 References: <20220301083925.33483-1-peterx@redhat.com>
@@ -77,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -105,80 +104,129 @@ Cc: Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously migration didn't have an easy way to cleanup the listening
-transport, migrate recovery only allows to execute once.  That's done with a
-trick flag in postcopy_recover_triggered.
+Firstly, postcopy already preempts precopy due to the fact that we do
+unqueue_page() first before looking into dirty bits.
 
-Now the facility is already there.
+However that's not enough, e.g., when there're host huge page enabled, when
+sending a precopy huge page, a postcopy request needs to wait until the whole
+huge page that is sending to finish.  That could introduce quite some delay,
+the bigger the huge page is the larger delay it'll bring.
 
-Drop postcopy_recover_triggered and instead allows a new migrate-recover to
-release the previous listener transport.
+This patch adds a new capability to allow postcopy requests to preempt existing
+precopy page during sending a huge page, so that postcopy requests can be
+serviced even faster.
+
+Meanwhile to send it even faster, bypass the precopy stream by providing a
+standalone postcopy socket for sending requested pages.
+
+Since the new behavior will not be compatible with the old behavior, this will
+not be the default, it's enabled only when the new capability is set on both
+src/dst QEMUs.
+
+This patch only adds the capability itself, the logic will be added in follow
+up patches.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c | 13 ++-----------
- migration/migration.h |  1 -
- migration/savevm.c    |  3 ---
- 3 files changed, 2 insertions(+), 15 deletions(-)
+ migration/migration.c | 23 +++++++++++++++++++++++
+ migration/migration.h |  1 +
+ qapi/migration.json   |  8 +++++++-
+ 3 files changed, 31 insertions(+), 1 deletion(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 6bb321cdd3..16086897aa 100644
+index 16086897aa..4c22bad304 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -2159,11 +2159,8 @@ void qmp_migrate_recover(const char *uri, Error **errp)
-         return;
+@@ -1235,6 +1235,11 @@ static bool migrate_caps_check(bool *cap_list,
+             error_setg(errp, "Postcopy is not compatible with ignore-shared");
+             return false;
+         }
++
++        if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
++            error_setg(errp, "Multifd is not supported in postcopy");
++            return false;
++        }
      }
  
--    if (qatomic_cmpxchg(&mis->postcopy_recover_triggered,
--                       false, true) == true) {
--        error_setg(errp, "Migrate recovery is triggered already");
--        return;
--    }
-+    /* If there's an existing transport, release it */
-+    migration_incoming_transport_cleanup(mis);
+     if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
+@@ -1278,6 +1283,13 @@ static bool migrate_caps_check(bool *cap_list,
+         return false;
+     }
  
-     /*
-      * Note that this call will never start a real migration; it will
-@@ -2171,12 +2168,6 @@ void qmp_migrate_recover(const char *uri, Error **errp)
-      * to continue using that newly established channel.
-      */
-     qemu_start_incoming_migration(uri, errp);
--
--    /* Safe to dereference with the assert above */
--    if (*errp) {
--        /* Reset the flag so user could still retry */
--        qatomic_set(&mis->postcopy_recover_triggered, false);
--    }
++    if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT]) {
++        if (!cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
++            error_setg(errp, "Postcopy preempt requires postcopy-ram");
++            return false;
++        }
++    }
++
+     return true;
  }
  
- void qmp_migrate_pause(Error **errp)
+@@ -2622,6 +2634,15 @@ bool migrate_background_snapshot(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT];
+ }
+ 
++bool migrate_postcopy_preempt(void)
++{
++    MigrationState *s;
++
++    s = migrate_get_current();
++
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT];
++}
++
+ /* migration thread support */
+ /*
+  * Something bad happened to the RP stream, mark an error
+@@ -4232,6 +4253,8 @@ static Property migration_properties[] = {
+     DEFINE_PROP_MIG_CAP("x-compress", MIGRATION_CAPABILITY_COMPRESS),
+     DEFINE_PROP_MIG_CAP("x-events", MIGRATION_CAPABILITY_EVENTS),
+     DEFINE_PROP_MIG_CAP("x-postcopy-ram", MIGRATION_CAPABILITY_POSTCOPY_RAM),
++    DEFINE_PROP_MIG_CAP("x-postcopy-preempt",
++                        MIGRATION_CAPABILITY_POSTCOPY_PREEMPT),
+     DEFINE_PROP_MIG_CAP("x-colo", MIGRATION_CAPABILITY_X_COLO),
+     DEFINE_PROP_MIG_CAP("x-release-ram", MIGRATION_CAPABILITY_RELEASE_RAM),
+     DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
 diff --git a/migration/migration.h b/migration/migration.h
-index f17ccc657c..a863032b71 100644
+index a863032b71..af4bcb19c2 100644
 --- a/migration/migration.h
 +++ b/migration/migration.h
-@@ -139,7 +139,6 @@ struct MigrationIncomingState {
-     struct PostcopyBlocktimeContext *blocktime_ctx;
+@@ -394,6 +394,7 @@ int migrate_decompress_threads(void);
+ bool migrate_use_events(void);
+ bool migrate_postcopy_blocktime(void);
+ bool migrate_background_snapshot(void);
++bool migrate_postcopy_preempt(void);
  
-     /* notify PAUSED postcopy incoming migrations to try to continue */
--    bool postcopy_recover_triggered;
-     QemuSemaphore postcopy_pause_sem_dst;
-     QemuSemaphore postcopy_pause_sem_fault;
+ /* Sending on the return path - generic and then for each message type */
+ void migrate_send_rp_shut(MigrationIncomingState *mis,
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 5975a0e104..50878b5f3b 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -463,6 +463,12 @@
+ #                       procedure starts. The VM RAM is saved with running VM.
+ #                       (since 6.0)
+ #
++# @postcopy-preempt: If enabled, the migration process will allow postcopy
++#                    requests to preempt precopy stream, so postcopy requests
++#                    will be handled faster.  This is a performance feature and
++#                    should not affect the correctness of postcopy migration.
++#                    (since 7.0)
++#
+ # Features:
+ # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+ #
+@@ -476,7 +482,7 @@
+            'block', 'return-path', 'pause-before-switchover', 'multifd',
+            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+-           'validate-uuid', 'background-snapshot'] }
++           'validate-uuid', 'background-snapshot', 'postcopy-preempt'] }
  
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 967ff80547..254aa78234 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2589,9 +2589,6 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
- 
-     assert(migrate_postcopy_ram());
- 
--    /* Clear the triggered bit to allow one recovery */
--    mis->postcopy_recover_triggered = false;
--
-     /*
-      * Unregister yank with either from/to src would work, since ioc behind it
-      * is the same
+ ##
+ # @MigrationCapabilityStatus:
 -- 
 2.32.0
 
