@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67B54C9850
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:23:10 +0100 (CET)
-Received: from localhost ([::1]:49560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9954C9840
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:21:14 +0100 (CET)
+Received: from localhost ([::1]:47540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPAth-0000ik-MJ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:23:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58770)
+	id 1nPArp-0007ih-4C
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:21:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPAXk-0001Pl-AR
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:28 -0500
-Received: from [2607:f8b0:4864:20::436] (port=36661
- helo=mail-pf1-x436.google.com)
+ id 1nPAXl-0001SS-Iw
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:29 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=43898
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPAXi-00055s-L3
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:27 -0500
-Received: by mail-pf1-x436.google.com with SMTP id z16so78132pfh.3
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:00:25 -0800 (PST)
+ id 1nPAXj-000576-Jt
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:00:29 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ iq13-20020a17090afb4d00b001bc4437df2cso66538pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:00:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WFTKQrLiJ3VwSgvkt/IhaEgBVQ3+b8tLX7nUBsUG9rM=;
- b=P9uQd+BdqGTZoNjJTkEoT791LDyZo+Oj0K1NYCqCUgd+0+XDDTII2RZ8AVqLUe0ZRo
- 8At3d44SYIuYRD8xuNIUBi6SJeJHz8ndIIZKu3IBPCLn5MLA6oJk0BrlUXyLQggC2UYm
- NEEflUTNywky58oWCAA+XQ+cUjUvexun1gwvaN9xonC7n2A7GUPGBgbFJYMPKWm+blS4
- oc1XOsfbotBpBjNIFhV/Hjb9gH2g/q/tmCBuNnzIpnyQy+3dDp4SXpOuJhMXGDuTJurQ
- ZerktgMKgfG3sy1oAexIdoZwlQNAgAK/o6lJjCOtbB233Ym/PUzHQXTv9W7MAn23xGd/
- 3Djg==
+ bh=/ncep1+pfaj4VrhFhzBJtvktsI7eesl8NO/EGk2kyoM=;
+ b=U77H2tZWwh5cJRW1Wpb4uwaA3RLNMtAJF+LLSgoaYC3NKL5ZbSUUPZKRMK83mzHkgA
+ EwfhF8EhRPwlYzTKtfX7hQftMqLJvQkXT7L1A9ravjK1SUzJLu4GeK8Fg46sCMiZO2uI
+ WmWgkkePaXBbkCeaCXOey3JkfDIs3g6L2BxlbUIAeXa+JHuDYJZScFNd2nGIdhBOBdm0
+ UjOhS8FNMPfbKGHwQMiniFpcJEXP5u4jgS4oiXpM+uW7XwJi4E0XjUxfwbp+mSu1TEuM
+ EAiy3eI6UAxlI+Np9vscUD8nmI7ZjKy9m+PAbv4MAS7mw8GT2QS7Rixsv74oRg2wlXi+
+ ytbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WFTKQrLiJ3VwSgvkt/IhaEgBVQ3+b8tLX7nUBsUG9rM=;
- b=Epti4JH+2TrfKBmnHmp4WGHmUkgh1/tgQLRv86GQEEhdn3IJNa4D4zhWxsHLX6mudl
- A2CyIeSl9sxJpBqUBqEeDqFn50jqR/nx/mt2pHPemS/UFmPmr/Rh/7woLBBDyEOoNPAL
- jlbO+StMZRm9D/ufDUqdAi59JEpUPyBRBUilErNVKDFdxL62rOQBJq2LQDwJTA0qP4fG
- /nAlu9Q2tKjE9z1tEr0jUR7+mhreKyJGJT3Ngy0yyUDjofTJGJjHIykM/ox7e7t1L+We
- ZTHokWUr0uQq7RaKuKJyvDyv13hCDEkjYcCSfNxAAHgwzskS1b1wNdKllZYjedEu7GVz
- wCOw==
-X-Gm-Message-State: AOAM530SuEEdi9o3j9cxDUBvQ05mme0vEpYCwa5jvRvU2UIHr96oIICm
- LEXDYK6Onw7w3QVF5lhg8/C9VJUegJqO7w==
-X-Google-Smtp-Source: ABdhPJyRcISYU/7qW1rlLZsHyaEDMprDLPFsHy5nt+k1QyBfkho6CL1xoCjZCmonLmizjG/lLNjUoQ==
-X-Received: by 2002:a63:114:0:b0:34d:efd0:762a with SMTP id
- 20-20020a630114000000b0034defd0762amr23191092pgb.71.1646172024683; 
- Tue, 01 Mar 2022 14:00:24 -0800 (PST)
+ bh=/ncep1+pfaj4VrhFhzBJtvktsI7eesl8NO/EGk2kyoM=;
+ b=W1vsVOOcYWt7VTFGGoukFR7U240gD1MXpymYrxerj/5Py5wKvtqbEFoxUrOreLksTW
+ trxAnUNqqDko8qRHa0mMsuxRq8ghYHsJ32FAhzy5n5OjA2ApHPQMnDOuImRSBJulHvnj
+ y4IFRXgZPZS0EofE4Ciy8kZGNHABkVLXMEgx3T+/ZJJUzbSe7qnQvOs3uN/C+OAec5nD
+ wmjjuIThbnuij/S1eU3NPc8Ejqeh9zT51QUkjxKs9pEoCweAlgTmJh1kamZ5edmi4po9
+ hixakVjhkj/qsRQxd/LMcUISkhJCyHLdjwD2ez8mQB5XCw/+BDgmmptTh/bq/ysaRzlU
+ NwVw==
+X-Gm-Message-State: AOAM531DwfMvMO/RZ6G9ekPTJnXPKbxbKnmOEgJYfb7rEsCYuOIHWcGs
+ J5XH9ZMUxwHd39BrNdp0788XvqtC/I61Kw==
+X-Google-Smtp-Source: ABdhPJwu4NrQ3hWhhFdKlGLBU+fCPoPmbcieKMlEw7RsuTpzzsnAnuogtQ0nl1I/EUnL23IjOCvyOA==
+X-Received: by 2002:a17:902:8b87:b0:14d:7920:e54a with SMTP id
+ ay7-20020a1709028b8700b0014d7920e54amr27533190plb.140.1646172026329; 
+ Tue, 01 Mar 2022 14:00:26 -0800 (PST)
 Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- m4-20020a17090a7f8400b001bef3fc3938sm284392pjl.49.2022.03.01.14.00.23
+ m4-20020a17090a7f8400b001bef3fc3938sm284392pjl.49.2022.03.01.14.00.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 14:00:24 -0800 (PST)
+ Tue, 01 Mar 2022 14:00:25 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 14/18] target/arm: Validate tlbi TG matches translation
- granule in use
-Date: Tue,  1 Mar 2022 11:59:54 -1000
-Message-Id: <20220301215958.157011-15-richard.henderson@linaro.org>
+Subject: [PATCH v4 15/18] target/arm: Advertise all page sizes for -cpu max
+Date: Tue,  1 Mar 2022 11:59:55 -1000
+Message-Id: <20220301215958.157011-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220301215958.157011-1-richard.henderson@linaro.org>
 References: <20220301215958.157011-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,49 +93,32 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For FEAT_LPA2, we will need other ARMVAParameters, which themselves
-depend on the translation granule in use.  We might as well validate
-that the given TG matches; the architecture "does not require that
-the instruction invalidates any entries" if this is not true.
+We support 16k pages, but do not advertize that in ID_AA64MMFR0.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The value 0 in the TGRAN*_2 fields indicates that stage2 lookups defer
+to the same support as stage1 lookups.  This setting is deprecated, so
+indicate support for all stage2 page sizes directly.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ target/arm/cpu64.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e455397fb5..3a7f5cf6f0 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -4520,12 +4520,16 @@ static TLBIRange tlbi_aa64_get_range(CPUARMState *env, ARMMMUIdx mmuidx,
-                                      uint64_t value)
- {
-     unsigned int page_size_granule, page_shift, num, scale, exponent;
-+    /* Extract one bit to represent the va selector in use. */
-+    uint64_t select = sextract64(value, 36, 1);
-+    ARMVAParameters param = aa64_va_parameters(env, select, mmuidx, true);
-     TLBIRange ret = { };
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index d88662cef6..2fdc16bf18 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -796,6 +796,10 @@ static void aarch64_max_initfn(Object *obj)
  
-     page_size_granule = extract64(value, 46, 2);
+     t = cpu->isar.id_aa64mmfr0;
+     t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 6); /* FEAT_LPA: 52 bits */
++    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN16, 1);   /* 16k pages supported */
++    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN16_2, 2); /* 16k stage2 supported */
++    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN64_2, 2); /* 64k stage2 supported */
++    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN4_2, 2);  /*  4k stage2 supported */
+     cpu->isar.id_aa64mmfr0 = t;
  
--    if (page_size_granule == 0) {
--        qemu_log_mask(LOG_GUEST_ERROR, "Invalid page size granule %d\n",
-+    /* The granule encoded in value must match the granule in use. */
-+    if (page_size_granule != (param.using64k ? 3 : param.using16k ? 2 : 1)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid tlbi page size granule %d\n",
-                       page_size_granule);
-         return ret;
-     }
-@@ -4537,7 +4541,7 @@ static TLBIRange tlbi_aa64_get_range(CPUARMState *env, ARMMMUIdx mmuidx,
- 
-     ret.length = (num + 1) << (exponent + page_shift);
- 
--    if (regime_has_2_ranges(mmuidx)) {
-+    if (param.select) {
-         ret.base = sextract64(value, 0, 37);
-     } else {
-         ret.base = extract64(value, 0, 37);
+     t = cpu->isar.id_aa64mmfr1;
 -- 
 2.25.1
 
