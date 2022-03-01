@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97F54C8E69
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 15:56:55 +0100 (CET)
-Received: from localhost ([::1]:57544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8514C8E79
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 16:01:56 +0100 (CET)
+Received: from localhost ([::1]:33148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP3vq-0008Rt-4D
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 09:56:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53966)
+	id 1nP40g-000332-Lp
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 10:01:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1nP3u9-0006qO-6s; Tue, 01 Mar 2022 09:55:09 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:39584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1nP3u7-0000Gd-0G; Tue, 01 Mar 2022 09:55:08 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C8806B81AA9;
- Tue,  1 Mar 2022 14:54:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80765C340EE;
- Tue,  1 Mar 2022 14:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646146496;
- bh=DZFkNVkWM++1nE/Fc+Ik2PaAHWstkhrbKjO9ln59gI8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IOJvVuu7QJHii2Af+SlsTr5EFexChnBEte1urxEtY9lj7hjO8XXx4Q0l43bg8JW2U
- VmK3uPExReejWLY6/fkJZYVGlEWpZqOQbiwi6QY4JRpUsLlfvi3LeIhTiTN/TllkP2
- 94JTVo1fDSc1jShxdmH3dbW3WcFfSKmIna+850XThxfyPcg2v6GrQ9DSLsOnMgSChL
- c04PRNRnN6u03bGRSwnAX3nHPQQgMEm8H5mS0J7BfxzWeuoZJHmc1VUc9rfVoFhs9S
- MGlrw+fmAAt/eB401SUr42ZJUDh36vBfYu5hsne4Izeleuj1yqXiYHK6Hu9vtI/cBp
- Xu/28sUs9WP6w==
-Date: Tue, 1 Mar 2022 06:54:53 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v2 0/6] hw/nvme: enhanced protection information (64-bit
- guard)
-Message-ID: <20220301145453.GB364422@dhcp-10-100-145-180.wdc.com>
-References: <20220301104428.160017-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nP3yM-0001hC-6k; Tue, 01 Mar 2022 09:59:31 -0500
+Received: from [2607:f8b0:4864:20::429] (port=44818
+ helo=mail-pf1-x429.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nP3yK-0001KB-Ls; Tue, 01 Mar 2022 09:59:29 -0500
+Received: by mail-pf1-x429.google.com with SMTP id g21so8116172pfj.11;
+ Tue, 01 Mar 2022 06:59:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Y1nRIMAH5eflopsjldlIg/Wm7EBlQ2LLrBe/EtaewQI=;
+ b=YyUjV/EZ692VgFl9gnvadynnBvLdI7eLBJ6qL572xzks9icGGuVfrkL6AubjDvipeN
+ +FfJumKmv2pEPq4NXZ3KRmXKmAuj2cK7TwuRPTaap2U2/FR7n37/7dk1l642lf/DZvkx
+ XqzAR9DPwlkY7HRuYRwV5YTbPG2Up6FYZjxc7bomXxU36mDGxGtWqY2AhkKcPhjiZnXn
+ 37m9tAeZ3KoLoKj034qWbLNbAQwhmJc74M1GMeWUu++9W19f54etUwmaH1lJ1Fqep8QL
+ 5r77UvpXf6u5sAaMNUmd7WjucBRKSqMaiSC3z26AFDjHwzEpp58GzSlf9jtlnmpQWmmO
+ QVYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Y1nRIMAH5eflopsjldlIg/Wm7EBlQ2LLrBe/EtaewQI=;
+ b=Xv5kfnGS/EHb0Af0DWt2TscegXN7tbUCYNOuLSlhsH9B3+p2lfin4HqpvnJYsVBnhY
+ +vnhGaJ9TeDQX4uyO2t7dok9xw+EQmgFIbpRXkdKCMk/qd1ZsPuDn+Hg0vW0vpZL74B1
+ X6UHun4It9zuoOP249/hSOeefRHHlsZC1rt4NUAzBG9IBdTNu2rOGIcCowUq2jaL8pAJ
+ 0b+7OLKXdxUie4jkEK9JFhq1f0IoOxca2fTd3uSM1+xvH5xIguJrZluH6VYWKPvbbsTW
+ SgBW8MQJ7B/6NXaR2Nj+GpKMUsjUie41g/Acg1ftzOEO+wRH/BKXaqiBk9RTN+on279w
+ agxg==
+X-Gm-Message-State: AOAM532DpFLgAhIXA2qgoTf84dY4U2R5IEMZ5ubfTp5LLYRhe3DmaUUO
+ zQMS3SPgZEFkU7x1PWFSw0c=
+X-Google-Smtp-Source: ABdhPJzY4ptOe+EDCRrGgwGsN1P9jpNxmnru58DQ7Vk7wQbrt8A28vUzIibDPOfZFuTAu8og2LHTcQ==
+X-Received: by 2002:a63:8543:0:b0:35e:3bd9:3798 with SMTP id
+ u64-20020a638543000000b0035e3bd93798mr22283045pgd.73.1646146766651; 
+ Tue, 01 Mar 2022 06:59:26 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ k13-20020a056a00134d00b004f35ee59a9dsm18587913pfu.106.2022.03.01.06.59.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Mar 2022 06:59:26 -0800 (PST)
+Message-ID: <5753847b-0269-e461-7d46-5e4f6b2090de@gmail.com>
+Date: Tue, 1 Mar 2022 15:59:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220301104428.160017-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=kbusch@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH] configure: Fix building on a ppc64 host with Clang
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20220301132754.1483837-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220301132754.1483837-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,31 +91,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Naveen Nagar <naveen.n1@samsung.com>, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Miroslav Rezanina <mrezanin@redhat.com>, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 01, 2022 at 11:44:22AM +0100, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+On 1/3/22 14:27, Thomas Huth wrote:
+> Clang only supports the -mlittle-endian and -mbig-endian switches,
+> and not -mlittle / -mbig. Since GCC supports both, let's use the
+> long versions that are supported by both instead.
 > 
-> This adds support for one possible new protection information format
-> introduced in TP4068 (and integrated in NVMe 2.0): the 64-bit CRC guard
-> and 48-bit reference tag. This version does not support storage tags.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   configure | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Like the CRC16 support already present, this uses a software
-> implementation of CRC64 (so it is naturally pretty slow). But its good
-> enough for verification purposes.
-> 
-> This goes hand-in-hand with the support that Keith submitted for the
-> Linux kernel[1].
-> 
->   [1]: https://lore.kernel.org/linux-nvme/20220201190128.3075065-1-kbusch@kernel.org/
+> diff --git a/configure b/configure
+> index c56ed53ee3..81618708e4 100755
+> --- a/configure
+> +++ b/configure
+> @@ -630,10 +630,10 @@ case "$cpu" in
+>     ppc)
+>       CPU_CFLAGS="-m32" ;;
+>     ppc64)
+> -    CPU_CFLAGS="-m64 -mbig" ;;
+> +    CPU_CFLAGS="-m64 -mbig-endian" ;;
+>     ppc64le)
+>       cpu="ppc64"
+> -    CPU_CFLAGS="-m64 -mlittle" ;;
+> +    CPU_CFLAGS="-m64 -mlittle-endian" ;;
+>   
+>     s390)
+>       CPU_CFLAGS="-m31" ;;
 
-Thanks Klaus, this looks good to me.
+Mirek sent a similar fix, but it was pending Matheus TCG fixes:
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+https://lore.kernel.org/qemu-devel/20220131091714.4825-1-mrezanin@redhat.com/
+https://lists.gnu.org/archive/html/qemu-ppc/2022-02/msg00116.html
 
