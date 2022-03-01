@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3934C8CA3
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 14:28:49 +0100 (CET)
-Received: from localhost ([::1]:58678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369B74C8CB0
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 14:32:12 +0100 (CET)
+Received: from localhost ([::1]:33140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP2Ya-0008Ai-84
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 08:28:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54270)
+	id 1nP2br-0001fX-1g
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 08:32:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nP2Vy-0007Gj-GH
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 08:26:06 -0500
-Received: from [2607:f8b0:4864:20::b29] (port=42728
- helo=mail-yb1-xb29.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nP2Vp-0002FB-Bl
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 08:26:06 -0500
-Received: by mail-yb1-xb29.google.com with SMTP id f5so3365132ybg.9
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 05:25:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jCzxGsblQdeuEnY02w8XtrWq18MgV0b5E9iRxxHgPBA=;
- b=OH2pP5pogOP+ztkHoRU9BTtxWhymiosUKNNzI0Q4hR6P8CJ4RUMDWO+ZRiWhBNe/fl
- I/Ye2zSel87uO4RNs9t29r/hUq6PR3+lkXsTaSug6oJXuOVrc/lVr31McYHeiI2GQ8hY
- N7LP+Red6p0PopTK6y9NF/YC5a8VdaDwaPtRv3oR0ZRQcaF5114Pw3i/g4lpmkTERLsu
- IL0zcjwFVG14tWJoJoDGIIhfPD+1eeSQCq+Soe5EneVoeJHJtKzZgLK4yKri0Pykk7Y4
- FSgIckeg4gR+QAAguXP/cdR/H4Ofp4MnpY7UP65qI13+QcQYApKtJqPxnoosKQt0inQx
- 9e6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jCzxGsblQdeuEnY02w8XtrWq18MgV0b5E9iRxxHgPBA=;
- b=6ARKRJoBmbO7dZ3j/1p7FwvH2UU53iXTW+atmU8URzN7PK6og8zxUlqmG+6Oxt0AFz
- +XXyOjolejFA3+2vLox4JtmJK/jsqezYGoWoXMniMEcz4H/4cXT5Q/qdEYIlgVOXjl3w
- 2h1zNPFfenLEkRZjYpQOz+UUWZTnDpO9VgK8tL6dAPN0borip5r13/Qtzi9kG1kwveI2
- 1uVKkU7AZSSTmYYE05GOMfUE7mx4gkaXDtg+Aa5MxSFjKYP16K33Py7/3q93+fvcvF29
- YSCIlMCxS2VHre1KJQ8C7pV1I05pAJnNNY2KWAjnS8rCfMCx97Ya7/Hs0+K+QUY5BHFF
- NFPg==
-X-Gm-Message-State: AOAM5316eE7Z+R3rdozPBn7SybH9YdbiJmhiIeepH+jH5HIQraHyhTj9
- RCfYkP6rTuFw4+OcSvnVLLvlb01vqBMRo6UVda9TNw==
-X-Google-Smtp-Source: ABdhPJxxJSmWNpmpeb3QZR7hpm0qrFa2O7m9jVb+YsDL5Tt1V5sd61389V0qw7rUYkmWoQ5K566iQboTGZIj6I0Nc3o=
-X-Received: by 2002:a25:dc87:0:b0:624:4104:a331 with SMTP id
- y129-20020a25dc87000000b006244104a331mr24009965ybe.67.1646141154607; Tue, 01
- Mar 2022 05:25:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nP2Xw-000059-AM
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 08:28:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49010)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nP2Xt-0002W8-5a
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 08:28:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646141283;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jLONn9iKrM5GUkxTd9wUq27gU2dq7a6agA3KB5biMqc=;
+ b=cMp8m2W9E7jSNklNC+788DgxFLu5fETYBbs6i9DJYg8mhEtVttzd470IIHftbVSWAEhFIr
+ GHJS5rO6zGBFQGdKGYQ4rXolKiBPmzZEI/cU2sZeRDFy5RuRxczk8KqfhL4iC44ZpQr9OY
+ lj4rTXq6Yt2JILhd75cFsdQl2DI5jAA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-482-79KJqMCsNuuia0INh4CNBg-1; Tue, 01 Mar 2022 08:27:58 -0500
+X-MC-Unique: 79KJqMCsNuuia0INh4CNBg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E0E71006AA5;
+ Tue,  1 Mar 2022 13:27:57 +0000 (UTC)
+Received: from thuth.com (dhcp-192-205.str.redhat.com [10.33.192.205])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F35C2C2C3;
+ Tue,  1 Mar 2022 13:27:56 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] configure: Fix building on a ppc64 host with Clang
+Date: Tue,  1 Mar 2022 14:27:54 +0100
+Message-Id: <20220301132754.1483837-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20220228112613.520040-1-armbru@redhat.com>
-In-Reply-To: <20220228112613.520040-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Mar 2022 13:25:43 +0000
-Message-ID: <CAFEAcA9YfpNX=3B52zHUuSOwzcAaQc3EG5CUcsE-sEYjjmkBhQ@mail.gmail.com>
-Subject: Re: [PULL 0/9] QAPI patches patches for 2022-02-28
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b29
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,33 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Feb 2022 at 11:26, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit fa435db8ce1dff3b15e3f59a12f55f7b3a347b08:
->
->   Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-request' into staging (2022-02-24 12:48:14 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2022-02-28
->
-> for you to fetch changes up to 1428502c8c0c0cfbb04212558144fef970042cf3:
->
->   qapi: Belatedly adjust limitations documentation (2022-02-28 11:39:35 +0100)
->
-> ----------------------------------------------------------------
-> QAPI patches patches for 2022-02-28
->
+Clang only supports the -mlittle-endian and -mbig-endian switches,
+and not -mlittle / -mbig. Since GCC supports both, let's use the
+long versions that are supported by both instead.
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ configure | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Applied, thanks.
+diff --git a/configure b/configure
+index c56ed53ee3..81618708e4 100755
+--- a/configure
++++ b/configure
+@@ -630,10 +630,10 @@ case "$cpu" in
+   ppc)
+     CPU_CFLAGS="-m32" ;;
+   ppc64)
+-    CPU_CFLAGS="-m64 -mbig" ;;
++    CPU_CFLAGS="-m64 -mbig-endian" ;;
+   ppc64le)
+     cpu="ppc64"
+-    CPU_CFLAGS="-m64 -mlittle" ;;
++    CPU_CFLAGS="-m64 -mlittle-endian" ;;
+ 
+   s390)
+     CPU_CFLAGS="-m31" ;;
+-- 
+2.27.0
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
--- PMM
 
