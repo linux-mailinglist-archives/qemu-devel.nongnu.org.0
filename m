@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7118C4C9378
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 19:42:59 +0100 (CET)
-Received: from localhost ([::1]:49322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94494C939B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 19:55:02 +0100 (CET)
+Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP7Sb-00061G-OD
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 13:42:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60558)
+	id 1nP7eI-0003kQ-2U
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 13:55:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org>)
- id 1nP7NL-0004qb-SQ
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:37:32 -0500
-Received: from [2604:1380:4601:e00::1] (port=56126 helo=ams.source.kernel.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org>)
- id 1nP7NJ-0000m9-Nw
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:37:31 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9E542B81BFD
- for <qemu-devel@nongnu.org>; Tue,  1 Mar 2022 18:37:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 163ACC340F7
- for <qemu-devel@nongnu.org>; Tue,  1 Mar 2022 18:37:25 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="aQfeTqt3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1646159840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VSlbgJdpoP+AY+bV5mfkN+zErWZpSrp0RJgkPDVSc0A=;
- b=aQfeTqt3Blqmd7xwmnnemPOkABs2OSRQfD3vrWDfSpclMht5sVb5NhIpVgxjRlEiCLkj7u
- TWiA9VszkWjvxE0Yx8q/qb/9de6ZpRvFOxGB1JCkF6eZfpa4GxXxMZ/IWhlVmVPlgRK2e5
- TKYSF2+nWIzlxjGcVXAAqFsV6gVdKi4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 7b12e22b
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Tue, 1 Mar 2022 18:37:20 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-2d646fffcc2so154937137b3.4
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 10:37:19 -0800 (PST)
-X-Gm-Message-State: AOAM533lKnZYb3MnvEIS3OE4H2Qh3jJHFTsZcw+MYxZcTSqUGkdIRakM
- ttmgQPhiyC/R5WreRuLGTWvo1mqJPM/mPeuZsWE=
-X-Google-Smtp-Source: ABdhPJxjsymwg5XYl+9GOoc41diKHCjvuVitOGfsmWq8BKG7jLc7Bwscjb/8sbN68Rx5awXeXGZ28M5wy+3vS8Wf7hE=
-X-Received: by 2002:a81:8984:0:b0:2db:6b04:be0c with SMTP id
- z126-20020a818984000000b002db6b04be0cmr13093941ywf.2.1646159837032; Tue, 01
- Mar 2022 10:37:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nP7c1-0000nX-E1
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:52:44 -0500
+Received: from [2a00:1450:4864:20::62e] (port=43759
+ helo=mail-ej1-x62e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nP7bz-0006Xl-Fk
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:52:40 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id d10so33341593eje.10
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 10:52:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=CvAAYXbWo8/vkqSGWl+Sox1VYgzhZxbSVldG7bIhOyo=;
+ b=ZSqMtNWLjQH5IsMW9inLAU0zBYU8ua6bA3JQko5vKuABWc130rArCA+IqFwL8DU5xx
+ uBysQttUE9ZaTrwoz1V/vVE3BvQ1iN1T9AJi4RWN6yzGY3E5H3C9T0qxs5/ieZBAjz6+
+ 54ZXv52O3OVWtRAlynkVqR4TwKDIRADxhATf0aXLKXl5xtXBQNSLnhXsvvAZboEFskEm
+ HY5Ofs57Bb6HCPqzl1A38r/FbYCC2FQtK2fY+mYlvUDMExeFNVRHQjTz+r9MzhlXUI0y
+ 5UgyVhztG4sjQlLLzAUZRRbCrwJmwUIO5RPN5J7S7uDD/Uj4X2jmWkW2O9SZrg/ARRVR
+ q4Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=CvAAYXbWo8/vkqSGWl+Sox1VYgzhZxbSVldG7bIhOyo=;
+ b=usEk/oZIsO5/W+4zkdN3K5j2kH1KQpE25J32A4uNYxZSAV1SHfy0XyF5+iFveZ4hIn
+ 49PSo+k5CL8lBaRw4C/QS+G9e+6WJSAeFijmFieuqMfxUnEsS4+AstFjDJ4M9KgrUaqY
+ tLBjM4GVQHBxOVbPaKKbYMb3bFtLzX/JxLy14JPvkM5kTbAKvxfhbBc+6P+X4cj403MQ
+ MqUBAy1dkgCS40dZ93m8SksXpAACHFPpsZeLh0z7pnfhSpcGW4tKRjAjuWtl3LNF9rXA
+ /qLt1oz6J2FZS769BgZiG/ROO3pW1duXBIeEhOIiM6ULDL/IKQG/VBJX+gIBZIyEABGQ
+ 0fbA==
+X-Gm-Message-State: AOAM530Bd2l+GW03aUJSxRtnX9E4CWm1F38z8Sy3dxn1kPq63s2cC+AT
+ Oe38vXxBJtJn3g50N86evckOsA==
+X-Google-Smtp-Source: ABdhPJwE9jPTUxxjeh8/vloUGEClfE7y+1L7iS496ofKxqYP1fhuCbYYYRjC08GEE18dJ2HrhNvfcQ==
+X-Received: by 2002:a17:906:c30f:b0:6a7:7de0:7e43 with SMTP id
+ s15-20020a170906c30f00b006a77de07e43mr19276778ejz.475.1646160753603; 
+ Tue, 01 Mar 2022 10:52:33 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ u5-20020a170906b10500b006ce6fa4f510sm5519315ejy.165.2022.03.01.10.52.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 10:52:32 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0D2B81FFB7;
+ Tue,  1 Mar 2022 18:52:32 +0000 (GMT)
+References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
+ <20220211120747.3074-21-Jonathan.Cameron@huawei.com>
+User-agent: mu4e 1.7.9; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v6 20/43] hw/cxl/device: Add some trivial commands
+Date: Tue, 01 Mar 2022 18:46:30 +0000
+In-reply-to: <20220211120747.3074-21-Jonathan.Cameron@huawei.com>
+Message-ID: <875yoxld3j.fsf@linaro.org>
 MIME-Version: 1.0
-References: <Yh4+9+UpanJWAIyZ@zx2c4.com>
- <223f858c-34c5-3ccd-b9e8-7585a976364d@redhat.com>
- <Yh5JwK6toc/zBNL7@zx2c4.com> <20220301121419-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220301121419-mutt-send-email-mst@kernel.org>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Tue, 1 Mar 2022 19:37:06 +0100
-X-Gmail-Original-Message-ID: <CAHmME9qieLUDVoPYZPo=N8NCL1T-RzQ4p7kCFv3PKFUkhWZPsw@mail.gmail.com>
-Message-ID: <CAHmME9qieLUDVoPYZPo=N8NCL1T-RzQ4p7kCFv3PKFUkhWZPsw@mail.gmail.com>
-Subject: Re: propagating vmgenid outward and upward
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4601:e00::1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62e
  (failed)
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,47 +93,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
- Colm MacCarthaigh <colmmacc@amazon.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, adrian@parity.io,
- KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Theodore Ts'o <tytso@mit.edu>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S
+ .  Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Michael,
 
-On Tue, Mar 1, 2022 at 6:17 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> Hmm okay, so it's a performance optimization... some batching then? Do
-> you really need to worry about every packet? Every 64 packets not
-> enough?  Packets are after all queued at NICs etc, and VM fork can
-> happen after they leave wireguard ...
+Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
 
-Unfortunately, yes, this is an "every packet" sort of thing -- if the
-race is to be avoided in a meaningful way. It's really extra bad:
-ChaCha20 and AES-CTR work by xoring a secret stream of bytes with
-plaintext to produce a ciphertext. If you use that same secret stream
-and xor it with a second plaintext and transmit that too, an attacker
-can combine the two different ciphertexts to learn things about the
-original plaintext.
+> From: Ben Widawsky <ben.widawsky@intel.com>
+>
+> GET_FW_INFO and GET_PARTITION_INFO, for this emulation, is equivalent to
+> info already returned in the IDENTIFY command. To have a more robust
+> implementation, add those.
+>
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>  hw/cxl/cxl-mailbox-utils.c | 69 +++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 68 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> index 808faec114..d022711b2a 100644
+> --- a/hw/cxl/cxl-mailbox-utils.c
+> +++ b/hw/cxl/cxl-mailbox-utils.c
+> @@ -44,6 +44,8 @@ enum {
+>          #define CLEAR_RECORDS   0x1
+>          #define GET_INTERRUPT_POLICY   0x2
+>          #define SET_INTERRUPT_POLICY   0x3
+> +    FIRMWARE_UPDATE =3D 0x02,
+> +        #define GET_INFO      0x0
+>      TIMESTAMP   =3D 0x03,
+>          #define GET           0x0
+>          #define SET           0x1
+> @@ -52,6 +54,8 @@ enum {
+>          #define GET_LOG       0x1
+>      IDENTIFY    =3D 0x40,
+>          #define MEMORY_DEVICE 0x0
+> +    CCLS        =3D 0x41,
+> +        #define GET_PARTITION_INFO     0x0
+>  };
+>=20=20
+>  /* 8.2.8.4.5.1 Command Return Codes */
+> @@ -114,6 +118,39 @@ DEFINE_MAILBOX_HANDLER_NOP(events_clear_records);
+>  DEFINE_MAILBOX_HANDLER_ZEROED(events_get_interrupt_policy, 4);
+>  DEFINE_MAILBOX_HANDLER_NOP(events_set_interrupt_policy);
+>=20=20
+> +/* 8.2.9.2.1 */
+> +static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
+> +                                             CXLDeviceState *cxl_dstate,
+> +                                             uint16_t *len)
+> +{
+> +    struct {
+> +        uint8_t slots_supported;
+> +        uint8_t slot_info;
+> +        uint8_t caps;
+> +        uint8_t rsvd[0xd];
+> +        char fw_rev1[0x10];
+> +        char fw_rev2[0x10];
+> +        char fw_rev3[0x10];
+> +        char fw_rev4[0x10];
+> +    } __attribute__((packed)) *fw_info;
+> +    _Static_assert(sizeof(*fw_info) =3D=3D 0x50, "Bad firmware info
+> size");
 
-But, anyway, it seems like the race is here to stay given what we have
-_currently_ available with the virtual hardware. That's why I'm
-focused on trying to get something going that's the least bad with
-what we've currently got, which is racy by design. How vitally
-important is it to have something that doesn't race in the far future?
-I don't know, really. It seems plausible that that ACPI notifier
-triggers so early that nothing else really even has a chance, so the
-race concern is purely theoretical. But I haven't tried to measure
-that so I'm not sure.
+note: we have QEMU_PACKED, QEMU_BUILD_BUG_ON and friends in compiler.h whic=
+h are
+preferred for potential compiler portability reasons.
 
-Jason
+> +
+> +    if (cxl_dstate->pmem_size < (256 << 20)) {
+> +        return CXL_MBOX_INTERNAL_ERROR;
+> +    }
+> +
+> +    fw_info =3D (void *)cmd->payload;
+> +    memset(fw_info, 0, sizeof(*fw_info));
+> +
+> +    fw_info->slots_supported =3D 2;
+> +    fw_info->slot_info =3D BIT(0) | BIT(3);
+> +    fw_info->caps =3D 0;
+> +    snprintf(fw_info->fw_rev1, 0x10, "BWFW VERSION %02d", 0);
+
+Given you have a fixed string here could you not:
+
+  pstrcpy(fw_info->fw_rev1, 0x10, "BWFW VERSION 0");
+=20=20
+> +
+> +    *len =3D sizeof(*fw_info);
+> +    return CXL_MBOX_SUCCESS;
+> +}
+> +
+>  /* 8.2.9.3.1 */
+>  static ret_code cmd_timestamp_get(struct cxl_cmd *cmd,
+>                                    CXLDeviceState *cxl_dstate,
+> @@ -260,6 +297,33 @@ static ret_code cmd_identify_memory_device(struct cx=
+l_cmd *cmd,
+>      return CXL_MBOX_SUCCESS;
+>  }
+>=20=20
+> +static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
+> +                                           CXLDeviceState *cxl_dstate,
+> +                                           uint16_t *len)
+> +{
+> +    struct {
+> +        uint64_t active_vmem;
+> +        uint64_t active_pmem;
+> +        uint64_t next_vmem;
+> +        uint64_t next_pmem;
+> +    } __attribute__((packed)) *part_info =3D (void *)cmd->payload;
+> +    _Static_assert(sizeof(*part_info) =3D=3D 0x20, "Bad get partition in=
+fo size");
+> +    uint64_t size =3D cxl_dstate->pmem_size;
+> +
+> +    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
+> +        return CXL_MBOX_INTERNAL_ERROR;
+> +    }
+> +
+> +    /* PMEM only */
+> +    part_info->active_vmem =3D 0;
+> +    part_info->next_vmem =3D 0;
+> +    part_info->active_pmem =3D size / (256 << 20);
+> +    part_info->next_pmem =3D part_info->active_pmem;
+> +
+> +    *len =3D sizeof(*part_info);
+> +    return CXL_MBOX_SUCCESS;
+> +}
+> +
+>  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
+>  #define IMMEDIATE_POLICY_CHANGE (1 << 3)
+>  #define IMMEDIATE_LOG_CHANGE (1 << 4)
+> @@ -273,15 +337,18 @@ static struct cxl_cmd cxl_cmd_set[256][256] =3D {
+>          cmd_events_get_interrupt_policy, 0, 0 },
+>      [EVENTS][SET_INTERRUPT_POLICY] =3D { "EVENTS_SET_INTERRUPT_POLICY",
+>          cmd_events_set_interrupt_policy, 4, IMMEDIATE_CONFIG_CHANGE },
+> +    [FIRMWARE_UPDATE][GET_INFO] =3D { "FIRMWARE_UPDATE_GET_INFO",
+> +        cmd_firmware_update_get_info, 0, 0 },
+>      [TIMESTAMP][GET] =3D { "TIMESTAMP_GET", cmd_timestamp_get, 0, 0 },
+>      [TIMESTAMP][SET] =3D { "TIMESTAMP_SET", cmd_timestamp_set, 8, IMMEDI=
+ATE_POLICY_CHANGE },
+>      [LOGS][GET_SUPPORTED] =3D { "LOGS_GET_SUPPORTED", cmd_logs_get_suppo=
+rted, 0, 0 },
+>      [LOGS][GET_LOG] =3D { "LOGS_GET_LOG", cmd_logs_get_log, 0x18, 0 },
+>      [IDENTIFY][MEMORY_DEVICE] =3D { "IDENTIFY_MEMORY_DEVICE",
+>          cmd_identify_memory_device, 0, 0 },
+> +    [CCLS][GET_PARTITION_INFO] =3D { "CCLS_GET_PARTITION_INFO",
+> +        cmd_ccls_get_partition_info, 0, 0 },
+>  };
+>=20=20
+> -
+>  void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+>  {
+>      uint16_t ret =3D CXL_MBOX_SUCCESS;
+
+
+--=20
+Alex Benn=C3=A9e
 
