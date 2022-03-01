@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D0B4C9871
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:40:26 +0100 (CET)
-Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB334C985A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 23:26:19 +0100 (CET)
+Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPBAP-0007c6-5d
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:40:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59668)
+	id 1nPAwk-0003y7-9A
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 17:26:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nPAaa-0006HW-VN
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:03:24 -0500
-Received: from [2a00:1450:4864:20::62f] (port=40738
- helo=mail-ej1-x62f.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nPAee-0004ev-2W
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:07:36 -0500
+Received: from [2a00:1450:4864:20::530] (port=44661
+ helo=mail-ed1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nPAaY-0005YY-MH
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:03:24 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id p15so34274538ejc.7
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:03:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nPAec-0006Qu-9t
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 17:07:35 -0500
+Received: by mail-ed1-x530.google.com with SMTP id x5so23828618edd.11
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 14:07:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:subject:in-reply-to:references:message-id:mime-version
  :content-transfer-encoding;
- bh=EneF8QB96bbp/smwy9Gz/bMg2ZNgySBSsKvcpJt4d1U=;
- b=mC71vhu0t3SkPODltxP100JfmJZiqq1NkuxWSiwdc1gsmREpiNR2i8leDnJ0CGfuQb
- iKQwEQs7ppeWpJQC7CGisiO9WiPUg/d+v7gOdbgEQz1C1LovJwj5zzrdTovaeRIwgExZ
- AsunIv1dgwouC3x+zRLC83NHIvwo+cfEavMY4QcnWLioNsQdR2mju5w4xW1RYyXZxAga
- ORfgS0uiejs0dKHbuY1jVXlCobj7rHUUCQBznY3r2lccNdzrxupSDfLHGWnzTR7zm5TF
- Vy+S6uTCrKdZQ24MMjVcoTUygt2OIa2w9EXWvhkd55u9ek3s4WHdv5HqQdJE6O0SaGqZ
- 6SoQ==
+ bh=+TOsJ01qxHcuQg+zkdxAAqDmh3Wn9bhUjEiDnH0UDeY=;
+ b=acg+nKjYGcCqjEE2/MDese3XIQPXq+J2gucF5hdtlOhaJYlBlTsdl6trb+8ypwxdvi
+ WxbDFbyR9Un9VBdlCMfArZBJ5EN8YvRhq1f5BZY7Jl7tF1/DCEBbt8po6Sk+DPjILWIo
+ 7acIbuM2NWSG4K0fL6wPIW6we/Bo6ERDZtSdPQYYxx0jHQh/Z+bZMEBRzf9PsN6ofgzm
+ DeN3cPTpHYG7hAv040ehl9waUfbBznmMecq5UfT2k83/pj+kT28A15ThBkKXlq9gbEPk
+ kBV8ax72DzGuaELrf0dmfu7tMbuaHJMDHkKCqCABtT5tini6kU09NLMXG32mMXIQa5mf
+ 8VWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:subject:in-reply-to:references
  :message-id:mime-version:content-transfer-encoding;
- bh=EneF8QB96bbp/smwy9Gz/bMg2ZNgySBSsKvcpJt4d1U=;
- b=1uFj3vjZu/74BB7Gvrs3k8fW76OwdO+YVDpvM3SDSUJAUWelgG02T5XRWxzhL29JyF
- 7ypWAYWpPVysPetyEHJq7MhqH9fbpaNvNe5uarwUd0jwRo+Mro/LKB2u+0A0HXSyltH+
- Y43zav71zWYaiidphjHYP5L7tV3ZmFyL/ns0jyM+khuDBRahhGCbP7oVhTVXndw8oxVQ
- NclIaJuRuGQjiuTwXzYwxgpxtgnEAz/653NKOdv3+EhtOK+nLeYMGZuaYJAYmVO3q6m8
- HTZjDFi/vsY0uZyBdNfiT2hBZMitcaiRNekNQqW2wjXxKtMxnOJL9UirtYCRgcBa7cTv
- WPsg==
-X-Gm-Message-State: AOAM531BE0blB1m6lXZlCdMCpINRe8SVSJJuSYWCjKN6BdKM61c709PV
- p/BaTOTlWflz1L8K7/pCJ6E=
-X-Google-Smtp-Source: ABdhPJzR6WjyBf0KrMkH8wx762yPx4PyAEZpOcaVKHbKwq7lWuV2z3AWRINXkIr96JPQ1hC5WyJG+A==
-X-Received: by 2002:a17:906:a1c2:b0:6d6:d54d:4fb1 with SMTP id
- bx2-20020a170906a1c200b006d6d54d4fb1mr7096690ejb.490.1646172201220; 
- Tue, 01 Mar 2022 14:03:21 -0800 (PST)
+ bh=+TOsJ01qxHcuQg+zkdxAAqDmh3Wn9bhUjEiDnH0UDeY=;
+ b=VIsUxe0QLOruywHilhjlQFpbF/Ec8QaC9idFZfQx86MunbPn8XRfs37naYtumUNR1/
+ PsHv7nN5nAazVIVZ2eLt/MkuXwt+9s3X9Vqt5dU9EtFcdNeAkfhdeTarUirGlK9El98Z
+ px+vw5urUN0Qxh7SLzpYmFZp2GlimxR/nFoectdEasGPiCEH4SpG4rzsV7IeqKpYkHiJ
+ mADVXqY07tV17x7WLbIcpCOBoDD+ynHIj7jxVZ/jLIH/HN0X6vf4AotJ37qUOA7yMjg4
+ x8tJyxMRUHF5ofvtn34AFuxsokFmBK2RLy7h6L4i/Bh51RS7dwFoSaumssLyuI48A9dZ
+ NHmA==
+X-Gm-Message-State: AOAM531ke2fPDx6+3pLRjTHk9bLzVOoxJt02sUY++6CtMg0r/zbRru/j
+ 2CtmG0Bxn/a5JkgDJX8+XYyZBocn85s=
+X-Google-Smtp-Source: ABdhPJxqvCJHEK1qrvR9rRjjeFbKCOExX/W79uPUqA4KEPl8l4NLdmG8U4NZnPHPtfdUqYu9R20Aew==
+X-Received: by 2002:a05:6402:354c:b0:412:b2f2:f8e4 with SMTP id
+ f12-20020a056402354c00b00412b2f2f8e4mr26774013edd.269.1646172452288; 
+ Tue, 01 Mar 2022 14:07:32 -0800 (PST)
 Received: from [127.0.0.1] (dynamic-078-055-004-046.78.55.pool.telefonica.de.
  [78.55.4.46]) by smtp.gmail.com with ESMTPSA id
- k7-20020a170906578700b006d59878f60csm5619982ejq.207.2022.03.01.14.03.20
+ z11-20020a50e68b000000b00412ec8b2180sm7671961edm.90.2022.03.01.14.07.31
+ for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 01 Mar 2022 14:03:20 -0800 (PST)
-Date: Tue, 01 Mar 2022 22:03:17 +0000
+ Tue, 01 Mar 2022 14:07:31 -0800 (PST)
+Date: Tue, 01 Mar 2022 22:07:27 +0000
 From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_00/22=5D_isa=3A_Resolve_un?=
- =?US-ASCII?Q?needed_IRQ_attributes_from_ISADevice?=
-In-Reply-To: <6f9309d2-83d4-c09e-794f-3e9bb9202460@gmail.com>
-References: <20220222193446.156717-1-shentey@gmail.com>
- <086da51d-1ed3-2726-d3f1-b5984b33991d@gmail.com>
- <6f9309d2-83d4-c09e-794f-3e9bb9202460@gmail.com>
-Message-ID: <3B583940-46DB-4E3A-A167-0DE45AEED11B@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_0/7=5D_malta=3A_Fix_PCI_IRQ_level?=
+ =?US-ASCII?Q?s_to_be_preserved_during_migration=2C_cleanup?=
+In-Reply-To: <20220217101924.15347-1-shentey@gmail.com>
+References: <20220217101924.15347-1-shentey@gmail.com>
+Message-ID: <48087DC6-0577-4889-A394-56DA1078E0D4@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,92 +92,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 1=2E M=C3=A4rz 2022 12:04:24 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
-philippe=2Emathieu=2Edaude@gmail=2Ecom>:
->On 27/2/22 23:40, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 22/2/22 20:34, Bernhard Beschow wrote:
->>> v2:
->>> The newly QOM'ified devices now report an error to the user in their=
-=20
->>> realize
->>> functions if the configured IRQ number is greater than 15=2E
->>>
->>> v1:
->>> The IRQ attributes of ISADevice are hardcoded to support up to two=20
->>> IRQs per
->>> device which creates an artificial limit=2E By not having the attribut=
-es=20
->>> in the
->>> first place, this limitation can be avoided altogether=2E
->>>
->>> The IRQ attributes are mostly used for printing ('info qtree') and=20
->>> there is one
->>> user, hw/ppc/pnv, to use the attributes directly=2E As it turns out, t=
-he=20
->>> printing
->>> is redundant if the IRQ numbers are exposed as QOM properties and=20
->>> hw/ppc/pnv
->>> can be easily ported away=2E
->>>
->>> The patch series is structured as follows: Patch 1-3 QOM'ify the last=
-=20
->>> devices
->>> which rely on printing their IRQ numbers via the ISADevice attributes=
-=2E=20
->>> Patch
->>> 4 and 5 remove the last users of the ISADevice attributes such that=20
->>> they can be
->>> removed in patch 6=2E The remainder of the patch series is cleanup=2E
->>>
->>> Patch 6 turns isa_init_irq() into a trivial wrapper for isa_get_irq()=
-=2E=20
->>> That is,
->>> the former function becomes redundant=2E All users are therefore=20
->>> converted to use
->>> isa_get_irq() directly=2E Finally, the last patch removes the now unus=
-ed
->>> isa_init_irq()=2E
->>>
->>>
->>> Bernhard Beschow (22):
->>> =C2=A0=C2=A0 hw/rtc/mc146818rtc: QOM'ify IRQ number
->>> =C2=A0=C2=A0 hw/rtc/m48t59-isa: QOM'ify IRQ number
->>> =C2=A0=C2=A0 hw/input/pckbd: QOM'ify IRQ numbers
->>> =C2=A0=C2=A0 hw/isa/isa-bus: Remove isabus_dev_print()
->>> =C2=A0=C2=A0 hw/ppc/pnv: Determine ns16550's IRQ number from QOM prope=
-rty
->>> =C2=A0=C2=A0 isa: Drop unused attributes from ISADevice
->>> =C2=A0=C2=A0 hw/audio/cs4231a: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/audio/gus: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/audio/sb16: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/block/fdc-isa: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/char/parallel: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/char/serial-isa: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/ide/isa: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/input/pckbd: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/ipmi/isa_ipmi_bt: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/ipmi/isa_ipmi_kcs: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/isa/piix4: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/net/ne2000-isa: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/rtc/m48t59-isa: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/tpm/tpm_tis_isa: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 hw/isa/isa-bus: Disuse isa_init_irq()
->>> =C2=A0=C2=A0 isa: Remove unused isa_init_irq()
->>=20
->> Series:
->> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
+Am 17=2E Februar 2022 10:19:17 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>Tested with [1]:
 >
->If you can address the few comments, I'll queue the v3 via the
->MIPS tree=2E
+>  qemu-system-mipsel -M malta -kernel vmlinux-3=2E2=2E0-4-4kc-malta -hda =
+\
+>  debian_wheezy_mipsel_standard=2Eqcow2 -append "root=3D/dev/sda1 console=
+=3Dtty0"
+>
+>It was possible to log in as root and `poweroff` the machine=2E
+>
+>[1] https://people=2Edebian=2Eorg/~aurel32/qemu/mips/
+>
+>
+>v4:
+>  As suggested by BALATON Zoltan, gt64120_register() is now resolved by
+>    sysbus_create_simple() etc=2E This also fixes the nitpick pointed out=
+ by
+>    Philippe=2E
+>
+>v3:
+>  The migration bug now gets fixed in gt64xxx_pci before any cleanup=2E A=
+s
+>    suggested by PMM the patch is based on commit e735b55a8c11=2E
+>  The code movement patch now moves the already fixed code=2E I might be =
+a bit
+>    too conservative here by removing Philippe's Reviewed-By tag=2E
+>  As suggested by BALATON Zoltan, the redundant i8259[] attribute is now
+>    resolved immediately after the code movement=2E As a side effect, it =
+also
+>    removes moved code which doesn't adhere to the coding style (local lo=
+op
+>    variable)=2E
+>  To address BALATON Zoltan's comment and to reduce the number of require=
+d
+>    Reviewed-By's, only piix4_set_irq() is modified to expect own DeviceS=
+tate
+>    paremeter=2E Up to v2, all remaining set_irq() functions were changed=
+ this
+>    way=2E
+>  The patch resolving piix4's singleton variable got split into two patch=
+es:
+>    One which resolves the singleton variable and one which replaces magi=
+c
+>    constants=2E The split patches should be more comprehensible=2E
+>  Suggested by BALATON Zoltan, I took a chance to resolve gt64120_registe=
+r(),
+>    a method akin to the legacy init functions we're trying to get rid of=
+=2E
+>
+>v2:
+>  isa/piix4: Fix PCI IRQ levels to be preserved in VMState
+>  isa/piix4: Resolve redundant i8259[] attribute
+>
+>Bernhard Beschow (7):
+>  hw/mips/gt64xxx_pci: Fix PCI IRQ levels to be preserved during
+>    migration
+>  malta: Move PCI interrupt handling from gt64xxx_pci to piix4
+>  hw/isa/piix4: Resolve redundant i8259[] attribute
+>  hw/isa/piix4: Pass PIIX4State as opaque parameter for piix4_set_irq()
+>  hw/isa/piix4: Resolve global instance variable
+>  hw/isa/piix4: Replace some magic IRQ constants
+>  hw/mips/gt64xxx_pci: Resolve gt64120_register()
+>
+> hw/isa/piix4=2Ec                | 54 +++++++++++++++++++++--
+> hw/mips/gt64xxx_pci=2Ec         | 80 +++--------------------------------
+> hw/mips/malta=2Ec               |  7 +--
+> include/hw/mips/mips=2Eh        |  3 --
+> include/hw/southbridge/piix=2Eh |  2 -
+> 5 files changed, 59 insertions(+), 87 deletions(-)
+>
 
-[X] Done
+@Phil: Would you also queue this series in your MIPS tree?
 
-Thank you!
-
+Best regards,
 Bernhard
->
->Thanks,
->
->Phil=2E
-
 
