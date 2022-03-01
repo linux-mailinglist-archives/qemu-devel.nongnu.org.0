@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48C54C96D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 21:25:58 +0100 (CET)
-Received: from localhost ([::1]:46852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3194C9796
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 22:13:36 +0100 (CET)
+Received: from localhost ([::1]:34534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP94H-0002By-W6
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 15:25:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33322)
+	id 1nP9oM-0007sA-Kb
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 16:13:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nP91J-0000Y6-G9; Tue, 01 Mar 2022 15:22:54 -0500
-Received: from [2607:f8b0:4864:20::329] (port=39931
- helo=mail-ot1-x329.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nP91I-0007nL-4g; Tue, 01 Mar 2022 15:22:53 -0500
-Received: by mail-ot1-x329.google.com with SMTP id
- j3-20020a9d7683000000b005aeed94f4e9so13175537otl.6; 
- Tue, 01 Mar 2022 12:22:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cnq69asC/OnBz5aaepAEavHtgKCtmjU6hN7Tk1oVuSU=;
- b=kJxZaMy+Kckaq5GSfneV0eFOE1AILQRNtd45SzZ7Vn3bS3W+9sw9ilgrJ4qTTlI/MN
- NmxSOqwiEU0TNXM2kOGqKDb6UP/y9lF/zOjFnYZjlpoFW6IZPCT6Gw4itcszmgDTmL9N
- dG3MMNCtsY6/SrkPahfLWW7Q4elzy/3RV4cyUbQTns9oteXyfGnu3Gw5HyYcXfgByBy9
- l33Bu6FPD75mcD+i+xXHGbYkfjXCOklaQ6Zh6bP6VdzijdM2IX7HMeWd9F8GUz6ISs9L
- 4O7HofOmSTWCRXsAgU4uBku33poeI+a7fizQ65gOUTm0qsfiegkaweJnKAZw+nl16GxK
- qt1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cnq69asC/OnBz5aaepAEavHtgKCtmjU6hN7Tk1oVuSU=;
- b=BSgEY78XtinDATdzJwnWeG4Ui7Bqotif+tROfT0ABDlcQTfyleUDvc2GCQr1rRePTt
- hQS6VkL6RcTCyZfIxnEqZdF974nhvD7e+mvq29KI2wLYUY0WiqWUoNkHrSN7XIG0mMIf
- 9zuHc1rJiuhoaoLX+lvBsAx7MZA3BehPdzXZ5ulYBRoLFTv4hbZwiml1F0unIICKKS6/
- 6aziW9pJjV/nsBRA0V33GQBoYGA1ncQ4cnQShMVc4mZxhKtEQYhdpVA9chHTLoSbJuV5
- 9J6sToWVjWJyEXp7m/x5ODLWog3AM6k2x3RccJ0ciWJSVrQuC5KR42yAiGuDuEEuFnu9
- RJFw==
-X-Gm-Message-State: AOAM5304cgp4TdHfHUOhrMwhYsVY713HfBnITutVRu6ldJAqaT44jncu
- GYOrbWbhODSUez31hqW0S8VfelscoMQ5cWgHu3w=
-X-Google-Smtp-Source: ABdhPJwJTLDj+9QVdgo4sPOzg5cwglfd4cVJNGhkbUi7uOpFmb16UZzSarkGrkI587A4IK2JUITJ/jD5gk8a/XXyrgA=
-X-Received: by 2002:a05:6830:90b:b0:5ad:3891:b0a4 with SMTP id
- v11-20020a056830090b00b005ad3891b0a4mr13462716ott.58.1646166169719; Tue, 01
- Mar 2022 12:22:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20220301195933.1500-1-dmiller423@gmail.com>
- <234dc90d-7e7a-8281-d0db-14c8c4c6efea@linaro.org>
- <CAEgyohUvQVfNGYfhmiOONGxstZ+MEy7Wx=e5uC2ee_reQaNakA@mail.gmail.com>
-In-Reply-To: <CAEgyohUvQVfNGYfhmiOONGxstZ+MEy7Wx=e5uC2ee_reQaNakA@mail.gmail.com>
-From: David Miller <dmiller423@gmail.com>
-Date: Tue, 1 Mar 2022 15:22:38 -0500
-Message-ID: <CAEgyohWeLd1Wn6FmEKpgFHFskAiMfcpu778Re2ZHr5-zBq70Zg@mail.gmail.com>
-Subject: Re: [PATCH v2] tests/tcg/s390x: Cleanup of mie3 tests.
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000c9989505d92ded63"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::329
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
- envelope-from=dmiller423@gmail.com; helo=mail-ot1-x329.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <e9d6bc000924f2dcff664a6028d2edcbf2d66af4@lizzy.crudebyte.com>)
+ id 1nP9lh-00074V-J6
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 16:10:51 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:58773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <e9d6bc000924f2dcff664a6028d2edcbf2d66af4@lizzy.crudebyte.com>)
+ id 1nP9lf-0004R7-Bz
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 16:10:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=a9aA4TCK81tVX0LM5D1ixES2q2TE0huML29jVeRtB0c=; b=bIaKF
+ b/I7iX1Zz6q9JVH53ubkl6vKVxKf3F8oqv/zYyEYpGTUXvlvKeCDJLMXHsW15EB5iL+TJHEMOd8cM
+ xkwY3OWwAWMvOyvMRQq0ThYHBK9r+ggDyde1nQxAIu6T4xkk8CBejQEGWbaE2UQBy2o4W1l9p8OIT
+ ZUmitIy/Ap4qana9vGg/9dBGxZAnLYuXF/xy8r7u/EyqSDXRqAPCx4VAAwDesX/KGlHTbGceVb4im
+ GxtwCMEC5qxiAVQrBpt2bYgziwIrvYS8NI6WeappEhZZ+FWoWgc81IV8h0kdxHJTR/eHGWCJ6OFeJ
+ 4wWEZ6fn8DVlp7Uqnn7OcECo8fM/A==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Tue, 1 Mar 2022 21:33:49 +0100
+Subject: [PATCH] 9pfs: move qemu_dirent_dup() from osdep -> 9p-util
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>,
+    Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=e9d6bc000924f2dcff664a6028d2edcbf2d66af4@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,83 +58,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- farman@linux.ibm.com, cohuck@redhat.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c9989505d92ded63
-Content-Type: text/plain; charset="UTF-8"
+Function qemu_dirent_dup() is currently only used by 9pfs server, so move
+it from project global header osdep.h to 9pfs specific header 9p-util.h.
 
-However the constraint must be wrong there.
-Sorry about split message.
+Link: https://lore.kernel.org/qemu-devel/CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com/
+Based-on: <20220227223522.91937-12-wwcohen@gmail.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ hw/9pfs/9p-util.h    | 30 ++++++++++++++++++++++++++++++
+ include/qemu/osdep.h | 13 -------------
+ util/osdep.c         | 21 ---------------------
+ 3 files changed, 30 insertions(+), 34 deletions(-)
 
-On Tue, Mar 1, 2022 at 3:21 PM David Miller <dmiller423@gmail.com> wrote:
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 1f74d37558..8b92614e6c 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -112,6 +112,36 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
+ #endif
+ }
+ 
++/**
++ * Duplicate directory entry @dent.
++ *
++ * It is highly recommended to use this function instead of open coding
++ * duplication of @c dirent objects, because the actual @c struct @c dirent
++ * size may be bigger or shorter than @c sizeof(struct dirent) and correct
++ * handling is platform specific (see gitlab issue #841).
++ *
++ * @dent - original directory entry to be duplicated
++ * @returns duplicated directory entry which should be freed with g_free()
++ */
++static inline struct dirent *qemu_dirent_dup(struct dirent *dent)
++{
++    size_t sz = 0;
++#if defined _DIRENT_HAVE_D_RECLEN
++    /* Avoid use of strlen() if platform supports d_reclen. */
++    sz = dent->d_reclen;
++#endif
++    /*
++     * Test sz for zero even if d_reclen is available
++     * because some drivers may set d_reclen to zero.
++     */
++    if (sz == 0) {
++        /* Fallback to the most portable way. */
++        sz = offsetof(struct dirent, d_name) +
++                      strlen(dent->d_name) + 1;
++    }
++    return g_memdup(dent, sz);
++}
++
+ /*
+  * As long as mknodat is not available on macOS, this workaround
+  * using pthread_fchdir_np is needed. qemu_mknodat is defined in
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 7bcce3bceb..650ba1aa50 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -673,19 +673,6 @@ static inline int platform_does_not_support_system(const char *command)
+ }
+ #endif /* !HAVE_SYSTEM_FUNCTION */
+ 
+-/**
+- * Duplicate directory entry @dent.
+- *
+- * It is highly recommended to use this function instead of open coding
+- * duplication of @c dirent objects, because the actual @c struct @c dirent
+- * size may be bigger or shorter than @c sizeof(struct dirent) and correct
+- * handling is platform specific (see gitlab issue #841).
+- *
+- * @dent - original directory entry to be duplicated
+- * @returns duplicated directory entry which should be freed with g_free()
+- */
+-struct dirent *qemu_dirent_dup(struct dirent *dent);
+-
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/util/osdep.c b/util/osdep.c
+index 723cdcb004..7c4deda6fe 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -33,7 +33,6 @@
+ extern int madvise(char *, size_t, int);
+ #endif
+ 
+-#include <dirent.h>
+ #include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "qemu/sockets.h"
+@@ -619,23 +618,3 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+     return readv_writev(fd, iov, iov_cnt, true);
+ }
+ #endif
+-
+-struct dirent *
+-qemu_dirent_dup(struct dirent *dent)
+-{
+-    size_t sz = 0;
+-#if defined _DIRENT_HAVE_D_RECLEN
+-    /* Avoid use of strlen() if platform supports d_reclen. */
+-    sz = dent->d_reclen;
+-#endif
+-    /*
+-     * Test sz for zero even if d_reclen is available
+-     * because some drivers may set d_reclen to zero.
+-     */
+-    if (sz == 0) {
+-        /* Fallback to the most portable way. */
+-        sz = offsetof(struct dirent, d_name) +
+-                      strlen(dent->d_name) + 1;
+-    }
+-    return g_memdup(dent, sz);
+-}
+-- 
+2.30.2
 
-> I used
->
->
-> #define Fi3(S, ASM) uint64_t S(uint64_t a, uint64_t b, uint64_t c) \
-> {                       \
->     uint64_t res = 0;   \
-> asm volatile (          \
->     "ltgr %[c], %[c]\n" \
->     ASM                 \
->     "stg %[c], %[res] " \
->     : [res] "=&r" (res) \
->     : [a] "r" (a),      \
->       [b] "r" (b),      \
->       [c] "r" (c)       \
-> );                      \
->     return res;         \
-> }
->
->
->
-
---000000000000c9989505d92ded63
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:georgia,=
-serif;font-size:small;color:#073763">However the constraint must be wrong t=
-here.</div><div class=3D"gmail_default" style=3D"font-family:georgia,serif;=
-font-size:small;color:#073763">Sorry about split message.</div></div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar =
-1, 2022 at 3:21 PM David Miller &lt;<a href=3D"mailto:dmiller423@gmail.com"=
->dmiller423@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D=
-"font-family:georgia,serif;font-size:small;color:rgb(7,55,99)">I used=C2=A0=
-<br><br></div><div class=3D"gmail_default" style=3D"font-family:georgia,ser=
-if;font-size:small;color:rgb(7,55,99)"><pre style=3D"background-color:rgb(0=
-,0,0);color:rgb(255,255,255);font-family:&quot;Fira Code&quot;,monospace;fo=
-nt-size:12pt"><br><span style=3D"color:rgb(187,181,41)">#define </span>Fi3(=
-S<span style=3D"color:rgb(204,120,50)">, </span>ASM) uint64_t S(uint64_t a<=
-span style=3D"color:rgb(204,120,50)">, </span>uint64_t b<span style=3D"colo=
-r:rgb(204,120,50)">, </span>uint64_t c) \<br>{                       \<br> =
-   uint64_t res <span style=3D"color:rgb(255,102,0)">=3D </span><span style=
-=3D"color:rgb(51,153,153)">0</span><span style=3D"color:rgb(204,120,50)">; =
-  </span>\<br><span style=3D"color:rgb(255,102,0)">asm volatile </span>(   =
-       \<br>    <span style=3D"color:rgb(102,255,0);font-weight:bold">&quot=
-;ltgr %[c], %[c]\n&quot; </span>\<br>    ASM                 \<br>    <span=
- style=3D"color:rgb(102,255,0);font-weight:bold">&quot;stg %[c], %[res] &qu=
-ot; </span>\<br>    <span style=3D"color:rgb(255,102,0)">: </span>[res] <sp=
-an style=3D"color:rgb(102,255,0);font-weight:bold">&quot;=3D&amp;r&quot; </=
-span>(res) \<br>    <span style=3D"color:rgb(255,102,0)">: </span>[a] <span=
- style=3D"color:rgb(102,255,0);font-weight:bold">&quot;r&quot; </span>(a)<s=
-pan style=3D"color:rgb(204,120,50)">,      </span>\<br>      [b] <span styl=
-e=3D"color:rgb(102,255,0);font-weight:bold">&quot;r&quot; </span>(b)<span s=
-tyle=3D"color:rgb(204,120,50)">,      </span>\<br>      [c] <span style=3D"=
-color:rgb(102,255,0);font-weight:bold">&quot;r&quot; </span>(c)       \<br>=
-)<span style=3D"color:rgb(204,120,50)">;                      </span>\<br> =
-   <span style=3D"color:rgb(255,102,0)">return </span>res<span style=3D"col=
-or:rgb(204,120,50)">;         </span>\<br>}</pre><pre style=3D"background-c=
-olor:rgb(0,0,0);color:rgb(255,255,255);font-family:&quot;Fira Code&quot;,mo=
-nospace;font-size:12pt"><br></pre></div></div>
-</blockquote></div>
-
---000000000000c9989505d92ded63--
 
