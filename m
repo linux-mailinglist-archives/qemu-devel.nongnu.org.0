@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768D04C97A4
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 22:17:41 +0100 (CET)
-Received: from localhost ([::1]:38304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D304C97B1
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 22:21:07 +0100 (CET)
+Received: from localhost ([::1]:43022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP9sK-0002Hd-9X
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 16:17:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48948)
+	id 1nP9ve-0005Ys-KW
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 16:21:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nP9pE-0000Rr-Ev; Tue, 01 Mar 2022 16:14:28 -0500
-Received: from [2a01:111:f400:7d00::71e] (port=41121
+ id 1nP9q9-00015u-14; Tue, 01 Mar 2022 16:15:25 -0500
+Received: from [2a01:111:f400:7d00::71d] (port=61056
  helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nP9p9-0005Ia-B0; Tue, 01 Mar 2022 16:14:24 -0500
+ id 1nP9q6-0005bz-Re; Tue, 01 Mar 2022 16:15:24 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UooB43C/5zqJiNv9NeervcXNxhuWpkcZtFNVJ8NDotZYOL2mYPty+/T5yTKq7vdRWV2nm1mOF6j8hqpxT2czUZPPZw0jwFXeYCD/IDqlsTusWR0sOCYw8rKqA70Eg8t5fbb4uDVy6b+XrhbWFiTlLb5Pb/U8RY3MZkwagMPOccSOiSA3UP7GFaVgpr9HLYFem5XIUz4kNUIMMxw1JjOMP0tLPgqs2zu31bINJqFVW3r+XokCmV86xw38w+VQ13zxCPzP+skoj5isa8gwyob5KUUMCbW9mqqSfOkd2Wk0YsBkYuDWLFeXKOAjecYfSjaf9m6VdIku6IbDuxDbl3Ybng==
+ b=oaTvK0PNkpI12Y4wkza6h/dppUFS1BNloCKHWXeGx6F2k0q+WY/qY4lMVfmMA5luP8EbH1qBqZeOpogbie7D6qW8nB45HfhwH1CeDiTFZe3R+li5kyc08VxOpx8fog/BZE525wl0LB9lFIZDoSrfKaK/BOEvxOsH9fWRkKd1SuyqRo1cmP4exBa/kgx2aC/wPqWZRrNydsd6u7p/qf1uo0xzvaVszxQRtpBH7HO1hgkp12CAb3aYxQBUIrZ9hkjo/Pznbb7fBO24CtPwlgs7S0Y7/2ALr3bUmQbXKrdw9l/3KBV8P0aJGMyMK9qVrqZexxdSoTEXOi4p4onCnRQGPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1MS/Cx1HGxHLxjvIMFseXh2NGUP9wZmVjkrFIIbCuGM=;
- b=RUNiiuIFtuYkOjml1Z2eZfgnY82F+DHfipiWGjpwfdeucJk8H4FyEydiW9TfbotWXGVEfrTxtXrkqVkjfbWvXvvahvHF4ZNVNWG44pjdacctEFGXiMBUako1/EoZzXTX5+/WTr882XwxDIKYEQ3Tqc7U00qm7Lu95tgkE+3SN/RY2pIaih7zpgn5QWZ/F6Yk02BJgddEN7j5aYOcI4KMaHm6DjXUmWHk05grP1QW0cW4GIVVZ5tPlxBP4rZN9xlxBwOvqRpZWIrzqcUInilTORuoN0q1KMqSS+QCPvVGgSXh00kYmcxjxFT3TiY0OM0go41FqH6Epn+CbMURP4S+Xg==
+ bh=sxa9pdiIlYG224un95jOk7Llo5WO8kJSjQk/osRjrkY=;
+ b=QHvQ+ci/kxEro6/uF0l6WZzzhxjrHaDPuU0sZFINJ3IcfawWnerKtoIV1wgXAlzZPAqiQFPMGoXxoXAv/C4/jHKLxXI+SSdTwTPm1VnHlfpAFni32G5RfYwWz7owoJDlKAi9qNvLgrXuk3i18OlmMOFV1Mdvz+O07ctpwMcg88eerUiRqRDduu5Tvyhj/5paHKhB10Zy1s+gV9Fex0mMKnPeKIr3eHazzc682kw6nY2+OU5xJQIaMIOKIb6GqvTzGid0svhTuHxQE6fyhSYV/ffW8NwP5aGOmae9uBN6dRv4X3F2n+a2BQnMAKteoYcUvT1OGm8V0a76AAJukJOHMQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1MS/Cx1HGxHLxjvIMFseXh2NGUP9wZmVjkrFIIbCuGM=;
- b=agFoKctEeeJ9EwDR8bG3F5mzLKOLLH87nxZZ/4U9xIr6bTy2kdmksZRwJpVXiKaLzByCcd3wosveDoI445YtVkj3iYif98idw0WGH8ff6WzT+TsEWnkWw/wb1Gu7YpOuubU2a3Ceaq/Qvcp/NERTRzgM9nYlwHpjIe+3svzR6b0=
+ bh=sxa9pdiIlYG224un95jOk7Llo5WO8kJSjQk/osRjrkY=;
+ b=gRfK7e/gKFrwLFiT8yR3tyxGaL4GLOk++OooHRxhx7PYTnGE0Y06xv/PX6A7SailsoudoiyHrVtyIJpHwWZTGfPxkCq6Gee60zbgsmvAfouYKzgK8tT1ROygzOGDtJqw4zHfwO9k/MBQQc1VwWlz/AE8Jn3O7h4oMhnRnGdpkeM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from DB9PR08MB6748.eurprd08.prod.outlook.com (2603:10a6:10:2a7::16)
@@ -49,9 +49,9 @@ To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  hreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
  jsnow@redhat.com
-Subject: [PATCH 2/3] block/copy-before-write: add on-cbw-error open parameter
-Date: Tue,  1 Mar 2022 21:59:28 +0100
-Message-Id: <20220301205929.2006041-3-vsementsov@virtuozzo.com>
+Subject: [PATCH 3/3] iotests: add copy-before-write: on-cbw-error tests
+Date: Tue,  1 Mar 2022 21:59:29 +0100
+Message-Id: <20220301205929.2006041-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220301205929.2006041-1-vsementsov@virtuozzo.com>
 References: <20220301205929.2006041-1-vsementsov@virtuozzo.com>
@@ -62,60 +62,60 @@ X-ClientProxiedBy: ZR0P278CA0107.CHEP278.PROD.OUTLOOK.COM
  (2603:10a6:10:2a7::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f96008ec-b99a-4604-60f2-08d9fbc66a7d
+X-MS-Office365-Filtering-Correlation-Id: c43e9d41-0b82-4d8c-6a23-08d9fbc66aed
 X-MS-TrafficTypeDiagnostic: VI1PR08MB3710:EE_
-X-Microsoft-Antispam-PRVS: <VI1PR08MB37107554415DEB99F5211A5CC1029@VI1PR08MB3710.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <VI1PR08MB371045E08FFE0675765D2EC4C1029@VI1PR08MB3710.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +HMhPK9ZLqJjerYEaItwE4sX1PmaO5ul47cJ2muD5R9Qj8jFyxIsywTRTJn07ZTnT3A9yVee3iVIL9qJCOhHZUUIV67h8gmiUwdfi0ouFXWmR2FqR1KNnaFrwpP57VahC49MwQEiKOjCZ2+I5+lsR038ZQtEJjOZ8LeuyvCwWHg62ONKc3vpL79XZ3VDK2e5jl/09tuQjjEUOe8whj3xlNSy28F6ZJjVQiEBjgKikgg4bLp8aXsPeeR4bmYmGtYLJ68/d1lLneuGXn4Vbh9IlT/lUdBLZmoxbacAy4uSkBdwu8jO196HSv4gP3nsUN1krRMUZrmd9reBZxR3lhmz7B/lbs6T1k5Zce4qCAN4KQtMoFAg8M3A6XdtLB70Xii4phNvoV1sgZM+yi159/Em9pGNY1DM4Xum3C7RRcFNaL1jndzoJIvzuENLVy3zf3pB06Dx7mgjkOWjrhb2YIVuCdKsh+14NjFcUObtWDIXai7qPXZC2WZD1h5wfzfPyuK7lp0+GAvb/5y60tDPTFzOF237Vl8oY+Lrb3LRETtGkBDrkMURfMMVkKETfMNSmXIi9FDkMPx9jt6aoSZryr3HsnjR+fg/cdjN5QXHWjy+uQ/3qHzdojYwv4eY11J1BroHwBJRuH0Cz/+aVvpmr42IOwZHMgM+hJh/t9T9wF25+RiE07+6FPZCjW+VKGFXEBQ1TXRQkRuz2F85EDMj4iKs3Q==
+X-Microsoft-Antispam-Message-Info: 7qwvW4jcirlio5kY1dNxPkhWR1jIjB0QmzFuVf+phKT9hmzl/imYYA0Z4T6/+5BMiOYEzhJz+3WpPR/8fBswfUHnK9XHbsqIxPxqE9+4AFZhQTdfLFDwkAxb4jJyG29dZPJh/oYaipcp9Hxcf6dJjUJql6yae/j30KDffJN7vnpkTDi+9vGxL0WhqzSgIV5o5JP4WmcHXiZfLKA8E2OGwWtD5+AlpC+t9YKcPv+SliUnnpREGObCfp0qQ9pJvIV1GHK+YKokPdx9j/+VAOJ5j/MNgx6Yf9LjyskYvCh/FNLIV3r37k5+CvvFEByg8FPCphgoLrNLbdGNMN/j3qYDoh+AEht2Tr6TlytOqCaEOR5c4f/NF8JloI5Nkp3+k4AFUhxA1zsJ53fcKdoahPheK7sk6q0bV/ACWMlGaUrlCHcEk5mMk7gjbvSEgQAncZowtUo4/FaRKy56PCH7YaOVMIVWcdZHMVE1NwTjeMnu+H6X6sPps3FZq7EDFtBsD3jqCV9JmVzmv4zIr8P6UFlceMhZowoKXjWFQJtL8lJlWAyP95QjxaF65ZNyQ99uZ/Wil4xBqUPzDAgdIul0Nj0b8lDYL0g63aKLBZzLVhPXVWP66h5/SMBbGQpishdJSLO006xtTO3RPGWmtCbBR8w2EgHEQk3qDr7QF8p8U6MW6iGxZS5whm6M0xb/DhI6WTezUCsVDNMyUg2XW7nUDej6LwFvdoN2Rw8WXJabj4dkOOTfAzyYETOAcPOOpMdXztdOxkZzVHWeQZI7Vw5cDfQHMGKINjcoTtNko1vEf+9PyuX9/Vw+yR53dD2/bTLw+qpvvjztGgNqhm+T7PzWD1bD4Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DB9PR08MB6748.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(26005)(1076003)(186003)(2616005)(83380400001)(6512007)(5660300002)(8936002)(6486002)(508600001)(4326008)(2906002)(52116002)(6506007)(6666004)(66476007)(8676002)(66556008)(66946007)(316002)(6916009)(36756003)(38350700002)(38100700002)(86362001);
+ SFS:(13230001)(4636009)(366004)(26005)(1076003)(186003)(2616005)(83380400001)(6512007)(5660300002)(8936002)(6486002)(508600001)(4326008)(2906002)(52116002)(6506007)(6666004)(66476007)(8676002)(66556008)(66946007)(316002)(6916009)(36756003)(38350700002)(38100700002)(86362001)(2004002)(21314003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Bh+ERQa+cwfz8d706CkLJaZKc7mEn/gMHkTg3Yp2BQyp8YVpotnLgc1VVOWP?=
- =?us-ascii?Q?MyEQhnoYS81M3uFHkzrx9P4y48C3UHfsLHPRWZRjGNuJwKxrb/1EjihxwaWc?=
- =?us-ascii?Q?IPhzY5KymLjVsYk9CKaNW8Jl+qq13ocMRByGg+Cpu2Hro7DgOODPIsHjxKzN?=
- =?us-ascii?Q?EWJEtzeOUQuB0oXibz7J2ux1l5+MJXla0yljZXL0Nb7AGo0Okcolk1NaUGc/?=
- =?us-ascii?Q?i95yFUf8Jp4HqwspuHBuooXMAMtsyE3G6Enj6ifsnufSMLGsuvnE0CCuJ28X?=
- =?us-ascii?Q?ADZlFx+PuxaJJ71QBkq/3ituwiR4whPDwnMjG/ssiWcu3OmdGz2xCO9mCVr6?=
- =?us-ascii?Q?6fiVAjxLX4nKGUd+nnAcvpanv6KMaW3l0hO5DA/MTlqgBw8rL8pvsKvZlUnZ?=
- =?us-ascii?Q?TWahXBGF5O7/SZvBuC+Ib60Lzf3l79l2UYBhLvDkButT7l/lMQ2hQyyt2O+7?=
- =?us-ascii?Q?/kAlG/GxBwj0IC2YUxHvsM5d0h1WB6kuRhBgNCrxVZb/CSUZzmTICUc9/z3/?=
- =?us-ascii?Q?8KlxjOEvRpKHPxWI5rQNAsOE+4KquO+fzDV3o/OaOGXL7zkecJOCfi2O9/3b?=
- =?us-ascii?Q?G/DArdxcMmdSJyZQCjUBTqCfg47yRDg07uUmH4eEwgYNCfO9D8mz28rG+qhZ?=
- =?us-ascii?Q?qfGfmiYYM5IXfedmQgs2uPLKJkHxUpE9TOTUM8s/G9ZZhZRcPsxoLeb5N66a?=
- =?us-ascii?Q?f9ncTwLAFWJgxyF5alF5SS4xnscLcq0ziVHrF3Xf2sCKg9kGJ1EfsJtFngX5?=
- =?us-ascii?Q?Dl93GfuKNY0zzPq2eISsIpBT8Uiq8frdZsObDCrhjGD60qHb67rZcSmYji1B?=
- =?us-ascii?Q?EplDqCbbsGw03Eiz073pCmuVEmAm8mfmWxYIDfOyOZkV0ptpRtEkAb/eUrDV?=
- =?us-ascii?Q?ELY3Kt3Q6+fU4xEcvzDH563+ZpvWwtLRZoOE20xVmpPVHHtukxyMF7eWoXnJ?=
- =?us-ascii?Q?Gs4k1WvWzJKaT2cg+mFHqjhbNz9f1j68c2TcuytewuvKg41GSE+7teGfrKF5?=
- =?us-ascii?Q?Jg4jpVrdFLGzol8H9OF4Yi2apSUMRYyKc1YY+2i3dT685gdPpYhuJ6toO/Aj?=
- =?us-ascii?Q?KvR1ZQzIHFG3iuo8vzAWvCglOteZ8qJZhqNNx8RwXCEgLEOzfScBz3qimuWm?=
- =?us-ascii?Q?Tkfl5UcyWlWrnw6oS0cR+4X8QnaHf7uFQrUetSPBAcF9kLgDwobhkldooim6?=
- =?us-ascii?Q?uchR4eqYR3uoBeIa8WUKDbPjaYXrQ0tvr2lgrUczQTqA4f1zqy8A0l4pj1zr?=
- =?us-ascii?Q?KKHnH+ZEoHUiIX8QE01+Jenp9NWFkksK0J/I90pYlAeG8EQNogbFpWsW/oqA?=
- =?us-ascii?Q?2er7tghnsU7QqZ+yY5EMCf+PvZgWoPrlICnlGJKMVacvtXPvtjaFaRBcXSix?=
- =?us-ascii?Q?t1B9L0boTvdatmxg+2oz4mBjYcrffUBgqR76Dwkr8IR4X8EN3BeyjbQ287dM?=
- =?us-ascii?Q?r19uKaAZhXvMxo8YtC8doKDexnnNoMwSC20Nc4s97+g+uERTuGmuPG+13noM?=
- =?us-ascii?Q?8lqfui4ozFXAm/ytVExc5FGOihj0Y2djfXPYJOHnAWr66hPLIKwXBHKrqXPx?=
- =?us-ascii?Q?bsgVcJeP/lW1k+H3KbvI6g0T717VvSRk8ASkEQew5jWr1gcz1VctY0BEL2U7?=
- =?us-ascii?Q?pTrsq90cSWdKZUUiuKRgbPA7VJ1Zkufb6zPRZ5bafpOvq3G4eDIUFzxe4gQ9?=
- =?us-ascii?Q?ulb+Y6VJCyrXqj9ULwpsP59AH1U=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gpr6pX40KfT8/qxrcczcRpEh21GKWpi5ezPN+ZbQmxFtrVFbZrQqzhF6zjwQ?=
+ =?us-ascii?Q?MBpANU/42Ap9b4UhC5l9YOKXAbGHRheNBs2SwE+0XmsTHQAnUbMCThXvda4d?=
+ =?us-ascii?Q?MBB09XJMpURqcmTumi6KUnLWHi1JVxekxjhaWoL8ouf8ozuAuTstwCdNNvIQ?=
+ =?us-ascii?Q?t4aqOXdLqT8arlq3/WG0wq0Jbs2gIDVuqnu48ImYZYnSgFRSiVQNyY66WwRe?=
+ =?us-ascii?Q?EZymB1tuNG4h2nU387C4xGlAeNCn0JM3mqLUlc5G4qBAYibNiSJJ7QzbVjG9?=
+ =?us-ascii?Q?uqo2rLhXu8DEA6DkxCM7QTtkYs2VFscE+elxClgV13EtZc1FX06J9A8c+95A?=
+ =?us-ascii?Q?p/oC240s4VjxE/IDf6bm+aXY4qrnsx7Ro4WtTd12DyM0ipd+BvcfsfF9BGth?=
+ =?us-ascii?Q?YfLCCZM9M4Z1Hp2U0ZkG/RpwZPvebFsKaKBG8nEscdF44XcjR92k3ByuwoU8?=
+ =?us-ascii?Q?oVtw295UrWKIluQ72wo6ERpoHpr8zeI5sK63w8kHl17CLb5JPzCWjeq/lF5C?=
+ =?us-ascii?Q?fOWbie5+xHdjfSSwoYccsW3ZCuFz2wPiCcsyBIrP9DscKq8Sn3JZ9CPGI/Z9?=
+ =?us-ascii?Q?+p+h0WdXXQe/PDwM3VoQH3l7kohWO2vtOLVe6eyeNV656sP8tf/6ybCbgOYi?=
+ =?us-ascii?Q?D8PVMJ9alTenICPWaUxTSMxm618NJiovSg1VQAe2mtYuQSKgz928+ptSDwsU?=
+ =?us-ascii?Q?yJDL3Af1uecUhjf8ygnxkzAcPzGwdvaQYyd85PmHQ/4grmzoH7mymav26/sU?=
+ =?us-ascii?Q?eTFwaC1WwNtqOAcNuzKUmlKrOnpmWIEScPIc+PicgaV0XwuuFtfB3rOxerhf?=
+ =?us-ascii?Q?bWsDA/2XXnL0PoNgzWhzZw4WwPvBIxgOXc+K8rSWZ8xOCaT+nDKvd6ZtQGY2?=
+ =?us-ascii?Q?UI4hkL+AGiaXimEZX3/bTCLt0J9sgF7INxvBPGMqvVHd/JwyUd+79seQbNz6?=
+ =?us-ascii?Q?V5ulx3xT7xt2zFWFFGyv0Fj9FsLqddJ7/AcW1pMDNkQ3l2X4iMg8SBXTpPdZ?=
+ =?us-ascii?Q?8HlqVIrqcTUv9xTYnfOhNOfdsIaye3ho/8Q3WDJLzQ9+pE0q29Ezb7AGJR2/?=
+ =?us-ascii?Q?gDoHZwT+8WgG8kTTsK2NFZH6SZJ663JvkYvkDluL1pYy3tonMflFABe4R5iX?=
+ =?us-ascii?Q?IhFJzx4DgI11q6tSF5UsQs5BtDwHsFScY38LYs/E2YtzTfZIEW+AzGgWPU5h?=
+ =?us-ascii?Q?df+n8CtGp3/t8VC1Rph3oshGRXdq7SFTa5KBPu4ZlkS9iILXq9Zi9CyT+Hbp?=
+ =?us-ascii?Q?vnpoDlUcvP2qgr8ZWtMlSjeLU+RIjZ/39DB0xradzDgG/j5tBDYB1GTmGYMa?=
+ =?us-ascii?Q?mEnMvsZV0LYEQy9q7aKVsugnOnaalkC4js1McQR/cDGicoelqACA1njXvDEG?=
+ =?us-ascii?Q?EFe/qzrMGhd/DSqVj9kLNxE62YMyAIkIC6LvRCmvR++ZJuVX/EmIVH26B4aj?=
+ =?us-ascii?Q?/cqy2jBlKJv6bdZrLRQvgUws76uptyKSulxJSWaGeZHL46TRKUJclFr6YTHO?=
+ =?us-ascii?Q?PXAQvoyNoB/5rcQk5q+9z19RVH6JLUd4ScF+69iVTAeXmcl2IpS+hUa2VYXB?=
+ =?us-ascii?Q?ZDR2RmLIosEdmUSrZPKyr+TDJH6TpseJmS0qug4w7ow41LAAuswd4cwNPH4h?=
+ =?us-ascii?Q?iupBE3hpm0k+5ycu7VcQw3ezzPQzIXV/Y4Ut9XovKln7EqD+ztO80E/jvz+p?=
+ =?us-ascii?Q?tsvSqYug2lpJvnkENLC8ICKT78o=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f96008ec-b99a-4604-60f2-08d9fbc66a7d
+X-MS-Exchange-CrossTenant-Network-Message-Id: c43e9d41-0b82-4d8c-6a23-08d9fbc66aed
 X-MS-Exchange-CrossTenant-AuthSource: DB9PR08MB6748.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2022 20:59:46.0052 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2022 20:59:46.8332 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lJye9i7Ia5LVidd5+WM4zz2EIuHWBErewGC7HYVYhen22B+pUJKRKMUO/SskWZdLNSryowboFy08Ztx1SlKb3vTVXJ0uM4gUupb3LxlGkiA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: mzMcm6Zqgj9GdEh+KR1U9ayXypqb7DeRIU0d2H6nT8rJQNLK5zaV7j7WI8ubkWneocHyEQIMT7FXVz1jpyy8iSb8JdHwqCVlhs/R9yhYRWM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3710
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7d00::71e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7d00::71d
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7d00::71e;
+Received-SPF: pass client-ip=2a01:111:f400:7d00::71d;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -6
@@ -141,229 +141,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, behavior on copy-before-write operation failure is simple:
-report error to the guest.
-
-Let's implement alternative behavior: break the whole copy-before-write
-process (and corresponding backup job or NBD client) but keep guest
-working. It's needed if we consider guest stability as more important.
-
-The realisation is simple: on copy-before-write failure we immediately
-continue guest write operation and set s->snapshot_ret variable which
-will lead to all further and in-flight snapshot-API requests failure.
+Add tests for new option of copy-before-write filter: on-cbw-error.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qapi/block-core.json      | 27 ++++++++++++++++++-
- block/copy-before-write.c | 57 +++++++++++++++++++++++++++++++++------
- 2 files changed, 75 insertions(+), 9 deletions(-)
+ tests/qemu-iotests/tests/copy-before-write    | 128 ++++++++++++++++++
+ .../qemu-iotests/tests/copy-before-write.out  |   5 +
+ 2 files changed, 133 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/copy-before-write
+ create mode 100644 tests/qemu-iotests/tests/copy-before-write.out
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index f13b5ff942..e5206272aa 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4159,6 +4159,27 @@
-   'base': 'BlockdevOptionsGenericFormat',
-   'data': { '*bottom': 'str' } }
- 
-+##
-+# @OnCbwError:
+diff --git a/tests/qemu-iotests/tests/copy-before-write b/tests/qemu-iotests/tests/copy-before-write
+new file mode 100755
+index 0000000000..a32608f597
+--- /dev/null
++++ b/tests/qemu-iotests/tests/copy-before-write
+@@ -0,0 +1,128 @@
++#!/usr/bin/env python3
++# group: auto backup
 +#
-+# An enumeration of possible behaviors for copy-before-write operation
-+# failures.
++# Copyright (c) 2022 Virtuozzo International GmbH
 +#
-+# @break-guest-write: report the error to the guest. This way the state
-+#                     of copy-before-write process is kept OK and
-+#                     copy-before-write filter continues to work normally.
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
 +#
-+# @break-snapshot: continue guest write. Since this, the snapshot state
-+#                  provided by copy-before-write filter becomes broken.
-+#                  So, all in-flight and all further snapshot-access
-+#                  operations (through snapshot-access block driver)
-+#                  will fail.
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
 +#
-+# Since: 7.0
-+##
-+{ 'enum': 'OnCbwError',
-+  'data': [ 'break-guest-write', 'break-snapshot' ] }
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
- ##
- # @BlockdevOptionsCbw:
- #
-@@ -4180,11 +4201,15 @@
- #          modifications (or removing) of specified bitmap doesn't
- #          influence the filter. (Since 7.0)
- #
-+# @on-cbw-error: Behavior on failure of copy-before-write operation.
-+#                Default is @break-guest-write. (Since 7.0)
-+#
- # Since: 6.2
- ##
- { 'struct': 'BlockdevOptionsCbw',
-   'base': 'BlockdevOptionsGenericFormat',
--  'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap' } }
-+  'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap',
-+            '*on-cbw-error': 'OnCbwError' } }
- 
- ##
- # @BlockdevOptions:
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index 56aa7577c3..e89cc9799c 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -41,6 +41,7 @@
- typedef struct BDRVCopyBeforeWriteState {
-     BlockCopyState *bcs;
-     BdrvChild *target;
-+    OnCbwError on_cbw_error;
- 
-     /*
-      * @lock: protects access to @access_bitmap, @done_bitmap and
-@@ -65,6 +66,14 @@ typedef struct BDRVCopyBeforeWriteState {
-      * node. These areas must not be rewritten by guest.
-      */
-     BlockReqList frozen_read_reqs;
++import os
++import re
 +
-+    /*
-+     * @snapshot_error is normally zero. But on first copy-before-write failure
-+     * when @on_cbw_error == ON_CBW_ERROR_BREAK_SNAPSHOT, @snapshot_error takes
-+     * value of this error (<0). After that all in-flight and further
-+     * snaoshot-API requests will fail with that error.
-+     */
-+    int snapshot_error;
- } BDRVCopyBeforeWriteState;
- 
- static coroutine_fn int cbw_co_preadv(
-@@ -99,11 +108,25 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
-     end = QEMU_ALIGN_UP(offset + bytes, cluster_size);
- 
-     ret = block_copy(s->bcs, off, end - off, true);
--    if (ret < 0) {
-+    if (ret < 0 && s->on_cbw_error == ON_CBW_ERROR_BREAK_GUEST_WRITE) {
-         return ret;
-     }
- 
-     WITH_QEMU_LOCK_GUARD(&s->lock) {
-+        if (ret < 0) {
-+            assert(s->on_cbw_error == ON_CBW_ERROR_BREAK_SNAPSHOT);
-+            if (!s->snapshot_error) {
-+                s->snapshot_error = ret;
++import iotests
++from iotests import qemu_img_create, qemu_io
++
++
++temp_img = os.path.join(iotests.test_dir, 'temp')
++source_img = os.path.join(iotests.test_dir, 'source')
++size = '1M'
++
++
++class TestCbwError(iotests.QMPTestCase):
++    def tearDown(self):
++        self.vm.shutdown()
++        os.remove(temp_img)
++        os.remove(source_img)
++
++    def setUp(self):
++        qemu_img_create('-f', iotests.imgfmt, source_img, size)
++        qemu_img_create('-f', iotests.imgfmt, temp_img, size)
++        qemu_io('-c', 'write 0 1M', source_img)
++
++        self.vm = iotests.VM()
++        self.vm.launch()
++
++    def do_cbw_error(self, on_cbw_error):
++        result = self.vm.qmp('blockdev-add', {
++            'node-name': 'cbw',
++            'driver': 'copy-before-write',
++            'on-cbw-error': on_cbw_error,
++            'file': {
++                'driver': iotests.imgfmt,
++                'file': {
++                    'driver': 'file',
++                    'filename': source_img,
++                }
++            },
++            'target': {
++                'driver': iotests.imgfmt,
++                'file': {
++                    'driver': 'blkdebug',
++                    'image': {
++                        'driver': 'file',
++                        'filename': temp_img
++                    },
++                    'inject-error': [
++                        {
++                            'event': 'write_aio',
++                            'errno': 5,
++                            'immediately': False,
++                            'once': True
++                        }
++                    ]
++                }
 +            }
-+            /*
-+             * No need to wait for s->frozen_read_reqs: they will fail anyway,
-+             * as s->snapshot_error is set.
-+             *
-+             * We return 0, as error is handled. Guest operation should be
-+             * continued.
-+             */
-+            return 0;
-+        }
-         bdrv_set_dirty_bitmap(s->done_bitmap, off, end - off);
-         reqlist_wait_all(&s->frozen_read_reqs, off, end - off, &s->lock);
-     }
-@@ -176,6 +199,11 @@ static BlockReq *cbw_snapshot_read_lock(BlockDriverState *bs,
- 
-     QEMU_LOCK_GUARD(&s->lock);
- 
-+    if (s->snapshot_error) {
-+        g_free(req);
-+        return NULL;
-+    }
++        })
++        self.assert_qmp(result, 'return', {})
 +
-     if (bdrv_dirty_bitmap_next_zero(s->access_bitmap, offset, bytes) != -1) {
-         g_free(req);
-         return NULL;
-@@ -198,19 +226,26 @@ static BlockReq *cbw_snapshot_read_lock(BlockDriverState *bs,
-     return req;
- }
- 
--static void cbw_snapshot_read_unlock(BlockDriverState *bs, BlockReq *req)
-+static int cbw_snapshot_read_unlock(BlockDriverState *bs, BlockReq *req)
- {
-     BDRVCopyBeforeWriteState *s = bs->opaque;
- 
-     if (req->offset == -1 && req->bytes == -1) {
-         g_free(req);
--        return;
-+        /*
-+         * No real need to read snapshot_error under mutex here: we are actually
-+         * safe to ignore it and return 0, as this request was to s->target, and
-+         * can't be influenced by guest write. But if we can new read negative
-+         * s->snapshot_error let's return it, so that backup failed earlier.
-+         */
-+        return s->snapshot_error;
-     }
- 
-     QEMU_LOCK_GUARD(&s->lock);
- 
-     reqlist_remove_req(req);
-     g_free(req);
-+    return s->snapshot_error;
- }
- 
- static coroutine_fn int
-@@ -219,7 +254,7 @@ cbw_co_preadv_snapshot(BlockDriverState *bs, int64_t offset, int64_t bytes,
- {
-     BlockReq *req;
-     BdrvChild *file;
--    int ret;
-+    int ret, ret2;
- 
-     /* TODO: upgrade to async loop using AioTask */
-     while (bytes) {
-@@ -232,10 +267,13 @@ cbw_co_preadv_snapshot(BlockDriverState *bs, int64_t offset, int64_t bytes,
- 
-         ret = bdrv_co_preadv_part(file, offset, cur_bytes,
-                                   qiov, qiov_offset, 0);
--        cbw_snapshot_read_unlock(bs, req);
-+        ret2 = cbw_snapshot_read_unlock(bs, req);
-         if (ret < 0) {
-             return ret;
-         }
-+        if (ret2 < 0) {
-+            return ret2;
-+        }
- 
-         bytes -= cur_bytes;
-         offset += cur_bytes;
-@@ -253,7 +291,7 @@ cbw_co_snapshot_block_status(BlockDriverState *bs,
- {
-     BDRVCopyBeforeWriteState *s = bs->opaque;
-     BlockReq *req;
--    int ret;
-+    int ret, ret2;
-     int64_t cur_bytes;
-     BdrvChild *child;
- 
-@@ -273,9 +311,9 @@ cbw_co_snapshot_block_status(BlockDriverState *bs,
-         assert(ret & BDRV_BLOCK_ALLOCATED);
-     }
- 
--    cbw_snapshot_read_unlock(bs, req);
-+    ret2 = cbw_snapshot_read_unlock(bs, req);
- 
--    return ret;
-+    return ret < 0 ? ret : ret2;
- }
- 
- static int coroutine_fn cbw_co_pdiscard_snapshot(BlockDriverState *bs,
-@@ -366,6 +404,7 @@ static BlockdevOptionsCbw *cbw_parse_options(QDict *options, Error **errp)
-      * object for original options.
-      */
-     qdict_extract_subqdict(options, NULL, "bitmap");
-+    qdict_del(options, "on-cbw-error");
- 
- out:
-     visit_free(v);
-@@ -407,6 +446,8 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
-             return -EINVAL;
-         }
-     }
-+    s->on_cbw_error = opts->has_on_cbw_error ? opts->on_cbw_error :
-+            ON_CBW_ERROR_BREAK_GUEST_WRITE;
- 
-     bs->total_sectors = bs->file->bs->total_sectors;
-     bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
++        result = self.vm.qmp('blockdev-add', {
++            'node-name': 'access',
++            'driver': 'snapshot-access',
++            'file': 'cbw'
++        })
++        self.assert_qmp(result, 'return', {})
++
++        result = self.vm.hmp_qemu_io('cbw', 'write 0 1M')
++        self.assert_qmp(result, 'return', '')
++
++        result = self.vm.hmp_qemu_io('access', 'read 0 1M')
++        self.assert_qmp(result, 'return', '')
++
++        self.vm.shutdown()
++        log = self.vm.get_log()
++        log = re.sub(r'^\[I \d+\.\d+\] OPENED\n', '', log)
++        log = re.sub(r'\[I \+\d+\.\d+\] CLOSED\n?$', '', log)
++        log = iotests.filter_qemu_io(log)
++        return log
++
++    def test_break_snapshot_on_cbw_error(self):
++        """break-snapshot behavior:
++        Guest write succeed, but further snapshot-read fails, as snapshot is
++        broken.
++        """
++        log = self.do_cbw_error('break-snapshot')
++
++        self.assertEqual(log, """\
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read failed: Permission denied
++""")
++
++    def test_break_guest_write_on_cbw_error(self):
++        """break-guest-write behavior:
++        Guest write fails, but snapshot-access continues working and further
++        snapshot-read succeeds.
++        """
++        log = self.do_cbw_error('break-guest-write')
++
++        self.assertEqual(log, """\
++write failed: Input/output error
++read 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++""")
++
++
++if __name__ == '__main__':
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/tests/copy-before-write.out b/tests/qemu-iotests/tests/copy-before-write.out
+new file mode 100644
+index 0000000000..fbc63e62f8
+--- /dev/null
++++ b/tests/qemu-iotests/tests/copy-before-write.out
+@@ -0,0 +1,5 @@
++..
++----------------------------------------------------------------------
++Ran 2 tests
++
++OK
 -- 
 2.31.1
 
