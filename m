@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006D94C88EB
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:04:52 +0100 (CET)
-Received: from localhost ([::1]:48468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3554C889A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:58:04 +0100 (CET)
+Received: from localhost ([::1]:35536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOzNC-0000PH-QA
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:04:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46530)
+	id 1nOzGd-00082C-UC
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:58:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nOz6Z-0003Tx-7O
+ id 1nOz6c-0003UL-3z
  for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:47:42 -0500
-Received: from [2a00:1450:4864:20::42b] (port=46929
- helo=mail-wr1-x42b.google.com)
+Received: from [2a00:1450:4864:20::42a] (port=36583
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nOz6W-0007Aa-Vg
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:47:38 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id e10so1948738wro.13
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 01:47:36 -0800 (PST)
+ id 1nOz6Z-0007Bc-UT
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:47:41 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id r10so19547986wrp.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 01:47:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SBfeWOX3YKTOjWxwbQ6GNj0bh7YVir8jH0zEi/hdLKE=;
- b=kUUC6k3H+NsiQGBPFzDYEri7aKnOmL+WAfv9ij7KVqOpgD4CCSIuKGTtLfy1s5ZpUg
- boLAmqxQ5pzNHAXkupOSM/11YW/HePO/DqU6/jsN/AX/9VwgxlKt6suYcghdS2WdRHDs
- GJmT4ecoREOJS35tIt/T8l42hyZBRPzqpx35QDxoil8QJkIxHkg7j1D+Aat8pwl++XuB
- LS9nw8oUGR/qNydk9jwbJwMEBNadrsAVwSWQ6l2RdjK2MuS+c5AY/HUeLEIK9+CYqMb9
- OYqFKxrWhZZW45ux35hNJKS6oAzPAhfjnNeIzOJ6wRoHup1fm0i+0NXPpvUETlgX6kjL
- vyug==
+ bh=FEukhn5LuXoEMOF2RAOm0ngW9ZGKUNwyGsnNN8c0JYU=;
+ b=OAc8uy5+5sB7GDcltM7UzhfAdIUSdYcTpvy8aTn37pP6VVgxpaPXHP7HNXzdVVGte8
+ JvaE++3N3Y1pahl1oFUzbjHno5naBEA/4aRI18Kx97jcFWuzb+ocohYQahHWSTInPKpV
+ 0RBpXUc86EuYKyW78jTI9crxWRblk5dIwyPpFDx/slK/SHDHRXNrvYe8KgY6fbM1EDL7
+ bu+FRtcE27EPKw6kO+hHzj/UBbCKtK0of10rACu1o6xUTZ3sqt+lTlD6AZ9ZKqTtqFFs
+ TDu5ZbXJCopSefbSWT8zYYZwXYABt/A+cLFSjscmx5hNX3VgNw4KopPWccyuEz7HRLQs
+ o2wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SBfeWOX3YKTOjWxwbQ6GNj0bh7YVir8jH0zEi/hdLKE=;
- b=LLG08k6VyRZwG3b3PldDexBbt4I7p+FNHWzCelAsojp6ugudvgYNyp5EdZESBkAESF
- o2hDZLGzQXVROOnq/fPNhEpIq9l/8iheDoH4Iag6Z1qZkq27zJ1/VCMcOE5IsP1wlH3E
- GfxfT2ENhZkTKeDXsgguMcloevjS0zt6zyBabyUM3y6MdDqkLXFBrcspUrC2idrkS9Ah
- CIcq6xZRnn233/2+0DiTUt28u3PYvxrV2mZwDr4BHz9Jyeh+2/3yPVjPHiaa2hKIJ6EH
- 6eyHPo9WpR3dgduN5I4uNd+ZaYybhY1W94A8ZNH62C/5rSEoWpW6OQYHrBpK0lKfjCpK
- 5PhQ==
-X-Gm-Message-State: AOAM532GWGD38VZq0FgXvtG49D1Wq66rXaUAPkK/qyAAAyCnvIlSqxKQ
- PVLZH3N4lmsTi2LtUsjRTUxDQQ==
-X-Google-Smtp-Source: ABdhPJy7VIdJg/qPfWoYBZee/YBS8roSeXPLq2Z3xKhTZFWHaSFM3K2xg0cShaVJGAyYFx2LugZv4A==
-X-Received: by 2002:a5d:550d:0:b0:1ed:c155:6c2a with SMTP id
- b13-20020a5d550d000000b001edc1556c2amr18758355wrv.470.1646128055688; 
- Tue, 01 Mar 2022 01:47:35 -0800 (PST)
+ bh=FEukhn5LuXoEMOF2RAOm0ngW9ZGKUNwyGsnNN8c0JYU=;
+ b=74rJSmhMHGVq516rKO+ZO0jAIlfKl8qGa27PdJ3gaTw1UO19jyVA2VhzspT2vDXS4I
+ JvLytxZHgo3I0/wulYxeKWVHVYPVN4RiP3fvBfYtfr0tWu/27HlgBK+GX7PngWqdvtRJ
+ /Ixrm/oy79yF0cLYeYAb+ctIp0X0SQFBc5X1jlfUArYAX423RSE8PsadkOgcGxtEqztm
+ C2811/0P0Sxuvs2av87D8K9IISQPi/tZdby/sQ7Jp/H/bkOtld4keQzSxZKiBSHmts+X
+ 3lN9hdoXG/mmjmEYM6BCmeHXWtn6gtCdHvAAcEN7pvfR/LrhOAr4zaWsRcBCv8S2GzdP
+ 1y2w==
+X-Gm-Message-State: AOAM5306ncuoK0rNbDiHFaaVBVmA8sl47jCrTOFbE9YShY5VZct5b28O
+ RRn6CkhZjai2rqw0AeTJav32pQ==
+X-Google-Smtp-Source: ABdhPJz73u+OQR6BnnCA25ox8ez79d/kJqe80a+UT5VyXCGeslcQmrBnY+RL5K3dLMPyjPv+qZtu1Q==
+X-Received: by 2002:adf:a150:0:b0:1ee:72f9:7c07 with SMTP id
+ r16-20020adfa150000000b001ee72f97c07mr17894165wrr.674.1646128058601; 
+ Tue, 01 Mar 2022 01:47:38 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- o12-20020adfa10c000000b001efb97fae48sm7355191wro.80.2022.03.01.01.47.22
+ z5-20020a05600c0a0500b0037fa93193a8sm2601157wmp.44.2022.03.01.01.47.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 01:47:32 -0800 (PST)
+ Tue, 01 Mar 2022 01:47:34 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9D6A41FFC6;
+ by zen.linaroharston (Postfix) with ESMTP id BC2631FFC7;
  Tue,  1 Mar 2022 09:47:16 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 14/18] travis.yml: Update the s390x jobs to Ubuntu Focal
-Date: Tue,  1 Mar 2022 09:47:11 +0000
-Message-Id: <20220301094715.550871-15-alex.bennee@linaro.org>
+Subject: [PULL 15/18] gitlab: upgrade the job definition for s390x to 20.04
+Date: Tue,  1 Mar 2022 09:47:12 +0000
+Message-Id: <20220301094715.550871-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220301094715.550871-1-alex.bennee@linaro.org>
 References: <20220301094715.550871-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,76 +97,131 @@ Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
  "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+The new s390x machine has more of everything including the OS. As
+18.04 will soon be going we might as well get onto something moderately
+modern.
 
-QEMU will soon drop the support for Ubuntu 18.04, so let's update
-the Travis jobs that were still using this version to 20.04 instead.
-
-While we're at it, also remove an obsolete comment about Ubuntu
-Xenial being the default for our Travis jobs.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220221153423.1028465-1-thuth@redhat.com>
+Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220225172021.3493923-15-alex.bennee@linaro.org>
+Message-Id: <20220225172021.3493923-16-alex.bennee@linaro.org>
 
-diff --git a/.travis.yml b/.travis.yml
-index 41010ebe6b..c3c8048842 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -1,6 +1,3 @@
--# The current Travis default is a VM based 16.04 Xenial on GCE
--# Additional builds with specific requirements for a full VM need to
--# be added as additional matrix: entries later on
- os: linux
- dist: focal
- language: c
-@@ -190,7 +187,7 @@ jobs:
+diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
+index 056c374619..3e76a2034a 100644
+--- a/.gitlab-ci.d/custom-runners.yml
++++ b/.gitlab-ci.d/custom-runners.yml
+@@ -14,6 +14,6 @@ variables:
+   GIT_STRATEGY: clone
  
-     - name: "[s390x] GCC check-tcg"
-       arch: s390x
--      dist: bionic
-+      dist: focal
-       addons:
-         apt_packages:
-           - libaio-dev
-@@ -233,7 +230,7 @@ jobs:
+ include:
+-  - local: '/.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml'
++  - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml'
+   - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml'
+   - local: '/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml'
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+similarity index 87%
+rename from .gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml
+rename to .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+index f39d874a1e..0333872113 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+@@ -1,12 +1,12 @@
+-# All ubuntu-18.04 jobs should run successfully in an environment
++# All ubuntu-20.04 jobs should run successfully in an environment
+ # setup by the scripts/ci/setup/build-environment.yml task
+-# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
++# "Install basic packages to build QEMU on Ubuntu 20.04/20.04"
  
-     - name: "[s390x] GCC (other-softmmu)"
-       arch: s390x
--      dist: bionic
-+      dist: focal
-       addons:
-         apt_packages:
-           - libaio-dev
-@@ -263,10 +260,11 @@ jobs:
+-ubuntu-18.04-s390x-all-linux-static:
++ubuntu-20.04-s390x-all-linux-static:
+  needs: []
+  stage: build
+  tags:
+- - ubuntu_18.04
++ - ubuntu_20.04
+  - s390x
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+@@ -21,11 +21,11 @@ ubuntu-18.04-s390x-all-linux-static:
+  - make --output-sync -j`nproc` check V=1
+  - make --output-sync -j`nproc` check-tcg V=1
  
-     - name: "[s390x] GCC (user)"
-       arch: s390x
--      dist: bionic
-+      dist: focal
-       addons:
-         apt_packages:
-           - libgcrypt20-dev
-+          - libglib2.0-dev
-           - libgnutls28-dev
-           - ninja-build
-       env:
-@@ -274,7 +272,7 @@ jobs:
+-ubuntu-18.04-s390x-all:
++ubuntu-20.04-s390x-all:
+  needs: []
+  stage: build
+  tags:
+- - ubuntu_18.04
++ - ubuntu_20.04
+  - s390x
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+@@ -37,11 +37,11 @@ ubuntu-18.04-s390x-all:
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check V=1
  
-     - name: "[s390x] Clang (disable-tcg)"
-       arch: s390x
--      dist: bionic
-+      dist: focal
-       compiler: clang
-       addons:
-         apt_packages:
+-ubuntu-18.04-s390x-alldbg:
++ubuntu-20.04-s390x-alldbg:
+  needs: []
+  stage: build
+  tags:
+- - ubuntu_18.04
++ - ubuntu_20.04
+  - s390x
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+@@ -58,11 +58,11 @@ ubuntu-18.04-s390x-alldbg:
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check V=1
+ 
+-ubuntu-18.04-s390x-clang:
++ubuntu-20.04-s390x-clang:
+  needs: []
+  stage: build
+  tags:
+- - ubuntu_18.04
++ - ubuntu_20.04
+  - s390x
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+@@ -78,11 +78,11 @@ ubuntu-18.04-s390x-clang:
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check V=1
+ 
+-ubuntu-18.04-s390x-tci:
++ubuntu-20.04-s390x-tci:
+  needs: []
+  stage: build
+  tags:
+- - ubuntu_18.04
++ - ubuntu_20.04
+  - s390x
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+@@ -97,11 +97,11 @@ ubuntu-18.04-s390x-tci:
+  - ../configure --disable-libssh --enable-tcg-interpreter
+  - make --output-sync -j`nproc`
+ 
+-ubuntu-18.04-s390x-notcg:
++ubuntu-20.04-s390x-notcg:
+  needs: []
+  stage: build
+  tags:
+- - ubuntu_18.04
++ - ubuntu_20.04
+  - s390x
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
 -- 
 2.30.2
 
