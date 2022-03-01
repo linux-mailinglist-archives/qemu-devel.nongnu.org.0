@@ -2,89 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B04F4C9303
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 19:27:06 +0100 (CET)
-Received: from localhost ([::1]:38850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C096F4C9304
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 19:27:13 +0100 (CET)
+Received: from localhost ([::1]:39230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP7DF-0006Vv-7S
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 13:27:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56598)
+	id 1nP7DM-0006lc-Jd
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 13:27:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nP7AQ-000551-Qo
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:24:10 -0500
-Received: from [2607:f8b0:4864:20::102a] (port=43811
- helo=mail-pj1-x102a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nP7AP-0004nt-Ad
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:24:10 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- iq13-20020a17090afb4d00b001bc4437df2cso2961670pjb.2
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 10:24:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=DSheRycdDeRG7OKdDtLwk2sF/5q29jDrs7ZK5nn8ngg=;
- b=A48FGflbDJEr8OSeg7gx9c2h2a9bUkfsDhTTlxls8Swa2gxesahblPTsSJLgTiCMbU
- QR+PO4vQqZWR678S4IQxUCWvP7qzUrUhu7/01D4c9hjBgsQHbyThMMDFSK1NOZIUZA8p
- cbdyQdLnC+oQny8bJFxRJbSEM3d+m6z9SSbpzZc698YKNK1SX/oavM4dVvIGDzfFxvSp
- 6+HGE460Ch7KfFFB5iS5CgA3n+NZ3WtwBJW6/iwJ6Awrzyav72uprn0rY5TjNTe9RJEn
- r9tjGFNzkYNL5HxojF4PMMJ5CxwGkg1ZVz+YvR2E+dnV+BEn0LUiHnPJHM4hb/o2UPeh
- qq/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DSheRycdDeRG7OKdDtLwk2sF/5q29jDrs7ZK5nn8ngg=;
- b=KOy+4FIxpatkibqpGhFuImKc9zy5zvVgNxqfvfaGjBCoN1+FMU5q10TeO6qX/JQPW4
- onnhDFV4fX7AINr695wPE5T4ijVIbIHoyuIHtFK1abjGZNY80gAAj+aqLyHrj4GxeNFl
- HhcPgjpdytgzypNEjZ7U8kEoSVEhV9pcuhMnxI6uHcodwCfr2Aje38qkRSRQ94XPs00Z
- PD71OPPYQo3J70bpfS/Nx2NQJFIMSOoPWnb5wjXLg1Fsz1B6lIoOLDUliuyAvgQocvLN
- PF3dkxRD7THm6FNUg36SSG6U5X0j5weaEPYhtMda49iYkZwPBv/rwuDcd769xVs3YMBV
- Zv0Q==
-X-Gm-Message-State: AOAM530/+LPKPACQHYrYZPDdZy6rwyicqmZ2jjHv0w0JdGPK90QNIavP
- 9Ji6IPHfIrPoa3jc/s+BqjsduQ==
-X-Google-Smtp-Source: ABdhPJzxnJbHSKop8cwoPzBggGTB3phrpzBfcAvgu/0pclzRcM4oHdA+002sOZdXq30WBo6Li7yRxA==
-X-Received: by 2002:a17:90a:ab08:b0:1b9:c59:82c3 with SMTP id
- m8-20020a17090aab0800b001b90c5982c3mr22891161pjq.95.1646159047833; 
- Tue, 01 Mar 2022 10:24:07 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- s33-20020a056a0017a100b004bf85a94ef2sm18900019pfg.183.2022.03.01.10.24.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 10:24:07 -0800 (PST)
-Message-ID: <4b3307ab-0d90-6bdd-e5eb-84df496da01a@linaro.org>
-Date: Tue, 1 Mar 2022 08:24:03 -1000
+ (Exim 4.90_1)
+ (envelope-from <SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org>)
+ id 1nP7As-0005Hi-3n
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:24:39 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:38398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org>)
+ id 1nP7Ap-0004r2-0j
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:24:37 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 091A4B81BF4
+ for <qemu-devel@nongnu.org>; Tue,  1 Mar 2022 18:24:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EED8C340F0
+ for <qemu-devel@nongnu.org>; Tue,  1 Mar 2022 18:24:30 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="cPsu+Pfp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1646159066;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UhSvaSxnuwVg8z+lYMrcVY0V6HOk087dwrWAJX+wvNg=;
+ b=cPsu+PfpQ1E+NfY2QM+mqL0MsGFB6uJQhrXq/ZPOpHqQ46Hg0jj++Y00wshljoHRmFIYXF
+ sqrIz3aaStaOBaArIsWgtnsz0z2qiM7Ia9Q+X4rzhx+BpZAoD3c//ILGPSnO780HScVlDv
+ ioajV2t4PXvamB22Q/Mq+I0CvJu0Avc=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id df604b15
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Tue, 1 Mar 2022 18:24:26 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-2dbd97f9bfcso36332957b3.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 10:24:25 -0800 (PST)
+X-Gm-Message-State: AOAM533D/D0aIWTkg4yTtAh5+KseDOqUngcwq3tVDb6lsHE6hMUCkxse
+ do6zOg1DvtOpxAd//BYSXAPvTMbnHdznwehv+q0=
+X-Google-Smtp-Source: ABdhPJzIw8Ot6KvcnZ9E6xhmQNl/dygRLAw2fnVFuv34JvBJjjinbct/exl35nFBlEkP8cMk/Ry82yLphyC5sa7l+Vc=
+X-Received: by 2002:a81:1143:0:b0:2db:ccb4:b0a1 with SMTP id
+ 64-20020a811143000000b002dbccb4b0a1mr6755248ywr.499.1646159062762; Tue, 01
+ Mar 2022 10:24:22 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v8 09/14] target/riscv: rvk: add support for sha512
- related instructions for RV32 in zknh extension
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220301115828.355-1-liweiwei@iscas.ac.cn>
- <20220301115828.355-10-liweiwei@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220301115828.355-10-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <Yh4+9+UpanJWAIyZ@zx2c4.com> <Yh5fbe71BTT6xc8h@kroah.com>
+In-Reply-To: <Yh5fbe71BTT6xc8h@kroah.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Tue, 1 Mar 2022 19:24:11 +0100
+X-Gmail-Original-Message-ID: <CAHmME9oGcp7HNLeieptMKztgg7Fq4MnOuAEsiFJxsLbmjSuFCw@mail.gmail.com>
+Message-ID: <CAHmME9oGcp7HNLeieptMKztgg7Fq4MnOuAEsiFJxsLbmjSuFCw@mail.gmail.com>
+Subject: Re: propagating vmgenid outward and upward
+To: Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=HlCd=TM=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,23 +84,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, luruibo2000@163.com,
- lustrew@foxmail.com
+Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
+ Colm MacCarthaigh <colmmacc@amazon.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, adrian@parity.io,
+ KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
+ Linux PM <linux-pm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Theodore Ts'o <tytso@mit.edu>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/1/22 01:58, Weiwei Li wrote:
->   - add sha512sum0r, sha512sig0l, sha512sum1r, sha512sig1l, sha512sig0h and sha512sig1h instructions
-> 
-> Co-authored-by: Zewen Ye <lustrew@foxmail.com>
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
->   target/riscv/insn32.decode              |   6 ++
->   target/riscv/insn_trans/trans_rvk.c.inc | 100 ++++++++++++++++++++++++
->   2 files changed, 106 insertions(+)
+Hi Greg,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, Mar 1, 2022 at 7:01 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> A notifier block like this makes sense, but why tie onto the PM_ stuff?
+> This isn't power management issues, it's a system-wide change that I am
+> sure others will want to know about that doesn't reflect any power
+> changes.
+>
+> As much as I hate adding new notifiers in the kernel, that might be all
+> you need here.
 
-r~
+You might indeed be right. I guess I was thinking that "resuming from
+suspend" and "resuming from a VM fork" are kind of the same thing.
+There _is_ a certain kind of similarity between the two. I was hoping
+if the similarity was a strong enough one, maybe it'd make sense to do
+them together rather than adding another notifier. But I suppose you
+disagree, and it sounds like Rafael might too --
+<https://lore.kernel.org/lkml/CAJZ5v0g+GihH_b9YvwuHzdrUVNGXOeabOznDC1vK6qLi8gtSTQ@mail.gmail.com/>.
+Code-wise for me with WireGuard it's of course appealing to treat them
+the same, since it's like a one line change, but if I need to add a
+new notifier call there, it's not the end of the world.
+
+Jason
 
