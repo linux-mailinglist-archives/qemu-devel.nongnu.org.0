@@ -2,86 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97FA4C9285
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 19:03:31 +0100 (CET)
-Received: from localhost ([::1]:40448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1264C928C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 19:06:01 +0100 (CET)
+Received: from localhost ([::1]:43962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP6qQ-0004GA-DZ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 13:03:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50286)
+	id 1nP6sp-0006ee-PQ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 13:05:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nP6ny-0003QS-HO
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:00:58 -0500
-Received: from [2a00:1450:4864:20::42c] (port=44935
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nP6nx-00085C-5B
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:00:58 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id u1so21757825wrg.11
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 10:00:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=dII4/E7nT8P0EHlPIb8FQ4IezjgVFuFEwukcVtjA6gw=;
- b=x02if5M8ph4V/Ye0HcJLXFjKVsOMhVK/xsNd6L+CIjjtIUbNzggg3guSafQ3P0WKeI
- ac2z3PsTIxV47TNh7fI70EOz5HYeuEstOQYuN9Khur69xHMykOQTMrTHV6FRJwM0tCM4
- 8m+cx1t4BCVNGwtgXiCEfkB/C2/rCpJ2r5bXTbt9EOHdVZSObhW/12MJACMB72DvZ2DU
- iOFlK1sFiIbmyVsTx+YL36dJbyT47QurQ3rhgxP35RsgT8SD1K5dLe83TAcfB3Hkin+h
- ts7dOncwaLDFWIrOiJqIKJYSzB3AL934u8LWveU2KEi8T0d7OFnGMjcLSUSjztAvusj/
- /5Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=dII4/E7nT8P0EHlPIb8FQ4IezjgVFuFEwukcVtjA6gw=;
- b=kwPGScuBsh2Z/kwL/01KbKxuPy4bizkQgQYu/J6b3qYp2cnC5dIB9vXXCt/qVwbyea
- Zxv5qVNECl/P6XEPZocWNZRRwuffrDzhJxjepwMfRuCqUfRJaVayuZU8fXVy9zODox55
- fNLDp5WfOeGD2ZkAicN9V9oxccXqv7emnu11kUXkFRRZESGzyrF0WM4VCuZC4qIUY+p/
- vPbCS5C8AP0rlyiKa94dTFmSjoXTOrYb1HCw1p4ifaRes479sT9vIHkqH2eJYqjJ/rCc
- puUc8xk9Hcq64u4pjLbogV32vfRY1YAw783exKAPSVV6AT6QcR7M5rZqvyw71xH76HTc
- ZJzw==
-X-Gm-Message-State: AOAM530pcNJfVke0GU/ixwLpUjKHkc01tenP8fD+AR9vob0al2bla2Ri
- +v+i2DgkiDegDxMJJU09++qcxg==
-X-Google-Smtp-Source: ABdhPJxbL1lxCgT4MIg2AZnqHNc1Mpzr5bY+iBVQB0cQCt+dziY8QNLfWnBx0vz4QL6Mtfs4smBWoA==
-X-Received: by 2002:adf:c44d:0:b0:1ea:99b6:2c2a with SMTP id
- a13-20020adfc44d000000b001ea99b62c2amr20725054wrg.716.1646157654765; 
- Tue, 01 Mar 2022 10:00:54 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- p18-20020adfba92000000b001e4ae791663sm15147575wrg.62.2022.03.01.10.00.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 10:00:53 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F21CC1FFB7;
- Tue,  1 Mar 2022 18:00:52 +0000 (GMT)
-References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
- <20220211120747.3074-16-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.9; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v6 15/43] qtest/cxl: Introduce initial test for pxb-cxl
- only.
-Date: Tue, 01 Mar 2022 18:00:44 +0000
-In-reply-to: <20220211120747.3074-16-Jonathan.Cameron@huawei.com>
-Message-ID: <87pmn5lfhn.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1nP6oR-0003lH-Vr
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:01:28 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:35456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1nP6oN-0008Cc-JN
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:01:26 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5ECFA61384;
+ Tue,  1 Mar 2022 18:01:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 548CEC340EE;
+ Tue,  1 Mar 2022 18:01:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1646157679;
+ bh=BlXx4FNNlsIl9zw8EoTTYqALDbRkuyGZS0mdHI4RoMA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iEFkSTkWwXpMp7vsR4QZ/EJ3Oib4ZpUNZYzzsAzhylm2ksEYMVzN2682Dqakg9wuh
+ 5oD7D1L1KC35go81Ztkp8huNYQkMEDQlk348/XbQ5/vNFcVbnbq0T6c5zi6A5K0B/i
+ F5W/Q68bc/YoS97YzoNhuopdow5scGqyEfK7IKq0=
+Date: Tue, 1 Mar 2022 19:01:17 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: propagating vmgenid outward and upward
+Message-ID: <Yh5fbe71BTT6xc8h@kroah.com>
+References: <Yh4+9+UpanJWAIyZ@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yh4+9+UpanJWAIyZ@zx2c4.com>
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=gregkh@linuxfoundation.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,30 +64,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- .  Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: len.brown@intel.com, linux-hyperv@vger.kernel.org, colmmacc@amazon.com,
+ berrange@redhat.com, adrian@parity.io, kvm@vger.kernel.org, jannh@google.com,
+ linux-pm@vger.kernel.org, mst@redhat.com, linux-kernel@vger.kernel.org,
+ linux@dominikbrodowski.net, qemu-devel@nongnu.org, graf@amazon.com,
+ linux-crypto@vger.kernel.org, pavel@ucw.cz, rafael@kernel.org, tytso@mit.edu,
+ mikelley@microsoft.com, lersek@redhat.com, arnd@arndb.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Mar 01, 2022 at 04:42:47PM +0100, Jason A. Donenfeld wrote:
+> The easy way, and the way that I think I prefer, would be to just have a
+> sync notifier_block for this, just like we have with
+> register_pm_notifier(). From my perspective, it'd be simplest to just
+> piggy back on the already existing PM notifier with an extra event,
+> PM_POST_VMFORK, which would join the existing set of 7, following
+> PM_POST_RESTORE. I think that'd be coherent. However, if the PM people
+> don't want to play ball, we could always come up with our own
+> notifier_block. But I don't see the need. Plus, WireGuard *already*
+> uses the PM notifier for clearing keys, so code-wise for my use case,
+> that'd amount adding another case for PM_POST_VMFORK, in addition to the
+> currently existing PM_HIBERNATION_PREPARE and PM_SUSPEND_PREPARE cases,
+> which all would be treated the same way. Ezpz. So if that sounds like an
+> interesting thing to the PM people, I think I'd like to propose a patch
+> for that, possibly even for 5.18, given that it'd be very straight-
+> forward.
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+A notifier block like this makes sense, but why tie onto the PM_ stuff?
+This isn't power management issues, it's a system-wide change that I am
+sure others will want to know about that doesn't reflect any power
+changes.
 
-> Initial test with just pxb-cxl.  Other tests will be added
-> alongside functionality.
->
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+As much as I hate adding new notifiers in the kernel, that might be all
+you need here.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+thanks,
 
---=20
-Alex Benn=C3=A9e
+greg k-h
 
