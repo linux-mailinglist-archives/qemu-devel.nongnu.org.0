@@ -2,61 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C884C8B52
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 13:16:46 +0100 (CET)
-Received: from localhost ([::1]:33930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666FD4C8B59
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 13:18:52 +0100 (CET)
+Received: from localhost ([::1]:38120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP1Qr-0001yX-Ci
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 07:16:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59490)
+	id 1nP1Ss-0004rt-Ax
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 07:18:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nP1BD-0007WJ-9v; Tue, 01 Mar 2022 07:00:43 -0500
-Received: from smtp23.cstnet.cn ([159.226.251.23]:35834 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nP1BA-0007EX-3J; Tue, 01 Mar 2022 07:00:33 -0500
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowADHzsK4Ch5iwn2FAQ--.21639S16;
- Tue, 01 Mar 2022 20:00:05 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v8 14/14] target/riscv: rvk: expose zbk* and zk* properties
-Date: Tue,  1 Mar 2022 19:58:28 +0800
-Message-Id: <20220301115828.355-15-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220301115828.355-1-liweiwei@iscas.ac.cn>
-References: <20220301115828.355-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: rQCowADHzsK4Ch5iwn2FAQ--.21639S16
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF4xKFy3tFykZrW5Jrb_yoW8Ar1fpr
- y5JFZrKwnxJry3CayUtw1DJ3y8Ca1rC3sFq3yxZ3Z7Ar4fGr47GF1kGanYkr47Xr4UZF4f
- uF13ur1Fy390ya7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
- 4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
- 3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
- x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
- JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
- ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
- 67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
- IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E
- 14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
- 4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU
- OBTYUUUUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nP1F2-00025o-QK
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 07:04:32 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=36363
+ helo=mail-pj1-x102a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nP1F1-00083h-6j
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 07:04:32 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ g7-20020a17090a708700b001bb78857ccdso1855014pjk.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 04:04:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:references:in-reply-to:content-transfer-encoding;
+ bh=vw/sTpV6p1j4zVjAKC9hkSAuAakdAxo8wn+XFhKMk4c=;
+ b=XzKRiCUCVt2heyiRZFqVKQGgygPkUUn/cWgSdE9nXLl9F55yOoTvY+TCqXpWScO2Kl
+ 9uGGk/pKpc8OP6uL6flhN2X/clqIwEMQQvIIPTyDHthzaR8YlBqDvIazl8X+0h+jpDmQ
+ jasEx+si3DART4lWAZypGpwasqA14XJqIuxh/r/4y0OUSmA1rKn2TjnXtJbBbH9Ov221
+ 99N8EQUB2KnfkSTBeplPCWruxchyGOT8P2lyF0c8w4xb7ePedQTZnX6SbsMM+9os6rhb
+ FPhQJBu366wyE5Puk4Vh3u3uAyxXSt2kr45yCKQAQODKDIawHZlNfiT2Ewq7kPLcFcG0
+ T94A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:references:in-reply-to
+ :content-transfer-encoding;
+ bh=vw/sTpV6p1j4zVjAKC9hkSAuAakdAxo8wn+XFhKMk4c=;
+ b=c3byu6adVy0hvF9YRIqxdxPXmSheGcg7KBh+EfckWKEUv3G8WugIH+RtUzcK24f3fP
+ cUyVM0ec7p6aGELUD2W9N99VSejqHzmSbw6nxYI2X3Re0mLZzZWDEuxm+z9C97a5YFm7
+ 9l1+7R4gtY2v7zkmZNFXgm9KJ4CWvI24sRcUpFv5UxdTqZbdQ+wtLQ7L0igFAAWZnF1/
+ rystXdzLskcbEr17ab7oHZFBff1WLZlie+mJYreeXsvqxh2eR1evAUzwjos5NnHDLD+P
+ O9c+DTjYROZipwNb0p/w5fGUI8UWazHpukLDVvcQ6LDiqED5psGjwEiXtWk8RoZ2QfVK
+ 5NJg==
+X-Gm-Message-State: AOAM531uWJNtIKVvT+C4zJGgvy924ehPkLttpCsboV5dEXAZOIeeJaRu
+ RLRq5Si3yfLGZvC3u+W3sjE=
+X-Google-Smtp-Source: ABdhPJySq9NYtJM2bCvl19fjOlJqTuMygzyKrG7bYvABCd7BZrP49GNUexMhtydBeCgP9PTghgzB9w==
+X-Received: by 2002:a17:902:f242:b0:14f:e2d3:e251 with SMTP id
+ j2-20020a170902f24200b0014fe2d3e251mr24897535plc.19.1646136269676; 
+ Tue, 01 Mar 2022 04:04:29 -0800 (PST)
+Received: from [192.168.221.175] (62.red-95-127-166.staticip.rima-tde.net.
+ [95.127.166.62]) by smtp.gmail.com with ESMTPSA id
+ q7-20020a056a0002a700b004f357e3e42fsm16385003pfs.36.2022.03.01.04.04.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Mar 2022 04:04:28 -0800 (PST)
+Message-ID: <6f9309d2-83d4-c09e-794f-3e9bb9202460@gmail.com>
+Date: Tue, 1 Mar 2022 13:04:24 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH v2 00/22] isa: Resolve unneeded IRQ attributes from
+ ISADevice
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+References: <20220222193446.156717-1-shentey@gmail.com>
+ <086da51d-1ed3-2726-d3f1-b5984b33991d@gmail.com>
+In-Reply-To: <086da51d-1ed3-2726-d3f1-b5984b33991d@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,44 +96,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
- lazyparser@gmail.com, luruibo2000@163.com, lustrew@foxmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+On 27/2/22 23:40, Philippe Mathieu-Daudé wrote:
+> On 22/2/22 20:34, Bernhard Beschow wrote:
+>> v2:
+>> The newly QOM'ified devices now report an error to the user in their 
+>> realize
+>> functions if the configured IRQ number is greater than 15.
+>>
+>> v1:
+>> The IRQ attributes of ISADevice are hardcoded to support up to two 
+>> IRQs per
+>> device which creates an artificial limit. By not having the attributes 
+>> in the
+>> first place, this limitation can be avoided altogether.
+>>
+>> The IRQ attributes are mostly used for printing ('info qtree') and 
+>> there is one
+>> user, hw/ppc/pnv, to use the attributes directly. As it turns out, the 
+>> printing
+>> is redundant if the IRQ numbers are exposed as QOM properties and 
+>> hw/ppc/pnv
+>> can be easily ported away.
+>>
+>> The patch series is structured as follows: Patch 1-3 QOM'ify the last 
+>> devices
+>> which rely on printing their IRQ numbers via the ISADevice attributes. 
+>> Patch
+>> 4 and 5 remove the last users of the ISADevice attributes such that 
+>> they can be
+>> removed in patch 6. The remainder of the patch series is cleanup.
+>>
+>> Patch 6 turns isa_init_irq() into a trivial wrapper for isa_get_irq(). 
+>> That is,
+>> the former function becomes redundant. All users are therefore 
+>> converted to use
+>> isa_get_irq() directly. Finally, the last patch removes the now unused
+>> isa_init_irq().
+>>
+>>
+>> Bernhard Beschow (22):
+>>    hw/rtc/mc146818rtc: QOM'ify IRQ number
+>>    hw/rtc/m48t59-isa: QOM'ify IRQ number
+>>    hw/input/pckbd: QOM'ify IRQ numbers
+>>    hw/isa/isa-bus: Remove isabus_dev_print()
+>>    hw/ppc/pnv: Determine ns16550's IRQ number from QOM property
+>>    isa: Drop unused attributes from ISADevice
+>>    hw/audio/cs4231a: Disuse isa_init_irq()
+>>    hw/audio/gus: Disuse isa_init_irq()
+>>    hw/audio/sb16: Disuse isa_init_irq()
+>>    hw/block/fdc-isa: Disuse isa_init_irq()
+>>    hw/char/parallel: Disuse isa_init_irq()
+>>    hw/char/serial-isa: Disuse isa_init_irq()
+>>    hw/ide/isa: Disuse isa_init_irq()
+>>    hw/input/pckbd: Disuse isa_init_irq()
+>>    hw/ipmi/isa_ipmi_bt: Disuse isa_init_irq()
+>>    hw/ipmi/isa_ipmi_kcs: Disuse isa_init_irq()
+>>    hw/isa/piix4: Disuse isa_init_irq()
+>>    hw/net/ne2000-isa: Disuse isa_init_irq()
+>>    hw/rtc/m48t59-isa: Disuse isa_init_irq()
+>>    hw/tpm/tpm_tis_isa: Disuse isa_init_irq()
+>>    hw/isa/isa-bus: Disuse isa_init_irq()
+>>    isa: Remove unused isa_init_irq()
+> 
+> Series:
+> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 9e8bbce6f1..11a35fb5d6 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -816,7 +816,20 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
-     DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
-     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-+    DEFINE_PROP_BOOL("zbkb", RISCVCPU, cfg.ext_zbkb, false),
-+    DEFINE_PROP_BOOL("zbkc", RISCVCPU, cfg.ext_zbkc, false),
-+    DEFINE_PROP_BOOL("zbkx", RISCVCPU, cfg.ext_zbkx, false),
-     DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-+    DEFINE_PROP_BOOL("zk", RISCVCPU, cfg.ext_zk, false),
-+    DEFINE_PROP_BOOL("zkn", RISCVCPU, cfg.ext_zkn, false),
-+    DEFINE_PROP_BOOL("zknd", RISCVCPU, cfg.ext_zknd, false),
-+    DEFINE_PROP_BOOL("zkne", RISCVCPU, cfg.ext_zkne, false),
-+    DEFINE_PROP_BOOL("zknh", RISCVCPU, cfg.ext_zknh, false),
-+    DEFINE_PROP_BOOL("zkr", RISCVCPU, cfg.ext_zkr, false),
-+    DEFINE_PROP_BOOL("zks", RISCVCPU, cfg.ext_zks, false),
-+    DEFINE_PROP_BOOL("zksed", RISCVCPU, cfg.ext_zksed, false),
-+    DEFINE_PROP_BOOL("zksh", RISCVCPU, cfg.ext_zksh, false),
-+    DEFINE_PROP_BOOL("zkt", RISCVCPU, cfg.ext_zkt, false),
- 
-     DEFINE_PROP_BOOL("zdinx", RISCVCPU, cfg.ext_zdinx, false),
-     DEFINE_PROP_BOOL("zfinx", RISCVCPU, cfg.ext_zfinx, false),
--- 
-2.17.1
+If you can address the few comments, I'll queue the v3 via the
+MIPS tree.
 
+Thanks,
+
+Phil.
 
