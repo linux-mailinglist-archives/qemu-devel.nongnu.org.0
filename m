@@ -2,73 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332B54C83D8
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 07:16:15 +0100 (CET)
-Received: from localhost ([::1]:55296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF0E4C845D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 07:50:39 +0100 (CET)
+Received: from localhost ([::1]:60776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOvnx-00049W-St
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 01:16:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52236)
+	id 1nOwLG-0001E0-6k
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 01:50:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nOvmi-0003Rq-Hl; Tue, 01 Mar 2022 01:14:56 -0500
-Received: from [2607:f8b0:4864:20::d32] (port=36511
- helo=mail-io1-xd32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nOvmf-00087r-G1; Tue, 01 Mar 2022 01:14:55 -0500
-Received: by mail-io1-xd32.google.com with SMTP id r7so17396005iot.3;
- Mon, 28 Feb 2022 22:14:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gbDVw0qVmBpvw7E6fKYjFZ2aeorxCXlHe9VALgPiXTs=;
- b=MvZRO58Aa0JeiUBxqoGVq7+uMZYoSeIo5rF247CJsS+ZFZYUaoin9Miy+Rii/eo7vC
- AyWQgm14WFUr4O0b50K6RXxeMrZkPy7F17Tp624y2pyPMUeZr1b55ipHdQwlg7o9UOsB
- MvHMNVB9m2rEA3GohEOyR2mJ64WAS5/dx4yYo7iYCwuYHT5sMTZx4XxfJonbVYhiYfyu
- kV9U1go7SUwxZnqExMihV0qSJM0KI+5VxAW9K/0by6NC/LF1Cv4dKjKtgytrCjFDvbNC
- qhQ3CQpIgZ5EFnqCTawRVcypQezJQ5nF8tjeBSQA2O9a6lbWRFaHC9bO5ycmaA6sOR4Q
- il0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gbDVw0qVmBpvw7E6fKYjFZ2aeorxCXlHe9VALgPiXTs=;
- b=qbCZBCopWdUxDYYFMCKjgLRxxQ7MrrPPu7X9Zx7aK/LO6BhA39mPhaMopOaMjUOrZe
- j/Oh6VWWC5dGTmfoF2o8OYBLHlRBaMGSs08+tOgvKDd2SLSD8qNSUZqAF2V5NDkAqZrV
- GPY3ZVhXh3cM/RMbw22rJ6WncK6AXCWFYeDt8zbuJ+NN5S6Fx6eYFTE3vdk8uz9hFB68
- 1zj+vySRWOsI4WiaWt9scW9srDWf5qzrn1Mp/p1ZSv5O+ZO+558Nys7fswEwXFphHRK5
- chI6zdoIwNt6b2d1HKcWx4p0DdWKQy6B6X0Z/60otLJN3TbD3G8Q6471PHoJcMYsuIz5
- E8Jw==
-X-Gm-Message-State: AOAM532xP+bmxhWCo2oLXnHvqiLVVU8dKKykGXxnQc55Vr/hleDfTNEJ
- 4zTXeBaAkgi6zLc3zdcWh2o+Xm9jAJJKCtm4lcM=
-X-Google-Smtp-Source: ABdhPJx52rQgaxUg2GOg7eXMhSDQEA27zz3npWDXaiab7qHwj1/WsQJpMT5P+CmrXrzPsP33dNVoa+RVA7PBsF2qebI=
-X-Received: by 2002:a6b:d60a:0:b0:63a:be64:c652 with SMTP id
- w10-20020a6bd60a000000b0063abe64c652mr18322193ioa.27.1646115291398; Mon, 28
- Feb 2022 22:14:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
+ id 1nOwFd-00081Z-G9
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 01:44:49 -0500
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:43794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kshitij.suri@nutanix.com>)
+ id 1nOwFa-0006V5-QC
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 01:44:48 -0500
+Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 21SJ6rSc015219;
+ Mon, 28 Feb 2022 22:44:32 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=proofpoint20171006;
+ bh=9vARoc5tEfrCv0LNPooRMlevnMa0GTxPsLKqJcDA3Hc=;
+ b=xrGNuokPK7ZBY6W/xW7zxSJJ1S0VYhwGHwHN3lR3iYqDo+sQDxsr3dbpRnsUvpAVRTQs
+ PIgWs7boPUfJXfvvuCRHs3u5G4oLpsdU7BdZBhWjWFoh7aeYo+acf2LqVtpMS1i8HMnB
+ nC58wz/ZO8e1T8pmOMS9GgE8jrPTemQJls5VBbtnwRPkHPYMjG2zfucTH3jz5f4nhx/t
+ OSGgraJcEVpQIfj5NWFYIKR2HuDo2Ibw+VkG1R4MEngxTQTIXom6CCoiqLLF2HoKPjAi
+ YG3MQwXDrRZEBi3cLyAqym9xWhyIDxLEql0OKrMgJcP/h7RFHmLXODATo/agJUD9IoJU Og== 
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2106.outbound.protection.outlook.com [104.47.58.106])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3egue3j7b3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 28 Feb 2022 22:44:31 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d79kwoK2/tcPxuhEOPLa4n+enm7kxbqLT+UqlYfWNPyORTAi0mHPIQpxNioee9iN+RbXRXOcZQgLkFO80zzdTucuylKNoPKQn3juofHvMDUnzTIanby1uUYxoTj8M8ovZ1wNpe6eFIJe9J0ApFs1w/pE0r8vz9u9oBBWbhs+m2U4gCzRqy4/GOuam1eTMiq695iKTSj88vT8ZdEKIzO/FsVcWe4cASqzA710PoadAmd43R/Xz9rNTyKA3dqaebIYxc5sxna+cLVs9Y/JVGv8ae7p0Of+KhEM0Up0Zfkcan8HiZGbmXwmjz0x96SrbIkD99fulYmbQuPFbe/wI1VqLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9vARoc5tEfrCv0LNPooRMlevnMa0GTxPsLKqJcDA3Hc=;
+ b=CSk1nNuklNq/+KgPeD0KxdAMBfUM1DNghMiExS5nOPv+OPINiqzPlhMYJFUO43U1IAM8JhOyeYKpkqcjVN4tg1B0ZBnFM3CNl09hqIykMYk2RNCTxaJJgFRupCbb8naLs4zfArVATAuDfd1edQw9GbZrpbPiaxlOkyFZPcMgY/HfmeyNf0oLvdyZbs3WvA31lIWhSJRXVBHZR3eXbOm8pRdikA4L31oC5h+2qRMRh8GQ2CAOKaqUcyZoJUleN05KmCENzWpBtYkGBxvSl+y/1cnCSD8koCPz+Rs+HFuMPB0cvFMJ34xpIgn1ioQFG/zHhYzSE643MATr5AGOredJoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from SN6PR02MB4048.namprd02.prod.outlook.com (2603:10b6:805:2c::26)
+ by BY5PR02MB7011.namprd02.prod.outlook.com (2603:10b6:a03:23c::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Tue, 1 Mar
+ 2022 06:44:30 +0000
+Received: from SN6PR02MB4048.namprd02.prod.outlook.com
+ ([fe80::94d7:26e1:9b7a:657f]) by SN6PR02MB4048.namprd02.prod.outlook.com
+ ([fe80::94d7:26e1:9b7a:657f%5]) with mapi id 15.20.5017.027; Tue, 1 Mar 2022
+ 06:44:29 +0000
+From: Kshitij Suri <kshitij.suri@nutanix.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/2] Replacing CONFIG_VNC_PNG with CONFIG_PNG
+Date: Tue,  1 Mar 2022 06:44:23 +0000
+Message-Id: <20220301064424.136234-1-kshitij.suri@nutanix.com>
+X-Mailer: git-send-email 2.22.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0208.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::33) To SN6PR02MB4048.namprd02.prod.outlook.com
+ (2603:10b6:805:2c::26)
 MIME-Version: 1.0
-References: <20220219002518.1936806-1-atishp@rivosinc.com>
- <20220219002518.1936806-8-atishp@rivosinc.com>
-In-Reply-To: <20220219002518.1936806-8-atishp@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 1 Mar 2022 16:14:24 +1000
-Message-ID: <CAKmqyKN0DTiPNs_gn4Z+RCViDSFGpXZw1wFX5s57zNg1caLzug@mail.gmail.com>
-Subject: Re: [PATCH v5 07/12] target/riscv: Support mcycle/minstret write
- operation
-To: Atish Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e6e6981a-f8e7-4303-3458-08d9fb4eefad
+X-MS-TrafficTypeDiagnostic: BY5PR02MB7011:EE_
+X-Microsoft-Antispam-PRVS: <BY5PR02MB701129773CEB28019376010B99029@BY5PR02MB7011.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bqOFT0Fbw0v8yRAzoG7729PatiQPofIEdOUSOMIxh4a+VZNtDxCJkgRg2pr3imPWe5YllIgAYva5FjAb45wRiZBRnHnH7IZF0UImJ9jKZ2oHf0TNEeDSnt7MFEouhxawt7E0n2Phw+y52iUXS6a8wzo9FWxIFn1pomVbyetGsMComzLFvmovMBRQdM4jnOOJzNcyl1wmWCMazXZwlVSKeL5HytDlx7dRuKcAGdClBFneJaYfaCYwgyjwXj87dSkVWZpK502CNOt+TskBUPEGyYYWgj3F4IMdf6hS2x5CM9XjKPTMvu95Wfj8NJtKQFNnRJo16lJxqdqievsMg+S9D6qD9cvMdWWKpUPY6lcrJgRE2kpZ9X+w4FIcQXPVqmxJhru4DyUxzKuWT+YJJgMY0a8GZrzk1+NcJ6fJquBFKdoBHTwgWjtMljhWbM26VaqdgPZFmUj4wvMtiYYf5+3KNND87I05IQxvTGY0crGjWvxJYRCxRl7yHbQELFbQXBhrKo5enuLP0mtQIYPwtiWPp+jNO90UAstHmLYjJIkRNZm+8aX3senndNlAEZXUD+aiqBj0yPAiPiVDrmccaGW71Gl3uBrmynzHTpUty0TJ7x0KJEIcQl3O278Fe/+/gb3ixSO3PSwQTj2RXLNWzVqmDFF5G0qcLEXEoEHpLMl7m03eg3fY9yexBKHpymad3FLfM+kMjSTjQAZp7+i4uLyKPg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR02MB4048.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(107886003)(186003)(6512007)(6666004)(83380400001)(6506007)(6916009)(1076003)(2616005)(26005)(6486002)(316002)(52116002)(8936002)(5660300002)(44832011)(508600001)(2906002)(86362001)(38100700002)(38350700002)(36756003)(4326008)(66946007)(66556008)(66476007)(8676002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZafqwR+hqzY7LLvRp65QN4+nrplF0msOWCe/dvZ6ZMxdn1JQ7Y0KS+aJdIUK?=
+ =?us-ascii?Q?q8dmQVjwR+K18kXV4RrsdgUZ1IFjOEJIOiC6we1/jnneVZH7MsjiCm1+7vYS?=
+ =?us-ascii?Q?L0GM6LOvQwpek4DjTboePzaELyky5xZLbx6PmaBagltSthk77/AkNYZMPpwZ?=
+ =?us-ascii?Q?OZlEn2BgBYhmzAHdyCnQvIp0+lQwzGUuPVkFtHLLfvhFrkFUmfJJQZmriGc5?=
+ =?us-ascii?Q?S/pGN2cryVhvd6TLAL+MTK2YnUQqzPfxkup6sKVzA/rkYszFo+vUWpZx9Jb4?=
+ =?us-ascii?Q?tQAV3nWt5QSFKna84IFq7iD6vuZU61EzoXhMi7AcuKsS2KayUHqNBf+tAZ88?=
+ =?us-ascii?Q?9GOXWRcOefJPcLqUOrBrtulCod0ldcv7sQ4YqFLMKBiQE9Kvbm/D5GJwWtUf?=
+ =?us-ascii?Q?ONuTTxwRZdSHQEQM1EmkHcnak8O5UoQSWju0SOunkCrw8wRX7qp93BUeJk4K?=
+ =?us-ascii?Q?BtK8ytyBkQrGOoV16odkP8DHnRNKIpygAXEv+Gw7jOGYDHTcNMWHmsDA2tgD?=
+ =?us-ascii?Q?zOlpvlkR71pHx1n8cG2lG+1Xfe86ZdwdIo7xg3Zd1IHUbzb1uAoXOknJxNkQ?=
+ =?us-ascii?Q?Vqy8fP6hZ/1FHGR+3sEHvvbPzTFJhDVzHmZzuMT1Vs9/CVy4wOpgan+IAxFM?=
+ =?us-ascii?Q?27PB2YIW7uDbP6zomjjAXmCa+qNTdsbQ6FnaX1jf+UVYkO6ZWFAF959UkoPr?=
+ =?us-ascii?Q?/v2sMGt0Qx/HF0/93DT+PR5ZHPrmJbQFZHh7/BQ2Tdf/Gan51Q3gT4Ezkw2B?=
+ =?us-ascii?Q?VU3kQ5peDxypE2jQDYOn3ljt9uSxrKaOB7ipC1PBlftFvbdohQXdci39VSrE?=
+ =?us-ascii?Q?pEClyUHYWfdW5N+tZLVB4b6J92OtMPkU+kyfGxvbV6QJkbsnpDQYjW6xf00g?=
+ =?us-ascii?Q?VKIpD+S1xgPdCRKwii9gVklDAMY/9z+BWGEd9iObMT9cHjFRGPlpqOVD/3ak?=
+ =?us-ascii?Q?GiZdiIkAy7fsq0FnxHRMg2Uxzy8MW6A11vlW1yqsQuWIEl4bjrnMjoO9ct07?=
+ =?us-ascii?Q?QPMxLwCuR4OIbKHGd/OwPSoLfv8Yw9XTN1GeIshLWRwZEkQIF2q9b3Tt33v2?=
+ =?us-ascii?Q?B03DtrezR8PLy6cJvaPpyUgbrAINH2H6FxJyiidCq9NiEk+A7Jctaw5pLW3Y?=
+ =?us-ascii?Q?e3cPuX8s4AKGtCFewJIpNw+wbzHweWqk2k1S+GgT29S0gT4o/N1xaj2X4Rv4?=
+ =?us-ascii?Q?gLFSrNhcJcOr7UEU3APeOtVCY5YidWWfAIIjfJ7aNVJh0BveByXB2WgauCUQ?=
+ =?us-ascii?Q?+xoedYeBe5vH/86P7e5WKuMw3wc0GDNrLIVY8LGi5UygHvrxFFIP8Q3mZ/Fe?=
+ =?us-ascii?Q?DAKulkodrH5qu0ideRBFqSlhmiajT6eZC59c4jVtXKeJkIG3X7CSKm6W2oOo?=
+ =?us-ascii?Q?sVHgq10eaqji6ovRFs6634IF+tmbqA7YwbpakZJGs718naxeOeeXRW+m+Jjc?=
+ =?us-ascii?Q?1srPKL2cdVTO1tPsqObhmeI7vdxYG6JBDs7M1LRIgfbQ5Z8ngG41uAHRmY4P?=
+ =?us-ascii?Q?DRoGuZt04ag0LPUZF78dQGByFNAmwC2C61673yPR6n+AH/Ao32rOwWITCfQA?=
+ =?us-ascii?Q?mvgJGsrJzRR2hQjS0q8yYoLvLhWqMC12thSjkYQ9+XLcSqKeTUxggOpBJqEL?=
+ =?us-ascii?Q?z63UYc+QK/h0wtluRf54+uIZjq4TfdszsqQ8WiE5gha7h2YKLhKXbvVR/l9B?=
+ =?us-ascii?Q?3GGyNIgkEE1VBkuVVcepCDGnrQs=3D?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6e6981a-f8e7-4303-3458-08d9fb4eefad
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4048.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2022 06:44:29.8324 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JETee9gTURaxi9VR0Z0pG6c/loYx2j6mpue1RBO3npxXpFWK6GQCUQEPdY6aLO0KPUmvRzLFCso4VhmxhTq0Fm5PDqOTEbJOmx84hM12G5A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB7011
+X-Proofpoint-GUID: F6N7yJIQk8E8QOulZQ9iPGf-w3MRoCRJ
+X-Proofpoint-ORIG-GUID: F6N7yJIQk8E8QOulZQ9iPGf-w3MRoCRJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-02-28_10,2022-02-26_01,2022-02-23_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=kshitij.suri@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,474 +148,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: soham.ghosh@nutanix.com, thuth@redhat.com, prerna.saxena@nutanix.com,
+ dgilbert@redhat.com, armbru@redhat.com,
+ Kshitij Suri <kshitij.suri@nutanix.com>, kraxel@redhat.com,
+ prachatos.mitra@nutanix.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Feb 19, 2022 at 10:32 AM Atish Patra <atishp@rivosinc.com> wrote:
->
-> From: Atish Patra <atish.patra@wdc.com>
->
-> mcycle/minstret are actually WARL registers and can be written with any
-> given value. With SBI PMU extension, it will be used to store a initial
-> value provided from supervisor OS. The Qemu also need prohibit the counter
-> increment if mcountinhibit is set.
->
-> Support mcycle/minstret through generic counter infrastructure.
->
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->  target/riscv/cpu.h       |  23 +++++--
->  target/riscv/csr.c       | 145 +++++++++++++++++++++++++++------------
->  target/riscv/machine.c   |  25 ++++++-
->  target/riscv/meson.build |   1 +
->  target/riscv/pmu.c       |  32 +++++++++
->  target/riscv/pmu.h       |  28 ++++++++
->  6 files changed, 201 insertions(+), 53 deletions(-)
->  create mode 100644 target/riscv/pmu.c
->  create mode 100644 target/riscv/pmu.h
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index cce5c3538c89..68522acda4d2 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -109,7 +109,7 @@ typedef struct CPURISCVState CPURISCVState;
->  #endif
->
->  #define RV_VLEN_MAX 1024
-> -#define RV_MAX_MHPMEVENTS 29
-> +#define RV_MAX_MHPMEVENTS 32
->  #define RV_MAX_MHPMCOUNTERS 32
->
->  FIELD(VTYPE, VLMUL, 0, 3)
-> @@ -119,6 +119,18 @@ FIELD(VTYPE, VMA, 7, 1)
->  FIELD(VTYPE, VEDIV, 8, 2)
->  FIELD(VTYPE, RESERVED, 10, sizeof(target_ulong) * 8 - 11)
->
-> +typedef struct PMUCTRState {
-> +    /* Current value of a counter */
-> +    target_ulong mhpmcounter_val;
-> +    /* Current value of a counter in RV32*/
-> +    target_ulong mhpmcounterh_val;
-> +    /* Snapshot values of counter */
-> +    target_ulong mhpmcounter_prev;
-> +    /* Snapshort value of a counter in RV32 */
-> +    target_ulong mhpmcounterh_prev;
-> +    bool started;
-> +} PMUCTRState;
-> +
->  struct CPURISCVState {
->      target_ulong gpr[32];
->      target_ulong gprh[32]; /* 64 top bits of the 128-bit registers */
-> @@ -263,13 +275,10 @@ struct CPURISCVState {
->
->      target_ulong mcountinhibit;
->
-> -    /* PMU counter configured values */
-> -    target_ulong mhpmcounter_val[RV_MAX_MHPMCOUNTERS];
-> -
-> -    /* for RV32 */
-> -    target_ulong mhpmcounterh_val[RV_MAX_MHPMCOUNTERS];
-> +    /* PMU counter state */
-> +    PMUCTRState pmu_ctrs[RV_MAX_MHPMCOUNTERS];
->
-> -    /* PMU event selector configured values */
-> +    /* PMU event selector configured values. First three are unused*/
->      target_ulong mhpmevent_val[RV_MAX_MHPMEVENTS];
->
->      target_ulong sscratch;
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index dbb723a3307b..dc4d258205b3 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -20,6 +20,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/log.h"
->  #include "cpu.h"
-> +#include "pmu.h"
->  #include "qemu/main-loop.h"
->  #include "exec/exec-all.h"
->
-> @@ -539,39 +540,33 @@ static int write_vcsr(CPURISCVState *env, int csrno, target_ulong val)
->  }
->
->  /* User Timers and Counters */
-> -static RISCVException read_instret(CPURISCVState *env, int csrno,
-> -                                   target_ulong *val)
-> +static target_ulong get_icount_ticks(bool rv32)
+Libpng is only detected if VNC is enabled currently. This patch adds a
+generalised png option in the meson build which is aimed to replace use of
+CONFIG_VNC_PNG with CONFIG_PNG.
 
-Maybe get_ticks() instead?
+Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
+---
+ meson.build        |  9 ++++-----
+ meson_options.txt  |  4 ++--
+ ui/vnc-enc-tight.c | 18 +++++++++---------
+ ui/vnc.c           |  4 ++--
+ ui/vnc.h           |  2 +-
+ 5 files changed, 18 insertions(+), 19 deletions(-)
 
-Also rv32 could be something more descriptive, maybe just shift instead?
+diff --git a/meson.build b/meson.build
+index 8df40bfac4..3b67f83a2c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1112,14 +1112,13 @@ if gtkx11.found()
+   x11 = dependency('x11', method: 'pkg-config', required: gtkx11.found(),
+                    kwargs: static_kwargs)
+ endif
++png = dependency('libpng', required: get_option('png'),
++                 method: 'pkg-config', kwargs: static_kwargs)
+ vnc = not_found
+-png = not_found
+ jpeg = not_found
+ sasl = not_found
+ if get_option('vnc').allowed() and have_system
+   vnc = declare_dependency() # dummy dependency
+-  png = dependency('libpng', required: get_option('vnc_png'),
+-                   method: 'pkg-config', kwargs: static_kwargs)
+   jpeg = dependency('libjpeg', required: get_option('vnc_jpeg'),
+                     method: 'pkg-config', kwargs: static_kwargs)
+   sasl = cc.find_library('sasl2', has_headers: ['sasl/sasl.h'],
+@@ -1537,9 +1536,9 @@ config_host_data.set('CONFIG_TPM', have_tpm)
+ config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+ config_host_data.set('CONFIG_VDE', vde.found())
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
++config_host_data.set('CONFIG_PNG', png.found())
+ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+-config_host_data.set('CONFIG_VNC_PNG', png.found())
+ config_host_data.set('CONFIG_VNC_SASL', sasl.found())
+ config_host_data.set('CONFIG_VIRTFS', have_virtfs)
+ config_host_data.set('CONFIG_VTE', vte.found())
+@@ -3579,11 +3578,11 @@ summary_info += {'curses support':    curses}
+ summary_info += {'virgl support':     virgl}
+ summary_info += {'curl support':      curl}
+ summary_info += {'Multipath support': mpathpersist}
++summary_info += {'PNG support':       png}
+ summary_info += {'VNC support':       vnc}
+ if vnc.found()
+   summary_info += {'VNC SASL support':  sasl}
+   summary_info += {'VNC JPEG support':  jpeg}
+-  summary_info += {'VNC PNG support':   png}
+ endif
+ if targetos not in ['darwin', 'haiku', 'windows']
+   summary_info += {'OSS support':     oss}
+diff --git a/meson_options.txt b/meson_options.txt
+index 52b11cead4..d85734f8e6 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -177,12 +177,12 @@ option('vde', type : 'feature', value : 'auto',
+        description: 'vde network backend support')
+ option('virglrenderer', type : 'feature', value : 'auto',
+        description: 'virgl rendering support')
++option('png', type : 'feature', value : 'auto',
++       description: 'PNG support with libpng')
+ option('vnc', type : 'feature', value : 'auto',
+        description: 'VNC server')
+ option('vnc_jpeg', type : 'feature', value : 'auto',
+        description: 'JPEG lossy compression for VNC server')
+-option('vnc_png', type : 'feature', value : 'auto',
+-       description: 'PNG compression for VNC server')
+ option('vnc_sasl', type : 'feature', value : 'auto',
+        description: 'SASL authentication for VNC server')
+ option('vte', type : 'feature', value : 'auto',
+diff --git a/ui/vnc-enc-tight.c b/ui/vnc-enc-tight.c
+index cebd35841a..a23ad712eb 100644
+--- a/ui/vnc-enc-tight.c
++++ b/ui/vnc-enc-tight.c
+@@ -32,7 +32,7 @@
+    INT32 definitions between jmorecfg.h (included by jpeglib.h) and
+    Win32 basetsd.h (included by windows.h). */
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ /* The following define is needed by pngconf.h. Otherwise it won't compile,
+    because setjmp.h was already included by qemu-common.h. */
+ #define PNG_SKIP_SETJMP_CHECK
+@@ -95,7 +95,7 @@ static const struct {
+ };
+ #endif
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ static const struct {
+     int png_zlib_level, png_filters;
+ } tight_png_conf[] = {
+@@ -919,7 +919,7 @@ static int send_full_color_rect(VncState *vs, int x, int y, int w, int h)
+     int stream = 0;
+     ssize_t bytes;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         return send_png_rect(vs, x, y, w, h, NULL);
+     }
+@@ -966,7 +966,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
+     int stream = 1;
+     int level = tight_conf[vs->tight->compression].mono_zlib_level;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         int ret;
+         int bpp = vs->client_pf.bytes_per_pixel * 8;
+@@ -1020,7 +1020,7 @@ static int send_mono_rect(VncState *vs, int x, int y,
+ struct palette_cb_priv {
+     VncState *vs;
+     uint8_t *header;
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     png_colorp png_palette;
+ #endif
+ };
+@@ -1082,7 +1082,7 @@ static int send_palette_rect(VncState *vs, int x, int y,
+     int colors;
+     ssize_t bytes;
+ 
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     if (tight_can_send_png_rect(vs, w, h)) {
+         return send_png_rect(vs, x, y, w, h, palette);
+     }
+@@ -1233,7 +1233,7 @@ static int send_jpeg_rect(VncState *vs, int x, int y, int w, int h, int quality)
+ /*
+  * PNG compression stuff.
+  */
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+ static void write_png_palette(int idx, uint32_t pix, void *opaque)
+ {
+     struct palette_cb_priv *priv = opaque;
+@@ -1379,7 +1379,7 @@ static int send_png_rect(VncState *vs, int x, int y, int w, int h,
+     buffer_reset(&vs->tight->png);
+     return 1;
+ }
+-#endif /* CONFIG_VNC_PNG */
++#endif /* CONFIG_PNG */
+ 
+ static void vnc_tight_start(VncState *vs)
+ {
+@@ -1706,7 +1706,7 @@ void vnc_tight_clear(VncState *vs)
+ #ifdef CONFIG_VNC_JPEG
+     buffer_free(&vs->tight->jpeg);
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     buffer_free(&vs->tight->png);
+ #endif
+ }
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 3ccd33dedc..a588ddff1c 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -2165,7 +2165,7 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
+             vs->features |= VNC_FEATURE_TIGHT_MASK;
+             vs->vnc_encoding = enc;
+             break;
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+         case VNC_ENCODING_TIGHT_PNG:
+             vs->features |= VNC_FEATURE_TIGHT_PNG_MASK;
+             vs->vnc_encoding = enc;
+@@ -3248,7 +3248,7 @@ static void vnc_connect(VncDisplay *vd, QIOChannelSocket *sioc,
+ #ifdef CONFIG_VNC_JPEG
+     buffer_init(&vs->tight->jpeg,     "vnc-tight-jpeg/%p", sioc);
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     buffer_init(&vs->tight->png,      "vnc-tight-png/%p", sioc);
+ #endif
+     buffer_init(&vs->zlib.zlib,      "vnc-zlib/%p", sioc);
+diff --git a/ui/vnc.h b/ui/vnc.h
+index a7149831f9..a60fb13115 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -201,7 +201,7 @@ typedef struct VncTight {
+ #ifdef CONFIG_VNC_JPEG
+     Buffer jpeg;
+ #endif
+-#ifdef CONFIG_VNC_PNG
++#ifdef CONFIG_PNG
+     Buffer png;
+ #endif
+     int levels[4];
+-- 
+2.22.3
 
-Otherwise:
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
->  {
-> +    int64_t val;
-> +    target_ulong result;
-> +
->  #if !defined(CONFIG_USER_ONLY)
->      if (icount_enabled()) {
-> -        *val = icount_get();
-> +        val = icount_get();
->      } else {
-> -        *val = cpu_get_host_ticks();
-> +        val = cpu_get_host_ticks();
->      }
->  #else
-> -    *val = cpu_get_host_ticks();
-> +    val = cpu_get_host_ticks();
->  #endif
-> -    return RISCV_EXCP_NONE;
-> -}
->
-> -static RISCVException read_instreth(CPURISCVState *env, int csrno,
-> -                                    target_ulong *val)
-> -{
-> -#if !defined(CONFIG_USER_ONLY)
-> -    if (icount_enabled()) {
-> -        *val = icount_get() >> 32;
-> +    if (rv32) {
-> +        result = val >> 32;
->      } else {
-> -        *val = cpu_get_host_ticks() >> 32;
-> +        result = val;
->      }
-> -#else
-> -    *val = cpu_get_host_ticks() >> 32;
-> -#endif
-> -    return RISCV_EXCP_NONE;
-> +
-> +    return result;
->  }
->
->  static int read_mhpmevent(CPURISCVState *env, int csrno, target_ulong *val)
->  {
-> -    int evt_index = csrno - CSR_MHPMEVENT3;
-> +    int evt_index = csrno - CSR_MCOUNTINHIBIT;
->
->      *val = env->mhpmevent_val[evt_index];
->
-> @@ -580,7 +575,7 @@ static int read_mhpmevent(CPURISCVState *env, int csrno, target_ulong *val)
->
->  static int write_mhpmevent(CPURISCVState *env, int csrno, target_ulong val)
->  {
-> -    int evt_index = csrno - CSR_MHPMEVENT3;
-> +    int evt_index = csrno - CSR_MCOUNTINHIBIT;
->
->      env->mhpmevent_val[evt_index] = val;
->
-> @@ -589,52 +584,102 @@ static int write_mhpmevent(CPURISCVState *env, int csrno, target_ulong val)
->
->  static int write_mhpmcounter(CPURISCVState *env, int csrno, target_ulong val)
->  {
-> -    int ctr_index = csrno - CSR_MHPMCOUNTER3 + 3;
-> +    int ctr_idx = csrno - CSR_MCYCLE;
-> +    PMUCTRState *counter = &env->pmu_ctrs[ctr_idx];
->
-> -    env->mhpmcounter_val[ctr_index] = val;
-> +    counter->mhpmcounter_val = val;
-> +    if (riscv_pmu_ctr_monitor_cycles(env, ctr_idx) ||
-> +        riscv_pmu_ctr_monitor_instructions(env, ctr_idx)) {
-> +        counter->mhpmcounter_prev = get_icount_ticks(false);
-> +    } else {
-> +        /* Other counters can keep incrementing from the given value */
-> +        counter->mhpmcounter_prev = val;
-> +    }
->
->      return RISCV_EXCP_NONE;
->  }
->
->  static int write_mhpmcounterh(CPURISCVState *env, int csrno, target_ulong val)
->  {
-> -    int ctr_index = csrno - CSR_MHPMCOUNTER3H + 3;
-> +    int ctr_idx = csrno - CSR_MCYCLEH;
-> +    PMUCTRState *counter = &env->pmu_ctrs[ctr_idx];
->
-> -    env->mhpmcounterh_val[ctr_index] = val;
-> +    counter->mhpmcounterh_val = val;
-> +    if (riscv_pmu_ctr_monitor_cycles(env, ctr_idx) ||
-> +        riscv_pmu_ctr_monitor_instructions(env, ctr_idx)) {
-> +        counter->mhpmcounterh_prev = get_icount_ticks(true);
-> +    } else {
-> +        counter->mhpmcounterh_prev = val;
-> +    }
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException riscv_pmu_read_ctr(CPURISCVState *env, target_ulong *val,
-> +                                         bool upper_half, uint32_t ctr_idx)
-> +{
-> +    PMUCTRState counter = env->pmu_ctrs[ctr_idx];
-> +    target_ulong ctr_prev = upper_half ? counter.mhpmcounterh_prev :
-> +                                         counter.mhpmcounter_prev;
-> +    target_ulong ctr_val = upper_half ? counter.mhpmcounterh_val :
-> +                                        counter.mhpmcounter_val;
-> +
-> +    if (get_field(env->mcountinhibit, BIT(ctr_idx))) {
-> +        /**
-> +         * Counter should not increment if inhibit bit is set. We can't really
-> +         * stop the icount counting. Just return the counter value written by
-> +         * the supervisor to indicate that counter was not incremented.
-> +         */
-> +        if (!counter.started) {
-> +            *val = ctr_val;
-> +            return RISCV_EXCP_NONE;
-> +        } else {
-> +            /* Mark that the counter has been stopped */
-> +            counter.started = false;
-> +        }
-> +    }
-> +
-> +
-> +    /**
-> +     * The kernel computes the perf delta by subtracting the current value from
-> +     * the value it initialized previously (ctr_val).
-> +     */
-> +    if (riscv_pmu_ctr_monitor_cycles(env, ctr_idx) ||
-> +        riscv_pmu_ctr_monitor_instructions(env, ctr_idx)) {
-> +        *val = get_icount_ticks(upper_half) - ctr_prev + ctr_val;
-> +    } else {
-> +        *val = ctr_val;
-> +    }
->
->      return RISCV_EXCP_NONE;
->  }
->
->  static int read_hpmcounter(CPURISCVState *env, int csrno, target_ulong *val)
->  {
-> -    int ctr_index;
-> +    uint16_t ctr_index;
->
->      if (env->priv == PRV_M) {
-> -        ctr_index = csrno - CSR_MHPMCOUNTER3 + 3;
-> +        ctr_index = csrno - CSR_MCYCLE;
->      } else {
-> -        ctr_index = csrno - CSR_HPMCOUNTER3 + 3;
-> +        ctr_index = csrno - CSR_CYCLE;
->      }
-> -    *val = env->mhpmcounter_val[ctr_index];
->
-> -    return RISCV_EXCP_NONE;
-> +    return riscv_pmu_read_ctr(env, val, false, ctr_index);
->  }
->
->  static int read_hpmcounterh(CPURISCVState *env, int csrno, target_ulong *val)
->  {
-> -    int ctr_index;
-> +    uint16_t ctr_index;
->
->      if (env->priv == PRV_M) {
-> -        ctr_index = csrno - CSR_MHPMCOUNTER3H + 3;
-> +        ctr_index = csrno - CSR_MCYCLEH;
->      } else {
-> -        ctr_index = csrno - CSR_HPMCOUNTER3H + 3;
-> +        ctr_index = csrno - CSR_CYCLEH;
->      }
->
-> -    *val = env->mhpmcounterh_val[ctr_index];
-> -
-> -    return RISCV_EXCP_NONE;
-> +    return riscv_pmu_read_ctr(env, val, true, ctr_index);
->  }
->
-> -
->  #if defined(CONFIG_USER_ONLY)
->  static RISCVException read_time(CPURISCVState *env, int csrno,
->                                  target_ulong *val)
-> @@ -1468,11 +1513,23 @@ static RISCVException read_mcountinhibit(CPURISCVState *env, int csrno,
->  static RISCVException write_mcountinhibit(CPURISCVState *env, int csrno,
->                                            target_ulong val)
->  {
-> +    int cidx;
-> +    PMUCTRState *counter;
-> +
->      if (env->priv_ver < PRIV_VERSION_1_11_0) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
->
->      env->mcountinhibit = val;
-> +
-> +    /* Check if any other counter is also monitoring cycles/instructions */
-> +    for (cidx = 0; cidx < RV_MAX_MHPMCOUNTERS; cidx++) {
-> +        if (!get_field(env->mcountinhibit, BIT(cidx))) {
-> +            counter = &env->pmu_ctrs[cidx];
-> +            counter->started = true;
-> +        }
-> +    }
-> +
->      return RISCV_EXCP_NONE;
->  }
->
-> @@ -3347,10 +3404,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_VLENB]    = { "vlenb",    vs,    read_vlenb,
->                                            .min_priv_ver = PRIV_VERSION_1_12_0 },
->      /* User Timers and Counters */
-> -    [CSR_CYCLE]    = { "cycle",    ctr,    read_instret  },
-> -    [CSR_INSTRET]  = { "instret",  ctr,    read_instret  },
-> -    [CSR_CYCLEH]   = { "cycleh",   ctr32,  read_instreth },
-> -    [CSR_INSTRETH] = { "instreth", ctr32,  read_instreth },
-> +    [CSR_CYCLE]    = { "cycle",    ctr,    read_hpmcounter  },
-> +    [CSR_INSTRET]  = { "instret",  ctr,    read_hpmcounter  },
-> +    [CSR_CYCLEH]   = { "cycleh",   ctr32,  read_hpmcounterh },
-> +    [CSR_INSTRETH] = { "instreth", ctr32,  read_hpmcounterh },
->
->      /*
->       * In privileged mode, the monitor will have to emulate TIME CSRs only if
-> @@ -3361,10 +3418,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->
->  #if !defined(CONFIG_USER_ONLY)
->      /* Machine Timers and Counters */
-> -    [CSR_MCYCLE]    = { "mcycle",    any,   read_instret  },
-> -    [CSR_MINSTRET]  = { "minstret",  any,   read_instret  },
-> -    [CSR_MCYCLEH]   = { "mcycleh",   any32, read_instreth },
-> -    [CSR_MINSTRETH] = { "minstreth", any32, read_instreth },
-> +    [CSR_MCYCLE]    = { "mcycle",    any,   read_hpmcounter, write_mhpmcounter},
-> +    [CSR_MINSTRET]  = { "minstret",  any,   read_hpmcounter, write_mhpmcounter},
-> +    [CSR_MCYCLEH]   = { "mcycleh",   any32, read_hpmcounterh, write_mhpmcounterh},
-> +    [CSR_MINSTRETH] = { "minstreth", any32, read_hpmcounterh, write_mhpmcounterh},
->
->      /* Machine Information Registers */
->      [CSR_MVENDORID] = { "mvendorid", any,   read_zero    },
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index 042d655ce3ef..1f2186935666 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -248,7 +248,28 @@ static const VMStateDescription vmstate_envcfg = {
->          VMSTATE_UINT64(env.menvcfg, RISCVCPU),
->          VMSTATE_UINTTL(env.senvcfg, RISCVCPU),
->          VMSTATE_UINT64(env.henvcfg, RISCVCPU),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static bool pmu_needed(void *opaque)
-> +{
-> +    RISCVCPU *cpu = opaque;
->
-> +    return cpu->cfg.pmu_num;
-> +}
-> +
-> +static const VMStateDescription vmstate_pmu_ctr_state = {
-> +    .name = "cpu/pmu",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = pmu_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINTTL(mhpmcounter_val, PMUCTRState),
-> +        VMSTATE_UINTTL(mhpmcounterh_val, PMUCTRState),
-> +        VMSTATE_UINTTL(mhpmcounter_prev, PMUCTRState),
-> +        VMSTATE_UINTTL(mhpmcounterh_prev, PMUCTRState),
-> +        VMSTATE_BOOL(started, PMUCTRState),
->          VMSTATE_END_OF_LIST()
->      }
->  };
-> @@ -300,8 +321,8 @@ const VMStateDescription vmstate_riscv_cpu = {
->          VMSTATE_UINTTL(env.scounteren, RISCVCPU),
->          VMSTATE_UINTTL(env.mcounteren, RISCVCPU),
->          VMSTATE_UINTTL(env.mcountinhibit, RISCVCPU),
-> -        VMSTATE_UINTTL_ARRAY(env.mhpmcounter_val, RISCVCPU, RV_MAX_MHPMCOUNTERS),
-> -        VMSTATE_UINTTL_ARRAY(env.mhpmcounterh_val, RISCVCPU, RV_MAX_MHPMCOUNTERS),
-> +        VMSTATE_STRUCT_ARRAY(env.pmu_ctrs, RISCVCPU, RV_MAX_MHPMCOUNTERS, 0,
-> +                             vmstate_pmu_ctr_state, PMUCTRState),
->          VMSTATE_UINTTL_ARRAY(env.mhpmevent_val, RISCVCPU, RV_MAX_MHPMEVENTS),
->          VMSTATE_UINTTL(env.sscratch, RISCVCPU),
->          VMSTATE_UINTTL(env.mscratch, RISCVCPU),
-> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-> index 91f0ac32ff3d..b41967b8c54a 100644
-> --- a/target/riscv/meson.build
-> +++ b/target/riscv/meson.build
-> @@ -27,6 +27,7 @@ riscv_softmmu_ss = ss.source_set()
->  riscv_softmmu_ss.add(files(
->    'arch_dump.c',
->    'pmp.c',
-> +  'pmu.c',
->    'monitor.c',
->    'machine.c'
->  ))
-> diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-> new file mode 100644
-> index 000000000000..000fe8da45ef
-> --- /dev/null
-> +++ b/target/riscv/pmu.c
-> @@ -0,0 +1,32 @@
-> +/*
-> + * RISC-V PMU file.
-> + *
-> + * Copyright (c) 2021 Western Digital Corporation or its affiliates.
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "pmu.h"
-> +
-> +bool riscv_pmu_ctr_monitor_instructions(CPURISCVState *env,
-> +                                        uint32_t target_ctr)
-> +{
-> +    return (target_ctr == 0) ? true : false;
-> +}
-> +
-> +bool riscv_pmu_ctr_monitor_cycles(CPURISCVState *env, uint32_t target_ctr)
-> +{
-> +    return (target_ctr == 2) ? true : false;
-> +}
-> diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
-> new file mode 100644
-> index 000000000000..58a5bc3a4089
-> --- /dev/null
-> +++ b/target/riscv/pmu.h
-> @@ -0,0 +1,28 @@
-> +/*
-> + * RISC-V PMU header file.
-> + *
-> + * Copyright (c) 2021 Western Digital Corporation or its affiliates.
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "cpu.h"
-> +#include "qemu/main-loop.h"
-> +#include "exec/exec-all.h"
-> +
-> +bool riscv_pmu_ctr_monitor_instructions(CPURISCVState *env,
-> +                                        uint32_t target_ctr);
-> +bool riscv_pmu_ctr_monitor_cycles(CPURISCVState *env,
-> +                                  uint32_t target_ctr);
-> --
-> 2.30.2
->
->
 
