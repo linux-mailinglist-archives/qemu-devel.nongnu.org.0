@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C774C9230
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 18:50:18 +0100 (CET)
-Received: from localhost ([::1]:36096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97FA4C9285
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 19:03:31 +0100 (CET)
+Received: from localhost ([::1]:40448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP6dZ-0000Mq-9q
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 12:50:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47200)
+	id 1nP6qQ-0004GA-DZ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 13:03:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nP6aw-0007IG-9q
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 12:47:30 -0500
-Received: from [2a00:1450:4864:20::52a] (port=36531
- helo=mail-ed1-x52a.google.com)
+ id 1nP6ny-0003QS-HO
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:00:58 -0500
+Received: from [2a00:1450:4864:20::42c] (port=44935
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nP6au-0003iC-Tc
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 12:47:30 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id cm8so23049537edb.3
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 09:47:28 -0800 (PST)
+ id 1nP6nx-00085C-5B
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 13:00:58 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id u1so21757825wrg.11
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 10:00:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=46fkMdfnhldasufV90xDHsl7VVgwtq23xkVkYCN993Y=;
- b=Zcw8gkvqyRpCx7TkAb7ewvbX3ESrUtgZgz1+tqTmW+xfrv5qEHo+dTIACLBazRzkG6
- LktcxuvBgvMZi0TZ74HzsvWWJay97EtiiFgRLFL9bp80cUfVY1uAZGb/+0m0jFsksuje
- 90j8REdw5T6TL/AIXOknC2I+//tzpCsKVEo+PLqkICMQV0GfzbP5LoUg371e2jjJU9Iz
- Yf67/Wg4GLhEFpb9tLBN1c8Y1INP0rx3+Mw7EmaGBNXrlnMCN8FgGB4eC+XeItvmMXw6
- oa/AfNwD6Jc7Iegt1QGO4vopaei9rJVDBtZ7PGso32bY9D3lc6WhsVcMIRGBQ+Fdfu6p
- f+kg==
+ bh=dII4/E7nT8P0EHlPIb8FQ4IezjgVFuFEwukcVtjA6gw=;
+ b=x02if5M8ph4V/Ye0HcJLXFjKVsOMhVK/xsNd6L+CIjjtIUbNzggg3guSafQ3P0WKeI
+ ac2z3PsTIxV47TNh7fI70EOz5HYeuEstOQYuN9Khur69xHMykOQTMrTHV6FRJwM0tCM4
+ 8m+cx1t4BCVNGwtgXiCEfkB/C2/rCpJ2r5bXTbt9EOHdVZSObhW/12MJACMB72DvZ2DU
+ iOFlK1sFiIbmyVsTx+YL36dJbyT47QurQ3rhgxP35RsgT8SD1K5dLe83TAcfB3Hkin+h
+ ts7dOncwaLDFWIrOiJqIKJYSzB3AL934u8LWveU2KEi8T0d7OFnGMjcLSUSjztAvusj/
+ /5Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=46fkMdfnhldasufV90xDHsl7VVgwtq23xkVkYCN993Y=;
- b=HkB+f89CHgUKh1XJPDOEt2yGUeY/xGGp16RrWFcyrsPm4q54YKGsFQGE3JuWSSov0Q
- KuvlmjizEYHbn6DaahSFAMJE7+IusnAJ5d15CgIFd0wQ1iKmIZI8v7+wHeTqBbPgxL2M
- eHndzcoCMuAMizjk/OQCu5eW0tfHEhsdNtYFw6i8FXfJcrv6XDSINn1Ci/74fCcc16Nu
- mQE16sP0kiRsu0gisulp8PhJEkfjjJGXz8iSi6EJXQIQs+6iul1CAucnFhpb1cjwH2pF
- MstxdQa32y2pvih0si++WGXZnvgPS9v6p0+haSha2OCswNRg0Qi+GR5tWMKWjEhdLnX9
- +8lg==
-X-Gm-Message-State: AOAM5324+852aub+TeS2Dv0wRSz1mxi6tb2bSfo8Ah8dxGNYTWyqUaqg
- YUXDOC7UXtMskEWN9AnOlZzF7g==
-X-Google-Smtp-Source: ABdhPJzGDqFNhnBcVeqndQdVVn1EIsHMjA0aFlvtBsu5SAJrnUqV36pcueRAofN9M+9pIUz3iChE5g==
-X-Received: by 2002:a05:6402:34c5:b0:411:f082:d69 with SMTP id
- w5-20020a05640234c500b00411f0820d69mr25570682edc.65.1646156847271; 
- Tue, 01 Mar 2022 09:47:27 -0800 (PST)
+ bh=dII4/E7nT8P0EHlPIb8FQ4IezjgVFuFEwukcVtjA6gw=;
+ b=kwPGScuBsh2Z/kwL/01KbKxuPy4bizkQgQYu/J6b3qYp2cnC5dIB9vXXCt/qVwbyea
+ Zxv5qVNECl/P6XEPZocWNZRRwuffrDzhJxjepwMfRuCqUfRJaVayuZU8fXVy9zODox55
+ fNLDp5WfOeGD2ZkAicN9V9oxccXqv7emnu11kUXkFRRZESGzyrF0WM4VCuZC4qIUY+p/
+ vPbCS5C8AP0rlyiKa94dTFmSjoXTOrYb1HCw1p4ifaRes479sT9vIHkqH2eJYqjJ/rCc
+ puUc8xk9Hcq64u4pjLbogV32vfRY1YAw783exKAPSVV6AT6QcR7M5rZqvyw71xH76HTc
+ ZJzw==
+X-Gm-Message-State: AOAM530pcNJfVke0GU/ixwLpUjKHkc01tenP8fD+AR9vob0al2bla2Ri
+ +v+i2DgkiDegDxMJJU09++qcxg==
+X-Google-Smtp-Source: ABdhPJxbL1lxCgT4MIg2AZnqHNc1Mpzr5bY+iBVQB0cQCt+dziY8QNLfWnBx0vz4QL6Mtfs4smBWoA==
+X-Received: by 2002:adf:c44d:0:b0:1ea:99b6:2c2a with SMTP id
+ a13-20020adfc44d000000b001ea99b62c2amr20725054wrg.716.1646157654765; 
+ Tue, 01 Mar 2022 10:00:54 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- n25-20020aa7db59000000b00415965e9727sm704812edt.18.2022.03.01.09.47.26
+ p18-20020adfba92000000b001e4ae791663sm15147575wrg.62.2022.03.01.10.00.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 09:47:26 -0800 (PST)
+ Tue, 01 Mar 2022 10:00:53 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B534F1FFB7;
- Tue,  1 Mar 2022 17:47:25 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id F21CC1FFB7;
+ Tue,  1 Mar 2022 18:00:52 +0000 (GMT)
 References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
- <20220211120747.3074-15-Jonathan.Cameron@huawei.com>
+ <20220211120747.3074-16-Jonathan.Cameron@huawei.com>
 User-agent: mu4e 1.7.9; emacs 28.0.91
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v6 14/43] hw/pxb: Allow creation of a CXL PXB (host bridge)
-Date: Tue, 01 Mar 2022 17:47:20 +0000
-In-reply-to: <20220211120747.3074-15-Jonathan.Cameron@huawei.com>
-Message-ID: <87tuchlg42.fsf@linaro.org>
+Subject: Re: [PATCH v6 15/43] qtest/cxl: Introduce initial test for pxb-cxl
+ only.
+Date: Tue, 01 Mar 2022 18:00:44 +0000
+In-reply-to: <20220211120747.3074-16-Jonathan.Cameron@huawei.com>
+Message-ID: <87pmn5lfhn.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -109,34 +110,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
 
-> From: Ben Widawsky <ben.widawsky@intel.com>
+> Initial test with just pxb-cxl.  Other tests will be added
+> alongside functionality.
 >
-> This works like adding a typical pxb device, except the name is
-> 'pxb-cxl' instead of 'pxb-pcie'. An example command line would be as
-> follows:
->   -device pxb-cxl,id=3Dcxl.0,bus=3D"pcie.0",bus_nr=3D1
->
-> A CXL PXB is backward compatible with PCIe. What this means in practice
-> is that an operating system that is unaware of CXL should still be able
-> to enumerate this topology as if it were PCIe.
->
-> One can create multiple CXL PXB host bridges, but a host bridge can only
-> be connected to the main root bus. Host bridges cannot appear elsewhere
-> in the topology.
->
-> Note that as of this patch, the ACPI tables needed for the host bridge
-> (specifically, an ACPI object in _SB named ACPI0016 and the CEDT) aren't
-> created. So while this patch internally creates it, it cannot be
-> properly used by an operating system or other system software.
->
-> Also necessary is to add an exception to scripts/device-crash-test
-> similar to that for exiting pxb as both must created on a PCIexpress
-> host bus.
->
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan.Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
