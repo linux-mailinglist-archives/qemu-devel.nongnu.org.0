@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DA44C8967
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:37:15 +0100 (CET)
-Received: from localhost ([::1]:48380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8FE4C8966
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:36:41 +0100 (CET)
+Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOzsZ-0004m6-3V
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:37:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52794)
+	id 1nOzs0-0004AB-AH
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:36:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nOzP5-0004zk-Jt
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:06:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31999)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOza1-00019t-5c
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:18:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nOzP2-00044T-R0
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:06:47 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nOzZx-0006Jq-8p
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 05:18:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646129204;
+ s=mimecast20190719; t=1646129879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1/F+0WwojHyG17pXptWlh/yFEBPmFriBcV9+OCM7LPk=;
- b=FcYQjhRB9PvZISNeq3iVeopIKjtK4GM7GJ5L6p4GSytvZg7eURuo/bUUthD8/037QtshL0
- 8xy3b2gAngiHcpU372krTo75BHV8AnKvZeo0cjjlP0D3NY7MZZ6nYGG8vQg2WugTFNOYH5
- lf7/ErJ7r37QOeUniRII+4rURUBL4C4=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=aNuGd+hg/sQiP9V+AJPzGWeU3SC69DsU0T3ILUuEQDM=;
+ b=jUbLD/AoSruOiG+7IDO/OuSSF4kcSyzGuw3C/X0hsuf+x939LEo+kwdPl4oIS/whHxcwbC
+ HxfnWwloJDkRXS5GHGhvaC4GsE8biOEcT0ktXJouhAZ4HQCbJ7UlB77BjO3jBpnSwUjnEt
+ eN9W5igtjKppvkMEjfmPWRe3M8gZuKM=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-39-V5X_rtlLMbWtaRxoDjT1IA-1; Tue, 01 Mar 2022 05:06:41 -0500
-X-MC-Unique: V5X_rtlLMbWtaRxoDjT1IA-1
-Received: by mail-qk1-f199.google.com with SMTP id
- k23-20020a05620a139700b0062cda5c6cecso13651423qki.6
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 02:06:41 -0800 (PST)
+ us-mta-126-cyd70yN-PtOiyyvblc5Gew-1; Tue, 01 Mar 2022 05:17:56 -0500
+X-MC-Unique: cyd70yN-PtOiyyvblc5Gew-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ z28-20020aa79f9c000000b004e10449d919so9538037pfr.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 02:17:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1/F+0WwojHyG17pXptWlh/yFEBPmFriBcV9+OCM7LPk=;
- b=gkug9p5OUaVTRtnFXM97on9OCQMYHUDk3+Fx59Jm+vOcW4g7UQmc5Ya5a7dhOrb+b5
- X8gDNaISvK6/X70iqlTPRBhVUjWM5fn0ViWCIJLzNGzkZ3bWouWD02+6C+ZYmhJogGp2
- eBpKiZ/2tPnw6vhdtTb0SbflEQG5StxLQWt+GNHy+9lnMRfQ/n0XfJlCfpDMP1GjG/OX
- 5cout1tJsVuT8WnkKSaG/CHJnka5cw8XeY6qIx9C9St5SqHPTxZi0fRql8QnElp8z5oR
- vHyaFi9+F9Rx2G0FwYywWq9gE66FkazLZxUfi2eby5EbdjtdCT/EcfXoQdb04oON9a89
- 3JjQ==
-X-Gm-Message-State: AOAM530zi8u+kfki3BH1Q/xw3spw+jtOviOEMdkXwjgCdKi5SPnR/06b
- PtPnORPyRT+QjSPMlTxUqxTbZ43uCJNQfQy2IdnOxgLJXFzMfi3O4OiGkPTjQnuNSoUdRg8ETWm
- Gwh3dPFxgXKoLFxx1poD89AO3MvVbrx0=
-X-Received: by 2002:a05:620a:3195:b0:649:2a18:1480 with SMTP id
- bi21-20020a05620a319500b006492a181480mr13463713qkb.308.1646129200774; 
- Tue, 01 Mar 2022 02:06:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy7AUCOCXuU8j01tRu2AKSRjBnmyEMQUDQMgmP1ffu4Y5H1rznv/ZWNkhZyEwzndPsFvcqlqiFxVzoYluand0c=
-X-Received: by 2002:a05:620a:3195:b0:649:2a18:1480 with SMTP id
- bi21-20020a05620a319500b006492a181480mr13463690qkb.308.1646129200414; Tue, 01
- Mar 2022 02:06:40 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=aNuGd+hg/sQiP9V+AJPzGWeU3SC69DsU0T3ILUuEQDM=;
+ b=GsyaBJLEDuLUrKfNaYsLc40zh0Qh7X9OTqSK/7/qGTEo90YyBDJHQ4kT17CAQlhMYS
+ RBLouUe8qCysc33+LzlXRoISFqiS6/X9D4UHg6+aJor4pqC8i/IInnpcaIDoe6b+0uHd
+ KnjXzWkwzWySbTj4GVRAcc3LP2xBn2AzBDMpSQPlzBxrKFN5wkR9uU1mTPZrcNMHZ9ru
+ TxD/UVLxr3tbEmYzONLXpMH1dfIsAwW0moZ4UpyhZ6nd3LDdxJ7W5H8bGadivlHpcwTG
+ n7XuKlxHZgmF0FjiyULEPqwrZIXbz68cDJMB3u976Wfs4rTIQ2znC3nBuntvH0wldEB0
+ jKoA==
+X-Gm-Message-State: AOAM531zdI+IBbzq4f/Agw7x5SWB7F/ftUAHHlNyLYRmc3TZWwS6uW+Y
+ O7BRd99KbPbbwPYISCveeDLjA7xSzkdUfzxsNM574yBAKUwKAxFwzTZG2dDvzcVBj9NGv9QeAKE
+ DHbycAtCIX4siOZQ=
+X-Received: by 2002:a17:903:2406:b0:14d:6447:990c with SMTP id
+ e6-20020a170903240600b0014d6447990cmr24949709plo.22.1646129875683; 
+ Tue, 01 Mar 2022 02:17:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxDg/SEuKNfrJo4X4xuCThWgxCeF3ftzpx9Kq6iCLYRmRLarUbmJKxjwsW99y85Bs729ziDRA==
+X-Received: by 2002:a17:903:2406:b0:14d:6447:990c with SMTP id
+ e6-20020a170903240600b0014d6447990cmr24949685plo.22.1646129875308; 
+ Tue, 01 Mar 2022 02:17:55 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.132]) by smtp.gmail.com with ESMTPSA id
+ k7-20020a63ff07000000b00372dc67e854sm12613106pgi.14.2022.03.01.02.17.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 02:17:54 -0800 (PST)
+Date: Tue, 1 Mar 2022 18:17:49 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 00/25] migration: Postcopy Preemption
+Message-ID: <Yh3yzbmOqAVV9iM9@xz-m1.local>
+References: <20220301083925.33483-1-peterx@redhat.com>
+ <Yh3mo5VFQ3gT1Gd7@redhat.com>
 MIME-Version: 1.0
-References: <20220227134111.3254066-1-eperezma@redhat.com>
- <20220227134111.3254066-9-eperezma@redhat.com>
- <7829cc8d-66d0-cedd-eca5-f899cd5ecd07@redhat.com>
-In-Reply-To: <7829cc8d-66d0-cedd-eca5-f899cd5ecd07@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 1 Mar 2022 11:06:04 +0100
-Message-ID: <CAJaqyWdNWqpdBQ-iTWLu7fH0prHPo8Uc1LXkEKvQ4X6cp7_TOA@mail.gmail.com>
-Subject: Re: [PATCH v2 08/14] util: Add iova_tree_alloc
-To: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <Yh3mo5VFQ3gT1Gd7@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -96,330 +99,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Lingshan <lingshan.zhu@intel.com>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 28, 2022 at 7:39 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/2/27 =E4=B8=8B=E5=8D=889:41, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > This iova tree function allows it to look for a hole in allocated
-> > regions and return a totally new translation for a given translated
-> > address.
-> >
-> > It's usage is mainly to allow devices to access qemu address space,
-> > remapping guest's one into a new iova space where qemu can add chunks o=
-f
-> > addresses.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > Reviewed-by: Peter Xu <peterx@redhat.com>
-> > ---
-> >   include/qemu/iova-tree.h |  18 ++++++
-> >   util/iova-tree.c         | 133 ++++++++++++++++++++++++++++++++++++++=
-+
-> >   2 files changed, 151 insertions(+)
-> >
-> > diff --git a/include/qemu/iova-tree.h b/include/qemu/iova-tree.h
-> > index 8249edd764..a623136cd8 100644
-> > --- a/include/qemu/iova-tree.h
-> > +++ b/include/qemu/iova-tree.h
-> > @@ -29,6 +29,7 @@
-> >   #define  IOVA_OK           (0)
-> >   #define  IOVA_ERR_INVALID  (-1) /* Invalid parameters */
-> >   #define  IOVA_ERR_OVERLAP  (-2) /* IOVA range overlapped */
-> > +#define  IOVA_ERR_NOMEM    (-3) /* Cannot allocate */
-> >
-> >   typedef struct IOVATree IOVATree;
-> >   typedef struct DMAMap {
-> > @@ -119,6 +120,23 @@ const DMAMap *iova_tree_find_address(const IOVATre=
-e *tree, hwaddr iova);
-> >    */
-> >   void iova_tree_foreach(IOVATree *tree, iova_tree_iterator iterator);
-> >
-> > +/**
-> > + * iova_tree_alloc:
->
->
-> Should be iova_tree_alloc_map.
->
+On Tue, Mar 01, 2022 at 09:25:55AM +0000, Daniel P. Berrangé wrote:
+> On Tue, Mar 01, 2022 at 04:39:00PM +0800, Peter Xu wrote:
+> > This is v2 of postcopy preempt series.  It can also be found here:
+> > 
+> >   https://github.com/xzpeter/qemu/tree/postcopy-preempt
+> > 
+> > RFC: https://lore.kernel.org/qemu-devel/20220119080929.39485-1-peterx@redhat.com
+> > V1:  https://lore.kernel.org/qemu-devel/20220216062809.57179-1-peterx@redhat.com
+> > 
+> > v1->v2 changelog:
+> > - Picked up more r-bs from Dave
+> > - Rename both fault threads to drop "qemu/" prefix [Dave]
+> > - Further rework on postcopy recovery, to be able to detect qemufile errors
+> >   from either main channel or postcopy one [Dave]
+> > - shutdown() qemufile before close on src postcopy channel when postcopy is
+> >   paused [Dave]
+> > - In postcopy_preempt_new_channel(), explicitly set the new channel in
+> >   blocking state, even if it's the default [Dave]
+> > - Make RAMState.postcopy_channel unsigned int [Dave]
+> > - Added patches:
+> >   - "migration: Create the postcopy preempt channel asynchronously"
+> >   - "migration: Parameter x-postcopy-preempt-break-huge"
+> >   - "migration: Add helpers to detect TLS capability"
+> >   - "migration: Fail postcopy preempt with TLS"
+> >   - "tests: Pass in MigrateStart** into test_migrate_start()"
+> > 
+> > Abstract
+> > ========
+> > 
+> > This series added a new migration capability called "postcopy-preempt".  It can
+> > be enabled when postcopy is enabled, and it'll simply (but greatly) speed up
+> > postcopy page requests handling process.
+> 
+> Is there no way we can just automatically enable this new feature, rather
+> than requiring apps to specify yet another new flag ?
 
-That's right, I'll change. It's also missing from the patch subject.
+I didn't make it the default for now, but I do have thought about making it
+the default when it consolidates a bit, perhaps on a new machine type.
 
->
-> > + *
-> > + * @tree: the iova tree to allocate from
-> > + * @map: the new map (as translated addr & size) to allocate in the io=
-va region
-> > + * @iova_begin: the minimum address of the allocation
-> > + * @iova_end: the maximum addressable direction of the allocation
-> > + *
-> > + * Allocates a new region of a given size, between iova_min and iova_m=
-ax.
-> > + *
-> > + * Return: Same as iova_tree_insert, but cannot overlap and can return=
- error if
-> > + * iova tree is out of free contiguous range. The caller gets the assi=
-gned iova
-> > + * in map->iova.
-> > + */
-> > +int iova_tree_alloc_map(IOVATree *tree, DMAMap *map, hwaddr iova_begin=
-,
-> > +                        hwaddr iova_end);
-> > +
-> >   /**
-> >    * iova_tree_destroy:
-> >    *
-> > diff --git a/util/iova-tree.c b/util/iova-tree.c
-> > index 23ea35b7a4..302b01f1cc 100644
-> > --- a/util/iova-tree.c
-> > +++ b/util/iova-tree.c
-> > @@ -16,6 +16,39 @@ struct IOVATree {
-> >       GTree *tree;
-> >   };
-> >
-> > +/* Args to pass to iova_tree_alloc foreach function. */
-> > +struct IOVATreeAllocArgs {
-> > +    /* Size of the desired allocation */
-> > +    size_t new_size;
-> > +
-> > +    /* The minimum address allowed in the allocation */
-> > +    hwaddr iova_begin;
-> > +
-> > +    /* Map at the left of the hole, can be NULL if "this" is first one=
- */
-> > +    const DMAMap *prev;
-> > +
-> > +    /* Map at the right of the hole, can be NULL if "prev" is the last=
- one */
-> > +    const DMAMap *this;
-> > +
-> > +    /* If found, we fill in the IOVA here */
-> > +    hwaddr iova_result;
-> > +
-> > +    /* Whether have we found a valid IOVA */
-> > +    bool iova_found;
-> > +};
-> > +
-> > +/**
-> > + * Iterate args to the next hole
-> > + *
-> > + * @args  The alloc arguments
-> > + * @next  The next mapping in the tree. Can be NULL to signal the last=
- one
-> > + */
-> > +static void iova_tree_alloc_args_iterate(struct IOVATreeAllocArgs *arg=
-s,
-> > +                                         const DMAMap *next) {
-> > +    args->prev =3D args->this;
-> > +    args->this =3D next;
-> > +}
-> > +
-> >   static int iova_tree_compare(gconstpointer a, gconstpointer b, gpoint=
-er data)
-> >   {
-> >       const DMAMap *m1 =3D a, *m2 =3D b;
-> > @@ -107,6 +140,106 @@ int iova_tree_remove(IOVATree *tree, const DMAMap=
- *map)
-> >       return IOVA_OK;
-> >   }
-> >
-> > +/**
-> > + * Try to find an unallocated IOVA range between prev and this element=
-s.
-> > + *
-> > + * @args Arguments to allocation
-> > + *
-> > + * Cases:
-> > + *
-> > + * (1) !prev, !this: No entries allocated, always succeed
-> > + *
-> > + * (2) !prev, this: We're iterating at the 1st element.
-> > + *
-> > + * (3) prev, !this: We're iterating at the last element.
-> > + *
-> > + * (4) prev, this: this is the most common case, we'll try to find a h=
-ole
-> > + * between "prev" and "this" mapping.
-> > + *
-> > + * Note that this function assumes the last valid iova is HWADDR_MAX, =
-but it
-> > + * searches linearly so it's easy to discard the result if it's not th=
-e case.
-> > + */
-> > +static void iova_tree_alloc_map_in_hole(struct IOVATreeAllocArgs *args=
-)
-> > +{
-> > +    const DMAMap *prev =3D args->prev, *this =3D args->this;
-> > +    uint64_t hole_start, hole_last;
-> > +
-> > +    if (this && this->iova + this->size < args->iova_begin) {
-> > +        return;
-> > +    }
-> > +
-> > +    hole_start =3D MAX(prev ? prev->iova + prev->size + 1 : 0, args->i=
-ova_begin);
-> > +    hole_last =3D this ? this->iova : HWADDR_MAX;
->
->
-> Do we need to use iova_last instead of HWADDR_MAX?
->
+I also didn't know whether there's other limitations of it.  For example,
+will a new socket pair be a problem for any VM environment (either a
+limitation from the management app, container, and so on)?  I think it's
+the same to multifd in that aspect, but I never explored.
 
-If I re-add iova_last to this function, this first part is the same as
-RFC v5. The only difference would be iova_found.
+> 
+> > TODO List
+> > =========
+> > 
+> > TLS support
+> > -----------
+> > 
+> > I only noticed its missing very recently.  Since soft freeze is coming, and
+> > obviously I'm still growing this series, so I tend to have the existing
+> > material discussed. Let's see if it can still catch the train for QEMU 7.0
+> > release (soft freeze on 2022-03-08)..
+> 
+> I don't like the idea of shipping something that is only half finished.
+> It means that when apps probe for the feature, they'll see preempt
+> capability present, but have no idea whether they're using a QEMU that
+> is broken when combined with TLS or not. We shouldn't merge something
+> just to meet the soft freeze deadline if we know key features are broken.
 
-To simplify this function, I extracted the iova_last check to
-iova_tree_alloc_map. I thought this was closer to what you proposed.
-As a disadvantage, the search could go beyond iova_last, but this
-should not be common.
+IMHO merging and declaring support are two problems.
 
-I'm ok with both versions.
+To me, it's always fine to merge the code that implemented the fundation of a
+feature.  The feature can be worked upon in the future.
 
->
-> > +
-> > +    if (hole_last - hole_start > args->new_size) {
-> > +        args->iova_result =3D hole_start;
-> > +        args->iova_found =3D true;
-> > +    }
-> > +}
-> > +
-> > +/**
-> > + * Foreach dma node in the tree, compare if there is a hole with its p=
-revious
-> > + * node (or minimum iova address allowed) and the node.
-> > + *
-> > + * @key   Node iterating
-> > + * @value Node iterating
-> > + * @pargs Struct to communicate with the outside world
-> > + *
-> > + * Return: false to keep iterating, true if needs break.
-> > + */
-> > +static gboolean iova_tree_alloc_traverse(gpointer key, gpointer value,
-> > +                                         gpointer pargs)
-> > +{
-> > +    struct IOVATreeAllocArgs *args =3D pargs;
-> > +    DMAMap *node =3D value;
-> > +
-> > +    assert(key =3D=3D value);
-> > +
-> > +    iova_tree_alloc_args_iterate(args, node);
-> > +    iova_tree_alloc_map_in_hole(args);
-> > +    return args->iova_found;
-> > +}
-> > +
-> > +int iova_tree_alloc_map(IOVATree *tree, DMAMap *map, hwaddr iova_begin=
-,
-> > +                        hwaddr iova_last)
-> > +{
-> > +    struct IOVATreeAllocArgs args =3D {
-> > +        .new_size =3D map->size,
-> > +        .iova_begin =3D iova_begin,
-> > +    };
-> > +
-> > +    assert(iova_begin < iova_last);
->
->
-> Should we use "<=3D" here, otherwise we disallow allocate the size of 1.
->
-> And maybe we should return error instead of assert.
->
+Requiring a feature to be "complete" sometimes can cause burden to not only
+the author of the series but also reviewers.  It's IMHO not necessary to
+bind these two ideas.
 
-Right, I'll replace both.
+It's sometimes also hard to define "complete": take the TLS as example, no
+one probably even noticed that it won't work with TLS and I just noticed it
+merely these two days..  We obviously can't merge partial patchset, but if
+the patchset is well isolated, then it's not a blocker for merging, imho.
 
->
-> > +
-> > +    /*
-> > +     * Find a valid hole for the mapping
-> > +     *
-> > +     * Assuming low iova_begin, so no need to do a binary search to
-> > +     * locate the first node.
-> > +     *
-> > +     * TODO: Replace all this with g_tree_node_first/next/last when av=
-ailable
-> > +     * (from glib since 2.68). To do it with g_tree_foreach complicate=
-s the
-> > +     * code a lot.
-> > +     *
->
->
-> One more question
->
-> The current code looks work but still a little bit complicated to be
-> reviewed. Looking at the missing helpers above, if the add and remove
-> are seldom. I wonder if we can simply do
->
-> g_tree_foreach() during each add/del to build a sorted list then we can
-> emulate g_tree_node_first/next/last easily?
->
+Per my understanding, what you worried is when we declare it supported but
+later we never know when TLS will be ready for it.  One solution is I can
+rename the capability as x-, then after the TLS side ready I drop the x-
+prefix.  Then Libvirt or any mgmt software doesn't need to support this
+until we drop the x-, so there's no risk of compatibility.
 
-This sounds a lot like the method in v1 [1] :).
+Would that sound okay to you?
 
-But it didn't use the O(N) foreach, since we can locate the new node's
-previous element looking for the upper bound of iova-1, maintaining
-the insertion's complexity O(log(N)). The function g_tree_upper_bound
-is added in Glib version 2.68, so the proposed version will be deleted
-sooner or later.
+I can always step back and work on TLS first before it's merged, but again
+I don't think it's required.
 
-Also the deletion keeps being O(log(N)) since deleting a node in QLIST is O=
-(1).
+> 
+> > Multi-channel for preemption threads
+> > ------------------------------------
+> > 
+> > Currently the postcopy preempt feature use only one extra channel and one
+> > extra thread on dest (no new thread on src QEMU).  It should be mostly good
+> > enough for major use cases, but when the postcopy queue is long enough
+> > (e.g. hundreds of vCPUs faulted on different pages) logically we could
+> > still observe more delays in average.  Whether growing threads/channels can
+> > solve it is debatable, but sounds worthwhile a try.  That's yet another
+> > thing we can think about after this patchset lands.
+> 
+> If we don't think about it upfront, then we'll possibly end up with
+> yet another tunable flag that apps have to worry about. It also
+> could make migration code even more complex if we have to support
+> two different scenarios. If we think multiple threads are goign to
+> be a benefit lets check that and if so, design it into the exposed
+> application facing interface from the start rather than retrofitting
+> afterwards.
 
->
-> > +     */
-> > +    g_tree_foreach(tree->tree, iova_tree_alloc_traverse, &args);
-> > +    if (!args.iova_found) {
-> > +        /*
-> > +         * Either tree is empty or the last hole is still not checked.
-> > +         * g_tree_foreach does not compare (last, iova_end] range, so =
-we check
->
->
-> "(last, iova_last]" ?
->
+I am not very sure we need that multi-threading.  I'm always open to
+opinions, though.
 
-Right, I'll change it too.
+I raised it not as "must to do" but some idea in mind.  I'm not sure
+whether we'll have it some day.  Note that this is different from multifd,
+obviously only 1 multifd thread doesn't sound right at all. Postcopy is
+different, because in most cases the new thread can be idle.
 
-Thanks!
+That's also why this series didn't start from N threads but 1 thread only,
+because AFAICT it solves the major problem, which is the isolation between
+page request pages and background pages. One thread is a very good fit in
+many scenarios already.
 
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg863699.html
-[2] https://docs.gtk.org/glib/method.Tree.upper_bound.html
+So without obvious reasoning, I'm afraid it could over-engineer things if
+we start with N threads, keeping most of them idle.
 
-> Thanks
->
->
-> > +         * it here.
-> > +         */
-> > +        iova_tree_alloc_args_iterate(&args, NULL);
-> > +        iova_tree_alloc_map_in_hole(&args);
-> > +    }
-> > +
-> > +    if (!args.iova_found || args.iova_result + map->size > iova_last) =
-{
-> > +        return IOVA_ERR_NOMEM;
-> > +    }
-> > +
-> > +    map->iova =3D args.iova_result;
-> > +    return iova_tree_insert(tree, map);
-> > +}
-> > +
-> >   void iova_tree_destroy(IOVATree *tree)
-> >   {
-> >       g_tree_destroy(tree->tree);
->
+Even if we need it, we'll need a parameter to specify the number of
+threads, that can be a good way to identify the boundary with old/new
+QEMUs, so e.g. upper layers like Libvirt can easily detect this difference
+if it wants by trying to detect the n_channels parameter.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
