@@ -2,81 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221D94C8165
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 04:01:53 +0100 (CET)
-Received: from localhost ([::1]:35972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295ED4C8197
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 04:18:38 +0100 (CET)
+Received: from localhost ([::1]:41402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOslr-0003Nz-V0
-	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 22:01:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43276)
+	id 1nOt24-0007qJ-Is
+	for lists+qemu-devel@lfdr.de; Mon, 28 Feb 2022 22:18:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nOsjW-0002R3-30
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 21:59:26 -0500
-Received: from [2607:f8b0:4864:20::433] (port=44918
- helo=mail-pf1-x433.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nOsjU-00057L-Hw
- for qemu-devel@nongnu.org; Mon, 28 Feb 2022 21:59:25 -0500
-Received: by mail-pf1-x433.google.com with SMTP id g21so6572822pfj.11
- for <qemu-devel@nongnu.org>; Mon, 28 Feb 2022 18:59:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nOsxy-0006p7-FE; Mon, 28 Feb 2022 22:14:22 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:58143)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1nOsxu-0007ZQ-1H; Mon, 28 Feb 2022 22:14:21 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4K72Ql3xN7z4xmt; Tue,  1 Mar 2022 14:14:07 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=jDpQ+HAf8aIQt4UmlJL+uVtgQqKpMApVQujthzRxqlk=;
- b=twf8H0NjZBQK6+JRx1qZLK59mTekD90OpVHucyQmyKsqHb+lPBAw5awqbzwESpn1OB
- oTcEF2uzw7FWCJXHNbbuTu+n5wy21LKyXoSrLkVp8RIfyaXAdws0uSTAsRMZQ81fK5E+
- m9FrxLtkkB+FXfnxcizBssS37cHXoMy2NSHIlTtH8uf5JTbNZXmpsUqfzMC5diXTvcIi
- s1t6MbXECjebaR9OyQlX3E0S+D6TJy2X01IhBymdYB3RXfNBzNdXAeT8w1fz0pSG75DU
- u+0C9V61m2jhi17bQUL3g0z1WbgDbq3Frhw3B/oWehYTE4+d91VCabX6Kq9vdR4MZaph
- d7WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=jDpQ+HAf8aIQt4UmlJL+uVtgQqKpMApVQujthzRxqlk=;
- b=FJAlmpdcgEvUoz6Cb8x5Uj8BrrUg04GY9GOJroiZifpIjSEd15Lu58x8qe0eMRRgJX
- W98Dx3ToneP8WIm5bAQglwqC8E+sKBDjhbQHTvjfaJh6FPkUJowBnLCBggEImB31uaf/
- hd+wskNy62mkGIMYJnxKHmuopCNZhuoTap/i91DhSmkSYiuIZMy1TX11XQYuTZEg4VC9
- sjpaNr06PPipfPSgEy1r/eo1Ujm8INbMB9W2I1/7JK+9kLifeaKNcXlUDt3ne9+fnPdB
- Jl4CVykx7y00BTb4JRsq+5GH3/xZyUlnTEM5QuBGUtPgifD1yxDnVBfSuvhQCjocPG8+
- 1J0A==
-X-Gm-Message-State: AOAM53375boy2wRWfgApJ6hqBSN0bTZNVB6CSFgL6EdB2/TZRyEbSbmV
- d2oU/miD6nVygRT1ZYNi+Xxr8KfdKtyxAw==
-X-Google-Smtp-Source: ABdhPJyAtVrquKjsxU9g8XnWT70xgXv6cep72hnKsdQPCHm5jLNOAS+FynxUL88w2Z8fMH4Cn5fJEg==
-X-Received: by 2002:a63:4c65:0:b0:375:5cc8:64ea with SMTP id
- m37-20020a634c65000000b003755cc864eamr19605408pgl.279.1646103551316; 
- Mon, 28 Feb 2022 18:59:11 -0800 (PST)
-Received: from anisinha-lenovo ([203.212.247.124])
- by smtp.googlemail.com with ESMTPSA id
- l10-20020a056a00140a00b004c55d0dcbd1sm14680845pfu.120.2022.02.28.18.59.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Feb 2022 18:59:10 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Tue, 1 Mar 2022 08:29:05 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Liav Albani <liavalb@gmail.com>
-Subject: Re: [PATCH v4 2/3] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-In-Reply-To: <20220228201733.714580-3-liavalb@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2203010826360.1505325@anisinha-lenovo>
-References: <20220228201733.714580-1-liavalb@gmail.com>
- <20220228201733.714580-3-liavalb@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ d=gibson.dropbear.id.au; s=201602; t=1646104447;
+ bh=77MeObx4mzxq3ZzQSJuMeKPdfB4ruQUPuzFN8j/q7P0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=D5ktg9aFqERT6jrKBHjSJrRCLbfMWPGxPvCTW5vlLlaHZ2Q2Ogjn7GfCjb14m8IRn
+ JG+zlWqMq7ODcuSKzF1of/CAaL0XlJOl0vvyaow9jY7+A/0ODSZiW7obf2nSPkI/jv
+ SG7uWNSWwJ5Q8QC6PVXyioVBGtIl4xe4HW3j33/U=
+Date: Tue, 1 Mar 2022 13:24:19 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 02/14] hw/ppc/spapr.c: fail early if no firmware found in
+ machine_init()
+Message-ID: <Yh2D0wofGDJlxpHd@yekko>
+References: <20220228175004.8862-1-danielhb413@gmail.com>
+ <20220228175004.8862-3-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::433;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ER3vV02U5JfkKxi2"
+Content-Disposition: inline
+In-Reply-To: <20220228175004.8862-3-danielhb413@gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,137 +60,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca, imammedo@redhat.com, shentey@gmail.com,
- qemu-devel@nongnu.org, mst@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--ER3vV02U5JfkKxi2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 28 Feb 2022, Liav Albani wrote:
+On Mon, Feb 28, 2022 at 02:49:52PM -0300, Daniel Henrique Barboza wrote:
+> The firmware check consists on a file search (qemu_find_file) and load
+> it via load_imag_targphys(). This validation is not dependent on any
+> other machine state but it currently being done at the end of
+> spapr_machine_init(). This means that we can do a lot of stuff and end
+> up failing at the end for something that we can verify right out of the
+> gate.
+>=20
+> Move this validation to the start of spapr_machine_init() to fail
+> earlier.  While we're at it, use g_autofree in the 'filename' pointer.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-> This can allow the guest OS to determine more easily if i8042 controller
-> is present in the system or not, so it doesn't need to do probing of the
-> controller, but just initialize it immediately, before enumerating the
-> ACPI AML namespace.
->
-> This change only applies to the x86/q35 machine type, as it uses FACP
-> ACPI table with revision higher than 1, which should implement at least
-> ACPI 2.0 features within the table, hence it can also set the IA-PC boot
-> flags register according to the ACPI 2.0 specification.
->
-> Signed-off-by: Liav Albani <liavalb@gmail.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
 > ---
->  hw/acpi/aml-build.c         | 11 ++++++++++-
->  hw/i386/acpi-build.c        |  9 +++++++++
->  hw/i386/acpi-microvm.c      |  9 +++++++++
->  include/hw/acpi/acpi-defs.h |  1 +
->  4 files changed, 29 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index 8966e16320..2085905b83 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -2152,7 +2152,16 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->      build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
->      build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
->      build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
-> -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
-> +    /* IAPC_BOOT_ARCH */
-> +    /*
-> +     * This register is not defined in ACPI spec version 1.0, where the FACP
-
-I'd say "this IAPC_BOOT_ARCH register" to be more specific.
-
-> +     * revision == 1 also applies. Therefore, just ignore setting this register.
-> +     */
-> +    if (f->rev == 1) {
-> +        build_append_int_noprefix(tbl, 0, 2);
-> +    } else {
-> +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
+>  hw/ppc/spapr.c | 24 +++++++++++-------------
+>  1 file changed, 11 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index c74543ace3..4cc204f90d 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -2707,15 +2707,25 @@ static void spapr_machine_init(MachineState *mach=
+ine)
+>      MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+>      const char *bios_default =3D spapr->vof ? FW_FILE_NAME_VOF : FW_FILE=
+_NAME;
+>      const char *bios_name =3D machine->firmware ?: bios_default;
+> +    g_autofree char *filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bi=
+os_name);
+>      const char *kernel_filename =3D machine->kernel_filename;
+>      const char *initrd_filename =3D machine->initrd_filename;
+>      PCIHostState *phb;
+>      int i;
+>      MemoryRegion *sysmem =3D get_system_memory();
+>      long load_limit, fw_size;
+> -    char *filename;
+>      Error *resize_hpt_err =3D NULL;
+> =20
+> +    if (!filename) {
+> +        error_report("Could not find LPAR firmware '%s'", bios_name);
+> +        exit(1);
 > +    }
->      build_append_int_noprefix(tbl, 0, 1); /* Reserved */
->      build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
->
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index ebd47aa26f..c72c7bb9bb 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -38,6 +38,7 @@
->  #include "hw/nvram/fw_cfg.h"
->  #include "hw/acpi/bios-linker-loader.h"
->  #include "hw/isa/isa.h"
-> +#include "hw/input/i8042.h"
->  #include "hw/block/fdc.h"
->  #include "hw/acpi/memory_hotplug.h"
->  #include "sysemu/tpm.h"
-> @@ -192,6 +193,14 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
->              .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
->          },
->      };
-> +    /*
-> +     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
-
-again typo here.
-
-> +     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
-> +     * (the earliest acpi revision that supports this).
-> +     */
-> +    fadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
-> +                            0x0002 : 0x0000;
-
-I thought I said we need to make sure the logic still applied when there
-are more than one device of this type. Please fix this.
-
+> +    fw_size =3D load_image_targphys(filename, 0, FW_MAX_SIZE);
+> +    if (fw_size <=3D 0) {
+> +        error_report("Could not load LPAR firmware '%s'", filename);
+> +        exit(1);
+> +    }
 > +
->      *data = fadt;
->  }
->
-> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-> index 68ca7e7fc2..4bc72b1672 100644
-> --- a/hw/i386/acpi-microvm.c
-> +++ b/hw/i386/acpi-microvm.c
-> @@ -31,6 +31,7 @@
->  #include "hw/acpi/generic_event_device.h"
->  #include "hw/acpi/utils.h"
->  #include "hw/acpi/erst.h"
-> +#include "hw/input/i8042.h"
->  #include "hw/i386/fw_cfg.h"
->  #include "hw/i386/microvm.h"
->  #include "hw/pci/pci.h"
-> @@ -189,6 +190,14 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
->          .reset_val = ACPI_GED_RESET_VALUE,
->      };
->
-> +    /*
-> +     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
-> +     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
-> +     * (the earliest acpi revision that supports this).
-> +     */
-> +    pmfadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
-> +                            0x0002 : 0x0000;
-
-
-Ditto.
-
-> +
->      table_offsets = g_array_new(false, true /* clear */,
->                                          sizeof(uint32_t));
->      bios_linker_loader_alloc(tables->linker,
-> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-> index c97e8633ad..2b42e4192b 100644
-> --- a/include/hw/acpi/acpi-defs.h
-> +++ b/include/hw/acpi/acpi-defs.h
-> @@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
->      uint16_t plvl2_lat;        /* P_LVL2_LAT */
->      uint16_t plvl3_lat;        /* P_LVL3_LAT */
->      uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
-> +    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
->      uint8_t minor_ver;         /* FADT Minor Version */
->
 >      /*
-> --
-> 2.35.1
->
->
+>       * if Secure VM (PEF) support is configured, then initialize it
+>       */
+> @@ -2996,18 +3006,6 @@ static void spapr_machine_init(MachineState *machi=
+ne)
+>          }
+>      }
+> =20
+> -    filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+> -    if (!filename) {
+> -        error_report("Could not find LPAR firmware '%s'", bios_name);
+> -        exit(1);
+> -    }
+> -    fw_size =3D load_image_targphys(filename, 0, FW_MAX_SIZE);
+> -    if (fw_size <=3D 0) {
+> -        error_report("Could not load LPAR firmware '%s'", filename);
+> -        exit(1);
+> -    }
+> -    g_free(filename);
+> -
+>      /* FIXME: Should register things through the MachineState's qdev
+>       * interface, this is a legacy from the sPAPREnvironment structure
+>       * which predated MachineState but had a similar function */
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--ER3vV02U5JfkKxi2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIdg8sACgkQgypY4gEw
+YSIp+g//Wwp1sg65uFxwREYW3dkmcusZApJLlAitV7T9Wp5EZRMZ7/FQjce0wa6C
+b/J7svbUrhKVYBugI+/ApE52xwCfcneEjBhJ85aGrdXggZReGfxLI6BTOIOnu4oH
+h6qE5eE339OYLBlEpNz2zJuq+s5obJ0Z7YCM41p3KiuAtCK8T+BYCNBmj9qi3AnR
+RJ0li2D8LxkQcuSxtoNNPMyfiwFZOtfTiamiC3BFshC8xZWvKm0LfIE4J+5F5GGD
+KzKzucUMAGP43Gr5cOgwI+CmTZcpw5IvtAAhFVHDHKeKF8FK5jEDpvU2SfsYhlri
+9rpvEJ0WSYJsX8wUUtANV4HbSIsm+Kv2fFdbEmaCXamxDdWXw8iFyxk8Vrxd2McX
+cfouhzZ21dGXacWA3SmBarwwWt0ARMYaw7jDTLsW+7k6VHDKXmEKZSb3S25D3eX6
+/WUG4sxkyBzVB38uOd+pXij/Nq7Vs/nG/+CMc1GNQtJHPkP15MqZ8q+kQjhmD85S
+3lCxA4TgyaiuezW64BDEvGTAaEJUfxMAC8TxrN+FEOOW7FClsTYCJ7tUHlC5Ogop
+EYgyci6DU4bI557+qyeVEFdRtZTixVyBkzK7mxrzVXbJ6Rt5LKsSIe5PRuW/zmP3
+fjHMrHu6FcNFMwP4b8ednA+jOhBc5mv3Xd2TMTVqsJzNKCT3uFY=
+=NLgt
+-----END PGP SIGNATURE-----
+
+--ER3vV02U5JfkKxi2--
 
