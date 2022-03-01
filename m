@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8EB04C9491
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 20:41:51 +0100 (CET)
-Received: from localhost ([::1]:52080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DECB84C941C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 20:18:31 +0100 (CET)
+Received: from localhost ([::1]:46250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nP8Na-00071M-MB
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 14:41:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43270)
+	id 1nP810-00085N-I0
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 14:18:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1nP7wC-0005FQ-4O
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:13:32 -0500
-Received: from mailout07.t-online.de ([194.25.134.83]:60072)
+ id 1nP7w7-00057e-Pe
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:13:27 -0500
+Received: from mailout06.t-online.de ([194.25.134.19]:60666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1nP7w9-0001ox-DM
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:13:31 -0500
-Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
- by mailout07.t-online.de (Postfix) with SMTP id 8E89B13EB3;
- Tue,  1 Mar 2022 20:13:25 +0100 (CET)
-Received: from linpower.localnet ([46.86.48.20]) by fwd72.t-online.de
+ id 1nP7w4-0001om-E7
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 14:13:26 -0500
+Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
+ by mailout06.t-online.de (Postfix) with SMTP id D9EC718E1A;
+ Tue,  1 Mar 2022 20:13:22 +0100 (CET)
+Received: from linpower.localnet ([46.86.48.20]) by fwd85.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1nP7vz-22DAkz0; Tue, 1 Mar 2022 20:13:20 +0100
+ esmtp id 1nP7w2-2MIID30; Tue, 1 Mar 2022 20:13:22 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id EFBD020060F; Tue,  1 Mar 2022 20:13:11 +0100 (CET)
+ id F2B47200613; Tue,  1 Mar 2022 20:13:11 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v3 04/15] audio: inline function audio_pcm_sw_get_rpos_in()
-Date: Tue,  1 Mar 2022 20:13:00 +0100
-Message-Id: <20220301191311.26695-4-vr_qemu@t-online.de>
+Subject: [PATCH v3 05/15] paaudio: increase default latency to 46ms
+Date: Tue,  1 Mar 2022 20:13:01 +0100
+Message-Id: <20220301191311.26695-5-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <3d0bd2ac-e5b9-9cf6-c98f-c047390a3ec5@t-online.de>
 References: <3d0bd2ac-e5b9-9cf6-c98f-c047390a3ec5@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1646162000-0000B7AB-CE00027A/0/0 CLEAN NORMAL
-X-TOI-MSGID: 95fc253c-5821-4dbd-9acb-e4d8ffd40e18
-Received-SPF: none client-ip=194.25.134.83;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout07.t-online.de
+X-TOI-EXPURGATEID: 150726::1646162002-00014AB5-8A63CDB0/0/0 CLEAN NORMAL
+X-TOI-MSGID: 6f4cb9f6-a138-42f7-a691-2527c075467e
+Received-SPF: none client-ip=194.25.134.19;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout06.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -64,62 +64,35 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify code by inlining function audio_pcm_sw_get_rpos_in()
-at the only call site and remove the duplicated audio_bug()
-test.
+This is a patch to improve the pulseaudio playback experience.
+Asking pulseaudio for a playback latency of 15ms is quite
+demanding. Increase this to 46ms. The total playback latency
+now is 31ms larger. One of the next patches will reduce the
+total playback latency again by more than 46ms.
+
+Here is a quote from the PulseAudio Latency Control
+documentation: 'For the sake of (...) drop-out safety always
+make sure to pick the highest latency possible that fulfills
+your needs.'
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/audio.c | 23 +++++------------------
- 1 file changed, 5 insertions(+), 18 deletions(-)
+ audio/paaudio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index f28e91853f..35437986d9 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -569,37 +569,24 @@ static size_t audio_pcm_hw_conv_in(HWVoiceIn *hw, void *pcm_buf, size_t samples)
- /*
-  * Soft voice (capture)
-  */
--static size_t audio_pcm_sw_get_rpos_in(SWVoiceIn *sw)
--{
--    HWVoiceIn *hw = sw->hw;
--    ssize_t live = hw->total_samples_captured - sw->total_hw_samples_acquired;
--
--    if (audio_bug(__func__, live < 0 || live > hw->conv_buf->size)) {
--        dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
--        return 0;
--    }
--
--    return audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
--}
--
- static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index 75401d5391..9df1e69c08 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -744,7 +744,7 @@ static int qpa_validate_per_direction_opts(Audiodev *dev,
  {
-     HWVoiceIn *hw = sw->hw;
-     size_t samples, live, ret = 0, swlim, isamp, osamp, rpos, total = 0;
-     struct st_sample *src, *dst = sw->buf;
- 
--    rpos = audio_pcm_sw_get_rpos_in(sw) % hw->conv_buf->size;
--
-     live = hw->total_samples_captured - sw->total_hw_samples_acquired;
-+    if (!live) {
-+        return 0;
-+    }
-     if (audio_bug(__func__, live > hw->conv_buf->size)) {
-         dolog("live_in=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
-         return 0;
+     if (!pdo->has_latency) {
+         pdo->has_latency = true;
+-        pdo->latency = 15000;
++        pdo->latency = 46440;
      }
- 
-+    rpos = audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
-+
-     samples = size / sw->info.bytes_per_frame;
--    if (!live) {
--        return 0;
--    }
- 
-     swlim = (live * sw->ratio) >> 32;
-     swlim = MIN (swlim, samples);
+     return 1;
+ }
 -- 
 2.34.1
 
