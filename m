@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3554C889A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 10:58:04 +0100 (CET)
-Received: from localhost ([::1]:35536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24C14C8924
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Mar 2022 11:20:47 +0100 (CET)
+Received: from localhost ([::1]:47546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nOzGd-00082C-UC
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 04:58:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46620)
+	id 1nOzcY-0002Gy-Oq
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 05:20:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nOz6c-0003UL-3z
+ id 1nOz6Z-0003U4-NP
  for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:47:42 -0500
-Received: from [2a00:1450:4864:20::42a] (port=36583
- helo=mail-wr1-x42a.google.com)
+Received: from [2a00:1450:4864:20::330] (port=43651
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nOz6Z-0007Bc-UT
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:47:41 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id r10so19547986wrp.3
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 01:47:39 -0800 (PST)
+ id 1nOz6X-0007Ao-U0
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 04:47:39 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ e6-20020a05600c4e4600b0038173851f5eso1011453wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 01:47:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FEukhn5LuXoEMOF2RAOm0ngW9ZGKUNwyGsnNN8c0JYU=;
- b=OAc8uy5+5sB7GDcltM7UzhfAdIUSdYcTpvy8aTn37pP6VVgxpaPXHP7HNXzdVVGte8
- JvaE++3N3Y1pahl1oFUzbjHno5naBEA/4aRI18Kx97jcFWuzb+ocohYQahHWSTInPKpV
- 0RBpXUc86EuYKyW78jTI9crxWRblk5dIwyPpFDx/slK/SHDHRXNrvYe8KgY6fbM1EDL7
- bu+FRtcE27EPKw6kO+hHzj/UBbCKtK0of10rACu1o6xUTZ3sqt+lTlD6AZ9ZKqTtqFFs
- TDu5ZbXJCopSefbSWT8zYYZwXYABt/A+cLFSjscmx5hNX3VgNw4KopPWccyuEz7HRLQs
- o2wQ==
+ bh=supxaQdVzvkCnQhT8N01s60fOyhanjrIRWW6b3Q5o24=;
+ b=rgO6Qzwse4kTCx3Oyizc9ylE6VtfGt68lUDHk7dTF49RfC4wDju0U2FhVOWGD5bfq8
+ GTZM/IaIfVPl7o6ol6S+7ZTalZGu2+F4H1EfOvb2L3tQ5TeMHkl+vxo5qUrUtTMfjJ7e
+ uhC/c/prp+xy9TiMzVWfZK9qDjaEeVWVKBp+gJpuESbstyQ2iDSM8L7+lpHy7NGRa9wS
+ 54ihG4uANH+kEGqFvleVxyfA+jsh/LyHcfcA0TTGllKl16bIKvjOdEFrJn5sb6PEjLWV
+ IoaVNddKZUVeTyC6uDS3Rsey8QmyJMrc1NqMIAmpP75y10ldKvGT3fGmWLwTzf0Ls3ux
+ 47kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FEukhn5LuXoEMOF2RAOm0ngW9ZGKUNwyGsnNN8c0JYU=;
- b=74rJSmhMHGVq516rKO+ZO0jAIlfKl8qGa27PdJ3gaTw1UO19jyVA2VhzspT2vDXS4I
- JvLytxZHgo3I0/wulYxeKWVHVYPVN4RiP3fvBfYtfr0tWu/27HlgBK+GX7PngWqdvtRJ
- /Ixrm/oy79yF0cLYeYAb+ctIp0X0SQFBc5X1jlfUArYAX423RSE8PsadkOgcGxtEqztm
- C2811/0P0Sxuvs2av87D8K9IISQPi/tZdby/sQ7Jp/H/bkOtld4keQzSxZKiBSHmts+X
- 3lN9hdoXG/mmjmEYM6BCmeHXWtn6gtCdHvAAcEN7pvfR/LrhOAr4zaWsRcBCv8S2GzdP
- 1y2w==
-X-Gm-Message-State: AOAM5306ncuoK0rNbDiHFaaVBVmA8sl47jCrTOFbE9YShY5VZct5b28O
- RRn6CkhZjai2rqw0AeTJav32pQ==
-X-Google-Smtp-Source: ABdhPJz73u+OQR6BnnCA25ox8ez79d/kJqe80a+UT5VyXCGeslcQmrBnY+RL5K3dLMPyjPv+qZtu1Q==
-X-Received: by 2002:adf:a150:0:b0:1ee:72f9:7c07 with SMTP id
- r16-20020adfa150000000b001ee72f97c07mr17894165wrr.674.1646128058601; 
- Tue, 01 Mar 2022 01:47:38 -0800 (PST)
+ bh=supxaQdVzvkCnQhT8N01s60fOyhanjrIRWW6b3Q5o24=;
+ b=lIcgvXwn4yzpvr9ALZY1CJvarKTSePsh9DXjggcEX41Emk0KC665OnDKOfV4zm/1ot
+ 040S/93/tR77tTMAnaM/zM/HZB3vMXmm1gh/VUl/k0wAXMbwyxMzu3BHMrtuHEMh5CJi
+ XSnxWLzwkRC5Q3aH14g/wqlsyjZRFprTdSOLXPexU8oELT7mDoP0HFwKjesyLLwGUGho
+ PR1ekrlZb8D1Ccm+WXYxrKITihmI0EmQye1K/dQq2XagG2xkaT3kLxkZghsx4RUr3PEf
+ GYDdpeIqGcDgyepwZfx/8i8ZQyc23QsCg3bau3eI9tVRf6dsyQUMDmMaXizm7HruoRPU
+ aMag==
+X-Gm-Message-State: AOAM532TyOrax3BvaKBMttWdpjVB7paX4XtqoluxUSrWVZ6DnI2J6nRm
+ QD6wejWZW7l5B2turNrz3KMjMg==
+X-Google-Smtp-Source: ABdhPJwhvXMb/ffw9H9j/sDb39dZHM34uXughrjJemNX4HMKLq+pZAmAg1vd+6wHJAtCGZbhchIZRg==
+X-Received: by 2002:a05:600c:3486:b0:381:65ec:f8ed with SMTP id
+ a6-20020a05600c348600b0038165ecf8edmr7381782wmq.68.1646128056585; 
+ Tue, 01 Mar 2022 01:47:36 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- z5-20020a05600c0a0500b0037fa93193a8sm2601157wmp.44.2022.03.01.01.47.24
+ s3-20020a5d4ec3000000b001ea95eba44dsm12945312wrv.109.2022.03.01.01.47.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 01 Mar 2022 01:47:34 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BC2631FFC7;
+ by zen.linaroharston (Postfix) with ESMTP id C73E21FFC8;
  Tue,  1 Mar 2022 09:47:16 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 15/18] gitlab: upgrade the job definition for s390x to 20.04
-Date: Tue,  1 Mar 2022 09:47:12 +0000
-Message-Id: <20220301094715.550871-16-alex.bennee@linaro.org>
+Subject: [PULL 16/18] tests/tcg: completely disable threadcount for sh4
+Date: Tue,  1 Mar 2022 09:47:13 +0000
+Message-Id: <20220301094715.550871-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220301094715.550871-1-alex.bennee@linaro.org>
 References: <20220301094715.550871-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,136 +93,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new s390x machine has more of everything including the OS. As
-18.04 will soon be going we might as well get onto something moderately
-modern.
+The previous disabling of threadcount 3bdc19af00 ("tests/tcg/sh4:
+disable another unreliable test") just for plugins was being too
+conservative. It's all broken so skip it.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220225172021.3493923-16-alex.bennee@linaro.org>
+Message-Id: <20220225172021.3493923-17-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
-index 056c374619..3e76a2034a 100644
---- a/.gitlab-ci.d/custom-runners.yml
-+++ b/.gitlab-ci.d/custom-runners.yml
-@@ -14,6 +14,6 @@ variables:
-   GIT_STRATEGY: clone
+diff --git a/tests/tcg/sh4/Makefile.target b/tests/tcg/sh4/Makefile.target
+index 620ccc23c1..35ebe6b4e3 100644
+--- a/tests/tcg/sh4/Makefile.target
++++ b/tests/tcg/sh4/Makefile.target
+@@ -20,5 +20,7 @@ run-plugin-linux-test-with-%:
+ 	$(call skip-test, $<, "BROKEN")
  
- include:
--  - local: '/.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml'
-+  - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml'
-   - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml'
-   - local: '/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml'
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-similarity index 87%
-rename from .gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml
-rename to .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-index f39d874a1e..0333872113 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-18.04-s390x.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-@@ -1,12 +1,12 @@
--# All ubuntu-18.04 jobs should run successfully in an environment
-+# All ubuntu-20.04 jobs should run successfully in an environment
- # setup by the scripts/ci/setup/build-environment.yml task
--# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-+# "Install basic packages to build QEMU on Ubuntu 20.04/20.04"
- 
--ubuntu-18.04-s390x-all-linux-static:
-+ubuntu-20.04-s390x-all-linux-static:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_18.04
-+ - ubuntu_20.04
-  - s390x
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -21,11 +21,11 @@ ubuntu-18.04-s390x-all-linux-static:
-  - make --output-sync -j`nproc` check V=1
-  - make --output-sync -j`nproc` check-tcg V=1
- 
--ubuntu-18.04-s390x-all:
-+ubuntu-20.04-s390x-all:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_18.04
-+ - ubuntu_20.04
-  - s390x
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -37,11 +37,11 @@ ubuntu-18.04-s390x-all:
-  - make --output-sync -j`nproc`
-  - make --output-sync -j`nproc` check V=1
- 
--ubuntu-18.04-s390x-alldbg:
-+ubuntu-20.04-s390x-alldbg:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_18.04
-+ - ubuntu_20.04
-  - s390x
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -58,11 +58,11 @@ ubuntu-18.04-s390x-alldbg:
-  - make --output-sync -j`nproc`
-  - make --output-sync -j`nproc` check V=1
- 
--ubuntu-18.04-s390x-clang:
-+ubuntu-20.04-s390x-clang:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_18.04
-+ - ubuntu_20.04
-  - s390x
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -78,11 +78,11 @@ ubuntu-18.04-s390x-clang:
-  - make --output-sync -j`nproc`
-  - make --output-sync -j`nproc` check V=1
- 
--ubuntu-18.04-s390x-tci:
-+ubuntu-20.04-s390x-tci:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_18.04
-+ - ubuntu_20.04
-  - s390x
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -97,11 +97,11 @@ ubuntu-18.04-s390x-tci:
-  - ../configure --disable-libssh --enable-tcg-interpreter
-  - make --output-sync -j`nproc`
- 
--ubuntu-18.04-s390x-notcg:
-+ubuntu-20.04-s390x-notcg:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_18.04
-+ - ubuntu_20.04
-  - s390x
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+ # This test is currently unreliable: https://gitlab.com/qemu-project/qemu/-/issues/856
++run-threadcount:
++	$(call skip-test, $<, "BROKEN")
+ run-plugin-threadcount-with-%:
+ 	$(call skip-test, $<, "BROKEN")
 -- 
 2.30.2
 
