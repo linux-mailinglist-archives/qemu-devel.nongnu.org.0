@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEA44CA5CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:20:09 +0100 (CET)
-Received: from localhost ([::1]:47254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31B14CA5E2
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:24:52 +0100 (CET)
+Received: from localhost ([::1]:56430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPOtk-00089x-J3
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:20:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35656)
+	id 1nPOyJ-0006Ws-Or
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:24:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPNKb-00046o-3a
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 06:39:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56172)
+ id 1nPNM4-0006Jz-3Q
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 06:41:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPNKZ-0004ch-3f
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 06:39:44 -0500
+ id 1nPNM2-00052c-HN
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 06:41:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646221182;
+ s=mimecast20190719; t=1646221274;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=19ViMvdRgyTTsoAOTKvBgGMstF1T/snbg2xNx4W52GU=;
- b=dtU7WcLHTkXLJMLLy+3wO8QO7VzeqVUPKa74YZNO3ZfdzgrUJYaEnlBYCpkJ3wOU4i+xnW
- 95rZ+lHALBZbLOBVVm48l/QOShfpYoxgioPAnnR9jX3OeXLTUF3lkSbjpFdo4dUiO4CbIC
- m91Yoysv8OT6ETDc393p/0JEgIjVRRo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5NNmOxlce7sZu9RBTS8wyevkqdYW1ggr4Vge9jgdwVA=;
+ b=FfUPArlNAzE+RWyxsFNteUJlHaIAE0gaX17+6xcPyZBfslTKvjgLDPTrSBadYmW44YIpgb
+ hHgNVGBE0/FxyPOH+Kh0my+7GvDCpYmVCB1Yg+G/IKjfCaTnpaRmTG8W6hHv20jxyNdYh5
+ IMaozAAfIX3ug5FhXaoXyulcIAyrieo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-WfAYugtTPj6i17IuLQmh0g-1; Wed, 02 Mar 2022 06:39:35 -0500
-X-MC-Unique: WfAYugtTPj6i17IuLQmh0g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p9-20020adf9589000000b001e333885ac1so535312wrp.10
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 03:39:35 -0800 (PST)
+ us-mta-627-MA6uGinnOYSF7bnjsV7lXw-1; Wed, 02 Mar 2022 06:41:13 -0500
+X-MC-Unique: MA6uGinnOYSF7bnjsV7lXw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 3-20020a05600c230300b00384e15ceae4so373513wmo.7
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 03:41:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=19ViMvdRgyTTsoAOTKvBgGMstF1T/snbg2xNx4W52GU=;
- b=MyxNYln+GJo/YnzrHuv/XSEPx7REur0quygE3tZGszZ4f5Q3XFCVAZuHjUxvJUMYIR
- ZtlYm+mfjyjDbukPKFJ+dCjmXe6TtZj0TukqE4lBKbwm5RdAzvxeIFh+vLMFFuLTtF8P
- nsfd/AkVxyj6unrYSCVQXRquY0hfhDLyNL+yw4xFxpHtVbFfXtiock0X+koGuVaKZGBu
- qjx2krwXTvDTK9SGRiWwJPbdFUVlX7FUC+4vBoL9t7qQoMcbiYsNVcQ4EynlhnwI1PfS
- 6UcMH4SdIWvQv9ruqJueP93yzflJ3YyaT5Lr4lfCG55k9IlJ++LuXKYthu6zHXgBSoGT
- gEnw==
-X-Gm-Message-State: AOAM533EauS2b+UdpY5VJs3a/EQe7Akm4d+0bPrjwzHt7eCw2d1gs7t6
- oGUu8KeNDDLJqb9OH2wKIkM5UWUtwsDcNFqknhz0LDhpR0Dq4ja8OeprjHiUzAYGq/xIbl+L0nE
- XaeQB5UpAa35O+Fw=
-X-Received: by 2002:a05:6000:114d:b0:1ee:f251:52c6 with SMTP id
- d13-20020a056000114d00b001eef25152c6mr21668425wrx.618.1646221174557; 
- Wed, 02 Mar 2022 03:39:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz1Xf7siCi43xGxdwQnVkacfT0/sOXY2ykUin3Tb4ekfe/fTt/zULIpSy0EEq5FEZixKtULbA==
-X-Received: by 2002:a05:6000:114d:b0:1ee:f251:52c6 with SMTP id
- d13-20020a056000114d00b001eef25152c6mr21668412wrx.618.1646221174321; 
- Wed, 02 Mar 2022 03:39:34 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=5NNmOxlce7sZu9RBTS8wyevkqdYW1ggr4Vge9jgdwVA=;
+ b=Sjc4XlszQ7JJiZclLa7GOr3aIetPKj1RX+oc/foCA4HfUngY686rZosxsHZtBDXs1t
+ EqTl/hWv0DZZEjNGqsW+9NprFDxi2hQ+hbYng8BY8rk2rTmRmWGfrJ7J5QvPVblxPSlD
+ dYTzGPbqRdvkjg/pmEdW6eL0qUumt54/e7gE9gFe44iJS7ToRZKOvkZX8ClrlDdqsdZC
+ fen5mH8Bjo97QF29M/6uIYEXgcVWyEirRKK5CJrq7bsCjaRFCyWVEja5y/qf0RDLApaQ
+ +ZGLf2UxwIADyoSJXmmJ3PMZAJtxI4thhYalHplCVgl22cnVUBCLAA6pe5EEE3No8TGU
+ 4wRw==
+X-Gm-Message-State: AOAM532aCvcUXKpUIKj5OCrHOX9p+YCmjb12GFYNWbQMPyfHQ3AmFYfw
+ QF7IrS1cMnvy2/M3G6YWhJJdKic/eg/dAK60iSmw3MTWTHap1ZFfx6s68922LXFGV9zpI30WbRM
+ PMJMKgoKqyQJ9xt8=
+X-Received: by 2002:a05:600c:4e13:b0:381:c7ac:3ec1 with SMTP id
+ b19-20020a05600c4e1300b00381c7ac3ec1mr5422812wmq.122.1646221268366; 
+ Wed, 02 Mar 2022 03:41:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwnDxuQZd4LFJBtywynZsEU7I8guj3KwOSykCj5lObgWAu0x2QUxFqqpPdznrl26uowf24qkw==
+X-Received: by 2002:a05:600c:4e13:b0:381:c7ac:3ec1 with SMTP id
+ b19-20020a05600c4e1300b00381c7ac3ec1mr5422791wmq.122.1646221268144; 
+ Wed, 02 Mar 2022 03:41:08 -0800 (PST)
 Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
  [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- b15-20020adfc74f000000b001e888b871a0sm17136930wrh.87.2022.03.02.03.39.32
+ h17-20020a05600c351100b00381807bd920sm6389928wmq.28.2022.03.02.03.41.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 03:39:33 -0800 (PST)
-Date: Wed, 2 Mar 2022 11:39:31 +0000
+ Wed, 02 Mar 2022 03:41:07 -0800 (PST)
+Date: Wed, 2 Mar 2022 11:41:05 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Fabian Ebner <f.ebner@proxmox.com>
-Subject: Re: [PATCH v8 0/3] VNC-related HMP/QMP fixes
-Message-ID: <Yh9Xc766JwFT5ySD@work-vm>
-References: <20220204101220.343526-1-f.ebner@proxmox.com>
+To: Jack Wang <jinpu.wang@ionos.com>
+Subject: Re: [PATCH v2] migration/rdma: set the REUSEADDR option for
+ destination
+Message-ID: <Yh9X0dYbI9OoUupM@work-vm>
+References: <20220208085640.19702-1-jinpu.wang@ionos.com>
 MIME-Version: 1.0
-In-Reply-To: <20220204101220.343526-1-f.ebner@proxmox.com>
+In-Reply-To: <20220208085640.19702-1-jinpu.wang@ionos.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -102,92 +100,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: w.bumiller@proxmox.com, berrange@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, marcandre.lureau@gmail.com, kraxel@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, eblake@redhat.com,
- t.lamprecht@proxmox.com
+Cc: qemu-devel@nongnu.org, pankaj.gupta@ionos.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Fabian Ebner (f.ebner@proxmox.com) wrote:
-> Original cover letter by Stefan R.:
+* Jack Wang (jinpu.wang@ionos.com) wrote:
+> We hit following error during testing RDMA transport:
+> in case of migration error, mgmt daemon pick one migration port,
+> incoming rdma:[::]:8089: RDMA ERROR: Error: could not rdma_bind_addr
 > 
-> Since the removal of the generic 'qmp_change' command, one can no
-> longer replace the 'default' VNC display listen address at runtime
-> (AFAIK). For our users who need to set up a secondary VNC access port,
-> this means configuring a second VNC display (in addition to our
-> standard one for web-access), but it turns out one cannot set a
-> password on this second display at the moment, as the 'set_password'
-> call only operates on the 'default' display.
+> Then try another -incoming rdma:[::]:8103, sometime it worked,
+> sometimes need another try with other ports number.
 > 
-> Additionally, using secret objects, the password is only read once at
-> startup. This could be considered a bug too, but is not touched in
-> this series and left for a later date.
+> Set the REUSEADDR option for destination, This allow address could
+> be reused to avoid rdma_bind_addr error out.
+> 
+> Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
 
 Queued
 
-> v7 -> v8:
-> * drop last patch deprecating SetPasswordAction values besides 'keep'
->   for VNC (unfortunately, I don't have enough time to try implementing
->   'disconnect' and 'fail' for VNC in the near future)
-> * drop if conditionals for DisplayProtocol enum to make compilation
->   with --disable-spice and/or --disable-vnc work
-> * order 'keep' first in enum, to fix how patch #3 uses it as an
->   implicit default
-> * also set connected and has_connected for the VNC options in
->   hmp_set_password
-> * fix typo in patch #1
-> * add missing '#' for description in patch #3
+> ---
+> v2: extend commit message as discussed with Pankaj and David
+> ---
+>  migration/rdma.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> v6 -> v7:
-> * remove g_strdup and g_free, use strings directly
-> * squash in last patch
-> 
-> v5 -> v6:
-> * consider feedback from Markus' review, mainly:
->   * fix crash bug in patch 1 (sorry, artifact of patch-splitting)
->   * rely on '!has_param => param == NULL' to shorten code
->   * add note to 'docs/about/deprecated.rst' and touch up comments a bit
-> * go back to g_free instead of qapi_free_* since the latter apparently tries to
->   free the passed in pointer which lives on the stack...
-> * fix bug in HMP parsing (see patch 1)
-> 
-> v4 -> v5:
-> * add comment to patch 1 in "monitor-internal.h"
-> * use qapi_free_SetPasswordOptions and friends, don't leak strdups
-> * split QAPI change into 3 seperate patches
-> 
-> v3 -> v4:
-> * drop previously patch 1, this was fixed here instead:
->   https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02529.html
-> * patch 1: add Eric's R-b
-> * patch 2: remove if-assignment, use 'deprecated' feature in schema
-> 
-> v2 -> v3:
-> * refactor QMP schema for set/expire_password as suggested by Eric Blake and
->   Markus Armbruster
-> 
-> v1 -> v2:
-> * add Marc-André's R-b on patch 1
-> * use '-d' flag as suggested by Eric Blake and Gerd Hoffmann
->   * I didn't see a way to do this yet, so I added a "flags with values" arg type
-> 
-> Stefan Reiter (3):
->   monitor/hmp: add support for flag argument with value
->   qapi/monitor: refactor set/expire_password with enums
->   qapi/monitor: allow VNC display id in set/expire_password
-> 
->  hmp-commands.hx            |  24 ++++---
->  monitor/hmp-cmds.c         |  52 +++++++++++++-
->  monitor/hmp.c              |  19 +++++-
->  monitor/monitor-internal.h |   3 +-
->  monitor/qmp-cmds.c         |  49 ++++----------
->  qapi/ui.json               | 134 ++++++++++++++++++++++++++++++++-----
->  6 files changed, 213 insertions(+), 68 deletions(-)
-> 
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index c7c7a384875b..663e1fbb096d 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -2705,6 +2705,7 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
+>      char ip[40] = "unknown";
+>      struct rdma_addrinfo *res, *e;
+>      char port_str[16];
+> +    int reuse = 1;
+>  
+>      for (idx = 0; idx < RDMA_WRID_MAX; idx++) {
+>          rdma->wr_data[idx].control_len = 0;
+> @@ -2740,6 +2741,12 @@ static int qemu_rdma_dest_init(RDMAContext *rdma, Error **errp)
+>          goto err_dest_init_bind_addr;
+>      }
+>  
+> +    ret = rdma_set_option(listen_id, RDMA_OPTION_ID, RDMA_OPTION_ID_REUSEADDR,
+> +			  &reuse, sizeof reuse);
+> +    if (ret) {
+> +        ERROR(errp, "Error: could not set REUSEADDR option");
+> +        goto err_dest_init_bind_addr;
+> +    }
+>      for (e = res; e != NULL; e = e->ai_next) {
+>          inet_ntop(e->ai_family,
+>              &((struct sockaddr_in *) e->ai_dst_addr)->sin_addr, ip, sizeof ip);
 > -- 
-> 2.30.2
-> 
+> 2.25.1
 > 
 > 
 -- 
