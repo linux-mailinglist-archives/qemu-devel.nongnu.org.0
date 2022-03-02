@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12974CAD81
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:26:35 +0100 (CET)
-Received: from localhost ([::1]:55754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F3D4CAD59
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:18:46 +0100 (CET)
+Received: from localhost ([::1]:59110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPTgI-0002Yu-Vj
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:26:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59794)
+	id 1nPTYj-00023i-PG
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:18:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nPTRw-0006hY-0P
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:11:44 -0500
-Received: from [2a00:1450:4864:20::42d] (port=36847
- helo=mail-wr1-x42d.google.com)
+ id 1nPTRx-0006kC-Sm
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:11:47 -0500
+Received: from [2a00:1450:4864:20::329] (port=44616
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nPTRt-0008O5-IJ
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:11:42 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id r10so4101966wrp.3
+ id 1nPTRu-0008Oi-Px
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:11:44 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ bg31-20020a05600c3c9f00b00381590dbb33so1772232wmb.3
  for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 10:11:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sppHUFpHoe2Mf0jRs80IVLnkBEj/9LXlh2U2u72ah2M=;
- b=eFddcbmNonXX6qRbTxNrsgOouKnX6MxFK6Y+K9ulLHzWyD6HYQHzYJC0p/PNS+j0oq
- eUxfkrDJFjQltk2CWD8aAxelZrmco3uSQGfH1vSt0QnM2hZjHg7sqG1AJaRlyZDfkgdT
- KkFexzmKKB+hxRRpe+q781F1itdf05nGCZoWAaP25xcHARBbe6XIKBpKzPJnjRhe4pbv
- UcMwvvI54Z0auMUQKtZfUCctK91BRi6vcwJk2JU9z18P0YmmBFPbQ4WUVOxeLAaLLpZ2
- 1OErIIOaxmKXUFsJ73j1DDo6XR/758aOctassrbqtAU3HgaTh46Mnr0ynjyEk3Gy1GyI
- FmGA==
+ bh=4VLoIpmcWh/bwRoXTyuG+imMilJf3xfJ/t7uUrTUILo=;
+ b=oPxxP+VSDlvThvo+KMn8Bmj2Zzki4TGOmjJUz90+zK12i8KmBEYjmWbVVLOCH1WDnP
+ 2f5kBX2mm59WG959N0PBU2k8VIboNmQobQamDvU03aaVF/LLjyopXuUTZL8uc4aotgk2
+ SG8vGx2kqyiQoS/arf9CUcAmggwQsJdYnylihKmNNKiunP0e2CMtlz2Hk9W/o/WFerUb
+ q04dSM4L1Woge2WkjFM2sQ+ZJ/SS1VfjGw7kIqjFyZGVm6FvKp2Za3BYmyyvER9iFqak
+ Ama5U/QSugpj+JVYFFhPtAG5oktBaFxzcC2Sah0C2Ng/CPolvoteQSAJvyPfyNAgKkBt
+ HCzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sppHUFpHoe2Mf0jRs80IVLnkBEj/9LXlh2U2u72ah2M=;
- b=6bE36vugT2aqhn4bvA4EVpdGSkOrNRONRzxobeZxkawHie0W5yDNw9PBWegqHpAeve
- M01aCLEzWJt5939vR+qLoM/4MuKjOiXZzFk/TuqeofWhSXFGA8QNF4y63pj9lOeHR7CL
- fH+6cHqSJa4/lAk39WPlSWmrhcq3nZSFA4IK8jnj0fb5tTs56UlJ+u/8b75zHF2RaX2w
- xAodfyqHd3Wsa+XgNbD5qIqxVtfujfNPqOcym/xr5s6iIj4jeJQojdyyXWQAEJCiU/gJ
- liokMIdlHTUt7Q2VyrxMnvLRDlJkgRhmmJcZP/B36dqAcz5+6Nd+uSfLgXhOojH/tLZE
- vJXw==
-X-Gm-Message-State: AOAM530wcd0s5Kcz9NjFOgjgeYV7fS+g8253OCLVq8TOR7STPH4FFzl3
- XbHpKbh8e7/pPcEkUDpfqmaTVQLxOHI=
-X-Google-Smtp-Source: ABdhPJykWY1+W2QBwkXJahneb9cjAFN8YeXXzrFiaHFuE62D6TB9xiUSvkE3fEYOqliXgJ2ILE7ULw==
-X-Received: by 2002:a5d:52ca:0:b0:1e5:8cbc:7f2e with SMTP id
- r10-20020a5d52ca000000b001e58cbc7f2emr24171216wrv.309.1646244700343; 
- Wed, 02 Mar 2022 10:11:40 -0800 (PST)
+ bh=4VLoIpmcWh/bwRoXTyuG+imMilJf3xfJ/t7uUrTUILo=;
+ b=LHcxAhcg7VGBBFH3oT/Q41/wsQGTfk9h5QNVubYg2VhtqiowQa7csbwAGhTMy1iM/B
+ M+6jhJIfKporYTec+TJJEzHzWkVdW9TJUlRK+M3Z/CGbT6MrhfgjhBxZT1Ou/JX+SJNF
+ AEN7c7JpAttvbelxMJPkMsQ0ccOqoPaWv3qWL18fHgqes5Yvg2qwqbnB9LFDZyWgUfoJ
+ sKgtilMXfLBtMEAeGEERpIAWX/mI8DBl3113+l3Uq7ipfoiT10YJyswbKlCufAXK1Fy0
+ ZqxgPO5+vlBAVCC/0mYlCDpeUxmvFYzoO2N+cVen36gUz+md9M0Z7jYI4MXOBVqeBGre
+ IXSg==
+X-Gm-Message-State: AOAM530WbBI6li/BpKQp46AFxVZhoD6vYt+G5FDPDc4UaP8rZODldCnC
+ Dgvcs/ntBPXGgpcrX6E7Npy5MCp68HA=
+X-Google-Smtp-Source: ABdhPJwhphMTNT9l/Dhm5EqOgLdCsav0g1RI2ZKW33+IR9PbFdrhXEXUBdGsI8iPJtFWsBT9yGqVOg==
+X-Received: by 2002:a05:600c:384b:b0:381:10bc:9e43 with SMTP id
+ s11-20020a05600c384b00b0038110bc9e43mr817848wmr.181.1646244701068; 
+ Wed, 02 Mar 2022 10:11:41 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id
- bg20-20020a05600c3c9400b0037fa5c422c8sm7720811wmb.48.2022.03.02.10.11.39
+ bg20-20020a05600c3c9400b0037fa5c422c8sm7720811wmb.48.2022.03.02.10.11.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 10:11:39 -0800 (PST)
+ Wed, 02 Mar 2022 10:11:40 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/11] vmxcap: Add 5-level EPT bit
-Date: Wed,  2 Mar 2022 19:11:26 +0100
-Message-Id: <20220302181134.285107-4-pbonzini@redhat.com>
+Subject: [PULL 04/11] meson: fix generic location of vss headers
+Date: Wed,  2 Mar 2022 19:11:27 +0100
+Message-Id: <20220302181134.285107-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220302181134.285107-1-pbonzini@redhat.com>
 References: <20220302181134.285107-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -89,34 +91,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-5-level EPT is present in Icelake Server CPUs and is supported by QEMU
-('vmx-page-walk-5').
+This is a left-over, despite requesting the change before the merge.
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Message-Id: <20220221145316.576138-2-vkuznets@redhat.com>
+Fixes: commit 8821a389 ("configure, meson: replace VSS SDK checks and options with --enable-vss-sdk")
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20220222194008.610377-2-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kvm/vmxcap | 1 +
- 1 file changed, 1 insertion(+)
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/kvm/vmxcap b/scripts/kvm/vmxcap
-index 6fe66d5f57..f140040104 100755
---- a/scripts/kvm/vmxcap
-+++ b/scripts/kvm/vmxcap
-@@ -249,6 +249,7 @@ controls = [
-         bits = {
-             0: 'Execute-only EPT translations',
-             6: 'Page-walk length 4',
-+            7: 'Page-walk length 5',
-             8: 'Paging-structure memory type UC',
-             14: 'Paging-structure memory type WB',
-             16: '2MB EPT pages',
+diff --git a/meson.build b/meson.build
+index 8df40bfac4..b871098dbb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1936,7 +1936,7 @@ have_vss = false
+ if targetos == 'windows' and link_language == 'cpp'
+   have_vss = cxx.compiles('''
+     #define __MIDL_user_allocate_free_DEFINED__
+-    #include <inc/win2003/vss.h>
++    #include <vss.h>
+     int main(void) { return VSS_CTX_BACKUP; }''')
+ endif
+ 
 -- 
 2.34.1
 
