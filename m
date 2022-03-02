@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5874CAB39
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:11:43 +0100 (CET)
-Received: from localhost ([::1]:57980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4823D4CAB3A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:12:03 +0100 (CET)
+Received: from localhost ([::1]:59264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPSVq-0005SD-KE
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:11:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42726)
+	id 1nPSWA-0006L0-DN
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:12:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nPSU1-0004C5-7a; Wed, 02 Mar 2022 12:09:49 -0500
-Received: from [2a00:1450:4864:20::42a] (port=36666
- helo=mail-wr1-x42a.google.com)
+ id 1nPSUe-0004mB-6L; Wed, 02 Mar 2022 12:10:28 -0500
+Received: from [2a00:1450:4864:20::430] (port=35719
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nPSTz-0003w7-HL; Wed, 02 Mar 2022 12:09:48 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id r10so3848016wrp.3;
- Wed, 02 Mar 2022 09:09:46 -0800 (PST)
+ id 1nPSUc-0004GB-O4; Wed, 02 Mar 2022 12:10:27 -0500
+Received: by mail-wr1-x430.google.com with SMTP id b5so3852813wrr.2;
+ Wed, 02 Mar 2022 09:10:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=QnhPHAEwKEep6fi2qjTPWjK7k2b0OUJeNp7TyqfWmlo=;
- b=cv3rLCKOI9yrY9jCCytYCSnWHCqjS82TZRdZcBNToTvc8qHjAihsufWLmRX+5midRV
- wYSIFsII/zB3kpii5CKY5ZgNApFNgtDsztw/TBDgUGOJe3ELIoEGNOJT5XDlVSEKp553
- WPOufDUeQTX12If1BQSTfmN1B0SGP1ZZFtUBArjjWI3NTvkAPOKHcyGrmS4gPwGeHuXP
- qSR4z+QDxdqLdiFeh87YGOk7Zj6L4eI9peSDSGqaX0qr4VIbFy20eycRjwmjdvRriRsS
- 1r6G9fWrXPFX6W/+BxI8Q1HiFjBjXoh6HW4fTM5CUk5JatD0egaDZnrDyxbgQ9LyT6OC
- 9c7A==
+ bh=/A/Wf1LVWnIFg005LIj0+B/3iT8p8+uVVjrl/CBEcyY=;
+ b=PAZI+7c7kmmiyT3XJwcRO3NMZ9oTNnehWyFoD6+Bt5H7Hl5i39z1hi5MYTDIDyI9wf
+ 7946oKEnme1wJziXZzu3FqKQwkS+Q/+i/I/6uU0qL8QjT/E8UAZ5IvwGYUEeMWLqI2e0
+ SOxjKINJwdByr9Dz9p21rU1LCV0FFX5zbOnetWLk76T0lmEDUxpYtCDCdR75ScjlYK0P
+ /fXBLPa5EMXxXNG0z2NyVWioFIyl2KOs3P9hEUoj6nkunntc8+64BtVTh2PuvbOrO8ev
+ BH1Ds1wjVQmt4mFXZDlVum+D1Xu7CVSI8wjx75C0GxpFsKHxBnOvUjUXbLvTLeJlNiAf
+ sLHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=QnhPHAEwKEep6fi2qjTPWjK7k2b0OUJeNp7TyqfWmlo=;
- b=1LEHf4vw5LW48P1a5ngHhnTU6tM2+KShwUkJghCp/P3wY/b1lyxL/k1dXx4YR0itq8
- Ofeww2rvDvQ/PUm7yy131rrAVrPjBvGkIkkbRTf/JmnHJUrtlQ5GSvGFbb6Rw2zWDJPY
- 1JEWadCDcbBvlPg14aD+32LXZtYUYmWriE6SQAaZ7vQphogkLkgL11/Dr3UDfagGu4rB
- HW0J88mK5mrTgk3AUNgAfyiLNBidfBHGuZNgcjTriqkSQn4SrnPOQMTAN9WTp1Z7NYGu
- JplA8yjapdpTsiBiAv+UcQbW5hngx8myyaaw3MwvZe6V1YRzsWz9kmfcuxfc1TalJRiR
- 6ehA==
-X-Gm-Message-State: AOAM533WKcyduYRexR4p+qC15PttLI9DPWqT6a+kwokcrFoei6PtUKlz
- r1+7ExCyTBPmlYaa8KGg7Sc=
-X-Google-Smtp-Source: ABdhPJwwylKky8bpc1hAINxWZAxor2k/30WpWOvo+TxMMpNYaCQn0rmUzylWFa3jb9g7yAXjVEHgzw==
-X-Received: by 2002:a05:6000:2a5:b0:1f0:2e57:82ab with SMTP id
- l5-20020a05600002a500b001f02e5782abmr3142605wry.515.1646240984956; 
- Wed, 02 Mar 2022 09:09:44 -0800 (PST)
+ bh=/A/Wf1LVWnIFg005LIj0+B/3iT8p8+uVVjrl/CBEcyY=;
+ b=1lNzWEzuz7R9mlbp4aR6VUk1fxqwIBc79MrK1Wm3dSZ09wiKPhmcplo+ugeQSH55kR
+ bW2Oi91CFtofzOVbrR0FR0BZwh4wxAwBqja4Aw1c2aZeZtPgVudKkQSO4Ev+/sL1kof/
+ umf3zbyk26dQaVCu6Ge6kRVLWt6ld1fio8tIE/DJVR7kORUgWDaW0Pxss1F2v/Nww3zC
+ IgXO37Qj/PldU2B379CaSRbgTbnO8Mze8+itFqMAIF67NncNpdluodoeO3Haq5ybBwYV
+ gTAd21Zgt9qvmYIBBxEseRf0BppSo+bUhnHn/x7FGzaW75mF0W/P2e4DAw9mZwpW5q9w
+ q5/Q==
+X-Gm-Message-State: AOAM532MyAXFckc9ekn59V3vTeHyzc/ci4q1i7LkEqr8zrxptFk/LmKi
+ yq+5v6M5SvTki3h1dhKnFqU=
+X-Google-Smtp-Source: ABdhPJxHOez8UfUFF74TDZKGJNkXgRw+DkD5pcjsvwTevsgqS4RaCkwcuDHtzDeNCIDqvvslZPYOpA==
+X-Received: by 2002:a05:6000:1548:b0:1f0:48bc:25de with SMTP id
+ 8-20020a056000154800b001f048bc25demr1034142wry.17.1646241023334; 
+ Wed, 02 Mar 2022 09:10:23 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
  ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.googlemail.com with ESMTPSA id
- c4-20020adfef44000000b001ef93c7bbb8sm12830070wrp.30.2022.03.02.09.09.42
+ g20-20020a05600c4ed400b003811fab7f3esm7666700wmq.30.2022.03.02.09.10.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Mar 2022 09:09:44 -0800 (PST)
-Message-ID: <d75f1eee-cf69-9783-1cde-14427e680360@redhat.com>
-Date: Wed, 2 Mar 2022 18:09:41 +0100
+ Wed, 02 Mar 2022 09:10:22 -0800 (PST)
+Message-ID: <66b68bcc-8d7e-a5f7-5e6c-b2d20c26ab01@redhat.com>
+Date: Wed, 2 Mar 2022 18:10:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/2] Allow returning EventNotifier's wfd
+Subject: Re: [PATCH 2/2] Allow building vhost-user in BSD
 Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, Sergio Lopez <slp@redhat.com>
+To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
 References: <20220302113644.43717-1-slp@redhat.com>
- <20220302113644.43717-2-slp@redhat.com>
- <20220302081234.2378ef33.alex.williamson@redhat.com>
- <20220302152342.3hlzw3ih2agqqu6c@mhamilton>
- <Yh+WESUBI9spkHvd@stefanha-x1.localdomain>
+ <20220302113644.43717-3-slp@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Yh+WESUBI9spkHvd@stefanha-x1.localdomain>
+In-Reply-To: <20220302113644.43717-3-slp@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -99,35 +96,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  kvm@vger.kernel.org, John G Johnson <john.g.johnson@oracle.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Jagannathan Raman <jag.raman@oracle.com>,
  Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
  Eric Farman <farman@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/22 17:06, Stefan Hajnoczi wrote:
->> I agree. In fact, that's what I implemented in the first place. I
->> changed to this version in which event_notifier_get_fd() is extended
->> because it feels more "correct". But yes, the pragmatic option would
->> be adding a new event_notifier_get_wfd().
->>
->> I'll wait for more reviews, and unless someone voices against it, I'll
->> respin the patches with that strategy (I already have it around here).
-> I had the same thought looking through the patch before I read Alex's
-> suggestion. A separate get_wfd() function makes sense to me.
+On 3/2/22 12:36, Sergio Lopez wrote:
+> With the possibility of using pipefd as a replacement on operating
+> systems that doesn't support eventfd, vhost-user can also work on BSD
+> systems.
+> 
+> This change allows enabling vhost-user on BSD platforms too and
+> makes libvhost_user (which still depends on eventfd) a linux-only
+> feature.
+> 
+> Signed-off-by: Sergio Lopez <slp@redhat.com>
 
-And that's four with me. :)  It's not just pragmatic, I cannot imagine a 
-case where the caller doesn't know exactly which of the two file 
-descriptors they want.
+I would just check for !windows.
 
 Paolo
+
+> ---
+>   configure   | 5 +++--
+>   meson.build | 2 +-
+>   2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index c56ed53ee3..93aa22e345 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1659,8 +1659,9 @@ fi
+>   # vhost interdependencies and host support
+>   
+>   # vhost backends
+> -if test "$vhost_user" = "yes" && test "$linux" != "yes"; then
+> -  error_exit "vhost-user is only available on Linux"
+> +if test "$vhost_user" = "yes" && \
+> +    test "$linux" != "yes" && test "$bsd" != "yes" ; then
+> +  error_exit "vhost-user is only available on Linux and BSD"
+>   fi
+>   test "$vhost_vdpa" = "" && vhost_vdpa=$linux
+>   if test "$vhost_vdpa" = "yes" && test "$linux" != "yes"; then
+> diff --git a/meson.build b/meson.build
+> index 8df40bfac4..f2bc439c30 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2701,7 +2701,7 @@ if have_system or have_user
+>   endif
+>   
+>   vhost_user = not_found
+> -if 'CONFIG_VHOST_USER' in config_host
+> +if targetos == 'linux' and 'CONFIG_VHOST_USER' in config_host
+>     libvhost_user = subproject('libvhost-user')
+>     vhost_user = libvhost_user.get_variable('vhost_user_dep')
+>   endif
+
 
