@@ -2,45 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AFF4CB2BA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 00:19:25 +0100 (CET)
-Received: from localhost ([::1]:57178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A934CB2C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 00:38:16 +0100 (CET)
+Received: from localhost ([::1]:33508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPYFf-0007N3-Qb
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 18:19:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51274)
+	id 1nPYXv-00036g-9a
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 18:38:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@jedlik.phy.bme.hu>)
- id 1nPYEo-0006hF-8c
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 18:18:30 -0500
-Received: from jedlik.phy.bme.hu ([152.66.102.83]:37794)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@jedlik.phy.bme.hu>)
- id 1nPYEl-0004Mh-Pk
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 18:18:29 -0500
-Received: by jedlik.phy.bme.hu (Postfix, from userid 1000)
- id AD3EBA0114; Thu,  3 Mar 2022 00:11:10 +0100 (CET)
-Date: Thu, 3 Mar 2022 00:11:10 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 0/5] Misc OHCI clean ups
-In-Reply-To: <41fdb23c-8d12-1ffa-f08-601f15ffc7d6@eik.bme.hu>
-Message-ID: <alpine.LMD.2.03.2203030010350.22863@eik.bme.hu>
-References: <cover.1643117600.git.balaton@eik.bme.hu>
- <1b24997-8dba-d640-1ce6-896fc346ae9@eik.bme.hu>
- <228c70c7-11bf-8d94-607b-4eacdcaddd93@eik.bme.hu>
- <41fdb23c-8d12-1ffa-f08-601f15ffc7d6@eik.bme.hu>
-User-Agent: Alpine 2.03 (LMD 1266 2009-07-14)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nPYW2-0001dw-Ef; Wed, 02 Mar 2022 18:36:18 -0500
+Received: from [2607:f8b0:4864:20::d33] (port=43571
+ helo=mail-io1-xd33.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nPYW0-00081X-SN; Wed, 02 Mar 2022 18:36:18 -0500
+Received: by mail-io1-xd33.google.com with SMTP id m185so3766363iof.10;
+ Wed, 02 Mar 2022 15:36:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mVOvdwxstt+1MpzXpXVO6EZPRzK64u6vMw9Lfg6a27k=;
+ b=QTq6uYJaNYrs3xOxteT9k1kvSsdMphSRQimfzvSnTLD+A/UhRNYnCUKDXVFf2dEMOP
+ Mt2SjQh7W1y/jzBYp1ON9eG2rjXQhxwmebOphVy9g0Bo0F0umMVJOH+u2XM/5DQMalQM
+ v38HWKI1kNM9us/Qns6AbknO/MZoDDgzlXHBUMKe8g+lbB4tNV7cVCEQ5ctNj8PAPt6e
+ Y86CCCCqugZtjmvkjVsQdwIArSXkoe2LDHJuURUPmgOsJplG56YRIfZ4+B+XvxDulxy2
+ DAJLtU+VKUyTTg0VoKnbQsqD6JZ5kMorukbpcvU/0mI+SymMYhNGfb0VP3uDWK4YOYGO
+ ET0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mVOvdwxstt+1MpzXpXVO6EZPRzK64u6vMw9Lfg6a27k=;
+ b=Nd3tmYQw9tGYz6gNTcfDQMwq6rd9ZhyLL2Tei2F1RBjMeF+pdxlBUqrqGtrNi2nb/j
+ pFbgbxReldBNuBj0uh7yiLb9SdZWrJn43Mdu7uwMwLnZBjXgqFrKxopHI97b87CmjTCW
+ InuRfrNiLNLJ3NTpTyDupD9AIOIOUWnOVrSP7i3sd6lOIr0ExQwGJRoR6equfqhjS4oT
+ SLs0TKOyDkXvUMPR/77nc1slZsubUcl8ywagZ2mr842BJImUk7A4uJlOXpHIxUMZ5IKy
+ IReVoWKIjlsPzP9WAVdXJEnYqY6/3H0AGJZsTrUjc3l14G4i9V1k49r1H/59wk+jru8k
+ 6sOA==
+X-Gm-Message-State: AOAM532ZQ3IeRLvuJa1NiubHeJPF5Zc+VmXnYPUrneZBtWGxFXWRvLuC
+ hjALn1MoGqG5woQrePaR8kpNexA5SdmWsGUJDD1wDTm8rY1xaava
+X-Google-Smtp-Source: ABdhPJxIeImXeGcEUcgFs2e9dp/FZnXuKxAPSESMQKMXzdRtxRrhhqG4eFKLjIxSCKwnkBW31yEAgxySbJ/BT2VBGKw=
+X-Received: by 2002:a6b:d60a:0:b0:63a:be64:c652 with SMTP id
+ w10-20020a6bd60a000000b0063abe64c652mr25028432ioa.27.1646264175249; Wed, 02
+ Mar 2022 15:36:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
-Received-SPF: none client-ip=152.66.102.83;
- envelope-from=balaton@jedlik.phy.bme.hu; helo=jedlik.phy.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220219002518.1936806-1-atishp@rivosinc.com>
+ <20220219002518.1936806-11-atishp@rivosinc.com>
+In-Reply-To: <20220219002518.1936806-11-atishp@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 3 Mar 2022 09:35:49 +1000
+Message-ID: <CAKmqyKO2KetER00Oz+M_YTwVubpdY5EY-53QSjCZMEHpF5TNsg@mail.gmail.com>
+Subject: Re: [PATCH v5 10/12] target/riscv: Add few cache related PMU events
+To: Atish Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -53,59 +80,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 25 Feb 2022, BALATON Zoltan wrote:
-> On Wed, 16 Feb 2022, BALATON Zoltan wrote:
->> On Tue, 8 Feb 2022, BALATON Zoltan wrote:
->>> On Tue, 25 Jan 2022, BALATON Zoltan wrote:
->>>> v2 - Fixed checkpatch errors
->>>> 
->>>> Hello,
->>> 
->>> Ping?
->> 
->> Ping^2
+On Sat, Feb 19, 2022 at 10:33 AM Atish Patra <atishp@rivosinc.com> wrote:
 >
-> Ping^3
+> From: Atish Patra <atish.patra@wdc.com>
+>
+> Qemu can monitor the following cache related PMU events through
+> tlb_fill functions.
+>
+> 1. DTLB load/store miss
+> 3. ITLB prefetch miss
+>
+> Increment the PMU counter in tlb_fill function.
+>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
 
-Ping^4 Why is this getting ignored?
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
->> https://patchew.org/QEMU/cover.1643117600.git.balaton@eik.bme.hu/
->> 
->> Regards,
->> BALATON Zoltan
->> 
->>>> I have these patches from last October when we've looked at what
->>>> causes problems with mac99 and USB. We've found the main problem is
->>>> likely not allowing pending packets per endpoint which we did not fix
->>>> but these patches came out of debugging that and trying to improve the
->>>> device model so eventually the real problem could be fixed more
->>>> easily. So these are just clean ups and fixing one potential issue
->>>> with isochronous transfers breaking pending async packet but it does
->>>> not solve all problems OHCI currently has. I'm sending it anyway as I
->>>> don't plan to work further on this so this series could be taken as is
->>>> for now.
->>>> 
->>>> Regards,
->>>> 
->>>> BALATON Zoltan (5):
->>>>  usb/ohci: Move trace point and log ep number to help debugging
->>>>  usb/ohci: Move cancelling async packet to ohci_stop_endpoints()
->>>>  usb/ohci: Move USBPortOps related functions together
->>>>  usb/ohci: Merge ohci_async_cancel_device() into ohci_child_detach()
->>>>  usb/ohci: Don't use packet from OHCIState for isochronous transfers
->>>> 
->>>> hw/usb/hcd-ohci.c   | 297 +++++++++++++++++++++-----------------------
->>>> hw/usb/trace-events |   2 +-
->>>> 2 files changed, 146 insertions(+), 153 deletions(-)
->>>> 
->>>> 
->>> 
->> 
->> 
+Alistair
+
+> ---
+>  target/riscv/cpu_helper.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 746335bfd6b9..094d41ba07f7 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -21,10 +21,13 @@
+>  #include "qemu/log.h"
+>  #include "qemu/main-loop.h"
+>  #include "cpu.h"
+> +#include "pmu.h"
+>  #include "exec/exec-all.h"
+>  #include "tcg/tcg-op.h"
+>  #include "trace.h"
+>  #include "semihosting/common-semi.h"
+> +#include "cpu.h"
+> +#include "cpu_bits.h"
+>
+>  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+>  {
+> @@ -1174,6 +1177,28 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+>      riscv_raise_exception(env, cs->exception_index, retaddr);
+>  }
+>
+> +
+> +static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MMUAccessType access_type)
+> +{
+> +    enum riscv_pmu_event_idx pmu_event_type;
+> +
+> +    switch (access_type) {
+> +    case MMU_INST_FETCH:
+> +        pmu_event_type = RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS;
+> +        break;
+> +    case MMU_DATA_LOAD:
+> +        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS;
+> +        break;
+> +    case MMU_DATA_STORE:
+> +        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS;
+> +        break;
+> +    default:
+> +        return;
+> +    }
+> +
+> +    riscv_pmu_incr_ctr(cpu, pmu_event_type);
+> +}
+> +
+>  bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                          MMUAccessType access_type, int mmu_idx,
+>                          bool probe, uintptr_t retaddr)
+> @@ -1270,6 +1295,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>              }
+>          }
+>      } else {
+> +        pmu_tlb_fill_incr_ctr(cpu, access_type);
+>          /* Single stage lookup */
+>          ret = get_physical_address(env, &pa, &prot, address, NULL,
+>                                     access_type, mmu_idx, true, false, false);
+> --
+> 2.30.2
 >
 >
 
