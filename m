@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC32A4CADF4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:54:34 +0100 (CET)
-Received: from localhost ([::1]:58294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FBE4CADCE
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:46:12 +0100 (CET)
+Received: from localhost ([::1]:38942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPU7N-0000zx-Vk
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:54:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36552)
+	id 1nPTzH-0004VG-0g
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:46:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkN-00019z-9O
+ id 1nPTkP-0001Aq-Fe
  for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:30:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48755)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkL-0000Gy-SL
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:30:47 -0500
+ id 1nPTkN-0000HU-Qh
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:30:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646245845;
+ s=mimecast20190719; t=1646245847;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z07z8CGNUIIYlCG7E922xqz5XbqR2PM+pls6kG+eRsU=;
- b=LaNzHB0GGaun4EsF+gCp6dFlNPMdtNsvyZY65ipwvgfXbQx44X5eF/Sn2KJ37CSnNyQxLT
- 1hFL6lEI621X5OZbmIK2jeYxNHPse7M+NMoWW4kVY7oP2cca6h7FYT6Q2tXrF5pCkDUzDd
- juK2fkyRiWEFyYK60qBr5GwR816R6rs=
+ bh=JQEpxXYDKo25qii7TXS62u3K8NDhEgNMVxi0JvIKVTw=;
+ b=FuIVX6CxKKi+uq31Q+27fm6m2aTh5IFMAHqZ4uavc6lqMYruv2H/+QUtyp3TMMtuFbblL1
+ OyCCtanCs5ngKMU/IZaFPXRaN55/Ra597t7NkBqYPtNXrhH1zHOP33vLjiOXqiCwul88fO
+ o7HzTA6j0n2rBrAbOCWuVhRsc0OSQU0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-iUgNLhxVNo-pblI0l2vGag-1; Wed, 02 Mar 2022 13:30:44 -0500
-X-MC-Unique: iUgNLhxVNo-pblI0l2vGag-1
+ us-mta-372-Nt8cHhzOM26m8IxKqpesJQ-1; Wed, 02 Mar 2022 13:30:46 -0500
+X-MC-Unique: Nt8cHhzOM26m8IxKqpesJQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 051A618D6A22;
- Wed,  2 Mar 2022 18:30:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E88E184A5F2;
+ Wed,  2 Mar 2022 18:30:44 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66A651059166;
- Wed,  2 Mar 2022 18:30:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FB761059166;
+ Wed,  2 Mar 2022 18:30:43 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, f.ebner@proxmox.com, hreitz@redhat.com,
  jinpu.wang@ionos.com, peter.maydell@linaro.org, peterx@redhat.com,
  s.reiter@proxmox.com
-Subject: [PULL 07/18] migration: Dump sub-cmd name in loadvm_process_command tp
-Date: Wed,  2 Mar 2022 18:29:25 +0000
-Message-Id: <20220302182936.227719-8-dgilbert@redhat.com>
+Subject: [PULL 08/18] migration: Finer grained tracepoints for POSTCOPY_LISTEN
+Date: Wed,  2 Mar 2022 18:29:26 +0000
+Message-Id: <20220302182936.227719-9-dgilbert@redhat.com>
 In-Reply-To: <20220302182936.227719-1-dgilbert@redhat.com>
 References: <20220302182936.227719-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -88,49 +88,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-It'll be easier to read the name rather than index of sub-cmd when debugging.
+The enablement of postcopy listening has a few steps, add a few tracepoints to
+be there ready for some basic measurements for them.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20220301083925.33483-2-peterx@redhat.com>
+Message-Id: <20220301083925.33483-3-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/savevm.c     | 3 ++-
+ migration/savevm.c     | 9 ++++++++-
  migration/trace-events | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/migration/savevm.c b/migration/savevm.c
-index 1599b02fbc..7bb65e1d61 100644
+index 7bb65e1d61..190cc5fc42 100644
 --- a/migration/savevm.c
 +++ b/migration/savevm.c
-@@ -2273,12 +2273,13 @@ static int loadvm_process_command(QEMUFile *f)
-         return qemu_file_get_error(f);
-     }
+@@ -1948,9 +1948,10 @@ static void *postcopy_ram_listen_thread(void *opaque)
+ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+ {
+     PostcopyState ps = postcopy_state_set(POSTCOPY_INCOMING_LISTENING);
+-    trace_loadvm_postcopy_handle_listen();
+     Error *local_err = NULL;
  
--    trace_loadvm_process_command(cmd, len);
-     if (cmd >= MIG_CMD_MAX || cmd == MIG_CMD_INVALID) {
-         error_report("MIG_CMD 0x%x unknown (len 0x%x)", cmd, len);
-         return -EINVAL;
-     }
- 
-+    trace_loadvm_process_command(mig_cmd_args[cmd].name, len);
++    trace_loadvm_postcopy_handle_listen("enter");
 +
-     if (mig_cmd_args[cmd].len != -1 && mig_cmd_args[cmd].len != len) {
-         error_report("%s received with bad length - expecting %zu, got %d",
-                      mig_cmd_args[cmd].name,
+     if (ps != POSTCOPY_INCOMING_ADVISE && ps != POSTCOPY_INCOMING_DISCARD) {
+         error_report("CMD_POSTCOPY_LISTEN in wrong postcopy state (%d)", ps);
+         return -1;
+@@ -1965,6 +1966,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+         }
+     }
+ 
++    trace_loadvm_postcopy_handle_listen("after discard");
++
+     /*
+      * Sensitise RAM - can now generate requests for blocks that don't exist
+      * However, at this point the CPU shouldn't be running, and the IO
+@@ -1977,6 +1980,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+         }
+     }
+ 
++    trace_loadvm_postcopy_handle_listen("after uffd");
++
+     if (postcopy_notify(POSTCOPY_NOTIFY_INBOUND_LISTEN, &local_err)) {
+         error_report_err(local_err);
+         return -1;
+@@ -1991,6 +1996,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
+     qemu_sem_wait(&mis->listen_thread_sem);
+     qemu_sem_destroy(&mis->listen_thread_sem);
+ 
++    trace_loadvm_postcopy_handle_listen("return");
++
+     return 0;
+ }
+ 
 diff --git a/migration/trace-events b/migration/trace-events
-index 48aa7b10ee..123cfe79d7 100644
+index 123cfe79d7..92596c00d8 100644
 --- a/migration/trace-events
 +++ b/migration/trace-events
-@@ -22,7 +22,7 @@ loadvm_postcopy_handle_resume(void) ""
- loadvm_postcopy_ram_handle_discard(void) ""
- loadvm_postcopy_ram_handle_discard_end(void) ""
- loadvm_postcopy_ram_handle_discard_header(const char *ramid, uint16_t len) "%s: %ud"
--loadvm_process_command(uint16_t com, uint16_t len) "com=0x%x len=%d"
-+loadvm_process_command(const char *s, uint16_t len) "com=%s len=%d"
- loadvm_process_command_ping(uint32_t val) "0x%x"
- postcopy_ram_listen_thread_exit(void) ""
- postcopy_ram_listen_thread_start(void) ""
+@@ -14,7 +14,7 @@ loadvm_handle_cmd_packaged_main(int ret) "%d"
+ loadvm_handle_cmd_packaged_received(int ret) "%d"
+ loadvm_handle_recv_bitmap(char *s) "%s"
+ loadvm_postcopy_handle_advise(void) ""
+-loadvm_postcopy_handle_listen(void) ""
++loadvm_postcopy_handle_listen(const char *str) "%s"
+ loadvm_postcopy_handle_run(void) ""
+ loadvm_postcopy_handle_run_cpu_sync(void) ""
+ loadvm_postcopy_handle_run_vmstart(void) ""
 -- 
 2.35.1
 
