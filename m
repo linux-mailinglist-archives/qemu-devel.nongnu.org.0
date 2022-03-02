@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80574CADF1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:53:16 +0100 (CET)
-Received: from localhost ([::1]:53696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 805B34CAE5B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 20:13:31 +0100 (CET)
+Received: from localhost ([::1]:58006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPU67-0006IC-Vl
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:53:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36876)
+	id 1nPUPi-00057K-6o
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 14:13:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTko-0001th-1E
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36229)
+ (Exim 4.90_1)
+ (envelope-from <5dbe4870cb5af4ede424e8529f2d4b114254c65a@lizzy.crudebyte.com>)
+ id 1nPUN7-0002Np-HM
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 14:10:49 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:57561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkm-0000MI-9R
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646245868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K8u2T++Crfcmx6tmHawN9ZEPoosKW24Svo58S7Rae5g=;
- b=f2XehK2Gx93mlH+O7Ok95apwm3XWsqLtds1STwxMOTk0dreilNGNOkM+7m1Z7B0TPefB6Q
- XUmugt8a9Z6JG6cQDInCmWNsmju+N5Msn49kmpdcS2U36fN7Abj2r7h90F+710fL/btP/h
- kupA/kFj9qvDhbcAj/wpziAWF4HrxMA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-267-m_s0mPO3NniHOwTMistPHw-1; Wed, 02 Mar 2022 13:31:05 -0500
-X-MC-Unique: m_s0mPO3NniHOwTMistPHw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5344B19251BD;
- Wed,  2 Mar 2022 18:31:04 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.33.36.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B46911059170;
- Wed,  2 Mar 2022 18:31:02 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, f.ebner@proxmox.com, hreitz@redhat.com,
- jinpu.wang@ionos.com, peter.maydell@linaro.org, peterx@redhat.com,
- s.reiter@proxmox.com
-Subject: [PULL 18/18] migration: Remove load_state_old and
- minimum_version_id_old
-Date: Wed,  2 Mar 2022 18:29:36 +0000
-Message-Id: <20220302182936.227719-19-dgilbert@redhat.com>
-In-Reply-To: <20220302182936.227719-1-dgilbert@redhat.com>
-References: <20220302182936.227719-1-dgilbert@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ (Exim 4.90_1)
+ (envelope-from <5dbe4870cb5af4ede424e8529f2d4b114254c65a@lizzy.crudebyte.com>)
+ id 1nPUN5-0003ec-AD
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 14:10:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=En4hKNhARgIxQNggid9z+ncqqwZZjjE7feIvMod08qI=; b=Eq/nO
+ pgFoUtunMg5xlxO27omSWA327jo2p//2hu9RZUOiRrhb+Vk1Gz2Pd94zn6Ipqx9GBkhhlaBlWj5TB
+ vnykUQk8isNwHS1jwae0ksgHqoK0YmIZgAHmZTxie8Sw0IKKy4F3VnfXcuZvTSWOXYHKW2b6GOlVJ
+ 4rkBKLXGAQPov5dAS7GdgHK2Ak5eulNl4z3bc3NljmVjFMS77FmuozFHH6B5oxPDPKDmgOTRkVLmO
+ +cttvBa1szab0slfGfMjeO62uo0KcdjeKA7eRV/XhHfK90gIBpzCUVRrmxnOnLLLq2XJUrUDcqBlj
+ q1HG77bBWpMW1JMpisuOUGS87q+gw==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Wed, 2 Mar 2022 19:30:39 +0100
+Subject: [PATCH] 9pfs: drop Doxygen format from qemu_dirent_dup() API comment
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>,
+    Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <E1nPTwO-0006pl-Np@lizzy.crudebyte.com>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=5dbe4870cb5af4ede424e8529f2d4b114254c65a@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,105 +58,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+API doc comments in QEMU are supposed to be in kerneldoc format, so drop
+occurrences of "@c" which is Doxygen format for fixed-width text.
 
-There are no longer any VMStateDescription structs in the tree which
-use the load_state_old support for custom handling of incoming
-migration from very old QEMU.  Remove the mechanism entirely.
-
-This includes removing one stray useless setting of
-minimum_version_id_old in a VMStateDescription with no load_state_old
-function, which crept in after the global weeding-out of them in
-commit 17e313406126.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220215175705.3846411-1-peter.maydell@linaro.org>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Link: https://lore.kernel.org/qemu-devel/CAFEAcA89+ENOM6x19OEF53Kd2DWkhN5SN21Va0D7yepJSa3Jyg@mail.gmail.com/
+Based-on: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- docs/devel/migration.rst    | 12 +++---------
- hw/ssi/xlnx-versal-ospi.c   |  1 -
- include/migration/vmstate.h |  2 --
- migration/vmstate.c         |  6 ------
- 4 files changed, 3 insertions(+), 18 deletions(-)
+ hw/9pfs/9p-util.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
-index 2401253482..3e9656d8e0 100644
---- a/docs/devel/migration.rst
-+++ b/docs/devel/migration.rst
-@@ -389,19 +389,13 @@ Each version is associated with a series of fields saved.  The ``save_state`` al
- the state as the newer version.  But ``load_state`` sometimes is able to
- load state from an older version.
- 
--You can see that there are several version fields:
-+You can see that there are two version fields:
- 
- - ``version_id``: the maximum version_id supported by VMState for that device.
- - ``minimum_version_id``: the minimum version_id that VMState is able to understand
-   for that device.
--- ``minimum_version_id_old``: For devices that were not able to port to vmstate, we can
--  assign a function that knows how to read this old state. This field is
--  ignored if there is no ``load_state_old`` handler.
--
--VMState is able to read versions from minimum_version_id to
--version_id.  And the function ``load_state_old()`` (if present) is able to
--load state from minimum_version_id_old to minimum_version_id.  This
--function is deprecated and will be removed when no more users are left.
-+
-+VMState is able to read versions from minimum_version_id to version_id.
- 
- There are *_V* forms of many ``VMSTATE_`` macros to load fields for version dependent fields,
- e.g.
-diff --git a/hw/ssi/xlnx-versal-ospi.c b/hw/ssi/xlnx-versal-ospi.c
-index 7ecd148fdf..c762e0b367 100644
---- a/hw/ssi/xlnx-versal-ospi.c
-+++ b/hw/ssi/xlnx-versal-ospi.c
-@@ -1800,7 +1800,6 @@ static const VMStateDescription vmstate_xlnx_versal_ospi = {
-     .name = TYPE_XILINX_VERSAL_OSPI,
-     .version_id = 1,
-     .minimum_version_id = 1,
--    .minimum_version_id_old = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_FIFO8(rx_fifo, XlnxVersalOspi),
-         VMSTATE_FIFO8(tx_fifo, XlnxVersalOspi),
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index 017c03675c..ad24aa1934 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -181,9 +181,7 @@ struct VMStateDescription {
-     int unmigratable;
-     int version_id;
-     int minimum_version_id;
--    int minimum_version_id_old;
-     MigrationPriority priority;
--    LoadStateHandler *load_state_old;
-     int (*pre_load)(void *opaque);
-     int (*post_load)(void *opaque, int version_id);
-     int (*pre_save)(void *opaque);
-diff --git a/migration/vmstate.c b/migration/vmstate.c
-index 05f87cdddc..36ae8b9e19 100644
---- a/migration/vmstate.c
-+++ b/migration/vmstate.c
-@@ -90,12 +90,6 @@ int vmstate_load_state(QEMUFile *f, const VMStateDescription *vmsd,
-         return -EINVAL;
-     }
-     if  (version_id < vmsd->minimum_version_id) {
--        if (vmsd->load_state_old &&
--            version_id >= vmsd->minimum_version_id_old) {
--            ret = vmsd->load_state_old(f, opaque, version_id);
--            trace_vmstate_load_state_end(vmsd->name, "old path", ret);
--            return ret;
--        }
-         error_report("%s: incoming version_id %d is too old "
-                      "for local minimum version_id  %d",
-                      vmsd->name, version_id, vmsd->minimum_version_id);
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 8b92614e6c..22835c5f61 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -116,8 +116,8 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
+  * Duplicate directory entry @dent.
+  *
+  * It is highly recommended to use this function instead of open coding
+- * duplication of @c dirent objects, because the actual @c struct @c dirent
+- * size may be bigger or shorter than @c sizeof(struct dirent) and correct
++ * duplication of dirent objects, because the actual struct dirent
++ * size may be bigger or shorter than sizeof(struct dirent) and correct
+  * handling is platform specific (see gitlab issue #841).
+  *
+  * @dent - original directory entry to be duplicated
 -- 
-2.35.1
+2.30.2
 
 
