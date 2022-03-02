@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624954CA4C8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 13:28:19 +0100 (CET)
-Received: from localhost ([::1]:45556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C684CA4D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 13:31:51 +0100 (CET)
+Received: from localhost ([::1]:53968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPO5a-00036E-FD
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 07:28:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58044)
+	id 1nPO90-0000jK-EH
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 07:31:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMrQ-0001j4-4C; Wed, 02 Mar 2022 06:09:41 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12122)
+ id 1nPMrU-0001jB-7x; Wed, 02 Mar 2022 06:09:41 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMrN-0001yY-OM; Wed, 02 Mar 2022 06:09:35 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2229IhHO025457; 
- Wed, 2 Mar 2022 11:09:08 GMT
+ id 1nPMrP-0001yc-De; Wed, 02 Mar 2022 06:09:36 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2229rX7j026077; 
+ Wed, 2 Mar 2022 11:09:09 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ej5uc23k6-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ej6bpsf79-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 02 Mar 2022 11:09:08 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 222AfCL8005104;
- Wed, 2 Mar 2022 11:09:07 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ej5uc23h5-1
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 222Aa7bh018279;
+ Wed, 2 Mar 2022 11:09:08 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ej6bpsf54-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 11:09:07 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B2x0g030092;
+ Wed, 02 Mar 2022 11:09:08 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B3DQZ017800;
  Wed, 2 Mar 2022 11:09:05 GMT
 Received: from b06cxnps4075.portsmouth.uk.ibm.com
  (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma01fra.de.ibm.com with ESMTP id 3efbu95250-1
+ by ppma04ams.nl.ibm.com with ESMTP id 3egbj19jtg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 02 Mar 2022 11:09:05 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
  by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 222B92j517957188
+ 222B93vb45220208
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Mar 2022 11:09:02 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C36C24C040;
- Wed,  2 Mar 2022 11:09:02 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 818864C046;
- Wed,  2 Mar 2022 11:09:02 +0000 (GMT)
+ Wed, 2 Mar 2022 11:09:03 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 78CC2A407A;
+ Wed,  2 Mar 2022 11:09:03 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3553CA406F;
+ Wed,  2 Mar 2022 11:09:03 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed,  2 Mar 2022 11:09:02 +0000 (GMT)
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed,  2 Mar 2022 11:09:03 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.58.125])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id BC83C2201C1;
- Wed,  2 Mar 2022 12:09:01 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 738F0220294;
+ Wed,  2 Mar 2022 12:09:02 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 82/87] hw/ppc/spapr_drc.c: use g_autofree in
- spapr_dr_connector_new()
-Date: Wed,  2 Mar 2022 12:07:58 +0100
-Message-Id: <20220302110803.849505-83-clg@kaod.org>
+Subject: [PULL 83/87] hw/ppc/spapr_drc.c: use g_autofree in
+ spapr_drc_by_index()
+Date: Wed,  2 Mar 2022 12:07:59 +0100
+Message-Id: <20220302110803.849505-84-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220302110803.849505-1-clg@kaod.org>
 References: <20220302110803.849505-1-clg@kaod.org>
@@ -71,17 +71,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 5lIXKF0OGXQOASejRqSmoIAeGdbH5IhV
-X-Proofpoint-GUID: sy7bnS0LiBz2wAIO-uiiqK9YtiShYtkt
+X-Proofpoint-GUID: zWZZ7EPi0EM6Z2HsdMtASMzB-a6evo7n
+X-Proofpoint-ORIG-GUID: mnt-sjNPmmdNhWkv33VkQcEn62KCrUjp
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-02_01,2022-02-26_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- mlxscore=0 priorityscore=1501 mlxlogscore=736 malwarescore=0 bulkscore=0
- spamscore=0 clxscore=1034 lowpriorityscore=0 phishscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
- definitions=main-2203020047
+ clxscore=1034 impostorscore=0
+ suspectscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=892
+ spamscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2203020047
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
@@ -113,34 +113,30 @@ From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Message-Id: <20220228175004.8862-10-danielhb413@gmail.com>
+Message-Id: <20220228175004.8862-11-danielhb413@gmail.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/spapr_drc.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/ppc/spapr_drc.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index b2a365baf148..ac4067625ee9 100644
+index ac4067625ee9..76bc5d42a050 100644
 --- a/hw/ppc/spapr_drc.c
 +++ b/hw/ppc/spapr_drc.c
-@@ -557,7 +557,7 @@ SpaprDrc *spapr_dr_connector_new(Object *owner, const=
- char *type,
-                                          uint32_t id)
+@@ -798,11 +798,9 @@ static const TypeInfo spapr_drc_pmem_info =3D {
+ SpaprDrc *spapr_drc_by_index(uint32_t index)
  {
-     SpaprDrc *drc =3D SPAPR_DR_CONNECTOR(object_new(type));
--    char *prop_name;
-+    g_autofree char *prop_name =3D NULL;
+     Object *obj;
+-    gchar *name;
+-
+-    name =3D g_strdup_printf("%s/%x", DRC_CONTAINER_PATH, index);
++    g_autofree gchar *name =3D g_strdup_printf("%s/%x", DRC_CONTAINER_PA=
+TH,
++                                             index);
+     obj =3D object_resolve_path(name, NULL);
+-    g_free(name);
 =20
-     drc->id =3D id;
-     drc->owner =3D owner;
-@@ -566,7 +566,6 @@ SpaprDrc *spapr_dr_connector_new(Object *owner, const=
- char *type,
-     object_property_add_child(owner, prop_name, OBJECT(drc));
-     object_unref(OBJECT(drc));
-     qdev_realize(DEVICE(drc), NULL, NULL);
--    g_free(prop_name);
-=20
-     return drc;
+     return !obj ? NULL : SPAPR_DR_CONNECTOR(obj);
  }
 --=20
 2.34.1
