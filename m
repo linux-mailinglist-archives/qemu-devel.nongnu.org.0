@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2584C9ABD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 02:53:54 +0100 (CET)
-Received: from localhost ([::1]:42380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9F34C9AD0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 02:59:22 +0100 (CET)
+Received: from localhost ([::1]:52618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPEBc-0001Th-Ml
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 20:53:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59738)
+	id 1nPEGv-0000DT-F0
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 20:59:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3h80eYgYKCrQncnomlaiiafY.WigkYgo-XYpYfhihaho.ila@flex--titusr.bounces.google.com>)
- id 1nPE90-0007M2-Pt
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:51:10 -0500
-Received: from [2607:f8b0:4864:20::b4a] (port=56150
- helo=mail-yb1-xb4a.google.com)
+ <3ic0eYgYKCrYpepqonckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--titusr.bounces.google.com>)
+ id 1nPEEI-0006tZ-2f
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:56:38 -0500
+Received: from [2607:f8b0:4864:20::114a] (port=49593
+ helo=mail-yw1-x114a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3h80eYgYKCrQncnomlaiiafY.WigkYgo-XYpYfhihaho.ila@flex--titusr.bounces.google.com>)
- id 1nPE8x-0004xX-Bd
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:51:10 -0500
-Received: by mail-yb1-xb4a.google.com with SMTP id
- b18-20020a25fa12000000b0062412a8200eso153507ybe.22
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 17:51:03 -0800 (PST)
+ <3ic0eYgYKCrYpepqonckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--titusr.bounces.google.com>)
+ id 1nPEEG-00071l-If
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:56:37 -0500
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-2d7b96d74f8so1601827b3.16
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 17:56:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=psSMCNKv2yqoyBWLtLGO59oWBEWLqDJSO6USW3rcrSM=;
- b=qbAA0sUfF1cD7Aex3ZpkZvhuGVfeNsbCKuFI2FSM8NVDF3kUX/zdo+h8BC9J1uSSui
- RFuMF/4OZ/Hzi3t/2eT0awPiaf/XBJ5ewgSlF3o7qBoxk0LmmWzFB9dx2uVdfkKP1C8p
- Q0BX9a2H8NWffhNHkulwgQA+Os8at++jkdXGukbXLbCh4M1bHdC0jltR1Eivr9PjuoxM
- OUAG5RX09mSy9CYEvpdIySEGkW38TF3AyT9az7hqyntHEF9Q46URLgWB3kY8umQTzIKW
- +1LEbc+lx/6vkF9i0GCC5H/iQfzL8FMcKrC/Y2zdpokMzVotAYo3uvUNjeNCSeUQpKOv
- 07NA==
+ :cc; bh=Y2EUdWJWmuYng2riwpVs90eiRzjJjFCIkE+E1jmTD+Y=;
+ b=qEl+OFcT9yLNf7Mf4ZBx0+iKJjmHzm1punbcHsKE3Fe7aiFV5geWkEG69ADOph1W56
+ 9govhiEtUvun7rCaJ9mdMfxi/u5XTX6ThAic9HabYDHl9KMICSMhHE34Rrj/tt180wWm
+ wlvo1//imQ8NqsiPfhVy+9QuM+D7grqMgPe+9xRhSRkDhM6fSBE2raixHCJ/SZx7EmaT
+ HXw1rf81m1C5doG3AjrZXLQnlrEowppQ4jl8k/ppttmCMBKju68hU6vWuWbtZ3Q58fBL
+ 9bL/7G7kAXwrE2YkgGhSfSlyfKG146l7AuTqBFai5WJaKXxo+MInjSaVRyBgmXIaSOCv
+ yp3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=psSMCNKv2yqoyBWLtLGO59oWBEWLqDJSO6USW3rcrSM=;
- b=esbydNq75Fb93DAZuoz5NcWFfNbtejQniMU8g75+C7axWirCFfZr2FQw0Ck6rylgil
- s8d/CHrJ1F9IbwwyhpLXGALLu9fNCGl4Wadkx+SSaFNW3TOPCMRNAz5Smu0s/d5xObe/
- IeNVNYxe3/dpRr3MGQjHbs2TqqyhT5LXJCR5ttVE94g9FPgl+A/t27plpUgw3b9VaM1j
- YLDBkjO9M/nCUf85pkXKWhb70QYoF/+kfPyZXuFbZCj7SUMvria2XEKdmSaWO1gu8XKQ
- pBUmCeqnMrjinWXqkLMObl8Q6lrjnZcM468B65uDwF0M6yUHLJLFU3w+7YvZTCc1MViR
- 0okA==
-X-Gm-Message-State: AOAM530agixzGjqdnDW0cHI1SSima2LYF5kvpCHBTX+JnMyR5VNTPH/P
- 7JiMcZ11TharusRzx3dEhogVZnPQfhg=
-X-Google-Smtp-Source: ABdhPJzU6hZp5dQ4LzuPqKAk4pIFHD4SUNz1xeljzM3NeiGoxdRdS7Um/FtnTllq3ICySAY9UobHVi71X7k=
+ bh=Y2EUdWJWmuYng2riwpVs90eiRzjJjFCIkE+E1jmTD+Y=;
+ b=1mccq0AQ3jrpyDaFVROb8T/nYj3lQ4zI8nW234HR/Ga1xJLEVofnkobTx5DqzNdRKv
+ ussIU2RhPhLdSzlq0pb9LaT6J2vN98/XsxRCNYptZKH1YTrZ/jHPBRYSo9VndaovitUw
+ IlBHI4ugo5t2EwFNsvDnZrU5YpE1PO8BXQ6tSokaTXkWaUn9imZRxjhyLQTNj8D6Aru8
+ IzyOgV5gDop3IglUMmH5PKII1l/brAfVNrLDP5kcOt49isQPeaPX4fhpNdHk8eFYLbxQ
+ gG2qTni4nFNQSbKquDsADCzklGRKBF9k9NIQXfRLBqnFWYrdyBrrBYLObqEozPD7aojx
+ niBw==
+X-Gm-Message-State: AOAM530g9P/cJxoU9Dq3Agld5goSdxPA4lsJkah468HP/qd0wrcMketf
+ +yA/dIXbXhj+Ipd4LAHd2jO+N0G5t5s=
+X-Google-Smtp-Source: ABdhPJx/pQGSg/+LZ29MTtHE/N1NzNx5y8viPa2IBFNK7VBoQz5W40W3dcu0LbDFx3EBjAgrWXGnLCqTGfk=
 X-Received: from titusr.svl.corp.google.com
  ([2620:15c:2a3:201:3a0a:5449:c096:dc84])
- (user=titusr job=sendgmr) by 2002:a25:a1e4:0:b0:620:f638:3eeb with SMTP id
- a91-20020a25a1e4000000b00620f6383eebmr27581480ybi.392.1646185863148; Tue, 01
- Mar 2022 17:51:03 -0800 (PST)
-Date: Tue,  1 Mar 2022 17:50:45 -0800
+ (user=titusr job=sendgmr) by 2002:a25:8886:0:b0:624:50e0:3428 with SMTP id
+ d6-20020a258886000000b0062450e03428mr26995177ybl.552.1646185865540; Tue, 01
+ Mar 2022 17:51:05 -0800 (PST)
+Date: Tue,  1 Mar 2022 17:50:46 -0800
 In-Reply-To: <20220302015053.1984165-1-titusr@google.com>
-Message-Id: <20220302015053.1984165-2-titusr@google.com>
+Message-Id: <20220302015053.1984165-3-titusr@google.com>
 Mime-Version: 1.0
 References: <20220302015053.1984165-1-titusr@google.com>
 X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
-Subject: [PATCH v3 1/9] hw/i2c: pmbus: add registers
+Subject: [PATCH v3 2/9] hw/i2c: pmbus: guard against out of range accesses
 From: Titus Rwantare <titusr@google.com>
 To: Corey Minyard <minyard@acm.org>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org, 
  wuhaotsh@google.com, venture@google.com, peter.maydell@linaro.org, 
  Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::114a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3h80eYgYKCrQncnomlaiiafY.WigkYgo-XYpYfhihaho.ila@flex--titusr.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::114a;
+ envelope-from=3ic0eYgYKCrYpepqonckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--titusr.bounces.google.com;
+ helo=mail-yw1-x114a.google.com
 X-Spam_score_int: -81
 X-Spam_score: -8.2
 X-Spam_bar: --------
@@ -94,98 +94,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-   - add the VOUT_MIN and STATUS_MFR registers
-
 Signed-off-by: Titus Rwantare <titusr@google.com>
 ---
- hw/i2c/pmbus_device.c         | 24 ++++++++++++++++++++++++
- include/hw/i2c/pmbus_device.h |  3 +++
- 2 files changed, 27 insertions(+)
+ hw/i2c/pmbus_device.c | 41 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 40 insertions(+), 1 deletion(-)
 
 diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
-index 24f8f522d9..07a45c99f9 100644
+index 07a45c99f9..93c746bab3 100644
 --- a/hw/i2c/pmbus_device.c
 +++ b/hw/i2c/pmbus_device.c
-@@ -368,6 +368,14 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
-         }
-         break;
+@@ -243,18 +243,47 @@ void pmbus_check_limits(PMBusDevice *pmdev)
+     }
+ }
  
-+    case PMBUS_VOUT_MIN:        /* R/W word */
-+        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_RATING) {
-+            pmbus_send16(pmdev, pmdev->pages[index].vout_min);
-+        } else {
-+            goto passthough;
-+        }
-+        break;
++/* assert the status_cml error upon receipt of malformed command */
++static void pmbus_cml_error(PMBusDevice *pmdev)
++{
++    for (int i = 0; i < pmdev->num_pages; i++) {
++        pmdev->pages[i].status_word |= PMBUS_STATUS_CML;
++        pmdev->pages[i].status_cml |= PB_CML_FAULT_INVALID_CMD;
++    }
++}
 +
-     /* TODO: implement coefficients support */
+ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
+ {
+     PMBusDevice *pmdev = PMBUS_DEVICE(smd);
+     PMBusDeviceClass *pmdc = PMBUS_DEVICE_GET_CLASS(pmdev);
+     uint8_t ret = 0xFF;
+-    uint8_t index = pmdev->page;
++    uint8_t index;
  
-     case PMBUS_POUT_MAX:                  /* R/W word */
-@@ -708,6 +716,10 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
-         pmbus_send8(pmdev, pmdev->pages[index].status_other);
-         break;
+     if (pmdev->out_buf_len != 0) {
+         ret = pmbus_out_buf_pop(pmdev);
+         return ret;
+     }
  
-+    case PMBUS_STATUS_MFR_SPECIFIC:       /* R/W byte */
-+        pmbus_send8(pmdev, pmdev->pages[index].status_mfr_specific);
-+        break;
++    /*
++     * Reading from all pages will return the value from page 0,
++     * this is unspecified behaviour in general.
++     */
++    if (pmdev->page == PB_ALL_PAGES) {
++        index = 0;
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: tried to read from all pages\n",
++                      __func__);
++        pmbus_cml_error(pmdev);
++    } else if (pmdev->page > pmdev->num_pages - 1) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: page %d is out of range\n",
++                      __func__, pmdev->page);
++        pmbus_cml_error(pmdev);
++        return -1;
++    } else {
++        index = pmdev->page;
++    }
 +
-     case PMBUS_READ_EIN:                  /* Read-Only block 5 bytes */
-         if (pmdev->pages[index].page_flags & PB_HAS_EIN) {
-             pmbus_send(pmdev, pmdev->pages[index].read_ein, 5);
-@@ -1149,6 +1161,14 @@ static int pmbus_write_data(SMBusDevice *smd, uint8_t *buf, uint8_t len)
-         }
-         break;
- 
-+    case PMBUS_VOUT_MIN:                  /* R/W word */
-+        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_RATING) {
-+            pmdev->pages[index].vout_min = pmbus_receive16(pmdev);
-+        } else {
-+            goto passthrough;
-+        }
-+        break;
+     switch (pmdev->code) {
+     case PMBUS_PAGE:
+         pmbus_send8(pmdev, pmdev->page);
+@@ -1038,6 +1067,7 @@ static int pmbus_write_data(SMBusDevice *smd, uint8_t *buf, uint8_t len)
+         pmdev->page = pmbus_receive8(pmdev);
+         return 0;
+     }
 +
-     case PMBUS_POUT_MAX:                  /* R/W word */
-         if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
-             pmdev->pages[index].pout_max = pmbus_receive16(pmdev);
-@@ -1482,6 +1502,10 @@ static int pmbus_write_data(SMBusDevice *smd, uint8_t *buf, uint8_t len)
-         pmdev->pages[index].status_other = pmbus_receive8(pmdev);
-         break;
+     /* loop through all the pages when 0xFF is received */
+     if (pmdev->page == PB_ALL_PAGES) {
+         for (int i = 0; i < pmdev->num_pages; i++) {
+@@ -1048,6 +1078,15 @@ static int pmbus_write_data(SMBusDevice *smd, uint8_t *buf, uint8_t len)
+         return 0;
+     }
  
-+    case PMBUS_STATUS_MFR_SPECIFIC:        /* R/W byte */
-+        pmdev->pages[index].status_mfr_specific = pmbus_receive8(pmdev);
-+        break;
++    if (pmdev->page > pmdev->num_pages - 1) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                        "%s: page %u is out of range\n",
++                        __func__, pmdev->page);
++        pmdev->page = 0; /* undefined behaviour - reset to page 0 */
++        pmbus_cml_error(pmdev);
++        return -1;
++    }
 +
-     case PMBUS_PAGE_PLUS_READ:            /* Block Read-only */
-     case PMBUS_CAPABILITY:                /* Read-Only byte */
-     case PMBUS_COEFFICIENTS:              /* Read-only block 5 bytes */
-diff --git a/include/hw/i2c/pmbus_device.h b/include/hw/i2c/pmbus_device.h
-index 62bd38c83f..72c0483149 100644
---- a/include/hw/i2c/pmbus_device.h
-+++ b/include/hw/i2c/pmbus_device.h
-@@ -43,6 +43,7 @@ enum pmbus_registers {
-     PMBUS_VOUT_DROOP                = 0x28, /* R/W word */
-     PMBUS_VOUT_SCALE_LOOP           = 0x29, /* R/W word */
-     PMBUS_VOUT_SCALE_MONITOR        = 0x2A, /* R/W word */
-+    PMBUS_VOUT_MIN                  = 0x2B, /* R/W word */
-     PMBUS_COEFFICIENTS              = 0x30, /* Read-only block 5 bytes */
-     PMBUS_POUT_MAX                  = 0x31, /* R/W word */
-     PMBUS_MAX_DUTY                  = 0x32, /* R/W word */
-@@ -255,6 +256,7 @@ OBJECT_DECLARE_TYPE(PMBusDevice, PMBusDeviceClass,
- #define PB_HAS_TEMP3               BIT_ULL(42)
- #define PB_HAS_TEMP_RATING         BIT_ULL(43)
- #define PB_HAS_MFR_INFO            BIT_ULL(50)
-+#define PB_HAS_STATUS_MFR_SPECIFIC BIT_ULL(51)
+     index = pmdev->page;
  
- struct PMBusDeviceClass {
-     SMBusDeviceClass parent_class;
-@@ -295,6 +297,7 @@ typedef struct PMBusPage {
-     uint16_t vout_droop;               /* R/W word */
-     uint16_t vout_scale_loop;          /* R/W word */
-     uint16_t vout_scale_monitor;       /* R/W word */
-+    uint16_t vout_min;                 /* R/W word */
-     uint8_t coefficients[5];           /* Read-only block 5 bytes */
-     uint16_t pout_max;                 /* R/W word */
-     uint16_t max_duty;                 /* R/W word */
+     switch (pmdev->code) {
 -- 
 2.35.1.616.g0bdcbb4464-goog
 
