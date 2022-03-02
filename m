@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BEE4CB171
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:37:45 +0100 (CET)
-Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEC54CB187
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:44:15 +0100 (CET)
+Received: from localhost ([::1]:58944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPWfI-000612-Aj
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:37:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52734)
+	id 1nPWla-0006Kb-9S
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:44:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nPWWg-0002Xp-JP
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 16:28:50 -0500
-Received: from [2001:41c9:1:41f::167] (port=54812
+ id 1nPWWk-0002n6-GQ
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 16:28:54 -0500
+Received: from [2001:41c9:1:41f::167] (port=54820
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nPWWf-0002Hc-6O
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 16:28:50 -0500
+ id 1nPWWi-0002Hz-TV
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 16:28:54 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nPWVx-000C4G-PS; Wed, 02 Mar 2022 21:28:09 +0000
+ id 1nPWW1-000C4G-W1; Wed, 02 Mar 2022 21:28:14 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu, pbonzini@redhat.com, fam@euphon.net,
  qemu-devel@nongnu.org
-Date: Wed,  2 Mar 2022 21:27:51 +0000
-Message-Id: <20220302212752.6922-10-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  2 Mar 2022 21:27:52 +0000
+Message-Id: <20220302212752.6922-11-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220302212752.6922-1-mark.cave-ayland@ilande.co.uk>
 References: <20220302212752.6922-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 09/10] esp: include the current PDMA callback in the
- migration stream
+Subject: [PATCH v2 10/10] esp: recreate ESPState current_req after migration
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -67,55 +66,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This involves (re)adding a PDMA-specific subsection to hold the reference to the
-current PDMA callback.
+Since PDMA reads/writes are driven by the guest, it is possible that migration
+can occur whilst a SCSIRequest is still active. Fortunately active SCSIRequests
+are already included in the migration stream and restarted post migration but
+this still leaves the reference in ESPState uninitialised.
 
+Implement the SCSIBusInfo .load_request callback to obtain a reference to the
+currently active SCSIRequest and use it to recreate ESPState current_req
+after migration.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ hw/scsi/esp.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index a818b2b07a..32926834bc 100644
+index 32926834bc..824c345ceb 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -1209,6 +1209,25 @@ static int esp_post_load(void *opaque, int version_id)
-     return 0;
+@@ -1341,6 +1341,15 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
+     return val;
  }
  
-+static bool esp_pdma_needed(void *opaque)
++static void *esp_load_request(QEMUFile *f, SCSIRequest *req)
 +{
-+    ESPState *s = ESP(opaque);
++    ESPState *s = container_of(req->bus, ESPState, bus);
 +
-+    return s->dma_memory_read == NULL && s->dma_memory_write == NULL &&
-+           s->dma_enabled;
++    scsi_req_ref(req);
++    s->current_req = req;
++    return s;
 +}
 +
-+static const VMStateDescription vmstate_esp_pdma = {
-+    .name = "esp/pdma",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .needed = esp_pdma_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(pdma_cb, ESPState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- const VMStateDescription vmstate_esp = {
-     .name = "esp",
-     .version_id = 6,
-@@ -1243,6 +1262,10 @@ const VMStateDescription vmstate_esp = {
-         VMSTATE_UINT8_TEST(lun, ESPState, esp_is_version_6),
-         VMSTATE_END_OF_LIST()
-     },
-+    .subsections = (const VMStateDescription * []) {
-+        &vmstate_esp_pdma,
-+        NULL
-+    }
- };
+ static const MemoryRegionOps sysbus_esp_pdma_ops = {
+     .read = sysbus_esp_pdma_read,
+     .write = sysbus_esp_pdma_write,
+@@ -1356,6 +1365,7 @@ static const struct SCSIBusInfo esp_scsi_info = {
+     .max_target = ESP_MAX_DEVS,
+     .max_lun = 7,
  
- static void sysbus_esp_mem_write(void *opaque, hwaddr addr,
++    .load_request = esp_load_request,
+     .transfer_data = esp_transfer_data,
+     .complete = esp_command_complete,
+     .cancel = esp_request_cancelled
 -- 
 2.20.1
 
