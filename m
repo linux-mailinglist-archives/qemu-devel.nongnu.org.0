@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A82B4C9EA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 08:54:13 +0100 (CET)
-Received: from localhost ([::1]:51628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB99E4C9EC3
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 08:57:21 +0100 (CET)
+Received: from localhost ([::1]:54314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPJoK-0001X7-5S
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 02:54:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41544)
+	id 1nPJrM-0003SY-Q2
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 02:57:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nPJmB-0000n4-2Q
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 02:52:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50248)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nPJm9-00088E-DA
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 02:51:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646207516;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cCSsP/fQOL/0jYLoo3GzvHxxi7pAIu5Xn2+wiSnWwh8=;
- b=DHeeC+B99Ngw5pyvqW3v+1YNo0gdgu37gOyuf9MCDBOU2OLCGsl6W9bC0KeFZ5EZPbEAAO
- Fpslxrqf6G5a1S1SExYwJSBGA9LU2s+5Ava2Z1z79urkNHjhjqucM41x2o3XOmSDDM7nbz
- lcFQWGS9wc2BLmFIhHYQs5GMnoBcOLY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-PyWy3b-GNMmUsKVYlFiD5w-1; Wed, 02 Mar 2022 02:51:55 -0500
-X-MC-Unique: PyWy3b-GNMmUsKVYlFiD5w-1
-Received: by mail-ed1-f72.google.com with SMTP id
- d11-20020a50c88b000000b00410ba7a14acso533779edh.6
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 23:51:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nPJoI-0002SD-3m
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 02:54:11 -0500
+Received: from [2607:f8b0:4864:20::12c] (port=39832
+ helo=mail-il1-x12c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nPJoF-0008QV-TB
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 02:54:09 -0500
+Received: by mail-il1-x12c.google.com with SMTP id i1so775188ilu.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 23:54:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8fyzsTTW1kgWlQ9QqD/sqdVNyyAxaP8R3I2ZSPecllY=;
+ b=OVTDVcjww+GRYo/KiopKxjduDkVoTVHMSOStt1HLYOvTDRFYCEzI0kduD3C6cWAqtR
+ TI5ZxFvcMqur2sECw8YHUOSFY8CBqUNUJPPn05ztrL5hRP5pwVFIu/C56jFv45L01qCA
+ DOguNbv2XxTJId1bLUEtr3wDMXHth4r339lWVLzZ2Q1v1xTp4CYfg/kt622DRI4T+v7x
+ oQTcI03rI7K/8vuS6hS8fvplducYs+E2MC4uLW7o7MZT8K3OhgP2TEWiq+w7HH7m7T1v
+ eSk886r1DiPNvWYOLXseEO5QzD3ncDIvPllpU99raVKoElJaYDHYS+ENK1Y/oj1Y6l9n
+ Zmsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cCSsP/fQOL/0jYLoo3GzvHxxi7pAIu5Xn2+wiSnWwh8=;
- b=rPTJL5NzbT3xhcKBbJmDDOJVOTcuWggAXNHJ1ykmjqtrjDsoQ5LWJv6SxPCypF2I3C
- 0KYG19JC71F25Oywp1IMfETOmy3Il5EZAja8+Ra6hdkpfimIBhBPgyrAdRDBW9NN/WA1
- QVINVB7QLSY7i9jwRixdlFFL0G+KaRXokJykTMDmueInfXIwkxemK8WQV6wleum6PgIh
- iGX4xAdfJHs3cYD3VZj188opG1BKUO240BaRA0oaPrUsWtbC04aL2JhDP/iY0Iv4VVPX
- /xq/uwPdqnZVcu0jnJqRnvJh5dOwKH5dtNgJ1qrs7GGp+u8RyIyULD48/Y3erWpaQvZa
- 2ktw==
-X-Gm-Message-State: AOAM530yOKYPjxnuVSC4hD4bkkDQi/zfJAlRjsjM1u41OzGEOmQogmvh
- 8utJ/Xj9AW7cxy3+MiNErQh8FyCavBv0CcFja+xT6pMiUnmKF9Ftcfy2Q7qaSqW0nXDwZB/Dngd
- zg7enM3CNZerII8I=
-X-Received: by 2002:a17:906:1e42:b0:6d6:df12:7f8d with SMTP id
- i2-20020a1709061e4200b006d6df127f8dmr7174190ejj.15.1646207514198; 
- Tue, 01 Mar 2022 23:51:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxA6l+IQR5CbJ8DLktf0ttGSAq0ShSBCH+G/1UWS787IbGwssHgcWCmXqKO1Bt69b0wTshENw==
-X-Received: by 2002:a17:906:1e42:b0:6d6:df12:7f8d with SMTP id
- i2-20020a1709061e4200b006d6df127f8dmr7174175ejj.15.1646207513989; 
- Tue, 01 Mar 2022 23:51:53 -0800 (PST)
-Received: from localhost ([185.140.112.229]) by smtp.gmail.com with ESMTPSA id
- q10-20020aa7cc0a000000b0040f826f09fdsm8230010edt.81.2022.03.01.23.51.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 23:51:53 -0800 (PST)
-Date: Wed, 2 Mar 2022 08:51:51 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 3/3] q35: compat: keep hotplugged PCIe device broken
- after migration for 6.2 and older machine types
-Message-ID: <20220302085151.22a0bb20@redhat.com>
-In-Reply-To: <20220301101828-mutt-send-email-mst@kernel.org>
-References: <20220301151200.3507298-1-imammedo@redhat.com>
- <20220301151200.3507298-4-imammedo@redhat.com>
- <20220301101828-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8fyzsTTW1kgWlQ9QqD/sqdVNyyAxaP8R3I2ZSPecllY=;
+ b=7ZWJvPtj1YWMdtPoJG8AMAjQBnJKnB1WTRU0unPqal0xymvKjjVxCMZoySL8mi5Z4u
+ HMqnX8NSaSS3+Zl35wD+jfSQj8pftRbPcPNBqOwEDAv+l+G2/14nf/oi/Jz0afGVQ1rC
+ bDJiifhmxkBsk3P8rfD7WdRmtlX3yAgK9rqKoMI6cVg7UDA7Zi/IPi2Yp2XnR55QccLd
+ xcVZdlgoDqIErGfYQCcpw9/3rE3deuLoaRUCuzpw9i/98b+Nsq3wfjUZOp7QRmwl7C5v
+ QKngABrAX2Nferd+IPMN5rYMTVOGClIKsfgl1zpP/Fb/5SKx3XW8NHOJCjSxTKwST8bQ
+ Zu6w==
+X-Gm-Message-State: AOAM5329l6sAdRenEQRDUno+/uPVPJp8yCQCSfajajRWumk4iPdMnAym
+ AOqDkzm7ZvfO0dckdCddk++0K4395FyWaEwvSMo=
+X-Google-Smtp-Source: ABdhPJyAmMz5xqMVA4Ykryq+njVGhr1AaSbVe5CIIF937BoTuafzLW4Q9Cy1MyaYdHm57Ff31l/go6yff0qALHsCMVs=
+X-Received: by 2002:a92:d80c:0:b0:2c2:c40c:7bd4 with SMTP id
+ y12-20020a92d80c000000b002c2c40c7bd4mr18017698ilm.310.1646207645294; Tue, 01
+ Mar 2022 23:54:05 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220203153946.2676353-1-philipp.tomsich@vrull.eu>
+ <CAKmqyKOLO7VdSPsXmeqQN-z3a2bKZQ3yeQqCmjt-SBpT9MfcgA@mail.gmail.com>
+ <b7676252-781d-a7c6-6172-09dd319ef744@linux.dev>
+In-Reply-To: <b7676252-781d-a7c6-6172-09dd319ef744@linux.dev>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 2 Mar 2022 17:53:39 +1000
+Message-ID: <CAKmqyKOwM8ai7JE3i4_bm2rgsG4AP9MxMKAJse-dkgJ3s+71Kw@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: fix inverted checks for ext_zb[abcs]
+To: Vineet Gupta <vineet.gupta@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,143 +83,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ gnu-toolchain <gnu-toolchain@rivosinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Mar 2022 10:20:06 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Tue, Mar 1, 2022 at 11:28 AM Vineet Gupta <vineet.gupta@linux.dev> wrote:
+>
+> Hi Alistair,
+>
+> On 2/3/22 16:59, Alistair Francis wrote:
+> > On Fri, Feb 4, 2022 at 1:42 AM Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
+> >>
+> >> While changing to the use of cfg_ptr, the conditions for REQUIRE_ZB[ABCS]
+> >> inadvertently became inverted and slipped through the initial testing (which
+> >> used RV64GC_XVentanaCondOps as a target).
+> >> This fixes the regression.
+> >>
+> >> Tested against SPEC2017 w/ GCC 12 (prerelease) for RV64GC_zba_zbb_zbc_zbs.
+> >>
+> >> Fixes: 718143c126 ("target/riscv: add a MAINTAINERS entry for XVentanaCondOps")
+> >>
+> >> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> >
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >
+> >>
+> >> ---
+> >> We may want to squash this onto the affected commit, if it hasn't made
+> >> it beyond the next-tree, yet.
+> >
+> > Yeah, agreed. I'll squash it in
+> >
+> > Alistair
+>
+> Has this already been committed upstream. I was running into weird issue
+> related to bitmanip and seems this was missing in my local tree.
+>
+> Also the "Fixes: " entry in changelog doesn't seem OK; the issue seems
+> to have been introduced in f2a32bec8f0da99 ("target/riscv: access cfg
+> structure through DisasContext")
 
-> On Tue, Mar 01, 2022 at 10:12:00AM -0500, Igor Mammedov wrote:
-> > Q35 switched to ACPI PCI hotplug by default in since 6.1
-> > machine type and migration worked as expected (with BARs
-> > on target being the same as on source)
-> > 
-> > However native PCIe fixes [1] merged in 6.2 time, regressed
-> > migration part, resulting in disabled BARs on target. The
-> > issue affects pc-q35-6.2 and pc-q35-6.1 machine types (and
-> > older if qemu-6.2 binary is used on source with manually
-> > enabled ACPI PCI hotplug).
-> > 
-> > Introduce x-pcihp-disable-pcie-slot-power-on-fixup compat
-> > property to keep 6.2 and older machine types in broken state
-> > when ACPI PCI hotplug is enabled to make sure that guest does
-> > see the same PCIe device and slot on src & dst.
-> > 
-> > 1)
-> > Fixes: d5daff7d312 (pcie: implement slot power control for pcie root ports)
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
-> 
-> I am not sure why we need this one. What's the scenario that's broken
-> otherwise?
+Thanks, I have fixed the fixes tag and the indentation, I'll try and
+send a PR this week or early next week.
 
-Probably none (but I won't bet on it) beside user confusion where device
-sometimes works and sometimes don't for 6.1-6.2 machine types depending
-on whether source runs qemu-6.2 or not.
-Guest also will observe PCI_EXP_SLTCTL_PCC flip depending on source QEMU
-version, but it shouldn't use it anyways since slot is under control of
-ACPI CPI hotplug module.
+Alistair
 
-Feel free to drop this patch if you think it's overkill.
-
-> 
-> 
-> > ---
-> >  include/hw/acpi/pcihp.h |  1 +
-> >  hw/acpi/ich9.c          | 20 ++++++++++++++++++++
-> >  hw/acpi/pcihp.c         | 11 +++++++----
-> >  hw/core/machine.c       |  4 +++-
-> >  4 files changed, 31 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
-> > index af1a169fc3..2436151678 100644
-> > --- a/include/hw/acpi/pcihp.h
-> > +++ b/include/hw/acpi/pcihp.h
-> > @@ -52,6 +52,7 @@ typedef struct AcpiPciHpState {
-> >      bool legacy_piix;
-> >      uint16_t io_base;
-> >      uint16_t io_len;
-> > +    bool disable_pcie_slot_power_on_fixup;
-> >  } AcpiPciHpState;
-> >  
-> >  void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
-> > diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> > index bd9bbade70..e3bffdef71 100644
-> > --- a/hw/acpi/ich9.c
-> > +++ b/hw/acpi/ich9.c
-> > @@ -430,6 +430,23 @@ static void ich9_pm_set_keep_pci_slot_hpc(Object *obj, bool value, Error **errp)
-> >      s->pm.keep_pci_slot_hpc = value;
-> >  }
-> >  
-> > +static bool ich9_pm_get_disable_pcie_slot_power_on_fixup(Object *obj,
-> > +                                                         Error **errp)
-> > +{
-> > +    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-> > +
-> > +    return s->pm.acpi_pci_hotplug.disable_pcie_slot_power_on_fixup;
-> > +}
-> > +
-> > +static void ich9_pm_set_disable_pcie_slot_power_on_fixup(Object *obj,
-> > +                                                         bool value,
-> > +                                                         Error **errp)
-> > +{
-> > +    ICH9LPCState *s = ICH9_LPC_DEVICE(obj);
-> > +
-> > +    s->pm.acpi_pci_hotplug.disable_pcie_slot_power_on_fixup = value;
-> > +}
-> > +
-> >  void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >  {
-> >      static const uint32_t gpe0_len = ICH9_PMIO_GPE0_LEN;
-> > @@ -469,6 +486,9 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >      object_property_add_bool(obj, "x-keep-pci-slot-hpc",
-> >                               ich9_pm_get_keep_pci_slot_hpc,
-> >                               ich9_pm_set_keep_pci_slot_hpc);
-> > +    object_property_add_bool(obj, "x-pcihp-disable-pcie-slot-power-on-fixup",
-> > +                             ich9_pm_get_disable_pcie_slot_power_on_fixup,
-> > +                             ich9_pm_set_disable_pcie_slot_power_on_fixup);
-> >  }
-> >  
-> >  void ich9_pm_device_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> > index 6351bd3424..4c06caf4a9 100644
-> > --- a/hw/acpi/pcihp.c
-> > +++ b/hw/acpi/pcihp.c
-> > @@ -369,10 +369,13 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-> >      }
-> >  
-> >      bus = pci_get_bus(pdev);
-> > -    bridge = pci_bridge_get_device(bus);
-> > -    if (object_dynamic_cast(OBJECT(bridge), TYPE_PCIE_ROOT_PORT) ||
-> > -        object_dynamic_cast(OBJECT(bridge), TYPE_XIO3130_DOWNSTREAM)) {
-> > -        pcie_cap_slot_enable_power(bridge);
-> > +    /* compat knob to preserve pci_config as in 6.2 & older when pcihp in use */
-> > +    if (s->disable_pcie_slot_power_on_fixup == false) {
-> > +        bridge = pci_bridge_get_device(bus);
-> > +        if (object_dynamic_cast(OBJECT(bridge), TYPE_PCIE_ROOT_PORT) ||
-> > +            object_dynamic_cast(OBJECT(bridge), TYPE_XIO3130_DOWNSTREAM)) {
-> > +            pcie_cap_slot_enable_power(bridge);
-> > +        }
-> >      }
-> >  
-> >      bsel = acpi_pcihp_get_bsel(bus);
-> > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > index d856485cb4..1758b49c2f 100644
-> > --- a/hw/core/machine.c
-> > +++ b/hw/core/machine.c
-> > @@ -37,7 +37,9 @@
-> >  #include "hw/virtio/virtio.h"
-> >  #include "hw/virtio/virtio-pci.h"
-> >  
-> > -GlobalProperty hw_compat_6_2[] = {};
-> > +GlobalProperty hw_compat_6_2[] = {
-> > +    { "ICH9-LPC", "x-pcihp-disable-pcie-slot-power-on-fixup", "on" },
-> > +};
-> >  const size_t hw_compat_6_2_len = G_N_ELEMENTS(hw_compat_6_2);
-> >  
-> >  GlobalProperty hw_compat_6_1[] = {
-> > -- 
-> > 2.31.1  
-> 
-
+>
+> Thx,
+> -Vineet
+>
+> >
+> >>
+> >>   target/riscv/insn_trans/trans_rvb.c.inc | 8 ++++----
+> >>   1 file changed, 4 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+> >> index f9bd3b7ec4..e3c6b459d6 100644
+> >> --- a/target/riscv/insn_trans/trans_rvb.c.inc
+> >> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
+> >> @@ -19,25 +19,25 @@
+> >>    */
+> >>
+> >>   #define REQUIRE_ZBA(ctx) do {                    \
+> >> -    if (ctx->cfg_ptr->ext_zba) {                 \
+> >> +    if (!ctx->cfg_ptr->ext_zba) {                 \
+> >>           return false;                            \
+> >>       }                                            \
+> >>   } while (0)
+> >>
+> >>   #define REQUIRE_ZBB(ctx) do {                    \
+> >> -    if (ctx->cfg_ptr->ext_zbb) {                 \
+> >> +    if (!ctx->cfg_ptr->ext_zbb) {                 \
+> >>           return false;                            \
+> >>       }                                            \
+> >>   } while (0)
+> >>
+> >>   #define REQUIRE_ZBC(ctx) do {                    \
+> >> -    if (ctx->cfg_ptr->ext_zbc) {                 \
+> >> +    if (!ctx->cfg_ptr->ext_zbc) {                 \
+> >>           return false;                            \
+> >>       }                                            \
+> >>   } while (0)
+> >>
+> >>   #define REQUIRE_ZBS(ctx) do {                    \
+> >> -    if (ctx->cfg_ptr->ext_zbs) {                 \
+> >> +    if (!ctx->cfg_ptr->ext_zbs) {                 \
+> >>           return false;                            \
+> >>       }                                            \
+> >>   } while (0)
+> >> --
+> >> 2.34.1
+> >>
+> >>
+> >
+> >
+>
 
