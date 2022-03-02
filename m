@@ -2,83 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CF14C9AD1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 02:59:47 +0100 (CET)
-Received: from localhost ([::1]:53354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EC64C9AF3
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 03:07:33 +0100 (CET)
+Received: from localhost ([::1]:36236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPEHK-0000kP-Ec
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 20:59:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34800)
+	id 1nPEOq-00008y-AF
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 21:07:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3mc0eYgYKCsY5u5643s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--titusr.bounces.google.com>)
- id 1nPEF4-0007Lh-OK
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:57:26 -0500
-Received: from [2607:f8b0:4864:20::1049] (port=47020
- helo=mail-pj1-x1049.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3mc0eYgYKCsY5u5643s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--titusr.bounces.google.com>)
- id 1nPEF2-00077t-Vl
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:57:26 -0500
-Received: by mail-pj1-x1049.google.com with SMTP id
- m3-20020a17090a3f8300b001bd33af55f2so342681pjc.1
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 17:57:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=iGy5AoMooNtuvyOeDJtUyYLQNLcqWDLIcHmLmUhSrng=;
- b=emM/uglxYA8a1mQ4OM6kZupI/AnoPIzZpWwJTEQJzJVv1LXNolOhIEk+Sxikmo3ahJ
- MWNvMgk5El5OajGL3KzRwtQOFlRrfSZgaQmxSELxfbhWjFiZ/mbYB1DeTGCN8CoE6bGt
- zCpF12t3vLXh0JiQztIWntEV4nBSLEgKlxsJomCxaH4C39qF4KxHEz7L3SgZUeQjO+6k
- lstu8KVPM+kFX9ZtXvyxLgKjtqoJUEc5rlplkGex7xP9R/3c1br/bXxNAxGR5BTpgSBS
- zfZx+r+QQzbSEcZ44kqlTOv2uihPmMoojPDAJj8uRo3FSvNFdanbqcAZn8u210dycQlH
- m+sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=iGy5AoMooNtuvyOeDJtUyYLQNLcqWDLIcHmLmUhSrng=;
- b=ZXxuwtw5iRmSUMmoZBfyrPoF/3brCmV/Si36UwCIN4/JSdNl/EAFehH4gYB3t5Y1Ol
- eO2hx6wXcEbnv/cG9ULMmOJBn05fbubLL21ewuE0Hc+FTnF/t45E9ywU0nzdsiF1v50g
- izA51fiWnJfrk93sQQrFCyb9dxXDZK8MLbQHcEe1aI7UGuLTg7/KZpXVuCHCEJUZ2rbn
- /dd7IQNHDOMepKermHP4BNCnliPTHszvuc3U/ss7mHNVIQIva2tUqO6lVeMkRFK0sIQ3
- MV12gAm8vFgCvmhF7135BjeUkLgBq9RIDcj7MoLq6WCMesvqGNiq3DVbfgQksw5+XbIN
- SP/A==
-X-Gm-Message-State: AOAM5313zTMmynMy/wxD6QbDrUNHPvYgC3WoINEL9PqLgWax2QWcwGTg
- ruAnoDAQSPp9zSMpk9LfXnymuX1KlmM=
-X-Google-Smtp-Source: ABdhPJwZ9micqb0wVgy59V8MBiSDoOs3eV0FQc9t+QLQrPsxFZ9OdUne4OpSLNpGxdf0nzyuNDHe44aIhQQ=
-X-Received: from titusr.svl.corp.google.com
- ([2620:15c:2a3:201:3a0a:5449:c096:dc84])
- (user=titusr job=sendgmr) by 2002:a63:1f42:0:b0:378:7fb4:6491 with SMTP id
- q2-20020a631f42000000b003787fb46491mr13665534pgm.478.1646185881975; Tue, 01
- Mar 2022 17:51:21 -0800 (PST)
-Date: Tue,  1 Mar 2022 17:50:53 -0800
-In-Reply-To: <20220302015053.1984165-1-titusr@google.com>
-Message-Id: <20220302015053.1984165-10-titusr@google.com>
-Mime-Version: 1.0
-References: <20220302015053.1984165-1-titusr@google.com>
-X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
-Subject: [PATCH v3 9/9] hw/sensor: add Renesas raa228000 device
-From: Titus Rwantare <titusr@google.com>
-To: Corey Minyard <minyard@acm.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org, 
- wuhaotsh@google.com, venture@google.com, peter.maydell@linaro.org, 
- Titus Rwantare <titusr@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1049
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1049;
- envelope-from=3mc0eYgYKCsY5u5643s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--titusr.bounces.google.com;
- helo=mail-pj1-x1049.google.com
-X-Spam_score_int: -81
-X-Spam_score: -8.2
-X-Spam_bar: --------
-X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ivan@sysprogs.com>) id 1nPENk-0007sS-U1
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 21:06:24 -0500
+Received: from sysprogs.com ([45.79.83.98]:39120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ivan@sysprogs.com>) id 1nPENj-00016Y-8C
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 21:06:24 -0500
+Received: from sys2 (unknown [174.1.100.17])
+ by sysprogs.com (Postfix) with ESMTPSA id B773211A357;
+ Wed,  2 Mar 2022 02:06:20 +0000 (UTC)
+From: "Ivan Shcherbakov" <ivan@sysprogs.com>
+To: =?UTF-8?Q?'Alex_Benn=C3=A9e'?= <alex.bennee@linaro.org>
+References: <010e01d82875$d3cc0ec0$7b642c40$@sysprogs.com>
+ <93318cc1-bf62-34dd-190c-1961a4716f75@redhat.com>
+ <01e801d828f0$b58a6e40$209f4ac0$@sysprogs.com>
+ <CAFEAcA_y=xRhBoStyxa+UZcyibAzgcJSf+kQO4e0BMrdq4j6Jg@mail.gmail.com>
+ <87v8x433o2.fsf@linaro.org> <030301d82996$c385f900$4a91eb00$@sysprogs.com>
+ <096b01d82c5c$04a0f3a0$0de2dae0$@sysprogs.com> <87czj7nuy3.fsf@linaro.org>
+ <0aee01d82d11$450e03f0$cf2a0bd0$@sysprogs.com>
+In-Reply-To: <0aee01d82d11$450e03f0$cf2a0bd0$@sysprogs.com>
+Subject: RE: [PATCH 3/3] whpx: Added support for breakpoints and stepping
+Date: Tue, 1 Mar 2022 18:06:19 -0800
+Message-ID: <0ce601d82dda$1c88fdd0$559af970$@sysprogs.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQNIFN5a+FOAvRiv4eJOlcn7oK8VcgKLbPilArczCsgBeoy2sQJTpbLJArW9O3QBWNoVrQGUBQp2AO/OEsupTm+cEA==
+Content-Language: en-us
+Received-SPF: pass client-ip=45.79.83.98; envelope-from=ivan@sysprogs.com;
+ helo=sysprogs.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,221 +59,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: 'Peter Maydell' <peter.maydell@linaro.org>,
+ 'Paolo Bonzini' <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ armbru@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Titus Rwantare <titusr@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
----
- hw/sensor/isl_pmbus_vr.c         | 50 ++++++++++++++++++++
- include/hw/sensor/isl_pmbus_vr.h |  1 +
- tests/qtest/isl_pmbus_vr-test.c  | 78 ++++++++++++++++++++++++++++++--
- 3 files changed, 126 insertions(+), 3 deletions(-)
+Hi Alex,
 
-diff --git a/hw/sensor/isl_pmbus_vr.c b/hw/sensor/isl_pmbus_vr.c
-index e260faeac3..df7c003ea6 100644
---- a/hw/sensor/isl_pmbus_vr.c
-+++ b/hw/sensor/isl_pmbus_vr.c
-@@ -89,6 +89,24 @@ static void isl_pmbus_vr_exit_reset(Object *obj)
-     }
- }
- 
-+/* The raa228000 uses different direct mode coefficents from most isl devices */
-+static void raa228000_exit_reset(Object *obj)
-+{
-+    isl_pmbus_vr_exit_reset(obj);
-+
-+    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-+
-+    pmdev->pages[0].read_vout = 0;
-+    pmdev->pages[0].read_iout = 0;
-+    pmdev->pages[0].read_pout = 0;
-+    pmdev->pages[0].read_vin = 0;
-+    pmdev->pages[0].read_iin = 0;
-+    pmdev->pages[0].read_pin = 0;
-+    pmdev->pages[0].read_temperature_1 = 0;
-+    pmdev->pages[0].read_temperature_2 = 0;
-+    pmdev->pages[0].read_temperature_3 = 0;
-+}
-+
- static void isl_pmbus_vr_add_props(Object *obj, uint64_t *flags, uint8_t pages)
- {
-     PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-@@ -177,6 +195,20 @@ static void raa22xx_init(Object *obj)
-     isl_pmbus_vr_add_props(obj, flags, 2);
- }
- 
-+static void raa228000_init(Object *obj)
-+{
-+    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-+    uint64_t flags[1];
-+
-+    flags[0] = PB_HAS_VIN | PB_HAS_VOUT | PB_HAS_VOUT_MODE |
-+               PB_HAS_VOUT_RATING | PB_HAS_VOUT_MARGIN | PB_HAS_IIN |
-+               PB_HAS_IOUT | PB_HAS_PIN | PB_HAS_POUT | PB_HAS_TEMPERATURE |
-+               PB_HAS_TEMP2 | PB_HAS_TEMP3 | PB_HAS_STATUS_MFR_SPECIFIC;
-+
-+    pmbus_page_config(pmdev, 0, flags[0]);
-+    isl_pmbus_vr_add_props(obj, flags, 1);
-+}
-+
- static void isl_pmbus_vr_class_init(ObjectClass *klass, void *data,
-                                     uint8_t pages)
- {
-@@ -195,6 +227,15 @@ static void isl69260_class_init(ObjectClass *klass, void *data)
-     isl_pmbus_vr_class_init(klass, data, 2);
- }
- 
-+static void raa228000_class_init(ObjectClass *klass, void *data)
-+{
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    dc->desc = "Renesas 228000 Digital Multiphase Voltage Regulator";
-+    rc->phases.exit = raa228000_exit_reset;
-+    isl_pmbus_vr_class_init(klass, data, 1);
-+}
-+
- static void raa229004_class_init(ObjectClass *klass, void *data)
- {
-     ResettableClass *rc = RESETTABLE_CLASS(klass);
-@@ -220,9 +261,18 @@ static const TypeInfo raa229004_info = {
-     .class_init = raa229004_class_init,
- };
- 
-+static const TypeInfo raa228000_info = {
-+    .name = TYPE_RAA228000,
-+    .parent = TYPE_PMBUS_DEVICE,
-+    .instance_size = sizeof(ISLState),
-+    .instance_init = raa228000_init,
-+    .class_init = raa228000_class_init,
-+};
-+
- static void isl_pmbus_vr_register_types(void)
- {
-     type_register_static(&isl69260_info);
-+    type_register_static(&raa228000_info);
-     type_register_static(&raa229004_info);
- }
- 
-diff --git a/include/hw/sensor/isl_pmbus_vr.h b/include/hw/sensor/isl_pmbus_vr.h
-index 233916f70a..3e47ff7e48 100644
---- a/include/hw/sensor/isl_pmbus_vr.h
-+++ b/include/hw/sensor/isl_pmbus_vr.h
-@@ -13,6 +13,7 @@
- #include "qom/object.h"
- 
- #define TYPE_ISL69260   "isl69260"
-+#define TYPE_RAA228000  "raa228000"
- #define TYPE_RAA229004  "raa229004"
- 
- struct ISLState {
-diff --git a/tests/qtest/isl_pmbus_vr-test.c b/tests/qtest/isl_pmbus_vr-test.c
-index a33dfb6135..5553ea410a 100644
---- a/tests/qtest/isl_pmbus_vr-test.c
-+++ b/tests/qtest/isl_pmbus_vr-test.c
-@@ -150,6 +150,70 @@ static void test_defaults(void *obj, void *data, QGuestAllocator *alloc)
-     g_assert_cmphex(i2c_value, ==, ISL_REVISION_DEFAULT);
- }
- 
-+static void raa228000_test_defaults(void *obj, void *data,
-+                                    QGuestAllocator *alloc)
-+{
-+    uint16_t value, i2c_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+
-+    value = qmp_isl_pmbus_vr_get(TEST_ID, "vout[0]");
-+    g_assert_cmpuint(value, ==, 0);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_READ_IOUT);
-+    g_assert_cmpuint(i2c_value, ==, 0);
-+
-+    value = qmp_isl_pmbus_vr_get(TEST_ID, "pout[0]");
-+    g_assert_cmpuint(value, ==, 0);
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_CAPABILITY);
-+    g_assert_cmphex(i2c_value, ==, ISL_CAPABILITY_DEFAULT);
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_OPERATION);
-+    g_assert_cmphex(i2c_value, ==, ISL_OPERATION_DEFAULT);
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_ON_OFF_CONFIG);
-+    g_assert_cmphex(i2c_value, ==, ISL_ON_OFF_CONFIG_DEFAULT);
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_VOUT_MODE);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_MODE_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_COMMAND);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_COMMAND_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_MAX);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_MAX_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_HIGH);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_MARGIN_HIGH_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_LOW);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_MARGIN_LOW_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_TRANSITION_RATE);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_TRANSITION_RATE_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_OV_FAULT_LIMIT_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_OT_FAULT_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_OT_FAULT_LIMIT_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_OT_WARN_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_OT_WARN_LIMIT_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VIN_OV_WARN_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_VIN_OV_WARN_LIMIT_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VIN_UV_WARN_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_VIN_UV_WARN_LIMIT_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_IIN_OC_FAULT_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_IIN_OC_FAULT_LIMIT_DEFAULT);
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_REVISION);
-+    g_assert_cmphex(i2c_value, ==, ISL_REVISION_DEFAULT);
-+}
-+
- /* test qmp access */
- static void test_tx_rx(void *obj, void *data, QGuestAllocator *alloc)
- {
-@@ -384,9 +448,6 @@ static void isl_pmbus_vr_register_nodes(void)
-     qos_node_create_driver("isl69260", i2c_device_create);
-     qos_node_consumes("isl69260", "i2c-bus", &opts);
- 
--    qos_node_create_driver("raa229004", i2c_device_create);
--    qos_node_consumes("raa229004", "i2c-bus", &opts);
--
-     qos_add_test("test_defaults", "isl69260", test_defaults, NULL);
-     qos_add_test("test_tx_rx", "isl69260", test_tx_rx, NULL);
-     qos_add_test("test_rw_regs", "isl69260", test_rw_regs, NULL);
-@@ -394,9 +455,20 @@ static void isl_pmbus_vr_register_nodes(void)
-     qos_add_test("test_ro_regs", "isl69260", test_ro_regs, NULL);
-     qos_add_test("test_ov_faults", "isl69260", test_voltage_faults, NULL);
- 
-+    qos_node_create_driver("raa229004", i2c_device_create);
-+    qos_node_consumes("raa229004", "i2c-bus", &opts);
-+
-     qos_add_test("test_tx_rx", "raa229004", test_tx_rx, NULL);
-     qos_add_test("test_rw_regs", "raa229004", test_rw_regs, NULL);
-     qos_add_test("test_pages_rw", "raa229004", test_pages_rw, NULL);
-     qos_add_test("test_ov_faults", "raa229004", test_voltage_faults, NULL);
-+
-+    qos_node_create_driver("raa228000", i2c_device_create);
-+    qos_node_consumes("raa228000", "i2c-bus", &opts);
-+
-+    qos_add_test("test_defaults", "raa228000", raa228000_test_defaults, NULL);
-+    qos_add_test("test_tx_rx", "raa228000", test_tx_rx, NULL);
-+    qos_add_test("test_rw_regs", "raa228000", test_rw_regs, NULL);
-+    qos_add_test("test_ov_faults", "raa228000", test_voltage_faults, NULL);
- }
- libqos_init(isl_pmbus_vr_register_nodes);
--- 
-2.35.1.616.g0bdcbb4464-goog
+Is there anything I could do to get the WHPX debugging support accepted =
+into QEMU? Would the proposed callback AccelOpsClass work for you, or =
+would you prefer another approach?
+
+Best,
+Ivan
+
+-----Original Message-----
+From: Qemu-devel <qemu-devel-bounces+ivan=3Dsysprogs.com@nongnu.org> On =
+Behalf Of Ivan Shcherbakov
+Sent: Monday, February 28, 2022 6:09 PM
+To: 'Alex Benn=C3=A9e' <alex.bennee@linaro.org>
+Cc: 'Peter Maydell' <peter.maydell@linaro.org>; mst@redhat.com; =
+qemu-devel@nongnu.org; armbru@redhat.com; 'Paolo Bonzini' =
+<pbonzini@redhat.com>
+Subject: RE: [PATCH 3/3] whpx: Added support for breakpoints and =
+stepping
+
+Hi Alex,
+
+Thanks for getting back to me. It is definitely the latter case (i.e. it =
+is possible to change it while the target is stopped at a breakpoint =
+before resuming any VCPUs).
+vm_state_notify() does look like it's intended for this type of =
+notifications, but unfortunately, it doesn't make a distinction between =
+stepping and running normally.
+Below is the relevant code from gdbstub.c:
+
+>static int gdb_continue_partial(char *newstates) {
+>    int flag =3D 0;
+>
+>    /* Various corner cases omitted for brevity  */
+>        if (vm_prepare_start()) {
+>            return 0;
+>        }
+>    CPU_FOREACH(cpu) {
+>        switch (newstates[cpu->cpu_index]) {
+>        case 's':
+>            trace_gdbstub_op_stepping(cpu->cpu_index);
+>            cpu_single_step(cpu, gdbserver_state.sstep_flags);
+>            cpu_resume(cpu);
+>            flag =3D 1;
+>            break;
+>        case 'c':
+>            trace_gdbstub_op_continue_cpu(cpu->cpu_index);
+>            cpu_resume(cpu);
+>            flag =3D 1;
+>            break;
+>        default:
+>            res =3D -1;
+>            break;
+>        }
+>    }
+>}
+
+Also:
+
+>int vm_prepare_start(void)
+>{
+>    runstate_set(RUN_STATE_RUNNING);
+>    vm_state_notify(1, RUN_STATE_RUNNING);
+>    return 0;
+>}
+
+and:
+
+>void vm_state_notify(bool running, RunState state);
+
+So, currently, vm_prepare_start() has no way of distinguishing between =
+single-stepping and normal running unless gdb_continue_partial() scans =
+the 'newstates' array before calling it, and passes some extra argument =
+to vm_prepare_start(), indicating whether a step request was present =
+anywhere in the array.
+
+I couldn't find any existing run state that would match single-stepping, =
+and adding another run state looks like a very non-trivial change that =
+can easily backfire. Adding another argument to vm_state_notify() could =
+be easier, but I am still afraid it could break some other part of QEMU, =
+so I thought adding a new member to AccelOpsClass would be a safer bet. =
+But again, if you think another way to do it is better, I am very open =
+to it.
+
+Best regards,
+Ivan
+
+-----Original Message-----
+From: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Sent: Monday, February 28, 2022 2:28 AM
+To: Ivan Shcherbakov <ivan@sysprogs.com>
+Cc: 'Peter Maydell' <peter.maydell@linaro.org>; 'Paolo Bonzini' =
+<pbonzini@redhat.com>; qemu-devel@nongnu.org; armbru@redhat.com; =
+mst@redhat.com
+Subject: Re: [PATCH 3/3] whpx: Added support for breakpoints and =
+stepping
+
+Is the limitation that whpx_set_exception_exit_bitmap needs to be set =
+before any vCPU can be run or that it cannot be set if any vCPUs are =
+currently running?
+If it is the later wouldn't adding a hook into the vm_change_state_head =
+callbacks be enough?
 
 
