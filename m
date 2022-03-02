@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8FE4C9E13
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 07:57:49 +0100 (CET)
-Received: from localhost ([::1]:35048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200084C9E86
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 08:43:51 +0100 (CET)
+Received: from localhost ([::1]:43832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPIvk-0004BX-7g
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 01:57:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60004)
+	id 1nPJeH-0004CZ-Li
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 02:43:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nPIuU-0003SZ-6d
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 01:56:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24078)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPJdH-0003W7-GN
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 02:42:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nPIuQ-0003o1-FG
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 01:56:28 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPJdB-0007k4-Vx
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 02:42:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646204184;
+ s=mimecast20190719; t=1646206960;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vQSEAkQNHnWlnbDbWO3dC5uvI4OzaNyVaqLst1izAJU=;
- b=QgDSW+muHHHXsZ5jO5IQ7Hs4g+4PFJChKerapjHCGlUFXrrFwpWW/BLKGRcRYywk/z9z5f
- iuMKzjdZZJa4UZsR5389H8+LGdLSID08LUtrDU7LPYdSBFnBXtfeL0QKyTepmOqya0n1Qv
- Z+Ygb6nSjoL75sCK0BjLD7MNGyi95IM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=r54KECS5Ta4+XfMPrM9TZqlD4g6ikpj26D7X7GFm2xk=;
+ b=cw8cEjwtKGHOv3OYdt3dcxaE388U8YaebEfjyft3HLQk52+f8kLk5SLlNFFeMf4ZvgclRa
+ tWekZQ0R7LxzRrqrtdT6aggY98zMpN/rVK0QFQVRrTKCcCz/n3R1swauxIrkfLDAU6NRJ0
+ LNqE3aucoohIPvbMj1/nvKQxqXki9vo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-rRTx-yjYN-22j8MRS9nK6Q-1; Wed, 02 Mar 2022 01:56:07 -0500
-X-MC-Unique: rRTx-yjYN-22j8MRS9nK6Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8734151EA;
- Wed,  2 Mar 2022 06:56:05 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 01B891F31F;
- Wed,  2 Mar 2022 06:55:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6C3EB21E6A00; Wed,  2 Mar 2022 07:55:45 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jonathan Cameron via <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v6 27/43] hw/cxl/host: Add support for CXL Fixed Memory
- Windows.
-References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
- <20220211120747.3074-28-Jonathan.Cameron@huawei.com>
-Date: Wed, 02 Mar 2022 07:55:45 +0100
-In-Reply-To: <20220211120747.3074-28-Jonathan.Cameron@huawei.com> (Jonathan
- Cameron via's message of "Fri, 11 Feb 2022 12:07:31 +0000")
-Message-ID: <87y21slu6m.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-223-PsUQqfi2NC2QQDiTjVmFyw-1; Wed, 02 Mar 2022 02:42:39 -0500
+X-MC-Unique: PsUQqfi2NC2QQDiTjVmFyw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ az36-20020a05600c602400b003811b328ed5so228602wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 23:42:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=r54KECS5Ta4+XfMPrM9TZqlD4g6ikpj26D7X7GFm2xk=;
+ b=PnWY1DzUryVN7vrTgeBn8GtMHN4jx0mA1NcFbZKhMnCN+LXETVO2h21nSJy9qt2vg7
+ YGfaQDF8aAESy9pUGjJ3pECOIid8ECncf5jh+JxThn51qLS9dCWRK7ZKYG9Yi80Ld9HX
+ 7zTgvuo4kg9U4LUbGuAWB9em9BpEuD9N82brKXFNsBVwKmcL3qbPOvW8xyNijVqJe0io
+ 4qZNG0egR/VBxx9PdFIV1+rLsSzDRjwDeloeFiAUC6UWtn0vVMYg6Xay3ggYdna6bkzG
+ lpcxGYSrUJXUUKf0hnUGnAdYHIsgkmjGRd6D+1TTWtFTg6OfgR9iis8/La6cFk5DGkAR
+ HWug==
+X-Gm-Message-State: AOAM5339QOSSzhm8cjPFSl+n5XHYZzfioySu0iEAZVXlSIu6vJw9UKDo
+ EafSf0VNHBglJWc86Mo/ph/hGrET/nX+a4QGsp2Yq05h9BCJ4C2jdgUzza0ZcLGKBjX9AH4uDzI
+ 92slZdYDSKf+yeps=
+X-Received: by 2002:a05:600c:4ed0:b0:37b:e983:287b with SMTP id
+ g16-20020a05600c4ed000b0037be983287bmr19550329wmq.156.1646206957643; 
+ Tue, 01 Mar 2022 23:42:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwrhIny0LTz+oAiVJdVBdcw7M1SyuYOvWiCd108UgZKej5mVsXb3i5PRUQLI/CVYzNAxiQ1tA==
+X-Received: by 2002:a05:600c:4ed0:b0:37b:e983:287b with SMTP id
+ g16-20020a05600c4ed000b0037be983287bmr19550301wmq.156.1646206957345; 
+ Tue, 01 Mar 2022 23:42:37 -0800 (PST)
+Received: from redhat.com ([2a10:8006:355c:0:48d6:b937:2fb9:b7de])
+ by smtp.gmail.com with ESMTPSA id
+ n15-20020a05600c4f8f00b003842f011bc5sm1040455wmq.2.2022.03.01.23.42.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 23:42:36 -0800 (PST)
+Date: Wed, 2 Mar 2022 02:42:33 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: propagating vmgenid outward and upward
+Message-ID: <20220302024137-mutt-send-email-mst@kernel.org>
+References: <Yh4+9+UpanJWAIyZ@zx2c4.com>
+ <223f858c-34c5-3ccd-b9e8-7585a976364d@redhat.com>
+ <Yh5JwK6toc/zBNL7@zx2c4.com>
+ <20220301121419-mutt-send-email-mst@kernel.org>
+ <CAHmME9qieLUDVoPYZPo=N8NCL1T-RzQ4p7kCFv3PKFUkhWZPsw@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <CAHmME9qieLUDVoPYZPo=N8NCL1T-RzQ4p7kCFv3PKFUkhWZPsw@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,261 +100,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Samarth Saxena <samarths@cadence.com>, Chris Browy <cbrowy@avery-design.com>,
- linuxarm@huawei.com, linux-cxl@vger.kernel.org,
- Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <f4bug@amsat.org>,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
+ Colm MacCarthaigh <colmmacc@amazon.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ adrian@parity.io, KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Theodore Ts'o <tytso@mit.edu>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Jonathan Cameron via <qemu-devel@nongnu.org> writes:
+On Tue, Mar 01, 2022 at 07:37:06PM +0100, Jason A. Donenfeld wrote:
+> Hi Michael,
+> 
+> On Tue, Mar 1, 2022 at 6:17 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > Hmm okay, so it's a performance optimization... some batching then? Do
+> > you really need to worry about every packet? Every 64 packets not
+> > enough?  Packets are after all queued at NICs etc, and VM fork can
+> > happen after they leave wireguard ...
+> 
+> Unfortunately, yes, this is an "every packet" sort of thing -- if the
+> race is to be avoided in a meaningful way. It's really extra bad:
+> ChaCha20 and AES-CTR work by xoring a secret stream of bytes with
+> plaintext to produce a ciphertext. If you use that same secret stream
+> and xor it with a second plaintext and transmit that too, an attacker
+> can combine the two different ciphertexts to learn things about the
+> original plaintext.
 
-> From: Jonathan Cameron <jonathan.cameron@huawei.com>
->
-> The concept of these is introduced in [1] in terms of the
-> description the CEDT ACPI table. The principal is more general.
-> Unlike once traffic hits the CXL root bridges, the host system
-> memory address routing is implementation defined and effectively
-> static once observable by standard / generic system software.
-> Each CXL Fixed Memory Windows (CFMW) is a region of PA space
-> which has fixed system dependent routing configured so that
-> accesses can be routed to the CXL devices below a set of target
-> root bridges. The accesses may be interleaved across multiple
-> root bridges.
->
-> For QEMU we could have fully specified these regions in terms
-> of a base PA + size, but as the absolute address does not matter
-> it is simpler to let individual platforms place the memory regions.
->
-> ExampleS:
-> -cxl-fixed-memory-window targets=cxl.0,size=128G
-> -cxl-fixed-memory-window targets=cxl.1,size=128G
-> -cxl-fixed-memory-window targets=cxl0,targets=cxl.1,size=256G,interleave-granularity=2k
->
-> Specifies
-> * 2x 128G regions not interleaved across root bridges, one for each of
->   the root bridges with ids cxl.0 and cxl.1
-> * 256G region interleaved across root bridges with ids cxl.0 and cxl.1
-> with a 2k interleave granularity.
->
-> When system software enumerates the devices below a given root bridge
-> it can then decide which CFMW to use. If non interleave is desired
-> (or possible) it can use the appropriate CFMW for the root bridge in
-> question.  If there are suitable devices to interleave across the
-> two root bridges then it may use the 3rd CFMS.
->
-> A number of other designs were considered but the following constraints
-> made it hard to adapt existing QEMU approaches to this particular problem.
-> 1) The size must be known before a specific architecture / board brings
->    up it's PA memory map.  We need to set up an appropriate region.
-> 2) Using links to the host bridges provides a clean command line interface
->    but these links cannot be established until command line devices have
->    been added.
->
-> Hence the two step process used here of first establishing the size,
-> interleave-ways and granularity + caching the ids of the host bridges
-> and then, once available finding the actual host bridges so they can
-> be used later to support interleave decoding.
->
-> [1] CXL 2.0 ECN: CEDT CFMWS & QTG DSM (computeexpresslink.org / specifications)
->
-> Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+So what about the point about packets queued then? You don't fish
+packets out of qdisc queues, do you?
 
-[...]
-
-> diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-> new file mode 100644
-> index 0000000000..9f303e6d8e
-> --- /dev/null
-> +++ b/hw/cxl/cxl-host.c
-
-[...]
-
-> +QemuOptsList qemu_cxl_fixed_window_opts = {
-> +    .name = "cxl-fixed-memory-window",
-> +    .implied_opt_name = "type",
-> +    .head = QTAILQ_HEAD_INITIALIZER(qemu_cxl_fixed_window_opts.head),
-> +    .desc = { { 0 } }
-> +};
-> +
-
-[...]
-
-> +static int parse_cxl_fixed_memory_window(void *opaque, QemuOpts *opts,
-> +                                         Error **errp)
-> +{
-> +    CXLFixedMemoryWindowOptions *object = NULL;
-> +    MachineState *ms = MACHINE(opaque);
-> +    Error *err = NULL;
-> +    Visitor *v = opts_visitor_new(opts);
-> +
-> +    visit_type_CXLFixedMemoryWindowOptions(v, NULL, &object, errp);
-> +    visit_free(v);
-> +    if (!object) {
-> +        return -1;
-> +    }
-> +
-> +    set_cxl_fixed_memory_window_options(ms, object, &err);
-> +
-> +    qapi_free_CXLFixedMemoryWindowOptions(object);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +void parse_cxl_fixed_memory_window_opts(MachineState *ms)
-> +{
-> +    qemu_opts_foreach(qemu_find_opts("cxl-fixed-memory-window"),
-> +                      parse_cxl_fixed_memory_window, ms, &error_fatal);
-> +}
-
-[...]
-
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 42fc68403d..0998a9128d 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -504,6 +504,21 @@
->     'dst': 'uint16',
->     'val': 'uint8' }}
->  
-> +##
-> +# @CXLFixedMemoryWindowOptions:
-> +#
-> +# Create a CXL Fixed Memory Window (for OptsVisitor)
-> +#
-> +# @targets: Target root bridge IDs
-
-Missing: @size, @targets.
-
-> +#
-> +# Since X.X //fixme
-
-Well, "fix me, please".
-
-> +##
-> +{ 'struct': 'CXLFixedMemoryWindowOptions',
-> +  'data': {
-> +      'size': 'size',
-> +      '*interleave-granularity': 'size',
-> +      'targets': ['str'] }}
-> +
->  ##
->  # @X86CPURegister32:
->  #
-
-[...]
-
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index ba3ae6a42a..b4d2cc6f48 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -467,6 +467,43 @@ SRST
->          -numa hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8
->  ERST
->  
-> +DEF("cxl-fixed-memory-window", HAS_ARG, QEMU_OPTION_cxl_fixed_memory_window,
-> +    "-cxl-fixed-memory-window targets=firsttarget,targets=secondtarget,size=size[,interleave-granularity=granularity]\n",
-> +    QEMU_ARCH_ALL)
-> +SRST
-> +``-cxl-fixed-memory-window targets=firsttarget,targets=secondtarget,size=size[,interleave-granularity=granularity]``
-> +    Define a CXL Fixed Memory Window (CFMW).
-> +
-> +    Described in the CXL 2.0 ECN: CEDT CFMWS & QTG _DSM.
-> +
-> +    They are regions of Host Physical Addresses (HPA) on a system which
-> +    may be interleaved across one or more CXL host bridges.  The system
-> +    software will assign particular devices into these windows and
-> +    configure the downstream Host-managed Device Memory (HDM) decoders
-> +    in root ports, switch ports and devices appropriately to meet the
-> +    interleave requirements before enabling the memory devices.
-> +
-> +    ``targets=firsttarget`` provides the mapping to CXL host bridges
-> +    which may be identified by the id provied in the -device entry.
-> +    Multiple entries are needed to specify all the targets when
-> +    the fixed memory window represents interleaved memory.
-> +
-> +    ``size=size`` sets the size of the CFMW. This must be a multiple of
-> +    256MiB. The region will be aligned to 256MiB but the location is
-> +    platform and configuration dependent.
-> +
-> +    ``interleave-granularity=granularity`` sets the granularity of
-> +    interleave. Default 256KiB. Only 256KiB, 512KiB, 1024KiB, 2048KiB
-> +    4096KiB, 8192KiB and 16384KiB granularities supported.
-> +
-> +    Example:
-> +
-> +    ::
-> +
-> +        -cxl-fixed-memory-window -targets=cxl.0,-targets=cxl.1,size=128G,interleave-granularity=512k
-> +
-> +ERST
-> +
->  DEF("add-fd", HAS_ARG, QEMU_OPTION_add_fd,
->      "-add-fd fd=fd,set=set[,opaque=opaque]\n"
->      "                Add 'fd' to fd 'set'\n", QEMU_ARCH_ALL)
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 5e1b35ba48..f83f158fff 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -91,6 +91,7 @@
->  #include "qemu/config-file.h"
->  #include "qemu/qemu-options.h"
->  #include "qemu/main-loop.h"
-> +#include "hw/cxl/cxl.h"
->  #ifdef CONFIG_VIRTFS
->  #include "fsdev/qemu-fsdev.h"
->  #endif
-> @@ -2744,6 +2745,7 @@ void qmp_x_exit_preconfig(Error **errp)
->  
->      qemu_init_board();
->      qemu_create_cli_devices();
-> +    cxl_fixed_memory_window_link_targets(errp);
->      qemu_machine_creation_done();
->  
->      if (loadvm) {
-> @@ -2805,6 +2807,7 @@ void qemu_init(int argc, char **argv, char **envp)
->      qemu_add_opts(&qemu_msg_opts);
->      qemu_add_opts(&qemu_name_opts);
->      qemu_add_opts(&qemu_numa_opts);
-> +    qemu_add_opts(&qemu_cxl_fixed_window_opts);
->      qemu_add_opts(&qemu_icount_opts);
->      qemu_add_opts(&qemu_semihosting_config_opts);
->      qemu_add_opts(&qemu_fw_cfg_opts);
-> @@ -2927,6 +2930,13 @@ void qemu_init(int argc, char **argv, char **envp)
->                      exit(1);
->                  }
->                  break;
-> +            case QEMU_OPTION_cxl_fixed_memory_window:
-> +                opts = qemu_opts_parse_noisily(qemu_find_opts("cxl-fixed-memory-window"),
-> +                                               optarg, true);
-> +                if (!opts) {
-> +                    exit(1);
-> +                }
-> +                break;
->              case QEMU_OPTION_display:
->                  parse_display(optarg);
->                  break;
-> @@ -3764,6 +3774,7 @@ void qemu_init(int argc, char **argv, char **envp)
->  
->      qemu_resolve_machine_memdev();
->      parse_numa_opts(current_machine);
-> +    parse_cxl_fixed_memory_window_opts(current_machine);
->  
->      if (vmstate_dump_file) {
->          /* dump and exit */
-
-Have you considered using qobject_input_visitor_new_str() instead of
-QemuOpts?
+> But, anyway, it seems like the race is here to stay given what we have
+> _currently_ available with the virtual hardware. That's why I'm
+> focused on trying to get something going that's the least bad with
+> what we've currently got, which is racy by design. How vitally
+> important is it to have something that doesn't race in the far future?
+> I don't know, really. It seems plausible that that ACPI notifier
+> triggers so early that nothing else really even has a chance, so the
+> race concern is purely theoretical. But I haven't tried to measure
+> that so I'm not sure.
+> 
+> Jason
 
 
