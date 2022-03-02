@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50EC14CACBC
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:59:57 +0100 (CET)
-Received: from localhost ([::1]:33770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7930A4CACE9
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:04:53 +0100 (CET)
+Received: from localhost ([::1]:45190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPTGW-0006q6-Dv
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:59:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54096)
+	id 1nPTLI-0006XM-J9
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:04:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT7v-0007Ru-KG
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:51:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30769)
+ id 1nPT7y-0007UE-Iq
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:51:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT7t-0008OA-Mr
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:51:03 -0500
+ id 1nPT7w-0008Qn-JS
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:51:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646243461;
+ s=mimecast20190719; t=1646243463;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xk2bg+w+t479K7e12gxC03cc6fYtP7mFlXQG4+v/d0I=;
- b=L99fI1nndbPrfMnljqpUFz3X0O+CS4X/huTeplW9TBdDNCkXU4KuMWqGTeNp/O4HVx5SuF
- V1ree90KFP1puh9XefBlScPxYKZBVgABldZNSKPIZE0rb7NsBMVTQNmkuwrq9nvroLNy4P
- Qn5PqCCF6vBnDL97/er7U/IkqMz2n3U=
+ bh=W1RhqUzRrgQUzFff9VRw1AZE7aQy+mwpEY4rc2EbVgw=;
+ b=Jj3BTfyF5lKp9AyzvGiY47uVrty1X83AzP+2rtx6li6FVU02Hg4K+uXwebnDls3k5pAonD
+ 8QG8nqMbVDOMxejHdW0Vw0SzxeXpoo0jq5hI5/Ck9JyYD3yyTLXCHB0Gq5/ACfk5j+TxoC
+ vBYyZeZYqUhHZKiDLmnHnM7MNIy3lkU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-119-jzOhRhMsPFyL2pIEA1n8kQ-1; Wed, 02 Mar 2022 12:51:00 -0500
-X-MC-Unique: jzOhRhMsPFyL2pIEA1n8kQ-1
+ us-mta-279-oAPtlbE4OYW6NGNepOkvPg-1; Wed, 02 Mar 2022 12:51:02 -0500
+X-MC-Unique: oAPtlbE4OYW6NGNepOkvPg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BACF5200
- for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:50:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D4695200
+ for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:51:01 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0422C8000B;
- Wed,  2 Mar 2022 17:50:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 818088000B;
+ Wed,  2 Mar 2022 17:50:59 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/18] tests: introduce ability to provide hooks for migration
- precopy test
-Date: Wed,  2 Mar 2022 17:49:23 +0000
-Message-Id: <20220302174932.2692378-10-berrange@redhat.com>
+Subject: [PATCH 10/18] tests: switch migration FD passing test to use common
+ precopy helper
+Date: Wed,  2 Mar 2022 17:49:24 +0000
+Message-Id: <20220302174932.2692378-11-berrange@redhat.com>
 In-Reply-To: <20220302174932.2692378-1-berrange@redhat.com>
 References: <20220302174932.2692378-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,116 +89,99 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are alot of different scenarios to test with migration due to the
-wide number of parameters and capabilities available. To enable sharing
-of the basic precopy test scenario, we need to be able to set arbitrary
-parameters and capabilities before the migration is initiated, but don't
-want to have all this logic in the common helper function. Solve this
-by defining two hooks that can be provided by the test case, one before
-migration starts and one after migration finishes.
+The combination of the start and finish hooks allow the FD passing
+code to use the precopy helper
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qtest/migration-test.c | 41 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ tests/qtest/migration-test.c | 55 +++++++++++++-----------------------
+ 1 file changed, 19 insertions(+), 36 deletions(-)
 
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index c1058dc944..2f2059cebc 100644
+index 2f2059cebc..2082c58e8b 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -796,11 +796,37 @@ static void test_baddest(void)
-     test_migrate_end(from, to, false);
- }
- 
-+/*
-+ * A hook that runs after the src and dst QEMUs have been
-+ * created, but before the migration is started. This can
-+ * be used to set migration parameters and capabilities.
-+ *
-+ * Returns: NULL, or a pointer to opaque state to be
-+ *          later passed to the TestMigrateFinishHook
-+ */
-+typedef void * (*TestMigrateStartHook)(QTestState *from,
-+                                       QTestState *to);
-+
-+/*
-+ * A hook that runs after the migration has finished,
-+ * regardless of whether it succeeded or failed, but
-+ * before QEMU has terminated (unless it self-terminated
-+ * due to migration error)
-+ *
-+ * @opaque is a pointer to state previously returned
-+ * by the TestMigrateStartHook if any, or NULL.
-+ */
-+typedef void (*TestMigrateFinishHook)(QTestState *from,
-+                                      QTestState *to,
-+                                      void *opaque);
-+
- /*
-  * Common helper for running a precopy migration test
-  *
-  * @listen_uri: the URI for the dst QEMU to listen on
-  * @connect_uri: the URI for the src QEMU to connect to
-+ * @start_hook: (optional) callback to run at start to set migration parameters
-+ * @finish_hook: (optional) callback to run at finish to cleanup
-  * @dirty_ring: true to use dirty ring tracking
-  *
-  * If @connect_uri is NULL, then it will query the dst
-@@ -810,11 +836,14 @@ static void test_baddest(void)
-  */
- static void test_precopy_common(const char *listen_uri,
-                                 const char *connect_uri,
-+                                TestMigrateStartHook start_hook,
-+                                TestMigrateFinishHook finish_hook,
-                                 bool dirty_ring)
- {
-     MigrateStart *args = migrate_start_new();
-     g_autofree char *local_connect_uri = NULL;
-     QTestState *from, *to;
-+    void *data_hook = NULL;
- 
-     args->use_dirty_ring = dirty_ring;
- 
-@@ -832,6 +861,10 @@ static void test_precopy_common(const char *listen_uri,
-     /* 1GB/s */
-     migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
- 
-+    if (start_hook) {
-+        data_hook = start_hook(from, to);
-+    }
-+
-     /* Wait for the first serial output from the source */
-     wait_for_serial("src_serial");
- 
-@@ -855,6 +888,10 @@ static void test_precopy_common(const char *listen_uri,
-     wait_for_serial("dest_serial");
-     wait_for_migration_complete(from);
- 
-+    if (finish_hook) {
-+        finish_hook(from, to, data_hook);
-+    }
-+
-     test_migrate_end(from, to, true);
- }
- 
-@@ -864,6 +901,8 @@ static void test_precopy_unix_common(bool dirty_ring)
- 
-     test_precopy_common(uri,
-                         uri,
-+                        NULL, /* start_hook */
-+                        NULL, /* finish_hook */
-                         dirty_ring);
- }
- 
-@@ -971,6 +1010,8 @@ static void test_precopy_tcp(void)
- {
-     test_precopy_common("tcp:127.0.0.1:0",
-                         NULL, /* connect_uri */
-+                        NULL, /* start_hook */
-+                        NULL, /* finish_hook */
+@@ -1015,31 +1015,12 @@ static void test_precopy_tcp(void)
                          false /* dirty_ring */);
  }
  
+-static void test_migrate_fd_proto(void)
++static void *test_migrate_fd_start_hook(QTestState *from,
++                                        QTestState *to)
+ {
+-    MigrateStart *args = migrate_start_new();
+-    QTestState *from, *to;
++    QDict *rsp;
+     int ret;
+     int pair[2];
+-    QDict *rsp;
+-    const char *error_desc;
+-
+-    if (test_migrate_start(&from, &to, "defer", args)) {
+-        return;
+-    }
+-
+-    /*
+-     * We want to pick a speed slow enough that the test completes
+-     * quickly, but that it doesn't complete precopy even on a slow
+-     * machine, so also set the downtime.
+-     */
+-    /* 1 ms should make it not converge */
+-    migrate_set_parameter_int(from, "downtime-limit", 1);
+-    /* 1GB/s */
+-    migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
+-
+-    /* Wait for the first serial output from the source */
+-    wait_for_serial("src_serial");
+ 
+     /* Create two connected sockets for migration */
+     ret = socketpair(PF_LOCAL, SOCK_STREAM, 0, pair);
+@@ -1064,17 +1045,15 @@ static void test_migrate_fd_proto(void)
+     qobject_unref(rsp);
+     close(pair[1]);
+ 
+-    /* Start migration to the 2nd socket*/
+-    migrate_qmp(from, "fd:fd-mig", "{}");
+-
+-    wait_for_migration_pass(from);
+-
+-    migrate_set_parameter_int(from, "downtime-limit", CONVERGE_DOWNTIME);
++    return NULL;
++}
+ 
+-    if (!got_stop) {
+-        qtest_qmp_eventwait(from, "STOP");
+-    }
+-    qtest_qmp_eventwait(to, "RESUME");
++static void test_migrate_fd_finish_hook(QTestState *from,
++                                        QTestState *to,
++                                        void *opaque)
++{
++    QDict *rsp;
++    const char *error_desc;
+ 
+     /* Test closing fds */
+     /* We assume, that QEMU removes named fd from its list,
+@@ -1092,11 +1071,15 @@ static void test_migrate_fd_proto(void)
+     error_desc = qdict_get_str(qdict_get_qdict(rsp, "error"), "desc");
+     g_assert_cmpstr(error_desc, ==, "File descriptor named 'fd-mig' not found");
+     qobject_unref(rsp);
++}
+ 
+-    /* Complete migration */
+-    wait_for_serial("dest_serial");
+-    wait_for_migration_complete(from);
+-    test_migrate_end(from, to, true);
++static void test_migrate_fd_proto(void)
++{
++    test_precopy_common("defer",
++                        "fd:fd-mig",
++                        test_migrate_fd_start_hook,
++                        test_migrate_fd_finish_hook,
++                        false /* dirty_ring */);
+ }
+ 
+ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
 -- 
 2.34.1
 
