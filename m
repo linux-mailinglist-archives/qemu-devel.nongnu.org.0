@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0384CA9D0
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:08:13 +0100 (CET)
-Received: from localhost ([::1]:39068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0916B4CA9D4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:09:21 +0100 (CET)
+Received: from localhost ([::1]:41226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPRWO-0000pA-9y
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:08:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55578)
+	id 1nPRXU-0002MJ-5N
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:09:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nPRV8-0008JD-Hu
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:06:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38505)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nPRV5-00083R-4U
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:06:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646237210;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GrD0BGmgCrrsW/ZxtnaRp1GXNLCgNzTcWE7WkwLyYBQ=;
- b=RJbwBEq5XYtY/m+mSIjJ6YgAnAoLmb1VoqCvbhm7DY6IYrwehwvYd7oWrwZhskl36k/4RL
- rd5GIr6RRuMkaC79MbAM+ry57VbnRWma/wxi9GOOEAs+jzpql4dgoGuCgxWd8jic4aTQYC
- rEB7pyMRzzdaah926A4hI63Q7+ckwoY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-r_JR-YQUPYuwlJ8otLygLg-1; Wed, 02 Mar 2022 11:06:46 -0500
-X-MC-Unique: r_JR-YQUPYuwlJ8otLygLg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6ACD1091DA1;
- Wed,  2 Mar 2022 16:06:43 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 103FD8395F;
- Wed,  2 Mar 2022 16:06:42 +0000 (UTC)
-Date: Wed, 2 Mar 2022 16:06:41 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH 1/2] Allow returning EventNotifier's wfd
-Message-ID: <Yh+WESUBI9spkHvd@stefanha-x1.localdomain>
-References: <20220302113644.43717-1-slp@redhat.com>
- <20220302113644.43717-2-slp@redhat.com>
- <20220302081234.2378ef33.alex.williamson@redhat.com>
- <20220302152342.3hlzw3ih2agqqu6c@mhamilton>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nPRVX-0000GY-7R
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:07:19 -0500
+Received: from [2a00:1450:4864:20::633] (port=36559
+ helo=mail-ej1-x633.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nPRVV-00085w-Pm
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:07:18 -0500
+Received: by mail-ej1-x633.google.com with SMTP id a23so4764084eju.3
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 08:07:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=3HxVcZFOx1bhvGyTKX1xjCIBgYPPeFXCl5LnaVw2CJA=;
+ b=rtU+gRGSj7iM6CkiD+y572VUCmSgfALxJU1+CWbLyu+QZL1roMbTAmbVvLTJgnYeZ1
+ K3ZMWB3VMf2CFaFh/2m58KiUKZxjhcUZHdEX1jQyf8TxWj6zpz9YkZaY4IpYeeVu/R8l
+ 4V93UDM9u2M8riU5equWta9tkEe+Q2Lxev3e2wKxVPEXxd5228bsribiH68UTHqyAN6F
+ S2Juvt47jv8YznnOvtlwOi5WZKKSXGznM128uZUmi7tjc0abJ3BcOe+F3T244YhA57Aw
+ E/IJIQE3iAtdS9JPSyLMaEWhD9zmgJHQlO+aDfb70a7HI+BsuMVOIVe40X2YRkT3fxFQ
+ MMcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=3HxVcZFOx1bhvGyTKX1xjCIBgYPPeFXCl5LnaVw2CJA=;
+ b=23rRCi2PoIlwLaDrBL7dPEkxJiAunHtL3Km3LE6WGnOZQRAGOyBMAPAFtQL/NUDFs2
+ /i5EKmqs9fhwNV/GTQEqzwMAJ+qIaCr0yq/mwwGOOZ8RmELo2xwZZXWiw6IdemqTIdYf
+ xZStd4A0+rGFq0bzKlF+2QDeRGpDONQ5POS3PB4+guP8B02R7KIvgdldvA+IGOBNPysW
+ 8hcKdoxdsjI2Y3A+deUJNmWYCr2CTh55PR+TVrtBt3qmoCKM7PtOxdzqelTsSoXMtskA
+ aNABvMWCgArVakFxqWVkgu+ISUVrHz3vbukPFoy0MBaMDnzdQUz0xX9snM1YYFdw/HUZ
+ I2PQ==
+X-Gm-Message-State: AOAM530cqKF2QMHlLFmg0J1KFPbhwDTDFk+uX4J/F1svtE/+q2OFSH3F
+ jO3zsMova1UqEwY5ATPlNChOPQ==
+X-Google-Smtp-Source: ABdhPJwWxK4cqoNeBoaLHgzQNiQC5hNVfDOBRqDGDx6L5n65VP48fvkszAktjlvuftrjUBh1/ggaWw==
+X-Received: by 2002:a17:906:3a84:b0:6cd:e829:ca37 with SMTP id
+ y4-20020a1709063a8400b006cde829ca37mr24151790ejd.83.1646237235749; 
+ Wed, 02 Mar 2022 08:07:15 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ zb5-20020a17090687c500b006ce2a98f715sm6393575ejb.117.2022.03.02.08.07.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Mar 2022 08:07:14 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DBE301FFB7;
+ Wed,  2 Mar 2022 16:07:12 +0000 (GMT)
+References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
+ <20220211120747.3074-31-Jonathan.Cameron@huawei.com>
+User-agent: mu4e 1.7.9; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v6 30/43] pci/pcie_port: Add pci_find_port_by_pn()
+Date: Wed, 02 Mar 2022 16:07:06 +0000
+In-reply-to: <20220211120747.3074-31-Jonathan.Cameron@huawei.com>
+Message-ID: <87y21sibin.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="CckaM7tvrQIX+lck"
-Content-Disposition: inline
-In-Reply-To: <20220302152342.3hlzw3ih2agqqu6c@mhamilton>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,84 +93,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Jagannathan Raman <jag.raman@oracle.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Halil Pasic <pasic@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S
+ .  Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
+ Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---CckaM7tvrQIX+lck
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
 
-On Wed, Mar 02, 2022 at 04:23:42PM +0100, Sergio Lopez wrote:
-> On Wed, Mar 02, 2022 at 08:12:34AM -0700, Alex Williamson wrote:
-> > On Wed,  2 Mar 2022 12:36:43 +0100
-> > Sergio Lopez <slp@redhat.com> wrote:
-> >=20
-> > > event_notifier_get_fd(const EventNotifier *e) always returns
-> > > EventNotifier's read file descriptor (rfd). This is not a problem when
-> > > the EventNotifier is backed by a an eventfd, as a single file
-> > > descriptor is used both for reading and triggering events (rfd =3D=3D
-> > > wfd).
-> > >=20
-> > > But, when EventNotifier is backed by a pipefd, we have two file
-> > > descriptors, one that can only be used for reads (rfd), and the other
-> > > only for writes (wfd).
-> > >=20
-> > > There's, at least, one known situation in which we need to obtain wfd
-> > > instead of rfd, which is when setting up the file that's going to be
-> > > sent to the peer in vhost's SET_VRING_CALL.
-> > >=20
-> > > Extend event_notifier_get_fd() to receive an argument which indicates
-> > > whether the caller wants to obtain rfd (false) or wfd (true).
-> >=20
-> > There are about 50 places where we add the false arg here and 1 where
-> > we use true.  Seems it would save a lot of churn to hide this
-> > internally, event_notifier_get_fd() returns an rfd, a new
-> > event_notifier_get_wfd() returns the wfd.  Thanks,
->=20
-> I agree. In fact, that's what I implemented in the first place. I
-> changed to this version in which event_notifier_get_fd() is extended
-> because it feels more "correct". But yes, the pragmatic option would
-> be adding a new event_notifier_get_wfd().
->=20
-> I'll wait for more reviews, and unless someone voices against it, I'll
-> respin the patches with that strategy (I already have it around here).
+> From: Jonathan Cameron <jonathan.cameron@huawei.com>
+>
+> Simple function to search a PCIBus to find a port by
+> it's port number.
+>
+> CXL interleave decoding uses the port number as a target
+> so it is necessary to locate the port when doing interleave
+> decoding.
+>
+> Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-I had the same thought looking through the patch before I read Alex's
-suggestion. A separate get_wfd() function makes sense to me.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Stefan
-
---CckaM7tvrQIX+lck
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIflhEACgkQnKSrs4Gr
-c8gUbwf+MaJ1cHSEuImrkqURTdFKqXovAS0lAPUlBsdIv36iSJWxNCfsWsP7nNQR
-ZnaIbqFNhCLC6YoZcEg/sezcGI/H3qfkG88Fv+wuEWBR5CWDoLnNhQGksC+A+jwD
-BnPvhEMXDWM/GAmjvQrNAfFZeVtvspRtVHg1xDvz1kfUrMup3Qpmz6VcdRZCEKHR
-HUkimVWmgOqRTDBA9Mcn32nFjqv1kWgaleItUOQXGq+gLXs4ri4CUuBDZcGRF/T7
-EgciAL062l4PjdATLM/Y42p1YMkROJhMEa30n4Ov/Ore/BjjFFAb+u+tcDJGo/DN
-wtItDgzVaRAoQ31EvfDE4kTgLyDjnw==
-=7Tst
------END PGP SIGNATURE-----
-
---CckaM7tvrQIX+lck--
-
+--=20
+Alex Benn=C3=A9e
 
