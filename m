@@ -2,94 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769724CA6D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 15:00:10 +0100 (CET)
-Received: from localhost ([::1]:42248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9AB4CA72A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 15:05:35 +0100 (CET)
+Received: from localhost ([::1]:49330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPPWT-0006HX-80
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 09:00:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51810)
+	id 1nPPbi-0003mP-D6
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 09:05:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPOJJ-0006zz-WB
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:42:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32261)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1nPOLf-0000eO-9r
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:44:55 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPOJH-0003oW-12
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:42:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646224944;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Yrnuj8pStRZoc1nnTwqWeHJxhLwgXDk03D2mqOwAit4=;
- b=EeEg06i9YqBPRO8rrZjZqjt59Sg8QRd4prUIr+iuwz8U66fm/NBWxZu/TOeCMzwYt+OEP3
- 3n0O32O4eKZbR4s1yJPlODJym9x170Pj1inkCmg5xYNBfPpciwMl9vyIsMkupNXxQMMf1L
- kLEC8ukNhi7pg4LeeHJTuOBUdK9aOdE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-LbYqLwcXNESklmEK7nqA3g-1; Wed, 02 Mar 2022 07:42:23 -0500
-X-MC-Unique: LbYqLwcXNESklmEK7nqA3g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c62-20020a1c3541000000b003815245c642so1867740wma.6
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 04:42:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Yrnuj8pStRZoc1nnTwqWeHJxhLwgXDk03D2mqOwAit4=;
- b=oFF5eAnbFs7vOQ3eqtOj8cvnqoW/QtdmttHkts3lkQdID99USioO55s7t4rPEyoXUM
- nA26pl/Q5LqR3lzvlf6qJ+3bpxCYeOcFIUg15IzGs5SPGg4zP9og9l47NyQAgjEaREN0
- NpKtWdTK/dlKrYEXa3JhlWxZe90FpaRZULk1fZWitnD1AThaPDpNkmN42gtss2Nm15sp
- uo4ld8W83iAFDv71ttUucNhZo9xXQVNwRcV9AS6dVQR0R4uuRAJt2ZACfCoCvE1Yb18f
- pHeqtfFpDJZPsKrJvdhpqDfjLLv1Z3ZdA5P1s7Zwvbb/vcfgmpckdYkh8/P1Mi9PCg9h
- EQmw==
-X-Gm-Message-State: AOAM5322nNLuFL0LQNTAKuxaD5TbY9hgH4Fpu1glgasaxpEeGXRL0vmU
- tr3z7twtgVH+Y3Hb7HBucF6I52zEm7ukTRn0DavJkNCJArQVSK3MeuvX/k7DXYLxmuiNveldiP2
- KN3m0PEvfdw+xcwg=
-X-Received: by 2002:a5d:64ce:0:b0:1ef:ef72:925e with SMTP id
- f14-20020a5d64ce000000b001efef72925emr8808299wri.413.1646224942685; 
- Wed, 02 Mar 2022 04:42:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzeH2qcAvN/asd5LasyQqzO/X0+YwsAGpKsMUuEvZnua+95WQVCp5++J78z2ZMtSV3lqcMhgA==
-X-Received: by 2002:a5d:64ce:0:b0:1ef:ef72:925e with SMTP id
- f14-20020a5d64ce000000b001efef72925emr8808283wri.413.1646224942462; 
- Wed, 02 Mar 2022 04:42:22 -0800 (PST)
-Received: from redhat.com ([2a10:8006:355c:0:48d6:b937:2fb9:b7de])
- by smtp.gmail.com with ESMTPSA id
- f22-20020a1cc916000000b00380d3e49e89sm5316920wmb.22.2022.03.02.04.42.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 04:42:21 -0800 (PST)
-Date: Wed, 2 Mar 2022 07:42:18 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v4 2/3] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-Message-ID: <20220302074022-mutt-send-email-mst@kernel.org>
-References: <20220228201733.714580-1-liavalb@gmail.com>
- <20220228201733.714580-3-liavalb@gmail.com>
- <20220301094354.1d37f470@redhat.com>
- <alpine.DEB.2.22.394.2203011514030.1522204@anisinha-lenovo>
- <3face56c-7488-6736-6394-af1d9979d00f@gmail.com>
- <CAARzgwy2SWi_SmL_YSz0Dio=ynrO_ZUtAASFpiu3-sgMagSY0g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1nPOLc-00045P-Km
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:44:54 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 222C0adV026319
+ for <qemu-devel@nongnu.org>; Wed, 2 Mar 2022 12:44:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=yNX/crsaW4jNkHNmlG95Z6ROuRMDFkoqspGUCkEiTrA=;
+ b=J7ZugJ/ZYih03qx1ZvBy9L8+IDcAGBnXEUmX9WyrrbWs1Xb08Xd+YRC+mc1PQl+ceFtU
+ kjiFIi/0847GS82Ybqs9PQySMUBgXTAYivv2g+Uw9t+1kS/YLeq8KC8J//w4vL54RFyn
+ ziB2OijNcyRgQGH5VS6SFQ+UsVbI2carLBYCapnGuJljcJURpJ67aOW14CerbxR0MarD
+ yDsuP0SXcZXYLt4cz/9kZBUOclUcteEJVUU1Vcb50JUS/V1clj4WGZUGww2I7fC8Nnh1
+ 3sVuSOPuq9rBkLlSMjERH+be7rmNQyKlwIDO/+GDW5IX0iHxC71nYX6zSDySbntEKA0a 4Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ej6bpvhq0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:44:50 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 222CIS1t026204
+ for <qemu-devel@nongnu.org>; Wed, 2 Mar 2022 12:44:49 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ej6bpvhp9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Mar 2022 12:44:49 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222CgoZv007162;
+ Wed, 2 Mar 2022 12:44:46 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06fra.de.ibm.com with ESMTP id 3efbfj5b16-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Mar 2022 12:44:46 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 222Cii9p53084534
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 2 Mar 2022 12:44:44 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 86FE852050;
+ Wed,  2 Mar 2022 12:44:44 +0000 (GMT)
+Received: from [9.145.51.38] (unknown [9.145.51.38])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 55E915204F;
+ Wed,  2 Mar 2022 12:44:44 +0000 (GMT)
+Message-ID: <104c2aa7-2b0f-c5f4-a996-561d960c7701@linux.ibm.com>
+Date: Wed, 2 Mar 2022 13:44:43 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAARzgwy2SWi_SmL_YSz0Dio=ynrO_ZUtAASFpiu3-sgMagSY0g@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 7/7] dump: Consolidate elf note function
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20220301142213.28568-1-frankja@linux.ibm.com>
+ <20220301142213.28568-8-frankja@linux.ibm.com>
+ <CAMxuvazk2MYoXj1Gku3F5sepwUVuo-Q6Ts8sYkrQHtJ0jnytjQ@mail.gmail.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+In-Reply-To: <CAMxuvazk2MYoXj1Gku3F5sepwUVuo-Q6Ts8sYkrQHtJ0jnytjQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: QjGWmrpgEtv390O7a_ztf70D2gOgwADL
+X-Proofpoint-ORIG-GUID: KbMTfqS4JDvEKqM0PFk_1IaVUh8f7M9R
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-02_06,2022-02-26_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0
+ suspectscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=887
+ spamscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2203020054
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,69 +112,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, shentey@gmail.com,
- Liav Albani <liavalb@gmail.com>, qemu-devel@nongnu.org
+Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 02, 2022 at 10:44:03AM +0530, Ani Sinha wrote:
-> On Wed, Mar 2, 2022 at 12:50 AM Liav Albani <liavalb@gmail.com> wrote:
-> >
-> >
-> > On 3/1/22 11:52, Ani Sinha wrote:
-> > >
-> > > On Tue, 1 Mar 2022, Igor Mammedov wrote:
-> > >
-> > >> On Mon, 28 Feb 2022 22:17:32 +0200
-> > >> Liav Albani <liavalb@gmail.com> wrote:
-> > >>
-> > >>> This can allow the guest OS to determine more easily if i8042 controller
-> > >>> is present in the system or not, so it doesn't need to do probing of the
-> > >>> controller, but just initialize it immediately, before enumerating the
-> > >>> ACPI AML namespace.
-> > >>>
-> > >>> This change only applies to the x86/q35 machine type, as it uses FACP
-> > >>> ACPI table with revision higher than 1, which should implement at least
-> > >>> ACPI 2.0 features within the table, hence it can also set the IA-PC boot
-> > >>> flags register according to the ACPI 2.0 specification.
-> > >>>
-> > >>> Signed-off-by: Liav Albani <liavalb@gmail.com>
-> > >>> ---
-> > >>>   hw/acpi/aml-build.c         | 11 ++++++++++-
-> > >>>   hw/i386/acpi-build.c        |  9 +++++++++
-> > >>>   hw/i386/acpi-microvm.c      |  9 +++++++++
-> > >> commit message says it's q35 specific, so wy it touched microvm anc piix4?
-> > > Igor is correct. Although I see that currently there are no 8042 devices
-> > > for microvms, maybe we should be conservative and add the code to detect
-> > > the device anyway. In that case, the change could affect microvms too when
-> > > such devices get added in the future.
-> > >
-> > >
-> > > echo -e "info qtree\r\nquit\r\n" | ./qemu-system-x86_64 -machine microvm
-> > > -monitor stdio 2>/dev/null | grep 8042
-> > >
-> > > <empty>
-> >
-> > What about this?
-> >
-> > echo -e "info qtree\r\nquit\r\n" | qemu-system-x86_64 -machine microvm
-> > -device i8042 -monitor stdio 2>/dev/null | grep 8042
-> >
-> > Or this?
-> >
-> > echo -e "info mtree\r\nquit\r\n" | qemu-system-x86_64 -machine microvm
-> > -device i8042 -monitor stdio 2>/dev/null | grep 8042
-> 
-> On both occasions you are explicitly adding the device.
-
-Yes of course. It seems a bit cleaner to have -device i8042 -monitor
-stdio give us the correct ACPI table even if there's no pressing need
-for this ATM, simply because it's not much more code, and because if we
-don't we risk guests trying to work around incorrect ACPI tables.
-Let us however do this in a patch by its own with proper
-documentation and motivation.
-
--- 
-MST
+T24gMy8yLzIyIDExOjMwLCBNYXJjLUFuZHLDqSBMdXJlYXUgd3JvdGU6DQo+IEhpDQo+IA0K
+PiBPbiBUdWUsIE1hciAxLCAyMDIyIGF0IDY6MjIgUE0gSmFub3NjaCBGcmFuayA8ZnJhbmtq
+YUBsaW51eC5pYm0uY29tPiB3cm90ZToNCj4+DQo+PiBKdXN0IGxpa2Ugd2l0aCB0aGUgb3Ro
+ZXIgd3JpdGUgZnVuY3Rpb25zIGxldCdzIG1vdmUgdGhlIDMyLzY0IGJpdCBlbGYNCj4+IGhh
+bmRsaW5nIHRvIGEgZnVuY3Rpb24gdG8gaW1wcm92ZSByZWFkYWJpbGl0eS4NCj4+DQo+PiBT
+aWduZWQtb2ZmLWJ5OiBKYW5vc2NoIEZyYW5rIDxmcmFua2phQGxpbnV4LmlibS5jb20+DQo+
+PiAtLS0NCj4+ICAgZHVtcC9kdW1wLmMgfCAyNCArKysrKysrKysrKysrKysrKy0tLS0tLS0N
+Cj4+ICAgMSBmaWxlIGNoYW5nZWQsIDE3IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0p
+DQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2R1bXAvZHVtcC5jIGIvZHVtcC9kdW1wLmMNCj4+IGlu
+ZGV4IDc4NjU0YjljMjcuLjliYTAzOTJlMDAgMTAwNjQ0DQo+PiAtLS0gYS9kdW1wL2R1bXAu
+Yw0KPj4gKysrIGIvZHVtcC9kdW1wLmMNCj4+IEBAIC01MDcsNiArNTA3LDIxIEBAIHN0YXRp
+YyB2b2lkIHdyaXRlX2VsZl9sb2FkcyhEdW1wU3RhdGUgKnMsIEVycm9yICoqZXJycCkNCj4+
+ICAgICAgIH0NCj4+ICAgfQ0KPj4NCj4+ICtzdGF0aWMgdm9pZCB3cml0ZV9lbGZfbm90ZXMo
+RHVtcFN0YXRlICpzLCBFcnJvciAqKmVycnApDQo+PiArew0KPj4gKyAgICBFcnJvciAqbG9j
+YWxfZXJyID0gTlVMTDsNCj4+ICsNCj4+ICsgICAgaWYgKGR1bXBfaXNfNjRiaXQocykpIHsN
+Cj4+ICsgICAgICAgIHdyaXRlX2VsZjY0X25vdGVzKGZkX3dyaXRlX3ZtY29yZSwgcywgJmxv
+Y2FsX2Vycik7DQo+PiArICAgIH0gZWxzZSB7DQo+PiArICAgICAgICB3cml0ZV9lbGYzMl9u
+b3RlcyhmZF93cml0ZV92bWNvcmUsIHMsICZsb2NhbF9lcnIpOw0KPj4gKyAgICB9DQo+PiAr
+ICAgIGlmIChsb2NhbF9lcnIpIHsNCj4+ICsgICAgICAgIGVycm9yX3Byb3BhZ2F0ZShlcnJw
+LCBsb2NhbF9lcnIpOw0KPj4gKyAgICAgICAgcmV0dXJuOw0KPj4gKyAgICB9DQo+IA0KPiBQ
+bGVhc2UgdXNlICJtb2Rlcm4iLXN0eWxlIEVSUlBfR1VBUkQoKSwgYW5kIGluZGljYXRlIGZh
+aWx1cmUgd2l0aCBhDQo+IGJvb2wgKHNlZSBpbmNsdWRlL3FhcGkvZXJyb3IuaCkNCg0KRGlk
+bid0IGtub3cgdGhhdCdzIGEgdGhpbmcsIEknbGwgaGF2ZSBhIGxvb2sNCg0KPiANCj4gKHBl
+cmhhcHMgdGhpcyBzaG91bGQgYmUgcHJlbGltaW5hcnkgdG8gdGhpcyBzZXJpZXMpDQoNClNv
+IHlvdSB3YW50IG1lIHRvIGNoYW5nZSBhbGwgdGhlIGxvY2FsX2Vycm9yICsgZXJyb3JfcHJv
+cGFnYXRlKClzIGluIA0KdGhpcyBmaWxlPw0KDQo+IA0KPj4gK30NCj4+ICsNCj4+ICAgLyog
+d3JpdGUgZWxmIGhlYWRlciwgUFRfTk9URSBhbmQgZWxmIG5vdGUgdG8gdm1jb3JlLiAqLw0K
+Pj4gICBzdGF0aWMgdm9pZCBkdW1wX2JlZ2luKER1bXBTdGF0ZSAqcywgRXJyb3IgKiplcnJw
+KQ0KPj4gICB7DQo+PiBAQCAtNTcwLDEzICs1ODUsOCBAQCBzdGF0aWMgdm9pZCBkdW1wX2Jl
+Z2luKER1bXBTdGF0ZSAqcywgRXJyb3IgKiplcnJwKQ0KPj4gICAgICAgICAgIH0NCj4+ICAg
+ICAgIH0NCj4+DQo+PiAtICAgIGlmIChkdW1wX2lzXzY0Yml0KHMpKSB7DQo+PiAtICAgICAg
+ICAvKiB3cml0ZSBub3RlcyB0byB2bWNvcmUgKi8NCj4+IC0gICAgICAgIHdyaXRlX2VsZjY0
+X25vdGVzKGZkX3dyaXRlX3ZtY29yZSwgcywgJmxvY2FsX2Vycik7DQo+PiAtICAgIH0gZWxz
+ZSB7DQo+PiAtICAgICAgICAvKiB3cml0ZSBub3RlcyB0byB2bWNvcmUgKi8NCj4+IC0gICAg
+ICAgIHdyaXRlX2VsZjMyX25vdGVzKGZkX3dyaXRlX3ZtY29yZSwgcywgJmxvY2FsX2Vycik7
+DQo+PiAtICAgIH0NCj4+ICsgICAgLyogd3JpdGUgbm90ZXMgdG8gdm1jb3JlICovDQo+PiAr
+ICAgIHdyaXRlX2VsZl9ub3RlcyhzLCAmbG9jYWxfZXJyKTsNCj4+ICAgICAgIGlmIChsb2Nh
+bF9lcnIpIHsNCj4+ICAgICAgICAgICBlcnJvcl9wcm9wYWdhdGUoZXJycCwgbG9jYWxfZXJy
+KTsNCj4+ICAgICAgICAgICByZXR1cm47DQo+PiAtLQ0KPj4gMi4zMi4wDQo+Pg0KPiANCg0K
 
 
