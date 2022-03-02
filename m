@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B794CACA6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:57:15 +0100 (CET)
-Received: from localhost ([::1]:53722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2EF4CAC87
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:52:53 +0100 (CET)
+Received: from localhost ([::1]:41664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPTDu-00017u-Mn
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:57:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54014)
+	id 1nPT9g-00015Z-Oq
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:52:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT7b-0006fU-Nu
+ id 1nPT7b-0006fW-Ow
  for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55888)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT7Z-0008Fu-EZ
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:42 -0500
+ id 1nPT7a-0008G3-4p
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646243440;
+ s=mimecast20190719; t=1646243441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tvHFBbRTmwVPlF5r2fbx7Pmn4LhPvDqieoQ/2PM/D40=;
- b=Pcb66iqagHL/5OEvKWxTYD4ZeIKdKWkbMYP1tz49yova1tgTZnbMTSKPkVD+zDx1o5RMfv
- FyTgqTuHvHJcwmkPz8XL25/0BPlsSWTHF58g6mE5LOjwVaoiVYt6NXR7c9THudkmgxdiIF
- /X4w3iEjbtOqLlZVAmCQtJXD9PMQVuU=
+ bh=ivqX3reEgW0Ybx2wFwyhYb/t8wsrnYVRvzeaNB0ctU8=;
+ b=g/EV5KojS8Qy8djCtfl8/cKKx660jFx0BVNi0WsFVUqok5Q49DqJyok2mWcuNXTEDRcYhZ
+ mikUSc9CWGzz1bzrCoWbz0CR/6cRnpFo58vfHKPx0J/Xhzhfst9W0wRvXCFgJmWdtALbBq
+ xS4Wd1e2xjdMAwd44mcPbdadHcqMhQc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-pWHA4S--MDGa1Cq8vjysFg-1; Wed, 02 Mar 2022 12:50:37 -0500
-X-MC-Unique: pWHA4S--MDGa1Cq8vjysFg-1
+ us-mta-477-lYYo7ybpNf67jsZOWGjD9g-1; Wed, 02 Mar 2022 12:50:40 -0500
+X-MC-Unique: lYYo7ybpNf67jsZOWGjD9g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2B4C1854E26
- for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:50:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC2FF1854E26
+ for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:50:39 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1C538000B;
- Wed,  2 Mar 2022 17:50:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D0CF80014;
+ Wed,  2 Mar 2022 17:50:37 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/18] crypto: mandate a hostname when checking x509 creds on
- a client
-Date: Wed,  2 Mar 2022 17:49:20 +0000
-Message-Id: <20220302174932.2692378-7-berrange@redhat.com>
+Subject: [PATCH 07/18] migration: fix use of TLS PSK credentials with a UNIX
+ socket
+Date: Wed,  2 Mar 2022 17:49:21 +0000
+Message-Id: <20220302174932.2692378-8-berrange@redhat.com>
 In-Reply-To: <20220302174932.2692378-1-berrange@redhat.com>
 References: <20220302174932.2692378-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,39 +89,35 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the TLS session object assumes that the caller will always
-provide a hostname when using x509 creds on a client endpoint. This
-relies on the caller to detect and report an error if the user has
-configured QEMU with x509 credentials on a UNIX socket. The migration
-code has such a check, but it is too broad, reporting an error when
-the user has configured QEMU with PSK credentials on a UNIX socket,
-where hostnames are irrelevant.
+The migration TLS code has a check mandating that a hostname be
+available when starting a TLS session. This is expected when using
+x509 credentials, but is bogus for PSK and anonymous credentials
+as neither involve hostname validation.
 
-Putting the check into the TLS session object credentials validation
-code ensures we report errors in only the scenario that matters.
+The TLS crdentials object gained suitable error reporting in the
+case of TLS with x509 credentials, so there is no longer any need
+for the migration code to do its own (incorrect) validation.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- crypto/tlssession.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ migration/tls.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/crypto/tlssession.c b/crypto/tlssession.c
-index a8db8c76d1..b302d835d2 100644
---- a/crypto/tlssession.c
-+++ b/crypto/tlssession.c
-@@ -373,6 +373,12 @@ qcrypto_tls_session_check_certificate(QCryptoTLSSession *session,
-                                session->hostname);
-                     goto error;
-                 }
-+            } else {
-+                if (session->creds->endpoint ==
-+                    QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT) {
-+                    error_setg(errp, "No hostname for certificate validation");
-+                    goto error;
-+                }
-             }
-         }
+diff --git a/migration/tls.c b/migration/tls.c
+index ca1ea3bbdd..32c384a8b6 100644
+--- a/migration/tls.c
++++ b/migration/tls.c
+@@ -137,10 +137,6 @@ QIOChannelTLS *migration_tls_client_create(MigrationState *s,
+     if (s->parameters.tls_hostname && *s->parameters.tls_hostname) {
+         hostname = s->parameters.tls_hostname;
+     }
+-    if (!hostname) {
+-        error_setg(errp, "No hostname available for TLS");
+-        return NULL;
+-    }
  
+     tioc = qio_channel_tls_new_client(
+         ioc, creds, hostname, errp);
 -- 
 2.34.1
 
