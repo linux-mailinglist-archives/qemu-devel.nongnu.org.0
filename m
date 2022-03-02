@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBF24CADBA
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:38:27 +0100 (CET)
-Received: from localhost ([::1]:59440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25EC54CADEE
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:51:37 +0100 (CET)
+Received: from localhost ([::1]:48306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPTrm-0007LF-9x
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:38:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36760)
+	id 1nPU4W-0002dn-8G
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:51:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkd-0001Th-D0
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39105)
+ id 1nPTkf-0001ZO-0G
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkb-0000KD-LD
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:03 -0500
+ id 1nPTkd-0000Ku-Cu
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646245861;
+ s=mimecast20190719; t=1646245862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a8gHke2pCSAMiwh/6LHB8vvYNMwQN7z8KlGxyLEWOVA=;
- b=PGZ0TAh9Sktfni6jzz/afo1yiaN9MYJto0/w7cnq8fS37iVXNE/mQPx0dqmG0DpRoa2D9x
- rzL7HWqmL2OOoYYm1VeEHpwVUBMeZw8f97kfV/O3KVv4wqPF5caGDb+TECDrGVWuJTMF+1
- 7c1up7pYeHRzaua4GT2xOKQcQVCMNFc=
+ bh=5B4Qg3Si6icwzLYk2MSPnDdZkFQ4h4oO6akMfjLnkGc=;
+ b=NUCHp3mjjkWVQ9AQBtf8+fiP7RINHRD5Ul4s6PxYsc8ftt9Cq/NFYyzR7UrdvRZ0nnyXsH
+ afvfPtNj/ldW0IuCWCuMvt03V00VfgODq3QmimdUxI6lS7gHDReXL0ZP1LdYbZmqMeZ3sv
+ SQh1KHLZHfLwBBMYaZpc5f0uInbo9ig=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-5RVStdfBNoqyOClMsgLmQQ-1; Wed, 02 Mar 2022 13:30:57 -0500
-X-MC-Unique: 5RVStdfBNoqyOClMsgLmQQ-1
+ us-mta-140-Hh3CdOwGO9uPGRV5dKXvFA-1; Wed, 02 Mar 2022 13:30:59 -0500
+X-MC-Unique: Hh3CdOwGO9uPGRV5dKXvFA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2DF384A5F3;
- Wed,  2 Mar 2022 18:30:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 934731091DA0;
+ Wed,  2 Mar 2022 18:30:58 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC6A0105916D;
- Wed,  2 Mar 2022 18:30:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F03241059166;
+ Wed,  2 Mar 2022 18:30:56 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, f.ebner@proxmox.com, hreitz@redhat.com,
  jinpu.wang@ionos.com, peter.maydell@linaro.org, peterx@redhat.com,
  s.reiter@proxmox.com
-Subject: [PULL 14/18] migration: Enlarge postcopy recovery to capture !-EIO too
-Date: Wed,  2 Mar 2022 18:29:32 +0000
-Message-Id: <20220302182936.227719-15-dgilbert@redhat.com>
+Subject: [PULL 15/18] migration: postcopy_pause_fault_thread() never fails
+Date: Wed,  2 Mar 2022 18:29:33 +0000
+Message-Id: <20220302182936.227719-16-dgilbert@redhat.com>
 In-Reply-To: <20220302182936.227719-1-dgilbert@redhat.com>
 References: <20220302182936.227719-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -88,70 +88,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-We used to have quite a few places making sure -EIO happened and that's the
-only way to trigger postcopy recovery.  That's based on the assumption that
-we'll only return -EIO for channel issues.
-
-It'll work in 99.99% cases but logically that won't cover some corner cases.
-One example is e.g. ram_block_from_stream() could fail with an interrupted
-network, then -EINVAL will be returned instead of -EIO.
-
-I remembered Dave Gilbert pointed that out before, but somehow this is
-overlooked.  Neither did I encounter anything outside the -EIO error.
-
-However we'd better touch that up before it triggers a rare VM data loss during
-live migrating.
-
-To cover as much those cases as possible, remove the -EIO restriction on
-triggering the postcopy recovery, because even if it's not a channel failure,
-we can't do anything better than halting QEMU anyway - the corpse of the
-process may even be used by a good hand to dig out useful memory regions, or
-the admin could simply kill the process later on.
+Per the title, remove the return code and simplify the callers as the errors
+will never be triggered.  No functional change intended.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20220301083925.33483-11-peterx@redhat.com>
+Message-Id: <20220301083925.33483-12-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c    | 4 ++--
- migration/postcopy-ram.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ migration/postcopy-ram.c | 25 ++++---------------------
+ 1 file changed, 4 insertions(+), 21 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index bcc385b94b..306e2ac60e 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2865,7 +2865,7 @@ retry:
- out:
-     res = qemu_file_get_error(rp);
-     if (res) {
--        if (res == -EIO && migration_in_postcopy()) {
-+        if (res && migration_in_postcopy()) {
-             /*
-              * Maybe there is something we can do: it looks like a
-              * network down issue, and we pause for a recovery.
-@@ -3466,7 +3466,7 @@ static MigThrError migration_detect_error(MigrationState *s)
-         error_free(local_error);
-     }
- 
--    if (state == MIGRATION_STATUS_POSTCOPY_ACTIVE && ret == -EIO) {
-+    if (state == MIGRATION_STATUS_POSTCOPY_ACTIVE && ret) {
-         /*
-          * For postcopy, we allow the network to be down for a
-          * while. After that, it can be continued by a
 diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index d08d396c63..b0d12d5053 100644
+index b0d12d5053..32c52f4b1d 100644
 --- a/migration/postcopy-ram.c
 +++ b/migration/postcopy-ram.c
-@@ -1039,7 +1039,7 @@ retry:
+@@ -891,15 +891,11 @@ static void mark_postcopy_blocktime_end(uintptr_t addr)
+                                       affected_cpu);
+ }
+ 
+-static bool postcopy_pause_fault_thread(MigrationIncomingState *mis)
++static void postcopy_pause_fault_thread(MigrationIncomingState *mis)
+ {
+     trace_postcopy_pause_fault_thread();
+-
+     qemu_sem_wait(&mis->postcopy_pause_sem_fault);
+-
+     trace_postcopy_pause_fault_thread_continued();
+-
+-    return true;
+ }
+ 
+ /*
+@@ -959,13 +955,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
+              * broken already using the event. We should hold until
+              * the channel is rebuilt.
+              */
+-            if (postcopy_pause_fault_thread(mis)) {
+-                /* Continue to read the userfaultfd */
+-            } else {
+-                error_report("%s: paused but don't allow to continue",
+-                             __func__);
+-                break;
+-            }
++            postcopy_pause_fault_thread(mis);
+         }
+ 
+         if (pfd[1].revents) {
+@@ -1039,15 +1029,8 @@ retry:
                                          msg.arg.pagefault.address);
              if (ret) {
                  /* May be network failure, try to wait for recovery */
--                if (ret == -EIO && postcopy_pause_fault_thread(mis)) {
-+                if (postcopy_pause_fault_thread(mis)) {
-                     /* We got reconnected somehow, try to continue */
-                     goto retry;
-                 } else {
+-                if (postcopy_pause_fault_thread(mis)) {
+-                    /* We got reconnected somehow, try to continue */
+-                    goto retry;
+-                } else {
+-                    /* This is a unavoidable fault */
+-                    error_report("%s: postcopy_request_page() get %d",
+-                                 __func__, ret);
+-                    break;
+-                }
++                postcopy_pause_fault_thread(mis);
++                goto retry;
+             }
+         }
+ 
 -- 
 2.35.1
 
