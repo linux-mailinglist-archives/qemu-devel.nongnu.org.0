@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462664C99BD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 01:13:45 +0100 (CET)
-Received: from localhost ([::1]:37560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2C24C99C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 01:15:25 +0100 (CET)
+Received: from localhost ([::1]:39766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPCch-0004t5-Q6
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 19:13:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34176)
+	id 1nPCeK-0006Mz-E1
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 19:15:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nPCbX-0003sy-B0
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 19:12:33 -0500
-Received: from [2607:f8b0:4864:20::62b] (port=43809
- helo=mail-pl1-x62b.google.com)
+ id 1nPCcR-0005CM-7W
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 19:13:27 -0500
+Received: from [2607:f8b0:4864:20::42f] (port=45971
+ helo=mail-pf1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nPCbV-0007r7-GC
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 19:12:31 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id e2so110792pls.10
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 16:12:29 -0800 (PST)
+ id 1nPCcO-0007z7-SB
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 19:13:26 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id u16so315562pfg.12
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 16:13:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=gnDP3uwv4ZsCJhBaL3vULnGr4qafn2rcK/dDmLilAZM=;
- b=Bd1Yx2FqxV4UOGv8nqMdfxQ1fp8xav1uuNAef0Pp1BHNQTwLLONJnzcGV7NTu1WXyh
- f2jN55b+9itdeux1pMTodtx6pd7r06YwljoL4acEoptg77oxvize0n/tqQx2Tm2X34Nh
- yHV0EqGJHbPAzHNteCzNmjqjAiHv78wQgrPnLuPhM5LfM5okqFFKetYlVWs07N/K8t8p
- ICaC4Bd8rqRNtzn65/cn5MCFs4aLhrLPXQTMDRUmdKzjLxSWfPNYpoB1M/tS/8xGzBdE
- wVQR6WNOXVYObl2CNY+mYDyfB5O5yaPd2pSDVIqFSw/ADjWUdPXUbabyPWW4+1O5ipwA
- EmGA==
+ bh=hDKdWyn0JC2pFokmH7hXhVj2Yzb6HGRylW0imB+a/qg=;
+ b=GGjvy34j9Os78rzHCkJNUAQAz2cw7MXFVaWddphD1xd5sdkasWYbISLznN2U6JTiRl
+ H/xLRGP0j3s6YoQhrEIaBe1OLEM5GujXyuoggVLF0UCsB5aA00o/j43C5KXvTxMoS4fN
+ y8QQtybuBWpHxtyqNsHk/4k5d0nlT5OA3U1r5HeJc30Y/POx2p7MZzZYBkyXDwpqpIo9
+ R2HCf1qZGxGX05PyhII5cecRBVkRBefRzUuLfsjovhyy4vHs/qLhZKmcVQnyf0mVlBRa
+ +cL9oqmWR/V8OColBEB4vsa7k0xKQW5b3AE2djNYObvETrCJ4qgpU6zsXe0Juz+xkazr
+ IghA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gnDP3uwv4ZsCJhBaL3vULnGr4qafn2rcK/dDmLilAZM=;
- b=bNkIHHVb+7uTNKpYuG9jlGnMRzRm7csOjgN1pSdUl2jb1BZf4ohucPjS8ut7awseRd
- xSiOvJQB3XcWZppjllkNnDUBZfzsap6NuNjSQEjte9mj8FcOjDvNQe8dVFVljbpjUUdo
- z9ef+HHQaGdvLzaH6aCq8vaf24K9AfUVwqGZcl1zsLdy66vynhG0hS+7ARNVqlBsecIv
- ad8wPFK0XzOa/toO37ilE0SGVPGIwba5oTUSy/E+wL2/cYUFVfa7jBopCSjwGGRUFdRu
- sXlpkpsdaJ9Z+adrg4E0lfPrxt4DC3f8vEw4fevrNpDz0F1lPEMeYcBCpARvwwMo4DSY
- IbJA==
-X-Gm-Message-State: AOAM5307o/XsAijqRLKBh6UbRRTjeEdpWVvB2KZHCmMxNO2t7Cgylsae
- zPshynfs1c2vO66gR6zfa+k=
-X-Google-Smtp-Source: ABdhPJyjSEXw116Ml4crfHEP7+KlNIC9oPF5tTYoMqsVz9mzIAHK6VCsbu/ywwika6rsTZxmv+UhkA==
-X-Received: by 2002:a17:902:d486:b0:151:8e66:621c with SMTP id
- c6-20020a170902d48600b001518e66621cmr2951423plg.141.1646179948059; 
- Tue, 01 Mar 2022 16:12:28 -0800 (PST)
+ bh=hDKdWyn0JC2pFokmH7hXhVj2Yzb6HGRylW0imB+a/qg=;
+ b=Dy+/TcCBy9RGrC6FUBe90HU/mjs0tb2kb+HtDe3+1XqS1S15vX1M33epgUl0xlWa3B
+ 7qNxx8crnm2gPKUUousC1j3pSZymwo0Is8qGYXrfqoxAvGxhrusy8abzJDf2I4BPC3DG
+ B4SrAyBhSVdvxH6u2e+Ho0nZVt/vm5e8QyNJWM8pt/lCaPjlTkB9ZiPN0sTLUQNPB94y
+ bz9PTEdIy8FAlaEVDEqb3/kbEMpvQRPnXCHGMMitDD6vInHHqgGOEJe+dx2PDs7ntgC2
+ J36RQOCANzy2+NkynkLWjGI3PTcobMdnfK783VXEPuSGy1zGXs+8myB9mmUwWy37oiFa
+ Edjg==
+X-Gm-Message-State: AOAM530CqfJ6NnODXhL3CcyFytzdsJP4YAtlLmqcLy2ohAueCUT8ZO37
+ TfFSfeVrootww1iVngj2ZU8=
+X-Google-Smtp-Source: ABdhPJxvm+xxt2ae/Y2N/ga2saoGZOOa0U3qw43QkU2+4UyFrBuBkMDQmDvc0cye4YfXIbqYrbpOCg==
+X-Received: by 2002:a63:9354:0:b0:34d:e4e7:543a with SMTP id
+ w20-20020a639354000000b0034de4e7543amr23877378pgm.48.1646180002644; 
+ Tue, 01 Mar 2022 16:13:22 -0800 (PST)
 Received: from [10.0.2.15] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
  by smtp.gmail.com with ESMTPSA id
- g5-20020a63fa45000000b0037407b6ffdasm13805155pgk.5.2022.03.01.16.12.26
+ w5-20020a17090aaf8500b001bd4c825deesm3039427pjq.43.2022.03.01.16.13.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 16:12:27 -0800 (PST)
-Message-ID: <d45a3995-591f-5376-7cb3-26b27261d5fb@gmail.com>
-Date: Wed, 2 Mar 2022 09:12:23 +0900
+ Tue, 01 Mar 2022 16:13:22 -0800 (PST)
+Message-ID: <c9868e37-de96-f965-27c8-3c7a949bda81@gmail.com>
+Date: Wed, 2 Mar 2022 09:13:19 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v3 01/15] audio: replace open-coded buffer arithmetic
+Subject: Re: [PATCH v3 10/15] audio: restore mixing-engine playback buffer size
 Content-Language: en-US
 To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
  Gerd Hoffmann <kraxel@redhat.com>
 References: <3d0bd2ac-e5b9-9cf6-c98f-c047390a3ec5@t-online.de>
- <20220301191311.26695-1-vr_qemu@t-online.de>
+ <20220301191311.26695-10-vr_qemu@t-online.de>
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20220301191311.26695-1-vr_qemu@t-online.de>
+In-Reply-To: <20220301191311.26695-10-vr_qemu@t-online.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,142 +101,335 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-On 2022/03/02 4:12, Volker Rümelin wrote:
-> Replace open-coded buffer arithmetic with the new function
-> audio_ring_posb(). That's the position in backward direction
-> of a given point at a given distance.
+On 2022/03/02 4:13, Volker Rümelin wrote:
+> Commit ff095e5231 "audio: api for mixeng code free backends"
+> introduced another FIFO for the audio subsystem with exactly the
+> same size as the mixing-engine FIFO. Most audio backends use
+> this generic FIFO. The generic FIFO used together with the
+> mixing-engine FIFO doubles the audio FIFO size, because that's
+> just two independent FIFOs connected together in series.
+> 
+> For audio playback this nearly doubles the playback latency.
+> 
+> This patch restores the effective mixing-engine playback buffer
+> size to a pre v4.2.0 size by only accepting the amount of
+> samples for the mixing-engine queue which the downstream queue
+> accepts.
 > 
 > Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 > ---
->   audio/audio.c     | 25 +++++++------------------
->   audio/audio_int.h | 13 +++++++++++++
->   audio/coreaudio.c | 10 ++++------
->   audio/sdlaudio.c  | 11 +++++------
->   4 files changed, 29 insertions(+), 30 deletions(-)
+>   audio/alsaaudio.c |  1 +
+>   audio/audio.c     | 69 +++++++++++++++++++++++++++++++++++------------
+>   audio/audio_int.h |  7 ++++-
+>   audio/coreaudio.c |  3 +++
+>   audio/jackaudio.c |  1 +
+>   audio/noaudio.c   |  1 +
+>   audio/ossaudio.c  | 12 +++++++++
+>   audio/sdlaudio.c  |  3 +++
+>   audio/wavaudio.c  |  1 +
+>   9 files changed, 80 insertions(+), 18 deletions(-)
 > 
+> diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+> index 2b9789e647..b04716a6cc 100644
+> --- a/audio/alsaaudio.c
+> +++ b/audio/alsaaudio.c
+> @@ -916,6 +916,7 @@ static struct audio_pcm_ops alsa_pcm_ops = {
+>       .init_out = alsa_init_out,
+>       .fini_out = alsa_fini_out,
+>       .write    = alsa_write,
+> +    .buffer_get_free = audio_generic_buffer_get_free,
+>       .run_buffer_out = audio_generic_run_buffer_out,
+>       .enable_out = alsa_enable_out,
+>   
 > diff --git a/audio/audio.c b/audio/audio.c
-> index dc28685d22..e7a139e289 100644
+> index c420a8bd1c..a88572e713 100644
 > --- a/audio/audio.c
 > +++ b/audio/audio.c
-> @@ -574,19 +574,13 @@ static size_t audio_pcm_sw_get_rpos_in(SWVoiceIn *sw)
->   {
->       HWVoiceIn *hw = sw->hw;
->       ssize_t live = hw->total_samples_captured - sw->total_hw_samples_acquired;
-> -    ssize_t rpos;
->   
->       if (audio_bug(__func__, live < 0 || live > hw->conv_buf->size)) {
->           dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
->           return 0;
->       }
->   
-> -    rpos = hw->conv_buf->pos - live;
-> -    if (rpos >= 0) {
-> -        return rpos;
-> -    } else {
-> -        return hw->conv_buf->size + rpos;
-> -    }
-> +    return audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
+> @@ -663,6 +663,12 @@ static size_t audio_pcm_hw_get_live_out (HWVoiceOut *hw, int *nb_live)
+>       return 0;
 >   }
 >   
->   static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-> @@ -1394,12 +1388,10 @@ void audio_generic_run_buffer_in(HWVoiceIn *hw)
->   
->   void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size)
+> +static size_t audio_pcm_hw_get_free(HWVoiceOut *hw)
+> +{
+> +    return (hw->pcm_ops->buffer_get_free ? hw->pcm_ops->buffer_get_free(hw) :
+> +            INT_MAX) / hw->info.bytes_per_frame;
+> +}
+> +
+>   static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
 >   {
-> -    ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
-> +    size_t start;
+>       size_t clipped = 0;
+> @@ -687,7 +693,8 @@ static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
+>    */
+>   static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+>   {
+> -    size_t hwsamples, samples, isamp, osamp, wpos, live, dead, left, swlim, blck;
+> +    size_t hwsamples, samples, isamp, osamp, wpos, live, dead, left, blck;
+> +    size_t hw_free;
+>       size_t ret = 0, pos = 0, total = 0;
 >   
-> -    if (start < 0) {
-> -        start += hw->size_emul;
-> -    }
-> -    assert(start >= 0 && start < hw->size_emul);
-> +    start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
-> +    assert(start < hw->size_emul);
+>       if (!sw) {
+> @@ -710,27 +717,28 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+>       }
 >   
->       *size = MIN(*size, hw->pending_emul);
->       *size = MIN(*size, hw->size_emul - start);
-> @@ -1415,13 +1407,10 @@ void audio_generic_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size)
+>       wpos = (sw->hw->mix_buf->pos + live) % hwsamples;
+> -    samples = size / sw->info.bytes_per_frame;
+>   
+>       dead = hwsamples - live;
+> -    swlim = ((int64_t) dead << 32) / sw->ratio;
+> -    swlim = MIN (swlim, samples);
+> -    if (swlim) {
+> -        sw->conv (sw->buf, buf, swlim);
+> +    hw_free = audio_pcm_hw_get_free(sw->hw);
+> +    hw_free = hw_free > live ? hw_free - live : 0;
+> +    samples = ((int64_t)MIN(dead, hw_free) << 32) / sw->ratio;
+> +    samples = MIN(samples, size / sw->info.bytes_per_frame);
+> +    if (samples) {
+> +        sw->conv(sw->buf, buf, samples);
+>   
+>           if (!sw->hw->pcm_ops->volume_out) {
+> -            mixeng_volume (sw->buf, swlim, &sw->vol);
+> +            mixeng_volume(sw->buf, samples, &sw->vol);
+>           }
+>       }
+>   
+> -    while (swlim) {
+> +    while (samples) {
+>           dead = hwsamples - live;
+>           left = hwsamples - wpos;
+>           blck = MIN (dead, left);
+>           if (!blck) {
+>               break;
+>           }
+> -        isamp = swlim;
+> +        isamp = samples;
+>           osamp = blck;
+>           st_rate_flow_mix (
+>               sw->rate,
+> @@ -740,7 +748,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+>               &osamp
+>               );
+>           ret += isamp;
+> -        swlim -= isamp;
+> +        samples -= isamp;
+>           pos += isamp;
+>           live += osamp;
+>           wpos = (wpos + osamp) % hwsamples;
+> @@ -1002,6 +1010,11 @@ static size_t audio_get_avail (SWVoiceIn *sw)
+>       return (((int64_t) live << 32) / sw->ratio) * sw->info.bytes_per_frame;
+>   }
+>   
+> +static size_t audio_sw_bytes_free(SWVoiceOut *sw, size_t free)
+> +{
+> +    return (((int64_t)free << 32) / sw->ratio) * sw->info.bytes_per_frame;
+> +}
+> +
+>   static size_t audio_get_free(SWVoiceOut *sw)
+>   {
+>       size_t live, dead;
+> @@ -1021,13 +1034,11 @@ static size_t audio_get_free(SWVoiceOut *sw)
+>       dead = sw->hw->mix_buf->size - live;
+>   
+>   #ifdef DEBUG_OUT
+> -    dolog ("%s: get_free live %zu dead %zu ret %" PRId64 "\n",
+> -           SW_NAME (sw),
+> -           live, dead, (((int64_t) dead << 32) / sw->ratio) *
+> -           sw->info.bytes_per_frame);
+> +    dolog("%s: get_free live %zu dead %zu sw_bytes %zu\n",
+> +          SW_NAME(sw), live, dead, audio_sw_bytes_free(sw, dead));
+>   #endif
+>   
+> -    return (((int64_t) dead << 32) / sw->ratio) * sw->info.bytes_per_frame;
+> +    return dead;
+>   }
+>   
+>   static void audio_capture_mix_and_clear(HWVoiceOut *hw, size_t rpos,
+> @@ -1131,12 +1142,21 @@ static void audio_run_out (AudioState *s)
+>       }
+>   
+>       while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
+> -        size_t played, live, prev_rpos, free;
+> +        size_t played, live, prev_rpos;
+> +        size_t hw_free = audio_pcm_hw_get_free(hw);
+>           int nb_live;
+>   
+>           for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
+>               if (sw->active) {
+> -                free = audio_get_free(sw);
+> +                size_t sw_free = audio_get_free(sw);
+> +                size_t free;
+> +
+> +                if (hw_free > sw->total_hw_samples_mixed) {
+> +                    free = audio_sw_bytes_free(sw,
+> +                        MIN(sw_free, hw_free - sw->total_hw_samples_mixed));
+> +                } else {
+> +                    free = 0;
+> +                }
+>                   if (free > 0) {
+>                       sw->callback.fn(sw->callback.opaque, free);
+>                   }
+> @@ -1398,6 +1418,15 @@ void audio_generic_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size)
+>       hw->pending_emul -= size;
+>   }
+>   
+> +size_t audio_generic_buffer_get_free(HWVoiceOut *hw)
+> +{
+> +    if (hw->buf_emul) {
+> +        return hw->size_emul - hw->pending_emul;
+> +    } else {
+> +        return hw->samples * hw->info.bytes_per_frame;
+> +    }
+> +}
+> +
 >   void audio_generic_run_buffer_out(HWVoiceOut *hw)
 >   {
 >       while (hw->pending_emul) {
-> -        size_t write_len, written;
-> -        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
-> +        size_t write_len, written, start;
+> @@ -1445,6 +1474,12 @@ size_t audio_generic_write(HWVoiceOut *hw, void *buf, size_t size)
+>   {
+>       size_t total = 0;
 >   
-> -        if (start < 0) {
-> -            start += hw->size_emul;
-> -        }
-> -        assert(start >= 0 && start < hw->size_emul);
-> +        start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
-> +        assert(start < hw->size_emul);
->   
->           write_len = MIN(hw->pending_emul, hw->size_emul - start);
->   
+> +    if (hw->pcm_ops->buffer_get_free) {
+> +        size_t free = hw->pcm_ops->buffer_get_free(hw);
+> +
+> +        size = MIN(size, free);
+> +    }
+> +
+>       while (total < size) {
+>           size_t dst_size = size - total;
+>           size_t copy_size, proc;
 > diff --git a/audio/audio_int.h b/audio/audio_int.h
-> index 428a091d05..71be162271 100644
+> index 71be162271..2a6914d2aa 100644
 > --- a/audio/audio_int.h
 > +++ b/audio/audio_int.h
-> @@ -266,6 +266,19 @@ static inline size_t audio_ring_dist(size_t dst, size_t src, size_t len)
->       return (dst >= src) ? (dst - src) : (len - src + dst);
->   }
->   
-> +/**
-> + * audio_ring_posb() - returns new position in ringbuffer in backward
-> + * direction at given distance
-> + *
-> + * @pos: current position in ringbuffer
-> + * @dist: distance in ringbuffer to walk in reverse direction
-> + * @len: size of ringbuffer
-> + */
-> +static inline size_t audio_ring_posb(size_t pos, size_t dist, size_t len)
-> +{
-> +    return pos >= dist ? pos - dist : len - dist + pos;
-> +}
-> +
->   #define dolog(fmt, ...) AUD_log(AUDIO_CAP, fmt, ## __VA_ARGS__)
->   
->   #ifdef DEBUG
+> @@ -161,10 +161,14 @@ struct audio_pcm_ops {
+>       void   (*fini_out)(HWVoiceOut *hw);
+>       size_t (*write)   (HWVoiceOut *hw, void *buf, size_t size);
+>       void   (*run_buffer_out)(HWVoiceOut *hw);
+> +    /*
+> +     * Get the free output buffer size. This is an upper limit. The size
+> +     * returned by function get_buffer_out may be smaller.
+> +     */
+> +    size_t (*buffer_get_free)(HWVoiceOut *hw);
+>       /*
+>        * get a buffer that after later can be passed to put_buffer_out; optional
+>        * returns the buffer, and writes it's size to size (in bytes)
+> -     * this is unrelated to the above buffer_size_out function
+>        */
+>       void  *(*get_buffer_out)(HWVoiceOut *hw, size_t *size);
+>       /*
+> @@ -190,6 +194,7 @@ void audio_generic_run_buffer_in(HWVoiceIn *hw);
+>   void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size);
+>   void audio_generic_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size);
+>   void audio_generic_run_buffer_out(HWVoiceOut *hw);
+> +size_t audio_generic_buffer_get_free(HWVoiceOut *hw);
+>   void *audio_generic_get_buffer_out(HWVoiceOut *hw, size_t *size);
+>   size_t audio_generic_put_buffer_out(HWVoiceOut *hw, void *buf, size_t size);
+>   size_t audio_generic_write(HWVoiceOut *hw, void *buf, size_t size);
 > diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-> index d8a21d3e50..1fdd1d4b14 100644
+> index 1fdd1d4b14..91ea6ae975 100644
 > --- a/audio/coreaudio.c
 > +++ b/audio/coreaudio.c
-> @@ -333,12 +333,10 @@ static OSStatus audioDeviceIOProc(
+> @@ -283,6 +283,7 @@ static int coreaudio_buf_unlock (coreaudioVoiceOut *core, const char *fn_name)
+>           coreaudio_buf_unlock(core, "coreaudio_" #name);             \
+>           return ret;                                             \
+>       }
+> +COREAUDIO_WRAPPER_FUNC(buffer_get_free, size_t, (HWVoiceOut *hw), (hw))
+>   COREAUDIO_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
+>                          (hw, size))
+>   COREAUDIO_WRAPPER_FUNC(put_buffer_out, size_t,
+> @@ -652,6 +653,8 @@ static struct audio_pcm_ops coreaudio_pcm_ops = {
+>       .fini_out = coreaudio_fini_out,
+>     /* wrapper for audio_generic_write */
+>       .write    = coreaudio_write,
+> +  /* wrapper for audio_generic_buffer_get_free */
+> +    .buffer_get_free = coreaudio_buffer_get_free,
+>     /* wrapper for audio_generic_get_buffer_out */
+>       .get_buffer_out = coreaudio_get_buffer_out,
+>     /* wrapper for audio_generic_put_buffer_out */
+> diff --git a/audio/jackaudio.c b/audio/jackaudio.c
+> index 26246c3a8b..bf757250b5 100644
+> --- a/audio/jackaudio.c
+> +++ b/audio/jackaudio.c
+> @@ -652,6 +652,7 @@ static struct audio_pcm_ops jack_pcm_ops = {
+>       .init_out       = qjack_init_out,
+>       .fini_out       = qjack_fini_out,
+>       .write          = qjack_write,
+> +    .buffer_get_free = audio_generic_buffer_get_free,
+>       .run_buffer_out = audio_generic_run_buffer_out,
+>       .enable_out     = qjack_enable_out,
 >   
->       len = frameCount * hw->info.bytes_per_frame;
->       while (len) {
-> -        size_t write_len;
-> -        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
-> -        if (start < 0) {
-> -            start += hw->size_emul;
-> -        }
-> -        assert(start >= 0 && start < hw->size_emul);
-> +        size_t write_len, start;
+> diff --git a/audio/noaudio.c b/audio/noaudio.c
+> index aac87dbc93..84a6bfbb1c 100644
+> --- a/audio/noaudio.c
+> +++ b/audio/noaudio.c
+> @@ -118,6 +118,7 @@ static struct audio_pcm_ops no_pcm_ops = {
+>       .init_out = no_init_out,
+>       .fini_out = no_fini_out,
+>       .write    = no_write,
+> +    .buffer_get_free = audio_generic_buffer_get_free,
+>       .run_buffer_out = audio_generic_run_buffer_out,
+>       .enable_out = no_enable_out,
+>   
+> diff --git a/audio/ossaudio.c b/audio/ossaudio.c
+> index 60eff66424..1bd6800840 100644
+> --- a/audio/ossaudio.c
+> +++ b/audio/ossaudio.c
+> @@ -389,6 +389,17 @@ static void oss_run_buffer_out(HWVoiceOut *hw)
+>       }
+>   }
+>   
+> +static size_t oss_buffer_get_free(HWVoiceOut *hw)
+> +{
+> +    OSSVoiceOut *oss = (OSSVoiceOut *)hw;
 > +
-> +        start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
-> +        assert(start < hw->size_emul);
->   
->           write_len = MIN(MIN(hw->pending_emul, len),
->                           hw->size_emul - start);
+> +    if (oss->mmapped) {
+> +        return INT_MAX;
+> +    } else {
+> +        return audio_generic_buffer_get_free(hw);
+> +    }
+> +}
+> +
+>   static void *oss_get_buffer_out(HWVoiceOut *hw, size_t *size)
+>   {
+>       OSSVoiceOut *oss = (OSSVoiceOut *) hw;
+> @@ -750,6 +761,7 @@ static struct audio_pcm_ops oss_pcm_ops = {
+>       .init_out = oss_init_out,
+>       .fini_out = oss_fini_out,
+>       .write    = oss_write,
+> +    .buffer_get_free = oss_buffer_get_free,
+>       .run_buffer_out = oss_run_buffer_out,
+>       .get_buffer_out = oss_get_buffer_out,
+>       .put_buffer_out = oss_put_buffer_out,
 > diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
-> index c68c62a3e4..d6f3aa1a9a 100644
+> index d6f3aa1a9a..e605c787ba 100644
 > --- a/audio/sdlaudio.c
 > +++ b/audio/sdlaudio.c
-> @@ -224,12 +224,11 @@ static void sdl_callback_out(void *opaque, Uint8 *buf, int len)
->           /* dolog("callback_out: len=%d avail=%zu\n", len, hw->pending_emul); */
+> @@ -309,6 +309,7 @@ static void sdl_callback_in(void *opaque, Uint8 *buf, int len)
+>           SDL_UnlockAudioDevice(sdl->devid);                     \
+>       }
 >   
->           while (hw->pending_emul && len) {
-> -            size_t write_len;
-> -            ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
-> -            if (start < 0) {
-> -                start += hw->size_emul;
-> -            }
-> -            assert(start >= 0 && start < hw->size_emul);
-> +            size_t write_len, start;
-> +
-> +            start = audio_ring_posb(hw->pos_emul, hw->pending_emul,
-> +                                    hw->size_emul);
-> +            assert(start < hw->size_emul);
->   
->               write_len = MIN(MIN(hw->pending_emul, len),
->                               hw->size_emul - start)
+> +SDL_WRAPPER_FUNC(buffer_get_free, size_t, (HWVoiceOut *hw), (hw), Out)
+>   SDL_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
+>                    (hw, size), Out)
+>   SDL_WRAPPER_FUNC(put_buffer_out, size_t,
+> @@ -471,6 +472,8 @@ static struct audio_pcm_ops sdl_pcm_ops = {
+>       .fini_out = sdl_fini_out,
+>     /* wrapper for audio_generic_write */
+>       .write    = sdl_write,
+> +  /* wrapper for audio_generic_buffer_get_free */
+> +    .buffer_get_free = sdl_buffer_get_free,
+>     /* wrapper for audio_generic_get_buffer_out */
+>       .get_buffer_out = sdl_get_buffer_out,
+>     /* wrapper for audio_generic_put_buffer_out */
+> diff --git a/audio/wavaudio.c b/audio/wavaudio.c
+> index 20e6853f85..ac666335c7 100644
+> --- a/audio/wavaudio.c
+> +++ b/audio/wavaudio.c
+> @@ -197,6 +197,7 @@ static struct audio_pcm_ops wav_pcm_ops = {
+>       .init_out = wav_init_out,
+>       .fini_out = wav_fini_out,
+>       .write    = wav_write_out,
+> +    .buffer_get_free = audio_generic_buffer_get_free,
+>       .run_buffer_out = audio_generic_run_buffer_out,
+>       .enable_out = wav_enable_out,
+>   };
 
