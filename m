@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8B84CA907
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 16:25:52 +0100 (CET)
-Received: from localhost ([::1]:39124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2654F4CA940
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 16:38:18 +0100 (CET)
+Received: from localhost ([::1]:47738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPQrO-0002JC-Sr
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 10:25:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45902)
+	id 1nPR3Q-000183-NW
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 10:38:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPQq0-0001Ry-TQ
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 10:24:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32971)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=fxzG=TN=zx2c4.com=Jason@kernel.org>)
+ id 1nPR2I-0000RJ-Fb
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 10:37:06 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:34450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPQpz-0003mM-Dr
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 10:24:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646234662;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=fxzG=TN=zx2c4.com=Jason@kernel.org>)
+ id 1nPR2F-0006HH-7Z
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 10:37:06 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8D4ABB8202F;
+ Wed,  2 Mar 2022 15:36:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F356EC004E1;
+ Wed,  2 Mar 2022 15:36:55 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="GyXBDhfe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1646235414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=z6lfQ+/8B9B8XXN0ZdlMjhPgwhvJKUM8Y2F/+Ltg6o4=;
- b=ewoy+wID8j7rtQIVnl1g5+msqTJjA2QagkBs4mX5hOFnL8cwfesnNfLNIdL4CjfZm70PZW
- 6oGpREJbBNKZWjdMUhlAnXTuUISyXv6P/AB3YjfUTlVbDdME38OuCDbQvbeq1mU2LtlsKd
- 0Bs+Lr5Ct903a/TsZ5GjAxhLp5BO4bg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-c2TNa6KhOqWVA4ExXpU9SA-1; Wed, 02 Mar 2022 10:24:19 -0500
-X-MC-Unique: c2TNa6KhOqWVA4ExXpU9SA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD93683DBC7;
- Wed,  2 Mar 2022 15:24:17 +0000 (UTC)
-Received: from localhost (unknown [10.33.36.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3DABF7DE56;
- Wed,  2 Mar 2022 15:23:22 +0000 (UTC)
-Date: Wed, 2 Mar 2022 16:23:42 +0100
-From: Sergio Lopez <slp@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH 1/2] Allow returning EventNotifier's wfd
-Message-ID: <20220302152342.3hlzw3ih2agqqu6c@mhamilton>
-References: <20220302113644.43717-1-slp@redhat.com>
- <20220302113644.43717-2-slp@redhat.com>
- <20220302081234.2378ef33.alex.williamson@redhat.com>
+ bh=qgwnhxDwnLmzAxzxcKcHyP9gfTHebPzmcbpz3qXzc7E=;
+ b=GyXBDhfeqkL3rUcgcoF7HG564CnCVx7NVXoMWxWpeiOyNtR1HJ8TX9Zi1HITpULTsKjAqa
+ GThOfXyO0UxUwzypSPXxcFyR1tLXxNs3wqSZiQC46q4UcoOdTkqbg63dPxUMytEXzw+STE
+ 84rLX/aQ4SLETfFdv1vTE51PHJTXu6M=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 3b70f4fb
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Wed, 2 Mar 2022 15:36:54 +0000 (UTC)
+Date: Wed, 2 Mar 2022 16:36:49 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: propagating vmgenid outward and upward
+Message-ID: <Yh+PET49oHNpxn+H@zx2c4.com>
+References: <Yh5JwK6toc/zBNL7@zx2c4.com>
+ <20220301121419-mutt-send-email-mst@kernel.org>
+ <CAHmME9qieLUDVoPYZPo=N8NCL1T-RzQ4p7kCFv3PKFUkhWZPsw@mail.gmail.com>
+ <20220302031738-mutt-send-email-mst@kernel.org>
+ <CAHmME9pf-bjnZuweoLqoFEmPy1OK7ogEgGEAva1T8uVTufhCuw@mail.gmail.com>
+ <20220302074503-mutt-send-email-mst@kernel.org>
+ <Yh93UZMQSYCe2LQ7@zx2c4.com>
+ <20220302092149-mutt-send-email-mst@kernel.org>
+ <CAHmME9rf7hQP78kReP2diWNeX=obPem=f8R-dC7Wkpic2xmffg@mail.gmail.com>
+ <20220302101602-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hojutzklhzfoy7i3"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220302081234.2378ef33.alex.williamson@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20220302101602-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=fxzG=TN=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,86 +84,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- kvm@vger.kernel.org, John G Johnson <john.g.johnson@oracle.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Jagannathan Raman <jag.raman@oracle.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
+ Colm MacCarthaigh <colmmacc@amazon.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>, adrian@parity.io,
+ KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Theodore Ts'o <tytso@mit.edu>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Michael,
 
---hojutzklhzfoy7i3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Mar 02, 2022 at 10:20:25AM -0500, Michael S. Tsirkin wrote:
+> So writing some code:
+> 
+> 1:
+> 	put plaintext in a buffer
+> 	put a key in a buffer
+> 	put the nonce for that encryption in a buffer
+> 
+> 	if vm gen id != stored vm gen id
+> 		stored vm gen id = vm gen id
+> 		goto 1
+> 
+> I think this is race free, but I don't see why does it matter whether we
+> read gen id atomically or not.
 
-On Wed, Mar 02, 2022 at 08:12:34AM -0700, Alex Williamson wrote:
-> On Wed,  2 Mar 2022 12:36:43 +0100
-> Sergio Lopez <slp@redhat.com> wrote:
->=20
-> > event_notifier_get_fd(const EventNotifier *e) always returns
-> > EventNotifier's read file descriptor (rfd). This is not a problem when
-> > the EventNotifier is backed by a an eventfd, as a single file
-> > descriptor is used both for reading and triggering events (rfd =3D=3D
-> > wfd).
-> >=20
-> > But, when EventNotifier is backed by a pipefd, we have two file
-> > descriptors, one that can only be used for reads (rfd), and the other
-> > only for writes (wfd).
-> >=20
-> > There's, at least, one known situation in which we need to obtain wfd
-> > instead of rfd, which is when setting up the file that's going to be
-> > sent to the peer in vhost's SET_VRING_CALL.
-> >=20
-> > Extend event_notifier_get_fd() to receive an argument which indicates
-> > whether the caller wants to obtain rfd (false) or wfd (true).
->=20
-> There are about 50 places where we add the false arg here and 1 where
-> we use true.  Seems it would save a lot of churn to hide this
-> internally, event_notifier_get_fd() returns an rfd, a new
-> event_notifier_get_wfd() returns the wfd.  Thanks,
+Because that 16 byte read of vmgenid is not atomic. Let's say you read
+the first 8 bytes, and then the VM is forked. In the forked VM, the next
+8 bytes are the same as last time, but the first 8 bytes, which you
+already read, have changed. In that case, your != becomes a ==, and the
+test fails.
 
-I agree. In fact, that's what I implemented in the first place. I
-changed to this version in which event_notifier_get_fd() is extended
-because it feels more "correct". But yes, the pragmatic option would
-be adding a new event_notifier_get_wfd().
+This is one of those fundamental things of "unique ID" vs "generation
+counter word".
 
-I'll wait for more reviews, and unless someone voices against it, I'll
-respin the patches with that strategy (I already have it around here).
+Anyway, per your request in your last email, I wrote some code for this,
+which may or may not be totally broken, and only works on 64-bit x86,
+which is really the best possible case in terms of performance. And even
+so, it's not great.
 
-Thanks,
-Sergio.
+Jason
 
---hojutzklhzfoy7i3
-Content-Type: application/pgp-signature; name="signature.asc"
+--------8<------------------------
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/net/wireguard/noise.c b/drivers/net/wireguard/noise.c
+index 720952b92e78..250b8973007d 100644
+--- a/drivers/net/wireguard/noise.c
++++ b/drivers/net/wireguard/noise.c
+@@ -106,6 +106,7 @@ static struct noise_keypair *keypair_create(struct wg_peer *peer)
+ 	keypair->entry.type = INDEX_HASHTABLE_KEYPAIR;
+ 	keypair->entry.peer = peer;
+ 	kref_init(&keypair->refcount);
++	keypair->vmgenid = vmgenid_read_atomic();
+ 	return keypair;
+ }
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmIfi/0ACgkQ9GknjS8M
-AjW30g/5AVF1V3bVZd+v78w4CUyPhe4tKgcG/N+U8UoR2Scy9eN7EmLRlIZSIoJY
-/3D+MEgFFqvYKw8v6QqdjoXfXVaDsSx3o3nCjiaNojxeDGdnBi/2cTXizKFJbPAQ
-59xJEtCECjonYzCX1nooCUO732GJcZTU05BDUMwMQpAseioDiR9wj/G27usLFFPb
-9UyhYLtE/njCUAob7nr8wQCr3iqHuDMHw9r/dfjAKde2oPGFQjiGUVRj8cbtbrcI
-ru1fF7vP52YZnPVXr+b8lKDurQ6wH2BRllxg42DvUI0qh2obkwIZeSB6Bj/4Vya5
-b51W5fwKRYX1GPvQ/aGA5qHZPYe3vft/CvAan6QWDDVkbGxZE4IOHZWWUgfoReO+
-5kKrdNkU3BkSeVBWvNBlmQxtIDY5VNKX3Up98FGlu0GduiRol5vaaLKULoI5tZHd
-jgSJmMyL8kj2aoGSR/GBd4A6H6ePSD+TvJSqORQrWKAE6pPYngU7dHZGvnkxCnrm
-4thiBI9xArEi98Cf6gwwsEjQ4OxiCjSZVKMbXRvm2FY9a7HnCCLr3EVV4DXNPwbE
-fSKCM7G3O+spIToJTAfq7pUrSO46EBq75WbYWhC7V4h8vSaZNeAvEzk3JU/2P/yn
-pzSGfA66Vi7F4VoQRekREHuNs3fp/Zm3aPnywISy4icF3Z0+X9Q=
-=Yb7b
------END PGP SIGNATURE-----
+diff --git a/drivers/net/wireguard/noise.h b/drivers/net/wireguard/noise.h
+index c527253dba80..0add240a14a0 100644
+--- a/drivers/net/wireguard/noise.h
++++ b/drivers/net/wireguard/noise.h
+@@ -27,10 +27,13 @@ struct noise_symmetric_key {
+ 	bool is_valid;
+ };
 
---hojutzklhzfoy7i3--
++extern __uint128_t vmgenid_read_atomic(void);
++
+ struct noise_keypair {
+ 	struct index_hashtable_entry entry;
+ 	struct noise_symmetric_key sending;
+ 	atomic64_t sending_counter;
++	__uint128_t vmgenid;
+ 	struct noise_symmetric_key receiving;
+ 	struct noise_replay_counter receiving_counter;
+ 	__le32 remote_index;
+diff --git a/drivers/net/wireguard/send.c b/drivers/net/wireguard/send.c
+index 5368f7c35b4b..40d016be59e3 100644
+--- a/drivers/net/wireguard/send.c
++++ b/drivers/net/wireguard/send.c
+@@ -381,6 +381,9 @@ void wg_packet_send_staged_packets(struct wg_peer *peer)
+ 			goto out_invalid;
+ 	}
+
++	if (keypair->vmgenid != vmgenid_read_atomic())
++		goto out_invalid;
++
+ 	packets.prev->next = NULL;
+ 	wg_peer_get(keypair->entry.peer);
+ 	PACKET_CB(packets.next)->keypair = keypair;
+diff --git a/drivers/virt/vmgenid.c b/drivers/virt/vmgenid.c
+index 0ae1a39f2e28..c122fae1d494 100644
+--- a/drivers/virt/vmgenid.c
++++ b/drivers/virt/vmgenid.c
+@@ -21,6 +21,21 @@ struct vmgenid_state {
+ 	u8 this_id[VMGENID_SIZE];
+ };
+
++static __uint128_t *val;
++
++__uint128_t vmgenid_read_atomic(void)
++{
++	__uint128_t ret = 0;
++	if (!val)
++		return 0;
++	asm volatile("lock cmpxchg16b %1"
++		     : "+A"(ret)
++		     : "m"(*val), "b"(0), "c"(0)
++		     : "cc");
++	return ret;
++}
++EXPORT_SYMBOL(vmgenid_read_atomic);
++
+ static int vmgenid_add(struct acpi_device *device)
+ {
+ 	struct acpi_buffer parsed = { ACPI_ALLOCATE_BUFFER };
+@@ -50,6 +65,7 @@ static int vmgenid_add(struct acpi_device *device)
+ 	phys_addr = (obj->package.elements[0].integer.value << 0) |
+ 		    (obj->package.elements[1].integer.value << 32);
+ 	state->next_id = devm_memremap(&device->dev, phys_addr, VMGENID_SIZE, MEMREMAP_WB);
++	val = (__uint128_t *)state->next_id;
+ 	if (IS_ERR(state->next_id)) {
+ 		ret = PTR_ERR(state->next_id);
+ 		goto out;
 
 
