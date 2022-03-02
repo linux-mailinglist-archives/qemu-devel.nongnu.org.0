@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734CE4C9DF1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 07:47:38 +0100 (CET)
-Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8FE4C9E13
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 07:57:49 +0100 (CET)
+Received: from localhost ([::1]:35048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPIlt-0001lA-0T
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 01:47:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57282)
+	id 1nPIvk-0004BX-7g
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 01:57:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nPIgS-0000CN-Rx
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 01:42:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44679)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nPIuU-0003SZ-6d
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 01:56:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nPIgN-0003Sp-75
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 01:41:57 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nPIuQ-0003o1-FG
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 01:56:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646203312;
+ s=mimecast20190719; t=1646204184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=z8G8MXiMay7DWaXqLWAgR6wNX5TZWmwnq4VAgQ8Fc6Y=;
- b=OnRF1mVWljV9nyAPmjbBLl/T+hCy3PLnNg318VnINlLXaT+L27nsJWL9z8YmDHsgx07nOz
- n8RSAzLMlfAnh3H6zM+XCWotjGQ/C1lp3i9+VHHueACh4BnBMFWqce3PMHhBglSKyeN0pg
- dJQ3B8daGHloyymz1p/LkubEWetf14s=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vQSEAkQNHnWlnbDbWO3dC5uvI4OzaNyVaqLst1izAJU=;
+ b=QgDSW+muHHHXsZ5jO5IQ7Hs4g+4PFJChKerapjHCGlUFXrrFwpWW/BLKGRcRYywk/z9z5f
+ iuMKzjdZZJa4UZsR5389H8+LGdLSID08LUtrDU7LPYdSBFnBXtfeL0QKyTepmOqya0n1Qv
+ Z+Ygb6nSjoL75sCK0BjLD7MNGyi95IM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-KXZiRztKNa-1gX0j-KlSaA-1; Wed, 02 Mar 2022 01:41:51 -0500
-X-MC-Unique: KXZiRztKNa-1gX0j-KlSaA-1
-Received: by mail-pf1-f198.google.com with SMTP id
- x19-20020aa79573000000b004e193fae5a1so699010pfq.19
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 22:41:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=z8G8MXiMay7DWaXqLWAgR6wNX5TZWmwnq4VAgQ8Fc6Y=;
- b=XVjYcXTOYD1rvQApcYs7L9Pw+AZvL++qIq+P9r7h71pPPqu62aVQKxWn39f33/b3U8
- zyYeN7XGorjZry01Sm6ogo8WZKa+UPZQJScqyh5VJZsFyGxbmHMsBQj/18s9wsd8JELK
- ffo2h3GS+02a00REsKuNvcMPrIvsAkPnu6O1EZXNZF1F3G/lXUeyK+FaCJEb2GSh5M2x
- W3pv6sAetQitXmPUvDusBDvDAjm/vsewacFatmGIiRvcu4THCPptKNHJ4EfmOL/vKqeB
- hFTbFERQlUjuIBWasW/yk5+LLqtpRVtdroL24OxZD0N7e/5y/OR4LsgicMmDxPZqltRQ
- QXvw==
-X-Gm-Message-State: AOAM530nwuQZKgS5okatvWKGXuvTfRXKLwoNgPW8yzghFdBp2xb+U9sN
- nCzAvEr4HDixqqUf8RTqUkGvu2Eigc3bbwOyIW6ZKznqMB07c0bKc1aAGxwlyiTaPmQXP+5GVyE
- 4CeL2IXsIUp2n8qE=
-X-Received: by 2002:a17:903:1210:b0:14f:973e:188d with SMTP id
- l16-20020a170903121000b0014f973e188dmr4497549plh.61.1646203310219; 
- Tue, 01 Mar 2022 22:41:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxFmOH/hn6H9NwgBtkx1huen6Pl5fhTexN1JmbawrNPvQY0PbaMxfNKyeYjaRISVOYDpM89UQ==
-X-Received: by 2002:a17:903:1210:b0:14f:973e:188d with SMTP id
- l16-20020a170903121000b0014f973e188dmr4497538plh.61.1646203309921; 
- Tue, 01 Mar 2022 22:41:49 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.101]) by smtp.gmail.com with ESMTPSA id
- j20-20020a056a00235400b004e192221ec2sm20091006pfj.14.2022.03.01.22.41.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 22:41:49 -0800 (PST)
-Date: Wed, 2 Mar 2022 14:41:44 +0800
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 20/20] tests: Add postcopy preempt test
-Message-ID: <Yh8RqIjmf3FIjePB@xz-m1.local>
-References: <20220216062809.57179-1-peterx@redhat.com>
- <20220216062809.57179-21-peterx@redhat.com>
- <YhTcb9o1d1gCQ3rm@work-vm> <YhXnQLY4/b3V2+VL@xz-m1.local>
- <Yh2wdswUis7TSspK@xz-m1.local> <Yh5RHyQ9Oy8zZki1@work-vm>
+ us-mta-396-rRTx-yjYN-22j8MRS9nK6Q-1; Wed, 02 Mar 2022 01:56:07 -0500
+X-MC-Unique: rRTx-yjYN-22j8MRS9nK6Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8734151EA;
+ Wed,  2 Mar 2022 06:56:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 01B891F31F;
+ Wed,  2 Mar 2022 06:55:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6C3EB21E6A00; Wed,  2 Mar 2022 07:55:45 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jonathan Cameron via <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v6 27/43] hw/cxl/host: Add support for CXL Fixed Memory
+ Windows.
+References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
+ <20220211120747.3074-28-Jonathan.Cameron@huawei.com>
+Date: Wed, 02 Mar 2022 07:55:45 +0100
+In-Reply-To: <20220211120747.3074-28-Jonathan.Cameron@huawei.com> (Jonathan
+ Cameron via's message of "Fri, 11 Feb 2022 12:07:31 +0000")
+Message-ID: <87y21slu6m.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <Yh5RHyQ9Oy8zZki1@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,31 +82,261 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Samarth Saxena <samarths@cadence.com>, Chris Browy <cbrowy@avery-design.com>,
+ linuxarm@huawei.com, linux-cxl@vger.kernel.org,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <f4bug@amsat.org>,
+ Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 01, 2022 at 05:00:15PM +0000, Dr. David Alan Gilbert wrote:
-> > That's tricky, and we could have done something better.. E.g., we could
-> > pass in the MigrateStart** into test_migrate_start() so it can clear it
-> > when free, that's not silent use-after-free but crashing, which is better
-> > in this case.
-> > 
-> > I feel lucky I tried..
-> 
-> It could at least do with a comment on test_migrate_start?
+Jonathan Cameron via <qemu-devel@nongnu.org> writes:
 
-I've added one more patch there at the end of v2 for this:
+> From: Jonathan Cameron <jonathan.cameron@huawei.com>
+>
+> The concept of these is introduced in [1] in terms of the
+> description the CEDT ACPI table. The principal is more general.
+> Unlike once traffic hits the CXL root bridges, the host system
+> memory address routing is implementation defined and effectively
+> static once observable by standard / generic system software.
+> Each CXL Fixed Memory Windows (CFMW) is a region of PA space
+> which has fixed system dependent routing configured so that
+> accesses can be routed to the CXL devices below a set of target
+> root bridges. The accesses may be interleaved across multiple
+> root bridges.
+>
+> For QEMU we could have fully specified these regions in terms
+> of a base PA + size, but as the absolute address does not matter
+> it is simpler to let individual platforms place the memory regions.
+>
+> ExampleS:
+> -cxl-fixed-memory-window targets=cxl.0,size=128G
+> -cxl-fixed-memory-window targets=cxl.1,size=128G
+> -cxl-fixed-memory-window targets=cxl0,targets=cxl.1,size=256G,interleave-granularity=2k
+>
+> Specifies
+> * 2x 128G regions not interleaved across root bridges, one for each of
+>   the root bridges with ids cxl.0 and cxl.1
+> * 256G region interleaved across root bridges with ids cxl.0 and cxl.1
+> with a 2k interleave granularity.
+>
+> When system software enumerates the devices below a given root bridge
+> it can then decide which CFMW to use. If non interleave is desired
+> (or possible) it can use the appropriate CFMW for the root bridge in
+> question.  If there are suitable devices to interleave across the
+> two root bridges then it may use the 3rd CFMS.
+>
+> A number of other designs were considered but the following constraints
+> made it hard to adapt existing QEMU approaches to this particular problem.
+> 1) The size must be known before a specific architecture / board brings
+>    up it's PA memory map.  We need to set up an appropriate region.
+> 2) Using links to the host bridges provides a clean command line interface
+>    but these links cannot be established until command line devices have
+>    been added.
+>
+> Hence the two step process used here of first establishing the size,
+> interleave-ways and granularity + caching the ids of the host bridges
+> and then, once available finding the actual host bridges so they can
+> be used later to support interleave decoding.
+>
+> [1] CXL 2.0 ECN: CEDT CFMWS & QTG DSM (computeexpresslink.org / specifications)
+>
+> Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-[PATCH v2 25/25] tests: Pass in MigrateStart** into test_migrate_start()
+[...]
 
-Although it's at the end of the series, it can still be cleanly applied to
-current master branch, too.
+> diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
+> new file mode 100644
+> index 0000000000..9f303e6d8e
+> --- /dev/null
+> +++ b/hw/cxl/cxl-host.c
 
-Thanks,
+[...]
 
--- 
-Peter Xu
+> +QemuOptsList qemu_cxl_fixed_window_opts = {
+> +    .name = "cxl-fixed-memory-window",
+> +    .implied_opt_name = "type",
+> +    .head = QTAILQ_HEAD_INITIALIZER(qemu_cxl_fixed_window_opts.head),
+> +    .desc = { { 0 } }
+> +};
+> +
+
+[...]
+
+> +static int parse_cxl_fixed_memory_window(void *opaque, QemuOpts *opts,
+> +                                         Error **errp)
+> +{
+> +    CXLFixedMemoryWindowOptions *object = NULL;
+> +    MachineState *ms = MACHINE(opaque);
+> +    Error *err = NULL;
+> +    Visitor *v = opts_visitor_new(opts);
+> +
+> +    visit_type_CXLFixedMemoryWindowOptions(v, NULL, &object, errp);
+> +    visit_free(v);
+> +    if (!object) {
+> +        return -1;
+> +    }
+> +
+> +    set_cxl_fixed_memory_window_options(ms, object, &err);
+> +
+> +    qapi_free_CXLFixedMemoryWindowOptions(object);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +void parse_cxl_fixed_memory_window_opts(MachineState *ms)
+> +{
+> +    qemu_opts_foreach(qemu_find_opts("cxl-fixed-memory-window"),
+> +                      parse_cxl_fixed_memory_window, ms, &error_fatal);
+> +}
+
+[...]
+
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 42fc68403d..0998a9128d 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -504,6 +504,21 @@
+>     'dst': 'uint16',
+>     'val': 'uint8' }}
+>  
+> +##
+> +# @CXLFixedMemoryWindowOptions:
+> +#
+> +# Create a CXL Fixed Memory Window (for OptsVisitor)
+> +#
+> +# @targets: Target root bridge IDs
+
+Missing: @size, @targets.
+
+> +#
+> +# Since X.X //fixme
+
+Well, "fix me, please".
+
+> +##
+> +{ 'struct': 'CXLFixedMemoryWindowOptions',
+> +  'data': {
+> +      'size': 'size',
+> +      '*interleave-granularity': 'size',
+> +      'targets': ['str'] }}
+> +
+>  ##
+>  # @X86CPURegister32:
+>  #
+
+[...]
+
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index ba3ae6a42a..b4d2cc6f48 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -467,6 +467,43 @@ SRST
+>          -numa hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8
+>  ERST
+>  
+> +DEF("cxl-fixed-memory-window", HAS_ARG, QEMU_OPTION_cxl_fixed_memory_window,
+> +    "-cxl-fixed-memory-window targets=firsttarget,targets=secondtarget,size=size[,interleave-granularity=granularity]\n",
+> +    QEMU_ARCH_ALL)
+> +SRST
+> +``-cxl-fixed-memory-window targets=firsttarget,targets=secondtarget,size=size[,interleave-granularity=granularity]``
+> +    Define a CXL Fixed Memory Window (CFMW).
+> +
+> +    Described in the CXL 2.0 ECN: CEDT CFMWS & QTG _DSM.
+> +
+> +    They are regions of Host Physical Addresses (HPA) on a system which
+> +    may be interleaved across one or more CXL host bridges.  The system
+> +    software will assign particular devices into these windows and
+> +    configure the downstream Host-managed Device Memory (HDM) decoders
+> +    in root ports, switch ports and devices appropriately to meet the
+> +    interleave requirements before enabling the memory devices.
+> +
+> +    ``targets=firsttarget`` provides the mapping to CXL host bridges
+> +    which may be identified by the id provied in the -device entry.
+> +    Multiple entries are needed to specify all the targets when
+> +    the fixed memory window represents interleaved memory.
+> +
+> +    ``size=size`` sets the size of the CFMW. This must be a multiple of
+> +    256MiB. The region will be aligned to 256MiB but the location is
+> +    platform and configuration dependent.
+> +
+> +    ``interleave-granularity=granularity`` sets the granularity of
+> +    interleave. Default 256KiB. Only 256KiB, 512KiB, 1024KiB, 2048KiB
+> +    4096KiB, 8192KiB and 16384KiB granularities supported.
+> +
+> +    Example:
+> +
+> +    ::
+> +
+> +        -cxl-fixed-memory-window -targets=cxl.0,-targets=cxl.1,size=128G,interleave-granularity=512k
+> +
+> +ERST
+> +
+>  DEF("add-fd", HAS_ARG, QEMU_OPTION_add_fd,
+>      "-add-fd fd=fd,set=set[,opaque=opaque]\n"
+>      "                Add 'fd' to fd 'set'\n", QEMU_ARCH_ALL)
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 5e1b35ba48..f83f158fff 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -91,6 +91,7 @@
+>  #include "qemu/config-file.h"
+>  #include "qemu/qemu-options.h"
+>  #include "qemu/main-loop.h"
+> +#include "hw/cxl/cxl.h"
+>  #ifdef CONFIG_VIRTFS
+>  #include "fsdev/qemu-fsdev.h"
+>  #endif
+> @@ -2744,6 +2745,7 @@ void qmp_x_exit_preconfig(Error **errp)
+>  
+>      qemu_init_board();
+>      qemu_create_cli_devices();
+> +    cxl_fixed_memory_window_link_targets(errp);
+>      qemu_machine_creation_done();
+>  
+>      if (loadvm) {
+> @@ -2805,6 +2807,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>      qemu_add_opts(&qemu_msg_opts);
+>      qemu_add_opts(&qemu_name_opts);
+>      qemu_add_opts(&qemu_numa_opts);
+> +    qemu_add_opts(&qemu_cxl_fixed_window_opts);
+>      qemu_add_opts(&qemu_icount_opts);
+>      qemu_add_opts(&qemu_semihosting_config_opts);
+>      qemu_add_opts(&qemu_fw_cfg_opts);
+> @@ -2927,6 +2930,13 @@ void qemu_init(int argc, char **argv, char **envp)
+>                      exit(1);
+>                  }
+>                  break;
+> +            case QEMU_OPTION_cxl_fixed_memory_window:
+> +                opts = qemu_opts_parse_noisily(qemu_find_opts("cxl-fixed-memory-window"),
+> +                                               optarg, true);
+> +                if (!opts) {
+> +                    exit(1);
+> +                }
+> +                break;
+>              case QEMU_OPTION_display:
+>                  parse_display(optarg);
+>                  break;
+> @@ -3764,6 +3774,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>  
+>      qemu_resolve_machine_memdev();
+>      parse_numa_opts(current_machine);
+> +    parse_cxl_fixed_memory_window_opts(current_machine);
+>  
+>      if (vmstate_dump_file) {
+>          /* dump and exit */
+
+Have you considered using qobject_input_visitor_new_str() instead of
+QemuOpts?
 
 
