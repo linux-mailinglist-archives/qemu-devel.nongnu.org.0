@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1780F4CA7FA
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 15:26:31 +0100 (CET)
-Received: from localhost ([::1]:36678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F31D34CA6D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:58:28 +0100 (CET)
+Received: from localhost ([::1]:39078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPPvx-0001r6-Br
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 09:26:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43886)
+	id 1nPPUq-0003tA-0o
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:58:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nPPR8-00075O-Pm
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:54:40 -0500
-Received: from [2a00:1450:4864:20::42a] (port=45894
- helo=mail-wr1-x42a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nPPR7-0006mm-3Y
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:54:38 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id p9so2877911wra.12
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 05:54:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=veeaUjUn+FUQY470e1mkrwZGuA+EahQ3ScQLbqNSYVM=;
- b=L76R0PXD6zshCdwHrkBD93YVBX4HPuSEsTjsQ89KBRfSAhJq8YOW/bM/MR5suC0leo
- qJRQfXzFCwfMLmrCZirIf2mDatmwHI865tMUY9QqhCqaYaZmG3R4BBYjFJY8SYSUrmVr
- ZGWhubiMuR1kP75DTOBk5waN/VG+5DRAR9iIB6BpVs6AM2jzQPFnCRRZlJTQZFimZMRx
- DZVhCD2zJ5yxLnaNh2K6CNl3hKCtfeUtTn2datMOJ1ybDCuGLfxBT6l9dZefTqItgRXr
- sZLkWxm9Mjke7Dy9kZ/xNqOKAV9zRvvsm2TN+LD7DgRLsB+9cNIs9hgq7XUdEg8rzUgn
- egeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=veeaUjUn+FUQY470e1mkrwZGuA+EahQ3ScQLbqNSYVM=;
- b=hBmsROnut7NvMeHCk7uOAqtELGIg5ZILYq0KCpJyEYjfWajQjhNWikRZH4OAEnl2eJ
- LahgsLM9D+ReXoCwx1iV6m58i9DaJnvYR4+221WqlKAJEPfvhUl8XQdPhd43yRSihxOH
- v4R2ktwRecj9nVfFl99LLFjUUTLkfBUK8AhSAJF60jdjDQ7NI8cY/8mQTcflctQY6tcQ
- Bu3jJY4PGqT8No1isBwCbTmvqTXv71goI9OoWGWLtDp7jvl+UchmMJMZDWoOrtsMUuDk
- 9uojJ++ub4rFni41zhzDyoAb1chO5MiJ4b5+GJ/e7jhIRmEG/0Dk+DEYAqaO6VMjiLJ3
- CxCQ==
-X-Gm-Message-State: AOAM530yA2ihPlejy6fBC4nDxupDTZWlo2jM0nT01ino79CtMbXItkGH
- x4YK6znwtqj0EktcW2WnTMmzTQ==
-X-Google-Smtp-Source: ABdhPJz25iERODI7sKKweiwLob9JpOOXsDnn+Cze8Rh2KLpJzVitQ9s2Q6H/oI6LUJWkuqCcPMcHjg==
-X-Received: by 2002:a5d:544d:0:b0:1ee:880d:3391 with SMTP id
- w13-20020a5d544d000000b001ee880d3391mr21838854wrv.72.1646229275410; 
- Wed, 02 Mar 2022 05:54:35 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- n8-20020adf8b08000000b001f046cc8891sm1041497wra.24.2022.03.02.05.54.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 05:54:34 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 81BE01FFB7;
- Wed,  2 Mar 2022 13:54:33 +0000 (GMT)
-References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
- <20220211120747.3074-30-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.9; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v6 29/43] hw/pci-host/gpex-acpi: Add support for dsdt
- construction for pxb-cxl
-Date: Wed, 02 Mar 2022 13:53:45 +0000
-In-reply-to: <20220211120747.3074-30-Jonathan.Cameron@huawei.com>
-Message-ID: <877d9cjw86.fsf@linaro.org>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=fxzG=TN=zx2c4.com=Jason@kernel.org>)
+ id 1nPPSI-0000aA-4Z
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:55:50 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:49784)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=fxzG=TN=zx2c4.com=Jason@kernel.org>)
+ id 1nPPSF-0000cw-Nz
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:55:49 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 81104B81FF0;
+ Wed,  2 Mar 2022 13:55:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB550C004E1;
+ Wed,  2 Mar 2022 13:55:40 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="kpzYHDtU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1646229339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SpVcuA/WXuSF2VylmDTidLRP/fq6dnIG3IJK6i0yAko=;
+ b=kpzYHDtUAlCnEdVEte//Tt36NxH+/Ez0o+kl3YdWmtGk9TZCjSHm6oGL/AbSTrC8Y1PuRg
+ jZ3NV3d2m9tjm6vre8HArSM79be/kQc4jqSkH3qUrcSXgTDy8VV6MN3iqBxSC6PUytw5x2
+ eJFYg/LLjTsXb0gq+k1Xln0G4fDjTNE=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id fd2dbd60
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Wed, 2 Mar 2022 13:55:38 +0000 (UTC)
+Date: Wed, 2 Mar 2022 14:55:29 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: propagating vmgenid outward and upward
+Message-ID: <Yh93UZMQSYCe2LQ7@zx2c4.com>
+References: <Yh4+9+UpanJWAIyZ@zx2c4.com>
+ <223f858c-34c5-3ccd-b9e8-7585a976364d@redhat.com>
+ <Yh5JwK6toc/zBNL7@zx2c4.com>
+ <20220301121419-mutt-send-email-mst@kernel.org>
+ <CAHmME9qieLUDVoPYZPo=N8NCL1T-RzQ4p7kCFv3PKFUkhWZPsw@mail.gmail.com>
+ <20220302031738-mutt-send-email-mst@kernel.org>
+ <CAHmME9pf-bjnZuweoLqoFEmPy1OK7ogEgGEAva1T8uVTufhCuw@mail.gmail.com>
+ <20220302074503-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Disposition: inline
+In-Reply-To: <20220302074503-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=fxzG=TN=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,54 +82,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- .  Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
+ Colm MacCarthaigh <colmmacc@amazon.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>, adrian@parity.io,
+ KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Theodore Ts'o <tytso@mit.edu>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Michael,
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+On Wed, Mar 02, 2022 at 07:58:33AM -0500, Michael S. Tsirkin wrote:
+> > There's also the atomicity aspect, which I think makes your benchmark
+> > not quite accurate. Those 16 bytes could change between the first and
+> > second word (or between the Nth and N+1th word for N<=3 on 32-bit).
+> > What if in that case the word you read second doesn't change, but the
+> > word you read first did? So then you find yourself having to do a
+> > hi-lo-hi dance.
+> > And then consider the 32-bit case, where that's even
+> > more annoying. This is just one of those things that comes up when you
+> > compare the semantics of a "large unique ID" and "word-sized counter",
+> > as general topics. (My suggestion is that vmgenid provide both.)
+> 
+> I don't see how this matters for any applications at all. Feel free to
+> present a case that would be race free with a word but not a 16
+> byte value, I could not imagine one. It's human to err of course.
 
-> This adds code to instantiate the slightly extended ACPI root port
-> description in DSDT as per the CXL 2.0 specification.
->
-> Basically a cut and paste job from the i386/pc code.
->
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-<snip>
-> @@ -139,6 +140,7 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig=
- *cfg)
->          QLIST_FOREACH(bus, &bus->child, sibling) {
->              uint8_t bus_num =3D pci_bus_num(bus);
->              uint8_t numa_node =3D pci_bus_numa_node(bus);
-> +            bool is_cxl;
->=20=20
->              if (!pci_bus_is_root(bus)) {
->                  continue;
-> @@ -153,9 +155,19 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfi=
-g *cfg)
->                  nr_pcie_buses =3D bus_num;
->              }
->=20=20
-> +            is_cxl =3D pci_bus_is_cxl(bus);
-> +
+Word-size reads happen all at once on systems that Linux supports,
+whereas this is not the case for 16 bytes (with a few niche exceptions
+like cmpxchg16b and such). If you read the counter atomically, you can
+check to see whether it's changed just after encrypting but before
+transmitting and not transmit if it has changed, and voila, no race.
+With 16 bytes, synchronization of that read is pretty tricky (though
+maybe not all together impossible), because, as I mentioned, the first
+word might have changed by the time you read a matching second word. I'm
+sure you're familiar with the use of seqlocks in the kernel for solving
+a somewhat related problem.
 
-nit: you could hoist the setting of is_cxl to the declaration and leave
-it to the compiler to move it about if you want.
-
-Anyway:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+Jason
 
