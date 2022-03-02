@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328C04C9ADD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 03:03:41 +0100 (CET)
-Received: from localhost ([::1]:60180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB5F4C9AC5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 02:54:24 +0100 (CET)
+Received: from localhost ([::1]:43580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPEL6-0005Xb-BB
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 21:03:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35468)
+	id 1nPEC7-0002Gc-CT
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 20:54:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3kM0eYgYKCr0wlwxvujrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--titusr.bounces.google.com>)
- id 1nPEH1-0001tP-Og
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:59:29 -0500
-Received: from [2607:f8b0:4864:20::c49] (port=36377
- helo=mail-oo1-xc49.google.com)
+ <3ks0eYgYKCr8ynyzxwlttlqj.htrvjrz-ij0jqstslsz.twl@flex--titusr.bounces.google.com>)
+ id 1nPE97-0007cx-WE
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:51:18 -0500
+Received: from [2607:f8b0:4864:20::b49] (port=55251
+ helo=mail-yb1-xb49.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3kM0eYgYKCr0wlwxvujrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--titusr.bounces.google.com>)
- id 1nPEH0-0008Kn-Hb
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:59:27 -0500
-Received: by mail-oo1-xc49.google.com with SMTP id
- t26-20020a4ac89a000000b0031c5daeddb4so242252ooq.3
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 17:59:24 -0800 (PST)
+ <3ks0eYgYKCr8ynyzxwlttlqj.htrvjrz-ij0jqstslsz.twl@flex--titusr.bounces.google.com>)
+ id 1nPE96-0004zt-FA
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:51:17 -0500
+Received: by mail-yb1-xb49.google.com with SMTP id
+ x11-20020a5b0f0b000000b0062277953037so156082ybr.21
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 17:51:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc:content-transfer-encoding;
- bh=SsuwZhWo+ed7nVZvOpG/H3KPAbRwMjbTiNEUiQeQcno=;
- b=je6Ogwc0aUtFCzQUa/h4EBtoFJY8KIyyIqElzA2HgJz0x4u4zcwNzny3T3AOlWTdej
- 6r8MfwGys6lFwgIai8dEVIHzAdUoCbo9UFT7TI6r+6aV3z+SA29978Mo2CqMyd9RyE6f
- fPUF42Kxii4ITceibIJqGvZ0sW+z5y8mQT91uFhEZSUqwyVc6KW1rDhgobpOBcvK/S+F
- iafBSHVTnZYAmt5tF0Pa9QunASYubO++T6ees55xcI2XvXPylC2ZRcRVkl7AgsLnVRXU
- mCqhXD5MqKClBW0wf8gG32JtqPieknznf3U7TKpkmk8IaaehZ85CKPnzSKWn4dNWVuAb
- oklQ==
+ :cc; bh=OuDjxU+Qw15BrOXbTXRNYAwlXoR5HJ4CkiZU3oZNlcE=;
+ b=PrPSE+alUxesQE9QCHPpKglatXwma04vyfRTLAysKvatKxN9oo1nHmGL4Fmy5i445q
+ BAhSppH+QyB1oIB9JPxXHTrzibhsbLGXQcCmkWAavVYkShilJ9g54sz+oq6fxDz1cRvk
+ 78IyHrwshOpRcohd6nU/gp8i/uH3PW9LKjBqzJ/gZY+wDL2De8moT7MRalnFcI4NcDzo
+ hUO/V2wd4XXwSkj9xKE9D9c8rY713QaqGd2copJ4EwGpgobKCkXyX+R6idwiVhathY6m
+ noruaEPkKEw6Ix41GtF+7PYvgjykXwPjYi8sSTkA7qqApyfAH+hiv/sWzRlgF8nxqtmo
+ 2DuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc:content-transfer-encoding;
- bh=SsuwZhWo+ed7nVZvOpG/H3KPAbRwMjbTiNEUiQeQcno=;
- b=f/W+jR6KnbJ+unDZTZIcSNc5m7/6MT/YwgmLvoxTg2zLlA+BZ60T+tl2uL0+QXKAJC
- yPykTxSv1CHNa5mVBKZE0tAXUdfSdQllUeb1cpyLOJ5Nj58Cj8US3tHkuyID064azK++
- CtjFFgggzTcgvIZ75dkW722/YgpsCevpLFOeNAHiLbM216s3HT7EERy0m0NaX9wAp4KB
- Ge5QKlVyYDkH602AK/O6UW4aKbij4uCnr4DBjvr6wwn1OmbK9PThtzUV2Y0nVtzb+mz0
- 2LIEhgK+UBxK8x09YL1nVvFt2HLgVfkIR0d7rEkQimaGckhyf389yCRDc0LGB6FPfJul
- +MAQ==
-X-Gm-Message-State: AOAM531bxuCNIjq247zt+kajhYs7w2igAT38GwhylbT+fsAPbsx3MENe
- HzRRKKr0VcBA1RTho46lIro0u7jEr3E=
-X-Google-Smtp-Source: ABdhPJy/uwhxOrqaK7vLsjLNQKQWXmfglIUKYpFsTobCx+G7A4gl3VohDxGNCox9dtbakvwckQWGxL2x4aE=
+ :references:subject:from:to:cc;
+ bh=OuDjxU+Qw15BrOXbTXRNYAwlXoR5HJ4CkiZU3oZNlcE=;
+ b=2GKmr41WlSpkGYGtOm5akUicBgQyfrnM+ca2dP618ZIGMPmAB3nP1QH6PlD5i1FX+I
+ TVCUr3gFZGztJ22ioQ0JKXXIcwRgtGgT/mGSRNxQJq/tCmzKML4mNioRZ6IjSlDGnUPE
+ pLkQp4vNaWu6H4NByY5p9yUxoHBGb+3UAp4EsDdYYYIAEHeol4jF29gpouGRYDBWmJ0n
+ 31qE7P/ncHuBvBJByVuiPIPcib82PzyOrLfZJBPscqzHZLWZc9ExcQsJgky0vBAi5vm9
+ WiWZW0HaeGUpQJJMfYqDC0Lh08VR7tb8fgA8gD0FecGTg9cGzpF5q5np0pLWM38g+Hym
+ adJQ==
+X-Gm-Message-State: AOAM531G8GVvwDljSO01r3Pk7Ho9ERyEV/h8mHxembKUwq4uxxSWDZBS
+ Rz7gpNZFNgPjqeaKb3clPxj1t8xziec=
+X-Google-Smtp-Source: ABdhPJyoV5I0jVXj9QFzW1RqDgFl0QEw1yXEAr2ze9FQJ6t5PDDomSQLIFB6A0W22RPPxp61Z/+20bqsmuI=
 X-Received: from titusr.svl.corp.google.com
  ([2620:15c:2a3:201:3a0a:5449:c096:dc84])
- (user=titusr job=sendgmr) by 2002:a25:2087:0:b0:623:249a:73b6 with SMTP id
- g129-20020a252087000000b00623249a73b6mr26619843ybg.139.1646185872616; Tue, 01
- Mar 2022 17:51:12 -0800 (PST)
-Date: Tue,  1 Mar 2022 17:50:49 -0800
+ (user=titusr job=sendgmr) by 2002:a0d:ca8f:0:b0:2d6:b8dc:13f5 with SMTP id
+ m137-20020a0dca8f000000b002d6b8dc13f5mr28277501ywd.323.1646185874896; Tue, 01
+ Mar 2022 17:51:14 -0800 (PST)
+Date: Tue,  1 Mar 2022 17:50:50 -0800
 In-Reply-To: <20220302015053.1984165-1-titusr@google.com>
-Message-Id: <20220302015053.1984165-6-titusr@google.com>
+Message-Id: <20220302015053.1984165-7-titusr@google.com>
 Mime-Version: 1.0
 References: <20220302015053.1984165-1-titusr@google.com>
 X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
-Subject: [PATCH v3 5/9] hw/i2c: pmbus: update MAINTAINERS
+Subject: [PATCH v3 6/9] hw/i2c: Added linear mode translation for pmbus devices
 From: Titus Rwantare <titusr@google.com>
 To: Corey Minyard <minyard@acm.org>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org, 
  wuhaotsh@google.com, venture@google.com, peter.maydell@linaro.org, 
- Titus Rwantare <titusr@google.com>
+ Shengtan Mao <stmao@google.com>, Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c49
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b49
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c49;
- envelope-from=3kM0eYgYKCr0wlwxvujrrjoh.frpthpx-ghyhoqrqjqx.ruj@flex--titusr.bounces.google.com;
- helo=mail-oo1-xc49.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3ks0eYgYKCr8ynyzxwlttlqj.htrvjrz-ij0jqstslsz.twl@flex--titusr.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
 X-Spam_score_int: -81
 X-Spam_score: -8.2
 X-Spam_bar: --------
@@ -96,36 +94,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-add self to MAINTAINERS for the PMBus subsystem and related sensors,
-and set PMBus as maintained.
+From: Shengtan Mao <stmao@google.com>
 
-Signed-off-by: Titus Rwantare <titusr@google.com>
+Signed-off-by: Shengtan Mao <stmao@google.com>
+Reviewed-by: Titus Rwantare <titusr@google.com>
 ---
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/i2c/pmbus_device.c         | 18 ++++++++++++++++++
+ include/hw/i2c/pmbus_device.h | 20 +++++++++++++++++++-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fa8adc2618..3601984b5d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3135,6 +3135,16 @@ F: include/hw/i2c/smbus_master.h
- F: include/hw/i2c/smbus_slave.h
- F: include/hw/i2c/smbus_eeprom.h
-=20
-+PMBus
-+M: Titus Rwantare <titusr@google.com>
-+S: Maintained
-+F: hw/i2c/pmbus_device.c
-+F: hw/sensor/adm1272.c
-+F: hw/sensor/max34451.c
-+F: include/hw/i2c/pmbus_device.h
-+F: tests/qtest/adm1272-test.c
-+F: tests/qtest/max34451-test.c
+diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+index 3beb02afad..1036c41c49 100644
+--- a/hw/i2c/pmbus_device.c
++++ b/hw/i2c/pmbus_device.c
+@@ -28,6 +28,24 @@ uint32_t pmbus_direct_mode2data(PMBusCoefficients c, uint16_t value)
+     return x;
+ }
+ 
++uint16_t pmbus_data2linear_mode(uint16_t value, int exp)
++{
++    /* L = D * 2^(-e) */
++    if (exp < 0) {
++        return value << (-exp);
++    }
++    return value >> exp;
++}
 +
- Firmware schema specifications
- M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
- R: Daniel P. Berrange <berrange@redhat.com>
---=20
++uint16_t pmbus_linear_mode2data(uint16_t value, int exp)
++{
++    /* D = L * 2^e */
++    if (exp < 0) {
++        return value >> (-exp);
++    }
++    return value << exp;
++}
++
+ void pmbus_send(PMBusDevice *pmdev, const uint8_t *data, uint16_t len)
+ {
+     if (pmdev->out_buf_len + len > SMBUS_DATA_MAX_LEN) {
+diff --git a/include/hw/i2c/pmbus_device.h b/include/hw/i2c/pmbus_device.h
+index 72c0483149..9a274247ab 100644
+--- a/include/hw/i2c/pmbus_device.h
++++ b/include/hw/i2c/pmbus_device.h
+@@ -446,7 +446,7 @@ typedef struct PMBusCoefficients {
+  *
+  * Y = (m * x - b) * 10^R
+  *
+- * @return uint32_t
++ * @return uint16_t
+  */
+ uint16_t pmbus_data2direct_mode(PMBusCoefficients c, uint32_t value);
+ 
+@@ -459,6 +459,24 @@ uint16_t pmbus_data2direct_mode(PMBusCoefficients c, uint32_t value);
+  */
+ uint32_t pmbus_direct_mode2data(PMBusCoefficients c, uint16_t value);
+ 
++/**
++ * Convert sensor values to linear mode format
++ *
++ * L = D * 2^(-e)
++ *
++ * @return uint16
++ */
++uint16_t pmbus_data2linear_mode(uint16_t value, int exp);
++
++/**
++ * Convert linear mode formatted data into sensor reading
++ *
++ * D = L * 2^e
++ *
++ * @return uint16
++ */
++uint16_t pmbus_linear_mode2data(uint16_t value, int exp);
++
+ /**
+  * @brief Send a block of data over PMBus
+  * Assumes that the bytes in the block are already ordered correctly,
+-- 
 2.35.1.616.g0bdcbb4464-goog
 
 
