@@ -2,81 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20514CA642
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:46:38 +0100 (CET)
-Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D7F4CA6A5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:53:38 +0100 (CET)
+Received: from localhost ([::1]:55920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPPJN-0002de-Sv
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:46:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47968)
+	id 1nPPQ9-0003rZ-9z
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:53:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>) id 1nPO4N-0001xB-U5
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:27:03 -0500
-Received: from [2607:f8b0:4864:20::633] (port=37745
- helo=mail-pl1-x633.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>) id 1nPO4M-0000kP-C2
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:27:03 -0500
-Received: by mail-pl1-x633.google.com with SMTP id n15so1427811plf.4
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 04:27:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FU0IylXrpCykU8A5fU0ogXV82XSWWHTLV5WNe7DNXpk=;
- b=lJcPnsMPj8Mr3q/omPtYciAmlxgIDGAsT+jBrPoeN+Br/vgzLpGXjWgpJhM1cOiWyI
- cEyoqtFuSdj0v11h1cYTq+AMybQ1NeNURQC4VnqFZbvLRz2vErx4SMmjofpejfPpasXM
- wFPBRHxCL6EhnOq3dqkpdlTc1JnBcVylKMvDO3U3LByJH1IuQskNJkJikD2izLpWYxYH
- f9u72+Ane5x4nwW5U4TOnt3XwdHcjr4jB+Cw2XoZ/9H2Q68sMlcP/gkirO1RAtKVs1Ke
- eftrrkFwJ9dpPsVSGtxXlFRTkh2mjOXfDdh8G6Z8D+7LBeuKWFS0U+I1DFkhniU0ZsEt
- wDBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FU0IylXrpCykU8A5fU0ogXV82XSWWHTLV5WNe7DNXpk=;
- b=YWoV48mrcM+TQpQXGaD4ovA9mtVlcr1/e5impvFjG37NPHGlLu+muw60m8XYJ+Fahs
- 8VWrq6MpNSa1Oi2Ufn0z7mnyc45NNwsZc22XirPEWbHXojZppXbk7Km4zeUIr6MQ4u+S
- xyXhHrFtEcfJxJusTffpUBPwi8yL55R1aUmyWGnlEfkDthceuJnF+zTfpRzD96/fj3I5
- uKKjdIfixPYWgqAPfp3uKGu4P61HoxKPP+o+XO+FPZECJyH99ZeL1xjP3ehJGxz7T3IA
- YLMd7iR5/40IMqJUayx9cIplRhQhjE/XF0L9qk/lNapdpeNbXztdpOJEJwoCvpwn2PgV
- t4jQ==
-X-Gm-Message-State: AOAM532sEtVU1XgGKKBFy45m8rfsxFJ/emmk1zck1Aroxr0uD1fRvdxw
- C2F/JLDKqdheAwNHyrtFlUi59R22EbWLpg==
-X-Google-Smtp-Source: ABdhPJx0inuo4yz5c4MCI65kUsIHfiwBoLS/vguvDPMKssLEgZjavwnoBGKj4RuUz+xZvfYH7ec1MQ==
-X-Received: by 2002:a17:902:b602:b0:14f:e42b:d547 with SMTP id
- b2-20020a170902b60200b0014fe42bd547mr30874569pls.91.1646224020728; 
- Wed, 02 Mar 2022 04:27:00 -0800 (PST)
-Received: from localhost.localdomain
- (2001-b011-e000-59d7-a02b-4f1b-c415-11a0.dynamic-ip6.hinet.net.
- [2001:b011:e000:59d7:a02b:4f1b:c415:11a0])
- by smtp.gmail.com with ESMTPSA id
- mu1-20020a17090b388100b001bedddf2000sm4912971pjb.14.2022.03.02.04.26.58
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 02 Mar 2022 04:27:00 -0800 (PST)
-From: Yan-Jie Wang <ubzeme@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 9/9] hvf: remove the need to lookup memory slots when
- clearing dirty-bits
-Date: Wed,  2 Mar 2022 20:26:11 +0800
-Message-Id: <20220302122611.15237-10-ubzeme@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20220302122611.15237-1-ubzeme@gmail.com>
-References: <20220302122611.15237-1-ubzeme@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=ubzeme@gmail.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nPO7V-0000ok-Lu; Wed, 02 Mar 2022 07:30:21 -0500
+Received: from smtp84.cstnet.cn ([159.226.251.84]:42148 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nPO7N-0001Jr-LJ; Wed, 02 Mar 2022 07:30:15 -0500
+Received: from localhost.localdomain (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAD3_0NIYx9iZCvwAQ--.51923S2;
+ Wed, 02 Mar 2022 20:30:02 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: richard.henderson@linaro.org, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] target/riscv: write back unmodified value for csrrc/csrrs
+ with rs1 is not x0 but holding zero
+Date: Wed,  2 Mar 2022 20:29:46 +0800
+Message-Id: <20220302122946.29635-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: zQCowAD3_0NIYx9iZCvwAQ--.51923S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ar1UtF43Cr4ruF4rKF1rJFb_yoW7WFy5pr
+ Wak39xW3yvqFZ7X3Zay3WDJw1rJw48G3yfCwn2qw45Jr1fJFWYyF4qqFsayFyDua4Syr4F
+ vFs09FyI9w4UAFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
+ rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+ xKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+ 67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,72 +65,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Cameron Esfahani <dirty@apple.com>, Yan-Jie Wang <ubzeme@gmail.com>
+Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
+ lazyparser@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Originally, when log_clear gets called, log_clear calls
-hvf_set_dirty_tracking to write-protect memory slots whose dirty-bits
-are cleared.
+     For csrrs and csrrc, if rs1 specifies a register other than x0, holding
+     a zero value, the instruction will still attempt to write the unmodified
+     value back to the csr and will cause side effects
 
-Calling hvf_set_dirty_tracking means that memory slots will be
-look up and the lock for memory slots will be held during the call.
-
-We can use the parameter `section` passed by the caller to determine the
-pages that need to be write-protected. Compared to the original method,
-this saves time.
-
-Moreover, this makes only pages whose dirty-bits
-are cleared write-protected instead of making the whole memory slot
-write-protected.
-
-Signed-off-by: Yan-Jie Wang <ubzeme@gmail.com>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- accel/hvf/hvf-mem.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ target/riscv/csr.c       | 46 ++++++++++++++++++++++++++++------------
+ target/riscv/op_helper.c |  7 +++++-
+ 2 files changed, 39 insertions(+), 14 deletions(-)
 
-diff --git a/accel/hvf/hvf-mem.c b/accel/hvf/hvf-mem.c
-index b215386bc8..7a588b70e1 100644
---- a/accel/hvf/hvf-mem.c
-+++ b/accel/hvf/hvf-mem.c
-@@ -84,7 +84,10 @@ static hwaddr hvf_align_section(MemoryRegionSection *section,
-     size = (size - _delta) & qemu_real_host_page_mask;
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index aea82dff4a..f4774ca07b 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -2872,7 +2872,7 @@ static RISCVException write_upmbase(CPURISCVState *env, int csrno,
  
-     *start = _start;
--    *delta = _delta;
-+
-+    if (delta) {
-+        *delta = _delta;
-+    }
- 
-     return size;
- }
-@@ -229,11 +232,21 @@ static void hvf_log_stop(MemoryListener *listener,
- static void hvf_log_clear(MemoryListener *listener,
-                          MemoryRegionSection *section)
+ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+                                                int csrno,
+-                                               bool write_mask,
++                                               bool write_csr,
+                                                RISCVCPU *cpu)
  {
-+    hwaddr start, size;
+     /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
+@@ -2895,7 +2895,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ #endif
+-    if (write_mask && read_only) {
++    if (write_csr && read_only) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -2915,7 +2915,8 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+ static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+                                        target_ulong *ret_value,
+                                        target_ulong new_value,
+-                                       target_ulong write_mask)
++                                       target_ulong write_mask,
++                                       bool write_csr)
+ {
+     RISCVException ret;
+     target_ulong old_value;
+@@ -2935,8 +2936,8 @@ static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+         return ret;
+     }
+ 
+-    /* write value if writable and write mask set, otherwise drop writes */
+-    if (write_mask) {
++    /* write value if needed, otherwise drop writes */
++    if (write_csr) {
+         new_value = (old_value & ~write_mask) | (new_value & write_mask);
+         if (csr_ops[csrno].write) {
+             ret = csr_ops[csrno].write(env, csrno, new_value);
+@@ -2960,18 +2961,27 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+ {
+     RISCVCPU *cpu = env_archcpu(env);
+ 
+-    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu);
++    /*
++     * write value when write_mask is set or rs1 is not x0 but holding zero
++     * value for csrrc(new_value is zero) and csrrs(new_value is all-ones)
++     */
++    bool write_csr = write_mask || ((write_mask == 0) &&
++                                    ((new_value == 0) ||
++                                     (new_value == (target_ulong)-1)));
 +
-+    if (!memory_region_is_ram(section->mr) || memory_region_is_rom(section)) {
-+        /* do not consider memory regions which are not directly writeable */
-+        return;
-+    }
-+
-     /*
-      * The dirty bits are being cleared.
-      * Make the section write-protected again.
-      */
--    hvf_set_dirty_tracking(section, 1);
-+    size = hvf_align_section(section, &start, NULL);
-+    if (size) {
-+        hv_vm_protect(start, size, HV_MEMORY_READ | HV_MEMORY_EXEC);
-+    }
++    RISCVException ret = riscv_csrrw_check(env, csrno, write_csr, cpu);
+     if (ret != RISCV_EXCP_NONE) {
+         return ret;
+     }
+ 
+-    return riscv_csrrw_do64(env, csrno, ret_value, new_value, write_mask);
++    return riscv_csrrw_do64(env, csrno, ret_value, new_value, write_mask,
++                            write_csr);
  }
  
- static void hvf_region_add(MemoryListener *listener,
+ static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
+                                         Int128 *ret_value,
+                                         Int128 new_value,
+-                                        Int128 write_mask)
++                                        Int128 write_mask, bool write_csr)
+ {
+     RISCVException ret;
+     Int128 old_value;
+@@ -2982,8 +2992,8 @@ static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
+         return ret;
+     }
+ 
+-    /* write value if writable and write mask set, otherwise drop writes */
+-    if (int128_nz(write_mask)) {
++    /* write value if needed, otherwise drop writes */
++    if (write_csr) {
+         new_value = int128_or(int128_and(old_value, int128_not(write_mask)),
+                               int128_and(new_value, write_mask));
+         if (csr_ops[csrno].write128) {
+@@ -3015,13 +3025,22 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
+     RISCVException ret;
+     RISCVCPU *cpu = env_archcpu(env);
+ 
+-    ret = riscv_csrrw_check(env, csrno, int128_nz(write_mask), cpu);
++    /*
++     * write value when write_mask is set or rs1 is not x0 but holding zero
++     * value for csrrc(new_value is zero) and csrrs(new_value is all-ones)
++     */
++    bool write_csr = write_mask || ((write_mask == 0) &&
++                                    ((new_value == 0) ||
++                                     (new_value == UINT128_MAX)));
++
++    ret = riscv_csrrw_check(env, csrno, write_csr, cpu);
+     if (ret != RISCV_EXCP_NONE) {
+         return ret;
+     }
+ 
+     if (csr_ops[csrno].read128) {
+-        return riscv_csrrw_do128(env, csrno, ret_value, new_value, write_mask);
++        return riscv_csrrw_do128(env, csrno, ret_value, new_value, write_mask,
++                                 write_csr);
+     }
+ 
+     /*
+@@ -3033,7 +3052,8 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
+     target_ulong old_value;
+     ret = riscv_csrrw_do64(env, csrno, &old_value,
+                            int128_getlo(new_value),
+-                           int128_getlo(write_mask));
++                           int128_getlo(write_mask),
++                           write_csr);
+     if (ret == RISCV_EXCP_NONE && ret_value) {
+         *ret_value = int128_make64(old_value);
+     }
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 1a75ba11e6..b2ad465533 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -40,7 +40,12 @@ void helper_raise_exception(CPURISCVState *env, uint32_t exception)
+ target_ulong helper_csrr(CPURISCVState *env, int csr)
+ {
+     target_ulong val = 0;
+-    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0);
++
++    /*
++     * new_value here should be none-zero or none-all-ones here to
++     * distinguish with csrrc/csrrs with rs1 is not x0 but holding zero value
++     */
++    RISCVException ret = riscv_csrrw(env, csr, &val, 1, 0);
+ 
+     if (ret != RISCV_EXCP_NONE) {
+         riscv_raise_exception(env, ret, GETPC());
 -- 
-2.32.0 (Apple Git-132)
+2.17.1
 
 
