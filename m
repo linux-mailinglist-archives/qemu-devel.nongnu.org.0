@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7914CACFC
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:09:47 +0100 (CET)
-Received: from localhost ([::1]:58766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15644CAD58
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:17:57 +0100 (CET)
+Received: from localhost ([::1]:54462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPTQ2-0007Z0-7Z
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:09:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55470)
+	id 1nPTXw-00078o-EO
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:17:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPTCh-0000km-J2
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:56:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29880)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPTKn-0007eV-Js
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:04:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPTCf-0002Sn-BB
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:55:58 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPTKl-0006ae-86
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:04:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646243756;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o+nBkQbgw8PwPPv2SFeP3n6nYROMRVLwtSKO9jqS6Kk=;
- b=avU9iA0y223BFDoPpQqOuRlKYPAxjX/ugAK5kOQ9L1WjMVWt4W8XXRRkrQOO4mSciJgpIn
- c+OYjwD6KxdZG2Z4tW3eGVlFFOMzFxGYzsDsQ6LUOmnLsbYBM9X/xkAKL8bQMXolEuOfoh
- yZmngzfRVcIy7Et4i1mq+9a1ifRHkWc=
+ s=mimecast20190719; t=1646244258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=s7PNT5w0na4dAC2Znwh5KJuYoihX1QJAjDb7qrJjyeU=;
+ b=hafAaouADEPs6ovKs/wioOgoDnzJ0DArt9z5vUmNmhEWYh/9jQ1FYyx/sNqQBvJzHmCfJH
+ fVggsGjUFBz7HIQg3z771JhZ1LPrQDgFLWByyIKRoPDV7qeFxzff1fZRcAQXFJguv3sDLI
+ Y8OBrMYEal/P6bHe6501ZZCQc1h7Nhk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-37-Vbhj1pRiOdKGIW1mPP7Ang-1; Wed, 02 Mar 2022 12:55:53 -0500
-X-MC-Unique: Vbhj1pRiOdKGIW1mPP7Ang-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-570-VGZrFbNYOr2z_9m6d4X_0A-1; Wed, 02 Mar 2022 13:04:15 -0500
+X-MC-Unique: VGZrFbNYOr2z_9m6d4X_0A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 246CE824FA9;
- Wed,  2 Mar 2022 17:55:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41F688659D;
- Wed,  2 Mar 2022 17:55:45 +0000 (UTC)
-Date: Wed, 2 Mar 2022 17:55:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
-Subject: Re: [PATCH 2/2] Allow building vhost-user in BSD
-Message-ID: <Yh+vniMOTFt2npIJ@redhat.com>
-References: <20220302113644.43717-1-slp@redhat.com>
- <20220302113644.43717-3-slp@redhat.com>
- <66b68bcc-8d7e-a5f7-5e6c-b2d20c26ab01@redhat.com>
- <8dfc9854-4d59-0759-88d0-d502ae7c552f@gmail.com>
- <20220302173009.26auqvy4t4rx74td@mhamilton>
- <85ed0856-308a-7774-a751-b20588f3d9cd@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15907180FD74;
+ Wed,  2 Mar 2022 18:04:13 +0000 (UTC)
+Received: from toolbox.redhat.com (unknown [10.33.36.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4056684781;
+ Wed,  2 Mar 2022 18:02:59 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] Enable vhost-user to be used on BSD systems
+Date: Wed,  2 Mar 2022 19:03:15 +0100
+Message-Id: <20220302180318.28893-1-slp@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <85ed0856-308a-7774-a751-b20588f3d9cd@gmail.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,71 +71,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Eric Farman <farman@linux.ibm.com>, Jagannathan Raman <jag.raman@oracle.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>,
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, kvm@vger.kernel.org,
+ David Hildenbrand <david@redhat.com>, Eric Farman <farman@linux.ibm.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
  Thomas Huth <thuth@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, John G Johnson <john.g.johnson@oracle.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, Kevin Wolf <kwolf@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 02, 2022 at 06:38:07PM +0100, Philippe Mathieu-Daudé wrote:
-> On 2/3/22 18:31, Sergio Lopez wrote:
-> > On Wed, Mar 02, 2022 at 06:18:59PM +0100, Philippe Mathieu-Daudé wrote:
-> > > On 2/3/22 18:10, Paolo Bonzini wrote:
-> > > > On 3/2/22 12:36, Sergio Lopez wrote:
-> > > > > With the possibility of using pipefd as a replacement on operating
-> > > > > systems that doesn't support eventfd, vhost-user can also work on BSD
-> > > > > systems.
-> > > > > 
-> > > > > This change allows enabling vhost-user on BSD platforms too and
-> > > > > makes libvhost_user (which still depends on eventfd) a linux-only
-> > > > > feature.
-> > > > > 
-> > > > > Signed-off-by: Sergio Lopez <slp@redhat.com>
-> > > > 
-> > > > I would just check for !windows.
-> > > 
-> > > What about Darwin / Haiku / Illumnos?
-> > 
-> > It should work on every system providing pipe() or pipe2(), so I guess
-> > Paolo's right, every platform except Windows. FWIW, I already tested
-> > it with Darwin.
-> 
-> Wow, nice.
-> 
-> So maybe simply check for pipe/pipe2 rather than !windows?
-
-NB that would make the check more fragile.
-
-We already use pipe/pipe2 without checking for it, because its
-usage is confined to oslib-posix.c and we know all POSIX
-OS have it. There is no impl at all of qemu_pipe in oslib-win.c
-and the declaration is masked out too in the header file.
-
-Thus if we check for pipe2 and windows did ever implement it,
-then we would actually break the windows build due to qemu_pipe
-not existing. 
-
-IOW, checking !windows matches our logic for picking oslib-posix.c
-in builds and so is better than checking for pipe directly.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Since QEMU is already able to emulate ioeventfd using pipefd, we're already=
+=0D
+pretty close to supporting vhost-user on non-Linux systems.=0D
+=0D
+This two patches bridge the gap by:=0D
+=0D
+1. Adding a new event_notifier_get_wfd() to return wfd on the places where=
+=0D
+   the peer is expected to write to the notifier.=0D
+=0D
+2. Modifying the build system to it allows enabling vhost-user on BSD.=0D
+=0D
+v1->v2:=0D
+  - Drop: "Allow returning EventNotifier's wfd" (Alex Williamson)=0D
+  - Add: "event_notifier: add event_notifier_get_wfd()" (Alex Williamson)=0D
+  - Add: "vhost: use wfd on functions setting vring call fd"=0D
+  - Rename: "Allow building vhost-user in BSD" to "configure, meson: allow=
+=0D
+    enabling vhost-user on all POSIX systems"=0D
+  - Instead of making possible enabling vhost-user on Linux and BSD systems=
+,=0D
+    allow enabling it on all non-Windows platforms. (Paolo)=0D
+=0D
+Sergio Lopez (3):=0D
+  event_notifier: add event_notifier_get_wfd()=0D
+  vhost: use wfd on functions setting vring call fd=0D
+  configure, meson: allow enabling vhost-user on all POSIX systems=0D
+=0D
+ configure                     | 4 ++--=0D
+ hw/virtio/vhost.c             | 6 +++---=0D
+ include/qemu/event_notifier.h | 1 +=0D
+ meson.build                   | 2 +-=0D
+ util/event_notifier-posix.c   | 5 +++++=0D
+ 5 files changed, 12 insertions(+), 6 deletions(-)=0D
+=0D
+-- =0D
+2.35.1=0D
+=0D
 
 
