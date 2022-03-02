@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10A14CA531
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 13:49:13 +0100 (CET)
-Received: from localhost ([::1]:49206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8B74CA4BF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 13:23:40 +0100 (CET)
+Received: from localhost ([::1]:59972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPOPo-0001Lb-Jc
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 07:49:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57992)
+	id 1nPO15-0001gv-Gs
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 07:23:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMrN-0001aZ-RR; Wed, 02 Mar 2022 06:09:33 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:23238
+ id 1nPMrL-0001Yb-PQ; Wed, 02 Mar 2022 06:09:33 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64536
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMrK-0001xW-Tc; Wed, 02 Mar 2022 06:09:33 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2228OiXN001594; 
- Wed, 2 Mar 2022 11:09:04 GMT
+ id 1nPMrI-0001wX-QG; Wed, 02 Mar 2022 06:09:31 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 222Am02U002083; 
+ Wed, 2 Mar 2022 11:09:05 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ej51mb6e6-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ej7570f87-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 11:09:04 +0000
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 222AKafI024625;
+ Wed, 02 Mar 2022 11:09:05 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 222Anioi006188;
  Wed, 2 Mar 2022 11:09:04 GMT
 Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
  [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ej51mb6ch-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ej7570f70-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 02 Mar 2022 11:09:04 +0000
 Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B2cxL011479;
- Wed, 2 Mar 2022 11:09:02 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 3efbfjpg6y-1
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B2b7r011446;
+ Wed, 2 Mar 2022 11:09:03 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3efbfjpg70-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 11:09:02 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 222B90eK50397498
+ Wed, 02 Mar 2022 11:09:03 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 222Aw5ow48824700
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Mar 2022 11:09:00 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 28398A407C;
+ Wed, 2 Mar 2022 10:58:05 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BC725AE05D;
  Wed,  2 Mar 2022 11:09:00 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D1C49A4069;
- Wed,  2 Mar 2022 11:08:59 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7AACBAE051;
+ Wed,  2 Mar 2022 11:09:00 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed,  2 Mar 2022 11:08:59 +0000 (GMT)
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed,  2 Mar 2022 11:09:00 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.58.125])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 15F0D2201C1;
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id C18CD220294;
  Wed,  2 Mar 2022 12:08:59 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 78/87] hw/ppc/spapr_caps.c: use g_autofree in
- spapr_caps_add_properties()
-Date: Wed,  2 Mar 2022 12:07:54 +0100
-Message-Id: <20220302110803.849505-79-clg@kaod.org>
+Subject: [PULL 79/87] hw/ppc/spapr_drc.c: use g_auto in spapr_dt_drc()
+Date: Wed,  2 Mar 2022 12:07:55 +0100
+Message-Id: <20220302110803.849505-80-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220302110803.849505-1-clg@kaod.org>
 References: <20220302110803.849505-1-clg@kaod.org>
@@ -72,16 +71,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: af4P7jufrPoAoNPOMa-ENH5KveydxAKT
-X-Proofpoint-ORIG-GUID: E44-ZDqcKYOdbyFVtWxvEu5-ZpuXs9fA
+X-Proofpoint-GUID: P2p0zj7k4Gopv84rqXRtBK9Y24xJJFcF
+X-Proofpoint-ORIG-GUID: lj332M_OTklnn18nbtv3xkByrpMRG2fn
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-02_01,2022-02-26_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 mlxlogscore=644
- phishscore=0 spamscore=0 adultscore=0 impostorscore=0 mlxscore=0
- suspectscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0 adultscore=0
+ impostorscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0
+ mlxlogscore=645 priorityscore=1501 mlxscore=0 spamscore=0 clxscore=1034
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2203020047
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
@@ -104,49 +103,131 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
+Use g_autoptr() with GArray* and GString* pointers to avoid calling
+g_free() and the need for the 'out' label.
+
+'drc_name' can also be g_autofreed to avoid a g_free() call at the end
+of the while() loop.
+
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Message-Id: <20220228175004.8862-6-danielhb413@gmail.com>
+Message-Id: <20220228175004.8862-7-danielhb413@gmail.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/spapr_caps.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ hw/ppc/spapr_drc.c | 30 ++++++++++++------------------
+ 1 file changed, 12 insertions(+), 18 deletions(-)
 
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 2773f9db9e10..655ab856a01b 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -930,16 +930,13 @@ void spapr_caps_add_properties(SpaprMachineClass *s=
-mc)
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index f8ac0a10df18..0ba84063aa26 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -841,8 +841,14 @@ int spapr_dt_drc(void *fdt, int offset, Object *owne=
+r, uint32_t drc_type_mask)
+     ObjectProperty *prop;
+     ObjectPropertyIterator iter;
+     uint32_t drc_count =3D 0;
+-    GArray *drc_indexes, *drc_power_domains;
+-    GString *drc_names, *drc_types;
++    g_autoptr(GArray) drc_indexes =3D g_array_new(false, true,
++                                                sizeof(uint32_t));
++    g_autoptr(GArray) drc_power_domains =3D g_array_new(false, true,
++                                                      sizeof(uint32_t));
++    g_autoptr(GString) drc_names =3D g_string_set_size(g_string_new(NULL=
+),
++                                                     sizeof(uint32_t));
++    g_autoptr(GString) drc_types =3D g_string_set_size(g_string_new(NULL=
+),
++                                                     sizeof(uint32_t));
+     int ret;
 =20
-     for (i =3D 0; i < ARRAY_SIZE(capability_table); i++) {
-         SpaprCapabilityInfo *cap =3D &capability_table[i];
--        char *name =3D g_strdup_printf("cap-%s", cap->name);
--        char *desc;
-+        g_autofree char *name =3D g_strdup_printf("cap-%s", cap->name);
-+        g_autofree char *desc =3D g_strdup_printf("%s", cap->description=
+     /*
+@@ -857,12 +863,8 @@ int spapr_dt_drc(void *fdt, int offset, Object *owne=
+r, uint32_t drc_type_mask)
+      * reserve the space now and set the offsets accordingly so we
+      * can fill them in later.
+      */
+-    drc_indexes =3D g_array_new(false, true, sizeof(uint32_t));
+     drc_indexes =3D g_array_set_size(drc_indexes, 1);
+-    drc_power_domains =3D g_array_new(false, true, sizeof(uint32_t));
+     drc_power_domains =3D g_array_set_size(drc_power_domains, 1);
+-    drc_names =3D g_string_set_size(g_string_new(NULL), sizeof(uint32_t)=
+);
+-    drc_types =3D g_string_set_size(g_string_new(NULL), sizeof(uint32_t)=
 );
 =20
-         object_class_property_add(klass, name, cap->type,
-                                   cap->get, cap->set,
-                                   NULL, cap);
+     /* aliases for all DRConnector objects will be rooted in QOM
+      * composition tree at DRC_CONTAINER_PATH
+@@ -874,7 +876,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
+, uint32_t drc_type_mask)
+         Object *obj;
+         SpaprDrc *drc;
+         SpaprDrcClass *drck;
+-        char *drc_name =3D NULL;
++        g_autofree char *drc_name =3D NULL;
+         uint32_t drc_index, drc_power_domain;
 =20
--        desc =3D g_strdup_printf("%s", cap->description);
-         object_class_property_set_description(klass, name, desc);
--        g_free(name);
--        g_free(desc);
+         if (!strstart(prop->type, "link<", NULL)) {
+@@ -908,7 +910,6 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
+, uint32_t drc_type_mask)
+         drc_name =3D spapr_drc_name(drc);
+         drc_names =3D g_string_append(drc_names, drc_name);
+         drc_names =3D g_string_insert_len(drc_names, -1, "\0", 1);
+-        g_free(drc_name);
+=20
+         /* ibm,drc-types */
+         drc_types =3D g_string_append(drc_types, drck->typename);
+@@ -928,7 +929,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
+, uint32_t drc_type_mask)
+                       drc_indexes->len * sizeof(uint32_t));
+     if (ret) {
+         error_report("Couldn't create ibm,drc-indexes property");
+-        goto out;
++        return ret;
      }
+=20
+     ret =3D fdt_setprop(fdt, offset, "ibm,drc-power-domains",
+@@ -936,29 +937,22 @@ int spapr_dt_drc(void *fdt, int offset, Object *own=
+er, uint32_t drc_type_mask)
+                       drc_power_domains->len * sizeof(uint32_t));
+     if (ret) {
+         error_report("Couldn't finalize ibm,drc-power-domains property")=
+;
+-        goto out;
++        return ret;
+     }
+=20
+     ret =3D fdt_setprop(fdt, offset, "ibm,drc-names",
+                       drc_names->str, drc_names->len);
+     if (ret) {
+         error_report("Couldn't finalize ibm,drc-names property");
+-        goto out;
++        return ret;
+     }
+=20
+     ret =3D fdt_setprop(fdt, offset, "ibm,drc-types",
+                       drc_types->str, drc_types->len);
+     if (ret) {
+         error_report("Couldn't finalize ibm,drc-types property");
+-        goto out;
+     }
+=20
+-out:
+-    g_array_free(drc_indexes, true);
+-    g_array_free(drc_power_domains, true);
+-    g_string_free(drc_names, true);
+-    g_string_free(drc_types, true);
+-
+     return ret;
  }
+=20
 --=20
 2.34.1
 
