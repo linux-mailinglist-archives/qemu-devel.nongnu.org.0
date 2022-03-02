@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222874CADED
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:51:11 +0100 (CET)
-Received: from localhost ([::1]:46998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8B14CADC9
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:45:20 +0100 (CET)
+Received: from localhost ([::1]:38028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPU46-0001k3-7c
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:51:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36768)
+	id 1nPTyR-0003q2-ED
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:45:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkd-0001UR-Ku
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35273)
+ id 1nPTkb-0001Pm-Uf
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkb-0000KA-GN
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:03 -0500
+ id 1nPTka-0000Jc-6v
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646245860;
+ s=mimecast20190719; t=1646245859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0PbF8YIadBK+ZkjWWRQZ0TnFmDA+2sgn4LnHgGUaaEg=;
- b=MyRp3XQq7XmKAXW2ebFI//aG36CIdX14wxPr67WAey+u3+CUhsLYOb6JpwETbuRd+l8a3j
- J9X3XhtikWsrn6FLX2Uv8rkMZeCm4eITuPL8mbQZusBwzKQpU7nrMKMQyBnxp+KsrwnDEL
- wSsFO2FrAlG+cJ6WJoOBi55eaI6PEQs=
+ bh=aXjz+2MNLnroPE3ihHyOxtiNfZ6IF9g6NN6aDSYvBR8=;
+ b=BbmIe/80m8mgjpvt6/LicZChwTnrrGGkcrt2ZPArApUvm9FM2Xjx5u98bKjKm48eemKl1x
+ z3KlmpojvvCRR+KJSDcW8tKFI66VFicM//cyXxLFW47EZ/PGsYDSfosK7N54QoQgvgnwN+
+ khcj7KDC4C2iTBwyvuYO2ZuLGXy/G58=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-577-lO5QZGZEO6yRlioD319XxQ-1; Wed, 02 Mar 2022 13:30:54 -0500
-X-MC-Unique: lO5QZGZEO6yRlioD319XxQ-1
+ us-mta-90-rlFvXiEFOLKhDb4lWD_6dg-1; Wed, 02 Mar 2022 13:30:57 -0500
+X-MC-Unique: rlFvXiEFOLKhDb4lWD_6dg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6BBC19251C0;
- Wed,  2 Mar 2022 18:30:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A10C01019982;
+ Wed,  2 Mar 2022 18:30:54 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2157A1059170;
- Wed,  2 Mar 2022 18:30:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D5531059170;
+ Wed,  2 Mar 2022 18:30:52 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, f.ebner@proxmox.com, hreitz@redhat.com,
  jinpu.wang@ionos.com, peter.maydell@linaro.org, peterx@redhat.com,
  s.reiter@proxmox.com
-Subject: [PULL 12/18] migration: Add postcopy_thread_create()
-Date: Wed,  2 Mar 2022 18:29:30 +0000
-Message-Id: <20220302182936.227719-13-dgilbert@redhat.com>
+Subject: [PULL 13/18] migration: Move static var in ram_block_from_stream()
+ into global
+Date: Wed,  2 Mar 2022 18:29:31 +0000
+Message-Id: <20220302182936.227719-14-dgilbert@redhat.com>
 In-Reply-To: <20220302182936.227719-1-dgilbert@redhat.com>
 References: <20220302182936.227719-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +61,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -88,147 +89,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-Postcopy create threads. A common manner is we init a sem and use it to sync
-with the thread.  Namely, we have fault_thread_sem and listen_thread_sem and
-they're only used for this.
+Static variable is very unfriendly to threading of ram_block_from_stream().
+Move it into MigrationIncomingState.
 
-Make it a shared infrastructure so it's easier to create yet another thread.
+Make the incoming state pointer to be passed over to ram_block_from_stream() on
+both caller sites.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20220301083925.33483-7-peterx@redhat.com>
+Message-Id: <20220301083925.33483-8-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.h    |  8 +++++---
- migration/postcopy-ram.c | 23 +++++++++++++++++------
- migration/postcopy-ram.h |  4 ++++
- migration/savevm.c       | 12 +++---------
- 4 files changed, 29 insertions(+), 18 deletions(-)
+ migration/migration.h |  3 ++-
+ migration/ram.c       | 13 +++++++++----
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/migration/migration.h b/migration/migration.h
-index 42c7395094..8445e1d14a 100644
+index 8445e1d14a..d8b9850eae 100644
 --- a/migration/migration.h
 +++ b/migration/migration.h
-@@ -70,7 +70,11 @@ struct MigrationIncomingState {
+@@ -66,7 +66,8 @@ typedef struct {
+ /* State for the incoming migration */
+ struct MigrationIncomingState {
+     QEMUFile *from_src_file;
+-
++    /* Previously received RAM's RAMBlock pointer */
++    RAMBlock *last_recv_block;
      /* A hook to allow cleanup at the end of incoming migration */
      void *transport_data;
      void (*transport_cleanup)(void *data);
--
-+    /*
-+     * Used to sync thread creations.  Note that we can't create threads in
-+     * parallel with this sem.
-+     */
-+    QemuSemaphore  thread_sync_sem;
-     /*
-      * Free at the start of the main state load, set as the main thread finishes
-      * loading state.
-@@ -83,13 +87,11 @@ struct MigrationIncomingState {
-     size_t         largest_page_size;
-     bool           have_fault_thread;
-     QemuThread     fault_thread;
--    QemuSemaphore  fault_thread_sem;
-     /* Set this when we want the fault thread to quit */
-     bool           fault_thread_quit;
+diff --git a/migration/ram.c b/migration/ram.c
+index a9d0d100bd..170e522a1f 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3185,12 +3185,14 @@ static int load_xbzrle(QEMUFile *f, ram_addr_t addr, void *host)
+  *
+  * Returns a pointer from within the RCU-protected ram_list.
+  *
++ * @mis: the migration incoming state pointer
+  * @f: QEMUFile where to read the data from
+  * @flags: Page flags (mostly to see if it's a continuation of previous block)
+  */
+-static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
++static inline RAMBlock *ram_block_from_stream(MigrationIncomingState *mis,
++                                              QEMUFile *f, int flags)
+ {
+-    static RAMBlock *block;
++    RAMBlock *block = mis->last_recv_block;
+     char id[256];
+     uint8_t len;
  
-     bool           have_listen_thread;
-     QemuThread     listen_thread;
--    QemuSemaphore  listen_thread_sem;
+@@ -3217,6 +3219,8 @@ static inline RAMBlock *ram_block_from_stream(QEMUFile *f, int flags)
+         return NULL;
+     }
  
-     /* For the kernel to send us notifications */
-     int       userfault_fd;
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index 30c3508f44..d08d396c63 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -78,6 +78,20 @@ int postcopy_notify(enum PostcopyNotifyReason reason, Error **errp)
-                                             &pnd);
++    mis->last_recv_block = block;
++
+     return block;
  }
  
-+/*
-+ * NOTE: this routine is not thread safe, we can't call it concurrently. But it
-+ * should be good enough for migration's purposes.
-+ */
-+void postcopy_thread_create(MigrationIncomingState *mis,
-+                            QemuThread *thread, const char *name,
-+                            void *(*fn)(void *), int joinable)
-+{
-+    qemu_sem_init(&mis->thread_sync_sem, 0);
-+    qemu_thread_create(thread, name, fn, mis, joinable);
-+    qemu_sem_wait(&mis->thread_sync_sem);
-+    qemu_sem_destroy(&mis->thread_sync_sem);
-+}
-+
- /* Postcopy needs to detect accesses to pages that haven't yet been copied
-  * across, and efficiently map new pages in, the techniques for doing this
-  * are target OS specific.
-@@ -902,7 +916,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
-     trace_postcopy_ram_fault_thread_entry();
-     rcu_register_thread();
-     mis->last_rb = NULL; /* last RAMBlock we sent part of */
--    qemu_sem_post(&mis->fault_thread_sem);
-+    qemu_sem_post(&mis->thread_sync_sem);
+@@ -3669,7 +3673,7 @@ static int ram_load_postcopy(QEMUFile *f)
+         trace_ram_load_postcopy_loop((uint64_t)addr, flags);
+         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
+                      RAM_SAVE_FLAG_COMPRESS_PAGE)) {
+-            block = ram_block_from_stream(f, flags);
++            block = ram_block_from_stream(mis, f, flags);
+             if (!block) {
+                 ret = -EINVAL;
+                 break;
+@@ -3881,6 +3885,7 @@ void colo_flush_ram_cache(void)
+  */
+ static int ram_load_precopy(QEMUFile *f)
+ {
++    MigrationIncomingState *mis = migration_incoming_get_current();
+     int flags = 0, ret = 0, invalid_flags = 0, len = 0, i = 0;
+     /* ADVISE is earlier, it shows the source has the postcopy capability on */
+     bool postcopy_advised = postcopy_is_advised();
+@@ -3919,7 +3924,7 @@ static int ram_load_precopy(QEMUFile *f)
  
-     struct pollfd *pfd;
-     size_t pfd_len = 2 + mis->postcopy_remote_fds->len;
-@@ -1173,11 +1187,8 @@ int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
-         return -1;
-     }
+         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
+                      RAM_SAVE_FLAG_COMPRESS_PAGE | RAM_SAVE_FLAG_XBZRLE)) {
+-            RAMBlock *block = ram_block_from_stream(f, flags);
++            RAMBlock *block = ram_block_from_stream(mis, f, flags);
  
--    qemu_sem_init(&mis->fault_thread_sem, 0);
--    qemu_thread_create(&mis->fault_thread, "postcopy/fault",
--                       postcopy_ram_fault_thread, mis, QEMU_THREAD_JOINABLE);
--    qemu_sem_wait(&mis->fault_thread_sem);
--    qemu_sem_destroy(&mis->fault_thread_sem);
-+    postcopy_thread_create(mis, &mis->fault_thread, "postcopy/fault",
-+                           postcopy_ram_fault_thread, QEMU_THREAD_JOINABLE);
-     mis->have_fault_thread = true;
- 
-     /* Mark so that we get notified of accesses to unwritten areas */
-diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
-index 6d2b3cf124..07684c0e1d 100644
---- a/migration/postcopy-ram.h
-+++ b/migration/postcopy-ram.h
-@@ -135,6 +135,10 @@ void postcopy_remove_notifier(NotifierWithReturn *n);
- /* Call the notifier list set by postcopy_add_start_notifier */
- int postcopy_notify(enum PostcopyNotifyReason reason, Error **errp);
- 
-+void postcopy_thread_create(MigrationIncomingState *mis,
-+                            QemuThread *thread, const char *name,
-+                            void *(*fn)(void *), int joinable);
-+
- struct PostCopyFD;
- 
- /* ufd is a pointer to the struct uffd_msg *TODO: more Portable! */
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 0ccd7e5e3f..967ff80547 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1863,7 +1863,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
- 
-     migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
-                                    MIGRATION_STATUS_POSTCOPY_ACTIVE);
--    qemu_sem_post(&mis->listen_thread_sem);
-+    qemu_sem_post(&mis->thread_sync_sem);
-     trace_postcopy_ram_listen_thread_start();
- 
-     rcu_register_thread();
-@@ -1988,14 +1988,8 @@ static int loadvm_postcopy_handle_listen(MigrationIncomingState *mis)
-     }
- 
-     mis->have_listen_thread = true;
--    /* Start up the listening thread and wait for it to signal ready */
--    qemu_sem_init(&mis->listen_thread_sem, 0);
--    qemu_thread_create(&mis->listen_thread, "postcopy/listen",
--                       postcopy_ram_listen_thread, NULL,
--                       QEMU_THREAD_DETACHED);
--    qemu_sem_wait(&mis->listen_thread_sem);
--    qemu_sem_destroy(&mis->listen_thread_sem);
--
-+    postcopy_thread_create(mis, &mis->listen_thread, "postcopy/listen",
-+                           postcopy_ram_listen_thread, QEMU_THREAD_DETACHED);
-     trace_loadvm_postcopy_handle_listen("return");
- 
-     return 0;
+             host = host_from_ram_block_offset(block, addr);
+             /*
 -- 
 2.35.1
 
