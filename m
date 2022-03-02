@@ -2,88 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A01D4CA8F8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 16:22:01 +0100 (CET)
-Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8B84CA907
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 16:25:52 +0100 (CET)
+Received: from localhost ([::1]:39124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPQng-0000UL-6L
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 10:22:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45120)
+	id 1nPQrO-0002JC-Sr
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 10:25:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPQmM-00088O-QM
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 10:20:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57134)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPQq0-0001Ry-TQ
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 10:24:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPQmJ-0001A9-1l
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 10:20:36 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPQpz-0003mM-Dr
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 10:24:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646234433;
+ s=mimecast20190719; t=1646234662;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=o+/uKNtMSqxxtp2IKJVl4PtqKh8tUPajkwApvE96v0s=;
- b=iZvlekyAFl5nhUjkv+onEJRQIPyP7cB+kIaFJrHbDQ7pATZiAYE/Tq0qBzlMzuHFHLOmpt
- zdYbNAkNwWffzIUXc6FizFwUuQ3JkC2BEfyNqKWaIKMbuIQkucj75fyBYJ3SbWkm/kJU2a
- 6FDxgfebhtt2Dd8xIt8C7EZO8WD/ewA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=z6lfQ+/8B9B8XXN0ZdlMjhPgwhvJKUM8Y2F/+Ltg6o4=;
+ b=ewoy+wID8j7rtQIVnl1g5+msqTJjA2QagkBs4mX5hOFnL8cwfesnNfLNIdL4CjfZm70PZW
+ 6oGpREJbBNKZWjdMUhlAnXTuUISyXv6P/AB3YjfUTlVbDdME38OuCDbQvbeq1mU2LtlsKd
+ 0Bs+Lr5Ct903a/TsZ5GjAxhLp5BO4bg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-368-tm0uWAdPMkCJCIPxfM6Aeg-1; Wed, 02 Mar 2022 10:20:31 -0500
-X-MC-Unique: tm0uWAdPMkCJCIPxfM6Aeg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m34-20020a05600c3b2200b0038115c73361so636912wms.5
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 07:20:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=o+/uKNtMSqxxtp2IKJVl4PtqKh8tUPajkwApvE96v0s=;
- b=KR+5tBNHZWQvLHyqz++5DCZvtGZ+1uo3DQG36P7KftZu5e8RsVfXQ4Iw1voJvwCY4/
- sGPSUimuBZxI+9kIk0XZjwsz1MrTtb4S+39iQFL0wdWBVeP33323qZrCflRMDTPd9tmD
- 118/WnBIAiPAvLRsuUaD7aB024BrG7ksQViXupKxgT6sqScONi1PBF11nIUlDhZVkWaZ
- kxMERELOi2Y6nGEXnAqZjPn5cJbsjUCDY6EnWEoNjTN6SdmSQ59VYizNsHL9w9sjKiCT
- oBbGYw0P3SsSxy4NNJl1DmXgLf45rlLcCFtLze9aQ77Fa8Ie8hBwBG60r0LtKNCf1zf1
- wcUA==
-X-Gm-Message-State: AOAM530sE83vo9Wf0N5auwzrSgMboNFJeusDqV0SLuLDrWN6zPDIIcbm
- 88MFU7BclOUV7PAl3WssPKgc/xhDCYOO5nqdu+5PSr6Q6kLZe/XGHNTKQF2fOyQPxqkP066yL3p
- GOWGbk+QAt7cmZBI=
-X-Received: by 2002:a05:6000:114d:b0:1ee:f251:52c6 with SMTP id
- d13-20020a056000114d00b001eef25152c6mr22351319wrx.618.1646234430701; 
- Wed, 02 Mar 2022 07:20:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxaRd2QDCauXRg0Cy1iugecAP23hz+39Lwf58iM9a92otz79fxfMO534ZE5Hi2k0kqltL5FeA==
-X-Received: by 2002:a05:6000:114d:b0:1ee:f251:52c6 with SMTP id
- d13-20020a056000114d00b001eef25152c6mr22351286wrx.618.1646234430410; 
- Wed, 02 Mar 2022 07:20:30 -0800 (PST)
-Received: from redhat.com ([2a10:8006:355c:0:48d6:b937:2fb9:b7de])
- by smtp.gmail.com with ESMTPSA id
- m18-20020a5d56d2000000b001edc00dbeeasm16452690wrw.69.2022.03.02.07.20.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 07:20:29 -0800 (PST)
-Date: Wed, 2 Mar 2022 10:20:25 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: propagating vmgenid outward and upward
-Message-ID: <20220302101602-mutt-send-email-mst@kernel.org>
-References: <223f858c-34c5-3ccd-b9e8-7585a976364d@redhat.com>
- <Yh5JwK6toc/zBNL7@zx2c4.com>
- <20220301121419-mutt-send-email-mst@kernel.org>
- <CAHmME9qieLUDVoPYZPo=N8NCL1T-RzQ4p7kCFv3PKFUkhWZPsw@mail.gmail.com>
- <20220302031738-mutt-send-email-mst@kernel.org>
- <CAHmME9pf-bjnZuweoLqoFEmPy1OK7ogEgGEAva1T8uVTufhCuw@mail.gmail.com>
- <20220302074503-mutt-send-email-mst@kernel.org>
- <Yh93UZMQSYCe2LQ7@zx2c4.com>
- <20220302092149-mutt-send-email-mst@kernel.org>
- <CAHmME9rf7hQP78kReP2diWNeX=obPem=f8R-dC7Wkpic2xmffg@mail.gmail.com>
+ us-mta-626-c2TNa6KhOqWVA4ExXpU9SA-1; Wed, 02 Mar 2022 10:24:19 -0500
+X-MC-Unique: c2TNa6KhOqWVA4ExXpU9SA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD93683DBC7;
+ Wed,  2 Mar 2022 15:24:17 +0000 (UTC)
+Received: from localhost (unknown [10.33.36.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3DABF7DE56;
+ Wed,  2 Mar 2022 15:23:22 +0000 (UTC)
+Date: Wed, 2 Mar 2022 16:23:42 +0100
+From: Sergio Lopez <slp@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH 1/2] Allow returning EventNotifier's wfd
+Message-ID: <20220302152342.3hlzw3ih2agqqu6c@mhamilton>
+References: <20220302113644.43717-1-slp@redhat.com>
+ <20220302113644.43717-2-slp@redhat.com>
+ <20220302081234.2378ef33.alex.williamson@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHmME9rf7hQP78kReP2diWNeX=obPem=f8R-dC7Wkpic2xmffg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hojutzklhzfoy7i3"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20220302081234.2378ef33.alex.williamson@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -92,7 +63,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,60 +76,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
- Colm MacCarthaigh <colmmacc@amazon.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- adrian@parity.io, KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Theodore Ts'o <tytso@mit.edu>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: Fam Zheng <fam@euphon.net>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ kvm@vger.kernel.org, John G Johnson <john.g.johnson@oracle.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 02, 2022 at 04:14:56PM +0100, Jason A. Donenfeld wrote:
-> Hi Michael,
-> 
-> On Wed, Mar 2, 2022 at 3:46 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > I just don't see how "value changed while it was read" is so different
-> > from "value changed one clock after it was read".  Since we don't detect
-> > the latter I don't see why we should worry about the former.
-> 
-> The "barrier" is at the point where the plaintext has been chosen AND
-> the nonce for a given keypair has been selected. So, if you have
-> plaintext in a buffer, and a key in a buffer, and the nonce for that
-> encryption in a buffer, and then after those are all selected, you
-> check to see if the vmgenid has changed since the birth of that key,
-> then you're all set. If it changes _after_ that point of check (your
-> "one clock after"), it doesn't matter: you'll just be
-> double-transmitting the same ciphertext, which is something that flaky
-> wifi sometimes does _anyway_ (and attackers can do intentionally), so
-> network protocols already are resilient to replay. This is the same
-> case you asked about earlier, and then answered yourself, when you
-> were wondering about reaching down into qdiscs.
-> 
-> Jason
 
-So writing some code:
+--hojutzklhzfoy7i3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-1:
-	put plaintext in a buffer
-	put a key in a buffer
-	put the nonce for that encryption in a buffer
+On Wed, Mar 02, 2022 at 08:12:34AM -0700, Alex Williamson wrote:
+> On Wed,  2 Mar 2022 12:36:43 +0100
+> Sergio Lopez <slp@redhat.com> wrote:
+>=20
+> > event_notifier_get_fd(const EventNotifier *e) always returns
+> > EventNotifier's read file descriptor (rfd). This is not a problem when
+> > the EventNotifier is backed by a an eventfd, as a single file
+> > descriptor is used both for reading and triggering events (rfd =3D=3D
+> > wfd).
+> >=20
+> > But, when EventNotifier is backed by a pipefd, we have two file
+> > descriptors, one that can only be used for reads (rfd), and the other
+> > only for writes (wfd).
+> >=20
+> > There's, at least, one known situation in which we need to obtain wfd
+> > instead of rfd, which is when setting up the file that's going to be
+> > sent to the peer in vhost's SET_VRING_CALL.
+> >=20
+> > Extend event_notifier_get_fd() to receive an argument which indicates
+> > whether the caller wants to obtain rfd (false) or wfd (true).
+>=20
+> There are about 50 places where we add the false arg here and 1 where
+> we use true.  Seems it would save a lot of churn to hide this
+> internally, event_notifier_get_fd() returns an rfd, a new
+> event_notifier_get_wfd() returns the wfd.  Thanks,
 
-	if vm gen id != stored vm gen id
-		stored vm gen id = vm gen id
-		goto 1
+I agree. In fact, that's what I implemented in the first place. I
+changed to this version in which event_notifier_get_fd() is extended
+because it feels more "correct". But yes, the pragmatic option would
+be adding a new event_notifier_get_wfd().
 
-I think this is race free, but I don't see why does it matter whether we
-read gen id atomically or not.
+I'll wait for more reviews, and unless someone voices against it, I'll
+respin the patches with that strategy (I already have it around here).
 
--- 
-MST
+Thanks,
+Sergio.
+
+--hojutzklhzfoy7i3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmIfi/0ACgkQ9GknjS8M
+AjW30g/5AVF1V3bVZd+v78w4CUyPhe4tKgcG/N+U8UoR2Scy9eN7EmLRlIZSIoJY
+/3D+MEgFFqvYKw8v6QqdjoXfXVaDsSx3o3nCjiaNojxeDGdnBi/2cTXizKFJbPAQ
+59xJEtCECjonYzCX1nooCUO732GJcZTU05BDUMwMQpAseioDiR9wj/G27usLFFPb
+9UyhYLtE/njCUAob7nr8wQCr3iqHuDMHw9r/dfjAKde2oPGFQjiGUVRj8cbtbrcI
+ru1fF7vP52YZnPVXr+b8lKDurQ6wH2BRllxg42DvUI0qh2obkwIZeSB6Bj/4Vya5
+b51W5fwKRYX1GPvQ/aGA5qHZPYe3vft/CvAan6QWDDVkbGxZE4IOHZWWUgfoReO+
+5kKrdNkU3BkSeVBWvNBlmQxtIDY5VNKX3Up98FGlu0GduiRol5vaaLKULoI5tZHd
+jgSJmMyL8kj2aoGSR/GBd4A6H6ePSD+TvJSqORQrWKAE6pPYngU7dHZGvnkxCnrm
+4thiBI9xArEi98Cf6gwwsEjQ4OxiCjSZVKMbXRvm2FY9a7HnCCLr3EVV4DXNPwbE
+fSKCM7G3O+spIToJTAfq7pUrSO46EBq75WbYWhC7V4h8vSaZNeAvEzk3JU/2P/yn
+pzSGfA66Vi7F4VoQRekREHuNs3fp/Zm3aPnywISy4icF3Z0+X9Q=
+=Yb7b
+-----END PGP SIGNATURE-----
+
+--hojutzklhzfoy7i3--
 
 
