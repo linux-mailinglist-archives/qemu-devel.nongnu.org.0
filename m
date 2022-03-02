@@ -2,81 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA864CAD68
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:22:07 +0100 (CET)
-Received: from localhost ([::1]:39262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881984CAD6B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:23:06 +0100 (CET)
+Received: from localhost ([::1]:43720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPTby-000848-5f
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:22:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59938)
+	id 1nPTcv-0002i3-JY
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:23:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nPTS9-0006xT-2N
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:11:57 -0500
-Received: from [2a00:1450:4864:20::434] (port=45943
- helo=mail-wr1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nPTS7-0008Rf-E7
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:11:56 -0500
-Received: by mail-wr1-x434.google.com with SMTP id p9so4046852wra.12
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 10:11:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sUSJfkexg7KkY2CuTVEeR2bYeZuOFKrm5GHwZ7Vta6I=;
- b=aKf5xYeNP4IKbk5KGDSAMCkJAcibSKKkln6lB760tifb3ZohGtzJ8RepwE/zovR+tg
- x+SN4V+uIizAVXeQCY4Qm+P1WU+CnfU86vdU7FlVyfM8uMAXYD4cZoddFh7x6vKuJakn
- hrEfSBVrNIwYOyhWlPRfcR/kueAudwtkpKgVoJ6EbhB09P6Hh2YtxwGE18TlVfh8VG1Q
- g/DJG5HyiMGoR3jHEVEhBUj4iERKAjuFDPUNKWrYaF/J1Vj850G4LGc6kGxFb1/9uVHv
- gATbaeTnHJkBsAODPh2a0M7vdbGr+iKb1G3uiDb+IbXxNJGClwSqiTXltBDIOsT0/yXm
- AvqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sUSJfkexg7KkY2CuTVEeR2bYeZuOFKrm5GHwZ7Vta6I=;
- b=IFF06tcA2Qjfq0d6RpULuVqmhdTWzgf5bBmi/HdImzxpKuj8oj8Tk7cdmu4WI5/dHt
- Vdsi8+SMjpUHNV2d9N9GaYoy5JqD0BMrZQW5TW5xHJKlQJwz58PnFKBvXYGaPZFxGRU6
- Ji3ftOWq/hsm5w1dA0qIvFe1aWYEaTW3UfCAaNQiPhN5sXB4slNGeYmNB6jjD2Z7vaKf
- XqFlAHlsrNkH9IkPntFFf2FPIlpYLuRXuokW/vF1ZAt0vyRmqduwjMI5Lr6cN+PhnJ5W
- HAjb0CPkg0rYEvrC8JINxaVhH7haTIcXMOVJXk/ra7tYBBz/f/W0flDW5X38kUEpHt04
- uN7Q==
-X-Gm-Message-State: AOAM5318ijenV+Gjkg5Zbl0KJZS7W5aL6dLWJocquDykxH+dpZgVCbiG
- JLiwasmt2DomAxjG+N0TZotOwYC5UQ4=
-X-Google-Smtp-Source: ABdhPJyXtDAtPvinovTNM6oiJjgSVaw68JEmxGTXD2yLyZd+8OenJmdTsy8FJZiTRLYgSRdAEbkv9A==
-X-Received: by 2002:adf:bc09:0:b0:1f0:2483:48b with SMTP id
- s9-20020adfbc09000000b001f02483048bmr4361098wrg.118.1646244714015; 
- Wed, 02 Mar 2022 10:11:54 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id
- bg20-20020a05600c3c9400b0037fa5c422c8sm7720811wmb.48.2022.03.02.10.11.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 10:11:53 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nPTRt-0006eX-7Z
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:11:41 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:42581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nPTRq-0008LP-Oa
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:11:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=70lYZvgFLXC94ZH7r5J67h7lr3M7VCE1YgdfMB/y0BI=; b=kset9nwcS4mZJVgWi1TWmRFx+Z
+ 19JdRSX6GSZEGRZvI2IjafGgaEPe1acJV1cArau/Ze307F9OqiXPqgaqvPsJ8ycP0BfNJhChM+GiK
+ QXyN9CyiLIRfyaCjcpuvMoJ6LjhhBThXpxtauU88eA2SPp4Al0BeHbq9QVIvgyAxqPEp/VF7w9i0/
+ +i44JZ9OyluxxWZ0SDEPk+TENN84QbVAcf8lhVg0RJxct8mM+3yD2PNauijcqXnNAIVb9YIxuw75g
+ gtynWpIst3G6Tp0B1K2ZZ/NLbddWczV0XWyWVopNgpBChfwoS9xeZVUrKic9ixM/Wlys6yDD5HFR7
+ gTjnaxYQ2zFIb/urLjJNij22EpIE6hZYe73zPUPV5IgTWflVX9WXZYtalCg/KaBY+oujYegz8NOZQ
+ kPg1zryYmRXguhxsxOvgChouNvoSXigO7niW0WZUIKeH7LXETL2v6GvlcDV9abei5ge739iHgEJtI
+ UmPLn7xMkZBWXvE6Ww30X1yUyvFkIb4MzVltfxIuX/bm9oEwLkezQXk5sJq3foZRMVhcJYmYOxtkt
+ dj7sKDEpNWziF67amLNx9pP7V/KBNTFOlbmhcJoViucdPg5O/fJ/KMgO1sKm3SP5Q6DdMNhcwDS0I
+ 5h3kkWfXruxHXY4FwpfZrASrJPwr69RlxccpVyg4s=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/11] target/i386: Throw a #SS when loading a non-canonical IST
-Date: Wed,  2 Mar 2022 19:11:34 +0100
-Message-Id: <20220302181134.285107-12-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220302181134.285107-1-pbonzini@redhat.com>
-References: <20220302181134.285107-1-pbonzini@redhat.com>
+Cc: Volker =?ISO-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 06/15] jackaudio: use more jack audio buffers
+Date: Wed, 02 Mar 2022 19:11:36 +0100
+Message-ID: <1951855.XoFpWQ29RW@silver>
+In-Reply-To: <20220301191311.26695-6-vr_qemu@t-online.de>
+References: <3d0bd2ac-e5b9-9cf6-c98f-c047390a3ec5@t-online.de>
+ <20220301191311.26695-6-vr_qemu@t-online.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,147 +66,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
+On Dienstag, 1. M=E4rz 2022 20:13:02 CET Volker R=FCmelin wrote:
+> The next patch reduces the effective qemu playback buffer size
+> by timer-period. Increase the number of jack audio buffers by
+> one to preserve the total effective buffer size. The size of one
+> jack audio buffer is 512 samples. With audio defaults that's
+> 512 samples / 44100 samples/s =3D 11.6 ms and only slightly larger
+> than the timer-period of 10 ms.
+>=20
+> The larger jack audio buffer increases audio dropout safety,
+> because the high priority jack-audio worker threads can provide
+> audio data for a longer period of time as with a smaller buffer
+> and more audio data in the mixing engine buffer that they can't
+> access.
+>=20
+> Signed-off-by: Volker R=FCmelin <vr_qemu@t-online.de>
+> ---
 
-Loading a non-canonical address into rsp when handling an interrupt or
-performing a far call should raise a #SS not a #GP.
+I actually reviewed this patch already, but OK, then a 2nd time:
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/870
-Signed-off-by: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
-Message-Id: <164529651121.25406.15337137068584246397-0@git.sr.ht>
-[Move get_pg_mode to seg_helper.c for user-mode emulators. - Paolo]
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/tcg/seg_helper.c         | 49 +++++++++++++++++++++++++++-
- target/i386/tcg/sysemu/excp_helper.c | 36 --------------------
- 2 files changed, 48 insertions(+), 37 deletions(-)
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index baa905a0cd..4cf1f973cf 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -28,6 +28,42 @@
- #include "helper-tcg.h"
- #include "seg_helper.h"
- 
-+int get_pg_mode(CPUX86State *env)
-+{
-+    int pg_mode = 0;
-+    if (!(env->cr[0] & CR0_PG_MASK)) {
-+        return 0;
-+    }
-+    if (env->cr[0] & CR0_WP_MASK) {
-+        pg_mode |= PG_MODE_WP;
-+    }
-+    if (env->cr[4] & CR4_PAE_MASK) {
-+        pg_mode |= PG_MODE_PAE;
-+        if (env->efer & MSR_EFER_NXE) {
-+            pg_mode |= PG_MODE_NXE;
-+        }
-+    }
-+    if (env->cr[4] & CR4_PSE_MASK) {
-+        pg_mode |= PG_MODE_PSE;
-+    }
-+    if (env->cr[4] & CR4_SMEP_MASK) {
-+        pg_mode |= PG_MODE_SMEP;
-+    }
-+    if (env->hflags & HF_LMA_MASK) {
-+        pg_mode |= PG_MODE_LMA;
-+        if (env->cr[4] & CR4_PKE_MASK) {
-+            pg_mode |= PG_MODE_PKE;
-+        }
-+        if (env->cr[4] & CR4_PKS_MASK) {
-+            pg_mode |= PG_MODE_PKS;
-+        }
-+        if (env->cr[4] & CR4_LA57_MASK) {
-+            pg_mode |= PG_MODE_LA57;
-+        }
-+    }
-+    return pg_mode;
-+}
-+
- /* return non zero if error */
- static inline int load_segment_ra(CPUX86State *env, uint32_t *e1_ptr,
-                                uint32_t *e2_ptr, int selector,
-@@ -795,6 +831,8 @@ static inline target_ulong get_rsp_from_tss(CPUX86State *env, int level)
- {
-     X86CPU *cpu = env_archcpu(env);
-     int index;
-+    target_ulong rsp;
-+    int32_t sext;
- 
- #if 0
-     printf("TR: base=" TARGET_FMT_lx " limit=%x\n",
-@@ -808,7 +846,16 @@ static inline target_ulong get_rsp_from_tss(CPUX86State *env, int level)
-     if ((index + 7) > env->tr.limit) {
-         raise_exception_err(env, EXCP0A_TSS, env->tr.selector & 0xfffc);
-     }
--    return cpu_ldq_kernel(env, env->tr.base + index);
-+
-+    rsp = cpu_ldq_kernel(env, env->tr.base + index);
-+
-+    /* test virtual address sign extension */
-+    sext = rsp >> (get_pg_mode(env) & PG_MODE_LA57 ? 56 : 47);
-+    if (sext != 0 && sext != -1) {
-+        raise_exception_err(env, EXCP0C_STACK, 0);
-+    }
-+
-+    return rsp;
- }
- 
- /* 64 bit interrupt */
-diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index 0410170d64..db4c266c86 100644
---- a/target/i386/tcg/sysemu/excp_helper.c
-+++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -21,42 +21,6 @@
- #include "cpu.h"
- #include "tcg/helper-tcg.h"
- 
--int get_pg_mode(CPUX86State *env)
--{
--    int pg_mode = 0;
--    if (!(env->cr[0] & CR0_PG_MASK)) {
--        return 0;
--    }
--    if (env->cr[0] & CR0_WP_MASK) {
--        pg_mode |= PG_MODE_WP;
--    }
--    if (env->cr[4] & CR4_PAE_MASK) {
--        pg_mode |= PG_MODE_PAE;
--        if (env->efer & MSR_EFER_NXE) {
--            pg_mode |= PG_MODE_NXE;
--        }
--    }
--    if (env->cr[4] & CR4_PSE_MASK) {
--        pg_mode |= PG_MODE_PSE;
--    }
--    if (env->cr[4] & CR4_SMEP_MASK) {
--        pg_mode |= PG_MODE_SMEP;
--    }
--    if (env->hflags & HF_LMA_MASK) {
--        pg_mode |= PG_MODE_LMA;
--        if (env->cr[4] & CR4_PKE_MASK) {
--            pg_mode |= PG_MODE_PKE;
--        }
--        if (env->cr[4] & CR4_PKS_MASK) {
--            pg_mode |= PG_MODE_PKS;
--        }
--        if (env->cr[4] & CR4_LA57_MASK) {
--            pg_mode |= PG_MODE_LA57;
--        }
--    }
--    return pg_mode;
--}
--
- #define PG_ERROR_OK (-1)
- 
- typedef hwaddr (*MMUTranslateFunc)(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
--- 
-2.34.1
+Best regards,
+Christian Schoenebeck
+
+>  audio/jackaudio.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/audio/jackaudio.c b/audio/jackaudio.c
+> index 317009e936..26246c3a8b 100644
+> --- a/audio/jackaudio.c
+> +++ b/audio/jackaudio.c
+> @@ -483,8 +483,8 @@ static int qjack_client_init(QJackClient *c)
+>          c->buffersize =3D 512;
+>      }
+>=20
+> -    /* create a 2 period buffer */
+> -    qjack_buffer_create(&c->fifo, c->nchannels, c->buffersize * 2);
+> +    /* create a 3 period buffer */
+> +    qjack_buffer_create(&c->fifo, c->nchannels, c->buffersize * 3);
+>=20
+>      qjack_client_connect_ports(c);
+>      c->state =3D QJACK_STATE_RUNNING;
+
 
 
