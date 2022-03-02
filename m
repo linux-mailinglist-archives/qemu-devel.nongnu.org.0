@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78D94CAC85
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:52:34 +0100 (CET)
-Received: from localhost ([::1]:40282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24824CAC93
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:55:08 +0100 (CET)
+Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPT9O-00007w-02
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:52:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53846)
+	id 1nPTBs-0005uY-1o
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:55:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT70-0005r1-Ia
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53306)
+ id 1nPT79-0006CF-50
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT6y-0008B1-Rd
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:06 -0500
+ id 1nPT77-0008CZ-Iu
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646243403;
+ s=mimecast20190719; t=1646243413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Oh5uKooIwZDpg/vStznMUnlZRgtm/pLwZuqMCZbKJ9c=;
- b=TvW2+NFxmBurGSX9RibZVGgIyEBtlwiFpH02l/HwEfFq5tV1HEmJ9v+dzNNV2qCIry4FXO
- qiW4mJH3c3hqPJeEWslzJyfpZt3cVsOE4nwj50iY3mk1b0J43AyfwMME/Sr0T2Y/HCHKKj
- GQyT26lMTGnFy0bCgozWpDMkUTamoeQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z5N+ypWR28fOuZs48xWZjrvWy1P1WPlDvMHQasYd180=;
+ b=LSFBt7X0DKtQjXCWhc/1iPQKIhT54ue2fk4h5h6MXRCM44/JhAdNaNeaaFGBE3/9kvy1nG
+ cUq0CWi/21CEh5fmPl5m+uwkB0goNhjyLhIj0yjbobpzd3h8m/PJuBDIlmNzqmEHxSj/sj
+ YmKzID9/u1GktA3eLkGgR2Tie61FTfo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-210-zzuZDcFWNZyGcIkDrqyxQA-1; Wed, 02 Mar 2022 12:49:58 -0500
-X-MC-Unique: zzuZDcFWNZyGcIkDrqyxQA-1
+ us-mta-253-fdqRNxhjNQ6T5zadHJgvbQ-1; Wed, 02 Mar 2022 12:50:01 -0500
+X-MC-Unique: fdqRNxhjNQ6T5zadHJgvbQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80271801AFE
- for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:49:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 201011006AA5
+ for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:50:00 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 282188001D;
- Wed,  2 Mar 2022 17:49:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4E6E8000B;
+ Wed,  2 Mar 2022 17:49:57 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/18] tests: introduce testing coverage for TLS with migration
-Date: Wed,  2 Mar 2022 17:49:14 +0000
-Message-Id: <20220302174932.2692378-1-berrange@redhat.com>
+Subject: [PATCH 01/18] tests: fix encoding of IP addresses in x509 certs
+Date: Wed,  2 Mar 2022 17:49:15 +0000
+Message-Id: <20220302174932.2692378-2-berrange@redhat.com>
+In-Reply-To: <20220302174932.2692378-1-berrange@redhat.com>
+References: <20220302174932.2692378-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -85,57 +88,70 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This significantly expands the migration test suite to cover testing=0D
-with TLS over TCP and UNIX sockets, with both PSK (pre shared keys)=0D
-and x509 credentials, and for both single and multifd scenarios.=0D
-=0D
-It identified one bug in handling PSK credentials with UNIX sockets,=0D
-but other than that everything was operating as expected.=0D
-=0D
-To minimize the impact on code duplication alopt of refactoring is=0D
-done of the migration tests to introduce a common helper for running=0D
-the migration process. The various tests mostly just have to provide=0D
-a callback to set a few parameters/capabilities before migration=0D
-starts, and sometimes a callback to cleanup or validate after=0D
-completion/failure.=0D
-=0D
-Daniel P. Berrang=C3=A9 (18):=0D
-  tests: fix encoding of IP addresses in x509 certs=0D
-  tests: improve error message when saving TLS PSK file fails=0D
-  tests: support QTEST_TRACE env variable=0D
-  tests: print newline after QMP response in qtest logs=0D
-  tests: add more helper macros for creating TLS x509 certs=0D
-  crypto: mandate a hostname when checking x509 creds on a client=0D
-  migration: fix use of TLS PSK credentials with a UNIX socket=0D
-  tests: merge code for UNIX and TCP migration pre-copy tests=0D
-  tests: introduce ability to provide hooks for migration precopy test=0D
-  tests: switch migration FD passing test to use common precopy helper=0D
-  tests: expand the migration precopy helper to support failures=0D
-  tests: add migration tests of TLS with PSK credentials=0D
-  tests: add migration tests of TLS with x509 credentials=0D
-  tests: convert XBZRLE migration test to use common helper=0D
-  tests: convert multifd migration tests to use common helper=0D
-  tests: add multifd migration tests of TLS with PSK credentials=0D
-  tests: add multifd migration tests of TLS with x509 credentials=0D
-  tests: ensure migration status isn't reported as failed=0D
-=0D
- crypto/tlssession.c                  |    6 +=0D
- meson.build                          |    1 +=0D
- migration/tls.c                      |    4 -=0D
- tests/qtest/libqtest.c               |   11 +-=0D
- tests/qtest/meson.build              |   12 +-=0D
- tests/qtest/migration-helpers.c      |   13 +=0D
- tests/qtest/migration-helpers.h      |    1 +=0D
- tests/qtest/migration-test.c         | 1041 +++++++++++++++++++++-----=0D
- tests/unit/crypto-tls-psk-helpers.c  |   20 +-=0D
- tests/unit/crypto-tls-psk-helpers.h  |    1 +=0D
- tests/unit/crypto-tls-x509-helpers.c |   16 +-=0D
- tests/unit/crypto-tls-x509-helpers.h |   53 ++=0D
- tests/unit/test-crypto-tlssession.c  |   11 +-=0D
- 13 files changed, 1004 insertions(+), 186 deletions(-)=0D
-=0D
---=20=0D
-2.34.1=0D
-=0D
+We need to encode just the address bytes, not the whole struct sockaddr
+data. Add a test case to validate that we're matching on SAN IP
+addresses correctly.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ tests/unit/crypto-tls-x509-helpers.c | 16 +++++++++++++---
+ tests/unit/test-crypto-tlssession.c  | 11 +++++++++--
+ 2 files changed, 22 insertions(+), 5 deletions(-)
+
+diff --git a/tests/unit/crypto-tls-x509-helpers.c b/tests/unit/crypto-tls-x509-helpers.c
+index fc609b3fd4..e9937f60d8 100644
+--- a/tests/unit/crypto-tls-x509-helpers.c
++++ b/tests/unit/crypto-tls-x509-helpers.c
+@@ -168,9 +168,19 @@ test_tls_get_ipaddr(const char *addrstr,
+     hints.ai_flags = AI_NUMERICHOST;
+     g_assert(getaddrinfo(addrstr, NULL, &hints, &res) == 0);
+ 
+-    *datalen = res->ai_addrlen;
+-    *data = g_new(char, *datalen);
+-    memcpy(*data, res->ai_addr, *datalen);
++    if (res->ai_family == AF_INET) {
++        struct sockaddr_in *in = (struct sockaddr_in *)res->ai_addr;
++        *datalen = sizeof(in->sin_addr);
++        *data = g_new(char, *datalen);
++        memcpy(*data, &in->sin_addr, *datalen);
++    } else if (res->ai_family == AF_INET6) {
++        struct sockaddr_in6 *in = (struct sockaddr_in6 *)res->ai_addr;
++        *datalen = sizeof(in->sin6_addr);
++        *data = g_new(char, *datalen);
++        memcpy(*data, &in->sin6_addr, *datalen);
++    } else {
++        g_assert_not_reached();
++    }
+     freeaddrinfo(res);
+ }
+ 
+diff --git a/tests/unit/test-crypto-tlssession.c b/tests/unit/test-crypto-tlssession.c
+index 5f0da9192c..a6935d8497 100644
+--- a/tests/unit/test-crypto-tlssession.c
++++ b/tests/unit/test-crypto-tlssession.c
+@@ -512,12 +512,19 @@ int main(int argc, char **argv)
+                   false, true, "wiki.qemu.org", NULL);
+ 
+     TEST_SESS_REG(altname4, cacertreq.filename,
++                  servercertalt1req.filename, clientcertreq.filename,
++                  false, false, "192.168.122.1", NULL);
++    TEST_SESS_REG(altname5, cacertreq.filename,
++                  servercertalt1req.filename, clientcertreq.filename,
++                  false, false, "fec0::dead:beaf", NULL);
++
++    TEST_SESS_REG(altname6, cacertreq.filename,
+                   servercertalt2req.filename, clientcertreq.filename,
+                   false, true, "qemu.org", NULL);
+-    TEST_SESS_REG(altname5, cacertreq.filename,
++    TEST_SESS_REG(altname7, cacertreq.filename,
+                   servercertalt2req.filename, clientcertreq.filename,
+                   false, false, "www.qemu.org", NULL);
+-    TEST_SESS_REG(altname6, cacertreq.filename,
++    TEST_SESS_REG(altname8, cacertreq.filename,
+                   servercertalt2req.filename, clientcertreq.filename,
+                   false, false, "wiki.qemu.org", NULL);
+ 
+-- 
+2.34.1
 
 
