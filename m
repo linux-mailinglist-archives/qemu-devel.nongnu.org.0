@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A124CA577
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:04:12 +0100 (CET)
-Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE004CA59E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:10:03 +0100 (CET)
+Received: from localhost ([::1]:34486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPOeJ-0008Up-G7
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:04:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56040)
+	id 1nPOjy-00078J-1p
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:10:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPOah-0005Eg-1T
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:00:28 -0500
-Received: from [2607:f8b0:4864:20::112b] (port=38043
- helo=mail-yw1-x112b.google.com)
+ (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>) id 1nPOei-0003Xv-R3
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:04:37 -0500
+Received: from [2607:f8b0:4864:20::52b] (port=43753
+ helo=mail-pg1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPOaY-0004IA-9h
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:00:24 -0500
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2dbc48104beso16336337b3.5
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 05:00:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SkiTbDaZiU2tkSqlStyUWrTNhU1ShaGXRUPuIRdOQhE=;
- b=ocIoESHy+LG61ADBb1m/sA9PmLNm+5uKzjVEfQpD90859SqduPdkQQiEolWWhQxbp9
- +8g0PYdX+d7AMipSyco1TgFdPrzSKQQnvbqwmyPdTAwwgMNbRA7v5lfBD1iJe+dw35kJ
- 7I3i3rnr5UPaltxSGjI3WZyfnYVh8b4EAkLknRhSCAiyrjaL55qyrH1q7QYUUwSaERIW
- LwXrY43ShZ7Tlv5ZzlMwhQwxdK/PzfQZL2jw7uROsg/596miHDNrIY/wysHKUKD0EopI
- XAyjzhORAvmVYCpTEEAn555pHT4tUEbKVlnTleUCTUnx3rMFzuzHuYOWMCfzViCFz2fh
- KkYA==
+ (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>) id 1nPOeh-0004xX-25
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:04:36 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id 27so1564824pgk.10
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 05:04:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bbH8XXnjQJM6yhYrzG0KAYzzaS4bpxWDEH2hSAtOzls=;
+ b=achS8/pyL6+F0MF9F04wtH7eK7XTJ/cd6R61wRdjr+aNR0vXRo9aRLWQhGBOQdiulW
+ of8us4ptHrRiI3aRy1Xwhe3j7AdhA5/rGhWGZENH3R14LHlgx597f9aArNYJgsxN4n0n
+ /MsM34s+Vnaf6XaVYDjF+Lr2d2BGpVJHqhSRzTJxl5SkWLOdZMjJRiyDcPo78bbRbE/K
+ Abp+RP9yamYr1NqW9GIu0LOHosE9uXmvwKV0Zh+rgO1JIqB5hSL6/LgnWFjC+FQ0X2bD
+ SEQWYtLvG95WU4MuZlm/J5etFku4KVsSlS+Zc69CrA50Oi28z/K4aviwEwOtBQCIAmRh
+ yLVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SkiTbDaZiU2tkSqlStyUWrTNhU1ShaGXRUPuIRdOQhE=;
- b=D0DqYeAPB+QZfuT2lV2vnP5voNXnUA3PEZkTfJiVlxyMxKuldVJIKN/Vriybz02ko4
- LEovyJ9y905SITjFfghhiTVuT3kJZjnrom9rlZsxKxGNHbB6KpPkGhfjyVN1rNtPEuE3
- 0dCit+bI2M70m9IuwhHcBL/fJvD1NkbGgYAaUgRjNzKHYBAXKOYE31/iHSsrHeSoeczk
- 3TfgDO1OPHWe8DGc9cf+c40seTJ8It44XcMvD5tpTE+sw6YzEN4BHUXdz+8ZKcjc6xAf
- 9Cveceypn476XGSjVLnPm9uu3Tz9LN/KXp43kgbWfyLG1hEO0ZyPDO6t/C+UFMfsfJcD
- avrg==
-X-Gm-Message-State: AOAM532CBSXcvAa2JBFV4HdX99I5QxOQWy/Ujik5cQASbDBAlgN/opdh
- vy7ejsG0qqcBl59RPvac14lRSkkjg917X0+bKY2hqg==
-X-Google-Smtp-Source: ABdhPJxI4r/0wiCUFaBh3itUDaY6kgDR3OSehyPpau4I2f3F/RlvvuQ7u8DdKZ5xse3GTl6Jj+drgID4/wT44iAw4yo=
-X-Received: by 2002:a81:b49:0:b0:2db:f472:dfca with SMTP id
- 70-20020a810b49000000b002dbf472dfcamr6117559ywl.455.1646226017236; Wed, 02
- Mar 2022 05:00:17 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bbH8XXnjQJM6yhYrzG0KAYzzaS4bpxWDEH2hSAtOzls=;
+ b=Tj4ENbv45xITjbhuzfXMX602qlYs2WtI6nlYe8jly/IZk9zpfjQIb09SOJ4oOESbd8
+ 7ZUmgVDAkzdXT54bvVcxZFx/uAvH8Ez1RJn78M7aMHX93PacBQs+LZ3GSIwR2/bV2Vzj
+ w192H6Q8yAmMFGybwePCWFT7z89m7TJLCtDaO1So8deVjOOVqrxX79yvM6fLpPOTG/vd
+ aSuuFLisLJY1n6C2MBgvTC/aMwkopLJYdbMDlnvxXZlJqPS2Q8UWE41ss8AdiH+yd+rC
+ 1SgunpoupZDkhUVVZ2soLE/w2WPf72FV1j9fzR3tgf7qM7YQALnJP7VpdFs+AWIoE6+/
+ dFXA==
+X-Gm-Message-State: AOAM530dsHXYBeCI6rafsfL0qTkmjGCKRebAt59pSbqj7eUqEyYSQZHU
+ qtK/CnbtCNwvDQJfLv4d+KmblQRxohrXaw==
+X-Google-Smtp-Source: ABdhPJzfQPBZsnlO0nz4oQjiRBKyWVSAcz1X887ifX9Rn7CtdHvGzkl5IqURhxjClXtXfJbap3Z/Gw==
+X-Received: by 2002:aa7:94a4:0:b0:4f3:6215:5d1e with SMTP id
+ a4-20020aa794a4000000b004f362155d1emr33253831pfl.73.1646226269782; 
+ Wed, 02 Mar 2022 05:04:29 -0800 (PST)
+Received: from localhost.localdomain
+ (2001-b011-e000-59d7-a02b-4f1b-c415-11a0.dynamic-ip6.hinet.net.
+ [2001:b011:e000:59d7:a02b:4f1b:c415:11a0])
+ by smtp.gmail.com with ESMTPSA id
+ l13-20020a056a00140d00b004e13da93eaasm21947964pfu.62.2022.03.02.05.04.27
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 02 Mar 2022 05:04:29 -0800 (PST)
+From: Yan-Jie Wang <ubzeme@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/9] Many improvements to HVF memory-related codes
+Date: Wed,  2 Mar 2022 21:04:08 +0800
+Message-Id: <20220302130417.18551-1-ubzeme@gmail.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-References: <20220227182125.21809-1-richard.henderson@linaro.org>
- <20220227182125.21809-7-richard.henderson@linaro.org>
-In-Reply-To: <20220227182125.21809-7-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 2 Mar 2022 13:00:06 +0000
-Message-ID: <CAFEAcA8w9f2=Fd5vDTaJOKJ07HjX51ch7EP8EM97hvKo6f5Ewg@mail.gmail.com>
-Subject: Re: [PATCH 6/7] target/nios2: Special case ipending in rdctl and wrctl
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=ubzeme@gmail.com; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -83,47 +86,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Cameron Esfahani <dirty@apple.com>, Yan-Jie Wang <ubzeme@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 27 Feb 2022 at 18:25, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> It was never correct to be able to write to ipending.
-> Until the rest of the irq code is tidied, the read of ipending
-> will generate an "unnecessary" mask.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/nios2/translate.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-> index 52965ba17e..b17ce25a36 100644
-> --- a/target/nios2/translate.c
-> +++ b/target/nios2/translate.c
-> @@ -452,6 +452,15 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
->      }
->
->      switch (instr.imm5 + CR_BASE) {
-> +    case CR_IPENDING:
-> +        /*
-> +         * The value of the ipending register is synthetic.
-> +         * In hw, this is the AND of a set of hardware irq lines
-> +         * with the ienable register.  In qemu, we re-use the space
-> +         * of CR_IPENDING to store the set of irq lines.
+changes in v3:
+* Fix last two patches which contain mistakes:
+ - hvf: only consider directly writeable memory regions for
+    dirty-tracking
+ - hvf: remove the need to lookup memory slots when clearing dirty-bits
 
-maybe add
-"and so we must perform the AND here, and anywhere else we need
-the guest value of CR_IPENDING" ?
+changes in v2:
+* Rebase to the current master.
+* Correct a mistake in "hvf: simplify data structures and codes of
+  memory related functions" patch
+* add two patches for HVF memory listener. The changes are
+ - only consider directly writeable memory regions for dirty-tracking
+ - in `hvf_log_clear`, use provided `section` (MemoryRegionSection)
+   from the caller to determine the pages that need to write-protected
+   instead of calling hvf_set_dirty_tracking to write-protect the memory
+   slots that contains the pages whose dirty-bits are cleared.
 
-> +         */
-> +        tcg_gen_and_tl(cpu_R[instr.c], cpu_R[CR_IPENDING], cpu_R[CR_IENABLE]);
-> +        break;
+----------
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I recently bought a Mac with M1 Pro chip, and use QEMU to setup a Linux
+virtual machine.  QEMU crashed when I started a VM with HVF accelerator
+enabled and with the device, bochs-display, added.
 
-thanks
--- PMM
+After digging into the source code, I found that dirty-tracking in HVF
+did not work properly, which made QEMU crashed. Therefore I made this
+series of patches to fix the problem.
+
+Followings are the summary of the changes that these patches make:
+ 1. Move HVF memory-related functions and codes into a new file
+    hvf-mem.c
+ 2. Simplify the logics of adding and removing memory regions in HVF
+    memory listener
+ 3. Fix HVF dirty-tracking logics for both Intel and Apple Silicon Macs
+ 4. Use GTree and dynamically-allocated structures to store HVF memory
+    slots instead of fixed-size arrays. This makes memory slots more
+    scalable. It is inspired by the recent changes in Linux kernel
+    (v5.17) that use red-black trees instead of arrays to store
+    in-kernel KVM memory slots.
+ 5. Add a lock to protect the data structures of HVF memory slots
+
+Patches have been tested on Apple Silicon Macs and Intel Macs.
+
+Yan-Jie Wang (9):
+  hvf: move memory related functions from hvf-accel-ops.c to hvf-mem.c
+  hvf: simplify data structures and codes of memory related functions
+  hvf: use correct data types for addresses in memory related functions
+  hvf: rename struct hvf_slot to HVFSlot
+  hvf: fix memory dirty-tracking
+  hvf: add a lock for memory related functions
+  hvf: use GTree to store memory slots instead of fixed-size array
+  hvf: only consider directly writeable memory regions for
+    dirty-tracking
+  hvf: remove the need to lookup memory slots when clearing dirty-bits
+
+ accel/hvf/hvf-accel-ops.c | 221 +-----------------------
+ accel/hvf/hvf-mem.c       | 343 ++++++++++++++++++++++++++++++++++++++
+ accel/hvf/meson.build     |   1 +
+ include/sysemu/hvf_int.h  |  18 +-
+ target/arm/hvf/hvf.c      |   5 +
+ target/i386/hvf/hvf.c     |  25 +--
+ 6 files changed, 359 insertions(+), 254 deletions(-)
+ create mode 100644 accel/hvf/hvf-mem.c
+
+-- 
+2.32.0 (Apple Git-132)
+
 
