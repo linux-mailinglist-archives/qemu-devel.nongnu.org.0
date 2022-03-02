@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494774CA9BE
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:00:35 +0100 (CET)
-Received: from localhost ([::1]:35868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0384CA9D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:08:13 +0100 (CET)
+Received: from localhost ([::1]:39068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPROz-00066o-Ui
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:00:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53930)
+	id 1nPRWO-0000pA-9y
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:08:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nPRNI-0005Re-JK
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 10:58:48 -0500
-Received: from [2a00:1450:4864:20::529] (port=33509
- helo=mail-ed1-x529.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nPRNG-0006eH-S1
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 10:58:48 -0500
-Received: by mail-ed1-x529.google.com with SMTP id s14so2938047edw.0
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 07:58:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c9MagHOUxsEN5CT63CbPh1wrLpf5FTDCD1AxaTpwTqo=;
- b=5LFlCWw7QYMglW7xRl+DkF+r1N198duLq9+4WTP+I2udrcwoG2Q3Pov5zWvhKYNK6B
- caBjpss6gg73y8wzkjXXJlW81KEGQMOeLtKPBCuQd9i9EC1z+dLQzWOTsAZgs0jgEgb+
- MEXzJVE8sSbuJk36GrMcuz5kGTQMs8UpOQpODWzRj7ZE6zX58czPdJ3aJs0AwA2o94WE
- 36g3ZYCuu0jYOpqPNm6fy4ayq6DFfMPsARPtG6Ks4XwYOH45GMR9YYlL7Gb/iG/W4DvN
- OrvRwNCPLaQBEpZjP7PxtDjW51I2bk0VCIl0twAersVuiFE9GQiIk/6udJYhVT58lPVo
- RfEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=c9MagHOUxsEN5CT63CbPh1wrLpf5FTDCD1AxaTpwTqo=;
- b=wxTPD95j6nmSVZBo9ZDYm4xWB4CRigj5oF3IR6QMFIxrgcgLJ5y/nimJGgw0nowkLg
- j/fF6IvpARrCcaBsgYxUXvBXeyRQm6lYiZ4pqb3RX5G79RF//l5lJishnPb+gzqHXtNo
- /dLFGkIjL8wEa1ANxz5Zps2RniBSRDo5luLJv1qmLvy2eh9WGimYi4Va45ox75VdM/Cj
- terkom9/9gFU754iog7daVG58BU9wnc9jiNGsnJQtp6nPMJbODEK3lca/bOUJv/QAY97
- uNWVVMmkiD6FGYH5AT89ZCkGVOyqriMKumhW9VdHAjCqZx425HbYvQhYIOsJIxl6zxKh
- y8Lg==
-X-Gm-Message-State: AOAM533khbeRu3yBmxAGGgC8ZiVt2445UOn6bCwNiruK5eAqSyK1J8Wy
- 3gfyeWo+/uW1nRp7Tl2fFKa8dGsopt50OnKR2Kth/A==
-X-Google-Smtp-Source: ABdhPJwZF5et9xrMOj/JAKw6HnJgKd/ZlHZ4MI55QqX734YLqeVpLmo28vm/z0kGyl83yvBQwgTmoMBs1b8A1yisTYg=
-X-Received: by 2002:a05:6402:1148:b0:413:11e0:1f58 with SMTP id
- g8-20020a056402114800b0041311e01f58mr30064513edw.113.1646236724950; Wed, 02
- Mar 2022 07:58:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nPRV8-0008JD-Hu
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:06:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38505)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nPRV5-00083R-4U
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:06:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646237210;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GrD0BGmgCrrsW/ZxtnaRp1GXNLCgNzTcWE7WkwLyYBQ=;
+ b=RJbwBEq5XYtY/m+mSIjJ6YgAnAoLmb1VoqCvbhm7DY6IYrwehwvYd7oWrwZhskl36k/4RL
+ rd5GIr6RRuMkaC79MbAM+ry57VbnRWma/wxi9GOOEAs+jzpql4dgoGuCgxWd8jic4aTQYC
+ rEB7pyMRzzdaah926A4hI63Q7+ckwoY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-r_JR-YQUPYuwlJ8otLygLg-1; Wed, 02 Mar 2022 11:06:46 -0500
+X-MC-Unique: r_JR-YQUPYuwlJ8otLygLg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6ACD1091DA1;
+ Wed,  2 Mar 2022 16:06:43 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 103FD8395F;
+ Wed,  2 Mar 2022 16:06:42 +0000 (UTC)
+Date: Wed, 2 Mar 2022 16:06:41 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Subject: Re: [PATCH 1/2] Allow returning EventNotifier's wfd
+Message-ID: <Yh+WESUBI9spkHvd@stefanha-x1.localdomain>
+References: <20220302113644.43717-1-slp@redhat.com>
+ <20220302113644.43717-2-slp@redhat.com>
+ <20220302081234.2378ef33.alex.williamson@redhat.com>
+ <20220302152342.3hlzw3ih2agqqu6c@mhamilton>
 MIME-Version: 1.0
-References: <20220228201733.714580-1-liavalb@gmail.com>
- <20220228201733.714580-3-liavalb@gmail.com>
- <20220301094354.1d37f470@redhat.com>
- <alpine.DEB.2.22.394.2203011514030.1522204@anisinha-lenovo>
- <3face56c-7488-6736-6394-af1d9979d00f@gmail.com>
- <CAARzgwy2SWi_SmL_YSz0Dio=ynrO_ZUtAASFpiu3-sgMagSY0g@mail.gmail.com>
- <20220302074022-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220302074022-mutt-send-email-mst@kernel.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Wed, 2 Mar 2022 21:28:34 +0530
-Message-ID: <CAARzgwyQa1gs5SHW=91hGWaFxWoH-EuX77X9yTK1-LcPShu1aw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::529;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="CckaM7tvrQIX+lck"
+Content-Disposition: inline
+In-Reply-To: <20220302152342.3hlzw3ih2agqqu6c@mhamilton>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,65 +79,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, shentey@gmail.com,
- Liav Albani <liavalb@gmail.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Jagannathan Raman <jag.raman@oracle.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 2, 2022 at 6:12 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Mar 02, 2022 at 10:44:03AM +0530, Ani Sinha wrote:
-> > On Wed, Mar 2, 2022 at 12:50 AM Liav Albani <liavalb@gmail.com> wrote:
-> > >
-> > >
-> > > On 3/1/22 11:52, Ani Sinha wrote:
-> > > >
-> > > > On Tue, 1 Mar 2022, Igor Mammedov wrote:
-> > > >
-> > > >> On Mon, 28 Feb 2022 22:17:32 +0200
-> > > >> Liav Albani <liavalb@gmail.com> wrote:
-> > > >>
-> > > >>> This can allow the guest OS to determine more easily if i8042 controller
-> > > >>> is present in the system or not, so it doesn't need to do probing of the
-> > > >>> controller, but just initialize it immediately, before enumerating the
-> > > >>> ACPI AML namespace.
-> > > >>>
-> > > >>> This change only applies to the x86/q35 machine type, as it uses FACP
-> > > >>> ACPI table with revision higher than 1, which should implement at least
-> > > >>> ACPI 2.0 features within the table, hence it can also set the IA-PC boot
-> > > >>> flags register according to the ACPI 2.0 specification.
-> > > >>>
-> > > >>> Signed-off-by: Liav Albani <liavalb@gmail.com>
-> > > >>> ---
-> > > >>>   hw/acpi/aml-build.c         | 11 ++++++++++-
-> > > >>>   hw/i386/acpi-build.c        |  9 +++++++++
-> > > >>>   hw/i386/acpi-microvm.c      |  9 +++++++++
-> > > >> commit message says it's q35 specific, so wy it touched microvm anc piix4?
-> > > > Igor is correct. Although I see that currently there are no 8042 devices
-> > > > for microvms, maybe we should be conservative and add the code to detect
-> > > > the device anyway. In that case, the change could affect microvms too when
-> > > > such devices get added in the future.
-> > > >
-> > > >
-> > > > echo -e "info qtree\r\nquit\r\n" | ./qemu-system-x86_64 -machine microvm
-> > > > -monitor stdio 2>/dev/null | grep 8042
-> > > >
-> > > > <empty>
-> > >
-> > > What about this?
-> > >
-> > > echo -e "info qtree\r\nquit\r\n" | qemu-system-x86_64 -machine microvm
-> > > -device i8042 -monitor stdio 2>/dev/null | grep 8042
-> > >
-> > > Or this?
-> > >
-> > > echo -e "info mtree\r\nquit\r\n" | qemu-system-x86_64 -machine microvm
-> > > -device i8042 -monitor stdio 2>/dev/null | grep 8042
-> >
-> > On both occasions you are explicitly adding the device.
->
-> Yes of course.
 
-OK. I did not think for a "microvm" one would explicitly add more 8042
-devices beyond what was added by default in the real life use case.
+--CckaM7tvrQIX+lck
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Mar 02, 2022 at 04:23:42PM +0100, Sergio Lopez wrote:
+> On Wed, Mar 02, 2022 at 08:12:34AM -0700, Alex Williamson wrote:
+> > On Wed,  2 Mar 2022 12:36:43 +0100
+> > Sergio Lopez <slp@redhat.com> wrote:
+> >=20
+> > > event_notifier_get_fd(const EventNotifier *e) always returns
+> > > EventNotifier's read file descriptor (rfd). This is not a problem when
+> > > the EventNotifier is backed by a an eventfd, as a single file
+> > > descriptor is used both for reading and triggering events (rfd =3D=3D
+> > > wfd).
+> > >=20
+> > > But, when EventNotifier is backed by a pipefd, we have two file
+> > > descriptors, one that can only be used for reads (rfd), and the other
+> > > only for writes (wfd).
+> > >=20
+> > > There's, at least, one known situation in which we need to obtain wfd
+> > > instead of rfd, which is when setting up the file that's going to be
+> > > sent to the peer in vhost's SET_VRING_CALL.
+> > >=20
+> > > Extend event_notifier_get_fd() to receive an argument which indicates
+> > > whether the caller wants to obtain rfd (false) or wfd (true).
+> >=20
+> > There are about 50 places where we add the false arg here and 1 where
+> > we use true.  Seems it would save a lot of churn to hide this
+> > internally, event_notifier_get_fd() returns an rfd, a new
+> > event_notifier_get_wfd() returns the wfd.  Thanks,
+>=20
+> I agree. In fact, that's what I implemented in the first place. I
+> changed to this version in which event_notifier_get_fd() is extended
+> because it feels more "correct". But yes, the pragmatic option would
+> be adding a new event_notifier_get_wfd().
+>=20
+> I'll wait for more reviews, and unless someone voices against it, I'll
+> respin the patches with that strategy (I already have it around here).
+
+I had the same thought looking through the patch before I read Alex's
+suggestion. A separate get_wfd() function makes sense to me.
+
+Stefan
+
+--CckaM7tvrQIX+lck
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIflhEACgkQnKSrs4Gr
+c8gUbwf+MaJ1cHSEuImrkqURTdFKqXovAS0lAPUlBsdIv36iSJWxNCfsWsP7nNQR
+ZnaIbqFNhCLC6YoZcEg/sezcGI/H3qfkG88Fv+wuEWBR5CWDoLnNhQGksC+A+jwD
+BnPvhEMXDWM/GAmjvQrNAfFZeVtvspRtVHg1xDvz1kfUrMup3Qpmz6VcdRZCEKHR
+HUkimVWmgOqRTDBA9Mcn32nFjqv1kWgaleItUOQXGq+gLXs4ri4CUuBDZcGRF/T7
+EgciAL062l4PjdATLM/Y42p1YMkROJhMEa30n4Ov/Ore/BjjFFAb+u+tcDJGo/DN
+wtItDgzVaRAoQ31EvfDE4kTgLyDjnw==
+=7Tst
+-----END PGP SIGNATURE-----
+
+--CckaM7tvrQIX+lck--
+
 
