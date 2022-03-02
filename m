@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FE74CACAF
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:58:15 +0100 (CET)
-Received: from localhost ([::1]:56778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9F24CAC92
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:54:22 +0100 (CET)
+Received: from localhost ([::1]:45392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPTEs-0003GF-TF
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:58:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53930)
+	id 1nPTB7-0003gz-3X
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:54:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT7H-0006Rg-63
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34769)
+ id 1nPT7J-0006Rv-6N
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT7E-0008D4-Gz
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:21 -0500
+ id 1nPT7G-0008DF-VL
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646243420;
+ s=mimecast20190719; t=1646243422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VNx6yWmKOO0HuFmJx2n8vK8T6Ew+0YXur15a2cQYZJg=;
- b=dezdwUPd58aLZPtbp8VY2SmGANluAIKAlfin/quif/BBQzUqUzHFn39WzrjCBTkDW9nio9
- TMyfxaDCpPB2dM0LSnMhNV0WdrbzSl4PHwABzZm5iH9kSJhPj8nukeJQjVGH0wTTTgh1IM
- HWp8AHyUbKvwAg7fmFSzPyrNF8HpnaI=
+ bh=tQhBHb4bJo72pge2LXUa3Ej7WpFOSezL46al+uGaRoI=;
+ b=ZQrtoS9e1ed2v6ThFaN3sgTkoCeX+tnEmR7ksC+1f6E8KTIvnJSrJcO5g7bGA5sRK9JcJ+
+ BIj5x/QmDTgGoliIWgpwChFYhF1zXkP2jbZTLDOZBdXwwlgprFdPXo2GxjaWYV3vT6gEwg
+ VWAHeSSw6luANKXghmeLfmVmexGGlGc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-BUrfLECqPA2Xhf5VIOeFRw-1; Wed, 02 Mar 2022 12:50:18 -0500
-X-MC-Unique: BUrfLECqPA2Xhf5VIOeFRw-1
+ us-mta-5-pZyM1n2yNiGBFxWljRLHlw-1; Wed, 02 Mar 2022 12:50:21 -0500
+X-MC-Unique: pZyM1n2yNiGBFxWljRLHlw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAC381091DA0
- for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:50:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7025C5200
+ for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:50:20 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A306B8000B;
- Wed,  2 Mar 2022 17:50:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FB2C8000B;
+ Wed,  2 Mar 2022 17:50:18 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/18] tests: improve error message when saving TLS PSK file
- fails
-Date: Wed,  2 Mar 2022 17:49:16 +0000
-Message-Id: <20220302174932.2692378-3-berrange@redhat.com>
+Subject: [PATCH 03/18] tests: support QTEST_TRACE env variable
+Date: Wed,  2 Mar 2022 17:49:17 +0000
+Message-Id: <20220302174932.2692378-4-berrange@redhat.com>
 In-Reply-To: <20220302174932.2692378-1-berrange@redhat.com>
 References: <20220302174932.2692378-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,24 +88,47 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When debugging failing qtests it is useful to be able to turn on trace
+output to stderr. The QTEST_TRACE env variable contents get injected
+as a '-trace <str>' command line arg
+
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/unit/crypto-tls-psk-helpers.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/libqtest.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/tests/unit/crypto-tls-psk-helpers.c b/tests/unit/crypto-tls-psk-helpers.c
-index 7f8a488961..4bea7c6fa2 100644
---- a/tests/unit/crypto-tls-psk-helpers.c
-+++ b/tests/unit/crypto-tls-psk-helpers.c
-@@ -30,7 +30,7 @@ void test_tls_psk_init(const char *pskfile)
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 41f4da4e54..a85f8a6d05 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -260,6 +260,9 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+     gchar *qmp_socket_path;
+     gchar *command;
+     const char *qemu_binary = qtest_qemu_binary();
++    const char *trace = g_getenv("QTEST_TRACE");
++    g_autofree char *tracearg = trace ?
++        g_strdup_printf("-trace %s ", trace) : g_strdup("");
  
-     fp = fopen(pskfile, "w");
-     if (fp == NULL) {
--        g_critical("Failed to create pskfile %s", pskfile);
-+        g_critical("Failed to create pskfile %s: %s", pskfile, strerror(errno));
-         abort();
-     }
-     /* Don't do this in real applications!  Use psktool. */
+     s = g_new(QTestState, 1);
+ 
+@@ -282,14 +285,15 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+ 
+     qtest_add_abrt_handler(kill_qemu_hook_func, s);
+ 
+-    command = g_strdup_printf("exec %s "
++    command = g_strdup_printf("exec %s %s"
+                               "-qtest unix:%s "
+                               "-qtest-log %s "
+                               "-chardev socket,path=%s,id=char0 "
+                               "-mon chardev=char0,mode=control "
+                               "-display none "
+                               "%s"
+-                              " -accel qtest", qemu_binary, socket_path,
++                              " -accel qtest",
++                              qemu_binary, tracearg, socket_path,
+                               getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null",
+                               qmp_socket_path,
+                               extra_args ?: "");
 -- 
 2.34.1
 
