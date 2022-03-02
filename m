@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8818B4CAC44
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:39:24 +0100 (CET)
-Received: from localhost ([::1]:48068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D04C4CAC5B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:44:54 +0100 (CET)
+Received: from localhost ([::1]:53782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPSwd-0002ai-8U
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:39:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50446)
+	id 1nPT1x-0006mQ-6u
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:44:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPSva-0001iO-F8; Wed, 02 Mar 2022 12:38:18 -0500
-Received: from [2607:f8b0:4864:20::62d] (port=46738
- helo=mail-pl1-x62d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPSvY-0005fc-Td; Wed, 02 Mar 2022 12:38:18 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id bd1so2153131plb.13;
- Wed, 02 Mar 2022 09:38:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=WH0+qyWWHhV8of3aAofph+MQPHfJdu4kz/EMF0WIztU=;
- b=PulbCMbgEH+38j2aU0QpcfPYU0SWGN7ngqaEhoEo5kxg50T0PSDoRmsQUgBOjOld/F
- YxlyeRlpG7MJ0kEg2syixXQf9NfJuLU2Q1zOhr/jxtI85g0rTBu4qV6aXyKTbH2rhplI
- 9oM6yqy84EZ6z1KyX3vRQxUjhlvtEJVqSfkx0UdUCbn20Yc3mutuWNmErlWiEqBxhWDG
- x7t/AzA4UbAo+SXThaaWMJXZeeFHs+Qqgp/9bQFgxk+VVWxhXzDphaBiSB7HoQ5l7NNs
- VohhbA+vhlCRLrJ9SL5+8CJ9aSnFeu43IJdTbtqHqgwolYA1ZWDd07HuzzhOM9RFkP02
- G/rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WH0+qyWWHhV8of3aAofph+MQPHfJdu4kz/EMF0WIztU=;
- b=vC2uiD6hLYreb/AyqD4esm2i143twWEEd4nfRqNG9GG3ZyWAdOR2rr5CtIBqjeFd4X
- ACTod1IqGFyJ9pWLgnRx+VMQpmDrRykZjF0U5KswOlgzuJGpwZMnzJpj9G5v/dSZHD4v
- sVjgs/RcxC2pQNsZbzZU2mrkSRQ5n7lMXNsRCaQi4w/scr/+RRnfHP1CNzkxoQ3ggYm0
- VhY6iwIcYshhUtz7eWCuqnpc+podahkgFNC/4A7HuiI1G3gYA/u3MJzRff4iXbGKvKpU
- nj2T/mSMHWo4joqUhIG+IpJKVdU8pXkN1JdSvV1nfkSwapZwVG94LmBRBMhQOnEcw2PD
- Nulg==
-X-Gm-Message-State: AOAM5307lODyJHnNdb1vTg2176U9tP2IiSXKWjc4cXvapZ9o7rikYm9T
- GYg3XdkKJ0yiVhInQdZGFS0=
-X-Google-Smtp-Source: ABdhPJx8K6gIn+cvPLthAImu2ZgCGqli+P0GJq859CmenB64iJaGRgs6Pw6TtxmdQDtyQMKV41EZ1g==
-X-Received: by 2002:a17:90a:4e:b0:1bd:36ce:8150 with SMTP id
- 14-20020a17090a004e00b001bd36ce8150mr925058pjb.62.1646242694886; 
- Wed, 02 Mar 2022 09:38:14 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- y16-20020a056a00191000b004e155b2623bsm22513286pfi.178.2022.03.02.09.38.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Mar 2022 09:38:14 -0800 (PST)
-Message-ID: <85ed0856-308a-7774-a751-b20588f3d9cd@gmail.com>
-Date: Wed, 2 Mar 2022 18:38:07 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nPT05-0005Fk-Ah
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:42:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nPT01-0006VD-QN
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:42:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646242971;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=q1B6ayRKeqGDsvvY8bh2gQcH7wU9Dg/PSSLMfIwTA1w=;
+ b=UosrwuErdn88kmAMoJavplRhO4vTpPYKI8vIs3Y/aB/vqJX0Iysbgm4bnh9BX2WjYPB/C9
+ aTY8l/41AWpEWUgcfIM+2FW7IndsTZz1qsouJ5BA6JItOaD9MreU8wGIFOPnGO/R5awL+k
+ hYwHbK2xkkpCxaafm+6muqN74aoudv4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-126-tY-LVXDXOS-9LN7jYs6KJg-1; Wed, 02 Mar 2022 12:42:34 -0500
+X-MC-Unique: tY-LVXDXOS-9LN7jYs6KJg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A22A51DF;
+ Wed,  2 Mar 2022 17:42:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B90FF1057059;
+ Wed,  2 Mar 2022 17:42:08 +0000 (UTC)
+Date: Wed, 2 Mar 2022 17:42:05 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH] deprecation: x86 default machine types
+Message-ID: <Yh+sbYC5n4DsZWWg@redhat.com>
+References: <20220301195432.114252-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 2/2] Allow building vhost-user in BSD
-Content-Language: en-US
-To: Sergio Lopez <slp@redhat.com>
-References: <20220302113644.43717-1-slp@redhat.com>
- <20220302113644.43717-3-slp@redhat.com>
- <66b68bcc-8d7e-a5f7-5e6c-b2d20c26ab01@redhat.com>
- <8dfc9854-4d59-0759-88d0-d502ae7c552f@gmail.com>
- <20220302173009.26auqvy4t4rx74td@mhamilton>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220302173009.26auqvy4t4rx74td@mhamilton>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220301195432.114252-1-dgilbert@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,47 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- John G Johnson <john.g.johnson@oracle.com>, Cornelia Huck <cohuck@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: eduardo@habkost.net, libvir-list@redhat.com, thuth@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/22 18:31, Sergio Lopez wrote:
-> On Wed, Mar 02, 2022 at 06:18:59PM +0100, Philippe Mathieu-Daudé wrote:
->> On 2/3/22 18:10, Paolo Bonzini wrote:
->>> On 3/2/22 12:36, Sergio Lopez wrote:
->>>> With the possibility of using pipefd as a replacement on operating
->>>> systems that doesn't support eventfd, vhost-user can also work on BSD
->>>> systems.
->>>>
->>>> This change allows enabling vhost-user on BSD platforms too and
->>>> makes libvhost_user (which still depends on eventfd) a linux-only
->>>> feature.
->>>>
->>>> Signed-off-by: Sergio Lopez <slp@redhat.com>
->>>
->>> I would just check for !windows.
->>
->> What about Darwin / Haiku / Illumnos?
+On Tue, Mar 01, 2022 at 07:54:32PM +0000, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
-> It should work on every system providing pipe() or pipe2(), so I guess
-> Paolo's right, every platform except Windows. FWIW, I already tested
-> it with Darwin.
+> Declare the intent to require a machine type to be specified on x86
+> system emulation.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  docs/about/deprecated.rst | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index 85773db631..143c60d105 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -324,6 +324,14 @@ machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
+>  been implemented), so there is not much value added by this board. Use the
+>  ``ref405ep`` machine instead.
+>  
+> +x86 default machine type
+> +''''''''''''''''''''''''
+> +
+> +x86 currently defaults to the ```pc``` machine type which is based on the very
+> +old ```i440fx``` chipset.  This default will be removed and the user will be
+> +required to specify a machine type explicitly using -M; users are encouraged to
+> +switch to the not quite as old ```q35``` machine types.
 
-Wow, nice.
+This will have no impact on anyone using libvirt as a mgmt app,
+because it will explicitly set 'pc' if the user doesn't request
+a machine type.
 
-So maybe simply check for pipe/pipe2 rather than !windows?
+It will, however, break a huge number of users who don't use
+libvirt or a similar mgmt app.
+
+'q35' is not a drop in replacement for 'pc', and even though
+it is slightly newer, the features it brings are not likely
+to be important enough for most users who aren't using a mgmt
+app to care about switching.
+
+In the ongoing work to introduce a completely new system
+emulator binary that is exclusively runtime QMP configured,
+the machine type will almost certainly be mandatory, without
+affecting existing users. That would also apply consistently
+across all target arches.
+
+Overall I'm just not seeing enough benefit to justify the
+disruption we'll cause by making this change to existing
+system emulator binaries.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
