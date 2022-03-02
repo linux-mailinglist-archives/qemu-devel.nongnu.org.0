@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2C24C99C2
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 01:15:25 +0100 (CET)
-Received: from localhost ([::1]:39766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AB44C99FD
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 01:43:05 +0100 (CET)
+Received: from localhost ([::1]:36392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPCeK-0006Mz-E1
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 19:15:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34352)
+	id 1nPD54-0007rN-CC
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 19:43:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nPCcR-0005CM-7W
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 19:13:27 -0500
-Received: from [2607:f8b0:4864:20::42f] (port=45971
- helo=mail-pf1-x42f.google.com)
+ (Exim 4.90_1) (envelope-from
+ <3-bgeYgYKCvwxmxywvksskpi.gsquiqy-hiziprsrkry.svk@flex--titusr.bounces.google.com>)
+ id 1nPCtt-00006i-VE
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 19:31:30 -0500
+Received: from [2607:f8b0:4864:20::b4a] (port=37455
+ helo=mail-yb1-xb4a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nPCcO-0007z7-SB
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 19:13:26 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id u16so315562pfg.12
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 16:13:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=hDKdWyn0JC2pFokmH7hXhVj2Yzb6HGRylW0imB+a/qg=;
- b=GGjvy34j9Os78rzHCkJNUAQAz2cw7MXFVaWddphD1xd5sdkasWYbISLznN2U6JTiRl
- H/xLRGP0j3s6YoQhrEIaBe1OLEM5GujXyuoggVLF0UCsB5aA00o/j43C5KXvTxMoS4fN
- y8QQtybuBWpHxtyqNsHk/4k5d0nlT5OA3U1r5HeJc30Y/POx2p7MZzZYBkyXDwpqpIo9
- R2HCf1qZGxGX05PyhII5cecRBVkRBefRzUuLfsjovhyy4vHs/qLhZKmcVQnyf0mVlBRa
- +cL9oqmWR/V8OColBEB4vsa7k0xKQW5b3AE2djNYObvETrCJ4qgpU6zsXe0Juz+xkazr
- IghA==
+ (Exim 4.90_1) (envelope-from
+ <3-bgeYgYKCvwxmxywvksskpi.gsquiqy-hiziprsrkry.svk@flex--titusr.bounces.google.com>)
+ id 1nPCts-0000Bc-6A
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 19:31:29 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ a22-20020a25ca16000000b006287c713265so67614ybg.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 16:31:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=ZU70MnsXx5QEKl7LGYOTM+eEtk43gFNs3SNHJdPDM74=;
+ b=qyJnG+fzhxSK6evyGEX+VUpdE1rgOCk/eOKjCPyOpxN1Y4pNj6JpHq1ih9V+cjJpS+
+ kfsQu6tuc94IUIMTfGIAul3zCGweOz+2HoeqvN5z1ZtgiASkqgC1Jn8BvPpplxEbXUeA
+ 4SWHqL1y9vww78tFn6emGv2IupGf+1q9/XnqW7FnC5ZSv8HSYbtNmO7feuxykBTImjDi
+ lw1yNh6BBIJQJSiuJpMUZmylk+n9JSqly2pxtvVanLFBkMqJX/ftz74PMHoi6geRw4Mb
+ YCP4onen9wtM7NMCKarActA2Nmm7wH4mdGhY3IiFfKYUOqJpRjGVcWnTNXXhsVzLviC0
+ 0CxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hDKdWyn0JC2pFokmH7hXhVj2Yzb6HGRylW0imB+a/qg=;
- b=Dy+/TcCBy9RGrC6FUBe90HU/mjs0tb2kb+HtDe3+1XqS1S15vX1M33epgUl0xlWa3B
- 7qNxx8crnm2gPKUUousC1j3pSZymwo0Is8qGYXrfqoxAvGxhrusy8abzJDf2I4BPC3DG
- B4SrAyBhSVdvxH6u2e+Ho0nZVt/vm5e8QyNJWM8pt/lCaPjlTkB9ZiPN0sTLUQNPB94y
- bz9PTEdIy8FAlaEVDEqb3/kbEMpvQRPnXCHGMMitDD6vInHHqgGOEJe+dx2PDs7ntgC2
- J36RQOCANzy2+NkynkLWjGI3PTcobMdnfK783VXEPuSGy1zGXs+8myB9mmUwWy37oiFa
- Edjg==
-X-Gm-Message-State: AOAM530CqfJ6NnODXhL3CcyFytzdsJP4YAtlLmqcLy2ohAueCUT8ZO37
- TfFSfeVrootww1iVngj2ZU8=
-X-Google-Smtp-Source: ABdhPJxvm+xxt2ae/Y2N/ga2saoGZOOa0U3qw43QkU2+4UyFrBuBkMDQmDvc0cye4YfXIbqYrbpOCg==
-X-Received: by 2002:a63:9354:0:b0:34d:e4e7:543a with SMTP id
- w20-20020a639354000000b0034de4e7543amr23877378pgm.48.1646180002644; 
- Tue, 01 Mar 2022 16:13:22 -0800 (PST)
-Received: from [10.0.2.15] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- w5-20020a17090aaf8500b001bd4c825deesm3039427pjq.43.2022.03.01.16.13.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 16:13:22 -0800 (PST)
-Message-ID: <c9868e37-de96-f965-27c8-3c7a949bda81@gmail.com>
-Date: Wed, 2 Mar 2022 09:13:19 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 10/15] audio: restore mixing-engine playback buffer size
-Content-Language: en-US
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <3d0bd2ac-e5b9-9cf6-c98f-c047390a3ec5@t-online.de>
- <20220301191311.26695-10-vr_qemu@t-online.de>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20220301191311.26695-10-vr_qemu@t-online.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=ZU70MnsXx5QEKl7LGYOTM+eEtk43gFNs3SNHJdPDM74=;
+ b=EcTlEoo/EJlAk1rhyz7OlaHSFtRQgrJi/4dw+jTxed/d16p9nGbQ8l7Tl/duVEw7cC
+ z6UR9wIkY9ld2iCxlAa1gP6LtxH/JKCWYTvZzRDKwvBuMKxZF3wFfYBojaFP88PKDn9q
+ +EkrgX+gREGe+80W0jFSo608E/JH7e/rFwVxppye6dh4CYy7oVIjXVQi9Oh/QFDvZFST
+ LnLrD5b4WYtrQlup2U+gewhSdQqtWoUizzN1ioui+7hCyM9cVfR+o/9tRLKbCl6PMWIW
+ rYWnKaCPqhRsx3PthJuq3rDul2XgSyDFiqXFiHH8I4lrbe51VxJ7D4TBnKonLBw4tKXe
+ GMgQ==
+X-Gm-Message-State: AOAM531ZeBohJw9wZl0TKYVxpV0f6oDRNnPwq7juT8eqjB38G4xCqQy2
+ vi07KVUHRbzyXVoHvtrN+4htRgd8/pw=
+X-Google-Smtp-Source: ABdhPJwxskuIjy0DuPKIwtNA4DNrQllBqopyFfgx4nFriCdggupOfQCsWJpcTRqQAf3nua5T7waRTqN+5Vg=
+X-Received: from titusr.svl.corp.google.com
+ ([2620:15c:2a3:201:3a0a:5449:c096:dc84])
+ (user=titusr job=sendgmr) by 2002:a81:918b:0:b0:2d6:5636:4594 with SMTP id
+ i133-20020a81918b000000b002d656364594mr27857801ywg.72.1646180601426; Tue, 01
+ Mar 2022 16:23:21 -0800 (PST)
+Date: Tue,  1 Mar 2022 16:22:58 -0800
+Message-Id: <20220302002307.1895616-1-titusr@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
+Subject: [PATCH v2 0/9] Fixups for PMBus and new sensors
+From: Titus Rwantare <titusr@google.com>
+To: Corey Minyard <minyard@acm.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org, 
+ wuhaotsh@google.com, venture@google.com, Titus Rwantare <titusr@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3-bgeYgYKCvwxmxywvksskpi.gsquiqy-hiziprsrkry.svk@flex--titusr.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -81
+X-Spam_score: -8.2
+X-Spam_bar: --------
+X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,342 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+This patch series contains updates to PMBus in QEMU along with some PMBus
+device models for Renesas regulators.
+I have also added myself to MAINTAINERS as this code is in use daily,
+where I am responsible for it.
 
-On 2022/03/02 4:13, Volker Rümelin wrote:
-> Commit ff095e5231 "audio: api for mixeng code free backends"
-> introduced another FIFO for the audio subsystem with exactly the
-> same size as the mixing-engine FIFO. Most audio backends use
-> this generic FIFO. The generic FIFO used together with the
-> mixing-engine FIFO doubles the audio FIFO size, because that's
-> just two independent FIFOs connected together in series.
-> 
-> For audio playback this nearly doubles the playback latency.
-> 
-> This patch restores the effective mixing-engine playback buffer
-> size to a pre v4.2.0 size by only accepting the amount of
-> samples for the mixing-engine queue which the downstream queue
-> accepts.
-> 
-> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-> ---
->   audio/alsaaudio.c |  1 +
->   audio/audio.c     | 69 +++++++++++++++++++++++++++++++++++------------
->   audio/audio_int.h |  7 ++++-
->   audio/coreaudio.c |  3 +++
->   audio/jackaudio.c |  1 +
->   audio/noaudio.c   |  1 +
->   audio/ossaudio.c  | 12 +++++++++
->   audio/sdlaudio.c  |  3 +++
->   audio/wavaudio.c  |  1 +
->   9 files changed, 80 insertions(+), 18 deletions(-)
-> 
-> diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-> index 2b9789e647..b04716a6cc 100644
-> --- a/audio/alsaaudio.c
-> +++ b/audio/alsaaudio.c
-> @@ -916,6 +916,7 @@ static struct audio_pcm_ops alsa_pcm_ops = {
->       .init_out = alsa_init_out,
->       .fini_out = alsa_fini_out,
->       .write    = alsa_write,
-> +    .buffer_get_free = audio_generic_buffer_get_free,
->       .run_buffer_out = audio_generic_run_buffer_out,
->       .enable_out = alsa_enable_out,
->   
-> diff --git a/audio/audio.c b/audio/audio.c
-> index c420a8bd1c..a88572e713 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -663,6 +663,12 @@ static size_t audio_pcm_hw_get_live_out (HWVoiceOut *hw, int *nb_live)
->       return 0;
->   }
->   
-> +static size_t audio_pcm_hw_get_free(HWVoiceOut *hw)
-> +{
-> +    return (hw->pcm_ops->buffer_get_free ? hw->pcm_ops->buffer_get_free(hw) :
-> +            INT_MAX) / hw->info.bytes_per_frame;
-> +}
-> +
->   static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
->   {
->       size_t clipped = 0;
-> @@ -687,7 +693,8 @@ static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
->    */
->   static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
->   {
-> -    size_t hwsamples, samples, isamp, osamp, wpos, live, dead, left, swlim, blck;
-> +    size_t hwsamples, samples, isamp, osamp, wpos, live, dead, left, blck;
-> +    size_t hw_free;
->       size_t ret = 0, pos = 0, total = 0;
->   
->       if (!sw) {
-> @@ -710,27 +717,28 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
->       }
->   
->       wpos = (sw->hw->mix_buf->pos + live) % hwsamples;
-> -    samples = size / sw->info.bytes_per_frame;
->   
->       dead = hwsamples - live;
-> -    swlim = ((int64_t) dead << 32) / sw->ratio;
-> -    swlim = MIN (swlim, samples);
-> -    if (swlim) {
-> -        sw->conv (sw->buf, buf, swlim);
-> +    hw_free = audio_pcm_hw_get_free(sw->hw);
-> +    hw_free = hw_free > live ? hw_free - live : 0;
-> +    samples = ((int64_t)MIN(dead, hw_free) << 32) / sw->ratio;
-> +    samples = MIN(samples, size / sw->info.bytes_per_frame);
-> +    if (samples) {
-> +        sw->conv(sw->buf, buf, samples);
->   
->           if (!sw->hw->pcm_ops->volume_out) {
-> -            mixeng_volume (sw->buf, swlim, &sw->vol);
-> +            mixeng_volume(sw->buf, samples, &sw->vol);
->           }
->       }
->   
-> -    while (swlim) {
-> +    while (samples) {
->           dead = hwsamples - live;
->           left = hwsamples - wpos;
->           blck = MIN (dead, left);
->           if (!blck) {
->               break;
->           }
-> -        isamp = swlim;
-> +        isamp = samples;
->           osamp = blck;
->           st_rate_flow_mix (
->               sw->rate,
-> @@ -740,7 +748,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
->               &osamp
->               );
->           ret += isamp;
-> -        swlim -= isamp;
-> +        samples -= isamp;
->           pos += isamp;
->           live += osamp;
->           wpos = (wpos + osamp) % hwsamples;
-> @@ -1002,6 +1010,11 @@ static size_t audio_get_avail (SWVoiceIn *sw)
->       return (((int64_t) live << 32) / sw->ratio) * sw->info.bytes_per_frame;
->   }
->   
-> +static size_t audio_sw_bytes_free(SWVoiceOut *sw, size_t free)
-> +{
-> +    return (((int64_t)free << 32) / sw->ratio) * sw->info.bytes_per_frame;
-> +}
-> +
->   static size_t audio_get_free(SWVoiceOut *sw)
->   {
->       size_t live, dead;
-> @@ -1021,13 +1034,11 @@ static size_t audio_get_free(SWVoiceOut *sw)
->       dead = sw->hw->mix_buf->size - live;
->   
->   #ifdef DEBUG_OUT
-> -    dolog ("%s: get_free live %zu dead %zu ret %" PRId64 "\n",
-> -           SW_NAME (sw),
-> -           live, dead, (((int64_t) dead << 32) / sw->ratio) *
-> -           sw->info.bytes_per_frame);
-> +    dolog("%s: get_free live %zu dead %zu sw_bytes %zu\n",
-> +          SW_NAME(sw), live, dead, audio_sw_bytes_free(sw, dead));
->   #endif
->   
-> -    return (((int64_t) dead << 32) / sw->ratio) * sw->info.bytes_per_frame;
-> +    return dead;
->   }
->   
->   static void audio_capture_mix_and_clear(HWVoiceOut *hw, size_t rpos,
-> @@ -1131,12 +1142,21 @@ static void audio_run_out (AudioState *s)
->       }
->   
->       while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
-> -        size_t played, live, prev_rpos, free;
-> +        size_t played, live, prev_rpos;
-> +        size_t hw_free = audio_pcm_hw_get_free(hw);
->           int nb_live;
->   
->           for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
->               if (sw->active) {
-> -                free = audio_get_free(sw);
-> +                size_t sw_free = audio_get_free(sw);
-> +                size_t free;
-> +
-> +                if (hw_free > sw->total_hw_samples_mixed) {
-> +                    free = audio_sw_bytes_free(sw,
-> +                        MIN(sw_free, hw_free - sw->total_hw_samples_mixed));
-> +                } else {
-> +                    free = 0;
-> +                }
->                   if (free > 0) {
->                       sw->callback.fn(sw->callback.opaque, free);
->                   }
-> @@ -1398,6 +1418,15 @@ void audio_generic_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size)
->       hw->pending_emul -= size;
->   }
->   
-> +size_t audio_generic_buffer_get_free(HWVoiceOut *hw)
-> +{
-> +    if (hw->buf_emul) {
-> +        return hw->size_emul - hw->pending_emul;
-> +    } else {
-> +        return hw->samples * hw->info.bytes_per_frame;
-> +    }
-> +}
-> +
->   void audio_generic_run_buffer_out(HWVoiceOut *hw)
->   {
->       while (hw->pending_emul) {
-> @@ -1445,6 +1474,12 @@ size_t audio_generic_write(HWVoiceOut *hw, void *buf, size_t size)
->   {
->       size_t total = 0;
->   
-> +    if (hw->pcm_ops->buffer_get_free) {
-> +        size_t free = hw->pcm_ops->buffer_get_free(hw);
-> +
-> +        size = MIN(size, free);
-> +    }
-> +
->       while (total < size) {
->           size_t dst_size = size - total;
->           size_t copy_size, proc;
-> diff --git a/audio/audio_int.h b/audio/audio_int.h
-> index 71be162271..2a6914d2aa 100644
-> --- a/audio/audio_int.h
-> +++ b/audio/audio_int.h
-> @@ -161,10 +161,14 @@ struct audio_pcm_ops {
->       void   (*fini_out)(HWVoiceOut *hw);
->       size_t (*write)   (HWVoiceOut *hw, void *buf, size_t size);
->       void   (*run_buffer_out)(HWVoiceOut *hw);
-> +    /*
-> +     * Get the free output buffer size. This is an upper limit. The size
-> +     * returned by function get_buffer_out may be smaller.
-> +     */
-> +    size_t (*buffer_get_free)(HWVoiceOut *hw);
->       /*
->        * get a buffer that after later can be passed to put_buffer_out; optional
->        * returns the buffer, and writes it's size to size (in bytes)
-> -     * this is unrelated to the above buffer_size_out function
->        */
->       void  *(*get_buffer_out)(HWVoiceOut *hw, size_t *size);
->       /*
-> @@ -190,6 +194,7 @@ void audio_generic_run_buffer_in(HWVoiceIn *hw);
->   void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size);
->   void audio_generic_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size);
->   void audio_generic_run_buffer_out(HWVoiceOut *hw);
-> +size_t audio_generic_buffer_get_free(HWVoiceOut *hw);
->   void *audio_generic_get_buffer_out(HWVoiceOut *hw, size_t *size);
->   size_t audio_generic_put_buffer_out(HWVoiceOut *hw, void *buf, size_t size);
->   size_t audio_generic_write(HWVoiceOut *hw, void *buf, size_t size);
-> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-> index 1fdd1d4b14..91ea6ae975 100644
-> --- a/audio/coreaudio.c
-> +++ b/audio/coreaudio.c
-> @@ -283,6 +283,7 @@ static int coreaudio_buf_unlock (coreaudioVoiceOut *core, const char *fn_name)
->           coreaudio_buf_unlock(core, "coreaudio_" #name);             \
->           return ret;                                             \
->       }
-> +COREAUDIO_WRAPPER_FUNC(buffer_get_free, size_t, (HWVoiceOut *hw), (hw))
->   COREAUDIO_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
->                          (hw, size))
->   COREAUDIO_WRAPPER_FUNC(put_buffer_out, size_t,
-> @@ -652,6 +653,8 @@ static struct audio_pcm_ops coreaudio_pcm_ops = {
->       .fini_out = coreaudio_fini_out,
->     /* wrapper for audio_generic_write */
->       .write    = coreaudio_write,
-> +  /* wrapper for audio_generic_buffer_get_free */
-> +    .buffer_get_free = coreaudio_buffer_get_free,
->     /* wrapper for audio_generic_get_buffer_out */
->       .get_buffer_out = coreaudio_get_buffer_out,
->     /* wrapper for audio_generic_put_buffer_out */
-> diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-> index 26246c3a8b..bf757250b5 100644
-> --- a/audio/jackaudio.c
-> +++ b/audio/jackaudio.c
-> @@ -652,6 +652,7 @@ static struct audio_pcm_ops jack_pcm_ops = {
->       .init_out       = qjack_init_out,
->       .fini_out       = qjack_fini_out,
->       .write          = qjack_write,
-> +    .buffer_get_free = audio_generic_buffer_get_free,
->       .run_buffer_out = audio_generic_run_buffer_out,
->       .enable_out     = qjack_enable_out,
->   
-> diff --git a/audio/noaudio.c b/audio/noaudio.c
-> index aac87dbc93..84a6bfbb1c 100644
-> --- a/audio/noaudio.c
-> +++ b/audio/noaudio.c
-> @@ -118,6 +118,7 @@ static struct audio_pcm_ops no_pcm_ops = {
->       .init_out = no_init_out,
->       .fini_out = no_fini_out,
->       .write    = no_write,
-> +    .buffer_get_free = audio_generic_buffer_get_free,
->       .run_buffer_out = audio_generic_run_buffer_out,
->       .enable_out = no_enable_out,
->   
-> diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-> index 60eff66424..1bd6800840 100644
-> --- a/audio/ossaudio.c
-> +++ b/audio/ossaudio.c
-> @@ -389,6 +389,17 @@ static void oss_run_buffer_out(HWVoiceOut *hw)
->       }
->   }
->   
-> +static size_t oss_buffer_get_free(HWVoiceOut *hw)
-> +{
-> +    OSSVoiceOut *oss = (OSSVoiceOut *)hw;
-> +
-> +    if (oss->mmapped) {
-> +        return INT_MAX;
-> +    } else {
-> +        return audio_generic_buffer_get_free(hw);
-> +    }
-> +}
-> +
->   static void *oss_get_buffer_out(HWVoiceOut *hw, size_t *size)
->   {
->       OSSVoiceOut *oss = (OSSVoiceOut *) hw;
-> @@ -750,6 +761,7 @@ static struct audio_pcm_ops oss_pcm_ops = {
->       .init_out = oss_init_out,
->       .fini_out = oss_fini_out,
->       .write    = oss_write,
-> +    .buffer_get_free = oss_buffer_get_free,
->       .run_buffer_out = oss_run_buffer_out,
->       .get_buffer_out = oss_get_buffer_out,
->       .put_buffer_out = oss_put_buffer_out,
-> diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
-> index d6f3aa1a9a..e605c787ba 100644
-> --- a/audio/sdlaudio.c
-> +++ b/audio/sdlaudio.c
-> @@ -309,6 +309,7 @@ static void sdl_callback_in(void *opaque, Uint8 *buf, int len)
->           SDL_UnlockAudioDevice(sdl->devid);                     \
->       }
->   
-> +SDL_WRAPPER_FUNC(buffer_get_free, size_t, (HWVoiceOut *hw), (hw), Out)
->   SDL_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
->                    (hw, size), Out)
->   SDL_WRAPPER_FUNC(put_buffer_out, size_t,
-> @@ -471,6 +472,8 @@ static struct audio_pcm_ops sdl_pcm_ops = {
->       .fini_out = sdl_fini_out,
->     /* wrapper for audio_generic_write */
->       .write    = sdl_write,
-> +  /* wrapper for audio_generic_buffer_get_free */
-> +    .buffer_get_free = sdl_buffer_get_free,
->     /* wrapper for audio_generic_get_buffer_out */
->       .get_buffer_out = sdl_get_buffer_out,
->     /* wrapper for audio_generic_put_buffer_out */
-> diff --git a/audio/wavaudio.c b/audio/wavaudio.c
-> index 20e6853f85..ac666335c7 100644
-> --- a/audio/wavaudio.c
-> +++ b/audio/wavaudio.c
-> @@ -197,6 +197,7 @@ static struct audio_pcm_ops wav_pcm_ops = {
->       .init_out = wav_init_out,
->       .fini_out = wav_fini_out,
->       .write    = wav_write_out,
-> +    .buffer_get_free = audio_generic_buffer_get_free,
->       .run_buffer_out = audio_generic_run_buffer_out,
->       .enable_out = wav_enable_out,
->   };
+v2:
+  - split PMBus commit with updates into individual fixes
+  - renamed isl_pmbus[.ch] adding _vr for voltage regulators
+
+Shengtan Mao (1):
+  hw/i2c: Added linear mode translation for pmbus devices
+
+Titus Rwantare (8):
+  hw/i2c: pmbus: add registers
+  hw/i2c: pmbus: guard against out of range accesses
+  hw/i2c: pmbus: add PEC unsupported warning
+  hw/i2c: pmbus: refactor uint handling and update MAINTAINERS
+  hw/sensor: add Intersil ISL69260 device model
+  hw/sensor: add Renesas raa229004 PMBus device
+  hw/sensor: add Renesas raa228000 device
+  hw/sensor: rename isl_pmbus to isl_pmbus_vr
+
+ MAINTAINERS                      |  13 +
+ hw/arm/Kconfig                   |   1 +
+ hw/i2c/pmbus_device.c            | 106 ++++++-
+ hw/sensor/Kconfig                |   5 +
+ hw/sensor/isl_pmbus_vr.c         | 279 ++++++++++++++++++
+ hw/sensor/meson.build            |   1 +
+ include/hw/i2c/pmbus_device.h    |  23 +-
+ include/hw/sensor/isl_pmbus_vr.h |  52 ++++
+ tests/qtest/isl_pmbus_vr-test.c  | 474 +++++++++++++++++++++++++++++++
+ tests/qtest/meson.build          |   1 +
+ 10 files changed, 944 insertions(+), 11 deletions(-)
+ create mode 100644 hw/sensor/isl_pmbus_vr.c
+ create mode 100644 include/hw/sensor/isl_pmbus_vr.h
+ create mode 100644 tests/qtest/isl_pmbus_vr-test.c
+
+-- 
+2.35.1.616.g0bdcbb4464-goog
+
 
