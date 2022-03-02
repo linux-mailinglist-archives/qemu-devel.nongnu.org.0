@@ -2,74 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32674CA5F9
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:27:41 +0100 (CET)
-Received: from localhost ([::1]:60544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6920F4CA6D1
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:58:44 +0100 (CET)
+Received: from localhost ([::1]:40048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPP12-0000vs-QC
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:27:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58254)
+	id 1nPPV5-0004c5-Dx
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:58:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPOga-0005ES-Rs
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:06:34 -0500
-Received: from [2607:f8b0:4864:20::b29] (port=39814
- helo=mail-yb1-xb29.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPOgY-0005SU-L6
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:06:31 -0500
-Received: by mail-yb1-xb29.google.com with SMTP id x200so3209177ybe.6
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 05:06:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o32juHoxKiHeNE8PHyNSom4k7uNVAKcVBYHX0VLWh/g=;
- b=SoLfVJA+QAfBk+HKiCzkVIVxx7F5Neehqb6ntb7JfRhmMQjfHQi/vsUQfQ/boIOA+Z
- tgV4WF6i4OtMMBgGXuawmHeqSV7vnSV/zMan0alZmcRQ4Co4wu4PM3gIQUaXjO7EC8Uo
- ysCDQVEI6OSXda16S0QULiLNf/VWzgWXP8OwCkR+fxfmqdq8o1uKsUpqs3qlnCgFmSCt
- vztmXOrA7PspCrPMbN/Lgyxl0R/RVRdogRP1eTuoHXHzSoTqie0O8XMyyGfQSXkxAecU
- WBUeXmgxbTycGgSZWl8Bq6KvGsVwuYUcmpRxmt+Jl7Lk1FYK2JKTZ92wz7qg3LEBkCtX
- uEtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o32juHoxKiHeNE8PHyNSom4k7uNVAKcVBYHX0VLWh/g=;
- b=2KAsBc6AkcRVFiQ63pxGUOkxufR30DJe+DmgLMtZbZW886/w3rBbZ1ibfl5MX5mGaQ
- 3to3qw3pqI7nRafrMuYLb5PgZ+GvBkG2gvMeziddnSn+bCb1VZgtzZHbepqG/ZgBUUD4
- iJ/t0vdMdryavXSU7FDjYq0h4rEQFDetkYhV4fIbHW+YGhiGavze2NQTIYE0BAQE9Wyd
- jJrVnbngdIH7zz7PtpITyalPaNS7Y+Y6ZHax5CEv5/pc0LGE2crf0R6CkjSiob7g2eXm
- Hf2jueRoX+iE9KU4OpPHw5+d1ac+2ouHC/jo7dOOORC06OoedBuTJn2KlESXcxOHTjlr
- Ofqw==
-X-Gm-Message-State: AOAM530oWaLrccXDAovWzFqy2JgPifdEqLMDkXPAJHmwAFaLQnSLLWi9
- P3cOJOyJSHODx4nj5KhibsbOD7ShD3mHT3ZP0qV7ww==
-X-Google-Smtp-Source: ABdhPJwhpMc5ZIOB3C265QOevtSVHDaKGSDnswoJQ6KcvSeLIJM2wg6Yvq5r+d4eQAXt31M2DHdxhOwZDsQ/gFnvqvQ=
-X-Received: by 2002:a25:6e84:0:b0:628:97de:9430 with SMTP id
- j126-20020a256e84000000b0062897de9430mr4253878ybc.288.1646226389692; Wed, 02
- Mar 2022 05:06:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nPPAt-0006Ol-Vk; Wed, 02 Mar 2022 08:37:52 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50366
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1nPPAs-0000qn-8b; Wed, 02 Mar 2022 08:37:51 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 222Cs8DR032123; 
+ Wed, 2 Mar 2022 13:37:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=/SR+GL8jC3wygn/S2n1xDR7Zs8Q4WSPvLxJSVlv5GFc=;
+ b=nTjnf6nysfwDjKMM/XQtcZWNvV5wJwv2dg/Jun8G2HqtfOF28HL+w9YRd9NeIY5GwJgb
+ eKRooRcPHwLSxJvLILNxGHLRUacQ6pGtWkSwsfZXkXgH6mL0tEn9uBUULIjtI7E9b9IM
+ EzudbE+WJPyD2U6ZgHoVED/VpBUaagP2bqiJZIhcMlvnjoQJsiCLYMTAHoq/m1ketMY9
+ 8AM63nBmVuH/Q+gGwBUs2HZjbxVnRtFAXzE+rmetc5d9t4uLT3py97tohjvCXTPp7X+e
+ MS6moVT8OPpnoyJBH4wMTinWyuSipoH91NTU2N5LbNyjzucF1KlOkalSbDi5iYc+ZlvO xQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ej90arv1w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Mar 2022 13:37:35 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 222DT3c5001095;
+ Wed, 2 Mar 2022 13:37:35 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ej90arv1p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Mar 2022 13:37:35 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222DJ9Us027691;
+ Wed, 2 Mar 2022 13:37:34 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma04wdc.us.ibm.com with ESMTP id 3eftrrpmdh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Mar 2022 13:37:34 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 222DbXFD34669030
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 2 Mar 2022 13:37:33 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AA641BE05D;
+ Wed,  2 Mar 2022 13:37:33 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1B74EBE059;
+ Wed,  2 Mar 2022 13:37:33 +0000 (GMT)
+Received: from localhost (unknown [9.211.52.19])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Wed,  2 Mar 2022 13:37:32 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 03/17] target/ppc: Move 40x CPUs code to their own file
+In-Reply-To: <941e7add-aa94-d6d8-11dc-6eb8dffc3c@eik.bme.hu>
+References: <20220301135620.2411952-1-farosas@linux.ibm.com>
+ <20220301135620.2411952-4-farosas@linux.ibm.com>
+ <941e7add-aa94-d6d8-11dc-6eb8dffc3c@eik.bme.hu>
+Date: Wed, 02 Mar 2022 10:37:31 -0300
+Message-ID: <871qzkqxus.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <20220227182125.21809-1-richard.henderson@linaro.org>
- <20220227182125.21809-8-richard.henderson@linaro.org>
-In-Reply-To: <20220227182125.21809-8-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 2 Mar 2022 13:06:18 +0000
-Message-ID: <CAFEAcA8JuqtenpouLGFUCnTkn3P-5wLq=gg62T0dRvXg1nDKAw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] target/nios2: Rewrite interrupt handling
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b29
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: zul_uxA5Ci8BIJd2a3Y-6SeriZrSQXjd
+X-Proofpoint-GUID: AB_pE9xR0_SD1V8QuFJJwnvrlzWQ5mQO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-02_06,2022-02-26_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ priorityscore=1501 phishscore=0 clxscore=1015 mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ mlxscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2201110000 definitions=main-2203020057
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,32 +109,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 27 Feb 2022 at 18:25, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+BALATON Zoltan <balaton@eik.bme.hu> writes:
+
+> On Tue, 1 Mar 2022, Fabiano Rosas wrote:
+>> Affects the 405 CPU.
+>>
+>> This moves init_proc, init_excp and register_*sprs functions that are
+>> related to the 40x CPUs (currently only 405) into a separate file.
+>>
+>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+>> ---
+>> target/ppc/cpu_40x.c   | 263 +++++++++++++++++++++++++++++++++++++++++
+>> target/ppc/cpu_init.c  | 250 ---------------------------------------
+>> target/ppc/meson.build |   1 +
+>> 3 files changed, 264 insertions(+), 250 deletions(-)
+>> create mode 100644 target/ppc/cpu_40x.c
+>>
+>> diff --git a/target/ppc/cpu_40x.c b/target/ppc/cpu_40x.c
+>> new file mode 100644
+>> index 0000000000..4ed2cbc305
+>> --- /dev/null
+>> +++ b/target/ppc/cpu_40x.c
+>> @@ -0,0 +1,263 @@
+>> +/*
+>> + * CPU initialization for PowerPC 40x CPUs
+>> + *
+>> + *  Copyright IBM Corp. 2022
 >
-> Drop irq_pending boolean.
+> I think you can't replace the copyright when moving code. You have to 
+> retain the original header and maybe you can add your own if you change or 
+> rewrite it. You can only drop old copyright it you've completely replaced 
+> the content.
 
-It wasn't a boolean, it was a uint32_t.
+Well spotted, thanks!
 
-> Drop helper_check_interrupts.
-> Move checks for irq disabled into nios2_cpu_exec_interrupt.
-> End the TB on writes to ienable, just like to status.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-The code changes look good to me, but I think it would be
-useful to have the commit message include a brief sketch
-of how the new interrupt-handling design works and mention
-that this means nios2 now works like the other targets.
-At the moment the commit message is all "what" (which you can
-get by looking at the patch) and no "why".
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
