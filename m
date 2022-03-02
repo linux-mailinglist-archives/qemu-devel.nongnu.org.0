@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81684CADD8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:47:09 +0100 (CET)
-Received: from localhost ([::1]:40266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027014CADF3
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:53:35 +0100 (CET)
+Received: from localhost ([::1]:55436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPU0C-0005PG-OR
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:47:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36822)
+	id 1nPU6Q-0007SM-2w
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:53:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkh-0001hM-6U
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28143)
+ id 1nPTkm-0001n5-Jr
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkf-0000Lf-G9
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:06 -0500
+ id 1nPTkh-0000Lt-Bv
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:31:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646245864;
+ s=mimecast20190719; t=1646245866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fP/tSqp5T3DCO/o7BYpMflxukfHmEcrKyYEABxnV1NI=;
- b=FHzEwVVM41Xc9bzNVARpne9IOgdnYi6m7REM+c4yDtHwWz9a2x+3i9Ba4eDNiAiHuhN5jK
- p2L1ocLA0DOgLRLELyyBFb1sWdHtmXMuYNHGEbtUNP+oZKk6v2bgTDyi3EgtyBtLhv7v3X
- SELM+qPrFLeTCAim+e3F22tT6IwsX3I=
+ bh=dBgJE1JRhE6X1SUaBOG+Vqgs+NvOCCVxq25oeP48n54=;
+ b=O7Fah5i8fNUNm2sUyiOrEfVwzbAfb8F/E42DeyaveVfoSAPPF52IsG7iZ86zkRt1YjSHuT
+ 63C4bsTukPnhvJGquAQhGIyHpwOkv6apYhp06ND/dNlEQWPXyn4Bz3o73jrUbxz2PnPc7O
+ pJRVprBTYn71SDMv45FJ95aqHrj3ULg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-csPTRpmnPUO9UR5bsWQgWw-1; Wed, 02 Mar 2022 13:31:01 -0500
-X-MC-Unique: csPTRpmnPUO9UR5bsWQgWw-1
+ us-mta-582-fLSuthr9PqGyFrh4O7hR8A-1; Wed, 02 Mar 2022 13:31:03 -0500
+X-MC-Unique: fLSuthr9PqGyFrh4O7hR8A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 800D084A5F0;
- Wed,  2 Mar 2022 18:31:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A4601019983;
+ Wed,  2 Mar 2022 18:31:02 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1B43105916D;
- Wed,  2 Mar 2022 18:30:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB541105916D;
+ Wed,  2 Mar 2022 18:31:00 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, f.ebner@proxmox.com, hreitz@redhat.com,
  jinpu.wang@ionos.com, peter.maydell@linaro.org, peterx@redhat.com,
  s.reiter@proxmox.com
-Subject: [PULL 16/18] migration: Add migration_incoming_transport_cleanup()
-Date: Wed,  2 Mar 2022 18:29:34 +0000
-Message-Id: <20220302182936.227719-17-dgilbert@redhat.com>
+Subject: [PULL 17/18] tests: Pass in MigrateStart** into test_migrate_start()
+Date: Wed,  2 Mar 2022 18:29:35 +0000
+Message-Id: <20220302182936.227719-18-dgilbert@redhat.com>
 In-Reply-To: <20220302182936.227719-1-dgilbert@redhat.com>
 References: <20220302182936.227719-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -88,87 +88,152 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-Add a helper to cleanup the transport listener.
+test_migrate_start() will release the MigrateStart structure that passed
+in, however that's not super clear to the caller because after the call
+returned the pointer can still be referenced by the callers.  It can easily
+be a source of use-after-free.
 
-When do it, we should also null-ify the cleanup hook and the data, then it's
-even safe to call it multiple times.
+Let's pass in a double pointer of that, then we can safely clear the
+pointer for the caller after the struct is released.
 
-Move the socket_address_list cleanup altogether, because that's a mirror of the
-listener channels and only for the purpose of query-migrate.  Hence when
-someone wants to cleanup the listener transport, it should also want to cleanup
-the socket list too, always.
-
-No functional change intended.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20220301083925.33483-15-peterx@redhat.com>
+Message-Id: <20220301083925.33483-26-peterx@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  dgilbert: Fixup apply since I didn't take 24/25
 ---
- migration/migration.c | 22 ++++++++++++++--------
- migration/migration.h |  1 +
- 2 files changed, 15 insertions(+), 8 deletions(-)
+ tests/qtest/migration-test.c | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 306e2ac60e..9cc344514b 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -267,6 +267,19 @@ MigrationIncomingState *migration_incoming_get_current(void)
-     return current_incoming;
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 7b42f6fd90..0870656d82 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -495,7 +495,7 @@ static void migrate_start_destroy(MigrateStart *args)
  }
  
-+void migration_incoming_transport_cleanup(MigrationIncomingState *mis)
-+{
-+    if (mis->socket_address_list) {
-+        qapi_free_SocketAddressList(mis->socket_address_list);
-+        mis->socket_address_list = NULL;
-+    }
-+
-+    if (mis->transport_cleanup) {
-+        mis->transport_cleanup(mis->transport_data);
-+        mis->transport_data = mis->transport_cleanup = NULL;
-+    }
-+}
-+
- void migration_incoming_state_destroy(void)
+ static int test_migrate_start(QTestState **from, QTestState **to,
+-                              const char *uri, MigrateStart *args)
++                              const char *uri, MigrateStart **pargs)
  {
-     struct MigrationIncomingState *mis = migration_incoming_get_current();
-@@ -287,10 +300,8 @@ void migration_incoming_state_destroy(void)
-         g_array_free(mis->postcopy_remote_fds, TRUE);
-         mis->postcopy_remote_fds = NULL;
-     }
--    if (mis->transport_cleanup) {
--        mis->transport_cleanup(mis->transport_data);
--    }
+     g_autofree gchar *arch_source = NULL;
+     g_autofree gchar *arch_target = NULL;
+@@ -507,6 +507,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+     g_autofree char *shmem_path = NULL;
+     const char *arch = qtest_get_arch();
+     const char *machine_opts = NULL;
++    MigrateStart *args = *pargs;
+     const char *memory_size;
+     int ret = 0;
  
-+    migration_incoming_transport_cleanup(mis);
-     qemu_event_reset(&mis->main_thread_load_event);
+@@ -621,6 +622,8 @@ static int test_migrate_start(QTestState **from, QTestState **to,
  
-     if (mis->page_requested) {
-@@ -298,11 +309,6 @@ void migration_incoming_state_destroy(void)
-         mis->page_requested = NULL;
-     }
- 
--    if (mis->socket_address_list) {
--        qapi_free_SocketAddressList(mis->socket_address_list);
--        mis->socket_address_list = NULL;
--    }
--
-     yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+ out:
+     migrate_start_destroy(args);
++    /* This tells the caller that this structure is gone */
++    *pargs = NULL;
+     return ret;
  }
  
-diff --git a/migration/migration.h b/migration/migration.h
-index d8b9850eae..2de861df01 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -166,6 +166,7 @@ struct MigrationIncomingState {
+@@ -665,7 +668,7 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+     g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+     QTestState *from, *to;
  
- MigrationIncomingState *migration_incoming_get_current(void);
- void migration_incoming_state_destroy(void);
-+void migration_incoming_transport_cleanup(MigrationIncomingState *mis);
- /*
-  * Functions to work with blocktime context
-  */
+-    if (test_migrate_start(&from, &to, uri, args)) {
++    if (test_migrate_start(&from, &to, uri, &args)) {
+         return -1;
+     }
+ 
+@@ -788,7 +791,7 @@ static void test_baddest(void)
+ 
+     args->hide_stderr = true;
+ 
+-    if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", args)) {
++    if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", &args)) {
+         return;
+     }
+     migrate_qmp(from, "tcp:127.0.0.1:0", "{}");
+@@ -804,7 +807,7 @@ static void test_precopy_unix_common(bool dirty_ring)
+ 
+     args->use_dirty_ring = dirty_ring;
+ 
+-    if (test_migrate_start(&from, &to, uri, args)) {
++    if (test_migrate_start(&from, &to, uri, &args)) {
+         return;
+     }
+ 
+@@ -892,7 +895,7 @@ static void test_xbzrle(const char *uri)
+     MigrateStart *args = migrate_start_new();
+     QTestState *from, *to;
+ 
+-    if (test_migrate_start(&from, &to, uri, args)) {
++    if (test_migrate_start(&from, &to, uri, &args)) {
+         return;
+     }
+ 
+@@ -946,7 +949,7 @@ static void test_precopy_tcp(void)
+     g_autofree char *uri = NULL;
+     QTestState *from, *to;
+ 
+-    if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", args)) {
++    if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", &args)) {
+         return;
+     }
+ 
+@@ -991,7 +994,7 @@ static void test_migrate_fd_proto(void)
+     QDict *rsp;
+     const char *error_desc;
+ 
+-    if (test_migrate_start(&from, &to, "defer", args)) {
++    if (test_migrate_start(&from, &to, "defer", &args)) {
+         return;
+     }
+ 
+@@ -1071,7 +1074,7 @@ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
+     g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+     QTestState *from, *to;
+ 
+-    if (test_migrate_start(&from, &to, uri, args)) {
++    if (test_migrate_start(&from, &to, uri, &args)) {
+         return;
+     }
+ 
+@@ -1163,7 +1166,7 @@ static void test_migrate_auto_converge(void)
+      */
+     const int64_t expected_threshold = max_bandwidth * downtime_limit / 1000;
+ 
+-    if (test_migrate_start(&from, &to, uri, args)) {
++    if (test_migrate_start(&from, &to, uri, &args)) {
+         return;
+     }
+ 
+@@ -1232,7 +1235,7 @@ static void test_multifd_tcp(const char *method)
+     QDict *rsp;
+     g_autofree char *uri = NULL;
+ 
+-    if (test_migrate_start(&from, &to, "defer", args)) {
++    if (test_migrate_start(&from, &to, "defer", &args)) {
+         return;
+     }
+ 
+@@ -1318,7 +1321,7 @@ static void test_multifd_tcp_cancel(void)
+ 
+     args->hide_stderr = true;
+ 
+-    if (test_migrate_start(&from, &to, "defer", args)) {
++    if (test_migrate_start(&from, &to, "defer", &args)) {
+         return;
+     }
+ 
+@@ -1357,7 +1360,7 @@ static void test_multifd_tcp_cancel(void)
+     args = migrate_start_new();
+     args->only_target = true;
+ 
+-    if (test_migrate_start(&from, &to2, "defer", args)) {
++    if (test_migrate_start(&from, &to2, "defer", &args)) {
+         return;
+     }
+ 
 -- 
 2.35.1
 
