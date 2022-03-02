@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB99E4C9EC3
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 08:57:21 +0100 (CET)
-Received: from localhost ([::1]:54314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3144C9ED4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 09:03:05 +0100 (CET)
+Received: from localhost ([::1]:58394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPJrM-0003SY-Q2
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 02:57:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41902)
+	id 1nPJwt-0006hV-U9
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 03:03:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nPJoI-0002SD-3m
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 02:54:11 -0500
-Received: from [2607:f8b0:4864:20::12c] (port=39832
- helo=mail-il1-x12c.google.com)
+ id 1nPJv4-00054X-KG; Wed, 02 Mar 2022 03:01:10 -0500
+Received: from [2607:f8b0:4864:20::d2d] (port=40451
+ helo=mail-io1-xd2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nPJoF-0008QV-TB
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 02:54:09 -0500
-Received: by mail-il1-x12c.google.com with SMTP id i1so775188ilu.6
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 23:54:06 -0800 (PST)
+ id 1nPJv1-0001F7-AL; Wed, 02 Mar 2022 03:01:09 -0500
+Received: by mail-io1-xd2d.google.com with SMTP id t11so940979ioi.7;
+ Wed, 02 Mar 2022 00:01:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8fyzsTTW1kgWlQ9QqD/sqdVNyyAxaP8R3I2ZSPecllY=;
- b=OVTDVcjww+GRYo/KiopKxjduDkVoTVHMSOStt1HLYOvTDRFYCEzI0kduD3C6cWAqtR
- TI5ZxFvcMqur2sECw8YHUOSFY8CBqUNUJPPn05ztrL5hRP5pwVFIu/C56jFv45L01qCA
- DOguNbv2XxTJId1bLUEtr3wDMXHth4r339lWVLzZ2Q1v1xTp4CYfg/kt622DRI4T+v7x
- oQTcI03rI7K/8vuS6hS8fvplducYs+E2MC4uLW7o7MZT8K3OhgP2TEWiq+w7HH7m7T1v
- eSk886r1DiPNvWYOLXseEO5QzD3ncDIvPllpU99raVKoElJaYDHYS+ENK1Y/oj1Y6l9n
- Zmsw==
+ :cc; bh=E8JSNjAdEPn05CrRUmNOidfDCUSrwpFB7Wy5Fn6CHJA=;
+ b=iVDlOhmAmfspnMNWGHuHiJq6qX10Blo+rykqnqKtWHVkAYy5lXfyvKFnXXIIzZdSmW
+ X+yKDevHLjZ9mGmY1ZAgkNhA/jv7Wbahzdg7M0mQhx2nBkM9LOysfDdkD9J5hRPmx5Tu
+ 9Zg8o4M+iKoUkL9yn4BPoYx3GvbYLA419HAh8KxmFIix9AzvL60liEhwZdQpqdGUgIK/
+ PE6j+JrVRAMud5hPjaDPZT2ulWbpqWXiCOX+sCDweOAdq8ojCXYw04FiFKT2BGfsFp6/
+ hmn7yxYaeGzg3xqtXWj2RQyxPkYPi7UuNemjQ0fgtNApNSeHTydSTRMGEK6tykLz5rV3
+ SW9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8fyzsTTW1kgWlQ9QqD/sqdVNyyAxaP8R3I2ZSPecllY=;
- b=7ZWJvPtj1YWMdtPoJG8AMAjQBnJKnB1WTRU0unPqal0xymvKjjVxCMZoySL8mi5Z4u
- HMqnX8NSaSS3+Zl35wD+jfSQj8pftRbPcPNBqOwEDAv+l+G2/14nf/oi/Jz0afGVQ1rC
- bDJiifhmxkBsk3P8rfD7WdRmtlX3yAgK9rqKoMI6cVg7UDA7Zi/IPi2Yp2XnR55QccLd
- xcVZdlgoDqIErGfYQCcpw9/3rE3deuLoaRUCuzpw9i/98b+Nsq3wfjUZOp7QRmwl7C5v
- QKngABrAX2Nferd+IPMN5rYMTVOGClIKsfgl1zpP/Fb/5SKx3XW8NHOJCjSxTKwST8bQ
- Zu6w==
-X-Gm-Message-State: AOAM5329l6sAdRenEQRDUno+/uPVPJp8yCQCSfajajRWumk4iPdMnAym
- AOqDkzm7ZvfO0dckdCddk++0K4395FyWaEwvSMo=
-X-Google-Smtp-Source: ABdhPJyAmMz5xqMVA4Ykryq+njVGhr1AaSbVe5CIIF937BoTuafzLW4Q9Cy1MyaYdHm57Ff31l/go6yff0qALHsCMVs=
-X-Received: by 2002:a92:d80c:0:b0:2c2:c40c:7bd4 with SMTP id
- y12-20020a92d80c000000b002c2c40c7bd4mr18017698ilm.310.1646207645294; Tue, 01
- Mar 2022 23:54:05 -0800 (PST)
+ bh=E8JSNjAdEPn05CrRUmNOidfDCUSrwpFB7Wy5Fn6CHJA=;
+ b=CxELn07/9yEv2sF3MOYfd91DaJoD6gzirFYM8XgRBhWlNcWXGVrQlbH7WbSmqeeBXr
+ XuHqQsq1LoKzo33caU9A0KNyLHZwRxHrpqjRdOuKBkqGzJJReUAdrijTeyDpmQAFbKn0
+ JQP0qMRP8VEcrWQEaf/ljauWW1e1mhj93S4RkF44QNzV9KMztBeHOhC3gg+JEUOApTn4
+ vT65srng8T+g15qzw3A3qZkpHuKUgH5pqpOM31jKUf5v2MRES8HJ1EvA+qYOuno7XG+B
+ gWz1fdkY4c7ilPx/D2O/+HEomFwS3adljaMeqb8Xb9+rk7SCBcrPPcGAnXCcfA0GPqvJ
+ hBGA==
+X-Gm-Message-State: AOAM533LleXdlIt98Jhu6vO3FtGMAHrkglBdjIpuAPA9TaI+H35bkh+6
+ kEMqKnmYQRMzCBYORMyGGMmUs6pvZHQn1OiF/Ps=
+X-Google-Smtp-Source: ABdhPJz6CdqsmJAgtCitjwRfm6fj1JVxMDwKkJ5GvBC9Z1f8rhvhOz0LEaPkNPqeLzeTERQ3ib6dpaZ5L9S5gU5cjnU=
+X-Received: by 2002:a02:9529:0:b0:314:5808:5de2 with SMTP id
+ y38-20020a029529000000b0031458085de2mr23570586jah.68.1646208065330; Wed, 02
+ Mar 2022 00:01:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20220203153946.2676353-1-philipp.tomsich@vrull.eu>
- <CAKmqyKOLO7VdSPsXmeqQN-z3a2bKZQ3yeQqCmjt-SBpT9MfcgA@mail.gmail.com>
- <b7676252-781d-a7c6-6172-09dd319ef744@linux.dev>
-In-Reply-To: <b7676252-781d-a7c6-6172-09dd319ef744@linux.dev>
+References: <20220216154839.1024927-1-cmuellner@linux.com>
+ <20220216154839.1024927-2-cmuellner@linux.com>
+In-Reply-To: <20220216154839.1024927-2-cmuellner@linux.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 2 Mar 2022 17:53:39 +1000
-Message-ID: <CAKmqyKOwM8ai7JE3i4_bm2rgsG4AP9MxMKAJse-dkgJ3s+71Kw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: fix inverted checks for ext_zb[abcs]
-To: Vineet Gupta <vineet.gupta@linux.dev>
+Date: Wed, 2 Mar 2022 18:00:38 +1000
+Message-ID: <CAKmqyKOCkWnOo9+bCfzRWBjPJ2-0iA6Gh1bEem9BkAoWg3AiCw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] accel/tcg: Add probe_access_range_flags interface
+To: Christoph Muellner <cmuellner@linux.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2d.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -83,103 +80,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- gnu-toolchain <gnu-toolchain@rivosinc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
+ Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?= <frederic.petrot@univ-grenoble-alpes.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 1, 2022 at 11:28 AM Vineet Gupta <vineet.gupta@linux.dev> wrote:
+On Thu, Feb 17, 2022 at 1:49 AM Christoph Muellner <cmuellner@linux.com> wrote:
 >
-> Hi Alistair,
+> The existing probe_access* functions do not allow to specify the
+> access size and a non-faulting behavior at the same time.
 >
-> On 2/3/22 16:59, Alistair Francis wrote:
-> > On Fri, Feb 4, 2022 at 1:42 AM Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
-> >>
-> >> While changing to the use of cfg_ptr, the conditions for REQUIRE_ZB[ABCS]
-> >> inadvertently became inverted and slipped through the initial testing (which
-> >> used RV64GC_XVentanaCondOps as a target).
-> >> This fixes the regression.
-> >>
-> >> Tested against SPEC2017 w/ GCC 12 (prerelease) for RV64GC_zba_zbb_zbc_zbs.
-> >>
-> >> Fixes: 718143c126 ("target/riscv: add a MAINTAINERS entry for XVentanaCondOps")
-> >>
-> >> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> >
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> >
-> >>
-> >> ---
-> >> We may want to squash this onto the affected commit, if it hasn't made
-> >> it beyond the next-tree, yet.
-> >
-> > Yeah, agreed. I'll squash it in
-> >
-> > Alistair
+> This is resolved by adding a generalization of probe_access_flags()
+> that takes an additional size parameter.
 >
-> Has this already been committed upstream. I was running into weird issue
-> related to bitmanip and seems this was missing in my local tree.
+> The semantics is basically the same as probe_access_flags(),
+> but instead of assuming an access to any byte of the addressed
+> page, we can restrict to access to a specific area, like
+> probe_access() allows.
 >
-> Also the "Fixes: " entry in changelog doesn't seem OK; the issue seems
-> to have been introduced in f2a32bec8f0da99 ("target/riscv: access cfg
-> structure through DisasContext")
+> Signed-off-by: Christoph Muellner <cmuellner@linux.com>
 
-Thanks, I have fixed the fixes tag and the indentation, I'll try and
-send a PR this week or early next week.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
+> ---
+>  accel/tcg/cputlb.c      | 17 +++++++++++++----
+>  accel/tcg/user-exec.c   | 15 ++++++++++++---
+>  include/exec/exec-all.h | 24 ++++++++++++++++++++++++
+>  3 files changed, 49 insertions(+), 7 deletions(-)
 >
-> Thx,
-> -Vineet
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index 5e0d0eebc3..b4f0eb20b0 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1624,13 +1624,14 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>      return flags;
+>  }
 >
-> >
-> >>
-> >>   target/riscv/insn_trans/trans_rvb.c.inc | 8 ++++----
-> >>   1 file changed, 4 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-> >> index f9bd3b7ec4..e3c6b459d6 100644
-> >> --- a/target/riscv/insn_trans/trans_rvb.c.inc
-> >> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-> >> @@ -19,25 +19,25 @@
-> >>    */
-> >>
-> >>   #define REQUIRE_ZBA(ctx) do {                    \
-> >> -    if (ctx->cfg_ptr->ext_zba) {                 \
-> >> +    if (!ctx->cfg_ptr->ext_zba) {                 \
-> >>           return false;                            \
-> >>       }                                            \
-> >>   } while (0)
-> >>
-> >>   #define REQUIRE_ZBB(ctx) do {                    \
-> >> -    if (ctx->cfg_ptr->ext_zbb) {                 \
-> >> +    if (!ctx->cfg_ptr->ext_zbb) {                 \
-> >>           return false;                            \
-> >>       }                                            \
-> >>   } while (0)
-> >>
-> >>   #define REQUIRE_ZBC(ctx) do {                    \
-> >> -    if (ctx->cfg_ptr->ext_zbc) {                 \
-> >> +    if (!ctx->cfg_ptr->ext_zbc) {                 \
-> >>           return false;                            \
-> >>       }                                            \
-> >>   } while (0)
-> >>
-> >>   #define REQUIRE_ZBS(ctx) do {                    \
-> >> -    if (ctx->cfg_ptr->ext_zbs) {                 \
-> >> +    if (!ctx->cfg_ptr->ext_zbs) {                 \
-> >>           return false;                            \
-> >>       }                                            \
-> >>   } while (0)
-> >> --
-> >> 2.34.1
-> >>
-> >>
-> >
-> >
+> -int probe_access_flags(CPUArchState *env, target_ulong addr,
+> -                       MMUAccessType access_type, int mmu_idx,
+> -                       bool nonfault, void **phost, uintptr_t retaddr)
+> +int probe_access_range_flags(CPUArchState *env, target_ulong addr,
+> +                             int size, MMUAccessType access_type,
+> +                             int mmu_idx, bool nonfault, void **phost,
+> +                             uintptr_t retaddr)
+>  {
+>      int flags;
+>
+> -    flags = probe_access_internal(env, addr, 0, access_type, mmu_idx,
+> +    flags = probe_access_internal(env, addr, size, access_type, mmu_idx,
+>                                    nonfault, phost, retaddr);
+>
+>      /* Handle clean RAM pages.  */
+> @@ -1645,6 +1646,14 @@ int probe_access_flags(CPUArchState *env, target_ulong addr,
+>      return flags;
+>  }
+>
+> +int probe_access_flags(CPUArchState *env, target_ulong addr,
+> +                       MMUAccessType access_type, int mmu_idx,
+> +                       bool nonfault, void **phost, uintptr_t retaddr)
+> +{
+> +    return probe_access_range_flags(env, addr, 0, access_type, mmu_idx,
+> +                                    nonfault, phost, retaddr);
+> +}
+> +
+>  void *probe_access(CPUArchState *env, target_ulong addr, int size,
+>                     MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+>  {
+> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+> index 6f5d4933f0..0dbc345e63 100644
+> --- a/accel/tcg/user-exec.c
+> +++ b/accel/tcg/user-exec.c
+> @@ -176,9 +176,10 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>      cpu_loop_exit_sigsegv(env_cpu(env), addr, access_type, maperr, ra);
+>  }
+>
+> -int probe_access_flags(CPUArchState *env, target_ulong addr,
+> -                       MMUAccessType access_type, int mmu_idx,
+> -                       bool nonfault, void **phost, uintptr_t ra)
+> +int probe_access_range_flags(CPUArchState *env, target_ulong addr,
+> +                             int size, MMUAccessType access_type,
+> +                             int mmu_idx, bool nonfault, void **phost,
+> +                             uintptr_t ra)
+>  {
+>      int flags;
+>
+> @@ -187,6 +188,14 @@ int probe_access_flags(CPUArchState *env, target_ulong addr,
+>      return flags;
+>  }
+>
+> +int probe_access_flags(CPUArchState *env, target_ulong addr,
+> +                       MMUAccessType access_type, int mmu_idx,
+> +                       bool nonfault, void **phost, uintptr_t ra)
+> +{
+> +    return probe_access_range_flags(env, addr, 0, access_type, mmu_idx,
+> +                                    nonfault, phost, ra);
+> +}
+> +
+>  void *probe_access(CPUArchState *env, target_ulong addr, int size,
+>                     MMUAccessType access_type, int mmu_idx, uintptr_t ra)
+>  {
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index 35d8e93976..0d06b45c62 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -441,6 +441,30 @@ static inline void *probe_read(CPUArchState *env, target_ulong addr, int size,
+>      return probe_access(env, addr, size, MMU_DATA_LOAD, mmu_idx, retaddr);
+>  }
+>
+> +/**
+> + * probe_access_range_flags:
+> + * @env: CPUArchState
+> + * @addr: guest virtual address to look up
+> + * @size: size of the access
+> + * @access_type: read, write or execute permission
+> + * @mmu_idx: MMU index to use for lookup
+> + * @nonfault: suppress the fault
+> + * @phost: return value for host address
+> + * @retaddr: return address for unwinding
+> + *
+> + * Similar to probe_access, loosely returning the TLB_FLAGS_MASK for
+> + * the access range, and storing the host address for RAM in @phost.
+> + *
+> + * If @nonfault is set, do not raise an exception but return TLB_INVALID_MASK.
+> + * Do not handle watchpoints, but include TLB_WATCHPOINT in the returned flags.
+> + * Do handle clean pages, so exclude TLB_NOTDIRY from the returned flags.
+> + * For simplicity, all "mmio-like" flags are folded to TLB_MMIO.
+> + */
+> +int probe_access_range_flags(CPUArchState *env, target_ulong addr,
+> +                             int size, MMUAccessType access_type,
+> +                             int mmu_idx, bool nonfault, void **phost,
+> +                             uintptr_t retaddr);
+> +
+>  /**
+>   * probe_access_flags:
+>   * @env: CPUArchState
+> --
+> 2.35.1
+>
 >
 
