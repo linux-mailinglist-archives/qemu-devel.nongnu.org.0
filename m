@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85724CAA12
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:24:02 +0100 (CET)
-Received: from localhost ([::1]:48926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730DD4CAA14
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:24:44 +0100 (CET)
+Received: from localhost ([::1]:51078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPRlg-0000FJ-PO
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:24:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58646)
+	id 1nPRmN-0001j6-64
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:24:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nPRjK-0006mm-6x
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:21:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39769)
+ id 1nPRk8-0007bF-Mb
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:22:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nPRjI-00073B-Rw
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:21:33 -0500
+ id 1nPRk7-0007Bm-6s
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:22:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646238092;
+ s=mimecast20190719; t=1646238142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZB/wvt6bdoG9OvTuZlqPnt+HH5T7lEa8xmJAX523834=;
- b=MRFpi6SwpGNHUIV/hS5sywn29DOwD2pio9Cj+wZyAOYn8Hcz+aw7Uq+lBWvHEImo7L3gq6
- eyOK2so0zbXE04OgDAQCMj18PituvTAVOF1SK7vDrg94jq5JJ4/e9n8FanKGNnB8JfH8IK
- 63K3DYAvXoToB8CSBChUaRm6aX80Si8=
+ bh=SABTOPPyz9M88xM/O8nFtN1Acwuil/ZhGosJjKv53Wk=;
+ b=QP/nO0+yw7W1pe3hAKUsfkX9OYWY2oKiRQDKM17bEMpoxT8UA3xRB/1x7aWDDTywWKPxDo
+ hpyBduUKBtK/M32T2Nf06vgfGL8YqnkbS7AI+DTfUfhACeOhtZGJDEPg9oILEXqDk1Vi4S
+ ZLJjgs5BkkZ06NDSmsmi0NkmxDZu040=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-Ed_HSNxQMni1-lByb5O0wA-1; Wed, 02 Mar 2022 11:21:29 -0500
-X-MC-Unique: Ed_HSNxQMni1-lByb5O0wA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-518-keB7jcDSOJGZxBMOzD2vQg-1; Wed, 02 Mar 2022 11:22:21 -0500
+X-MC-Unique: keB7jcDSOJGZxBMOzD2vQg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CFD0520F;
- Wed,  2 Mar 2022 16:21:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3662E80EDB4;
+ Wed,  2 Mar 2022 16:22:18 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72B5A866E4;
- Wed,  2 Mar 2022 16:21:22 +0000 (UTC)
-Date: Wed, 2 Mar 2022 16:21:21 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8A3C7DE58;
+ Wed,  2 Mar 2022 16:22:08 +0000 (UTC)
+Date: Wed, 2 Mar 2022 16:22:07 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH 1/5] aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
-Message-ID: <Yh+ZgZfYMyrR9AgG@stefanha-x1.localdomain>
+Subject: Re: [RFC PATCH 2/5] introduce BDRV_POLL_WHILE_UNLOCKED
+Message-ID: <Yh+Zr2GWRv0SSiIa@stefanha-x1.localdomain>
 References: <20220301142113.163174-1-eesposit@redhat.com>
- <20220301142113.163174-2-eesposit@redhat.com>
+ <20220301142113.163174-3-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1oCFC9bW1QFEzjX8"
+ protocol="application/pgp-signature"; boundary="9WaMB5VXZVzOxh7R"
 Content-Disposition: inline
-In-Reply-To: <20220301142113.163174-2-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20220301142113.163174-3-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -85,40 +85,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---1oCFC9bW1QFEzjX8
+--9WaMB5VXZVzOxh7R
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 01, 2022 at 09:21:09AM -0500, Emanuele Giuseppe Esposito wrote:
-> Same as AIO_WAIT_WHILE macro, but if we are in the Main loop
-> do not release and then acquire ctx_ 's aiocontext.
->=20
-> Once all Aiocontext locks go away, this macro will replace
-> AIO_WAIT_WHILE.
+On Tue, Mar 01, 2022 at 09:21:10AM -0500, Emanuele Giuseppe Esposito wrote:
+> Same as BDRV_POLL_WHILE, but uses AIO_WAIT_WHILE_UNLOCKED.
+> See doc comment for more info.
 >=20
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->  include/block/aio-wait.h | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
+>  include/block/block.h | 5 +++++
+>  1 file changed, 5 insertions(+)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---1oCFC9bW1QFEzjX8
+--9WaMB5VXZVzOxh7R
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIfmYEACgkQnKSrs4Gr
-c8jOlgf+P2y/IMi28PeG45Y6zBP5XHA1fGf5c0vKd0kbYWdZqILc2H3fHTYclqUa
-IPg1Qrg63etcA6pSQj5uoQ5JS9jzh3o3KajXDM7od77s0OWHvu2FFhV+HDIalmMn
-CHPiMBtKU01Gsqj7YQcc7/Ir8sNbgB2ovYvBAT9uln+jtkA+zPCPTMwgNU3E+evG
-a8O2x1sAauwpN0KwxMh82BMRkinE3owHj1e1yTWA0s3swLsKl9ZnDDK6MpM4GiOJ
-ld2BKb/spLZOagHVBFt+gydK2dVlPtE6iDhIXkNLRhQS1EBIOUshrCx8Uxk3m0RH
-4UaMYcmYqGSnTQkUzsE6QXmU9L0G6A==
-=10Bb
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIfma8ACgkQnKSrs4Gr
+c8hU2wf+M9iC9IJ/NJL7XmNX+cjTwT3LF24SZkrALr8muO1Pw4txwd1QAOEHZE/a
+Jg9vcIw5Vngk9k1I0xpjd9tU1OYt9Uax1kGbTKERNCF+dYDnmw5ocjsjwNqn16zy
+YdRNIp04IgDVol0LVXSvUqKCYqaf1bDaaicuU2H3WLWk3yjN57GoeHIYEiTSDrAj
+X8fkWEvV5ZvZI4p0NNAzQzVaCcNoQoB7Er7ZolBeQe7oThCUbN9ZTfVaYtu/FXGc
+Rd9z6cMnLJ7eKY7hUq3i4WlFdTMiRH0kbgHbEXIUhGUgALLnWCMEvJVZPpH5i2fq
+i54UV9s1O75fb9yqdJJM4PZ/hfjkgg==
+=Skm0
 -----END PGP SIGNATURE-----
 
---1oCFC9bW1QFEzjX8--
+--9WaMB5VXZVzOxh7R--
 
 
