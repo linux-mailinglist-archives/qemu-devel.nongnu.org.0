@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAC64CB115
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:15:36 +0100 (CET)
-Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A04F4CB108
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:13:44 +0100 (CET)
+Received: from localhost ([::1]:54542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPWJr-0000WF-Kx
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:15:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43420)
+	id 1nPWI3-0005gU-1h
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:13:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxl-0005np-B0
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:45 -0500
-Received: from [2a00:1450:4864:20::334] (port=52064
- helo=mail-wm1-x334.google.com)
+ id 1nPVxm-0005qO-BE
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:47 -0500
+Received: from [2a00:1450:4864:20::432] (port=35384
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxj-00088M-PF
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:45 -0500
-Received: by mail-wm1-x334.google.com with SMTP id p4so1946112wmg.1
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:43 -0800 (PST)
+ id 1nPVxk-00088m-Li
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:46 -0500
+Received: by mail-wr1-x432.google.com with SMTP id b5so4701407wrr.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/jMvBmS05a6AvX2w8GLIu2n1iO4O8JPmoPPf/h/6b0c=;
- b=cl5h83Nw/XRAMZNOHItSybjWY8QdvGf/3GWofao76Z+NqLboxXdVP10J/51zwIZj17
- OHZWjsSU2duOi+sKclrHCxPkLxPfa8I0FLEbGr69oBPkdQvwCOFnwrlpzWgo0H4npkfv
- cdrctQzpRLcDIsJyGZUu897cQvsfpAPgk9KMktpfnI3S/c5fI2G4w9QuYX12ikAND1rH
- YaKw4JWChMV6GoTpbuNyIlVj5rAq7d7av9IBQMAI8lfM/myVwT7pya9kd9di9TGUyC3T
- 497quhJXtJRQvMeKFi+PwF/xuizTAVtAuX7sn67g3hBYSNNf4rGF3f9Z4xar4EYF7mpp
- JO6A==
+ bh=+cFrQ0gYtD+BMJbyD47IQWGJju9cN+yG8odvU6RxmJ4=;
+ b=boiE02vl76suB0S5OASrWRrGbYJc22XpqunH60k+nh+wls5jS4Rr3zft7IteLSXFhJ
+ JFfuhTZ60iRzwyWagtgjp6xN9YGq/SXaGGm6PMK0lL+cZa4TQP5hnfDHVNvxNGbL/bDv
+ +bBGIcY3K0eqLDRiMafci1DVx2IUTSSL7XXK9gSYvF/tHPlYa1i4CKmunZi4Li/LbyHb
+ WDNGGSWmWQiepO2fStdRigQ+0lTJK6dirbKtR96/P6B6aBD7DwAvZcFjl8uBUTQtc7HY
+ mswhzLX1xZUHzZxsoIhh2XRj03NXpW4NZYmIu1V6uslOZC42oaTaqF3gGNIdl3ntTYCr
+ sJwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/jMvBmS05a6AvX2w8GLIu2n1iO4O8JPmoPPf/h/6b0c=;
- b=RolSrG8A512H/5GwRmiPwdtcDufJgcgtWixKcd8S1n+ZNmhhI5jRjjmbITrAY+FJeL
- /faTcc/NHAcmBOkLJhbjNz60o76i6FvEBPkFM3lqh+G4ESmX33x0rVqNlEng/y0unq8N
- 4k4ITkxsVzS7W2axUMivQ96Oy5vDwqQn/+HyZrWIyG0bQ2Mi479NgMXsA1VfdRURIwjR
- B6rq2z6KvXgGRFTOk+a6xP3W8IMzO1wH6AYuXlwClyYA2wK/KixAA8S75UY0FTh4I9id
- q2feOmmDlhrC2d0MNV1QQWPH3WrDjuSsMwmw3H/eynI2f3VXL9ZAK6HG/EArz/yeIi0c
- SCgA==
-X-Gm-Message-State: AOAM5309iNnXV3otANk0hYZWUBclLcQ0eAN3m4tgC/uESPDeSJuTDgxr
- QFeruGTz2bFvTHelGLwvlefgIysdy+bMhA==
-X-Google-Smtp-Source: ABdhPJzlNo1xK7AqQHT1XR4UUkjZORAXZ8Wn5ozAZt/NZOb4CnumjHmWWHl49h+0IMIm0V0UwhN+VA==
-X-Received: by 2002:a05:600c:384c:b0:37b:c771:499c with SMTP id
- s12-20020a05600c384c00b0037bc771499cmr1280943wmr.141.1646254362394; 
- Wed, 02 Mar 2022 12:52:42 -0800 (PST)
+ bh=+cFrQ0gYtD+BMJbyD47IQWGJju9cN+yG8odvU6RxmJ4=;
+ b=bWNXbnRal4vEf6lasTB2j4fu/U5Xhh0TmfxSYW0LHn0zNhufx9jmmURxP8GEb1tlqJ
+ lA7UHNJ6cDcaaerVsNKzaj7WHY5TL6amV/m57pAq8R0eQSsN6ixLSxuvPQhIBlppROi9
+ +6oz9o9mdudh1NVgmxF3XCpCqBhVhNmkhULveFRF+qIKrUti1CA4VCJwvZzJ45TzkgCz
+ tj2sqQxLqmzD4vtlcldwvBx7xCR6q/3t13gUzK09qhz6ExNj35HyBq71u9DQs16bZ/TF
+ UpPZmT6tqLgmRG5e5N9WMn899anGgboE+fKA95UTqoCzG9gXPzh/mLdb6s8PaFgUaWF/
+ kFYg==
+X-Gm-Message-State: AOAM532jB7ZUhKaSllhz5TiMMncO6wIwgxE8TFGJcQ8eobH+xU5eLzQ2
+ ho+o2uxS5hoQS09QeUhvzeWu+fz9OQ2Quw==
+X-Google-Smtp-Source: ABdhPJy/hJ1be/cPtc1VlDmsOZeeKvvkgEdCH1hqmqz2Pe7pSEHCj21ukkNBM8WNCHDYR9NH+XZ0Pw==
+X-Received: by 2002:a5d:534a:0:b0:1f0:48f2:5f7c with SMTP id
+ t10-20020a5d534a000000b001f048f25f7cmr1501899wrv.138.1646254363192; 
+ Wed, 02 Mar 2022 12:52:43 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.41
+ x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 02 Mar 2022 12:52:42 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/26] target/arm: Move arm_pamax out of line
-Date: Wed,  2 Mar 2022 20:52:15 +0000
-Message-Id: <20220302205230.2122390-12-peter.maydell@linaro.org>
+Subject: [PULL 12/26] target/arm: Pass outputsize down to check_s2_mmu_setup
+Date: Wed,  2 Mar 2022 20:52:16 +0000
+Message-Id: <20220302205230.2122390-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220302205230.2122390-1-peter.maydell@linaro.org>
 References: <20220302205230.2122390-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,83 +94,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We will shortly share parts of this function with other portions
-of address translation.
+Pass down the width of the output address from translation.
+For now this is still just PAMax, but a subsequent patch will
+compute the correct value from TCR_ELx.{I}PS.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220301215958.157011-5-richard.henderson@linaro.org
+Message-id: 20220301215958.157011-6-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/internals.h | 19 +------------------
- target/arm/helper.c    | 22 ++++++++++++++++++++++
- 2 files changed, 23 insertions(+), 18 deletions(-)
+ target/arm/helper.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index ef6c25d8cb7..fefd1fb8d88 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -243,24 +243,7 @@ static inline void update_spsel(CPUARMState *env, uint32_t imm)
-  * Returns the implementation defined bit-width of physical addresses.
-  * The ARMv8 reference manuals refer to this as PAMax().
-  */
--static inline unsigned int arm_pamax(ARMCPU *cpu)
--{
--    static const unsigned int pamax_map[] = {
--        [0] = 32,
--        [1] = 36,
--        [2] = 40,
--        [3] = 42,
--        [4] = 44,
--        [5] = 48,
--    };
--    unsigned int parange =
--        FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
--
--    /* id_aa64mmfr0 is a read-only register so values outside of the
--     * supported mappings can be considered an implementation error.  */
--    assert(parange < ARRAY_SIZE(pamax_map));
--    return pamax_map[parange];
--}
-+unsigned int arm_pamax(ARMCPU *cpu);
- 
- /* Return true if extended addresses are enabled.
-  * This is always the case if our translation regime is 64 bit,
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index dd4d95bda24..71e575f352e 100644
+index 71e575f352e..431b0c14052 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11152,6 +11152,28 @@ static uint8_t convert_stage2_attrs(CPUARMState *env, uint8_t s2attrs)
- }
- #endif /* !CONFIG_USER_ONLY */
- 
-+/* The cpu-specific constant value of PAMax; also used by hw/arm/virt. */
-+unsigned int arm_pamax(ARMCPU *cpu)
-+{
-+    static const unsigned int pamax_map[] = {
-+        [0] = 32,
-+        [1] = 36,
-+        [2] = 40,
-+        [3] = 42,
-+        [4] = 44,
-+        [5] = 48,
-+    };
-+    unsigned int parange =
-+        FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
-+
-+    /*
-+     * id_aa64mmfr0 is a read-only register so values outside of the
-+     * supported mappings can be considered an implementation error.
-+     */
-+    assert(parange < ARRAY_SIZE(pamax_map));
-+    return pamax_map[parange];
-+}
-+
- static int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx)
+@@ -11065,7 +11065,7 @@ do_fault:
+  * false otherwise.
+  */
+ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+-                               int inputsize, int stride)
++                               int inputsize, int stride, int outputsize)
  {
-     if (regime_has_2_ranges(mmu_idx)) {
+     const int grainsize = stride + 3;
+     int startsizecheck;
+@@ -11081,22 +11081,19 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+     }
+ 
+     if (is_aa64) {
+-        CPUARMState *env = &cpu->env;
+-        unsigned int pamax = arm_pamax(cpu);
+-
+         switch (stride) {
+         case 13: /* 64KB Pages.  */
+-            if (level == 0 || (level == 1 && pamax <= 42)) {
++            if (level == 0 || (level == 1 && outputsize <= 42)) {
+                 return false;
+             }
+             break;
+         case 11: /* 16KB Pages.  */
+-            if (level == 0 || (level == 1 && pamax <= 40)) {
++            if (level == 0 || (level == 1 && outputsize <= 40)) {
+                 return false;
+             }
+             break;
+         case 9: /* 4KB Pages.  */
+-            if (level == 0 && pamax <= 42) {
++            if (level == 0 && outputsize <= 42) {
+                 return false;
+             }
+             break;
+@@ -11105,8 +11102,8 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+         }
+ 
+         /* Inputsize checks.  */
+-        if (inputsize > pamax &&
+-            (arm_el_is_aa64(env, 1) || inputsize > 40)) {
++        if (inputsize > outputsize &&
++            (arm_el_is_aa64(&cpu->env, 1) || inputsize > 40)) {
+             /* This is CONSTRAINED UNPREDICTABLE and we choose to fault.  */
+             return false;
+         }
+@@ -11392,7 +11389,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+     target_ulong page_size;
+     uint32_t attrs;
+     int32_t stride;
+-    int addrsize, inputsize;
++    int addrsize, inputsize, outputsize;
+     TCR *tcr = regime_tcr(env, mmu_idx);
+     int ap, ns, xn, pxn;
+     uint32_t el = regime_el(env, mmu_idx);
+@@ -11422,11 +11419,13 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+ 
+         addrsize = 64 - 8 * param.tbi;
+         inputsize = 64 - param.tsz;
++        outputsize = arm_pamax(cpu);
+     } else {
+         param = aa32_va_parameters(env, address, mmu_idx);
+         level = 1;
+         addrsize = (mmu_idx == ARMMMUIdx_Stage2 ? 40 : 32);
+         inputsize = addrsize - param.tsz;
++        outputsize = 40;
+     }
+ 
+     /*
+@@ -11511,7 +11510,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+ 
+         /* Check that the starting level is valid. */
+         ok = check_s2_mmu_setup(cpu, aarch64, startlevel,
+-                                inputsize, stride);
++                                inputsize, stride, outputsize);
+         if (!ok) {
+             fault_type = ARMFault_Translation;
+             goto do_fault;
 -- 
 2.25.1
 
