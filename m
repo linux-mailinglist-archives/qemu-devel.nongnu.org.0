@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4B34C9FD7
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 09:50:56 +0100 (CET)
-Received: from localhost ([::1]:48340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 113F94C9FE5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 09:52:46 +0100 (CET)
+Received: from localhost ([::1]:50570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPKhB-0004ms-3f
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 03:50:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54054)
+	id 1nPKiz-0006U9-4K
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 03:52:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPKe1-00041P-6P
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 03:47:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23922)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPKee-0004U7-EU
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 03:48:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPKdx-0006ZF-5v
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 03:47:35 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPKec-0006e9-Dc
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 03:48:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646210851;
+ s=mimecast20190719; t=1646210893;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=y8Q0H03vew/OC7mX0QluxD1SIYTYVIEkrUe+7xZyhpM=;
- b=SF3LsC4gI/B3djGNCmmH2NByMU6nDUcQNGA4Y4sP9bwQqDSbOMsl7XbvQhYsAXgcl8ypdX
- wJQa3KGQO+lhCpUIUzPKoHSQeT+kxxee16hy+KjMaEwfuDp3U9fxinuHpZkfyrWIzPFSpJ
- cQHsd/R8FJ5bAI85aUAtaTSiSI2j8dw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tiZbE5XTPkr7OjB0K4WrB4NLZSpLX6+Qs++H5WeuR9g=;
+ b=c9f5S8PweBv+WsIQ5kc8U4KoShJw0kmnxBa8wMSHY3hROAGXl2LTwdHuzdki0WvV/XniIs
+ TgQfEerYriFQM63FhsVeixSUep6NbzfiNwAVTUMAJ0Vag3brA5aESfHkq/O+h2C388jZ/f
+ SmSd8M+8/bcdYg2zDZjf8CRbY6xl7WI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-443-srgFkDo0MHiptefsKn2WOA-1; Wed, 02 Mar 2022 03:47:30 -0500
-X-MC-Unique: srgFkDo0MHiptefsKn2WOA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o21-20020a05600c511500b003818c4b98b5so292835wms.0
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 00:47:30 -0800 (PST)
+ us-mta-439-SMn1mwsaMwiuVXrz3LHT1Q-1; Wed, 02 Mar 2022 03:48:09 -0500
+X-MC-Unique: SMn1mwsaMwiuVXrz3LHT1Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ p18-20020adfba92000000b001e8f7697cc7so361541wrg.20
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 00:48:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=y8Q0H03vew/OC7mX0QluxD1SIYTYVIEkrUe+7xZyhpM=;
- b=AsFqh6bO7dtVjl6Nr7W3Q5+x8komD0SJvysXhxxXSjm6Ktq8cxoFcGloW2AnPBe8DQ
- k5hVQRhNH+zpyL931lSYLoExIx336CUylY4aspXCUawe7a9CZSS1pnq8H7x++dOsr7/u
- tR+MuiIEZI72WNS7zFTDWrWF8HGIEdCU+zn9LS+llKypRLjq382OSJTsc3pLZBBlEi/Y
- Fa7cjnefforKl3MEAtYLloFANuV7vEs6mwElZoqX5bF0f67GjkwaFQXnzdbTIucGZWSL
- IcDydXUnNWOXTmqtmIZ2f7BObCMtUvdJfZeNKLTShHYIG78mI9baQ2qvcAOkacl7q7vj
- 8PUw==
-X-Gm-Message-State: AOAM530uXw9ZYFvtSggwQjIfHlZ8dM7ZbkEYgZp1rZtFP4jjM6anrzgT
- PbeHuOk95YN449ozEwvvj7IltTzVnFFqAqerrVQM7NB5SlX7n7ShJFnlG/yzm1Ol5wEbTYsFOLA
- FOC+pT2P1hEQsGgI=
-X-Received: by 2002:adf:f8c2:0:b0:1ed:9ede:98a1 with SMTP id
- f2-20020adff8c2000000b001ed9ede98a1mr21782092wrq.48.1646210849315; 
- Wed, 02 Mar 2022 00:47:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw7+zvPPBGbkwhiZ28u4Qcwg4FWYWfaPlLvoRw7Qz82mQdVCr9+C8FaIzucJeJXQATjq6pDxg==
-X-Received: by 2002:adf:f8c2:0:b0:1ed:9ede:98a1 with SMTP id
- f2-20020adff8c2000000b001ed9ede98a1mr21782076wrq.48.1646210849023; 
- Wed, 02 Mar 2022 00:47:29 -0800 (PST)
+ bh=tiZbE5XTPkr7OjB0K4WrB4NLZSpLX6+Qs++H5WeuR9g=;
+ b=HfOjYHWY9dtzgYFl1s2lVZBoi5JUfUrMzbKFlJ7ynXgFUSHOJSMHHpqjHk2JzujUIH
+ CHkwGzRPaZOMMiQugwo5UxtAa5rtZEQQ2bIh6rWs7t9iPCBvqelCr2H4GL/61xvg6QSz
+ OZjrH3UxrUKYAf+AAjcbvaghnsSoLbRNlYVC4i5mrvGD3Tx6i72m11AgW5zhuvTmiTTU
+ ZrIAhj9q82CZOn2QeJc3em9Dg6QXAlv+qABRW21SX+VP3a7vEVZLY4wEWFsir1P4krJs
+ rTaagWhW/3te3RLXrMWuzsltJcP02rff1FGyd29pjAPaJCSpN5HbjoPy6sooO3oePt54
+ bO8g==
+X-Gm-Message-State: AOAM532da+1QzWiHGkRgFES3xSZp0343dFyLL/SKq4A6PeQzbcQ4V97Y
+ GKabIu2ZD0DB7qsKB/gyXoql+UJPCkrmMNjNh6PwmbNazr28EV1o8rsu6BOD0S6yGOh8Ye0Fc9U
+ EAEb9rfqfu06lK6M=
+X-Received: by 2002:a7b:c016:0:b0:37b:ebf6:3d13 with SMTP id
+ c22-20020a7bc016000000b0037bebf63d13mr20271209wmb.191.1646210887718; 
+ Wed, 02 Mar 2022 00:48:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwC0EefPJmjwmoW50QUmSUVK6QITfnRNNyhYNzT1IW9U6en40Ng30Jxrkf/3WOUl/IFEgbM7A==
+X-Received: by 2002:a7b:c016:0:b0:37b:ebf6:3d13 with SMTP id
+ c22-20020a7bc016000000b0037bebf63d13mr20271173wmb.191.1646210887284; 
+ Wed, 02 Mar 2022 00:48:07 -0800 (PST)
 Received: from redhat.com ([2a10:8006:355c:0:48d6:b937:2fb9:b7de])
  by smtp.gmail.com with ESMTPSA id
- bg18-20020a05600c3c9200b0037c2ef07493sm5994975wmb.3.2022.03.02.00.47.27
+ h36-20020a05600c49a400b00382aa0b1619sm2487245wmp.45.2022.03.02.00.48.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 00:47:27 -0800 (PST)
-Date: Wed, 2 Mar 2022 03:47:25 -0500
+ Wed, 02 Mar 2022 00:48:06 -0800 (PST)
+Date: Wed, 2 Mar 2022 03:48:04 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Liav Albani <liavalb@gmail.com>
-Subject: Re: [PATCH v4 2/3] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-Message-ID: <20220302034341-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v4 3/3] tests/acpi: i386: update FACP table differences
+Message-ID: <20220302034745-mutt-send-email-mst@kernel.org>
 References: <20220228201733.714580-1-liavalb@gmail.com>
- <20220228201733.714580-3-liavalb@gmail.com>
- <20220301094354.1d37f470@redhat.com>
- <20220301061131-mutt-send-email-mst@kernel.org>
- <b6934751-f513-d9b9-ae2e-106a736b3f57@gmail.com>
+ <20220228201733.714580-4-liavalb@gmail.com>
+ <alpine.DEB.2.22.394.2203010829190.1505325@anisinha-lenovo>
+ <20220301062008-mutt-send-email-mst@kernel.org>
+ <49a62bfa-715c-76e1-c518-62719e4b9d5e@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <b6934751-f513-d9b9-ae2e-106a736b3f57@gmail.com>
+In-Reply-To: <49a62bfa-715c-76e1-c518-62719e4b9d5e@gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,145 +100,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca, Igor Mammedov <imammedo@redhat.com>, shentey@gmail.com,
+Cc: Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com, shentey@gmail.com,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 01, 2022 at 09:11:09PM +0200, Liav Albani wrote:
+On Tue, Mar 01, 2022 at 09:13:04PM +0200, Liav Albani wrote:
 > 
-> On 3/1/22 13:19, Michael S. Tsirkin wrote:
-> > On Tue, Mar 01, 2022 at 09:43:54AM +0100, Igor Mammedov wrote:
-> > > On Mon, 28 Feb 2022 22:17:32 +0200
-> > > Liav Albani <liavalb@gmail.com> wrote:
+> On 3/1/22 13:21, Michael S. Tsirkin wrote:
+> > On Tue, Mar 01, 2022 at 08:29:57AM +0530, Ani Sinha wrote:
 > > > 
-> > > > This can allow the guest OS to determine more easily if i8042 controller
-> > > > is present in the system or not, so it doesn't need to do probing of the
-> > > > controller, but just initialize it immediately, before enumerating the
-> > > > ACPI AML namespace.
+> > > On Mon, 28 Feb 2022, Liav Albani wrote:
+> > > 
+> > > > After changing the IAPC boot flags register to indicate support of i8042
+> > > > in the machine chipset to help the guest OS to determine its existence
+> > > > "faster", we need to have the updated FACP ACPI binary images in tree.
 > > > > 
-> > > > This change only applies to the x86/q35 machine type, as it uses FACP
-> > > > ACPI table with revision higher than 1, which should implement at least
-> > > > ACPI 2.0 features within the table, hence it can also set the IA-PC boot
-> > > > flags register according to the ACPI 2.0 specification.
+> > > > @@ -1,32 +1,32 @@
+> > > >   /*
+> > > >    * Intel ACPI Component Architecture
+> > > >    * AML/ASL+ Disassembler version 20211217 (64-bit version)
+> > > >    * Copyright (c) 2000 - 2021 Intel Corporation
+> > > >    *
+> > > > - * Disassembly of tests/data/acpi/q35/FACP, Wed Feb 23 22:37:39 2022
+> > > > + * Disassembly of /tmp/aml-BBFBI1, Wed Feb 23 22:37:39 2022
+> > cut this out pls
+> I see, this is indeed not very useful...
+> > > >    *
+> > > >    * ACPI Data Table [FACP]
+> > > >    *
+> > > >    * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue (in hex)
+> > > >    */
 > > > > 
+> > > >   [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
+> > > >   [004h 0004   4]                 Table Length : 000000F4
+> > > >   [008h 0008   1]                     Revision : 03
+> > > > -[009h 0009   1]                     Checksum : B9
+> > > > +[009h 0009   1]                     Checksum : B7
+> > and this
+> > 
+> > > >   [00Ah 0010   6]                       Oem ID : "BOCHS "
+> > > >   [010h 0016   8]                 Oem Table ID : "BXPC    "
+> > > >   [018h 0024   4]                 Oem Revision : 00000001
+> > > >   [01Ch 0028   4]              Asl Compiler ID : "BXPC"
+> > > >   [020h 0032   4]        Asl Compiler Revision : 00000001
+> > > > 
+> > > >   [024h 0036   4]                 FACS Address : 00000000
+> > > >   [028h 0040   4]                 DSDT Address : 00000000
+> > > >   [02Ch 0044   1]                        Model : 01
+> > > >   [02Dh 0045   1]                   PM Profile : 00 [Unspecified]
+> > > >   [02Eh 0046   2]                SCI Interrupt : 0009
+> > > >   [030h 0048   4]             SMI Command Port : 000000B2
+> > > >   [034h 0052   1]            ACPI Enable Value : 02
+> > > >   [035h 0053   1]           ACPI Disable Value : 03
+> > > >   [036h 0054   1]               S4BIOS Command : 00
+> > > >   [037h 0055   1]              P-State Control : 00
+> > > > @@ -42,35 +42,35 @@
+> > > >   [059h 0089   1]     PM1 Control Block Length : 02
+> > > >   [05Ah 0090   1]     PM2 Control Block Length : 00
+> > > >   [05Bh 0091   1]        PM Timer Block Length : 04
+> > > >   [05Ch 0092   1]            GPE0 Block Length : 10
+> > > >   [05Dh 0093   1]            GPE1 Block Length : 00
+> > > >   [05Eh 0094   1]             GPE1 Base Offset : 00
+> > > >   [05Fh 0095   1]                 _CST Support : 00
+> > > >   [060h 0096   2]                   C2 Latency : 0FFF
+> > > >   [062h 0098   2]                   C3 Latency : 0FFF
+> > > >   [064h 0100   2]               CPU Cache Size : 0000
+> > > >   [066h 0102   2]           Cache Flush Stride : 0000
+> > > >   [068h 0104   1]            Duty Cycle Offset : 00
+> > > >   [069h 0105   1]             Duty Cycle Width : 00
+> > > >   [06Ah 0106   1]          RTC Day Alarm Index : 00
+> > > >   [06Bh 0107   1]        RTC Month Alarm Index : 00
+> > > >   [06Ch 0108   1]            RTC Century Index : 32
+> > > > -[06Dh 0109   2]   Boot Flags (decoded below) : 0000
+> > > > +[06Dh 0109   2]   Boot Flags (decoded below) : 0002
+> > > >                  Legacy Devices Supported (V2) : 0
+> > > > -            8042 Present on ports 60/64 (V2) : 0
+> > > > +            8042 Present on ports 60/64 (V2) : 1
+> > > >                           VGA Not Present (V4) : 0
+> > > >                         MSI Not Supported (V4) : 0
+> > > >                   PCIe ASPM Not Supported (V4) : 0
+> > > >                      CMOS RTC Not Present (V5) : 0
+> > 
+> > leaving just this
+> > 
+> It will be fixed in version 5.
+> > > >   [06Fh 0111   1]                     Reserved : 00
+> > > >   [070h 0112   4]        Flags (decoded below) : 000084A5
+> > > >         WBINVD instruction is operational (V1) : 1
+> > > >                 WBINVD flushes all caches (V1) : 0
+> > > >                       All CPUs support C1 (V1) : 1
+> > > >                     C2 works on MP system (V1) : 0
+> > > >               Control Method Power Button (V1) : 0
+> > > >               Control Method Sleep Button (V1) : 1
+> > > >           RTC wake not in fixed reg space (V1) : 0
+> > > >               RTC can wake system from S4 (V1) : 1
+> > > >                           32-bit PM Timer (V1) : 0
+> > > >                         Docking Supported (V1) : 0
+> > > > @@ -148,32 +148,32 @@
+> > > >   [0DCh 0220   1]                     Space ID : 01 [SystemIO]
+> > > >   [0DDh 0221   1]                    Bit Width : 80
+> > > >   [0DEh 0222   1]                   Bit Offset : 00
+> > > >   [0DFh 0223   1]         Encoded Access Width : 00 [Undefined/Legacy]
+> > > >   [0E0h 0224   8]                      Address : 0000000000000620
+> > > > 
+> > > >   [0E8h 0232  12]                   GPE1 Block : [Generic Address Structure]
+> > > >   [0E8h 0232   1]                     Space ID : 00 [SystemMemory]
+> > > >   [0E9h 0233   1]                    Bit Width : 00
+> > > >   [0EAh 0234   1]                   Bit Offset : 00
+> > > >   [0EBh 0235   1]         Encoded Access Width : 00 [Undefined/Legacy]
+> > > >   [0ECh 0236   8]                      Address : 0000000000000000
+> > > > 
+> > > >   Raw Table Data: Length 244 (0xF4)
+> > > > 
+> > > > -    0000: 46 41 43 50 F4 00 00 00 03 B9 42 4F 43 48 53 20  // FACP......BOCHS
+> > > > +    0000: 46 41 43 50 F4 00 00 00 03 B7 42 4F 43 48 53 20  // FACP......BOCHS
+> > > >       0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
+> > > >       0020: 01 00 00 00 00 00 00 00 00 00 00 00 01 00 09 00  // ................
+> > > >       0030: B2 00 00 00 02 03 00 00 00 06 00 00 00 00 00 00  // ................
+> > > >       0040: 04 06 00 00 00 00 00 00 00 00 00 00 08 06 00 00  // ................
+> > > >       0050: 20 06 00 00 00 00 00 00 04 02 00 04 10 00 00 00  //  ...............
+> > > > -    0060: FF 0F FF 0F 00 00 00 00 00 00 00 00 32 00 00 00  // ............2...
+> > > > +    0060: FF 0F FF 0F 00 00 00 00 00 00 00 00 32 02 00 00  // ............2...
+> > > >       0070: A5 84 00 00 01 08 00 00 F9 0C 00 00 00 00 00 00  // ................
+> > > >       0080: 0F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+> > > >       0090: 00 00 00 00 01 20 00 00 00 06 00 00 00 00 00 00  // ..... ..........
+> > > >       00A0: 00 00 00 00 00 00 00 00 00 00 00 00 01 10 00 00  // ................
+> > > >       00B0: 04 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+> > > >       00C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+> > > >       00D0: 01 20 00 00 08 06 00 00 00 00 00 00 01 80 00 00  // . ..............
+> > > >       00E0: 20 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00  //  ...............
+> > > >       00F0: 00 00 00 00                                      // ....
+> > this isn't helpful either and will be wrong if cherry picked.
+> 
+> It will be fixed in version 5 :)
+> 
+> I'll have to not retain the Ack sign of Ani, right?
+
+if all you change is commit log, acks normally stand.
+
+> > 
+> > > > **
+> > > Please retain tags from earlier revisions of the patch.
+> > > 
 > > > > Signed-off-by: Liav Albani <liavalb@gmail.com>
+> > > Acked-by: Ani Sinha <ani@anisinha.ca>
+> > > 
 > > > > ---
-> > > >   hw/acpi/aml-build.c         | 11 ++++++++++-
-> > > >   hw/i386/acpi-build.c        |  9 +++++++++
-> > > >   hw/i386/acpi-microvm.c      |  9 +++++++++
-> > > commit message says it's q35 specific, so wy it touched microvm anc piix4?
-> > > 
-> This affect only q35 machine type for now, but what happens if the MicroVM
-> ACPI FACP table is updated to use a revision that supports IA-PC boot flags?
-> > > >   include/hw/acpi/acpi-defs.h |  1 +
-> > > >   4 files changed, 29 insertions(+), 1 deletion(-)
+> > > >   tests/data/acpi/q35/FACP                    | Bin 244 -> 244 bytes
+> > > >   tests/data/acpi/q35/FACP.nosmm              | Bin 244 -> 244 bytes
+> > > >   tests/data/acpi/q35/FACP.slic               | Bin 244 -> 244 bytes
+> > > >   tests/data/acpi/q35/FACP.xapic              | Bin 244 -> 244 bytes
+> > > >   tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
+> > > >   5 files changed, 4 deletions(-)
 > > > > 
-> > > > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> > > > index 8966e16320..2085905b83 100644
-> > > > --- a/hw/acpi/aml-build.c
-> > > > +++ b/hw/acpi/aml-build.c
-> > > > @@ -2152,7 +2152,16 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-> > > >       build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
-> > > >       build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
-> > > >       build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
-> > > > -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
-> > > > +    /* IAPC_BOOT_ARCH */
-> > > > +    /*
-> > > > +     * This register is not defined in ACPI spec version 1.0, where the FACP
-> > > > +     * revision == 1 also applies. Therefore, just ignore setting this register.
-> > > > +     */
-> > > > +    if (f->rev == 1) {
-> > > > +        build_append_int_noprefix(tbl, 0, 2);
-> > > > +    } else {
-> > > > +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
-> > > > +    }
-> > > >       build_append_int_noprefix(tbl, 0, 1); /* Reserved */
-> > > >       build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
-> > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > > > index ebd47aa26f..c72c7bb9bb 100644
-> > > > --- a/hw/i386/acpi-build.c
-> > > > +++ b/hw/i386/acpi-build.c
-> > > > @@ -38,6 +38,7 @@
-> > > >   #include "hw/nvram/fw_cfg.h"
-> > > >   #include "hw/acpi/bios-linker-loader.h"
-> > > >   #include "hw/isa/isa.h"
-> > > > +#include "hw/input/i8042.h"
-> > > >   #include "hw/block/fdc.h"
-> > > >   #include "hw/acpi/memory_hotplug.h"
-> > > >   #include "sysemu/tpm.h"
-> > > > @@ -192,6 +193,14 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
-> > > >               .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
-> > > >           },
-> > > >       };
-> > > > +    /*
-> > > > +     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
-> > > > +     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
-> > > > +     * (the earliest acpi revision that supports this).
-> > >   /* APCI spec version 2.0, Table 5-10 */
-> > > 
-> > > is sufficient, the rest could be read from spec/
-> > ACPI though, not APCI.
-> It will be fixed in version 5.
-> > The comment can be shorter and more clearer, but I feel quoting spec
-> > and including table name is a good idea actually, but pls quote verbatim:
-> > 
-> > /* ACPI spec version 2.0, Table 5-10: Fixed ACPI Description Table Boot Architecture Flags */
-> > /* Bit offset 1 -  port 60 and 64 based keyboard controller, usually implemented as an 8042 or equivalent micro-controller. */
-> > 
-> > > > +     */
-> > > > +    fadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
-> > > > +                            0x0002 : 0x0000;
-> > and make it 0x1 << 1 - clearer that this is bit 1. Leading zeroes are
-> > not helpful since compiler does not check there's a correct number of
-> > these.
-> It will be fixed in version 5.
-> > > > +
-> > > >       *data = fadt;
-> > > >   }
-> > > > diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-> > > > index 68ca7e7fc2..4bc72b1672 100644
-> > > > --- a/hw/i386/acpi-microvm.c
-> > > > +++ b/hw/i386/acpi-microvm.c
-> > > > @@ -31,6 +31,7 @@
-> > > >   #include "hw/acpi/generic_event_device.h"
-> > > >   #include "hw/acpi/utils.h"
-> > > >   #include "hw/acpi/erst.h"
-> > > > +#include "hw/input/i8042.h"
-> > > >   #include "hw/i386/fw_cfg.h"
-> > > >   #include "hw/i386/microvm.h"
-> > > >   #include "hw/pci/pci.h"
-> > > > @@ -189,6 +190,14 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
-> > > >           .reset_val = ACPI_GED_RESET_VALUE,
-> > > >       };
-> > > > +    /*
-> > > > +     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
-> > > > +     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
-> > > > +     * (the earliest acpi revision that supports this).
-> > > > +     */
-> > > > +    pmfadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
-> > > > +                            0x0002 : 0x0000;
-> > > > +
-> > let's avoid code duplication pls.
-> > 
-> What do you suggest to do with this? Creating a separate function to do this
-> for us so we can call it from both locations?
-
-Sounds reasonable.
-
-> > > >       table_offsets = g_array_new(false, true /* clear */,
-> > > >                                           sizeof(uint32_t));
-> > > >       bios_linker_loader_alloc(tables->linker,
-> > > > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-> > > > index c97e8633ad..2b42e4192b 100644
-> > > > --- a/include/hw/acpi/acpi-defs.h
-> > > > +++ b/include/hw/acpi/acpi-defs.h
-> > > > @@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
-> > > >       uint16_t plvl2_lat;        /* P_LVL2_LAT */
-> > > >       uint16_t plvl3_lat;        /* P_LVL3_LAT */
-> > > >       uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
-> > > > +    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
-> > > >       uint8_t minor_ver;         /* FADT Minor Version */
-> > > >       /*
+> > > > diff --git a/tests/data/acpi/q35/FACP b/tests/data/acpi/q35/FACP
+> > > > index f6a864cc863c7763f6c09d3814ad184a658fa0a0..a8f6a8961109d01059aceef9f1869cde09a2f10c 100644
+> > > > GIT binary patch
+> > > > delta 23
+> > > > ecmeyu_=S<n&CxmF3j+fK^Y)2c$&5@B^V$GgGY3Ne
+> > > > 
+> > > > delta 23
+> > > > ecmeyu_=S<n&CxmF3j+fK^UjG}$&3sW^V$GgJqJSo
+> > > > 
+> > > > diff --git a/tests/data/acpi/q35/FACP.nosmm b/tests/data/acpi/q35/FACP.nosmm
+> > > > index 6a9aa5f370eb9af6a03dc739d8a159be58fdee01..c4e6d18ee5fc64159160d4589aa96b4d648c913a 100644
+> > > > GIT binary patch
+> > > > delta 23
+> > > > ecmeyu_=S<n&CxmF3j+fKbKXR*WJacmd2Ik#q6Yc^
+> > > > 
+> > > > delta 23
+> > > > ecmeyu_=S<n&CxmF3j+fKbHPNeWJZRGd2Ik#tOoi3
+> > > > 
+> > > > diff --git a/tests/data/acpi/q35/FACP.slic b/tests/data/acpi/q35/FACP.slic
+> > > > index 15986e095cf2db7ee92f7ce113c1d46d54018c62..48bbb1cf5ad0ceda1d2f6d56edf5c1e207bd1a04 100644
+> > > > GIT binary patch
+> > > > delta 23
+> > > > ecmeyu_=S<n&CxmF3j+fK^M#3A$&5@B^V$Gh6bD=Y
+> > > > 
+> > > > delta 23
+> > > > ecmeyu_=S<n&CxmF3j+fK^QDPg$&3sW^V$Gh9tT_i
+> > > > 
+> > > > diff --git a/tests/data/acpi/q35/FACP.xapic b/tests/data/acpi/q35/FACP.xapic
+> > > > index 2d3659c9c6753d07c3d48742343cb8e8cc034de7..31fa5dd19c213034eef4eeefa6a04e61dadd8a2a 100644
+> > > > GIT binary patch
+> > > > delta 23
+> > > > ecmeyu_=S<n&CxmF3j+fK^X7?M$&5@B^V$Gg4+lR0
+> > > > 
+> > > > delta 23
+> > > > ecmeyu_=S<n&CxmF3j+fK^VW%6$&3sW^V$Gg83#WA
+> > > > 
+> > > > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> > > > index 7570e39369..dfb8523c8b 100644
+> > > > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > > > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > > > @@ -1,5 +1 @@
+> > > >   /* List of comma-separated changed AML files to ignore */
+> > > > -"tests/data/acpi/q35/FACP",
+> > > > -"tests/data/acpi/q35/FACP.nosmm",
+> > > > -"tests/data/acpi/q35/FACP.slic",
+> > > > -"tests/data/acpi/q35/FACP.xapic",
+> > > > --
+> > > > 2.35.1
+> > > > 
+> > > > 
 
 
