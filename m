@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15644CAD58
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:17:57 +0100 (CET)
-Received: from localhost ([::1]:54462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3374CAD56
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:17:14 +0100 (CET)
+Received: from localhost ([::1]:52118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPTXw-00078o-EO
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:17:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57704)
+	id 1nPTXF-0005aR-Df
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:17:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPTKn-0007eV-Js
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:04:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38840)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPTLb-0001D5-GU
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:05:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPTKl-0006ae-86
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:04:20 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPTLZ-0006st-Lh
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:05:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646244258;
+ s=mimecast20190719; t=1646244308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=s7PNT5w0na4dAC2Znwh5KJuYoihX1QJAjDb7qrJjyeU=;
- b=hafAaouADEPs6ovKs/wioOgoDnzJ0DArt9z5vUmNmhEWYh/9jQ1FYyx/sNqQBvJzHmCfJH
- fVggsGjUFBz7HIQg3z771JhZ1LPrQDgFLWByyIKRoPDV7qeFxzff1fZRcAQXFJguv3sDLI
- Y8OBrMYEal/P6bHe6501ZZCQc1h7Nhk=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KdMdqEWeBP2boGVGfeEr3E5hnozpl+T46v4UlfqVOqc=;
+ b=VuHJRyZrKM5x6wbkCR8i5+xlKd0c3IUtZzA4pP4iGg6sOP3pbfUXsMYGCEJG7JGS8PndH7
+ mgW9dd2ILMekoc3ZSzLZTHOOXXt9wGTDA4QJJ1vGj0ZrVTL+3h+zET12654DSDRFFeMT6e
+ jutIEbYRT4m2ROSCn2lxQhSYcQhs36U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-570-VGZrFbNYOr2z_9m6d4X_0A-1; Wed, 02 Mar 2022 13:04:15 -0500
-X-MC-Unique: VGZrFbNYOr2z_9m6d4X_0A-1
+ us-mta-385-p_rODWPJMeeITqszFUTRsg-1; Wed, 02 Mar 2022 13:05:05 -0500
+X-MC-Unique: p_rODWPJMeeITqszFUTRsg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15907180FD74;
- Wed,  2 Mar 2022 18:04:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA3CF1006AA6;
+ Wed,  2 Mar 2022 18:05:02 +0000 (UTC)
 Received: from toolbox.redhat.com (unknown [10.33.36.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4056684781;
- Wed,  2 Mar 2022 18:02:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 754BB838D1;
+ Wed,  2 Mar 2022 18:04:13 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] Enable vhost-user to be used on BSD systems
-Date: Wed,  2 Mar 2022 19:03:15 +0100
-Message-Id: <20220302180318.28893-1-slp@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH v2 1/3] event_notifier: add event_notifier_get_wfd()
+Date: Wed,  2 Mar 2022 19:03:16 +0100
+Message-Id: <20220302180318.28893-2-slp@redhat.com>
+In-Reply-To: <20220302180318.28893-1-slp@redhat.com>
+References: <20220302180318.28893-1-slp@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -89,43 +91,58 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since QEMU is already able to emulate ioeventfd using pipefd, we're already=
-=0D
-pretty close to supporting vhost-user on non-Linux systems.=0D
-=0D
-This two patches bridge the gap by:=0D
-=0D
-1. Adding a new event_notifier_get_wfd() to return wfd on the places where=
-=0D
-   the peer is expected to write to the notifier.=0D
-=0D
-2. Modifying the build system to it allows enabling vhost-user on BSD.=0D
-=0D
-v1->v2:=0D
-  - Drop: "Allow returning EventNotifier's wfd" (Alex Williamson)=0D
-  - Add: "event_notifier: add event_notifier_get_wfd()" (Alex Williamson)=0D
-  - Add: "vhost: use wfd on functions setting vring call fd"=0D
-  - Rename: "Allow building vhost-user in BSD" to "configure, meson: allow=
-=0D
-    enabling vhost-user on all POSIX systems"=0D
-  - Instead of making possible enabling vhost-user on Linux and BSD systems=
-,=0D
-    allow enabling it on all non-Windows platforms. (Paolo)=0D
-=0D
-Sergio Lopez (3):=0D
-  event_notifier: add event_notifier_get_wfd()=0D
-  vhost: use wfd on functions setting vring call fd=0D
-  configure, meson: allow enabling vhost-user on all POSIX systems=0D
-=0D
- configure                     | 4 ++--=0D
- hw/virtio/vhost.c             | 6 +++---=0D
- include/qemu/event_notifier.h | 1 +=0D
- meson.build                   | 2 +-=0D
- util/event_notifier-posix.c   | 5 +++++=0D
- 5 files changed, 12 insertions(+), 6 deletions(-)=0D
-=0D
--- =0D
-2.35.1=0D
-=0D
+event_notifier_get_fd(const EventNotifier *e) always returns
+EventNotifier's read file descriptor (rfd). This is not a problem when
+the EventNotifier is backed by a an eventfd, as a single file
+descriptor is used both for reading and triggering events (rfd ==
+wfd).
+
+But, when EventNotifier is backed by a pipe pair, we have two file
+descriptors, one that can only be used for reads (rfd), and the other
+only for writes (wfd).
+
+There's, at least, one known situation in which we need to obtain wfd
+instead of rfd, which is when setting up the file that's going to be
+sent to the peer in vhost's SET_VRING_CALL.
+
+Add a new event_notifier_get_wfd(const EventNotifier *e) that can be
+used to obtain wfd where needed.
+
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+---
+ include/qemu/event_notifier.h | 1 +
+ util/event_notifier-posix.c   | 5 +++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/include/qemu/event_notifier.h b/include/qemu/event_notifier.h
+index b79add035d..8a4ff308e1 100644
+--- a/include/qemu/event_notifier.h
++++ b/include/qemu/event_notifier.h
+@@ -38,6 +38,7 @@ int event_notifier_test_and_clear(EventNotifier *);
+ #ifdef CONFIG_POSIX
+ void event_notifier_init_fd(EventNotifier *, int fd);
+ int event_notifier_get_fd(const EventNotifier *);
++int event_notifier_get_wfd(const EventNotifier *);
+ #else
+ HANDLE event_notifier_get_handle(EventNotifier *);
+ #endif
+diff --git a/util/event_notifier-posix.c b/util/event_notifier-posix.c
+index 8307013c5d..16294e98d4 100644
+--- a/util/event_notifier-posix.c
++++ b/util/event_notifier-posix.c
+@@ -99,6 +99,11 @@ int event_notifier_get_fd(const EventNotifier *e)
+     return e->rfd;
+ }
+ 
++int event_notifier_get_wfd(const EventNotifier *e)
++{
++    return e->wfd;
++}
++
+ int event_notifier_set(EventNotifier *e)
+ {
+     static const uint64_t value = 1;
+-- 
+2.35.1
 
 
