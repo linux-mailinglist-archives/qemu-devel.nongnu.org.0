@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C922D4CAA48
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:33:03 +0100 (CET)
-Received: from localhost ([::1]:44704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B37264CAA53
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:34:12 +0100 (CET)
+Received: from localhost ([::1]:48318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPRuQ-0008TP-IG
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:33:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60856)
+	id 1nPRvX-0002W4-Qc
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:34:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nPRsW-0006gs-F9
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:31:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48750)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=fxzG=TN=zx2c4.com=Jason@kernel.org>)
+ id 1nPRtt-0000Wg-1l
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:32:29 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:37344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nPRsT-0000ce-SM
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:31:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646238660;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=fxzG=TN=zx2c4.com=Jason@kernel.org>)
+ id 1nPRtq-0000wM-Ot
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:32:28 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 33AA5CE2189;
+ Wed,  2 Mar 2022 16:32:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FDCBC004E1;
+ Wed,  2 Mar 2022 16:32:16 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="Jx2KF4SC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1646238734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fhO/DDVKU/9ZtGGbN/rCWh8B3OTjsReyM2yB4kf7BU8=;
- b=TlEqfdnsBbOMr2k2utpUPFcdFMUythFqvxtAr2SONMKP8/oC7q3w/MWvefj0QLMYqFzdn/
- NKHIk4NEdCTj82OSXjx4Go/y4ByCrwJdsqQflHeC0ur6ea0OCyV+wzvLG76i6QKVZ+RNal
- X5M4gXKdWNMYXBvsZBwS2SBIfGlWuLA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-Mh2ES4U8Op2iCZiByr4j2Q-1; Wed, 02 Mar 2022 11:30:52 -0500
-X-MC-Unique: Mh2ES4U8Op2iCZiByr4j2Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EC348066F3;
- Wed,  2 Mar 2022 16:30:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.22.17.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DF4E7F0D3;
- Wed,  2 Mar 2022 16:30:50 +0000 (UTC)
-Date: Wed, 2 Mar 2022 10:30:48 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 1/9] hw/usb/redirect.c: Stop using qemu_oom_check()
-Message-ID: <20220302163048.pahjr7gkdj5jxqm5@redhat.com>
-References: <20220226180723.1706285-1-peter.maydell@linaro.org>
- <20220226180723.1706285-2-peter.maydell@linaro.org>
+ bh=pn15odJ1axHr1tSHXKM6R6gy8OQYz+UX/tuJV8kTZOI=;
+ b=Jx2KF4SCMS6oQ81ruL+PmUOxb313LAgFJH4b+Nm/AbpnaHEQrJ93HFFJlkrZFljIclR1Ig
+ 7MjMDAT88vIHvYQ5jVCXMswnqvnSTAn/DRep7zjTiB1RFfgW3eKlFxCp1420xGYalEM2Wc
+ ntxUnKyAuMw/wp27G1pbbLokW2Kvk8w=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6b026337
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Wed, 2 Mar 2022 16:32:14 +0000 (UTC)
+Date: Wed, 2 Mar 2022 17:32:07 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: propagating vmgenid outward and upward
+Message-ID: <Yh+cB5bWarl8CFN1@zx2c4.com>
+References: <CAHmME9qieLUDVoPYZPo=N8NCL1T-RzQ4p7kCFv3PKFUkhWZPsw@mail.gmail.com>
+ <20220302031738-mutt-send-email-mst@kernel.org>
+ <CAHmME9pf-bjnZuweoLqoFEmPy1OK7ogEgGEAva1T8uVTufhCuw@mail.gmail.com>
+ <20220302074503-mutt-send-email-mst@kernel.org>
+ <Yh93UZMQSYCe2LQ7@zx2c4.com>
+ <20220302092149-mutt-send-email-mst@kernel.org>
+ <CAHmME9rf7hQP78kReP2diWNeX=obPem=f8R-dC7Wkpic2xmffg@mail.gmail.com>
+ <20220302101602-mutt-send-email-mst@kernel.org>
+ <Yh+PET49oHNpxn+H@zx2c4.com>
+ <20220302111737-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20220226180723.1706285-2-peter.maydell@linaro.org>
-User-Agent: NeoMutt/20211029-378-f757a4
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220302111737-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=145.40.73.55;
+ envelope-from=SRS0=fxzG=TN=zx2c4.com=Jason@kernel.org;
+ helo=sin.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,66 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
+ Colm MacCarthaigh <colmmacc@amazon.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>, adrian@parity.io,
+ KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Theodore Ts'o <tytso@mit.edu>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Feb 26, 2022 at 06:07:15PM +0000, Peter Maydell wrote:
-> qemu_oom_check() is a function which essentially says "if you pass me
-> a NULL pointer then print a message then abort()".  On POSIX systems
-> the message includes strerror(errno); on Windows it includes the
-> GetLastError() error value printed as an integer.
-> 
-> Other than in the implementation of qemu_memalign(), we use this
-> function only in hw/usb/redirect.c, for three checks:
-> 
->  * on a call to usbredirparser_create()
->  * on a call to usberedirparser_serialize()
->  * on a call to malloc()
-> 
-> The usbredir library API functions make no guarantees that they will
-> set errno on errors, let alone that they might set the
-> Windows-specific GetLastError string.  malloc() is documented as
-> setting errno, not GetLastError -- and in any case the only thing it
-> might set errno to is ENOMEM.  So qemu_oom_check() isn't the right
-> thing for any of these.  Replace them with straightforward
-> error-checking code.  This will allow us to get rid of
-> qemu_oom_check().
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> I have left all of these errors as fatal, since that's what they
-> were previously. Possibly somebody with a better understanding
-> of the usbredir code might be able to make them theoretically
-> non-fatal, but we make malloc failures generally fatal anyway.
-> ---
->  hw/usb/redirect.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-> index 5f0ef9cb3b0..8692ea25610 100644
-> --- a/hw/usb/redirect.c
-> +++ b/hw/usb/redirect.c
-> @@ -1239,7 +1239,11 @@ static void usbredir_create_parser(USBRedirDevice *dev)
->  
->      DPRINTF("creating usbredirparser\n");
->  
-> -    dev->parser = qemu_oom_check(usbredirparser_create());
-> +    dev->parser = usbredirparser_create();
-> +    if (!dev->parser) {
-> +        error_report("usbredirparser_create() failed");
-> +        exit(1);
+Hi Michael,
 
-Is exit(EXIT_FAILURE) worth using in this file?  We have an
-inconsistent history of a magic number vs. a named constant, so either
-way,
+On Wed, Mar 02, 2022 at 11:22:46AM -0500, Michael S. Tsirkin wrote:
+> > Because that 16 byte read of vmgenid is not atomic. Let's say you read
+> > the first 8 bytes, and then the VM is forked.
+> 
+> But at this point when VM was forked plaintext key and nonce are all in
+> buffer, and you previously indicated a fork at this point is harmless.
+> You wrote "If it changes _after_ that point of check ... it doesn't
+> matter:"
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Ahhh, fair point. I think you're right.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Alright, so all we're talking about here is an ordinary 16-byte read,
+and 16 bytes of storage per keypair, and a 16-byte comparison.
 
+Still seems much worse than just having a single word...
+
+Jason
 
