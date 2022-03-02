@@ -2,60 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF114CA1EB
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 11:13:25 +0100 (CET)
-Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955C04CA212
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 11:23:08 +0100 (CET)
+Received: from localhost ([::1]:33278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPLz2-0001WW-JV
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 05:13:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44392)
+	id 1nPM8R-0004Tu-DW
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 05:23:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nPLvv-00089B-Mh
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 05:10:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45788)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nPM5o-0003bz-N5
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 05:20:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nPLvs-0004zp-0W
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 05:10:09 -0500
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nPM5i-0008Tp-Ae
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 05:20:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646215806;
+ s=mimecast20190719; t=1646216416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5oe0uhGT1oxcqFitX5hOxI+lyaZearD/CJbfdsAWIgE=;
- b=IOH9FW7Fq4jf3v+Ug8MsNMPpht/eELUEfQb4EVIqkRe+UQFFS2weWbP/rzMAmu9QUeSo4L
- hfgIA/azvm9f3EsCJipVcxF3vTAhRl7tapdLkgWLrosoEQILo10SRJYZ8qzsvrrQ2PU7pr
- Z7v0g9ZfoRDk3S4KEsGjw0Ih3Ay3SyA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fiU4Aeoge2thHHdtegItpkWu2nYJ5rwzyjVfS0V3vzs=;
+ b=DieNvUK6U4g4ptKuE3/8S36/yVHJN7iKuuPHu4/dMmGvfvq03VLfjGMJu2Cxxb5bHYVgK9
+ BsN2P++YqRaBIivDUQkFPcftjqu0wJB9PxsVWu1UpmlAnRNQKtukPtiUZzjPl0Dyj1/vMA
+ v0mYa4feCLXGOrV7UIoxNQJF7uEebjA=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-498--SYOi-OoN2yQzTplSsSyLg-1; Wed, 02 Mar 2022 05:10:03 -0500
-X-MC-Unique: -SYOi-OoN2yQzTplSsSyLg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB489FC81;
- Wed,  2 Mar 2022 10:10:00 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C3EE1042A56;
- Wed,  2 Mar 2022 10:09:52 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Yishai Hadas <yishaih@nvidia.com>, alex.williamson@redhat.com,
- bhelgaas@google.com, jgg@nvidia.com, saeedm@nvidia.com
-Subject: Re: [PATCH V9 mlx5-next 11/15] vfio: Remove migration protocol v1
- documentation
-In-Reply-To: <20220224142024.147653-12-yishaih@nvidia.com>
-Organization: Red Hat GmbH
-References: <20220224142024.147653-1-yishaih@nvidia.com>
- <20220224142024.147653-12-yishaih@nvidia.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Wed, 02 Mar 2022 11:09:50 +0100
-Message-ID: <87wnhcis29.fsf@redhat.com>
+ us-mta-187-5VrP2FG4PJysvcevF_GDZA-1; Wed, 02 Mar 2022 05:20:15 -0500
+X-MC-Unique: 5VrP2FG4PJysvcevF_GDZA-1
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-2dbcdbdbaceso9553027b3.4
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 02:20:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fiU4Aeoge2thHHdtegItpkWu2nYJ5rwzyjVfS0V3vzs=;
+ b=eH8KkzULiPbSCu3qZ5Sm9pSfVKSYlCe0o8IecDoPr9VwRgUqwiaXrQE7l5XHXfancc
+ Dkigm8mu17rnPtbMz9cW1XANq9gaxFuDQoWqoBobVHAg3jvZCr9PlBTJ+zKZITuXA7Gf
+ C19XQni6oYt9pyAS2VjaN1kCzm2tU4t+IjAL91ailkk+PZ84s8v6WbkeLLjLCWP8daw7
+ W4yHPXU3j2ygfC33f1nmjD0bL2pUpIL8bxzQ4//GQ0yoKc90dQBA+8W48y3jUGkwZSaR
+ zR0dmKjkXJMD9pk2je7xfd35H6Jiwo+Rh7jwBkOHaOyEKBxs7IrZJCKKCalSCGanjesy
+ P7JQ==
+X-Gm-Message-State: AOAM533e9jQpxtZC2WoBwR7UFGeySdfSM/rtV23tvtxO6He29IxlOGD4
+ Om0FFTgXhGYk0XyKxw8ykHfqGF0N6iVyWMk7kHRiSbIl3wYDpzKh9ntdB2ptBCQwdQ0LAO6NGBq
+ s+eRQrog+ihVuIB6ugWumG6wDqlNeRcY=
+X-Received: by 2002:a25:e057:0:b0:624:2ade:2a8f with SMTP id
+ x84-20020a25e057000000b006242ade2a8fmr27991532ybg.87.1646216415348; 
+ Wed, 02 Mar 2022 02:20:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwl6GzJ1/7svk7LPiqpZAc1BNHAW6rQjrOuZ4iCFGxwwmvKdXHxCUsegfK0VK+imavFOXhE8IKXqSAVMPsvcmA=
+X-Received: by 2002:a25:e057:0:b0:624:2ade:2a8f with SMTP id
+ x84-20020a25e057000000b006242ade2a8fmr27991524ybg.87.1646216415104; Wed, 02
+ Mar 2022 02:20:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+References: <20220301142213.28568-1-frankja@linux.ibm.com>
+ <20220301142213.28568-4-frankja@linux.ibm.com>
+In-Reply-To: <20220301142213.28568-4-frankja@linux.ibm.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 2 Mar 2022 14:20:04 +0400
+Message-ID: <CAMxuvawNm-Y3fVG2B9zPV+EGsjf-4DZP643U5UNY9FE4KHVetQ@mail.gmail.com>
+Subject: Re: [PATCH 3/7] dump: Add more offset variables
+To: Janosch Frank <frankja@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,47 +95,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mgurtovoy@nvidia.com, kevin.tian@intel.com, yishaih@nvidia.com,
- ashok.raj@intel.com, kvm@vger.kernel.org, linux-pci@vger.kernel.org,
- qemu-devel@nongnu.org, shameerali.kolothum.thodi@huawei.com,
- kwankhede@nvidia.com, netdev@vger.kernel.org, kuba@kernel.org,
- leonro@nvidia.com, maorg@nvidia.com
+Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 24 2022, Yishai Hadas <yishaih@nvidia.com> wrote:
+On Tue, Mar 1, 2022 at 6:22 PM Janosch Frank <frankja@linux.ibm.com> wrote:
+>
+> Offset calculations are easy enough to get wrong. Let's add a few
+> variables to make moving around elf headers and data sections easier.
+>
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 
-> From: Jason Gunthorpe <jgg@nvidia.com>
->
-> v1 was never implemented and is replaced by v2.
->
-> The old uAPI documentation is removed from the header file.
->
-> The old uAPI definitions are still kept in the header file to ease
-> transition for userspace copying these headers. They will be fully
-> removed down the road.
->
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> Tested-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 > ---
->  include/uapi/linux/vfio.h | 200 +-------------------------------------
->  1 file changed, 2 insertions(+), 198 deletions(-)
+>  dump/dump.c           | 34 ++++++++++++++--------------------
+>  include/sysemu/dump.h |  4 ++++
+>  2 files changed, 18 insertions(+), 20 deletions(-)
 >
-> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index 26a66f68371d..fea86061b44e 100644
-> --- a/include/uapi/linux/vfio.h
-> +++ b/include/uapi/linux/vfio.h
-> @@ -323,7 +323,7 @@ struct vfio_region_info_cap_type {
->  #define VFIO_REGION_TYPE_PCI_VENDOR_MASK	(0xffff)
->  #define VFIO_REGION_TYPE_GFX                    (1)
->  #define VFIO_REGION_TYPE_CCW			(2)
-> -#define VFIO_REGION_TYPE_MIGRATION              (3)
-> +#define VFIO_REGION_TYPE_MIGRATION_DEPRECATED   (3)
-
-This means that QEMU will need to do a (simple) rename when it updates
-the headers, but that seems easy enough. (cc: to give a heads up.)
-
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> diff --git a/dump/dump.c b/dump/dump.c
+> index ce3a5e7003..242f83db95 100644
+> --- a/dump/dump.c
+> +++ b/dump/dump.c
+> @@ -137,13 +137,11 @@ static void write_elf64_header(DumpState *s, Error =
+**errp)
+>      elf_header.e_machine =3D cpu_to_dump16(s, s->dump_info.d_machine);
+>      elf_header.e_version =3D cpu_to_dump32(s, EV_CURRENT);
+>      elf_header.e_ehsize =3D cpu_to_dump16(s, sizeof(elf_header));
+> -    elf_header.e_phoff =3D cpu_to_dump64(s, sizeof(Elf64_Ehdr));
+> +    elf_header.e_phoff =3D cpu_to_dump64(s, s->phdr_offset);
+>      elf_header.e_phentsize =3D cpu_to_dump16(s, sizeof(Elf64_Phdr));
+>      elf_header.e_phnum =3D cpu_to_dump16(s, phnum);
+>      if (s->shdr_num) {
+> -        uint64_t shoff =3D sizeof(Elf64_Ehdr) + sizeof(Elf64_Phdr) * s->=
+phdr_num;
+> -
+> -        elf_header.e_shoff =3D cpu_to_dump64(s, shoff);
+> +        elf_header.e_shoff =3D cpu_to_dump64(s, s->shdr_offset);
+>          elf_header.e_shentsize =3D cpu_to_dump16(s, sizeof(Elf64_Shdr));
+>          elf_header.e_shnum =3D cpu_to_dump16(s, s->shdr_num);
+>      }
+> @@ -169,13 +167,11 @@ static void write_elf32_header(DumpState *s, Error =
+**errp)
+>      elf_header.e_machine =3D cpu_to_dump16(s, s->dump_info.d_machine);
+>      elf_header.e_version =3D cpu_to_dump32(s, EV_CURRENT);
+>      elf_header.e_ehsize =3D cpu_to_dump16(s, sizeof(elf_header));
+> -    elf_header.e_phoff =3D cpu_to_dump32(s, sizeof(Elf32_Ehdr));
+> +    elf_header.e_phoff =3D cpu_to_dump32(s, s->phdr_offset);
+>      elf_header.e_phentsize =3D cpu_to_dump16(s, sizeof(Elf32_Phdr));
+>      elf_header.e_phnum =3D cpu_to_dump16(s, phnum);
+>      if (s->shdr_num) {
+> -        uint32_t shoff =3D sizeof(Elf32_Ehdr) + sizeof(Elf32_Phdr) * s->=
+phdr_num;
+> -
+> -        elf_header.e_shoff =3D cpu_to_dump32(s, shoff);
+> +        elf_header.e_shoff =3D cpu_to_dump32(s, s->shdr_offset);
+>          elf_header.e_shentsize =3D cpu_to_dump16(s, sizeof(Elf32_Shdr));
+>          elf_header.e_shnum =3D cpu_to_dump16(s, s->shdr_num);
+>      }
+> @@ -238,12 +234,11 @@ static void write_elf32_load(DumpState *s, MemoryMa=
+pping *memory_mapping,
+>  static void write_elf64_note(DumpState *s, Error **errp)
+>  {
+>      Elf64_Phdr phdr;
+> -    hwaddr begin =3D s->memory_offset - s->note_size;
+>      int ret;
+>
+>      memset(&phdr, 0, sizeof(Elf64_Phdr));
+>      phdr.p_type =3D cpu_to_dump32(s, PT_NOTE);
+> -    phdr.p_offset =3D cpu_to_dump64(s, begin);
+> +    phdr.p_offset =3D cpu_to_dump64(s, s->note_offset);
+>      phdr.p_paddr =3D 0;
+>      phdr.p_filesz =3D cpu_to_dump64(s, s->note_size);
+>      phdr.p_memsz =3D cpu_to_dump64(s, s->note_size);
+> @@ -303,13 +298,12 @@ static void write_elf64_notes(WriteCoreDumpFunction=
+ f, DumpState *s,
+>
+>  static void write_elf32_note(DumpState *s, Error **errp)
+>  {
+> -    hwaddr begin =3D s->memory_offset - s->note_size;
+>      Elf32_Phdr phdr;
+>      int ret;
+>
+>      memset(&phdr, 0, sizeof(Elf32_Phdr));
+>      phdr.p_type =3D cpu_to_dump32(s, PT_NOTE);
+> -    phdr.p_offset =3D cpu_to_dump32(s, begin);
+> +    phdr.p_offset =3D cpu_to_dump32(s, s->note_offset);
+>      phdr.p_paddr =3D 0;
+>      phdr.p_filesz =3D cpu_to_dump32(s, s->note_size);
+>      phdr.p_memsz =3D cpu_to_dump32(s, s->note_size);
+> @@ -1828,15 +1822,15 @@ static void dump_init(DumpState *s, int fd, bool =
+has_format,
+>      }
+>
+>      if (s->dump_info.d_class =3D=3D ELFCLASS64) {
+> -        s->memory_offset =3D sizeof(Elf64_Ehdr) +
+> -                           sizeof(Elf64_Phdr) * s->phdr_num +
+> -                           sizeof(Elf64_Shdr) * s->shdr_num +
+> -                           s->note_size;
+> +        s->phdr_offset =3D sizeof(Elf64_Ehdr);
+> +        s->shdr_offset =3D s->phdr_offset + sizeof(Elf64_Phdr) * s->phdr=
+_num;
+> +        s->note_offset =3D s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr=
+_num;
+> +        s->memory_offset =3D s->note_offset + s->note_size;
+>      } else {
+> -        s->memory_offset =3D sizeof(Elf32_Ehdr) +
+> -                           sizeof(Elf32_Phdr) * s->phdr_num +
+> -                           sizeof(Elf32_Shdr) * s->shdr_num +
+> -                           s->note_size;
+> +        s->phdr_offset =3D sizeof(Elf32_Ehdr);
+> +        s->shdr_offset =3D s->phdr_offset + sizeof(Elf32_Phdr) * s->phdr=
+_num;
+> +        s->note_offset =3D s->shdr_offset + sizeof(Elf32_Shdr) * s->shdr=
+_num;
+> +        s->memory_offset =3D s->note_offset + s->note_size;
+>      }
+>
+>      return;
+> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+> index 19458bffbd..ffc2ea1072 100644
+> --- a/include/sysemu/dump.h
+> +++ b/include/sysemu/dump.h
+> @@ -159,6 +159,10 @@ typedef struct DumpState {
+>      bool resume;
+>      bool detached;
+>      ssize_t note_size;
+> +    hwaddr shdr_offset;
+> +    hwaddr phdr_offset;
+> +    hwaddr section_offset;
+> +    hwaddr note_offset;
+>      hwaddr memory_offset;
+>      int fd;
+>
+> --
+> 2.32.0
+>
 
 
