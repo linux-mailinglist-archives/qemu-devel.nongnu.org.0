@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E66E4CA4C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 13:26:27 +0100 (CET)
-Received: from localhost ([::1]:39076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2527E4CA4C6
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 13:28:08 +0100 (CET)
+Received: from localhost ([::1]:44610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPO3l-0006nn-6z
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 07:26:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57758)
+	id 1nPO5P-0002RS-71
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 07:28:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMrI-0001Pn-4V; Wed, 02 Mar 2022 06:09:29 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13384
+ id 1nPMrI-0001Og-1M; Wed, 02 Mar 2022 06:09:29 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21744
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMrF-0001tG-2Y; Wed, 02 Mar 2022 06:09:27 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2228OVMC001322; 
+ id 1nPMrF-0001st-3l; Wed, 02 Mar 2022 06:09:27 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 222AmT5m030381; 
  Wed, 2 Mar 2022 11:08:53 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ej51mb62t-1
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ej75ercwv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 11:08:52 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B2fPG022365;
+ Wed, 02 Mar 2022 11:08:53 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B3QkU030533;
  Wed, 2 Mar 2022 11:08:51 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03fra.de.ibm.com with ESMTP id 3efbu9d1wg-1
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma01fra.de.ibm.com with ESMTP id 3efbu95249-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 11:08:50 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 222B8mOI46793198
+ Wed, 02 Mar 2022 11:08:51 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 222B8nR240632716
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Mar 2022 11:08:48 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 68990A4073;
+ Wed, 2 Mar 2022 11:08:49 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E1C5F4C044;
  Wed,  2 Mar 2022 11:08:48 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2D920A4067;
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AF4C14C046;
  Wed,  2 Mar 2022 11:08:48 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Wed,  2 Mar 2022 11:08:48 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.58.125])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 8152E220294;
- Wed,  2 Mar 2022 12:08:47 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 1EBB92201C1;
+ Wed,  2 Mar 2022 12:08:48 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 59/87] ppc/pnv: Add a OCC model for POWER10
-Date: Wed,  2 Mar 2022 12:07:35 +0100
-Message-Id: <20220302110803.849505-60-clg@kaod.org>
+Subject: [PULL 60/87] ppc/pnv: Add POWER10 quads
+Date: Wed,  2 Mar 2022 12:07:36 +0100
+Message-Id: <20220302110803.849505-61-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220302110803.849505-1-clg@kaod.org>
 References: <20220302110803.849505-1-clg@kaod.org>
@@ -64,16 +64,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: OA8lO9TFA_D9xn4_iPbKAvCs9tG6zBIT
-X-Proofpoint-ORIG-GUID: OA8lO9TFA_D9xn4_iPbKAvCs9tG6zBIT
+X-Proofpoint-ORIG-GUID: 3ne2La1GwvujHDR1zZ3wDOUFhyfD1xYB
+X-Proofpoint-GUID: 3ne2La1GwvujHDR1zZ3wDOUFhyfD1xYB
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-02_01,2022-02-26_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 mlxlogscore=846
- phishscore=0 spamscore=0 adultscore=0 impostorscore=0 mlxscore=0
- suspectscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1034 phishscore=0
+ lowpriorityscore=0 suspectscore=0 impostorscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 malwarescore=0 mlxlogscore=606
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2203020047
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
@@ -96,140 +96,125 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our OCC model is very mininal and POWER10 can simply reuse the OCC
-model we introduced for POWER9.
+and use a pnv_chip_power10_quad_realize() helper to avoid code
+duplication with P9. This still needs some refinements on the XSCOM
+registers handling in PnvQuad.
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/pnv.h       |  1 +
- include/hw/ppc/pnv_occ.h   |  2 ++
- include/hw/ppc/pnv_xscom.h |  3 +++
- hw/ppc/pnv.c               | 10 ++++++++++
- hw/ppc/pnv_occ.c           | 16 ++++++++++++++++
- 5 files changed, 32 insertions(+)
+ include/hw/ppc/pnv.h |  3 +++
+ hw/ppc/pnv.c         | 50 +++++++++++++++++++++++++++++++++++---------
+ 2 files changed, 43 insertions(+), 10 deletions(-)
 
 diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 6b3457b4495d..21e69b0fc187 100644
+index 21e69b0fc187..6449fba39bfb 100644
 --- a/include/hw/ppc/pnv.h
 +++ b/include/hw/ppc/pnv.h
-@@ -128,6 +128,7 @@ struct Pnv10Chip {
-     PnvXive2     xive;
+@@ -129,6 +129,9 @@ struct Pnv10Chip {
      Pnv9Psi      psi;
      PnvLpcController lpc;
-+    PnvOCC       occ;
+     PnvOCC       occ;
++
++    uint32_t     nr_quads;
++    PnvQuad      *quads;
  };
 =20
  #define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
-diff --git a/include/hw/ppc/pnv_occ.h b/include/hw/ppc/pnv_occ.h
-index b78185aecaf2..f982ba002481 100644
---- a/include/hw/ppc/pnv_occ.h
-+++ b/include/hw/ppc/pnv_occ.h
-@@ -32,6 +32,8 @@ DECLARE_INSTANCE_CHECKER(PnvOCC, PNV8_OCC,
- #define TYPE_PNV9_OCC TYPE_PNV_OCC "-POWER9"
- DECLARE_INSTANCE_CHECKER(PnvOCC, PNV9_OCC,
-                          TYPE_PNV9_OCC)
-+#define TYPE_PNV10_OCC TYPE_PNV_OCC "-POWER10"
-+DECLARE_INSTANCE_CHECKER(PnvOCC, PNV10_OCC, TYPE_PNV10_OCC)
-=20
- #define PNV_OCC_SENSOR_DATA_BLOCK_OFFSET 0x00580000
- #define PNV_OCC_SENSOR_DATA_BLOCK_SIZE   0x00025800
-diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-index 188da874a4b0..151df15378d1 100644
---- a/include/hw/ppc/pnv_xscom.h
-+++ b/include/hw/ppc/pnv_xscom.h
-@@ -131,6 +131,9 @@ struct PnvXScomInterfaceClass {
- #define PNV10_XSCOM_PSIHB_BASE     0x3011D00
- #define PNV10_XSCOM_PSIHB_SIZE     0x100
-=20
-+#define PNV10_XSCOM_OCC_BASE       PNV9_XSCOM_OCC_BASE
-+#define PNV10_XSCOM_OCC_SIZE       PNV9_XSCOM_OCC_SIZE
-+
- #define PNV10_XSCOM_XIVE2_BASE     0x2010800
- #define PNV10_XSCOM_XIVE2_SIZE     0x400
-=20
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index f486fdfb5c72..2431a7a5a38a 100644
+index 2431a7a5a38a..77f250b86d8f 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -1582,6 +1582,7 @@ static void pnv_chip_power10_instance_init(Object *=
+@@ -1388,6 +1388,21 @@ static void pnv_chip_power9_instance_init(Object *=
 obj)
-                               "xive-fabric");
-     object_initialize_child(obj, "psi", &chip10->psi, TYPE_PNV10_PSI);
-     object_initialize_child(obj, "lpc", &chip10->lpc, TYPE_PNV10_LPC);
-+    object_initialize_child(obj, "occ",  &chip10->occ, TYPE_PNV10_OCC);
+     }
  }
 =20
- static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
-@@ -1647,6 +1648,15 @@ static void pnv_chip_power10_realize(DeviceState *=
-dev, Error **errp)
-     chip->fw_mr =3D &chip10->lpc.isa_fw;
-     chip->dt_isa_nodename =3D g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc=
-@0",
-                                             (uint64_t) PNV10_LPCM_BASE(c=
-hip));
-+
-+    /* Create the simplified OCC model */
-+    object_property_set_link(OBJECT(&chip10->occ), "psi", OBJECT(&chip10=
-->psi),
-+                             &error_abort);
-+    if (!qdev_realize(DEVICE(&chip10->occ), NULL, errp)) {
-+        return;
-+    }
-+    pnv_xscom_add_subregion(chip, PNV10_XSCOM_OCC_BASE,
-+                            &chip10->occ.xscom_regs);
- }
-=20
- static uint32_t pnv_chip_power10_xscom_pcba(PnvChip *chip, uint64_t addr=
-)
-diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
-index 5a716c256edc..4ed66f5e1fcc 100644
---- a/hw/ppc/pnv_occ.c
-+++ b/hw/ppc/pnv_occ.c
-@@ -236,7 +236,9 @@ static const MemoryRegionOps pnv_occ_power9_xscom_ops=
- =3D {
- static void pnv_occ_power9_class_init(ObjectClass *klass, void *data)
- {
-     PnvOCCClass *poc =3D PNV_OCC_CLASS(klass);
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-=20
-+    dc->desc =3D "PowerNV OCC Controller (POWER9)";
-     poc->xscom_size =3D PNV9_XSCOM_OCC_SIZE;
-     poc->xscom_ops =3D &pnv_occ_power9_xscom_ops;
-     poc->psi_irq =3D PSIHB9_IRQ_OCC;
-@@ -249,6 +251,19 @@ static const TypeInfo pnv_occ_power9_type_info =3D {
-     .class_init    =3D pnv_occ_power9_class_init,
- };
-=20
-+static void pnv_occ_power10_class_init(ObjectClass *klass, void *data)
++static void pnv_chip_quad_realize_one(PnvChip *chip, PnvQuad *eq,
++                                      PnvCore *pnv_core)
 +{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
++    char eq_name[32];
++    int core_id =3D CPU_CORE(pnv_core)->core_id;
 +
-+    dc->desc =3D "PowerNV OCC Controller (POWER10)";
++    snprintf(eq_name, sizeof(eq_name), "eq[%d]", core_id);
++    object_initialize_child_with_props(OBJECT(chip), eq_name, eq,
++                                       sizeof(*eq), TYPE_PNV_QUAD,
++                                       &error_fatal, NULL);
++
++    object_property_set_int(OBJECT(eq), "quad-id", core_id, &error_fatal=
+);
++    qdev_realize(DEVICE(eq), NULL, &error_fatal);
 +}
 +
-+static const TypeInfo pnv_occ_power10_type_info =3D {
-+    .name          =3D TYPE_PNV10_OCC,
-+    .parent        =3D TYPE_PNV9_OCC,
-+    .class_init    =3D pnv_occ_power10_class_init,
-+};
-+
- static void pnv_occ_realize(DeviceState *dev, Error **errp)
+ static void pnv_chip_quad_realize(Pnv9Chip *chip9, Error **errp)
  {
-     PnvOCC *occ =3D PNV_OCC(dev);
-@@ -297,6 +312,7 @@ static void pnv_occ_register_types(void)
-     type_register_static(&pnv_occ_type_info);
-     type_register_static(&pnv_occ_power8_type_info);
-     type_register_static(&pnv_occ_power9_type_info);
-+    type_register_static(&pnv_occ_power10_type_info);
+     PnvChip *chip =3D PNV_CHIP(chip9);
+@@ -1397,18 +1412,9 @@ static void pnv_chip_quad_realize(Pnv9Chip *chip9,=
+ Error **errp)
+     chip9->quads =3D g_new0(PnvQuad, chip9->nr_quads);
+=20
+     for (i =3D 0; i < chip9->nr_quads; i++) {
+-        char eq_name[32];
+         PnvQuad *eq =3D &chip9->quads[i];
+-        PnvCore *pnv_core =3D chip->cores[i * 4];
+-        int core_id =3D CPU_CORE(pnv_core)->core_id;
+-
+-        snprintf(eq_name, sizeof(eq_name), "eq[%d]", core_id);
+-        object_initialize_child_with_props(OBJECT(chip), eq_name, eq,
+-                                           sizeof(*eq), TYPE_PNV_QUAD,
+-                                           &error_fatal, NULL);
+=20
+-        object_property_set_int(OBJECT(eq), "quad-id", core_id, &error_f=
+atal);
+-        qdev_realize(DEVICE(eq), NULL, &error_fatal);
++        pnv_chip_quad_realize_one(chip, eq, chip->cores[i * 4]);
+=20
+         pnv_xscom_add_subregion(chip, PNV9_XSCOM_EQ_BASE(eq->quad_id),
+                                 &eq->xscom_regs);
+@@ -1585,6 +1591,24 @@ static void pnv_chip_power10_instance_init(Object =
+*obj)
+     object_initialize_child(obj, "occ",  &chip10->occ, TYPE_PNV10_OCC);
  }
 =20
- type_init(pnv_occ_register_types);
++static void pnv_chip_power10_quad_realize(Pnv10Chip *chip10, Error **err=
+p)
++{
++    PnvChip *chip =3D PNV_CHIP(chip10);
++    int i;
++
++    chip10->nr_quads =3D DIV_ROUND_UP(chip->nr_cores, 4);
++    chip10->quads =3D g_new0(PnvQuad, chip10->nr_quads);
++
++    for (i =3D 0; i < chip10->nr_quads; i++) {
++        PnvQuad *eq =3D &chip10->quads[i];
++
++        pnv_chip_quad_realize_one(chip, eq, chip->cores[i * 4]);
++
++        pnv_xscom_add_subregion(chip, PNV10_XSCOM_EQ_BASE(eq->quad_id),
++                                &eq->xscom_regs);
++    }
++}
++
+ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
+ {
+     PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(dev);
+@@ -1606,6 +1630,12 @@ static void pnv_chip_power10_realize(DeviceState *=
+dev, Error **errp)
+         return;
+     }
+=20
++    pnv_chip_power10_quad_realize(chip10, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
+     /* XIVE2 interrupt controller (POWER10) */
+     object_property_set_int(OBJECT(&chip10->xive), "ic-bar",
+                             PNV10_XIVE2_IC_BASE(chip), &error_fatal);
 --=20
 2.34.1
 
