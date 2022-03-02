@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543D14CAAFC
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:01:07 +0100 (CET)
-Received: from localhost ([::1]:39794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E014CAB15
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:03:40 +0100 (CET)
+Received: from localhost ([::1]:43284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPSLZ-0000zD-SF
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:01:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40060)
+	id 1nPSO2-0003UZ-DJ
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:03:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPSJ6-00084Q-9K
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:58:32 -0500
-Received: from [2607:f8b0:4864:20::1131] (port=45025
- helo=mail-yw1-x1131.google.com)
+ id 1nPSKN-0000xp-48
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:59:51 -0500
+Received: from [2607:f8b0:4864:20::b2c] (port=33699
+ helo=mail-yb1-xb2c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPSJ4-0000IH-HB
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:58:31 -0500
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-2d07ae0b1c4so24942667b3.11
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 08:58:29 -0800 (PST)
+ id 1nPSKL-0000bn-HH
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:59:50 -0500
+Received: by mail-yb1-xb2c.google.com with SMTP id j2so4740160ybu.0
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 08:59:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=/VA1NSHS8K43Dd38qsMDdxeFZUkAh1/89nZYd2Eodvk=;
- b=vsjTjCwXGCtkWGm9V7Ch/W2LhuUCCybVK2kXEmU4vZenY1BiXcgs7WtUNW5L+YXOr5
- kZpR8qF7aRmh6+vnqAdsguvphUusW02U4N7TxXsydaVro/BvKNNYZa0t02m7nyaiqS5T
- UhyDG+2QWlFPSIMkWmsY0S7gE5erhGlVvYQd1mMyJiyXjeVadYQgAX+3Mv9f2LQza0VD
- zTrOxYAEIyAB/clUdXsw1Of2xKpLDqpD4F40tVcsDWEBPERl3n0dB9UR8PYxhEx/qhgR
- VpduE5O8g8MY7v9BowzbeV8TH5yZa6EWS3VnKXDUu0y/zbfh6+28Dhez0bC8laWrwjoU
- G99A==
+ bh=TuVpbxTwgSwy72Fo18NRg/CVIoMts+CWzhTYCfLZaJ4=;
+ b=YyPp+V8adqTpWATekbY0A8QFa7huvy59AnxgVLQIXRyCZvUzSwNRgtD23iomfTTyPf
+ jCJZqlN6Bspt/NAIpFmc+urOVo8Q/BB5JGvuxb2Fsj+u/zRiWVimujhpbLgCY2DmW7Gs
+ WrqAUrjj973yL9KYARj1fVscuUC69O1xF6RUzB3f628nyK5KiCyj5iSBbGGRqT/pDiDt
+ yvnNs7A3yW/pV41CBdJVgKqOtljQZ9OPnykDm1qkPAREQLaiZYPbYe6CbSrXWnvlUoFT
+ 90J32zkM9YIf0kP1YmvGM50BDCIymOCkX7c8LHIAdPoGyn/ea3oLcf/e41fMluHVI+ik
+ zd1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=/VA1NSHS8K43Dd38qsMDdxeFZUkAh1/89nZYd2Eodvk=;
- b=ILhfQuST/7M3r0E+cd1xUn06NzBlb46J2tmm9EARNjL9RMubVHgiiQ0R4zD1D1lvAO
- cXM9JniyZwttam6AJNE5ofhrthvXQZ9ZvqOLrplpjgId2vWH4MnISvNJF1M8ha/RmSBJ
- zIAj1x/WsyVd3Cuezyt3WIp9xStFRYAq7627b4DAqmRdRyW8q+PWHkG0cDwmIkJG1l4+
- iPVEaAFYUek/dHbCvSmtNV85zIPXvHtjORoVdU7gkWpwSXbYuOM4EPDwFkKDRJSQwulg
- TpVHWqYXx6ec595xOhyBV+GrShBmu+TRCRVLACETSAFmJt6HwzKdObMyv/buACZGQSkL
- eDyA==
-X-Gm-Message-State: AOAM531QdbGyQKrIR6lsENBhnKJNykHpKrGPHg5n7sPudglvOiogY5+f
- tBEo1hnWgrSAcHX7/mRLuMHm/UiNUMitN8dhAuQ77A==
-X-Google-Smtp-Source: ABdhPJz2BJFy1/dWnuggOARTRCGT2ZMyJ99UcryS5LY6ZkGDvko+10xQGOPBqxJHUpoYgxcEIwfXXPNE2c7QGKLyUUA=
-X-Received: by 2002:a81:8c9:0:b0:2d7:6801:3fcc with SMTP id
- 192-20020a8108c9000000b002d768013fccmr31393077ywi.347.1646240308390; Wed, 02
- Mar 2022 08:58:28 -0800 (PST)
+ bh=TuVpbxTwgSwy72Fo18NRg/CVIoMts+CWzhTYCfLZaJ4=;
+ b=i9xog3+lTqSkdJJaQxS6N7PsGp+XWxfAPxxKaRnnCwlnPHD7/0nPZLWfp3tigCQaKZ
+ q90mceo6ynqAEBUYycjie/nNyiQ0IUe807y6vGN8Rnn2rxEBOyjsMj+HuM3K16OIimn0
+ Q/cIoCH2sFFSp71D0PIrny8XylXN71477USq0vlf8DzmI6zqK3XHaBbdCHo1erzQh5ZT
+ WnfXXSpaI1JsepJpyivKOYfymLwEQryZoY7ZSqGOEmc0gJHORbXlE4dvL1XI1LxR2XHX
+ UOrHNKYboEYcOgBaSaNzEvB3VjViT1OBlN/P1ykE8oLsdNqrDmzYgjEHsBAuw2SPP36R
+ tfcw==
+X-Gm-Message-State: AOAM530nKmvIcjJlCJUDqx1NBOwRo+UOpdjkw/lJlcNa5KvfIAXkhdg/
+ M3UJFB8OBWHqrknXo/KyPdCLZRRMZODHvU9fsaLH3A==
+X-Google-Smtp-Source: ABdhPJxbOGmimcLdvIdF1Eddadc2XI/Enl510zctpbuqdwL6oqkal5cfd9TU3fJ0ejnHUPf5NoCRGhoo3y6l9vom8RE=
+X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
+ q16-20020a5b0350000000b0062886b86e09mr6981767ybp.39.1646240388544; Wed, 02
+ Mar 2022 08:59:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20220302110803.849505-1-clg@kaod.org>
-In-Reply-To: <20220302110803.849505-1-clg@kaod.org>
+References: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+ <CAFEAcA89+ENOM6x19OEF53Kd2DWkhN5SN21Va0D7yepJSa3Jyg@mail.gmail.com>
+ <2106481.Hga0XrbuFZ@silver>
+In-Reply-To: <2106481.Hga0XrbuFZ@silver>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 2 Mar 2022 16:58:17 +0000
-Message-ID: <CAFEAcA8FP4Z+yw2EKV3iuxf=jq-KMdZEm=HFwsBk4LUuabqyVg@mail.gmail.com>
-Subject: Re: [PULL 00/87] ppc queue
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Date: Wed, 2 Mar 2022 16:59:37 +0000
+Message-ID: <CAFEAcA8JQAp4SuiWr-QAH7c9AyqD3nnNFGLYzVhsF2UQhFspBA@mail.gmail.com>
+Subject: Re: [PATCH] 9pfs: move qemu_dirent_dup() from osdep -> 9p-util
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1131
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -84,42 +85,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Mar 2022 at 11:08, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Wed, 2 Mar 2022 at 14:16, Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
 >
-> The following changes since commit 09591fcf6eb3157ab9c50a9fbbef5f8a567fb4=
-9f:
->
->   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20220228=
-' into staging (2022-03-01 15:55:31 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/legoater/qemu/ tags/pull-ppc-20220302
->
-> for you to fetch changes up to 169518430562b454a1531610d2711c6b920929f6:
->
->   hw/ppc/spapr_vio.c: use g_autofree in spapr_dt_vdevice() (2022-03-02 06=
-:51:40 +0100)
->
-> ----------------------------------------------------------------
-> ppc-7.0 queue
->
-> * ppc/pnv fixes
-> * PMU EBB support
-> * target/ppc: PowerISA Vector/VSX instruction batch
-> * ppc/pnv: Extension of the powernv10 machine with XIVE2 ans PHB5 models
-> * spapr allocation cleanups
->
+> On Dienstag, 1. M=C3=A4rz 2022 22:59:43 CET Peter Maydell wrote:
+> > On Tue, 1 Mar 2022 at 20:47, Christian Schoenebeck
+> >
+> > <qemu_oss@crudebyte.com> wrote:
+> > > Function qemu_dirent_dup() is currently only used by 9pfs server, so =
+move
+> > > it from project global header osdep.h to 9pfs specific header 9p-util=
+.h.
+> > >
+> > > Link:
+> > > https://lore.kernel.org/qemu-devel/CAFEAcA_=3DHAUNomKD2wurSVaAHa5mrk2=
+2A1oHK
+> > > LWUDjk7v6Khmg@mail.gmail.com/ Based-on:
+> > > <20220227223522.91937-12-wwcohen@gmail.com>
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
 
+> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> >
+> > since it's just code movement, but those "@c"s look a bit weird:
+> > are they really valid kerneldoc comment markup?
 
-Applied, thanks.
+> You are right, that's Doxygen format, not kerneldoc format.
+>
+> If you don't mind I send a separate, subsequent patch that just wipes the
+> "@c"s away, and leave this patch as-is (as this one is pure refactoring).
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+Yes, I agree that should be a separate patch, and just removing
+the formatting is the simplest approach.
 
+thanks
 -- PMM
 
