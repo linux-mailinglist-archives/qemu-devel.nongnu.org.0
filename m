@@ -2,86 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37DD4CAB6B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:21:14 +0100 (CET)
-Received: from localhost ([::1]:36676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2DA4CABA0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:28:27 +0100 (CET)
+Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPSf3-0002La-Up
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:21:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44898)
+	id 1nPSm2-0004wj-5s
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:28:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPSd6-0000Mq-FK; Wed, 02 Mar 2022 12:19:12 -0500
-Received: from [2607:f8b0:4864:20::635] (port=45806
- helo=mail-pl1-x635.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPSd4-0006pa-UV; Wed, 02 Mar 2022 12:19:12 -0500
-Received: by mail-pl1-x635.google.com with SMTP id s1so2108187plg.12;
- Wed, 02 Mar 2022 09:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=osi9O0VV1sOz8Hi7PeR3obUSFPu9+F2zWbPoIlHuOlU=;
- b=ZRKhXBAcKjsGbAdq1wmYgrE+k6hxDe3EZJu1mRhb8+JyAGF3ywfTNCafRZJp97UWL1
- 6y++snXIzl86zSeQVHRMdKKtKoP/FYzYl5z38L8R+M8ALlximDMvi3h3HS0Hd76MdgEj
- TIEJ1PaaWSkizU6C8SjXfTECCvq024QgNdPIdVdQw+sZW+tNljlmOJ1wnTwy3Tl8reCX
- Xhwk3h32nJwkGUS27IpQfCJ7KNMvKSH1NP6Dy7pv0bjxJ9f/z+rPJpbde0wxw1Pq1+Oi
- Du9QH+ww3jX+CA4yrNX9FsI9OhmR1miUJr5KHIWOsZVy8V7OxowS95AOQUKNNLFAxKQ3
- 1KRQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPSlE-0004Gw-5e
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:27:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31064)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPSlB-0003zP-7U
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:27:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646242052;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LdGVpD6JC2co+YDkL+SNwGtc/UkboD0tVW/slwVWtYg=;
+ b=IWNGfT2v3ZIEOrSnBcP2wGemlyXI4GX56fY0oO04XkZFrv1Qgy+skz2NVfaHv+HJWdGdN+
+ kNEq4acBO6qlhREtZF/7d95afHXl/08ujZMVMQ8fgM5Mh3AzoEeSLYNA0PqjufXkwoSYa6
+ RF0W+F7w6xDggKA8svL75yAHxyIlDKs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-614-LiTSAINkO6KjGTFcH_XKug-1; Wed, 02 Mar 2022 12:27:31 -0500
+X-MC-Unique: LiTSAINkO6KjGTFcH_XKug-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ h19-20020a05600c351300b0038141cf26deso1063994wmq.8
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 09:27:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=osi9O0VV1sOz8Hi7PeR3obUSFPu9+F2zWbPoIlHuOlU=;
- b=f2PvNsw+J3eICMfyF9noJVk1AmhesXcGhrVJN1CJKA9Za4IsOgH0Rzn1gdwl7aXc/d
- NiEz2idIoQsl3ZtuxPs5RZmNIAAExEhCIJXgMZvxBYLZbQymxX03NqSqgJe0spkVNXvy
- e0tyg22NGEsxsdpoLP5aRCxcj4Ygq9pMcFY/KehlBP9U7WP3VNXmbWof0ub8XmvxwlGY
- HmyrnvbzCZCuIXO3TRm/6QOY5PQAVSVtca+ssAUd2q4kvO8C4dZMST6njAtPOhtOj/fA
- g2DJDtJ/SVLK96WCtM63M5eK0RarfTksAmgstFemUDbZiukktR4BImt45Mjrdjzp9bn7
- 4dng==
-X-Gm-Message-State: AOAM531g7B1JgcfCWjZinAAMWjk9ygEMuuxZ0+5f1Kd+xGg9JuYMGhbu
- yH6iFhxd3jsnXZ7w1usSSUw=
-X-Google-Smtp-Source: ABdhPJyB5MLRYKAl+2/w1OwwNzXz0ex2//9FEpEJe1Su5thGMrlaQQQNCGD7Ft8PtuTn7UhgorxRFw==
-X-Received: by 2002:a17:902:c111:b0:14f:c841:66e2 with SMTP id
- 17-20020a170902c11100b0014fc84166e2mr31827638pli.92.1646241548513; 
- Wed, 02 Mar 2022 09:19:08 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- d17-20020a056a00245100b004c283dcbbccsm21324325pfj.176.2022.03.02.09.19.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Mar 2022 09:19:07 -0800 (PST)
-Message-ID: <8dfc9854-4d59-0759-88d0-d502ae7c552f@gmail.com>
-Date: Wed, 2 Mar 2022 18:18:59 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=LdGVpD6JC2co+YDkL+SNwGtc/UkboD0tVW/slwVWtYg=;
+ b=FhYJEFjdDj5x19kwlGTzX5+Xfnb4bzdslicTM3ugicjPO7/X8SB23bumji/bAuy8cg
+ UNcAsjeseAM44U7zD7lEqibezAKVU8sFzZlxEh/zEsPW6mKZtPEXFAT4elOczu6fhu66
+ BUpLxaQcTf2zJ4SyMh82i1HVbrO/7VyWJKs9tGVlBxtbV1/f7nMDooXIA0uUQbx9P3Pu
+ /Fq/iODS9dhgoCCPkyoQ1JpIVmpPpdXz0nqR9TxHqHtOfPI2kStoYeF+FK7jDyM9/qXq
+ yjie737kPx5gxhJb8tSp8Hjd/WnctQuV171b9bCWP8JIkmo644KBduC6bG0XiF+KRldq
+ +1Zw==
+X-Gm-Message-State: AOAM532lEVSMlQ1by9Xap3/c2Hjk+T/y9InEQVU8CiDPglpuVC6iUr9j
+ UlVS98qJ/DFUbXNUGh0NVtfPIP+3X87geZImvXA4R9U5fB3AGC9Ar5wFRCn14ru4StVnnAk9kyi
+ UM25/IYeJuUGAhd8=
+X-Received: by 2002:a5d:47ac:0:b0:1ed:164f:8ed0 with SMTP id
+ 12-20020a5d47ac000000b001ed164f8ed0mr23095476wrb.622.1646242050333; 
+ Wed, 02 Mar 2022 09:27:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz5jLSkK6NkZFrdgBwYO0IRaD957h+T8kNnewiZxTC2pec2pB+yzgfBbghP0YSfy6Ertpoqhw==
+X-Received: by 2002:a5d:47ac:0:b0:1ed:164f:8ed0 with SMTP id
+ 12-20020a5d47ac000000b001ed164f8ed0mr23095446wrb.622.1646242050108; 
+ Wed, 02 Mar 2022 09:27:30 -0800 (PST)
+Received: from redhat.com ([2a10:8006:355c:0:48d6:b937:2fb9:b7de])
+ by smtp.gmail.com with ESMTPSA id
+ r15-20020a05600c35cf00b003808165fbc2sm7335011wmq.25.2022.03.02.09.27.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Mar 2022 09:27:29 -0800 (PST)
+Date: Wed, 2 Mar 2022 12:27:24 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: propagating vmgenid outward and upward
+Message-ID: <20220302122640-mutt-send-email-mst@kernel.org>
+References: <20220302031738-mutt-send-email-mst@kernel.org>
+ <CAHmME9pf-bjnZuweoLqoFEmPy1OK7ogEgGEAva1T8uVTufhCuw@mail.gmail.com>
+ <20220302074503-mutt-send-email-mst@kernel.org>
+ <Yh93UZMQSYCe2LQ7@zx2c4.com>
+ <20220302092149-mutt-send-email-mst@kernel.org>
+ <CAHmME9rf7hQP78kReP2diWNeX=obPem=f8R-dC7Wkpic2xmffg@mail.gmail.com>
+ <20220302101602-mutt-send-email-mst@kernel.org>
+ <Yh+PET49oHNpxn+H@zx2c4.com>
+ <20220302111737-mutt-send-email-mst@kernel.org>
+ <Yh+cB5bWarl8CFN1@zx2c4.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 2/2] Allow building vhost-user in BSD
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, Sergio Lopez <slp@redhat.com>,
- qemu-devel@nongnu.org
-References: <20220302113644.43717-1-slp@redhat.com>
- <20220302113644.43717-3-slp@redhat.com>
- <66b68bcc-8d7e-a5f7-5e6c-b2d20c26ab01@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <66b68bcc-8d7e-a5f7-5e6c-b2d20c26ab01@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <Yh+cB5bWarl8CFN1@zx2c4.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,37 +105,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- kvm@vger.kernel.org, John G Johnson <john.g.johnson@oracle.com>,
- David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
+ Colm MacCarthaigh <colmmacc@amazon.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ adrian@parity.io, KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Theodore Ts'o <tytso@mit.edu>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/22 18:10, Paolo Bonzini wrote:
-> On 3/2/22 12:36, Sergio Lopez wrote:
->> With the possibility of using pipefd as a replacement on operating
->> systems that doesn't support eventfd, vhost-user can also work on BSD
->> systems.
->>
->> This change allows enabling vhost-user on BSD platforms too and
->> makes libvhost_user (which still depends on eventfd) a linux-only
->> feature.
->>
->> Signed-off-by: Sergio Lopez <slp@redhat.com>
+On Wed, Mar 02, 2022 at 05:32:07PM +0100, Jason A. Donenfeld wrote:
+> Hi Michael,
 > 
-> I would just check for !windows.
+> On Wed, Mar 02, 2022 at 11:22:46AM -0500, Michael S. Tsirkin wrote:
+> > > Because that 16 byte read of vmgenid is not atomic. Let's say you read
+> > > the first 8 bytes, and then the VM is forked.
+> > 
+> > But at this point when VM was forked plaintext key and nonce are all in
+> > buffer, and you previously indicated a fork at this point is harmless.
+> > You wrote "If it changes _after_ that point of check ... it doesn't
+> > matter:"
+> 
+> Ahhh, fair point. I think you're right.
+> 
+> Alright, so all we're talking about here is an ordinary 16-byte read,
+> and 16 bytes of storage per keypair, and a 16-byte comparison.
+> 
+> Still seems much worse than just having a single word...
+> 
+> Jason
 
-What about Darwin / Haiku / Illumnos?
+And it is, I saw a 30% higher overhead, it is however 30% of a very
+low number ;)
+
+-- 
+MST
+
 
