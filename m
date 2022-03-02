@@ -2,104 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9AB4CA72A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 15:05:35 +0100 (CET)
-Received: from localhost ([::1]:49330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2CE4CA674
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:50:58 +0100 (CET)
+Received: from localhost ([::1]:51760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPPbi-0003mP-D6
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 09:05:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52214)
+	id 1nPPNZ-0000wK-Mv
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:50:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1nPOLf-0000eO-9r
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:44:55 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4088)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1nPOLc-00045P-Km
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:44:54 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 222C0adV026319
- for <qemu-devel@nongnu.org>; Wed, 2 Mar 2022 12:44:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=yNX/crsaW4jNkHNmlG95Z6ROuRMDFkoqspGUCkEiTrA=;
- b=J7ZugJ/ZYih03qx1ZvBy9L8+IDcAGBnXEUmX9WyrrbWs1Xb08Xd+YRC+mc1PQl+ceFtU
- kjiFIi/0847GS82Ybqs9PQySMUBgXTAYivv2g+Uw9t+1kS/YLeq8KC8J//w4vL54RFyn
- ziB2OijNcyRgQGH5VS6SFQ+UsVbI2carLBYCapnGuJljcJURpJ67aOW14CerbxR0MarD
- yDsuP0SXcZXYLt4cz/9kZBUOclUcteEJVUU1Vcb50JUS/V1clj4WGZUGww2I7fC8Nnh1
- 3sVuSOPuq9rBkLlSMjERH+be7rmNQyKlwIDO/+GDW5IX0iHxC71nYX6zSDySbntEKA0a 4Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ej6bpvhq0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:44:50 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 222CIS1t026204
- for <qemu-devel@nongnu.org>; Wed, 2 Mar 2022 12:44:49 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ej6bpvhp9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 12:44:49 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222CgoZv007162;
- Wed, 2 Mar 2022 12:44:46 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06fra.de.ibm.com with ESMTP id 3efbfj5b16-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 12:44:46 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 222Cii9p53084534
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Mar 2022 12:44:44 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 86FE852050;
- Wed,  2 Mar 2022 12:44:44 +0000 (GMT)
-Received: from [9.145.51.38] (unknown [9.145.51.38])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 55E915204F;
- Wed,  2 Mar 2022 12:44:44 +0000 (GMT)
-Message-ID: <104c2aa7-2b0f-c5f4-a996-561d960c7701@linux.ibm.com>
-Date: Wed, 2 Mar 2022 13:44:43 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nPOLz-0000nD-5o
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:45:18 -0500
+Received: from [2607:f8b0:4864:20::b2c] (port=45753
+ helo=mail-yb1-xb2c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nPOLs-0004HT-NW
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:45:14 -0500
+Received: by mail-yb1-xb2c.google.com with SMTP id w16so3056304ybi.12
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 04:45:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=upbrBEhwUZyFY/NsnvLpUnn5WDSPfPN4lGWULVn9sfE=;
+ b=bAmI6bE6EQwNgHCia282SCwNrtXyXJVaZh4JDcpk1C5vNZYUJ6s6Os97s0ceHDj7Hp
+ KLQKY3zpaizLbH37lGAktQAsHhJhAoyzfUKtGl7fC2Xl+4YtFZ8f+8OiaH9ht3LYNWvd
+ xJbZJZCxBRhI1RKiRY/8yYwxZc/jVzFNBHKxW5IuMfT1XB8OGSCmyIWa8TWgfBYOa2Vb
+ VgXd/0Y13NmybTiizlaMHtoQ43Z+EuYKlezyfsy8FNhu5Ih/5UR+sSKSimRFrOTSt5TE
+ 93jjSTHDEa2jCkXMlJ087aX5H6LYsp2Nfa3nSwhn8G2OAT3ykYcS7MjNQHZXq7OHAAV4
+ awnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=upbrBEhwUZyFY/NsnvLpUnn5WDSPfPN4lGWULVn9sfE=;
+ b=tMo6M/GRGLH0aQjHkzChNAAzQhINHRSFdGFfDWusLHguEL7trAIpTvm/xhVwMCSX0X
+ Sf3ImZcU4M624DE0X0hzY1uNGpzL+eAwwAqZPiACEh7KAFJdR2V4pGVZxLtVhzAdXDjk
+ 7WzruTnigSJOUxGEJFEU5an36xtv2eBLSUVbRD7dQ2IiRJjOOtPDNrwN3FYXIM+WGmMr
+ Q0FaNTqUojlJvK+JmurP8ijPYbTaEiXdw2Eab2zLe/+L++K6J6O5Atxw/PAkJwDpD0Kg
+ Vg1W051vU1yDOHKZ+N4myUl2DB7NEaq7eI0HPa58TE9L9mH6Za4Xu/Cl83ab3iWpA0Wx
+ xViA==
+X-Gm-Message-State: AOAM5305VMN4gSV+yQme3YD8p35BjiZyB8hcCMg6VMIISXVK0zxUKX6E
+ MWV9dMMHy6hsU6a/4hiok2Yqsqa06IlJJOb79xAkNw==
+X-Google-Smtp-Source: ABdhPJyW04HiHeiZKg67IQwECXWmm9H6Gdvgymsq3AiG0BVDzL5yUbtTU4O9fnvgkCVakYQ0S6MmNP0YHkFlUuJWfMA=
+X-Received: by 2002:a25:dad5:0:b0:628:7b94:c196 with SMTP id
+ n204-20020a25dad5000000b006287b94c196mr7228148ybf.85.1646225105613; Wed, 02
+ Mar 2022 04:45:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 7/7] dump: Consolidate elf note function
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20220301142213.28568-1-frankja@linux.ibm.com>
- <20220301142213.28568-8-frankja@linux.ibm.com>
- <CAMxuvazk2MYoXj1Gku3F5sepwUVuo-Q6Ts8sYkrQHtJ0jnytjQ@mail.gmail.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-In-Reply-To: <CAMxuvazk2MYoXj1Gku3F5sepwUVuo-Q6Ts8sYkrQHtJ0jnytjQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: QjGWmrpgEtv390O7a_ztf70D2gOgwADL
-X-Proofpoint-ORIG-GUID: KbMTfqS4JDvEKqM0PFk_1IaVUh8f7M9R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-02_06,2022-02-26_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- suspectscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=887
- spamscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2203020054
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220227182125.21809-1-richard.henderson@linaro.org>
+ <20220227182125.21809-2-richard.henderson@linaro.org>
+In-Reply-To: <20220227182125.21809-2-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 2 Mar 2022 12:44:54 +0000
+Message-ID: <CAFEAcA9Jm47RuP7wk2az6xP4Fay9hCDg7NNp-ARrLyk8xmMOEQ@mail.gmail.com>
+Subject: Re: [PATCH 1/7] target/nios2: Remove mmu_read_debug
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,48 +82,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMy8yLzIyIDExOjMwLCBNYXJjLUFuZHLDqSBMdXJlYXUgd3JvdGU6DQo+IEhpDQo+IA0K
-PiBPbiBUdWUsIE1hciAxLCAyMDIyIGF0IDY6MjIgUE0gSmFub3NjaCBGcmFuayA8ZnJhbmtq
-YUBsaW51eC5pYm0uY29tPiB3cm90ZToNCj4+DQo+PiBKdXN0IGxpa2Ugd2l0aCB0aGUgb3Ro
-ZXIgd3JpdGUgZnVuY3Rpb25zIGxldCdzIG1vdmUgdGhlIDMyLzY0IGJpdCBlbGYNCj4+IGhh
-bmRsaW5nIHRvIGEgZnVuY3Rpb24gdG8gaW1wcm92ZSByZWFkYWJpbGl0eS4NCj4+DQo+PiBT
-aWduZWQtb2ZmLWJ5OiBKYW5vc2NoIEZyYW5rIDxmcmFua2phQGxpbnV4LmlibS5jb20+DQo+
-PiAtLS0NCj4+ICAgZHVtcC9kdW1wLmMgfCAyNCArKysrKysrKysrKysrKysrKy0tLS0tLS0N
-Cj4+ICAgMSBmaWxlIGNoYW5nZWQsIDE3IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0p
-DQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2R1bXAvZHVtcC5jIGIvZHVtcC9kdW1wLmMNCj4+IGlu
-ZGV4IDc4NjU0YjljMjcuLjliYTAzOTJlMDAgMTAwNjQ0DQo+PiAtLS0gYS9kdW1wL2R1bXAu
-Yw0KPj4gKysrIGIvZHVtcC9kdW1wLmMNCj4+IEBAIC01MDcsNiArNTA3LDIxIEBAIHN0YXRp
-YyB2b2lkIHdyaXRlX2VsZl9sb2FkcyhEdW1wU3RhdGUgKnMsIEVycm9yICoqZXJycCkNCj4+
-ICAgICAgIH0NCj4+ICAgfQ0KPj4NCj4+ICtzdGF0aWMgdm9pZCB3cml0ZV9lbGZfbm90ZXMo
-RHVtcFN0YXRlICpzLCBFcnJvciAqKmVycnApDQo+PiArew0KPj4gKyAgICBFcnJvciAqbG9j
-YWxfZXJyID0gTlVMTDsNCj4+ICsNCj4+ICsgICAgaWYgKGR1bXBfaXNfNjRiaXQocykpIHsN
-Cj4+ICsgICAgICAgIHdyaXRlX2VsZjY0X25vdGVzKGZkX3dyaXRlX3ZtY29yZSwgcywgJmxv
-Y2FsX2Vycik7DQo+PiArICAgIH0gZWxzZSB7DQo+PiArICAgICAgICB3cml0ZV9lbGYzMl9u
-b3RlcyhmZF93cml0ZV92bWNvcmUsIHMsICZsb2NhbF9lcnIpOw0KPj4gKyAgICB9DQo+PiAr
-ICAgIGlmIChsb2NhbF9lcnIpIHsNCj4+ICsgICAgICAgIGVycm9yX3Byb3BhZ2F0ZShlcnJw
-LCBsb2NhbF9lcnIpOw0KPj4gKyAgICAgICAgcmV0dXJuOw0KPj4gKyAgICB9DQo+IA0KPiBQ
-bGVhc2UgdXNlICJtb2Rlcm4iLXN0eWxlIEVSUlBfR1VBUkQoKSwgYW5kIGluZGljYXRlIGZh
-aWx1cmUgd2l0aCBhDQo+IGJvb2wgKHNlZSBpbmNsdWRlL3FhcGkvZXJyb3IuaCkNCg0KRGlk
-bid0IGtub3cgdGhhdCdzIGEgdGhpbmcsIEknbGwgaGF2ZSBhIGxvb2sNCg0KPiANCj4gKHBl
-cmhhcHMgdGhpcyBzaG91bGQgYmUgcHJlbGltaW5hcnkgdG8gdGhpcyBzZXJpZXMpDQoNClNv
-IHlvdSB3YW50IG1lIHRvIGNoYW5nZSBhbGwgdGhlIGxvY2FsX2Vycm9yICsgZXJyb3JfcHJv
-cGFnYXRlKClzIGluIA0KdGhpcyBmaWxlPw0KDQo+IA0KPj4gK30NCj4+ICsNCj4+ICAgLyog
-d3JpdGUgZWxmIGhlYWRlciwgUFRfTk9URSBhbmQgZWxmIG5vdGUgdG8gdm1jb3JlLiAqLw0K
-Pj4gICBzdGF0aWMgdm9pZCBkdW1wX2JlZ2luKER1bXBTdGF0ZSAqcywgRXJyb3IgKiplcnJw
-KQ0KPj4gICB7DQo+PiBAQCAtNTcwLDEzICs1ODUsOCBAQCBzdGF0aWMgdm9pZCBkdW1wX2Jl
-Z2luKER1bXBTdGF0ZSAqcywgRXJyb3IgKiplcnJwKQ0KPj4gICAgICAgICAgIH0NCj4+ICAg
-ICAgIH0NCj4+DQo+PiAtICAgIGlmIChkdW1wX2lzXzY0Yml0KHMpKSB7DQo+PiAtICAgICAg
-ICAvKiB3cml0ZSBub3RlcyB0byB2bWNvcmUgKi8NCj4+IC0gICAgICAgIHdyaXRlX2VsZjY0
-X25vdGVzKGZkX3dyaXRlX3ZtY29yZSwgcywgJmxvY2FsX2Vycik7DQo+PiAtICAgIH0gZWxz
-ZSB7DQo+PiAtICAgICAgICAvKiB3cml0ZSBub3RlcyB0byB2bWNvcmUgKi8NCj4+IC0gICAg
-ICAgIHdyaXRlX2VsZjMyX25vdGVzKGZkX3dyaXRlX3ZtY29yZSwgcywgJmxvY2FsX2Vycik7
-DQo+PiAtICAgIH0NCj4+ICsgICAgLyogd3JpdGUgbm90ZXMgdG8gdm1jb3JlICovDQo+PiAr
-ICAgIHdyaXRlX2VsZl9ub3RlcyhzLCAmbG9jYWxfZXJyKTsNCj4+ICAgICAgIGlmIChsb2Nh
-bF9lcnIpIHsNCj4+ICAgICAgICAgICBlcnJvcl9wcm9wYWdhdGUoZXJycCwgbG9jYWxfZXJy
-KTsNCj4+ICAgICAgICAgICByZXR1cm47DQo+PiAtLQ0KPj4gMi4zMi4wDQo+Pg0KPiANCg0K
+On Sun, 27 Feb 2022 at 18:23, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This functionality can be had via plugins, if desired.
+> In the meantime, it is unused code.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/nios2/helper.h    |  1 -
+>  target/nios2/mmu.h       |  1 -
+>  target/nios2/mmu.c       | 20 --------------------
+>  target/nios2/op_helper.c |  5 -----
+>  target/nios2/translate.c | 17 -----------------
+>  5 files changed, 44 deletions(-)
 
+> --- a/target/nios2/translate.c
+> +++ b/target/nios2/translate.c
+> @@ -448,23 +448,6 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
+>      gen_check_supervisor(dc);
+>
+>      switch (instr.imm5 + CR_BASE) {
+> -    case CR_PTEADDR:
+> -    case CR_TLBACC:
+> -    case CR_TLBMISC:
+> -    {
+> -#if !defined(CONFIG_USER_ONLY)
+> -        if (likely(instr.c != R_ZERO)) {
+> -            tcg_gen_mov_tl(cpu_R[instr.c], cpu_R[instr.imm5 + CR_BASE]);
+> -#ifdef DEBUG_MMU
+> -            TCGv_i32 tmp = tcg_const_i32(instr.imm5 + CR_BASE);
+> -            gen_helper_mmu_read_debug(cpu_R[instr.c], cpu_env, tmp);
+> -            tcg_temp_free_i32(tmp);
+> -#endif
+> -        }
+> -#endif
+> -        break;
+> -    }
+> -
+
+For a moment I thought this was changing the behaviour of these
+registers for linux-user, but gen_check_supervisor() means we
+never execute the code generated here. (Side note: it would
+be more sensible to stop generating code rather than generating
+the "throw an exception" code and then the "write/read reg"
+code as known-dead-code after it. But that's a different issue.)
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
