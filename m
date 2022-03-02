@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0B44CAD06
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:10:49 +0100 (CET)
-Received: from localhost ([::1]:33994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2B44CAC91
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:54:19 +0100 (CET)
+Received: from localhost ([::1]:45114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPTR2-0001WH-MQ
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:10:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54336)
+	id 1nPTB4-0003UB-FV
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:54:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT8O-0008WP-2T
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:51:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37042)
+ id 1nPT7X-0006YR-B3
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT8M-00011K-Kk
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:51:31 -0500
+ id 1nPT7V-0008FM-8T
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:50:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646243490;
+ s=mimecast20190719; t=1646243436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=13L5k8cooikzxaRIOASsHvRhHdAXKKgr7Z69SQ1V+NI=;
- b=Ao0KmdVQlkcNtlV5nENyxuD5ItA1IYTokL0q2cHJ70xeaMDhjJFcgQjSYjQoMP5DU5P8bP
- TUbvCCcJq8SMwS581FxsjSSJSDffk9IunzduXSskW6iLE35lA4OsYFJJanwyLN0tvKZcL1
- HdmsP8qVyg6yk08qo+BuUFwuUPefTVk=
+ bh=RFVD8I5EulyUZT0V3ZlirHWb+BNB0ZKwZrsrOuLBmUA=;
+ b=Oal8CaT9Qy6RPPBdgMEnS7NfoQxQW+VODadpTx70JQvo+h0N3ennAncyv5FmsCJkuO+3eq
+ S+wqD9IqPegWgb/DbVY75MYkcu/wxPADw66RbErnKB8vrG/6OmwKL4v2yyOMpScUL+6WCA
+ p9miZqLYcAxzhLnWSD6ofxxcnBB/Lpo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-coubCmu4OZmRl0t9-AYlHw-1; Wed, 02 Mar 2022 12:50:33 -0500
-X-MC-Unique: coubCmu4OZmRl0t9-AYlHw-1
+ us-mta-638-CRUaBONZOGqg6DkW_8jObQ-1; Wed, 02 Mar 2022 12:50:35 -0500
+X-MC-Unique: CRUaBONZOGqg6DkW_8jObQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40ADC1091DA1
- for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:50:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 894E25218
+ for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:50:34 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2E5B80019;
- Wed,  2 Mar 2022 17:50:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96C3380011;
+ Wed,  2 Mar 2022 17:50:32 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/18] tests: print newline after QMP response in qtest logs
-Date: Wed,  2 Mar 2022 17:49:18 +0000
-Message-Id: <20220302174932.2692378-5-berrange@redhat.com>
+Subject: [PATCH 05/18] tests: add more helper macros for creating TLS x509
+ certs
+Date: Wed,  2 Mar 2022 17:49:19 +0000
+Message-Id: <20220302174932.2692378-6-berrange@redhat.com>
 In-Reply-To: <20220302174932.2692378-1-berrange@redhat.com>
 References: <20220302174932.2692378-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -88,29 +89,86 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QMP commands have a trailing newline, but the response does not.
-This makes the qtest logs hard to follow as the next QMP command
-appears in the same line as the previous QMP response.
+These macros are more suited to the general consumers of certs in the
+test suite, where we don't need to exercise every single possible
+permutation.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qtest/libqtest.c | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/unit/crypto-tls-x509-helpers.h | 53 ++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index a85f8a6d05..79c3edcf4b 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -629,6 +629,9 @@ QDict *qmp_fd_receive(int fd)
-         }
-         json_message_parser_feed(&qmp.parser, &c, 1);
-     }
-+    if (log) {
-+        g_assert(write(2, "\n", 1) == 1);
-+    }
-     json_message_parser_destroy(&qmp.parser);
+diff --git a/tests/unit/crypto-tls-x509-helpers.h b/tests/unit/crypto-tls-x509-helpers.h
+index cf6329e653..247e7160eb 100644
+--- a/tests/unit/crypto-tls-x509-helpers.h
++++ b/tests/unit/crypto-tls-x509-helpers.h
+@@ -26,6 +26,9 @@
+ #include <libtasn1.h>
  
-     return qmp.response;
+ 
++#define QCRYPTO_TLS_TEST_CLIENT_NAME "ACME QEMU Client"
++#define QCRYPTO_TLS_TEST_CLIENT_HOSTILE_NAME "ACME Hostile Client"
++
+ /*
+  * This contains parameter about how to generate
+  * certificates.
+@@ -118,6 +121,56 @@ void test_tls_cleanup(const char *keyfile);
+     };                                                                  \
+     test_tls_generate_cert(&varname, NULL)
+ 
++# define TLS_ROOT_REQ_SIMPLE(varname, fname)                            \
++    QCryptoTLSTestCertReq varname = {                                   \
++        .filename = fname,                                              \
++        .cn = "qemu-CA",                                                \
++        .basicConstraintsEnable = true,                                 \
++        .basicConstraintsCritical = true,                               \
++        .basicConstraintsIsCA = true,                                   \
++        .keyUsageEnable = true,                                         \
++        .keyUsageCritical = true,                                       \
++        .keyUsageValue = GNUTLS_KEY_KEY_CERT_SIGN,                      \
++    };                                                                  \
++    test_tls_generate_cert(&varname, NULL)
++
++# define TLS_CERT_REQ_SIMPLE_CLIENT(varname, cavarname, cname, fname)   \
++    QCryptoTLSTestCertReq varname = {                                   \
++        .filename = fname,                                              \
++        .cn = cname,                                                    \
++        .basicConstraintsEnable = true,                                 \
++        .basicConstraintsCritical = true,                               \
++        .basicConstraintsIsCA = false,                                  \
++        .keyUsageEnable = true,                                         \
++        .keyUsageCritical = true,                                       \
++        .keyUsageValue =                                                \
++        GNUTLS_KEY_DIGITAL_SIGNATURE | GNUTLS_KEY_KEY_ENCIPHERMENT,     \
++        .keyPurposeEnable = true,                                       \
++        .keyPurposeCritical = true,                                     \
++        .keyPurposeOID1 = GNUTLS_KP_TLS_WWW_CLIENT,                     \
++    };                                                                  \
++    test_tls_generate_cert(&varname, cavarname.crt)
++
++# define TLS_CERT_REQ_SIMPLE_SERVER(varname, cavarname, fname,          \
++                                    hostname, ipaddr)                   \
++    QCryptoTLSTestCertReq varname = {                                   \
++        .filename = fname,                                              \
++        .cn = hostname ? hostname : ipaddr,                             \
++        .altname1 = hostname,                                           \
++        .ipaddr1 = ipaddr,                                              \
++        .basicConstraintsEnable = true,                                 \
++        .basicConstraintsCritical = true,                               \
++        .basicConstraintsIsCA = false,                                  \
++        .keyUsageEnable = true,                                         \
++        .keyUsageCritical = true,                                       \
++        .keyUsageValue =                                                \
++        GNUTLS_KEY_DIGITAL_SIGNATURE | GNUTLS_KEY_KEY_ENCIPHERMENT,     \
++        .keyPurposeEnable = true,                                       \
++        .keyPurposeCritical = true,                                     \
++        .keyPurposeOID1 = GNUTLS_KP_TLS_WWW_SERVER,                     \
++    };                                                                  \
++    test_tls_generate_cert(&varname, cavarname.crt)
++
+ extern const asn1_static_node pkix_asn1_tab[];
+ 
+ #endif
 -- 
 2.34.1
 
