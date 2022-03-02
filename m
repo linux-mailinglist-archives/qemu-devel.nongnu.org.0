@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A309F4CACAC
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:58:00 +0100 (CET)
-Received: from localhost ([::1]:56430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFEDC4CACC5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:01:12 +0100 (CET)
+Received: from localhost ([::1]:36626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPTEd-00030N-N8
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:57:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54206)
+	id 1nPTHj-0000SZ-UI
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:01:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT83-0007Xy-Nb
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:51:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42456)
+ id 1nPT87-0007Z7-GC
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:51:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT81-0000Oe-P7
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:51:11 -0500
+ id 1nPT84-0000TI-U0
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:51:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646243469;
+ s=mimecast20190719; t=1646243472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uOruPkQi8K/44g0hXMqLEBmP9bCzgxTKBctVxlVUQLU=;
- b=fWyPHW9synpyIYg33999LhiTKzqJkvq9ShuV/GHEryE+kJz2pKnYvzvQB+R8a5xqKxSZyZ
- jXb1WFmMWvNV0lhfVEdEXMsu+sqQN29kJ3kuU+vNMRvYtv3KYZbe8ArEJT8xhMvhRvxDGl
- oZnt8fFe7unFs4S5hZ0MncjxTaQkamE=
+ bh=6LQElUWXWVDqSqnr6NtBRmmBdsIJSLXg8swzAqhGGcw=;
+ b=GhzXuTGUio2Rk48fWTeMTp7kflE+qDEAWxOwnLDzlNsvJdC5GgMF/hXX1l86drfpmB4yrB
+ QVsSNRjSVIJBeX//4yVXqqRwyA2hOqRtvDfxQUyylq8Oh1EgdRtNmJpZsyO/DI1CAnKipI
+ 5mXuWh1pL7pglcvt17t4NReodeNy5K0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-IpMBsM2vN86PyB_zRY4cew-1; Wed, 02 Mar 2022 12:51:08 -0500
-X-MC-Unique: IpMBsM2vN86PyB_zRY4cew-1
+ us-mta-619-SWmhrSJCNJSnj-54dG84kA-1; Wed, 02 Mar 2022 12:51:10 -0500
+X-MC-Unique: SWmhrSJCNJSnj-54dG84kA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CF7E1006AA6
- for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:51:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A03991854E21
+ for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 17:51:09 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E6E3F8000B;
- Wed,  2 Mar 2022 17:51:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A9768000B;
+ Wed,  2 Mar 2022 17:51:07 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/18] tests: add migration tests of TLS with PSK credentials
-Date: Wed,  2 Mar 2022 17:49:26 +0000
-Message-Id: <20220302174932.2692378-13-berrange@redhat.com>
+Subject: [PATCH 13/18] tests: add migration tests of TLS with x509 credentials
+Date: Wed,  2 Mar 2022 17:49:27 +0000
+Message-Id: <20220302174932.2692378-14-berrange@redhat.com>
 In-Reply-To: <20220302174932.2692378-1-berrange@redhat.com>
 References: <20220302174932.2692378-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,342 +89,510 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This validates that we correctly handle migration success and failure
-scenarios when using TLS with pre shared keys.
+scenarios when using TLS with x509 certificates. There are quite a few
+different scenarios that matter in relation to hostname validation.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- roms/seabios                        |   2 +-
- tests/qtest/meson.build             |   7 +-
- tests/qtest/migration-test.c        | 180 ++++++++++++++++++++++++++--
- tests/unit/crypto-tls-psk-helpers.c |  18 ++-
- tests/unit/crypto-tls-psk-helpers.h |   1 +
- 5 files changed, 190 insertions(+), 18 deletions(-)
+ meson.build                  |   1 +
+ tests/qtest/meson.build      |   5 +
+ tests/qtest/migration-test.c | 366 +++++++++++++++++++++++++++++++++--
+ 3 files changed, 361 insertions(+), 11 deletions(-)
 
-diff --git a/roms/seabios b/roms/seabios
-index 2dd4b9b3f8..6a62e0cb0d 160000
---- a/roms/seabios
-+++ b/roms/seabios
-@@ -1 +1 @@
--Subproject commit 2dd4b9b3f84019668719344b40dba79d681be41c
-+Subproject commit 6a62e0cb0dfe9cd28b70547dbea5caf76847c3a9
+diff --git a/meson.build b/meson.build
+index 8df40bfac4..06d2175bdf 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1548,6 +1548,7 @@ config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
+ config_host_data.set('CONFIG_GETTID', has_gettid)
+ config_host_data.set('CONFIG_GNUTLS', gnutls.found())
+ config_host_data.set('CONFIG_GNUTLS_CRYPTO', gnutls_crypto.found())
++config_host_data.set('CONFIG_TASN1', tasn1.found())
+ config_host_data.set('CONFIG_GCRYPT', gcrypt.found())
+ config_host_data.set('CONFIG_NETTLE', nettle.found())
+ config_host_data.set('CONFIG_QEMU_PRIVATE_XTS', xts == 'private')
 diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index f33d84d19b..a95bb5def3 100644
+index a95bb5def3..91dc36fb9b 100644
 --- a/tests/qtest/meson.build
 +++ b/tests/qtest/meson.build
-@@ -276,13 +276,18 @@ endif
- 
- tpmemu_files = ['tpm-emu.c', 'tpm-util.c', 'tpm-tests.c']
- 
-+migration_files = [files('migration-helpers.c')]
-+if gnutls.found()
-+  migration_files += [files('../unit/crypto-tls-psk-helpers.c'), gnutls]
-+endif
+@@ -279,6 +279,11 @@ tpmemu_files = ['tpm-emu.c', 'tpm-util.c', 'tpm-tests.c']
+ migration_files = [files('migration-helpers.c')]
+ if gnutls.found()
+   migration_files += [files('../unit/crypto-tls-psk-helpers.c'), gnutls]
 +
++  if tasn1.found()
++    migration_files += [files('../unit/crypto-tls-x509-helpers.c',
++                              '../unit/pkix_asn1_tab.c'), tasn1]
++  endif
+ endif
+ 
  qtests = {
-   'bios-tables-test': [io, 'boot-sector.c', 'acpi-utils.c', 'tpm-emu.c'],
-   'cdrom-test': files('boot-sector.c'),
-   'dbus-vmstate-test': files('migration-helpers.c') + dbus_vmstate1,
-   'erst-test': files('erst-test.c'),
-   'ivshmem-test': [rt, '../../contrib/ivshmem-server/ivshmem-server.c'],
--  'migration-test': files('migration-helpers.c'),
-+  'migration-test': migration_files,
-   'pxe-test': files('boot-sector.c'),
-   'qos-test': [chardev, io, qos_test_ss.apply(config_host, strict: false).sources()],
-   'tpm-crb-swtpm-test': [io, tpmemu_files],
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index e40b408988..744a9f8123 100644
+index 744a9f8123..4040443caa 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -23,9 +23,13 @@
- #include "qapi/qapi-visit-sockets.h"
- #include "qapi/qobject-input-visitor.h"
- #include "qapi/qobject-output-visitor.h"
-+#include "crypto/tlscredspsk.h"
- 
- #include "migration-helpers.h"
+@@ -29,6 +29,9 @@
  #include "tests/migration/migration-test.h"
-+#ifdef CONFIG_GNUTLS
-+# include "tests/unit/crypto-tls-psk-helpers.h"
-+#endif
+ #ifdef CONFIG_GNUTLS
+ # include "tests/unit/crypto-tls-psk-helpers.h"
++# ifdef CONFIG_TASN1
++#  include "tests/unit/crypto-tls-x509-helpers.h"
++# endif
+ #endif
  
  /* For dirty ring test; so far only x86_64 is supported */
- #if defined(__linux__) && defined(HOST_X86_64)
-@@ -658,6 +662,100 @@ static void test_migrate_end(QTestState *from, QTestState *to, bool test_dest)
-     cleanup("dest_serial");
+@@ -754,6 +757,237 @@ test_migrate_tls_psk_finish(QTestState *from,
+     g_free(data->pskfile);
+     g_free(data);
  }
- 
-+#ifdef CONFIG_GNUTLS
-+struct TestMigrateTLSPSKData {
++
++#ifdef CONFIG_TASN1
++struct TestMigrateTLSX509Data {
 +    char *workdir;
-+    char *workdiralt;
-+    char *pskfile;
-+    char *pskfilealt;
++    char *keyfile;
++    char *cacert;
++    char *servercert;
++    char *serverkey;
++    char *clientcert;
++    char *clientkey;
 +};
 +
 +static void *
-+test_migrate_tls_psk_start_common(QTestState *from,
-+                                  QTestState *to,
-+                                  bool mismatch)
++test_migrate_tls_x509_start_common(QTestState *from,
++                                   QTestState *to,
++                                   bool verifyclient,
++                                   bool clientcert,
++                                   bool hostileclient,
++                                   bool authzclient,
++                                   const char *certhostname,
++                                   const char *certipaddr)
 +{
-+    struct TestMigrateTLSPSKData *data =
-+        g_new0(struct TestMigrateTLSPSKData, 1);
++    struct TestMigrateTLSX509Data *data =
++        g_new0(struct TestMigrateTLSX509Data, 1);
 +    QDict *rsp;
 +
-+    data->workdir = g_strdup_printf("%s/tlscredspsk0", tmpfs);
-+    data->pskfile = g_strdup_printf("%s/%s", data->workdir,
-+                                    QCRYPTO_TLS_CREDS_PSKFILE);
-+    mkdir(data->workdir, 0700);
-+    test_tls_psk_init(data->pskfile);
++    data->workdir = g_strdup_printf("%s/tlscredsx5090", tmpfs);
++    data->keyfile = g_strdup_printf("%s/key.pem", data->workdir);
 +
-+    if (mismatch) {
-+        data->workdiralt = g_strdup_printf("%s/tlscredspskalt0", tmpfs);
-+        data->pskfilealt = g_strdup_printf("%s/%s", data->workdiralt,
-+                                           QCRYPTO_TLS_CREDS_PSKFILE);
-+        mkdir(data->workdiralt, 0700);
-+        test_tls_psk_init_alt(data->pskfilealt);
++    data->cacert = g_strdup_printf("%s/ca-cert.pem", data->workdir);
++    data->serverkey = g_strdup_printf("%s/server-key.pem", data->workdir);
++    data->servercert = g_strdup_printf("%s/server-cert.pem", data->workdir);
++    if (clientcert) {
++        data->clientkey = g_strdup_printf("%s/client-key.pem", data->workdir);
++        data->clientcert = g_strdup_printf("%s/client-cert.pem", data->workdir);
 +    }
++
++    mkdir(data->workdir, 0700);
++
++    test_tls_init(data->keyfile);
++    g_assert(link(data->keyfile, data->serverkey) == 0);
++    if (clientcert) {
++        g_assert(link(data->keyfile, data->clientkey) == 0);
++    }
++
++    TLS_ROOT_REQ_SIMPLE(cacertreq, data->cacert);
++    if (clientcert) {
++        TLS_CERT_REQ_SIMPLE_CLIENT(servercertreq, cacertreq,
++                                   hostileclient ?
++                                   QCRYPTO_TLS_TEST_CLIENT_HOSTILE_NAME :
++                                   QCRYPTO_TLS_TEST_CLIENT_NAME,
++                                   data->clientcert);
++    }
++
++    TLS_CERT_REQ_SIMPLE_SERVER(clientcertreq, cacertreq,
++                               data->servercert,
++                               certhostname, certipaddr);
 +
 +    rsp = wait_command(from,
 +                       "{ 'execute': 'object-add',"
-+                       "  'arguments': { 'qom-type': 'tls-creds-psk',"
-+                       "                 'id': 'tlscredspsk0',"
++                       "  'arguments': { 'qom-type': 'tls-creds-x509',"
++                       "                 'id': 'tlscredsx509client0',"
 +                       "                 'endpoint': 'client',"
 +                       "                 'dir': %s,"
-+                       "                 'username': 'qemu'} }",
++                       "                 'sanity-check': true,"
++                       "                 'verify-peer': true} }",
 +                       data->workdir);
 +    qobject_unref(rsp);
++    migrate_set_parameter_str(from, "tls-creds", "tlscredsx509client0");
++    if (certhostname) {
++        migrate_set_parameter_str(from, "tls-hostname", certhostname);
++    }
 +
 +    rsp = wait_command(to,
 +                       "{ 'execute': 'object-add',"
-+                       "  'arguments': { 'qom-type': 'tls-creds-psk',"
-+                       "                 'id': 'tlscredspsk0',"
++                       "  'arguments': { 'qom-type': 'tls-creds-x509',"
++                       "                 'id': 'tlscredsx509server0',"
 +                       "                 'endpoint': 'server',"
-+                       "                 'dir': %s } }",
-+                       mismatch ? data->workdiralt : data->workdir);
++                       "                 'dir': %s,"
++                       "                 'sanity-check': true,"
++                       "                 'verify-peer': %i} }",
++                       data->workdir, verifyclient);
 +    qobject_unref(rsp);
++    migrate_set_parameter_str(to, "tls-creds", "tlscredsx509server0");
 +
-+    migrate_set_parameter_str(from, "tls-creds", "tlscredspsk0");
-+    migrate_set_parameter_str(to, "tls-creds", "tlscredspsk0");
++    if (authzclient) {
++        rsp = wait_command(to,
++                           "{ 'execute': 'object-add',"
++                           "  'arguments': { 'qom-type': 'authz-simple',"
++                           "                 'id': 'tlsauthz0',"
++                           "                 'identity': %s} }",
++                           "CN=" QCRYPTO_TLS_TEST_CLIENT_NAME);
++        migrate_set_parameter_str(to, "tls-authz", "tlsauthz0");
++    }
 +
 +    return data;
 +}
 +
++/*
++ * The normal case: match server's cert hostname against
++ * whatever host we were telling QEMU to connect to (if any)
++ */
 +static void *
-+test_migrate_tls_psk_start_match(QTestState *from,
-+                                 QTestState *to)
++test_migrate_tls_x509_start_default_host(QTestState *from,
++                                         QTestState *to)
 +{
-+    return test_migrate_tls_psk_start_common(from, to, false);
++    return test_migrate_tls_x509_start_common(from, to,
++                                              true, /* verifyclient */
++                                              true, /* clientcert */
++                                              false, /* hostileclient */
++                                              false, /* authzclient */
++                                              NULL,
++                                              "127.0.0.1");
++}
++
++/*
++ * The unusual case: the server's cert is different from
++ * the address we're telling QEMU to connect to (if any),
++ * so we must give QEMU an explicit hostname to validate
++ */
++static void *
++test_migrate_tls_x509_start_override_host(QTestState *from,
++                                          QTestState *to)
++{
++    return test_migrate_tls_x509_start_common(from, to,
++                                              true, /* verifyclient */
++                                              true, /* clientcert */
++                                              false, /* hostileclient */
++                                              false, /* authzclient */
++                                              "qemu.org",
++                                              NULL);
++}
++
++/*
++ * The unusual case: the server's cert is different from
++ * the address we're telling QEMU to connect to, and so we
++ * expect the client to reject the server
++ */
++static void *
++test_migrate_tls_x509_start_mismatch_host(QTestState *from,
++                                          QTestState *to)
++{
++    return test_migrate_tls_x509_start_common(from, to,
++                                              true, /* verifyclient */
++                                              true, /* clientcert */
++                                              false, /* hostileclient */
++                                              false, /* authzclient */
++                                              NULL,
++                                              "10.0.0.1");
 +}
 +
 +static void *
-+test_migrate_tls_psk_start_mismatch(QTestState *from,
-+                                    QTestState *to)
++test_migrate_tls_x509_start_friendly_client(QTestState *from,
++                                            QTestState *to)
 +{
-+    return test_migrate_tls_psk_start_common(from, to, true);
++    return test_migrate_tls_x509_start_common(from, to,
++                                              true, /* verifyclient */
++                                              true, /* clientcert */
++                                              false, /* hostileclient */
++                                              true, /* authzclient */
++                                              NULL,
++                                              "127.0.0.1");
++}
++
++static void *
++test_migrate_tls_x509_start_hostile_client(QTestState *from,
++                                           QTestState *to)
++{
++    return test_migrate_tls_x509_start_common(from, to,
++                                              true, /* verifyclient */
++                                              true, /* clientcert */
++                                              true, /* hostileclient */
++                                              true, /* authzclient */
++                                              NULL,
++                                              "127.0.0.1");
++}
++
++/*
++ * The case with no client certificate presented,
++ * and no server verification
++ */
++static void *
++test_migrate_tls_x509_start_allow_anonymous_client(QTestState *from,
++                                                   QTestState *to)
++{
++    return test_migrate_tls_x509_start_common(from, to,
++                                              false, /* verifyclient */
++                                              false, /* clientcert */
++                                              false, /* hostileclient */
++                                              false, /* authzclient */
++                                              NULL,
++                                              "127.0.0.1");
++}
++
++/*
++ * The case with no client certificate presented,
++ * and server verification rejecting
++ */
++static void *
++test_migrate_tls_x509_start_reject_anonymous_client(QTestState *from,
++                                                    QTestState *to)
++{
++    return test_migrate_tls_x509_start_common(from, to,
++                                              true, /* verifyclient */
++                                              false, /* clientcert */
++                                              false, /* hostileclient */
++                                              false, /* authzclient */
++                                              NULL,
++                                              "127.0.0.1");
 +}
 +
 +static void
-+test_migrate_tls_psk_finish(QTestState *from,
-+                            QTestState *to,
-+                            void *opaque)
++test_migrate_tls_x509_finish(QTestState *from,
++                             QTestState *to,
++                             void *opaque)
 +{
-+    struct TestMigrateTLSPSKData *data = opaque;
++    struct TestMigrateTLSX509Data *data = opaque;
 +
-+    test_tls_psk_cleanup(data->pskfile);
-+    if (data->pskfilealt) {
-+        test_tls_psk_cleanup(data->pskfilealt);
-+    }
++    test_tls_cleanup(data->keyfile);
++    unlink(data->cacert);
++    unlink(data->servercert);
++    unlink(data->serverkey);
++    unlink(data->clientcert);
++    unlink(data->clientkey);
 +    rmdir(data->workdir);
-+    if (data->workdiralt) {
-+        rmdir(data->workdiralt);
-+    }
 +
-+    g_free(data->workdiralt);
-+    g_free(data->pskfilealt);
 +    g_free(data->workdir);
-+    g_free(data->pskfile);
++    g_free(data->keyfile);
 +    g_free(data);
 +}
-+#endif /* CONFIG_GNUTLS */
-+
- static int migrate_postcopy_prepare(QTestState **from_ptr,
-                                     QTestState **to_ptr,
-                                     MigrateStart *args)
-@@ -918,27 +1016,45 @@ static void test_precopy_common(const char *listen_uri,
-     test_migrate_end(from, to, !expect_fail);
- }
++#endif /* CONFIG_TASN1 */
+ #endif /* CONFIG_GNUTLS */
  
--static void test_precopy_unix_common(bool dirty_ring)
-+
-+static void test_precopy_unix_common(TestMigrateStartHook start_hook,
-+                                     TestMigrateFinishHook finish_hook,
-+                                     bool expect_fail,
-+                                     bool dirty_ring)
+ static int migrate_postcopy_prepare(QTestState **from_ptr,
+@@ -1020,6 +1254,7 @@ static void test_precopy_common(const char *listen_uri,
+ static void test_precopy_unix_common(TestMigrateStartHook start_hook,
+                                      TestMigrateFinishHook finish_hook,
+                                      bool expect_fail,
++                                     bool dst_quit,
+                                      bool dirty_ring)
  {
      g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
- 
-     test_precopy_common(uri,
-                         uri,
--                        NULL, /* start_hook */
--                        NULL, /* finish_hook */
--                        false, /* expect_fail */
-+                        start_hook,
-+                        finish_hook,
-+                        expect_fail,
-                         false, /* dst_quit */
+@@ -1029,7 +1264,7 @@ static void test_precopy_unix_common(TestMigrateStartHook start_hook,
+                         start_hook,
+                         finish_hook,
+                         expect_fail,
+-                        false, /* dst_quit */
++                        dst_quit,
                          dirty_ring);
  }
  
--static void test_precopy_unix(void)
-+static void test_precopy_unix_plain(void)
- {
--    test_precopy_unix_common(false /* dirty_ring */);
-+    test_precopy_unix_common(NULL, /* start_hook */
-+                             NULL, /* finish_hook */
-+                             false, /* expect_fail */
-+                             false /* dirty_ring */);
-+}
-+
-+static void test_precopy_unix_tls_psk(void)
-+{
-+    test_precopy_unix_common(test_migrate_tls_psk_start_match,
-+                             test_migrate_tls_psk_finish,
-+                             false, /* expect_fail */
-+                             false /* dirty_ring */);
+@@ -1038,24 +1273,49 @@ static void test_precopy_unix_plain(void)
+     test_precopy_unix_common(NULL, /* start_hook */
+                              NULL, /* finish_hook */
+                              false, /* expect_fail */
++                             false, /* dst_quit */
+                              false /* dirty_ring */);
  }
  
- static void test_precopy_unix_dirty_ring(void)
- {
--    test_precopy_unix_common(true /* dirty_ring */);
++static void test_precopy_unix_dirty_ring(void)
++{
 +    test_precopy_unix_common(NULL, /* start_hook */
 +                             NULL, /* finish_hook */
 +                             false, /* clientReject */
++                             false, /* dst_quit */
 +                             true /* dirty_ring */);
++}
++
++#ifdef CONFIG_GNUTLS
+ static void test_precopy_unix_tls_psk(void)
+ {
+     test_precopy_unix_common(test_migrate_tls_psk_start_match,
+                              test_migrate_tls_psk_finish,
+                              false, /* expect_fail */
++                             false, /* dst_quit */
+                              false /* dirty_ring */);
  }
+ 
+-static void test_precopy_unix_dirty_ring(void)
++#ifdef CONFIG_TASN1
++static void test_precopy_unix_tls_x509_default_host(void)
+ {
+-    test_precopy_unix_common(NULL, /* start_hook */
+-                             NULL, /* finish_hook */
+-                             false, /* clientReject */
+-                             true /* dirty_ring */);
++    test_precopy_unix_common(test_migrate_tls_x509_start_default_host,
++                             test_migrate_tls_x509_finish,
++                             true, /* expect_fail */
++                             true, /* dst_quit */
++                             false /* dirty_ring */);
++}
++
++static void test_precopy_unix_tls_x509_override_host(void)
++{
++    test_precopy_unix_common(test_migrate_tls_x509_start_override_host,
++                             test_migrate_tls_x509_finish,
++                             false, /* expect_fail */
++                             false, /* dst_quit */
++                             false /* dirty_ring */);
+ }
++#endif /* CONFIG_TASN1 */
++#endif /* CONFIG_GNUTLS */
  
  #if 0
-@@ -1031,17 +1147,43 @@ static void test_xbzrle_unix(void)
-     test_xbzrle(uri);
- }
+ /* Currently upset on aarch64 TCG */
+@@ -1149,14 +1409,15 @@ static void test_xbzrle_unix(void)
  
--static void test_precopy_tcp(void)
-+static void test_precopy_tcp_common(TestMigrateStartHook start_hook,
-+                                    TestMigrateFinishHook finish_hook,
-+                                    bool expect_fail)
+ static void test_precopy_tcp_common(TestMigrateStartHook start_hook,
+                                     TestMigrateFinishHook finish_hook,
+-                                    bool expect_fail)
++                                    bool expect_fail,
++                                    bool dst_quit)
  {
      test_precopy_common("tcp:127.0.0.1:0",
                          NULL, /* connect_uri */
--                        NULL, /* start_hook */
--                        NULL, /* finish_hook */
--                        false, /* expect_fail */
-+                        start_hook,
-+                        finish_hook,
-+                        expect_fail,
-                         false, /* dst_quit */
+                         start_hook,
+                         finish_hook,
+                         expect_fail,
+-                        false, /* dst_quit */
++                        dst_quit,
                          false /* dirty_ring */);
  }
  
-+
-+static void test_precopy_tcp_plain(void)
-+{
-+    test_precopy_tcp_common(NULL, /* start_hook */
-+                            NULL, /* finish_hook */
-+                            false /* expect_fail */);
-+}
-+
-+#ifdef CONFIG_GNUTLS
-+static void test_precopy_tcp_tls_psk_match(void)
-+{
-+    test_precopy_tcp_common(test_migrate_tls_psk_start_match,
-+                            test_migrate_tls_psk_finish,
-+                            false /* expect_fail */);
-+}
-+
-+static void test_precopy_tcp_tls_psk_mismatch(void)
-+{
-+    test_precopy_tcp_common(test_migrate_tls_psk_start_mismatch,
-+                            test_migrate_tls_psk_finish,
-+                            true /* expect_fail */);
-+}
-+#endif /* CONFIG_GNUTLS */
-+
- static void *test_migrate_fd_start_hook(QTestState *from,
-                                         QTestState *to)
+@@ -1165,7 +1426,8 @@ static void test_precopy_tcp_plain(void)
  {
-@@ -1505,8 +1647,20 @@ int main(int argc, char **argv)
-     qtest_add_func("/migration/postcopy/unix", test_postcopy);
-     qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
-     qtest_add_func("/migration/bad_dest", test_baddest);
--    qtest_add_func("/migration/precopy/unix", test_precopy_unix);
--    qtest_add_func("/migration/precopy/tcp", test_precopy_tcp);
-+    qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
-+#ifdef CONFIG_GNUTLS
-+    qtest_add_func("/migration/precopy/unix/tls/psk",
-+                   test_precopy_unix_tls_psk);
-+#endif /* CONFIG_GNUTLS */
-+
-+    qtest_add_func("/migration/precopy/tcp/plain", test_precopy_tcp_plain);
-+#ifdef CONFIG_GNUTLS
-+    qtest_add_func("/migration/precopy/tcp/tls/psk/match",
-+                   test_precopy_tcp_tls_psk_match);
-+    qtest_add_func("/migration/precopy/tcp/tls/psk/mismatch",
-+                   test_precopy_tcp_tls_psk_mismatch);
-+#endif /* CONFIG_GNUTLS */
-+
-     /* qtest_add_func("/migration/ignore_shared", test_ignore_shared); */
-     qtest_add_func("/migration/xbzrle/unix", test_xbzrle_unix);
-     qtest_add_func("/migration/fd_proto", test_migrate_fd_proto);
-diff --git a/tests/unit/crypto-tls-psk-helpers.c b/tests/unit/crypto-tls-psk-helpers.c
-index 4bea7c6fa2..511e08cc9c 100644
---- a/tests/unit/crypto-tls-psk-helpers.c
-+++ b/tests/unit/crypto-tls-psk-helpers.c
-@@ -24,7 +24,8 @@
- #include "crypto-tls-psk-helpers.h"
- #include "qemu/sockets.h"
- 
--void test_tls_psk_init(const char *pskfile)
-+static void
-+test_tls_psk_init_common(const char *pskfile, const char *user, const char *key)
- {
-     FILE *fp;
- 
-@@ -33,11 +34,22 @@ void test_tls_psk_init(const char *pskfile)
-         g_critical("Failed to create pskfile %s: %s", pskfile, strerror(errno));
-         abort();
-     }
--    /* Don't do this in real applications!  Use psktool. */
--    fprintf(fp, "qemu:009d5638c40fde0c\n");
-+    fprintf(fp, "%s:%s\n", user, key);
-     fclose(fp);
+     test_precopy_tcp_common(NULL, /* start_hook */
+                             NULL, /* finish_hook */
+-                            false /* expect_fail */);
++                            false, /* expect_fail */
++                            false /* dst_quit */);
  }
  
-+void test_tls_psk_init(const char *pskfile)
-+{
-+    /* Don't hard code a key like this in real applications!  Use psktool. */
-+    test_tls_psk_init_common(pskfile, "qemu", "009d5638c40fde0c");
-+}
-+
-+void test_tls_psk_init_alt(const char *pskfile)
-+{
-+    /* Don't hard code a key like this in real applications!  Use psktool. */
-+    test_tls_psk_init_common(pskfile, "qemu", "10ffa6a2c42f0388");
-+}
-+
- void test_tls_psk_cleanup(const char *pskfile)
+ #ifdef CONFIG_GNUTLS
+@@ -1173,15 +1435,75 @@ static void test_precopy_tcp_tls_psk_match(void)
  {
-     unlink(pskfile);
-diff --git a/tests/unit/crypto-tls-psk-helpers.h b/tests/unit/crypto-tls-psk-helpers.h
-index faa645c629..67f8bdda71 100644
---- a/tests/unit/crypto-tls-psk-helpers.h
-+++ b/tests/unit/crypto-tls-psk-helpers.h
-@@ -24,6 +24,7 @@
- #include <gnutls/gnutls.h>
+     test_precopy_tcp_common(test_migrate_tls_psk_start_match,
+                             test_migrate_tls_psk_finish,
+-                            false /* expect_fail */);
++                            false, /* expect_fail */
++                            false /* dst_quit */);
+ }
  
- void test_tls_psk_init(const char *keyfile);
-+void test_tls_psk_init_alt(const char *keyfile);
- void test_tls_psk_cleanup(const char *keyfile);
+ static void test_precopy_tcp_tls_psk_mismatch(void)
+ {
+     test_precopy_tcp_common(test_migrate_tls_psk_start_mismatch,
+                             test_migrate_tls_psk_finish,
+-                            true /* expect_fail */);
++                            true, /* expect_fail */
++                            false /* dst_quit */);
++}
++
++#ifdef CONFIG_TASN1
++static void test_precopy_tcp_tls_x509_default_host(void)
++{
++    test_precopy_tcp_common(test_migrate_tls_x509_start_default_host,
++                            test_migrate_tls_x509_finish,
++                            false, /* expect_fail */
++                            false /* dst_quit */);
++}
++
++static void test_precopy_tcp_tls_x509_override_host(void)
++{
++    test_precopy_tcp_common(test_migrate_tls_x509_start_override_host,
++                            test_migrate_tls_x509_finish,
++                            false, /* expect_fail */
++                            false /* dst_quit */);
++}
++
++static void test_precopy_tcp_tls_x509_mismatch_host(void)
++{
++    test_precopy_tcp_common(test_migrate_tls_x509_start_mismatch_host,
++                            test_migrate_tls_x509_finish,
++                            true, /* expect_fail */
++                            true /* dst_quit */);
++}
++
++static void test_precopy_tcp_tls_x509_friendly_client(void)
++{
++    test_precopy_tcp_common(test_migrate_tls_x509_start_friendly_client,
++                            test_migrate_tls_x509_finish,
++                            false, /* expect_fail */
++                            false /* dst_quit */);
++}
++
++static void test_precopy_tcp_tls_x509_hostile_client(void)
++{
++    test_precopy_tcp_common(test_migrate_tls_x509_start_hostile_client,
++                            test_migrate_tls_x509_finish,
++                            true, /* expect_quit */
++                            false /* dst_quit */);
++}
++
++static void test_precopy_tcp_tls_x509_allow_anonymous_client(void)
++{
++    test_precopy_tcp_common(test_migrate_tls_x509_start_allow_anonymous_client,
++                            test_migrate_tls_x509_finish,
++                            false, /* expect_fail */
++                            false /* dst_quit */);
++}
++
++static void test_precopy_tcp_tls_x509_reject_anonymous_client(void)
++{
++    test_precopy_tcp_common(test_migrate_tls_x509_start_reject_anonymous_client,
++                            test_migrate_tls_x509_finish,
++                            true, /* expect_fail */
++                            false /* dst_quit */);
+ }
++#endif /* CONFIG_TASN1 */
+ #endif /* CONFIG_GNUTLS */
  
- #endif
+ static void *test_migrate_fd_start_hook(QTestState *from,
+@@ -1651,6 +1973,12 @@ int main(int argc, char **argv)
+ #ifdef CONFIG_GNUTLS
+     qtest_add_func("/migration/precopy/unix/tls/psk",
+                    test_precopy_unix_tls_psk);
++#ifdef CONFIG_TASN1
++    qtest_add_func("/migration/precopy/unix/tls/x509/default-host",
++                   test_precopy_unix_tls_x509_default_host);
++    qtest_add_func("/migration/precopy/unix/tls/x509/override-host",
++                   test_precopy_unix_tls_x509_override_host);
++#endif /* CONFIG_TASN1 */
+ #endif /* CONFIG_GNUTLS */
+ 
+     qtest_add_func("/migration/precopy/tcp/plain", test_precopy_tcp_plain);
+@@ -1659,6 +1987,22 @@ int main(int argc, char **argv)
+                    test_precopy_tcp_tls_psk_match);
+     qtest_add_func("/migration/precopy/tcp/tls/psk/mismatch",
+                    test_precopy_tcp_tls_psk_mismatch);
++#ifdef CONFIG_TASN1
++    qtest_add_func("/migration/precopy/tcp/tls/x509/default-host",
++                   test_precopy_tcp_tls_x509_default_host);
++    qtest_add_func("/migration/precopy/tcp/tls/x509/override-host",
++                   test_precopy_tcp_tls_x509_override_host);
++    qtest_add_func("/migration/precopy/tcp/tls/x509/mismatch-host",
++                   test_precopy_tcp_tls_x509_mismatch_host);
++    qtest_add_func("/migration/precopy/tcp/tls/x509/friendly-client",
++                   test_precopy_tcp_tls_x509_friendly_client);
++    qtest_add_func("/migration/precopy/tcp/tls/x509/hostile-client",
++                   test_precopy_tcp_tls_x509_hostile_client);
++    qtest_add_func("/migration/precopy/tcp/tls/x509/allow-anonymous-client",
++                   test_precopy_tcp_tls_x509_allow_anonymous_client);
++    qtest_add_func("/migration/precopy/tcp/tls/x509/reject-anonymous-client",
++                   test_precopy_tcp_tls_x509_reject_anonymous_client);
++#endif /* CONFIG_TASN1 */
+ #endif /* CONFIG_GNUTLS */
+ 
+     /* qtest_add_func("/migration/ignore_shared", test_ignore_shared); */
 -- 
 2.34.1
 
