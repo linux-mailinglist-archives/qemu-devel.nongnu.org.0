@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB664CA3B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 12:29:53 +0100 (CET)
-Received: from localhost ([::1]:54468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19EC34CA385
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 12:23:07 +0100 (CET)
+Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPNB2-0001zK-Mp
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 06:29:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56866)
+	id 1nPN4U-0000Hv-5n
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 06:23:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMqS-0000VF-97; Wed, 02 Mar 2022 06:08:40 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25682)
+ id 1nPMqQ-0000R3-TW; Wed, 02 Mar 2022 06:08:34 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMqQ-0001l4-HR; Wed, 02 Mar 2022 06:08:35 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2229dLrq009593; 
- Wed, 2 Mar 2022 11:08:24 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ej425mana-1
+ id 1nPMqP-0001kE-53; Wed, 02 Mar 2022 06:08:34 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2229J1SL025840; 
+ Wed, 2 Mar 2022 11:08:25 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ej5uc22bt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 11:08:23 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B2cdS011476;
- Wed, 2 Mar 2022 11:08:22 GMT
+ Wed, 02 Mar 2022 11:08:25 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B2bML027230;
+ Wed, 2 Mar 2022 11:08:23 GMT
 Received: from b06cxnps4074.portsmouth.uk.ibm.com
  (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 3efbfjpg4p-1
+ by ppma05fra.de.ibm.com with ESMTP id 3efbu9d1rp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 02 Mar 2022 11:08:22 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
  by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 222B8KIJ51970488
+ 222B8KD858720562
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 2 Mar 2022 11:08:20 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E568442042;
- Wed,  2 Mar 2022 11:08:19 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9FC8A42041;
- Wed,  2 Mar 2022 11:08:19 +0000 (GMT)
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8496F52059;
+ Wed,  2 Mar 2022 11:08:20 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed,  2 Mar 2022 11:08:19 +0000 (GMT)
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 41FD252076;
+ Wed,  2 Mar 2022 11:08:20 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.58.125])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id E5ADA220294;
- Wed,  2 Mar 2022 12:08:18 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 924BF2201C1;
+ Wed,  2 Mar 2022 12:08:19 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 17/87] target/ppc: Implement Vector Compare Equal Quadword
-Date: Wed,  2 Mar 2022 12:06:53 +0100
-Message-Id: <20220302110803.849505-18-clg@kaod.org>
+Subject: [PULL 18/87] target/ppc: Implement Vector Compare Greater Than
+ Quadword
+Date: Wed,  2 Mar 2022 12:06:54 +0100
+Message-Id: <20220302110803.849505-19-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220302110803.849505-1-clg@kaod.org>
 References: <20220302110803.849505-1-clg@kaod.org>
@@ -62,19 +61,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: rleJm46iUF0PxjWHmLK-6l4ZVoPj92rm
-X-Proofpoint-ORIG-GUID: rleJm46iUF0PxjWHmLK-6l4ZVoPj92rm
+X-Proofpoint-ORIG-GUID: 4fnrkNbd8uTA8UFfghLaJiS5MtdcvDtr
+X-Proofpoint-GUID: 4fnrkNbd8uTA8UFfghLaJiS5MtdcvDtr
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-02_01,2022-02-26_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1034
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 impostorscore=0
- phishscore=0 mlxlogscore=631 bulkscore=0 mlxscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2203020047
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0b-001b2d01.pphosted.com
+ suspectscore=0 adultscore=0
+ mlxscore=0 priorityscore=1501 mlxlogscore=789 malwarescore=0 bulkscore=0
+ spamscore=0 clxscore=1034 lowpriorityscore=0 phishscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2203020047
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -103,41 +102,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-vcmpequq: Vector Compare Equal Quadword
+vcmpgtsq: Vector Compare Greater Than Signed Quadword
+vcmpgtuq: Vector Compare Greater Than Unsigned Quadword
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20220225210936.1749575-12-matheus.ferst@eldorado.org.br>
+Message-Id: <20220225210936.1749575-13-matheus.ferst@eldorado.org.br>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/insn32.decode            |  1 +
- target/ppc/translate/vmx-impl.c.inc | 36 +++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
+ target/ppc/insn32.decode            |  2 ++
+ target/ppc/translate/vmx-impl.c.inc | 39 +++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index be9e05cc73b3..437a3e29e059 100644
+index 437a3e29e059..07a4ef910342 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -382,6 +382,7 @@ VCMPEQUB        000100 ..... ..... ..... . 0000000110=
-   @VC
- VCMPEQUH        000100 ..... ..... ..... . 0001000110   @VC
- VCMPEQUW        000100 ..... ..... ..... . 0010000110   @VC
- VCMPEQUD        000100 ..... ..... ..... . 0011000111   @VC
-+VCMPEQUQ        000100 ..... ..... ..... . 0111000111   @VC
-=20
- VCMPGTSB        000100 ..... ..... ..... . 1100000110   @VC
+@@ -388,11 +388,13 @@ VCMPGTSB        000100 ..... ..... ..... . 11000001=
+10   @VC
  VCMPGTSH        000100 ..... ..... ..... . 1101000110   @VC
+ VCMPGTSW        000100 ..... ..... ..... . 1110000110   @VC
+ VCMPGTSD        000100 ..... ..... ..... . 1111000111   @VC
++VCMPGTSQ        000100 ..... ..... ..... . 1110000111   @VC
+=20
+ VCMPGTUB        000100 ..... ..... ..... . 1000000110   @VC
+ VCMPGTUH        000100 ..... ..... ..... . 1001000110   @VC
+ VCMPGTUW        000100 ..... ..... ..... . 1010000110   @VC
+ VCMPGTUD        000100 ..... ..... ..... . 1011000111   @VC
++VCMPGTUQ        000100 ..... ..... ..... . 1010000111   @VC
+=20
+ VCMPNEB         000100 ..... ..... ..... . 0000000111   @VC
+ VCMPNEH         000100 ..... ..... ..... . 0001000111   @VC
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/v=
 mx-impl.c.inc
-index 0574bb8bab7b..b7e9afb97897 100644
+index b7e9afb97897..7f9913235e97 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1107,6 +1107,42 @@ TRANS(VCMPNEZB, do_vcmpnez, MO_8)
- TRANS(VCMPNEZH, do_vcmpnez, MO_16)
- TRANS(VCMPNEZW, do_vcmpnez, MO_32)
+@@ -1143,6 +1143,45 @@ static bool trans_VCMPEQUQ(DisasContext *ctx, arg_=
+VC *a)
+     return true;
+ }
 =20
-+static bool trans_VCMPEQUQ(DisasContext *ctx, arg_VC *a)
++static bool do_vcmpgtq(DisasContext *ctx, arg_VC *a, bool sign)
 +{
 +    TCGv_i64 t0, t1, t2;
 +
@@ -145,16 +151,17 @@ index 0574bb8bab7b..b7e9afb97897 100644
 +    t1 =3D tcg_temp_new_i64();
 +    t2 =3D tcg_temp_new_i64();
 +
-+    get_avr64(t0, a->vra, true);
-+    get_avr64(t1, a->vrb, true);
-+    tcg_gen_xor_i64(t2, t0, t1);
-+
 +    get_avr64(t0, a->vra, false);
 +    get_avr64(t1, a->vrb, false);
-+    tcg_gen_xor_i64(t1, t0, t1);
++    tcg_gen_setcond_i64(TCG_COND_GTU, t2, t0, t1);
++
++    get_avr64(t0, a->vra, true);
++    get_avr64(t1, a->vrb, true);
++    tcg_gen_movcond_i64(TCG_COND_EQ, t2, t0, t1, t2, tcg_constant_i64(0)=
+);
++    tcg_gen_setcond_i64(sign ? TCG_COND_GT : TCG_COND_GTU, t1, t0, t1);
 +
 +    tcg_gen_or_i64(t1, t1, t2);
-+    tcg_gen_setcondi_i64(TCG_COND_EQ, t1, t1, 0);
 +    tcg_gen_neg_i64(t1, t1);
 +
 +    set_avr64(a->vrt, t1, true);
@@ -172,6 +179,9 @@ index 0574bb8bab7b..b7e9afb97897 100644
 +
 +    return true;
 +}
++
++TRANS(VCMPGTSQ, do_vcmpgtq, true)
++TRANS(VCMPGTUQ, do_vcmpgtq, false)
 +
  GEN_VXRFORM(vcmpeqfp, 3, 3)
  GEN_VXRFORM(vcmpgefp, 3, 7)
