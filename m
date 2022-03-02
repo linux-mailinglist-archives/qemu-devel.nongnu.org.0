@@ -2,73 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88274C9A46
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 02:10:46 +0100 (CET)
-Received: from localhost ([::1]:56266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526704C9AB2
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 02:48:33 +0100 (CET)
+Received: from localhost ([::1]:35396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPDVt-0005pP-AW
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 20:10:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47736)
+	id 1nPE6R-0004xl-R3
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 20:48:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>)
- id 1nPDTN-0004qr-U1; Tue, 01 Mar 2022 20:08:09 -0500
-Received: from [2a00:1450:4864:20::531] (port=39846
- helo=mail-ed1-x531.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>)
- id 1nPDTL-0003Py-KS; Tue, 01 Mar 2022 20:08:09 -0500
-Received: by mail-ed1-x531.google.com with SMTP id g20so178426edw.6;
- Tue, 01 Mar 2022 17:08:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k33shDE0BkPTxMfWJ2qk+GhZxHWflVkUE5/xT7BcFfg=;
- b=VNBHhJsJtNjuprgAOe1bfv95cWPdkFtwIvelRoxzge7cVGEVG7+cfsyqe8TjDWvv/b
- FLj+Y/CFEGv4GLQEg3+ZTB6mv+l2PNIKxcljjDvUmqHwLwBUVNLn9A0xSV4GpEZos+Pn
- 0+H9hsivIhU67gItU3eF4HqooXnH6xtSNmE6aE1CieKzjOZ0oAVHWYGlzGpaHKyPT6uQ
- jHCeM942wd/wZlwMJEyFWVvOvCssdoFOEbzm9NJ/0ECKJaB+9/Ju5IXFDVvmN6pyJCK2
- TPvxp/uB1Uh7duQ7Ppk6BxfI5IXsIdWgjUrwlHcUsADH2TXi57oQH1Fyw6mjYLWuebsK
- LmTw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nPE52-000427-Ak
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:47:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58275)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nPE4x-0000FA-SA
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:47:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646185618;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=F+/vEN8gjUeAm36MKb8CpvV65bsFQSakXvSKBHQTLtU=;
+ b=FeO7X0EqhSGyDyeBQ1f+lUOO51xY025jM5mG4orzg4rY7B6iOS3BYevNpd9NON0/KkGCXe
+ N/EYY/OVLHStsLAfEKQ+ykeZhA1Fv0HMrFmlVzKoLet8Iv6FAZEozeTigpRAo4COARmI9v
+ yhiZCRM8M+W83/sqENyDpyrofNbjsFQ=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-640-3fsL_IT4MjufmXlQZ2noRg-1; Tue, 01 Mar 2022 20:46:57 -0500
+X-MC-Unique: 3fsL_IT4MjufmXlQZ2noRg-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ x18-20020a170902b41200b0014fc2665bddso230228plr.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 17:46:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k33shDE0BkPTxMfWJ2qk+GhZxHWflVkUE5/xT7BcFfg=;
- b=FknpYEwmAQYX58rt2MqlkSDZfdcr5qT9QmD9P3al7rQE9miTQh/Gr0MHkWoyHyUTsj
- JnsR/kfqU5RJ+VH10Zq6W4sA7KHxN3Fn8qX0DO/CZsNQ0ZMptuSbnYi2k1OxaBLz8Pmy
- myUHvUZGwJWSQqmXfxvxoidY0fTVBQ/KtXxzFffrRByegmrmR59SQ6UWp6wN18DQo1nj
- 9G9pJLF/1RPDC9oMNjXk/4wMPMUvjKiahZl/Ezi8pVTPM7L+Q3wKcdOx0OZsx7YGRgtV
- QvW40g2GJGXF+XFG2bWyx8InL49CuPJGDi5qHTWzBLAL3x0HKQftCtQuBG/HVGVXFu84
- 6z/Q==
-X-Gm-Message-State: AOAM530RWQwJj1CgpG+qXPU74IPVEsF3iFdJih6cf59xk1Ltr/95R+I8
- e+v8Odwrlf5jNq+k/9jbfNkeXZcs1IMlbDpF6Tw=
-X-Google-Smtp-Source: ABdhPJzDRj6AIFfByykVcFtQIvbwBVRCBHw/v/Ung6C9XWD9DkZ0qhIJSvseKU4XuxFhdQOOuqScsALZiM2iF6xWpqQ=
-X-Received: by 2002:a50:fb91:0:b0:408:5100:b4a7 with SMTP id
- e17-20020a50fb91000000b004085100b4a7mr26722583edq.311.1646183284488; Tue, 01
- Mar 2022 17:08:04 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=F+/vEN8gjUeAm36MKb8CpvV65bsFQSakXvSKBHQTLtU=;
+ b=CeytYrMr8l2Rmh7+YSpXq7GBGDmZ3IsDBaS2RxDhdWj2WWx7C3hC5TITAUQiHGS6A+
+ G+/siOUmKntj4tdVVNVdnJe9XSkmTmLd1yizcvMXXwVRG2D4yqPoA8eCBN8uFeG1MTfi
+ lIj0fzSi84sYk+ArbMoNNHet9p7P/6I9/TCvAIF/qaZ2fGTBmTsxo/CJ3EC05u/jVdML
+ axgl+mtyX7vHfNAQSwtqj4HLezKBNUy5YWHPxDm/H1j6+ZWip2SbU74+mBMSgCcCqBme
+ oE3i/sAEejNdc6ns42Eh05Tmo7J7gWRWASyEik37Lw9x3XZHTnRavvNJQY56oHs8bZQt
+ f6CA==
+X-Gm-Message-State: AOAM530ec7d4byPomrjZiVXjpAYZSLTacSnbnDvP1bAMikxZ0Q3yD941
+ 0hVwAKhN6E0L3F9uNCfz/ZEeOk8wafh8yNKr4eFSLEte0Vx163olV516nmZdQs1KXHj1vw9iHF4
+ VHV2n74RplNrFpqQ=
+X-Received: by 2002:a17:902:f607:b0:14c:d9cf:a463 with SMTP id
+ n7-20020a170902f60700b0014cd9cfa463mr28822565plg.32.1646185616098; 
+ Tue, 01 Mar 2022 17:46:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzF7ZIGARbfHZNd8TuZTZBnSCj3hl2E2WnZtYvV26onw1Pi32uGpwTbOVS52hmhq4aNoh154Q==
+X-Received: by 2002:a17:902:f607:b0:14c:d9cf:a463 with SMTP id
+ n7-20020a170902f60700b0014cd9cfa463mr28822534plg.32.1646185615593; 
+ Tue, 01 Mar 2022 17:46:55 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.101]) by smtp.gmail.com with ESMTPSA id
+ a11-20020a056a001d0b00b004f4057fafe2sm9244387pfx.94.2022.03.01.17.46.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Mar 2022 17:46:54 -0800 (PST)
+Date: Wed, 2 Mar 2022 09:46:49 +0800
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 00/25] migration: Postcopy Preemption
+Message-ID: <Yh7MiZQsEhJUbVis@xz-m1.local>
+References: <20220301083925.33483-1-peterx@redhat.com>
+ <Yh3mo5VFQ3gT1Gd7@redhat.com> <Yh3yzbmOqAVV9iM9@xz-m1.local>
+ <Yh30/nPtWyvqp8xo@redhat.com> <Yh37hLn5Dlffm13P@xz-m1.local>
+ <Yh5O/eq4If4MYpTq@work-vm>
 MIME-Version: 1.0
-References: <164603074537.20094.1732342403585879912-0@git.sr.ht>
- <CAFEAcA8hWy3rfGtYkyQjJSGgsX448_t01xmM4cwyCO0op4h1xw@mail.gmail.com>
- <2da2f0bc-6c54-0a26-aafb-1f866cf93de8@gmail.com>
-In-Reply-To: <2da2f0bc-6c54-0a26-aafb-1f866cf93de8@gmail.com>
-From: Yan-Jie Wang <ubzeme@gmail.com>
-Date: Wed, 2 Mar 2022 09:07:28 +0800
-Message-ID: <CADyX+6p2QY5EL_JJnWUzVezagBfb1Pv9Byx6YXJK8jT7vNHvnA@mail.gmail.com>
-Subject: Re: [PATCH qemu 0/7] Many improvements to HVF memory-related codes
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=ubzeme@gmail.com; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <Yh5O/eq4If4MYpTq@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,29 +98,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry, I made a mistake.
-The last line in the function, hvf_find_free_slot, introduced in this
-commit "hvf: simplify data structures and codes of memory related
-functions" should be "return NULL;"
+On Tue, Mar 01, 2022 at 04:51:09PM +0000, Dr. David Alan Gilbert wrote:
+> Hmm, I think it's worth getting TLS working before putting the full
+> series in, because it might impact the way you wire the channels up -
+> it's going to take some care; but lets see which parts we can/should
+> take.
 
-static hvf_slot *hvf_find_free_slot(void)
-{
-    hvf_slot *slot;
-    int x;
-    for (x = 0; x < HVF_NUM_SLOTS; x++) {
-        slot = &memslots[x];
-        if (!slot->size) {
-            return slot;
-        }
-    }
+IMHO it should be mostly transparent to the whole user interface and the
+rest of the features, thanks to the well-abstracted qio channel layer, so
+most code does not really need to worry about what kind of channel it is.
+But sure, we don't need to rush.  Thanks,
 
-    return NULL;   // <---- This line is changed
-}
+-- 
+Peter Xu
 
-I will submit a new version of the patch series after I go home.
 
