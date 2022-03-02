@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D21A4CA49D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 13:16:41 +0100 (CET)
-Received: from localhost ([::1]:42520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158FF4CA544
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 13:53:34 +0100 (CET)
+Received: from localhost ([::1]:57980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPNuJ-00064J-Mw
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 07:16:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57814)
+	id 1nPOU1-0007di-3F
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 07:53:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMrJ-0001Pq-73; Wed, 02 Mar 2022 06:09:29 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33002
+ id 1nPMrN-0001aH-OO; Wed, 02 Mar 2022 06:09:33 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5188
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMrF-0001tV-65; Wed, 02 Mar 2022 06:09:28 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 222AmT5N030387; 
- Wed, 2 Mar 2022 11:09:01 GMT
+ id 1nPMrJ-0001x1-Ha; Wed, 02 Mar 2022 06:09:32 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2228OiGP001608; 
+ Wed, 2 Mar 2022 11:09:02 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ej75erd6a-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ej51mb6be-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 11:09:01 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 222AnAUP032579;
+ Wed, 02 Mar 2022 11:09:02 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 222AvKAx001219;
  Wed, 2 Mar 2022 11:09:01 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ej75erd51-1
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ej51mb6ae-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 02 Mar 2022 11:09:01 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B2acj027228;
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B2fgI014339;
  Wed, 2 Mar 2022 11:08:59 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma05fra.de.ibm.com with ESMTP id 3efbu9d1tb-1
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04fra.de.ibm.com with ESMTP id 3efbu8w0j5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 02 Mar 2022 11:08:59 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 222B8u2G48890152
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 222B8v7Y54526288
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Mar 2022 11:08:56 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8B71EA407C;
- Wed,  2 Mar 2022 11:08:56 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 51479A4070;
- Wed,  2 Mar 2022 11:08:56 +0000 (GMT)
+ Wed, 2 Mar 2022 11:08:57 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4F1ED52077;
+ Wed,  2 Mar 2022 11:08:57 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 0538C52059;
  Wed,  2 Mar 2022 11:08:56 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.58.125])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id A6C4C220294;
- Wed,  2 Mar 2022 12:08:55 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 4528F2201C1;
+ Wed,  2 Mar 2022 12:08:56 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 73/87] pnv/xive2: Add support for 8bits thread id
-Date: Wed,  2 Mar 2022 12:07:49 +0100
-Message-Id: <20220302110803.849505-74-clg@kaod.org>
+Subject: [PULL 74/87] hw/ppc/spapr.c: use g_autofree in spapr_dt_chosen()
+Date: Wed,  2 Mar 2022 12:07:50 +0100
+Message-Id: <20220302110803.849505-75-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220302110803.849505-1-clg@kaod.org>
 References: <20220302110803.849505-1-clg@kaod.org>
@@ -71,16 +68,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: sFpQZSMrUwx4S-pmewrHkDVEhrwT3zM9
-X-Proofpoint-GUID: CwiUMQwA2ol3PtxlUaFpuhEqj3F6kaEB
+X-Proofpoint-GUID: ptLrUKhsctQWW5xdT_xLIzrDL7wSNNvz
+X-Proofpoint-ORIG-GUID: mPasCXnAdboAbUSk2E7ziKe-MGPr5nBm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-02_01,2022-02-26_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 phishscore=0
- lowpriorityscore=0 suspectscore=0 impostorscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1034 mlxlogscore=655
+ phishscore=0 spamscore=0 adultscore=0 impostorscore=0 mlxscore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2203020047
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
@@ -103,65 +100,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Message-Id: <20220228175004.8862-2-danielhb413@gmail.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/xive2.h | 1 +
- hw/intc/pnv_xive2.c    | 5 +++++
- hw/intc/xive2.c        | 3 ++-
- 3 files changed, 8 insertions(+), 1 deletion(-)
+ hw/ppc/spapr.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/ppc/xive2.h b/include/hw/ppc/xive2.h
-index 296a2d949498..e9e3ea135ea6 100644
---- a/include/hw/ppc/xive2.h
-+++ b/include/hw/ppc/xive2.h
-@@ -31,6 +31,7 @@ OBJECT_DECLARE_TYPE(Xive2Router, Xive2RouterClass, XIVE=
-2_ROUTER);
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index f0b75b22bb61..c74543ace324 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1018,9 +1018,9 @@ static void spapr_dt_chosen(SpaprMachineState *spap=
+r, void *fdt, bool reset)
 =20
- #define XIVE2_GEN1_TIMA_OS      0x00000001
- #define XIVE2_VP_SAVE_RESTORE   0x00000002
-+#define XIVE2_THREADID_8BITS    0x00000004
+     if (reset) {
+         const char *boot_device =3D spapr->boot_device;
+-        char *stdout_path =3D spapr_vio_stdout_path(spapr->vio_bus);
++        g_autofree char *stdout_path =3D spapr_vio_stdout_path(spapr->vi=
+o_bus);
+         size_t cb =3D 0;
+-        char *bootlist =3D get_boot_devices_list(&cb);
++        g_autofree char *bootlist =3D get_boot_devices_list(&cb);
 =20
- typedef struct Xive2RouterClass {
-     SysBusDeviceClass parent;
-diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
-index b51571c6034f..87303b40641b 100644
---- a/hw/intc/pnv_xive2.c
-+++ b/hw/intc/pnv_xive2.c
-@@ -439,6 +439,11 @@ static uint32_t pnv_xive2_get_config(Xive2Router *xr=
-tr)
-         cfg |=3D XIVE2_VP_SAVE_RESTORE;
+         if (machine->kernel_cmdline && machine->kernel_cmdline[0]) {
+             _FDT(fdt_setprop_string(fdt, chosen, "bootargs",
+@@ -1087,9 +1087,6 @@ static void spapr_dt_chosen(SpaprMachineState *spap=
+r, void *fdt, bool reset)
+         }
+=20
+         spapr_dt_ov5_platform_support(spapr, fdt, chosen);
+-
+-        g_free(stdout_path);
+-        g_free(bootlist);
      }
 =20
-+    if (GETFIELD(CQ_XIVE_CFG_HYP_HARD_RANGE,
-+              xive->cq_regs[CQ_XIVE_CFG >> 3]) =3D=3D CQ_XIVE_CFG_THREAD=
-ID_8BITS) {
-+        cfg |=3D XIVE2_THREADID_8BITS;
-+    }
-+
-     return cfg;
- }
-=20
-diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-index fd9cfebd782d..b6452f14784b 100644
---- a/hw/intc/xive2.c
-+++ b/hw/intc/xive2.c
-@@ -459,7 +459,8 @@ static uint32_t xive2_tctx_hw_cam_line(XivePresenter =
-*xptr, XiveTCTX *tctx)
-     CPUPPCState *env =3D &POWERPC_CPU(tctx->cs)->env;
-     uint32_t pir =3D env->spr_cb[SPR_PIR].default_value;
-     uint8_t blk =3D xive2_router_get_block_id(xrtr);
--    uint8_t tid_shift =3D 7;
-+    uint8_t tid_shift =3D
-+        xive2_router_get_config(xrtr) & XIVE2_THREADID_8BITS ? 8 : 7;
-     uint8_t tid_mask =3D (1 << tid_shift) - 1;
-=20
-     return xive2_nvp_cam_line(blk, 1 << tid_shift | (pir & tid_mask));
+     _FDT(spapr_dt_ovec(fdt, chosen, spapr->ov5_cas, "ibm,architecture-ve=
+c-5"));
 --=20
 2.34.1
 
