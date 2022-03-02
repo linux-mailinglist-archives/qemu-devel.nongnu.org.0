@@ -2,60 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730DD4CAA14
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:24:44 +0100 (CET)
-Received: from localhost ([::1]:51078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7F44CAA16
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:25:29 +0100 (CET)
+Received: from localhost ([::1]:53370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPRmN-0001j6-64
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:24:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58806)
+	id 1nPRn6-0003HT-0L
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:25:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nPRk8-0007bF-Mb
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:22:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32506)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPRkd-00088b-Dp
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:22:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nPRk7-0007Bm-6s
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:22:24 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPRkb-0007Go-TF
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:22:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646238142;
+ s=mimecast20190719; t=1646238173;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SABTOPPyz9M88xM/O8nFtN1Acwuil/ZhGosJjKv53Wk=;
- b=QP/nO0+yw7W1pe3hAKUsfkX9OYWY2oKiRQDKM17bEMpoxT8UA3xRB/1x7aWDDTywWKPxDo
- hpyBduUKBtK/M32T2Nf06vgfGL8YqnkbS7AI+DTfUfhACeOhtZGJDEPg9oILEXqDk1Vi4S
- ZLJjgs5BkkZ06NDSmsmi0NkmxDZu040=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=319HSMClYmc73i4+9cM7jkH73o3HvmVRZnh4aruHeG8=;
+ b=XWH0s+u8EdnPiE5tyvXvxkcDTn7AgO5Ylle32beSsUMEXx1DegS4lBj4g/UMfIDf2cl9z+
+ x6UWJj2x6DngxiF6BDCOXZzb0GbyxEcm6raYrkYnMKdM4K1aT1/KDbJ17X8oUS0SvxDuvY
+ Gy00H9FV0thpqrT24dl6l8TNek7LT/Y=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-keB7jcDSOJGZxBMOzD2vQg-1; Wed, 02 Mar 2022 11:22:21 -0500
-X-MC-Unique: keB7jcDSOJGZxBMOzD2vQg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3662E80EDB4;
- Wed,  2 Mar 2022 16:22:18 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8A3C7DE58;
- Wed,  2 Mar 2022 16:22:08 +0000 (UTC)
-Date: Wed, 2 Mar 2022 16:22:07 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH 2/5] introduce BDRV_POLL_WHILE_UNLOCKED
-Message-ID: <Yh+Zr2GWRv0SSiIa@stefanha-x1.localdomain>
-References: <20220301142113.163174-1-eesposit@redhat.com>
- <20220301142113.163174-3-eesposit@redhat.com>
+ us-mta-271-Kt6JezbmME2nvh-iy3tjlA-1; Wed, 02 Mar 2022 11:22:52 -0500
+X-MC-Unique: Kt6JezbmME2nvh-iy3tjlA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ a26-20020a7bc1da000000b003857205ec7cso549031wmj.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 08:22:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=319HSMClYmc73i4+9cM7jkH73o3HvmVRZnh4aruHeG8=;
+ b=RQDyhVuxbYtg/UUqVlXUVDkAUEQhEi2ssYlo6S40wFfDDMgMxAKUtH4vjYiz/wS9dh
+ 4QoX/aja1hloo0ZgzEW2zvUQTjJcdFVqmqOcgns8ldoZPA0vt2e689moRyugrhS0oNr0
+ DpBsj9FlsejzgV/uGzfRhHuQ3fwnwDSIXjDE4VyMM0hkZkgnGj8IRDBHPxlJ3kczkIV2
+ mQvdhH+IqOCjMCLmIe0V7MXmZksWXk9UqH6UVh/DGT6coOQmfK679pxagpnU7QmzBpBA
+ 3zm9Na/3BmOhpbBUjWq0CQwUMi9wPxle9E2r8rxG9WSuzNYj2hWn1IYkev13kEY5FUGX
+ GW3w==
+X-Gm-Message-State: AOAM533i7YugFOqz0jUezgCoo/GiIYSB9Zj5Rr+X8h1jQ57YpivXM8Yd
+ aymdS0mVBVUo8AJsLgMFym/pbUBpqfzkelRcX4OQ9YFLPtU6p1SMF67ZG4rc/FHsDgvUwfsz7SY
+ I2oS8J8DXbKrt28A=
+X-Received: by 2002:a05:600c:378b:b0:381:67e7:e20c with SMTP id
+ o11-20020a05600c378b00b0038167e7e20cmr479508wmr.32.1646238171028; 
+ Wed, 02 Mar 2022 08:22:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzS+hgEnn1ZApPqccdMegoD/Y1rBIvh8rKEfDBm0b4Su6FFtEq0p31uoeFi3LW+QoZEiPhhcg==
+X-Received: by 2002:a05:600c:378b:b0:381:67e7:e20c with SMTP id
+ o11-20020a05600c378b00b0038167e7e20cmr479479wmr.32.1646238170768; 
+ Wed, 02 Mar 2022 08:22:50 -0800 (PST)
+Received: from redhat.com ([2a10:8006:355c:0:48d6:b937:2fb9:b7de])
+ by smtp.gmail.com with ESMTPSA id
+ t14-20020a5d49ce000000b001f036a29f42sm2040814wrs.116.2022.03.02.08.22.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Mar 2022 08:22:50 -0800 (PST)
+Date: Wed, 2 Mar 2022 11:22:46 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: propagating vmgenid outward and upward
+Message-ID: <20220302111737-mutt-send-email-mst@kernel.org>
+References: <20220301121419-mutt-send-email-mst@kernel.org>
+ <CAHmME9qieLUDVoPYZPo=N8NCL1T-RzQ4p7kCFv3PKFUkhWZPsw@mail.gmail.com>
+ <20220302031738-mutt-send-email-mst@kernel.org>
+ <CAHmME9pf-bjnZuweoLqoFEmPy1OK7ogEgGEAva1T8uVTufhCuw@mail.gmail.com>
+ <20220302074503-mutt-send-email-mst@kernel.org>
+ <Yh93UZMQSYCe2LQ7@zx2c4.com>
+ <20220302092149-mutt-send-email-mst@kernel.org>
+ <CAHmME9rf7hQP78kReP2diWNeX=obPem=f8R-dC7Wkpic2xmffg@mail.gmail.com>
+ <20220302101602-mutt-send-email-mst@kernel.org>
+ <Yh+PET49oHNpxn+H@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9WaMB5VXZVzOxh7R"
+In-Reply-To: <Yh+PET49oHNpxn+H@zx2c4.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220301142113.163174-3-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,45 +105,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
+ Colm MacCarthaigh <colmmacc@amazon.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ adrian@parity.io, KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <graf@amazon.com>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Theodore Ts'o <tytso@mit.edu>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ Laszlo Ersek <lersek@redhat.com>, Arnd Bergmann <arnd@arndb.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Mar 02, 2022 at 04:36:49PM +0100, Jason A. Donenfeld wrote:
+> Hi Michael,
+> 
+> On Wed, Mar 02, 2022 at 10:20:25AM -0500, Michael S. Tsirkin wrote:
+> > So writing some code:
+> > 
+> > 1:
+> > 	put plaintext in a buffer
+> > 	put a key in a buffer
+> > 	put the nonce for that encryption in a buffer
+> > 
+> > 	if vm gen id != stored vm gen id
+> > 		stored vm gen id = vm gen id
+> > 		goto 1
+> > 
+> > I think this is race free, but I don't see why does it matter whether we
+> > read gen id atomically or not.
+> 
+> Because that 16 byte read of vmgenid is not atomic. Let's say you read
+> the first 8 bytes, and then the VM is forked.
 
---9WaMB5VXZVzOxh7R
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+But at this point when VM was forked plaintext key and nonce are all in
+buffer, and you previously indicated a fork at this point is harmless.
+You wrote "If it changes _after_ that point of check ... it doesn't
+matter:"
 
-On Tue, Mar 01, 2022 at 09:21:10AM -0500, Emanuele Giuseppe Esposito wrote:
-> Same as BDRV_POLL_WHILE, but uses AIO_WAIT_WHILE_UNLOCKED.
-> See doc comment for more info.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  include/block/block.h | 5 +++++
->  1 file changed, 5 insertions(+)
+> In the forked VM, the next
+> 8 bytes are the same as last time, but the first 8 bytes, which you
+> already read, have changed. In that case, your != becomes a ==, and the
+> test fails.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Yes I'm aware what an atomic read is. If the read is not atomic
+a part of value can change ;)
 
---9WaMB5VXZVzOxh7R
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIfma8ACgkQnKSrs4Gr
-c8hU2wf+M9iC9IJ/NJL7XmNX+cjTwT3LF24SZkrALr8muO1Pw4txwd1QAOEHZE/a
-Jg9vcIw5Vngk9k1I0xpjd9tU1OYt9Uax1kGbTKERNCF+dYDnmw5ocjsjwNqn16zy
-YdRNIp04IgDVol0LVXSvUqKCYqaf1bDaaicuU2H3WLWk3yjN57GoeHIYEiTSDrAj
-X8fkWEvV5ZvZI4p0NNAzQzVaCcNoQoB7Er7ZolBeQe7oThCUbN9ZTfVaYtu/FXGc
-Rd9z6cMnLJ7eKY7hUq3i4WlFdTMiRH0kbgHbEXIUhGUgALLnWCMEvJVZPpH5i2fq
-i54UV9s1O75fb9yqdJJM4PZ/hfjkgg==
-=Skm0
------END PGP SIGNATURE-----
-
---9WaMB5VXZVzOxh7R--
+-- 
+MST
 
 
