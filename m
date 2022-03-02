@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593664CADE8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:49:54 +0100 (CET)
-Received: from localhost ([::1]:44096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6CA4CADEF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 19:52:30 +0100 (CET)
+Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPU2q-0008Bj-PH
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:49:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36454)
+	id 1nPU5N-0004aN-Rg
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 13:52:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkI-00012J-Iz
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:30:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23976)
+ id 1nPTkK-000188-Cv
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:30:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPTkG-0000Fb-Jt
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:30:42 -0500
+ id 1nPTkI-0000Fy-DZ
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 13:30:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646245839;
+ s=mimecast20190719; t=1646245841;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MNNzTCJ3sfh4FYEl4UDc8P7LoIeeXaET9qa+h0rnd9s=;
- b=Xfp/S+9tQyqynfiV0XJ+iZigf3B2rDErFH7hH/R45+frodovgZZ1xVE5QniiubkUq0Azpw
- 7IN4JmuVu/mUYXlrgkRYSK+BC6zhIkX4U34aIYc8LOYnPrCD7RI6OxJL2fOTgEy7D1Ym2B
- qgJpHuRrK0zEOiR95eTNBkK1Ptdliko=
+ bh=0cEFJjINxdRihmqDNTllYNJqdgNUBUUbrBA92lP+Afg=;
+ b=LmOEu6zTNJ2pB0RK2ospakTHCjRDhKSCLfPjnBitmYXaGkisgE5ZjCkB69F2jAJh961YdB
+ pGQeemMJF/G/IVZf0idpqH9rsBssiYN0/a7rAmf2NjljrRE/NShxj1TNqjApIAynYnqCw5
+ G/QDy+IwzoclEt9Dr12w4SakFsWqomI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-aCHn19NWOvCVhY18waJ1SQ-1; Wed, 02 Mar 2022 13:30:36 -0500
-X-MC-Unique: aCHn19NWOvCVhY18waJ1SQ-1
+ us-mta-16-r7PfhVHiMpyhtylDc9P0yw-1; Wed, 02 Mar 2022 13:30:38 -0500
+X-MC-Unique: r7PfhVHiMpyhtylDc9P0yw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56C7083DC07;
- Wed,  2 Mar 2022 18:30:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4748518C43E7;
+ Wed,  2 Mar 2022 18:30:37 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7255105B1FD;
- Wed,  2 Mar 2022 18:30:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E0D31059172;
+ Wed,  2 Mar 2022 18:30:35 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, f.ebner@proxmox.com, hreitz@redhat.com,
  jinpu.wang@ionos.com, peter.maydell@linaro.org, peterx@redhat.com,
  s.reiter@proxmox.com
-Subject: [PULL 03/18] monitor/hmp: add support for flag argument with value
-Date: Wed,  2 Mar 2022 18:29:21 +0000
-Message-Id: <20220302182936.227719-4-dgilbert@redhat.com>
+Subject: [PULL 04/18] qapi/monitor: refactor set/expire_password with enums
+Date: Wed,  2 Mar 2022 18:29:22 +0000
+Message-Id: <20220302182936.227719-5-dgilbert@redhat.com>
 In-Reply-To: <20220302182936.227719-1-dgilbert@redhat.com>
 References: <20220302182936.227719-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -88,81 +88,220 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Reiter <s.reiter@proxmox.com>
 
-Adds support for the "-xs" parameter type, where "-x" denotes a flag
-name and the "s" suffix indicates that this flag is supposed to take
-an arbitrary string parameter.
+'protocol' and 'connected' are better suited as enums than as strings,
+make use of that. No functional change intended.
 
-These parameters are always optional, the entry in the qdict will be
-omitted if the flag is not given.
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Suggested-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-[FE: fixed typo pointed out by Eric Blake
-     use s instead of V to indicate string parameter]
+[FE: update "Since: " from 6.2 to 7.0
+     put 'keep' first in enum to ease use as a default]
 Signed-off-by: Fabian Ebner <f.ebner@proxmox.com>
-Message-Id: <20220225084949.35746-2-f.ebner@proxmox.com>
+Message-Id: <20220225084949.35746-3-f.ebner@proxmox.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- monitor/hmp.c              | 19 ++++++++++++++++++-
- monitor/monitor-internal.h |  3 ++-
- 2 files changed, 20 insertions(+), 2 deletions(-)
+ monitor/hmp-cmds.c | 29 +++++++++++++++++++++++++++--
+ monitor/qmp-cmds.c | 37 ++++++++++++-------------------------
+ qapi/ui.json       | 36 ++++++++++++++++++++++++++++++++++--
+ 3 files changed, 73 insertions(+), 29 deletions(-)
 
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index b20737e63c..569066036d 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -981,6 +981,7 @@ static QDict *monitor_parse_arguments(Monitor *mon,
-             {
-                 const char *tmp = p;
-                 int skip_key = 0;
-+                int ret;
-                 /* option */
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 8c384dc1b2..ff78741b75 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1398,8 +1398,24 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
+     const char *password  = qdict_get_str(qdict, "password");
+     const char *connected = qdict_get_try_str(qdict, "connected");
+     Error *err = NULL;
++    DisplayProtocol proto;
++    SetPasswordAction conn;
  
-                 c = *typestr++;
-@@ -1003,11 +1004,27 @@ static QDict *monitor_parse_arguments(Monitor *mon,
-                     }
-                     if (skip_key) {
-                         p = tmp;
-+                    } else if (*typestr == 's') {
-+                        /* has option with string value */
-+                        typestr++;
-+                        tmp = p++;
-+                        while (qemu_isspace(*p)) {
-+                            p++;
-+                        }
-+                        ret = get_str(buf, sizeof(buf), &p);
-+                        if (ret < 0) {
-+                            monitor_printf(mon, "%s: value expected for -%c\n",
-+                                           cmd->name, *tmp);
-+                            goto fail;
-+                        }
-+                        qdict_put_str(qdict, key, buf);
-                     } else {
--                        /* has option */
-+                        /* has boolean option */
-                         p++;
-                         qdict_put_bool(qdict, key, true);
-                     }
-+                } else if (*typestr == 's') {
-+                    typestr++;
-                 }
-             }
-             break;
-diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index 3da3f86c6a..caa2e90ef2 100644
---- a/monitor/monitor-internal.h
-+++ b/monitor/monitor-internal.h
-@@ -63,7 +63,8 @@
-  * '.'          other form of optional type (for 'i' and 'l')
-  * 'b'          boolean
-  *              user mode accepts "on" or "off"
-- * '-'          optional parameter (eg. '-f')
-+ * '-'          optional parameter (eg. '-f'); if followed by a 's', it
-+ *              specifies an optional string param (e.g. '-fs' allows '-f foo')
-  *
-  */
+-    qmp_set_password(protocol, password, !!connected, connected, &err);
++    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
++                            DISPLAY_PROTOCOL_VNC, &err);
++    if (err) {
++        goto out;
++    }
++
++    conn = qapi_enum_parse(&SetPasswordAction_lookup, connected,
++                           SET_PASSWORD_ACTION_KEEP, &err);
++    if (err) {
++        goto out;
++    }
++
++    qmp_set_password(proto, password, !!connected, conn, &err);
++
++out:
+     hmp_handle_error(mon, err);
+ }
  
+@@ -1408,8 +1424,17 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
+     const char *protocol  = qdict_get_str(qdict, "protocol");
+     const char *whenstr = qdict_get_str(qdict, "time");
+     Error *err = NULL;
++    DisplayProtocol proto;
++
++    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
++                            DISPLAY_PROTOCOL_VNC, &err);
++    if (err) {
++        goto out;
++    }
+ 
+-    qmp_expire_password(protocol, whenstr, &err);
++    qmp_expire_password(proto, whenstr, &err);
++
++out:
+     hmp_handle_error(mon, err);
+ }
+ 
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index db4d186448..b6e8b57fcc 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -168,33 +168,27 @@ void qmp_system_wakeup(Error **errp)
+     qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, errp);
+ }
+ 
+-void qmp_set_password(const char *protocol, const char *password,
+-                      bool has_connected, const char *connected, Error **errp)
++void qmp_set_password(DisplayProtocol protocol, const char *password,
++                      bool has_connected, SetPasswordAction connected,
++                      Error **errp)
+ {
+     int disconnect_if_connected = 0;
+     int fail_if_connected = 0;
+     int rc;
+ 
+     if (has_connected) {
+-        if (strcmp(connected, "fail") == 0) {
+-            fail_if_connected = 1;
+-        } else if (strcmp(connected, "disconnect") == 0) {
+-            disconnect_if_connected = 1;
+-        } else if (strcmp(connected, "keep") == 0) {
+-            /* nothing */
+-        } else {
+-            error_setg(errp, QERR_INVALID_PARAMETER, "connected");
+-            return;
+-        }
++        fail_if_connected = connected == SET_PASSWORD_ACTION_FAIL;
++        disconnect_if_connected = connected == SET_PASSWORD_ACTION_DISCONNECT;
+     }
+ 
+-    if (strcmp(protocol, "spice") == 0) {
++    if (protocol == DISPLAY_PROTOCOL_SPICE) {
+         if (!qemu_using_spice(errp)) {
+             return;
+         }
+         rc = qemu_spice.set_passwd(password, fail_if_connected,
+                                    disconnect_if_connected);
+-    } else if (strcmp(protocol, "vnc") == 0) {
++    } else {
++        assert(protocol == DISPLAY_PROTOCOL_VNC);
+         if (fail_if_connected || disconnect_if_connected) {
+             /* vnc supports "connected=keep" only */
+             error_setg(errp, QERR_INVALID_PARAMETER, "connected");
+@@ -203,10 +197,6 @@ void qmp_set_password(const char *protocol, const char *password,
+         /* Note that setting an empty password will not disable login through
+          * this interface. */
+         rc = vnc_display_password(NULL, password);
+-    } else {
+-        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
+-                   "'vnc' or 'spice'");
+-        return;
+     }
+ 
+     if (rc != 0) {
+@@ -214,7 +204,7 @@ void qmp_set_password(const char *protocol, const char *password,
+     }
+ }
+ 
+-void qmp_expire_password(const char *protocol, const char *whenstr,
++void qmp_expire_password(DisplayProtocol protocol, const char *whenstr,
+                          Error **errp)
+ {
+     time_t when;
+@@ -230,17 +220,14 @@ void qmp_expire_password(const char *protocol, const char *whenstr,
+         when = strtoull(whenstr, NULL, 10);
+     }
+ 
+-    if (strcmp(protocol, "spice") == 0) {
++    if (protocol == DISPLAY_PROTOCOL_SPICE) {
+         if (!qemu_using_spice(errp)) {
+             return;
+         }
+         rc = qemu_spice.set_pw_expire(when);
+-    } else if (strcmp(protocol, "vnc") == 0) {
+-        rc = vnc_display_pw_expire(NULL, when);
+     } else {
+-        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
+-                   "'vnc' or 'spice'");
+-        return;
++        assert(protocol == DISPLAY_PROTOCOL_VNC);
++        rc = vnc_display_pw_expire(NULL, when);
+     }
+ 
+     if (rc != 0) {
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 9354f4c467..e112409211 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -9,6 +9,34 @@
+ { 'include': 'common.json' }
+ { 'include': 'sockets.json' }
+ 
++##
++# @DisplayProtocol:
++#
++# Display protocols which support changing password options.
++#
++# Since: 7.0
++#
++##
++{ 'enum': 'DisplayProtocol',
++  'data': [ 'vnc', 'spice' ] }
++
++##
++# @SetPasswordAction:
++#
++# An action to take on changing a password on a connection with active clients.
++#
++# @keep: maintain existing clients
++#
++# @fail: fail the command if clients are connected
++#
++# @disconnect: disconnect existing clients
++#
++# Since: 7.0
++#
++##
++{ 'enum': 'SetPasswordAction',
++  'data': [ 'keep', 'fail', 'disconnect' ] }
++
+ ##
+ # @set_password:
+ #
+@@ -38,7 +66,9 @@
+ #
+ ##
+ { 'command': 'set_password',
+-  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
++  'data': { 'protocol': 'DisplayProtocol',
++            'password': 'str',
++            '*connected': 'SetPasswordAction' } }
+ 
+ ##
+ # @expire_password:
+@@ -71,7 +101,9 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time': 'str'} }
++{ 'command': 'expire_password',
++  'data': { 'protocol': 'DisplayProtocol',
++            'time': 'str' } }
+ 
+ ##
+ # @screendump:
 -- 
 2.35.1
 
