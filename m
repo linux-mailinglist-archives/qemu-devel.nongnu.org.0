@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0EED4CA4C7
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 13:28:09 +0100 (CET)
-Received: from localhost ([::1]:44678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5484CA4EB
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 13:36:50 +0100 (CET)
+Received: from localhost ([::1]:34294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPO5Q-0002V1-Rb
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 07:28:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45334)
+	id 1nPODp-0007dw-Nj
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 07:36:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nPNw5-0001Su-0e
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:18:31 -0500
-Received: from [2a00:1450:4864:20::62c] (port=45809
- helo=mail-ej1-x62c.google.com)
+ (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>) id 1nPO4M-0001vk-Tx
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:27:03 -0500
+Received: from [2607:f8b0:4864:20::534] (port=46059
+ helo=mail-pg1-x534.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nPNw2-0001gb-Ki
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:18:28 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id qa43so3278403ejc.12
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 04:18:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=jgIaKdgCmX9XzFPul0xeQhCe+1+YoHtNENK9hgsvxN0=;
- b=ZF0xBuWPuetP7AW3J4ql19Tgg8XyE29giS8CtrvnkCRDwvrKA/XRxOWxx117QsjL3h
- zqINYUxOu30NOFHoeshGCHoaZfmmRO1+DbgmVQw9jym8Dv+HShOebZRZIw8xjj6Wlmd2
- lzpvpDHDPVOcnT41rp+/13gdfQMf27DEQFOGqJ7/Qz8j5Baato3IeWSDY9qM7kcUHdd1
- xrziaro7PYObqVwTvGOw0HrdH1vshzVMDo9Z03AQBXAz5xqHF7d/9mOvdS9guYlHh+s5
- I5cfd17oMSXlrUI0ttJnLIHbNar8TEFheHfl9Rah7GxgWuBcaEGg0EVAS6MD5lB4E/lD
- hZ1w==
+ (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>) id 1nPO4K-0000k2-F7
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:27:02 -0500
+Received: by mail-pg1-x534.google.com with SMTP id z4so1474665pgh.12
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 04:27:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1ZpqVs0GOXjw29QL63IperGwYuGKOgudlGW4UMUfkyw=;
+ b=ooBP1zmHySgKqTsVnDi2tCohsng4sNp+2FMXCtog030XXCNgcn6oDHBYiIH0ejKNzD
+ a/ljvpjWQSmsfThQwNgjY0scj3YFxqOVFCx8OHl5olNSC2hj3bXZcLXLeIrEmyACUrza
+ dTExcpMAjEu6sFMkxBQSIoyU1axQDNsArijw+lJP5wd6KQKnft0O28HXdGOVozeWI6Xu
+ BLdzFkrAWodyP4dBwR8IB8OjF6lQ7gDNR8i64NDP/HO3EPl/STJIcYnjclLV2IED/vqf
+ IRu3OpyxkUuKIyXmgWkMl+4K6VKv7kkVuhhK9wqaI5UM0cLYFj+N3o9OTaofG4xKr4Ap
+ eNWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=jgIaKdgCmX9XzFPul0xeQhCe+1+YoHtNENK9hgsvxN0=;
- b=qva5OZXVfK5y1qbCDY4Vv6z5trvQElYYglcssOgBEo0wOP3fA/v4GiNmcB8Sm8xM8b
- M3DCWdjEpNkAUAF0WdXa+QBEIQkDv9ZPH/WkrmXktFNBehfpMaCGg/2uKkirTo0va7xH
- U/h2LI6OgSND9s/WcRZy8fLXBa8KeJbz99zZkyvWOqSu5JgUevduqg6h7djHVSOWjnAN
- 75Xd1m37kFeSdQYmC/4jeSSx5Czc9tT2I7cUnjcy/OIFH9UfzWGa7PXlT4lt3dyARPAD
- HV0rQ4vKCWkhCgbuMNU/QJjnysGYrpxvMHyzImhE3axdrJnSG2GES864sPlsIrMa0R+Q
- 4xfw==
-X-Gm-Message-State: AOAM532BJjelOBdajfdlJMSbu3NetcK2WJpyhkktc5Nbl7L8fm1PWHXM
- A/Do0zOdGKqxHHdWtC5GsJE0HQ==
-X-Google-Smtp-Source: ABdhPJyv9GHDfgeLqQuBcbRZZaoG7y1EDmH3HRMSg6KyY5wtgpeuCGh7yV2un9IYkC6B/nrkUqaA4A==
-X-Received: by 2002:a17:907:9712:b0:6b7:98d6:6139 with SMTP id
- jg18-20020a170907971200b006b798d66139mr3095518ejc.498.1646223503432; 
- Wed, 02 Mar 2022 04:18:23 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1ZpqVs0GOXjw29QL63IperGwYuGKOgudlGW4UMUfkyw=;
+ b=qN0kySPhHXWLTrZ5N5lOu0FtDE7YXVxut7MMMojTmrcT8w35E8UoU2Mkd5sogBQ6qf
+ 8goPnVB30A0PDpEo3PWK4982n7Gk+CRDhWxD6Ej1a7K5s1Ys8pKO7ifhPzR+0yvXkp5C
+ PVTMelrhGq+MJV3VtQTAd7GOmd4x1fp7LrPU0qfu5TEHiEbdQu4MmB2J9llY2Q3kzK/+
+ 82Wx7pc+Q6rziPXJX6KB4b+hz/hXGZE+JbmPUXJPVVR4qwxNFT3H+N5pmUAwuSMdbGLw
+ uTM7MKuiPp42MclhLgGGuAVYMRHQn3rdrBM/u7NfsGKM8FAQOfao3X1+UqxGIacwoWYl
+ eGIg==
+X-Gm-Message-State: AOAM532VGK7nzJ1dzDI2p9WMtUOyniJDmIXLGIY+1QQ56Iv2RywrE3TS
+ YIqpoX4GkPpyJDtVUC6Ox/ooS4m0JgolZg==
+X-Google-Smtp-Source: ABdhPJxlt809y5AM3BXHRwFm0Gefh35bh80tYfS5+wbHbEJnJCn5xJn1abOhwbRp6kQT3ZSLz5bNPQ==
+X-Received: by 2002:a63:d607:0:b0:378:c5ee:50c0 with SMTP id
+ q7-20020a63d607000000b00378c5ee50c0mr9978402pgg.333.1646224018679; 
+ Wed, 02 Mar 2022 04:26:58 -0800 (PST)
+Received: from localhost.localdomain
+ (2001-b011-e000-59d7-a02b-4f1b-c415-11a0.dynamic-ip6.hinet.net.
+ [2001:b011:e000:59d7:a02b:4f1b:c415:11a0])
  by smtp.gmail.com with ESMTPSA id
- i26-20020a17090671da00b006d9b2150a22sm669505ejk.146.2022.03.02.04.18.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 04:18:22 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A6F591FFB7;
- Wed,  2 Mar 2022 12:18:21 +0000 (GMT)
-References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
- <20220211120747.3074-29-Jonathan.Cameron@huawei.com>
-User-agent: mu4e 1.7.9; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v6 28/43] acpi/cxl: Introduce CFMWS structures in CEDT
-Date: Wed, 02 Mar 2022 12:18:15 +0000
-In-reply-to: <20220211120747.3074-29-Jonathan.Cameron@huawei.com>
-Message-ID: <87bkyok0oi.fsf@linaro.org>
+ mu1-20020a17090b388100b001bedddf2000sm4912971pjb.14.2022.03.02.04.26.56
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Wed, 02 Mar 2022 04:26:58 -0800 (PST)
+From: Yan-Jie Wang <ubzeme@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 8/9] hvf: only consider directly writeable memory regions
+ for dirty-tracking
+Date: Wed,  2 Mar 2022 20:26:10 +0800
+Message-Id: <20220302122611.15237-9-ubzeme@gmail.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+In-Reply-To: <20220302122611.15237-1-ubzeme@gmail.com>
+References: <20220302122611.15237-1-ubzeme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=ubzeme@gmail.com; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -94,34 +90,38 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S
- .  Tsirkin" <mst@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Cameron Esfahani <dirty@apple.com>, Yan-Jie Wang <ubzeme@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It is no need to dirty-track MMIO regions or other readonly regions.
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+Before we start or stop to dirty-track a memory region, check the type of
+the memory region. The region must be a writeable ram to be dirty-tracked.
 
-> From: Ben Widawsky <ben.widawsky@intel.com>
->
-> The CEDT CXL Fixed Window Memory Window Structures (CFMWs)
-> define regions of the host phyiscal address map which
-> (via an impdef means) are configured such that they have
-> a particular interleave setup across one or more CXL Host Bridges.
->
-> Reported-by: Alison Schofield <alison.schofield@intel.com>
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Yan-Jie Wang <ubzeme@gmail.com>
+---
+ accel/hvf/hvf-mem.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+diff --git a/accel/hvf/hvf-mem.c b/accel/hvf/hvf-mem.c
+index 2f70ceb307..b215386bc8 100644
+--- a/accel/hvf/hvf-mem.c
++++ b/accel/hvf/hvf-mem.c
+@@ -180,6 +180,11 @@ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
+ {
+     HVFSlot *slot;
+ 
++    if (!memory_region_is_ram(section->mr) || memory_region_is_rom(section)) {
++        /* do not consider memory regions which are not directly writeable */
++        return;
++    }
++
+     qemu_mutex_lock(&memlock);
+ 
+     slot = hvf_find_overlap_slot(
+-- 
+2.32.0 (Apple Git-132)
 
---=20
-Alex Benn=C3=A9e
 
