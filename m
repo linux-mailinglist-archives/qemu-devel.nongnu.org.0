@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45C94CAB1D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:07:07 +0100 (CET)
-Received: from localhost ([::1]:53852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5874CAB39
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:11:43 +0100 (CET)
+Received: from localhost ([::1]:57980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPSRO-0002MN-Bk
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:07:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41494)
+	id 1nPSVq-0005SD-KE
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:11:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPSOC-0005rk-0q
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:03:49 -0500
-Received: from [2607:f8b0:4864:20::b2d] (port=46796
- helo=mail-yb1-xb2d.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nPSU1-0004C5-7a; Wed, 02 Mar 2022 12:09:49 -0500
+Received: from [2a00:1450:4864:20::42a] (port=36666
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPSO9-00031E-Iw
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:03:47 -0500
-Received: by mail-yb1-xb2d.google.com with SMTP id b35so4611972ybi.13
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 09:03:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZKAwCOIT2sfYlPr1Si8J5aOGMzCUl4pWbt3iYp1PfpY=;
- b=zggor37KOuVuM8dGHFgG/XO/jhmHrtW8zskSk+ZFkDXi0c/myLczvSvbqbWk2/mwHN
- 7Tv3a/Ole4sdypXHGfa7jXg1IAL7Od+C1JZE9sRL1Kc9M7q7GZw0h4AclhhIf7YgqKnk
- msrPRZZrDR/hVI3ImKouuldEWIppDO+uN6hRewTap19JnGvi0yX+OMnje9YEZ7DLt5Y7
- bXOGlqxDT7EUfAa9QqAPr5I7ng6HQDKn7vxYX0T+VdRc35Iarbcu/0FVi9BF/3mzvpK8
- S8gx5fxSBXPbuWcuB68W0K7doOaRta0S5x/wTUA/XG4VqnKNoHRhMmUTLj+cTpO3LcjQ
- W64Q==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nPSTz-0003w7-HL; Wed, 02 Mar 2022 12:09:48 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id r10so3848016wrp.3;
+ Wed, 02 Mar 2022 09:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=QnhPHAEwKEep6fi2qjTPWjK7k2b0OUJeNp7TyqfWmlo=;
+ b=cv3rLCKOI9yrY9jCCytYCSnWHCqjS82TZRdZcBNToTvc8qHjAihsufWLmRX+5midRV
+ wYSIFsII/zB3kpii5CKY5ZgNApFNgtDsztw/TBDgUGOJe3ELIoEGNOJT5XDlVSEKp553
+ WPOufDUeQTX12If1BQSTfmN1B0SGP1ZZFtUBArjjWI3NTvkAPOKHcyGrmS4gPwGeHuXP
+ qSR4z+QDxdqLdiFeh87YGOk7Zj6L4eI9peSDSGqaX0qr4VIbFy20eycRjwmjdvRriRsS
+ 1r6G9fWrXPFX6W/+BxI8Q1HiFjBjXoh6HW4fTM5CUk5JatD0egaDZnrDyxbgQ9LyT6OC
+ 9c7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZKAwCOIT2sfYlPr1Si8J5aOGMzCUl4pWbt3iYp1PfpY=;
- b=Nbhgr7scESip4ggEqbBxWTYPsKt1R860gMP/ajEKVb50F4mqZlHbmoZsRZsxFsGgJq
- KAO5vSaLWhzu4KETXZLa/9gukWZhBFZEAfpD0aEAPwAGHiyuY6AzgkPa2TYNGTVYBie3
- TIhwzWRePQZqLjdxHa4lXuxuNfPH8Nn83NZSK3mq9G8/G+k4bQLVYtP9C3hwXuOmJWqN
- 7vsb0S2e8im2wXFSGqdIyb6j0Loz3Y3P2Dz0i1BeGfxOSLIgw9ZmNERf2GreMWLX+oGS
- UFg2GBOuRpkUeQrKvxrK8TajPv8MmTbqbrAoA/Maj9ZVDk/H7O0ugLEcsVPg7g9lKTRs
- F05A==
-X-Gm-Message-State: AOAM532CiszEYJn67UF+q1yOhzatpubBpCSxtdIhE8X3m+W9Dz/p/Ru8
- gpJOpQSYGuuC31JdF1Xa3JzewqFPedklmBVpKjNFrQ==
-X-Google-Smtp-Source: ABdhPJyzWwix6+uv4+4aDR0Fl4WFS7sLdw4VftTIEjgeQ44E4UQxRKbwleyljTxKyyBwm72y89S7L6QOuGc7DqipFv0=
-X-Received: by 2002:a25:6e84:0:b0:628:97de:9430 with SMTP id
- j126-20020a256e84000000b0062897de9430mr5335490ybc.288.1646240624310; Wed, 02
- Mar 2022 09:03:44 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=QnhPHAEwKEep6fi2qjTPWjK7k2b0OUJeNp7TyqfWmlo=;
+ b=1LEHf4vw5LW48P1a5ngHhnTU6tM2+KShwUkJghCp/P3wY/b1lyxL/k1dXx4YR0itq8
+ Ofeww2rvDvQ/PUm7yy131rrAVrPjBvGkIkkbRTf/JmnHJUrtlQ5GSvGFbb6Rw2zWDJPY
+ 1JEWadCDcbBvlPg14aD+32LXZtYUYmWriE6SQAaZ7vQphogkLkgL11/Dr3UDfagGu4rB
+ HW0J88mK5mrTgk3AUNgAfyiLNBidfBHGuZNgcjTriqkSQn4SrnPOQMTAN9WTp1Z7NYGu
+ JplA8yjapdpTsiBiAv+UcQbW5hngx8myyaaw3MwvZe6V1YRzsWz9kmfcuxfc1TalJRiR
+ 6ehA==
+X-Gm-Message-State: AOAM533WKcyduYRexR4p+qC15PttLI9DPWqT6a+kwokcrFoei6PtUKlz
+ r1+7ExCyTBPmlYaa8KGg7Sc=
+X-Google-Smtp-Source: ABdhPJwwylKky8bpc1hAINxWZAxor2k/30WpWOvo+TxMMpNYaCQn0rmUzylWFa3jb9g7yAXjVEHgzw==
+X-Received: by 2002:a05:6000:2a5:b0:1f0:2e57:82ab with SMTP id
+ l5-20020a05600002a500b001f02e5782abmr3142605wry.515.1646240984956; 
+ Wed, 02 Mar 2022 09:09:44 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ c4-20020adfef44000000b001ef93c7bbb8sm12830070wrp.30.2022.03.02.09.09.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Mar 2022 09:09:44 -0800 (PST)
+Message-ID: <d75f1eee-cf69-9783-1cde-14427e680360@redhat.com>
+Date: Wed, 2 Mar 2022 18:09:41 +0100
 MIME-Version: 1.0
-References: <20220226180723.1706285-1-peter.maydell@linaro.org>
- <20220226180723.1706285-2-peter.maydell@linaro.org>
- <20220302163048.pahjr7gkdj5jxqm5@redhat.com>
-In-Reply-To: <20220302163048.pahjr7gkdj5jxqm5@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 2 Mar 2022 17:03:33 +0000
-Message-ID: <CAFEAcA8WA7kc5mmhHptKMmXAa=geFi=Vs+dwaM+a3Pi8RyYW1w@mail.gmail.com>
-Subject: Re: [PATCH 1/9] hw/usb/redirect.c: Stop using qemu_oom_check()
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/2] Allow returning EventNotifier's wfd
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, Sergio Lopez <slp@redhat.com>
+References: <20220302113644.43717-1-slp@redhat.com>
+ <20220302113644.43717-2-slp@redhat.com>
+ <20220302081234.2378ef33.alex.williamson@redhat.com>
+ <20220302152342.3hlzw3ih2agqqu6c@mhamilton>
+ <Yh+WESUBI9spkHvd@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Yh+WESUBI9spkHvd@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -83,19 +97,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ kvm@vger.kernel.org, John G Johnson <john.g.johnson@oracle.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Mar 2022 at 16:31, Eric Blake <eblake@redhat.com> wrote:
-> Is exit(EXIT_FAILURE) worth using in this file?  We have an
-> inconsistent history of a magic number vs. a named constant, so either
-> way,
+On 3/2/22 17:06, Stefan Hajnoczi wrote:
+>> I agree. In fact, that's what I implemented in the first place. I
+>> changed to this version in which event_notifier_get_fd() is extended
+>> because it feels more "correct". But yes, the pragmatic option would
+>> be adding a new event_notifier_get_wfd().
+>>
+>> I'll wait for more reviews, and unless someone voices against it, I'll
+>> respin the patches with that strategy (I already have it around here).
+> I had the same thought looking through the patch before I read Alex's
+> suggestion. A separate get_wfd() function makes sense to me.
 
-I'm not a huge fan of EXIT_FAILURE, I think it tends to
-obscure more than it helps. We have rather more 'exit(1)'
-than 'exit(EXIT_FAILURE)' in the codebase.
+And that's four with me. :)  It's not just pragmatic, I cannot imagine a 
+case where the caller doesn't know exactly which of the two file 
+descriptors they want.
 
--- PMM
+Paolo
 
