@@ -2,56 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224284CAE99
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 20:25:03 +0100 (CET)
-Received: from localhost ([::1]:38534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6B04CAEB4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 20:29:29 +0100 (CET)
+Received: from localhost ([::1]:46550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPUar-00039n-Me
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 14:25:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49544)
+	id 1nPUfA-0000BW-1j
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 14:29:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nPUXJ-0000J6-C2
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 14:21:22 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:45576
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nPUXB-0002Hg-1G
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 14:21:19 -0500
-HMM_SOURCE_IP: 172.18.0.188:52786.2076619004
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.99.98 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id 0273028009A;
- Thu,  3 Mar 2022 03:21:07 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id 8aa1c1a7aff440bf9740836ef91ade37 for
- qemu-devel@nongnu.org; Thu, 03 Mar 2022 03:21:10 CST
-X-Transaction-ID: 8aa1c1a7aff440bf9740836ef91ade37
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v18 7/7] softmmu/dirtylimit: Implement dirty page rate limit
-Date: Thu,  3 Mar 2022 03:20:25 +0800
-Message-Id: <0c8849e11cc2d2ec549c926af5977cbd9f460b60.1646247968.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1646247968.git.huangy81@chinatelecom.cn>
-References: <cover.1646247968.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1646247968.git.huangy81@chinatelecom.cn>
-References: <cover.1646247968.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nPUYA-00016U-EQ; Wed, 02 Mar 2022 14:22:14 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=52886
+ helo=mail-pj1-x1029.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nPUY8-0002WS-9C; Wed, 02 Mar 2022 14:22:13 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id v4so2666371pjh.2;
+ Wed, 02 Mar 2022 11:22:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=GowkojXAz1wkAT6+sYRVxmC+1jzWkyvWgoOaFe2GzAI=;
+ b=TrbuYO86toBF9+xXdvV9SuFJYOCKaEChA5oo5DUCZZRpbgdJSFdUg6HSnusoANKepT
+ YwAGDGoUZlK4MhOdjn4TW5IT/lFHPVqjfgxTXRKqIbYnYPJwF2Z0Nx2sbiy8/eZ29fSn
+ KmkBPJ6ZgZDvUx7FB0egK26lxKvQNV1/WEAt0ynYVx9QxmlwR1Ajw0rTTLFnHVjC0wmt
+ 2tRk2SUClhg8oL2ZFsqJ6IOjs8ReGLyDWBzVk3KC0mYoXpXTCNkpqHEhbUUhn4ECrC8z
+ hHSEHspUfrWUdQnE+X0KYwT2N/x+vmuoyCW9LjPPgT0FIjSQcGRpjyvTWsYjkBBV05HR
+ 7NoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GowkojXAz1wkAT6+sYRVxmC+1jzWkyvWgoOaFe2GzAI=;
+ b=UpcWrRhf207OTjnvOss4pEmERI6k3Dba5IMlwzLfH2heHwtszPwtkhnpeEa+JgCgRH
+ FCPY93nc69s+spLuBLxPi2VHR8FTvoekSL9JeM/gHEglaqtjgwPWobTqCCOF+Rz72/X3
+ HPpIYizaOuE2LqsAQgSvoViQeOjaBFmhbadwNiotV8sceTLfeSobPeq652/KLj0Y10jQ
+ oBmmRbKAg/F8LY2fRY4OHH5GkbegQ7eSQcwWW2BcNc3ZhPWjG12v6ALMLNpp3Yc+C7Ca
+ n0knnc2mAZ6vP3e4cgdqQLXMJqK/fZfHH0LJAqm4oHTnz17ebutKhPMeOXyqkby94F5i
+ dYQg==
+X-Gm-Message-State: AOAM532I+xexBlHeiyK5v+qErYef/0+yDBBdvcm71HFgk5laasVEdw08
+ pl3s2ELhhJ1TEU9F6SsPgPU=
+X-Google-Smtp-Source: ABdhPJxpQMG1YVjUuU1HVDKoxItlkxdQTlC7TRrzQY4Skr4NFwEQxm3vqKHErao0vcxCxFiHoC1p+g==
+X-Received: by 2002:a17:90a:ba07:b0:1bc:a0fd:faf with SMTP id
+ s7-20020a17090aba0700b001bca0fd0fafmr1357961pjr.194.1646248929362; 
+ Wed, 02 Mar 2022 11:22:09 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
+ t5-20020a17090ae50500b001bc4ec15949sm5828982pjy.2.2022.03.02.11.22.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Mar 2022 11:22:08 -0800 (PST)
+Message-ID: <62af5861-15da-da1a-8546-cf3b33806c38@gmail.com>
+Date: Wed, 2 Mar 2022 20:22:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH 2/2] Allow building vhost-user in BSD
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220302113644.43717-1-slp@redhat.com>
+ <20220302113644.43717-3-slp@redhat.com>
+ <66b68bcc-8d7e-a5f7-5e6c-b2d20c26ab01@redhat.com>
+ <8dfc9854-4d59-0759-88d0-d502ae7c552f@gmail.com>
+ <20220302173009.26auqvy4t4rx74td@mhamilton>
+ <85ed0856-308a-7774-a751-b20588f3d9cd@gmail.com>
+ <Yh+vniMOTFt2npIJ@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <Yh+vniMOTFt2npIJ@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.222;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,441 +97,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus ArmBruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>, Jagannathan Raman <jag.raman@oracle.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
+ Thomas Huth <thuth@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, John G Johnson <john.g.johnson@oracle.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On 2/3/22 18:55, Daniel P. Berrangé wrote:
+> On Wed, Mar 02, 2022 at 06:38:07PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 2/3/22 18:31, Sergio Lopez wrote:
+>>> On Wed, Mar 02, 2022 at 06:18:59PM +0100, Philippe Mathieu-Daudé wrote:
+>>>> On 2/3/22 18:10, Paolo Bonzini wrote:
+>>>>> On 3/2/22 12:36, Sergio Lopez wrote:
+>>>>>> With the possibility of using pipefd as a replacement on operating
+>>>>>> systems that doesn't support eventfd, vhost-user can also work on BSD
+>>>>>> systems.
+>>>>>>
+>>>>>> This change allows enabling vhost-user on BSD platforms too and
+>>>>>> makes libvhost_user (which still depends on eventfd) a linux-only
+>>>>>> feature.
+>>>>>>
+>>>>>> Signed-off-by: Sergio Lopez <slp@redhat.com>
+>>>>>
+>>>>> I would just check for !windows.
+>>>>
+>>>> What about Darwin / Haiku / Illumnos?
+>>>
+>>> It should work on every system providing pipe() or pipe2(), so I guess
+>>> Paolo's right, every platform except Windows. FWIW, I already tested
+>>> it with Darwin.
+>>
+>> Wow, nice.
+>>
+>> So maybe simply check for pipe/pipe2 rather than !windows?
+> 
+> NB that would make the check more fragile.
+> 
+> We already use pipe/pipe2 without checking for it, because its
+> usage is confined to oslib-posix.c and we know all POSIX
+> OS have it. There is no impl at all of qemu_pipe in oslib-win.c
+> and the declaration is masked out too in the header file.
+> 
+> Thus if we check for pipe2 and windows did ever implement it,
+> then we would actually break the windows build due to qemu_pipe
+> not existing.
+> 
+> IOW, checking !windows matches our logic for picking oslib-posix.c
+> in builds and so is better than checking for pipe directly.
 
-Implement dirtyrate calculation periodically basing on
-dirty-ring and throttle virtual CPU until it reachs the quota
-dirty page rate given by user.
-
-Introduce qmp commands "set-vcpu-dirty-limit",
-"cancel-vcpu-dirty-limit", "query-vcpu-dirty-limit"
-to enable, disable, query dirty page limit for virtual CPU.
-
-Meanwhile, introduce corresponding hmp commands
-"set_vcpu_dirty_limit", "cancel_vcpu_dirty_limit",
-"info vcpu_dirty_limit" so the feature can be more usable.
-
-"query-vcpu-dirty-limit" success depends on enabling dirty
-page rate limit, so just add it to the list of skipped
-command to ensure qmp-cmd-test run successfully.
-
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
----
- hmp-commands-info.hx       |  13 +++
- hmp-commands.hx            |  32 ++++++++
- include/monitor/hmp.h      |   3 +
- qapi/migration.json        |  80 +++++++++++++++++++
- softmmu/dirtylimit.c       | 195 +++++++++++++++++++++++++++++++++++++++++++++
- tests/qtest/qmp-cmd-test.c |   2 +
- 6 files changed, 325 insertions(+)
-
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index e90f20a..61b23d2 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -865,6 +865,19 @@ SRST
-     Display the vcpu dirty rate information.
- ERST
- 
-+    {
-+        .name       = "vcpu_dirty_limit",
-+        .args_type  = "",
-+        .params     = "",
-+        .help       = "show dirty page limit information of all vCPU",
-+        .cmd        = hmp_info_vcpu_dirty_limit,
-+    },
-+
-+SRST
-+  ``info vcpu_dirty_limit``
-+    Display the vcpu dirty page limit information.
-+ERST
-+
- #if defined(TARGET_I386)
-     {
-         .name       = "sgx",
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 70a9136..5bedee2 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1744,3 +1744,35 @@ ERST
-                       "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
-         .cmd        = hmp_calc_dirty_rate,
-     },
-+
-+SRST
-+``set_vcpu_dirty_limit``
-+  Set dirty page rate limit on virtual CPU, the information about all the
-+  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
-+  command.
-+ERST
-+
-+    {
-+        .name       = "set_vcpu_dirty_limit",
-+        .args_type  = "dirty_rate:l,cpu_index:l?",
-+        .params     = "dirty_rate [cpu_index]",
-+        .help       = "set dirty page rate limit, use cpu_index to set limit"
-+                      "\n\t\t\t\t\t on a specified virtual cpu",
-+        .cmd        = hmp_set_vcpu_dirty_limit,
-+    },
-+
-+SRST
-+``cancel_vcpu_dirty_limit``
-+  Cancel dirty page rate limit on virtual CPU, the information about all the
-+  virtual CPU dirty limit status can be observed with ``info vcpu_dirty_limit``
-+  command.
-+ERST
-+
-+    {
-+        .name       = "cancel_vcpu_dirty_limit",
-+        .args_type  = "cpu_index:l?",
-+        .params     = "[cpu_index]",
-+        .help       = "cancel dirty page rate limit, use cpu_index to cancel"
-+                      "\n\t\t\t\t\t limit on a specified virtual cpu",
-+        .cmd        = hmp_cancel_vcpu_dirty_limit,
-+    },
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 96d0148..478820e 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -131,6 +131,9 @@ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_seek(Monitor *mon, const QDict *qdict);
- void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
- void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
-+void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-+void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
-+void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
- void hmp_human_readable_text_helper(Monitor *mon,
-                                     HumanReadableText *(*qmp_handler)(Error **));
- 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 5975a0e..2ccbb92 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1861,6 +1861,86 @@
- { 'command': 'query-dirty-rate', 'returns': 'DirtyRateInfo' }
- 
- ##
-+# @DirtyLimitInfo:
-+#
-+# Dirty page rate limit information of a virtual CPU.
-+#
-+# @cpu-index: index of a virtual CPU.
-+#
-+# @limit-rate: upper limit of dirty page rate (MB/s) for a virtual
-+#              CPU, 0 means unlimited.
-+#
-+# @current-rate: current dirty page rate (MB/s) for a virtual CPU.
-+#
-+# Since: 7.0
-+#
-+##
-+{ 'struct': 'DirtyLimitInfo',
-+  'data': { 'cpu-index': 'int',
-+            'limit-rate': 'uint64',
-+            'current-rate': 'uint64' } }
-+
-+##
-+# @set-vcpu-dirty-limit:
-+#
-+# Set the upper limit of dirty page rate for virtual CPUs.
-+#
-+# Requires KVM with accelerator property "dirty-ring-size" set.
-+# A virtual CPU's dirty page rate is a measure of its memory load.
-+# To observe dirty page rates, use @calc-dirty-rate.
-+#
-+# @cpu-index: index of a virtual CPU, default is all.
-+#
-+# @dirty-rate: upper limit of dirty page rate (MB/s) for virtual CPUs.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "set-vcpu-dirty-limit"}
-+#    "arguments": { "dirty-rate": 200,
-+#                   "cpu-index": 1 } }
-+#
-+##
-+{ 'command': 'set-vcpu-dirty-limit',
-+  'data': { '*cpu-index': 'int',
-+            'dirty-rate': 'uint64' } }
-+
-+##
-+# @cancel-vcpu-dirty-limit:
-+#
-+# Cancel the upper limit of dirty page rate for virtual CPUs.
-+#
-+# Cancel the dirty page limit for the vCPU which has been set with
-+# set-vcpu-dirty-limit command. Note that this command requires
-+# support from dirty ring, same as the "set-vcpu-dirty-limit".
-+#
-+# @cpu-index: index of a virtual CPU, default is all.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "cancel-vcpu-dirty-limit"}
-+#    "arguments": { "cpu-index": 1 } }
-+#
-+##
-+{ 'command': 'cancel-vcpu-dirty-limit',
-+  'data': { '*cpu-index': 'int'} }
-+
-+##
-+# @query-vcpu-dirty-limit:
-+#
-+# Returns information about virtual CPU dirty page rate limits, if any.
-+#
-+# Since: 7.0
-+#
-+# Example:
-+#   {"execute": "query-vcpu-dirty-limit"}
-+#
-+##
-+{ 'command': 'query-vcpu-dirty-limit',
-+  'returns': [ 'DirtyLimitInfo' ] }
-+
-+##
- # @snapshot-save:
- #
- # Save a VM snapshot
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 76d0b44..365bd43 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -14,8 +14,12 @@
- #include "qapi/error.h"
- #include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/error.h"
- #include "sysemu/dirtyrate.h"
- #include "sysemu/dirtylimit.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
- #include "exec/memory.h"
- #include "hw/boards.h"
- #include "sysemu/kvm.h"
-@@ -405,3 +409,194 @@ void dirtylimit_vcpu_execute(CPUState *cpu)
-         usleep(cpu->throttle_us_per_full);
-     }
- }
-+
-+static void dirtylimit_init(void)
-+{
-+    dirtylimit_state_initialize();
-+    dirtylimit_change(true);
-+    vcpu_dirty_rate_stat_initialize();
-+    vcpu_dirty_rate_stat_start();
-+}
-+
-+static void dirtylimit_cleanup(void)
-+{
-+    vcpu_dirty_rate_stat_stop();
-+    vcpu_dirty_rate_stat_finalize();
-+    dirtylimit_change(false);
-+    dirtylimit_state_finalize();
-+}
-+
-+void qmp_cancel_vcpu_dirty_limit(bool has_cpu_index,
-+                                 int64_t cpu_index,
-+                                 Error **errp)
-+{
-+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+        return;
-+    }
-+
-+    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
-+        error_setg(errp, "incorrect cpu index specified");
-+        return;
-+    }
-+
-+    if (!dirtylimit_in_service()) {
-+        return;
-+    }
-+
-+    dirtylimit_state_lock();
-+
-+    if (has_cpu_index) {
-+        dirtylimit_set_vcpu(cpu_index, 0, false);
-+    } else {
-+        dirtylimit_set_all(0, false);
-+    }
-+
-+    if (!dirtylimit_state->limited_nvcpu) {
-+        dirtylimit_cleanup();
-+    }
-+
-+    dirtylimit_state_unlock();
-+}
-+
-+void hmp_cancel_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-+    Error *err = NULL;
-+
-+    qmp_cancel_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, &err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
-+                   "dirty limit for virtual CPU]\n");
-+}
-+
-+void qmp_set_vcpu_dirty_limit(bool has_cpu_index,
-+                              int64_t cpu_index,
-+                              uint64_t dirty_rate,
-+                              Error **errp)
-+{
-+    if (!kvm_enabled() || !kvm_dirty_ring_enabled()) {
-+        error_setg(errp, "dirty page limit feature requires KVM with"
-+                   " accelerator property 'dirty-ring-size' set'");
-+        return;
-+    }
-+
-+    if (has_cpu_index && !dirtylimit_vcpu_index_valid(cpu_index)) {
-+        error_setg(errp, "incorrect cpu index specified");
-+        return;
-+    }
-+
-+    if (!dirty_rate) {
-+        qmp_cancel_vcpu_dirty_limit(has_cpu_index, cpu_index, errp);
-+        return;
-+    }
-+
-+    dirtylimit_state_lock();
-+
-+    if (!dirtylimit_in_service()) {
-+        dirtylimit_init();
-+    }
-+
-+    if (has_cpu_index) {
-+        dirtylimit_set_vcpu(cpu_index, dirty_rate, true);
-+    } else {
-+        dirtylimit_set_all(dirty_rate, true);
-+    }
-+
-+    dirtylimit_state_unlock();
-+}
-+
-+void hmp_set_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    int64_t dirty_rate = qdict_get_int(qdict, "dirty_rate");
-+    int64_t cpu_index = qdict_get_try_int(qdict, "cpu_index", -1);
-+    Error *err = NULL;
-+
-+    qmp_set_vcpu_dirty_limit(!!(cpu_index != -1), cpu_index, dirty_rate, &err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "[Please use 'info vcpu_dirty_limit' to query "
-+                   "dirty limit for virtual CPU]\n");
-+}
-+
-+static struct DirtyLimitInfo *dirtylimit_query_vcpu(int cpu_index)
-+{
-+    DirtyLimitInfo *info = NULL;
-+
-+    info = g_malloc0(sizeof(*info));
-+    info->cpu_index = cpu_index;
-+    info->limit_rate = dirtylimit_vcpu_get_state(cpu_index)->quota;
-+    info->current_rate = vcpu_dirty_rate_get(cpu_index);
-+
-+    return info;
-+}
-+
-+static struct DirtyLimitInfoList *dirtylimit_query_all(void)
-+{
-+    int i, index;
-+    DirtyLimitInfo *info = NULL;
-+    DirtyLimitInfoList *head = NULL, **tail = &head;
-+
-+    dirtylimit_state_lock();
-+
-+    if (!dirtylimit_in_service()) {
-+        dirtylimit_state_unlock();
-+        return NULL;
-+    }
-+
-+    for (i = 0; i < dirtylimit_state->max_cpus; i++) {
-+        index = dirtylimit_state->states[i].cpu_index;
-+        if (dirtylimit_vcpu_get_state(index)->enabled) {
-+            info = dirtylimit_query_vcpu(index);
-+            QAPI_LIST_APPEND(tail, info);
-+        }
-+    }
-+
-+    dirtylimit_state_unlock();
-+
-+    return head;
-+}
-+
-+struct DirtyLimitInfoList *qmp_query_vcpu_dirty_limit(Error **errp)
-+{
-+    if (!dirtylimit_in_service()) {
-+        error_setg(errp, "dirty page limit not enabled");
-+        return NULL;
-+    }
-+
-+    return dirtylimit_query_all();
-+}
-+
-+void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict)
-+{
-+    DirtyLimitInfoList *limit, *head, *info = NULL;
-+    Error *err = NULL;
-+
-+    if (!dirtylimit_in_service()) {
-+        monitor_printf(mon, "Dirty page limit not enabled!\n");
-+        return;
-+    }
-+
-+    info = qmp_query_vcpu_dirty_limit(&err);
-+    if (err) {
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+
-+    head = info;
-+    for (limit = head; limit != NULL; limit = limit->next) {
-+        monitor_printf(mon, "vcpu[%"PRIi64"], limit rate %"PRIi64 " (MB/s),"
-+                            " current rate %"PRIi64 " (MB/s)\n",
-+                            limit->value->cpu_index,
-+                            limit->value->limit_rate,
-+                            limit->value->current_rate);
-+    }
-+
-+    g_free(info);
-+}
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index 7f103ea..4b216a0 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -110,6 +110,8 @@ static bool query_is_ignored(const char *cmd)
-         "query-sev-capabilities",
-         "query-sgx",
-         "query-sgx-capabilities",
-+        /* Success depends on enabling dirty page rate limit */
-+        "query-vcpu-dirty-limit",
-         NULL
-     };
-     int i;
--- 
-1.8.3.1
-
+OK I see, thanks.
 
