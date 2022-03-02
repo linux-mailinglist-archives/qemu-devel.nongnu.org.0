@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34FE4CA339
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 12:17:45 +0100 (CET)
-Received: from localhost ([::1]:53088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A094CA33A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 12:18:08 +0100 (CET)
+Received: from localhost ([::1]:53894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPMzI-0006cX-Uq
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 06:17:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56692)
+	id 1nPMzf-0007Cg-S1
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 06:18:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMqK-0008QE-A1; Wed, 02 Mar 2022 06:08:28 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31628
+ id 1nPMqH-0008IS-Hm; Wed, 02 Mar 2022 06:08:25 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18012
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nPMqH-0001hq-Ge; Wed, 02 Mar 2022 06:08:28 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 222Am3dT002383; 
+ id 1nPMqF-0001hC-Np; Wed, 02 Mar 2022 06:08:25 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 222AtTkb001554; 
  Wed, 2 Mar 2022 11:08:17 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ej7570dw7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 11:08:16 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 222B63Js006056;
- Wed, 2 Mar 2022 11:08:15 GMT
 Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
  [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ej7570dum-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ej51mb54b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Mar 2022 11:08:16 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B2ftR022128;
+ Wed, 2 Mar 2022 11:08:15 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3efbu9efhb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 02 Mar 2022 11:08:15 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222B2mPL022555;
- Wed, 2 Mar 2022 11:08:14 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3efbu9efh9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 11:08:13 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 222B8BYC40632678
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 222B8CTq48890164
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Mar 2022 11:08:11 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C06F011C054;
- Wed,  2 Mar 2022 11:08:11 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7EEDE11C05C;
- Wed,  2 Mar 2022 11:08:11 +0000 (GMT)
+ Wed, 2 Mar 2022 11:08:12 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 96C6F4C046;
+ Wed,  2 Mar 2022 11:08:12 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4BA744C04E;
+ Wed,  2 Mar 2022 11:08:12 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed,  2 Mar 2022 11:08:11 +0000 (GMT)
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed,  2 Mar 2022 11:08:12 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.58.125])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id C61E22201C1;
- Wed,  2 Mar 2022 12:08:10 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 72514220294;
+ Wed,  2 Mar 2022 12:08:11 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 06/87] target/ppc: trigger PERFM EBBs from power8-pmu.c
-Date: Wed,  2 Mar 2022 12:06:42 +0100
-Message-Id: <20220302110803.849505-7-clg@kaod.org>
+Subject: [PULL 07/87] target/ppc: Introduce TRANS*FLAGS macros
+Date: Wed,  2 Mar 2022 12:06:43 +0100
+Message-Id: <20220302110803.849505-8-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220302110803.849505-1-clg@kaod.org>
 References: <20220302110803.849505-1-clg@kaod.org>
@@ -71,16 +64,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YAPa02sXCtZpvBpkfIt_o7-dmL-hrzwq
-X-Proofpoint-ORIG-GUID: kmJhIw4CLx5gsOb_rsMHpuAN9GqycOO7
+X-Proofpoint-GUID: CoCCZLx3amwptisPafz4XL6Ww2ogr-HR
+X-Proofpoint-ORIG-GUID: CoCCZLx3amwptisPafz4XL6Ww2ogr-HR
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-02_01,2022-02-26_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- impostorscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0
- mlxlogscore=890 priorityscore=1501 mlxscore=0 spamscore=0 clxscore=1034
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1034 mlxlogscore=778
+ phishscore=0 spamscore=0 adultscore=0 impostorscore=0 mlxscore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2203020047
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
@@ -103,131 +96,141 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Luis Pires <luis.pires@eldorado.org.br>,
  Richard Henderson <richard.henderson@linaro.org>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Luis Pires <luis.pires@eldorado.org.br>
 
-This patch adds the EBB exception support that are triggered by
-Performance Monitor alerts. This happens when a Performance Monitor
-alert occurs and MMCR0_EBE, BESCR_PME and BESCR_GE are set.
+New macros that add FLAGS and FLAGS2 checking were added for
+both TRANS and TRANS64.
 
-fire_PMC_interrupt() will execute the raise_ebb_perfm_exception() helper
-which will check for MMCR0_EBE, BESCR_PME and BESCR_GE bits. If all bits
-are set, do_ebb() will attempt to trigger a PERFM EBB event.
-
-If the EBB facility is enabled in both FSCR and HFSCR we consider that
-the EBB is valid and set BESCR_PMEO. After that, if we're running in
-problem state, fire a POWERPC_EXCP_PERM_EBB immediately. Otherwise we'll
-queue a PPC_INTERRUPT_EBB.
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220225101140.1054160-5-danielhb413@gmail.com>
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+[ferst: - TRANS_FLAGS2 instead of TRANS_FLAGS_E
+        - Use the new macros in load/store vector insns ]
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Message-Id: <20220225210936.1749575-2-matheus.ferst@eldorado.org.br>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/cpu.h         |  5 +++++
- target/ppc/excp_helper.c | 48 ++++++++++++++++++++++++++++++++++++++++
- target/ppc/power8-pmu.c  |  3 +--
- 3 files changed, 54 insertions(+), 2 deletions(-)
+ target/ppc/translate.c              | 19 +++++++++++++++
+ target/ppc/translate/vsx-impl.c.inc | 37 ++++++++++-------------------
+ 2 files changed, 31 insertions(+), 25 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 79375e8df489..1b687521c76c 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2502,6 +2502,11 @@ void QEMU_NORETURN raise_exception_err(CPUPPCState=
- *env, uint32_t exception,
- void QEMU_NORETURN raise_exception_err_ra(CPUPPCState *env, uint32_t exc=
-eption,
-                                           uint32_t error_code, uintptr_t=
- raddr);
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index ecc5a104e049..b46a11386eee 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -6604,10 +6604,29 @@ static int times_16(DisasContext *ctx, int x)
+ #define TRANS(NAME, FUNC, ...) \
+     static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
+     { return FUNC(ctx, a, __VA_ARGS__); }
++#define TRANS_FLAGS(FLAGS, NAME, FUNC, ...) \
++    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
++    {                                                          \
++        REQUIRE_INSNS_FLAGS(ctx, FLAGS);                       \
++        return FUNC(ctx, a, __VA_ARGS__);                      \
++    }
++#define TRANS_FLAGS2(FLAGS2, NAME, FUNC, ...) \
++    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
++    {                                                          \
++        REQUIRE_INSNS_FLAGS2(ctx, FLAGS2);                     \
++        return FUNC(ctx, a, __VA_ARGS__);                      \
++    }
 =20
-+/* PERFM EBB helper*/
-+#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-+void raise_ebb_perfm_exception(CPUPPCState *env);
-+#endif
-+
- #if !defined(CONFIG_USER_ONLY)
- static inline int booke206_tlbm_id(CPUPPCState *env, ppcmas_tlb_t *tlbm)
+ #define TRANS64(NAME, FUNC, ...) \
+     static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
+     { REQUIRE_64BIT(ctx); return FUNC(ctx, a, __VA_ARGS__); }
++#define TRANS64_FLAGS2(FLAGS2, NAME, FUNC, ...) \
++    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
++    {                                                          \
++        REQUIRE_64BIT(ctx);                                    \
++        REQUIRE_INSNS_FLAGS2(ctx, FLAGS2);                     \
++        return FUNC(ctx, a, __VA_ARGS__);                      \
++    }
+=20
+ /* TODO: More TRANS* helpers for extra insn_flags checks. */
+=20
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/v=
+sx-impl.c.inc
+index 128968b5e7a8..e8a4ba0cfa60 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -2072,12 +2072,6 @@ static bool do_lstxv(DisasContext *ctx, int ra, TC=
+Gv displ,
+=20
+ static bool do_lstxv_D(DisasContext *ctx, arg_D *a, bool store, bool pai=
+red)
  {
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 5e7d29ae0081..d3e2cfcd7120 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -2066,6 +2066,54 @@ void helper_rfebb(CPUPPCState *env, target_ulong s=
-)
-         env->spr[SPR_BESCR] &=3D ~BESCR_GE;
-     }
- }
-+
-+/*
-+ * Triggers or queues an 'ebb_excp' EBB exception. All checks
-+ * but FSCR, HFSCR and msr_pr must be done beforehand.
-+ *
-+ * PowerISA v3.1 isn't clear about whether an EBB should be
-+ * postponed or cancelled if the EBB facility is unavailable.
-+ * Our assumption here is that the EBB is cancelled if both
-+ * FSCR and HFSCR EBB facilities aren't available.
-+ */
-+static void do_ebb(CPUPPCState *env, int ebb_excp)
-+{
-+    PowerPCCPU *cpu =3D env_archcpu(env);
-+    CPUState *cs =3D CPU(cpu);
-+
-+    /*
-+     * FSCR_EBB and FSCR_IC_EBB are the same bits used with
-+     * HFSCR.
-+     */
-+    helper_fscr_facility_check(env, FSCR_EBB, 0, FSCR_IC_EBB);
-+    helper_hfscr_facility_check(env, FSCR_EBB, "EBB", FSCR_IC_EBB);
-+
-+    if (ebb_excp =3D=3D POWERPC_EXCP_PERFM_EBB) {
-+        env->spr[SPR_BESCR] |=3D BESCR_PMEO;
-+    } else if (ebb_excp =3D=3D POWERPC_EXCP_EXTERNAL_EBB) {
-+        env->spr[SPR_BESCR] |=3D BESCR_EEO;
-+    }
-+
-+    if (msr_pr =3D=3D 1) {
-+        powerpc_excp(cpu, ebb_excp);
-+    } else {
-+        env->pending_interrupts |=3D 1 << PPC_INTERRUPT_EBB;
-+        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-+    }
-+}
-+
-+void raise_ebb_perfm_exception(CPUPPCState *env)
-+{
-+    bool perfm_ebb_enabled =3D env->spr[SPR_POWER_MMCR0] & MMCR0_EBE &&
-+                             env->spr[SPR_BESCR] & BESCR_PME &&
-+                             env->spr[SPR_BESCR] & BESCR_GE;
-+
-+    if (!perfm_ebb_enabled) {
-+        return;
-+    }
-+
-+    do_ebb(env, POWERPC_EXCP_PERFM_EBB);
-+}
- #endif
+-    if (paired) {
+-        REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+-    } else {
+-        REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+-    }
+-
+     if (paired || a->rt >=3D 32) {
+         REQUIRE_VSX(ctx);
+     } else {
+@@ -2091,7 +2085,6 @@ static bool do_lstxv_PLS_D(DisasContext *ctx, arg_P=
+LS_D *a,
+                            bool store, bool paired)
+ {
+     arg_D d;
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+     REQUIRE_VSX(ctx);
 =20
- /***********************************************************************=
-******/
-diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index d24566315872..beeab5c494e1 100644
---- a/target/ppc/power8-pmu.c
-+++ b/target/ppc/power8-pmu.c
-@@ -307,8 +307,7 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
-         env->spr[SPR_POWER_MMCR0] |=3D MMCR0_PMAO;
-     }
+     if (!resolve_PLS_D(ctx, &d, a)) {
+@@ -2103,12 +2096,6 @@ static bool do_lstxv_PLS_D(DisasContext *ctx, arg_=
+PLS_D *a,
 =20
--    /* PMC interrupt not implemented yet */
--    return;
-+    raise_ebb_perfm_exception(env);
+ static bool do_lstxv_X(DisasContext *ctx, arg_X *a, bool store, bool pai=
+red)
+ {
+-    if (paired) {
+-        REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+-    } else {
+-        REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+-    }
+-
+     if (paired || a->rt >=3D 32) {
+         REQUIRE_VSX(ctx);
+     } else {
+@@ -2118,18 +2105,18 @@ static bool do_lstxv_X(DisasContext *ctx, arg_X *=
+a, bool store, bool paired)
+     return do_lstxv(ctx, a->ra, cpu_gpr[a->rb], a->rt, store, paired);
  }
 =20
- /* This helper assumes that the PMC is running. */
+-TRANS(STXV, do_lstxv_D, true, false)
+-TRANS(LXV, do_lstxv_D, false, false)
+-TRANS(STXVP, do_lstxv_D, true, true)
+-TRANS(LXVP, do_lstxv_D, false, true)
+-TRANS(STXVX, do_lstxv_X, true, false)
+-TRANS(LXVX, do_lstxv_X, false, false)
+-TRANS(STXVPX, do_lstxv_X, true, true)
+-TRANS(LXVPX, do_lstxv_X, false, true)
+-TRANS64(PSTXV, do_lstxv_PLS_D, true, false)
+-TRANS64(PLXV, do_lstxv_PLS_D, false, false)
+-TRANS64(PSTXVP, do_lstxv_PLS_D, true, true)
+-TRANS64(PLXVP, do_lstxv_PLS_D, false, true)
++TRANS_FLAGS2(ISA300, STXV, do_lstxv_D, true, false)
++TRANS_FLAGS2(ISA300, LXV, do_lstxv_D, false, false)
++TRANS_FLAGS2(ISA310, STXVP, do_lstxv_D, true, true)
++TRANS_FLAGS2(ISA310, LXVP, do_lstxv_D, false, true)
++TRANS_FLAGS2(ISA300, STXVX, do_lstxv_X, true, false)
++TRANS_FLAGS2(ISA300, LXVX, do_lstxv_X, false, false)
++TRANS_FLAGS2(ISA310, STXVPX, do_lstxv_X, true, true)
++TRANS_FLAGS2(ISA310, LXVPX, do_lstxv_X, false, true)
++TRANS64_FLAGS2(ISA310, PSTXV, do_lstxv_PLS_D, true, false)
++TRANS64_FLAGS2(ISA310, PLXV, do_lstxv_PLS_D, false, false)
++TRANS64_FLAGS2(ISA310, PSTXVP, do_lstxv_PLS_D, true, true)
++TRANS64_FLAGS2(ISA310, PLXVP, do_lstxv_PLS_D, false, true)
+=20
+ static void gen_xxblendv_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv=
+_vec b,
+                              TCGv_vec c)
 --=20
 2.34.1
 
