@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CC094CB0B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:09:54 +0100 (CET)
-Received: from localhost ([::1]:44972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C024CB127
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:19:49 +0100 (CET)
+Received: from localhost ([::1]:42044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPWEL-0007V3-9J
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:09:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43618)
+	id 1nPWNw-00081E-Vt
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:19:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxw-0005uD-0P
+ id 1nPVxw-0005uG-0y
  for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:57 -0500
-Received: from [2a00:1450:4864:20::42d] (port=39428
- helo=mail-wr1-x42d.google.com)
+Received: from [2a00:1450:4864:20::434] (port=37883
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxs-0008Sw-BY
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:54 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id ay10so4678027wrb.6
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:51 -0800 (PST)
+ id 1nPVxt-00005i-6d
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:55 -0500
+Received: by mail-wr1-x434.google.com with SMTP id bk29so4690214wrb.4
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SM320yQbplZVI8Mj8lk3kp4hv9BTspAqO+QUiQG4O/o=;
- b=NkLPESjWQnirCgbc9i98Cr+nsjeG6gDrRGGYyL2TspfsR38laJx8HNldshMrek/mTK
- 94/U8Z5U6VIMDJrF5a2cQZ2zDza1CgPjBkm/YDhgFmbFkE0VfYjMibQTJvMo9YKRzs1m
- ALLOiyDhFBIhgZ/0P+JfsuOympSh3Lz18ri8xI9PDvM+T7wP0M5DatXbgwEYQvX0jzfU
- P9YOUj9ysJtke833yOfBYPkQ++M4Px49fSsBvr3DYrJQ5+3/MOK0hrSa2iyFbP4zI1U0
- daQaRngqnl/2OZ0hha+MsNu53bXCRCRUQhTZG2obbh4ZEDyAVoeW+03GWBGlprTgCzUB
- Ph2g==
+ bh=I6iTHbTYl4zCFK0q1Q7m/0Mob7a5vYQevNvaNiwiXcI=;
+ b=RCUOuRjYGzpbgHdUeT4fY9dc5L/d4gkh/GM0Tjb5hBHh56bevqySbncmJZ/++V94D6
+ Ufrb0iisQmQNzmuyjUlCXrV+8zUM3ykRM8KIexIWx+kXxo6k1PGDSGbB8lrSPwIkHjx9
+ PySYvR9cIU9tu51MRopuv7msdmiI9qYc9IQlLuEZPzee+lcw9ZPdjMLxtsyOVcYIFwdm
+ dDDBypKH5YTtwo5l/Tfy0C2ovcoFp1sf7ArLc9Tm2aJzXNE8Uy25D5xGeXLPIRsqdHUE
+ SjVdbGvg5weWuSC5J6nRG1gmj9McqrvGrYzP+CVxxQReGt+p05MHBiET54Pc17ElozMl
+ d+Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SM320yQbplZVI8Mj8lk3kp4hv9BTspAqO+QUiQG4O/o=;
- b=mONyRruBvam590Nf4meGGVHTe2Styqj+gxOSMfM4zz8QFnolrwUFU/zeb9fPtwQNnk
- IIpTn+CW5Qc6PZVlX4Bj38pHIKLZIXmrWodb/Rgl4H2LKgaevTnqZVnhQ2nQT5zlgCIh
- 0swvotlaiIF1KFWtDn4oQwEirIDepMInL+1C8EvNni34PF+4btBK6DjjRw61qrxNdflY
- 49cvkPqbbnfxhRo8z5mJ85yVJHkPPfdcbfakEPBLp0EYApiI0wGxDvbnM/CbYAED4nHt
- gBvcTxud2oJQViK1u5+NI1VFqW3FIM0nChd9KA40GjoNpt9SCBX9gj5heYNoh+SIJSez
- jARA==
-X-Gm-Message-State: AOAM532o8iCvnJ2+njfIjfhhvdGNfG+1bm/o2eNvz7WkCuGN4jDHvMpi
- 4FRt3sUVUoogH4yutKE3RlfAfuLpxlBo5g==
-X-Google-Smtp-Source: ABdhPJyIkRMcgrKcEhxbLKktKJ9ObPaKURzcQt1I/fNjQuiNDu6UVq07IheOF1W53OJlkSXrDUV1hg==
-X-Received: by 2002:a5d:64ae:0:b0:1f0:490e:159f with SMTP id
- m14-20020a5d64ae000000b001f0490e159fmr1387979wrp.143.1646254371103; 
+ bh=I6iTHbTYl4zCFK0q1Q7m/0Mob7a5vYQevNvaNiwiXcI=;
+ b=ypJqB8+tI3zc+oiBmrgO82J1ojY7s8uHBHtI00bPW88eJn3uXpIaotIK15wq8+AzOf
+ RRX+mA0iKKHsEim7d7KUFFROQ+SI3TQeHpj9rRstY5OPTO9IyfKC/ruEZdV+E9gJef8R
+ DfTWOeiqFOsO59I5+qypiIH6ANIojkEbeN1iBXHD/mEAqcj9Ef6Pxtrg4wmi0k5tD6mj
+ ZGNwAtAh9A0mF5SHgJxPEFb16r9gW3e0u9PnB3pXDtdmSOzNMeWja9yEmsLIa1NhzBCm
+ Qkj+RcFnYXTosWdOH3diO3DxvaEld0seYVFosQJMYjoWI+dwW6hy3+dq3F89Vo/oFOQX
+ cxXQ==
+X-Gm-Message-State: AOAM532Ot8XK/tVJ3jPMkE5C2aDw/8wSXTcYiUSnpkO1Vb0Gn4/IAiBh
+ 7TZqXtM9FxM2q78K+ZMcuMlP2jPHO1eEAQ==
+X-Google-Smtp-Source: ABdhPJwsZDRQ69pzKQSKyPUixMXVbs7CJkNZqXiMjUH6bA0tNlKfF/B1juMt7aGXSTvtItXcS9OsBw==
+X-Received: by 2002:adf:d081:0:b0:1ef:9378:b7cc with SMTP id
+ y1-20020adfd081000000b001ef9378b7ccmr16228866wrh.407.1646254371910; 
  Wed, 02 Mar 2022 12:52:51 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.50
+ x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 12:52:50 -0800 (PST)
+ Wed, 02 Mar 2022 12:52:51 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/26] target/arm: Validate tlbi TG matches translation granule
- in use
-Date: Wed,  2 Mar 2022 20:52:25 +0000
-Message-Id: <20220302205230.2122390-22-peter.maydell@linaro.org>
+Subject: [PULL 22/26] target/arm: Advertise all page sizes for -cpu max
+Date: Wed,  2 Mar 2022 20:52:26 +0000
+Message-Id: <20220302205230.2122390-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220302205230.2122390-1-peter.maydell@linaro.org>
 References: <20220302205230.2122390-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,51 +94,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-For FEAT_LPA2, we will need other ARMVAParameters, which themselves
-depend on the translation granule in use.  We might as well validate
-that the given TG matches; the architecture "does not require that
-the instruction invalidates any entries" if this is not true.
+We support 16k pages, but do not advertize that in ID_AA64MMFR0.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The value 0 in the TGRAN*_2 fields indicates that stage2 lookups defer
+to the same support as stage1 lookups.  This setting is deprecated, so
+indicate support for all stage2 page sizes directly.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220301215958.157011-15-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20220301215958.157011-16-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ target/arm/cpu64.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e455397fb57..3a7f5cf6f08 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -4520,12 +4520,16 @@ static TLBIRange tlbi_aa64_get_range(CPUARMState *env, ARMMMUIdx mmuidx,
-                                      uint64_t value)
- {
-     unsigned int page_size_granule, page_shift, num, scale, exponent;
-+    /* Extract one bit to represent the va selector in use. */
-+    uint64_t select = sextract64(value, 36, 1);
-+    ARMVAParameters param = aa64_va_parameters(env, select, mmuidx, true);
-     TLBIRange ret = { };
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index d88662cef68..2fdc16bf182 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -796,6 +796,10 @@ static void aarch64_max_initfn(Object *obj)
  
-     page_size_granule = extract64(value, 46, 2);
+     t = cpu->isar.id_aa64mmfr0;
+     t = FIELD_DP64(t, ID_AA64MMFR0, PARANGE, 6); /* FEAT_LPA: 52 bits */
++    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN16, 1);   /* 16k pages supported */
++    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN16_2, 2); /* 16k stage2 supported */
++    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN64_2, 2); /* 64k stage2 supported */
++    t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN4_2, 2);  /*  4k stage2 supported */
+     cpu->isar.id_aa64mmfr0 = t;
  
--    if (page_size_granule == 0) {
--        qemu_log_mask(LOG_GUEST_ERROR, "Invalid page size granule %d\n",
-+    /* The granule encoded in value must match the granule in use. */
-+    if (page_size_granule != (param.using64k ? 3 : param.using16k ? 2 : 1)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Invalid tlbi page size granule %d\n",
-                       page_size_granule);
-         return ret;
-     }
-@@ -4537,7 +4541,7 @@ static TLBIRange tlbi_aa64_get_range(CPUARMState *env, ARMMMUIdx mmuidx,
- 
-     ret.length = (num + 1) << (exponent + page_shift);
- 
--    if (regime_has_2_ranges(mmuidx)) {
-+    if (param.select) {
-         ret.base = sextract64(value, 0, 37);
-     } else {
-         ret.base = extract64(value, 0, 37);
+     t = cpu->isar.id_aa64mmfr1;
 -- 
 2.25.1
 
