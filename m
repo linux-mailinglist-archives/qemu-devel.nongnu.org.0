@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF4F4CB138
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:24:57 +0100 (CET)
-Received: from localhost ([::1]:52222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5263B4CB0A6
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:07:36 +0100 (CET)
+Received: from localhost ([::1]:36394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPWSu-0006cE-Lv
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:24:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43654)
+	id 1nPWC7-0001g4-Ca
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:07:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxx-0005uz-R0
+ id 1nPVxx-0005uQ-9m
  for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:57 -0500
-Received: from [2a00:1450:4864:20::436] (port=37885
- helo=mail-wr1-x436.google.com)
+Received: from [2a00:1450:4864:20::432] (port=39433
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxv-0000CW-IX
+ id 1nPVxv-0000Gf-N3
  for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:57 -0500
-Received: by mail-wr1-x436.google.com with SMTP id bk29so4690259wrb.4
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:53 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id ay10so4678133wrb.6
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/7Vp2M9cs0sUqfL04/OQn8hXX+h842EPxz0wSYudyes=;
- b=K5RVJ7KRUEgcbYg0GLwiDe10/prviNiH/5lqscawDpESa4eo1ZfIzyVBT16auJWGVU
- XUuutO/Wjr312L8/hr8HXSjUvcvM5Q/mDiuOUHrc3w9jvsvI/31KDuPAB5WpqCY0EEgy
- s64XVsEYawY9yYy5Pz4+1vpbqZ6XXeRMVnkp0kx4nLu7bZowX+SI5cd5m9efb96F2Gh7
- wNpfwvYGsQsowU9w/jtI7SypbuaeKOB1DuhZqB0EUIRKp5xtBXFOqJTrzENsv2sA57pd
- VrsJs3yZ1SimaCSkGjcIosdY0b65zlk8x9xHFqAYHVpAMCQnyvmzoAoa+I4DLtnBkIpM
- 948g==
+ bh=l/7EADgfQiDC7fxjtgYtq9X1xBlDjXtx1HGr/ZG8QYc=;
+ b=ykA8VvGEZIbRQh0Vi4Uq1gtgxTDH+GkvZ1QU+QaoqxYAdV0woIaIqd6yplmeaEhQzB
+ 2cTuETVow8yU+xPlzgfKgYVlkfuFJ7zlrOIjTOUFGP1Ts0w6ux0yjg8EjpGhle7zrst/
+ r1jRZV091MBlsfiaJLF1tnoNeGOmdVswVrzl5cc4yDevARqCe82hmS4+WSY5UQo133tB
+ w18Qdtp3sHmJBdt6hHBqmDhc9BihFMzskMDuEBKpNMSNsHJP11EW8REwYUU3MsDsBKiS
+ 6KKyXDkYt61b8AVfoJeCvEkIS4L3PAteu/c014cpghmow4xk1F0cEfuJL7MfObLPKZTn
+ zpDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/7Vp2M9cs0sUqfL04/OQn8hXX+h842EPxz0wSYudyes=;
- b=8OVTiecCbQFSMLpSwAi8C8fd7+SsMaJU4EMPuYZCthp9W7zf4BFVFQr8o9M58q9iYd
- Vpl32WZPmUdtQKA+sh8Zkkflyv1JG9mg7yNxdkZ3fj7NJlNXx4TI/Q954b7hCo+zWnzF
- iB50IlbioEjNwGVewr/foaOv9RlPO2YuBDygyWG15h0MPwO6AOZt9BdlLHNnuGyn2K+7
- j/+SjgOQIF8COZ+q84+MQcHZ1nVXdi9tLuVe1xFkJEbCPXlmwPd3rmvuuEddOGn37uqj
- yXciYYSnRN+iisFmbuhEZdsNHc7Zkh/zOUYTdITlD+zlROua35j//Ky1EkhPu47nmCAe
- SQOg==
-X-Gm-Message-State: AOAM530R9sQigH+AnwUWd6AZCZHslk+TixS+PFeXpPaUhSBV9SAahyy+
- irZG/CR3RcjCVqdVSqPC29KvqZuYK/r35Q==
-X-Google-Smtp-Source: ABdhPJyWHKl1IAZoXiwxCbOiJm1z25NXPPwGNLyVSb4dBG1D7IG41UtisiPAr+qxatkOslNvjQCzqA==
-X-Received: by 2002:a05:6000:1882:b0:1f0:4c38:6d55 with SMTP id
- a2-20020a056000188200b001f04c386d55mr412663wri.483.1646254372845; 
- Wed, 02 Mar 2022 12:52:52 -0800 (PST)
+ bh=l/7EADgfQiDC7fxjtgYtq9X1xBlDjXtx1HGr/ZG8QYc=;
+ b=20CnyfCBql/Kw5hmS0Vg9+ZPPZ4vpFsls4n5JWZrqpu92nO1+KNkj/xhG9j5dtsrFR
+ ARPhhLOOhSiffaZmg9SdfxUpVLn/l2xoFUewcupmmN1bcPbvMhkHIdYOdLRqq1xMfL72
+ ePnSdOIhdanJ6vZC0hb8yvDXLaW1Vr1V5hwU/LFUDjEpUevY9ooVNvst6Oq5UAJMk5Xa
+ QffngxQ3DxKlW2Nv+c4KWc0AX/gQPxRnVn2XEzyS+guOerVMxoIoeTshC996xLERHgbk
+ 0VjsAm5YiPvygWKmbWQXL7Vv4yyzW0xAfXImiH7AIgZsARX5AKo3n3nT/AwKTvs0XTSL
+ OdoQ==
+X-Gm-Message-State: AOAM531kodsQfozJGNpN1G2FrF2C4lEXmH9zEkOu+WiwlMFOn489p1pE
+ fm4j5WEoEVzwM2HhYFHDWrLQJ9cCBSdX8g==
+X-Google-Smtp-Source: ABdhPJyzCsr4K9z9y1NlrJ6NMMar5gMDWu/F7yXwEz+8zCutbURpb/n6OROqGaf5oX7Molaq6mFeBQ==
+X-Received: by 2002:a5d:5302:0:b0:1ed:e1d2:f0fd with SMTP id
+ e2-20020a5d5302000000b001ede1d2f0fdmr24853768wrv.585.1646254373706; 
+ Wed, 02 Mar 2022 12:52:53 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.52
+ x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 12:52:52 -0800 (PST)
+ Wed, 02 Mar 2022 12:52:53 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/26] target/arm: Implement FEAT_LPA2
-Date: Wed,  2 Mar 2022 20:52:27 +0000
-Message-Id: <20220302205230.2122390-24-peter.maydell@linaro.org>
+Subject: [PULL 24/26] target/arm: Report KVM's actual PSCI version to guest in
+ dtb
+Date: Wed,  2 Mar 2022 20:52:28 +0000
+Message-Id: <20220302205230.2122390-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220302205230.2122390-1-peter.maydell@linaro.org>
 References: <20220302205230.2122390-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,311 +93,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+When we're using KVM, the PSCI implementation is provided by the
+kernel, but QEMU has to tell the guest about it via the device tree.
+Currently we look at the KVM_CAP_ARM_PSCI_0_2 capability to determine
+if the kernel is providing at least PSCI 0.2, but if the kernel
+provides a newer version than that we will still only tell the guest
+it has PSCI 0.2.  (This is fairly harmless; it just means the guest
+won't use newer parts of the PSCI API.)
 
-This feature widens physical addresses (and intermediate physical
-addresses for 2-stage translation) from 48 to 52 bits, when using
-4k or 16k pages.
+The kernel exposes the specific PSCI version it is implementing via
+the ONE_REG API; use this to report in the dtb that the PSCI
+implementation is 1.0-compatible if appropriate.  (The device tree
+binding currently only distinguishes "pre-0.2", "0.2-compatible" and
+"1.0-compatible".)
 
-This introduces the DS bit to TCR_ELx, which is RES0 unless the
-page size is enabled and supports LPA2, resulting in the effective
-value of DS for a given table walk.  The DS bit changes the format
-of the page table descriptor slightly, moving the PS field out to
-TCR so that all pages have the same sharability and repurposing
-those bits of the page table descriptor for the highest bits of
-the output address.
-
-Do not yet enable FEAT_LPA2; we need extra plumbing to avoid
-tickling an old kernel bug.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220301215958.157011-17-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Marc Zyngier <maz@kernel.org>
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Message-id: 20220224134655.1207865-1-peter.maydell@linaro.org
 ---
- docs/system/arm/emulation.rst |   1 +
- target/arm/cpu.h              |  22 ++++++++
- target/arm/internals.h        |   2 +
- target/arm/helper.c           | 102 +++++++++++++++++++++++++++++-----
- 4 files changed, 112 insertions(+), 15 deletions(-)
+ target/arm/kvm-consts.h |  1 +
+ hw/arm/boot.c           |  5 ++---
+ target/arm/kvm64.c      | 12 ++++++++++++
+ 3 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index 0053ddce208..520fd39071e 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -25,6 +25,7 @@ the following architecture extensions:
- - FEAT_JSCVT (JavaScript conversion instructions)
- - FEAT_LOR (Limited ordering regions)
- - FEAT_LPA (Large Physical Address space)
-+- FEAT_LPA2 (Large Physical and virtual Address space v2)
- - FEAT_LRCPC (Load-acquire RCpc instructions)
- - FEAT_LRCPC2 (Load-acquire RCpc instructions v2)
- - FEAT_LSE (Large System Extensions)
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index c52d56f6699..24d9fff1705 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -4284,6 +4284,28 @@ static inline bool isar_feature_aa64_i8mm(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, I8MM) != 0;
- }
+diff --git a/target/arm/kvm-consts.h b/target/arm/kvm-consts.h
+index e770921ddc2..faacf96fdc7 100644
+--- a/target/arm/kvm-consts.h
++++ b/target/arm/kvm-consts.h
+@@ -95,6 +95,7 @@ MISMATCH_CHECK(QEMU_PSCI_1_0_FN_PSCI_FEATURES, PSCI_1_0_FN_PSCI_FEATURES);
  
-+static inline bool isar_feature_aa64_tgran4_lpa2(const ARMISARegisters *id)
-+{
-+    return FIELD_SEX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN4) >= 1;
-+}
-+
-+static inline bool isar_feature_aa64_tgran4_2_lpa2(const ARMISARegisters *id)
-+{
-+    unsigned t = FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN4_2);
-+    return t >= 3 || (t == 0 && isar_feature_aa64_tgran4_lpa2(id));
-+}
-+
-+static inline bool isar_feature_aa64_tgran16_lpa2(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN16) >= 2;
-+}
-+
-+static inline bool isar_feature_aa64_tgran16_2_lpa2(const ARMISARegisters *id)
-+{
-+    unsigned t = FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN16_2);
-+    return t >= 3 || (t == 0 && isar_feature_aa64_tgran16_lpa2(id));
-+}
-+
- static inline bool isar_feature_aa64_ccidx(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, CCIDX) != 0;
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 00af41d7925..a34be2e4595 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1056,6 +1056,7 @@ static inline uint32_t aarch64_pstate_valid_mask(const ARMISARegisters *id)
- typedef struct ARMVAParameters {
-     unsigned tsz    : 8;
-     unsigned ps     : 3;
-+    unsigned sh     : 2;
-     unsigned select : 1;
-     bool tbi        : 1;
-     bool epd        : 1;
-@@ -1063,6 +1064,7 @@ typedef struct ARMVAParameters {
-     bool using16k   : 1;
-     bool using64k   : 1;
-     bool tsz_oob    : 1;  /* tsz has been clamped to legal range */
-+    bool ds         : 1;
- } ARMVAParameters;
+ #define QEMU_PSCI_VERSION_0_1                     0x00001
+ #define QEMU_PSCI_VERSION_0_2                     0x00002
++#define QEMU_PSCI_VERSION_1_0                     0x10000
+ #define QEMU_PSCI_VERSION_1_1                     0x10001
  
- ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 3a7f5cf6f08..088956eecf0 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -4546,6 +4546,14 @@ static TLBIRange tlbi_aa64_get_range(CPUARMState *env, ARMMMUIdx mmuidx,
-     } else {
-         ret.base = extract64(value, 0, 37);
+ MISMATCH_CHECK(QEMU_PSCI_0_2_RET_TOS_MIGRATION_NOT_REQUIRED, PSCI_0_2_TOS_MP);
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 0eeef94ceb5..a47f38dfc90 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -488,9 +488,8 @@ static void fdt_add_psci_node(void *fdt)
      }
-+    if (param.ds) {
-+        /*
-+         * With DS=1, BaseADDR is always shifted 16 so that it is able
-+         * to address all 52 va bits.  The input address is perforce
-+         * aligned on a 64k boundary regardless of translation granule.
-+         */
-+        page_shift = 16;
+ 
+     qemu_fdt_add_subnode(fdt, "/psci");
+-    if (armcpu->psci_version == QEMU_PSCI_VERSION_0_2 ||
+-        armcpu->psci_version == QEMU_PSCI_VERSION_1_1) {
+-        if (armcpu->psci_version == QEMU_PSCI_VERSION_0_2) {
++    if (armcpu->psci_version >= QEMU_PSCI_VERSION_0_2) {
++        if (armcpu->psci_version < QEMU_PSCI_VERSION_1_0) {
+             const char comp[] = "arm,psci-0.2\0arm,psci";
+             qemu_fdt_setprop(fdt, "/psci", "compatible", comp, sizeof(comp));
+         } else {
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 64d48bfb19d..ccadfbbe72b 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -849,6 +849,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     uint64_t mpidr;
+     ARMCPU *cpu = ARM_CPU(cs);
+     CPUARMState *env = &cpu->env;
++    uint64_t psciver;
+ 
+     if (cpu->kvm_target == QEMU_KVM_ARM_TARGET_NONE ||
+         !object_dynamic_cast(OBJECT(cpu), TYPE_AARCH64_CPU)) {
+@@ -904,6 +905,17 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         }
+     }
+ 
++    /*
++     * KVM reports the exact PSCI version it is implementing via a
++     * special sysreg. If it is present, use its contents to determine
++     * what to report to the guest in the dtb (it is the PSCI version,
++     * in the same 15-bits major 16-bits minor format that PSCI_VERSION
++     * returns).
++     */
++    if (!kvm_get_one_reg(cs, KVM_REG_ARM_PSCI_VERSION, &psciver)) {
++        cpu->psci_version = psciver;
 +    }
-     ret.base <<= page_shift;
- 
-     return ret;
-@@ -11081,8 +11089,13 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
-     const int grainsize = stride + 3;
-     int startsizecheck;
- 
--    /* Negative levels are never allowed.  */
--    if (level < 0) {
-+    /*
-+     * Negative levels are usually not allowed...
-+     * Except for FEAT_LPA2, 4k page table, 52-bit address space, which
-+     * begins with level -1.  Note that previous feature tests will have
-+     * eliminated this combination if it is not enabled.
-+     */
-+    if (level < (inputsize == 52 && stride == 9 ? -1 : 0)) {
-         return false;
-     }
- 
-@@ -11223,8 +11236,9 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-                                    ARMMMUIdx mmu_idx, bool data)
- {
-     uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
--    bool epd, hpd, using16k, using64k, tsz_oob;
--    int select, tsz, tbi, max_tsz, min_tsz, ps;
-+    bool epd, hpd, using16k, using64k, tsz_oob, ds;
-+    int select, tsz, tbi, max_tsz, min_tsz, ps, sh;
-+    ARMCPU *cpu = env_archcpu(env);
- 
-     if (!regime_has_2_ranges(mmu_idx)) {
-         select = 0;
-@@ -11238,7 +11252,9 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-             hpd = extract32(tcr, 24, 1);
-         }
-         epd = false;
-+        sh = extract32(tcr, 12, 2);
-         ps = extract32(tcr, 16, 3);
-+        ds = extract64(tcr, 32, 1);
-     } else {
-         /*
-          * Bit 55 is always between the two regions, and is canonical for
-@@ -11248,6 +11264,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         if (!select) {
-             tsz = extract32(tcr, 0, 6);
-             epd = extract32(tcr, 7, 1);
-+            sh = extract32(tcr, 12, 2);
-             using64k = extract32(tcr, 14, 1);
-             using16k = extract32(tcr, 15, 1);
-             hpd = extract64(tcr, 41, 1);
-@@ -11257,24 +11274,51 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-             using64k = tg == 3;
-             tsz = extract32(tcr, 16, 6);
-             epd = extract32(tcr, 23, 1);
-+            sh = extract32(tcr, 28, 2);
-             hpd = extract64(tcr, 42, 1);
-         }
-         ps = extract64(tcr, 32, 3);
-+        ds = extract64(tcr, 59, 1);
-     }
- 
--    if (cpu_isar_feature(aa64_st, env_archcpu(env))) {
-+    if (cpu_isar_feature(aa64_st, cpu)) {
-         max_tsz = 48 - using64k;
-     } else {
-         max_tsz = 39;
-     }
- 
-+    /*
-+     * DS is RES0 unless FEAT_LPA2 is supported for the given page size;
-+     * adjust the effective value of DS, as documented.
-+     */
-     min_tsz = 16;
-     if (using64k) {
--        if (cpu_isar_feature(aa64_lva, env_archcpu(env))) {
-+        if (cpu_isar_feature(aa64_lva, cpu)) {
-+            min_tsz = 12;
-+        }
-+        ds = false;
-+    } else if (ds) {
-+        switch (mmu_idx) {
-+        case ARMMMUIdx_Stage2:
-+        case ARMMMUIdx_Stage2_S:
-+            if (using16k) {
-+                ds = cpu_isar_feature(aa64_tgran16_2_lpa2, cpu);
-+            } else {
-+                ds = cpu_isar_feature(aa64_tgran4_2_lpa2, cpu);
-+            }
-+            break;
-+        default:
-+            if (using16k) {
-+                ds = cpu_isar_feature(aa64_tgran16_lpa2, cpu);
-+            } else {
-+                ds = cpu_isar_feature(aa64_tgran4_lpa2, cpu);
-+            }
-+            break;
-+        }
-+        if (ds) {
-             min_tsz = 12;
-         }
-     }
--    /* TODO: FEAT_LPA2 */
- 
-     if (tsz > max_tsz) {
-         tsz = max_tsz;
-@@ -11296,6 +11340,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-     return (ARMVAParameters) {
-         .tsz = tsz,
-         .ps = ps,
-+        .sh = sh,
-         .select = select,
-         .tbi = tbi,
-         .epd = epd,
-@@ -11303,6 +11348,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         .using16k = using16k,
-         .using64k = using64k,
-         .tsz_oob = tsz_oob,
-+        .ds = ds,
-     };
- }
- 
-@@ -11528,10 +11574,19 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-          * VTCR_EL2.SL0 field (whose interpretation depends on the page size)
-          */
-         uint32_t sl0 = extract32(tcr->raw_tcr, 6, 2);
-+        uint32_t sl2 = extract64(tcr->raw_tcr, 33, 1);
-         uint32_t startlevel;
-         bool ok;
- 
--        if (!aarch64 || stride == 9) {
-+        /* SL2 is RES0 unless DS=1 & 4kb granule. */
-+        if (param.ds && stride == 9 && sl2) {
-+            if (sl0 != 0) {
-+                level = 0;
-+                fault_type = ARMFault_Translation;
-+                goto do_fault;
-+            }
-+            startlevel = -1;
-+        } else if (!aarch64 || stride == 9) {
-             /* AArch32 or 4KB pages */
-             startlevel = 2 - sl0;
- 
-@@ -11585,10 +11640,12 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-      * for both v7 and v8.  However, for v8 the SBZ bits [47:40] must be 0
-      * or an AddressSize fault is raised.  So for v8 we extract those SBZ
-      * bits as part of the address, which will be checked via outputsize.
--     * For AArch64, the address field always goes up to bit 47 (with extra
--     * bits for FEAT_LPA placed elsewhere).  AArch64 implies v8.
-+     * For AArch64, the address field goes up to bit 47, or 49 with FEAT_LPA2;
-+     * the highest bits of a 52-bit output are placed elsewhere.
-      */
--    if (arm_feature(env, ARM_FEATURE_V8)) {
-+    if (param.ds) {
-+        descaddrmask = MAKE_64BIT_MASK(0, 50);
-+    } else if (arm_feature(env, ARM_FEATURE_V8)) {
-         descaddrmask = MAKE_64BIT_MASK(0, 48);
-     } else {
-         descaddrmask = MAKE_64BIT_MASK(0, 40);
-@@ -11623,11 +11680,16 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
- 
-         /*
-          * For FEAT_LPA and PS=6, bits [51:48] of descaddr are in [15:12]
--         * of descriptor.  Otherwise, if descaddr is out of range, raise
--         * AddressSizeFault.
-+         * of descriptor.  For FEAT_LPA2 and effective DS, bits [51:50] of
-+         * descaddr are in [9:8].  Otherwise, if descaddr is out of range,
-+         * raise AddressSizeFault.
-          */
-         if (outputsize > 48) {
--            descaddr |= extract64(descriptor, 12, 4) << 48;
-+            if (param.ds) {
-+                descaddr |= extract64(descriptor, 8, 2) << 50;
-+            } else {
-+                descaddr |= extract64(descriptor, 12, 4) << 48;
-+            }
-         } else if (descaddr >> outputsize) {
-             fault_type = ARMFault_AddressSize;
-             goto do_fault;
-@@ -11721,7 +11783,17 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-         assert(attrindx <= 7);
-         cacheattrs->attrs = extract64(mair, attrindx * 8, 8);
-     }
--    cacheattrs->shareability = extract32(attrs, 6, 2);
 +
-+    /*
-+     * For FEAT_LPA2 and effective DS, the SH field in the attributes
-+     * was re-purposed for output address bits.  The SH attribute in
-+     * that case comes from TCR_ELx, which we extracted earlier.
-+     */
-+    if (param.ds) {
-+        cacheattrs->shareability = param.sh;
-+    } else {
-+        cacheattrs->shareability = extract32(attrs, 6, 2);
-+    }
- 
-     *phys_ptr = descaddr;
-     *page_size_ptr = page_size;
+     /*
+      * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
+      * Currently KVM has its own idea about MPIDR assignment, so we
 -- 
 2.25.1
 
