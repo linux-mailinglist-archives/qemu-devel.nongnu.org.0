@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5263B4CB0A6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:07:36 +0100 (CET)
-Received: from localhost ([::1]:36394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C927E4CB0AF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:09:32 +0100 (CET)
+Received: from localhost ([::1]:44700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPWC7-0001g4-Ca
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:07:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43646)
+	id 1nPWDz-0007JG-Qs
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:09:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxx-0005uQ-9m
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:57 -0500
-Received: from [2a00:1450:4864:20::432] (port=39433
- helo=mail-wr1-x432.google.com)
+ id 1nPVxy-0005wy-JN
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:59 -0500
+Received: from [2a00:1450:4864:20::429] (port=35378
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxv-0000Gf-N3
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:57 -0500
-Received: by mail-wr1-x432.google.com with SMTP id ay10so4678133wrb.6
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:54 -0800 (PST)
+ id 1nPVxv-0000KD-Op
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:58 -0500
+Received: by mail-wr1-x429.google.com with SMTP id b5so4701948wrr.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=l/7EADgfQiDC7fxjtgYtq9X1xBlDjXtx1HGr/ZG8QYc=;
- b=ykA8VvGEZIbRQh0Vi4Uq1gtgxTDH+GkvZ1QU+QaoqxYAdV0woIaIqd6yplmeaEhQzB
- 2cTuETVow8yU+xPlzgfKgYVlkfuFJ7zlrOIjTOUFGP1Ts0w6ux0yjg8EjpGhle7zrst/
- r1jRZV091MBlsfiaJLF1tnoNeGOmdVswVrzl5cc4yDevARqCe82hmS4+WSY5UQo133tB
- w18Qdtp3sHmJBdt6hHBqmDhc9BihFMzskMDuEBKpNMSNsHJP11EW8REwYUU3MsDsBKiS
- 6KKyXDkYt61b8AVfoJeCvEkIS4L3PAteu/c014cpghmow4xk1F0cEfuJL7MfObLPKZTn
- zpDQ==
+ bh=1SN1vpTnpt9IXjnMGc+qCvooXM94wtAW18+rqDaYSkU=;
+ b=riUauh981Zz6b2WCAUQAH5DN/wmGtrFDAP1w9CdtZFPpimM/vM7livDbVOdbgQxP5y
+ NECGviyQucRbQ45mAUDqdXDBJk802+NJ1m0BFwAuWcmr4oloGHHzQAC2oI0qLB+ejBvM
+ a/UPwVIxPGcZEnZwdZDa4PH0ZZzijeCY9sCYvuXn2MQ9cHQV6Qm6H2JfozNmFDO8VaTW
+ +jr/RcjqkD9lIu5zmwT5l9KIxuSLxlLyK0IpMA2nblZHhM4S+H+2flqjZ9kfvnpXzs8D
+ CMu4Nd45QnIS9B5G/ZRObkz0+I1Iy6xbIhOGW4BDlWPF1d0Q3AVPM9YiDsnvLHRd9ukf
+ 8SjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l/7EADgfQiDC7fxjtgYtq9X1xBlDjXtx1HGr/ZG8QYc=;
- b=20CnyfCBql/Kw5hmS0Vg9+ZPPZ4vpFsls4n5JWZrqpu92nO1+KNkj/xhG9j5dtsrFR
- ARPhhLOOhSiffaZmg9SdfxUpVLn/l2xoFUewcupmmN1bcPbvMhkHIdYOdLRqq1xMfL72
- ePnSdOIhdanJ6vZC0hb8yvDXLaW1Vr1V5hwU/LFUDjEpUevY9ooVNvst6Oq5UAJMk5Xa
- QffngxQ3DxKlW2Nv+c4KWc0AX/gQPxRnVn2XEzyS+guOerVMxoIoeTshC996xLERHgbk
- 0VjsAm5YiPvygWKmbWQXL7Vv4yyzW0xAfXImiH7AIgZsARX5AKo3n3nT/AwKTvs0XTSL
- OdoQ==
-X-Gm-Message-State: AOAM531kodsQfozJGNpN1G2FrF2C4lEXmH9zEkOu+WiwlMFOn489p1pE
- fm4j5WEoEVzwM2HhYFHDWrLQJ9cCBSdX8g==
-X-Google-Smtp-Source: ABdhPJyzCsr4K9z9y1NlrJ6NMMar5gMDWu/F7yXwEz+8zCutbURpb/n6OROqGaf5oX7Molaq6mFeBQ==
-X-Received: by 2002:a5d:5302:0:b0:1ed:e1d2:f0fd with SMTP id
- e2-20020a5d5302000000b001ede1d2f0fdmr24853768wrv.585.1646254373706; 
- Wed, 02 Mar 2022 12:52:53 -0800 (PST)
+ bh=1SN1vpTnpt9IXjnMGc+qCvooXM94wtAW18+rqDaYSkU=;
+ b=T9UclQSLgE9ylZ8Cj1MlE7b2iI2hw3PPn6MfDYTG7jFZ4hNFRqO9Azh0kTHC76LNjo
+ f4EGCtgFBbQGGUqFuxudYIJKW2WFOe3LnXoIxrK+7UT64pA/5rMY0KBwcQVGcD1PwNmC
+ dTfZNqRuNyk18U++r8llb5jWO+catfsI+XDHZT8z/xzGKF8GwvH01KUTaqOWghCiRPkT
+ kW5aqNq6OYzRnMvA8r0H3HKl/0X0te2VKfP24VjH59MePn9Ta7AUXXnPKlc8lT2QBtsH
+ dvQkuotl7MV8tEScaGXUp6jMzCs80XmV4dPG9bQnvoIgd8h2ZTadU0WTRAsMBgDsEwu+
+ HQnw==
+X-Gm-Message-State: AOAM531mhDq1zzQx0cRpfiyY/zh1glN+EpWkdOoB9H2aBwk0A+pEsoot
+ QXfinfwoN672N6eBGVRpkLMoScB+VUrzAA==
+X-Google-Smtp-Source: ABdhPJwoByr6z8mxSj78/WzWj1t/lVcXhYcHk5YriKVLHdVYqJ9H9dJF7BOp8yGmyEeBpuvdHeyTew==
+X-Received: by 2002:adf:a551:0:b0:1f0:23fd:6f11 with SMTP id
+ j17-20020adfa551000000b001f023fd6f11mr5041316wrb.7.1646254374492; 
+ Wed, 02 Mar 2022 12:52:54 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 12:52:53 -0800 (PST)
+ Wed, 02 Mar 2022 12:52:54 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/26] target/arm: Report KVM's actual PSCI version to guest in
- dtb
-Date: Wed,  2 Mar 2022 20:52:28 +0000
-Message-Id: <20220302205230.2122390-25-peter.maydell@linaro.org>
+Subject: [PULL 25/26] ui/cocoa.m: Fix updateUIInfo threading issues
+Date: Wed,  2 Mar 2022 20:52:29 +0000
+Message-Id: <20220302205230.2122390-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220302205230.2122390-1-peter.maydell@linaro.org>
 References: <20220302205230.2122390-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,90 +92,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we're using KVM, the PSCI implementation is provided by the
-kernel, but QEMU has to tell the guest about it via the device tree.
-Currently we look at the KVM_CAP_ARM_PSCI_0_2 capability to determine
-if the kernel is providing at least PSCI 0.2, but if the kernel
-provides a newer version than that we will still only tell the guest
-it has PSCI 0.2.  (This is fairly harmless; it just means the guest
-won't use newer parts of the PSCI API.)
+The updateUIInfo method makes Cocoa API calls.  It also calls back
+into QEMU functions like dpy_set_ui_info().  To do this safely, we
+need to follow two rules:
+ * Cocoa API calls are made on the Cocoa UI thread
+ * When calling back into QEMU we must hold the iothread lock
 
-The kernel exposes the specific PSCI version it is implementing via
-the ONE_REG API; use this to report in the dtb that the PSCI
-implementation is 1.0-compatible if appropriate.  (The device tree
-binding currently only distinguishes "pre-0.2", "0.2-compatible" and
-"1.0-compatible".)
+Fix the places where we got this wrong, by taking the iothread lock
+while executing updateUIInfo, and moving the call in cocoa_switch()
+inside the dispatch_async block.
+
+Some of the Cocoa UI methods which call updateUIInfo are invoked as
+part of the initial application startup, while we're still doing the
+little cross-thread dance described in the comment just above
+call_qemu_main().  This meant they were calling back into the QEMU UI
+layer before we'd actually finished initializing our display and
+registered the DisplayChangeListener, which isn't really valid.  Once
+updateUIInfo takes the iothread lock, we no longer get away with
+this, because during this startup phase the iothread lock is held by
+the QEMU main-loop thread which is waiting for us to finish our
+display initialization.  So we must suppress updateUIInfo until
+applicationDidFinishLaunching allows the QEMU main-loop thread to
+continue.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Marc Zyngier <maz@kernel.org>
 Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Message-id: 20220224134655.1207865-1-peter.maydell@linaro.org
+Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Message-id: 20220224101330.967429-2-peter.maydell@linaro.org
 ---
- target/arm/kvm-consts.h |  1 +
- hw/arm/boot.c           |  5 ++---
- target/arm/kvm64.c      | 12 ++++++++++++
- 3 files changed, 15 insertions(+), 3 deletions(-)
+ ui/cocoa.m | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/kvm-consts.h b/target/arm/kvm-consts.h
-index e770921ddc2..faacf96fdc7 100644
---- a/target/arm/kvm-consts.h
-+++ b/target/arm/kvm-consts.h
-@@ -95,6 +95,7 @@ MISMATCH_CHECK(QEMU_PSCI_1_0_FN_PSCI_FEATURES, PSCI_1_0_FN_PSCI_FEATURES);
- 
- #define QEMU_PSCI_VERSION_0_1                     0x00001
- #define QEMU_PSCI_VERSION_0_2                     0x00002
-+#define QEMU_PSCI_VERSION_1_0                     0x10000
- #define QEMU_PSCI_VERSION_1_1                     0x10001
- 
- MISMATCH_CHECK(QEMU_PSCI_0_2_RET_TOS_MIGRATION_NOT_REQUIRED, PSCI_0_2_TOS_MP);
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 0eeef94ceb5..a47f38dfc90 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -488,9 +488,8 @@ static void fdt_add_psci_node(void *fdt)
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index a8f1cdaf926..5ed1495552a 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -522,8 +522,9 @@ QemuCocoaView *cocoaView;
      }
+ }
  
-     qemu_fdt_add_subnode(fdt, "/psci");
--    if (armcpu->psci_version == QEMU_PSCI_VERSION_0_2 ||
--        armcpu->psci_version == QEMU_PSCI_VERSION_1_1) {
--        if (armcpu->psci_version == QEMU_PSCI_VERSION_0_2) {
-+    if (armcpu->psci_version >= QEMU_PSCI_VERSION_0_2) {
-+        if (armcpu->psci_version < QEMU_PSCI_VERSION_1_0) {
-             const char comp[] = "arm,psci-0.2\0arm,psci";
-             qemu_fdt_setprop(fdt, "/psci", "compatible", comp, sizeof(comp));
-         } else {
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 64d48bfb19d..ccadfbbe72b 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -849,6 +849,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     uint64_t mpidr;
-     ARMCPU *cpu = ARM_CPU(cs);
-     CPUARMState *env = &cpu->env;
-+    uint64_t psciver;
+-- (void) updateUIInfo
++- (void) updateUIInfoLocked
+ {
++    /* Must be called with the iothread lock, i.e. via updateUIInfo */
+     NSSize frameSize;
+     QemuUIInfo info;
  
-     if (cpu->kvm_target == QEMU_KVM_ARM_TARGET_NONE ||
-         !object_dynamic_cast(OBJECT(cpu), TYPE_AARCH64_CPU)) {
-@@ -904,6 +905,17 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         }
-     }
+@@ -554,6 +555,25 @@ QemuCocoaView *cocoaView;
+     dpy_set_ui_info(dcl.con, &info, TRUE);
+ }
  
-+    /*
-+     * KVM reports the exact PSCI version it is implementing via a
-+     * special sysreg. If it is present, use its contents to determine
-+     * what to report to the guest in the dtb (it is the PSCI version,
-+     * in the same 15-bits major 16-bits minor format that PSCI_VERSION
-+     * returns).
-+     */
-+    if (!kvm_get_one_reg(cs, KVM_REG_ARM_PSCI_VERSION, &psciver)) {
-+        cpu->psci_version = psciver;
++- (void) updateUIInfo
++{
++    if (!allow_events) {
++        /*
++         * Don't try to tell QEMU about UI information in the application
++         * startup phase -- we haven't yet registered dcl with the QEMU UI
++         * layer, and also trying to take the iothread lock would deadlock.
++         * When cocoa_display_init() does register the dcl, the UI layer
++         * will call cocoa_switch(), which will call updateUIInfo, so
++         * we don't lose any information here.
++         */
++        return;
 +    }
 +
-     /*
-      * When KVM is in use, PSCI is emulated in-kernel and not by qemu.
-      * Currently KVM has its own idea about MPIDR assignment, so we
++    with_iothread_lock(^{
++        [self updateUIInfoLocked];
++    });
++}
++
+ - (void)viewDidMoveToWindow
+ {
+     [self updateUIInfo];
+@@ -1985,8 +2005,6 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+ 
+     COCOA_DEBUG("qemu_cocoa: cocoa_switch\n");
+ 
+-    [cocoaView updateUIInfo];
+-
+     // The DisplaySurface will be freed as soon as this callback returns.
+     // We take a reference to the underlying pixman image here so it does
+     // not disappear from under our feet; the switchSurface method will
+@@ -1994,6 +2012,7 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+     pixman_image_ref(image);
+ 
+     dispatch_async(dispatch_get_main_queue(), ^{
++        [cocoaView updateUIInfo];
+         [cocoaView switchSurface:image];
+     });
+     [pool release];
 -- 
 2.25.1
 
