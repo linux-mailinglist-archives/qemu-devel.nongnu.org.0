@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2227B4CB145
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:27:07 +0100 (CET)
-Received: from localhost ([::1]:54440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C084CB156
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:32:32 +0100 (CET)
+Received: from localhost ([::1]:33358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPWV0-0008Mn-5R
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:27:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43668)
+	id 1nPWaE-0005D4-Qu
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:32:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxy-0005x0-N3
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:59 -0500
-Received: from [2a00:1450:4864:20::436] (port=43959
- helo=mail-wr1-x436.google.com)
+ id 1nPW0e-0002yT-4H
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:55:44 -0500
+Received: from [2607:f8b0:4864:20::1136] (port=36003
+ helo=mail-yw1-x1136.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxw-0000KJ-Oe
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:58 -0500
-Received: by mail-wr1-x436.google.com with SMTP id m6so4661565wrr.10
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:56 -0800 (PST)
+ id 1nPW0c-0003M0-CX
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:55:43 -0500
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-2dbfe58670cso32985597b3.3
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:55:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=CZ5TYYnUc0e1hEuIV2ZzXVXaht7eB3zPn5/u5sClZ4M=;
- b=OscOzPwP9qe7eauvOc3CFg/XInvmSXqzaIDR+fcOWX0L/96Xtn9XOg+mO1ebR70ZNe
- 6OFuQDSdsO/MbH7x4ZcZuHOxCUDZ77fT6W2jA7nd4HKohmee2ZEAHJvCuYnryvJ+5yut
- CFWC96qpIb3TDYAC1+qzmQDGqTw/TbJ1/GchBYofIub1XsTwv6sqBUiFXcpSY63qc46z
- acwanGqrZvh/NsMCuwfegRCXubmDsCVuo3vWNUk7VTwUu6v74VCM2pNYsbRSUWKB4hYx
- CcxWDv3nwv7B1ulJUP3MHA9OE/O8Ctu8W9CBTlmNUtv1TUh8HrpeEMADATeCjuM8kVom
- rx5g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3WuDyhgwiN8E5RCM/+FfA39q5+YVJdgVXZeoi/Rk28M=;
+ b=WikKRn1h9GFqS5xGeBhDJ23xBhLF6HWIk51DWmOP4YTy92dBDkV8ejYUqGEFKgDepa
+ nrgOlU4SZIfrShK+Zibx19O+YOKEjdWFiib0fTUiXtrm49OtoRMe8CLaENTQ0do2nmAY
+ ZXjlTscbPpVbbyublb/FIVoaKRCsU2PlbpUuAKphz/S9bhgzvYe3o742aJZnYhGhc3qe
+ qoD9f5s/pxdCZRpWYHYCZoGWqLHvGPcAdgQ4Ac5BIS9NsdnLTjjKyr9byoC+I2J/fSOE
+ GyHhf52sJKjWr4B+81mq2T1jfhaHO5bkDyHLFOKEwwVpplckT5RgvJeZbAQBIJuU21XT
+ lGZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CZ5TYYnUc0e1hEuIV2ZzXVXaht7eB3zPn5/u5sClZ4M=;
- b=vPBtc5SlqwaQATz/htTmoDYJ2bIRr7m9TMQfmKql2zD9RL89dhnuCTklkJSe7HaoUd
- F74H3bCTv6hk+SofP8zseKJhhA2EIgNxaPr153CNHpxhM/RZ9fP5EyvLoEnYrouwSamj
- xCVgKCRlR89of2Qh5Rc31RcMa4WKeGEbARDpxMF3VwjgpM1weZIQ7Ye5sWtAv0HrXUiN
- HT7RvC+tr1T2BVBcqlQ8emD4bD3WXVhSdfDld6l1nXOab9xUv20el/dgKPa/nJtUGE6T
- WqrKhr2ZSWOH0kBeirUe0GUKC8qeItLtsfwlDUFWMzltbf/Wm0zhAWb65pFgaOLuWemW
- YIdA==
-X-Gm-Message-State: AOAM533lSn5Fq4RcEnq9mxx1kIzCawtfCO/uMPTV9kD/luivTTvYRlG2
- WoLwk/v2TENZFz/Or4sc6+F/RODAyM7GuA==
-X-Google-Smtp-Source: ABdhPJyEjlrH7kAFeFDKvqMGXOLDmIUciiRxdTJarZZxVmeQ2IsZKVAzWprd4BAHwfBFjwtQ0kv23A==
-X-Received: by 2002:a5d:64e7:0:b0:1e4:bb8b:d3eb with SMTP id
- g7-20020a5d64e7000000b001e4bb8bd3ebmr24247776wri.403.1646254375510; 
- Wed, 02 Mar 2022 12:52:55 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.54
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 12:52:55 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 26/26] ui/cocoa.m: Remove unnecessary NSAutoreleasePools
-Date: Wed,  2 Mar 2022 20:52:30 +0000
-Message-Id: <20220302205230.2122390-27-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220302205230.2122390-1-peter.maydell@linaro.org>
-References: <20220302205230.2122390-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3WuDyhgwiN8E5RCM/+FfA39q5+YVJdgVXZeoi/Rk28M=;
+ b=seTNDc5hLjBXy7ekTuLa//oIHE+L+urjOtA8d9e3jCnMnF43nUtkNQ26rABGZf932X
+ eqWA8N2tqv/0MDB0RqKrQp3IyDYbHJzNBdf65BwFbDliVpSwGC5c7bC1QfXeRFLye+Yo
+ zLpVrQeVwP28tzvdJ8hs5oj03qNBIQDgEHt0TpfbvlFKCkarRnUyhshUZmOyQW2NV4ue
+ lHMQcpAWeO26HIRt4kLzwwPiz3yFfJ95m0IHTVNl55YmY7Jj/gCfeJV64oJ/NPkdjPAk
+ eDiemE3TfhwmsEQvT+D2ASPY64Zxb41IcVfm6NOpy7zavsXGr0vKsuMl05b72vrDY7Yb
+ 47+Q==
+X-Gm-Message-State: AOAM530kJd5jt8LukaEOpEqDZiWXVc634WekGmMGPTbanI+0nzFSVzLX
+ mxUOYUjdiRGe/HopibcfWkphYXNiqYwOCoxrffR2GQ==
+X-Google-Smtp-Source: ABdhPJzCv6rbTHXoOaOdhqM4L47llbAMF8UEXuH650komQPpW0S3pIlRGxedTogK7WCHL4LdHT3ZZf9zeivVjVkC64c=
+X-Received: by 2002:a81:8c9:0:b0:2d7:6801:3fcc with SMTP id
+ 192-20020a8108c9000000b002d768013fccmr32470302ywi.347.1646254541226; Wed, 02
+ Mar 2022 12:55:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+References: <20220302181134.285107-1-pbonzini@redhat.com>
+In-Reply-To: <20220302181134.285107-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 2 Mar 2022 20:55:30 +0000
+Message-ID: <CAFEAcA8=8tiqmFTFPaNXcqjXy6Rb5xR59Q2VYUXOTbN91rbYuA@mail.gmail.com>
+Subject: Re: [PULL 00/11] QEMU changes for 2021-03-02
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1136
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,65 +84,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 6e657e64cdc478 in 2013 we added some autorelease pools to
-deal with complaints from macOS when we made calls into Cocoa from
-threads that didn't have automatically created autorelease pools.
-Later on, macOS got stricter about forbidding cross-thread Cocoa
-calls, and in commit 5588840ff77800e839d8 we restructured the code to
-avoid them.  This left the autorelease pool creation in several
-functions without any purpose; delete it.
+On Wed, 2 Mar 2022 at 18:26, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 99c53410bc9d50e556f565b0960673cccb5664=
+52:
+>
+>   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-20=
+22-02-28' into staging (2022-03-01 13:25:54 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 9e685c6c574a9e1f1e3affbb900f7c38fb4bff6e:
+>
+>   target/i386: Throw a #SS when loading a non-canonical IST (2022-03-02 1=
+0:38:40 +0100)
+>
+> ----------------------------------------------------------------
+> * whpx fixes in preparation for GDB support (Ivan)
+> * VSS header fixes (Marc-Andr=C3=A9)
+> * Add 5-level EPT support to vmxcap (Vitaly)
+> * Bundle changes to MSI routes (Longpeng)
+> * More precise emulation of #SS (Gareth)
+>
+> ----------------------------------------------------------------
 
-We still need the pool in cocoa_refresh() for the clipboard related
-code which is called directly there.
+build-oss-fuzz detects a new memory leak:
+https://gitlab.com/qemu-project/qemu/-/jobs/2155668404
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-id: 20220224101330.967429-3-peter.maydell@linaro.org
----
- ui/cocoa.m | 6 ------
- 1 file changed, 6 deletions(-)
+=3D=3D7088=3D=3DERROR: LeakSanitizer: detected memory leaks
+Direct leak of 7200 byte(s) in 9 object(s) allocated from:
+#0 0x5645ae447747 in __interceptor_calloc
+(/builds/qemu-project/qemu/build-oss-fuzz/tests/qtest/qos-test+0x25c747)
+#1 0x7f79c6b36510 in g_malloc0 (/lib64/libglib-2.0.so.0+0x5a510)
+#2 0x5645ae48044a in walk_path
+/builds/qemu-project/qemu/build-oss-fuzz/../tests/qtest/qos-test.c:225:23
+#3 0x5645ae4cf97e in qos_traverse_graph
+/builds/qemu-project/qemu/build-oss-fuzz/../tests/qtest/libqos/qgraph.c:417=
+:17
+#4 0x5645ae4cf97e in qos_graph_foreach_test_path
+/builds/qemu-project/qemu/build-oss-fuzz/../tests/qtest/libqos/qgraph.c:737=
+:5
+#5 0x5645ae4801c4 in main
+/builds/qemu-project/qemu/build-oss-fuzz/../tests/qtest/qos-test.c:334:5
+#6 0x7f79c65e555f in __libc_start_call_main (/lib64/libc.so.6+0x2d55f)
+#7 0x7f79c65e560b in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x2d60=
+b)
+#8 0x5645ae39fba4 in _start
+(/builds/qemu-project/qemu/build-oss-fuzz/tests/qtest/qos-test+0x1b4ba4)
+Indirect leak of 1152 byte(s) in 9 object(s) allocated from:
+#0 0x5645ae44792f in __interceptor_realloc
+(/builds/qemu-project/qemu/build-oss-fuzz/tests/qtest/qos-test+0x25c92f)
+#1 0x7f79c6b3664f in g_realloc (/lib64/libglib-2.0.so.0+0x5a64f)
+#2 0x7f79c6b5260b in g_string_sized_new (/lib64/libglib-2.0.so.0+0x7660b)
+#3 0x5645ae480487 in walk_path
+/builds/qemu-project/qemu/build-oss-fuzz/../tests/qtest/qos-test.c:232:25
+#4 0x5645ae4cf97e in qos_traverse_graph
+/builds/qemu-project/qemu/build-oss-fuzz/../tests/qtest/libqos/qgraph.c:417=
+:17
+#5 0x5645ae4cf97e in qos_graph_foreach_test_path
+/builds/qemu-project/qemu/build-oss-fuzz/../tests/qtest/libqos/qgraph.c:737=
+:5
+#6 0x5645ae4801c4 in main
+/builds/qemu-project/qemu/build-oss-fuzz/../tests/qtest/qos-test.c:334:5
+#7 0x7f79c65e555f in __libc_start_call_main (/lib64/libc.so.6+0x2d55f)
+#8 0x7f79c65e560b in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x2d60=
+b)
+#9 0x5645ae39fba4 in _start
+(/builds/qemu-project/qemu/build-oss-fuzz/tests/qtest/qos-test+0x1b4ba4)
+SUMMARY: AddressSanitizer: 8352 byte(s) leaked in 18 allocation(s).
+(test program exited with status code 1)
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 5ed1495552a..b6e70e9134d 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1976,8 +1976,6 @@ int main (int argc, char **argv) {
- static void cocoa_update(DisplayChangeListener *dcl,
-                          int x, int y, int w, int h)
- {
--    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
--
-     COCOA_DEBUG("qemu_cocoa: cocoa_update\n");
- 
-     dispatch_async(dispatch_get_main_queue(), ^{
-@@ -1993,14 +1991,11 @@ static void cocoa_update(DisplayChangeListener *dcl,
-         }
-         [cocoaView setNeedsDisplayInRect:rect];
-     });
--
--    [pool release];
- }
- 
- static void cocoa_switch(DisplayChangeListener *dcl,
-                          DisplaySurface *surface)
- {
--    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-     pixman_image_t *image = surface->image;
- 
-     COCOA_DEBUG("qemu_cocoa: cocoa_switch\n");
-@@ -2015,7 +2010,6 @@ static void cocoa_switch(DisplayChangeListener *dcl,
-         [cocoaView updateUIInfo];
-         [cocoaView switchSurface:image];
-     });
--    [pool release];
- }
- 
- static void cocoa_refresh(DisplayChangeListener *dcl)
--- 
-2.25.1
 
+thanks
+-- PMM
 
