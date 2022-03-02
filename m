@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218074CAA1F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:27:33 +0100 (CET)
-Received: from localhost ([::1]:58118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9012C4CAA2F
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:29:57 +0100 (CET)
+Received: from localhost ([::1]:39376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPRp6-0006Yx-6G
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:27:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59516)
+	id 1nPRrQ-0004WW-NE
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:29:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nPRmg-0003kI-I7; Wed, 02 Mar 2022 11:25:02 -0500
+ id 1nPRmi-0003pF-I4; Wed, 02 Mar 2022 11:25:04 -0500
 Received: from [2a01:111:f400:fe06::70c] (port=37767
  helo=EUR02-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1nPRme-0007je-1E; Wed, 02 Mar 2022 11:25:01 -0500
+ id 1nPRmg-0007je-PB; Wed, 02 Mar 2022 11:25:04 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hQaFou2Ic4wlkTjyhXUFIT6fBEmaiV5lM5bwO6CgnzM0Zhfl73JrhT/t1B4sCx1wETOhZUjUXVukuBjS41liSO/qWFDdT1FfsXv+SLLq8waju09VHJgRmyMa3uEIJnLVhhj+Lz/zQ709SmCWHqwrtee2KzwH/cB92oOftVERUXVt5q6eyN0p/v+n9m8cXGIWUk1aEtGEBU7jHN5KB9j4ZqFkx5rjv1BJJxecmHcT5dfSI2eTtlUCB85VfYoRNLgUfdqWNsiRkYB3LvNZZ3m3WhdIHesTYA1jRoX8Z+NTi3BEfV9L7kewHW83AnoDGY/yZa8YrXN/oWFDezjD9BxzNA==
+ b=Uyzj7np9B8YdAuCY808H9TXHMUYALVnzpkL/b955jGR6AxBSYt8QrQ+xnBe2uqV5CbdXAlBvlXCAGr77NF4kxi1IR38oLXX2pRvFM5Limeqn4zf3N3w/E+ZYT55C0SF6NUfPaKsKK6TnHulO84+kzzgIe0LH0wha5uPUgVVgb3+17TP5FJ4aV8qpJcRYdaQSeqiL96BUYL9i4OEDHhVtpMrH0aelqIYmTh1iKj/NQOX3WgNAav7hyd4k4eQLaalHb+Y4qzYpk4w8lwiZUQVSSgS6gVYeVzlk6bigt2GAsN9HAYTUWKGgQA/0DXVS9UNNSX2mAy10HK37TJCf1uYvQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ohk6sIDzL9FElUV++YyMYv6XVGrK+FJHt6AK4T20aXA=;
- b=h8q3vzhArUFRjYTM1lprbfAsUYCRMjQMUkVQpqKzGYzckF1JJWUP/8dF32hnCMm6lY6v/G39VeFc7AwYsgUESFFY8FH/85dB4mkiIIZB70sk/4k83ry3toTbQ7TtpmnvEqGoO9SIK1BYNbOUcNKbZnQPHviTpebvMaLOr4QQ3lUM1xr7mx2l6CGqPq5o8TvAPr81VZoURNJkN1laK7t5UHBFwVc3bJrJJfIVnT1omYDDVRuTVKoOFuXp0Lw6yo/G/phs6zOu1rWpniwzBz3JtW+0KXWgOMb63hU9HJyXLMkdY1EUrTQvRVCPBLSYMQLqX/ixpAbGA9LlsDjQpgJ6YA==
+ bh=XjcSN+V7jUg4BbTkha0e0lrczm/uPm0NWYIfzxn6CTE=;
+ b=mc/sx2EOcVBB2fqJzcXlMcwRCeamucW6Nar5tiQczHGRkf06xIyGZTmtwaknX8sHgu6offNNwp2DIjBesnv/mbjAsEHmhrxZv9ANGeNngjIlokMLlgcMH4QXst/NV2Hixj1r3TtQQL5oXeI7/fwaBV0afymOOPEkqM5F0E1u5ktqpERmJBukpKBweAEH/c8nWyCmTc3SkZUm3bQ7f1NR8RYv8ilwFEedj2s/J6hm9jWQBTXMB5txepZ5CiGYZFpLfuM4k1H6oZvv87QwmDGRBIyjjCVdSqg5K2tscOe/VgXDac4NFjKA2QAfJrQ4AGvcdTrl0WKR50CFsMgVPQxNdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ohk6sIDzL9FElUV++YyMYv6XVGrK+FJHt6AK4T20aXA=;
- b=lVThgZrpQgXsTmG1X9wKFYRXvIHvPXVgY//ML/jCuEMeduJSkj7XEBmdM1JS7T6j1ia8StG+rFp32Oasf8Zbjl7yUFUMBIL+/Ya5xHGBwS12MQRafJNYzYAJxyOgRc0CYdOo0eEZxHAV4nLF85p6p4ld3eGprdee2HKIl4fqJNA=
+ bh=XjcSN+V7jUg4BbTkha0e0lrczm/uPm0NWYIfzxn6CTE=;
+ b=d7r4zMyS/GygVWI73AYHwzBeeVffgGQOnzqAFjb2l1K3qGiBkk9tBe+J6RwWn/dq3NNkt3CaJbKVeyPFRKCSpzYoOCKlHC4URrYCxrIbNWr+HgbG9gXXhMwa8WVsc6hgggyYj96jMP94tomTYgDVG1sAo/gkLcaADMlBGzd6Qfw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by AM6PR08MB3206.eurprd08.prod.outlook.com (2603:10a6:209:46::31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.26; Wed, 2 Mar
- 2022 16:24:56 +0000
+ 2022 16:24:58 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::4545:8e0c:19c7:2a6d]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::4545:8e0c:19c7:2a6d%5]) with mapi id 15.20.5038.014; Wed, 2 Mar 2022
- 16:24:56 +0000
+ 16:24:58 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
  stefanha@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com
-Subject: [PATCH 0/4] block: copy-before-write: cbw-timeout
-Date: Wed,  2 Mar 2022 17:24:38 +0100
-Message-Id: <20220302162442.2052461-1-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/4] util: add qemu-co-timeout
+Date: Wed,  2 Mar 2022 17:24:39 +0100
+Message-Id: <20220302162442.2052461-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220302162442.2052461-1-vsementsov@virtuozzo.com>
+References: <20220302162442.2052461-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: ZR0P278CA0064.CHEP278.PROD.OUTLOOK.COM
@@ -60,56 +62,56 @@ X-ClientProxiedBy: ZR0P278CA0064.CHEP278.PROD.OUTLOOK.COM
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 636bcb7d-2dae-4af1-631b-08d9fc69302c
+X-MS-Office365-Filtering-Correlation-Id: 16b0ae5b-f440-4671-6d20-08d9fc6930f2
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3206:EE_
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3206F874AD70858C745A290AC1039@AM6PR08MB3206.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <AM6PR08MB32065A74120EBB49D414AD3DC1039@AM6PR08MB3206.eurprd08.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GnLvFjj1Xp3OmKVxu+F1EkL//I4yfMXO+Rt2a4V0kNHacQ5rEuKoFqF649a0c1o1fZnSkKWrB49RwJbsZcUn35u5KsopOoKl/tJAsBq0Lu2XFTODTiWp2AUmphg/pzyAvtQ6LQ4jObgEyhe7GK81xCiR5bqKY4g5wnAadt/wz7K6SZg6Sxnq626pevZ0YxKpHS4wOxK0ellSvmtNQSTidkkISIVjTQ9VBBpqO7WXv1LXTwvgDRNIWbkYXsb+8KNRUJsT59gsHazo4qvCk54ppznQPbzRUOAci0Mkkk2+mLe9aGd29ydH0XUf/9nycTwcNIT/PjSEM0XA+o8itjjoCRve6P/PXNGRT6EYNxQt0+4ilVjpzupSoc3bg8arCiSecewDe7u6M+uAWytZ8UJXobSuK46Wr6S/myP5cyI9cQazVZh3VFyEELWMxBEld2ED9ySgcS2Hwxr96oIh7wwnBV8V6fQbZIs70pHGPjHUxws1QtbutKMec8opDE7jeDJqnKWLDXmC3lg5hYS4J/UgPZ4hY8byGz3QXB2xwEeuVjPJPsi8DBCn1SGMUnC773bT+u6+YYOf5CH0espo5tvSMUpPyv66Rmzg6DZ04xeIep6WKCNDJBUv6he3m7vHQog5J57MXmKUttABUpvs2W7fiuG351x2MdrdvHMcEbNGPcdC+uABy+ZADOpTKiU/dVWvugunXTfGX4bR9uIR5bPP1Q==
+X-Microsoft-Antispam-Message-Info: x9CE0vir1WqKPtzherXgqrLQcNf3PI9ivHRLVh1mC3KDRmNa3bVldvYV/0viAmH9dnvqNPB/wCsVpm6jTcqvBABWlsRgeee96PhnW5V+25kRJIYqkbmNRorDbZu0DkvKaZH438CjWJINroYvLHcnGBni35gJa5eAKZQM6EyqFluQ188pB3c0uRfEUoLZeeScYaVO/s11vP3mzE23jSHC7/M1xFw9CU9Ezr7hOFFjF3n14i3yS2W7PtVUkouYmXx/ISGjSv2snBgK6IpLgIXXfw94QyIYKWlKD4vB3KSKK1067bIm2o2CQJ537t9Rrmcj8cQhxkIW27nfJPgdbaVGPHik6NL5kc9RuXIzdhpwOLczdcT0vYSu3tKylxuQSYzJ9KEqp2j0u0CoFGVWyiEAQamBAVgSGcjXuY98+P0qrS5bXF6b3AvE3w1ECrWc4jfCEgMhmirmf0QM76H5jxc+tYia2oN25fz411J+e2Gdg1haDaiD1yR9d6ymyDN0wt7htBdL9A9z7zjV/00GdWATQz9NzjYZFbWIPdvCYrhm4VLF5cPHVzwR01lfSBJKVlcvP5okiwpRTaI1ZT/T4K3S7ApuKZZdwUjlIAa4iKjqosIXu+3Om0a3jOYn31zrKOpr/uQSkp9rnsDTHHIvFUohHLGmpuCoyVSvCf0xoV0W0fjqj9Ys6qWMugbO7Rj2zzF+A9HGsyk5HLjyuPA+SWPY0Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(4636009)(366004)(66556008)(8936002)(66946007)(66476007)(4326008)(86362001)(83380400001)(38350700002)(316002)(6916009)(186003)(38100700002)(1076003)(2616005)(26005)(2906002)(52116002)(6506007)(6512007)(6666004)(8676002)(5660300002)(508600001)(36756003)(6486002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hqKSq46oKs4wD459wfDLcCubPLO830E7rFFko1alIqey6Ecgz2edhCPz6S+/?=
- =?us-ascii?Q?8/l1GAiTatSFOwIzQOdyRODVCZ/7N/uG2KlHO6Gi4XBLoaFSmBWFAfvXRgam?=
- =?us-ascii?Q?nk4OEy7K/rqISbQ2DRO/xP2cMXnqx6C/yJ8kZyVopNOdk+cKbyd4TqGMVaDt?=
- =?us-ascii?Q?Z0C2LbXbrcLm23hFRijqhyV2Bwnq7NdzFKknLQt6CiD5tnsBFSK8Xy3NK87O?=
- =?us-ascii?Q?mvhNu2qfr62cFNop+7+DHp/WRz7RMWZEcgypGg65quvTLL7Rhf5FgQotQ4ve?=
- =?us-ascii?Q?FKcoP8BOD7Kwo8yKTB6/Qq2tFIWCJprM6Ui1AW2msSrUxy4fBPG2ZcCwau6d?=
- =?us-ascii?Q?Hj7WY46afLb4EKxeGYnE8ovz8iSUpzb4I+tVLnYHzoJj21p6a7SW5eQ3eXEr?=
- =?us-ascii?Q?pZSrM7lwDCT/y9nn9XBOK3oHjrBdRQ1lhwm1gQ6cwLKg5pdYw9M1TtzsQf+x?=
- =?us-ascii?Q?oWF+b3rtbHq4wA6cvqQg54gaN5rZ0Q2UwABYe8GHM7qXuT5gBe3b+/fB/OS4?=
- =?us-ascii?Q?qQR7v1fU9EXJBNGdvbA4XUxV9mDheFRWayb0WHJImGsb+7KAEk3bHRaG47tW?=
- =?us-ascii?Q?7Nz/uiZtR5jb+mtYnUY4Lp3Etk8QwXtXdyDNtPCaO3WaO+rsTNd8Qrq1nagE?=
- =?us-ascii?Q?GCm8WST/4avcArDktAfM2WQPYj9fO/tgWm43aYj0jm3TE4ovYD52JjDA1dIg?=
- =?us-ascii?Q?Kyg4jl/wEqwvBaXp1qrmsZBp//MXjTroFG+HcCVMOzOUPUmBM3B0jIdmw21S?=
- =?us-ascii?Q?Al8UsgSTeBTJgaTQIIqzUkA+zdd8DIL0GbO2ZC+vHHOGo/2g8uFM+g6/EhKT?=
- =?us-ascii?Q?13xgzgmHpmj08Z2/gFz8Yu9+/nQMw8xL/kBPg2HpaXNSH8UR3KgKQBqoN/SE?=
- =?us-ascii?Q?MkgMk6V0vNFv+5NA095QPms4cHhVa2KAfDOSj3SvNfBbTH7S98+FojDMHPnT?=
- =?us-ascii?Q?iELhzjeNA7XD95QoguNyxjXZuJXqOS2mC9hyjqN93rk73GbSFqoxIgKP/56D?=
- =?us-ascii?Q?E9TOKwGSueUoeXdLJPi7Bpi/ERIl93XweBcVxaYwy9Guli0HCWVY7X/Kn2Vo?=
- =?us-ascii?Q?9MjBb4aOy03RA36YksU1N8uU9xq7003Vw5CqNJh3/fWsZ1O4+mq5lOPNeIk4?=
- =?us-ascii?Q?r223MSkeULXoFhel7x5qVSgXoWesKHXfw37uzmnlBCK9anb6q+XlkO32GUj9?=
- =?us-ascii?Q?9VP4vqnlt52m9OzKhzl2ceAeawW6cjDmSTJ/Ok4J2SUwfcR8amWYRhuTgZbO?=
- =?us-ascii?Q?w2EyVXTWKpooV81/63ftXsIqbOjZVp4tn3gjMjT8ufX0xaYb3LFOByuBKKpW?=
- =?us-ascii?Q?ywY0j191r+mVAa7CuwlZ3BZu5vTBCUxWYXRVlBPJIL5uqrE5A9x9ROcU+gzY?=
- =?us-ascii?Q?TWlt0uOTpM65eDCnHtWwjq+hvPsfGffdsm3IhsYLCXorOpOaexBCuSS2jtTt?=
- =?us-ascii?Q?zHyJCkPqdd0LSIyTEt5F6tuqfVRub7FZCDHl5qcDJ3nwmlmkiFEUItz5IOLH?=
- =?us-ascii?Q?zSS+9pP5/uvXGxSHpJXH1IB1mbLLCfEDHE/BE2f6t8s/7mBQdhM7Ju12xbeH?=
- =?us-ascii?Q?umOc5DIylLNN6AafIBTMK2cLclidgu3EDpZQSGdWfpHooWDdKbzfcJ/aur4Q?=
- =?us-ascii?Q?c0Xrqv1h2bOBqK6bhlxMf6lUcJS83Yt+8qK/gHocVHP71xUUwiGnBCvM8Bj8?=
- =?us-ascii?Q?8Yq0Qw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jqzlDyE6eEqnbqesL4/8EMEp64lN/d7gnPr9h1EfGIoz36J7mzAEcumWqzaJ?=
+ =?us-ascii?Q?g1vIriOlcG3CtC1m2HalT5MQ1qBgNIJL8TtxmAYyl6iDcORHb316rRSq1pNG?=
+ =?us-ascii?Q?rYYUUcu7O79piYxDsZgR22xzCGZnA0E0PlP0E2NKSSOZhafTI7pTpNEVahnn?=
+ =?us-ascii?Q?eWkD85OUdzerYuiIhEaFcfnuuc0sKH3QEJsz2MiPAfu0uCXqjvAmPtNDIUvE?=
+ =?us-ascii?Q?jKJa5PHaxQWQ5DK/wRcNL0cs5STKsU2yeL3RMn9lHAQ44+07ZW8K08c9xQeW?=
+ =?us-ascii?Q?wiwMpOn01mM1SlQIrJnQtuoGSflEroFkXsOre3ktVpYvY4TuZ76QfnGgifog?=
+ =?us-ascii?Q?Nrhhs4R+6lHofXKx+m3ESRu7BjSr2eT0aIVuY1Mxcd8oRJbkvcYpXoX4jnZD?=
+ =?us-ascii?Q?hf5/nRJhvh/PZ/kiCspuYhEamwt2OPz0nKOPDWhWO96mLAK8l9eS4vachRR1?=
+ =?us-ascii?Q?XuaEzwXV4xpRhfuJqHcgHi+pGs83eLPNYDn2bc/faCiNIwYYycxCZUgwg/Tg?=
+ =?us-ascii?Q?Fl1zcQgt1Otc6Z97UXC9bjWUQo8qIqKuRFDfeEx6MsQ9ClIn8r7u2tnx56LB?=
+ =?us-ascii?Q?EMLJDJnoSMRTv3wu+3Umt2xZEUx/he9HL05g93uoAC49m/WQRsQYk7sRTSKm?=
+ =?us-ascii?Q?ToH25SVhJ0a/4qAE4jMx5Q5731JRfO+8iULYIB/IMvBZA5j4W1hvAnma/DoV?=
+ =?us-ascii?Q?O1blBa46iHGzy1998A+pgNv+3mNhK9HmVPxzis39bTdg12gLXo5PF42FYO44?=
+ =?us-ascii?Q?QQQ0X6w/xYw+Im6cuk9ADBx0CzLYGbSBSo4PZWCRs8oocFv5/5U4ahqeGjbZ?=
+ =?us-ascii?Q?343QT8fRhIJlHeQwstmCckG093mgR5P2vsOIK0EK/VMJgVJUjMlfWnlSXycb?=
+ =?us-ascii?Q?QUcMCEQSXYNZIcl1s9PVIVYqAiwx/g1dIQV6xuCrpzs4Pkeck3LEYap0TmBW?=
+ =?us-ascii?Q?SqgibJV5Mhyv6LRaAHieuOOFiolxr629Wl5YbprIhyRTQudvlvOHfStgKvF4?=
+ =?us-ascii?Q?MRqTIbUIWBgRCUTke0rNd/xqxQb40hCjqDqhtSC+xgS2aYJGrwK0bTF7NR4n?=
+ =?us-ascii?Q?/zvnqo+lztCnBSnpMASfd9fLca+S7T72Pv1iLB4RkeCc6EQxEGKbMIQ3lXqf?=
+ =?us-ascii?Q?gLzqsnck/EWFK7s0I4LKds0yJ2GYrEX+koZNFpFSdQesrVpHUFK77ULEsAne?=
+ =?us-ascii?Q?4P/1emKvIF7Na2NB+1J4r8EGvsaOhz4LUtBXXTh7PZURVad5AtsargrtY6tI?=
+ =?us-ascii?Q?q1DJ1+8Lplqq0ZG0Oods/Ot1l0bLUgLAODIINoFlWkKSy16cutv2XC4Y/rkr?=
+ =?us-ascii?Q?n00MU86kpdQVeoc34Nd2uP58+tQOveJMpFtGSh3yOqR6avN/r4vWDl18ne7z?=
+ =?us-ascii?Q?AZpjJrqmASK7v3ca0dH+t8zTK6tzXZO0IN47gd50fKOhzu6/tMElqfD1gjKt?=
+ =?us-ascii?Q?I9HnKF+qXHhlxgUJKNZn/XPYrUh9t+ktUmU9Okg3hjBhET9okBR79vgD8FpF?=
+ =?us-ascii?Q?9IjwOlLUqbnZAibgIBiRtKtZeEAaIGjE7gp39lGBNePtv3WL7VuArVeXOkUg?=
+ =?us-ascii?Q?Hdhkr5bsacYMiDvCN/xc0DH7Btyx93iha+vfe5QijVuL+QVrIma5KEeyS0QG?=
+ =?us-ascii?Q?lhnK6jRup3f2HhVCa4m+IQhJaU6ODQBeBqqxLpEHId3iJHmyFFL8DEXISnOC?=
+ =?us-ascii?Q?thQ9Ow=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 636bcb7d-2dae-4af1-631b-08d9fc69302c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16b0ae5b-f440-4671-6d20-08d9fc6930f2
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2022 16:24:56.4315 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2022 16:24:57.5251 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mQ1mM155xQ3tu3hYGs9kdik+txlzN1B/PzPS0oHTVpKTFHKCp6Uc/1cYOi78HuSwglD5OkdEWudXe36JETbscA8y9MKrF+yflXpw3B/xBqg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: z4YnvX0gq/yFgxfSWl8eaQD57hGVtHWm9Zdw7z43Qq5Ox5zvVPud4qm6aGx+Lrjo12vsFC+g9KApRehEmot4llG+Bw1YlJJOAyPwnYEW4TU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3206
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe06::70c
  (failed)
@@ -138,36 +140,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Add new API, to make a time limited call of the coroutine.
 
-There is another new option, that allows to limit cbw operation by some
-timeout.
-
-So, for example, using cbw-timeout=60 and on-cbw-error=break-snapshot
-you can be sure that guest write will not stuck for more than 60
-seconds.
-
-Based-on: <20220301205929.2006041-1-vsementsov@virtuozzo.com>
-   ([PATCH 0/3] block: copy-before-write: on-cbw-error behavior)
-
-Vladimir Sementsov-Ogievskiy (4):
-  util: add qemu-co-timeout
-  block/block-copy: block_copy(): add timeout_ns parameter
-  block/copy-before-write: implement cbw-timeout option
-  iotests: copy-before-write: add cases for cbw-timeout option
-
- qapi/block-core.json                          |  5 +-
- include/block/block-copy.h                    |  2 +-
- include/qemu/coroutine.h                      | 13 +++
- block/block-copy.c                            | 28 ++++--
- block/copy-before-write.c                     |  6 +-
- util/qemu-co-timeout.c                        | 89 +++++++++++++++++++
- tests/qemu-iotests/tests/copy-before-write    | 78 ++++++++++++++++
- .../qemu-iotests/tests/copy-before-write.out  |  4 +-
- util/meson.build                              |  1 +
- 9 files changed, 213 insertions(+), 13 deletions(-)
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ include/qemu/coroutine.h | 13 ++++++
+ util/qemu-co-timeout.c   | 89 ++++++++++++++++++++++++++++++++++++++++
+ util/meson.build         |  1 +
+ 3 files changed, 103 insertions(+)
  create mode 100644 util/qemu-co-timeout.c
 
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index c828a95ee0..8704b05da8 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -316,6 +316,19 @@ static inline void coroutine_fn qemu_co_sleep_ns(QEMUClockType type, int64_t ns)
+     qemu_co_sleep_ns_wakeable(&w, type, ns);
+ }
+ 
++typedef void CleanupFunc(void *opaque);
++/**
++ * Run entry in a coroutine and start timer. Wait for entry to finish or for
++ * timer to elapse, what happen first. If entry finished, return 0, if timer
++ * elapsed earlier, return -ETIMEDOUT.
++ *
++ * Be careful, entry execution is not canceled, user should handle it somehow.
++ * If @clean is provided, it's called after coroutine finish if timeout
++ * happened.
++ */
++int coroutine_fn qemu_co_timeout(CoroutineEntry *entry, void *opaque,
++                                 uint64_t timeout_ns, CleanupFunc clean);
++
+ /**
+  * Wake a coroutine if it is sleeping in qemu_co_sleep_ns. The timer will be
+  * deleted. @sleep_state must be the variable whose address was given to
+diff --git a/util/qemu-co-timeout.c b/util/qemu-co-timeout.c
+new file mode 100644
+index 0000000000..00cd335649
+--- /dev/null
++++ b/util/qemu-co-timeout.c
+@@ -0,0 +1,89 @@
++/*
++ * Helper functionality for distributing a fixed total amount of
++ * an abstract resource among multiple coroutines.
++ *
++ * Copyright (c) 2022 Virtuozzo International GmbH
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/coroutine.h"
++#include "block/aio.h"
++
++typedef struct QemuCoTimeoutState {
++    CoroutineEntry *entry;
++    void *opaque;
++    QemuCoSleep sleep_state;
++    bool marker;
++    CleanupFunc *clean;
++} QemuCoTimeoutState;
++
++static void coroutine_fn qemu_co_timeout_entry(void *opaque)
++{
++    QemuCoTimeoutState *s = opaque;
++
++    s->entry(s->opaque);
++
++    if (s->marker) {
++        assert(!s->sleep_state.to_wake);
++        /* .marker set by qemu_co_timeout, it have been failed */
++        if (s->clean) {
++            s->clean(s->opaque);
++        }
++        g_free(s);
++    } else {
++        s->marker = true;
++        qemu_co_sleep_wake(&s->sleep_state);
++    }
++}
++
++int coroutine_fn qemu_co_timeout(CoroutineEntry *entry, void *opaque,
++                                 uint64_t timeout_ns, CleanupFunc clean)
++{
++    QemuCoTimeoutState *s;
++    Coroutine *co;
++
++    if (timeout_ns == 0) {
++        entry(opaque);
++        return 0;
++    }
++
++    s = g_new(QemuCoTimeoutState, 1);
++    *s = (QemuCoTimeoutState) {
++        .entry = entry,
++        .opaque = opaque,
++        .clean = clean
++    };
++
++    co = qemu_coroutine_create(qemu_co_timeout_entry, s);
++
++    aio_co_enter(qemu_get_current_aio_context(), co);
++    qemu_co_sleep_ns_wakeable(&s->sleep_state, QEMU_CLOCK_REALTIME, timeout_ns);
++
++    if (s->marker) {
++        /* .marker set by qemu_co_timeout_entry, success */
++        g_free(s);
++        return 0;
++    }
++
++    /* Don't free s, as we can't cancel qemu_co_timeout_entry execution */
++    s->marker = true;
++    return -ETIMEDOUT;
++}
+diff --git a/util/meson.build b/util/meson.build
+index 3736988b9f..44392e89a4 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -82,6 +82,7 @@ if have_block
+   util_ss.add(files('block-helpers.c'))
+   util_ss.add(files('qemu-coroutine-sleep.c'))
+   util_ss.add(files('qemu-co-shared-resource.c'))
++  util_ss.add(files('qemu-co-timeout.c'))
+   util_ss.add(files('thread-pool.c', 'qemu-timer.c'))
+   util_ss.add(files('readline.c'))
+   util_ss.add(files('throttle.c'))
 -- 
 2.31.1
 
