@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD9E4CB07E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 21:59:59 +0100 (CET)
-Received: from localhost ([::1]:49008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B914CB057
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 21:55:21 +0100 (CET)
+Received: from localhost ([::1]:38890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPW4k-0007UV-Ue
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 15:59:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43262)
+	id 1nPW0G-0000O0-Qs
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 15:55:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxe-0005cl-PS
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:39 -0500
-Received: from [2a00:1450:4864:20::335] (port=55192
- helo=mail-wm1-x335.google.com)
+ id 1nPVxg-0005dN-6o
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:41 -0500
+Received: from [2a00:1450:4864:20::32f] (port=51113
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxc-00085Z-Nj
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:38 -0500
-Received: by mail-wm1-x335.google.com with SMTP id c192so1932740wma.4
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:36 -0800 (PST)
+ id 1nPVxe-00085x-Br
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:39 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id y5so1977160wmi.0
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=WQH43RYLvQDXPun3Ra4uvCKAv6ejoTJuD3KqLrDM/Eg=;
- b=E6+bFSCK6ilFW5zOkwiRCW4UFgZCaH2KczDAKlKER7Y0Y40VdmmDRrBRrxURBHeygA
- vI311t4yGiucxz4qW9VDt6a21qlIp6cluei6dhxRjtFfpEjL2Zf4fdoFCQCwSCBU9Gsb
- yTgAv4M2bGYlRVv7wyAUh4TMdwo6Q511dGGW4w/7hCl+eh6PXQ31DmQX2hvwC9T1hioU
- 9umIZOIoy/ATTKshi4kBfkBxKEnWMvYvgVvXVs9NoPQtHpzGJ14kf0KsX29v11Thqr24
- 5ZAfl0SdoMuSP22sHRuAddlLjKT6RW0sLfVE1Gamp62yn8w7a5Bh53wVUGKZh8u1FCpm
- BBBA==
+ bh=1l2NOv9OwvipekROpdxjCaOFOo+1t/8TzNdjQpxDeL4=;
+ b=XRPSAMbjjP8tP7nmhtOZiMab+AaJs17RNOoPiZs8H8d8Ru+klWxZkPACQUJ4lLtzus
+ 1+bwaMob5YHsCIGHNR6M5GSzNnGI74VP38El+b7wCKX8NNKTTXSnlI+Oegt0UDR0S/GU
+ QJJaVkIWLrpEOgNezSkGMqOxs5JEwVxtH4a3RsTLZGlUl2ufeVKLOFJt/mRjTjQJrvZr
+ XfPOqH1SCheiwYjq+O1bu4sM16/ff19MgF47beXqXB/ldrwYsgOUxFQicNlpMr8iyiMf
+ 5OtarqNPjKAlSZcVNvAgLr6nuuaibx7+SqLJkWkdBYLe4bYEX1NXwZNIBWugPqkiXbFB
+ Pu8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WQH43RYLvQDXPun3Ra4uvCKAv6ejoTJuD3KqLrDM/Eg=;
- b=2sNgK4fxQ95bEcGGJF6yra4i+V82P2cgBQwwz8D+jT/8vpA6oqDsUynIPH6I4vmScD
- MJeIwdcFRBPoRU5XQjdLRBysJwD8KsDpkdKXnEQRUWKvTV9AiSmxZGlsX84N0spGSUER
- f2ztwoHQkQezr7s703Hy9daWwDZfb4FQzvoH2L9gCV6yC6EoiuOAEjjStiYL4qPl4opI
- 5b58PxWxWv5766B6Y/o1O4ClmJyx4IqysT+/VBXjQTv+lg8Sx/MR8ksnE+bADQnyYhfV
- mdLfsnHF7CUUV/fyIGTjq2TL++c0p/bWz+ogPfu2RTm6Yp7VZ2M5NpjwCvGPTwle6UiW
- ScnA==
-X-Gm-Message-State: AOAM5338EwX88EOCQ2xo+lgIP/aPrGfkjODrfSHVBPr1UxJXN2QM0ftA
- u63zocsv2VOAQ6cxVxUFsTpOJpwRdoaEzw==
-X-Google-Smtp-Source: ABdhPJwmLGRDnFwCNvATQPzqzqhNqmJJChuyUiDXRe9Y0oGF/Rb8fl4B0Q2gXQ2VN72M+I9zO3cM5w==
-X-Received: by 2002:a05:600c:4b87:b0:381:fe:3c5e with SMTP id
- e7-20020a05600c4b8700b0038100fe3c5emr1319029wmp.47.1646254355468; 
- Wed, 02 Mar 2022 12:52:35 -0800 (PST)
+ bh=1l2NOv9OwvipekROpdxjCaOFOo+1t/8TzNdjQpxDeL4=;
+ b=V28ejyXyjFQ0D15vquL/dgaA3I9AflJPe4vgDW2C3N/4GsidTxIQKl4sqBgZVZ28DL
+ Tt6vrHAPnknpv8/Yi7804YWk8dhpUg5DTf5rH8u35Qa9hf7lgnbfd1uJxGBvmo16aX2v
+ mRICGAYqGk63jj27RgL8t1muV9/12Qxm0S9drc1Ag2LV6Bs7o1+BAoTKVoNeWxcwcRHW
+ UP9L3ZciTXzRZklz0V35yIBgtwbZfWoQQJ2SHWP+tqgKBI2ph37911AqNUlneqBK75pi
+ nvO5Mr+Aut4dp/3LMgYSIZtCSvqFH69igXEcqyLg0H4zvdQSbwlxQTHy4SZAlQwsKenL
+ gvog==
+X-Gm-Message-State: AOAM530YnKwNR7cqyhuxbLM941BOGFX54q4NyL6mWr0Fgi4HyCrnWZw8
+ rKhpinhPz0OBhR6gmoSGXxDDWtYHbQqMgg==
+X-Google-Smtp-Source: ABdhPJzC3VSZfVif4Qr5cCds2ZPqC0JMLNiKtRtLSHcxbEH0tHu2RedXIRdPShbWHNhC5/YvO0WpvA==
+X-Received: by 2002:a7b:c954:0:b0:385:6e61:aea6 with SMTP id
+ i20-20020a7bc954000000b003856e61aea6mr1334360wml.91.1646254356387; 
+ Wed, 02 Mar 2022 12:52:36 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.34
+ x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 12:52:34 -0800 (PST)
+ Wed, 02 Mar 2022 12:52:35 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/26] hw/input/tsc210x: Don't abort on bad SPI word widths
-Date: Wed,  2 Mar 2022 20:52:07 +0000
-Message-Id: <20220302205230.2122390-4-peter.maydell@linaro.org>
+Subject: [PULL 04/26] hw/i2c: flatten pca954x mux device
+Date: Wed,  2 Mar 2022 20:52:08 +0000
+Message-Id: <20220302205230.2122390-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220302205230.2122390-1-peter.maydell@linaro.org>
 References: <20220302205230.2122390-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,63 +93,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tsc210x doesn't support anything other than 16-bit reads on the
-SPI bus, but the guest can program the SPI controller to attempt
-them anyway. If this happens, don't abort QEMU, just log this as
-a guest error.
+From: Patrick Venture <venture@google.com>
 
-This fixes our machine_arm_n8x0.py:N8x0Machine.test_n800
-acceptance test, which hits this assertion.
+Previously this device created N subdevices which each owned an i2c bus.
+Now this device simply owns the N i2c busses directly.
 
-The reason we hit the assertion is because the guest kernel thinks
-there is a TSC2005 on this SPI bus address, not a TSC210x.  (The n810
-*does* have a TSC2005 at this address.) The TSC2005 supports the
-24-bit accesses which the guest driver makes, and the TSC210x does
-not (that is, our TSC210x emulation is not missing support for a word
-width the hardware can handle).  It's not clear whether the problem
-here is that the guest kernel incorrectly thinks the n800 has the
-same device at this SPI bus address as the n810, or that QEMU's n810
-board model doesn't get the SPI devices right.  At this late date
-there no longer appears to be any reliable information on the web
-about the hardware behaviour, but I am inclined to think this is a
-guest kernel bug.  In any case, we prefer not to abort QEMU for
-guest-triggerable conditions, so logging the error is the right thing
-to do.
+Tested: Verified devices behind mux are still accessible via qmp and i2c
+from within an arm32 SoC.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/736
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20220202164533.1283668-1-venture@google.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20220221140750.514557-1-peter.maydell@linaro.org
 ---
- hw/input/tsc210x.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ hw/i2c/i2c_mux_pca954x.c | 77 +++++++---------------------------------
+ 1 file changed, 13 insertions(+), 64 deletions(-)
 
-diff --git a/hw/input/tsc210x.c b/hw/input/tsc210x.c
-index b0d5c2dd748..df7313db5d7 100644
---- a/hw/input/tsc210x.c
-+++ b/hw/input/tsc210x.c
-@@ -24,6 +24,7 @@
- #include "hw/hw.h"
- #include "audio/audio.h"
- #include "qemu/timer.h"
-+#include "qemu/log.h"
- #include "sysemu/reset.h"
- #include "ui/console.h"
- #include "hw/arm/omap.h"            /* For I2SCodec */
-@@ -910,8 +911,11 @@ uint32_t tsc210x_txrx(void *opaque, uint32_t value, int len)
-     TSC210xState *s = opaque;
-     uint32_t ret = 0;
+diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
+index 847c59921cf..a9517b612ae 100644
+--- a/hw/i2c/i2c_mux_pca954x.c
++++ b/hw/i2c/i2c_mux_pca954x.c
+@@ -30,24 +30,6 @@
+ #define PCA9548_CHANNEL_COUNT 8
+ #define PCA9546_CHANNEL_COUNT 4
  
--    if (len != 16)
--        hw_error("%s: FIXME: bad SPI word width %i\n", __func__, len);
-+    if (len != 16) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: bad SPI word width %i\n", __func__, len);
-+        return 0;
-+    }
+-/*
+- * struct Pca954xChannel - The i2c mux device will have N of these states
+- * that own the i2c channel bus.
+- * @bus: The owned channel bus.
+- * @enabled: Is this channel active?
+- */
+-typedef struct Pca954xChannel {
+-    SysBusDevice parent;
+-
+-    I2CBus       *bus;
+-
+-    bool         enabled;
+-} Pca954xChannel;
+-
+-#define TYPE_PCA954X_CHANNEL "pca954x-channel"
+-#define PCA954X_CHANNEL(obj) \
+-    OBJECT_CHECK(Pca954xChannel, (obj), TYPE_PCA954X_CHANNEL)
+-
+ /*
+  * struct Pca954xState - The pca954x state object.
+  * @control: The value written to the mux control.
+@@ -59,8 +41,8 @@ typedef struct Pca954xState {
  
-     /* TODO: sequential reads etc - how do we make sure the host doesn't
-      * unintentionally read out a conversion result from a register while
+     uint8_t control;
+ 
+-    /* The channel i2c buses. */
+-    Pca954xChannel channel[PCA9548_CHANNEL_COUNT];
++    bool enabled[PCA9548_CHANNEL_COUNT];
++    I2CBus *bus[PCA9548_CHANNEL_COUNT];
+ } Pca954xState;
+ 
+ /*
+@@ -98,11 +80,11 @@ static bool pca954x_match(I2CSlave *candidate, uint8_t address,
+     }
+ 
+     for (i = 0; i < mc->nchans; i++) {
+-        if (!mux->channel[i].enabled) {
++        if (!mux->enabled[i]) {
+             continue;
+         }
+ 
+-        if (i2c_scan_bus(mux->channel[i].bus, address, broadcast,
++        if (i2c_scan_bus(mux->bus[i], address, broadcast,
+                          current_devs)) {
+             if (!broadcast) {
+                 return true;
+@@ -125,9 +107,9 @@ static void pca954x_enable_channel(Pca954xState *s, uint8_t enable_mask)
+      */
+     for (i = 0; i < mc->nchans; i++) {
+         if (enable_mask & (1 << i)) {
+-            s->channel[i].enabled = true;
++            s->enabled[i] = true;
+         } else {
+-            s->channel[i].enabled = false;
++            s->enabled[i] = false;
+         }
+     }
+ }
+@@ -184,23 +166,7 @@ I2CBus *pca954x_i2c_get_bus(I2CSlave *mux, uint8_t channel)
+     Pca954xState *pca954x = PCA954X(mux);
+ 
+     g_assert(channel < pc->nchans);
+-    return I2C_BUS(qdev_get_child_bus(DEVICE(&pca954x->channel[channel]),
+-                                      "i2c-bus"));
+-}
+-
+-static void pca954x_channel_init(Object *obj)
+-{
+-    Pca954xChannel *s = PCA954X_CHANNEL(obj);
+-    s->bus = i2c_init_bus(DEVICE(s), "i2c-bus");
+-
+-    /* Start all channels as disabled. */
+-    s->enabled = false;
+-}
+-
+-static void pca954x_channel_class_init(ObjectClass *klass, void *data)
+-{
+-    DeviceClass *dc = DEVICE_CLASS(klass);
+-    dc->desc = "Pca954x Channel";
++    return pca954x->bus[channel];
+ }
+ 
+ static void pca9546_class_init(ObjectClass *klass, void *data)
+@@ -215,28 +181,19 @@ static void pca9548_class_init(ObjectClass *klass, void *data)
+     s->nchans = PCA9548_CHANNEL_COUNT;
+ }
+ 
+-static void pca954x_realize(DeviceState *dev, Error **errp)
+-{
+-    Pca954xState *s = PCA954X(dev);
+-    Pca954xClass *c = PCA954X_GET_CLASS(s);
+-    int i;
+-
+-    /* SMBus modules. Cannot fail. */
+-    for (i = 0; i < c->nchans; i++) {
+-        sysbus_realize(SYS_BUS_DEVICE(&s->channel[i]), &error_abort);
+-    }
+-}
+-
+ static void pca954x_init(Object *obj)
+ {
+     Pca954xState *s = PCA954X(obj);
+     Pca954xClass *c = PCA954X_GET_CLASS(obj);
+     int i;
+ 
+-    /* Only initialize the children we expect. */
++    /* SMBus modules. Cannot fail. */
+     for (i = 0; i < c->nchans; i++) {
+-        object_initialize_child(obj, "channel[*]", &s->channel[i],
+-                                TYPE_PCA954X_CHANNEL);
++        g_autofree gchar *bus_name = g_strdup_printf("i2c.%d", i);
++
++        /* start all channels as disabled. */
++        s->enabled[i] = false;
++        s->bus[i] = i2c_init_bus(DEVICE(s), bus_name);
+     }
+ }
+ 
+@@ -252,7 +209,6 @@ static void pca954x_class_init(ObjectClass *klass, void *data)
+     rc->phases.enter = pca954x_enter_reset;
+ 
+     dc->desc = "Pca954x i2c-mux";
+-    dc->realize = pca954x_realize;
+ 
+     k->write_data = pca954x_write_data;
+     k->receive_byte = pca954x_read_byte;
+@@ -278,13 +234,6 @@ static const TypeInfo pca954x_info[] = {
+         .parent        = TYPE_PCA954X,
+         .class_init    = pca9548_class_init,
+     },
+-    {
+-        .name = TYPE_PCA954X_CHANNEL,
+-        .parent = TYPE_SYS_BUS_DEVICE,
+-        .class_init = pca954x_channel_class_init,
+-        .instance_size = sizeof(Pca954xChannel),
+-        .instance_init = pca954x_channel_init,
+-    }
+ };
+ 
+ DEFINE_TYPES(pca954x_info)
 -- 
 2.25.1
 
