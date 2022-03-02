@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E9D4CA5D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:23:13 +0100 (CET)
-Received: from localhost ([::1]:51998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3227C4CA6AF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:54:56 +0100 (CET)
+Received: from localhost ([::1]:59066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPOwi-0003PE-Ez
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:23:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57490)
+	id 1nPPRO-00065k-Sw
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:54:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>) id 1nPOet-0003eX-Vq
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:04:49 -0500
-Received: from [2607:f8b0:4864:20::42c] (port=36403
- helo=mail-pf1-x42c.google.com)
+ (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>) id 1nPOev-0003en-TD
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:04:51 -0500
+Received: from [2607:f8b0:4864:20::52e] (port=35702
+ helo=mail-pg1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>) id 1nPOes-0004zX-EQ
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:04:47 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id z16so1918498pfh.3
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 05:04:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ubzeme@gmail.com>) id 1nPOeu-000503-6l
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 08:04:49 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id e6so1588587pgn.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 05:04:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gV9Cvlo7ft4KghRJ8ZPgxvTZ4fIVH8yA6Q+ea3wVuzI=;
- b=hoLCZtxpvRqCQc1lggmmuOcsy7rscV7eWzbFit5SpckJgvBL3859Hvql0wGc/wQifT
- gHWliqynQ/d6w8OQQi4HYsebB0iw9eP6UaXBJi4PkGxQ8N89Xm7495U13Cffkn/69SnP
- ERSS9ue9Mb1kewmWQQePMrZjALNil2FgnbNNocIufVChlHK+VCIhBI1p344qNAEYInop
- vJNLEgNQFKCN8rwv0WXZQUDvHmEkCEhn3wOOet/Ouht0EJhIvCUtTF1DXoE9oa8J61ko
- GOqjEdXSI7ijk6ctCfjvn2unzU9ovGCexwNDOalKVKDd7i2PZUif/6T7MhpYfA1ziiph
- Wzyw==
+ bh=w6vJJZnIY85L3jAtHIirBP3LY7sd1XHw2yIyuchY+w0=;
+ b=fYRPxodlkAoc0tMjCk+LMJ5U+vB0E4ZCSCW6UQptyLocpumLf0smMgX53GG3bgz8ev
+ Vr58qG4dwJ5EuQD5uOb2hCTCoRYMsBPDVnf8zMnY0MoTlBMy6btpoPhgqxqalpbk3RME
+ Q7iKOhK5105v/wty7oZxvaVN89jC0dgdm8rKrxtQrr82xbfp4HdQgAJfVn0X6jAv5O39
+ 69X1+foQumGaVUk2EdQIcWZivAN+8oBKyCMo+9sLdEuFLJhMWkWUPNIhzQ8LIJE+ms6c
+ z+2pc2upnoCUbuJMDXU5YfDCjgkgIlWbvYpxhDyvhWaNlqLjhRl+VrRh7OE+jtBfcTSY
+ wEpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gV9Cvlo7ft4KghRJ8ZPgxvTZ4fIVH8yA6Q+ea3wVuzI=;
- b=bvCiQ9SWw2Iq+HKyWl3ilhBJ55gQK0pNkb6bXDuX8HtPORjaydH8Y1UsdPMFso1Ktl
- wKHgjCsQTkcKKP5sruhVYd18G21XOdig6fnKmWjt55RdbmsdTGSsdLWg/jglYrTqkOsy
- ci5sblCq8WMJ365+cwTzE0vlVMWtbhxgnv9v34siGJejJVrmydSYuU+JrrqdVlE2xLps
- 2LhNNsrGaOeKjlw1jwxrOk27InsqnT2482fnDUsnYsWsn3FpZBI/4s01WKAiGWg0xPus
- ESL/apRNMH/ZjUhIPBRFyrrfIceUypT8hCQO4bbYoyIGKNP1HrCibmBzh3RLXrxg3+SS
- sN/Q==
-X-Gm-Message-State: AOAM530GQ3R/A9vpn7xp/VwWA5zQB51X+velEUbkJumG+N9a1OU8HOEb
- 3ihs4ryNZFoQNptS9iFDsCaNOiVKJt6jZQ==
-X-Google-Smtp-Source: ABdhPJx4uBsLIPWwG5IX9pRwq5fYlszspY/vY5MaIIM5PuKp/CK53dhC4MK2SJu5tlBYATqc/Ha2EA==
-X-Received: by 2002:a05:6a00:b92:b0:4f1:4b2:737f with SMTP id
- g18-20020a056a000b9200b004f104b2737fmr33070701pfj.31.1646226284529; 
- Wed, 02 Mar 2022 05:04:44 -0800 (PST)
+ bh=w6vJJZnIY85L3jAtHIirBP3LY7sd1XHw2yIyuchY+w0=;
+ b=IhNDtslVjXQ3RiYhzIpqxurWAUFNj1o55sMkzmoM0jFYA5Sn3t5r2Es93sMVOZq9Ve
+ 6GPDcHHCdSEPeh7k2ZKl32qJFnaOaVXLfBjd6+oOm7LqfX6hqnaSw8QpanPLonyREaky
+ 726iTQhNLUT3rNcotfKviUKxsP3g9ViNUm9OXzhgqNmNFSzcGx6QdlbUc9fDYR0dxkPS
+ Nr9KjnaXWmLm9yRXVyCnWRi0QL6s3mwHsgPpMVxDCVYJoO3YS3RNvgfugdwYOofJs9ka
+ BYj7T87knWAINrbaj1qVujHKWjoJxgTQ3L7gkyOcrc5leywWefFxHa80LVmF6A3Tzaxh
+ MsEA==
+X-Gm-Message-State: AOAM532c8k4fVZE2IJTdr0MX1J9NJMCNlkyw6u1WKSwazUVLSekCHlol
+ kmk4zrGkzA4DZNYkK75DAk9Q34LeywxmHQ==
+X-Google-Smtp-Source: ABdhPJzbAVbsLwKlHELq6e1aq/H8F1nximBK77026wR86Yh+YV/6DDXSM/8VeOleoNnW06u1kX3Vwg==
+X-Received: by 2002:a05:6a00:140b:b0:4e1:2cbd:30ba with SMTP id
+ l11-20020a056a00140b00b004e12cbd30bamr33012871pfu.46.1646226286584; 
+ Wed, 02 Mar 2022 05:04:46 -0800 (PST)
 Received: from localhost.localdomain
  (2001-b011-e000-59d7-a02b-4f1b-c415-11a0.dynamic-ip6.hinet.net.
  [2001:b011:e000:59d7:a02b:4f1b:c415:11a0])
  by smtp.gmail.com with ESMTPSA id
- l13-20020a056a00140d00b004e13da93eaasm21947964pfu.62.2022.03.02.05.04.42
+ l13-20020a056a00140d00b004e13da93eaasm21947964pfu.62.2022.03.02.05.04.44
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 02 Mar 2022 05:04:44 -0800 (PST)
+ Wed, 02 Mar 2022 05:04:46 -0800 (PST)
 From: Yan-Jie Wang <ubzeme@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/9] hvf: use GTree to store memory slots instead of
- fixed-size array
-Date: Wed,  2 Mar 2022 21:04:15 +0800
-Message-Id: <20220302130417.18551-8-ubzeme@gmail.com>
+Subject: [PATCH v3 8/9] hvf: only consider directly writeable memory regions
+ for dirty-tracking
+Date: Wed,  2 Mar 2022 21:04:16 +0800
+Message-Id: <20220302130417.18551-9-ubzeme@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 In-Reply-To: <20220302130417.18551-1-ubzeme@gmail.com>
 References: <20220302130417.18551-1-ubzeme@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=ubzeme@gmail.com; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=ubzeme@gmail.com; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,137 +95,33 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, there are only 32 memory slots in the fixed size array.
-It is not scalable. Instead of using fixed size array, use GTree
-(from glib library) and dynamically-allocated structures to store
-memory slots.
+It is no need to dirty-track MMIO regions or other readonly regions.
+
+Before we start or stop to dirty-track a memory region, check the type of
+the memory region. The region must be a writeable ram to be dirty-tracked.
 
 Signed-off-by: Yan-Jie Wang <ubzeme@gmail.com>
 ---
- accel/hvf/hvf-mem.c | 63 +++++++++++++++++++++++----------------------
- 1 file changed, 32 insertions(+), 31 deletions(-)
+ accel/hvf/hvf-mem.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/accel/hvf/hvf-mem.c b/accel/hvf/hvf-mem.c
-index 081029ba98..2f70ceb307 100644
+index 2f70ceb307..60ece20eb4 100644
 --- a/accel/hvf/hvf-mem.c
 +++ b/accel/hvf/hvf-mem.c
-@@ -28,8 +28,6 @@
- 
- /* Memory slots */
- 
--#define HVF_NUM_SLOTS 32
--
- /* HVFSlot flags */
- #define HVF_SLOT_LOG (1 << 0)
- #define HVF_SLOT_READONLY (1 << 1)
-@@ -42,35 +40,24 @@ typedef struct HVFSlot {
-     MemoryRegion *region;
- } HVFSlot;
- 
--static HVFSlot memslots[HVF_NUM_SLOTS];
-+static GTree *memslots;
- static QemuMutex memlock;
- 
- static HVFSlot *hvf_find_overlap_slot(hwaddr start, hwaddr size)
+@@ -180,6 +180,12 @@ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
  {
--    HVFSlot *slot;
--    int x;
--    for (x = 0; x < HVF_NUM_SLOTS; ++x) {
--        slot = &memslots[x];
--        if (slot->size && start < (slot->start + slot->size) &&
--            (start + size) > slot->start) {
--            return slot;
--        }
--    }
--    return NULL;
-+    HVFSlot key = {.start = start, .size = 1};
-+    return g_tree_lookup(memslots, &key);
- }
+     HVFSlot *slot;
  
--static HVFSlot *hvf_find_free_slot(void)
-+static void hvf_insert_slot(HVFSlot *slot)
- {
--    HVFSlot *slot;
--    int x;
--    for (x = 0; x < HVF_NUM_SLOTS; x++) {
--        slot = &memslots[x];
--        if (!slot->size) {
--            return slot;
--        }
--    }
-+    g_tree_insert(memslots, slot, slot);
-+}
- 
--    return NULL;
-+static bool hvf_remove_slot(hwaddr start)
-+{
-+    HVFSlot key = {.start = start, .size = 1};
-+    return g_tree_remove(memslots, &key);
- }
- 
- /*
-@@ -141,9 +128,7 @@ static void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
-         readonly = memory_region_is_rom(area) || memory_region_is_romd(area);
- 
-         /* setup a slot */
--        qemu_mutex_lock(&memlock);
--
--        slot = hvf_find_free_slot();
-+        slot = g_new0(HVFSlot, 1);
-         if (!slot) {
-             error_report("No free slots");
-             abort();
-@@ -170,6 +155,10 @@ static void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
-             flags = HV_MEMORY_READ | HV_MEMORY_WRITE | HV_MEMORY_EXEC;
-         }
- 
-+        qemu_mutex_lock(&memlock);
-+
-+        hvf_insert_slot(slot);
-+
-         ret = hv_vm_map(host_addr, start, size, flags);
-         assert_hvf_ok(ret);
- 
-@@ -178,13 +167,9 @@ static void hvf_set_phys_mem(MemoryRegionSection *section, bool add)
-         /* remove memory region */
-         qemu_mutex_lock(&memlock);
- 
--        slot = hvf_find_overlap_slot(start, size);
--
--        if (slot) {
-+        if (hvf_remove_slot(start)) {
-             ret = hv_vm_unmap(start, size);
-             assert_hvf_ok(ret);
--
--            slot->size = 0;
-         }
- 
-         qemu_mutex_unlock(&memlock);
-@@ -310,8 +295,24 @@ bool hvf_access_memory(hwaddr address, bool write)
-     return true;
- }
- 
-+/* compare function for GTree */
-+static gint _hvf_slot_compare(gconstpointer a, gconstpointer b, gpointer data)
-+{
-+    const HVFSlot *m1 = (const HVFSlot *)a;
-+    const HVFSlot *m2 = (const HVFSlot *)b;
-+
-+    if (m2->start >= m1->start + m1->size) {
-+        return -1;
-+    } else if (m1->start >= m2->start + m2->size) {
-+        return 1;
++    if (!memory_region_is_ram(section->mr) ||
++        memory_region_is_rom(section->mr)) {
++        /* do not consider memory regions which are not directly writeable */
++        return;
 +    }
 +
-+    return 0;
-+}
-+
- void hvf_init_memslots(void)
- {
-     qemu_mutex_init(&memlock);
-+    memslots = g_tree_new_full(_hvf_slot_compare, NULL, g_free, NULL);
-     memory_listener_register(&hvf_memory_listener, &address_space_memory);
- }
+     qemu_mutex_lock(&memlock);
+ 
+     slot = hvf_find_overlap_slot(
 -- 
 2.32.0 (Apple Git-132)
 
