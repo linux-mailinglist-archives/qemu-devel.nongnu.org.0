@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44764CB09D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:03:24 +0100 (CET)
-Received: from localhost ([::1]:57366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E649A4CB0A8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 22:08:52 +0100 (CET)
+Received: from localhost ([::1]:41814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPW84-000521-10
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:03:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43254)
+	id 1nPWDM-0005Mf-1C
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 16:08:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxd-0005ce-Vx
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:39 -0500
-Received: from [2a00:1450:4864:20::333] (port=42940
- helo=mail-wm1-x333.google.com)
+ id 1nPVxh-0005e5-Cb
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:41 -0500
+Received: from [2a00:1450:4864:20::429] (port=33662
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPVxb-00085N-Q0
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:37 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- r187-20020a1c2bc4000000b003810e6b192aso2053457wmr.1
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:35 -0800 (PST)
+ id 1nPVxf-00086L-F7
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 15:52:41 -0500
+Received: by mail-wr1-x429.google.com with SMTP id j17so4743877wrc.0
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 12:52:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FAP8anOWorF+Rmm2oJQLE0W4TFL2c2lUXLkzNZ7iIa4=;
- b=oLPlWkwxfJty/dbg5PY7plwC6PrBCHm10kp91hOkYV9bOXdk0RNEhGgq5HV3m1WeSk
- 3lPcTTRzAtVrng4n/aDD2M8/R2HHheM4zDki0bg7iQP+sW7EiilOvsmAdm+mxrtcZ5gS
- UdqSg81jCCUAuUIT5/5eWqOm4HJ5INY/C0tNiz8RPBMV3XgG1mclrZQizwpIQlymPtPE
- nJFKbUGCLUjyQwDD97v6Jr0bHTdY4XNLQIDfUBDzHCkF0G/2zmxDC8slJFypWZaf1Ytb
- g19EB42s4ltfvWqJ5Cn1HmXlp0iQIbTHLOCWdsO3f5nEu+e+xbHbkiFWIAysC8nd3os+
- oYIA==
+ bh=uceZrm8t+0Mt9tyMwvyRcCiMhGjKSU6WwAbSSYwHPe8=;
+ b=I0hN8BxKNuU+DNvcCTEkkqBPRvIeneOgTeEDXjvHAlPaUwBD+1vYRnV4apNFhmej8A
+ 7JgDysY7nFsrGLpvk64M3NKk7oNSAJZIGZ4D1Ef7xTx1YiX6GzrwO2Ya6picMfZy7w+e
+ maAJlUAsScYETEsQJRyRqB2LRA1/Wq7ouny1lxBIrsCi3SxepSoESifRbx4ioJmiXDW0
+ RM5ndXVkZp/tJEXIGNiIK2dYtKbDf2/0yBWbbwVT47b+L7FHYBmVrOmzMWchT1oQ1FOU
+ Dijj4ij1EBSmFIG7DoEnqDSiMJiGJmWLuiu0q84RXno6h+ZwttU9c7tyEXqFeO8VOhYu
+ /ZHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FAP8anOWorF+Rmm2oJQLE0W4TFL2c2lUXLkzNZ7iIa4=;
- b=kkeiCZ4Uki5NsyQ9WzxQDFDTW+kDv2xC2lonpsNvVU37pfdeYqiEyt1I1Cm5qU5OhX
- 4K/YYo2gy1YvdlV82HdSpH83nW5wdhdFtmbY8+p6AIbQbCgzSx7zyPd3xmgelcR/Nrsu
- nJfMCw8CHRgPXPg7PLLZiI3YRNYLkPt4ktClIGpfjzVbhpFuK3alMUHhMERR51JKaMan
- Cn5YbJk79nsSMYzb7UtONu4lLk8uR3NHfkq9wztYl4/auI1KVLizD2fq4H5W3yo6Ow+Y
- Np+CeRYDo0RttQGqn+K6KmJxLMR5gAZKSwM1n46YQIqGiVpsWNq6Q61GqD5v/tjiFn31
- GlIw==
-X-Gm-Message-State: AOAM532KJW9Fq9mJwY+QK8ODlaW1hWk+s2Rlj4dM2oVhz5wmJdAEKYmb
- 68TX18cHlJxZr6aps0UYkApoTSckHZULXg==
-X-Google-Smtp-Source: ABdhPJyZwF3KWxqWOxnroNqhYwR19Y3Z81UywGGCXk8rJYfcpWQQapn2kG6DDYaIT+i5ynKRvI8XMQ==
-X-Received: by 2002:a1c:2544:0:b0:381:18a:a46d with SMTP id
- l65-20020a1c2544000000b00381018aa46dmr1338590wml.26.1646254354529; 
- Wed, 02 Mar 2022 12:52:34 -0800 (PST)
+ bh=uceZrm8t+0Mt9tyMwvyRcCiMhGjKSU6WwAbSSYwHPe8=;
+ b=SHRfKqRNRXmJsi4bPZ8Jx5RNnLN9/EWnXgAfCvNo57BeX0gmCPkWNecm9NVGdVYW6o
+ VR0PkKjUW2Xy0ZKbFbO+DWvtxpQFs0TqkufGstqW6XMX6zYVUUbSQub5zHzQoDdhNdNP
+ sWcfM0YTWH1LkhxttuOt8LK5rPGbTxKUZ07wYROQSu2Xn+6wyPJS8y+cxHamv4Rg3OQN
+ XGtBgVp6WMSF+nYO/BcGm1GevLRIcK6i0xOc8G3+K18y0k9es2n4kqZKyQ1XqncKi1IX
+ iCyDp0of0iC+MgbG1vVD1PV8zL0ieFwEzY63jrNWFWP9sgg8IJwyytV7jl/HcQa1cHUz
+ qa8g==
+X-Gm-Message-State: AOAM533eWq3t9jt6DldXycdDYt2brR7IQFACl7yxFGslshVioMUyimzX
+ FipykxWyq9uSVxmJz+bz/cWAzp6tu5f6iQ==
+X-Google-Smtp-Source: ABdhPJwhjop5EkefX9CVFNv7TtP5NQmPMRIzQtZFJp6pN2gWJEuYwTf73kOVw4czmrPvo8z/USIVCA==
+X-Received: by 2002:a5d:628d:0:b0:1ed:f981:ccc with SMTP id
+ k13-20020a5d628d000000b001edf9810cccmr23450314wru.616.1646254358145; 
+ Wed, 02 Mar 2022 12:52:38 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.33
+ x13-20020adfec0d000000b001e31279cc38sm90801wrn.11.2022.03.02.12.52.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 12:52:34 -0800 (PST)
+ Wed, 02 Mar 2022 12:52:37 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/26] hw/arm/mps2-tz.c: Update AN547 documentation URL
-Date: Wed,  2 Mar 2022 20:52:06 +0000
-Message-Id: <20220302205230.2122390-3-peter.maydell@linaro.org>
+Subject: [PULL 06/26] target/arm: Fix early free of TCG temp in
+ handle_simd_shift_fpint_conv()
+Date: Wed,  2 Mar 2022 20:52:10 +0000
+Message-Id: <20220302205230.2122390-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220302205230.2122390-1-peter.maydell@linaro.org>
 References: <20220302205230.2122390-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,31 +93,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AN547 application note URL has changed: update our comment
-accordingly. (Rev B is still downloadable from the old URL,
-but there is a new Rev C of the document now.)
+From: Wentao_Liang <Wentao_Liang_g@163.com>
 
+handle_simd_shift_fpint_conv() was accidentally freeing the TCG
+temporary tcg_fpstatus too early, before the last use of it.  Move
+the free down to where it belongs.
+
+Signed-off-by: Wentao_Liang <Wentao_Liang_g@163.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+[PMM: cleaned up commit message]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220221094144.426191-1-peter.maydell@linaro.org
 ---
- hw/arm/mps2-tz.c | 2 +-
+ target/arm/translate-a64.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index e287ad4d06b..4017392bf5a 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -32,7 +32,7 @@
-  * Application Note AN524:
-  * https://developer.arm.com/documentation/dai0524/latest/
-  * Application Note AN547:
-- * https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/DAI0547B_SSE300_PLUS_U55_FPGA_for_mps3.pdf
-+ * https://developer.arm.com/documentation/dai0547/latest/
-  *
-  * The AN505 defers to the Cortex-M33 processor ARMv8M IoT Kit FVP User Guide
-  * (ARM ECM0601256) for the details of some of the device layout:
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 5a1df25f91e..d1a59fad9c2 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -9045,9 +9045,9 @@ static void handle_simd_shift_fpint_conv(DisasContext *s, bool is_scalar,
+         }
+     }
+ 
+-    tcg_temp_free_ptr(tcg_fpstatus);
+     tcg_temp_free_i32(tcg_shift);
+     gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++    tcg_temp_free_ptr(tcg_fpstatus);
+     tcg_temp_free_i32(tcg_rmode);
+ }
+ 
 -- 
 2.25.1
 
