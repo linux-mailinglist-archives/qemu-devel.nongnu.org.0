@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B241B4C9AB3
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 02:49:47 +0100 (CET)
-Received: from localhost ([::1]:37572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930B54C9AD8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 03:02:43 +0100 (CET)
+Received: from localhost ([::1]:56780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPE7e-0006Qw-QA
-	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 20:49:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57364)
+	id 1nPEKA-00034w-MK
+	for lists+qemu-devel@lfdr.de; Tue, 01 Mar 2022 21:02:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nPE6N-0005Km-2z
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:48:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45546)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nPE6E-0000Qh-Gh
- for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:48:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646185697;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d9h2jL0gaZ7x46yFFZzdH7DpfM/qByFdhGN1+1tT0jE=;
- b=BxyP4pJXhZnvKLhokSTwNudSo8CmSej568COL4baUXcLCYNSCWjLQzrad4BSk+jjMxOImd
- +h1fWZ7UqE3Sl1GVhPKriywRDOfB1+PMYXTGbUUbuxU5GqkkJuUctTzG+r6gRl8GN/W36T
- zmv+vodJ2uDbVDychpD/GOZCOmADfw4=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-ZCNAeNvUP_CUc4inOCqc0g-1; Tue, 01 Mar 2022 20:48:15 -0500
-X-MC-Unique: ZCNAeNvUP_CUc4inOCqc0g-1
-Received: by mail-pj1-f70.google.com with SMTP id
- x17-20020a17090ab01100b001bbffb2c5f3so2386367pjq.9
- for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 17:48:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <3hM0eYgYKCrEkZkljiXffXcV.TfdhVdl-UVmVcefeXel.fiX@flex--titusr.bounces.google.com>)
+ id 1nPEG8-0000XN-O8
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:58:32 -0500
+Received: from [2607:f8b0:4864:20::114a] (port=45476
+ helo=mail-yw1-x114a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3hM0eYgYKCrEkZkljiXffXcV.TfdhVdl-UVmVcefeXel.fiX@flex--titusr.bounces.google.com>)
+ id 1nPEG7-0008CW-Bp
+ for qemu-devel@nongnu.org; Tue, 01 Mar 2022 20:58:32 -0500
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-2d07ae11467so1721357b3.12
+ for <qemu-devel@nongnu.org>; Tue, 01 Mar 2022 17:58:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=myjcARcgVaqRTXq5PFEdPinnf6fzxQhBTPRXxxbCglI=;
+ b=JeH/9ng8GA7ZvJ8ePu6jO5j7DsVnzv/sae0wSe6gSWirvRuY1XWLE2mXSmGNW0rvan
+ G7IUa1+WVhRbCkoOinLPK8OY/zUwuMLClteSFqARE4ipqOGv3ght+rQUfxJnNcFyw6O0
+ ShZ7TF8wsmC8TlUQ3Z4CqpmHTD4ZLB6XvAoFvbGt2fc69Upu0RNjqHl4wRuxIlXVqYLR
+ z6XNKNRdsTqNqTCATlStgBt5h9qAy1pFfWMve8flCE9eDZ0W9rR2lO4rjrSoYosfAx8g
+ xor3NXHCAiKZItY6VqS2o8RmfuzxDgD/y7FrhzdXbBapPmYi7aQ36AajkiCgY9MbgOuT
+ LVCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=d9h2jL0gaZ7x46yFFZzdH7DpfM/qByFdhGN1+1tT0jE=;
- b=ywOctIv8tGrIvK1ECAs/2bLGLI2Kbmw5BforNq+485QqNB17gD02/OxKHU0whT5iy5
- QRciFrN2hTe1FdPoVb4+mZX5ag/WrxmXvu6omHQDLN7C7w/dpQt4rq2r2toyO8Vfr0CP
- d7IbC/4qUU3pBuhDSjvklzk+TqvweA6kTpIN6/rFxbGRdBrpHUBdJ0sNP27CDm7qu76b
- zU3g/H+WTGc3JtvV+WM2xjh7tkgHwucjya+B/taEF5fWXX0ftrKjR0TQMZxiPCakogyr
- mnZSTlQhgJdFQWgfQm4adTNpik5BBXCdHlntoL/M4kY1iY9wVPBqj/W6oGC+GpdyeP4e
- nvvw==
-X-Gm-Message-State: AOAM5308EfDWVl/bxsZQZgNd/+e9Gjc0h+gOPSHzqq0BTDYWIvudXqTI
- sujycjIyC9nohcUKwkPWPv0UdtNLxt7SgqdoB/JpIc+1dR1SLDJIh3mUnp58WPdD0+tu+DNCK63
- QMVmz+ecxjY/+0FU=
-X-Received: by 2002:a62:fb0d:0:b0:4f1:a584:71f with SMTP id
- x13-20020a62fb0d000000b004f1a584071fmr30731871pfm.2.1646185688836; 
- Tue, 01 Mar 2022 17:48:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwXcyNNSYJ9yPeDX5XdLLMQMwVKJskw10luCelhbhpavAc8rseKSUBaLp6ZdttvCjnVPCAdcQ==
-X-Received: by 2002:a62:fb0d:0:b0:4f1:a584:71f with SMTP id
- x13-20020a62fb0d000000b004f1a584071fmr30731858pfm.2.1646185688546; 
- Tue, 01 Mar 2022 17:48:08 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.101]) by smtp.gmail.com with ESMTPSA id
- b1-20020a630c01000000b003758d1a40easm13819566pgl.19.2022.03.01.17.48.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Mar 2022 17:48:08 -0800 (PST)
-Date: Wed, 2 Mar 2022 09:48:02 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 00/25] migration: Postcopy Preemption
-Message-ID: <Yh7M0kw4Jl6YjcCL@xz-m1.local>
-References: <20220301083925.33483-1-peterx@redhat.com>
- <Yh3mo5VFQ3gT1Gd7@redhat.com> <Yh3yzbmOqAVV9iM9@xz-m1.local>
- <Yh30/nPtWyvqp8xo@redhat.com> <Yh37hLn5Dlffm13P@xz-m1.local>
- <Yh5gfqvUktw+krlt@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <Yh5gfqvUktw+krlt@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=myjcARcgVaqRTXq5PFEdPinnf6fzxQhBTPRXxxbCglI=;
+ b=6r6si6UY7yQJN10ZfSXIoOS9Jq3pcss4SP+tc2GV0VbHasQhNrB4khJTu6EHcJEuIG
+ FIf2mLebiT+gX8CQXxPSbYc2MFd4abRLAxCDmqMzgH0Gk+ABonOF5j8xfXzc5S+ft06c
+ 9QpZ4X3G7KIiDXt36kPB3qEXQZ15fXSUKVX9rL+GiKh1myPRWmNnGKMBoR8QnM14BvHc
+ AcAN/CqnSjAqr+DNGeJSEL5k0jorzhbTVnYg35bAAxEhuIlhdgPPXaPU5OPp/4kNaPjJ
+ u0uj1Iqu4Mr9baS6mspEJFceFo2yv+PKUcTs9ed7ep8TwiEEiCavqV1lw7Ht6rIOwCuZ
+ sBhQ==
+X-Gm-Message-State: AOAM530gxEGjhoru7yAMloJk9m4h//Jsua5LRdYWjS/LBe/l4aottZiz
+ sSQgslSlZM8rAY8sJn7ZJA1mzVhpgYA=
+X-Google-Smtp-Source: ABdhPJy6mJ8k3C8u4CjMjxLZbvquEzaO0uzIawC6YOFHjDq0aFJjwTdBOtVQMA+tSE7SbIzTw22k1jzRSdQ=
+X-Received: from titusr.svl.corp.google.com
+ ([2620:15c:2a3:201:3a0a:5449:c096:dc84])
+ (user=titusr job=sendgmr) by 2002:a25:8c86:0:b0:628:a042:9529 with SMTP id
+ m6-20020a258c86000000b00628a0429529mr433572ybl.231.1646185860876; Tue, 01 Mar
+ 2022 17:51:00 -0800 (PST)
+Date: Tue,  1 Mar 2022 17:50:44 -0800
+Message-Id: <20220302015053.1984165-1-titusr@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
+Subject: [PATCH v3 0/9] This patch series contains updates to PMBus in QEMU
+ along with some PMBus device models for Renesas regulators. I have also added
+ myself to MAINTAINERS as this code is in use daily, where I am responsible
+ for it.
+From: Titus Rwantare <titusr@google.com>
+To: Corey Minyard <minyard@acm.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org, 
+ wuhaotsh@google.com, venture@google.com, peter.maydell@linaro.org, 
+ Titus Rwantare <titusr@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::114a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::114a;
+ envelope-from=3hM0eYgYKCrEkZkljiXffXcV.TfdhVdl-UVmVcefeXel.fiX@flex--titusr.bounces.google.com;
+ helo=mail-yw1-x114a.google.com
+X-Spam_score_int: -81
+X-Spam_score: -8.2
+X-Spam_bar: --------
+X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,27 +91,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 01, 2022 at 06:05:50PM +0000, Daniel P. Berrangé wrote:
-> On Tue, Mar 01, 2022 at 06:55:00PM +0800, Peter Xu wrote:
-> > On Tue, Mar 01, 2022 at 10:27:10AM +0000, Daniel P. Berrangé wrote:
-> > So what I'm curious is why TLS is getting quite some attentions in the past
-> > few years but I didn't even see any selftests included in migration-test on
-> > tls.  That's something I wanted to look into, maybe even before adding the
-> > preempt+tls support. But maybe I just missed something, as I didn't use tls
-> > a lot in the past.
-> 
-> I'm going to send some patches for adding TLS to migration-test
+v2:
+  - split PMBus commit with updates into individual fixes
+  - renamed isl_pmbus[.ch] adding _vr for voltage regulators
 
-That's great.  Please feel free to copy me, I can probably work the
-preempt+tls upon, thanks.
+v3:
+  - split uint refactor commit and removed commit renaming files
+  - rename rolled into preceding commits
+  - update commit description for uint refactoring change
+
+Shengtan Mao (1):
+  hw/i2c: Added linear mode translation for pmbus devices
+
+Titus Rwantare (8):
+  hw/i2c: pmbus: add registers
+  hw/i2c: pmbus: guard against out of range accesses
+  hw/i2c: pmbus: add PEC unsupported warning
+  hw/i2c: pmbus: refactor uint handling
+  hw/i2c: pmbus: update MAINTAINERS
+  hw/sensor: add Intersil ISL69260 device model
+  hw/sensor: add Renesas raa229004 PMBus device
+  hw/sensor: add Renesas raa228000 device
+
+ MAINTAINERS                      |  13 +
+ hw/arm/Kconfig                   |   1 +
+ hw/i2c/pmbus_device.c            | 106 ++++++-
+ hw/sensor/Kconfig                |   5 +
+ hw/sensor/isl_pmbus_vr.c         | 279 ++++++++++++++++++
+ hw/sensor/meson.build            |   1 +
+ include/hw/i2c/pmbus_device.h    |  23 +-
+ include/hw/sensor/isl_pmbus_vr.h |  52 ++++
+ tests/qtest/isl_pmbus_vr-test.c  | 474 +++++++++++++++++++++++++++++++
+ tests/qtest/meson.build          |   1 +
+ 10 files changed, 944 insertions(+), 11 deletions(-)
+ create mode 100644 hw/sensor/isl_pmbus_vr.c
+ create mode 100644 include/hw/sensor/isl_pmbus_vr.h
+ create mode 100644 tests/qtest/isl_pmbus_vr-test.c
 
 -- 
-Peter Xu
+2.35.1.616.g0bdcbb4464-goog
 
 
