@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE23A4CA64A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:49:36 +0100 (CET)
-Received: from localhost ([::1]:48726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E829F4CA6C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:56:30 +0100 (CET)
+Received: from localhost ([::1]:33958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPPMF-0007DW-VX
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:49:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48428)
+	id 1nPPSv-0008Du-IJ
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:56:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPO7E-0000TN-Ap
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:30:00 -0500
-Received: from [2607:f8b0:4864:20::b36] (port=42812
- helo=mail-yb1-xb36.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPO7C-00016v-Mv
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:29:59 -0500
-Received: by mail-yb1-xb36.google.com with SMTP id f5so2983322ybg.9
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 04:29:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Nhm9oD3n5qmfahefXmVTgi6LkffTknx2hqFEXijf4a4=;
- b=QE0s2qcNyO1UmhydFEn/J8buLTqtB3PRwXSzhNq0pqKXzaf3fxGlilBDlfUSsl5q9v
- d+JP4roaF1R6p+h+LGg0BD0j/X9hIyWNF0He2pxtG36zceT7csgngInWtgvTZejLojGY
- 3nu6aIooA10WGWdg6lGGjLbEs21dblILsRP86Vacj3qo+8Q4mYeEx2u025NVG99OM56O
- kq+EMSBCraun6aRp8fifxlyyxAm+Lh9TDv/SXJRzzUgyWkIUUfFUfdnM3HD+7WdIz9kV
- 3BBOwJ8ovB1Rmvp4EZSEApmHGJbqCq6lafJNst43Trw8vU+plPs6MQzCcV48LEwOb75i
- X95Q==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nPOBg-00063o-E6
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:34:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57608)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nPOBe-0002Rm-Ha
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:34:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646224474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xswrpCozDA0Gf0v3IIdvbuKcM1k7rGLTeQWwUU9ASug=;
+ b=IHet5oKRADpR4WrcsXj0hq2C+VN3IzOy1jacVfQFlMlP7vMtW5XLZOsmeInLc9GqB/Dz7T
+ LYQlr7IEucf08gHDgRZaj0VazgOitpdnBb3dzHGb/PZEY0ji0jo/gjC9MNCaPwsx9+/32b
+ 9Y1kR9IG0+eaqRrOuwGvO/uckCkI2kE=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-367-5GBf6SvjNFmAP7JlHoEPrQ-1; Wed, 02 Mar 2022 07:34:32 -0500
+X-MC-Unique: 5GBf6SvjNFmAP7JlHoEPrQ-1
+Received: by mail-pf1-f199.google.com with SMTP id
+ x128-20020a626386000000b004f65834af08so639368pfb.7
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 04:34:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Nhm9oD3n5qmfahefXmVTgi6LkffTknx2hqFEXijf4a4=;
- b=ceW/zh8vLpHJtnTWPociJjB/xUP+l/BLrtaZkz4se8DInkmCUqP9gNN33uwlyjeC/X
- Hlyx4Dyl1wfWfke5dc7NCOxEuGJH0nt5RjacKxutZuLpIJrD3jHOJIF3bA2meQk42lnb
- bATesHJpmQGLBk+3wiIDfFcrynKB1E7jLXwkZJvYRgTdWCwc4OQWuSRowyEn9CmNpP+4
- wPZc7z0Z+CDKI3uP/+hxk2h3dJ3M3e3azdnR6A6MYim8ChsWTfWnW8qX4GWX4EgBsFmi
- j0I8v6NII+190OXpUw/GCZRvyeixguzXry9IkICIQB/BD2hO9HKs6ZrKH706ucPWkYBE
- v3wA==
-X-Gm-Message-State: AOAM533c8bQGklPJBIf0Q5ArKllulbja9uw3Lzhbm6nM+edeIZE5G5Bw
- b+z/phojpQC0/atHdVulgkGhq5J4KRYPZBUcKl7Ogw==
-X-Google-Smtp-Source: ABdhPJzYGr19ZlraWZuZTtN94KQ54o3uUyLrQXWeEwfvkDD+zUCGaQaovqTK5FkG7Z/GUP1qfM0rNwzRyB/Hzb019ls=
-X-Received: by 2002:a25:6e84:0:b0:628:97de:9430 with SMTP id
- j126-20020a256e84000000b0062897de9430mr4111637ybc.288.1646224197848; Wed, 02
- Mar 2022 04:29:57 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=xswrpCozDA0Gf0v3IIdvbuKcM1k7rGLTeQWwUU9ASug=;
+ b=F43BdqMZarSgOWTR3iOxK2Wk7ZtAyRScNGeabfDXS5kbo79Y/EzG9hsbVo4QHrYkNK
+ aRRr+eFZnwcdyNWDu5QWivnJRa+qxprpfFAWaKW+85g2DujjjHeoK0h7A61BVndqxWpZ
+ uc7PiOlf8OpHlJLI7T0/Vd+QV9puX72Nn7rsYq/6Fcez9610YZ8BnVBGGC9M2a+Fmcbd
+ YsIxk+UK1fqyQCfHTvAS68EcFdYzmt6pEwyd0mENauc96B0PzvPejAM6bf782SwYLn0B
+ gFYvhORY9qITgZpI6XzyhAIsfC8ziE77eTcA7sCrU0Uh6rWcfJDgFa5lUWhXD0uuQK1v
+ 47dQ==
+X-Gm-Message-State: AOAM533aPJxCJbk4Odc+xoxh1xkg1Ajs+ugK9RhAkNPYL8n5GABzVcmh
+ Hra682/sXvNeKzP9EijQt7DOj1usANG69Y46XybFcSqK1HMoOgvE7iepmR53MhRdb/3ZF2dsnnk
+ 0GmfT8l1z3eJtRw0=
+X-Received: by 2002:a17:902:db05:b0:151:61c0:a3c2 with SMTP id
+ m5-20020a170902db0500b0015161c0a3c2mr16477442plx.38.1646224471525; 
+ Wed, 02 Mar 2022 04:34:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxS4CRevGyhMRYJSIKGi8yMpJ1y6DfnMQTkWj1givGswpOrPq3Df7AX+/ZcyCI3JAl5KEbo6g==
+X-Received: by 2002:a17:902:db05:b0:151:61c0:a3c2 with SMTP id
+ m5-20020a170902db0500b0015161c0a3c2mr16477416plx.38.1646224471174; 
+ Wed, 02 Mar 2022 04:34:31 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.101]) by smtp.gmail.com with ESMTPSA id
+ u11-20020a056a00124b00b004e11307f8cdsm20325705pfi.86.2022.03.02.04.34.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Mar 2022 04:34:30 -0800 (PST)
+Date: Wed, 2 Mar 2022 20:34:24 +0800
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 00/25] migration: Postcopy Preemption
+Message-ID: <Yh9kUIKFJoE3vpGi@xz-m1.local>
+References: <20220301083925.33483-1-peterx@redhat.com>
+ <Yh9fpg0AMdL5sPXd@work-vm>
 MIME-Version: 1.0
-References: <20220302083308.820072-1-clg@kaod.org>
-In-Reply-To: <20220302083308.820072-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 2 Mar 2022 12:29:46 +0000
-Message-ID: <CAFEAcA8V+Jc4eXF+CYay_OoSrZPj7yTGFiGL0omt7+0D-0GQ8w@mail.gmail.com>
-Subject: Re: [PATCH] aspeed: Fix a potential memory leak bug in
- write_boot_rom()
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b36
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <Yh9fpg0AMdL5sPXd@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,31 +96,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wentao_Liang <Wentao_Liang_g@163.com>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Mar 2022 at 08:33, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> From: Wentao_Liang <Wentao_Liang_g@163.com>
->
-> A memory chunk is allocated with g_new0() and assigned to the variable
-> 'storage'. However, if the branch takes true, there will be only an
-> error report but not a free operation for 'storage' before function
-> returns. As a result, a memory leak bug is triggered.
->
-> Use g_autofree to fix the issue.
->
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Wentao_Liang <Wentao_Liang_g@163.com>
-> [ clg: reworked the commit log ]
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+On Wed, Mar 02, 2022 at 12:14:30PM +0000, Dr. David Alan Gilbert wrote:
+> * Peter Xu (peterx@redhat.com) wrote:
+> > This is v2 of postcopy preempt series.  It can also be found here:
+> > 
+> >   https://github.com/xzpeter/qemu/tree/postcopy-preempt
+> > 
+> > RFC: https://lore.kernel.org/qemu-devel/20220119080929.39485-1-peterx@redhat.com
+> > V1:  https://lore.kernel.org/qemu-devel/20220216062809.57179-1-peterx@redhat.com
+> 
+> I've queued some of this:
+> 
+> tests: Pass in MigrateStart** into test_migrate_start()
+> migration: Add migration_incoming_transport_cleanup()
+> migration: postcopy_pause_fault_thread() never fails
+> migration: Enlarge postcopy recovery to capture !-EIO too
+> migration: Move static var in ram_block_from_stream() into global
+> migration: Add postcopy_thread_create()
+> migration: Dump ramblock and offset too when non-same-page detected
+> migration: Introduce postcopy channels on dest node
+> migration: Tracepoint change in postcopy-run bottom half
+> migration: Finer grained tracepoints for POSTCOPY_LISTEN
+> migration: Dump sub-cmd name in loadvm_process_command tp
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+They all look pretty safe to merge, thanks!
 
-thanks
--- PMM
+We could even consider to postpone merging of below two patches:
+
+  migration: Move static var in ram_block_from_stream() into global
+  migration: Introduce postcopy channels on dest node
+
+Because fundamentally if we want to only merge postcopy preempt as a whole,
+then these two patches do not bring anything beneficial to the existing
+code but should be accounted for part of the impl of the preempt mode.
+
+Said that, I think it's still fine to merge them too, as long as we're very
+sure we'll finally merge preempt code when tls side of thing is ready.
+
+-- 
+Peter Xu
+
 
