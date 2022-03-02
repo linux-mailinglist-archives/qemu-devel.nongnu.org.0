@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2CE4CA674
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:50:58 +0100 (CET)
-Received: from localhost ([::1]:51760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45974CA628
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 14:38:32 +0100 (CET)
+Received: from localhost ([::1]:49890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPPNZ-0000wK-Mv
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:50:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52276)
+	id 1nPPBX-0005Tq-Cy
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 08:38:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPOLz-0000nD-5o
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:45:18 -0500
-Received: from [2607:f8b0:4864:20::b2c] (port=45753
- helo=mail-yb1-xb2c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPOLs-0004HT-NW
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:45:14 -0500
-Received: by mail-yb1-xb2c.google.com with SMTP id w16so3056304ybi.12
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 04:45:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=upbrBEhwUZyFY/NsnvLpUnn5WDSPfPN4lGWULVn9sfE=;
- b=bAmI6bE6EQwNgHCia282SCwNrtXyXJVaZh4JDcpk1C5vNZYUJ6s6Os97s0ceHDj7Hp
- KLQKY3zpaizLbH37lGAktQAsHhJhAoyzfUKtGl7fC2Xl+4YtFZ8f+8OiaH9ht3LYNWvd
- xJbZJZCxBRhI1RKiRY/8yYwxZc/jVzFNBHKxW5IuMfT1XB8OGSCmyIWa8TWgfBYOa2Vb
- VgXd/0Y13NmybTiizlaMHtoQ43Z+EuYKlezyfsy8FNhu5Ih/5UR+sSKSimRFrOTSt5TE
- 93jjSTHDEa2jCkXMlJ087aX5H6LYsp2Nfa3nSwhn8G2OAT3ykYcS7MjNQHZXq7OHAAV4
- awnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=upbrBEhwUZyFY/NsnvLpUnn5WDSPfPN4lGWULVn9sfE=;
- b=tMo6M/GRGLH0aQjHkzChNAAzQhINHRSFdGFfDWusLHguEL7trAIpTvm/xhVwMCSX0X
- Sf3ImZcU4M624DE0X0hzY1uNGpzL+eAwwAqZPiACEh7KAFJdR2V4pGVZxLtVhzAdXDjk
- 7WzruTnigSJOUxGEJFEU5an36xtv2eBLSUVbRD7dQ2IiRJjOOtPDNrwN3FYXIM+WGmMr
- Q0FaNTqUojlJvK+JmurP8ijPYbTaEiXdw2Eab2zLe/+L++K6J6O5Atxw/PAkJwDpD0Kg
- Vg1W051vU1yDOHKZ+N4myUl2DB7NEaq7eI0HPa58TE9L9mH6Za4Xu/Cl83ab3iWpA0Wx
- xViA==
-X-Gm-Message-State: AOAM5305VMN4gSV+yQme3YD8p35BjiZyB8hcCMg6VMIISXVK0zxUKX6E
- MWV9dMMHy6hsU6a/4hiok2Yqsqa06IlJJOb79xAkNw==
-X-Google-Smtp-Source: ABdhPJyW04HiHeiZKg67IQwECXWmm9H6Gdvgymsq3AiG0BVDzL5yUbtTU4O9fnvgkCVakYQ0S6MmNP0YHkFlUuJWfMA=
-X-Received: by 2002:a25:dad5:0:b0:628:7b94:c196 with SMTP id
- n204-20020a25dad5000000b006287b94c196mr7228148ybf.85.1646225105613; Wed, 02
- Mar 2022 04:45:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nPOMa-0001A7-CL
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:45:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46423)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nPOMX-0004S5-2V
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 07:45:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646225147;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DDHozr+KQImtcihdrhHCm/oynBM3I9i5H16woEYZVOo=;
+ b=BLL6uEDQ4tzuSwcG2WjZSCqcHeOnptX6znSDN78BzQp4W8tDMSP4c/Z5yOfY+hG60fBv2e
+ exNcqtTJCeZLzJuqi2CM1h/peJkYuylRXDpGewQdRMRxw8RqWy9MtL7FEmxPszyNAlbIiR
+ LIFurgK9c7ZqaRo0i4WGezMDZuGjf6Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-594-TMXCAX7mMKe5iJEgPhLQLA-1; Wed, 02 Mar 2022 07:45:44 -0500
+X-MC-Unique: TMXCAX7mMKe5iJEgPhLQLA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4652824FA7;
+ Wed,  2 Mar 2022 12:45:43 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 817697B609;
+ Wed,  2 Mar 2022 12:45:42 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/3] iotests: Check for zstd support
+Date: Wed,  2 Mar 2022 13:45:37 +0100
+Message-Id: <20220302124540.45083-1-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20220227182125.21809-1-richard.henderson@linaro.org>
- <20220227182125.21809-2-richard.henderson@linaro.org>
-In-Reply-To: <20220227182125.21809-2-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 2 Mar 2022 12:44:54 +0000
-Message-ID: <CAFEAcA9Jm47RuP7wk2az6xP4Fay9hCDg7NNp-ARrLyk8xmMOEQ@mail.gmail.com>
-Subject: Re: [PATCH 1/7] target/nios2: Remove mmu_read_debug
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,58 +75,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 27 Feb 2022 at 18:23, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This functionality can be had via plugins, if desired.
-> In the meantime, it is unused code.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/nios2/helper.h    |  1 -
->  target/nios2/mmu.h       |  1 -
->  target/nios2/mmu.c       | 20 --------------------
->  target/nios2/op_helper.c |  5 -----
->  target/nios2/translate.c | 17 -----------------
->  5 files changed, 44 deletions(-)
+Hi,
 
-> --- a/target/nios2/translate.c
-> +++ b/target/nios2/translate.c
-> @@ -448,23 +448,6 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
->      gen_check_supervisor(dc);
->
->      switch (instr.imm5 + CR_BASE) {
-> -    case CR_PTEADDR:
-> -    case CR_TLBACC:
-> -    case CR_TLBMISC:
-> -    {
-> -#if !defined(CONFIG_USER_ONLY)
-> -        if (likely(instr.c != R_ZERO)) {
-> -            tcg_gen_mov_tl(cpu_R[instr.c], cpu_R[instr.imm5 + CR_BASE]);
-> -#ifdef DEBUG_MMU
-> -            TCGv_i32 tmp = tcg_const_i32(instr.imm5 + CR_BASE);
-> -            gen_helper_mmu_read_debug(cpu_R[instr.c], cpu_env, tmp);
-> -            tcg_temp_free_i32(tmp);
-> -#endif
-> -        }
-> -#endif
-> -        break;
-> -    }
-> -
+v1 cover letter:
 
-For a moment I thought this was changing the behaviour of these
-registers for linux-user, but gen_check_supervisor() means we
-never execute the code generated here. (Side note: it would
-be more sensible to stop generating code rather than generating
-the "throw an exception" code and then the "write/read reg"
-code as known-dead-code after it. But that's a different issue.)
+https://lists.nongnu.org/archive/html/qemu-devel/2022-02/msg04592.html
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+We have two tests (as far as I know) that use compression_type=zstd for
+qcow2 but do not check whether that is actually supported.  Thomas
+reported this for 065, but it’s also the case for 303.
 
-thanks
--- PMM
+This series makes 303 be skipped when zstd is not compiled in, and has
+065 use zlib for each of its test cases then (it was made to use zstd
+just to improve on coverage, so using zlib as a fallback is perfectly
+fine).
+
+v2:
+- Add the first patch so that 065 and 303 can use these new iotests.py
+  functions to check for zstd support instead of checking for their own
+  qemu-img create’s output
+- Have 065 fall back to zlib instead of skipping zstd test cases
+
+
+Hanna Reitz (3):
+  iotests.py: Add supports_qcow2_zstd_compression()
+  iotests/065: Check for zstd support
+  iotests/303: Check for zstd support
+
+ tests/qemu-iotests/065        | 24 ++++++++++++++++++------
+ tests/qemu-iotests/303        |  4 +++-
+ tests/qemu-iotests/iotests.py | 21 +++++++++++++++++++++
+ 3 files changed, 42 insertions(+), 7 deletions(-)
+
+-- 
+2.34.1
+
 
