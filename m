@@ -2,92 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9054CA277
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 11:51:33 +0100 (CET)
-Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC5294CA2A4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 12:01:18 +0100 (CET)
+Received: from localhost ([::1]:52638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPMZv-0008Ku-2z
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 05:51:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52330)
+	id 1nPMjN-0002kg-Hm
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 06:01:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPMY6-0006mE-07
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 05:49:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56247)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nPMY2-0003lp-B0
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 05:49:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646218172;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BjskigSOM7UQRujknLUjGEvMVuMWTGsJtI+tPjOZRaA=;
- b=i2vBEfwM5LrE4cVRmEqFQIU/5mB3ZA0psjUjjkQxl/7HaUSs0Yp1pJijBUKmXXdeOa9r9u
- WsqFVoNiSvf1ua9sxnbZ5xGy4Ey3mJ3ln7dinXc23iyZlHO3GPzkSctML+w48zh2XFwES+
- vmZ1WlyAqYkyrjjxX6IVi1QL3EaZzZU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-83-W-Cu3KKVNsCLYKEAi4j1_Q-1; Wed, 02 Mar 2022 05:49:31 -0500
-X-MC-Unique: W-Cu3KKVNsCLYKEAi4j1_Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- ay7-20020a05600c1e0700b003813d7a7d03so685728wmb.1
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 02:49:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nPMhM-00021e-4O
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 05:59:12 -0500
+Received: from [2607:f8b0:4864:20::42f] (port=35616
+ helo=mail-pf1-x42f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nPMhH-0008N0-VF
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 05:59:09 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id k1so1626190pfu.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 02:59:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=39yhNF6sCXSK4Cn0/oV3HNd4S+Jmkrax5ScpTjlpFLA=;
+ b=kisM+EZdH5g2A4EXCvU3r3orN95D9WgCEM37fR/OPkzNX5t7CLh+qFlNYYTVLfV2Zg
+ sRFOZpgeM/sEmgts9MB7vefZLHGpqByv8rKo3WuAs1wCF6MH6hN/CLckj0F3PPE89W6b
+ HZ5dlF5ftJBHW55WJPOrH21PssvrgIUFtVZtqRBmh2ndQAYPZmC2qR2JmL+tz6WgscTr
+ zBu4h7joiFEMZBmdg0c33nutNjKp4hBp6xteAVgTDtJ2ED5x8+NEZO4m86AW+BOdJxmJ
+ /aGmzmb9bEYiDLFAuvhsiL8V/ZYgju9xv6G4SP9AMZ8cO4q5ATnOMGLj2GEhFXCUaBl+
+ gqrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=BjskigSOM7UQRujknLUjGEvMVuMWTGsJtI+tPjOZRaA=;
- b=G4dAIAvSl+8xFACTYLuogWMRLPlfHO3ge+9t5hZFvwwAg5KzxJT7TprdFmLNk2Azzz
- Kqw5XzxWnNhApQX8ii1BwghsClBuOc3QEpQiKulvizD0vP77VThFvhdxqdZxSazaYjXt
- ZKrx+9elY4TfgH10Wb9QkF1sbYvlFWq4ZYsL0MXKIT8/b+eE1gZchfUGOde9ekJXrWsn
- foV888bgwCkNZR6OvUT2xwSZPV0clqQe94kEHYefsoYw0R6ByVpk5OT5a6fGnZtdbrJQ
- mXOduJLcSbaazKxk3OZlXbHvbXhvZv9htKsVLVLJX+w61Ra6kCMiN2YVUlKVFsXyFDZv
- NJzw==
-X-Gm-Message-State: AOAM530nc+CEhZtolkWaSoOLLL6PsPt0fGJpey27xMbYfXxNITkgkRoO
- rAKPi6ZAzy5wWGWPNxzVZ9ZJ/7nSqF3diOIrwPuJjzCrbSNESm4LLCo8q1non0NPbbTY8PFup51
- eFCLSE8absyhQhdO7h35mYL6fYzMqjNRPyT3WQcp86D37Jny7xTqrCl+1zSuN37dOiz0=
-X-Received: by 2002:a5d:68cc:0:b0:1ef:8263:c3c1 with SMTP id
- p12-20020a5d68cc000000b001ef8263c3c1mr15582050wrw.103.1646218170394; 
- Wed, 02 Mar 2022 02:49:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyNfnGWqkgTgIuRJzaZRUbNr2gqEd/LWbqAPlbgH5TBmewZgsYO5btXajhVvBSt67h3Cl/O+A==
-X-Received: by 2002:a5d:68cc:0:b0:1ef:8263:c3c1 with SMTP id
- p12-20020a5d68cc000000b001ef8263c3c1mr15582034wrw.103.1646218170155; 
- Wed, 02 Mar 2022 02:49:30 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- 9-20020a05600c268900b00381394d74a1sm5229718wmt.9.2022.03.02.02.49.29
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=39yhNF6sCXSK4Cn0/oV3HNd4S+Jmkrax5ScpTjlpFLA=;
+ b=NU2BqSypCMrql1DqbpKs23rrePpS30v5vfp50ErTHcfMrBGxuhHrQWgt6PK9WTZDbv
+ ZUG9VnWmyV4lmOZp1IPWYxXc4VZZ4Nk5+wiwzywcLy/qkfIv+JnSx6d8n+lz53QsWv8V
+ UjA1PbYpRrSJbtBurHrl85FxMv6KAVN6SChRBb9ehDbKVcSQz2YTECN/TqI0MefbCIPE
+ zS1cyefYGivBcfVvxrvDsIl9GcLJsF4/SQLv1Uc8Wn/ZcgQA81gyrY25RN7QZc39YPSr
+ A7IlwIBnJJkpS6a4UfQ+N6liLXsAughD1o0fAvTj61ehSyNP70vmlYz7gjGYPTScuiIn
+ JF2g==
+X-Gm-Message-State: AOAM532X/KGTDFnjlifrpp0/PdBImIN1vah1UCAkv6lPbFGV+cEpKzN+
+ yBgV/Koc1oFU+RCj5FQBunJiYw==
+X-Google-Smtp-Source: ABdhPJz0RTObeSHwkTFGMPsLRvn0MoXDhJoKg2qMUUb0onm8v2XqgWJc/lAEGYOiOw0+zOSY5sXUHg==
+X-Received: by 2002:a65:66ca:0:b0:363:d22a:29c4 with SMTP id
+ c10-20020a6566ca000000b00363d22a29c4mr25687983pgw.398.1646218745560; 
+ Wed, 02 Mar 2022 02:59:05 -0800 (PST)
+Received: from always-x1.bytedance.net ([61.120.150.76])
+ by smtp.gmail.com with ESMTPSA id
+ 8-20020a056a00070800b004e14ae3e8d7sm19918866pfl.164.2022.03.02.02.59.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 02:49:29 -0800 (PST)
-Date: Wed, 2 Mar 2022 10:49:27 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, luc@lmichel.fr, damien.hedde@greensocs.com,
- peter.maydell@linaro.org
-Subject: Re: [PATCH] clock-vmstate: Add missing END_OF_LIST
-Message-ID: <Yh9Lt9VXh7iyz4Mq@work-vm>
-References: <20220111101934.115028-1-dgilbert@redhat.com>
+ Wed, 02 Mar 2022 02:59:05 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: armbru@redhat.com
+Subject: [RESEND] qga: Introduce NVMe disk bus type
+Date: Wed,  2 Mar 2022 18:56:10 +0800
+Message-Id: <20220302105610.1304166-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20220111101934.115028-1-dgilbert@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,41 +86,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: michael.roth@amd.com, qemu-devel@nongnu.org,
+ zhenwei pi <pizhenwei@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Add the missing VMSTATE_END_OF_LIST to vmstate_muldiv
+Assigning a NVMe disk by VFIO or emulating a NVMe controller by QEMU,
+a NVMe disk get exposed in guest side. Support NVMe disk bus type and
+implement posix version.
 
-Queued
+Test PCI passthrough case:
+~#virsh qemu-agent-command buster '{"execute":"guest-get-disks"}' | jq
+  ...
+    {
+      "name": "/dev/nvme0n1",
+      "dependencies": [],
+      "partition": false,
+      "address": {
+        "serial": "SAMSUNG MZQL23T8HCLS-00A07_S64HNE0N500076",
+        "bus-type": "nvme",
+        "bus": 0,
+        "unit": 0,
+        "pci-controller": {
+          "bus": 0,
+          "slot": 22,
+          "domain": 0,
+          "function": 0
+        },
+        "dev": "/dev/nvme0n1",
+        "target": 0
+      }
+  ...
 
-> 
-> Fixes: 99abcbc7600 ("clock: Provide builtin multiplier/divider")
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  hw/core/clock-vmstate.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/core/clock-vmstate.c b/hw/core/clock-vmstate.c
-> index 9d9174ffbd..7eccb6d4ea 100644
-> --- a/hw/core/clock-vmstate.c
-> +++ b/hw/core/clock-vmstate.c
-> @@ -44,6 +44,7 @@ const VMStateDescription vmstate_muldiv = {
->      .fields = (VMStateField[]) {
->          VMSTATE_UINT32(multiplier, Clock),
->          VMSTATE_UINT32(divider, Clock),
-> +        VMSTATE_END_OF_LIST()
->      },
->  };
->  
-> -- 
-> 2.34.1
-> 
-> 
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+---
+ qga/commands-posix.c | 5 ++++-
+ qga/qapi-schema.json | 3 ++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 75dbaab68e..4ec83bbfbc 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -889,7 +889,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
+         if (driver && (g_str_equal(driver, "ata_piix") ||
+                        g_str_equal(driver, "sym53c8xx") ||
+                        g_str_equal(driver, "virtio-pci") ||
+-                       g_str_equal(driver, "ahci"))) {
++                       g_str_equal(driver, "ahci") ||
++                       g_str_equal(driver, "nvme"))) {
+             break;
+         }
+ 
+@@ -984,6 +985,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
+             g_debug("no host for '%s' (driver '%s')", syspath, driver);
+             goto cleanup;
+         }
++    } else if (strcmp(driver, "nvme") == 0) {
++        disk->bus_type = GUEST_DISK_BUS_TYPE_NVME;
+     } else {
+         g_debug("unknown driver '%s' (sysfs path '%s')", driver, syspath);
+         goto cleanup;
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 94e4aacdcc..1b5ea4c5f8 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -827,13 +827,14 @@
+ # @mmc: Win multimedia card (MMC) bus type
+ # @virtual: Win virtual bus type
+ # @file-backed-virtual: Win file-backed bus type
++# @nvme: NVMe disks
+ #
+ # Since: 2.2; 'Unknown' and all entries below since 2.4
+ ##
+ { 'enum': 'GuestDiskBusType',
+   'data': [ 'ide', 'fdc', 'scsi', 'virtio', 'xen', 'usb', 'uml', 'sata',
+             'sd', 'unknown', 'ieee1394', 'ssa', 'fibre', 'raid', 'iscsi',
+-            'sas', 'mmc', 'virtual', 'file-backed-virtual' ] }
++            'sas', 'mmc', 'virtual', 'file-backed-virtual', 'nvme' ] }
+ 
+ 
+ ##
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.20.1
 
 
