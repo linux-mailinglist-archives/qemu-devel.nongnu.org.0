@@ -2,152 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F228C4C9FA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 09:45:29 +0100 (CET)
-Received: from localhost ([::1]:45078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4B34C9FD7
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 09:50:56 +0100 (CET)
+Received: from localhost ([::1]:48340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPKbw-0002G8-S7
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 03:45:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53108)
+	id 1nPKhB-0004ms-3f
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 03:50:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rohit.kumar3@nutanix.com>)
- id 1nPKZE-0001Va-SQ
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 03:42:40 -0500
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:9128)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPKe1-00041P-6P
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 03:47:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rohit.kumar3@nutanix.com>)
- id 1nPKZC-0005np-JC
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 03:42:40 -0500
-Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2225V6iP032144;
- Wed, 2 Mar 2022 00:42:33 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=USoTCSDDg4LgXaUZguCLbEk8eyLJOAQYR74bSz/0wt8=;
- b=vKM01n43qzM4qjN9bI9hulnryAYm8QJ3XK6x+OerYRQQ6pzyNZb5yu2oBxLve7N8ZonJ
- E/IjXdbesCQbFINiDtCJLYTA2UEsPA5RpEsO0p4+UlRA6J9BB0jjmttEzPvhCX8XfiDN
- u+YMWPcsCKYR0Zk+9omXJL3cDoTsBfVYIc7FzyahQVRMUj50S8ajoDhZeAuZeXWDkqEG
- k6As85n7gz2+D/8a5HPyByCMKT+2GJYo0FZ9ApwZRTGUEYqRLfZke0FFoMZJ1Uj41sni
- 59+6OK4RNsIfq9Fh8KWxXlS2AUofCkA25qbhVxvWP94Tsac3eoEwaArSDKIcHu/nEMIR eA== 
-Received: from nam04-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam08lp2177.outbound.protection.outlook.com [104.47.73.177])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3ehsau1b7k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 00:42:33 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nw7SnX0Hxg8S6WbL6tqgisIxFpPk5JMgc7w1P+BXro3+ssKVuwJxrJkNI1qhu68vTvuhRVbS4WkSWON3ckMXOmYze9ZFqqWUH3Txh92w0dI0g8tnM2aEaYoD259Luet4AC9sxU9aGziE68p1vLGA+uWBrav6/Blkxy9JZTnJSxT0C593ya1lFxeniDg+/mghXwt3iuFYNTtQCRgNzJPxoSP2JpX4gN5PcFBd7J0H3qaNksRSyesWJNV8LC+YjVigw7B0bsMjDRDSQ1CGEqSv6cfK7NHBpmJzeXUpz8uITLa5zT95VJR2IUxiIQBRoQunSaPEsJ5CedafHXMyjO0h2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=USoTCSDDg4LgXaUZguCLbEk8eyLJOAQYR74bSz/0wt8=;
- b=nYuEIcjwd6xalNGjb+WDwjoELZjQdIWDtj4Jyjk8Dq3aeKTohmgEgMLh/n50a/fHZUkb5zYqeczaQmh43ijJj07CQPmqBdYHRF8uC/DXswQsrYbi5KUUA02IVxNJEjVM550vvmFtj4DpLoBFKXRPj0P0t/NnXP8mzWEenzoDcRuMknXK99mo5B5bBJHmu+W2Buc7yrwOMECKOUH65huIup8yGbkHcI/vUoe6DCQNCOJR89Ni4T3LguUmyxGP844/FPfma3L6l6SNH+hRRtW9dEqWXYxG2FOgWCBX2M6yNki7QENJ5PPrjXk6MuM/oDN6BSDrDdm8PYNLzUsXNenmRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from SJ0PR02MB8564.namprd02.prod.outlook.com (2603:10b6:a03:3f6::16)
- by CY4PR02MB3208.namprd02.prod.outlook.com (2603:10b6:910:7d::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Wed, 2 Mar
- 2022 08:42:30 +0000
-Received: from SJ0PR02MB8564.namprd02.prod.outlook.com
- ([fe80::457b:b36f:8cd7:af59]) by SJ0PR02MB8564.namprd02.prod.outlook.com
- ([fe80::457b:b36f:8cd7:af59%7]) with mapi id 15.20.5017.027; Wed, 2 Mar 2022
- 08:42:30 +0000
-Message-ID: <65ca72b3-a6c9-f5c8-3652-108c2bc6589d@nutanix.com>
-Date: Wed, 2 Mar 2022 14:12:12 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v3] Check and report for incomplete 'global' option format
-To: Markus Armbruster <armbru@redhat.com>
-References: <20220216071508.412974-1-rohit.kumar3@nutanix.com>
- <87r182zzj8.fsf@pond.sub.org>
-From: Rohit Kumar <rohit.kumar3@nutanix.com>
-In-Reply-To: <87r182zzj8.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MAXPR0101CA0060.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:e::22) To SJ0PR02MB8564.namprd02.prod.outlook.com
- (2603:10b6:a03:3f6::16)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPKdx-0006ZF-5v
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 03:47:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646210851;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y8Q0H03vew/OC7mX0QluxD1SIYTYVIEkrUe+7xZyhpM=;
+ b=SF3LsC4gI/B3djGNCmmH2NByMU6nDUcQNGA4Y4sP9bwQqDSbOMsl7XbvQhYsAXgcl8ypdX
+ wJQa3KGQO+lhCpUIUzPKoHSQeT+kxxee16hy+KjMaEwfuDp3U9fxinuHpZkfyrWIzPFSpJ
+ cQHsd/R8FJ5bAI85aUAtaTSiSI2j8dw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-443-srgFkDo0MHiptefsKn2WOA-1; Wed, 02 Mar 2022 03:47:30 -0500
+X-MC-Unique: srgFkDo0MHiptefsKn2WOA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ o21-20020a05600c511500b003818c4b98b5so292835wms.0
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 00:47:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=y8Q0H03vew/OC7mX0QluxD1SIYTYVIEkrUe+7xZyhpM=;
+ b=AsFqh6bO7dtVjl6Nr7W3Q5+x8komD0SJvysXhxxXSjm6Ktq8cxoFcGloW2AnPBe8DQ
+ k5hVQRhNH+zpyL931lSYLoExIx336CUylY4aspXCUawe7a9CZSS1pnq8H7x++dOsr7/u
+ tR+MuiIEZI72WNS7zFTDWrWF8HGIEdCU+zn9LS+llKypRLjq382OSJTsc3pLZBBlEi/Y
+ Fa7cjnefforKl3MEAtYLloFANuV7vEs6mwElZoqX5bF0f67GjkwaFQXnzdbTIucGZWSL
+ IcDydXUnNWOXTmqtmIZ2f7BObCMtUvdJfZeNKLTShHYIG78mI9baQ2qvcAOkacl7q7vj
+ 8PUw==
+X-Gm-Message-State: AOAM530uXw9ZYFvtSggwQjIfHlZ8dM7ZbkEYgZp1rZtFP4jjM6anrzgT
+ PbeHuOk95YN449ozEwvvj7IltTzVnFFqAqerrVQM7NB5SlX7n7ShJFnlG/yzm1Ol5wEbTYsFOLA
+ FOC+pT2P1hEQsGgI=
+X-Received: by 2002:adf:f8c2:0:b0:1ed:9ede:98a1 with SMTP id
+ f2-20020adff8c2000000b001ed9ede98a1mr21782092wrq.48.1646210849315; 
+ Wed, 02 Mar 2022 00:47:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw7+zvPPBGbkwhiZ28u4Qcwg4FWYWfaPlLvoRw7Qz82mQdVCr9+C8FaIzucJeJXQATjq6pDxg==
+X-Received: by 2002:adf:f8c2:0:b0:1ed:9ede:98a1 with SMTP id
+ f2-20020adff8c2000000b001ed9ede98a1mr21782076wrq.48.1646210849023; 
+ Wed, 02 Mar 2022 00:47:29 -0800 (PST)
+Received: from redhat.com ([2a10:8006:355c:0:48d6:b937:2fb9:b7de])
+ by smtp.gmail.com with ESMTPSA id
+ bg18-20020a05600c3c9200b0037c2ef07493sm5994975wmb.3.2022.03.02.00.47.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Mar 2022 00:47:27 -0800 (PST)
+Date: Wed, 2 Mar 2022 03:47:25 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Liav Albani <liavalb@gmail.com>
+Subject: Re: [PATCH v4 2/3] hw/acpi: add indication for i8042 in IA-PC boot
+ flags of the FADT table
+Message-ID: <20220302034341-mutt-send-email-mst@kernel.org>
+References: <20220228201733.714580-1-liavalb@gmail.com>
+ <20220228201733.714580-3-liavalb@gmail.com>
+ <20220301094354.1d37f470@redhat.com>
+ <20220301061131-mutt-send-email-mst@kernel.org>
+ <b6934751-f513-d9b9-ae2e-106a736b3f57@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8c79afc1-d089-42f5-b515-08d9fc289631
-X-MS-TrafficTypeDiagnostic: CY4PR02MB3208:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR02MB32080D447E6AF0FCFF797B53D1039@CY4PR02MB3208.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RVSpBH0LE9rdLlLj3PwdJRKXwvWkwsFxklmN9nAsK0ag7LgBZGJxXRJbZGSP6f5lpqa/gVpgrMxnwSFFywjSDXF5h6QHAHaTJFaevLYP6H5ojgjRnDf8a6idteXgnYY3n6PjErU+7jeDkpolNOfYXQJr8XdMozgBlaukBJx/jKr2fElRqE+xyetCP30MAFvMLruwPVb7xmZLr1B7DMbze4CHhWyhX0Os6bl79/kYfzUWrduhWi8rysJkq/M3MKEQGQwdc2W7gw8JaLP0LhWN2HzP4ktyZ2X+egxTbZqThQfkqPwqqNI+niBYq41ZHIspdr9L4SjTmsjDhBBhhhmU0nnyq/kJPoa/h4/P1SP9qc6hlVbCBx3uGJJft0O6sEbHViDoYCrytYjjBICcH2jS+VIWaaq42aNBqa1jFGGXbsDsYN5ChJm4PV0oM77xSSnNt6fee5j1r4EA+gEntW4c/f+AOjLuV1WhNP3IEhUOTUMyhdqaIWHDHjwCkdzsZPcHQ/oQ8tW/1XE7r2YU5Z1H/B7xiPjdbKGw5uafXMBFAD4GPuMeVWgPzw84qheGyyoA+hZIZtVCfsjCjyBKf7epr8ZMrh2rMxyW/TRluAD6UfGo2h3p5wz7GeBWa7QrXWIh83PVvuyG8NwsTI5YXwEykbb6ol9IkpvB/d1PrVND0KPeN9TcdIWAuMaWoWcz9nidKmNCzfdw1bi4ztr90TuZrqUX0h0XTJzSjKdDk57rUvDZy9WybcGJobRroLYlXu3QeAMfIlKildEOFlv2GzF+Q04JEN0CDE52X4wcPM2sQKsDLvixX+8Ll/0a7vFuWt1cJjdTXS8Pm4086n3Zq3gpqRJNgSD1DIbZgi0WhuEayd4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR02MB8564.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6916009)(83380400001)(38100700002)(4326008)(508600001)(966005)(8936002)(8676002)(6486002)(316002)(66946007)(66476007)(66556008)(36756003)(6666004)(31686004)(5660300002)(31696002)(6512007)(2616005)(2906002)(53546011)(6506007)(52116002)(107886003)(186003)(26005)(38350700002)(86362001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aFI1V3B1SS9SMElGU0Z6K1BWOEJGWk8yd0tLMjQ3a3ZycVZocmE0Ly9ESE90?=
- =?utf-8?B?a1BscjJZMDh2KzNSYVpzeVlWY2lnY1JoWkVzbWpadDJlTTcxV1h5NWhVOG56?=
- =?utf-8?B?bndRMkJudG1kUGNMVVd2emkyVDkyNnJGdEFLUUZKNkJIUkp3UUpiY1R3dXE1?=
- =?utf-8?B?dzYrTjF3Sk1hSGpkdHZiTHNUV2ZWeXFTQmZ0NStSdTFjMU1WWlhVLzREcTd1?=
- =?utf-8?B?MEJpSlc3Wk11cXVPMXNWZDF1eUxyS1RhanNmVm5WODh6VSs1Nm4wcDNMOXNZ?=
- =?utf-8?B?aHJUWlZZZ1JIWGxvN1UwMjFuRmtzWmZNVm1QMXJ4QkhkQk8vN1Q5MHl5Y0N6?=
- =?utf-8?B?QWxtbFJtR2xldGJuR3V6Y1lHQy9Za3Nlclc1RWdHU2RaeUZkR3o0Rm5mODB2?=
- =?utf-8?B?NE85MlY3eVAxTFlqSG9HcXRMOTJxVHM2aTNBTDhva1l2MmlrK295Q3pMc21p?=
- =?utf-8?B?ZWRmRkRCcmk0QWpvbUN6Z21pd2pQT1puRys0RUYxVGlBQXlsOWwrZ251ZmMw?=
- =?utf-8?B?blVxWUQ2b3BGLzdUalRVVUdGbGNoYWF5dlRzbW1wMWxzTmtkQXgyWURHelVy?=
- =?utf-8?B?VUhEWTloRFc2MHpMK0pCMWJuK1ovbTFuK3Zib3Fmb0RuR2pvbDJadGFqWGw1?=
- =?utf-8?B?dlZyTmU3MHI2NlhvR3NoQWg5cUpVQ2tuc3NydEN1N0FHTVc3b0d0QmZzc1d6?=
- =?utf-8?B?djJkNkVDdVgrL0RFclBvWWJ1bVZmNmJ0ZjdabVhiM28vL3ozdE5OdWErWUFZ?=
- =?utf-8?B?eWwyQUwyZHdOK0o0RmhhK0ZOVVpsdVhEWmdxWldrUTlEYUtabEUyOXAvNzgw?=
- =?utf-8?B?L2EvRUh3a2hRMkthaGY1SUpNRGxCemhyL3h0MU9UMDNQQ1grSlpZWEViVXVh?=
- =?utf-8?B?Z205bE1tSXNreUl0UVlUeTdpZUErSXppQXBoUjRHWERCSjkzOWEybFpIbE10?=
- =?utf-8?B?SzFjaVBHVTZBWkxvTHZsOVpzTGJaRkJXOXJNOE1qSXlYWTF2ZmVycTlhSzBz?=
- =?utf-8?B?KzJhL0NXZGUwOS93VDNBazVxTnI3WHdEZS9xWE96TjJkWkdqWGNuSzU5bkUv?=
- =?utf-8?B?QkY2NXpYalF2eXJpTlZvNlh6V2tJR3hZUzhMTnUzemVmR0lBc0NmcXBHZjZF?=
- =?utf-8?B?d1dtRDJQYXVrSE1wNnZ2bWxQcmhIandJRGRORUZyM2d1YU10dVNtbXFPanBK?=
- =?utf-8?B?TVFxa0g5dzhOUXVUQklKeDlhLzlRanA5eEZvcDJTUExkamFUK3dnMzI3MXNo?=
- =?utf-8?B?M1U1M3pUVEtDTmoxZlFCSG5sby9ta3p1WmZGQmwzZjdsUjUzYlY4Nm9ydE93?=
- =?utf-8?B?K1hEcE9Bd1EyYUptVUZ3K2hoNEcwbG91Uk5TRC9yTWt1bm5LMzFDQ1BWNjhq?=
- =?utf-8?B?YS9mRnFROFUxdnYwTFJ4VzE4QU15Y0tRRk9lZ2VZRnNoYXB4TnBjQUlGWG1h?=
- =?utf-8?B?b280U2lIUTJmZ08wZHRxZmxHZmdMVnkzMVI0UXMyOGVaT2NNRzAra0xaeWNa?=
- =?utf-8?B?eWxFQ3cvVmE4ZmdiMXFySmU5L0NqemJXVG0zVTdCQjN2Tm9iUE1Vb1d2VVUv?=
- =?utf-8?B?cldYNktYc0pEWWZxQzNNNmc0cThGUUlQeVVYVWNsYVkwQ0UvQ1pMT1BDc2Ju?=
- =?utf-8?B?bVV2akVnbFIvdE51NU9WVTJuZjNHMEdwN1ZYUTJKMmprd21LNXNHNmpsQk9B?=
- =?utf-8?B?NlJEeDUwT3dDNmVwYWdMMHFvSHA3RFFaYU1vdUZXRDBHL2tlZnFzdHZNWE5N?=
- =?utf-8?B?c1lqQm5GdFBSMC9UWmwxb2ZXYTAveUg0WkJDZ29Kc3BGUmQyTFRKcFFFSGRR?=
- =?utf-8?B?S09kQkpIK2FXYUxrb241UW9yZzNBY1MzSW1Ta016eElXWHZRbXI5L1R0M2Fl?=
- =?utf-8?B?Qjh0TVpsZWpPRSt4NmZwL2xMUlJPVTF3M3VmV3ZiVkk5V3psL0pPcnl2WFRG?=
- =?utf-8?B?YTJCN1ZhbmM3SzFtK0pBZXdhMW9Ra3JvVjR6b2I3RnFSeThYVEs4cFA2YlFk?=
- =?utf-8?B?VFBDQ0lKZktCMHRUc2ZFOTZYUUdRQlRDTzBjS0pyY3MwdUZXMEtJeGlXdVNw?=
- =?utf-8?B?OGQ1RnhyeURpQ1ZIOUtBQW1jelJ6MkhXcEZsaVRLd3NzamoyellaR21HazBo?=
- =?utf-8?B?OFF4SWl2Y1kwMlhLZWxKSm0rNnMxdG5ncnlhc0llN1JaekcyTUxQaGpJbWlP?=
- =?utf-8?B?dTdtTkxmVXJSR0Y4TldHYktaeHhicGIzRWVUMHB5NjRyNjBNcThBSEhIY0Rm?=
- =?utf-8?B?UGJmeStMSXlmUE81VlliQ3V5M2d3PT0=?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c79afc1-d089-42f5-b515-08d9fc289631
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR02MB8564.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2022 08:42:30.5075 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tRDso/0tAMoZqiVxaO1Bg9ckQZur3kphl4IvKxRarEboIrMIfNiEDFzD2ZWrtdUT9cGoWCVXvKSqF270Kchwqp/rEmQDO4DwPgEzmlKgPns=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB3208
-X-Proofpoint-GUID: Ig2zfW7U0mRwNOjKCmgMi2GtOjvBN-cE
-X-Proofpoint-ORIG-GUID: Ig2zfW7U0mRwNOjKCmgMi2GtOjvBN-cE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-02_01,2022-02-26_01,2022-02-23_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=rohit.kumar3@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+In-Reply-To: <b6934751-f513-d9b9-ae2e-106a736b3f57@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -161,55 +101,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, thuth@redhat.com, berrange@redhat.com,
- prerna.saxena@nutanix.com, qemu-devel@nongnu.org, prachatos.mitra@nutanix.com,
- pbonzini@redhat.com
+Cc: ani@anisinha.ca, Igor Mammedov <imammedo@redhat.com>, shentey@gmail.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus, thanks for the review. Please let me know if this patch needs 
-to be rebased on top of current master or does it looks good to merge.
-Thanks !
+On Tue, Mar 01, 2022 at 09:11:09PM +0200, Liav Albani wrote:
+> 
+> On 3/1/22 13:19, Michael S. Tsirkin wrote:
+> > On Tue, Mar 01, 2022 at 09:43:54AM +0100, Igor Mammedov wrote:
+> > > On Mon, 28 Feb 2022 22:17:32 +0200
+> > > Liav Albani <liavalb@gmail.com> wrote:
+> > > 
+> > > > This can allow the guest OS to determine more easily if i8042 controller
+> > > > is present in the system or not, so it doesn't need to do probing of the
+> > > > controller, but just initialize it immediately, before enumerating the
+> > > > ACPI AML namespace.
+> > > > 
+> > > > This change only applies to the x86/q35 machine type, as it uses FACP
+> > > > ACPI table with revision higher than 1, which should implement at least
+> > > > ACPI 2.0 features within the table, hence it can also set the IA-PC boot
+> > > > flags register according to the ACPI 2.0 specification.
+> > > > 
+> > > > Signed-off-by: Liav Albani <liavalb@gmail.com>
+> > > > ---
+> > > >   hw/acpi/aml-build.c         | 11 ++++++++++-
+> > > >   hw/i386/acpi-build.c        |  9 +++++++++
+> > > >   hw/i386/acpi-microvm.c      |  9 +++++++++
+> > > commit message says it's q35 specific, so wy it touched microvm anc piix4?
+> > > 
+> This affect only q35 machine type for now, but what happens if the MicroVM
+> ACPI FACP table is updated to use a revision that supports IA-PC boot flags?
+> > > >   include/hw/acpi/acpi-defs.h |  1 +
+> > > >   4 files changed, 29 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> > > > index 8966e16320..2085905b83 100644
+> > > > --- a/hw/acpi/aml-build.c
+> > > > +++ b/hw/acpi/aml-build.c
+> > > > @@ -2152,7 +2152,16 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+> > > >       build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
+> > > >       build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
+> > > >       build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
+> > > > -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
+> > > > +    /* IAPC_BOOT_ARCH */
+> > > > +    /*
+> > > > +     * This register is not defined in ACPI spec version 1.0, where the FACP
+> > > > +     * revision == 1 also applies. Therefore, just ignore setting this register.
+> > > > +     */
+> > > > +    if (f->rev == 1) {
+> > > > +        build_append_int_noprefix(tbl, 0, 2);
+> > > > +    } else {
+> > > > +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
+> > > > +    }
+> > > >       build_append_int_noprefix(tbl, 0, 1); /* Reserved */
+> > > >       build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
+> > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > > index ebd47aa26f..c72c7bb9bb 100644
+> > > > --- a/hw/i386/acpi-build.c
+> > > > +++ b/hw/i386/acpi-build.c
+> > > > @@ -38,6 +38,7 @@
+> > > >   #include "hw/nvram/fw_cfg.h"
+> > > >   #include "hw/acpi/bios-linker-loader.h"
+> > > >   #include "hw/isa/isa.h"
+> > > > +#include "hw/input/i8042.h"
+> > > >   #include "hw/block/fdc.h"
+> > > >   #include "hw/acpi/memory_hotplug.h"
+> > > >   #include "sysemu/tpm.h"
+> > > > @@ -192,6 +193,14 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+> > > >               .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
+> > > >           },
+> > > >       };
+> > > > +    /*
+> > > > +     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
+> > > > +     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
+> > > > +     * (the earliest acpi revision that supports this).
+> > >   /* APCI spec version 2.0, Table 5-10 */
+> > > 
+> > > is sufficient, the rest could be read from spec/
+> > ACPI though, not APCI.
+> It will be fixed in version 5.
+> > The comment can be shorter and more clearer, but I feel quoting spec
+> > and including table name is a good idea actually, but pls quote verbatim:
+> > 
+> > /* ACPI spec version 2.0, Table 5-10: Fixed ACPI Description Table Boot Architecture Flags */
+> > /* Bit offset 1 -  port 60 and 64 based keyboard controller, usually implemented as an 8042 or equivalent micro-controller. */
+> > 
+> > > > +     */
+> > > > +    fadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
+> > > > +                            0x0002 : 0x0000;
+> > and make it 0x1 << 1 - clearer that this is bit 1. Leading zeroes are
+> > not helpful since compiler does not check there's a correct number of
+> > these.
+> It will be fixed in version 5.
+> > > > +
+> > > >       *data = fadt;
+> > > >   }
+> > > > diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+> > > > index 68ca7e7fc2..4bc72b1672 100644
+> > > > --- a/hw/i386/acpi-microvm.c
+> > > > +++ b/hw/i386/acpi-microvm.c
+> > > > @@ -31,6 +31,7 @@
+> > > >   #include "hw/acpi/generic_event_device.h"
+> > > >   #include "hw/acpi/utils.h"
+> > > >   #include "hw/acpi/erst.h"
+> > > > +#include "hw/input/i8042.h"
+> > > >   #include "hw/i386/fw_cfg.h"
+> > > >   #include "hw/i386/microvm.h"
+> > > >   #include "hw/pci/pci.h"
+> > > > @@ -189,6 +190,14 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
+> > > >           .reset_val = ACPI_GED_RESET_VALUE,
+> > > >       };
+> > > > +    /*
+> > > > +     * second bit of 16 of the IAPC_BOOT_ARCH register indicates i8042 presence
+> > > > +     * or equivalent micro controller. See table 5-10 of APCI spec version 2.0
+> > > > +     * (the earliest acpi revision that supports this).
+> > > > +     */
+> > > > +    pmfadt.iapc_boot_arch = object_resolve_path_type("", TYPE_I8042, NULL) ?
+> > > > +                            0x0002 : 0x0000;
+> > > > +
+> > let's avoid code duplication pls.
+> > 
+> What do you suggest to do with this? Creating a separate function to do this
+> for us so we can call it from both locations?
 
-On 16/02/22 7:25 pm, Markus Armbruster wrote:
-> Rohit Kumar <rohit.kumar3@nutanix.com> writes:
->
->> Qemu might crash when provided incomplete '-global' option.
->> For example:
->>       qemu-system-x86_64 -global driver=isa-fdc
->>       qemu-system-x86_64: ../../devel/qemu/qapi/string-input-visitor.c:394:
->>       string_input_visitor_new: Assertion `str' failed.
->>       Aborted (core dumped)
->>
->> Fixes: 3751d7c43f795b ("vl: allow full-blown QemuOpts syntax for -global")
->> Resolves: https://urldefense.proofpoint.com/v2/url?u=https-3A__gitlab.com_qemu-2Dproject_qemu_-2D_issues_604&d=DwIBAg&c=s883GpUCOChKOHiocYtGcg&r=ABSkr7gy7ZTfApFfI-Xxt1gZNtsDDiXoXOXc0OrkyFs&m=_FT9FHpCayLV7VOqTV1sshekKFR0H-be14Rx8GwuhkF6FyEaMtUWc0vvbuoZOJP1&s=yH_2KUONf-QJFFyoSnAGOJIzyhREMalkQuli_BY-y4U&e=
->> Signed-off-by: Rohit Kumar <rohit.kumar3@nutanix.com>
->> ---
->>   diff to v2:
->>    - Avoided double reporting of error.
->>    - Added the "Fixes" line in the commit message.
->>
->>   softmmu/qdev-monitor.c | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
->> index 01f3834db5..e918ab8bf3 100644
->> --- a/softmmu/qdev-monitor.c
->> +++ b/softmmu/qdev-monitor.c
->> @@ -1034,6 +1034,13 @@ int qemu_global_option(const char *str)
->>       if (!opts) {
->>           return -1;
->>       }
->> +    if (!qemu_opt_get(opts, "driver")
->> +        || !qemu_opt_get(opts, "property")
->> +        || !qemu_opt_get(opts, "value")) {
->> +        error_report("options 'driver', 'property', and 'value'"
->> +                     " are required");
->> +        return -1;
->> +    }
->>   
->>       return 0;
->>   }
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->
+Sounds reasonable.
+
+> > > >       table_offsets = g_array_new(false, true /* clear */,
+> > > >                                           sizeof(uint32_t));
+> > > >       bios_linker_loader_alloc(tables->linker,
+> > > > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> > > > index c97e8633ad..2b42e4192b 100644
+> > > > --- a/include/hw/acpi/acpi-defs.h
+> > > > +++ b/include/hw/acpi/acpi-defs.h
+> > > > @@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
+> > > >       uint16_t plvl2_lat;        /* P_LVL2_LAT */
+> > > >       uint16_t plvl3_lat;        /* P_LVL3_LAT */
+> > > >       uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
+> > > > +    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
+> > > >       uint8_t minor_ver;         /* FADT Minor Version */
+> > > >       /*
+
 
