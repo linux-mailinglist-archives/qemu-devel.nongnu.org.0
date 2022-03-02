@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D04C4CAC5B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:44:54 +0100 (CET)
-Received: from localhost ([::1]:53782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E1A4CAC7B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 18:51:32 +0100 (CET)
+Received: from localhost ([::1]:37026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPT1x-0006mQ-6u
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:44:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51726)
+	id 1nPT8M-0006Ft-IA
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 12:51:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT05-0005Fk-Ah
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:42:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24532)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPT6G-0004nN-SQ
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:49:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPT01-0006VD-QN
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:42:55 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPT6F-0007tx-D7
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 12:49:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646242971;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=q1B6ayRKeqGDsvvY8bh2gQcH7wU9Dg/PSSLMfIwTA1w=;
- b=UosrwuErdn88kmAMoJavplRhO4vTpPYKI8vIs3Y/aB/vqJX0Iysbgm4bnh9BX2WjYPB/C9
- aTY8l/41AWpEWUgcfIM+2FW7IndsTZz1qsouJ5BA6JItOaD9MreU8wGIFOPnGO/R5awL+k
- hYwHbK2xkkpCxaafm+6muqN74aoudv4=
+ s=mimecast20190719; t=1646243358;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KHov4rSdmNSpCoaSX9M+1g7hJvbhTgSvzT20Bw+TISY=;
+ b=DmZLPnB/drdNyWIq8WIEoKRcJ2GLHJsKdM5J3Gpaz44lg/j5KA6b+WREYdBP0mP9lH8qC8
+ 4c3aXkRnnDLOubOCgY+VeskaA9NWh8Xg+iWxuZfHXEfxHanvLwWtLHAC22f71kx/FJJgpP
+ pEzbNblEwm8gyLotsa7ztE5IkHIfeZw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-126-tY-LVXDXOS-9LN7jYs6KJg-1; Wed, 02 Mar 2022 12:42:34 -0500
-X-MC-Unique: tY-LVXDXOS-9LN7jYs6KJg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-403-tAcapSSUMKiCycft13Cvow-1; Wed, 02 Mar 2022 12:49:15 -0500
+X-MC-Unique: tAcapSSUMKiCycft13Cvow-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A22A51DF;
- Wed,  2 Mar 2022 17:42:33 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B90FF1057059;
- Wed,  2 Mar 2022 17:42:08 +0000 (UTC)
-Date: Wed, 2 Mar 2022 17:42:05 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] deprecation: x86 default machine types
-Message-ID: <Yh+sbYC5n4DsZWWg@redhat.com>
-References: <20220301195432.114252-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96EB751FC;
+ Wed,  2 Mar 2022 17:49:13 +0000 (UTC)
+Received: from localhost (unknown [10.33.36.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDD25865A4;
+ Wed,  2 Mar 2022 17:48:53 +0000 (UTC)
+Date: Wed, 2 Mar 2022 18:49:13 +0100
+From: Sergio Lopez <slp@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: Re: [PATCH 2/2] Allow building vhost-user in BSD
+Message-ID: <20220302174913.bcrnlhgkpvjayyrw@mhamilton>
+References: <20220302113644.43717-1-slp@redhat.com>
+ <20220302113644.43717-3-slp@redhat.com>
+ <66b68bcc-8d7e-a5f7-5e6c-b2d20c26ab01@redhat.com>
+ <8dfc9854-4d59-0759-88d0-d502ae7c552f@gmail.com>
+ <20220302173009.26auqvy4t4rx74td@mhamilton>
+ <85ed0856-308a-7774-a751-b20588f3d9cd@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220301195432.114252-1-dgilbert@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="tpkexuwipkv6mgvo"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <85ed0856-308a-7774-a751-b20588f3d9cd@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,66 +79,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: eduardo@habkost.net, libvir-list@redhat.com, thuth@redhat.com,
- qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Cornelia Huck <cohuck@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 01, 2022 at 07:54:32PM +0000, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Declare the intent to require a machine type to be specified on x86
-> system emulation.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  docs/about/deprecated.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 85773db631..143c60d105 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -324,6 +324,14 @@ machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
->  been implemented), so there is not much value added by this board. Use the
->  ``ref405ep`` machine instead.
->  
-> +x86 default machine type
-> +''''''''''''''''''''''''
-> +
-> +x86 currently defaults to the ```pc``` machine type which is based on the very
-> +old ```i440fx``` chipset.  This default will be removed and the user will be
-> +required to specify a machine type explicitly using -M; users are encouraged to
-> +switch to the not quite as old ```q35``` machine types.
 
-This will have no impact on anyone using libvirt as a mgmt app,
-because it will explicitly set 'pc' if the user doesn't request
-a machine type.
+--tpkexuwipkv6mgvo
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It will, however, break a huge number of users who don't use
-libvirt or a similar mgmt app.
+On Wed, Mar 02, 2022 at 06:38:07PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 2/3/22 18:31, Sergio Lopez wrote:
+> > On Wed, Mar 02, 2022 at 06:18:59PM +0100, Philippe Mathieu-Daud=E9 wrot=
+e:
+> > > On 2/3/22 18:10, Paolo Bonzini wrote:
+> > > > On 3/2/22 12:36, Sergio Lopez wrote:
+> > > > > With the possibility of using pipefd as a replacement on operating
+> > > > > systems that doesn't support eventfd, vhost-user can also work on=
+ BSD
+> > > > > systems.
+> > > > >=20
+> > > > > This change allows enabling vhost-user on BSD platforms too and
+> > > > > makes libvhost_user (which still depends on eventfd) a linux-only
+> > > > > feature.
+> > > > >=20
+> > > > > Signed-off-by: Sergio Lopez <slp@redhat.com>
+> > > >=20
+> > > > I would just check for !windows.
+> > >=20
+> > > What about Darwin / Haiku / Illumnos?
+> >=20
+> > It should work on every system providing pipe() or pipe2(), so I guess
+> > Paolo's right, every platform except Windows. FWIW, I already tested
+> > it with Darwin.
+>=20
+> Wow, nice.
+>=20
+> So maybe simply check for pipe/pipe2 rather than !windows?
+>=20
 
-'q35' is not a drop in replacement for 'pc', and even though
-it is slightly newer, the features it brings are not likely
-to be important enough for most users who aren't using a mgmt
-app to care about switching.
+Is it worth it? In "configure", CONFIG_POSIX is set to "y" if the
+target isn't "mingw32", and CONFIG_POSIX brings "util/oslib-posix.c"
+into the build, which expects to have either pipe or pipe2.
 
-In the ongoing work to introduce a completely new system
-emulator binary that is exclusively runtime QMP configured,
-the machine type will almost certainly be mandatory, without
-affecting existing users. That would also apply consistently
-across all target arches.
+Thanks,
+Sergio.
 
-Overall I'm just not seeing enough benefit to justify the
-disruption we'll cause by making this change to existing
-system emulator binaries.
+--tpkexuwipkv6mgvo
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmIfrhgACgkQ9GknjS8M
+AjVzrRAAsTcf522XpDZJHdkqrJ4iY87nqERGww2Xz99TuNvzoxVAuvfbGTa4O6ZQ
+Vf8GUpbfJcvvwaQu/Cb0KbZCYY/7o/KKAWSYeLYO4SvA0aoSqExJoeLVYf9nhgaq
+RGpuZLgMWC1LGNeXf3QeQHcSZaQ6XqZn8aAAO+oeX+tK6kql05l2ZxE/p+Hs+RnP
+3Wr+yxUZnr0ljHOUWZ7luQ0+C9bKso9WQhKXiS59cPRg3tK3bx0OP1gyyxwD1+gB
+268XBEDOgcH9jBXZpQx//iyPQJJQNWnXHdDhW0w/WmkAdt/DaHkEYmfKWV/oAzoq
+TdCx6Eh5OKzBoOYBd/CXpLbdxoWPHtvzZ+UUbxBdco+jNuhUmn8hquC32GtmTR05
+o+H5WCcQvVmAvk75sOUlEgkRHaZcmnply1bIBf5pea40pFzbTimjEnnqwxGfNBrD
+eplli9xkBixcArtWDafK21YJsva/8TxkzgysGUb5JlHLRx78PkJ0C7sNFympBpBN
+oTQYx5T5PLhfYQEacbaGWcWS2T15mw3oCXAltJopULif5nijp83xY+tlKJVRiFgM
+RNB1M/aB2/cpcEOI75xx2glEt9GeJUMgqAcco4VCkifFb3n8tIFh/01vEfABvNMc
+i6crm15PxBagb9QUpk9+HxEAduKR6BAaCRtWlySn++KtKNgXkWk=
+=+Zlf
+-----END PGP SIGNATURE-----
+
+--tpkexuwipkv6mgvo--
 
 
