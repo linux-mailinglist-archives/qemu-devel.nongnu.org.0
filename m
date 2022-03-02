@@ -2,89 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6B04CAEB4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 20:29:29 +0100 (CET)
-Received: from localhost ([::1]:46550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3077D4CAEE1
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 20:41:53 +0100 (CET)
+Received: from localhost ([::1]:59144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPUfA-0000BW-1j
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 14:29:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49940)
+	id 1nPUr9-0001MB-Op
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 14:41:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPUYA-00016U-EQ; Wed, 02 Mar 2022 14:22:14 -0500
-Received: from [2607:f8b0:4864:20::1029] (port=52886
- helo=mail-pj1-x1029.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPUY8-0002WS-9C; Wed, 02 Mar 2022 14:22:13 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id v4so2666371pjh.2;
- Wed, 02 Mar 2022 11:22:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=GowkojXAz1wkAT6+sYRVxmC+1jzWkyvWgoOaFe2GzAI=;
- b=TrbuYO86toBF9+xXdvV9SuFJYOCKaEChA5oo5DUCZZRpbgdJSFdUg6HSnusoANKepT
- YwAGDGoUZlK4MhOdjn4TW5IT/lFHPVqjfgxTXRKqIbYnYPJwF2Z0Nx2sbiy8/eZ29fSn
- KmkBPJ6ZgZDvUx7FB0egK26lxKvQNV1/WEAt0ynYVx9QxmlwR1Ajw0rTTLFnHVjC0wmt
- 2tRk2SUClhg8oL2ZFsqJ6IOjs8ReGLyDWBzVk3KC0mYoXpXTCNkpqHEhbUUhn4ECrC8z
- hHSEHspUfrWUdQnE+X0KYwT2N/x+vmuoyCW9LjPPgT0FIjSQcGRpjyvTWsYjkBBV05HR
- 7NoQ==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nPUoe-0000VN-Mw
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 14:39:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57627)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nPUob-0005MH-5I
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 14:39:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646249951;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=T3OVJlYzwLwhkOzI34kJGe88HXVthfSn7Fjo4pBVOJk=;
+ b=EseXNNASyzjdLezfLAAUPRyvMmvW8vbOGNms+sghMJLDMT3rUt2rD+KXSYAhTmPaZrSxS4
+ 7YYkOarf3aIfIfcfrnH22ozDXYHCpQaLwG2/VsD6PtKNxLMBgcRroNEnmM1zFQDNUaKhH4
+ asdSuDArXggkEtSKk+0RrXWTFNpEFIE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-63-8nZjN2YROeGPXL6otFKAfA-1; Wed, 02 Mar 2022 14:38:56 -0500
+X-MC-Unique: 8nZjN2YROeGPXL6otFKAfA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 10-20020a1c020a000000b0037fae68fcc2so2283592wmc.8
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 11:38:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GowkojXAz1wkAT6+sYRVxmC+1jzWkyvWgoOaFe2GzAI=;
- b=UpcWrRhf207OTjnvOss4pEmERI6k3Dba5IMlwzLfH2heHwtszPwtkhnpeEa+JgCgRH
- FCPY93nc69s+spLuBLxPi2VHR8FTvoekSL9JeM/gHEglaqtjgwPWobTqCCOF+Rz72/X3
- HPpIYizaOuE2LqsAQgSvoViQeOjaBFmhbadwNiotV8sceTLfeSobPeq652/KLj0Y10jQ
- oBmmRbKAg/F8LY2fRY4OHH5GkbegQ7eSQcwWW2BcNc3ZhPWjG12v6ALMLNpp3Yc+C7Ca
- n0knnc2mAZ6vP3e4cgdqQLXMJqK/fZfHH0LJAqm4oHTnz17ebutKhPMeOXyqkby94F5i
- dYQg==
-X-Gm-Message-State: AOAM532I+xexBlHeiyK5v+qErYef/0+yDBBdvcm71HFgk5laasVEdw08
- pl3s2ELhhJ1TEU9F6SsPgPU=
-X-Google-Smtp-Source: ABdhPJxpQMG1YVjUuU1HVDKoxItlkxdQTlC7TRrzQY4Skr4NFwEQxm3vqKHErao0vcxCxFiHoC1p+g==
-X-Received: by 2002:a17:90a:ba07:b0:1bc:a0fd:faf with SMTP id
- s7-20020a17090aba0700b001bca0fd0fafmr1357961pjr.194.1646248929362; 
- Wed, 02 Mar 2022 11:22:09 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- t5-20020a17090ae50500b001bc4ec15949sm5828982pjy.2.2022.03.02.11.22.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Mar 2022 11:22:08 -0800 (PST)
-Message-ID: <62af5861-15da-da1a-8546-cf3b33806c38@gmail.com>
-Date: Wed, 2 Mar 2022 20:22:01 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=T3OVJlYzwLwhkOzI34kJGe88HXVthfSn7Fjo4pBVOJk=;
+ b=sRaEDzvvQYtN/y1EiMFZbzivJc2/j/Zx7JhaUxGnqzlFcWdyV/U8ghW890JVg7uQU+
+ iDz0JI3IBb4eAq5H/gbdXC9T/r2QM80b8j+Jq0fMHWQKERQVV7+pLSnGf2ZOqtSas82r
+ c5JJlKiz44vP6TOJcAQh5LEJwo5UvVrCZ808LbagEeC3qmwLLVw3HkPQi3GlDf65FbGb
+ AmCjeeGHs30Zt+u5mglDnwICkCHHGUxUhEXNRTSt5+4Lig5oE+IYDkxoSr4oIFRwSqT5
+ WUphQdoGgBElp6N7IbcA97IkBVY0Kj+NKNK0/ck7LKg3nIPLdgAQnoduOvdrVB6CUJ8R
+ ponw==
+X-Gm-Message-State: AOAM531WS7e7rGjmI/MWuF0ENMTHM6SBoWkt3i1zMjGG8/dirGRL72me
+ 4gRPeDJwk1YccASkctVMlP9bMWkRE3/zwlmMS06dAKNr1/LR51ZCtIXapFvuJDyI/n+MP76q6bP
+ uGIBzCtPD4iZFNAY=
+X-Received: by 2002:a5d:6d06:0:b0:1f0:35c4:79d0 with SMTP id
+ e6-20020a5d6d06000000b001f035c479d0mr2947830wrq.204.1646249935637; 
+ Wed, 02 Mar 2022 11:38:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz1Ppyzhe5lsH9Rvx1exHxw0BQw6KPwSKjXbgt6rs9iZgSl8gu9/RoPNlb/8icU5jij9UDzIw==
+X-Received: by 2002:a5d:6d06:0:b0:1f0:35c4:79d0 with SMTP id
+ e6-20020a5d6d06000000b001f035c479d0mr2947817wrq.204.1646249935392; 
+ Wed, 02 Mar 2022 11:38:55 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ 2-20020a1c1902000000b00380d3873d6asm6779642wmz.43.2022.03.02.11.38.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Mar 2022 11:38:54 -0800 (PST)
+Date: Wed, 2 Mar 2022 19:38:52 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] deprecation: x86 default machine types
+Message-ID: <Yh/HzPymVWPZpVaf@work-vm>
+References: <20220301195432.114252-1-dgilbert@redhat.com>
+ <Yh+sbYC5n4DsZWWg@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 2/2] Allow building vhost-user in BSD
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220302113644.43717-1-slp@redhat.com>
- <20220302113644.43717-3-slp@redhat.com>
- <66b68bcc-8d7e-a5f7-5e6c-b2d20c26ab01@redhat.com>
- <8dfc9854-4d59-0759-88d0-d502ae7c552f@gmail.com>
- <20220302173009.26auqvy4t4rx74td@mhamilton>
- <85ed0856-308a-7774-a751-b20588f3d9cd@gmail.com>
- <Yh+vniMOTFt2npIJ@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <Yh+vniMOTFt2npIJ@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <Yh+sbYC5n4DsZWWg@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,65 +103,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Eric Farman <farman@linux.ibm.com>, Jagannathan Raman <jag.raman@oracle.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
- Thomas Huth <thuth@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, John G Johnson <john.g.johnson@oracle.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: eduardo@habkost.net, libvir-list@redhat.com, thuth@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/22 18:55, Daniel P. Berrangé wrote:
-> On Wed, Mar 02, 2022 at 06:38:07PM +0100, Philippe Mathieu-Daudé wrote:
->> On 2/3/22 18:31, Sergio Lopez wrote:
->>> On Wed, Mar 02, 2022 at 06:18:59PM +0100, Philippe Mathieu-Daudé wrote:
->>>> On 2/3/22 18:10, Paolo Bonzini wrote:
->>>>> On 3/2/22 12:36, Sergio Lopez wrote:
->>>>>> With the possibility of using pipefd as a replacement on operating
->>>>>> systems that doesn't support eventfd, vhost-user can also work on BSD
->>>>>> systems.
->>>>>>
->>>>>> This change allows enabling vhost-user on BSD platforms too and
->>>>>> makes libvhost_user (which still depends on eventfd) a linux-only
->>>>>> feature.
->>>>>>
->>>>>> Signed-off-by: Sergio Lopez <slp@redhat.com>
->>>>>
->>>>> I would just check for !windows.
->>>>
->>>> What about Darwin / Haiku / Illumnos?
->>>
->>> It should work on every system providing pipe() or pipe2(), so I guess
->>> Paolo's right, every platform except Windows. FWIW, I already tested
->>> it with Darwin.
->>
->> Wow, nice.
->>
->> So maybe simply check for pipe/pipe2 rather than !windows?
+* Daniel P. Berrang� (berrange@redhat.com) wrote:
+> On Tue, Mar 01, 2022 at 07:54:32PM +0000, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > Declare the intent to require a machine type to be specified on x86
+> > system emulation.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  docs/about/deprecated.rst | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> > index 85773db631..143c60d105 100644
+> > --- a/docs/about/deprecated.rst
+> > +++ b/docs/about/deprecated.rst
+> > @@ -324,6 +324,14 @@ machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
+> >  been implemented), so there is not much value added by this board. Use the
+> >  ``ref405ep`` machine instead.
+> >  
+> > +x86 default machine type
+> > +''''''''''''''''''''''''
+> > +
+> > +x86 currently defaults to the ```pc``` machine type which is based on the very
+> > +old ```i440fx``` chipset.  This default will be removed and the user will be
+> > +required to specify a machine type explicitly using -M; users are encouraged to
+> > +switch to the not quite as old ```q35``` machine types.
 > 
-> NB that would make the check more fragile.
+> This will have no impact on anyone using libvirt as a mgmt app,
+> because it will explicitly set 'pc' if the user doesn't request
+> a machine type.
 > 
-> We already use pipe/pipe2 without checking for it, because its
-> usage is confined to oslib-posix.c and we know all POSIX
-> OS have it. There is no impl at all of qemu_pipe in oslib-win.c
-> and the declaration is masked out too in the header file.
+> It will, however, break a huge number of users who don't use
+> libvirt or a similar mgmt app.
 > 
-> Thus if we check for pipe2 and windows did ever implement it,
-> then we would actually break the windows build due to qemu_pipe
-> not existing.
-> 
-> IOW, checking !windows matches our logic for picking oslib-posix.c
-> in builds and so is better than checking for pipe directly.
+> 'q35' is not a drop in replacement for 'pc', and even though
+> it is slightly newer, the features it brings are not likely
+> to be important enough for most users who aren't using a mgmt
+> app to care about switching.
 
-OK I see, thanks.
+I can see it having advantages for those who do things like PCIe pass
+through of graphics cards.
+However, my main concern is that there's a split happening where
+downstream we're working primarily on q35 but a lot of people still use
+i440fx; eventually that split will mean the i440fx users will have a
+pretty bad experience instability/features.
+So I'd like to encourage them onto a35.
+
+Ideally I'd like to make that easy; e.g. auto creating some of the PCIe
+busses.
+
+> In the ongoing work to introduce a completely new system
+> emulator binary that is exclusively runtime QMP configured,
+> the machine type will almost certainly be mandatory, without
+> affecting existing users. That would also apply consistently
+> across all target arches.
+
+I'm assuming that will also cause the disruption to those end users.
+
+Dave
+
+> Overall I'm just not seeing enough benefit to justify the
+> disruption we'll cause by making this change to existing
+> system emulator binaries.
+> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
