@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33FEA4CAA85
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:38:47 +0100 (CET)
-Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AD04CAAB4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Mar 2022 17:46:52 +0100 (CET)
+Received: from localhost ([::1]:58330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPRzx-0008In-Gj
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:38:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34938)
+	id 1nPS7n-0002BD-Io
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 11:46:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nPRym-0007SO-Jd
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:37:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20484)
+ id 1nPS6l-0001W8-O5
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:45:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nPRyj-0001yz-60
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:37:30 -0500
+ id 1nPS6j-0003Jm-A4
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 11:45:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646239047;
+ s=mimecast20190719; t=1646239544;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=h2bqMC0I9awJaaATn6NSAqVXYmFlWuAeAjjLCrf89VM=;
- b=Ocwatcm4v1JjCyRrtOFz6wLnVdJIHa/Ipc7tNT9k/g28O3nX+gsuaPIY+KJXFn7g7PA6/f
- G0IyuUOHxG1Uu8i54+H+CWsCz+ZvQaVecYnsrZ709egsXMquAP5buDqqDECaBUcFDQ8d43
- bim2EsZ3/GdRFnATKydz4gS3WJBfwfU=
+ bh=uwmUzLPX8ErfFRL8A+QIDO7iLygGVH/Q+uaLLey8sFY=;
+ b=SVLWoS+szohzxUnOICGYCTBZA181rKOPtJ1W6bri/4OoFeaBMMwe+mqt5IbtVdMFL1lgIR
+ a53ZJMvIPteGtEGHiH9RT0/Lh+mwH1wlFJg0GLhDBDmaiIKd7D0M5oJvDD0eXozTvl6+rv
+ +PFqPLMElxeAWHYm3UGLbe6ouz4OcUE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-510-swng6tLZMuSRDGvZf6m-4w-1; Wed, 02 Mar 2022 11:37:22 -0500
-X-MC-Unique: swng6tLZMuSRDGvZf6m-4w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-592--fOtWGikMp6rcNJVB0X1Xg-1; Wed, 02 Mar 2022 11:45:41 -0500
+X-MC-Unique: -fOtWGikMp6rcNJVB0X1Xg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A3C6805EE5;
- Wed,  2 Mar 2022 16:37:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31D1480D6A5;
+ Wed,  2 Mar 2022 16:45:39 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 879C7841C8;
- Wed,  2 Mar 2022 16:37:20 +0000 (UTC)
-Date: Wed, 2 Mar 2022 16:37:18 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E33A080001;
+ Wed,  2 Mar 2022 16:45:07 +0000 (UTC)
+Date: Wed, 2 Mar 2022 16:45:06 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH 4/5] child_job_drained_poll: override polling
- condition only when in home thread
-Message-ID: <Yh+dPsbc+zWsbv+k@stefanha-x1.localdomain>
-References: <20220301142113.163174-1-eesposit@redhat.com>
- <20220301142113.163174-5-eesposit@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v6 07/19] vfio-user: define vfio-user-server object
+Message-ID: <Yh+fEqjP+U+LI0j/@stefanha-x1.localdomain>
+References: <cover.1645079934.git.jag.raman@oracle.com>
+ <309a6afc6f47d7e812a6f18ce591dff092efbb06.1645079934.git.jag.raman@oracle.com>
+ <YhOxteVSJd3GpqkK@stefanha-x1.localdomain>
+ <DD1CDEFD-D610-4A03-BDF5-4CC38A639CD2@oracle.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VOc4Gul4LZ14pZ4J"
+ protocol="application/pgp-signature"; boundary="93VeTYl/UGJjcM9i"
 Content-Disposition: inline
-In-Reply-To: <20220301142113.163174-5-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <DD1CDEFD-D610-4A03-BDF5-4CC38A639CD2@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -78,101 +79,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "eblake@redhat.com" <eblake@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---VOc4Gul4LZ14pZ4J
-Content-Type: text/plain; charset=us-ascii
+--93VeTYl/UGJjcM9i
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 01, 2022 at 09:21:12AM -0500, Emanuele Giuseppe Esposito wrote:
-> drv->drained_poll() is only implemented in mirror, and allows
-> it to drain from the coroutine. The mirror implementation uses
-> in_drain flag to recognize when it is draining from coroutine,
-> and consequently avoid deadlocking (wait the poll condition in
-> child_job_drained_poll to wait for itself).
+On Mon, Feb 28, 2022 at 07:14:21PM +0000, Jag Raman wrote:
+> > On Feb 21, 2022, at 10:37 AM, Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+> > On Thu, Feb 17, 2022 at 02:48:54AM -0500, Jagannathan Raman wrote:
+> >> +struct VfuObjectClass {
+> >> +    ObjectClass parent_class;
+> >> +
+> >> +    unsigned int nr_devs;
+> >> +
+> >> +    /*
+> >> +     * Can be set to shutdown automatically when all server object
+> >> +     * instances are destroyed
+> >> +     */
+> >> +    bool auto_shutdown;
+> >=20
+> > This field is introduced but it is hardcoded to true. Is there a way to
+> > set it to false?
 >=20
-> The problem is that this flag is dangerous, because it breaks
-> bdrv_drained_begin() invariants: once drained_begin ends, all
-> jobs, in_flight requests, and anything running in the iothread
-> are blocked.
->=20
-> This can be broken in such way:
-> iothread(mirror): s->in_drain =3D true; // mirror.c:1112
-> main loop: bdrv_drained_begin(mirror_bs);
-> /*
->  * drained_begin wait for bdrv_drain_poll_top_level() condition,
->  * that translates in child_job_drained_poll() for jobs, but
->  * mirror implements drv->drained_poll() so it returns
->  * !!in_flight_requests, which his 0 (assertion in mirror.c:1105).
->  */
-> main loop: thinks iothread is stopped and is modifying the graph...
-> iothread(mirror): *continues*, as nothing is stopping it
-> iothread(mirror): bdrv_drained_begin(bs);
-> /* draining reads the graph while it is modified!! */
-> main loop: done modifying the graph...
->=20
-> In order to fix this, we can simply allow drv->drained_poll()
-> to be called only by the iothread, and not the main loop.
-> We distinguish it by using in_aio_context_home_thread(), that
-> returns false if @ctx is not the same as the thread that runs it.
->=20
-> Co-Developed-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  blockjob.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/blockjob.c b/blockjob.c
-> index 10815a89fe..e132d9587e 100644
-> --- a/blockjob.c
-> +++ b/blockjob.c
-> @@ -107,6 +107,7 @@ static bool child_job_drained_poll(BdrvChild *c)
->      BlockJob *bjob =3D c->opaque;
->      Job *job =3D &bjob->job;
->      const BlockJobDriver *drv =3D block_job_driver(bjob);
-> +    AioContext *ctx =3D block_job_get_aio_context(bjob);
-> =20
->      /* An inactive or completed job doesn't have any pending requests. J=
-obs
->       * with !job->busy are either already paused or have a pause point a=
-fter
-> @@ -117,7 +118,7 @@ static bool child_job_drained_poll(BdrvChild *c)
-> =20
->      /* Otherwise, assume that it isn't fully stopped yet, but allow the =
-job to
->       * override this assumption. */
-> -    if (drv->drained_poll) {
-> +    if (in_aio_context_home_thread(ctx) && drv->drained_poll) {
->          return drv->drained_poll(bjob);
+> We could add a property to =E2=80=99TYPE_REMOTE_MACHINE=E2=80=99 which in=
+dicates if
+> it would run as a server/daemon.
 
-The purpose of in_aio_context_home_thread() is not obvious from the
-code. Please add a comment explaining this case.
+Yes.
 
-Thanks,
+An alternative is to add a per-instance property to --object
+x-vfio-user-server. In practice there is not much benefit since users
+are unlikely to mix auto-shutdown instances with non-auto-shutdown
+instances, but the code might be a little simpler and cleaner.
+
 Stefan
 
---VOc4Gul4LZ14pZ4J
+--93VeTYl/UGJjcM9i
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIfnT4ACgkQnKSrs4Gr
-c8iOLAf/Uezs0D4m9msJXlJfFStM+Mrv8Fa5zEI8MQl38x4rO8Z/mctTVPxHoVL5
-pwDxZHA7b3OZjCEVqD8xC6UnDGx85CTzzOZaUbmuJ/N6K3fU1yYvoaOGS4ce1uJM
-H0tydP/7lWG/HN8b8/kLjlbhY/354jfoLtiT/t0gsYeoczWbbHLtysWeMwm7Hc4t
-1YbWIO2oZufM4r9HLo7Dqy2AWG1m7C308O3yVFn2Pp1rMigQxbLsQ4Ju+vqesU3c
-ps8QpcOYX/dC97pnyCkCsqNW79ADUwo3i92pA8vEA0eIf7LEg/JXw6s35WoLkTMh
-3yqBX+7Ve7sl7nfkJwBU9C6L1Ksn+g==
-=dzqY
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIfnxIACgkQnKSrs4Gr
+c8hnHwf/dR43kX+F2wTmiNPtz/MwYaC42Ya/G6D5GlzCe7ww762vXSiDB08PWtXN
+TNQwevF2HfWfe/gXoI0+DeHRv/fxdnXqd6lhWDCcPkXonmF2buxyf/SPZ7cEkJzF
++PrBwmyiMz7/6R5ujys1A9go9I51HbXwqSao+E+j95WAsyJ4aAP6/bBUPvO+ztyx
+E9/8+xL6kS61ZvWP/7xVcMdsGVeJJeQh0qp6kx1aPe3Gyw70vBoklGbfUEiHokXD
+RHUI1XuEb2XzbdYHhtn5Y468jaUbiWNFicNJhqq48IAbm1MjqciUGGfkFqo91DnG
+mKT6jifIktEJvJKyyWNeySudogsrgQ==
+=s3CV
 -----END PGP SIGNATURE-----
 
---VOc4Gul4LZ14pZ4J--
+--93VeTYl/UGJjcM9i--
 
 
