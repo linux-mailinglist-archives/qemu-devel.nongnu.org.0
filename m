@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994834CC38C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 18:17:09 +0100 (CET)
-Received: from localhost ([::1]:42010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7D94CC38D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 18:18:05 +0100 (CET)
+Received: from localhost ([::1]:44276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPp4e-0002hZ-N5
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 12:17:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50732)
+	id 1nPp5Y-0004Ll-0v
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 12:18:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nPp2G-000190-Ay
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:14:40 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:51910)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nPp36-0002Ae-5r
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:15:32 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:40075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nPp2E-0005gG-Tj
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:14:40 -0500
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nPp34-0005wT-M0
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:15:31 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-RP4qCkwiPnqSsx3WHiW62Q-1; Thu, 03 Mar 2022 12:14:34 -0500
-X-MC-Unique: RP4qCkwiPnqSsx3WHiW62Q-1
+ us-mta-151-iu8ILS2SM8aVATOpf9ctQQ-1; Thu, 03 Mar 2022 12:15:26 -0500
+X-MC-Unique: iu8ILS2SM8aVATOpf9ctQQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 925EA1854E21;
- Thu,  3 Mar 2022 17:14:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A245B1006AA6;
+ Thu,  3 Mar 2022 17:15:25 +0000 (UTC)
 Received: from bahia.redhat.com (unknown [10.39.193.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A57986B83;
- Thu,  3 Mar 2022 17:14:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E56C186B83;
+ Thu,  3 Mar 2022 17:14:33 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] virtiofsd: Track submounts
-Date: Thu,  3 Mar 2022 18:13:22 +0100
-Message-Id: <20220303171323.580712-2-groug@kaod.org>
+Subject: [PATCH 2/2] virtiofsd: Support FUSE_SYNCFS on unannounced submounts
+Date: Thu,  3 Mar 2022 18:13:23 +0100
+Message-Id: <20220303171323.580712-3-groug@kaod.org>
 In-Reply-To: <20220303171323.580712-1-groug@kaod.org>
 References: <20220303171323.580712-1-groug@kaod.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Transfer-Encoding: quoted-printable
@@ -74,112 +72,76 @@ Cc: German Maglione <gmaglione@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the server doesn't announce submounts to the client, it needs to
-track them internally to properly support FUSE_SYNCFS. lo_do_lookup()
-already knows how to detect them : it is a directory with a different
-device ID or mount ID than its parent. Use the same logic and put
-submount inodes into a dedicated hash : this will allow to iterate
-on them in lo_syncfs().
+This adds the missing bits to support FUSE_SYNCFS in the case submounts
+aren't announced to the client.
+
+Iterate over all submounts and call syncfs() on them. Since syncfs() can
+block for an indefinite time, we cannot call it with lo->mutex held as
+it would prevent the server to process other requests. Generate a list
+of submounts with lo->mutex held and bump their reference count to
+ensure they don't vanish when lo->mutex is dropped.
+
+Each individual call to syncfs() can legitimately fail. Try to flush
+as much as possible anyway. A single error will be returned to the
+client so that it knows that the flush didn't fully succeed.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- tools/virtiofsd/passthrough_ll.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 37 ++++++++++++++++++++++++++++++--
+ 1 file changed, 35 insertions(+), 2 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index dfa2fc250d64..177e4b46c1bb 100644
+index 177e4b46c1bb..628ae0e9589d 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -165,6 +165,7 @@ struct lo_data {
-     bool use_statx;
-     struct lo_inode root;
-     GHashTable *inodes; /* protected by lo->mutex */
-+    GHashTable *submounts; /* protected by lo->mutex */
-     struct lo_map ino_map; /* protected by lo->mutex */
-     struct lo_map dirp_map; /* protected by lo->mutex */
-     struct lo_map fd_map; /* protected by lo->mutex */
-@@ -1104,6 +1105,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pa=
-rent, const char *name,
-     struct lo_data *lo =3D lo_data(req);
-     struct lo_inode *inode =3D NULL;
-     struct lo_inode *dir =3D lo_inode(req, parent);
-+    bool is_submount;
+@@ -3746,9 +3746,42 @@ static void lo_syncfs(fuse_req_t req, fuse_ino_t ino=
+)
 =20
-     if (inodep) {
-         *inodep =3D NULL; /* in case there is an error */
-@@ -1138,8 +1140,10 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t p=
-arent, const char *name,
-         goto out_err;
-     }
-=20
--    if (S_ISDIR(e->attr.st_mode) && lo->announce_submounts &&
--        (e->attr.st_dev !=3D dir->key.dev || mnt_id !=3D dir->key.mnt_id))=
- {
-+    is_submount =3D S_ISDIR(e->attr.st_mode) &&
-+        (e->attr.st_dev !=3D dir->key.dev || mnt_id !=3D dir->key.mnt_id);
+     /*
+      * If submounts aren't announced, the client only sends a request to
+-     * sync the root inode. TODO: Track submounts internally and iterate
+-     * over them as well.
++     * sync the root inode. Iterate over the known submounts to sync them
++     * as well.
+      */
++    if (!lo->announce_submounts) {
++        g_autoptr(GSList) submount_list =3D NULL;
++        GSList *elem;
++        GHashTableIter iter;
++        gpointer key, value;
 +
-+    if (is_submount && lo->announce_submounts) {
-         e->attr_flags |=3D FUSE_ATTR_SUBMOUNT;
-     }
-=20
-@@ -1174,6 +1178,9 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pa=
-rent, const char *name,
-         pthread_mutex_lock(&lo->mutex);
-         inode->fuse_ino =3D lo_add_inode_mapping(req, inode);
-         g_hash_table_insert(lo->inodes, &inode->key, inode);
-+        if (is_submount && !lo->announce_submounts) {
-+            g_hash_table_insert(lo->submounts, &inode->key, inode);
++        pthread_mutex_lock(&lo->mutex);
++
++        g_hash_table_iter_init(&iter, lo->submounts);
++        while (g_hash_table_iter_next(&iter, &key, &value)) {
++            struct lo_inode *inode =3D value;
++
++            g_atomic_int_inc(&inode->refcount);
++            submount_list =3D g_slist_prepend(submount_list, inode);
 +        }
-         pthread_mutex_unlock(&lo->mutex);
-     }
-     e->ino =3D inode->fuse_ino;
-@@ -1187,8 +1194,9 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pa=
-rent, const char *name,
-=20
-     lo_inode_put(lo, &dir);
-=20
--    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n", (unsigned long long)pa=
-rent,
--             name, (unsigned long long)e->ino);
-+    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli%s\n",
-+             (unsigned long long) parent, name, (unsigned long long) e->in=
-o,
-+             is_submount ? " (submount)" : "");
-=20
-     return 0;
-=20
-@@ -1745,6 +1753,9 @@ static void unref_inode(struct lo_data *lo, struct lo=
-_inode *inode, uint64_t n)
-     if (!inode->nlookup) {
-         lo_map_remove(&lo->ino_map, inode->fuse_ino);
-         g_hash_table_remove(lo->inodes, &inode->key);
-+        if (!lo->announce_submounts) {
-+            g_hash_table_remove(lo->submounts, &inode->key);
++
++        pthread_mutex_unlock(&lo->mutex);
++
++        for (elem =3D submount_list; elem; elem =3D g_slist_next(elem)) {
++            struct lo_inode *inode =3D elem->data;
++            int r;
++
++            r =3D lo_do_syncfs(lo, inode);
++            if (r) {
++                /*
++                 * Try to sync as much as possible. Only one error can be
++                 * reported to the client though, arbitrarily the last one=
+.
++                 */
++                err =3D r;
++            }
++            lo_inode_put(lo, &inode);
 +        }
-         if (lo->posix_lock) {
-             if (g_hash_table_size(inode->posix_locks)) {
-                 fuse_log(FUSE_LOG_WARNING, "Hash table is not empty\n");
-@@ -4297,6 +4308,10 @@ static gboolean lo_key_equal(gconstpointer a, gconst=
-pointer b)
-=20
- static void fuse_lo_data_cleanup(struct lo_data *lo)
- {
-+    if (lo->submounts) {
-+        g_hash_table_destroy(lo->submounts);
 +    }
-+
-     if (lo->inodes) {
-         g_hash_table_destroy(lo->inodes);
-     }
-@@ -4364,6 +4379,7 @@ int main(int argc, char *argv[])
 =20
-     pthread_mutex_init(&lo.mutex, NULL);
-     lo.inodes =3D g_hash_table_new(lo_key_hash, lo_key_equal);
-+    lo.submounts =3D g_hash_table_new(lo_key_hash, lo_key_equal);
-     lo.root.fd =3D -1;
-     lo.root.fuse_ino =3D FUSE_ROOT_ID;
-     lo.cache =3D CACHE_AUTO;
+     fuse_reply_err(req, err);
+ }
 --=20
 2.34.1
 
