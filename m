@@ -2,85 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDFA4CBDEC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:37:53 +0100 (CET)
-Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 809684CBE48
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:58:51 +0100 (CET)
+Received: from localhost ([::1]:40214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPkiO-0007pF-Ic
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:37:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44104)
+	id 1nPl2g-0006ZC-6w
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:58:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nPkgV-0006WF-44
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:35:55 -0500
-Received: from [2a00:1450:4864:20::530] (port=46918
- helo=mail-ed1-x530.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nPkgT-0003mq-L2
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:35:54 -0500
-Received: by mail-ed1-x530.google.com with SMTP id s1so6380212edd.13
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 04:35:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=s3iuDPI+C7CFzS1QKTXUsw7916VjE+RCP9v8irkZ97Q=;
- b=wBtG0Hd4h6PYEDA5NHaYt4s9LUvAJ7f1b4+AFufSjQ5gBU+F7Fwd+8i3yUOwrIhgeU
- W5J81cmAPpL4uTfDMpJ34UAnomGweYEj9Tgu8zKz4IVN/qPHlXp2NwJ7Xeo8QygNkuWL
- q8FaASOs9Z0LsdmAbr0E4FJXzaqkjp3zo9QIrN8A8+CYLpWSo117nC/MmcTTUwr9sldS
- 9EBk/ygvlvlnnsfsP+qZoJ4FshAoGwSq+b0Lx8KoW5jhidj/gR0/vleALsK4M7q0AKEp
- vwb8pYhVDytTd4wuzodcOGSzzUiYrldtkDZ3t5+siuxKJ0QZM5EG02btxcQSk2zAqw3D
- TDlQ==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nPl1D-0004pI-OH
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:57:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30301)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nPl1A-0000QB-I0
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:57:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646312235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wG9gLeCWyKtbG9G98fdrqBLJObXLtZ3t7BNqEepFbPA=;
+ b=eG0EvBrNr9+xllVNR1OvsgRgPcTp6F7Q2wYHkh3c8QTQbRhUaydgsYbfh4D2obHLm4qZJv
+ Qds8mxce12Msj8OPI1e91mbPySl8wlnlrGdsPAObs5FM/WExuiUrfELlL7CWjoOfyxrY0O
+ C4zJFxiGiqL88ttlMuWd90dLLa/OQOk=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-502-nmTWui1WMP2a_YDLuE3v5Q-1; Thu, 03 Mar 2022 07:57:12 -0500
+X-MC-Unique: nmTWui1WMP2a_YDLuE3v5Q-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ j9-20020a056402238900b004128085d906so2753160eda.19
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 04:57:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=s3iuDPI+C7CFzS1QKTXUsw7916VjE+RCP9v8irkZ97Q=;
- b=X3q/Rnnr3/JM6ogfbiBJvQ+BlFkYT8KkfjxM4aDkBbctvwT9YD0cpSzOFAu5RNwWaD
- k18OllFT7LKldi22c84Ahct3PP3tuJmwUs60UVTjo5hlr4DqxxWCDRjNZX9rnWiZfNKz
- N+PDABVnMEgHFsDwBASl9WKUsFRmfFa/Ryn3YdqybCzbqOnlHr0pXVn8bakhCR9Kpvsr
- Jl5lqqFnbtpln5xRb/BI+lBbXpeolYf7KdgAhkaeXLSMhKtBTOs7XXeSAfrx4d0WpZLW
- pIIinQn2KHGKDbw0xTGA6G4k2tasNSNW38UX84gOS7wp1tbIHoqIADRrGkdBC/2D3dbW
- qTkA==
-X-Gm-Message-State: AOAM532O98tW4w5mG9iogtxs80XHl1GhaGATpycz3FWjdhsbmYPx+DAt
- mH4U6yJbDKh83Z98gf5y2Ul3Zw==
-X-Google-Smtp-Source: ABdhPJwd35WZMZ0aS334c1tjtkLRkdrxth9kaMsbg2JQgUE0Ae1Yr6aeF8pHS1DpD1YxwQpLEUdIww==
-X-Received: by 2002:a05:6402:3549:b0:412:b31c:5509 with SMTP id
- f9-20020a056402354900b00412b31c5509mr34544649edd.224.1646310952000; 
- Thu, 03 Mar 2022 04:35:52 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=wG9gLeCWyKtbG9G98fdrqBLJObXLtZ3t7BNqEepFbPA=;
+ b=jcwh08DmIwvgl9YChqo8UQT3fQR93vpogNdqNwU1BCCuA5FxOMJLQUnKjwoA/eQ5qa
+ HOYsCXsJgZiXI9JhaVsPXB2QcMD/HXA7JVcoeqfAonxJLIiIRnxSXXmjKmvN+LVHSZgJ
+ eqOKMkVfwibmdABR3od0i8PuBEMfRwn28vgFaKlqyspzxjEdXa/mQ5rtGUfjpEDtmbih
+ dgADtXth6os3pHBJCjC/Re+qUBWkQRjiNaGMeJn6yOhTs0pN/YQyxfaWzuuxhkRV+GXZ
+ tSq7sIcaNYyyBxZvZMoenTrSgXTUKNI+SuRu47oXIdCWdfqpLclrLSZ5Sd2LwpFgfr1W
+ swiQ==
+X-Gm-Message-State: AOAM530GXHrwFNZz8hsNZ0Y4dTDJyJkelowR6YuDD74/MNnR8W86Fa4R
+ d6NTmx1b3znhK1nA/3rbVLB9VmozE1DxILBXACUr+cSnzYOOsV9gYFvjBydQGoroPshLwe0dgXX
+ Fh5hLD+jR3tStZXs=
+X-Received: by 2002:a05:6402:2744:b0:415:c590:3ac3 with SMTP id
+ z4-20020a056402274400b00415c5903ac3mr6467040edd.405.1646312231495; 
+ Thu, 03 Mar 2022 04:57:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxqM/BvP1II1vMV4t2EXrtxigo+LyBek2yew7oNiN+f6jrEGP3qT7kgpxKXnzgDqum7096XTg==
+X-Received: by 2002:a05:6402:2744:b0:415:c590:3ac3 with SMTP id
+ z4-20020a056402274400b00415c5903ac3mr6467020edd.405.1646312231275; 
+ Thu, 03 Mar 2022 04:57:11 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:ca91:ec4d:49ff:d0d1?
+ ([2a02:8071:5055:3f20:ca91:ec4d:49ff:d0d1])
  by smtp.gmail.com with ESMTPSA id
- q2-20020a170906144200b006ceb8723de9sm636150ejc.120.2022.03.03.04.35.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 04:35:50 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 19EE01FFB7;
- Thu,  3 Mar 2022 12:35:50 +0000 (GMT)
-References: <20220301085900.1443232-1-thuth@redhat.com>
-User-agent: mu4e 1.7.9; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] tests/Makefile.include: Let "make clean" remove the TCG
- tests, too
-Date: Thu, 03 Mar 2022 12:35:45 +0000
-In-reply-to: <20220301085900.1443232-1-thuth@redhat.com>
-Message-ID: <87ee3ji57d.fsf@linaro.org>
+ n6-20020a170906724600b006d4e2f6857dsm671661ejk.139.2022.03.03.04.57.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Mar 2022 04:57:10 -0800 (PST)
+Message-ID: <68317704-78b5-ff03-74bf-0a09482e65af@redhat.com>
+Date: Thu, 3 Mar 2022 13:57:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 15/16] iotests/image-fleecing: add test case with bitmap
+From: Hanna Reitz <hreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20220228113927.1852146-1-vsementsov@virtuozzo.com>
+ <20220228113927.1852146-16-vsementsov@virtuozzo.com>
+ <04aa1423-11ab-ecc7-7637-cca6d7b2c1a3@redhat.com>
+In-Reply-To: <04aa1423-11ab-ecc7-7637-cca6d7b2c1a3@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,21 +105,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: fam@euphon.net, kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, nikita.lapshin@virtuozzo.com, stefanha@redhat.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 03.03.22 12:44, Hanna Reitz wrote:
+> On 28.02.22 12:39, Vladimir Sementsov-Ogievskiy wrote:
+>> Note that reads zero areas (not dirty in the bitmap) fails, that's
+>> correct.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   tests/qemu-iotests/tests/image-fleecing     | 32 ++++++--
+>>   tests/qemu-iotests/tests/image-fleecing.out | 84 +++++++++++++++++++++
+>>   2 files changed, 108 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/tests/image-fleecing 
+>> b/tests/qemu-iotests/tests/image-fleecing
+>> index 909fc0a7ad..33995612be 100755
+>> --- a/tests/qemu-iotests/tests/image-fleecing
+>> +++ b/tests/qemu-iotests/tests/image-fleecing
+>
+> [...]
+>
+>> @@ -50,11 +50,15 @@ remainder = [('0xd5', '0x108000',  '32k'), # 
+>> Right-end of partial-left [1]
+>>                ('0xcd', '0x3ff0000', '64k')] # patterns[3]
+>>     def do_test(use_cbw, use_snapshot_access_filter, base_img_path,
+>> -            fleece_img_path, nbd_sock_path, vm):
+>> +            fleece_img_path, nbd_sock_path, vm,
+>> +            bitmap=False):
+>>       log('--- Setting up images ---')
+>>       log('')
+>>         assert qemu_img('create', '-f', iotests.imgfmt, 
+>> base_img_path, '64M') == 0
+>> +    if bitmap:
+>> +        assert qemu_img('bitmap', '--add', base_img_path, 'bitmap0') 
+>> == 0
+>
+> Doing this means this test can only be run with qcow2, but right now 
+> it claims to support many more formats that break with this patch 
+> applied.  I think the supported_fmts list needs to be restricted.
 
-Thomas Huth <thuth@redhat.com> writes:
+Oh, and it will also need an `unsupported_imgopts=['compat']`.
 
-> "make clean" should clear all binaries that have been built, but so
-> far it left the TCG tests still in place. Let's make sure that they
-> are now removed, too.
+> Also, iotest 297 complains about three lines being too long now.
+>
+>> +
+>>       if use_snapshot_access_filter:
+>>           assert use_cbw
+>>           assert qemu_img('create', '-f', 'raw', fleece_img_path, 
+>> '64M') == 0
+>
 
-Queued to for-7.0/misc-bits, thanks.
-
---=20
-Alex Benn=C3=A9e
 
