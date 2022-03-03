@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4194CC041
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:47:58 +0100 (CET)
-Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60DA4CC04C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:48:41 +0100 (CET)
+Received: from localhost ([::1]:37982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPmkH-0005Nk-FO
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:47:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35862)
+	id 1nPmky-0006w8-N2
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:48:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPmhM-0004ND-RU
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:44:57 -0500
-Received: from [2607:f8b0:4864:20::1029] (port=50899
- helo=mail-pj1-x1029.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nPmjC-0005X9-C5
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:46:51 -0500
+Received: from [2607:f8b0:4864:20::b31] (port=47024
+ helo=mail-yb1-xb31.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPmhL-0004cU-CN
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:44:56 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id m22so4780018pja.0
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 06:44:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Yr9x8V2calkDwnehTbsBBQiYKMtitPQymogBZX49Ugo=;
- b=lYQWYQK6PSGEmJvzqojy2brOJubS7qEgdo95mICnCIa2qng7oojot/B16wSPe2ur0o
- gw2bsDlfCD6l69pqHFwOEqo45JHyEDuNn1fu/9hu2OEr5s0u9PXkE8jq+Cs/4C2mmq7Z
- LpzDmBEbcuIFyTc4x/drRpwSMy5mC8V8VjrSpS9yBMHOt9vOn2I3txCAkaIINsnLXkvV
- 5cIKRk1Ap9j8Vjl+mWzjhJ1gR8xNoarAIeY87Nm9DGw1M95shCtYJwgplV+H3aaGW0iA
- PCFmoocsN09aX68w8/GK57Y4hO20ks2+9AVfrl4Jqto+jjoFaCuCAuntQw6gUVNufDF1
- E8gw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nPmjA-0005C9-KV
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:46:49 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id b35so10622473ybi.13
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 06:46:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vvid7/372vVY4fktR7zLKkW5pp4OGhtaJJcXJ8WEZmw=;
+ b=ZsZERJwV760yoXBi59HObQqJyprqeynIIfOeP/nzqUlc/Pg05KZ7OIZDZ7nixtUO25
+ /eW21fDpBsOrjZJ/cwqAJieT/Hu75O6PLrBxjiiYLJetPRWb4nJzyGQrCHtjTppYH4wL
+ L+IQ8HOnD739QQILgVKiAJwjTg6LhvPLr+oZmapKAkuj75lzs6Y1cReHN0TEob0VOaY4
+ q2E4i1edUPgmFrMtfWtW3oLRfLtsvteVQZ5ZDL/NJB0U4EpVMxsNEcml5gQcDqQkWbMy
+ Yl4DyVwiiGqcVDeaugTaiIL3o8wEHJmPjPvbdlW8Kgi/068ZcT8p0lxROCxOr7lVWg+R
+ y9YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Yr9x8V2calkDwnehTbsBBQiYKMtitPQymogBZX49Ugo=;
- b=03RG5suEitl/rnwrMswy6GP4YHHyM56OcNtED4vParVTIW41Yd4Kj0S0hlddgrJwfQ
- kQAOuXLlHAho5jzALx2NB8NqKWCPcs5UyaE9Kyc4B2TDywFBVUK17lWsCzkrfgsRTqlr
- ZENvxjKPJNfJoi0S12pJqXf7F8JLq0U4U61MwIEsLnSINZC5LhYbszq/948v3HWxgbep
- 0opU8Akq8eKN75t4NbHTS0berEjg1qdghPLRT/C4yJTM05IsyVn6Q/w2/GnBqeFLgdbc
- 3rbjnxU6aavZQ5bjA/vu55k6nUJhCv+CVeMWzml6npv35YQp2k/klHsQ3oEAog2StqW2
- zv3A==
-X-Gm-Message-State: AOAM5331I69PwylKWUZ/11s3wxXKI2swlJ3RlnJxgIdfdlxe7Aw+wUIg
- 7lj7XFAcEfzV6AjlxPVAbLA=
-X-Google-Smtp-Source: ABdhPJxrY7yzG9a83TFeOg0tU4Kiq3YIS95wnEoR1YYVBkNjKEitaW0pchpSAEMQKiQ9MXG17G/qog==
-X-Received: by 2002:a17:902:7802:b0:150:baa:bc1a with SMTP id
- p2-20020a170902780200b001500baabc1amr36187874pll.110.1646318694142; 
- Thu, 03 Mar 2022 06:44:54 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- ob13-20020a17090b390d00b001becfd7c6f3sm2519771pjb.27.2022.03.03.06.44.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 06:44:53 -0800 (PST)
-Message-ID: <abd92319-d751-3b62-a73b-674e12aab66c@gmail.com>
-Date: Thu, 3 Mar 2022 15:44:49 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vvid7/372vVY4fktR7zLKkW5pp4OGhtaJJcXJ8WEZmw=;
+ b=GEH02lHThlQRs2bZMsLUgTgmQRjMdfXlWeyXaFZO9Hw1jeB1h3I03CI2HtyOa3srZe
+ MPe7QH0byAtKweQIC55gpOVDnY9W026K0sn+2euJOTRbZhPfCspHqwfpmVjru7/ZIKDE
+ v6NrBxl3Z/u0Kc09QhGltyq1SUt6XZNN5azPEA/1cNkxZFTy95OdWBIM2eEF6CVeomTh
+ gIdZU8tSFf95LfgGQnhMtPh0x0mbHpgWuYjRrp3gkZKWg5QBPJLkRlFKlP/YOkMXZ0ic
+ xyCLPtCisYKDPUFNVvhxhKo3vuWMhOMFFfJJUEBGfcoqBHWxSrYytLVKmc3O6zecNdP2
+ wUNQ==
+X-Gm-Message-State: AOAM531x7yIhbpbqqKUSUYsCnHsTE/usCKewwAxdRSVTICaXRIa+xyRh
+ 9RNgi6Ebcx1Xv5pV0MU1xEztAeK03FQqNoOSqnpL8g==
+X-Google-Smtp-Source: ABdhPJzrlCD8eLSKwRIgIl2fHkCLyPmLPVaZX0ZLLbWNpZ1lhMcsSNycttOnn3DSXihyur6k6oA58h6VPreCmqpzeT4=
+X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
+ h3-20020a056902008300b0061a709bd841mr32728733ybs.140.1646318806960; Thu, 03
+ Mar 2022 06:46:46 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v4 09/14] none-machine: allow cold plugging sysbus devices
-Content-Language: en-US
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org,
- mark.burton@greensocs.com, edgari@xilinx.com
-References: <20220223090706.4888-1-damien.hedde@greensocs.com>
- <20220223090706.4888-10-damien.hedde@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220223090706.4888-10-damien.hedde@greensocs.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+References: <20220302182936.227719-1-dgilbert@redhat.com>
+In-Reply-To: <20220302182936.227719-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Mar 2022 14:46:35 +0000
+Message-ID: <CAFEAcA9CrHEu8F7PGGTvsdyLnFJhan9V9FkHDgvapje+_E=hVA@mail.gmail.com>
+Subject: Re: [PULL 00/18] migration queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b31
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,30 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: quintela@redhat.com, s.reiter@proxmox.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, hreitz@redhat.com, f.ebner@proxmox.com,
+ jinpu.wang@ionos.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/2/22 10:07, Damien Hedde wrote:
-> Allow plugging any sysbus device on this machine (the sysbus
-> devices still need to be 'user-creatable').
-> 
-> This commit is needed to use the 'none' machine as a base, and
-> subsequently to dynamically populate it with sysbus devices using
-> qapi commands.
-> 
-> Note that this only concern cold-plug: sysbus devices cann't be hot
+On Wed, 2 Mar 2022 at 18:32, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> The following changes since commit 64ada298b98a51eb2512607f6e6180cb330c47b1:
+>
+>   Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220302' into staging (2022-03-02 12:38:46 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220302b
+>
+> for you to fetch changes up to 18621987027b1800f315fb9e29967e7b5398ef6f:
+>
+>   migration: Remove load_state_old and minimum_version_id_old (2022-03-02 18:20:45 +0000)
+>
+> ----------------------------------------------------------------
+> Migration/HMP/Virtio pull 2022-03-02
+>
+> A bit of a mix this time:
+>   * Minor fixes from myself, Hanna, and Jack
+>   * VNC password rework by Stefan and Fabian
+>   * Postcopy changes from Peter X that are
+>     the start of a larger series to come
+>   * Removing the prehistoic load_state_old
+>     code from Peter M
+>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>
 
-"can not" is easier to understand for non-native / not good level of
-English speakers IMHO.
 
-> plugged because the sysbus bus does not support it.
-> 
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
->   hw/core/null-machine.c | 4 ++++
->   1 file changed, 4 insertions(+)
+Applied, thanks.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
