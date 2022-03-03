@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D2624CBDA0
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:22:46 +0100 (CET)
-Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3724A4CBDA4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:23:52 +0100 (CET)
+Received: from localhost ([::1]:51744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPkTk-0007Zm-VN
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:22:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41084)
+	id 1nPkUp-0000dx-0l
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:23:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nPkSl-0006rj-IK
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:21:43 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:35367)
+ id 1nPkTe-0007yf-Cg
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:22:38 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:39269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nPkSj-0005Ul-QK
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:21:43 -0500
+ id 1nPkTc-0006QE-Mi
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:22:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=9R8xgaGLBxRs5vRVWZaqPvVEV2Rrgm1G7IUrRBGtnvE=; b=QBYnLVWc//zLVnNCqeiq8Y6Ckz
- yk19dETucgcwB6MBAgzN5dRnpLgeLvdXM7AQOoj6m145/EfLkRdC+rbxNy2dUhBIV+ATlIwFoLq5p
- YRyHeZTZKFKDULjujkfCQgE4iAHfWcbJdv+1OrVW7MNnGrLLT7B7uSk61KKa/Lh5OsFwP8smztg+d
- YUjjAfiN9uuPHVOv6OzdQzIFhgvtohBdnafPnizSLXqYotZYnuZJa1HXQhP4yobgeGdwsvV9sJDGW
- QTQYm7Rxqd6Z93hggjK1lFzICcbQHMkqUAOJkm75ne12Hj5BVi3pkASxuKaZafNym8aWe0QuJgaN6
- tjSvjpA5/yrt8Caxl40/01g5Ppsyg3UnoPiBZ0xE7LxYzgLHYjzx5ANM+A6Oigt9/fJ2GRLIqN1eU
- R5P/3VWwFQGYdDgqz2zmFICs4JbSrCgPgSSHuHo7Wxq4tJtc6gFDKTSWrDhFBVcQ+sNkwfFkHEF98
- Lxg6t20AfHHS9uXJ6ov7vvR1yUrxHAFdqxUHV88u1k6aOFbJrfq2juSMEENkvakg4wwFFzgTz4LYa
- cPeewuNIvlGqkR7W+w/wd1Gf3DV5Lrq8XGVs/rWgkACaR+R5vr8l5EPD04c3XK12g/ytdfGLdwqex
- D8JWIiXkpPosvUBbiVWwZbYmem3He5ttPM3b8G23o=;
+ bh=7lbNvLuCVAqxnyoDahxq4JRA9TTxsYLxKyatoYfhd+0=; b=Ys11jCuKfa8183+2jUQdakkWXX
+ jdHRIuYEn2loD9YrFhyfHaCtqIqUjV2VoTWUo9hAQTM3DFt5/Mp9qBFbRgtPZKQmYc3BDCQVmqdFW
+ cDg7aenS4h2v23xfe5nJAX76LhRzQF7Nk84XD0TYDAnpUP9S/dKZonVwufUYpzFEPnQI3CpvdbGvl
+ UkeIPFB1AR3JTyDDFRjA3I/pvFiXJl2/UED1jzy+uBY/gJNYBCEEeeRUPXPgY5vIf14igj8pc9ssr
+ 5Px45wGvG4v7eSdMfQ3AUN8oWkNpE8BXRt7ZXmQU61APy0sJyEo9Yg6SK83s9UDYwoGRg0dCJMyih
+ i8ZvOBz8CsoeAdE/45jk+CqsIKnjPQpP7VY4qNwkMt/3I//hyT9/fiE4UA92OkZ3Qd0bvll5vK07k
+ e9t+8IK4BGu0dKvIkutrqR44tF0fIE+BPkSGzs7Z8C/7Qh/PEkQxICXb/WfYPEYcbK/z3gtLn5h8K
+ nY10p9iIH9yHbgQqwdi1YetfFw3TAp14dn5TSDcyOdMlBp28uvdBk4yc2nfZTY2E5pjqaOiHW9z7t
+ F2BjI8jZMNdBQ6sl8Ck9kmvoJ9HlaQkX6RETqxjqL2bZxeyBtc+qUPB9Rka5b+OS4OZ/6UX4hIdoX
+ j0KBHx8gmtCXT31xqBfEFE/vofFgR6Z4SwFIBJ8TU=;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] 9pfs: move qemu_dirent_dup() from osdep -> 9p-util
-Date: Thu, 03 Mar 2022 13:21:37 +0100
-Message-ID: <2363741.8zZX0mk4Jc@silver>
-In-Reply-To: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
-References: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+Subject: Re: [PATCH] 9pfs: drop Doxygen format from qemu_dirent_dup() API
+ comment
+Date: Thu, 03 Mar 2022 13:22:34 +0100
+Message-ID: <2128762.L7kK4k7ppQ@silver>
+In-Reply-To: <E1nPTwO-0006pl-Np@lizzy.crudebyte.com>
+References: <E1nPTwO-0006pl-Np@lizzy.crudebyte.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -67,21 +68,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 1. M=E4rz 2022 21:33:49 CET Christian Schoenebeck wrote:
-> Function qemu_dirent_dup() is currently only used by 9pfs server, so move
-> it from project global header osdep.h to 9pfs specific header 9p-util.h.
+On Mittwoch, 2. M=E4rz 2022 19:30:39 CET Christian Schoenebeck wrote:
+> API doc comments in QEMU are supposed to be in kerneldoc format, so drop
+> occurrences of "@c" which is Doxygen format for fixed-width text.
 >=20
 > Link:
-> https://lore.kernel.org/qemu-devel/CAFEAcA_=3DHAUNomKD2wurSVaAHa5mrk22A1o=
-HKLW
-> UDjk7v6Khmg@mail.gmail.com/ Based-on:
-> <20220227223522.91937-12-wwcohen@gmail.com>
+> https://lore.kernel.org/qemu-devel/CAFEAcA89+ENOM6x19OEF53Kd2DWkhN5SN21Va=
+0D
+> 7yepJSa3Jyg@mail.gmail.com/ Based-on:
+> <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
 > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > ---
->  hw/9pfs/9p-util.h    | 30 ++++++++++++++++++++++++++++++
->  include/qemu/osdep.h | 13 -------------
->  util/osdep.c         | 21 ---------------------
->  3 files changed, 30 insertions(+), 34 deletions(-)
+>  hw/9pfs/9p-util.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Queued on 9p.next:
 https://github.com/cschoenebeck/qemu/commits/9p.next
