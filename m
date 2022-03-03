@@ -2,80 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0EA4CC7E6
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:22:03 +0100 (CET)
-Received: from localhost ([::1]:60352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD00B4CC803
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:28:43 +0100 (CET)
+Received: from localhost ([::1]:56208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPste-0007Bj-60
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:22:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59326)
+	id 1nPt07-0006fH-0j
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:28:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPsZ5-0006FY-8V
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:49 -0500
-Received: from [2607:f8b0:4864:20::633] (port=46937
- helo=mail-pl1-x633.google.com)
+ id 1nPsdi-0000gp-Ma
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:05:34 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=46997
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPsYu-0004Ox-T8
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:44 -0500
-Received: by mail-pl1-x633.google.com with SMTP id bd1so5844389plb.13
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:00:33 -0800 (PST)
+ id 1nPsdh-0005M4-1X
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:05:34 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ 15-20020a17090a098f00b001bef0376d5cso6170833pjo.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:05:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KnojlxdJvLZ10xztEz7NOsevcqMVQEVsVSU9aLxpzTg=;
- b=DCaVZasdPQz2EBo3aBRp2UaE52zHtsG0FYX9v0HPKWPLD/DYcQNu3UhyEYLRbxalRt
- ruTjNDquWUHD7zxCTGFY9Dw5E82Cklg8uByt48UPD5B0Sb80ibeHRWchmsY/sTPUBxta
- HApTKBzjtQSw2F1Sn46OvjMLujhDUP/wvphpG0HATy1p6lxeoGkgvTdUETSkttKRwEIE
- eXswFaqYKdPVP1MXLB8Ygh5Qg/AvTy2FtNbxQq1WX7j8M2jFnNXd3VSkZQIeeAxPDkwo
- +SjprWlvFSPfOz0lzh9YuCDXQT27jfeTUorcH9HY9WpMnGxYlGa0XQ+9WwNH+BLZ2rKd
- AYZQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Ebh76ZsF5tTx7gE4d1F5QLSGiYHeR0z5poPTdz7wdAs=;
+ b=GBUeof5N1usrWmCSYcWKeE8VA6bpOfu4dGy1mSM+VgZINgpZ/J65vMVtwfNJ2iMiXn
+ 4CgwurrN0kmjlPeL89cA2+QxiW+KxtE7fAZ1c+S+mSVmG7hgAi0cLCd7UFLDMSPUyOIb
+ aiK+P9rbcywVPnLlRKCvbXebgnBOpnNH/EJzkEfQocvIFhuCqK8tkpmx0BYIyK/WQOuc
+ +z75bNZYSaQVPtWjtsQF23t8GrU4RGT2hvANSbi2Edh+rvNyowc8XWdmXS3bu2zdVcQY
+ qVmAiOrycws6XuprQSLmlkiAJ2zuuWUhnYslB/uSqMEnIMOvK3Z8IiZ4D1eqX76DUvwF
+ Nspg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KnojlxdJvLZ10xztEz7NOsevcqMVQEVsVSU9aLxpzTg=;
- b=BsQ2UcQLLo57Ox/Uf191RsyNzoaBoEeSgVjRridPOnmOO+nF3kk+Pt7MelvnkA+yRO
- PGAt6jGpjY0V2yKCKPCASg+TQwBdSGqcatjfoZiDBnD4FfKcAzSWfmg2SixunhlMqsNQ
- VnTjpKeiERWwcXt9RbQWgJqb/MFh7vWyjxsSLv49+N2wWl5Zsglxalqk4rO+pRfzfUuj
- sLABDaP/8M3cA1LGGC54NCrRFyePIQY+/EfGijXMxbuo8xw3Mq+/J4ebK27UX6gs+1h4
- YV7ExVK8RFgLwpSLtGcixXribPRCt9hhh/s3zt3DbM6/vcKeiey/rjrZymNcTNSZn1vM
- iuCg==
-X-Gm-Message-State: AOAM532XKppl7bz10mBObsP/mmkGpvr5LLMG8Y8xvvvJpO4Cf2XbK6c0
- U7yGNaaT7lq+16021QmqYZlciS6Nxw8njA==
-X-Google-Smtp-Source: ABdhPJwBq2+ejwdpHQP0dAdvcRZGqJBXlnNdhfMd8sD3n1W98KndUVncv8CNJTxB2npzlLY5bEuWBw==
-X-Received: by 2002:a17:903:110d:b0:14d:ca16:2c7 with SMTP id
- n13-20020a170903110d00b0014dca1602c7mr38243566plh.68.1646341232442; 
- Thu, 03 Mar 2022 13:00:32 -0800 (PST)
-Received: from localhost.localdomain
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Ebh76ZsF5tTx7gE4d1F5QLSGiYHeR0z5poPTdz7wdAs=;
+ b=GzF02GrbDAk4xv8OfDwezDRXTmUGPxTudxSIhBKHeb3FNKPNQWqh9W79SQiV0724gr
+ qYSAO0cWF3iVyTG/+wZQfXL7+S13gH6HkcZgaViroM8OiUvTndJyWI5b6G5C+f9WBHOk
+ w7Va+OnaRZClo6upQdlwARa441DhSnhgdNKHNkJ6sIyy2gNXGQfemATrOhbLJj0CF+mz
+ 2m84XGoMlzAa1AJHFx23JIYShp+Wk7RFxSsDPI6sj51czdg3rn9bRSB8SCTmbgV+dRN8
+ p5AzdaheohDGtCxyU9GCAXWEkXuwZ9QCHjpUCFG4t/zDvN1CK1nxV8ZItFS6F8w1jMFE
+ wimQ==
+X-Gm-Message-State: AOAM530yN++OFMDzOsh/D4uEYqxUf2aT8Zi92p63bJV0K1jeO2EHu2Xx
+ n9c0ueJ+4f/y9rW7/slWmPyDRw==
+X-Google-Smtp-Source: ABdhPJyHtTX+f1wN+5m5tdpHf4lTGIVtFX19REgjVadOtxoBocp6BMczrR0+pui0s6ZXnl46MZ9COg==
+X-Received: by 2002:a17:902:f155:b0:151:8377:9a8e with SMTP id
+ d21-20020a170902f15500b0015183779a8emr15608829plb.21.1646341531410; 
+ Thu, 03 Mar 2022 13:05:31 -0800 (PST)
+Received: from ?IPV6:2603:800c:1201:c600:119c:490c:a4ee:8e8?
  (2603-800c-1201-c600-119c-490c-a4ee-08e8.res6.spectrum.com.
  [2603:800c:1201:c600:119c:490c:a4ee:8e8])
  by smtp.gmail.com with ESMTPSA id
- t8-20020a6549c8000000b00372eb3a7fb3sm2729934pgs.92.2022.03.03.13.00.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 13:00:32 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 30/30] tcg/loongarch64: Support TCG_TARGET_SIGNED_ADDR32
-Date: Thu,  3 Mar 2022 10:59:44 -1000
-Message-Id: <20220303205944.469445-31-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220303205944.469445-1-richard.henderson@linaro.org>
-References: <20220303205944.469445-1-richard.henderson@linaro.org>
+ r15-20020a63ce4f000000b00341c40f913esm2779230pgi.87.2022.03.03.13.05.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Mar 2022 13:05:30 -0800 (PST)
+Message-ID: <2b027e56-dc17-73ed-99e7-a04b38f2a4a5@linaro.org>
+Date: Thu, 3 Mar 2022 11:05:27 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 5/5] tests/tcg/ppc64le: Use Altivec register names in
+ clobbler list
+Content-Language: en-US
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220303172041.1915037-1-matheus.ferst@eldorado.org.br>
+ <20220303172041.1915037-6-matheus.ferst@eldorado.org.br>
+ <31ce0473-0706-65c1-c54b-4e572defebe7@linaro.org>
+ <5fa9dcf4-fcd6-ddb6-ad87-a5a15d283ebb@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <5fa9dcf4-fcd6-ddb6-ad87-a5a15d283ebb@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -91,98 +100,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>, peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: thuth@redhat.com, danielhb413@gmail.com, groug@kaod.org,
+ philippe.mathieu.daude@gmail.com, clg@kaod.org, mrezanin@redhat.com,
+ alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All 32-bit LoongArch operations sign-extend the output, so we are easily
-able to keep TCG_TYPE_I32 values sign-extended in host registers.
+On 3/3/22 10:53, Matheus K. Ferst wrote:
+> On 03/03/2022 16:30, Richard Henderson wrote:
+>> On 3/3/22 07:20, matheus.ferst@eldorado.org.br wrote:
+>>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>>
+>>> LLVM/Clang doesn't know the VSX registers when compiling with
+>>> -mabi=elfv1. Use only registers >= 32 and list them with their Altivec
+>>> name.
+>>>
+>>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>
+>> This description isn't quite right.  The change to the m[tf]vsr insns is a generic bug
+>> fix, and not related to Clang.
+>>
+> 
+> I'm not sure if I understood. I'm targeting the Clang problem with this patch, is 
+> something else being fixed by this change?
+> AFAICT, the old "mtvsrd 0, %2" and "mfvsrd %0, 0" were correct, I'm just changing from VSR 
+> 0 to VSR 32 to allow the clobber with Clang, but GCC doesn't seem to have this limitation 
+> with ELFv1.
 
-Cc: WANG Xuerui <git@xen0n.name>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/loongarch64/tcg-target-sa32.h |  2 +-
- tcg/loongarch64/tcg-target.c.inc  | 15 ++++++---------
- 2 files changed, 7 insertions(+), 10 deletions(-)
+Oh, whoops, I mis-read the patch.
 
-diff --git a/tcg/loongarch64/tcg-target-sa32.h b/tcg/loongarch64/tcg-target-sa32.h
-index cb185b1526..aaffd777bf 100644
---- a/tcg/loongarch64/tcg-target-sa32.h
-+++ b/tcg/loongarch64/tcg-target-sa32.h
-@@ -1 +1 @@
--#define TCG_TARGET_SIGNED_ADDR32 0
-+#define TCG_TARGET_SIGNED_ADDR32 1
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index a3debf6da7..425f6629ca 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -880,8 +880,6 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
-     return tcg_out_fail_alignment(s, l);
- }
- 
--#endif /* CONFIG_SOFTMMU */
--
- /*
-  * `ext32u` the address register into the temp register given,
-  * if target is 32-bit, no-op otherwise.
-@@ -891,12 +889,13 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
- static TCGReg tcg_out_zext_addr_if_32_bit(TCGContext *s,
-                                           TCGReg addr, TCGReg tmp)
- {
--    if (TARGET_LONG_BITS == 32) {
-+    if (TARGET_LONG_BITS == 32 && !guest_base_signed_addr32) {
-         tcg_out_ext32u(s, tmp, addr);
-         return tmp;
-     }
-     return addr;
- }
-+#endif /* CONFIG_SOFTMMU */
- 
- static void tcg_out_qemu_ld_indexed(TCGContext *s, TCGReg rd, TCGReg rj,
-                                    TCGReg rk, MemOp opc, TCGType type)
-@@ -944,8 +943,8 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, TCGType type)
-     tcg_insn_unit *label_ptr[1];
- #else
-     unsigned a_bits;
--#endif
-     TCGReg base;
-+#endif
- 
-     data_regl = *args++;
-     addr_regl = *args++;
-@@ -954,8 +953,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, TCGType type)
- 
- #if defined(CONFIG_SOFTMMU)
-     tcg_out_tlb_load(s, addr_regl, oi, label_ptr, 1);
--    base = tcg_out_zext_addr_if_32_bit(s, addr_regl, TCG_REG_TMP0);
--    tcg_out_qemu_ld_indexed(s, data_regl, base, TCG_REG_TMP2, opc, type);
-+    tcg_out_qemu_ld_indexed(s, data_regl, addr_regl, TCG_REG_TMP2, opc, type);
-     add_qemu_ldst_label(s, 1, oi, type,
-                         data_regl, addr_regl,
-                         s->code_ptr, label_ptr);
-@@ -1004,8 +1002,8 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
-     tcg_insn_unit *label_ptr[1];
- #else
-     unsigned a_bits;
--#endif
-     TCGReg base;
-+#endif
- 
-     data_regl = *args++;
-     addr_regl = *args++;
-@@ -1014,8 +1012,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
- 
- #if defined(CONFIG_SOFTMMU)
-     tcg_out_tlb_load(s, addr_regl, oi, label_ptr, 0);
--    base = tcg_out_zext_addr_if_32_bit(s, addr_regl, TCG_REG_TMP0);
--    tcg_out_qemu_st_indexed(s, data_regl, base, TCG_REG_TMP2, opc);
-+    tcg_out_qemu_st_indexed(s, data_regl, addr_regl, TCG_REG_TMP2, opc);
-     add_qemu_ldst_label(s, 0, oi,
-                         0, /* type param is unused for stores */
-                         data_regl, addr_regl,
--- 
-2.25.1
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+
+r~
 
