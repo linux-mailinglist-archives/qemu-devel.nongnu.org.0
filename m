@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718DA4CC2E2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:34:03 +0100 (CET)
-Received: from localhost ([::1]:42154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA85A4CC31C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:44:01 +0100 (CET)
+Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPoOw-0004ll-2w
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:34:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39854)
+	id 1nPoYa-0007av-CD
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:44:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nPoMc-0001ue-AY
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:31:38 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2328)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nPoO1-0004Y2-Qk
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:33:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nPoMY-0003rE-En
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:31:38 -0500
-Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4K8c0W1L5Zz67sgR;
- Fri,  4 Mar 2022 00:30:19 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Thu, 3 Mar 2022 17:31:31 +0100
-Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Thu, 3 Mar
- 2022 16:31:30 +0000
-Date: Thu, 3 Mar 2022 16:31:28 +0000
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
- .  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
- Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH v6 06/43] hw/cxl/device: Implement basic mailbox (8.2.8.4)
-Message-ID: <20220303163128.000036d6@Huawei.com>
-In-Reply-To: <877d9dn0mb.fsf@linaro.org>
-References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
- <20220211120747.3074-7-Jonathan.Cameron@huawei.com>
- <877d9dn0mb.fsf@linaro.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nPoNy-0005e3-Ar
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:33:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646325181;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fRE8hhaVhX3gG/Zh6h+qtA7wfBDxKfbabbJfGtzy1N4=;
+ b=JrqYpy5AaPjLu3oV84e5ZAGTporiUktJ6f3/o/HrF2vsHi74+LDw5q3nsQz13LEVx181DC
+ xgv/oA3quxt0B/Y3rHoVAtd5Sa8fY/kWPuXASFYlnuVquZzLwekYldbpY/qWOtL64S3HOg
+ QJnFXQdtpJ+4ImERauEHwUN6mRKcJ4c=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-643-kAlLxeqyOCyRlHvokfUV6w-1; Thu, 03 Mar 2022 11:33:00 -0500
+X-MC-Unique: kAlLxeqyOCyRlHvokfUV6w-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ fw9-20020a056214238900b0043522aa5b81so4013261qvb.21
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 08:32:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fRE8hhaVhX3gG/Zh6h+qtA7wfBDxKfbabbJfGtzy1N4=;
+ b=jER8bY8tFCxqCWXtXBxs1fAydvZchN1l1Zrw8Uq0776iRgQW4QpiqXsuYrAtAwL26R
+ 7WUSRlK/y1klgrQDQfcAhxfq/XUa4mFpfl9CaMiQOE1hjcvGvDbXtBtbACix7Q+2W3/P
+ 3F87ANwptCvdIklniJJHDKNliRTbCni3fo8V21pv6rw9mOIiettbGAyke/0SHUaKO0dl
+ Cq7YK+Pcn/ve2TVSN7+wUgcf38PDiwuWRRaZYvDXRXs+2hYJrKH6Z3gqcm7mca2LxSPe
+ bla23i+TIkLvTevI0KjoIcX5ftqjAf5CDFdmQ9vfJ4A36+pIqBDuKfl9QjwslP9B2JSU
+ o+LQ==
+X-Gm-Message-State: AOAM531wAPOVkCt6QAo0feIAKRkvfeS5cxs+6x/k29jbyITwUvsK+QRz
+ Rnu9Eitzns6eZy1rraobJEshVhjlepXabAJM1QI+Duy+IQJ/qy+AS6gfuhlupPtX3JgSxYRwcZF
+ KwKQ1g/4KE1CF7Z7SrVt0r6258oJX5sY=
+X-Received: by 2002:a05:622a:1190:b0:2dc:915a:9ce4 with SMTP id
+ m16-20020a05622a119000b002dc915a9ce4mr27215698qtk.221.1646325179407; 
+ Thu, 03 Mar 2022 08:32:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxdpsYh2jz+yE2kvYkySrwX2ucy2J+cOQfuWejpNLtNSectoDOBH/NmBfpT/o/z9WSEaqceW6DLBpKmgJYvebU=
+X-Received: by 2002:a05:622a:1190:b0:2dc:915a:9ce4 with SMTP id
+ m16-20020a05622a119000b002dc915a9ce4mr27215662qtk.221.1646325179104; Thu, 03
+ Mar 2022 08:32:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
+References: <20220227134111.3254066-1-eperezma@redhat.com>
+ <20220227134111.3254066-10-eperezma@redhat.com>
+ <7f6f5118-4228-6dcb-f3d4-3e64aeb3608c@redhat.com>
+In-Reply-To: <7f6f5118-4228-6dcb-f3d4-3e64aeb3608c@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 3 Mar 2022 17:32:23 +0100
+Message-ID: <CAJaqyWchLxXTRBE9zT9ZrF7UT_CnNbD=E5yaK6NrF-gDauhSAg@mail.gmail.com>
+Subject: Re: [PATCH v2 09/14] vhost: Add VhostIOVATree
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.202.226.41]
-X-ClientProxiedBy: lhreml741-chm.china.huawei.com (10.201.108.191) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,412 +96,313 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
+ "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Tue, 01 Mar 2022 15:32:02 +0000
-Alex Benn=E9e <alex.bennee@linaro.org> wrote:
-
-> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
->=20
-> > From: Ben Widawsky <ben.widawsky@intel.com>
+On Mon, Feb 28, 2022 at 8:06 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2022/2/27 =E4=B8=8B=E5=8D=889:41, Eugenio P=C3=A9rez =E5=86=99=
+=E9=81=93:
+> > This tree is able to look for a translated address from an IOVA address=
+.
 > >
-> > This is the beginning of implementing mailbox support for CXL 2.0
-> > devices. The implementation recognizes when the doorbell is rung,
-> > handles the command/payload, clears the doorbell while returning error
-> > codes and data.
+> > At first glance it is similar to util/iova-tree. However, SVQ working o=
+n
+> > devices with limited IOVA space need more capabilities, like allocating
+> > IOVA chunks or performing reverse translations (qemu addresses to iova)=
+.
 > >
-> > Generally the mailbox mechanism is designed to permit communication
-> > between the host OS and the firmware running on the device. For our
-> > purposes, we emulate both the firmware, implemented primarily in
-> > cxl-mailbox-utils.c, and the hardware.
+> > The allocation capability, as "assign a free IOVA address to this chunk
+> > of memory in qemu's address space" allows shadow virtqueue to create a
+> > new address space that is not restricted by guest's addressable one, so
+> > we can allocate shadow vqs vrings outside of it.
 > >
-> > No commands are implemented yet.
+> > It duplicates the tree so it can search efficiently in both directions,
+> > and it will signal overlap if iova or the translated address is present
+> > in any tree.
 > >
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > > ---
-> >  hw/cxl/cxl-device-utils.c   | 128 ++++++++++++++++++++++++++-
-> >  hw/cxl/cxl-mailbox-utils.c  | 171 ++++++++++++++++++++++++++++++++++++
-> >  hw/cxl/meson.build          |   1 +
-> >  include/hw/cxl/cxl.h        |   3 +
-> >  include/hw/cxl/cxl_device.h |  19 +++-
-> >  5 files changed, 320 insertions(+), 2 deletions(-)
+> >   hw/virtio/vhost-iova-tree.h |  27 +++++++
+> >   hw/virtio/vhost-iova-tree.c | 155 +++++++++++++++++++++++++++++++++++=
++
+> >   hw/virtio/meson.build       |   2 +-
+> >   3 files changed, 183 insertions(+), 1 deletion(-)
+> >   create mode 100644 hw/virtio/vhost-iova-tree.h
+> >   create mode 100644 hw/virtio/vhost-iova-tree.c
 > >
-> > diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> > index 0895b9d78b..39011468ef 100644
-> > --- a/hw/cxl/cxl-device-utils.c
-> > +++ b/hw/cxl/cxl-device-utils.c
-> > @@ -44,6 +44,114 @@ static uint64_t dev_reg_read(void *opaque, hwaddr o=
-ffset, unsigned size)
-> >      return 0;
-> >  }
-> > =20
-> > +static uint64_t mailbox_reg_read(void *opaque, hwaddr offset, unsigned=
- size)
-> > +{
-> > +    CXLDeviceState *cxl_dstate =3D opaque;
-> > +
-> > +    switch (size) {
-> > +    case 1:
-> > +        return cxl_dstate->mbox_reg_state[offset];
-> > +    case 2:
-> > +        return cxl_dstate->mbox_reg_state16[offset / 2];
-> > +    case 4:
-> > +        return cxl_dstate->mbox_reg_state32[offset / 4];
-> > +    case 8:
-> > +        return cxl_dstate->mbox_reg_state64[offset / 8];
-> > +    default:
-> > +        g_assert_not_reached();
-> > +    }
-> > +}
-> > +
-> > +static void mailbox_mem_writel(uint32_t *reg_state, hwaddr offset,
-> > +                               uint64_t value)
-> > +{
-> > +    switch (offset) {
-> > +    case A_CXL_DEV_MAILBOX_CTRL:
-> > +        /* fallthrough */
-> > +    case A_CXL_DEV_MAILBOX_CAP:
-> > +        /* RO register */
-> > +        break;
-> > +    default:
-> > +        qemu_log_mask(LOG_UNIMP,
-> > +                      "%s Unexpected 32-bit access to 0x%" PRIx64 " (W=
-I)\n",
-> > +                      __func__, offset);
-> > +        return;
-> > +    }
-> > +
-> > +    reg_state[offset / 4] =3D value;
-> > +}
-> > +
-> > +static void mailbox_mem_writeq(uint64_t *reg_state, hwaddr offset,
-> > +                               uint64_t value)
-> > +{
-> > +    switch (offset) {
-> > +    case A_CXL_DEV_MAILBOX_CMD:
-> > +        break;
-> > +    case A_CXL_DEV_BG_CMD_STS:
-> > +        /* BG not supported */
-> > +        /* fallthrough */
-> > +    case A_CXL_DEV_MAILBOX_STS:
-> > +        /* Read only register, will get updated by the state machine */
-> > +        return;
-> > +    default:
-> > +        qemu_log_mask(LOG_UNIMP,
-> > +                      "%s Unexpected 64-bit access to 0x%" PRIx64 " (W=
-I)\n",
-> > +                      __func__, offset);
-> > +        return;
-> > +    }
-> > +
-> > +
-> > +    reg_state[offset / 8] =3D value;
-> > +}
-> > +
-> > +static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t va=
-lue,
-> > +                              unsigned size)
-> > +{
-> > +    CXLDeviceState *cxl_dstate =3D opaque;
-> > +
-> > +    if (offset >=3D A_CXL_DEV_CMD_PAYLOAD) {
-> > +        memcpy(cxl_dstate->mbox_reg_state + offset, &value, size);
-> > +        return;
-> > +    }
-> > +
-> > +    /*
-> > +     * Lock is needed to prevent concurrent writes as well as to
-> > +     * prevent writes coming in while the firmware is processing.
-> > +     * Until background commands or the second mailbox are implemented
-> > +     * memory access is synchronized at a higher level (per memory reg=
-ion).
-> > +     */ =20
->=20
-> What lock?
->=20
-> That said you probably don't need one as all access to IO space should
-> already be serialised by the BQL so even multiple vCPUs will serialise
-> their access.
-
-oops. I removed the lock for exactly this reason but failed to remove the
-comment. Now gone ;)
-
-
-> > +}
-> > +
-> > +static const MemoryRegionOps mailbox_ops =3D {
-> > +    .read =3D mailbox_reg_read,
-> > +    .write =3D mailbox_reg_write,
-> > +    .endianness =3D DEVICE_LITTLE_ENDIAN,
-> > +    .valid =3D {
-> > +        .min_access_size =3D 1,
-> > +        .max_access_size =3D 8,
-> > +        .unaligned =3D false,
-> > +    },
-> > +    .impl =3D {
-> > +        .min_access_size =3D 1,
-> > +        .max_access_size =3D 8,
-> > +    },
-> > +};
-> > +
-> >  static const MemoryRegionOps dev_ops =3D {
-> >      .read =3D dev_reg_read,
-> >      .write =3D NULL, /* status register is read only */
-> > @@ -84,20 +192,33 @@ void cxl_device_register_block_init(Object *obj, C=
-XLDeviceState *cxl_dstate)
-> >                            "cap-array", CXL_CAPS_SIZE);
-> >      memory_region_init_io(&cxl_dstate->device, obj, &dev_ops, cxl_dsta=
-te,
-> >                            "device-status", CXL_DEVICE_REGISTERS_LENGTH=
-);
-> > +    memory_region_init_io(&cxl_dstate->mailbox, obj, &mailbox_ops, cxl=
-_dstate,
-> > +                          "mailbox", CXL_MAILBOX_REGISTERS_LENGTH);
-> > =20
-> >      memory_region_add_subregion(&cxl_dstate->device_registers, 0,
-> >                                  &cxl_dstate->caps);
-> >      memory_region_add_subregion(&cxl_dstate->device_registers,
-> >                                  CXL_DEVICE_REGISTERS_OFFSET,
-> >                                  &cxl_dstate->device);
-> > +    memory_region_add_subregion(&cxl_dstate->device_registers,
-> > +                                CXL_MAILBOX_REGISTERS_OFFSET,
-> > +                                &cxl_dstate->mailbox);
-> >  }
-> > =20
-> >  static void device_reg_init_common(CXLDeviceState *cxl_dstate) { }
-> > =20
-> > +static void mailbox_reg_init_common(CXLDeviceState *cxl_dstate)
-> > +{
-> > +    /* 2048 payload size, with no interrupt or background support */
-> > +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CAP,
-> > +                     PAYLOAD_SIZE, CXL_MAILBOX_PAYLOAD_SHIFT);
-> > +    cxl_dstate->payload_size =3D CXL_MAILBOX_MAX_PAYLOAD_SIZE;
-> > +}
-> > +
-> >  void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
-> >  {
-> >      uint64_t *cap_hdrs =3D cxl_dstate->caps_reg_state64;
-> > -    const int cap_count =3D 1;
-> > +    const int cap_count =3D 2;
-> > =20
-> >      /* CXL Device Capabilities Array Register */
-> >      ARRAY_FIELD_DP64(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
-> > @@ -106,4 +227,9 @@ void cxl_device_register_init_common(CXLDeviceState=
- *cxl_dstate)
-> > =20
-> >      cxl_device_cap_init(cxl_dstate, DEVICE, 1);
-> >      device_reg_init_common(cxl_dstate);
-> > +
-> > +    cxl_device_cap_init(cxl_dstate, MAILBOX, 2);
-> > +    mailbox_reg_init_common(cxl_dstate);
-> > +
-> > +    assert(cxl_initialize_mailbox(cxl_dstate) =3D=3D 0);
-> >  }
-> > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> > diff --git a/hw/virtio/vhost-iova-tree.h b/hw/virtio/vhost-iova-tree.h
 > > new file mode 100644
-> > index 0000000000..d497ec50a6
+> > index 0000000000..6a4f24e0f9
 > > --- /dev/null
-> > +++ b/hw/cxl/cxl-mailbox-utils.c
-> > @@ -0,0 +1,171 @@
+> > +++ b/hw/virtio/vhost-iova-tree.h
+> > @@ -0,0 +1,27 @@
 > > +/*
-> > + * CXL Utility library for mailbox interface
+> > + * vhost software live migration iova tree
 > > + *
-> > + * Copyright(C) 2020 Intel Corporation.
+> > + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
+> > + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat.c=
+om>
 > > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2. Se=
-e the
-> > + * COPYING file in the top-level directory.
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > + */
+> > +
+> > +#ifndef HW_VIRTIO_VHOST_IOVA_TREE_H
+> > +#define HW_VIRTIO_VHOST_IOVA_TREE_H
+> > +
+> > +#include "qemu/iova-tree.h"
+> > +#include "exec/memory.h"
+> > +
+> > +typedef struct VhostIOVATree VhostIOVATree;
+> > +
+> > +VhostIOVATree *vhost_iova_tree_new(uint64_t iova_first, uint64_t iova_=
+last);
+> > +void vhost_iova_tree_delete(VhostIOVATree *iova_tree);
+> > +G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostIOVATree, vhost_iova_tree_delete);
+> > +
+> > +const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *iova_tree=
+,
+> > +                                        const DMAMap *map);
+> > +int vhost_iova_tree_map_alloc(VhostIOVATree *iova_tree, DMAMap *map);
+> > +void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap *ma=
+p);
+> > +
+> > +#endif
+> > diff --git a/hw/virtio/vhost-iova-tree.c b/hw/virtio/vhost-iova-tree.c
+> > new file mode 100644
+> > index 0000000000..03496ac075
+> > --- /dev/null
+> > +++ b/hw/virtio/vhost-iova-tree.c
+> > @@ -0,0 +1,155 @@
+> > +/*
+> > + * vhost software live migration iova tree
+> > + *
+> > + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
+> > + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat.c=
+om>
+> > + *
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
 > > + */
 > > +
 > > +#include "qemu/osdep.h"
-> > +#include "hw/cxl/cxl.h"
-> > +#include "hw/pci/pci.h"
-> > +#include "qemu/log.h"
-> > +#include "qemu/uuid.h"
+> > +#include "qemu/iova-tree.h"
+> > +#include "vhost-iova-tree.h"
 > > +
-> > +/*
-> > + * How to add a new command, example. The command set FOO, with cmd BA=
-R.
-> > + *  1. Add the command set and cmd to the enum.
-> > + *     FOO    =3D 0x7f,
-> > + *          #define BAR 0
-> > + *  2. Implement the handler
-> > + *    static ret_code cmd_foo_bar(struct cxl_cmd *cmd,
-> > + *                                  CXLDeviceState *cxl_dstate, uint16=
-_t *len)
-> > + *  3. Add the command to the cxl_cmd_set[][]
-> > + *    [FOO][BAR] =3D { "FOO_BAR", cmd_foo_bar, x, y },
-> > + *  4. Implement your handler
-> > + *     define_mailbox_handler(FOO_BAR) { ... return CXL_MBOX_SUCCESS; }
-> > + *
-> > + *
-> > + *  Writing the handler:
-> > + *    The handler will provide the &struct cxl_cmd, the &CXLDeviceStat=
-e, and the
-> > + *    in/out length of the payload. The handler is responsible for con=
-suming the
-> > + *    payload from cmd->payload and operating upon it as necessary. It=
- must then
-> > + *    fill the output data into cmd->payload (overwriting what was the=
-re),
-> > + *    setting the length, and returning a valid return code.
-> > + *
-> > + *  XXX: The handler need not worry about endianess. The payload is re=
-ad out of
-> > + *  a register interface that already deals with it.
+> > +#define iova_min_addr qemu_real_host_page_size
+> > +
+> > +/**
+> > + * VhostIOVATree, able to:
+> > + * - Translate iova address
+> > + * - Reverse translate iova address (from translated to iova)
+> > + * - Allocate IOVA regions for translated range (linear operation)
 > > + */
+> > +struct VhostIOVATree {
+> > +    /* First addressable iova address in the device */
+> > +    uint64_t iova_first;
 > > +
-> > +/* 8.2.8.4.5.1 Command Return Codes */
-> > +typedef enum {
-> > +    CXL_MBOX_SUCCESS =3D 0x0,
-> > +    CXL_MBOX_BG_STARTED =3D 0x1,
-> > +    CXL_MBOX_INVALID_INPUT =3D 0x2,
-> > +    CXL_MBOX_UNSUPPORTED =3D 0x3,
-> > +    CXL_MBOX_INTERNAL_ERROR =3D 0x4,
-> > +    CXL_MBOX_RETRY_REQUIRED =3D 0x5,
-> > +    CXL_MBOX_BUSY =3D 0x6,
-> > +    CXL_MBOX_MEDIA_DISABLED =3D 0x7,
-> > +    CXL_MBOX_FW_XFER_IN_PROGRESS =3D 0x8,
-> > +    CXL_MBOX_FW_XFER_OUT_OF_ORDER =3D 0x9,
-> > +    CXL_MBOX_FW_AUTH_FAILED =3D 0xa,
-> > +    CXL_MBOX_FW_INVALID_SLOT =3D 0xb,
-> > +    CXL_MBOX_FW_ROLLEDBACK =3D 0xc,
-> > +    CXL_MBOX_FW_REST_REQD =3D 0xd,
-> > +    CXL_MBOX_INVALID_HANDLE =3D 0xe,
-> > +    CXL_MBOX_INVALID_PA =3D 0xf,
-> > +    CXL_MBOX_INJECT_POISON_LIMIT =3D 0x10,
-> > +    CXL_MBOX_PERMANENT_MEDIA_FAILURE =3D 0x11,
-> > +    CXL_MBOX_ABORTED =3D 0x12,
-> > +    CXL_MBOX_INVALID_SECURITY_STATE =3D 0x13,
-> > +    CXL_MBOX_INCORRECT_PASSPHRASE =3D 0x14,
-> > +    CXL_MBOX_UNSUPPORTED_MAILBOX =3D 0x15,
-> > +    CXL_MBOX_INVALID_PAYLOAD_LENGTH =3D 0x16,
-> > +    CXL_MBOX_MAX =3D 0x17
-> > +} ret_code;
+> > +    /* Last addressable iova address in the device */
+> > +    uint64_t iova_last;
 > > +
-> > +struct cxl_cmd;
-> > +typedef ret_code (*opcode_handler)(struct cxl_cmd *cmd,
-> > +                                   CXLDeviceState *cxl_dstate, uint16_=
-t *len);
-> > +struct cxl_cmd {
-> > +    const char *name;
-> > +    opcode_handler handler;
-> > +    ssize_t in;
-> > +    uint16_t effect; /* Reported in CEL */
-> > +    uint8_t *payload;
+> > +    /* IOVA address to qemu memory maps. */
+> > +    IOVATree *iova_taddr_map;
+> > +
+> > +    /* QEMU virtual memory address to iova maps */
+> > +    GTree *taddr_iova_map;
 > > +};
 > > +
-> > +#define DEFINE_MAILBOX_HANDLER_ZEROED(name, size)                     =
-    \
-> > +    uint16_t __zero##name =3D size;                                   =
-      \
-> > +    static ret_code cmd_##name(struct cxl_cmd *cmd,                   =
-    \
-> > +                               CXLDeviceState *cxl_dstate, uint16_t *l=
-en) \
-> > +    {                                                                 =
-    \
-> > +        *len =3D __zero##name;                                        =
-      \
-> > +        memset(cmd->payload, 0, *len);                                =
-    \
-> > +        return CXL_MBOX_SUCCESS;                                      =
-    \
-> > +    }
-> > +#define DEFINE_MAILBOX_HANDLER_NOP(name)                              =
-    \
-> > +    static ret_code cmd_##name(struct cxl_cmd *cmd,                   =
-    \
-> > +                               CXLDeviceState *cxl_dstate, uint16_t *l=
-en) \
-> > +    {                                                                 =
-    \
-> > +        return CXL_MBOX_SUCCESS;                                      =
-    \
-> > +    }
-> > +
-> > +static QemuUUID cel_uuid;
-> > +
-> > +static struct cxl_cmd cxl_cmd_set[256][256] =3D {};
-> > +
-> > +void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+> > +static gint vhost_iova_tree_cmp_taddr(gconstpointer a, gconstpointer b=
+,
+> > +                                      gpointer data)
 > > +{
-> > +    uint16_t ret =3D CXL_MBOX_SUCCESS;
-> > +    struct cxl_cmd *cxl_cmd;
-> > +    uint64_t status_reg;
-> > +    opcode_handler h;
+> > +    const DMAMap *m1 =3D a, *m2 =3D b;
 > > +
-> > +    /*
-> > +     * current state of mailbox interface
-> > +     *  mbox_cap_reg =3D cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CAP=
-];
-> > +     *  mbox_ctrl_reg =3D cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CT=
-RL];
-> > +     *  status_reg =3D *(uint64_t *)&cxl_dstate->reg_state[A_CXL_DEV_M=
-AILBOX_STS];
-> > +     */
-> > +    uint64_t command_reg =3D cxl_dstate->mbox_reg_state64[R_CXL_DEV_MA=
-ILBOX_CMD];
-> > +
-> > +    uint8_t set =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMA=
-ND_SET);
-> > +    uint8_t cmd =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMA=
-ND);
-> > +    uint16_t len =3D FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, LENG=
-TH);
-> > +    cxl_cmd =3D &cxl_cmd_set[set][cmd];
-> > +    h =3D cxl_cmd->handler;
-> > +    if (!h) {
-> > +        qemu_log_mask(LOG_UNIMP, "Command %04xh not implemented\n",
-> > +                                 set << 8 | cmd); =20
->=20
-> is ret of CXL_MBOX_SUCCESS still ok for an unimplemented command?
-
-Good spot.  CXL_MBOX_UNSUPPORTED is a more useful response.
-
->=20
-> > +        goto handled;
+> > +    if (m1->translated_addr > m2->translated_addr + m2->size) {
+> > +        return 1;
 > > +    }
 > > +
-> > +    if (len !=3D cxl_cmd->in) {
-> > +        ret =3D CXL_MBOX_INVALID_PAYLOAD_LENGTH;
+> > +    if (m1->translated_addr + m1->size < m2->translated_addr) {
+> > +        return -1;
 > > +    }
 > > +
-> > +    cxl_cmd->payload =3D cxl_dstate->mbox_reg_state + A_CXL_DEV_CMD_PA=
-YLOAD;
-> > +    ret =3D (*h)(cxl_cmd, cxl_dstate, &len);
-> > +    assert(len <=3D cxl_dstate->payload_size);
-> > + =20
->=20
-> Not super keen on the goto, it seems to me the you could trivially
-> re-arrange this to avoid it as it is not a super deep implementation.
->=20
-> if (h) {
->   if (len =3D=3D cxl_cmd->in) {
->     /* do the thing */
->   } else {
->     ret =3D CXL_MBOX_INVALID_PAYLOAD_LENGTH;
-> } else {
->   qemu_log_mask(LOG_UNIMP, "Command %04xh not implemented\n",
->                 set << 8 | cmd);
-> }
+> > +    /* Overlapped */
+> > +    return 0;
+> > +}
+> > +
+> > +/**
+> > + * Create a new IOVA tree
+> > + *
+> > + * Returns the new IOVA tree
+> > + */
+> > +VhostIOVATree *vhost_iova_tree_new(hwaddr iova_first, hwaddr iova_last=
+)
+> > +{
+> > +    VhostIOVATree *tree =3D g_new(VhostIOVATree, 1);
+> > +
+> > +    /* Some devices do not like 0 addresses */
+> > +    tree->iova_first =3D MAX(iova_first, iova_min_addr);
+> > +    tree->iova_last =3D iova_last;
+> > +
+> > +    tree->iova_taddr_map =3D iova_tree_new();
+> > +    tree->taddr_iova_map =3D g_tree_new_full(vhost_iova_tree_cmp_taddr=
+, NULL,
+> > +                                           NULL, g_free);
+> > +    return tree;
+> > +}
+> > +
+> > +/**
+> > + * Delete an iova tree
+> > + */
+> > +void vhost_iova_tree_delete(VhostIOVATree *iova_tree)
+> > +{
+> > +    iova_tree_destroy(iova_tree->iova_taddr_map);
+> > +    g_tree_unref(iova_tree->taddr_iova_map);
+> > +    g_free(iova_tree);
+> > +}
+> > +
+> > +/**
+> > + * Find the IOVA address stored from a memory address
+> > + *
+> > + * @tree     The iova tree
+> > + * @map      The map with the memory address
+> > + *
+> > + * Return the stored mapping, or NULL if not found.
+> > + */
+> > +const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *tree,
+> > +                                        const DMAMap *map)
+> > +{
+> > +    return g_tree_lookup(tree->taddr_iova_map, map);
+> > +}
+> > +
+> > +/**
+> > + * Allocate a new mapping
+> > + *
+> > + * @tree  The iova tree
+> > + * @map   The iova map
+> > + *
+> > + * Returns:
+> > + * - IOVA_OK if the map fits in the container
+> > + * - IOVA_ERR_INVALID if the map does not make sense (like size overfl=
+ow)
+> > + * - IOVA_ERR_OVERLAP if the tree already contains that map
+> > + * - IOVA_ERR_NOMEM if tree cannot allocate more space.
+> > + *
+> > + * It returns assignated iova in map->iova if return value is VHOST_DM=
+A_MAP_OK.
+> > + */
+> > +int vhost_iova_tree_map_alloc(VhostIOVATree *tree, DMAMap *map)
+> > +{
+> > +    /* Some vhost devices do not like addr 0. Skip first page */
+> > +    hwaddr iova_first =3D tree->iova_first ?: qemu_real_host_page_size=
+;
+> > +    DMAMap *new;
+> > +    int r;
+> > +
+> > +    if (map->translated_addr + map->size < map->translated_addr ||
+> > +        map->perm =3D=3D IOMMU_NONE) {
+> > +        return IOVA_ERR_INVALID;
+> > +    }
+> > +
+> > +    /* Check for collisions in translated addresses */
+> > +    if (vhost_iova_tree_find_iova(tree, map)) {
+> > +        return IOVA_ERR_OVERLAP;
+> > +    }
+> > +
+> > +    /* Allocate a node in IOVA address */
+> > +    r =3D iova_tree_alloc_map(tree->iova_taddr_map, map, iova_first,
+> > +                            tree->iova_last);
+> > +    if (r !=3D IOVA_OK) {
+> > +        return r;
+> > +    }
+> > +
+> > +    /* Allocate node in qemu -> iova translations */
+> > +    new =3D g_malloc(sizeof(*new));
+> > +    memcpy(new, map, sizeof(*new));
+> > +    g_tree_insert(tree->taddr_iova_map, new, new);
+>
+>
+> Can the caller map two IOVA ranges to the same e.g GPA range?
+>
 
-Indeed much cleaner. =20
+It shouldn't matter, because we are totally ignoring GPA here. HVA
+could be more problematic.
 
-..
->=20
-> Otherwise:
->=20
-> Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
->=20
+We call it from two places: The shadow vring addresses and through the
+memory listener. The SVQ vring addresses should already be on a
+separated translated address from each one and guest's HVA because of
+malloc semantics.
 
-Everything else changed as suggested.
+Regarding the listener, it should already report flattened memory with
+no overlapping between the HVA chunks.
+vhost_vdpa_listener_skipped_section should skip all problematic
+sections if I'm not wrong.
 
-Thanks,
+But I may have missed some scenarios: vdpa devices only care about
+IOVA -> HVA translation, so two IOVA could translate to the same HVA
+in theory and we would not notice until we try with SVQ. To develop an
+algorithm to handle this seems complicated at this moment: Should we
+keep the bigger one? The last mapped? What happens if the listener
+unmaps one of them, we suddenly must start translating from the not
+unmapping? Seems that some kind of stacking would be needed.
 
-Jonathan
+Thanks!
+
+> Thanks
+>
+>
+> > +    return IOVA_OK;
+> > +}
+> > +
+> > +/**
+> > + * Remove existing mappings from iova tree
+> > + *
+> > + * @param  iova_tree  The vhost iova tree
+> > + * @param  map        The map to remove
+> > + */
+> > +void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap *ma=
+p)
+> > +{
+> > +    const DMAMap *overlap;
+> > +
+> > +    iova_tree_remove(iova_tree->iova_taddr_map, map);
+> > +    while ((overlap =3D vhost_iova_tree_find_iova(iova_tree, map))) {
+> > +        g_tree_remove(iova_tree->taddr_iova_map, overlap);
+> > +    }
+> > +}
+> > diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+> > index 2dc87613bc..6047670804 100644
+> > --- a/hw/virtio/meson.build
+> > +++ b/hw/virtio/meson.build
+> > @@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vh=
+ost-stub.c'))
+> >
+> >   virtio_ss =3D ss.source_set()
+> >   virtio_ss.add(files('virtio.c'))
+> > -virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-b=
+ackend.c', 'vhost-shadow-virtqueue.c'))
+> > +virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-b=
+ackend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
+> >   virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c=
+'))
+> >   virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c=
+'))
+> >   virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-b=
+alloon.c'))
+>
+
 
