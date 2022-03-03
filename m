@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70FD14CBFD3
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:17:36 +0100 (CET)
-Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642174CBF9E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:11:43 +0100 (CET)
+Received: from localhost ([::1]:53014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPmGt-0008DB-ET
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:17:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55384)
+	id 1nPmBC-0000lV-H7
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:11:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <4ece6ffa4465c271c6a7c42a3040f42780fcce87@lizzy.crudebyte.com>)
- id 1nPmFQ-0006N0-Af
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:16:05 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:42473)
+ (envelope-from <dc1c4a85e233f5884ee5f6ec96b87db286083df7@lizzy.crudebyte.com>)
+ id 1nPmAK-0008Ol-9e
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:10:48 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:36437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <4ece6ffa4465c271c6a7c42a3040f42780fcce87@lizzy.crudebyte.com>)
- id 1nPmFM-0005Xe-9O
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:16:03 -0500
+ (envelope-from <dc1c4a85e233f5884ee5f6ec96b87db286083df7@lizzy.crudebyte.com>)
+ id 1nPmAI-0004XG-Hr
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:10:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=V4GggSmDOuO6bAStwDTHTUPgIePHNz5CuLc9nUdaNIY=; b=EE6pe
- sKC+R2rGjMEoj5NP11xCl+B2Nttw09pJPbF8lb9GjQFpSDdsIrZdFRYUaK5iqsooqPWhLC9ceHoOT
- 1FQ3AN4XpVmQa/7/YCsUb4Uz9pgAyQhXahDWitfQMSNuTnPKYTrgP0xq3/w9Zze9aom49IEsR+Wo3
- QsPXUVgcCo0wAbeYJlTjkergjCOCvim0IRcxodtQWvQSzjqgVsn/pY2wy5hXOq8uUcwjGmZ1Yo9DD
- xIYvWf+I9PwyDZFdEkOU2QETVx7j2QH62p6dmB8WAkUNAPSZVbYjlXfVvoAUuq5xA+cY5XpYeK04k
- 31C+Sn4rVZ1J/z9tMZu87H/P/nXNQ==;
-Message-Id: <4ece6ffa4465c271c6a7c42a3040f42780fcce87.1646314856.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=DVTDwcXvRype59yN2sXQXKcvUnpXIYBnZNqAPCNetxA=; b=itSP8
+ exuZQvUuFxrANj9kWhCxD8ckpxMEJ2vAy6pCQSkNfwhvjjQxAu6Cq9RSsOq8WYaCOGVKUnhiYBqcF
+ TAZnZdtN3ZMEvHQOtl75nYUCzUFR6WZqOrxuehlmy7s8OYlsGtYDGxcrkyqLmVBeB6Q+OA6HO9qN9
+ ZrfwdonxszL4q2rfiXfq3/tAYtvcjWZyPvWiQeMkdH+bM3w5qXblnPKMPT91gvX/KmB6QhD/7thbl
+ /rUpxPTqBKOknWPyhyMhryZQk6MGysDAnE2yMVzqOx1ryIjl6CFe5sAVDzscuDbJlNA8urObxIyHb
+ 11EBs/UVcAdJghFsXftF2fU50c8Yg==;
+Message-Id: <dc1c4a85e233f5884ee5f6ec96b87db286083df7.1646314856.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646314856.git.qemu_oss@crudebyte.com>
 References: <cover.1646314856.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 3 Mar 2022 14:12:12 +0100
-Subject: [PATCH 3/6] 9pfs/9p.c: convert Doxygen -> kerneldoc format
+Date: Thu, 3 Mar 2022 14:20:29 +0100
+Subject: [PATCH 4/6] 9pfs/9p-util.h: convert Doxygen -> kerneldoc format
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=4ece6ffa4465c271c6a7c42a3040f42780fcce87@lizzy.crudebyte.com;
+ envelope-from=dc1c4a85e233f5884ee5f6ec96b87db286083df7@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -67,160 +67,41 @@ convert API doc comments from Doxygen format to kerneldoc format.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c | 62 +++++++++++++++++++++++++++++-----------------------
- 1 file changed, 35 insertions(+), 27 deletions(-)
+ hw/9pfs/9p-util.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 7405352c37..a6d6b3f835 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -628,8 +628,8 @@ static inline uint64_t mirror64bit(uint64_t value)
-            ((uint64_t)mirror8bit((value >> 56) & 0xff));
- }
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 22835c5f61..cfa7af43c5 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -97,7 +97,7 @@ ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
+ ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
+                                 const char *name);
  
 -/**
-- * @brief Parameter k for the Exponential Golomb algorihm to be used.
 +/*
-+ * Parameter k for the Exponential Golomb algorihm to be used.
-  *
-  * The smaller this value, the smaller the minimum bit count for the Exp.
-  * Golomb generated affixes will be (at lowest index) however for the
-@@ -642,28 +642,30 @@ static inline uint64_t mirror64bit(uint64_t value)
-  * should be small, for a large amount of devices k might be increased
-  * instead. The default of k=0 should be fine for most users though.
-  *
-- * @b IMPORTANT: In case this ever becomes a runtime parameter; the value of
-+ * IMPORTANT: In case this ever becomes a runtime parameter; the value of
-  * k should not change as long as guest is still running! Because that would
-  * cause completely different inode numbers to be generated on guest.
-  */
- #define EXP_GOLOMB_K    0
+  * Darwin has d_seekoff, which appears to function similarly to d_off.
+  * However, it does not appear to be supported on all file systems,
+  * so ensure it is manually injected earlier and call here when
+@@ -113,15 +113,15 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
+ }
  
  /**
-- * @brief Exponential Golomb algorithm for arbitrary k (including k=0).
-+ * expGolombEncode() - Exponential Golomb algorithm for arbitrary k
-+ *                     (including k=0).
-  *
-- * The Exponential Golomb algorithm generates @b prefixes (@b not suffixes!)
-+ * @n: natural number (or index) of the prefix to be generated
-+ *     (1, 2, 3, ...)
-+ * @k: parameter k of Exp. Golomb algorithm to be used
-+ *     (see comment on EXP_GOLOMB_K macro for details about k)
-+ * Return: prefix for given @n and @k
+- * Duplicate directory entry @dent.
++ * qemu_dirent_dup() - Duplicate directory entry @dent.
 + *
-+ * The Exponential Golomb algorithm generates prefixes (NOT suffixes!)
-  * with growing length and with the mathematical property of being
-  * "prefix-free". The latter means the generated prefixes can be prepended
-  * in front of arbitrary numbers and the resulting concatenated numbers are
-  * guaranteed to be always unique.
++ * @dent: original directory entry to be duplicated
++ * Return: duplicated directory entry which should be freed with g_free()
   *
-  * This is a minor adjustment to the original Exp. Golomb algorithm in the
-- * sense that lowest allowed index (@param n) starts with 1, not with zero.
+  * It is highly recommended to use this function instead of open coding
+  * duplication of dirent objects, because the actual struct dirent
+  * size may be bigger or shorter than sizeof(struct dirent) and correct
+  * handling is platform specific (see gitlab issue #841).
 - *
-- * @param n - natural number (or index) of the prefix to be generated
-- *            (1, 2, 3, ...)
-- * @param k - parameter k of Exp. Golomb algorithm to be used
-- *            (see comment on EXP_GOLOMB_K macro for details about k)
-+ * sense that lowest allowed index (@n) starts with 1, not with zero.
+- * @dent - original directory entry to be duplicated
+- * @returns duplicated directory entry which should be freed with g_free()
   */
- static VariLenAffix expGolombEncode(uint64_t n, int k)
- {
-@@ -677,7 +679,9 @@ static VariLenAffix expGolombEncode(uint64_t n, int k)
- }
- 
- /**
-- * @brief Converts a suffix into a prefix, or a prefix into a suffix.
-+ * invertAffix() - Converts a suffix into a prefix, or a prefix into a suffix.
-+ * @affix: either suffix or prefix to be inverted
-+ * Return: inversion of passed @affix
-  *
-  * Simply mirror all bits of the affix value, for the purpose to preserve
-  * respectively the mathematical "prefix-free" or "suffix-free" property
-@@ -701,16 +705,16 @@ static VariLenAffix invertAffix(const VariLenAffix *affix)
- }
- 
- /**
-- * @brief Generates suffix numbers with "suffix-free" property.
-+ * affixForIndex() - Generates suffix numbers with "suffix-free" property.
-+ * @index: natural number (or index) of the suffix to be generated
-+ *         (1, 2, 3, ...)
-+ * Return: Suffix suitable to assemble unique number.
-  *
-  * This is just a wrapper function on top of the Exp. Golomb algorithm.
-  *
-  * Since the Exp. Golomb algorithm generates prefixes, but we need suffixes,
-  * this function converts the Exp. Golomb prefixes into appropriate suffixes
-  * which are still suitable for generating unique numbers.
-- *
-- * @param n - natural number (or index) of the suffix to be generated
-- *            (1, 2, 3, ...)
-  */
- static VariLenAffix affixForIndex(uint64_t index)
- {
-@@ -810,8 +814,8 @@ static int qid_inode_prefix_hash_bits(V9fsPDU *pdu, dev_t dev)
-     return val->prefix_bits;
- }
- 
--/**
-- * @brief Slow / full mapping host inode nr -> guest inode nr.
-+/*
-+ * Slow / full mapping host inode nr -> guest inode nr.
-  *
-  * This function performs a slower and much more costly remapping of an
-  * original file inode number on host to an appropriate different inode
-@@ -823,7 +827,7 @@ static int qid_inode_prefix_hash_bits(V9fsPDU *pdu, dev_t dev)
-  * qid_path_suffixmap() failed. In practice this slow / full mapping is not
-  * expected ever to be used at all though.
-  *
-- * @see qid_path_suffixmap() for details
-+ * See qid_path_suffixmap() for details
-  *
-  */
- static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
-@@ -864,8 +868,8 @@ static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
-     return 0;
- }
- 
--/**
-- * @brief Quick mapping host inode nr -> guest inode nr.
-+/*
-+ * Quick mapping host inode nr -> guest inode nr.
-  *
-  * This function performs quick remapping of an original file inode number
-  * on host to an appropriate different inode number on guest. This remapping
-@@ -1281,12 +1285,15 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
- 
- 
- /**
-- * Convert host filesystem's block size into an appropriate block size for
-- * 9p client (guest OS side). The value returned suggests an "optimum" block
-- * size for 9p I/O, i.e. to maximize performance.
-+ * blksize_to_iounit() - Block size exposed to 9p client.
-+ * Return: block size
-  *
-  * @pdu: 9p client request
-  * @blksize: host filesystem's block size
-+ *
-+ * Convert host filesystem's block size into an appropriate block size for
-+ * 9p client (guest OS side). The value returned suggests an "optimum" block
-+ * size for 9p I/O, i.e. to maximize performance.
-  */
- static int32_t blksize_to_iounit(const V9fsPDU *pdu, int32_t blksize)
- {
-@@ -2398,10 +2405,11 @@ out_nofid:
- }
- 
- /**
-- * Returns size required in Rreaddir response for the passed dirent @p name.
-+ * v9fs_readdir_response_size() - Returns size required in Rreaddir response
-+ * for the passed dirent @name.
-  *
-- * @param name - directory entry's name (i.e. file name, directory name)
-- * @returns required size in bytes
-+ * @name: directory entry's name (i.e. file name, directory name)
-+ * Return: required size in bytes
-  */
- size_t v9fs_readdir_response_size(V9fsString *name)
+ static inline struct dirent *qemu_dirent_dup(struct dirent *dent)
  {
 -- 
 2.30.2
