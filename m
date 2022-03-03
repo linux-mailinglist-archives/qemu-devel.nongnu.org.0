@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5884CC204
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:56:30 +0100 (CET)
-Received: from localhost ([::1]:48582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C341D4CC1FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:55:17 +0100 (CET)
+Received: from localhost ([::1]:45588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPnob-0005Zk-5b
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:56:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51902)
+	id 1nPnnQ-0003QQ-TY
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:55:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nPnUJ-0002gW-BC; Thu, 03 Mar 2022 10:35:31 -0500
-Received: from [2607:f8b0:4864:20::333] (port=46030
- helo=mail-ot1-x333.google.com)
+ id 1nPnUL-0002nw-WA; Thu, 03 Mar 2022 10:35:34 -0500
+Received: from [2607:f8b0:4864:20::336] (port=36857
+ helo=mail-ot1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nPnUH-0000kQ-R9; Thu, 03 Mar 2022 10:35:31 -0500
-Received: by mail-ot1-x333.google.com with SMTP id
- g6-20020a9d6486000000b005acf9a0b644so4876765otl.12; 
- Thu, 03 Mar 2022 07:35:28 -0800 (PST)
+ id 1nPnUK-0000lw-Do; Thu, 03 Mar 2022 10:35:33 -0500
+Received: by mail-ot1-x336.google.com with SMTP id
+ w3-20020a056830060300b005ad10e3becaso4900507oti.3; 
+ Thu, 03 Mar 2022 07:35:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K7G/R6gh2qcQ20jCoRxQsit9P/xzKL//S118901jdwU=;
- b=VuzLAATur4BntbFtp/zwiea28EA8sUSJf+WbYWj4KAW/5JA0W8RFpb6DoVu3mzHajy
- Wtl4z47DpbLx4LvEeymmAUEWlZirn5/hVI9UdQIYPNVxJxPnb0afWiZ2ouPFCmC75kg6
- 8p+z61+LLKPQpkYUi7goOCqmXSza/EwqN5cAHi0F3esXDZ1h3K3ZsXbOK+lO5RvrlTU4
- 50MUXWuCzPJkVpspNLw+JLgWpfFDRWgILyunSYxm7p88O1qQz6VARL/Rnnp2KSskK62H
- GPOQbC/mFtYgYZ201PAVFl1hho8mvIv0JaMpUCWHYAIzgFjOkpLfn5gpw5iunD5ZPfJm
- 6Ikg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=hU29WVIs/lFc81OvEVBSDwlLNpP3N9hMSuV5wawYQ30=;
+ b=ID8yGag34As9LNJx2you82UN8qoVaA12ivMvEomAY4cMGXAntnHTdMtQ6h1bb00v+J
+ SP6KqMAOmsDK7f8y4KH2FM13jdL3TqjFr6JCxI7oBsQaC8H07iQAfR0zD0KrSRBGe6mE
+ AtT1/c+crkiyIx/FpfLuXi4nwcfMmu85+lEkdpbuqZ7xXkUd31jd0PM3ywFbi7EVM/fx
+ 1f0quvbNB10xuAZYDQM8x5Fv5etpPP/Rb+gtBFeM0pozTevNi1U3tmA1907PKcwwlAMK
+ sFMGCg78vP6uBav/8JVfaPqHAZGa+KE8JDsBb5+kKRaIIyJw7/P+7NvM0GnvFFcRGxgx
+ RLbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=K7G/R6gh2qcQ20jCoRxQsit9P/xzKL//S118901jdwU=;
- b=lYjjsItJdn/7JL4gfnYUEoriluxJGeNqghY98nL0d2/zHZk6TGmFsJhPwUOdccJmq7
- psEFFUDZGFJIIiuSA4Z64sBKP9e3N37Pfwh6XaboB9465yhau7LS66CxaQysVqJeJyyU
- E3/mkKZepo/vZ6AV5ZELbNuWE7vUQ7MwfeA7VqRncFU2yFTRnI6BqpZeh/JbdLYdO5wk
- UJrc4N8pAX5oGtUrLfbmFJYN0eEpZmf9mkXUevcx0D/UBwz3pkJm243tIUvf3hInG5R4
- Jq5ZBovNj/ytTdTC9mSqU5ile+UrgrRZElfimjZQP10FU4Qxx4A2yw31RH4cRBj7d4iW
- 0Tbg==
-X-Gm-Message-State: AOAM5331DZlXLh8m7Pc+333gkeMbNjPnKxQHcK7BBkZ6ugY4VSr0WMXd
- vvw4rWr5X2Rjd+iCOhXH4znj1iI+27s=
-X-Google-Smtp-Source: ABdhPJxW7SqJPx6Qa5LiDT9ZY/cYEPLdC6sVsyFqx3W3hwzuIdA8S6hBd1XZiRLwhcsSlrMuQy/XoQ==
-X-Received: by 2002:a05:6830:238f:b0:5ac:4cf8:7992 with SMTP id
- l15-20020a056830238f00b005ac4cf87992mr19729470ots.169.1646321727620; 
- Thu, 03 Mar 2022 07:35:27 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=hU29WVIs/lFc81OvEVBSDwlLNpP3N9hMSuV5wawYQ30=;
+ b=YTGKGUW9t/vm+U0cdoMfztPrG1GaC/gHko2jQvtdy9tyHe5YtZbfgTWYP04CyWpUL1
+ iupTLmRdOzOsP0TU3/uyMw9KQzIDZBqG9kTMUWIbD6t6U4jWAo2iF5VXisFQWMuLXGxt
+ LNzPh53UVqVg+UZeE2IgtFZL+wZi/tD2qPbaTdPyAGwGI3b8BN6HD+EQJY9rZZhV5P4i
+ 2haK0FY1wKjLujduBphqXYuKQJjm6j0xTtjFHeZeE2dPBQbp/AhsQuBUcD1WWn53gYOn
+ eyKSkZ5PIFXRiiYY+DH20Mxy2zcXu0IdTCy3Xch5lRoPxYC6J34M58CYXmE7H7MuFtwH
+ nlJA==
+X-Gm-Message-State: AOAM530EB+Y1TkW6+4lECSbhuYQutg30o9LPxAixMeLpmUBphfZw7pBR
+ Tc31Gi2/qy5hb8GdbxMtZpc0yYwC1QA=
+X-Google-Smtp-Source: ABdhPJxi28NqzIiNZiNM/7bDQW83BiRY5i3d89DMPLusSsHVgW9Hb6IdJt69sGT89pkm+T2dZRlhsQ==
+X-Received: by 2002:a05:6830:19c8:b0:5b0:298f:42fa with SMTP id
+ p8-20020a05683019c800b005b0298f42famr10439380otp.167.1646321730387; 
+ Thu, 03 Mar 2022 07:35:30 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:3b4a:a86f:f27d:30ef:6eb6])
  by smtp.gmail.com with ESMTPSA id
- dw7-20020a056870770700b000d9aa7a6d63sm1178798oab.6.2022.03.03.07.35.25
+ dw7-20020a056870770700b000d9aa7a6d63sm1178798oab.6.2022.03.03.07.35.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 07:35:27 -0800 (PST)
+ Thu, 03 Mar 2022 07:35:30 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] --disable-tcg qtest/avocado fixes for ppc64
-Date: Thu,  3 Mar 2022 12:35:12 -0300
-Message-Id: <20220303153517.168943-1-danielhb413@gmail.com>
+Subject: [PATCH 1/5] qtest/meson.build: check CONFIG_TCG for prom-env-test in
+ qtests_ppc
+Date: Thu,  3 Mar 2022 12:35:13 -0300
+Message-Id: <20220303153517.168943-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220303153517.168943-1-danielhb413@gmail.com>
+References: <20220303153517.168943-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x333.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -91,37 +94,35 @@ Cc: thuth@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+'prom-env-test' is a TCG test that will fail if QEMU is compiled with
+--disable-tcg:
 
-'make check' and 'make check-avocado' in a ppc64 host, using a QEMU
-built with --disable-tcg, fails in a handful of tests/files due to the
-lack of TCG support not being accounted for. The tests usually fall back
-to KVM acceleration, and when running in an IBM POWER server this accel
-type isn't able to run any other machine but 'pseries'. 
+$ QTEST_QEMU_BINARY=./qemu-system-ppc64 ./tests/qtest/prom-env-test
+/ppc64/prom-env/mac99: qemu-system-ppc64: -accel tcg: invalid accelerator tcg
+(... hangs indefinitely ...)
 
-This series aims to fix it by checking for CONFIG_TCG in
-qtest/meson.build, and using require_accelerator('tcg') in avocado
-tests. I avoided changing the behavior when running the tests in other
-host architectures because I can't assert about how KVM behaves in x86 and
-aarch64. Patches 1, 2 and 4 were limited to ppc/ppc64 tests only because
-of that.
+Fix it by checking CONFIG_TCG before compiling prom-env-test.
 
-Patch 5 is something that I am fairly confident that affects all archs
-so the change is made in the common code for everyone.
+Cc: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ tests/qtest/meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-Daniel Henrique Barboza (5):
-  qtest/meson.build: check CONFIG_TCG for prom-env-test in qtests_ppc
-  qtest/meson.build: check CONFIG_TCG for boot-serial-test in qtests_ppc
-  avocado/boot_linux_console.py: check for tcg in test_ppc_powernv8/9
-  avocado/boot_linux_console.py: check tcg accel in test_ppc64_e500
-  avocado/replay_kernel.py: make tcg-icount check in run_vm()
-
- tests/avocado/boot_linux_console.py | 5 +++++
- tests/avocado/replay_kernel.py      | 4 ++++
- tests/qtest/meson.build             | 4 +++-
- 3 files changed, 12 insertions(+), 1 deletion(-)
-
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index f33d84d19b..0c2f2d94e1 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -160,7 +160,8 @@ qtests_ppc = \
+   (slirp.found() ? ['test-netfilter'] : []) + \
+   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
+   (config_all_devices.has_key('CONFIG_M48T59') ? ['m48t59-test'] : []) +                     \
+-  ['boot-order-test', 'prom-env-test', 'boot-serial-test']                 \
++  (config_all_devices.has_key('CONFIG_TCG') ? ['prom-env-test'] : []) +                      \
++  ['boot-order-test', 'boot-serial-test']
+ 
+ qtests_ppc64 = \
+   qtests_ppc + \
 -- 
 2.35.1
 
