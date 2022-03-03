@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B294CB545
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 04:15:46 +0100 (CET)
-Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C497D4CB546
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 04:15:55 +0100 (CET)
+Received: from localhost ([::1]:37886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPbwP-0001Jv-9b
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 22:15:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43378)
+	id 1nPbwY-0001N0-TG
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 22:15:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPbsV-0006wp-OG
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 22:11:43 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=46771
- helo=mail-pj1-x102f.google.com)
+ id 1nPbsX-0006xA-38
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 22:11:46 -0500
+Received: from [2607:f8b0:4864:20::630] (port=39660
+ helo=mail-pl1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPbsU-0003Wg-67
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 22:11:43 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- 15-20020a17090a098f00b001bef0376d5cso3623332pjo.5
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 19:11:37 -0800 (PST)
+ id 1nPbsU-0003Ws-76
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 22:11:44 -0500
+Received: by mail-pl1-x630.google.com with SMTP id 9so3329879pll.6
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 19:11:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=z0nTGi36Q6kY2XhTWFaFoUNK+G34o+/T62xUlFxQppc=;
- b=zcgdZr3CaBtvHQgE1kM8OA3KdTpe5q2TFD04PX1L40Rr5C7qbBY+dPbMTNJ1S8pyPn
- U3AjOcFEh2iuSftOIJZ2iQP32tr5fJjoaU9FIp+fhlkXd6Ca6/upDlIbIU+g5wMAYZpB
- oqMfYMRjeEkdTJ2kg3CN/JuV3xm6l4qSqY8TWr4ZZUbOzctWQlhSGAfU3agNzvG96K+n
- BOTtdX3c55Lfj8xy3BAVQa3TJZt/a6IOfuDbnYWGPn+EWObnOKoINtHocYa+MdlqJnam
- LDoJsyPMqZF9ZYx2AYV6LkBAIlum2Yog/0ckqIB1ji2ib3EnCVGR2IpwueIZxaSeglQp
- rJFg==
+ bh=OuBdYD4t9EnJOkWc0Xx7hBPfmAgY4I+FMKGqYJBs4Ic=;
+ b=IOOeYB/Og3Q6ijRzB6hBXgpmRnTs/yhzqi7JW9Le9Q1M1ygoZTMSVPsmhvM2coVLfw
+ JBe9ZnnOhNVKgITqrsT0+RmE9UjHSUfu/M3tMqWwT3Y/UkHEt0JEjPCw7YW6ZLhsLgjR
+ 9X+KgEnoQ3J613zurpon8bd2vNLlU6gWS+8DRbZH5FjQAPHuiUM6Uvkaak4gP09B8x+t
+ EiWtz6dWO9pH/PmMWH4EmcKC/BT6mZTQpjFzbmjF672C8Fi13CRw2a1Qw75uJw2laxxl
+ aYOhenuHASAmlWhDAoeK0Lwa6cJfGIqhOwKlbUiwG7V+5cN/35BNjFKnEOjccjV3WjVi
+ RFvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z0nTGi36Q6kY2XhTWFaFoUNK+G34o+/T62xUlFxQppc=;
- b=48lf21jg+qNeyFHbGxE9BQkfxo5YrYqVMpvHVzQVn06OuEJtjQYqtyTn/7vYr1a7u+
- QOBwueX38UM1xY+FWx5oGzBYhiaoaTzEF7QTwShX5IMZxZoEp77K+57enrRnHDXc1fd1
- KUrqolhrakgGZWkvMIPd2P2du5UH20OUpwOwmEejgSdzU1eu0FXTJB1/VUmymBasmDhL
- bhe30ELeGimg/JZbVngkp1WqR+/ReHU2UBcfGtyX6+37vfp8K8MSy74QmTEy169m8h7k
- CrMgGBySQar4F/7W3T3ABNlhBfoK39gOg+tPRSJUL1oFfx1y0d3xZR//l22JffRfxz9w
- iCWQ==
-X-Gm-Message-State: AOAM531K1F2ZuLFguOISATJ88VOZtkzGJUcH4ZsDpVXLGBK0RwzCYlhT
- skeT//FbHDZ/XQQu1vf9EZ6afEQ0JJq4YA==
-X-Google-Smtp-Source: ABdhPJyiMTh0olcdYXgs30VnHPmVwN9603ULmzKcd0ghhsMSqIWxMWF80zz5/FLfGgrqBI+lEyPUqA==
-X-Received: by 2002:a17:902:8c86:b0:151:8226:e93b with SMTP id
- t6-20020a1709028c8600b001518226e93bmr11379437plo.128.1646277096293; 
- Wed, 02 Mar 2022 19:11:36 -0800 (PST)
+ bh=OuBdYD4t9EnJOkWc0Xx7hBPfmAgY4I+FMKGqYJBs4Ic=;
+ b=B6Ha1UXBINiaPh0Z6B8AFEyIGqJcIKsdJTD5dn74aegrDdIHKqLiAL8c/fDJIlCPQ6
+ 9cRtXQ4cvOAjKogO3sVDqZDJIgG4dV/FKfyXHF57HDWQWR9J1mDcfIKYu/UCEaTGx9vX
+ 58ESfcxk8d/knLZJAQpfvCTGCYCqFKwxr/8ZScx8dh3E7criR8vH8iVzjoOkhslN3qKE
+ 7LNdMLA+vevwQi2pYceYlrRCPoj9IlgpmXuCRTN84pZ7EKW2IImeLJSFURyI6p67Rf7o
+ DM9ctNoQ1+lM4xUhM2Qr4wCg1nFhN8Vayfn8ycWMIQvu3H1ovPPj9PhvQVWr14cSEDHy
+ l9hg==
+X-Gm-Message-State: AOAM530WNeiLZZhPesIv5R2P3a0vZ4Wyf3BjsiqvUQ1m/suUHSOR0mQn
+ z3sokH4iJLLDOOqRteOW7WOKHxyXIWyRWA==
+X-Google-Smtp-Source: ABdhPJyl2RekuWyG/DiPNkF9mvnzCJcIGR3nrU2RNOSjx0db84YEMPuAY1nC5h/t/pqhXer95s+Dgw==
+X-Received: by 2002:a17:902:e5ce:b0:151:9c5a:3c87 with SMTP id
+ u14-20020a170902e5ce00b001519c5a3c87mr4775233plf.59.1646277097519; 
+ Wed, 02 Mar 2022 19:11:37 -0800 (PST)
 Received: from localhost.localdomain
  (2603-800c-1201-c600-e819-4400-f268-c391.res6.spectrum.com.
  [2603:800c:1201:c600:e819:4400:f268:c391])
  by smtp.gmail.com with ESMTPSA id
- h7-20020a056a00170700b004e01663f59bsm605789pfc.117.2022.03.02.19.11.35
+ h7-20020a056a00170700b004e01663f59bsm605789pfc.117.2022.03.02.19.11.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 19:11:35 -0800 (PST)
+ Wed, 02 Mar 2022 19:11:37 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] tcg/s390x: Fix tcg_out_dupi_vec vs VGM
-Date: Wed,  2 Mar 2022 17:11:30 -1000
-Message-Id: <20220303031132.444233-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/3] tcg/s390x: Fix INDEX_op_bitsel_vec vs VSEL
+Date: Wed,  2 Mar 2022 17:11:31 -1000
+Message-Id: <20220303031132.444233-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220303031132.444233-1-richard.henderson@linaro.org>
 References: <20220303031132.444233-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,36 +94,27 @@ Cc: qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The immediate operands to VGM were in the wrong order,
-producing an inverse mask.
+The operands are output in the wrong order: the tcg selector
+argument is first, whereas the s390x selector argument is last.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.c.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tcg/s390x/tcg-target.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 6e65828c09..508f1bccc7 100644
+index 508f1bccc7..3b185b3c96 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -2715,7 +2715,7 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type, unsigned vece,
-                 msb = clz32(val);
-                 lsb = 31 - ctz32(val);
-             }
--            tcg_out_insn(s, VRIb, VGM, dst, lsb, msb, MO_32);
-+            tcg_out_insn(s, VRIb, VGM, dst, msb, lsb, MO_32);
-             return;
-         }
-     } else {
-@@ -2729,7 +2729,7 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type, unsigned vece,
-                 msb = clz64(val);
-                 lsb = 63 - ctz64(val);
-             }
--            tcg_out_insn(s, VRIb, VGM, dst, lsb, msb, MO_64);
-+            tcg_out_insn(s, VRIb, VGM, dst, msb, lsb, MO_64);
-             return;
-         }
-     }
+@@ -2868,7 +2868,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+         break;
+ 
+     case INDEX_op_bitsel_vec:
+-        tcg_out_insn(s, VRRe, VSEL, a0, a1, a2, args[3]);
++        tcg_out_insn(s, VRRe, VSEL, a0, a2, args[3], a1);
+         break;
+ 
+     case INDEX_op_cmp_vec:
 -- 
 2.25.1
 
