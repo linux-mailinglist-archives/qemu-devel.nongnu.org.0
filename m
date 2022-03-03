@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C920D4CBCE2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 12:39:16 +0100 (CET)
-Received: from localhost ([::1]:56860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5AE4CBD01
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 12:43:56 +0100 (CET)
+Received: from localhost ([::1]:37426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPjnf-0004LR-Nd
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 06:39:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60242)
+	id 1nPjsA-0001u5-Un
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 06:43:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPjmH-0002KZ-J4
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 06:37:49 -0500
-Received: from [2a00:1450:4864:20::430] (port=40501
- helo=mail-wr1-x430.google.com)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1nPjqZ-0000Ol-OJ
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 06:42:15 -0500
+Received: from [2a00:1450:4864:20::62c] (port=38706
+ helo=mail-ej1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPjmF-0006VQ-9r
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 06:37:49 -0500
-Received: by mail-wr1-x430.google.com with SMTP id n14so7374707wrq.7
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 03:37:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1nPjqY-0007Fi-0s
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 06:42:15 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id r13so10055030ejd.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 03:42:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nsvhK/ifUeSvWeX1rdfKJDrF5hLi+OAvYK2zDd+7vVs=;
- b=H7lcVf0FuhiLUwxNtWR1RDNJgta9PoZ3PPESl5zQ58stQXj/YtwEgScfD0I1AmbzQR
- oBT5b540dFeqbNii6iIq0GQe0bek44KK61RHD6P9UvaAvDgbJtXYEQ3jiAjVTUfz0QDr
- Yfa7pZnrbw1nk+T7ijqO4jLnp59GC34AXJJvRcxkCpYLtLzhLsi27AKW14pj3pTco+ci
- LpjriDhnRLy/Db8GoWeCghU4OWCdp0hTl8NbpfllMaKDy56iN+DI0zTgoUKT/ADFSud/
- NHCP430n26hm6f6NWL8H0V7m7BIQo4qenYF+nNq61Iol3v282fFxvOu1gKJUJpbCdQh6
- 3NRQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=DSVjYL36JXmnJT2z9zSXM95gTfWQAKktwXsar/RYgYo=;
+ b=RfvDQz/4O4MiEgM19CHgEv7W04uYRZ3fui27tOyTj/+2Zqb97H+e4PjETCfsjz9uwq
+ Gh9CnjMIYhOzvCMwUFxQVtO02T5KwHqv7O/Yh5Nh7KB0LEBL6s2EOXUFoLakWBmk8vjX
+ i77ac+XZgoHeZd2O6tNUTSDTFZIikHU5IEPZSWArzucYknrla0EXKnxZb/T7YagyVyTi
+ paAaTCnqNQan+jWw2xmIKLhxHHUvyQUSuakpGwvGpSjs33ZhX0bL5YCOxiFGReuwYaug
+ oqUO4Fc5GLNEALjQ6vQoFuoDgLGtmUPKw/0e/WGaBscSswoLG88AyYlnFyrmTMiz0huW
+ ODWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nsvhK/ifUeSvWeX1rdfKJDrF5hLi+OAvYK2zDd+7vVs=;
- b=dyuWS9fT+uWXCwiBlPmpe+h1z63yuPlGse5izUTFKMXX0eTE29m/NKfa4DoXI5citr
- bjXoQFewz3k8RBJYgOqVlWvRzA0Ine4howjUs0L4FUhgEptNQ5VUJKBA8rXaEZL+ubBl
- 7pPpqfUk8xvzUhOaQ4xMv6oPXwMpx7GdDbFhg1Q0JF7gxbG81vVANWJcqYlY4h6Y0sQd
- caWLpR8FKp4pVNGtu9nrxajapck/GA6PxDWQF+XQ9hUUKS1/2SDzzDXp/YFs/sJcgBGr
- L+KirJ3SvehBmk8ldzVY50Q+CjwP20+eIECNrjRKsG1xcaT8tJOhIZKd/DCULeBnT++O
- Kryw==
-X-Gm-Message-State: AOAM533dgNc7yyzyazFCTO8Uwi6aGRLJ65UZC0+hXxWWP4vF61/60vaq
- Aik9cqg+GroLBGW+ddys0KMncU/QgXDGqA==
-X-Google-Smtp-Source: ABdhPJwET2JbiPemGMDqQTO70kA4eaopnA0dZ3Qmzv+DKWOf34XoYXuI0wEDKKT3kWUDTac3aeeieA==
-X-Received: by 2002:adf:fa8c:0:b0:1f0:47ef:a04 with SMTP id
- h12-20020adffa8c000000b001f047ef0a04mr3764509wrr.398.1646307465738; 
- Thu, 03 Mar 2022 03:37:45 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- bg20-20020a05600c3c9400b0037fa5c422c8sm10240093wmb.48.2022.03.03.03.37.44
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DSVjYL36JXmnJT2z9zSXM95gTfWQAKktwXsar/RYgYo=;
+ b=KdfyiNYLfxclgDnrrwDPBAyRz518Zlt/oSSCQNCKnfEY7DUT+211Syqlm4z9xrWqg2
+ kfjCv2x08zRL8OMQZsY/F+FshWYE9neTDadudephtkVIW25AWNwVFayzo+dBi3FTLa6P
+ alnVukgSdQDP+7IQvZAt+5qnWxgMoE35m4qmGz0eSufKIHUXIxZYji3Z5Le+7kFMV9u2
+ aSkj47fLWq/yvr3ndFZkoozBajQ4uUlTX+9lwKgNDK/XvpGPB8ZWKa118qFdAB9qUb/5
+ qgQLy0S14GefDfTQiMQWCI5CPUxa2YZQ/gFbGeI+fHhoXB73OkZPJuZUbY5AjsAZHDjs
+ RanA==
+X-Gm-Message-State: AOAM531Q98x8ZhoUhNPeWAaFKps7ovMal6JoyTsngIJW5tLY+n79lxEN
+ /iyhd6ONMgMcoQirLLPi8F8HyA==
+X-Google-Smtp-Source: ABdhPJzCTvEIN/2ne0jVo2Z5jAAQIJnC+fWi+1Wn/ChBnq2q+v6J16vDprhGv0Mk0zDOcL6ZJ/NmPQ==
+X-Received: by 2002:a17:906:2daa:b0:6cf:3c6:dbb7 with SMTP id
+ g10-20020a1709062daa00b006cf03c6dbb7mr26564290eji.688.1646307732015; 
+ Thu, 03 Mar 2022 03:42:12 -0800 (PST)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168]) by smtp.gmail.com with ESMTPSA id
+ l2-20020a1709066b8200b006bbea7e566esm616063ejr.55.2022.03.03.03.42.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 03:37:45 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 2/2] target/arm/translate-neon: Simplify align field check for
- VLD3
-Date: Thu,  3 Mar 2022 11:37:41 +0000
-Message-Id: <20220303113741.2156877-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220303113741.2156877-1-peter.maydell@linaro.org>
-References: <20220303113741.2156877-1-peter.maydell@linaro.org>
+ Thu, 03 Mar 2022 03:42:11 -0800 (PST)
+Date: Thu, 3 Mar 2022 11:41:47 +0000
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: eric.auger@redhat.com, mst@redhat.com
+Subject: Re: [PATCH v3 0/4] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
+Message-ID: <YiCpe6iJFprJkMGK@myrica>
+References: <20220214124356.872985-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220214124356.872985-1-jean-philippe@linaro.org>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,53 +88,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: lvivier@redhat.com, thuth@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For VLD3 (single 3-element structure to one lane), there is no
-alignment specification and the alignment bits in the instruction
-must be zero.  This is bit [4] for the size=0 and size=1 cases, and
-bits [5:4] for the size=2 case.  We do this check correctly in
-VLDST_single(), but we write it a bit oddly: in the 'case 3' code we
-check for bit 0 of a->align (bit [4] of the insn), and then we fall
-through to the 'case 2' code which checks bit 1 of a->align (bit [5]
-of the insn) in the size 2 case.  Replace this with just checking "is
-a->align non-zero" for VLD3, which lets us drop the fall-through and
-put the cases in this switch in numerical order.
+Hello,
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/translate-neon.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On Mon, Feb 14, 2022 at 12:43:52PM +0000, Jean-Philippe Brucker wrote:
+> Replace the VIRTIO_IOMMU_F_BYPASS feature with
+> VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
+> global bypass on and off.
+> 
+> Add a boot-bypass option, which defaults to 'on' to be in line with
+> other vIOMMUs and to allow running firmware/bootloader that are unaware
+> of the IOMMU. x86 doesn't need a workaround to boot with virtio-iommu
+> anymore.
 
-diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
-index 072fdc1e6ee..384604c0095 100644
---- a/target/arm/translate-neon.c
-+++ b/target/arm/translate-neon.c
-@@ -665,16 +665,16 @@ static bool trans_VLDST_single(DisasContext *s, arg_VLDST_single *a)
-             return false;
-         }
-         break;
--    case 3:
--        if ((a->align & 1) != 0) {
--            return false;
--        }
--        /* fall through */
-     case 2:
-         if (a->size == 2 && (a->align & 2) != 0) {
-             return false;
-         }
-         break;
-+    case 3:
-+        if (a->align != 0) {
-+            return false;
-+        }
-+        break;
-     case 4:
-         if (a->size == 2 && a->align == 3) {
-             return false;
--- 
-2.25.1
+I just wanted to make sure this doesn't fall through, since it is ready
+for v7.0
 
+Thanks,
+Jean
+
+> 
+> Since v2 [1]:
+> * Added the new bypass bits to the migration stream.
+>   As discussed on the v2 thread, we assume that cross-version
+>   compatibility is not required for live migration at the moment, so we
+>   only increase the version number. Patch 2 says: "We add the bypass
+>   field to the migration stream without introducing subsections, based
+>   on the assumption that this virtio-iommu device isn't being used in
+>   production enough to require cross-version migration at the moment
+>   (all previous version required workarounds since they didn't support
+>   ACPI and boot-bypass)."
+> 
+> [1] https://lore.kernel.org/qemu-devel/20220127142940.671333-1-jean-philippe@linaro.org/
+> 
+> Jean-Philippe Brucker (4):
+>   linux-headers: update to v5.17-rc1
+>   virtio-iommu: Default to bypass during boot
+>   virtio-iommu: Support bypass domain
+>   tests/qtest/virtio-iommu-test: Check bypass config
+> 
+>  include/hw/virtio/virtio-iommu.h              |   1 +
+>  include/standard-headers/asm-x86/kvm_para.h   |   1 +
+>  include/standard-headers/drm/drm_fourcc.h     |  11 ++
+>  include/standard-headers/linux/ethtool.h      |   1 +
+>  include/standard-headers/linux/fuse.h         |  60 +++++++-
+>  include/standard-headers/linux/pci_regs.h     | 142 +++++++++---------
+>  include/standard-headers/linux/virtio_gpio.h  |  72 +++++++++
+>  include/standard-headers/linux/virtio_i2c.h   |  47 ++++++
+>  include/standard-headers/linux/virtio_iommu.h |   8 +-
+>  .../standard-headers/linux/virtio_pcidev.h    |  65 ++++++++
+>  include/standard-headers/linux/virtio_scmi.h  |  24 +++
+>  linux-headers/asm-generic/unistd.h            |   5 +-
+>  linux-headers/asm-mips/unistd_n32.h           |   2 +
+>  linux-headers/asm-mips/unistd_n64.h           |   2 +
+>  linux-headers/asm-mips/unistd_o32.h           |   2 +
+>  linux-headers/asm-powerpc/unistd_32.h         |   2 +
+>  linux-headers/asm-powerpc/unistd_64.h         |   2 +
+>  linux-headers/asm-riscv/bitsperlong.h         |  14 ++
+>  linux-headers/asm-riscv/mman.h                |   1 +
+>  linux-headers/asm-riscv/unistd.h              |  44 ++++++
+>  linux-headers/asm-s390/unistd_32.h            |   2 +
+>  linux-headers/asm-s390/unistd_64.h            |   2 +
+>  linux-headers/asm-x86/kvm.h                   |  16 +-
+>  linux-headers/asm-x86/unistd_32.h             |   1 +
+>  linux-headers/asm-x86/unistd_64.h             |   1 +
+>  linux-headers/asm-x86/unistd_x32.h            |   1 +
+>  linux-headers/linux/kvm.h                     |  17 +++
+>  hw/virtio/virtio-iommu.c                      |  99 ++++++++++--
+>  tests/qtest/virtio-iommu-test.c               |   2 +
+>  hw/virtio/trace-events                        |   4 +-
+>  30 files changed, 561 insertions(+), 90 deletions(-)
+>  create mode 100644 include/standard-headers/linux/virtio_gpio.h
+>  create mode 100644 include/standard-headers/linux/virtio_i2c.h
+>  create mode 100644 include/standard-headers/linux/virtio_pcidev.h
+>  create mode 100644 include/standard-headers/linux/virtio_scmi.h
+>  create mode 100644 linux-headers/asm-riscv/bitsperlong.h
+>  create mode 100644 linux-headers/asm-riscv/mman.h
+>  create mode 100644 linux-headers/asm-riscv/unistd.h
+> 
+> -- 
+> 2.35.1
+> 
 
