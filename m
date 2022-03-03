@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9BF4CB9CF
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 10:06:33 +0100 (CET)
-Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD534CBA32
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 10:29:51 +0100 (CET)
+Received: from localhost ([::1]:45242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPhPr-0007S2-Gp
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 04:06:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53462)
+	id 1nPhmQ-0005rJ-4p
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 04:29:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPhKF-0005gP-2w
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 04:00:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48408)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nPhiL-0004Fk-QU
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 04:25:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPhKB-0002mn-A4
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 04:00:41 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nPhiI-0006FQ-GX
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 04:25:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646298037;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1646299533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wi61Gn0vgJuzdcSZOIa37Lh2ix0HhsrPrgy42I8x5rk=;
- b=L88YO8dH4aCp7YYxF0FTbX1entWFOafjSiWrz2GON79V2CovJ3b8FmH7LVz2uCaxoJq3VW
- gNTVZ8G6DkcZ646xFzYvoAnbB1j4SFR/rBFvZDI1VhrFZrePV9rtM/eCFRCiajzDyN78m1
- ofX33ZR/7Aazxg0/oVyqs+X+xsf7TAg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=//AacuTs1O72BVAC6KmgfBkaLa6gYXi4jJ0C4MnkJyo=;
+ b=SePOdY5fG9Ab25CcWv25TyuQp3f+Na07JLqdTzaWf6nBT6i4yYnhM3pa4XjN+w7m2Gy3Sh
+ y6nqQAKOnjXZqVIM3WVKb4LSNyGr0giwUGEk7bCObp9LyZtZayRAClJDgQO2/ne+Suvwpw
+ GzN/K0wgyGt2sMjlyJOZJrw/OYSE7tk=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-GlSDWKH-NKSublcRglp5Og-1; Thu, 03 Mar 2022 04:00:32 -0500
-X-MC-Unique: GlSDWKH-NKSublcRglp5Og-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6785A801DDB;
- Thu,  3 Mar 2022 09:00:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.83])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA796105958D;
- Thu,  3 Mar 2022 08:59:55 +0000 (UTC)
-Date: Thu, 3 Mar 2022 08:59:52 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] deprecation: x86 default machine types
-Message-ID: <YiCDiKqxyE+dXNUz@redhat.com>
-References: <20220301195432.114252-1-dgilbert@redhat.com>
- <Yh+sbYC5n4DsZWWg@redhat.com> <Yh/HzPymVWPZpVaf@work-vm>
+ us-mta-296-jDJ3bt6GO02CKbQyuch6sA-1; Thu, 03 Mar 2022 04:25:32 -0500
+X-MC-Unique: jDJ3bt6GO02CKbQyuch6sA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ fv11-20020a056214240b00b0043253a948f0so3747664qvb.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 01:25:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=//AacuTs1O72BVAC6KmgfBkaLa6gYXi4jJ0C4MnkJyo=;
+ b=TMdRxLUnnfhXdDtdX07TN5/ZuRNCsZGrZoUi2OO9Ccv66YNR8Bk0unPN5sigAz53mo
+ pP5H1xzSHTwi01gDwk01hxgIS7ahH9BTrBbUDxW38PgeeloZ5/KRRTl11+xX/meUfuxd
+ LXeUfDBOXIHtZ/SZJRKzXq2Ry7iB1yCipKK5dinE+EdU0Ef/ka7IHf+445L+YcMbuOc/
+ EWBiAi+80W7Sblsgz8iWUIwz73a68/dL8qYIFhU3eSYXN/mZMmG2UzA8YFupjeORIRlw
+ lEGUbsyBbLljzdVWlj1Hn5r3qZ/mWurB7DYidp3aV/IN6TIspaPuUglRvsLe3uwo7iVW
+ ajzQ==
+X-Gm-Message-State: AOAM531JHs8Pq5rUr2tdHhToXa0GRaNMB6aKKO0OVTp8f9nU53q/VXZE
+ l3249W4i1JhJIo5APhndGR+2FIzQyFT1keySXcKI1wgajSo7k+LD3WtQAP0Gl8q2ZYVHaXZ+sSo
+ OBkRe1e99QMBtYrVkje0ey4YRm8P9B2s=
+X-Received: by 2002:a05:6214:1d0d:b0:433:1869:1fb7 with SMTP id
+ e13-20020a0562141d0d00b0043318691fb7mr13322954qvd.40.1646299532201; 
+ Thu, 03 Mar 2022 01:25:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwCrz/1DDSulhK5dTh2j2Efh2RZlYTZ12qbN/J2H4vQKpgu9nAYW6ZkPXwk5N3rlNcVaL8MgHfjNLy/DPIX0B4=
+X-Received: by 2002:a05:6214:1d0d:b0:433:1869:1fb7 with SMTP id
+ e13-20020a0562141d0d00b0043318691fb7mr13322925qvd.40.1646299531854; Thu, 03
+ Mar 2022 01:25:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <Yh/HzPymVWPZpVaf@work-vm>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <20220227134111.3254066-1-eperezma@redhat.com>
+ <20220227134111.3254066-3-eperezma@redhat.com>
+ <40c5bb81-b33a-9a4a-8ce0-20289b13b907@redhat.com>
+ <CAJaqyWezcrc=iPLe=Y7+g9oBYfUY9pK8OM4=ZUeRgXqr9ZUWkg@mail.gmail.com>
+ <1da7c2b8-ba6e-e9aa-4d55-b1345bd65ba4@redhat.com>
+In-Reply-To: <1da7c2b8-ba6e-e9aa-4d55-b1345bd65ba4@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 3 Mar 2022 10:24:55 +0100
+Message-ID: <CAJaqyWfbkzi19yMAXY7gwCAoj7sakwU_R2hDc1u8+jHPfHLadA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/14] vhost: Add Shadow VirtQueue kick forwarding
+ capabilities
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,89 +99,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: eduardo@habkost.net, libvir-list@redhat.com, thuth@redhat.com,
- qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
+ "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 02, 2022 at 07:38:52PM +0000, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > On Tue, Mar 01, 2022 at 07:54:32PM +0000, Dr. David Alan Gilbert (git) wrote:
-> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > > 
-> > > Declare the intent to require a machine type to be specified on x86
-> > > system emulation.
-> > > 
-> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > ---
-> > >  docs/about/deprecated.rst | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> > > index 85773db631..143c60d105 100644
-> > > --- a/docs/about/deprecated.rst
-> > > +++ b/docs/about/deprecated.rst
-> > > @@ -324,6 +324,14 @@ machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
-> > >  been implemented), so there is not much value added by this board. Use the
-> > >  ``ref405ep`` machine instead.
-> > >  
-> > > +x86 default machine type
-> > > +''''''''''''''''''''''''
-> > > +
-> > > +x86 currently defaults to the ```pc``` machine type which is based on the very
-> > > +old ```i440fx``` chipset.  This default will be removed and the user will be
-> > > +required to specify a machine type explicitly using -M; users are encouraged to
-> > > +switch to the not quite as old ```q35``` machine types.
-> > 
-> > This will have no impact on anyone using libvirt as a mgmt app,
-> > because it will explicitly set 'pc' if the user doesn't request
-> > a machine type.
-> > 
-> > It will, however, break a huge number of users who don't use
-> > libvirt or a similar mgmt app.
-> > 
-> > 'q35' is not a drop in replacement for 'pc', and even though
-> > it is slightly newer, the features it brings are not likely
-> > to be important enough for most users who aren't using a mgmt
-> > app to care about switching.
-> 
-> I can see it having advantages for those who do things like PCIe pass
-> through of graphics cards.
-> However, my main concern is that there's a split happening where
-> downstream we're working primarily on q35 but a lot of people still use
-> i440fx; eventually that split will mean the i440fx users will have a
-> pretty bad experience instability/features.
-> So I'd like to encourage them onto a35.
+On Thu, Mar 3, 2022 at 8:12 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2022/3/2 =E4=B8=8A=E5=8D=882:49, Eugenio Perez Martin =E5=86=99=
+=E9=81=93:
+> > On Mon, Feb 28, 2022 at 3:57 AM Jason Wang<jasowang@redhat.com>  wrote:
+> >> =E5=9C=A8 2022/2/27 =E4=B8=8B=E5=8D=889:40, Eugenio P=C3=A9rez =E5=86=
+=99=E9=81=93:
+> >>> At this mode no buffer forwarding will be performed in SVQ mode: Qemu
+> >>> will just forward the guest's kicks to the device.
+> >>>
+> >>> Host memory notifiers regions are left out for simplicity, and they w=
+ill
+> >>> not be addressed in this series.
+> >>>
+> >>> Signed-off-by: Eugenio P=C3=A9rez<eperezma@redhat.com>
+> >>> ---
+> >>>    hw/virtio/vhost-shadow-virtqueue.h |  14 +++
+> >>>    include/hw/virtio/vhost-vdpa.h     |   4 +
+> >>>    hw/virtio/vhost-shadow-virtqueue.c |  52 +++++++++++
+> >>>    hw/virtio/vhost-vdpa.c             | 145 +++++++++++++++++++++++++=
++++-
+> >>>    4 files changed, 213 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-sha=
+dow-virtqueue.h
+> >>> index f1519e3c7b..1cbc87d5d8 100644
+> >>> --- a/hw/virtio/vhost-shadow-virtqueue.h
+> >>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> >>> @@ -18,8 +18,22 @@ typedef struct VhostShadowVirtqueue {
+> >>>        EventNotifier hdev_kick;
+> >>>        /* Shadow call notifier, sent to vhost */
+> >>>        EventNotifier hdev_call;
+> >>> +
+> >>> +    /*
+> >>> +     * Borrowed virtqueue's guest to host notifier. To borrow it in =
+this event
+> >>> +     * notifier allows to recover the VhostShadowVirtqueue from the =
+event loop
+> >>> +     * easily. If we use the VirtQueue's one, we don't have an easy =
+way to
+> >>> +     * retrieve VhostShadowVirtqueue.
+> >>> +     *
+> >>> +     * So shadow virtqueue must not clean it, or we would lose VirtQ=
+ueue one.
+> >>> +     */
+> >>> +    EventNotifier svq_kick;
+> >>>    } VhostShadowVirtqueue;
+> >>>
+> >>> +void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_ki=
+ck_fd);
+> >>> +
+> >>> +void vhost_svq_stop(VhostShadowVirtqueue *svq);
+> >>> +
+> >>>    VhostShadowVirtqueue *vhost_svq_new(void);
+> >>>
+> >>>    void vhost_svq_free(gpointer vq);
+> >>> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost=
+-vdpa.h
+> >>> index 3ce79a646d..009a9f3b6b 100644
+> >>> --- a/include/hw/virtio/vhost-vdpa.h
+> >>> +++ b/include/hw/virtio/vhost-vdpa.h
+> >>> @@ -12,6 +12,8 @@
+> >>>    #ifndef HW_VIRTIO_VHOST_VDPA_H
+> >>>    #define HW_VIRTIO_VHOST_VDPA_H
+> >>>
+> >>> +#include <gmodule.h>
+> >>> +
+> >>>    #include "hw/virtio/virtio.h"
+> >>>    #include "standard-headers/linux/vhost_types.h"
+> >>>
+> >>> @@ -27,6 +29,8 @@ typedef struct vhost_vdpa {
+> >>>        bool iotlb_batch_begin_sent;
+> >>>        MemoryListener listener;
+> >>>        struct vhost_vdpa_iova_range iova_range;
+> >>> +    bool shadow_vqs_enabled;
+> >>> +    GPtrArray *shadow_vqs;
+> >>>        struct vhost_dev *dev;
+> >>>        VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> >>>    } VhostVDPA;
+> >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-sha=
+dow-virtqueue.c
+> >>> index 019cf1950f..a5d0659f86 100644
+> >>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> >>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> >>> @@ -11,6 +11,56 @@
+> >>>    #include "hw/virtio/vhost-shadow-virtqueue.h"
+> >>>
+> >>>    #include "qemu/error-report.h"
+> >>> +#include "qemu/main-loop.h"
+> >>> +#include "linux-headers/linux/vhost.h"
+> >>> +
+> >>> +/** Forward guest notifications */
+> >>> +static void vhost_handle_guest_kick(EventNotifier *n)
+> >>> +{
+> >>> +    VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtque=
+ue,
+> >>> +                                             svq_kick);
+> >>> +    event_notifier_test_and_clear(n);
+> >>> +    event_notifier_set(&svq->hdev_kick);
+> >>> +}
+> >>> +
+> >>> +/**
+> >>> + * Set a new file descriptor for the guest to kick the SVQ and notif=
+y for avail
+> >>> + *
+> >>> + * @svq          The svq
+> >>> + * @svq_kick_fd  The svq kick fd
+> >>> + *
+> >>> + * Note that the SVQ will never close the old file descriptor.
+> >>> + */
+> >>> +void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_ki=
+ck_fd)
+> >>> +{
+> >>> +    EventNotifier *svq_kick =3D &svq->svq_kick;
+> >>> +    bool poll_stop =3D VHOST_FILE_UNBIND !=3D event_notifier_get_fd(=
+svq_kick);
+> >> I wonder if this is robust. E.g is there any chance that may end up wi=
+th
+> >> both poll_stop and poll_start are false?
+> >>
+> > I cannot make that happen in qemu, but the function supports that case
+> > well: It will do nothing. It's more or less the same code as used in
+> > the vhost kernel, and is the expected behaviour if you send two
+> > VHOST_FILE_UNBIND one right after another to me.
+>
+>
+> I would think it's just stop twice.
+>
+>
+> >
+> >> If not, can we simple detect poll_stop as below and treat !poll_start
+> >> and poll_stop?
+> >>
+> > I'm not sure what does it add. Is there an unexpected consequence with
+> > the current do-nothing behavior I've missed?
+>
+>
+> I'm not sure, but it feels odd if poll_start is not the reverse value of
+> poll_stop.
+>
 
-We've still got quite significant testing coverage of i440fx and outside
-of PCI-Express much logic is shared with q35. Right now at least i440fx
-feels mature and stable, while q35 is still showing significant
-instability with PCI-Express and hotplug in particular. I'd hoppe at
-least the combination of maturity of our plain PCI code and testing
-coverage would address risk of significant regressions in i440fx even
-when attention is on q35. 
+If we want to not to restrict the inputs, we need to handle for situations:
 
-> > In the ongoing work to introduce a completely new system
-> > emulator binary that is exclusively runtime QMP configured,
-> > the machine type will almost certainly be mandatory, without
-> > affecting existing users. That would also apply consistently
-> > across all target arches.
-> 
-> I'm assuming that will also cause the disruption to those end users.
+a) old_fd =3D -1, new_fd =3D -1,
 
-The difference is that people would opt-in to usage of the new system
-binaries. So existing users, scripts and documentation won't be impacted
-unless they decide to switch - at least as long as we keep the old
-system emulators around. If did eventually decide to remove the old
-binaries, then there would be disruption but that's more of a clean
-break with the past.
+This is the situation you described, and it's basically a no-op.
+poll_stop =3D=3D poll_start =3D=3D false.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+If we make poll_stop =3D true and poll_stop =3D false, we call
+event_notifier_set_handler(-1, ...). Hopefully it will return just an
+error.
+
+If we make poll_stop =3D false and poll_stop =3D true, we are calling
+event_notifier_set(-1) and event_notifier_set_handler(-1,
+poll_callback). Same situation, hopefully an error, but unexpected.
+
+b) old_fd =3D -1, new_fd =3D >-1,
+
+We need to start polling the new_fd. No need for stop polling the
+old_fd, since we are not polling it actually.
+
+c) old_fd =3D >-1, new_fd =3D >-1,
+
+We need to stop polling the old_fd and start polling the new one.
+
+If we make poll_stop =3D true and poll_stop =3D false, we don't register a
+new polling function for the new kick_fd so we will miss guest's
+kicks.
+
+If we make poll_stop =3D false and poll_stop =3D true, we keep polling the
+old file descriptor too, so whatever it gets assigned to could call
+vhost_handle_guest_kick if it does not override poll callback.
+
+We *could* detect if old_fd =3D=3D new_fd so we skip all the work, but I
+think it is not worth it to complicate the code, since we're only
+being called with the kick_fd at dev start.
+
+d) c) old_fd =3D >-1, new_fd =3D -1,
+
+We need to stop polling, or we could get invalid kicks callbacks if it
+gets writed after this. No need to poll anything beyond this.
+
+> Thanks
+>
+>
 
 
