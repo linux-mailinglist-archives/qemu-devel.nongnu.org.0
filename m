@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9144CC7CD
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:17:18 +0100 (CET)
-Received: from localhost ([::1]:46028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C97714CC7CE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:17:22 +0100 (CET)
+Received: from localhost ([::1]:46426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPsp3-0005hL-TL
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:17:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59044)
+	id 1nPsp7-0005yv-TO
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:17:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPsYU-00062T-Fx
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:10 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=55203
- helo=mail-pj1-x1031.google.com)
+ id 1nPsYV-00063b-QV
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:14 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=36400
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPsYS-0004HZ-Hr
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:10 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id b8so5697167pjb.4
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:00:07 -0800 (PST)
+ id 1nPsYT-0004I0-VG
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:11 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ g7-20020a17090a708700b001bb78857ccdso8903341pjk.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:00:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EnmFxj+fZU2f2HHas6eAUj0uJ7KzSplIKT7ukEJg/z0=;
- b=HvctizwnTdr3jcUbawyaHLhRcF5Zmc12wg4H3a7hgxwCa4G5GW3a7YZUyKhpjf3bl7
- VFcICgwYq9Tg6Mh9/Q7I5VcBtQI4mEquwU/VZ4ZstF65vIgBpNxfQyccfXslSxsfyori
- WvMT56qfo0r9zcw7+n/JhnFIzkAy1xe8dgdS9p+DEejp8Cspxjyk+Xug/bZEnvKyuXsS
- OZJyN4xKKK2BG0tns08TKVEIPGSybE2/Yr2a+snQfGQV2cMTX2dwj0K2LTvgbnW/MDfd
- msfnNKd3Ao0uW/KMMT+ajwQ2gZYkSQRzicJ3RdP3O9Tnjpi3yjBqTaVWYpL0Zj9RLAUK
- THJg==
+ bh=GxqbaeGaqhtNNI3GWh/zd5zM1ofbIy5Pq91AeE2m2ho=;
+ b=fjOajX71PR2ShO7W4/DTEvLAcGAR7K20ltudoHLPQ9YWBeYaj/B0AszLpu2EYmvQ9n
+ OdFDvv4hqALSdXVaGr4apmOcb+jZDFZZ+c5sPQ8A+2ADNp+GziaK2oJze9LtQraBXyOz
+ ieR2EggunVga2pm/BnH8yS+pW4T3mJ0vHZ6KA2TO6SHIYGK02F8KnqYVeaXj6Y/x93Xw
+ fA9CH8nRpVonjW9ikFlWrguBDu7qga7z0vJLPBfhw09B7Ad/ExpPIrbU2xntArZtUFAr
+ 0EpaX4h6A1kaK7uUZc0ikDCbYs//8s6/kSsEOdjOrse4rClcou+830WGpxBN86/rOC8f
+ SvfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EnmFxj+fZU2f2HHas6eAUj0uJ7KzSplIKT7ukEJg/z0=;
- b=6s63mFOV0C0AreFgB5mTnf05GnWlrc+63RddKQCH2xMe0lm+N82MDeIZ2IoR9YKqOQ
- m3ryvXkk2rgukczjfZic0XPgBDnipm2W+XficwepLy9OcwnNPRW7LtQBXPCySUQnPONl
- 9VrgbTYuakkvdQ+pFz5pIcG+3zxmDFdpV6jv9GwLRDlUBRKnwBOnd5L0tqaItiJ9UgID
- +YL9LsgVIgu91H0Mop3luWsYws2dllXEfsMslxvjQxJBbTEBq040S6We/RwzVBDUWPOo
- mwqb0/e/+nv7r4rJC1Pjgn/W7yjZo2AmFns/wufJu7m1xtf24esJ1i53lGjZ/cIv3iEZ
- cM1g==
-X-Gm-Message-State: AOAM532sUjzVVkurz9UWz+EmkMHezPlltbrQIVYQK5FRv5/1/4yTu1il
- uJdCuZiyhbElSg+gXFbE37OxtBHcznhu2g==
-X-Google-Smtp-Source: ABdhPJxeTQRNAZSCJJ/Ye9SjhltNwVLbO9JcxsIu1Sv+/nF3VcwvmKKCJt2TVaCvF/hV2oM0vkUjyw==
-X-Received: by 2002:a17:90b:1e4b:b0:1bd:4c83:56a7 with SMTP id
- pi11-20020a17090b1e4b00b001bd4c8356a7mr7322732pjb.109.1646341207127; 
- Thu, 03 Mar 2022 13:00:07 -0800 (PST)
+ bh=GxqbaeGaqhtNNI3GWh/zd5zM1ofbIy5Pq91AeE2m2ho=;
+ b=7H9fydruaMuM8SR9F1u7aMl7ZyI+C7BMZHM+cR0lDUjn0AlOabbqbyJbUI8JaYjRHH
+ 5em5sVPfqkA3fqQW9N/G2E77zc8NlL2UWGQSNIohQAHi1BLkSW+CfqYMbMGALkJu6hqE
+ hDZxAUgzL5m3mVYqj9U0VlryqbZ16nbXoQgdyKMtxtZ2McO2L/5Zc7J005EZmQsKKsOF
+ UpSXs+MqgWZMRUzKFQjqiTKW5ak2BWjFuhg/BDEvutp493AABsHy28LmF2wwTIE4xhUZ
+ +Oa/Xkr5DVKtrCIiJQu26iUc+Dqt4bPl5FyXE1xOTHxlsNk3jftqhOCUbvaNnMNBvk66
+ W+VA==
+X-Gm-Message-State: AOAM530ubvAgSuwnhocq5D2AW10BZbqn/WXuipVMQMJw4atAGPPJaIaq
+ OEJx8+mVRtdbqLZCBn2cCgA53/r2pI30vw==
+X-Google-Smtp-Source: ABdhPJzWxgZLYtSVy1cOl42q5eY+zBMza+F5pUgg64pW8JCYvNyA9ybBxViLWqe8DIIobDJh7TcHqg==
+X-Received: by 2002:a17:90b:4f8f:b0:1bf:ac1:2016 with SMTP id
+ qe15-20020a17090b4f8f00b001bf0ac12016mr6153283pjb.21.1646341208672; 
+ Thu, 03 Mar 2022 13:00:08 -0800 (PST)
 Received: from localhost.localdomain
  (2603-800c-1201-c600-119c-490c-a4ee-08e8.res6.spectrum.com.
  [2603:800c:1201:c600:119c:490c:a4ee:8e8])
  by smtp.gmail.com with ESMTPSA id
- t8-20020a6549c8000000b00372eb3a7fb3sm2729934pgs.92.2022.03.03.13.00.05
+ t8-20020a6549c8000000b00372eb3a7fb3sm2729934pgs.92.2022.03.03.13.00.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 13:00:06 -0800 (PST)
+ Thu, 03 Mar 2022 13:00:08 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/30] tcg/i386: Implement avx512 variable rotate
-Date: Thu,  3 Mar 2022 10:59:27 -1000
-Message-Id: <20220303205944.469445-14-richard.henderson@linaro.org>
+Subject: [PULL 14/30] tcg/i386: Support avx512vbmi2 vector shift-double
+ instructions
+Date: Thu,  3 Mar 2022 10:59:28 -1000
+Message-Id: <20220303205944.469445-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220303205944.469445-1-richard.henderson@linaro.org>
 References: <20220303205944.469445-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,93 +98,125 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AVX512VL has VPROLVD and VPRORVQ.
+We will use VPSHLD, VPSHLDV and VPSHRDV for 16-bit rotates.
 
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/i386/tcg-target.h     |  2 +-
- tcg/i386/tcg-target.c.inc | 25 ++++++++++++++++++++++++-
- 2 files changed, 25 insertions(+), 2 deletions(-)
+ tcg/i386/tcg-target-con-set.h |  1 +
+ tcg/i386/tcg-target.opc.h     |  3 +++
+ tcg/i386/tcg-target.c.inc     | 38 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 42 insertions(+)
 
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index 23a8b2a8c8..da1eff59aa 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -197,7 +197,7 @@ extern bool have_movbe;
- #define TCG_TARGET_HAS_abs_vec          1
- #define TCG_TARGET_HAS_roti_vec         have_avx512vl
- #define TCG_TARGET_HAS_rots_vec         0
--#define TCG_TARGET_HAS_rotv_vec         0
-+#define TCG_TARGET_HAS_rotv_vec         have_avx512vl
- #define TCG_TARGET_HAS_shi_vec          1
- #define TCG_TARGET_HAS_shs_vec          1
- #define TCG_TARGET_HAS_shv_vec          have_avx2
+diff --git a/tcg/i386/tcg-target-con-set.h b/tcg/i386/tcg-target-con-set.h
+index 78774d1005..91ceb0e1da 100644
+--- a/tcg/i386/tcg-target-con-set.h
++++ b/tcg/i386/tcg-target-con-set.h
+@@ -45,6 +45,7 @@ C_O1_I2(r, r, rI)
+ C_O1_I2(x, x, x)
+ C_N1_I2(r, r, r)
+ C_N1_I2(r, r, rW)
++C_O1_I3(x, 0, x, x)
+ C_O1_I3(x, x, x, x)
+ C_O1_I4(r, r, re, r, 0)
+ C_O1_I4(r, r, r, ri, ri)
+diff --git a/tcg/i386/tcg-target.opc.h b/tcg/i386/tcg-target.opc.h
+index 1312941800..b5f403e35e 100644
+--- a/tcg/i386/tcg-target.opc.h
++++ b/tcg/i386/tcg-target.opc.h
+@@ -33,3 +33,6 @@ DEF(x86_psrldq_vec, 1, 1, 1, IMPLVEC)
+ DEF(x86_vperm2i128_vec, 1, 2, 1, IMPLVEC)
+ DEF(x86_punpckl_vec, 1, 2, 0, IMPLVEC)
+ DEF(x86_punpckh_vec, 1, 2, 0, IMPLVEC)
++DEF(x86_vpshldi_vec, 1, 2, 1, IMPLVEC)
++DEF(x86_vpshldv_vec, 1, 3, 0, IMPLVEC)
++DEF(x86_vpshrdv_vec, 1, 3, 0, IMPLVEC)
 diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 3a9f6a3360..712ae3a168 100644
+index 712ae3a168..a39f890a7d 100644
 --- a/tcg/i386/tcg-target.c.inc
 +++ b/tcg/i386/tcg-target.c.inc
-@@ -420,6 +420,10 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- #define OPC_VPBROADCASTQ (0x59 | P_EXT38 | P_DATA16)
- #define OPC_VPERMQ      (0x00 | P_EXT3A | P_DATA16 | P_VEXW)
- #define OPC_VPERM2I128  (0x46 | P_EXT3A | P_DATA16 | P_VEXL)
-+#define OPC_VPROLVD     (0x15 | P_EXT38 | P_DATA16 | P_EVEX)
-+#define OPC_VPROLVQ     (0x15 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
-+#define OPC_VPRORVD     (0x14 | P_EXT38 | P_DATA16 | P_EVEX)
-+#define OPC_VPRORVQ     (0x14 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
+@@ -424,6 +424,15 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
+ #define OPC_VPROLVQ     (0x15 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
+ #define OPC_VPRORVD     (0x14 | P_EXT38 | P_DATA16 | P_EVEX)
+ #define OPC_VPRORVQ     (0x14 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
++#define OPC_VPSHLDW     (0x70 | P_EXT3A | P_DATA16 | P_VEXW | P_EVEX)
++#define OPC_VPSHLDD     (0x71 | P_EXT3A | P_DATA16 | P_EVEX)
++#define OPC_VPSHLDQ     (0x71 | P_EXT3A | P_DATA16 | P_VEXW | P_EVEX)
++#define OPC_VPSHLDVW    (0x70 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
++#define OPC_VPSHLDVD    (0x71 | P_EXT38 | P_DATA16 | P_EVEX)
++#define OPC_VPSHLDVQ    (0x71 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
++#define OPC_VPSHRDVW    (0x72 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
++#define OPC_VPSHRDVD    (0x73 | P_EXT38 | P_DATA16 | P_EVEX)
++#define OPC_VPSHRDVQ    (0x73 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
  #define OPC_VPSLLVW     (0x12 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
  #define OPC_VPSLLVD     (0x47 | P_EXT38 | P_DATA16)
  #define OPC_VPSLLVQ     (0x47 | P_EXT38 | P_DATA16 | P_VEXW)
-@@ -2839,6 +2843,12 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     static int const umax_insn[4] = {
-         OPC_PMAXUB, OPC_PMAXUW, OPC_PMAXUD, OPC_UD2
+@@ -2867,6 +2876,15 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+     static int const sars_insn[4] = {
+         OPC_UD2, OPC_PSRAW, OPC_PSRAD, OPC_VPSRAQ
      };
-+    static int const rotlv_insn[4] = {
-+        OPC_UD2, OPC_UD2, OPC_VPROLVD, OPC_VPROLVQ
++    static int const vpshldi_insn[4] = {
++        OPC_UD2, OPC_VPSHLDW, OPC_VPSHLDD, OPC_VPSHLDQ
 +    };
-+    static int const rotrv_insn[4] = {
-+        OPC_UD2, OPC_UD2, OPC_VPRORVD, OPC_VPRORVQ
++    static int const vpshldv_insn[4] = {
++        OPC_UD2, OPC_VPSHLDVW, OPC_VPSHLDVD, OPC_VPSHLDVQ
 +    };
-     static int const shlv_insn[4] = {
-         OPC_UD2, OPC_VPSLLVW, OPC_VPSLLVD, OPC_VPSLLVQ
-     };
-@@ -2922,6 +2932,12 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_sarv_vec:
-         insn = sarv_insn[vece];
++    static int const vpshrdv_insn[4] = {
++        OPC_UD2, OPC_VPSHRDVW, OPC_VPSHRDVD, OPC_VPSHRDVQ
++    };
+     static int const abs_insn[4] = {
+         /* TODO: AVX512 adds support for MO_64.  */
+         OPC_PABSB, OPC_PABSW, OPC_PABSD, OPC_UD2
+@@ -2959,6 +2977,16 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+     case INDEX_op_x86_packus_vec:
+         insn = packus_insn[vece];
          goto gen_simd;
-+    case INDEX_op_rotlv_vec:
-+        insn = rotlv_insn[vece];
++    case INDEX_op_x86_vpshldv_vec:
++        insn = vpshldv_insn[vece];
++        a1 = a2;
++        a2 = args[3];
 +        goto gen_simd;
-+    case INDEX_op_rotrv_vec:
-+        insn = rotrv_insn[vece];
++    case INDEX_op_x86_vpshrdv_vec:
++        insn = vpshrdv_insn[vece];
++        a1 = a2;
++        a2 = args[3];
 +        goto gen_simd;
-     case INDEX_op_shls_vec:
-         insn = shls_insn[vece];
-         goto gen_simd;
-@@ -3275,6 +3291,8 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_shlv_vec:
-     case INDEX_op_shrv_vec:
-     case INDEX_op_sarv_vec:
-+    case INDEX_op_rotlv_vec:
-+    case INDEX_op_rotrv_vec:
-     case INDEX_op_shls_vec:
-     case INDEX_op_shrs_vec:
-     case INDEX_op_sars_vec:
-@@ -3387,7 +3405,12 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-         return 0;
-     case INDEX_op_rotlv_vec:
-     case INDEX_op_rotrv_vec:
--        return have_avx2 && vece >= MO_32 ? -1 : 0;
-+        switch (vece) {
-+        case MO_32:
-+        case MO_64:
-+            return have_avx512vl ? 1 : have_avx2 ? -1 : 0;
-+        }
-+        return 0;
+ #if TCG_TARGET_REG_BITS == 32
+     case INDEX_op_dup2_vec:
+         /* First merge the two 32-bit inputs to a single 64-bit element. */
+@@ -3061,7 +3089,12 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+         insn = OPC_VPERM2I128;
+         sub = args[3];
+         goto gen_simd_imm8;
++    case INDEX_op_x86_vpshldi_vec:
++        insn = vpshldi_insn[vece];
++        sub = args[3];
++        goto gen_simd_imm8;
+     gen_simd_imm8:
++        tcg_debug_assert(insn != OPC_UD2);
+         if (type == TCG_TYPE_V256) {
+             insn |= P_VEXL;
+         }
+@@ -3305,6 +3338,7 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_x86_vperm2i128_vec:
+     case INDEX_op_x86_punpckl_vec:
+     case INDEX_op_x86_punpckh_vec:
++    case INDEX_op_x86_vpshldi_vec:
+ #if TCG_TARGET_REG_BITS == 32
+     case INDEX_op_dup2_vec:
+ #endif
+@@ -3319,6 +3353,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_x86_psrldq_vec:
+         return C_O1_I1(x, x);
  
-     case INDEX_op_mul_vec:
-         if (vece == MO_8) {
++    case INDEX_op_x86_vpshldv_vec:
++    case INDEX_op_x86_vpshrdv_vec:
++        return C_O1_I3(x, 0, x, x);
++
+     case INDEX_op_x86_vpblendvb_vec:
+         return C_O1_I3(x, x, x, x);
+ 
 -- 
 2.25.1
 
