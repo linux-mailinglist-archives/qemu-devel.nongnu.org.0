@@ -2,97 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809684CBE48
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:58:51 +0100 (CET)
-Received: from localhost ([::1]:40214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C624CBFB7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:14:24 +0100 (CET)
+Received: from localhost ([::1]:57418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPl2g-0006ZC-6w
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:58:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47790)
+	id 1nPmDn-0003k1-Br
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:14:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nPl1D-0004pI-OH
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:57:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30301)
+ (Exim 4.90_1)
+ (envelope-from <2b8f91de7bac3d3bc85d60eb08830a35a394be75@lizzy.crudebyte.com>)
+ id 1nPmCM-0002s2-Ld
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:12:54 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:43571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nPl1A-0000QB-I0
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:57:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646312235;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wG9gLeCWyKtbG9G98fdrqBLJObXLtZ3t7BNqEepFbPA=;
- b=eG0EvBrNr9+xllVNR1OvsgRgPcTp6F7Q2wYHkh3c8QTQbRhUaydgsYbfh4D2obHLm4qZJv
- Qds8mxce12Msj8OPI1e91mbPySl8wlnlrGdsPAObs5FM/WExuiUrfELlL7CWjoOfyxrY0O
- C4zJFxiGiqL88ttlMuWd90dLLa/OQOk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-502-nmTWui1WMP2a_YDLuE3v5Q-1; Thu, 03 Mar 2022 07:57:12 -0500
-X-MC-Unique: nmTWui1WMP2a_YDLuE3v5Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- j9-20020a056402238900b004128085d906so2753160eda.19
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 04:57:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=wG9gLeCWyKtbG9G98fdrqBLJObXLtZ3t7BNqEepFbPA=;
- b=jcwh08DmIwvgl9YChqo8UQT3fQR93vpogNdqNwU1BCCuA5FxOMJLQUnKjwoA/eQ5qa
- HOYsCXsJgZiXI9JhaVsPXB2QcMD/HXA7JVcoeqfAonxJLIiIRnxSXXmjKmvN+LVHSZgJ
- eqOKMkVfwibmdABR3od0i8PuBEMfRwn28vgFaKlqyspzxjEdXa/mQ5rtGUfjpEDtmbih
- dgADtXth6os3pHBJCjC/Re+qUBWkQRjiNaGMeJn6yOhTs0pN/YQyxfaWzuuxhkRV+GXZ
- tSq7sIcaNYyyBxZvZMoenTrSgXTUKNI+SuRu47oXIdCWdfqpLclrLSZ5Sd2LwpFgfr1W
- swiQ==
-X-Gm-Message-State: AOAM530GXHrwFNZz8hsNZ0Y4dTDJyJkelowR6YuDD74/MNnR8W86Fa4R
- d6NTmx1b3znhK1nA/3rbVLB9VmozE1DxILBXACUr+cSnzYOOsV9gYFvjBydQGoroPshLwe0dgXX
- Fh5hLD+jR3tStZXs=
-X-Received: by 2002:a05:6402:2744:b0:415:c590:3ac3 with SMTP id
- z4-20020a056402274400b00415c5903ac3mr6467040edd.405.1646312231495; 
- Thu, 03 Mar 2022 04:57:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxqM/BvP1II1vMV4t2EXrtxigo+LyBek2yew7oNiN+f6jrEGP3qT7kgpxKXnzgDqum7096XTg==
-X-Received: by 2002:a05:6402:2744:b0:415:c590:3ac3 with SMTP id
- z4-20020a056402274400b00415c5903ac3mr6467020edd.405.1646312231275; 
- Thu, 03 Mar 2022 04:57:11 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:ca91:ec4d:49ff:d0d1?
- ([2a02:8071:5055:3f20:ca91:ec4d:49ff:d0d1])
- by smtp.gmail.com with ESMTPSA id
- n6-20020a170906724600b006d4e2f6857dsm671661ejk.139.2022.03.03.04.57.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 04:57:10 -0800 (PST)
-Message-ID: <68317704-78b5-ff03-74bf-0a09482e65af@redhat.com>
-Date: Thu, 3 Mar 2022 13:57:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 15/16] iotests/image-fleecing: add test case with bitmap
-From: Hanna Reitz <hreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20220228113927.1852146-1-vsementsov@virtuozzo.com>
- <20220228113927.1852146-16-vsementsov@virtuozzo.com>
- <04aa1423-11ab-ecc7-7637-cca6d7b2c1a3@redhat.com>
-In-Reply-To: <04aa1423-11ab-ecc7-7637-cca6d7b2c1a3@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ (Exim 4.90_1)
+ (envelope-from <2b8f91de7bac3d3bc85d60eb08830a35a394be75@lizzy.crudebyte.com>)
+ id 1nPmCK-0005Ak-4S
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:12:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=HYWQLwM45yIAcCDavu5L+fT1CR0InuCX/xb5ojwp1DA=; b=fbOdC
+ uO/AwzNpjzmWhpEJ/UH1+Wp6MGcziKRRxq+8B1SZOGZWqdKUXAuEhW2zaJhBdtDmHGEgxaUDb5uw2
+ cpn4KcbD/yQOz9cSbiWX7ckK03VjZgrhz2P+Bs0M8XCQG0k8syfTcwr4rK0Id4fGBgKd9uU9iMkam
+ Q2e4fz4I8zkCOazTh/YBKs/eezZMDryH/rsbOrsYjQcye1mkuE0gXfvMc0MUF0rCtjo3cQNiCUe0R
+ cEwu49z2acvCZpRcIq4678lIkf4qm/Y5nRJp41xOlvpviyLKmSKYJfSLodra9KTMuCByaYnuBVozP
+ xHs7mi8oRXmOMH5A+NcOYd5g7RwKQ==;
+Message-Id: <2b8f91de7bac3d3bc85d60eb08830a35a394be75.1646314856.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1646314856.git.qemu_oss@crudebyte.com>
+References: <cover.1646314856.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Thu, 3 Mar 2022 13:28:17 +0100
+Subject: [PATCH 1/6] 9pfs/9p.h: convert Doxygen -> kerneldoc format
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=2b8f91de7bac3d3bc85d60eb08830a35a394be75@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,59 +59,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, nikita.lapshin@virtuozzo.com, stefanha@redhat.com,
- eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.03.22 12:44, Hanna Reitz wrote:
-> On 28.02.22 12:39, Vladimir Sementsov-Ogievskiy wrote:
->> Note that reads zero areas (not dirty in the bitmap) fails, that's
->> correct.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   tests/qemu-iotests/tests/image-fleecing     | 32 ++++++--
->>   tests/qemu-iotests/tests/image-fleecing.out | 84 +++++++++++++++++++++
->>   2 files changed, 108 insertions(+), 8 deletions(-)
->>
->> diff --git a/tests/qemu-iotests/tests/image-fleecing 
->> b/tests/qemu-iotests/tests/image-fleecing
->> index 909fc0a7ad..33995612be 100755
->> --- a/tests/qemu-iotests/tests/image-fleecing
->> +++ b/tests/qemu-iotests/tests/image-fleecing
->
-> [...]
->
->> @@ -50,11 +50,15 @@ remainder = [('0xd5', '0x108000',  '32k'), # 
->> Right-end of partial-left [1]
->>                ('0xcd', '0x3ff0000', '64k')] # patterns[3]
->>     def do_test(use_cbw, use_snapshot_access_filter, base_img_path,
->> -            fleece_img_path, nbd_sock_path, vm):
->> +            fleece_img_path, nbd_sock_path, vm,
->> +            bitmap=False):
->>       log('--- Setting up images ---')
->>       log('')
->>         assert qemu_img('create', '-f', iotests.imgfmt, 
->> base_img_path, '64M') == 0
->> +    if bitmap:
->> +        assert qemu_img('bitmap', '--add', base_img_path, 'bitmap0') 
->> == 0
->
-> Doing this means this test can only be run with qcow2, but right now 
-> it claims to support many more formats that break with this patch 
-> applied.  I think the supported_fmts list needs to be restricted.
+API doc comments in QEMU are supposed to be in kerneldoc format, so
+convert API doc comments from Doxygen format to kerneldoc format.
 
-Oh, and it will also need an `unsupported_imgopts=['compat']`.
+Based-on: <E1nPTwO-0006pl-Np@lizzy.crudebyte.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ hw/9pfs/9p.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-> Also, iotest 297 complains about three lines being too long now.
->
->> +
->>       if use_snapshot_access_filter:
->>           assert use_cbw
->>           assert qemu_img('create', '-f', 'raw', fleece_img_path, 
->> '64M') == 0
->
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 94b273b3d0..af2635fae9 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -100,8 +100,8 @@ typedef enum P9ProtoVersion {
+     V9FS_PROTO_2000L = 0x02,
+ } P9ProtoVersion;
+ 
+-/**
+- * @brief Minimum message size supported by this 9pfs server.
++/*
++ * Minimum message size supported by this 9pfs server.
+  *
+  * A client establishes a session by sending a Tversion request along with a
+  * 'msize' parameter which suggests the server a maximum message size ever to be
+@@ -231,7 +231,7 @@ static inline void v9fs_readdir_init(P9ProtoVersion proto_version, V9fsDir *dir)
+     }
+ }
+ 
+-/**
++/*
+  * Type for 9p fs drivers' (a.k.a. 9p backends) result of readdir requests,
+  * which is a chained list of directory entries.
+  */
+@@ -289,8 +289,8 @@ typedef enum AffixType_t {
+     AffixType_Suffix, /* A.k.a. postfix. */
+ } AffixType_t;
+ 
+-/**
+- * @brief Unique affix of variable length.
++/*
++ * Unique affix of variable length.
+  *
+  * An affix is (currently) either a suffix or a prefix, which is either
+  * going to be prepended (prefix) or appended (suffix) with some other
+@@ -304,7 +304,7 @@ typedef struct VariLenAffix {
+     AffixType_t type; /* Whether this affix is a suffix or a prefix. */
+     uint64_t value; /* Actual numerical value of this affix. */
+     /*
+-     * Lenght of the affix, that is how many (of the lowest) bits of @c value
++     * Lenght of the affix, that is how many (of the lowest) bits of ``value``
+      * must be used for appending/prepending this affix to its final resulting,
+      * unique number.
+      */
+-- 
+2.30.2
 
 
