@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F39224CC466
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 18:52:47 +0100 (CET)
-Received: from localhost ([::1]:39678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C394CC46E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 18:55:02 +0100 (CET)
+Received: from localhost ([::1]:42790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPpd8-0000NO-La
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 12:52:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58432)
+	id 1nPpfJ-0002kc-UV
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 12:55:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nPpbJ-0007JN-42
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:50:53 -0500
-Received: from [2001:41c9:1:41f::167] (port=56348
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nPpe6-0001nE-QH
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:53:46 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nPpbG-0005g8-G9
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:50:52 -0500
-Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nPpaX-0006tY-6C; Thu, 03 Mar 2022 17:50:09 +0000
-Message-ID: <60925b7c-69cc-f291-fa38-4825910a964a@ilande.co.uk>
-Date: Thu, 3 Mar 2022 17:50:40 +0000
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nPpe3-0008A8-VM
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:53:46 -0500
+Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4K8dqJ4Yrwz67Zy6;
+ Fri,  4 Mar 2022 01:52:28 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Thu, 3 Mar 2022 18:53:40 +0100
+Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Thu, 3 Mar
+ 2022 17:53:39 +0000
+Date: Thu, 3 Mar 2022 17:53:38 +0000
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
+ .  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
+ Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
+ <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v6 18/43] qtests/cxl: Add initial root port and CXL
+ type3 tests
+Message-ID: <20220303175338.0000093d@Huawei.com>
+In-Reply-To: <87h78hlewu.fsf@linaro.org>
+References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
+ <20220211120747.3074-19-Jonathan.Cameron@huawei.com>
+ <87h78hlewu.fsf@linaro.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20220302212752.6922-1-mark.cave-ayland@ilande.co.uk>
- <20220302212752.6922-10-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA9eMZFvqn-VuA2EevOM7ZV3PiVYora+CsKpdjcqM7L4_Q@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <CAFEAcA9eMZFvqn-VuA2EevOM7ZV3PiVYora+CsKpdjcqM7L4_Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 09/10] esp: include the current PDMA callback in the
- migration stream
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.202.226.41]
+X-ClientProxiedBy: lhreml741-chm.china.huawei.com (10.201.108.191) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,91 +77,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pbonzini@redhat.com, Laurent@vivier.eu,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On 03/03/2022 15:40, Peter Maydell wrote:
+On Tue, 01 Mar 2022 18:11:25 +0000
+Alex Benn=E9e <alex.bennee@linaro.org> wrote:
 
-> On Wed, 2 Mar 2022 at 21:38, Mark Cave-Ayland
-> <mark.cave-ayland@ilande.co.uk> wrote:
->>
->> This involves (re)adding a PDMA-specific subsection to hold the reference to the
->> current PDMA callback.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/scsi/esp.c | 23 +++++++++++++++++++++++
->>   1 file changed, 23 insertions(+)
->>
->> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
->> index a818b2b07a..32926834bc 100644
->> --- a/hw/scsi/esp.c
->> +++ b/hw/scsi/esp.c
->> @@ -1209,6 +1209,25 @@ static int esp_post_load(void *opaque, int version_id)
->>       return 0;
->>   }
->>
->> +static bool esp_pdma_needed(void *opaque)
->> +{
->> +    ESPState *s = ESP(opaque);
->> +
->> +    return s->dma_memory_read == NULL && s->dma_memory_write == NULL &&
->> +           s->dma_enabled;
-> 
-> A comment about why this is the correct condition would be helpful.
-> If I understand it correctly, something like this ?
-> 
->   /*
->    * pdma_cb is used only by the sysbus ESP device, not the PCI ESP
->    * device. The PCI device sets the s->dma_memory_read and
->    * s->dma_memory_write function pointers at realize.
->    */
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+>=20
+> > At this stage we can boot configurations with host bridges,
+> > root ports and type 3 memory devices, so add appropriate
+> > tests.
+> >
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> >  tests/qtest/cxl-test.c | 126 +++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 126 insertions(+)
+> >
+> > diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
+> > index 1006c8ae4e..1436de40e2 100644
+> > --- a/tests/qtest/cxl-test.c
+> > +++ b/tests/qtest/cxl-test.c
+> > @@ -8,6 +8,47 @@
+> >  #include "qemu/osdep.h"
+> >  #include "libqtest-single.h"
+> > =20
+> > +#define QEMU_PXB_CMD "-machine q35,cxl=3Don " \
+> > +                     "-device pxb-cxl,id=3Dcxl.0,bus=3Dpcie.0,bus_nr=
+=3D52 "
+> > +
+> > +#define QEMU_2PXB_CMD "-machine q35,cxl=3Don " \
+> > +                      "-device pxb-cxl,id=3Dcxl.0,bus=3Dpcie.0,bus_nr=
+=3D52 "  \
+> > +                      "-device pxb-cxl,id=3Dcxl.1,bus=3Dpcie.0,bus_nr=
+=3D53 "
+> > +
+> > +#define QEMU_RP "-device cxl-rp,id=3Drp0,bus=3Dcxl.0,chassis=3D0,slot=
+=3D0 "
+> > +
+> > +/* Dual ports on first pxb */
+> > +#define QEMU_2RP "-device cxl-rp,id=3Drp0,bus=3Dcxl.0,chassis=3D0,slot=
+=3D0 " \
+> > +                 "-device cxl-rp,id=3Drp1,bus=3Dcxl.0,chassis=3D0,slot=
+=3D1 "
+> > +
+> > +/* Dual ports on each of the pxb instances */
+> > +#define QEMU_4RP "-device cxl-rp,id=3Drp0,bus=3Dcxl.0,chassis=3D0,slot=
+=3D0 " \
+> > +                 "-device cxl-rp,id=3Drp1,bus=3Dcxl.0,chassis=3D0,slot=
+=3D1 " \
+> > +                 "-device cxl-rp,id=3Drp2,bus=3Dcxl.1,chassis=3D0,slot=
+=3D2 " \
+> > +                 "-device cxl-rp,id=3Drp3,bus=3Dcxl.1,chassis=3D0,slot=
+=3D3 "
+> > +
+> > +#define QEMU_T3D "-object memory-backend-file,id=3Dcxl-mem0,mem-path=
+=3D%s,size=3D256M " \
+> > +                 "-device cxl-type3,bus=3Drp0,memdev=3Dcxl-mem0,id=3Dc=
+xl-pmem0,size=3D256M "
+> > +
+> > +#define QEMU_2T3D "-object memory-backend-file,id=3Dcxl-mem0,mem-path=
+=3D%s,size=3D256M "    \
+> > +                  "-device cxl-type3,bus=3Drp0,memdev=3Dcxl-mem0,id=3D=
+cxl-pmem0,size=3D256M " \
+> > +                  "-object memory-backend-file,id=3Dcxl-mem1,mem-path=
+=3D%s,size=3D256M "    \
+> > +                  "-device cxl-type3,bus=3Drp1,memdev=3Dcxl-mem1,id=3D=
+cxl-pmem1,size=3D256M "
+> > +
+> > +#define QEMU_4T3D "-object memory-backend-file,id=3Dcxl-mem0,mem-path=
+=3D%s,size=3D256M "    \
+> > +                  "-device cxl-type3,bus=3Drp0,memdev=3Dcxl-mem0,id=3D=
+cxl-pmem0,size=3D256M " \
+> > +                  "-object memory-backend-file,id=3Dcxl-mem1,mem-path=
+=3D%s,size=3D256M "    \
+> > +                  "-device cxl-type3,bus=3Drp1,memdev=3Dcxl-mem1,id=3D=
+cxl-pmem1,size=3D256M " \
+> > +                  "-object memory-backend-file,id=3Dcxl-mem2,mem-path=
+=3D%s,size=3D256M "    \
+> > +                  "-device cxl-type3,bus=3Drp2,memdev=3Dcxl-mem2,id=3D=
+cxl-pmem2,size=3D256M " \
+> > +                  "-object memory-backend-file,id=3Dcxl-mem3,mem-path=
+=3D%s,size=3D256M "    \
+> > +                  "-device cxl-type3,bus=3Drp3,memdev=3Dcxl-mem3,id=3D=
+cxl-pmem3,size=3D256M "
+> > +
+> > +static void cxl_basic_hb(void)
+> > +{
+> > +    qtest_start("-machine q35,cxl=3Don");
+> > +    qtest_end();
+> > +}
+> > =20
+> >  static void cxl_basic_pxb(void)
+> >  {
+> > @@ -15,9 +56,94 @@ static void cxl_basic_pxb(void)
+> >      qtest_end();
+> >  }
+> > =20
+> > +static void cxl_pxb_with_window(void)
+> > +{
+> > +    qtest_start(QEMU_PXB_CMD);
+> > +    qtest_end();
+> > +}
+> > +
+> > +static void cxl_2pxb_with_window(void)
+> > +{
+> > +    qtest_start(QEMU_2PXB_CMD);
+> > +    qtest_end();
+> > +}
+> > +
+> > +static void cxl_root_port(void)
+> > +{
+> > +    qtest_start(QEMU_PXB_CMD QEMU_RP);
+> > +    qtest_end();
+> > +}
+> > +
+> > +static void cxl_2root_port(void)
+> > +{
+> > +    qtest_start(QEMU_PXB_CMD QEMU_2RP);
+> > +    qtest_end();
+> > +}
+> > +
+> > +static void cxl_t3d(void)
+> > +{
+> > +    GString *cmdline;
+> > +    char template[] =3D "/tmp/cxl-test-XXXXXX";
+> > +    const char *tmpfs;
+> > +
+> > +    tmpfs =3D mkdtemp(template);
+> > +
+> > +    cmdline =3D g_string_new(NULL);
+> > +    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3D, tmpfs);
+> > +
+> > +    qtest_start(cmdline->str);
+> > +    qtest_end();
+> > +
+> > +    g_string_free(cmdline, TRUE); =20
+>=20
+> For future reference you could do:
+>=20
+>   g_autoptr(GString) cmdline =3D g_string_new(NULL);
+>=20
+> and drop the free ;-)
 
-Even more specifically, PDMA is only used by the Macintosh which is detected by not 
-having DMA memory access functions (because the movement between the SCSI bus and the 
-CPU is done by the guest) yet DMA is enabled.
+nice. Done here and in later qtest patches.
 
-> Otherwise
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
->> +}
->> +
->> +static const VMStateDescription vmstate_esp_pdma = {
->> +    .name = "esp/pdma",
->> +    .version_id = 0,
->> +    .minimum_version_id = 0,
->> +    .needed = esp_pdma_needed,
->> +    .fields = (VMStateField[]) {
->> +        VMSTATE_UINT8(pdma_cb, ESPState),
->> +        VMSTATE_END_OF_LIST()
->> +    }
->> +};
->> +
->>   const VMStateDescription vmstate_esp = {
->>       .name = "esp",
->>       .version_id = 6,
->> @@ -1243,6 +1262,10 @@ const VMStateDescription vmstate_esp = {
->>           VMSTATE_UINT8_TEST(lun, ESPState, esp_is_version_6),
->>           VMSTATE_END_OF_LIST()
->>       },
->> +    .subsections = (const VMStateDescription * []) {
->> +        &vmstate_esp_pdma,
->> +        NULL
->> +    }
->>   };
-> 
-> Do we need to do something similar to handle s->dma_cb ?
+Thanks,
 
-I don't believe so. From IRC my understanding was that for normal DMA where the SCSI 
-data is copied directly to memory, if migration is requested the iothread will run to 
-completion first which finishes the SCSIRequest before migration starts. It is only 
-in the PDMA case where the guest OS has to do the data movement that a reference to 
-the current callback is required to allow the SCSIRequest to continue post-migration.
-
-
-ATB,
-
-Mark.
+Jonathan
 
