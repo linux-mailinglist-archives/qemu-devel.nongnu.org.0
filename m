@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4C54CC6CA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 21:06:32 +0100 (CET)
-Received: from localhost ([::1]:38254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5A04CC6CE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 21:08:27 +0100 (CET)
+Received: from localhost ([::1]:44878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPriZ-0001h9-GG
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 15:06:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42100)
+	id 1nPrkQ-0006M2-Se
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 15:08:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPra4-0005Xj-Vq
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 14:57:45 -0500
-Received: from [2607:f8b0:4864:20::b35] (port=40852
- helo=mail-yb1-xb35.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPra3-0007iY-3W
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 14:57:44 -0500
-Received: by mail-yb1-xb35.google.com with SMTP id e186so12476559ybc.7
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 11:57:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=aFpluOq9ViNp2dkRu3kPBu4O3tMjeq+Z6pW2RNElppA=;
- b=M9GOrCWEzqwZ8cJpOpr/bPy6Q1JxrCkarfm3c2RKhvdf4jIfYNPPhjJtXoXWE7pKSp
- LpFIdkxlykhWZeArDw0yUsMMmDQAjD7Xg5lN5qKB6zL6VLFC33WDnlsDbGvl+PovMY2m
- BEXjG12i/M7a4R+1f7qqjS1/M8bPJW9Ye14ZnuJ6D3EGzlgcSut0jfVbSgDsuF+lRUYF
- CNEZukXqfuTJtDYJVHCQX4LYxTdnG1am0dTMe5MvD5iOJFVAU5hs/NYTjT3G7AmCyyjO
- z9xuYRtgsi/T8yAMWsmINeyrx4BD4pRLKZD9hvaW/fSAlIhm1uon+CMFo9xQdMfz8qli
- PIzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=aFpluOq9ViNp2dkRu3kPBu4O3tMjeq+Z6pW2RNElppA=;
- b=SjRwpYulB1Q62VwgWab6+/YryfAZ+XRK9+ltJfh54DC5zsxfdNvsbWZIvs6DW+QQ03
- 30ectZDsGVUsxLvUO511RYgyXVmchj5D+LxAm3Qr+z3BAMOH0eB8SFWT6in3rCpG6vkY
- GxwmSqdHFdiVmBSZ7Ro7F2JrwjNtBOOdNiJNkh/wmvP4q6JBdruDcNA2PDCME84AC0nn
- yjQ2VhECEvxWQBGkQL/P9u1RwBqaohd3ssiy++57RceIMA/29TyWveEciGlZ8Wa3IO/5
- 4hp7qczezgvqIDw5W1E0wX21rQdQegQI6hgqY0sHsHi+pMGtDZNkEhxGxcP+t5xMflr1
- NbZA==
-X-Gm-Message-State: AOAM53143HXD5D7wo55eOqtZE+eXdP79QBEuNEt3qg8YlBnh+IdXLpVJ
- F09mgVu78TeXzOKOF0zzb8BAXBwCLG99PnpyHZwSjCdrzQrdaA==
-X-Google-Smtp-Source: ABdhPJx4aknd9h2sUHT+VA0d6Hl6J4Mcr7+Nv7bnb9IYyq+e9QDgvK/S2t1unbPJOdbFF/hyhd49mdZvQBVrNPk+ElE=
-X-Received: by 2002:a25:6e84:0:b0:628:97de:9430 with SMTP id
- j126-20020a256e84000000b0062897de9430mr11106174ybc.288.1646337462077; Thu, 03
- Mar 2022 11:57:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nPreE-0004mt-Di
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 15:02:02 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:48173)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nPreC-0000B9-Qe
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 15:02:02 -0500
+Received: from [192.168.100.1] ([82.142.17.50]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MQdMG-1nnYf23eeU-00Nlwi; Thu, 03 Mar 2022 21:01:59 +0100
+Message-ID: <81239d6a-efdb-87d0-c5de-bbef3c1030bd@vivier.eu>
+Date: Thu, 3 Mar 2022 21:01:57 +0100
 MIME-Version: 1.0
-References: <20220302205230.2122390-1-peter.maydell@linaro.org>
-In-Reply-To: <20220302205230.2122390-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Mar 2022 19:57:31 +0000
-Message-ID: <CAFEAcA84six-Z_vDGEe61DdOGWQrm7h_J6O_CTJ57LcCx3h0Ow@mail.gmail.com>
-Subject: Re: [PULL 00/26] target-arm queue
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b35
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 11/12] mos6522: implement edge-triggering for CA1/2 and
+ CB1/2 control line IRQs
+Content-Language: fr
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20220224115956.29997-1-mark.cave-ayland@ilande.co.uk>
+ <20220224115956.29997-12-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220224115956.29997-12-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ezdBEz538YGFBfU9WbML9HaYTOVa6t3G6gr8dLk04hKJwRQJQkw
+ gPdIbILcZRqDcEV/zMyWWCDa0djk1u+sZvHvIfrMAiK0k0OYL245tSyXL5t+JxgD4qCItAM
+ s8M2+bV1vGCD1kpyKIWn5chwrN6coVVFptllSG3gAB89E2Ow1LUKWug5lJaK5xHAY8asFQ2
+ 3izBsFJqOAcLn1D8S80ng==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KViSDhDSvtY=:JikPZgnGIHG9UpTw76JgCf
+ 3DSEJMklEMbQGx7zLlQsTGdp2z6lxPeQcmIHV+V8kel56iFvufYBdhvB2FRzjzG1drDwvLQ+m
+ RLM+hJUtEN1MgvuBQ8vwei8JmKrsWYeiqCP+oe76D5N4bcSKNy5RKUFnmOR6/SJ7/HQ0OdqXG
+ ei6lzVzYRc3ZW3TMm3ZidILWMb9Om/+smcNrTFAVDrlr6iWWCcX1msyPI7Qw5H9T0gr7hb0u0
+ 6nT/nplepiQy0erDy67cisbprHg8f1qbYZO9ZcRENxG4w1BT6T7dKzCKi23hFRL+G4pQM4NsQ
+ 95FLVthCagzSjalPIacsjRbCSo8kY50tju6n3jYQmuO5tsBkfof6kr/E8aGV2WENR6QbfXbjN
+ Qkwc/wjSTHkabjua//kJaoimAta+GeBu5bOSOM8RMbm6CJxNhtDr4w3mUUtQMJMq3sFjWdiAq
+ +LotwRdQzAQj9DhcF9t2RlY+/vm8h1Dnh3QATrJHocYAHkn1ysstV0h6BGCIac1KAbOsl0UtW
+ uW0b8EPgM05em02CBrCkqyxRG8iBi5BF43D9zZxUBoRIQ2xpXytQfeQjsg3sP8YasZ52yE0X0
+ zAstcNpGbnDMb+qKzLA5FYRPPPqVb1NDggArf+w+UjZzUV7CbsYXV2YJs9IFTdj4cWjY59VPg
+ zHSt5pNCL2kXHcQ1adjTC9cncxGkqurEyQZjBGPw5uJneuo6qW2Ja2WORUT3wcrdM3B0=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,42 +73,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Mar 2022 at 20:52, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The following changes since commit 64ada298b98a51eb2512607f6e6180cb330c47b1:
->
->   Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220302' into staging (2022-03-02 12:38:46 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220302
->
-> for you to fetch changes up to 268c11984e67867c22f53beb3c7f8b98900d66b2:
->
->   ui/cocoa.m: Remove unnecessary NSAutoreleasePools (2022-03-02 19:27:37 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * mps3-an547: Add missing user ahb interfaces
->  * hw/arm/mps2-tz.c: Update AN547 documentation URL
->  * hw/input/tsc210x: Don't abort on bad SPI word widths
->  * hw/i2c: flatten pca954x mux device
->  * target/arm: Support PSCI 1.1 and SMCCC 1.0
->  * target/arm: Fix early free of TCG temp in handle_simd_shift_fpint_conv()
->  * tests/qtest: add qtests for npcm7xx sdhci
->  * Implement FEAT_LVA
->  * Implement FEAT_LPA
->  * Implement FEAT_LPA2 (but do not enable it yet)
->  * Report KVM's actual PSCI version to guest in dtb
->  * ui/cocoa.m: Fix updateUIInfo threading issues
->  * ui/cocoa.m: Remove unnecessary NSAutoreleasePools
->
+Le 24/02/2022 à 12:59, Mark Cave-Ayland a écrit :
+> The mos6522 datasheet describes how the control lines IRQs are edge-triggered
+> according to the configuration in the PCR register. Implement the logic according
+> to the datasheet so that the interrupt bits in IFR are latched when the edge is
+> detected, and cleared when reading portA/portB or writing to IFR as necessary.
+> 
+> To maintain bisectibility this change also updates the SCSI, SCSI data, Nubus
+> and VIA2 60Hz/1Hz clocks in the q800 machine to be negative edge-triggered as
+> confirmed by the PCR programming in all of Linux, NetBSD and MacOS.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>   hw/m68k/q800.c            |  9 +++--
+>   hw/misc/mac_via.c         | 15 +++++--
+>   hw/misc/mos6522.c         | 82 +++++++++++++++++++++++++++++++++++++--
+>   include/hw/misc/mos6522.h | 15 +++++++
+>   4 files changed, 109 insertions(+), 12 deletions(-)
+> 
 
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
--- PMM
 
