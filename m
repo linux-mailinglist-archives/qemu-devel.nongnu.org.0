@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A80124CC421
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 18:39:37 +0100 (CET)
-Received: from localhost ([::1]:46142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 427184CC432
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 18:41:29 +0100 (CET)
+Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPpQO-0001pt-7h
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 12:39:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56094)
+	id 1nPpSC-0003UL-Ct
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 12:41:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nPpPU-00018w-AE
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:38:40 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:37737)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nPpQW-0002Tc-3R
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:39:44 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:38131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nPpPS-0002Qj-EL
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:38:39 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nPpQS-0002Vt-Ok
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:39:43 -0500
 Received: from [192.168.100.1] ([82.142.17.50]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MqatK-1nuRCc3dXk-00mcKQ; Thu, 03 Mar 2022 18:38:35 +0100
-Message-ID: <5abecee2-6c54-d525-2c42-563720f3650b@vivier.eu>
-Date: Thu, 3 Mar 2022 18:38:34 +0100
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MhTt7-1o467W49VD-00eaNZ; Thu, 03 Mar 2022 18:39:38 +0100
+Message-ID: <d9aaf1aa-65cc-33a4-1904-879d0ab4fa10@vivier.eu>
+Date: Thu, 3 Mar 2022 18:39:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 01/12] mos6522: add defines for IFR bit flags
+Subject: Re: [PATCH v2 02/12] mac_via: use IFR bit flag constants for VIA1 IRQs
 Content-Language: fr
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20220224115956.29997-1-mark.cave-ayland@ilande.co.uk>
- <20220224115956.29997-2-mark.cave-ayland@ilande.co.uk>
+ <20220224115956.29997-3-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220224115956.29997-2-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220224115956.29997-3-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LLZQtDMajxtELzYyQjmzgeeoi8SFvNRRDz44vJMTnqrKmGP6989
- arqNykO1Cyb7mR/+t4/VAMn2qYaaMMaNiBglXHkvyjCuGhBUSdTakov4soecDlsU4WQtbtY
- 9tP7mMddZ7xtIyXM/XifqWYYQiPWXowYcx7b+udUq39nJQ8J4s0852JCm4WK/RE3NzXfYjO
- lomtwQph0va3u4OHi7VYw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:q9uGezHF+6s=:JkVgox6Eo3U9T404Z8YSj7
- +E2Z+uN6U4ruGrEIgsutf26c/Ix+Yg0tyl6DCNp2RYTrQ8jA5Z9ppemEe+lI2XvJ2+c+AKWTN
- M/x35VcbyeGVAHO+4u/RPWhlrfzOF6A4e8npdriC/TbQB2dIBFCCGfiPrgAtaN2gLsGVq7XJy
- gXjaeUItqKgM5wssjFTNVVBk4wqzebDN//azpQY7BxUvsJDUN5wJHOk1n/0ngONWJbP+IfRuA
- WDgXT1Q/a8nOurPsZdWzj2nt9tmqnTavzpk/sr50ilifF4A7lY1F3E0U3byXM0WIPQZeTMDGQ
- 2Lk/vBchN6CKl4sCaPIdzERxBshVk2lbIE8txfLUh7o/w38WpZ/+gaNeV0L0U/fnT25Om507M
- Fql5qHrK+wHxoHEd4okx+czOIm46j7+8xn4GegeXdt3SPttwyFL52LoMR3mbcjowSslO5UauB
- RSvOJrE7TSk1LTHbVjEIJTKQEbTYoWA7Vxruce2QxuKudCLmS0a6pewJ0LmgcJcKfzpw4pvy7
- MnUwCLG0SNYnuQjTlV2r8+1ZxJ0EpO0HLLgEHlSevks5RxF/sFJTAzB9nKJOApYHDRwcRpoNg
- BjVSGMRHxeHbPfb/SQTxDiyjVHZZrjwHF+jRiqCWkBBbOquYV4jZI4x3pwjxppY3UfQimdE1Z
- rl5EFx19Bg9ur2HLMWtsmQMnK/Gr1l16UCpRXFQqQGMmKR+vHUR6+nSm4NprttsOxIdE=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:F8YNoD05/0vqC50oJxlWACwPWebUqOFLqLxCikg6NHbYdFrxkYB
+ nj0tNxR/pdNpfFHWkaA0xsQRqFp7hR/aBc8WgYS+7tX5Mlw7K2aCUljfdyJBe9n2nV42wtQ
+ MS0s/IcfovuU69vlmhoKLQVo852+zg51iOGg55OLi8+Baiv0z0oumqpPYosxWA0eVIUpGSj
+ qTGJ24k/Y1SXF0oq6mUYg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ly6owyCREM0=:jVai2jNYMsze3LyXwRU+G8
+ wOkS37+4uFfUWPjMIO0ObqIAN1Z2chzWaebN/pbtWS7G5dsHqcwecx8Prbr2tuoHrkNTkTkDs
+ 0v56/X8ptWsVweEV4Hbxq6gzoYD0t6YBf4k6a/wnNuKo035PbC4/WY/mabjsANOKHJmPlKmU5
+ hZFtu6F2mKd/SFT9XvqFLuXlKoiltFxD4ngI5wgw5aSIhWQ7kEM7jjBRjQUZylvg9RhVK7f8n
+ o8yY64j4j7GWHdtEks73gtmlOAPwJfDblhJP4RMgFyM1Fd0gQ7w9KqQ+emCs/W8PyHXSKuoj5
+ 2HTUF0NtMSN6rWpdpPVNtIfyrhEBc4S8ItesjsY4b2wrYoDlcOW8hZKo4FomxeiBOa1b7G+Id
+ TimLGaYf5amlb+nKabftV6wpy4M2yoOxJxZYGUtBdE6wkBw71/GKwa4lqBmQTv/EXKBuNBu/G
+ CdyiYcu5SKgqk+rED0LzQb5ZkwTgLT5mWwtkM+8IWHD6TXORCDoQ2oBZ38O5jGhipMtdbmqnX
+ W1EYtxovzFika43Soa/8OjGYwOMi5VHZwe0pbq9OkPxXIYsmVH4FSbxOsS75Ph33bAEwiA5D5
+ k/GC9+TasSwdsQHQMMa7MMrJ3SVXFq4cHOs7XqyYUyQ9RkqUxMtq4ScPzPw+H7n47exiXQi/w
+ tXVJsZCBD916c15mDlgzta14qAo9yWBMUNZSHyKJju+9Om3KNqi4C1fpFqQoC5qifNRg=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,13 +74,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 24/02/2022 à 12:59, Mark Cave-Ayland a écrit :
-> These are intended to make it easier to see how the physical control lines
-> are wired for each instance.
+> This allows us to easily see how the physical control lines are mapped to the
+> IFR bit flags.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->   include/hw/misc/mos6522.h | 22 +++++++++++++++-------
->   1 file changed, 15 insertions(+), 7 deletions(-)
+>   include/hw/misc/mac_via.h | 20 ++++++++++----------
+>   1 file changed, 10 insertions(+), 10 deletions(-)
+> 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
