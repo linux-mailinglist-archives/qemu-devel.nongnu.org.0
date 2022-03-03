@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC0A4CC70D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 21:29:11 +0100 (CET)
-Received: from localhost ([::1]:46444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2214CC74B
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 21:48:52 +0100 (CET)
+Received: from localhost ([::1]:57336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPs4U-0003hQ-TP
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 15:29:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49310)
+	id 1nPsNW-00045D-SN
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 15:48:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPrzL-0001wT-Mk
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 15:23:52 -0500
-Received: from [2a00:1450:4864:20::330] (port=33255
- helo=mail-wm1-x330.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nPsLY-0001Vg-At
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 15:46:48 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=33120
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPrzK-0001ab-9T
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 15:23:51 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- n33-20020a05600c3ba100b003832caf7f3aso3129603wms.0
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 12:23:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nPsLE-0000vv-Uw
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 15:46:30 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ v1-20020a17090a088100b001bf25f97c6eso74560pjc.0
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 12:46:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=xKReK7BLUtScKzpLEmLwjn4Pt9dG6hDPDWKrdARJTHU=;
- b=FxxjCgcDHZwQsUyp6QeRLD3H+nQyw1V2wfkP202duNc+5jC56dwCux1o2tsoyHqFP7
- oDtQa3GuiUhQsR8HGGmH5ZJkcGDegzl2LQPOzpiPU99FFJUVUtlSGtks+ojYWlwkEmt0
- VUZLf9veJ4sWobkZp44Vv0Lg+w3j2+fDpRLgLrwtfti2f+oW1HNYV+x4YS48fUL33hA3
- D5lc1Xt7jZdtsBFfBU0X7vzjlHekIlOmRB+ozOduLBZmWPvPKtgZmGObMCveGqUUgROL
- yqje+Qe35Oh37tEi7nYGVY3cHAvsuNmDRx+bpptrF17XLSzpfl4OUGFYAZspTK1+QPoO
- t6TQ==
+ bh=lbjAT2z0mu8Ef3SnlHp9EbZyx7FbAnKNN3D96xxVK7A=;
+ b=B1gbSaYlm3SYBzcfAkeW05aDZPZB8KCCCeEBfJcEaXAZdrH7gmrVcPIPTxfumzco0g
+ 3Jj2sgaWSWtdoEo7GvjuTLGEzocYcpFhdiBRfkwB04xHMe46CyZf16EjpaSUyTx27gz8
+ 2eOEyXhPSWYrbTR/C/WWxDWSTN2JNyFtoD+Qvus87kPk458LcTAaYbcdygglLOUATXX3
+ S6PQwWlPiohPBxSnjNzFWGSa7I8p7PkoNmQXPfc6fIhpR4oT4tBpC8xrPck7d1Ep4s1I
+ Hq6vRANnwPgBabS0vkLRMKGFsC46eci1Lz+I+qLoWR3Ya2tAzI3e5OvCe2O0QLGxt5I1
+ Nzuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xKReK7BLUtScKzpLEmLwjn4Pt9dG6hDPDWKrdARJTHU=;
- b=cWrfwgPSd847A1cTffQpPcjZn9DRvRbQbYuxAPbARj6Gc2d6Hh1HBNE3khdEjBU1Eb
- Fcywj9C2LlpOQJ5qHGj9B+BKEZIUI1LUCLqHMTN0NjHOikH2fjt/5utWI0jDXPOEy95A
- 2jk2ETjA+kkB90F49h6Do+xBOC4lr5NIN5b4a7nIdbIBbW3jgqhQzkFVS5j85WUFUa59
- sYfPbDsRnOy+ZnCxpSwgc5KiardYNoeoRjXSDdjNXynIbFPAvNF0hdGEYbX6FLhFghHb
- 8BkrfChem5fwhG7pchjPE+/nMl6ehRubQTOKteghLRAa1d4GVATeoMK88T+wsjOm4VmL
- HRSw==
-X-Gm-Message-State: AOAM531WJLY+wa7tsD7HTxqOIK/6sBOfKl98tnAhi2enHD/8avuz2CQp
- hEKP4mhUkxLzdNdT7cPU+t6xRFim3Imvvw==
-X-Google-Smtp-Source: ABdhPJwm65ESyJkwnPPNttg1N8klhQnPFvAi2Dm4IxOtVdewuf408aSCIAZ0AOkKx0cT3v26ZqluCg==
-X-Received: by 2002:a05:600c:3c98:b0:37f:2f14:7be7 with SMTP id
- bg24-20020a05600c3c9800b0037f2f147be7mr5143205wmb.180.1646339028719; 
- Thu, 03 Mar 2022 12:23:48 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lbjAT2z0mu8Ef3SnlHp9EbZyx7FbAnKNN3D96xxVK7A=;
+ b=chAqH6sh3FDygVbjStZsPr2rhR59WC20mEdknAB9e2aMC6+Vu8urTb8suQ4vM6dVWa
+ u4lXBx6edK9C08LqIPeznU3hd6c+RtRwhBobU5D8O5UaI88o7Nl3MSvkYuQikFrFl/Y6
+ 8efmd/O5HJSeMXReK+RzC4lcaWDDwjgzbs2Ayd2FSmsEGTKnNZ4NwxYSAuXIDWlN2C8F
+ JZ3wvyU8NK7xJCKsw0YJGFHkKjCIo86/EEkCC9z3mRVy0Ob9mPO0LZjVO0F/D/ivGBzs
+ ilxIe/c3NIEhruXpox0owTiq6rDFvFVGQfMK+TDA/qDV22vdmSdDmujctv612gi3EZ9P
+ Y87A==
+X-Gm-Message-State: AOAM5305xc8cawr8UNO9uDSsC+tTEPm/RsS0g8W0YPzxS2OUSToS9B7Y
+ 7bwkG9QXdf+1zXl3dVk1ggn533AILZrVxg==
+X-Google-Smtp-Source: ABdhPJwrEmgonUyTSJYkIIk5SJKd4AfHXbFWhYnU/yDr3QQzK28UZtpsp7q6C4sa/FuLmZMKG9jL2A==
+X-Received: by 2002:a17:90b:ed4:b0:1bc:5dee:f350 with SMTP id
+ gz20-20020a17090b0ed400b001bc5deef350mr7198065pjb.234.1646340387409; 
+ Thu, 03 Mar 2022 12:46:27 -0800 (PST)
+Received: from localhost.localdomain
+ (2603-800c-1201-c600-119c-490c-a4ee-08e8.res6.spectrum.com.
+ [2603:800c:1201:c600:119c:490c:a4ee:8e8])
  by smtp.gmail.com with ESMTPSA id
- t5-20020adff045000000b001f0684c3404sm517060wro.11.2022.03.03.12.23.48
+ d16-20020a17090ad99000b001bcbc4247a0sm2901211pjv.57.2022.03.03.12.46.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 12:23:48 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 5/5] hw/intc/arm_gicv3_cpuif: Fix register names in ICV_HPPIR
- read trace event
-Date: Thu,  3 Mar 2022 20:23:41 +0000
-Message-Id: <20220303202341.2232284-6-peter.maydell@linaro.org>
+ Thu, 03 Mar 2022 12:46:26 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/7] target/nios2: Rewrite interrupt handling
+Date: Thu,  3 Mar 2022 10:46:17 -1000
+Message-Id: <20220303204624.468786-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220303202341.2232284-1-peter.maydell@linaro.org>
-References: <20220303202341.2232284-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,40 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The trace_gicv3_icv_hppir_read trace event takes an integer value
-which it uses to form the register name, which should be either
-ICV_HPPIR0 or ICV_HPPIR1.  We were passing in the 'grp' variable for
-this, but that is either GICV3_G0 or GICV3_G1NS, which happen to be 0
-and 2, which meant that tracing for the ICV_HPPIR1 register was
-incorrectly printed as ICV_HPPIR2.
+The following changes since commit 36eae3a732a1f2aa81391e871ac0e9bb3233e7d7:
 
-Use the same approach we do for all the other similar trace events,
-and pass in 'ri->crm == 8 ?  0 : 1', deriving the index value
-directly from the ARMCPRegInfo struct.
+  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-migration-20220302b' into staging (2022-03-02 20:55:48 +0000)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/intc/arm_gicv3_cpuif.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index d7e03d0cab8..1a3d440a54b 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -612,7 +612,8 @@ static uint64_t icv_hppir_read(CPUARMState *env, const ARMCPRegInfo *ri)
-         }
-     }
- 
--    trace_gicv3_icv_hppir_read(grp, gicv3_redist_affid(cs), value);
-+    trace_gicv3_icv_hppir_read(ri->crm == 8 ? 0 : 1,
-+                               gicv3_redist_affid(cs), value);
-     return value;
- }
- 
--- 
-2.25.1
+  https://gitlab.com/rth7680/qemu.git tags/pull-nios-20220303
 
+for you to fetch changes up to b72c9d5951f1dfa047f545408dd9e35597e6b9d3:
+
+  target/nios2: Rewrite interrupt handling (2022-03-03 09:51:59 -1000)
+
+----------------------------------------------------------------
+Rewrite nios2 interrupt handling
+
+----------------------------------------------------------------
+Richard Henderson (7):
+      target/nios2: Remove mmu_read_debug
+      target/nios2: Replace MMU_LOG with tracepoints
+      target/nios2: Only build mmu.c for system mode
+      target/nios2: Hoist R_ZERO check in rdctl
+      target/nios2: Split mmu_write
+      target/nios2: Special case ipending in rdctl and wrctl
+      target/nios2: Rewrite interrupt handling
+
+ meson.build               |   1 +
+ target/nios2/cpu.h        |   1 -
+ target/nios2/helper.h     |   6 +-
+ target/nios2/mmu.h        |   1 -
+ target/nios2/cpu.c        |  10 +-
+ target/nios2/mmu.c        | 265 +++++++++++++++++-----------------------------
+ target/nios2/op_helper.c  |  29 -----
+ target/nios2/translate.c  |  73 ++++++-------
+ target/nios2/meson.build  |   3 +-
+ target/nios2/trace-events |  10 ++
+ 10 files changed, 152 insertions(+), 247 deletions(-)
+ create mode 100644 target/nios2/trace-events
 
