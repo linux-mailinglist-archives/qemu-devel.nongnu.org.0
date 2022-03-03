@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED9FF4CC70B
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 21:27:41 +0100 (CET)
-Received: from localhost ([::1]:42768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC0A4CC70D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 21:29:11 +0100 (CET)
+Received: from localhost ([::1]:46444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPs33-0000rl-1F
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 15:27:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49316)
+	id 1nPs4U-0003hQ-TP
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 15:29:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPrzL-0001wV-WE
+ id 1nPrzL-0001wT-Mk
  for qemu-devel@nongnu.org; Thu, 03 Mar 2022 15:23:52 -0500
-Received: from [2a00:1450:4864:20::32b] (port=38868
- helo=mail-wm1-x32b.google.com)
+Received: from [2a00:1450:4864:20::330] (port=33255
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPrzK-0001aF-97
+ id 1nPrzK-0001ab-9T
  for qemu-devel@nongnu.org; Thu, 03 Mar 2022 15:23:51 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- m42-20020a05600c3b2a00b00382ab337e14so4821838wms.3
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 12:23:48 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id
+ n33-20020a05600c3ba100b003832caf7f3aso3129603wms.0
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 12:23:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=uXh/JEg5Ojwyym5i/HIshpVVO/CoNEWjAFuxDcAMKaM=;
- b=t0kvC9pLVwUMkJQ4I3iU4/DxiKZBqLj20I4aoau3o5xkZgwlCdfX2ZlTIRvHvQwfRF
- tEXJNPIWlWRJcBMltI6ueZSYuuCT7tVlUjbP3SlIa9GujD92TkSOqPa7v5Tm5/MBSgVY
- DGksTdMhOuabrknUVRT9F83S3AkafioBQ5FrGy0ntl7myl/8+ossWuhBMkygXHGeOO70
- NCEcExPJsnysQrkDrn2zAiAYyPF3w4vih+wWdCWsCB/CeC2EvvU9TfNXh0dRWuuccbwD
- 5By4sgoegm2ZepJ6fO1e6Stf9H225tjpqPqIESF7nAJ73CAvYhgzSC1K/KEI8pvlkg1Q
- cqWA==
+ bh=xKReK7BLUtScKzpLEmLwjn4Pt9dG6hDPDWKrdARJTHU=;
+ b=FxxjCgcDHZwQsUyp6QeRLD3H+nQyw1V2wfkP202duNc+5jC56dwCux1o2tsoyHqFP7
+ oDtQa3GuiUhQsR8HGGmH5ZJkcGDegzl2LQPOzpiPU99FFJUVUtlSGtks+ojYWlwkEmt0
+ VUZLf9veJ4sWobkZp44Vv0Lg+w3j2+fDpRLgLrwtfti2f+oW1HNYV+x4YS48fUL33hA3
+ D5lc1Xt7jZdtsBFfBU0X7vzjlHekIlOmRB+ozOduLBZmWPvPKtgZmGObMCveGqUUgROL
+ yqje+Qe35Oh37tEi7nYGVY3cHAvsuNmDRx+bpptrF17XLSzpfl4OUGFYAZspTK1+QPoO
+ t6TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uXh/JEg5Ojwyym5i/HIshpVVO/CoNEWjAFuxDcAMKaM=;
- b=mPnpumG5JlbfBE/F/v/M8JybwnX47+RhKl0BVy8LyCcBqWThFyuqKzzELzhfgY3VOe
- U/QHohWWqav1EjMy0hktk0r1u36MsK+/4qs+/9bsvvMxFw/7gjpM55phlTZje4HsnT4Z
- o7DrXT8o0V5nvFHyPfM1YnJ/KAj31M5jWJPAI6Q/+l25sKEtWHr95S1Efm9B2EIr6Kqm
- 40Wc9+VhgzNw3QCyA8JN3KWhxo37yXzhd47OtGc7Djjt3+cDNVmBLHKXmt2aZMQJl/wO
- kO45wCENRdO4YFcYOKF5fu9T9q818zRFlXlzgHUoHEfpAoIvyBX4xtCSi/1iOc7QtCe+
- 4vGw==
-X-Gm-Message-State: AOAM533x463fi4uC8LiL5D3FlXsfQm2bRF/7lNRa2D424cWTHDw2vggw
- Se0xn7cEO+R3uaKr6dKlpNlsjwKN1LbAiw==
-X-Google-Smtp-Source: ABdhPJw1hDvsWIdNpZlB2zaI0HTZKKFVPKjfbn6B6fawSKBkqqAN1+WWDKS3Dq100jUAX7fqK69XbA==
-X-Received: by 2002:a7b:c347:0:b0:37e:68e6:d85c with SMTP id
- l7-20020a7bc347000000b0037e68e6d85cmr5022675wmj.176.1646339027932; 
- Thu, 03 Mar 2022 12:23:47 -0800 (PST)
+ bh=xKReK7BLUtScKzpLEmLwjn4Pt9dG6hDPDWKrdARJTHU=;
+ b=cWrfwgPSd847A1cTffQpPcjZn9DRvRbQbYuxAPbARj6Gc2d6Hh1HBNE3khdEjBU1Eb
+ Fcywj9C2LlpOQJ5qHGj9B+BKEZIUI1LUCLqHMTN0NjHOikH2fjt/5utWI0jDXPOEy95A
+ 2jk2ETjA+kkB90F49h6Do+xBOC4lr5NIN5b4a7nIdbIBbW3jgqhQzkFVS5j85WUFUa59
+ sYfPbDsRnOy+ZnCxpSwgc5KiardYNoeoRjXSDdjNXynIbFPAvNF0hdGEYbX6FLhFghHb
+ 8BkrfChem5fwhG7pchjPE+/nMl6ehRubQTOKteghLRAa1d4GVATeoMK88T+wsjOm4VmL
+ HRSw==
+X-Gm-Message-State: AOAM531WJLY+wa7tsD7HTxqOIK/6sBOfKl98tnAhi2enHD/8avuz2CQp
+ hEKP4mhUkxLzdNdT7cPU+t6xRFim3Imvvw==
+X-Google-Smtp-Source: ABdhPJwm65ESyJkwnPPNttg1N8klhQnPFvAi2Dm4IxOtVdewuf408aSCIAZ0AOkKx0cT3v26ZqluCg==
+X-Received: by 2002:a05:600c:3c98:b0:37f:2f14:7be7 with SMTP id
+ bg24-20020a05600c3c9800b0037f2f147be7mr5143205wmb.180.1646339028719; 
+ Thu, 03 Mar 2022 12:23:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- t5-20020adff045000000b001f0684c3404sm517060wro.11.2022.03.03.12.23.47
+ t5-20020adff045000000b001f0684c3404sm517060wro.11.2022.03.03.12.23.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 12:23:47 -0800 (PST)
+ Thu, 03 Mar 2022 12:23:48 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 4/5] hw/intc/arm_gicv3: Fix missing spaces in error log
- messages
-Date: Thu,  3 Mar 2022 20:23:40 +0000
-Message-Id: <20220303202341.2232284-5-peter.maydell@linaro.org>
+Subject: [PATCH 5/5] hw/intc/arm_gicv3_cpuif: Fix register names in ICV_HPPIR
+ read trace event
+Date: Thu,  3 Mar 2022 20:23:41 +0000
+Message-Id: <20220303202341.2232284-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220303202341.2232284-1-peter.maydell@linaro.org>
 References: <20220303202341.2232284-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,62 +94,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We forgot a space in some log messages, so the output ended
-up looking like
-gicv3_dist_write: invalid guest write at offset 0000000000008000size 8
+The trace_gicv3_icv_hppir_read trace event takes an integer value
+which it uses to form the register name, which should be either
+ICV_HPPIR0 or ICV_HPPIR1.  We were passing in the 'grp' variable for
+this, but that is either GICV3_G0 or GICV3_G1NS, which happen to be 0
+and 2, which meant that tracing for the ICV_HPPIR1 register was
+incorrectly printed as ICV_HPPIR2.
 
-with a missing space before "size". Add the missing spaces.
+Use the same approach we do for all the other similar trace events,
+and pass in 'ri->crm == 8 ?  0 : 1', deriving the index value
+directly from the ARMCPRegInfo struct.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_dist.c | 4 ++--
- hw/intc/arm_gicv3_its.c  | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/intc/arm_gicv3_cpuif.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
-index 4164500ea96..28d913b2114 100644
---- a/hw/intc/arm_gicv3_dist.c
-+++ b/hw/intc/arm_gicv3_dist.c
-@@ -838,7 +838,7 @@ MemTxResult gicv3_dist_read(void *opaque, hwaddr offset, uint64_t *data,
-     if (!r) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid guest read at offset " TARGET_FMT_plx
--                      "size %u\n", __func__, offset, size);
-+                      " size %u\n", __func__, offset, size);
-         trace_gicv3_dist_badread(offset, size, attrs.secure);
-         /* The spec requires that reserved registers are RAZ/WI;
-          * so use MEMTX_ERROR returns from leaf functions as a way to
-@@ -879,7 +879,7 @@ MemTxResult gicv3_dist_write(void *opaque, hwaddr offset, uint64_t data,
-     if (!r) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid guest write at offset " TARGET_FMT_plx
--                      "size %u\n", __func__, offset, size);
-+                      " size %u\n", __func__, offset, size);
-         trace_gicv3_dist_badwrite(offset, data, size, attrs.secure);
-         /* The spec requires that reserved registers are RAZ/WI;
-          * so use MEMTX_ERROR returns from leaf functions as a way to
-diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 9f4df6a8cbb..b96b874afdf 100644
---- a/hw/intc/arm_gicv3_its.c
-+++ b/hw/intc/arm_gicv3_its.c
-@@ -1313,7 +1313,7 @@ static MemTxResult gicv3_its_read(void *opaque, hwaddr offset, uint64_t *data,
-     if (!result) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid guest read at offset " TARGET_FMT_plx
--                      "size %u\n", __func__, offset, size);
-+                      " size %u\n", __func__, offset, size);
-         trace_gicv3_its_badread(offset, size);
-         /*
-          * The spec requires that reserved registers are RAZ/WI;
-@@ -1349,7 +1349,7 @@ static MemTxResult gicv3_its_write(void *opaque, hwaddr offset, uint64_t data,
-     if (!result) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid guest write at offset " TARGET_FMT_plx
--                      "size %u\n", __func__, offset, size);
-+                      " size %u\n", __func__, offset, size);
-         trace_gicv3_its_badwrite(offset, data, size);
-         /*
-          * The spec requires that reserved registers are RAZ/WI;
+diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+index d7e03d0cab8..1a3d440a54b 100644
+--- a/hw/intc/arm_gicv3_cpuif.c
++++ b/hw/intc/arm_gicv3_cpuif.c
+@@ -612,7 +612,8 @@ static uint64_t icv_hppir_read(CPUARMState *env, const ARMCPRegInfo *ri)
+         }
+     }
+ 
+-    trace_gicv3_icv_hppir_read(grp, gicv3_redist_affid(cs), value);
++    trace_gicv3_icv_hppir_read(ri->crm == 8 ? 0 : 1,
++                               gicv3_redist_affid(cs), value);
+     return value;
+ }
+ 
 -- 
 2.25.1
 
