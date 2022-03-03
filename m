@@ -2,40 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E794CBFDB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:18:42 +0100 (CET)
-Received: from localhost ([::1]:39838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FBE4CBFD5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:17:44 +0100 (CET)
+Received: from localhost ([::1]:36102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPmHx-0002ir-4Z
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:18:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55878)
+	id 1nPmH1-0008VQ-MY
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:17:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <2e2d46a402560f155de322d95789ba107d728885@lizzy.crudebyte.com>)
- id 1nPmGS-0000QE-0Y
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:17:08 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:52441)
+ id 1nPmEN-0005Ni-7n
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:14:59 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:51625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <2e2d46a402560f155de322d95789ba107d728885@lizzy.crudebyte.com>)
- id 1nPmGQ-0005tO-Ax
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:17:07 -0500
+ id 1nPmEL-0005QX-TH
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:14:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=jk1Gx8gVcbmpfpkoeQmr1HkLtDMm6meRye3w7LDKYUo=; b=HecRa
- UIfn6bSDyd6gl0Sf7LAAqhGBM7QQEoebRb9QT2BHO0E2r18DtLj3LxkAJeBtSHz4cgNRZZ45C0fqk
- zMEAxmy3KHjtCCrowvrWtleAh4VTh2eh/m7b/Rj8vtfvrrMPesP52Ar/XfGzifvdpn4XaRieFt7K0
- EZuLRgKv14YsM6yV0crjHPP9AjQXXsn71upe8SQ/f4UfoSqIjC2dRd/1f6ZKp1XkoaEL6WI3FF00C
- REBNWVMBkm5acO1AsqL1Uh5xjTKc8nKFnqVUzl84OvnRlObdsHaaD/Ydhd51GXjw1b5DANKutX5Uc
- Rvin0/Q+R2AxGEcRiscJcC8cJBXbg==;
-Message-Id: <2e2d46a402560f155de322d95789ba107d728885.1646314856.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1646314856.git.qemu_oss@crudebyte.com>
-References: <cover.1646314856.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=9hPFswNuh4DPwLEoA5ZjD+sZXOfFg5fvAf0WtCD1JF4=; b=HTKhB
+ EYbKg1QoAU4VRoheKzkEaBet2OHKy9HQpoanctDqyaf7Ea1CPDWbDCjGosY4hoT2Rp2GEkBndlxj0
+ NSj7SnFMiWVqlbP6UmWReKjQ4nwi2AW2jsjixXPU/7dsYMljE/oI6lta+ho7rOXE/ARCIbufFJjo5
+ XB3d0lbOfd0GxfZUFtwxq6qX5wfZP7q2cHPBSM5VfBqm6bFuZn8D75N1Wrty0zdR/98UBz5jIoCqY
+ p/E9YzfzNaM9SGQJchaJjhdlzp32BxPv4ToKKnbLqW4Y8kkwV0INOlvUeMHiPoEKWf81d+J3tyxO0
+ icNx53ZdZansUj5/xWegq6sEYVH5w==;
+Message-Id: <cover.1646314856.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 3 Mar 2022 14:37:29 +0100
-Subject: [PATCH 6/6] fsdev/p9array.h: convert Doxygen -> kerneldoc format
+Date: Thu, 3 Mar 2022 14:40:56 +0100
+Subject: [PATCH 0/6] 9pfs: convert Doxygen -> kerneldoc format
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
@@ -62,90 +60,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-API doc comments in QEMU are supposed to be in kerneldoc format, so
-convert API doc comments from Doxygen format to kerneldoc format.
+This patch set converts occurrences of API doc comments from Doxygen format
+into kerneldoc format. No behaviour change whatsoever.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- fsdev/p9array.h | 38 +++++++++++++++++++++-----------------
- 1 file changed, 21 insertions(+), 17 deletions(-)
+Christian Schoenebeck (6):
+  9pfs/9p.h: convert Doxygen -> kerneldoc format
+  9pfs/codir.c: convert Doxygen -> kerneldoc format
+  9pfs/9p.c: convert Doxygen -> kerneldoc format
+  9pfs/9p-util.h: convert Doxygen -> kerneldoc format
+  9pfs/coth.h: drop Doxygen format on v9fs_co_run_in_worker()
+  fsdev/p9array.h: convert Doxygen -> kerneldoc format
 
-diff --git a/fsdev/p9array.h b/fsdev/p9array.h
-index 6aa25327ca..90e83a7c7b 100644
---- a/fsdev/p9array.h
-+++ b/fsdev/p9array.h
-@@ -81,11 +81,11 @@
-  */
- 
- /**
-- * Declares an array type for the passed @a scalar_type.
-+ * P9ARRAY_DECLARE_TYPE() - Declares an array type for the passed @scalar_type.
-  *
-- * This is typically used from a shared header file.
-+ * @scalar_type: type of the individual array elements
-  *
-- * @param scalar_type - type of the individual array elements
-+ * This is typically used from a shared header file.
-  */
- #define P9ARRAY_DECLARE_TYPE(scalar_type) \
-     typedef struct P9Array##scalar_type { \
-@@ -97,14 +97,14 @@
-     void p9array_auto_free_##scalar_type(scalar_type **auto_var); \
- 
- /**
-- * Defines an array type for the passed @a scalar_type and appropriate
-- * @a scalar_cleanup_func.
-+ * P9ARRAY_DEFINE_TYPE() - Defines an array type for the passed @scalar_type
-+ * and appropriate @scalar_cleanup_func.
-  *
-- * This is typically used from a C unit file.
-+ * @scalar_type: type of the individual array elements
-+ * @scalar_cleanup_func: appropriate function to free memory dynamically
-+ *                       allocated by individual array elements before
-  *
-- * @param scalar_type - type of the individual array elements
-- * @param scalar_cleanup_func - appropriate function to free memory dynamically
-- *                              allocated by individual array elements before
-+ * This is typically used from a C unit file.
-  */
- #define P9ARRAY_DEFINE_TYPE(scalar_type, scalar_cleanup_func) \
-     void p9array_new_##scalar_type(scalar_type **auto_var, size_t len) \
-@@ -132,23 +132,27 @@
-     } \
- 
- /**
-+ * P9ARRAY_REF() - Declare a reference variable for an array.
-+ *
-+ * @scalar_type: type of the individual array elements
-+ *
-  * Used to declare a reference variable (unique pointer) for an array. After
-  * leaving the scope of the reference variable, the associated array is
-  * automatically freed.
-- *
-- * @param scalar_type - type of the individual array elements
-  */
- #define P9ARRAY_REF(scalar_type) \
-     __attribute((__cleanup__(p9array_auto_free_##scalar_type))) scalar_type*
- 
- /**
-- * Allocates a new array of passed @a scalar_type with @a len number of array
-- * elements and assigns the created array to the reference variable
-- * @a auto_var.
-+ * P9ARRAY_NEW() - Allocate a new array.
-  *
-- * @param scalar_type - type of the individual array elements
-- * @param auto_var - destination reference variable
-- * @param len - amount of array elements to be allocated immediately
-+ * @scalar_type: type of the individual array elements
-+ * @auto_var: destination reference variable
-+ * @len: amount of array elements to be allocated immediately
-+ *
-+ * Allocates a new array of passed @scalar_type with @len number of array
-+ * elements and assigns the created array to the reference variable
-+ * @auto_var.
-  */
- #define P9ARRAY_NEW(scalar_type, auto_var, len) \
-     QEMU_BUILD_BUG_MSG( \
+ fsdev/p9array.h   | 38 ++++++++++++++++-------------
+ hw/9pfs/9p-util.h | 10 ++++----
+ hw/9pfs/9p.c      | 62 ++++++++++++++++++++++++++---------------------
+ hw/9pfs/9p.h      | 12 ++++-----
+ hw/9pfs/codir.c   | 30 +++++++++++------------
+ hw/9pfs/coth.h    |  4 +--
+ 6 files changed, 84 insertions(+), 72 deletions(-)
+
 -- 
 2.30.2
 
