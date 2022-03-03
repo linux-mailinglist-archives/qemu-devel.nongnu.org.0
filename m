@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EE74CC5C3
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 20:12:57 +0100 (CET)
-Received: from localhost ([::1]:50390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CAC4CC590
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 20:02:03 +0100 (CET)
+Received: from localhost ([::1]:51502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPqsi-0004Yx-Eg
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 14:12:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55522)
+	id 1nPqiA-0002gb-Lp
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 14:02:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nPqcz-000393-E4
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:56:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20167)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nPqcx-0004EA-MF
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:56:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646333799;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UzI69/KQ4gRuggocI/stiJd0D2V0OZ0H+pcxYbPlB4Q=;
- b=GDnPSJPf+4Z0GJylb554DUfNhqSH4/Y7aErksj0+aBAB8f+80Lv4mgyoB0jDGSASlAnooR
- 4iAP37zQIQeImJsH0xBn6eTnw4o8Z91c4kTSJZLv8Sty/aDCM/TM3+caHW9tO8+lFw/hcS
- AueKUu4FsahwmD4rLkjFbcudgn+DIKY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-141-MmTHDv30P9qE-uAVT0B_4Q-1; Thu, 03 Mar 2022 13:56:36 -0500
-X-MC-Unique: MmTHDv30P9qE-uAVT0B_4Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2848D180A088;
- Thu,  3 Mar 2022 18:56:34 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.195.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63DEF804F2;
- Thu,  3 Mar 2022 18:56:28 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nPqbF-0007Ix-Fs
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:54 -0500
+Received: from [2607:f8b0:4864:20::335] (port=45712
+ helo=mail-ot1-x335.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nPqbD-0001j0-DK
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:53 -0500
+Received: by mail-ot1-x335.google.com with SMTP id
+ g6-20020a9d6486000000b005acf9a0b644so5376571otl.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:54:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vfG7FK1OPCdsx0kND74abVNHh9tfVIoxxm0LNF72n4o=;
+ b=hJSd03ckPZ6gkLrFw3NNElCZW+Ob+m/vOxvXNd+wyHriMthYAlEdohJU2/7EzoUIQr
+ OXISr7E2NxFQ579H4NryxXGeK8RBIwH7SKmTqQkltoBG/yANpGs4mWiCEMNS0ARWr5NF
+ c426ABaCs2D56dZl4WetlMbGzAB+oRSzReHIE9XPPF3PSarTscj1nJ1DKcGeWVHrEd4Q
+ zoh+WMqcSki6ZP597/W3lXSyywxWn58P/a6d5jfs8dkuuBUeLHBNH/G5NQPnivXObN2M
+ qJJvNaDcfgxB6TpvQ86wvqzuiHBkCQJmBkYRkOOn6onqOsWV2OMHWgHrPELUuN2pzWN8
+ aY3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vfG7FK1OPCdsx0kND74abVNHh9tfVIoxxm0LNF72n4o=;
+ b=V5onGvUsK8mwvZlEuTqmR+rh3g4DXLHqPgQS59WgZUGHVCaooO5UT1XWhOx4nn7CmS
+ RHMuy1m+87EVNaTdGUNeYvWDX+vS5VFFEAe5lK5TfQ7vJbtiw0lX924MsLYlCGPWsMwH
+ i8F8TwhJDpWBdLsJ8dLou2AwbjIOYPrUeOF8/6tXbND+eGwY9VwNWDA5HfUpgGSfQlNk
+ vu8hzJeYBIEMFDRVDrQwD1sFPgT2sLdJMuKF8lk+y0yT2ummr9D1eQdpI1M/6z8k4KyB
+ CBJofVhHobKGnN9hJj1aJg51pMtYM8H1h9z2x93Fu2aB15LvjHpz2ZaWRIiL3Mih1eQV
+ REhg==
+X-Gm-Message-State: AOAM5312pHIWNeXkSyVRZ2/lZ4GhavcuCdJxX9uNuiN6yY+dpW//uagl
+ tW0+Zkm4tn/sqW4nunBXqatv7dvRObEPpg==
+X-Google-Smtp-Source: ABdhPJwwPaaQs4kxSfZmOYPHp8C7N/SLWbIdv9kRj804l22kdcIdaku659Hu+ssBXhjQ3AEqN2lBhA==
+X-Received: by 2002:a05:6830:44a1:b0:5af:d3df:ae72 with SMTP id
+ r33-20020a05683044a100b005afd3dfae72mr18056576otv.238.1646333689986; 
+ Thu, 03 Mar 2022 10:54:49 -0800 (PST)
+Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
+ [70.228.75.190]) by smtp.gmail.com with ESMTPSA id
+ u24-20020a4ae698000000b0031c286f2e0csm1331052oot.29.2022.03.03.10.54.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Mar 2022 10:54:49 -0800 (PST)
+From: Atish Patra <atishp@rivosinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 14/14] vdpa: Add x-svq to NetdevVhostVDPAOptions
-Date: Thu,  3 Mar 2022 19:51:47 +0100
-Message-Id: <20220303185147.3605350-15-eperezma@redhat.com>
-In-Reply-To: <20220303185147.3605350-1-eperezma@redhat.com>
-References: <20220303185147.3605350-1-eperezma@redhat.com>
+Subject: [PATCH v5 0/6] Privilege version update
+Date: Thu,  3 Mar 2022 10:54:34 -0800
+Message-Id: <20220303185440.512391-1-atishp@rivosinc.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::335
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=atishp@rivosinc.com; helo=mail-ot1-x335.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,166 +87,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Peter Xu <peterx@redhat.com>, virtualization@lists.linux-foundation.org,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Finally offering the possibility to enable SVQ from the command line.
+RISC-V International (RVI) has ratified many RISC-V ISA extensions recently[1].
+The privileged specification version is also upgraded to v1.12. It means
+certain CSRs introduced in v1.12 should only be accessible only if the
+priv specification version supported is equal or greater than v1.12.
+Doing this check in predicate function is not scalable as there will be
+new CSRs introduced in the future versions of the privileged specification.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- qapi/net.json    |  8 +++++++-
- net/vhost-vdpa.c | 48 ++++++++++++++++++++++++++++++++++++++++--------
- 2 files changed, 47 insertions(+), 9 deletions(-)
+This series tries to address this problem by adding a field in the csr_ops
+which can be checked in csrrw function before invoking the predicate function.
+To keep the code churn to minimum, it is assumed that the minimum version of
+the privilege version supported for any CSR is v1.10 unless specified
+explicitly in the csr_ops table. Any new CSRs introduced in v1.12 have been
+updated accordingly.
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 7fab2e7cd8..06a74d4224 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -445,12 +445,18 @@
- # @queues: number of queues to be created for multiqueue vhost-vdpa
- #          (default: 1)
- #
-+# @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.0)
-+#
-+# Features:
-+# @unstable: Member @x-svq could change in future revisions.
-+#
- # Since: 5.1
- ##
- { 'struct': 'NetdevVhostVDPAOptions',
-   'data': {
-     '*vhostdev':     'str',
--    '*queues':       'int' } }
-+    '*queues':       'int',
-+    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
- 
- ##
- # @NetClientDriver:
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 1e9fe47c03..def738998b 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -127,7 +127,11 @@ err_init:
- static void vhost_vdpa_cleanup(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    struct vhost_dev *dev = s->vhost_vdpa.dev;
- 
-+    if (dev && dev->vq_index + dev->nvqs == dev->vq_index_end) {
-+        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
-+    }
-     if (s->vhost_net) {
-         vhost_net_cleanup(s->vhost_net);
-         g_free(s->vhost_net);
-@@ -187,13 +191,23 @@ static NetClientInfo net_vhost_vdpa_info = {
-         .check_peer_type = vhost_vdpa_check_peer_type,
- };
- 
-+static int vhost_vdpa_get_iova_range(int fd,
-+                                     struct vhost_vdpa_iova_range *iova_range)
-+{
-+    int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
-+
-+    return ret < 0 ? -errno : 0;
-+}
-+
- static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
--                                           const char *device,
--                                           const char *name,
--                                           int vdpa_device_fd,
--                                           int queue_pair_index,
--                                           int nvqs,
--                                           bool is_datapath)
-+                                       const char *device,
-+                                       const char *name,
-+                                       int vdpa_device_fd,
-+                                       int queue_pair_index,
-+                                       int nvqs,
-+                                       bool is_datapath,
-+                                       bool svq,
-+                                       VhostIOVATree *iova_tree)
- {
-     NetClientState *nc = NULL;
-     VhostVDPAState *s;
-@@ -211,6 +225,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-     s->vhost_vdpa.index = queue_pair_index;
-+    s->vhost_vdpa.shadow_vqs_enabled = svq;
-+    s->vhost_vdpa.iova_tree = iova_tree;
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-     if (ret) {
-         qemu_del_net_client(nc);
-@@ -266,6 +282,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     g_autofree NetClientState **ncs = NULL;
-     NetClientState *nc;
-     int queue_pairs, i, has_cvq = 0;
-+    g_autoptr(VhostIOVATree) iova_tree = NULL;
- 
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-@@ -285,29 +302,44 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         qemu_close(vdpa_device_fd);
-         return queue_pairs;
-     }
-+    if (opts->x_svq) {
-+        struct vhost_vdpa_iova_range iova_range;
-+
-+        if (has_cvq) {
-+            error_setg(errp, "vdpa svq does not work with cvq");
-+            goto err_svq;
-+        }
-+        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-+        iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
-+    }
- 
-     ncs = g_malloc0(sizeof(*ncs) * queue_pairs);
- 
-     for (i = 0; i < queue_pairs; i++) {
-         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                     vdpa_device_fd, i, 2, true);
-+                                     vdpa_device_fd, i, 2, true, opts->x_svq,
-+                                     iova_tree);
-         if (!ncs[i])
-             goto err;
-     }
- 
-     if (has_cvq) {
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                 vdpa_device_fd, i, 1, false);
-+                                 vdpa_device_fd, i, 1, false, opts->x_svq,
-+                                 iova_tree);
-         if (!nc)
-             goto err;
-     }
- 
-+    iova_tree = NULL;
-     return 0;
- 
- err:
-     if (i) {
-         qemu_del_net_client(ncs[0]);
-     }
-+
-+err_svq:
-     qemu_close(vdpa_device_fd);
- 
-     return -1;
--- 
-2.27.0
+This will work fine for any ratified extensions. However, it is bit unclear
+what should be done for the stable draft extensions. My suggestion is not
+to update the priv field in the CSR ops table until the extension is
+marked experimental (i.e. not frozen/ratified). Once the extension is
+ratified and graduated from experimental to available stage, the privileged
+spec version should be updated in the csr table if required. I am open to
+other suggestions as well.
+
+[1] https://wiki.riscv.org/display/TECH/Recently+Ratified+Extensions
+
+Changes from v4->v5:
+1. Rebased on top of riscv-to-apply.next
+
+Changes from v3->v4:
+1. Added reviewed-by tags.
+2. Improved the commit text in PATCH 3 & 6.
+
+Changes from v2->v3:
+1. Only update the bits defined in *envcfg CSR
+
+Changes from v1->v2:
+1. Unified both [m/h]envcfg & [m/h]envcfgh into one.
+2. Changed the priv spec version enumeration
+3. Improved csr_ops table to provide better redability.
+4. Fixed the compilation error for CONFIG_USER_ONLY
+5. Rebased on top of the AIA series.
+
+Atish Patra (6):
+target/riscv: Define simpler privileged spec version numbering
+target/riscv: Add the privileged spec version 1.12.0
+target/riscv: Introduce privilege version field in the CSR ops.
+target/riscv: Add support for mconfigptr
+target/riscv: Add *envcfg* CSRs support
+target/riscv: Enable privileged spec version 1.12
+
+target/riscv/cpu.c      |   8 +-
+target/riscv/cpu.h      |  15 ++-
+target/riscv/cpu_bits.h |  40 ++++++++
+target/riscv/csr.c      | 217 +++++++++++++++++++++++++++++++++-------
+target/riscv/machine.c  |  23 +++++
+5 files changed, 263 insertions(+), 40 deletions(-)
+
+--
+2.30.2
 
 
