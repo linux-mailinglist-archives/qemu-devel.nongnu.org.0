@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF6E4CC350
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:58:17 +0100 (CET)
-Received: from localhost ([::1]:51100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED724CC351
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:58:23 +0100 (CET)
+Received: from localhost ([::1]:51456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPomO-0005Ro-5m
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:58:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46214)
+	id 1nPomU-0005g9-OA
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:58:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPokQ-0003pS-IX
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:56:20 -0500
-Received: from [2607:f8b0:4864:20::b2f] (port=38660
- helo=mail-yb1-xb2f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPokL-0002j7-Du
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:56:12 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id u3so11489458ybh.5
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 08:56:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=htFJKZz7CQkcj59ILy4ODBABd2qfwGydyOiYLaDiqC4=;
- b=gaLo8WifYZUB8YgXUn4uxjK+BHw0C0YK587ejrXxSD/14C5oxyP37tO9LS+mVL65bK
- 5pbP+tnw+C6CmNrtbfN1qv6rdGgvzRTYbQ+w9OqIn4VA1U17g3ivo3CaYicMPPG85gxh
- YgnwIzvLve+VAhWefErm+FH4EMNdW6dHsaXfwGTLoSlHJMx/RJqtk/oFMVLOYsSr9nRm
- 2iVuMPMzIPpJyfA6rsjyZ6Ane00LjfbR016QyFfyNMJvYX/nQGyDUeMdnnkYTItqDQov
- r5VD9NsSPPRAFlqgolU+Re0N/xtAmuV2cg8PALMNpJRrs37lvxDAxLwRhimmQx8TEui/
- J4SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=htFJKZz7CQkcj59ILy4ODBABd2qfwGydyOiYLaDiqC4=;
- b=QkBgGpRKzyUG1pBTnVJia145rTNkEhL73aI9U2qQXZnXZr/cxC+4wShyCnCe7tqVid
- US29xeOPzaaM4zSgA2PfP+i+80O1csGifVzfQEGFgSpFNK+Bvio+T8VF47VyeyYYSIkU
- pbxXeKJr/VXXtnxITXn8ogr7tUtsMFHyOt7mldfGJFyZZsNXBSrssOBPCaJIF/gnyF2/
- R0NFPmjzWxl9RfEBTPBiw5UGYQIT3ByYUnh/ZQH7AL2hDeAxaTJWSGTotxMDAFSt3noc
- TkIxL8VxdZv2qvwuxOSWTr81xev1GxcPwpwbzegPx19olgYohjpIU/eKG8jMkJIiv6Ox
- ErpQ==
-X-Gm-Message-State: AOAM5332q5DOu+RPBdxEZW9BstOGtvZdctPLqPj5lPBrWRXlZxlo+uqN
- AE6EESzlLQ6/OEI9Kqs1P8wPxuBeH3F8oPB89MfndQ==
-X-Google-Smtp-Source: ABdhPJwQajJLwgSnvBZxwXTQc8jx5kavkgOyvE4YSav9mGUxaIUsnm5//a/C3ondky7C43xonxVepxoh1fV/7IsGyLo=
-X-Received: by 2002:a25:dad5:0:b0:628:7b94:c196 with SMTP id
- n204-20020a25dad5000000b006287b94c196mr13174504ybf.85.1646326567845; Thu, 03
- Mar 2022 08:56:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nPoky-00046O-Q1
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:56:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39606)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nPoku-0002oP-EC
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:56:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646326602;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nQJyUVVWB+vgL3E8ds05Bxt2Udu0h8vTN0U7tV5/IoA=;
+ b=TGmIJpZB+ap22Gvolg6eF+F5J0fTkgYfIZrNW6BWpx3oQ9jcS3mJg+wjOfdsmuj10qSKXY
+ kZIh5f/HmB8L/87iktywolpBljdU9pVKAw7lYE8PjO9BoOW/wbTZp573vBuQ+A3cGn9DCh
+ 0Iga9C21fVpIw1eK5RtX/QG3sH7dnGo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-631-2jZmoxSuNUy1zTLRBfozdg-1; Thu, 03 Mar 2022 11:56:41 -0500
+X-MC-Unique: 2jZmoxSuNUy1zTLRBfozdg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA2F01091DA0;
+ Thu,  3 Mar 2022 16:56:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F53980000;
+ Thu,  3 Mar 2022 16:56:28 +0000 (UTC)
+Date: Thu, 3 Mar 2022 17:56:26 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2 1/3] block: Make bdrv_refresh_limits() non-recursive
+Message-ID: <YiDzOnUmNYy9sABR@redhat.com>
+References: <20220216105355.30729-1-hreitz@redhat.com>
+ <20220216105355.30729-2-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20220226180723.1706285-1-peter.maydell@linaro.org>
- <20220226180723.1706285-5-peter.maydell@linaro.org>
- <71304530-f1d7-13a9-c80e-f41a68a344c8@linaro.org>
- <CAFEAcA8J+pYScRp3KJAb0iLuS65nYVDYkiWPARAT5Ot9299VqA@mail.gmail.com>
- <91cc02c4-8ea5-23e7-7384-6c6b2c8e12b5@linaro.org>
-In-Reply-To: <91cc02c4-8ea5-23e7-7384-6c6b2c8e12b5@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Mar 2022 16:55:56 +0000
-Message-ID: <CAFEAcA9mO0rEuhj4rxerDF7qiePjWo0tUs5PBUF-zqgxqsdm3A@mail.gmail.com>
-Subject: Re: [PATCH 4/9] util/oslib-win32: Return NULL on qemu_try_memalign()
- with zero size
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220216105355.30729-2-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,51 +78,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 27 Feb 2022 at 18:36, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/27/22 02:54, Peter Maydell wrote:
-> >>> +    if (size) {
-> >>> +        ptr = _aligned_malloc(size, alignment);
-> >>> +    } else {
-> >>> +        ptr = NULL;
-> >>> +    }
-> >>
-> >> Oh, should we set errno to something here?
-> >> Otherwise a random value will be used by qemu_memalign.
-> >
-> > Yeah, I guess so, though the errno to use isn't obvious. Maybe EINVAL?
-> >
-> > The alternative would be to try to audit all the callsites to
-> > confirm they don't ever try to allocate 0 bytes and then have
-> > the assert for both Windows and POSIX versions...
->
-> Alternately, force size == 1, so that we always get a non-NULL value that can be freed.
-> That's a change on the POSIX side as well, of course.
+Am 16.02.2022 um 11:53 hat Hanna Reitz geschrieben:
+> bdrv_refresh_limits() recurses down to the node's children.  That does
+> not seem necessary: When we refresh limits on some node, and then
+> recurse down and were to change one of its children's BlockLimits, then
+> that would mean we noticed the changed limits by pure chance.  The fact
+> that we refresh the parent's limits has nothing to do with it, so the
+> reason for the change probably happened before this point in time, and
+> we should have refreshed the limits then.
+> 
+> On the other hand, we do not have infrastructure for noticing that block
+> limits change after they have been initialized for the first time (this
+> would require propagating the change upwards to the respective node's
+> parents), and so evidently we consider this case impossible.
 
-Yes, I had a look at what actual malloc() implementations tend
-to do, and the answer seems to be that forcing size to 1 gives
-less weird behaviour for the application. So here that would be
+I like your optimistic approach, but my interpretation would have been
+that this is simply a bug. ;-)
 
-   if (size == 0) {
-       size++;
-   }
-   ptr = _aligned_malloc(size, alignment);
+blockdev-reopen allows changing options that affect the block limits
+(most importantly probably request_alignment), so this should be
+propagated to the parents. I think we'll actually not see failures if we
+forget to do this, but parents can either advertise excessive alignment
+requirements or they may run into RMW when accessing the child, so this
+would only affect performance. This is probably why nobody reported it
+yet.
 
-We don't need to do anything on the POSIX side (unless we want to
-enforce consistency of handling the size==0 case).
+> If this case is impossible, then we will not need to recurse down in
+> bdrv_refresh_limits().  Every node's limits are initialized in
+> bdrv_open_driver(), and are refreshed whenever its children change.
+> We want to use the childrens' limits to get some initial default, but
+> we can just take them, we do not need to refresh them.
 
-I'd quite like to get this series in before softfreeze (though mostly
-just for my personal convenience so it's not hanging around as a
-loose end I have to come back to after we reopen for 7.1). Does anybody
-object if I squash in that change and put this in a pullrequest,
-or would you prefer to see a v2 series first?
+I think even if we need to propagate to the parents, we still don't need
+to propagate to the children because the children have already been
+refreshed by whatever changed their options (like bdrv_reopen_commit()).
+And parent limits don't influence the child limits at all.
 
-thanks
--- PMM
+So this patch looks good to me, just not the reasoning.
+
+Kevin
+
+> The problem with recursing is that bdrv_refresh_limits() is not atomic.
+> It begins with zeroing BDS.bl, and only then sets proper, valid limits.
+> If we do not drain all nodes whose limits are refreshed, then concurrent
+> I/O requests can encounter invalid request_alignment values and crash
+> qemu.  Therefore, a recursing bdrv_refresh_limits() requires the whole
+> subtree to be drained, which is currently not ensured by most callers.
+> 
+> A non-recursive bdrv_refresh_limits() only requires the node in question
+> to not receive I/O requests, and this is done by most callers in some
+> way or another:
+> - bdrv_open_driver() deals with a new node with no parents yet
+> - bdrv_set_file_or_backing_noperm() acts on a drained node
+> - bdrv_reopen_commit() acts only on drained nodes
+> - bdrv_append() should in theory require the node to be drained; in
+>   practice most callers just lock the AioContext, which should at least
+>   be enough to prevent concurrent I/O requests from accessing invalid
+>   limits
+> 
+> So we can resolve the bug by making bdrv_refresh_limits() non-recursive.
+> 
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1879437
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block/io.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/block/io.c b/block/io.c
+> index 4e4cb556c5..c3e7301613 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -189,10 +189,6 @@ void bdrv_refresh_limits(BlockDriverState *bs, Transaction *tran, Error **errp)
+>      QLIST_FOREACH(c, &bs->children, next) {
+>          if (c->role & (BDRV_CHILD_DATA | BDRV_CHILD_FILTERED | BDRV_CHILD_COW))
+>          {
+> -            bdrv_refresh_limits(c->bs, tran, errp);
+> -            if (*errp) {
+> -                return;
+> -            }
+>              bdrv_merge_limits(&bs->bl, &c->bs->bl);
+>              have_limits = true;
+>          }
+> -- 
+> 2.34.1
+> 
+
 
