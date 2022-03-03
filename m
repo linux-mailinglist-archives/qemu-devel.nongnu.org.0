@@ -2,89 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E3B4CB9BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 10:01:34 +0100 (CET)
-Received: from localhost ([::1]:35592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9BF4CB9CF
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 10:06:33 +0100 (CET)
+Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPhL3-0005NZ-7F
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 04:01:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53066)
+	id 1nPhPr-0007S2-Gp
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 04:06:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPhIT-0004YX-Fu
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 03:58:53 -0500
-Received: from [2607:f8b0:4864:20::62b] (port=34729
- helo=mail-pl1-x62b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPhIR-0008KR-DE
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 03:58:52 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id ay5so3962662plb.1
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 00:58:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=nEPs3Hqfq7junAOtEc51p15nHStl9ZSZwFFVc7zkQl4=;
- b=aBJQunRiZBFGtubF7jEyL3g9nLTLB0i4Wwcqm6e7T5ML/Y9dk7rzBfzbK8MEu05C6K
- CNEM8RKss3lU6t8nIHf76qS2Pwpy87e+7VDfB+DB0g6XAoolC815+LddQOXphoTWyJ47
- bPW6anJVF/9AK7GLnfkA2PN7qs2aGvWDUWvGuPlb6f3HCYiOEJ+qf6L/2RVtE0RmtnL8
- wJWtjPJXTGy1g6viluNkqxJpDYob9ougKgL5SOtyQ3EbHaJx8naVkVXR/3AAIy5ylHVw
- FyX6ZKWe327H8glJxUKfdqCBM9ni29hAj7eScne9l3LWQ5aDclDscNNVzCof6ywc5Dtj
- dxiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=nEPs3Hqfq7junAOtEc51p15nHStl9ZSZwFFVc7zkQl4=;
- b=0Gx427EhiCIA4u9ezPhBfSImGo8cNsf5iUefSngq4fPYc4HWK72mkszYsNT574VsA1
- 9+ctsn2zUbpG1jNlONl7tWcv7kUHSymcJB9wnqbZC4pySi4PqHKtb1LbW+ugx7zMjrqD
- lSEMndIITcq09Gv/JufyUE+7eiNLNmzfQRV05Y3rW+BGC7EgQicrGyo8Kmxw+RqJSz+1
- kVu5WeMqkprcBmOmkkuYQidbCEgLTQUf/paIRS2FEmxCbEuLPS0vZY+8gLkIR4IqsJcl
- qOIv+4mH4fdqSJ79pm3BIocrLnD3HEw2QMdHjuZZzm6DxxOgdA4mzX1a+ZFDfaJmtrgm
- hj/A==
-X-Gm-Message-State: AOAM532Oznx2J+1FMEZHvpEfIis2z5jOlOVCR0gllS6Ktg0kMQPy00lK
- kWWeUpqal4aclbkXZS1OqcvOhA==
-X-Google-Smtp-Source: ABdhPJwGu3dGDaviP5sm7Xx8lrJLtaU4S5px+1iTQrDhlhZF9kr21lRBFl6xDnEALlFo83TggV5XFw==
-X-Received: by 2002:a17:902:d88a:b0:151:61c0:ea27 with SMTP id
- b10-20020a170902d88a00b0015161c0ea27mr21409583plz.107.1646297929681; 
- Thu, 03 Mar 2022 00:58:49 -0800 (PST)
-Received: from ?IPV6:2603:800c:1201:c600:e819:4400:f268:c391?
- (2603-800c-1201-c600-e819-4400-f268-c391.res6.spectrum.com.
- [2603:800c:1201:c600:e819:4400:f268:c391])
- by smtp.gmail.com with ESMTPSA id
- d21-20020a056a00199500b004f3c48332basm1733272pfl.159.2022.03.03.00.58.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 00:58:49 -0800 (PST)
-Message-ID: <9ad00abf-4380-4efc-4012-aee5a36ff6e6@linaro.org>
-Date: Wed, 2 Mar 2022 22:58:45 -1000
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nPhKF-0005gP-2w
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 04:00:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48408)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nPhKB-0002mn-A4
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 04:00:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646298037;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Wi61Gn0vgJuzdcSZOIa37Lh2ix0HhsrPrgy42I8x5rk=;
+ b=L88YO8dH4aCp7YYxF0FTbX1entWFOafjSiWrz2GON79V2CovJ3b8FmH7LVz2uCaxoJq3VW
+ gNTVZ8G6DkcZ646xFzYvoAnbB1j4SFR/rBFvZDI1VhrFZrePV9rtM/eCFRCiajzDyN78m1
+ ofX33ZR/7Aazxg0/oVyqs+X+xsf7TAg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-44-GlSDWKH-NKSublcRglp5Og-1; Thu, 03 Mar 2022 04:00:32 -0500
+X-MC-Unique: GlSDWKH-NKSublcRglp5Og-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6785A801DDB;
+ Thu,  3 Mar 2022 09:00:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA796105958D;
+ Thu,  3 Mar 2022 08:59:55 +0000 (UTC)
+Date: Thu, 3 Mar 2022 08:59:52 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH] deprecation: x86 default machine types
+Message-ID: <YiCDiKqxyE+dXNUz@redhat.com>
+References: <20220301195432.114252-1-dgilbert@redhat.com>
+ <Yh+sbYC5n4DsZWWg@redhat.com> <Yh/HzPymVWPZpVaf@work-vm>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 1/2] s390x/tcg: Implement Vector-Enhancements Facility
- 2 for s390x
-Content-Language: en-US
-To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220303032219.17631-1-dmiller423@gmail.com>
- <20220303032219.17631-2-dmiller423@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220303032219.17631-2-dmiller423@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <Yh/HzPymVWPZpVaf@work-vm>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,142 +84,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, farman@linux.ibm.com,
- pasic@linux.ibm.com, borntraeger@linux.ibm.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: eduardo@habkost.net, libvir-list@redhat.com, thuth@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/2/22 17:22, David Miller wrote:
-> resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
+On Wed, Mar 02, 2022 at 07:38:52PM +0000, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > On Tue, Mar 01, 2022 at 07:54:32PM +0000, Dr. David Alan Gilbert (git) wrote:
+> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > > 
+> > > Declare the intent to require a machine type to be specified on x86
+> > > system emulation.
+> > > 
+> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > ---
+> > >  docs/about/deprecated.rst | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > > 
+> > > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> > > index 85773db631..143c60d105 100644
+> > > --- a/docs/about/deprecated.rst
+> > > +++ b/docs/about/deprecated.rst
+> > > @@ -324,6 +324,14 @@ machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
+> > >  been implemented), so there is not much value added by this board. Use the
+> > >  ``ref405ep`` machine instead.
+> > >  
+> > > +x86 default machine type
+> > > +''''''''''''''''''''''''
+> > > +
+> > > +x86 currently defaults to the ```pc``` machine type which is based on the very
+> > > +old ```i440fx``` chipset.  This default will be removed and the user will be
+> > > +required to specify a machine type explicitly using -M; users are encouraged to
+> > > +switch to the not quite as old ```q35``` machine types.
+> > 
+> > This will have no impact on anyone using libvirt as a mgmt app,
+> > because it will explicitly set 'pc' if the user doesn't request
+> > a machine type.
+> > 
+> > It will, however, break a huge number of users who don't use
+> > libvirt or a similar mgmt app.
+> > 
+> > 'q35' is not a drop in replacement for 'pc', and even though
+> > it is slightly newer, the features it brings are not likely
+> > to be important enough for most users who aren't using a mgmt
+> > app to care about switching.
 > 
-> implements:
-> VECTOR LOAD ELEMENTS REVERSED               (VLER)
-> VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
-> VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
-> VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
-> VECTOR LOAD BYTE REVERSED ELEMENT AND REPLOCATE (VLBRREP)
-> VECTOR STORE ELEMENTS REVERSED              (VSTER)
-> VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
-> VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
-> VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
-> VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
-> VECTOR STRING SEARCH                        (VSTRS)
+> I can see it having advantages for those who do things like PCIe pass
+> through of graphics cards.
+> However, my main concern is that there's a split happening where
+> downstream we're working primarily on q35 but a lot of people still use
+> i440fx; eventually that split will mean the i440fx users will have a
+> pretty bad experience instability/features.
+> So I'd like to encourage them onto a35.
+
+We've still got quite significant testing coverage of i440fx and outside
+of PCI-Express much logic is shared with q35. Right now at least i440fx
+feels mature and stable, while q35 is still showing significant
+instability with PCI-Express and hotplug in particular. I'd hoppe at
+least the combination of maturity of our plain PCI code and testing
+coverage would address risk of significant regressions in i440fx even
+when attention is on q35. 
+
+> > In the ongoing work to introduce a completely new system
+> > emulator binary that is exclusively runtime QMP configured,
+> > the machine type will almost certainly be mandatory, without
+> > affecting existing users. That would also apply consistently
+> > across all target arches.
 > 
-> modifies:
-> VECTOR FP CONVERT FROM FIXED                (VCFPS)
-> VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
-> VECTOR FP CONVERT TO FIXED                  (VCSFP)
-> VECTOR FP CONVERT TO LOGICAL                (VCLFP)
-> VECTOR SHIFT LEFT                           (VSL)
-> VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
-> VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
-> 
-> Signed-off-by: David Miller <dmiller423@gmail.com>
+> I'm assuming that will also cause the disruption to those end users.
 
-Too many changes in one patch.
-You need to split these into smaller, logical units.
+The difference is that people would opt-in to usage of the new system
+binaries. So existing users, scripts and documentation won't be impacted
+unless they decide to switch - at least as long as we keep the old
+system emulators around. If did eventually decide to remove the old
+binaries, then there would be disruption but that's more of a clean
+break with the past.
 
-> +/* VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO */
-> +    F(0xe604, VLLEBRZ, VRX,   VE2, la2, 0, 0, 0, vllebrz, 0, IF_VEC)
-> +/* VECTOR LOAD BYTE REVERSED ELEMENTS */
-> +	F(0xe606, VLBR,    VRX,   VE2, la2, 0, 0, 0, vlbr, 0, IF_VEC)
-> +/* VECTOR LOAD ELEMENTS REVERSED */
-> +	F(0xe607, VLER,    VRX,   VE2, la2, 0, 0, 0, vler, 0, IF_VEC)
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Tabs, and more later.
-
-> @@ -457,6 +457,9 @@ static DisasJumpType op_vlrep(DisasContext *s, DisasOps *o)
->       return DISAS_NEXT;
->   }
->   
-> +
-> +
-> +
->   static DisasJumpType op_vle(DisasContext *s, DisasOps *o)
-
-Do not add pointless whitespace.
-
-> +static DisasJumpType op_vlebr(DisasContext *s, DisasOps *o)
-> +{
-> +    const uint8_t es = (1 == s->fields.op2) ? 1 : (1 ^ s->fields.op2);
-> +    const uint8_t enr = get_field(s, m3);
-> +    TCGv_i64 tmp;
-> +
-> +    if (es < ES_16 || es > ES_64 || !valid_vec_element(enr, es)) {
-> +        gen_program_exception(s, PGM_SPECIFICATION);
-> +        return DISAS_NORETURN;
-> +    }
-> +
-> +    tmp = tcg_temp_new_i64();
-> +    tcg_gen_qemu_ld_i64(tmp, o->addr1, get_mem_index(s), MO_TE | es);
-
-Just use a little-endian load: MO_LE | es.
-While we use MO_TE all over, it's no secret that it's always big-endian.
-
-And everywhere else you do load then swap, or swap then store.
-
-> +}
-> +
-> +
-> +
-> +static DisasJumpType op_vsteb(DisasContext *s, DisasOps *o)
-
-More care with spacing.
-
-> +static inline void s390_vec_reverse(S390Vector *vdst,
-> +                                    S390Vector *vsrc, uint8_t es)
-> +{
-> +    const uint8_t elems = 1 << (4 - es);
-> +    uint32_t enr;
-> +
-> +    for (enr = 0; enr < elems; enr++) {
-> +        switch (es) {
-> +        case MO_8:
-> +            s390_vec_write_element8(vdst, enr,
-> +                           s390_vec_read_element8(vsrc, 15 ^ enr));
-> +            break;
-> +        case MO_16:
-> +            s390_vec_write_element16(vdst, enr,
-> +                           s390_vec_read_element16(vsrc, 7 ^ enr));
-> +            break;
-> +        case MO_32:
-> +            s390_vec_write_element32(vdst, enr,
-> +                           s390_vec_read_element32(vsrc, 3 ^ enr));
-> +            break;
-> +        case MO_64:
-> +            s390_vec_write_element64(vdst, enr,
-> +                           s390_vec_read_element64(vsrc, 1 ^ enr));
-> +            break;
-> +        default:
-> +            g_assert_not_reached();
-> +        }
-> +    }
-> +}
-
-This seems likely to go wrong for vdst == vsrc.
-In addition, swapping the order of elements is something that can be done in parallel.
-
-     l = src[lo], h = src[hi];
-     switch (es) {
-     case MO_64:
-         dst[hi] = l, dst[lo] = h;
-         break;
-     case MO_8:
-         dst[hi] = bswap64(l);
-         dst[lo] = bswap64(h);
-         break;
-     case MO_16:
-         dst[hi] = hswap64(l);
-         dst[lo] = hswap64(h);
-         break;
-     case MO_32:
-         dst[hi] = wswap64(l);
-         dst[hi] = wswap64(h);
-         break;
-     }
-
-which, really, can all be generated inline.
-
-
-r~
 
