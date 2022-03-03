@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51BB64CC01C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:38:28 +0100 (CET)
-Received: from localhost ([::1]:50288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993784CC024
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:39:26 +0100 (CET)
+Received: from localhost ([::1]:53232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPmb4-0003dP-Tv
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:38:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32856)
+	id 1nPmc1-0005nk-OD
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:39:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nPmYL-0001zF-LP
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:35:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23216)
+ id 1nPmZf-0002x7-G4
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:36:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nPmYH-0002q4-7H
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:35:35 -0500
+ id 1nPmZc-0003BC-US
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:36:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646318130;
+ s=mimecast20190719; t=1646318216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fbMp/osdXrbtmQKZQG+gFlfsChHZaiPWRw8JRmKvmBY=;
- b=cr+8KpWo18lD04kSKEPxs0bKPGmc5cSyRx55DMgTN1RrbB3SBW7e45S+QuQ3ySRIiVEXVQ
- R569eASaI/1WxNaIjuKuQlvhXuB04SbQKsh/V/sh3nulNU7aBo7CrBOxAqOrhjhccCuHY+
- R3/3DnuRaMeeRfvVz/ZTIR20jLDdHnE=
+ bh=AnN3CL0Yr+2KSSK8B7tjt5KtSlE+6Zqm6PpSEreuDss=;
+ b=VN1vWD8aRqqHxEmzqP+DAfuaUN7c9klG9Fk2Hhb6AH0lHv5nAFsPGhpEHe70kacwitOYkU
+ l2Ua9RW6Gb9N43Y2pq+yt0Gw41oZLj95Wf0FBch3mrubcXd+nrun7h+YuHO1uPSW2R+DDB
+ VOVU5zZeaXe9q77IJvsZZ4uCg7Qsq3I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-341-yUGR4HvmN3egBnDEWX34gg-1; Thu, 03 Mar 2022 09:35:27 -0500
-X-MC-Unique: yUGR4HvmN3egBnDEWX34gg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-589-vboblWWDMB6H-XSC-7AU3Q-1; Thu, 03 Mar 2022 09:36:53 -0500
+X-MC-Unique: vboblWWDMB6H-XSC-7AU3Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 393FF835DE0;
- Thu,  3 Mar 2022 14:35:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56AFA1006AA5;
+ Thu,  3 Mar 2022 14:36:51 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D22DB7C023;
- Thu,  3 Mar 2022 14:34:39 +0000 (UTC)
-Date: Thu, 3 Mar 2022 14:34:34 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2D5084974;
+ Thu,  3 Mar 2022 14:35:46 +0000 (UTC)
+Date: Thu, 3 Mar 2022 14:35:09 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH v3 4/4] docs: vhost-user: add subsection for non-Linux
- platforms
-Message-ID: <YiDR+u76HLeaOTi5@stefanha-x1.localdomain>
+Subject: Re: [PATCH v3 0/4] Enable vhost-user to be used on BSD systems
+Message-ID: <YiDSHaJlGQSYBNbs@stefanha-x1.localdomain>
 References: <20220303115911.20962-1-slp@redhat.com>
- <20220303115911.20962-5-slp@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xlV0CQk1kqL67PjT"
+ protocol="application/pgp-signature"; boundary="BJA7GgC+FrdGbkM/"
 Content-Disposition: inline
-In-Reply-To: <20220303115911.20962-5-slp@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20220303115911.20962-1-slp@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -65,7 +63,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,83 +94,75 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---xlV0CQk1kqL67PjT
+--BJA7GgC+FrdGbkM/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 03, 2022 at 12:59:11PM +0100, Sergio Lopez wrote:
-> Add a section explaining how vhost-user is supported on platforms
-> other than Linux.
+On Thu, Mar 03, 2022 at 12:59:07PM +0100, Sergio Lopez wrote:
+> Since QEMU is already able to emulate ioeventfd using pipefd, we're alrea=
+dy
+> pretty close to supporting vhost-user on non-Linux systems.
 >=20
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
->  docs/interop/vhost-user.rst | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+> This two patches bridge the gap by:
 >=20
-> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-> index edc3ad84a3..590a626b92 100644
-> --- a/docs/interop/vhost-user.rst
-> +++ b/docs/interop/vhost-user.rst
-> @@ -38,6 +38,24 @@ conventions <backend_conventions>`.
->  *Master* and *slave* can be either a client (i.e. connecting) or
->  server (listening) in the socket communication.
-> =20
-> +Support for platforms other than Linux
-> +--------------------------------------
-> +
-> +While vhost-user was initially developed targeting Linux, nowadays is
+> 1. Adding a new event_notifier_get_wfd() to return wfd on the places where
+>    the peer is expected to write to the notifier.
+>=20
+> 2. Modifying the build system to it allows enabling vhost-user on BSD.
+>=20
+> v1->v2:
+>   - Drop: "Allow returning EventNotifier's wfd" (Alex Williamson)
+>   - Add: "event_notifier: add event_notifier_get_wfd()" (Alex Williamson)
+>   - Add: "vhost: use wfd on functions setting vring call fd"
+>   - Rename: "Allow building vhost-user in BSD" to "configure, meson: allow
+>     enabling vhost-user on all POSIX systems"
+>   - Instead of making possible enabling vhost-user on Linux and BSD syste=
+ms,
+>     allow enabling it on all non-Windows platforms. (Paolo Bonzini)
+>=20
+> v2->v3:
+>   - Add a section to docs/interop/vhost-user.rst explaining how vhost-user
+>     is supported on non-Linux platforms. (Stefan Hajnoczi)
+>=20
+> Sergio Lopez (4):
+>   event_notifier: add event_notifier_get_wfd()
+>   vhost: use wfd on functions setting vring call fd
+>   configure, meson: allow enabling vhost-user on all POSIX systems
+>   docs: vhost-user: add subsection for non-Linux platforms
+>=20
+>  configure                     |  4 ++--
+>  docs/interop/vhost-user.rst   | 18 ++++++++++++++++++
+>  hw/virtio/vhost.c             |  6 +++---
+>  include/qemu/event_notifier.h |  1 +
+>  meson.build                   |  2 +-
+>  util/event_notifier-posix.c   |  5 +++++
+>  6 files changed, 30 insertions(+), 6 deletions(-)
+>=20
+> --=20
+> 2.35.1
+>=20
+>=20
 
-s/is/it is/
+I posted comments on the vhost-user.rst patch. Otherwise:
 
-> +supported on any platform that provides the following features:
-> +
-> +- The ability to share a mapping injected into the guest between
-> +  multiple processes, so both QEMU and the vhost-user daemon servicing
-> +  the device can access simultaneously the memory regions containing
-> +  the virtqueues and the data associated with each request.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Please generalize this statement since there are other vhost-user
-protocol features aside from guest RAM access that involve shared
-memory:
-1. VHOST_USER_SET_LOG_BASE
-2. VHOST_USER_SET_INFLIGHT_FD
-
-The exact requirement is:
-
-  The vhost-user protocol relies on shared memory represented by a file
-  descriptor so it can be passed over a UNIX domain socket and then
-  mapped by the other process.
-
-> +
-> +- AF_UNIX sockets with SCM_RIGHTS, so QEMU can communicate with the
-> +  vhost-user daemon and send it file descriptors when needed.
-> +
-> +- Either eventfd or pipe/pipe2. On platforms where eventfd is not
-> +  available, QEMU will automatically fallback to pipe2 or, as a last
-
-The noun is "fallback", the verb form is "fall back":
-s/fallback/fall back/
-
-It's worth mentioning that events are sent over pipe fds by writing an
-8-byte value. The 8-byte value has no meaning and should not be
-interpreted.
-
---xlV0CQk1kqL67PjT
+--BJA7GgC+FrdGbkM/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIg0foACgkQnKSrs4Gr
-c8iyIwf5AXwYmNsSKaWRTXuqaGB80K0YsAtK7xDq9CNFNPYCIw6ujWqc2lL5BOhU
-5LMnzPFM4SwFKXXQLjg49xg243nblZySvUY6IaV3Zo49m2DW7m83qmwt63+TmKdh
-ahvmzw5R+uvYLQ/7HA/Y117Lc2Avxedpj4lCWKMFzogCVU0DZzvQKoCdr/1Efa/3
-4ZMeJ6WQUhzqatQmIkhD63V6fpEIuxQ3mkJP0AGA4S3SPmUe4+Fiht9ulLtPV7ZX
-r1o0mgwtxho/Nm0KXuCKR9OyVd2eqlmM9IrxoR6UK7a6ALVKI7YMJ4gCW1UZzska
-z3CV3kUJQDKxuprkI8Ro7EOJi59HWA==
-=h/kO
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIg0h0ACgkQnKSrs4Gr
+c8g9/gf/Xsx0QMCqyJ/eiPBnY6EH9Gq4v8FXdQp1992zu2QADuLvlaIqnulGQqyO
+aBrDNSerETPYHr57PMQH5S9Mv0XYwSkd2AhfVp5Gd32/uDNNRNmMhrCtSFkL5i52
+j24OU9zdqT+LFQBLxdkyFdHQSIvjZsu+FHRsN9iE4geVC57WF9YEUvN/OeIyt0Og
+fbn9hSnyK1VqY+dR0RdX1f6DGS7P0AI8PQjoYVvWStbEOzvc2N1Hpa5yKmEmwVv9
+AmRgcY8Gi6QaGoNCOTGDJQqXftedeOI7notUZS9ISgz4OkXezn2yyauHgesQ/ljT
+QVcAi1DZgTw06wz/JE3fr7vpR8/zYA==
+=yrC1
 -----END PGP SIGNATURE-----
 
---xlV0CQk1kqL67PjT--
+--BJA7GgC+FrdGbkM/--
 
 
