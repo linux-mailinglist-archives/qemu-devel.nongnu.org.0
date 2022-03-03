@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F9C4CC56F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 19:50:47 +0100 (CET)
-Received: from localhost ([::1]:48942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EEB4CC576
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 19:52:06 +0100 (CET)
+Received: from localhost ([::1]:53124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPqXE-0006YY-Kd
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 13:50:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51982)
+	id 1nPqYV-00013V-QA
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 13:52:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPqSw-0004re-51
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:46:18 -0500
-Received: from [2607:f8b0:4864:20::636] (port=43779
- helo=mail-pl1-x636.google.com)
+ id 1nPqWc-0007TI-U4
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:50:07 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=55148
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPqSu-0001OV-Mp
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:46:17 -0500
-Received: by mail-pl1-x636.google.com with SMTP id e2so5447059pls.10
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:46:16 -0800 (PST)
+ id 1nPqWb-0007CV-2f
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:50:06 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id b8so5359355pjb.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:50:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=PpxuLShSycpXuZqouhGR0Lci22vquvB+6fcHnGmKvBI=;
- b=kWC5Gin8GS1OIvV01VGViyoIRY7MeGC/JDSakSOIp7MF7m2Nx1H7g3yQ1DmWnxo0OC
- +Bu3vL4PKpqpy1LEuB5JoUPVXghjlmOe8a/h1xqO+LtXk9cOFRT3ZImWPXRwPMlHFaAV
- 4EO8L8LY0uSJT/2cF1tQ+xecGQx79okWfevv35opwECMsZ7hUQTnpEW+wr29+qsXY5PJ
- gXGgVmDxl8Z5haLeeAXRVx/0v8JjIRR+oNnLCimPnOnKZXZHY0ZQPrahJJqXIGDWBBLS
- CrLvpS7Ie9fFHQnjSFYh4a6Ahg5BAINVXRmkG1IPx6k5FEnqqjQULDqrdQOOrUeB5JUV
- t3+A==
+ bh=pDBvUQqJYVkjfrW/2ssMUs0g2ExXG3q2qCfzpMeDVxs=;
+ b=ImnArsvmxTyPBz9PGEl/rXQF1Rma/Hv/fheumKbvLv1WqQPb9198uUol+kNG2FsIYM
+ ab913QxLEOVfQv4R7BB4kOF3BlwrBDXLEhioAQOVDZsoVRcK8WPMfV2J6SmHrX/NoSz0
+ na8JQ/+mT2lB7IougoNOos+VWyPnkK2mv3SRqQHwrJZXBuxLKJQ6z6H17qIAuxhn/jG5
+ lxDqBn8OtDmUznx74VbKMYoW9YgZmT45+6kOmY/ZHegH1QMfK2yi2AthHBdGCS19EJdr
+ a4A3zXrsiZVlrqiaqbMIF534D34cwBygP3abmEiN+MDTo903E4gwk+Rwa9EKhTyQVm74
+ Yq7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PpxuLShSycpXuZqouhGR0Lci22vquvB+6fcHnGmKvBI=;
- b=2IB7zXGlGIdiTbVOUlmjVLOyqPk4REcGW88EYL0qR1G1InEywSTajpq6C0r9p6iC1C
- RAph/wGjKA89kr+mwY05cgBYJMh1JlraSYfFd7x6cyHVjbFxi0VsA9C5hFjXrH1sh64C
- lEmJU5vjNIA1EhiY6fOPAH2SOxd6F0h1r/+Ymz4RSqgrp8/mNXyWSV1QGwdBgLPmjhi8
- mmNj+F5vQGyFOuI0I46EqB0tHmr3IftvK+m6xoIqa/60vSyXN2kBpOZB/AMxwZDKPwxk
- GJNW/FjLC0EEfIhFq9XZ1E0yjGY3ztrWliDsUPpndKDgZ6LnYm4V/CjUqxMtituJGNH4
- /pAA==
-X-Gm-Message-State: AOAM532MpVSVLSlklVEEMoJO4oSyMRq5oTOuA6ulIso7InM2+8Xxnrpi
- BWKUeAabJHvvPyl2Hbi+/10uFg==
-X-Google-Smtp-Source: ABdhPJzGfbLhjECsriTrIlxAS/c+YrEgcGysGoOpFvLj43ddzprY0VFLTlgYWWhtG+pU7yB1kr5EOw==
-X-Received: by 2002:a17:902:b589:b0:14f:3f88:15e2 with SMTP id
- a9-20020a170902b58900b0014f3f8815e2mr37077571pls.171.1646333175426; 
- Thu, 03 Mar 2022 10:46:15 -0800 (PST)
+ bh=pDBvUQqJYVkjfrW/2ssMUs0g2ExXG3q2qCfzpMeDVxs=;
+ b=VS5tA6pO+BSPuLQUbovP09UwUsbVCXkX88bKPVsimup24MKMhAfcwqfIxrLpf5q+Si
+ CKQumKyRwVV/depyVR2wS04mzjygdeN5OuiynA3aja3zqBFrx0wU9tbtoIN6UzFQSGel
+ ta9Qrla+h5KifXccnit7Pvprylg3yMIB4sXzpc0as/A5KhUg8RnQ9ttX1EtW3N/hQsz4
+ rgEdJ68WpTqU3BeUwOyPymEqSN4aiphDkgHk0+FDHN7DjQEXyMlvlTLYZmSDBoTkN2/C
+ t6EXaKOFAi+1FLFxyuodqkNNeq5U8iN6APThQHVxrnDQNnvoKQG61iW+XC4aVmHnc+Zr
+ HMwg==
+X-Gm-Message-State: AOAM5315uR6nI8EQh+coDIBgFakbnklbhaa6VfxZ7yBEVDanypNTziwU
+ JZ+XBEXRjnFHGzuFWKkb0RpNKQ==
+X-Google-Smtp-Source: ABdhPJx0m7y0+tTT0GKng9Zx8mEaj2AARDjtL7dpOzv1whAkwZT/oVqkSpPBlKBT7317ctgo5rhZ9w==
+X-Received: by 2002:a17:902:7b8d:b0:14f:1aca:d95e with SMTP id
+ w13-20020a1709027b8d00b0014f1acad95emr37279729pll.122.1646333401644; 
+ Thu, 03 Mar 2022 10:50:01 -0800 (PST)
 Received: from ?IPV6:2603:800c:1201:c600:e819:4400:f268:c391?
  (2603-800c-1201-c600-e819-4400-f268-c391.res6.spectrum.com.
  [2603:800c:1201:c600:e819:4400:f268:c391])
  by smtp.gmail.com with ESMTPSA id
- j11-20020a63230b000000b00372a08b584asm2581492pgj.47.2022.03.03.10.46.13
+ my6-20020a17090b4c8600b001bc2cb011dasm2754470pjb.4.2022.03.03.10.49.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 10:46:15 -0800 (PST)
-Message-ID: <90ef60a8-69b5-696c-eb58-d5ebc4c3f3f0@linaro.org>
-Date: Thu, 3 Mar 2022 08:46:11 -1000
+ Thu, 03 Mar 2022 10:50:01 -0800 (PST)
+Message-ID: <e65ce858-b6aa-e52e-c5e7-f6020b0b0b30@linaro.org>
+Date: Thu, 3 Mar 2022 08:49:57 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/5] tests/tcg/ppc64le: use inline asm instead of
- __builtin_mtfsf
+Subject: Re: [PATCH v2 2/5] target/ppc: change xs[n]madd[am]sp to use
+ float64r32_muladd
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220303172041.1915037-1-matheus.ferst@eldorado.org.br>
- <20220303172041.1915037-2-matheus.ferst@eldorado.org.br>
+ <20220303172041.1915037-3-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220303172041.1915037-2-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220303172041.1915037-3-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -103,17 +103,54 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/3/22 07:20, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > 
-> LLVM/Clang does not support __builtin_mtfsf.
+> Change VSX Scalar Multiply-Add/Subtract Type-A/M Single Precision
+> helpers to use float64r32_muladd. This method should correctly handle
+> all rounding modes, so the workaround for float_round_nearest_even can
+> be dropped.
 > 
-> Acked-by: Alex Bennée<alex.bennee@linaro.org>
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > ---
->   tests/tcg/ppc64le/mtfsf.c | 19 +++++++++----------
->   1 file changed, 9 insertions(+), 10 deletions(-)
+>   target/ppc/fpu_helper.c | 93 ++++++++++++++++-------------------------
+>   1 file changed, 35 insertions(+), 58 deletions(-)
+> 
+> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> index 8f970288f5..c973968ed6 100644
+> --- a/target/ppc/fpu_helper.c
+> +++ b/target/ppc/fpu_helper.c
+> @@ -1916,22 +1916,19 @@ void helper_xsdivqp(CPUPPCState *env, uint32_t opcode,
+>    *   fld   - vsr_t field (VsrD(*) or VsrW(*))
+>    *   sfprf - set FPRF
+>    */
+> -#define VSX_RE(op, nels, tp, fld, sfprf, r2sp)                                \
+> +#define VSX_RE(op, nels, tp, op_tp, fld, sfprf)                               \
+>   void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)              \
+>   {                                                                             \
+>       ppc_vsr_t t = { };                                                        \
+> -    int i;                                                                    \
+> +    int i, flags;                                                             \
+>                                                                                 \
+>       helper_reset_fpstatus(env);                                               \
+>                                                                                 \
+>       for (i = 0; i < nels; i++) {                                              \
+> -        if (unlikely(tp##_is_signaling_nan(xb->fld, &env->fp_status))) {      \
+> +        t.fld = op_tp##_div(tp##_one, xb->fld, &env->fp_status);              \
+> +        flags = get_float_exception_flags(&env->fp_status);                   \
+> +        if (unlikely(flags & float_flag_invalid_snan)) {   
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+You seem to have squashed the change to recip-estimate into the same patch as muladd.
+
+
+> -#define VSX_RSQRTE(op, nels, tp, fld, sfprf, r2sp)                           \
+> +#define VSX_RSQRTE(op, nels, tp, op_tp, fld, sfprf)                          \
+
+And recip-sqrt-estimate.
+
+I guess it's ok to squash, since it's all related, but you should update the patch 
+description if you leave it this way.
+
 
 r~
 
