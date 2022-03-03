@@ -2,88 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92EB14CC022
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:39:16 +0100 (CET)
-Received: from localhost ([::1]:52464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCBF4CC030
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:41:34 +0100 (CET)
+Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPmbr-0005Fj-Du
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:39:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33168)
+	id 1nPme5-0000cG-Kj
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:41:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPmZB-0002ol-9E
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:36:29 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=46851
- helo=mail-pj1-x1032.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPmZ9-00034D-S8
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:36:28 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- 15-20020a17090a098f00b001bef0376d5cso4999372pjo.5
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 06:36:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ICs+1uQFtH/X0OScSdi2Rs/kw4u/voxp91HreJsqBJ4=;
- b=EqyU3SseIFQbHo9OoKw6X6Ogkgm7Ykta42vSLUFJ5THEZmyKOdxVLEYHP4XDR443Md
- djJjVdQt0iXmHEb+8xIcvCW0X/PFzTn2WEekKy1JL4K2m16juDzUd/BMmtwWToM4k0/R
- xHVA213ac6a/wAMfmq92lp7koGqcLu6U4c+CUf/0efmh2ptMoEXSpHGZ7hOMVm7gXAvU
- wt6vBJzMOZkuLNFVa7ZKS5bNf1v54g3LNuvdqFNAWUW49l8CMEVo2cbWp6qbWLX+O0kC
- LOjsiGA3DGTLfK6S1pYXJnoo3YtX0ZYSy7+oHFxExgXMFz2B1W96E9hR+vK8AM2cz02N
- U2Uw==
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1nPmaD-00040z-L8
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:37:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21259)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1nPmaB-0003IW-V3
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:37:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646318251;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rGTXUyVAGoeZXJD0gqHgScod9LzHtNnKKxtjDXPN7ew=;
+ b=UxsGQgEswgTNnR1d0A7u5hn7bSRr1q5E9ObFjpaHqa6nCdOS7rktcLgy0UCNdKBkoAT9A7
+ UQghQtrmDHYV9YqP5XSe/zK8qN5XLBJxljmu2DzuKWINFX1iA0+Qq9BQipeR7ybY0UNQNg
+ A+3OTeNM5GzGBN/XS/nlIXLQgMNJQTI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-315-ihztLLEdOQG5eSggEaIuCg-1; Thu, 03 Mar 2022 09:37:29 -0500
+X-MC-Unique: ihztLLEdOQG5eSggEaIuCg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l31-20020a05600c1d1f00b00380e3425ba7so1697284wms.9
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 06:37:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ICs+1uQFtH/X0OScSdi2Rs/kw4u/voxp91HreJsqBJ4=;
- b=yJQHgO7VmzfUy+4PcMFnOuIkKUfj87w0Tdp3WWFgZ0IsCgjrq7n/AIC2klgyOHTLRW
- T56udfFEKa/yGZbwEpA1J1y9OtFYWGUSJUMPZhomqfkoODOadC9lDld9rHlNmSASezxg
- v1hSrNYhOMCRKftC1Y9JdVckPS8x/zPf0By8Z6Rp9o625Oyaa34zxNxzRI2BgEt9qTXL
- o+SLSHAhqJFIopnHXpA/KiIo+3KNqdVXLJmozcG24fy6WqgeeZS1KTv36JHhl0VtTH0f
- nQKVACn9+1n6cLPjsfOfQZy76aaa9laSgLw60wT8mTfSxItnk70J4+5sD/4VdcpWz4Uo
- ObMg==
-X-Gm-Message-State: AOAM533wTGe2RFcg7hCo/9Yub2B2LnyoTctAhovDzqKsuhJPBuGiI1v2
- 1UJ4EAR3KZnSQIaTeWR+UFc=
-X-Google-Smtp-Source: ABdhPJwDF9NkTCglPcThqsS7ADF7suk212aNOeFcreR/1Otem/6E0+CtQTOct20069AkQ5elWuIhlg==
-X-Received: by 2002:a17:902:6b0a:b0:14d:8ee9:3298 with SMTP id
- o10-20020a1709026b0a00b0014d8ee93298mr36460551plk.125.1646318186368; 
- Thu, 03 Mar 2022 06:36:26 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- k7-20020a63ff07000000b00372dc67e854sm2313879pgi.14.2022.03.03.06.36.23
+ bh=rGTXUyVAGoeZXJD0gqHgScod9LzHtNnKKxtjDXPN7ew=;
+ b=dsSUVGOms558p5ngw2SDkclOiM3C689jFgPmu42CxjYCsUVX+SF2dfInEoSIK+N0eW
+ gJpNnxNF0RkLCeEczQfqSd1L84xfjkfAeHpoqxCBWGbZF7EKzFn0ySjZPQuEWOQYIb0Q
+ tEoeDZWLKSoQZSqZSLf5+OOqmQeUHRskKuZNDx+frJ7iEWYyVDBp/COGb4kUGrA4Wij6
+ Uxjqo+PcTx98JxSt3xlaK5moCVx6EqSC2QrUca5ffN+xhajYXBPHGSR7ORDCN7lBv1tm
+ 1iA1JosL/B1BrmS8m680naGJ/qE3FTMW9TmiYvz0l5pcTwbRLC4/vok1JwZ6IxoWrFBS
+ gR7Q==
+X-Gm-Message-State: AOAM531ffeCPRe5FM1KiemH9phuwOKO/PGrmqq/tgn5jKUS1/QNCYZan
+ 9d23zajv1TGcaP1iBGaVlUJIlkE1Pd20ce8kBC+/9Y75a3ViRI8Nq5lmbUSEN4vz1T8OPj2i3+Z
+ O8sBW4rrfSfB2gV4=
+X-Received: by 2002:a05:600c:418a:b0:384:224e:1817 with SMTP id
+ p10-20020a05600c418a00b00384224e1817mr3914615wmh.123.1646318248143; 
+ Thu, 03 Mar 2022 06:37:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwbB2eSbtmX9hkANK+5BUNsWIHBT/ab6F7qnuPj7VwuirlLDoTw2HOe2nAP+9WCyrSnlvvbDA==
+X-Received: by 2002:a05:600c:418a:b0:384:224e:1817 with SMTP id
+ p10-20020a05600c418a00b00384224e1817mr3914592wmh.123.1646318247906; 
+ Thu, 03 Mar 2022 06:37:27 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ 7-20020a05600c020700b003862bfb550fsm2242659wmi.46.2022.03.03.06.37.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 06:36:25 -0800 (PST)
-Message-ID: <75174510-47ec-3d73-f301-352e2e3421f7@gmail.com>
-Date: Thu, 3 Mar 2022 15:36:21 +0100
+ Thu, 03 Mar 2022 06:37:27 -0800 (PST)
+Subject: Re: [PATCH v4 1/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
+To: eric.auger@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
+ eric.auger.pro@gmail.com, stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com
+References: <20220208133842.112017-1-eric.auger@redhat.com>
+ <20220208133842.112017-2-eric.auger@redhat.com>
+ <310e3bd1-0ca8-ddc6-4500-dd1bea589fad@linux.ibm.com>
+ <b39a5fd1-15a5-7461-0849-4b4478f1aef5@redhat.com>
+From: Eric Auger <eauger@redhat.com>
+Message-ID: <b475d44e-3e25-7db2-7cde-6f6061f1610d@redhat.com>
+Date: Thu, 3 Mar 2022 15:37:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v4 07/14] none-machine: add the NoneMachineState structure
+In-Reply-To: <b39a5fd1-15a5-7461-0849-4b4478f1aef5@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org,
- mark.burton@greensocs.com, edgari@xilinx.com
-References: <20220223090706.4888-1-damien.hedde@greensocs.com>
- <20220223090706.4888-8-damien.hedde@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220223090706.4888-8-damien.hedde@greensocs.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eauger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,19 +107,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: quintela@redhat.com, cohuck@redhat.com, f4bug@amsat.org,
+ dgilbert@redhat.com, imammedo@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/2/22 10:06, Damien Hedde wrote:
-> The none machine was using the parent state structure.
-> We'll need a custom state to add a field in the following commit.
-> 
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
->   hw/core/null-machine.c | 24 ++++++++++++++++++++++--
->   1 file changed, 22 insertions(+), 2 deletions(-)
+Hi Stefan,
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 2/8/22 6:58 PM, Eric Auger wrote:
+> Hi Stefan,
+> 
+> On 2/8/22 6:16 PM, Stefan Berger wrote:
+>>
+>> On 2/8/22 08:38, Eric Auger wrote:
+>>> Representing the CRB cmd/response buffer as a standard
+>>> RAM region causes some trouble when the device is used
+>>> with VFIO. Indeed VFIO attempts to DMA_MAP this region
+>>> as usual RAM but this latter does not have a valid page
+>>> size alignment causing such an error report:
+>>> "vfio_listener_region_add received unaligned region".
+>>> To allow VFIO to detect that failing dma mapping
+>>> this region is not an issue, let's use a ram_device
+>>> memory region type instead.
+>>>
+>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>> Tested-by: Stefan Berger <stefanb@linux.ibm.com>
+>>> Acked-by: Stefan Berger <stefanb@linux.ibm.com>
+>>> [PMD: Keep tpm_crb.c in meson's softmmu_ss]
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>>
+>> v4 doesn't build for me:
+>>
+>> ../hw/tpm/tpm_crb.c: In function ?tpm_crb_realize?:
+>> ../hw/tpm/tpm_crb.c:297:33: error: implicit declaration of function
+>> ?HOST_PAGE_ALIGN? [-Werror=implicit-function-declaration]
+>>   297 | HOST_PAGE_ALIGN(CRB_CTRL_CMD_SIZE));
+>>       |                                 ^~~~~~~~~~~~~~~
+>> ../hw/tpm/tpm_crb.c:297:33: error: nested extern declaration of
+>> ?HOST_PAGE_ALIGN? [-Werror=nested-externs]
+>> cc1: all warnings being treated as errors
+> 
+> Do you have
+> b269a70810a  exec/cpu: Make host pages variables / macros 'target
+> agnostic' in your tree?
+I may have missed your reply. Did you have that dependency? Were you
+able to compile eventually?
+
+Besides, do you have any opinion overall about the relevance of
+transforming the CRB ctrl cmd region into a RAM device wrt the TPM spec?
+
+Again spec says:
+
+"
+Including the control structure, the three memory areas comprise the
+entirety of the CRB. There are no constraints on how those three memory
+areas are provided. They can all be in system RAM, or all be in device
+memory, or any combination.
+"
+(https://trustedcomputinggroup.org/wp-content/uploads/Mobile-Command-Response-Buffer-Interface-v2-r12-Specification_FINAL2.pdf)
+
+What was the rationale behind using RAM device for the PPI region?
+
+There are some spurious warnings when using CRB with VFIO and that would
+be nice to remove them one way or the other.
+
+Thanks
+
+Eric
+> 
+> Thanks
+> 
+> Eric
+>>
+>>
+>>
+> 
+
 
