@@ -2,88 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1004CBAD9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 10:56:54 +0100 (CET)
-Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9174CBAD3
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 10:55:34 +0100 (CET)
+Received: from localhost ([::1]:58708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPiCb-00020V-6i
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 04:56:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36156)
+	id 1nPiBJ-0000Oq-EQ
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 04:55:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nPi9u-0007XQ-J4
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 04:54:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41704)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nPi9g-0007Nf-51
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 04:53:52 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:49043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nPi9r-0008Rq-KG
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 04:54:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646301242;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1XMpx11FsgdqDSztpLGhU3nOvTThIpvFS5LunMBeh04=;
- b=cMEqg2gikHjHqIvvGaWocJBZKjDDDmMurr4s1FBZNRVlegCf2m3zLtUZM4rF0mU8PNfROg
- JBRV7qTTtBhu8qqsZljpV2izCKQckXbrInPDRzVV3Ow47oOEF9X821DSR9EbbDt+P5ave1
- Tx0RIOEjFmh23deEP3YaMf1mGH+B8TM=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nPi9d-0008QP-16
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 04:53:51 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-73-HxCuCzMbMCW_pugXHasDvg-1; Thu, 03 Mar 2022 04:53:59 -0500
-X-MC-Unique: HxCuCzMbMCW_pugXHasDvg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- 3-20020a370603000000b0060de5e49129so2958125qkg.2
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 01:53:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1XMpx11FsgdqDSztpLGhU3nOvTThIpvFS5LunMBeh04=;
- b=0uzIu834SBf8Fnie219cCUrDYU/jpnytN0edVc6u1TitNq/NvXQFVeiFFWjdSiqMzT
- zgwRi4bkKl6DaptQDXz3sXw2iVXaW9I5DUftcvZ7viH2jizSI3Y6w2P6xC22yc/QPMkQ
- CJMLAaJ8RuZLIsLNvDXVq4VnPGnn/AbAqwN2GXyRjwDN/Mt8f8rZjWHOkqoQJsoMFA2K
- nVtcXr7IAhEAoxWszxvPulSRDYRXmE2LazaabjlyF5VUdPXwpdkcS/m4tRdFuq2pH7ZN
- FAkvxnWhRy5uhItqEBibU1XHK1lKX5E+TEzVpvcG/0VfFV+DoUjeBAgLK6BomdYc+0Sn
- hZoQ==
-X-Gm-Message-State: AOAM533bWgKNifor68zVCxoChR0tcFh29LSvXK6PGViYzN/FVykzDVHl
- KeJBQxmhnJzoxb5pnCevTUxdHUI5ZetB8oIww/PrswJK59Ypt8Ys6QI3IbJ3OPHMUOrjWoxalOJ
- 9Rt1r9rOnreN3gNaWaAYN0adRUpflIkE=
-X-Received: by 2002:a05:622a:1301:b0:2de:82c5:8409 with SMTP id
- v1-20020a05622a130100b002de82c58409mr26283107qtk.403.1646301238869; 
- Thu, 03 Mar 2022 01:53:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyxxpT2e/bXZV0MX/56aj9fthO8POlzOClgiCnq1fhRAnaGRhVuSLyBZ6Gniid7Z08epghOrUW9SCtSCFKePJg=
-X-Received: by 2002:a05:622a:1301:b0:2de:82c5:8409 with SMTP id
- v1-20020a05622a130100b002de82c58409mr26283079qtk.403.1646301238591; Thu, 03
- Mar 2022 01:53:58 -0800 (PST)
+ us-mta-80-itAgwCELMFi5bHO8hYR0qw-1; Thu, 03 Mar 2022 04:53:39 -0500
+X-MC-Unique: itAgwCELMFi5bHO8hYR0qw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 413FA805EE5;
+ Thu,  3 Mar 2022 09:53:38 +0000 (UTC)
+Received: from bahia (unknown [10.39.193.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 41F4078215;
+ Thu,  3 Mar 2022 09:53:36 +0000 (UTC)
+Date: Thu, 3 Mar 2022 10:53:32 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [SPAM] [PATCH] 9pfs: drop Doxygen format from qemu_dirent_dup()
+ API comment
+Message-ID: <20220303105332.5ce078a9@bahia>
+In-Reply-To: <E1nPTwO-0006pl-Np@lizzy.crudebyte.com>
+References: <E1nPTwO-0006pl-Np@lizzy.crudebyte.com>
 MIME-Version: 1.0
-References: <20220302203012.3476835-1-eperezma@redhat.com>
- <20220302203012.3476835-15-eperezma@redhat.com>
- <87ee3jeff1.fsf@pond.sub.org>
-In-Reply-To: <87ee3jeff1.fsf@pond.sub.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 3 Mar 2022 10:53:22 +0100
-Message-ID: <CAJaqyWfKQKWMs-tLRyuJ=C7VrsFUS8KHiXQVZHqfj_T5_zeBXQ@mail.gmail.com>
-Subject: Re: [PATCH v3 14/14] vdpa: Add x-svq to NetdevVhostVDPAOptions
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,92 +65,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 3, 2022 at 7:09 AM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
->
-> > Finally offering the possibility to enable SVQ from the command line.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >  qapi/net.json    |  5 ++++-
-> >  net/vhost-vdpa.c | 48 ++++++++++++++++++++++++++++++++++++++++--------
-> >  2 files changed, 44 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/qapi/net.json b/qapi/net.json
-> > index 7fab2e7cd8..d243701527 100644
-> > --- a/qapi/net.json
-> > +++ b/qapi/net.json
-> > @@ -445,12 +445,15 @@
-> >  # @queues: number of queues to be created for multiqueue vhost-vdpa
-> >  #          (default: 1)
-> >  #
-> > +# @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.=
-0)
-> > +#
-> >  # Since: 5.1
-> >  ##
-> >  { 'struct': 'NetdevVhostVDPAOptions',
-> >    'data': {
-> >      '*vhostdev':     'str',
-> > -    '*queues':       'int' } }
-> > +    '*queues':       'int',
-> > +    '*x-svqs':        'bool' } }
->
-> Experimental members *must* be tagged with feature @unstable.  Their
-> name *may* start with 'x-' to help human users, at the cost of renames
-> when the member becomes stable.
->
+On Wed, 2 Mar 2022 19:30:39 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Hi Markus,
+> API doc comments in QEMU are supposed to be in kerneldoc format, so drop
+> occurrences of "@c" which is Doxygen format for fixed-width text.
+>=20
+> Link: https://lore.kernel.org/qemu-devel/CAFEAcA89+ENOM6x19OEF53Kd2DWkhN5=
+SN21Va0D7yepJSa3Jyg@mail.gmail.com/
+> Based-on: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
 
-Thank you very much for the warning. I'll add the unstable feature tag.
+Sorry for not catching these during previous reviews :-\
 
-If I understood correctly this needs to be done as x-perf at
-BackupCommon struct. Could you confirm to me that it marks only the
-x-perf member as unstable? Without reading the actual comment it might
-seem as if it marks all the whole BackupCommon struct as unstable.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-# ...
-# @filter-node-name: the node name that should be assigned to the
-#                    filter driver that the backup job inserts into the gra=
-ph
-#                    above node specified by @drive. If this option is
-not given,
-#                    a node name is autogenerated. (Since: 4.2)
-#
-# @x-perf: Performance options. (Since 6.0)
-#
-# Features:
-# @unstable: Member @x-perf is experimental.
-#
-# Note: @on-source-error and @on-target-error only affect background
-#       I/O.  If an error occurs during a guest write request, the device's
-#       rerror/werror actions will be used.
-#
-# Since: 4.2
-##
-{ 'struct': 'BackupCommon',
-  'data': { ...
-            '*filter-node-name': 'str',
-            '*x-perf': { 'type': 'BackupPerf',
-                         'features': [ 'unstable' ] } } }
+FWIW it seems some more de-doxygenation is needed :
+
+fsdev/p9array.h: * Consider the following user struct @c Foo which shall be=
+ used as scalar
+fsdev/p9array.h: * @code
+fsdev/p9array.h: * and assume it has the following function to free memory =
+allocated by @c Foo
+fsdev/p9array.h: * @code
+fsdev/p9array.h: * @code
+fsdev/p9array.h: * @code
+fsdev/p9array.h: * @code
+hw/9pfs/9p.h:     * Lenght of the affix, that is how many (of the lowest) b=
+its of @c value
+             extra nit  ^^
+hw/9pfs/codir.c: * @note You must @b ALWAYS call @c v9fs_free_dirents(entri=
+es) after calling
+
+Detected with basic git grepping. Probably not exhaustive.
+
+
+>  hw/9pfs/9p-util.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> index 8b92614e6c..22835c5f61 100644
+> --- a/hw/9pfs/9p-util.h
+> +++ b/hw/9pfs/9p-util.h
+> @@ -116,8 +116,8 @@ static inline off_t qemu_dirent_off(struct dirent *de=
+nt)
+>   * Duplicate directory entry @dent.
+>   *
+>   * It is highly recommended to use this function instead of open coding
+> - * duplication of @c dirent objects, because the actual @c struct @c dir=
+ent
+> - * size may be bigger or shorter than @c sizeof(struct dirent) and corre=
+ct
+> + * duplication of dirent objects, because the actual struct dirent
+> + * size may be bigger or shorter than sizeof(struct dirent) and correct
+>   * handling is platform specific (see gitlab issue #841).
+>   *
+>   * @dent - original directory entry to be duplicated
 
 
