@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2714CBD80
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:18:02 +0100 (CET)
-Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137254CBDB4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:25:11 +0100 (CET)
+Received: from localhost ([::1]:54570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPkPB-0003jM-46
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:18:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38390)
+	id 1nPkW6-0002Zc-6o
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:25:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nPkFo-0004Bm-RL
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:08:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20105)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nPkUg-00012F-KE
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:23:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nPkFn-0005AL-7L
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:08:20 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nPkUe-0007E7-A2
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:23:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646309298;
+ s=mimecast20190719; t=1646310219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f3WbcdEi0KWA0gK2OLNg8nUQ4QDHH6rD1Tttd8eh6KY=;
- b=bNmvUkNYbmNeVrBxHB/i2mCNxq2Z3cPSPgqWW797JAQ5TByqQX5OGVh0E8Qf4I4SgA6XyB
- 5Sa6yuiazLG38y5pQadI3LgoMzrI6r/727FThlVs2mIHhMRV/cfRcIPQVHsmEzIRrn8VuP
- guNWLmF/hhMfRY2N4Jw33pUc2bTE++c=
+ bh=xqB53/OlukljnakrlD0/NJ34F7CHmRudeq/p9wfXyzQ=;
+ b=YhfpJuJHXaEU0spY+oLArIvVgwOuQdTrOgiyPHSc27wYFm3l4nKBouVB0oivlSuOThwAcy
+ vztt+MXUBNAVFDbmS9UY5HkAtnX15D5ZxeUUkziuao4ONkdE+Ei6Wn9JAYqRDKjaFv1XqO
+ 3Mep0dr+QPaWCmeo1BzddbjMxDDX5is=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-398-_5EVftJuPLygq_dXDXHWWg-1; Thu, 03 Mar 2022 07:08:15 -0500
-X-MC-Unique: _5EVftJuPLygq_dXDXHWWg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-540-tQLhhOIDMvC_5mYdQvLgDw-1; Thu, 03 Mar 2022 07:23:36 -0500
+X-MC-Unique: tQLhhOIDMvC_5mYdQvLgDw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CDDE51DC;
- Thu,  3 Mar 2022 12:08:14 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 691AF81F6A;
- Thu,  3 Mar 2022 12:07:56 +0000 (UTC)
-Date: Thu, 3 Mar 2022 13:07:54 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v5 0/4] tls: add macros for coroutine-safe TLS variables
-Message-ID: <YiCvmr1Ri/kwDCyF@redhat.com>
-References: <20220222140150.27240-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 707291006AA6;
+ Thu,  3 Mar 2022 12:23:32 +0000 (UTC)
+Received: from p50.localhost.localdomain.some.host.somewhere.org (unknown
+ [10.22.32.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 772987B6FD;
+ Thu,  3 Mar 2022 12:23:05 +0000 (UTC)
+References: <20220225210156.2032055-1-crosa@redhat.com>
+ <20220225210156.2032055-6-crosa@redhat.com>
+ <aa0e1eb4-ef43-b386-e7a3-c034f666181b@gmail.com>
+User-agent: mu4e 1.6.6; emacs 27.2
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: Re: [PATCH 5/9] tests/avocado/linux_ssh_mips_malta.py: add missing
+ accel (tcg) tag
+Date: Thu, 03 Mar 2022 07:13:43 -0500
+In-reply-to: <aa0e1eb4-ef43-b386-e7a3-c034f666181b@gmail.com>
+Message-ID: <8735jzmdib.fsf@p50.localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20220222140150.27240-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,55 +83,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Florian Weimer <fweimer@redhat.com>, qemu-block@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Serge Guelton <sguelton@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Eric Farman <farman@linux.ibm.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ KONRAD Frederic <frederic.konrad@adacore.com>, "Edgar E.
+ Iglesias" <edgar.iglesias@gmail.com>, Alexandre Iooss <erdnaxe@crans.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ =?utf-8?Q?Herv=C3=A9?= Poussineau <hpoussin@reactos.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 22.02.2022 um 15:01 hat Stefan Hajnoczi geschrieben:
-> v5:
-> - Added explicit "#include "qemu/coroutine-tls.h" in patch 4 [Philippe]
-> - Updated patch 1 commit description and comments to describe the current
->   noinline plus asm volatile approach [Peter]
-> v4:
-> - Dropped '[RFC]'.
-> - Dropped inline asm for now. -fPIC versions of the code are missing and I
->   hit several issues including a clang LTO bug where thread local variables are
->   incorrectly discarded because inline asm is not analyzed to find symbol
->   dependencies (Serge Guelton is aware).
-> - Fixed CI failures.
-> v3:
-> - Added __attribute__((weak)) to get_ptr_*() [Florian]
-> - Replace rdfsbase with mov %%fs:0,%0 [Florian]
-> 
-> This patch series solves the coroutines TLS problem. Coroutines re-entered from
-> another thread sometimes see stale TLS values. This happens because compilers
-> may cache values across yield points, so a value from the previous thread will
-> be used when the coroutine is re-entered in another thread.
-> 
-> Serge Guelton developed a portable technique, see the first patch for details.
-> 
-> I have audited all __thread variables in QEMU and converted those that can be
-> used from coroutines. Most actually look safe to me.
 
-Hm, what about the ones in the coroutine implementation itself?
+Philippe Mathieu-Daud=C3=A9 <philippe.mathieu.daude@gmail.com> writes:
 
-static __thread CoroutineUContext leader;
-static __thread Coroutine *current;
+> On 25/2/22 22:01, Cleber Rosa wrote:
+>> Being explicit about the accelerator used on these tests is a good
+>> thing in itself, but it will also be used in the filtering rules
+>> applied on "make check-avocado".
+>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+>> ---
+>>   tests/avocado/linux_ssh_mips_malta.py | 3 +++
+>>   1 file changed, 3 insertions(+)
+>> diff --git a/tests/avocado/linux_ssh_mips_malta.py
+>> b/tests/avocado/linux_ssh_mips_malta.py
+>> index c0f0be5ade..0179d8a6ca 100644
+>> --- a/tests/avocado/linux_ssh_mips_malta.py
+>> +++ b/tests/avocado/linux_ssh_mips_malta.py
+>> @@ -23,6 +23,9 @@
+>>   @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout=
+')
+>
+> Should we remove this line then? ^^^
+>
 
-Both of them are used in qemu_coroutine_self(), which is a
-coroutine_fn, and in qemu_in_coroutine(), which may be called from
-coroutine context.
+Yes, we definitely should.  But, I thought it should be a next step.
+The reason being that manual invocations of avocado or a custom list of
+tests to "make check-avocado" will still respect that at this point.
 
-And I seem to remember I've seen crashes related to this in one of the
-bug reports we got, where the stack trace clearly showed that one of
-these functions had returned a wrong result.
+What do you think?
 
-I'm applying this series anyway, it doesn't make the patches incorrect.
-But it feels incomplete, so we may need a follow-up patch.
-
-Kevin
+Cheers,
+- Cleber.
 
 
