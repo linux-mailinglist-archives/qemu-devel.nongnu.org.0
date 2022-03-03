@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63D824CC0CD
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:08:32 +0100 (CET)
-Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C144CC0A1
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:05:52 +0100 (CET)
+Received: from localhost ([::1]:33390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPn4B-0003Kd-Ab
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:08:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41324)
+	id 1nPn1b-0007WU-5K
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:05:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPmx4-0003C1-FO
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:01:10 -0500
-Received: from [2607:f8b0:4864:20::430] (port=42964
- helo=mail-pf1-x430.google.com)
+ id 1nPmzd-000681-V9
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:03:50 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=55999
+ helo=mail-pj1-x1034.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPmx2-0001Si-EF
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:01:10 -0500
-Received: by mail-pf1-x430.google.com with SMTP id a5so4902086pfv.9
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 07:01:08 -0800 (PST)
+ id 1nPmzc-0001rl-GH
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:03:49 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id gb21so4768538pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 07:03:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=C1tZIF0H1rUnNK2fPlLgMfrLS74uRynydeHD3ZOyfAg=;
- b=moe9JR6flF3UULVslUXNkpXwYV14nlgT5Q3f4la5cFXcKnmJxtap5233JMQmM2LVG1
- 7ow0+9LGRLk7Qu58sfdtUF+AZuZWJHwfSB1ZgphulOcenvyyWsBDWcD9ZR+EA9neP5pQ
- ccENtdMSp7b9k+LZnLeofs898vSgQ89Tctby0Oy8Ff3cu1tvT7ZtlFpS0Rg8a16jolXq
- BWDoAfTXbAWKpcogWAzXK/e7JfqIGfUu0VZ/HaJmXYh/8xN0ssxwGBm7nwKQrWGBEU9v
- uSRopTDB+DUeNcdMWAigHd0/JmUGUKLbaTtN7iRJ+SDbEjJz9C2f41PRoosEK8tBbwtB
- I7tQ==
+ bh=RQkYnnRgAG8it09gE7M+1OriLnS28mGLBFJyrFZ1jhk=;
+ b=hSMOxai5pacKNPv0Taj17rn0yy/smG6jQAwGfH4GGvChn/DAXYAOkVBFc4HAql5ete
+ vx2O7T65Nk0cmU5VMCRFiD9BQxKeqRYDHsFokHTueF7x0GGJH/zJ9jnXNVOOX6oeaPgE
+ NKt01qUmxc7QYDEXKVrFQd79F9VWvjK5RH/eAiAXNT07u9J8mDY0kFWiWEZmi/fVH6eP
+ +VIGppZyO+3Cu2bByIPFxPHAOXElEZx/b9pbW5EN75VXskx4q4tDtIsRyTbA6AMORvCZ
+ h/RgjPOGt3ApDQH+knVdPatKLSJY8FJaUGJ2cmcaTebYrXKSaLGlNTbwZ4THfNLYdzTB
+ cZQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=C1tZIF0H1rUnNK2fPlLgMfrLS74uRynydeHD3ZOyfAg=;
- b=erLCbJP73wOcLotuAcRIjCVikt3acSyWVTJWs/1042yapv+0DXqK78EvOGt53THBOk
- aeOYXaOE7NyL5G+PSZgaSVcY5oeUaTGeflk6IJSpvwYmVW716NLA3dC62L8bvcIySO54
- 1RybP2QU0mHaMY2/o8We1ErBfUXIgilyt9A5MeyGBeDPQ8ialZEEB3lLbvCrywx8NpjN
- +xgjJ6phL7bnBen0SxqCwbaKLE/3ZEbsCEiFc2Xd3LsEPGFwHcn9HTwT2wcInhYTHNVK
- p2u9NgwoyWcHmzJQ//gdmMd6p5c7Gp9V0qf+gX292uNGvtfX1yQ2ftY61BORUUxUtHbp
- rEeQ==
-X-Gm-Message-State: AOAM530GW+TG7y5fARRX1nGk/T6NfWPPfN6/fwKxhU88kPlv5MPO8w3G
- LcwmenpYwlJ8rj5x2Jh1Hs0=
-X-Google-Smtp-Source: ABdhPJwLQRatHLGLebxvOpRRgbOHYXD4HwXYKqB8J0W5U932WEBkjirbOwhHrkJvGStiz4hHukjCZg==
-X-Received: by 2002:a62:1d42:0:b0:4c7:f78d:6f62 with SMTP id
- d63-20020a621d42000000b004c7f78d6f62mr38108504pfd.33.1646319666960; 
- Thu, 03 Mar 2022 07:01:06 -0800 (PST)
+ bh=RQkYnnRgAG8it09gE7M+1OriLnS28mGLBFJyrFZ1jhk=;
+ b=FfbFCSQeowDBM9wp2Y+r3NQkj4JRkJkte+vEqPYIOffogvARshMsLEVHloOa9gM275
+ DaQCsssi1R0rjHxi8TQIP8nTsBJ6wn9Bo3+ebC6x/vVHIgr11/QraE85JriM9WvU+sLN
+ 6PShUMsgQIPHMIl9QMuvfYb/ude82nNYJqkZZzAEveqZL2jri/VJc+xWkuNb4D+PDvq3
+ vC4vTla7xLL45gCZHO3mbydzxkGKnafBmxTCSdz+rgyS6icFKYIeGFqMLiYZ2jhBERBr
+ Q4XrXXTEiH5iBmFnB6jNUwKNLMTsHjYwju2UmyFVUmU4g2v5U2M5QM3Jij16Jo3/gpGL
+ Kxrw==
+X-Gm-Message-State: AOAM5315r+6OpeIMyJOsR1L0YNgjYPWi8QF85IzOJ1oWMnJcQR6keTXt
+ YvWwkU+wENube9zVsYfjK9w=
+X-Google-Smtp-Source: ABdhPJzgztZ8ftvGWm2yX/hFadWBXtJIwXlwHa7hElLfoDuNLb1G4fjMszEc5NmwJFWferXgYL5i5A==
+X-Received: by 2002:a17:90b:945:b0:1bd:561e:b24d with SMTP id
+ dw5-20020a17090b094500b001bd561eb24dmr5791434pjb.202.1646319826677; 
+ Thu, 03 Mar 2022 07:03:46 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- u19-20020a056a00159300b004e1590f88c1sm2942860pfk.220.2022.03.03.07.01.04
+ mq5-20020a17090b380500b001bc770d1df4sm2508000pjb.55.2022.03.03.07.03.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 07:01:06 -0800 (PST)
-Message-ID: <e5b0bc65-61a2-7805-b409-a3deb8969fe3@gmail.com>
-Date: Thu, 3 Mar 2022 16:01:02 +0100
+ Thu, 03 Mar 2022 07:03:46 -0800 (PST)
+Message-ID: <819e4c9a-d874-9774-d86e-9981962f4ce0@gmail.com>
+Date: Thu, 3 Mar 2022 16:03:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v4 01/14] machine: add phase_get() and document
- phase_check()/advance()
+Subject: Re: [PATCH v4 03/14] vl: support machine-initialized target in
+ phase_until()
 Content-Language: en-US
 To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org,
  mark.burton@greensocs.com, edgari@xilinx.com
 References: <20220223090706.4888-1-damien.hedde@greensocs.com>
- <20220223090706.4888-2-damien.hedde@greensocs.com>
+ <20220223090706.4888-4-damien.hedde@greensocs.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220223090706.4888-2-damien.hedde@greensocs.com>
+In-Reply-To: <20220223090706.4888-4-damien.hedde@greensocs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,20 +96,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 23/2/22 10:06, Damien Hedde wrote:
-> phase_get() returns the current phase, we'll use it in next
-> commit.
+> phase_until() now supports the following transitions:
+> + accel-created -> machine-initialized
+> + machine-initialized -> machine-ready
+> 
+> As a consequence we can now support the use of qmp_exit_preconfig()
+> from phases _accel-created_ and _machine-initialized_.
+> 
+> This commit is a preparation to support cold plugging a device
+> using qapi (which will be introduced in a following commit). For this
+> we need fine grain control of the phase.
 > 
 > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 > ---
->   include/hw/qdev-core.h | 19 +++++++++++++++++++
->   hw/core/qdev.c         |  5 +++++
->   2 files changed, 24 insertions(+)
+>   softmmu/vl.c | 14 ++++++++++++--
+>   1 file changed, 12 insertions(+), 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
