@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B934CC1CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:43:18 +0100 (CET)
-Received: from localhost ([::1]:42566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5884CC204
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:56:30 +0100 (CET)
+Received: from localhost ([::1]:48582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPnbp-0007pB-To
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:43:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50018)
+	id 1nPnob-0005Zk-5b
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:56:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPnNg-0004ko-2P
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:28:40 -0500
-Received: from [2607:f8b0:4864:20::b2d] (port=38766
- helo=mail-yb1-xb2d.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nPnUJ-0002gW-BC; Thu, 03 Mar 2022 10:35:31 -0500
+Received: from [2607:f8b0:4864:20::333] (port=46030
+ helo=mail-ot1-x333.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPnNe-0007rm-H9
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:28:39 -0500
-Received: by mail-yb1-xb2d.google.com with SMTP id u3so10951067ybh.5
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 07:28:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=u+rh1nN4FikYl3c+wxqn2gYAFu1pt5ISjG61yIkK1M4=;
- b=WtumYz/bMDbRCDixam293nPOfPVBgJYEJ8ytXUJRRd7dymqo61Lvve83tTM/4bPEXj
- DGXn286fnDMttcL1AOOavrgnFsPikgFZq7vA3WAuD4DGLGGXn5WspPcRUE6scoUJS8Ny
- L8Ev+QVtUWqRVIlBWwQLfLROJWbVYMBkFiYqPTLBDSqT54spt3R57SJEs+y7EjpWhzjl
- 3KEMd3mvreQoWrS7T3GSqQa+IJrJ2NdkBI0eau3dClNylqxNJ1kXIwIYdgkhAfDnMRY7
- e86oMCwHB4uRT+UDMl6g5oCkXJATDe/OeBq6s2FptGBqRlVnxIF3f5ev3iHvm5BeIQXi
- abXA==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nPnUH-0000kQ-R9; Thu, 03 Mar 2022 10:35:31 -0500
+Received: by mail-ot1-x333.google.com with SMTP id
+ g6-20020a9d6486000000b005acf9a0b644so4876765otl.12; 
+ Thu, 03 Mar 2022 07:35:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K7G/R6gh2qcQ20jCoRxQsit9P/xzKL//S118901jdwU=;
+ b=VuzLAATur4BntbFtp/zwiea28EA8sUSJf+WbYWj4KAW/5JA0W8RFpb6DoVu3mzHajy
+ Wtl4z47DpbLx4LvEeymmAUEWlZirn5/hVI9UdQIYPNVxJxPnb0afWiZ2ouPFCmC75kg6
+ 8p+z61+LLKPQpkYUi7goOCqmXSza/EwqN5cAHi0F3esXDZ1h3K3ZsXbOK+lO5RvrlTU4
+ 50MUXWuCzPJkVpspNLw+JLgWpfFDRWgILyunSYxm7p88O1qQz6VARL/Rnnp2KSskK62H
+ GPOQbC/mFtYgYZ201PAVFl1hho8mvIv0JaMpUCWHYAIzgFjOkpLfn5gpw5iunD5ZPfJm
+ 6Ikg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=u+rh1nN4FikYl3c+wxqn2gYAFu1pt5ISjG61yIkK1M4=;
- b=M5LlrP4bTTJSiI2aWs9f4oGZB/N+HPkgtzotdLPEKsEmUMYOaBg1zCQYAsXGYjvzBU
- +FhDHP1EiD/5fuQcGqbPBVWBYTsx8otVozh8g04ajP4lCCbo1dxULPrMNdi8YmH+434i
- 2dCSQtT9N3rmvpN1ez88P+vJn3YAX+r9vf6fvpcuvXa++ZTLgRNUdRwuQBdtTfKALb7u
- eWcwl636yc3LLDCufIke7b564CqE//GZ4EoJkJTehndB5XWiBJB9lPmc3XdAfsMVXDdE
- HUbed3Lt2jnyosMkHjxf1dMCZ3h/tlGFFda08jk6ZvgXJqigpw8PJQowUu5M0V2ejkMv
- qUiw==
-X-Gm-Message-State: AOAM531lZoYHacKr8xWKkOmZN0vFb6+y74GrVprPZgnk2M/3jJuuw/E0
- nwMQUEBH7OQK4C/ZMbkKPMuM+QkzgkJzxiYcBuqhPw==
-X-Google-Smtp-Source: ABdhPJw4J4mhj4s7v4h3cS5aO9A0U7A49nRk7ISJFxKH41gMprRPQ84bFtBLOnDl65ktnmsKZtATg9DzgZhNndU/7Q4=
-X-Received: by 2002:a25:9c08:0:b0:628:a472:30f4 with SMTP id
- c8-20020a259c08000000b00628a47230f4mr7333273ybo.67.1646321316976; Thu, 03 Mar
- 2022 07:28:36 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K7G/R6gh2qcQ20jCoRxQsit9P/xzKL//S118901jdwU=;
+ b=lYjjsItJdn/7JL4gfnYUEoriluxJGeNqghY98nL0d2/zHZk6TGmFsJhPwUOdccJmq7
+ psEFFUDZGFJIIiuSA4Z64sBKP9e3N37Pfwh6XaboB9465yhau7LS66CxaQysVqJeJyyU
+ E3/mkKZepo/vZ6AV5ZELbNuWE7vUQ7MwfeA7VqRncFU2yFTRnI6BqpZeh/JbdLYdO5wk
+ UJrc4N8pAX5oGtUrLfbmFJYN0eEpZmf9mkXUevcx0D/UBwz3pkJm243tIUvf3hInG5R4
+ Jq5ZBovNj/ytTdTC9mSqU5ile+UrgrRZElfimjZQP10FU4Qxx4A2yw31RH4cRBj7d4iW
+ 0Tbg==
+X-Gm-Message-State: AOAM5331DZlXLh8m7Pc+333gkeMbNjPnKxQHcK7BBkZ6ugY4VSr0WMXd
+ vvw4rWr5X2Rjd+iCOhXH4znj1iI+27s=
+X-Google-Smtp-Source: ABdhPJxW7SqJPx6Qa5LiDT9ZY/cYEPLdC6sVsyFqx3W3hwzuIdA8S6hBd1XZiRLwhcsSlrMuQy/XoQ==
+X-Received: by 2002:a05:6830:238f:b0:5ac:4cf8:7992 with SMTP id
+ l15-20020a056830238f00b005ac4cf87992mr19729470ots.169.1646321727620; 
+ Thu, 03 Mar 2022 07:35:27 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:3b4a:a86f:f27d:30ef:6eb6])
+ by smtp.gmail.com with ESMTPSA id
+ dw7-20020a056870770700b000d9aa7a6d63sm1178798oab.6.2022.03.03.07.35.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Mar 2022 07:35:27 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/5] --disable-tcg qtest/avocado fixes for ppc64
+Date: Thu,  3 Mar 2022 12:35:12 -0300
+Message-Id: <20220303153517.168943-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220302212752.6922-1-mark.cave-ayland@ilande.co.uk>
- <20220302212752.6922-6-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220302212752.6922-6-mark.cave-ayland@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Mar 2022 15:28:26 +0000
-Message-ID: <CAFEAcA-gR7rNKw2KJM-Cei6NELKdn8imB=uvOSGH=Em_5imuzw@mail.gmail.com>
-Subject: Re: [PATCH v2 05/10] macfb: set initial value of mode control
- registers in macfb_common_realize()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::333
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x333.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,26 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pbonzini@redhat.com, Laurent@vivier.eu,
- qemu-devel@nongnu.org
+Cc: thuth@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-ppc@nongnu.org, clg@kaod.org, crosa@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Mar 2022 at 21:35, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> If booting Linux directly in the q800 machine using -kernel rather than using a
-> MacOS toolbox ROM, the mode control registers are never initialised,
-> causing macfb_mode_write() to fail to determine the current resolution after
-> migration. Resolve this by always setting the initial values of the mode control
-> registers based upon the initial macfb properties during realize.
->
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/display/macfb.c | 8 ++++++++
+Hi,
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+'make check' and 'make check-avocado' in a ppc64 host, using a QEMU
+built with --disable-tcg, fails in a handful of tests/files due to the
+lack of TCG support not being accounted for. The tests usually fall back
+to KVM acceleration, and when running in an IBM POWER server this accel
+type isn't able to run any other machine but 'pseries'. 
 
-thanks
--- PMM
+This series aims to fix it by checking for CONFIG_TCG in
+qtest/meson.build, and using require_accelerator('tcg') in avocado
+tests. I avoided changing the behavior when running the tests in other
+host architectures because I can't assert about how KVM behaves in x86 and
+aarch64. Patches 1, 2 and 4 were limited to ppc/ppc64 tests only because
+of that.
+
+Patch 5 is something that I am fairly confident that affects all archs
+so the change is made in the common code for everyone.
+
+
+Daniel Henrique Barboza (5):
+  qtest/meson.build: check CONFIG_TCG for prom-env-test in qtests_ppc
+  qtest/meson.build: check CONFIG_TCG for boot-serial-test in qtests_ppc
+  avocado/boot_linux_console.py: check for tcg in test_ppc_powernv8/9
+  avocado/boot_linux_console.py: check tcg accel in test_ppc64_e500
+  avocado/replay_kernel.py: make tcg-icount check in run_vm()
+
+ tests/avocado/boot_linux_console.py | 5 +++++
+ tests/avocado/replay_kernel.py      | 4 ++++
+ tests/qtest/meson.build             | 4 +++-
+ 3 files changed, 12 insertions(+), 1 deletion(-)
+
+-- 
+2.35.1
+
 
