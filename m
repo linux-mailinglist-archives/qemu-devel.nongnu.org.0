@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EEB4CC576
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 19:52:06 +0100 (CET)
-Received: from localhost ([::1]:53124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A337A4CC578
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 19:54:00 +0100 (CET)
+Received: from localhost ([::1]:57832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPqYV-00013V-QA
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 13:52:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53212)
+	id 1nPqaN-0004L5-P0
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 13:53:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPqWc-0007TI-U4
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:50:07 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=55148
- helo=mail-pj1-x1035.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPqWb-0007CV-2f
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:50:06 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id b8so5359355pjb.4
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:50:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=pDBvUQqJYVkjfrW/2ssMUs0g2ExXG3q2qCfzpMeDVxs=;
- b=ImnArsvmxTyPBz9PGEl/rXQF1Rma/Hv/fheumKbvLv1WqQPb9198uUol+kNG2FsIYM
- ab913QxLEOVfQv4R7BB4kOF3BlwrBDXLEhioAQOVDZsoVRcK8WPMfV2J6SmHrX/NoSz0
- na8JQ/+mT2lB7IougoNOos+VWyPnkK2mv3SRqQHwrJZXBuxLKJQ6z6H17qIAuxhn/jG5
- lxDqBn8OtDmUznx74VbKMYoW9YgZmT45+6kOmY/ZHegH1QMfK2yi2AthHBdGCS19EJdr
- a4A3zXrsiZVlrqiaqbMIF534D34cwBygP3abmEiN+MDTo903E4gwk+Rwa9EKhTyQVm74
- Yq7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pDBvUQqJYVkjfrW/2ssMUs0g2ExXG3q2qCfzpMeDVxs=;
- b=VS5tA6pO+BSPuLQUbovP09UwUsbVCXkX88bKPVsimup24MKMhAfcwqfIxrLpf5q+Si
- CKQumKyRwVV/depyVR2wS04mzjygdeN5OuiynA3aja3zqBFrx0wU9tbtoIN6UzFQSGel
- ta9Qrla+h5KifXccnit7Pvprylg3yMIB4sXzpc0as/A5KhUg8RnQ9ttX1EtW3N/hQsz4
- rgEdJ68WpTqU3BeUwOyPymEqSN4aiphDkgHk0+FDHN7DjQEXyMlvlTLYZmSDBoTkN2/C
- t6EXaKOFAi+1FLFxyuodqkNNeq5U8iN6APThQHVxrnDQNnvoKQG61iW+XC4aVmHnc+Zr
- HMwg==
-X-Gm-Message-State: AOAM5315uR6nI8EQh+coDIBgFakbnklbhaa6VfxZ7yBEVDanypNTziwU
- JZ+XBEXRjnFHGzuFWKkb0RpNKQ==
-X-Google-Smtp-Source: ABdhPJx0m7y0+tTT0GKng9Zx8mEaj2AARDjtL7dpOzv1whAkwZT/oVqkSpPBlKBT7317ctgo5rhZ9w==
-X-Received: by 2002:a17:902:7b8d:b0:14f:1aca:d95e with SMTP id
- w13-20020a1709027b8d00b0014f1acad95emr37279729pll.122.1646333401644; 
- Thu, 03 Mar 2022 10:50:01 -0800 (PST)
-Received: from ?IPV6:2603:800c:1201:c600:e819:4400:f268:c391?
- (2603-800c-1201-c600-e819-4400-f268-c391.res6.spectrum.com.
- [2603:800c:1201:c600:e819:4400:f268:c391])
- by smtp.gmail.com with ESMTPSA id
- my6-20020a17090b4c8600b001bc2cb011dasm2754470pjb.4.2022.03.03.10.49.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 10:50:01 -0800 (PST)
-Message-ID: <e65ce858-b6aa-e52e-c5e7-f6020b0b0b30@linaro.org>
-Date: Thu, 3 Mar 2022 08:49:57 -1000
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nPqYr-0002nx-Mr
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:52:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22160)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nPqYn-0008TS-L9
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:52:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646333540;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uwCODbJ1Kjp885qBe3bo2UJjfkxziRPd6imR7+wPG9g=;
+ b=RsFz/DxTnOiOIUIVGXFI+hM4UMTGkTpwY2wcP4tc9XronwM8/cG363sZ8zC47sBwbvgb15
+ czXaJ+jF7geDSixgZjSSN6ZWR3UJLOTiE1coBfrlW5a0TkdO9UVVc5vykJdoPhx93mfl4v
+ FS09BRuLB5pTetfHOOWGB5njy5bIilo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-538-_iuKkXO2PMKp3xinE-wmCg-1; Thu, 03 Mar 2022 13:52:15 -0500
+X-MC-Unique: _iuKkXO2PMKp3xinE-wmCg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89E131091DA0;
+ Thu,  3 Mar 2022 18:52:13 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.195.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B16D80FCB;
+ Thu,  3 Mar 2022 18:51:50 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/14] vDPA shadow virtqueue
+Date: Thu,  3 Mar 2022 19:51:33 +0100
+Message-Id: <20220303185147.3605350-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/5] target/ppc: change xs[n]madd[am]sp to use
- float64r32_muladd
-Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220303172041.1915037-1-matheus.ferst@eldorado.org.br>
- <20220303172041.1915037-3-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220303172041.1915037-3-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,61 +77,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, danielhb413@gmail.com, groug@kaod.org,
- philippe.mathieu.daude@gmail.com, clg@kaod.org, mrezanin@redhat.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Peter Xu <peterx@redhat.com>, virtualization@lists.linux-foundation.org,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
+ "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/3/22 07:20, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> 
-> Change VSX Scalar Multiply-Add/Subtract Type-A/M Single Precision
-> helpers to use float64r32_muladd. This method should correctly handle
-> all rounding modes, so the workaround for float_round_nearest_even can
-> be dropped.
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/fpu_helper.c | 93 ++++++++++++++++-------------------------
->   1 file changed, 35 insertions(+), 58 deletions(-)
-> 
-> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> index 8f970288f5..c973968ed6 100644
-> --- a/target/ppc/fpu_helper.c
-> +++ b/target/ppc/fpu_helper.c
-> @@ -1916,22 +1916,19 @@ void helper_xsdivqp(CPUPPCState *env, uint32_t opcode,
->    *   fld   - vsr_t field (VsrD(*) or VsrW(*))
->    *   sfprf - set FPRF
->    */
-> -#define VSX_RE(op, nels, tp, fld, sfprf, r2sp)                                \
-> +#define VSX_RE(op, nels, tp, op_tp, fld, sfprf)                               \
->   void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)              \
->   {                                                                             \
->       ppc_vsr_t t = { };                                                        \
-> -    int i;                                                                    \
-> +    int i, flags;                                                             \
->                                                                                 \
->       helper_reset_fpstatus(env);                                               \
->                                                                                 \
->       for (i = 0; i < nels; i++) {                                              \
-> -        if (unlikely(tp##_is_signaling_nan(xb->fld, &env->fp_status))) {      \
-> +        t.fld = op_tp##_div(tp##_one, xb->fld, &env->fp_status);              \
-> +        flags = get_float_exception_flags(&env->fp_status);                   \
-> +        if (unlikely(flags & float_flag_invalid_snan)) {   
+This series enable shadow virtqueue (SVQ) for vhost-vdpa devices. This=0D
+is intended as a new method of tracking the memory the devices touch=0D
+during a migration process: Instead of relay on vhost device's dirty=0D
+logging capability, SVQ intercepts the VQ dataplane forwarding the=0D
+descriptors between VM and device. This way qemu is the effective=0D
+writer of guests memory, like in qemu's virtio device operation.=0D
+=0D
+When SVQ is enabled qemu offers a new virtual address space to the=0D
+device to read and write into, and it maps new vrings and the guest=0D
+memory in it. SVQ also intercepts kicks and calls between the device=0D
+and the guest. Used buffers relay would cause dirty memory being=0D
+tracked, but at this RFC SVQ is not enabled on migration automatically.=0D
+=0D
+Thanks of being a buffers relay system, SVQ can be used also to=0D
+communicate devices and drivers with different capabilities, like=0D
+devices that only supports packed vring and not split and old guest=0D
+with no driver packed support.=0D
+=0D
+It is based on the ideas of DPDK SW assisted LM, in the series of=0D
+DPDK's https://patchwork.dpdk.org/cover/48370/ . However, these does=0D
+not map the shadow vq in guest's VA, but in qemu's.=0D
+=0D
+For qemu to use shadow virtqueues the guest virtio driver must not use=0D
+features like event_idx.=0D
+=0D
+SVQ needs to be enabled with QMP command:=0D
+=0D
+{ "execute": "x-vhost-set-shadow-vq",=0D
+      "arguments": { "name": "vhost-vdpa0", "enable": true } }=0D
+=0D
+This series includes some patches to delete in the final version that=0D
+helps with its testing. The first two of the series have been sent=0D
+sepparately but they haven't been included in qemu main branch.=0D
+=0D
+The two after them adds the feature to stop the device and be able to=0D
+set and get its status. It's intended to be used with vp_vpda driver in=0D
+a nested environment, so they are also external to this series. The=0D
+vp_vdpa driver also need modifications to forward the new status bit,=0D
+they will be proposed sepparately=0D
+=0D
+Patches 5-12 prepares the SVQ and QMP command to support guest to host=0D
+notifications forwarding. If the SVQ is enabled with these ones=0D
+applied and the device supports it, that part can be tested in=0D
+isolation (for example, with networking), hopping through SVQ.=0D
+=0D
+Same thing is true with patches 13-17, but with device to guest=0D
+notifications.=0D
+=0D
+Based on them, patches from 18 to 22 implement the actual buffer=0D
+forwarding, using some features already introduced in previous.=0D
+However, they will need a host device with no iommu, something that=0D
+is not available at the moment.=0D
+=0D
+The last part of the series uses properly the host iommu, so the driver=0D
+can access this new virtual address space created.=0D
+=0D
+Comments are welcome.=0D
+=0D
+TODO:=0D
+* Event, indirect, packed, and others features of virtio.=0D
+* To support different set of features between the device<->SVQ and the=0D
+  SVQ<->guest communication.=0D
+* Support of device host notifier memory regions.=0D
+* To sepparate buffers forwarding in its own AIO context, so we can=0D
+  throw more threads to that task and we don't need to stop the main=0D
+  event loop.=0D
+* Support multiqueue virtio-net vdpa.=0D
+* Proper documentation.=0D
+=0D
+Changes from v3:=0D
+* Add @unstable feature to NetdevVhostVDPAOptions.x-svq.=0D
+* Fix uncomplete mapping (by 1 byte) of memory regions if svq is enabled.=
+=0D
+v3 link:=0D
+https://lore.kernel.org/qemu-devel/20220302203012.3476835-1-eperezma@redhat=
+.com/=0D
+=0D
+Changes from v2:=0D
+* Less assertions and more error handling in iova tree code.=0D
+* Better documentation, both fixing errors and making @param: format=0D
+* Homogeneize SVQ avail_idx_shadow and shadow_used_idx to make shadow a=0D
+  prefix at both times.=0D
+* Fix: Fo not use VirtQueueElement->len field, track separatedly.=0D
+* Split vhost_svq_{enable,disable}_notification, so the code looks more=0D
+  like the kernel driver code.=0D
+* Small improvements.=0D
+v2 link:=0D
+https://lore.kernel.org/all/CAJaqyWfXHE0C54R_-OiwJzjC0gPpkE3eX0L8BeeZXGm1ER=
+YPtA@mail.gmail.com/=0D
+=0D
+Changes from v1:=0D
+* Feature set at device->SVQ is now the same as SVQ->guest.=0D
+* Size of SVQ is not max available device size anymore, but guest's=0D
+  negotiated.=0D
+* Add VHOST_FILE_UNBIND kick and call fd treatment.=0D
+* Make SVQ a public struct=0D
+* Come back to previous approach to iova-tree=0D
+* Some assertions are now fail paths. Some errors are now log_guest.=0D
+* Only mask _F_LOG feature at vdpa_set_features svq enable path.=0D
+* Refactor some errors and messages. Add missing error unwindings.=0D
+* Add memory barrier at _F_NO_NOTIFY set.=0D
+* Stop checking for features flags out of transport range.=0D
+v1 link:=0D
+https://lore.kernel.org/virtualization/7d86c715-6d71-8a27-91f5-8d47b71e3201=
+@redhat.com/=0D
+=0D
+Changes from v4 RFC:=0D
+* Support of allocating / freeing iova ranges in IOVA tree. Extending=0D
+  already present iova-tree for that.=0D
+* Proper validation of guest features. Now SVQ can negotiate a=0D
+  different set of features with the device when enabled.=0D
+* Support of host notifiers memory regions=0D
+* Handling of SVQ full queue in case guest's descriptors span to=0D
+  different memory regions (qemu's VA chunks).=0D
+* Flush pending used buffers at end of SVQ operation.=0D
+* QMP command now looks by NetClientState name. Other devices will need=0D
+  to implement it's way to enable vdpa.=0D
+* Rename QMP command to set, so it looks more like a way of working=0D
+* Better use of qemu error system=0D
+* Make a few assertions proper error-handling paths.=0D
+* Add more documentation=0D
+* Less coupling of virtio / vhost, that could cause friction on changes=0D
+* Addressed many other small comments and small fixes.=0D
+=0D
+Changes from v3 RFC:=0D
+  * Move everything to vhost-vdpa backend. A big change, this allowed=0D
+    some cleanup but more code has been added in other places.=0D
+  * More use of glib utilities, especially to manage memory.=0D
+v3 link:=0D
+https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06032.html=0D
+=0D
+Changes from v2 RFC:=0D
+  * Adding vhost-vdpa devices support=0D
+  * Fixed some memory leaks pointed by different comments=0D
+v2 link:=0D
+https://lists.nongnu.org/archive/html/qemu-devel/2021-03/msg05600.html=0D
+=0D
+Changes from v1 RFC:=0D
+  * Use QMP instead of migration to start SVQ mode.=0D
+  * Only accepting IOMMU devices, closer behavior with target devices=0D
+    (vDPA)=0D
+  * Fix invalid masking/unmasking of vhost call fd.=0D
+  * Use of proper methods for synchronization.=0D
+  * No need to modify VirtIO device code, all of the changes are=0D
+    contained in vhost code.=0D
+  * Delete superfluous code.=0D
+  * An intermediate RFC was sent with only the notifications forwarding=0D
+    changes. It can be seen in=0D
+    https://patchew.org/QEMU/20210129205415.876290-1-eperezma@redhat.com/=
+=0D
+v1 link:=0D
+https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05372.html=0D
+=0D
+Eugenio P=C3=A9rez (14):=0D
+  vhost: Add VhostShadowVirtqueue=0D
+  vhost: Add Shadow VirtQueue kick forwarding capabilities=0D
+  vhost: Add Shadow VirtQueue call forwarding capabilities=0D
+  vhost: Add vhost_svq_valid_features to shadow vq=0D
+  virtio: Add vhost_svq_get_vring_addr=0D
+  vdpa: adapt vhost_ops callbacks to svq=0D
+  vhost: Shadow virtqueue buffers forwarding=0D
+  util: Add iova_tree_alloc_map=0D
+  vhost: Add VhostIOVATree=0D
+  vdpa: Add custom IOTLB translations to SVQ=0D
+  vdpa: Adapt vhost_vdpa_get_vring_base to SVQ=0D
+  vdpa: Never set log_base addr if SVQ is enabled=0D
+  vdpa: Expose VHOST_F_LOG_ALL on SVQ=0D
+  vdpa: Add x-svq to NetdevVhostVDPAOptions=0D
+=0D
+ qapi/net.json                      |   8 +-=0D
+ hw/virtio/vhost-iova-tree.h        |  27 ++=0D
+ hw/virtio/vhost-shadow-virtqueue.h |  87 ++++=0D
+ include/hw/virtio/vhost-vdpa.h     |   8 +=0D
+ include/qemu/iova-tree.h           |  18 +=0D
+ hw/virtio/vhost-iova-tree.c        | 155 +++++++=0D
+ hw/virtio/vhost-shadow-virtqueue.c | 637 +++++++++++++++++++++++++++++=0D
+ hw/virtio/vhost-vdpa.c             | 525 +++++++++++++++++++++++-=0D
+ net/vhost-vdpa.c                   |  48 ++-=0D
+ util/iova-tree.c                   | 135 ++++++=0D
+ hw/virtio/meson.build              |   2 +-=0D
+ 11 files changed, 1625 insertions(+), 25 deletions(-)=0D
+ create mode 100644 hw/virtio/vhost-iova-tree.h=0D
+ create mode 100644 hw/virtio/vhost-shadow-virtqueue.h=0D
+ create mode 100644 hw/virtio/vhost-iova-tree.c=0D
+ create mode 100644 hw/virtio/vhost-shadow-virtqueue.c=0D
+=0D
+--=0D
+2.27.0=0D
+=0D
 
-You seem to have squashed the change to recip-estimate into the same patch as muladd.
-
-
-> -#define VSX_RSQRTE(op, nels, tp, fld, sfprf, r2sp)                           \
-> +#define VSX_RSQRTE(op, nels, tp, op_tp, fld, sfprf)                          \
-
-And recip-sqrt-estimate.
-
-I guess it's ok to squash, since it's all related, but you should update the patch 
-description if you leave it this way.
-
-
-r~
 
