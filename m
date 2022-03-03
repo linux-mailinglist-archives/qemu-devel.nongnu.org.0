@@ -2,88 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D473F4CBC93
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 12:31:00 +0100 (CET)
-Received: from localhost ([::1]:48738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91EDB4CBCB0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 12:33:24 +0100 (CET)
+Received: from localhost ([::1]:50862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPjff-0006YJ-B4
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 06:30:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57358)
+	id 1nPjhz-0008Ma-D3
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 06:33:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nPjZF-0004YX-DB; Thu, 03 Mar 2022 06:24:23 -0500
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:40579)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nPjem-000770-P3
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 06:30:06 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:32975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1nPjZD-0004jj-34; Thu, 03 Mar 2022 06:24:20 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 485C75802B9;
- Thu,  3 Mar 2022 06:24:16 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 03 Mar 2022 06:24:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; bh=6ikmImTdm47N4tZ0kBMXBXvsugwI4h
- g7cplLWphv/rg=; b=OyUrEZO4PCxKKYGnOQHwHQHT0vYsQ8Jw9CxydaHAlMQDKi
- FTVjhs2CDCV10qAHY8GexOTBViDEyP6q+pxbdtKe6z+ieylCWgSbS2QECSO08lZh
- p+HmvR/St0eb/m0c6Mj0hVf4G8LPzIl623xrr9faN3u1PVzgLiMIAznQd4+nGANy
- mu3YZj+hJUbXQgEyJmHvuy1rJnMFcq5oBCt2FrgLycKWdeu5ihvcpQXfcTYSzAC2
- a5Gc5WKZXFTmtokuGqfFy2NP8eJKP2s1Re8eBDvJmlPNAVIwiahE4Fp2LZ6WxM6o
- CHPsm7hkIrK/kedeJPc53ku4KNCwITLozfWrZyLQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=6ikmImTdm47N4tZ0k
- BMXBXvsugwI4hg7cplLWphv/rg=; b=lUWSY2wOnbCBpO5SMUVCNqwFbt96PdDna
- GHjSVrozCQK/RKW585xrPBKNYsWoBPPEnM2alRSuuSLrIt6t1xjeo6C9yldZT9jx
- p+cQMIuyjY/xhlY6i+69T6nlORkdQltGEfrQ7Au9ur4YYXYJ4Xz24W/1DZJfCZfz
- SmrqUhtzSkFiFJLrw/u2sNBHsGauHgFB61xiPRi4PVBOuchwEnIAIYo3SZppB5KI
- e0INjsnIiutwC6WIqDzuEpQ8F/uk7aArw55ReUF4fTx7yq1PyFRRRiTf5v3NGyIv
- Fd7Ih/JyAidSnhynGX0oFQk3BSiWgBh3BzF2r/cUSAZpMJpYuPChw==
-X-ME-Sender: <xms:XqUgYmWB1VnX-mIkni6wQCt0LM9Af7VG4HF7Fq2fxh9NXvFT8w5Jew>
- <xme:XqUgYinyOjmIXbj7aZ0XQTuhinbZIQlTwlEfKZez4-wtJa9t-LxB6Lec1oEO_yT-Q
- QKs2HcK808d_lUYSzU>
-X-ME-Received: <xmr:XqUgYqZJ1hahi0OL0OeID6GLkpKqN4K0AffX3KrzoL44Rtw3EBhasF4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtiedgvdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpedugeefveegfeduhfeuledugfeufeetheeuhfeuffejgeelgffgtdeffeduvddt
- veenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:XqUgYtXrU12GLYHS7VnEUEX99Haz1a8Xm94yVYSyNqX_DH3j4tuBnQ>
- <xmx:XqUgYgmMPH19rk3fOUaiPQzl_kYFKrPTrfGiab1CQ69xHzSreDKZ4A>
- <xmx:XqUgYidSyh_u6vCYnPndYRf6h1RP7UjCZ6GQeFL3uAsXmBN4Ca4Rbg>
- <xmx:YKUgYtirvzNtBHhgIF6agXFkXX-PAyNpYYQREORw85OysdxqBVchjA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Mar 2022 06:24:13 -0500 (EST)
-Date: Thu, 3 Mar 2022 12:24:11 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v2 0/6] hw/nvme: enhanced protection information (64-bit
- guard)
-Message-ID: <YiClW/XGefTsEfPp@apples>
-References: <20220301104428.160017-1-its@irrelevant.dk>
- <20220301145453.GB364422@dhcp-10-100-145-180.wdc.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nPjek-0007eq-VS
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 06:30:04 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-586-IbdKJaoNNeinlYrwg8G83Q-1; Thu, 03 Mar 2022 06:29:57 -0500
+X-MC-Unique: IbdKJaoNNeinlYrwg8G83Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00406801AAD;
+ Thu,  3 Mar 2022 11:29:56 +0000 (UTC)
+Received: from bahia (unknown [10.39.193.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E473582E5A;
+ Thu,  3 Mar 2022 11:29:54 +0000 (UTC)
+Date: Thu, 3 Mar 2022 12:29:53 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH] 9pfs: drop Doxygen format from qemu_dirent_dup() API
+ comment
+Message-ID: <20220303122953.01ee1139@bahia>
+In-Reply-To: <1847380.I5uLlGeFOO@silver>
+References: <E1nPTwO-0006pl-Np@lizzy.crudebyte.com>
+ <20220303105332.5ce078a9@bahia> <1847380.I5uLlGeFOO@silver>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sTz2oNmAEClLkeBJ"
-Content-Disposition: inline
-In-Reply-To: <20220301145453.GB364422@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
- helo=new1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,60 +68,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Naveen Nagar <naveen.n1@samsung.com>, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 03 Mar 2022 11:55:36 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
---sTz2oNmAEClLkeBJ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mar  1 06:54, Keith Busch wrote:
-> On Tue, Mar 01, 2022 at 11:44:22AM +0100, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
+> On Donnerstag, 3. M=C3=A4rz 2022 10:53:32 CET Greg Kurz wrote:
+> > On Wed, 2 Mar 2022 19:30:39 +0100
 > >=20
-> > This adds support for one possible new protection information format
-> > introduced in TP4068 (and integrated in NVMe 2.0): the 64-bit CRC guard
-> > and 48-bit reference tag. This version does not support storage tags.
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > API doc comments in QEMU are supposed to be in kerneldoc format, so d=
+rop
+> > > occurrences of "@c" which is Doxygen format for fixed-width text.
+> > >=20
+> > > Link:
+> > > https://lore.kernel.org/qemu-devel/CAFEAcA89+ENOM6x19OEF53Kd2DWkhN5SN=
+21Va
+> > > 0D7yepJSa3Jyg@mail.gmail.com/ Based-on:
+> > > <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
 > >=20
-> > Like the CRC16 support already present, this uses a software
-> > implementation of CRC64 (so it is naturally pretty slow). But its good
-> > enough for verification purposes.
+> > Sorry for not catching these during previous reviews :-\
 > >=20
-> > This goes hand-in-hand with the support that Keith submitted for the
-> > Linux kernel[1].
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
 > >=20
-> >   [1]: https://lore.kernel.org/linux-nvme/20220201190128.3075065-1-kbus=
-ch@kernel.org/
+> > FWIW it seems some more de-doxygenation is needed :
+> >=20
+> > fsdev/p9array.h: * Consider the following user struct @c Foo which shal=
+l be
+> > used as scalar fsdev/p9array.h: * @code
+> > fsdev/p9array.h: * and assume it has the following function to free mem=
+ory
+> > allocated by @c Foo fsdev/p9array.h: * @code
+> > fsdev/p9array.h: * @code
+> > fsdev/p9array.h: * @code
+> > fsdev/p9array.h: * @code
+> > hw/9pfs/9p.h:     * Lenght of the affix, that is how many (of the lowes=
+t)
+> > bits of @c value extra nit  ^^
+> > hw/9pfs/codir.c: * @note You must @b ALWAYS call @c
+> > v9fs_free_dirents(entries) after calling
 >=20
-> Thanks Klaus, this looks good to me.
+> OK, I send more patches to wipe these as well today.
 >=20
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
+> Greg, if something is tagged as junk email at your end, please remove it =
+from=20
+> the subject line, otherwise I will not receive your reply. It was pure lu=
+ck=20
+> that I noticed your message on the archives this time.
+>=20
 
-Thanks,
+Sure... I usually do but I forgot this time. Sorry for that.
 
-Applied to nvme-next!
+Since you seem to be the only affected person which I receive
+mail from, I'll try to automate this on my side.
 
---sTz2oNmAEClLkeBJ
-Content-Type: application/pgp-signature; name="signature.asc"
+> Best regards,
+> Christian Schoenebeck
+>=20
+>=20
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmIgpVUACgkQTeGvMW1P
-DelaWAf+IPkZHIeu4Z8bJL8IHXEwtoK1ac/nds6E+NAhKmtvVPzezY8UU7kBnBgp
-TXDgxcuIT6mWgeCAYtkaRTCTcmweIkNczATlCxf1jWNwmmExpjGEY1V5Qucfo81j
-H8uFFIm/rADr/XD+eaisysz7bSjZ9IeYyIQaVv+Hy1uUNLpw/80K8F4lQqFdbPxH
-dQfpwrbBqlUlTlPxMG1D4IJT+tS44N/4Vt1iYnLHrWavGqYlMr2OjT8JW+9Ndc17
-60Xp89fc51sRZXsILQjGLLwzEaSUYlZOEbWW7dfzm2if0MArb+ibH4qX+FLUDtJW
-/VIjwGEFNRWUGI7ommWw/jrwxkrp3A==
-=7mIA
------END PGP SIGNATURE-----
-
---sTz2oNmAEClLkeBJ--
 
