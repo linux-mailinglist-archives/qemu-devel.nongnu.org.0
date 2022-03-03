@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED574CC20A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:58:01 +0100 (CET)
-Received: from localhost ([::1]:53846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0164CC216
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:01:10 +0100 (CET)
+Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPnq4-0000tj-2t
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:58:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52002)
+	id 1nPnt7-0006xV-Ki
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:01:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nPnUS-00039A-P5; Thu, 03 Mar 2022 10:35:40 -0500
-Received: from [2607:f8b0:4864:20::32b] (port=38900
- helo=mail-ot1-x32b.google.com)
+ id 1nPnUW-0003CG-RU; Thu, 03 Mar 2022 10:35:44 -0500
+Received: from [2607:f8b0:4864:20::c35] (port=39774
+ helo=mail-oo1-xc35.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nPnUR-0000o0-Cg; Thu, 03 Mar 2022 10:35:40 -0500
-Received: by mail-ot1-x32b.google.com with SMTP id
- a7-20020a9d5c87000000b005ad1467cb59so4901948oti.5; 
- Thu, 03 Mar 2022 07:35:38 -0800 (PST)
+ id 1nPnUV-0000oQ-7W; Thu, 03 Mar 2022 10:35:44 -0500
+Received: by mail-oo1-xc35.google.com with SMTP id
+ i6-20020a4ac506000000b0031c5ac6c078so6163015ooq.6; 
+ Thu, 03 Mar 2022 07:35:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eXNjeD6Sxe9ZmAZM+td3uKObrrg2Nxe5x51VPpl+OnI=;
- b=PSwXI3MwaxqKwXs8WZgNGL4qDv55ERbbldBmTZBtS5uGRmO9X0u6wbXbPiL/B6Cu/M
- Hl145wUGJZTVPhwJf8orSYtFqWAYEY8e8M9Bm0//edsazFKtVlbAt6LrnPkewXyXXHUD
- jUB9w553AtF543xVxElBc0l4h6LH630UoT6LzgkJB+wVsQr5i7BwqoLCwyOxnzw/QVX+
- EM8+mzt3+0SsgZ9U5r9lC1Xz7lnuigMzuWiVoZ/7G3LXoDHH9hqtODXPXLNQ+MunHmrI
- oJNGI72CcI/LkFA/TW+BX+FyvVQzysmhD8UlXSBCSyy2nKhDw4SbM+c3TMws1DS6JoD5
- H2kw==
+ bh=aeKZrN08XBqiWTjZrO0Znq9TaiybBWNcFjhvvhGdonQ=;
+ b=PtmSQy7wEpZ786phRc7CrfXQ63rPyXqHmk+d7gGskiGlNBkCqlDLg8MHbPivWodsir
+ MM0x2pnYilxhussfPgwuhle6kKXih8zcWoi4mSazOckKlfoMKRcdtkIMCitwE41vN88y
+ ryWvTW3pllKXScw7GzkVfeXdp/w/TpI68itV1lHW+KQZLC3ydVHKm+pK80t/DYBzK/cp
+ yx7dIInqKo823WoS2pMBLozI1GUQ05LGl0mYA5pB/JFRFD8xNtgMJk/rgDDOO0y6g1A3
+ zzOySBo/u7CocZbAeaks0LjRWOylU0qRQw6omzYBbg/aUpFS3UXMfYy4n8twcKXvfo7Z
+ w2/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eXNjeD6Sxe9ZmAZM+td3uKObrrg2Nxe5x51VPpl+OnI=;
- b=ScAkSB76ZRRKivxLDAXLhP0g6cE/GHZr6tIeTO+lCOTPXNU5fPYhxchCNiKINQsti5
- QahYjZ5hCdVjvnd8h2hGYh3/9xGK0GyyZakvGWHzEgTy6CUNtO2JZWSAh78b6BEi3Rwk
- nUcnEYjjFu9EjWKTmadoOZJNhG4RkR5l0D75Ohoh27vdpTw9i4qE51ZHZXEBkvbOwMau
- am/U5gOp3qY4CHX4A8FSsbGFfpFaB45dlONzxvhC05e+NEWauvANmJM1bXtedkUIq3NY
- bd5Xc+3161ie6iRBZ5Ga0xG/mHi7exnf7P6B3TQ/PvdasFePFK/wnIL7pga5DsQbEWdz
- hnDA==
-X-Gm-Message-State: AOAM533/cjiGtEoySGPpFJaegde41ghAB89OHeJ5oN5UDCyIeXqN6n+Z
- agEy7xTStMANp20j9gtYDfnRm+ipIYk=
-X-Google-Smtp-Source: ABdhPJx5s7VjrQPMe37QqoWURuK6Z9r0hB8u0a/aR4SAm9ZCQK6ChCBNXJCAdrzO0N9xZP/Ec0UjJQ==
-X-Received: by 2002:a9d:721a:0:b0:5af:a50:eb65 with SMTP id
- u26-20020a9d721a000000b005af0a50eb65mr18905449otj.295.1646321737777; 
- Thu, 03 Mar 2022 07:35:37 -0800 (PST)
+ bh=aeKZrN08XBqiWTjZrO0Znq9TaiybBWNcFjhvvhGdonQ=;
+ b=bAcfgX4qo2bgogW7ZvAsfjJRUYibN/L1F74ORMbWybs1G8dcYbhsTDbh59P02alYuW
+ PBsPpRBYrXxD9fGs5cnyKej2QR2mbkAzktYx7CQtI7kKG4sHtKI1tTQAOFEIeZoaOZ7e
+ z+IqG2CtyRvH5Y5BtunqKbilVisEQlzsyIqJg1o7+b7hVCnTwjYtPNtds+kNnAFle0Hh
+ SsknZSvcDZd4mKpN+QlRXbGUnSfK6gp28kh3TGs9JXfeq5gFrJ8p95SFznywmsURqOkR
+ u2izaISgkAC2ssS+U+TuXHzwrpuCXbV+RkP+RiFLKIxSiLThlzjv1MJO7EjMvXzqU+Ry
+ LAWQ==
+X-Gm-Message-State: AOAM5331rTFSf7850GyM4IIrJHH62KIMlXC5N1yvXbe5CoxRtoVR6wCI
+ DRcSy7esdG47/HxEOBltAW07oZyoO4U=
+X-Google-Smtp-Source: ABdhPJzxkDQlxPU4nzG+qNqZq+ecaIiDWA6cp8IkBHLEj4Of0NIf1+U5hsBM808WdCkOZCHvBJA0TA==
+X-Received: by 2002:a05:6870:e99f:b0:d6:f346:f281 with SMTP id
+ r31-20020a056870e99f00b000d6f346f281mr4403611oao.74.1646321740300; 
+ Thu, 03 Mar 2022 07:35:40 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:3b4a:a86f:f27d:30ef:6eb6])
  by smtp.gmail.com with ESMTPSA id
- dw7-20020a056870770700b000d9aa7a6d63sm1178798oab.6.2022.03.03.07.35.35
+ dw7-20020a056870770700b000d9aa7a6d63sm1178798oab.6.2022.03.03.07.35.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 07:35:37 -0800 (PST)
+ Thu, 03 Mar 2022 07:35:40 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] avocado/boot_linux_console.py: check tcg accel in
- test_ppc64_e500
-Date: Thu,  3 Mar 2022 12:35:16 -0300
-Message-Id: <20220303153517.168943-5-danielhb413@gmail.com>
+Subject: [PATCH 5/5] avocado/replay_kernel.py: make tcg-icount check in
+ run_vm()
+Date: Thu,  3 Mar 2022 12:35:17 -0300
+Message-Id: <20220303153517.168943-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220303153517.168943-1-danielhb413@gmail.com>
 References: <20220303153517.168943-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c35
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc35.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -89,34 +89,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: thuth@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, clg@kaod.org, crosa@redhat.com,
- david@gibson.dropbear.id.au
+ qemu-ppc@nongnu.org, clg@kaod.org, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ crosa@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some ppc64 hosts (e.g. IBM POWER hosts) aren't able to run the e500
-machine using KVM accel. Skip this test if TCG accel isn't available.
+The icount framework relies on TCG availability. If QEMU is built with
+--disable-tcg we won't have icount either, and then this test will fail
+with the following message in an IBM POWER9 host:
 
-Cc: Cleber Rosa <crosa@redhat.com>
+tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_pseries:
+ERROR: ConnectError: Failed to establish session:
+(...)
+/11-tests_avocado_replay_kernel.py_ReplayKernelNormal.test_ppc64_pseries/replay.bin:
+cannot configure icount, TCG support not available
+
+Although this was revealed in a specific ppc64 scenario, the TCG check
+is being done in the common code inside run_vm() because all archs need
+TCG to have access to icount.
+
+Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- tests/avocado/boot_linux_console.py | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/avocado/replay_kernel.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index d7d9130329..6d6e748572 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -1165,7 +1165,9 @@ def test_ppc64_e500(self):
+diff --git a/tests/avocado/replay_kernel.py b/tests/avocado/replay_kernel.py
+index c68a953730..0b2b0dc692 100644
+--- a/tests/avocado/replay_kernel.py
++++ b/tests/avocado/replay_kernel.py
+@@ -36,6 +36,9 @@ class ReplayKernelBase(LinuxKernelTest):
+ 
+     def run_vm(self, kernel_path, kernel_command_line, console_pattern,
+                record, shift, args, replay_path):
++        # icount requires TCG to be available
++        self.require_accelerator('tcg')
++
+         logger = logging.getLogger('replay')
+         start_time = time.time()
+         vm = self.get_vm()
+@@ -243,6 +246,7 @@ def test_ppc64_pseries(self):
+         """
          :avocado: tags=arch:ppc64
-         :avocado: tags=machine:ppce500
-         :avocado: tags=cpu:e5500
+         :avocado: tags=machine:pseries
 +        :avocado: tags=accel:tcg
          """
-+        self.require_accelerator("tcg")
-         tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
-         self.do_test_advcal_2018('19', tar_hash, 'uImage')
- 
+         kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+                       '/fedora-secondary/releases/29/Everything/ppc64le/os'
 -- 
 2.35.1
 
