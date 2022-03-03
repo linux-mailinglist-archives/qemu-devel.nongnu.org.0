@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAD04CB55F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 04:19:19 +0100 (CET)
-Received: from localhost ([::1]:44424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B294CB545
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 04:15:46 +0100 (CET)
+Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPbzq-00062b-K7
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 22:19:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43422)
+	id 1nPbwP-0001Jv-9b
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 22:15:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPbsW-0006x6-UV
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 22:11:44 -0500
-Received: from [2607:f8b0:4864:20::102a] (port=44947
- helo=mail-pj1-x102a.google.com)
+ id 1nPbsV-0006wp-OG
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 22:11:43 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=46771
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPbsU-0003WX-71
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 22:11:44 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- gj15-20020a17090b108f00b001bef86c67c1so3497259pjb.3
- for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 19:11:36 -0800 (PST)
+ id 1nPbsU-0003Wg-67
+ for qemu-devel@nongnu.org; Wed, 02 Mar 2022 22:11:43 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ 15-20020a17090a098f00b001bef0376d5cso3623332pjo.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Mar 2022 19:11:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0C+p7bytk3qLimeI5anVabh7r6fqfbnBHos9vxQEE0I=;
- b=UdfoGZvrfcdeGnSWL3b2agfjxComzHVvPdzgqrCtAWMBlPC40H9+q2vZWw4K2XmRUn
- uob50IVomq10h/O+3BWkyicuQs+OKXqdfWD0AWfUqDXqCxg4w79ple53gstMHYt19Egz
- L8Z44RYMawNscMR5XxqNEH1/dXWbM8r1JWNefMII9JLgcDUmuMqsumLqxoE3fa12R0HV
- TWutziyk12IOFQFAGTEZ8cC2mtCxFb8BBklsbJ9vlpM0wCifwkBCJweLmaNB+3sQ5O6G
- IngaYjqgYSPnjZAo9KX3ko9hTNY+TDiU+fNlnXX8PkC9C//zczN4DawNTEW1F/T3orY8
- glbw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=z0nTGi36Q6kY2XhTWFaFoUNK+G34o+/T62xUlFxQppc=;
+ b=zcgdZr3CaBtvHQgE1kM8OA3KdTpe5q2TFD04PX1L40Rr5C7qbBY+dPbMTNJ1S8pyPn
+ U3AjOcFEh2iuSftOIJZ2iQP32tr5fJjoaU9FIp+fhlkXd6Ca6/upDlIbIU+g5wMAYZpB
+ oqMfYMRjeEkdTJ2kg3CN/JuV3xm6l4qSqY8TWr4ZZUbOzctWQlhSGAfU3agNzvG96K+n
+ BOTtdX3c55Lfj8xy3BAVQa3TJZt/a6IOfuDbnYWGPn+EWObnOKoINtHocYa+MdlqJnam
+ LDoJsyPMqZF9ZYx2AYV6LkBAIlum2Yog/0ckqIB1ji2ib3EnCVGR2IpwueIZxaSeglQp
+ rJFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0C+p7bytk3qLimeI5anVabh7r6fqfbnBHos9vxQEE0I=;
- b=JgaWwQqhFBeF195meLNbXhVBJfRtmhHimwHf/zYspOtltFv3e8BwTTNWI8I/mn0E1Q
- RXzy8tFfet0nMgYUyteptbT5L9f7DAYh9Ia1xaFHVqEsKLIACPrP4fZJX9peiAOIpnRZ
- H60VLqiUpemw+DRBFxC30l/mCtrAP7WaNmZ2aJiWF3Q8BLwPzIeIvL5v+Vw7xQiSERZE
- mFTgDkhQA8B0VbMJY2RALsnYqSsmumf5h7xKPMUJlUvXPOd1Fg5m33U4Yw+Z2MygKLdx
- h7q15CygmEcoltrwtyRkhdBHd5hd+h86jfCtCxyHK+BnZ79HA1VRNTVg82pEB8td3cGX
- mgXw==
-X-Gm-Message-State: AOAM533M0e/rl4Gtg7eDLII8vDVGWwEt+ExbLx9RmNjKC/0T38Blw8Gh
- cRD8xJbgShvHW/htqQb+kCkxfKOK/kXYxw==
-X-Google-Smtp-Source: ABdhPJx2a85X7M/zONYFP5m9y14YVPeYYkSvRjxM61XmoWE6vBc9yjLCvhCM3Ish2rkT3Fb3N1hiLA==
-X-Received: by 2002:a17:903:41c5:b0:151:a579:bc5e with SMTP id
- u5-20020a17090341c500b00151a579bc5emr2670993ple.113.1646277095006; 
- Wed, 02 Mar 2022 19:11:35 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=z0nTGi36Q6kY2XhTWFaFoUNK+G34o+/T62xUlFxQppc=;
+ b=48lf21jg+qNeyFHbGxE9BQkfxo5YrYqVMpvHVzQVn06OuEJtjQYqtyTn/7vYr1a7u+
+ QOBwueX38UM1xY+FWx5oGzBYhiaoaTzEF7QTwShX5IMZxZoEp77K+57enrRnHDXc1fd1
+ KUrqolhrakgGZWkvMIPd2P2du5UH20OUpwOwmEejgSdzU1eu0FXTJB1/VUmymBasmDhL
+ bhe30ELeGimg/JZbVngkp1WqR+/ReHU2UBcfGtyX6+37vfp8K8MSy74QmTEy169m8h7k
+ CrMgGBySQar4F/7W3T3ABNlhBfoK39gOg+tPRSJUL1oFfx1y0d3xZR//l22JffRfxz9w
+ iCWQ==
+X-Gm-Message-State: AOAM531K1F2ZuLFguOISATJ88VOZtkzGJUcH4ZsDpVXLGBK0RwzCYlhT
+ skeT//FbHDZ/XQQu1vf9EZ6afEQ0JJq4YA==
+X-Google-Smtp-Source: ABdhPJyiMTh0olcdYXgs30VnHPmVwN9603ULmzKcd0ghhsMSqIWxMWF80zz5/FLfGgrqBI+lEyPUqA==
+X-Received: by 2002:a17:902:8c86:b0:151:8226:e93b with SMTP id
+ t6-20020a1709028c8600b001518226e93bmr11379437plo.128.1646277096293; 
+ Wed, 02 Mar 2022 19:11:36 -0800 (PST)
 Received: from localhost.localdomain
  (2603-800c-1201-c600-e819-4400-f268-c391.res6.spectrum.com.
  [2603:800c:1201:c600:e819:4400:f268:c391])
  by smtp.gmail.com with ESMTPSA id
- h7-20020a056a00170700b004e01663f59bsm605789pfc.117.2022.03.02.19.11.33
+ h7-20020a056a00170700b004e01663f59bsm605789pfc.117.2022.03.02.19.11.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 19:11:34 -0800 (PST)
+ Wed, 02 Mar 2022 19:11:35 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] tcg/s390x: Fixes for host vector codegen
-Date: Wed,  2 Mar 2022 17:11:29 -1000
-Message-Id: <20220303031132.444233-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/3] tcg/s390x: Fix tcg_out_dupi_vec vs VGM
+Date: Wed,  2 Mar 2022 17:11:30 -1000
+Message-Id: <20220303031132.444233-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220303031132.444233-1-richard.henderson@linaro.org>
+References: <20220303031132.444233-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,21 +95,36 @@ Cc: qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've run some risu tests for target arm neon on s390x
-and have found a couple of bugs.
+The immediate operands to VGM were in the wrong order,
+producing an inverse mask.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/s390x/tcg-target.c.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-r~
-
-
-Richard Henderson (3):
-  tcg/s390x: Fix tcg_out_dupi_vec vs VGM
-  tcg/s390x: Fix INDEX_op_bitsel_vec vs VSEL
-  tcg/s390x: Fix tcg_out_dup_vec vs general registers
-
- tcg/s390x/tcg-target.c.inc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
+diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
+index 6e65828c09..508f1bccc7 100644
+--- a/tcg/s390x/tcg-target.c.inc
++++ b/tcg/s390x/tcg-target.c.inc
+@@ -2715,7 +2715,7 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type, unsigned vece,
+                 msb = clz32(val);
+                 lsb = 31 - ctz32(val);
+             }
+-            tcg_out_insn(s, VRIb, VGM, dst, lsb, msb, MO_32);
++            tcg_out_insn(s, VRIb, VGM, dst, msb, lsb, MO_32);
+             return;
+         }
+     } else {
+@@ -2729,7 +2729,7 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type, unsigned vece,
+                 msb = clz64(val);
+                 lsb = 63 - ctz64(val);
+             }
+-            tcg_out_insn(s, VRIb, VGM, dst, lsb, msb, MO_64);
++            tcg_out_insn(s, VRIb, VGM, dst, msb, lsb, MO_64);
+             return;
+         }
+     }
 -- 
 2.25.1
 
