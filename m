@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4EE4CB571
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 04:28:59 +0100 (CET)
-Received: from localhost ([::1]:36756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B084CB567
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 04:26:49 +0100 (CET)
+Received: from localhost ([::1]:57544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPc9C-00047g-GT
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 22:28:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45564)
+	id 1nPc76-0006wc-E1
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 22:26:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nPc1w-0003Dq-TX; Wed, 02 Mar 2022 22:21:28 -0500
-Received: from [2607:f8b0:4864:20::d32] (port=35400
- helo=mail-io1-xd32.google.com)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nPc34-0004Qr-Sn; Wed, 02 Mar 2022 22:22:38 -0500
+Received: from [2607:f8b0:4864:20::735] (port=39431
+ helo=mail-qk1-x735.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nPc1u-0006HP-VT; Wed, 02 Mar 2022 22:21:28 -0500
-Received: by mail-io1-xd32.google.com with SMTP id q8so4334701iod.2;
- Wed, 02 Mar 2022 19:21:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nPc30-0006ji-Ix; Wed, 02 Mar 2022 22:22:35 -0500
+Received: by mail-qk1-x735.google.com with SMTP id t21so2999235qkg.6;
+ Wed, 02 Mar 2022 19:22:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=54NHf36Nvw9KmsTGU7qTE+xBu6tv19mHHOi07IBytRs=;
- b=Vea29Q5UVyimnXOTvGZvrqI6asdSSh6L1hF8l9k0/vxYW+/u1L3AUqkrEfOR0geo+A
- t76hdFyqwDscJn2O6TzVijOAmDqTaffl+2lm0pOrbKA0ewvfCvPeVixCM6hfHFtNG5AB
- 8myPUTIrmCBfrW++balClqZiSBMFpsCKeYGGVbMuW+2nVVjvFTHXTQOkX7J4cltL/GBR
- 4HncA6byuI1fOcmg90HppGrz4YIZxCXuWhLIlOI1pxD9DFzsYP8V2bqFG3sQZ8a8uHjd
- UUPG5jWgUqyeBwBo/tfGCtdaK8w2NOWTRRcepdoBmMskd14qPP+r12d0SJV9A2L9XiMK
- TFaw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xuSq9EQBTRF0fKgAQD8OtEtOTQQ7mwi4id5qcJdJRco=;
+ b=V0I9rcx2w0T43KWvi79My09RP2pZgYLs5qOY+Xp9lpWlw8oN6tnv9TYWQ19QC7qRGT
+ a31kTKU1i2HfGb53zCDphJZW+IqqvYD9ny60NpGpdP8dSfCwXTD6KBhWQXRvK8k8bSZR
+ /ewcY1BN0HdNthBM/dZ974uwDaYUJIfTwaEzhAo+deqx5yh6Nf5k8LCLh3PoxXJLhd29
+ BVta0bBsdoghKVO4Tcsvz0Sj6nqIPo1oa2zarjeMu2zg1cu0RlQhIPhWgszjcHmxVPzR
+ mWyWr04CT03vnK/vrAEGKdE3bnnR36qH1VGX8/zrSGOKw+VAhZ0pTySR4uf1TvdPLoKF
+ gRRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=54NHf36Nvw9KmsTGU7qTE+xBu6tv19mHHOi07IBytRs=;
- b=Xl81LkpY3rlDVH9h12Ceask9eQijMZFOBHwQKEcbw+HGihorz+avg8htiv0Qex0hny
- ox3W4ioNotJUuezZt7kUFunpZmAFi/jLDR+bqtvIa7ZAzYnQuiF0FZVvskpgz13qeDRl
- zw3WwCKmaSqoNsLbkReFRSW1d6ZaIXW5S7RebbBqWD8B1Wb6RVebUDq6OhH0loRhy1x5
- /rrzwCPfabZexG6E+68XUgRX09+XgDpeHBaYT7dO9SxsnAehuseLUUy+W7bRyjoqTtPT
- dp9aOFydX/p2caQqlX8MexiPNvE6O14b2Z9x83z42+MM2pRS9oWt1CweTdUYTzW2ufEP
- XJmQ==
-X-Gm-Message-State: AOAM532/UH1JncNzU3nyM6CP63BthdDqkCWRJPShnU2jJOy8w8z8ltJ7
- lPGwHHbwghRNOtIQi+vGJf4mMpqN028+LYziOpM=
-X-Google-Smtp-Source: ABdhPJwhiipwJcZfH0AhQDzntEtb1ZgVN/NjJ04EWkeOZwc8ePh15GMx/j9xUGmybaj5M6EJEHXlgToFtWYDTKJ1S9o=
-X-Received: by 2002:a05:6602:2c0b:b0:63d:dfb2:9a95 with SMTP id
- w11-20020a0566022c0b00b0063ddfb29a95mr25399562iov.93.1646277685095; Wed, 02
- Mar 2022 19:21:25 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xuSq9EQBTRF0fKgAQD8OtEtOTQQ7mwi4id5qcJdJRco=;
+ b=BDs262HbRrEAoLfP7ERUcrnbaTylwRS6T+Det1tFJyc8P5JQRFTf3RDT0Ama8Bq0UQ
+ nfj+XATqQcVjDjfw+w1YAP5oaKebnzbjeFuqbpwR81C6uUL/7D1TSVS6EN5cK2rNdw+Q
+ mpvj60v95RiXsgHXS2U+pvWJDkeQkCJA78DserMcvml/zHm+uYD9aqEflhgZ41C2ecFI
+ 6VNf4hVkVlXTfeevEhVcQQ/+XWORi+sPkR17Sc+UcHnG/MJBdjy3XlA5FL7bZ4Ax46fJ
+ LVmSneI/xQUXcYlsq2Sw9bqlpsX59u6363TqImDxrCbqi/5jlVDZbxWJyCtlD26OrhsZ
+ LLfQ==
+X-Gm-Message-State: AOAM531XoCZ1eLdyncbnBtx3Mp1HDUwkfrWzP19gjrkzrpXujo8RajZF
+ 3B2IZemEDyxJPTwIej7hQW3I7mua1Iv0SZ3dhaU=
+X-Google-Smtp-Source: ABdhPJw3GgAg51NwogJYNE5mlPSk7ZlE4K775yXlc2EDVLYV7gPmHDmFnXhUP1jpfO/kqtB3BylnLg==
+X-Received: by 2002:a05:620a:4481:b0:649:35d7:ec53 with SMTP id
+ x1-20020a05620a448100b0064935d7ec53mr17762061qkp.735.1646277752547; 
+ Wed, 02 Mar 2022 19:22:32 -0800 (PST)
+Received: from localhost.localdomain (mont-dyn-147-183.pwrtc.com.
+ [205.174.147.183]) by smtp.gmail.com with ESMTPSA id
+ x15-20020a05622a000f00b002de2da5e5cdsm682213qtw.3.2022.03.02.19.22.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Mar 2022 19:22:32 -0800 (PST)
+From: David Miller <dmiller423@gmail.com>
+To: qemu-s390x@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v1 0/2] s390x: Add support for Vector Enhancements Facility 2
+Date: Wed,  2 Mar 2022 22:22:17 -0500
+Message-Id: <20220303032219.17631-1-dmiller423@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220219002518.1936806-1-atishp@rivosinc.com>
-In-Reply-To: <20220219002518.1936806-1-atishp@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 3 Mar 2022 13:20:58 +1000
-Message-ID: <CAKmqyKONw4O7Wf+uV34vbAhzMRY7oOfNWHhYoAGxYEXsy+Ju=A@mail.gmail.com>
-Subject: Re: [PATCH v5 00/12] Improve PMU support
-To: Atish Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::735
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=dmiller423@gmail.com; helo=mail-qk1-x735.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -81,162 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, farman@linux.ibm.com,
+ David Miller <dmiller423@gmail.com>, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Feb 19, 2022 at 10:26 AM Atish Patra <atishp@rivosinc.com> wrote:
->
-> The latest version of the SBI specification includes a Performance Monito=
-ring
-> Unit(PMU) extension[1] which allows the supervisor to start/stop/configur=
-e
-> various PMU events. The Sscofpmf ('Ss' for Privileged arch and Supervisor=
--level
-> extensions, and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
-> extension[2] allows the perf like tool to handle overflow interrupts and
-> filtering support.
->
-> This series implements full PMU infrastructure to support
-> PMU in virt machine. This will allow us to add any PMU events in future.
->
-> Currently, this series enables the following omu events.
-> 1. cycle count
-> 2. instruction count
-> 3. DTLB load/store miss
-> 4. ITLB prefetch miss
->
-> The first two are computed using host ticks while last three are counted =
-during
-> cpu_tlb_fill. We can do both sampling and count from guest userspace.
-> This series has been tested on both RV64 and RV32. Both Linux[3] and Open=
-sbi[4]
-> patches are required to get the perf working.
->
-> Here is an output of perf stat/report while running hackbench with OpenSB=
-I & Linux
-> kernel patches applied [3].
->
-> Perf stat:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [root@fedora-riscv ~]# perf stat -e cycles -e instructions -e dTLB-load-m=
-isses -e dTLB-store-misses -e iTLB-load-misses \
-> > perf bench sched messaging -g 1 -l 10
-> # Running 'sched/messaging' benchmark:
-> # 20 sender and receiver processes per group
-> # 1 groups =3D=3D 40 processes run
->
->      Total time: 0.265 [sec]
->
->  Performance counter stats for 'perf bench sched messaging -g 1 -l 10':
->
->      4,167,825,362      cycles
->      4,166,609,256      instructions              #    1.00  insn per cyc=
-le
->          3,092,026      dTLB-load-misses
->            258,280      dTLB-store-misses
->          2,068,966      iTLB-load-misses
->
->        0.585791767 seconds time elapsed
->
->        0.373802000 seconds user
->        1.042359000 seconds sys
->
-> Perf record:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [root@fedora-riscv ~]# perf record -e cycles -e instructions \
-> > -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000 \
-> > perf bench sched messaging -g 1 -l 10
-> # Running 'sched/messaging' benchmark:
-> # 20 sender and receiver processes per group
-> # 1 groups =3D=3D 40 processes run
->
->      Total time: 1.397 [sec]
-> [ perf record: Woken up 10 times to write data ]
-> Check IO/CPU overload!
-> [ perf record: Captured and wrote 8.211 MB perf.data (214486 samples) ]
->
-> [root@fedora-riscv riscv]# perf report
-> Available samples
-> 107K cycles                                                              =
-      =E2=97=86
-> 107K instructions                                                        =
-      =E2=96=92
-> 250 dTLB-load-misses                                                     =
-      =E2=96=92
-> 13 dTLB-store-misses                                                     =
-      =E2=96=92
-> 172 iTLB-load-misses
-> ..
->
-> Changes from v4->v5:
-> 1. Rebased on top of the -next with following patches.
->    - isa extension
->    - priv 1.12 spec
-> 2. Addressed all the comments on v4
-> 3. Removed additional isa-ext DT node in favor of riscv,isa string update
->
-> Changes from v3->v4:
-> 1. Removed the dummy events from pmu DT node.
-> 2. Fixed pmu_avail_counters mask generation.
-> 3. Added a patch to simplify the predicate function for counters.
->
-> Changes from v2->v3:
-> 1. Addressed all the comments on PATCH1-4.
-> 2. Split patch1 into two separate patches.
-> 3. Added explicit comments to explain the event types in DT node.
-> 4. Rebased on latest Qemu.
->
-> Changes from v1->v2:
-> 1. Dropped the ACks from v1 as signficant changes happened after v1.
-> 2. sscofpmf support.
-> 3. A generic counter management framework.
->
-> [1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.=
-adoc
-> [2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edi=
-t
-> [3] https://github.com/atishp04/linux/tree/riscv_pmu_v6
-> [4] https://github.com/atishp04/qemu/tree/riscv_pmu_v5
->
-> Atish Patra (12):
-> target/riscv: Fix PMU CSR predicate function
-> target/riscv: Implement PMU CSR predicate function for S-mode
-> target/riscv: pmu: Rename the counters extension to pmu
+Extend s390x z15 to support and test Vector Enhancements Facility 2 (vxeh2)
 
-I have applied the first 3 patches
 
-Alistair
+David Miller (2):
+  s390x/tcg: Implement Vector-Enhancements Facility 2 for s390x
+  tests/tcg/s390x: Tests for Vector Enhancements Facility 2
 
-> target/riscv: pmu: Make number of counters configurable
-> target/riscv: Implement mcountinhibit CSR
-> target/riscv: Add support for hpmcounters/hpmevents
-> target/riscv: Support mcycle/minstret write operation
-> target/riscv: Add sscofpmf extension support
-> target/riscv: Simplify counter predicate function
-> target/riscv: Add few cache related PMU events
-> hw/riscv: virt: Add PMU DT node to the device tree
-> target/riscv: Update the privilege field for sscofpmf CSRs
->
-> hw/riscv/virt.c           |  28 ++
-> target/riscv/cpu.c        |  15 +-
-> target/riscv/cpu.h        |  49 ++-
-> target/riscv/cpu_bits.h   |  59 +++
-> target/riscv/cpu_helper.c |  26 ++
-> target/riscv/csr.c        | 862 ++++++++++++++++++++++++++++----------
-> target/riscv/machine.c    |  25 ++
-> target/riscv/meson.build  |   1 +
-> target/riscv/pmu.c        | 431 +++++++++++++++++++
-> target/riscv/pmu.h        |  37 ++
-> 10 files changed, 1303 insertions(+), 230 deletions(-)
-> create mode 100644 target/riscv/pmu.c
-> create mode 100644 target/riscv/pmu.h
->
-> --
-> 2.30.2
->
->
+ include/qemu/bitops.h                |  26 ++
+ target/s390x/gen-features.c          |   2 +-
+ target/s390x/helper.h                |  12 +-
+ target/s390x/tcg/insn-data.def       |  30 ++-
+ target/s390x/tcg/translate.c         |   3 +-
+ target/s390x/tcg/translate_vx.c.inc  | 377 ++++++++++++++++++++++++---
+ target/s390x/tcg/vec.h               |  30 +++
+ target/s390x/tcg/vec_fpu_helper.c    |  33 +++
+ target/s390x/tcg/vec_helper.c        |  33 +++
+ target/s390x/tcg/vec_int_helper.c    |  59 +++++
+ target/s390x/tcg/vec_string_helper.c |  65 +++++
+ tests/tcg/s390x/Makefile.target      |   8 +
+ tests/tcg/s390x/vxeh2_vcvt.c         |  97 +++++++
+ tests/tcg/s390x/vxeh2_vlstr.c        | 146 +++++++++++
+ tests/tcg/s390x/vxeh2_vs.c           |  91 +++++++
+ 15 files changed, 968 insertions(+), 44 deletions(-)
+ create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
+ create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
+ create mode 100644 tests/tcg/s390x/vxeh2_vs.c
+
+-- 
+2.34.1
+
 
