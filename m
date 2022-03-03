@@ -2,88 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B034C4CC39A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 18:23:04 +0100 (CET)
-Received: from localhost ([::1]:47126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C47674CC3C4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 18:31:10 +0100 (CET)
+Received: from localhost ([::1]:37218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPpAN-0006Y5-Pq
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 12:23:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52268)
+	id 1nPpID-0003BA-U1
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 12:31:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPp8s-0005rA-NT
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:21:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43903)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nPpAL-0007YQ-K7
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:23:01 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nPp8o-0001dl-DI
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:21:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646328084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PISlD7WwRlbFQG/nDB+Lb8frzEJFaTRy2OwI1mPWpDE=;
- b=AI9VLMnq0hVNv0EV76QA9nMF2Zwi1r1NwDBrK1Lx7N37VKySuGBE0NP9raFEojhdKu5PFT
- K7E82N/WJOrrTC3zpYEvUAXlUzSGBKpuMGyMliDFhZ65wejyUfTCUyw4ssZInnDqF54h37
- eWWLuvDtD5tEyDMTvh0A8JpXS+xvnk0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-1qO2HSoyPX22dPLkJSg1CA-1; Thu, 03 Mar 2022 12:21:23 -0500
-X-MC-Unique: 1qO2HSoyPX22dPLkJSg1CA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- e6-20020a5d4e86000000b001f045d4a962so2093381wru.21
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 09:21:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PISlD7WwRlbFQG/nDB+Lb8frzEJFaTRy2OwI1mPWpDE=;
- b=ApR/r6XrJZcl7mYeaF4SJQ1F2IbpiCFvCMsz8OtnJA5Y9V/do+/ZdYl2RyWi5ehRvg
- C8wcfN/y5Ig4MjYXnzptM0hVFI+c56AxdR3BJqRp8LJdPgQs+YKJqQgoi4QBMY4AibZm
- YFXkKEgpH2RltKpKq66yjDjLycBybVK5EUbn2sf6Bcnzg6vBKAPaEJd9eCSZoRmj3s9P
- DvgS/iIYNNVJLNitP70ZKuvvOgZfLTgnbPdVUzAHjXsTxyENYIc1DnbRdyXA2qlm3Zbr
- OYuo2bCtT4FVfeBODzi0lDPtghDqEPEdbb87l3GvG12W/gKFQOMRzF6owXdWDUFQSOXI
- d/1Q==
-X-Gm-Message-State: AOAM53199uK3eUkh3f0lZwcybFAROWO0+9n/9LSK9P9O4tvWNItVho/i
- MSweUlWS67IkOuJi26sEUjZqhI9pxtmiNtef4JRQQhedWc0IRMo33Qt+R8ovmE8Qr4aX7P4rBT7
- Zjk+vYeyfQ8XXQsk=
-X-Received: by 2002:a05:600c:190c:b0:37d:1f40:34c2 with SMTP id
- j12-20020a05600c190c00b0037d1f4034c2mr4585534wmq.115.1646328081943; 
- Thu, 03 Mar 2022 09:21:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzQf0pQFlOfVj5NtGdduf16Y1SR8OXgXlcaFVv1sduOM4RB1YcSyKIrB1DnzFgR8Qm8yDeGLw==
-X-Received: by 2002:a05:600c:190c:b0:37d:1f40:34c2 with SMTP id
- j12-20020a05600c190c00b0037d1f4034c2mr4585491wmq.115.1646328081414; 
- Thu, 03 Mar 2022 09:21:21 -0800 (PST)
-Received: from redhat.com ([2.55.143.133]) by smtp.gmail.com with ESMTPSA id
- b13-20020a05600c4e0d00b003816cb4892csm17307509wmq.0.2022.03.03.09.21.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 09:21:20 -0800 (PST)
-Date: Thu, 3 Mar 2022 12:21:15 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V7 10/29] machine: memfd-alloc option
-Message-ID: <20220303121534-mutt-send-email-mst@kernel.org>
-References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-11-git-send-email-steven.sistare@oracle.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nPpAH-0004SJ-TV
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:23:00 -0500
+Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4K8d7m2w9tz67Xxg;
+ Fri,  4 Mar 2022 01:21:40 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.21; Thu, 3 Mar 2022 18:22:55 +0100
+Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Thu, 3 Mar
+ 2022 17:22:54 +0000
+Date: Thu, 3 Mar 2022 17:22:52 +0000
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
+ .  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
+ Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
+ <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v6 16/43] hw/cxl/rp: Add a root port
+Message-ID: <20220303172252.00004c04@Huawei.com>
+In-Reply-To: <87lextlf1f.fsf@linaro.org>
+References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
+ <20220211120747.3074-17-Jonathan.Cameron@huawei.com>
+ <87lextlf1f.fsf@linaro.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <1640199934-455149-11-git-send-email-steven.sistare@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.202.226.41]
+X-ClientProxiedBy: lhreml741-chm.china.huawei.com (10.201.108.191) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,244 +76,306 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zheng Chuan <zhengchuan@huawei.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, Dec 22, 2021 at 11:05:15AM -0800, Steve Sistare wrote:
-> Allocate anonymous memory using memfd_create if the memfd-alloc machine
-> option is set.
-> 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> ---
->  hw/core/machine.c   | 19 +++++++++++++++++++
->  include/hw/boards.h |  1 +
->  qemu-options.hx     |  6 ++++++
->  softmmu/physmem.c   | 47 ++++++++++++++++++++++++++++++++++++++---------
->  softmmu/vl.c        |  1 +
->  trace-events        |  1 +
->  util/qemu-config.c  |  4 ++++
->  7 files changed, 70 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 53a99ab..7739d88 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -392,6 +392,20 @@ static void machine_set_mem_merge(Object *obj, bool value, Error **errp)
->      ms->mem_merge = value;
->  }
->  
-> +static bool machine_get_memfd_alloc(Object *obj, Error **errp)
-> +{
-> +    MachineState *ms = MACHINE(obj);
-> +
-> +    return ms->memfd_alloc;
-> +}
-> +
-> +static void machine_set_memfd_alloc(Object *obj, bool value, Error **errp)
-> +{
-> +    MachineState *ms = MACHINE(obj);
-> +
-> +    ms->memfd_alloc = value;
-> +}
-> +
->  static bool machine_get_usb(Object *obj, Error **errp)
->  {
->      MachineState *ms = MACHINE(obj);
-> @@ -829,6 +843,11 @@ static void machine_class_init(ObjectClass *oc, void *data)
->      object_class_property_set_description(oc, "mem-merge",
->          "Enable/disable memory merge support");
->  
-> +    object_class_property_add_bool(oc, "memfd-alloc",
-> +        machine_get_memfd_alloc, machine_set_memfd_alloc);
-> +    object_class_property_set_description(oc, "memfd-alloc",
-> +        "Enable/disable allocating anonymous memory using memfd_create");
-> +
->      object_class_property_add_bool(oc, "usb",
->          machine_get_usb, machine_set_usb);
->      object_class_property_set_description(oc, "usb",
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 9c1c190..a57d7a0 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -327,6 +327,7 @@ struct MachineState {
->      char *dt_compatible;
->      bool dump_guest_core;
->      bool mem_merge;
-> +    bool memfd_alloc;
->      bool usb;
->      bool usb_disabled;
->      char *firmware;
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 7d47510..33c8173 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -30,6 +30,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
->      "                vmport=on|off|auto controls emulation of vmport (default: auto)\n"
->      "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
->      "                mem-merge=on|off controls memory merge support (default: on)\n"
-> +    "                memfd-alloc=on|off controls allocating anonymous guest RAM using memfd_create (default: off)\n"
+On Tue, 01 Mar 2022 18:08:31 +0000
+Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
 
-Question: are there any disadvantages associated with using
-memfd_create? I guess we are using up an fd, but that seems minor.  Any
-reason not to set to on by default? maybe with a fallback option to
-disable that?
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+>=20
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> >
+> > This adds just enough of a root port implementation to be able to
+> > enumerate root ports (creating the required DVSEC entries). What's not
+> > here yet is the MMIO nor the ability to write some of the DVSEC entries.
+> >
+> > This can be added with the qemu commandline by adding a rootport to a
+> > specific CXL host bridge. For example:
+> >   -device cxl-rp,id=3Drp0,bus=3D"cxl.0",addr=3D0.0,chassis=3D4
+> >
+> > Like the host bridge patch, the ACPI tables aren't generated at this
+> > point and so system software cannot use it.
+> >
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> >  hw/pci-bridge/Kconfig          |   5 +
+> >  hw/pci-bridge/cxl_root_port.c  | 231 +++++++++++++++++++++++++++++++++
+> >  hw/pci-bridge/meson.build      |   1 +
+> >  hw/pci-bridge/pcie_root_port.c |   6 +-
+> >  hw/pci/pci.c                   |   4 +-
+> >  5 files changed, 245 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/pci-bridge/Kconfig b/hw/pci-bridge/Kconfig
+> > index f8df4315ba..02614f49aa 100644
+> > --- a/hw/pci-bridge/Kconfig
+> > +++ b/hw/pci-bridge/Kconfig
+> > @@ -27,3 +27,8 @@ config DEC_PCI
+> > =20
+> >  config SIMBA
+> >      bool
+> > +
+> > +config CXL
+> > +    bool
+> > +    default y if PCI_EXPRESS && PXB
+> > +    depends on PCI_EXPRESS && MSI_NONBROKEN && PXB
+> > diff --git a/hw/pci-bridge/cxl_root_port.c b/hw/pci-bridge/cxl_root_por=
+t.c
+> > new file mode 100644
+> > index 0000000000..dd714db836
+> > --- /dev/null
+> > +++ b/hw/pci-bridge/cxl_root_port.c
+> > @@ -0,0 +1,231 @@
+> > +/*
+> > + * CXL 2.0 Root Port Implementation
+> > + *
+> > + * Copyright(C) 2020 Intel Corporation.
+> > + *
+> > + * This library is free software; you can redistribute it and/or
+> > + * modify it under the terms of the GNU Lesser General Public
+> > + * License as published by the Free Software Foundation; either
+> > + * version 2 of the License, or (at your option) any later version.
+> > + *
+> > + * This library is distributed in the hope that it will be useful,
+> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> > + * Lesser General Public License for more details.
+> > + *
+> > + * You should have received a copy of the GNU Lesser General Public
+> > + * License along with this library; if not, see <http://www.gnu.org/li=
+censes/>
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/log.h"
+> > +#include "qemu/range.h"
+> > +#include "hw/pci/pci_bridge.h"
+> > +#include "hw/pci/pcie_port.h"
+> > +#include "hw/qdev-properties.h"
+> > +#include "hw/sysbus.h"
+> > +#include "qapi/error.h"
+> > +#include "hw/cxl/cxl.h"
+> > +
+> > +#define CXL_ROOT_PORT_DID 0x7075
+> > +
+> > +/* Copied from the gen root port which we derive */
+> > +#define GEN_PCIE_ROOT_PORT_AER_OFFSET 0x100
+> > +#define GEN_PCIE_ROOT_PORT_ACS_OFFSET \
+> > +    (GEN_PCIE_ROOT_PORT_AER_OFFSET + PCI_ERR_SIZEOF)
+> > +#define CXL_ROOT_PORT_DVSEC_OFFSET \
+> > +    (GEN_PCIE_ROOT_PORT_ACS_OFFSET + PCI_ACS_SIZEOF)
+> > +
+> > +typedef struct CXLRootPort {
+> > +    /*< private >*/
+> > +    PCIESlot parent_obj;
+> > +
+> > +    CXLComponentState cxl_cstate;
+> > +    PCIResReserve res_reserve;
+> > +} CXLRootPort;
+> > +
+> > +#define TYPE_CXL_ROOT_PORT "cxl-rp"
+> > +DECLARE_INSTANCE_CHECKER(CXLRootPort, CXL_ROOT_PORT, TYPE_CXL_ROOT_POR=
+T)
+> > +
+> > +static void latch_registers(CXLRootPort *crp)
+> > +{
+> > +    uint32_t *reg_state =3D crp->cxl_cstate.crb.cache_mem_registers;
+> > +
+> > +    cxl_component_register_init_common(reg_state, CXL2_ROOT_PORT);
+> > +}
+> > +
+> > +static void build_dvsecs(CXLComponentState *cxl)
+> > +{
+> > +    uint8_t *dvsec;
+> > +
+> > +    dvsec =3D (uint8_t *)&(struct cxl_dvsec_port_extensions){ 0 };
+> > +    cxl_component_create_dvsec(cxl, EXTENSIONS_PORT_DVSEC_LENGTH,
+> > +                               EXTENSIONS_PORT_DVSEC,
+> > +                               EXTENSIONS_PORT_DVSEC_REVID, dvsec);
+> > +
+> > +    dvsec =3D (uint8_t *)&(struct cxl_dvsec_port_gpf){
+> > +        .rsvd        =3D 0,
+> > +        .phase1_ctrl =3D 1, /* 1=CE=BCs timeout */
+> > +        .phase2_ctrl =3D 1, /* 1=CE=BCs timeout */
+> > +    };
+> > +    cxl_component_create_dvsec(cxl, GPF_PORT_DVSEC_LENGTH, GPF_PORT_DV=
+SEC,
+> > +                               GPF_PORT_DVSEC_REVID, dvsec);
+> > +
+> > +    dvsec =3D (uint8_t *)&(struct cxl_dvsec_port_flexbus){
+> > +        .cap                     =3D 0x26, /* IO, Mem, non-MLD */
+> > +        .ctrl                    =3D 0,
+> > +        .status                  =3D 0x26, /* same */
+> > +        .rcvd_mod_ts_data_phase1 =3D 0xef, /* WTF? */
+> > +    };
+> > +    cxl_component_create_dvsec(cxl, PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0,
+> > +                               PCIE_FLEXBUS_PORT_DVSEC,
+> > +                               PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0, dvse=
+c);
+> > +
+> > +    dvsec =3D (uint8_t *)&(struct cxl_dvsec_register_locator){
+> > +        .rsvd         =3D 0,
+> > +        .reg0_base_lo =3D RBI_COMPONENT_REG | CXL_COMPONENT_REG_BAR_ID=
+X,
+> > +        .reg0_base_hi =3D 0,
+> > +    };
+> > +    cxl_component_create_dvsec(cxl, REG_LOC_DVSEC_LENGTH, REG_LOC_DVSE=
+C,
+> > +                               REG_LOC_DVSEC_REVID, dvsec);
+> > +}
+> > +
+> > +static void cxl_rp_realize(DeviceState *dev, Error **errp)
+> > +{
+> > +    PCIDevice *pci_dev     =3D PCI_DEVICE(dev);
+> > +    PCIERootPortClass *rpc =3D PCIE_ROOT_PORT_GET_CLASS(dev);
+> > +    CXLRootPort *crp       =3D CXL_ROOT_PORT(dev);
+> > +    CXLComponentState *cxl_cstate =3D &crp->cxl_cstate;
+> > +    ComponentRegisters *cregs =3D &cxl_cstate->crb;
+> > +    MemoryRegion *component_bar =3D &cregs->component_registers;
+> > +    Error *local_err =3D NULL;
+> > +
+> > +    rpc->parent_realize(dev, &local_err);
+> > +    if (local_err) {
+> > +        error_propagate(errp, local_err);
+> > +        return;
+> > +    }
+> > +
+> > +    int rc =3D
+> > +        pci_bridge_qemu_reserve_cap_init(pci_dev, 0, crp->res_reserve,=
+ errp);
+> > +    if (rc < 0) {
+> > +        rpc->parent_class.exit(pci_dev);
+> > +        return;
+> > +    }
+> > +
+> > +    if (!crp->res_reserve.io || crp->res_reserve.io =3D=3D -1) {
+> > +        pci_word_test_and_clear_mask(pci_dev->wmask + PCI_COMMAND,
+> > +                                     PCI_COMMAND_IO);
+> > +        pci_dev->wmask[PCI_IO_BASE]  =3D 0;
+> > +        pci_dev->wmask[PCI_IO_LIMIT] =3D 0;
+> > +    }
+> > +
+> > +    cxl_cstate->dvsec_offset =3D CXL_ROOT_PORT_DVSEC_OFFSET;
+> > +    cxl_cstate->pdev =3D pci_dev;
+> > +    build_dvsecs(&crp->cxl_cstate);
+> > +
+> > +    cxl_component_register_block_init(OBJECT(pci_dev), cxl_cstate,
+> > +                                      TYPE_CXL_ROOT_PORT);
+> > +
+> > +    pci_register_bar(pci_dev, CXL_COMPONENT_REG_BAR_IDX,
+> > +                     PCI_BASE_ADDRESS_SPACE_MEMORY |
+> > +                         PCI_BASE_ADDRESS_MEM_TYPE_64,
+> > +                     component_bar);
+> > +}
+> > +
+> > +static void cxl_rp_reset(DeviceState *dev)
+> > +{
+> > +    PCIERootPortClass *rpc =3D PCIE_ROOT_PORT_GET_CLASS(dev);
+> > +    CXLRootPort *crp =3D CXL_ROOT_PORT(dev);
+> > +
+> > +    rpc->parent_reset(dev);
+> > +
+> > +    latch_registers(crp);
+> > +}
+> > +
+> > +static Property gen_rp_props[] =3D {
+> > +    DEFINE_PROP_UINT32("bus-reserve", CXLRootPort, res_reserve.bus, -1=
+),
+> > +    DEFINE_PROP_SIZE("io-reserve", CXLRootPort, res_reserve.io, -1),
+> > +    DEFINE_PROP_SIZE("mem-reserve", CXLRootPort, res_reserve.mem_non_p=
+ref, -1),
+> > +    DEFINE_PROP_SIZE("pref32-reserve", CXLRootPort, res_reserve.mem_pr=
+ef_32,
+> > +                     -1),
+> > +    DEFINE_PROP_SIZE("pref64-reserve", CXLRootPort, res_reserve.mem_pr=
+ef_64,
+> > +                     -1),
+> > +    DEFINE_PROP_END_OF_LIST()
+> > +};
+> > +
+> > +static void cxl_rp_dvsec_write_config(PCIDevice *dev, uint32_t addr,
+> > +                                      uint32_t val, int len)
+> > +{
+> > +    CXLRootPort *crp =3D CXL_ROOT_PORT(dev);
+> > +
+> > +    if (range_contains(&crp->cxl_cstate.dvsecs[EXTENSIONS_PORT_DVSEC],=
+ addr)) {
+> > +        uint8_t *reg =3D &dev->config[addr];
+> > +        addr -=3D crp->cxl_cstate.dvsecs[EXTENSIONS_PORT_DVSEC].lob;
+> > +        if (addr =3D=3D PORT_CONTROL_OFFSET) {
+> > +            if (pci_get_word(reg) & PORT_CONTROL_UNMASK_SBR) {
+> > +                /* unmask SBR */
+> > +            }
+> > +            if (pci_get_word(reg) & PORT_CONTROL_ALT_MEMID_EN) {
+> > +                /* Alt Memory & ID Space Enable */
+> > +            } =20
+>=20
+> Can we have LOG_UNIMPs for these null implementations please.
 
-I am concerned that it's actually a kind of memory backend, this flag
-seems to instead be closer to the deprecated mem-prealloc. E.g.
-it does not work with a mem path, does it?
+Added.  I have implementation for SBR unmasking, but that will be part of
+a future patch set so definitely makes sense to log for now.
+
+The alt memory stuff is about making a CXL 1.1 device that is attached
+to a CXL switch work (?).  In that case we have to make it
+magically appear as an RCiEP despite being below a switch and
+hence have to mess around with routing to make that work - effectively
+we are tunneling an extra PCI topology through the existing one.
+
+Given we generally don't care today about emulating CXL 1.1 devices
+at all, it may never be implemented in QEMU.
+So definitely good to log that...
 
 
->      "                aes-key-wrap=on|off controls support for AES key wrapping (default=on)\n"
->      "                dea-key-wrap=on|off controls support for DEA key wrapping (default=on)\n"
->      "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
-> @@ -76,6 +77,11 @@ SRST
->          supported by the host, de-duplicates identical memory pages
->          among VMs instances (enabled by default).
->  
-> +    ``memfd-alloc=on|off``
-> +        Enables or disables allocation of anonymous guest RAM using
-> +        memfd_create.  Any associated memory-backend objects are created with
-> +        share=on.  The memfd-alloc default is off.
-> +
->      ``aes-key-wrap=on|off``
->          Enables or disables AES key wrapping support on s390-ccw hosts.
->          This feature controls whether AES wrapping keys will be created
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 3524c04..95e2b49 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -41,6 +41,7 @@
->  #include "qemu/config-file.h"
->  #include "qemu/error-report.h"
->  #include "qemu/qemu-print.h"
-> +#include "qemu/memfd.h"
->  #include "exec/memory.h"
->  #include "exec/ioport.h"
->  #include "sysemu/dma.h"
-> @@ -1964,35 +1965,63 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
->      const bool shared = qemu_ram_is_shared(new_block);
->      RAMBlock *block;
->      RAMBlock *last_block = NULL;
-> +    struct MemoryRegion *mr = new_block->mr;
->      ram_addr_t old_ram_size, new_ram_size;
->      Error *err = NULL;
-> +    const char *name;
-> +    void *addr = 0;
-> +    size_t maxlen;
-> +    MachineState *ms = MACHINE(qdev_get_machine());
->  
->      old_ram_size = last_ram_page();
->  
->      qemu_mutex_lock_ramlist();
-> -    new_block->offset = find_ram_offset(new_block->max_length);
-> +    maxlen = new_block->max_length;
-> +    new_block->offset = find_ram_offset(maxlen);
->  
->      if (!new_block->host) {
->          if (xen_enabled()) {
-> -            xen_ram_alloc(new_block->offset, new_block->max_length,
-> -                          new_block->mr, &err);
-> +            xen_ram_alloc(new_block->offset, maxlen, new_block->mr, &err);
->              if (err) {
->                  error_propagate(errp, err);
->                  qemu_mutex_unlock_ramlist();
->                  return;
->              }
->          } else {
-> -            new_block->host = qemu_anon_ram_alloc(new_block->max_length,
-> -                                                  &new_block->mr->align,
-> -                                                  shared, noreserve);
-> -            if (!new_block->host) {
-> +            name = memory_region_name(mr);
-> +            if (ms->memfd_alloc) {
-> +                Object *parent = &mr->parent_obj;
-> +                int mfd = -1;          /* placeholder until next patch */
-> +                mr->align = QEMU_VMALLOC_ALIGN;
-> +                if (mfd < 0) {
-> +                    mfd = qemu_memfd_create(name, maxlen + mr->align,
-> +                                            0, 0, 0, &err);
-> +                    if (mfd < 0) {
-> +                        return;
-> +                    }
-> +                }
-> +                qemu_set_cloexec(mfd);
-> +                /* The memory backend already set its desired flags. */
-> +                if (!object_dynamic_cast(parent, TYPE_MEMORY_BACKEND)) {
-> +                    new_block->flags |= RAM_SHARED;
-> +                }
-> +                addr = file_ram_alloc(new_block, maxlen, mfd,
-> +                                      false, false, 0, errp);
-> +                trace_anon_memfd_alloc(name, maxlen, addr, mfd);
-> +            } else {
-> +                addr = qemu_anon_ram_alloc(maxlen, &mr->align,
-> +                                           shared, noreserve);
-> +            }
-> +
-> +            if (!addr) {
->                  error_setg_errno(errp, errno,
->                                   "cannot set up guest memory '%s'",
-> -                                 memory_region_name(new_block->mr));
-> +                                 name);
->                  qemu_mutex_unlock_ramlist();
->                  return;
->              }
-> -            memory_try_enable_merging(new_block->host, new_block->max_length);
-> +            memory_try_enable_merging(addr, maxlen);
-> +            new_block->host = addr;
->          }
->      }
->  
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 620a1f1..ab3648a 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2440,6 +2440,7 @@ static void create_default_memdev(MachineState *ms, const char *path)
->          object_property_set_str(obj, "mem-path", path, &error_fatal);
->      }
->      object_property_set_int(obj, "size", ms->ram_size, &error_fatal);
-> +    object_property_set_bool(obj, "share", ms->memfd_alloc, &error_fatal);
->      object_property_add_child(object_get_objects_root(), mc->default_ram_id,
->                                obj);
->      /* Ensure backend's memory region name is equal to mc->default_ram_id */
-> diff --git a/trace-events b/trace-events
-> index a637a61..770a9ac 100644
-> --- a/trace-events
-> +++ b/trace-events
-> @@ -45,6 +45,7 @@ ram_block_discard_range(const char *rbname, void *hva, size_t length, bool need_
->  # accel/tcg/cputlb.c
->  memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
->  memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
-> +anon_memfd_alloc(const char *name, size_t size, void *ptr, int fd) "%s size %zu ptr %p fd %d"
->  
->  # gdbstub.c
->  gdbstub_op_start(const char *device) "Starting gdbstub using device %s"
-> diff --git a/util/qemu-config.c b/util/qemu-config.c
-> index 436ab63..3606e5c 100644
-> --- a/util/qemu-config.c
-> +++ b/util/qemu-config.c
-> @@ -207,6 +207,10 @@ static QemuOptsList machine_opts = {
->              .type = QEMU_OPT_BOOL,
->              .help = "enable/disable memory merge support",
->          },{
-> +            .name = "memfd-alloc",
-> +            .type = QEMU_OPT_BOOL,
-> +            .help = "enable/disable memfd_create for anonymous memory",
-> +        },{
->              .name = "usb",
->              .type = QEMU_OPT_BOOL,
->              .help = "Set on/off to enable/disable usb",
-> -- 
-> 1.8.3.1
+>=20
+> > +        }
+> > +    }
+> > +}
+> > +
 
+...
+
+> > +static void cxl_root_port_class_init(ObjectClass *oc, void *data)
+> > +{
+> > +    DeviceClass *dc        =3D DEVICE_CLASS(oc);
+> > +    PCIDeviceClass *k      =3D PCI_DEVICE_CLASS(oc);
+> > +    PCIERootPortClass *rpc =3D PCIE_ROOT_PORT_CLASS(oc);
+> > +
+> > +    k->vendor_id =3D PCI_VENDOR_ID_INTEL;
+> > +    k->device_id =3D CXL_ROOT_PORT_DID;
+> > +    dc->desc     =3D "CXL Root Port";
+> > +    k->revision  =3D 0;
+> > +    device_class_set_props(dc, gen_rp_props);
+> > +    k->config_write =3D cxl_rp_write_config;
+> > +
+> > +    device_class_set_parent_realize(dc, cxl_rp_realize, &rpc->parent_r=
+ealize);
+> > +    device_class_set_parent_reset(dc, cxl_rp_reset, &rpc->parent_reset=
+);
+> > +
+> > +    rpc->aer_offset =3D GEN_PCIE_ROOT_PORT_AER_OFFSET;
+> > +    rpc->acs_offset =3D GEN_PCIE_ROOT_PORT_ACS_OFFSET;
+> > +
+> > +    /*
+> > +     * Explain
+> > +     */ =20
+>=20
+> You might as well either expand the comment or drop it, the code makes
+> it clear it is not hot pluggable (although an explanation would be
+> better - given it's PCIe like roots isn't hotplug a thing you see on CXL?)
+
+Hotplug of devices is indeed something we care about in CXL
+though for now it's untested. Hotplug of the root ports themselves is going
+to be 'interesting' due to the memory decoding targeting the ports.
+For now I've just dropped the pointless comment.
+
+Ben: If you had a planned explanation to put here, can you remember what
+it was?  We can add it later though - for now just dropping the comment
+seems best way forward to me.
+
+Thanks,
+
+Jonathan
 
