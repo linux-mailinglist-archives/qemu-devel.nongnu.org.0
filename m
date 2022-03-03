@@ -2,91 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5734CB680
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 06:38:25 +0100 (CET)
-Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD34D4CB674
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 06:34:23 +0100 (CET)
+Received: from localhost ([::1]:52530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPeAS-0007zN-S2
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 00:38:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39808)
+	id 1nPe6Y-0002IZ-VH
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 00:34:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=05403f1d5=alistair.francis@opensource.wdc.com>)
- id 1nPe1E-0001m8-JM
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 00:28:54 -0500
+ id 1nPe1I-0001sy-Fb
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 00:28:56 -0500
 Received: from esa5.hgst.iphmx.com ([216.71.153.144]:61796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=05403f1d5=alistair.francis@opensource.wdc.com>)
- id 1nPe1C-0000XC-81
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 00:28:52 -0500
+ id 1nPe1G-0000XC-EP
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 00:28:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1646285329; x=1677821329;
+ t=1646285334; x=1677821334;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lhTxYmg91JpfH29IdCPqqOgWEV/DYvR1IbtewiR2zo0=;
- b=DJIR7bS435WFNrymrrkZv6irtAJVbAQVcSGtQs25M2WSaPtwbo463VZS
- N0RWr42iI6XBm2u2oITiOHpaQC9k51eHWKsYZF5HEv1MnFXL++C75e1dk
- oBEI95GtqCma76pN+98jNi5f7remTeNeUw1xPhmA7QAyOv5ymUuieWJR/
- MtX5HMCFvTEk4Y3g/ar3PN1LKw6JZcmCVfll8CGPxZ4XjYEJLQc3SKn7H
- NsM6plYCC22Y3/131XwkyzlO+CfrQru+4ziLIIamDK3+4YBmgC/KI67H4
- qZW3cNPujHI5/n1coLAfxd5qovG+R22fuv0fKxjsxakPqi15SQIsRkfNV g==;
-X-IronPort-AV: E=Sophos;i="5.90,151,1643644800"; d="scan'208";a="194355352"
+ bh=1zBpqLWvYbZXszGRoRQcV0k4yc8Y5i/zbSdC126j/28=;
+ b=FU8R/xg3HOt+qNTa3p+BH+n8McDf8otJKZ2s+EnWveWESbmX8KIVzHjV
+ tVnL1CHV6W1NADGVxjrvJt3uy8jrRedC1fzxJohVfebsHjxhSbFTlHvhY
+ FJJKlm+sOpDO1uYNgZpiBULSZptsTsjs2qhMIbzM6eGzo/T3Whdqpfq61
+ uHyTYucMa1Ams8dxj5HNEJ4Fs+12zQ8XWBeCJAVlf9Jijl2e7oOYnF7WO
+ BAruht9CP2I7O9YYmWJ4jeZyXm4zwttLC1n9BucLaLdLarNdjee8Zhr3+
+ 5gqnO0YJxSetH3o58wlJTIlJLErtCP9L17MXxVrW1GY6EIsFUp+91s5Y4 w==;
+X-IronPort-AV: E=Sophos;i="5.90,151,1643644800"; d="scan'208";a="194355357"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Mar 2022 13:28:48 +0800
-IronPort-SDR: AvvRBeOYpJ64+hLkij8lLBqNFRkvx61M3SByXAiqJM/thCm1BZK6g1Uq5ZF4+PQnIgoa4hn50L
- CVf8CiFCgtHXaamP4UbxR2kUnDucRtw1fPPbEhA2HpCDbEGWMLxctVYLy/KG4sS4CNQllbq7Ur
- To62i0Djq/1cwAMzlxWbTiaiIKJZD4yQ6V+1w/VpRIv6Fh6wfH6jZAfEH5LzQ3e6+76uiNSyss
- vzmpbi+bNrk7z84jhN2z8zY9sFvE+e9dJ+GMDk1C+KuijtAmV6VkWMlkEHx0qBRj+ecV9fHKjU
- 26VdZe02Op6kjtuU5hzYTxZK
+ by ob1.hgst.iphmx.com with ESMTP; 03 Mar 2022 13:28:53 +0800
+IronPort-SDR: 2+/ehsaKybqCX7FwJ5hnTb3bRPAhpaQ5r/qEzTdKT5JdNwu+ruGl3BGFTuWHcBPS3QtCLa+tkx
+ PYjI75BO+m42kFOmxvJEjWwz+9GD0IROWSvvVI5wssoQIqXmLAAm8OBrfBkcD8GrMBtPUGgXz6
+ RvjFxxs38tK+UKvb078MUxbbFt6V1zexAun6v6FQtdnEdvutAn4DadTmYsYaWvOnEDMlcmh72D
+ YWvWoX5//T59krnyZtd9AzOsVJBovckLHTqmFdgLULap/Fdu8QCXz5wNutptw24LDOsRus2pfa
+ MjFhXczXEAkyTjb0BZsD5ElQ
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 21:00:11 -0800
-IronPort-SDR: pgsAmCX7mjt9VZKQFGe3msVjhH5zoJrIb/ikjQV5N8fmKOqA8Q+Wswpjn0UE1u/7i1oCLla9kY
- IWPWbldxLcMouKuNmwKUNVINzzpJeNabnNhEmcr8G3JXkaYgEYqPpOzi9oN7yl0SpUEwxxKbWl
- yN33aXjZKvnbh33Q3iwUUz5KYtuygN7u5vRHEEUpekNbw+gur6Aw5bPN444HbL1C5ofOBuQK33
- yK6KwqPpx4LCCsQcAy/kGVOQiJAmxmgqpM9r8H12S2v2jn1CIPE2jjXmvVDLiAd+LGc9rzjMI6
- nDg=
+ 02 Mar 2022 21:00:16 -0800
+IronPort-SDR: Mgb6EO6yiffCPnxkCt1TZyB9IjXZg/BQR1f4P9r0oetZubVGgqm35yr5SOJPdyy6MB+ct8xWyU
+ SogJZatfiW03Kbv36vYBfGxXNi8PJJ+moVk8rQW3FVx3hth1EEt6FLe+u0ust5GR4wIVMpXAwt
+ J46jadyXNRBaXpw1w8pbwP+YuYPDxgU2NRhjo9Qeu9u7VPOh4WC1kALxtew0/J2yCJMCoxxojn
+ U3FbFNBRb9X2TXFhQIZNJpXY3uh2bo0fIP7dtB775/AVTFfrgUYB4wJ85Y0CarMhQpmZ+41RIz
+ DGA=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 21:28:49 -0800
+ 02 Mar 2022 21:28:54 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4K8KKD4rlnz1Rwrw
- for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 21:28:48 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4K8KKK2cv9z1SVp0
+ for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 21:28:53 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1646285328; x=1648877329; bh=lhTxYmg91JpfH29IdC
- PqqOgWEV/DYvR1IbtewiR2zo0=; b=potzfNse3gcPliWYQVSg3tXr3vNY9+qsJs
- 5fm35zTdD3n4svNANVOndYPj3B/t5wHyAd8nZpc6GjH12qKOsY3rMMb3210h8fqE
- QIpgIewEZMuqj8STx+O2iqy2B8p2/geoHbjmPZ59biGXQwiOKLz6BpMqIfRJT5DT
- yr6Mmc7OHhut9mchp+aPk2AUaP54JV8SnquHq+orbcXx4LAKZjzSQS2+EgLOaMdh
- HdS6CUXmsB+VEoM+pJuJcvSNuLf7TU9y09vwIsqiN/HrZ30k1q1ETbXEtNJNv4/G
- uOExbqtmxLoAIkecnGB5X/bnEcM9gj+PV7DLmtq7y5QoI6ugajhA==
+ :from; s=dkim; t=1646285332; x=1648877333; bh=1zBpqLWvYbZXszGRoR
+ QcV0k4yc8Y5i/zbSdC126j/28=; b=pWgZXuh6ECTzvWS21u2FlIaTuBE2pmH2/g
+ 1PrzlVP6aWHnsbiDgbRCJ8rr90zaysE6LtBnDIRJ9IN9qtbzmisHZv2Snbs/oiPt
+ tPwIhprvWDn/xUHu/VSTgYlRcJhcYs+QH3BGdqIoUj++dsmX1Wem9rNzGRcuaynP
+ qwt/0U00rqZlFuhB5xrW8gX1MhE4OFXiK6khVuCgDTcca6JsWv5DEf37/HNjnScM
+ 2zWM3OVQd0wGgwqOU9yhM7Sf6aYAdQmuV5j5IlOzYKkITD7Qc3tclp14zAPdOdkH
+ E2b3Bz6KFnuq9QFuHBsTYWhyNUw4tPit3k0ZPk2ZuFpnccbKIh5w==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 1x6acQtbdo3e for <qemu-devel@nongnu.org>;
- Wed,  2 Mar 2022 21:28:48 -0800 (PST)
+ port 10026) with ESMTP id YJHk6AbO00r3 for <qemu-devel@nongnu.org>;
+ Wed,  2 Mar 2022 21:28:52 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.165.101])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4K8KK83rrpz1Rvlx;
- Wed,  2 Mar 2022 21:28:44 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4K8KKF25Mlz1Rvlx;
+ Wed,  2 Mar 2022 21:28:48 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Anup Patel <anup.patel@wdc.com>,
- Anup Patel <anup@brainfault.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Frank Chang <frank.chang@sifive.com>
-Subject: [PULL 06/13] hw/riscv: virt: Increase maximum number of allowed CPUs
-Date: Thu,  3 Mar 2022 15:27:57 +1000
-Message-Id: <20220303052804.529967-7-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL 07/13] hw: riscv: opentitan: fixup SPI addresses
+Date: Thu,  3 Mar 2022 15:27:58 +1000
+Message-Id: <20220303052804.529967-8-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220303052804.529967-1-alistair.francis@opensource.wdc.com>
 References: <20220303052804.529967-1-alistair.francis@opensource.wdc.com>
@@ -117,60 +115,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anup Patel <anup.patel@wdc.com>
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-To facilitate software development of RISC-V systems with large number
-of HARTs, we increase the maximum number of allowed CPUs to 512 (2^9).
+This patch updates the SPI_DEVICE, SPI_HOST0, SPI_HOST1
+base addresses. Also adds these as unimplemented devices.
 
-We also add a detailed source level comments about limit defines which
-impact the physical address space utilization.
+The address references can be found [1].
 
-Signed-off-by: Anup Patel <anup.patel@wdc.com>
-Signed-off-by: Anup Patel <anup@brainfault.org>
+[1] https://github.com/lowRISC/opentitan/blob/6c317992fbd646818b34f2a2dbf=
+44bc850e461e4/hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h#L107
+
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Message-Id: <20220220085526.808674-6-anup@brainfault.org>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-Id: <20220218063839.405082-1-alistair.francis@opensource.wdc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/virt.h |  2 +-
- hw/riscv/virt.c         | 10 ++++++++++
- 2 files changed, 11 insertions(+), 1 deletion(-)
+ include/hw/riscv/opentitan.h |  4 +++-
+ hw/riscv/opentitan.c         | 12 +++++++++---
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index d248d0dfa0..78b058ec86 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -24,7 +24,7 @@
- #include "hw/block/flash.h"
- #include "qom/object.h"
+diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+index eac35ef590..00da9ded43 100644
+--- a/include/hw/riscv/opentitan.h
++++ b/include/hw/riscv/opentitan.h
+@@ -57,8 +57,10 @@ enum {
+     IBEX_DEV_FLASH,
+     IBEX_DEV_FLASH_VIRTUAL,
+     IBEX_DEV_UART,
++    IBEX_DEV_SPI_DEVICE,
++    IBEX_DEV_SPI_HOST0,
++    IBEX_DEV_SPI_HOST1,
+     IBEX_DEV_GPIO,
+-    IBEX_DEV_SPI,
+     IBEX_DEV_I2C,
+     IBEX_DEV_PATTGEN,
+     IBEX_DEV_TIMER,
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index aec7cfa33f..833624d66c 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -34,13 +34,15 @@ static const MemMapEntry ibex_memmap[] =3D {
+     [IBEX_DEV_FLASH] =3D          {  0x20000000,  0x80000 },
+     [IBEX_DEV_UART] =3D           {  0x40000000,  0x1000  },
+     [IBEX_DEV_GPIO] =3D           {  0x40040000,  0x1000  },
+-    [IBEX_DEV_SPI] =3D            {  0x40050000,  0x1000  },
++    [IBEX_DEV_SPI_DEVICE] =3D     {  0x40050000,  0x1000  },
+     [IBEX_DEV_I2C] =3D            {  0x40080000,  0x1000  },
+     [IBEX_DEV_PATTGEN] =3D        {  0x400e0000,  0x1000  },
+     [IBEX_DEV_TIMER] =3D          {  0x40100000,  0x1000  },
+     [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40110000,  0x1000  },
+     [IBEX_DEV_OTP_CTRL] =3D       {  0x40130000,  0x4000  },
+     [IBEX_DEV_USBDEV] =3D         {  0x40150000,  0x1000  },
++    [IBEX_DEV_SPI_HOST0] =3D      {  0x40300000,  0x1000  },
++    [IBEX_DEV_SPI_HOST1] =3D      {  0x40310000,  0x1000  },
+     [IBEX_DEV_PWRMGR] =3D         {  0x40400000,  0x1000  },
+     [IBEX_DEV_RSTMGR] =3D         {  0x40410000,  0x1000  },
+     [IBEX_DEV_CLKMGR] =3D         {  0x40420000,  0x1000  },
+@@ -209,8 +211,12 @@ static void lowrisc_ibex_soc_realize(DeviceState *de=
+v_soc, Error **errp)
 =20
--#define VIRT_CPUS_MAX_BITS             3
-+#define VIRT_CPUS_MAX_BITS             9
- #define VIRT_CPUS_MAX                  (1 << VIRT_CPUS_MAX_BITS)
- #define VIRT_SOCKETS_MAX_BITS          2
- #define VIRT_SOCKETS_MAX               (1 << VIRT_SOCKETS_MAX_BITS)
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 94fbf63ec8..da50cbed43 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -45,6 +45,16 @@
- #include "hw/pci-host/gpex.h"
- #include "hw/display/ramfb.h"
-=20
-+/*
-+ * The virt machine physical address space used by some of the devices
-+ * namely ACLINT, PLIC, APLIC, and IMSIC depend on number of Sockets,
-+ * number of CPUs, and number of IMSIC guest files.
-+ *
-+ * Various limits defined by VIRT_SOCKETS_MAX_BITS, VIRT_CPUS_MAX_BITS,
-+ * and VIRT_IRQCHIP_MAX_GUESTS_BITS are tuned for maximum utilization
-+ * of virt machine physical address space.
-+ */
-+
- #define VIRT_IMSIC_GROUP_MAX_SIZE      (1U << IMSIC_MMIO_GROUP_MIN_SHIFT=
-)
- #if VIRT_IMSIC_GROUP_MAX_SIZE < \
-     IMSIC_GROUP_SIZE(VIRT_CPUS_MAX_BITS, VIRT_IRQCHIP_MAX_GUESTS_BITS)
+     create_unimplemented_device("riscv.lowrisc.ibex.gpio",
+         memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
+-    create_unimplemented_device("riscv.lowrisc.ibex.spi",
+-        memmap[IBEX_DEV_SPI].base, memmap[IBEX_DEV_SPI].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.spi_device",
++        memmap[IBEX_DEV_SPI_DEVICE].base, memmap[IBEX_DEV_SPI_DEVICE].si=
+ze);
++    create_unimplemented_device("riscv.lowrisc.ibex.spi_host0",
++        memmap[IBEX_DEV_SPI_HOST0].base, memmap[IBEX_DEV_SPI_HOST0].size=
+);
++    create_unimplemented_device("riscv.lowrisc.ibex.spi_host1",
++        memmap[IBEX_DEV_SPI_HOST1].base, memmap[IBEX_DEV_SPI_HOST1].size=
+);
+     create_unimplemented_device("riscv.lowrisc.ibex.i2c",
+         memmap[IBEX_DEV_I2C].base, memmap[IBEX_DEV_I2C].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.pattgen",
 --=20
 2.35.1
 
