@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FF34CC564
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 19:45:39 +0100 (CET)
-Received: from localhost ([::1]:43380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F9C4CC56F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 19:50:47 +0100 (CET)
+Received: from localhost ([::1]:48942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPqSH-0002ZE-M1
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 13:45:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50104)
+	id 1nPqXE-0006YY-Kd
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 13:50:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPqNI-0000wS-P7
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:40:28 -0500
-Received: from [2607:f8b0:4864:20::b2e] (port=35581
- helo=mail-yb1-xb2e.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nPqSw-0004re-51
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:46:18 -0500
+Received: from [2607:f8b0:4864:20::636] (port=43779
+ helo=mail-pl1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPqNG-0000OX-V2
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:40:28 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id bt13so12138352ybb.2
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:40:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nPqSu-0001OV-Mp
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:46:17 -0500
+Received: by mail-pl1-x636.google.com with SMTP id e2so5447059pls.10
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:46:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=05WOp5T4/fGLOby7qI0wTINvs2lKwC6V2aoIOR9B8Ig=;
- b=ynbMRc9zJe8maNDELQBaK3VdfQjXZkXmZTDCgAssdwdrnTIXnKJOY5XELWu+ZVFXeA
- 1J9NaAC0NnpCyIV7vCMyMfFYwdiQAyvwXV0W9gFM1GMvFSsqBlPGgO1oEDduyd4MK1m8
- DI2pCx+3BsHOgVIpl6j0vYzVLIzNnf5xPZckk+t7b2HHst6XTFZns2q7+EBt9HjtPnLU
- 9XOHhmJ2ri8zASZgOH68iNzi8jIMwjYXfF2khqveWnHvZT9zXJHlSFFuxrOb3RnYWIec
- +l+EBpC0NNBuXCO7oPYBhsSu+OyEmea/04ulPqtQ6/kTC5ZhyrZaUPibu2+K+XpIGkEp
- ru6g==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=PpxuLShSycpXuZqouhGR0Lci22vquvB+6fcHnGmKvBI=;
+ b=kWC5Gin8GS1OIvV01VGViyoIRY7MeGC/JDSakSOIp7MF7m2Nx1H7g3yQ1DmWnxo0OC
+ +Bu3vL4PKpqpy1LEuB5JoUPVXghjlmOe8a/h1xqO+LtXk9cOFRT3ZImWPXRwPMlHFaAV
+ 4EO8L8LY0uSJT/2cF1tQ+xecGQx79okWfevv35opwECMsZ7hUQTnpEW+wr29+qsXY5PJ
+ gXGgVmDxl8Z5haLeeAXRVx/0v8JjIRR+oNnLCimPnOnKZXZHY0ZQPrahJJqXIGDWBBLS
+ CrLvpS7Ie9fFHQnjSFYh4a6Ahg5BAINVXRmkG1IPx6k5FEnqqjQULDqrdQOOrUeB5JUV
+ t3+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=05WOp5T4/fGLOby7qI0wTINvs2lKwC6V2aoIOR9B8Ig=;
- b=lU89JAc+Nl+l2toaB8vAvlbMgUGtMCiqzqdbvoi9bQmD0ZDsQ6Gj6q39oHaTtLzu1o
- 07L2x19sRGf15msZeYAZeIuqZOiIxm5AfK14Wd1QNB3mD074QTjkBlQ50wBinpUcNtRw
- 0iR/hox13uzO655fNyjIrigytic07Wf/iAng7vTlQkyTmAXc0AyawTwaaEBv2JvIBXON
- 4t1L44UmVrX1fTBDg7+NJBie1LPRkR0kvJnqSYHdSE97uCBEIxFPoHcoB++eeZ9w/2C+
- r8OiP+3V8bKadFBUCoKGjbTaijB5mGY21krtxlw+8wJAfuIFmF6qblW8DbV1S6u5fq0d
- 5K+Q==
-X-Gm-Message-State: AOAM531kUR1PflYjBSWlK9X1ZK3UxsNBgFXjH2/awl5sRUQdr8QyaGoN
- De02uTINDO4N2LHvvQ5F+up5PrV8UNnDDr9YrWLOMQ==
-X-Google-Smtp-Source: ABdhPJwg6q8/GD+bP+TxTP6Fnuo0VugXR/JXFmuHl1lxEPd7+0UI5leit3mBPsgJySahc8mfN+9EYmsEgg56DIK2nLA=
-X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
- h3-20020a056902008300b0061a709bd841mr33797813ybs.140.1646332825507; Thu, 03
- Mar 2022 10:40:25 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=PpxuLShSycpXuZqouhGR0Lci22vquvB+6fcHnGmKvBI=;
+ b=2IB7zXGlGIdiTbVOUlmjVLOyqPk4REcGW88EYL0qR1G1InEywSTajpq6C0r9p6iC1C
+ RAph/wGjKA89kr+mwY05cgBYJMh1JlraSYfFd7x6cyHVjbFxi0VsA9C5hFjXrH1sh64C
+ lEmJU5vjNIA1EhiY6fOPAH2SOxd6F0h1r/+Ymz4RSqgrp8/mNXyWSV1QGwdBgLPmjhi8
+ mmNj+F5vQGyFOuI0I46EqB0tHmr3IftvK+m6xoIqa/60vSyXN2kBpOZB/AMxwZDKPwxk
+ GJNW/FjLC0EEfIhFq9XZ1E0yjGY3ztrWliDsUPpndKDgZ6LnYm4V/CjUqxMtituJGNH4
+ /pAA==
+X-Gm-Message-State: AOAM532MpVSVLSlklVEEMoJO4oSyMRq5oTOuA6ulIso7InM2+8Xxnrpi
+ BWKUeAabJHvvPyl2Hbi+/10uFg==
+X-Google-Smtp-Source: ABdhPJzGfbLhjECsriTrIlxAS/c+YrEgcGysGoOpFvLj43ddzprY0VFLTlgYWWhtG+pU7yB1kr5EOw==
+X-Received: by 2002:a17:902:b589:b0:14f:3f88:15e2 with SMTP id
+ a9-20020a170902b58900b0014f3f8815e2mr37077571pls.171.1646333175426; 
+ Thu, 03 Mar 2022 10:46:15 -0800 (PST)
+Received: from ?IPV6:2603:800c:1201:c600:e819:4400:f268:c391?
+ (2603-800c-1201-c600-e819-4400-f268-c391.res6.spectrum.com.
+ [2603:800c:1201:c600:e819:4400:f268:c391])
+ by smtp.gmail.com with ESMTPSA id
+ j11-20020a63230b000000b00372a08b584asm2581492pgj.47.2022.03.03.10.46.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Mar 2022 10:46:15 -0800 (PST)
+Message-ID: <90ef60a8-69b5-696c-eb58-d5ebc4c3f3f0@linaro.org>
+Date: Thu, 3 Mar 2022 08:46:11 -1000
 MIME-Version: 1.0
-References: <20220302212752.6922-1-mark.cave-ayland@ilande.co.uk>
- <20220302212752.6922-4-mark.cave-ayland@ilande.co.uk>
- <CAFEAcA8-_khhe0999QB=wsUi=HEcPa6G3C7p_P63UibkF6FNUA@mail.gmail.com>
- <d2d6510d-3f3a-81a0-e28e-d5a4a4b3ccc1@ilande.co.uk>
-In-Reply-To: <d2d6510d-3f3a-81a0-e28e-d5a4a4b3ccc1@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Mar 2022 18:40:14 +0000
-Message-ID: <CAFEAcA93GFLH-OC7T_U0XQ=7B5uBmD147XMoTcJguj=wjfeChQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/10] macfb: increase number of registers saved in
- MacfbState
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/5] tests/tcg/ppc64le: use inline asm instead of
+ __builtin_mtfsf
+Content-Language: en-US
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220303172041.1915037-1-matheus.ferst@eldorado.org.br>
+ <20220303172041.1915037-2-matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220303172041.1915037-2-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -85,90 +96,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pbonzini@redhat.com, Laurent@vivier.eu,
- qemu-devel@nongnu.org
+Cc: thuth@redhat.com, danielhb413@gmail.com, groug@kaod.org,
+ philippe.mathieu.daude@gmail.com, clg@kaod.org, mrezanin@redhat.com,
+ alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Mar 2022 at 17:44, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> On 03/03/2022 15:25, Peter Maydell wrote:
->
-> > On Wed, 2 Mar 2022 at 21:31, Mark Cave-Ayland
-> > <mark.cave-ayland@ilande.co.uk> wrote:
-> >>
-> >> The MacOS toolbox ROM accesses a number of addresses between 0x0 and 0x200 during
-> >> initialisation and resolution changes. Whilst the function of many of these
-> >> registers is unknown, it is worth the minimal cost of saving these extra values as
-> >> part of migration to help future-proof the migration stream for the q800 machine
-> >> as it starts to stabilise.
-> >>
-> >> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> >> ---
-> >>   hw/display/macfb.c         | 8 ++++++++
-> >>   include/hw/display/macfb.h | 3 ++-
-> >>   2 files changed, 10 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> >> index fb54b460c1..dfdae90144 100644
-> >> --- a/hw/display/macfb.c
-> >> +++ b/hw/display/macfb.c
-> >> @@ -537,6 +537,10 @@ static uint64_t macfb_ctrl_read(void *opaque,
-> >>       case DAFB_MODE_SENSE:
-> >>           val = macfb_sense_read(s);
-> >>           break;
-> >> +    default:
-> >> +        if (addr < MACFB_CTRL_TOPADDR) {
-> >> +            val = s->regs[addr >> 2];
-> >> +        }
-> >>       }
-> >>
-> >>       trace_macfb_ctrl_read(addr, val, size);
-> >> @@ -592,6 +596,10 @@ static void macfb_ctrl_write(void *opaque,
-> >>               macfb_invalidate_display(s);
-> >>           }
-> >>           break;
-> >> +    default:
-> >> +        if (addr < MACFB_CTRL_TOPADDR) {
-> >> +            s->regs[addr >> 2] = val;
-> >> +        }
-> >>       }
-> >>
-> >>       trace_macfb_ctrl_write(addr, val, size);
-> >> diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-> >> index 6d9f0f7869..55a50d3fb0 100644
-> >> --- a/include/hw/display/macfb.h
-> >> +++ b/include/hw/display/macfb.h
-> >> @@ -48,7 +48,8 @@ typedef struct MacFbMode {
-> >>       uint32_t offset;
-> >>   } MacFbMode;
-> >>
-> >> -#define MACFB_NUM_REGS      8
-> >> +#define MACFB_CTRL_TOPADDR  0x200
-> >> +#define MACFB_NUM_REGS      (MACFB_CTRL_TOPADDR / sizeof(uint32_t))
-> >
-> > You should either bump the vmstate_macfb version numbers here,
-> > or at least note in the commit message that although it's a
-> > migration break we know nobody's migrating this device because
-> > of the bug we just fixed in the previous commit.
-> >
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->
-> I can do this if you like, although until the last 2 patches anything that is using
-> the disk will fail, and that's just about everything because DMA requests require
-> guest support to move the data from the ESP to the CPU.
->
-> In terms of the q800 machine there is an implicit assumption that there will be more
-> migration breaks to come, mainly because there are new devices to be added to the
-> q800 machine in my outstanding MacOS patches that will break migration again once. So
-> until these are finally merged I don't think it's worth trying to stabilise the
-> migration stream.
+On 3/3/22 07:20, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> 
+> LLVM/Clang does not support __builtin_mtfsf.
+> 
+> Acked-by: Alex Bennée<alex.bennee@linaro.org>
+> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> ---
+>   tests/tcg/ppc64le/mtfsf.c | 19 +++++++++----------
+>   1 file changed, 9 insertions(+), 10 deletions(-)
 
-Yeah, fair enough; just put a note in the commit message to
-that effect.  (Mostly bumping the migration version is about making
-the error message nicer if somebody does do a mismatched save/load.)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+r~
 
