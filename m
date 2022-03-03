@@ -2,93 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14F64CC9FD
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 00:22:25 +0100 (CET)
-Received: from localhost ([::1]:54576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5C84CCA5B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 00:59:42 +0100 (CET)
+Received: from localhost ([::1]:35758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPum7-0005YS-Rj
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 18:22:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38218)
+	id 1nPvMD-0006qT-4H
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 18:59:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nPukz-0004rC-45
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 18:21:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50041)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nPukv-00070y-9I
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 18:21:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646349667;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kxLpc9UKsAV1whWhbmYoiyLogAsP+vTi55DD1u7JIUI=;
- b=ZI/9U2FWCiWaxNePln93eJEPYULHXCXzR//RdHoEMWvXdZNwsmtM3Hfs65M5uKgWPg0Ych
- maRRFuVwlNFH51YVxLvFVmaAFReSuD5t6TFJb1W6OP3fH3oRYZnZedq3ItlHN/o0ANIR+2
- uvXCFG9TB9VK+pz38FgczS7VdJVQifE=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-370-o5RsCIKmMbON6-jBHRl_sg-1; Thu, 03 Mar 2022 18:21:06 -0500
-X-MC-Unique: o5RsCIKmMbON6-jBHRl_sg-1
-Received: by mail-oi1-f197.google.com with SMTP id
- o2-20020a0568080bc200b002d64d89d460so4173000oik.17
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 15:21:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nPvHY-0003TC-9x
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 18:54:52 -0500
+Received: from [2607:f8b0:4864:20::f2c] (port=35330
+ helo=mail-qv1-xf2c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nPvHT-0003ZA-Qp
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 18:54:49 -0500
+Received: by mail-qv1-xf2c.google.com with SMTP id 8so5423885qvf.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 15:54:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ENvwCXC6L8iwQARgkChRNB1e9C3ZSLg2FrUYahEGMpI=;
+ b=hwRG5S/M8Q+vXnePY4ba7XQmnNxPtMptt6pmHyEmtbRPANj3MyGHj/rHv3GaNsdHLI
+ x4hlV0+pwO+iVkAf0lmlCcsbv5SqFH8jFej/OtELcz7Tb/4694lwyPMc3k9VERtVgNot
+ pISLA4vj08Tka02pG+gX/2DSX4GoSVXuDh3mp+cRrp0lSRmzve8y/tz255/YoBWtx+EZ
+ 0j2E3SH8tHzKWilj4F99D34IKXYdYBIDyXDxbOQ6HQJT+LOfaV51zFctTg46eCSzu2UU
+ AYJ3TJnQkGYKHhMBTXaD8I8h+Z9ynNgXxAG7Fc/DBvvYT93WALrKEiNVwkGKGh0+LArZ
+ wuvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=kxLpc9UKsAV1whWhbmYoiyLogAsP+vTi55DD1u7JIUI=;
- b=zPVys686XFq5o5BQVycCadz7FhAei7HRnWYyBHRrFv2CEUjIlqoOnb1y5+QXw25G1K
- k4BudgJR/Go7XhvNYJumBRrdphlEp60Jr+ExYfic6aaux5Jjnz7pL9wqzO4ar2bx23ZB
- eG5Tr+3uM2Gjkb0op4dTJjFjBa+y3G3Nd0EB+YKkGo/HksLU75PjdsGoArSo0rnT/bIc
- XMjLaWGiDC1VCdgScaHIIZQAhMwldvQKS4TBTUUjfK2sBxLRRFOJsiRMDwuKR9kgfaoy
- coUFmll25Da4+S09H7nWEqxNIS2N3/1OJ+3wBUrKp7omtA1ql1/UDqKHHaOwrVnsknih
- 6y0A==
-X-Gm-Message-State: AOAM532uPDEsk4BTFDt5DQNgUZ9+wOc4NrzrkZs7r9E4yzl2uNeU/020
- PFx/JtYlY0sDUo5Ug15TSnmne/MeKCfV2jCds/KHdI9r6HbkzQykPVyFQiRllO6N8o9rqgGR8CS
- lsiCWU3BiZHSqsGE=
-X-Received: by 2002:a05:6808:199a:b0:2d7:94b1:1b5b with SMTP id
- bj26-20020a056808199a00b002d794b11b5bmr6788714oib.59.1646349665999; 
- Thu, 03 Mar 2022 15:21:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy28P3h5gFr2lRX2azvNUJO7he4SP8NQBKmdPuoqgdeDpOTwmjPriPNWmOic9XpWgyhe47fFg==
-X-Received: by 2002:a05:6808:199a:b0:2d7:94b1:1b5b with SMTP id
- bj26-20020a056808199a00b002d794b11b5bmr6788692oib.59.1646349665763; 
- Thu, 03 Mar 2022 15:21:05 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- l19-20020a056830239300b005adc1d88a0fsm1583580ots.79.2022.03.03.15.21.04
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ENvwCXC6L8iwQARgkChRNB1e9C3ZSLg2FrUYahEGMpI=;
+ b=dYgvougX7yJAhhsV9G4ETGmvXuFjW8KboJXDepgGPQLeubDJoT4vxFTIv1b3LQchJb
+ TaGWUJTW4D4I0iAzEQJRDjtPo5GTdfW5pypLfztb8D2LeEZYmq9BgXFiyQfIhJob6S3G
+ 84T3anMjvb/K1kpWp1LTsZKJ5IjhkICNONPD1/cDUgoTAcSN+HRwU4/LX5i11iiITk9e
+ Yq7r3D/7rS27A1Ps7AxvMh17K5OE6z3tYo5XXbFTtZoIl+L4gdyp467LnbxkKYgJ+EXO
+ /gVkf6cJ3mS6wE/JpptmnDWESn6QDXHb8PvB2StQzHGcTx7cdTB6MdD4nAEqgYeekDjM
+ W9fA==
+X-Gm-Message-State: AOAM532joj2TktzKaObfjOHSiBWA7yOLQnwj7dhOaf6Q6uUVA7xTgp1b
+ cq7NehXoQ2LT8BTrW3/pVtIqO1CDYny0QQ==
+X-Google-Smtp-Source: ABdhPJwc59ZAR38FG8ocx8M+f/TppFFrB3GZ/m1U16WBjpYJ0MW+KvU5ydF+qKj8Wh+v/UYmSegGlA==
+X-Received: by 2002:ad4:5347:0:b0:42c:4711:5eb5 with SMTP id
+ v7-20020ad45347000000b0042c47115eb5mr26010529qvs.101.1646351686392; 
+ Thu, 03 Mar 2022 15:54:46 -0800 (PST)
+Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
+ [70.228.75.190]) by smtp.gmail.com with ESMTPSA id
+ h188-20020a376cc5000000b00648d7e2a36bsm1768390qkc.117.2022.03.03.15.54.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 15:21:05 -0800 (PST)
-Date: Thu, 3 Mar 2022 16:21:03 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V7 18/29] vfio-pci: refactor for cpr
-Message-ID: <20220303162103.0dbe93a1.alex.williamson@redhat.com>
-In-Reply-To: <1640199934-455149-19-git-send-email-steven.sistare@oracle.com>
-References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-19-git-send-email-steven.sistare@oracle.com>
-Organization: Red Hat
+ Thu, 03 Mar 2022 15:54:45 -0800 (PST)
+From: Atish Patra <atishp@rivosinc.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 00/12] Improve PMU support
+Date: Thu,  3 Mar 2022 15:54:28 -0800
+Message-Id: <20220303235440.638790-1-atishp@rivosinc.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
+ envelope-from=atishp@rivosinc.com; helo=mail-qv1-xf2c.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,66 +87,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Zeng <jason.zeng@linux.intel.com>,
- Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>, Zheng Chuan <zhengchuan@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Dec 2021 11:05:23 -0800
-Steve Sistare <steven.sistare@oracle.com> wrote:
+The latest version of the SBI specification includes a Performance Monitoring
+Unit(PMU) extension[1] which allows the supervisor to start/stop/configure
+various PMU events. The Sscofpmf ('Ss' for Privileged arch and Supervisor-level
+extensions, and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
+extension[2] allows the perf like tool to handle overflow interrupts and
+filtering support.
 
-> +    if (vfio_notifier_init(vdev, &vdev->intx.unmask, "intx-unmask", 0)) {
-...
-> +    vfio_notifier_cleanup(vdev, &vdev->intx.unmask, "intx-unmask", 0);
-...
-> +    vfio_notifier_cleanup(vdev, &vdev->intx.unmask, "intx-unmask", 0);
-...
-> +    ret = vfio_notifier_init(vdev, &vdev->intx.interrupt, "intx-interrupt", 0);
-...
-> +        vfio_notifier_cleanup(vdev, &vdev->intx.interrupt, "intx-interrupt", 0);
-...
-> +    vfio_notifier_cleanup(vdev, &vdev->intx.interrupt, "intx-interrupt", 0);
-...
-> +    const char *name = "kvm_interrupt";
-...
-> +    if (vfio_notifier_init(vdev, &vector->kvm_interrupt, name, nr)) {
-...
-> +        vfio_notifier_cleanup(vdev, &vector->kvm_interrupt, name, nr);
-...
-> +        vfio_notifier_cleanup(vdev, &vector->kvm_interrupt, name, nr);
-...
-> +    vfio_notifier_cleanup(vdev, &vector->kvm_interrupt, "kvm_interrupt", nr);
-...
-> +    if (vfio_notifier_init(vdev, &vector->interrupt, "interrupt", nr)) {
-...
-> +        if (vfio_notifier_init(vdev, &vector->interrupt, "interrupt", i)) {
-...
-> +            vfio_notifier_cleanup(vdev, &vector->interrupt, "interrupt", i);
-...
-> +            vfio_notifier_cleanup(vdev, &vector->interrupt, "interrupt", i);
-...
-> +    if (vfio_notifier_init(vdev, &vdev->err_notifier, "err", 0)) {
-...
-> +        vfio_notifier_cleanup(vdev, &vdev->err_notifier, "err_notifier", 0);
-...
-> +    vfio_notifier_cleanup(vdev, &vdev->err_notifier, "err_notifier", 0);
-...
-> +    if (vfio_notifier_init(vdev, &vdev->req_notifier, "req", 0)) {
-...
-> +        vfio_notifier_cleanup(vdev, &vdev->req_notifier, "req_notifier", 0);
-...
-> +    vfio_notifier_cleanup(vdev, &vdev->req_notifier, "req_notifier", 0);
+This series implements full PMU infrastructure to support
+PMU in virt machine. This will allow us to add any PMU events in future.
 
-Something seems to have gone astray with "err" and "req" vs
-"err_notifier" and "req_notifier".  The pattern is broken.  Thanks,
+Currently, this series enables the following omu events.
+1. cycle count
+2. instruction count
+3. DTLB load/store miss
+4. ITLB prefetch miss
 
-Alex
+The first two are computed using host ticks while last three are counted during
+cpu_tlb_fill. We can do both sampling and count from guest userspace.
+This series has been tested on both RV64 and RV32. Both Linux[3] and Opensbi[4]
+patches are required to get the perf working.
+
+Here is an output of perf stat/report while running hackbench with OpenSBI & Linux
+kernel patches applied [3].
+
+Perf stat:
+==========
+[root@fedora-riscv ~]# perf stat -e cycles -e instructions -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses \
+> perf bench sched messaging -g 1 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 1 groups == 40 processes run
+
+     Total time: 0.265 [sec]
+
+ Performance counter stats for 'perf bench sched messaging -g 1 -l 10':
+
+     4,167,825,362      cycles                                                      
+     4,166,609,256      instructions              #    1.00  insn per cycle         
+         3,092,026      dTLB-load-misses                                            
+           258,280      dTLB-store-misses                                           
+         2,068,966      iTLB-load-misses                                            
+
+       0.585791767 seconds time elapsed
+
+       0.373802000 seconds user
+       1.042359000 seconds sys
+
+Perf record:
+============
+[root@fedora-riscv ~]# perf record -e cycles -e instructions \
+> -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000 \
+> perf bench sched messaging -g 1 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 1 groups == 40 processes run
+
+     Total time: 1.397 [sec]
+[ perf record: Woken up 10 times to write data ]
+Check IO/CPU overload!
+[ perf record: Captured and wrote 8.211 MB perf.data (214486 samples) ]
+
+[root@fedora-riscv riscv]# perf report
+Available samples                                                               
+107K cycles                                                                    ◆
+107K instructions                                                              ▒
+250 dTLB-load-misses                                                           ▒
+13 dTLB-store-misses                                                           ▒
+172 iTLB-load-misses      
+..
+
+Changes from v5->v6:
+1. Fixed compilation issue with PATCH 1.
+2. Addressed other comments.
+
+Changes from v4->v5:
+1. Rebased on top of the -next with following patches.
+   - isa extension
+   - priv 1.12 spec
+2. Addressed all the comments on v4
+3. Removed additional isa-ext DT node in favor of riscv,isa string update
+
+Changes from v3->v4:
+1. Removed the dummy events from pmu DT node.
+2. Fixed pmu_avail_counters mask generation.
+3. Added a patch to simplify the predicate function for counters. 
+
+Changes from v2->v3:
+1. Addressed all the comments on PATCH1-4.
+2. Split patch1 into two separate patches.
+3. Added explicit comments to explain the event types in DT node.
+4. Rebased on latest Qemu.
+
+Changes from v1->v2:
+1. Dropped the ACks from v1 as signficant changes happened after v1.
+2. sscofpmf support.
+3. A generic counter management framework.
+
+[1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.adoc
+[2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edit
+[3] https://github.com/atishp04/linux/tree/riscv_pmu_v6
+[4] https://github.com/atishp04/qemu/tree/riscv_pmu_v5
+
+Atish Patra (12):
+target/riscv: Fix PMU CSR predicate function
+target/riscv: Implement PMU CSR predicate function for S-mode
+target/riscv: pmu: Rename the counters extension to pmu
+target/riscv: pmu: Make number of counters configurable
+target/riscv: Implement mcountinhibit CSR
+target/riscv: Add support for hpmcounters/hpmevents
+target/riscv: Support mcycle/minstret write operation
+target/riscv: Add sscofpmf extension support
+target/riscv: Simplify counter predicate function
+target/riscv: Add few cache related PMU events
+hw/riscv: virt: Add PMU DT node to the device tree
+target/riscv: Update the privilege field for sscofpmf CSRs
+
+hw/riscv/virt.c           |  28 ++
+target/riscv/cpu.c        |  12 +-
+target/riscv/cpu.h        |  49 ++-
+target/riscv/cpu_bits.h   |  59 +++
+target/riscv/cpu_helper.c |  26 ++
+target/riscv/csr.c        | 862 ++++++++++++++++++++++++++++----------
+target/riscv/machine.c    |  25 ++
+target/riscv/meson.build  |   1 +
+target/riscv/pmu.c        | 431 +++++++++++++++++++
+target/riscv/pmu.h        |  36 ++
+10 files changed, 1299 insertions(+), 230 deletions(-)
+create mode 100644 target/riscv/pmu.c
+create mode 100644 target/riscv/pmu.h
+
+--
+2.30.2
 
 
