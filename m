@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD564CC1EE
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:49:26 +0100 (CET)
-Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC394CC1A8
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:40:47 +0100 (CET)
+Received: from localhost ([::1]:34206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPnhl-0003pp-9M
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:49:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48390)
+	id 1nPnZM-00024R-TG
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:40:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPnI4-0007mD-St
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:22:53 -0500
-Received: from [2607:f8b0:4864:20::b2b] (port=34430
- helo=mail-yb1-xb2b.google.com)
+ id 1nPnKT-0005IH-75
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:25:22 -0500
+Received: from [2607:f8b0:4864:20::b34] (port=44996
+ helo=mail-yb1-xb34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPnI3-00024i-4m
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:22:52 -0500
-Received: by mail-yb1-xb2b.google.com with SMTP id h126so10961065ybc.1
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 07:22:50 -0800 (PST)
+ id 1nPnKR-0007Ma-FE
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:25:20 -0500
+Received: by mail-yb1-xb34.google.com with SMTP id u61so10883479ybi.11
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 07:25:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=buNb03SnyuBS0lkHrmve5Qxupcq4kBZCss3zbuysBn8=;
- b=q1V/6bTk2MANBL1VTH82ucuDfB7z8gUkgbI/eUO1E/DnBLxypQ8VsMcMI9p+niZ2jM
- 0fUyLbRKqheTv1GUFbqjx/YpidN7cI+HvG9eozm1cbjc2TwM1fzV+mFxTEQLcEqNMkVs
- Z8qkri8VTuNr089c6L07/nihYt1aVOveCduNr+dGbQUp3R2FK/PpjJM+uJhssHGsxBUp
- kb8fMb0/2O3Eyj5eW9K9lYx/5Ww9z5H8H63DrXb3OQ/DaS1VNsXUeIBb/IRtuZUqxrq4
- pJeI0em+ekfzSsS1dEcuv4zLlKiAEzH4iFs6//zKyPZrgb2cvGlzXxfohlo/yObqb22X
- SLVQ==
+ :cc; bh=OMiCi5NiO6x9IcZXpv78IPVVx/Prln6VRMt8Cgq+0gw=;
+ b=N1uQH6g9vMk57izIacJnA5F1vD61giNKVKCoajHqNfBN+Haad9DmEUxJrbFw9+zu61
+ J/dRgT1ZuXhC94jSKIg1YbmrU+HYqIuUz12V1i2Q0xU84v1Pzrl27OzYVlBpFccgTcBX
+ RrY6KpzOjVHbCB1TGR7wCt4P2R9OCPPTIlx+ovH+OG7vALRCtaVQC/5yurQ2o1tZCoW/
+ ILRcN+PZFFpvt+FILrhBnQM+UTW3ZxwxwIkWPlZjU+s7KxF8Kyooyb3Pvm1VK1Irn2nh
+ P4T964t6+kbSj8GoW4u4Uus4P0Hu+9+5wGyhLMNWHx/5KM+2F7tn2iPGJjIc/3fpqGwk
+ 7CMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=buNb03SnyuBS0lkHrmve5Qxupcq4kBZCss3zbuysBn8=;
- b=ZKDyQfTJpbrWeie06I+nj7Yx+g3KjeAKRA8UkrGH/yXHUp5YelggfDy0xlZCQYeVcX
- b4ov6d4waA6hT3+GyBan/Dy7QW0lWFyzZX9Qrnb58yPDvwL/XrAPtqfboodDFXA8XcTc
- kgWgonpMgKYIQPAdXpZaijJaSx8Z0Z7GRn9xWvWF1thCPP/yBhs1FJIyC2GnfGCAtS1e
- /qpbjcVQfu7sa2lgEYJDSzytGdWwNju61CcPkEOlnB/g85SAnMchArgtgC4rro+w9GSr
- 60R7HKGb+mEgLgGOYJlC4fmmy9WFKVEI9XwxlvX9zBxv7jjg5gppqSukQd5MXX5BkHjJ
- OdZg==
-X-Gm-Message-State: AOAM533Hbe1zvqchHH6Hmk+POYkN/8KcDXj0LQUu5ggwVPrXSAO+C67M
- TB/jEjLZ5l9+w1V5hjVQYc2Q8dmO0TDoQzv/oomdGw==
-X-Google-Smtp-Source: ABdhPJwKGCOqPPPNp/+z7t25zc1rzVpbKtUBZQRwUIW1HENDs3xczJQJ23Z/g1fjiGYX+EQYS3BP1u8QvT5pAOax4UE=
-X-Received: by 2002:a25:6e84:0:b0:628:97de:9430 with SMTP id
- j126-20020a256e84000000b0062897de9430mr9824847ybc.288.1646320969817; Thu, 03
- Mar 2022 07:22:49 -0800 (PST)
+ bh=OMiCi5NiO6x9IcZXpv78IPVVx/Prln6VRMt8Cgq+0gw=;
+ b=8PxceoDZoqVRMfQL7iMJUoRDQu3xOnOrLznxEid3jJvu/czrWpt8bJbnESEPc3LvBk
+ LxZHFBQy2qDNmAhYnZK0mfpbLNZcpd+zy+xi4cl3j27Z1LjMPPAv6WgD2yP7EGiuogZq
+ jOD/mjIzjhGJVEXCWIgi0anNnR9Ts2czQHzFrrawxC9msZEGgtGvkAQr+JF67Do5RT4M
+ OnZST6FVF7tTyka+hZ3gmTHxz+MMmPCRxmeGa8GJ+PoDIW0/snyQ9ahaByJU1hlgkKR4
+ m30JYllyiKolDtsX/+GyCNv/uAGnoHBnGmowrxEBTW0S98gdSLaHqbIprKN0ipXEsz9T
+ AXlA==
+X-Gm-Message-State: AOAM531D5kZJ950LDr7QK5AbCKz8LFkWOOlUIoQnZR3xOo7MV9gWutbu
+ Ol0FU9PmCAawWqretkv1Ja4FZqjSGgvoVEnC7HnUwg==
+X-Google-Smtp-Source: ABdhPJwGybde/VqNbodaoGCfWitLIEjympYaDHHD2W4Grv5IkL2HjCi8Iqe+20SP/rmsFckhj4gtwbHEN6tHCy0zDLs=
+X-Received: by 2002:a25:9c08:0:b0:628:a472:30f4 with SMTP id
+ c8-20020a259c08000000b00628a47230f4mr7316637ybo.67.1646321117409; Thu, 03 Mar
+ 2022 07:25:17 -0800 (PST)
 MIME-Version: 1.0
 References: <20220302212752.6922-1-mark.cave-ayland@ilande.co.uk>
- <20220302212752.6922-2-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220302212752.6922-2-mark.cave-ayland@ilande.co.uk>
+ <20220302212752.6922-4-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220302212752.6922-4-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Mar 2022 15:22:38 +0000
-Message-ID: <CAFEAcA-AEW1hh1Az2OwuyY2h7APFvasPbN4Gg6aGwG-SKrUphw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] macfb: add VMStateDescription for
- MacfbNubusState and MacfbSysBusState
+Date: Thu, 3 Mar 2022 15:25:06 +0000
+Message-ID: <CAFEAcA8-_khhe0999QB=wsUi=HEcPa6G3C7p_P63UibkF6FNUA@mail.gmail.com>
+Subject: Re: [PATCH v2 03/10] macfb: increase number of registers saved in
+ MacfbState
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,20 +88,63 @@ Cc: fam@euphon.net, pbonzini@redhat.com, Laurent@vivier.eu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Mar 2022 at 21:41, Mark Cave-Ayland
+On Wed, 2 Mar 2022 at 21:31, Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> Currently when QEMU tries to migrate the macfb framebuffer it crashes randomly
-> because the opaque provided by the DeviceClass vmsd property for both devices
-> is set to MacfbState rather than MacfbNubusState or MacfbSysBusState as
-> appropriate.
->
-> Resolve the issue by adding new VMStateDescriptions for MacfbNubusState and
-> MacfbSysBusState which embed the existing vmstate_macfb VMStateDescription
-> within them using VMSTATE_STRUCT.
+> The MacOS toolbox ROM accesses a number of addresses between 0x0 and 0x200 during
+> initialisation and resolution changes. Whilst the function of many of these
+> registers is unknown, it is worth the minimal cost of saving these extra values as
+> part of migration to help future-proof the migration stream for the q800 machine
+> as it starts to stabilise.
 >
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
+>  hw/display/macfb.c         | 8 ++++++++
+>  include/hw/display/macfb.h | 3 ++-
+>  2 files changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+> index fb54b460c1..dfdae90144 100644
+> --- a/hw/display/macfb.c
+> +++ b/hw/display/macfb.c
+> @@ -537,6 +537,10 @@ static uint64_t macfb_ctrl_read(void *opaque,
+>      case DAFB_MODE_SENSE:
+>          val = macfb_sense_read(s);
+>          break;
+> +    default:
+> +        if (addr < MACFB_CTRL_TOPADDR) {
+> +            val = s->regs[addr >> 2];
+> +        }
+>      }
+>
+>      trace_macfb_ctrl_read(addr, val, size);
+> @@ -592,6 +596,10 @@ static void macfb_ctrl_write(void *opaque,
+>              macfb_invalidate_display(s);
+>          }
+>          break;
+> +    default:
+> +        if (addr < MACFB_CTRL_TOPADDR) {
+> +            s->regs[addr >> 2] = val;
+> +        }
+>      }
+>
+>      trace_macfb_ctrl_write(addr, val, size);
+> diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
+> index 6d9f0f7869..55a50d3fb0 100644
+> --- a/include/hw/display/macfb.h
+> +++ b/include/hw/display/macfb.h
+> @@ -48,7 +48,8 @@ typedef struct MacFbMode {
+>      uint32_t offset;
+>  } MacFbMode;
+>
+> -#define MACFB_NUM_REGS      8
+> +#define MACFB_CTRL_TOPADDR  0x200
+> +#define MACFB_NUM_REGS      (MACFB_CTRL_TOPADDR / sizeof(uint32_t))
+
+You should either bump the vmstate_macfb version numbers here,
+or at least note in the commit message that although it's a
+migration break we know nobody's migrating this device because
+of the bug we just fixed in the previous commit.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
