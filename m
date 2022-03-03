@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD9A4CC171
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:36:36 +0100 (CET)
-Received: from localhost ([::1]:50726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D064CC162
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:34:08 +0100 (CET)
+Received: from localhost ([::1]:42238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPnVL-0002YY-WC
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:36:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47380)
+	id 1nPnSx-0005KD-5Y
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:34:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nPnEU-0007K6-T6
+ id 1nPnEU-0007K7-T6
  for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:19:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26234)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nPnER-00078S-VZ
+ id 1nPnER-00077X-OZ
  for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:19:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1646320747;
@@ -25,31 +25,31 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JPzw9DVEC0L52Z0ySVNGMnGVuSLdQxLNklS5zQDlZvY=;
- b=Bd6ftDfeW273TtRdTvUD64NuDxVkybWejS6qG40Lp2WNRj+1m9j5zt5d2nXNliCnSLqpE1
- KazvPbu0QYTowVKBUKMtj6Ms5WS+GM2Ltodi+9Vt8//7Wyozpo3zxstV85oM/srairb5NA
- L3xbeNy7yy4Qz3EgQ/YmDn/9GdzSsdU=
+ bh=LtgDrJ6RUtxjVlKgvu8fm3wL5tIwR8k3oFTCx5e4DvI=;
+ b=OWw9Fka/JDs1Q+GC252AnUJN2Z42Zx84jf2D9v+SCT92tRaKrnOFG0iJ3BxhK+XfBR4fXe
+ cYsITwGHq9U3jpFjoW2DPokHBYTugN1FqZVt4mKTI+0jRDuUIe4oQjxdJDpDsRIlFFTtYY
+ 8g9nsgIG/cGQtv2ziNwJA0ikiUX3oFk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-400-z5wOm_HqOSyLrE8ohBivdg-1; Thu, 03 Mar 2022 10:19:04 -0500
-X-MC-Unique: z5wOm_HqOSyLrE8ohBivdg-1
+ us-mta-113-VhJdsXxePG2W6tJ7-F1Spg-1; Thu, 03 Mar 2022 10:19:06 -0500
+X-MC-Unique: VhJdsXxePG2W6tJ7-F1Spg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 397BD1006AA7;
- Thu,  3 Mar 2022 15:19:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B59A801AAD;
+ Thu,  3 Mar 2022 15:19:04 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FA5B7C029;
- Thu,  3 Mar 2022 15:19:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52E447BCD7;
+ Thu,  3 Mar 2022 15:19:03 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 27/31] block_int-common.h: split function pointers in
- BdrvChildClass
-Date: Thu,  3 Mar 2022 10:16:12 -0500
-Message-Id: <20220303151616.325444-28-eesposit@redhat.com>
+Subject: [PATCH v8 28/31] block_int-common.h: assertions in the callers of
+ BdrvChildClass function pointers
+Date: Thu,  3 Mar 2022 10:16:13 -0500
+Message-Id: <20220303151616.325444-29-eesposit@redhat.com>
 In-Reply-To: <20220303151616.325444-1-eesposit@redhat.com>
 References: <20220303151616.325444-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -60,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -69,7 +69,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,119 +98,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/block/block_int-common.h | 81 ++++++++++++++++++--------------
- 1 file changed, 47 insertions(+), 34 deletions(-)
+ block.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index f05ebb0da3..5a04c778e4 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -830,19 +830,16 @@ struct BdrvChildClass {
-      */
-     bool parent_is_bds;
+diff --git a/block.c b/block.c
+index 5afdbe3060..01811d6519 100644
+--- a/block.c
++++ b/block.c
+@@ -1497,7 +1497,7 @@ const BdrvChildClass child_of_bds = {
  
-+    /*
-+     * Global state (GS) API. These functions run under the BQL.
-+     *
-+     * See include/block/block-global-state.h for more information about
-+     * the GS API.
-+     */
-     void (*inherit_options)(BdrvChildRole role, bool parent_is_format,
-                             int *child_flags, QDict *child_options,
-                             int parent_flags, QDict *parent_options);
--
-     void (*change_media)(BdrvChild *child, bool load);
--    void (*resize)(BdrvChild *child);
--
--    /*
--     * Returns a name that is supposedly more useful for human users than the
--     * node name for identifying the node in question (in particular, a BB
--     * name), or NULL if the parent can't provide a better name.
--     */
--    const char *(*get_name)(BdrvChild *child);
+ AioContext *bdrv_child_get_parent_aio_context(BdrvChild *c)
+ {
+-    IO_CODE();
++    GLOBAL_STATE_CODE();
+     return c->klass->get_parent_aio_context(c);
+ }
  
+@@ -2128,6 +2128,7 @@ bool bdrv_is_writable(BlockDriverState *bs)
+ 
+ static char *bdrv_child_user_desc(BdrvChild *c)
+ {
++    GLOBAL_STATE_CODE();
+     return c->klass->get_parent_desc(c);
+ }
+ 
+@@ -2844,6 +2845,7 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
+ 
+     assert(!child->frozen);
+     assert(old_bs != new_bs);
++    GLOBAL_STATE_CODE();
+ 
+     if (old_bs && new_bs) {
+         assert(bdrv_get_aio_context(old_bs) == bdrv_get_aio_context(new_bs));
+@@ -2940,6 +2942,7 @@ static void bdrv_attach_child_common_abort(void *opaque)
+     BdrvChild *child = *s->child;
+     BlockDriverState *bs = child->bs;
+ 
++    GLOBAL_STATE_CODE();
      /*
-      * Returns a malloced string that describes the parent of the child for a
-@@ -852,6 +849,47 @@ struct BdrvChildClass {
-      */
-     char *(*get_parent_desc)(BdrvChild *child);
+      * Pass free_empty_child=false, because we still need the child
+      * for the AioContext operations on the parent below; those
+@@ -3308,6 +3311,7 @@ void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
+ static void bdrv_parent_cb_change_media(BlockDriverState *bs, bool load)
+ {
+     BdrvChild *c;
++    GLOBAL_STATE_CODE();
+     QLIST_FOREACH(c, &bs->parents, next_parent) {
+         if (c->klass->change_media) {
+             c->klass->change_media(c, load);
+@@ -3807,6 +3811,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
  
-+    /*
-+     * Notifies the parent that the child has been activated/inactivated (e.g.
-+     * when migration is completing) and it can start/stop requesting
-+     * permissions and doing I/O on it.
-+     */
-+    void (*activate)(BdrvChild *child, Error **errp);
-+    int (*inactivate)(BdrvChild *child);
-+
-+    void (*attach)(BdrvChild *child);
-+    void (*detach)(BdrvChild *child);
-+
-+    /*
-+     * Notifies the parent that the filename of its child has changed (e.g.
-+     * because the direct child was removed from the backing chain), so that it
-+     * can update its reference.
-+     */
-+    int (*update_filename)(BdrvChild *child, BlockDriverState *new_base,
-+                           const char *filename, Error **errp);
-+
-+    bool (*can_set_aio_ctx)(BdrvChild *child, AioContext *ctx,
-+                        GSList **ignore, Error **errp);
-+    void (*set_aio_ctx)(BdrvChild *child, AioContext *ctx, GSList **ignore);
-+
-+    AioContext *(*get_parent_aio_context)(BdrvChild *child);
-+
-+    /*
-+     * I/O API functions. These functions are thread-safe.
-+     *
-+     * See include/block/block-io.h for more information about
-+     * the I/O API.
-+     */
-+
-+    void (*resize)(BdrvChild *child);
-+
-+    /*
-+     * Returns a name that is supposedly more useful for human users than the
-+     * node name for identifying the node in question (in particular, a BB
-+     * name), or NULL if the parent can't provide a better name.
-+     */
-+    const char *(*get_name)(BdrvChild *child);
-+
-     /*
-      * If this pair of functions is implemented, the parent doesn't issue new
-      * requests after returning from .drained_begin() until .drained_end() is
-@@ -876,31 +914,6 @@ struct BdrvChildClass {
-      * activity on the child has stopped.
-      */
-     bool (*drained_poll)(BdrvChild *child);
--
--    /*
--     * Notifies the parent that the child has been activated/inactivated (e.g.
--     * when migration is completing) and it can start/stop requesting
--     * permissions and doing I/O on it.
--     */
--    void (*activate)(BdrvChild *child, Error **errp);
--    int (*inactivate)(BdrvChild *child);
--
--    void (*attach)(BdrvChild *child);
--    void (*detach)(BdrvChild *child);
--
--    /*
--     * Notifies the parent that the filename of its child has changed (e.g.
--     * because the direct child was removed from the backing chain), so that it
--     * can update its reference.
--     */
--    int (*update_filename)(BdrvChild *child, BlockDriverState *new_base,
--                           const char *filename, Error **errp);
--
--    bool (*can_set_aio_ctx)(BdrvChild *child, AioContext *ctx,
--                            GSList **ignore, Error **errp);
--    void (*set_aio_ctx)(BdrvChild *child, AioContext *ctx, GSList **ignore);
--
--    AioContext *(*get_parent_aio_context)(BdrvChild *child);
- };
+     assert(!child_class || !flags);
+     assert(!child_class == !parent);
++    GLOBAL_STATE_CODE();
  
- extern const BdrvChildClass child_of_bds;
+     if (reference) {
+         bool options_non_empty = options ? qdict_size(options) : false;
+@@ -4193,6 +4198,7 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
+      * important to avoid graph changes between the recursive queuing here and
+      * bdrv_reopen_multiple(). */
+     assert(bs->quiesce_counter > 0);
++    GLOBAL_STATE_CODE();
+ 
+     if (bs_queue == NULL) {
+         bs_queue = g_new0(BlockReopenQueue, 1);
+@@ -7327,6 +7333,7 @@ void bdrv_set_aio_context_ignore(BlockDriverState *bs,
+     BdrvChild *child, *parent;
+ 
+     g_assert(qemu_get_current_aio_context() == qemu_get_aio_context());
++    GLOBAL_STATE_CODE();
+ 
+     if (old_context == new_context) {
+         return;
+@@ -7399,6 +7406,7 @@ void bdrv_set_aio_context_ignore(BlockDriverState *bs,
+ static bool bdrv_parent_can_set_aio_context(BdrvChild *c, AioContext *ctx,
+                                             GSList **ignore, Error **errp)
+ {
++    GLOBAL_STATE_CODE();
+     if (g_slist_find(*ignore, c)) {
+         return true;
+     }
 -- 
 2.31.1
 
