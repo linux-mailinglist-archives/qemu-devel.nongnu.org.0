@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90174CC977
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 23:49:58 +0100 (CET)
-Received: from localhost ([::1]:46632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D19B4CC9C6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 00:03:54 +0100 (CET)
+Received: from localhost ([::1]:50968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPuGj-0004Vf-UF
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 17:49:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56866)
+	id 1nPuUC-0001QY-Tj
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 18:03:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nPuF9-0003dQ-JS
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 17:48:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23199)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nPuF7-00087B-Va
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 17:48:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646347697;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CVjzwa6E6H1A583xa+fMVlOaB5OJZYmLwYB/4XcJFF8=;
- b=hWLL65dor4FrRnIZNQBxmZXF4/2edO5pgEw5TX/nyILG9/Y3jv7ocx7PVI5U6WVsKGGTHR
- td0nWL3bMPCMNqNLne/sYXE/e1CJGxf1HewgBRyulF38Twylv9ztixuchwzAGWDCaOs5d2
- 6HtTbroL8VJTopsSjN6AyTsYEzRqzHk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-471-xX8ojP2hOsCSSQ-zu8Y-sw-1; Thu, 03 Mar 2022 17:48:13 -0500
-X-MC-Unique: xX8ojP2hOsCSSQ-zu8Y-sw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC33F8042D3;
- Thu,  3 Mar 2022 22:48:12 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 969544CEE2;
- Thu,  3 Mar 2022 22:47:57 +0000 (UTC)
-Date: Thu, 3 Mar 2022 16:47:55 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 04/12] qemu-nbd: add --tls-hostname option for TLS
- certificate validation
-Message-ID: <20220303224755.zrwhg7gp272upo76@redhat.com>
-References: <20220303160330.2979753-1-berrange@redhat.com>
- <20220303160330.2979753-5-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nPuSd-0000WW-BW
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 18:02:15 -0500
+Received: from [2607:f8b0:4864:20::435] (port=38525
+ helo=mail-pf1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nPuSU-00033m-Gc
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 18:02:09 -0500
+Received: by mail-pf1-x435.google.com with SMTP id j1so2049520pfj.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 15:02:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=zVc4zhtQllFdJO5pFwhg/tn7hejtSJDxB7oFTfs3g5w=;
+ b=F3pS7+iZMG9G60kpg2ogQj83fr0yh5zokUhBewob0ZUFaijmbAfgiEtgALqwBucuul
+ xKov8kfiIiKxKA5U4mHr+dTOXfrSkWbl6/+rk/Ru5/4qwRzD7R3U5T5I3DlixVAmGlJQ
+ zkETai9lvss0Paqp2a20Mf+OZhH7OLiyr3ZUfKoo3wq88YPmZX1BWoid9lxeP8Rjt6T8
+ LEo/SUp848imguEfd5u3/zhXsBsr26wSXq+dS7XmWOX5fQqb4/qvBMsEC3y04oXrsmoa
+ FD3Avbw6+Gvc++Yk9EVCAFNM74h+LqbWvFuZWa8Nm8Ia0GeV1YH0RXWcjqd43zEZo+am
+ NcPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=zVc4zhtQllFdJO5pFwhg/tn7hejtSJDxB7oFTfs3g5w=;
+ b=SGwxegbIOiwKsugclofDhQ8/6kqfTwyHDiD781RekpMoGftI80vHpDFa6HLE+Qoalt
+ Zt9SRYm2dH6GRR1CcXbesfkXigzUJs+ihAk9X49u/3QUgaXwAcKUjpPXyjid6PuLNrdh
+ oqSeoEfnWfzq6putbsOfeebwHn0Pb8u94mlJVvkf8xDIjJ0WBY8mdAtcjdeSioLljJ98
+ fcBny9XdAlzdhNI/ZweoNlU1lWDWnIAyJgj625MiPHblIIiyyJQu1NlUO1K607A9Uxne
+ 0aERbBsi6c//N/ODgLjtfZCFKQZ6Gx5TG3vLD7/oSHcLg8meWZGb3HQS3yF7pwmSMNVb
+ Txcg==
+X-Gm-Message-State: AOAM532vC2lfqfMvaI2UU+TbvSahXfWRRgsf3UKBcQuhPorwxR70eRnw
+ 4SdmGY5ZJyYkxMOxE6fqbGvjQw==
+X-Google-Smtp-Source: ABdhPJzdz2QL6n94tsSavz5M9YrtRn2stlo4kg8JEHgWaJ84uRxm7mH4RdPjchDIZJmh0oT5bsxq/A==
+X-Received: by 2002:a62:644a:0:b0:4f6:a2e6:c706 with SMTP id
+ y71-20020a62644a000000b004f6a2e6c706mr2748379pfb.42.1646348524893; 
+ Thu, 03 Mar 2022 15:02:04 -0800 (PST)
+Received: from ?IPV6:2603:800c:1201:c600:119c:490c:a4ee:8e8?
+ (2603-800c-1201-c600-119c-490c-a4ee-08e8.res6.spectrum.com.
+ [2603:800c:1201:c600:119c:490c:a4ee:8e8])
+ by smtp.gmail.com with ESMTPSA id
+ ep5-20020a17090ae64500b001bc56af507dsm8833848pjb.47.2022.03.03.15.02.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Mar 2022 15:02:04 -0800 (PST)
+Message-ID: <5931e696-fb03-98e3-ed34-6d0c79c47504@linaro.org>
+Date: Thu, 3 Mar 2022 13:02:01 -1000
 MIME-Version: 1.0
-In-Reply-To: <20220303160330.2979753-5-berrange@redhat.com>
-User-Agent: NeoMutt/20211029-378-f757a4
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 4/9] util/oslib-win32: Return NULL on qemu_try_memalign()
+ with zero size
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220226180723.1706285-1-peter.maydell@linaro.org>
+ <20220226180723.1706285-5-peter.maydell@linaro.org>
+ <71304530-f1d7-13a9-c80e-f41a68a344c8@linaro.org>
+ <CAFEAcA8J+pYScRp3KJAb0iLuS65nYVDYkiWPARAT5Ot9299VqA@mail.gmail.com>
+ <91cc02c4-8ea5-23e7-7384-6c6b2c8e12b5@linaro.org>
+ <CAFEAcA9mO0rEuhj4rxerDF7qiePjWo0tUs5PBUF-zqgxqsdm3A@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA9mO0rEuhj4rxerDF7qiePjWo0tUs5PBUF-zqgxqsdm3A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,101 +100,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 03, 2022 at 04:03:22PM +0000, Daniel P. Berrangé wrote:
-> When using the --list option, qemu-nbd acts as an NBD client rather
-> than a server. As such when using TLS, it has a need to validate
-> the server certificate. This adds a --tls-hostname option which can
-> be used to override the default hostname used for certificate
-> validation.
+On 3/3/22 06:55, Peter Maydell wrote:
+>> Alternately, force size == 1, so that we always get a non-NULL value that can be freed.
+>> That's a change on the POSIX side as well, of course.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  docs/tools/qemu-nbd.rst | 14 ++++++++++++++
->  qemu-nbd.c              | 17 ++++++++++++++++-
->  2 files changed, 30 insertions(+), 1 deletion(-)
+> Yes, I had a look at what actual malloc() implementations tend
+> to do, and the answer seems to be that forcing size to 1 gives
+> less weird behaviour for the application. So here that would be
 > 
-> diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
-> index 6031f96893..acce54a39d 100644
-> --- a/docs/tools/qemu-nbd.rst
-> +++ b/docs/tools/qemu-nbd.rst
-> @@ -169,6 +169,20 @@ driver options if ``--image-opts`` is specified.
->    option; or provide the credentials needed for connecting as a client
->    in list mode.
->  
-> +.. option:: --tls-hostname=hostname
-> +
-> +  When validating an x509 certificate received over a TLS connection,
-> +  the hostname that the NBD client used to connect will be checked
-> +  against information in the server provided certificate. Sometimes
-> +  it might be required to override the hostname used to perform this
-> +  check. For example if the NBD client is using a tunnel from localhost
-> +  to connect to the remote server. In this case the `--tls-hostname`
+>     if (size == 0) {
+>         size++;
+>     }
+>     ptr = _aligned_malloc(size, alignment);
+> 
+> We don't need to do anything on the POSIX side (unless we want to
+> enforce consistency of handling the size==0 case).
 
-For example, if the ... to the remote server, the `--tls-hostname`
+I would do this unconditionally.  The POSIX manpage says that either NULL or a unique 
+pointer is a valid return value into *memptr here for size == 0.  What we want in our 
+caller is NULL if and only if error.
+
+> I'd quite like to get this series in before softfreeze (though mostly
+> just for my personal convenience so it's not hanging around as a
+> loose end I have to come back to after we reopen for 7.1). Does anybody
+> object if I squash in that change and put this in a pullrequest,
+> or would you prefer to see a v2 series first?
+
+I'm happy with a squash and PR.
 
 
-> +  option should be used to set the officially expected hostname of
-> +  the remote NBD server. This can also be used if accessing NBD over
-> +  a UNIX socket where there is no inherant hostname available. This
-
-inherent
-
-> +  only is only permitted when acting as a NBD client with the `--list`
-
-s/only is/is/
-
-> +  option.
-> +
->  .. option:: --fork
->  
-
-> @@ -835,6 +841,10 @@ int main(int argc, char **argv)
->              error_report("TLS authorization is incompatible with export list");
->              exit(EXIT_FAILURE);
->          }
-> +        if (tlshostname && !list) {
-> +            error_report("TLS hostname is only required with export list");
-
-maybe s/required/supported/
-
-> +            exit(EXIT_FAILURE);
-> +        }
->          tlscreds = nbd_get_tls_creds(tlscredsid, list, &local_err);
->          if (local_err) {
->              error_reportf_err(local_err, "Failed to get TLS creds: ");
-> @@ -845,6 +855,10 @@ int main(int argc, char **argv)
->              error_report("--tls-authz is not permitted without --tls-creds");
->              exit(EXIT_FAILURE);
->          }
-> +        if (tlshostname) {
-> +            error_report("--tls-hostname is not permitted without --tls-creds");
-> +            exit(EXIT_FAILURE);
-> +        }
->      }
->  
->      if (selinux_label) {
-> @@ -861,7 +875,8 @@ int main(int argc, char **argv)
->  
->      if (list) {
->          saddr = nbd_build_socket_address(sockpath, bindto, port);
-> -        return qemu_nbd_client_list(saddr, tlscreds, bindto);
-> +        return qemu_nbd_client_list(saddr, tlscreds,
-> +                                    tlshostname ? tlshostname : bindto);
-
-With the grammar fixes,
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
