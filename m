@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 020D74CC2BE
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:29:04 +0100 (CET)
-Received: from localhost ([::1]:59212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FC64CC298
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:25:09 +0100 (CET)
+Received: from localhost ([::1]:51198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPoK7-0004U8-4H
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:29:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60330)
+	id 1nPoGK-0006SG-VO
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:25:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPnx6-0000GM-9X
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:05:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37832)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nPo01-0005de-2c; Thu, 03 Mar 2022 11:08:17 -0500
+Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:47375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nPnwy-0007Po-W6
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:05:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646323507;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TfFYLRQUyhdm3uT+SkdNOK+sgAmO/4FmdIyixN9zvhc=;
- b=CFbSKdfEw5b54GyuHhsfag+Z51AiSmXXBNhqTIsS/qQNjaIFm1XL33W6KGAdDqCftG/YpK
- bWOvFOAjaYliR8ugaZV03irgNt4XTpivkJCEdGgzLAqoG7/5IXsIintFifVZ3q9Nyo4kdv
- w9EoHiJD+M/ukHk+2KGtaeQfQKoOpXk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-492-PpZ-GIMbM-6NN_15uUai3Q-1; Thu, 03 Mar 2022 11:05:06 -0500
-X-MC-Unique: PpZ-GIMbM-6NN_15uUai3Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DF3B1854E26;
- Thu,  3 Mar 2022 16:05:05 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8554106D5C6;
- Thu,  3 Mar 2022 16:04:50 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 12/12] tests/qemu-iotests: validate NBD TLS with UNIX sockets
- and PSK
-Date: Thu,  3 Mar 2022 16:03:30 +0000
-Message-Id: <20220303160330.2979753-13-berrange@redhat.com>
-In-Reply-To: <20220303160330.2979753-1-berrange@redhat.com>
-References: <20220303160330.2979753-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nPnzy-0007zJ-Vd; Thu, 03 Mar 2022 11:08:16 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.125])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 74E9820C58;
+ Thu,  3 Mar 2022 16:08:03 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 3 Mar
+ 2022 17:08:02 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003e6cb9bdd-d54d-4302-b8e1-73884e531173,
+ A0610A17E77809494FE20D2F959CCE2A9331EACD) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.1.230.64
+Message-ID: <c2e3731d-c472-99ab-3973-62c8b02c1e56@kaod.org>
+Date: Thu, 3 Mar 2022 17:08:01 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 3/5] avocado/boot_linux_console.py: check for tcg in
+ test_ppc_powernv8/9
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+References: <20220303153517.168943-1-danielhb413@gmail.com>
+ <20220303153517.168943-4-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220303153517.168943-4-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: e9925223-5175-4893-aa13-24d0f2cc15d1
+X-Ovh-Tracer-Id: 16709199045610015526
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddtiedgkeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueevledvjeetgeetfeeiveeftefffedvvdeikeetveelfeeglefgueetvdefvdefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepthhhuhhthhesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
+ helo=10.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,157 +72,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: thuth@redhat.com, crosa@redhat.com, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This validates that connections to an NBD server running on a UNIX
-socket can use TLS with pre-shared keys (PSK).
+On 3/3/22 16:35, Daniel Henrique Barboza wrote:
+> The PowerNV8/9 machines does not work with KVM acceleration, meaning
+> that boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8/9 tests
+> will always fail when QEMU is compiled with --disable-tcg:
+> 
+> ERROR 1-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8
+> -> VMLaunchFailure: ConnectError: Failed to establish session:
+> [Errno 104] Connection reset by peer
+>          Exit code: 1
+>          Command: ./qemu-system-ppc64 -display none -vga none -chardev socket,id=mon,path=/var/tmp/avo_qemu_sock_no19zg0m/qemu-1936936-7fffa77cff98-monitor.sock -mon chardev=mon,mode=control -machine powernv8 -chardev socket,id=console,path=/var/tmp/avo_qemu_sock_no19zg0m/qemu-1936936-7fffa77cff98-console.sock,server=on,wait=off -serial chardev:console -kernel /home/danielhb/avocado/data/cache/by_location/4514304e2c4ee84c5f0b5c8bacedda783891df68/zImage.epapr -append console=tty0 console=hvc0 -device pcie-pci-bridge,id=bridge1,bus=pcie.1,addr=0x0 -device nvme,bus=pcie.2,addr=0x0,serial=1234 -device e1000e,bus=bridge1,addr=0x3 -device nec-usb-xhci,bus=bridge1,addr=0x2
+>          Output: qemu-system-ppc64: The powernv machine does not work with KVM acceleration
+> 
+> Let's add the TCG accel requirement in both tests to skip them if we
+> don't have TCG support available.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/qemu-iotests/233        | 28 ++++++++++++++++++++++++++++
- tests/qemu-iotests/233.out    | 17 +++++++++++++++++
- tests/qemu-iotests/common.tls | 24 ++++++++++++++++++++++++
- 3 files changed, 69 insertions(+)
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-diff --git a/tests/qemu-iotests/233 b/tests/qemu-iotests/233
-index 27b0a123d3..0488f3bbef 100755
---- a/tests/qemu-iotests/233
-+++ b/tests/qemu-iotests/233
-@@ -61,6 +61,8 @@ tls_x509_create_server "ca1" "server1"
- tls_x509_create_client "ca1" "client1"
- tls_x509_create_client "ca2" "client2"
- tls_x509_create_client "ca1" "client3"
-+tls_psk_create_creds "psk1"
-+tls_psk_create_creds "psk2"
- 
- echo
- echo "== preparing image =="
-@@ -191,6 +193,32 @@ $QEMU_IMG info --image-opts --object $obj1 \
- $QEMU_NBD_PROG -L -k $nbd_unix_socket --object $obj1 \
-     --tls-creds=tls0 --tls-hostname=127.0.0.1  2>&1 | _filter_qemu_nbd_exports
- 
-+
-+echo
-+echo "== check TLS works over UNIX with PSK =="
-+nbd_server_stop
-+
-+nbd_server_start_unix_socket \
-+    --object tls-creds-psk,dir=${tls_dir}/psk1,endpoint=server,id=tls0,verify-peer=on \
-+    --tls-creds tls0 \
-+    -f $IMGFMT "$TEST_IMG" 2>> "$TEST_DIR/server.log"
-+
-+obj1=tls-creds-psk,dir=${tls_dir}/psk1,username=psk1,endpoint=client,id=tls0
-+$QEMU_IMG info --image-opts --object $obj1 \
-+    driver=nbd,path=$nbd_unix_socket,tls-creds=tls0 \
-+    2>&1 | _filter_nbd
-+$QEMU_NBD_PROG -L -k $nbd_unix_socket --object $obj1 \
-+    --tls-creds=tls0 2>&1 | _filter_qemu_nbd_exports
-+
-+echo
-+echo "== check TLS fails over UNIX with mismatch PSK =="
-+obj1=tls-creds-psk,dir=${tls_dir}/psk2,username=psk2,endpoint=client,id=tls0
-+$QEMU_IMG info --image-opts --object $obj1 \
-+    driver=nbd,path=$nbd_unix_socket,tls-creds=tls0 \
-+    2>&1 | _filter_nbd
-+$QEMU_NBD_PROG -L -k $nbd_unix_socket --object $obj1 \
-+    --tls-creds=tls0 2>&1 | _filter_qemu_nbd_exports
-+
- echo
- echo "== final server log =="
- cat "$TEST_DIR/server.log" | _filter_authz_check_tls
-diff --git a/tests/qemu-iotests/233.out b/tests/qemu-iotests/233.out
-index a00e4c5b08..ecb36a2f97 100644
---- a/tests/qemu-iotests/233.out
-+++ b/tests/qemu-iotests/233.out
-@@ -7,6 +7,8 @@ Generating a signed certificate...
- Generating a signed certificate...
- Generating a signed certificate...
- Generating a signed certificate...
-+Generating a random key for user 'psk1'
-+Generating a random key for user 'psk2'
- 
- == preparing image ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-@@ -79,6 +81,19 @@ exports available: 1
-   size:  67108864
-   min block: 1
- 
-+== check TLS works over UNIX with PSK ==
-+image: nbd+unix://?socket=SOCK_DIR/qemu-nbd.sock
-+file format: nbd
-+virtual size: 64 MiB (67108864 bytes)
-+disk size: unavailable
-+exports available: 1
-+  size:  67108864
-+  min block: 1
-+
-+== check TLS fails over UNIX with mismatch PSK ==
-+qemu-img: Could not open 'driver=nbd,path=SOCK_DIR/qemu-nbd.sock,tls-creds=tls0': TLS handshake failed: The TLS connection was non-properly terminated.
-+qemu-nbd: TLS handshake failed: The TLS connection was non-properly terminated.
-+
- == final server log ==
- qemu-nbd: option negotiation failed: Failed to read opts magic: Cannot read from TLS channel: Software caused connection abort
- qemu-nbd: option negotiation failed: Failed to read opts magic: Cannot read from TLS channel: Software caused connection abort
-@@ -88,4 +103,6 @@ qemu-nbd: option negotiation failed: TLS x509 authz check for DISTINGUISHED-NAME
- qemu-nbd: option negotiation failed: TLS x509 authz check for DISTINGUISHED-NAME is denied
- qemu-nbd: option negotiation failed: Failed to read opts magic: Cannot read from TLS channel: Software caused connection abort
- qemu-nbd: option negotiation failed: Failed to read opts magic: Cannot read from TLS channel: Software caused connection abort
-+qemu-nbd: option negotiation failed: TLS handshake failed: An illegal parameter has been received.
-+qemu-nbd: option negotiation failed: TLS handshake failed: An illegal parameter has been received.
- *** done
-diff --git a/tests/qemu-iotests/common.tls b/tests/qemu-iotests/common.tls
-index 4a5760949d..b9c5462986 100644
---- a/tests/qemu-iotests/common.tls
-+++ b/tests/qemu-iotests/common.tls
-@@ -24,6 +24,7 @@ tls_x509_cleanup()
- {
-     rm -f "${tls_dir}"/*.pem
-     rm -f "${tls_dir}"/*/*.pem
-+    rm -f "${tls_dir}"/*/*.psk
-     rmdir "${tls_dir}"/*
-     rmdir "${tls_dir}"
- }
-@@ -40,6 +41,18 @@ tls_certtool()
-     rm -f "${tls_dir}"/certtool.log
- }
- 
-+tls_psktool()
-+{
-+    psktool "$@" 1>"${tls_dir}"/psktool.log 2>&1
-+    if test "$?" = 0; then
-+      head -1 "${tls_dir}"/psktool.log
-+    else
-+      cat "${tls_dir}"/psktool.log
-+    fi
-+    rm -f "${tls_dir}"/psktool.log
-+}
-+
-+
- tls_x509_init()
- {
-     (certtool --help) >/dev/null 2>&1 || \
-@@ -176,3 +189,14 @@ EOF
- 
-     rm -f "${tls_dir}/cert.info"
- }
-+
-+tls_psk_create_creds()
-+{
-+    name=$1
-+
-+    mkdir -p "${tls_dir}/$name"
-+
-+    tls_psktool \
-+	--pskfile "${tls_dir}/$name/keys.psk" \
-+	--username "$name"
-+}
--- 
-2.34.1
+Thanks,
+
+C.
+
+> ---
+>   tests/avocado/boot_linux_console.py | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+> index 9c618d4809..d7d9130329 100644
+> --- a/tests/avocado/boot_linux_console.py
+> +++ b/tests/avocado/boot_linux_console.py
+> @@ -1170,6 +1170,7 @@ def test_ppc64_e500(self):
+>           self.do_test_advcal_2018('19', tar_hash, 'uImage')
+>   
+>       def do_test_ppc64_powernv(self, proc):
+> +        self.require_accelerator("tcg")
+>           images_url = ('https://github.com/open-power/op-build/releases/download/v2.7/')
+>   
+>           kernel_url = images_url + 'zImage.epapr'
+> @@ -1194,6 +1195,7 @@ def test_ppc_powernv8(self):
+>           """
+>           :avocado: tags=arch:ppc64
+>           :avocado: tags=machine:powernv8
+> +        :avocado: tags=accel:tcg
+>           """
+>           self.do_test_ppc64_powernv('P8')
+>   
+> @@ -1201,6 +1203,7 @@ def test_ppc_powernv9(self):
+>           """
+>           :avocado: tags=arch:ppc64
+>           :avocado: tags=machine:powernv9
+> +        :avocado: tags=accel:tcg
+>           """
+>           self.do_test_ppc64_powernv('P9')
+>   
 
 
