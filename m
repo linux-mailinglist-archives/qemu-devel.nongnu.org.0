@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C624CBFB7
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:14:24 +0100 (CET)
-Received: from localhost ([::1]:57418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6474CBFA6
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:12:51 +0100 (CET)
+Received: from localhost ([::1]:55260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPmDn-0003k1-Br
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:14:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54390)
+	id 1nPmCI-0002Hv-A9
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:12:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <2b8f91de7bac3d3bc85d60eb08830a35a394be75@lizzy.crudebyte.com>)
- id 1nPmCM-0002s2-Ld
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:12:54 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:43571)
+ (envelope-from <c76be7d38ea448c6417b2ffb5ccd6b711519a878@lizzy.crudebyte.com>)
+ id 1nPmBL-0001Wb-3B
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:11:51 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:38101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <2b8f91de7bac3d3bc85d60eb08830a35a394be75@lizzy.crudebyte.com>)
- id 1nPmCK-0005Ak-4S
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:12:54 -0500
+ (envelope-from <c76be7d38ea448c6417b2ffb5ccd6b711519a878@lizzy.crudebyte.com>)
+ id 1nPmBJ-00050p-HZ
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:11:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=HYWQLwM45yIAcCDavu5L+fT1CR0InuCX/xb5ojwp1DA=; b=fbOdC
- uO/AwzNpjzmWhpEJ/UH1+Wp6MGcziKRRxq+8B1SZOGZWqdKUXAuEhW2zaJhBdtDmHGEgxaUDb5uw2
- cpn4KcbD/yQOz9cSbiWX7ckK03VjZgrhz2P+Bs0M8XCQG0k8syfTcwr4rK0Id4fGBgKd9uU9iMkam
- Q2e4fz4I8zkCOazTh/YBKs/eezZMDryH/rsbOrsYjQcye1mkuE0gXfvMc0MUF0rCtjo3cQNiCUe0R
- cEwu49z2acvCZpRcIq4678lIkf4qm/Y5nRJp41xOlvpviyLKmSKYJfSLodra9KTMuCByaYnuBVozP
- xHs7mi8oRXmOMH5A+NcOYd5g7RwKQ==;
-Message-Id: <2b8f91de7bac3d3bc85d60eb08830a35a394be75.1646314856.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=Af/BjitTk4JBVIjOQi8IT8c4pCz9XxdggxpmyrGmP4c=; b=RjEpX
+ KxNMuuivjvFLlueoMgYExW5UU2PYoZ0EBAMEIdcqvTJo8lIosVMRaU/q/8vYacmHkc3SBpEyOhIGX
+ T7BXmhUOr4Lm+KH8GYZYCB6MvPEcoPIzP2OLHxoceDR7YEl+fxAqQDrVACXISc/MLCC+3G1buyi4j
+ a7SVBqUKTFuhuICmPLapNGkvK31Lao4IdkXIRaj92+8mzWNzMIUUHbW4gFI1UAzHZov0etKP3erPG
+ m4BsxZosdPpYZbxpMWpshEMFIaLNdR8q72b3ak9eTsIthHNO4UOErrgE1oE82jii33vdBY2LtrMbT
+ RuhY+phndl5cfw9qqeQ8rtdl1NXyg==;
+Message-Id: <c76be7d38ea448c6417b2ffb5ccd6b711519a878.1646314856.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646314856.git.qemu_oss@crudebyte.com>
 References: <cover.1646314856.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 3 Mar 2022 13:28:17 +0100
-Subject: [PATCH 1/6] 9pfs/9p.h: convert Doxygen -> kerneldoc format
+Date: Thu, 3 Mar 2022 13:52:14 +0100
+Subject: [PATCH 2/6] 9pfs/codir.c: convert Doxygen -> kerneldoc format
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=2b8f91de7bac3d3bc85d60eb08830a35a394be75@lizzy.crudebyte.com;
+ envelope-from=c76be7d38ea448c6417b2ffb5ccd6b711519a878@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -65,56 +65,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 API doc comments in QEMU are supposed to be in kerneldoc format, so
 convert API doc comments from Doxygen format to kerneldoc format.
 
-Based-on: <E1nPTwO-0006pl-Np@lizzy.crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/9pfs/codir.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 94b273b3d0..af2635fae9 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -100,8 +100,8 @@ typedef enum P9ProtoVersion {
-     V9FS_PROTO_2000L = 0x02,
- } P9ProtoVersion;
- 
--/**
-- * @brief Minimum message size supported by this 9pfs server.
-+/*
-+ * Minimum message size supported by this 9pfs server.
-  *
-  * A client establishes a session by sending a Tversion request along with a
-  * 'msize' parameter which suggests the server a maximum message size ever to be
-@@ -231,7 +231,7 @@ static inline void v9fs_readdir_init(P9ProtoVersion proto_version, V9fsDir *dir)
-     }
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index f96d8ac4e6..75148bc985 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -184,14 +184,25 @@ out:
  }
  
--/**
-+/*
-  * Type for 9p fs drivers' (a.k.a. 9p backends) result of readdir requests,
-  * which is a chained list of directory entries.
-  */
-@@ -289,8 +289,8 @@ typedef enum AffixType_t {
-     AffixType_Suffix, /* A.k.a. postfix. */
- } AffixType_t;
- 
--/**
-- * @brief Unique affix of variable length.
-+/*
-+ * Unique affix of variable length.
+ /**
+- * @brief Reads multiple directory entries in one rush.
++ * v9fs_co_readdir_many() - Reads multiple directory entries in one rush.
++ *
++ * @pdu: the causing 9p (T_readdir) client request
++ * @fidp: already opened directory where readdir shall be performed on
++ * @entries: output for directory entries (must not be NULL)
++ * @offset: initial position inside the directory the function shall
++ *          seek to before retrieving the directory entries
++ * @maxsize: maximum result message body size (in bytes)
++ * @dostat: whether a stat() should be performed and returned for
++ *          each directory entry
++ * Return: resulting response message body size (in bytes) on success,
++ *         negative error code otherwise
   *
-  * An affix is (currently) either a suffix or a prefix, which is either
-  * going to be prepended (prefix) or appended (suffix) with some other
-@@ -304,7 +304,7 @@ typedef struct VariLenAffix {
-     AffixType_t type; /* Whether this affix is a suffix or a prefix. */
-     uint64_t value; /* Actual numerical value of this affix. */
-     /*
--     * Lenght of the affix, that is how many (of the lowest) bits of @c value
-+     * Lenght of the affix, that is how many (of the lowest) bits of ``value``
-      * must be used for appending/prepending this affix to its final resulting,
-      * unique number.
-      */
+  * Retrieves the requested (max. amount of) directory entries from the fs
+  * driver. This function must only be called by the main IO thread (top half).
+  * Internally this function call will be dispatched to a background IO thread
+  * (bottom half) where it is eventually executed by the fs driver.
+  *
+- * @discussion Acquiring multiple directory entries in one rush from the fs
++ * Acquiring multiple directory entries in one rush from the fs
+  * driver, instead of retrieving each directory entry individually, is very
+  * beneficial from performance point of view. Because for every fs driver
+  * request latency is added, which in practice could lead to overall
+@@ -199,20 +210,9 @@ out:
+  * directory) if every directory entry was individually requested from fs
+  * driver.
+  *
+- * @note You must @b ALWAYS call @c v9fs_free_dirents(entries) after calling
++ * NOTE: You must ALWAYS call v9fs_free_dirents(entries) after calling
+  * v9fs_co_readdir_many(), both on success and on error cases of this
+- * function, to avoid memory leaks once @p entries are no longer needed.
+- *
+- * @param pdu - the causing 9p (T_readdir) client request
+- * @param fidp - already opened directory where readdir shall be performed on
+- * @param entries - output for directory entries (must not be NULL)
+- * @param offset - initial position inside the directory the function shall
+- *                 seek to before retrieving the directory entries
+- * @param maxsize - maximum result message body size (in bytes)
+- * @param dostat - whether a stat() should be performed and returned for
+- *                 each directory entry
+- * @returns resulting response message body size (in bytes) on success,
+- *          negative error code otherwise
++ * function, to avoid memory leaks once @entries are no longer needed.
+  */
+ int coroutine_fn v9fs_co_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+                                       struct V9fsDirEnt **entries,
 -- 
 2.30.2
 
