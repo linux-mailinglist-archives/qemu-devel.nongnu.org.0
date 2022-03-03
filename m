@@ -2,74 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 413494CB632
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 06:24:21 +0100 (CET)
-Received: from localhost ([::1]:38340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DB74CB66A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 06:31:30 +0100 (CET)
+Received: from localhost ([::1]:43658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPdwp-0008Sn-Q1
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 00:24:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38640)
+	id 1nPe3l-0004Kq-Hh
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 00:31:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nPdvY-0007eD-6M; Thu, 03 Mar 2022 00:23:00 -0500
-Received: from [2607:f8b0:4864:20::d36] (port=33672
- helo=mail-io1-xd36.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nPdvW-0003g9-JJ; Thu, 03 Mar 2022 00:22:59 -0500
-Received: by mail-io1-xd36.google.com with SMTP id 195so4601461iou.0;
- Wed, 02 Mar 2022 21:22:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+riVFaf6LxZCR8BkKBir96/1L2nEGuKZsTz/gMm97EM=;
- b=qf1attyeuJbQW3sOap26B7Wc2W4LoTHiMI0sC3zuRB+8yBKNIz9xFH8H7vr46qiAhS
- ZgzJoQp29JUDF3ROTWaFTO2OdLCH9svZDqeZffCtNHnyMKXMQ+Ii3pcDdf4RDktK5nbj
- h9IwDQKvrfOy+qacRx0EFsFlKzQt8+9XkUfNdhHw9XwZqhSOzDHCUltPKtcUBOuyjj9I
- AVVc6d9vMBlMoDn+EaDcDc60tcku64dJxg5oeXQ8re1OmDgc9vYa0MysJnIME2jmw5Q+
- wRRpV9PicYmvEbM0gEQdRnlHBszuQsU1UdL2Uk7aLWj7e2atE3Fpvu4iL9w5YGwbLXi6
- tzsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+riVFaf6LxZCR8BkKBir96/1L2nEGuKZsTz/gMm97EM=;
- b=EQ94TNefXw5ot6mG3l5jJ4zZ/sX95dCOQ2B8fu6wfWmQL78UhtbMe/nmQ6LEjTtpq+
- Q075DvbCdfRn+D8hn7ZUUR1Mpl6OYDn8wNRQNltzY+GL0u8OCjDLBYmOlHUda2Q7lMRJ
- SAj9cD8nYsxKiAW+QncCVB9ZylGkcxrmlmcxkTu2Gm7CtXvP5pVyLOghQMa5YJVUBAjB
- LPKbpV05KabyiAuBEy5uTLcdqx6tzAGMSC66WRt7dtH8WxhgysnVuLZgpqsXAyb501pn
- xH0MNJ7GXYsuxDXHhn5vbscrhUjyo5rssp/23sH0S0iLnSa4Q5wniF+PINX9yyv0YRYW
- KV5Q==
-X-Gm-Message-State: AOAM5308dsK0fJuGuutm/5cx4W4dunXMjopNY4efnqhG0lPWlSQJc2dZ
- JAsaAG42MRRejT71dL9jPUBnT4plEvTLDXnSop4=
-X-Google-Smtp-Source: ABdhPJyHpGE9G8VlmWUmfg3KFpksMO7XVYLlqoVDhAWPpxMYv2ZCjukc50iTqXZbpqRf6b4jGW7W59Jv655a5YdtBdg=
-X-Received: by 2002:a05:6638:25b:b0:314:21b0:fb61 with SMTP id
- w27-20020a056638025b00b0031421b0fb61mr28080359jaq.66.1646284976936; Wed, 02
- Mar 2022 21:22:56 -0800 (PST)
+ (Exim 4.90_1)
+ (envelope-from <prvs=05403f1d5=alistair.francis@opensource.wdc.com>)
+ id 1nPe0s-0001TM-AX
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 00:28:30 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:29269)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=05403f1d5=alistair.francis@opensource.wdc.com>)
+ id 1nPe0n-0000FJ-1l
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 00:28:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1646285305; x=1677821305;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wQE3jYb5KCs2uFhl7tfLgE39Q26UXkF6H1Sf0uWHJMA=;
+ b=a/QgZCGgDX20mT63HdnxQEIUkJWuqHzyOprh6jnC9auQqfNNIOAxuvV1
+ GbYkZrZQz3Wk4jij9CK9fG3hp3piUOf0mh9VfguiD8PUrsCxA95WMECA6
+ nBc9AtT2hXv2EbMvYbK6E1uYYviOuDFPXmwDYSdVmNprA4MZCvPGCdENt
+ zbBS/7aMlPo6oT7rTkUCR1tEmBp7yzoMxI4LbIqBm5qzdrRi+zQLgR6fp
+ YUUFUSHjMLDSLjUsSkePk9fPxbLUsIomOwpTIFygjTW+gFlVB7enZUUXv
+ 20KuFdpFxwHR1b3WC0a4mSew0bhi66BWZ7srthnz7gx+gel2sSRpwRr1C A==;
+X-IronPort-AV: E=Sophos;i="5.90,151,1643644800"; d="scan'208";a="195320518"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 03 Mar 2022 13:28:22 +0800
+IronPort-SDR: jsFZCiGd5p5ph2RDe7ryHyZeKSdofqnDA0gf3yR++nPe+HRExHc/0eAWyokXcMzMg6fzv9BoHT
+ pBqWu1XzJ7nQcbPLhRCpNylUYt9k16nejLrli/8Tjvqscw8G0vS5CoJV2CDglPd/U7I3Shhzcb
+ 9WsNp/eZt/v+lXYXdvjmMjIDeqkKAl1V0VnOXX6gvfHJWRDROJqA9Bjz3TjdQdRQ6nHetNzLRT
+ Fj7vDowp7GtfiQUj0rSmF5ePsnqaAyyrtq8iiZjdqZ5YnevieF4k+A8JnEplbDO1QWachztfJt
+ QAj76s/efDD3LrPDYC6F8qwb
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 21:00:47 -0800
+IronPort-SDR: CjyOzRWdqHaxbHkH8SvOa5DbU+IfPi8nt/P+RdlC/uA++sg6qtY6yQzXLrhdF5S0465ayjlxst
+ ak+6FGnnL+w2GYL/P8goxJKiCh2sqyifnklMvVNN8JF+g4NLNSINnTp6DyXrP42QfTR1SbaYqh
+ nS04oXjf4Q0X7aUIw8GSHZyw0o8ZvUttpJEau7BoaWi65NL5qSCDWdz+fQFIyfPjILmbCGYPnz
+ K9uSCovtVTc//d6Dj3QOvEdXvWbAB8JEi3ds/gdA2EjiRCxjdfaNrUnkDIgwicJZEWQOtCkzmx
+ UL4=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2022 21:28:22 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4K8KJj5YWYz1SHwl
+ for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 21:28:21 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1646285301;
+ x=1648877302; bh=wQE3jYb5KCs2uFhl7tfLgE39Q26UXkF6H1Sf0uWHJMA=; b=
+ bjtIItKH5sdF8D+ZxNYx3S90rE89NFs8pLzVAqwG/GiFtyLftP3g9pEby9Z1Mt3E
+ +WfghDvR4XPM3ymerhlWNl9InEQ90DuvMH9T46XvUf5mZOcPxZJO468oOA0dS9sh
+ wrScYJk6Zr6ydmBQptO1xT0JnKCqdOp+KhIU0xIwFHvw8dwtFy542y4ISLMk4vQ6
+ 1qMN1184aFqm9l2GXTfWUccgijtKL2gH6ZS23ikqHDn8DjU8aqqFN2hNFALqL27W
+ nvUX85XSXx8S2DXNuECJs+Lo0UTgOfsiRAa9/vwbjHAIKrr8Ri06Etk2mWxiDIaZ
+ 7+p5dmjitpURwwidIjKSLQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id 0i7OptUl0rTD for <qemu-devel@nongnu.org>;
+ Wed,  2 Mar 2022 21:28:21 -0800 (PST)
+Received: from toolbox.wdc.com (unknown [10.225.165.101])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4K8KJf2hjSz1Rvlx;
+ Wed,  2 Mar 2022 21:28:17 -0800 (PST)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 00/13] riscv-to-apply queue
+Date: Thu,  3 Mar 2022 15:27:51 +1000
+Message-Id: <20220303052804.529967-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220219002518.1936806-1-atishp@rivosinc.com>
- <20220219002518.1936806-2-atishp@rivosinc.com>
-In-Reply-To: <20220219002518.1936806-2-atishp@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 3 Mar 2022 15:22:26 +1000
-Message-ID: <CAKmqyKNEy=Kwg3DXmF0C8f+rYGkf0dw2HKLftgf2ejRFROg6nA@mail.gmail.com>
-Subject: Re: [PATCH v5 01/12] target/riscv: Fix PMU CSR predicate function
-To: Atish Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=05403f1d5=alistair.francis@opensource.wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,81 +110,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Feb 19, 2022 at 10:34 AM Atish Patra <atishp@rivosinc.com> wrote:
->
-> From: Atish Patra <atish.patra@wdc.com>
->
-> The predicate function calculates the counter index incorrectly for
-> hpmcounterx. Fix the counter index to reflect correct CSR number.
->
-> Fixes: e39a8320b088 ("target/riscv: Support the Virtual Instruction fault=
-")
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->  target/riscv/csr.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index b16881615997..3799ee850087 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -94,8 +94,9 @@ static RISCVException ctr(CPURISCVState *env, int csrno=
-)
->              }
->              break;
->          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
-> -            if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER=
-3)) &&
-> -                get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3=
-))) {
-> +            ctr_index =3D csrno - CSR_CYCLE;
-> +            if (!get_field(env->hcounteren, 1 << ctr_index) &&
-> +                 get_field(env->mcounteren, 1 << ctr_index)) {
+From: Alistair Francis <alistair.francis@wdc.com>
 
-This fails to build:
+The following changes since commit 64ada298b98a51eb2512607f6e6180cb330c47=
+b1:
 
-../target/riscv/csr.c: In function =E2=80=98ctr=E2=80=99:
-../target/riscv/csr.c:99:13: error: =E2=80=98ctr_index=E2=80=99 undeclared =
-(first use
-in this function); did you mean =E2=80=98tlb_index=E2=80=99?
-  99 |             ctr_index =3D csrno - CSR_CYCLE;
-     |             ^~~~~~~~~
-     |             tlb_index
+  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220302' =
+into staging (2022-03-02 12:38:46 +0000)
 
-Alistair
+are available in the Git repository at:
 
->                  return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->              }
->              break;
-> @@ -121,8 +122,9 @@ static RISCVException ctr(CPURISCVState *env, int csr=
-no)
->                  }
->                  break;
->              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
-> -                if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOU=
-NTER3H)) &&
-> -                    get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUN=
-TER3H))) {
-> +                ctr_index =3D csrno - CSR_CYCLEH;
-> +                if (!get_field(env->hcounteren, 1 << ctr_index) &&
-> +                     get_field(env->mcounteren, 1 << ctr_index)) {
->                      return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->                  }
->                  break;
-> --
-> 2.30.2
->
->
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220303
+
+for you to fetch changes up to 6b1accefd4876ea5475d55454c7d5b52c02cb73c:
+
+  target/riscv: expose zfinx, zdinx, zhinx{min} properties (2022-03-03 13=
+:14:50 +1000)
+
+----------------------------------------------------------------
+Fifth RISC-V PR for QEMU 7.0
+
+ * Fixup checks for ext_zb[abcs]
+ * Add AIA support for virt machine
+ * Increase maximum number of CPUs in virt machine
+ * Fixup OpenTitan SPI address
+ * Add support for zfinx, zdinx and zhinx{min} extensions
+
+----------------------------------------------------------------
+Anup Patel (5):
+      hw/riscv: virt: Add optional AIA APLIC support to virt machine
+      hw/intc: Add RISC-V AIA IMSIC device emulation
+      hw/riscv: virt: Add optional AIA IMSIC support to virt machine
+      docs/system: riscv: Document AIA options for virt machine
+      hw/riscv: virt: Increase maximum number of allowed CPUs
+
+Philipp Tomsich (1):
+      target/riscv: fix inverted checks for ext_zb[abcs]
+
+Weiwei Li (6):
+      target/riscv: add cfg properties for zfinx, zdinx and zhinx{min}
+      target/riscv: hardwire mstatus.FS to zero when enable zfinx
+      target/riscv: add support for zfinx
+      target/riscv: add support for zdinx
+      target/riscv: add support for zhinx/zhinxmin
+      target/riscv: expose zfinx, zdinx, zhinx{min} properties
+
+Wilfred Mallawa (1):
+      hw: riscv: opentitan: fixup SPI addresses
+
+ docs/system/riscv/virt.rst                |  16 +
+ include/hw/intc/riscv_imsic.h             |  68 +++
+ include/hw/riscv/opentitan.h              |   4 +-
+ include/hw/riscv/virt.h                   |  41 +-
+ target/riscv/cpu.h                        |   4 +
+ target/riscv/helper.h                     |   4 +-
+ target/riscv/internals.h                  |  32 +-
+ hw/intc/riscv_imsic.c                     | 448 +++++++++++++++++++
+ hw/riscv/opentitan.c                      |  12 +-
+ hw/riscv/virt.c                           | 698 ++++++++++++++++++++++++=
++-----
+ target/riscv/cpu.c                        |  17 +
+ target/riscv/cpu_helper.c                 |   6 +-
+ target/riscv/csr.c                        |  25 +-
+ target/riscv/fpu_helper.c                 | 178 ++++----
+ target/riscv/translate.c                  | 149 ++++++-
+ target/riscv/insn_trans/trans_rvb.c.inc   |   8 +-
+ target/riscv/insn_trans/trans_rvd.c.inc   | 285 ++++++++----
+ target/riscv/insn_trans/trans_rvf.c.inc   | 314 ++++++++++----
+ target/riscv/insn_trans/trans_rvzfh.c.inc | 332 ++++++++++----
+ hw/intc/Kconfig                           |   3 +
+ hw/intc/meson.build                       |   1 +
+ hw/riscv/Kconfig                          |   2 +
+ 22 files changed, 2146 insertions(+), 501 deletions(-)
+ create mode 100644 include/hw/intc/riscv_imsic.h
+ create mode 100644 hw/intc/riscv_imsic.c
 
