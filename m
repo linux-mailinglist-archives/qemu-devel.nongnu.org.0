@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB924CB672
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 06:34:17 +0100 (CET)
-Received: from localhost ([::1]:52018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5734CB680
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 06:38:25 +0100 (CET)
+Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPe6S-0001wh-Ec
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 00:34:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39762)
+	id 1nPeAS-0007zN-S2
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 00:38:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=05403f1d5=alistair.francis@opensource.wdc.com>)
- id 1nPe19-0001hz-Ti
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 00:28:48 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:61793)
+ id 1nPe1E-0001m8-JM
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 00:28:54 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:61796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=05403f1d5=alistair.francis@opensource.wdc.com>)
- id 1nPe18-0000IF-6a
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 00:28:47 -0500
+ id 1nPe1C-0000XC-81
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 00:28:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1646285325; x=1677821325;
+ t=1646285329; x=1677821329;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=t1GoyBNEEoH1/4EjkN226ZZt19ZRWA/EXrkabE2mpbo=;
- b=Qm4E9pT96yzr12V/R3HJGMJOpEZcbHbVUzuK5daUKdnCkpfBcus023mX
- dENkfvi+3RgtpMnn2CN9aItok3sB0McU00f00VVlZjjiqTtCnRFUx1Dpi
- LKRr00lUfXR+tVLTPDwG0AUrdgJmhQubbwAyoKnVOccRoCP6PDG1xauKL
- 45zCbEitnp/J0URJKtNzaIdmgmDzx54KaHO4vPQv3vgAST7kE/YjKnKid
- LSYVp2b+Ql7qKQ115Zm3CxExRR2Fw3moZf24Jvoe1q25cS8WM3UfLnRQe
- MtOR5sEApUnvtkPkVA6E9rVV8ZZHi+jevVUlvr4Rn9sp5Ci8K62CCvfck g==;
-X-IronPort-AV: E=Sophos;i="5.90,151,1643644800"; d="scan'208";a="194355348"
+ bh=lhTxYmg91JpfH29IdCPqqOgWEV/DYvR1IbtewiR2zo0=;
+ b=DJIR7bS435WFNrymrrkZv6irtAJVbAQVcSGtQs25M2WSaPtwbo463VZS
+ N0RWr42iI6XBm2u2oITiOHpaQC9k51eHWKsYZF5HEv1MnFXL++C75e1dk
+ oBEI95GtqCma76pN+98jNi5f7remTeNeUw1xPhmA7QAyOv5ymUuieWJR/
+ MtX5HMCFvTEk4Y3g/ar3PN1LKw6JZcmCVfll8CGPxZ4XjYEJLQc3SKn7H
+ NsM6plYCC22Y3/131XwkyzlO+CfrQru+4ziLIIamDK3+4YBmgC/KI67H4
+ qZW3cNPujHI5/n1coLAfxd5qovG+R22fuv0fKxjsxakPqi15SQIsRkfNV g==;
+X-IronPort-AV: E=Sophos;i="5.90,151,1643644800"; d="scan'208";a="194355352"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 03 Mar 2022 13:28:44 +0800
-IronPort-SDR: /OXtp6sV3qi6+wmw0aQ0OtCcaQSoewhPmqsQsbHEG8hdrv7oQiGUuAB6+odtkvTfZOhUu0fG70
- wzwyEG/Q4Fw66Jq9yjaunqdDaArGVV89fAIWUYTBJqAhCkUVx12I3rneBiO6EhSRSh9iOUIbyl
- T959fRAvyZ2QuMDPUbFAhHpgWVMsJxIh1fLwCn9hKJUTWeABcubY+mij+VtPf55/tTwGQSiuLf
- SbNwVZ0WodOzzE9sJW4ZAkYpMYYQB4E/1mtwDSzVtkJfv7KoEJL5K2dMohubgtaI8+CtaLeE7Q
- CQ2lTzXn5Km1Wf2G/j0QGFU5
+ by ob1.hgst.iphmx.com with ESMTP; 03 Mar 2022 13:28:48 +0800
+IronPort-SDR: AvvRBeOYpJ64+hLkij8lLBqNFRkvx61M3SByXAiqJM/thCm1BZK6g1Uq5ZF4+PQnIgoa4hn50L
+ CVf8CiFCgtHXaamP4UbxR2kUnDucRtw1fPPbEhA2HpCDbEGWMLxctVYLy/KG4sS4CNQllbq7Ur
+ To62i0Djq/1cwAMzlxWbTiaiIKJZD4yQ6V+1w/VpRIv6Fh6wfH6jZAfEH5LzQ3e6+76uiNSyss
+ vzmpbi+bNrk7z84jhN2z8zY9sFvE+e9dJ+GMDk1C+KuijtAmV6VkWMlkEHx0qBRj+ecV9fHKjU
+ 26VdZe02Op6kjtuU5hzYTxZK
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 21:00:06 -0800
-IronPort-SDR: GsAgHEve2DSu8FuH87RPbFuwu/ZojSd15FHdvSYkdUrkRlbCqrbqgL6SNV7/XqioLbk0MML9jn
- SrUvQjcjJHDDoJ+FyQ8xdZj9b0DvMB7DNEVaIWA6n+83EgEqn45e9iSxcMCePG/wxox83kxr+1
- k3gyjKDteGU1cSn4cx2JAJtGO5o2nDeGCQh2QolOos7CzmwLySazEkPN7LcTNW3bVIIQu+Lhwy
- sObGFl+6YGjvwmYZLXzI7VECVM9lhO86GaPMExgxQB6p67uBMYAaUZZgdT2N809RVZ7lhrOLqR
- UkA=
+ 02 Mar 2022 21:00:11 -0800
+IronPort-SDR: pgsAmCX7mjt9VZKQFGe3msVjhH5zoJrIb/ikjQV5N8fmKOqA8Q+Wswpjn0UE1u/7i1oCLla9kY
+ IWPWbldxLcMouKuNmwKUNVINzzpJeNabnNhEmcr8G3JXkaYgEYqPpOzi9oN7yl0SpUEwxxKbWl
+ yN33aXjZKvnbh33Q3iwUUz5KYtuygN7u5vRHEEUpekNbw+gur6Aw5bPN444HbL1C5ofOBuQK33
+ yK6KwqPpx4LCCsQcAy/kGVOQiJAmxmgqpM9r8H12S2v2jn1CIPE2jjXmvVDLiAd+LGc9rzjMI6
+ nDg=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2022 21:28:45 -0800
+ 02 Mar 2022 21:28:49 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4K8KK81ZGYz1SVp0
- for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 21:28:44 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4K8KKD4rlnz1Rwrw
+ for <qemu-devel@nongnu.org>; Wed,  2 Mar 2022 21:28:48 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1646285323; x=1648877324; bh=t1GoyBNEEoH1/4EjkN
- 226ZZt19ZRWA/EXrkabE2mpbo=; b=pR2h4qk/JZwzB+21hNiKkgsVc1sfg08Zn9
- L/wVclOkjE3VwIqLsU0IN4veaU4d0RyX8QdO09U/rQSTyqlKQcnpeH4m/MlZdVyp
- 8OzWOhZAFED/gjOy/tdDvks/K/pRHWDaV6COiMTM9khpaLHkPXB25RosCrmBJabd
- 2ySbLn5fwU76ZYkUPXv7aFYtsgvs4zpj4+uVMQhFoFl6p91Kpk9LpCVI0rl+umXe
- GcSsqVuezc1HDKoVtTAvG97c5103Lk4VcM4gl8B3plwlxrT4cqLM7GcfWW5deGoF
- 21/IGNIVFDCjw7B/yBJ7lXgphOtLYdxjRHy7NTn2q0BWat7w4/9g==
+ :from; s=dkim; t=1646285328; x=1648877329; bh=lhTxYmg91JpfH29IdC
+ PqqOgWEV/DYvR1IbtewiR2zo0=; b=potzfNse3gcPliWYQVSg3tXr3vNY9+qsJs
+ 5fm35zTdD3n4svNANVOndYPj3B/t5wHyAd8nZpc6GjH12qKOsY3rMMb3210h8fqE
+ QIpgIewEZMuqj8STx+O2iqy2B8p2/geoHbjmPZ59biGXQwiOKLz6BpMqIfRJT5DT
+ yr6Mmc7OHhut9mchp+aPk2AUaP54JV8SnquHq+orbcXx4LAKZjzSQS2+EgLOaMdh
+ HdS6CUXmsB+VEoM+pJuJcvSNuLf7TU9y09vwIsqiN/HrZ30k1q1ETbXEtNJNv4/G
+ uOExbqtmxLoAIkecnGB5X/bnEcM9gj+PV7DLmtq7y5QoI6ugajhA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id lI0hGlKMqDQ0 for <qemu-devel@nongnu.org>;
- Wed,  2 Mar 2022 21:28:43 -0800 (PST)
+ port 10026) with ESMTP id 1x6acQtbdo3e for <qemu-devel@nongnu.org>;
+ Wed,  2 Mar 2022 21:28:48 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.165.101])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4K8KK40Zlqz1Rwrw;
- Wed,  2 Mar 2022 21:28:39 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4K8KK83rrpz1Rvlx;
+ Wed,  2 Mar 2022 21:28:44 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Anup Patel <anup.patel@wdc.com>,
  Anup Patel <anup@brainfault.org>,
  Alistair Francis <alistair.francis@wdc.com>,
  Frank Chang <frank.chang@sifive.com>
-Subject: [PULL 05/13] docs/system: riscv: Document AIA options for virt machine
-Date: Thu,  3 Mar 2022 15:27:56 +1000
-Message-Id: <20220303052804.529967-6-alistair.francis@opensource.wdc.com>
+Subject: [PULL 06/13] hw/riscv: virt: Increase maximum number of allowed CPUs
+Date: Thu,  3 Mar 2022 15:27:57 +1000
+Message-Id: <20220303052804.529967-7-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220303052804.529967-1-alistair.francis@opensource.wdc.com>
 References: <20220303052804.529967-1-alistair.francis@opensource.wdc.com>
@@ -119,52 +119,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anup Patel <anup.patel@wdc.com>
 
-We have two new machine options "aia" and "aia-guests" available
-for the RISC-V virt machine so let's document these options.
+To facilitate software development of RISC-V systems with large number
+of HARTs, we increase the maximum number of allowed CPUs to 512 (2^9).
+
+We also add a detailed source level comments about limit defines which
+impact the physical address space utilization.
 
 Signed-off-by: Anup Patel <anup.patel@wdc.com>
 Signed-off-by: Anup Patel <anup@brainfault.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Message-Id: <20220220085526.808674-5-anup@brainfault.org>
+Message-Id: <20220220085526.808674-6-anup@brainfault.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- docs/system/riscv/virt.rst | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ include/hw/riscv/virt.h |  2 +-
+ hw/riscv/virt.c         | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
-index 08ce3c4177..1272b6659e 100644
---- a/docs/system/riscv/virt.rst
-+++ b/docs/system/riscv/virt.rst
-@@ -63,6 +63,22 @@ The following machine-specific options are supported:
-   When this option is "on", ACLINT devices will be emulated instead of
-   SiFive CLINT. When not specified, this option is assumed to be "off".
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index d248d0dfa0..78b058ec86 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -24,7 +24,7 @@
+ #include "hw/block/flash.h"
+ #include "qom/object.h"
 =20
-+- aia=3D[none|aplic|aplic-imsic]
-+
-+  This option allows selecting interrupt controller defined by the AIA
-+  (advanced interrupt architecture) specification. The "aia=3Daplic" sel=
-ects
-+  APLIC (advanced platform level interrupt controller) to handle wired
-+  interrupts whereas the "aia=3Daplic-imsic" selects APLIC and IMSIC (in=
-coming
-+  message signaled interrupt controller) to handle both wired interrupts=
- and
-+  MSIs. When not specified, this option is assumed to be "none" which se=
-lects
-+  SiFive PLIC to handle wired interrupts.
-+
-+- aia-guests=3Dnnn
-+
-+  The number of per-HART VS-level AIA IMSIC pages to be emulated for a g=
-uest
-+  having AIA IMSIC (i.e. "aia=3Daplic-imsic" selected). When not specifi=
-ed,
-+  the default number of per-HART VS-level AIA IMSIC pages is 0.
-+
- Running Linux kernel
- --------------------
+-#define VIRT_CPUS_MAX_BITS             3
++#define VIRT_CPUS_MAX_BITS             9
+ #define VIRT_CPUS_MAX                  (1 << VIRT_CPUS_MAX_BITS)
+ #define VIRT_SOCKETS_MAX_BITS          2
+ #define VIRT_SOCKETS_MAX               (1 << VIRT_SOCKETS_MAX_BITS)
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 94fbf63ec8..da50cbed43 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -45,6 +45,16 @@
+ #include "hw/pci-host/gpex.h"
+ #include "hw/display/ramfb.h"
 =20
++/*
++ * The virt machine physical address space used by some of the devices
++ * namely ACLINT, PLIC, APLIC, and IMSIC depend on number of Sockets,
++ * number of CPUs, and number of IMSIC guest files.
++ *
++ * Various limits defined by VIRT_SOCKETS_MAX_BITS, VIRT_CPUS_MAX_BITS,
++ * and VIRT_IRQCHIP_MAX_GUESTS_BITS are tuned for maximum utilization
++ * of virt machine physical address space.
++ */
++
+ #define VIRT_IMSIC_GROUP_MAX_SIZE      (1U << IMSIC_MMIO_GROUP_MIN_SHIFT=
+)
+ #if VIRT_IMSIC_GROUP_MAX_SIZE < \
+     IMSIC_GROUP_SIZE(VIRT_CPUS_MAX_BITS, VIRT_IRQCHIP_MAX_GUESTS_BITS)
 --=20
 2.35.1
 
