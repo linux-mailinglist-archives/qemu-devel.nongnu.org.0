@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0857C4CC854
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:47:09 +0100 (CET)
-Received: from localhost ([::1]:49948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EEB4CC85C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:48:31 +0100 (CET)
+Received: from localhost ([::1]:54348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPtHw-0005c5-4R
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:47:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42990)
+	id 1nPtJG-00007U-2d
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:48:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPtGC-0003pY-C7
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:45:20 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=41529
- helo=mail-pj1-x1030.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPtGA-00052o-LA
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:45:19 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- ev16-20020a17090aead000b001bc3835fea8so6302074pjb.0
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:45:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=Zwf1VHOd3vRXDsiIr26IiXADhKVWHQPzfiSFdV1cRQo=;
- b=GG4Q1M+GQLmmYI9qsOyxth3UFsqxr7yyljqOzcMkyzdk0Ft/yXBbkqpwEzSQGon8gY
- ez2JpOK9aYHNLMjYV99Kq9qEfGatHiYSqMweHiuxafV/Jd8WVtM8P2Hg17FYggmWHwtU
- 9I2x2GpQ9gsdIwBTE9o/Nm0DRjKM3q1jInfEsDQmrOfZKOfxSHp9H3VieQPXnCeqLVx7
- XncVAwDIugfdPi9RfaLeWrucTP4z49Xcf0nERpry8i1Xiw7mTqmiWY5zfWWZjRvWWuhf
- BUkbseDw25FIPF3P5uPaBMmSXJ+xsFrV2byEU3lCJ6Tv51GWj6htbpB11xsK/r4mrLA1
- Mw4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Zwf1VHOd3vRXDsiIr26IiXADhKVWHQPzfiSFdV1cRQo=;
- b=vrci8CVrjUV2OrjCt14wbyulK9toFJUKPHVw9xbUdflGDP/KHpx1RnKkLBAgxRUp4E
- OVw/CzUcw2J6KAwAbO2bUz6wlgROwzlLXtZpBLexrh3Z+kPC4nGnzs+EMEw7FBavyAXV
- SB6fe4fuCXXH9IeEvc/H8AN1lfx46T3G7r4hmNeDF0sjWSZL1TqnnUM8UdcWxDC1pX62
- e16HgjKCqhZfEO6/z7XzNfmcDqv/i/dVkE/c/plo0FnIUTsb6atamwOp3YU6XqEZ3p+O
- Mkyakx0LZJXNIIxXAMakPHzsaMWpxKWQ+oHSvWiVGAGFz9bPTWyXf5rvfYx6goBfbcqX
- 7kjw==
-X-Gm-Message-State: AOAM533pjQmSaWgFomB22SiBYoSHw+85noQl7k4c+y7u7ZBje6Qs+y9W
- qcxtUZ9dWHPaR9owz7YIBGjAYw==
-X-Google-Smtp-Source: ABdhPJyUuv6FH7+8rX6GnrxL53ecxedt92GE/7B4g4Pa8A++hMGYUsBUB73uG9q0SzoS84ziAvE7GA==
-X-Received: by 2002:a17:902:9895:b0:151:6a35:dab2 with SMTP id
- s21-20020a170902989500b001516a35dab2mr23103437plp.118.1646343917153; 
- Thu, 03 Mar 2022 13:45:17 -0800 (PST)
-Received: from ?IPV6:2603:800c:1201:c600:119c:490c:a4ee:8e8?
- (2603-800c-1201-c600-119c-490c-a4ee-08e8.res6.spectrum.com.
- [2603:800c:1201:c600:119c:490c:a4ee:8e8])
- by smtp.gmail.com with ESMTPSA id
- d17-20020a056a00245100b004c283dcbbccsm3648989pfj.176.2022.03.03.13.45.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 13:45:16 -0800 (PST)
-Message-ID: <7926be61-7536-e683-19bc-51154f0424cb@linaro.org>
-Date: Thu, 3 Mar 2022 11:45:14 -1000
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nPtI3-0006ve-9X
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:47:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20154)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nPtI0-0005Ph-7A
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:47:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646344031;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SwmKDhVLEIOMfR+d7F2XPt/vWff/r1Sd5xZRNKwxwsM=;
+ b=Hr3nohzvj5a4yfe1Lve/YnuQSZMKMsXb4p/LXKNFBa3sT/4IEABhEiZ6TEr2Mpl/aInhRh
+ md2k1PIRQFVW3iTj4YnkNYuuK9QV1RvoNBx9riQCs2+4lRXWnkunr/GMT7uvpaStHaziuz
+ LQwmb8jNbUIyTU8YX2ISAJDQig1rX24=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-569-Z1WMFZqGMdeHGyeesyak1w-1; Thu, 03 Mar 2022 16:47:06 -0500
+X-MC-Unique: Z1WMFZqGMdeHGyeesyak1w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5816B824FA7;
+ Thu,  3 Mar 2022 21:47:05 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 29EDDE2E8;
+ Thu,  3 Mar 2022 21:46:50 +0000 (UTC)
+Date: Thu, 3 Mar 2022 15:46:48 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH 03/12] block/nbd: support override of hostname for TLS
+ certificate validation
+Message-ID: <20220303214648.dk54amy7v24hcnnx@redhat.com>
+References: <20220303160330.2979753-1-berrange@redhat.com>
+ <20220303160330.2979753-4-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 5/5] hw/intc/arm_gicv3_cpuif: Fix register names in
- ICV_HPPIR read trace event
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220303202341.2232284-1-peter.maydell@linaro.org>
- <20220303202341.2232284-6-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220303202341.2232284-6-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220303160330.2979753-4-berrange@redhat.com>
+User-Agent: NeoMutt/20211029-378-f757a4
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,24 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/3/22 10:23, Peter Maydell wrote:
-> The trace_gicv3_icv_hppir_read trace event takes an integer value
-> which it uses to form the register name, which should be either
-> ICV_HPPIR0 or ICV_HPPIR1.  We were passing in the 'grp' variable for
-> this, but that is either GICV3_G0 or GICV3_G1NS, which happen to be 0
-> and 2, which meant that tracing for the ICV_HPPIR1 register was
-> incorrectly printed as ICV_HPPIR2.
+On Thu, Mar 03, 2022 at 04:03:21PM +0000, Daniel P. Berrangé wrote:
+> When connecting to an NBD server with TLS and x509 credentials,
+> the client must validate the hostname it uses for the connection,
+> against that published in the server's certificate. If the client
+> is tunnelling its connection over some other channel, however, the
+> hostname it uses may not match the info reported in the server's
+> certificate. In such a case, the user needs to explicitly set an
+> override for the hostname to use for certificate validation.
 > 
-> Use the same approach we do for all the other similar trace events,
-> and pass in 'ri->crm == 8 ?  0 : 1', deriving the index value
-> directly from the ARMCPRegInfo struct.
+> This is achieved by adding a 'tls-hostname' property to the NBD
+> block driver.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  block/nbd.c          | 18 +++++++++++++++---
+>  qapi/block-core.json |  3 +++
+>  2 files changed, 18 insertions(+), 3 deletions(-)
+> 
+> +++ b/qapi/block-core.json
+> @@ -4078,6 +4078,8 @@
+>  #
+>  # @tls-creds: TLS credentials ID
+>  #
+> +# @tls-hostname: TLS hostname override for certificate validation
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Add the tag '(since 7.0)' (in the interest of soft freeze deadlines, I
+can do that as part of queuing through my NBD tree if nothing else
+major turns up in the series), and you can have:
 
-r~
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
