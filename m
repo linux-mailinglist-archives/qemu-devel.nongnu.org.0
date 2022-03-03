@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE98A4CBEE4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 14:30:44 +0100 (CET)
-Received: from localhost ([::1]:53984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917904CBEF7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 14:37:39 +0100 (CET)
+Received: from localhost ([::1]:60444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPlXW-0001a6-7c
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 08:30:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57040)
+	id 1nPleE-0006hB-8D
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 08:37:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPlUa-0000u7-87
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 08:27:40 -0500
-Received: from [2a00:1450:4864:20::42d] (port=36383
- helo=mail-wr1-x42d.google.com)
+ id 1nPlZd-0004cm-D8
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 08:32:57 -0500
+Received: from [2a00:1450:4864:20::330] (port=44688
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPlUU-00081Q-PW
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 08:27:35 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id r10so7860100wrp.3
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 05:27:34 -0800 (PST)
+ id 1nPlZb-0000dE-1M
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 08:32:52 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ bg31-20020a05600c3c9f00b00381590dbb33so3236235wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 05:32:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ii/zIvcXBWFhZUde8V5dntqMbrXJxsXCdXj30NizzhI=;
- b=hNmRqWIttkNrB3QarGq8fFp8ImzUTXeblWSh4Oc7ibtKyoDEmlZo7Ph9uCpwSuqRk3
- F0nB4HGCEmQvJyRmLWKKxOyIja6c20b+zWH6u59ANbBKAP0uXgD91UquR1ovTV08gSgg
- 466fwTCGA/3vbXDxK16+ogo+4M/T6TtG920rge7SM5YuVZhnpw4PzeJkxWxKSIgIMSlj
- RfRLMe4TWs7BsoEF3l8k4Jp9NTQUl0nxntXBva6Ve7Z2blgr6ab7FTNtyYZlEqjNdWrd
- hK1S+BRFcmqHP4B/Xltanh1p1TN3dF2BhEYSCIvblMLwChr6LjhCdAPRh0mqCChBRYZY
- Gzqw==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=XtM/Ho8jUU2kZsk/45wske756RpiV+gVedc3QpopH6E=;
+ b=IV0l720T83SZWIv2lIf0AJRoxB40p0kZFtfTPErMmpuwFGYdInOvXGXJxV6X8eu5hC
+ LRsCVHWrXdJw1+n/DoEhIH7PqU+vXHco4wIe2gomju7XR66bMtU+ssUwHFVzoiI6Fi4O
+ 8+WBTvDtGIQJKkVcPKODtWYCFVY0TlSFLIMwhxeePJK5THHjNtoXxtnNpGxGKONVYLlY
+ pSwQZaaXvSFfbwaGeoWHluBnPyGjS7yPQLNtzW2BNdZSSCqj9+CGB03+5Wk0AGCtk0MD
+ RAV51uInBrXXdI92BlO6zIlzOmUoEIv8XdMLGfio97IaetLKQyp5+ZEJUi8VXoXLSqpj
+ xTEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ii/zIvcXBWFhZUde8V5dntqMbrXJxsXCdXj30NizzhI=;
- b=FPiXqPX7onFcRmF/8T+GqQgiMQL5+1vePLE4QC5sVLtakSiKaHDR/Ad3yDeXA+YJZW
- wlUu0IGodD3hvAAFEpRiO9XiTyp4pNbLTif9SH0tXzLi8r5uN76TQWRLrJZm566zYukY
- fmmX1c1bHFHJzNyB4avFP8kWfwVVqSo4kjn2HimVp1vWM9vBAfSGKSj86rWctKAMD9gq
- ht5OLdgVvJkJWup45913ao1Rqay6bVtAtUx7ZqZ0tNlkmFomC1g40AvloyEzJIKHV3RW
- Ywl4AaaQ101ak+4hWQvBuRktoN83yFdRexP8eKdPDAK206cVg8CPaveScom6hVDvXJV5
- Ta9w==
-X-Gm-Message-State: AOAM531EPhgL+MdcWswjUpYsgwI9No+x3U9iPu7AaHILKBt6wcTzF0VH
- V7bg8nKsnwj83Pf+rl+L45M=
-X-Google-Smtp-Source: ABdhPJy8QtILkAx7G0ItfAFNp0WL5trqpd5fmn2ntjFO2dN8tdYeReqnAmNUilc+C7VNhbWNv9Yktw==
-X-Received: by 2002:adf:a455:0:b0:1f0:247f:e42b with SMTP id
- e21-20020adfa455000000b001f0247fe42bmr7027559wra.696.1646314052841; 
- Thu, 03 Mar 2022 05:27:32 -0800 (PST)
+ bh=XtM/Ho8jUU2kZsk/45wske756RpiV+gVedc3QpopH6E=;
+ b=Py8aG+IwniU9D2gjmAsRH+al3Px3JZN4yVUfImbRIUERO3r7rpllIgSh0AYVKLESB6
+ F0Ywn1EBgR7DaNdbHA0fz/oDVzmPzv5Q7ydTWBnEuPWazIgdFocJRRglb/PlY2ttbSq1
+ UWqrp6czlmnRHKoh3op06YFG8zJZm7Z96ccAegC2xzt6Yx5NZw+Wn8J+PYjz8B4JBcSF
+ eZdWUg1FrEIeZxZBP/IW5jnhLvudPe83zz2qlHi5zJ/aDK0Tlyzj6rZdhpIZOrGMxJWX
+ QaTGq8XNU2YPcH1QXh+ymECrs7RCrGSmZgeN02fvg7ejHMjwIoItsOf1qIjyiIgHZ6Gr
+ jhlQ==
+X-Gm-Message-State: AOAM531bNBysKh7qUVx/19AQIZpYWSWB0nYTzvpzUinoHzWemyZzYkuy
+ cYli3XfwPr5gQ+VYq+5f+k0=
+X-Google-Smtp-Source: ABdhPJzyzFsUQ/wseBQbbOICDYwSljYpJ5crX30Or2pHKb0toDA3E3LVhJtMwdajqLNO5ulNINmK6g==
+X-Received: by 2002:a05:600c:4fd0:b0:382:716a:c5fc with SMTP id
+ o16-20020a05600c4fd000b00382716ac5fcmr3794764wmq.81.1646314366245; 
+ Thu, 03 Mar 2022 05:32:46 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- x18-20020a1c7c12000000b0037c94766961sm2156985wmc.20.2022.03.03.05.27.32
+ f10-20020a05600c154a00b0037bbbc15ca7sm18125980wmg.36.2022.03.03.05.32.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 05:27:32 -0800 (PST)
-Message-ID: <1e71e423-f197-a3e0-68a9-3a70e2f346a3@gmail.com>
-Date: Thu, 3 Mar 2022 14:27:31 +0100
+ Thu, 03 Mar 2022 05:32:45 -0800 (PST)
+Message-ID: <3f8f7c74-3f9c-c0b5-e009-c962fce08eba@gmail.com>
+Date: Thu, 3 Mar 2022 14:32:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2] qga: Introduce NVMe disk bus type
+Subject: Re: [PATCH v4 11/14] softmmu/memory: add
+ memory_region_try_add_subregion function
 Content-Language: en-US
-To: zhenwei pi <pizhenwei@bytedance.com>, armbru@redhat.com
-References: <20220303095840.1318239-1-pizhenwei@bytedance.com>
+To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20220223090706.4888-1-damien.hedde@greensocs.com>
+ <20220223090706.4888-12-damien.hedde@greensocs.com>
+ <bd6f884e-a150-88d8-4b8c-9ec76171b275@greensocs.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220303095840.1318239-1-pizhenwei@bytedance.com>
+In-Reply-To: <bd6f884e-a150-88d8-4b8c-9ec76171b275@greensocs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,57 +98,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/3/22 10:58, zhenwei pi wrote:
-> Assigning a NVMe disk by VFIO or emulating a NVMe controller by QEMU,
-> a NVMe disk get exposed in guest side. Support NVMe disk bus type and
-> implement posix version.
+On 23/2/22 10:12, Damien Hedde wrote:
+> Hi Philippe,
 > 
-> Test PCI passthrough case:
-> ~#virsh qemu-agent-command buster '{"execute":"guest-get-disks"}' | jq
->    ...
->      {
->        "name": "/dev/nvme0n1",
->        "dependencies": [],
->        "partition": false,
->        "address": {
->          "serial": "SAMSUNG MZQL23T8HCLS-00A07_S64HNE0N500076",
->          "bus-type": "nvme",
->          "bus": 0,
->          "unit": 0,
->          "pci-controller": {
->            "bus": 0,
->            "slot": 22,
->            "domain": 0,
->            "function": 0
->          },
->          "dev": "/dev/nvme0n1",
->          "target": 0
->        }
->    ...
+> I suppose it is ok if I change your mail in the reviewed by ?
+
+No, the email is fine (git tools should take care of using the
+correct email via the .mailmap entry, see commit 90f285fd83).
+
+> Thanks,
+> Damien
 > 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> ---
->   qga/commands-posix.c | 5 ++++-
->   qga/qapi-schema.json | 3 ++-
->   2 files changed, 6 insertions(+), 2 deletions(-)
-
-> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> index 94e4aacdcc..8f73770210 100644
-> --- a/qga/qapi-schema.json
-> +++ b/qga/qapi-schema.json
-> @@ -827,13 +827,14 @@
->   # @mmc: Win multimedia card (MMC) bus type
->   # @virtual: Win virtual bus type
->   # @file-backed-virtual: Win file-backed bus type
-> +# @nvme: NVMe disks (since 6.3)
-
-Next release will be 7.0, not 6.3.
-
-With that fixed:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
+> On 2/23/22 10:07, Damien Hedde wrote:
+>> It allows adding a subregion to a memory region with error handling.
+>> Like memory_region_add_subregion_overlap(), it handles priority as
+>> well. Apart from the error handling, the behavior is the same. It
+>> can be used to do the simple memory_region_add_subregion() (with no
+>> overlap) by setting the priority parameter to 0.
+>>
+>> This commit is a preparation to further use of this function in the
+>> context of qapi command which needs error handling support.
+>>
+>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Reviewed-by: David Hildenbrand <david@redhat.com>
+>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>> ---
+>>   include/exec/memory.h | 22 ++++++++++++++++++++++
+>>   softmmu/memory.c      | 23 +++++++++++++++--------
+>>   2 files changed, 37 insertions(+), 8 deletions(-)
 
