@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642174CBF9E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:11:43 +0100 (CET)
-Received: from localhost ([::1]:53014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007D24CBFC4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:15:58 +0100 (CET)
+Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPmBC-0000lV-H7
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:11:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53590)
+	id 1nPmFJ-0005Cj-0d
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:15:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <dc1c4a85e233f5884ee5f6ec96b87db286083df7@lizzy.crudebyte.com>)
- id 1nPmAK-0008Ol-9e
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:10:48 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:36437)
+ (envelope-from <a8fdf0290d1e40a68f5577f29aeae12298b70733@lizzy.crudebyte.com>)
+ id 1nPmDM-0003rv-Ry
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:13:56 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:36157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <dc1c4a85e233f5884ee5f6ec96b87db286083df7@lizzy.crudebyte.com>)
- id 1nPmAI-0004XG-Hr
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:10:47 -0500
+ (envelope-from <a8fdf0290d1e40a68f5577f29aeae12298b70733@lizzy.crudebyte.com>)
+ id 1nPmDL-0005Jo-I4
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:13:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=DVTDwcXvRype59yN2sXQXKcvUnpXIYBnZNqAPCNetxA=; b=itSP8
- exuZQvUuFxrANj9kWhCxD8ckpxMEJ2vAy6pCQSkNfwhvjjQxAu6Cq9RSsOq8WYaCOGVKUnhiYBqcF
- TAZnZdtN3ZMEvHQOtl75nYUCzUFR6WZqOrxuehlmy7s8OYlsGtYDGxcrkyqLmVBeB6Q+OA6HO9qN9
- ZrfwdonxszL4q2rfiXfq3/tAYtvcjWZyPvWiQeMkdH+bM3w5qXblnPKMPT91gvX/KmB6QhD/7thbl
- /rUpxPTqBKOknWPyhyMhryZQk6MGysDAnE2yMVzqOx1ryIjl6CFe5sAVDzscuDbJlNA8urObxIyHb
- 11EBs/UVcAdJghFsXftF2fU50c8Yg==;
-Message-Id: <dc1c4a85e233f5884ee5f6ec96b87db286083df7.1646314856.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=suW9pBmjvp1z756BBcy07wILv6z1XFsPjCtDDGte0lA=; b=DnuKs
+ I9lG6rPeEDP3daHcol8Uj3dVbLMIVEuZAMSf5CFqzTg1uWuwaxqqQ5YV5UiaRJMrfLFWFhykNRash
+ +j3tiw9Z98T054If2Hyo8Ilv3/sq+vPMnZjYY038+pQLMeqsvBmCkL/BlWbP8/BvV2+sme1EGhU0F
+ 7j5pfaMU/VBTOG78gnL+VoDATrCSDOKsZiW+GttCi8+wPpyQoMmC/Ui37J4h+7B1odJzD6HrlmivX
+ qW9uqQ9wj8McG7fl8Ao2Ix1aU6g+hGqkePPxCY0ErDZqyf1rbgo8cCumgvOOBTItx6S/G2fwUX/U2
+ sqLmKcyppe3iDTzGPHFd2x+G7czIA==;
+Message-Id: <a8fdf0290d1e40a68f5577f29aeae12298b70733.1646314856.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646314856.git.qemu_oss@crudebyte.com>
 References: <cover.1646314856.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 3 Mar 2022 14:20:29 +0100
-Subject: [PATCH 4/6] 9pfs/9p-util.h: convert Doxygen -> kerneldoc format
+Date: Thu, 3 Mar 2022 14:22:45 +0100
+Subject: [PATCH 5/6] 9pfs/coth.h: drop Doxygen format on
+ v9fs_co_run_in_worker()
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=dc1c4a85e233f5884ee5f6ec96b87db286083df7@lizzy.crudebyte.com;
+ envelope-from=a8fdf0290d1e40a68f5577f29aeae12298b70733@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,46 +64,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 API doc comments in QEMU are supposed to be in kerneldoc format, so
-convert API doc comments from Doxygen format to kerneldoc format.
+drop Doxygen format used on v9fs_co_run_in_worker() macro.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p-util.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/9pfs/coth.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 22835c5f61..cfa7af43c5 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -97,7 +97,7 @@ ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
- ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
-                                 const char *name);
+diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
+index f83c7dda7b..1a1edbdc2a 100644
+--- a/hw/9pfs/coth.h
++++ b/hw/9pfs/coth.h
+@@ -19,7 +19,7 @@
+ #include "qemu/coroutine.h"
+ #include "9p.h"
  
 -/**
 +/*
-  * Darwin has d_seekoff, which appears to function similarly to d_off.
-  * However, it does not appear to be supported on all file systems,
-  * so ensure it is manually injected earlier and call here when
-@@ -113,15 +113,15 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
- }
- 
- /**
-- * Duplicate directory entry @dent.
-+ * qemu_dirent_dup() - Duplicate directory entry @dent.
-+ *
-+ * @dent: original directory entry to be duplicated
-+ * Return: duplicated directory entry which should be freed with g_free()
+  * we want to use bottom half because we want to make sure the below
+  * sequence of events.
   *
-  * It is highly recommended to use this function instead of open coding
-  * duplication of dirent objects, because the actual struct dirent
-  * size may be bigger or shorter than sizeof(struct dirent) and correct
-  * handling is platform specific (see gitlab issue #841).
-- *
-- * @dent - original directory entry to be duplicated
-- * @returns duplicated directory entry which should be freed with g_free()
-  */
- static inline struct dirent *qemu_dirent_dup(struct dirent *dent)
- {
+@@ -29,7 +29,7 @@
+  * we cannot swap step 1 and 2, because that would imply worker thread
+  * can enter coroutine while step1 is still running
+  *
+- * @b PERFORMANCE @b CONSIDERATIONS: As a rule of thumb, keep in mind
++ * PERFORMANCE CONSIDERATIONS: As a rule of thumb, keep in mind
+  * that hopping between threads adds @b latency! So when handling a
+  * 9pfs request, avoid calling v9fs_co_run_in_worker() too often, because
+  * this might otherwise sum up to a significant, huge overall latency for
 -- 
 2.30.2
 
