@@ -2,90 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293544CC3BF
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 18:29:59 +0100 (CET)
-Received: from localhost ([::1]:34868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B494CC3E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 18:32:03 +0100 (CET)
+Received: from localhost ([::1]:39062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPpH4-0001OZ-8b
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 12:29:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52784)
+	id 1nPpJ4-0004a4-41
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 12:32:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nPpBG-00017D-7m
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:23:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36101)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nPpDZ-00054G-M9; Thu, 03 Mar 2022 12:26:22 -0500
+Received: from [2a01:111:f400:fe0c::70f] (port=7616
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nPpBC-0004XH-P5
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 12:23:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646328234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+yE0+nHw/gVdmYjQ/5GpiofLVku4SSyOF5sU8QpRaSo=;
- b=h+Ln0RJWT2NnT64JQgqbFVtBig8mV9UzS20P6IGGqdyWa0QeSBf/Hy/5rd+BeUkeV+IDKr
- 5YqTU4y4BVG5XCXI5azEJMqsXuwA/XA9tOILgJqW2Cl6nmaOSJfv+udv+1JAPxxXnghVlG
- 9ULlRpum99vO6pYCT3SWo8Eu8fx3qiw=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-PxlBGHuRNMiYjUBJ0lxHcQ-1; Thu, 03 Mar 2022 12:23:52 -0500
-X-MC-Unique: PxlBGHuRNMiYjUBJ0lxHcQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- m22-20020a05620a221600b005f180383baeso3695766qkh.15
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 09:23:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+yE0+nHw/gVdmYjQ/5GpiofLVku4SSyOF5sU8QpRaSo=;
- b=UlM/HYdJajzDU5lAWKwXUBBPn5Xk+8qrXowRO2G5qSR6JLG+jRaBek5SEq/FOhSxza
- RSeGm/BThs7m0HUZdKWuK+I4rSAFkW1I21OxngLfDK4fjHUaNMBLKGtQ/D/ytx8c8Tj4
- ZogdX3aMCDsWaguP+MoHv/eZbbHkrAk6Z6LgXp9NLX0mcq/x924ElMC+BuwZXwt8mgqv
- r/6D+3VtBKVtxGB0spnTkNVXepx93seibAAh6Om1uBMvFCxYWPl8/xL7IhpgN3nzdpnf
- /bIlrVmY1PRuJ3wm3ttzHqaAsFN0B9ZceFYx2DPwXvezu2R5vKdmDOr5np1d5I3ZfNdb
- veeA==
-X-Gm-Message-State: AOAM533SezEl3ETkldpHR9DGjM2YfIXiNcDlVXmCYhSTsDXcLluFn55C
- 1Vzxqo8KsRz3v/YIMhvLVOv3D91Skx3FRN+Be3L8/OMQ3WihjQxZkQCyDkscn2BGP2GKzgHeTe1
- o+kQ8m0tkpOiDHQAcT5hJs4X4Dv0xyyY=
-X-Received: by 2002:a05:6214:19ed:b0:42c:3b5f:cda6 with SMTP id
- q13-20020a05621419ed00b0042c3b5fcda6mr25033780qvc.70.1646328231930; 
- Thu, 03 Mar 2022 09:23:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzLNx0xYztx3CXJSWOcoziCgHehBAWULRQdw8Ba7r9ykgRyhaXA/dd/hMawMHQ0f+kiMH2YSGpbfXUNG35Meu4=
-X-Received: by 2002:a05:6214:19ed:b0:42c:3b5f:cda6 with SMTP id
- q13-20020a05621419ed00b0042c3b5fcda6mr25033755qvc.70.1646328231645; Thu, 03
- Mar 2022 09:23:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1nPpDX-0000MU-8F; Thu, 03 Mar 2022 12:26:20 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Omi3plMJE8C2/lFD8Vt3SuwBFYr6WmwoR/oahyxBi4XfZBNjJJQUcRg38fUTco+NZ/VrSdRtRU1e3rfLMJd9ZHANPT95Hnr66H1xWWlxwZMFZXjlVUp6JkACq2iWBOtEBO81TqgEnPIGpbQFCNQg+RGLFlpArO7WNuxxnpR+56mUNN63zdePEzjpq1u6gTq4pr4uwePPxbJC2N57kVrdWRy77RQupRRh3spHwaLg8n1kVPwJHGzP6V/qWuC93888jqvlVbxO6H8aLdzcHoUdlQQ9eY3K9ixZK9hMJOS8JAvKxKbmtOLN6ZcIX3PgwFFlQm5/C+ySXS57vof6pawTUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=agCo9WZEqN8Jw9F1N47OpGk1WZLKYXIIbkYWhcbziQA=;
+ b=IGy7Iqcy6/WqW2nMrlRYxM4Z6WR94gv/ZAuTBPywIHYtGG2TpC1FO0fLelmDCeE1YODPzSPrPdymDTG8Ua0p3VYn+ygNbsRKFRYQJWiLiJA+YfQpJOsOgQMDjLrGkdYcGgRc0Z9+YX9TJHpNvNuejFe/lEGZ4ugMmeyIS0NbrGHZusi+bMd7Yd0doMWDLXxKa19g2fZHBcQd2KNFCaSp93Al9ojjQaINwdnIQHhdftdEYT5REt/PMS7YQ8WBNl+7qmRRiDJybH2rCBkevaUAU7tAepTzJkq/6aXFMVW/Pur9OpNbtP6DLyxSOuurE0Cdneebwhn9ykhBHUpqnpoC6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=agCo9WZEqN8Jw9F1N47OpGk1WZLKYXIIbkYWhcbziQA=;
+ b=tc7IC0cwXKkNvyNQNr3vq6y8KTGP7mW/nUb6FwfPS+g7c0hdszoualYZDNDa/cFQyGxFgDISpDADN9m27Sc1htsmVbB/Ees4Iq5Hw0Zw7OMW45A7Nnz9/h6UPfy3kVLIJoaM7AI991Fk46XirH2vPedfteJo8cWYIoZm3gbWrro=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by PR2PR08MB4652.eurprd08.prod.outlook.com (2603:10a6:101:18::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.13; Thu, 3 Mar
+ 2022 17:26:13 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::4545:8e0c:19c7:2a6d]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::4545:8e0c:19c7:2a6d%5]) with mapi id 15.20.5038.014; Thu, 3 Mar 2022
+ 17:26:13 +0000
+Message-ID: <ed5c7033-1d2d-5f53-43c5-42cf3f4b166d@virtuozzo.com>
+Date: Thu, 3 Mar 2022 20:26:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 11/16] block: introduce snapshot-access block driver
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, fam@euphon.net,
+ stefanha@redhat.com, eblake@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
+ nikita.lapshin@virtuozzo.com
+References: <20220228113927.1852146-1-vsementsov@virtuozzo.com>
+ <20220228113927.1852146-12-vsementsov@virtuozzo.com>
+ <6ac72250-00c9-d998-fbe7-4c8d958476d7@redhat.com>
+ <53c0edcf-7250-36e3-788b-8db122752428@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <53c0edcf-7250-36e3-788b-8db122752428@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0039.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:48::22) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
-References: <20220302203012.3476835-1-eperezma@redhat.com>
- <20220302203012.3476835-15-eperezma@redhat.com>
- <87ee3jeff1.fsf@pond.sub.org>
- <CAJaqyWfKQKWMs-tLRyuJ=C7VrsFUS8KHiXQVZHqfj_T5_zeBXQ@mail.gmail.com>
- <87bkyncklt.fsf@pond.sub.org>
-In-Reply-To: <87bkyncklt.fsf@pond.sub.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 3 Mar 2022 18:23:15 +0100
-Message-ID: <CAJaqyWfSkfV_FDOMD326SWBQAzK3=bxG+xfUZEmXeYudTG5cgQ@mail.gmail.com>
-Subject: Re: [PATCH v3 14/14] vdpa: Add x-svq to NetdevVhostVDPAOptions
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b56dfbb6-7ec8-4088-af66-08d9fd3aea4e
+X-MS-TrafficTypeDiagnostic: PR2PR08MB4652:EE_
+X-Microsoft-Antispam-PRVS: <PR2PR08MB4652E61D497BF50EFA3F8648C1049@PR2PR08MB4652.eurprd08.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: i3Qt2GZJKLbR8szg8d4Ay0FsspFLiIR5FCZtiOnZI1jFzdE5EhMGX2M51LNFBXlev0j9oTrByqmhNz4tFC1D6gHzCOpGH72rhYp3UXNvq4Z6EAiTSIjpRZe7sFDYxtD928sOILARKgyTL27JK9VY/d8TjVsOUEHDv20L9l3gYZdggC3o8Bivm2b9RD5XN7+3crH0hBU37qtl89vZZ2CGEHN4GNrk0h6T0n3r/XIOkodM0MfcE6VDNxSJeewibCRf5BdR3TtMImMcuVV0kSH0auiUD2Gykh3UoAfs4AmP3tH5E6WlsYHhD9GcTAwq5teerf3iR8LUm3KA1R+BnaxIcw1wer74tNStJ5wdhiHYMnxCgWlMaRwOp4CU59VavND0xnoxx4WdUl4wAmeFBAC/TBGNSz+Sx8JNlZSTek3U4nfISNck9Z7JTYNHaNOuDMYdgFoREJhZpUeSaVbdbGrVEZ15hcple/Fx53ZB/GA0WTcOcDLObOCwQUrSjhOe8y8rKo6eafRCRS8Z1FPj5hkwd13mHEu1WiNrPYO+le21forY8BkqQFA9/K8J8aqPrnGfWpJJusIxL8ChXHIthddM5u9X774vv2kY/3I1TDCKCQQOilULrzaGkBkw6DbK6FpgTPyFLR6GFYWuoEFgPNupFI4kYQyPKDcVxXD5CCQCiecKU+7FzIIP/c0/K6+b3YDPU9WJVVf/PxoNDdk9/+2bPcirvlormCPO5BoXSjvzow9krhojiK2mmZZfuwFuSAQPxvah5Z9Zjx+l3NvMpG/jxA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(83380400001)(316002)(31686004)(2616005)(31696002)(36756003)(186003)(26005)(107886003)(8936002)(6486002)(66556008)(38350700002)(38100700002)(508600001)(6512007)(86362001)(53546011)(52116002)(4326008)(6506007)(5660300002)(66946007)(8676002)(2906002)(66476007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OEY2c0wzWVFHdEF3OVdrNjMzMWVRODFhei9LM1RndTZlM08vaHV6QnpHdkdo?=
+ =?utf-8?B?Ny8rZ2krMFZuem9aMXdpbzR6TWxXL08zamJKUnR6OXBBVG1DYkxpc09MdUZT?=
+ =?utf-8?B?dEFzQTZoTFlxSVlRSHhEQXRHeTZHRlJZWmxjNm9QQ1NrQ0g3Ym1YblRSeE0w?=
+ =?utf-8?B?dTRRbUdVay9PMElEMWxMbDliRDdKWVUybTdPejFYWDdva01KTGE1aUpPMk1T?=
+ =?utf-8?B?NDFKaTFNeE41cWtGOHhCYXA5cUoxUE9hc1pGbks3WHBBUUhjZWJYWjR2WmFu?=
+ =?utf-8?B?UjhjNkRIa0h3eng4TloxMTlVMUYxbCtjZHlreTJrYU9jZUFydTlYWkVEaGpa?=
+ =?utf-8?B?THMwbHVoNGZydjZIaHhzYmJBYUNkdWVkUDZIcHJjZjRva2RqSnV2bmNobjdl?=
+ =?utf-8?B?dm84RHMyNElDRjd1ZGxFd1VId1IyWkZmSXI4MmMzMTYyZWQ5L0ZsdXp1cmdG?=
+ =?utf-8?B?SHZzSjJsRnVIdFpHbDMvRktvZ2o5WitaQmtqMkV0QldTa0EraTIyNFBMUjJs?=
+ =?utf-8?B?dUkwV2VFT2R3RnVyMlJUdWI5cHprSUpMa0Nzb0JKYlUxTDdEUnhsOUMrczlh?=
+ =?utf-8?B?bXVRUjZWV1ZDZk92azZuTmQ4T0F2elJmK25tRFQ2T3VDODN5MmI1aEQvNzZu?=
+ =?utf-8?B?ak1rRFhaYVYrcHI1RmJscmFYL3VVcDBsVFJEM0RVWmYvcHoxZWtiekdyT1R3?=
+ =?utf-8?B?K2lQUHdKZEt1STd5T3Znd01sVmtvd28yeTJjOXN2RDVMT3RWa0g4U2t3M1kr?=
+ =?utf-8?B?ZEtOL2l3VjlGVkt1cHVwTGU3d1lGUXY0Sm1OS2FqMzhZWXpSV005Y2dUWU42?=
+ =?utf-8?B?NVpxQ0g4d2FrQzh2ZERkb2dMMmdkSzJNMHN1bG1JQTdPdDNKQ3diZ2MwYkFT?=
+ =?utf-8?B?S3FLUlY1UjFwRFpld1UyNUxEZmlaS1k4bnU5b2xRcGp5Y0FZbWpDbU11dXhi?=
+ =?utf-8?B?a2hsMU1BV2pGY1ZPZVFITVdUcEs3Sjk1VDkveUtEdXlnNHU2MlZ5OWRUK2pm?=
+ =?utf-8?B?OWJQWURvUFgxTjZGZVlnZDNzU0RqWTMrNXNRZVMvYmJXeTJueC9qRStmUHE5?=
+ =?utf-8?B?dmlOS0wwSVQyaWdUL2JBS0xkZGZtWExhaE9US3BMU2pHbnR5SjBDTkczUmJN?=
+ =?utf-8?B?bW9LWmxlMDhFSFRBVkhQM0V4ZFd3c1NNQ0JxMHlmYWxNQzlSZDYrc01Vall6?=
+ =?utf-8?B?MzVGQWw2UU9yNFEzVmI5SmR3ajgvWDBLZFF0SU11RVhzanM4ckdhbFFDeEJI?=
+ =?utf-8?B?Sy9JaHF4dHVPR2pqbUxtaklnZXNuVjQ2SHRKSmJhdmtOK2NNbVcxM0R1dEll?=
+ =?utf-8?B?Wmd3Z3VONE5tQmJ2SThZRURlTm1rb1RBZmJjcHNVN3JYUHpsSnUrYzkxTGha?=
+ =?utf-8?B?OFFoVHROMVBRTGJlYW9OTWIvZkYzOFFMcnVqU2l0S2ZtdFhadjV4K3lNeTlU?=
+ =?utf-8?B?aUpoZkdaem0xWURuYUhTOFFKWm5SWWMvcTVNVzBHdnZXVnIwVHFiSU05T0tZ?=
+ =?utf-8?B?MVpZN2xaWStITFZXUjNqc2tjaXIrK3RST2U5SkZmcjB2VkdqWWlPaStQOStS?=
+ =?utf-8?B?V0d2WnpKQm9GQllLOWVTQ1N0a1dSQ3VaZERsK1ZjNHNMWHdkTUROREQrL3h4?=
+ =?utf-8?B?bDlKL0J2TW14OEpueWVHRWc4NCtTaWlLY0dQVktEOGY2c1A0cTlJckJMMkV1?=
+ =?utf-8?B?ZkJuMHR6aFRhUXhWM0F3OURjMmxZci91KzloQXdZV21UTTBYZDk4aEJzd1cv?=
+ =?utf-8?B?VG5TdWtYL0w2a2VLSFVhOVBLYU56ZkRtdXdLWFRIS3g0cERDVG1SYURYRDlo?=
+ =?utf-8?B?eXNoYVpXRDMxT0hlUUw4dEVQa1c5TEl2bisySTh1MXpuaVRENTJ0dUJCSnRL?=
+ =?utf-8?B?R3VQWTRCRTRVbHdGdEowS2tFdHhzNm9NaGlVdHBoQzV6RGhOUEliS0JhKzRY?=
+ =?utf-8?B?ZUN5UDZmSldRY0FPVjNzNk1nZXFpWit4SXdtQmVnUVUwVXJVWVFYSkJDaytS?=
+ =?utf-8?B?aEFLM1FBeElXaW5pRjkwU3drV1hua3dIUTk5ckhoc3cycW9qUHMrOVcvYWgy?=
+ =?utf-8?B?TEIrb1ZqcHVSa0xKM0Vkcm9vTUIvOFhsVDF6c0xQMDhxVCtaYmZRQ2tqckQ1?=
+ =?utf-8?B?VWNhZVh6ci9XdUxsd05iZndBL3o5dmMzdVNNck5RbjkwanVoR0RDMWVySTVh?=
+ =?utf-8?B?TFRnclR0VzlzVk0zT01sYVNVc2RLUUxTT2hIaEFnUXR3TmxaUmdxbUR0Wm5r?=
+ =?utf-8?B?R2QxSHlkMGJUWmxsaTd0RTN6VHR3PT0=?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b56dfbb6-7ec8-4088-af66-08d9fd3aea4e
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2022 17:26:13.3091 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BYiEiM8mvvz7tqQNICkGutYir1G/9DTLliHuexMRmnnurDEzg04NlvyiI91yALRyUKx3Bio1M921IgqslX7k6C2cAePGwYufUT3AXRHrIyM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4652
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe0c::70f
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f400:fe0c::70f;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,151 +151,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 3, 2022 at 1:00 PM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Eugenio Perez Martin <eperezma@redhat.com> writes:
->
-> > On Thu, Mar 3, 2022 at 7:09 AM Markus Armbruster <armbru@redhat.com> wr=
-ote:
-> >>
-> >> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
-> >>
-> >> > Finally offering the possibility to enable SVQ from the command line=
-.
-> >> >
-> >> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >> > ---
-> >> >  qapi/net.json    |  5 ++++-
-> >> >  net/vhost-vdpa.c | 48 ++++++++++++++++++++++++++++++++++++++++-----=
----
-> >> >  2 files changed, 44 insertions(+), 9 deletions(-)
-> >> >
-> >> > diff --git a/qapi/net.json b/qapi/net.json
-> >> > index 7fab2e7cd8..d243701527 100644
-> >> > --- a/qapi/net.json
-> >> > +++ b/qapi/net.json
-> >> > @@ -445,12 +445,15 @@
-> >> >  # @queues: number of queues to be created for multiqueue vhost-vdpa
-> >> >  #          (default: 1)
-> >> >  #
-> >> > +# @x-svq: Start device with (experimental) shadow virtqueue. (Since=
- 7.0)
-> >> > +#
-> >> >  # Since: 5.1
-> >> >  ##
-> >> >  { 'struct': 'NetdevVhostVDPAOptions',
-> >> >    'data': {
-> >> >      '*vhostdev':     'str',
-> >> > -    '*queues':       'int' } }
-> >> > +    '*queues':       'int',
-> >> > +    '*x-svqs':        'bool' } }
-> >>
-> >> Experimental members *must* be tagged with feature @unstable.  Their
-> >> name *may* start with 'x-' to help human users, at the cost of renames
-> >> when the member becomes stable.
-> >>
-> >
-> > Hi Markus,
-> >
-> > Thank you very much for the warning. I'll add the unstable feature tag.
-> >
-> > If I understood correctly this needs to be done as x-perf at
-> > BackupCommon struct. Could you confirm to me that it marks only the
-> > x-perf member as unstable? Without reading the actual comment it might
-> > seem as if it marks all the whole BackupCommon struct as unstable.
-> >
-> > # ...
-> > # @filter-node-name: the node name that should be assigned to the
-> > #                    filter driver that the backup job inserts into the=
- graph
-> > #                    above node specified by @drive. If this option is
-> > not given,
-> > #                    a node name is autogenerated. (Since: 4.2)
-> > #
-> > # @x-perf: Performance options. (Since 6.0)
-> > #
-> > # Features:
-> > # @unstable: Member @x-perf is experimental.
-> > #
-> > # Note: @on-source-error and @on-target-error only affect background
-> > #       I/O.  If an error occurs during a guest write request, the devi=
-ce's
-> > #       rerror/werror actions will be used.
-> > #
-> > # Since: 4.2
-> > ##
-> > { 'struct': 'BackupCommon',
-> >   'data': { ...
-> >             '*filter-node-name': 'str',
-> >             '*x-perf': { 'type': 'BackupPerf',
-> >                          'features': [ 'unstable' ] } } }
->
-> This tacks features to member @x-perf, i.e. they apply just to member
-> @x-perf.
->
-> Features can also be tacked to the struct type, like this:
->
->   { 'struct': 'BackupCommon',
->     'data': { ...
->               '*filter-node-name': 'str',
->               '*x-perf': 'BackupPerf' },
->     'features': [ 'unstable' ] }
->
-> Now they apply to type BackupCommon as a whole.
->
-> BlockdevOptionsFile in block-core.json actually makes use of both ways:
->
-> { 'struct': 'BlockdevOptionsFile',
->   'data': { 'filename': 'str',
->             '*pr-manager': 'str',
->             '*locking': 'OnOffAuto',
->             '*aio': 'BlockdevAioOptions',
->             '*aio-max-batch': 'int',
->             '*drop-cache': {'type': 'bool',
->                             'if': 'CONFIG_LINUX'},
->             '*x-check-cache-dropped': { 'type': 'bool',
->                                         'features': [ 'unstable' ] } },
->   'features': [ { 'name': 'dynamic-auto-read-only',
->                   'if': 'CONFIG_POSIX' } ] }
->
-> Feature @dynamic-auto-read-only applies to the type, and feature
-> @unstable applies to member @x-check-cache-dropped.
->
-> Questions?
->
+03.03.2022 14:11, Hanna Reitz wrote:
+> On 03.03.22 12:05, Hanna Reitz wrote:
+>> On 28.02.22 12:39, Vladimir Sementsov-Ogievskiy wrote:
+>>> The new block driver simply utilizes snapshot-access API of underlying
+>>> block node.
+>>>
+>>> In further patches we want to use it like this:
+>>>
+>>> [guest]                   [NBD export]
+>>>     |                            |
+>>>     | root                       | root
+>>>     v                 file       v
+>>> [copy-before-write]<------[snapshot-access]
+>>>     |           |
+>>>     | file      | target
+>>>     v           v
+>>> [active-disk] [temp.img]
+>>>
+>>> This way, NBD client will be able to read snapshotted state of active
+>>> disk, when active disk is continued to be written by guest. This is
+>>> known as "fleecing", and currently uses another scheme based on qcow2
+>>> temporary image which backing file is active-disk. New scheme comes
+>>> with benefits - see next commit.
+>>>
+>>> The other possible application is exporting internal snapshots of
+>>> qcow2, like this:
+>>>
+>>> [guest]          [NBD export]
+>>>     |                  |
+>>>     | root             | root
+>>>     v       file       v
+>>> [qcow2]<---------[snapshot-access]
+>>>
+>>> For this, we'll need to implement snapshot-access API handlers in
+>>> qcow2 driver, and improve snapshot-access block driver (and API) to
+>>> make it possible to select snapshot by name. Another thing to improve
+>>> is size of snapshot. Now for simplicity we just use size of bs->file,
+>>> which is OK for backup, but for qcow2 snapshots export we'll need to
+>>> imporve snapshot-access API to get size of snapshot.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   qapi/block-core.json    |   4 +-
+>>>   block/snapshot-access.c | 132 ++++++++++++++++++++++++++++++++++++++++
+>>>   MAINTAINERS             |   1 +
+>>>   block/meson.build       |   1 +
+>>>   4 files changed, 137 insertions(+), 1 deletion(-)
+>>>   create mode 100644 block/snapshot-access.c
+>>
+>> [...]
+>>
+>>> diff --git a/block/snapshot-access.c b/block/snapshot-access.c
+>>> new file mode 100644
+>>> index 0000000000..77b87c1946
+>>> --- /dev/null
+>>> +++ b/block/snapshot-access.c
+>>
+>> [...]
+>>
+>>> +static int snapshot_access_open(BlockDriverState *bs, QDict *options, int flags,
+>>> +                                Error **errp)
+>>> +{
+>>> +    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+>>> +                               BDRV_CHILD_DATA | BDRV_CHILD_PRIMARY,
+>>> +                               false, errp);
+>>> +    if (!bs->file) {
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    bs->total_sectors = bs->file->bs->total_sectors;
+>>
+>> (If I hadn’t commented on patch 16, I wouldn’t’ve here, but now I might as well...)
+>>
+>> Instead of just a comment in the commit message (which noone will really read later on), I prefer a TODO or FIXME comment directly here in the code, or even better in the API added in the previous patch (i.e. as part of the comment in the BlockDriver struct), that this will not work for qcow2, i.e. that we will need to inquire the snapshot size from the snapshot-providing node.
+>>
+>> It’s OK not to implement that now, but I don’t think having a note just in the commit message will help us remember.
+> 
+> Considering softfreeze is next week, I’d propose I just add the following the patch 10, would that be OK for you?
+> 
+> (In case it is, I’ll hold off on applying patch 16 for now; it’s a test, so we can easily add it during freeze)
+> 
+> diff --git a/include/block/block_int.h b/include/block/block_int.h
+> index c43315ae6e..5c8ad9ed78 100644
+> --- a/include/block/block_int.h
+> +++ b/include/block/block_int.h
+> @@ -385,6 +385,12 @@ struct BlockDriver {
+>        * in generic block-layer: no serializing, no alignment, no tracked
+>        * requests. So, block-driver that realizes these APIs is fully responsible
+>        * for synchronization between snapshot-access API and normal IO requests.
+> +     *
+> +     * TODO: To be able to support qcow2's internal snapshots, this API will
+> +     * need to be extended to:
+> +     * - be able to select a specific snapshot
+> +     * - receive the snapshot's actual length (which may differ from bs's
+> +     *   length)
 
-Yes, that's right. I expressed my point poorly actually, I'll go the revers=
-e.
+Yes, that sounds good
 
-qapi-gen.py forces me to write a comment in the doc:
-qapi/block-core.json:2971: feature 'unstable' lacks documentation
+>        */
+>       int coroutine_fn (*bdrv_co_preadv_snapshot)(BlockDriverState *bs,
+>           int64_t offset, int64_t bytes, QEMUIOVector *qiov, size_t qiov_offset);
+> 
 
-When I add the documentation line, it's enough to add @unstable. But
-there is no way to tell if this tag is because the whole struct is
-unstable or if it's because individual members are unstable unless the
-reader either checks the tag or the struct code.
 
-I was mostly worried about doc generators, I would not like to make
-NetdevVhostVDPAOptions unstable at this point. But I see that there is
-no problem with that.
-
-Thanks!
-
+-- 
+Best regards,
+Vladimir
 
