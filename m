@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833494CC546
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 19:36:52 +0100 (CET)
-Received: from localhost ([::1]:38932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FF34CC564
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 19:45:39 +0100 (CET)
+Received: from localhost ([::1]:43380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPqJn-0007PG-1U
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 13:36:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48466)
+	id 1nPqSH-0002ZE-M1
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 13:45:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nPqI5-0006Bl-Ob
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:35:05 -0500
-Received: from [2607:f8b0:4864:20::22f] (port=36392
- helo=mail-oi1-x22f.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nPqNI-0000wS-P7
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:40:28 -0500
+Received: from [2607:f8b0:4864:20::b2e] (port=35581
+ helo=mail-yb1-xb2e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nPqI4-0007ZT-1F
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:35:05 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id z8so2266257oix.3
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:35:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nPqNG-0000OX-V2
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:40:28 -0500
+Received: by mail-yb1-xb2e.google.com with SMTP id bt13so12138352ybb.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:40:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q0kWy4cBIBx5bbtGsiekDRYvZAuFQs57BWk0ujeOLyI=;
- b=Ps2gxO0a9bGmzyH5iQ6MYwYM1EDewgJS7RpPgr3vBzSNGlKPVw6sACCBLGMuW8bnKz
- mUVwgBYmWxxOe9UULxzR//0cLoWtLKoWVTEI29GeXqhVcMmpl6lHnqTBEiyipCISRjBZ
- ULlIaO/g9hwHO98cflETVkGSeZFDVgM4tSnmD8Tm/neL/viB+0JAxeBniLDMKgIvpPnJ
- 4qT806OizdjjNLRxndYhcL66rMVSEYVFcANMjnaI9eNwL99L40NzZO4Cvc3HK7S93BLy
- 5VMsnQtbpJL7xeqpvudLUhd9gMAx11pb3ewV0CHWMhn2ZSXXym3suK2G/F2ULZC7KLoO
- Ya8A==
+ :cc; bh=05WOp5T4/fGLOby7qI0wTINvs2lKwC6V2aoIOR9B8Ig=;
+ b=ynbMRc9zJe8maNDELQBaK3VdfQjXZkXmZTDCgAssdwdrnTIXnKJOY5XELWu+ZVFXeA
+ 1J9NaAC0NnpCyIV7vCMyMfFYwdiQAyvwXV0W9gFM1GMvFSsqBlPGgO1oEDduyd4MK1m8
+ DI2pCx+3BsHOgVIpl6j0vYzVLIzNnf5xPZckk+t7b2HHst6XTFZns2q7+EBt9HjtPnLU
+ 9XOHhmJ2ri8zASZgOH68iNzi8jIMwjYXfF2khqveWnHvZT9zXJHlSFFuxrOb3RnYWIec
+ +l+EBpC0NNBuXCO7oPYBhsSu+OyEmea/04ulPqtQ6/kTC5ZhyrZaUPibu2+K+XpIGkEp
+ ru6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Q0kWy4cBIBx5bbtGsiekDRYvZAuFQs57BWk0ujeOLyI=;
- b=qxxjNNsau0SqAaC8IAdVsj1qjCQejvpo3NuUapDIvBToGXl+OkaEFY8/bGgmDhMw+e
- +HIlOpT4PlVqnFoTCzzi5+gvFrMoP/MJXKybW/XlawnuEz+Jddv6dM1LgK80hsotNhVo
- k3ZVC3vrduJdfdngRxHJ+8/Acz1pVYWiQL7wFhbn0XGP2bnKwMg5WSOoKerA61Y7Z9H9
- y7VE2O72zpeSpdwUQZtn+x9gcO+IC8mlyuL8kxUA6hqNwU3kidZgESw354+vqXxvPTSp
- OGSJgsc4xxXWWz6+BVbYYGLH39KTYuaTTB03+H0Iia/FhbHguJPTfc/VO4ebWTC/Rd2D
- aKVg==
-X-Gm-Message-State: AOAM531fDIGi4HE3hrmEQ7QiIB+K3Mxo9KLXIiM/jveKuuj2U/ASkWFy
- 6wIqmaxnRPsYmD2YNY+0tC3YJPnmYkhUHyPQTpA=
-X-Google-Smtp-Source: ABdhPJyRuGKKXOdWbGMCDdWSDr5E9XNbPMYBJNAYRGoRxIaM5JqG9SsZU7NR018pV54cVXlCIPkgUquVScOIHxv7BjE=
-X-Received: by 2002:a05:6808:2386:b0:2d5:4499:cc4e with SMTP id
- bp6-20020a056808238600b002d54499cc4emr5705263oib.11.1646332502255; Thu, 03
- Mar 2022 10:35:02 -0800 (PST)
+ bh=05WOp5T4/fGLOby7qI0wTINvs2lKwC6V2aoIOR9B8Ig=;
+ b=lU89JAc+Nl+l2toaB8vAvlbMgUGtMCiqzqdbvoi9bQmD0ZDsQ6Gj6q39oHaTtLzu1o
+ 07L2x19sRGf15msZeYAZeIuqZOiIxm5AfK14Wd1QNB3mD074QTjkBlQ50wBinpUcNtRw
+ 0iR/hox13uzO655fNyjIrigytic07Wf/iAng7vTlQkyTmAXc0AyawTwaaEBv2JvIBXON
+ 4t1L44UmVrX1fTBDg7+NJBie1LPRkR0kvJnqSYHdSE97uCBEIxFPoHcoB++eeZ9w/2C+
+ r8OiP+3V8bKadFBUCoKGjbTaijB5mGY21krtxlw+8wJAfuIFmF6qblW8DbV1S6u5fq0d
+ 5K+Q==
+X-Gm-Message-State: AOAM531kUR1PflYjBSWlK9X1ZK3UxsNBgFXjH2/awl5sRUQdr8QyaGoN
+ De02uTINDO4N2LHvvQ5F+up5PrV8UNnDDr9YrWLOMQ==
+X-Google-Smtp-Source: ABdhPJwg6q8/GD+bP+TxTP6Fnuo0VugXR/JXFmuHl1lxEPd7+0UI5leit3mBPsgJySahc8mfN+9EYmsEgg56DIK2nLA=
+X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
+ h3-20020a056902008300b0061a709bd841mr33797813ybs.140.1646332825507; Thu, 03
+ Mar 2022 10:40:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20220225171402.64861-1-Vladislav.Yaroshchuk@jetbrains.com>
- <20220225171402.64861-4-Vladislav.Yaroshchuk@jetbrains.com>
- <50a27646-ce9c-c702-965f-46b602be9220@gmail.com>
- <CAGmdLqQ8J+-sK=Huh-G8w-S0RQUEyKkN2rb6PsZAFXbd6Jk2EQ@mail.gmail.com>
- <f839edfc-de5f-7002-4916-21c541a5185b@gmail.com>
- <CAGmdLqRVtJN8YoxfeCYuay-k+RVofM8W=wicn0fRdjau0uwCHQ@mail.gmail.com>
- <CAMVc7JVnxNTMhked8x=Z0baY2ApMKwB8FrESYWQjm43-6Wm+3A@mail.gmail.com>
- <CAGmdLqQhd9q9VQUKEd_hb9rnb2HwrdAv31aB67sUj_=jiLX_Sw@mail.gmail.com>
- <7b4e06fe-4d10-0870-5d6e-d2e70d7eb3a2@gmail.com>
- <CAGmdLqTqcESsiyTMavKZ3U8=5yPtqdq2tunZTH-tfrzwfUMGug@mail.gmail.com>
- <e5302fba-e773-c56d-388f-a3593bacd977@gmail.com>
- <CAGmdLqRCSYzjWBT7OhfP-hZHYwP8F3=4hpwQ+E76ShxjmRTO5Q@mail.gmail.com>
-In-Reply-To: <CAGmdLqRCSYzjWBT7OhfP-hZHYwP8F3=4hpwQ+E76ShxjmRTO5Q@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Fri, 4 Mar 2022 03:34:51 +0900
-Message-ID: <CAMVc7JWASjc5BCZEyDyS44wPXFGk+Lw78fVNPPT4PL7ac_pJKg@mail.gmail.com>
-Subject: Re: [PATCH v15 3/8] net/vmnet: implement shared mode (vmnet-shared)
-To: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
+References: <20220302212752.6922-1-mark.cave-ayland@ilande.co.uk>
+ <20220302212752.6922-4-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA8-_khhe0999QB=wsUi=HEcPa6G3C7p_P63UibkF6FNUA@mail.gmail.com>
+ <d2d6510d-3f3a-81a0-e28e-d5a4a4b3ccc1@ilande.co.uk>
+In-Reply-To: <d2d6510d-3f3a-81a0-e28e-d5a4a4b3ccc1@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Mar 2022 18:40:14 +0000
+Message-ID: <CAFEAcA93GFLH-OC7T_U0XQ=7B5uBmD147XMoTcJguj=wjfeChQ@mail.gmail.com>
+Subject: Re: [PATCH v2 03/10] macfb: increase number of registers saved in
+ MacfbState
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -92,137 +85,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, phillip.ennen@gmail.com,
- qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Phillip Tennen <phillip@axleos.com>,
- Roman Bolshakov <roman@roolebo.dev>, Howard Spoelstra <hsp.cat7@gmail.com>,
- Alessio Dionisi <hello@adns.io>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: fam@euphon.net, pbonzini@redhat.com, Laurent@vivier.eu,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 4, 2022 at 12:43 AM Vladislav Yaroshchuk
-<vladislav.yaroshchuk@jetbrains.com> wrote:
+On Thu, 3 Mar 2022 at 17:44, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
 >
+> On 03/03/2022 15:25, Peter Maydell wrote:
 >
+> > On Wed, 2 Mar 2022 at 21:31, Mark Cave-Ayland
+> > <mark.cave-ayland@ilande.co.uk> wrote:
+> >>
+> >> The MacOS toolbox ROM accesses a number of addresses between 0x0 and 0x200 during
+> >> initialisation and resolution changes. Whilst the function of many of these
+> >> registers is unknown, it is worth the minimal cost of saving these extra values as
+> >> part of migration to help future-proof the migration stream for the q800 machine
+> >> as it starts to stabilise.
+> >>
+> >> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> >> ---
+> >>   hw/display/macfb.c         | 8 ++++++++
+> >>   include/hw/display/macfb.h | 3 ++-
+> >>   2 files changed, 10 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+> >> index fb54b460c1..dfdae90144 100644
+> >> --- a/hw/display/macfb.c
+> >> +++ b/hw/display/macfb.c
+> >> @@ -537,6 +537,10 @@ static uint64_t macfb_ctrl_read(void *opaque,
+> >>       case DAFB_MODE_SENSE:
+> >>           val = macfb_sense_read(s);
+> >>           break;
+> >> +    default:
+> >> +        if (addr < MACFB_CTRL_TOPADDR) {
+> >> +            val = s->regs[addr >> 2];
+> >> +        }
+> >>       }
+> >>
+> >>       trace_macfb_ctrl_read(addr, val, size);
+> >> @@ -592,6 +596,10 @@ static void macfb_ctrl_write(void *opaque,
+> >>               macfb_invalidate_display(s);
+> >>           }
+> >>           break;
+> >> +    default:
+> >> +        if (addr < MACFB_CTRL_TOPADDR) {
+> >> +            s->regs[addr >> 2] = val;
+> >> +        }
+> >>       }
+> >>
+> >>       trace_macfb_ctrl_write(addr, val, size);
+> >> diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
+> >> index 6d9f0f7869..55a50d3fb0 100644
+> >> --- a/include/hw/display/macfb.h
+> >> +++ b/include/hw/display/macfb.h
+> >> @@ -48,7 +48,8 @@ typedef struct MacFbMode {
+> >>       uint32_t offset;
+> >>   } MacFbMode;
+> >>
+> >> -#define MACFB_NUM_REGS      8
+> >> +#define MACFB_CTRL_TOPADDR  0x200
+> >> +#define MACFB_NUM_REGS      (MACFB_CTRL_TOPADDR / sizeof(uint32_t))
+> >
+> > You should either bump the vmstate_macfb version numbers here,
+> > or at least note in the commit message that although it's a
+> > migration break we know nobody's migrating this device because
+> > of the bug we just fixed in the previous commit.
+> >
+> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 >
-> On Tue, Mar 1, 2022 at 11:21 AM Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->>
->> On 2022/03/01 17:09, Vladislav Yaroshchuk wrote:
->> >      > Not sure that only one field is enough, cause
->> >      > we may have two states on bh execution start:
->> >      > 1. There are packets in vmnet buffer s->packets_buf
->> >      >      that were rejected by qemu_send_async and waiting
->> >      >      to be sent. If this happens, we should complete sending
->> >      >      these waiting packets with qemu_send_async firstly,
->> >      >      and after that we should call vmnet_read to get
->> >      >      new ones and send them to QEMU;
->> >      > 2. There are no packets in s->packets_buf to be sent to
->> >      >      qemu, we only need to get new packets from vmnet
->> >      >      with vmnet_read and send them to QEMU
->> >
->> >     In case 1, you should just keep calling qemu_send_packet_async.
->> >     Actually
->> >     qemu_send_packet_async adds the packet to its internal queue and calls
->> >     the callback when it is consumed.
->> >
->> >
->> > I'm not sure we can keep calling qemu_send_packet_async,
->> > because as docs from net/queue.c says:
->> >
->> > /* [...]
->> >   * If a sent callback is provided to send(), the caller must handle a
->> >   * zero return from the delivery handler by not sending any more packets
->> >   * until we have invoked the callback. Only in that case will we queue
->> >   * the packet.
->> >   *
->> >   * If a sent callback isn't provided, we just drop the packet to avoid
->> >   * unbounded queueing.
->> >   */
->> >
->> > So after we did vmnet_read and read N packets
->> > into temporary s->packets_buf, we begin calling
->> > qemu_send_packet_async. If it returns 0 - it says
->> > "no more packets until sent_cb called please".
->> > At this moment we have N packets in s->packets_buf
->> > and already queued K < N of them. But, packets K..N
->> > are not queued and keep waiting for sent_cb to be sent
->> > with qemu_send_packet_async.
->> > Thus when sent_cb called, we should finish
->> > our transfer of packets K..N from s->packets_buf
->> > to qemu calling qemu_send_packet_async.
->> > I meant this.
->>
->> I missed the comment. The description is contradicting with the actual
->> code; qemu_net_queue_send_iov appends the packet to the queue whenever
->> it cannot send one immediately.
->>
+> I can do this if you like, although until the last 2 patches anything that is using
+> the disk will fail, and that's just about everything because DMA requests require
+> guest support to move the data from the ESP to the CPU.
 >
-> Yes, it appends, but (net/queue.c):
-> *  qemu_net_queue_send tries to deliver the packet
->     immediately. If the packet cannot be delivered, the
->     qemu_net_queue_append is called and 0 is returned
->     to say the caller "the receiver is not ready, hold on";
-> *  qemu_net_queue_append does a probe before adding
->     the packet to the queue:
->     if (queue->nq_count >= queue->nq_maxlen && !sent_cb) {
->         return; /* drop if queue full and no callback */
->     }
->
-> The queue is not infinite, so we have three cases:
-> 1. The queue is not full -> append the packet, no
->     problems here
-> 2. The queue is full, no callback -> we cannot notify
->     a caller when we're ready, so just drop the packet
->     if we can't append it.
-> 3. The queue is full, callback present -> we can notify
->     a caller when we are ready, so "let's queue this packet,
->     but expect no more (!) packets is sent until I call
->     sent_cb when the queue is ready"
->
-> Therefore if we provide a callback and keep sending
-> packets if 0 is returned, this may cause unlimited(!)
-> queue growth. To prevent this, we should stop sending
-> packets and wait for notification callback to continue.
->
-> I don't see any contradiction with that comment.
->
->> Jason Wang, I saw you are in the MAINTAINERS for net/. Can you tell if
->> calling qemu_send_packet_async is allowed after it returns 0?
->>
->
-> It may be wrong, but I think it's not allowed to send
-> packets after qemu_send_packet_async returns 0.
->
-> Jason Wang, can you confirm please?
->
-> Best Regards,
->
-> Vladislav Yaroshchuk
->
->>
->> Regards,
->> Akihiko Odaki
->
->
->
+> In terms of the q800 machine there is an implicit assumption that there will be more
+> migration breaks to come, mainly because there are new devices to be added to the
+> q800 machine in my outstanding MacOS patches that will break migration again once. So
+> until these are finally merged I don't think it's worth trying to stabilise the
+> migration stream.
 
-The unlimited queue growth would not happen if you stop calling
-vmnet_read after qemu_send_packet_async returns 0. So I think the
-comment should be amended to say something like:
-"Once qemu_send_packet_async returns 0, the client should stop reading
-more packets from the underlying NIC to prevent infinite growth of the
-queue until the last callback gets called."
+Yeah, fair enough; just put a note in the commit message to
+that effect.  (Mostly bumping the migration version is about making
+the error message nicer if somebody does do a mismatched save/load.)
 
-The unique feature of vmnet is that it can read multiple packets at
-once, and I guess it is the reason why the comment in net/queue.c
-missed the case. But this is all my guess so I need confirmation from
-the maintainer.
-
-Regards,
-Akihiko Odaki
+thanks
+-- PMM
 
