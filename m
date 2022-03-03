@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CAC4CC590
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 20:02:03 +0100 (CET)
-Received: from localhost ([::1]:51502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 749784CC595
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 20:04:49 +0100 (CET)
+Received: from localhost ([::1]:58766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPqiA-0002gb-Lp
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 14:02:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54716)
+	id 1nPqkq-0007cB-CU
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 14:04:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nPqbF-0007Ix-Fs
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:54 -0500
-Received: from [2607:f8b0:4864:20::335] (port=45712
- helo=mail-ot1-x335.google.com)
+ id 1nPqbH-0007Na-Pn
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:55 -0500
+Received: from [2607:f8b0:4864:20::c2d] (port=36772
+ helo=mail-oo1-xc2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nPqbD-0001j0-DK
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:53 -0500
-Received: by mail-ot1-x335.google.com with SMTP id
- g6-20020a9d6486000000b005acf9a0b644so5376571otl.12
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:54:50 -0800 (PST)
+ id 1nPqbF-0001nJ-Rp
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:55 -0500
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ n5-20020a4a9545000000b0031d45a442feso6817786ooi.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:54:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vfG7FK1OPCdsx0kND74abVNHh9tfVIoxxm0LNF72n4o=;
- b=hJSd03ckPZ6gkLrFw3NNElCZW+Ob+m/vOxvXNd+wyHriMthYAlEdohJU2/7EzoUIQr
- OXISr7E2NxFQ579H4NryxXGeK8RBIwH7SKmTqQkltoBG/yANpGs4mWiCEMNS0ARWr5NF
- c426ABaCs2D56dZl4WetlMbGzAB+oRSzReHIE9XPPF3PSarTscj1nJ1DKcGeWVHrEd4Q
- zoh+WMqcSki6ZP597/W3lXSyywxWn58P/a6d5jfs8dkuuBUeLHBNH/G5NQPnivXObN2M
- qJJvNaDcfgxB6TpvQ86wvqzuiHBkCQJmBkYRkOOn6onqOsWV2OMHWgHrPELUuN2pzWN8
- aY3g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KVrxFJG9XKBpol7NLsKIXCTAGZL6CqEwO0MNz8y3nng=;
+ b=QEklmtMv+4cB1kAvuhgrcvidwEgXat61HJnbb0BrBo5wPe75J/7Uw4b7FtTI188tG4
+ 2m7HwTW1Du2gDwzLqdB4Y3EPa1UP/LlJ9MiqBunEYcFp9fH4lyDZ4lMQDce4yRIoo/Jj
+ y3AkXx3sz/4wrltjlF2f8/KSrKjA0U08kpEc9VJqAwj4STKs5JNx5SdxUnIyWvcHq0Lt
+ UyFVPQq8qY1kpp/n4x50Ty81Ur7GT0ANuSBXjNqD3YAODjuFmij55fWTHBuXcpBde7pa
+ fYT9t1JAFdA3/IR+ebIEtk5wRWLvQaWBJ2X6KW5cATlHbDPQjUFNHqLY+Qx5QwKHlTcf
+ x4wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vfG7FK1OPCdsx0kND74abVNHh9tfVIoxxm0LNF72n4o=;
- b=V5onGvUsK8mwvZlEuTqmR+rh3g4DXLHqPgQS59WgZUGHVCaooO5UT1XWhOx4nn7CmS
- RHMuy1m+87EVNaTdGUNeYvWDX+vS5VFFEAe5lK5TfQ7vJbtiw0lX924MsLYlCGPWsMwH
- i8F8TwhJDpWBdLsJ8dLou2AwbjIOYPrUeOF8/6tXbND+eGwY9VwNWDA5HfUpgGSfQlNk
- vu8hzJeYBIEMFDRVDrQwD1sFPgT2sLdJMuKF8lk+y0yT2ummr9D1eQdpI1M/6z8k4KyB
- CBJofVhHobKGnN9hJj1aJg51pMtYM8H1h9z2x93Fu2aB15LvjHpz2ZaWRIiL3Mih1eQV
- REhg==
-X-Gm-Message-State: AOAM5312pHIWNeXkSyVRZ2/lZ4GhavcuCdJxX9uNuiN6yY+dpW//uagl
- tW0+Zkm4tn/sqW4nunBXqatv7dvRObEPpg==
-X-Google-Smtp-Source: ABdhPJwwPaaQs4kxSfZmOYPHp8C7N/SLWbIdv9kRj804l22kdcIdaku659Hu+ssBXhjQ3AEqN2lBhA==
-X-Received: by 2002:a05:6830:44a1:b0:5af:d3df:ae72 with SMTP id
- r33-20020a05683044a100b005afd3dfae72mr18056576otv.238.1646333689986; 
- Thu, 03 Mar 2022 10:54:49 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KVrxFJG9XKBpol7NLsKIXCTAGZL6CqEwO0MNz8y3nng=;
+ b=CmAXhszu+q915wPj03NPy3ji4nOf6WMOebLvf2PjdWWPJPlXTNHxQBEQTyF+no0rlt
+ J4pN9yTI1Lp8eB3jNIPOat6wZpqtKSbvXqwYrsfDwZG9aowtg1Cf1yMXOeVpQUqYtQwk
+ UwnZov9MrJzt67B4HemlSS1EQ6orspbv1ftOiXQXabsZIHyF8vMFSPCSsuN6wsK5vctt
+ dkLm+fsfdV/19hGWbnauINtJu4x9276DF55P2ecL7zBXvTj2+gqr8qgLWurwsiPfvdv/
+ JNTGnqptafjebQWk9xP4ajr/bQ+uYvb80Gmon0kScUkivxPz4JgXJl7VYOQJUtCwKxuf
+ ki+w==
+X-Gm-Message-State: AOAM533zov3j4FlEdL6WT3XrS/d8nvRZJQKNV5DLB4GCV4xMHuGHMeyw
+ VFWslDzj50NciDIFKdyzKCsjmUlVCosQZQ==
+X-Google-Smtp-Source: ABdhPJwX2p++7KN9Jh5qD18EABRv9cstK+nZAkqt9XUBrBQR4F1MTefloBnmu/XXe3OThltTHUoQTg==
+X-Received: by 2002:a05:6870:6394:b0:d6:e1a0:22c5 with SMTP id
+ t20-20020a056870639400b000d6e1a022c5mr5082494oap.138.1646333692560; 
+ Thu, 03 Mar 2022 10:54:52 -0800 (PST)
 Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
  [70.228.75.190]) by smtp.gmail.com with ESMTPSA id
- u24-20020a4ae698000000b0031c286f2e0csm1331052oot.29.2022.03.03.10.54.48
+ u24-20020a4ae698000000b0031c286f2e0csm1331052oot.29.2022.03.03.10.54.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 10:54:49 -0800 (PST)
+ Thu, 03 Mar 2022 10:54:52 -0800 (PST)
 From: Atish Patra <atishp@rivosinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 0/6] Privilege version update
-Date: Thu,  3 Mar 2022 10:54:34 -0800
-Message-Id: <20220303185440.512391-1-atishp@rivosinc.com>
+Subject: [PATCH v5 2/6] target/riscv: Add the privileged spec version 1.12.0
+Date: Thu,  3 Mar 2022 10:54:36 -0800
+Message-Id: <20220303185440.512391-3-atishp@rivosinc.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220303185440.512391-1-atishp@rivosinc.com>
+References: <20220303185440.512391-1-atishp@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=atishp@rivosinc.com; helo=mail-ot1-x335.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2d;
+ envelope-from=atishp@rivosinc.com; helo=mail-oo1-xc2d.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -93,63 +95,27 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RISC-V International (RVI) has ratified many RISC-V ISA extensions recently[1].
-The privileged specification version is also upgraded to v1.12. It means
-certain CSRs introduced in v1.12 should only be accessible only if the
-priv specification version supported is equal or greater than v1.12.
-Doing this check in predicate function is not scalable as there will be
-new CSRs introduced in the future versions of the privileged specification.
+Add the definition for ratified privileged specification version v1.12
 
-This series tries to address this problem by adding a field in the csr_ops
-which can be checked in csrrw function before invoking the predicate function.
-To keep the code churn to minimum, it is assumed that the minimum version of
-the privilege version supported for any CSR is v1.10 unless specified
-explicitly in the csr_ops table. Any new CSRs introduced in v1.12 have been
-updated accordingly.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Atish Patra <atishp@rivosinc.com>
+---
+ target/riscv/cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-This will work fine for any ratified extensions. However, it is bit unclear
-what should be done for the stable draft extensions. My suggestion is not
-to update the priv field in the CSR ops table until the extension is
-marked experimental (i.e. not frozen/ratified). Once the extension is
-ratified and graduated from experimental to available stage, the privileged
-spec version should be updated in the csr table if required. I am open to
-other suggestions as well.
-
-[1] https://wiki.riscv.org/display/TECH/Recently+Ratified+Extensions
-
-Changes from v4->v5:
-1. Rebased on top of riscv-to-apply.next
-
-Changes from v3->v4:
-1. Added reviewed-by tags.
-2. Improved the commit text in PATCH 3 & 6.
-
-Changes from v2->v3:
-1. Only update the bits defined in *envcfg CSR
-
-Changes from v1->v2:
-1. Unified both [m/h]envcfg & [m/h]envcfgh into one.
-2. Changed the priv spec version enumeration
-3. Improved csr_ops table to provide better redability.
-4. Fixed the compilation error for CONFIG_USER_ONLY
-5. Rebased on top of the AIA series.
-
-Atish Patra (6):
-target/riscv: Define simpler privileged spec version numbering
-target/riscv: Add the privileged spec version 1.12.0
-target/riscv: Introduce privilege version field in the CSR ops.
-target/riscv: Add support for mconfigptr
-target/riscv: Add *envcfg* CSRs support
-target/riscv: Enable privileged spec version 1.12
-
-target/riscv/cpu.c      |   8 +-
-target/riscv/cpu.h      |  15 ++-
-target/riscv/cpu_bits.h |  40 ++++++++
-target/riscv/csr.c      | 217 +++++++++++++++++++++++++++++++++-------
-target/riscv/machine.c  |  23 +++++
-5 files changed, 263 insertions(+), 40 deletions(-)
-
---
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index cf748102efa2..7f67e920c650 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -86,6 +86,7 @@ enum {
+ enum {
+     PRIV_VERSION_1_10_0 = 0,
+     PRIV_VERSION_1_11_0,
++    PRIV_VERSION_1_12_0,
+ };
+ 
+ #define VEXT_VERSION_1_00_0 0x00010000
+-- 
 2.30.2
 
 
