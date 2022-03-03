@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294A54CC14D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:31:30 +0100 (CET)
-Received: from localhost ([::1]:35376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D3D4CC166
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:34:18 +0100 (CET)
+Received: from localhost ([::1]:43186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPnQP-0000ew-88
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:31:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46966)
+	id 1nPnT7-0005zP-PO
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:34:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nPnEE-0007AL-1M
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:18:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45460)
+ id 1nPnEF-0007CW-HV
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:18:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nPnEC-0005kX-Hp
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:18:53 -0500
+ id 1nPnED-0005ph-Ti
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:18:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646320731;
+ s=mimecast20190719; t=1646320733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hkJN9Z1sqPMsDzg3ofVpsYXxTQ+R9hA/NdHVk72vgI4=;
- b=BOcwdhU60M3arcQ3D1lpNOt5cXPwL/wkwdSZmaMxyrqqNyvqwbjvB1n8DU6LzJvbGl41VK
- 8yaO0ESkb7w3Myg5auTMUCE0XDnJ60LW8uevjHuKhyIxCcGsJk2Rd9yL2v+QqUv4rFZPeh
- Uw4B6aR/PkHUifCdpxECCJOY5lb/6hk=
+ bh=xoN5lRUlgkuKi4+9tGLDAeGiuGc/W2VJKoDREFd6YA0=;
+ b=WgHwGz0r6gVTdYoSAesyuF7ZtY0gcXZMFb0caJ2UhZNTzuy0vLUTvsIm55buvihi0HbPkP
+ uwd5rX1rGsm80AljOJRC3Z+/bg8HhD5r5u1kejFZQTVJagkDOCpUkyV5vCB3JlvBOPoIoq
+ CuOUP3yNM9saA+waby+tUgnSJAGKimM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548-DKFZ2y-GPJGoiK2rnkqI0A-1; Thu, 03 Mar 2022 10:18:49 -0500
-X-MC-Unique: DKFZ2y-GPJGoiK2rnkqI0A-1
+ us-mta-336-UAizIcr_PMGZcBUN2DCVpQ-1; Thu, 03 Mar 2022 10:18:50 -0500
+X-MC-Unique: UAizIcr_PMGZcBUN2DCVpQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5D4F1006AA8;
- Thu,  3 Mar 2022 15:18:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26081824FA6;
+ Thu,  3 Mar 2022 15:18:49 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 977F37BCD9;
- Thu,  3 Mar 2022 15:18:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F02FD7BCD7;
+ Thu,  3 Mar 2022 15:18:47 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 15/31] include/block/blockjob_int.h: split header into I/O
- and GS API
-Date: Thu,  3 Mar 2022 10:16:00 -0500
-Message-Id: <20220303151616.325444-16-eesposit@redhat.com>
+Subject: [PATCH v8 16/31] GS and IO CODE macros for blockjob_int.h
+Date: Thu,  3 Mar 2022 10:16:01 -0500
+Message-Id: <20220303151616.325444-17-eesposit@redhat.com>
 In-Reply-To: <20220303151616.325444-1-eesposit@redhat.com>
 References: <20220303151616.325444-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -96,75 +95,55 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the I/O functions are not many, keep a single file.
-Also split the function pointers in BlockJobDriver.
-
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/block/blockjob_int.h | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ blockjob.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/block/blockjob_int.h b/include/block/blockjob_int.h
-index 6633d83da2..6bd9ae2b20 100644
---- a/include/block/blockjob_int.h
-+++ b/include/block/blockjob_int.h
-@@ -38,6 +38,13 @@ struct BlockJobDriver {
-     /** Generic JobDriver callbacks and settings */
-     JobDriver job_driver;
+diff --git a/blockjob.c b/blockjob.c
+index 10815a89fe..d79a52d204 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -84,6 +84,7 @@ BlockJob *block_job_get(const char *id)
+ void block_job_free(Job *job)
+ {
+     BlockJob *bjob = container_of(job, BlockJob, job);
++    GLOBAL_STATE_CODE();
  
-+    /*
-+     * I/O API functions. These functions are thread-safe.
-+     *
-+     * See include/block/block-io.h for more information about
-+     * the I/O API.
-+     */
-+
-     /*
-      * Returns whether the job has pending requests for the child or will
-      * submit new requests before the next pause point. This callback is polled
-@@ -46,6 +53,13 @@ struct BlockJobDriver {
-      */
-     bool (*drained_poll)(BlockJob *job);
+     block_job_remove_all_bdrv(bjob);
+     ratelimit_destroy(&bjob->limit);
+@@ -299,6 +300,7 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
  
-+    /*
-+     * Global state (GS) API. These functions run under the BQL.
-+     *
-+     * See include/block/block-global-state.h for more information about
-+     * the GS API.
-+     */
-+
-     /*
-      * If the callback is not NULL, it will be invoked before the job is
-      * resumed in a new AioContext.  This is the place to move any resources
-@@ -56,6 +70,13 @@ struct BlockJobDriver {
-     void (*set_speed)(BlockJob *job, int64_t speed);
- };
+ int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n)
+ {
++    IO_CODE();
+     return ratelimit_calculate_delay(&job->limit, n);
+ }
  
-+/*
-+ * Global state (GS) API. These functions run under the BQL.
-+ *
-+ * See include/block/block-global-state.h for more information about
-+ * the GS API.
-+ */
-+
- /**
-  * block_job_create:
-  * @job_id: The id of the newly-created job, or %NULL to have one
-@@ -98,6 +119,13 @@ void block_job_free(Job *job);
-  */
- void block_job_user_resume(Job *job);
+@@ -434,6 +436,7 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+ {
+     BlockJob *job;
+     int ret;
++    GLOBAL_STATE_CODE();
  
-+/*
-+ * I/O API functions. These functions are thread-safe.
-+ *
-+ * See include/block/block-io.h for more information about
-+ * the I/O API.
-+ */
-+
- /**
-  * block_job_ratelimit_get_delay:
-  *
+     if (job_id == NULL && !(flags & JOB_INTERNAL)) {
+         job_id = bdrv_get_device_name(bs);
+@@ -498,6 +501,7 @@ void block_job_iostatus_reset(BlockJob *job)
+ void block_job_user_resume(Job *job)
+ {
+     BlockJob *bjob = container_of(job, BlockJob, job);
++    GLOBAL_STATE_CODE();
+     block_job_iostatus_reset(bjob);
+ }
+ 
+@@ -505,6 +509,7 @@ BlockErrorAction block_job_error_action(BlockJob *job, BlockdevOnError on_err,
+                                         int is_read, int error)
+ {
+     BlockErrorAction action;
++    IO_CODE();
+ 
+     switch (on_err) {
+     case BLOCKDEV_ON_ERROR_ENOSPC:
 -- 
 2.31.1
 
