@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105F34CC11F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:23:15 +0100 (CET)
-Received: from localhost ([::1]:38660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE2C4CC127
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:26:10 +0100 (CET)
+Received: from localhost ([::1]:47224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPnIQ-0006hP-4x
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:23:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46338)
+	id 1nPnLF-0004Gj-AK
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:26:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nPnD2-0006Hy-9c
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:17:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58518)
+ id 1nPnDB-0006O5-OM
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:17:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nPnCq-0004b0-Pm
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:17:30 -0500
+ id 1nPnD4-0004cO-U1
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 10:17:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646320648;
+ s=mimecast20190719; t=1646320662;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5UXBbPNXLil1hOoIPFAnhK29v4gBpfr/LryecHSPs6o=;
- b=OXH2iq1YJD1EWqlLM0uWIk0WGYS0AhGe0K9WEWRbvc7VNgF4pE2c/SNok5lmvvp4Z4jGSC
- BDhsSN/uXwfLYVoV11FKwwED9zX+1bYN5d8l9ktN8fj/GWQNnIV2vW2L/Z/HLVrhkMvLCO
- ndm4xPUUtuf1zUrfUMuCQfeygyE0w3o=
+ bh=Y95+N3JSIztIail7ONqot9F002nDEL9u0i8+hpVDIQE=;
+ b=XQjUlMgiRaxFpWr0sYnqQ2B/0YvRzMt8D2ZZcozUTIrTWgELjlmj81Vd6nfqC2IKGVbSMv
+ tB1MunjNykP07wuX5BQos74r7RyU303bU6t2ELmfStcNsFJGhNWSmIT79sKh+5j+Awcclo
+ DdVivGig/g5P233oQRrDU5C1TBco4VY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-JptkSJYcM06yQyXqQ1VIiQ-1; Thu, 03 Mar 2022 10:17:25 -0500
-X-MC-Unique: JptkSJYcM06yQyXqQ1VIiQ-1
+ us-mta-345-9kR138TpO3O8WWDVLNvtfw-1; Thu, 03 Mar 2022 10:17:39 -0500
+X-MC-Unique: 9kR138TpO3O8WWDVLNvtfw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C52351DF;
- Thu,  3 Mar 2022 15:17:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D74CC801AFE;
+ Thu,  3 Mar 2022 15:17:35 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BE6A7BCDC;
- Thu,  3 Mar 2022 15:16:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3575F7BCD7;
+ Thu,  3 Mar 2022 15:17:24 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 01/31] main-loop.h: introduce qemu_in_main_thread()
-Date: Thu,  3 Mar 2022 10:15:46 -0500
-Message-Id: <20220303151616.325444-2-eesposit@redhat.com>
+Subject: [PATCH v8 02/31] main loop: macros to mark GS and I/O functions
+Date: Thu,  3 Mar 2022 10:15:47 -0500
+Message-Id: <20220303151616.325444-3-eesposit@redhat.com>
 In-Reply-To: <20220303151616.325444-1-eesposit@redhat.com>
 References: <20220303151616.325444-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -68,7 +68,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,100 +95,49 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When invoked from the main loop, this function is the same
-as qemu_mutex_iothread_locked, and returns true if the BQL is held.
-When invoked from iothreads or tests, it returns true only
-if the current AioContext is the Main Loop.
+Righ now, IO_CODE and IO_OR_GS_CODE are nop, as there isn't
+really a way to check that a function is only called in I/O.
+On the other side, we can use qemu_in_main_thread() to check if
+we are in the main loop.
 
-This essentially just extends qemu_mutex_iothread_locked to work
-also in unit tests or other users like storage-daemon, that run
-in the Main Loop but end up using the implementation in
-stubs/iothread-lock.c.
-
-Using qemu_mutex_iothread_locked in unit tests defaults to false
-because they use the implementation in stubs/iothread-lock,
-making all assertions added in next patches fail despite the
-AioContext is still the main loop.
-
-See the comment in the function header for more information.
+The usage of macros makes easy to extend them in the future without
+making changes in all callers. They will also visually help understanding
+in which category each function is, without looking at the header.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/qemu/main-loop.h | 24 ++++++++++++++++++++++++
- softmmu/cpus.c           |  5 +++++
- stubs/iothread-lock.c    |  5 +++++
- 3 files changed, 34 insertions(+)
+ include/qemu/main-loop.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index 8dbc6fcb89..bc42b5939d 100644
+index bc42b5939d..7a4d6a0920 100644
 --- a/include/qemu/main-loop.h
 +++ b/include/qemu/main-loop.h
-@@ -242,9 +242,33 @@ AioContext *iohandler_get_aio_context(void);
-  * must always be taken outside other locks.  This function helps
-  * functions take different paths depending on whether the current
-  * thread is running within the main loop mutex.
-+ *
-+ * This function should never be used in the block layer, because
-+ * unit tests, block layer tools and qemu-storage-daemon do not
-+ * have a BQL.
-+ * Please instead refer to qemu_in_main_thread().
+@@ -269,6 +269,24 @@ bool qemu_mutex_iothread_locked(void);
   */
- bool qemu_mutex_iothread_locked(void);
+ bool qemu_in_main_thread(void);
  
-+/**
-+ * qemu_in_main_thread: return whether it's possible to safely access
-+ * the global state of the block layer.
-+ *
-+ * Global state of the block layer is not accessible from I/O threads
-+ * or worker threads; only from threads that "own" the default
-+ * AioContext that qemu_get_aio_context() returns.  For tests, block
-+ * layer tools and qemu-storage-daemon there is a designated thread that
-+ * runs the event loop for qemu_get_aio_context(), and that is the
-+ * main thread.
-+ *
-+ * For emulators, however, any thread that holds the BQL can act
-+ * as the block layer main thread; this will be any of the actual
-+ * main thread, the vCPU threads or the RCU thread.
-+ *
-+ * For clarity, do not use this function outside the block layer.
-+ */
-+bool qemu_in_main_thread(void);
++/* Mark and check that the function is part of the global state API. */
++#define GLOBAL_STATE_CODE()                                         \
++    do {                                                            \
++        assert(qemu_in_main_thread());                              \
++    } while (0)
++
++/* Mark and check that the function is part of the I/O API. */
++#define IO_CODE()                                                   \
++    do {                                                            \
++        /* nop */                                                   \
++    } while (0)
++
++/* Mark and check that the function is part of the "I/O OR GS" API. */
++#define IO_OR_GS_CODE()                                             \
++    do {                                                            \
++        /* nop */                                                   \
++    } while (0)
 +
  /**
   * qemu_mutex_lock_iothread: Lock the main loop mutex.
   *
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 035395ae13..422aa52746 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -480,6 +480,11 @@ bool qemu_mutex_iothread_locked(void)
-     return iothread_locked;
- }
- 
-+bool qemu_in_main_thread(void)
-+{
-+    return qemu_mutex_iothread_locked();
-+}
-+
- /*
-  * The BQL is taken from so many places that it is worth profiling the
-  * callers directly, instead of funneling them all through a single function.
-diff --git a/stubs/iothread-lock.c b/stubs/iothread-lock.c
-index 5b45b7fc8b..ff7386e42c 100644
---- a/stubs/iothread-lock.c
-+++ b/stubs/iothread-lock.c
-@@ -6,6 +6,11 @@ bool qemu_mutex_iothread_locked(void)
-     return false;
- }
- 
-+bool qemu_in_main_thread(void)
-+{
-+    return qemu_get_current_aio_context() == qemu_get_aio_context();
-+}
-+
- void qemu_mutex_lock_iothread_impl(const char *file, int line)
- {
- }
 -- 
 2.31.1
 
