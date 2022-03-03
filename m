@@ -2,85 +2,170 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA85A4CC31C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:44:01 +0100 (CET)
-Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE8C4CC2FF
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:39:53 +0100 (CET)
+Received: from localhost ([::1]:52334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPoYa-0007av-CD
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:44:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40178)
+	id 1nPoUZ-0003S3-Vi
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:39:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nPoO1-0004Y2-Qk
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:33:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53296)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1nPoT9-00020a-Cn
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:38:23 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:6226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nPoNy-0005e3-Ar
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:33:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646325181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fRE8hhaVhX3gG/Zh6h+qtA7wfBDxKfbabbJfGtzy1N4=;
- b=JrqYpy5AaPjLu3oV84e5ZAGTporiUktJ6f3/o/HrF2vsHi74+LDw5q3nsQz13LEVx181DC
- xgv/oA3quxt0B/Y3rHoVAtd5Sa8fY/kWPuXASFYlnuVquZzLwekYldbpY/qWOtL64S3HOg
- QJnFXQdtpJ+4ImERauEHwUN6mRKcJ4c=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-kAlLxeqyOCyRlHvokfUV6w-1; Thu, 03 Mar 2022 11:33:00 -0500
-X-MC-Unique: kAlLxeqyOCyRlHvokfUV6w-1
-Received: by mail-qv1-f69.google.com with SMTP id
- fw9-20020a056214238900b0043522aa5b81so4013261qvb.21
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 08:32:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fRE8hhaVhX3gG/Zh6h+qtA7wfBDxKfbabbJfGtzy1N4=;
- b=jER8bY8tFCxqCWXtXBxs1fAydvZchN1l1Zrw8Uq0776iRgQW4QpiqXsuYrAtAwL26R
- 7WUSRlK/y1klgrQDQfcAhxfq/XUa4mFpfl9CaMiQOE1hjcvGvDbXtBtbACix7Q+2W3/P
- 3F87ANwptCvdIklniJJHDKNliRTbCni3fo8V21pv6rw9mOIiettbGAyke/0SHUaKO0dl
- Cq7YK+Pcn/ve2TVSN7+wUgcf38PDiwuWRRaZYvDXRXs+2hYJrKH6Z3gqcm7mca2LxSPe
- bla23i+TIkLvTevI0KjoIcX5ftqjAf5CDFdmQ9vfJ4A36+pIqBDuKfl9QjwslP9B2JSU
- o+LQ==
-X-Gm-Message-State: AOAM531wAPOVkCt6QAo0feIAKRkvfeS5cxs+6x/k29jbyITwUvsK+QRz
- Rnu9Eitzns6eZy1rraobJEshVhjlepXabAJM1QI+Duy+IQJ/qy+AS6gfuhlupPtX3JgSxYRwcZF
- KwKQ1g/4KE1CF7Z7SrVt0r6258oJX5sY=
-X-Received: by 2002:a05:622a:1190:b0:2dc:915a:9ce4 with SMTP id
- m16-20020a05622a119000b002dc915a9ce4mr27215698qtk.221.1646325179407; 
- Thu, 03 Mar 2022 08:32:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxdpsYh2jz+yE2kvYkySrwX2ucy2J+cOQfuWejpNLtNSectoDOBH/NmBfpT/o/z9WSEaqceW6DLBpKmgJYvebU=
-X-Received: by 2002:a05:622a:1190:b0:2dc:915a:9ce4 with SMTP id
- m16-20020a05622a119000b002dc915a9ce4mr27215662qtk.221.1646325179104; Thu, 03
- Mar 2022 08:32:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1nPoT4-0006ZY-M7
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:38:21 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 223Exc5n028857; 
+ Thu, 3 Mar 2022 16:38:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=G2v9I2TgGUUjWwrtAe/1jRXP8nQAQeAjCaYFXXq1c/w=;
+ b=lkBG0+qupOjMqkJ4rIzO29CwNxlTBVQuMqSe+6OxJTfq6V7bECc2CKdpP1c8z5vqJxsv
+ TMLNjrqKeSvLvXAnz5G3xsbIZza9Qxit6beJ8uTZRqT309sAiPAsCATK5WPAgTgpFIU5
+ EdOXuCNW659V/wYnQSvFJL4e34TuNo1BNa5ret72YX2AEy4lAQviZQUeZGyrPufcfuIz
+ 7vKWjQlrcBbysEybYdFmoidy9Tqdzk6uF9Ig1mBomZ7+kPndqOVzrbQgiJxfiT+30xu3
+ A4oJ0n96Pgfe4NDEzOCnn9nhBB7A6pDZtlLb43XarJlhSOGBIXzgpJ5SIq+ZpN5WjWvm 9Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3eh14c1e3y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 03 Mar 2022 16:38:08 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 223GavQC143329;
+ Thu, 3 Mar 2022 16:38:07 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02lp2046.outbound.protection.outlook.com [104.47.57.46])
+ by aserp3020.oracle.com with ESMTP id 3efc190mma-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 03 Mar 2022 16:38:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hRE5Hb5sTQsqACQYXvk3VPlGl5fh3p5UE0n9RyLhTQHLCt6RzcWCc1Jirf0W+xsrDp1zXl+VoXUuNmhpAGuljOQ1jwL16prsexHpZv3wcJrdZ1trWzGJjmJh7FyznWW88WVSuaBCrzsQSpJ72KoBpMNfMyQ254HPvVnH4WtGadUciZAgb8zrSfayXFk3p+Zpg2zOqo0cWbY1VShALZnFBENpvEe6M4PcAOJRMWffam5HedGSOBbahFXNk/hx/OSoVjZOUjxf1STRDiIKuA0ODbF6HPw6mSptAcQ39fdVcsN25MOVImVQ+IXonjnxOLh4O3jCKM5YBcFhE+m+o5t9yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G2v9I2TgGUUjWwrtAe/1jRXP8nQAQeAjCaYFXXq1c/w=;
+ b=ZRx81qsFRokWkDyMM11ouPLZXVHXOFp2aMK4kO57rt7OcZaAYTJjtnocCUFXh7a0JF3MS+IMj62Q/fG1cckWpGS22PTSUeIIQRDe80/97YatBNpNSAtxBza/fnneVfUlugvBTLnXvJ3dUBoyjLFxKaWTPia0KfSfA+h/KVAeJIk6bYH64fVaCsyT2sAqLHIXDj9sYVJnj49Cq1p6iX4R7+4hvVKCGx3dsSTjp+L5gt7xVESx33jfzre4ThRvgVLQpJGQfKJUuy9+QuohevXhM8lppihM4PMVW+TLhw2NHpC1agWJFYj50dQfmfej1iDfkrLEr7APv1D7FgBuCj/7yQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G2v9I2TgGUUjWwrtAe/1jRXP8nQAQeAjCaYFXXq1c/w=;
+ b=T9oeUZKsD4+3XGmvSYuHOnjiajxvuigszuV2dKacMvMjMamgGmXErR/zsXvT2aCgH8cDolmfyCW880Whg4vyYiWKaTLu8kyV0XARD4lPQBcvqGgK3HUf9QUGnWZzTYcWkwwkoIKMBfe1g2YeAdaHvsTs+tkArtIslTJUwvRKFck=
+Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
+ by SA2PR10MB4811.namprd10.prod.outlook.com (2603:10b6:806:11f::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Thu, 3 Mar
+ 2022 16:38:05 +0000
+Received: from BYAPR10MB3240.namprd10.prod.outlook.com
+ ([fe80::6005:8b9:1b00:b0da]) by BYAPR10MB3240.namprd10.prod.outlook.com
+ ([fe80::6005:8b9:1b00:b0da%6]) with mapi id 15.20.5038.016; Thu, 3 Mar 2022
+ 16:38:05 +0000
+Message-ID: <104e0a47-7a2f-5fe3-96fc-a49cad289ee3@oracle.com>
+Date: Thu, 3 Mar 2022 11:38:02 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH V7 02/29] migration: fix populate_vfio_info
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-3-git-send-email-steven.sistare@oracle.com>
+ <CAFEAcA9OvfUdKrVtisL3hd-WqimimNPfgKpQDm-sFNOSnPOZZw@mail.gmail.com>
+ <4d55c906-48cd-e399-f5dd-5baa3d9debc0@oracle.com>
+ <CAFEAcA8409H5PuJS=xq=NZQrAyWaov3OvygfbZmu_X80+GqWnA@mail.gmail.com>
+From: Steven Sistare <steven.sistare@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <CAFEAcA8409H5PuJS=xq=NZQrAyWaov3OvygfbZmu_X80+GqWnA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN6PR05CA0019.namprd05.prod.outlook.com
+ (2603:10b6:805:de::32) To BYAPR10MB3240.namprd10.prod.outlook.com
+ (2603:10b6:a03:155::17)
 MIME-Version: 1.0
-References: <20220227134111.3254066-1-eperezma@redhat.com>
- <20220227134111.3254066-10-eperezma@redhat.com>
- <7f6f5118-4228-6dcb-f3d4-3e64aeb3608c@redhat.com>
-In-Reply-To: <7f6f5118-4228-6dcb-f3d4-3e64aeb3608c@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 3 Mar 2022 17:32:23 +0100
-Message-ID: <CAJaqyWchLxXTRBE9zT9ZrF7UT_CnNbD=E5yaK6NrF-gDauhSAg@mail.gmail.com>
-Subject: Re: [PATCH v2 09/14] vhost: Add VhostIOVATree
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d266d949-85fb-4bd3-62aa-08d9fd3430fd
+X-MS-TrafficTypeDiagnostic: SA2PR10MB4811:EE_
+X-Microsoft-Antispam-PRVS: <SA2PR10MB48114F353E636504346BA8E9F9049@SA2PR10MB4811.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UHqNN0lSm78yFHgT91ndnc7ODs8JQCjeOQFgyNQQXqhP7a/3/f7/4mGAgmj1SA3Sx79g7C0p68E9Kbv9FZTVbr5Y5UCaJC1tEpx3zt+QOKALJEy8NxrvbHxxaqpwTbdJsf/WRFsskkmiXL82QsQD7Z6Xg1bQBtv/kz4lHdNSzFvIE33OnE9Nq8Aoh2I5r0Tyh7i2jEdAWzGCWpxo8mIKFCodSNVmvF9EPUGCV4rcDTt5TOhzO7KyLMsl4n8VyWUwUzRWVbjZvye7baIpuzDWRnPuJ8TAIhH1O3pPLQfGzqboQtwzF/36j/CTXoY93JleioNWMkrbVnLRXKepyVA3LsOMBfokfxovXqiXuuVNWjc0deVR81YraqVpc54er/xbckIrNPJVqHVZdy4n2u4VX6FwWShrzETOfLtM3ZX7LiqZ01chPZNZmtRh5DblTzijKPx3V+7QGwoOrvHeWye69dL6ICP9OuS6FopnzzYYjxgYIQClfFM4cizsDvelNZu8pzmlYisYCs7XQZmoJXui4oTwCSFjwH6/gDeIB/7ZYNcs0RRfuRWBtXVAI6iicdDZlXlOOyeXeL3bCqJjTv6oQic1+/quzr9naxIx8BNYt6g7k4FNljH0ubUEVVokyAhy9Ab/rPjI9ECV1UD9WhFJ66QVROC5evLXHjlv+0xFyy8SfFnHBXKKFbhYnJYXyhqZJ0Jn3NfNFXGXueJ4XPBAqasCvGfd4SjfA1p10Usof3w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(66476007)(66946007)(4744005)(8676002)(26005)(2906002)(5660300002)(31686004)(6486002)(7416002)(66556008)(8936002)(44832011)(2616005)(186003)(83380400001)(86362001)(6506007)(36756003)(54906003)(6916009)(508600001)(6512007)(53546011)(38100700002)(6666004)(4326008)(316002)(31696002)(36916002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aHBwdktYTVprd1R1Y3BYVzNvRE9xNXJoY3JwNGN6Uy9YZTFnK2VYa1BGSE5J?=
+ =?utf-8?B?bGNidUtIVExBS0c2MW5NOHBiVXlFTkxWNmpLYjI0enV5QytmcU81LzZlWHNZ?=
+ =?utf-8?B?VUxQdEtodnRsYU1oZjZkbG52bytVOU14empnUk9RNDM2YmVYZ290cHVKanVZ?=
+ =?utf-8?B?WkF4OS9ZUTZBTHVwU2t1WDRtY2NxQmlJZ0grRkplWTZLeXI4ZnY4elZTYVc5?=
+ =?utf-8?B?a1g5ODNtYWU2T0YvSmg3Y09neHNHWFY1T0IwRDJJZVZzSUgzOHQ3Rjk4cUpx?=
+ =?utf-8?B?UGhWcGp2b3cvbFVXRlMwYW05ckhzQVBMOWdpV09rOUxkTTNtVmM0MjJJd1NO?=
+ =?utf-8?B?bVY1WXdXai9HdEZIdWhKelZYbXg1MisvUjA4K2t3b0NrRVVzWXhQY3NadlRt?=
+ =?utf-8?B?WlowSmJ1cEdmdi80QzhtSDhvTHhKbU5VN0VZOUxPSEg4VFMrMWptbSttVGVp?=
+ =?utf-8?B?Q0VKVWlYTWNlYzVqVU43S2xFcDJjRVRlVmRLTTVOd0R5M0pMQXhiTzdQeVZQ?=
+ =?utf-8?B?OUgvT2VySmtSVHlKTEFnWUlpWGNtd2YwSEZNQ0UzZEdPZU1yQ1lUUWlXeUhX?=
+ =?utf-8?B?bWZnZFNvd0VWazdabklnZVNSVlA3SUlzL1c2N2hYdjFLVFkrMGw1Y1B5WXp3?=
+ =?utf-8?B?MHVPaUQ5MFozN2FzRXpobHE0a1lUa2dmOEdwbVMvWG1kK0VHc0txSmY2YUtJ?=
+ =?utf-8?B?TGpDbUljT0lCVFFyOUw5S3VGaXY5ak41QXRFM2xhc0lhQStwdmhpcEV2cHRs?=
+ =?utf-8?B?enFnZVZyYTVaUHExdE05cnI2S0dwM2dQNlRGL09HWFcwVkhnMXdxTjk4S2lN?=
+ =?utf-8?B?c202SHRzbEVhWFgwN3hQK3lDUk9uMjcvclBvZnVpZDZXaUtta09NOWEvM3Nl?=
+ =?utf-8?B?OFQwUmpYeDNvUTRKNUR5OHpURUdYVGFIMkk1STF3aGNQaFdLd25CTzBOdHBN?=
+ =?utf-8?B?NEFwczlkNFBBbXRnM21xOVBBUnBqM2JhMGlSdDdGbXlzOTlmQ3hoTTZWK3Zv?=
+ =?utf-8?B?bllpK1dnWVQzZDJlNWdyN3UzcUNLUmZ1eWs0N3ZPZTUyMmFFcjA5QU1EbVRE?=
+ =?utf-8?B?Smo2bTRRWDR5THgxSExZdng4Q1haa0g1Um9HU3hMRTMwM2tsVXNqZ24rb0VC?=
+ =?utf-8?B?NXFnTThOL25JNkptQitGbkpUcDlxYml0WGxNUEVFck1naGtjME12MTF5N3dS?=
+ =?utf-8?B?TE40cUkzNW93UjZxUG1qcDFtR0RBQ21EcnBMbzZEbUFhekJGNXk1U1U3T0VT?=
+ =?utf-8?B?NHZaOEF5TUxDMm1RN3ZQUkhUUlRKSElVYVVhTGRPajNVMURxKzdKbG4vMHNT?=
+ =?utf-8?B?MUl1UTZuK09QZFU1eVdjN3crZ2JLN1ovek5STWdEWHRGTVF1NjNMeXhkekdO?=
+ =?utf-8?B?MytjS1hYWHRxZS9hUHp0SGwzS0FndzVCQ3dva1hrK2VVRzlRTks1SEwwWGpB?=
+ =?utf-8?B?anIxQlc0dmdKMmJWSklCK1BDOHFiODFYYzFRaTZPd044UHJickZjaVpSUWdk?=
+ =?utf-8?B?eXB0NkFJVTVxS2JsUjVqeW1Wdis5aGhBWkRGNlFIVkJmekpYWTBiYUMzQzRx?=
+ =?utf-8?B?ZS85VjNtSkxIT2tyeld0TER3V01ySGYvOWtDMDdSWG9zdk1QS3pPZEdKTmcv?=
+ =?utf-8?B?YXFnM0xTTjlYWUxLYTg1N0ZJM3VITyt6Y0hKcEFEZGxVWjBqcU95ZTd0OXpF?=
+ =?utf-8?B?NC9EUUlsL0ZNaWErOHJybnBzYURtYm5sTWFKeExXd1VnRnIwelQ5Wm5OOHNa?=
+ =?utf-8?B?MUc0V0x3M3htOE9XRm9tbGZFbHFEaW1MN1lhcytZeEFsODVWNGJxWW5iemNo?=
+ =?utf-8?B?SFZCSW1xT1N5TFZ3MnA3MlBpUFhReVdtNVE3K01oSjkyQnBSZ1NtcFkzYVU0?=
+ =?utf-8?B?Z3R5bFROTDBYQTB3SUJMcnNFamZvVTJYL3NlUEZNczd6bThuVXpKY1NBdE9K?=
+ =?utf-8?B?QzJ6MzFaUEtjNjNDdjRBRDYyOHl6bHBOVEdlS3FKV2s2RGZ2Nit4VUQvYWE4?=
+ =?utf-8?B?QnBrbFlCU2w0a0ZlU2ljZmdGdUxKclpCdEhDN25tc2VWYnU1QmMwYTNiTHRy?=
+ =?utf-8?B?ZDJHL0ZzK09rK2sxUEVtRFBYWFJqejFDRFdIa2dOQ2tNU3plRTNIOWdkeE5v?=
+ =?utf-8?B?SjA2VWlpK2RDWU9ES1BDbk1lRE9pbEVEVGg2TElmZHJkNG9pV1d6N3dhMWQx?=
+ =?utf-8?B?RmpsU2dmRitLLytDYlRnTWNjbGlXdGxlVFFNK1lWTlpCcVovSEhLSExvZTQ0?=
+ =?utf-8?B?R3AwSUl0cjNUaC8xTGJsdWF5Yk5BPT0=?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d266d949-85fb-4bd3-62aa-08d9fd3430fd
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2022 16:38:05.3237 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +aMhqd6faN//N0UNkARTEoiZPIeEy3x3k96USGDObHPcq1PP7wJB0TfShFpKtShy+Fxlqbb/yR8Lh72v+V5I2rBKdhCK11C+QI8hbNnVL0o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4811
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10275
+ signatures=686983
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxscore=0 phishscore=0
+ bulkscore=0 adultscore=0 spamscore=0 suspectscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2201110000
+ definitions=main-2203030080
+X-Proofpoint-GUID: 72R2LFBgDR1m1b93CcDXYxF0qN6bj0yq
+X-Proofpoint-ORIG-GUID: 72R2LFBgDR1m1b93CcDXYxF0qN6bj0yq
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
@@ -96,313 +181,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Lingshan <lingshan.zhu@intel.com>
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zheng Chuan <zhengchuan@huawei.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 28, 2022 at 8:06 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/2/27 =E4=B8=8B=E5=8D=889:41, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > This tree is able to look for a translated address from an IOVA address=
-.
-> >
-> > At first glance it is similar to util/iova-tree. However, SVQ working o=
-n
-> > devices with limited IOVA space need more capabilities, like allocating
-> > IOVA chunks or performing reverse translations (qemu addresses to iova)=
-.
-> >
-> > The allocation capability, as "assign a free IOVA address to this chunk
-> > of memory in qemu's address space" allows shadow virtqueue to create a
-> > new address space that is not restricted by guest's addressable one, so
-> > we can allocate shadow vqs vrings outside of it.
-> >
-> > It duplicates the tree so it can search efficiently in both directions,
-> > and it will signal overlap if iova or the translated address is present
-> > in any tree.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   hw/virtio/vhost-iova-tree.h |  27 +++++++
-> >   hw/virtio/vhost-iova-tree.c | 155 +++++++++++++++++++++++++++++++++++=
-+
-> >   hw/virtio/meson.build       |   2 +-
-> >   3 files changed, 183 insertions(+), 1 deletion(-)
-> >   create mode 100644 hw/virtio/vhost-iova-tree.h
-> >   create mode 100644 hw/virtio/vhost-iova-tree.c
-> >
-> > diff --git a/hw/virtio/vhost-iova-tree.h b/hw/virtio/vhost-iova-tree.h
-> > new file mode 100644
-> > index 0000000000..6a4f24e0f9
-> > --- /dev/null
-> > +++ b/hw/virtio/vhost-iova-tree.h
-> > @@ -0,0 +1,27 @@
-> > +/*
-> > + * vhost software live migration iova tree
-> > + *
-> > + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-> > + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat.c=
-om>
-> > + *
-> > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > + */
-> > +
-> > +#ifndef HW_VIRTIO_VHOST_IOVA_TREE_H
-> > +#define HW_VIRTIO_VHOST_IOVA_TREE_H
-> > +
-> > +#include "qemu/iova-tree.h"
-> > +#include "exec/memory.h"
-> > +
-> > +typedef struct VhostIOVATree VhostIOVATree;
-> > +
-> > +VhostIOVATree *vhost_iova_tree_new(uint64_t iova_first, uint64_t iova_=
-last);
-> > +void vhost_iova_tree_delete(VhostIOVATree *iova_tree);
-> > +G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostIOVATree, vhost_iova_tree_delete);
-> > +
-> > +const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *iova_tree=
-,
-> > +                                        const DMAMap *map);
-> > +int vhost_iova_tree_map_alloc(VhostIOVATree *iova_tree, DMAMap *map);
-> > +void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap *ma=
-p);
-> > +
-> > +#endif
-> > diff --git a/hw/virtio/vhost-iova-tree.c b/hw/virtio/vhost-iova-tree.c
-> > new file mode 100644
-> > index 0000000000..03496ac075
-> > --- /dev/null
-> > +++ b/hw/virtio/vhost-iova-tree.c
-> > @@ -0,0 +1,155 @@
-> > +/*
-> > + * vhost software live migration iova tree
-> > + *
-> > + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-> > + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat.c=
-om>
-> > + *
-> > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/iova-tree.h"
-> > +#include "vhost-iova-tree.h"
-> > +
-> > +#define iova_min_addr qemu_real_host_page_size
-> > +
-> > +/**
-> > + * VhostIOVATree, able to:
-> > + * - Translate iova address
-> > + * - Reverse translate iova address (from translated to iova)
-> > + * - Allocate IOVA regions for translated range (linear operation)
-> > + */
-> > +struct VhostIOVATree {
-> > +    /* First addressable iova address in the device */
-> > +    uint64_t iova_first;
-> > +
-> > +    /* Last addressable iova address in the device */
-> > +    uint64_t iova_last;
-> > +
-> > +    /* IOVA address to qemu memory maps. */
-> > +    IOVATree *iova_taddr_map;
-> > +
-> > +    /* QEMU virtual memory address to iova maps */
-> > +    GTree *taddr_iova_map;
-> > +};
-> > +
-> > +static gint vhost_iova_tree_cmp_taddr(gconstpointer a, gconstpointer b=
-,
-> > +                                      gpointer data)
-> > +{
-> > +    const DMAMap *m1 =3D a, *m2 =3D b;
-> > +
-> > +    if (m1->translated_addr > m2->translated_addr + m2->size) {
-> > +        return 1;
-> > +    }
-> > +
-> > +    if (m1->translated_addr + m1->size < m2->translated_addr) {
-> > +        return -1;
-> > +    }
-> > +
-> > +    /* Overlapped */
-> > +    return 0;
-> > +}
-> > +
-> > +/**
-> > + * Create a new IOVA tree
-> > + *
-> > + * Returns the new IOVA tree
-> > + */
-> > +VhostIOVATree *vhost_iova_tree_new(hwaddr iova_first, hwaddr iova_last=
-)
-> > +{
-> > +    VhostIOVATree *tree =3D g_new(VhostIOVATree, 1);
-> > +
-> > +    /* Some devices do not like 0 addresses */
-> > +    tree->iova_first =3D MAX(iova_first, iova_min_addr);
-> > +    tree->iova_last =3D iova_last;
-> > +
-> > +    tree->iova_taddr_map =3D iova_tree_new();
-> > +    tree->taddr_iova_map =3D g_tree_new_full(vhost_iova_tree_cmp_taddr=
-, NULL,
-> > +                                           NULL, g_free);
-> > +    return tree;
-> > +}
-> > +
-> > +/**
-> > + * Delete an iova tree
-> > + */
-> > +void vhost_iova_tree_delete(VhostIOVATree *iova_tree)
-> > +{
-> > +    iova_tree_destroy(iova_tree->iova_taddr_map);
-> > +    g_tree_unref(iova_tree->taddr_iova_map);
-> > +    g_free(iova_tree);
-> > +}
-> > +
-> > +/**
-> > + * Find the IOVA address stored from a memory address
-> > + *
-> > + * @tree     The iova tree
-> > + * @map      The map with the memory address
-> > + *
-> > + * Return the stored mapping, or NULL if not found.
-> > + */
-> > +const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *tree,
-> > +                                        const DMAMap *map)
-> > +{
-> > +    return g_tree_lookup(tree->taddr_iova_map, map);
-> > +}
-> > +
-> > +/**
-> > + * Allocate a new mapping
-> > + *
-> > + * @tree  The iova tree
-> > + * @map   The iova map
-> > + *
-> > + * Returns:
-> > + * - IOVA_OK if the map fits in the container
-> > + * - IOVA_ERR_INVALID if the map does not make sense (like size overfl=
-ow)
-> > + * - IOVA_ERR_OVERLAP if the tree already contains that map
-> > + * - IOVA_ERR_NOMEM if tree cannot allocate more space.
-> > + *
-> > + * It returns assignated iova in map->iova if return value is VHOST_DM=
-A_MAP_OK.
-> > + */
-> > +int vhost_iova_tree_map_alloc(VhostIOVATree *tree, DMAMap *map)
-> > +{
-> > +    /* Some vhost devices do not like addr 0. Skip first page */
-> > +    hwaddr iova_first =3D tree->iova_first ?: qemu_real_host_page_size=
-;
-> > +    DMAMap *new;
-> > +    int r;
-> > +
-> > +    if (map->translated_addr + map->size < map->translated_addr ||
-> > +        map->perm =3D=3D IOMMU_NONE) {
-> > +        return IOVA_ERR_INVALID;
-> > +    }
-> > +
-> > +    /* Check for collisions in translated addresses */
-> > +    if (vhost_iova_tree_find_iova(tree, map)) {
-> > +        return IOVA_ERR_OVERLAP;
-> > +    }
-> > +
-> > +    /* Allocate a node in IOVA address */
-> > +    r =3D iova_tree_alloc_map(tree->iova_taddr_map, map, iova_first,
-> > +                            tree->iova_last);
-> > +    if (r !=3D IOVA_OK) {
-> > +        return r;
-> > +    }
-> > +
-> > +    /* Allocate node in qemu -> iova translations */
-> > +    new =3D g_malloc(sizeof(*new));
-> > +    memcpy(new, map, sizeof(*new));
-> > +    g_tree_insert(tree->taddr_iova_map, new, new);
->
->
-> Can the caller map two IOVA ranges to the same e.g GPA range?
->
+On 3/3/2022 11:21 AM, Peter Maydell wrote:
+> On Thu, 3 Mar 2022 at 15:55, Steven Sistare <steven.sistare@oracle.com> wrote:
+>>
+>> On 2/24/2022 1:42 PM, Peter Maydell wrote:
+>>> ...it also seems to be making a no-change-of-behaviour rewrite
+>>> of the rest of the file. Is there a reason I'm missing for doing
+>>> that ?
+> 
+>> I'll change the commit message to explain:
+>>
+>>     Include CONFIG_DEVICES so that populate_vfio_info is instantiated for
+>>     CONFIG_VFIO, and refactor so only one ifdef is needed when new functions
+>>     are added in a later patch.
+>>
+>> The later patch is "vfio-pci: cpr part 1 (fd and dma)"
+> 
+> I'd prefer it if you split this patch into two patches; these two changes
+> aren't related.
+> 
+> thanks
+> -- PMM
 
-It shouldn't matter, because we are totally ignoring GPA here. HVA
-could be more problematic.
 
-We call it from two places: The shadow vring addresses and through the
-memory listener. The SVQ vring addresses should already be on a
-separated translated address from each one and guest's HVA because of
-malloc semantics.
-
-Regarding the listener, it should already report flattened memory with
-no overlapping between the HVA chunks.
-vhost_vdpa_listener_skipped_section should skip all problematic
-sections if I'm not wrong.
-
-But I may have missed some scenarios: vdpa devices only care about
-IOVA -> HVA translation, so two IOVA could translate to the same HVA
-in theory and we would not notice until we try with SVQ. To develop an
-algorithm to handle this seems complicated at this moment: Should we
-keep the bigger one? The last mapped? What happens if the listener
-unmaps one of them, we suddenly must start translating from the not
-unmapping? Seems that some kind of stacking would be needed.
-
-Thanks!
-
-> Thanks
->
->
-> > +    return IOVA_OK;
-> > +}
-> > +
-> > +/**
-> > + * Remove existing mappings from iova tree
-> > + *
-> > + * @param  iova_tree  The vhost iova tree
-> > + * @param  map        The map to remove
-> > + */
-> > +void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap *ma=
-p)
-> > +{
-> > +    const DMAMap *overlap;
-> > +
-> > +    iova_tree_remove(iova_tree->iova_taddr_map, map);
-> > +    while ((overlap =3D vhost_iova_tree_find_iova(iova_tree, map))) {
-> > +        g_tree_remove(iova_tree->taddr_iova_map, overlap);
-> > +    }
-> > +}
-> > diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-> > index 2dc87613bc..6047670804 100644
-> > --- a/hw/virtio/meson.build
-> > +++ b/hw/virtio/meson.build
-> > @@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vh=
-ost-stub.c'))
-> >
-> >   virtio_ss =3D ss.source_set()
-> >   virtio_ss.add(files('virtio.c'))
-> > -virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-b=
-ackend.c', 'vhost-shadow-virtqueue.c'))
-> > +virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-b=
-ackend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
-> >   virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c=
-'))
-> >   virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c=
-'))
-> >   virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-b=
-alloon.c'))
->
-
+Will do - Steve
 
