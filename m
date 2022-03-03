@@ -2,99 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCBF4CC030
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:41:34 +0100 (CET)
-Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457474CC036
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:44:11 +0100 (CET)
+Received: from localhost ([::1]:60638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPme5-0000cG-Kj
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:41:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33670)
+	id 1nPmgc-0002lM-C5
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:44:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1nPmaD-00040z-L8
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:37:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21259)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1nPmaB-0003IW-V3
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:37:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646318251;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rGTXUyVAGoeZXJD0gqHgScod9LzHtNnKKxtjDXPN7ew=;
- b=UxsGQgEswgTNnR1d0A7u5hn7bSRr1q5E9ObFjpaHqa6nCdOS7rktcLgy0UCNdKBkoAT9A7
- UQghQtrmDHYV9YqP5XSe/zK8qN5XLBJxljmu2DzuKWINFX1iA0+Qq9BQipeR7ybY0UNQNg
- A+3OTeNM5GzGBN/XS/nlIXLQgMNJQTI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-315-ihztLLEdOQG5eSggEaIuCg-1; Thu, 03 Mar 2022 09:37:29 -0500
-X-MC-Unique: ihztLLEdOQG5eSggEaIuCg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l31-20020a05600c1d1f00b00380e3425ba7so1697284wms.9
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 06:37:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nPmeD-0001Hd-HE
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:41:42 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=44627
+ helo=mail-pj1-x1032.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nPmeB-00047Q-PL
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:41:41 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ gj15-20020a17090b108f00b001bef86c67c1so4888071pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 06:41:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=d/saZ9eUVVc6holwxky7oFz5YNSon/iqj3/DtKdZexY=;
+ b=C+eDbaTFzdt0v/3KsePMULsWsD7cqSHTktUzdlTlaUmWuhreq1Vr9wex401yVKBIid
+ iSBhgKcok4/ERgyca9s/Moa6917jjjg4232MzFmrRqqsxDueIrPE6YPj/fbuVbdVHOqt
+ kWffSMJLPKAOPtknygqwDdLdSengRxOWlvw1p6bqfdiFYFwrkyJlf7MEFHRkqpYTrgIi
+ uTM0gW9RkkPytoN1fCiM57xmD0a+hIA8Bd2S0mZGxB+a6wIGvyHMdCNUtu4mfzrLIQlr
+ 1JLtmENK1zoIEK2ps1uaYGmAmEK4ntDgCTIqozrlmVWb+4frjEXX95gVKs0QbEmpDYDz
+ 3bfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rGTXUyVAGoeZXJD0gqHgScod9LzHtNnKKxtjDXPN7ew=;
- b=dsSUVGOms558p5ngw2SDkclOiM3C689jFgPmu42CxjYCsUVX+SF2dfInEoSIK+N0eW
- gJpNnxNF0RkLCeEczQfqSd1L84xfjkfAeHpoqxCBWGbZF7EKzFn0ySjZPQuEWOQYIb0Q
- tEoeDZWLKSoQZSqZSLf5+OOqmQeUHRskKuZNDx+frJ7iEWYyVDBp/COGb4kUGrA4Wij6
- Uxjqo+PcTx98JxSt3xlaK5moCVx6EqSC2QrUca5ffN+xhajYXBPHGSR7ORDCN7lBv1tm
- 1iA1JosL/B1BrmS8m680naGJ/qE3FTMW9TmiYvz0l5pcTwbRLC4/vok1JwZ6IxoWrFBS
- gR7Q==
-X-Gm-Message-State: AOAM531ffeCPRe5FM1KiemH9phuwOKO/PGrmqq/tgn5jKUS1/QNCYZan
- 9d23zajv1TGcaP1iBGaVlUJIlkE1Pd20ce8kBC+/9Y75a3ViRI8Nq5lmbUSEN4vz1T8OPj2i3+Z
- O8sBW4rrfSfB2gV4=
-X-Received: by 2002:a05:600c:418a:b0:384:224e:1817 with SMTP id
- p10-20020a05600c418a00b00384224e1817mr3914615wmh.123.1646318248143; 
- Thu, 03 Mar 2022 06:37:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwbB2eSbtmX9hkANK+5BUNsWIHBT/ab6F7qnuPj7VwuirlLDoTw2HOe2nAP+9WCyrSnlvvbDA==
-X-Received: by 2002:a05:600c:418a:b0:384:224e:1817 with SMTP id
- p10-20020a05600c418a00b00384224e1817mr3914592wmh.123.1646318247906; 
- Thu, 03 Mar 2022 06:37:27 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c020700b003862bfb550fsm2242659wmi.46.2022.03.03.06.37.26
+ bh=d/saZ9eUVVc6holwxky7oFz5YNSon/iqj3/DtKdZexY=;
+ b=IGEzO9Fao9AFV2pl5L/5FLABdHurx058CZ8dpPP1ZaGP7HPbWC2eB0hU/XhCe07FDa
+ nlWgnzA0Foo0xiqUmSH9NBtzS3D7pK8w31Tc7wOEcYp8Fo+9xnITk3eTLOODzGrteLyf
+ L9QO2ydwwikfKTlqlJtVlqdDzQH/4klSmHSuQ9dhkO6O+TQ0q3jT1QJ2CWOxo2CbNKc3
+ UCXtbmEP5TKa3RvRhpRNi1n6K7R/yf/sfEphbqPRc6vhh7k26Qebzgac/yrls/DG2fBo
+ 9493+92fZQvSzPsEv3F4rP63lN+RiYX/AMc8tiReBVUC0q/HfXbWQCKnqImF/FzI3Sye
+ BXgQ==
+X-Gm-Message-State: AOAM530Bo3ZgiPjRuai8MjSF3sY18A6PywBKE+lAu1cQg7kas+wZ3K10
+ YoKITlKxvYJVha1alPjhksc=
+X-Google-Smtp-Source: ABdhPJywXNc4Qlz7j/kFTnumlthpXQ7hNi6HREy5wUcd3OTVhjX5Ty2bfYp7Kf3u+dfIAS/paRh1Mg==
+X-Received: by 2002:a17:903:248:b0:151:b270:7e76 with SMTP id
+ j8-20020a170903024800b00151b2707e76mr1308650plh.120.1646318498380; 
+ Thu, 03 Mar 2022 06:41:38 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
+ lk9-20020a17090b33c900b001bc7c2dfcdbsm2414284pjb.37.2022.03.03.06.41.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 06:37:27 -0800 (PST)
-Subject: Re: [PATCH v4 1/2] tpm: CRB: Use ram_device for "tpm-crb-cmd" region
-To: eric.auger@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
- eric.auger.pro@gmail.com, stefanb@linux.vnet.ibm.com, qemu-devel@nongnu.org,
- alex.williamson@redhat.com
-References: <20220208133842.112017-1-eric.auger@redhat.com>
- <20220208133842.112017-2-eric.auger@redhat.com>
- <310e3bd1-0ca8-ddc6-4500-dd1bea589fad@linux.ibm.com>
- <b39a5fd1-15a5-7461-0849-4b4478f1aef5@redhat.com>
-From: Eric Auger <eauger@redhat.com>
-Message-ID: <b475d44e-3e25-7db2-7cde-6f6061f1610d@redhat.com>
-Date: Thu, 3 Mar 2022 15:37:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thu, 03 Mar 2022 06:41:37 -0800 (PST)
+Message-ID: <5f0b5304-359b-1cc6-6ea0-57ba6b0947f0@gmail.com>
+Date: Thu, 3 Mar 2022 15:41:33 +0100
 MIME-Version: 1.0
-In-Reply-To: <b39a5fd1-15a5-7461-0849-4b4478f1aef5@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH v4 08/14] none-machine: add 'ram-addr' property
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eauger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org,
+ mark.burton@greensocs.com, edgari@xilinx.com
+References: <20220223090706.4888-1-damien.hedde@greensocs.com>
+ <20220223090706.4888-9-damien.hedde@greensocs.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220223090706.4888-9-damien.hedde@greensocs.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,81 +96,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com, cohuck@redhat.com, f4bug@amsat.org,
- dgilbert@redhat.com, imammedo@redhat.com, david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
-
-On 2/8/22 6:58 PM, Eric Auger wrote:
-> Hi Stefan,
+On 23/2/22 10:07, Damien Hedde wrote:
+> Add the property to configure a the base address of the ram.
+> The default value remains zero.
 > 
-> On 2/8/22 6:16 PM, Stefan Berger wrote:
->>
->> On 2/8/22 08:38, Eric Auger wrote:
->>> Representing the CRB cmd/response buffer as a standard
->>> RAM region causes some trouble when the device is used
->>> with VFIO. Indeed VFIO attempts to DMA_MAP this region
->>> as usual RAM but this latter does not have a valid page
->>> size alignment causing such an error report:
->>> "vfio_listener_region_add received unaligned region".
->>> To allow VFIO to detect that failing dma mapping
->>> this region is not an issue, let's use a ram_device
->>> memory region type instead.
->>>
->>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>> Tested-by: Stefan Berger <stefanb@linux.ibm.com>
->>> Acked-by: Stefan Berger <stefanb@linux.ibm.com>
->>> [PMD: Keep tpm_crb.c in meson's softmmu_ss]
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->>
->> v4 doesn't build for me:
->>
->> ../hw/tpm/tpm_crb.c: In function ?tpm_crb_realize?:
->> ../hw/tpm/tpm_crb.c:297:33: error: implicit declaration of function
->> ?HOST_PAGE_ALIGN? [-Werror=implicit-function-declaration]
->>   297 | HOST_PAGE_ALIGN(CRB_CTRL_CMD_SIZE));
->>       |                                 ^~~~~~~~~~~~~~~
->> ../hw/tpm/tpm_crb.c:297:33: error: nested extern declaration of
->> ?HOST_PAGE_ALIGN? [-Werror=nested-externs]
->> cc1: all warnings being treated as errors
+> This commit is needed to use the 'none' machine as a base, and
+> subsequently to dynamically populate it using qapi commands. Having
+> a non null 'ram' is really hard to workaround because of the actual
+> constraints on the generic loader: it prevents loading binaries
+> bigger than ram_size (with a null ram, we cannot load anything).
+> For now we need to be able to use the existing ram creation
+> feature of the none machine with a configurable base address.
 > 
-> Do you have
-> b269a70810a  exec/cpu: Make host pages variables / macros 'target
-> agnostic' in your tree?
-I may have missed your reply. Did you have that dependency? Were you
-able to compile eventually?
-
-Besides, do you have any opinion overall about the relevance of
-transforming the CRB ctrl cmd region into a RAM device wrt the TPM spec?
-
-Again spec says:
-
-"
-Including the control structure, the three memory areas comprise the
-entirety of the CRB. There are no constraints on how those three memory
-areas are provided. They can all be in system RAM, or all be in device
-memory, or any combination.
-"
-(https://trustedcomputinggroup.org/wp-content/uploads/Mobile-Command-Response-Buffer-Interface-v2-r12-Specification_FINAL2.pdf)
-
-What was the rationale behind using RAM device for the PPI region?
-
-There are some spurious warnings when using CRB with VFIO and that would
-be nice to remove them one way or the other.
-
-Thanks
-
-Eric
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> ---
+>   hw/core/null-machine.c | 34 ++++++++++++++++++++++++++++++++--
+>   1 file changed, 32 insertions(+), 2 deletions(-)
 > 
-> Thanks
-> 
-> Eric
->>
->>
->>
-> 
+> diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
+> index 7eb258af07..5fd1cc0218 100644
+> --- a/hw/core/null-machine.c
+> +++ b/hw/core/null-machine.c
+> @@ -16,9 +16,11 @@
+>   #include "hw/boards.h"
+>   #include "exec/address-spaces.h"
+>   #include "hw/core/cpu.h"
+> +#include "qapi/visitor.h"
+>   
+>   struct NoneMachineState {
+>       MachineState parent;
+> +    uint64_t ram_addr;
+>   };
+>   
+>   #define TYPE_NONE_MACHINE MACHINE_TYPE_NAME("none")
+> @@ -26,6 +28,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(NoneMachineState, NONE_MACHINE)
+>   
+>   static void machine_none_init(MachineState *mch)
+>   {
+> +    NoneMachineState *nms = NONE_MACHINE(mch);
+>       CPUState *cpu = NULL;
+>   
+>       /* Initialize CPU (if user asked for it) */
+> @@ -37,9 +40,13 @@ static void machine_none_init(MachineState *mch)
+>           }
+>       }
+>   
+> -    /* RAM at address zero */
+> +    /* RAM at configured address (default: 0) */
+>       if (mch->ram) {
+> -        memory_region_add_subregion(get_system_memory(), 0, mch->ram);
+> +        memory_region_add_subregion(get_system_memory(), nms->ram_addr,
+> +                                    mch->ram);
+> +    } else if (nms->ram_addr) {
+> +        error_report("'ram-addr' has been specified but the size is zero");
 
+I'm not sure about this error message, IIUC we can get here if no ram
+backend is provided, not if we have one zero-sized. Otherwise LGTM.
+
+> +        exit(1);
+>       }
 
