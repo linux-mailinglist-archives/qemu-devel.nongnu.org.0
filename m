@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402104CC20E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:59:21 +0100 (CET)
-Received: from localhost ([::1]:58466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE194CC205
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:56:39 +0100 (CET)
+Received: from localhost ([::1]:48700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPnrM-0003z4-BL
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:59:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51960)
+	id 1nPnok-0005eg-KH
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:56:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nPnUO-0002wz-FO; Thu, 03 Mar 2022 10:35:36 -0500
-Received: from [2607:f8b0:4864:20::c34] (port=47062
- helo=mail-oo1-xc34.google.com)
+ id 1nPnUQ-00033y-SD; Thu, 03 Mar 2022 10:35:39 -0500
+Received: from [2607:f8b0:4864:20::c2c] (port=47055
+ helo=mail-oo1-xc2c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nPnUM-0000n7-Kn; Thu, 03 Mar 2022 10:35:36 -0500
-Received: by mail-oo1-xc34.google.com with SMTP id
- w3-20020a4ac183000000b0031d806bbd7eso6140787oop.13; 
- Thu, 03 Mar 2022 07:35:33 -0800 (PST)
+ id 1nPnUP-0000nO-3d; Thu, 03 Mar 2022 10:35:38 -0500
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ w3-20020a4ac183000000b0031d806bbd7eso6140917oop.13; 
+ Thu, 03 Mar 2022 07:35:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UaPYglVILsMGfP9WiFWE8VZ7U3VNT2RToNAvw6WgWww=;
- b=SWy45eIcTlY28mwIDR64dG9GcSWCs1wAKKo/M0t6m8cwRMGyj6Is99uM4G1oSd7X1l
- Ip6DRYRFrweJuE04C6HkeWY0NwBlNTMWYKQ34qSz6k48h6sKLtNADraLi2iAtx755dzp
- rdfpNjCmk0mIbn3idQ48GMTdrnk1gRJhSGCinWX5agroK/qX6lFZCnrMLvHDcmaOhC0r
- E1u8Umn+dzzMHAfqR0WgOiZMjvMYd0wozOqVpwk7DulAxWX+IVjS1g3Ug1wiAhyP/Jxe
- 5U7Q2g+SBYfY3DAwrcyM0MvRsHWrb41P7g4KPXg4VlLWJxaCsDpRu22A9im2L4JyjavA
- mjDw==
+ bh=j/PlsUpPiPx3M17Uiu+9ioo4XiGK9kEdrUrGKbMM4NY=;
+ b=VV0amnLFMaQagpOE+v/7DSU4sFBeJOpZovPMOInk1AYQc44CYv1odPoWYdya954wlV
+ 3qpuiMsHOGQfbICupfXdpIcBRqrA/8C9EeuoRjaFlAzMrk+WYp4iYuV/rKX5uZ7FSrNy
+ e0fa5fUcjlgC2ir1UhizgA7sq4q+lhOY2g02592U4OlwmBo7p4ktOsOLTg1+SUySh7Ud
+ GAUqJhF5ghPGpS9izJXjSU/OJbaj3biNfVXUEfGoXUl5zHD9nfogHuMQzk61FsrmXjWg
+ 1JEdvLdVsXiZUjqf7bMOvmSNZKiaO9nI4y3PQW3Knmz87Km/sV4E5fbx0RWbPrWwEBxl
+ 2xEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UaPYglVILsMGfP9WiFWE8VZ7U3VNT2RToNAvw6WgWww=;
- b=urDZhTMhv6SdSF/+nvCXUykCOSgqnW2vqd6xofQtW8uMg5WMkZz7ny9qHeKPH7nUVP
- cnIbpUCE+gPfeFPrb7EU8y0P6/LTXh9bwW9N0BgrRrZX5DFFyF3i/nj7SajiImnzIJkc
- MkukxtvJsLWjRaOXRbabOy98CPsqp7FLs0F+d5QOGKIdNqR12T82ptzMr0li7F5+dI0b
- PCr+TTkoVpDoBGc/+zizpMRvi+u6t1Kf4sFZ1gJrgcb7Ibx1owqudONZfk/gwFo8W2V7
- VkyF7W77YDb30/FDGju+xfe8oFiFml9zX9x9EvRZjaP80txKQu8J9/TKLPjQQzyGTLlL
- 9ZIA==
-X-Gm-Message-State: AOAM533M/vatECAofOzC3dWA70qj33iNqc8gKcWurPDv5e95CJHk9Lz7
- aWBnHQdEFIKVvS95elUouQb/ygzzsDw=
-X-Google-Smtp-Source: ABdhPJz51MGeUsJIE5gekxg1ZvS0Zn426jWftH1l9iQWAZsv7bvRDjVl9WnOnEVuCKu+Qpq3tznn8Q==
-X-Received: by 2002:a05:6870:708c:b0:d6:c397:a87c with SMTP id
- v12-20020a056870708c00b000d6c397a87cmr4345628oae.23.1646321732756; 
- Thu, 03 Mar 2022 07:35:32 -0800 (PST)
+ bh=j/PlsUpPiPx3M17Uiu+9ioo4XiGK9kEdrUrGKbMM4NY=;
+ b=VfpTrA0PvYtoOBS7C86PjTuZ38sXL5Z4uOjetyNJ6u0GzFk4JmdZZXK7dxGyGsHtw3
+ GzFtBCqUPETCP2KeuG121tfphzXJYaHMpxCpDbCRHKoMu6y9NlM7bqDJPoKBMeyz0GKc
+ J6bmxrZVRSiCYZW9GVc9AP2ft33BTr3tgZduzwHtrsbfNM2ZY+QARRze93UIOAoZsV26
+ cm2gfbfNSrW850k60eHfCb4VkTq53HyD7PjVROVeqMEGu2WDvgpCtTbYRqvBHZPSRb3W
+ PT3M+KgTlYWbe+kO+l553SgJyNG7ONuxT8t92LHxl17ZgxvI4BlCrsqgINs8jMdqJ1Mz
+ XWMg==
+X-Gm-Message-State: AOAM531n9eQYMgujpisgKuOmf/+gabM++2EmSYxrEyT1RZ/+slu886bZ
+ fgd5eK0PRYJjv/hkDfwprpBrrQMjY5I=
+X-Google-Smtp-Source: ABdhPJxkEYm/D3jiG9Dkdg2l5WI61rgbEZiERM3OH3Bx4VsBrfNSNLdViIdbw5x68aM8yAdiCj2sZg==
+X-Received: by 2002:a05:6870:128c:b0:ce:c0c9:5ba with SMTP id
+ 12-20020a056870128c00b000cec0c905bamr4469119oal.12.1646321735225; 
+ Thu, 03 Mar 2022 07:35:35 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:3b4a:a86f:f27d:30ef:6eb6])
  by smtp.gmail.com with ESMTPSA id
- dw7-20020a056870770700b000d9aa7a6d63sm1178798oab.6.2022.03.03.07.35.30
+ dw7-20020a056870770700b000d9aa7a6d63sm1178798oab.6.2022.03.03.07.35.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 07:35:32 -0800 (PST)
+ Thu, 03 Mar 2022 07:35:35 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] qtest/meson.build: check CONFIG_TCG for boot-serial-test
- in qtests_ppc
-Date: Thu,  3 Mar 2022 12:35:14 -0300
-Message-Id: <20220303153517.168943-3-danielhb413@gmail.com>
+Subject: [PATCH 3/5] avocado/boot_linux_console.py: check for tcg in
+ test_ppc_powernv8/9
+Date: Thu,  3 Mar 2022 12:35:15 -0300
+Message-Id: <20220303153517.168943-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220303153517.168943-1-danielhb413@gmail.com>
 References: <20220303153517.168943-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c34
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c34;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2c.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -94,45 +94,53 @@ Cc: thuth@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'boot-serial-test' does not work with a QEMU built with --disable-tcg in
-a IBM POWER9 host. The reason is that without TCG QEMU will default to
-KVM acceleration, but then the KVM module in IBM POWER hosts aren't able
-to handle other CPUs.
+The PowerNV8/9 machines does not work with KVM acceleration, meaning
+that boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8/9 tests
+will always fail when QEMU is compiled with --disable-tcg:
 
-The result is that the test will break with a KVM error when trying to
-ruin the ppce500 test:
+ERROR 1-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8
+-> VMLaunchFailure: ConnectError: Failed to establish session:
+[Errno 104] Connection reset by peer
+        Exit code: 1
+        Command: ./qemu-system-ppc64 -display none -vga none -chardev socket,id=mon,path=/var/tmp/avo_qemu_sock_no19zg0m/qemu-1936936-7fffa77cff98-monitor.sock -mon chardev=mon,mode=control -machine powernv8 -chardev socket,id=console,path=/var/tmp/avo_qemu_sock_no19zg0m/qemu-1936936-7fffa77cff98-console.sock,server=on,wait=off -serial chardev:console -kernel /home/danielhb/avocado/data/cache/by_location/4514304e2c4ee84c5f0b5c8bacedda783891df68/zImage.epapr -append console=tty0 console=hvc0 -device pcie-pci-bridge,id=bridge1,bus=pcie.1,addr=0x0 -device nvme,bus=pcie.2,addr=0x0,serial=1234 -device e1000e,bus=bridge1,addr=0x3 -device nec-usb-xhci,bus=bridge1,addr=0x2
+        Output: qemu-system-ppc64: The powernv machine does not work with KVM acceleration
 
-$ QTEST_QEMU_BINARY=./qemu-system-ppc64 ./tests/qtest/boot-serial-test
-/ppc64/boot-serial/ppce500: qemu-system-ppc64: -accel tcg: invalid accelerator tcg
-error: kvm run failed Invalid argument
-NIP 0000000000f00000   LR 0000000000000000 CTR 0000000000000000 XER 0000000000000000 CPU#0
-MSR 0000000000000000 HID0 0000000000000000  HF 24020002 iidx 1 didx 1
-TB 00000000 00000000 DECR 0
-(...)
-** (./tests/qtest/boot-serial-test:1935760): ERROR **: 07:44:03.010: Failed to find expected string. Please check '/tmp/qtest-boot-serial-sJ78sqg'
+Let's add the TCG accel requirement in both tests to skip them if we
+don't have TCG support available.
 
-Fix it by checking CONFIG_TCG before compiling boot-serial-test.
-
-Cc: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- tests/qtest/meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/avocado/boot_linux_console.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 0c2f2d94e1..deed640d7f 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -161,7 +161,8 @@ qtests_ppc = \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_M48T59') ? ['m48t59-test'] : []) +                     \
-   (config_all_devices.has_key('CONFIG_TCG') ? ['prom-env-test'] : []) +                      \
--  ['boot-order-test', 'boot-serial-test']
-+  (config_all_devices.has_key('CONFIG_TCG') ? ['boot-serial-test'] : []) +                   \
-+  ['boot-order-test']
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index 9c618d4809..d7d9130329 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -1170,6 +1170,7 @@ def test_ppc64_e500(self):
+         self.do_test_advcal_2018('19', tar_hash, 'uImage')
  
- qtests_ppc64 = \
-   qtests_ppc + \
+     def do_test_ppc64_powernv(self, proc):
++        self.require_accelerator("tcg")
+         images_url = ('https://github.com/open-power/op-build/releases/download/v2.7/')
+ 
+         kernel_url = images_url + 'zImage.epapr'
+@@ -1194,6 +1195,7 @@ def test_ppc_powernv8(self):
+         """
+         :avocado: tags=arch:ppc64
+         :avocado: tags=machine:powernv8
++        :avocado: tags=accel:tcg
+         """
+         self.do_test_ppc64_powernv('P8')
+ 
+@@ -1201,6 +1203,7 @@ def test_ppc_powernv9(self):
+         """
+         :avocado: tags=arch:ppc64
+         :avocado: tags=machine:powernv9
++        :avocado: tags=accel:tcg
+         """
+         self.do_test_ppc64_powernv('P9')
+ 
 -- 
 2.35.1
 
