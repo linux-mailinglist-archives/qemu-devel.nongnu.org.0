@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE0C4CBD58
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:05:56 +0100 (CET)
-Received: from localhost ([::1]:56852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2AE4CBD63
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:13:37 +0100 (CET)
+Received: from localhost ([::1]:36652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPkDT-0008GE-U6
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:05:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36650)
+	id 1nPkKu-0006Dr-3M
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:13:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPk89-0002Rc-M2
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:00:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26715)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPk8I-0002li-80
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:00:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPk87-0003Rf-Uq
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:00:25 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nPk8C-0003cf-SO
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:00:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646308823;
+ s=mimecast20190719; t=1646308828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GU2PkYv/oO0WBN6akEtPQqLOjiJQ79hZYXxHxM/rB9g=;
- b=Z3vDCWnv18peahKMKJz4D7qb+Yazko2rBabvod6L2EzDE9FuwiYyMaoxdQswnWl0RQEK6g
- UpjyfAFC+MZ3xa9MqAQFcEvU1oDe+XBSrWqJLxHvv4UN3CwErfXyfve5d9MuNhwT/XgQwA
- yh48wGFGgqdNjSGdvYfL+pJRyiGvUIU=
+ bh=SChHcwg/89XMGoVWOn4WPsullesTZfsuoF5vcE1hxbw=;
+ b=QxA6kedIPZQN3bFZTC5ucHtK0xDzM24Al4i61nunqWBDdyQzhPGM4o0Edx1xJAHPOEQx0x
+ Ep9gg+NzPE097tunHb4vOI/xbWNGfLGCONuH4eIYcVp8MtwZMlpb+ZbUAqWzMUoX2M8ZQq
+ ti/4SS1dblWVGL+vrDr/lCRDoB/gcC4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-ws9u5eVDPgS5WbHEubGu6g-1; Thu, 03 Mar 2022 07:00:19 -0500
-X-MC-Unique: ws9u5eVDPgS5WbHEubGu6g-1
+ us-mta-610-XBLt5vFsMViTWgAkHsQfNw-1; Thu, 03 Mar 2022 07:00:25 -0500
+X-MC-Unique: XBLt5vFsMViTWgAkHsQfNw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C917F824FA6;
- Thu,  3 Mar 2022 12:00:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F344D801AAD;
+ Thu,  3 Mar 2022 12:00:22 +0000 (UTC)
 Received: from toolbox.redhat.com (unknown [10.33.37.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 00CBE842CC;
- Thu,  3 Mar 2022 12:00:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C688842CC;
+ Thu,  3 Mar 2022 12:00:18 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/4] configure,
- meson: allow enabling vhost-user on all POSIX systems
-Date: Thu,  3 Mar 2022 12:59:10 +0100
-Message-Id: <20220303115911.20962-4-slp@redhat.com>
+Subject: [PATCH v3 4/4] docs: vhost-user: add subsection for non-Linux
+ platforms
+Date: Thu,  3 Mar 2022 12:59:11 +0100
+Message-Id: <20220303115911.20962-5-slp@redhat.com>
 In-Reply-To: <20220303115911.20962-1-slp@redhat.com>
 References: <20220303115911.20962-1-slp@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=slp@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -61,7 +61,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,48 +92,43 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the possibility of using a pipe pair via qemu_pipe() as a
-replacement on operating systems that doesn't support eventfd,
-vhost-user can also work on all POSIX systems.
-
-This change allows enabling vhost-user on all non-Windows platforms
-and makes libvhost_user (which still depends on eventfd) a linux-only
-feature.
+Add a section explaining how vhost-user is supported on platforms
+other than Linux.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- configure   | 4 ++--
- meson.build | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ docs/interop/vhost-user.rst | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/configure b/configure
-index c56ed53ee3..daccf4be7c 100755
---- a/configure
-+++ b/configure
-@@ -1659,8 +1659,8 @@ fi
- # vhost interdependencies and host support
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index edc3ad84a3..590a626b92 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -38,6 +38,24 @@ conventions <backend_conventions>`.
+ *Master* and *slave* can be either a client (i.e. connecting) or
+ server (listening) in the socket communication.
  
- # vhost backends
--if test "$vhost_user" = "yes" && test "$linux" != "yes"; then
--  error_exit "vhost-user is only available on Linux"
-+if test "$vhost_user" = "yes" && test "$mingw32" = "yes"; then
-+  error_exit "vhost-user is not available on Windows"
- fi
- test "$vhost_vdpa" = "" && vhost_vdpa=$linux
- if test "$vhost_vdpa" = "yes" && test "$linux" != "yes"; then
-diff --git a/meson.build b/meson.build
-index 8df40bfac4..f2bc439c30 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2701,7 +2701,7 @@ if have_system or have_user
- endif
++Support for platforms other than Linux
++--------------------------------------
++
++While vhost-user was initially developed targeting Linux, nowadays is
++supported on any platform that provides the following features:
++
++- The ability to share a mapping injected into the guest between
++  multiple processes, so both QEMU and the vhost-user daemon servicing
++  the device can access simultaneously the memory regions containing
++  the virtqueues and the data associated with each request.
++
++- AF_UNIX sockets with SCM_RIGHTS, so QEMU can communicate with the
++  vhost-user daemon and send it file descriptors when needed.
++
++- Either eventfd or pipe/pipe2. On platforms where eventfd is not
++  available, QEMU will automatically fallback to pipe2 or, as a last
++  resort, pipe.
++
+ Message Specification
+ =====================
  
- vhost_user = not_found
--if 'CONFIG_VHOST_USER' in config_host
-+if targetos == 'linux' and 'CONFIG_VHOST_USER' in config_host
-   libvhost_user = subproject('libvhost-user')
-   vhost_user = libvhost_user.get_variable('vhost_user_dep')
- endif
 -- 
 2.35.1
 
