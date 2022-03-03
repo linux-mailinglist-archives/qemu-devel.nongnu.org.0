@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD00B4CC803
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:28:43 +0100 (CET)
-Received: from localhost ([::1]:56208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 350094CC834
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:41:11 +0100 (CET)
+Received: from localhost ([::1]:38522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPt07-0006fH-0j
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:28:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60626)
+	id 1nPtC9-00062i-QC
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:41:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPsdi-0000gp-Ma
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:05:34 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=46997
- helo=mail-pj1-x1036.google.com)
+ id 1nPtBF-0004k6-ML
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:40:13 -0500
+Received: from [2607:f8b0:4864:20::42c] (port=46774
+ helo=mail-pf1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPsdh-0005M4-1X
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:05:34 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- 15-20020a17090a098f00b001bef0376d5cso6170833pjo.5
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:05:32 -0800 (PST)
+ id 1nPtBE-00042M-2J
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:40:13 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id s11so5842403pfu.13
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:40:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Ebh76ZsF5tTx7gE4d1F5QLSGiYHeR0z5poPTdz7wdAs=;
- b=GBUeof5N1usrWmCSYcWKeE8VA6bpOfu4dGy1mSM+VgZINgpZ/J65vMVtwfNJ2iMiXn
- 4CgwurrN0kmjlPeL89cA2+QxiW+KxtE7fAZ1c+S+mSVmG7hgAi0cLCd7UFLDMSPUyOIb
- aiK+P9rbcywVPnLlRKCvbXebgnBOpnNH/EJzkEfQocvIFhuCqK8tkpmx0BYIyK/WQOuc
- +z75bNZYSaQVPtWjtsQF23t8GrU4RGT2hvANSbi2Edh+rvNyowc8XWdmXS3bu2zdVcQY
- qVmAiOrycws6XuprQSLmlkiAJ2zuuWUhnYslB/uSqMEnIMOvK3Z8IiZ4D1eqX76DUvwF
- Nspg==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=SBbkMHnDuStOEbXV2jJLAi+044uIA9KOnw/YWtpU+4s=;
+ b=nGGcMJteIqZHRUYOgzSDzxSp6lorIwAaq/hGTqepMNTkF7ucFzc7Y2yNhvZCdsraPY
+ zeP3Y+4c89su92UMW/WspG6UGpg/Z28pgXNl+GIdVLtu0Q4rRB+SzUtlJ7PWeAzQI2j0
+ j5+MzjJgUvSoUA8lcXwK5I6ZuPLmCYeyG5SqrneAJYyIWh115VvzaQoV9p0pm+r3ItlI
+ lo4MtwN9ItFtEOGN6rJE1ODr+sUSqDa2p7V/AA7Ab8a0ck+s/AejTyNyQh45toPVIUPB
+ YNLEXH+2f91cUN9biRplTnkZi3gS5/4DABX3l+Hqsk3GH35S3D/35rt2a1CM5lfk0pOM
+ cRSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Ebh76ZsF5tTx7gE4d1F5QLSGiYHeR0z5poPTdz7wdAs=;
- b=GzF02GrbDAk4xv8OfDwezDRXTmUGPxTudxSIhBKHeb3FNKPNQWqh9W79SQiV0724gr
- qYSAO0cWF3iVyTG/+wZQfXL7+S13gH6HkcZgaViroM8OiUvTndJyWI5b6G5C+f9WBHOk
- w7Va+OnaRZClo6upQdlwARa441DhSnhgdNKHNkJ6sIyy2gNXGQfemATrOhbLJj0CF+mz
- 2m84XGoMlzAa1AJHFx23JIYShp+Wk7RFxSsDPI6sj51czdg3rn9bRSB8SCTmbgV+dRN8
- p5AzdaheohDGtCxyU9GCAXWEkXuwZ9QCHjpUCFG4t/zDvN1CK1nxV8ZItFS6F8w1jMFE
- wimQ==
-X-Gm-Message-State: AOAM530yN++OFMDzOsh/D4uEYqxUf2aT8Zi92p63bJV0K1jeO2EHu2Xx
- n9c0ueJ+4f/y9rW7/slWmPyDRw==
-X-Google-Smtp-Source: ABdhPJyHtTX+f1wN+5m5tdpHf4lTGIVtFX19REgjVadOtxoBocp6BMczrR0+pui0s6ZXnl46MZ9COg==
-X-Received: by 2002:a17:902:f155:b0:151:8377:9a8e with SMTP id
- d21-20020a170902f15500b0015183779a8emr15608829plb.21.1646341531410; 
- Thu, 03 Mar 2022 13:05:31 -0800 (PST)
+ bh=SBbkMHnDuStOEbXV2jJLAi+044uIA9KOnw/YWtpU+4s=;
+ b=q3crnPaMIf/MWk89CtlLJ+b+mpLPcSltK/rxZJxf9Ct/gRIZvokzVtGNG55sLSQhLG
+ 6uw7u3c8RjHbl+BMgrXSx1F4v1s2TS2yXCwFNFkmuLvTTzrYEsqOdNLQIIx4r/NNc/go
+ FWLqh4/9lDgVVvouVHvQ65OuXmvzGeVmBUF752otUIu3bVyUfsne6GhSfA6rZUdze3pY
+ T6aS3+4xBvIjoOrHYOpIWXiU6nU5FtKBkJWpeTw20XFmt8+HiuQG/pQXI+5PltdXxCdw
+ 40ZCl2ZabpgAp7jcapviMA3KG9X3ThzyxfE2DEBGN+/qM3gKbij8MgxrpYyv1MR209xT
+ bZpw==
+X-Gm-Message-State: AOAM5320DTBrldZ82qXAdW1/rp5XvlLxRmDogh+YbSubZNLNF8oDXRlv
+ hTbV2pkC4wTb1e8f2GPgOshq4Q==
+X-Google-Smtp-Source: ABdhPJxYqqE18gPfobndykLZSG+BMOGjS2W/FhPZb+SYjRpiVwJV8ree2CaasJoVk+chskFuaWmt1Q==
+X-Received: by 2002:a05:6a00:1744:b0:4c4:4bd:dc17 with SMTP id
+ j4-20020a056a00174400b004c404bddc17mr40354611pfc.57.1646343610321; 
+ Thu, 03 Mar 2022 13:40:10 -0800 (PST)
 Received: from ?IPV6:2603:800c:1201:c600:119c:490c:a4ee:8e8?
  (2603-800c-1201-c600-119c-490c-a4ee-08e8.res6.spectrum.com.
  [2603:800c:1201:c600:119c:490c:a4ee:8e8])
  by smtp.gmail.com with ESMTPSA id
- r15-20020a63ce4f000000b00341c40f913esm2779230pgi.87.2022.03.03.13.05.29
+ u19-20020a056a00159300b004e1590f88c1sm3524545pfk.220.2022.03.03.13.40.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 13:05:30 -0800 (PST)
-Message-ID: <2b027e56-dc17-73ed-99e7-a04b38f2a4a5@linaro.org>
-Date: Thu, 3 Mar 2022 11:05:27 -1000
+ Thu, 03 Mar 2022 13:40:09 -0800 (PST)
+Message-ID: <835773ab-91d8-49de-7ab5-d2e2e528c6b8@linaro.org>
+Date: Thu, 3 Mar 2022 11:40:07 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 5/5] tests/tcg/ppc64le: Use Altivec register names in
- clobbler list
+Subject: Re: [PATCH 1/5] hw/intc/arm_gicv3_its: Add trace events for commands
 Content-Language: en-US
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220303172041.1915037-1-matheus.ferst@eldorado.org.br>
- <20220303172041.1915037-6-matheus.ferst@eldorado.org.br>
- <31ce0473-0706-65c1-c54b-4e572defebe7@linaro.org>
- <5fa9dcf4-fcd6-ddb6-ad87-a5a15d283ebb@eldorado.org.br>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220303202341.2232284-1-peter.maydell@linaro.org>
+ <20220303202341.2232284-2-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <5fa9dcf4-fcd6-ddb6-ad87-a5a15d283ebb@eldorado.org.br>
+In-Reply-To: <20220303202341.2232284-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,37 +96,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, danielhb413@gmail.com, groug@kaod.org,
- philippe.mathieu.daude@gmail.com, clg@kaod.org, mrezanin@redhat.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/3/22 10:53, Matheus K. Ferst wrote:
-> On 03/03/2022 16:30, Richard Henderson wrote:
->> On 3/3/22 07:20, matheus.ferst@eldorado.org.br wrote:
->>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>>
->>> LLVM/Clang doesn't know the VSX registers when compiling with
->>> -mabi=elfv1. Use only registers >= 32 and list them with their Altivec
->>> name.
->>>
->>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>
->> This description isn't quite right.  The change to the m[tf]vsr insns is a generic bug
->> fix, and not related to Clang.
->>
+On 3/3/22 10:23, Peter Maydell wrote:
+> When debugging code that's using the ITS, it's helpful to
+> see tracing of the ITS commands that the guest executes. Add
+> suitable trace events.
 > 
-> I'm not sure if I understood. I'm targeting the Clang problem with this patch, is 
-> something else being fixed by this change?
-> AFAICT, the old "mtvsrd 0, %2" and "mfvsrd %0, 0" were correct, I'm just changing from VSR 
-> 0 to VSR 32 to allow the clobber with Clang, but GCC doesn't seem to have this limitation 
-> with ELFv1.
-
-Oh, whoops, I mis-read the patch.
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   hw/intc/arm_gicv3_its.c | 28 ++++++++++++++++++++++++++--
+>   hw/intc/trace-events    | 12 ++++++++++++
+>   2 files changed, 38 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
