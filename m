@@ -2,57 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6E64CBC17
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 12:04:12 +0100 (CET)
-Received: from localhost ([::1]:39770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7BD4CBC1F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 12:06:58 +0100 (CET)
+Received: from localhost ([::1]:42708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPjFj-000642-Kx
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 06:04:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52048)
+	id 1nPjIP-0008Bk-6f
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 06:06:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nPjAN-0002dq-0g
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 05:58:39 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:36724)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nPjGr-0007E1-CY
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 06:05:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1nPjAK-0006EF-5u
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 05:58:38 -0500
-Received: from [192.168.13.13] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 2BC982077D;
- Thu,  3 Mar 2022 10:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1646305112;
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nPjGn-0007hD-Bp
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 06:05:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646305515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FURvU8OQuXBNEE/N+G32NDm6IJOC5c8ZD9dJsXPF014=;
- b=lqKAxIoEM6WPzpevHLbq1su+nk/kKI8/6PFuCfdFTyItJkcwD6wfeKMA/LXzSPKq0kQYkh
- bOd8e/owD+1jaepZRsNKyfw7BCZU3nwfp6kPB4yruwhgEDleeVCAl46IOiBw83EvU5i3H9
- g05d/t1HMSHCAQ6ndzTOrgGkMKdHYe8=
-Message-ID: <94a413c6-9a4c-4068-a9e7-3979df440d9e@greensocs.com>
-Date: Thu, 3 Mar 2022 11:58:31 +0100
+ bh=n2G0cIyikJH5VMmhdsXqqOhcbakbt9JY6SBVKaSHMho=;
+ b=YaDtKBXBkAAVDdnL4Vh2EY/p6LoGLMhNH7LpO/FEWXRNtuN0Fj6rEgpQXK43Vx4DQrzd+D
+ NFDmeIcATlcHfpzU8hoCAKpm4FEVv+2WWO7WGeheY+j2pH7pMMQW8X3Tf2x4DyvehfUuoR
+ BWlbVHowp58OJvgblAdVneYBZEqFB+w=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-VQzNK9UZPy6xH6Z4FfluXA-1; Thu, 03 Mar 2022 06:05:14 -0500
+X-MC-Unique: VQzNK9UZPy6xH6Z4FfluXA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ go11-20020a1709070d8b00b006cf0d933739so2547101ejc.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 03:05:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=n2G0cIyikJH5VMmhdsXqqOhcbakbt9JY6SBVKaSHMho=;
+ b=wJQxHNri9ziWVB00lsJBuPkYU6hhJpuKvyXb2/9niTcKhdc4Gsg9Mqui5TUXzsrEzI
+ QCPi5MU8l7tp6s7wJM2G4mF6Rj/OS3At1rBdWX1Yz6NowKnindVd3qM+iVUPBHOV67mo
+ j/46izGsN3BIR0F+szVc/ZFDc01Wlaw8hK+ZUCd9wP56e1CV284h0nBgSO97QHdtu10q
+ phAmIT464p+Qk7gg7Mtlu9kqTM1+KI3hoM/V6HG4RJt0VPzRFzwk6iZtT9MoQj8mYgzS
+ 1cBgDFSe4HI5Nj2B6zH5cUrnV8Y74E7SIkg8BgxAb3CUZ+Tt/LFzPVhMWEqFJPX09y/k
+ P3gw==
+X-Gm-Message-State: AOAM533P/O70z4xZrEnHjDlihrzAb2wWOKLh+3Kn3Bt6Da3BEGWi0LwD
+ fBQGcFSSN/Bpw8EZqvh1ieL+HhT4JFIqM2d0sT0m7vu3CofbGBPqF+RslWvl0ezhdCLiUoB2IaB
+ 5d0dvTIeAjApxQ/Y=
+X-Received: by 2002:a05:6402:1941:b0:413:2b5f:9074 with SMTP id
+ f1-20020a056402194100b004132b5f9074mr34064135edz.414.1646305513497; 
+ Thu, 03 Mar 2022 03:05:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxj+s7n+UVrQTytldgLylEBN8oWwspWVLwZpoOXaaieFs1Mf5U60px6ARmDRDSYnx+kYjz9AA==
+X-Received: by 2002:a05:6402:1941:b0:413:2b5f:9074 with SMTP id
+ f1-20020a056402194100b004132b5f9074mr34064108edz.414.1646305513251; 
+ Thu, 03 Mar 2022 03:05:13 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ gs39-20020a1709072d2700b006d3ed4f51c6sm608078ejc.0.2022.03.03.03.05.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Mar 2022 03:05:12 -0800 (PST)
+Message-ID: <6ac72250-00c9-d998-fbe7-4c8d958476d7@redhat.com>
+Date: Thu, 3 Mar 2022 12:05:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v4 00/14] Initial support for machine creation via QMP
-Content-Language: en-US-large
-To: qemu-devel@nongnu.org, mark.burton@greensocs.com, edgari@xilinx.com
-References: <20220223090706.4888-1-damien.hedde@greensocs.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <20220223090706.4888-1-damien.hedde@greensocs.com>
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 11/16] block: introduce snapshot-access block driver
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20220228113927.1852146-1-vsementsov@virtuozzo.com>
+ <20220228113927.1852146-12-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220228113927.1852146-12-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,167 +104,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Igor Mammedov <imammedo@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Ani Sinha <ani@anisinha.ca>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, nikita.lapshin@virtuozzo.com, stefanha@redhat.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping !
+On 28.02.22 12:39, Vladimir Sementsov-Ogievskiy wrote:
+> The new block driver simply utilizes snapshot-access API of underlying
+> block node.
+>
+> In further patches we want to use it like this:
+>
+> [guest]                   [NBD export]
+>     |                            |
+>     | root                       | root
+>     v                 file       v
+> [copy-before-write]<------[snapshot-access]
+>     |           |
+>     | file      | target
+>     v           v
+> [active-disk] [temp.img]
+>
+> This way, NBD client will be able to read snapshotted state of active
+> disk, when active disk is continued to be written by guest. This is
+> known as "fleecing", and currently uses another scheme based on qcow2
+> temporary image which backing file is active-disk. New scheme comes
+> with benefits - see next commit.
+>
+> The other possible application is exporting internal snapshots of
+> qcow2, like this:
+>
+> [guest]          [NBD export]
+>     |                  |
+>     | root             | root
+>     v       file       v
+> [qcow2]<---------[snapshot-access]
+>
+> For this, we'll need to implement snapshot-access API handlers in
+> qcow2 driver, and improve snapshot-access block driver (and API) to
+> make it possible to select snapshot by name. Another thing to improve
+> is size of snapshot. Now for simplicity we just use size of bs->file,
+> which is OK for backup, but for qcow2 snapshots export we'll need to
+> imporve snapshot-access API to get size of snapshot.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   qapi/block-core.json    |   4 +-
+>   block/snapshot-access.c | 132 ++++++++++++++++++++++++++++++++++++++++
+>   MAINTAINERS             |   1 +
+>   block/meson.build       |   1 +
+>   4 files changed, 137 insertions(+), 1 deletion(-)
+>   create mode 100644 block/snapshot-access.c
 
-It would be good to have some feedback on 1st and 2nd part.
+[...]
 
-Thanks,
-Damien
+> diff --git a/block/snapshot-access.c b/block/snapshot-access.c
+> new file mode 100644
+> index 0000000000..77b87c1946
+> --- /dev/null
+> +++ b/block/snapshot-access.c
 
-On 2/23/22 10:06, Damien Hedde wrote:
-> Hi,
-> 
-> This series adds initial support to build a machine using QMP/QAPI
-> commands. With this series, one can start from the 'none' machine,
-> create cpus, sysbus devices, memory map them and wire interrupts.
-> 
-> Sorry for the huge cc list on this cover-letter. Apart from people
-> who attended the kvm call about this topic, I've cc'ed you only
-> according to MAINTAINERS file.
-> 
-> The series is divided in 4 parts which are independent of each other,
-> but we need the 4 parts to be able to use this mechanism:
-> + Patches 1 to 6 allow to use the qapi command device_add to cold
->    plug devices (like CLI -device do)
-> + Patches 7 to 10 modify the 'none' machine which serves as base
->    machine.
-> + Patches 11 to 13 handle memory mapping and memory creation
-> + Patches 14 allows dynamic cold plug of opentitan/sifive_e machine
->    to build some example. This last patch is based on a cleanup
->    series: it probably works without it, but some config errors are
->    not handled (see based-on below).
-> 
-> Only patch 11 is reviewed-by.
-> 
-> v4:
-> + cold plugging approach changed in order not to conflict with
->    startup. I do not add additional command to handle this so that
->    we can change everything easily.
-> + device_add in cold plug context is also now equivalent to -device
->    CLI regarding -fw_cfg. I also added patches to modify the 'none'
->    machine.
-> + reworked most of the none machine part
-> + updated the sybus-mmio-map command patch
-> 
-> Note that there are still lot of limitations (for example if you try
-> to create more cpus than the _max_cpus_, tcg will abort()).
-> Basically all tasks done by machine init reading some parameters are
-> really tricky: for example, loading complex firmware. But we have to
-> start by something and all this is not accessible unless the user
-> asked for none machine and -preconfig.
-> 
-> I can maintain the code introduced here. I'm not sure what's the
-> process. Is there something else to do than propose a patch to
-> MAINTAINERS ?
-> If there is a global agreement on moving on with these feature, it
-> would be great to have a login on qemu wiki so I can document
-> limitations and the work being done to solve them.
-> 
-> A simple test can be done with the following scenario which build
-> a machine subset of the opentitan.
-> 
-> $ cat commands.qmp
-> // RAM 0x10000000
-> device_add driver=sysbus-memory id=ram size=0x4000 readonly=false
-> sysbus-mmio-map device=ram addr=268435456
-> // CPUS
-> device_add driver=riscv.hart_array id=cpus cpu-type=lowrisc-ibex-riscv-cpu num-harts=1 resetvec=0x8080
-> // ROM 0x00008000
-> device_add driver=sysbus-memory id=rom size=0x4000 readonly=true
-> sysbus-mmio-map device=rom addr=32768
-> // PLIC 0x48000000
-> device_add driver=riscv.sifive.plic id=plic hart-config=M hartid-base=0 num-sources=180 num-priorities=3 priority-base=0x0 pending-base=0x1000 enable-base=0x2000 enable-stride=32 context-base=0x200000 context-stride=8 aperture-size=0x4005000
-> sysbus-mmio-map device=plic addr=1207959552
-> qom-set path=plic property=unnamed-gpio-out[1] value=cpus/harts[0]/unnamed-gpio-in[11]
-> // UART 0x40000000
-> device_add driver=ibex-uart id=uart chardev=serial0
-> sysbus-mmio-map device=uart addr=1073741824
-> qom-set path=uart property=sysbus-irq[1] value=plic/unnamed-gpio-in[2]
-> // FIRMWARE
-> device_add driver=loader cpu-num=0 file=/path/to/firmware.elf
-> x-exit-preconfig
-> 
-> $ qemu-system-riscv32 -display none -M none -preconfig -serial stdio -qmp unix:/tmp/qmp-sock,server
-> 
-> In another terminal, you'll need to send the commands with, for example:
-> $ grep -v '^//' commands.qmp | qmp-shell /tmp/qmp-sock -v
-> 
-> It is the same as running
-> $ qemu-system-riscv32 -display none -M opentitan -serial stdio -kernel path/to/firmware.elf
-> 
-> If you need a firmware, you can pick this one
-> https://github.com/GreenSocs/qemu-qmp-machines/blob/master/opentitan-echo.elf
-> This firmware is just a small interrupt-based bare-metal program
-> echoing back whatever is sent in the uart.
-> 
-> This repo contains also sifive_e machine example.
-> 
-> Based-on: <20220218164646.132112-1-damien.hedde@greensocs.com>
-> "RiscV cleanups for user-related life cycles"
-> 
-> Thanks for your comments,
-> --
-> Damien
-> 
-> Damien Hedde (13):
->    machine: add phase_get() and document phase_check()/advance()
->    machine&vl: introduce phase_until() to handle phase transitions
->    vl: support machine-initialized target in phase_until()
->    qapi/device_add: compute is_hotplug flag
->    qapi/device_add: handle the rom_order_override when cold-plugging
->    none-machine: add the NoneMachineState structure
->    none-machine: add 'ram-addr' property
->    none-machine: allow cold plugging sysbus devices
->    none-machine: allow several cpus
->    softmmu/memory: add memory_region_try_add_subregion function
->    add sysbus-mmio-map qapi command
->    hw/mem/system-memory: add a memory sysbus device
->    hw: set user_creatable on opentitan/sifive_e devices
-> 
-> Mirela Grujic (1):
->    qapi/device_add: Allow execution in machine initialized phase
-> 
->   qapi/qdev.json                 | 34 +++++++++++-
->   include/exec/memory.h          | 22 ++++++++
->   include/hw/mem/sysbus-memory.h | 28 ++++++++++
->   include/hw/qdev-core.h         | 33 ++++++++++++
->   hw/char/ibex_uart.c            |  1 +
->   hw/char/sifive_uart.c          |  1 +
->   hw/core/null-machine.c         | 68 ++++++++++++++++++++++--
->   hw/core/qdev.c                 |  5 ++
->   hw/core/sysbus.c               | 49 ++++++++++++++++++
->   hw/gpio/sifive_gpio.c          |  1 +
->   hw/intc/riscv_aclint.c         |  2 +
->   hw/intc/sifive_plic.c          |  1 +
->   hw/mem/sysbus-memory.c         | 80 +++++++++++++++++++++++++++++
->   hw/misc/sifive_e_prci.c        |  8 +++
->   hw/misc/unimp.c                |  1 +
->   hw/riscv/riscv_hart.c          |  1 +
->   hw/timer/ibex_timer.c          |  1 +
->   monitor/misc.c                 |  2 +-
->   softmmu/memory.c               | 23 ++++++---
->   softmmu/qdev-monitor.c         | 20 +++++++-
->   softmmu/vl.c                   | 94 ++++++++++++++++++++++++++--------
->   hmp-commands.hx                |  1 +
->   hw/mem/meson.build             |  2 +
->   23 files changed, 439 insertions(+), 39 deletions(-)
->   create mode 100644 include/hw/mem/sysbus-memory.h
->   create mode 100644 hw/mem/sysbus-memory.c
-> 
+[...]
+
+> +static int snapshot_access_open(BlockDriverState *bs, QDict *options, int flags,
+> +                                Error **errp)
+> +{
+> +    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+> +                               BDRV_CHILD_DATA | BDRV_CHILD_PRIMARY,
+> +                               false, errp);
+> +    if (!bs->file) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    bs->total_sectors = bs->file->bs->total_sectors;
+
+(If I hadn’t commented on patch 16, I wouldn’t’ve here, but now I might 
+as well...)
+
+Instead of just a comment in the commit message (which noone will really 
+read later on), I prefer a TODO or FIXME comment directly here in the 
+code, or even better in the API added in the previous patch (i.e. as 
+part of the comment in the BlockDriver struct), that this will not work 
+for qcow2, i.e. that we will need to inquire the snapshot size from the 
+snapshot-providing node.
+
+It’s OK not to implement that now, but I don’t think having a note just 
+in the commit message will help us remember.
+
+> +
+> +    return 0;
+> +}
+
 
