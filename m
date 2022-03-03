@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C341D4CC1FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:55:17 +0100 (CET)
-Received: from localhost ([::1]:45588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 402104CC20E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 16:59:21 +0100 (CET)
+Received: from localhost ([::1]:58466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPnnQ-0003QQ-TY
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:55:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51936)
+	id 1nPnrM-0003z4-BL
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 10:59:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nPnUL-0002nw-WA; Thu, 03 Mar 2022 10:35:34 -0500
-Received: from [2607:f8b0:4864:20::336] (port=36857
- helo=mail-ot1-x336.google.com)
+ id 1nPnUO-0002wz-FO; Thu, 03 Mar 2022 10:35:36 -0500
+Received: from [2607:f8b0:4864:20::c34] (port=47062
+ helo=mail-oo1-xc34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nPnUK-0000lw-Do; Thu, 03 Mar 2022 10:35:33 -0500
-Received: by mail-ot1-x336.google.com with SMTP id
- w3-20020a056830060300b005ad10e3becaso4900507oti.3; 
- Thu, 03 Mar 2022 07:35:31 -0800 (PST)
+ id 1nPnUM-0000n7-Kn; Thu, 03 Mar 2022 10:35:36 -0500
+Received: by mail-oo1-xc34.google.com with SMTP id
+ w3-20020a4ac183000000b0031d806bbd7eso6140787oop.13; 
+ Thu, 03 Mar 2022 07:35:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hU29WVIs/lFc81OvEVBSDwlLNpP3N9hMSuV5wawYQ30=;
- b=ID8yGag34As9LNJx2you82UN8qoVaA12ivMvEomAY4cMGXAntnHTdMtQ6h1bb00v+J
- SP6KqMAOmsDK7f8y4KH2FM13jdL3TqjFr6JCxI7oBsQaC8H07iQAfR0zD0KrSRBGe6mE
- AtT1/c+crkiyIx/FpfLuXi4nwcfMmu85+lEkdpbuqZ7xXkUd31jd0PM3ywFbi7EVM/fx
- 1f0quvbNB10xuAZYDQM8x5Fv5etpPP/Rb+gtBFeM0pozTevNi1U3tmA1907PKcwwlAMK
- sFMGCg78vP6uBav/8JVfaPqHAZGa+KE8JDsBb5+kKRaIIyJw7/P+7NvM0GnvFFcRGxgx
- RLbg==
+ bh=UaPYglVILsMGfP9WiFWE8VZ7U3VNT2RToNAvw6WgWww=;
+ b=SWy45eIcTlY28mwIDR64dG9GcSWCs1wAKKo/M0t6m8cwRMGyj6Is99uM4G1oSd7X1l
+ Ip6DRYRFrweJuE04C6HkeWY0NwBlNTMWYKQ34qSz6k48h6sKLtNADraLi2iAtx755dzp
+ rdfpNjCmk0mIbn3idQ48GMTdrnk1gRJhSGCinWX5agroK/qX6lFZCnrMLvHDcmaOhC0r
+ E1u8Umn+dzzMHAfqR0WgOiZMjvMYd0wozOqVpwk7DulAxWX+IVjS1g3Ug1wiAhyP/Jxe
+ 5U7Q2g+SBYfY3DAwrcyM0MvRsHWrb41P7g4KPXg4VlLWJxaCsDpRu22A9im2L4JyjavA
+ mjDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hU29WVIs/lFc81OvEVBSDwlLNpP3N9hMSuV5wawYQ30=;
- b=YTGKGUW9t/vm+U0cdoMfztPrG1GaC/gHko2jQvtdy9tyHe5YtZbfgTWYP04CyWpUL1
- iupTLmRdOzOsP0TU3/uyMw9KQzIDZBqG9kTMUWIbD6t6U4jWAo2iF5VXisFQWMuLXGxt
- LNzPh53UVqVg+UZeE2IgtFZL+wZi/tD2qPbaTdPyAGwGI3b8BN6HD+EQJY9rZZhV5P4i
- 2haK0FY1wKjLujduBphqXYuKQJjm6j0xTtjFHeZeE2dPBQbp/AhsQuBUcD1WWn53gYOn
- eyKSkZ5PIFXRiiYY+DH20Mxy2zcXu0IdTCy3Xch5lRoPxYC6J34M58CYXmE7H7MuFtwH
- nlJA==
-X-Gm-Message-State: AOAM530EB+Y1TkW6+4lECSbhuYQutg30o9LPxAixMeLpmUBphfZw7pBR
- Tc31Gi2/qy5hb8GdbxMtZpc0yYwC1QA=
-X-Google-Smtp-Source: ABdhPJxi28NqzIiNZiNM/7bDQW83BiRY5i3d89DMPLusSsHVgW9Hb6IdJt69sGT89pkm+T2dZRlhsQ==
-X-Received: by 2002:a05:6830:19c8:b0:5b0:298f:42fa with SMTP id
- p8-20020a05683019c800b005b0298f42famr10439380otp.167.1646321730387; 
- Thu, 03 Mar 2022 07:35:30 -0800 (PST)
+ bh=UaPYglVILsMGfP9WiFWE8VZ7U3VNT2RToNAvw6WgWww=;
+ b=urDZhTMhv6SdSF/+nvCXUykCOSgqnW2vqd6xofQtW8uMg5WMkZz7ny9qHeKPH7nUVP
+ cnIbpUCE+gPfeFPrb7EU8y0P6/LTXh9bwW9N0BgrRrZX5DFFyF3i/nj7SajiImnzIJkc
+ MkukxtvJsLWjRaOXRbabOy98CPsqp7FLs0F+d5QOGKIdNqR12T82ptzMr0li7F5+dI0b
+ PCr+TTkoVpDoBGc/+zizpMRvi+u6t1Kf4sFZ1gJrgcb7Ibx1owqudONZfk/gwFo8W2V7
+ VkyF7W77YDb30/FDGju+xfe8oFiFml9zX9x9EvRZjaP80txKQu8J9/TKLPjQQzyGTLlL
+ 9ZIA==
+X-Gm-Message-State: AOAM533M/vatECAofOzC3dWA70qj33iNqc8gKcWurPDv5e95CJHk9Lz7
+ aWBnHQdEFIKVvS95elUouQb/ygzzsDw=
+X-Google-Smtp-Source: ABdhPJz51MGeUsJIE5gekxg1ZvS0Zn426jWftH1l9iQWAZsv7bvRDjVl9WnOnEVuCKu+Qpq3tznn8Q==
+X-Received: by 2002:a05:6870:708c:b0:d6:c397:a87c with SMTP id
+ v12-20020a056870708c00b000d6c397a87cmr4345628oae.23.1646321732756; 
+ Thu, 03 Mar 2022 07:35:32 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:3b4a:a86f:f27d:30ef:6eb6])
  by smtp.gmail.com with ESMTPSA id
- dw7-20020a056870770700b000d9aa7a6d63sm1178798oab.6.2022.03.03.07.35.27
+ dw7-20020a056870770700b000d9aa7a6d63sm1178798oab.6.2022.03.03.07.35.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 07:35:30 -0800 (PST)
+ Thu, 03 Mar 2022 07:35:32 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] qtest/meson.build: check CONFIG_TCG for prom-env-test in
- qtests_ppc
-Date: Thu,  3 Mar 2022 12:35:13 -0300
-Message-Id: <20220303153517.168943-2-danielhb413@gmail.com>
+Subject: [PATCH 2/5] qtest/meson.build: check CONFIG_TCG for boot-serial-test
+ in qtests_ppc
+Date: Thu,  3 Mar 2022 12:35:14 -0300
+Message-Id: <20220303153517.168943-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220303153517.168943-1-danielhb413@gmail.com>
 References: <20220303153517.168943-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::336
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c34
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x336.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c34;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc34.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -94,14 +94,24 @@ Cc: thuth@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'prom-env-test' is a TCG test that will fail if QEMU is compiled with
---disable-tcg:
+'boot-serial-test' does not work with a QEMU built with --disable-tcg in
+a IBM POWER9 host. The reason is that without TCG QEMU will default to
+KVM acceleration, but then the KVM module in IBM POWER hosts aren't able
+to handle other CPUs.
 
-$ QTEST_QEMU_BINARY=./qemu-system-ppc64 ./tests/qtest/prom-env-test
-/ppc64/prom-env/mac99: qemu-system-ppc64: -accel tcg: invalid accelerator tcg
-(... hangs indefinitely ...)
+The result is that the test will break with a KVM error when trying to
+ruin the ppce500 test:
 
-Fix it by checking CONFIG_TCG before compiling prom-env-test.
+$ QTEST_QEMU_BINARY=./qemu-system-ppc64 ./tests/qtest/boot-serial-test
+/ppc64/boot-serial/ppce500: qemu-system-ppc64: -accel tcg: invalid accelerator tcg
+error: kvm run failed Invalid argument
+NIP 0000000000f00000   LR 0000000000000000 CTR 0000000000000000 XER 0000000000000000 CPU#0
+MSR 0000000000000000 HID0 0000000000000000  HF 24020002 iidx 1 didx 1
+TB 00000000 00000000 DECR 0
+(...)
+** (./tests/qtest/boot-serial-test:1935760): ERROR **: 07:44:03.010: Failed to find expected string. Please check '/tmp/qtest-boot-serial-sJ78sqg'
+
+Fix it by checking CONFIG_TCG before compiling boot-serial-test.
 
 Cc: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
@@ -110,16 +120,16 @@ Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index f33d84d19b..0c2f2d94e1 100644
+index 0c2f2d94e1..deed640d7f 100644
 --- a/tests/qtest/meson.build
 +++ b/tests/qtest/meson.build
-@@ -160,7 +160,8 @@ qtests_ppc = \
-   (slirp.found() ? ['test-netfilter'] : []) + \
+@@ -161,7 +161,8 @@ qtests_ppc = \
    (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
    (config_all_devices.has_key('CONFIG_M48T59') ? ['m48t59-test'] : []) +                     \
--  ['boot-order-test', 'prom-env-test', 'boot-serial-test']                 \
-+  (config_all_devices.has_key('CONFIG_TCG') ? ['prom-env-test'] : []) +                      \
-+  ['boot-order-test', 'boot-serial-test']
+   (config_all_devices.has_key('CONFIG_TCG') ? ['prom-env-test'] : []) +                      \
+-  ['boot-order-test', 'boot-serial-test']
++  (config_all_devices.has_key('CONFIG_TCG') ? ['boot-serial-test'] : []) +                   \
++  ['boot-order-test']
  
  qtests_ppc64 = \
    qtests_ppc + \
