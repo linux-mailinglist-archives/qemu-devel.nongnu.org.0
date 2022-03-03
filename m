@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961534CB565
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 04:26:39 +0100 (CET)
-Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4EE4CB571
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 04:28:59 +0100 (CET)
+Received: from localhost ([::1]:36756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPc6w-0006Sx-7I
-	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 22:26:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43748)
+	id 1nPc9C-00047g-GT
+	for lists+qemu-devel@lfdr.de; Wed, 02 Mar 2022 22:28:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nPbtP-0007aF-QU
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 22:12:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1nPbtO-0003fv-5I
- for qemu-devel@nongnu.org; Wed, 02 Mar 2022 22:12:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646277154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5Ul8oWuvUeDzNfHlnwEYmiKJujaeZ1hRs0XrndxwX2o=;
- b=dNlSRrfXJCYvQX7+Y2xc4cAFChs9yRFiQl63tVyom5ppFhARuHGYk4iFtLlb0BNiyF6/Jn
- iuuf1qbQNYMO+gPDcAnnWBcBf7o/CZuz2KSG8FPndhhclfSVdS3LoOMeax04kCE3ylpIkT
- 2yb4KZzGm3TIOYtP0mGEinm333os6ac=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-482-mpRQKxuVODixC-1zIZnKYQ-1; Wed, 02 Mar 2022 22:12:31 -0500
-X-MC-Unique: mpRQKxuVODixC-1zIZnKYQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46D521091DA1;
- Thu,  3 Mar 2022 03:12:30 +0000 (UTC)
-Received: from gshan.redhat.com (ovpn-13-119.pek2.redhat.com [10.72.13.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E96D91078675;
- Thu,  3 Mar 2022 03:12:25 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH v2 3/3] hw/arm/virt: Unify ACPI processor ID in MADT and SRAT
- table
-Date: Thu,  3 Mar 2022 11:11:52 +0800
-Message-Id: <20220303031152.145960-4-gshan@redhat.com>
-In-Reply-To: <20220303031152.145960-1-gshan@redhat.com>
-References: <20220303031152.145960-1-gshan@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nPc1w-0003Dq-TX; Wed, 02 Mar 2022 22:21:28 -0500
+Received: from [2607:f8b0:4864:20::d32] (port=35400
+ helo=mail-io1-xd32.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nPc1u-0006HP-VT; Wed, 02 Mar 2022 22:21:28 -0500
+Received: by mail-io1-xd32.google.com with SMTP id q8so4334701iod.2;
+ Wed, 02 Mar 2022 19:21:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=54NHf36Nvw9KmsTGU7qTE+xBu6tv19mHHOi07IBytRs=;
+ b=Vea29Q5UVyimnXOTvGZvrqI6asdSSh6L1hF8l9k0/vxYW+/u1L3AUqkrEfOR0geo+A
+ t76hdFyqwDscJn2O6TzVijOAmDqTaffl+2lm0pOrbKA0ewvfCvPeVixCM6hfHFtNG5AB
+ 8myPUTIrmCBfrW++balClqZiSBMFpsCKeYGGVbMuW+2nVVjvFTHXTQOkX7J4cltL/GBR
+ 4HncA6byuI1fOcmg90HppGrz4YIZxCXuWhLIlOI1pxD9DFzsYP8V2bqFG3sQZ8a8uHjd
+ UUPG5jWgUqyeBwBo/tfGCtdaK8w2NOWTRRcepdoBmMskd14qPP+r12d0SJV9A2L9XiMK
+ TFaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=54NHf36Nvw9KmsTGU7qTE+xBu6tv19mHHOi07IBytRs=;
+ b=Xl81LkpY3rlDVH9h12Ceask9eQijMZFOBHwQKEcbw+HGihorz+avg8htiv0Qex0hny
+ ox3W4ioNotJUuezZt7kUFunpZmAFi/jLDR+bqtvIa7ZAzYnQuiF0FZVvskpgz13qeDRl
+ zw3WwCKmaSqoNsLbkReFRSW1d6ZaIXW5S7RebbBqWD8B1Wb6RVebUDq6OhH0loRhy1x5
+ /rrzwCPfabZexG6E+68XUgRX09+XgDpeHBaYT7dO9SxsnAehuseLUUy+W7bRyjoqTtPT
+ dp9aOFydX/p2caQqlX8MexiPNvE6O14b2Z9x83z42+MM2pRS9oWt1CweTdUYTzW2ufEP
+ XJmQ==
+X-Gm-Message-State: AOAM532/UH1JncNzU3nyM6CP63BthdDqkCWRJPShnU2jJOy8w8z8ltJ7
+ lPGwHHbwghRNOtIQi+vGJf4mMpqN028+LYziOpM=
+X-Google-Smtp-Source: ABdhPJwhiipwJcZfH0AhQDzntEtb1ZgVN/NjJ04EWkeOZwc8ePh15GMx/j9xUGmybaj5M6EJEHXlgToFtWYDTKJ1S9o=
+X-Received: by 2002:a05:6602:2c0b:b0:63d:dfb2:9a95 with SMTP id
+ w11-20020a0566022c0b00b0063ddfb29a95mr25399562iov.93.1646277685095; Wed, 02
+ Mar 2022 19:21:25 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220219002518.1936806-1-atishp@rivosinc.com>
+In-Reply-To: <20220219002518.1936806-1-atishp@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 3 Mar 2022 13:20:58 +1000
+Message-ID: <CAKmqyKONw4O7Wf+uV34vbAhzMRY7oOfNWHhYoAGxYEXsy+Ju=A@mail.gmail.com>
+Subject: Re: [PATCH v5 00/12] Improve PMU support
+To: Atish Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,75 +81,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, zhenyzha@redhat.com, wangyanan55@huawei.com,
- shan.gavin@gmail.com, imammedo@redhat.com
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The value of the following field has been used in ACPI PPTT table
-to identify the corresponding processor. This takes the same field
-as the ACPI processor ID in MADT and SRAT tables.
+On Sat, Feb 19, 2022 at 10:26 AM Atish Patra <atishp@rivosinc.com> wrote:
+>
+> The latest version of the SBI specification includes a Performance Monito=
+ring
+> Unit(PMU) extension[1] which allows the supervisor to start/stop/configur=
+e
+> various PMU events. The Sscofpmf ('Ss' for Privileged arch and Supervisor=
+-level
+> extensions, and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
+> extension[2] allows the perf like tool to handle overflow interrupts and
+> filtering support.
+>
+> This series implements full PMU infrastructure to support
+> PMU in virt machine. This will allow us to add any PMU events in future.
+>
+> Currently, this series enables the following omu events.
+> 1. cycle count
+> 2. instruction count
+> 3. DTLB load/store miss
+> 4. ITLB prefetch miss
+>
+> The first two are computed using host ticks while last three are counted =
+during
+> cpu_tlb_fill. We can do both sampling and count from guest userspace.
+> This series has been tested on both RV64 and RV32. Both Linux[3] and Open=
+sbi[4]
+> patches are required to get the perf working.
+>
+> Here is an output of perf stat/report while running hackbench with OpenSB=
+I & Linux
+> kernel patches applied [3].
+>
+> Perf stat:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> [root@fedora-riscv ~]# perf stat -e cycles -e instructions -e dTLB-load-m=
+isses -e dTLB-store-misses -e iTLB-load-misses \
+> > perf bench sched messaging -g 1 -l 10
+> # Running 'sched/messaging' benchmark:
+> # 20 sender and receiver processes per group
+> # 1 groups =3D=3D 40 processes run
+>
+>      Total time: 0.265 [sec]
+>
+>  Performance counter stats for 'perf bench sched messaging -g 1 -l 10':
+>
+>      4,167,825,362      cycles
+>      4,166,609,256      instructions              #    1.00  insn per cyc=
+le
+>          3,092,026      dTLB-load-misses
+>            258,280      dTLB-store-misses
+>          2,068,966      iTLB-load-misses
+>
+>        0.585791767 seconds time elapsed
+>
+>        0.373802000 seconds user
+>        1.042359000 seconds sys
+>
+> Perf record:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> [root@fedora-riscv ~]# perf record -e cycles -e instructions \
+> > -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000 \
+> > perf bench sched messaging -g 1 -l 10
+> # Running 'sched/messaging' benchmark:
+> # 20 sender and receiver processes per group
+> # 1 groups =3D=3D 40 processes run
+>
+>      Total time: 1.397 [sec]
+> [ perf record: Woken up 10 times to write data ]
+> Check IO/CPU overload!
+> [ perf record: Captured and wrote 8.211 MB perf.data (214486 samples) ]
+>
+> [root@fedora-riscv riscv]# perf report
+> Available samples
+> 107K cycles                                                              =
+      =E2=97=86
+> 107K instructions                                                        =
+      =E2=96=92
+> 250 dTLB-load-misses                                                     =
+      =E2=96=92
+> 13 dTLB-store-misses                                                     =
+      =E2=96=92
+> 172 iTLB-load-misses
+> ..
+>
+> Changes from v4->v5:
+> 1. Rebased on top of the -next with following patches.
+>    - isa extension
+>    - priv 1.12 spec
+> 2. Addressed all the comments on v4
+> 3. Removed additional isa-ext DT node in favor of riscv,isa string update
+>
+> Changes from v3->v4:
+> 1. Removed the dummy events from pmu DT node.
+> 2. Fixed pmu_avail_counters mask generation.
+> 3. Added a patch to simplify the predicate function for counters.
+>
+> Changes from v2->v3:
+> 1. Addressed all the comments on PATCH1-4.
+> 2. Split patch1 into two separate patches.
+> 3. Added explicit comments to explain the event types in DT node.
+> 4. Rebased on latest Qemu.
+>
+> Changes from v1->v2:
+> 1. Dropped the ACks from v1 as signficant changes happened after v1.
+> 2. sscofpmf support.
+> 3. A generic counter management framework.
+>
+> [1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.=
+adoc
+> [2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edi=
+t
+> [3] https://github.com/atishp04/linux/tree/riscv_pmu_v6
+> [4] https://github.com/atishp04/qemu/tree/riscv_pmu_v5
+>
+> Atish Patra (12):
+> target/riscv: Fix PMU CSR predicate function
+> target/riscv: Implement PMU CSR predicate function for S-mode
+> target/riscv: pmu: Rename the counters extension to pmu
 
-  ms->possible_cpus->cpus[i].props.thread_id
+I have applied the first 3 patches
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
----
- hw/arm/virt-acpi-build.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Alistair
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 449fab0080..7fedb56eea 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -534,13 +534,16 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
- 
-     for (i = 0; i < cpu_list->len; ++i) {
-         uint32_t nodeid = cpu_list->cpus[i].props.node_id;
-+        uint32_t thread_id = cpu_list->cpus[i].props.thread_id;
-+
-         /*
-          * 5.2.16.4 GICC Affinity Structure
-          */
-         build_append_int_noprefix(table_data, 3, 1);      /* Type */
-         build_append_int_noprefix(table_data, 18, 1);     /* Length */
-         build_append_int_noprefix(table_data, nodeid, 4); /* Proximity Domain */
--        build_append_int_noprefix(table_data, i, 4); /* ACPI Processor UID */
-+        build_append_int_noprefix(table_data,
-+                                  thread_id, 4); /* ACPI Processor UID */
-         /* Flags, Table 5-76 */
-         build_append_int_noprefix(table_data, 1 /* Enabled */, 4);
-         build_append_int_noprefix(table_data, 0, 4); /* Clock Domain */
-@@ -704,6 +707,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
- {
-     int i;
-     VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-+    MachineState *ms = MACHINE(vms);
-     const MemMapEntry *memmap = vms->memmap;
-     AcpiTable table = { .sig = "APIC", .rev = 3, .oem_id = vms->oem_id,
-                         .oem_table_id = vms->oem_table_id };
-@@ -725,8 +729,9 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     build_append_int_noprefix(table_data, vms->gic_version, 1);
-     build_append_int_noprefix(table_data, 0, 3);   /* Reserved */
- 
--    for (i = 0; i < MACHINE(vms)->smp.cpus; i++) {
-+    for (i = 0; i < ms->smp.cpus; i++) {
-         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
-+        uint32_t thread_id = ms->possible_cpus->cpus[i].props.thread_id;
-         uint64_t physical_base_address = 0, gich = 0, gicv = 0;
-         uint32_t vgic_interrupt = vms->virt ? PPI(ARCH_GIC_MAINT_IRQ) : 0;
-         uint32_t pmu_interrupt = arm_feature(&armcpu->env, ARM_FEATURE_PMU) ?
-@@ -743,7 +748,8 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-         build_append_int_noprefix(table_data, 76, 1);   /* Length */
-         build_append_int_noprefix(table_data, 0, 2);    /* Reserved */
-         build_append_int_noprefix(table_data, i, 4);    /* GIC ID */
--        build_append_int_noprefix(table_data, i, 4);    /* ACPI Processor UID */
-+        build_append_int_noprefix(table_data,
-+                                  thread_id, 4);        /* ACPI Processor UID */
-         /* Flags */
-         build_append_int_noprefix(table_data, 1, 4);    /* Enabled */
-         /* Parking Protocol Version */
--- 
-2.23.0
-
+> target/riscv: pmu: Make number of counters configurable
+> target/riscv: Implement mcountinhibit CSR
+> target/riscv: Add support for hpmcounters/hpmevents
+> target/riscv: Support mcycle/minstret write operation
+> target/riscv: Add sscofpmf extension support
+> target/riscv: Simplify counter predicate function
+> target/riscv: Add few cache related PMU events
+> hw/riscv: virt: Add PMU DT node to the device tree
+> target/riscv: Update the privilege field for sscofpmf CSRs
+>
+> hw/riscv/virt.c           |  28 ++
+> target/riscv/cpu.c        |  15 +-
+> target/riscv/cpu.h        |  49 ++-
+> target/riscv/cpu_bits.h   |  59 +++
+> target/riscv/cpu_helper.c |  26 ++
+> target/riscv/csr.c        | 862 ++++++++++++++++++++++++++++----------
+> target/riscv/machine.c    |  25 ++
+> target/riscv/meson.build  |   1 +
+> target/riscv/pmu.c        | 431 +++++++++++++++++++
+> target/riscv/pmu.h        |  37 ++
+> 10 files changed, 1303 insertions(+), 230 deletions(-)
+> create mode 100644 target/riscv/pmu.c
+> create mode 100644 target/riscv/pmu.h
+>
+> --
+> 2.30.2
+>
+>
 
