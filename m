@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749784CC595
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 20:04:49 +0100 (CET)
-Received: from localhost ([::1]:58766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44E34CC5AD
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 20:09:23 +0100 (CET)
+Received: from localhost ([::1]:41480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPqkq-0007cB-CU
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 14:04:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54790)
+	id 1nPqpG-0006bg-El
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 14:09:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nPqbH-0007Na-Pn
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:55 -0500
-Received: from [2607:f8b0:4864:20::c2d] (port=36772
- helo=mail-oo1-xc2d.google.com)
+ id 1nPqbK-0007Uo-12
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:58 -0500
+Received: from [2607:f8b0:4864:20::c2a] (port=37577
+ helo=mail-oo1-xc2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nPqbF-0001nJ-Rp
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:55 -0500
-Received: by mail-oo1-xc2d.google.com with SMTP id
- n5-20020a4a9545000000b0031d45a442feso6817786ooi.3
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:54:53 -0800 (PST)
+ id 1nPqbI-0001uV-Gg
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:57 -0500
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ x6-20020a4a4106000000b003193022319cso6826464ooa.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:54:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KVrxFJG9XKBpol7NLsKIXCTAGZL6CqEwO0MNz8y3nng=;
- b=QEklmtMv+4cB1kAvuhgrcvidwEgXat61HJnbb0BrBo5wPe75J/7Uw4b7FtTI188tG4
- 2m7HwTW1Du2gDwzLqdB4Y3EPa1UP/LlJ9MiqBunEYcFp9fH4lyDZ4lMQDce4yRIoo/Jj
- y3AkXx3sz/4wrltjlF2f8/KSrKjA0U08kpEc9VJqAwj4STKs5JNx5SdxUnIyWvcHq0Lt
- UyFVPQq8qY1kpp/n4x50Ty81Ur7GT0ANuSBXjNqD3YAODjuFmij55fWTHBuXcpBde7pa
- fYT9t1JAFdA3/IR+ebIEtk5wRWLvQaWBJ2X6KW5cATlHbDPQjUFNHqLY+Qx5QwKHlTcf
- x4wQ==
+ bh=/tS8r6MLk9Ys/DbcleIob127V9NYv9KycItEsxaklD8=;
+ b=F1JDBHzBMIK0U/4m5qJk6zYTebgB9PELFz3b/qjqaWyFTKZGGH4iSGIZHmEgMdzohG
+ N9+ixkBXvjay+mKOn0btsO1kHvA5EpbY8VElnFfznBYnQX8EL+2RqDTWncpOpdqtg4kZ
+ naEDI6pSzzpLv4aKkTByKG7Fmsbeg2jHWmlv0+TVnR0CbVNO4MrUoez/R+aPJPM7mBOp
+ eSJC8VGbLn+h8hrKiRRGXI5raVCaXOc04IZCd+VMGgU1AkIPG7pAXB7GyM5Q6ueWlUfK
+ xezDfjOkaU/r0lGifuqhFGIIKpo7vbY+OR3eMXkA5gwFloqBFIMq+Am3Ye6sgWRMeOYc
+ Mkvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KVrxFJG9XKBpol7NLsKIXCTAGZL6CqEwO0MNz8y3nng=;
- b=CmAXhszu+q915wPj03NPy3ji4nOf6WMOebLvf2PjdWWPJPlXTNHxQBEQTyF+no0rlt
- J4pN9yTI1Lp8eB3jNIPOat6wZpqtKSbvXqwYrsfDwZG9aowtg1Cf1yMXOeVpQUqYtQwk
- UwnZov9MrJzt67B4HemlSS1EQ6orspbv1ftOiXQXabsZIHyF8vMFSPCSsuN6wsK5vctt
- dkLm+fsfdV/19hGWbnauINtJu4x9276DF55P2ecL7zBXvTj2+gqr8qgLWurwsiPfvdv/
- JNTGnqptafjebQWk9xP4ajr/bQ+uYvb80Gmon0kScUkivxPz4JgXJl7VYOQJUtCwKxuf
- ki+w==
-X-Gm-Message-State: AOAM533zov3j4FlEdL6WT3XrS/d8nvRZJQKNV5DLB4GCV4xMHuGHMeyw
- VFWslDzj50NciDIFKdyzKCsjmUlVCosQZQ==
-X-Google-Smtp-Source: ABdhPJwX2p++7KN9Jh5qD18EABRv9cstK+nZAkqt9XUBrBQR4F1MTefloBnmu/XXe3OThltTHUoQTg==
-X-Received: by 2002:a05:6870:6394:b0:d6:e1a0:22c5 with SMTP id
- t20-20020a056870639400b000d6e1a022c5mr5082494oap.138.1646333692560; 
- Thu, 03 Mar 2022 10:54:52 -0800 (PST)
+ bh=/tS8r6MLk9Ys/DbcleIob127V9NYv9KycItEsxaklD8=;
+ b=lvyO3zxj2Nb17RrufPSpfOl4rEKN7AbHvPqeGgE32hG5OZxrfBEvig0ygaXfFZ4QL0
+ 0L9iKR/lQASCys+OXb6SkghwEB5CPw+uaqo32Zs9UUffUmOKUex8CTTKunIInQZWFOyL
+ GFOYokFVyIJlKbHPhEZWhCpQ9USObAesIrKZJHifzRwpszrkRXABJ0NBMDmtlxyFpgAk
+ duULxBGFRMY5l0ILLXfDfP7zfqygjrSeieNp3FIXmyF1SpnS+lmGCvvrtbli6jatIRa0
+ jOIPNaH5JgyluG/uUd5O+OmAx6CvMuQpiqm9AQQm2sHG8vvaA4IibAGcAUswV1OF3+WG
+ w9JQ==
+X-Gm-Message-State: AOAM532D+IeqV0oyZ6Aj+ec6rI7IIWxDBKKbWVtNDtWtEkOep8D7W7oH
+ lVrLMt8zgUdmboWNlExA2dwg9vktlLBpXg==
+X-Google-Smtp-Source: ABdhPJzGW29hc70GAUKLV3jekc71n2hCm6cz6pwLb1P2FNUYZ0SWjJeKHX23EIGuIE3OAz0rgrl+fw==
+X-Received: by 2002:a05:6870:a686:b0:d7:91:e56b with SMTP id
+ i6-20020a056870a68600b000d70091e56bmr5169651oam.86.1646333695037; 
+ Thu, 03 Mar 2022 10:54:55 -0800 (PST)
 Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
  [70.228.75.190]) by smtp.gmail.com with ESMTPSA id
- u24-20020a4ae698000000b0031c286f2e0csm1331052oot.29.2022.03.03.10.54.51
+ u24-20020a4ae698000000b0031c286f2e0csm1331052oot.29.2022.03.03.10.54.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 10:54:52 -0800 (PST)
+ Thu, 03 Mar 2022 10:54:54 -0800 (PST)
 From: Atish Patra <atishp@rivosinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/6] target/riscv: Add the privileged spec version 1.12.0
-Date: Thu,  3 Mar 2022 10:54:36 -0800
-Message-Id: <20220303185440.512391-3-atishp@rivosinc.com>
+Subject: [PATCH v5 4/6] target/riscv: Add support for mconfigptr
+Date: Thu,  3 Mar 2022 10:54:38 -0800
+Message-Id: <20220303185440.512391-5-atishp@rivosinc.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220303185440.512391-1-atishp@rivosinc.com>
 References: <20220303185440.512391-1-atishp@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2d;
- envelope-from=atishp@rivosinc.com; helo=mail-oo1-xc2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
+ envelope-from=atishp@rivosinc.com; helo=mail-oo1-xc2a.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -95,26 +95,43 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the definition for ratified privileged specification version v1.12
+RISC-V privileged specification v1.12 introduced a mconfigptr
+which will hold the physical address of a configuration data
+structure. As Qemu doesn't have a configuration data structure,
+is read as zero which is valid as per the priv spec.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Atish Patra <atishp@rivosinc.com>
 ---
- target/riscv/cpu.h | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/cpu_bits.h | 1 +
+ target/riscv/csr.c      | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index cf748102efa2..7f67e920c650 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -86,6 +86,7 @@ enum {
- enum {
-     PRIV_VERSION_1_10_0 = 0,
-     PRIV_VERSION_1_11_0,
-+    PRIV_VERSION_1_12_0,
- };
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 0fe01d7da57f..48d92a81c3ee 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -148,6 +148,7 @@
+ #define CSR_MARCHID         0xf12
+ #define CSR_MIMPID          0xf13
+ #define CSR_MHARTID         0xf14
++#define CSR_MCONFIGPTR      0xf15
  
- #define VEXT_VERSION_1_00_0 0x00010000
+ /* Machine Trap Setup */
+ #define CSR_MSTATUS         0x300
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index ec41a5363f6b..699d72b6c6f1 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -3107,6 +3107,8 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
+     [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
+ 
++    [CSR_MCONFIGPTR]  = { "mconfigptr", any,   read_zero,
++                                        .min_priv_ver = PRIV_VERSION_1_12_0 },
+     /* Machine Trap Setup */
+     [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus, NULL,
+                                                read_mstatus_i128                   },
 -- 
 2.30.2
 
