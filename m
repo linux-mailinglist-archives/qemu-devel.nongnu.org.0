@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70A04CBAEF
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 11:03:23 +0100 (CET)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EF84CBB02
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 11:07:19 +0100 (CET)
+Received: from localhost ([::1]:40954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPiIs-00064M-UI
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 05:03:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37490)
+	id 1nPiMh-0000Hr-1y
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 05:07:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nPiHI-0004VB-BV
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 05:01:45 -0500
-Received: from [2607:f8b0:4864:20::531] (port=35631
- helo=mail-pg1-x531.google.com)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nPiIo-0006eY-Mi
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 05:03:18 -0500
+Received: from [2a00:1450:4864:20::630] (port=40541
+ helo=mail-ej1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1nPiHE-0004vK-2y
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 05:01:41 -0500
-Received: by mail-pg1-x531.google.com with SMTP id e6so4087231pgn.2
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 02:01:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nPiIm-0007nc-71
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 05:03:18 -0500
+Received: by mail-ej1-x630.google.com with SMTP id p15so9455010ejc.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 02:03:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NMb1xS8bGnsMk3XQXMqK8Rp9EF2+Kn+FjYw4Ki6L73s=;
- b=yTJ6d/Ii7xgkck+LqNPJoua78nqvWByCsXrwK1qW1h/gsKZoOFfy9RG8cHI9wMACmx
- 79lHohp08sIjQWNvh/49MGkBxt8ajzSh4KWTiJLSurXepcxlTc9ZQtCPXNOeJF+9HeFP
- gcG97wgD/5o/3T33QK9UosnxOLVI7IQiiXtr58bxR7Ym9gH3UQ3gAnUKVd7geQeOUKBS
- +ZRxLhxRmIDAL73f8GZzMKyGGpbDkS3UbxFxRs2bAudM2jLIWQ0phlgsZH2P1iK3AjBR
- ny2YJXsBV+juEM/EmHLyLhq89Au+yc6podBXrk5vZwinIdhlBmfacuG8QLUodz9iqyQ8
- V+bw==
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=oTeZPuAHC7yulRP8xx3Dc9EuH4SrD8JhzlYGZHqiPPM=;
+ b=tbXOs6Vk/+lw9thyUyyBVz2DG6tWQpfTXmOyXhVKGrwhxqeQLTevHAOBnn9ims5wT+
+ YLy1saYVOA/U8HqnCbhq8PWVMD3wbqCJTO9gkSMQt+VD6BcNV+oBofYsoVUyX10BCLH2
+ KpsRvxqHoOs9joqM4Jmd3G//wNfFf0Nekhkt1DfDK22xZjHLXwxFBesFDbjMTO6vWXWI
+ o3ZOI1Uk/r1nFMf5ez4ZZBMnkDvMMnmEQkLOtHg0KbKsJ1VQKvT53YyZ8/LSA7uc0mRL
+ kVRXOSM5itTZ8DKiUJS5aFZgtxKpEp6Qe1mGa42Nmk39rZqNVf9sn4a8vOle9M391j6z
+ Wa4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NMb1xS8bGnsMk3XQXMqK8Rp9EF2+Kn+FjYw4Ki6L73s=;
- b=Eh70V/QcQpcodi7rqZLrT8g63GEYfESutpweLkigGu1EpLKI9dO6fs4MB0rfHtR3GD
- Ks10PyB1e/y1NXzJTH6OS3k4R7XmuA3iKY3gDsuIO/vHWmCYlG+ljLTN2fbSV/TmDu1G
- XroWxKAcrgHUfCCeg5VZ077mBxX3lLDWfRtSA0WkiKx0eEAJ4PTsryqJ4WsGV+XqGu9X
- 8L9oJ8pRJAGV1/Nbrc7wQ1+OkTWvPM9HbSEEyj4bQZJsplwyKjTt9+/tqtnpcQuA3cQX
- gRB91qZSEunTEFxi9+7zU/yqmZbauQPR4wQBPxMp22vXwsBrXYTDKxlWg8kYY8dLk/l6
- jEhg==
-X-Gm-Message-State: AOAM530IRk8CPkV0Z9rLXQ0/WEJ6p7rlY5wGDssZxE6XIzp2bAKcknO3
- rscpMCjII24fmklsb2eRfCE1QA==
-X-Google-Smtp-Source: ABdhPJxQU4GdqnYNhTYvoiOtwaxLCvw8vpeTrWsNWr4SblK+YtNxVfKeok3VUnu/+lp16TcxPaCEmw==
-X-Received: by 2002:a05:6a00:be5:b0:4e1:9050:1e16 with SMTP id
- x37-20020a056a000be500b004e190501e16mr37662235pfu.78.1646301696460; 
- Thu, 03 Mar 2022 02:01:36 -0800 (PST)
-Received: from always-x1.bytedance.net ([61.120.150.76])
- by smtp.gmail.com with ESMTPSA id
- d3-20020a056a00244300b004bc9397d3d0sm1885478pfj.103.2022.03.03.02.01.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 02:01:35 -0800 (PST)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: armbru@redhat.com
-Subject: [PATCH v2] qga: Introduce NVMe disk bus type
-Date: Thu,  3 Mar 2022 17:58:40 +0800
-Message-Id: <20220303095840.1318239-1-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=oTeZPuAHC7yulRP8xx3Dc9EuH4SrD8JhzlYGZHqiPPM=;
+ b=No2Sq8MvykLH5c/cNButv19EajyjHU6FbaM/BFa44pncl3OFiHb/HzFIO0FnyKuzAT
+ Ua/D4uonTrigaLJwHhA1JcXrPk/wdD7Ts8fBdZzhUwikK7pW9xl3nqEBPXJUJD+61P+P
+ pf2Wzy/ttZIy73b//sF9HEXG5ptwtCrjN1XsQOJMKPGTN/qNucEg2Ekqe/wCgzGouWf3
+ R13eT+d4eJIr6moCAWUrtgXoyqeOrFegegptRsSvIk++8wXtaBKndLmeCukeU49Pa8LI
+ lsB5Ma1cV+axU78McdgVWRQV6iUeP4AyvefgnM6F+W9MaEtMcipL6f/XkNP4ABrRn7bU
+ e+rQ==
+X-Gm-Message-State: AOAM530InAOT8D9KXJW4fhvVop28SoBj5v3hHX6WdtDaH7fLnFNsAe2j
+ NTqfrErBZHXccellqELfpfa7n0XzgPVZiYBzH7CLog==
+X-Google-Smtp-Source: ABdhPJxZHMuYdS1n2sdOgY/MgNakT+fS9+Jj33+XsbtVE7yYT83lCmI3/gEE8Y47aAe7QhNzyMcSXdpXdjNLYZsq/4Y=
+X-Received: by 2002:a17:907:970e:b0:6da:9224:7fb3 with SMTP id
+ jg14-20020a170907970e00b006da92247fb3mr1535318ejc.502.1646301794037; Thu, 03
+ Mar 2022 02:03:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
+References: <20220219002518.1936806-1-atishp@rivosinc.com>
+ <20220219002518.1936806-2-atishp@rivosinc.com>
+ <CAKmqyKNEy=Kwg3DXmF0C8f+rYGkf0dw2HKLftgf2ejRFROg6nA@mail.gmail.com>
+In-Reply-To: <CAKmqyKNEy=Kwg3DXmF0C8f+rYGkf0dw2HKLftgf2ejRFROg6nA@mail.gmail.com>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Thu, 3 Mar 2022 02:03:02 -0800
+Message-ID: <CAHBxVyGd4GP-4Vig8An55ck4UVUiBwzMwkBGfAYTxC0G1HWsuQ@mail.gmail.com>
+Subject: Re: [PATCH v5 01/12] target/riscv: Fix PMU CSR predicate function
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=atishp@rivosinc.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -86,88 +85,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- zhenwei pi <pizhenwei@bytedance.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Assigning a NVMe disk by VFIO or emulating a NVMe controller by QEMU,
-a NVMe disk get exposed in guest side. Support NVMe disk bus type and
-implement posix version.
+On Wed, Mar 2, 2022 at 9:22 PM Alistair Francis <alistair23@gmail.com> wrot=
+e:
+>
+> On Sat, Feb 19, 2022 at 10:34 AM Atish Patra <atishp@rivosinc.com> wrote:
+> >
+> > From: Atish Patra <atish.patra@wdc.com>
+> >
+> > The predicate function calculates the counter index incorrectly for
+> > hpmcounterx. Fix the counter index to reflect correct CSR number.
+> >
+> > Fixes: e39a8320b088 ("target/riscv: Support the Virtual Instruction fau=
+lt")
+> >
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  target/riscv/csr.c | 10 ++++++----
+> >  1 file changed, 6 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index b16881615997..3799ee850087 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -94,8 +94,9 @@ static RISCVException ctr(CPURISCVState *env, int csr=
+no)
+> >              }
+> >              break;
+> >          case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> > -            if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNT=
+ER3)) &&
+> > -                get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTE=
+R3))) {
+> > +            ctr_index =3D csrno - CSR_CYCLE;
+> > +            if (!get_field(env->hcounteren, 1 << ctr_index) &&
+> > +                 get_field(env->mcounteren, 1 << ctr_index)) {
+>
+> This fails to build:
+>
+> ../target/riscv/csr.c: In function =E2=80=98ctr=E2=80=99:
+> ../target/riscv/csr.c:99:13: error: =E2=80=98ctr_index=E2=80=99 undeclare=
+d (first use
+> in this function); did you mean =E2=80=98tlb_index=E2=80=99?
+>   99 |             ctr_index =3D csrno - CSR_CYCLE;
+>      |             ^~~~~~~~~
+>      |             tlb_index
+>
 
-Test PCI passthrough case:
-~#virsh qemu-agent-command buster '{"execute":"guest-get-disks"}' | jq
-  ...
-    {
-      "name": "/dev/nvme0n1",
-      "dependencies": [],
-      "partition": false,
-      "address": {
-        "serial": "SAMSUNG MZQL23T8HCLS-00A07_S64HNE0N500076",
-        "bus-type": "nvme",
-        "bus": 0,
-        "unit": 0,
-        "pci-controller": {
-          "bus": 0,
-          "slot": 22,
-          "domain": 0,
-          "function": 0
-        },
-        "dev": "/dev/nvme0n1",
-        "target": 0
-      }
-  ...
+My bad. The ctr_index is defined in PATCH 2. I think I forgot to move
+it when I split this one
+from PATCH 2. I will send a v6 after addressing your comments on other
+patches in this series.
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- qga/commands-posix.c | 5 ++++-
- qga/qapi-schema.json | 3 ++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 75dbaab68e..4ec83bbfbc 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -889,7 +889,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
-         if (driver && (g_str_equal(driver, "ata_piix") ||
-                        g_str_equal(driver, "sym53c8xx") ||
-                        g_str_equal(driver, "virtio-pci") ||
--                       g_str_equal(driver, "ahci"))) {
-+                       g_str_equal(driver, "ahci") ||
-+                       g_str_equal(driver, "nvme"))) {
-             break;
-         }
- 
-@@ -984,6 +985,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
-             g_debug("no host for '%s' (driver '%s')", syspath, driver);
-             goto cleanup;
-         }
-+    } else if (strcmp(driver, "nvme") == 0) {
-+        disk->bus_type = GUEST_DISK_BUS_TYPE_NVME;
-     } else {
-         g_debug("unknown driver '%s' (sysfs path '%s')", driver, syspath);
-         goto cleanup;
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index 94e4aacdcc..8f73770210 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -827,13 +827,14 @@
- # @mmc: Win multimedia card (MMC) bus type
- # @virtual: Win virtual bus type
- # @file-backed-virtual: Win file-backed bus type
-+# @nvme: NVMe disks (since 6.3)
- #
- # Since: 2.2; 'Unknown' and all entries below since 2.4
- ##
- { 'enum': 'GuestDiskBusType',
-   'data': [ 'ide', 'fdc', 'scsi', 'virtio', 'xen', 'usb', 'uml', 'sata',
-             'sd', 'unknown', 'ieee1394', 'ssa', 'fibre', 'raid', 'iscsi',
--            'sas', 'mmc', 'virtual', 'file-backed-virtual' ] }
-+            'sas', 'mmc', 'virtual', 'file-backed-virtual', 'nvme' ] }
- 
- 
- ##
--- 
-2.20.1
-
+> Alistair
+>
+> >                  return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> >              }
+> >              break;
+> > @@ -121,8 +122,9 @@ static RISCVException ctr(CPURISCVState *env, int c=
+srno)
+> >                  }
+> >                  break;
+> >              case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> > -                if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMC=
+OUNTER3H)) &&
+> > -                    get_field(env->mcounteren, 1 << (csrno - CSR_HPMCO=
+UNTER3H))) {
+> > +                ctr_index =3D csrno - CSR_CYCLEH;
+> > +                if (!get_field(env->hcounteren, 1 << ctr_index) &&
+> > +                     get_field(env->mcounteren, 1 << ctr_index)) {
+> >                      return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> >                  }
+> >                  break;
+> > --
+> > 2.30.2
+> >
+> >
 
