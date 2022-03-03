@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B854CC588
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 20:00:55 +0100 (CET)
-Received: from localhost ([::1]:50446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8D84CC586
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 20:00:26 +0100 (CET)
+Received: from localhost ([::1]:47524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPqh4-0001wv-9v
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 14:00:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55240)
+	id 1nPqgb-0008SW-BC
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 14:00:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nPqcK-0001kJ-HQ
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:56:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46569)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nPqcH-00040c-Q8
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:56:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646333757;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U8iB4S0JVByIJkLLP0Hj3atiDYkgtpfW6vk2RvdAca8=;
- b=KKTq2TFHOA6+zM4fPrzbEVNLdzSWrqmraHR+XIyJnYMMiE0mcp7FPGopJgs3nDdWdi5r1G
- nm8e/3dSQK+F1UnTAaebhxUp1FWnixgkURy/pzNGJS+s4BIW3zm+U+U6l9gAMPmfL4wsBO
- TLcPOGPAeQmjIDInuf9puCenvt9GIdU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-9-E9nD88ZvMy2FT4_bVKoJnw-1; Thu, 03 Mar 2022 13:55:54 -0500
-X-MC-Unique: E9nD88ZvMy2FT4_bVKoJnw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFFD5520E;
- Thu,  3 Mar 2022 18:55:51 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.195.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB97D80FDD;
- Thu,  3 Mar 2022 18:54:48 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nPqbG-0007Ja-Pv
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:54 -0500
+Received: from [2607:f8b0:4864:20::c2b] (port=46905
+ helo=mail-oo1-xc2b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1nPqbE-0001k5-I8
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 13:54:54 -0500
+Received: by mail-oo1-xc2b.google.com with SMTP id
+ w3-20020a4ac183000000b0031d806bbd7eso6793054oop.13
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 10:54:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=h7K10PVkFg7lIGvwJ0Hq+fi9pulMgiLjM/TrtSEBCu4=;
+ b=LlTR/1BTLQoVb5pkZx0kp/gSo6a+KgJX5hOdbPpyOYHY3WPDDewef3kngjfax9LwK+
+ oHUKakeu62YeJpPOg0r9PUx0nQJAusIYphA7lv3PJrLbitPQ1Ir+YlOo4fG2oxd4taNo
+ +jxIgYcaUEwe/NQ19VZBYguGQHzjXPHNWkC/ryjwjrTi+qmhpk6IWyWSzTqs/pzBQ3mo
+ RE+yAD5DrhXnZbW4zv6A9Kh0t0s5RDchcIGpKcTHT7sByzdNZbhTlVuAwWJrEdLGKLyq
+ 7q6f1PqYncikOZaNex792tsMsSLS2WyiXHxPuKHdjR5zUh/vi2qJLc7amaUcHE8qJzpE
+ 0+PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=h7K10PVkFg7lIGvwJ0Hq+fi9pulMgiLjM/TrtSEBCu4=;
+ b=q18uddP1BPGWbE1AnYwzMfE5UuAg0bMnTywjCMdjMsVAY8YxekXac0J6zTzFL27mOa
+ 5VgEwmUU7C+OHSyg4M2EjmvMMtCg16pqBUIsBJ9l7MEg7OrKbZZnZcRLfhjV3FfIQ/Il
+ tpeJWA31+mP0lTOrInPW0T0/AIsHw3tTOImz/zIYHRZkh2LOt+tREX9/1xDGOs5M9dQG
+ jLTtM1AS3Z3ec0rIHP+m4bklfnKcWq00029Tda1wriBxfv9R2uKJ4R3g8jKEa4uonYY7
+ kcODFKP2FbAmFg3v5wlEf/HBWIvXbyiEl0yBDwve3rwyvWzXl8s06GEOwOSgLRjouRZK
+ bZPQ==
+X-Gm-Message-State: AOAM531a5CSOs1pwwcTeMtvTYULtW/dk+qLndifzKTv81UiBLLNxF+wR
+ Rceru/lqoiWJ6cHqmUVP2ZUdJ5rkGfOWOg==
+X-Google-Smtp-Source: ABdhPJx77Wvy5SKAFimIwidjpSk+vdlOVoyXj/vjoC3/DtnIOjs9eD91LBicJ0AJk182/7Kt9Jn2Aw==
+X-Received: by 2002:a05:6870:7991:b0:d6:ce21:ebfe with SMTP id
+ he17-20020a056870799100b000d6ce21ebfemr5067876oab.125.1646333691299; 
+ Thu, 03 Mar 2022 10:54:51 -0800 (PST)
+Received: from rivos-atish.. (adsl-70-228-75-190.dsl.akrnoh.ameritech.net.
+ [70.228.75.190]) by smtp.gmail.com with ESMTPSA id
+ u24-20020a4ae698000000b0031c286f2e0csm1331052oot.29.2022.03.03.10.54.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Mar 2022 10:54:50 -0800 (PST)
+From: Atish Patra <atishp@rivosinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/14] vhost: Shadow virtqueue buffers forwarding
-Date: Thu,  3 Mar 2022 19:51:40 +0100
-Message-Id: <20220303185147.3605350-8-eperezma@redhat.com>
-In-Reply-To: <20220303185147.3605350-1-eperezma@redhat.com>
-References: <20220303185147.3605350-1-eperezma@redhat.com>
+Subject: [PATCH v5 1/6] target/riscv: Define simpler privileged spec version
+ numbering
+Date: Thu,  3 Mar 2022 10:54:35 -0800
+Message-Id: <20220303185440.512391-2-atishp@rivosinc.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220303185440.512391-1-atishp@rivosinc.com>
+References: <20220303185440.512391-1-atishp@rivosinc.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
+ envelope-from=atishp@rivosinc.com; helo=mail-oo1-xc2b.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,701 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Peter Xu <peterx@redhat.com>, virtualization@lists.linux-foundation.org,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
+Cc: qemu-riscv@nongnu.org, Atish Patra <atishp@rivosinc.com>,
+ Bin Meng <bin.meng@windriver.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initial version of shadow virtqueue that actually forward buffers. There
-is no iommu support at the moment, and that will be addressed in future
-patches of this series. Since all vhost-vdpa devices use forced IOMMU,
-this means that SVQ is not usable at this point of the series on any
-device.
+Currently, the privileged specification version are defined in
+a complex manner for no benefit.
 
-For simplicity it only supports modern devices, that expects vring
-in little endian, with split ring and no event idx or indirect
-descriptors. Support for them will not be added in this series.
+Simplify it by changing it to a simple enum based on.
 
-It reuses the VirtQueue code for the device part. The driver part is
-based on Linux's virtio_ring driver, but with stripped functionality
-and optimizations so it's easier to review.
-
-However, forwarding buffers have some particular pieces: One of the most
-unexpected ones is that a guest's buffer can expand through more than
-one descriptor in SVQ. While this is handled gracefully by qemu's
-emulated virtio devices, it may cause unexpected SVQ queue full. This
-patch also solves it by checking for this condition at both guest's
-kicks and device's calls. The code may be more elegant in the future if
-SVQ code runs in its own iocontext.
-
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Atish Patra <atishp@rivosinc.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h |  26 +++
- hw/virtio/vhost-shadow-virtqueue.c | 353 ++++++++++++++++++++++++++++-
- hw/virtio/vhost-vdpa.c             | 159 ++++++++++++-
- 3 files changed, 526 insertions(+), 12 deletions(-)
+ target/riscv/cpu.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index 82cea1c3fa..38b3b91ca7 100644
---- a/hw/virtio/vhost-shadow-virtqueue.h
-+++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -36,6 +36,30 @@ typedef struct VhostShadowVirtqueue {
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 9ba05042ede0..cf748102efa2 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -82,8 +82,11 @@ enum {
+     RISCV_FEATURE_AIA
+ };
  
-     /* Guest's call notifier, where the SVQ calls guest. */
-     EventNotifier svq_call;
-+
-+    /* Virtio queue shadowing */
-+    VirtQueue *vq;
-+
-+    /* Virtio device */
-+    VirtIODevice *vdev;
-+
-+    /* Map for use the guest's descriptors */
-+    VirtQueueElement **ring_id_maps;
-+
-+    /* Next VirtQueue element that guest made available */
-+    VirtQueueElement *next_guest_avail_elem;
-+
-+    /* Next head to expose to the device */
-+    uint16_t shadow_avail_idx;
-+
-+    /* Next free descriptor */
-+    uint16_t free_head;
-+
-+    /* Last seen used idx */
-+    uint16_t shadow_used_idx;
-+
-+    /* Next head to consume from the device */
-+    uint16_t last_used_idx;
- } VhostShadowVirtqueue;
+-#define PRIV_VERSION_1_10_0 0x00011000
+-#define PRIV_VERSION_1_11_0 0x00011100
++/* Privileged specification version */
++enum {
++    PRIV_VERSION_1_10_0 = 0,
++    PRIV_VERSION_1_11_0,
++};
  
- bool vhost_svq_valid_features(uint64_t features, Error **errp);
-@@ -47,6 +71,8 @@ void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
- size_t vhost_svq_driver_area_size(const VhostShadowVirtqueue *svq);
- size_t vhost_svq_device_area_size(const VhostShadowVirtqueue *svq);
- 
-+void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
-+                     VirtQueue *vq);
- void vhost_svq_stop(VhostShadowVirtqueue *svq);
- 
- VhostShadowVirtqueue *vhost_svq_new(void);
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 7c00ccc42e..0d1a9b84d0 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -13,6 +13,7 @@
- #include "qemu/error-report.h"
- #include "qapi/error.h"
- #include "qemu/main-loop.h"
-+#include "qemu/log.h"
- #include "linux-headers/linux/vhost.h"
- 
- /**
-@@ -59,29 +60,310 @@ bool vhost_svq_valid_features(uint64_t features, Error **errp)
- }
- 
- /**
-- * Forward guest notifications.
-+ * Number of descriptors that the SVQ can make available from the guest.
-+ *
-+ * @svq: The svq
-+ */
-+static uint16_t vhost_svq_available_slots(const VhostShadowVirtqueue *svq)
-+{
-+    return svq->vring.num - (svq->shadow_avail_idx - svq->shadow_used_idx);
-+}
-+
-+static void vhost_vring_write_descs(VhostShadowVirtqueue *svq,
-+                                    const struct iovec *iovec,
-+                                    size_t num, bool more_descs, bool write)
-+{
-+    uint16_t i = svq->free_head, last = svq->free_head;
-+    unsigned n;
-+    uint16_t flags = write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
-+    vring_desc_t *descs = svq->vring.desc;
-+
-+    if (num == 0) {
-+        return;
-+    }
-+
-+    for (n = 0; n < num; n++) {
-+        if (more_descs || (n + 1 < num)) {
-+            descs[i].flags = flags | cpu_to_le16(VRING_DESC_F_NEXT);
-+        } else {
-+            descs[i].flags = flags;
-+        }
-+        descs[i].addr = cpu_to_le64((hwaddr)iovec[n].iov_base);
-+        descs[i].len = cpu_to_le32(iovec[n].iov_len);
-+
-+        last = i;
-+        i = cpu_to_le16(descs[i].next);
-+    }
-+
-+    svq->free_head = le16_to_cpu(descs[last].next);
-+}
-+
-+static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
-+                                VirtQueueElement *elem,
-+                                unsigned *head)
-+{
-+    unsigned avail_idx;
-+    vring_avail_t *avail = svq->vring.avail;
-+
-+    *head = svq->free_head;
-+
-+    /* We need some descriptors here */
-+    if (unlikely(!elem->out_num && !elem->in_num)) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+            "Guest provided element with no descriptors");
-+        return false;
-+    }
-+
-+    vhost_vring_write_descs(svq, elem->out_sg, elem->out_num,
-+                            elem->in_num > 0, false);
-+    vhost_vring_write_descs(svq, elem->in_sg, elem->in_num, false, true);
-+
-+    /*
-+     * Put the entry in the available array (but don't update avail->idx until
-+     * they do sync).
-+     */
-+    avail_idx = svq->shadow_avail_idx & (svq->vring.num - 1);
-+    avail->ring[avail_idx] = cpu_to_le16(*head);
-+    svq->shadow_avail_idx++;
-+
-+    /* Update the avail index after write the descriptor */
-+    smp_wmb();
-+    avail->idx = cpu_to_le16(svq->shadow_avail_idx);
-+
-+    return true;
-+}
-+
-+static bool vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
-+{
-+    unsigned qemu_head;
-+    bool ok = vhost_svq_add_split(svq, elem, &qemu_head);
-+    if (unlikely(!ok)) {
-+        return false;
-+    }
-+
-+    svq->ring_id_maps[qemu_head] = elem;
-+    return true;
-+}
-+
-+static void vhost_svq_kick(VhostShadowVirtqueue *svq)
-+{
-+    /*
-+     * We need to expose the available array entries before checking the used
-+     * flags
-+     */
-+    smp_mb();
-+    if (svq->vring.used->flags & VRING_USED_F_NO_NOTIFY) {
-+        return;
-+    }
-+
-+    event_notifier_set(&svq->hdev_kick);
-+}
-+
-+/**
-+ * Forward available buffers.
-+ *
-+ * @svq: Shadow VirtQueue
-+ *
-+ * Note that this function does not guarantee that all guest's available
-+ * buffers are available to the device in SVQ avail ring. The guest may have
-+ * exposed a GPA / GIOVA contiguous buffer, but it may not be contiguous in
-+ * qemu vaddr.
-+ *
-+ * If that happens, guest's kick notifications will be disabled until the
-+ * device uses some buffers.
-+ */
-+static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-+{
-+    /* Clear event notifier */
-+    event_notifier_test_and_clear(&svq->svq_kick);
-+
-+    /* Forward to the device as many available buffers as possible */
-+    do {
-+        virtio_queue_set_notification(svq->vq, false);
-+
-+        while (true) {
-+            VirtQueueElement *elem;
-+            bool ok;
-+
-+            if (svq->next_guest_avail_elem) {
-+                elem = g_steal_pointer(&svq->next_guest_avail_elem);
-+            } else {
-+                elem = virtqueue_pop(svq->vq, sizeof(*elem));
-+            }
-+
-+            if (!elem) {
-+                break;
-+            }
-+
-+            if (elem->out_num + elem->in_num >
-+                vhost_svq_available_slots(svq)) {
-+                /*
-+                 * This condition is possible since a contiguous buffer in GPA
-+                 * does not imply a contiguous buffer in qemu's VA
-+                 * scatter-gather segments. If that happens, the buffer exposed
-+                 * to the device needs to be a chain of descriptors at this
-+                 * moment.
-+                 *
-+                 * SVQ cannot hold more available buffers if we are here:
-+                 * queue the current guest descriptor and ignore further kicks
-+                 * until some elements are used.
-+                 */
-+                svq->next_guest_avail_elem = elem;
-+                return;
-+            }
-+
-+            ok = vhost_svq_add(svq, elem);
-+            if (unlikely(!ok)) {
-+                /* VQ is broken, just return and ignore any other kicks */
-+                return;
-+            }
-+            vhost_svq_kick(svq);
-+        }
-+
-+        virtio_queue_set_notification(svq->vq, true);
-+    } while (!virtio_queue_empty(svq->vq));
-+}
-+
-+/**
-+ * Handle guest's kick.
-  *
-  * @n: guest kick event notifier, the one that guest set to notify svq.
-  */
--static void vhost_handle_guest_kick(EventNotifier *n)
-+static void vhost_handle_guest_kick_notifier(EventNotifier *n)
- {
-     VhostShadowVirtqueue *svq = container_of(n, VhostShadowVirtqueue,
-                                              svq_kick);
-     event_notifier_test_and_clear(n);
--    event_notifier_set(&svq->hdev_kick);
-+    vhost_handle_guest_kick(svq);
-+}
-+
-+static bool vhost_svq_more_used(VhostShadowVirtqueue *svq)
-+{
-+    if (svq->last_used_idx != svq->shadow_used_idx) {
-+        return true;
-+    }
-+
-+    svq->shadow_used_idx = cpu_to_le16(svq->vring.used->idx);
-+
-+    return svq->last_used_idx != svq->shadow_used_idx;
- }
- 
- /**
-- * Forward vhost notifications
-+ * Enable vhost device calls after disable them.
-+ *
-+ * @svq: The svq
-+ *
-+ * It returns false if there are pending used buffers from the vhost device,
-+ * avoiding the possible races between SVQ checking for more work and enabling
-+ * callbacks. True if SVQ used vring has no more pending buffers.
-+ */
-+static bool vhost_svq_enable_notification(VhostShadowVirtqueue *svq)
-+{
-+    svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-+    /* Make sure the flag is written before the read of used_idx */
-+    smp_mb();
-+    return !vhost_svq_more_used(svq);
-+}
-+
-+static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
-+{
-+    svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-+}
-+
-+static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
-+                                           uint32_t *len)
-+{
-+    vring_desc_t *descs = svq->vring.desc;
-+    const vring_used_t *used = svq->vring.used;
-+    vring_used_elem_t used_elem;
-+    uint16_t last_used;
-+
-+    if (!vhost_svq_more_used(svq)) {
-+        return NULL;
-+    }
-+
-+    /* Only get used array entries after they have been exposed by dev */
-+    smp_rmb();
-+    last_used = svq->last_used_idx & (svq->vring.num - 1);
-+    used_elem.id = le32_to_cpu(used->ring[last_used].id);
-+    used_elem.len = le32_to_cpu(used->ring[last_used].len);
-+
-+    svq->last_used_idx++;
-+    if (unlikely(used_elem.id >= svq->vring.num)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Device %s says index %u is used",
-+                      svq->vdev->name, used_elem.id);
-+        return NULL;
-+    }
-+
-+    if (unlikely(!svq->ring_id_maps[used_elem.id])) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+            "Device %s says index %u is used, but it was not available",
-+            svq->vdev->name, used_elem.id);
-+        return NULL;
-+    }
-+
-+    descs[used_elem.id].next = svq->free_head;
-+    svq->free_head = used_elem.id;
-+
-+    *len = used_elem.len;
-+    return g_steal_pointer(&svq->ring_id_maps[used_elem.id]);
-+}
-+
-+static void vhost_svq_flush(VhostShadowVirtqueue *svq,
-+                            bool check_for_avail_queue)
-+{
-+    VirtQueue *vq = svq->vq;
-+
-+    /* Forward as many used buffers as possible. */
-+    do {
-+        unsigned i = 0;
-+
-+        vhost_svq_disable_notification(svq);
-+        while (true) {
-+            uint32_t len;
-+            g_autofree VirtQueueElement *elem = vhost_svq_get_buf(svq, &len);
-+            if (!elem) {
-+                break;
-+            }
-+
-+            if (unlikely(i >= svq->vring.num)) {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                         "More than %u used buffers obtained in a %u size SVQ",
-+                         i, svq->vring.num);
-+                virtqueue_fill(vq, elem, len, i);
-+                virtqueue_flush(vq, i);
-+                return;
-+            }
-+            virtqueue_fill(vq, elem, len, i++);
-+        }
-+
-+        virtqueue_flush(vq, i);
-+        event_notifier_set(&svq->svq_call);
-+
-+        if (check_for_avail_queue && svq->next_guest_avail_elem) {
-+            /*
-+             * Avail ring was full when vhost_svq_flush was called, so it's a
-+             * good moment to make more descriptors available if possible.
-+             */
-+            vhost_handle_guest_kick(svq);
-+        }
-+    } while (!vhost_svq_enable_notification(svq));
-+}
-+
-+/**
-+ * Forward used buffers.
-  *
-  * @n: hdev call event notifier, the one that device set to notify svq.
-+ *
-+ * Note that we are not making any buffers available in the loop, there is no
-+ * way that it runs more than virtqueue size times.
-  */
- static void vhost_svq_handle_call(EventNotifier *n)
- {
-     VhostShadowVirtqueue *svq = container_of(n, VhostShadowVirtqueue,
-                                              hdev_call);
-     event_notifier_test_and_clear(n);
--    event_notifier_set(&svq->svq_call);
-+    vhost_svq_flush(svq, true);
- }
- 
- /**
-@@ -162,7 +444,41 @@ void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd)
-     if (poll_start) {
-         event_notifier_init_fd(svq_kick, svq_kick_fd);
-         event_notifier_set(svq_kick);
--        event_notifier_set_handler(svq_kick, vhost_handle_guest_kick);
-+        event_notifier_set_handler(svq_kick, vhost_handle_guest_kick_notifier);
-+    }
-+}
-+
-+/**
-+ * Start the shadow virtqueue operation.
-+ *
-+ * @svq: Shadow Virtqueue
-+ * @vdev: VirtIO device
-+ * @vq: Virtqueue to shadow
-+ */
-+void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
-+                     VirtQueue *vq)
-+{
-+    size_t desc_size, driver_size, device_size;
-+
-+    svq->next_guest_avail_elem = NULL;
-+    svq->shadow_avail_idx = 0;
-+    svq->shadow_used_idx = 0;
-+    svq->last_used_idx = 0;
-+    svq->vdev = vdev;
-+    svq->vq = vq;
-+
-+    svq->vring.num = virtio_queue_get_num(vdev, virtio_get_queue_index(vq));
-+    driver_size = vhost_svq_driver_area_size(svq);
-+    device_size = vhost_svq_device_area_size(svq);
-+    svq->vring.desc = qemu_memalign(qemu_real_host_page_size, driver_size);
-+    desc_size = sizeof(vring_desc_t) * svq->vring.num;
-+    svq->vring.avail = (void *)((char *)svq->vring.desc + desc_size);
-+    memset(svq->vring.desc, 0, driver_size);
-+    svq->vring.used = qemu_memalign(qemu_real_host_page_size, device_size);
-+    memset(svq->vring.used, 0, device_size);
-+    svq->ring_id_maps = g_new0(VirtQueueElement *, svq->vring.num);
-+    for (unsigned i = 0; i < svq->vring.num - 1; i++) {
-+        svq->vring.desc[i].next = cpu_to_le16(i + 1);
-     }
- }
- 
-@@ -173,6 +489,31 @@ void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd)
- void vhost_svq_stop(VhostShadowVirtqueue *svq)
- {
-     event_notifier_set_handler(&svq->svq_kick, NULL);
-+    g_autofree VirtQueueElement *next_avail_elem = NULL;
-+
-+    if (!svq->vq) {
-+        return;
-+    }
-+
-+    /* Send all pending used descriptors to guest */
-+    vhost_svq_flush(svq, false);
-+
-+    for (unsigned i = 0; i < svq->vring.num; ++i) {
-+        g_autofree VirtQueueElement *elem = NULL;
-+        elem = g_steal_pointer(&svq->ring_id_maps[i]);
-+        if (elem) {
-+            virtqueue_detach_element(svq->vq, elem, 0);
-+        }
-+    }
-+
-+    next_avail_elem = g_steal_pointer(&svq->next_guest_avail_elem);
-+    if (next_avail_elem) {
-+        virtqueue_detach_element(svq->vq, next_avail_elem, 0);
-+    }
-+    svq->vq = NULL;
-+    g_free(svq->ring_id_maps);
-+    qemu_vfree(svq->vring.desc);
-+    qemu_vfree(svq->vring.used);
- }
- 
- /**
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 6a7575f13e..a9dc7f0fce 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -776,10 +776,10 @@ static int vhost_vdpa_set_vring_dev_addr(struct vhost_dev *dev,
-  * Note that this function does not rewind kick file descriptor if cannot set
-  * call one.
-  */
--static bool vhost_vdpa_svq_setup(struct vhost_dev *dev,
--                                 VhostShadowVirtqueue *svq,
--                                 unsigned idx,
--                                 Error **errp)
-+static int vhost_vdpa_svq_set_fds(struct vhost_dev *dev,
-+                                  VhostShadowVirtqueue *svq,
-+                                  unsigned idx,
-+                                  Error **errp)
- {
-     struct vhost_vring_file file = {
-         .index = dev->vq_index + idx,
-@@ -791,7 +791,7 @@ static bool vhost_vdpa_svq_setup(struct vhost_dev *dev,
-     r = vhost_vdpa_set_vring_dev_kick(dev, &file);
-     if (unlikely(r != 0)) {
-         error_setg_errno(errp, -r, "Can't set device kick fd");
--        return false;
-+        return r;
-     }
- 
-     event_notifier = &svq->hdev_call;
-@@ -801,6 +801,96 @@ static bool vhost_vdpa_svq_setup(struct vhost_dev *dev,
-         error_setg_errno(errp, -r, "Can't set device call fd");
-     }
- 
-+    return r;
-+}
-+
-+/**
-+ * Unmap a SVQ area in the device
-+ */
-+static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v, hwaddr iova,
-+                                      hwaddr size)
-+{
-+    int r;
-+
-+    size = ROUND_UP(size, qemu_real_host_page_size);
-+    r = vhost_vdpa_dma_unmap(v, iova, size);
-+    return r == 0;
-+}
-+
-+static bool vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
-+                                       const VhostShadowVirtqueue *svq)
-+{
-+    struct vhost_vdpa *v = dev->opaque;
-+    struct vhost_vring_addr svq_addr;
-+    size_t device_size = vhost_svq_device_area_size(svq);
-+    size_t driver_size = vhost_svq_driver_area_size(svq);
-+    bool ok;
-+
-+    vhost_svq_get_vring_addr(svq, &svq_addr);
-+
-+    ok = vhost_vdpa_svq_unmap_ring(v, svq_addr.desc_user_addr, driver_size);
-+    if (unlikely(!ok)) {
-+        return false;
-+    }
-+
-+    return vhost_vdpa_svq_unmap_ring(v, svq_addr.used_user_addr, device_size);
-+}
-+
-+/**
-+ * Map the shadow virtqueue rings in the device
-+ *
-+ * @dev: The vhost device
-+ * @svq: The shadow virtqueue
-+ * @addr: Assigned IOVA addresses
-+ * @errp: Error pointer
-+ */
-+static bool vhost_vdpa_svq_map_rings(struct vhost_dev *dev,
-+                                     const VhostShadowVirtqueue *svq,
-+                                     struct vhost_vring_addr *addr,
-+                                     Error **errp)
-+{
-+    struct vhost_vdpa *v = dev->opaque;
-+    size_t device_size = vhost_svq_device_area_size(svq);
-+    size_t driver_size = vhost_svq_driver_area_size(svq);
-+    int r;
-+
-+    ERRP_GUARD();
-+    vhost_svq_get_vring_addr(svq, addr);
-+
-+    r = vhost_vdpa_dma_map(v, addr->desc_user_addr, driver_size,
-+                           (void *)addr->desc_user_addr, true);
-+    if (unlikely(r != 0)) {
-+        error_setg_errno(errp, -r, "Cannot create vq driver region: ");
-+        return false;
-+    }
-+
-+    r = vhost_vdpa_dma_map(v, addr->used_user_addr, device_size,
-+                           (void *)addr->used_user_addr, false);
-+    if (unlikely(r != 0)) {
-+        error_setg_errno(errp, -r, "Cannot create vq device region: ");
-+    }
-+
-+    return r == 0;
-+}
-+
-+static bool vhost_vdpa_svq_setup(struct vhost_dev *dev,
-+                                 VhostShadowVirtqueue *svq,
-+                                 unsigned idx,
-+                                 Error **errp)
-+{
-+    uint16_t vq_index = dev->vq_index + idx;
-+    struct vhost_vring_state s = {
-+        .index = vq_index,
-+    };
-+    int r;
-+
-+    r = vhost_vdpa_set_dev_vring_base(dev, &s);
-+    if (unlikely(r)) {
-+        error_setg_errno(errp, -r, "Cannot set vring base");
-+        return false;
-+    }
-+
-+    r = vhost_vdpa_svq_set_fds(dev, svq, idx, errp);
-     return r == 0;
- }
- 
-@@ -815,10 +905,63 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev *dev)
-     }
- 
-     for (i = 0; i < v->shadow_vqs->len; ++i) {
-+        VirtQueue *vq = virtio_get_queue(dev->vdev, dev->vq_index + i);
-         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
-+        struct vhost_vring_addr addr = {
-+            .index = i,
-+        };
-+        int r;
-         bool ok = vhost_vdpa_svq_setup(dev, svq, i, &err);
-         if (unlikely(!ok)) {
--            error_reportf_err(err, "Cannot setup SVQ %u: ", i);
-+            goto err;
-+        }
-+
-+        vhost_svq_start(svq, dev->vdev, vq);
-+        ok = vhost_vdpa_svq_map_rings(dev, svq, &addr, &err);
-+        if (unlikely(!ok)) {
-+            goto err_map;
-+        }
-+
-+        /* Override vring GPA set by vhost subsystem */
-+        r = vhost_vdpa_set_vring_dev_addr(dev, &addr);
-+        if (unlikely(r != 0)) {
-+            error_setg_errno(&err, -r, "Cannot set device address");
-+            goto err_set_addr;
-+        }
-+    }
-+
-+    return true;
-+
-+err_set_addr:
-+    vhost_vdpa_svq_unmap_rings(dev, g_ptr_array_index(v->shadow_vqs, i));
-+
-+err_map:
-+    vhost_svq_stop(g_ptr_array_index(v->shadow_vqs, i));
-+
-+err:
-+    error_reportf_err(err, "Cannot setup SVQ %u: ", i);
-+    for (unsigned j = 0; j < i; ++j) {
-+        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, j);
-+        vhost_vdpa_svq_unmap_rings(dev, svq);
-+        vhost_svq_stop(svq);
-+    }
-+
-+    return false;
-+}
-+
-+static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
-+{
-+    struct vhost_vdpa *v = dev->opaque;
-+
-+    if (!v->shadow_vqs) {
-+        return true;
-+    }
-+
-+    for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
-+        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs,
-+                                                      i);
-+        bool ok = vhost_vdpa_svq_unmap_rings(dev, svq);
-+        if (unlikely(!ok)) {
-             return false;
-         }
-     }
-@@ -840,6 +983,10 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-         }
-         vhost_vdpa_set_vring_ready(dev);
-     } else {
-+        ok = vhost_vdpa_svqs_stop(dev);
-+        if (unlikely(!ok)) {
-+            return -1;
-+        }
-         vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
-     }
+ #define VEXT_VERSION_1_00_0 0x00010000
  
 -- 
-2.27.0
+2.30.2
 
 
