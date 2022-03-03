@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDDA4CC80A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:29:24 +0100 (CET)
-Received: from localhost ([::1]:57386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE95B4CC7F5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:24:20 +0100 (CET)
+Received: from localhost ([::1]:43298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPt0l-0007Sf-QZ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:29:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59406)
+	id 1nPsvr-0006NP-T5
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:24:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPsZ9-0006Gq-5p
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:58 -0500
-Received: from [2607:f8b0:4864:20::429] (port=45863
- helo=mail-pf1-x429.google.com)
+ id 1nPsZ2-0006D9-Cl
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:49 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=40746
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPsZ7-0004KH-B5
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:50 -0500
-Received: by mail-pf1-x429.google.com with SMTP id s8so1716221pfk.12
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:00:22 -0800 (PST)
+ id 1nPsYq-0004KP-6m
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:37 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ em10-20020a17090b014a00b001bc3071f921so8872617pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f5NF1Xhw+Erdj+thQwPRUzILFmSAD0uMaYQuiNMvI6I=;
- b=R0td/zInID6bRUVoxAlpov6zVHsPFZu9yW7DfrHXm0QKUXhAZHBYRs3dT/mc2uy3lk
- ZrmT9LLEWNBabtHFmDGs8NTEUI0HQYNjOxcTWf6E/2DmxiRNTcTfJTgGQ0QVo/AMt5BV
- lX/lB85LgpPBmqlLWaIERtYCDyismksD5Y0JEeVPS3M9NjRL35OzRxFjf+t3eA3sNmwN
- trsiCvPdIdwRHYGu2Z0LO1IKjUxSasHbpl4nsb20FCMPswc7Tlf2D85Z7iW9hGSOL8Zj
- nvt5Wsf1ifPpP0vVy3rebjFfBKHF0zGfQpsgO9VRmzQ0uuSafn5omr/qqHtaDE7CBEKf
- jStA==
+ bh=1XkfzGvn+ZlmZZNrl7Dk1RW038tolY/tjYs6706uD7c=;
+ b=UWfD1YkGnU6ZtDvLvGlz8eSLOw1CJ1MYin9WEGe5wLMP/BxizntOJPxFyIBDc6Y3Rn
+ GJMggH2T04KWs8HMAqB4WI/0Nq7z1w/7aLJjAF4Cnp4+ZzxfPxSRHPu8g72FfwyOLQDu
+ vEjo06V3mLCdmxJCWhWJOausjVjCzpFQGawhnSg7bJ2H5HRrxtgNp5kyOOWKav9e9sYf
+ QBxvw8cnfboVM0bCBRTTfL5TI8PnhWlIptkSwzxtQTIASNGe3IHb72XjMjRBGGvUA5BY
+ PUfPIYUSOu1Mc6g1vMfwtYEruIlW6HL+7DhjFWRerZEyqbmya5XDkrEI7k3n2tz9/NUi
+ FK8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=f5NF1Xhw+Erdj+thQwPRUzILFmSAD0uMaYQuiNMvI6I=;
- b=IjOOUCq8sfMzQ1SnLF6q8Edt7T7aAVPGmKDjDGfMM7PlWCilsJsGaG8Ip0I8HMbxhi
- PjOHmTJbwoe7PZoFn9DIapyNYUBCLek0InK+DlkGRo9OajaWTBOd258cbV6WUny7DVnK
- 3iPtNhtQz76XtIbXRWVkRNwCHtJaeRAZz1UgFlQTVH8xz+/5c+CLv0PstXbsIbt0N5g/
- jIMTtdcFcpjj4JXyklQBWhYC/f35cy61jDJTKRF6E6NShIg1+rsIg/8B5023e2AYV1Tm
- KsbT8+1qGi9LrBxF5vUQri/UFPJ61lqCn2hgLOjcHe4VoRHzNJH/LhxJsNeGbURMFGR8
- idQA==
-X-Gm-Message-State: AOAM5331f20/CE+Ztc226FoCy+yewy1avKTj41eh0tszfQuqFCmjOAWw
- QuVH2jB0cyyut1M0AIzMWcpCCeKe91Zg1A==
-X-Google-Smtp-Source: ABdhPJxwLI7sSdzUKF77OhJuRhlY78YBITzIbsZuaVKtifizZqzgK3EeLlZWe97keu8o10YxwT+oGw==
-X-Received: by 2002:a63:cd49:0:b0:373:5fbb:c790 with SMTP id
- a9-20020a63cd49000000b003735fbbc790mr31949946pgj.206.1646341222042; 
- Thu, 03 Mar 2022 13:00:22 -0800 (PST)
+ bh=1XkfzGvn+ZlmZZNrl7Dk1RW038tolY/tjYs6706uD7c=;
+ b=gnxAUeHTp+wKTgoH7tH3fJgxnEV4iQNH3LXDiQPRnuNd4NIKkfPgL1Q1uEy7FDTvhH
+ YKNuco0BCMrfwDhmo9Po1SGaw2vPIzDGVd28MZLIc6iZBcN1y/lHS0oyELdlLr/WS75Q
+ wyr45prKsGNJNdG2SVVa3b9dWu5WkYko6XiNu7kilFIpmu1DecnQtSN0ciN+EL/smyd8
+ rTKH3Q6Y4mZYCvclBW5G0FbxynLqE1mlWWPFGylVWpJBQCvU64KuYq5NkcLI8lu7pBy2
+ SscTZ7t3Ss0RmdHKMxT3oholE5YY4M2oPT4mlJg/sQ7zMfdQJQnXV+5OmmGbJjjOaBxl
+ yNuQ==
+X-Gm-Message-State: AOAM531DP/Oy223p3sMUJ09o49hEAmni/KSMb1dF8PfLUM/UdFMNrSIV
+ hOCemeohCgUioHi8ushMwYcepCHoOdsWrg==
+X-Google-Smtp-Source: ABdhPJwaji2A0VFGnhWeRz6uMRfoGH8eUsQeNCgMlysApqvFKIWJ53K+fl73qLSYbVxuMjS8q3Vu0w==
+X-Received: by 2002:a17:903:11c9:b0:151:9521:d5c7 with SMTP id
+ q9-20020a17090311c900b001519521d5c7mr11388492plh.73.1646341223486; 
+ Thu, 03 Mar 2022 13:00:23 -0800 (PST)
 Received: from localhost.localdomain
  (2603-800c-1201-c600-119c-490c-a4ee-08e8.res6.spectrum.com.
  [2603:800c:1201:c600:119c:490c:a4ee:8e8])
  by smtp.gmail.com with ESMTPSA id
- t8-20020a6549c8000000b00372eb3a7fb3sm2729934pgs.92.2022.03.03.13.00.20
+ t8-20020a6549c8000000b00372eb3a7fb3sm2729934pgs.92.2022.03.03.13.00.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 13:00:21 -0800 (PST)
+ Thu, 03 Mar 2022 13:00:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/30] accel/tcg: Split out g2h_tlbe
-Date: Thu,  3 Mar 2022 10:59:37 -1000
-Message-Id: <20220303205944.469445-24-richard.henderson@linaro.org>
+Subject: [PULL 24/30] accel/tcg: Support TCG_TARGET_SIGNED_ADDR32 for softmmu
+Date: Thu,  3 Mar 2022 10:59:38 -1000
+Message-Id: <20220303205944.469445-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220303205944.469445-1-richard.henderson@linaro.org>
 References: <20220303205944.469445-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,123 +92,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>, peter.maydell@linaro.org,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a new function to combine a CPUTLBEntry addend
-with the guest address to form a host address.
+When TCG_TARGET_SIGNED_ADDR32 is set, adjust the tlb addend to
+allow the 32-bit guest address to be sign extended within the
+64-bit host register instead of zero extended.
 
-Reviewed-by: WANG Xuerui <git@xen0n.name>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+This will simplify tcg hosts like MIPS, RISC-V, and LoongArch,
+which naturally sign-extend 32-bit values, in contrast to x86_64
+and AArch64 which zero-extend them.
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ accel/tcg/cputlb.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 3b918fe018..0e62aa5d7c 100644
+index 0e62aa5d7c..0dbc3efbc7 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -91,6 +91,11 @@ static inline size_t sizeof_tlb(CPUTLBDescFast *fast)
-     return fast->mask + (1 << CPU_TLB_ENTRY_BITS);
- }
+@@ -40,6 +40,7 @@
+ #include "qemu/plugin-memory.h"
+ #endif
+ #include "tcg/tcg-ldst.h"
++#include "tcg-target-sa32.h"
  
-+static inline uintptr_t g2h_tlbe(const CPUTLBEntry *tlb, target_ulong gaddr)
-+{
-+    return tlb->addend + (uintptr_t)gaddr;
-+}
-+
- static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
-                              size_t max_entries)
+ /* DEBUG defines, enable DEBUG_TLB_LOG to log to the CPU_LOG_MMU target */
+ /* #define DEBUG_TLB */
+@@ -93,6 +94,9 @@ static inline size_t sizeof_tlb(CPUTLBDescFast *fast)
+ 
+ static inline uintptr_t g2h_tlbe(const CPUTLBEntry *tlb, target_ulong gaddr)
  {
-@@ -986,8 +991,7 @@ static void tlb_reset_dirty_range_locked(CPUTLBEntry *tlb_entry,
- 
-     if ((addr & (TLB_INVALID_MASK | TLB_MMIO |
-                  TLB_DISCARD_WRITE | TLB_NOTDIRTY)) == 0) {
--        addr &= TARGET_PAGE_MASK;
--        addr += tlb_entry->addend;
-+        addr = g2h_tlbe(tlb_entry, addr & TARGET_PAGE_MASK);
-         if ((addr - start) < length) {
- #if TCG_OVERSIZED_GUEST
-             tlb_entry->addr_write |= TLB_NOTDIRTY;
-@@ -1537,7 +1541,7 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
-         return -1;
-     }
- 
--    p = (void *)((uintptr_t)addr + entry->addend);
-+    p = (void *)g2h_tlbe(entry, addr);
-     if (hostp) {
-         *hostp = p;
-     }
-@@ -1629,7 +1633,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
-     }
- 
-     /* Everything else is RAM. */
--    *phost = (void *)((uintptr_t)addr + entry->addend);
-+    *phost = (void *)g2h_tlbe(entry, addr);
-     return flags;
++    if (TCG_TARGET_SIGNED_ADDR32 && TARGET_LONG_BITS == 32) {
++        return tlb->addend + (int32_t)gaddr;
++    }
+     return tlb->addend + (uintptr_t)gaddr;
  }
  
-@@ -1737,7 +1741,7 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
-             data->v.io.offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-         } else {
-             data->is_io = false;
--            data->v.ram.hostaddr = (void *)((uintptr_t)addr + tlbe->addend);
-+            data->v.ram.hostaddr = (void *)g2h_tlbe(tlbe, addr);
-         }
-         return true;
-     } else {
-@@ -1836,7 +1840,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
-         goto stop_the_world;
-     }
+@@ -1244,7 +1248,13 @@ void tlb_set_page_with_attrs(CPUState *cpu, target_ulong vaddr,
+     desc->iotlb[index].attrs = attrs;
  
--    hostaddr = (void *)((uintptr_t)addr + tlbe->addend);
-+    hostaddr = (void *)g2h_tlbe(tlbe, addr);
- 
-     if (unlikely(tlb_addr & TLB_NOTDIRTY)) {
-         notdirty_write(env_cpu(env), addr, size,
-@@ -1967,7 +1971,7 @@ load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
-                             access_type, op ^ (need_swap * MO_BSWAP));
-         }
- 
--        haddr = (void *)((uintptr_t)addr + entry->addend);
-+        haddr = (void *)g2h_tlbe(entry, addr);
- 
-         /*
-          * Keep these two load_memop separate to ensure that the compiler
-@@ -2004,7 +2008,7 @@ load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
-         return res & MAKE_64BIT_MASK(0, size * 8);
-     }
- 
--    haddr = (void *)((uintptr_t)addr + entry->addend);
-+    haddr = (void *)g2h_tlbe(entry, addr);
-     return load_memop(haddr, op);
- }
- 
-@@ -2375,7 +2379,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-             notdirty_write(env_cpu(env), addr, size, iotlbentry, retaddr);
-         }
- 
--        haddr = (void *)((uintptr_t)addr + entry->addend);
-+        haddr = (void *)g2h_tlbe(entry, addr);
- 
-         /*
-          * Keep these two store_memop separate to ensure that the compiler
-@@ -2400,7 +2404,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-         return;
-     }
- 
--    haddr = (void *)((uintptr_t)addr + entry->addend);
-+    haddr = (void *)g2h_tlbe(entry, addr);
-     store_memop(haddr, val, op);
- }
- 
+     /* Now calculate the new entry */
+-    tn.addend = addend - vaddr_page;
++
++    if (TCG_TARGET_SIGNED_ADDR32 && TARGET_LONG_BITS == 32) {
++        tn.addend = addend - (int32_t)vaddr_page;
++    } else {
++        tn.addend = addend - vaddr_page;
++    }
++
+     if (prot & PAGE_READ) {
+         tn.addr_read = address;
+         if (wp_flags & BP_MEM_READ) {
 -- 
 2.25.1
 
