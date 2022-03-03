@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1D04CC7A9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:12:18 +0100 (CET)
-Received: from localhost ([::1]:56892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE124CC7AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 22:14:18 +0100 (CET)
+Received: from localhost ([::1]:37766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPskD-0002DN-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:12:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58950)
+	id 1nPsm9-0008V7-Kg
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 16:14:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPsYP-0005sK-TP
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:05 -0500
-Received: from [2607:f8b0:4864:20::62f] (port=44677
- helo=mail-pl1-x62f.google.com)
+ id 1nPsYR-0005wx-EB
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:07 -0500
+Received: from [2607:f8b0:4864:20::52b] (port=36452
+ helo=mail-pg1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nPsYO-00046g-Ac
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:05 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id q11so5850817pln.11
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:00:03 -0800 (PST)
+ id 1nPsYP-0004EL-M1
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 16:00:07 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id t14so5754911pgr.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 13:00:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NVZxBYjya/bVlEFKs7qigQ6ua4ofT68Gshv8z31H2EM=;
- b=WaUA0hnt0W0ZkrD7Q9SZu3e+9pJWlMDZu59Kx8tjiOdbhNjQJ6jj5FrQgSfwv62MuX
- Xvo+btsFa1jSrF/sPEfnuri/mKlOpBeULV3bsjEIVNcUh0uuc1ayBoqFwMi6bDrIR3QX
- E9b6uoRcCT7yKkpT0S+gkmwQlqobuLSyi3hN1CI0DYmdMrTPMHU3Mzd/XxmPdeWz6fTd
- mxm7MfbC35oX2oAb9u4n4B34/NOYiYnaqIbPkXqyDsN/Lj80O2Jhy8o4iqcc5LwisDnk
- 7aGmZTlOKa+c+sunOQuFS3HLkUXUR4CK1Wc9qw4tPPdruu7ucgyaavwItbdXe3CGlTVV
- +EoA==
+ bh=pd3yrxT35d4SOyEjqIqaXgmr9vG25Nh62apx3szcfnk=;
+ b=Mm93nEYKmYEUiPnIUUa+xvTossscaaaO41G7bRxukfRsnxlNcMEzYy5lcugLvjLGsl
+ ZCgWh78UcerFpj1XCwKvPnIofcBu5p0Hm5nwAPOElO8ypbYGsYyGf2m4WTs3PU/Bp+/f
+ FSF+BHJqj14ccVVH/PnHhYiQrwXYUJRR7KLbuxKNs8zkjg1esWKGfN9GypI4/hqYCShb
+ YINwVVdkH1nyxZcFVMLSP0n/P7SjyNA34v+fV2Qp00tSd2ponnC6bBzdn/fruNzTSlTH
+ G+NX0zoXDbQ2RRgS9/KEgCJwLUNmFdpRQHVXGMDQwqq4dqa0YkDHu5JqwoiRyjXPFBzJ
+ J8Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NVZxBYjya/bVlEFKs7qigQ6ua4ofT68Gshv8z31H2EM=;
- b=PAkpHf5/TDx3QBMsDdPIErm564v16M5ePglOSet38NiaRrgthmH17gwMh8oKCiAhnH
- 0ZPHypND24fWWGSlDaL4y0Sw9cu+3ZMK6Fviqq5QJar8Kqug9zLPVYbctWZAYhrUCqkh
- 5xAvC66G9W4EGICQNsdzH02J3u+ykicPjEtNP2/yTXIz/ySKZakHpm8gSyJiGvZq3A8W
- bHp7wJZgSHRojz4ZxWZTGy3evMwaR/N40/s+9yeAa9qgDHryieHQtuW1bpIjiKqj0caY
- J8y324Bpet3qx5ZTRY/wrv1iQ7fFHGEl/2q6Lv+ofBh3spIzS9nOmdtbdVrwkYC83lqA
- 3EmQ==
-X-Gm-Message-State: AOAM530xCnCcJyIPaAo6rRcICRXdhEdp61DVq8+wpuTXXkS1ctqC/Phz
- hHB5EE7REJKHi4MtGjXLY674H2MecBzAJw==
-X-Google-Smtp-Source: ABdhPJx5HFHJeIFS1VYYXc89/NeX1Kj6GzRzihl7eu3btJIEoCcnh0fV37nt6LcsOj2HzO2P3WVW3g==
-X-Received: by 2002:a17:90b:3b4b:b0:1bf:d4e:d677 with SMTP id
- ot11-20020a17090b3b4b00b001bf0d4ed677mr5261181pjb.56.1646341202596; 
- Thu, 03 Mar 2022 13:00:02 -0800 (PST)
+ bh=pd3yrxT35d4SOyEjqIqaXgmr9vG25Nh62apx3szcfnk=;
+ b=u+5CSnqigdGTjVuHefbQcr19nZvucteXUJTL4ReCGVN7ohbiyFI9vRnYKiUJTBYui+
+ qb4n8CkZA2COe6mHsPNBRRE8AA73qxQS0NJSulvOqgA7QaGRK5nCKK9rZNxXpdxKO9ni
+ F5QvCNW22N9GCH/70I/P4Rz9RoSP0r2+/BhYAClOHlhVqzN6j9KAD+CS8pWcWDWfMshD
+ ZNDffls6ajGTjDkaW6sq5LyNlT8+rsxT1Ehp1KJXY92IL63mKzS4ckItfVXIfDbJTaPf
+ xZq3o6tcmCf5MCo4lH1ahtUWxa+YIi8VjYnjYpgV5A0Ab/yOistv/+Q1mLj3SHD+iV1i
+ iYzQ==
+X-Gm-Message-State: AOAM532FOUkKRckNwf2GGLragUUYHPSFjbKWLN1I2rmK7XPxzL+1a4CU
+ wxDTF2jEbYZDHyoBEgTlsxsucz46y2ZCjQ==
+X-Google-Smtp-Source: ABdhPJwRvBaKB5uJQd3hWaBYGdTA2qjiU4zD0Vx5VkbH63jRgBpQJ+6oogLBiuphYxanI8PRaeRP8g==
+X-Received: by 2002:aa7:85d8:0:b0:4f6:8ae9:16a8 with SMTP id
+ z24-20020aa785d8000000b004f68ae916a8mr3181958pfn.15.1646341204358; 
+ Thu, 03 Mar 2022 13:00:04 -0800 (PST)
 Received: from localhost.localdomain
  (2603-800c-1201-c600-119c-490c-a4ee-08e8.res6.spectrum.com.
  [2603:800c:1201:c600:119c:490c:a4ee:8e8])
  by smtp.gmail.com with ESMTPSA id
- t8-20020a6549c8000000b00372eb3a7fb3sm2729934pgs.92.2022.03.03.13.00.01
+ t8-20020a6549c8000000b00372eb3a7fb3sm2729934pgs.92.2022.03.03.13.00.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 13:00:02 -0800 (PST)
+ Thu, 03 Mar 2022 13:00:03 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/30] tcg/i386: Implement avx512 scalar shift
-Date: Thu,  3 Mar 2022 10:59:24 -1000
-Message-Id: <20220303205944.469445-11-richard.henderson@linaro.org>
+Subject: [PULL 11/30] tcg/i386: Implement avx512 immediate sari shift
+Date: Thu,  3 Mar 2022 10:59:25 -1000
+Message-Id: <20220303205944.469445-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220303205944.469445-1-richard.henderson@linaro.org>
 References: <20220303205944.469445-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,52 +96,76 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AVX512VL has VPSRAQ.
+AVX512 has VPSRAQ with immediate operand, in the same form as
+with AVX, but requires EVEX encoding and W1.
 
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/i386/tcg-target.c.inc | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ tcg/i386/tcg-target.c.inc | 30 +++++++++++++++++++++---------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
 
 diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 055db88422..1ef34f0b52 100644
+index 1ef34f0b52..de01fbf40c 100644
 --- a/tcg/i386/tcg-target.c.inc
 +++ b/tcg/i386/tcg-target.c.inc
-@@ -369,6 +369,7 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- #define OPC_PSLLQ       (0xf3 | P_EXT | P_DATA16)
- #define OPC_PSRAW       (0xe1 | P_EXT | P_DATA16)
- #define OPC_PSRAD       (0xe2 | P_EXT | P_DATA16)
-+#define OPC_VPSRAQ      (0x72 | P_EXT | P_DATA16 | P_VEXW | P_EVEX)
- #define OPC_PSRLW       (0xd1 | P_EXT | P_DATA16)
- #define OPC_PSRLD       (0xd2 | P_EXT | P_DATA16)
- #define OPC_PSRLQ       (0xd3 | P_EXT | P_DATA16)
-@@ -2854,7 +2855,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         OPC_UD2, OPC_PSRLW, OPC_PSRLD, OPC_PSRLQ
-     };
-     static int const sars_insn[4] = {
--        OPC_UD2, OPC_PSRAW, OPC_PSRAD, OPC_UD2
-+        OPC_UD2, OPC_PSRAW, OPC_PSRAD, OPC_VPSRAQ
-     };
-     static int const abs_insn[4] = {
-         /* TODO: AVX512 adds support for MO_64.  */
-@@ -3330,7 +3331,14 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_shrs_vec:
-         return vece >= MO_16;
-     case INDEX_op_sars_vec:
--        return vece >= MO_16 && vece <= MO_32;
+@@ -2986,17 +2986,22 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+         break;
+ 
+     case INDEX_op_shli_vec:
++        insn = shift_imm_insn[vece];
+         sub = 6;
+         goto gen_shift;
+     case INDEX_op_shri_vec:
++        insn = shift_imm_insn[vece];
+         sub = 2;
+         goto gen_shift;
+     case INDEX_op_sari_vec:
+-        tcg_debug_assert(vece != MO_64);
++        if (vece == MO_64) {
++            insn = OPC_PSHIFTD_Ib | P_VEXW | P_EVEX;
++        } else {
++            insn = shift_imm_insn[vece];
++        }
+         sub = 4;
+     gen_shift:
+         tcg_debug_assert(vece != MO_8);
+-        insn = shift_imm_insn[vece];
+         if (type == TCG_TYPE_V256) {
+             insn |= P_VEXL;
+         }
+@@ -3316,16 +3321,23 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
+         return vece == MO_8 ? -1 : 1;
+ 
+     case INDEX_op_sari_vec:
+-        /* We must expand the operation for MO_8.  */
+-        if (vece == MO_8) {
 +        switch (vece) {
++        case MO_8:
+             return -1;
+-        }
+-        /* We can emulate this for MO_64, but it does not pay off
+-           unless we're producing at least 4 values.  */
+-        if (vece == MO_64) {
 +        case MO_16:
 +        case MO_32:
 +            return 1;
 +        case MO_64:
-+            return have_avx512vl;
-+        }
++            if (have_avx512vl) {
++                return 1;
++            }
++            /*
++             * We can emulate this for MO_64, but it does not pay off
++             * unless we're producing at least 4 values.
++             */
+             return type >= TCG_TYPE_V256 ? -1 : 0;
+         }
+-        return 1;
 +        return 0;
-     case INDEX_op_rotls_vec:
-         return vece >= MO_16 ? -1 : 0;
  
+     case INDEX_op_shls_vec:
+     case INDEX_op_shrs_vec:
 -- 
 2.25.1
 
