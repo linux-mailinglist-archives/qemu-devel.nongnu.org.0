@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F004CC2E0
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:33:42 +0100 (CET)
-Received: from localhost ([::1]:41024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE4B4CC293
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:23:16 +0100 (CET)
+Received: from localhost ([::1]:43516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPoOc-0003qr-2s
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:33:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36868)
+	id 1nPoEV-0001CE-J5
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:23:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPoBb-00047b-65
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:20:15 -0500
-Received: from [2607:f8b0:4864:20::b2f] (port=47001
- helo=mail-yb1-xb2f.google.com)
+ id 1nPoD3-0006kP-Vl
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:21:46 -0500
+Received: from [2607:f8b0:4864:20::112b] (port=35522
+ helo=mail-yw1-x112b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nPoBZ-0006H7-IE
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:20:14 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id b35so11208138ybi.13
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 08:20:11 -0800 (PST)
+ id 1nPoD2-0006e4-FP
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:21:45 -0500
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c0so61741167b3.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 08:21:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YhsvcMoBNEM7hxVRYwyTYNOekiwLASNClHhThvOJFIU=;
- b=kn8jWWOAX9ni3NHHT3/SM9mSzX9PHUgegAbitk4kgGZx/CpJ0eRXNLzdV4s444ZY4g
- kcazlvXOpPk4ON0SeAlaqe9I9ENlTwmJi5Lzw9j1q8Zo+EpUOr6pHJ7ab4CBVFf5rEnU
- +lKS+Mbm2SrPjbf4pHVSP1IJfmXWc86UZXVxnggKeglsRknLAAdNha1uGfnaYr+0lshE
- 7dinn1ZZp6y9F5RUVF4IpkO8DuMqUA58o3xvUQ6roP0Z1k9J+V4+TrTGGgUtMzVnH1zt
- HQY9I9+7UrIx9rU57p5D6IsFRhKOeRulcCsBCuy2NO5C70mT8P30h1BL55ztbbkOR7gU
- RLRQ==
+ :cc; bh=c7bj6+VLt8jnxmCcFjyOq5LDQB9t2EyrFEr8WRdPqcg=;
+ b=B5wA3bnp3fjCttF8Yd24vHjZvMKcFwBu1IXRzMrrlJKMq45/+1lf2TeVnfkDvqQD2S
+ ZaUuf22WrRAGQ950Dopy53aOI21Y4jxKZMdU4KIgLewy43W8c1Gz3oZJCegiDuguISQH
+ 241tCEP8wbVoRdvw8qobTsLy5jnmJ3vRYeB2YCLEIeN4QTRLOIb1ukZ+pSiibD5nh99g
+ xI4gsYO5/LDMZi/IjsuyvQf5tigjtHJgYOmRB6vr3MPnYQoqGJ2jlNLy7FfYzGnPv9oV
+ B7TgY5HjLWZBnoxRVYBDZKro390GgFCfmlShYi+gy+uEbrXlCqr3DC4ASwzLDHHvjwrv
+ yxOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=YhsvcMoBNEM7hxVRYwyTYNOekiwLASNClHhThvOJFIU=;
- b=OxIVH0fvan4BPh3X87EKx2gHw/D7aYynX4YRWvaAvzalZDfRn/+HM3VqvHJ1C+SpwP
- m3eRSEywoAd4PuKoQYUkIVBkKoOmKH48exJRy4kGosYjkXPl2uuBCMoE+3i/5Af+EBNq
- wIEUAAlfG/Zb+5XRWiT7o/eSaltcoaWeZxaI9aHgZVMMFg9oA6PaExRTucMe6p/XLmRo
- Yr+PMugFiDFB+zoAmC7q78C6LPgHlspot+SOomKsISRAaFldoVhvsaGzDN4JrNbEpnqs
- gaenkQzw0dIy483nXwMoC4YxMajHWPdX58Di0INrA/CzvisUFB/0600U2Y0siAVH2S7C
- 0jyQ==
-X-Gm-Message-State: AOAM532oTqtsjsUlXScAs5oOhi6j6sY1TkUDUt+S5UB4o5o3jxIkBQPR
- x2CnLWG1KAu47bNBF+YEXkWVInlejhffXDDMC0SsNw==
-X-Google-Smtp-Source: ABdhPJyAHKKpIEgtpJFItWQBlJnuXIBUfa/CXZfSQpSUtaPCfFyPDVQ323RrrciqnEM4GZ8pMxC86svNsenvQuVfzhk=
-X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
- h3-20020a056902008300b0061a709bd841mr33156155ybs.140.1646324407934; Thu, 03
- Mar 2022 08:20:07 -0800 (PST)
+ bh=c7bj6+VLt8jnxmCcFjyOq5LDQB9t2EyrFEr8WRdPqcg=;
+ b=k+SevsuRzieXnrTfbOQDBjxmirW+PQIpjY8fnrYTzuWOtSiwKcPrl7JWkN6XOde7jd
+ Ayx0cFQh31YZEDhOtfd/low31i8BQCJlx2q1Uhi2ucJTlHaAkGPTy8HF+SflXwz02Yr6
+ +G6fEifU4O3hcSFsuOAgSkTBtd/63zfY17w3eY7m4iwGwHOobOsHmsVKqSYsIBidOy0l
+ I0xPrp9A5R4wF/cWtt02usY1UfO7WY0Jkr2ZainsQV1n9BoMRtMggng2CDgb9b+y0aQK
+ 6yhcoyIbomlCGbhAOIeNbr7XcfiOMou7Z1NDaO0XZTyrDnc17NV/+SVmEylJxUMOE161
+ Cz9Q==
+X-Gm-Message-State: AOAM532W/4NWTQHo8UnOi+qMjan+ozpPUhHKV5upcCiWSAtBjkCaV5AE
+ zk5Pq0+EgOXlyB/p33AnA5M3RSU1nK+Dd8Tx/velkA==
+X-Google-Smtp-Source: ABdhPJwA9Ie1Dc02pkkqRVLasF3nzFzS1aLg2JJ7n5HYTlBYsgmtAmqBnRE0MNKzTomOFL9KY9bKyJE1pYRRSaMaraY=
+X-Received: by 2002:a81:164f:0:b0:2dc:3906:27c0 with SMTP id
+ 76-20020a81164f000000b002dc390627c0mr2944217yww.64.1646324503452; Thu, 03 Mar
+ 2022 08:21:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20220227020413.11741-1-richard.henderson@linaro.org>
- <20220227020413.11741-7-richard.henderson@linaro.org>
- <CAFEAcA_wCDP=-=FFp_hKE9r-5Vz7RMxpQV2BkH63cpv1oZRjbw@mail.gmail.com>
- <59dcee91-aec2-50b8-28a6-cbebfc9fb7ee@linaro.org>
-In-Reply-To: <59dcee91-aec2-50b8-28a6-cbebfc9fb7ee@linaro.org>
+References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-3-git-send-email-steven.sistare@oracle.com>
+ <CAFEAcA9OvfUdKrVtisL3hd-WqimimNPfgKpQDm-sFNOSnPOZZw@mail.gmail.com>
+ <4d55c906-48cd-e399-f5dd-5baa3d9debc0@oracle.com>
+In-Reply-To: <4d55c906-48cd-e399-f5dd-5baa3d9debc0@oracle.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Mar 2022 16:19:56 +0000
-Message-ID: <CAFEAcA9VF4ZnZ4sDv2anhGz_Yv8Y3m8ffGHX03yS=Zyr8xqEgA@mail.gmail.com>
-Subject: Re: [PATCH v2 6/9] tcg/aarch64: Support TCG_TARGET_SIGNED_ADDR32
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 3 Mar 2022 16:21:32 +0000
+Message-ID: <CAFEAcA8409H5PuJS=xq=NZQrAyWaov3OvygfbZmu_X80+GqWnA@mail.gmail.com>
+Subject: Re: [PATCH V7 02/29] migration: fix populate_vfio_info
+To: Steven Sistare <steven.sistare@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -84,52 +85,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zheng Chuan <zhengchuan@huawei.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Mar 2022 at 15:43, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 3 Mar 2022 at 15:55, Steven Sistare <steven.sistare@oracle.com> wrote:
 >
-> On 3/3/22 05:04, Peter Maydell wrote:
-> >>       if (USE_GUEST_BASE) {
-> >>           tcg_out_qemu_ld_direct(s, memop, ext, data_reg,
-> >> -                               TCG_REG_GUEST_BASE, otype, addr_reg);
-> >> +                               TCG_REG_GUEST_BASE, option, addr_reg);
-> >>       } else {
-> >>           tcg_out_qemu_ld_direct(s, memop, ext, data_reg,
-> >> -                               addr_reg, TCG_TYPE_I64, TCG_REG_XZR);
-> >> +                               addr_reg, option, TCG_REG_XZR);
-> >
-> > This doesn't look right. 'option' specifies how we extend the offset
-> > register, but here that is XZR, which is 0 no matter how we choose
-> > to extend it, whereas we aren't going to be extending the base
-> > register 'addr_reg' which is what we do need to either zero or
-> > sign extend. Unfortunately we can't just flip addr_reg and XZR
-> > around, because XZR isn't valid as the base reg.
-> >
-> > Is this a pre-existing bug? If addr_reg needs zero extending
-> > we won't be doing that.
->
-> It's just confusing, because stuff is hidden in macros:
->
-> #define USE_GUEST_BASE     (guest_base != 0 || TARGET_LONG_BITS == 32)
->
-> We *always* use TCG_REG_GUEST_BASE when we require an extension, so the else case you
-> point out will always have option == 3 /* LSL #0 */.
->
-> Previously I had a named constant I could use here, but I didn't create names for the full
-> 'option' field being filled, so I thought it clearer to just pass along the variable.
-> Would it be clearer as
->
->      3 /* LSL #0 */
->
-> or with some LDST_OPTION_LSL0?
+> On 2/24/2022 1:42 PM, Peter Maydell wrote:
+> > ...it also seems to be making a no-change-of-behaviour rewrite
+> > of the rest of the file. Is there a reason I'm missing for doing
+> > that ?
 
-I think that using something that says it's LSL 0 (either comment as done
-elsewhere in the patch, or maybe better with some symbolic constant)
-would help, yes. Plus an assert or a comment that we know we don't
-need to extend addr_reg in this half of the if().
+> I'll change the commit message to explain:
+>
+>     Include CONFIG_DEVICES so that populate_vfio_info is instantiated for
+>     CONFIG_VFIO, and refactor so only one ifdef is needed when new functions
+>     are added in a later patch.
+>
+> The later patch is "vfio-pci: cpr part 1 (fd and dma)"
+
+I'd prefer it if you split this patch into two patches; these two changes
+aren't related.
 
 thanks
 -- PMM
