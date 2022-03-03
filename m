@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F674CC33C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:51:20 +0100 (CET)
-Received: from localhost ([::1]:38148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FEB4CC348
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 17:53:29 +0100 (CET)
+Received: from localhost ([::1]:45284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPofe-0004uE-Oj
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:51:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44500)
+	id 1nPohk-0001Jp-Qj
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 11:53:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nPodM-0002Ac-Nw
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:48:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54671)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nPodJ-0001KO-8Z
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 11:48:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646326132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wSxSL+f0M8nFUQcfvmSxUf412Cy+LsPHlTN6qYlHFx0=;
- b=ccbzZHL/6dNeM8X2bZhWvKKe2+PhddiWgF3HoFd+Jt8J+XCGRrbSHfkFRax8tn8OJT+M5z
- VJ5krIOLrwITFX/gC/3lKFlOkYPDvbSgwch8fwmPZtxY2079O+EGAvK62Me0qUtn6s9B1j
- E2v3ZbEbJJRwNILPJQc5sVfh2r+GNDw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-347-Snb9KPmqOZOfvdwnGvIpiQ-1; Thu, 03 Mar 2022 11:48:51 -0500
-X-MC-Unique: Snb9KPmqOZOfvdwnGvIpiQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF2B6824FAA;
- Thu,  3 Mar 2022 16:48:48 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.146])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 566B9303E5;
- Thu,  3 Mar 2022 16:48:43 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 4/4] iotests/185: Add post-READY quit tests
-Date: Thu,  3 Mar 2022 17:48:14 +0100
-Message-Id: <20220303164814.284974-5-hreitz@redhat.com>
-In-Reply-To: <20220303164814.284974-1-hreitz@redhat.com>
-References: <20220303164814.284974-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nPofQ-0006N2-6D; Thu, 03 Mar 2022 11:51:06 -0500
+Received: from [2607:f8b0:4864:20::c36] (port=39459
+ helo=mail-oo1-xc36.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nPofN-0006fv-T4; Thu, 03 Mar 2022 11:51:03 -0500
+Received: by mail-oo1-xc36.google.com with SMTP id
+ i6-20020a4ac506000000b0031c5ac6c078so6407028ooq.6; 
+ Thu, 03 Mar 2022 08:51:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HA6gH7q6R2yeqTu5pgscY7HSJWwrH+XC9Fm/Y06E864=;
+ b=JNwK7JBv3on64H9Yfa4MVBZWLbWL5kzZFklOjV78cfFqbqfMFBpLjPAKFlwSk6tcc2
+ P8HVtysTmC/Iw256zg0aaof2UvNnVDIfw7iSzwUG7Q0Nhb/f805q7WBBfZxdrusaMUPQ
+ xrCZEOzDdqeejRf9jaP23YZKNhINZT+HnNKtIjf8GqMX4HLX1dzdcYEIzFHbVAQe6+yH
+ sp3EiSYKUVLEC00fLJLlU8MfRG4sL3B+CJ2k21lFqRSHXlUFpuW3FxbzpQM9ScauHJWc
+ DWcQVce8+OWxcxp7pqeLvSV4OkVSvdJcjlPRqrFpbxQNYS1WkdmR+t8wMOhLb418Ghso
+ 9lfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HA6gH7q6R2yeqTu5pgscY7HSJWwrH+XC9Fm/Y06E864=;
+ b=og71AHJbRmI04COeQawvNZhi69S2G4OjxMcTcgvsnVJWJfOBVN/IWH2JCTyBFOzvkl
+ iyspyjiHm7AWzmBa6s6ZNQ/iFHZbWst3WBvOB0yoPzb/5vFPTmT61aqNL3OPz7/ZT6bg
+ e/3JpXA2V3sqfxAYERnxCz19DLEgd+o/o1vafwI6493lVrVHEw8R0JuT7R4/C/KuBYgV
+ gv+DE8iyX1cFw9ZDdhccw68UEy0gGubh2HCNJSFLXKXtJWSc6mMRD4enVbywdPWPAxzm
+ /+EnsT9Ak+wVKvUnnVr+X+BNG1mH6moelXDe2ODsW7LVyN7Cw9EAT2qKf43iGAptg9LR
+ ggDg==
+X-Gm-Message-State: AOAM532mNBK8ISCn5dnnNnL2qRRsd7zDXePYPBnWiuCNoNgWWLWdPeWn
+ 7txsFjLBX7P0snelMj3iC36jMjrTm/c3Sb8mYsI=
+X-Google-Smtp-Source: ABdhPJzjNVbGzTFC0KEKawDwUhjNxtU6KwsOaKxgklf5qawv1fptXrl0y1c6zdCEC5yTeK3iwSMco8tSMf4rC1+ltD8=
+X-Received: by 2002:a05:6871:5c3:b0:d7:1322:9d48 with SMTP id
+ v3-20020a05687105c300b000d713229d48mr4660203oan.153.1646326260395; Thu, 03
+ Mar 2022 08:51:00 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220303032219.17631-1-dmiller423@gmail.com>
+ <20220303032219.17631-2-dmiller423@gmail.com>
+ <9ad00abf-4380-4efc-4012-aee5a36ff6e6@linaro.org>
+In-Reply-To: <9ad00abf-4380-4efc-4012-aee5a36ff6e6@linaro.org>
+From: David Miller <dmiller423@gmail.com>
+Date: Thu, 3 Mar 2022 11:50:48 -0500
+Message-ID: <CAEgyohXjXw-aZJX0qm3dReAUkMax-SmS9oAfR90XFX_q2i1msQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] s390x/tcg: Implement Vector-Enhancements Facility
+ 2 for s390x
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000ef72e305d9533399"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c36
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c36;
+ envelope-from=dmiller423@gmail.com; helo=mail-oo1-xc36.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,299 +84,408 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ farman@linux.ibm.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-185 tests quitting qemu while a block job is active.  It does not
-specifically test quitting qemu while a mirror or active commit job is
-in its READY phase.
+--000000000000ef72e305d9533399
+Content-Type: text/plain; charset="UTF-8"
 
-Add two test cases for this, where we respectively mirror or commit to
-an external QSD instance, which provides a throttled block device.  qemu
-is supposed to cancel the job so that it can quit as soon as possible
-instead of waiting for the job to complete (which it did before 6.2).
+> Too many changes in one patch.
+> You need to split these into smaller, logical units.
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
- tests/qemu-iotests/185     | 190 ++++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/185.out |  48 ++++++++++
- 2 files changed, 237 insertions(+), 1 deletion(-)
+Can you give some guideline on that?
+IE: change to two,  the shifts and reversed loads into two patches or more
+on line count of each patch?
+.
+> Tabs, and more later.
 
-diff --git a/tests/qemu-iotests/185 b/tests/qemu-iotests/185
-index f2ec5c5ceb..8b1143dc16 100755
---- a/tests/qemu-iotests/185
-+++ b/tests/qemu-iotests/185
-@@ -33,6 +33,12 @@ _cleanup()
-     _rm_test_img "${TEST_IMG}.copy"
-     _cleanup_test_img
-     _cleanup_qemu
-+
-+    if [ -f "$TEST_DIR/qsd.pid" ]; then
-+        kill -SIGKILL "$(cat "$TEST_DIR/qsd.pid")"
-+        rm -f "$TEST_DIR/qsd.pid"
-+    fi
-+    rm -f "$SOCK_DIR/qsd.sock"
- }
- trap "_cleanup; exit \$status" 0 1 2 3 15
- 
-@@ -45,7 +51,7 @@ _supported_fmt qcow2
- _supported_proto file
- _supported_os Linux
- 
--size=64M
-+size=$((64 * 1048576))
- TEST_IMG="${TEST_IMG}.base" _make_test_img $size
- 
- echo
-@@ -216,6 +222,188 @@ wait=1 _cleanup_qemu | grep -v 'JOB_STATUS_CHANGE'
- 
- _check_test_img
- 
-+echo
-+echo === Start mirror to throttled QSD and exit qemu ===
-+echo
-+
-+# Mirror to a throttled QSD instance (so that qemu cannot drain the
-+# throttling), wait for READY, then write some data to the device,
-+# and then quit qemu.
-+# (qemu should force-cancel the job and not wait for the data to be
-+# written to the target.)
-+
-+_make_test_img $size
-+
-+# Will be used by this and the next case
-+set_up_throttled_qsd() {
-+    $QSD \
-+        --object throttle-group,id=thrgr,limits.bps-total=1048576 \
-+        --blockdev null-co,node-name=null,size=$size \
-+        --blockdev throttle,node-name=throttled,throttle-group=thrgr,file=null \
-+        --nbd-server addr.type=unix,addr.path="$SOCK_DIR/qsd.sock" \
-+        --export nbd,id=exp,node-name=throttled,name=target,writable=true \
-+        --pidfile "$TEST_DIR/qsd.pid" \
-+        --daemonize
-+}
-+
-+set_up_throttled_qsd
-+
-+# Need a virtio-blk device so that qemu-io writes will not block the monitor
-+_launch_qemu \
-+    --blockdev file,node-name=source-proto,filename="$TEST_IMG" \
-+    --blockdev qcow2,node-name=source-fmt,file=source-proto \
-+    --device virtio-blk,id=vblk,drive=source-fmt \
-+    --blockdev "{\"driver\": \"nbd\",
-+                 \"node-name\": \"target\",
-+                 \"server\": {
-+                     \"type\": \"unix\",
-+                     \"path\": \"$SOCK_DIR/qsd.sock\"
-+                 },
-+                 \"export\": \"target\"}"
-+
-+h=$QEMU_HANDLE
-+_send_qemu_cmd $h '{"execute": "qmp_capabilities"}' 'return'
-+
-+# Use sync=top, so the first pass will not copy the whole image
-+_send_qemu_cmd $h \
-+    '{"execute": "blockdev-mirror",
-+      "arguments": {
-+          "job-id": "mirror",
-+          "device": "source-fmt",
-+          "target": "target",
-+          "sync": "top"
-+      }}' \
-+    'return' \
-+    | grep -v JOB_STATUS_CHANGE # Ignore these events during creation
-+
-+# This too will be used by this and the next case
-+# $1: QEMU handle
-+# $2: Image size
-+wait_for_job_and_quit() {
-+    h=$1
-+    size=$2
-+
-+    # List of expected events
-+    capture_events='BLOCK_JOB_READY JOB_STATUS_CHANGE'
-+    _wait_event $h 'BLOCK_JOB_READY'
-+    QEMU_EVENTS= # Ignore all JOB_STATUS_CHANGE events that came before READY
-+
-+    # Write something to the device for post-READY mirroring.  Write it in
-+    # blocks matching the cluster size, each spaced one block apart, so
-+    # that the mirror job will have to spawn one request per cluster.
-+    # Because the number of concurrent requests is limited (to 16), this
-+    # limits the number of bytes concurrently in flight, which speeds up
-+    # cancelling the job (in-flight requests still are waited for).
-+    # To limit the number of bytes in flight, we could alternatively pass
-+    # something for blockdev-mirror's @buf-size parameter, but
-+    # block-commit does not have such a parameter, so we need to figure
-+    # something out that works for both.
-+
-+    cluster_size=65536
-+    step=$((cluster_size * 2))
-+
-+    echo '--- Writing data to the virtio-blk device ---'
-+
-+    for ofs in $(seq 0 $step $((size - step))); do
-+        qemu_io_cmd="qemu-io -d vblk/virtio-backend "
-+        qemu_io_cmd+="\\\"aio_write $ofs $cluster_size\\\""
-+
-+        # Do not include these requests in the reference output
-+        # (it's just too much)
-+        silent=yes _send_qemu_cmd $h \
-+            "{\"execute\": \"human-monitor-command\",
-+              \"arguments\": {
-+                  \"command-line\": \"$qemu_io_cmd\"
-+              }}" \
-+            'return'
-+    done
-+
-+    # Wait until the job's length is updated to reflect the write requests
-+
-+    # We have written to half of the device, so this is the expected job length
-+    final_len=$((size / 2))
-+    timeout=100 # unit: 0.1 seconds
-+    while true; do
-+        len=$(
-+            _send_qemu_cmd $h \
-+                '{"execute": "query-block-jobs"}' \
-+                'return.*"len": [0-9]\+' \
-+                | grep 'return.*"len": [0-9]\+' \
-+                | sed -e 's/.*"len": \([0-9]\+\).*/\1/'
-+        )
-+        if [ "$len" -eq "$final_len" ]; then
-+            break
-+        fi
-+        timeout=$((timeout - 1))
-+        if [ "$timeout" -eq 0 ]; then
-+            echo "ERROR: Timeout waiting for job to reach len=$final_len"
-+            break
-+        fi
-+        sleep 0.1
-+    done
-+
-+    sleep 1
-+
-+    _send_qemu_cmd $h \
-+        '{"execute": "quit"}' \
-+        'return'
-+
-+    # List of expected events
-+    capture_events='BLOCK_JOB_CANCELLED JOB_STATUS_CHANGE SHUTDOWN'
-+    _wait_event $h 'SHUTDOWN'
-+    QEMU_EVENTS= # Ignore all JOB_STATUS_CHANGE events that came before SHUTDOWN
-+    _wait_event $h 'JOB_STATUS_CHANGE' # standby
-+    _wait_event $h 'JOB_STATUS_CHANGE' # ready
-+    _wait_event $h 'JOB_STATUS_CHANGE' # aborting
-+    # Filter the offset (depends on when exactly `quit` was issued)
-+    _wait_event $h 'BLOCK_JOB_CANCELLED' \
-+        | sed -e 's/"offset": [0-9]\+/"offset": (filtered)/'
-+    _wait_event $h 'JOB_STATUS_CHANGE' # concluded
-+    _wait_event $h 'JOB_STATUS_CHANGE' # null
-+
-+    wait=yes _cleanup_qemu
-+
-+    kill -SIGTERM "$(cat "$TEST_DIR/qsd.pid")"
-+}
-+
-+wait_for_job_and_quit $h $size
-+
-+echo
-+echo === Start active commit to throttled QSD and exit qemu ===
-+echo
-+
-+# Same as the above, but instead of mirroring, do an active commit
-+
-+_make_test_img $size
-+
-+set_up_throttled_qsd
-+
-+_launch_qemu \
-+    --blockdev "{\"driver\": \"nbd\",
-+                 \"node-name\": \"target\",
-+                 \"server\": {
-+                     \"type\": \"unix\",
-+                     \"path\": \"$SOCK_DIR/qsd.sock\"
-+                 },
-+                 \"export\": \"target\"}" \
-+    --blockdev file,node-name=source-proto,filename="$TEST_IMG" \
-+    --blockdev qcow2,node-name=source-fmt,file=source-proto,backing=target \
-+    --device virtio-blk,id=vblk,drive=source-fmt
-+
-+h=$QEMU_HANDLE
-+_send_qemu_cmd $h '{"execute": "qmp_capabilities"}' 'return'
-+
-+_send_qemu_cmd $h \
-+    '{"execute": "block-commit",
-+      "arguments": {
-+          "job-id": "commit",
-+          "device": "source-fmt"
-+      }}' \
-+    'return' \
-+    | grep -v JOB_STATUS_CHANGE # Ignore these events during creation
-+
-+wait_for_job_and_quit $h $size
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/185.out b/tests/qemu-iotests/185.out
-index 754a641258..70e8dd6c87 100644
---- a/tests/qemu-iotests/185.out
-+++ b/tests/qemu-iotests/185.out
-@@ -116,4 +116,52 @@ Formatting 'TEST_DIR/t.qcow2.copy', fmt=qcow2 cluster_size=65536 extended_l2=off
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "disk", "len": 67108864, "offset": 524288, "speed": 65536, "type": "stream"}}
- No errors were found on the image.
-+
-+=== Start mirror to throttled QSD and exit qemu ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "blockdev-mirror",
-+      "arguments": {
-+          "job-id": "mirror",
-+          "device": "source-fmt",
-+          "target": "target",
-+          "sync": "top"
-+      }}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "mirror", "len": 0, "offset": 0, "speed": 0, "type": "mirror"}}
-+--- Writing data to the virtio-blk device ---
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "standby", "id": "mirror"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "mirror"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "mirror"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "mirror", "len": 33554432, "offset": (filtered), "speed": 0, "type": "mirror"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "mirror"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "mirror"}}
-+
-+=== Start active commit to throttled QSD and exit qemu ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "block-commit",
-+      "arguments": {
-+          "job-id": "commit",
-+          "device": "source-fmt"
-+      }}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "commit", "len": 0, "offset": 0, "speed": 0, "type": "commit"}}
-+--- Writing data to the virtio-blk device ---
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "standby", "id": "commit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "commit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "commit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "commit", "len": 33554432, "offset": (filtered), "speed": 0, "type": "commit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "commit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "commit"}}
- *** done
--- 
-2.34.1
+The tabs should not happen at all,  I disabled them in editor will figure
+out how they've reappeared.
 
+> This seems likely to go wrong for vdst == vsrc.
+> In addition, swapping the order of elements is something that can be done
+in parallel.
+
+There is always an even number of elements.
+Will make the change there however, that code is more concise.
+
+> Just use a little-endian load: MO_LE | es.
+> While we use MO_TE all over, it's no secret that it's always big-endian.
+
+> And everywhere else you do load then swap, or swap then store.
+
+I wasn't sure if there was a reason MO_TE was used so just kept with the
+existing code flow.
+
+Thanks
+- David Miller
+
+
+
+
+On Thu, Mar 3, 2022 at 3:58 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 3/2/22 17:22, David Miller wrote:
+> > resolves: https://gitlab.com/qemu-project/qemu/-/issues/738
+> >
+> > implements:
+> > VECTOR LOAD ELEMENTS REVERSED               (VLER)
+> > VECTOR LOAD BYTE REVERSED ELEMENTS          (VLBR)
+> > VECTOR LOAD BYTE REVERSED ELEMENT           (VLEBRH, VLEBRF, VLEBRG)
+> > VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO  (VLLEBRZ)
+> > VECTOR LOAD BYTE REVERSED ELEMENT AND REPLOCATE (VLBRREP)
+> > VECTOR STORE ELEMENTS REVERSED              (VSTER)
+> > VECTOR STORE BYTE REVERSED ELEMENTS         (VSTBR)
+> > VECTOR STORE BYTE REVERSED ELEMENTS         (VSTEBRH, VSTEBRF, VSTEBRG)
+> > VECTOR SHIFT LEFT DOUBLE BY BIT             (VSLD)
+> > VECTOR SHIFT RIGHT DOUBLE BY BIT            (VSRD)
+> > VECTOR STRING SEARCH                        (VSTRS)
+> >
+> > modifies:
+> > VECTOR FP CONVERT FROM FIXED                (VCFPS)
+> > VECTOR FP CONVERT FROM LOGICAL              (VCFPL)
+> > VECTOR FP CONVERT TO FIXED                  (VCSFP)
+> > VECTOR FP CONVERT TO LOGICAL                (VCLFP)
+> > VECTOR SHIFT LEFT                           (VSL)
+> > VECTOR SHIFT RIGHT ARITHMETIC               (VSRA)
+> > VECTOR SHIFT RIGHT LOGICAL                  (VSRL)
+> >
+> > Signed-off-by: David Miller <dmiller423@gmail.com>
+>
+> Too many changes in one patch.
+> You need to split these into smaller, logical units.
+>
+> > +/* VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO */
+> > +    F(0xe604, VLLEBRZ, VRX,   VE2, la2, 0, 0, 0, vllebrz, 0, IF_VEC)
+> > +/* VECTOR LOAD BYTE REVERSED ELEMENTS */
+> > +     F(0xe606, VLBR,    VRX,   VE2, la2, 0, 0, 0, vlbr, 0, IF_VEC)
+> > +/* VECTOR LOAD ELEMENTS REVERSED */
+> > +     F(0xe607, VLER,    VRX,   VE2, la2, 0, 0, 0, vler, 0, IF_VEC)
+>
+> Tabs, and more later.
+>
+> > @@ -457,6 +457,9 @@ static DisasJumpType op_vlrep(DisasContext *s,
+> DisasOps *o)
+> >       return DISAS_NEXT;
+> >   }
+> >
+> > +
+> > +
+> > +
+> >   static DisasJumpType op_vle(DisasContext *s, DisasOps *o)
+>
+> Do not add pointless whitespace.
+>
+> > +static DisasJumpType op_vlebr(DisasContext *s, DisasOps *o)
+> > +{
+> > +    const uint8_t es = (1 == s->fields.op2) ? 1 : (1 ^ s->fields.op2);
+> > +    const uint8_t enr = get_field(s, m3);
+> > +    TCGv_i64 tmp;
+> > +
+> > +    if (es < ES_16 || es > ES_64 || !valid_vec_element(enr, es)) {
+> > +        gen_program_exception(s, PGM_SPECIFICATION);
+> > +        return DISAS_NORETURN;
+> > +    }
+> > +
+> > +    tmp = tcg_temp_new_i64();
+> > +    tcg_gen_qemu_ld_i64(tmp, o->addr1, get_mem_index(s), MO_TE | es);
+>
+> Just use a little-endian load: MO_LE | es.
+> While we use MO_TE all over, it's no secret that it's always big-endian.
+>
+> And everywhere else you do load then swap, or swap then store.
+>
+> > +}
+> > +
+> > +
+> > +
+> > +static DisasJumpType op_vsteb(DisasContext *s, DisasOps *o)
+>
+> More care with spacing.
+>
+> > +static inline void s390_vec_reverse(S390Vector *vdst,
+> > +                                    S390Vector *vsrc, uint8_t es)
+> > +{
+> > +    const uint8_t elems = 1 << (4 - es);
+> > +    uint32_t enr;
+> > +
+> > +    for (enr = 0; enr < elems; enr++) {
+> > +        switch (es) {
+> > +        case MO_8:
+> > +            s390_vec_write_element8(vdst, enr,
+> > +                           s390_vec_read_element8(vsrc, 15 ^ enr));
+> > +            break;
+> > +        case MO_16:
+> > +            s390_vec_write_element16(vdst, enr,
+> > +                           s390_vec_read_element16(vsrc, 7 ^ enr));
+> > +            break;
+> > +        case MO_32:
+> > +            s390_vec_write_element32(vdst, enr,
+> > +                           s390_vec_read_element32(vsrc, 3 ^ enr));
+> > +            break;
+> > +        case MO_64:
+> > +            s390_vec_write_element64(vdst, enr,
+> > +                           s390_vec_read_element64(vsrc, 1 ^ enr));
+> > +            break;
+> > +        default:
+> > +            g_assert_not_reached();
+> > +        }
+> > +    }
+> > +}
+>
+> This seems likely to go wrong for vdst == vsrc.
+> In addition, swapping the order of elements is something that can be done
+> in parallel.
+>
+>      l = src[lo], h = src[hi];
+>      switch (es) {
+>      case MO_64:
+>          dst[hi] = l, dst[lo] = h;
+>          break;
+>      case MO_8:
+>          dst[hi] = bswap64(l);
+>          dst[lo] = bswap64(h);
+>          break;
+>      case MO_16:
+>          dst[hi] = hswap64(l);
+>          dst[lo] = hswap64(h);
+>          break;
+>      case MO_32:
+>          dst[hi] = wswap64(l);
+>          dst[hi] = wswap64(h);
+>          break;
+>      }
+>
+> which, really, can all be generated inline.
+>
+>
+> r~
+>
+
+--000000000000ef72e305d9533399
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br>&gt; Too many changes in one patch.<br>&gt; You need t=
+o split these into smaller, logical units.<br><br>Can you give some guideli=
+ne on that?<br>IE: change to two, =C2=A0the shifts and reversed loads into =
+two patches or more on line count of each patch?<br>.<br>&gt; Tabs, and mor=
+e later.<br><br><div><div class=3D"gmail_default" style=3D"">The tabs shoul=
+d not happen at all, =C2=A0I disabled them in editor will figure out how th=
+ey&#39;ve reappeared.<font color=3D"#073763" face=3D"georgia, serif"></font=
+></div></div><div><div class=3D"gmail_default" style=3D"font-family:georgia=
+,serif;font-size:small;color:rgb(7,55,99)"><span style=3D"font-family:Arial=
+,Helvetica,sans-serif;color:rgb(34,34,34)"><br></span></div><div class=3D"g=
+mail_default" style=3D"font-family:georgia,serif;font-size:small;color:rgb(=
+7,55,99)"><span style=3D"font-family:Arial,Helvetica,sans-serif;color:rgb(3=
+4,34,34)">&gt; This seems likely to go wrong for vdst =3D=3D vsrc.</span></=
+div><div><span style=3D"color:rgb(7,55,99);font-family:georgia,serif">&gt;=
+=C2=A0</span>In addition, swapping the order of elements is something that =
+can be done in parallel.<br></div><div class=3D"gmail_default" style=3D"fon=
+t-family:georgia,serif;font-size:small;color:rgb(7,55,99)"><br></div>There =
+is always an even number of elements.<br></div>Will make the change there h=
+owever, that code is more concise.<div><div class=3D"gmail_default" style=
+=3D"font-family:georgia,serif;font-size:small;color:rgb(7,55,99)"><br></div=
+><div class=3D"gmail_default" style=3D"font-family:georgia,serif;font-size:=
+small;color:rgb(7,55,99)">&gt; <span style=3D"font-family:Arial,Helvetica,s=
+ans-serif;color:rgb(34,34,34)">Just use a little-endian load: MO_LE | es.</=
+span><br></div><span class=3D"gmail_default" style=3D"font-family:georgia,s=
+erif;font-size:small;color:rgb(7,55,99)">&gt; </span>While we use MO_TE all=
+ over, it&#39;s no secret that it&#39;s always big-endian.<br><br><div clas=
+s=3D"gmail_default" style=3D"font-family:georgia,serif;font-size:small;colo=
+r:rgb(7,55,99)"><span style=3D"font-family:Arial,Helvetica,sans-serif;color=
+:rgb(34,34,34)">&gt; And everywhere else you do load then swap, or swap the=
+n store.</span></div><div class=3D"gmail_default" style=3D"font-family:geor=
+gia,serif;font-size:small;color:rgb(7,55,99)"><br></div>I wasn&#39;t sure i=
+f there was a reason MO_TE was used so just kept with the existing code flo=
+w.<br></div><div><br></div><div><div class=3D"gmail_default" style=3D"font-=
+family:georgia,serif;font-size:small;color:rgb(7,55,99)">Thanks</div></div>=
+<div class=3D"gmail_default" style=3D"font-family:georgia,serif;font-size:s=
+mall;color:rgb(7,55,99)">- David Miller</div><div><br></div><div><br></div>=
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Mar 3, 2022 at 3:58 AM Richard Henderson &lt;<a hre=
+f=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 3/=
+2/22 17:22, David Miller wrote:<br>
+&gt; resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/738=
+" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu=
+/-/issues/738</a><br>
+&gt; <br>
+&gt; implements:<br>
+&gt; VECTOR LOAD ELEMENTS REVERSED=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0(VLER)<br>
+&gt; VECTOR LOAD BYTE REVERSED ELEMENTS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (=
+VLBR)<br>
+&gt; VECTOR LOAD BYTE REVERSED ELEMENT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0(VLEBRH, VLEBRF, VLEBRG)<br>
+&gt; VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO=C2=A0 (VLLEBRZ)<br>
+&gt; VECTOR LOAD BYTE REVERSED ELEMENT AND REPLOCATE (VLBRREP)<br>
+&gt; VECTOR STORE ELEMENTS REVERSED=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 (VSTER)<br>
+&gt; VECTOR STORE BYTE REVERSED ELEMENTS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(=
+VSTBR)<br>
+&gt; VECTOR STORE BYTE REVERSED ELEMENTS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(=
+VSTEBRH, VSTEBRF, VSTEBRG)<br>
+&gt; VECTOR SHIFT LEFT DOUBLE BY BIT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0(VSLD)<br>
+&gt; VECTOR SHIFT RIGHT DOUBLE BY BIT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 (VSRD)<br>
+&gt; VECTOR STRING SEARCH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (VSTRS)<br>
+&gt; <br>
+&gt; modifies:<br>
+&gt; VECTOR FP CONVERT FROM FIXED=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 (VCFPS)<br>
+&gt; VECTOR FP CONVERT FROM LOGICAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 (VCFPL)<br>
+&gt; VECTOR FP CONVERT TO FIXED=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 (VCSFP)<br>
+&gt; VECTOR FP CONVERT TO LOGICAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 (VCLFP)<br>
+&gt; VECTOR SHIFT LEFT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(VSL)<br>
+&gt; VECTOR SHIFT RIGHT ARITHMETIC=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0(VSRA)<br>
+&gt; VECTOR SHIFT RIGHT LOGICAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 (VSRL)<br>
+&gt; <br>
+&gt; Signed-off-by: David Miller &lt;<a href=3D"mailto:dmiller423@gmail.com=
+" target=3D"_blank">dmiller423@gmail.com</a>&gt;<br>
+<br>
+Too many changes in one patch.<br>
+You need to split these into smaller, logical units.<br>
+<br>
+&gt; +/* VECTOR LOAD BYTE REVERSED ELEMENT AND ZERO */<br>
+&gt; +=C2=A0 =C2=A0 F(0xe604, VLLEBRZ, VRX,=C2=A0 =C2=A0VE2, la2, 0, 0, 0, =
+vllebrz, 0, IF_VEC)<br>
+&gt; +/* VECTOR LOAD BYTE REVERSED ELEMENTS */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0F(0xe606, VLBR,=C2=A0 =C2=A0 VRX,=C2=A0 =C2=A0VE2=
+, la2, 0, 0, 0, vlbr, 0, IF_VEC)<br>
+&gt; +/* VECTOR LOAD ELEMENTS REVERSED */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0F(0xe607, VLER,=C2=A0 =C2=A0 VRX,=C2=A0 =C2=A0VE2=
+, la2, 0, 0, 0, vler, 0, IF_VEC)<br>
+<br>
+Tabs, and more later.<br>
+<br>
+&gt; @@ -457,6 +457,9 @@ static DisasJumpType op_vlrep(DisasContext *s, Dis=
+asOps *o)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return DISAS_NEXT;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0static DisasJumpType op_vle(DisasContext *s, DisasOps *o)<=
+br>
+<br>
+Do not add pointless whitespace.<br>
+<br>
+&gt; +static DisasJumpType op_vlebr(DisasContext *s, DisasOps *o)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 const uint8_t es =3D (1 =3D=3D s-&gt;fields.op2) ? 1 : =
+(1 ^ s-&gt;fields.op2);<br>
+&gt; +=C2=A0 =C2=A0 const uint8_t enr =3D get_field(s, m3);<br>
+&gt; +=C2=A0 =C2=A0 TCGv_i64 tmp;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (es &lt; ES_16 || es &gt; ES_64 || !valid_vec_elemen=
+t(enr, es)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 gen_program_exception(s, PGM_SPECIFICATIO=
+N);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return DISAS_NORETURN;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 tmp =3D tcg_temp_new_i64();<br>
+&gt; +=C2=A0 =C2=A0 tcg_gen_qemu_ld_i64(tmp, o-&gt;addr1, get_mem_index(s),=
+ MO_TE | es);<br>
+<br>
+Just use a little-endian load: MO_LE | es.<br>
+While we use MO_TE all over, it&#39;s no secret that it&#39;s always big-en=
+dian.<br>
+<br>
+And everywhere else you do load then swap, or swap then store.<br>
+<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +static DisasJumpType op_vsteb(DisasContext *s, DisasOps *o)<br>
+<br>
+More care with spacing.<br>
+<br>
+&gt; +static inline void s390_vec_reverse(S390Vector *vdst,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 S390Vector *vsrc, =
+uint8_t es)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 const uint8_t elems =3D 1 &lt;&lt; (4 - es);<br>
+&gt; +=C2=A0 =C2=A0 uint32_t enr;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 for (enr =3D 0; enr &lt; elems; enr++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (es) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case MO_8:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s390_vec_write_element8(vds=
+t, enr,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0s390_vec_read_element8(vsrc, 15 ^ enr));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case MO_16:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s390_vec_write_element16(vd=
+st, enr,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0s390_vec_read_element16(vsrc, 7 ^ enr));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case MO_32:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s390_vec_write_element32(vd=
+st, enr,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0s390_vec_read_element32(vsrc, 3 ^ enr));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case MO_64:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s390_vec_write_element64(vd=
+st, enr,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0s390_vec_read_element64(vsrc, 1 ^ enr));<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_not_reached();<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +}<br>
+<br>
+This seems likely to go wrong for vdst =3D=3D vsrc.<br>
+In addition, swapping the order of elements is something that can be done i=
+n parallel.<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0l =3D src[lo], h =3D src[hi];<br>
+=C2=A0 =C2=A0 =C2=A0switch (es) {<br>
+=C2=A0 =C2=A0 =C2=A0case MO_64:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dst[hi] =3D l, dst[lo] =3D h;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0case MO_8:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dst[hi] =3D bswap64(l);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dst[lo] =3D bswap64(h);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0case MO_16:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dst[hi] =3D hswap64(l);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dst[lo] =3D hswap64(h);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0case MO_32:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dst[hi] =3D wswap64(l);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dst[hi] =3D wswap64(h);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+which, really, can all be generated inline.<br>
+<br>
+<br>
+r~<br>
+</blockquote></div></div></div>
+
+--000000000000ef72e305d9533399--
 
