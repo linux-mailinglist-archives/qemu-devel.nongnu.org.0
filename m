@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457474CC036
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:44:11 +0100 (CET)
-Received: from localhost ([::1]:60638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4194CC041
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 15:47:58 +0100 (CET)
+Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPmgc-0002lM-C5
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:44:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34968)
+	id 1nPmkH-0005Nk-FO
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 09:47:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPmeD-0001Hd-HE
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:41:42 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=44627
- helo=mail-pj1-x1032.google.com)
+ id 1nPmhM-0004ND-RU
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:44:57 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=50899
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nPmeB-00047Q-PL
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:41:41 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- gj15-20020a17090b108f00b001bef86c67c1so4888071pjb.3
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 06:41:39 -0800 (PST)
+ id 1nPmhL-0004cU-CN
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 09:44:56 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id m22so4780018pja.0
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 06:44:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=d/saZ9eUVVc6holwxky7oFz5YNSon/iqj3/DtKdZexY=;
- b=C+eDbaTFzdt0v/3KsePMULsWsD7cqSHTktUzdlTlaUmWuhreq1Vr9wex401yVKBIid
- iSBhgKcok4/ERgyca9s/Moa6917jjjg4232MzFmrRqqsxDueIrPE6YPj/fbuVbdVHOqt
- kWffSMJLPKAOPtknygqwDdLdSengRxOWlvw1p6bqfdiFYFwrkyJlf7MEFHRkqpYTrgIi
- uTM0gW9RkkPytoN1fCiM57xmD0a+hIA8Bd2S0mZGxB+a6wIGvyHMdCNUtu4mfzrLIQlr
- 1JLtmENK1zoIEK2ps1uaYGmAmEK4ntDgCTIqozrlmVWb+4frjEXX95gVKs0QbEmpDYDz
- 3bfA==
+ bh=Yr9x8V2calkDwnehTbsBBQiYKMtitPQymogBZX49Ugo=;
+ b=lYQWYQK6PSGEmJvzqojy2brOJubS7qEgdo95mICnCIa2qng7oojot/B16wSPe2ur0o
+ gw2bsDlfCD6l69pqHFwOEqo45JHyEDuNn1fu/9hu2OEr5s0u9PXkE8jq+Cs/4C2mmq7Z
+ LpzDmBEbcuIFyTc4x/drRpwSMy5mC8V8VjrSpS9yBMHOt9vOn2I3txCAkaIINsnLXkvV
+ 5cIKRk1Ap9j8Vjl+mWzjhJ1gR8xNoarAIeY87Nm9DGw1M95shCtYJwgplV+H3aaGW0iA
+ PCFmoocsN09aX68w8/GK57Y4hO20ks2+9AVfrl4Jqto+jjoFaCuCAuntQw6gUVNufDF1
+ E8gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=d/saZ9eUVVc6holwxky7oFz5YNSon/iqj3/DtKdZexY=;
- b=IGEzO9Fao9AFV2pl5L/5FLABdHurx058CZ8dpPP1ZaGP7HPbWC2eB0hU/XhCe07FDa
- nlWgnzA0Foo0xiqUmSH9NBtzS3D7pK8w31Tc7wOEcYp8Fo+9xnITk3eTLOODzGrteLyf
- L9QO2ydwwikfKTlqlJtVlqdDzQH/4klSmHSuQ9dhkO6O+TQ0q3jT1QJ2CWOxo2CbNKc3
- UCXtbmEP5TKa3RvRhpRNi1n6K7R/yf/sfEphbqPRc6vhh7k26Qebzgac/yrls/DG2fBo
- 9493+92fZQvSzPsEv3F4rP63lN+RiYX/AMc8tiReBVUC0q/HfXbWQCKnqImF/FzI3Sye
- BXgQ==
-X-Gm-Message-State: AOAM530Bo3ZgiPjRuai8MjSF3sY18A6PywBKE+lAu1cQg7kas+wZ3K10
- YoKITlKxvYJVha1alPjhksc=
-X-Google-Smtp-Source: ABdhPJywXNc4Qlz7j/kFTnumlthpXQ7hNi6HREy5wUcd3OTVhjX5Ty2bfYp7Kf3u+dfIAS/paRh1Mg==
-X-Received: by 2002:a17:903:248:b0:151:b270:7e76 with SMTP id
- j8-20020a170903024800b00151b2707e76mr1308650plh.120.1646318498380; 
- Thu, 03 Mar 2022 06:41:38 -0800 (PST)
+ bh=Yr9x8V2calkDwnehTbsBBQiYKMtitPQymogBZX49Ugo=;
+ b=03RG5suEitl/rnwrMswy6GP4YHHyM56OcNtED4vParVTIW41Yd4Kj0S0hlddgrJwfQ
+ kQAOuXLlHAho5jzALx2NB8NqKWCPcs5UyaE9Kyc4B2TDywFBVUK17lWsCzkrfgsRTqlr
+ ZENvxjKPJNfJoi0S12pJqXf7F8JLq0U4U61MwIEsLnSINZC5LhYbszq/948v3HWxgbep
+ 0opU8Akq8eKN75t4NbHTS0berEjg1qdghPLRT/C4yJTM05IsyVn6Q/w2/GnBqeFLgdbc
+ 3rbjnxU6aavZQ5bjA/vu55k6nUJhCv+CVeMWzml6npv35YQp2k/klHsQ3oEAog2StqW2
+ zv3A==
+X-Gm-Message-State: AOAM5331I69PwylKWUZ/11s3wxXKI2swlJ3RlnJxgIdfdlxe7Aw+wUIg
+ 7lj7XFAcEfzV6AjlxPVAbLA=
+X-Google-Smtp-Source: ABdhPJxrY7yzG9a83TFeOg0tU4Kiq3YIS95wnEoR1YYVBkNjKEitaW0pchpSAEMQKiQ9MXG17G/qog==
+X-Received: by 2002:a17:902:7802:b0:150:baa:bc1a with SMTP id
+ p2-20020a170902780200b001500baabc1amr36187874pll.110.1646318694142; 
+ Thu, 03 Mar 2022 06:44:54 -0800 (PST)
 Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- lk9-20020a17090b33c900b001bc7c2dfcdbsm2414284pjb.37.2022.03.03.06.41.35
+ ob13-20020a17090b390d00b001becfd7c6f3sm2519771pjb.27.2022.03.03.06.44.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 06:41:37 -0800 (PST)
-Message-ID: <5f0b5304-359b-1cc6-6ea0-57ba6b0947f0@gmail.com>
-Date: Thu, 3 Mar 2022 15:41:33 +0100
+ Thu, 03 Mar 2022 06:44:53 -0800 (PST)
+Message-ID: <abd92319-d751-3b62-a73b-674e12aab66c@gmail.com>
+Date: Thu, 3 Mar 2022 15:44:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v4 08/14] none-machine: add 'ram-addr' property
+Subject: Re: [PATCH v4 09/14] none-machine: allow cold plugging sysbus devices
 Content-Language: en-US
 To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org,
  mark.burton@greensocs.com, edgari@xilinx.com
 References: <20220223090706.4888-1-damien.hedde@greensocs.com>
- <20220223090706.4888-9-damien.hedde@greensocs.com>
+ <20220223090706.4888-10-damien.hedde@greensocs.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220223090706.4888-9-damien.hedde@greensocs.com>
+In-Reply-To: <20220223090706.4888-10-damien.hedde@greensocs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -102,62 +101,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 23/2/22 10:07, Damien Hedde wrote:
-> Add the property to configure a the base address of the ram.
-> The default value remains zero.
+> Allow plugging any sysbus device on this machine (the sysbus
+> devices still need to be 'user-creatable').
 > 
 > This commit is needed to use the 'none' machine as a base, and
-> subsequently to dynamically populate it using qapi commands. Having
-> a non null 'ram' is really hard to workaround because of the actual
-> constraints on the generic loader: it prevents loading binaries
-> bigger than ram_size (with a null ram, we cannot load anything).
-> For now we need to be able to use the existing ram creation
-> feature of the none machine with a configurable base address.
+> subsequently to dynamically populate it with sysbus devices using
+> qapi commands.
+> 
+> Note that this only concern cold-plug: sysbus devices cann't be hot
+
+"can not" is easier to understand for non-native / not good level of
+English speakers IMHO.
+
+> plugged because the sysbus bus does not support it.
 > 
 > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 > ---
->   hw/core/null-machine.c | 34 ++++++++++++++++++++++++++++++++--
->   1 file changed, 32 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/core/null-machine.c b/hw/core/null-machine.c
-> index 7eb258af07..5fd1cc0218 100644
-> --- a/hw/core/null-machine.c
-> +++ b/hw/core/null-machine.c
-> @@ -16,9 +16,11 @@
->   #include "hw/boards.h"
->   #include "exec/address-spaces.h"
->   #include "hw/core/cpu.h"
-> +#include "qapi/visitor.h"
->   
->   struct NoneMachineState {
->       MachineState parent;
-> +    uint64_t ram_addr;
->   };
->   
->   #define TYPE_NONE_MACHINE MACHINE_TYPE_NAME("none")
-> @@ -26,6 +28,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(NoneMachineState, NONE_MACHINE)
->   
->   static void machine_none_init(MachineState *mch)
->   {
-> +    NoneMachineState *nms = NONE_MACHINE(mch);
->       CPUState *cpu = NULL;
->   
->       /* Initialize CPU (if user asked for it) */
-> @@ -37,9 +40,13 @@ static void machine_none_init(MachineState *mch)
->           }
->       }
->   
-> -    /* RAM at address zero */
-> +    /* RAM at configured address (default: 0) */
->       if (mch->ram) {
-> -        memory_region_add_subregion(get_system_memory(), 0, mch->ram);
-> +        memory_region_add_subregion(get_system_memory(), nms->ram_addr,
-> +                                    mch->ram);
-> +    } else if (nms->ram_addr) {
-> +        error_report("'ram-addr' has been specified but the size is zero");
+>   hw/core/null-machine.c | 4 ++++
+>   1 file changed, 4 insertions(+)
 
-I'm not sure about this error message, IIUC we can get here if no ram
-backend is provided, not if we have one zero-sized. Otherwise LGTM.
-
-> +        exit(1);
->       }
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
