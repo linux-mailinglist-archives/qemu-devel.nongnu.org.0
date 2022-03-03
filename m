@@ -2,60 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C57F4CBD82
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:18:03 +0100 (CET)
-Received: from localhost ([::1]:44628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2624CBDA0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Mar 2022 13:22:46 +0100 (CET)
+Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPkPC-0003pW-KD
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:18:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39990)
+	id 1nPkTk-0007Zm-VN
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 07:22:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1nPkMv-0002LT-3B
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:15:41 -0500
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:41973
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1nPkMr-0006zI-Qk
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:15:40 -0500
-HMM_SOURCE_IP: 172.18.0.188:60092.1426024598
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.150.57.243 (unknown [172.18.0.188])
- by chinatelecom.cn (HERMES) with SMTP id A9CBA280095;
- Thu,  3 Mar 2022 20:15:00 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.188])
- by app0023 with ESMTP id adcb90dbb7d74a908edd11fac4c1f376 for
- armbru@redhat.com; Thu, 03 Mar 2022 20:15:29 CST
-X-Transaction-ID: adcb90dbb7d74a908edd11fac4c1f376
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.188
-X-MEDUSA-Status: 0
-Message-ID: <5781f7e3-b660-cbed-9aa7-443bd25934f4@chinatelecom.cn>
-Date: Thu, 3 Mar 2022 20:14:40 +0800
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nPkSl-0006rj-IK
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:21:43 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:35367)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nPkSj-0005Ul-QK
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 07:21:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=9R8xgaGLBxRs5vRVWZaqPvVEV2Rrgm1G7IUrRBGtnvE=; b=QBYnLVWc//zLVnNCqeiq8Y6Ckz
+ yk19dETucgcwB6MBAgzN5dRnpLgeLvdXM7AQOoj6m145/EfLkRdC+rbxNy2dUhBIV+ATlIwFoLq5p
+ YRyHeZTZKFKDULjujkfCQgE4iAHfWcbJdv+1OrVW7MNnGrLLT7B7uSk61KKa/Lh5OsFwP8smztg+d
+ YUjjAfiN9uuPHVOv6OzdQzIFhgvtohBdnafPnizSLXqYotZYnuZJa1HXQhP4yobgeGdwsvV9sJDGW
+ QTQYm7Rxqd6Z93hggjK1lFzICcbQHMkqUAOJkm75ne12Hj5BVi3pkASxuKaZafNym8aWe0QuJgaN6
+ tjSvjpA5/yrt8Caxl40/01g5Ppsyg3UnoPiBZ0xE7LxYzgLHYjzx5ANM+A6Oigt9/fJ2GRLIqN1eU
+ R5P/3VWwFQGYdDgqz2zmFICs4JbSrCgPgSSHuHo7Wxq4tJtc6gFDKTSWrDhFBVcQ+sNkwfFkHEF98
+ Lxg6t20AfHHS9uXJ6ov7vvR1yUrxHAFdqxUHV88u1k6aOFbJrfq2juSMEENkvakg4wwFFzgTz4LYa
+ cPeewuNIvlGqkR7W+w/wd1Gf3DV5Lrq8XGVs/rWgkACaR+R5vr8l5EPD04c3XK12g/ytdfGLdwqex
+ D8JWIiXkpPosvUBbiVWwZbYmem3He5ttPM3b8G23o=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] 9pfs: move qemu_dirent_dup() from osdep -> 9p-util
+Date: Thu, 03 Mar 2022 13:21:37 +0100
+Message-ID: <2363741.8zZX0mk4Jc@silver>
+In-Reply-To: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+References: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v18 7/7] softmmu/dirtylimit: Implement dirty page rate
- limit
-To: Markus Armbruster <armbru@redhat.com>
-References: <cover.1646247968.git.huangy81@chinatelecom.cn>
- <cover.1646247968.git.huangy81@chinatelecom.cn>
- <0c8849e11cc2d2ec549c926af5977cbd9f460b60.1646247968.git.huangy81@chinatelecom.cn>
- <874k4fckh2.fsf@pond.sub.org>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-In-Reply-To: <874k4fckh2.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.222;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,77 +64,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Dienstag, 1. M=E4rz 2022 21:33:49 CET Christian Schoenebeck wrote:
+> Function qemu_dirent_dup() is currently only used by 9pfs server, so move
+> it from project global header osdep.h to 9pfs specific header 9p-util.h.
+>=20
+> Link:
+> https://lore.kernel.org/qemu-devel/CAFEAcA_=3DHAUNomKD2wurSVaAHa5mrk22A1o=
+HKLW
+> UDjk7v6Khmg@mail.gmail.com/ Based-on:
+> <20220227223522.91937-12-wwcohen@gmail.com>
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  hw/9pfs/9p-util.h    | 30 ++++++++++++++++++++++++++++++
+>  include/qemu/osdep.h | 13 -------------
+>  util/osdep.c         | 21 ---------------------
+>  3 files changed, 30 insertions(+), 34 deletions(-)
+
+Queued on 9p.next:
+https://github.com/cschoenebeck/qemu/commits/9p.next
+
+Thanks!
+
+Best regards,
+Christian Schoenebeck
 
 
-在 2022/3/3 20:02, Markus Armbruster 写道:
-> huangy81@chinatelecom.cn writes:
-> 
->> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>
->> Implement dirtyrate calculation periodically basing on
->> dirty-ring and throttle virtual CPU until it reachs the quota
->> dirty page rate given by user.
->>
->> Introduce qmp commands "set-vcpu-dirty-limit",
->> "cancel-vcpu-dirty-limit", "query-vcpu-dirty-limit"
->> to enable, disable, query dirty page limit for virtual CPU.
->>
->> Meanwhile, introduce corresponding hmp commands
->> "set_vcpu_dirty_limit", "cancel_vcpu_dirty_limit",
->> "info vcpu_dirty_limit" so the feature can be more usable.
->>
->> "query-vcpu-dirty-limit" success depends on enabling dirty
->> page rate limit, so just add it to the list of skipped
->> command to ensure qmp-cmd-test run successfully.
->>
->> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> Acked-by: Markus Armbruster <armbru@redhat.com>
->> Reviewed-by: Peter Xu <peterx@redhat.com>
->> ---
->>   hmp-commands-info.hx       |  13 +++
->>   hmp-commands.hx            |  32 ++++++++
->>   include/monitor/hmp.h      |   3 +
->>   qapi/migration.json        |  80 +++++++++++++++++++
->>   softmmu/dirtylimit.c       | 195 +++++++++++++++++++++++++++++++++++++++++++++
->>   tests/qtest/qmp-cmd-test.c |   2 +
->>   6 files changed, 325 insertions(+)
-> 
-> [...]
-> 
->> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
->> index 7f103ea..4b216a0 100644
->> --- a/tests/qtest/qmp-cmd-test.c
->> +++ b/tests/qtest/qmp-cmd-test.c
->> @@ -110,6 +110,8 @@ static bool query_is_ignored(const char *cmd)
->>           "query-sev-capabilities",
->>           "query-sgx",
->>           "query-sgx-capabilities",
->> +        /* Success depends on enabling dirty page rate limit */
->> +        "query-vcpu-dirty-limit",
->>           NULL
->>       };
->>       int i;
-> 
-> The new command lacks test coverage.  Have you considered writing a
-> test?
-> 
-
-Yes, test case is the next step after supporting dirty-ring-size option 
-for guestperf tool. :)
-
-https://lore.kernel.org/qemu-devel/cover.1646304624.git.huangy81@chinatelecom.cn/
--- 
-Best regard
-
-Hyman Huang(黄勇)
 
