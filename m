@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF374CCB5F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 02:41:42 +0100 (CET)
-Received: from localhost ([::1]:50786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87AC54CCB61
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 02:42:44 +0100 (CET)
+Received: from localhost ([::1]:53068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPwwv-0004i3-I2
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 20:41:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34432)
+	id 1nPwxv-0006Rr-Li
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 20:42:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nPwtY-0003uL-KE
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 20:38:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59080)
+ id 1nPwvd-0004xR-RE
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 20:40:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nPwtT-0003rO-4c
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 20:38:08 -0500
+ id 1nPwvL-00041m-Mj
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 20:40:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646357885;
+ s=mimecast20190719; t=1646358002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YwjzNOAYhjUUDVx+984iQgFChLlN5FQVU66u0rldfaQ=;
- b=K9j5TdgwhmmEK+enMiR39BVrM85sWMsgyokRBe5JewDPJUnM2BUr2yIgUf3+/KFv3KmMmz
- d9YuGSspjTr7EaiXDNgoVPqN2sbRyEIOKnZ9qfxKxPKk4TwpZRRRtyhZfDMHVLv25GbN7h
- XE50eF1IGnEYReJYTX5T2ImnCNxq7YQ=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=86IVBTs1zO3soES1BSFbPEwpKK67/iP/hzPqZVJT4Mk=;
+ b=XButPzRUPdfkMZ/FnvSV6q9itkrI1JdNnBVzS1SXAYk2KJHXsXp8OE5BHN2IXzs9w2sXQP
+ hur8EzGLnnRX4zQyzfS4pjPeDXGWDGa8f9XGAyezzbOmoI5SnEqg8FUNs7ebNGxkj10YKN
+ fobpIOVg1rVGtxm1IwPKN8FoRGAcYvk=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-1KhZqWUGMdGFggSGraequw-1; Thu, 03 Mar 2022 20:38:02 -0500
-X-MC-Unique: 1KhZqWUGMdGFggSGraequw-1
-Received: by mail-lj1-f199.google.com with SMTP id
- 6-20020a2eb946000000b002463d2915d2so2537041ljs.9
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 17:38:01 -0800 (PST)
+ us-mta-46-4cUrxLp3NLWRcBfHNyJtfA-1; Thu, 03 Mar 2022 20:40:01 -0500
+X-MC-Unique: 4cUrxLp3NLWRcBfHNyJtfA-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ a5-20020ac25205000000b00443a34a9472so2115180lfl.15
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 17:40:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YwjzNOAYhjUUDVx+984iQgFChLlN5FQVU66u0rldfaQ=;
- b=HAqACChkCG8+RfDFsviXu3LQ4AeybgxpnWOfA6eIqTNHGca7+dh7nBvE04UW5eaATN
- MH1hl3RTBM89yjVhstYsaYxEFlZJx+Kq4Y4MKbQ3AmIez+nTY6sQcltxdvYWNeCjwias
- fUeCvF+GQhIiHRa2kffFvt8ARqoF+3n4Mf93pB3YM4IQ6L6mJsK7paOPVvnI1IkgACyC
- g89i8OtntVTJXooVfsMrRrRRg3eHyzodtXW7e0ceAC6loP6qL/E0rzjYeG/E8RlLz6aM
- fWHiQ/EpiLOoVAZM6KXpghjP8TVmC0oBBWsK7ab9qufIPP3D2Q6ZMSdb8jYbc2IJZRR9
- h6Xg==
-X-Gm-Message-State: AOAM533ayiGjOBNIjTsnErMJ1rbfskjCtkGe2Gh38oFWS4VKHXRlCljS
- vlIEOgxuXaokU/E7Je6U3qye/31uW8AIY9DdCTa76P5LMmO4ojLGf+5LY/MuQz3WXrCgOI2cT5n
- robWZ+fQnfGv5uQyPI7ODSWdBLQZRYYE=
-X-Received: by 2002:a2e:7a15:0:b0:236:deb2:1f74 with SMTP id
- v21-20020a2e7a15000000b00236deb21f74mr24902890ljc.315.1646357880669; 
- Thu, 03 Mar 2022 17:38:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyC4R2oiEwQ+5L4mGAJLzl1WDbljndn2ikc7wc/llHi+aT/d32FkI2HUCix/uEGDSntYoiMdnA1FF8FehP96Jo=
-X-Received: by 2002:a2e:7a15:0:b0:236:deb2:1f74 with SMTP id
- v21-20020a2e7a15000000b00236deb21f74mr24902858ljc.315.1646357880392; Thu, 03
- Mar 2022 17:38:00 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=86IVBTs1zO3soES1BSFbPEwpKK67/iP/hzPqZVJT4Mk=;
+ b=F+8NBkYvCw1KFC7Pq3EEy8AS7kFa8xKh1tnWKWI/juOPrv4IOqwYhwYjC7M3HZggbj
+ 7kvl4s8UTanIKIjPaq1lzmKqwMXhwyluepNSxJkWfdsekBp7tZagWkko01iEoZ/65S0A
+ WTNNCx/IwJAS3iDryQS8Aa7PtF3mgC8qilkNr0LymD3JhO3+RtX2H8fQUra983FDTyDZ
+ TRxY8XHjEg46KROxB5V94nK+ELio9TXN+NcfADBNpwz+ND4sWTghXgjgoGGpg8Bvg922
+ fN+fwwPoKlBYFo7jpmxSHdoXvfAPOSnF3qugcSLEQSP44sMhV9F99flfgx+h69t4tnU2
+ BP3Q==
+X-Gm-Message-State: AOAM53220qAuFQ8wdK7+I6uOoiMs/2h+RY01/mw9Dx5FiNOGPjwseGKz
+ XkHVC7RC4m7S0q1hXOlFQEVctTk+Edi3AN1aDOz2v5Wbj4uQF6GvTVkHxuxoJVEjHBPZY4gHGDm
+ 4lHcC946S+soAOwiGeo6LTq7BAfSKxa0=
+X-Received: by 2002:a05:6512:3d08:b0:43f:8f45:d670 with SMTP id
+ d8-20020a0565123d0800b0043f8f45d670mr23724348lfv.587.1646357999842; 
+ Thu, 03 Mar 2022 17:39:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/N5OkKEFPP69HFp2xd3HmlaSo7u6QlzusAq5p05BGKC4gaDVYtb5D7JVLeLqaoKCNZA2BDOr/nxGahzkjTHE=
+X-Received: by 2002:a05:6512:3d08:b0:43f:8f45:d670 with SMTP id
+ d8-20020a0565123d0800b0043f8f45d670mr23724315lfv.587.1646357999501; Thu, 03
+ Mar 2022 17:39:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20220225171402.64861-1-Vladislav.Yaroshchuk@jetbrains.com>
- <20220225171402.64861-4-Vladislav.Yaroshchuk@jetbrains.com>
- <50a27646-ce9c-c702-965f-46b602be9220@gmail.com>
- <CAGmdLqQ8J+-sK=Huh-G8w-S0RQUEyKkN2rb6PsZAFXbd6Jk2EQ@mail.gmail.com>
- <f839edfc-de5f-7002-4916-21c541a5185b@gmail.com>
- <CAGmdLqRVtJN8YoxfeCYuay-k+RVofM8W=wicn0fRdjau0uwCHQ@mail.gmail.com>
- <CAMVc7JVnxNTMhked8x=Z0baY2ApMKwB8FrESYWQjm43-6Wm+3A@mail.gmail.com>
- <CAGmdLqQhd9q9VQUKEd_hb9rnb2HwrdAv31aB67sUj_=jiLX_Sw@mail.gmail.com>
- <7b4e06fe-4d10-0870-5d6e-d2e70d7eb3a2@gmail.com>
- <CAGmdLqTqcESsiyTMavKZ3U8=5yPtqdq2tunZTH-tfrzwfUMGug@mail.gmail.com>
- <e5302fba-e773-c56d-388f-a3593bacd977@gmail.com>
- <CAGmdLqRCSYzjWBT7OhfP-hZHYwP8F3=4hpwQ+E76ShxjmRTO5Q@mail.gmail.com>
-In-Reply-To: <CAGmdLqRCSYzjWBT7OhfP-hZHYwP8F3=4hpwQ+E76ShxjmRTO5Q@mail.gmail.com>
+References: <20220227134111.3254066-1-eperezma@redhat.com>
+ <20220227134111.3254066-3-eperezma@redhat.com>
+ <40c5bb81-b33a-9a4a-8ce0-20289b13b907@redhat.com>
+ <CAJaqyWezcrc=iPLe=Y7+g9oBYfUY9pK8OM4=ZUeRgXqr9ZUWkg@mail.gmail.com>
+ <1da7c2b8-ba6e-e9aa-4d55-b1345bd65ba4@redhat.com>
+ <CAJaqyWfbkzi19yMAXY7gwCAoj7sakwU_R2hDc1u8+jHPfHLadA@mail.gmail.com>
+In-Reply-To: <CAJaqyWfbkzi19yMAXY7gwCAoj7sakwU_R2hDc1u8+jHPfHLadA@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 4 Mar 2022 09:37:49 +0800
-Message-ID: <CACGkMEsgqUzm+30jxRCq1Jce6Pu=1+Jw_Q08KzoBviSb-CO6Kg@mail.gmail.com>
-Subject: Re: [PATCH v15 3/8] net/vmnet: implement shared mode (vmnet-shared)
-To: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
+Date: Fri, 4 Mar 2022 09:39:48 +0800
+Message-ID: <CACGkMEvnEhpLT7zc0-w6Cfc7w6zjGi6QgMnWK=BmEcN55N3KnQ@mail.gmail.com>
+Subject: Re: [PATCH v2 02/14] vhost: Add Shadow VirtQueue kick forwarding
+ capabilities
+To: Eugenio Perez Martin <eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -103,135 +100,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, phillip.ennen@gmail.com,
- qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <roman@roolebo.dev>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Phillip Tennen <phillip@axleos.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Howard Spoelstra <hsp.cat7@gmail.com>, Alessio Dionisi <hello@adns.io>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
+ "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 3, 2022 at 11:43 PM Vladislav Yaroshchuk
-<vladislav.yaroshchuk@jetbrains.com> wrote:
+On Thu, Mar 3, 2022 at 5:25 PM Eugenio Perez Martin <eperezma@redhat.com> w=
+rote:
 >
+> On Thu, Mar 3, 2022 at 8:12 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > =E5=9C=A8 2022/3/2 =E4=B8=8A=E5=8D=882:49, Eugenio Perez Martin =E5=86=
+=99=E9=81=93:
+> > > On Mon, Feb 28, 2022 at 3:57 AM Jason Wang<jasowang@redhat.com>  wrot=
+e:
+> > >> =E5=9C=A8 2022/2/27 =E4=B8=8B=E5=8D=889:40, Eugenio P=C3=A9rez =E5=
+=86=99=E9=81=93:
+> > >>> At this mode no buffer forwarding will be performed in SVQ mode: Qe=
+mu
+> > >>> will just forward the guest's kicks to the device.
+> > >>>
+> > >>> Host memory notifiers regions are left out for simplicity, and they=
+ will
+> > >>> not be addressed in this series.
+> > >>>
+> > >>> Signed-off-by: Eugenio P=C3=A9rez<eperezma@redhat.com>
+> > >>> ---
+> > >>>    hw/virtio/vhost-shadow-virtqueue.h |  14 +++
+> > >>>    include/hw/virtio/vhost-vdpa.h     |   4 +
+> > >>>    hw/virtio/vhost-shadow-virtqueue.c |  52 +++++++++++
+> > >>>    hw/virtio/vhost-vdpa.c             | 145 +++++++++++++++++++++++=
++++++-
+> > >>>    4 files changed, 213 insertions(+), 2 deletions(-)
+> > >>>
+> > >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-s=
+hadow-virtqueue.h
+> > >>> index f1519e3c7b..1cbc87d5d8 100644
+> > >>> --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > >>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > >>> @@ -18,8 +18,22 @@ typedef struct VhostShadowVirtqueue {
+> > >>>        EventNotifier hdev_kick;
+> > >>>        /* Shadow call notifier, sent to vhost */
+> > >>>        EventNotifier hdev_call;
+> > >>> +
+> > >>> +    /*
+> > >>> +     * Borrowed virtqueue's guest to host notifier. To borrow it i=
+n this event
+> > >>> +     * notifier allows to recover the VhostShadowVirtqueue from th=
+e event loop
+> > >>> +     * easily. If we use the VirtQueue's one, we don't have an eas=
+y way to
+> > >>> +     * retrieve VhostShadowVirtqueue.
+> > >>> +     *
+> > >>> +     * So shadow virtqueue must not clean it, or we would lose Vir=
+tQueue one.
+> > >>> +     */
+> > >>> +    EventNotifier svq_kick;
+> > >>>    } VhostShadowVirtqueue;
+> > >>>
+> > >>> +void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_=
+kick_fd);
+> > >>> +
+> > >>> +void vhost_svq_stop(VhostShadowVirtqueue *svq);
+> > >>> +
+> > >>>    VhostShadowVirtqueue *vhost_svq_new(void);
+> > >>>
+> > >>>    void vhost_svq_free(gpointer vq);
+> > >>> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vho=
+st-vdpa.h
+> > >>> index 3ce79a646d..009a9f3b6b 100644
+> > >>> --- a/include/hw/virtio/vhost-vdpa.h
+> > >>> +++ b/include/hw/virtio/vhost-vdpa.h
+> > >>> @@ -12,6 +12,8 @@
+> > >>>    #ifndef HW_VIRTIO_VHOST_VDPA_H
+> > >>>    #define HW_VIRTIO_VHOST_VDPA_H
+> > >>>
+> > >>> +#include <gmodule.h>
+> > >>> +
+> > >>>    #include "hw/virtio/virtio.h"
+> > >>>    #include "standard-headers/linux/vhost_types.h"
+> > >>>
+> > >>> @@ -27,6 +29,8 @@ typedef struct vhost_vdpa {
+> > >>>        bool iotlb_batch_begin_sent;
+> > >>>        MemoryListener listener;
+> > >>>        struct vhost_vdpa_iova_range iova_range;
+> > >>> +    bool shadow_vqs_enabled;
+> > >>> +    GPtrArray *shadow_vqs;
+> > >>>        struct vhost_dev *dev;
+> > >>>        VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> > >>>    } VhostVDPA;
+> > >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-s=
+hadow-virtqueue.c
+> > >>> index 019cf1950f..a5d0659f86 100644
+> > >>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > >>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > >>> @@ -11,6 +11,56 @@
+> > >>>    #include "hw/virtio/vhost-shadow-virtqueue.h"
+> > >>>
+> > >>>    #include "qemu/error-report.h"
+> > >>> +#include "qemu/main-loop.h"
+> > >>> +#include "linux-headers/linux/vhost.h"
+> > >>> +
+> > >>> +/** Forward guest notifications */
+> > >>> +static void vhost_handle_guest_kick(EventNotifier *n)
+> > >>> +{
+> > >>> +    VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtq=
+ueue,
+> > >>> +                                             svq_kick);
+> > >>> +    event_notifier_test_and_clear(n);
+> > >>> +    event_notifier_set(&svq->hdev_kick);
+> > >>> +}
+> > >>> +
+> > >>> +/**
+> > >>> + * Set a new file descriptor for the guest to kick the SVQ and not=
+ify for avail
+> > >>> + *
+> > >>> + * @svq          The svq
+> > >>> + * @svq_kick_fd  The svq kick fd
+> > >>> + *
+> > >>> + * Note that the SVQ will never close the old file descriptor.
+> > >>> + */
+> > >>> +void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_=
+kick_fd)
+> > >>> +{
+> > >>> +    EventNotifier *svq_kick =3D &svq->svq_kick;
+> > >>> +    bool poll_stop =3D VHOST_FILE_UNBIND !=3D event_notifier_get_f=
+d(svq_kick);
+> > >> I wonder if this is robust. E.g is there any chance that may end up =
+with
+> > >> both poll_stop and poll_start are false?
+> > >>
+> > > I cannot make that happen in qemu, but the function supports that cas=
+e
+> > > well: It will do nothing. It's more or less the same code as used in
+> > > the vhost kernel, and is the expected behaviour if you send two
+> > > VHOST_FILE_UNBIND one right after another to me.
+> >
+> >
+> > I would think it's just stop twice.
+> >
+> >
+> > >
+> > >> If not, can we simple detect poll_stop as below and treat !poll_star=
+t
+> > >> and poll_stop?
+> > >>
+> > > I'm not sure what does it add. Is there an unexpected consequence wit=
+h
+> > > the current do-nothing behavior I've missed?
+> >
+> >
+> > I'm not sure, but it feels odd if poll_start is not the reverse value o=
+f
+> > poll_stop.
+> >
 >
+> If we want to not to restrict the inputs, we need to handle for situation=
+s:
 >
-> On Tue, Mar 1, 2022 at 11:21 AM Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->>
->> On 2022/03/01 17:09, Vladislav Yaroshchuk wrote:
->> >      > Not sure that only one field is enough, cause
->> >      > we may have two states on bh execution start:
->> >      > 1. There are packets in vmnet buffer s->packets_buf
->> >      >      that were rejected by qemu_send_async and waiting
->> >      >      to be sent. If this happens, we should complete sending
->> >      >      these waiting packets with qemu_send_async firstly,
->> >      >      and after that we should call vmnet_read to get
->> >      >      new ones and send them to QEMU;
->> >      > 2. There are no packets in s->packets_buf to be sent to
->> >      >      qemu, we only need to get new packets from vmnet
->> >      >      with vmnet_read and send them to QEMU
->> >
->> >     In case 1, you should just keep calling qemu_send_packet_async.
->> >     Actually
->> >     qemu_send_packet_async adds the packet to its internal queue and calls
->> >     the callback when it is consumed.
->> >
->> >
->> > I'm not sure we can keep calling qemu_send_packet_async,
->> > because as docs from net/queue.c says:
->> >
->> > /* [...]
->> >   * If a sent callback is provided to send(), the caller must handle a
->> >   * zero return from the delivery handler by not sending any more packets
->> >   * until we have invoked the callback. Only in that case will we queue
->> >   * the packet.
->> >   *
->> >   * If a sent callback isn't provided, we just drop the packet to avoid
->> >   * unbounded queueing.
->> >   */
->> >
->> > So after we did vmnet_read and read N packets
->> > into temporary s->packets_buf, we begin calling
->> > qemu_send_packet_async. If it returns 0 - it says
->> > "no more packets until sent_cb called please".
->> > At this moment we have N packets in s->packets_buf
->> > and already queued K < N of them. But, packets K..N
->> > are not queued and keep waiting for sent_cb to be sent
->> > with qemu_send_packet_async.
->> > Thus when sent_cb called, we should finish
->> > our transfer of packets K..N from s->packets_buf
->> > to qemu calling qemu_send_packet_async.
->> > I meant this.
->>
->> I missed the comment. The description is contradicting with the actual
->> code; qemu_net_queue_send_iov appends the packet to the queue whenever
->> it cannot send one immediately.
->>
+> a) old_fd =3D -1, new_fd =3D -1,
 >
-> Yes, it appends, but (net/queue.c):
-> *  qemu_net_queue_send tries to deliver the packet
->     immediately. If the packet cannot be delivered, the
->     qemu_net_queue_append is called and 0 is returned
->     to say the caller "the receiver is not ready, hold on";
-> *  qemu_net_queue_append does a probe before adding
->     the packet to the queue:
->     if (queue->nq_count >= queue->nq_maxlen && !sent_cb) {
->         return; /* drop if queue full and no callback */
->     }
+> This is the situation you described, and it's basically a no-op.
+> poll_stop =3D=3D poll_start =3D=3D false.
 >
-> The queue is not infinite, so we have three cases:
-> 1. The queue is not full -> append the packet, no
->     problems here
-> 2. The queue is full, no callback -> we cannot notify
->     a caller when we're ready, so just drop the packet
->     if we can't append it.
-> 3. The queue is full, callback present -> we can notify
->     a caller when we are ready, so "let's queue this packet,
->     but expect no more (!) packets is sent until I call
->     sent_cb when the queue is ready"
+> If we make poll_stop =3D true and poll_stop =3D false, we call
+> event_notifier_set_handler(-1, ...). Hopefully it will return just an
+> error.
 >
-> Therefore if we provide a callback and keep sending
-> packets if 0 is returned, this may cause unlimited(!)
-> queue growth. To prevent this, we should stop sending
-> packets and wait for notification callback to continue.
+> If we make poll_stop =3D false and poll_stop =3D true, we are calling
+> event_notifier_set(-1) and event_notifier_set_handler(-1,
+> poll_callback). Same situation, hopefully an error, but unexpected.
+>
+> b) old_fd =3D -1, new_fd =3D >-1,
+>
+> We need to start polling the new_fd. No need for stop polling the
+> old_fd, since we are not polling it actually.
+>
+> c) old_fd =3D >-1, new_fd =3D >-1,
+>
+> We need to stop polling the old_fd and start polling the new one.
+>
+> If we make poll_stop =3D true and poll_stop =3D false, we don't register =
+a
+> new polling function for the new kick_fd so we will miss guest's
+> kicks.
+>
+> If we make poll_stop =3D false and poll_stop =3D true, we keep polling th=
+e
+> old file descriptor too, so whatever it gets assigned to could call
+> vhost_handle_guest_kick if it does not override poll callback.
+>
+> We *could* detect if old_fd =3D=3D new_fd so we skip all the work, but I
+> think it is not worth it to complicate the code, since we're only
+> being called with the kick_fd at dev start.
+>
+> d) c) old_fd =3D >-1, new_fd =3D -1,
+>
+> We need to stop polling, or we could get invalid kicks callbacks if it
+> gets writed after this. No need to poll anything beyond this.
 
-Right.
+I see, thanks for the clarification.
 
 >
-> I don't see any contradiction with that comment.
->
->> Jason Wang, I saw you are in the MAINTAINERS for net/. Can you tell if
->> calling qemu_send_packet_async is allowed after it returns 0?
->>
->
-> It may be wrong, but I think it's not allowed to send
-> packets after qemu_send_packet_async returns 0.
->
-> Jason Wang, can you confirm please?
-
-With a cb, we can't do this. All users with cb will disable the source
-polling and depend on the cb to re-read the polling.
-(tap/l2tpv3/socket).
-
-Without a cb, we can. As analyzed above, qemu_net_queue_append() can
-limit the number of packets queued in this case.
-
-Thanks
-
->
-> Best Regards,
->
-> Vladislav Yaroshchuk
->
->>
->> Regards,
->> Akihiko Odaki
->
->
+> > Thanks
+> >
+> >
 >
 
 
