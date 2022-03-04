@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565CF4CDD52
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:29:41 +0100 (CET)
-Received: from localhost ([::1]:40196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74814CDD5A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:35:12 +0100 (CET)
+Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQDcS-00066t-Em
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:29:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57010)
+	id 1nQDho-0000G4-1l
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:35:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1nQDXc-00044j-Dp
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:24:43 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:53046)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1nQDXa-0000Ol-Av
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:24:39 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E7E6461859;
- Fri,  4 Mar 2022 19:24:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E62EC340E9;
- Fri,  4 Mar 2022 19:24:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646421874;
- bh=56U7h/PWatXCc+X0v4IbqX2HG9yyywUYaKIctbWn0sI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=rcP1L14pFaadmjABQMFUr1EX7rWJpbYgqQlSedShGUvIRlZ8fa4jppJuK+5TIdI2g
- wibl11/CJ6TjP8fu7MvwoRWIejhd4jB3LvIoeQkylIrREoRzQUkMIQRZTUbjldUszp
- zCjaWrxHMHV6DfUWk453gSFhDX2+0ofcCUp7G5vUgvHTiBRluWdDHjOHRh/7lb60jq
- jmoaWcRzOe35+r9+UystrpbhsHpwc/Jxy6rb2chN2Eq8yfmDf+A+JFjNFJ6WuZ/HCl
- ztl8skrIds3LAyw2HgJ6Wd5mZP+fXAZuInXKeTd+HzMsdWuIL1nnbxfhwG5VK1axZP
- Jr2SPQZffiFoA==
-Message-ID: <7cc65bbd-e323-eabb-c576-b5656a3355ac@kernel.org>
-Date: Fri, 4 Mar 2022 11:24:30 -0800
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nQDd8-0006yE-Jd; Fri, 04 Mar 2022 14:30:24 -0500
+Received: from [2a00:1450:4864:20::431] (port=37870
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nQDd6-0003Hp-J0; Fri, 04 Mar 2022 14:30:21 -0500
+Received: by mail-wr1-x431.google.com with SMTP id bk29so14128527wrb.4;
+ Fri, 04 Mar 2022 11:30:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=W+oZhgUZL0cPxyele5cDnlaZpAI/c+DlXzVgiRyaigA=;
+ b=fkKsU4sOb2LHgb/FRlsskW+8btKz90Q+Sc8QSRuFfyQSIUj0EzhZ2CA7wNEQz2EqNh
+ ogQeduf/4iRxUhHjfGOnOAdlIHh+1xuluXrrrka9Oc17luPok+4X7AiUYtHhW5XzTKLS
+ MWsOmeUIxp0uZqAYW4kB34jaeMWiS62Nsqy+Gc7jJgmhftPi00k+KN8Zkf1ufC9kGyNb
+ 9/N5OZ8/XlFLWpvcoRVq4My5YNISTPnenX2RoOMABsBjQEDKqa3Sp9wWCYO/tSOQRC86
+ iKx3twboK7hXeBDole/AUfKkJaoMtqpFU7hewhrAOivCaBiUnUePPkVvwaoPWNfpG34R
+ qwoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=W+oZhgUZL0cPxyele5cDnlaZpAI/c+DlXzVgiRyaigA=;
+ b=O+Jh+mpVu2+AFUUXFmA7LYfoVngSz1RfgrKTXo6E3m4CpPhzrrix+0CCNYAxW+rwBc
+ hRr/2d9XpdUcikaRgl/kRLsrM5/O5wqkQsSEi6SxIYTzi9osTqups2Vnjh1iVI3GPIcg
+ VRzKufXyNtMM/fXVZawXATjqhh9luO3YYclablNDR47mDawpfMzT8fU+Uj+KekWdA/X4
+ PbjlDT1otQF3OKuuKIFk0zDbtS2N2/K1BQJLTrktV1uTH6HwXaomzKb/3fkEaFSyEhmZ
+ NSfxXQNxDevXojgQldCxP75LHA0MXneFP1ZVhGuw6U1D/fMKaDFmx9SMcu/vPjMiS3NT
+ XkzA==
+X-Gm-Message-State: AOAM532k4j+ErBlJXzw1N7iWNNaFCGuuj5ge4gUJTVKO5/ZSd15Mpw4g
+ 3hcWHfUpsNJ8cjho4dnJcyo=
+X-Google-Smtp-Source: ABdhPJya4SDbLMBzD9N5eaZ6Mkk7i942dytUYYJg3jyiTU06UQO9rESFjxggMN2Le/LCBkb60bUg8A==
+X-Received: by 2002:adf:ed0c:0:b0:1f0:4a32:4d0d with SMTP id
+ a12-20020adfed0c000000b001f04a324d0dmr211046wro.136.1646422218836; 
+ Fri, 04 Mar 2022 11:30:18 -0800 (PST)
+Received: from [192.168.54.175] (108.red-88-28-25.dynamicip.rima-tde.net.
+ [88.28.25.108]) by smtp.gmail.com with ESMTPSA id
+ m11-20020adff38b000000b001ef879a5930sm5105188wro.61.2022.03.04.11.30.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Mar 2022 11:30:18 -0800 (PST)
+Message-ID: <9b9b0251-2698-61b9-b4b1-5e5e54fea5a1@gmail.com>
+Date: Fri, 4 Mar 2022 20:30:16 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 01/12] mm/shmem: Introduce F_SEAL_INACCESSIBLE
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH] hw/block: m25p80: Add support for w25q01jvq
 Content-Language: en-US
-To: Steven Price <steven.price@arm.com>,
- Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
- <20220118132121.31388-2-chao.p.peng@linux.intel.com>
- <619547ad-de96-1be9-036b-a7b4e99b09a6@kernel.org>
- <20220217130631.GB32679@chaop.bj.intel.com>
- <2ca78dcb-61d9-4c9d-baa9-955b6f4298bb@www.fastmail.com>
- <20220223114935.GA53733@chaop.bj.intel.com>
- <71a06402-6743-bfd2-bbd4-997f8e256554@arm.com>
-From: Andy Lutomirski <luto@kernel.org>
-In-Reply-To: <71a06402-6743-bfd2-bbd4-997f8e256554@arm.com>
+To: Patrick Williams <patrick@stwcx.xyz>
+References: <20220304180920.1780992-1-patrick@stwcx.xyz>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220304180920.1780992-1-patrick@stwcx.xyz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=luto@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,116 +91,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- the arch/x86 maintainers <x86@kernel.org>, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, "Nakajima,
- Jun" <jun.nakajima@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- Dave Hansen <dave.hansen@intel.com>, Linux API <linux-api@vger.kernel.org>,
- Jeff Layton <jlayton@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Yu Zhang <yu.c.zhang@linux.intel.com>, Sean Christopherson <seanjc@google.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Potin Lai <potin.lai@quantatw.com>, Alistair Francis <alistair@alistair23.me>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>, Michael Walle <michael@walle.cc>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/22 04:05, Steven Price wrote:
-> On 23/02/2022 11:49, Chao Peng wrote:
->> On Thu, Feb 17, 2022 at 11:09:35AM -0800, Andy Lutomirski wrote:
->>> On Thu, Feb 17, 2022, at 5:06 AM, Chao Peng wrote:
->>>> On Fri, Feb 11, 2022 at 03:33:35PM -0800, Andy Lutomirski wrote:
->>>>> On 1/18/22 05:21, Chao Peng wrote:
->>>>>> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
->>>>>>
->>>>>> Introduce a new seal F_SEAL_INACCESSIBLE indicating the content of
->>>>>> the file is inaccessible from userspace through ordinary MMU access
->>>>>> (e.g., read/write/mmap). However, the file content can be accessed
->>>>>> via a different mechanism (e.g. KVM MMU) indirectly.
->>>>>>
->>>>>> It provides semantics required for KVM guest private memory support
->>>>>> that a file descriptor with this seal set is going to be used as the
->>>>>> source of guest memory in confidential computing environments such
->>>>>> as Intel TDX/AMD SEV but may not be accessible from host userspace.
->>>>>>
->>>>>> At this time only shmem implements this seal.
->>>>>>
->>>>>
->>>>> I don't dislike this *that* much, but I do dislike this. F_SEAL_INACCESSIBLE
->>>>> essentially transmutes a memfd into a different type of object.  While this
->>>>> can apparently be done successfully and without races (as in this code),
->>>>> it's at least awkward.  I think that either creating a special inaccessible
->>>>> memfd should be a single operation that create the correct type of object or
->>>>> there should be a clear justification for why it's a two-step process.
->>>>
->>>> Now one justification maybe from Stever's comment to patch-00: for ARM
->>>> usage it can be used with creating a normal memfd, (partially)populate
->>>> it with initial guest memory content (e.g. firmware), and then
->>>> F_SEAL_INACCESSIBLE it just before the first time lunch of the guest in
->>>> KVM (definitely the current code needs to be changed to support that).
->>>
->>> Except we don't allow F_SEAL_INACCESSIBLE on a non-empty file, right?  So this won't work.
->>
->> Hmm, right, if we set F_SEAL_INACCESSIBLE on a non-empty file, we will
->> need to make sure access to existing mmap-ed area should be prevented,
->> but that is hard.
->>
->>>
->>> In any case, the whole confidential VM initialization story is a bit buddy.  From the earlier emails, it sounds like ARM expects the host to fill in guest memory and measure it.  From my recollection of Intel's scheme (which may well be wrong, and I could easily be confusing it with SGX), TDX instead measures what is essentially a transcript of the series of operations that initializes the VM.  These are fundamentally not the same thing even if they accomplish the same end goal.  For TDX, we unavoidably need an operation (ioctl or similar) that initializes things according to the VM's instructions, and ARM ought to be able to use roughly the same mechanism.
->>
->> Yes, TDX requires a ioctl. Steven may comment on the ARM part.
+On 4/3/22 19:09, Patrick Williams wrote:
+> The w25q01jvq is a 128MB part.  Support is being added to the kernel[1]
+> and the two have been tested together.
 > 
-> The Arm story is evolving so I can't give a definite answer yet. Our
-> current prototyping works by creating the initial VM content in a
-> memslot as with a normal VM and then calling an ioctl which throws the
-> big switch and converts all the (populated) pages to be protected. At
-> this point the RMM performs a measurement of the data that the VM is
-> being populated with.
+> 1. https://lore.kernel.org/lkml/20220222092222.23108-1-potin.lai@quantatw.com/
 > 
-> The above (in our prototype) suffers from all the expected problems with
-> a malicious VMM being able to trick the host kernel into accessing those
-> pages after they have been protected (causing a fault detected by the
-> hardware).
+> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+> Cc: Potin Lai <potin.lai@quantatw.com>
+> ---
+>   hw/block/m25p80.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> The ideal (from our perspective) approach would be to follow the same
-> flow but where the VMM populates a memfd rather than normal anonymous
-> pages. The memfd could then be sealed and the pages converted to
-> protected ones (with the RMM measuring them in the process).
-> 
-> The question becomes how is that memfd populated? It would be nice if
-> that could be done using normal operations on a memfd (i.e. using
-> mmap()) and therefore this code could be (relatively) portable. This
-> would mean that any pages mapped from the memfd would either need to
-> block the sealing or be revoked at the time of sealing.
-> 
-> The other approach is we could of course implement a special ioctl which
-> effectively does a memcpy into the (created empty and sealed) memfd and
-> does the necessary dance with the RMM to measure the contents. This
-> would match the "transcript of the series of operations" described above
-> - but seems much less ideal from the viewpoint of the VMM.
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index c6bf3c6bfa..7d3d8b12e0 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -340,6 +340,7 @@ static const FlashPartInfo known_devices[] = {
+>       { INFO("w25q80bl",    0xef4014,      0,  64 << 10,  16, ER_4K) },
+>       { INFO("w25q256",     0xef4019,      0,  64 << 10, 512, ER_4K) },
+>       { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K) },
+> +    { INFO("w25q01jvq",   0xef4021,      0,  64 << 10, 2048, ER_4K) },
+>   };
+>   
+>   typedef enum {
 
-A VMM that supports Other Vendors will need to understand this sort of 
-model regardless.
-
-I don't particularly mind the idea of having the kernel consume a normal 
-memfd and spit out a new object, but I find the concept of changing the 
-type of the object in place, even if it has other references, and trying 
-to control all the resulting races to be somewhat alarming.
-
-In pseudo-Rust, this is the difference between:
-
-fn convert_to_private(in: &mut Memfd)
-
-and
-
-fn convert_to_private(in: Memfd) -> PrivateMemoryFd
-
-This doesn't map particularly nicely to the kernel, though.
-
---Andy\
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
