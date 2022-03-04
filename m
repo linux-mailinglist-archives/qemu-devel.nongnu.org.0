@@ -2,88 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059B74CE052
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 23:43:12 +0100 (CET)
-Received: from localhost ([::1]:41094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0160F4CE123
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 00:45:32 +0100 (CET)
+Received: from localhost ([::1]:52006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQGdj-0001m3-3V
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 17:43:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37712)
+	id 1nQHc2-0007eG-JV
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 18:45:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nQGaD-0004Lh-L4
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:39:34 -0500
-Received: from [2607:f8b0:4864:20::532] (port=41867
- helo=mail-pg1-x532.google.com)
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1nQHa3-0006jh-37
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 18:43:27 -0500
+Received: from [2a00:1450:4864:20::52c] (port=42520
+ helo=mail-ed1-x52c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nQGaC-0008EK-4y
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:39:33 -0500
-Received: by mail-pg1-x532.google.com with SMTP id o26so8625647pgb.8
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 14:39:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VmfepupHappTfzMofzWha7MPTIwvdv36rjrsy5g7BgE=;
- b=OuGwLoqCSTUhMSMSfAqFqP7zVO2GuwdBErnqX3zWMPc1SKkLOmVgL75MEZc79r/w5p
- adujHbfl5Or+js5mIDZ0AM9WtDOQeSQcWgzZWAQNoK9mVN6yOPLE+OyRDodU4fVPjKrY
- 0n7xUkh9WF7tEVmJQSVi5qwK11tvHRqHvbGjZMOgG+Bm9hidaakuX3xqCkdX1KhCqX7R
- 8WUKNhGf2dOHKrdgZS8aR8dbMuerrSUlbs6p1vlDV4iTOVjCVcWUzg5cdGMfe0jFD+PR
- IOqROqCYFljC9CgZDkDdYe869OKQPz3SitEdEBW9IlRXXv6gKHrvYbfx9A90ACDdyK+g
- JkkA==
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1nQHa1-00042r-IV
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 18:43:26 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id i11so12610188eda.9
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 15:43:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kRqs1yUy3Hy2Jh9AbP/seSdeTZP/Cdtr+ApNmnZ/uyM=;
+ b=Ps/xAP41f5VDpPxGztxcg9Wih8NaGUPYllZxbUJDQP5qnScYPs94CCOc3bW1TD6uvo
+ wC6nbdjc7M26wv4MHJstjN8bE9X50KxdjGJMwzHXQNyBIeZIdk2eAjHxEavk+PEq0/kT
+ Bx8xkd2WUF8M57DXSSAY7tEcJx75EyPkxGXKfyF6oyI6MVzfJSkYWfnYtpSeod1DZED1
+ Rp1M8++4eZWghpmQnlfm/AgKn1zzEgZm9nlUPiNOQjBbzlrbjc40mPCzcDMPSX4WZhCE
+ kT5rbydeAzB7qfRhFVQtCRdsHaQy9pveRSG2eLG748js8Nt9Ky/HOB4ATzMjbfvJjmy3
+ HsPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=VmfepupHappTfzMofzWha7MPTIwvdv36rjrsy5g7BgE=;
- b=kRtk9vvLzdoOQsdhRd77mN/Tp6W9LMP+aFFJpvLtfOWUvjfvI8eFV11RCKwN8Q2PmF
- iPJZFoeGFiPX46FAsADkx7IAcAxOQgsT2G0ScsDhi9VvNsgJ7WYC8qBT6KUNDe455b/W
- wJsoMtAT9Yey8eQPvo3BkVhHzqhSRGGOKGb/RVJtHhedYLmJ/HsHatJK4MuEiQ3p+X2Y
- a9U5FgSgcJZHnxx1fM6naoLaAuzCMW7H6aokfqxRZgH0s+o/zdjPEI62TI523sVKtytB
- HcXJvTZODzJM386n7nmjR7X5b5DoH9H6lVHgsEDnk6kcJKijFJ1+lR+Pa2NCb2yTuRFN
- xUgQ==
-X-Gm-Message-State: AOAM530iKt/E79ce7Dj0Hy4HOSFT50oC3vCxrGrrF5G94RnLFFVVW0pW
- NJZ4E3OqoxVz0NT60RwM3k3xLw==
-X-Google-Smtp-Source: ABdhPJzDUmQB2sJQkl+t155JG+eD32uQjm3PLZRV5Z+8h+ud4SJ97aM6hRsMR7sEzT2RLZDE9qy9aQ==
-X-Received: by 2002:a05:6a00:1ca2:b0:4f6:4f1d:c911 with SMTP id
- y34-20020a056a001ca200b004f64f1dc911mr660721pfw.76.1646433570908; 
- Fri, 04 Mar 2022 14:39:30 -0800 (PST)
-Received: from ?IPV6:2603:800c:1201:c600:f24b:57b2:da7c:e304?
- (2603-800c-1201-c600-f24b-57b2-da7c-e304.res6.spectrum.com.
- [2603:800c:1201:c600:f24b:57b2:da7c:e304])
- by smtp.gmail.com with ESMTPSA id
- u19-20020a056a00099300b004e16e381696sm7123566pfg.195.2022.03.04.14.39.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 14:39:30 -0800 (PST)
-Message-ID: <4577501b-b470-21c3-ee2b-ecbe28c1e8c7@linaro.org>
-Date: Fri, 4 Mar 2022 12:39:27 -1000
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kRqs1yUy3Hy2Jh9AbP/seSdeTZP/Cdtr+ApNmnZ/uyM=;
+ b=sZDr4vlIEnyg3qa7EeIGd30Dv8s3mAa9wASOzBMs7/cdlDGRFndiN5Cd6k6IW6B7dd
+ k+PcL8fQGu9Fl/yHq7tHLq4umr4d/j0j9vpgoBE0gwHWM1CSUdCxldoVXzdZZ5NLjw4E
+ dwPhEXU3ca5JhxNlFGmnOGk803u0zSjv4TWpb6YTevrx4XIHmVn1sCHAo5izQQyhjZat
+ yjR3CU7ItfEd+J/qp1x3rQlCj5qpUq4BLxXjAY/7TQ/8e0UD6n8se1aOekIra17TiPwb
+ 1VGfyIKC3QfKXD8iUrQNDvyuC7ByHoxakaWw9keJyPffui0vszUA4NEWNp92OGrIz0E/
+ CA2w==
+X-Gm-Message-State: AOAM5320rll5kLfsBieLRs13dS/LVnboYgKV4zDRw/z2spytKCMCqwWb
+ QCM2B4D/aHRT8DU3nGFtUXe363+SkXsk1dyirWYBRg==
+X-Google-Smtp-Source: ABdhPJxvC5KlNpNCmnBWvqq1H/wbwvFMq2o7rctGBLDPt8GY2Brcm+IRUVecFIWuJFAtw8U0mGylBOnmIljwcgbWmMc=
+X-Received: by 2002:a05:6402:68e:b0:415:d29e:dfe8 with SMTP id
+ f14-20020a056402068e00b00415d29edfe8mr805081edy.351.1646437402415; Fri, 04
+ Mar 2022 15:43:22 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 7/7] target/ppc: Add missing helper_reset_fpstatus to
- helper_XVCVSPBF16
-Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220304175156.2012315-1-matheus.ferst@eldorado.org.br>
- <20220304175156.2012315-8-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220304175156.2012315-8-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
+References: <20220302015053.1984165-1-titusr@google.com>
+ <20220304214354.GL3457@minyard.net>
+In-Reply-To: <20220304214354.GL3457@minyard.net>
+From: Titus Rwantare <titusr@google.com>
+Date: Fri, 4 Mar 2022 15:42:46 -0800
+Message-ID: <CAMvPwGpzO3VyCqGJY28QVQoo9AwYxxrvP3RqPS6JTgpTk8ojtw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] This patch series contains updates to PMBus in
+ QEMU along with some PMBus device models for Renesas regulators. I have also
+ added myself to MAINTAINERS as this code is in use daily, where I am
+ responsible for it.
+To: minyard@acm.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org, 
+ wuhaotsh@google.com, venture@google.com, peter.maydell@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=titusr@google.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -161
+X-Spam_score: -16.2
+X-Spam_bar: ----------------
+X-Spam_report: (-16.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,23 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/22 07:51, matheus.ferst@eldorado.org.br wrote:
-> From: Víctor Colombo<victor.colombo@eldorado.org.br>
-> 
-> Fixes: 3909ff1fac ("target/ppc: Implement xvcvbf16spn and xvcvspbf16 instructions")
-> Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/fpu_helper.c | 2 ++
->   1 file changed, 2 insertions(+)
+On Fri, 4 Mar 2022 at 13:43, Corey Minyard <minyard@acm.org> wrote:
+>
+> On Tue, Mar 01, 2022 at 05:50:44PM -0800, Titus Rwantare wrote:
+> > v2:
+> >   - split PMBus commit with updates into individual fixes
+> >   - renamed isl_pmbus[.ch] adding _vr for voltage regulators
+> >
+> > v3:
+> >   - split uint refactor commit and removed commit renaming files
+> >   - rename rolled into preceding commits
+> >   - update commit description for uint refactoring change
+>
+> This all looks good to me:
+>
+> Acked-by: Corey Minyard <cminyard@mvista.com>
+>
+> Do you have a plan for getting this in to qemu?  Like through the ARM
+> tree?  I could take it into an I2C tree, but there's really not much
+> activity or work there.
+>
+> -corey
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+In general PMBus is more specific to i2c than ARM, but I'm not sure of
+the QEMU implications.
 
-r~
+Titus
 
