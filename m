@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6E14CD496
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 13:57:02 +0100 (CET)
-Received: from localhost ([::1]:55344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E944CD499
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 13:58:21 +0100 (CET)
+Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ7US-0001ZQ-W0
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 07:57:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45750)
+	id 1nQ7Vk-0003Xk-JK
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 07:58:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQ7TQ-0000sd-26
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 07:55:56 -0500
-Received: from [2607:f8b0:4864:20::b35] (port=33281
- helo=mail-yb1-xb35.google.com)
+ id 1nQ7Uu-0002rf-RE
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 07:57:28 -0500
+Received: from [2607:f8b0:4864:20::b30] (port=38890
+ helo=mail-yb1-xb30.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQ7TO-0000Uj-IQ
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 07:55:55 -0500
-Received: by mail-yb1-xb35.google.com with SMTP id j2so16777300ybu.0
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 04:55:54 -0800 (PST)
+ id 1nQ7Ut-0000km-6R
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 07:57:28 -0500
+Received: by mail-yb1-xb30.google.com with SMTP id u3so16684252ybh.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 04:57:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9yk1R2bZJ/4PGF+n+eSFHH1wpqaXXfR62EFZxy0OVA8=;
- b=F1FJu4keQr+0A5Q48VrG3NJBKwWz4DLGGQ73YwYDNpOGqezHbByYkiuSc+t2AIgz0u
- SfGpqR7oTb7t4+qansymidjyhpYwSkGYX88LhRw3SMn5MIaTRsOLSmyLytS27k6BDoUX
- JM94Lda/D2OIr/IJnw4OP3jh9992gBlFlX8bwcfSEj7mNYNffesA1ZbEYKvxILpMjL2v
- zc8Ls5ldAawtGiMkv903pZjXDh6lIr7EpVvJBl7l5DCTUZx47o3Cv4SSgQIm1m/nHJiw
- INyOUWe6ivT0qZfBTKSmm7d4aI2c4LFvaKRhAuDSbas52BT+KETjOS9QEcTJSlPm6qCE
- ldvw==
+ :cc; bh=bd63nJjSwqjy0OI/lNLvXPcHq5LH/yPaERbHooxLvIk=;
+ b=LJFn+LWoRqzxIT/ZSAGBBwbewBne4VZpYfe7aZpD9cnvZeGddIU0ba9l24+8rrnl0m
+ VrFMalLP9kJ0TKKsVoKWvvm0+MVpvMNx4AXGefhQ+Iikh3XK7SZD3E7HO0XgkRGlzaj2
+ uTR8emhP8snsI6izXZywfQBHn7SCWPmLxmlXEq1fUaQDOSaJ3XfyydNIhHo4HX87JU+4
+ AaPf471E1UCfoUJrNghDred14iLcnJ3RaQOWTwx3dBJuk8deyhy+5k6FSs8BZCOygVmb
+ bfoM8yJBTOnNYdloujk6gNVggIoGvdDbpVK5Gb1zAuc0EwJBwk4O0IE3P7L6TUYH51jY
+ JiGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9yk1R2bZJ/4PGF+n+eSFHH1wpqaXXfR62EFZxy0OVA8=;
- b=0XdS5s/e8KEhpu77RKgegZbc5SpNAQw2+FaJ1OViKWxEXfUXo8BBVUtVL8w8VRw56A
- RZbqhi5YaQpX6myYbhcuxEq1L7Rrfh+ORT/zYcMuLW3VEuWjdff/EDFeIMy9czMBwxhu
- 7fBAOQv9BUVdAzdCvittRIPunkCLy/hEON6oGYNyESJU7RPnwad3vpQd656jPk5L8vkr
- JLb/IXgLkv0bVxr2jKBWoyjtI4A9p1KMtecESeRKcvmWgMUCZYMXZ8W+jbIJe1yMRIYc
- MupwXedXqB7fCkrtFUEfKxqgogpy6k3+g/sAiSADxSihgvWMEeNGx1Bfk72mseZGX6mG
- ZZAw==
-X-Gm-Message-State: AOAM533L+p6QzVVm0JSVssnrAaKrtC8aGMEYFtV+YQLpB0ntn/DF5RAJ
- Q2J5Sk9Oap6U1kdMq6XgcBP/BcZbYBy79A2IG9MErA==
-X-Google-Smtp-Source: ABdhPJw0390O2AKoyDR9Cv3wa0Xfnu58aiCTH//Pzxq2iEMsMwm0aVojf0c3bCVkFYWvTP2fE3XO4Uy1+5/S8e1dI2E=
+ bh=bd63nJjSwqjy0OI/lNLvXPcHq5LH/yPaERbHooxLvIk=;
+ b=eYWTShT4Dnj9YgfmhaqhDsDENuQC010fRzuJDw8kIIY/3yPcgurh3BPGBG/y2auEjG
+ xqO+uzW7fkCTvL62dS6S+AD9MDsK/Y2zIGYb4CEQnfN9Xdepd2fsf8TR9fxNRUqG+uFw
+ BNXasRCy5e2PX5H4M5tilUNvSf3qtWRAdkLtj+2gLfBh5XkE7FxNZp3LjTtSD8AJS9NO
+ m005vsHtL+BBtNtnxNLDhsm6uezlBY6YQAHZWl/Y9hfvkHKSt3zivrluh4kb7agRCQx4
+ ySAt7SO783ekk5NJn32L5rOuwG0bNqQ1JaqeFkCtnRiZ3YPBQWxikPtTYv3HMR0eda/C
+ DDfg==
+X-Gm-Message-State: AOAM531eicCRgjLQfEt+cbXJQocOlwhTs1yrBRcJj7GRG4CFJzx9CA9p
+ Drkjm0NYP5KhC+Iw6qBb2S32mH1RFdILuRmiNAjBHw==
+X-Google-Smtp-Source: ABdhPJwznitgHTouGkKObS89hfeWrG3vkz7p64rSn4XL/Y80dhdHbB/us5TPdad64iX7j4r8qlq4CPrFlxC0ZHU/hvM=
 X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
- h3-20020a056902008300b0061a709bd841mr36998091ybs.140.1646398553590; Fri, 04
- Mar 2022 04:55:53 -0800 (PST)
+ h3-20020a056902008300b0061a709bd841mr37002747ybs.140.1646398646166; Fri, 04
+ Mar 2022 04:57:26 -0800 (PST)
 MIME-Version: 1.0
 References: <20220303153906.2024748-1-amir.gonnen@neuroblade.ai>
- <20220303153906.2024748-5-amir.gonnen@neuroblade.ai>
-In-Reply-To: <20220303153906.2024748-5-amir.gonnen@neuroblade.ai>
+ <20220303153906.2024748-2-amir.gonnen@neuroblade.ai>
+In-Reply-To: <20220303153906.2024748-2-amir.gonnen@neuroblade.ai>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Mar 2022 12:55:42 +0000
-Message-ID: <CAFEAcA-PBnusf1=4SdE_tSo86jkz0Bpdk23ZY8wbd9rVRSqCcA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] hw/intc: Vectored Interrupt Controller (VIC)
+Date: Fri, 4 Mar 2022 12:57:15 +0000
+Message-ID: <CAFEAcA8YwGaA9M2oA9MBCfpV-QPeAsAanv8xotH_Cn1tTiBcmA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] target/nios2: Check supervisor on eret
 To: Amir Gonnen <amir.gonnen@neuroblade.ai>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b35
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,13 +89,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 3 Mar 2022 at 15:39, Amir Gonnen <amir.gonnen@neuroblade.ai> wrote:
 >
-> Implement nios2 Vectored Interrupt Controller (VIC).
-> VIC is connected to EIC. It needs to update rha, ril, rrs and rnmi
-> fields on Nios2CPU before raising an IRQ.
-> For that purpose, VIC has a "cpu" property which should refer to the
-> nios2 cpu and set by the board that connects VIC.
+> eret instruction is only allowed in supervisor mode.
 >
 > Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
+> ---
+>  target/nios2/translate.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+> index ce3aacf59d..007c17e6e9 100644
+> --- a/target/nios2/translate.c
+> +++ b/target/nios2/translate.c
+> @@ -384,6 +384,8 @@ static const Nios2Instruction i_type_instructions[] = {
+>   */
+>  static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
+>  {
+> +    gen_check_supervisor(dc);
+> +
+>      tcg_gen_mov_tl(cpu_R[CR_STATUS], cpu_R[CR_ESTATUS]);
+>      tcg_gen_mov_tl(cpu_R[R_PC], cpu_R[R_EA]);
+>
+> --
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
