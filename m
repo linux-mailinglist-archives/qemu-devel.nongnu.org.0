@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECEE4CD50E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:20:15 +0100 (CET)
-Received: from localhost ([::1]:50940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC064CD55D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:44:19 +0100 (CET)
+Received: from localhost ([::1]:33628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ7qv-0002oq-Qv
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:20:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49758)
+	id 1nQ8ED-00063z-Hh
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:44:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <cee3e110958141446de1fbd5074fb03f0492c878@lizzy.crudebyte.com>)
- id 1nQ7jr-0006Me-8e
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:12:56 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:59547)
+ (envelope-from <24187e2b6419dbcb60f57ad204d3afdd0ac1b3a5@lizzy.crudebyte.com>)
+ id 1nQ7uM-0008Lb-2k
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:23:51 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:36137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <cee3e110958141446de1fbd5074fb03f0492c878@lizzy.crudebyte.com>)
- id 1nQ7jo-0005dK-S3
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:12:54 -0500
+ (envelope-from <24187e2b6419dbcb60f57ad204d3afdd0ac1b3a5@lizzy.crudebyte.com>)
+ id 1nQ7uK-00049e-7B
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:23:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=Vl2X3WYggHpA/TJOsUhXcKaCskBk2BTJ7HU+dytgZhY=; b=cVdug
- yZJiwQy1Hd4qndYeokkE1HqG1on59KiiAj4o+ROSiYDJkM06CBjEvge/2uncbHZb2RAFnxVLWgyTL
- KErT7sWcn0YBxG53x7zM+j+1g6hYlMP/+d/ABpO7auBVoJoPkCPtoEObewwGQrkI3rw3eykKFWcvJ
- XIMRQCcPmL0PVWjZrcBCrhpht0fJfZNP3Scgn1bgj05EsqDUm7WrzVDnTEomqm+quPhBwWezEQ8D2
- 0gUlKCHV6g5pAR6L2snGGCwzrWU5IWWjBaBIYPE73XWuIC0o+NgbtIcRUawO1mFbvc+dm9Br19nq4
- U6T6P0fV1Ct9QD9cbX5Vu9GQIbMcg==;
-Message-Id: <cee3e110958141446de1fbd5074fb03f0492c878.1646396869.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=ZLhjctf3DaE6G5VPiaCQu0lAdUS2EVV/reV2M8c9RTk=; b=BLTBx
+ Mabp+8COVKTzHFaStU8lYTBvUqlOabsp5AY4C2ukN7IOoYrIdWFkK6zLfiTn6TD0jXRrQ8K6He4Sv
+ uNbuTxWTfg2fGA89On7/FQDErjaoNMpSkfKIKZaFKBOAGdIJ5tLB+Fsj68OqcrBEzg/BuZTDC1S3D
+ Unn9LltNYOKZq/kE69F6wPJrrIMZ4MQdbjsGsRNFvytdNxiyUeKNaV5qM8ex0J+/3fiuL13ZgWv/p
+ hiAU3MAVAEtMAC/DuOnOr7OxL0mJRj9ZERgXaI2MGidZcmr6lwbPuZyvefpbUlhKw74VQSRXr14Lk
+ PtDxQntDKft7t4aQRZrba0ZiREOLA==;
+Message-Id: <24187e2b6419dbcb60f57ad204d3afdd0ac1b3a5.1646396869.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646396869.git.qemu_oss@crudebyte.com>
 References: <cover.1646396869.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 04 Mar 2022 13:27:49 +0100
-Subject: [PULL 15/19] 9pfs/codir.c: convert Doxygen -> kerneldoc format
+Subject: [PULL 09/19] 9p: darwin: Implement compatibility for mknodat
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=cee3e110958141446de1fbd5074fb03f0492c878@lizzy.crudebyte.com;
+ envelope-from=24187e2b6419dbcb60f57ad204d3afdd0ac1b3a5@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,71 +63,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-API doc comments in QEMU are supposed to be in kerneldoc format, so
-convert API doc comments from Doxygen format to kerneldoc format.
+From: Keno Fischer <keno@juliacomputing.com>
 
+Darwin does not support mknodat. However, to avoid race conditions
+with later setting the permissions, we must avoid using mknod on
+the full path instead. We could try to fchdir, but that would cause
+problems if multiple threads try to call mknodat at the same time.
+However, luckily there is a solution: Darwin includes a function
+that sets the cwd for the current thread only.
+This should suffice to use mknod safely.
+
+This function (pthread_fchdir_np) is protected by a check in
+meson in a patch later in this series.
+
+Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+[Will Cohen: - Adjust coding style
+             - Replace clang references with gcc
+             - Note radar filed with Apple for missing syscall
+             - Replace direct syscall with pthread_fchdir_np and
+               adjust patch notes accordingly
+             - Declare pthread_fchdir_np with
+             - __attribute__((weak_import)) to allow checking for
+               its presence before usage
+             - Move declarations above cplusplus guard
+             - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
+               presence in 9p-util
+             - Rebase to apply cleanly on top of the 2022-02-10
+               changes to 9pfs
+             - Fix line over 90 characters formatting error]
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Message-Id: <20220227223522.91937-10-wwcohen@gmail.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <c76be7d38ea448c6417b2ffb5ccd6b711519a878.1646314856.git.qemu_oss@crudebyte.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/codir.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ hw/9pfs/9p-local.c       |  4 ++--
+ hw/9pfs/9p-util-darwin.c | 33 +++++++++++++++++++++++++++++++++
+ hw/9pfs/9p-util-linux.c  |  6 ++++++
+ hw/9pfs/9p-util.h        | 11 +++++++++++
+ meson.build              |  1 +
+ 5 files changed, 53 insertions(+), 2 deletions(-)
 
-diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-index f96d8ac4e6..75148bc985 100644
---- a/hw/9pfs/codir.c
-+++ b/hw/9pfs/codir.c
-@@ -184,14 +184,25 @@ out:
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index a0d08e5216..d42ce6d8b8 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
+ 
+     if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+         fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+-        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
++        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+         if (err == -1) {
+             goto out;
+         }
+@@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
+         }
+     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+                fs_ctx->export_flags & V9FS_SM_NONE) {
+-        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
++        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+         if (err == -1) {
+             goto out;
+         }
+diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+index cdb4c9e24c..bec0253474 100644
+--- a/hw/9pfs/9p-util-darwin.c
++++ b/hw/9pfs/9p-util-darwin.c
+@@ -7,6 +7,8 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/xattr.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
+ #include "9p-util.h"
+ 
+ ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+@@ -62,3 +64,34 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+     close_preserve_errno(fd);
+     return ret;
+ }
++
++/*
++ * As long as mknodat is not available on macOS, this workaround
++ * using pthread_fchdir_np is needed.
++ *
++ * Radar filed with Apple for implementing mknodat:
++ * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
++ */
++#if defined CONFIG_PTHREAD_FCHDIR_NP
++
++int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
++{
++    int preserved_errno, err;
++    if (!pthread_fchdir_np) {
++        error_report_once("pthread_fchdir_np() not available on this version of macOS");
++        return -ENOTSUP;
++    }
++    if (pthread_fchdir_np(dirfd) < 0) {
++        return -1;
++    }
++    err = mknod(filename, mode, dev);
++    preserved_errno = errno;
++    /* Stop using the thread-local cwd */
++    pthread_fchdir_np(-1);
++    if (err < 0) {
++        errno = preserved_errno;
++    }
++    return err;
++}
++
++#endif
+diff --git a/hw/9pfs/9p-util-linux.c b/hw/9pfs/9p-util-linux.c
+index 398614a5d0..db451b0784 100644
+--- a/hw/9pfs/9p-util-linux.c
++++ b/hw/9pfs/9p-util-linux.c
+@@ -61,4 +61,10 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+     ret = lsetxattr(proc_path, name, value, size, flags);
+     g_free(proc_path);
+     return ret;
++
++}
++
++int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
++{
++    return mknodat(dirfd, filename, mode, dev);
+ }
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 9abff79884..1f74d37558 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -112,5 +112,16 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
+ #endif
  }
  
- /**
-- * @brief Reads multiple directory entries in one rush.
-+ * v9fs_co_readdir_many() - Reads multiple directory entries in one rush.
-+ *
-+ * @pdu: the causing 9p (T_readdir) client request
-+ * @fidp: already opened directory where readdir shall be performed on
-+ * @entries: output for directory entries (must not be NULL)
-+ * @offset: initial position inside the directory the function shall
-+ *          seek to before retrieving the directory entries
-+ * @maxsize: maximum result message body size (in bytes)
-+ * @dostat: whether a stat() should be performed and returned for
-+ *          each directory entry
-+ * Return: resulting response message body size (in bytes) on success,
-+ *         negative error code otherwise
-  *
-  * Retrieves the requested (max. amount of) directory entries from the fs
-  * driver. This function must only be called by the main IO thread (top half).
-  * Internally this function call will be dispatched to a background IO thread
-  * (bottom half) where it is eventually executed by the fs driver.
-  *
-- * @discussion Acquiring multiple directory entries in one rush from the fs
-+ * Acquiring multiple directory entries in one rush from the fs
-  * driver, instead of retrieving each directory entry individually, is very
-  * beneficial from performance point of view. Because for every fs driver
-  * request latency is added, which in practice could lead to overall
-@@ -199,20 +210,9 @@ out:
-  * directory) if every directory entry was individually requested from fs
-  * driver.
-  *
-- * @note You must @b ALWAYS call @c v9fs_free_dirents(entries) after calling
-+ * NOTE: You must ALWAYS call v9fs_free_dirents(entries) after calling
-  * v9fs_co_readdir_many(), both on success and on error cases of this
-- * function, to avoid memory leaks once @p entries are no longer needed.
-- *
-- * @param pdu - the causing 9p (T_readdir) client request
-- * @param fidp - already opened directory where readdir shall be performed on
-- * @param entries - output for directory entries (must not be NULL)
-- * @param offset - initial position inside the directory the function shall
-- *                 seek to before retrieving the directory entries
-- * @param maxsize - maximum result message body size (in bytes)
-- * @param dostat - whether a stat() should be performed and returned for
-- *                 each directory entry
-- * @returns resulting response message body size (in bytes) on success,
-- *          negative error code otherwise
-+ * function, to avoid memory leaks once @entries are no longer needed.
-  */
- int coroutine_fn v9fs_co_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
-                                       struct V9fsDirEnt **entries,
++/*
++ * As long as mknodat is not available on macOS, this workaround
++ * using pthread_fchdir_np is needed. qemu_mknodat is defined in
++ * os-posix.c. pthread_fchdir_np is weakly linked here as a guard
++ * in case it disappears in future macOS versions, because it is
++ * is a private API.
++ */
++#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
++int pthread_fchdir_np(int fd) __attribute__((weak_import));
++#endif
++int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
+ 
+ #endif
+diff --git a/meson.build b/meson.build
+index a5b63e62cd..6058ea3896 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1622,6 +1622,7 @@ config_host_data.set('CONFIG_POSIX_FALLOCATE', cc.has_function('posix_fallocate'
+ config_host_data.set('CONFIG_POSIX_MEMALIGN', cc.has_function('posix_memalign'))
+ config_host_data.set('CONFIG_PPOLL', cc.has_function('ppoll'))
+ config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
++config_host_data.set('CONFIG_PTHREAD_FCHDIR_NP', cc.has_function('pthread_fchdir_np'))
+ config_host_data.set('CONFIG_SEM_TIMEDWAIT', cc.has_function('sem_timedwait', dependencies: threads))
+ config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
+ config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and cc.has_function('unshare'))
 -- 
 2.20.1
 
