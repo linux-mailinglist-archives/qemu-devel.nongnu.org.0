@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2746C4CE01F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 23:13:27 +0100 (CET)
-Received: from localhost ([::1]:35390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16D74CE026
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 23:16:54 +0100 (CET)
+Received: from localhost ([::1]:39082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQGAw-0002Ai-8z
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 17:13:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32906)
+	id 1nQGEH-000547-N4
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 17:16:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQG9p-0001VH-6R
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:12:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57873)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQG9n-0006vv-PT
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:12:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646431935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Kj5Ka98u0yVRzNjiqe2NMpE9D1pkvAPPSG8LfB4jsBM=;
- b=ZWahlota7/RNFy70Dw31j706SQcOkl6jLHnh+fLjKCKDEROZDgxz6UcMVGRAowanH+FbTo
- LmFb5Rt3wd5XUBvzgJ+XISrSH99/S8qlAOe7D54qEeDEAkR2jfGjQi8Npd8oWNn9yGlRux
- YnkrN3oKkcGKAW3/x5vMFGcTCkpmsTs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-4Nwp-GYvN1mrmMPNuE01aA-1; Fri, 04 Mar 2022 17:12:14 -0500
-X-MC-Unique: 4Nwp-GYvN1mrmMPNuE01aA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20A5A824FA9;
- Fri,  4 Mar 2022 22:12:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B83535DB8F;
- Fri,  4 Mar 2022 22:11:36 +0000 (UTC)
-Date: Fri, 4 Mar 2022 16:11:34 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 8/8] softmmu: remove is_daemonized() method
-Message-ID: <20220304221134.femukcdzzz3darsn@redhat.com>
-References: <20220304185620.3272401-1-berrange@redhat.com>
- <20220304185620.3272401-9-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nQGAy-0002jr-A7
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:13:28 -0500
+Received: from [2607:f8b0:4864:20::1131] (port=44502
+ helo=mail-yw1-x1131.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nQGAw-00070e-CW
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:13:27 -0500
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c4so106685447b3.11
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 14:13:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ykF4cG/Z7OAfCSePTnpc5vxiq+4N7sf+cDUasMiTG84=;
+ b=OYGFCcq6k3zBB3TiUu+D81HD8Rj3pR8zrSR/hm19sRzaLGW+UBJGGxVpkOHzDb6ehH
+ TYxccZj3YsMm/AXZS8nEi1zcxqiA+u9pB6HI9i+/8XJn2FGXRd2wegPzXIDKHWgY3+i9
+ Ida6/fsQOp+0hq1BiZR1O8UMYwnqZpSi5Rwm3uGcex9iMR+LFbo6bRbYOQjWq3mQXv5H
+ 9IfoHlNihKtx7rLbMzoftc++/XXRnwKDdCp+mC8IgqTFWpaBAl5r/g5kUvLu6xqJ8k8O
+ iISHbJI22SOlDz+nqBAG3Y2SmOEddQsl7T0hQw5ZZPsM4vN3Q0NyDQ6egN9P0ltxlF3c
+ zCOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ykF4cG/Z7OAfCSePTnpc5vxiq+4N7sf+cDUasMiTG84=;
+ b=wznXHeMPCSZfdjaR+tGNBfXQwwg/zHqilIympjM950ENa0xc3tGy6/x1QYtsOv4Dv2
+ bfWFKkXhivkVvhT48yUHVsuGGwCjf38o9Bxss2eLH+TVlD/q7umi2oU2qj6W8q1o7B+3
+ 9jbmkDnTzvuEFGbOxZc6PRVGkLjk6QC3AJPaN8VLGDJjqf1uCqJ+P6HBlrvttHY31/Ec
+ H2nU7y+EYbDFI7ubqr4kEt0WNyRJcLl03aX18YM8swPUl9lcZ05UHCZ9m49/fva3KQcx
+ CXw8CQKJnsWvl6EdZLSbRHBwN7PsxNtQQMLVtFdX+a/ZT0WAWTzTJR5dAHNeo2s+FwrV
+ f5QA==
+X-Gm-Message-State: AOAM533atRfvDUbPrAkvNCCicRGca2mVZfGi6glCGjo/0NWeeZVP6Qzs
+ 0awGCutbPW1NEtIAiPdAiL2pO6jI5U708p/ALDu0OQ==
+X-Google-Smtp-Source: ABdhPJxhpbbP3RO5wZYaykUSPhw0umpGJYqcF1gg4N+QflkriAjYRSz/r33iLAG1vQZ8BA+6NcWRpPn/AqwWBFmDAc4=
+X-Received: by 2002:a0d:f603:0:b0:2d1:57e5:234 with SMTP id
+ g3-20020a0df603000000b002d157e50234mr679967ywf.469.1646432005217; Fri, 04 Mar
+ 2022 14:13:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220304185620.3272401-9-berrange@redhat.com>
-User-Agent: NeoMutt/20211029-383-c6e293
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220304133556.233983-1-mst@redhat.com>
+In-Reply-To: <20220304133556.233983-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 4 Mar 2022 22:13:13 +0000
+Message-ID: <CAFEAcA8Vo4bi_ar-Av7mzbCO6ZFv9pABpyi=0niGPi0U5Vxdvg@mail.gmail.com>
+Subject: Re: [PULL 00/45] virtio,pc,pci: features, cleanups, fixes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1131
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,33 +84,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
- Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 06:56:20PM +0000, Daniel P. Berrangé wrote:
-> There are no longer any users of this method, so it can be removed to
-> prevent future accidental (mis)use.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  include/sysemu/os-posix.h | 2 --
->  include/sysemu/os-win32.h | 5 -----
->  os-posix.c                | 5 -----
->  stubs/is-daemonized.c     | 9 ---------
->  stubs/meson.build         | 1 -
->  5 files changed, 22 deletions(-)
->  delete mode 100644 stubs/is-daemonized.c
+On Fri, 4 Mar 2022 at 13:37, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> The following changes since commit 6629bf78aac7e53f83fd0bcbdbe322e2302dfd=
+1f:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
+20302' into staging (2022-03-03 14:46:48 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to 74bc2c502da74191a34fb61b4c890061368269c8:
+>
+>   docs: vhost-user: add subsection for non-Linux platforms (2022-03-04 08=
+:30:53 -0500)
+>
+> ----------------------------------------------------------------
+> virtio,pc,pci: features, cleanups, fixes
+>
+> vhost-user enabled on non-linux systems
+> beginning of nvme sriov support
+> bigger tx queue for vdpa
+> virtio iommu bypass
+> pci tests for arm
+>
+> Fixes, cleanups all over the place
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>
+> ----------------------------------------------------------------
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+This failed an assertion on ppc64:
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+>>> G_TEST_DBUS_DAEMON=3D/home/pm215/qemu/tests/dbus-vmstate-daemon.sh QTES=
+T_QEMU_BINARY=3D./qemu-system-aarch64 QTEST_QEMU_IMG=3D./qemu-img QTEST_QEM=
+U_STORAGE_DAEMON_BINARY=3D./storage-daemon/qemu-storage-daemon MALLOC_PERTU=
+RB_=3D120 /home/pm215/qemu/build/all/tests/qtest/qos-test --tap -k
+=E2=96=B6  71/716 /aarch64/xlnx-zcu102/generic-sdhci/sdhci/sdhci-tests/regi=
+sters
+         OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/AC9=
+7/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/e10=
+00/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/e10=
+00-82544gc/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/e10=
+00-82545em/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+550/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+551/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+557a/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+557b/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+557c/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+558a/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+558b/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+559a/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+559b/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+559c/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+559er/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+562/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82=
+801/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/ES1=
+370/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/meg=
+asas/pci-device/pci-device-tests/nop
+OK
+=E2=96=B6  71/716 ERROR:../../tests/qtest/libqos/pci.c:232:qpci_device_enab=
+le:
+assertion failed (cmd & PCI_COMMAND_IO =3D=3D PCI_COMMAND_IO): (0x00000000
+=3D=3D 0x00000001) ERROR
 
+
+
+-- PMM
 
