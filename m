@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE124CD56A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:46:52 +0100 (CET)
-Received: from localhost ([::1]:38066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3202C4CD522
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:28:27 +0100 (CET)
+Received: from localhost ([::1]:60420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ8Gh-0000kc-Vp
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:46:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51350)
+	id 1nQ7ys-0001Wv-9j
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:28:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <39edfe337c418995b2932a9a14a612fb0c329dc5@lizzy.crudebyte.com>)
- id 1nQ7r6-00057x-2a
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:20:25 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:34687)
+ id 1nQ7ks-00089d-Jl
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:13:58 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:34675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <39edfe337c418995b2932a9a14a612fb0c329dc5@lizzy.crudebyte.com>)
- id 1nQ7r3-0000qW-C9
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:20:23 -0500
+ id 1nQ7kq-0005u1-FO
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:13:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:Message-Id:References:In-Reply-To:Content-ID:
- Content-Description; bh=Ecg+BkDcL9Ts4aGsF13kdRip6OlHmOvp8Nk/EdKkiS8=; b=NeA+V
- jJvQ9PGaYI1uPB3IX4YKZPt01yMNnNnsc/o2c7LtAVFDiZ5bkqMh/aBVuboCMVeWjO6KKdqfe0u0J
- lG9wYN/KparMBa/2jpaMPDSkwvml8jrpd+mmKI7AY8VWm9mFM/xntRkpvMFEwUgBBHGrV/Vztqvlp
- W5qbA8sriTqtGIza3O5MJyre3dcmebk+drl3f0hoY8uoh+7KgfYcEOr57HnKnd1ur8A9HXca7eRIh
- OtfHkf9VypYaSaM/ANL8lnrOIhA2FqaZ8Fi9h3j2swOq4tGsENeimtEtX+xTGyUHG3OynTOoPpmkn
- b/3WYCeTWzkcFebL2MbGhuVNgt6ag==;
-Message-Id: <cover.1646396869.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=b0kJJvQRJXiKQl93Iwsx0o6lTjxaRMH0jAe0PwTHfuQ=; b=WEUWO
+ 6hS+lekJxEDvQh9XfmPNomVapKOAKgzfwtIeXaxkrnVfM8sl2qVLPLICW4/eLHQ9sTOPSodk6Q8QW
+ Mk/MXVQRgJw7rw4WYPkceO+TfZ1VERxZf4kqz+ZASMR62WpigFgeCXafM91FRGocV6sMsIRwKU0Xm
+ FtpHvNHUHm7Jwgy4QMCIbLv8/NEOnYW0YRHiFv9cXg96d1b+5p5Mho2KITmekBm6L+NDUsnXUNiyO
+ s6li7lQr5ysung0DfmbqYZftS3Je0tPHIIJySZmtuAGP0MB3a1Thh2UWpq0V5dCNgd9NCLBZeJjzp
+ vfYNWEy4CXmbUV/CzgHj2ii3kX5cg==;
+Message-Id: <39edfe337c418995b2932a9a14a612fb0c329dc5.1646396869.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1646396869.git.qemu_oss@crudebyte.com>
+References: <cover.1646396869.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 04 Mar 2022 13:27:49 +0100
-Subject: [PULL 00/19] 9p queue 2022-03-04
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PULL 19/19] fsdev/p9array.h: convert Doxygen -> kerneldoc format
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
@@ -64,73 +63,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 5959ef7d431ffd02db112209cf55e47b677256fd:
+API doc comments in QEMU are supposed to be in kerneldoc format, so
+convert API doc comments from Doxygen format to kerneldoc format.
 
-  Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220303' into staging (2022-03-03 19:59:38 +0000)
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <2e2d46a402560f155de322d95789ba107d728885.1646314856.git.qemu_oss@crudebyte.com>
+---
+ fsdev/p9array.h | 38 +++++++++++++++++++++-----------------
+ 1 file changed, 21 insertions(+), 17 deletions(-)
 
-are available in the Git repository at:
+diff --git a/fsdev/p9array.h b/fsdev/p9array.h
+index 6aa25327ca..90e83a7c7b 100644
+--- a/fsdev/p9array.h
++++ b/fsdev/p9array.h
+@@ -81,11 +81,11 @@
+  */
+ 
+ /**
+- * Declares an array type for the passed @a scalar_type.
++ * P9ARRAY_DECLARE_TYPE() - Declares an array type for the passed @scalar_type.
+  *
+- * This is typically used from a shared header file.
++ * @scalar_type: type of the individual array elements
+  *
+- * @param scalar_type - type of the individual array elements
++ * This is typically used from a shared header file.
+  */
+ #define P9ARRAY_DECLARE_TYPE(scalar_type) \
+     typedef struct P9Array##scalar_type { \
+@@ -97,14 +97,14 @@
+     void p9array_auto_free_##scalar_type(scalar_type **auto_var); \
+ 
+ /**
+- * Defines an array type for the passed @a scalar_type and appropriate
+- * @a scalar_cleanup_func.
++ * P9ARRAY_DEFINE_TYPE() - Defines an array type for the passed @scalar_type
++ * and appropriate @scalar_cleanup_func.
+  *
+- * This is typically used from a C unit file.
++ * @scalar_type: type of the individual array elements
++ * @scalar_cleanup_func: appropriate function to free memory dynamically
++ *                       allocated by individual array elements before
+  *
+- * @param scalar_type - type of the individual array elements
+- * @param scalar_cleanup_func - appropriate function to free memory dynamically
+- *                              allocated by individual array elements before
++ * This is typically used from a C unit file.
+  */
+ #define P9ARRAY_DEFINE_TYPE(scalar_type, scalar_cleanup_func) \
+     void p9array_new_##scalar_type(scalar_type **auto_var, size_t len) \
+@@ -132,23 +132,27 @@
+     } \
+ 
+ /**
++ * P9ARRAY_REF() - Declare a reference variable for an array.
++ *
++ * @scalar_type: type of the individual array elements
++ *
+  * Used to declare a reference variable (unique pointer) for an array. After
+  * leaving the scope of the reference variable, the associated array is
+  * automatically freed.
+- *
+- * @param scalar_type - type of the individual array elements
+  */
+ #define P9ARRAY_REF(scalar_type) \
+     __attribute((__cleanup__(p9array_auto_free_##scalar_type))) scalar_type*
+ 
+ /**
+- * Allocates a new array of passed @a scalar_type with @a len number of array
+- * elements and assigns the created array to the reference variable
+- * @a auto_var.
++ * P9ARRAY_NEW() - Allocate a new array.
+  *
+- * @param scalar_type - type of the individual array elements
+- * @param auto_var - destination reference variable
+- * @param len - amount of array elements to be allocated immediately
++ * @scalar_type: type of the individual array elements
++ * @auto_var: destination reference variable
++ * @len: amount of array elements to be allocated immediately
++ *
++ * Allocates a new array of passed @scalar_type with @len number of array
++ * elements and assigns the created array to the reference variable
++ * @auto_var.
+  */
+ #define P9ARRAY_NEW(scalar_type, auto_var, len) \
+     QEMU_BUILD_BUG_MSG( \
+-- 
+2.20.1
 
-  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220304
-
-for you to fetch changes up to 39edfe337c418995b2932a9a14a612fb0c329dc5:
-
-  fsdev/p9array.h: convert Doxygen -> kerneldoc format (2022-03-04 13:07:39 +0100)
-
-----------------------------------------------------------------
-9pfs: introduce macOS host support and cleanup
-
-* Add support for Darwin (a.k.a. macOS) hosts.
-
-* Code cleanup (move qemu_dirent_dup() from osdep -> 9p-util).
-
-* API doc cleanup (convert Doxygen -> kerneldoc format).
-
-----------------------------------------------------------------
-Christian Schoenebeck (8):
-      9pfs: move qemu_dirent_dup() from osdep -> 9p-util
-      9pfs: drop Doxygen format from qemu_dirent_dup() API comment
-      9pfs/9p.h: convert Doxygen -> kerneldoc format
-      9pfs/codir.c: convert Doxygen -> kerneldoc format
-      9pfs/9p.c: convert Doxygen -> kerneldoc format
-      9pfs/9p-util.h: convert Doxygen -> kerneldoc format
-      9pfs/coth.h: drop Doxygen format on v9fs_co_run_in_worker()
-      fsdev/p9array.h: convert Doxygen -> kerneldoc format
-
-Keno Fischer (10):
-      9p: linux: Fix a couple Linux assumptions
-      9p: Rename 9p-util -> 9p-util-linux
-      9p: darwin: Handle struct stat(fs) differences
-      9p: darwin: Handle struct dirent differences
-      9p: darwin: Ignore O_{NOATIME, DIRECT}
-      9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
-      9p: darwin: *xattr_nofollow implementations
-      9p: darwin: Compatibility for f/l*xattr
-      9p: darwin: Implement compatibility for mknodat
-      9p: darwin: meson: Allow VirtFS on Darwin
-
-Will Cohen (1):
-      9p: darwin: Adjust assumption on virtio-9p-test
-
- fsdev/file-op-9p.h                     |   9 ++-
- fsdev/meson.build                      |   1 +
- fsdev/p9array.h                        |  38 ++++++------
- hw/9pfs/9p-local.c                     |  27 +++++++--
- hw/9pfs/9p-proxy.c                     |  38 +++++++++++-
- hw/9pfs/9p-synth.c                     |   6 ++
- hw/9pfs/9p-util-darwin.c               |  97 ++++++++++++++++++++++++++++++
- hw/9pfs/{9p-util.c => 9p-util-linux.c} |   8 ++-
- hw/9pfs/9p-util.h                      |  76 ++++++++++++++++++++++++
- hw/9pfs/9p.c                           | 104 ++++++++++++++++++++++-----------
- hw/9pfs/9p.h                           |  30 ++++++++--
- hw/9pfs/codir.c                        |  34 ++++++-----
- hw/9pfs/coth.h                         |   4 +-
- hw/9pfs/meson.build                    |   3 +-
- include/qemu/osdep.h                   |  13 -----
- include/qemu/xattr.h                   |   4 +-
- meson.build                            |  13 +++--
- tests/qtest/virtio-9p-test.c           |   2 +-
- util/osdep.c                           |  21 -------
- 19 files changed, 401 insertions(+), 127 deletions(-)
- create mode 100644 hw/9pfs/9p-util-darwin.c
- rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (90%)
 
