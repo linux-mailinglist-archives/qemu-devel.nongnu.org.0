@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D22F4CDFE8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:48:56 +0100 (CET)
-Received: from localhost ([::1]:53626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC7A4CE00A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 23:03:51 +0100 (CET)
+Received: from localhost ([::1]:57102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQFnD-0001Zm-5u
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:48:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56796)
+	id 1nQG1d-0004p8-9d
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 17:03:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQFlX-0008E7-8r
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:47:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50463)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQG0V-0003xA-3L
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:02:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQFlU-0005wy-GO
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:47:09 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQG0S-0005Y0-8W
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:02:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646430427;
+ s=mimecast20190719; t=1646431354;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=73+Pk8CkxUAdXi+HG+F7hsQJ9PXe1ZGtQsw2iCcrbM4=;
- b=Zoqe9bsTf24pB03HtHRET6Mbw0KV1ateTkuvfbVuhF9L8C0uVL1ge9wxZzwvUD1+NknTOt
- EaJfAse/88DRfJwSNiEz6rNQODFy0N6Ry3VpJHU4yTlOPh30mOPIzBad8Zkzq7ziOv2U3f
- LjRW+n8rTqXD/dDiflpWV2fn/4yOOEY=
+ bh=M/i5G4lpo8Eu6NFTYoySUUA5TD/z2ofDfL2lw90M9SQ=;
+ b=fUH3IBwKqwoXHUL3nmRmm9Mpui2g/XimuSJkBwbcYCBt/8M9Jl0NWFK/JmGSCTDoL/W6Ii
+ DogczJmDHTQ0Bz0UsAz6ZKbOKdvINf5yL1Z67ZDD+YEPRicWSalgm/8l12dkZv8f48WFcu
+ G/0DqW7icAHDVpxigzxGL/v5laJbl7w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-171-W6h97qYXO4eoA0ZPsh69zA-1; Fri, 04 Mar 2022 16:47:04 -0500
-X-MC-Unique: W6h97qYXO4eoA0ZPsh69zA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-453-ummU371KOly8XI_rRG_KYw-1; Fri, 04 Mar 2022 17:02:31 -0500
+X-MC-Unique: ummU371KOly8XI_rRG_KYw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4DD651DC;
- Fri,  4 Mar 2022 21:47:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D16701091DA0;
+ Fri,  4 Mar 2022 22:02:30 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.16.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A1B770A01;
- Fri,  4 Mar 2022 21:46:33 +0000 (UTC)
-Date: Fri, 4 Mar 2022 15:46:31 -0600
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E95B756F78;
+ Fri,  4 Mar 2022 22:02:10 +0000 (UTC)
+Date: Fri, 4 Mar 2022 16:02:08 -0600
 From: Eric Blake <eblake@redhat.com>
 To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 4/8] util: remove use of is_daemonized flag from
- logging code
-Message-ID: <20220304214631.lcwnbdk7tzfkxcjl@redhat.com>
+Subject: Re: [PATCH v2 5/8] softmmu: refactor use of is_daemonized() method
+Message-ID: <20220304220208.rtie3bn7t2xf57ib@redhat.com>
 References: <20220304185620.3272401-1-berrange@redhat.com>
- <20220304185620.3272401-5-berrange@redhat.com>
+ <20220304185620.3272401-6-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220304185620.3272401-5-berrange@redhat.com>
+In-Reply-To: <20220304185620.3272401-6-berrange@redhat.com>
 User-Agent: NeoMutt/20211029-383-c6e293
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,18 +89,14 @@ Cc: Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 06:56:16PM +0000, Daniel P. Berrangé wrote:
-> We want to decouple knowledge of daemonization from other code. What the
-> logging code really wants to know is whether it can use stdio or not.
-> Add an API to let the logging code be informed of this fact explicitly.
+On Fri, Mar 04, 2022 at 06:56:17PM +0000, Daniel P. Berrangé wrote:
+> Use of the is_daemonized() method is isolated to allow it to be
+> more easily eliminated in a future change.
 > 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  include/qemu/log.h |  1 +
->  softmmu/vl.c       |  3 +++
->  util/log.c         | 12 +++++++++---
->  3 files changed, 13 insertions(+), 3 deletions(-)
->
+>  softmmu/vl.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
