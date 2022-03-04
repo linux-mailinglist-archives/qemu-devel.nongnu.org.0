@@ -2,72 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2178E4CDEDC
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 21:40:19 +0100 (CET)
-Received: from localhost ([::1]:54250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583CB4CDEDD
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 21:41:07 +0100 (CET)
+Received: from localhost ([::1]:56644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQEin-00077X-N9
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 15:40:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44462)
+	id 1nQEja-0000LS-6L
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 15:41:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQEhU-0006AZ-Cw
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 15:38:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52645)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nQEi7-00079d-0M; Fri, 04 Mar 2022 15:39:35 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:31680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQEhR-0000Xk-FQ
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 15:38:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646426332;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g0D5zgofpdoP255liPBFcuCPjdXT9lmnK+BiZEjChfo=;
- b=av0a+S7ltvgTBN5zvgWvQyK6RTj+nw9CxhaiI801XYEt4QN0TBftTXbtKkX5OImH85TaVi
- P0Ch7IYBC/tss+gHKf/yT00x9X80BXLoYkU4yKtuB7Vbe2UWpEp1B/GQhRFZtW8FuDZZ3w
- cEbTbf4nkU9pZv79YSQEaF9pyUyXBhY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-438-mw9EMgo6P3OnBmOCeg3hKg-1; Fri, 04 Mar 2022 15:38:47 -0500
-X-MC-Unique: mw9EMgo6P3OnBmOCeg3hKg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 432F951DF;
- Fri,  4 Mar 2022 20:38:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 159EF5DF37;
- Fri,  4 Mar 2022 20:38:44 +0000 (UTC)
-Date: Fri, 4 Mar 2022 14:38:43 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 08/12] tests/qemu-iotests: introduce filter for
- qemu-nbd export list
-Message-ID: <20220304203843.st3vrdgt7odh4hu4@redhat.com>
-References: <20220304193610.3293146-1-berrange@redhat.com>
- <20220304193610.3293146-9-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nQEi3-0000ZF-SX; Fri, 04 Mar 2022 15:39:34 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7BBE37462D3;
+ Fri,  4 Mar 2022 21:39:26 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 408BE745708; Fri,  4 Mar 2022 21:39:26 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 3D9C87456FE;
+ Fri,  4 Mar 2022 21:39:26 +0100 (CET)
+Date: Fri, 4 Mar 2022 21:39:26 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH 3/4] Replace qemu_gettimeofday() with g_get_real_time()
+In-Reply-To: <20220304152704.3466036-4-marcandre.lureau@redhat.com>
+Message-ID: <6eedba39-6067-30ba-35b9-9d8cd4ad90c2@eik.bme.hu>
+References: <20220304152704.3466036-1-marcandre.lureau@redhat.com>
+ <20220304152704.3466036-4-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220304193610.3293146-9-berrange@redhat.com>
-User-Agent: NeoMutt/20211029-383-c6e293
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: multipart/mixed; boundary="3866299591-47423651-1646426366=:32272"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,34 +56,280 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: Marek Vasut <marex@denx.de>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Chris Wulff <crwulff@gmail.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-ppc@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 07:36:06PM +0000, Daniel P. Berrangé wrote:
-> Introduce a filter for the output of qemu-nbd export list so it can be
-> reused in multiple tests.
-> 
-> The filter is a bit more permissive that what test 241 currently uses,
-> as its allows printing of the export count, along with any possible
-> error messages that might be emitted.
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-47423651-1646426366=:32272
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Fri, 4 Mar 2022, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>
+> GLib g_get_real_time() is an alternative to gettimeofday().
+>
+> For semihosting, a few bits are lost on POSIX host, but this shouldn't
+> be a big concern.
+>
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  tests/qemu-iotests/241           | 6 +++---
->  tests/qemu-iotests/241.out       | 6 ++++++
->  tests/qemu-iotests/common.filter | 5 +++++
->  3 files changed, 14 insertions(+), 3 deletions(-)
+> blockdev.c                 |  8 ++++----
+> hw/rtc/m41t80.c            |  6 +++---
+> hw/virtio/virtio-balloon.c |  9 +--------
+> qapi/qmp-event.c           | 12 +++++-------
+> qemu-img.c                 |  8 ++++----
+> qga/commands-posix.c       | 11 +----------
+> target/m68k/m68k-semi.c    | 22 ++++++++++------------
+> target/nios2/nios2-semi.c  | 24 +++++++++++-------------
+> 8 files changed, 39 insertions(+), 61 deletions(-)
+>
+> diff --git a/blockdev.c b/blockdev.c
+> index 42e098b458b1..4b07dbfbdefc 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -1235,7 +1235,7 @@ static void internal_snapshot_prepare(BlkActionState *common,
+>     BlockDriverState *bs;
+>     QEMUSnapshotInfo old_sn, *sn;
+>     bool ret;
+> -    qemu_timeval tv;
+> +    int64_t rt;
+>     BlockdevSnapshotInternal *internal;
+>     InternalSnapshotState *state;
+>     AioContext *aio_context;
+> @@ -1305,9 +1305,9 @@ static void internal_snapshot_prepare(BlkActionState *common,
+>     /* 3. take the snapshot */
+>     sn = &state->sn;
+>     pstrcpy(sn->name, sizeof(sn->name), name);
+> -    qemu_gettimeofday(&tv);
+> -    sn->date_sec = tv.tv_sec;
+> -    sn->date_nsec = tv.tv_usec * 1000;
+> +    rt = g_get_real_time();
+> +    sn->date_sec = rt / G_USEC_PER_SEC;
+> +    sn->date_nsec = (rt % G_USEC_PER_SEC) * 1000;
+>     sn->vm_clock_nsec = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>     if (replay_mode != REPLAY_MODE_NONE) {
+>         sn->icount = replay_get_current_icount();
+> diff --git a/hw/rtc/m41t80.c b/hw/rtc/m41t80.c
+> index a00971a67e1c..e045c864bb44 100644
+> --- a/hw/rtc/m41t80.c
+> +++ b/hw/rtc/m41t80.c
 
-Tested-by: Eric Blake <eblake@redhat.com>
+This part
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
 
+but why don't you use g_get_current_time() instead which seems to be a 
+more direct replacement for gettimeofday, then you don't have to do maths 
+with G_USEC_PER_SEC.
+
+Regards.
+BALATON Zoltan
+
+> @@ -47,7 +47,7 @@ static uint8_t m41t80_recv(I2CSlave *i2c)
+> {
+>     M41t80State *s = M41T80(i2c);
+>     struct tm now;
+> -    qemu_timeval tv;
+> +    int64_t rt;
+>
+>     if (s->addr < 0) {
+>         s->addr = 0;
+> @@ -57,8 +57,8 @@ static uint8_t m41t80_recv(I2CSlave *i2c)
+>     }
+>     switch (s->addr++) {
+>     case 0:
+> -        qemu_gettimeofday(&tv);
+> -        return to_bcd(tv.tv_usec / 10000);
+> +        rt = g_get_real_time();
+> +        return to_bcd((rt % G_USEC_PER_SEC) / 10000);
+>     case 1:
+>         return to_bcd(now.tm_sec);
+>     case 2:
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index e6c1b0aa46fe..b1bada84cecc 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -452,7 +452,6 @@ static void virtio_balloon_receive_stats(VirtIODevice *vdev, VirtQueue *vq)
+>     VirtQueueElement *elem;
+>     VirtIOBalloonStat stat;
+>     size_t offset = 0;
+> -    qemu_timeval tv;
+>
+>     elem = virtqueue_pop(vq, sizeof(VirtQueueElement));
+>     if (!elem) {
+> @@ -484,13 +483,7 @@ static void virtio_balloon_receive_stats(VirtIODevice *vdev, VirtQueue *vq)
+>             s->stats[tag] = val;
+>     }
+>     s->stats_vq_offset = offset;
+> -
+> -    if (qemu_gettimeofday(&tv) < 0) {
+> -        warn_report("%s: failed to get time of day", __func__);
+> -        goto out;
+> -    }
+> -
+> -    s->stats_last_update = tv.tv_sec;
+> +    s->stats_last_update = g_get_real_time() / G_USEC_PER_SEC;
+>
+> out:
+>     if (balloon_stats_enabled(s)) {
+> diff --git a/qapi/qmp-event.c b/qapi/qmp-event.c
+> index 19d3cd003833..025716b3ec37 100644
+> --- a/qapi/qmp-event.c
+> +++ b/qapi/qmp-event.c
+> @@ -20,15 +20,13 @@
+>
+> static void timestamp_put(QDict *qdict)
+> {
+> -    int err;
+>     QDict *ts;
+> -    qemu_timeval tv;
+> +    int64_t rt = g_get_real_time();
+>
+> -    err = qemu_gettimeofday(&tv);
+> -    /* Put -1 to indicate failure of getting host time */
+> -    ts = qdict_from_jsonf_nofail("{ 'seconds': %lld, 'microseconds': %lld }",
+> -                                 err < 0 ? -1LL : (long long)tv.tv_sec,
+> -                                 err < 0 ? -1LL : (long long)tv.tv_usec);
+> +    ts = qdict_from_jsonf_nofail("{ 'seconds': %" G_GINT64_FORMAT
+> +                                 ", 'microseconds': %" G_GINT64_FORMAT "}",
+> +                                 rt / G_USEC_PER_SEC,
+> +                                 rt % G_USEC_PER_SEC);
+>     qdict_put(qdict, "timestamp", ts);
+> }
+>
+> diff --git a/qemu-img.c b/qemu-img.c
+> index 6fe2466032f9..e26773909684 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+> @@ -3304,11 +3304,11 @@ static int img_snapshot(int argc, char **argv)
+>     char *filename, *snapshot_name = NULL;
+>     int c, ret = 0, bdrv_oflags;
+>     int action = 0;
+> -    qemu_timeval tv;
+>     bool quiet = false;
+>     Error *err = NULL;
+>     bool image_opts = false;
+>     bool force_share = false;
+> +    int64_t rt;
+>
+>     bdrv_oflags = BDRV_O_RDWR;
+>     /* Parse commandline parameters */
+> @@ -3405,9 +3405,9 @@ static int img_snapshot(int argc, char **argv)
+>         memset(&sn, 0, sizeof(sn));
+>         pstrcpy(sn.name, sizeof(sn.name), snapshot_name);
+>
+> -        qemu_gettimeofday(&tv);
+> -        sn.date_sec = tv.tv_sec;
+> -        sn.date_nsec = tv.tv_usec * 1000;
+> +        rt = g_get_real_time();
+> +        sn.date_sec = rt / G_USEC_PER_SEC;
+> +        sn.date_nsec = (rt % G_USEC_PER_SEC) * 1000;
+>
+>         ret = bdrv_snapshot_create(bs, &sn);
+>         if (ret) {
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index 75dbaab68ea9..3311a4ca0167 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -138,16 +138,7 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
+>
+> int64_t qmp_guest_get_time(Error **errp)
+> {
+> -   int ret;
+> -   qemu_timeval tq;
+> -
+> -   ret = qemu_gettimeofday(&tq);
+> -   if (ret < 0) {
+> -       error_setg_errno(errp, errno, "Failed to get time");
+> -       return -1;
+> -   }
+> -
+> -   return tq.tv_sec * 1000000000LL + tq.tv_usec * 1000;
+> +    return g_get_real_time();
+> }
+>
+> void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
+> diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+> index c5c164e096c8..54f735743165 100644
+> --- a/target/m68k/m68k-semi.c
+> +++ b/target/m68k/m68k-semi.c
+> @@ -378,19 +378,17 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+>                            arg0, arg1);
+>             return;
+>         } else {
+> -            qemu_timeval tv;
+>             struct gdb_timeval *p;
+> -            result = qemu_gettimeofday(&tv);
+> -            if (result == 0) {
+> -                if (!(p = lock_user(VERIFY_WRITE,
+> -                                    arg0, sizeof(struct gdb_timeval), 0))) {
+> -                    /* FIXME - check error code? */
+> -                    result = -1;
+> -                } else {
+> -                    p->tv_sec = cpu_to_be32(tv.tv_sec);
+> -                    p->tv_usec = cpu_to_be64(tv.tv_usec);
+> -                    unlock_user(p, arg0, sizeof(struct gdb_timeval));
+> -                }
+> +            int64_t rt = g_get_real_time();
+> +            if (!(p = lock_user(VERIFY_WRITE,
+> +                                arg0, sizeof(struct gdb_timeval), 0))) {
+> +                /* FIXME - check error code? */
+> +                result = -1;
+> +            } else {
+> +                result = 0;
+> +                p->tv_sec = cpu_to_be32(rt / G_USEC_PER_SEC);
+> +                p->tv_usec = cpu_to_be64(rt % G_USEC_PER_SEC);
+> +                unlock_user(p, arg0, sizeof(struct gdb_timeval));
+>             }
+>         }
+>         break;
+> diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+> index 5a7ad0c7108d..4600bf0a39d9 100644
+> --- a/target/nios2/nios2-semi.c
+> +++ b/target/nios2/nios2-semi.c
+> @@ -400,20 +400,18 @@ void do_nios2_semihosting(CPUNios2State *env)
+>                            arg0, 0);
+>             return;
+>         } else {
+> -            qemu_timeval tv;
+>             struct gdb_timeval *p;
+> -            result = qemu_gettimeofday(&tv);
+> -            if (result == 0) {
+> -                p = lock_user(VERIFY_WRITE, arg0, sizeof(struct gdb_timeval),
+> -                              0);
+> -                if (!p) {
+> -                    result = -1;
+> -                    errno = EFAULT;
+> -                } else {
+> -                    p->tv_sec = cpu_to_be32(tv.tv_sec);
+> -                    p->tv_usec = cpu_to_be64(tv.tv_usec);
+> -                    unlock_user(p, arg0, sizeof(struct gdb_timeval));
+> -                }
+> +            int64_t rt = g_get_real_time();
+> +            p = lock_user(VERIFY_WRITE, arg0, sizeof(struct gdb_timeval),
+> +                          0);
+> +            if (!p) {
+> +                result = -1;
+> +                errno = EFAULT;
+> +            } else {
+> +                result = 0;
+> +                p->tv_sec = cpu_to_be32(rt / G_USEC_PER_SEC);
+> +                p->tv_usec = cpu_to_be64(rt % G_USEC_PER_SEC);
+> +                unlock_user(p, arg0, sizeof(struct gdb_timeval));
+>             }
+>         }
+>         break;
+>
+--3866299591-47423651-1646426366=:32272--
 
