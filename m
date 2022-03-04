@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1794CD72D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:08:00 +0100 (CET)
-Received: from localhost ([::1]:49292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085154CD716
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:06:06 +0100 (CET)
+Received: from localhost ([::1]:43300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9XD-0002lE-Vx
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:08:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39192)
+	id 1nQ9VM-00077B-Uy
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:06:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8r7-0005CJ-JK
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8r7-0005CK-Kr
  for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20433)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8r5-0002B8-Bz
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8r5-0002As-CH
  for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403866;
+ s=mimecast20190719; t=1646403865;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zT7KjHLWieymJsj01ioRSfePTxZrCZgrRYRGma6bf00=;
- b=b47iBAvdLluokeziHQFIYad8ZtpVeZs+EiPApTAiB3JDSGfucqIjk72rVKdoBBAClTa7hd
- U4cjWZNwkhZShltBITNCtm4Md+Fuz37DutxPqn40/rEBwYhEiMsZaPLzUSSAKCCQL16BbG
- /J5xYwaFkd0t4lEfaBAtTgPjld8GxqI=
+ bh=Cq+81k6haAkzX2UVOXPff9s/ab4llUF+4v1p/e72amA=;
+ b=in5pJ9JfmCgeKJCmZbtpvXuFa8CiMEAmjK1Bp1HgwYqz3RZz8+uIe7j+Y+iGR0rJjipaXw
+ qre+gHtEFPqfZ6gXQLNoXNSX4K/vDmIPexKT8KIPIXPLNY8guWI77tTvlsRMrMsElGBJd9
+ Ln9GGd4fnDqqZEjOvduBv+yghvP6uyI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-338-zeIk67sXMrKLFAkMuHe2Ng-1; Fri, 04 Mar 2022 09:24:23 -0500
-X-MC-Unique: zeIk67sXMrKLFAkMuHe2Ng-1
+ us-mta-280-8XZC0Lv0MlagsIOeVljdZg-1; Fri, 04 Mar 2022 09:24:23 -0500
+X-MC-Unique: 8XZC0Lv0MlagsIOeVljdZg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C024835DE4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68A561091DA3;
  Fri,  4 Mar 2022 14:24:21 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB2367A525;
- Fri,  4 Mar 2022 14:24:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B4BFE7A52F;
+ Fri,  4 Mar 2022 14:24:09 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E5BB418009B0; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
+ id F18F218009B1; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/35] ossaudio: reduce effective playback buffer size
-Date: Fri,  4 Mar 2022 15:21:08 +0100
-Message-Id: <20220304142123.956171-21-kraxel@redhat.com>
+Subject: [PULL 21/35] paaudio: fix samples vs. frames mix-up
+Date: Fri,  4 Mar 2022 15:21:09 +0100
+Message-Id: <20220304142123.956171-22-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -95,44 +95,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Return the free buffer size for the mmapped case in function
-oss_buffer_get_free() to reduce the effective playback buffer
-size. All intermediate audio playback buffers become temporary
-buffers.
+Now that the mixing buffer size no longer adds to playback
+latency, fix the samples vs. frames mix-up in the mixing buffer
+size calculation. This change will go largely unnoticed as long
+as the user doesn't use a buffer-size smaller than timer-period.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20220301191311.26695-13-vr_qemu@t-online.de>
+Message-Id: <20220301191311.26695-14-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/ossaudio.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ audio/paaudio.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-index 1bd680084065..da9c232222e3 100644
---- a/audio/ossaudio.c
-+++ b/audio/ossaudio.c
-@@ -394,7 +394,7 @@ static size_t oss_buffer_get_free(HWVoiceOut *hw)
-     OSSVoiceOut *oss = (OSSVoiceOut *)hw;
- 
-     if (oss->mmapped) {
--        return INT_MAX;
-+        return oss_get_available_bytes(oss);
-     } else {
-         return audio_generic_buffer_get_free(hw);
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index d94f858ec761..a53ed85e0b82 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -549,11 +549,8 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
      }
-@@ -402,9 +402,10 @@ static size_t oss_buffer_get_free(HWVoiceOut *hw)
  
- static void *oss_get_buffer_out(HWVoiceOut *hw, size_t *size)
- {
--    OSSVoiceOut *oss = (OSSVoiceOut *) hw;
-+    OSSVoiceOut *oss = (OSSVoiceOut *)hw;
-+
-     if (oss->mmapped) {
--        *size = MIN(oss_get_available_bytes(oss), hw->size_emul - hw->pos_emul);
-+        *size = hw->size_emul - hw->pos_emul;
-         return hw->buf_emul + hw->pos_emul;
-     } else {
-         return audio_generic_get_buffer_out(hw, size);
+     audio_pcm_init_info (&hw->info, &obt_as);
+-    /*
+-     * This is wrong. hw->samples counts in frames. hw->samples will be
+-     * number of channels times larger than expected.
+-     */
+-    hw->samples = audio_buffer_samples(
++    /* hw->samples counts in frames */
++    hw->samples = audio_buffer_frames(
+         qapi_AudiodevPaPerDirectionOptions_base(ppdo), &obt_as, 46440);
+ 
+     return 0;
+@@ -601,11 +598,8 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+     }
+ 
+     audio_pcm_init_info (&hw->info, &obt_as);
+-    /*
+-     * This is wrong. hw->samples counts in frames. hw->samples will be
+-     * number of channels times larger than expected.
+-     */
+-    hw->samples = audio_buffer_samples(
++    /* hw->samples counts in frames */
++    hw->samples = audio_buffer_frames(
+         qapi_AudiodevPaPerDirectionOptions_base(ppdo), &obt_as, 46440);
+ 
+     return 0;
 -- 
 2.35.1
 
