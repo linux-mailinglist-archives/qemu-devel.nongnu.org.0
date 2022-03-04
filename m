@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722AE4CD54A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:37:40 +0100 (CET)
-Received: from localhost ([::1]:48606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D69EE4CD577
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:50:14 +0100 (CET)
+Received: from localhost ([::1]:47856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ87n-0005C1-H4
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:37:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52212)
+	id 1nQ8Jx-0007lV-M0
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:50:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <cb7d8fe9910c24655ac043065031cc8e4fe84720@lizzy.crudebyte.com>)
- id 1nQ7vN-0000Tj-66
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:24:49 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:43305)
+ (envelope-from <29241fc0ad2cf5c45ee005befc8d3bad04a79914@lizzy.crudebyte.com>)
+ id 1nQ7tL-0007D4-AB
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:22:46 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:57025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <cb7d8fe9910c24655ac043065031cc8e4fe84720@lizzy.crudebyte.com>)
- id 1nQ7vL-0006Ph-1q
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:24:48 -0500
+ (envelope-from <29241fc0ad2cf5c45ee005befc8d3bad04a79914@lizzy.crudebyte.com>)
+ id 1nQ7tG-0001i7-Dn
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:22:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=Dis0cFCt3Kt62wTSFGnP7lUDxDeSvq1HWoewP11CBIo=; b=pxbDG
- Z9Huvime/Q2QZQ7/zmneTe4QiiCoiPK1JWoMTYa0avXyzoHI8WqMDlFefeE5ujSeFGZ3i0bt6YFUX
- Rws2uqKbbaVh5UxPY9RjLdoz+gSXSAsNrF/sohEM4r8kIvDuuOJHx5MdpscNygIdsXBsmrctZOz5r
- JHeq621cl/bOyHxJ4m3SgRz3TM5BKN4cIh/gTlH+ybnYikVY9F/ByIg6ZjKYwMBFTyqg9gMRGVrHJ
- NbPAboEW4AWwpQ+nLore2QRpbkp0NrQ1WVTBNw3kVa93nyfKT7iSA26htoNWqf0ba9XFXhqtjcUIO
- 0bJQee5EoW/K7sqNT50EX5muKlmIQ==;
-Message-Id: <cb7d8fe9910c24655ac043065031cc8e4fe84720.1646396869.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
+ Content-Description; bh=5oLuXWTJKZvpRWIxoiPJFUVce5lljtpqW3n1BbXrpOw=; b=LeD6B
+ gBR43o7tsMRUbG8KWwvV/C+MXm88W9UpJgUz/cyuRNfwNmInBcog0CKjTchhLwzCqafFJe2M3GL6N
+ Q4v7e7L9FhkH0BsVJEOEGUJIUd8+BYECqQfeQjkT9e01IhWBVCTB4AqutuYxVSGP2Ro1pTGLmj0CK
+ bYz7vdnPjDH4oRi/PudWDbtvevwoVQyzLBbdKLm+a2TmqhOQv1ojd9evlHttVp9Xd/h8h9Au/BD0u
+ P3yRislJN8J5z+RyChRQTpopThVHNvdnQBTZGF5VrOIn2XPVDqZg8ps07SVHo73YgrAgbCnJ0cDjT
+ cTPFbefPhYbleSvO40uXJPQdAz6NQ==;
+Message-Id: <29241fc0ad2cf5c45ee005befc8d3bad04a79914.1646396869.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646396869.git.qemu_oss@crudebyte.com>
 References: <cover.1646396869.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 04 Mar 2022 13:27:49 +0100
-Subject: [PULL 18/19] 9pfs/coth.h: drop Doxygen format on
- v9fs_co_run_in_worker()
+Subject: [PULL 02/19] 9p: Rename 9p-util -> 9p-util-linux
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=cb7d8fe9910c24655ac043065031cc8e4fe84720@lizzy.crudebyte.com;
+ envelope-from=29241fc0ad2cf5c45ee005befc8d3bad04a79914@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -64,38 +66,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-API doc comments in QEMU are supposed to be in kerneldoc format, so
-drop Doxygen format used on v9fs_co_run_in_worker() macro.
+From: Keno Fischer <keno@juliacomputing.com>
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+The current file only has the Linux versions of these functions.
+Rename the file accordingly and update the Makefile to only build
+it on Linux. A Darwin version of these will follow later in the
+series.
+
+Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+[Michael Roitzsch: - Rebase for NixOS]
+Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <a8fdf0290d1e40a68f5577f29aeae12298b70733.1646314856.git.qemu_oss@crudebyte.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220227223522.91937-3-wwcohen@gmail.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/coth.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/9pfs/{9p-util.c => 9p-util-linux.c} | 2 +-
+ hw/9pfs/meson.build                    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (97%)
 
-diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
-index f83c7dda7b..1a1edbdc2a 100644
---- a/hw/9pfs/coth.h
-+++ b/hw/9pfs/coth.h
-@@ -19,7 +19,7 @@
- #include "qemu/coroutine.h"
- #include "9p.h"
+diff --git a/hw/9pfs/9p-util.c b/hw/9pfs/9p-util-linux.c
+similarity index 97%
+rename from hw/9pfs/9p-util.c
+rename to hw/9pfs/9p-util-linux.c
+index 3221d9b498..398614a5d0 100644
+--- a/hw/9pfs/9p-util.c
++++ b/hw/9pfs/9p-util-linux.c
+@@ -1,5 +1,5 @@
+ /*
+- * 9p utilities
++ * 9p utilities (Linux Implementation)
+  *
+  * Copyright IBM, Corp. 2017
+  *
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
+index 99be5d9119..1b28e70040 100644
+--- a/hw/9pfs/meson.build
++++ b/hw/9pfs/meson.build
+@@ -4,7 +4,6 @@ fs_ss.add(files(
+   '9p-posix-acl.c',
+   '9p-proxy.c',
+   '9p-synth.c',
+-  '9p-util.c',
+   '9p-xattr-user.c',
+   '9p-xattr.c',
+   '9p.c',
+@@ -14,6 +13,7 @@ fs_ss.add(files(
+   'coth.c',
+   'coxattr.c',
+ ))
++fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-util-linux.c'))
+ fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
+ softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
  
--/**
-+/*
-  * we want to use bottom half because we want to make sure the below
-  * sequence of events.
-  *
-@@ -29,7 +29,7 @@
-  * we cannot swap step 1 and 2, because that would imply worker thread
-  * can enter coroutine while step1 is still running
-  *
-- * @b PERFORMANCE @b CONSIDERATIONS: As a rule of thumb, keep in mind
-+ * PERFORMANCE CONSIDERATIONS: As a rule of thumb, keep in mind
-  * that hopping between threads adds @b latency! So when handling a
-  * 9pfs request, avoid calling v9fs_co_run_in_worker() too often, because
-  * this might otherwise sum up to a significant, huge overall latency for
 -- 
 2.20.1
 
