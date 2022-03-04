@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B304CCF7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 09:03:43 +0100 (CET)
-Received: from localhost ([::1]:49758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB3D4CCFC1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 09:13:53 +0100 (CET)
+Received: from localhost ([::1]:52316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ2ub-0004kU-Rh
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 03:03:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40640)
+	id 1nQ34R-0007QH-Eh
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 03:13:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nQ2tS-0003yu-Ot
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 03:02:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35374)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ32s-0006hj-BJ
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 03:12:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nQ2tK-00089M-AI
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 03:02:28 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ32o-00015X-Qb
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 03:12:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646380940;
+ s=mimecast20190719; t=1646381529;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jvNkrIPg+LOlB3GyZuukaoUEiDqof86uvUC5rEzFpLU=;
- b=IrVJ4Jur+tA6ycN0kg5hDjwFoko8WzEiWV4x1VdbxJ0fN4AMwA7cv1ywVawU04RG0KOTkf
- A8QSuPGYm9wiN/ee3uwOqB+irSFCzSuv9yXuX3P9+BqlF2n4h9HKXMI5AIXJfD3WGO8ufz
- 94iN7kr7pTKPHKqKbkaPpQdc3aEYmT4=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fESpYZZsL3Pl6l5cjBNppieTTwwM1n7BLy9MlDUP6GM=;
+ b=cmViGyBHmydEz/LOenMpQQJlbByPN/Y97Od3ghmdtkPa7HWFxqfo0vUPx9tSPOUF6uw6I2
+ ooFUfF1lMiZeMt+6rQoib/6kfV79GJHpZzTPFHwKesPyLlBmrgLsDG354pml5/wBUv1Mim
+ dEf09mqAbjufdLQWFadrpz4egLZUg1E=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-472-YIbt49GyNyeYgttMO0ii4w-1; Fri, 04 Mar 2022 03:02:19 -0500
-X-MC-Unique: YIbt49GyNyeYgttMO0ii4w-1
-Received: by mail-qv1-f69.google.com with SMTP id
- u1-20020ad45aa1000000b00435311d5b9fso4394864qvg.19
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 00:02:19 -0800 (PST)
+ us-mta-531-Ag4A0GzqPxylyBOHUutyXQ-1; Fri, 04 Mar 2022 03:12:08 -0500
+X-MC-Unique: Ag4A0GzqPxylyBOHUutyXQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c126-20020a1c3584000000b00380dee8a62cso340504wma.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 00:12:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jvNkrIPg+LOlB3GyZuukaoUEiDqof86uvUC5rEzFpLU=;
- b=Ij0LM/YMxsVKWWMxBG6t41bTPReLfY2vCOwQvDCX1z4apfGpryPpqrtBFWLMKV/dWC
- M3xlh8wid/w4GVLFzCwgHWfdyImSlEp5wIE8D/Jw95dJgzE3ul2jITCDmzA8nvGYqcOy
- AITRx0hlU6BdPByWWkJgOSmAle4wzUvKp7IX/3kxSxGwBdPUK3y4BsxX5jJ3JqQMi1iM
- tqvCYUiPH5KQWmOB+5j8c3gbe5yxSjnfmAqvnzDoh7s4iWVZ5eixBA+6H8EY5MFzaCNX
- ajTgx74cxEU5nvMbiqi62Nn3MXTaE7IryvMrCFfgfiSTSMCf3xBFIUUEvKdTNAZ5vCBI
- kAKA==
-X-Gm-Message-State: AOAM531y73RoQc0GAJoftwpDYqHJX6lN4NgLvvSF+AXvKZD7bUtYipK4
- NfxBa/R6zT1tyPClcoYRucQu8Zf3K2GLScPet6L6gS/2M+bM9rBPJ42wgCbLf5y/4W0vomcdajt
- c4xCtP5G4D/LF2yBjzr3It0YjNDTbn0E=
-X-Received: by 2002:a05:620a:807:b0:46c:e3c1:7241 with SMTP id
- s7-20020a05620a080700b0046ce3c17241mr1750329qks.764.1646380937224; 
- Fri, 04 Mar 2022 00:02:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxYB9JLFjkUGlWNZ4J1MdGFT7ozS8Xe80cuQuVXN8vRKW2z4hofyxgT3i7Zq8fVkJP0R9le1YiYAIkywOQJtM4=
-X-Received: by 2002:a05:620a:807:b0:46c:e3c1:7241 with SMTP id
- s7-20020a05620a080700b0046ce3c17241mr1750288qks.764.1646380936835; Fri, 04
- Mar 2022 00:02:16 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=fESpYZZsL3Pl6l5cjBNppieTTwwM1n7BLy9MlDUP6GM=;
+ b=vRRZwlI9fIRfjpnkVOkct3VqRWt0aorVMDkIdRg1A71i9nD4Umz0LOwoixVNymelkO
+ doDk5VyjhBj8bGxgx/RCEs0fHieXJF9XsQV5G68AIfrol7A/X03k7xwxHGaZ6UyIqQFE
+ CHG6p/R7/INzVMXM0Nzn444c2vApQCphAnd4xD6edC+goH31AHBWTzgsRafNTGwfH+Pe
+ Dlhl4avLjxWXcRa6GPx3EW26Lj2LvPiOTZ5Q5IN8ObQ00ag/LQEM/KGBwXUvLicYP10o
+ 32P2Qtwcm7feowZwlxUTvwwKb4YlYk5sBHQ5+m0UK4Ry5yIw0vvYsFAaA7zLr06eLSGP
+ nY3Q==
+X-Gm-Message-State: AOAM532VmYmnU2Xyo59Bcvx5JDruagRQFWwYKMpson9FjHJjYZwwaVtX
+ q/7MQ0s+cE+DNS918GTrX+RET6NgVGQqPnKXTy3xvJGx+a+69FjrIpIxGrG1ZysKxlDQX2s5Q1U
+ TakhEX4yDXSCYxCQ=
+X-Received: by 2002:a5d:6c61:0:b0:1f0:436b:ebbe with SMTP id
+ r1-20020a5d6c61000000b001f0436bebbemr7884278wrz.651.1646381527176; 
+ Fri, 04 Mar 2022 00:12:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwauLiMmWLJEdbrV2/vIVMnoDWswhUN6FVeya6DCuFqmSMP60h5GZk39gIj9FQwAitRF5zO8g==
+X-Received: by 2002:a5d:6c61:0:b0:1f0:436b:ebbe with SMTP id
+ r1-20020a5d6c61000000b001f0436bebbemr7884266wrz.651.1646381526937; 
+ Fri, 04 Mar 2022 00:12:06 -0800 (PST)
+Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
+ 7-20020a05600c228700b00389865c646dsm493026wmf.14.2022.03.04.00.12.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Mar 2022 00:12:06 -0800 (PST)
+Date: Fri, 4 Mar 2022 03:12:03 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH 1/1] virtio: fix feature negotiation for ACCESS_PLATFORM
+Message-ID: <20220304031142-mutt-send-email-mst@kernel.org>
+References: <20220209124534.1206993-1-pasic@linux.ibm.com>
+ <87leykt0k7.fsf@redhat.com>
+ <20220209212750.25ddcebe.pasic@linux.ibm.com>
+ <87fsort5a6.fsf@redhat.com>
+ <20220210113258.1e90af05.pasic@linux.ibm.com>
+ <877da3t1du.fsf@redhat.com>
+ <20220210142929.668a1f3d.pasic@linux.ibm.com>
 MIME-Version: 1.0
-References: <20220227134111.3254066-1-eperezma@redhat.com>
- <20220227134111.3254066-10-eperezma@redhat.com>
- <7f6f5118-4228-6dcb-f3d4-3e64aeb3608c@redhat.com>
- <CAJaqyWchLxXTRBE9zT9ZrF7UT_CnNbD=E5yaK6NrF-gDauhSAg@mail.gmail.com>
- <CACGkMEsSBGo7+ox9V4tjY6Eq_rcJp0E6jXaQA=jhNh4AfdOMdw@mail.gmail.com>
-In-Reply-To: <CACGkMEsSBGo7+ox9V4tjY6Eq_rcJp0E6jXaQA=jhNh4AfdOMdw@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 4 Mar 2022 09:01:40 +0100
-Message-ID: <CAJaqyWcsUv=Kc8up=T103wz8uy8YWd+6gK3Pm5PXwHVVMuLM2Q@mail.gmail.com>
-Subject: Re: [PATCH v2 09/14] vhost: Add VhostIOVATree
-To: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220210142929.668a1f3d.pasic@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,383 +101,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Lingshan <lingshan.zhu@intel.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 4, 2022 at 3:04 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Fri, Mar 4, 2022 at 12:33 AM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
-> >
-> > On Mon, Feb 28, 2022 at 8:06 AM Jason Wang <jasowang@redhat.com> wrote:
-> > >
-> > >
-> > > =E5=9C=A8 2022/2/27 =E4=B8=8B=E5=8D=889:41, Eugenio P=C3=A9rez =E5=86=
-=99=E9=81=93:
-> > > > This tree is able to look for a translated address from an IOVA add=
-ress.
-> > > >
-> > > > At first glance it is similar to util/iova-tree. However, SVQ worki=
-ng on
-> > > > devices with limited IOVA space need more capabilities, like alloca=
-ting
-> > > > IOVA chunks or performing reverse translations (qemu addresses to i=
-ova).
-> > > >
-> > > > The allocation capability, as "assign a free IOVA address to this c=
-hunk
-> > > > of memory in qemu's address space" allows shadow virtqueue to creat=
-e a
-> > > > new address space that is not restricted by guest's addressable one=
-, so
-> > > > we can allocate shadow vqs vrings outside of it.
-> > > >
-> > > > It duplicates the tree so it can search efficiently in both directi=
-ons,
-> > > > and it will signal overlap if iova or the translated address is pre=
-sent
-> > > > in any tree.
-> > > >
-> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > ---
-> > > >   hw/virtio/vhost-iova-tree.h |  27 +++++++
-> > > >   hw/virtio/vhost-iova-tree.c | 155 +++++++++++++++++++++++++++++++=
-+++++
-> > > >   hw/virtio/meson.build       |   2 +-
-> > > >   3 files changed, 183 insertions(+), 1 deletion(-)
-> > > >   create mode 100644 hw/virtio/vhost-iova-tree.h
-> > > >   create mode 100644 hw/virtio/vhost-iova-tree.c
-> > > >
-> > > > diff --git a/hw/virtio/vhost-iova-tree.h b/hw/virtio/vhost-iova-tre=
-e.h
-> > > > new file mode 100644
-> > > > index 0000000000..6a4f24e0f9
-> > > > --- /dev/null
-> > > > +++ b/hw/virtio/vhost-iova-tree.h
-> > > > @@ -0,0 +1,27 @@
-> > > > +/*
-> > > > + * vhost software live migration iova tree
-> > > > + *
-> > > > + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-> > > > + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redh=
-at.com>
-> > > > + *
-> > > > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > > > + */
-> > > > +
-> > > > +#ifndef HW_VIRTIO_VHOST_IOVA_TREE_H
-> > > > +#define HW_VIRTIO_VHOST_IOVA_TREE_H
-> > > > +
-> > > > +#include "qemu/iova-tree.h"
-> > > > +#include "exec/memory.h"
-> > > > +
-> > > > +typedef struct VhostIOVATree VhostIOVATree;
-> > > > +
-> > > > +VhostIOVATree *vhost_iova_tree_new(uint64_t iova_first, uint64_t i=
-ova_last);
-> > > > +void vhost_iova_tree_delete(VhostIOVATree *iova_tree);
-> > > > +G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostIOVATree, vhost_iova_tree_delet=
-e);
-> > > > +
-> > > > +const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *iova_=
-tree,
-> > > > +                                        const DMAMap *map);
-> > > > +int vhost_iova_tree_map_alloc(VhostIOVATree *iova_tree, DMAMap *ma=
-p);
-> > > > +void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap=
- *map);
-> > > > +
-> > > > +#endif
-> > > > diff --git a/hw/virtio/vhost-iova-tree.c b/hw/virtio/vhost-iova-tre=
-e.c
-> > > > new file mode 100644
-> > > > index 0000000000..03496ac075
-> > > > --- /dev/null
-> > > > +++ b/hw/virtio/vhost-iova-tree.c
-> > > > @@ -0,0 +1,155 @@
-> > > > +/*
-> > > > + * vhost software live migration iova tree
-> > > > + *
-> > > > + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-> > > > + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redh=
-at.com>
-> > > > + *
-> > > > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > > > + */
-> > > > +
-> > > > +#include "qemu/osdep.h"
-> > > > +#include "qemu/iova-tree.h"
-> > > > +#include "vhost-iova-tree.h"
-> > > > +
-> > > > +#define iova_min_addr qemu_real_host_page_size
-> > > > +
-> > > > +/**
-> > > > + * VhostIOVATree, able to:
-> > > > + * - Translate iova address
-> > > > + * - Reverse translate iova address (from translated to iova)
-> > > > + * - Allocate IOVA regions for translated range (linear operation)
-> > > > + */
-> > > > +struct VhostIOVATree {
-> > > > +    /* First addressable iova address in the device */
-> > > > +    uint64_t iova_first;
-> > > > +
-> > > > +    /* Last addressable iova address in the device */
-> > > > +    uint64_t iova_last;
-> > > > +
-> > > > +    /* IOVA address to qemu memory maps. */
-> > > > +    IOVATree *iova_taddr_map;
-> > > > +
-> > > > +    /* QEMU virtual memory address to iova maps */
-> > > > +    GTree *taddr_iova_map;
-> > > > +};
-> > > > +
-> > > > +static gint vhost_iova_tree_cmp_taddr(gconstpointer a, gconstpoint=
-er b,
-> > > > +                                      gpointer data)
-> > > > +{
-> > > > +    const DMAMap *m1 =3D a, *m2 =3D b;
-> > > > +
-> > > > +    if (m1->translated_addr > m2->translated_addr + m2->size) {
-> > > > +        return 1;
-> > > > +    }
-> > > > +
-> > > > +    if (m1->translated_addr + m1->size < m2->translated_addr) {
-> > > > +        return -1;
-> > > > +    }
-> > > > +
-> > > > +    /* Overlapped */
-> > > > +    return 0;
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * Create a new IOVA tree
-> > > > + *
-> > > > + * Returns the new IOVA tree
-> > > > + */
-> > > > +VhostIOVATree *vhost_iova_tree_new(hwaddr iova_first, hwaddr iova_=
-last)
-> > > > +{
-> > > > +    VhostIOVATree *tree =3D g_new(VhostIOVATree, 1);
-> > > > +
-> > > > +    /* Some devices do not like 0 addresses */
-> > > > +    tree->iova_first =3D MAX(iova_first, iova_min_addr);
-> > > > +    tree->iova_last =3D iova_last;
-> > > > +
-> > > > +    tree->iova_taddr_map =3D iova_tree_new();
-> > > > +    tree->taddr_iova_map =3D g_tree_new_full(vhost_iova_tree_cmp_t=
-addr, NULL,
-> > > > +                                           NULL, g_free);
-> > > > +    return tree;
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * Delete an iova tree
-> > > > + */
-> > > > +void vhost_iova_tree_delete(VhostIOVATree *iova_tree)
-> > > > +{
-> > > > +    iova_tree_destroy(iova_tree->iova_taddr_map);
-> > > > +    g_tree_unref(iova_tree->taddr_iova_map);
-> > > > +    g_free(iova_tree);
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * Find the IOVA address stored from a memory address
-> > > > + *
-> > > > + * @tree     The iova tree
-> > > > + * @map      The map with the memory address
-> > > > + *
-> > > > + * Return the stored mapping, or NULL if not found.
-> > > > + */
-> > > > +const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *tree,
-> > > > +                                        const DMAMap *map)
-> > > > +{
-> > > > +    return g_tree_lookup(tree->taddr_iova_map, map);
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * Allocate a new mapping
-> > > > + *
-> > > > + * @tree  The iova tree
-> > > > + * @map   The iova map
-> > > > + *
-> > > > + * Returns:
-> > > > + * - IOVA_OK if the map fits in the container
-> > > > + * - IOVA_ERR_INVALID if the map does not make sense (like size ov=
-erflow)
-> > > > + * - IOVA_ERR_OVERLAP if the tree already contains that map
-> > > > + * - IOVA_ERR_NOMEM if tree cannot allocate more space.
-> > > > + *
-> > > > + * It returns assignated iova in map->iova if return value is VHOS=
-T_DMA_MAP_OK.
-> > > > + */
-> > > > +int vhost_iova_tree_map_alloc(VhostIOVATree *tree, DMAMap *map)
-> > > > +{
-> > > > +    /* Some vhost devices do not like addr 0. Skip first page */
-> > > > +    hwaddr iova_first =3D tree->iova_first ?: qemu_real_host_page_=
-size;
-> > > > +    DMAMap *new;
-> > > > +    int r;
-> > > > +
-> > > > +    if (map->translated_addr + map->size < map->translated_addr ||
-> > > > +        map->perm =3D=3D IOMMU_NONE) {
-> > > > +        return IOVA_ERR_INVALID;
-> > > > +    }
-> > > > +
-> > > > +    /* Check for collisions in translated addresses */
-> > > > +    if (vhost_iova_tree_find_iova(tree, map)) {
-> > > > +        return IOVA_ERR_OVERLAP;
-> > > > +    }
-> > > > +
-> > > > +    /* Allocate a node in IOVA address */
-> > > > +    r =3D iova_tree_alloc_map(tree->iova_taddr_map, map, iova_firs=
-t,
-> > > > +                            tree->iova_last);
-> > > > +    if (r !=3D IOVA_OK) {
-> > > > +        return r;
-> > > > +    }
-> > > > +
-> > > > +    /* Allocate node in qemu -> iova translations */
-> > > > +    new =3D g_malloc(sizeof(*new));
-> > > > +    memcpy(new, map, sizeof(*new));
-> > > > +    g_tree_insert(tree->taddr_iova_map, new, new);
-> > >
-> > >
-> > > Can the caller map two IOVA ranges to the same e.g GPA range?
-> > >
-> >
-> > It shouldn't matter, because we are totally ignoring GPA here. HVA
-> > could be more problematic.
-> >
-> > We call it from two places: The shadow vring addresses and through the
-> > memory listener. The SVQ vring addresses should already be on a
-> > separated translated address from each one and guest's HVA because of
-> > malloc semantics.
->
-> Right, so SVQ addresses should be fine, the problem is the guest mappings=
-.
->
-> >
-> > Regarding the listener, it should already report flattened memory with
-> > no overlapping between the HVA chunks.
-> > vhost_vdpa_listener_skipped_section should skip all problematic
-> > sections if I'm not wrong.
-> >
-> > But I may have missed some scenarios: vdpa devices only care about
-> > IOVA -> HVA translation, so two IOVA could translate to the same HVA
-> > in theory and we would not notice until we try with SVQ. To develop an
-> > algorithm to handle this seems complicated at this moment: Should we
-> > keep the bigger one? The last mapped? What happens if the listener
-> > unmaps one of them, we suddenly must start translating from the not
-> > unmapping? Seems that some kind of stacking would be needed.
-> >
-> > Thanks!
->
-> It looks to me that we should always try to allocate new iova each
-> time, even if the HVA is the same. This means we need to remove the
-> reverse mapping tree.
->
-> Currently we had:
->
->     /* Check for collisions in translated addresses */
->     if (vhost_iova_tree_find_iova(tree, map)) {
->         return IOVA_ERR_OVERLAP;
->     }
->
-> We probably need to remove that. And during the translation we need to
-> iterate the whole iova tree to get the reverse mapping instead by
-> returning the largest possible mapping there.
->
+On Thu, Feb 10, 2022 at 02:29:29PM +0100, Halil Pasic wrote:
+> On Thu, 10 Feb 2022 12:19:25 +0100
+> Cornelia Huck <cohuck@redhat.com> wrote:
+> 
+> [..]
+> > 
+> > Nope, that's not my problem. We make sure that the bit is persistent, we
+> > fail realization if the bit got removed by the callback when required,
+> > and we fail feature validation if the driver removes the bit, which is
+> > in a different code path. We should not talk about FEATURES_OK in this
+> > code.
+> 
+> I agree. I changed my mind. Expanation follows...
+> 
+> > 
+> > We force-add the bit, and then still might fail realization. The
+> > important condition is the has_iommu one, not the checks later on. I
+> > find it very confusing to talk about what a potential driver might do in
+> > that context.
+> > 
+> 
+> I assumed stuff like virtiofs+SE regressed with commit 04ceb61a40
+> ("virtio: Fail if iommu_platform is requested, but unsupported") but I
+> think, I was wrong. It didn't work before that, because we did not
+> present ACCESS_PLATFORM to the guest. I operated under the assumption
+> that virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM)
+> does not impact the set of features offered to the driver by the device,
+> but it does.
+> 
+> So we need both this patch and "[PATCH v5 1/1] virtio: fix the condition
+> for iommu_platform not supported" to get virtiofs to work with SE/SEV/Secure VM.
+> 
+> I have to admit I only tested for the error message, and not with a full
+> SE setup.
+> 
+> I agree my comment was inadequate. Can we use
+> 
+> /* make sure that the device did not drop a required IOMMU_PLATFORM */
+> 
+> I will think some more though. This is again about the dual nature
+> of ACCESS_PLATFORM...
 
-I'm not sure if that is possible. g_tree_insert() calls the comparison
-methods so it knows where to place the new element, so it's expected
-to do something if the node already exists. Looking at the sources it
-actually silently destroys the new node. If we call g_tree_replace, we
-achieve the opposite and destroy the old node. But the tree is
-expected to have non-overlapping keys.
+Were you going to post a new version of this patch?
 
-Apart from that, we're not using this struct as a tree anymore so it's
-better to use directly a list in that case.
-
-But even with the list there are still questions on how to handle
-overlappings. How to handle this deletion:
-
-* Allocate translated_addr 0, size 0x1000.
-* Allocate translated_addr 0, size 0x2000.
-* Delete translated_addr 0, size 0x1000.
-
-Should it delete only the first node? Both of them?
-
-iova-tree has similar questions too with iova. Inserting (iova=3D0,
-size=3D0x1000) and deleting (.iova=3D0, size=3D0x800) will delete all the
-whole node, so we cannot search the translation of (.iova=3D0x900)
-anymore. Is this expected?
-
-> But this may degrade the performance, but consider the memslots should
-> not be much at most of the time, it should be fine.
->
-> Thanks
->
->
-> >
-> > > Thanks
-> > >
-> > >
-> > > > +    return IOVA_OK;
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * Remove existing mappings from iova tree
-> > > > + *
-> > > > + * @param  iova_tree  The vhost iova tree
-> > > > + * @param  map        The map to remove
-> > > > + */
-> > > > +void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap=
- *map)
-> > > > +{
-> > > > +    const DMAMap *overlap;
-> > > > +
-> > > > +    iova_tree_remove(iova_tree->iova_taddr_map, map);
-> > > > +    while ((overlap =3D vhost_iova_tree_find_iova(iova_tree, map))=
-) {
-> > > > +        g_tree_remove(iova_tree->taddr_iova_map, overlap);
-> > > > +    }
-> > > > +}
-> > > > diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-> > > > index 2dc87613bc..6047670804 100644
-> > > > --- a/hw/virtio/meson.build
-> > > > +++ b/hw/virtio/meson.build
-> > > > @@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files=
-('vhost-stub.c'))
-> > > >
-> > > >   virtio_ss =3D ss.source_set()
-> > > >   virtio_ss.add(files('virtio.c'))
-> > > > -virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vho=
-st-backend.c', 'vhost-shadow-virtqueue.c'))
-> > > > +virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vho=
-st-backend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
-> > > >   virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-us=
-er.c'))
-> > > >   virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vd=
-pa.c'))
-> > > >   virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virt=
-io-balloon.c'))
-> > >
-> >
->
+> > What about moving the virtio_add_feature() after the if
+> > (klass->get_dma_as) check, and adding a comment
+> > 
+> > /* we want to always force IOMMU_PLATFORM here */
+> > 
+> > [I'll withdraw from this discussion for now, I fear I might just add
+> > confusion.]
+> > 
+> > 
 
 
