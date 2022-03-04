@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B6C4CD719
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:06:42 +0100 (CET)
-Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189AE4CD782
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:18:03 +0100 (CET)
+Received: from localhost ([::1]:51616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9Vx-0000EH-Jb
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:06:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39330)
+	id 1nQ9gw-0006h0-5u
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:18:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rE-0005FR-04
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46340)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rv-00061q-2O
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rB-0002Kn-5W
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:35 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rs-0003k7-NX
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403871;
+ s=mimecast20190719; t=1646403916;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OpKErTmmTGnHwRYPOgvS0SjzqB/msUj5VLfFK6l1uDg=;
- b=gHqhMEGCwIN3bfSBCs1u+8L/W0pYon8e3WST8H8WbMvAkvri/H22Cr8TFrodi59bK4wIHC
- l02heNvaTBmHQhszMJtFK974E7FKbzzg8cjlqrl/XofGFiUGxemU8sbMdRtYBIdt3N/+lg
- 77RDVm9jG7y7XtZHEGELvC1cgzRdkOI=
+ bh=baB6RIsA5GUnZG4FGkm5qO3av4UGDOoFdzE+3tpXKXY=;
+ b=U2mUX/wLWUr2Rs/+MVDE69ycpUV7soGvKPg/OhhygbGYjsOMSad/U1UAiwKg+HxQTqKrJN
+ a1lJ8tIYqgMi6lGPPfdRkDgVvDLXPnchN7xIb+G1sxU+OPSFH6lCwJk4QN/Xqz038hibFc
+ rsxfCJzbB8ORHukCOfV7JwA4oBak5UA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-164-K5UzOdwTMwiUK7h2Pbhu3A-1; Fri, 04 Mar 2022 09:24:28 -0500
-X-MC-Unique: K5UzOdwTMwiUK7h2Pbhu3A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-365-f8-ah2hnO3Gz2HrTPLEjKg-1; Fri, 04 Mar 2022 09:25:13 -0500
+X-MC-Unique: f8-ah2hnO3Gz2HrTPLEjKg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC239801AFE;
- Fri,  4 Mar 2022 14:24:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F90E801AFE;
+ Fri,  4 Mar 2022 14:25:11 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FE12866E9;
- Fri,  4 Mar 2022 14:24:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B18479903;
+ Fri,  4 Mar 2022 14:24:28 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2F8A718009B8; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
+ id 3C81018009B9; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/35] hw/i386: Improve bounds checking in OVMF table parsing
-Date: Fri,  4 Mar 2022 15:21:13 +0100
-Message-Id: <20220304142123.956171-26-kraxel@redhat.com>
+Subject: [PULL 26/35] hw/i386: Replace magic number with field length
+ calculation
+Date: Fri,  4 Mar 2022 15:21:14 +0100
+Message-Id: <20220304142123.956171-27-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -88,7 +89,6 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -96,55 +96,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Dov Murik <dovmurik@linux.ibm.com>
 
-When pc_system_parse_ovmf_flash() parses the optional GUIDed table in
-the end of the OVMF flash memory area, the table length field is checked
-for sizes that are too small, but doesn't error on sizes that are too
-big (bigger than the flash content itself).
+Replce the literal magic number 48 with length calculation (32 bytes at
+the end of the firmware after the table footer + 16 bytes of the OVMF
+table footer GUID).
 
-Add a check for maximal size of the OVMF table, and add an error report
-in case the size is invalid.  In such a case, an error like this will be
-displayed during launch:
-
-    qemu-system-x86_64: OVMF table has invalid size 4047
-
-and the table parsing is skipped.
+No functional change intended.
 
 Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220222071906.2632426-2-dovmurik@linux.ibm.com>
+Message-Id: <20220222071906.2632426-3-dovmurik@linux.ibm.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/i386/pc_sysfw_ovmf.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ hw/i386/pc_sysfw_ovmf.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/hw/i386/pc_sysfw_ovmf.c b/hw/i386/pc_sysfw_ovmf.c
-index f4dd92c58825..df15c9737b93 100644
+index df15c9737b93..07a4c267faae 100644
 --- a/hw/i386/pc_sysfw_ovmf.c
 +++ b/hw/i386/pc_sysfw_ovmf.c
-@@ -24,6 +24,7 @@
-  */
+@@ -30,6 +30,8 @@
  
- #include "qemu/osdep.h"
-+#include "qemu/error-report.h"
- #include "hw/i386/pc.h"
- #include "cpu.h"
+ #define OVMF_TABLE_FOOTER_GUID "96b582de-1fb2-45f7-baea-a366c55a082d"
  
-@@ -66,7 +67,13 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
-     ptr -= sizeof(uint16_t);
-     tot_len = le16_to_cpu(*(uint16_t *)ptr) - sizeof(guid) - sizeof(uint16_t);
- 
--    if (tot_len <= 0) {
-+    if (tot_len < 0 || tot_len > (ptr - flash_ptr)) {
-+        error_report("OVMF table has invalid size %d", tot_len);
-+        return;
-+    }
++static const int bytes_after_table_footer = 32;
 +
-+    if (tot_len == 0) {
-+        /* no entries in the OVMF table */
+ static bool ovmf_flash_parsed;
+ static uint8_t *ovmf_table;
+ static int ovmf_table_len;
+@@ -53,12 +55,13 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
+ 
+     /*
+      * if this is OVMF there will be a table footer
+-     * guid 48 bytes before the end of the flash file.  If it's
+-     * not found, silently abort the flash parsing.
++     * guid 48 bytes before the end of the flash file
++     * (= 32 bytes after the table + 16 bytes the GUID itself).
++     * If it's not found, silently abort the flash parsing.
+      */
+     qemu_uuid_parse(OVMF_TABLE_FOOTER_GUID, &guid);
+     guid = qemu_uuid_bswap(guid); /* guids are LE */
+-    ptr = flash_ptr + flash_size - 48;
++    ptr = flash_ptr + flash_size - (bytes_after_table_footer + sizeof(guid));
+     if (!qemu_uuid_is_equal((QemuUUID *)ptr, &guid)) {
          return;
      }
- 
 -- 
 2.35.1
 
