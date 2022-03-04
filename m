@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C64C4CDD5B
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:35:18 +0100 (CET)
-Received: from localhost ([::1]:43766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847024CDD5E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:38:42 +0100 (CET)
+Received: from localhost ([::1]:46516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQDht-0000MF-89
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:35:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58372)
+	id 1nQDlB-0002Jt-KN
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:38:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQDdZ-00071R-4X
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:30:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35033)
+ id 1nQDft-00007J-LT
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:33:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQDdX-0003LD-8z
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:30:48 -0500
+ id 1nQDfo-0003gI-Fw
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:33:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646422246;
+ s=mimecast20190719; t=1646422387;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9k3YzQFqwkhw21ATf3evq5njiPfutGwb6gKvGyePejY=;
- b=dmi59SWUvGs2S0iHQSyVuxg9WPjAxnLyCu0U1KMFsRn5v5tyidFsIl2AFJkh1lfgv+jlVl
- ynZAQ8F7lyUKmG/wRxse+YhRvzFgSL88vOKuiWPqaV7pOXnoHxXtnuZ+4uuel8uzH7p4zR
- Gb95qLgEWdgYj7geT+vlMSeKvLO8/4E=
+ bh=VlIfPTOfWeKa73lc6PcX09qkT0A5aqtl/GeeofyQUhc=;
+ b=Ir40P60Cgv7OCFPHKRktAoT7ci/oyQxWLSe1eX7Um6bQa+Nd0sJMOf0VQ10DBb/oAMfwrv
+ wcwtTSsUvnkIJfqI+0iVFiiw+czqwZp6yS4PogzNA11FmsRWX4a1jundk2uMNWRIP69yiT
+ M5JJZdj7skYW53CUvD3mf3iaq9M8p64=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-M4U5HOT4MqCP_bJYchbRCg-1; Fri, 04 Mar 2022 14:30:40 -0500
-X-MC-Unique: M4U5HOT4MqCP_bJYchbRCg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-156-16g7Xr7vNKSuUq0Li7D89w-1; Fri, 04 Mar 2022 14:33:04 -0500
+X-MC-Unique: 16g7Xr7vNKSuUq0Li7D89w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00FAB8070F0;
- Fri,  4 Mar 2022 19:30:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 713371006AA6;
+ Fri,  4 Mar 2022 19:33:02 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E49E360C66;
- Fri,  4 Mar 2022 19:30:37 +0000 (UTC)
-Date: Fri, 4 Mar 2022 19:30:34 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B20C71B42C;
+ Fri,  4 Mar 2022 19:32:54 +0000 (UTC)
+Date: Fri, 4 Mar 2022 19:32:51 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/11] QEMU changes for 2021-03-02
-Message-ID: <YiJo2hX3aICBKmZv@redhat.com>
-References: <20220302181134.285107-1-pbonzini@redhat.com>
- <CAFEAcA8=8tiqmFTFPaNXcqjXy6Rb5xR59Q2VYUXOTbN91rbYuA@mail.gmail.com>
- <088024f5-7066-e6ec-953e-f55d7ff83b96@redhat.com>
- <CAFEAcA--dtmffH4FJUuuE1d6yR-4Mweu481p_y-EsJKEtPRjTw@mail.gmail.com>
- <YiJlSlJube4dOk/m@redhat.com>
- <CAFEAcA9z7bMdRmi8LRuywf8rArAubSk24imPoUgXhz1=roSZWg@mail.gmail.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 08/12] tests/qemu-iotests: introduce filter for qemu-nbd
+ export list
+Message-ID: <YiJpY6ZGPBo/BS19@redhat.com>
+References: <20220303160330.2979753-1-berrange@redhat.com>
+ <20220303160330.2979753-9-berrange@redhat.com>
+ <20220304164345.6432hewpxo5ncwia@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9z7bMdRmi8LRuywf8rArAubSk24imPoUgXhz1=roSZWg@mail.gmail.com>
+In-Reply-To: <20220304164345.6432hewpxo5ncwia@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -66,7 +64,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -75,7 +73,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,46 +87,77 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 07:22:16PM +0000, Peter Maydell wrote:
-> On Fri, 4 Mar 2022 at 19:15, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > On Fri, Mar 04, 2022 at 06:46:51PM +0000, Peter Maydell wrote:
-> > > Either of these is fine; my requirement is only that either:
-> > >  (1) the oss-fuzz gitlab CI job needs to in practice actually
-> > > pass at least most of the time
-> > >  (2) we need to switch it to ok-to-fail or disable it
-> > >
-> > > so I don't have CI failing for every merge I make.
+On Fri, Mar 04, 2022 at 10:43:45AM -0600, Eric Blake wrote:
+> On Thu, Mar 03, 2022 at 04:03:26PM +0000, Daniel P. Berrangé wrote:
+> > Introduce a filter for the output of qemu-nbd export list so it can be
+> > reused in multiple tests.
+> > 
+> > The filter is a bit more permissive that what test 241 currently uses,
+> > as its allows printing of the export count, along with any possible
+> > error messages that might be emitted.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  tests/qemu-iotests/241           | 6 +++---
+> >  tests/qemu-iotests/241.out       | 3 +++
+> >  tests/qemu-iotests/common.filter | 5 +++++
+> >  3 files changed, 11 insertions(+), 3 deletions(-)
 > >
-> > This is far from the first time that oss-fuzz has caused us pain. It
-> > feels like it has been flaky  for prolonged periods of time, for as
-> > long as it has existed.
-> >
-> > When I tried to switch CI to use Fedora 35 oss-fuzz was consistently
-> > failing for months for no obvious reason that I could determine
-> > despite days of debugging. Then one day I woke up and it magically
-> > started working again, for no obvious reason. Inexplicable.
-> >
-> > Conceptually we benefit from fuzzing to find obscure bugs.
-> > Have we actually found any real bugs from the oss-fuzz CI
-> > job we have though ?
 > 
-> It did find a buffer-overrun bug in the 9p pullreq less than
-> a month ago:
-> https://lore.kernel.org/qemu-devel/CAFEAcA-VRNzxOwMX4nPPm0vQba1ufL5yVwW5P1j9S2u7_fbW-w@mail.gmail.com/
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Interesting. I wonder whether that detection is specifically related
-to the fuzzing, or whether it is something we would have seen merely
-by building with 'asan' and running 'make check' as normal.
+I'm going to post a v2 with a slight tweak to expose one more
+interesting piece of (stable) info in the output:
 
-IIUC, the oss-fuzz job we run in GitLab CI is mostly just a sanity
-check and the real fuzzing work takes place in Google's fuzz service.
+diff --git a/tests/qemu-iotests/241.out b/tests/qemu-iotests/241.out
+index db2d71ab9d..88e8cfcd7e 100644
+--- a/tests/qemu-iotests/241.out
++++ b/tests/qemu-iotests/241.out
+@@ -3,6 +3,7 @@ QA output created by 241
+ === Exporting unaligned raw image, natural alignment ===
+ 
+ exports available: 1
++ export: ''
+   size:  1024
+   min block: 1
+ [{ "start": 0, "length": 1000, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
+@@ -12,6 +13,7 @@ exports available: 1
+ === Exporting unaligned raw image, forced server sector alignment ===
+ 
+ exports available: 1
++ export: ''
+   size:  1024
+   min block: 512
+ [{ "start": 0, "length": 1024, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET}]
+@@ -23,6 +25,7 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ === Exporting unaligned raw image, forced client sector alignment ===
+ 
+ exports available: 1
++ export: ''
+   size:  1024
+   min block: 1
+ [{ "start": 0, "length": 1000, "depth": 0, "present": true, "zero": false, "data": true, "offset": OFFSET},
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index 940c9884bd..14b6f80dcb 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -310,7 +310,7 @@ _filter_nbd()
+ 
+ _filter_qemu_nbd_exports()
+ {
+-    grep '\(exports available\|size\|min block\|qemu-nbd\):'
++    grep '\(exports available\|export\|size\|min block\|qemu-nbd\):'
+ }
+ 
+ _filter_qmp_empty_return()
 
-> But overall I'm sympathetic to the idea that as it stands it's
-> costing us more than it's helping.
 
 Regards,
 Daniel
