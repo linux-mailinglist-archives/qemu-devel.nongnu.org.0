@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BED4CDBE0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:12:55 +0100 (CET)
-Received: from localhost ([::1]:42170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43D14CDCC2
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:39:12 +0100 (CET)
+Received: from localhost ([::1]:60028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQCQA-0001NP-3f
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:12:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38886)
+	id 1nQCpb-0008SN-Cu
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:39:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQCBi-0004Co-T4
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:57:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34467)
+ id 1nQCDQ-0006PD-Ma
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:59:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQCBh-0003uy-Do
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:57:58 -0500
+ id 1nQCDO-00045k-S1
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:59:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646416676;
+ s=mimecast20190719; t=1646416782;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i4qMDn5XKc4PD9utwgVZGgxvwp4YpnAihL4Tz0qLdwM=;
- b=gWVFLrmCy279iA45hvlJw8Xng59/IQUZhzf//XqjhpnXEGHPrXljcLyNjkKmGEMaYGGWbG
- P3/E1x/HQ81PIO/wN0kTn+Lp1c7M2zPdTn4fUXHGZb8vK1ySVeJl6Cy0C6DL5V1WDRPipL
- XDwYFAb5i7D2CA7tcpLR0Wx6v7FbCAw=
+ bh=H9nENM5nmaYU8AW5Bn1EMtRjTx1iyr3GqrpnpS8EjD0=;
+ b=Bi81yZ1yhGqIazq6M1U/wGZr87sSRze4n7gKE2rhoQ3tPG7vFFBFjZB30v5uNsv/qwMmpN
+ +DHUF2gwkdeM3KpPx2OWuZ7iroBprPHsHy+Ek/d7ctPq4ZO7aBKuxBkmnQ6cBjUATFAY2O
+ rbnkDE6Lev9c+y8r0SV3cSXzX852zyU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-531-93ovHWx2Mw6dAQVdJLx-kQ-1; Fri, 04 Mar 2022 12:57:53 -0500
-X-MC-Unique: 93ovHWx2Mw6dAQVdJLx-kQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-57-_qlS9jpZOjy_Ow_13LgUsA-1; Fri, 04 Mar 2022 12:59:35 -0500
+X-MC-Unique: _qlS9jpZOjy_Ow_13LgUsA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9E29800423;
- Fri,  4 Mar 2022 17:57:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84EC81006AA5;
+ Fri,  4 Mar 2022 17:59:34 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA509797E1;
- Fri,  4 Mar 2022 17:57:50 +0000 (UTC)
-Date: Fri, 4 Mar 2022 17:57:47 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6FCB865AA;
+ Fri,  4 Mar 2022 17:59:32 +0000 (UTC)
+Date: Fri, 4 Mar 2022 17:59:26 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 07/10] python/aqmp: stop the server during disconnect()
-Message-ID: <YiJTG6f68EYQMneJ@redhat.com>
+Subject: Re: [PATCH 08/10] python/aqmp: add start_server() and accept() methods
+Message-ID: <YiJTfpjOGdXCZvrs@redhat.com>
 References: <20220225205948.3693480-1-jsnow@redhat.com>
- <20220225205948.3693480-8-jsnow@redhat.com>
+ <20220225205948.3693480-9-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220225205948.3693480-8-jsnow@redhat.com>
+In-Reply-To: <20220225205948.3693480-9-jsnow@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,15 +91,25 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 25, 2022 at 03:59:45PM -0500, John Snow wrote:
-> Before we allow the full separation of starting the server and accepting
-> new connections, make sure that the disconnect cleans up the server and
-> its new state, too.
+On Fri, Feb 25, 2022 at 03:59:46PM -0500, John Snow wrote:
+> Add start_server() and accept() methods that can be used instead of
+> start_server_and_accept() to allow more fine-grained control over the
+> incoming connection process.
+> 
+> (Eagle-eyed reviewers will surely notice that it's a bit weird that
+> "CONNECTING" is a state that's shared between both the start_server()
+> and connect() states. That's absolutely true, and it's very true that
+> checking on the presence of _accepted as an indicator of state is a
+> hack. That's also very certainly true. But ... this keeps client code an
+> awful lot simpler, as it doesn't have to care exactly *how* the
+> connection is being made, just that it *is*. Is it worth disrupting that
+> simplicity in order to provide a better state guard on `accept()`? Hm.)
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/aqmp/protocol.py | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  python/qemu/aqmp/protocol.py | 67 +++++++++++++++++++++++++++++++++---
+>  python/tests/protocol.py     |  7 ++++
+>  2 files changed, 69 insertions(+), 5 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
