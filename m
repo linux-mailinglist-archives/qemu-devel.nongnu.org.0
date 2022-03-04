@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13934CD67D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:34:52 +0100 (CET)
-Received: from localhost ([::1]:51676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775384CD68C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:39:15 +0100 (CET)
+Received: from localhost ([::1]:60338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ91A-00058j-0F
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:34:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57526)
+	id 1nQ95O-0002bs-JJ
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:39:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8Cy-0006Ra-JH
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:43:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57411)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8D3-0006l5-RR
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:43:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8Cx-0001MK-1R
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:43:00 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8D2-0001Ma-7l
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:43:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646401378;
+ s=mimecast20190719; t=1646401383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Ii8iFMMNk7vrBv2yovLnxm6+gZzwrn+OMxMvDtJQUf8=;
- b=A8zEQMbyaJMNjH10h5AMRX9cdrMh+F8HqXZ+/i/JRrcqoFLUksCxFqaGrbYIIdcxzbwED/
- d2yiTwHr/u9GnZYPu/AgIBxK6AGFFm/BaF8qzQDnoxl/w5hWFZ0OX7eaYOWZxenDD/rDzP
- 9GiO/sUK7NWKVS0QcjEisX7sJJ7TMlE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=u98pZphtEuNO4dhvyopEU2A+hxzxAEs+t90wrkCxxYA=;
+ b=fryeqqq+OgFhWqiXkF5ito5i1UGUzcZd4/j53c0Ow+kPsumeVD59GL2ROYOiKM1isT6L1X
+ 8bp7qVCI6Zihm6WDAUE3pjGOUK1V/lcU6bpoc5Q33LwNt1pqQFLR8Gi+HT2ul3+yNHLLaR
+ yVohmwD5vfwuVQ9YkEVV5cAi1b+vclI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-359-7UVCjXHMNRurHV4AFo_hHw-1; Fri, 04 Mar 2022 08:42:57 -0500
-X-MC-Unique: 7UVCjXHMNRurHV4AFo_hHw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- h206-20020a1c21d7000000b003552c13626cso4163540wmh.3
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:42:57 -0800 (PST)
+ us-mta-645-0kusxn2XMFuU-KNXIhr_NA-1; Fri, 04 Mar 2022 08:43:02 -0500
+X-MC-Unique: 0kusxn2XMFuU-KNXIhr_NA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ z16-20020adff1d0000000b001ef7dc78b23so3374101wro.12
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:43:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Ii8iFMMNk7vrBv2yovLnxm6+gZzwrn+OMxMvDtJQUf8=;
- b=1uV7k2tyeYe0NDCJKzmDzj9233/+mGlsr+bqmtC0NIi9E4Zk/e6PVQM9nAd4ODoJE7
- V82u6cDCEXvGfleEtOUYWkyV/gVZLu5UicXGwfHE3YbVKjZhroQV+aOoRoD4WGU1xTUv
- gWKWPxyKI/8eYnNuH3sV09m24yhzN40/vyEAxI/0tpzWHgTLIIo8JoTdcwz8jpHaVi0/
- h8cPmqdACdBuIow5ucl1334ShrI5EcMQwZzglbjZheS4GmD9iaJ1l5A187IpVKppKemk
- HU8fljhgYwHuAvqonAiGhQombub4UhS7HEtQnY+3UdpcTDJZHpfJ7FBmGS4mbrn4GK3I
- 3fwg==
-X-Gm-Message-State: AOAM531uFOV/cZHPDHK1tfADai1V9DhWLmEhcfIJGwoA5LjFQTWnWix1
- ayBZ67Mzp3sEWm/6RqoG0WWjqezHmUPLWTiwlj62hzGXm8xFLFAbbwruj5plJ1L8QbVOJ+VUgY5
- EExWbNIjT2dTeFdGJMULvRu2znPRcMSy/EGO7Ve9ak+/ndmDDcUEddPaw62NW
-X-Received: by 2002:a5d:64c3:0:b0:1e5:94d3:5bf2 with SMTP id
- f3-20020a5d64c3000000b001e594d35bf2mr30202467wri.488.1646401376246; 
- Fri, 04 Mar 2022 05:42:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyW6BXjrknuE3ar7zW8Ld9scQsFhwCXO9xapF+r4JuWAfHoqjfvrd8IZMM/IpgW8Wx94e9ioQ==
-X-Received: by 2002:a5d:64c3:0:b0:1e5:94d3:5bf2 with SMTP id
- f3-20020a5d64c3000000b001e594d35bf2mr30202439wri.488.1646401375849; 
- Fri, 04 Mar 2022 05:42:55 -0800 (PST)
+ bh=u98pZphtEuNO4dhvyopEU2A+hxzxAEs+t90wrkCxxYA=;
+ b=7LwiBD+kOyZcMcR70HoD7mLH/VsXQXpV6tDsQcJf6XaW5qt3IEVU2ot0H0MT/k4zkj
+ 4hGmQ1TIbpC00sy3ceLwdrIHydimZyKcgVVuu+ri5DikfmNtiACxMwM302yAGusUD0Hk
+ O271bV/Cv1w0kMrBEXNHA6Ssp0wo0wDTrnrSQw72rKX0SKEOfW/PQIHsGqmNA69sAxD/
+ e0rimK4r16/pA0JAAVMAT/k2E5DOzRRMJ7egQvKzH+LZ6ndK7708CNIA7OkLJ1GW+gio
+ fCQxLTxXLurgQa+FbMjOY6MWtLus+UC4MiEbCc31uxEZrJn/qDP8H6SZUt9dtkALREd0
+ zOmg==
+X-Gm-Message-State: AOAM531Ffy1fTk0MMvuNYP/I7lmeKCUzPEBTighyBEJwIKWJw7nj2H7h
+ p9QHSfyh1mEyPD4WsMy+13QVNKKS9eWTnqVKlm7xUwfBTS3n2McYyv/N62v7i/0eqCUqfUc+HtO
+ X8BxU232EaEdmfT3N3D7/UzB6R92DOjYNBDxRE+b40t7JN4FxXVWro9pSo+2o
+X-Received: by 2002:a05:600c:6003:b0:381:455d:b571 with SMTP id
+ az3-20020a05600c600300b00381455db571mr7717120wmb.162.1646401381233; 
+ Fri, 04 Mar 2022 05:43:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzBsWGjV8yDbW5TPj7tMi369y/xBemjDvOxCs78f7ul2y4lBjsh3NMmFNvqMzZHNrPGZXXcRw==
+X-Received: by 2002:a05:600c:6003:b0:381:455d:b571 with SMTP id
+ az3-20020a05600c600300b00381455db571mr7717101wmb.162.1646401380925; 
+ Fri, 04 Mar 2022 05:43:00 -0800 (PST)
 Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- g2-20020a5d46c2000000b001f079ba0158sm1435444wrs.60.2022.03.04.05.42.51
+ bi6-20020a05600c3d8600b00381590dbb25sm17511657wmb.3.2022.03.04.05.42.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 05:42:54 -0800 (PST)
-Date: Fri, 4 Mar 2022 08:42:50 -0500
+ Fri, 04 Mar 2022 05:42:59 -0800 (PST)
+Date: Fri, 4 Mar 2022 08:42:56 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 44/45] configure, meson: allow enabling vhost-user on all
- POSIX systems
-Message-ID: <20220304133556.233983-45-mst@redhat.com>
+Subject: [PULL 45/45] docs: vhost-user: add subsection for non-Linux platforms
+Message-ID: <20220304133556.233983-46-mst@redhat.com>
 References: <20220304133556.233983-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220304133556.233983-1-mst@redhat.com>
@@ -98,66 +97,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Sergio Lopez <slp@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sergio Lopez <slp@redhat.com>
 
-With the possibility of using a pipe pair via qemu_pipe() as a
-replacement on operating systems that doesn't support eventfd,
-vhost-user can also work on all POSIX systems.
-
-This change allows enabling vhost-user on all non-Windows platforms
-and makes libvhost_user (which still depends on eventfd) a linux-only
-feature.
+Add a section explaining how vhost-user is supported on platforms
+other than Linux.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220304100854.14829-4-slp@redhat.com>
+Message-Id: <20220304100854.14829-5-slp@redhat.com>
+Signed-off-by: Sergio Lopez <slp@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- configure   | 4 ++--
- meson.build | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ docs/interop/vhost-user.rst | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/configure b/configure
-index c56ed53ee3..daccf4be7c 100755
---- a/configure
-+++ b/configure
-@@ -1659,8 +1659,8 @@ fi
- # vhost interdependencies and host support
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index edc3ad84a3..4dbc84fd00 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -38,6 +38,26 @@ conventions <backend_conventions>`.
+ *Master* and *slave* can be either a client (i.e. connecting) or
+ server (listening) in the socket communication.
  
- # vhost backends
--if test "$vhost_user" = "yes" && test "$linux" != "yes"; then
--  error_exit "vhost-user is only available on Linux"
-+if test "$vhost_user" = "yes" && test "$mingw32" = "yes"; then
-+  error_exit "vhost-user is not available on Windows"
- fi
- test "$vhost_vdpa" = "" && vhost_vdpa=$linux
- if test "$vhost_vdpa" = "yes" && test "$linux" != "yes"; then
-diff --git a/meson.build b/meson.build
-index a5b63e62cd..28612fca36 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2714,7 +2714,7 @@ if have_system or have_user
- endif
++Support for platforms other than Linux
++--------------------------------------
++
++While vhost-user was initially developed targeting Linux, nowadays it
++is supported on any platform that provides the following features:
++
++- A way for requesting shared memory represented by a file descriptor
++  so it can be passed over a UNIX domain socket and then mapped by the
++  other process.
++
++- AF_UNIX sockets with SCM_RIGHTS, so QEMU and the other process can
++  exchange messages through it, including ancillary data when needed.
++
++- Either eventfd or pipe/pipe2. On platforms where eventfd is not
++  available, QEMU will automatically fall back to pipe2 or, as a last
++  resort, pipe. Each file descriptor will be used for receiving or
++  sending events by reading or writing (respectively) an 8-byte value
++  to the corresponding it. The 8-value itself has no meaning and
++  should not be interpreted.
++
+ Message Specification
+ =====================
  
- vhost_user = not_found
--if 'CONFIG_VHOST_USER' in config_host
-+if targetos == 'linux' and 'CONFIG_VHOST_USER' in config_host
-   libvhost_user = subproject('libvhost-user')
-   vhost_user = libvhost_user.get_variable('vhost_user_dep')
- endif
 -- 
 MST
 
