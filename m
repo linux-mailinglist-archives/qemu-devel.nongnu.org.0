@@ -2,90 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E3D4CDDBC
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 21:14:16 +0100 (CET)
-Received: from localhost ([::1]:35956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF394CDDC1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 21:18:17 +0100 (CET)
+Received: from localhost ([::1]:38188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQEJb-0001Mp-Gh
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 15:14:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38906)
+	id 1nQENU-0003FK-A9
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 15:18:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tfanelli@redhat.com>)
- id 1nQEIG-0000dq-LF
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 15:12:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37559)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nQEM5-0002Qf-Pv
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 15:16:53 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:45471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tfanelli@redhat.com>)
- id 1nQEIC-0007Y5-U8
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 15:12:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646424767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yae9tcyRRIcMMdXZij4r2aPFClIS/AdEq2K919VwPEI=;
- b=aZHEVHZWsBdIYZShinJy9b9frkvlJqVSZIRWnQIZEHZ0g+m8rTUWNhIXHytVAP+QKW1jXu
- ASUazSBhr33Vjsp4m9OVKdAD/futUbsP86PY6y8GwSCUsWxLs3Jz4giRlog3TwlDJlJUGN
- 65YbA80wo6Bgbvi4Zc/KOG/zaI2xThY=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-358-9h3JOzNcMLy4VT_WyjMMBw-1; Fri, 04 Mar 2022 15:12:44 -0500
-X-MC-Unique: 9h3JOzNcMLy4VT_WyjMMBw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- s12-20020a05620a030c00b0064971887744so6414335qkm.8
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 12:12:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yae9tcyRRIcMMdXZij4r2aPFClIS/AdEq2K919VwPEI=;
- b=hiisw2AmwLHOkCsQOlLQjBgJVWt7EAjE9We3CCj6kobjUaTs6/BDupAgscG2Qr7PTW
- SuEckbufFpQcw5TGTI9gYbjTt+ADtt7twjldFoY/7JSHfvJ17iMTQqHmNshnBZK6P7/D
- mCpSKX5NahuktKNkwdlsIgH/onrPGcZloCXkp2gvATHzcRPKJwovLL7hg0jKrg7bciyv
- rOPdrfWEUTgDfobxDS7ejTfKrf7KxToIgxn6E57Fn63453sv55Uo2AnLsqjnkj6YNWGC
- w2eJKarV00bdoYHu3+lVy3UKVph9hZd/TVQN4tpXvJyRWC+IYIHNFcbi22iAGxSd050x
- uZJg==
-X-Gm-Message-State: AOAM531D/NtJtJZKuD4NzrTFVCwpGm6OmkbSzbM5HatOE9mW2xR+EKGG
- Qly3Hw1qZClL9imrf+qN0q0P/PdE0lmiU+bXEtz4otx0wma1ZESlwSweo+HNCQ72oZnuCSU4lzv
- 7y8c75VRWFL8uxrmSBs/NjDiCdB6+xqNe8nh+PU4zi6RlGN0Q96j8NHehgw50eVH9Lu0=
-X-Received: by 2002:a37:cc6:0:b0:47e:b863:a65c with SMTP id
- 189-20020a370cc6000000b0047eb863a65cmr247551qkm.202.1646424763349; 
- Fri, 04 Mar 2022 12:12:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzSOrAecTFY+QApqcPd6vP/Bk7IrTPHDRJ+re0Dhz97JEsBzgunhI1q8ZrPiTiPuBJCOWK4dA==
-X-Received: by 2002:a37:cc6:0:b0:47e:b863:a65c with SMTP id
- 189-20020a370cc6000000b0047eb863a65cmr247533qkm.202.1646424763049; 
- Fri, 04 Mar 2022 12:12:43 -0800 (PST)
-Received: from fedora.redhat.com (pool-71-175-3-221.phlapa.fios.verizon.net.
- [71.175.3.221]) by smtp.gmail.com with ESMTPSA id
- v26-20020a05620a0a9a00b00605c6dbe40asm2762997qkg.87.2022.03.04.12.12.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 12:12:42 -0800 (PST)
-From: Tyler Fanelli <tfanelli@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nQEM3-0008DN-7h
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 15:16:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=H+rxRka1wTPwRikgojqwmeGwk7YXCShnznTQNUh+vgI=; b=W08B/KIwSmFky9E8Nll6+IEmkr
+ YenEPOzbdSTN8/6pANgVl3vDYOwqRPAZd5lk2C8PeWoxogSHdarkmbe8eHocoBZhzXG/qmJFteHH5
+ H1BfZtuqJ086B/Y4jC8IOaSzJTsdCOlrJBpGVUCW+dPVMdnjw+7Jg5KcvXpMoXFe0AXQqmswoPeAD
+ LIllum+rrohgzkorzslwCh6vcW8kM6krIjpl+XkxAnrV2dCuhRCYt+INsHt4vlRwVKRDGnHki05r/
+ KJQNPF+S4F2TqkbH+3ke/Ywa8yfx5XSlo9pycgdChTZ7rldgN3dte0OGDQK4DLqfIkndSgsTyOoew
+ qbyLDcdLfx9Mb8Bv5xkJEetbZGxMcs7rQ8N4ZQZv55NbMRH4GkHvGRqk1mZYeH7QOW41GgCkr7Yhy
+ biqYPNzULbVUGAdTvs/9d4D6mUUWOjAVYy3cQHkmtrLmy7zEan+XN7v/qXhWvCuK2D1K2mOmC0erL
+ y8agUgOjfCEZoyhdW3oE1b0tAF036Rtfi24g19pVDp7Z9/BMLIO0Dh3vooS/qSXCNfWFTtMjK/FB2
+ mIVvZyaDBXm9rb92wQEOcHEnF4vHIq2b5yvux8mVAlPmfEfmfPKcKFGyuXY0LgUnIGWliDkXk5Qry
+ Gu+neOjJdbeXiGbQP+9eedpfFaWyz4KwOlYw1IzIQ=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3] i386/sev: Ensure attestation report length is valid before
- retrieving
-Date: Fri,  4 Mar 2022 15:11:43 -0500
-Message-Id: <20220304201141.509492-1-tfanelli@redhat.com>
-X-Mailer: git-send-email 2.31.1
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Will Cohen <wwcohen@gmail.com>, Keno Fischer <keno@juliacomputing.com>
+Subject: Re: [PULL 00/19] 9p queue 2022-03-04
+Date: Fri, 04 Mar 2022 21:16:41 +0100
+Message-ID: <11201492.CjeqJxXfGd@silver>
+In-Reply-To: <CAFEAcA8EN8sSSYYMh=u68-a7qXGaG-oSnAz2hT8kXXGtnDLnww@mail.gmail.com>
+References: <cover.1646396869.git.qemu_oss@crudebyte.com>
+ <CAFEAcA8EN8sSSYYMh=u68-a7qXGaG-oSnAz2hT8kXXGtnDLnww@mail.gmail.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=tfanelli@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=tfanelli@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,49 +66,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, mtosatti@redhat.com, berrange@redhat.com,
- kvm@vger.kernel.org, Tyler Fanelli <tfanelli@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The length of the attestation report buffer is never checked to be
-valid before allocation is made. If the length of the report is returned
-to be 0, the buffer to retrieve the attestation buffer is allocated with
-length 0 and passed to the kernel to fill with contents of the attestation
-report. Leaving this unchecked is dangerous and could lead to undefined
-behavior.
+On Freitag, 4. M=E4rz 2022 19:42:18 CET Peter Maydell wrote:
+> On Fri, 4 Mar 2022 at 12:32, Christian Schoenebeck
+>=20
+> <qemu_oss@crudebyte.com> wrote:
+> > The following changes since commit=20
+5959ef7d431ffd02db112209cf55e47b677256fd:
+> >   Merge remote-tracking branch
+> >   'remotes/alistair/tags/pull-riscv-to-apply-20220303' into staging
+> >   (2022-03-03 19:59:38 +0000)>=20
+> > are available in the Git repository at:
+> >   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220304
+> >=20
+> > for you to fetch changes up to 39edfe337c418995b2932a9a14a612fb0c329dc5:
+> >   fsdev/p9array.h: convert Doxygen -> kerneldoc format (2022-03-04
+> >   13:07:39 +0100)>=20
+> > ----------------------------------------------------------------
+> > 9pfs: introduce macOS host support and cleanup
+> >=20
+> > * Add support for Darwin (a.k.a. macOS) hosts.
+> >=20
+> > * Code cleanup (move qemu_dirent_dup() from osdep -> 9p-util).
+> >=20
+> > * API doc cleanup (convert Doxygen -> kerneldoc format).
+>=20
+> This fails to build on my OSX box:
+>=20
+> In file included from ../../hw/9pfs/9p-util-darwin.c:12:
+> ../../hw/9pfs/9p-util.h:57:1: error: unused label 'again'
+> [-Werror,-Wunused-label]
+> again:
+> ^~~~~~
+>=20
+> because the use of the label is inside a #ifndef CONFIG_DARWIN
+> but the definition is not.
+>=20
+> thanks
+> -- PMM
 
-Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
----
- target/i386/sev.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+So basically it needs this change:
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 025ff7a6f8..e82be3e350 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -616,6 +616,8 @@ static SevAttestationReport *sev_get_attestation_report(const char *mnonce,
-         return NULL;
-     }
- 
-+    input.len = 0;
-+
-     /* Query the report length */
-     ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
-             &input, &err);
-@@ -626,6 +628,11 @@ static SevAttestationReport *sev_get_attestation_report(const char *mnonce,
-                        ret, err, fw_error_to_str(err));
-             return NULL;
-         }
-+    } else if (input.len == 0) {
-+        error_setg(errp, "SEV: Failed to query attestation report:"
-+                         " length returned=%u",
-+                   input.len);
-+        return NULL;
-     }
- 
-     data = g_malloc(input.len);
--- 
-2.31.1
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index cfa7af43c5..97e681e167 100644
+=2D-- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -54,7 +54,9 @@ static inline int openat_file(int dirfd, const char *name=
+,=20
+int flags,
+ {
+     int fd, serrno, ret;
+=20
++#ifndef CONFIG_DARWIN
+ again:
++#endif
+     fd =3D openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
+                 mode);
+     if (fd =3D=3D -1) {
+
+Will, can you check why this did not fail there and whether there are proba=
+bly=20
+more issues?
+
+If that's the only one, let me know, then I would fix this on my end and=20
+resend a PR ASAP. Thanks!
+
+Best regards,
+Christian Schoenebeck
+
 
 
