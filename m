@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A804CD6C8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:52:22 +0100 (CET)
-Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A134CD6D6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:55:30 +0100 (CET)
+Received: from localhost ([::1]:46146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9I5-0000PW-Ey
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:52:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38406)
+	id 1nQ9L7-0006Df-Fj
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:55:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8pk-0002ZT-IB
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48863)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8q7-0003WB-AX
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8pj-0000PF-4I
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:04 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8q5-0000Qz-Op
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403782;
+ s=mimecast20190719; t=1646403804;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QM4SxWKptiEN0lpRGR0RN07jbGnJmBLPK7wOIAq9Uiw=;
- b=ECKSqmjpg7c6qIy1MuVQdN01NE8r4OBx8naTTW0Z4VOHnB5UGiFFsE4XXLAMIvIqyB3Ju/
- eysk/Ynb3SXDeYDPGPiMJurlf0ntbbScPCzHE7OHVwy4J2LvP5uqQ65k598L6mG4M4sZMy
- J40bMTNiFv1tNxVqnfB8tFW5cCfURfk=
+ bh=dY25QO2U7eTGMKgXp39n5WX1s4kU4FSW2pfPZLBSlYA=;
+ b=TFojBndehabOOhceKyICJPJq1PFxBoexVJ499SeVRxjn0x6UYaidUFO/4yfUlqaVXFzbEn
+ 1aCxFXA7UneHytWrARE4NWeToQLCN7cZgM4Auu4zL3C1SmcfrT1H4XnoRmpqlsdNB8kDuk
+ YZD/QR4XJVCWdZDvxxZ9OtwrGufBqC8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-m8MJbeduMQS3CU0IxTO7FA-1; Fri, 04 Mar 2022 09:23:01 -0500
-X-MC-Unique: m8MJbeduMQS3CU0IxTO7FA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-657-RwRfK_keOGyvM9Ib7DhQbw-1; Fri, 04 Mar 2022 09:23:23 -0500
+X-MC-Unique: RwRfK_keOGyvM9Ib7DhQbw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3403A1854E27;
- Fri,  4 Mar 2022 14:22:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D9D1FC82;
+ Fri,  4 Mar 2022 14:23:14 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CFDE22ED81;
- Fri,  4 Mar 2022 14:22:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D196A1057067;
+ Fri,  4 Mar 2022 14:23:00 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 74B231800937; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
+ id 80DAE18009A6; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/35] paaudio: increase default latency to 46ms
-Date: Fri,  4 Mar 2022 15:21:00 +0100
-Message-Id: <20220304142123.956171-13-kraxel@redhat.com>
+Subject: [PULL 13/35] jackaudio: use more jack audio buffers
+Date: Fri,  4 Mar 2022 15:21:01 +0100
+Message-Id: <20220304142123.956171-14-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -95,37 +95,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-This is a patch to improve the pulseaudio playback experience.
-Asking pulseaudio for a playback latency of 15ms is quite
-demanding. Increase this to 46ms. The total playback latency
-now is 31ms larger. One of the next patches will reduce the
-total playback latency again by more than 46ms.
+The next patch reduces the effective qemu playback buffer size
+by timer-period. Increase the number of jack audio buffers by
+one to preserve the total effective buffer size. The size of one
+jack audio buffer is 512 samples. With audio defaults that's
+512 samples / 44100 samples/s = 11.6 ms and only slightly larger
+than the timer-period of 10 ms.
 
-Here is a quote from the PulseAudio Latency Control
-documentation: 'For the sake of (...) drop-out safety always
-make sure to pick the highest latency possible that fulfills
-your needs.'
+The larger jack audio buffer increases audio dropout safety,
+because the high priority jack-audio worker threads can provide
+audio data for a longer period of time as with a smaller buffer
+and more audio data in the mixing engine buffer that they can't
+access.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20220301191311.26695-5-vr_qemu@t-online.de>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Message-Id: <20220301191311.26695-6-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/paaudio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ audio/jackaudio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index 75401d53910a..9df1e69c086f 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -744,7 +744,7 @@ static int qpa_validate_per_direction_opts(Audiodev *dev,
- {
-     if (!pdo->has_latency) {
-         pdo->has_latency = true;
--        pdo->latency = 15000;
-+        pdo->latency = 46440;
+diff --git a/audio/jackaudio.c b/audio/jackaudio.c
+index 317009e93660..26246c3a8b43 100644
+--- a/audio/jackaudio.c
++++ b/audio/jackaudio.c
+@@ -483,8 +483,8 @@ static int qjack_client_init(QJackClient *c)
+         c->buffersize = 512;
      }
-     return 1;
- }
+ 
+-    /* create a 2 period buffer */
+-    qjack_buffer_create(&c->fifo, c->nchannels, c->buffersize * 2);
++    /* create a 3 period buffer */
++    qjack_buffer_create(&c->fifo, c->nchannels, c->buffersize * 3);
+ 
+     qjack_client_connect_ports(c);
+     c->state = QJACK_STATE_RUNNING;
 -- 
 2.35.1
 
