@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05F94CD7C6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:29:28 +0100 (CET)
-Received: from localhost ([::1]:54416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F336F4CD7CC
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:30:41 +0100 (CET)
+Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9rz-0003wz-Fq
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:29:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50706)
+	id 1nQ9tB-00071k-3F
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:30:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ9Wx-0004mj-VS
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:07:45 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=38459
- helo=mail-pl1-x62c.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ9X1-0004ql-Vq
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:07:48 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=52900
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ9Ww-0003kf-Je
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:07:43 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id t19so4414500plr.5
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 07:07:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ9X0-0003ks-EE
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:07:47 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id v4so7566095pjh.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 07:07:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=untwttg2h9MUzs6wtedAKndtsuh/tYZaw3CDKZL3ZkM=;
- b=dN0bjUbHMaxc0knlgM/3Sq7j3gEDRSWUe0Ohwy7PKM3k92GICreyZKk7rZ1lAaQ2Q4
- qvxqKUN6i6l1QPY+LqgmaOv4QM8w/6uRDYttGiEVJEuTpSr9b4MaglU/OiIEPazngLdW
- f/rLZdurLx0UEmrlUojGy7BX05KgTbzGZ+Y6FyGgQJtLvjuK5kZv9ubvEzj98+GrI2cT
- um6XnRKf5QY0j/ZUx6KjfEA+jWdmHmCkAd5H+HeT9yUigf0vY8SfOm3zOgGzUIBJVUQd
- 22Yj4LS01VqU8Jm08Em9TtP+wKkZwuDM278DwwgDvs3jWvsBaonjMSqNwxoCDqPZheiY
- iOhQ==
+ bh=MC/4yt1MXUGPRfWKzDGwR1zYGtJXYhIlfWpMgyv9Xxg=;
+ b=JjaJBj4xd3tLbleMotqrdkI36pq6yExQeelqVZsGmKO8OzsOyrVk8fD5iChCwGxTPG
+ WmJ3TEC6x8zdueLuPOlm7NIheRrjmMRPvuWj/JGqf7Ao2ZoH+AS4EGDAMYZ7tYh07POg
+ sj20PN0S+0+Qr+uNM5mHAln6jJ+69ByvaAuZihGEKD94EIGmD/S90UaiJ17dTd0AdR4Y
+ BdjCcubgz+9KRDuict30hkkHtFATIW/LTrVYYzEkP53uGalQN7jUV3mnAKGtvpurt1zI
+ hx4RIeuuN+Rdqk8qbi/gXufViPy4CcBqosq7szE/NzndboBUVt+wV7g65aWce/owM6WN
+ X/Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=untwttg2h9MUzs6wtedAKndtsuh/tYZaw3CDKZL3ZkM=;
- b=EXs3B8OLSF8gN+Vrwn5h75tgK7vnuGW62Hgc0qpk48TkXdb9hZ25ETWaidAcTS1Ta+
- B2Wf8kLpt5TmGmOe5MDYPLPvHJbnnX7qjcFaSV1bnAoDe09wiRFmaHY+hFDsOGQC3M3m
- ll1Y/jdUonxnaC7fCMosYkVJpOKmr5L5XBVj7d6/FQ7CsokpV4CPFyjlTpyi0zv+Pg2C
- G57TWWNKXfM9SqvxxpAL7G/ci7kqJkt0A95Fm1k7k9s+lUecJTcDW/XHPGvuh2mG9C5M
- 2gWC5GISqhKGJQyCUXLiDVUGgyIuh1vpL2c9ecqTeVQ+h8zYFcBZe4o9YF4Tpvv8hxSC
- nj1w==
-X-Gm-Message-State: AOAM531L5B28NPyDv1NXQgFP+/zcuVhJi1yKEVJbscxMlvInuU7/O3Q0
- H5rm9l5MnsHItiitRWSi51Bc4ZJbGDYNEw==
-X-Google-Smtp-Source: ABdhPJx4eWULUkU5zHmpW5IPDkRE5FVCK2Mz/jlJcOd4Q1IR6Ljr89UjYCyHwTbBMKXK5gWRW5H8eQ==
-X-Received: by 2002:a17:903:11c6:b0:151:a247:31eb with SMTP id
- q6-20020a17090311c600b00151a24731ebmr11737290plh.91.1646406461098; 
- Fri, 04 Mar 2022 07:07:41 -0800 (PST)
+ bh=MC/4yt1MXUGPRfWKzDGwR1zYGtJXYhIlfWpMgyv9Xxg=;
+ b=ecnvz/Hr8YQMW5DsNFUtM+U3RYcnMRe44dr60IHeT1WpSK2TfHy6JQYmn2XOvSIZWT
+ pFyE3bWfQRKewlvk9Fn7FZ9cc6oQ+BdMfPFHrWTW9fMPFV+xPXCi95zVDf2tmX04UcmH
+ o+8nkTPyBslkdIqVnN2ZOfn2CKE0Kn47/qSFGrvl9QSD/R4C/k34JijhbFo0azrsFRQY
+ YL7mm2E6SmWPuuxlWM10cvX2J53ye61/VutmfPU1LSZQKUmYfTiKcycIiUcpTGqTAXDM
+ 5AqtJAncRX1iBWqx/ALHHpLTx01TLgmiPFOHx564S9CH8gogrZKav47ClH9TPcgBm20f
+ TGkw==
+X-Gm-Message-State: AOAM531ulnMReYVsoAIaj9R02xIZY366sRfG4aEaB7sZZaO0VPdknqI+
+ FQIM18fM4I0tNWurOrSxSuIMDPoN9MOROQ==
+X-Google-Smtp-Source: ABdhPJzif6xu59xgIn8fF9YXsl7krWVVTcRRpgmKQa4snLEXryiuIxQg/O7baaq0+O6pxnA1gAM/aQ==
+X-Received: by 2002:a17:902:edcd:b0:14d:c114:b86b with SMTP id
+ q13-20020a170902edcd00b0014dc114b86bmr41440233plk.166.1646406464805; 
+ Fri, 04 Mar 2022 07:07:44 -0800 (PST)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.152.50])
  by smtp.googlemail.com with ESMTPSA id
- nr22-20020a17090b241600b001bef1964ec7sm8278861pjb.21.2022.03.04.07.07.38
+ nr22-20020a17090b241600b001bef1964ec7sm8278861pjb.21.2022.03.04.07.07.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 07:07:40 -0800 (PST)
+ Fri, 04 Mar 2022 07:07:44 -0800 (PST)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PATCH v6 1/4] tests/acpi: i386: allow FACP acpi table changes
-Date: Fri,  4 Mar 2022 20:37:19 +0530
-Message-Id: <20220304150722.2069132-2-ani@anisinha.ca>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PATCH v6 2/4] hw/acpi: add indication for i8042 in IA-PC boot flags
+ of the FADT table
+Date: Fri,  4 Mar 2022 20:37:20 +0530
+Message-Id: <20220304150722.2069132-3-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220304150722.2069132-1-ani@anisinha.ca>
 References: <20220304150722.2069132-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::62c;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x62c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -93,27 +98,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liav Albani <liavalb@gmail.com>
 
-The FACP table is going to be changed for x86/q35 machines. To be sure
-the following changes are not breaking any QEMU test this change follows
-step 2 from the bios-tables-test.c guide on changes that affect ACPI
-tables.
+This can allow the guest OS to determine more easily if i8042 controller
+is present in the system or not, so it doesn't need to do probing of the
+controller, but just initialize it immediately, before enumerating the
+ACPI AML namespace.
+
+The 8042 bit in IAPC_BOOT_ARCH was introduced from ACPI spec v2 (FADT
+revision 2 and above). Therefore, in this change, we only enable this bit for
+x86/q35 machine types since x86/i440fx machines use FADT ACPI table with
+revision 1.
 
 Signed-off-by: Liav Albani <liavalb@gmail.com>
-Acked-by: Ani Sinha <ani@anisinha.ca>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/acpi/aml-build.c         |  8 +++++++-
+ hw/i386/acpi-build.c        |  8 ++++++++
+ include/hw/acpi/acpi-defs.h |  1 +
+ include/hw/input/i8042.h    | 15 +++++++++++++++
+ 4 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..7570e39369 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,5 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/FACP",
-+"tests/data/acpi/q35/FACP.nosmm",
-+"tests/data/acpi/q35/FACP.slic",
-+"tests/data/acpi/q35/FACP.xapic",
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index 8966e16320..1773cf55f1 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -2152,7 +2152,13 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+     build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
+     build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
+     build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
+-    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
++    /* IAPC_BOOT_ARCH */
++    if (f->rev == 1) {
++        build_append_int_noprefix(tbl, 0, 2);
++    } else {
++        /* since ACPI v2.0 */
++        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
++    }
+     build_append_int_noprefix(tbl, 0, 1); /* Reserved */
+     build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
+ 
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index ebd47aa26f..4ad4d7286c 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -38,6 +38,7 @@
+ #include "hw/nvram/fw_cfg.h"
+ #include "hw/acpi/bios-linker-loader.h"
+ #include "hw/isa/isa.h"
++#include "hw/input/i8042.h"
+ #include "hw/block/fdc.h"
+ #include "hw/acpi/memory_hotplug.h"
+ #include "sysemu/tpm.h"
+@@ -192,6 +193,13 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+             .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
+         },
+     };
++
++    /*
++     * ACPI v2, Table 5-10 - Fixed ACPI Description Table Boot Architecture
++     * Flags, bit offset 1 - 8042.
++     */
++    fadt.iapc_boot_arch = iapc_boot_arch_8042();
++
+     *data = fadt;
+ }
+ 
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index c97e8633ad..2b42e4192b 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
+     uint16_t plvl2_lat;        /* P_LVL2_LAT */
+     uint16_t plvl3_lat;        /* P_LVL3_LAT */
+     uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
++    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
+     uint8_t minor_ver;         /* FADT Minor Version */
+ 
+     /*
+diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
+index 1d90432dae..b3b77bbb32 100644
+--- a/include/hw/input/i8042.h
++++ b/include/hw/input/i8042.h
+@@ -23,4 +23,19 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
+ void i8042_isa_mouse_fake_event(ISAKBDState *isa);
+ void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out);
+ 
++static inline bool i8042_present(void)
++{
++    bool amb = false;
++    return object_resolve_path_type("", TYPE_I8042, &amb) || amb;
++}
++
++/*
++ * ACPI v2, Table 5-10 - Fixed ACPI Description Table Boot Architecture
++ * Flags, bit offset 1 - 8042.
++ */
++static inline u16 iapc_boot_arch_8042(void)
++{
++    return i8042_present() ? 0x1 << 1 : 0x0 ;
++}
++
+ #endif /* HW_INPUT_I8042_H */
 -- 
 2.25.1
 
