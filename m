@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F154CD8D2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 17:15:05 +0100 (CET)
-Received: from localhost ([::1]:49736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243A44CD8FA
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 17:19:30 +0100 (CET)
+Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQAa9-0004sL-1H
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 11:15:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42108)
+	id 1nQAeO-0008VK-Nq
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 11:19:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nQAYg-0003cj-OT; Fri, 04 Mar 2022 11:13:34 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:50203)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQAbz-0006SN-CF
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:17:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nQAYe-0003V8-MG; Fri, 04 Mar 2022 11:13:34 -0500
-Received: from [192.168.100.1] ([82.142.8.122]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MdNoW-1nzVJ42EQC-00ZPtd; Fri, 04 Mar 2022 17:13:22 +0100
-Message-ID: <9d16a818-3003-078d-5c01-4294d2e9b02f@vivier.eu>
-Date: Fri, 4 Mar 2022 17:13:20 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQAbu-0004Eh-FF
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:16:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646410611;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m8C/TQNyq3CjIwRKZYw29ykb9SWbjNTDqGn0hA1CLlM=;
+ b=iSRd/uvNxV8+ciyrIdkEmk4tZZrBOGeQ6BpeCDAySHZQoixu9wVVdJDa//ZP63GcY2yG3E
+ lXo8LJrCMrcqVzyZvqvfXJajb1qtok250SEZFXi1DF63QE3rje0b/5sDbKcbdGSM+9RBoD
+ Lq9sPEcGWYp/U+A/SIbOJUBSDFg2i3c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-609-BEJ0gpDuO-mxocTJ68agZQ-1; Fri, 04 Mar 2022 11:16:50 -0500
+X-MC-Unique: BEJ0gpDuO-mxocTJ68agZQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26B281091DA0;
+ Fri,  4 Mar 2022 16:16:49 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D4E77DE49;
+ Fri,  4 Mar 2022 16:16:32 +0000 (UTC)
+Date: Fri, 4 Mar 2022 17:16:31 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 0/5] block/amend: Fix failures seen in iotest 296
+Message-ID: <YiI7XzY8Io/DXKRP@redhat.com>
+References: <20220304153729.711387-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/4] Replace qemu_gettimeofday() with g_get_real_time()
-Content-Language: fr
-From: Laurent Vivier <laurent@vivier.eu>
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220304152704.3466036-1-marcandre.lureau@redhat.com>
- <20220304152704.3466036-4-marcandre.lureau@redhat.com>
- <259d696c-9492-fb63-a2a4-1a66a8792520@vivier.eu>
-In-Reply-To: <259d696c-9492-fb63-a2a4-1a66a8792520@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220304153729.711387-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5MyfoLkcLYJt7mIAhxfShb7CpVEFrkmcaiKdSxmBtCtnkDPibE3
- SxPOTH0XAEhXRLkss8t6XxU8li2Npg+sv7180teYrFNVdfuaqWzWn7ZNMEdA32AWpE2HSEM
- KpsVISk5VIonsWV4cafx0tjZP8xrY+3QHJcCQpldeP8D6PD4tiuf6fxf2dfUVuAyBQW7EFJ
- JGYqlX4v9hNiD2TY7PLbQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JSD3m6C75eM=:6J0zjXK7f17pv/gl8rvMt5
- 9wQPIoqlCmyS+R+l2wgoYZA9pxA5h56uKP84yKtmlqSap7SNtxlDXQQkV1j22haYRxMDOOTUQ
- AFQ8cjtaW9GX3oxx2H8jWrvL/UrfsoIMp+yzx8t3iHIfOSKZ5mWPXPqrms0cquFw5z5h+x1TB
- ybZ4I7mlA4iyJwlwFsxxD9gLMo9hp3xfJCfEvrW3tGhQY8OW4RqTh+Yc4ftWzbLTMuE8ShTg7
- Q9ewe+HKuS7S8ETe2s6iFGkDppLOjhWOUo5jKQbQVamrSH47dKjb31s3s7VZAN7ll0xnQDTES
- QqBUdDvUOnkv8sXjjGc2Hx1WG4nBFSUflQAWFJ9vdYHT2h6fLCpFRkDWRdEBKDo6D+ZNqzl3K
- R6MPwW9IKFxVWfa5QgEoMKvOt4mUSca9LBAWyAXruANqTjP93CYlf4F4W6vni/+yyvSvlrlYI
- gBqGsv1rMbiA9EO5aBbeqOje4M/xlMfTccP/RsoR/BdpDuLyHz4fly6dCMrbK+tCSD6IlaCNE
- f9ko2ys6H6+5rpHCaCJdPGQBnz2ydja8QJoLZBT6H55dOg7MEzBycnf3IkMrD5hnKsXrlcfOx
- xouHNu/K8WubV5gUwSLbjR4iUK2BYWp8GaTnArs1Pf79Ya+Qzyn2OKHc44D3iN4tWL3FrMxzE
- gCfofIQKJcg9mxinctN1RrfDW7LDBFIth27SqXFxVQzdH/hl6pbqkcT+MgGtz3358a8Y=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,82 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Chris Wulff <crwulff@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 04/03/2022 à 17:08, Laurent Vivier a écrit :
-> Le 04/03/2022 à 16:27, marcandre.lureau@redhat.com a écrit :
->> From: Marc-André Lureau <marcandre.lureau@redhat.com>
->>
->> GLib g_get_real_time() is an alternative to gettimeofday().
->>
->> For semihosting, a few bits are lost on POSIX host, but this shouldn't
->> be a big concern.
->>
->> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->> ---
->>   blockdev.c                 |  8 ++++----
->>   hw/rtc/m41t80.c            |  6 +++---
->>   hw/virtio/virtio-balloon.c |  9 +--------
->>   qapi/qmp-event.c           | 12 +++++-------
->>   qemu-img.c                 |  8 ++++----
->>   qga/commands-posix.c       | 11 +----------
->>   target/m68k/m68k-semi.c    | 22 ++++++++++------------
->>   target/nios2/nios2-semi.c  | 24 +++++++++++-------------
->>   8 files changed, 39 insertions(+), 61 deletions(-)
->>
-> ...
->> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
->> index 75dbaab68ea9..3311a4ca0167 100644
->> --- a/qga/commands-posix.c
->> +++ b/qga/commands-posix.c
->> @@ -138,16 +138,7 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
->>   int64_t qmp_guest_get_time(Error **errp)
->>   {
->> -   int ret;
->> -   qemu_timeval tq;
->> -
->> -   ret = qemu_gettimeofday(&tq);
->> -   if (ret < 0) {
->> -       error_setg_errno(errp, errno, "Failed to get time");
->> -       return -1;
->> -   }
->> -
->> -   return tq.tv_sec * 1000000000LL + tq.tv_usec * 1000;
->> +    return g_get_real_time();
+Am 04.03.2022 um 16:37 hat Hanna Reitz geschrieben:
+> Hi,
 > 
-> now you return microseconds, before it was nanoseconds.
+> I’ve tried basing my block branch on Kevin’s and noticed that after
+> “crypto: perform permission checks under BQL”, iotest 296 was failing.
+> I/We have debugged those failures and here are fixes for it.
 > 
-> qga/qapi-schema.json:
+> Hence, this series is based on Kevin’s block branch
+> (efa33ed9b298d39e2b8c19c5f4bdd80a3b632260 at the time of writing this
+> cover letter).  I’ve pushed it here:
 > 
-> ##
-> # @guest-get-time:
-> #
-> # Get the information about guest's System Time relative to
-> # the Epoch of 1970-01-01 in UTC.
-> #
-> # Returns: Time in nanoseconds.
-> #
-> # Since: 1.5
-> ##
-> { 'command': 'guest-get-time',
->    'returns': 'int' }
+>   https://gitlab.com/hreitz/qemu/-/commits/amend-job-fixes-v1
 > 
-> Except this problem:
+> Patch 1 adds clean-up of the amend job in an error path that said commit
+> adds to qmp_x_blockdev_amend().
 > 
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Patch 2 changes the type of a JobDriver callback added in that commit;
+> together with patch 3, this is kind of a matter of style, but it can
+> also replace patch 3 and fix the bug that it fixes in another way.
+> 
+> Patch 3 fixes a permission bug: When changing the permissions fails
+> before amend, block/crypto will still keep updating_keys to be true.
+> Without patch 2, that will remains so indefinitely and then
+> block_crypto_child_perms() will continue to unshare the CONSISTENT_READ
+> permission, which is wrong.  (Patch 2 fixes this problem, too,
+> specifically because with it, block_crypto_amend_cleanup() will always
+> be called when the job is dismissed, and so updating_keys will be reset
+> at least then.)
+> 
+> Patch 4 fixes an issue that’s not related to “crypto: perform permission
+> checks under BQL”, but it became appearent only while debugging the
+> other issues here, so it’s part of this series, too.
+> 
+> Patch 5 fixes the test itself.  It expects permission-related errors to
+> occur when the job is already running, not as an immediate result of the
+> QMP x-blockdev-amend command.  “crypto: perform permission checks under
+> BQL” has changed this, so the test needs to take that into account.
+> 
+> 
+> Ideally, I believe the following patches should be squashed into
+> “crypto: perform permission checks under BQL” lest bisect breaks:
+> - Patch 1
+> - Patch 2 or 3 (or both)
+> - Patch 5
+> 
+> But if that isn’t feasible, we can just take the whole series on top.
 
-Perhaps you can also remove the windows version from qga/commands-win32.c and move the function to 
-qga/commands.c ?
+Thanks, I'm squashing in 1, 3 and 5 and taking 2 and 4 on top.
 
-Thanks,
-Laurent
+Kevin
 
 
