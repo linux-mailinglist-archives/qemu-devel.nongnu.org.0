@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925FB4CD68F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:40:23 +0100 (CET)
-Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CFB4CD696
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:41:36 +0100 (CET)
+Received: from localhost ([::1]:39600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ96U-0004iY-Co
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:40:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60814)
+	id 1nQ97f-0007gu-87
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:41:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nQ8Qr-0005YX-3w
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:57:21 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:53942)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nQ8aW-0005iU-5a
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:07:20 -0500
+Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:46449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nQ8Qp-0002VH-Ag
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:57:20 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-i3kwbBZ6M2marSk5D9EbOg-1; Fri, 04 Mar 2022 08:57:03 -0500
-X-MC-Unique: i3kwbBZ6M2marSk5D9EbOg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77FDF824FA6;
- Fri,  4 Mar 2022 13:57:01 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32F38866D9;
- Fri,  4 Mar 2022 13:56:59 +0000 (UTC)
-Date: Fri, 4 Mar 2022 14:56:57 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH 0/2] virtiofsd: Support FUSE_SYNCFS on unannounced
- submounts
-Message-ID: <20220304145657.3a5fdec4@bahia>
-In-Reply-To: <YiIB8XnpQPqktxWG@redhat.com>
-References: <20220303171323.580712-1-groug@kaod.org>
- <YiIB8XnpQPqktxWG@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nQ8aS-0004cH-Ua
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:07:19 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.15])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5D793214C5;
+ Fri,  4 Mar 2022 14:07:13 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 4 Mar
+ 2022 15:07:12 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R00102ea038d-7721-472d-9b3f-947ec946a3b9,
+ 4AD3D28DF98936DCB22FC0161BBD9A222A014934) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.1.230.64
+Message-ID: <7c7b2adb-67e1-26b8-03a3-74f70dc9bc80@kaod.org>
+Date: Fri, 4 Mar 2022 15:07:08 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Issue with qemu-system-ppc running OSX guests
+Content-Language: en-US
+To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Fabiano Rosas <farosas@linux.ibm.com>
+References: <CABLmASFbowE4Cu8gHk9eD+_h8ZrdupE8MHKAfpW+T8Oe=-3=Wg@mail.gmail.com>
+ <e2dd457d-29b3-32be-72e2-315e686dff69@eik.bme.hu>
+ <CABLmASH5tFs86Dq+1e+ByMF43jZL5UZ7MempVVhtKCwjdpa7aw@mail.gmail.com>
+ <87pmn352q0.fsf@linux.ibm.com>
+ <a3917a31-b899-a289-5102-5b8be20aae27@eldorado.org.br>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <a3917a31-b899-a289-5102-5b8be20aae27@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 17724ca9-5267-4aa3-9bfd-59361c7a3aa1
+X-Ovh-Tracer-Id: 2094455302911593254
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddtkedgieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,65 +76,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: German Maglione <gmaglione@redhat.com>,
- Sebastian Hasler <sebastian.hasler@stuvus.uni-stuttgart.de>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Mar 2022 07:11:29 -0500
-Vivek Goyal <vgoyal@redhat.com> wrote:
+On 3/4/22 12:08, Lucas Mateus Martins Araujo e Castro wrote:
+> 
+> On 02/03/2022 20:55, Fabiano Rosas wrote:
+>> Howard Spoelstra<hsp.cat7@gmail.com>  writes:
+>>
+>>> On Wed, Mar 2, 2022 at 9:11 PM BALATON Zoltan<balaton@eik.bme.hu>  wrote:
+>>>
+>>>> On Wed, 2 Mar 2022, Howard Spoelstra wrote:
+>>>>> Hi all,
+>>>>>
+>>>>> I noticed qemu-system-ppc running OSX guests does not get to the desktop
+>>>> or
+>>>>> does not display the menu bars.
+>>>> Cc-ing the relevant people and the PPC list might help, I've added them.
+>>>> Also telling which OSX guest version can reproduce the problem could help
+>>>> debugging. Is it any OSX version?
+>>>>
+>>>> Regards,
+>>>> BALATON Zoltan
+>>>>
+>>> Oops, Qemu running on Fedora 35 host,
+>>> Reproducer:
+>>>
+>>> ./qemu-system-ppc \
+>>> -M mac99 \
+>>> -m 512 \
+>>> -L pc-bios \
+>>> -display sdl -serial stdio \
+>>> -boot c \
+>>> -drive file=10.1.img,format=raw,media=disk
+>>>
+>>> The issue affects all supported Mac OSX guests: 10.0 to 10.5
+>> Hi Howard,
+>>
+>> Thanks for bisecting this. It seems we inadvertently marked some of the
+>> Vector Multiply instructions to be ISA v2.07 only.
+>>
+>> I can boot Mac OSX 10.4 until the desktop with this fix:
+>>
+>> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+>> index f91bee839d..c5d02d13fe 100644
+>> --- a/target/ppc/translate/vmx-impl.c.inc
+>> +++ b/target/ppc/translate/vmx-impl.c.inc
+>> @@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext *ctx, arg_VX *a)
+>>       return true;
+>>   }
+>>
+>> -TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
+>> -TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
+>> -TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
+>> -TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
+>> -TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
+>> -TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
+>> -TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
+>> -TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
+>> +TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper, gen_helper_VMULESB)
+>> +TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
+>> +TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
+>> +TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
+>> +TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper, gen_helper_VMULESH)
+>> +TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
+>> +TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
+>> +TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
+>>   TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
+>>   TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
+>>   TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
+>> ---
+>>
+>> I'll let Lucas comment on it and we can send a proper patch in the
+>> morning.
+> 
+> Checking here it seems I misread the PowerISA appendix and marked these instructions (vmul[eo].[bh]) as v2.07 even though they are v2.03.
+> 
+> This patch seems to correct it and checking here the newer instructions are correct (v2.07 for vmul[eo].w and v3.1 for vmul[eo].d), so
+> 
+> Reviewed-by: Lucas Mateus Castro<lucas.araujo@eldorado.org.br>
 
-> On Thu, Mar 03, 2022 at 06:13:21PM +0100, Greg Kurz wrote:
-> > This is the current patches I have : one to track submounts
-> > and the other to call syncfs() on them. Tested on simple
-> > cases only.
-> >=20
-> > I won't be able to work on this anymore, so I'm posting for the
-> > records. Anyone is welcome to pick it up as there won't be a v2
-> > from my side.
->=20
-> Thanks Greg. Hopefully somebody else will be able to pick it up.
->=20
-> What are TODO items to take this patch series to completion.
->=20
 
-Compared to the previous try, this basically tracks submount inodes
-in a dedicated hash to avoid browsing through all inodes at sync
-time.
+Could you please send a proper patch ? The above was given as an example.
 
-Given the limited time I had to spend on this, it certainly
-requires some more thinking and testing around corner cases.
-Since C virtiofsd is being deprecated, I don't think it's
-worth investing much in supporting all possible scenarios.
-Maybe add sanity checks and proper error handling for things
-that would obviously break.
+Thanks,
 
-Cheers,
-
---
-Greg
-
-> Vivek
->=20
-> >=20
-> > Cheers,
-> >=20
-> > --
-> > Greg
-> >=20
-> > Greg Kurz (2):
-> >   virtiofsd: Track submounts
-> >   virtiofsd: Support FUSE_SYNCFS on unannounced submounts
-> >=20
-> >  tools/virtiofsd/passthrough_ll.c | 61 ++++++++++++++++++++++++++++----
-> >  1 file changed, 55 insertions(+), 6 deletions(-)
-> >=20
-> > --=20
-> > 2.34.1
-> >=20
-> >=20
->=20
+C.
 
 
