@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02DFB4CD76D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:13:28 +0100 (CET)
-Received: from localhost ([::1]:38282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B6C4CD719
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:06:42 +0100 (CET)
+Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9cV-000664-2Z
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:13:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39306)
+	id 1nQ9Vx-0000EH-Jb
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:06:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rC-0005EA-Ks
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38997)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rE-0005FR-04
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rB-0002KZ-2g
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:34 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rB-0002Kn-5W
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403870;
+ s=mimecast20190719; t=1646403871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ug+btb4HV8bMTYexsCMbWvO+8M+VFHq3hy1KJUFE1F8=;
- b=XLGz3Z3/rLQNo1g+zDhGKaIBGEaCi6az0fzgvZEvTT+j38SP96Fge/lrY6adkQk9fvq+DN
- +MqK90qgFliW63EUaTiydCWRVWBRN5BGJ8ZZgtu+CcnNyEL+GVuwIUfZBnEtaTTAG5u6u0
- ghmJhyEz7YTsZrkNWrbLCLoxnGsMfdQ=
+ bh=OpKErTmmTGnHwRYPOgvS0SjzqB/msUj5VLfFK6l1uDg=;
+ b=gHqhMEGCwIN3bfSBCs1u+8L/W0pYon8e3WST8H8WbMvAkvri/H22Cr8TFrodi59bK4wIHC
+ l02heNvaTBmHQhszMJtFK974E7FKbzzg8cjlqrl/XofGFiUGxemU8sbMdRtYBIdt3N/+lg
+ 77RDVm9jG7y7XtZHEGELvC1cgzRdkOI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-5TGrwCzqMTezrQLqBbfq3A-1; Fri, 04 Mar 2022 09:24:27 -0500
-X-MC-Unique: 5TGrwCzqMTezrQLqBbfq3A-1
+ us-mta-164-K5UzOdwTMwiUK7h2Pbhu3A-1; Fri, 04 Mar 2022 09:24:28 -0500
+X-MC-Unique: K5UzOdwTMwiUK7h2Pbhu3A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FA3A1006AA7;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC239801AFE;
  Fri,  4 Mar 2022 14:24:26 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C04D1866E9;
- Fri,  4 Mar 2022 14:24:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FE12866E9;
+ Fri,  4 Mar 2022 14:24:26 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 226D318009B6; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
+ id 2F8A718009B8; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/35] coreaudio: Notify error in coreaudio_init_out
-Date: Fri,  4 Mar 2022 15:21:12 +0100
-Message-Id: <20220304142123.956171-25-kraxel@redhat.com>
+Subject: [PULL 25/35] hw/i386: Improve bounds checking in OVMF table parsing
+Date: Fri,  4 Mar 2022 15:21:13 +0100
+Message-Id: <20220304142123.956171-26-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -88,38 +88,63 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
 
-Otherwise, the audio subsystem tries to use the voice and
-eventually aborts due to the maximum number of samples in the
-buffer is not set.
+When pc_system_parse_ovmf_flash() parses the optional GUIDed table in
+the end of the OVMF flash memory area, the table length field is checked
+for sizes that are too small, but doesn't error on sizes that are too
+big (bigger than the flash content itself).
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220226115953.60335-1-akihiko.odaki@gmail.com>
+Add a check for maximal size of the OVMF table, and add an error report
+in case the size is invalid.  In such a case, an error like this will be
+displayed during launch:
+
+    qemu-system-x86_64: OVMF table has invalid size 4047
+
+and the table parsing is skipped.
+
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220222071906.2632426-2-dovmurik@linux.ibm.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/coreaudio.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/i386/pc_sysfw_ovmf.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index 91ea6ae975e5..0f19d0ce01c5 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -603,6 +603,8 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
-             coreaudio_playback_logerr(status,
-                                       "Could not remove voice property change listener\n");
-         }
+diff --git a/hw/i386/pc_sysfw_ovmf.c b/hw/i386/pc_sysfw_ovmf.c
+index f4dd92c58825..df15c9737b93 100644
+--- a/hw/i386/pc_sysfw_ovmf.c
++++ b/hw/i386/pc_sysfw_ovmf.c
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/error-report.h"
+ #include "hw/i386/pc.h"
+ #include "cpu.h"
+ 
+@@ -66,7 +67,13 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
+     ptr -= sizeof(uint16_t);
+     tot_len = le16_to_cpu(*(uint16_t *)ptr) - sizeof(guid) - sizeof(uint16_t);
+ 
+-    if (tot_len <= 0) {
++    if (tot_len < 0 || tot_len > (ptr - flash_ptr)) {
++        error_report("OVMF table has invalid size %d", tot_len);
++        return;
++    }
 +
-+        return -1;
++    if (tot_len == 0) {
++        /* no entries in the OVMF table */
+         return;
      }
  
-     return 0;
 -- 
 2.35.1
 
