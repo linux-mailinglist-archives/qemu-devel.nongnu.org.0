@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1D84CD793
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:21:56 +0100 (CET)
-Received: from localhost ([::1]:60150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79C94CD78C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:19:33 +0100 (CET)
+Received: from localhost ([::1]:55958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9kh-0004EY-To
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:21:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39680)
+	id 1nQ9iO-0001Q6-Ri
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:19:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8sM-0006AG-0F
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59607)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8sW-0006bz-8F
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8sK-0003wD-HM
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:45 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8sU-0003yx-0e
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403943;
+ s=mimecast20190719; t=1646403953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3zDGyS5PxnhZKyMOllGG6HBiyw79weIS5S9ZZw+Jzy8=;
- b=SYX1N+8S86NFsLgxPyE70Si/DT9G5KydKWJOC39nKxIfF/fwjytWUavTtNnonM6Bwx4BOL
- KBZjbj7jKttRwvCK7+jHbN4AlV+1J9cPzyt9TEQPwYPI8NZtPy5E3DFX8716IQzJu7wTDj
- XpErwzv5dT5klVGkqxc1buG/oDROF28=
+ bh=Rb9Qcza6r7yvid9p6hqGBWtWgsoEB4ik7XqeKgTyY8c=;
+ b=PWHuDrOMTjfZu3UCcAQJjZIKzuVybqJj5uosvG0OtPLka+ephoH2sgoY39xTBbbb9g8DUA
+ NyYc195C/wR9aUl3KLLcSF2E3WQuWAoYiqZcVK/LOo7tDNcWiqshUwsblfifVWnYoM9bKp
+ cRErGLtAXZ1ZIrliH081TFSUBgwZvng=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-48-UqVxcv1JNWatKSt0FtPCCg-1; Fri, 04 Mar 2022 09:25:40 -0500
-X-MC-Unique: UqVxcv1JNWatKSt0FtPCCg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-626-0UhdXD9TNXCJHfZfBknTzw-1; Fri, 04 Mar 2022 09:25:50 -0500
+X-MC-Unique: 0UhdXD9TNXCJHfZfBknTzw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB1B2FC80;
- Fri,  4 Mar 2022 14:25:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3849800423;
+ Fri,  4 Mar 2022 14:25:48 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B271B106223E;
- Fri,  4 Mar 2022 14:25:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4604983C0F;
+ Fri,  4 Mar 2022 14:25:13 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 944B618009C1; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
+ id A199618009C4; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/35] softmmu/qdev-monitor: Add virtio-gpu-gl aliases
-Date: Fri,  4 Mar 2022 15:21:21 +0100
-Message-Id: <20220304142123.956171-34-kraxel@redhat.com>
+Subject: [PULL 34/35] edid: Fix clock of Detailed Timing Descriptor
+Date: Fri,  4 Mar 2022 15:21:22 +0100
+Message-Id: <20220304142123.956171-35-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -66,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, TVD_SPACE_RATIO=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,26 +94,163 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
+The clock field is 16-bits in EDID Detailed Timing Descriptor, but
+edid_desc_timing assumed it is 32-bit. Write the 16-bit value if it fits
+in 16-bit. Write DisplayID otherwise.
+
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <20220213021800.2525-1-akihiko.odaki@gmail.com>
+Message-Id: <20220213021529.2248-1-akihiko.odaki@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- softmmu/qdev-monitor.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/display/edid-generate.c | 66 ++++++++++++++++++--------------------
+ 1 file changed, 32 insertions(+), 34 deletions(-)
 
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 01f3834db575..a0df820b9ded 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -83,6 +83,8 @@ static const QDevAlias qdev_alias_table[] = {
-     { "virtio-gpu-device", "virtio-gpu", QEMU_ARCH_VIRTIO_MMIO },
-     { "virtio-gpu-ccw", "virtio-gpu", QEMU_ARCH_VIRTIO_CCW },
-     { "virtio-gpu-pci", "virtio-gpu", QEMU_ARCH_VIRTIO_PCI },
-+    { "virtio-gpu-gl-device", "virtio-gpu-gl", QEMU_ARCH_VIRTIO_MMIO },
-+    { "virtio-gpu-gl-pci", "virtio-gpu-gl", QEMU_ARCH_VIRTIO_PCI },
-     { "virtio-input-host-device", "virtio-input-host", QEMU_ARCH_VIRTIO_MMIO },
-     { "virtio-input-host-ccw", "virtio-input-host", QEMU_ARCH_VIRTIO_CCW },
-     { "virtio-input-host-pci", "virtio-input-host", QEMU_ARCH_VIRTIO_PCI },
+diff --git a/hw/display/edid-generate.c b/hw/display/edid-generate.c
+index bccf32af69ce..2cb819675e0b 100644
+--- a/hw/display/edid-generate.c
++++ b/hw/display/edid-generate.c
+@@ -255,33 +255,31 @@ static void edid_desc_dummy(uint8_t *desc)
+     edid_desc_type(desc, 0x10);
+ }
+ 
+-static void edid_desc_timing(uint8_t *desc, uint32_t refresh_rate,
++static void edid_desc_timing(uint8_t *desc, const Timings *timings,
+                              uint32_t xres, uint32_t yres,
+                              uint32_t xmm, uint32_t ymm)
+ {
+-    Timings timings;
+-    generate_timings(&timings, refresh_rate, xres, yres);
+-    stl_le_p(desc, timings.clock);
++    stw_le_p(desc, timings->clock);
+ 
+     desc[2] = xres   & 0xff;
+-    desc[3] = timings.xblank & 0xff;
++    desc[3] = timings->xblank & 0xff;
+     desc[4] = (((xres   & 0xf00) >> 4) |
+-               ((timings.xblank & 0xf00) >> 8));
++               ((timings->xblank & 0xf00) >> 8));
+ 
+     desc[5] = yres   & 0xff;
+-    desc[6] = timings.yblank & 0xff;
++    desc[6] = timings->yblank & 0xff;
+     desc[7] = (((yres   & 0xf00) >> 4) |
+-               ((timings.yblank & 0xf00) >> 8));
++               ((timings->yblank & 0xf00) >> 8));
+ 
+-    desc[8] = timings.xfront & 0xff;
+-    desc[9] = timings.xsync  & 0xff;
++    desc[8] = timings->xfront & 0xff;
++    desc[9] = timings->xsync  & 0xff;
+ 
+-    desc[10] = (((timings.yfront & 0x00f) << 4) |
+-                ((timings.ysync  & 0x00f) << 0));
+-    desc[11] = (((timings.xfront & 0x300) >> 2) |
+-                ((timings.xsync  & 0x300) >> 4) |
+-                ((timings.yfront & 0x030) >> 2) |
+-                ((timings.ysync  & 0x030) >> 4));
++    desc[10] = (((timings->yfront & 0x00f) << 4) |
++                ((timings->ysync  & 0x00f) << 0));
++    desc[11] = (((timings->xfront & 0x300) >> 2) |
++                ((timings->xsync  & 0x300) >> 4) |
++                ((timings->yfront & 0x030) >> 2) |
++                ((timings->ysync  & 0x030) >> 4));
+ 
+     desc[12] = xmm & 0xff;
+     desc[13] = ymm & 0xff;
+@@ -348,13 +346,10 @@ static void init_displayid(uint8_t *did)
+     edid_checksum(did + 1, did[2] + 4);
+ }
+ 
+-static void qemu_displayid_generate(uint8_t *did, uint32_t refresh_rate,
++static void qemu_displayid_generate(uint8_t *did, const Timings *timings,
+                                     uint32_t xres, uint32_t yres,
+                                     uint32_t xmm, uint32_t ymm)
+ {
+-    Timings timings;
+-    generate_timings(&timings, refresh_rate, xres, yres);
+-
+     did[0] = 0x70; /* display id extension */
+     did[1] = 0x13; /* version 1.3 */
+     did[2] = 23;   /* length */
+@@ -364,21 +359,21 @@ static void qemu_displayid_generate(uint8_t *did, uint32_t refresh_rate,
+     did[6] = 0x00; /* revision */
+     did[7] = 0x14; /* block length */
+ 
+-    did[8]  = timings.clock  & 0xff;
+-    did[9]  = (timings.clock & 0xff00) >> 8;
+-    did[10] = (timings.clock & 0xff0000) >> 16;
++    did[8]  = timings->clock  & 0xff;
++    did[9]  = (timings->clock & 0xff00) >> 8;
++    did[10] = (timings->clock & 0xff0000) >> 16;
+ 
+     did[11] = 0x88; /* leave aspect ratio undefined */
+ 
+     stw_le_p(did + 12, 0xffff & (xres - 1));
+-    stw_le_p(did + 14, 0xffff & (timings.xblank - 1));
+-    stw_le_p(did + 16, 0xffff & (timings.xfront - 1));
+-    stw_le_p(did + 18, 0xffff & (timings.xsync - 1));
++    stw_le_p(did + 14, 0xffff & (timings->xblank - 1));
++    stw_le_p(did + 16, 0xffff & (timings->xfront - 1));
++    stw_le_p(did + 18, 0xffff & (timings->xsync - 1));
+ 
+     stw_le_p(did + 20, 0xffff & (yres - 1));
+-    stw_le_p(did + 22, 0xffff & (timings.yblank - 1));
+-    stw_le_p(did + 24, 0xffff & (timings.yfront - 1));
+-    stw_le_p(did + 26, 0xffff & (timings.ysync - 1));
++    stw_le_p(did + 22, 0xffff & (timings->yblank - 1));
++    stw_le_p(did + 24, 0xffff & (timings->yfront - 1));
++    stw_le_p(did + 26, 0xffff & (timings->ysync - 1));
+ 
+     edid_checksum(did + 1, did[2] + 4);
+ }
+@@ -386,6 +381,7 @@ static void qemu_displayid_generate(uint8_t *did, uint32_t refresh_rate,
+ void qemu_edid_generate(uint8_t *edid, size_t size,
+                         qemu_edid_info *info)
+ {
++    Timings timings;
+     uint8_t *desc = edid + 54;
+     uint8_t *xtra3 = NULL;
+     uint8_t *dta = NULL;
+@@ -409,9 +405,6 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
+     if (!info->prefy) {
+         info->prefy = 800;
+     }
+-    if (info->prefx >= 4096 || info->prefy >= 4096) {
+-        large_screen = 1;
+-    }
+     if (info->width_mm && info->height_mm) {
+         width_mm = info->width_mm;
+         height_mm = info->height_mm;
+@@ -421,6 +414,11 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
+         height_mm = qemu_edid_dpi_to_mm(dpi, info->prefy);
+     }
+ 
++    generate_timings(&timings, refresh_rate, info->prefx, info->prefy);
++    if (info->prefx >= 4096 || info->prefy >= 4096 || timings.clock >= 65536) {
++        large_screen = 1;
++    }
++
+     /* =============== extensions  =============== */
+ 
+     if (size >= 256) {
+@@ -501,7 +499,7 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
+ 
+     if (!large_screen) {
+         /* The DTD section has only 12 bits to store the resolution */
+-        edid_desc_timing(desc, refresh_rate, info->prefx, info->prefy,
++        edid_desc_timing(desc, &timings, info->prefx, info->prefy,
+                          width_mm, height_mm);
+         desc = edid_desc_next(edid, dta, desc);
+     }
+@@ -536,7 +534,7 @@ void qemu_edid_generate(uint8_t *edid, size_t size,
+     /* =============== display id extensions =============== */
+ 
+     if (did && large_screen) {
+-        qemu_displayid_generate(did, refresh_rate, info->prefx, info->prefy,
++        qemu_displayid_generate(did, &timings, info->prefx, info->prefy,
+                                 width_mm, height_mm);
+     }
+ 
 -- 
 2.35.1
 
