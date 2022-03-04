@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E2A4CD84F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:52:38 +0100 (CET)
-Received: from localhost ([::1]:36244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8FB4CD85B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:54:39 +0100 (CET)
+Received: from localhost ([::1]:41638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQAEP-0000P8-Ms
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:52:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60052)
+	id 1nQAGM-00048M-Rb
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:54:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nQA0H-0007pN-40
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:38:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28838)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nQA0D-0007YV-4T
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:37:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646408276;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gUJRlPBg0dHyb+Wfd94cNo0F8TwLin9Pvxwj5MHh6lE=;
- b=IA41ni21ps0iCQxVVkFd7gCfRdhHlAFi5Rj2E4GwKWf9Isuj5UzHJwejJoGTDTtOV1N9mO
- eXTZdGhol1ozGzSOPFt1ZTvPxVRNPdvGF4CgUKOQ2dSbVO9Ufdwuc0FmJLOhSWHbNrttYK
- w1SIRA8IfeuHCuGO+Z/I0gvMGLtjguI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-PKq6kF6aOcmI27RW_eZnzA-1; Fri, 04 Mar 2022 10:37:52 -0500
-X-MC-Unique: PKq6kF6aOcmI27RW_eZnzA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C78F11006AA5;
- Fri,  4 Mar 2022 15:37:51 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B72D1037F22;
- Fri,  4 Mar 2022 15:37:51 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 5/5] iotests/296: Accept early failure
-Date: Fri,  4 Mar 2022 16:37:29 +0100
-Message-Id: <20220304153729.711387-6-hreitz@redhat.com>
-In-Reply-To: <20220304153729.711387-1-hreitz@redhat.com>
-References: <20220304153729.711387-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQA2z-0003wU-HI
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:40:49 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=55043
+ helo=mail-pj1-x1034.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQA2w-00084C-Ug
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:40:48 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id b8so7632139pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 07:40:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NzRV18xlT7e3e62Lfq3qjKJ0W7QMwOSRlZHKm2RB0p0=;
+ b=uUcgLNv+yeKX3y/olqvAUkpBWSIHGasGXF8zNsQWxUwCCADa5HTGWqmfYCC7ML5ga/
+ Uj80Uk3TRTHvVQFW5CnIPUQhwnZzCR7fWr22EJudlmzNuxdzozd6xtkjgcsWxAZ912Ce
+ d48UoO0L2jE14ZC4x5DioCaiijnzol1kC2RQwjZ1lAHRtAjqK4Kks2UDljYnUYJ0t/HC
+ KFoOyQ8XoTWCJ3gCqgqIPM3uebn1MCkVPpzYZIg86uH/sJn7AsK/sAAT/V52UHpvvWog
+ gtH33g4dOzSzFU0BtgV4w4pX3AND130+T7g5En65y5ebIlQSTNtWL1HKMrXSZL+NhMiH
+ uAMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NzRV18xlT7e3e62Lfq3qjKJ0W7QMwOSRlZHKm2RB0p0=;
+ b=QutWbfOwAxK9ONWAsBEOQJ3xXlSiVywV+xfS/TNn6Bt+kMYAynhY123R5WtSRYjP+R
+ SnGjRXg9y5vdjSN713GoRGNhJK1v0uGqsJQMMNft4XAHREEHGhpOJhiGQsjJXiAcjOYv
+ Eyx1knNkwHBwBMMCCf633Cye+QUG2Uh5l+Ke6Wp3l26plisG0nf8IsVmzP3y5pbVf/TS
+ TSpeY/V5g/AjY54X85p93qI0kizUuSXuqJY34C+qm20fUHD7xWzqQ1vlFRbNG4/jCh/9
+ nW8OMBGDQAv8TtJQFUpe3PMHa62tEcXeMweIgS7UqxIVsGSRvX/kQXFrQ03TStoNhDDM
+ JBMw==
+X-Gm-Message-State: AOAM531E4XhxBQCBGFQeCnf+/pmglAilNTBbkdLE0fOqK5UbcmH3UOwv
+ MaZkWa5Mf5qlG19/kQAFLWM21n8gepG2+g==
+X-Google-Smtp-Source: ABdhPJxOgr3iEVqrwGhXSgW214s1nAk1mWcTOcBKyIA0tovijDlozPbw0Nfpjwbi6S4KB292KaRl6Q==
+X-Received: by 2002:a17:902:8a91:b0:14f:969b:f6be with SMTP id
+ p17-20020a1709028a9100b0014f969bf6bemr42084397plo.161.1646408443790; 
+ Fri, 04 Mar 2022 07:40:43 -0800 (PST)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.152.50])
+ by smtp.googlemail.com with ESMTPSA id
+ ck20-20020a17090afe1400b001bd0494a4e7sm5448366pjb.16.2022.03.04.07.40.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Mar 2022 07:40:43 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/4] hw/acpi: add indication for i8042 in IA-PC boot flags
+ of the FADT table
+Date: Fri,  4 Mar 2022 21:10:28 +0530
+Message-Id: <20220304154032.2071585-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,84 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
+Cc: Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com, liavalb@gmail.com,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As of "crypto: perform permission checks under BQL", permission failures
-occur early in the blockdev-amend job to update a LUKS volume's keys.
-Expect them in x-blockdev-amend's QMP reply instead of waiting for the
-actual job to fail later.
+This can allow the guest OS to determine more easily if i8042 controller
+is present in the system or not, so it doesn't need to do probing of the
+controller, but just initialize it immediately, before enumerating the
+ACPI AML namespace.
 
-(Note that the job will still be created, so we need to wait for it to
-disappear even when the QMP command failed.  Otherwise, the job ID
-"job0" will remain in use and we cannot launch another job with the same
-ID.)
+To allow "flexible" indication, I don't hardcode the bit at location 1
+as on in the IA-PC boot flags, but try to search for i8042 on the ISA
+bus to verify it exists in the system.
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
- tests/qemu-iotests/296     |  8 ++++++--
- tests/qemu-iotests/296.out | 17 +++++------------
- 2 files changed, 11 insertions(+), 14 deletions(-)
+Why this is useful you might ask - this patch allows the guest OS to
+probe and use the i8042 controller without decoding the ACPI AML blob
+at all. For example, as a developer of the SerenityOS kernel, I might
+want to allow people to not try to decode the ACPI AML namespace (for
+now, we still don't support ACPI AML as it's a work in progress), but
+still to not probe for the i8042 but just use it after looking in the
+IA-PC boot flags in the ACPI FADT table.
 
-diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
-index 099a3eeaa5..f80ef3434a 100755
---- a/tests/qemu-iotests/296
-+++ b/tests/qemu-iotests/296
-@@ -174,8 +174,12 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-         }
- 
-         result = vm.qmp('x-blockdev-amend', **args)
--        assert result['return'] == {}
--        vm.run_job('job0')
-+        iotests.log(result)
-+        # Run the job only if it was created
-+        event = ('JOB_STATUS_CHANGE',
-+                 {'data': {'id': 'job0', 'status': 'created'}})
-+        if vm.events_wait([event], timeout=0.0) is not None:
-+            vm.run_job('job0')
- 
-     # test that when the image opened by two qemu processes,
-     # neither of them can update the encryption keys
-diff --git a/tests/qemu-iotests/296.out b/tests/qemu-iotests/296.out
-index 42205cc981..609826eaa0 100644
---- a/tests/qemu-iotests/296.out
-+++ b/tests/qemu-iotests/296.out
-@@ -1,11 +1,9 @@
- 
--{"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
--Job failed: Failed to get shared "consistent read" lock
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
--Job failed: Failed to get shared "consistent read" lock
--{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"error": {"class": "GenericError", "desc": "Failed to get shared \"consistent read\" lock"}}
-+{"error": {"class": "GenericError", "desc": "Failed to get shared \"consistent read\" lock"}}
- {"return": {}}
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
-@@ -13,14 +11,9 @@ qemu-img: Failed to get shared "consistent read" lock
- Is another process using the image [TEST_DIR/test.img]?
- 
- .
--Job failed: Block node is read-only
--{"execute": "job-dismiss", "arguments": {"id": "job0"}}
--{"return": {}}
--Job failed: Failed to get shared "consistent read" lock
--{"execute": "job-dismiss", "arguments": {"id": "job0"}}
--{"return": {}}
--Job failed: Failed to get shared "consistent read" lock
--{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"error": {"class": "GenericError", "desc": "Block node is read-only"}}
-+{"error": {"class": "GenericError", "desc": "Failed to get shared \"consistent read\" lock"}}
-+{"error": {"class": "GenericError", "desc": "Failed to get shared \"consistent read\" lock"}}
- {"return": {}}
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
+Changelog:
+v7:
+fixed a compilation issue. the fix was not committed when running "make check"
+v6:
+addressed comments from v5. added microvm changes too as a part of this series.
+v5:
+Addressed review comments from v4. Also got rid of microvm changes. Will send
+them in a separate patch.
+
+
+
+Ani Sinha (1):
+  hw/acpi/microvm: turn on 8042 bit in FADT boot architecture flags if
+    present
+
+Liav Albani (3):
+  tests/acpi: i386: allow FACP acpi table changes
+  hw/acpi: add indication for i8042 in IA-PC boot flags of the FADT
+    table
+  tests/acpi: i386: update FACP table differences
+
+ hw/acpi/aml-build.c            |   8 +++++++-
+ hw/i386/acpi-build.c           |   8 ++++++++
+ hw/i386/acpi-microvm.c         |   6 ++++++
+ include/hw/acpi/acpi-defs.h    |   1 +
+ include/hw/input/i8042.h       |  15 +++++++++++++++
+ tests/data/acpi/q35/FACP       | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/FACP.nosmm | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/FACP.slic  | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/FACP.xapic | Bin 244 -> 244 bytes
+ 9 files changed, 37 insertions(+), 1 deletion(-)
+
 -- 
-2.34.1
+2.25.1
 
 
