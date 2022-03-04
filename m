@@ -2,48 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3FDD4CD517
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:23:46 +0100 (CET)
-Received: from localhost ([::1]:54866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7313D4CD592
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:54:01 +0100 (CET)
+Received: from localhost ([::1]:56490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ7uL-0005Uq-BO
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:23:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50214)
+	id 1nQ8Nc-0005Yj-If
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:54:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <9bca156323feb554c2eb54aa3888a4445666437b@lizzy.crudebyte.com>)
- id 1nQ7lt-0000lP-5P
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:15:02 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:49909)
+ (envelope-from <8744e9fc25ac8cc29c97ba3ee48050add2ba6b57@lizzy.crudebyte.com>)
+ id 1nQ7wP-0001oz-1L
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:25:53 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:58635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <9bca156323feb554c2eb54aa3888a4445666437b@lizzy.crudebyte.com>)
- id 1nQ7lr-000667-FH
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:15:00 -0500
+ (envelope-from <8744e9fc25ac8cc29c97ba3ee48050add2ba6b57@lizzy.crudebyte.com>)
+ id 1nQ7wM-0006VF-Kb
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:25:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
- Content-Description; bh=KO3uCcDtoP8ypvHqVZeogjqwQxCYF7uWlWLOucj+apQ=; b=PQG1q
- E4KgRSngS09ShDII/fCbrzpF6fTn/eAcusTM/YRBvgaihmEgJxHTuCxbkaw2R06hnZV6MvlUX6K0y
- vNSnl4h5mshCLoaWr/fbtNgtxnjBCG0iJ2U4pUY8bZFbm6OE4PoWfm54wp2N9YWQa0FIrIlLiDTvF
- 8+tSOvvGwNyvZfHfxvXVDQrimkzvMSo8Yyy7KwfTttEBUi2D3YFuv9pt63PdEBkzl2gTP/sGjrMRT
- Hlf4DVT0WXjE8mnQzTBn31gbZgsV3L2cC9Q6DZDXqdiwNTv9rUh9BDw/mugogNKWlrfBNipgsI1uj
- enOqpJdAxtnL4zMmdUVBwaBmGXj0w==;
-Message-Id: <9bca156323feb554c2eb54aa3888a4445666437b.1646396869.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=w23H3Dx87Ym5W3lYIQkXR14VvSyrEGHNHHYkXrQq2Io=; b=iHqPb
+ JaZu7IcW+5YRiGJm10mqTgaKSldyCF1cNKReq5tKydRqKzvgmUmaVgdajC04J/8cCf+os4FhuXoDI
+ mAL6fVaPO3bAqBfK1Ayy8q6aPcLTPLcDrHfSdp2IBGz/qoUC+3WLg9TojlFn/Csmd76LBCWVYolpK
+ N+eWtRqeUxNM4YkDoaSjzUYvMYq/FsTqBE4H+IsxXmHRB1/nkulIBpRQMRoraLO5gSP3MKseqbpbs
+ tR8UXe/tRLK7c3FUWeJ/nLoBam5COQQ+KKZAXqD0yIgtPFYefXgCZylZn7FsW8NRG7vZg8htGVFsb
+ ZXn4Q3mTsb72iou6oailuUgXZ+L7A==;
+Message-Id: <8744e9fc25ac8cc29c97ba3ee48050add2ba6b57.1646396869.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646396869.git.qemu_oss@crudebyte.com>
 References: <cover.1646396869.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 04 Mar 2022 13:27:49 +0100
-Subject: [PULL 01/19] 9p: linux: Fix a couple Linux assumptions
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PULL 05/19] 9p: darwin: Ignore O_{NOATIME, DIRECT}
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=9bca156323feb554c2eb54aa3888a4445666437b@lizzy.crudebyte.com;
+ envelope-from=8744e9fc25ac8cc29c97ba3ee48050add2ba6b57@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -68,109 +65,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
- - Guard Linux only headers.
- - Add qemu/statfs.h header to abstract over the which
-   headers are needed for struct statfs
- - Define `ENOATTR` only if not only defined
-   (it's defined in system headers on Darwin).
+Darwin doesn't have either of these flags. Darwin does have
+F_NOCACHE, which is similar to O_DIRECT, but has different
+enough semantics that other projects don't generally map
+them automatically. In any case, we don't support O_DIRECT
+on Linux at the moment either.
 
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
 [Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-
-While it might at first appear that fsdev/virtfs-proxy-header.c would
-need similar adjustment for darwin as file-op-9p here, a later patch in
-this series disables virtfs-proxy-helper for non-Linux. Allowing
-virtfs-proxy-helper on darwin could potentially be an additional
-optimization later.
-
-[Will Cohen: - Fix headers for Alpine
-             - Integrate statfs.h back into file-op-9p.h
-             - Remove superfluous header guards from file-opt-9p
-             - Add note about virtfs-proxy-helper being disabled
-               on non-Linux for this patch series]
+[Will Cohen: - Adjust coding style]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20220227223522.91937-2-wwcohen@gmail.com>
+Message-Id: <20220227223522.91937-6-wwcohen@gmail.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- fsdev/file-op-9p.h   | 9 ++++++++-
- hw/9pfs/9p-local.c   | 2 ++
- hw/9pfs/9p.c         | 4 ++++
- include/qemu/xattr.h | 4 +++-
- 4 files changed, 17 insertions(+), 2 deletions(-)
+ hw/9pfs/9p-util.h |  2 ++
+ hw/9pfs/9p.c      | 13 ++++++++++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
-index 8fd89f0447..4997677460 100644
---- a/fsdev/file-op-9p.h
-+++ b/fsdev/file-op-9p.h
-@@ -16,10 +16,17 @@
- 
- #include <dirent.h>
- #include <utime.h>
--#include <sys/vfs.h>
- #include "qemu-fsdev-throttle.h"
- #include "p9array.h"
- 
-+#ifdef CONFIG_LINUX
-+# include <sys/vfs.h>
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 7449733c15..2b9ac74291 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -41,6 +41,7 @@ again:
+     fd = openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOCK,
+                 mode);
+     if (fd == -1) {
++#ifndef CONFIG_DARWIN
+         if (errno == EPERM && (flags & O_NOATIME)) {
+             /*
+              * The client passed O_NOATIME but we lack permissions to honor it.
+@@ -53,6 +54,7 @@ again:
+             flags &= ~O_NOATIME;
+             goto again;
+         }
 +#endif
-+#ifdef CONFIG_DARWIN
-+# include <sys/param.h>
-+# include <sys/mount.h>
-+#endif
-+
- #define SM_LOCAL_MODE_BITS    0600
- #define SM_LOCAL_DIR_MODE_BITS    0700
+         return -1;
+     }
  
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 210d9e7705..1a5e3eed73 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -32,10 +32,12 @@
- #include "qemu/error-report.h"
- #include "qemu/option.h"
- #include <libgen.h>
-+#ifdef CONFIG_LINUX
- #include <linux/fs.h>
- #ifdef CONFIG_LINUX_MAGIC_H
- #include <linux/magic.h>
- #endif
-+#endif
- #include <sys/ioctl.h>
- 
- #ifndef XFS_SUPER_MAGIC
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 15b3f4d385..9c63e14b28 100644
+index caf3b240fe..14e84c3bcf 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -32,7 +32,11 @@
- #include "migration/blocker.h"
- #include "qemu/xxhash.h"
- #include <math.h>
-+#ifdef CONFIG_LINUX
- #include <linux/limits.h>
-+#else
-+#include <limits.h>
+@@ -138,11 +138,20 @@ static int dotl_to_open_flags(int flags)
+         { P9_DOTL_NONBLOCK, O_NONBLOCK } ,
+         { P9_DOTL_DSYNC, O_DSYNC },
+         { P9_DOTL_FASYNC, FASYNC },
++#ifndef CONFIG_DARWIN
++        { P9_DOTL_NOATIME, O_NOATIME },
++        /*
++         *  On Darwin, we could map to F_NOCACHE, which is
++         *  similar, but doesn't quite have the same
++         *  semantics. However, we don't support O_DIRECT
++         *  even on linux at the moment, so we just ignore
++         *  it here.
++         */
+         { P9_DOTL_DIRECT, O_DIRECT },
 +#endif
+         { P9_DOTL_LARGEFILE, O_LARGEFILE },
+         { P9_DOTL_DIRECTORY, O_DIRECTORY },
+         { P9_DOTL_NOFOLLOW, O_NOFOLLOW },
+-        { P9_DOTL_NOATIME, O_NOATIME },
+         { P9_DOTL_SYNC, O_SYNC },
+     };
  
- int open_fd_hw;
- int total_open_fd;
-diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
-index a83fe8e749..f1d0f7be74 100644
---- a/include/qemu/xattr.h
-+++ b/include/qemu/xattr.h
-@@ -22,7 +22,9 @@
- #ifdef CONFIG_LIBATTR
- #  include <attr/xattr.h>
- #else
--#  define ENOATTR ENODATA
-+#  if !defined(ENOATTR)
-+#    define ENOATTR ENODATA
-+#  endif
- #  include <sys/xattr.h>
- #endif
+@@ -171,10 +180,12 @@ static int get_dotl_openflags(V9fsState *s, int oflags)
+      */
+     flags = dotl_to_open_flags(oflags);
+     flags &= ~(O_NOCTTY | O_ASYNC | O_CREAT);
++#ifndef CONFIG_DARWIN
+     /*
+      * Ignore direct disk access hint until the server supports it.
+      */
+     flags &= ~O_DIRECT;
++#endif
+     return flags;
+ }
  
 -- 
 2.20.1
