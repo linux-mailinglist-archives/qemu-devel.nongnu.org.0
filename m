@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A4F4CD6ED
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:58:18 +0100 (CET)
-Received: from localhost ([::1]:51790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC374CD7CE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:30:55 +0100 (CET)
+Received: from localhost ([::1]:58254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9Np-0001iD-9J
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:58:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38520)
+	id 1nQ9tM-0007Fk-JJ
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:30:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQ8q7-0003WA-59
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:27 -0500
-Received: from [2a00:1450:4864:20::332] (port=32956
- helo=mail-wm1-x332.google.com)
+ id 1nQ9G6-0005oZ-NX
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:50:20 -0500
+Received: from [2a00:1450:4864:20::42e] (port=34600
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQ8q5-0000R8-QM
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:26 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- n33-20020a05600c3ba100b003832caf7f3aso4071272wms.0
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 06:23:25 -0800 (PST)
+ id 1nQ9G5-0002o3-Az
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:50:18 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id j26so2686635wrb.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 06:50:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Dw4gFgBdkE4xjFXJHwwB31Bs9WiEtP58FXRpcS09YLM=;
- b=UQNlTp5nrAvEgnAmj/G0G/T6BXYWM5iouQMNY7CePQXoxMAIueg31/h98jksLiyUem
- wvi1CQyYLMTdWV5qmkOhIYpvgKgPhakDngDfX4XHyWg9gxvfY+6Om3nccg0LKOFRPCVD
- 6OEzlAE3bAjd3R4jKzvkAK3q34FIcQ/A7nBEu9rolge5Lrt+7Rc4sZGVMj4uHJxo4HmD
- zGegVb8fcMvn/b04Vi2Gn7HE2NUw3CEmtAw+zFAXaZWqniEnOAV+XOl3ANOwkEqERqfO
- AziBImIK8d1MR4qFgMW1szJ3iO9jE6RXAGZzWpmqC6DVpk+JLJryzdcYMAopqm2etthN
- xsjA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Yeugmeny9qhtt9DSuMJQhjxlvN9/PffYcS8pvXFRqrI=;
+ b=EFeyEEkPQ4NHZdY6Vpa5cuqW5YGoG+HpcrIarOKbaxeei+9TTGrLuQEjgc5U3sYqsa
+ 7pFNokre5oVVppvZDGygyfFl62j948OacTV9Y8KFMs3mitv8pV0wze2lTvGPerGVwJ71
+ 25YiG4qhLKsMWEUzcE6NwJatRaXwrW/XPy0l3rC65ZsGtdt8Ec7jSnFsprabF6V2VXRY
+ UPJ9+oiyw+Ytjg+lwJkbsZeX3+brqp2DfPxl/I+2L3DN9YOA2V4i/K//rPJQSoUtxmZN
+ v2HmNJBrBkhZKbcCzDpImRSlCxxrZsvFWYFXSZhDCdjjEmn/5mRYADgsgo8nh72xqosH
+ w84g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Dw4gFgBdkE4xjFXJHwwB31Bs9WiEtP58FXRpcS09YLM=;
- b=7azAwSF/XcHz6CNLUN20hCLhMpG0caJ3uuW8Lu3Lx3k7R+wWQCA+ckebQeV6HviV0p
- FtpxIUeVzMdg+TtbgBHksHtEQ9qBbxmRnUXhA8gjOeE9CYuT4Wmi5yKvDszI5mZmsjRw
- vRlDWcLcXQtI725WpViiD+v5vh6eHFVwebP+grif+vW0bT36G6X4VfCzl1+KAF72CU8n
- ESjIF7mWy43RP81cbru1fkCm2WXwsgmLwzQNGN1RIwgyf578ui9I1Bc4DjVL9x268npD
- Xtr55hNuKiKlMNgNshmInyUhCL1adoQQsqmQ9huLwctXMZObjqsifkojBrCRQMwFbefi
- UYnA==
-X-Gm-Message-State: AOAM533ePdB3oFFafUzi6j+XO6fxufIvo/2JiIIMdLcOmpUCkI8b8ejm
- To8ss0in7V/F7zGu+bSoYMQ/Rk4bzcw=
-X-Google-Smtp-Source: ABdhPJw0huxwnYe88p7DAO0YktKtVAQgL3f8LubgXwBbxjhR6Qg6CDsIc4JCcHMpzJPK3zm4fChW/A==
-X-Received: by 2002:a7b:cc8f:0:b0:389:844e:9e28 with SMTP id
- p15-20020a7bcc8f000000b00389844e9e28mr1933727wma.67.1646403803960; 
- Fri, 04 Mar 2022 06:23:23 -0800 (PST)
-Received: from localhost.localdomain (108.red-88-28-25.dynamicip.rima-tde.net.
- [88.28.25.108]) by smtp.gmail.com with ESMTPSA id
- i15-20020a05600c354f00b00381753c67a8sm5079021wmq.26.2022.03.04.06.23.22
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 04 Mar 2022 06:23:23 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/core/accel-cpu: Add missing 'qom/object.h' include
-Date: Fri,  4 Mar 2022 15:23:20 +0100
-Message-Id: <20220304142320.14281-1-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ bh=Yeugmeny9qhtt9DSuMJQhjxlvN9/PffYcS8pvXFRqrI=;
+ b=ckRA1cABJSyRCGi+YNZ0NucEY860M+w+fGUxLNKKw/3d7TamaEhyskPdLcWb+RXmFa
+ qD98e/+68lvbLqabpsX93CXrE2DqIU3j+sq6WsunOM4VzkUpGQLumZY5FrQtnItzr64T
+ SuJ31rAHkC8PvTF1rcEu5YzCQXxgXJSVKyJe7LpvbgDvrT/NkWbsF+D6PgzyZcouQEbn
+ y6/qiFX/9EuR96eai0TAwa2mGabmfg5LGZx+zOqM/Uy0NgzJf3x8OdHI79KzpkitDnyt
+ Wt89Gyy6VK6cN+2Q6RerFvJe7fRg9XRc0F8OKnXFdaRB6m2khX5WLR0l394sELdEuhuP
+ z2Fw==
+X-Gm-Message-State: AOAM531zoPzPGAUnrHxDzUMmQrL1xDemmgxKWEMHVR5xFOEFyQTTX31M
+ MwFLfcXC/Ic8g7TcYm7Va4c=
+X-Google-Smtp-Source: ABdhPJxEJ2G7wBZ7flgWp/7897MUyLuZ14jQZUbelM/NNgAAnpNgwUGfzpp7PSBfy3MuyiesRx8yJQ==
+X-Received: by 2002:a5d:6da1:0:b0:1e3:2bf5:13c with SMTP id
+ u1-20020a5d6da1000000b001e32bf5013cmr31816359wrs.316.1646405415548; 
+ Fri, 04 Mar 2022 06:50:15 -0800 (PST)
+Received: from [192.168.88.252] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ d3-20020a05600c34c300b003884e826642sm4826384wmq.12.2022.03.04.06.50.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Mar 2022 06:50:14 -0800 (PST)
+Message-ID: <d87b6338-d1ea-3e9b-ffc0-fc822d98d26f@gmail.com>
+Date: Fri, 4 Mar 2022 13:48:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH V7 08/29] memory: flat section iterator
+Content-Language: en-US
+To: Steve Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org
+References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-9-git-send-email-steven.sistare@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <1640199934-455149-9-git-send-email-steven.sistare@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -89,36 +94,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Zheng Chuan <zhengchuan@huawei.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 22/12/21 20:05, Steve Sistare wrote:
+> Add an iterator over the sections of a flattened address space.
+> 
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> ---
+>   include/exec/memory.h | 31 +++++++++++++++++++++++++++++++
+>   softmmu/memory.c      | 20 ++++++++++++++++++++
+>   2 files changed, 51 insertions(+)
+> 
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 137f5f3..9660475 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -2338,6 +2338,37 @@ void memory_region_set_ram_discard_manager(MemoryRegion *mr,
+>                                              RamDiscardManager *rdm);
+>   
+>   /**
+> + * memory_region_section_cb: callback for address_space_flat_for_each_section()
+> + *
+> + * @s: MemoryRegionSection of the range
 
-hw/core/accel-cpu.h requires "qom/object.h" for the ObjectClass
-structure and the DECLARE_CLASS_CHECKERS() macro definitions.
+Nitpicking, can we name this @mrs?
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/core/accel-cpu.h | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
-index 5dbfd79955..ab176b4e90 100644
---- a/include/hw/core/accel-cpu.h
-+++ b/include/hw/core/accel-cpu.h
-@@ -11,6 +11,8 @@
- #ifndef ACCEL_CPU_H
- #define ACCEL_CPU_H
- 
-+#include "qom/object.h"
-+
- /*
-  * This header is used to define new accelerator-specific target-specific
-  * accelerator cpu subclasses.
--- 
-2.34.1
-
+> + * @opaque: data pointer passed to address_space_flat_for_each_section()
+> + * @errp: error message, returned to the address_space_flat_for_each_section
+> + *        caller.
+> + *
+> + * Returns: non-zero to stop the iteration, and 0 to continue.  The same
+> + * non-zero value is returned to the address_space_flat_for_each_section caller.
+> + */
+> +
+> +typedef int (*memory_region_section_cb)(MemoryRegionSection *s,
+> +                                        void *opaque,
+> +                                        Error **errp);
 
