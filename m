@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74814CDD5A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:35:12 +0100 (CET)
-Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C64C4CDD5B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:35:18 +0100 (CET)
+Received: from localhost ([::1]:43766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQDho-0000G4-1l
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:35:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58214)
+	id 1nQDht-0000MF-89
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:35:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQDd8-0006yE-Jd; Fri, 04 Mar 2022 14:30:24 -0500
-Received: from [2a00:1450:4864:20::431] (port=37870
- helo=mail-wr1-x431.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQDd6-0003Hp-J0; Fri, 04 Mar 2022 14:30:21 -0500
-Received: by mail-wr1-x431.google.com with SMTP id bk29so14128527wrb.4;
- Fri, 04 Mar 2022 11:30:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=W+oZhgUZL0cPxyele5cDnlaZpAI/c+DlXzVgiRyaigA=;
- b=fkKsU4sOb2LHgb/FRlsskW+8btKz90Q+Sc8QSRuFfyQSIUj0EzhZ2CA7wNEQz2EqNh
- ogQeduf/4iRxUhHjfGOnOAdlIHh+1xuluXrrrka9Oc17luPok+4X7AiUYtHhW5XzTKLS
- MWsOmeUIxp0uZqAYW4kB34jaeMWiS62Nsqy+Gc7jJgmhftPi00k+KN8Zkf1ufC9kGyNb
- 9/N5OZ8/XlFLWpvcoRVq4My5YNISTPnenX2RoOMABsBjQEDKqa3Sp9wWCYO/tSOQRC86
- iKx3twboK7hXeBDole/AUfKkJaoMtqpFU7hewhrAOivCaBiUnUePPkVvwaoPWNfpG34R
- qwoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=W+oZhgUZL0cPxyele5cDnlaZpAI/c+DlXzVgiRyaigA=;
- b=O+Jh+mpVu2+AFUUXFmA7LYfoVngSz1RfgrKTXo6E3m4CpPhzrrix+0CCNYAxW+rwBc
- hRr/2d9XpdUcikaRgl/kRLsrM5/O5wqkQsSEi6SxIYTzi9osTqups2Vnjh1iVI3GPIcg
- VRzKufXyNtMM/fXVZawXATjqhh9luO3YYclablNDR47mDawpfMzT8fU+Uj+KekWdA/X4
- PbjlDT1otQF3OKuuKIFk0zDbtS2N2/K1BQJLTrktV1uTH6HwXaomzKb/3fkEaFSyEhmZ
- NSfxXQNxDevXojgQldCxP75LHA0MXneFP1ZVhGuw6U1D/fMKaDFmx9SMcu/vPjMiS3NT
- XkzA==
-X-Gm-Message-State: AOAM532k4j+ErBlJXzw1N7iWNNaFCGuuj5ge4gUJTVKO5/ZSd15Mpw4g
- 3hcWHfUpsNJ8cjho4dnJcyo=
-X-Google-Smtp-Source: ABdhPJya4SDbLMBzD9N5eaZ6Mkk7i942dytUYYJg3jyiTU06UQO9rESFjxggMN2Le/LCBkb60bUg8A==
-X-Received: by 2002:adf:ed0c:0:b0:1f0:4a32:4d0d with SMTP id
- a12-20020adfed0c000000b001f04a324d0dmr211046wro.136.1646422218836; 
- Fri, 04 Mar 2022 11:30:18 -0800 (PST)
-Received: from [192.168.54.175] (108.red-88-28-25.dynamicip.rima-tde.net.
- [88.28.25.108]) by smtp.gmail.com with ESMTPSA id
- m11-20020adff38b000000b001ef879a5930sm5105188wro.61.2022.03.04.11.30.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 11:30:18 -0800 (PST)
-Message-ID: <9b9b0251-2698-61b9-b4b1-5e5e54fea5a1@gmail.com>
-Date: Fri, 4 Mar 2022 20:30:16 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQDdZ-00071R-4X
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:30:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35033)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQDdX-0003LD-8z
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:30:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646422246;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9k3YzQFqwkhw21ATf3evq5njiPfutGwb6gKvGyePejY=;
+ b=dmi59SWUvGs2S0iHQSyVuxg9WPjAxnLyCu0U1KMFsRn5v5tyidFsIl2AFJkh1lfgv+jlVl
+ ynZAQ8F7lyUKmG/wRxse+YhRvzFgSL88vOKuiWPqaV7pOXnoHxXtnuZ+4uuel8uzH7p4zR
+ Gb95qLgEWdgYj7geT+vlMSeKvLO8/4E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-595-M4U5HOT4MqCP_bJYchbRCg-1; Fri, 04 Mar 2022 14:30:40 -0500
+X-MC-Unique: M4U5HOT4MqCP_bJYchbRCg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00FAB8070F0;
+ Fri,  4 Mar 2022 19:30:39 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E49E360C66;
+ Fri,  4 Mar 2022 19:30:37 +0000 (UTC)
+Date: Fri, 4 Mar 2022 19:30:34 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/11] QEMU changes for 2021-03-02
+Message-ID: <YiJo2hX3aICBKmZv@redhat.com>
+References: <20220302181134.285107-1-pbonzini@redhat.com>
+ <CAFEAcA8=8tiqmFTFPaNXcqjXy6Rb5xR59Q2VYUXOTbN91rbYuA@mail.gmail.com>
+ <088024f5-7066-e6ec-953e-f55d7ff83b96@redhat.com>
+ <CAFEAcA--dtmffH4FJUuuE1d6yR-4Mweu481p_y-EsJKEtPRjTw@mail.gmail.com>
+ <YiJlSlJube4dOk/m@redhat.com>
+ <CAFEAcA9z7bMdRmi8LRuywf8rArAubSk24imPoUgXhz1=roSZWg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH] hw/block: m25p80: Add support for w25q01jvq
-Content-Language: en-US
-To: Patrick Williams <patrick@stwcx.xyz>
-References: <20220304180920.1780992-1-patrick@stwcx.xyz>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220304180920.1780992-1-patrick@stwcx.xyz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <CAFEAcA9z7bMdRmi8LRuywf8rArAubSk24imPoUgXhz1=roSZWg@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,38 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Potin Lai <potin.lai@quantatw.com>, Alistair Francis <alistair@alistair23.me>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Michael Walle <michael@walle.cc>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/3/22 19:09, Patrick Williams wrote:
-> The w25q01jvq is a 128MB part.  Support is being added to the kernel[1]
-> and the two have been tested together.
+On Fri, Mar 04, 2022 at 07:22:16PM +0000, Peter Maydell wrote:
+> On Fri, 4 Mar 2022 at 19:15, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > On Fri, Mar 04, 2022 at 06:46:51PM +0000, Peter Maydell wrote:
+> > > Either of these is fine; my requirement is only that either:
+> > >  (1) the oss-fuzz gitlab CI job needs to in practice actually
+> > > pass at least most of the time
+> > >  (2) we need to switch it to ok-to-fail or disable it
+> > >
+> > > so I don't have CI failing for every merge I make.
+> >
+> > This is far from the first time that oss-fuzz has caused us pain. It
+> > feels like it has been flaky  for prolonged periods of time, for as
+> > long as it has existed.
+> >
+> > When I tried to switch CI to use Fedora 35 oss-fuzz was consistently
+> > failing for months for no obvious reason that I could determine
+> > despite days of debugging. Then one day I woke up and it magically
+> > started working again, for no obvious reason. Inexplicable.
+> >
+> > Conceptually we benefit from fuzzing to find obscure bugs.
+> > Have we actually found any real bugs from the oss-fuzz CI
+> > job we have though ?
 > 
-> 1. https://lore.kernel.org/lkml/20220222092222.23108-1-potin.lai@quantatw.com/
-> 
-> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-> Cc: Potin Lai <potin.lai@quantatw.com>
-> ---
->   hw/block/m25p80.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index c6bf3c6bfa..7d3d8b12e0 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -340,6 +340,7 @@ static const FlashPartInfo known_devices[] = {
->       { INFO("w25q80bl",    0xef4014,      0,  64 << 10,  16, ER_4K) },
->       { INFO("w25q256",     0xef4019,      0,  64 << 10, 512, ER_4K) },
->       { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K) },
-> +    { INFO("w25q01jvq",   0xef4021,      0,  64 << 10, 2048, ER_4K) },
->   };
->   
->   typedef enum {
+> It did find a buffer-overrun bug in the 9p pullreq less than
+> a month ago:
+> https://lore.kernel.org/qemu-devel/CAFEAcA-VRNzxOwMX4nPPm0vQba1ufL5yVwW5P1j9S2u7_fbW-w@mail.gmail.com/
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Interesting. I wonder whether that detection is specifically related
+to the fuzzing, or whether it is something we would have seen merely
+by building with 'asan' and running 'make check' as normal.
+
+IIUC, the oss-fuzz job we run in GitLab CI is mostly just a sanity
+check and the real fuzzing work takes place in Google's fuzz service.
+
+> But overall I'm sympathetic to the idea that as it stands it's
+> costing us more than it's helping.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
