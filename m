@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444664CDCF6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:51:10 +0100 (CET)
-Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6BA4CDD0B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:57:14 +0100 (CET)
+Received: from localhost ([::1]:54516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQD1B-0005Xy-CH
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:51:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48746)
+	id 1nQD73-00084q-CT
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:57:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQCst-0002cA-JV
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:42:37 -0500
-Received: from [2607:f8b0:4864:20::1132] (port=41967
- helo=mail-yw1-x1132.google.com)
+ id 1nQCxG-0005Fh-Fk
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:47:07 -0500
+Received: from [2607:f8b0:4864:20::b34] (port=39689
+ helo=mail-yb1-xb34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQCsp-0000Lz-JK
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:42:34 -0500
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-2dc242a79beso90997987b3.8
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 10:42:30 -0800 (PST)
+ id 1nQCxE-00012y-7U
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:47:06 -0500
+Received: by mail-yb1-xb34.google.com with SMTP id x200so18630495ybe.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 10:47:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+CEuCfvpIBorQMTsDz3wbcVHQolsYMEj2ixXxWFkAFc=;
- b=bM7D5wh5WybhV2x0J31rzpWZ8LbDsrieTud/mf3toY4nPJTa5KVX0t72kCrxcU1T4P
- BjXEjy7NGHNlPqbUPhrQ/Xdz1R57FhMB+VNMSBYPvOdxGOOqsslEPwJUOyOyTuXIDriJ
- biZS7OMsOc19JdFfGY4rJW+2s3DrChBRX2zDqMHdnaRIHVJy61R/XFgQzZvFAyKGorfA
- L/JqWqierQkKtp0x7F6sH9M3xJvRtlfhuBhEM4IIaB1+iNXvSsdSaUtvD6VR1cQ73yKK
- 2WQZbhyz2JXUd8U/7q6uKv5OD6uCZbbaW1nxvoJisvhLgRe4fQxCwcb7+hKZ+FZiEmFN
- MF/A==
+ :cc; bh=CyK71/U2CuHBZlHXpaQFAIJqawy12G3ZhOMbKyCzQ58=;
+ b=d0G94R4VnKNc64NMzhdvUKxVkTDOIy5TOjiRVQwgoROng3RmmjjvPgXHbDNrqZYEy5
+ xwn0yso2WVf9XZONXSlrDoj+7IB0jDv3LAOIAbIPqSK/c3nd6KAHMfE8WfD4dKdpG34+
+ ZI2qJnktwMulDBCmu1pBTeMu0yM93x6VOxKXYS+PgoyD2SoKuWxrLGxPHHqIZpStOJfS
+ I/HLvwSGsS7mjyZJucyYFZMVW0geXeY56tKSrZrmnU6NUpITeND7H5/LfsDL+FnOLzVA
+ J7Tf+lPyj9otPesrJbgNBzJNQsUDRFztgfxPBqVySx6OQXjG+qd+S+GYkIy+1oIpN39o
+ njmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+CEuCfvpIBorQMTsDz3wbcVHQolsYMEj2ixXxWFkAFc=;
- b=xkULUBJui1cZbntU/QvZQga2UyBTFAMmoaVo5LVzkuVYxyH/tHzzbACt5YfzYUw41+
- oJg+7Xiep9A0pRLHjuY4J+wvd5Z8I7ernIixueGUzSOsq49McT64zCFS4pxEvYc9ji9T
- hQCyyIStfu8Bv97639Rlcg0o8b2enDKrEr3Xn3Br0B0rLKInpZajUSL0PV4nZT+4rmag
- t+Rs/5llEOm5+QxneIa3hrxYUIJ4/WONi9gUkphiOYOiAKnQc8HP8RIpMZUNLCrrHJB1
- EU4hcGiWY8+kJUSe9unn6DyZL06rMqb5TVLIOV4E0J3aWM4gwrAZ0xyHVH/mN1UTEK0v
- /ybQ==
-X-Gm-Message-State: AOAM531ABU1uSp3edu0OS5N8+TCR/XDihmwHNAuqEsQQh5Tc3e2avyj+
- A1w8avR5BlffBQ/bhthn8ZK82by038w0ZPR/DIiX1tI2wt/ei7e+
-X-Google-Smtp-Source: ABdhPJzLRpFKGLpo1N/QS5SI3HQl/Hjb2lCE2CIo4G1GQZ5c2dkI+9cmLSwJhIlf9hhrj7pQ3xTUzGAc06ylzksOF7Q=
-X-Received: by 2002:a0d:e2c9:0:b0:2dc:1f22:e349 with SMTP id
- l192-20020a0de2c9000000b002dc1f22e349mr12912937ywe.10.1646419349307; Fri, 04
- Mar 2022 10:42:29 -0800 (PST)
+ bh=CyK71/U2CuHBZlHXpaQFAIJqawy12G3ZhOMbKyCzQ58=;
+ b=3jqI8QbJQ26nooqtQQBX4aT20hYIesdwwpy2b3zBLfb1RaFnOh9dNqijL7f2dJTUuO
+ riullo2wXZdYnQiYwyg1m1HgYm7pFDLo0pE2j13ZgnL2/pV9nI6U4Fp0/6OOjZccFHI7
+ uC5cboRiAbG34lW2fkk4ZKyZiytDW6v1OOKYybOBPNB1SFx82bmlrpCBQWljRpb/mEvO
+ /pUWHX3XgcDsGXrSXgLDDyuz3TB/HUaLXzsubyhfskEkt6RHjxKMMzT4jeLt7pdFUmBk
+ lCqi1LEmM5hEHYlAqSAH85pGVGhr6rWhAlBDtsXur2fZ5I9M0bC747Yyy1p0VQ7G+3d0
+ JkqA==
+X-Gm-Message-State: AOAM532J2Aj8KTbpliJwjHfURO+rj7KAO/b7Wa1uTyaaVkzh57lyXoTT
+ AEiP7NIkIER7nnfy4+ti7Nh9TNOC7THPWViazKwmid/L2KjuVA==
+X-Google-Smtp-Source: ABdhPJzc+fiXiT7pj5yR4s6F2hQSNvYkKqyiRPaZ+M4KB48/LydXV9SO/GuAYIlLdKuZKlAb1tXBaDjEfBMvq8B8bxY=
+X-Received: by 2002:a25:32c6:0:b0:629:130:a037 with SMTP id
+ y189-20020a2532c6000000b006290130a037mr1845429yby.193.1646419623138; Fri, 04
+ Mar 2022 10:47:03 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1646396869.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1646396869.git.qemu_oss@crudebyte.com>
+References: <20220302181134.285107-1-pbonzini@redhat.com>
+ <CAFEAcA8=8tiqmFTFPaNXcqjXy6Rb5xR59Q2VYUXOTbN91rbYuA@mail.gmail.com>
+ <088024f5-7066-e6ec-953e-f55d7ff83b96@redhat.com>
+In-Reply-To: <088024f5-7066-e6ec-953e-f55d7ff83b96@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Mar 2022 18:42:18 +0000
-Message-ID: <CAFEAcA8EN8sSSYYMh=u68-a7qXGaG-oSnAz2hT8kXXGtnDLnww@mail.gmail.com>
-Subject: Re: [PULL 00/19] 9p queue 2022-03-04
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Fri, 4 Mar 2022 18:46:51 +0000
+Message-ID: <CAFEAcA--dtmffH4FJUuuE1d6yR-4Mweu481p_y-EsJKEtPRjTw@mail.gmail.com>
+Subject: Re: [PULL 00/11] QEMU changes for 2021-03-02
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1132
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -82,45 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Mar 2022 at 12:32, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
+On Fri, 4 Mar 2022 at 17:41, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> The test seems to be flaky, I've been fighting with it all week---trying
+> multiple versions of this pull request and removing patches until
+> build-oss-fuzz passed.  The set of patches that triggered it or not was
+> completely random, but I'll not that it did pass with this exact commit
+> I'm submitting (https://gitlab.com/bonzini/qemu/-/jobs/2154365356).
 >
-> The following changes since commit 5959ef7d431ffd02db112209cf55e47b677256fd:
+> I wanted to look at this today again before replying to you, but as you
+> know I was sidetracked by work on the qemu.org infrastructure.  So, I
+> can look at this but I really need to ask you one of two favors:
 >
->   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20220303' into staging (2022-03-03 19:59:38 +0000)
+> 1) decide that the test is flaky and merge this pull request, and then
+> I'll send before Monday the changes that I've omitted here (which again
+> have nothing to do with qos-test).  I'll look at qos-test during soft
+> freeze.
 >
-> are available in the Git repository at:
->
->   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220304
->
-> for you to fetch changes up to 39edfe337c418995b2932a9a14a612fb0c329dc5:
->
->   fsdev/p9array.h: convert Doxygen -> kerneldoc format (2022-03-04 13:07:39 +0100)
->
-> ----------------------------------------------------------------
-> 9pfs: introduce macOS host support and cleanup
->
-> * Add support for Darwin (a.k.a. macOS) hosts.
->
-> * Code cleanup (move qemu_dirent_dup() from osdep -> 9p-util).
->
-> * API doc cleanup (convert Doxygen -> kerneldoc format).
+> 2) accept that I'll send another x86 pull request (not a large one)
+> after soft freeze, so that I have more time to debug this (likely
+> unrelated) build-oss-fuzz issue.
 
+Either of these is fine; my requirement is only that either:
+ (1) the oss-fuzz gitlab CI job needs to in practice actually
+pass at least most of the time
+ (2) we need to switch it to ok-to-fail or disable it
 
-This fails to build on my OSX box:
+so I don't have CI failing for every merge I make.
 
-In file included from ../../hw/9pfs/9p-util-darwin.c:12:
-../../hw/9pfs/9p-util.h:57:1: error: unused label 'again'
-[-Werror,-Wunused-label]
-again:
-^~~~~~
-
-because the use of the label is inside a #ifndef CONFIG_DARWIN
-but the definition is not.
+We seem to have several intermittents right now (including one
+which makes oss-fuzz hang, I think) which I'll try to find time
+to investigate soon. Plus the CI infra in general is flaky:
+some of the intermittents are clearly gitlab issues (like failing
+to manage to git clone things).
 
 thanks
 -- PMM
