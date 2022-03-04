@@ -2,111 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818CE4CD316
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 12:10:15 +0100 (CET)
-Received: from localhost ([::1]:51948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FC24CD38F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 12:35:51 +0100 (CET)
+Received: from localhost ([::1]:48816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ5p8-0000wc-Jr
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 06:10:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51434)
+	id 1nQ6Du-0002J4-J0
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 06:35:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nQ5ni-00086H-JE
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:08:47 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4258)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nQ5ng-0006Br-E6
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:08:46 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 224AIjkX030759; 
- Fri, 4 Mar 2022 11:08:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=z+Ve2ct7VwuVDQC4v7eauD5aRkNpjN7NkfPxcq6lQt8=;
- b=ArZGlj6gi0I+Zhd1KF7tIlqty9penEYnIjGOnCj5MkXgRRfmxiEbnrQxT19UePBkamgd
- 4MYGIPVPNaTt9GOKCGcuZ1mO7ZqBYiXCxCX4OBMFjtmzhOXt2Jmg+h/3E+2tICkSQb1E
- xnD57XUQWBFOLPi0MEIqmZ+FkX4K7NgQzJxm3v+bzcEbkQya0KTGBbE3U6kGwVOSMupY
- A4Ng8D84XY1jUZt4pNDvtyR1BPqywyerIZkZVpPkWYoRvFsruLoYfFfoXfax8Q7MRMgD
- 7bsinfKR8AsEsgpeJXQoh3bbAH5uPTbC5YNTzajnwL6F69jhN7dKfaYZvOAuFmX2NIMs 2g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ekgwgrvgg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Mar 2022 11:08:39 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 224B8cnN020778;
- Fri, 4 Mar 2022 11:08:38 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ekgwgrvg0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Mar 2022 11:08:38 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 224B797b017267;
- Fri, 4 Mar 2022 11:08:36 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma04fra.de.ibm.com with ESMTP id 3ek4k5hafv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Mar 2022 11:08:36 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 224B8YLo52166912
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Mar 2022 11:08:34 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EEC6BA405F;
- Fri,  4 Mar 2022 11:08:33 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7873EA4065;
- Fri,  4 Mar 2022 11:08:33 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.94.215])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri,  4 Mar 2022 11:08:33 +0000 (GMT)
-Date: Fri, 4 Mar 2022 12:08:09 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 1/1] virtio: fix feature negotiation for ACCESS_PLATFORM
-Message-ID: <20220304120809.062a741b.pasic@linux.ibm.com>
-In-Reply-To: <20220304031142-mutt-send-email-mst@kernel.org>
-References: <20220209124534.1206993-1-pasic@linux.ibm.com>
- <87leykt0k7.fsf@redhat.com>
- <20220209212750.25ddcebe.pasic@linux.ibm.com>
- <87fsort5a6.fsf@redhat.com>
- <20220210113258.1e90af05.pasic@linux.ibm.com>
- <877da3t1du.fsf@redhat.com>
- <20220210142929.668a1f3d.pasic@linux.ibm.com>
- <20220304031142-mutt-send-email-mst@kernel.org>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1nQ64s-0001IX-3S; Fri, 04 Mar 2022 06:26:30 -0500
+Received: from [187.72.171.209] (port=41765 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1nQ64o-0007wU-30; Fri, 04 Mar 2022 06:26:29 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 4 Mar 2022 08:09:05 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 6A7208001C2;
+ Fri,  4 Mar 2022 08:09:04 -0300 (-03)
+Content-Type: multipart/alternative;
+ boundary="------------QtOzlmTZ7aDzC0na9vzj7m3m"
+Message-ID: <a3917a31-b899-a289-5102-5b8be20aae27@eldorado.org.br>
+Date: Fri, 4 Mar 2022 08:08:59 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: jbqs2ag0ouWHyTRCYBpCJ6BR0qeyIEG5
-X-Proofpoint-ORIG-GUID: fSIbJVRUkheNGaC2TxhcPjjXuvYe_aHV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-04_02,2022-03-04_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- mlxscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
- mlxlogscore=999 bulkscore=0 spamscore=0 priorityscore=1501 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203040059
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+Subject: Re: Issue with qemu-system-ppc running OSX guests
+To: qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Fabiano Rosas <farosas@linux.ibm.com>
+References: <CABLmASFbowE4Cu8gHk9eD+_h8ZrdupE8MHKAfpW+T8Oe=-3=Wg@mail.gmail.com>
+ <e2dd457d-29b3-32be-72e2-315e686dff69@eik.bme.hu>
+ <CABLmASH5tFs86Dq+1e+ByMF43jZL5UZ7MempVVhtKCwjdpa7aw@mail.gmail.com>
+ <87pmn352q0.fsf@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <87pmn352q0.fsf@linux.ibm.com>
+X-OriginalArrivalTime: 04 Mar 2022 11:09:05.0064 (UTC)
+ FILETIME=[42EB6280:01D82FB8]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,63 +64,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Jason Wang <jasowang@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>
+Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Mar 2022 03:12:03 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+This is a multi-part message in MIME format.
+--------------QtOzlmTZ7aDzC0na9vzj7m3m
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> On Thu, Feb 10, 2022 at 02:29:29PM +0100, Halil Pasic wrote:
-> > On Thu, 10 Feb 2022 12:19:25 +0100
-> > Cornelia Huck <cohuck@redhat.com> wrote:
-> > 
-> > [..]  
-> > > 
-> > > Nope, that's not my problem. We make sure that the bit is persistent, we
-> > > fail realization if the bit got removed by the callback when required,
-> > > and we fail feature validation if the driver removes the bit, which is
-> > > in a different code path. We should not talk about FEATURES_OK in this
-> > > code.  
-> > 
-> > I agree. I changed my mind. Expanation follows...
-> >   
-> > > 
-> > > We force-add the bit, and then still might fail realization. The
-> > > important condition is the has_iommu one, not the checks later on. I
-> > > find it very confusing to talk about what a potential driver might do in
-> > > that context.
-> > >   
-> > 
-> > I assumed stuff like virtiofs+SE regressed with commit 04ceb61a40
-> > ("virtio: Fail if iommu_platform is requested, but unsupported") but I
-> > think, I was wrong. It didn't work before that, because we did not
-> > present ACCESS_PLATFORM to the guest. I operated under the assumption
-> > that virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM)
-> > does not impact the set of features offered to the driver by the device,
-> > but it does.
-> > 
-> > So we need both this patch and "[PATCH v5 1/1] virtio: fix the condition
-> > for iommu_platform not supported" to get virtiofs to work with SE/SEV/Secure VM.
-> > 
-> > I have to admit I only tested for the error message, and not with a full
-> > SE setup.
-> > 
-> > I agree my comment was inadequate. Can we use
-> > 
-> > /* make sure that the device did not drop a required IOMMU_PLATFORM */
-> > 
-> > I will think some more though. This is again about the dual nature
-> > of ACCESS_PLATFORM...  
-> 
-> Were you going to post a new version of this patch?
-> 
 
-Sorry I got sidetracked. I will spin a new version today!
+On 02/03/2022 20:55, Fabiano Rosas wrote:
+> Howard Spoelstra<hsp.cat7@gmail.com>  writes:
+>
+>> On Wed, Mar 2, 2022 at 9:11 PM BALATON Zoltan<balaton@eik.bme.hu>  wrote:
+>>
+>>> On Wed, 2 Mar 2022, Howard Spoelstra wrote:
+>>>> Hi all,
+>>>>
+>>>> I noticed qemu-system-ppc running OSX guests does not get to the desktop
+>>> or
+>>>> does not display the menu bars.
+>>> Cc-ing the relevant people and the PPC list might help, I've added them.
+>>> Also telling which OSX guest version can reproduce the problem could help
+>>> debugging. Is it any OSX version?
+>>>
+>>> Regards,
+>>> BALATON Zoltan
+>>>
+>> Oops, Qemu running on Fedora 35 host,
+>> Reproducer:
+>>
+>> ./qemu-system-ppc \
+>> -M mac99 \
+>> -m 512 \
+>> -L pc-bios \
+>> -display sdl -serial stdio \
+>> -boot c \
+>> -drive file=10.1.img,format=raw,media=disk
+>>
+>> The issue affects all supported Mac OSX guests: 10.0 to 10.5
+> Hi Howard,
+>
+> Thanks for bisecting this. It seems we inadvertently marked some of the
+> Vector Multiply instructions to be ISA v2.07 only.
+>
+> I can boot Mac OSX 10.4 until the desktop with this fix:
+>
+> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+> index f91bee839d..c5d02d13fe 100644
+> --- a/target/ppc/translate/vmx-impl.c.inc
+> +++ b/target/ppc/translate/vmx-impl.c.inc
+> @@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext *ctx, arg_VX *a)
+>       return true;
+>   }
+>
+> -TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
+> -TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
+> -TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
+> -TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
+> -TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
+> -TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
+> -TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
+> -TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
+> +TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper, gen_helper_VMULESB)
+> +TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
+> +TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
+> +TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
+> +TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper, gen_helper_VMULESH)
+> +TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
+> +TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
+> +TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
+>   TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
+>   TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
+>   TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
+> ---
+>
+> I'll let Lucas comment on it and we can send a proper patch in the
+> morning.
+
+Checking here it seems I misread the PowerISA appendix and marked these 
+instructions (vmul[eo].[bh]) as v2.07 even though they are v2.03.
+
+This patch seems to correct it and checking here the newer instructions 
+are correct (v2.07 for vmul[eo].w and v3.1 for vmul[eo].d), so
+
+Reviewed-by: Lucas Mateus Castro<lucas.araujo@eldorado.org.br>
+
+-- 
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+--------------QtOzlmTZ7aDzC0na9vzj7m3m
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 02/03/2022 20:55, Fabiano Rosas
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:87pmn352q0.fsf@linux.ibm.com">
+      <pre class="moz-quote-pre" wrap="">Howard Spoelstra <a class="moz-txt-link-rfc2396E" href="mailto:hsp.cat7@gmail.com">&lt;hsp.cat7@gmail.com&gt;</a> writes:
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">On Wed, Mar 2, 2022 at 9:11 PM BALATON Zoltan <a class="moz-txt-link-rfc2396E" href="mailto:balaton@eik.bme.hu">&lt;balaton@eik.bme.hu&gt;</a> wrote:
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">On Wed, 2 Mar 2022, Howard Spoelstra wrote:
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">Hi all,
+
+I noticed qemu-system-ppc running OSX guests does not get to the desktop
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">or
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">does not display the menu bars.
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">Cc-ing the relevant people and the PPC list might help, I've added them.
+Also telling which OSX guest version can reproduce the problem could help
+debugging. Is it any OSX version?
 
 Regards,
-Halil
+BALATON Zoltan
+
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">Oops, Qemu running on Fedora 35 host,
+Reproducer:
+
+./qemu-system-ppc \
+-M mac99 \
+-m 512 \
+-L pc-bios \
+-display sdl -serial stdio \
+-boot c \
+-drive file=10.1.img,format=raw,media=disk
+
+The issue affects all supported Mac OSX guests: 10.0 to 10.5
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">Hi Howard,
+
+Thanks for bisecting this. It seems we inadvertently marked some of the
+Vector Multiply instructions to be ISA v2.07 only.
+
+I can boot Mac OSX 10.4 until the desktop with this fix:
+
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index f91bee839d..c5d02d13fe 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext *ctx, arg_VX *a)
+     return true;
+ }
+
+-TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
+-TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
+-TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
+-TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
+-TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
+-TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
+-TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
+-TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
++TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper, gen_helper_VMULESB)
++TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
++TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
++TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
++TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper, gen_helper_VMULESH)
++TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
++TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
++TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
+ TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
+ TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
+ TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
+---
+
+I'll let Lucas comment on it and we can send a proper patch in the
+morning.
+</pre>
+    </blockquote>
+    <p>Checking here it seems I misread the PowerISA appendix and marked
+      these instructions (vmul[eo].[bh]) as v2.07 even though they are
+      v2.03.</p>
+    <p>This patch seems to correct it and checking here the newer
+      instructions are correct (v2.07 for vmul[eo].w and v3.1 for
+      vmul[eo].d), so<br>
+    </p>
+    <pre class="moz-quote-pre" wrap="">Reviewed-by: Lucas Mateus Castro <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
+</pre>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------QtOzlmTZ7aDzC0na9vzj7m3m--
 
