@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DFC4CDD61
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:40:27 +0100 (CET)
-Received: from localhost ([::1]:51970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA744CDD63
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:42:23 +0100 (CET)
+Received: from localhost ([::1]:55062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQDms-0006lZ-BR
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:40:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59412)
+	id 1nQDok-0000Q2-Ec
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:42:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQDjD-0002qm-FS
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:36:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52081)
+ id 1nQDjE-0002rj-PV
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:36:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQDjB-0004JM-5d
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:36:39 -0500
+ id 1nQDjB-0004JR-NJ
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:36:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1646422595;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SjzMWKvkstPJ2CUK+5o5zVRJIR46gKG045r/c21Hmhk=;
- b=LjFMUfBRzUlDdZlEqW8ofJ7dltY9d282qkgDpV3Vr0qJQg6ysyY7zpfgIp9/DBTyX5R9EW
- 3Gc8+CA0Gi9emHhl9CT6xNWI5ZkNQsmPAN8/YFNU+33fjuKKCKuw8j6QyShfTorKYDc6RQ
- /A6TgV8WBkXAqSLztAjeALxHwchXQbs=
+ bh=MO9a4aZGHXzkmRH9duP8qY4x6mSZho0PFRek2KjNQjU=;
+ b=azlUeKGLLOZi5fzieKLTduIWFW1FO4clGft5gMQB7Ivt38LRMSFKsDJhyIVORJ42C/bx3w
+ v5vq1HBKPRfNMMEVCOcrVgvfcD78pjhoIk3lGmo/clDYbTIOM0gKH6SeLzk0+AuRghOBmn
+ QFYpqMIgw2k2Z0agfniV8+L0NHsWfFc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-4nFKdfDzOV653TcS2pduAw-1; Fri, 04 Mar 2022 14:36:31 -0500
-X-MC-Unique: 4nFKdfDzOV653TcS2pduAw-1
+ us-mta-245-xLG1_yOBMKK9y3CtHJszcg-1; Fri, 04 Mar 2022 14:36:34 -0500
+X-MC-Unique: xLG1_yOBMKK9y3CtHJszcg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D29F180A08B;
- Fri,  4 Mar 2022 19:36:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B651251DF;
+ Fri,  4 Mar 2022 19:36:33 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.194.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A99BF5DF21;
- Fri,  4 Mar 2022 19:36:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A9E865DF21;
+ Fri,  4 Mar 2022 19:36:30 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/12] block: pass desired TLS hostname through from block
- driver client
-Date: Fri,  4 Mar 2022 19:36:00 +0000
-Message-Id: <20220304193610.3293146-3-berrange@redhat.com>
+Subject: [PATCH v2 03/12] block/nbd: support override of hostname for TLS
+ certificate validation
+Date: Fri,  4 Mar 2022 19:36:01 +0000
+Message-Id: <20220304193610.3293146-4-berrange@redhat.com>
 In-Reply-To: <20220304193610.3293146-1-berrange@redhat.com>
 References: <20220304193610.3293146-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,143 +89,103 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In
+When connecting to an NBD server with TLS and x509 credentials,
+the client must validate the hostname it uses for the connection,
+against that published in the server's certificate. If the client
+is tunnelling its connection over some other channel, however, the
+hostname it uses may not match the info reported in the server's
+certificate. In such a case, the user needs to explicitly set an
+override for the hostname to use for certificate validation.
 
-  commit a71d597b989fd701b923f09b3c20ac4fcaa55e81
-  Author: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-  Date:   Thu Jun 10 13:08:00 2021 +0300
-
-    block/nbd: reuse nbd_co_do_establish_connection() in nbd_open()
-
-the use of the 'hostname' field from the BDRVNBDState struct was
-lost, and 'nbd_connect' just hardcoded it to match the IP socket
-address. This was a harmless bug at the time since we block use
-with anything other than IP sockets.
-
-Shortly though, we want to allow the caller to override the hostname
-used in the TLS certificate checks. This is to allow for TLS
-when doing port forwarding or tunneling. Thus we need to reinstate
-the passing along of the 'hostname'.
+This is achieved by adding a 'tls-hostname' property to the NBD
+block driver.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- block/nbd.c             |  7 ++++---
- include/block/nbd.h     |  3 ++-
- nbd/client-connection.c | 12 +++++++++---
- 3 files changed, 15 insertions(+), 7 deletions(-)
+ block/nbd.c          | 18 +++++++++++++++---
+ qapi/block-core.json |  3 +++
+ 2 files changed, 18 insertions(+), 3 deletions(-)
 
 diff --git a/block/nbd.c b/block/nbd.c
-index 5853d85d60..dd43929207 100644
+index dd43929207..113aa5d3af 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -92,7 +92,7 @@ typedef struct BDRVNBDState {
+@@ -90,9 +90,10 @@ typedef struct BDRVNBDState {
+     uint32_t reconnect_delay;
+     uint32_t open_timeout;
      SocketAddress *saddr;
-     char *export, *tlscredsid;
+-    char *export, *tlscredsid;
++    char *export;
++    char *tlscredsid;
      QCryptoTLSCreds *tlscreds;
--    const char *hostname;
-+    const char *tlshostname;
+-    const char *tlshostname;
++    char *tlshostname;
      char *x_dirty_bitmap;
      bool alloc_depth;
  
-@@ -1835,7 +1835,7 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
+@@ -121,6 +122,8 @@ static void nbd_clear_bdrvstate(BlockDriverState *bs)
+     s->export = NULL;
+     g_free(s->tlscredsid);
+     s->tlscredsid = NULL;
++    g_free(s->tlshostname);
++    s->tlshostname = NULL;
+     g_free(s->x_dirty_bitmap);
+     s->x_dirty_bitmap = NULL;
+ }
+@@ -1764,6 +1767,11 @@ static QemuOptsList nbd_runtime_opts = {
+             .type = QEMU_OPT_STRING,
+             .help = "ID of the TLS credentials to use",
+         },
++        {
++            .name = "tls-hostname",
++            .type = QEMU_OPT_STRING,
++            .help = "Override hostname for validating TLS x509 certificate",
++        },
+         {
+             .name = "x-dirty-bitmap",
+             .type = QEMU_OPT_STRING,
+@@ -1835,7 +1843,10 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
              error_setg(errp, "TLS only supported over IP sockets");
              goto error;
          }
--        s->hostname = s->saddr->u.inet.host;
-+        s->tlshostname = s->saddr->u.inet.host;
+-        s->tlshostname = s->saddr->u.inet.host;
++        s->tlshostname = g_strdup(qemu_opt_get(opts, "tls-hostname"));
++        if (!s->tlshostname) {
++            s->tlshostname = g_strdup(s->saddr->u.inet.host);
++        }
      }
  
      s->x_dirty_bitmap = g_strdup(qemu_opt_get(opts, "x-dirty-bitmap"));
-@@ -1875,7 +1875,8 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
-     }
+@@ -2037,6 +2048,7 @@ static const char *const nbd_strong_runtime_opts[] = {
+     "port",
+     "export",
+     "tls-creds",
++    "tls-hostname",
+     "server.",
  
-     s->conn = nbd_client_connection_new(s->saddr, true, s->export,
--                                        s->x_dirty_bitmap, s->tlscreds);
-+                                        s->x_dirty_bitmap, s->tlscreds,
-+                                        s->tlshostname);
- 
-     if (s->open_timeout) {
-         nbd_client_connection_enable_retry(s->conn);
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 78d101b774..a98eb665da 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -415,7 +415,8 @@ NBDClientConnection *nbd_client_connection_new(const SocketAddress *saddr,
-                                                bool do_negotiation,
-                                                const char *export_name,
-                                                const char *x_dirty_bitmap,
--                                               QCryptoTLSCreds *tlscreds);
-+                                               QCryptoTLSCreds *tlscreds,
-+                                               const char *tlshostname);
- void nbd_client_connection_release(NBDClientConnection *conn);
- 
- QIOChannel *coroutine_fn
-diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-index 2bda42641d..2a632931c3 100644
---- a/nbd/client-connection.c
-+++ b/nbd/client-connection.c
-@@ -33,6 +33,7 @@ struct NBDClientConnection {
-     /* Initialization constants, never change */
-     SocketAddress *saddr; /* address to connect to */
-     QCryptoTLSCreds *tlscreds;
-+    char *tlshostname;
-     NBDExportInfo initial_info;
-     bool do_negotiation;
-     bool do_retry;
-@@ -77,7 +78,8 @@ NBDClientConnection *nbd_client_connection_new(const SocketAddress *saddr,
-                                                bool do_negotiation,
-                                                const char *export_name,
-                                                const char *x_dirty_bitmap,
--                                               QCryptoTLSCreds *tlscreds)
-+                                               QCryptoTLSCreds *tlscreds,
-+                                               const char *tlshostname)
- {
-     NBDClientConnection *conn = g_new(NBDClientConnection, 1);
- 
-@@ -85,6 +87,7 @@ NBDClientConnection *nbd_client_connection_new(const SocketAddress *saddr,
-     *conn = (NBDClientConnection) {
-         .saddr = QAPI_CLONE(SocketAddress, saddr),
-         .tlscreds = tlscreds,
-+        .tlshostname = g_strdup(tlshostname),
-         .do_negotiation = do_negotiation,
- 
-         .initial_info.request_sizes = true,
-@@ -107,6 +110,7 @@ static void nbd_client_connection_do_free(NBDClientConnection *conn)
-     }
-     error_free(conn->err);
-     qapi_free_SocketAddress(conn->saddr);
-+    g_free(conn->tlshostname);
-     object_unref(OBJECT(conn->tlscreds));
-     g_free(conn->initial_info.x_dirty_bitmap);
-     g_free(conn->initial_info.name);
-@@ -120,6 +124,7 @@ static void nbd_client_connection_do_free(NBDClientConnection *conn)
-  */
- static int nbd_connect(QIOChannelSocket *sioc, SocketAddress *addr,
-                        NBDExportInfo *info, QCryptoTLSCreds *tlscreds,
-+                       const char *tlshostname,
-                        QIOChannel **outioc, Error **errp)
- {
-     int ret;
-@@ -140,7 +145,7 @@ static int nbd_connect(QIOChannelSocket *sioc, SocketAddress *addr,
-     }
- 
-     ret = nbd_receive_negotiate(NULL, QIO_CHANNEL(sioc), tlscreds,
--                                tlscreds ? addr->u.inet.host : NULL,
-+                                tlshostname,
-                                 outioc, info, errp);
-     if (ret < 0) {
-         /*
-@@ -183,7 +188,8 @@ static void *connect_thread_func(void *opaque)
- 
-         ret = nbd_connect(conn->sioc, conn->saddr,
-                           conn->do_negotiation ? &conn->updated_info : NULL,
--                          conn->tlscreds, &conn->ioc, &local_err);
-+                          conn->tlscreds, conn->tlshostname,
-+                          &conn->ioc, &local_err);
- 
-         /*
-          * conn->updated_info will finally be returned to the user. Clear the
+     NULL
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 9a5a3641d0..1c730c6f2a 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4078,6 +4078,8 @@
+ #
+ # @tls-creds: TLS credentials ID
+ #
++# @tls-hostname: TLS hostname override for certificate validation (Since 7.0)
++#
+ # @x-dirty-bitmap: A metadata context name such as "qemu:dirty-bitmap:NAME"
+ #                  or "qemu:allocation-depth" to query in place of the
+ #                  traditional "base:allocation" block status (see
+@@ -4108,6 +4110,7 @@
+   'data': { 'server': 'SocketAddress',
+             '*export': 'str',
+             '*tls-creds': 'str',
++            '*tls-hostname': 'str',
+             '*x-dirty-bitmap': { 'type': 'str', 'features': [ 'unstable' ] },
+             '*reconnect-delay': 'uint32',
+             '*open-timeout': 'uint32' } }
 -- 
 2.34.1
 
