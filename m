@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C7B4CDD04
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:56:38 +0100 (CET)
-Received: from localhost ([::1]:53218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A234CDCF4
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:50:26 +0100 (CET)
+Received: from localhost ([::1]:38410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQD6T-000789-UT
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:56:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39670)
+	id 1nQD0T-00052D-Og
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:50:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQCEy-0007LG-8Y
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:01:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22306)
+ (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
+ id 1nQCMs-00080F-L4; Fri, 04 Mar 2022 13:09:33 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:55845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQCEv-0004Ua-3r
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:01:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646416874;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A6vjW4YEei6wGXEnuzP5MMQhHwUlKalUETZiCf+XQd4=;
- b=M+pzl3/MD3VdA7gpEjXdR7sdbYzWbJx5Is+rL2VF0yD+bwvPkerrFIlEJQ27xS/jEF639p
- tOqxYThXi/vr8h7soKoEmHG6TnRPLlGY+80RzKFgGCLFGAS2ldOO8qnjEZATcmUjdINSKX
- BEcNuZBU4ra034BVWhltj0/wy/0rjtU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-YsBpllkHM86TBkeo9w1gsw-1; Fri, 04 Mar 2022 13:01:10 -0500
-X-MC-Unique: YsBpllkHM86TBkeo9w1gsw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1A03824FA7;
- Fri,  4 Mar 2022 18:01:09 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E57A841CC;
- Fri,  4 Mar 2022 18:01:06 +0000 (UTC)
-Date: Fri, 4 Mar 2022 18:01:03 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 09/10] python/aqmp: fix race condition in legacy.py
-Message-ID: <YiJT30Ibq9ncb/Kt@redhat.com>
-References: <20220225205948.3693480-1-jsnow@redhat.com>
- <20220225205948.3693480-10-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
+ id 1nQCMq-0005Y7-F4; Fri, 04 Mar 2022 13:09:30 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 937493201F85;
+ Fri,  4 Mar 2022 13:09:24 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Fri, 04 Mar 2022 13:09:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm1; bh=UEv9VohQHb/HAaPVWKMAa8RP2VezHw5hQdpye0JuAl0=; b=dbXDD
+ L02dscX9791BRpkA7dlXX9d18shDkVgNgKaGERg5I3TVzAvVn+lzfTPA+DhgEhe/
+ H2sArlTS+dsreM+PkDKi3OVjfkM3rkw87cOIBzJh5YOQi9ASGBhTw4yejWBujzv2
+ W83nJNUuummtxRAKYy8X2txc8sSol196reT07BvUwT1f0HjNP/Miw+k+GTTWPuYC
+ pZPQkTImb2XAyPSGee5aPpR2odlE/5pmKeqTEAoRIs2W0H6RIuu7h/zOlF/4Xfzg
+ Rj8XUWo2UgiHjBx5E8ktunDOIFyjN/SLSLkTnp6tx90jxbBDajy/8NlbIooVU8i+
+ yE1I19OmyLugyxwag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=fm2; bh=UEv9VohQHb/HAaPVWKMAa8RP2VezH
+ w5hQdpye0JuAl0=; b=H0DsBWsXso3wx1IKuuX0dB9qv7QnssJeBXh50Sm5qPWq2
+ Cas9zYhF0SEVD2pvbksXz7r7PH/30ZrCUlUOJ5Sli9SS7aGYCtx1xifo6LKH5Xek
+ DKL0GLkmFtZSKd4qJBV5wqDk4+MJFU7WGFZvzIoXvVQIZyQ3ZDg5a+T2s7PCVb2I
+ rUZ+gKpwIOJyTmEbjpr91aA1bmbi5qpLRFWBjrN2GRXyMK5/XBwKVVvOk0GLdIEm
+ KvDQ5DvTfiDoIORkw8OdbM+53y8r+LMBAA4LSykmLcADKJ2rldaoPBAmuO92iBr5
+ 5zGnfJVwoBjh1YVhyN4ywrNmwdEIAZr3XehvzHDpw==
+X-ME-Sender: <xms:01UiYhrfiTtfD-giaC5aMnbrQHvNFMzmgB74azFuiVh-UlX9GHUhzA>
+ <xme:01UiYjp2E7hLfdyeEfv1_RCPxiOW7MHo9rkyUarvo2fkiFw01USbAoihk9-iQOHIO
+ yG_6oOyR96CiXTAHxk>
+X-ME-Received: <xmr:01UiYuPKWR00axWAL7PALVkW2n7WxjyGtkqz4VJbwoCv-eSR3WJT0AxlHG3pA99vlWhlra1FFl43PQqOW-Y8T4OLsf_Sq_lyDnI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtkedguddtlecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enmhhishhsihhnghcuvffquchfihgvlhguucdlfedtmdenfghrlhcuvffnffculddvfedm
+ negoteeftdduqddtudculdduhedmnecujfgurhephffvufffkffoggfgsedtkeertdertd
+ dtnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghksehs
+ thiftgigrdighiiiqeenucggtffrrghtthgvrhhnpedvfeetvddtgfeutdegkeegtdeigf
+ duudfgiedutdegkefftdduueeugfelgeffheenucffohhmrghinhepkhgvrhhnvghlrdho
+ rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepph
+ grthhrihgtkhesshhtfigtgidrgiihii
+X-ME-Proxy: <xmx:01UiYs7AqlPcPWyvFmhqP6xoHpcj7f6V3OWf-9LEguuor9-hBrWz7A>
+ <xmx:01UiYg7wGKf3ADKL2ngPmzAFHmIF_VVfII4X0YAH8UV_RA2rO77mRQ>
+ <xmx:01UiYkhmGX8OtJLxrWvZk0JUDnGoeqyRbF_M5dwYxMKYlFJsZFRCCg>
+ <xmx:1FUiYqS4_fbNHh5vFO7WPFBeXnJxSum2g2Z7JDNlVqdboSMfxMu4Rw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 4 Mar 2022 13:09:22 -0500 (EST)
+From: Patrick Williams <patrick@stwcx.xyz>
+To: 
+Subject: [PATCH] hw/block: m25p80: Add support for w25q01jvq
+Date: Fri,  4 Mar 2022 12:09:20 -0600
+Message-Id: <20220304180920.1780992-1-patrick@stwcx.xyz>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <20220225205948.3693480-10-jsnow@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=patrick@stwcx.xyz;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: 17
+X-Spam_score: 1.7
+X-Spam_bar: +
+X-Spam_report: (1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FROM_SUSPICIOUS_NTLD=0.499,
+ FROM_SUSPICIOUS_NTLD_FP=1.997, PDS_OTHER_BAD_TLD=1.997, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,35 +93,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Beraldo Leal <bleal@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Potin Lai <potin.lai@quantatw.com>, Alistair Francis <alistair@alistair23.me>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Patrick Williams <patrick@stwcx.xyz>, Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 25, 2022 at 03:59:47PM -0500, John Snow wrote:
-> With all of that refactoring out of the way, this is extraordinarily
-> simple.
+The w25q01jvq is a 128MB part.  Support is being added to the kernel[1]
+and the two have been tested together.
 
-I think it'd be useful to explain in some detail what the
-race condition was, because 1 year later no one will
-remember what scenario we were fixing here.
+1. https://lore.kernel.org/lkml/20220222092222.23108-1-potin.lai@quantatw.com/
 
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/aqmp/legacy.py | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
+Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+Cc: Potin Lai <potin.lai@quantatw.com>
+---
+ hw/block/m25p80.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-Regards,
-Daniel
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index c6bf3c6bfa..7d3d8b12e0 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -340,6 +340,7 @@ static const FlashPartInfo known_devices[] = {
+     { INFO("w25q80bl",    0xef4014,      0,  64 << 10,  16, ER_4K) },
+     { INFO("w25q256",     0xef4019,      0,  64 << 10, 512, ER_4K) },
+     { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K) },
++    { INFO("w25q01jvq",   0xef4021,      0,  64 << 10, 2048, ER_4K) },
+ };
+ 
+ typedef enum {
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.34.1
 
 
