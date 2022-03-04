@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796804CD7B9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:27:58 +0100 (CET)
-Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05F94CD7C6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:29:28 +0100 (CET)
+Received: from localhost ([::1]:54416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9qX-0008Em-2b
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:27:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50692)
+	id 1nQ9rz-0003wz-Fq
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:29:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ9Wv-0004k6-JE
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:07:41 -0500
-Received: from [2607:f8b0:4864:20::102e] (port=37817
- helo=mail-pj1-x102e.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ9Wx-0004mj-VS
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:07:45 -0500
+Received: from [2607:f8b0:4864:20::62c] (port=38459
+ helo=mail-pl1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ9Wt-0003kL-0M
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:07:41 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- p3-20020a17090a680300b001bbfb9d760eso10824647pjj.2
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 07:07:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ9Ww-0003kf-Je
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:07:43 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id t19so4414500plr.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 07:07:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5NYdaFf96oRp6hjkD9t2XSw3gtKLISKRGIOjtA0DPig=;
- b=CGSY5paJ3pBIlmsTHWBLjedRTPJvDnVmscR4+o+A5ImiyDrPXsWf2PS6ei9DnoAAQr
- 38iZv1V43T7sSDOCMiHXqLypj8bcX8BroxvmM/B+1D2vXB0mqi7ww3OxfTsaWwHvHLgZ
- 4rh+bOL/iYhK5R/vcqN6lg7Don1eZ1Ho/EKD7MDFkkURkMFI0zwx6iNq/WYbyOMiLUxT
- b8S0upbEWAcbmM5SJBEXPBzEsggP6VzM+IzxrEIknXCYCPAME9D52yLF0eGWe5QwVby+
- UWDkuWh/f6R/IenyOC+Zq0KjLAF4hTyyj2K/S0pvqHFq4HtkQ1NudAC3s437PaQ1trVK
- HbAA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=untwttg2h9MUzs6wtedAKndtsuh/tYZaw3CDKZL3ZkM=;
+ b=dN0bjUbHMaxc0knlgM/3Sq7j3gEDRSWUe0Ohwy7PKM3k92GICreyZKk7rZ1lAaQ2Q4
+ qvxqKUN6i6l1QPY+LqgmaOv4QM8w/6uRDYttGiEVJEuTpSr9b4MaglU/OiIEPazngLdW
+ f/rLZdurLx0UEmrlUojGy7BX05KgTbzGZ+Y6FyGgQJtLvjuK5kZv9ubvEzj98+GrI2cT
+ um6XnRKf5QY0j/ZUx6KjfEA+jWdmHmCkAd5H+HeT9yUigf0vY8SfOm3zOgGzUIBJVUQd
+ 22Yj4LS01VqU8Jm08Em9TtP+wKkZwuDM278DwwgDvs3jWvsBaonjMSqNwxoCDqPZheiY
+ iOhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5NYdaFf96oRp6hjkD9t2XSw3gtKLISKRGIOjtA0DPig=;
- b=wJkTUKjW6T1NCconVdl7egQjxU8XjhsN27ymlL3OKu7SrlY7e2OBHWcYb5mfpv0xN/
- m1BxzQ9I5vlvwavOA7pJ4nGsleFkXXjtdwRA5vFKnOIHewRo2YMaJ/n2W7PSnst6UoG1
- auFfR7cLTvUIiZE/0JArpM2joqAbE++7faFEzn/W2BIrbJZLcq1emz1K2ogfs2ADAFkz
- bizu1p24123DG/IdeKRmGJwYatQr79NdCkwkuwFdsexhowLNItIwcFetc3fv8eTfQELg
- aMra+ZJkF3qP4+MvWVWHDP15gbborwtgHUAdtEogbFHdCTsG2QOVAoiwuWeeCDql1EJk
- Wltg==
-X-Gm-Message-State: AOAM5314QEP61GX5vdTImI/ghvbndxffmhNyWg588fbJ6P6rYLUTFPvz
- eeZkNlXq31CAshLXKu9zquQMVHBX20Tc+g==
-X-Google-Smtp-Source: ABdhPJwrgmJduU7vxHGnfdla37zPxZvM1hOWENKbcSlCAl7iM1VgbdKTHmGK2IAp2f26pBbnqcRzew==
-X-Received: by 2002:a17:90a:67c1:b0:1bc:f062:62e8 with SMTP id
- g1-20020a17090a67c100b001bcf06262e8mr10980736pjm.86.1646406456763; 
- Fri, 04 Mar 2022 07:07:36 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=untwttg2h9MUzs6wtedAKndtsuh/tYZaw3CDKZL3ZkM=;
+ b=EXs3B8OLSF8gN+Vrwn5h75tgK7vnuGW62Hgc0qpk48TkXdb9hZ25ETWaidAcTS1Ta+
+ B2Wf8kLpt5TmGmOe5MDYPLPvHJbnnX7qjcFaSV1bnAoDe09wiRFmaHY+hFDsOGQC3M3m
+ ll1Y/jdUonxnaC7fCMosYkVJpOKmr5L5XBVj7d6/FQ7CsokpV4CPFyjlTpyi0zv+Pg2C
+ G57TWWNKXfM9SqvxxpAL7G/ci7kqJkt0A95Fm1k7k9s+lUecJTcDW/XHPGvuh2mG9C5M
+ 2gWC5GISqhKGJQyCUXLiDVUGgyIuh1vpL2c9ecqTeVQ+h8zYFcBZe4o9YF4Tpvv8hxSC
+ nj1w==
+X-Gm-Message-State: AOAM531L5B28NPyDv1NXQgFP+/zcuVhJi1yKEVJbscxMlvInuU7/O3Q0
+ H5rm9l5MnsHItiitRWSi51Bc4ZJbGDYNEw==
+X-Google-Smtp-Source: ABdhPJx4eWULUkU5zHmpW5IPDkRE5FVCK2Mz/jlJcOd4Q1IR6Ljr89UjYCyHwTbBMKXK5gWRW5H8eQ==
+X-Received: by 2002:a17:903:11c6:b0:151:a247:31eb with SMTP id
+ q6-20020a17090311c600b00151a24731ebmr11737290plh.91.1646406461098; 
+ Fri, 04 Mar 2022 07:07:41 -0800 (PST)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.152.50])
  by smtp.googlemail.com with ESMTPSA id
- nr22-20020a17090b241600b001bef1964ec7sm8278861pjb.21.2022.03.04.07.07.34
+ nr22-20020a17090b241600b001bef1964ec7sm8278861pjb.21.2022.03.04.07.07.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 07:07:36 -0800 (PST)
+ Fri, 04 Mar 2022 07:07:40 -0800 (PST)
 From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 0/4] hw/acpi: add indication for i8042 in IA-PC boot flags
- of the FADT table
-Date: Fri,  4 Mar 2022 20:37:18 +0530
-Message-Id: <20220304150722.2069132-1-ani@anisinha.ca>
+To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PATCH v6 1/4] tests/acpi: i386: allow FACP acpi table changes
+Date: Fri,  4 Mar 2022 20:37:19 +0530
+Message-Id: <20220304150722.2069132-2-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220304150722.2069132-1-ani@anisinha.ca>
+References: <20220304150722.2069132-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x102e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -86,57 +87,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com, liavalb@gmail.com,
- mst@redhat.com
+Cc: liavalb@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This can allow the guest OS to determine more easily if i8042 controller
-is present in the system or not, so it doesn't need to do probing of the
-controller, but just initialize it immediately, before enumerating the
-ACPI AML namespace.
+From: Liav Albani <liavalb@gmail.com>
 
-To allow "flexible" indication, I don't hardcode the bit at location 1
-as on in the IA-PC boot flags, but try to search for i8042 on the ISA
-bus to verify it exists in the system.
+The FACP table is going to be changed for x86/q35 machines. To be sure
+the following changes are not breaking any QEMU test this change follows
+step 2 from the bios-tables-test.c guide on changes that affect ACPI
+tables.
 
-Why this is useful you might ask - this patch allows the guest OS to
-probe and use the i8042 controller without decoding the ACPI AML blob
-at all. For example, as a developer of the SerenityOS kernel, I might
-want to allow people to not try to decode the ACPI AML namespace (for
-now, we still don't support ACPI AML as it's a work in progress), but
-still to not probe for the i8042 but just use it after looking in the
-IA-PC boot flags in the ACPI FADT table.
+Signed-off-by: Liav Albani <liavalb@gmail.com>
+Acked-by: Ani Sinha <ani@anisinha.ca>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Changelog:
-v6:
-addressed comments from v5. added microvm changes too as a part of this series.
-v5:
-Addressed review comments from v4. Also got rid of microvm changes. Will send
-them in a separate patch.
-
-
-Ani Sinha (1):
-  hw/acpi/microvm: turn on 8042 bit in FADT boot architecture flags if
-    present
-
-Liav Albani (3):
-  tests/acpi: i386: allow FACP acpi table changes
-  hw/acpi: add indication for i8042 in IA-PC boot flags of the FADT
-    table
-  tests/acpi: i386: update FACP table differences
-
- hw/acpi/aml-build.c            |   8 +++++++-
- hw/i386/acpi-build.c           |   8 ++++++++
- hw/i386/acpi-microvm.c         |   6 ++++++
- include/hw/acpi/acpi-defs.h    |   1 +
- include/hw/input/i8042.h       |  15 +++++++++++++++
- tests/data/acpi/q35/FACP       | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.nosmm | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.slic  | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.xapic | Bin 244 -> 244 bytes
- 9 files changed, 37 insertions(+), 1 deletion(-)
-
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..7570e39369 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,5 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/FACP",
++"tests/data/acpi/q35/FACP.nosmm",
++"tests/data/acpi/q35/FACP.slic",
++"tests/data/acpi/q35/FACP.xapic",
 -- 
 2.25.1
 
