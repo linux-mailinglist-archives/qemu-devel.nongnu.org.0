@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A104CD7B3
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:24:35 +0100 (CET)
-Received: from localhost ([::1]:40508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C433D4CD7BA
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:28:01 +0100 (CET)
+Received: from localhost ([::1]:49866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9nG-0001uL-Q8
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:24:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42206)
+	id 1nQ9qa-00009T-Sd
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:28:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nQ91m-0007vU-QB
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:35:30 -0500
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:58589)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1nQ98i-00028m-0F; Fri, 04 Mar 2022 09:42:40 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:33673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nQ91j-00081H-EL
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:35:30 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.21])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 8B74B22BB1;
- Fri,  4 Mar 2022 14:35:24 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 4 Mar
- 2022 15:35:22 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0069a39bcce-c610-4397-bb6c-6553568e316f,
- 454269BBD7D092EADEDBDC9145CF0558877B405D) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.1.230.64
-Message-ID: <e29682d1-8dd1-9840-1581-a99363fc247f@kaod.org>
-Date: Fri, 4 Mar 2022 15:35:22 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1nQ98f-00011N-M7; Fri, 04 Mar 2022 09:42:39 -0500
+Received: from [192.168.100.1] ([82.142.8.122]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MBUZr-1nKLJx3MGF-00D1gv; Fri, 04 Mar 2022 15:42:30 +0100
+Message-ID: <d3c76cc5-90c0-6abd-1f67-9b6b1b0230b7@vivier.eu>
+Date: Fri, 4 Mar 2022 15:42:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: Issue with qemu-system-ppc running OSX guests
-Content-Language: en-US
-To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
- qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, Fabiano Rosas <farosas@linux.ibm.com>
-References: <CABLmASFbowE4Cu8gHk9eD+_h8ZrdupE8MHKAfpW+T8Oe=-3=Wg@mail.gmail.com>
- <e2dd457d-29b3-32be-72e2-315e686dff69@eik.bme.hu>
- <CABLmASH5tFs86Dq+1e+ByMF43jZL5UZ7MempVVhtKCwjdpa7aw@mail.gmail.com>
- <87pmn352q0.fsf@linux.ibm.com>
- <a3917a31-b899-a289-5102-5b8be20aae27@eldorado.org.br>
- <7c7b2adb-67e1-26b8-03a3-74f70dc9bc80@kaod.org>
- <0cf4d2bb-0559-854b-8051-3c391988bc8b@eldorado.org.br>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <0cf4d2bb-0559-854b-8051-3c391988bc8b@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: fr
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220113170456.1796911-1-matheus.ferst@eldorado.org.br>
+ <20220113170456.1796911-4-matheus.ferst@eldorado.org.br>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [RFC PATCH v3 3/3] target/ppc: Fix gen_priv_exception error value
+ in mfspr/mtspr
+In-Reply-To: <20220113170456.1796911-4-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 9e08c99e-7920-4000-96fa-2eb5adf02c88
-X-Ovh-Tracer-Id: 2570148013604637478
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddtkedgieeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
+X-Provags-ID: V03:K1:eSXtTXVeiiVr44X9IhwylESTjNhfYcKdEh/tzbmq5ZJzzQLEh70
+ Ke5g8L8ysjDGzoZPKrCvzNnVQgRazxvFzdBQzEYa9dD5COSfKI3rYNvFjVA7PFF6A3firpE
+ tnuadMDUHPcFLy0x26MwCPcykNMA0oruA1TEHnqS+80j9mCfA2otOYFJdP5hQhK2srSoHbq
+ d9PDoQKRniKCMW7SckwQg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:S4zJCyMZduM=:Jgz1XDgr+f/nrp6PUma3yN
+ z0vD1fQbdadSh8HqmxbXScUve9bB12Nmu434ziu8bJHV4NnuT8r1pnfg7RIra9JCfrgaV8oLb
+ AE2mszhFNv13IV5GBydCtCUsdVrSg9W5/ChA6BipvGnkf4StRbx/Nqg827j4BTE5TXm4i+N5M
+ qk+kNwxGJULkwyTDCRvehWiJKPUno3QHUM7ASalctCPmogKQxe3+80PFhvTXgAB1097nSlgux
+ YyZV8MmLrWhJMT2RYW3X0Lv0M/M/R+R7TiZu52hEF2QKXtEIB945ZPYOMk2DJmlM34rgyPQcV
+ zcwUQvWJKlV+wEruIAC8033otUaNOXn0Lajj+B/rfhrAqA6i7RDeQiWPgGwpvDGsPnhU99G7m
+ /TatpAuh+jeB73LJCuwGWI/WnRVPRtFOHg4A32F9Q/ICHIzFsEkcZEMwtOP+FqFcpiBKu9sZK
+ pFjqRA4KVFUVyrsuk3yCAtLjg2CVbudbbwghlT54GhTrAcHll2sUyuV4cPPk/GAmk2TswM5Qx
+ cyq8bkLUSQhySkm07UDMxwI0vBdEBti6mdFlSNKgFpJKBAQmZVqUC+aXfC8H3uiZ4llfLiMEy
+ 52kHs8sg5JJYQjJZFYGSoO9KaZa2RhCfjAAhiAvt/LqYauXCl2RjhcsOluXdc9ByCTfO5GSHv
+ YtkeEN4Q9vO3ukU8sfpPEv3IrsHgiRqpEIS+cvMPcGQSRuqD3PSn51nOr7jR1w925u14=
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,104 +71,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Cc: groug@kaod.org, danielhb413@gmail.com, richard.henderson@linaro.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/22 15:18, Lucas Mateus Martins Araujo e Castro wrote:
+Le 13/01/2022 à 18:04, matheus.ferst@eldorado.org.br a écrit :
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > 
-> On 04/03/2022 11:07, Cédric Le Goater wrote:
->>
->> On 3/4/22 12:08, Lucas Mateus Martins Araujo e Castro wrote:
->>>
->>> On 02/03/2022 20:55, Fabiano Rosas wrote:
->>>> Howard Spoelstra<hsp.cat7@gmail.com>  writes:
->>>>
->>>>> On Wed, Mar 2, 2022 at 9:11 PM BALATON Zoltan<balaton@eik.bme.hu>  wrote:
->>>>>
->>>>>> On Wed, 2 Mar 2022, Howard Spoelstra wrote:
->>>>>>> Hi all,
->>>>>>>
->>>>>>> I noticed qemu-system-ppc running OSX guests does not get to the desktop
->>>>>> or
->>>>>>> does not display the menu bars.
->>>>>> Cc-ing the relevant people and the PPC list might help, I've added them.
->>>>>> Also telling which OSX guest version can reproduce the problem could help
->>>>>> debugging. Is it any OSX version?
->>>>>>
->>>>>> Regards,
->>>>>> BALATON Zoltan
->>>>>>
->>>>> Oops, Qemu running on Fedora 35 host,
->>>>> Reproducer:
->>>>>
->>>>> ./qemu-system-ppc \
->>>>> -M mac99 \
->>>>> -m 512 \
->>>>> -L pc-bios \
->>>>> -display sdl -serial stdio \
->>>>> -boot c \
->>>>> -drive file=10.1.img,format=raw,media=disk
->>>>>
->>>>> The issue affects all supported Mac OSX guests: 10.0 to 10.5
->>>> Hi Howard,
->>>>
->>>> Thanks for bisecting this. It seems we inadvertently marked some of the
->>>> Vector Multiply instructions to be ISA v2.07 only.
->>>>
->>>> I can boot Mac OSX 10.4 until the desktop with this fix:
->>>>
->>>> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
->>>> index f91bee839d..c5d02d13fe 100644
->>>> --- a/target/ppc/translate/vmx-impl.c.inc
->>>> +++ b/target/ppc/translate/vmx-impl.c.inc
->>>> @@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext *ctx, arg_VX *a)
->>>>       return true;
->>>>   }
->>>>
->>>> -TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
->>>> -TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
->>>> -TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
->>>> -TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
->>>> -TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
->>>> -TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
->>>> -TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
->>>> -TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
->>>> +TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper, gen_helper_VMULESB)
->>>> +TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
->>>> +TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
->>>> +TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
->>>> +TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper, gen_helper_VMULESH)
->>>> +TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
->>>> +TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
->>>> +TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
->>>>   TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
->>>>   TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
->>>>   TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
->>>> ---
->>>>
->>>> I'll let Lucas comment on it and we can send a proper patch in the
->>>> morning.
->>>
->>> Checking here it seems I misread the PowerISA appendix and marked these instructions (vmul[eo].[bh]) as v2.07 even though they are v2.03.
->>>
->>> This patch seems to correct it and checking here the newer instructions are correct (v2.07 for vmul[eo].w and v3.1 for vmul[eo].d), so
->>>
->>> Reviewed-by: Lucas Mateus Castro<lucas.araujo@eldorado.org.br>
->>
->>
->> Could you please send a proper patch ? The above was given as an example.
->>
->> Thanks,
->>
->> C.
->>
-> Yes, this will be added as a proper patch to the fix up patches Matheus will send later.
+> The code in linux-user/ppc/cpu_loop.c expects POWERPC_EXCP_PRIV
+> exception with error POWERPC_EXCP_PRIV_OPC or POWERPC_EXCP_PRIV_REG,
+> while POWERPC_EXCP_INVAL_SPR is expected in POWERPC_EXCP_INVAL
+> exceptions. This mismatch caused an EXCP_DUMP with the message "Unknown
+> privilege violation (03)", as seen in [1].
+> 
+> Fixes: 9b2fadda3e01 ("ppc: Rework generation of priv and inval interrupts")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/588
+> 
+> [1] https://gitlab.com/qemu-project/qemu/-/issues/588
+> 
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> ---
+> Is there any case where throwing a PRIV/INVAL exception with a
+> INVAL/PRIV error makes sense? It seems wrong, but maybe I'm missing
+> something... especially with the HV_EMU to program check conversion.
+> 
+> Also, if this patch is correct, it seems that all invalid SPR access
+> would be nop or privilege exceptions. In this case, is
+> POWERPC_EXCP_INVAL_SPR still needed?
+> ---
+>   target/ppc/translate.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 40232201bb..abbc3a5bb9 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -4827,11 +4827,11 @@ static inline void gen_op_mfspr(DisasContext *ctx)
+>            */
+>           if (sprn & 0x10) {
+>               if (ctx->pr) {
+> -                gen_priv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
+> +                gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+>               }
+>           } else {
+>               if (ctx->pr || sprn == 0 || sprn == 4 || sprn == 5 || sprn == 6) {
+> -                gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
+> +                gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+>               }
+>           }
+>       }
+> @@ -5014,11 +5014,11 @@ static void gen_mtspr(DisasContext *ctx)
+>            */
+>           if (sprn & 0x10) {
+>               if (ctx->pr) {
+> -                gen_priv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
+> +                gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+>               }
+>           } else {
+>               if (ctx->pr || sprn == 0) {
+> -                gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
+> +                gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_REG);
+>               }
+>           }
+>       }
 
-We are entering the freeze window. I would rather have one patch per issue please.
+It seems logic to emit a POWERPC_EXCP_PRIV_XXX exception with  gen_priv_exception() (POWERPC_EXCP_PRIV).
+
+Moreover in line above we have a  gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG) if the register 
+cannot be read (SPR_NOACCESS).
+
+But in helper_load_dcr() we have POWERPC_EXCP_PRIV_REG with POWERPC_EXCP_INVAL (whereas in the 
+helper_store_dcr() function we have POWERPC_EXCP_INVAL with POWERPC_EXCP_INVAL_INVAL).
+It looks like another bug.
+
+and in gen_slbfee() we have also a POWERPC_EXCP_PRIV_REG with gen_inval_exception() 
+(POWERPC_EXCP_INVAL).
+
+What is interesting is gen_inval_exception() uses POWERPC_EXCP_HV_EMU that could make thinking we 
+could try to emulate the operation (for KVM PR, for instance).
 
 Thanks,
-
-C.
-
+Laurent
 
