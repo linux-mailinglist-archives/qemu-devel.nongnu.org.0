@@ -2,51 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA38A4CDCEF
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:49:51 +0100 (CET)
-Received: from localhost ([::1]:36476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E724CDC5E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:26:51 +0100 (CET)
+Received: from localhost ([::1]:41624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQCzu-0003TP-20
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:49:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37988)
+	id 1nQCde-00047b-U1
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:26:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nQC7N-000751-KB; Fri, 04 Mar 2022 12:53:29 -0500
-Received: from [187.72.171.209] (port=8389 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nQC7M-0003AM-9n; Fri, 04 Mar 2022 12:53:29 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 4 Mar 2022 14:53:08 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id C40A6800502;
- Fri,  4 Mar 2022 14:53:07 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH 7/7] target/ppc: Add missing helper_reset_fpstatus to
- helper_XVCVSPBF16
-Date: Fri,  4 Mar 2022 14:51:56 -0300
-Message-Id: <20220304175156.2012315-8-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220304175156.2012315-1-matheus.ferst@eldorado.org.br>
-References: <20220304175156.2012315-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQC77-0006E7-E3
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:53:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23090)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQC75-0003An-R0
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:53:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646416391;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9KTsewGCGetz3fVaM0qX7ttfLiCVlvCDEA7d24eHvsI=;
+ b=eTayM8X3zIg7l72KfeltRdjsQAWdZMMsQqUy3IGBQ4/zA6fJSobD6wni+76Nb5UUH5EOY+
+ lTu6N4azKapgZwywaWVAVLf5sKyLVjit8eiQeV8JuMqop+sbbtZLCUtmBL8/oEdfBjhdFs
+ ms9+76pbsIQdt+uhe7grPOdGyqVnJv8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-225-veHtaXEKNCGghw2kCszavA-1; Fri, 04 Mar 2022 12:53:08 -0500
+X-MC-Unique: veHtaXEKNCGghw2kCszavA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C581801DDC;
+ Fri,  4 Mar 2022 17:53:07 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 529D5797E4;
+ Fri,  4 Mar 2022 17:53:03 +0000 (UTC)
+Date: Fri, 4 Mar 2022 17:53:00 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 04/10] python/aqmp: split _client_connected_cb() out as
+ _incoming()
+Message-ID: <YiJR/OL2BGngiBWq@redhat.com>
+References: <20220225205948.3693480-1-jsnow@redhat.com>
+ <20220225205948.3693480-5-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20220225205948.3693480-5-jsnow@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Mar 2022 17:53:08.0207 (UTC)
- FILETIME=[B4F56FF0:01D82FF0]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,36 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
- clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Víctor Colombo <victor.colombo@eldorado.org.br>
+On Fri, Feb 25, 2022 at 03:59:42PM -0500, John Snow wrote:
+> As part of disentangling the monolithic nature of _do_accept(), split
+> out the incoming callback to prepare for factoring out the "wait for a
+> peer" step. Namely, this means using an event signal we can wait on from
+> outside of this method.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/aqmp/protocol.py | 83 +++++++++++++++++++++++++-----------
+>  1 file changed, 58 insertions(+), 25 deletions(-)
 
-Fixes: 3909ff1fac ("target/ppc: Implement xvcvbf16spn and xvcvspbf16 instructions")
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/fpu_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index cf5f8f20dd..06eb36f7b6 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2769,6 +2769,8 @@ void helper_XVCVSPBF16(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)
-     ppc_vsr_t t = { };
-     int i, status;
- 
-+    helper_reset_fpstatus(env);
-+
-     for (i = 0; i < 4; i++) {
-         t.VsrH(2 * i + 1) = float32_to_bfloat16(xb->VsrW(i), &env->fp_status);
-     }
+
+Regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
