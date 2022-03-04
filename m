@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FD04CD6C1
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:50:36 +0100 (CET)
-Received: from localhost ([::1]:59148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A928B4CD6AC
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:44:43 +0100 (CET)
+Received: from localhost ([::1]:47216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9GN-0004Bo-UP
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:50:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38100)
+	id 1nQ9Ag-0004Rg-OM
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:44:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8ob-0007mr-Me
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:21:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35572)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8od-0007oc-RE
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:21:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8oW-00007f-Fv
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:21:51 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8oa-00007v-42
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:21:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403707;
+ s=mimecast20190719; t=1646403711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SN5fZTngLfhpN/8EzfYi7DnNVMWkeZb6aI9YsFyfraU=;
- b=PkegVLGfACyRZKc3Pf2ki8ZQef3Lkc2DRmYRTzl6+n+rr2sNSXiXjOnIjw/emxJ44/Wcie
- azQujqN7krpVVCjWaom9Yo1EVQ54XjMUYoNdNi69PXHUXtkdpCHpnRBVYHqanlDhlIsMBf
- ooOgqXNLlMA2aAgo41bQvI1iCyVAef4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zqNuyc6/1XT7rQYIy8gcLwnJ3QsYqn/+JsrC/zhuMF0=;
+ b=I5dp3/M1g0zFMi92MOLAaoXVY2FKhRpvuK3qCjafISwzOW7voH5IddDQLLche4i3OAu/nv
+ YYUGMYShj3s/lCUpzkhb0TF+YRjWkXQQ5TkJzSLvZXj28BD2eXgS/J2SaYGF3lo14Ig5OS
+ iBbAQcbrJpXPSgOqNGXLeAd4JDpTTMs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-80-REPRgfP7P5SVTZjju7sdaA-1; Fri, 04 Mar 2022 09:21:46 -0500
-X-MC-Unique: REPRgfP7P5SVTZjju7sdaA-1
+ us-mta-52-Mm_ldKa_PPO28EQhXnBbdw-1; Fri, 04 Mar 2022 09:21:48 -0500
+X-MC-Unique: Mm_ldKa_PPO28EQhXnBbdw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8A411091DA0;
- Fri,  4 Mar 2022 14:21:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AE99FC81;
+ Fri,  4 Mar 2022 14:21:45 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6041F2ED81;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61EB32ED84;
  Fri,  4 Mar 2022 14:21:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CA37018000B4; Fri,  4 Mar 2022 15:21:23 +0100 (CET)
+ id D584C1800386; Fri,  4 Mar 2022 15:21:23 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/35] Kraxel 20220304 patches
-Date: Fri,  4 Mar 2022 15:20:48 +0100
-Message-Id: <20220304142123.956171-1-kraxel@redhat.com>
+Subject: [PULL 01/35] hw/usb: pacify xhciwmi.exe warning
+Date: Fri,  4 Mar 2022 15:20:49 +0100
+Message-Id: <20220304142123.956171-2-kraxel@redhat.com>
+In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
+References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -78,123 +81,56 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Yan Vugenfirer <yvugenfi@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Thomas Huth <huth@tuxfamily.org>,
  Richard Henderson <richard.henderson@linaro.org>,
+ Pavel Polozov <pavel.polozov@virtuozzo.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 6629bf78aac7e53f83fd0bcbdbe322e2302dfd1f=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220=
-302' into staging (2022-03-03 14:46:48 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.kraxel.org/qemu tags/kraxel-20220304-pull-request=0D
-=0D
-for you to fetch changes up to 02218aedb1c851340207db89b8eeb96843fed241:=0D
-=0D
-  hw/display/vmware_vga: replace fprintf calls with trace events (2022-03-0=
-4 11:38:07 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-usb: fixes for ohci, xhci, mtp and redirect=0D
-audio: latency fixes=0D
-ui: opengl and cocoa fixes=0D
-firmware: ovmf tabel aprser fixes=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Akihiko Odaki (4):=0D
-  coreaudio: Notify error in coreaudio_init_out=0D
-  ui/cocoa: Add Services menu=0D
-  softmmu/qdev-monitor: Add virtio-gpu-gl aliases=0D
-  edid: Fix clock of Detailed Timing Descriptor=0D
-=0D
-BALATON Zoltan (5):=0D
-  usb/ohci: Move trace point and log ep number to help debugging=0D
-  usb/ohci: Move cancelling async packet to ohci_stop_endpoints()=0D
-  usb/ohci: Move USBPortOps related functions together=0D
-  usb/ohci: Merge ohci_async_cancel_device() into ohci_child_detach()=0D
-  usb/ohci: Don't use packet from OHCIState for isochronous transfers=0D
-=0D
-Carwyn Ellis (1):=0D
-  hw/display/vmware_vga: replace fprintf calls with trace events=0D
-=0D
-Denis V. Lunev (1):=0D
-  hw/usb: pacify xhciwmi.exe warning=0D
-=0D
-Dov Murik (3):=0D
-  hw/i386: Improve bounds checking in OVMF table parsing=0D
-  hw/i386: Replace magic number with field length calculation=0D
-  docs: Add spec of OVMF GUIDed table for SEV guests=0D
-=0D
-Marc-Andr=C3=A9 Lureau (4):=0D
-  ui/console: fix crash when using gl context with non-gl listeners=0D
-  ui/console: fix texture leak when calling surface_gl_create_texture()=0D
-  ui: do not create a surface when resizing a GL scanout=0D
-  ui/clipboard: fix use-after-free regression=0D
-=0D
-Peter Maydell (1):=0D
-  hw/usb/redirect.c: Stop using qemu_oom_check()=0D
-=0D
-Volker R=C3=BCmelin (16):=0D
-  hw/usb/dev-mtp: create directories with a+x mode mask=0D
-  audio: replace open-coded buffer arithmetic=0D
-  audio: move function audio_pcm_hw_clip_out()=0D
-  audio: add function audio_pcm_hw_conv_in()=0D
-  audio: inline function audio_pcm_sw_get_rpos_in()=0D
-  paaudio: increase default latency to 46ms=0D
-  jackaudio: use more jack audio buffers=0D
-  audio: copy playback stream in sequential order=0D
-  audio: add pcm_ops function table for capture backend=0D
-  Revert "audio: fix wavcapture segfault"=0D
-  audio: restore mixing-engine playback buffer size=0D
-  paaudio: reduce effective playback buffer size=0D
-  dsoundaudio: reduce effective playback buffer size=0D
-  ossaudio: reduce effective playback buffer size=0D
-  paaudio: fix samples vs. frames mix-up=0D
-  sdlaudio: fix samples vs. frames mix-up=0D
-=0D
- audio/audio_int.h                 |  20 +-=0D
- audio/alsaaudio.c                 |   1 +=0D
- audio/audio.c                     | 200 +++++++++++---------=0D
- audio/coreaudio.c                 |  15 +-=0D
- audio/dsoundaudio.c               |  30 +--=0D
- audio/jackaudio.c                 |   5 +-=0D
- audio/noaudio.c                   |   1 +=0D
- audio/ossaudio.c                  |  17 +-=0D
- audio/paaudio.c                   |  63 +++---=0D
- audio/sdlaudio.c                  |  21 +-=0D
- audio/wavaudio.c                  |   1 +=0D
- hw/display/edid-generate.c        |  66 ++++---=0D
- hw/display/vmware_vga.c           |  30 +--=0D
- hw/i386/pc_sysfw_ovmf.c           |  18 +-=0D
- hw/usb/dev-mtp.c                  |   4 +-=0D
- hw/usb/hcd-ohci.c                 | 305 +++++++++++++++---------------=0D
- hw/usb/hcd-xhci.c                 |   2 +-=0D
- hw/usb/redirect.c                 |  17 +-=0D
- softmmu/qdev-monitor.c            |   2 +=0D
- ui/clipboard.c                    |   6 +-=0D
- ui/console-gl.c                   |   4 +=0D
- ui/console.c                      |  29 +--=0D
- docs/specs/index.rst              |   1 +=0D
- docs/specs/sev-guest-firmware.rst | 125 ++++++++++++=0D
- hw/display/trace-events           |   3 +=0D
- hw/usb/trace-events               |   2 +-=0D
- ui/cocoa.m                        |   4 +=0D
- 27 files changed, 614 insertions(+), 378 deletions(-)=0D
- create mode 100644 docs/specs/sev-guest-firmware.rst=0D
-=0D
---=20=0D
-2.35.1=0D
-=0D
+From: "Denis V. Lunev" <den@openvz.org>
+
+xhciwmi.exe is used inside Windows 2022 SVVP tests. This tool called as
+'xhciwmi.exe --verify' reports that 'The firmware loaded on this
+controller has known bugs and/or compatibility issues'. This is just
+a warning but there is no particular sense to ignore it.
+
+This patch just pacifies the tool.
+
+There is a big question whether this change should be put using
+machine type mechanics, but at my opinion this would be an overkill.
+
+Signed-off-by: Denis V. Lunev <den@openvz.org>
+Tested-by: Pavel Polozov <pavel.polozov@virtuozzo.com>
+CC: Yan Vugenfirer <yvugenfi@redhat.com>
+CC: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Yan Vugenfirer <yvugenfi@redhat.com>
+Message-Id: <20211223095443.130276-1-den@openvz.org>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/usb/hcd-xhci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index 14bdb8967686..0cd0a5e54027 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -2523,7 +2523,7 @@ static void xhci_process_commands(XHCIState *xhci)
+         case CR_VENDOR_NEC_FIRMWARE_REVISION:
+             if (xhci->nec_quirks) {
+                 event.type = 48; /* NEC reply */
+-                event.length = 0x3025;
++                event.length = 0x3034;
+             } else {
+                 event.ccode = CC_TRB_ERROR;
+             }
+-- 
+2.35.1
 
 
