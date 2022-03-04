@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF1E4CDFC8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:28:30 +0100 (CET)
-Received: from localhost ([::1]:41516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2465E4CDFCC
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:33:28 +0100 (CET)
+Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQFTR-00089p-OT
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:28:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53582)
+	id 1nQFYF-0001Vg-0j
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:33:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQFSV-0007Kl-HJ
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:27:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50349)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQFSO-0001qF-7H
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:27:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646429242;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hZKOjIE3S5OMByLXAHM5kZKDvwUbSLQ4kaSAoU4mIik=;
- b=DfVz0pWs6Yp5u2LmTScLPfXCqieGnI+igEM+YOFkijcMtPi4nnJvetH0bdt3WRyIAKrD0Q
- ENwHCPy2Py8WcsbHfP+rIzUjpHQ3oQWcakbGez2BQtTUMcMZpvSnwCACSN5bDepOrUxD/P
- NiNirk4gDlndf4qUJILQDNkeBISl7F4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-318-NqHkvNrVOm-KJIsIYaR8pg-1; Fri, 04 Mar 2022 16:27:17 -0500
-X-MC-Unique: NqHkvNrVOm-KJIsIYaR8pg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6823E8070ED;
- Fri,  4 Mar 2022 21:27:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 492382D1F7;
- Fri,  4 Mar 2022 21:27:06 +0000 (UTC)
-Date: Fri, 4 Mar 2022 15:27:04 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 12/12] tests/qemu-iotests: validate NBD TLS with UNIX
- sockets and PSK
-Message-ID: <20220304212704.flvwwgzwhkmkk4cp@redhat.com>
-References: <20220304193610.3293146-1-berrange@redhat.com>
- <20220304193610.3293146-13-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nQFWG-0000ni-HW
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:31:25 -0500
+Received: from [2a00:1450:4864:20::22a] (port=43619
+ helo=mail-lj1-x22a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nQFWD-0003Yd-Bc
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:31:23 -0500
+Received: by mail-lj1-x22a.google.com with SMTP id 29so12625366ljv.10
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 13:31:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zKWgIcOVQpEO5yHN0jVUXJt5kI5kDoPAIzhOeFxExsQ=;
+ b=JmqLRjqq9mhCV937SyGU2Ueyq6RotnFA8aCBjrM9iY1NkAGtgDXomSyCvKUUGbUW6Y
+ wttpGjNt+BXAVEYZdwyzLavwv9jQs1s4B2AWLSbLWR1oNv9ao/hiDxMOUJ7IdMAc79kn
+ 4LTuUR3i/qvQFLINCg203gbdhNhfAaOId2n3FOyIGHXQ2OD+P8Td4rltDhzfbcFRU+Xu
+ MsXgvPB+THnAPop7mv8xCuJqvqZ288pTvwlAReKPDd19WmQL5fjnaOg7CpY9t5PpHRO1
+ gB2xrYDkScQwQuynn7Mm2z70IdEmj+Aot/smUxCM2u99jBRUaXLSYy6RjGgEE+UEoFGV
+ xlIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zKWgIcOVQpEO5yHN0jVUXJt5kI5kDoPAIzhOeFxExsQ=;
+ b=lvKzy/c/k/vIqAPmu8X+V6zGrWd4gzXDKXlEmZgJEzv56cvwKah1hAScUTQslIs0dZ
+ vMel4Fxc2EfhQufGgo/TeE6nCRqTSS8IwfwyCy7aOsKO0S4HI8khxa+XY/AB+0Q6n0qp
+ 9AOqsklLx64vbs1VmBO/PzTzGjTZxp9fvkUX+SpvM+QwI/Oisr1uFQRA9/jO8DjEgmlV
+ CFrs+THN4MWgLScOUCDw8TOhyZtu4CUimkUOwTcmPG+SNQ0Acxe50G1ttV8yW9NVT2Uj
+ fe8eRxo2yDPIqiZ4pit/N64De9QEQ27LxghJVHCA+24I7AytXINVCkY3QNUyCTnhPgeS
+ ZTjg==
+X-Gm-Message-State: AOAM531TQKjT1LLMH9T9oiqAmXtvitz28zblbMdh5pKts+8J4Uc9bbE2
+ a7CcJ3hnY2qI0HETqAz065cAbtaQhyZSKh2vSYM=
+X-Google-Smtp-Source: ABdhPJxaFJgylAjiz/w6eNS+3e+9KiqWMmJ/eMJYh2aBjbY0tnmqichWc28Lea3KigQfOuRB4BwJHLspbfq9KDmHY8o=
+X-Received: by 2002:a2e:b8d1:0:b0:247:b2df:c899 with SMTP id
+ s17-20020a2eb8d1000000b00247b2dfc899mr361103ljp.51.1646429478699; Fri, 04 Mar
+ 2022 13:31:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220304193610.3293146-13-berrange@redhat.com>
-User-Agent: NeoMutt/20211029-383-c6e293
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <cover.1646396869.git.qemu_oss@crudebyte.com>
+ <CAFEAcA8EN8sSSYYMh=u68-a7qXGaG-oSnAz2hT8kXXGtnDLnww@mail.gmail.com>
+ <11201492.CjeqJxXfGd@silver>
+In-Reply-To: <11201492.CjeqJxXfGd@silver>
+From: Will Cohen <wwcohen@gmail.com>
+Date: Fri, 4 Mar 2022 16:31:07 -0500
+Message-ID: <CAB26zV0PP1Pv0wHBk+qp4C+v-Ykh22VnU5Ridw6WD8rZft7o_Q@mail.gmail.com>
+Subject: Re: [PULL 00/19] 9p queue 2022-03-04
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="00000000000039c74405d96b3c3f"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
+ envelope-from=wwcohen@gmail.com; helo=mail-lj1-x22a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,34 +81,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Keno Fischer <keno@juliacomputing.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 07:36:10PM +0000, Daniel P. Berrangé wrote:
-> This validates that connections to an NBD server running on a UNIX
-> socket can use TLS with pre-shared keys (PSK).
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  tests/qemu-iotests/233        | 28 ++++++++++++++++++++++++++++
->  tests/qemu-iotests/233.out    | 17 +++++++++++++++++
->  tests/qemu-iotests/common.tls | 24 ++++++++++++++++++++++++
->  3 files changed, 69 insertions(+)
+--00000000000039c74405d96b3c3f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Same as in 11, and just as in there,
+On Fri, Mar 4, 2022 at 3:16 PM Christian Schoenebeck <qemu_oss@crudebyte.co=
+m>
+wrote:
 
-Tested-by: Eric Blake <eblake@redhat.com>
+> On Freitag, 4. M=C3=A4rz 2022 19:42:18 CET Peter Maydell wrote:
+> > On Fri, 4 Mar 2022 at 12:32, Christian Schoenebeck
+> >
+> > <qemu_oss@crudebyte.com> wrote:
+> > > The following changes since commit
+> 5959ef7d431ffd02db112209cf55e47b677256fd:
+> > >   Merge remote-tracking branch
+> > >   'remotes/alistair/tags/pull-riscv-to-apply-20220303' into staging
+> > >   (2022-03-03 19:59:38 +0000)>
+> > > are available in the Git repository at:
+> > >   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220304
+> > >
+> > > for you to fetch changes up to
+> 39edfe337c418995b2932a9a14a612fb0c329dc5:
+> > >   fsdev/p9array.h: convert Doxygen -> kerneldoc format (2022-03-04
+> > >   13:07:39 +0100)>
+> > > ----------------------------------------------------------------
+> > > 9pfs: introduce macOS host support and cleanup
+> > >
+> > > * Add support for Darwin (a.k.a. macOS) hosts.
+> > >
+> > > * Code cleanup (move qemu_dirent_dup() from osdep -> 9p-util).
+> > >
+> > > * API doc cleanup (convert Doxygen -> kerneldoc format).
+> >
+> > This fails to build on my OSX box:
+> >
+> > In file included from ../../hw/9pfs/9p-util-darwin.c:12:
+> > ../../hw/9pfs/9p-util.h:57:1: error: unused label 'again'
+> > [-Werror,-Wunused-label]
+> > again:
+> > ^~~~~~
+> >
+> > because the use of the label is inside a #ifndef CONFIG_DARWIN
+> > but the definition is not.
+> >
+> > thanks
+> > -- PMM
+>
+> So basically it needs this change:
+>
+> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> index cfa7af43c5..97e681e167 100644
+> --- a/hw/9pfs/9p-util.h
+> +++ b/hw/9pfs/9p-util.h
+> @@ -54,7 +54,9 @@ static inline int openat_file(int dirfd, const char
+> *name,
+> int flags,
+>  {
+>      int fd, serrno, ret;
+>
+> +#ifndef CONFIG_DARWIN
+>  again:
+> +#endif
+>      fd =3D openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOC=
+K,
+>                  mode);
+>      if (fd =3D=3D -1) {
+>
+> Will, can you check why this did not fail there and whether there are
+> probably
+> more issues?
+>
+> If that's the only one, let me know, then I would fix this on my end and
+> resend a PR ASAP. Thanks!
 
-Thanks; I'll be queueing this series through my NBD tree.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+These were just warnings for me so I didn=E2=80=99t worry about them. Will =
+check
+where else it appears when building!
 
+
+>
+> Best regards,
+> Christian Schoenebeck
+>
+>
+>
+
+--00000000000039c74405d96b3c3f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>On Fri, Mar 4, 2022 at 3:16 PM Christian Schoenebeck &lt;<a href=3D"ma=
+ilto:qemu_oss@crudebyte.com">qemu_oss@crudebyte.com</a>&gt; wrote:<br></div=
+><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;pad=
+ding-left:1ex;border-left-color:rgb(204,204,204)">On Freitag, 4. M=C3=A4rz =
+2022 19:42:18 CET Peter Maydell wrote:<br>
+&gt; On Fri, 4 Mar 2022 at 12:32, Christian Schoenebeck<br>
+&gt; <br>
+&gt; &lt;<a href=3D"mailto:qemu_oss@crudebyte.com" target=3D"_blank">qemu_o=
+ss@crudebyte.com</a>&gt; wrote:<br>
+&gt; &gt; The following changes since commit <br>
+5959ef7d431ffd02db112209cf55e47b677256fd:<br>
+&gt; &gt;=C2=A0 =C2=A0Merge remote-tracking branch<br>
+&gt; &gt;=C2=A0 =C2=A0&#39;remotes/alistair/tags/pull-riscv-to-apply-202203=
+03&#39; into staging<br>
+&gt; &gt;=C2=A0 =C2=A0(2022-03-03 19:59:38 +0000)&gt; <br>
+&gt; &gt; are available in the Git repository at:<br>
+&gt; &gt;=C2=A0 =C2=A0<a href=3D"https://github.com/cschoenebeck/qemu.git" =
+rel=3D"noreferrer" target=3D"_blank">https://github.com/cschoenebeck/qemu.g=
+it</a> tags/pull-9p-20220304<br>
+&gt; &gt; <br>
+&gt; &gt; for you to fetch changes up to 39edfe337c418995b2932a9a14a612fb0c=
+329dc5:<br>
+&gt; &gt;=C2=A0 =C2=A0fsdev/p9array.h: convert Doxygen -&gt; kerneldoc form=
+at (2022-03-04<br>
+&gt; &gt;=C2=A0 =C2=A013:07:39 +0100)&gt; <br>
+&gt; &gt; ----------------------------------------------------------------<=
+br>
+&gt; &gt; 9pfs: introduce macOS host support and cleanup<br>
+&gt; &gt; <br>
+&gt; &gt; * Add support for Darwin (a.k.a. macOS) hosts.<br>
+&gt; &gt; <br>
+&gt; &gt; * Code cleanup (move qemu_dirent_dup() from osdep -&gt; 9p-util).=
+<br>
+&gt; &gt; <br>
+&gt; &gt; * API doc cleanup (convert Doxygen -&gt; kerneldoc format).<br>
+&gt; <br>
+&gt; This fails to build on my OSX box:<br>
+&gt; <br>
+&gt; In file included from ../../hw/9pfs/9p-util-darwin.c:12:<br>
+&gt; ../../hw/9pfs/9p-util.h:57:1: error: unused label &#39;again&#39;<br>
+&gt; [-Werror,-Wunused-label]<br>
+&gt; again:<br>
+&gt; ^~~~~~<br>
+&gt; <br>
+&gt; because the use of the label is inside a #ifndef CONFIG_DARWIN<br>
+&gt; but the definition is not.<br>
+&gt; <br>
+&gt; thanks<br>
+&gt; -- PMM<br>
+<br>
+So basically it needs this change:<br>
+<br>
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h<br>
+index cfa7af43c5..97e681e167 100644<br>
+--- a/hw/9pfs/9p-util.h<br>
++++ b/hw/9pfs/9p-util.h<br>
+@@ -54,7 +54,9 @@ static inline int openat_file(int dirfd, const char *name=
+, <br>
+int flags,<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0int fd, serrno, ret;<br>
+<br>
++#ifndef CONFIG_DARWIN<br>
+=C2=A0again:<br>
++#endif<br>
+=C2=A0 =C2=A0 =C2=A0fd =3D openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTT=
+Y | O_NONBLOCK,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mode);<br>
+=C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+<br>
+Will, can you check why this did not fail there and whether there are proba=
+bly <br>
+more issues?<br>
+<br>
+If that&#39;s the only one, let me know, then I would fix this on my end an=
+d <br>
+resend a PR ASAP. Thanks!</blockquote><div dir=3D"auto"><br></div><div dir=
+=3D"auto">These were just warnings for me so I didn=E2=80=99t worry about t=
+hem. Will check where else it appears when building!</div><div dir=3D"auto"=
+><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-l=
+eft-color:rgb(204,204,204)" dir=3D"auto"><br>
+<br>
+Best regards,<br>
+Christian Schoenebeck<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--00000000000039c74405d96b3c3f--
 
