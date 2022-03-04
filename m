@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170BD4CD9D5
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:12:28 +0100 (CET)
-Received: from localhost ([::1]:56632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B634CD9A5
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:04:39 +0100 (CET)
+Received: from localhost ([::1]:36148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQBTf-0004hU-5h
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:12:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51718)
+	id 1nQBM6-00075I-U4
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:04:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5r-0005JX-A2
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51800)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5l-0005Dj-GD
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5m-0007Ol-Mz
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:50 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5j-0007O6-Bi
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646412464;
+ s=mimecast20190719; t=1646412462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ep4Oc4AzvZagGoX/yXbvq45sLbKFKsOXOW46Bs8gpys=;
- b=YxS3SR9k/uHAm2x+4KYRBYD7oikcGFf5UdHOTSrmwQM3BjsF/92FOvRwJb9IwMNGg0F0Ag
- GDs3/SdDLS1BhkpP0r5mLzdxXhiNZ2/LI89t1kgHJVIli+DxB6WLSHMkMCmQOeMP5kziYI
- whsObWxu8i+KPUibOEFTNQD5CudcAnw=
+ bh=aQ3yX4+TxUQH7ImpbVJ4gb/wFmuNna03REPwdKl9+XQ=;
+ b=E1MAPQ602YWV7FTzg/6kcrhy+wRlQbmf4Uu/9NcrVQV5fozUag4BdawP4xzGkj+u0x2h0X
+ ArViEcheOapN5l+r/+5k2wJGNtH3NYKW8lqCWaYvU9xbZwGcGFedHjf+3aqTXurPrVuvMK
+ 7Fdopio4cessVWjKRmKeX0kuhG3MkB4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-125-wVAkONIrNiuCXoRnRIli5Q-1; Fri, 04 Mar 2022 11:47:35 -0500
-X-MC-Unique: wVAkONIrNiuCXoRnRIli5Q-1
+ us-mta-478-N5K8W8gNM2-UBly4cMTl9Q-1; Fri, 04 Mar 2022 11:47:38 -0500
+X-MC-Unique: N5K8W8gNM2-UBly4cMTl9Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31A91824FA9;
- Fri,  4 Mar 2022 16:47:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EFB71006AB4;
+ Fri,  4 Mar 2022 16:47:36 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F25B83BF9;
- Fri,  4 Mar 2022 16:47:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 739E283BF9;
+ Fri,  4 Mar 2022 16:47:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 07/50] util/async: replace __thread with QEMU TLS macros
-Date: Fri,  4 Mar 2022 17:46:28 +0100
-Message-Id: <20220304164711.474713-8-kwolf@redhat.com>
+Subject: [PULL 15/50] main loop: macros to mark GS and I/O functions
+Date: Fri,  4 Mar 2022 17:46:36 +0100
+Message-Id: <20220304164711.474713-16-kwolf@redhat.com>
 In-Reply-To: <20220304164711.474713-1-kwolf@redhat.com>
 References: <20220304164711.474713-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,55 +82,53 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-QEMU TLS macros must be used to make TLS variables safe with coroutines.
+Righ now, IO_CODE and IO_OR_GS_CODE are nop, as there isn't
+really a way to check that a function is only called in I/O.
+On the other side, we can use qemu_in_main_thread() to check if
+we are in the main loop.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220222140150.27240-3-stefanha@redhat.com>
+The usage of macros makes easy to extend them in the future without
+making changes in all callers. They will also visually help understanding
+in which category each function is, without looking at the header.
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-Id: <20220303151616.325444-3-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- util/async.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ include/qemu/main-loop.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/util/async.c b/util/async.c
-index 08d25feef5..2ea1172f3e 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -32,6 +32,7 @@
- #include "qemu/rcu_queue.h"
- #include "block/raw-aio.h"
- #include "qemu/coroutine_int.h"
-+#include "qemu/coroutine-tls.h"
- #include "trace.h"
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index bc42b5939d..7a4d6a0920 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -269,6 +269,24 @@ bool qemu_mutex_iothread_locked(void);
+  */
+ bool qemu_in_main_thread(void);
  
- /***********************************************************/
-@@ -675,12 +676,13 @@ void aio_context_release(AioContext *ctx)
-     qemu_rec_mutex_unlock(&ctx->lock);
- }
- 
--static __thread AioContext *my_aiocontext;
-+QEMU_DEFINE_STATIC_CO_TLS(AioContext *, my_aiocontext)
- 
- AioContext *qemu_get_current_aio_context(void)
- {
--    if (my_aiocontext) {
--        return my_aiocontext;
-+    AioContext *ctx = get_my_aiocontext();
-+    if (ctx) {
-+        return ctx;
-     }
-     if (qemu_mutex_iothread_locked()) {
-         /* Possibly in a vCPU thread.  */
-@@ -691,6 +693,6 @@ AioContext *qemu_get_current_aio_context(void)
- 
- void qemu_set_current_aio_context(AioContext *ctx)
- {
--    assert(!my_aiocontext);
--    my_aiocontext = ctx;
-+    assert(!get_my_aiocontext());
-+    set_my_aiocontext(ctx);
- }
++/* Mark and check that the function is part of the global state API. */
++#define GLOBAL_STATE_CODE()                                         \
++    do {                                                            \
++        assert(qemu_in_main_thread());                              \
++    } while (0)
++
++/* Mark and check that the function is part of the I/O API. */
++#define IO_CODE()                                                   \
++    do {                                                            \
++        /* nop */                                                   \
++    } while (0)
++
++/* Mark and check that the function is part of the "I/O OR GS" API. */
++#define IO_OR_GS_CODE()                                             \
++    do {                                                            \
++        /* nop */                                                   \
++    } while (0)
++
+ /**
+  * qemu_mutex_lock_iothread: Lock the main loop mutex.
+  *
 -- 
 2.35.1
 
