@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56924CD2B9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:48:45 +0100 (CET)
-Received: from localhost ([::1]:57336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A682E4CD2C4
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:51:45 +0100 (CET)
+Received: from localhost ([::1]:32808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ5UK-0000SX-Ut
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:48:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46946)
+	id 1nQ5XE-00033O-PT
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:51:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQ5Sp-0007Ld-LV
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:47:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27169)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nQ5W2-0001uG-6u
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:50:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQ5Sm-0003zU-NP
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:47:10 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nQ5W0-0001iP-MP
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:50:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646390828;
+ s=mimecast20190719; t=1646391028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V5tqPrayDgZ3ZKTdKtw/5FOic9eNtdprUcGyAaIB6Pw=;
- b=aQ7o5zSkg1jrFTKLf9VRgx4WhIhrCMM7ofeFSr0wOWoBraCiVp7ZdlZH6RMMnlmSaPUW+C
- 4EyptTB5jZ2t2q/3dN6Y7C2yJW9cCnrAFJMHG7N7Cfqc+iohjQ1TuP8Myx69bnlzF55a4w
- rq8EgMsGqFRvw2AjHWo1a7aIY8HYer4=
+ bh=BSTaLr+NvfDXVC5SCfeAPB5Wqc0CyU+6cZPlDm/2vsM=;
+ b=BtZBYts4sHESzoGi2+fAAtmELYy1Ud6JJzIC7GnNtEa4PCU3Yg170Kwt9Imnp3dl+gFg07
+ gO7fsyUZsWbzFoSO1Ka8Q89lYZQzEpsN+YZW7u+Ql53LbN2Tyvq38OlpXRibluCqJAISaW
+ 3P46kQlVXHDRuML9TrG7+SGCzERm1PU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-510-62WBQlJTMEyxOKkn3oyzLg-1; Fri, 04 Mar 2022 05:47:04 -0500
-X-MC-Unique: 62WBQlJTMEyxOKkn3oyzLg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-31-Jb7Oy0RFMKeBTBZYB3cCXA-1; Fri, 04 Mar 2022 05:50:26 -0500
+X-MC-Unique: Jb7Oy0RFMKeBTBZYB3cCXA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98449824FA6;
- Fri,  4 Mar 2022 10:47:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 761067C0DD;
- Fri,  4 Mar 2022 10:47:02 +0000 (UTC)
-Date: Fri, 4 Mar 2022 11:47:00 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v2 0/4] qsd: Add --daemonize; and add job quit tests
-Message-ID: <YiHuJCVqMvgwxZTj@redhat.com>
-References: <20220303164814.284974-1-hreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 605C61091DA1;
+ Fri,  4 Mar 2022 10:50:24 +0000 (UTC)
+Received: from localhost (unknown [10.33.36.250])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA1442B3B7;
+ Fri,  4 Mar 2022 10:50:23 +0000 (UTC)
+Date: Fri, 4 Mar 2022 11:50:43 +0100
+From: Sergio Lopez <slp@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3 4/4] docs: vhost-user: add subsection for non-Linux
+ platforms
+Message-ID: <20220304105043.agaor6txfgtd2zek@mhamilton>
+References: <20220303115911.20962-1-slp@redhat.com>
+ <20220303115911.20962-5-slp@redhat.com>
+ <20220304053326-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20220303164814.284974-1-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="c7vjzt7v36rtj4td"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+In-Reply-To: <20220304053326-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,35 +77,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Eric Farman <farman@linux.ibm.com>,
+ qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ kvm@vger.kernel.org, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, Kevin Wolf <kwolf@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 03.03.2022 um 17:48 hat Hanna Reitz geschrieben:
-> Hi,
-> 
-> v1 cover letter:
-> 
-> https://lists.nongnu.org/archive/html/qemu-block/2021-12/msg00499.html
-> 
-> 
-> In v2, I followed Vladimir’s suggestion to look into whether we could
-> reuse os_daemonize().  Indeed we can, and it makes patch 3 (formerly 2)
-> much simpler!
-> 
-> I decided to leave patch 2 (formerly 1) largely unchanged, because it
-> seems to me like the point of contention is whether it’s at all
-> reasonable to introduce a second argument pass for this feature, and not
-> e.g. which arguments we parse during it.
-> I believe such an additional pass is a necessity for --daemonize, so
-> either we really don’t want this pass and so cannot add this feature
-> (and just drop this series); or we do want this feature, and then we
-> have to add this pass.
 
-Thanks, fixed up as discussed on IRC to address the two minor comments
-from Eric and myself, and applied to the block branch.
+--c7vjzt7v36rtj4td
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kevin
+On Fri, Mar 04, 2022 at 05:35:01AM -0500, Michael S. Tsirkin wrote:
+> On Thu, Mar 03, 2022 at 12:59:11PM +0100, Sergio Lopez wrote:
+> > Add a section explaining how vhost-user is supported on platforms
+> > other than Linux.
+> >=20
+> > Signed-off-by: Sergio Lopez <slp@redhat.com>
+> > ---
+> >  docs/interop/vhost-user.rst | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> >=20
+> > diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+> > index edc3ad84a3..590a626b92 100644
+> > --- a/docs/interop/vhost-user.rst
+> > +++ b/docs/interop/vhost-user.rst
+> > @@ -38,6 +38,24 @@ conventions <backend_conventions>`.
+> >  *Master* and *slave* can be either a client (i.e. connecting) or
+> >  server (listening) in the socket communication.
+> > =20
+> > +Support for platforms other than Linux
+>=20
+>=20
+> It's not just Linux - any platform without eventfd.
+>=20
+> So I think we should have a section explaining that whereever
+> spec says eventfd it can be a pipe if system does not
+> support creating eventfd.
+
+I'm confused. This is exactly what this subsection intends to do...
+
+Thanks,
+Sergio.
+
+> > +--------------------------------------
+> > +
+> > +While vhost-user was initially developed targeting Linux, nowadays is
+> > +supported on any platform that provides the following features:
+> > +
+> > +- The ability to share a mapping injected into the guest between
+> > +  multiple processes, so both QEMU and the vhost-user daemon servicing
+> > +  the device can access simultaneously the memory regions containing
+> > +  the virtqueues and the data associated with each request.
+> > +
+> > +- AF_UNIX sockets with SCM_RIGHTS, so QEMU can communicate with the
+> > +  vhost-user daemon and send it file descriptors when needed.
+> > +
+> > +- Either eventfd or pipe/pipe2. On platforms where eventfd is not
+> > +  available, QEMU will automatically fallback to pipe2 or, as a last
+> > +  resort, pipe.
+> > +
+> >  Message Specification
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =20
+> > --=20
+> > 2.35.1
+>=20
+
+--c7vjzt7v36rtj4td
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmIh7wAACgkQ9GknjS8M
+AjWilxAAnNIS1WAe3sQyLr2mX/rC0JeslU2CIVCvEgfZ2kTACBdNG3bKmyWkA+xX
+8L0hYdVfomAilkkMa4TV9LJvS7/fSnpf13xGgX9mvG4SNF87vg/AAfk/gxFGboK7
+Mu7lO14ykgqhMV2jy4QclFkaHXtmbdPwfIzUfUg3KNKmHqxeGZxhx5VnQlJhtG4w
+OwQnZuXMDRfNLuFgfrKvk8K0RlHqStq58x1qcX7NgSmwYcgV1Rc5OVzmIMkRqEOU
+laut4PzBLXEtloSSKkpkIF+3UZzklL1UKBnv8LsFN9/qJb/pCytclle+f8PtQuIs
+Gn87SyJwouQ+lYlr7piRwFHjTgf9LA/MBEmyeOPAmKgAXPdZW4XAO0PdhUpTjjjs
+hY6GJNQv0kKZEONvooZcQsFxpsAbBahKAKZV+9DTPEq9C49YZG970cadUAwDSbw+
+sNdcWX1nR1UGsXVEE9DsLHNQUWkBnPmfzpWHHPhGGMxnlVLGcXchHL/P2lJEHgTb
+zSf05+kg0+AkxcYsOs1zoSpEWTzJ+7lP8qkstN4AbfCfKzmxCJGtTquHzKaJzI3+
+Xj5a6Rt7+NEnisq3UT/xyiGPxBFHkgEUSp1qZXgmANRQ/N7psY1UBEoxNwq/kSYv
+S3JMFzi6KwsUp9d9KnYfhmzpYSvJhZGuK/SearMcCxjzaUym8k0=
+=Yuan
+-----END PGP SIGNATURE-----
+
+--c7vjzt7v36rtj4td--
 
 
