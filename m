@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4E14CD64A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:25:13 +0100 (CET)
-Received: from localhost ([::1]:53052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90164CD649
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:25:11 +0100 (CET)
+Received: from localhost ([::1]:52962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ8ro-0003bi-Oi
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:25:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56782)
+	id 1nQ8rm-0003YI-S3
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:25:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8BB-0003cu-2e
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:41:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49972)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8BG-0003e5-Pb
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:41:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8B7-00017S-Dc
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:41:08 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8BE-000189-KH
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:41:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646401264;
+ s=mimecast20190719; t=1646401272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nfa7HHR2REoaTfd34g0WHMW6eNj0XG3k8vtXlnv0J3Q=;
- b=Xt2Rj/lqiuuHVIT8V0yYNMhyYKG3W6EEwpjK4/1OlYGMzRchPfF6cE+elpq8ObNa0PfPzI
- MKrESiw2HwuhQfTqPGADkL49JJOuKhD1K7mo0KYvtcMwGGuk6ZTLHFMObPfAxGbql0AISY
- MU9UTDhIEZa/ZTEGeKrWsDbrwY6m5t0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IjGfq51R1V+EiuJTNpSRpX5c6IUrfGMgpNpMM4jK+NE=;
+ b=NmhZkKIK+FdZXE9AXLvuGkbd9SEH/p8wff8hCUmImtvsPxrJXwPPkmNhUzXqocPa8SZie4
+ oc5R7HDBGNi4b2KcDWMpRA/ota+L0XzckrfZAsteQlYSIMYXilXFqyJSiBSzi75U0/MRue
+ xr/aFAZjd6BzJKCByvyG5BW/6olT04s=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-nJJtTMSWNeGyhyBRGDP4nQ-1; Fri, 04 Mar 2022 08:41:03 -0500
-X-MC-Unique: nJJtTMSWNeGyhyBRGDP4nQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- f14-20020adfc98e000000b001e8593b40b0so3363811wrh.14
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:41:03 -0800 (PST)
+ us-mta-208-sNrB0LBzMte7t8YuX6h10A-1; Fri, 04 Mar 2022 08:41:11 -0500
+X-MC-Unique: sNrB0LBzMte7t8YuX6h10A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k20-20020adfc714000000b001e305cd1597so3380493wrg.19
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:41:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=Nfa7HHR2REoaTfd34g0WHMW6eNj0XG3k8vtXlnv0J3Q=;
- b=g2RbsT9rEJgGm5O94hXhEw2iH4iNnfCEE9rOO6b4gQQu8vm7bQeiAe3OpsKKDc4iiN
- zKOCTZIVvgDZhlzakTf3e/9DEJTkyMao+swnf/v0XVaVLJeVCgcWYBWEJ0ObrtzSgxXC
- VnIF+LErtQ1aVd7uvk9EppkEjxgsKVwZm1NDWE9WOWHeU09RiTAoh1gO9EQ992K+r/yK
- igC2olCMDBAvMubFeuuQxRz4snXfOqYEfm29HufVfBSSY5p1N23FjFmpy3BD1rtUsGF2
- t9JZ0hy8tMoSL0ZAL6Gw7h7VQiHxc/sf1V/d9yH+oDoPEwivyElFK1ZUkSo+dHG9u43i
- +x4Q==
-X-Gm-Message-State: AOAM5302t6CYetL4tPsyw7LRXbfMqvdg1BSEyiRLUVoi/hS/WjQIKj0O
- ubqdEwNVKM4FegkPyOWRIITr/W+jS/cXbevV+oBTM5jOFj+HAo+JPlaGd15zGteK+oWEI2FG2gF
- 7UhQB55W74osVovpnIwociYnAKLxQ71lYMnqupNRgPUpDz5b+cGOR+tUh1DLT
-X-Received: by 2002:a5d:678a:0:b0:1ef:8e97:363c with SMTP id
- v10-20020a5d678a000000b001ef8e97363cmr22471848wru.617.1646401262035; 
- Fri, 04 Mar 2022 05:41:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwnTCkbb1qdMdjn4gpDmR6rErN56Ls12L76k++zVR2tgyYDv0fQGgkg/3ogSqLo9SGjMEiYeQ==
-X-Received: by 2002:a5d:678a:0:b0:1ef:8e97:363c with SMTP id
- v10-20020a5d678a000000b001ef8e97363cmr22471828wru.617.1646401261772; 
- Fri, 04 Mar 2022 05:41:01 -0800 (PST)
+ bh=IjGfq51R1V+EiuJTNpSRpX5c6IUrfGMgpNpMM4jK+NE=;
+ b=A3O0ENmbTFW3NMsNgVXQq1u5ImpFfPrcdHs1yKMBdOVeKdcZR6a3mYmizi9aXc/Rc6
+ IwahAsw4huJw9TZzwNDkWU5jgbDKdEO6CX5bOYo9iP47uXEvq24kTuUU40I3QfqvzPHi
+ y6CH/Bubx9NdXg6O2X8x5wc7v1GgRIFG1l2JiLBKfEw5jn6l/Ddf9HhzvjRg60NUZzoH
+ BumgGdoVc5SpLT50b3hdkEHy9iH3r0njkBzYLSRgqyzWWgirrOSzqeuwlRvMgxVOaseh
+ 9xF0ZAOJJAG7NLt0wOIA7uD1WrL5g/6VbrCnu5c7/lAPraa2t3eeT1k0ckB04Wair15A
+ vNhQ==
+X-Gm-Message-State: AOAM530KaKzl7NqJDZ49ELzYbzsHBZ2pxoiZ+vPcDT71zrAsDbHQfdyN
+ kBHbCZrUFdq3XIIz0k5Dk7MqNcqoNBqKYhAXwXh3aTLCb22RdJA2gmhkempqeEDBEBnjTEABDrj
+ b61Q7eCwFUbrJPu41vaBXUTAzKmeSnlKZiiEKXEIIrgbYy3P+6RScUCOhG6rS
+X-Received: by 2002:a5d:49c9:0:b0:1f0:16b2:584f with SMTP id
+ t9-20020a5d49c9000000b001f016b2584fmr12786168wrs.710.1646401269435; 
+ Fri, 04 Mar 2022 05:41:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyvGi8Kj34zlRu0108In8y75wMRsVmnGZ7fZ04ArfhjN4EA7K2hvqi6uWNWhgJXSCExVaSVww==
+X-Received: by 2002:a5d:49c9:0:b0:1f0:16b2:584f with SMTP id
+ t9-20020a5d49c9000000b001f016b2584fmr12786143wrs.710.1646401269149; 
+ Fri, 04 Mar 2022 05:41:09 -0800 (PST)
 Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- g17-20020a5d4891000000b001e74e998bf9sm4586836wrq.33.2022.03.04.05.40.57
+ l1-20020a05600c4f0100b00387369f380bsm5562882wmq.41.2022.03.04.05.41.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 05:40:58 -0800 (PST)
-Date: Fri, 4 Mar 2022 08:40:55 -0500
+ Fri, 04 Mar 2022 05:41:04 -0800 (PST)
+Date: Fri, 4 Mar 2022 08:41:02 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/45] pcie: Add a helper to the SR/IOV API
-Message-ID: <20220304133556.233983-31-mst@redhat.com>
+Subject: [PULL 31/45] pcie: Add 1.2 version token for the Power Management
+ Capability
+Message-ID: <20220304133556.233983-32-mst@redhat.com>
 References: <20220304133556.233983-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220304133556.233983-1-mst@redhat.com>
@@ -100,62 +101,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Knut Omang <knuto@ifi.uio.no>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 
-Convenience function for retrieving the PCIDevice object of the N-th VF.
-
 Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-Reviewed-by: Knut Omang <knuto@ifi.uio.no>
-Message-Id: <20220217174504.1051716-4-lukasz.maniak@linux.intel.com>
+Message-Id: <20220217174504.1051716-5-lukasz.maniak@linux.intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pcie_sriov.h |  6 ++++++
- hw/pci/pcie_sriov.c         | 10 +++++++++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ include/hw/pci/pci_regs.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/pci/pcie_sriov.h b/include/hw/pci/pcie_sriov.h
-index 990cff0a1c..80f5c84e75 100644
---- a/include/hw/pci/pcie_sriov.h
-+++ b/include/hw/pci/pcie_sriov.h
-@@ -68,4 +68,10 @@ uint16_t pcie_sriov_vf_number(PCIDevice *dev);
-  */
- PCIDevice *pcie_sriov_get_pf(PCIDevice *dev);
+diff --git a/include/hw/pci/pci_regs.h b/include/hw/pci/pci_regs.h
+index 77ba64b931..a590140962 100644
+--- a/include/hw/pci/pci_regs.h
++++ b/include/hw/pci/pci_regs.h
+@@ -4,5 +4,6 @@
+ #include "standard-headers/linux/pci_regs.h"
  
-+/*
-+ * Get the n-th VF of this physical function - only valid for PF.
-+ * Returns NULL if index is invalid
-+ */
-+PCIDevice *pcie_sriov_get_vf_at_index(PCIDevice *dev, int n);
-+
- #endif /* QEMU_PCIE_SRIOV_H */
-diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
-index 3f256d483f..87abad6ac8 100644
---- a/hw/pci/pcie_sriov.c
-+++ b/hw/pci/pcie_sriov.c
-@@ -287,8 +287,16 @@ uint16_t pcie_sriov_vf_number(PCIDevice *dev)
-     return dev->exp.sriov_vf.vf_number;
- }
+ #define  PCI_PM_CAP_VER_1_1     0x0002  /* PCI PM spec ver. 1.1 */
++#define  PCI_PM_CAP_VER_1_2     0x0003  /* PCI PM spec ver. 1.2 */
  
--
- PCIDevice *pcie_sriov_get_pf(PCIDevice *dev)
- {
-     return dev->exp.sriov_vf.pf;
- }
-+
-+PCIDevice *pcie_sriov_get_vf_at_index(PCIDevice *dev, int n)
-+{
-+    assert(!pci_is_vf(dev));
-+    if (n < dev->exp.sriov_pf.num_vfs) {
-+        return dev->exp.sriov_pf.vf[n];
-+    }
-+    return NULL;
-+}
+ #endif
 -- 
 MST
 
