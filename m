@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639494CD3B9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 12:43:37 +0100 (CET)
-Received: from localhost ([::1]:57386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5D24CD3D3
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 12:55:01 +0100 (CET)
+Received: from localhost ([::1]:39522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ6LP-0000G6-Fq
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 06:43:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58560)
+	id 1nQ6WR-0007sy-Tn
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 06:54:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQ6JY-0007ce-Pt
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:41:40 -0500
-Received: from [2607:f8b0:4864:20::1135] (port=33337
+ id 1nQ6UO-0005oo-O7
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:52:52 -0500
+Received: from [2607:f8b0:4864:20::1135] (port=40608
  helo=mail-yw1-x1135.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQ6JX-00024S-2M
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:41:40 -0500
+ id 1nQ6UN-0005KQ-42
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:52:52 -0500
 Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-2dbd8777564so88528737b3.0
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 03:41:38 -0800 (PST)
+ 00721157ae682-2dc0364d2ceso88539057b3.7
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 03:52:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eGGb+STvjgStAuGQtggL+bm9RoSxFRgODXPR6r/iyyo=;
- b=y3P8/dELowBeObi8GQL+nTFz1K7eZm1+HWtFgscwM5yoNSjRldTcPYZkl8vuGlMbfZ
- kHUo2dwGChT3K3yazlTNtb6/K+CMJBGyQIid9ie0tqkGf/2xi69ITRTLipCBjukOzO7x
- 4jlw6ydAln14GVTYjpaKR0dzyrVEfEpAkek/ICz+QwD3bFji9PGyTUU3kK/Z6dWzs58P
- A0KF7DwMeG3P/cpl02dhTamQ/AWuaIbMaaINhQtWTPuw1fJ5adq7IJSkhPY4YqJKkN17
- nbbX5+hIXUMT/Vo8wYhc+t09StPyO/SnJ+ImYdc9f7uMIgEckMrAup0JDapabfZzBlkj
- erUw==
+ :cc:content-transfer-encoding;
+ bh=m2HTDSBtJzg+iKRymQ1pqcjCbMdOpJAgtBxZQUXeU8o=;
+ b=MVODVOzhZ+Rf5wiRqQIqkHr5PY4+Eu33jjWPm9V7dVJm0kw9asBWUzReosDOxd9FKB
+ x1b53H1jlrqt6VoxrObaKxqkpZH7+qEG70Jkx1L9nv6tQuoQEi805B6NWz4o3h893tx3
+ 4cKYC+xU/9ObA7ywXyVhRef2C3yr/rqhKio5chdPxKaxWej2WWcyWrKjqzoZClvT4tSQ
+ FSCxRJiAgMgzmW4cVU3pn9b1EUQ6dxwkR5WzqJfWg/aywrHLy1YXPuWh8hhGRwIht3IQ
+ XGStviJ0jLxB0FXQzNbZWjjq/lSB6iKnJgWzR1LR5rWuNXOEWXMs7RBOczsMWlKh2lj2
+ DqoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eGGb+STvjgStAuGQtggL+bm9RoSxFRgODXPR6r/iyyo=;
- b=V0qjxLk9RQ0zy9YquNXPwcoL4LC3lcrtmDxF5G1QySypZifaWr4jIN04K7kTX63vP2
- F1rWQ2eiHp7JDHhl7qZJLM7WnF30AgBfE6dcFKujGFv08+OdI8Cn3KX+vcLZzneentVh
- Lzqpg1M4IREVeHjtQFFaEg0hs86qPGQwxOQBOiPbKeVzwJgjeVJPrGHAi9KqAU8rtem3
- PHvAOFq3el7xrLHska1XLGH5CjqzLf48OUUUWJD81/YFMiOS9vckLPlyvC9OZSo0BH5P
- RZNnhciews1ekAHvN//D3gGPJLJM6fMq4pJnsEQT8nCWAWxEXUtTX3DvHOf8s/ne5k2A
- rQhQ==
-X-Gm-Message-State: AOAM533rGxCb4YpNPFmqV4UuIigKoUAih0t56WgNeBw031AIDAWJvN/H
- J6QDrcSwLwrH4RPX3VON2//VpYwh4grsgXSPu5qhww==
-X-Google-Smtp-Source: ABdhPJzU5S+CJr2kRQ74eECyOc79tCoVPPnEWT2KLJc4BONsQA8ILkoawP2rrL1HuqxQiKeUlgUMJhvPflClnS/+UJI=
-X-Received: by 2002:a81:b49:0:b0:2db:f472:dfca with SMTP id
- 70-20020a810b49000000b002dbf472dfcamr15854198ywl.455.1646394097873; Fri, 04
- Mar 2022 03:41:37 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=m2HTDSBtJzg+iKRymQ1pqcjCbMdOpJAgtBxZQUXeU8o=;
+ b=tU5hDsJwBeNpdnLAJFLdkQK+nNGsgtp+0/8LHpxg9PqA8c6DAjkyQ/DKYoLfS7GOQP
+ kCk/w1TS0wD03MlcW3FybbneQ5woXYqddgBSCxkpyc7W6GOtyJafvxc9a00R7aeBYkLl
+ HWTE+ZXxIhhN/nVfyNFMtqKMY0ALrXxWEzB4CowHLcSwHBfTOrvqsvpRUDQWIePwFo+V
+ M+M+l2DTsOEJYjzo2H9NdU6rmNN3PvqLGB6EGoMeybVTAgs/JTrC8IJ0m4H4EMFBeqNh
+ Waug+ph0znOSmiegh8IM/7s5Swqxrl27WRrX8xzOD+N15wFue1bAV6BQccphGQEFrkzk
+ YolA==
+X-Gm-Message-State: AOAM5301rHdKMdbMKHhou79dpZHhgkWUh6T6C47uSuUcobz/CY+RoiM7
+ 2phIgfjkyxDL/0tDbFV9WzD0xe1Y3a5y6yR1P0doog==
+X-Google-Smtp-Source: ABdhPJw5Dvj0c3Aik084O0U8PNxbttiajVP6p9KaHzPPNLhlemrZOknmeHm7td1oDiOOYW2UYnZcYvTCHbnDZq3PfVU=
+X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
+ e69-20020a81a748000000b002d61f8b23a9mr39601710ywh.329.1646394770064; Fri, 04
+ Mar 2022 03:52:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20220304001440.472085-1-richard.henderson@linaro.org>
-In-Reply-To: <20220304001440.472085-1-richard.henderson@linaro.org>
+References: <20220301215958.157011-1-richard.henderson@linaro.org>
+ <20220301215958.157011-19-richard.henderson@linaro.org>
+In-Reply-To: <20220301215958.157011-19-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Mar 2022 11:41:26 +0000
-Message-ID: <CAFEAcA-Rb0E-FKHs_qx8CM1ZeFxoS113UbYpYzPT7+Y_dHUeeg@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Fix sve2 ldnt1 (64-bit unscaled offset)
+Date: Fri, 4 Mar 2022 11:52:39 +0000
+Message-ID: <CAFEAcA9zcf+A6h3R+x2uSEk1aUpV_iWfEZT72CCUeSs32OUJcA@mail.gmail.com>
+Subject: Re: [PATCH v4 18/18] hw/arm/virt: Disable LPA2 for -machine virt-6.2
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1135
  (failed)
 Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
@@ -82,29 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-arm@nongnu.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Mar 2022 at 00:17, Richard Henderson
+On Tue, 1 Mar 2022 at 22:00, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> We were mapping this to ld1 (32-bit unpacked unscaled offset),
-> which discarded the upper 32 bits of the address coming from
-> the vector argument.
+> There is a Linux kernel bug present until v5.12 that prevents
+> booting with FEAT_LPA2 enabled.  As a workaround for TCG,
+> disable this feature for machine versions prior to 7.0.
 >
-> Fixed by setting XS=2, which is the existing translator internal
-> value for no extension.  Update the comments, which matched the
-> incorrect code.
->
-> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/826
+> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/sve.decode | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
+>  include/hw/arm/virt.h | 1 +
+>  hw/arm/virt.c         | 7 +++++++
+>  2 files changed, 8 insertions(+)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Is it not possible to implement this in the usual "change
+property for older versioned machines" way of adding to
+the hw_compat arrays?
+
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index d856485cb4d..dac82a709ba 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -37,7 +37,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
+
+-GlobalProperty hw_compat_6_2[] =3D {};
++GlobalProperty hw_compat_6_2[] =3D {
++    { "arm-cpu-max", "lpa2", "false" },
++};
+ const size_t hw_compat_6_2_len =3D G_N_ELEMENTS(hw_compat_6_2);
+
+ GlobalProperty hw_compat_6_1[] =3D {
 
 thanks
 -- PMM
