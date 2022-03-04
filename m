@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2494CD848
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:49:54 +0100 (CET)
-Received: from localhost ([::1]:59508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99914CD850
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:52:39 +0100 (CET)
+Received: from localhost ([::1]:36314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQABl-0005LH-1w
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:49:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56414)
+	id 1nQAEQ-0000Ra-Pq
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:52:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nQ9pv-0001Tz-19
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:27:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48311)
+ id 1nQ9qS-0001wT-1p
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:27:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nQ9pr-0004uW-EX
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:27:16 -0500
+ id 1nQ9qK-0004z6-1e
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:27:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646407634;
+ s=mimecast20190719; t=1646407663;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Y1syFBjvKEtbA1QphEAAAA0VRhVDz40j8uGQREPqUgc=;
- b=Z12bEw9gaCDPxXORVnHlSCHm8372VtRS1CYbiLJROBCc5MDV0pPCTFqRK5wEEW8/pyH8Jx
- fEdnNUCzAeef/plgOnr3YYQHMzjRXNG6ntZHY/mWMmmtIYYsvC4UbuADkKG6a2RGyFG0/9
- lSykHrdKEDaYLKHrQv70G1WkuFZiEUI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5ntRqMb9zItiX8LVU47zdYtH2GTJ7IQfCQ2jg6NXQgU=;
+ b=T0JzWpe9xLs5siSfiaN5o43p0oKSd2ne6Tn9wWgM6z6OY5m0idOeFY/A3qw4iweFnikg3m
+ qnMxitHr4WNGBcqc3F+APSAm5b8Kqrhl9nre8xD9n7npVL2TeIVKLyKm3Y2G+w6sewWySW
+ 413enpK31FbFTxr5/aonEWksLanzo8E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-3-CGwvcCbIM0-48N9cjGgYQQ-1; Fri, 04 Mar 2022 10:27:11 -0500
-X-MC-Unique: CGwvcCbIM0-48N9cjGgYQQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-299-xcYAOgmUMZOm5_ZdWGJluA-1; Fri, 04 Mar 2022 10:27:42 -0500
+X-MC-Unique: xcYAOgmUMZOm5_ZdWGJluA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 166EC1006AA5;
- Fri,  4 Mar 2022 15:27:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 943AF8145F7;
+ Fri,  4 Mar 2022 15:27:40 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7BD92ED95;
- Fri,  4 Mar 2022 15:27:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46D1D1064275;
+ Fri,  4 Mar 2022 15:27:12 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] RFC: remove qemu_gettimeofday()
-Date: Fri,  4 Mar 2022 19:27:00 +0400
-Message-Id: <20220304152704.3466036-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 1/4] m68k/nios2-semi: fix gettimeofday() result check
+Date: Fri,  4 Mar 2022 19:27:01 +0400
+Message-Id: <20220304152704.3466036-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20220304152704.3466036-1-marcandre.lureau@redhat.com>
+References: <20220304152704.3466036-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -90,36 +93,43 @@ Cc: Marek Vasut <marex@denx.de>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-Here is a few patches to replace qemu_gettimeofday() helper with functions=
-=0D
-provided by GLib.=0D
-=0D
-Marc-Andr=C3=A9 Lureau (4):=0D
-  m68k/nios2-semi: fix gettimeofday() result check=0D
-  qtest: replace gettimeofday with GTimer=0D
-  Replace qemu_gettimeofday() with g_get_real_time()=0D
-  oslib: drop qemu_gettimeofday()=0D
-=0D
- include/sysemu/os-posix.h  |  3 ---=0D
- include/sysemu/os-win32.h  |  6 ------=0D
- blockdev.c                 |  8 ++++----=0D
- hw/rtc/m41t80.c            |  6 +++---=0D
- hw/virtio/virtio-balloon.c |  9 +--------=0D
- qapi/qmp-event.c           | 12 +++++-------=0D
- qemu-img.c                 |  8 ++++----=0D
- qga/commands-posix.c       | 11 +----------=0D
- softmmu/qtest.c            | 39 ++++++++++----------------------------=0D
- target/m68k/m68k-semi.c    | 22 ++++++++++-----------=0D
- target/nios2/nios2-semi.c  | 24 +++++++++++------------=0D
- util/oslib-win32.c         | 20 -------------------=0D
- 12 files changed, 49 insertions(+), 119 deletions(-)=0D
-=0D
---=20=0D
-2.35.1.273.ge6ebfd0e8cbb=0D
-=0D
+gettimeofday() returns 0 for success.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ target/m68k/m68k-semi.c   | 2 +-
+ target/nios2/nios2-semi.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index 44ec7e4612c6..c5c164e096c8 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -381,7 +381,7 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+             qemu_timeval tv;
+             struct gdb_timeval *p;
+             result = qemu_gettimeofday(&tv);
+-            if (result != 0) {
++            if (result == 0) {
+                 if (!(p = lock_user(VERIFY_WRITE,
+                                     arg0, sizeof(struct gdb_timeval), 0))) {
+                     /* FIXME - check error code? */
+diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+index fe5598bae4d7..5a7ad0c7108d 100644
+--- a/target/nios2/nios2-semi.c
++++ b/target/nios2/nios2-semi.c
+@@ -403,7 +403,7 @@ void do_nios2_semihosting(CPUNios2State *env)
+             qemu_timeval tv;
+             struct gdb_timeval *p;
+             result = qemu_gettimeofday(&tv);
+-            if (result != 0) {
++            if (result == 0) {
+                 p = lock_user(VERIFY_WRITE, arg0, sizeof(struct gdb_timeval),
+                               0);
+                 if (!p) {
+-- 
+2.35.1.273.ge6ebfd0e8cbb
 
 
