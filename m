@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E451E4CD2B2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:45:46 +0100 (CET)
-Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC404CD2C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:51:13 +0100 (CET)
+Received: from localhost ([::1]:58914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ5RS-0004y1-0A
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:45:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45660)
+	id 1nQ5Wi-0001Vw-FN
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:51:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ5Nr-0008EY-OB
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:42:03 -0500
-Received: from [2a00:1450:4864:20::531] (port=45852
- helo=mail-ed1-x531.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ5Nq-0003G8-1Z
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:42:03 -0500
-Received: by mail-ed1-x531.google.com with SMTP id y11so9682556eda.12
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 02:42:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=rh829fDdnj2cv1EzlLL7bncCuYI0mEnHyTGHBmgxxl8=;
- b=OqpbTMF45klu+vAKs9OHWOjg0hoNq0Z25Sncu+XcE2xkvKzxZTEVsmwxKc1e624gY0
- Hhj3m5yjZY0CaB6EtLT1hIM0gpjYWhbkWHcqSpG9aSAcWTIUl3Ush9itzt1Fcl5fyUrc
- t6TgBaFXef6zv5W4qmHMrpZFB/mtSlg/Wg8RnwuVCKaDw1ogvPAmiCaw3ZLnQKQmjaC1
- Rca6840RZMJErsbiaNBkveXTqsQFZwyb+XH3GTaipwOK9qV+BoiSlFPj9ZPQmpXZ13Si
- wcpx2d6aUJbV4MFd7Ug+ymoZjl2KMRb6A5gwjCa+YjE3YEnLJqi2/rX+65DEAVmcN4xE
- 3XSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=rh829fDdnj2cv1EzlLL7bncCuYI0mEnHyTGHBmgxxl8=;
- b=CqIvFu9FWLjhn/tTlYzPJR3YilYjMaNbdK/3teFGeDkJEAnWVUQnq1HC+3uMkEVVto
- KRyXVu7Vh3jtCziwVXHTKAAqpEZv9M2yigBGJfYyCxacWXzY8ucU5Ntq30re+EZ1GIMr
- NZZQtPWHKh43XkEcidPsXZ1C7lXTwrloOl0x38kH5eT/9mQywiRyRacOhJXXHS4IljA2
- C5OFc0nnYEoKqkW4j+cbVNVzFVZPgE8Jhm10fnBlBklEUUKkKrudBu89sWkLf5B5r0YV
- Hin8OrWxP38N3y811Cqv6Akj1A7AwSuCpidrJ778lzL1JH6cs+SrXdeNtyAqFmbEhUMp
- blkQ==
-X-Gm-Message-State: AOAM530Ids1W1+8nkfg6YpDIddOyc3XX2ZsH04+bdZCvM1+SQUA8To5p
- dKpAjdmO/NkXxLzxEzHM18vmgDKeTmF0jn41wb8x6A==
-X-Google-Smtp-Source: ABdhPJyUUd3scdpnpoUbHCIZgsm+ClujoElJYV6ZEt+kk664tBaytwATEOn8JVNAMRPLmAUXV733bqpNSShf4rv3trA=
-X-Received: by 2002:a05:6402:1148:b0:413:11e0:1f58 with SMTP id
- g8-20020a056402114800b0041311e01f58mr38467179edw.113.1646390518935; Fri, 04
- Mar 2022 02:41:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nQ5Om-0001nq-FQ
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:43:00 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:46810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1nQ5Ok-0003L9-6T
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:43:00 -0500
+Received: from [192.168.13.13] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id E8F5221C36;
+ Fri,  4 Mar 2022 10:42:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1646390574;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hK33hMN1ANGa5mxb9VKAV1e4buFLy8Mfuc/1AMXP2Wo=;
+ b=y0cyZgSYZLTwk1xw/nf+y7bJjryaAGP7B/OyuK6XnY0Rn1PGhOXWPjeBXn5RVhF4KjvFOv
+ 848aEZ1CBbq1EnALfMMUVLuPx1Mtz63V+MsSz83yF/jWL8oYrRaucy2fh3eujg+6sr4wit
+ sc6JFDP0/QmlhlymlkV1+qUbguQbvj4=
+Message-ID: <77bcc8d7-a906-f97a-c927-927c2eb4fce0@greensocs.com>
+Date: Fri, 4 Mar 2022 11:42:53 +0100
 MIME-Version: 1.0
-References: <CAARzgwyjqEs96QXthDs_yQi_s7qmMsLuH+4YQcq2Hx01_vY3EA@mail.gmail.com>
- <20220303094134.tuhhrvtstxwpksmh@sirius.home.kraxel.org>
- <CAARzgwxFuY=xMQmHU0cocG3ecznhVwQVTF0naaA6wwFkhwvOyA@mail.gmail.com>
- <20220304101846.ct3ge56w6gjq355o@sirius.home.kraxel.org>
-In-Reply-To: <20220304101846.ct3ge56w6gjq355o@sirius.home.kraxel.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 4 Mar 2022 16:11:47 +0530
-Message-ID: <CAARzgwy33DZwoXzMMYCd1e4-88hyzChX-VpHH65P71PW6Ko4Ng@mail.gmail.com>
-Subject: Re: any opinion on the patch "[RFC PATCH] hw/i386/e820: remove legacy
- reserved entries for e820"? EOM
-To: Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::531;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v4 12/14] add sysbus-mmio-map qapi command
+Content-Language: en-US-large
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org,
+ mark.burton@greensocs.com, edgari@xilinx.com
+References: <20220223090706.4888-1-damien.hedde@greensocs.com>
+ <20220223090706.4888-13-damien.hedde@greensocs.com>
+ <a507b986-c8fb-3deb-5531-54fcbb35039e@gmail.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <a507b986-c8fb-3deb-5531-54fcbb35039e@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,24 +70,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 4, 2022 at 3:48 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> On Thu, Mar 03, 2022 at 03:12:51PM +0530, Ani Sinha wrote:
-> > On Thu, Mar 3, 2022 at 15:11 Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> > > Sorry, no.  Noticed the discussions but don't remember the details and
-> > > didn't took the time to wade through the code to refresh my memory.
-> >
-> > Could you please take a look when you get time? You have the most context
-> > in this space I believe.
->
-> Should indeed not be needed unless you use a stone-aged seabios version.
-> But I think you can't simply drop it for live migration compatibility
-> reasons.  So you'll need do the compatibility dance and drop it for new
-> machine types only.  I doubt the benefits outweigh that effort ..
 
-Igor what do you think?
+
+On 3/3/22 15:59, Philippe Mathieu-Daudé wrote:
+> On 23/2/22 10:07, Damien Hedde wrote:
+>> This command allows to map an mmio region of sysbus device onto
+>> the system memory. Its behavior mimics the sysbus_mmio_map()
+>> function apart from the automatic unmap (the C function unmaps
+>> the region if it is already mapped).
+>> For the qapi function we consider it is an error to try to map
+>> an already mapped function. If unmapping is required, it is
+>> probably better to add a sysbus-mmip-unmap command.
+> 
+> "sysbus-mmio-unmap" typo I presume.
+> 
+>> This command is still experimental (hence the 'unstable' feature),
+>> as it is related to the sysbus device creation through qapi commands.
+>>
+>> This command is required to be able to dynamically build a machine
+>> from scratch as there is no qapi-way of doing a memory mapping.
+>>
+>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+>> ---
+>> Cc: Alistair Francis <alistair.francis@wdc.com>
+>>
+>> v4:
+>>   + integrate priority parameter
+>>   + use 'unstable' feature flag instead of 'x-' prefix
+>>   + bump version to 7.0
+>>   + dropped Alistair's reviewed-by as a consequence
+>> ---
+>>   qapi/qdev.json   | 31 ++++++++++++++++++++++++++++++
+>>   hw/core/sysbus.c | 49 ++++++++++++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 80 insertions(+)
+>>
+>> diff --git a/qapi/qdev.json b/qapi/qdev.json
+>> index 2e2de41499..4830e87a90 100644
+>> --- a/qapi/qdev.json
+>> +++ b/qapi/qdev.json
+>> @@ -160,3 +160,34 @@
+>>   ##
+>>   { 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
+>>     'data': { '*device': 'str', 'path': 'str' } }
+>> +
+>> +##
+>> +# @sysbus-mmio-map:
+>> +#
+>> +# Map a sysbus device mmio onto the main system bus.
+>> +#
+>> +# @device: the device's QOM path
+>> +#
+>> +# @mmio: The mmio number to be mapped (defaults to 0).
+>> +#
+>> +# @addr: The base address for the mapping.
+>> +#
+>> +# @priority: The priority of the mapping (defaults to 0).
+>> +#
+>> +# Features:
+>> +# @unstable: Command is meant to map sysbus devices
+>> +#            while in preconfig mode.
+>> +#
+>> +# Since: 7.0
+>> +#
+>> +# Returns: Nothing on success
+>> +#
+>> +##
+>> +
+>> +{ 'command': 'sysbus-mmio-map',
+>> +  'data': { 'device': 'str',
+>> +            '*mmio': 'uint8',
+>> +            'addr': 'uint64',
+>> +            '*priority': 'int32' },
+> 
+> I wonder if not providing the explicit parent container now could
+> be problematic later, and if we shouldn't start with a QOM MR path
+> (default to 'system_memory'). Anyway, sysbus are currently
+> restricted to system_memory so as you described, this mimics well
+> sysbus_mmio_map().
+
+I think we ended-up adding such a parameter to handle complex xilinx 
+machines having several cpu clusters. I wanted to stay simple in this 
+series here as there are probably several way to address this issue. (we 
+could also add a bus parameter, and create more sysbus).
+We can still add the parameter later, with an appropriate default value 
+(or even make the parameter mandatory).
+
+If everybody agree to go for the bus-less approach. I can add the MR 
+parameter right now.
+
+CCing Igor
+
+>> +void qmp_sysbus_mmio_map(const char *device,
+>> +                         bool has_mmio, uint8_t mmio,
+>> +                         uint64_t addr,
+>> +                         bool has_priority, int32_t priority,
+>> +                         Error **errp)
+>> +{
+>> +    Object *obj = object_resolve_path_type(device, 
+>> TYPE_SYS_BUS_DEVICE, NULL);
+>> +    SysBusDevice *dev;
+>> +
+>> +    if (phase_get() != PHASE_MACHINE_INITIALIZED) {
+>> +        error_setg(errp, "The command is permitted only when "
+>> +                         "the machine is in initialized phase");
+> 
+> "command only permitted during the " #PHASE_MACHINE_INITIALIZED "phase"?
+
+What do you mean by '#', this is not a macro parameter. 
+PHASE_MACHINE_INITIALIZED is just an enum value and there is no 
+human/qapi exposed name.
+"when the machine is initialized/initializing" ?
+I think all the machine phase error message are bit like that (not 
+mentioning the phase).
+
 
