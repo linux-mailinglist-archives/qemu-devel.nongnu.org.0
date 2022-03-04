@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34F34CD604
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:12:17 +0100 (CET)
-Received: from localhost ([::1]:44352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 581404CD5E9
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:07:21 +0100 (CET)
+Received: from localhost ([::1]:60840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ8fI-0003J1-RS
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:12:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55842)
+	id 1nQ8aW-0003ZO-Dx
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:07:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ893-0008Vy-04
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:38:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36090)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ89B-0000VH-OH
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:39:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ891-0000TS-7t
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:38:56 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ89A-0000Uw-9K
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:39:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646401134;
+ s=mimecast20190719; t=1646401143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TX6EjlT2hSkO078tNRAKGmtPlKuyy6GjReGhr8QOnJA=;
- b=a0Ji2ciLKpfQIZKoH0X95LjuaSiAoO0rwXvHYE5JbnT04u2ZyrFZ61f12LWmKedfRE5Dpt
- /ghfTZCAPrYr9/OdX7YmtoiPj4V8k/BfyHZ5U8px/5GHVbLV1pvUPuBfklDehY4/GaF/bS
- L1tNDciM6Bsz8m/VytEhbb9Ff8x2kuw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xYUjGCjqDKAb5NDT97RnxRdsQlEA2CnL9zsqzwpbiAQ=;
+ b=CNAeKk+teapYSwQqCFbPfWFXPhqPfVL27dJr6E6q7I6VQmpvzcV35W5+9hix6YoH6uBy3+
+ TBGkIgR46xq6QGiDS0/f6GZpDrCPy0xfNKMJa/wjh09OHc+udUUHTAQZVqjpvG4MHrIvT4
+ lr9qDxjOWlzYNl9GHKKsnupthooheM4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-6CpwZDKmPNeQWeJ6UGuYwQ-1; Fri, 04 Mar 2022 08:38:53 -0500
-X-MC-Unique: 6CpwZDKmPNeQWeJ6UGuYwQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k20-20020adfc714000000b001e305cd1597so3378234wrg.19
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:38:53 -0800 (PST)
+ us-mta-311-AmOPkJl3MW2DIABbqANX3Q-1; Fri, 04 Mar 2022 08:39:03 -0500
+X-MC-Unique: AmOPkJl3MW2DIABbqANX3Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h11-20020a5d430b000000b001f01a35a86fso3366577wrq.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:39:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=TX6EjlT2hSkO078tNRAKGmtPlKuyy6GjReGhr8QOnJA=;
- b=jFt+I1zU8RdJ2aPFhRL28cPSmpFlO6CI3RAkBj5jLXBYMKgfY0yQbMimtcrQaE5UUA
- yQMF+YYs0EDp+leGNLvdPMAahZdJEJ9QbbkO06N5aq5tDwkdB/6z+LBUyFHTeKvYwB+R
- yOT7ua1fdhMu7NK9cx1zSceCxBT1jatp/kgwj++2XhHT2zqcdHhjFbHkh4eUk9ixnNyh
- K7xglg8PBkNpF/Nr2lWdbG/HDO4LiET0ZoJlwEaRabfpcajUsVQv4LLSL/z5ArpXQYty
- +tO5KXkwsRBdMTNO8TGUau21EOYwQwtGGDm6vXlScDCORNvp7m1SfjeBr1Qttk92r96Q
- al5A==
-X-Gm-Message-State: AOAM5312gwKiyDvQAUaj7U449hxfsCuHrO/seiH69aX/pL5pL4EltcgO
- y4BFBZBEq6YegG+pQ0bvgugpWv8VtvC+zNOw8vWb5HoP4xPTXdW27W1rbJiV0a4Tpu3oRM3spau
- 9WvtaxdrKAVT8epkFFVC8px+Mdpgvo3GZrBVn6WQtmLfHSnuTP3bWfLnsTdod
-X-Received: by 2002:a05:6000:2c9:b0:1f0:49aa:d347 with SMTP id
- o9-20020a05600002c900b001f049aad347mr7170163wry.453.1646401132134; 
- Fri, 04 Mar 2022 05:38:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJytlPK94FMGJmr9vD96Y/1WAwbk7Cg6AMNLOlSbNzIzAulXA3gGxPXNJWOS5ZECFe/t+9LciQ==
-X-Received: by 2002:a05:6000:2c9:b0:1f0:49aa:d347 with SMTP id
- o9-20020a05600002c900b001f049aad347mr7170133wry.453.1646401131856; 
- Fri, 04 Mar 2022 05:38:51 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=xYUjGCjqDKAb5NDT97RnxRdsQlEA2CnL9zsqzwpbiAQ=;
+ b=Cm5bwOWU6WxTXIr/CosAdbJYtE/MmEvoWeMX8BVew6o/bGKkO7bx68fRfBxQkbCIOW
+ Hm5vtYYIDXgDJf+m/7s/zjG5UjyI6L/DhJlJzTPQvDBT6uG50zEuONmo09ghk2iEH/z7
+ DATTocsHjCExt46PmGL9nAsZsjMdA85haFKVA9H8T6i4vdTN/AKBIcqP83CpSwERwqBM
+ 72eIAc+FJY5ioWuAK3sC9rc+WwT5zTw7WWKsVv4kQBmU7J8qUhE2QxEFSHC7noQhjzWw
+ f7042Z+taiSQl1s4U3hYd3rrhxiwhnEpXenZT22+MP/HYdX3CPYwR9g2FYwwbZZqC1C4
+ e/DQ==
+X-Gm-Message-State: AOAM531S58VX8scoogTjOwRsTwTloi98hkHR4TH9X6nG8z3ASFmJgiwX
+ AsVEGFsV+qoSWfRbFnznwk2XF6d1km/ifAgmf9HS8+B85PxhqNdH7Cnsm8/SfgToauLQ1BuUpdN
+ 50RJM3d4j2SzxmQZ+0cah4OzEQUu0fWnaMDHVcP7JdKejPNIR83P8+5EmufN+
+X-Received: by 2002:a05:600c:4982:b0:380:e458:dbd9 with SMTP id
+ h2-20020a05600c498200b00380e458dbd9mr7732761wmp.49.1646401141385; 
+ Fri, 04 Mar 2022 05:39:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwt+admyhqKKOBjOKp/Z0pGp+BebFUpYRYGN629SPNLs18f1lPMK/okFMOUm+hqeD4WVBRkyA==
+X-Received: by 2002:a05:600c:4982:b0:380:e458:dbd9 with SMTP id
+ h2-20020a05600c498200b00380e458dbd9mr7732742wmp.49.1646401141080; 
+ Fri, 04 Mar 2022 05:39:01 -0800 (PST)
 Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- l16-20020a05600c4f1000b0033383cdeea1sm5053280wmq.10.2022.03.04.05.38.41
+ a3-20020a7bc1c3000000b00380e493660esm11183768wmj.42.2022.03.04.05.38.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 05:38:43 -0800 (PST)
-Date: Fri, 4 Mar 2022 08:38:39 -0500
+ Fri, 04 Mar 2022 05:38:55 -0800 (PST)
+Date: Fri, 4 Mar 2022 08:38:52 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/45] virtio: fix the condition for iommu_platform not
- supported
-Message-ID: <20220304133556.233983-12-mst@redhat.com>
+Subject: [PULL 12/45] hw/vhost-user-i2c: Add support for
+ VIRTIO_I2C_F_ZERO_LENGTH_REQUEST
+Message-ID: <20220304133556.233983-13-mst@redhat.com>
 References: <20220304133556.233983-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220304133556.233983-1-mst@redhat.com>
@@ -74,9 +76,10 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,110 +101,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-stable@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Jakob Naucke <Jakob.Naucke@ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Halil Pasic <pasic@linux.ibm.com>
+From: Viresh Kumar <viresh.kumar@linaro.org>
 
-The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-unsupported") claims to fail the device hotplug when iommu_platform
-is requested, but not supported by the (vhost) device. On the first
-glance the condition for detecting that situation looks perfect, but
-because a certain peculiarity of virtio_platform it ain't.
+VIRTIO_I2C_F_ZERO_LENGTH_REQUEST is a mandatory feature, that must be
+implemented by everyone. Add its support.
 
-In fact the aforementioned commit introduces a regression. It breaks
-virtio-fs support for Secure Execution, and most likely also for AMD SEV
-or any other confidential guest scenario that relies encrypted guest
-memory.  The same also applies to any other vhost device that does not
-support _F_ACCESS_PLATFORM.
-
-The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
-"device can not access all of the guest RAM" and "iova != gpa, thus
-device needs to translate iova".
-
-Confidential guest technologies currently rely on the device/hypervisor
-offering _F_ACCESS_PLATFORM, so that, after the feature has been
-negotiated, the guest  grants access to the portions of memory the
-device needs to see. So in for confidential guests, generally,
-_F_ACCESS_PLATFORM is about the restricted access to memory, but not
-about the addresses used being something else than guest physical
-addresses.
-
-This is the very reason for which commit f7ef7e6e3b ("vhost: correctly
-turn on VIRTIO_F_IOMMU_PLATFORM") fences _F_ACCESS_PLATFORM from the
-vhost device that does not need it, because on the vhost interface it
-only means "I/O address translation is needed".
-
-This patch takes inspiration from f7ef7e6e3b ("vhost: correctly turn on
-VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
-situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
-by the device, and thus no device capability is needed. In this
-situation claiming that the device does not support iommu_plattform=on
-is counter-productive. So let us stop doing that!
-
-Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
-Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
-unsupported")
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-stable@nongnu.org
-
-Message-Id: <20220207112857.607829-1-pasic@linux.ibm.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+Message-Id: <fc47ab63b1cd414319c9201e8d6c7705b5ec3bd9.1644490993.git.viresh.kumar@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/virtio-bus.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ include/hw/virtio/vhost-user-i2c.h |  3 +++
+ hw/virtio/vhost-user-i2c.c         | 11 +++++++++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-index d23db98c56..0f69d1c742 100644
---- a/hw/virtio/virtio-bus.c
-+++ b/hw/virtio/virtio-bus.c
-@@ -48,6 +48,7 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-     VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
-     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
-     bool has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-+    bool vdev_has_iommu;
-     Error *local_err = NULL;
+diff --git a/include/hw/virtio/vhost-user-i2c.h b/include/hw/virtio/vhost-user-i2c.h
+index deae47a76d..d8372f3b43 100644
+--- a/include/hw/virtio/vhost-user-i2c.h
++++ b/include/hw/virtio/vhost-user-i2c.h
+@@ -25,4 +25,7 @@ struct VHostUserI2C {
+     bool connected;
+ };
  
-     DPRINTF("%s: plug device.\n", qbus->name);
-@@ -69,11 +70,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-         return;
-     }
++/* Virtio Feature bits */
++#define VIRTIO_I2C_F_ZERO_LENGTH_REQUEST		0
++
+ #endif /* _QEMU_VHOST_USER_I2C_H */
+diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+index d172632bb0..42c7f6d9e5 100644
+--- a/hw/virtio/vhost-user-i2c.c
++++ b/hw/virtio/vhost-user-i2c.c
+@@ -19,6 +19,11 @@
+ #define VIRTIO_ID_I2C_ADAPTER                34
+ #endif
  
--    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
--        error_setg(errp, "iommu_platform=true is not supported by the device");
--        return;
--    }
--
-     if (klass->device_plugged != NULL) {
-         klass->device_plugged(qbus->parent, &local_err);
-     }
-@@ -82,9 +78,15 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-         return;
-     }
++static const int feature_bits[] = {
++    VIRTIO_I2C_F_ZERO_LENGTH_REQUEST,
++    VHOST_INVALID_FEATURE_BIT
++};
++
+ static void vu_i2c_start(VirtIODevice *vdev)
+ {
+     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+@@ -113,8 +118,10 @@ static void vu_i2c_set_status(VirtIODevice *vdev, uint8_t status)
+ static uint64_t vu_i2c_get_features(VirtIODevice *vdev,
+                                     uint64_t requested_features, Error **errp)
+ {
+-    /* No feature bits used yet */
+-    return requested_features;
++    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
++
++    virtio_add_feature(&requested_features, VIRTIO_I2C_F_ZERO_LENGTH_REQUEST);
++    return vhost_get_features(&i2c->vhost_dev, feature_bits, requested_features);
+ }
  
-+    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-     if (klass->get_dma_as != NULL && has_iommu) {
-         virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
-         vdev->dma_as = klass->get_dma_as(qbus->parent);
-+        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
-+            error_setg(errp,
-+                       "iommu_platform=true is not supported by the device");
-+            return;
-+        }
-     } else {
-         vdev->dma_as = &address_space_memory;
-     }
+ static void vu_i2c_handle_output(VirtIODevice *vdev, VirtQueue *vq)
 -- 
 MST
 
