@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3903E4CDC59
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:26:04 +0100 (CET)
-Received: from localhost ([::1]:40272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5824D4CDC86
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:32:09 +0100 (CET)
+Received: from localhost ([::1]:50258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQCct-0003Bv-9X
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:26:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44818)
+	id 1nQCim-0001bp-9z
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:32:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQCaY-0000gh-7f
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:23:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46698)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQCfX-00083t-KG
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:28:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQCaW-0001Ar-5W
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:23:37 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQCfR-0004Dz-GR
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:28:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646418215;
+ s=mimecast20190719; t=1646418520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nn1SHia3YYqhZR3P3a9YurCS3OGwjzPrQuxvK8nb6oM=;
- b=E2yB7200TocX8jkOF1+t9Jpy0bhvRg14QziSUD6+/1UmkAnySZtjUhzOmAFc45LB+WjYCM
- saIHUp8MtT9F+/a46/fFzJFTc5PNObuvbkNRqZ89zHPsEcvdwwNr5evm6PhyF1tNAoqViY
- fxyvNSO6PSrx/6z2yiFPR2JjGT5xkqw=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=aT571ZHY94nTrFNLacZxNd/vn1stDjS/niJ2mQL87L8=;
+ b=P0zaOKmvWVkjglsaXebzJUW/FBxB0CM2GftVpR/4SWYuXgF5w18MqaNUa/MeRltwlQXE5F
+ BM33YJgFfCqx4ftCbdsk2N3XSrBlZG6lsNr1fWqF4kdUcTXp4lyv+ePjAMd/qbzgHCiEQ+
+ UZRY4GdpV20uQJ+at+18QEeqRTDpSwU=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-ESj_siN4P3i30PPVm4eLew-1; Fri, 04 Mar 2022 13:23:33 -0500
-X-MC-Unique: ESj_siN4P3i30PPVm4eLew-1
-Received: by mail-ua1-f70.google.com with SMTP id
- l5-20020ab03d85000000b0034ac8e179c3so2544051uac.0
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 10:23:33 -0800 (PST)
+ us-mta-660-va9aKSgVNJqlTYkK5tAbcg-1; Fri, 04 Mar 2022 13:28:39 -0500
+X-MC-Unique: va9aKSgVNJqlTYkK5tAbcg-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ i39-20020a9f3b27000000b00341888cb8e8so4354408uah.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 10:28:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nn1SHia3YYqhZR3P3a9YurCS3OGwjzPrQuxvK8nb6oM=;
- b=skwlx5OzO5JZooX3xmlJ3TE0g2I+mAPI8BQbAgeS7tJ6DNJNdxv2aIBqoOCICl00NM
- 8psim9GkSfgwXwDRXJ5XHwE4NA/cHWgeoerhqk13ds1taclWkdH4I4VXfVD40+lBL+Wu
- zD95i8yDMTVag6eUqot1bcHnQZtrtKffsAfbpKf2gGtX9vylYNaZASSrFbnBU78/7ttF
- exBni7XY0o3RsCAcePaLucx9N/pPaO5nkkwG7mSxesCPfDTHkbR38AzGC1QGS+8JxSbO
- 5wu3ftbntSisj6TftmazOclsxPg74cxfccm5Ti+LLjmn30FImZ3O8juiXCNfq0DOaRO1
- VEXg==
-X-Gm-Message-State: AOAM530Fl5Qg2UPHTo3MGUwRNMNyiCtFAS6RxyCh828VSZ5jdwEhUteF
- e3bq5ruEH4aKUwikPG74Arh86uiJUXr6jpyHARXJXvpGW7zX5oklv7Nw9QW0DIwzDmmmTrd7uQw
- mONfdTcpxLn11oNsL7mA5edoY7qhynE0=
-X-Received: by 2002:a05:6122:17a6:b0:31e:d699:29e0 with SMTP id
- o38-20020a05612217a600b0031ed69929e0mr19388054vkf.1.1646418213024; 
- Fri, 04 Mar 2022 10:23:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy+nLaX/uenUJFsCH778W5fVkS9V//08bvPN95nf8WBTVE5lC0Ne56wGw67fqtd/pb8Y7EBjlAQ1CYkX9SSRuw=
-X-Received: by 2002:a05:6122:17a6:b0:31e:d699:29e0 with SMTP id
- o38-20020a05612217a600b0031ed69929e0mr19388045vkf.1.1646418212868; Fri, 04
- Mar 2022 10:23:32 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=aT571ZHY94nTrFNLacZxNd/vn1stDjS/niJ2mQL87L8=;
+ b=1VRCF15xodv7flgXLhffNAs2FImU1v5YqydR4MYtOGk/VvAoFOj7Y867IsDGVP0Ry9
+ aiW4yBOC65Y3RRsm22UQ3z7f+RmQFEImwn0WZN/KWX9VoZp9b0UGtrxloHulkuHB05c2
+ BwS1MMGWpi1pIL/EYhYecMNwFvbamRC6YsXllJWhuYia90JSLkjF6EsimOR8xGgBcDGE
+ YVXrQKlZ+FuqmRaIp2nHM32xDkXNlAL3KZEtH7HHGjbmrqB6uAm4E2Laf6KojqCKeOPV
+ y6mIL/Nl5jtduwmOOp9z7ITw7hfNgKR+tUk5VrblGzNxqJDNhpeHvIWYb3CRNeo1GO8C
+ vrFA==
+X-Gm-Message-State: AOAM531seKgYEjt9U9FOfOq1zYSa9k28wwl4Y66dgJKie+K88DcTaNnE
+ 3+8phfkjoxqkI0O1IcaYQ3lqOQkmST8avwdjdDzi1f1UMazK/tCxHmOx0eHzVl9ECU+GbBu2kR0
+ eAqiLM0wg8zA7x14mJszj6xSufkZqpjs=
+X-Received: by 2002:a05:6122:985:b0:32d:a8d5:7b12 with SMTP id
+ g5-20020a056122098500b0032da8d57b12mr18356472vkd.3.1646418518494; 
+ Fri, 04 Mar 2022 10:28:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwO8Nl8mSZjJu7juc6KrFY49Jts2xkYZ0b5q6nAOd5y9gV+0DSJoNcv/+sFbbhCXJSPlE130B68Jbz2+EivV7w=
+X-Received: by 2002:a05:6122:985:b0:32d:a8d5:7b12 with SMTP id
+ g5-20020a056122098500b0032da8d57b12mr18356463vkd.3.1646418518298; Fri, 04 Mar
+ 2022 10:28:38 -0800 (PST)
 MIME-Version: 1.0
 References: <20220225205948.3693480-1-jsnow@redhat.com>
- <20220225205948.3693480-10-jsnow@redhat.com>
- <YiJT30Ibq9ncb/Kt@redhat.com>
-In-Reply-To: <YiJT30Ibq9ncb/Kt@redhat.com>
+ <YiJRKKMtK9sdB1+9@redhat.com>
+In-Reply-To: <YiJRKKMtK9sdB1+9@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Date: Fri, 4 Mar 2022 13:23:22 -0500
-Message-ID: <CAFn=p-ZLdHBxeSRWYU9xP00mHASf9=omLG0n3SepKtuUhZoteA@mail.gmail.com>
-Subject: Re: [PATCH 09/10] python/aqmp: fix race condition in legacy.py
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Date: Fri, 4 Mar 2022 13:28:27 -0500
+Message-ID: <CAFn=p-ZvGQkd51AvBmfDuyXb=mCRS061EOcjk5Hj46wccVVCCA@mail.gmail.com>
+Subject: Re: [PATCH 00/10] Python: Fix qmp race condition on accept()
+To: Kevin Wolf <kwolf@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -94,26 +91,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
  Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 4, 2022 at 1:01 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
+On Fri, Mar 4, 2022 at 12:49 PM Kevin Wolf <kwolf@redhat.com> wrote:
 >
-> On Fri, Feb 25, 2022 at 03:59:47PM -0500, John Snow wrote:
-> > With all of that refactoring out of the way, this is extraordinarily
-> > simple.
+> Am 25.02.2022 um 21:59 hat John Snow geschrieben:
+> > GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-aqmp-accept-changes
+> > CI: https://gitlab.com/jsnow/qemu/-/pipelines/479795153
+> >
+> > This redesigns the async QMP interface to allow for race-free
+> > connections from the synchronous interface. It should hopefully address
+> > the race conditions Peter has been seeing on the NetBSD vm tests.
 >
-> I think it'd be useful to explain in some detail what the
-> race condition was, because 1 year later no one will
-> remember what scenario we were fixing here.
+> Acked-by: Kevin Wolf <kwolf@redhat.com>
 >
 
-OK, not a problem. Thanks for the reviews thus far.
+Thanks so much to the both of you!
 
-[...]
+I was dreading this fix, but it wound up being *pretty* clean in the
+end, I think. I really appreciate the double-check here.
+
+--js
 
 
