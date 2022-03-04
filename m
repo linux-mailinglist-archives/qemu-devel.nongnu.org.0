@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A234CDCF4
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:50:26 +0100 (CET)
-Received: from localhost ([::1]:38410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3903E4CDC59
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:26:04 +0100 (CET)
+Received: from localhost ([::1]:40272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQD0T-00052D-Og
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:50:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41382)
+	id 1nQCct-0003Bv-9X
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:26:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1nQCMs-00080F-L4; Fri, 04 Mar 2022 13:09:33 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:55845)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQCaY-0000gh-7f
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:23:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1nQCMq-0005Y7-F4; Fri, 04 Mar 2022 13:09:30 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 937493201F85;
- Fri,  4 Mar 2022 13:09:24 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Fri, 04 Mar 2022 13:09:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm1; bh=UEv9VohQHb/HAaPVWKMAa8RP2VezHw5hQdpye0JuAl0=; b=dbXDD
- L02dscX9791BRpkA7dlXX9d18shDkVgNgKaGERg5I3TVzAvVn+lzfTPA+DhgEhe/
- H2sArlTS+dsreM+PkDKi3OVjfkM3rkw87cOIBzJh5YOQi9ASGBhTw4yejWBujzv2
- W83nJNUuummtxRAKYy8X2txc8sSol196reT07BvUwT1f0HjNP/Miw+k+GTTWPuYC
- pZPQkTImb2XAyPSGee5aPpR2odlE/5pmKeqTEAoRIs2W0H6RIuu7h/zOlF/4Xfzg
- Rj8XUWo2UgiHjBx5E8ktunDOIFyjN/SLSLkTnp6tx90jxbBDajy/8NlbIooVU8i+
- yE1I19OmyLugyxwag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; bh=UEv9VohQHb/HAaPVWKMAa8RP2VezH
- w5hQdpye0JuAl0=; b=H0DsBWsXso3wx1IKuuX0dB9qv7QnssJeBXh50Sm5qPWq2
- Cas9zYhF0SEVD2pvbksXz7r7PH/30ZrCUlUOJ5Sli9SS7aGYCtx1xifo6LKH5Xek
- DKL0GLkmFtZSKd4qJBV5wqDk4+MJFU7WGFZvzIoXvVQIZyQ3ZDg5a+T2s7PCVb2I
- rUZ+gKpwIOJyTmEbjpr91aA1bmbi5qpLRFWBjrN2GRXyMK5/XBwKVVvOk0GLdIEm
- KvDQ5DvTfiDoIORkw8OdbM+53y8r+LMBAA4LSykmLcADKJ2rldaoPBAmuO92iBr5
- 5zGnfJVwoBjh1YVhyN4ywrNmwdEIAZr3XehvzHDpw==
-X-ME-Sender: <xms:01UiYhrfiTtfD-giaC5aMnbrQHvNFMzmgB74azFuiVh-UlX9GHUhzA>
- <xme:01UiYjp2E7hLfdyeEfv1_RCPxiOW7MHo9rkyUarvo2fkiFw01USbAoihk9-iQOHIO
- yG_6oOyR96CiXTAHxk>
-X-ME-Received: <xmr:01UiYuPKWR00axWAL7PALVkW2n7WxjyGtkqz4VJbwoCv-eSR3WJT0AxlHG3pA99vlWhlra1FFl43PQqOW-Y8T4OLsf_Sq_lyDnI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtkedguddtlecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enmhhishhsihhnghcuvffquchfihgvlhguucdlfedtmdenfghrlhcuvffnffculddvfedm
- negoteeftdduqddtudculdduhedmnecujfgurhephffvufffkffoggfgsedtkeertdertd
- dtnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghksehs
- thiftgigrdighiiiqeenucggtffrrghtthgvrhhnpedvfeetvddtgfeutdegkeegtdeigf
- duudfgiedutdegkefftdduueeugfelgeffheenucffohhmrghinhepkhgvrhhnvghlrdho
- rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepph
- grthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:01UiYs7AqlPcPWyvFmhqP6xoHpcj7f6V3OWf-9LEguuor9-hBrWz7A>
- <xmx:01UiYg7wGKf3ADKL2ngPmzAFHmIF_VVfII4X0YAH8UV_RA2rO77mRQ>
- <xmx:01UiYkhmGX8OtJLxrWvZk0JUDnGoeqyRbF_M5dwYxMKYlFJsZFRCCg>
- <xmx:1FUiYqS4_fbNHh5vFO7WPFBeXnJxSum2g2Z7JDNlVqdboSMfxMu4Rw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Mar 2022 13:09:22 -0500 (EST)
-From: Patrick Williams <patrick@stwcx.xyz>
-To: 
-Subject: [PATCH] hw/block: m25p80: Add support for w25q01jvq
-Date: Fri,  4 Mar 2022 12:09:20 -0600
-Message-Id: <20220304180920.1780992-1-patrick@stwcx.xyz>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQCaW-0001Ar-5W
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:23:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646418215;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nn1SHia3YYqhZR3P3a9YurCS3OGwjzPrQuxvK8nb6oM=;
+ b=E2yB7200TocX8jkOF1+t9Jpy0bhvRg14QziSUD6+/1UmkAnySZtjUhzOmAFc45LB+WjYCM
+ saIHUp8MtT9F+/a46/fFzJFTc5PNObuvbkNRqZ89zHPsEcvdwwNr5evm6PhyF1tNAoqViY
+ fxyvNSO6PSrx/6z2yiFPR2JjGT5xkqw=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-523-ESj_siN4P3i30PPVm4eLew-1; Fri, 04 Mar 2022 13:23:33 -0500
+X-MC-Unique: ESj_siN4P3i30PPVm4eLew-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ l5-20020ab03d85000000b0034ac8e179c3so2544051uac.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 10:23:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nn1SHia3YYqhZR3P3a9YurCS3OGwjzPrQuxvK8nb6oM=;
+ b=skwlx5OzO5JZooX3xmlJ3TE0g2I+mAPI8BQbAgeS7tJ6DNJNdxv2aIBqoOCICl00NM
+ 8psim9GkSfgwXwDRXJ5XHwE4NA/cHWgeoerhqk13ds1taclWkdH4I4VXfVD40+lBL+Wu
+ zD95i8yDMTVag6eUqot1bcHnQZtrtKffsAfbpKf2gGtX9vylYNaZASSrFbnBU78/7ttF
+ exBni7XY0o3RsCAcePaLucx9N/pPaO5nkkwG7mSxesCPfDTHkbR38AzGC1QGS+8JxSbO
+ 5wu3ftbntSisj6TftmazOclsxPg74cxfccm5Ti+LLjmn30FImZ3O8juiXCNfq0DOaRO1
+ VEXg==
+X-Gm-Message-State: AOAM530Fl5Qg2UPHTo3MGUwRNMNyiCtFAS6RxyCh828VSZ5jdwEhUteF
+ e3bq5ruEH4aKUwikPG74Arh86uiJUXr6jpyHARXJXvpGW7zX5oklv7Nw9QW0DIwzDmmmTrd7uQw
+ mONfdTcpxLn11oNsL7mA5edoY7qhynE0=
+X-Received: by 2002:a05:6122:17a6:b0:31e:d699:29e0 with SMTP id
+ o38-20020a05612217a600b0031ed69929e0mr19388054vkf.1.1646418213024; 
+ Fri, 04 Mar 2022 10:23:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+nLaX/uenUJFsCH778W5fVkS9V//08bvPN95nf8WBTVE5lC0Ne56wGw67fqtd/pb8Y7EBjlAQ1CYkX9SSRuw=
+X-Received: by 2002:a05:6122:17a6:b0:31e:d699:29e0 with SMTP id
+ o38-20020a05612217a600b0031ed69929e0mr19388045vkf.1.1646418212868; Fri, 04
+ Mar 2022 10:23:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=patrick@stwcx.xyz;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: 17
-X-Spam_score: 1.7
-X-Spam_bar: +
-X-Spam_report: (1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FROM_SUSPICIOUS_NTLD=0.499,
- FROM_SUSPICIOUS_NTLD_FP=1.997, PDS_OTHER_BAD_TLD=1.997, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220225205948.3693480-1-jsnow@redhat.com>
+ <20220225205948.3693480-10-jsnow@redhat.com>
+ <YiJT30Ibq9ncb/Kt@redhat.com>
+In-Reply-To: <YiJT30Ibq9ncb/Kt@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 4 Mar 2022 13:23:22 -0500
+Message-ID: <CAFn=p-ZLdHBxeSRWYU9xP00mHASf9=omLG0n3SepKtuUhZoteA@mail.gmail.com>
+Subject: Re: [PATCH 09/10] python/aqmp: fix race condition in legacy.py
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,38 +94,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Potin Lai <potin.lai@quantatw.com>, Alistair Francis <alistair@alistair23.me>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Patrick Williams <patrick@stwcx.xyz>, Hanna Reitz <hreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The w25q01jvq is a 128MB part.  Support is being added to the kernel[1]
-and the two have been tested together.
+On Fri, Mar 4, 2022 at 1:01 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Fri, Feb 25, 2022 at 03:59:47PM -0500, John Snow wrote:
+> > With all of that refactoring out of the way, this is extraordinarily
+> > simple.
+>
+> I think it'd be useful to explain in some detail what the
+> race condition was, because 1 year later no one will
+> remember what scenario we were fixing here.
+>
 
-1. https://lore.kernel.org/lkml/20220222092222.23108-1-potin.lai@quantatw.com/
+OK, not a problem. Thanks for the reviews thus far.
 
-Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-Cc: Potin Lai <potin.lai@quantatw.com>
----
- hw/block/m25p80.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index c6bf3c6bfa..7d3d8b12e0 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -340,6 +340,7 @@ static const FlashPartInfo known_devices[] = {
-     { INFO("w25q80bl",    0xef4014,      0,  64 << 10,  16, ER_4K) },
-     { INFO("w25q256",     0xef4019,      0,  64 << 10, 512, ER_4K) },
-     { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K) },
-+    { INFO("w25q01jvq",   0xef4021,      0,  64 << 10, 2048, ER_4K) },
- };
- 
- typedef enum {
--- 
-2.34.1
+[...]
 
 
