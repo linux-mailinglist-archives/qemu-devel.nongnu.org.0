@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF144CDB6B
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:54:53 +0100 (CET)
-Received: from localhost ([::1]:44076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9102C4CDB81
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:58:37 +0100 (CET)
+Received: from localhost ([::1]:50640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQC8i-000780-2I
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:54:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59410)
+	id 1nQCCK-0003PL-J8
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:58:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQBcy-0001Nb-70
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:22:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51559)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQBpU-0006RR-5W
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:35:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQBcw-0002jt-21
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:22:03 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQBpR-0002GI-2j
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:34:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646414521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1646415295;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2bHGcPyeayX6jfljVLD0tNh/KUDQ2iApvTk0yB/agWY=;
- b=a8E87ZrZu8oCU+8oGB06yS/As7XV3teL6GGVk9GLzeiqFEoEYpEBYI99BuOxjmVDYXh4a9
- oAhpCAT4Hsio+EpVjB3f5Rg4KOiXGQf7fzGD2tQbLPa3f4+a3SxjA5XHYIB+jtmQk2XF51
- UL34a7Q/9Z2XVwNCeR3DX7yrmoLr8UQ=
+ bh=K6f9ze1MbVrEePtTvDkm8kV3KLQeekRwor5Mvl8ZyF8=;
+ b=BjJb/n5p1kFV3mfK4EX2bJn+4sc/Dlf3QeccFG3YLqgMyCMFA3JPDbtVYOX1V7en4cqKvJ
+ gC8CRtMldIIGjdOWeQ5KQEuMBemmwDlU5vHb9s3WmQM2XDQ8M1l9u7+UbzzFDUHTkpY5jx
+ OIycDRmzAcz1v508tsNkPHqTqGqe6lU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-454-uQRhC_HZPzepQv2BelsryQ-1; Fri, 04 Mar 2022 12:21:58 -0500
-X-MC-Unique: uQRhC_HZPzepQv2BelsryQ-1
+ us-mta-152-FlAzkoQsNf-x9XtGScfxEg-1; Fri, 04 Mar 2022 12:34:51 -0500
+X-MC-Unique: FlAzkoQsNf-x9XtGScfxEg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EB56801AFE;
- Fri,  4 Mar 2022 17:21:57 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4044E7C04B;
- Fri,  4 Mar 2022 17:21:40 +0000 (UTC)
-Date: Fri, 4 Mar 2022 11:21:38 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 4/4] softmmu: move parsing of -runas, -chroot and
- -daemonize code
-Message-ID: <20220304172138.diweldzq7c32yt5w@redhat.com>
-References: <20220304115657.3177925-1-berrange@redhat.com>
- <20220304115657.3177925-5-berrange@redhat.com>
- <YiIoPrLctNqySk4n@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C4EF801AFE;
+ Fri,  4 Mar 2022 17:34:50 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C9FE804C0;
+ Fri,  4 Mar 2022 17:34:48 +0000 (UTC)
+Date: Fri, 4 Mar 2022 17:34:45 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 01/10] python/aqmp: add _session_guard()
+Message-ID: <YiJNtfWjVBQRttwN@redhat.com>
+References: <20220225205948.3693480-1-jsnow@redhat.com>
+ <20220225205948.3693480-2-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YiIoPrLctNqySk4n@redhat.com>
-User-Agent: NeoMutt/20211029-378-f757a4
+In-Reply-To: <20220225205948.3693480-2-jsnow@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,64 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
- Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 02:54:54PM +0000, Daniel P. Berrangé wrote:
-> On Fri, Mar 04, 2022 at 11:56:57AM +0000, Daniel P. Berrangé wrote:
-> > With the future intent to try to move to a fully QAPI driven
-> > configuration system, we want to have any current command
-> > parsing well isolated from logic that applies the resulting
-> > configuration.
-> > 
-> > We also don't want os-posix.c to contain code that is specific
-> > to the system emulators, as this file is linked to other binaries
-> > too.
-> > 
-> > To satisfy these goals, we move parsing of the -runas, -chroot and
-> > -daemonize code out of the os-posix.c helper code, and pass the
-> > parsed data into APIs in os-posix.c.
-> > 
-> > As a side benefit the 'os_daemonize()' function now lives upto to
-
-up to
-
-> > its name and will always daemonize, instead of using global state
-> > to decide to be a no-op sometimes.
-
-Yay.
-
-> > @@ -3683,7 +3743,7 @@ void qemu_init(int argc, char **argv, char **envp)
-> >      qemu_process_early_options();
-> >  
-> >      qemu_process_help_options();
-> > -    qemu_maybe_daemonize(pid_file);
-> > +    qemu_maybe_daemonize(daemonize, pid_file);
+On Fri, Feb 25, 2022 at 03:59:39PM -0500, John Snow wrote:
+> In _new_session, there's a fairly complex except clause that's used to
+> give semantic errors to callers of accept() and connect(). We need to
+> create a new two-step replacement for accept(), so factoring out this
+> piece of logic will be useful.
 > 
-> This commit is a bit flawed, because we're until we call the
-> os_daemonize() method, the is_daemonized() method won't return
-> true. Unfortunately some callers rely is_daemonized() returning
-> true merely for the request, even though we've not yet put it
-> into action. ie the method would have been better called
-> is_daemonize_requested()
-
-Eww, indeed.
-
+> Bolster the comments and docstring here to try and demystify what's
+> going on in this fairly delicate piece of Python magic.
 > 
-> The upshot is that we fail to properly close stderr.
+> (If we were using Python 3.7+, this would be an @asynccontextmanager. We
+> don't have that very nice piece of magic, however, so this must take an
+> Awaitable to manage the Exception contexts properly. We pay the price
+> for platform compatibility.)
 > 
-> I'll send a v2 that handles this by fully removing the
-> is_daemonize() method.
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/aqmp/protocol.py | 89 +++++++++++++++++++++++++-----------
+>  1 file changed, 62 insertions(+), 27 deletions(-)
 
-Looking forward to it.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
+
+Regards,
+Daniel
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
