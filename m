@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B327C4CDF9B
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:10:11 +0100 (CET)
-Received: from localhost ([::1]:45436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED5A4CDFA3
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:13:53 +0100 (CET)
+Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQFBi-0006UY-IT
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:10:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49716)
+	id 1nQFFI-0000MG-Tg
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:13:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQFAE-0005cX-Ed
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:08:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44890)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nQFEC-00086R-N5
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:12:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQFAB-0002Ot-9c
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:08:36 -0500
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nQFEA-00033u-BA
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:12:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646428112;
+ s=mimecast20190719; t=1646428361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ce6cYPnlNGCfXsZWM3WWUy2pfFpe6nQ4NLG4G2np9+o=;
- b=KIxSk/sE/pv9WfNpsvTJjwSOo3YA0lSaMIFAF4EgbaABCxPDsaAlQHHwyue3tBl+jDWZMd
- cTYkN7CmUrYhJsUWWKoAtGydqV5RwtZyhss6AXSyn0yYVrf6Sa4m/DuQ5V9Jv/GEiOEpOA
- QT5JNZZvmdgjuLvX6ticyqAKZ2DPvfY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R51oADLOiPp1ia3mZt3LlEMogvpSym3jHdW4znUdQAo=;
+ b=eksxEe0ozTLMR/hAECINfZlMi1eEzMMiy8g2jAY1fMYLZfJM6fYRhk7grF0wxNEkdBlVkT
+ Y6SYAd5dv+pSfyljFbhacZKp9Vu77bibp+G5cSqsMh7z0JvkT47aJtoFMTx0YZ5qAKjamw
+ uKMp03X9UKET1eNpDlvjkn7DczceUOY=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-295-zZrzTitKMx2ldT9rw1l1ww-1; Fri, 04 Mar 2022 16:08:29 -0500
-X-MC-Unique: zZrzTitKMx2ldT9rw1l1ww-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B9B4180A088;
- Fri,  4 Mar 2022 21:08:28 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FA345DB84;
- Fri,  4 Mar 2022 21:08:06 +0000 (UTC)
-Date: Fri, 4 Mar 2022 15:08:04 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 11/12] tests/qemu-iotests: validate NBD TLS with UNIX
- sockets
-Message-ID: <20220304210804.skzj45siodnw4suu@redhat.com>
-References: <20220304193610.3293146-1-berrange@redhat.com>
- <20220304193610.3293146-12-berrange@redhat.com>
+ us-mta-607-ixqkWCvXMiCKJZmptAIYFg-1; Fri, 04 Mar 2022 16:12:40 -0500
+X-MC-Unique: ixqkWCvXMiCKJZmptAIYFg-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ o133-20020a25738b000000b0062872621d0eso8485075ybc.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 13:12:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R51oADLOiPp1ia3mZt3LlEMogvpSym3jHdW4znUdQAo=;
+ b=WHAaLwfs614KwgJyCL9jvpwOWVoR2dMhThFPs3cGBcN/vjlXZ02GpXHf7Vnt436chB
+ 2FO3P+GcexX2VRGIR9V7QPp3MUIvfwjd0LglrGYXU3c4xIJ7sP0y4s0McHofbpNJq61o
+ cf0qunPAn3dYb6kvNCha4GpC++Y15aGHowvfbRWoqOg/IX2mM5/kta4oB0Lgl1Yx2U+U
+ F0KM4XFNMGAgVCV8T/ClDlfE8/6XHcTL1yBcnhnNTKFY8j3ufEaVy311AYlb5I5X/I7C
+ 7d0UT4djfjFrn6sS7ZHmzxfSv0mTEA8tncASCHOTtcpfaLfD82pQVV5wlMJVl/dl1NpZ
+ jcZw==
+X-Gm-Message-State: AOAM531HR3j4s2xodFgCdC+cMEoRfJdPsUDhdhMwhJX08lysGo1gxPpH
+ w54gHEYq7ifFAvuZXmt32jNgSFn6CJe00s6VqHsZGBqNBmgcLbz9QkvnvRWYuXx4S4oy4u4uZPN
+ QpFPdPiFx0n3w61kmKmG/k+bQyU5ABgA=
+X-Received: by 2002:a25:84cc:0:b0:628:d4ad:8f33 with SMTP id
+ x12-20020a2584cc000000b00628d4ad8f33mr362317ybm.559.1646428359823; 
+ Fri, 04 Mar 2022 13:12:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw0rwVGpEsERV87BZJDYbmdCi3jNhfSxXVAbhdd+9pMpatNfzkf9rg+NX6iqQEFLOfsxfMAitsguQJQq2XIiEQ=
+X-Received: by 2002:a25:84cc:0:b0:628:d4ad:8f33 with SMTP id
+ x12-20020a2584cc000000b00628d4ad8f33mr362299ybm.559.1646428359659; Fri, 04
+ Mar 2022 13:12:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220304193610.3293146-12-berrange@redhat.com>
-User-Agent: NeoMutt/20211029-383-c6e293
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20220304152704.3466036-1-marcandre.lureau@redhat.com>
+ <20220304152704.3466036-3-marcandre.lureau@redhat.com>
+ <0de2304e-7902-dc63-4a77-b16786beaac9@linaro.org>
+In-Reply-To: <0de2304e-7902-dc63-4a77-b16786beaac9@linaro.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Sat, 5 Mar 2022 01:12:28 +0400
+Message-ID: <CAMxuvawR_jVUNKg+GrAX=8k-5GNDGvd1Po0PrH1jG=JZphWSSA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] qtest: replace gettimeofday with GTimer
+To: Richard Henderson <richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -82,47 +94,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 07:36:09PM +0000, Daniel P. Berrangé wrote:
-> This validates that connections to an NBD server running on a UNIX
-> socket can use TLS, and require a TLS hostname override to pass
-> certificate validation.
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  tests/qemu-iotests/233     | 24 ++++++++++++++++++++++++
->  tests/qemu-iotests/233.out | 15 +++++++++++++++
->  2 files changed, 39 insertions(+)
+Hi Richard
 
-Rebase fail; but thankfully your earlier patch for regen made it an
-easy fix:
+On Sat, Mar 5, 2022 at 12:50 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 3/4/22 05:27, marcandre.lureau@redhat.com wrote:
+> > +        g_clear_pointer(&timer, g_timer_destroy);
+> > +        timer = g_timer_new();
+>
+> Why not g_timer_{reset,start}, instead of destroying and recreating?
 
-diff --git i/tests/qemu-iotests/233.out w/tests/qemu-iotests/233.out
-index d79a9ed3467c..6e55be779946 100644
---- i/tests/qemu-iotests/233.out
-+++ w/tests/qemu-iotests/233.out
-@@ -78,6 +78,7 @@ file format: nbd
- virtual size: 64 MiB (67108864 bytes)
- disk size: unavailable
- exports available: 1
-+ export: ''
-   size:  67108864
-   min block: 1
+Well, that didn't seem much easier, as that opens the question where
+to create/destroy. And we would potentially have a "running" timer at
+creation time, which could be confusing.
 
-With that squashed in,
+(btw, just found that doc : "This function is useless; it's fine to
+call g_timer_start() on an already-started timer to reset the start
+time, so g_timer_reset() serves no purpose" ;)
 
-Tested-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+thanks
 
 
