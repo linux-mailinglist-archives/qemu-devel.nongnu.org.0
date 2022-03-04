@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02944CD777
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:14:35 +0100 (CET)
-Received: from localhost ([::1]:43092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1D84CD793
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:21:56 +0100 (CET)
+Received: from localhost ([::1]:60150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9da-0000qK-Nz
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:14:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39552)
+	id 1nQ9kh-0004EY-To
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:21:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rs-0005zA-O5
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60600)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8sM-0006AG-0F
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rq-0003jl-UR
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:16 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8sK-0003wD-HM
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403914;
+ s=mimecast20190719; t=1646403943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sAtABj5a02/dn0ZmsdYNgkJzHoZl/SCjASDomLNiUe8=;
- b=POde7B23/Iq9GtStyZFq9JzOmldT+mB2c4O7GtlOm83YaCuYEBjMtA1ND9vt3bopKJirA+
- gRaETDaBvNIav4osQugN0GmMMFWnsFpZ6edRoIXFhAOevME4Vw8DqRy+y8531UoSi+IUEj
- XuNFXuiEhMJ63hP3uxG6MarlUMvq/gI=
+ bh=3zDGyS5PxnhZKyMOllGG6HBiyw79weIS5S9ZZw+Jzy8=;
+ b=SYX1N+8S86NFsLgxPyE70Si/DT9G5KydKWJOC39nKxIfF/fwjytWUavTtNnonM6Bwx4BOL
+ KBZjbj7jKttRwvCK7+jHbN4AlV+1J9cPzyt9TEQPwYPI8NZtPy5E3DFX8716IQzJu7wTDj
+ XpErwzv5dT5klVGkqxc1buG/oDROF28=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-611-nN5WgqcgMvW9p91w9fsaXQ-1; Fri, 04 Mar 2022 09:25:11 -0500
-X-MC-Unique: nN5WgqcgMvW9p91w9fsaXQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-48-UqVxcv1JNWatKSt0FtPCCg-1; Fri, 04 Mar 2022 09:25:40 -0500
+X-MC-Unique: UqVxcv1JNWatKSt0FtPCCg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCB7BFC80;
- Fri,  4 Mar 2022 14:25:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB1B2FC80;
+ Fri,  4 Mar 2022 14:25:38 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D923866F2;
- Fri,  4 Mar 2022 14:25:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B271B106223E;
+ Fri,  4 Mar 2022 14:25:14 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 87FE918009BF; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
+ id 944B618009C1; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/35] ui/cocoa: Add Services menu
-Date: Fri,  4 Mar 2022 15:21:20 +0100
-Message-Id: <20220304142123.956171-33-kraxel@redhat.com>
+Subject: [PULL 33/35] softmmu/qdev-monitor: Add virtio-gpu-gl aliases
+Date: Fri,  4 Mar 2022 15:21:21 +0100
+Message-Id: <20220304142123.956171-34-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -66,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, TVD_SPACE_RATIO=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,38 +94,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Services menu functionality of Cocoa is described at:
-https://developer.apple.com/design/human-interface-guidelines/macos/extensions/services/
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220214091320.51750-1-akihiko.odaki@gmail.com>
+Message-Id: <20220213021800.2525-1-akihiko.odaki@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/cocoa.m | 4 ++++
- 1 file changed, 4 insertions(+)
+ softmmu/qdev-monitor.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index b6e70e9134db..8ab9ab5e84da 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1611,11 +1611,15 @@ static void create_initial_menus(void)
-     NSMenuItem  *menuItem;
- 
-     [NSApp setMainMenu:[[NSMenu alloc] init]];
-+    [NSApp setServicesMenu:[[NSMenu alloc] initWithTitle:@"Services"]];
- 
-     // Application menu
-     menu = [[NSMenu alloc] initWithTitle:@""];
-     [menu addItemWithTitle:@"About QEMU" action:@selector(do_about_menu_item:) keyEquivalent:@""]; // About QEMU
-     [menu addItem:[NSMenuItem separatorItem]]; //Separator
-+    menuItem = [menu addItemWithTitle:@"Services" action:nil keyEquivalent:@""];
-+    [menuItem setSubmenu:[NSApp servicesMenu]];
-+    [menu addItem:[NSMenuItem separatorItem]];
-     [menu addItemWithTitle:@"Hide QEMU" action:@selector(hide:) keyEquivalent:@"h"]; //Hide QEMU
-     menuItem = (NSMenuItem *)[menu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"]; // Hide Others
-     [menuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 01f3834db575..a0df820b9ded 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -83,6 +83,8 @@ static const QDevAlias qdev_alias_table[] = {
+     { "virtio-gpu-device", "virtio-gpu", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-gpu-ccw", "virtio-gpu", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-gpu-pci", "virtio-gpu", QEMU_ARCH_VIRTIO_PCI },
++    { "virtio-gpu-gl-device", "virtio-gpu-gl", QEMU_ARCH_VIRTIO_MMIO },
++    { "virtio-gpu-gl-pci", "virtio-gpu-gl", QEMU_ARCH_VIRTIO_PCI },
+     { "virtio-input-host-device", "virtio-input-host", QEMU_ARCH_VIRTIO_MMIO },
+     { "virtio-input-host-ccw", "virtio-input-host", QEMU_ARCH_VIRTIO_CCW },
+     { "virtio-input-host-pci", "virtio-input-host", QEMU_ARCH_VIRTIO_PCI },
 -- 
 2.35.1
 
