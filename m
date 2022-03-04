@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0063E4CD712
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:03:42 +0100 (CET)
-Received: from localhost ([::1]:36996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02DFB4CD76D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:13:28 +0100 (CET)
+Received: from localhost ([::1]:38282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9T3-0002u6-OE
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:03:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39270)
+	id 1nQ9cV-000664-2Z
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:13:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rB-0005DE-D9
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32335)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rC-0005EA-Ks
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8r7-0002D7-7B
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:31 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rB-0002KZ-2g
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403868;
+ s=mimecast20190719; t=1646403870;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1jIMKVjJSErsCeq5u/YaMwoi1VPhyRsihv2AV/JvcoI=;
- b=YZE++aTQaRnciBBaw8cW2/lbbfIoG7MqN28Xz57VJ2blGpCpJYgN5hSQ4jyTRMCwn9JYAY
- BH5mfyEdzqTgFvM8Aw5G/mO3eXb7hTLyhyarUgcRYpnWHnuJ9Lw8ENIe3jNC0QBzKbUtX9
- +rl6V41LGLCNaybUqfDfqfBvwhCmq4Q=
+ bh=ug+btb4HV8bMTYexsCMbWvO+8M+VFHq3hy1KJUFE1F8=;
+ b=XLGz3Z3/rLQNo1g+zDhGKaIBGEaCi6az0fzgvZEvTT+j38SP96Fge/lrY6adkQk9fvq+DN
+ +MqK90qgFliW63EUaTiydCWRVWBRN5BGJ8ZZgtu+CcnNyEL+GVuwIUfZBnEtaTTAG5u6u0
+ ghmJhyEz7YTsZrkNWrbLCLoxnGsMfdQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-511-E_cQH8c9PECnC5kW_TfQ4w-1; Fri, 04 Mar 2022 09:24:25 -0500
-X-MC-Unique: E_cQH8c9PECnC5kW_TfQ4w-1
+ us-mta-556-5TGrwCzqMTezrQLqBbfq3A-1; Fri, 04 Mar 2022 09:24:27 -0500
+X-MC-Unique: 5TGrwCzqMTezrQLqBbfq3A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D547E1854E26;
- Fri,  4 Mar 2022 14:24:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FA3A1006AA7;
+ Fri,  4 Mar 2022 14:24:26 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FF9C866EE;
- Fri,  4 Mar 2022 14:24:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C04D1866E9;
+ Fri,  4 Mar 2022 14:24:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 164BF18009B5; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
+ id 226D318009B6; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/35] hw/usb/redirect.c: Stop using qemu_oom_check()
-Date: Fri,  4 Mar 2022 15:21:11 +0100
-Message-Id: <20220304142123.956171-24-kraxel@redhat.com>
+Subject: [PULL 24/35] coreaudio: Notify error in coreaudio_init_out
+Date: Fri,  4 Mar 2022 15:21:12 +0100
+Message-Id: <20220304142123.956171-25-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -88,86 +88,38 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-qemu_oom_check() is a function which essentially says "if you pass me
-a NULL pointer then print a message then abort()".  On POSIX systems
-the message includes strerror(errno); on Windows it includes the
-GetLastError() error value printed as an integer.
+Otherwise, the audio subsystem tries to use the voice and
+eventually aborts due to the maximum number of samples in the
+buffer is not set.
 
-Other than in the implementation of qemu_memalign(), we use this
-function only in hw/usb/redirect.c, for three checks:
-
- * on a call to usbredirparser_create()
- * on a call to usberedirparser_serialize()
- * on a call to malloc()
-
-The usbredir library API functions make no guarantees that they will
-set errno on errors, let alone that they might set the
-Windows-specific GetLastError string.  malloc() is documented as
-setting errno, not GetLastError -- and in any case the only thing it
-might set errno to is ENOMEM.  So qemu_oom_check() isn't the right
-thing for any of these.  Replace them with straightforward
-error-checking code.  This will allow us to get rid of
-qemu_oom_check().
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220226180723.1706285-2-peter.maydell@linaro.org>
+Message-Id: <20220226115953.60335-1-akihiko.odaki@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/redirect.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ audio/coreaudio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 5f0ef9cb3b0f..8692ea256109 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -1239,7 +1239,11 @@ static void usbredir_create_parser(USBRedirDevice *dev)
- 
-     DPRINTF("creating usbredirparser\n");
- 
--    dev->parser = qemu_oom_check(usbredirparser_create());
-+    dev->parser = usbredirparser_create();
-+    if (!dev->parser) {
-+        error_report("usbredirparser_create() failed");
-+        exit(1);
-+    }
-     dev->parser->priv = dev;
-     dev->parser->log_func = usbredir_log;
-     dev->parser->read_func = usbredir_read;
-@@ -2239,7 +2243,10 @@ static int usbredir_put_parser(QEMUFile *f, void *priv, size_t unused,
+diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+index 91ea6ae975e5..0f19d0ce01c5 100644
+--- a/audio/coreaudio.c
++++ b/audio/coreaudio.c
+@@ -603,6 +603,8 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
+             coreaudio_playback_logerr(status,
+                                       "Could not remove voice property change listener\n");
+         }
++
++        return -1;
      }
  
-     usbredirparser_serialize(dev->parser, &data, &len);
--    qemu_oom_check(data);
-+    if (!data) {
-+        error_report("usbredirparser_serialize failed");
-+        exit(1);
-+    }
- 
-     qemu_put_be32(f, len);
-     qemu_put_buffer(f, data, len);
-@@ -2330,7 +2337,11 @@ static int usbredir_get_bufpq(QEMUFile *f, void *priv, size_t unused,
-         bufp->len = qemu_get_be32(f);
-         bufp->status = qemu_get_be32(f);
-         bufp->offset = 0;
--        bufp->data = qemu_oom_check(malloc(bufp->len)); /* regular malloc! */
-+        bufp->data = malloc(bufp->len); /* regular malloc! */
-+        if (!bufp->data) {
-+            error_report("usbredir_get_bufpq: out of memory");
-+            exit(1);
-+        }
-         bufp->free_on_destroy = bufp->data;
-         qemu_get_buffer(f, bufp->data, bufp->len);
-         QTAILQ_INSERT_TAIL(&endp->bufpq, bufp, next);
+     return 0;
 -- 
 2.35.1
 
