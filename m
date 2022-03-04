@@ -2,54 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80FC24CD38F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 12:35:51 +0100 (CET)
-Received: from localhost ([::1]:48816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A03F54CD36D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 12:29:41 +0100 (CET)
+Received: from localhost ([::1]:39342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ6Du-0002J4-J0
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 06:35:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55170)
+	id 1nQ67w-00042c-Ok
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 06:29:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nQ64s-0001IX-3S; Fri, 04 Mar 2022 06:26:30 -0500
-Received: from [187.72.171.209] (port=41765 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nQ64o-0007wU-30; Fri, 04 Mar 2022 06:26:29 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 4 Mar 2022 08:09:05 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 6A7208001C2;
- Fri,  4 Mar 2022 08:09:04 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------QtOzlmTZ7aDzC0na9vzj7m3m"
-Message-ID: <a3917a31-b899-a289-5102-5b8be20aae27@eldorado.org.br>
-Date: Fri, 4 Mar 2022 08:08:59 -0300
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nQ606-0002VY-IN
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:21:34 -0500
+Received: from [2a00:1450:4864:20::32c] (port=55870
+ helo=mail-wm1-x32c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nQ603-0004dp-Gf
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:21:34 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id i66so4801346wma.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 03:21:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cYwUVlrJmDcCkID1J7elovzHQrM1WzQMevVmjItgLkU=;
+ b=E0/lETEwDng8oU/bIrggCzAjDNa+5WY+MmzDgCZhqZMfhMwN9IVj1T3d4O8/qhwj1C
+ ozZHwKLnUMyGC1XkGSCioE8EilCBLVzbobv0Jxqt0yvz4LR6rhjq9jcZ/v/i3PKSb70t
+ P5o53BoKp+YxXBE6CfiYFFjDJJdsbsW4Ll3J77kHO1uabfkVpztG4hx5g58+I/bAaehU
+ nsNDaxDDNBUd3O5HGMYkVfaDclFR5BplhX+k8MdmFt/r4rBnPb8KOhjbplpS54SyugJq
+ FdPQeVzBKy5VYZWM12pIQdWSoJEUu8Yz3hykLggN94g43feAbTLoWy05LFea0bfQ0FG/
+ qAcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cYwUVlrJmDcCkID1J7elovzHQrM1WzQMevVmjItgLkU=;
+ b=MTASEQSBn4c7dm2CbOAEhXMoTBGSsThkE3ZVvKkVHRd6OWXHVuuaZBNjAP85+sLXzz
+ II9PMfd2YDWB94Rx9lXjhRjvX4jKM43KHtHW7WTR6mxJFDvogcK85spNwFSyW5S2OL1S
+ Usf2HQLvtpa2VqHdp4VbodwVH9WzPfZooNvhxXJZcE5jyHvdwQVBZPlh7MHPBYzycRKL
+ co1+4siNVOHdjcdTrlYm8hMIA3QzfM9iFsLf/GYaCrxRBQe5YArqBReFkH7wXwG9lyOP
+ +4iyL8F7Vs6WfDFr+jHglcPAdwxKarGYbe6rtqoDkIQyuQNqzSzwRSrZp0db/QuVM8IT
+ dURg==
+X-Gm-Message-State: AOAM530eQG9qu+WgZHw5ARIj9tMVWUvJRaApxUgS0/cyThOrom7OaqK6
+ GAgBC0c+NKgDE40S3jleMW4jI4QQ0qTeXg==
+X-Google-Smtp-Source: ABdhPJwblEz+4lUx3wUwn1VAFWsY3T92JJpcBF7mE9oU2gKshKV/DXoWGPAa9AxbcFEQX6KoAUrFjA==
+X-Received: by 2002:a05:600c:a06:b0:37b:fdd8:4f8 with SMTP id
+ z6-20020a05600c0a0600b0037bfdd804f8mr7403607wmp.41.1646392889204; 
+ Fri, 04 Mar 2022 03:21:29 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ u14-20020adfed4e000000b001e3323611e5sm4148651wro.26.2022.03.04.03.21.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Mar 2022 03:21:28 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/9] Cleanup of qemu_oom_check() and qemu_memalign()
+Date: Fri,  4 Mar 2022 11:21:17 +0000
+Message-Id: <20220304112126.2261039-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-Subject: Re: Issue with qemu-system-ppc running OSX guests
-To: qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, Fabiano Rosas <farosas@linux.ibm.com>
-References: <CABLmASFbowE4Cu8gHk9eD+_h8ZrdupE8MHKAfpW+T8Oe=-3=Wg@mail.gmail.com>
- <e2dd457d-29b3-32be-72e2-315e686dff69@eik.bme.hu>
- <CABLmASH5tFs86Dq+1e+ByMF43jZL5UZ7MempVVhtKCwjdpa7aw@mail.gmail.com>
- <87pmn352q0.fsf@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <87pmn352q0.fsf@linux.ibm.com>
-X-OriginalArrivalTime: 04 Mar 2022 11:09:05.0064 (UTC)
- FILETIME=[42EB6280:01D82FB8]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -64,220 +87,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------QtOzlmTZ7aDzC0na9vzj7m3m
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+This series does some cleanup of the qemu_oom_check() and
+qemu_memalign() functions; I started looking at the first of these and
+found myself wanting to tidy some stuff relating to the second in the
+process. The TLDR is that this series removes qemu_oom_check() (which
+was mostly being misused), unifies the POSIX and Win32 versions of
+qemu_memalign() and qemu_try_memalign(), and moves the prototypes out
+of osdep.h.
+
+Changes v1->v2:
+ * Replacement patch 4, which takes the approach discussed in
+   comments on v1 of making all our implementations handle
+   size == 0 by doing a size 1 allocation
+ * two #include lines accidentally added in patch 7 are
+   moved to patch 6 where they belong (fixes compile failure
+   during bisect)
+
+Patch 4 is the only one needing review.
+
+(When I came to make this change I decided that there was
+just a bit more involved than I was happy making in passing
+while assembling a pull request.)
+
+thanks
+-- PMM
 
 
-On 02/03/2022 20:55, Fabiano Rosas wrote:
-> Howard Spoelstra<hsp.cat7@gmail.com>  writes:
->
->> On Wed, Mar 2, 2022 at 9:11 PM BALATON Zoltan<balaton@eik.bme.hu>  wrote:
->>
->>> On Wed, 2 Mar 2022, Howard Spoelstra wrote:
->>>> Hi all,
->>>>
->>>> I noticed qemu-system-ppc running OSX guests does not get to the desktop
->>> or
->>>> does not display the menu bars.
->>> Cc-ing the relevant people and the PPC list might help, I've added them.
->>> Also telling which OSX guest version can reproduce the problem could help
->>> debugging. Is it any OSX version?
->>>
->>> Regards,
->>> BALATON Zoltan
->>>
->> Oops, Qemu running on Fedora 35 host,
->> Reproducer:
->>
->> ./qemu-system-ppc \
->> -M mac99 \
->> -m 512 \
->> -L pc-bios \
->> -display sdl -serial stdio \
->> -boot c \
->> -drive file=10.1.img,format=raw,media=disk
->>
->> The issue affects all supported Mac OSX guests: 10.0 to 10.5
-> Hi Howard,
->
-> Thanks for bisecting this. It seems we inadvertently marked some of the
-> Vector Multiply instructions to be ISA v2.07 only.
->
-> I can boot Mac OSX 10.4 until the desktop with this fix:
->
-> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-> index f91bee839d..c5d02d13fe 100644
-> --- a/target/ppc/translate/vmx-impl.c.inc
-> +++ b/target/ppc/translate/vmx-impl.c.inc
-> @@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext *ctx, arg_VX *a)
->       return true;
->   }
->
-> -TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
-> -TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
-> -TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
-> -TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
-> -TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
-> -TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
-> -TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
-> -TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
-> +TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper, gen_helper_VMULESB)
-> +TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
-> +TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
-> +TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
-> +TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper, gen_helper_VMULESH)
-> +TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
-> +TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
-> +TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
->   TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
->   TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
->   TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
-> ---
->
-> I'll let Lucas comment on it and we can send a proper patch in the
-> morning.
+Peter Maydell (9):
+  hw/usb/redirect.c: Stop using qemu_oom_check()
+  util: Make qemu_oom_check() a static function
+  util: Unify implementations of qemu_memalign()
+  util: Return valid allocation for qemu_try_memalign() with zero size
+  meson.build: Don't misdetect posix_memalign() on Windows
+  util: Share qemu_try_memalign() implementation between POSIX and
+    Windows
+  util: Use meson checks for valloc() and memalign() presence
+  util: Put qemu_vfree() in memalign.c
+  osdep: Move memalign-related functions to their own header
 
-Checking here it seems I misread the PowerISA appendix and marked these 
-instructions (vmul[eo].[bh]) as v2.07 even though they are v2.03.
-
-This patch seems to correct it and checking here the newer instructions 
-are correct (v2.07 for vmul[eo].w and v3.1 for vmul[eo].d), so
-
-Reviewed-by: Lucas Mateus Castro<lucas.araujo@eldorado.org.br>
+ meson.build                    |  7 ++-
+ include/qemu-common.h          |  2 -
+ include/qemu/memalign.h        | 61 ++++++++++++++++++++++
+ include/qemu/osdep.h           | 18 -------
+ block/blkverify.c              |  1 +
+ block/block-copy.c             |  1 +
+ block/commit.c                 |  1 +
+ block/crypto.c                 |  1 +
+ block/dmg.c                    |  1 +
+ block/export/fuse.c            |  1 +
+ block/file-posix.c             |  1 +
+ block/io.c                     |  1 +
+ block/mirror.c                 |  1 +
+ block/nvme.c                   |  1 +
+ block/parallels-ext.c          |  1 +
+ block/parallels.c              |  1 +
+ block/qcow.c                   |  1 +
+ block/qcow2-cache.c            |  1 +
+ block/qcow2-cluster.c          |  1 +
+ block/qcow2-refcount.c         |  1 +
+ block/qcow2-snapshot.c         |  1 +
+ block/qcow2.c                  |  1 +
+ block/qed-l2-cache.c           |  1 +
+ block/qed-table.c              |  1 +
+ block/qed.c                    |  1 +
+ block/quorum.c                 |  1 +
+ block/raw-format.c             |  1 +
+ block/vdi.c                    |  1 +
+ block/vhdx-log.c               |  1 +
+ block/vhdx.c                   |  1 +
+ block/vmdk.c                   |  1 +
+ block/vpc.c                    |  1 +
+ block/win32-aio.c              |  1 +
+ hw/block/dataplane/xen-block.c |  1 +
+ hw/block/fdc.c                 |  1 +
+ hw/ide/core.c                  |  1 +
+ hw/ppc/spapr.c                 |  1 +
+ hw/ppc/spapr_softmmu.c         |  1 +
+ hw/scsi/scsi-disk.c            |  1 +
+ hw/tpm/tpm_ppi.c               |  2 +-
+ hw/usb/redirect.c              | 17 +++++--
+ nbd/server.c                   |  1 +
+ net/l2tpv3.c                   |  2 +-
+ plugins/loader.c               |  1 +
+ qemu-img.c                     |  1 +
+ qemu-io-cmds.c                 |  1 +
+ qom/object.c                   |  1 +
+ softmmu/physmem.c              |  1 +
+ target/i386/hvf/hvf.c          |  1 +
+ target/i386/kvm/kvm.c          |  1 +
+ tcg/region.c                   |  1 +
+ tests/bench/atomic_add-bench.c |  1 +
+ tests/bench/qht-bench.c        |  1 +
+ util/atomic64.c                |  1 +
+ util/memalign.c                | 92 ++++++++++++++++++++++++++++++++++
+ util/oslib-posix.c             | 46 -----------------
+ util/oslib-win32.c             | 35 -------------
+ util/qht.c                     |  1 +
+ util/meson.build               |  1 +
+ 59 files changed, 224 insertions(+), 107 deletions(-)
+ create mode 100644 include/qemu/memalign.h
+ create mode 100644 util/memalign.c
 
 -- 
-Lucas Mateus M. Araujo e Castro
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
---------------QtOzlmTZ7aDzC0na9vzj7m3m
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+2.25.1
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 02/03/2022 20:55, Fabiano Rosas
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:87pmn352q0.fsf@linux.ibm.com">
-      <pre class="moz-quote-pre" wrap="">Howard Spoelstra <a class="moz-txt-link-rfc2396E" href="mailto:hsp.cat7@gmail.com">&lt;hsp.cat7@gmail.com&gt;</a> writes:
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">On Wed, Mar 2, 2022 at 9:11 PM BALATON Zoltan <a class="moz-txt-link-rfc2396E" href="mailto:balaton@eik.bme.hu">&lt;balaton@eik.bme.hu&gt;</a> wrote:
-
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">On Wed, 2 Mar 2022, Howard Spoelstra wrote:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">Hi all,
-
-I noticed qemu-system-ppc running OSX guests does not get to the desktop
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">or
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">does not display the menu bars.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">Cc-ing the relevant people and the PPC list might help, I've added them.
-Also telling which OSX guest version can reproduce the problem could help
-debugging. Is it any OSX version?
-
-Regards,
-BALATON Zoltan
-
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">Oops, Qemu running on Fedora 35 host,
-Reproducer:
-
-./qemu-system-ppc \
--M mac99 \
--m 512 \
--L pc-bios \
--display sdl -serial stdio \
--boot c \
--drive file=10.1.img,format=raw,media=disk
-
-The issue affects all supported Mac OSX guests: 10.0 to 10.5
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">Hi Howard,
-
-Thanks for bisecting this. It seems we inadvertently marked some of the
-Vector Multiply instructions to be ISA v2.07 only.
-
-I can boot Mac OSX 10.4 until the desktop with this fix:
-
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index f91bee839d..c5d02d13fe 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext *ctx, arg_VX *a)
-     return true;
- }
-
--TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
--TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
--TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
--TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
--TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
--TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
--TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
--TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
-+TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper, gen_helper_VMULESB)
-+TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
-+TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
-+TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
-+TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper, gen_helper_VMULESH)
-+TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
-+TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
-+TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
- TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
- TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
- TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
----
-
-I'll let Lucas comment on it and we can send a proper patch in the
-morning.
-</pre>
-    </blockquote>
-    <p>Checking here it seems I misread the PowerISA appendix and marked
-      these instructions (vmul[eo].[bh]) as v2.07 even though they are
-      v2.03.</p>
-    <p>This patch seems to correct it and checking here the newer
-      instructions are correct (v2.07 for vmul[eo].w and v3.1 for
-      vmul[eo].d), so<br>
-    </p>
-    <pre class="moz-quote-pre" wrap="">Reviewed-by: Lucas Mateus Castro <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
-</pre>
-    <div class="moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------QtOzlmTZ7aDzC0na9vzj7m3m--
 
