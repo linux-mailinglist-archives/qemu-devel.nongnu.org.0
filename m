@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF114CE046
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 23:38:54 +0100 (CET)
-Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 936414CE048
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 23:39:05 +0100 (CET)
+Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQGZZ-0001ku-DF
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 17:38:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36990)
+	id 1nQGZk-0002Bg-4O
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 17:39:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nQGWq-0008Dr-G2
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:36:04 -0500
-Received: from [2607:f8b0:4864:20::42c] (port=34333
- helo=mail-pf1-x42c.google.com)
+ id 1nQGXT-00009w-0V
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:36:44 -0500
+Received: from [2607:f8b0:4864:20::636] (port=33759
+ helo=mail-pl1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nQGWp-0007mY-0x
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:36:04 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id g1so8800649pfv.1
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 14:36:02 -0800 (PST)
+ id 1nQGXR-0007rW-Gl
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:36:42 -0500
+Received: by mail-pl1-x636.google.com with SMTP id m2so3004449pll.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 14:36:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ezI/NFZvRcP0ttDgpdQH4c5ahq2szBu8wcJsb+Xul7c=;
- b=cm21F9enbhHUsk35/9XCTFozuE6/GgkLlaWl5dDjuGibyDu/F3l5dcgrmioGvyyDIH
- aDn8A/9Xid9J0S3JaDGfGB4/krqmqN986Iql8jrmHVHb1x7rCznWho9yYMF68C/mF4g3
- FPPQlnaqI3O9t2WQ2tzHOrLdP2QAN+fvNZJuKll5u3yp4bhhCsCfGbyQXvzou6p8BhHy
- dn5JWRIcGUqyncI8XAww5pcMm4dDDCw9+RPFc/PqlHHS3u14RLkaqVLrhvVbEUlh7BsC
- 7tgreT8ro2UBppnrR1J3eayaMGRmACUL598hm+vW5owVmMt5YNOMXdFQLkQq6HFrxaa4
- jpbw==
+ bh=lxv8P1kjdj19TGTwQCMT9+LjeWEUkwma0Ff7v1bfyYk=;
+ b=ePHxWFrmLLXtrHUkYAGdtBbGu/VHOJdQs//7UWYed2mceRgMzPXJeUk5PQ8VtzImdb
+ xyJ4MAUNCv5M7daAlho4E5Q6QXuVjh36u/S1S42jIeHIOds4uAXKbO38XO0AKDOHRJXb
+ nEH9EBMUp2iAdliQgCPXfHesYvY5yprzPdHZPbeEmWmAc2A0h4s10gA2dB+41aGR4Bc+
+ ZNabVojNoAv+RzbHB6YubxSlBcG8Vm+AMMBQP+tYMepNHA2fWjqo4QsLJ9TjB2GtMT0M
+ hi3nukIvlNV7xQugkm2c6zpmFcZbtF+etWvjq1TRJCijiIIAJ7Xy3gWpr/vKLRupjnPy
+ m/Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ezI/NFZvRcP0ttDgpdQH4c5ahq2szBu8wcJsb+Xul7c=;
- b=FY8FCmsp4Kd24bG9Y+VMsHVXVaa70nw+BjhZhaTZwIJP8ok18Zjm2ZDUgwuvtcIso0
- aGunLct9EPaxOTFU7x5ln2OewNOADUEXzOPoDD1jQI9AX1SDhnFHSYS9qFII7Kujr6/S
- cnaueVU15+prGLNflSCbx5zRdSV+sc/2FgTMsdoG3a/mw/faCTuQS6TUaKu94EYRH4NN
- m5fU7YoFXGdJaAknOmb55VdtSgROFEi1eF8Ri3JpxScqNHxu5QnAWPIKZp4SVms6DnqP
- uRYhmBk22QZojf4VjmctS6uDJtym89AWaJ3Eb4vqoSXAuP9+nrIEWNqtYENUexF6NXU4
- H4Ug==
-X-Gm-Message-State: AOAM530vOiNevY2rqNecGTa7sHUp715wsfMM2yHyVqRdC1MOTx7Z/5z2
- y77Tzk3OUzRo5rA6xGLR03NASA==
-X-Google-Smtp-Source: ABdhPJx2SYqczJXNv1vKRpSzcv2t+vnc8aebBMjgfU4OMQIX0j9Fn3/OxufyJkbsA3uIlrbP29BH7g==
-X-Received: by 2002:a63:a84f:0:b0:374:3bb7:6d7d with SMTP id
- i15-20020a63a84f000000b003743bb76d7dmr467741pgp.608.1646433361486; 
- Fri, 04 Mar 2022 14:36:01 -0800 (PST)
+ bh=lxv8P1kjdj19TGTwQCMT9+LjeWEUkwma0Ff7v1bfyYk=;
+ b=5Gnd1jx6UXWlIM0OtrUOi2X73KxpTsBDD4iEuB9kNuJMuKSLpVr/hSyK0nVi792DdC
+ eRaCuCb+LZjLnuPykph2Inc7nBvKnqoG/ojw6rAfQ0pRx/GifUIsrqSWQeVsZCt08XJI
+ nTxNTAPdpAabHQG4cf/SvHt25tEpB6ne3Zkd1t4VyBCMlrR27NXC2e79COA4kfNe8HL3
+ CeODfH6UoelsiIj/zE4MzSf1R6BRpZB0oZgcrCOiKcCN81ei22WUfleljsbhd1sp0nOr
+ QkL5FOO7nGGOtk/bo05vK7g+Rwjxb3JAN5mSeP20d0yVnU+Ikbm32PpjxnQ5aXs20vt7
+ k9iw==
+X-Gm-Message-State: AOAM532i50aMaYBJwNupg6Wv1MjFJBD19YZD1SL9pUj+iTm+f9pKdaFW
+ OsjqNl9soe4FPwS9z9xqECtaIw==
+X-Google-Smtp-Source: ABdhPJxTbNvSinxulYCWUlPPliHcl2YUqeGrUvDgGvtfjpTw6VrJEQulaSuO/5kNuycek+Nso6cIjQ==
+X-Received: by 2002:a17:90b:3b81:b0:1bc:d92f:d359 with SMTP id
+ pc1-20020a17090b3b8100b001bcd92fd359mr12944581pjb.36.1646433400087; 
+ Fri, 04 Mar 2022 14:36:40 -0800 (PST)
 Received: from ?IPV6:2603:800c:1201:c600:f24b:57b2:da7c:e304?
  (2603-800c-1201-c600-f24b-57b2-da7c-e304.res6.spectrum.com.
  [2603:800c:1201:c600:f24b:57b2:da7c:e304])
  by smtp.gmail.com with ESMTPSA id
- nm14-20020a17090b19ce00b001bf2404fd9dsm2936621pjb.31.2022.03.04.14.35.59
+ p16-20020a056a000b5000b004f669806cd9sm7039901pfo.87.2022.03.04.14.36.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 14:36:01 -0800 (PST)
-Message-ID: <f42d1db8-a6b8-a4e3-6176-69a77387fbb3@linaro.org>
-Date: Fri, 4 Mar 2022 12:35:57 -1000
+ Fri, 04 Mar 2022 14:36:39 -0800 (PST)
+Message-ID: <c72f61c9-d16b-60ff-ce11-85f6eba964e8@linaro.org>
+Date: Fri, 4 Mar 2022 12:36:36 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/7] target/ppc: Fix vmul[eo]* instructions marked 2.07
+Subject: Re: [PATCH 2/7] target/ppc: use ext32u and deposit in do_vx_vmulhw_i64
 Content-Language: en-US
 To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <20220304175156.2012315-1-matheus.ferst@eldorado.org.br>
- <20220304175156.2012315-2-matheus.ferst@eldorado.org.br>
+ <20220304175156.2012315-3-matheus.ferst@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220304175156.2012315-2-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220304175156.2012315-3-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,27 +95,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fabiano Rosas <farosas@linux.ibm.com>, danielhb413@gmail.com,
- groug@kaod.org,
- "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>, clg@kaod.org,
- Howard Spoelstra <hsp.cat7@gmail.com>, david@gibson.dropbear.id.au
+Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/4/22 07:51, matheus.ferst@eldorado.org.br wrote:
-> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
+> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > 
-> Some ISA v2.03 Vector Multiply instructions marked to be ISA v2.07 only.
-> This patch fixes it.
-> 
-> Fixes: 80eca687c851 ("target/ppc: moved vector even and odd multiplication to decodetree")
-> Reported-by: Howard Spoelstra<hsp.cat7@gmail.com>
-> Suggested-by: Fabiano Rosas<farosas@linux.ibm.com>
-> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
+> Fixes: 29e9dfcf755e ("target/ppc: vmulh* instructions without helpers")
 > Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
 > ---
->   target/ppc/translate/vmx-impl.c.inc | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+>   target/ppc/translate/vmx-impl.c.inc | 10 +++-------
+>   1 file changed, 3 insertions(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
