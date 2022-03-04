@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AC54CCB61
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 02:42:44 +0100 (CET)
-Received: from localhost ([::1]:53068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC574CCB8A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 03:06:23 +0100 (CET)
+Received: from localhost ([::1]:57896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPwxv-0006Rr-Li
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 20:42:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34618)
+	id 1nPxKo-000486-AU
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 21:06:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nPwvd-0004xR-RE
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 20:40:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35108)
+ id 1nPxJC-0002c3-DE
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 21:04:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nPwvL-00041m-Mj
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 20:40:06 -0500
+ id 1nPxJ8-0007jP-RQ
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 21:04:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646358002;
+ s=mimecast20190719; t=1646359477;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=86IVBTs1zO3soES1BSFbPEwpKK67/iP/hzPqZVJT4Mk=;
- b=XButPzRUPdfkMZ/FnvSV6q9itkrI1JdNnBVzS1SXAYk2KJHXsXp8OE5BHN2IXzs9w2sXQP
- hur8EzGLnnRX4zQyzfS4pjPeDXGWDGa8f9XGAyezzbOmoI5SnEqg8FUNs7ebNGxkj10YKN
- fobpIOVg1rVGtxm1IwPKN8FoRGAcYvk=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fX6RtIocLCKZSik2ZzjMTgFbWnd36P2I+EHwWx+aCcQ=;
+ b=JL95ZVYfIWBe+L1D0m1wf3DGJ825jnzIh0Cg+7xNDhy3Cj6Grz19rzADXE54uxq9uckehn
+ 6EUWS9PpKSCASE4rRFerIWTOYUELwLqGUB2t8fxcOcjj0i3JJR4cfrEhpAkDYzP7baF7CJ
+ qnXMIRANQWOe0DtaY1yx9QsCzsWzw3g=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-46-4cUrxLp3NLWRcBfHNyJtfA-1; Thu, 03 Mar 2022 20:40:01 -0500
-X-MC-Unique: 4cUrxLp3NLWRcBfHNyJtfA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- a5-20020ac25205000000b00443a34a9472so2115180lfl.15
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 17:40:01 -0800 (PST)
+ us-mta-501-RCIbLUnPO_WupbIloBaFfQ-1; Thu, 03 Mar 2022 21:04:34 -0500
+X-MC-Unique: RCIbLUnPO_WupbIloBaFfQ-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ x7-20020a2e9c87000000b002463977afe4so2561801lji.21
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 18:04:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=86IVBTs1zO3soES1BSFbPEwpKK67/iP/hzPqZVJT4Mk=;
- b=F+8NBkYvCw1KFC7Pq3EEy8AS7kFa8xKh1tnWKWI/juOPrv4IOqwYhwYjC7M3HZggbj
- 7kvl4s8UTanIKIjPaq1lzmKqwMXhwyluepNSxJkWfdsekBp7tZagWkko01iEoZ/65S0A
- WTNNCx/IwJAS3iDryQS8Aa7PtF3mgC8qilkNr0LymD3JhO3+RtX2H8fQUra983FDTyDZ
- TRxY8XHjEg46KROxB5V94nK+ELio9TXN+NcfADBNpwz+ND4sWTghXgjgoGGpg8Bvg922
- fN+fwwPoKlBYFo7jpmxSHdoXvfAPOSnF3qugcSLEQSP44sMhV9F99flfgx+h69t4tnU2
- BP3Q==
-X-Gm-Message-State: AOAM53220qAuFQ8wdK7+I6uOoiMs/2h+RY01/mw9Dx5FiNOGPjwseGKz
- XkHVC7RC4m7S0q1hXOlFQEVctTk+Edi3AN1aDOz2v5Wbj4uQF6GvTVkHxuxoJVEjHBPZY4gHGDm
- 4lHcC946S+soAOwiGeo6LTq7BAfSKxa0=
-X-Received: by 2002:a05:6512:3d08:b0:43f:8f45:d670 with SMTP id
- d8-20020a0565123d0800b0043f8f45d670mr23724348lfv.587.1646357999842; 
- Thu, 03 Mar 2022 17:39:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz/N5OkKEFPP69HFp2xd3HmlaSo7u6QlzusAq5p05BGKC4gaDVYtb5D7JVLeLqaoKCNZA2BDOr/nxGahzkjTHE=
-X-Received: by 2002:a05:6512:3d08:b0:43f:8f45:d670 with SMTP id
- d8-20020a0565123d0800b0043f8f45d670mr23724315lfv.587.1646357999501; Thu, 03
- Mar 2022 17:39:59 -0800 (PST)
+ bh=fX6RtIocLCKZSik2ZzjMTgFbWnd36P2I+EHwWx+aCcQ=;
+ b=LXfBVbBk/FplZewGDMIx9fYYm/imw0mUTL8kzSPNP7tZT+I8mjn5YFEHMKKQx10gyW
+ EaEcjkD1Xh8b+KySpHum/UPjv0znRlUt16huJyNdzJob8heffbedgbeRjUuNOcIK4Ft9
+ 6PdZRAvSPbQL9+P7odKo+XNftDWyE6aycCH7dvHCmE6v5ob1K5xMhx7bC0coFFO0hgGq
+ 8aG7CIVlxg6nh4HnROsz65lzO84eDt+i797Jpb+XBGkfTSE0jJkwiDVJEegJUeRcCrW6
+ lIwxjaLRoQypBSt1wz/IS9L9KOWwPS8EVHIqrRbf4Awg61o3wTz0rSgY/vzDLs5zggYZ
+ l/jg==
+X-Gm-Message-State: AOAM5327GG2xylxIwBBi1jwhGGM8TnHWNdLH055hkK5IOhx62CZwZXU1
+ cYtUvX4XxaMZsZc3QDQr5Y7FsfZEWERfV5CxVF16clqEylWp5Zc41o57RmgBScjkQvcHXHwSZXs
+ XCS+cFG7cwbscWyaS8AvkTzTavKXDLNA=
+X-Received: by 2002:ac2:508a:0:b0:443:169a:b27 with SMTP id
+ f10-20020ac2508a000000b00443169a0b27mr22949833lfm.257.1646359473044; 
+ Thu, 03 Mar 2022 18:04:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyquMx5q5YWrOmlm5exX4W7yHw7fSS9eDOTWbfyvDN0dtxx5axIN/NxP+xIULw+TBniLa008Sm/GEs4vBPBNLY=
+X-Received: by 2002:ac2:508a:0:b0:443:169a:b27 with SMTP id
+ f10-20020ac2508a000000b00443169a0b27mr22949801lfm.257.1646359472693; Thu, 03
+ Mar 2022 18:04:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20220227134111.3254066-1-eperezma@redhat.com>
- <20220227134111.3254066-3-eperezma@redhat.com>
- <40c5bb81-b33a-9a4a-8ce0-20289b13b907@redhat.com>
- <CAJaqyWezcrc=iPLe=Y7+g9oBYfUY9pK8OM4=ZUeRgXqr9ZUWkg@mail.gmail.com>
- <1da7c2b8-ba6e-e9aa-4d55-b1345bd65ba4@redhat.com>
- <CAJaqyWfbkzi19yMAXY7gwCAoj7sakwU_R2hDc1u8+jHPfHLadA@mail.gmail.com>
-In-Reply-To: <CAJaqyWfbkzi19yMAXY7gwCAoj7sakwU_R2hDc1u8+jHPfHLadA@mail.gmail.com>
+ <20220227134111.3254066-10-eperezma@redhat.com>
+ <7f6f5118-4228-6dcb-f3d4-3e64aeb3608c@redhat.com>
+ <CAJaqyWchLxXTRBE9zT9ZrF7UT_CnNbD=E5yaK6NrF-gDauhSAg@mail.gmail.com>
+In-Reply-To: <CAJaqyWchLxXTRBE9zT9ZrF7UT_CnNbD=E5yaK6NrF-gDauhSAg@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 4 Mar 2022 09:39:48 +0800
-Message-ID: <CACGkMEvnEhpLT7zc0-w6Cfc7w6zjGi6QgMnWK=BmEcN55N3KnQ@mail.gmail.com>
-Subject: Re: [PATCH v2 02/14] vhost: Add Shadow VirtQueue kick forwarding
- capabilities
+Date: Fri, 4 Mar 2022 10:04:20 +0800
+Message-ID: <CACGkMEsSBGo7+ox9V4tjY6Eq_rcJp0E6jXaQA=jhNh4AfdOMdw@mail.gmail.com>
+Subject: Re: [PATCH v2 09/14] vhost: Add VhostIOVATree
 To: Eugenio Perez Martin <eperezma@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
@@ -78,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -118,206 +115,334 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 3, 2022 at 5:25 PM Eugenio Perez Martin <eperezma@redhat.com> w=
-rote:
+On Fri, Mar 4, 2022 at 12:33 AM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
 >
-> On Thu, Mar 3, 2022 at 8:12 AM Jason Wang <jasowang@redhat.com> wrote:
+> On Mon, Feb 28, 2022 at 8:06 AM Jason Wang <jasowang@redhat.com> wrote:
 > >
 > >
-> > =E5=9C=A8 2022/3/2 =E4=B8=8A=E5=8D=882:49, Eugenio Perez Martin =E5=86=
+> > =E5=9C=A8 2022/2/27 =E4=B8=8B=E5=8D=889:41, Eugenio P=C3=A9rez =E5=86=
 =99=E9=81=93:
-> > > On Mon, Feb 28, 2022 at 3:57 AM Jason Wang<jasowang@redhat.com>  wrot=
-e:
-> > >> =E5=9C=A8 2022/2/27 =E4=B8=8B=E5=8D=889:40, Eugenio P=C3=A9rez =E5=
-=86=99=E9=81=93:
-> > >>> At this mode no buffer forwarding will be performed in SVQ mode: Qe=
-mu
-> > >>> will just forward the guest's kicks to the device.
-> > >>>
-> > >>> Host memory notifiers regions are left out for simplicity, and they=
- will
-> > >>> not be addressed in this series.
-> > >>>
-> > >>> Signed-off-by: Eugenio P=C3=A9rez<eperezma@redhat.com>
-> > >>> ---
-> > >>>    hw/virtio/vhost-shadow-virtqueue.h |  14 +++
-> > >>>    include/hw/virtio/vhost-vdpa.h     |   4 +
-> > >>>    hw/virtio/vhost-shadow-virtqueue.c |  52 +++++++++++
-> > >>>    hw/virtio/vhost-vdpa.c             | 145 +++++++++++++++++++++++=
-+++++-
-> > >>>    4 files changed, 213 insertions(+), 2 deletions(-)
-> > >>>
-> > >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-s=
-hadow-virtqueue.h
-> > >>> index f1519e3c7b..1cbc87d5d8 100644
-> > >>> --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > >>> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > >>> @@ -18,8 +18,22 @@ typedef struct VhostShadowVirtqueue {
-> > >>>        EventNotifier hdev_kick;
-> > >>>        /* Shadow call notifier, sent to vhost */
-> > >>>        EventNotifier hdev_call;
-> > >>> +
-> > >>> +    /*
-> > >>> +     * Borrowed virtqueue's guest to host notifier. To borrow it i=
-n this event
-> > >>> +     * notifier allows to recover the VhostShadowVirtqueue from th=
-e event loop
-> > >>> +     * easily. If we use the VirtQueue's one, we don't have an eas=
-y way to
-> > >>> +     * retrieve VhostShadowVirtqueue.
-> > >>> +     *
-> > >>> +     * So shadow virtqueue must not clean it, or we would lose Vir=
-tQueue one.
-> > >>> +     */
-> > >>> +    EventNotifier svq_kick;
-> > >>>    } VhostShadowVirtqueue;
-> > >>>
-> > >>> +void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_=
-kick_fd);
-> > >>> +
-> > >>> +void vhost_svq_stop(VhostShadowVirtqueue *svq);
-> > >>> +
-> > >>>    VhostShadowVirtqueue *vhost_svq_new(void);
-> > >>>
-> > >>>    void vhost_svq_free(gpointer vq);
-> > >>> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vho=
-st-vdpa.h
-> > >>> index 3ce79a646d..009a9f3b6b 100644
-> > >>> --- a/include/hw/virtio/vhost-vdpa.h
-> > >>> +++ b/include/hw/virtio/vhost-vdpa.h
-> > >>> @@ -12,6 +12,8 @@
-> > >>>    #ifndef HW_VIRTIO_VHOST_VDPA_H
-> > >>>    #define HW_VIRTIO_VHOST_VDPA_H
-> > >>>
-> > >>> +#include <gmodule.h>
-> > >>> +
-> > >>>    #include "hw/virtio/virtio.h"
-> > >>>    #include "standard-headers/linux/vhost_types.h"
-> > >>>
-> > >>> @@ -27,6 +29,8 @@ typedef struct vhost_vdpa {
-> > >>>        bool iotlb_batch_begin_sent;
-> > >>>        MemoryListener listener;
-> > >>>        struct vhost_vdpa_iova_range iova_range;
-> > >>> +    bool shadow_vqs_enabled;
-> > >>> +    GPtrArray *shadow_vqs;
-> > >>>        struct vhost_dev *dev;
-> > >>>        VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> > >>>    } VhostVDPA;
-> > >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-s=
-hadow-virtqueue.c
-> > >>> index 019cf1950f..a5d0659f86 100644
-> > >>> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > >>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > >>> @@ -11,6 +11,56 @@
-> > >>>    #include "hw/virtio/vhost-shadow-virtqueue.h"
-> > >>>
-> > >>>    #include "qemu/error-report.h"
-> > >>> +#include "qemu/main-loop.h"
-> > >>> +#include "linux-headers/linux/vhost.h"
-> > >>> +
-> > >>> +/** Forward guest notifications */
-> > >>> +static void vhost_handle_guest_kick(EventNotifier *n)
-> > >>> +{
-> > >>> +    VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtq=
-ueue,
-> > >>> +                                             svq_kick);
-> > >>> +    event_notifier_test_and_clear(n);
-> > >>> +    event_notifier_set(&svq->hdev_kick);
-> > >>> +}
-> > >>> +
-> > >>> +/**
-> > >>> + * Set a new file descriptor for the guest to kick the SVQ and not=
-ify for avail
-> > >>> + *
-> > >>> + * @svq          The svq
-> > >>> + * @svq_kick_fd  The svq kick fd
-> > >>> + *
-> > >>> + * Note that the SVQ will never close the old file descriptor.
-> > >>> + */
-> > >>> +void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_=
-kick_fd)
-> > >>> +{
-> > >>> +    EventNotifier *svq_kick =3D &svq->svq_kick;
-> > >>> +    bool poll_stop =3D VHOST_FILE_UNBIND !=3D event_notifier_get_f=
-d(svq_kick);
-> > >> I wonder if this is robust. E.g is there any chance that may end up =
-with
-> > >> both poll_stop and poll_start are false?
-> > >>
-> > > I cannot make that happen in qemu, but the function supports that cas=
-e
-> > > well: It will do nothing. It's more or less the same code as used in
-> > > the vhost kernel, and is the expected behaviour if you send two
-> > > VHOST_FILE_UNBIND one right after another to me.
-> >
-> >
-> > I would think it's just stop twice.
-> >
-> >
+> > > This tree is able to look for a translated address from an IOVA addre=
+ss.
 > > >
-> > >> If not, can we simple detect poll_stop as below and treat !poll_star=
-t
-> > >> and poll_stop?
-> > >>
-> > > I'm not sure what does it add. Is there an unexpected consequence wit=
-h
-> > > the current do-nothing behavior I've missed?
-> >
-> >
-> > I'm not sure, but it feels odd if poll_start is not the reverse value o=
-f
-> > poll_stop.
-> >
->
-> If we want to not to restrict the inputs, we need to handle for situation=
-s:
->
-> a) old_fd =3D -1, new_fd =3D -1,
->
-> This is the situation you described, and it's basically a no-op.
-> poll_stop =3D=3D poll_start =3D=3D false.
->
-> If we make poll_stop =3D true and poll_stop =3D false, we call
-> event_notifier_set_handler(-1, ...). Hopefully it will return just an
-> error.
->
-> If we make poll_stop =3D false and poll_stop =3D true, we are calling
-> event_notifier_set(-1) and event_notifier_set_handler(-1,
-> poll_callback). Same situation, hopefully an error, but unexpected.
->
-> b) old_fd =3D -1, new_fd =3D >-1,
->
-> We need to start polling the new_fd. No need for stop polling the
-> old_fd, since we are not polling it actually.
->
-> c) old_fd =3D >-1, new_fd =3D >-1,
->
-> We need to stop polling the old_fd and start polling the new one.
->
-> If we make poll_stop =3D true and poll_stop =3D false, we don't register =
+> > > At first glance it is similar to util/iova-tree. However, SVQ working=
+ on
+> > > devices with limited IOVA space need more capabilities, like allocati=
+ng
+> > > IOVA chunks or performing reverse translations (qemu addresses to iov=
+a).
+> > >
+> > > The allocation capability, as "assign a free IOVA address to this chu=
+nk
+> > > of memory in qemu's address space" allows shadow virtqueue to create =
 a
-> new polling function for the new kick_fd so we will miss guest's
-> kicks.
+> > > new address space that is not restricted by guest's addressable one, =
+so
+> > > we can allocate shadow vqs vrings outside of it.
+> > >
+> > > It duplicates the tree so it can search efficiently in both direction=
+s,
+> > > and it will signal overlap if iova or the translated address is prese=
+nt
+> > > in any tree.
+> > >
+> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > ---
+> > >   hw/virtio/vhost-iova-tree.h |  27 +++++++
+> > >   hw/virtio/vhost-iova-tree.c | 155 +++++++++++++++++++++++++++++++++=
++++
+> > >   hw/virtio/meson.build       |   2 +-
+> > >   3 files changed, 183 insertions(+), 1 deletion(-)
+> > >   create mode 100644 hw/virtio/vhost-iova-tree.h
+> > >   create mode 100644 hw/virtio/vhost-iova-tree.c
+> > >
+> > > diff --git a/hw/virtio/vhost-iova-tree.h b/hw/virtio/vhost-iova-tree.=
+h
+> > > new file mode 100644
+> > > index 0000000000..6a4f24e0f9
+> > > --- /dev/null
+> > > +++ b/hw/virtio/vhost-iova-tree.h
+> > > @@ -0,0 +1,27 @@
+> > > +/*
+> > > + * vhost software live migration iova tree
+> > > + *
+> > > + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
+> > > + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat=
+.com>
+> > > + *
+> > > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > > + */
+> > > +
+> > > +#ifndef HW_VIRTIO_VHOST_IOVA_TREE_H
+> > > +#define HW_VIRTIO_VHOST_IOVA_TREE_H
+> > > +
+> > > +#include "qemu/iova-tree.h"
+> > > +#include "exec/memory.h"
+> > > +
+> > > +typedef struct VhostIOVATree VhostIOVATree;
+> > > +
+> > > +VhostIOVATree *vhost_iova_tree_new(uint64_t iova_first, uint64_t iov=
+a_last);
+> > > +void vhost_iova_tree_delete(VhostIOVATree *iova_tree);
+> > > +G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostIOVATree, vhost_iova_tree_delete)=
+;
+> > > +
+> > > +const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *iova_tr=
+ee,
+> > > +                                        const DMAMap *map);
+> > > +int vhost_iova_tree_map_alloc(VhostIOVATree *iova_tree, DMAMap *map)=
+;
+> > > +void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap *=
+map);
+> > > +
+> > > +#endif
+> > > diff --git a/hw/virtio/vhost-iova-tree.c b/hw/virtio/vhost-iova-tree.=
+c
+> > > new file mode 100644
+> > > index 0000000000..03496ac075
+> > > --- /dev/null
+> > > +++ b/hw/virtio/vhost-iova-tree.c
+> > > @@ -0,0 +1,155 @@
+> > > +/*
+> > > + * vhost software live migration iova tree
+> > > + *
+> > > + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
+> > > + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat=
+.com>
+> > > + *
+> > > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > > + */
+> > > +
+> > > +#include "qemu/osdep.h"
+> > > +#include "qemu/iova-tree.h"
+> > > +#include "vhost-iova-tree.h"
+> > > +
+> > > +#define iova_min_addr qemu_real_host_page_size
+> > > +
+> > > +/**
+> > > + * VhostIOVATree, able to:
+> > > + * - Translate iova address
+> > > + * - Reverse translate iova address (from translated to iova)
+> > > + * - Allocate IOVA regions for translated range (linear operation)
+> > > + */
+> > > +struct VhostIOVATree {
+> > > +    /* First addressable iova address in the device */
+> > > +    uint64_t iova_first;
+> > > +
+> > > +    /* Last addressable iova address in the device */
+> > > +    uint64_t iova_last;
+> > > +
+> > > +    /* IOVA address to qemu memory maps. */
+> > > +    IOVATree *iova_taddr_map;
+> > > +
+> > > +    /* QEMU virtual memory address to iova maps */
+> > > +    GTree *taddr_iova_map;
+> > > +};
+> > > +
+> > > +static gint vhost_iova_tree_cmp_taddr(gconstpointer a, gconstpointer=
+ b,
+> > > +                                      gpointer data)
+> > > +{
+> > > +    const DMAMap *m1 =3D a, *m2 =3D b;
+> > > +
+> > > +    if (m1->translated_addr > m2->translated_addr + m2->size) {
+> > > +        return 1;
+> > > +    }
+> > > +
+> > > +    if (m1->translated_addr + m1->size < m2->translated_addr) {
+> > > +        return -1;
+> > > +    }
+> > > +
+> > > +    /* Overlapped */
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +/**
+> > > + * Create a new IOVA tree
+> > > + *
+> > > + * Returns the new IOVA tree
+> > > + */
+> > > +VhostIOVATree *vhost_iova_tree_new(hwaddr iova_first, hwaddr iova_la=
+st)
+> > > +{
+> > > +    VhostIOVATree *tree =3D g_new(VhostIOVATree, 1);
+> > > +
+> > > +    /* Some devices do not like 0 addresses */
+> > > +    tree->iova_first =3D MAX(iova_first, iova_min_addr);
+> > > +    tree->iova_last =3D iova_last;
+> > > +
+> > > +    tree->iova_taddr_map =3D iova_tree_new();
+> > > +    tree->taddr_iova_map =3D g_tree_new_full(vhost_iova_tree_cmp_tad=
+dr, NULL,
+> > > +                                           NULL, g_free);
+> > > +    return tree;
+> > > +}
+> > > +
+> > > +/**
+> > > + * Delete an iova tree
+> > > + */
+> > > +void vhost_iova_tree_delete(VhostIOVATree *iova_tree)
+> > > +{
+> > > +    iova_tree_destroy(iova_tree->iova_taddr_map);
+> > > +    g_tree_unref(iova_tree->taddr_iova_map);
+> > > +    g_free(iova_tree);
+> > > +}
+> > > +
+> > > +/**
+> > > + * Find the IOVA address stored from a memory address
+> > > + *
+> > > + * @tree     The iova tree
+> > > + * @map      The map with the memory address
+> > > + *
+> > > + * Return the stored mapping, or NULL if not found.
+> > > + */
+> > > +const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *tree,
+> > > +                                        const DMAMap *map)
+> > > +{
+> > > +    return g_tree_lookup(tree->taddr_iova_map, map);
+> > > +}
+> > > +
+> > > +/**
+> > > + * Allocate a new mapping
+> > > + *
+> > > + * @tree  The iova tree
+> > > + * @map   The iova map
+> > > + *
+> > > + * Returns:
+> > > + * - IOVA_OK if the map fits in the container
+> > > + * - IOVA_ERR_INVALID if the map does not make sense (like size over=
+flow)
+> > > + * - IOVA_ERR_OVERLAP if the tree already contains that map
+> > > + * - IOVA_ERR_NOMEM if tree cannot allocate more space.
+> > > + *
+> > > + * It returns assignated iova in map->iova if return value is VHOST_=
+DMA_MAP_OK.
+> > > + */
+> > > +int vhost_iova_tree_map_alloc(VhostIOVATree *tree, DMAMap *map)
+> > > +{
+> > > +    /* Some vhost devices do not like addr 0. Skip first page */
+> > > +    hwaddr iova_first =3D tree->iova_first ?: qemu_real_host_page_si=
+ze;
+> > > +    DMAMap *new;
+> > > +    int r;
+> > > +
+> > > +    if (map->translated_addr + map->size < map->translated_addr ||
+> > > +        map->perm =3D=3D IOMMU_NONE) {
+> > > +        return IOVA_ERR_INVALID;
+> > > +    }
+> > > +
+> > > +    /* Check for collisions in translated addresses */
+> > > +    if (vhost_iova_tree_find_iova(tree, map)) {
+> > > +        return IOVA_ERR_OVERLAP;
+> > > +    }
+> > > +
+> > > +    /* Allocate a node in IOVA address */
+> > > +    r =3D iova_tree_alloc_map(tree->iova_taddr_map, map, iova_first,
+> > > +                            tree->iova_last);
+> > > +    if (r !=3D IOVA_OK) {
+> > > +        return r;
+> > > +    }
+> > > +
+> > > +    /* Allocate node in qemu -> iova translations */
+> > > +    new =3D g_malloc(sizeof(*new));
+> > > +    memcpy(new, map, sizeof(*new));
+> > > +    g_tree_insert(tree->taddr_iova_map, new, new);
+> >
+> >
+> > Can the caller map two IOVA ranges to the same e.g GPA range?
+> >
 >
-> If we make poll_stop =3D false and poll_stop =3D true, we keep polling th=
-e
-> old file descriptor too, so whatever it gets assigned to could call
-> vhost_handle_guest_kick if it does not override poll callback.
+> It shouldn't matter, because we are totally ignoring GPA here. HVA
+> could be more problematic.
 >
-> We *could* detect if old_fd =3D=3D new_fd so we skip all the work, but I
-> think it is not worth it to complicate the code, since we're only
-> being called with the kick_fd at dev start.
->
-> d) c) old_fd =3D >-1, new_fd =3D -1,
->
-> We need to stop polling, or we could get invalid kicks callbacks if it
-> gets writed after this. No need to poll anything beyond this.
+> We call it from two places: The shadow vring addresses and through the
+> memory listener. The SVQ vring addresses should already be on a
+> separated translated address from each one and guest's HVA because of
+> malloc semantics.
 
-I see, thanks for the clarification.
+Right, so SVQ addresses should be fine, the problem is the guest mappings.
+
+>
+> Regarding the listener, it should already report flattened memory with
+> no overlapping between the HVA chunks.
+> vhost_vdpa_listener_skipped_section should skip all problematic
+> sections if I'm not wrong.
+>
+> But I may have missed some scenarios: vdpa devices only care about
+> IOVA -> HVA translation, so two IOVA could translate to the same HVA
+> in theory and we would not notice until we try with SVQ. To develop an
+> algorithm to handle this seems complicated at this moment: Should we
+> keep the bigger one? The last mapped? What happens if the listener
+> unmaps one of them, we suddenly must start translating from the not
+> unmapping? Seems that some kind of stacking would be needed.
+>
+> Thanks!
+
+It looks to me that we should always try to allocate new iova each
+time, even if the HVA is the same. This means we need to remove the
+reverse mapping tree.
+
+Currently we had:
+
+    /* Check for collisions in translated addresses */
+    if (vhost_iova_tree_find_iova(tree, map)) {
+        return IOVA_ERR_OVERLAP;
+    }
+
+We probably need to remove that. And during the translation we need to
+iterate the whole iova tree to get the reverse mapping instead by
+returning the largest possible mapping there.
+
+But this may degrade the performance, but consider the memslots should
+not be much at most of the time, it should be fine.
+
+Thanks
+
 
 >
 > > Thanks
 > >
+> >
+> > > +    return IOVA_OK;
+> > > +}
+> > > +
+> > > +/**
+> > > + * Remove existing mappings from iova tree
+> > > + *
+> > > + * @param  iova_tree  The vhost iova tree
+> > > + * @param  map        The map to remove
+> > > + */
+> > > +void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap *=
+map)
+> > > +{
+> > > +    const DMAMap *overlap;
+> > > +
+> > > +    iova_tree_remove(iova_tree->iova_taddr_map, map);
+> > > +    while ((overlap =3D vhost_iova_tree_find_iova(iova_tree, map))) =
+{
+> > > +        g_tree_remove(iova_tree->taddr_iova_map, overlap);
+> > > +    }
+> > > +}
+> > > diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+> > > index 2dc87613bc..6047670804 100644
+> > > --- a/hw/virtio/meson.build
+> > > +++ b/hw/virtio/meson.build
+> > > @@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('=
+vhost-stub.c'))
+> > >
+> > >   virtio_ss =3D ss.source_set()
+> > >   virtio_ss.add(files('virtio.c'))
+> > > -virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost=
+-backend.c', 'vhost-shadow-virtqueue.c'))
+> > > +virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost=
+-backend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
+> > >   virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user=
+.c'))
+> > >   virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa=
+.c'))
+> > >   virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio=
+-balloon.c'))
 > >
 >
 
