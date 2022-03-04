@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34FD4CDFDD
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:47:02 +0100 (CET)
-Received: from localhost ([::1]:49094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0686E4CDFE7
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:47:55 +0100 (CET)
+Received: from localhost ([::1]:50794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQFlN-0006TM-JN
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:47:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56296)
+	id 1nQFmD-00087J-QU
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:47:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1nQFiS-00050O-Dt; Fri, 04 Mar 2022 16:44:00 -0500
-Received: from [2607:f8b0:4864:20::830] (port=46624
- helo=mail-qt1-x830.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nQFjk-0006BB-4o
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:45:20 -0500
+Received: from [2607:f8b0:4864:20::62d] (port=37434
+ helo=mail-pl1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1nQFiQ-0005LF-MO; Fri, 04 Mar 2022 16:44:00 -0500
-Received: by mail-qt1-x830.google.com with SMTP id a1so8534682qta.13;
- Fri, 04 Mar 2022 13:43:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=1dMTL7nN7GMeEabiGO39uS91zAVDg8Qu6RSyIna1DaY=;
- b=JIXRml3P1nQGrYll8JnbY/9ejJp2ueDhes+CiOUWEWLNCP4uaZWUtOMgL6VCLszX1s
- pV3dBYx8vyTrC0EqQt3cKPdJ+DjHRJ8S78uxN2ZZmntxRMasWOCnXXH+JJcVIsDLWsNJ
- EnTos742ij0RsHMANuVWeCx+VbrpI87xjEy23BhEHMsp0BE49pTMO68HE6Ehw0j4Z/lz
- /06GgZQoO4upJvOJbfCE5v9HM/TWoKv3lc3oVzA9R3B3KUw3LqqOC4xPkBFjdIimCm/w
- bokHx9ASLOciLCkZt9Ui7JCSeyCx2DnKOjiKQulfI2owFXmGfL1lViiULqJDQpuDYADx
- bRgw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nQFji-0005es-7C
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:45:19 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id j13so907677plx.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 13:45:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=XbAWErD1jk9YjJ/iYbxEQAkwqRmZKBiUfmIPF2nb9TA=;
+ b=dOxUGtdQTDwrsnJDzFHmzS5I/+3cdGaINBB7uf0Cor5Rl7455ESdTamfIuHVg19vVH
+ Ru+p9xwXxrp/aZO1Ai8kXV0hOY0I/9zgFoqGC8Vgbm5MGjFCOFg+SCiEDTuvjrxPm3lA
+ SEJjAk32NinKPqon419e1QC6n/p3HlM6IJwQVmni+nj62Dc6T/E8yWlqm9HZ7fCmRhyv
+ bHpx0s8Kh33ZrzlAdNCjEHidC5OaPtxtQE6jLhjF01bQcjN8Tajhlo1wdDV9LCbq9kLd
+ NIycxDpDTlPafz2gCf2sHRJUWtjKhmOmNwnuBPtQRveQwrvzx0DlhQUEG2QYQufalsp2
+ q89w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=1dMTL7nN7GMeEabiGO39uS91zAVDg8Qu6RSyIna1DaY=;
- b=soxjDahNhRpi187a0uXQ48fRbLFjfIXjFWhDYNNhuZCMzAAIFV3OYvhkVbfoIpKwz+
- /n4R70wfff5KTDbk1sXSXKHa46RBWspi+GJ1s8B0MXw7IJWGxvwOFJSWun1UcRpRWFz9
- 6anT6xInvyRPcyeiQFBdkuVac3x4DRTh3KslRK98BTlwkkyhfuJ2bAZYq3t7B4jnZAS0
- I2nZc8jGtVg23h3oH11e6rnk5goqmMx/RCLmxI/K0tKk7uV7XUFxCAwPCK+YQ1u6FHBQ
- U98r8LsOXZ1uUXFZnpio3U1v9icNKIDQUCEXc6deYaH8eEwOokAQh+XV+iRAWcLCY75c
- 6lpw==
-X-Gm-Message-State: AOAM531hS30eHwo4e4H/GjwHgaIUH2kh1MoyNaBa0xzZR5q7UcLFchKk
- TDP6vzWwatUK7z7cZ/4w8g==
-X-Google-Smtp-Source: ABdhPJxt6Fcx0s35zC5Ji17eeX1UKodyzrlL2DqMHevqPlihZfx/0awR0OYTEdtafg+oRlX3xrCvLA==
-X-Received: by 2002:a05:622a:18a9:b0:2e0:2ecd:a6fc with SMTP id
- v41-20020a05622a18a900b002e02ecda6fcmr733944qtc.1.1646430236935; 
- Fri, 04 Mar 2022 13:43:56 -0800 (PST)
-Received: from serve.minyard.net ([47.184.144.75])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XbAWErD1jk9YjJ/iYbxEQAkwqRmZKBiUfmIPF2nb9TA=;
+ b=wyGTA3dHMDZCmHwhFyAhtpJ7TratV0/DJFoPq9FXpLs1ZS6qI/BqrtGO+oZRw4nXE7
+ bWIuQ2QwgNaLa6+EhQYtMGK+K+otx5jRwuDihTNCU5xxdAYnq+bYiqYdUO3U7pnuCMoR
+ TQqYfs/nQ+qUyyvOsuf39gfE2+i/pYSw8kaJpHxwBGy0TJ1Iti/mQLnSbAG6HiUMjdQ7
+ 291FvuNZhgffgrQ6QnASiWTQVopQxwkatuM451bcQAUpAfsMHvd+Tkz4mXb//B9hA50q
+ I53+i+PzhHqK+YIyQStw7y1pDGd2G36L1y7CqN4euslNGYZZ6synZKBYHOeDzOWIW3+r
+ 3NYw==
+X-Gm-Message-State: AOAM532pCOwnBkO7GJiLkU93VnsUD+yHnAhPJw5AaH+PVP/X2USDVDUp
+ 6O9tOZ2djFhYYdJPuGg19AF23g==
+X-Google-Smtp-Source: ABdhPJzDM1C11EzkmRpiehaVjZ+4yFl/25Rg+TNXH3GrpJcAb9m0AdHS/mM2t1dlr/H9zmOn6augMA==
+X-Received: by 2002:a17:902:e542:b0:150:e0a:c21e with SMTP id
+ n2-20020a170902e54200b001500e0ac21emr354410plf.59.1646430316591; 
+ Fri, 04 Mar 2022 13:45:16 -0800 (PST)
+Received: from ?IPV6:2603:800c:1201:c600:f24b:57b2:da7c:e304?
+ (2603-800c-1201-c600-f24b-57b2-da7c-e304.res6.spectrum.com.
+ [2603:800c:1201:c600:f24b:57b2:da7c:e304])
  by smtp.gmail.com with ESMTPSA id
- w9-20020ac87e89000000b002e039503dc7sm4093373qtj.18.2022.03.04.13.43.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 13:43:56 -0800 (PST)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:d039:aa0a:5985:f3f6])
- by serve.minyard.net (Postfix) with ESMTPSA id 395F81800B7;
- Fri,  4 Mar 2022 21:43:55 +0000 (UTC)
-Date: Fri, 4 Mar 2022 15:43:54 -0600
-From: Corey Minyard <minyard@acm.org>
-To: Titus Rwantare <titusr@google.com>
-Subject: Re: [PATCH v3 0/9] This patch series contains updates to PMBus in
- QEMU along with some PMBus device models for Renesas regulators. I have also
- added myself to MAINTAINERS as this code is in use daily, where I am
- responsible for it.
-Message-ID: <20220304214354.GL3457@minyard.net>
-References: <20220302015053.1984165-1-titusr@google.com>
+ d11-20020a056a0010cb00b004e1b76b09c0sm6698562pfu.74.2022.03.04.13.45.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Mar 2022 13:45:16 -0800 (PST)
+Message-ID: <16f01126-988b-2cef-3dd4-6564ace49493@linaro.org>
+Date: Fri, 4 Mar 2022 11:45:12 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220302015053.1984165-1-titusr@google.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::830
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 2/5] target/nios2: Shadow register set
+Content-Language: en-US
+To: Amir Gonnen <amir.gonnen@neuroblade.ai>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ Marek Vasut <marex@denx.de>
+References: <20220303153906.2024748-1-amir.gonnen@neuroblade.ai>
+ <20220303153906.2024748-3-amir.gonnen@neuroblade.ai>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220303153906.2024748-3-amir.gonnen@neuroblade.ai>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=tcminyard@gmail.com; helo=mail-qt1-x830.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -94,62 +97,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: peter.maydell@linaro.org, venture@google.com, qemu-devel@nongnu.org,
- f4bug@amsat.org, wuhaotsh@google.com, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 01, 2022 at 05:50:44PM -0800, Titus Rwantare wrote:
-> v2:
->   - split PMBus commit with updates into individual fixes
->   - renamed isl_pmbus[.ch] adding _vr for voltage regulators
+On 3/3/22 05:39, Amir Gonnen wrote:
+> Implement shadow register set and related instructions
+> rdprs, wrprs. Fix eret to update either status or sstatus
+> according to current register set.
+> eret also changes register set when needed.
 > 
-> v3:
->   - split uint refactor commit and removed commit renaming files
->   - rename rolled into preceding commits
->   - update commit description for uint refactoring change
+> Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
+> ---
+>   target/nios2/cpu.c       |  1 +
+>   target/nios2/cpu.h       | 48 +++++++++++++++++++++++++++---
+>   target/nios2/helper.h    |  1 +
+>   target/nios2/op_helper.c | 18 +++++++++++
+>   target/nios2/translate.c | 64 ++++++++++++++++++++++++++++++++++++----
+>   5 files changed, 123 insertions(+), 9 deletions(-)
+> 
+> diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
+> index 6975ae4bdb..026ee18b01 100644
+> --- a/target/nios2/cpu.c
+> +++ b/target/nios2/cpu.c
+> @@ -54,6 +54,7 @@ static void nios2_cpu_reset(DeviceState *dev)
+>       ncc->parent_reset(dev);
+> 
+>       memset(env->regs, 0, sizeof(uint32_t) * NUM_CORE_REGS);
+> +    memset(env->shadow_regs, 0, sizeof(uint32_t) * NUM_REG_SETS * NUM_GP_REGS);
 
-This all looks good to me:
+Zeroing registers is not part of processing 3.7.4 Reset Exception.
+I'd be tempted to set all of the registers to 0xdeadbeef instead, to catch out incorrect 
+code, especially wrt the shadowed r0.
 
-Acked-by: Corey Minyard <cminyard@mvista.com>
+> -#define   CR_STATUS_CRS  (63 << 10)
+> -#define   CR_STATUS_PRS  (63 << 16)
+> +FIELD(CR_STATUS, CRS, 10, 6)
+> +FIELD(CR_STATUS, PRS, 16, 6)
 
-Do you have a plan for getting this in to qemu?  Like through the ARM
-tree?  I could take it into an I2C tree, but there's really not much
-activity or work there.
+This change needs to be done separately from introducing shadow registers.
 
--corey
+Having read the specification more closely now, I think this implementation may be wrong. 
+  In particular:
 
-> 
-> Shengtan Mao (1):
->   hw/i2c: Added linear mode translation for pmbus devices
-> 
-> Titus Rwantare (8):
->   hw/i2c: pmbus: add registers
->   hw/i2c: pmbus: guard against out of range accesses
->   hw/i2c: pmbus: add PEC unsupported warning
->   hw/i2c: pmbus: refactor uint handling
->   hw/i2c: pmbus: update MAINTAINERS
->   hw/sensor: add Intersil ISL69260 device model
->   hw/sensor: add Renesas raa229004 PMBus device
->   hw/sensor: add Renesas raa228000 device
-> 
->  MAINTAINERS                      |  13 +
->  hw/arm/Kconfig                   |   1 +
->  hw/i2c/pmbus_device.c            | 106 ++++++-
->  hw/sensor/Kconfig                |   5 +
->  hw/sensor/isl_pmbus_vr.c         | 279 ++++++++++++++++++
->  hw/sensor/meson.build            |   1 +
->  include/hw/i2c/pmbus_device.h    |  23 +-
->  include/hw/sensor/isl_pmbus_vr.h |  52 ++++
->  tests/qtest/isl_pmbus_vr-test.c  | 474 +++++++++++++++++++++++++++++++
->  tests/qtest/meson.build          |   1 +
->  10 files changed, 944 insertions(+), 11 deletions(-)
->  create mode 100644 hw/sensor/isl_pmbus_vr.c
->  create mode 100644 include/hw/sensor/isl_pmbus_vr.h
->  create mode 100644 tests/qtest/isl_pmbus_vr-test.c
-> 
-> -- 
-> 2.35.1.616.g0bdcbb4464-goog
-> 
+(1) r0 appears to be hardwired to 0 only in the normal register set (CRS = 0).  That's why 
+software is directed to use wrprs to initialize r0 in each shadow register set to 0.
+
+(2) Changes are needed to wrctl to protect the read-only bits of the control registers. 
+In this case, especially status.NMI and status.CRS.
+
+(3) The advice I gave you for rdprs/wrprs is wrong when CRS == PRS (you'd need to modify 
+regs[n] not shadow_regs[prs][n]).
+
+These 3 items need to be handled in separate patches.
+
+> +static inline void cpu_change_reg_set(CPUNios2State *env, uint32_t prev_set,
+> +                                      uint32_t new_set)
+> +{
+> +    if (new_set == prev_set) {
+> +        return;
+> +    }
+> +    memcpy(env->shadow_regs[prev_set], env->regs,
+> +           sizeof(uint32_t) * NUM_GP_REGS);
+> +    memcpy(env->regs, env->shadow_regs[new_set],
+> +           sizeof(uint32_t) * NUM_GP_REGS);
+> +    env->regs[CR_STATUS] =
+> +        FIELD_DP32(env->regs[CR_STATUS], CR_STATUS, PRS, prev_set);
+> +    env->regs[CR_STATUS] =
+> +        FIELD_DP32(env->regs[CR_STATUS], CR_STATUS, CRS, new_set);
+> +}
+
+Another possibility, that doesn't involve moving data around is to use a pointer to the 
+CRS base, like sparc does for its register windows.  I'm not necessarily advocating this 
+solution, merely pointing it out.
+
+
+r~
 
