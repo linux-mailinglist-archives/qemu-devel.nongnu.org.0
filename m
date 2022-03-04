@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E144CE03D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 23:29:25 +0100 (CET)
-Received: from localhost ([::1]:50424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE414CE03E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 23:33:43 +0100 (CET)
+Received: from localhost ([::1]:53260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQGQO-0005CS-82
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 17:29:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35532)
+	id 1nQGUY-0007Jm-Po
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 17:33:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nQGPO-0004IC-Sx
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:28:22 -0500
-Received: from [2607:f8b0:4864:20::535] (port=35710
- helo=mail-pg1-x535.google.com)
+ id 1nQGTD-0006ci-GX
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:32:23 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=42858
+ helo=mail-pj1-x1030.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nQGPN-0006QN-As
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:28:22 -0500
-Received: by mail-pg1-x535.google.com with SMTP id e6so8628696pgn.2
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 14:28:20 -0800 (PST)
+ id 1nQGTC-0007Jt-42
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 17:32:19 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ c16-20020a17090aa61000b001befad2bfaaso8714084pjq.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 14:32:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=2C6jQFvVTWzy9SpOtnw/k9j/etr9nmeSuovKK9z74Ek=;
- b=K45DYilOM1EGXfNqVdY0Q87Vd8pn2C8vUnd4EPpriU/pH1RtpSQEE9GpUyeNJaESSW
- vqjdVn2tkW5F6GVQ/MFJdyTu+K9NtqV6+UzPRQZ2J/viFH+2alatOofRKLjCin5NewIf
- YXe3JME/OEOKj8SyIgoNkXNasraDOimQIK5eDDddeXxX3YucxetTXjahSknY3X/scbFY
- wcK7r69VAmVQVP0ULAEKI1+Ee5VJ5kMgjJnxp7XC8YiPxupCMPQrvTz12xQ2dYtKPYtY
- cV9UnK9U+L0n5PVQV6eyJU/DHfQ6r2vZkQrl+xCi1TCKIeD9u9214LMl00qteVBjEwCf
- LjjA==
+ bh=ujbZ5GyzLuLjuQCTgpLdUJpvtCAFvwAG18S/XuTe9P8=;
+ b=xIKbAlYM7g8ojDDbDPz2HLcBTImynD290LL7o7fiK2NaWIqYI+JAbr4+K0U+Epk+Rx
+ 0gKQlPvyhzR50youXs9c7LbQhC1QJtGBXWxKBwpIXjSZ837iOF/BTuplTfIk87dJzYoT
+ 4aRI2NoHT9y4oAlGSnSzXFR8uI7Q95CyQBjigRYIiKZ4M2qw0xV4wmHDpAZtLeK38Exx
+ jWI3pQ5wYtNbk0Nz4X5kvAt6d4YJJRb0Wp9dwmyNI5+Q1QFT85V9rKUx/uveHVXOchPR
+ H5bhtZvSzW1Jd9nclwatFI+Y06gZLpjDIhvx7wRGbcNrT8H2pMZBbGBgHbH0153DHh01
+ 5o1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=2C6jQFvVTWzy9SpOtnw/k9j/etr9nmeSuovKK9z74Ek=;
- b=JQm+u7F02rHcKnyy340yMNavFvdpfbpF33A6TAmDVHDEWpRUJEqZ08B0dkgtRiC/4E
- FCjq8RXY024pSZXBpOTufF9k59EQ/JfoZ5Bdb9jVowO5ejlHGGBX50CaqxazVTCTVxcK
- D8h74YroUlYuQzctoWXY2NLsLDuka25vYpQMqzP3vKJisz4O87+UkIW0or+2XeFsjf1U
- GZwnK/zDnHusZcHpa3gHRbu9uha1EZDrdzzPVMEsIDd6gt5uXgv20Sag1fEDEiIXUEAK
- zSht4LZx97RrhWNNmpjeeO01rhaxeswWUkclfEticoIV9ulOIhXflvVXVj/PXJOKV9Nv
- UWaQ==
-X-Gm-Message-State: AOAM530O1ew1N3cQoLUvkYbPYTHnl7GG64I2XumPA1T0uSv9t6PA04CB
- aAPL0HhpQDWZN5DABqSDffx6hg==
-X-Google-Smtp-Source: ABdhPJxu9Lbfft8mH26zuQRKc6n0AUYTzKToOZYmxBeFXfKxZKQi1Q/zZlXmDKoy2RAY/J5EsCtjFw==
-X-Received: by 2002:a05:6a00:244c:b0:4f6:67b8:a6b4 with SMTP id
- d12-20020a056a00244c00b004f667b8a6b4mr690992pfj.51.1646432899955; 
- Fri, 04 Mar 2022 14:28:19 -0800 (PST)
+ bh=ujbZ5GyzLuLjuQCTgpLdUJpvtCAFvwAG18S/XuTe9P8=;
+ b=Ralh514e7CKpns50LAD72w87GHmZY1JqkeNmJggLldqTdC2zTisA5VsrrCdtdaW+n0
+ OaDGhIIYButEgklb8+vojNQzbNatuPNRsi2xIDjZCVBI6n7o7K7tjXiA+roFrrloUjfu
+ lo093rWZh6bgyiRUKTk1wACYCwxpOifqy0pPHjY0KfuxRVGE1SCcQXppw+lLsotXcP5+
+ ExgerLAxQltpO6Ybeh9cSXg4Pzx7QXTsSsINxA6vj9gJJs2kIMt6ouBRnOc03TWI7Rkg
+ Zt6E2FkGrEXiAfSI+OSy8lddFScGwgn7ixV4TvP6qXXXUJ6ts+ZFEGNYIspEBX/T8rnk
+ MIzQ==
+X-Gm-Message-State: AOAM533moEhnsbLQ8W+mehBJUFe9gJNiueLeF3X6Bulvhcn1G7fEDssX
+ e4aYzMxqDMWFUK3gp/bMN+2ufA==
+X-Google-Smtp-Source: ABdhPJxYds9SZbmQPGwJw18KOT1/QaNmEkAw3T50Dvjjnmzvhq0YNABLlLboTL3X7+3A7TfhN8RM9g==
+X-Received: by 2002:a17:90a:4146:b0:1bf:2dc8:7407 with SMTP id
+ m6-20020a17090a414600b001bf2dc87407mr857234pjg.76.1646433136755; 
+ Fri, 04 Mar 2022 14:32:16 -0800 (PST)
 Received: from ?IPV6:2603:800c:1201:c600:f24b:57b2:da7c:e304?
  (2603-800c-1201-c600-f24b-57b2-da7c-e304.res6.spectrum.com.
  [2603:800c:1201:c600:f24b:57b2:da7c:e304])
  by smtp.gmail.com with ESMTPSA id
- v65-20020a632f44000000b00375ed63b2fasm5365838pgv.86.2022.03.04.14.28.18
+ p27-20020a056a000a1b00b004f3f63e3cf2sm7180157pfh.58.2022.03.04.14.32.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 14:28:19 -0800 (PST)
-Message-ID: <332b0e23-0e6b-3680-787d-b5086e2589ae@linaro.org>
-Date: Fri, 4 Mar 2022 12:28:16 -1000
+ Fri, 04 Mar 2022 14:32:16 -0800 (PST)
+Message-ID: <9d079adb-26e1-7af5-c174-6c3868d069ae@linaro.org>
+Date: Fri, 4 Mar 2022 12:32:13 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 18/18] hw/arm/virt: Disable LPA2 for -machine virt-6.2
+Subject: Re: [PULL 00/11] QEMU changes for 2021-03-02
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20220301215958.157011-1-richard.henderson@linaro.org>
- <20220301215958.157011-19-richard.henderson@linaro.org>
- <CAFEAcA9zcf+A6h3R+x2uSEk1aUpV_iWfEZT72CCUeSs32OUJcA@mail.gmail.com>
- <df2c63db-54d9-ae40-f403-b1adfa6bdbdc@linaro.org>
- <CAFEAcA8J7e_KeiV4bqZd_UnTveN8-5-YRr7MRKXWSWHa+x2WvA@mail.gmail.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20220302181134.285107-1-pbonzini@redhat.com>
+ <CAFEAcA8=8tiqmFTFPaNXcqjXy6Rb5xR59Q2VYUXOTbN91rbYuA@mail.gmail.com>
+ <088024f5-7066-e6ec-953e-f55d7ff83b96@redhat.com>
+ <CAFEAcA--dtmffH4FJUuuE1d6yR-4Mweu481p_y-EsJKEtPRjTw@mail.gmail.com>
+ <YiJlSlJube4dOk/m@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8J7e_KeiV4bqZd_UnTveN8-5-YRr7MRKXWSWHa+x2WvA@mail.gmail.com>
+In-Reply-To: <YiJlSlJube4dOk/m@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::535
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,25 +100,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-arm@nongnu.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/22 12:14, Peter Maydell wrote:
->> Yes, that works.  I'll send an update.
-> 
-> Do check it with KVM as well, to check the "CPU doesn't actually
-> have that property" case...
+On 3/4/22 09:15, Daniel P. Berrangé wrote:
+> Personally I favour turning it into a non-gating job as
+> I don't want to invest more of my own time debugging
+> non-bugs in it.
 
-Argh!  No, doesn't work.
-
-Unexpected error in object_property_find_err() at ../src/qom/object.c:1299:
-qemu-system-aarch64: can't apply global max-arm-cpu.lpa2=off: Property 'max-arm-cpu.lpa2' 
-not found
-
-I think staying with the v4 patch is best.  It matches quite a few other examples in 
-hw/arm, and uses the existence of the property as part of the logic already.
+I would be in favor of removing it from CI entirely, so that we don't even waste cpu time 
+on it by default.  Those that care can run it manually within their own build.
 
 
 r~
