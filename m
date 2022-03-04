@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882124CD898
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 17:07:33 +0100 (CET)
-Received: from localhost ([::1]:35570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D29994CD862
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:56:20 +0100 (CET)
+Received: from localhost ([::1]:45880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQASq-00033k-0B
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 11:07:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36016)
+	id 1nQAHz-000738-Vg
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:56:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nQAFz-0004Ry-Uh; Fri, 04 Mar 2022 10:54:15 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:45379)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQAG2-0004UY-GM
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:54:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nQAFy-0004ww-6V; Fri, 04 Mar 2022 10:54:15 -0500
-Received: from [192.168.100.1] ([82.142.8.122]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MhDIw-1o3KYL2XH0-00eNci; Fri, 04 Mar 2022 16:54:03 +0100
-Message-ID: <ff78228f-b4f6-9bba-9efc-a06d4f339035@vivier.eu>
-Date: Fri, 4 Mar 2022 16:54:01 +0100
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQAFz-0004xD-9q
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 10:54:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646409254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OVqC1uIHnT4h/N8RwU6uHQTKJyUfhmwbY1h/8kFDpUI=;
+ b=gP8tlnsYuKs/xfdB6wv08vHAdZed5VXHlL2zAAluparh7eKZO3veuE8oy2rkVMPYpqGRxv
+ iTcTshqO0bdINA+hQb87ewtKjX98iuGqH4RPm25UzN6cufct0Ny+MpjCz9W+53dRRHmL6n
+ gHFS7kn/Cm6sQclS/SBGZFtrU6lTIO4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-660-ZUJ7EejAO-Sbr7bZ126k9A-1; Fri, 04 Mar 2022 10:54:09 -0500
+X-MC-Unique: ZUJ7EejAO-Sbr7bZ126k9A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AAE21091DA0;
+ Fri,  4 Mar 2022 15:54:08 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AA90303F8;
+ Fri,  4 Mar 2022 15:54:06 +0000 (UTC)
+Date: Fri, 4 Mar 2022 09:54:04 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH 05/12] block/nbd: don't restrict TLS usage to IP sockets
+Message-ID: <20220304155404.42qjnwgicqrzx54r@redhat.com>
+References: <20220303160330.2979753-1-berrange@redhat.com>
+ <20220303160330.2979753-6-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/4] qtest: replace gettimeofday with GTimer
-Content-Language: fr
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220304152704.3466036-1-marcandre.lureau@redhat.com>
- <20220304152704.3466036-3-marcandre.lureau@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220304152704.3466036-3-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220303160330.2979753-6-berrange@redhat.com>
+User-Agent: NeoMutt/20211029-378-f757a4
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:mOD4XREQRHflxbDjoHatsHL/1+gPcDa8FrEsb9dkDkdF55UiRnd
- j+q7A7OFUgFNmMj9hHQ15/dXs71MXLkeMK1cUNsII26I1y0w9T94iEuhMiHWdcFlVaXkFFt
- G47DhGh4D/ZBMGIqyNR5iEn8MBa1DpF1UCgK3rGQoenKeSTgm1sx5wbSjhDnTAq6Ew0cKrn
- 7JS9D+TAlC+r7FddH9pDA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WWmS4QIPLVY=:kXER+j04kHsivvmCiLX1ES
- wwgfGmf+88XC7r1QdTYzpJ9m0yNb6YcYNeXhpZY3gfzuuSSrVuv+27NhejXTtKHU/e2l5wxA/
- wCXwMQ3S5jRWi6hVu+KCPKmubVeO5P+zeaNp9gMDXbCJQZrtcrIpta4ojNqxO0pdD2ykpCbSz
- jTre8XKmdb5BbkV4LGrHA4hXZ8+cUe3OynY7/gJs1P/hRNf8pnbTm7TGdtW2qeMAH+a6xDhnn
- IJS4M3N3cPkLLrX2XOfbHAWJKEXicp54BKaasitSo+/o8YgWFLwyWs5FTW3XVRlgULR3ASBLM
- URpE4kbHmW+M0OT53PK6o6AXze/9fc7JADpXl9LovKe0zNeH0npS71JuV0GwySGURnh1IY4KM
- QE3o67kZoAZkmj2AkS6JsLLq5J4v0G3Qihn/AKOnmgc3Y28lm7CQMIPBgwr0V9HSS78iqYKwq
- e+4lcgrjRy5rAObUmMZcy6z0SfE5CrPnwiIqNC+JxLEsyK7gZIVsi0oExbVk23D6Qk4i6GthZ
- YEYe/uRQV6wjpBw+n9xDEREKUHnf9TYBCdHnzNFBW/tcsYT00yNgoDbNa4nQE1Cgq1uOV6KWE
- BFLpqKlOHdYqSjuuGlq2d3f/fazLig71oCYHInPP67m3PIC0h5Ess6kX/yrlaJf3WOOJ53v4U
- A7SU4cuwl/S3goI8bJQQLbgaVYugSYPdT+HsTM6ETRsa4+nWlu4a1u4O9LW0DsV9eoeQ=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,127 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Chris Wulff <crwulff@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 04/03/2022 à 16:27, marcandre.lureau@redhat.com a écrit :
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Thu, Mar 03, 2022 at 04:03:23PM +0000, Daniel P. Berrangé wrote:
+> The TLS usage for NBD was restricted to IP sockets because validating
+> x509 certificates requires knowledge of the hostname that the client
+> is connecting to.
 > 
-> glib provides a convenience helper to measure elapsed time. It isn't
-> subject to wall-clock time changes.
+> TLS does not have to use x509 certificates though, as PSK (pre-shared
+> keys) provide an alternative credential option. These have no
+> requirement for a hostname and can thus be trivially used for UNIX
+> sockets.
 > 
-> Note that this changes the initial OPENED time, which used to print the
-> current time.
+> Furthermore, with the ability to overide the default hostname for
+> TLS validation in the previous patch, it is now also valid to want
+> to use x509 certificates with FD passing and UNIX sockets.
 > 
-
-Time is printed using FMT_timeval ("%ld.%06ld"), but g_timer_elapsed() returns a gdouble.
-
-Are you sure it works properly?
-
-Laurent
-
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   softmmu/qtest.c | 39 ++++++++++-----------------------------
->   1 file changed, 10 insertions(+), 29 deletions(-)
-> 
-> diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-> index 8b7cb6aa8e46..b2bb7777d17d 100644
-> --- a/softmmu/qtest.c
-> +++ b/softmmu/qtest.c
-> @@ -58,12 +58,12 @@ static FILE *qtest_log_fp;
->   static QTest *qtest;
->   static GString *inbuf;
->   static int irq_levels[MAX_IRQ];
-> -static qemu_timeval start_time;
-> +static GTimer *timer;
->   static bool qtest_opened;
->   static void (*qtest_server_send)(void*, const char*);
->   static void *qtest_server_send_opaque;
->   
-> -#define FMT_timeval "%ld.%06ld"
-> +#define FMT_timeval "%.06f"
->   
->   /**
->    * DOC: QTest Protocol
-> @@ -264,28 +264,13 @@ static int hex2nib(char ch)
->       }
->   }
->   
-> -static void qtest_get_time(qemu_timeval *tv)
-> -{
-> -    qemu_gettimeofday(tv);
-> -    tv->tv_sec -= start_time.tv_sec;
-> -    tv->tv_usec -= start_time.tv_usec;
-> -    if (tv->tv_usec < 0) {
-> -        tv->tv_usec += 1000000;
-> -        tv->tv_sec -= 1;
-> -    }
-> -}
-> -
->   static void qtest_send_prefix(CharBackend *chr)
->   {
-> -    qemu_timeval tv;
-> -
->       if (!qtest_log_fp || !qtest_opened) {
->           return;
->       }
->   
-> -    qtest_get_time(&tv);
-> -    fprintf(qtest_log_fp, "[S +" FMT_timeval "] ",
-> -            (long) tv.tv_sec, (long) tv.tv_usec);
-> +    fprintf(qtest_log_fp, "[S +" FMT_timeval "] ", g_timer_elapsed(timer, NULL));
->   }
->   
->   static void GCC_FMT_ATTR(1, 2) qtest_log_send(const char *fmt, ...)
-> @@ -386,12 +371,9 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
->       command = words[0];
->   
->       if (qtest_log_fp) {
-> -        qemu_timeval tv;
->           int i;
->   
-> -        qtest_get_time(&tv);
-> -        fprintf(qtest_log_fp, "[R +" FMT_timeval "]",
-> -                (long) tv.tv_sec, (long) tv.tv_usec);
-> +        fprintf(qtest_log_fp, "[R +" FMT_timeval "]", g_timer_elapsed(timer, NULL));
->           for (i = 0; words[i]; i++) {
->               fprintf(qtest_log_fp, " %s", words[i]);
->           }
-> @@ -846,21 +828,20 @@ static void qtest_event(void *opaque, QEMUChrEvent event)
->           for (i = 0; i < ARRAY_SIZE(irq_levels); i++) {
->               irq_levels[i] = 0;
->           }
-> -        qemu_gettimeofday(&start_time);
-> +
-> +        g_clear_pointer(&timer, g_timer_destroy);
-> +        timer = g_timer_new();
->           qtest_opened = true;
->           if (qtest_log_fp) {
-> -            fprintf(qtest_log_fp, "[I " FMT_timeval "] OPENED\n",
-> -                    (long) start_time.tv_sec, (long) start_time.tv_usec);
-> +            fprintf(qtest_log_fp, "[I " FMT_timeval "] OPENED\n", g_timer_elapsed(timer, NULL));
->           }
->           break;
->       case CHR_EVENT_CLOSED:
->           qtest_opened = false;
->           if (qtest_log_fp) {
-> -            qemu_timeval tv;
-> -            qtest_get_time(&tv);
-> -            fprintf(qtest_log_fp, "[I +" FMT_timeval "] CLOSED\n",
-> -                    (long) tv.tv_sec, (long) tv.tv_usec);
-> +            fprintf(qtest_log_fp, "[I +" FMT_timeval "] CLOSED\n", g_timer_elapsed(timer, NULL));
->           }
-> +        g_clear_pointer(&timer, g_timer_destroy);
->           break;
->       default:
->           break;
+>  block/nbd.c    | 8 ++------
+>  blockdev-nbd.c | 6 ------
+>  qemu-nbd.c     | 8 +++-----
+>  3 files changed, 5 insertions(+), 17 deletions(-)
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
