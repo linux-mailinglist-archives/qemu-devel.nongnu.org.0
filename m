@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E234CD7BD
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:28:25 +0100 (CET)
-Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E869F4CD7E8
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:33:43 +0100 (CET)
+Received: from localhost ([::1]:38394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9qy-0001ad-BM
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:28:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46438)
+	id 1nQ9w6-00051b-Tl
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:33:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQ9GC-0005to-6l; Fri, 04 Mar 2022 09:50:24 -0500
-Received: from [2a00:1450:4864:20::329] (port=55850
- helo=mail-wm1-x329.google.com)
+ id 1nQ9GC-0005uW-F2
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:50:24 -0500
+Received: from [2a00:1450:4864:20::336] (port=38605
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQ9G9-00037J-1d; Fri, 04 Mar 2022 09:50:23 -0500
-Received: by mail-wm1-x329.google.com with SMTP id i66so5146288wma.5;
- Fri, 04 Mar 2022 06:50:20 -0800 (PST)
+ id 1nQ9GB-0003D0-2i
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:50:24 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ m42-20020a05600c3b2a00b00382ab337e14so6141486wms.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 06:50:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=TVXD4dj9GpshhDxg4kkvPv9EmNEBNrYlzIRgUSLQXPo=;
- b=UpweMWdq1NPaEB/0/nhZJva7aoFXk1mRcOmRUGzv6+8kjfYDNb/aY+cSFBtlJqLCB+
- 7Cc8tU1ffxAxaErQK1yUTojsueJOsdvttQ+n0naG84fbZ1I6CUJkd8hZUoQOJ0HV+A8u
- AtvAGKQV0Pfpdq7yI0oCyHCBA6Ih/fy0Wd9hynTSOrZ8DxSWJgr9ozBfORj0s2iYO/Hf
- 1GMV6qPdcmchmtfCPMcZ0aaUG4YY/KMTWOVeY2J4RX0J9/fXOSzS6PTSrlxmL5HTDnXp
- zXqc7m1n6PGGBHlJJY1CE90BsF4R77xPCtk/ES8S+pXh0Sdi6JCHi7islMV5cmu+IRPM
- i6xw==
+ bh=pnAI5ml+8he8PLGnlkpwRdGqCDtn1ustt0MMVLg5rd0=;
+ b=o/8hcKneVhjbUdDda00VsYQInfgeJGeCxnW0AJjFGe4zLZZ8s2ZpSqjzk7wei11Vd0
+ 0Ir7J9xLu6cQ/ta9UemEB6u7PIMnvA+PuNCm+jflQkuDnlPrxuM0yAymjpgqxP3PXssI
+ z7fij6maGLH8XLGc7nAppAB+e/XPX3LIpgFNWCEnyq8vs+tee6iemcJuLYRtXh6Wpep6
+ PSHNwkbx7GSk9tiOEssBuGOQHxcSsajhAOo/Ju+6tIA0vQCzha5GWlkoIoS5a7RNl+FW
+ N+xLmwgmw+SX8+dQqgYLXHgXohJkT4w+dtr0JJEGEkAx1vM2xpo/DDBZvzMoISuemAh8
+ qnTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=TVXD4dj9GpshhDxg4kkvPv9EmNEBNrYlzIRgUSLQXPo=;
- b=mQcxOZugaXgnCXNDUIvYWbWL+tNvee0VfWfbLkMgilsFNO3raj96ZhBGQSK9A0y9Ud
- N+96+su+/VicYil+9OrmDe5gDKbd4EaTvO9MSgiuKFXTkiZlfB9xzf85U/9MZb88hnBB
- 2a5f21i+ljRVx2y7bPPnbT+2Y9E37evUA/d1ueXFZ+9P1/ukOdhr3O3DxYDJWdRm8XIf
- LWeefrppB22PL0i7UclDH/apS7s/sR8YQBqiun4iOVZPFpJze/f3dWbXjEuBriyzuzP2
- 6AdULN8pkXnOg+2SwjDBuOIgeAGZq44+MsqI2vbWV4dGO++w3ZkUVC4N6Bu3FWY+A80+
- XlGQ==
-X-Gm-Message-State: AOAM532WoANFwruk7Yc6xPfE16qp71QE4v540WMHl4JS3kyP7r+gKMoo
- xEg1DNL3Zu3pPK/XjOYJiCg=
-X-Google-Smtp-Source: ABdhPJxrtmgr6cjH+H4S0gSf6RMS8sz9uT1qDTLctB21i4LtAKuGe5IaX3QTUuGCCWlaoc905zdHNA==
-X-Received: by 2002:a05:600c:3d99:b0:381:546c:8195 with SMTP id
- bi25-20020a05600c3d9900b00381546c8195mr8056940wmb.112.1646405419188; 
- Fri, 04 Mar 2022 06:50:19 -0800 (PST)
+ bh=pnAI5ml+8he8PLGnlkpwRdGqCDtn1ustt0MMVLg5rd0=;
+ b=BTzHyzUPeR6X752EVBzbO8UKAIID6VOEq1HqKnLxqRLwYlnZUAMpPbq+BW5VUge5qX
+ wD+nf271KhKf+P/ZpxsR4Bk+GpwDk3ErI8nZa6oIoK/vql25VWTUiURW2s700MqPjAoA
+ l2iCSRukiic5UYJagk5qx1CXDZz1PFj915iusA+V0DKWPZZ958/1j6RHoIQAw+52ILjk
+ AbNP8wjuafkRbW00xoq0aBfLELDD/aNm2OszhHokC78l0VFlN5isdJrtj1SiRgfOh/6B
+ 7vFtU6oRrQtSt1kWV0icpXn7/sK5YzqW/m2JgblQJRemCzSTUYibIIuiHC/qNhqteaWo
+ 9Xbw==
+X-Gm-Message-State: AOAM533L4tHmPwDLzsGnNPTg8ISaqFCi5K2M4v3IMk/36PfvnWPVA79q
+ mdKsx8eWqFdCVBE8V2iVN+4=
+X-Google-Smtp-Source: ABdhPJzHdbbs/EMbEKzqEcQLjIeAeLxA81H0SiPHC2oqCHM+xOZh+89bm9iFFPJJEQReMC1Vx1tE/g==
+X-Received: by 2002:a05:600c:3c9d:b0:37f:a5c3:fccf with SMTP id
+ bg29-20020a05600c3c9d00b0037fa5c3fccfmr8164913wmb.13.1646405421726; 
+ Fri, 04 Mar 2022 06:50:21 -0800 (PST)
 Received: from [192.168.88.252] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- m14-20020a05600c4f4e00b0038181486018sm6040353wmq.40.2022.03.04.06.50.17
+ e15-20020a5d6d0f000000b001ef7dca67fasm5509562wrq.114.2022.03.04.06.50.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 06:50:18 -0800 (PST)
-Message-ID: <5eadd17a-9fb4-4a0a-2608-c2ca08b18645@gmail.com>
-Date: Fri, 4 Mar 2022 13:58:36 +0100
+ Fri, 04 Mar 2022 06:50:21 -0800 (PST)
+Message-ID: <dc5eabd4-d0fe-6eef-bc52-47565aa4752a@gmail.com>
+Date: Fri, 4 Mar 2022 14:54:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v4 14/14] hw: set user_creatable on opentitan/sifive_e
- devices
+Subject: Re: [PATCH 3/4] os-posix: refactor code handling the -chroot argument
 Content-Language: en-US
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org,
- mark.burton@greensocs.com, edgari@xilinx.com
-References: <20220223090706.4888-1-damien.hedde@greensocs.com>
- <20220223090706.4888-15-damien.hedde@greensocs.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220304115657.3177925-1-berrange@redhat.com>
+ <20220304115657.3177925-4-berrange@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220223090706.4888-15-damien.hedde@greensocs.com>
+In-Reply-To: <20220304115657.3177925-4-berrange@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,65 +96,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:OpenTitan" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
+ Stefan Weil <sw@weilnetz.de>, Hanna Reitz <hreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/2/22 10:07, Damien Hedde wrote:
-> The devices are:
-> + ibex-timer
-> + ibex-uart
-> + riscv.aclint.swi
-> + riscv.aclint.mtimer
-> + riscv.hart_array
-> + riscv.sifive.e.prci
-> + riscv.sifive.plic
-> + riscv.sifive.uart
-> + sifive_soc.gpio
-> + unimplemented-device
+On 4/3/22 12:56, Daniel P. Berrangé wrote:
+> Change the change_root() function so that it takes its input as
+> parameters instead of relying on static global variables.
 > 
-> These devices are clean regarding error handling in realize.
-> 
-> They are all sysbus devices, so setting user-creatable will only
-> enable cold-plugging them on machine having explicitely allowed them
-> (only _none_ machine does that).
-> 
-> Note that this commit include the ricv_array which embeds cpus. There
-
-Typo "includes" I guess.
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   os-posix.c | 23 +++++++++++------------
+>   1 file changed, 11 insertions(+), 12 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> are some deep internal constraints about them: you cannot create more
-> cpus than the machine's maxcpus. TCG accelerator's code will for example
-> assert if a user try to create too many cpus.
-> 
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
-> 
-> I can also split this patch if you think it's better.
-> But it is mostly a one-line fix per file.
-> 
-> This patch requires first some cleanups in order to fix error errors
-> and some more memory leaks that could happend in legit user-related
-> life cycles: a miss-configuration should not be a fatal error anymore.
-> https://lore.kernel.org/qemu-devel/20220218164646.132112-1-damien.hedde@greensocs.com
-> ---
->   hw/char/ibex_uart.c     | 1 +
->   hw/char/sifive_uart.c   | 1 +
->   hw/gpio/sifive_gpio.c   | 1 +
->   hw/intc/riscv_aclint.c  | 2 ++
->   hw/intc/sifive_plic.c   | 1 +
->   hw/misc/sifive_e_prci.c | 8 ++++++++
->   hw/misc/unimp.c         | 1 +
->   hw/riscv/riscv_hart.c   | 1 +
->   hw/timer/ibex_timer.c   | 1 +
->   9 files changed, 17 insertions(+)
 
