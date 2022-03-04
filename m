@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8BB4CD6B6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:47:13 +0100 (CET)
-Received: from localhost ([::1]:50586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FD04CD6C1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:50:36 +0100 (CET)
+Received: from localhost ([::1]:59148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9D6-0006fj-71
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:47:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37692)
+	id 1nQ9GN-0004Bo-UP
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:50:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nQ8mJ-0002KZ-5H; Fri, 04 Mar 2022 09:19:32 -0500
-Received: from [187.72.171.209] (port=12136 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1nQ8mF-0007zF-IB; Fri, 04 Mar 2022 09:19:30 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 4 Mar 2022 11:18:12 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 31CC18001C2;
- Fri,  4 Mar 2022 11:18:12 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------JRqF8xnDsBnnuuI5ukTx21Gy"
-Message-ID: <0cf4d2bb-0559-854b-8051-3c391988bc8b@eldorado.org.br>
-Date: Fri, 4 Mar 2022 11:18:11 -0300
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8ob-0007mr-Me
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:21:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35572)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8oW-00007f-Fv
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:21:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646403707;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SN5fZTngLfhpN/8EzfYi7DnNVMWkeZb6aI9YsFyfraU=;
+ b=PkegVLGfACyRZKc3Pf2ki8ZQef3Lkc2DRmYRTzl6+n+rr2sNSXiXjOnIjw/emxJ44/Wcie
+ azQujqN7krpVVCjWaom9Yo1EVQ54XjMUYoNdNi69PXHUXtkdpCHpnRBVYHqanlDhlIsMBf
+ ooOgqXNLlMA2aAgo41bQvI1iCyVAef4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-80-REPRgfP7P5SVTZjju7sdaA-1; Fri, 04 Mar 2022 09:21:46 -0500
+X-MC-Unique: REPRgfP7P5SVTZjju7sdaA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8A411091DA0;
+ Fri,  4 Mar 2022 14:21:44 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6041F2ED81;
+ Fri,  4 Mar 2022 14:21:25 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CA37018000B4; Fri,  4 Mar 2022 15:21:23 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/35] Kraxel 20220304 patches
+Date: Fri,  4 Mar 2022 15:20:48 +0100
+Message-Id: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: Issue with qemu-system-ppc running OSX guests
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, Fabiano Rosas <farosas@linux.ibm.com>
-References: <CABLmASFbowE4Cu8gHk9eD+_h8ZrdupE8MHKAfpW+T8Oe=-3=Wg@mail.gmail.com>
- <e2dd457d-29b3-32be-72e2-315e686dff69@eik.bme.hu>
- <CABLmASH5tFs86Dq+1e+ByMF43jZL5UZ7MempVVhtKCwjdpa7aw@mail.gmail.com>
- <87pmn352q0.fsf@linux.ibm.com>
- <a3917a31-b899-a289-5102-5b8be20aae27@eldorado.org.br>
- <7c7b2adb-67e1-26b8-03a3-74f70dc9bc80@kaod.org>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <7c7b2adb-67e1-26b8-03a3-74f70dc9bc80@kaod.org>
-X-OriginalArrivalTime: 04 Mar 2022 14:18:12.0646 (UTC)
- FILETIME=[AE9AFC60:01D82FD2]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,342 +77,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------JRqF8xnDsBnnuuI5ukTx21Gy
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+The following changes since commit 6629bf78aac7e53f83fd0bcbdbe322e2302dfd1f=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220=
+302' into staging (2022-03-03 14:46:48 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/kraxel-20220304-pull-request=0D
+=0D
+for you to fetch changes up to 02218aedb1c851340207db89b8eeb96843fed241:=0D
+=0D
+  hw/display/vmware_vga: replace fprintf calls with trace events (2022-03-0=
+4 11:38:07 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+usb: fixes for ohci, xhci, mtp and redirect=0D
+audio: latency fixes=0D
+ui: opengl and cocoa fixes=0D
+firmware: ovmf tabel aprser fixes=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Akihiko Odaki (4):=0D
+  coreaudio: Notify error in coreaudio_init_out=0D
+  ui/cocoa: Add Services menu=0D
+  softmmu/qdev-monitor: Add virtio-gpu-gl aliases=0D
+  edid: Fix clock of Detailed Timing Descriptor=0D
+=0D
+BALATON Zoltan (5):=0D
+  usb/ohci: Move trace point and log ep number to help debugging=0D
+  usb/ohci: Move cancelling async packet to ohci_stop_endpoints()=0D
+  usb/ohci: Move USBPortOps related functions together=0D
+  usb/ohci: Merge ohci_async_cancel_device() into ohci_child_detach()=0D
+  usb/ohci: Don't use packet from OHCIState for isochronous transfers=0D
+=0D
+Carwyn Ellis (1):=0D
+  hw/display/vmware_vga: replace fprintf calls with trace events=0D
+=0D
+Denis V. Lunev (1):=0D
+  hw/usb: pacify xhciwmi.exe warning=0D
+=0D
+Dov Murik (3):=0D
+  hw/i386: Improve bounds checking in OVMF table parsing=0D
+  hw/i386: Replace magic number with field length calculation=0D
+  docs: Add spec of OVMF GUIDed table for SEV guests=0D
+=0D
+Marc-Andr=C3=A9 Lureau (4):=0D
+  ui/console: fix crash when using gl context with non-gl listeners=0D
+  ui/console: fix texture leak when calling surface_gl_create_texture()=0D
+  ui: do not create a surface when resizing a GL scanout=0D
+  ui/clipboard: fix use-after-free regression=0D
+=0D
+Peter Maydell (1):=0D
+  hw/usb/redirect.c: Stop using qemu_oom_check()=0D
+=0D
+Volker R=C3=BCmelin (16):=0D
+  hw/usb/dev-mtp: create directories with a+x mode mask=0D
+  audio: replace open-coded buffer arithmetic=0D
+  audio: move function audio_pcm_hw_clip_out()=0D
+  audio: add function audio_pcm_hw_conv_in()=0D
+  audio: inline function audio_pcm_sw_get_rpos_in()=0D
+  paaudio: increase default latency to 46ms=0D
+  jackaudio: use more jack audio buffers=0D
+  audio: copy playback stream in sequential order=0D
+  audio: add pcm_ops function table for capture backend=0D
+  Revert "audio: fix wavcapture segfault"=0D
+  audio: restore mixing-engine playback buffer size=0D
+  paaudio: reduce effective playback buffer size=0D
+  dsoundaudio: reduce effective playback buffer size=0D
+  ossaudio: reduce effective playback buffer size=0D
+  paaudio: fix samples vs. frames mix-up=0D
+  sdlaudio: fix samples vs. frames mix-up=0D
+=0D
+ audio/audio_int.h                 |  20 +-=0D
+ audio/alsaaudio.c                 |   1 +=0D
+ audio/audio.c                     | 200 +++++++++++---------=0D
+ audio/coreaudio.c                 |  15 +-=0D
+ audio/dsoundaudio.c               |  30 +--=0D
+ audio/jackaudio.c                 |   5 +-=0D
+ audio/noaudio.c                   |   1 +=0D
+ audio/ossaudio.c                  |  17 +-=0D
+ audio/paaudio.c                   |  63 +++---=0D
+ audio/sdlaudio.c                  |  21 +-=0D
+ audio/wavaudio.c                  |   1 +=0D
+ hw/display/edid-generate.c        |  66 ++++---=0D
+ hw/display/vmware_vga.c           |  30 +--=0D
+ hw/i386/pc_sysfw_ovmf.c           |  18 +-=0D
+ hw/usb/dev-mtp.c                  |   4 +-=0D
+ hw/usb/hcd-ohci.c                 | 305 +++++++++++++++---------------=0D
+ hw/usb/hcd-xhci.c                 |   2 +-=0D
+ hw/usb/redirect.c                 |  17 +-=0D
+ softmmu/qdev-monitor.c            |   2 +=0D
+ ui/clipboard.c                    |   6 +-=0D
+ ui/console-gl.c                   |   4 +=0D
+ ui/console.c                      |  29 +--=0D
+ docs/specs/index.rst              |   1 +=0D
+ docs/specs/sev-guest-firmware.rst | 125 ++++++++++++=0D
+ hw/display/trace-events           |   3 +=0D
+ hw/usb/trace-events               |   2 +-=0D
+ ui/cocoa.m                        |   4 +=0D
+ 27 files changed, 614 insertions(+), 378 deletions(-)=0D
+ create mode 100644 docs/specs/sev-guest-firmware.rst=0D
+=0D
+--=20=0D
+2.35.1=0D
+=0D
 
-
-On 04/03/2022 11:07, Cédric Le Goater wrote:
->
-> On 3/4/22 12:08, Lucas Mateus Martins Araujo e Castro wrote:
->>
->> On 02/03/2022 20:55, Fabiano Rosas wrote:
->>> Howard Spoelstra<hsp.cat7@gmail.com>  writes:
->>>
->>>> On Wed, Mar 2, 2022 at 9:11 PM BALATON Zoltan<balaton@eik.bme.hu>  
->>>> wrote:
->>>>
->>>>> On Wed, 2 Mar 2022, Howard Spoelstra wrote:
->>>>>> Hi all,
->>>>>>
->>>>>> I noticed qemu-system-ppc running OSX guests does not get to the 
->>>>>> desktop
->>>>> or
->>>>>> does not display the menu bars.
->>>>> Cc-ing the relevant people and the PPC list might help, I've added 
->>>>> them.
->>>>> Also telling which OSX guest version can reproduce the problem 
->>>>> could help
->>>>> debugging. Is it any OSX version?
->>>>>
->>>>> Regards,
->>>>> BALATON Zoltan
->>>>>
->>>> Oops, Qemu running on Fedora 35 host,
->>>> Reproducer:
->>>>
->>>> ./qemu-system-ppc \
->>>> -M mac99 \
->>>> -m 512 \
->>>> -L pc-bios \
->>>> -display sdl -serial stdio \
->>>> -boot c \
->>>> -drive file=10.1.img,format=raw,media=disk
->>>>
->>>> The issue affects all supported Mac OSX guests: 10.0 to 10.5
->>> Hi Howard,
->>>
->>> Thanks for bisecting this. It seems we inadvertently marked some of the
->>> Vector Multiply instructions to be ISA v2.07 only.
->>>
->>> I can boot Mac OSX 10.4 until the desktop with this fix:
->>>
->>> diff --git a/target/ppc/translate/vmx-impl.c.inc 
->>> b/target/ppc/translate/vmx-impl.c.inc
->>> index f91bee839d..c5d02d13fe 100644
->>> --- a/target/ppc/translate/vmx-impl.c.inc
->>> +++ b/target/ppc/translate/vmx-impl.c.inc
->>> @@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext *ctx, 
->>> arg_VX *a)
->>>       return true;
->>>   }
->>>
->>> -TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
->>> -TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
->>> -TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
->>> -TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
->>> -TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
->>> -TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
->>> -TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
->>> -TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
->>> +TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper, gen_helper_VMULESB)
->>> +TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
->>> +TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
->>> +TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
->>> +TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper, gen_helper_VMULESH)
->>> +TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
->>> +TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
->>> +TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
->>>   TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
->>>   TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
->>>   TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
->>> ---
->>>
->>> I'll let Lucas comment on it and we can send a proper patch in the
->>> morning.
->>
->> Checking here it seems I misread the PowerISA appendix and marked 
->> these instructions (vmul[eo].[bh]) as v2.07 even though they are v2.03.
->>
->> This patch seems to correct it and checking here the newer 
->> instructions are correct (v2.07 for vmul[eo].w and v3.1 for 
->> vmul[eo].d), so
->>
->> Reviewed-by: Lucas Mateus Castro<lucas.araujo@eldorado.org.br>
->
->
-> Could you please send a proper patch ? The above was given as an example.
->
-> Thanks,
->
-> C.
->
-Yes, this will be added as a proper patch to the fix up patches Matheus 
-will send later.
-
--- 
-Lucas Mateus M. Araujo e Castro
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
---------------JRqF8xnDsBnnuuI5ukTx21Gy
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 04/03/2022 11:07, Cédric Le Goater
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:7c7b2adb-67e1-26b8-03a3-74f70dc9bc80@kaod.org">
-      <br>
-      On 3/4/22 12:08, Lucas Mateus Martins Araujo e Castro wrote:
-      <br>
-      <blockquote type="cite">
-        <br>
-        On 02/03/2022 20:55, Fabiano Rosas wrote:
-        <br>
-        <blockquote type="cite">Howard
-          Spoelstra<a class="moz-txt-link-rfc2396E" href="mailto:hsp.cat7@gmail.com">&lt;hsp.cat7@gmail.com&gt;</a>  writes:
-          <br>
-          <br>
-          <blockquote type="cite">On Wed, Mar 2, 2022 at 9:11 PM BALATON
-            Zoltan<a class="moz-txt-link-rfc2396E" href="mailto:balaton@eik.bme.hu">&lt;balaton@eik.bme.hu&gt;</a>  wrote:
-            <br>
-            <br>
-            <blockquote type="cite">On Wed, 2 Mar 2022, Howard Spoelstra
-              wrote:
-              <br>
-              <blockquote type="cite">Hi all,
-                <br>
-                <br>
-                I noticed qemu-system-ppc running OSX guests does not
-                get to the desktop
-                <br>
-              </blockquote>
-              or
-              <br>
-              <blockquote type="cite">does not display the menu bars.
-                <br>
-              </blockquote>
-              Cc-ing the relevant people and the PPC list might help,
-              I've added them.
-              <br>
-              Also telling which OSX guest version can reproduce the
-              problem could help
-              <br>
-              debugging. Is it any OSX version?
-              <br>
-              <br>
-              Regards,
-              <br>
-              BALATON Zoltan
-              <br>
-              <br>
-            </blockquote>
-            Oops, Qemu running on Fedora 35 host,
-            <br>
-            Reproducer:
-            <br>
-            <br>
-            ./qemu-system-ppc \
-            <br>
-            -M mac99 \
-            <br>
-            -m 512 \
-            <br>
-            -L pc-bios \
-            <br>
-            -display sdl -serial stdio \
-            <br>
-            -boot c \
-            <br>
-            -drive file=10.1.img,format=raw,media=disk
-            <br>
-            <br>
-            The issue affects all supported Mac OSX guests: 10.0 to 10.5
-            <br>
-          </blockquote>
-          Hi Howard,
-          <br>
-          <br>
-          Thanks for bisecting this. It seems we inadvertently marked
-          some of the
-          <br>
-          Vector Multiply instructions to be ISA v2.07 only.
-          <br>
-          <br>
-          I can boot Mac OSX 10.4 until the desktop with this fix:
-          <br>
-          <br>
-          diff --git a/target/ppc/translate/vmx-impl.c.inc
-          b/target/ppc/translate/vmx-impl.c.inc
-          <br>
-          index f91bee839d..c5d02d13fe 100644
-          <br>
-          --- a/target/ppc/translate/vmx-impl.c.inc
-          <br>
-          +++ b/target/ppc/translate/vmx-impl.c.inc
-          <br>
-          @@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext
-          *ctx, arg_VX *a)
-          <br>
-                return true;
-          <br>
-            }
-          <br>
-          <br>
-          -TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper,
-          gen_helper_VMULESB)
-          <br>
-          -TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper,
-          gen_helper_VMULOSB)
-          <br>
-          -TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper,
-          gen_helper_VMULEUB)
-          <br>
-          -TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper,
-          gen_helper_VMULOUB)
-          <br>
-          -TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper,
-          gen_helper_VMULESH)
-          <br>
-          -TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper,
-          gen_helper_VMULOSH)
-          <br>
-          -TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper,
-          gen_helper_VMULEUH)
-          <br>
-          -TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper,
-          gen_helper_VMULOUH)
-          <br>
-          +TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper,
-          gen_helper_VMULESB)
-          <br>
-          +TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper,
-          gen_helper_VMULOSB)
-          <br>
-          +TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper,
-          gen_helper_VMULEUB)
-          <br>
-          +TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper,
-          gen_helper_VMULOUB)
-          <br>
-          +TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper,
-          gen_helper_VMULESH)
-          <br>
-          +TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper,
-          gen_helper_VMULOSH)
-          <br>
-          +TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper,
-          gen_helper_VMULEUH)
-          <br>
-          +TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper,
-          gen_helper_VMULOUH)
-          <br>
-            TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper,
-          gen_helper_VMULESW)
-          <br>
-            TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper,
-          gen_helper_VMULOSW)
-          <br>
-            TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper,
-          gen_helper_VMULEUW)
-          <br>
-          ---
-          <br>
-          <br>
-          I'll let Lucas comment on it and we can send a proper patch in
-          the
-          <br>
-          morning.
-          <br>
-        </blockquote>
-        <br>
-        Checking here it seems I misread the PowerISA appendix and
-        marked these instructions (vmul[eo].[bh]) as v2.07 even though
-        they are v2.03.
-        <br>
-        <br>
-        This patch seems to correct it and checking here the newer
-        instructions are correct (v2.07 for vmul[eo].w and v3.1 for
-        vmul[eo].d), so
-        <br>
-        <br>
-        Reviewed-by: Lucas Mateus
-        Castro<a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
-        <br>
-      </blockquote>
-      <br>
-      <br>
-      Could you please send a proper patch ? The above was given as an
-      example.
-      <br>
-      <br>
-      Thanks,
-      <br>
-      <br>
-      C.
-      <br>
-      <br>
-    </blockquote>
-    <p>Yes, this will be added as a proper patch to the fix up patches
-      Matheus will send later. <br>
-    </p>
-    <div class="moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------JRqF8xnDsBnnuuI5ukTx21Gy--
 
