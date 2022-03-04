@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A8D4CDFAB
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:18:53 +0100 (CET)
-Received: from localhost ([::1]:52114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4EA4CDFAF
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:21:40 +0100 (CET)
+Received: from localhost ([::1]:59036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQFK7-0003vK-VV
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:18:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51090)
+	id 1nQFMp-00005y-4x
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:21:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nQFIV-0001vK-1t
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:17:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44394)
+ id 1nQFIr-0002jz-Ue
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:17:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nQFIT-0003le-Hp
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:17:10 -0500
+ id 1nQFIq-0003of-9Z
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:17:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646428629;
+ s=mimecast20190719; t=1646428651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PtUef0YlgqVlexzoy5L4fvW3KU4/yd5MyGwbdOaaAd4=;
- b=elODnlFIIg+Ikq6WHHrmJtSJmtfHm5uODuInbZ9IG/kCBDxH6tPZbfJQORFP9BFAwcsktF
- GoIU7uhGf7Hxib4UD02PuLG2XvLMzLTO73OGFsPb3cAgh0TXGsT1CNmxm6y5Xd5sQu1qgq
- svxYcIYrt7ipPjedAot8GFmeY0yDLhc=
+ bh=O9BDM5yFWCU01ehzfKEYjzSJSydmTDSDe3xFQyZf5m0=;
+ b=LJSWDWlT04jXcJnnKJzj1pL9Uvgmrc2/s0l/IYyEug1o1KrvjaS8Lhoc3oNNMcpKSi2g6v
+ 4EaaN7MBZ3agElbty1ONukwNLi9Z0ZJDc55b9Ppmsl3urTu6w7LdGHsoCZRe/GXeBEmj2s
+ KpSihDNvW+RU0vQNcJvr/QDnlhJ6034=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-kRf_i0TrPuCD-Laex-apLw-1; Fri, 04 Mar 2022 16:17:07 -0500
-X-MC-Unique: kRf_i0TrPuCD-Laex-apLw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-484--lDdpaq3Pjegulv7tL4dmQ-1; Fri, 04 Mar 2022 16:17:28 -0500
+X-MC-Unique: -lDdpaq3Pjegulv7tL4dmQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 535F98145F7;
- Fri,  4 Mar 2022 21:17:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F30DF801AAD;
+ Fri,  4 Mar 2022 21:17:26 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4CC49107867E;
- Fri,  4 Mar 2022 21:16:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6EBEF1ABC1;
+ Fri,  4 Mar 2022 21:17:10 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] m68k/nios2-semi: fix gettimeofday() result check
-Date: Sat,  5 Mar 2022 01:16:14 +0400
-Message-Id: <20220304211618.3715999-2-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 2/5] qtest: replace gettimeofday with GTimer
+Date: Sat,  5 Mar 2022 01:16:15 +0400
+Message-Id: <20220304211618.3715999-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20220304211618.3715999-1-marcandre.lureau@redhat.com>
 References: <20220304211618.3715999-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -68,7 +68,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,42 +96,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-gettimeofday() returns 0 for success.
+glib provides a convenience helper to measure elapsed time. It isn't
+subject to wall-clock time changes.
+
+Note that this changes the initial OPENED time, which used to print the
+current time.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/m68k-semi.c   | 2 +-
- target/nios2/nios2-semi.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ softmmu/qtest.c | 39 ++++++++++-----------------------------
+ 1 file changed, 10 insertions(+), 29 deletions(-)
 
-diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index 44ec7e4612c6..c5c164e096c8 100644
---- a/target/m68k/m68k-semi.c
-+++ b/target/m68k/m68k-semi.c
-@@ -381,7 +381,7 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
-             qemu_timeval tv;
-             struct gdb_timeval *p;
-             result = qemu_gettimeofday(&tv);
--            if (result != 0) {
-+            if (result == 0) {
-                 if (!(p = lock_user(VERIFY_WRITE,
-                                     arg0, sizeof(struct gdb_timeval), 0))) {
-                     /* FIXME - check error code? */
-diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
-index fe5598bae4d7..5a7ad0c7108d 100644
---- a/target/nios2/nios2-semi.c
-+++ b/target/nios2/nios2-semi.c
-@@ -403,7 +403,7 @@ void do_nios2_semihosting(CPUNios2State *env)
-             qemu_timeval tv;
-             struct gdb_timeval *p;
-             result = qemu_gettimeofday(&tv);
--            if (result != 0) {
-+            if (result == 0) {
-                 p = lock_user(VERIFY_WRITE, arg0, sizeof(struct gdb_timeval),
-                               0);
-                 if (!p) {
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index 8b7cb6aa8e46..b2bb7777d17d 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -58,12 +58,12 @@ static FILE *qtest_log_fp;
+ static QTest *qtest;
+ static GString *inbuf;
+ static int irq_levels[MAX_IRQ];
+-static qemu_timeval start_time;
++static GTimer *timer;
+ static bool qtest_opened;
+ static void (*qtest_server_send)(void*, const char*);
+ static void *qtest_server_send_opaque;
+ 
+-#define FMT_timeval "%ld.%06ld"
++#define FMT_timeval "%.06f"
+ 
+ /**
+  * DOC: QTest Protocol
+@@ -264,28 +264,13 @@ static int hex2nib(char ch)
+     }
+ }
+ 
+-static void qtest_get_time(qemu_timeval *tv)
+-{
+-    qemu_gettimeofday(tv);
+-    tv->tv_sec -= start_time.tv_sec;
+-    tv->tv_usec -= start_time.tv_usec;
+-    if (tv->tv_usec < 0) {
+-        tv->tv_usec += 1000000;
+-        tv->tv_sec -= 1;
+-    }
+-}
+-
+ static void qtest_send_prefix(CharBackend *chr)
+ {
+-    qemu_timeval tv;
+-
+     if (!qtest_log_fp || !qtest_opened) {
+         return;
+     }
+ 
+-    qtest_get_time(&tv);
+-    fprintf(qtest_log_fp, "[S +" FMT_timeval "] ",
+-            (long) tv.tv_sec, (long) tv.tv_usec);
++    fprintf(qtest_log_fp, "[S +" FMT_timeval "] ", g_timer_elapsed(timer, NULL));
+ }
+ 
+ static void GCC_FMT_ATTR(1, 2) qtest_log_send(const char *fmt, ...)
+@@ -386,12 +371,9 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+     command = words[0];
+ 
+     if (qtest_log_fp) {
+-        qemu_timeval tv;
+         int i;
+ 
+-        qtest_get_time(&tv);
+-        fprintf(qtest_log_fp, "[R +" FMT_timeval "]",
+-                (long) tv.tv_sec, (long) tv.tv_usec);
++        fprintf(qtest_log_fp, "[R +" FMT_timeval "]", g_timer_elapsed(timer, NULL));
+         for (i = 0; words[i]; i++) {
+             fprintf(qtest_log_fp, " %s", words[i]);
+         }
+@@ -846,21 +828,20 @@ static void qtest_event(void *opaque, QEMUChrEvent event)
+         for (i = 0; i < ARRAY_SIZE(irq_levels); i++) {
+             irq_levels[i] = 0;
+         }
+-        qemu_gettimeofday(&start_time);
++
++        g_clear_pointer(&timer, g_timer_destroy);
++        timer = g_timer_new();
+         qtest_opened = true;
+         if (qtest_log_fp) {
+-            fprintf(qtest_log_fp, "[I " FMT_timeval "] OPENED\n",
+-                    (long) start_time.tv_sec, (long) start_time.tv_usec);
++            fprintf(qtest_log_fp, "[I " FMT_timeval "] OPENED\n", g_timer_elapsed(timer, NULL));
+         }
+         break;
+     case CHR_EVENT_CLOSED:
+         qtest_opened = false;
+         if (qtest_log_fp) {
+-            qemu_timeval tv;
+-            qtest_get_time(&tv);
+-            fprintf(qtest_log_fp, "[I +" FMT_timeval "] CLOSED\n",
+-                    (long) tv.tv_sec, (long) tv.tv_usec);
++            fprintf(qtest_log_fp, "[I +" FMT_timeval "] CLOSED\n", g_timer_elapsed(timer, NULL));
+         }
++        g_clear_pointer(&timer, g_timer_destroy);
+         break;
+     default:
+         break;
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
