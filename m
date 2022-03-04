@@ -2,87 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674254CD553
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:39:55 +0100 (CET)
-Received: from localhost ([::1]:53074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410364CD568
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:46:40 +0100 (CET)
+Received: from localhost ([::1]:37078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ89y-0008Gi-Ft
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:39:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51414)
+	id 1nQ8GV-0008PR-7b
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:46:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ7rT-0005eF-2Q
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:20:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51985)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1nQ7xh-0002Lz-Ub; Fri, 04 Mar 2022 08:27:15 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:47849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ7rQ-0001Yy-0R
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:20:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646400041;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RZ/wacy+FxpsBgLNtAqNdKMtEnMNIyZ1Whzmm56syXE=;
- b=BXm1YaEXC0uJ+PkTAHmyfyPGOw7Nslyql9F3Pk0JGbidEZ4jVun0ohfWE5TCqtjvtrLoK6
- xEWUqBiwrMPuqdhPfI76mrvokdNYL2rxTnG0Qn7fGEDmeEyM4EBSE8UpET2Ifb0bPTrlCh
- fYgDp761L2zE3OswZCV9melg0M8z60I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-6vhAFg5BPcmnHJDExhzJSQ-1; Fri, 04 Mar 2022 08:20:40 -0500
-X-MC-Unique: 6vhAFg5BPcmnHJDExhzJSQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f24-20020a1c6a18000000b00388874b17a8so1015055wmc.3
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:20:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=RZ/wacy+FxpsBgLNtAqNdKMtEnMNIyZ1Whzmm56syXE=;
- b=v9QSt0tIvphnbSQ4drpO1z6QRdiH5lxwq4JUkbVcigz4UukKM+KbbLNXz+p8mkghsO
- EL28pUkt6UzQBomlOQAXjIPnzScrdmx+jsthdfsON+QIoLVTu3FJwmcg6fzw3hWyib8x
- wCYzOACwRHM3Nr6kZOk42ogfnJikqAH+sijw+jvlGuv4QYHP3Ag4V1kJTNlwt1UZ5YKv
- QGhIR2pTWRO5CkOsLz9TkxWVkd2rS6YfPwfy0keLlTwCE8B80OkHz/5/Gfgi7opz2tqX
- M/m1liDkJF0A+yoWTG/yJl8Eb8hPldqGM2F3vMmovnu0ajKurHjqrfEQhGsIvk0Gdxw+
- kIqg==
-X-Gm-Message-State: AOAM533VdF3uHQY9rcXvu/VhRgc71Lwbx+GyyhdO4zDZ2Aa9NajscO7C
- KTXa7fsF47sxdujAh18D+v9PrBIMaIRzRJG4Xvlnq6hh0EjsPYtlbnvhd3BwRUSWGBfMnzo+Tl7
- rHkEHRM/bZQQCvCQ=
-X-Received: by 2002:a05:6000:184c:b0:1ef:f8a2:3283 with SMTP id
- c12-20020a056000184c00b001eff8a23283mr16387210wri.467.1646400039756; 
- Fri, 04 Mar 2022 05:20:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxZw/6sgGRF1MWKszdns+fdRcT3p2wiYgdwBdZw6JkXET4QC5FJrB/UILnj3D5WILhbsgCAsQ==
-X-Received: by 2002:a05:6000:184c:b0:1ef:f8a2:3283 with SMTP id
- c12-20020a056000184c00b001eff8a23283mr16387187wri.467.1646400039471; 
- Fri, 04 Mar 2022 05:20:39 -0800 (PST)
-Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- az23-20020adfe197000000b001f072a2d85dsm2889391wrb.99.2022.03.04.05.20.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 05:20:39 -0800 (PST)
-Date: Fri, 4 Mar 2022 08:20:35 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH] hw/acpi/microvm: turn on 8042 bit in FADT boot
- architecture flags if present
-Message-ID: <20220304082017-mutt-send-email-mst@kernel.org>
-References: <20220304131741.1847229-1-ani@anisinha.ca>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1nQ7xf-00070d-VN; Fri, 04 Mar 2022 08:27:13 -0500
+Received: from [192.168.100.1] ([82.142.8.122]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MMGZS-1niLb745t0-00JLBa; Fri, 04 Mar 2022 14:27:04 +0100
+Message-ID: <dffb5828-5750-e460-d42f-97fb4ff8ef93@vivier.eu>
+Date: Fri, 4 Mar 2022 14:27:01 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220304131741.1847229-1-ani@anisinha.ca>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 1/3] linux-user/ppc: deliver SIGTRAP on
+ POWERPC_EXCP_TRAP
+Content-Language: fr
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220113170456.1796911-1-matheus.ferst@eldorado.org.br>
+ <20220113170456.1796911-2-matheus.ferst@eldorado.org.br>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220113170456.1796911-2-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:2Mgal6fQRYho8OHDMft+3/G2zdn2+NXOA1qlBW/CpPhaZ65kJ5u
+ vl6u0C/ETN0/orKMHj2RledA2YZrQRuaUrPWGVlg6TWlrg4t8tIiaPa0dC32vMlzPMA2GiQ
+ OiNCdvGeHxm+kQPfE/Cl8/0A2u9V7l1+DgAyBp1bEr56nqgMuvvVtBLU5H+2MCQlSLQC9Xd
+ G2r6TjIbCTfHhDmYnSfRQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:s3ZeuRXWD4k=:UxTaupvamsFw919EepYBVk
+ 5uL4Dl/em0AoJVzmbXeKlJj+MWPWJWC4/BlQdPJgs6bn0yGmmRZ0PkppfYUfqCubcOJdD2lIR
+ s02zfegNOJB00Wjx/2fbeD7szfJ+Ttc9P7WG6fU2i6HzTP3UqekoY1y36k+JLqq0ZC23psugC
+ lo/j4yzK/H9NcNO6l3FjYgBxUIaFh3phj4EPP9h4TyBtO4E0gGNvf1jZjKKHYrF6mIn+z0/gM
+ ZKWCdkS85VD5SABDSokyzrv44UJwdDHjwExB7HSZ2SHXJzbjgEZtScNuTsudP+cq6OBJi86Hg
+ 53wjKzSzn6334EdZPE/tlmJCZjg9AjHl9a2RR3VaJHhTOE9dDnExrdfyjZvKoboX2ZdmV7vXp
+ Qo5JGfe7fzhKcK0vFofv7vFflFJ85aZXHR2dNoUF0aljQWctokkT/YhtvQ9Ep+aJrsXgIHQPG
+ yvFhWABbNg0W7yl+1YpBLUF4V82PmzzeEfyREi9bxgdL0KgYsoxrYJPt6m8f6R9cEH0RIoRWf
+ gXDshpJ+m85BFWbkOjB727N+lLn/viSsopQPgQxCmRuRkYovDWRePll2RoSlUhliM1GsZYRik
+ VTCV/Ddej/rSInbE4xIIOHlEe/eQ822Z3tJp5m/r8iCzUfM0CSwiG7RPmKBPWXpM1pCXt7ncK
+ W0ARGYQevm1ptiN7GlTJ6+CGfMWswD8y12Yo+9CUvCNnxoKRiVVbj4l9iTvClIw49nF8=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,58 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- liavalb@gmail.com, imammedo@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: groug@kaod.org, danielhb413@gmail.com, richard.henderson@linaro.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 06:47:41PM +0530, Ani Sinha wrote:
-> The second bit of IAPC_BOOT_ARCH in FADT table indicates the presence of
-> keyboard controller implemented as 8042 or equivalent micro controller. This
-> change enables this flag for microvms if such a device exists (for example,
-> when added explicitly from the QEMU commandline). Change
-> 1f810294bb31bf6ac ("hw/acpi: add indication for i8042 in IA-PC boot flags of the FADT table")
-> enabled this flag for i386 q35 based machines. The reason for doing the same
-> for micro-vms is to make sure we provide the correct tables to the guest OS
-> uniformly in all cases when an i8042 device is present. When this bit is not
-> enabled, guest OSes has to find other indirect methods to detect the device
-> which we would like to avoid.
+Le 13/01/2022 à 18:04, matheus.ferst@eldorado.org.br a écrit :
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > 
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> Handle POWERPC_EXCP_TRAP in cpu_loop to deliver SIGTRAP on tw[i]/td[i].
+> The si_code comes from do_program_check in the kernel source file
+> arch/powerpc/kernel/traps.c
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > ---
->  hw/i386/acpi-microvm.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>   linux-user/ppc/cpu_loop.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-> index 68ca7e7fc2..12452cb2e5 100644
-> --- a/hw/i386/acpi-microvm.c
-> +++ b/hw/i386/acpi-microvm.c
-> @@ -37,6 +37,7 @@
->  #include "hw/pci/pcie_host.h"
->  #include "hw/usb/xhci.h"
->  #include "hw/virtio/virtio-mmio.h"
-> +#include "hw/input/i8042.h"
->  
->  #include "acpi-common.h"
->  #include "acpi-microvm.h"
-> @@ -187,6 +188,11 @@ static void acpi_build_microvm(AcpiBuildTables *tables,
->              .address = GED_MMIO_BASE_REGS + ACPI_GED_REG_RESET,
->          },
->          .reset_val = ACPI_GED_RESET_VALUE,
-> +        /*
-> +         * ACPI v2, Table 5-10 - Fixed ACPI Description Table Boot Architecture
-> +         * Flags, bit offset 1 - 8042.
-> +         */
-> +        .iapc_boot_arch = i8042_present() ? 0x1 << 1 : 0x0,
+> diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+> index 46e6ffd6d3..6c99feb19b 100644
+> --- a/linux-user/ppc/cpu_loop.c
+> +++ b/linux-user/ppc/cpu_loop.c
+> @@ -188,7 +188,8 @@ void cpu_loop(CPUPPCState *env)
+>                   }
+>                   break;
+>               case POWERPC_EXCP_TRAP:
+> -                cpu_abort(cs, "Tried to call a TRAP\n");
+> +                si_signo = TARGET_SIGTRAP;
+> +                si_code = TARGET_TRAP_BRKPT;
+>                   break;
+>               default:
+>                   /* Should not happen ! */
 
+Applied to my linux-user-for-7.0 branch.
 
-Please, move this logic to a function, do not duplicate it.
+Thanks,
+Laurent
 
->      };
->  
->      table_offsets = g_array_new(false, true /* clear */,
-> -- 
-> 2.25.1
 
 
