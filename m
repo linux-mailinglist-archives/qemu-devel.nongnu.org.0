@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB3D4CCFC1
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 09:13:53 +0100 (CET)
-Received: from localhost ([::1]:52316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FB14CD060
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 09:43:38 +0100 (CET)
+Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ34R-0007QH-Eh
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 03:13:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42062)
+	id 1nQ3XF-0002mi-E2
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 03:43:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ32s-0006hj-BJ
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 03:12:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57032)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nQ3WP-000275-9A
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 03:42:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ32o-00015X-Qb
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 03:12:12 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nQ3WL-0004yC-Fc
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 03:42:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646381529;
+ s=mimecast20190719; t=1646383359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fESpYZZsL3Pl6l5cjBNppieTTwwM1n7BLy9MlDUP6GM=;
- b=cmViGyBHmydEz/LOenMpQQJlbByPN/Y97Od3ghmdtkPa7HWFxqfo0vUPx9tSPOUF6uw6I2
- ooFUfF1lMiZeMt+6rQoib/6kfV79GJHpZzTPFHwKesPyLlBmrgLsDG354pml5/wBUv1Mim
- dEf09mqAbjufdLQWFadrpz4egLZUg1E=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cI209WSAR81tZFZc5K3zm9uyIG1pQiX823xQXqcFhcQ=;
+ b=PznV54UNJCyPHujZBXgpA/8AuMgzi2NxYH0B4tfpg0o7ZILelArMIkRn6l1L02RxQ+4iCH
+ riIf6vOEKASDOUWM0TP+fZ0lPe6/WvkxOIA1caY3i3ZAHyjwjLXEfwHczwXRh2+Sp4v/su
+ u3Lc7Y9mFZAn8WxV2XmDQ2t1pkao5Ag=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-531-Ag4A0GzqPxylyBOHUutyXQ-1; Fri, 04 Mar 2022 03:12:08 -0500
-X-MC-Unique: Ag4A0GzqPxylyBOHUutyXQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c126-20020a1c3584000000b00380dee8a62cso340504wma.8
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 00:12:08 -0800 (PST)
+ us-mta-298-gNEVKv75OGm1rqKC7gf8cg-1; Fri, 04 Mar 2022 03:42:38 -0500
+X-MC-Unique: gNEVKv75OGm1rqKC7gf8cg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ t14-20020ac8760e000000b002e049ff9638so2150998qtq.10
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 00:42:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fESpYZZsL3Pl6l5cjBNppieTTwwM1n7BLy9MlDUP6GM=;
- b=vRRZwlI9fIRfjpnkVOkct3VqRWt0aorVMDkIdRg1A71i9nD4Umz0LOwoixVNymelkO
- doDk5VyjhBj8bGxgx/RCEs0fHieXJF9XsQV5G68AIfrol7A/X03k7xwxHGaZ6UyIqQFE
- CHG6p/R7/INzVMXM0Nzn444c2vApQCphAnd4xD6edC+goH31AHBWTzgsRafNTGwfH+Pe
- Dlhl4avLjxWXcRa6GPx3EW26Lj2LvPiOTZ5Q5IN8ObQ00ag/LQEM/KGBwXUvLicYP10o
- 32P2Qtwcm7feowZwlxUTvwwKb4YlYk5sBHQ5+m0UK4Ry5yIw0vvYsFAaA7zLr06eLSGP
- nY3Q==
-X-Gm-Message-State: AOAM532VmYmnU2Xyo59Bcvx5JDruagRQFWwYKMpson9FjHJjYZwwaVtX
- q/7MQ0s+cE+DNS918GTrX+RET6NgVGQqPnKXTy3xvJGx+a+69FjrIpIxGrG1ZysKxlDQX2s5Q1U
- TakhEX4yDXSCYxCQ=
-X-Received: by 2002:a5d:6c61:0:b0:1f0:436b:ebbe with SMTP id
- r1-20020a5d6c61000000b001f0436bebbemr7884278wrz.651.1646381527176; 
- Fri, 04 Mar 2022 00:12:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwauLiMmWLJEdbrV2/vIVMnoDWswhUN6FVeya6DCuFqmSMP60h5GZk39gIj9FQwAitRF5zO8g==
-X-Received: by 2002:a5d:6c61:0:b0:1f0:436b:ebbe with SMTP id
- r1-20020a5d6c61000000b001f0436bebbemr7884266wrz.651.1646381526937; 
- Fri, 04 Mar 2022 00:12:06 -0800 (PST)
-Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c228700b00389865c646dsm493026wmf.14.2022.03.04.00.12.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 00:12:06 -0800 (PST)
-Date: Fri, 4 Mar 2022 03:12:03 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 1/1] virtio: fix feature negotiation for ACCESS_PLATFORM
-Message-ID: <20220304031142-mutt-send-email-mst@kernel.org>
-References: <20220209124534.1206993-1-pasic@linux.ibm.com>
- <87leykt0k7.fsf@redhat.com>
- <20220209212750.25ddcebe.pasic@linux.ibm.com>
- <87fsort5a6.fsf@redhat.com>
- <20220210113258.1e90af05.pasic@linux.ibm.com>
- <877da3t1du.fsf@redhat.com>
- <20220210142929.668a1f3d.pasic@linux.ibm.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cI209WSAR81tZFZc5K3zm9uyIG1pQiX823xQXqcFhcQ=;
+ b=yOK5S+AOzrXhqgYqXL1w8lsGPONWNX0NKmM1sUqTanAqkrOadjqoePBhaYfu13G00R
+ LDj8fHnhQQq/JFZUmBGw8Hf2RM/TOoZ99hvlzDlIIxIRzqr1Ui91NbCrNj2rdZ2mzNMe
+ 6HstO/3h9FQxjh8yZQTDRXUuV8yK4x831/mhgvA1015Hg5Ld6uS32uVybmSgQ1pUlEdl
+ 4+iNvGRgY2BAIKESkqfbttMPtB5paMQUbqyqgf2zp8tuTy7DCNtBehKp1IIY1xhtI4KL
+ 2xLQgeNDLYbb3b8hbZdh68eAY/bzrfwNnb0o9BBqMQTfoEZjyb1sTFbz4tR4Vwb0xXRf
+ J1Zw==
+X-Gm-Message-State: AOAM532eFjgJ0wZTD0AoPvgyvK93/RsVIqhcyL+Gn0babQcvCpF/N9wn
+ 4SBQZ27csxSekM+cIQQYQ+qz2/s2IDne8+81A0HURMjDToPfh25SbOzVOzK4/3xumrN9e0w5eCW
+ LpEaeyzDaObTi0dx83CjCkIuu2Xk72xA=
+X-Received: by 2002:ac8:7dc6:0:b0:2de:708:3e3a with SMTP id
+ c6-20020ac87dc6000000b002de07083e3amr30756910qte.459.1646383358231; 
+ Fri, 04 Mar 2022 00:42:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzO0cLKsDPipegnOB91bhFV431gQ/KwUFlR/MV8tjtoVFS9Z5E9zqIM3waBvKmSejpg7N1/Mr4h7MlQhXsb8bs=
+X-Received: by 2002:ac8:7dc6:0:b0:2de:708:3e3a with SMTP id
+ c6-20020ac87dc6000000b002de07083e3amr30756892qte.459.1646383357882; Fri, 04
+ Mar 2022 00:42:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220210142929.668a1f3d.pasic@linux.ibm.com>
+References: <20220303185147.3605350-1-eperezma@redhat.com>
+ <20220303185147.3605350-9-eperezma@redhat.com>
+ <62217530.9030309@huawei.com>
+In-Reply-To: <62217530.9030309@huawei.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 4 Mar 2022 09:42:01 +0100
+Message-ID: <CAJaqyWfnpGiMnHdAXDH7cETOhzSr54xaBtd+KSGDQcK1bVSiSg@mail.gmail.com>
+Subject: Re: [PATCH v4 08/14] util: Add iova_tree_alloc_map
+To: Liuxiangdong <liuxiangdong5@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,64 +96,286 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
+ "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 10, 2022 at 02:29:29PM +0100, Halil Pasic wrote:
-> On Thu, 10 Feb 2022 12:19:25 +0100
-> Cornelia Huck <cohuck@redhat.com> wrote:
-> 
-> [..]
-> > 
-> > Nope, that's not my problem. We make sure that the bit is persistent, we
-> > fail realization if the bit got removed by the callback when required,
-> > and we fail feature validation if the driver removes the bit, which is
-> > in a different code path. We should not talk about FEATURES_OK in this
-> > code.
-> 
-> I agree. I changed my mind. Expanation follows...
-> 
-> > 
-> > We force-add the bit, and then still might fail realization. The
-> > important condition is the has_iommu one, not the checks later on. I
-> > find it very confusing to talk about what a potential driver might do in
-> > that context.
-> > 
-> 
-> I assumed stuff like virtiofs+SE regressed with commit 04ceb61a40
-> ("virtio: Fail if iommu_platform is requested, but unsupported") but I
-> think, I was wrong. It didn't work before that, because we did not
-> present ACCESS_PLATFORM to the guest. I operated under the assumption
-> that virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM)
-> does not impact the set of features offered to the driver by the device,
-> but it does.
-> 
-> So we need both this patch and "[PATCH v5 1/1] virtio: fix the condition
-> for iommu_platform not supported" to get virtiofs to work with SE/SEV/Secure VM.
-> 
-> I have to admit I only tested for the error message, and not with a full
-> SE setup.
-> 
-> I agree my comment was inadequate. Can we use
-> 
-> /* make sure that the device did not drop a required IOMMU_PLATFORM */
-> 
-> I will think some more though. This is again about the dual nature
-> of ACCESS_PLATFORM...
+On Fri, Mar 4, 2022 at 3:11 AM Liuxiangdong <liuxiangdong5@huawei.com> wrot=
+e:
+>
+>
+>
+> On 2022/3/4 2:51, Eugenio P=C3=A9rez wrote:
+> > This iova tree function allows it to look for a hole in allocated
+> > regions and return a totally new translation for a given translated
+> > address.
+> >
+> > It's usage is mainly to allow devices to access qemu address space,
+> > remapping guest's one into a new iova space where qemu can add chunks o=
+f
+> > addresses.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > Reviewed-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >   include/qemu/iova-tree.h |  18 ++++++
+> >   util/iova-tree.c         | 135 ++++++++++++++++++++++++++++++++++++++=
++
+> >   2 files changed, 153 insertions(+)
+> >
+> > diff --git a/include/qemu/iova-tree.h b/include/qemu/iova-tree.h
+> > index 8249edd764..d066400f09 100644
+> > --- a/include/qemu/iova-tree.h
+> > +++ b/include/qemu/iova-tree.h
+> > @@ -29,6 +29,7 @@
+> >   #define  IOVA_OK           (0)
+> >   #define  IOVA_ERR_INVALID  (-1) /* Invalid parameters */
+> >   #define  IOVA_ERR_OVERLAP  (-2) /* IOVA range overlapped */
+> > +#define  IOVA_ERR_NOMEM    (-3) /* Cannot allocate */
+> >
+> >   typedef struct IOVATree IOVATree;
+> >   typedef struct DMAMap {
+> > @@ -119,6 +120,23 @@ const DMAMap *iova_tree_find_address(const IOVATre=
+e *tree, hwaddr iova);
+> >    */
+> >   void iova_tree_foreach(IOVATree *tree, iova_tree_iterator iterator);
+> >
+> > +/**
+> > + * iova_tree_alloc_map:
+> > + *
+> > + * @tree: the iova tree to allocate from
+> > + * @map: the new map (as translated addr & size) to allocate in the io=
+va region
+> > + * @iova_begin: the minimum address of the allocation
+> > + * @iova_end: the maximum addressable direction of the allocation
+> > + *
+> > + * Allocates a new region of a given size, between iova_min and iova_m=
+ax.
+> > + *
+> > + * Return: Same as iova_tree_insert, but cannot overlap and can return=
+ error if
+> > + * iova tree is out of free contiguous range. The caller gets the assi=
+gned iova
+> > + * in map->iova.
+> > + */
+> > +int iova_tree_alloc_map(IOVATree *tree, DMAMap *map, hwaddr iova_begin=
+,
+> > +                        hwaddr iova_end);
+> > +
+> >   /**
+> >    * iova_tree_destroy:
+> >    *
+> > diff --git a/util/iova-tree.c b/util/iova-tree.c
+> > index 23ea35b7a4..3160c50d3b 100644
+> > --- a/util/iova-tree.c
+> > +++ b/util/iova-tree.c
+> > @@ -16,6 +16,39 @@ struct IOVATree {
+> >       GTree *tree;
+> >   };
+> >
+> > +/* Args to pass to iova_tree_alloc foreach function. */
+> > +struct IOVATreeAllocArgs {
+> > +    /* Size of the desired allocation */
+> > +    size_t new_size;
+> > +
+> > +    /* The minimum address allowed in the allocation */
+> > +    hwaddr iova_begin;
+> > +
+> > +    /* Map at the left of the hole, can be NULL if "this" is first one=
+ */
+> > +    const DMAMap *prev;
+> > +
+> > +    /* Map at the right of the hole, can be NULL if "prev" is the last=
+ one */
+> > +    const DMAMap *this;
+> > +
+> > +    /* If found, we fill in the IOVA here */
+> > +    hwaddr iova_result;
+> > +
+> > +    /* Whether have we found a valid IOVA */
+> > +    bool iova_found;
+> > +};
+> > +
+> > +/**
+> > + * Iterate args to the next hole
+> > + *
+> > + * @args: The alloc arguments
+> > + * @next: The next mapping in the tree. Can be NULL to signal the last=
+ one
+> > + */
+> > +static void iova_tree_alloc_args_iterate(struct IOVATreeAllocArgs *arg=
+s,
+> > +                                         const DMAMap *next) {
+> > +    args->prev =3D args->this;
+> > +    args->this =3D next;
+> > +}
+> > +
+> >   static int iova_tree_compare(gconstpointer a, gconstpointer b, gpoint=
+er data)
+> >   {
+> >       const DMAMap *m1 =3D a, *m2 =3D b;
+> > @@ -107,6 +140,108 @@ int iova_tree_remove(IOVATree *tree, const DMAMap=
+ *map)
+> >       return IOVA_OK;
+> >   }
+> >
+> > +/**
+> > + * Try to find an unallocated IOVA range between prev and this element=
+s.
+> > + *
+> > + * @args: Arguments to allocation
+> > + *
+> > + * Cases:
+> > + *
+> > + * (1) !prev, !this: No entries allocated, always succeed
+> > + *
+> > + * (2) !prev, this: We're iterating at the 1st element.
+> > + *
+> > + * (3) prev, !this: We're iterating at the last element.
+> > + *
+> > + * (4) prev, this: this is the most common case, we'll try to find a h=
+ole
+> > + * between "prev" and "this" mapping.
+> > + *
+> > + * Note that this function assumes the last valid iova is HWADDR_MAX, =
+but it
+> > + * searches linearly so it's easy to discard the result if it's not th=
+e case.
+> > + */
+> > +static void iova_tree_alloc_map_in_hole(struct IOVATreeAllocArgs *args=
+)
+> > +{
+> > +    const DMAMap *prev =3D args->prev, *this =3D args->this;
+> > +    uint64_t hole_start, hole_last;
+> > +
+> > +    if (this && this->iova + this->size < args->iova_begin) {
+> > +        return;
+> > +    }
+> > +
+>
+> Hi, Eugenio.
+> Is there such a condition that
+>
+> args->iova_begin > this->iova  and
+> args->iova_begin < this->iova + this->size
+>
 
-Were you going to post a new version of this patch?
+Hi Xiangdong Liu,
 
-> > What about moving the virtio_add_feature() after the if
-> > (klass->get_dma_as) check, and adding a comment
-> > 
-> > /* we want to always force IOMMU_PLATFORM here */
-> > 
-> > [I'll withdraw from this discussion for now, I fear I might just add
-> > confusion.]
-> > 
-> > 
+With the current code we would never have such a case, since
+iova_begin and iova_last are the same in all the life of the tree. So
+no previous allocation of that size will be performed ever.
+
+But if caller code changes, the function already supports that:
+hole_last will become this->iova, and it will check if the hole ending
+on that is big enough to hold the allocation.
+
+Does that solve the question?
+
+Thanks!
+
+>
+> Thanks=EF=BC=81
+> Xiangdong Liu
+>
+>
+> > +    hole_start =3D MAX(prev ? prev->iova + prev->size + 1 : 0, args->i=
+ova_begin);
+> > +    hole_last =3D this ? this->iova : HWADDR_MAX;
+> > +
+> > +    if (hole_last - hole_start > args->new_size) {
+> > +        args->iova_result =3D hole_start;
+> > +        args->iova_found =3D true;
+> > +    }
+> > +}
+> > +
+> > +/**
+> > + * Foreach dma node in the tree, compare if there is a hole with its p=
+revious
+> > + * node (or minimum iova address allowed) and the node.
+> > + *
+> > + * @key: Node iterating
+> > + * @value: Node iterating
+> > + * @pargs: Struct to communicate with the outside world
+> > + *
+> > + * Return: false to keep iterating, true if needs break.
+> > + */
+> > +static gboolean iova_tree_alloc_traverse(gpointer key, gpointer value,
+> > +                                         gpointer pargs)
+> > +{
+> > +    struct IOVATreeAllocArgs *args =3D pargs;
+> > +    DMAMap *node =3D value;
+> > +
+> > +    assert(key =3D=3D value);
+> > +
+> > +    iova_tree_alloc_args_iterate(args, node);
+> > +    iova_tree_alloc_map_in_hole(args);
+> > +    return args->iova_found;
+> > +}
+> > +
+> > +int iova_tree_alloc_map(IOVATree *tree, DMAMap *map, hwaddr iova_begin=
+,
+> > +                        hwaddr iova_last)
+> > +{
+> > +    struct IOVATreeAllocArgs args =3D {
+> > +        .new_size =3D map->size,
+> > +        .iova_begin =3D iova_begin,
+> > +    };
+> > +
+> > +    if (unlikely(iova_last < iova_begin)) {
+> > +        return IOVA_ERR_INVALID;
+> > +    }
+> > +
+> > +    /*
+> > +     * Find a valid hole for the mapping
+> > +     *
+> > +     * Assuming low iova_begin, so no need to do a binary search to
+> > +     * locate the first node.
+> > +     *
+> > +     * TODO: Replace all this with g_tree_node_first/next/last when av=
+ailable
+> > +     * (from glib since 2.68). To do it with g_tree_foreach complicate=
+s the
+> > +     * code a lot.
+> > +     *
+> > +     */
+> > +    g_tree_foreach(tree->tree, iova_tree_alloc_traverse, &args);
+> > +    if (!args.iova_found) {
+> > +        /*
+> > +         * Either tree is empty or the last hole is still not checked.
+> > +         * g_tree_foreach does not compare (last, iova_last] range, so=
+ we check
+> > +         * it here.
+> > +         */
+> > +        iova_tree_alloc_args_iterate(&args, NULL);
+> > +        iova_tree_alloc_map_in_hole(&args);
+> > +    }
+> > +
+> > +    if (!args.iova_found || args.iova_result + map->size > iova_last) =
+{
+> > +        return IOVA_ERR_NOMEM;
+> > +    }
+> > +
+> > +    map->iova =3D args.iova_result;
+> > +    return iova_tree_insert(tree, map);
+> > +}
+> > +
+> >   void iova_tree_destroy(IOVATree *tree)
+> >   {
+> >       g_tree_destroy(tree->tree);
+>
 
 
