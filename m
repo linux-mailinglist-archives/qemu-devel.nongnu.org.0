@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B074CD2DC
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:57:19 +0100 (CET)
-Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDE74CD2CE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:54:32 +0100 (CET)
+Received: from localhost ([::1]:36820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ5cc-0000Ib-97
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:57:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48112)
+	id 1nQ5Zv-0005y7-EL
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:54:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ5Wv-0003FX-B1
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:51:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36213)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQ5Xd-0004GC-Q7
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:52:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ5Wt-0003Pf-S5
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:51:25 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQ5Xc-0003Y7-2D
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:52:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646391083;
+ s=mimecast20190719; t=1646391127;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/3QpOlFpjUuaicU/sCctj7fmWvoPoRF/AMY6812wxWc=;
- b=VaXFJdC7BEZ19o+Hx/YETtQfgE47QSoe4yPjLrhU148IivTDRcHWLahbSGwlbV5mJp5E97
- S9t/M+zKxExSAGMnwrAUx2aiG4FragVd0LVw7cl+92WpALIidwWdG1xW5Twi5nvd0wR8KV
- h/JRFEReKWeKxxQLtCS4/lZIpvy4nqQ=
+ bh=ZMvOywKOef3Pv9qprJJSdWmu/krwUls4eyRmjn3sm5c=;
+ b=eQD1YV9ND7WCdtiyJnjgiPKixE/gwJdn/+t2H3QdTJ5poeYWt7kKpnwiWBhxcQ9si6sIek
+ uPgGNfJd6t+MrANWoN5fKi0vi0LtC0QgWv/kKxJF+jgsEmpwkXs1wLFTkYNxjyGBzvAia7
+ 2omjyNEFbmxwN00PMSE0kOrE9pTiBEs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-pBeiXYqgOi6B-J1YAxp5Rg-1; Fri, 04 Mar 2022 05:51:22 -0500
-X-MC-Unique: pBeiXYqgOi6B-J1YAxp5Rg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-158-uaC9ru7OPpChb8Cs5GIwVA-1; Fri, 04 Mar 2022 05:52:06 -0500
+X-MC-Unique: uaC9ru7OPpChb8Cs5GIwVA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B8F11091DA2;
- Fri,  4 Mar 2022 10:51:21 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 096626FB02;
- Fri,  4 Mar 2022 10:51:21 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 45EC818000B4; Fri,  4 Mar 2022 11:51:19 +0100 (CET)
-Date: Fri, 4 Mar 2022 11:51:19 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Hongren (Zenithal) Zheng" <i@zenithal.me>
-Subject: Re: [PATCH v4 0/6] Introduce CanoKey QEMU
-Message-ID: <20220304105119.wcmgrlefsawnqmc2@sirius.home.kraxel.org>
-References: <YfJozy5qjVYh24Xp@Sun>
- <Yge2Sy2sA6JpUvcj@Sun>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BABE180A08E;
+ Fri,  4 Mar 2022 10:52:03 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C2E46842D6;
+ Fri,  4 Mar 2022 10:51:44 +0000 (UTC)
+Date: Fri, 4 Mar 2022 11:51:43 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v8 00/31] block layer: split block APIs in global state
+ and I/O
+Message-ID: <YiHvP7kEGoumeAzE@redhat.com>
+References: <20220303151616.325444-1-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <Yge2Sy2sA6JpUvcj@Sun>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20220303151616.325444-1-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,24 +78,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, contact@canokeys.org
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Feb 12, 2022 at 09:29:47PM +0800, Hongren (Zenithal) Zheng wrote:
-> Hi,
+Am 03.03.2022 um 16:15 hat Emanuele Giuseppe Esposito geschrieben:
+> Currently, block layer APIs like block.h contain a mix of
+> functions that are either running in the main loop and under the
+> BQL, or are thread-safe functions and run in iothreads performing I/O.
+> The functions running under BQL also take care of modifying the
+> block graph, by using drain and/or aio_context_acquire/release.
+> This makes it very confusing to understand where each function
+> runs, and what assumptions it provided with regards to thread
+> safety.
 > 
-> Is there any further feedback on this patch set.
+> We call the functions running under BQL "global state (GS) API", and
+> distinguish them from the thread-safe "I/O API".
+> 
+> The aim of this series is to split the relevant block headers in
+> global state and I/O sub-headers. The division will be done in
+> this way:
+> header.h will be split in header-global-state.h, header-io.h and
+> header-common.h. The latter will just contain the data structures
+> needed by header-global-state and header-io, and common helpers
+> that are neither in GS nor in I/O. header.h will remain for
+> legacy and to avoid changing all includes in all QEMU c files,
+> but will only include the two new headers. No function shall be
+> added in header.c .
+> Once we split all relevant headers, it will be much easier to see what
+> uses the AioContext lock and remove it, which is the overall main
+> goal of this and other series that I posted/will post.
+> 
+> In addition to splitting the relevant headers shown in this series,
+> it is also very helpful splitting the function pointers in some
+> block structures, to understand what runs under AioContext lock and
+> what doesn't. This is what patches 21-27 do.
+> 
+> Each function in the GS API will have an assertion, checking
+> that it is always running under BQL.
+> I/O functions are instead thread safe (or so should be), meaning
+> that they *can* run under BQL, but also in an iothread in another
+> AioContext. Therefore they do not provide any assertion, and
+> need to be audited manually to verify the correctness.
+> 
+> Adding assetions has helped finding 2 bugs already, as shown in
+> my series "Migration: fix missing iothread locking".
+> 
+> Tested this series by running unit tests, qemu-iotests and qtests
+> (x86_64).
+> Some functions in the GS API are used everywhere but not
+> properly tested. Therefore their assertion is never actually run in
+> the tests, so despite my very careful auditing, it is not impossible
+> to exclude that some will trigger while actually using QEMU.
+> 
+> Patch 1 introduces qemu_in_main_thread(), the function used in
+> all assertions. This had to be introduced otherwise all unit tests
+> would fail, since they run in the main loop but use the code in
+> stubs/iothread.c
+> Patches 2-27 (with the exception of patch 9-10, that are an additional
+> assert) are all structured in the same way: first we split the header
+> and in the next (or same, if small) patch we add assertions.
+> Patch 28-31 take care instead of the block layer permission API,
+> fixing some bugs where they are used in I/O functions.
+> 
+> This serie depends on my previous serie "block layer: permission API
+> refactoring in preparation to the API split"
+> 
+> Based-on: <20220209105452.1694545-1-eesposit@redhat.com>
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+> v8:
+> bdrv_get_full_backing_filename to GLOBAL_STATE_CODE
+> blk_iostatus_is_enabled in IO_CODE
+> blk_iostatus_set_err in IO_CODE
+> bdrv_apply_auto_read_only in IO_CODE
+> bdrv_can_set_read_only in IO_CODE
+> blk_drain to GLOBAL_STATE_CODE
 
-Sorry for the looong delay, I'm rather busy with edk2.
+Thanks, fixed up the unintentional changes to bdrv_op_blocker_is_empty()
+and bdrv_op_unblock_all() as discussed on IRC, and applied to the block
+branch.
 
-Tried to queue up this, noticed it breaks the build in case the
-canokey library is not installed.
-
-I'd suggest to run the patch series through the qemu gitlab CI
-before sending out v5.
-
-take care,
-  Gerd
+Kevin
 
 
