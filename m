@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273B74CD707
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:02:04 +0100 (CET)
-Received: from localhost ([::1]:60350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64F04CD714
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:05:22 +0100 (CET)
+Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9RT-0007ec-6Z
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:02:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38556)
+	id 1nQ9Uf-0005PA-VR
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:05:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8q9-0003Zz-IG
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50552)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8qA-0003c3-Eb
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8q7-0000Rb-UX
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:29 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8q8-0000SA-W2
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403807;
+ s=mimecast20190719; t=1646403808;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ui4CfxKhlynO4qirwjH9anS0yn4WvwIgkFz+4TC0svE=;
- b=MrQWT+ZJ9HDBzPZ2fkhW944PtxTARs5izxkM8nSE6kedH0iHicA4sPIGKmccwf1dNUt8ug
- 8suxyq/KG5J4QEogwkW5E8eh60klqHAX8vFOPSHXvbcuJN/2Eq/E0vBI9bfk6whuI4yADQ
- qrd0wYCp7TH41r96FevVBExzCVafJ4I=
+ bh=h9koEPAs6esAu6q4l+So46UIpGwvLZt3TuFSjDnyUjc=;
+ b=i3x00759qljRrt1SvIVlsxih/7DtMAJBnKo+6DGtzWDgfgvkIR+8DTN3zQgwGmrpFY+uCf
+ 5xj3dDC2v+3dH5Z8FBXlxsIHtrrjqzrQ+j69jn7wiavgf//WDvEscErebKvSCqIrf38uuf
+ xJoQiGeg3Ucn81w4w/gD1tzl5+7OP1E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-VAoaOAaDMlqg_yYu2SVtXA-1; Fri, 04 Mar 2022 09:23:26 -0500
-X-MC-Unique: VAoaOAaDMlqg_yYu2SVtXA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-217-gMzJTrmhOb63v7690aCd1g-1; Fri, 04 Mar 2022 09:23:25 -0500
+X-MC-Unique: gMzJTrmhOb63v7690aCd1g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79A0E835DE1;
- Fri,  4 Mar 2022 14:23:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A79AB1854E27;
+ Fri,  4 Mar 2022 14:23:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D994B1057059;
- Fri,  4 Mar 2022 14:23:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2648D866E9;
+ Fri,  4 Mar 2022 14:23:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8D22618009A7; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
+ id 9909018009A8; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/35] audio: copy playback stream in sequential order
-Date: Fri,  4 Mar 2022 15:21:02 +0100
-Message-Id: <20220304142123.956171-15-kraxel@redhat.com>
+Subject: [PULL 15/35] audio: add pcm_ops function table for capture backend
+Date: Fri,  4 Mar 2022 15:21:03 +0100
+Message-Id: <20220304142123.956171-16-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,105 +95,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Change the code to copy the playback stream in sequential order.
-The advantage can be seen in the next patches where the stream
-copy operation effectively becomes a write through operation.
-
-The following diagram shows the average buffer fill level and
-the stream copy sequence. ### represents a timer_period sized
-chunk. The rest of the buffer sizes are not to scale.
-
-With current code:
-         |--------| |#####111| |---#####|
-          sw->buf    mix_buf    backend buffer
-  1. clip
-         |--------| |---#####| |111##222|
-          sw->buf    mix_buf    backend buffer
-  2. write to audio device
-  333 -> |--------| |---#####| |---111##| -> 222
-          sw->buf    mix_buf    backend buffer
-  3a. sw device write
-         |-----333| |---#####| |---111##|
-          sw->buf    mix_buf    backend buffer
-  3b. resample and mix
-         |--------| |333#####| |---111##|
-          sw->buf    mix_buf    backend buffer
-
-With this patch:
-  111 -> |--------| |---#####| |---#####|
-          sw->buf    mix_buf    backend buffer
-  1a: sw device write
-         |-----111| |---#####| |---#####|
-          sw->buf    mix_buf    backend buffer
-  1b. resample and mix
-         |--------| |111##222| |---#####|
-          sw->buf    mix_buf    backend buffer
-  2. clip
-         |--------| |---111##| |222##333|
-          sw->buf    mix_buf    backend buffer
-  3. write to audio device
-         |--------| |---111##| |---222##| -> 333
-          sw->buf    mix_buf    backend buffer
-
-The effective total playback buffer size is reduced by
-timer_period.
+Add a pcm_ops function table for the capture backend. This avoids
+additional code in the next patches to test if the pcm_ops table
+is available.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20220301191311.26695-7-vr_qemu@t-online.de>
+Message-Id: <20220301191311.26695-8-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio.c | 24 +++++++++---------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
+ audio/audio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/audio/audio.c b/audio/audio.c
-index 35437986d9dd..9e2d7fb20978 100644
+index 9e2d7fb20978..55f885f8e9cf 100644
 --- a/audio/audio.c
 +++ b/audio/audio.c
-@@ -1134,6 +1134,15 @@ static void audio_run_out (AudioState *s)
-         size_t played, live, prev_rpos, free;
-         int nb_live;
- 
-+        for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
-+            if (sw->active) {
-+                free = audio_get_free(sw);
-+                if (free > 0) {
-+                    sw->callback.fn(sw->callback.opaque, free);
-+                }
-+            }
-+        }
-+
-         live = audio_pcm_hw_get_live_out (hw, &nb_live);
-         if (!nb_live) {
-             live = 0;
-@@ -1162,14 +1171,6 @@ static void audio_run_out (AudioState *s)
-         }
- 
-         if (!live) {
--            for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
--                if (sw->active) {
--                    free = audio_get_free (sw);
--                    if (free > 0) {
--                        sw->callback.fn (sw->callback.opaque, free);
--                    }
--                }
--            }
-             if (hw->pcm_ops->run_buffer_out) {
-                 hw->pcm_ops->run_buffer_out(hw);
-             }
-@@ -1210,13 +1211,6 @@ static void audio_run_out (AudioState *s)
-             if (!sw->total_hw_samples_mixed) {
-                 sw->empty = 1;
-             }
--
--            if (sw->active) {
--                free = audio_get_free (sw);
--                if (free > 0) {
--                    sw->callback.fn (sw->callback.opaque, free);
--                }
--            }
-         }
-     }
+@@ -1804,6 +1804,7 @@ void AUD_remove_card (QEMUSoundCard *card)
+     g_free (card->name);
  }
+ 
++static struct audio_pcm_ops capture_pcm_ops;
+ 
+ CaptureVoiceOut *AUD_add_capture(
+     AudioState *s,
+@@ -1849,6 +1850,7 @@ CaptureVoiceOut *AUD_add_capture(
+ 
+         hw = &cap->hw;
+         hw->s = s;
++        hw->pcm_ops = &capture_pcm_ops;
+         QLIST_INIT (&hw->sw_head);
+         QLIST_INIT (&cap->cb_head);
+ 
 -- 
 2.35.1
 
