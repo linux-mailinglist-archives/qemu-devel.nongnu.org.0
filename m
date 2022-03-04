@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962BB4CD55C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:42:24 +0100 (CET)
-Received: from localhost ([::1]:57666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3FDD4CD517
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:23:46 +0100 (CET)
+Received: from localhost ([::1]:54866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ8CN-00036o-KX
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:42:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51022)
+	id 1nQ7uL-0005Uq-BO
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:23:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <cff1ca391fd7c6af90edb8f237f15a756eaffafe@lizzy.crudebyte.com>)
- id 1nQ7q3-00046I-Ag
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:19:22 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:50537)
+ (envelope-from <9bca156323feb554c2eb54aa3888a4445666437b@lizzy.crudebyte.com>)
+ id 1nQ7lt-0000lP-5P
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:15:02 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:49909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <cff1ca391fd7c6af90edb8f237f15a756eaffafe@lizzy.crudebyte.com>)
- id 1nQ7pz-0006xU-Hk
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:19:16 -0500
+ (envelope-from <9bca156323feb554c2eb54aa3888a4445666437b@lizzy.crudebyte.com>)
+ id 1nQ7lr-000667-FH
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:15:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=3u34sir+ZeZHfQZGfZ8IvSlB23QK/T53fLss006PEqs=; b=ph8Pm
- 2j92lahBMNwTjJ6VVGAJO0q2KWhXRN1BoRTy7TAYqGrPsmJ/aQqUvt106LaGC1qu3PQWKUl6EnGwT
- Ce1i2rUgfxfKqChKTT+jdsoVV86+aeIF5Q6vIhkrNGaLo+CzXC/qJ+pmYdadq4kxxB9TCMlW6kkR+
- LOxyS4PSGIW/Swrwg1uZeU92Hl1YX3Sl+j5uIQfNUz5aKL29wWi4LQz4UsqfZGZhXrzxwYZrfPyQF
- hIwUVBsLTqdYKJjKYep8+fR+0LXOnU4NnRve4dz3Fsei+AtNyXkG3Lzbx2WTNsDE3jlXmd7aaqxPP
- mX6IXSQ5yK7iXNllD70mnr8b7igRg==;
-Message-Id: <cff1ca391fd7c6af90edb8f237f15a756eaffafe.1646396869.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
+ Content-Description; bh=KO3uCcDtoP8ypvHqVZeogjqwQxCYF7uWlWLOucj+apQ=; b=PQG1q
+ E4KgRSngS09ShDII/fCbrzpF6fTn/eAcusTM/YRBvgaihmEgJxHTuCxbkaw2R06hnZV6MvlUX6K0y
+ vNSnl4h5mshCLoaWr/fbtNgtxnjBCG0iJ2U4pUY8bZFbm6OE4PoWfm54wp2N9YWQa0FIrIlLiDTvF
+ 8+tSOvvGwNyvZfHfxvXVDQrimkzvMSo8Yyy7KwfTttEBUi2D3YFuv9pt63PdEBkzl2gTP/sGjrMRT
+ Hlf4DVT0WXjE8mnQzTBn31gbZgsV3L2cC9Q6DZDXqdiwNTv9rUh9BDw/mugogNKWlrfBNipgsI1uj
+ enOqpJdAxtnL4zMmdUVBwaBmGXj0w==;
+Message-Id: <9bca156323feb554c2eb54aa3888a4445666437b.1646396869.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646396869.git.qemu_oss@crudebyte.com>
 References: <cover.1646396869.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 04 Mar 2022 13:27:49 +0100
-Subject: [PULL 04/19] 9p: darwin: Handle struct dirent differences
+Subject: [PULL 01/19] 9p: linux: Fix a couple Linux assumptions
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=cff1ca391fd7c6af90edb8f237f15a756eaffafe@lizzy.crudebyte.com;
+ envelope-from=9bca156323feb554c2eb54aa3888a4445666437b@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -65,198 +68,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
-On darwin d_seekoff exists, but is optional and does not seem to
-be commonly used by file systems. Use `telldir` instead to obtain
-the seek offset and inject it into d_seekoff, and create a
-qemu_dirent_off helper to call it appropriately when appropriate.
+ - Guard Linux only headers.
+ - Add qemu/statfs.h header to abstract over the which
+   headers are needed for struct statfs
+ - Define `ENOATTR` only if not only defined
+   (it's defined in system headers on Darwin).
 
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
 [Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-[Will Cohen: - Adjust to pass testing
-             - Ensure that d_seekoff is filled using telldir
-               on darwin, and create qemu_dirent_off helper
-               to decide which to access]
-[Fabian Franz: - Add telldir error handling for darwin]
-Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
-[Will Cohen: - Ensure that telldir error handling uses
-               signed int
-             - Cleanup of telldir error handling
-             - Remove superfluous error handling for
-               qemu_dirent_off
-             - Adjust formatting
-             - Use qemu_dirent_off in codir.c
-             - Declare qemu_dirent_off as static to prevent
-               linker error
-             - Move qemu_dirent_off above the end-of-file
-               endif to fix compilation]
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Message-Id: <20220227223522.91937-5-wwcohen@gmail.com>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- hw/9pfs/9p-local.c |  9 +++++++++
- hw/9pfs/9p-proxy.c | 16 +++++++++++++++-
- hw/9pfs/9p-synth.c |  4 ++++
- hw/9pfs/9p-util.h  | 16 ++++++++++++++++
- hw/9pfs/9p.c       |  7 +++++--
- hw/9pfs/codir.c    |  4 +++-
- 6 files changed, 52 insertions(+), 4 deletions(-)
 
+While it might at first appear that fsdev/virtfs-proxy-header.c would
+need similar adjustment for darwin as file-op-9p here, a later patch in
+this series disables virtfs-proxy-helper for non-Linux. Allowing
+virtfs-proxy-helper on darwin could potentially be an additional
+optimization later.
+
+[Will Cohen: - Fix headers for Alpine
+             - Integrate statfs.h back into file-op-9p.h
+             - Remove superfluous header guards from file-opt-9p
+             - Add note about virtfs-proxy-helper being disabled
+               on non-Linux for this patch series]
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20220227223522.91937-2-wwcohen@gmail.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ fsdev/file-op-9p.h   | 9 ++++++++-
+ hw/9pfs/9p-local.c   | 2 ++
+ hw/9pfs/9p.c         | 4 ++++
+ include/qemu/xattr.h | 4 +++-
+ 4 files changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+index 8fd89f0447..4997677460 100644
+--- a/fsdev/file-op-9p.h
++++ b/fsdev/file-op-9p.h
+@@ -16,10 +16,17 @@
+ 
+ #include <dirent.h>
+ #include <utime.h>
+-#include <sys/vfs.h>
+ #include "qemu-fsdev-throttle.h"
+ #include "p9array.h"
+ 
++#ifdef CONFIG_LINUX
++# include <sys/vfs.h>
++#endif
++#ifdef CONFIG_DARWIN
++# include <sys/param.h>
++# include <sys/mount.h>
++#endif
++
+ #define SM_LOCAL_MODE_BITS    0600
+ #define SM_LOCAL_DIR_MODE_BITS    0700
+ 
 diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 1a5e3eed73..f3272f0b43 100644
+index 210d9e7705..1a5e3eed73 100644
 --- a/hw/9pfs/9p-local.c
 +++ b/hw/9pfs/9p-local.c
-@@ -562,6 +562,15 @@ again:
-     if (!entry) {
-         return NULL;
-     }
-+#ifdef CONFIG_DARWIN
-+    int off;
-+    off = telldir(fs->dir.stream);
-+    /* If telldir fails, fail the entire readdir call */
-+    if (off < 0) {
-+        return NULL;
-+    }
-+    entry->d_seekoff = off;
-+#endif
- 
-     if (ctx->export_flags & V9FS_SM_MAPPED) {
-         entry->d_type = DT_UNKNOWN;
-diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
-index b1664080d8..8b4b5cf7dc 100644
---- a/hw/9pfs/9p-proxy.c
-+++ b/hw/9pfs/9p-proxy.c
-@@ -706,7 +706,21 @@ static off_t proxy_telldir(FsContext *ctx, V9fsFidOpenState *fs)
- 
- static struct dirent *proxy_readdir(FsContext *ctx, V9fsFidOpenState *fs)
- {
--    return readdir(fs->dir.stream);
-+    struct dirent *entry;
-+    entry = readdir(fs->dir.stream);
-+#ifdef CONFIG_DARWIN
-+    if (!entry) {
-+        return NULL;
-+    }
-+    int td;
-+    td = telldir(fs->dir.stream);
-+    /* If telldir fails, fail the entire readdir call */
-+    if (td < 0) {
-+        return NULL;
-+    }
-+    entry->d_seekoff = td;
-+#endif
-+    return entry;
- }
- 
- static void proxy_seekdir(FsContext *ctx, V9fsFidOpenState *fs, off_t off)
-diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-index bf9b0c5ddd..b3080e415b 100644
---- a/hw/9pfs/9p-synth.c
-+++ b/hw/9pfs/9p-synth.c
-@@ -234,7 +234,11 @@ static void synth_direntry(V9fsSynthNode *node,
-              offsetof(struct dirent, d_name) + sz);
-     memcpy(entry->d_name, node->name, sz);
-     entry->d_ino = node->attr->inode;
-+#ifdef CONFIG_DARWIN
-+    entry->d_seekoff = off + 1;
-+#else
-     entry->d_off = off + 1;
-+#endif
- }
- 
- static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 546f46dc7d..7449733c15 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -78,4 +78,20 @@ ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
- ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
-                                 const char *name);
- 
-+/**
-+ * Darwin has d_seekoff, which appears to function similarly to d_off.
-+ * However, it does not appear to be supported on all file systems,
-+ * so ensure it is manually injected earlier and call here when
-+ * needed.
-+ */
-+static inline off_t qemu_dirent_off(struct dirent *dent)
-+{
-+#ifdef CONFIG_DARWIN
-+    return dent->d_seekoff;
-+#else
-+    return dent->d_off;
-+#endif
-+}
-+
-+
+@@ -32,10 +32,12 @@
+ #include "qemu/error-report.h"
+ #include "qemu/option.h"
+ #include <libgen.h>
++#ifdef CONFIG_LINUX
+ #include <linux/fs.h>
+ #ifdef CONFIG_LINUX_MAGIC_H
+ #include <linux/magic.h>
  #endif
++#endif
+ #include <sys/ioctl.h>
+ 
+ #ifndef XFS_SUPER_MAGIC
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 1563d7b7c6..caf3b240fe 100644
+index 15b3f4d385..9c63e14b28 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -27,6 +27,7 @@
- #include "virtio-9p.h"
- #include "fsdev/qemu-fsdev.h"
- #include "9p-xattr.h"
-+#include "9p-util.h"
- #include "coth.h"
- #include "trace.h"
+@@ -32,7 +32,11 @@
  #include "migration/blocker.h"
-@@ -2281,7 +2282,7 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
-         count += len;
-         v9fs_stat_free(&v9stat);
-         v9fs_path_free(&path);
--        saved_dir_pos = dent->d_off;
-+        saved_dir_pos = qemu_dirent_off(dent);
-     }
+ #include "qemu/xxhash.h"
+ #include <math.h>
++#ifdef CONFIG_LINUX
+ #include <linux/limits.h>
++#else
++#include <limits.h>
++#endif
  
-     v9fs_readdir_unlock(&fidp->fs.dir);
-@@ -2420,6 +2421,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-     V9fsString name;
-     int len, err = 0;
-     int32_t count = 0;
-+    off_t off;
-     struct dirent *dent;
-     struct stat *st;
-     struct V9fsDirEnt *entries = NULL;
-@@ -2480,12 +2482,13 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-             qid.version = 0;
-         }
+ int open_fd_hw;
+ int total_open_fd;
+diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
+index a83fe8e749..f1d0f7be74 100644
+--- a/include/qemu/xattr.h
++++ b/include/qemu/xattr.h
+@@ -22,7 +22,9 @@
+ #ifdef CONFIG_LIBATTR
+ #  include <attr/xattr.h>
+ #else
+-#  define ENOATTR ENODATA
++#  if !defined(ENOATTR)
++#    define ENOATTR ENODATA
++#  endif
+ #  include <sys/xattr.h>
+ #endif
  
-+        off = qemu_dirent_off(dent);
-         v9fs_string_init(&name);
-         v9fs_string_sprintf(&name, "%s", dent->d_name);
- 
-         /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
-         len = pdu_marshal(pdu, 11 + count, "Qqbs",
--                          &qid, dent->d_off,
-+                          &qid, off,
-                           dent->d_type, &name);
- 
-         v9fs_string_free(&name);
-diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-index c0873bde16..f96d8ac4e6 100644
---- a/hw/9pfs/codir.c
-+++ b/hw/9pfs/codir.c
-@@ -22,6 +22,8 @@
- #include "qemu/coroutine.h"
- #include "qemu/main-loop.h"
- #include "coth.h"
-+#include "9p-xattr.h"
-+#include "9p-util.h"
- 
- /*
-  * Intended to be called from bottom-half (e.g. background I/O thread)
-@@ -166,7 +168,7 @@ static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
-         }
- 
-         size += len;
--        saved_dir_pos = dent->d_off;
-+        saved_dir_pos = qemu_dirent_off(dent);
-     }
- 
-     /* restore (last) saved position */
 -- 
 2.20.1
 
