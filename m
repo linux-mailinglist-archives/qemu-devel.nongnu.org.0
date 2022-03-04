@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06C14CDDCC
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 21:23:22 +0100 (CET)
-Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1887C4CDDF3
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 21:25:22 +0100 (CET)
+Received: from localhost ([::1]:46962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQESP-0007G8-Hb
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 15:23:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40746)
+	id 1nQEUL-0000zc-6w
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 15:25:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nQEQ7-0005rT-5x
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 15:20:59 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=40658
- helo=mail-pj1-x1030.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nQEQ5-0004Da-AX
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 15:20:58 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- mv5-20020a17090b198500b001bf2a039831so2177126pjb.5
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 12:20:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=tTq8XZa3fK+bEGLJ4ktBQe+9mHptMmpaFx4m/6/pZgE=;
- b=bWQn+1HjpnxeYJJ1kKDtnnU8KzzTeihjYf5tSYTYIhL36vUYebZFItemTtKE7vzNN6
- NGX6V70uqfviiec8nsrFONA1bhojo9NLCxmUhnIVCP0ATAvMHwybFswOvdW2mmcyfvQw
- +Y6HC4gf1f59LU8vWF4tkrvbMXgYbaT1J668C21Lt0Ys4ZHcyoupcXMgKn7BZFlNnQgg
- bP9m3qYPxc5LGhs81NblgoGIvZY0hSpaefPJ+1HFiGRJyi0pHbrsmf9RdssaWP01fHoS
- wTj3ezwZ/qRoE/FUXUNH5ElFxv9hW5xtG78mIjnPKraSIi2UvHMeiGpHE4sWrAf+M/R5
- P2nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tTq8XZa3fK+bEGLJ4ktBQe+9mHptMmpaFx4m/6/pZgE=;
- b=Cy9hgM1m15Sp3ipuUN6ydAosxGz4LgyFgV3Ix03dabMHCi31gjerT7dTZj2LNMwB4W
- aPMiy+aKpCv2LtjLBRTVT2/YFnTEKa2tHXc8idGBvESDr+uEHQoFpiracqGLL26qz1om
- 2jUQyK2pxHiFC6NO4lvxUnj6K92tdI+cGYh2Pzv+tsSBPGzMY6tZA7pppYmSHsIIH4bL
- GVaJJriWo2hFf0L8EHeOjL0qOE/EDkhUBXYvD8GWt+H2aXkR6fxYxgfTb/Khqzy0UHIT
- XDYtXO9ET4NUgabMzfYS0Unix/lRQGKVlOZH2CWCEfil5AZBbHV8SOmCoc/Z7Xu6EFTh
- ZRqQ==
-X-Gm-Message-State: AOAM5302lhqApNq0sJPWJ9mApuDVhm3koNIYSKTTz8sj9fHUGUksP0Q0
- i/4CDVGb+D0IQpRCtRcOlIv53A==
-X-Google-Smtp-Source: ABdhPJzj1AtPWEK+XilOGLRUOGp7YPLCfsV9/z6miyAUlJq2kRI90XWJukwfy6i9B87RppKBZzuokg==
-X-Received: by 2002:a17:902:ecd2:b0:151:9269:539c with SMTP id
- a18-20020a170902ecd200b001519269539cmr76578plh.37.1646425255882; 
- Fri, 04 Mar 2022 12:20:55 -0800 (PST)
-Received: from ?IPV6:2603:800c:1201:c600:f24b:57b2:da7c:e304?
- (2603-800c-1201-c600-f24b-57b2-da7c-e304.res6.spectrum.com.
- [2603:800c:1201:c600:f24b:57b2:da7c:e304])
- by smtp.gmail.com with ESMTPSA id
- s10-20020a63214a000000b003652f4ee81fsm5130585pgm.69.2022.03.04.12.20.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 12:20:55 -0800 (PST)
-Message-ID: <941f530e-c9dd-e6c3-4ecf-d884530f3b52@linaro.org>
-Date: Fri, 4 Mar 2022 10:20:52 -1000
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQESh-0008FM-G6
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 15:23:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60909)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nQESd-0005bw-T2
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 15:23:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646425414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=N7bPn7MCjctk6tAOFnon9CX0UQjIy0nnoSx93UIaM2c=;
+ b=hiAPofz4ehjnm6Odv7Og1PmU4Vc+Lc6jHj9gjvGaCdwYPEHdj1BMzrCQRJNTAi031ynPko
+ sOx1jEroMI/zByLZ91vXLEBCksB7D84dETE9aveKg7TwZSQQUiftwF8yQuW82UX7FLMexk
+ qlJjJO0zyTTPBRIuc69grdt3JWFj1gs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-504-md3Ws7sDMiu_EdamDRqODA-1; Fri, 04 Mar 2022 15:23:31 -0500
+X-MC-Unique: md3Ws7sDMiu_EdamDRqODA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94EB81006AA5;
+ Fri,  4 Mar 2022 20:23:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 06DC2ADD5;
+ Fri,  4 Mar 2022 20:23:28 +0000 (UTC)
+Date: Fri, 4 Mar 2022 14:23:26 -0600
+From: Eric Blake <eblake@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 3/5] iotests: Remove explicit checks for qemu_img() == 0
+Message-ID: <20220304202326.cj265z3pxrm45c34@redhat.com>
+References: <20220304194746.486226-1-jsnow@redhat.com>
+ <20220304194746.486226-4-jsnow@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 6/9] util: Share qemu_try_memalign() implementation
- between POSIX and Windows
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220304112126.2261039-1-peter.maydell@linaro.org>
- <20220304112126.2261039-7-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220304112126.2261039-7-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220304194746.486226-4-jsnow@redhat.com>
+User-Agent: NeoMutt/20211029-383-c6e293
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,15 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/22 01:21, Peter Maydell wrote:
-> +     * platform APIs (for instance _alligned_malloc() will
+On Fri, Mar 04, 2022 at 02:47:44PM -0500, John Snow wrote:
+> qemu_img() returning zero ought to be the rule, not the
+> exception. Remove all explicit checks against the condition in
+> preparation for making non-zero returns an Exception.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
 
-Typo there with the 'll'.
+> +++ b/tests/qemu-iotests/310
 
+> @@ -105,8 +105,8 @@ with iotests.FilePath('base.img') as base_img_path, \
+>      log('')
+>  
+>      # Detach backing to check that we can read the data from the top level now
+> -    assert qemu_img('rebase', '-u', '-b', '', '-f', iotests.imgfmt,
+> -                    top_img_path) == 0
+> +    qemu_img('rebase', '-u', '-b', '', '-f', iotests.imgfmt,
+> +             top_img_path)
 
-r~
+You collapsed other wrapped lines into one where they fit, why not
+this one?  But it's not essential.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
