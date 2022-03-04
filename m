@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7164CD267
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:30:03 +0100 (CET)
-Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B18544CD26E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:31:16 +0100 (CET)
+Received: from localhost ([::1]:49116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ5CE-0006nT-6f
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:30:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41982)
+	id 1nQ5DP-0000CT-PF
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:31:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nQ59j-0004WG-Gm
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:27:27 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:56661)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nQ5AK-0005qS-4D
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:28:04 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:47401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nQ59g-0007zU-CX
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:27:25 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nQ5AI-00084i-Ad
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:28:03 -0500
 Received: from [192.168.100.1] ([82.142.8.122]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N4z2Y-1o8wVu197M-010rUJ; Fri, 04 Mar 2022 11:27:18 +0100
-Message-ID: <8c1e698d-70e9-2c26-e991-e761a9ed73dd@vivier.eu>
-Date: Fri, 4 Mar 2022 11:27:17 +0100
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MFbiK-1nPVrO2USE-00H6ec; Fri, 04 Mar 2022 11:27:56 +0100
+Message-ID: <350d2049-67fc-e972-96ca-fe731f8ccf13@vivier.eu>
+Date: Fri, 4 Mar 2022 11:27:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 04/10] macfb: add VMStateDescription fields for display
- type and VBL timer
+Subject: Re: [PATCH v2 05/10] macfb: set initial value of mode control
+ registers in macfb_common_realize()
 Content-Language: fr
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
  fam@euphon.net, qemu-devel@nongnu.org
 References: <20220302212752.6922-1-mark.cave-ayland@ilande.co.uk>
- <20220302212752.6922-5-mark.cave-ayland@ilande.co.uk>
+ <20220302212752.6922-6-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220302212752.6922-5-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220302212752.6922-6-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:We/NzyyCdn6HoGBy7o+nn+ciCE6b0JVG5pMPcHH9VsrDSRjS96w
- fkyf/WvCP1N93N9jczJJswPNeO4AyvFFfFQfX8Vj5N281vxyrsVcFJB+6mvHi2q86NDRw1y
- MxK22QQe225axtsKsDGIq40ulcHsqqOlLNIxzw46Hp36NcmXk33Koe/amhB5qYLuz5t+yyP
- sLRzyqifO440O5UokIXcw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+EpAqBdg0qg=:LSrgLkzL4Vwf7ujUKmvtE6
- vSXA1O4zTtfO76VxCA7PiD94tM3rC6yc+THVCt/RB9l6tNag8N4IkIUvfTP5k34wvYSnCnRoX
- DMJkTxrkmeeh1LVXkq5Pb6Izj3I+mfA+UwXmV/87sj2rlkrv6nGdmDHU+spwFclXt8fUiD+rr
- mx++Potrrq+6oBkbbv0m/QKGTVyWaSEzAUm8H8th5FM5p0slRveNe+yH6gtQHUKtH/a6fM2cL
- VpLZicGvzoYw9Oi69QjaFeWL6wqEJfErSRH6JIl6ykdgMDOMXSJb/DeHMhaNe67Kd/4Wdvpe/
- 4X3ro+cicDS2BAeqxQsuQaSeAJF+dPiNyjyv4uwvCCkmULk7gPm/BNH6XOdrhC4ntRKQykBks
- 4+JaJgNrMvUo9C5TTVVz+kqj6hz6Cb5LJwhs1wdBg6WDBRJJLY+UszJ+3+ehIGc4tdRRpqa/M
- EGUSquLBFuzcolKv8ANUloWC8tK0bMzGirhce7U7Rz23ITsziAMOB+eNa2zRk99Yi+6hs5m6d
- ZtfM8aZxZB7JEVDAoh37a2sh0RUmL9VMOKw3lR/BKDFqCvtPZ79gr0xKJB4r2UVL0X1E2gUgl
- sCxGYlYxmUQ/bdN4Zch+uwRVITIxM6vzqKI66w7+F+ocgmbbDtucj16VXsOR0e1s8GEEIvht6
- 3kAHHpLUhkHnAnCRmEdS7ZH6UbvghJB0Ju2oi/pJMUcp5RMD4lvLCrCuLuT9G1S/w/dg=
+X-Provags-ID: V03:K1:+UzCteC+eERHlcSVU3rPBVgYOh6Ggh8ltAd/RBmWYu3nuDGBDrg
+ HPdSZENqO750IwaBytocVgKouV0hv3cRGpqMP76WMlQ1HmUXlbMmjZaKXtkp9JCBv9f6++A
+ cVLOzdUgqxiG9930hRKgSdB2Ao4NN3sESIY43CoN5Jts+hHsRyTYPCBMW+yyufor11OH1cO
+ 8mn2Ogof0h6LfWZBq8NwA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tf5KqmT3Nuw=:m5jECLz49xR3D+oQL27CC4
+ AX3XMrDrpYNHfjddnWTYJaZUj4D5RoaA1HaZLYGf84h6JjQrNEP03RrWEfueTLM1WRxUvEQdS
+ VUvCDb13gQ9Er8Q7LhTWzXl/33ER3qCkU3ApQLbt8NAKom/+Q4SfG5Fgv8RkUsB61lFoy7SKk
+ D5WDCc0Yuu31dQMmxXKPU/Ub9bI2H3MqngiJgeDcc+jzB0a7ye9VhuW1mOLffgQ2R5ICHLwj3
+ MNuGCcJiuLolvM8g/xwIp00O26Apl9cPKxw/TfT+YwFG+WhkNQu1RA6KaWrQl/ZKuS6E561AG
+ vEkN+kz7DGyYUYcz6ZS0gIUsV1xIaDuoIXxqlbiayN0As60s6eaAtWnIvKn0lMdx9P2l12HL1
+ yH2PgsUALK7PtyT57LZL5f0P1pK3zobWBoxKSKvUMyVXdLPwxTE3Mvk/YuM9Dd/TdD8kAers/
+ 4dTdwLlw/Wfow2YEvVpUppIrdYaFLNRaNM6UbLxeC9h7IwNQSYvMCipTD6vuRsloGqnOzNw5H
+ 23o07roqyxTESDqZAyK2kkPRgjETZnp0tXt0vPUuU50ZYnjshwuovMa9VS8AnPR7JkqI7slK5
+ z+5rkXtdjvThMVRa98NxNcbBpTw6EXlHN9maYtztdypQZnd40PlPGJ3TxuHsrV+X8rqVaE2qt
+ ZtiS7A62Ar8+aDhkseXHFhsJ2qMG+uVT6avrTkl5/rvkSG6ceJ/dMtgeBwtsGRgAv8rY=
 Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -76,14 +76,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 02/03/2022 à 22:27, Mark Cave-Ayland a écrit :
-> These fields are required in the migration stream to restore macfb state
-> correctly.
+> If booting Linux directly in the q800 machine using -kernel rather than using a
+> MacOS toolbox ROM, the mode control registers are never initialised,
+> causing macfb_mode_write() to fail to determine the current resolution after
+> migration. Resolve this by always setting the initial values of the mode control
+> registers based upon the initial macfb properties during realize.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->   hw/display/macfb.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   hw/display/macfb.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
-
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
