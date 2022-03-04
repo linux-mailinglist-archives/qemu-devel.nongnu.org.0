@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CFB4CD696
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:41:36 +0100 (CET)
-Received: from localhost ([::1]:39600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950714CD6A3
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:43:34 +0100 (CET)
+Received: from localhost ([::1]:43832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ97f-0007gu-87
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:41:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34976)
+	id 1nQ99Y-0002C6-R4
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:43:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nQ8aW-0005iU-5a
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:07:20 -0500
-Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:46449)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nQ8aS-0004cH-Ua
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:07:19 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.15])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5D793214C5;
- Fri,  4 Mar 2022 14:07:13 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 4 Mar
- 2022 15:07:12 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R00102ea038d-7721-472d-9b3f-947ec946a3b9,
- 4AD3D28DF98936DCB22FC0161BBD9A222A014934) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.1.230.64
-Message-ID: <7c7b2adb-67e1-26b8-03a3-74f70dc9bc80@kaod.org>
-Date: Fri, 4 Mar 2022 15:07:08 +0100
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ8cq-0000zC-VP
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:09:46 -0500
+Received: from [2a00:1450:4864:20::630] (port=37823
+ helo=mail-ej1-x630.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQ8cp-0004rh-3q
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:09:44 -0500
+Received: by mail-ej1-x630.google.com with SMTP id bg10so17773019ejb.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 06:09:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2f0mdabohj8Ojnc59Qxzm8nzXndbNPqHDhnsWKMeUes=;
+ b=txuHuxp+SbUT3gFt9lbFOaWijlQw517/cdfOdk4TyjAnGXp1kIdmYEcfuiGsP9spK8
+ OexJzNmk5BCrRypbR1B+9fWWTgFprS1ddOSjwviuEC6ua3uCcWP9B9NKX4F10ntYk4rY
+ 9QUhbHnGlYrVFWJm8xll+uaKaPz0TyClIHIctwqsjySOI32LcySs0GC90NiCRc+vnQRw
+ BDZ8AHI5YTx61ezTU793tNMhErazh3oTaz7c9wS+Zl7QUvaDLlDwhJKu9kbRzgmzeOHu
+ 3b0AUy9GpsSmJlLeNMqe/ZE0cA0vaVqkm/13dewuFh1N2sjYnhN6B4wiil+gDCAxO3Oi
+ snUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2f0mdabohj8Ojnc59Qxzm8nzXndbNPqHDhnsWKMeUes=;
+ b=B1f0lT3xU/dKfQdD5rrvxfbAd5NCER/BUOd/zhJnhBhqZO1orNDZ9/cd9I2CQZLI0t
+ uFKC84TiC4NweOuH9UhvUhoMWTqXPyxyykRSdFZFQ81/mOCb82L4s3pdXPQAoOKGVMNp
+ N0j6MHaWbFcWkyPQY9KVR5WQMaA4AFwvQ3STEt5Ijl/nQm96MGKwc+ZfCsXmDVkDdK6r
+ YEGpgMIEG74X1W7EM0FM782J1TWyjyIwP9yXW4CktUiWqSoxz2fybJLDyIK76wfnZ2iD
+ qwZnomAJxERBnDdJtEzOvD7KPMEFEQ4fxbBSw9Cp9WI2xuc+WI2cjdVqHOU46EF+2LCt
+ RFWg==
+X-Gm-Message-State: AOAM531AI+ZZOXKfS75v45Df4o+VVepuqUFnBRpEmLYlH9jlfmcNUmkF
+ X5/qFq82bJXGkHXTeguGvMofVzeuwCrMvo+xYBhMxQ==
+X-Google-Smtp-Source: ABdhPJxrYfi1XHGtJYN+0ywQDroiuS7y3SBDzUHeERTeoOEeeNJ68Bm/JNcRxDWazFC30Ay4EmZqIMHuv9QP85VmZbA=
+X-Received: by 2002:a17:906:c14c:b0:6d7:1278:d80c with SMTP id
+ dp12-20020a170906c14c00b006d71278d80cmr13464729ejc.660.1646402981596; Fri, 04
+ Mar 2022 06:09:41 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: Issue with qemu-system-ppc running OSX guests
-Content-Language: en-US
-To: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>,
- qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
- BALATON Zoltan <balaton@eik.bme.hu>, Fabiano Rosas <farosas@linux.ibm.com>
-References: <CABLmASFbowE4Cu8gHk9eD+_h8ZrdupE8MHKAfpW+T8Oe=-3=Wg@mail.gmail.com>
- <e2dd457d-29b3-32be-72e2-315e686dff69@eik.bme.hu>
- <CABLmASH5tFs86Dq+1e+ByMF43jZL5UZ7MempVVhtKCwjdpa7aw@mail.gmail.com>
- <87pmn352q0.fsf@linux.ibm.com>
- <a3917a31-b899-a289-5102-5b8be20aae27@eldorado.org.br>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <a3917a31-b899-a289-5102-5b8be20aae27@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 17724ca9-5267-4aa3-9bfd-59361c7a3aa1
-X-Ovh-Tracer-Id: 2094455302911593254
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddtkedgieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220304115257.1816983-1-ani@anisinha.ca>
+ <20220304115257.1816983-4-ani@anisinha.ca>
+ <20220304081931-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220304081931-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 4 Mar 2022 19:39:30 +0530
+Message-ID: <CAARzgwxWvnUizU7b_5SSg41UR49cJ5Li3ZczoqMBaCJeMmxSCw@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] tests/acpi: i386: update FACP table differences
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::630;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,92 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ liavalb@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/22 12:08, Lucas Mateus Martins Araujo e Castro wrote:
-> 
-> On 02/03/2022 20:55, Fabiano Rosas wrote:
->> Howard Spoelstra<hsp.cat7@gmail.com>  writes:
->>
->>> On Wed, Mar 2, 2022 at 9:11 PM BALATON Zoltan<balaton@eik.bme.hu>  wrote:
->>>
->>>> On Wed, 2 Mar 2022, Howard Spoelstra wrote:
->>>>> Hi all,
->>>>>
->>>>> I noticed qemu-system-ppc running OSX guests does not get to the desktop
->>>> or
->>>>> does not display the menu bars.
->>>> Cc-ing the relevant people and the PPC list might help, I've added them.
->>>> Also telling which OSX guest version can reproduce the problem could help
->>>> debugging. Is it any OSX version?
->>>>
->>>> Regards,
->>>> BALATON Zoltan
->>>>
->>> Oops, Qemu running on Fedora 35 host,
->>> Reproducer:
->>>
->>> ./qemu-system-ppc \
->>> -M mac99 \
->>> -m 512 \
->>> -L pc-bios \
->>> -display sdl -serial stdio \
->>> -boot c \
->>> -drive file=10.1.img,format=raw,media=disk
->>>
->>> The issue affects all supported Mac OSX guests: 10.0 to 10.5
->> Hi Howard,
->>
->> Thanks for bisecting this. It seems we inadvertently marked some of the
->> Vector Multiply instructions to be ISA v2.07 only.
->>
->> I can boot Mac OSX 10.4 until the desktop with this fix:
->>
->> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
->> index f91bee839d..c5d02d13fe 100644
->> --- a/target/ppc/translate/vmx-impl.c.inc
->> +++ b/target/ppc/translate/vmx-impl.c.inc
->> @@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext *ctx, arg_VX *a)
->>       return true;
->>   }
->>
->> -TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
->> -TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
->> -TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
->> -TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
->> -TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
->> -TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
->> -TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
->> -TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
->> +TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper, gen_helper_VMULESB)
->> +TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
->> +TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
->> +TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
->> +TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper, gen_helper_VMULESH)
->> +TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
->> +TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
->> +TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
->>   TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
->>   TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
->>   TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
->> ---
->>
->> I'll let Lucas comment on it and we can send a proper patch in the
->> morning.
-> 
-> Checking here it seems I misread the PowerISA appendix and marked these instructions (vmul[eo].[bh]) as v2.07 even though they are v2.03.
-> 
-> This patch seems to correct it and checking here the newer instructions are correct (v2.07 for vmul[eo].w and v3.1 for vmul[eo].d), so
-> 
-> Reviewed-by: Lucas Mateus Castro<lucas.araujo@eldorado.org.br>
+On Fri, Mar 4, 2022 at 6:49 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Fri, Mar 04, 2022 at 05:22:57PM +0530, Ani Sinha wrote:
+> > From: Liav Albani <liavalb@gmail.com>
+> >
+> > After changing the IAPC boot flags register to indicate support of i804=
+2
+> > in the machine chipset to help the guest OS to determine its existence
+> > "faster", we need to have the updated FACP ACPI binary images in tree.
+> >
+> > The ASL changes introduced are shown by the following diff:
+> >
+> > @@ -42,35 +42,35 @@
+> >  [059h 0089   1]     PM1 Control Block Length : 02
+> >  [05Ah 0090   1]     PM2 Control Block Length : 00
+> >  [05Bh 0091   1]        PM Timer Block Length : 04
+> >  [05Ch 0092   1]            GPE0 Block Length : 10
+> >  [05Dh 0093   1]            GPE1 Block Length : 00
+> >  [05Eh 0094   1]             GPE1 Base Offset : 00
+> >  [05Fh 0095   1]                 _CST Support : 00
+> >  [060h 0096   2]                   C2 Latency : 0FFF
+> >  [062h 0098   2]                   C3 Latency : 0FFF
+> >  [064h 0100   2]               CPU Cache Size : 0000
+> >  [066h 0102   2]           Cache Flush Stride : 0000
+> >  [068h 0104   1]            Duty Cycle Offset : 00
+> >  [069h 0105   1]             Duty Cycle Width : 00
+> >  [06Ah 0106   1]          RTC Day Alarm Index : 00
+> >  [06Bh 0107   1]        RTC Month Alarm Index : 00
+> >  [06Ch 0108   1]            RTC Century Index : 32
+> > -[06Dh 0109   2]   Boot Flags (decoded below) : 0000
+> > +[06Dh 0109   2]   Boot Flags (decoded below) : 0002
+> >                 Legacy Devices Supported (V2) : 0
+> > -            8042 Present on ports 60/64 (V2) : 0
+> > +            8042 Present on ports 60/64 (V2) : 1
+> >                          VGA Not Present (V4) : 0
+> >                        MSI Not Supported (V4) : 0
+> >                  PCIe ASPM Not Supported (V4) : 0
+> >                     CMOS RTC Not Present (V5) : 0
+> >  [06Fh 0111   1]                     Reserved : 00
+> >  [070h 0112   4]        Flags (decoded below) : 000084A5
+> >        WBINVD instruction is operational (V1) : 1
+> >                WBINVD flushes all caches (V1) : 0
+> >                      All CPUs support C1 (V1) : 1
+> >                    C2 works on MP system (V1) : 0
+> >              Control Method Power Button (V1) : 0
+> >              Control Method Sleep Button (V1) : 1
+> >          RTC wake not in fixed reg space (V1) : 0
+> >              RTC can wake system from S4 (V1) : 1
+> >                          32-bit PM Timer (V1) : 0
+> >                        Docking Supported (V1) : 0
+> >
+> > Signed-off-by: Liav Albani <liavalb@gmail.com>
+> > Acked-by: Ani Sinha <ani@anisinha.ca>
+>
+> Fails make check:
+> =E2=96=B6  3/60 ERROR:../tests/qtest/bios-tables-test.c:532:test_acpi_asl=
+: assertion failed: (all_tables_match) ERROR
 
-
-Could you please send a proper patch ? The above was given as an example.
-
-Thanks,
-
-C.
-
+Unable to repro this even after rebasing to latest master.
 
