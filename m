@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC274CD35D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 12:24:52 +0100 (CET)
-Received: from localhost ([::1]:58992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE974CD36A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 12:29:31 +0100 (CET)
+Received: from localhost ([::1]:38058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ63H-0006Lq-Rn
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 06:24:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53928)
+	id 1nQ67l-0003D2-WF
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 06:29:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQ606-0002VQ-Fk
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:21:34 -0500
-Received: from [2a00:1450:4864:20::331] (port=42562
- helo=mail-wm1-x331.google.com)
+ id 1nQ607-0002YP-V3
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:21:36 -0500
+Received: from [2a00:1450:4864:20::435] (port=42999
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQ604-0004e6-EG
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:21:34 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- r187-20020a1c2bc4000000b003810e6b192aso4920332wmr.1
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 03:21:32 -0800 (PST)
+ id 1nQ605-0004eI-Oh
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:21:35 -0500
+Received: by mail-wr1-x435.google.com with SMTP id u10so10546501wra.9
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 03:21:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=khb2dSFPApkPaahIP5O1Jg4lPgEuKg6KdJgWB44Ysm4=;
- b=D9lD8OG5HGPwrcRa9aTTnCMhLk2rm3gvXNJZ+0kbAdsx8PElSbOjcCZmTJfxMBwvKL
- WwvA/GSOs7maPZxp+kNaW2bAde9wUUTXo622qu4RfvrAMI3w0FvMBnQhk0Lp7eCh3Rpr
- xbTuS0BaT5b/OS1NyxtlnwA2hJg+e913ZteY6s1xXiiZ+JsXvOKLj/xbbCeIId57zHqb
- eRqkaXWQlNY0Qjujs1wpCQW8gAk7r333MzRYj1dNJkXiKMAMPc96on219pF2i0npphYD
- RZ58CSoMiV6khScQpJzDbzJSQx0ENV7dPE+QyeKPKRM3YyUGQnXDN+dLF46i/JbEeyQ2
- Jebg==
+ bh=voFkZRHY5biQKFztGkfghmVhAahSUzLcgZ5Jwso4n1w=;
+ b=I6s/sjLicrm2r7DzqEkqnSS5rBx45qb9IS45PZFp5i1nxWmfm95eDyUC9fdJ5BdDhM
+ qbyiddMAD4BgatMByRgp5WA77JiyOn9S8tR5OkwHupBJqYRS/ZjeZAApwLoIJvDD3G1d
+ LVqvHBK6xcQ9GFTNmibpCsrQ5189cKzYHjvBKJ1UPvQAtVM9ONNhAq1dVP+DzPU7zdoM
+ MU3ogwFQDoXZ8yWU2IDLpZvAOxOeDltLnXcKJWgUOlbUR3kTga3yy3HD5CP9imI5MnzS
+ IihRd3AIjkhriHjXzSsVCiDmGG4+kttDcotjpMEAjHsv+26EOcmtfKIDV7YG0hrrWWld
+ EweQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=khb2dSFPApkPaahIP5O1Jg4lPgEuKg6KdJgWB44Ysm4=;
- b=fKs84N/5md15VNPHEMzh+bR0PozsmkOjC+TlCwu512PkFlznjDbOWLlZ5bzIStmKCy
- Ibct7j8pnLqD9PpKr7HautVWNAO21QQfJGLOOWwxacvFnpH0KpUdA4bBlOR3XDUsxGIW
- kHyaPEFBOGRegiL4x/6Bro9EvxUpBZWkq+V/2X0p6LLc8MuAqQ/Xv4E5lZSHFbyDOyp8
- JfnHxaCQJmTNayIKk6vaCI5tSkBTgytlhS8D6Izpo1V7W9m2v020linEDJq+taqcvVu9
- xpRFD65BZ1aL5A4rOdaq6tSTHZqwcecUkVHLqOtJ2qhpiPQwn5Vb7dHuBLh9ONB4d6FL
- lELQ==
-X-Gm-Message-State: AOAM530P2BiDP3L/PVZBwyEU8ahAkU+ZqAYB/eG0sg7ikFG16h9CnvRo
- udL4/Fjc33zS6EOPUb6qo6EWNx1gFEwRTQ==
-X-Google-Smtp-Source: ABdhPJzoyfXKzK6aHXWkeofkojVRCe6VU7KSrrPh8EVDsCDq+t9W/+/VQc5qpDH2YK5GcGYfVjx5dA==
-X-Received: by 2002:a05:600c:4e93:b0:382:b7fb:80b3 with SMTP id
- f19-20020a05600c4e9300b00382b7fb80b3mr7320293wmq.0.1646392891163; 
- Fri, 04 Mar 2022 03:21:31 -0800 (PST)
+ bh=voFkZRHY5biQKFztGkfghmVhAahSUzLcgZ5Jwso4n1w=;
+ b=FxJVWgMV89oIQPtX9HqtWOqcJVFt8CnUp/a1uwpq2/Avhh1/ZhZlgdLM8Mq/ylu6j9
+ 9wVT6uKfemMgd81LgEDxNp2on+ZA/nWdDyhOsm8+02xB9Wwu1P5C5uyGhfYuaYBnnGE4
+ hHCA97l+F8YdiqT7K3/LN6od6SoiUg2nl2UqIegjBeya+zK6GYD5npTZyNmRmdMKCEr8
+ u0OnWPLyxMCEAxU2yhms++vOA3K/baPFdx/Rh14JHtCwyWuGFj5YPoXhzjb4unBqGNIn
+ beTh0ME2apmjZwBMgfZY5pOq+RV82Ae8P/20UhL7pxet2Jj+s+6AAexuFI4DPX0GI5eZ
+ n87g==
+X-Gm-Message-State: AOAM533jDc2tnBTzn6v5T6JOEFbgmoQExv46EwXPr068E9eJ1jJ1K1do
+ /Gk5cyZy+HwMnm+hyjHhokKoW0N+1pO0vQ==
+X-Google-Smtp-Source: ABdhPJxoLT23zbAzzO+nfOuDyddcF+kAtSzBeIIMfBikeWXSmAN8DF/9uKqYRXaiieM1o+oRa8YZbg==
+X-Received: by 2002:a05:6000:154e:b0:1f0:4747:5536 with SMTP id
+ 14-20020a056000154e00b001f047475536mr7678886wry.76.1646392892378; 
+ Fri, 04 Mar 2022 03:21:32 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- u14-20020adfed4e000000b001e3323611e5sm4148651wro.26.2022.03.04.03.21.30
+ u14-20020adfed4e000000b001e3323611e5sm4148651wro.26.2022.03.04.03.21.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 03:21:30 -0800 (PST)
+ Fri, 04 Mar 2022 03:21:31 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/9] util: Make qemu_oom_check() a static function
-Date: Fri,  4 Mar 2022 11:21:19 +0000
-Message-Id: <20220304112126.2261039-3-peter.maydell@linaro.org>
+Subject: [PATCH v2 3/9] util: Unify implementations of qemu_memalign()
+Date: Fri,  4 Mar 2022 11:21:20 +0000
+Message-Id: <20220304112126.2261039-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220304112126.2261039-1-peter.maydell@linaro.org>
 References: <20220304112126.2261039-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,59 +93,154 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu_oom_check() function, which we define in both oslib-posix.c
-and oslib-win32.c, is now used only locally in that file; make it
-static.
+We implement qemu_memalign() in both oslib-posix.c and oslib-win32.c,
+but the two versions are essentially the same: they call
+qemu_try_memalign(), and abort() after printing an error message if
+it fails.  The only difference is that the win32 version prints the
+GetLastError() value whereas the POSIX version prints
+strerror(errno).  However, this is a bug in the win32 version: in
+commit dfbd0b873a85021 in 2020 we changed the implementation of
+qemu_try_memalign() from using VirtualAlloc() (which sets the
+GetLastError() value) to using _aligned_malloc() (which sets errno),
+but didn't update the error message to match.
+
+Replace the two separate functions with a single version in a
+new memalign.c file, which drops the unnecessary extra qemu_oom_check()
+function and instead prints a more useful message including the
+requested size and alignment as well as the errno string.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220226180723.1706285-3-peter.maydell@linaro.org
+Message-id: 20220226180723.1706285-4-peter.maydell@linaro.org
 ---
- include/qemu-common.h | 2 --
- util/oslib-posix.c    | 2 +-
- util/oslib-win32.c    | 2 +-
- 3 files changed, 2 insertions(+), 4 deletions(-)
+ util/memalign.c    | 39 +++++++++++++++++++++++++++++++++++++++
+ util/oslib-posix.c | 14 --------------
+ util/oslib-win32.c | 14 --------------
+ util/meson.build   |  1 +
+ 4 files changed, 40 insertions(+), 28 deletions(-)
+ create mode 100644 util/memalign.c
 
-diff --git a/include/qemu-common.h b/include/qemu-common.h
-index 68b2e3bc109..8c0d9ab0f77 100644
---- a/include/qemu-common.h
-+++ b/include/qemu-common.h
-@@ -26,8 +26,6 @@
- int qemu_main(int argc, char **argv, char **envp);
- #endif
- 
--void *qemu_oom_check(void *ptr);
--
- ssize_t qemu_write_full(int fd, const void *buf, size_t count)
-     QEMU_WARN_UNUSED_RESULT;
- 
+diff --git a/util/memalign.c b/util/memalign.c
+new file mode 100644
+index 00000000000..6dfc20abbb1
+--- /dev/null
++++ b/util/memalign.c
+@@ -0,0 +1,39 @@
++/*
++ * memalign.c: Allocate an aligned memory region
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ * Copyright (c) 2010-2016 Red Hat, Inc.
++ * Copyright (c) 2022 Linaro Ltd
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++
++void *qemu_memalign(size_t alignment, size_t size)
++{
++    void *p = qemu_try_memalign(alignment, size);
++    if (p) {
++        return p;
++    }
++    fprintf(stderr,
++            "qemu_memalign: failed to allocate %zu bytes at alignment %zu: %s\n",
++            size, alignment, strerror(errno));
++    abort();
++}
 diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index f2be7321c59..ed5974d3845 100644
+index ed5974d3845..0278902ee79 100644
 --- a/util/oslib-posix.c
 +++ b/util/oslib-posix.c
-@@ -199,7 +199,7 @@ fail_close:
+@@ -199,15 +199,6 @@ fail_close:
      return false;
  }
  
--void *qemu_oom_check(void *ptr)
-+static void *qemu_oom_check(void *ptr)
+-static void *qemu_oom_check(void *ptr)
+-{
+-    if (ptr == NULL) {
+-        fprintf(stderr, "Failed to allocate memory: %s\n", strerror(errno));
+-        abort();
+-    }
+-    return ptr;
+-}
+-
+ void *qemu_try_memalign(size_t alignment, size_t size)
  {
-     if (ptr == NULL) {
-         fprintf(stderr, "Failed to allocate memory: %s\n", strerror(errno));
+     void *ptr;
+@@ -234,11 +225,6 @@ void *qemu_try_memalign(size_t alignment, size_t size)
+     return ptr;
+ }
+ 
+-void *qemu_memalign(size_t alignment, size_t size)
+-{
+-    return qemu_oom_check(qemu_try_memalign(alignment, size));
+-}
+-
+ /* alloc shared memory pages */
+ void *qemu_anon_ram_alloc(size_t size, uint64_t *alignment, bool shared,
+                           bool noreserve)
 diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index af559ef3398..c87e6977246 100644
+index c87e6977246..05857414695 100644
 --- a/util/oslib-win32.c
 +++ b/util/oslib-win32.c
-@@ -44,7 +44,7 @@
+@@ -44,15 +44,6 @@
  /* this must come after including "trace.h" */
  #include <shlobj.h>
  
--void *qemu_oom_check(void *ptr)
-+static void *qemu_oom_check(void *ptr)
+-static void *qemu_oom_check(void *ptr)
+-{
+-    if (ptr == NULL) {
+-        fprintf(stderr, "Failed to allocate memory: %lu\n", GetLastError());
+-        abort();
+-    }
+-    return ptr;
+-}
+-
+ void *qemu_try_memalign(size_t alignment, size_t size)
  {
-     if (ptr == NULL) {
-         fprintf(stderr, "Failed to allocate memory: %lu\n", GetLastError());
+     void *ptr;
+@@ -68,11 +59,6 @@ void *qemu_try_memalign(size_t alignment, size_t size)
+     return ptr;
+ }
+ 
+-void *qemu_memalign(size_t alignment, size_t size)
+-{
+-    return qemu_oom_check(qemu_try_memalign(alignment, size));
+-}
+-
+ static int get_allocation_granularity(void)
+ {
+     SYSTEM_INFO system_info;
+diff --git a/util/meson.build b/util/meson.build
+index 3736988b9f6..f6ee74ad0c8 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -51,6 +51,7 @@ util_ss.add(when: 'CONFIG_POSIX', if_true: files('drm.c'))
+ util_ss.add(files('guest-random.c'))
+ util_ss.add(files('yank.c'))
+ util_ss.add(files('int128.c'))
++util_ss.add(files('memalign.c'))
+ 
+ if have_user
+   util_ss.add(files('selfmap.c'))
 -- 
 2.25.1
 
