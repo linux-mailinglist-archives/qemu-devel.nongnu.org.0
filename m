@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2BD4CDA56
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:26:50 +0100 (CET)
-Received: from localhost ([::1]:44310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25764CD9BC
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:07:33 +0100 (CET)
+Received: from localhost ([::1]:46024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQBhZ-0001Kt-AC
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:26:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52190)
+	id 1nQBOv-0005bi-1O
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:07:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB65-0005eC-0X
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35692)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB6A-0005lG-TQ
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB60-0007UX-KK
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:03 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB64-0007W9-Ol
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646412480;
+ s=mimecast20190719; t=1646412483;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uHc8xBASAbywGQixccorwipTQ4NdBP65CwGhspRJUmE=;
- b=WKYI7furyVJ1nSuhlMm+DOhqHA4yf9uBklAPjnd96E4xaNj0WxZhoYBVMjd4Y96iPECTtT
- BGpKgklnisGVVcXtSQXHUSDLncMuOSd1YGg5wIFbB8Au7FTbOthfT5T5LbMluLc0nsV0Hy
- v4L2OOPhGsvlOTns/Sdr3IUi79m3JVA=
+ bh=C4NgjCNYflZ+Acwj3sJCY8vSC4ZsmygsSHlGPHs6ZTs=;
+ b=Lq6lOWofMsSy5KTgC7A/jaypPZY9Tsfqddpq9wz1mVFhvZaRn+Ipvb9V/1nxX1U+LSVliH
+ YizMKFnHZS7/PDiWFKppJhj0K7f767Ib649VNWHcHU0st04obTcxPwOd5EB8/jVlzLX+Yg
+ fPxoMgegQ533r6C6+ysjCCc9F129EUU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-DIUqHvSzMEKNhxX28mt2hQ-1; Fri, 04 Mar 2022 11:47:59 -0500
-X-MC-Unique: DIUqHvSzMEKNhxX28mt2hQ-1
+ us-mta-365-rh-EAFMzMyGg-uZzW2hPcg-1; Fri, 04 Mar 2022 11:48:00 -0500
+X-MC-Unique: rh-EAFMzMyGg-uZzW2hPcg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F081FC82;
- Fri,  4 Mar 2022 16:47:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73A921091DA3;
+ Fri,  4 Mar 2022 16:47:59 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 119EA8547C;
- Fri,  4 Mar 2022 16:47:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 592318547C;
+ Fri,  4 Mar 2022 16:47:58 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 31/50] include/block/blockjob.h: global state API
-Date: Fri,  4 Mar 2022 17:46:52 +0100
-Message-Id: <20220304164711.474713-32-kwolf@redhat.com>
+Subject: [PULL 32/50] assertions for blockjob.h global state API
+Date: Fri,  4 Mar 2022 17:46:53 +0100
+Message-Id: <20220304164711.474713-33-kwolf@redhat.com>
 In-Reply-To: <20220304164711.474713-1-kwolf@redhat.com>
 References: <20220304164711.474713-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -84,67 +84,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-blockjob functions run always under the BQL lock.
-
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20220303151616.325444-19-eesposit@redhat.com>
+Message-Id: <20220303151616.325444-20-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/blockjob.h | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+ blockjob.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/include/block/blockjob.h b/include/block/blockjob.h
-index 87fbb3985f..6525e16fd5 100644
---- a/include/block/blockjob.h
-+++ b/include/block/blockjob.h
-@@ -74,6 +74,13 @@ typedef struct BlockJob {
-     GSList *nodes;
- } BlockJob;
+diff --git a/blockjob.c b/blockjob.c
+index d79a52d204..4868453d74 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -62,6 +62,7 @@ static bool is_block_job(Job *job)
+ BlockJob *block_job_next(BlockJob *bjob)
+ {
+     Job *job = bjob ? &bjob->job : NULL;
++    GLOBAL_STATE_CODE();
  
-+/*
-+ * Global state (GS) API. These functions run under the BQL.
-+ *
-+ * See include/block/block-global-state.h for more information about
-+ * the GS API.
-+ */
-+
- /**
-  * block_job_next:
-  * @job: A block job, or %NULL.
-@@ -155,6 +162,21 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp);
-  */
- void block_job_iostatus_reset(BlockJob *job);
+     do {
+         job = job_next(job);
+@@ -73,6 +74,7 @@ BlockJob *block_job_next(BlockJob *bjob)
+ BlockJob *block_job_get(const char *id)
+ {
+     Job *job = job_get(id);
++    GLOBAL_STATE_CODE();
  
-+/*
-+ * block_job_get_aio_context:
-+ *
-+ * Returns aio context associated with a block job.
-+ */
-+AioContext *block_job_get_aio_context(BlockJob *job);
-+
-+
-+/*
-+ * Common functions that are neither I/O nor Global State.
-+ *
-+ * See include/block/block-common.h for more information about
-+ * the Common API.
-+ */
-+
- /**
-  * block_job_is_internal:
-  * @job: The job to determine if it is user-visible or not.
-@@ -170,11 +192,4 @@ bool block_job_is_internal(BlockJob *job);
-  */
- const BlockJobDriver *block_job_driver(BlockJob *job);
+     if (job && is_block_job(job)) {
+         return container_of(job, BlockJob, job);
+@@ -184,6 +186,7 @@ static const BdrvChildClass child_job = {
  
--/*
-- * block_job_get_aio_context:
-- *
-- * Returns aio context associated with a block job.
-- */
--AioContext *block_job_get_aio_context(BlockJob *job);
--
- #endif
+ void block_job_remove_all_bdrv(BlockJob *job)
+ {
++    GLOBAL_STATE_CODE();
+     /*
+      * bdrv_root_unref_child() may reach child_job_[can_]set_aio_ctx(),
+      * which will also traverse job->nodes, so consume the list one by
+@@ -206,6 +209,7 @@ void block_job_remove_all_bdrv(BlockJob *job)
+ bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs)
+ {
+     GSList *el;
++    GLOBAL_STATE_CODE();
+ 
+     for (el = job->nodes; el; el = el->next) {
+         BdrvChild *c = el->data;
+@@ -222,6 +226,7 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+ {
+     BdrvChild *c;
+     bool need_context_ops;
++    GLOBAL_STATE_CODE();
+ 
+     bdrv_ref(bs);
+ 
+@@ -271,6 +276,8 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
+     const BlockJobDriver *drv = block_job_driver(job);
+     int64_t old_speed = job->speed;
+ 
++    GLOBAL_STATE_CODE();
++
+     if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
+         return false;
+     }
+@@ -309,6 +316,8 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
+     BlockJobInfo *info;
+     uint64_t progress_current, progress_total;
+ 
++    GLOBAL_STATE_CODE();
++
+     if (block_job_is_internal(job)) {
+         error_setg(errp, "Cannot query QEMU internal jobs");
+         return NULL;
+@@ -491,6 +500,7 @@ fail:
+ 
+ void block_job_iostatus_reset(BlockJob *job)
+ {
++    GLOBAL_STATE_CODE();
+     if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
+         return;
+     }
+@@ -548,5 +558,6 @@ BlockErrorAction block_job_error_action(BlockJob *job, BlockdevOnError on_err,
+ 
+ AioContext *block_job_get_aio_context(BlockJob *job)
+ {
++    GLOBAL_STATE_CODE();
+     return job->job.aio_context;
+ }
 -- 
 2.35.1
 
