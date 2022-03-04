@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64F04CD714
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:05:22 +0100 (CET)
-Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29A04CD76E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:13:31 +0100 (CET)
+Received: from localhost ([::1]:38638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9Uf-0005PA-VR
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:05:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38568)
+	id 1nQ9cZ-0006KI-0A
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:13:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8qA-0003c3-Eb
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21735)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8qJ-00043n-GI
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8q8-0000SA-W2
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:30 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8qH-0000Ty-Ui
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403808;
+ s=mimecast20190719; t=1646403816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h9koEPAs6esAu6q4l+So46UIpGwvLZt3TuFSjDnyUjc=;
- b=i3x00759qljRrt1SvIVlsxih/7DtMAJBnKo+6DGtzWDgfgvkIR+8DTN3zQgwGmrpFY+uCf
- 5xj3dDC2v+3dH5Z8FBXlxsIHtrrjqzrQ+j69jn7wiavgf//WDvEscErebKvSCqIrf38uuf
- xJoQiGeg3Ucn81w4w/gD1tzl5+7OP1E=
+ bh=ZtW+dPwkd4OdT/Zpa2fY3A7LD1PtcBH5jmip8WSVPyo=;
+ b=ZIVvUu3T9g7ZgxzY50rwIM6qi8FHgv94trtROMRgKsAHFf/0Do9wBWlYao88tVEI7s/edt
+ WPGlNMi8Krtg4Xa+UV51GiPGddT0WRPr6T+UVxqhsODxG8qEvo4KK0348n97Pk8R/Ai+G5
+ JQxXmgPT56eXhkzJ52lo/jBopJthlUY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-217-gMzJTrmhOb63v7690aCd1g-1; Fri, 04 Mar 2022 09:23:25 -0500
-X-MC-Unique: gMzJTrmhOb63v7690aCd1g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-178-2WE27digNReB00JcLDunLw-1; Fri, 04 Mar 2022 09:23:33 -0500
+X-MC-Unique: 2WE27digNReB00JcLDunLw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A79AB1854E27;
- Fri,  4 Mar 2022 14:23:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6D10801AFE;
+ Fri,  4 Mar 2022 14:23:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2648D866E9;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 282CB7A525;
  Fri,  4 Mar 2022 14:23:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9909018009A8; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
+ id A50D418009AA; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/35] audio: add pcm_ops function table for capture backend
-Date: Fri,  4 Mar 2022 15:21:03 +0100
-Message-Id: <20220304142123.956171-16-kraxel@redhat.com>
+Subject: [PULL 16/35] Revert "audio: fix wavcapture segfault"
+Date: Fri,  4 Mar 2022 15:21:04 +0100
+Message-Id: <20220304142123.956171-17-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -95,37 +95,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Add a pcm_ops function table for the capture backend. This avoids
-additional code in the next patches to test if the pcm_ops table
-is available.
+This reverts commit cbaf25d1f59ee13fc7542a06ea70784f2e000c04.
+
+Since previous commit every audio backend has a pcm_ops function
+table. It's no longer necessary to test if the table is available.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20220301191311.26695-8-vr_qemu@t-online.de>
+Message-Id: <20220301191311.26695-9-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio.c | 2 ++
- 1 file changed, 2 insertions(+)
+ audio/audio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/audio/audio.c b/audio/audio.c
-index 9e2d7fb20978..55f885f8e9cf 100644
+index 55f885f8e9cf..c420a8bd1c4a 100644
 --- a/audio/audio.c
 +++ b/audio/audio.c
-@@ -1804,6 +1804,7 @@ void AUD_remove_card (QEMUSoundCard *card)
-     g_free (card->name);
- }
+@@ -612,7 +612,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+         total += isamp;
+     }
  
-+static struct audio_pcm_ops capture_pcm_ops;
+-    if (hw->pcm_ops && !hw->pcm_ops->volume_in) {
++    if (!hw->pcm_ops->volume_in) {
+         mixeng_volume (sw->buf, ret, &sw->vol);
+     }
  
- CaptureVoiceOut *AUD_add_capture(
-     AudioState *s,
-@@ -1849,6 +1850,7 @@ CaptureVoiceOut *AUD_add_capture(
+@@ -718,7 +718,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+     if (swlim) {
+         sw->conv (sw->buf, buf, swlim);
  
-         hw = &cap->hw;
-         hw->s = s;
-+        hw->pcm_ops = &capture_pcm_ops;
-         QLIST_INIT (&hw->sw_head);
-         QLIST_INIT (&cap->cb_head);
- 
+-        if (sw->hw->pcm_ops && !sw->hw->pcm_ops->volume_out) {
++        if (!sw->hw->pcm_ops->volume_out) {
+             mixeng_volume (sw->buf, swlim, &sw->vol);
+         }
+     }
 -- 
 2.35.1
 
