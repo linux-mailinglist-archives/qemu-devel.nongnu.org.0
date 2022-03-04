@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579154CD5BA
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:58:34 +0100 (CET)
-Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8048F4CD4ED
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:14:05 +0100 (CET)
+Received: from localhost ([::1]:44042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ8S1-0005EG-El
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:58:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53946)
+	id 1nQ7ky-0006SU-IZ
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:14:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <4115c7e2bf14bb1a44914ed3fd35a49acb9d270d@lizzy.crudebyte.com>)
- id 1nQ81V-0006MM-Dt
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:31:13 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:52277)
+ (envelope-from <878a1c85e3d1345bff4df30a5158a94db0d29587@lizzy.crudebyte.com>)
+ id 1nQ7hp-0003sW-1T
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:10:49 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:36249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <4115c7e2bf14bb1a44914ed3fd35a49acb9d270d@lizzy.crudebyte.com>)
- id 1nQ81T-0007Yp-NM
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:31:09 -0500
+ (envelope-from <878a1c85e3d1345bff4df30a5158a94db0d29587@lizzy.crudebyte.com>)
+ id 1nQ7hn-00051f-2p
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:10:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=wKRLqcpkp3yI/9Y7vn9Lc/2LYzsAf401uXfH337cbsY=; b=BZohK
- ZiMRCwh8vSnSB+hPVFmL3tcFJU4dXdexRe8MC0lqSZc2yt2bzGzEP9od4rAfViA0UNiD1NVjUcTFV
- GdDtx5rYrL0/WgQt65WqCEDnd8OFKGnWoW4Jk/ayEn2MbbbeA0qssjFWyV5MxyNq9w5gEbZeTZ5Bm
- qB1EpshG1qCUfC56eIdwJm2eSvOYJw/sqTQpc6eXCLuIbHifk0B1rd1L/omKcXAcdGLyKUKXKhIAi
- 1y5guB/4rvSVrPI793EeXV/D85lzlPf6FgTV+skwHrSimg6KuRePbEgOop+x1cfzz5+fcDrP7Qxd1
- Q56wIyXJOd7554BSPUBoPIlyPby1w==;
-Message-Id: <4115c7e2bf14bb1a44914ed3fd35a49acb9d270d.1646396869.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=E+pi20wm1t2lPx1rR3N1oRcogOjxzufykFPyJrnQBdE=; b=o14Pq
+ LLqknMemkXj30e6mYSZyt6vqYcsScEWiVgt14lw+JOP8QKLbATUdKUF3nMueu5BYSym+Jki1A+tTd
+ M8w0BlcbcsPZaZ9rsYsfAa5UWqK68eVS0VdTwo10PVUOwnp/0HEWae3BAp+23W4l2xDBARwYOGMLY
+ DgTELx/dwNOgVRhTm4RDu5j6mgMemMZIvbTDH677E1qJaqKUEIelWrmcQ9M/wWCohIGpYm826p1T3
+ uU4350jzxMOxcnrWK7wFSWBDKSWsVA2ZDdXML7qu8hg7UobrRkJNWeVrnNaV8nji1nfrDP9r/gfA/
+ V9NojzlDltUOT4Ra4UX3A59zDUKFg==;
+Message-Id: <878a1c85e3d1345bff4df30a5158a94db0d29587.1646396869.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646396869.git.qemu_oss@crudebyte.com>
 References: <cover.1646396869.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 04 Mar 2022 13:27:49 +0100
-Subject: [PULL 12/19] 9pfs: move qemu_dirent_dup() from osdep -> 9p-util
+Subject: [PULL 13/19] 9pfs: drop Doxygen format from qemu_dirent_dup() API
+ comment
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=4115c7e2bf14bb1a44914ed3fd35a49acb9d270d@lizzy.crudebyte.com;
+ envelope-from=878a1c85e3d1345bff4df30a5158a94db0d29587@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,121 +64,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Function qemu_dirent_dup() is currently only used by 9pfs server, so move
-it from project global header osdep.h to 9pfs specific header 9p-util.h.
+API doc comments in QEMU are supposed to be in kerneldoc format, so drop
+occurrences of "@c" which is Doxygen format for fixed-width text.
 
-Link: https://lore.kernel.org/qemu-devel/CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com/
-Based-on: <20220227223522.91937-12-wwcohen@gmail.com>
+Link: https://lore.kernel.org/qemu-devel/CAFEAcA89+ENOM6x19OEF53Kd2DWkhN5SN21Va0D7yepJSa3Jyg@mail.gmail.com/
+Based-on: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <E1nPTwO-0006pl-Np@lizzy.crudebyte.com>
 ---
- hw/9pfs/9p-util.h    | 30 ++++++++++++++++++++++++++++++
- include/qemu/osdep.h | 13 -------------
- util/osdep.c         | 21 ---------------------
- 3 files changed, 30 insertions(+), 34 deletions(-)
+ hw/9pfs/9p-util.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 1f74d37558..8b92614e6c 100644
+index 8b92614e6c..22835c5f61 100644
 --- a/hw/9pfs/9p-util.h
 +++ b/hw/9pfs/9p-util.h
-@@ -112,6 +112,36 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
- #endif
- }
- 
-+/**
-+ * Duplicate directory entry @dent.
-+ *
-+ * It is highly recommended to use this function instead of open coding
-+ * duplication of @c dirent objects, because the actual @c struct @c dirent
-+ * size may be bigger or shorter than @c sizeof(struct dirent) and correct
-+ * handling is platform specific (see gitlab issue #841).
-+ *
-+ * @dent - original directory entry to be duplicated
-+ * @returns duplicated directory entry which should be freed with g_free()
-+ */
-+static inline struct dirent *qemu_dirent_dup(struct dirent *dent)
-+{
-+    size_t sz = 0;
-+#if defined _DIRENT_HAVE_D_RECLEN
-+    /* Avoid use of strlen() if platform supports d_reclen. */
-+    sz = dent->d_reclen;
-+#endif
-+    /*
-+     * Test sz for zero even if d_reclen is available
-+     * because some drivers may set d_reclen to zero.
-+     */
-+    if (sz == 0) {
-+        /* Fallback to the most portable way. */
-+        sz = offsetof(struct dirent, d_name) +
-+                      strlen(dent->d_name) + 1;
-+    }
-+    return g_memdup(dent, sz);
-+}
-+
- /*
-  * As long as mknodat is not available on macOS, this workaround
-  * using pthread_fchdir_np is needed. qemu_mknodat is defined in
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 7bcce3bceb..650ba1aa50 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -673,19 +673,6 @@ static inline int platform_does_not_support_system(const char *command)
- }
- #endif /* !HAVE_SYSTEM_FUNCTION */
- 
--/**
-- * Duplicate directory entry @dent.
-- *
-- * It is highly recommended to use this function instead of open coding
+@@ -116,8 +116,8 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
+  * Duplicate directory entry @dent.
+  *
+  * It is highly recommended to use this function instead of open coding
 - * duplication of @c dirent objects, because the actual @c struct @c dirent
 - * size may be bigger or shorter than @c sizeof(struct dirent) and correct
-- * handling is platform specific (see gitlab issue #841).
-- *
-- * @dent - original directory entry to be duplicated
-- * @returns duplicated directory entry which should be freed with g_free()
-- */
--struct dirent *qemu_dirent_dup(struct dirent *dent);
--
- #ifdef __cplusplus
- }
- #endif
-diff --git a/util/osdep.c b/util/osdep.c
-index 723cdcb004..7c4deda6fe 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -33,7 +33,6 @@
- extern int madvise(char *, size_t, int);
- #endif
- 
--#include <dirent.h>
- #include "qemu-common.h"
- #include "qemu/cutils.h"
- #include "qemu/sockets.h"
-@@ -619,23 +618,3 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
-     return readv_writev(fd, iov, iov_cnt, true);
- }
- #endif
--
--struct dirent *
--qemu_dirent_dup(struct dirent *dent)
--{
--    size_t sz = 0;
--#if defined _DIRENT_HAVE_D_RECLEN
--    /* Avoid use of strlen() if platform supports d_reclen. */
--    sz = dent->d_reclen;
--#endif
--    /*
--     * Test sz for zero even if d_reclen is available
--     * because some drivers may set d_reclen to zero.
--     */
--    if (sz == 0) {
--        /* Fallback to the most portable way. */
--        sz = offsetof(struct dirent, d_name) +
--                      strlen(dent->d_name) + 1;
--    }
--    return g_memdup(dent, sz);
--}
++ * duplication of dirent objects, because the actual struct dirent
++ * size may be bigger or shorter than sizeof(struct dirent) and correct
+  * handling is platform specific (see gitlab issue #841).
+  *
+  * @dent - original directory entry to be duplicated
 -- 
 2.20.1
 
