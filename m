@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842904CD6F6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:59:33 +0100 (CET)
-Received: from localhost ([::1]:54498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A4F4CD6ED
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:58:18 +0100 (CET)
+Received: from localhost ([::1]:51790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9P2-0003cE-KZ
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:59:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38770)
+	id 1nQ9Np-0001iD-9J
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:58:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8qn-0004fH-PE
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32235)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8ql-0001E0-JF
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FSgcpgra0vIwtKyU6UVTJ8vqwM3vHylvGpblIOXwlIU=;
- b=CSKJO5QkDhyRQxTgjjBSLMRlI8I6k/qUCAvsO4gDaEG7sJON4+/IjJg+kYlExwBBcLtEpY
- UnOwkZQKDjpssgEg8bURDhaPpxSwnSMOYY1fuZRxhwL88vnZBX0McqlR2/JUt6DCxuamcJ
- DD8fkVA4gPFFWJRx2HnF+YB+SHSLhL8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-113-CLFqTrbWNdu1Iqe8wVzi2Q-1; Fri, 04 Mar 2022 09:24:04 -0500
-X-MC-Unique: CLFqTrbWNdu1Iqe8wVzi2Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AB661006AA7;
- Fri,  4 Mar 2022 14:24:02 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AF487B616;
- Fri,  4 Mar 2022 14:23:38 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D9DE818009AE; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nQ8q7-0003WA-59
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:27 -0500
+Received: from [2a00:1450:4864:20::332] (port=32956
+ helo=mail-wm1-x332.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nQ8q5-0000R8-QM
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:26 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ n33-20020a05600c3ba100b003832caf7f3aso4071272wms.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 06:23:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dw4gFgBdkE4xjFXJHwwB31Bs9WiEtP58FXRpcS09YLM=;
+ b=UQNlTp5nrAvEgnAmj/G0G/T6BXYWM5iouQMNY7CePQXoxMAIueg31/h98jksLiyUem
+ wvi1CQyYLMTdWV5qmkOhIYpvgKgPhakDngDfX4XHyWg9gxvfY+6Om3nccg0LKOFRPCVD
+ 6OEzlAE3bAjd3R4jKzvkAK3q34FIcQ/A7nBEu9rolge5Lrt+7Rc4sZGVMj4uHJxo4HmD
+ zGegVb8fcMvn/b04Vi2Gn7HE2NUw3CEmtAw+zFAXaZWqniEnOAV+XOl3ANOwkEqERqfO
+ AziBImIK8d1MR4qFgMW1szJ3iO9jE6RXAGZzWpmqC6DVpk+JLJryzdcYMAopqm2etthN
+ xsjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dw4gFgBdkE4xjFXJHwwB31Bs9WiEtP58FXRpcS09YLM=;
+ b=7azAwSF/XcHz6CNLUN20hCLhMpG0caJ3uuW8Lu3Lx3k7R+wWQCA+ckebQeV6HviV0p
+ FtpxIUeVzMdg+TtbgBHksHtEQ9qBbxmRnUXhA8gjOeE9CYuT4Wmi5yKvDszI5mZmsjRw
+ vRlDWcLcXQtI725WpViiD+v5vh6eHFVwebP+grif+vW0bT36G6X4VfCzl1+KAF72CU8n
+ ESjIF7mWy43RP81cbru1fkCm2WXwsgmLwzQNGN1RIwgyf578ui9I1Bc4DjVL9x268npD
+ Xtr55hNuKiKlMNgNshmInyUhCL1adoQQsqmQ9huLwctXMZObjqsifkojBrCRQMwFbefi
+ UYnA==
+X-Gm-Message-State: AOAM533ePdB3oFFafUzi6j+XO6fxufIvo/2JiIIMdLcOmpUCkI8b8ejm
+ To8ss0in7V/F7zGu+bSoYMQ/Rk4bzcw=
+X-Google-Smtp-Source: ABdhPJw0huxwnYe88p7DAO0YktKtVAQgL3f8LubgXwBbxjhR6Qg6CDsIc4JCcHMpzJPK3zm4fChW/A==
+X-Received: by 2002:a7b:cc8f:0:b0:389:844e:9e28 with SMTP id
+ p15-20020a7bcc8f000000b00389844e9e28mr1933727wma.67.1646403803960; 
+ Fri, 04 Mar 2022 06:23:23 -0800 (PST)
+Received: from localhost.localdomain (108.red-88-28-25.dynamicip.rima-tde.net.
+ [88.28.25.108]) by smtp.gmail.com with ESMTPSA id
+ i15-20020a05600c354f00b00381753c67a8sm5079021wmq.26.2022.03.04.06.23.22
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 04 Mar 2022 06:23:23 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/35] dsoundaudio: reduce effective playback buffer size
-Date: Fri,  4 Mar 2022 15:21:07 +0100
-Message-Id: <20220304142123.956171-20-kraxel@redhat.com>
-In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
-References: <20220304142123.956171-1-kraxel@redhat.com>
+Subject: [PATCH] hw/core/accel-cpu: Add missing 'qom/object.h' include
+Date: Fri,  4 Mar 2022 15:23:20 +0100
+Message-Id: <20220304142320.14281-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: 23
+X-Spam_score: 2.3
+X-Spam_bar: ++
+X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,98 +89,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Volker Rümelin <vr_qemu@t-online.de>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Add the buffer_get_free pcm_ops function to reduce the effective
-playback buffer size. All intermediate audio playback buffers
-become temporary buffers.
+hw/core/accel-cpu.h requires "qom/object.h" for the ObjectClass
+structure and the DECLARE_CLASS_CHECKERS() macro definitions.
 
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20220301191311.26695-12-vr_qemu@t-online.de>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- audio/dsoundaudio.c | 30 +++++++++++++++++-------------
- 1 file changed, 17 insertions(+), 13 deletions(-)
+ include/hw/core/accel-cpu.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
-index 3dd2c4d4a60b..231f3e65b3c8 100644
---- a/audio/dsoundaudio.c
-+++ b/audio/dsoundaudio.c
-@@ -427,22 +427,18 @@ static void dsound_enable_out(HWVoiceOut *hw, bool enable)
-     }
- }
+diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
+index 5dbfd79955..ab176b4e90 100644
+--- a/include/hw/core/accel-cpu.h
++++ b/include/hw/core/accel-cpu.h
+@@ -11,6 +11,8 @@
+ #ifndef ACCEL_CPU_H
+ #define ACCEL_CPU_H
  
--static void *dsound_get_buffer_out(HWVoiceOut *hw, size_t *size)
-+static size_t dsound_buffer_get_free(HWVoiceOut *hw)
- {
-     DSoundVoiceOut *ds = (DSoundVoiceOut *) hw;
-     LPDIRECTSOUNDBUFFER dsb = ds->dsound_buffer;
-     HRESULT hr;
--    DWORD ppos, wpos, act_size;
--    size_t req_size;
--    int err;
--    void *ret;
-+    DWORD ppos, wpos;
- 
-     hr = IDirectSoundBuffer_GetCurrentPosition(
-         dsb, &ppos, ds->first_time ? &wpos : NULL);
-     if (FAILED(hr)) {
-         dsound_logerr(hr, "Could not get playback buffer position\n");
--        *size = 0;
--        return NULL;
-+        return 0;
-     }
- 
-     if (ds->first_time) {
-@@ -450,13 +446,20 @@ static void *dsound_get_buffer_out(HWVoiceOut *hw, size_t *size)
-         ds->first_time = false;
-     }
- 
--    req_size = audio_ring_dist(ppos, hw->pos_emul, hw->size_emul);
--    req_size = MIN(req_size, hw->size_emul - hw->pos_emul);
-+    return audio_ring_dist(ppos, hw->pos_emul, hw->size_emul);
-+}
- 
--    if (req_size == 0) {
--        *size = 0;
--        return NULL;
--    }
-+static void *dsound_get_buffer_out(HWVoiceOut *hw, size_t *size)
-+{
-+    DSoundVoiceOut *ds = (DSoundVoiceOut *)hw;
-+    LPDIRECTSOUNDBUFFER dsb = ds->dsound_buffer;
-+    DWORD act_size;
-+    size_t req_size;
-+    int err;
-+    void *ret;
++#include "qom/object.h"
 +
-+    req_size = MIN(*size, hw->size_emul - hw->pos_emul);
-+    assert(req_size > 0);
- 
-     err = dsound_lock_out(dsb, &hw->info, hw->pos_emul, req_size, &ret, NULL,
-                           &act_size, NULL, false, ds->s);
-@@ -699,6 +702,7 @@ static struct audio_pcm_ops dsound_pcm_ops = {
-     .init_out = dsound_init_out,
-     .fini_out = dsound_fini_out,
-     .write    = audio_generic_write,
-+    .buffer_get_free = dsound_buffer_get_free,
-     .get_buffer_out = dsound_get_buffer_out,
-     .put_buffer_out = dsound_put_buffer_out,
-     .enable_out = dsound_enable_out,
+ /*
+  * This header is used to define new accelerator-specific target-specific
+  * accelerator cpu subclasses.
 -- 
-2.35.1
+2.34.1
 
 
