@@ -2,49 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165C24CD908
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 17:24:28 +0100 (CET)
-Received: from localhost ([::1]:34138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18154CD90E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 17:25:25 +0100 (CET)
+Received: from localhost ([::1]:34888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQAjC-0005rf-EN
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 11:24:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44944)
+	id 1nQAk8-0006S1-EI
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 11:25:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1nQAgH-0003SW-JJ; Fri, 04 Mar 2022 11:21:29 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:60756
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQAgO-0003VE-UX
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:21:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1nQAgD-0005wp-6P; Fri, 04 Mar 2022 11:21:25 -0500
-Received: from [192.168.178.59] (p5b1510d9.dip0.t-ipconnect.de [91.21.16.217])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 69831DA13CD;
- Fri,  4 Mar 2022 17:21:11 +0100 (CET)
-Message-ID: <2b349e85-c65f-32f1-d0e4-f32a7b2cb30e@weilnetz.de>
-Date: Fri, 4 Mar 2022 17:21:11 +0100
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQAgK-0005zl-Vz
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:21:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646410888;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bbneCF3DIeqO4FvY0WyvetBBtqmm1Mf6uJLLFQfEngw=;
+ b=a51uDdC918Z3q01H6hnCjDPOC5Spc1vKKnIL31wbMF45MNPESPn3bO+o6Kz/XpmGKrFSt4
+ ddIQhIEMTSrF4eN7/qj4+ecU1mcXyjL1nuBPm3cD5AtmmxScBr4TldB0iURDCTI1EazfAU
+ 8f0GP4WTF2nQcs/rFbxHKw/AdL+HpFY=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-534-PKkeOmJdOvGgpeeNNFuy4Q-1; Fri, 04 Mar 2022 11:21:25 -0500
+X-MC-Unique: PKkeOmJdOvGgpeeNNFuy4Q-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ l5-20020ab03d85000000b0034ac8e179c3so2378868uac.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 08:21:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bbneCF3DIeqO4FvY0WyvetBBtqmm1Mf6uJLLFQfEngw=;
+ b=3xiD4Ryrm8Tit6YFZme6pEPccRpMdxF3wv6+jZIyazgfPkx2OTghu1LQbCnUGUP/MT
+ LSth16Q8+T6abT0QwZbLzW9M9yYHldXB2AmlyxkYCY70MKt2RrtOrIIBSQeYYDsga2qQ
+ 8NKFXH9mBlQQEKAELOGEe0KYNCJZT6N1R5A7e8yg6CpiYQrl1bOUkQ1PBoQjOFMXSgYz
+ Q7kRPucXcKyw2kxGaFA88MdZzVwsFGJA+hFqui/mPvs7jDsl4LhBN0c7YbEqBwtWuhZ/
+ YwC/LepFNT2SoaqBr5PzALZBC4fyxX9s7H5MXSInnjmAIseXXYv6kMBWnpiVv2bhrnkT
+ Jogg==
+X-Gm-Message-State: AOAM5324iJse/wgK5+weqn4VDW5+Oy6JfyPSGwrijj3E9ZF6mgqmTcK2
+ T6PBEW5cmfK9MxSbXsQ7jkKNBhMB5abj8oz9Bhzjazg/JcnSpstm4YCgY/krJ1MzpNMjacbA9Gv
+ 6iusH6ZYCH+4YXQmc9OeJiEEy318LRoI=
+X-Received: by 2002:a67:fc13:0:b0:31c:5602:12f with SMTP id
+ o19-20020a67fc13000000b0031c5602012fmr17744349vsq.38.1646410884282; 
+ Fri, 04 Mar 2022 08:21:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyvR5mn8LkIs+j/2ololuFM1hpP09qrCKcdkYGSEgbNzngPYnaZJIfDMeDohPBlkN1Eu0b02GLnjNgr1vm8AUo=
+X-Received: by 2002:a67:fc13:0:b0:31c:5602:12f with SMTP id
+ o19-20020a67fc13000000b0031c5602012fmr17744331vsq.38.1646410883966; Fri, 04
+ Mar 2022 08:21:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 4/4] oslib: drop qemu_gettimeofday()
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220304152704.3466036-1-marcandre.lureau@redhat.com>
- <20220304152704.3466036-5-marcandre.lureau@redhat.com>
-From: Stefan Weil <sw@weilnetz.de>
-In-Reply-To: <20220304152704.3466036-5-marcandre.lureau@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------GbvLQ0HdvIKE0qIC0p9kw3jc"
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220303205902.4106779-1-jsnow@redhat.com>
+ <20220303205902.4106779-2-jsnow@redhat.com>
+ <20220303224341.zkiv7gzcmirogwf7@redhat.com>
+In-Reply-To: <20220303224341.zkiv7gzcmirogwf7@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 4 Mar 2022 11:21:14 -0500
+Message-ID: <CAFn=p-b3KaP8zYHBDB0gZaxGgaGPtdywx9XgDtoxOgz5VYGqdQ@mail.gmail.com>
+Subject: Re: [PATCH 1/5] python/utils: add add_visual_margin() text decoration
+ utility
+To: Eric Blake <eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000e4b93905d966e76e"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,351 +93,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------GbvLQ0HdvIKE0qIC0p9kw3jc
-Content-Type: multipart/mixed; boundary="------------1mR2HB96XzlhZ71v5spq80m6";
- protected-headers="v1"
-From: Stefan Weil <sw@weilnetz.de>
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Marek Vasut <marex@denx.de>, Michael Roth <michael.roth@amd.com>,
- Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-ppc@nongnu.org, Chris Wulff <crwulff@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster
- <armbru@redhat.com>, qemu-block@nongnu.org,
- BALATON Zoltan <balaton@eik.bme.hu>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
-Message-ID: <2b349e85-c65f-32f1-d0e4-f32a7b2cb30e@weilnetz.de>
-Subject: Re: [PATCH 4/4] oslib: drop qemu_gettimeofday()
-References: <20220304152704.3466036-1-marcandre.lureau@redhat.com>
- <20220304152704.3466036-5-marcandre.lureau@redhat.com>
-In-Reply-To: <20220304152704.3466036-5-marcandre.lureau@redhat.com>
-
---------------1mR2HB96XzlhZ71v5spq80m6
-Content-Type: multipart/mixed; boundary="------------YY28feWTp3HvSkSaYOr8nqxB"
-
---------------YY28feWTp3HvSkSaYOr8nqxB
-Content-Type: text/plain; charset=UTF-8; format=flowed
+--000000000000e4b93905d966e76e
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: base64
 
-QW0gMDQuMDMuMjIgdW0gMTY6Mjcgc2NocmllYiBtYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5j
-b206DQoNCj4gRnJvbTogTWFyYy1BbmRyw6kgTHVyZWF1IDxtYXJjYW5kcmUubHVyZWF1QHJl
-ZGhhdC5jb20+DQo+DQo+IE5vIGxvbmdlciB1c2VkIGFmdGVyIHRoZSBwcmV2aW91cyBwYXRj
-aGVzLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBNYXJjLUFuZHLDqSBMdXJlYXUgPG1hcmNhbmRy
-ZS5sdXJlYXVAcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgaW5jbHVkZS9zeXNlbXUvb3MtcG9z
-aXguaCB8ICAzIC0tLQ0KPiAgIGluY2x1ZGUvc3lzZW11L29zLXdpbjMyLmggfCAgNiAtLS0t
-LS0NCj4gICB1dGlsL29zbGliLXdpbjMyLmMgICAgICAgIHwgMjAgLS0tLS0tLS0tLS0tLS0t
-LS0tLS0NCj4gICAzIGZpbGVzIGNoYW5nZWQsIDI5IGRlbGV0aW9ucygtKQ0KPg0KPiBkaWZm
-IC0tZ2l0IGEvaW5jbHVkZS9zeXNlbXUvb3MtcG9zaXguaCBiL2luY2x1ZGUvc3lzZW11L29z
-LXBvc2l4LmgNCj4gaW5kZXggMmVkZjMzNjU4YTQ0Li5jOWIxZDYzZmVkZGEgMTAwNjQ0DQo+
-IC0tLSBhL2luY2x1ZGUvc3lzZW11L29zLXBvc2l4LmgNCj4gKysrIGIvaW5jbHVkZS9zeXNl
-bXUvb3MtcG9zaXguaA0KPiBAQCAtNTIsOSArNTIsNiBAQCBpbnQgb3NfbWxvY2sodm9pZCk7
-DQo+ICAgI2RlZmluZSBjbG9zZXNvY2tldChzKSBjbG9zZShzKQ0KPiAgICNkZWZpbmUgaW9j
-dGxzb2NrZXQocywgciwgdikgaW9jdGwocywgciwgdikNCj4gICANCj4gLXR5cGVkZWYgc3Ry
-dWN0IHRpbWV2YWwgcWVtdV90aW1ldmFsOw0KPiAtI2RlZmluZSBxZW11X2dldHRpbWVvZmRh
-eSh0cCkgZ2V0dGltZW9mZGF5KHRwLCBOVUxMKQ0KPiAtDQo+ICAgYm9vbCBpc19kYWVtb25p
-emVkKHZvaWQpOw0KPiAgIA0KPiAgIC8qKg0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9zeXNl
-bXUvb3Mtd2luMzIuaCBiL2luY2x1ZGUvc3lzZW11L29zLXdpbjMyLmgNCj4gaW5kZXggNDNm
-NTY5YjVjMjE2Li40ZDRiZTgyNmY0OGMgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvc3lzZW11
-L29zLXdpbjMyLmgNCj4gKysrIGIvaW5jbHVkZS9zeXNlbXUvb3Mtd2luMzIuaA0KPiBAQCAt
-NzEsMTIgKzcxLDYgQEAgaW50IGdldHBhZ2VzaXplKHZvaWQpOw0KPiAgICMgZGVmaW5lIEVQ
-Uk9UT05PU1VQUE9SVCBFSU5WQUwNCj4gICAjZW5kaWYNCj4gICANCj4gLXR5cGVkZWYgc3Ry
-dWN0IHsNCj4gLSAgICBsb25nIHR2X3NlYzsNCj4gLSAgICBsb25nIHR2X3VzZWM7DQo+IC19
-IHFlbXVfdGltZXZhbDsNCj4gLWludCBxZW11X2dldHRpbWVvZmRheShxZW11X3RpbWV2YWwg
-KnRwKTsNCj4gLQ0KPiAgIHN0YXRpYyBpbmxpbmUgYm9vbCBpc19kYWVtb25pemVkKHZvaWQp
-DQo+ICAgew0KPiAgICAgICByZXR1cm4gZmFsc2U7DQo+IGRpZmYgLS1naXQgYS91dGlsL29z
-bGliLXdpbjMyLmMgYi91dGlsL29zbGliLXdpbjMyLmMNCj4gaW5kZXggYWY1NTllZjMzOThk
-Li43ZmFmNTllOWFhZWEgMTAwNjQ0DQo+IC0tLSBhL3V0aWwvb3NsaWItd2luMzIuYw0KPiAr
-KysgYi91dGlsL29zbGliLXdpbjMyLmMNCj4gQEAgLTI2NSwyNiArMjY1LDYgQEAgdm9pZCBx
-ZW11X3NldF9jbG9leGVjKGludCBmZCkNCj4gICB7DQo+ICAgfQ0KPiAgIA0KPiAtLyogT2Zm
-c2V0IGJldHdlZW4gMS8xLzE2MDEgYW5kIDEvMS8xOTcwIGluIDEwMCBuYW5vc2VjIHVuaXRz
-ICovDQo+IC0jZGVmaW5lIF9XMzJfRlRfT0ZGU0VUICgxMTY0NDQ3MzYwMDAwMDAwMDBVTEwp
-DQo+IC0NCj4gLWludCBxZW11X2dldHRpbWVvZmRheShxZW11X3RpbWV2YWwgKnRwKQ0KPiAt
-ew0KPiAtICB1bmlvbiB7DQo+IC0gICAgdW5zaWduZWQgbG9uZyBsb25nIG5zMTAwOyAvKnRp
-bWUgc2luY2UgMSBKYW4gMTYwMSBpbiAxMDBucyB1bml0cyAqLw0KPiAtICAgIEZJTEVUSU1F
-IGZ0Ow0KPiAtICB9ICBfbm93Ow0KPiAtDQo+IC0gIGlmKHRwKSB7DQo+IC0gICAgICBHZXRT
-eXN0ZW1UaW1lQXNGaWxlVGltZSAoJl9ub3cuZnQpOw0KPiAtICAgICAgdHAtPnR2X3VzZWM9
-KGxvbmcpKChfbm93Lm5zMTAwIC8gMTBVTEwpICUgMTAwMDAwMFVMTCApOw0KPiAtICAgICAg
-dHAtPnR2X3NlYz0gKGxvbmcpKChfbm93Lm5zMTAwIC0gX1czMl9GVF9PRkZTRVQpIC8gMTAw
-MDAwMDBVTEwpOw0KPiAtICB9DQo+IC0gIC8qIEFsd2F5cyByZXR1cm4gMCBhcyBwZXIgT3Bl
-biBHcm91cCBCYXNlIFNwZWNpZmljYXRpb25zIElzc3VlIDYuDQo+IC0gICAgIERvIG5vdCBz
-ZXQgZXJybm8gb24gZXJyb3IuICAqLw0KPiAtICByZXR1cm4gMDsNCj4gLX0NCj4gLQ0KPiAg
-IGludCBxZW11X2dldF90aHJlYWRfaWQodm9pZCkNCj4gICB7DQo+ICAgICAgIHJldHVybiBH
-ZXRDdXJyZW50VGhyZWFkSWQoKTsNCg0KDQpSZXZpZXdlZC1ieTogU3RlZmFuIFdlaWwgPHN3
-QHdlaWxuZXR6LmRlPg0KDQoNCg==
---------------YY28feWTp3HvSkSaYOr8nqxB
-Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
-Content-Description: OpenPGP public key
+T24gVGh1LCBNYXIgMywgMjAyMiwgNTo0MyBQTSBFcmljIEJsYWtlIDxlYmxha2VAcmVkaGF0LmNv
+bT4gd3JvdGU6DQoNCj4gT24gVGh1LCBNYXIgMDMsIDIwMjIgYXQgMDM6NTg6NThQTSAtMDUwMCwg
+Sm9obiBTbm93IHdyb3RlOg0KPiA+ID4+PiBwcmludChhZGRfdmlzdWFsX21hcmdpbihtc2csIHdp
+ZHRoPTcyLCBuYW1lPSJDb21taXQgTWVzc2FnZSIpKQ0KPiA+IOKUj+KUgSBDb21taXQgTWVzc2Fn
+ZSDilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHi
+lIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHi
+lIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIENCj4gPiDi
+lIMgYWRkX3Zpc3VhbF9tYXJnaW4oKSB0YWtlcyBhIGNodW5rIG9mIHRleHQgYW5kIHdyYXBzIGl0
+IGluIGEgdmlzdWFsDQo+ID4g4pSDIGNvbnRhaW5lciB0aGF0IGZvcmNlLXdyYXBzIHRvIGEgc3Bl
+Y2lmaWVkIHdpZHRoLiBBbiBvcHRpb25hbCB0aXRsZQ0KPiA+IOKUgyBsYWJlbCBtYXkgYmUgZ2l2
+ZW4sIGFuZCBhbnkgb2YgdGhlIGluZGl2aWR1YWwgZ2x5cGhzIHVzZWQgdG8gZHJhdyB0aGUNCj4g
+PiDilIMgYm94IG1heSBiZSByZXBsYWNlZCBvciBzcGVjaWZpZWQgYXMgd2VsbC4NCj4gPiDilJfi
+lIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHi
+lIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHi
+lIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHi
+lIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIHilIENCj4NCj4gSSBzZWUgeW91
+IGRyb3BwZWQgdGhlIHJpZ2h0IG1hcmdpbiBjb21wYXJlZCB0byBlYXJsaWVyIHZlcnNpb25zLCBi
+dXQNCj4gYWdyZWUgdGhhdCB0aGlzIGlzIHN0aWxsIGEgbmljZSB2aXN1YWwgaW5kaWNhdG9yLCBh
+bmQgcHJvYmFibHkgZWFzaWVyDQo+IHRvIG1haW50YWluIGluIHRoaXMgZm9ybS4gIEFuZCBpdCBn
+b3QgcmlkIG9mIHRoZSB3ZWlyZCBzcGFjaW5nIG9uIHRoZQ0KPiBsZWZ0IHdoZW4gdGhlIHdyYXAg
+cG9pbnQgaGl0IGF0IHRoZSB3cm9uZyB0aW1lLg0KPg0KPiA+ICsgICAgRGVjb3JhdGUgYW5kIHdy
+YXAgc29tZSB0ZXh0IHdpdGggYSB2aXN1YWwgZGVjb3JhdGlvbiBhcm91bmQgaXQuDQo+ID4gKw0K
+PiA+ICsgICAgVGhpcyBmdW5jdGlvbiBhc3N1bWVzIHRoYXQgdGhlIHRleHQgZGVjb3JhdGlvbiBj
+aGFyYWN0ZXJzIGFyZSBzaW5nbGUNCj4gPiArICAgIGNoYXJhY3RlcnMgdGhhdCBkaXNwbGF5IHVz
+aW5nIGEgc2luZ2xlIG1vbm9zcGFjZSBjb2x1bW4uDQo+ID4gKw0KPiA+ICsgICAg4pSP4pSBIEV4
+YW1wbGUNCj4g4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB
+4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB
+4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB4pSB
+4pSB4pSB4pSB4pSB4pSB4pSB4pSBDQo+ID4gKyAgICDilIMgVGhpcyBpcyB3aGF0IHRoaXMgZnVu
+Y3Rpb24gbG9va3MgbGlrZSB3aXRoIHRleHQgY29udGVudCB0aGF0J3MNCj4gPiArICAgIOKUgyB3
+cmFwcGVkIHRvIDcyIGNoYXJhY3RlcnMuIFRoZSByaWdodC1oYW5kIG1hcmdpbiBpcyBsZWZ0IG9w
+ZW4gdG8NCj4gPiArICAgIOKUgyBhY29tbW9kYXRlIHRoZSBvY2Nhc2lvbmFsIHVuaWNvZGUgY2hh
+cmFjdGVyIHRoYXQgbWlnaHQgbWFrZQ0KPiA+ICsgICAg4pSDIHByZWRpY3RpbmcgdGhlIHRvdGFs
+ICJ2aXN1YWwiIHdpZHRoIG9mIGEgbGluZSBkaWZmaWN1bHQuIFRoaXMNCj4gPiArICAgIOKUgyBw
+cm92aWRlcyBhIHZpc3VhbCBkaXN0aW5jdGlvbiB0aGF0J3MgZ29vZC1lbm91Z2gsIHRob3VnaC4N
+Cj4gPiArDQo+IOKUl+KUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKU
+geKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKU
+geKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKU
+geKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgeKUgQ0K
+Pg0KPiBZZXAgLSBoYW5kLXdhdmluZyBhd2F5IFVuaWNvZGUgbWVzc2luZXNzIGlzIGNlcnRhaW5s
+eSBlYXNpZXN0IDspDQo+DQoNCkkgc3RhcnRlZCByZWFkaW5nIHRoZSB1bmljb2RlIHNwZWNpZmlj
+YXRpb24gZm9yIGRldGVybWluaW5nIHRoZSBudW1iZXIgb2YNCiJ2aXN1YWwgZ3JhcGhlbWUgY2x1
+c3RlcnMiIGluIGEgc3RyaW5nLCBnb3QgYSBoZWFkYWNoZSwgYW5kIGdhdmUgdXAuDQoNCihTZWUg
+YWxzbyB0aGUgUHlQSSBwYWNrYWdlICJncmFwaGVtZSIsIHdoaWNoIHdhcyBsYXN0IHVwZGF0ZWQg
+Zm9yIHVuaWNvZGUNCjEzLjAgYW5kIGFwcGVhcnMgdW5tYWludGFpbmVkLiBJdCdzIG5vIHNtYWxs
+IGFtb3VudCBvZiBjb2RlISkNCg0KSSBjb3VsZCB3cml0ZSBhIGZ1bmN0aW9uIHRoYXQgZ2l2ZXMg
+YSAqcHJldHR5IGdvb2QgZXN0aW1hdGUqLCBidXQgSSBkb24ndA0Kd2FudCB0byBtYWludGFpbiBz
+b21ldGhpbmcgbGlrZSB0aGF0Lg0KDQpVcndpZCBoYXMgZnVuY3Rpb25zIHRoYXQgZ2l2ZSAqZ3Jl
+YXQqIGVzdGltYXRlcywgYnV0IEknZCBsaWtlIHRvIGF2b2lkDQpkZXBlbmRlbmNpZXMuDQoNCkxl
+YXZpbmcgdGhlIHJpZ2h0IG1hcmdpbiBvcGVuIHdhcyB0aGUgcXVpY2tlc3QsIGNsZWFuZXN0IGhh
+Y2sgOikgSSdtIGFtYXplZA0KYXQgaG93IGhhcmQgdGhpcyBpcyB0byBhY2NvbXBsaXNoLg0KDQoo
+U2VlIGh0dHBzOi8vaHNpdm9uZW4uZmkvc3RyaW5nLWxlbmd0aC8gd2hpY2ggb3VnaHQgdG8gYmUg
+cmVxdWlyZWQgcmVhZGluZw0KaW4gYWxsIENTIGNsYXNzZXMgZnJvbSBub3cgb24uKQ0KDQpVbHRp
+bWF0ZWx5IEkgdG9vayBib3RoIHRoaXMgZGVjb3JhdGlvbiBhbmQgdGhlIGV4Y2VwdGlvbiBjb2Rl
+IGludG8gdXRpbHMgYXMNCmFuIGFkbWlzc2lvbiBvZiBndWlsdCBhbmQgYSBwbGVkZ2UgdG8gbWFp
+bnRhaW4gd2hhdCBJIGRpZCB3cml0ZSA7KQ0KDQoNCj4gUmV2aWV3ZWQtYnk6IEVyaWMgQmxha2Ug
+PGVibGFrZUByZWRoYXQuY29tPg0KPg0KPiBbdGFrZSB3aXRoIGEgZ3JhaW4gb2Ygc2FsdCAtIG15
+IHB5dGhvbiBpcyB3ZWFrLiBCdXQgYXMgeW91IHNhaWQgaW4gdGhlDQo+IGNvdmVyIGxldHRlciwg
+aXQncyBmYWlybHkgc3RyYWlnaHRmb3J3YXJkIHRvIHJlcHJvZHVjZSBhbiBlbnZpcm9ubWVudA0K
+PiB3aGVyZSB5b3UgY2FuIHNlZSBpdCBpbiBhY3Rpb24gZm9yIGhhbmRzLW9uIHRlc3RpbmddDQo+
+DQoNCkkndmUgbG9uZyBzaW5jZSBnaXZlbiB1cCBvbiBhbnlvbmUgdW5kZXJzdGFuZGluZyB0aGUg
+UHl0aG9uIEkgd3JpdGUuDQpFZHVhcmRvIGRpZCwgc28gaGUgcXVpdC4g8J+YhQ0KDQpUaGFua3Mg
+Zm9yIHRoZSByZXZpZXdzLg0KDQoNCj4NCj4gLS0NCj4gRXJpYyBCbGFrZSwgUHJpbmNpcGFsIFNv
+ZnR3YXJlIEVuZ2luZWVyDQo+IFJlZCBIYXQsIEluYy4gICAgICAgICAgICsxLTkxOS0zMDEtMzI2
+Ng0KPiBWaXJ0dWFsaXphdGlvbjogIHFlbXUub3JnIHwgbGlidmlydC5vcmcNCj4NCj4NCg==
+--000000000000e4b93905d966e76e
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Mar 3, 2022, 5:43 PM Eric Blake &lt;<a href=3D=
+"mailto:eblake@redhat.com" target=3D"_blank" rel=3D"noreferrer">eblake@redh=
+at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, Mar 0=
+3, 2022 at 03:58:58PM -0500, John Snow wrote:<br>
+&gt; &gt;&gt;&gt; print(add_visual_margin(msg, width=3D72, name=3D&quot;Com=
+mit Message&quot;))<br>
+&gt; =E2=94=8F=E2=94=81 Commit Message =E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+<br>
+&gt; =E2=94=83 add_visual_margin() takes a chunk of text and wraps it in a =
+visual<br>
+&gt; =E2=94=83 container that force-wraps to a specified width. An optional=
+ title<br>
+&gt; =E2=94=83 label may be given, and any of the individual glyphs used to=
+ draw the<br>
+&gt; =E2=94=83 box may be replaced or specified as well.<br>
+&gt; =E2=94=97=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81<br>
+<br>
+I see you dropped the right margin compared to earlier versions, but<br>
+agree that this is still a nice visual indicator, and probably easier<br>
+to maintain in this form.=C2=A0 And it got rid of the weird spacing on the<=
+br>
+left when the wrap point hit at the wrong time.<br>
+<br>
+&gt; +=C2=A0 =C2=A0 Decorate and wrap some text with a visual decoration ar=
+ound it.<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 This function assumes that the text decoration characte=
+rs are single<br>
+&gt; +=C2=A0 =C2=A0 characters that display using a single monospace column=
+.<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =E2=94=8F=E2=94=81 Example =E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81<br=
+>
+&gt; +=C2=A0 =C2=A0 =E2=94=83 This is what this function looks like with te=
+xt content that&#39;s<br>
+&gt; +=C2=A0 =C2=A0 =E2=94=83 wrapped to 72 characters. The right-hand marg=
+in is left open to<br>
+&gt; +=C2=A0 =C2=A0 =E2=94=83 acommodate the occasional unicode character t=
+hat might make<br>
+&gt; +=C2=A0 =C2=A0 =E2=94=83 predicting the total &quot;visual&quot; width=
+ of a line difficult. This<br>
+&gt; +=C2=A0 =C2=A0 =E2=94=83 provides a visual distinction that&#39;s good=
+-enough, though.<br>
+&gt; +=C2=A0 =C2=A0 =E2=94=97=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=
+=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=
+=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=
+=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81=E2=94=81<br>
+<br>
+Yep - hand-waving away Unicode messiness is certainly easiest ;)<br></block=
+quote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">I started r=
+eading the unicode specification for determining the number of &quot;visual=
+ grapheme clusters&quot; in a string, got a headache, and gave up.</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto">(See also the PyPI package &quot=
+;grapheme&quot;, which was last updated for unicode 13.0 and appears unmain=
+tained. It&#39;s no small amount of code!)</div><div dir=3D"auto"><br></div=
+><div dir=3D"auto">I could write a function that gives a *pretty good estim=
+ate*, but I don&#39;t want to maintain something like that.</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">Urwid has functions that give *great*=
+ estimates, but I&#39;d like to avoid dependencies.</div><div dir=3D"auto">=
+<br></div><div dir=3D"auto">Leaving the right margin open was the quickest,=
+ cleanest hack :) I&#39;m amazed at how hard this is to accomplish.</div><d=
+iv dir=3D"auto"><br></div><div dir=3D"auto">(See=C2=A0<a href=3D"https://hs=
+ivonen.fi/string-length/">https://hsivonen.fi/string-length/</a> which ough=
+t to be required reading in all CS classes from now on.)</div><div dir=3D"a=
+uto"><br></div><div dir=3D"auto">Ultimately I took both this decoration and=
+ the exception code into utils as an admission of guilt and a pledge to mai=
+ntain what I did write ;)</div><div dir=3D"auto"><br></div><div dir=3D"auto=
+"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Reviewed-by: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" rel=3D"nor=
+eferrer noreferrer" target=3D"_blank">eblake@redhat.com</a>&gt;<br>
+<br>
+[take with a grain of salt - my python is weak. But as you said in the<br>
+cover letter, it&#39;s fairly straightforward to reproduce an environment<b=
+r>
+where you can see it in action for hands-on testing]<br></blockquote></div>=
+</div><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;ve long since giv=
+en up on anyone understanding the Python I write. Eduardo did, so he quit. =
+=F0=9F=98=85</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks for =
+the reviews.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">
+<br><br>
+-- <br>
+Eric Blake, Principal Software Engineer<br>
+Red Hat, Inc.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+1-919-301-3266<br>
+Virtualization:=C2=A0 <a href=3D"http://qemu.org" rel=3D"noreferrer norefer=
+rer noreferrer" target=3D"_blank">qemu.org</a> | <a href=3D"http://libvirt.=
+org" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">libvirt.org=
+</a><br>
+<br>
+</blockquote></div></div></div>
 
-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3D=3D
-=3DoVqG
------END PGP PUBLIC KEY BLOCK-----
+--000000000000e4b93905d966e76e--
 
---------------YY28feWTp3HvSkSaYOr8nqxB--
-
---------------1mR2HB96XzlhZ71v5spq80m6--
-
---------------GbvLQ0HdvIKE0qIC0p9kw3jc
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmIiPHcFAwAAAAAACgkQ4Iwh1Wd0UK2Z
-uhAAj+HI64DtgNt5BqZfvELcTxSA+iW8mNJsbygOv7c0EyUJwlyx55VmdgTArTnagw925iHgAAVf
-yLfldOGDjjljQtiph9SUkF1jgNZLVuUEj0d0vJQcCMfZBSQjgWREm3zdghlC/Q+qfivOcUR7yqpZ
-5rGwEi0/wUifFnEGr4+TgH2J7SGoLtYCXOCMae8NOAqDW/6ttUVR/XmkBWGtN174TgDmk680z+Je
-fkTEQuoyNZ20DXj4Nd+1zYounFwEAx91rI8XIfVgup9AFsXm+bXluO9QDvWQXqostqlYXjxHOC1x
-e2RXfGbH25raoG4Wd1dW91RDLV4e7pOTnQ8fJ8OzTtV+TjLvBBQA/leG1MhKFjaYaZOTeGRB3tRy
-N5cURrssBosp3qZH6pyVQroFEaOiqPIxq2Zq2JEOrkjuvoFT27vGnCrW221V14aI81DWBzJowLL9
-Qm/SGtpIglg6WqSe9EPFCrbNB6E0/G0LypUyfG8Cj/JJSDM3KOE1g8wjCxn4A4Sx20FRZwEsDfld
-VvYehD5jhwSVSVfSPpeVV+bTnql6rDR0OlIyaNJ+Rxwo9JbrUk1oumvrQ2uqjQ2/F3oHu5pLvCI3
-WCTBsUBld7lxEFaXRoGvtLTQUun6Mk5KNJTtQ54TgxoDwJ+8E+rCUMbZWc8lk4n5PdmXeZCTCO9P
-sKc=
-=YAsl
------END PGP SIGNATURE-----
-
---------------GbvLQ0HdvIKE0qIC0p9kw3jc--
 
