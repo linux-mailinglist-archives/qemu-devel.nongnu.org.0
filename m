@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015D54CD5AA
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:57:22 +0100 (CET)
-Received: from localhost ([::1]:36860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECEE4CD50E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:20:15 +0100 (CET)
+Received: from localhost ([::1]:50940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ8Qr-0003FR-2R
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:57:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52840)
+	id 1nQ7qv-0002oq-Qv
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:20:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <71f51f31342fa9b3eb53ff267345ee9d59d0cebf@lizzy.crudebyte.com>)
- id 1nQ7xP-0002I5-O1
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:27:00 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:34357)
+ (envelope-from <cee3e110958141446de1fbd5074fb03f0492c878@lizzy.crudebyte.com>)
+ id 1nQ7jr-0006Me-8e
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:12:56 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:59547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <71f51f31342fa9b3eb53ff267345ee9d59d0cebf@lizzy.crudebyte.com>)
- id 1nQ7xO-0006rB-6j
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:26:55 -0500
+ (envelope-from <cee3e110958141446de1fbd5074fb03f0492c878@lizzy.crudebyte.com>)
+ id 1nQ7jo-0005dK-S3
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:12:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=yKS8v7D5O2e+Blqy1u72eKRpQqfklC5OzihiNL/eqwU=; b=kbUaJ
- tq/SkeMBtW9MroiHKzUY0CJyu6zTqfb/eaaL2V5innyZ1v6PY3St4Bg7RXP717AOATQKyoN2FiH1M
- b7W2ndiTd2qiU0TLaIX+VNz7O18suNwCWhtBuuS3+DvFpux5u5eDWzrD1PR8y+b7K3d1f6LHZU13V
- rSJTwVzU+HN0dhBsQYh/PmBB+azdZPLpYhFpUzvueNT0Vbd3Nfo6QGqDpgSOq0UqFvdAkg/KPB9E1
- jI6FnJxp7UO1kUib3ftcTwCwXZPkaXWwQDwhNWFexInCC/JttaFMDwPrFw+G0JcrufhFbqbb/MFxB
- SAfcq98xOr5ww02hYxrdV/dekUiaA==;
-Message-Id: <71f51f31342fa9b3eb53ff267345ee9d59d0cebf.1646396869.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=Vl2X3WYggHpA/TJOsUhXcKaCskBk2BTJ7HU+dytgZhY=; b=cVdug
+ yZJiwQy1Hd4qndYeokkE1HqG1on59KiiAj4o+ROSiYDJkM06CBjEvge/2uncbHZb2RAFnxVLWgyTL
+ KErT7sWcn0YBxG53x7zM+j+1g6hYlMP/+d/ABpO7auBVoJoPkCPtoEObewwGQrkI3rw3eykKFWcvJ
+ XIMRQCcPmL0PVWjZrcBCrhpht0fJfZNP3Scgn1bgj05EsqDUm7WrzVDnTEomqm+quPhBwWezEQ8D2
+ 0gUlKCHV6g5pAR6L2snGGCwzrWU5IWWjBaBIYPE73XWuIC0o+NgbtIcRUawO1mFbvc+dm9Br19nq4
+ U6T6P0fV1Ct9QD9cbX5Vu9GQIbMcg==;
+Message-Id: <cee3e110958141446de1fbd5074fb03f0492c878.1646396869.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646396869.git.qemu_oss@crudebyte.com>
 References: <cover.1646396869.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 04 Mar 2022 13:27:49 +0100
-Subject: [PULL 10/19] 9p: darwin: Adjust assumption on virtio-9p-test
+Subject: [PULL 15/19] 9pfs/codir.c: convert Doxygen -> kerneldoc format
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=71f51f31342fa9b3eb53ff267345ee9d59d0cebf@lizzy.crudebyte.com;
+ envelope-from=cee3e110958141446de1fbd5074fb03f0492c878@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,53 +63,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Will Cohen <wwcohen@gmail.com>
+API doc comments in QEMU are supposed to be in kerneldoc format, so
+convert API doc comments from Doxygen format to kerneldoc format.
 
-The previous test depended on the assumption that P9_DOTL_AT_REMOVEDIR
-and AT_REMOVEDIR have the same value.
-
-While this is true on Linux, it is not true everywhere, and leads to an
-incorrect test failure on unlink_at, noticed when adding 9p to darwin:
-
-Received response 7 (RLERROR) instead of 77 (RUNLINKAT)
-Rlerror has errno 22 (Invalid argument)
-**
-
-ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
-failed (hdr.id == id): (7 == 77) Bail out!
-
-ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
-failed (hdr.id == id): (7 == 77)
-
-Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
-[Will Cohen: - Add explanation of patch and description
-               of pre-patch test failure]
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-[Will Cohen: - Move this patch before 9p: darwin: meson
-               patch to avoid qtest breakage during
-               bisecting]
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20220227223522.91937-11-wwcohen@gmail.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <c76be7d38ea448c6417b2ffb5ccd6b711519a878.1646314856.git.qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/9pfs/codir.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 502e5ad0c7..01ca076afe 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -1253,7 +1253,7 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     /* ... and is actually a directory */
-     g_assert((st.st_mode & S_IFMT) == S_IFDIR);
- 
--    do_unlinkat(v9p, "/", "02", AT_REMOVEDIR);
-+    do_unlinkat(v9p, "/", "02", P9_DOTL_AT_REMOVEDIR);
-     /* directory should be gone now */
-     g_assert(stat(new_dir, &st) != 0);
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index f96d8ac4e6..75148bc985 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -184,14 +184,25 @@ out:
  }
+ 
+ /**
+- * @brief Reads multiple directory entries in one rush.
++ * v9fs_co_readdir_many() - Reads multiple directory entries in one rush.
++ *
++ * @pdu: the causing 9p (T_readdir) client request
++ * @fidp: already opened directory where readdir shall be performed on
++ * @entries: output for directory entries (must not be NULL)
++ * @offset: initial position inside the directory the function shall
++ *          seek to before retrieving the directory entries
++ * @maxsize: maximum result message body size (in bytes)
++ * @dostat: whether a stat() should be performed and returned for
++ *          each directory entry
++ * Return: resulting response message body size (in bytes) on success,
++ *         negative error code otherwise
+  *
+  * Retrieves the requested (max. amount of) directory entries from the fs
+  * driver. This function must only be called by the main IO thread (top half).
+  * Internally this function call will be dispatched to a background IO thread
+  * (bottom half) where it is eventually executed by the fs driver.
+  *
+- * @discussion Acquiring multiple directory entries in one rush from the fs
++ * Acquiring multiple directory entries in one rush from the fs
+  * driver, instead of retrieving each directory entry individually, is very
+  * beneficial from performance point of view. Because for every fs driver
+  * request latency is added, which in practice could lead to overall
+@@ -199,20 +210,9 @@ out:
+  * directory) if every directory entry was individually requested from fs
+  * driver.
+  *
+- * @note You must @b ALWAYS call @c v9fs_free_dirents(entries) after calling
++ * NOTE: You must ALWAYS call v9fs_free_dirents(entries) after calling
+  * v9fs_co_readdir_many(), both on success and on error cases of this
+- * function, to avoid memory leaks once @p entries are no longer needed.
+- *
+- * @param pdu - the causing 9p (T_readdir) client request
+- * @param fidp - already opened directory where readdir shall be performed on
+- * @param entries - output for directory entries (must not be NULL)
+- * @param offset - initial position inside the directory the function shall
+- *                 seek to before retrieving the directory entries
+- * @param maxsize - maximum result message body size (in bytes)
+- * @param dostat - whether a stat() should be performed and returned for
+- *                 each directory entry
+- * @returns resulting response message body size (in bytes) on success,
+- *          negative error code otherwise
++ * function, to avoid memory leaks once @entries are no longer needed.
+  */
+ int coroutine_fn v9fs_co_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+                                       struct V9fsDirEnt **entries,
 -- 
 2.20.1
 
