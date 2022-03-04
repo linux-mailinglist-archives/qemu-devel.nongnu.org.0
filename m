@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E724CDC5E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:26:51 +0100 (CET)
-Received: from localhost ([::1]:41624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C584CDCFF
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:54:07 +0100 (CET)
+Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQCde-00047b-U1
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:26:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37856)
+	id 1nQD42-0002Gk-OD
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:54:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQC77-0006E7-E3
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:53:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23090)
+ id 1nQC9F-0001E2-0T
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:55:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQC75-0003An-R0
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:53:13 -0500
+ id 1nQC9D-0003Nn-DF
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:55:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646416391;
+ s=mimecast20190719; t=1646416522;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9KTsewGCGetz3fVaM0qX7ttfLiCVlvCDEA7d24eHvsI=;
- b=eTayM8X3zIg7l72KfeltRdjsQAWdZMMsQqUy3IGBQ4/zA6fJSobD6wni+76Nb5UUH5EOY+
- lTu6N4azKapgZwywaWVAVLf5sKyLVjit8eiQeV8JuMqop+sbbtZLCUtmBL8/oEdfBjhdFs
- ms9+76pbsIQdt+uhe7grPOdGyqVnJv8=
+ bh=GyBJ+iIOfuBj9xOIOkUosNiQLzXgO0fWZppuuB3hrH8=;
+ b=RFHib/DD3V2y7okPL13y2RobzKfyDFQjVNH8LAOm0Yo2Cd7eLS9TpzcnJtdzbmbXeKhqu3
+ tzHSKmNOgYQQszqLDGpa1jHs1q1qdjUlnBacTCvvHrjwtywfUI42b2mf3fgOnPNy/fwmpf
+ fGrmBuVreAoHkdaVyImSsFeIBOS5FlM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-225-veHtaXEKNCGghw2kCszavA-1; Fri, 04 Mar 2022 12:53:08 -0500
-X-MC-Unique: veHtaXEKNCGghw2kCszavA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-575-l0Q08JJQOUynQLWiYrhrXA-1; Fri, 04 Mar 2022 12:55:19 -0500
+X-MC-Unique: l0Q08JJQOUynQLWiYrhrXA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C581801DDC;
- Fri,  4 Mar 2022 17:53:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C021A51DC;
+ Fri,  4 Mar 2022 17:55:18 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 529D5797E4;
- Fri,  4 Mar 2022 17:53:03 +0000 (UTC)
-Date: Fri, 4 Mar 2022 17:53:00 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DF09804D7;
+ Fri,  4 Mar 2022 17:55:12 +0000 (UTC)
+Date: Fri, 4 Mar 2022 17:55:09 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 04/10] python/aqmp: split _client_connected_cb() out as
- _incoming()
-Message-ID: <YiJR/OL2BGngiBWq@redhat.com>
+Subject: Re: [PATCH 05/10] python/aqmp: squelch pylint warning for too many
+ lines
+Message-ID: <YiJSfU74MvklpcFW@redhat.com>
 References: <20220225205948.3693480-1-jsnow@redhat.com>
- <20220225205948.3693480-5-jsnow@redhat.com>
+ <20220225205948.3693480-6-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220225205948.3693480-5-jsnow@redhat.com>
+In-Reply-To: <20220225205948.3693480-6-jsnow@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,18 +92,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 25, 2022 at 03:59:42PM -0500, John Snow wrote:
-> As part of disentangling the monolithic nature of _do_accept(), split
-> out the incoming callback to prepare for factoring out the "wait for a
-> peer" step. Namely, this means using an event signal we can wait on from
-> outside of this method.
+On Fri, Feb 25, 2022 at 03:59:43PM -0500, John Snow wrote:
+> I would really like to keep this under 1000 lines, I promise. Doesn't
+> look like it's gonna happen.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/aqmp/protocol.py | 83 +++++++++++++++++++++++++-----------
->  1 file changed, 58 insertions(+), 25 deletions(-)
+>  python/qemu/aqmp/protocol.py | 3 +++
+>  1 file changed, 3 insertions(+)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+> 
+> diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
+> index 56f05b9030..631bcdaa55 100644
+> --- a/python/qemu/aqmp/protocol.py
+> +++ b/python/qemu/aqmp/protocol.py
+> @@ -10,6 +10,9 @@
+>  class.
+>  """
+>  
+> +# It's all the docstrings ... ! It's long for a good reason ^_^;
+> +# pylint: disable=too-many-lines
+
+Indeed that is a crazy check if it can't be made to only consider
+non-comment lines in its metric.
 
 
 Regards,
