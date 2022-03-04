@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7DF4CD6D2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:54:21 +0100 (CET)
-Received: from localhost ([::1]:42158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8BB4CD6B6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:47:13 +0100 (CET)
+Received: from localhost ([::1]:50586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9K0-0003aZ-3u
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:54:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37062)
+	id 1nQ9D6-0006fj-71
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:47:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nQ8jK-0006Bs-B5
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:16:26 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2334)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nQ8jH-0006Af-3i
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:16:25 -0500
-Received: from fraeml706-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4K98zB0pVZz67NN6;
- Fri,  4 Mar 2022 22:16:06 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml706-chm.china.huawei.com (10.206.15.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.21; Fri, 4 Mar 2022 15:16:19 +0100
-Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.21; Fri, 4 Mar
- 2022 14:16:19 +0000
-Date: Fri, 4 Mar 2022 14:16:18 +0000
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
- .  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
- Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
- Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH v6 22/43] hw/cxl/device: Implement get/set Label Storage
- Area (LSA)
-Message-ID: <20220304141618.00004e79@huawei.com>
-In-Reply-To: <87wnhck6oi.fsf@linaro.org>
-References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
- <20220211120747.3074-23-Jonathan.Cameron@huawei.com>
- <87wnhck6oi.fsf@linaro.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1nQ8mJ-0002KZ-5H; Fri, 04 Mar 2022 09:19:32 -0500
+Received: from [187.72.171.209] (port=12136 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1nQ8mF-0007zF-IB; Fri, 04 Mar 2022 09:19:30 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 4 Mar 2022 11:18:12 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 31CC18001C2;
+ Fri,  4 Mar 2022 11:18:12 -0300 (-03)
+Content-Type: multipart/alternative;
+ boundary="------------JRqF8xnDsBnnuuI5ukTx21Gy"
+Message-ID: <0cf4d2bb-0559-854b-8051-3c391988bc8b@eldorado.org.br>
+Date: Fri, 4 Mar 2022 11:18:11 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhreml706-chm.china.huawei.com (10.201.108.55) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Issue with qemu-system-ppc running OSX guests
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Fabiano Rosas <farosas@linux.ibm.com>
+References: <CABLmASFbowE4Cu8gHk9eD+_h8ZrdupE8MHKAfpW+T8Oe=-3=Wg@mail.gmail.com>
+ <e2dd457d-29b3-32be-72e2-315e686dff69@eik.bme.hu>
+ <CABLmASH5tFs86Dq+1e+ByMF43jZL5UZ7MempVVhtKCwjdpa7aw@mail.gmail.com>
+ <87pmn352q0.fsf@linux.ibm.com>
+ <a3917a31-b899-a289-5102-5b8be20aae27@eldorado.org.br>
+ <7c7b2adb-67e1-26b8-03a3-74f70dc9bc80@kaod.org>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+In-Reply-To: <7c7b2adb-67e1-26b8-03a3-74f70dc9bc80@kaod.org>
+X-OriginalArrivalTime: 04 Mar 2022 14:18:12.0646 (UTC)
+ FILETIME=[AE9AFC60:01D82FD2]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,264 +67,342 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, 02 Mar 2022 10:03:34 +0000
-Alex Benn=E9e <alex.bennee@linaro.org> wrote:
-
-> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
->=20
-> > From: Ben Widawsky <ben.widawsky@intel.com>
-> >
-> > Implement get and set handlers for the Label Storage Area
-> > used to hold data describing persistent memory configuration
-> > so that it can be ensured it is seen in the same configuration
-> > after reboot.
-> >
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---
+This is a multi-part message in MIME format.
+--------------JRqF8xnDsBnnuuI5ukTx21Gy
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-> > +
-> > +static ret_code cmd_ccls_set_lsa(struct cxl_cmd *cmd,
-> > +                                 CXLDeviceState *cxl_dstate,
-> > +                                 uint16_t *len)
-> > +{
-> > +    struct {
-> > +        uint32_t offset;
-> > +        uint32_t rsvd;
-> > +    } __attribute__((packed, __aligned__(8))) *set_lsa =3D (void *)cmd=
-->payload;
-> > +    CXLType3Dev *ct3d =3D container_of(cxl_dstate, CXLType3Dev, cxl_ds=
-tate);
-> > +    CXLType3Class *cvc =3D CXL_TYPE3_DEV_GET_CLASS(ct3d);
-> > +    uint16_t plen =3D *len;
-> > +
-> > +    *len =3D 0;
-> > +    if (!plen) {
-> > +        return CXL_MBOX_SUCCESS;
-> > +    }
-> > +
-> > +    if (set_lsa->offset + plen > cvc->get_lsa_size(ct3d) + sizeof(*set=
-_lsa)) {
-> > +        return CXL_MBOX_INVALID_INPUT;
-> > +    }
-> > +
-> > +    cvc->set_lsa(ct3d, (void *)set_lsa + sizeof(*set_lsa),
-> > +                 plen - sizeof(*set_lsa), set_lsa->offset); =20
->=20
-> All these sizeof's make me wonder if these structures should be public
-> with a #define?=20
-> Failing that having
->=20
->   const size_t lsa_len =3D sizeof(*set_lsa);
+On 04/03/2022 11:07, Cédric Le Goater wrote:
+>
+> On 3/4/22 12:08, Lucas Mateus Martins Araujo e Castro wrote:
+>>
+>> On 02/03/2022 20:55, Fabiano Rosas wrote:
+>>> Howard Spoelstra<hsp.cat7@gmail.com>  writes:
+>>>
+>>>> On Wed, Mar 2, 2022 at 9:11 PM BALATON Zoltan<balaton@eik.bme.hu>  
+>>>> wrote:
+>>>>
+>>>>> On Wed, 2 Mar 2022, Howard Spoelstra wrote:
+>>>>>> Hi all,
+>>>>>>
+>>>>>> I noticed qemu-system-ppc running OSX guests does not get to the 
+>>>>>> desktop
+>>>>> or
+>>>>>> does not display the menu bars.
+>>>>> Cc-ing the relevant people and the PPC list might help, I've added 
+>>>>> them.
+>>>>> Also telling which OSX guest version can reproduce the problem 
+>>>>> could help
+>>>>> debugging. Is it any OSX version?
+>>>>>
+>>>>> Regards,
+>>>>> BALATON Zoltan
+>>>>>
+>>>> Oops, Qemu running on Fedora 35 host,
+>>>> Reproducer:
+>>>>
+>>>> ./qemu-system-ppc \
+>>>> -M mac99 \
+>>>> -m 512 \
+>>>> -L pc-bios \
+>>>> -display sdl -serial stdio \
+>>>> -boot c \
+>>>> -drive file=10.1.img,format=raw,media=disk
+>>>>
+>>>> The issue affects all supported Mac OSX guests: 10.0 to 10.5
+>>> Hi Howard,
+>>>
+>>> Thanks for bisecting this. It seems we inadvertently marked some of the
+>>> Vector Multiply instructions to be ISA v2.07 only.
+>>>
+>>> I can boot Mac OSX 10.4 until the desktop with this fix:
+>>>
+>>> diff --git a/target/ppc/translate/vmx-impl.c.inc 
+>>> b/target/ppc/translate/vmx-impl.c.inc
+>>> index f91bee839d..c5d02d13fe 100644
+>>> --- a/target/ppc/translate/vmx-impl.c.inc
+>>> +++ b/target/ppc/translate/vmx-impl.c.inc
+>>> @@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext *ctx, 
+>>> arg_VX *a)
+>>>       return true;
+>>>   }
+>>>
+>>> -TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
+>>> -TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
+>>> -TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
+>>> -TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
+>>> -TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
+>>> -TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
+>>> -TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
+>>> -TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
+>>> +TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper, gen_helper_VMULESB)
+>>> +TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
+>>> +TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
+>>> +TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
+>>> +TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper, gen_helper_VMULESH)
+>>> +TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
+>>> +TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
+>>> +TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
+>>>   TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
+>>>   TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
+>>>   TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
+>>> ---
+>>>
+>>> I'll let Lucas comment on it and we can send a proper patch in the
+>>> morning.
+>>
+>> Checking here it seems I misread the PowerISA appendix and marked 
+>> these instructions (vmul[eo].[bh]) as v2.07 even though they are v2.03.
+>>
+>> This patch seems to correct it and checking here the newer 
+>> instructions are correct (v2.07 for vmul[eo].w and v3.1 for 
+>> vmul[eo].d), so
+>>
+>> Reviewed-by: Lucas Mateus Castro<lucas.araujo@eldorado.org.br>
+>
+>
+> Could you please send a proper patch ? The above was given as an example.
+>
+> Thanks,
+>
+> C.
+>
+Yes, this will be added as a proper patch to the fix up patches Matheus 
+will send later.
 
-The naming of such a variable is a bit complex and I think perhaps
-we are better off using a 0 length data[] element after the header
-and then offsetof() to compute the header length.
+-- 
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+--------------JRqF8xnDsBnnuuI5ukTx21Gy
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-So (with the addition of some renames that hopefully make things clearer)
-something like (on top of changes as a result of earlier review comments):
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 04/03/2022 11:07, Cédric Le Goater
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:7c7b2adb-67e1-26b8-03a3-74f70dc9bc80@kaod.org">
+      <br>
+      On 3/4/22 12:08, Lucas Mateus Martins Araujo e Castro wrote:
+      <br>
+      <blockquote type="cite">
+        <br>
+        On 02/03/2022 20:55, Fabiano Rosas wrote:
+        <br>
+        <blockquote type="cite">Howard
+          Spoelstra<a class="moz-txt-link-rfc2396E" href="mailto:hsp.cat7@gmail.com">&lt;hsp.cat7@gmail.com&gt;</a>  writes:
+          <br>
+          <br>
+          <blockquote type="cite">On Wed, Mar 2, 2022 at 9:11 PM BALATON
+            Zoltan<a class="moz-txt-link-rfc2396E" href="mailto:balaton@eik.bme.hu">&lt;balaton@eik.bme.hu&gt;</a>  wrote:
+            <br>
+            <br>
+            <blockquote type="cite">On Wed, 2 Mar 2022, Howard Spoelstra
+              wrote:
+              <br>
+              <blockquote type="cite">Hi all,
+                <br>
+                <br>
+                I noticed qemu-system-ppc running OSX guests does not
+                get to the desktop
+                <br>
+              </blockquote>
+              or
+              <br>
+              <blockquote type="cite">does not display the menu bars.
+                <br>
+              </blockquote>
+              Cc-ing the relevant people and the PPC list might help,
+              I've added them.
+              <br>
+              Also telling which OSX guest version can reproduce the
+              problem could help
+              <br>
+              debugging. Is it any OSX version?
+              <br>
+              <br>
+              Regards,
+              <br>
+              BALATON Zoltan
+              <br>
+              <br>
+            </blockquote>
+            Oops, Qemu running on Fedora 35 host,
+            <br>
+            Reproducer:
+            <br>
+            <br>
+            ./qemu-system-ppc \
+            <br>
+            -M mac99 \
+            <br>
+            -m 512 \
+            <br>
+            -L pc-bios \
+            <br>
+            -display sdl -serial stdio \
+            <br>
+            -boot c \
+            <br>
+            -drive file=10.1.img,format=raw,media=disk
+            <br>
+            <br>
+            The issue affects all supported Mac OSX guests: 10.0 to 10.5
+            <br>
+          </blockquote>
+          Hi Howard,
+          <br>
+          <br>
+          Thanks for bisecting this. It seems we inadvertently marked
+          some of the
+          <br>
+          Vector Multiply instructions to be ISA v2.07 only.
+          <br>
+          <br>
+          I can boot Mac OSX 10.4 until the desktop with this fix:
+          <br>
+          <br>
+          diff --git a/target/ppc/translate/vmx-impl.c.inc
+          b/target/ppc/translate/vmx-impl.c.inc
+          <br>
+          index f91bee839d..c5d02d13fe 100644
+          <br>
+          --- a/target/ppc/translate/vmx-impl.c.inc
+          <br>
+          +++ b/target/ppc/translate/vmx-impl.c.inc
+          <br>
+          @@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext
+          *ctx, arg_VX *a)
+          <br>
+                return true;
+          <br>
+            }
+          <br>
+          <br>
+          -TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper,
+          gen_helper_VMULESB)
+          <br>
+          -TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper,
+          gen_helper_VMULOSB)
+          <br>
+          -TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper,
+          gen_helper_VMULEUB)
+          <br>
+          -TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper,
+          gen_helper_VMULOUB)
+          <br>
+          -TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper,
+          gen_helper_VMULESH)
+          <br>
+          -TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper,
+          gen_helper_VMULOSH)
+          <br>
+          -TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper,
+          gen_helper_VMULEUH)
+          <br>
+          -TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper,
+          gen_helper_VMULOUH)
+          <br>
+          +TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper,
+          gen_helper_VMULESB)
+          <br>
+          +TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper,
+          gen_helper_VMULOSB)
+          <br>
+          +TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper,
+          gen_helper_VMULEUB)
+          <br>
+          +TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper,
+          gen_helper_VMULOUB)
+          <br>
+          +TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper,
+          gen_helper_VMULESH)
+          <br>
+          +TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper,
+          gen_helper_VMULOSH)
+          <br>
+          +TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper,
+          gen_helper_VMULEUH)
+          <br>
+          +TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper,
+          gen_helper_VMULOUH)
+          <br>
+            TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper,
+          gen_helper_VMULESW)
+          <br>
+            TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper,
+          gen_helper_VMULOSW)
+          <br>
+            TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper,
+          gen_helper_VMULEUW)
+          <br>
+          ---
+          <br>
+          <br>
+          I'll let Lucas comment on it and we can send a proper patch in
+          the
+          <br>
+          morning.
+          <br>
+        </blockquote>
+        <br>
+        Checking here it seems I misread the PowerISA appendix and
+        marked these instructions (vmul[eo].[bh]) as v2.07 even though
+        they are v2.03.
+        <br>
+        <br>
+        This patch seems to correct it and checking here the newer
+        instructions are correct (v2.07 for vmul[eo].w and v3.1 for
+        vmul[eo].d), so
+        <br>
+        <br>
+        Reviewed-by: Lucas Mateus
+        Castro<a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
+        <br>
+      </blockquote>
+      <br>
+      <br>
+      Could you please send a proper patch ? The above was given as an
+      example.
+      <br>
+      <br>
+      Thanks,
+      <br>
+      <br>
+      C.
+      <br>
+      <br>
+    </blockquote>
+    <p>Yes, this will be added as a proper patch to the fix up patches
+      Matheus will send later. <br>
+    </p>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
 
-@@ -357,12 +357,15 @@ static ret_code cmd_ccls_set_lsa(struct cxl_cmd *cmd,
-                                  CXLDeviceState *cxl_dstate,
-                                  uint16_t *len)
- {
--    struct {
-+    struct set_lsa_pl {
-         uint32_t offset;
-         uint32_t rsvd;
--    } QEMU_PACKED QEMU_ALIGNED(8) *set_lsa =3D (void *)cmd->payload;
-+        uint8_t data[];
-+    } QEMU_PACKED;
-+    struct set_lsa_pl *set_lsa_payload =3D (void *)cmd->payload;
-     CXLType3Dev *ct3d =3D container_of(cxl_dstate, CXLType3Dev, cxl_dstate=
-);
-     CXLType3Class *cvc =3D CXL_TYPE3_DEV_GET_CLASS(ct3d);
-+    const size_t hdr_len =3D offsetof(struct set_lsa_pl, data);
-     uint16_t plen =3D *len;
-
-     *len =3D 0;
-@@ -370,12 +373,12 @@ static ret_code cmd_ccls_set_lsa(struct cxl_cmd *cmd,
-         return CXL_MBOX_SUCCESS;
-     }
-
--    if (set_lsa->offset + plen > cvc->get_lsa_size(ct3d) + sizeof(*set_lsa=
-)) {
-+    if (set_lsa_payload->offset + plen > cvc->get_lsa_size(ct3d) + hdr_len=
-) {
-         return CXL_MBOX_INVALID_INPUT;
-     }
-+    plen -=3D hdr_len;
-
--    cvc->set_lsa(ct3d, (void *)set_lsa + sizeof(*set_lsa),
--                 plen - sizeof(*set_lsa), set_lsa->offset);
-+    cvc->set_lsa(ct3d, set_lsa_payload->data, plen, set_lsa_payload->offse=
-t);
-     return CXL_MBOX_SUCCESS;
- }
-
-the aligned marker doesn't make much sense here as we are using
-cmd->payload directly so the compiler doesn't get to mess with the alignment
-anyway.  I've aligned markings from similar places in this patch and others=
-.=20
-
->=20
-> and use that might make the flow a bit easier to scan. That said why
-> isn't set_lsa taking a type of *set_lsa instead of having void casts?
-
-We could do that, but I think the intent here is to separate the particular
-formatting of the set_lsa command from what it is doing which
-is basically a memcpy so needs an src, size and dst offset.
-
-It's a bit messy that the size to be written is implicit so we have to
-extract it from the size of the command message accounting for the
-header.
-
-Hopefully the above changes make that easier to follow?
-
-Thanks,
-
-Jonathan
-
-
->=20
-> > +    return CXL_MBOX_SUCCESS;
-> > +}
-> > +
-> >  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
-> > +#define IMMEDIATE_DATA_CHANGE (1 << 2)
-> >  #define IMMEDIATE_POLICY_CHANGE (1 << 3)
-> >  #define IMMEDIATE_LOG_CHANGE (1 << 4)
-> > =20
-> > @@ -350,6 +404,9 @@ static struct cxl_cmd cxl_cmd_set[256][256] =3D {
-> >          cmd_identify_memory_device, 0, 0 },
-> >      [CCLS][GET_PARTITION_INFO] =3D { "CCLS_GET_PARTITION_INFO",
-> >          cmd_ccls_get_partition_info, 0, 0 },
-> > +    [CCLS][GET_LSA] =3D { "CCLS_GET_LSA", cmd_ccls_get_lsa, 0, 0 },
-> > +    [CCLS][SET_LSA] =3D { "CCLS_SET_LSA", cmd_ccls_set_lsa,
-> > +        ~0, IMMEDIATE_CONFIG_CHANGE | IMMEDIATE_DATA_CHANGE },
-> >  };
-> > =20
-> >  void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-> > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> > index b16262d3cc..b1ba4bf0de 100644
-> > --- a/hw/mem/cxl_type3.c
-> > +++ b/hw/mem/cxl_type3.c
-> > @@ -8,6 +8,7 @@
-> >  #include "qapi/error.h"
-> >  #include "qemu/log.h"
-> >  #include "qemu/module.h"
-> > +#include "qemu/pmem.h"
-> >  #include "qemu/range.h"
-> >  #include "qemu/rcu.h"
-> >  #include "sysemu/hostmem.h"
-> > @@ -114,6 +115,11 @@ static void cxl_setup_memory(CXLType3Dev *ct3d, Er=
-ror **errp)
-> >      memory_region_set_enabled(mr, true);
-> >      host_memory_backend_set_mapped(ct3d->hostmem, true);
-> >      ct3d->cxl_dstate.pmem_size =3D ct3d->hostmem->size;
-> > +
-> > +    if (!ct3d->lsa) {
-> > +        error_setg(errp, "lsa property must be set");
-> > +        return;
-> > +    }
-> >  }
-> > =20
-> > =20
-> > @@ -168,12 +174,58 @@ static Property ct3_props[] =3D {
-> >      DEFINE_PROP_SIZE("size", CXLType3Dev, size, -1),
-> >      DEFINE_PROP_LINK("memdev", CXLType3Dev, hostmem, TYPE_MEMORY_BACKE=
-ND,
-> >                       HostMemoryBackend *),
-> > +    DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
-> > +                     HostMemoryBackend *),
-> >      DEFINE_PROP_END_OF_LIST(),
-> >  };
-> > =20
-> >  static uint64_t get_lsa_size(CXLType3Dev *ct3d)
-> >  {
-> > -    return 0;
-> > +    MemoryRegion *mr;
-> > +
-> > +    mr =3D host_memory_backend_get_memory(ct3d->lsa);
-> > +    return memory_region_size(mr);
-> > +}
-> > +
-> > +static void validate_lsa_access(MemoryRegion *mr, uint64_t size,
-> > +                                uint64_t offset)
-> > +{
-> > +    assert(offset + size <=3D memory_region_size(mr));
-> > +    assert(offset + size > offset);
-> > +}
-> > +
-> > +static uint64_t get_lsa(CXLType3Dev *ct3d, void *buf, uint64_t size,
-> > +                    uint64_t offset)
-> > +{
-> > +    MemoryRegion *mr;
-> > +    void *lsa;
-> > +
-> > +    mr =3D host_memory_backend_get_memory(ct3d->lsa);
-> > +    validate_lsa_access(mr, size, offset);
-> > +
-> > +    lsa =3D memory_region_get_ram_ptr(mr) + offset;
-> > +    memcpy(buf, lsa, size);
-> > +
-> > +    return size;
-> > +}
-> > +
-> > +static void set_lsa(CXLType3Dev *ct3d, const void *buf, uint64_t size,
-> > +                    uint64_t offset)
-> > +{
-> > +    MemoryRegion *mr;
-> > +    void *lsa;
-> > +
-> > +    mr =3D host_memory_backend_get_memory(ct3d->lsa);
-> > +    validate_lsa_access(mr, size, offset);
-> > +
-> > +    lsa =3D memory_region_get_ram_ptr(mr) + offset;
-> > +    memcpy(lsa, buf, size);
-> > +    memory_region_set_dirty(mr, offset, size);
-> > +
-> > +    /*
-> > +     * Just like the PMEM, if the guest is not allowed to exit gracefu=
-lly, label
-> > +     * updates will get lost.
-> > +     */
-> >  }
-> > =20
-> >  static void ct3_class_init(ObjectClass *oc, void *data)
-> > @@ -194,6 +246,8 @@ static void ct3_class_init(ObjectClass *oc, void *d=
-ata)
-> >      device_class_set_props(dc, ct3_props);
-> > =20
-> >      cvc->get_lsa_size =3D get_lsa_size;
-> > +    cvc->get_lsa =3D get_lsa;
-> > +    cvc->set_lsa =3D set_lsa;
-> >  }
-> > =20
-> >  static const TypeInfo ct3d_info =3D {
-> > diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> > index ebb391153a..43908f161b 100644
-> > --- a/include/hw/cxl/cxl_device.h
-> > +++ b/include/hw/cxl/cxl_device.h
-> > @@ -257,6 +257,11 @@ struct CXLType3Class {
-> > =20
-> >      /* public */
-> >      uint64_t (*get_lsa_size)(CXLType3Dev *ct3d);
-> > +
-> > +    uint64_t (*get_lsa)(CXLType3Dev *ct3d, void *buf, uint64_t size,
-> > +                        uint64_t offset);
-> > +    void (*set_lsa)(CXLType3Dev *ct3d, const void *buf, uint64_t size,
-> > +                    uint64_t offset);
-> >  };
-> > =20
-> >  #endif =20
->=20
->=20
-
+--------------JRqF8xnDsBnnuuI5ukTx21Gy--
 
