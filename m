@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90164CD649
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:25:11 +0100 (CET)
-Received: from localhost ([::1]:52962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EA74CD651
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:27:35 +0100 (CET)
+Received: from localhost ([::1]:60760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ8rm-0003YI-S3
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:25:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56836)
+	id 1nQ8u5-0000YN-42
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:27:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8BG-0003e5-Pb
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:41:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34410)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8BP-0003jw-Lx
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:41:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8BE-000189-KH
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:41:13 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8BM-00018r-7J
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:41:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646401272;
+ s=mimecast20190719; t=1646401278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IjGfq51R1V+EiuJTNpSRpX5c6IUrfGMgpNpMM4jK+NE=;
- b=NmhZkKIK+FdZXE9AXLvuGkbd9SEH/p8wff8hCUmImtvsPxrJXwPPkmNhUzXqocPa8SZie4
- oc5R7HDBGNi4b2KcDWMpRA/ota+L0XzckrfZAsteQlYSIMYXilXFqyJSiBSzi75U0/MRue
- xr/aFAZjd6BzJKCByvyG5BW/6olT04s=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5b8reuTHyuhMIH4vmrxET5yF+Z8FE8Jp8knp1f17Abw=;
+ b=E0GSCZRyPCSFNII7awrOtj/wAwfcVCF7C+wO8fqXPwBErXtQWP9xfs7xtLLI3fdUaQ938R
+ DVxdciZNlZaJ3MPqelOkQlJUUTjg5nf6hOynjad0/aEfD+YHjl9XaZEmjynEOi3RPe5eM3
+ Y6xCtML6qRTKesJP5AbUbR6lzqtBCyk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-208-sNrB0LBzMte7t8YuX6h10A-1; Fri, 04 Mar 2022 08:41:11 -0500
-X-MC-Unique: sNrB0LBzMte7t8YuX6h10A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- k20-20020adfc714000000b001e305cd1597so3380493wrg.19
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:41:10 -0800 (PST)
+ us-mta-344-FYBwalFnPQ2DluIUzRvz6g-1; Fri, 04 Mar 2022 08:41:18 -0500
+X-MC-Unique: FYBwalFnPQ2DluIUzRvz6g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ f24-20020a1c6a18000000b00388874b17a8so1034893wmc.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:41:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=IjGfq51R1V+EiuJTNpSRpX5c6IUrfGMgpNpMM4jK+NE=;
- b=A3O0ENmbTFW3NMsNgVXQq1u5ImpFfPrcdHs1yKMBdOVeKdcZR6a3mYmizi9aXc/Rc6
- IwahAsw4huJw9TZzwNDkWU5jgbDKdEO6CX5bOYo9iP47uXEvq24kTuUU40I3QfqvzPHi
- y6CH/Bubx9NdXg6O2X8x5wc7v1GgRIFG1l2JiLBKfEw5jn6l/Ddf9HhzvjRg60NUZzoH
- BumgGdoVc5SpLT50b3hdkEHy9iH3r0njkBzYLSRgqyzWWgirrOSzqeuwlRvMgxVOaseh
- 9xF0ZAOJJAG7NLt0wOIA7uD1WrL5g/6VbrCnu5c7/lAPraa2t3eeT1k0ckB04Wair15A
- vNhQ==
-X-Gm-Message-State: AOAM530KaKzl7NqJDZ49ELzYbzsHBZ2pxoiZ+vPcDT71zrAsDbHQfdyN
- kBHbCZrUFdq3XIIz0k5Dk7MqNcqoNBqKYhAXwXh3aTLCb22RdJA2gmhkempqeEDBEBnjTEABDrj
- b61Q7eCwFUbrJPu41vaBXUTAzKmeSnlKZiiEKXEIIrgbYy3P+6RScUCOhG6rS
-X-Received: by 2002:a5d:49c9:0:b0:1f0:16b2:584f with SMTP id
- t9-20020a5d49c9000000b001f016b2584fmr12786168wrs.710.1646401269435; 
- Fri, 04 Mar 2022 05:41:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvGi8Kj34zlRu0108In8y75wMRsVmnGZ7fZ04ArfhjN4EA7K2hvqi6uWNWhgJXSCExVaSVww==
-X-Received: by 2002:a5d:49c9:0:b0:1f0:16b2:584f with SMTP id
- t9-20020a5d49c9000000b001f016b2584fmr12786143wrs.710.1646401269149; 
- Fri, 04 Mar 2022 05:41:09 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=5b8reuTHyuhMIH4vmrxET5yF+Z8FE8Jp8knp1f17Abw=;
+ b=1GoU5DwDm7FrD5zkeO7Pb0s2UhFNNjbDxL13Nc9MD0t+AxobHeEEA0q9jbo7rJnqQx
+ CIO4g/qNaJH19Pvu2FExYdmhG0pg5ESC3xTwE4nxSdZc86i3eWWAj6sf4OWovgGz90QG
+ AFXoFuqLxdB6llQcNheyEXV0sqN8DDj4AhzkFvh4IwRwSDYfUZpmIptr+lc9oSn/jZcL
+ ZUm1RmCdwNq7xcI79JnMrBiZIwCH26QvHt6IghBohR1R6gg2wNUDQWZdQwKm7KnAx7n+
+ 5E8wFb5Wi81gnalB8zJc9U6UB1jDsMgH2H6D6f6zMyrcNQSKzkcc/7H7D4pNpyHhA4U/
+ bQOg==
+X-Gm-Message-State: AOAM531bgnOd2Jew8Tbh3PBtZ16bIYJ8kAydb10LYhMl2VgEg5eOWUR6
+ upbBGbPqqai/NBW8DtBs53tLH1u+b4YEYopvDkRZ3sMR9nwUMsgRak7OwJ+DMTCYreO8mL89zOQ
+ Y/5Ha0FCkYCSfO3SJNAHp9CK8KyoZV5PERZLMQ/MonbO+5yDZyViBRPKI8WnY
+X-Received: by 2002:a5d:6481:0:b0:1f0:46c3:e6f with SMTP id
+ o1-20020a5d6481000000b001f046c30e6fmr8270180wri.692.1646401276539; 
+ Fri, 04 Mar 2022 05:41:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx8XMvLd/36w2Vh04XqP4XSvPBzInan/xFjLPWCX6b5anm6lrvB5ix88Letq4JXX3Lg3FMg2g==
+X-Received: by 2002:a5d:6481:0:b0:1f0:46c3:e6f with SMTP id
+ o1-20020a5d6481000000b001f046c30e6fmr8270166wri.692.1646401276310; 
+ Fri, 04 Mar 2022 05:41:16 -0800 (PST)
 Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- l1-20020a05600c4f0100b00387369f380bsm5562882wmq.41.2022.03.04.05.41.03
+ l15-20020a05600c4f0f00b0037d62a899b1sm4974710wmq.6.2022.03.04.05.41.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 05:41:04 -0800 (PST)
-Date: Fri, 4 Mar 2022 08:41:02 -0500
+ Fri, 04 Mar 2022 05:41:13 -0800 (PST)
+Date: Fri, 4 Mar 2022 08:41:09 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/45] pcie: Add 1.2 version token for the Power Management
- Capability
-Message-ID: <20220304133556.233983-32-mst@redhat.com>
+Subject: [PULL 32/45] pci-bridge/xio3130_upstream: Fix error handling
+Message-ID: <20220304133556.233983-33-mst@redhat.com>
 References: <20220304133556.233983-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220304133556.233983-1-mst@redhat.com>
@@ -76,9 +73,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -102,31 +98,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Signed-off-by: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
-Message-Id: <20220217174504.1051716-5-lukasz.maniak@linux.intel.com>
+Goto label is incorrect so msi cleanup would not occur if there is
+an error in the ssvid initialization.
+
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Message-Id: <20220218102303.7061-1-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pci_regs.h | 1 +
- 1 file changed, 1 insertion(+)
+ hw/pci-bridge/xio3130_upstream.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/pci/pci_regs.h b/include/hw/pci/pci_regs.h
-index 77ba64b931..a590140962 100644
---- a/include/hw/pci/pci_regs.h
-+++ b/include/hw/pci/pci_regs.h
-@@ -4,5 +4,6 @@
- #include "standard-headers/linux/pci_regs.h"
+diff --git a/hw/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/xio3130_upstream.c
+index 5cd3af4fbc..5ff46ef050 100644
+--- a/hw/pci-bridge/xio3130_upstream.c
++++ b/hw/pci-bridge/xio3130_upstream.c
+@@ -75,7 +75,7 @@ static void xio3130_upstream_realize(PCIDevice *d, Error **errp)
+                                XIO3130_SSVID_SVID, XIO3130_SSVID_SSID,
+                                errp);
+     if (rc < 0) {
+-        goto err_bridge;
++        goto err_msi;
+     }
  
- #define  PCI_PM_CAP_VER_1_1     0x0002  /* PCI PM spec ver. 1.1 */
-+#define  PCI_PM_CAP_VER_1_2     0x0003  /* PCI PM spec ver. 1.2 */
- 
- #endif
+     rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_UPSTREAM,
 -- 
 MST
 
