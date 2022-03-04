@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294E64CDFAD
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:20:23 +0100 (CET)
-Received: from localhost ([::1]:55306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7D24CDFAE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:21:32 +0100 (CET)
+Received: from localhost ([::1]:58358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQFLa-00064F-98
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:20:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51446)
+	id 1nQFMh-00086n-I8
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:21:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nQFJG-0003lp-MF
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:17:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52092)
+ id 1nQFK3-0005Gq-DL
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:18:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nQFJF-0003tF-2p
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:17:58 -0500
+ id 1nQFK1-0004PO-Fv
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:18:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646428676;
+ s=mimecast20190719; t=1646428724;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q9JqBmH5jedqY3XRegXXeIek88/T3PWR7yNydAxbEXM=;
- b=CPHNVQXcYHWbSUZ0bGxnc9Bn+bXHlQsMkHEUC/sVOh4nJJQkgDEhhD5Y61yigwP20QdVgb
- 7tXA9zUnJSmMvn/0D69pDvq9s15fYGJgtCt8LycVcc2RiRPM9xQegLZ3oZpAfzxxOvNQVv
- XdCM1DIPvFDjrx3PCv5lgdTuOeN+Pgg=
+ bh=w3yBPbEwewNRIoHAfMrQWAjYj8q6KmEOJKAkIuj44b4=;
+ b=ErI3ugOnFyz4M1PhzepFqVEbIi2XPsYYnW/ut+a1fpp+YLi3Av/9uz7phlnAHydcAFjSx/
+ H2i044KBxL8fVIfvDqFdCD1+fjzqY1qBgDb9V3BjvzXL8bPcyU8rSn9xgUMqJqd9eK/1fx
+ lgrXTURwn1mGO3AVEnvdCF0RT4A8uXY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-505S_b0FPByh8BuumSbk7g-1; Fri, 04 Mar 2022 16:17:55 -0500
-X-MC-Unique: 505S_b0FPByh8BuumSbk7g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-104-fj7Umj0uNdySNIcDzkO04A-1; Fri, 04 Mar 2022 16:18:41 -0500
+X-MC-Unique: fj7Umj0uNdySNIcDzkO04A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7367180FD73;
- Fri,  4 Mar 2022 21:17:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3E261006AA5;
+ Fri,  4 Mar 2022 21:18:39 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B1BFA610F3;
- Fri,  4 Mar 2022 21:17:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0553F6B8EA;
+ Fri,  4 Mar 2022 21:17:57 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] qga: replace qemu_gettimeofday() with g_get_real_time()
-Date: Sat,  5 Mar 2022 01:16:16 +0400
-Message-Id: <20220304211618.3715999-4-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 4/5] Replace qemu_gettimeofday() with g_get_real_time()
+Date: Sat,  5 Mar 2022 01:16:17 +0400
+Message-Id: <20220304211618.3715999-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20220304211618.3715999-1-marcandre.lureau@redhat.com>
 References: <20220304211618.3715999-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -99,82 +99,222 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 GLib g_get_real_time() is an alternative to gettimeofday() which allows
 to simplify our code.
 
+For semihosting, a few bits are lost on POSIX host, but this shouldn't
+be a big concern.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- qga/commands-posix.c | 14 --------------
- qga/commands-win32.c | 19 -------------------
- qga/commands.c       |  5 +++++
- 3 files changed, 5 insertions(+), 33 deletions(-)
+ blockdev.c                 |  8 ++++----
+ hw/rtc/m41t80.c            |  6 +++---
+ hw/virtio/virtio-balloon.c |  9 +--------
+ qapi/qmp-event.c           | 12 +++++-------
+ qemu-img.c                 |  8 ++++----
+ target/m68k/m68k-semi.c    | 22 ++++++++++------------
+ target/nios2/nios2-semi.c  | 23 ++++++++++-------------
+ 7 files changed, 37 insertions(+), 51 deletions(-)
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 75dbaab68ea9..1e7b4656edd1 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -136,20 +136,6 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
-     /* succeeded */
- }
- 
--int64_t qmp_guest_get_time(Error **errp)
--{
--   int ret;
--   qemu_timeval tq;
--
--   ret = qemu_gettimeofday(&tq);
--   if (ret < 0) {
--       error_setg_errno(errp, errno, "Failed to get time");
--       return -1;
--   }
--
--   return tq.tv_sec * 1000000000LL + tq.tv_usec * 1000;
--}
--
- void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
+diff --git a/blockdev.c b/blockdev.c
+index 42e098b458b1..4b07dbfbdefc 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1235,7 +1235,7 @@ static void internal_snapshot_prepare(BlkActionState *common,
+     BlockDriverState *bs;
+     QEMUSnapshotInfo old_sn, *sn;
+     bool ret;
+-    qemu_timeval tv;
++    int64_t rt;
+     BlockdevSnapshotInternal *internal;
+     InternalSnapshotState *state;
+     AioContext *aio_context;
+@@ -1305,9 +1305,9 @@ static void internal_snapshot_prepare(BlkActionState *common,
+     /* 3. take the snapshot */
+     sn = &state->sn;
+     pstrcpy(sn->name, sizeof(sn->name), name);
+-    qemu_gettimeofday(&tv);
+-    sn->date_sec = tv.tv_sec;
+-    sn->date_nsec = tv.tv_usec * 1000;
++    rt = g_get_real_time();
++    sn->date_sec = rt / G_USEC_PER_SEC;
++    sn->date_nsec = (rt % G_USEC_PER_SEC) * 1000;
+     sn->vm_clock_nsec = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+     if (replay_mode != REPLAY_MODE_NONE) {
+         sn->icount = replay_get_current_icount();
+diff --git a/hw/rtc/m41t80.c b/hw/rtc/m41t80.c
+index a00971a67e1c..e045c864bb44 100644
+--- a/hw/rtc/m41t80.c
++++ b/hw/rtc/m41t80.c
+@@ -47,7 +47,7 @@ static uint8_t m41t80_recv(I2CSlave *i2c)
  {
-     int ret;
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 4fbbad793f2e..ce0af5ba45fc 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -1751,25 +1751,6 @@ static int64_t filetime_to_ns(const FILETIME *tf)
-             - W32_FT_OFFSET) * 100;
- }
+     M41t80State *s = M41T80(i2c);
+     struct tm now;
+-    qemu_timeval tv;
++    int64_t rt;
  
--int64_t qmp_guest_get_time(Error **errp)
--{
--    SYSTEMTIME ts = {0};
--    FILETIME tf;
+     if (s->addr < 0) {
+         s->addr = 0;
+@@ -57,8 +57,8 @@ static uint8_t m41t80_recv(I2CSlave *i2c)
+     }
+     switch (s->addr++) {
+     case 0:
+-        qemu_gettimeofday(&tv);
+-        return to_bcd(tv.tv_usec / 10000);
++        rt = g_get_real_time();
++        return to_bcd((rt % G_USEC_PER_SEC) / 10000);
+     case 1:
+         return to_bcd(now.tm_sec);
+     case 2:
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index e6c1b0aa46fe..b1bada84cecc 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -452,7 +452,6 @@ static void virtio_balloon_receive_stats(VirtIODevice *vdev, VirtQueue *vq)
+     VirtQueueElement *elem;
+     VirtIOBalloonStat stat;
+     size_t offset = 0;
+-    qemu_timeval tv;
+ 
+     elem = virtqueue_pop(vq, sizeof(VirtQueueElement));
+     if (!elem) {
+@@ -484,13 +483,7 @@ static void virtio_balloon_receive_stats(VirtIODevice *vdev, VirtQueue *vq)
+             s->stats[tag] = val;
+     }
+     s->stats_vq_offset = offset;
 -
--    GetSystemTime(&ts);
--    if (ts.wYear < 1601 || ts.wYear > 30827) {
--        error_setg(errp, "Failed to get time");
--        return -1;
+-    if (qemu_gettimeofday(&tv) < 0) {
+-        warn_report("%s: failed to get time of day", __func__);
+-        goto out;
 -    }
 -
--    if (!SystemTimeToFileTime(&ts, &tf)) {
--        error_setg(errp, "Failed to convert system time: %d", (int)GetLastError());
--        return -1;
--    }
--
--    return filetime_to_ns(&tf);
--}
--
- void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
- {
-     Error *local_err = NULL;
-diff --git a/qga/commands.c b/qga/commands.c
-index 80501e4a737c..653ba3061e24 100644
---- a/qga/commands.c
-+++ b/qga/commands.c
-@@ -585,3 +585,8 @@ GuestFileRead *qmp_guest_file_read(int64_t handle, bool has_count,
+-    s->stats_last_update = tv.tv_sec;
++    s->stats_last_update = g_get_real_time() / G_USEC_PER_SEC;
  
-     return read_data;
+ out:
+     if (balloon_stats_enabled(s)) {
+diff --git a/qapi/qmp-event.c b/qapi/qmp-event.c
+index 19d3cd003833..025716b3ec37 100644
+--- a/qapi/qmp-event.c
++++ b/qapi/qmp-event.c
+@@ -20,15 +20,13 @@
+ 
+ static void timestamp_put(QDict *qdict)
+ {
+-    int err;
+     QDict *ts;
+-    qemu_timeval tv;
++    int64_t rt = g_get_real_time();
+ 
+-    err = qemu_gettimeofday(&tv);
+-    /* Put -1 to indicate failure of getting host time */
+-    ts = qdict_from_jsonf_nofail("{ 'seconds': %lld, 'microseconds': %lld }",
+-                                 err < 0 ? -1LL : (long long)tv.tv_sec,
+-                                 err < 0 ? -1LL : (long long)tv.tv_usec);
++    ts = qdict_from_jsonf_nofail("{ 'seconds': %" G_GINT64_FORMAT
++                                 ", 'microseconds': %" G_GINT64_FORMAT "}",
++                                 rt / G_USEC_PER_SEC,
++                                 rt % G_USEC_PER_SEC);
+     qdict_put(qdict, "timestamp", ts);
  }
-+
-+int64_t qmp_guest_get_time(Error **errp)
-+{
-+    return g_get_real_time() * 1000;
-+}
+ 
+diff --git a/qemu-img.c b/qemu-img.c
+index 6fe2466032f9..e26773909684 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -3304,11 +3304,11 @@ static int img_snapshot(int argc, char **argv)
+     char *filename, *snapshot_name = NULL;
+     int c, ret = 0, bdrv_oflags;
+     int action = 0;
+-    qemu_timeval tv;
+     bool quiet = false;
+     Error *err = NULL;
+     bool image_opts = false;
+     bool force_share = false;
++    int64_t rt;
+ 
+     bdrv_oflags = BDRV_O_RDWR;
+     /* Parse commandline parameters */
+@@ -3405,9 +3405,9 @@ static int img_snapshot(int argc, char **argv)
+         memset(&sn, 0, sizeof(sn));
+         pstrcpy(sn.name, sizeof(sn.name), snapshot_name);
+ 
+-        qemu_gettimeofday(&tv);
+-        sn.date_sec = tv.tv_sec;
+-        sn.date_nsec = tv.tv_usec * 1000;
++        rt = g_get_real_time();
++        sn.date_sec = rt / G_USEC_PER_SEC;
++        sn.date_nsec = (rt % G_USEC_PER_SEC) * 1000;
+ 
+         ret = bdrv_snapshot_create(bs, &sn);
+         if (ret) {
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index c5c164e096c8..37343d47e247 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -378,19 +378,17 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+                            arg0, arg1);
+             return;
+         } else {
+-            qemu_timeval tv;
+             struct gdb_timeval *p;
+-            result = qemu_gettimeofday(&tv);
+-            if (result == 0) {
+-                if (!(p = lock_user(VERIFY_WRITE,
+-                                    arg0, sizeof(struct gdb_timeval), 0))) {
+-                    /* FIXME - check error code? */
+-                    result = -1;
+-                } else {
+-                    p->tv_sec = cpu_to_be32(tv.tv_sec);
+-                    p->tv_usec = cpu_to_be64(tv.tv_usec);
+-                    unlock_user(p, arg0, sizeof(struct gdb_timeval));
+-                }
++            int64_t rt = g_get_real_time();
++            p = lock_user(VERIFY_WRITE, arg0, sizeof(struct gdb_timeval), 0);
++            if (!p) {
++                /* FIXME - check error code? */
++                result = -1;
++            } else {
++                result = 0;
++                p->tv_sec = cpu_to_be32(rt / G_USEC_PER_SEC);
++                p->tv_usec = cpu_to_be64(rt % G_USEC_PER_SEC);
++                unlock_user(p, arg0, sizeof(struct gdb_timeval));
+             }
+         }
+         break;
+diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+index 5a7ad0c7108d..3decf6924c8f 100644
+--- a/target/nios2/nios2-semi.c
++++ b/target/nios2/nios2-semi.c
+@@ -400,20 +400,17 @@ void do_nios2_semihosting(CPUNios2State *env)
+                            arg0, 0);
+             return;
+         } else {
+-            qemu_timeval tv;
+             struct gdb_timeval *p;
+-            result = qemu_gettimeofday(&tv);
+-            if (result == 0) {
+-                p = lock_user(VERIFY_WRITE, arg0, sizeof(struct gdb_timeval),
+-                              0);
+-                if (!p) {
+-                    result = -1;
+-                    errno = EFAULT;
+-                } else {
+-                    p->tv_sec = cpu_to_be32(tv.tv_sec);
+-                    p->tv_usec = cpu_to_be64(tv.tv_usec);
+-                    unlock_user(p, arg0, sizeof(struct gdb_timeval));
+-                }
++            int64_t rt = g_get_real_time();
++            p = lock_user(VERIFY_WRITE, arg0, sizeof(struct gdb_timeval), 0);
++            if (!p) {
++                result = -1;
++                errno = EFAULT;
++            } else {
++                result = 0;
++                p->tv_sec = cpu_to_be32(rt / G_USEC_PER_SEC);
++                p->tv_usec = cpu_to_be64(rt % G_USEC_PER_SEC);
++                unlock_user(p, arg0, sizeof(struct gdb_timeval));
+             }
+         }
+         break;
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
