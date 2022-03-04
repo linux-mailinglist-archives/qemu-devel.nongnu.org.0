@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9711E4CD571
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:48:09 +0100 (CET)
-Received: from localhost ([::1]:42240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3B74CD593
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:54:33 +0100 (CET)
+Received: from localhost ([::1]:59242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ8Hw-0003ju-Ci
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:48:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53296)
+	id 1nQ8O8-0007aN-IE
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:54:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nQ7z0-000491-VE; Fri, 04 Mar 2022 08:28:34 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:46433)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nQ81N-0006JA-Ur
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:31:03 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nQ7yz-0007Ew-DO; Fri, 04 Mar 2022 08:28:34 -0500
-Received: from [192.168.100.1] ([82.142.8.122]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MumVX-1oGqr71ijr-00rpJu; Fri, 04 Mar 2022 14:28:14 +0100
-Message-ID: <8678251d-1203-71dc-3fd3-8be0377477d9@vivier.eu>
-Date: Fri, 4 Mar 2022 14:28:13 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nQ81L-0007oF-HH
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:31:01 -0500
+Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4K97xc5kwGz67tJb;
+ Fri,  4 Mar 2022 21:29:40 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.21; Fri, 4 Mar 2022 14:30:56 +0100
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.21; Fri, 4 Mar
+ 2022 13:30:55 +0000
+Date: Fri, 4 Mar 2022 13:30:54 +0000
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
+ .  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
+ Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
+ <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v6 21/43] hw/cxl/device: Plumb real Label Storage Area
+ (LSA) sizing
+Message-ID: <20220304133054.000039bd@huawei.com>
+In-Reply-To: <871qzkllj1.fsf@linaro.org>
+References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
+ <20220211120747.3074-22-Jonathan.Cameron@huawei.com>
+ <871qzkllj1.fsf@linaro.org>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 2/3] tests/tcg/ppc64le: change signal_save_restore_xer
- to use SIGTRAP
-Content-Language: fr
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220113170456.1796911-1-matheus.ferst@eldorado.org.br>
- <20220113170456.1796911-3-matheus.ferst@eldorado.org.br>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220113170456.1796911-3-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+MUVpmYMTU2Gk9maH8b1i3QkF3bw1DMktga7Gyen6KP4Uc0aVs+
- AR4SL0bZqaTV4x60NniDfpQTBEnuha52cgMMTzklrzgdeyxxqc06h4oXvtXRF57X3ruQt1u
- PBTdzPHDVg4GXxy8sOLsEyITXwNEEdApvE/cldCMc+qeaIr783vg4CiQWPqWsHHexES5w2W
- EWtFSL5nFCQrPYIsUV97w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IroqrOCZS/c=:P0dT8wI06SUM2mn6LJRBBG
- k8YR2FOQa1v9CciOGWDDqrnY0Rh9BStalkKEMskE1fR2WykMR/u4l0K3ujYyx7jCRWfCJlGzx
- 9TjPYy9DyUjrSzjjPxBIc5gFq+ZONsoWz7cgtd90Gl4N1MAjRUdeyMax1RW1pGrN3ca0Xn2y8
- HbGK7huc3HSr4beVYsaumINjWwnVZ8DiW5q76PeIkQpO1eDw4U7TNa1IcDBxAA/6KSvNR2bdE
- sX7DU0hdKPl+/FEW2oqx4WPlGLgwpSfTSB8A0XqgRCozU5lCIzi4mu7YjUn2rcagdZHdBrIBn
- QmVCwi0NO16QS+bAae8ODqN+UM9Y8NigW59KssL970N9f6iOu0vIuTVtMxPVTHT3IJXcXzFXH
- QOdP3qjNAgZGvwQN3pLemnGa3shBt9nsWVax1Qwi23VxYRZGEqWx488MNI3TgrMWS3cDqYu+G
- 4ZfAIZqa8yBAM8jQGZqLE7OALVsb6W9kWwnOm6GNZUrUKkDmZJ4kfr+AlW/t0N7oCWOb2Whmt
- NgMechE0hzUmdnlzrlR7qNdtT2Q8GobUsWBpKV4ZTXqf9IGsCGLvoTuGJZSOXgfpdEusdr2ml
- W38SZon4E+UkbQ+f7wPKZHUrF83A6+RMTQBYfWl10YK7x0DJ2x/nh9T5F5RBX/2gnFGNSsb6O
- 1yMo4beo4XxPpDDkUYfGA9bJ0LjEftLCHB6RdzJkOuFZP3lQuoPWNxP3Vz7adcOqbByI=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml706-chm.china.huawei.com (10.201.108.55) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,59 +77,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, richard.henderson@linaro.org,
- clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-Le 13/01/2022 à 18:04, matheus.ferst@eldorado.org.br a écrit :
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> 
-> Now that linux-user delivers the signal on tw, we can change
-> signal_save_restore_xer to use SIGTRAP instead of SIGILL.
-> 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
->   tests/tcg/ppc64le/signal_save_restore_xer.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tests/tcg/ppc64le/signal_save_restore_xer.c b/tests/tcg/ppc64le/signal_save_restore_xer.c
-> index e4f8a07dd7..9227f4f455 100644
-> --- a/tests/tcg/ppc64le/signal_save_restore_xer.c
-> +++ b/tests/tcg/ppc64le/signal_save_restore_xer.c
-> @@ -11,7 +11,7 @@
->   
->   uint64_t saved;
->   
-> -void sigill_handler(int sig, siginfo_t *si, void *ucontext)
-> +void sigtrap_handler(int sig, siginfo_t *si, void *ucontext)
->   {
->       ucontext_t *uc = ucontext;
->       uc->uc_mcontext.regs->nip += 4;
-> @@ -23,14 +23,14 @@ int main(void)
->   {
->       uint64_t initial = XER_CA | XER_CA32, restored;
->       struct sigaction sa = {
-> -        .sa_sigaction = sigill_handler,
-> +        .sa_sigaction = sigtrap_handler,
->           .sa_flags = SA_SIGINFO
->       };
->   
-> -    sigaction(SIGILL, &sa, NULL);
-> +    sigaction(SIGTRAP, &sa, NULL);
->   
->       asm("mtspr 1, %1\n\t"
-> -        ".long 0x0\n\t"
-> +        "trap\n\t"
->           "mfspr %0, 1\n\t"
->           : "=r" (restored)
->           : "r" (initial));
+On Wed, 02 Mar 2022 10:01:48 +0000
+Alex Benn=E9e <alex.bennee@linaro.org> wrote:
 
-Applied to my linux-user-for-7.0 branch.
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+>=20
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> >
+> > This should introduce no change. Subsequent work will make use of this
+> > new class member.
+> >
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> >  hw/cxl/cxl-mailbox-utils.c  |  3 +++
+> >  hw/mem/cxl_type3.c          | 24 +++++++++---------------
+> >  include/hw/cxl/cxl_device.h | 29 +++++++++++++++++++++++++++++
+> >  3 files changed, 41 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> > index d022711b2a..ccf9c3d794 100644
+> > --- a/hw/cxl/cxl-mailbox-utils.c
+> > +++ b/hw/cxl/cxl-mailbox-utils.c
+> > @@ -278,6 +278,8 @@ static ret_code cmd_identify_memory_device(struct c=
+xl_cmd *cmd,
+> >      } __attribute__((packed)) *id;
+> >      _Static_assert(sizeof(*id) =3D=3D 0x43, "Bad identify size");
+> > =20
+> > +    CXLType3Dev *ct3d =3D container_of(cxl_dstate, CXLType3Dev, cxl_ds=
+tate);
+> > +    CXLType3Class *cvc =3D CXL_TYPE3_DEV_GET_CLASS(ct3d);
+> >      uint64_t size =3D cxl_dstate->pmem_size;
+> > =20
+> >      if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
+> > @@ -292,6 +294,7 @@ static ret_code cmd_identify_memory_device(struct c=
+xl_cmd *cmd,
+> > =20
+> >      id->total_capacity =3D size / (256 << 20);
+> >      id->persistent_capacity =3D size / (256 << 20);
+> > +    id->lsa_size =3D cvc->get_lsa_size(ct3d);
+> > =20
+> >      *len =3D sizeof(*id);
+> >      return CXL_MBOX_SUCCESS;
+> > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> > index da091157f2..b16262d3cc 100644
+> > --- a/hw/mem/cxl_type3.c
+> > +++ b/hw/mem/cxl_type3.c
+> > @@ -13,21 +13,6 @@
+> >  #include "sysemu/hostmem.h"
+> >  #include "hw/cxl/cxl.h"
+> > =20
+> > -typedef struct cxl_type3_dev {
+> > -    /* Private */
+> > -    PCIDevice parent_obj;
+> > -
+> > -    /* Properties */
+> > -    uint64_t size;
+> > -    HostMemoryBackend *hostmem;
+> > -
+> > -    /* State */
+> > -    CXLComponentState cxl_cstate;
+> > -    CXLDeviceState cxl_dstate;
+> > -} CXLType3Dev;
+> > -
+> > -#define CT3(obj) OBJECT_CHECK(CXLType3Dev, (obj), TYPE_CXL_TYPE3_DEV)
+> > - =20
+>=20
+> If the structure had been in the header to start with it would be easier
+> to see the changes added for this bit.
+>=20
 
-Thanks,
-Laurent
+Moved.. One other thing below.
+
+>=20
+> >  static void build_dvsecs(CXLType3Dev *ct3d)
+> >  {
+> >      CXLComponentState *cxl_cstate =3D &ct3d->cxl_cstate;
+> > @@ -186,10 +171,16 @@ static Property ct3_props[] =3D {
+> >      DEFINE_PROP_END_OF_LIST(),
+> >  };
+> > =20
+> > +static uint64_t get_lsa_size(CXLType3Dev *ct3d)
+> > +{
+> > +    return 0;
+> > +}
+> > +
+> >  static void ct3_class_init(ObjectClass *oc, void *data)
+> >  {
+> >      DeviceClass *dc =3D DEVICE_CLASS(oc);
+> >      PCIDeviceClass *pc =3D PCI_DEVICE_CLASS(oc);
+> > +    CXLType3Class *cvc =3D CXL_TYPE3_DEV_CLASS(oc);
+> > =20
+> >      pc->realize =3D ct3_realize;
+> >      pc->class_id =3D PCI_CLASS_STORAGE_EXPRESS;
+> > @@ -201,11 +192,14 @@ static void ct3_class_init(ObjectClass *oc, void =
+*data)
+> >      dc->desc =3D "CXL PMEM Device (Type 3)";
+> >      dc->reset =3D ct3d_reset;
+> >      device_class_set_props(dc, ct3_props);
+> > +
+> > +    cvc->get_lsa_size =3D get_lsa_size;
+> >  }
+> > =20
+> >  static const TypeInfo ct3d_info =3D {
+> >      .name =3D TYPE_CXL_TYPE3_DEV,
+> >      .parent =3D TYPE_PCI_DEVICE,
+> > +    .class_size =3D sizeof(struct CXLType3Class),
+> >      .class_init =3D ct3_class_init,
+> >      .instance_size =3D sizeof(CXLType3Dev),
+> >      .instance_finalize =3D ct3_finalize,
+> > diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> > index 8102d2a813..ebb391153a 100644
+> > --- a/include/hw/cxl/cxl_device.h
+> > +++ b/include/hw/cxl/cxl_device.h
+> > @@ -230,4 +230,33 @@ REG64(CXL_MEM_DEV_STS, 0)
+> >      FIELD(CXL_MEM_DEV_STS, MBOX_READY, 4, 1)
+> >      FIELD(CXL_MEM_DEV_STS, RESET_NEEDED, 5, 3)
+> > =20
+> > +typedef struct cxl_type3_dev {
+> > +    /* Private */
+> > +    PCIDevice parent_obj;
+> > +
+> > +    /* Properties */
+> > +    uint64_t size;
+> > +    HostMemoryBackend *hostmem;
+> > +    HostMemoryBackend *lsa;
+> > +
+> > +    /* State */
+> > +    CXLComponentState cxl_cstate;
+> > +    CXLDeviceState cxl_dstate;
+> > +} CXLType3Dev;
+> > +
+> > +#ifndef TYPE_CXL_TYPE3_DEV
+> > +#define TYPE_CXL_TYPE3_DEV "cxl-type3"
+> > +#endif
+
+I'm not sure why the ifndef is needed. Probably a legacy of some
+refactoring, so I've dropped that and the other definition of this
+in cxl.h
+
+> > +
+> > +#define CT3(obj) OBJECT_CHECK(CXLType3Dev, (obj), TYPE_CXL_TYPE3_DEV)
+> > +OBJECT_DECLARE_TYPE(CXLType3Device, CXLType3Class, CXL_TYPE3_DEV)
+> > +
+> > +struct CXLType3Class {
+> > +    /* Private */
+> > +    PCIDeviceClass parent_class;
+> > +
+> > +    /* public */
+> > +    uint64_t (*get_lsa_size)(CXLType3Dev *ct3d);
+> > +};
+> > +
+> >  #endif =20
+>=20
+>=20
 
 
