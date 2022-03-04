@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A928B4CD6AC
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:44:43 +0100 (CET)
-Received: from localhost ([::1]:47216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 020B14CD6CC
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:53:32 +0100 (CET)
+Received: from localhost ([::1]:39372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9Ag-0004Rg-OM
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:44:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38136)
+	id 1nQ9JC-0001d1-QP
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:53:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8od-0007oc-RE
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:21:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51467)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8oe-0007pW-6K
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:21:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8oa-00007v-42
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:21:53 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8oa-00008c-Lb
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:21:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403711;
+ s=mimecast20190719; t=1646403712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zqNuyc6/1XT7rQYIy8gcLwnJ3QsYqn/+JsrC/zhuMF0=;
- b=I5dp3/M1g0zFMi92MOLAaoXVY2FKhRpvuK3qCjafISwzOW7voH5IddDQLLche4i3OAu/nv
- YYUGMYShj3s/lCUpzkhb0TF+YRjWkXQQ5TkJzSLvZXj28BD2eXgS/J2SaYGF3lo14Ig5OS
- iBbAQcbrJpXPSgOqNGXLeAd4JDpTTMs=
+ bh=PC/TnAgEtZW+A9j9gQ4ee9w9hCyjPbjZ3C8l7vcAV7A=;
+ b=S1EgejLnVDC2a4RX7zvLLKVGxKvoMRA4mNqsAJJO3lr/COKNl1nJUjwHKcn7guRrGu99Mp
+ sfjez0H8xKnX6ien4+RlJlZ66U210I0RWCBdxyBQl7Fs14Utk7+NiTPxaKf4mNbH0XULk0
+ XSbZN23dFW3XeFNQfWtGGa/lm9KKxAs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-52-Mm_ldKa_PPO28EQhXnBbdw-1; Fri, 04 Mar 2022 09:21:48 -0500
-X-MC-Unique: Mm_ldKa_PPO28EQhXnBbdw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-331-nhZ3vlirNZyIN2bziaR5Uw-1; Fri, 04 Mar 2022 09:21:49 -0500
+X-MC-Unique: nhZ3vlirNZyIN2bziaR5Uw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AE99FC81;
- Fri,  4 Mar 2022 14:21:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 592CCFC80;
+ Fri,  4 Mar 2022 14:21:47 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61EB32ED84;
- Fri,  4 Mar 2022 14:21:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 50F807DE5E;
+ Fri,  4 Mar 2022 14:21:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D584C1800386; Fri,  4 Mar 2022 15:21:23 +0100 (CET)
+ id E1A4C1800394; Fri,  4 Mar 2022 15:21:23 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/35] hw/usb: pacify xhciwmi.exe warning
-Date: Fri,  4 Mar 2022 15:20:49 +0100
-Message-Id: <20220304142123.956171-2-kraxel@redhat.com>
+Subject: [PULL 02/35] hw/usb/dev-mtp: create directories with a+x mode mask
+Date: Fri,  4 Mar 2022 15:20:50 +0100
+Message-Id: <20220304142123.956171-3-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,55 +81,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Yan Vugenfirer <yvugenfi@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Thomas Huth <huth@tuxfamily.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Pavel Polozov <pavel.polozov@virtuozzo.com>,
+ =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Denis V. Lunev" <den@openvz.org>
+From: Volker Rümelin <vr_qemu@t-online.de>
 
-xhciwmi.exe is used inside Windows 2022 SVVP tests. This tool called as
-'xhciwmi.exe --verify' reports that 'The firmware loaded on this
-controller has known bugs and/or compatibility issues'. This is just
-a warning but there is no particular sense to ignore it.
+Current code creates directories with mode 0644. Even the creator
+can't create files in the new directory. Set all x mode flags in
+variable mask and clear all x mode flags in function open() to
+preserve the current open mode.
 
-This patch just pacifies the tool.
-
-There is a big question whether this change should be put using
-machine type mechanics, but at my opinion this would be an overkill.
-
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-Tested-by: Pavel Polozov <pavel.polozov@virtuozzo.com>
-CC: Yan Vugenfirer <yvugenfi@redhat.com>
-CC: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Yan Vugenfirer <yvugenfi@redhat.com>
-Message-Id: <20211223095443.130276-1-den@openvz.org>
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+Message-Id: <20220122140619.7514-1-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/hcd-xhci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/usb/dev-mtp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index 14bdb8967686..0cd0a5e54027 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -2523,7 +2523,7 @@ static void xhci_process_commands(XHCIState *xhci)
-         case CR_VENDOR_NEC_FIRMWARE_REVISION:
-             if (xhci->nec_quirks) {
-                 event.type = 48; /* NEC reply */
--                event.length = 0x3025;
-+                event.length = 0x3034;
-             } else {
-                 event.ccode = CC_TRB_ERROR;
+diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
+index 1e6ac76bef9b..e6b77a2a941d 100644
+--- a/hw/usb/dev-mtp.c
++++ b/hw/usb/dev-mtp.c
+@@ -1607,7 +1607,7 @@ static void usb_mtp_write_data(MTPState *s, uint32_t handle)
+         usb_mtp_object_lookup(s, s->dataset.parent_handle);
+     char *path = NULL;
+     uint64_t rc;
+-    mode_t mask = 0644;
++    mode_t mask = 0755;
+     int ret = 0;
+ 
+     assert(d != NULL);
+@@ -1635,7 +1635,7 @@ static void usb_mtp_write_data(MTPState *s, uint32_t handle)
              }
+ 
+             d->fd = open(path, O_CREAT | O_WRONLY |
+-                         O_CLOEXEC | O_NOFOLLOW, mask);
++                         O_CLOEXEC | O_NOFOLLOW, mask & 0666);
+             if (d->fd == -1) {
+                 ret = 1;
+                 goto done;
 -- 
 2.35.1
 
