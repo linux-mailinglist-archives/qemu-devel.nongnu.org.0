@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE584CDB23
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:42:03 +0100 (CET)
-Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C314CDB3A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:46:17 +0100 (CET)
+Received: from localhost ([::1]:54540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQBwI-000669-Nr
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:42:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54704)
+	id 1nQC0N-0002uJ-I2
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:46:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQBEJ-0004AD-IG
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:56:35 -0500
-Received: from [2a00:1450:4864:20::42c] (port=34586
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQBEH-0005y3-9S
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:56:35 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id j26so3219802wrb.1
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 08:56:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lW1wVbIgsonE1ioHNdUsJhPCSbGOTohXZ3VIQkAuHIM=;
- b=ALe1vIe2FO/zXsADzWlLcdY/wtiLdSVpOecrq8OmGic1weMeF7lEnUuyyNeucsVKvM
- MtfRAlTYrrdqxKKINXH30Bt++4Avr4DW0BcsSgzcljYWizON6c0zCNTGOtKn3pq9l1VM
- GhfC2memoEfS3Eahm0XOBEXWv5LnCkmd3V5GWgfGSlreV2WbpLTRqmxDCnCiURnbFL6y
- nd55g87adjsaeMEZxipwP4ifoG8yBtIPSkYOfWimZRVbsRoDJgqCQYl6OWcyFQPvnzwv
- UKZm7y4VqZG1etRyUYMhp89p2MEpIMSFE3VGJ/SD0R31fkRXUj9KDmzLki7Bj33Q0m6l
- z10Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lW1wVbIgsonE1ioHNdUsJhPCSbGOTohXZ3VIQkAuHIM=;
- b=ukPACd4Oa36L00M2mniQrKi0eqf2JiUTqKMsLwwM0Gh99yzNaKQ1Pqu8ixRLzko7Ln
- ikGRAuLwdvHMkcF+8pW85EWtcJ9ZRix8SEwnrdoRgUMLRLSjVZ10+5bLLQeZXHoN4ml7
- JDjF6g1WpPzTqnxVdto9u7ntr0MUfRG8BObnFt5A5q0w+/xsI9wR5gZP43p7y8JfE5Dx
- n1vhvryqQkDdPGXp9TlLZAy3BaJ7jd3OkNhVz6TUeNiADmVXPR4zEMSdo58YPauGTqHz
- gnfyK/HUTdXJNF1BPmSgSAsXY1r66g2DPvvUCQf0pc6l+4/dyndRt+S8wnbMH72xjNBn
- 0AFA==
-X-Gm-Message-State: AOAM533CpJa5oBOeydO1ch5nKUkdxH7bWjWWg5O8VtxvyUqCPWrQEYsr
- Xe/ZmnqV2OyhtrADJom+8rYDtw==
-X-Google-Smtp-Source: ABdhPJw6eID/4vLkq1bZJ6Iq+Hc7qV64cGNXqIUN2R38QfqprKW2caR+9t6sAgmk2LWeJK+QO333Gg==
-X-Received: by 2002:adf:aac6:0:b0:1f0:6848:54a3 with SMTP id
- i6-20020adfaac6000000b001f0684854a3mr3831986wrc.611.1646412990318; 
- Fri, 04 Mar 2022 08:56:30 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- r13-20020a5d498d000000b001f0587248c4sm4595427wrq.3.2022.03.04.08.56.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 08:56:29 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: Fix handling of LPAE block descriptors
-Date: Fri,  4 Mar 2022 16:56:28 +0000
-Message-Id: <20220304165628.2345765-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQBF5-0005u2-PX
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:57:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27323)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQBF3-00061a-QO
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:57:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646413041;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=h0MVtJ4cI6ODUPNo2G+bpD1UaPWbxqAmbe3NbhE0aFk=;
+ b=U7t1x88GOFqOWyc9tTc38cllhkxyKNuFbmGmfVf9MjghB/HLOeZg8K8rnbLx8BG/m2UgOo
+ dTIpkE1fGl+PIFc4fhEfaCSEkmXQUur2fD4gpQ0RIL6uW9MqdHX1nVFq62CwOMnPrOmDw9
+ vyhaFVy/lyKnNfn5EroM5ewloZHdDcA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-612-FWtz8rWBN-6DBCNk_Z_PXQ-1; Fri, 04 Mar 2022 11:57:15 -0500
+X-MC-Unique: FWtz8rWBN-6DBCNk_Z_PXQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C33A801DDC;
+ Fri,  4 Mar 2022 16:57:14 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4379D106F74C;
+ Fri,  4 Mar 2022 16:57:13 +0000 (UTC)
+Date: Fri, 4 Mar 2022 16:57:10 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] Revert "check-block: replace -makecheck with TAP output"
+Message-ID: <YiJE5n8CkFTX4Zqn@redhat.com>
+References: <20220208124432.84924-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220208124432.84924-1-pbonzini@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,68 +80,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, thuth@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-LPAE descriptors come in three forms:
+On Tue, Feb 08, 2022 at 07:44:32AM -0500, Paolo Bonzini wrote:
+> This reverts commit d316859f4e28c74ab8b618895d2a5e0a865d3cf1.  The
+> TAP output is inferior in that it does not include the diff for
+> failed tests.
+> 
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  tests/check-block.sh             |  6 ++--
+>  tests/qemu-iotests/check         |  6 ++--
+>  tests/qemu-iotests/meson.build   |  1 -
+>  tests/qemu-iotests/testenv.py    | 30 +++++++++----------
+>  tests/qemu-iotests/testrunner.py | 49 +++++++++++++++-----------------
+>  5 files changed, 44 insertions(+), 48 deletions(-)
 
- * table descriptors, giving the address of the next level page table
- * page descriptors, which occur only at level 3 and describe the
-   mapping of one page (which might be 4K, 16K or 64K)
- * block descriptors, which occur at higher page table levels, and
-   describe the mapping of huge pages
+Peter mentioned that he's seeing the CentOS 8 CI job fail
+continuously: eg
 
-QEMU's page-table-walk code treats block and page entries
-identically, simply ORing in a number of bits from the input virtual
-address that depends on the level of the page table that we stopped
-at; we depend on the previous masking of descaddr with descaddrmask
-to have already cleared out the low bits of the descriptor word.
+https://gitlab.com/qemu-project/qemu/-/jobs/2163919781
 
-This is not quite right: the address field in a block descriptor is
-smaller, and so there are bits which are valid address bits in a page
-descriptor or a table descriptor but which are not supposed to be
-part of the address in a block descriptor, and descaddrmask does not
-clear them.  We previously mostly got away with this because those
-descriptor bits are RES0; however with FEAT_BBM (part of Armv8.4)
-block descriptor bit 16 is defined to be the nT bit.  No emulated
-QEMU CPU has FEAT_BBM yet, but if the host CPU has it then we might
-see it when using KVM or hvf.
+[quote]
+1/1 qemu:block / qemu-iotests qcow2 ERROR          163.04s   120 subtests passed
+Summary of Failures:
+1/1 qemu:block / qemu-iotests qcow2 ERROR          163.04s   120 subtests passed
+Ok:                 0   
+Expected Fail:      0   
+Fail:               1   
+Unexpected Pass:    0   
+Skipped:            0   
+Timeout:            0   
+Full log written to /home/gitlab-runner/builds/Jpwtyaz7/0/qemu-project/qemu/build/meson-logs/iotestslog.txt
+make: *** [/home/gitlab-runner/builds/Jpwtyaz7/0/qemu-project/qemu/tests/Makefile.include:156: check-block] Error 1
 
-Explicitly zero out all the descaddr bits we're about to OR vaddr
-bits into.
+[/quote]
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/790
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/helper.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+None of the individual tests are showing ERROR though, only the final
+status is error.
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 088956eecf0..b5c8caafe84 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11706,11 +11706,17 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-             indexmask = indexmask_grainsize;
-             continue;
-         }
--        /* Block entry at level 1 or 2, or page entry at level 3.
-+        /*
-+         * Block entry at level 1 or 2, or page entry at level 3.
-          * These are basically the same thing, although the number
--         * of bits we pull in from the vaddr varies.
-+         * of bits we pull in from the vaddr varies. Note that although
-+         * descaddrmask masks enough of the low bits of the descriptor
-+         * to give a correct page or table address, the address field
-+         * in a block descriptor is smaller; so we need to explicitly
-+         * clear the lower bits here before ORing in the low vaddr bits.
-          */
-         page_size = (1ULL << ((stride * (4 - level)) + 3));
-+        descaddr &= ~(page_size - 1);
-         descaddr |= (address & (page_size - 1));
-         /* Extract attributes from the descriptor */
-         attrs = extract64(descriptor, 2, 10)
+We also don't have access to iotestslog.txt which is very annoying.
+
+When i run it locally I got the iotests.log and found that it
+contained an error message saying the TAP outout was malformed
+and couldn't be parsed.
+
+When I ran the iotests manually I confirmed this, it prints:
+
+ok qcow2 037
+ok qcow2 038
+ok qcow2 039
+ok qcow2 040
+ok qcow2 041
+    [case not run] test_after_a_quorum_snapshot (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_cancel (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_cancel_after_ready (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_complete (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_device_not_found (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_image_not_found (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_medium_not_found (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_no_node_name (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_nonexistent_replaces (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_pause (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_with_other_parent (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_with_other_parents_after_mirror_start (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+    [case not run] test_wrong_sync_mode (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+
+ok qcow2 042
+ok qcow2 043
+ok qcow2 046
+
+
+All those '[case not run]' lines are invalid tap output.  The
+need to start with a leading '#' to be treated as a diagnostic
+message. I briefly considered sending a patch, until I remember
+this change to stop using TAP.
+
+Anyway I'd say the commit message here needs updating. It is
+not merely improving diff output. It is adressing the fact that
+the I/O tests runner is not producing valid TAP output, and so
+causing bogus failures.
+
+
+Regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
