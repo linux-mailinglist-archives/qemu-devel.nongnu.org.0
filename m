@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11734CD511
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:20:57 +0100 (CET)
-Received: from localhost ([::1]:52652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B854CD539
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 14:34:07 +0100 (CET)
+Received: from localhost ([::1]:40496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ7rY-0003xi-Eb
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:20:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50030)
+	id 1nQ84M-0007rB-U9
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 08:34:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQ7ky-0008Uo-74
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:14:04 -0500
-Received: from [2607:f8b0:4864:20::112d] (port=43712
- helo=mail-yw1-x112d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQ7kw-00066r-JR
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:14:03 -0500
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-2d6d0cb5da4so90685057b3.10
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:14:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sG9v7o4Ld83etBYXOLRJLd5PwnPDkRxipkHJyI/1v90=;
- b=pDck9KcTz6qElMUmr++zngb0chRgc2XegYA6F/ba7FPxc4/fK2k1c8tW+eCr/ZHVqb
- 6bl4l5+jxUFNbDggiz1tbzgn3YBY+cihNp09fI++PYHLFY0R2pYqnMKhzyCV06+N6ILP
- h6StgwhSf1PzB9BFQqZuLRXh969DaRmP9NZrkcLeEpsvS2C4+XNqaXSyFWvfzExO9GuT
- Qe6R2HXtnoXI3JLPjWn/PpGSSUOKW5ysDOT64OWLgnJ/nE4EY4L1vtSULJF3NU11mIJz
- Smyr3ez6iQTeFg8Uc/n0hr53Y0sCtNCeAkuS1jDtSR360vOWCbo6wuEUOXKTwYNbRyik
- mHXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sG9v7o4Ld83etBYXOLRJLd5PwnPDkRxipkHJyI/1v90=;
- b=DBvSJK+TstAqVsWnaZaSzZIO5E37l/itDUEsnK4fzLYYQyQubH9SvjHUjG+oXdXn4z
- j9mQQFFfC1Z9seMhpsTw9mNslNIc1crNqO4BYSqDnKAotX3SEpRzs3NP4jR90jbMWjEw
- iXQ844Eouphj5VsaKIhQ1GbEs4ulCD1mgE2gAZataeBUfd4VyiMLMtYF1pBHIAkPDGQP
- GV40hnDeRlhKVfbq5Zsn1RVTH50aPP0Lyi1UsKOOpz3mSgiw1+QKeorYuGML6XW9QxDy
- 5tTr5kD+V4WNQ0PQ302fuPspvMLT4XO1AdUzy76r2Z6JDxgoZgj/jWlswDk98k/0HNM4
- 1nRg==
-X-Gm-Message-State: AOAM530baOAy/VNLlEcoJiNKEGjUWtruo/sp1l+8lW9D0A4EUkp7OIlG
- YYHqEOz7tR6iiD2Cp4mP9OkCoNwTbu6cNReNBQkZhA==
-X-Google-Smtp-Source: ABdhPJwNOjKfJnGxIYT6Qr02yuuMfY3BX3BvIoL19NsDNN2RPsonpQp4r601/5T6RXLAqAzlMXteHidQKYHw487HlJY=
-X-Received: by 2002:a81:164f:0:b0:2dc:3906:27c0 with SMTP id
- 76-20020a81164f000000b002dc390627c0mr7024213yww.64.1646399641229; Fri, 04 Mar
- 2022 05:14:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nQ7ne-0001rQ-D9
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:16:52 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2332)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nQ7nb-0006p6-VA
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:16:50 -0500
+Received: from fraeml706-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4K97dD29hJz67PfY;
+ Fri,  4 Mar 2022 21:15:28 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml706-chm.china.huawei.com (10.206.15.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.21; Fri, 4 Mar 2022 14:16:43 +0100
+Received: from localhost (10.122.247.231) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.21; Fri, 4 Mar
+ 2022 13:16:43 +0000
+Date: Fri, 4 Mar 2022 13:16:42 +0000
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+CC: <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>, "Michael S
+ .  Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
+ Maydell" <peter.maydell@linaro.org>, <linuxarm@huawei.com>, "Shameerali
+ Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
+ <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
+ <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v6 20/43] hw/cxl/device: Add some trivial commands
+Message-ID: <20220304131642.000059b9@huawei.com>
+In-Reply-To: <875yoxld3j.fsf@linaro.org>
+References: <20220211120747.3074-1-Jonathan.Cameron@huawei.com>
+ <20220211120747.3074-21-Jonathan.Cameron@huawei.com>
+ <875yoxld3j.fsf@linaro.org>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-References: <20220227042241.1543-1-akihiko.odaki@gmail.com>
-In-Reply-To: <20220227042241.1543-1-akihiko.odaki@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Mar 2022 13:13:50 +0000
-Message-ID: <CAFEAcA_JxLfnpF5v8w8O9PRBGPg5XVL=W0D=PPEHHrrcWmN_zA@mail.gmail.com>
-Subject: Re: [PATCH v3] ui/cocoa: Use the standard about panel
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhreml706-chm.china.huawei.com (10.201.108.55) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,21 +76,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Sun, 27 Feb 2022 at 04:22, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->
-> This provides standard look and feel for the about panel and reduces
-> code.
->
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
+On Tue, 01 Mar 2022 18:46:30 +0000
+Alex Benn=E9e <alex.bennee@linaro.org> wrote:
 
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+>=20
+> > From: Ben Widawsky <ben.widawsky@intel.com>
+> >
+> > GET_FW_INFO and GET_PARTITION_INFO, for this emulation, is equivalent to
+> > info already returned in the IDENTIFY command. To have a more robust
+> > implementation, add those.
+> >
+> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
+Hi Alex,
 
-Applied to target-arm.next, thanks.
+> > ---
+> >  hw/cxl/cxl-mailbox-utils.c | 69 +++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 68 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> > index 808faec114..d022711b2a 100644
+> > --- a/hw/cxl/cxl-mailbox-utils.c
+> > +++ b/hw/cxl/cxl-mailbox-utils.c
+> > @@ -44,6 +44,8 @@ enum {
+> >          #define CLEAR_RECORDS   0x1
+> >          #define GET_INTERRUPT_POLICY   0x2
+> >          #define SET_INTERRUPT_POLICY   0x3
+> > +    FIRMWARE_UPDATE =3D 0x02,
+> > +        #define GET_INFO      0x0
+> >      TIMESTAMP   =3D 0x03,
+> >          #define GET           0x0
+> >          #define SET           0x1
+> > @@ -52,6 +54,8 @@ enum {
+> >          #define GET_LOG       0x1
+> >      IDENTIFY    =3D 0x40,
+> >          #define MEMORY_DEVICE 0x0
+> > +    CCLS        =3D 0x41,
+> > +        #define GET_PARTITION_INFO     0x0
+> >  };
+> > =20
+> >  /* 8.2.8.4.5.1 Command Return Codes */
+> > @@ -114,6 +118,39 @@ DEFINE_MAILBOX_HANDLER_NOP(events_clear_records);
+> >  DEFINE_MAILBOX_HANDLER_ZEROED(events_get_interrupt_policy, 4);
+> >  DEFINE_MAILBOX_HANDLER_NOP(events_set_interrupt_policy);
+> > =20
+> > +/* 8.2.9.2.1 */
+> > +static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
+> > +                                             CXLDeviceState *cxl_dstat=
+e,
+> > +                                             uint16_t *len)
+> > +{
+> > +    struct {
+> > +        uint8_t slots_supported;
+> > +        uint8_t slot_info;
+> > +        uint8_t caps;
+> > +        uint8_t rsvd[0xd];
+> > +        char fw_rev1[0x10];
+> > +        char fw_rev2[0x10];
+> > +        char fw_rev3[0x10];
+> > +        char fw_rev4[0x10];
+> > +    } __attribute__((packed)) *fw_info;
+> > +    _Static_assert(sizeof(*fw_info) =3D=3D 0x50, "Bad firmware info
+> > size"); =20
+>=20
+> note: we have QEMU_PACKED, QEMU_BUILD_BUG_ON and friends in compiler.h wh=
+ich are
+> preferred for potential compiler portability reasons.
 
--- PMM
+Replaced all instances of alignment, packed and Static_assert in the
+patch set with the compiler.h equivalents. Not that has minor
+affect on some earlier patch sets but feels trivial enough
+that I've kept RBs etc.
+
+>=20
+> > +
+> > +    if (cxl_dstate->pmem_size < (256 << 20)) {
+> > +        return CXL_MBOX_INTERNAL_ERROR;
+> > +    }
+> > +
+> > +    fw_info =3D (void *)cmd->payload;
+> > +    memset(fw_info, 0, sizeof(*fw_info));
+> > +
+> > +    fw_info->slots_supported =3D 2;
+> > +    fw_info->slot_info =3D BIT(0) | BIT(3);
+> > +    fw_info->caps =3D 0;
+> > +    snprintf(fw_info->fw_rev1, 0x10, "BWFW VERSION %02d", 0); =20
+>=20
+> Given you have a fixed string here could you not:
+>=20
+>   pstrcpy(fw_info->fw_rev1, 0x10, "BWFW VERSION 0");
+
+Make sense.
+
+>  =20
+> > +
+> > +    *len =3D sizeof(*fw_info);
+> > +    return CXL_MBOX_SUCCESS;
+> > +}
+> > +
+> >  /* 8.2.9.3.1 */
+> >  static ret_code cmd_timestamp_get(struct cxl_cmd *cmd,
+> >                                    CXLDeviceState *cxl_dstate,
+> > @@ -260,6 +297,33 @@ static ret_code cmd_identify_memory_device(struct =
+cxl_cmd *cmd,
+> >      return CXL_MBOX_SUCCESS;
+> >  }
+> > =20
+> > +static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
+> > +                                           CXLDeviceState *cxl_dstate,
+> > +                                           uint16_t *len)
+> > +{
+> > +    struct {
+> > +        uint64_t active_vmem;
+> > +        uint64_t active_pmem;
+> > +        uint64_t next_vmem;
+> > +        uint64_t next_pmem;
+> > +    } __attribute__((packed)) *part_info =3D (void *)cmd->payload;
+> > +    _Static_assert(sizeof(*part_info) =3D=3D 0x20, "Bad get partition =
+info size");
+> > +    uint64_t size =3D cxl_dstate->pmem_size;
+> > +
+> > +    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
+> > +        return CXL_MBOX_INTERNAL_ERROR;
+> > +    }
+> > +
+> > +    /* PMEM only */
+> > +    part_info->active_vmem =3D 0;
+> > +    part_info->next_vmem =3D 0;
+> > +    part_info->active_pmem =3D size / (256 << 20);
+> > +    part_info->next_pmem =3D part_info->active_pmem;
+> > +
+> > +    *len =3D sizeof(*part_info);
+> > +    return CXL_MBOX_SUCCESS;
+> > +}
+> > +
+> >  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
+> >  #define IMMEDIATE_POLICY_CHANGE (1 << 3)
+> >  #define IMMEDIATE_LOG_CHANGE (1 << 4)
+> > @@ -273,15 +337,18 @@ static struct cxl_cmd cxl_cmd_set[256][256] =3D {
+> >          cmd_events_get_interrupt_policy, 0, 0 },
+> >      [EVENTS][SET_INTERRUPT_POLICY] =3D { "EVENTS_SET_INTERRUPT_POLICY",
+> >          cmd_events_set_interrupt_policy, 4, IMMEDIATE_CONFIG_CHANGE },
+> > +    [FIRMWARE_UPDATE][GET_INFO] =3D { "FIRMWARE_UPDATE_GET_INFO",
+> > +        cmd_firmware_update_get_info, 0, 0 },
+> >      [TIMESTAMP][GET] =3D { "TIMESTAMP_GET", cmd_timestamp_get, 0, 0 },
+> >      [TIMESTAMP][SET] =3D { "TIMESTAMP_SET", cmd_timestamp_set, 8, IMME=
+DIATE_POLICY_CHANGE },
+> >      [LOGS][GET_SUPPORTED] =3D { "LOGS_GET_SUPPORTED", cmd_logs_get_sup=
+ported, 0, 0 },
+> >      [LOGS][GET_LOG] =3D { "LOGS_GET_LOG", cmd_logs_get_log, 0x18, 0 },
+> >      [IDENTIFY][MEMORY_DEVICE] =3D { "IDENTIFY_MEMORY_DEVICE",
+> >          cmd_identify_memory_device, 0, 0 },
+> > +    [CCLS][GET_PARTITION_INFO] =3D { "CCLS_GET_PARTITION_INFO",
+> > +        cmd_ccls_get_partition_info, 0, 0 },
+> >  };
+> > =20
+> > -
+Also fixed this bit of rebasing mess up.
+
+Thanks,
+
+Jonathan
+
+> >  void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+> >  {
+> >      uint16_t ret =3D CXL_MBOX_SUCCESS; =20
+>=20
+>=20
+
 
