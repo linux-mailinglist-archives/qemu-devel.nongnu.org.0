@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6BA4CDD0B
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:57:14 +0100 (CET)
-Received: from localhost ([::1]:54516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7494CDD01
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:54:18 +0100 (CET)
+Received: from localhost ([::1]:46820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQD73-00084q-CT
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:57:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49426)
+	id 1nQD4D-0002fw-6N
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:54:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQCxG-0005Fh-Fk
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:47:07 -0500
-Received: from [2607:f8b0:4864:20::b34] (port=39689
- helo=mail-yb1-xb34.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nQCxx-0005Nu-8V
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:47:50 -0500
+Received: from [2607:f8b0:4864:20::52c] (port=36745
+ helo=mail-pg1-x52c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQCxE-00012y-7U
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:47:06 -0500
-Received: by mail-yb1-xb34.google.com with SMTP id x200so18630495ybe.6
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 10:47:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nQCxv-00016b-O0
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:47:49 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id t14so8250425pgr.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 10:47:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CyK71/U2CuHBZlHXpaQFAIJqawy12G3ZhOMbKyCzQ58=;
- b=d0G94R4VnKNc64NMzhdvUKxVkTDOIy5TOjiRVQwgoROng3RmmjjvPgXHbDNrqZYEy5
- xwn0yso2WVf9XZONXSlrDoj+7IB0jDv3LAOIAbIPqSK/c3nd6KAHMfE8WfD4dKdpG34+
- ZI2qJnktwMulDBCmu1pBTeMu0yM93x6VOxKXYS+PgoyD2SoKuWxrLGxPHHqIZpStOJfS
- I/HLvwSGsS7mjyZJucyYFZMVW0geXeY56tKSrZrmnU6NUpITeND7H5/LfsDL+FnOLzVA
- J7Tf+lPyj9otPesrJbgNBzJNQsUDRFztgfxPBqVySx6OQXjG+qd+S+GYkIy+1oIpN39o
- njmQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=4igLOcFBxSteDHVUcWP4MUQjJu9aP43KI7TWJtdETPg=;
+ b=HMtGcDtRTkxjrnK8CZNwiJeukcjHFWtqxfpRyruPOIVTj79ajSQfPkYZpzQ81cSRXf
+ i2Xd+vFov4WLR9727fQ7JCCq5yl6wB7HZZi0VioNt+v3Wvq5/MI7SMdsUWZa6rrjZbu+
+ oBaKxI1KKPLzN0JBY/a/25UoIPcqq5fJePwtRuo+mveT/oEarOLH1j/rFPrBrpum95GZ
+ hK9RxiDaZowhY6Ou+020wOquwFg1x4sg9mEWuAKod+3dL9chdKZIcuQ59OI81uMOdDkn
+ WGBbhhof5MUpYYhZsPKNnnN/X0PInoJw+N4CeGh6myOdbpejNBCRI+u+U54Yj8agtarx
+ QEiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CyK71/U2CuHBZlHXpaQFAIJqawy12G3ZhOMbKyCzQ58=;
- b=3jqI8QbJQ26nooqtQQBX4aT20hYIesdwwpy2b3zBLfb1RaFnOh9dNqijL7f2dJTUuO
- riullo2wXZdYnQiYwyg1m1HgYm7pFDLo0pE2j13ZgnL2/pV9nI6U4Fp0/6OOjZccFHI7
- uC5cboRiAbG34lW2fkk4ZKyZiytDW6v1OOKYybOBPNB1SFx82bmlrpCBQWljRpb/mEvO
- /pUWHX3XgcDsGXrSXgLDDyuz3TB/HUaLXzsubyhfskEkt6RHjxKMMzT4jeLt7pdFUmBk
- lCqi1LEmM5hEHYlAqSAH85pGVGhr6rWhAlBDtsXur2fZ5I9M0bC747Yyy1p0VQ7G+3d0
- JkqA==
-X-Gm-Message-State: AOAM532J2Aj8KTbpliJwjHfURO+rj7KAO/b7Wa1uTyaaVkzh57lyXoTT
- AEiP7NIkIER7nnfy4+ti7Nh9TNOC7THPWViazKwmid/L2KjuVA==
-X-Google-Smtp-Source: ABdhPJzc+fiXiT7pj5yR4s6F2hQSNvYkKqyiRPaZ+M4KB48/LydXV9SO/GuAYIlLdKuZKlAb1tXBaDjEfBMvq8B8bxY=
-X-Received: by 2002:a25:32c6:0:b0:629:130:a037 with SMTP id
- y189-20020a2532c6000000b006290130a037mr1845429yby.193.1646419623138; Fri, 04
- Mar 2022 10:47:03 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4igLOcFBxSteDHVUcWP4MUQjJu9aP43KI7TWJtdETPg=;
+ b=22tt3f+UX6WTN4eiCJ4ItMAqg08YoS1dCPnBNHs9l3Mq82fjnwM2QU3X/uRC79YfUd
+ LX6gCn2Zi/cBeB2OXejkHbfK0VPKdCcIMmOU0RYhfU0/KBypCSr48/R8Jok1ggmeprLH
+ rnyy6BQeKJs6XjfZ7wCp3pRNqSBbBnUxcj6utneXbLxyL0pfYWYG+6RXX7e1riZ7DAxS
+ tLqGDUcJS+9EadcA+rEZ2StyrpsSIx22e+SGLs98QcERpl4SB2JQqSrBuOZQySsuD3xH
+ 2B5kMqbnwpI6lKMlOBFTx9US0mIxUOSR2ik3KHVQYe3JaiaZbPVhdoKwDfReqPxPF6fn
+ MC8g==
+X-Gm-Message-State: AOAM5331ZyaXhnqAkfNNKKL3dtsscw7hfR/KOcHpabz93rDy5I7cyIqe
+ pk/dGimvgkdAAD/GSlI8ODSI6Q==
+X-Google-Smtp-Source: ABdhPJw12gJEtYxMMyXNfnSD1hVeuxTxEs5EveUO3xILNL4CPs2ZoPdG0v6VwFagVDQq+nVjMO+lPQ==
+X-Received: by 2002:a65:6941:0:b0:372:b6bc:4328 with SMTP id
+ w1-20020a656941000000b00372b6bc4328mr35644848pgq.106.1646419665733; 
+ Fri, 04 Mar 2022 10:47:45 -0800 (PST)
+Received: from ?IPV6:2603:800c:1201:c600:f24b:57b2:da7c:e304?
+ (2603-800c-1201-c600-f24b-57b2-da7c-e304.res6.spectrum.com.
+ [2603:800c:1201:c600:f24b:57b2:da7c:e304])
+ by smtp.gmail.com with ESMTPSA id
+ w23-20020a627b17000000b004f6cf170070sm315320pfc.186.2022.03.04.10.47.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Mar 2022 10:47:45 -0800 (PST)
+Message-ID: <0212da77-3bed-3e06-6b55-cda90dd27779@linaro.org>
+Date: Fri, 4 Mar 2022 08:47:41 -1000
 MIME-Version: 1.0
-References: <20220302181134.285107-1-pbonzini@redhat.com>
- <CAFEAcA8=8tiqmFTFPaNXcqjXy6Rb5xR59Q2VYUXOTbN91rbYuA@mail.gmail.com>
- <088024f5-7066-e6ec-953e-f55d7ff83b96@redhat.com>
-In-Reply-To: <088024f5-7066-e6ec-953e-f55d7ff83b96@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Mar 2022 18:46:51 +0000
-Message-ID: <CAFEAcA--dtmffH4FJUuuE1d6yR-4Mweu481p_y-EsJKEtPRjTw@mail.gmail.com>
-Subject: Re: [PULL 00/11] QEMU changes for 2021-03-02
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PULL 00/30] tcg patch queue
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20220303205944.469445-1-richard.henderson@linaro.org>
+ <CAFEAcA8EWNdCa7cAaVKQpuuj+0-KLfYaybjjQYUtyy+k7MVrSw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8EWNdCa7cAaVKQpuuj+0-KLfYaybjjQYUtyy+k7MVrSw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -87,39 +100,23 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Mar 2022 at 17:41, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> The test seems to be flaky, I've been fighting with it all week---trying
-> multiple versions of this pull request and removing patches until
-> build-oss-fuzz passed.  The set of patches that triggered it or not was
-> completely random, but I'll not that it did pass with this exact commit
-> I'm submitting (https://gitlab.com/bonzini/qemu/-/jobs/2154365356).
->
-> I wanted to look at this today again before replying to you, but as you
-> know I was sidetracked by work on the qemu.org infrastructure.  So, I
-> can look at this but I really need to ask you one of two favors:
->
-> 1) decide that the test is flaky and merge this pull request, and then
-> I'll send before Monday the changes that I've omitted here (which again
-> have nothing to do with qos-test).  I'll look at qos-test during soft
-> freeze.
->
-> 2) accept that I'll send another x86 pull request (not a large one)
-> after soft freeze, so that I have more time to debug this (likely
-> unrelated) build-oss-fuzz issue.
+On 3/4/22 05:22, Peter Maydell wrote:
+> This causes the linux-user tests to fail on the aarch64 host:
+> https://gitlab.com/qemu-project/qemu/-/jobs/2163919769
+> 
+> All the qemu-i386 invocations fail like this:
+> 
+> timeout --foreground 90
+> /home/gitlab-runner/builds/CMuZxyfG/0/qemu-project/qemu/build/qemu-i386
+> sigbus > sigbus.out
+> qemu-i386: Unable to reserve 0x100000000 bytes of virtual address
+> space at 0x8000 (File exists) for use as guest address space (check
+> your virtual memory ulimit setting, min_mmap_addr or reserve less
+> using -R option)
 
-Either of these is fine; my requirement is only that either:
- (1) the oss-fuzz gitlab CI job needs to in practice actually
-pass at least most of the time
- (2) we need to switch it to ok-to-fail or disable it
+Hmm.  It works when run standalone on aarch64.ci.qemu.org, so it must be something within 
+the ci environment.  Alex, any idea how to replicate this?
 
-so I don't have CI failing for every merge I make.
 
-We seem to have several intermittents right now (including one
-which makes oss-fuzz hang, I think) which I'll try to find time
-to investigate soon. Plus the CI infra in general is flaky:
-some of the intermittents are clearly gitlab issues (like failing
-to manage to git clone things).
-
-thanks
--- PMM
+r~
 
