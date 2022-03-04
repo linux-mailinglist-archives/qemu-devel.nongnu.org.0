@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E67F4CD99F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:02:37 +0100 (CET)
-Received: from localhost ([::1]:58296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F584CD9BB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:07:24 +0100 (CET)
+Received: from localhost ([::1]:45120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQBK8-0002to-7B
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:02:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51870)
+	id 1nQBOl-0004wN-3j
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:07:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5v-0005SU-Or
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49859)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5t-0005MU-2d
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5q-0007QQ-SE
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:55 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5o-0007PG-2C
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646412469;
+ s=mimecast20190719; t=1646412465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=529niRuORWC1nesahntoUiNvMsWeBf1VoeMWTAA6nMo=;
- b=bDYZ7moFifKlP6FY2M5ymddUcXmoPDgP5WOGKMdDDYq/pWKwVWzPHa9ZVlVzHwEABaDj1V
- FgVCEyYJ4HJu+gpApKh76UiRucGuXVbBlTvPR9L7CrjrbtBa5drX2WQRBWnH38dVNulb3L
- LKlI9FGIhzEstbH7anf3DYnHwC6/gw0=
+ bh=hDymB1ki+7NS9oWw5v7gDNs3RvgJwVOyHJcEM7TA6/4=;
+ b=K1aJHlEz/rNQEmLAhUBrhxlv49rs/Py/bG2UtiM2l8UX4UFijvgT8v8sTielQUo/HOJOvz
+ 4HwCMDDFD3sClatoQmTUkf6I8H50QtvlxAkTKBvqBi61sFMqxo3/uxeL76D7wkMSsZcR0v
+ f9WyBEDMiEan6+4Pxo6FqN1ag6vvgfY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-1doATmVBPz-uIq1ppvk5OA-1; Fri, 04 Mar 2022 11:47:20 -0500
-X-MC-Unique: 1doATmVBPz-uIq1ppvk5OA-1
+ us-mta-654-Tugt5xj4M--FbuMbe00arw-1; Fri, 04 Mar 2022 11:47:22 -0500
+X-MC-Unique: Tugt5xj4M--FbuMbe00arw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94021824FA9;
- Fri,  4 Mar 2022 16:47:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC0C61006AA6;
+ Fri,  4 Mar 2022 16:47:20 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 960D383BF9;
- Fri,  4 Mar 2022 16:47:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF47183BF9;
+ Fri,  4 Mar 2022 16:47:19 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/50] crypto: distinguish between main loop and I/O in
- block_crypto_amend_options_generic_luks
-Date: Fri,  4 Mar 2022 17:46:23 +0100
-Message-Id: <20220304164711.474713-3-kwolf@redhat.com>
+Subject: [PULL 03/50] block: introduce bdrv_activate
+Date: Fri,  4 Mar 2022 17:46:24 +0100
+Message-Id: <20220304164711.474713-4-kwolf@redhat.com>
 In-Reply-To: <20220304164711.474713-1-kwolf@redhat.com>
 References: <20220304164711.474713-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -85,97 +84,115 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-block_crypto_amend_options_generic_luks uses the block layer
-permission API, therefore it should be called with the BQL held.
+This function is currently just a wrapper for bdrv_invalidate_cache(),
+but in future will contain the code of bdrv_co_invalidate_cache() that
+has to always be protected by BQL, and leave the rest in the I/O
+coroutine.
 
-However, the same function is being called by two BlockDriver
-callbacks: bdrv_amend_options (under BQL) and bdrv_co_amend (I/O).
-
-The latter is I/O because it is invoked by block/amend.c's
-blockdev_amend_run(), a .run callback of the amend JobDriver.
-
-Therefore we want to change this function to still perform
-the permission check, but making sure it is done under BQL regardless
-of the caller context.
-
-Remove the permission check in block_crypto_amend_options_generic_luks()
-and:
-- in block_crypto_amend_options_luks() (BQL case, called by
-  .bdrv_amend_options()), reuse helper functions
-  block_crypto_amend_{prepare/cleanup} that take care of checking
-  permissions.
-
-- for block_crypto_co_amend_luks() (I/O case, called by
-  .bdrv_co_amend()), don't check for permissions but delegate
-  .bdrv_amend_pre_run() and .bdrv_amend_clean() to do it,
-  performing these checks before and after the job runs in its aiocontext.
+Replace all bdrv_invalidate_cache() invokations with bdrv_activate().
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20220209105452.1694545-3-eesposit@redhat.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20220209105452.1694545-4-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/crypto.c | 35 +++++++++++++++--------------------
- 1 file changed, 15 insertions(+), 20 deletions(-)
+ include/block/block.h            | 1 +
+ block.c                          | 7 ++++++-
+ block/block-backend.c            | 2 +-
+ block/export/export.c            | 2 +-
+ block/parallels.c                | 2 +-
+ tests/unit/test-block-iothread.c | 2 +-
+ 6 files changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/block/crypto.c b/block/crypto.c
-index 70b2f07351..9d5fecbef8 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -815,30 +815,17 @@ block_crypto_amend_options_generic_luks(BlockDriverState *bs,
-                                         Error **errp)
- {
-     BlockCrypto *crypto = bs->opaque;
--    int ret;
+diff --git a/include/block/block.h b/include/block/block.h
+index e1713ee306..18cd336911 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -494,6 +494,7 @@ int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
+ int generated_co_wrapper bdrv_invalidate_cache(BlockDriverState *bs,
+                                                Error **errp);
+ void bdrv_invalidate_cache_all(Error **errp);
++int bdrv_activate(BlockDriverState *bs, Error **errp);
+ int bdrv_inactivate_all(void);
  
-     assert(crypto);
-     assert(crypto->block);
- 
--    /* apply for exclusive read/write permissions to the underlying file*/
--    crypto->updating_keys = true;
--    ret = bdrv_child_refresh_perms(bs, bs->file, errp);
--    if (ret) {
--        goto cleanup;
--    }
--
--    ret = qcrypto_block_amend_options(crypto->block,
--                                      block_crypto_read_func,
--                                      block_crypto_write_func,
--                                      bs,
--                                      amend_options,
--                                      force,
--                                      errp);
--cleanup:
--    /* release exclusive read/write permissions to the underlying file*/
--    crypto->updating_keys = false;
--    bdrv_child_refresh_perms(bs, bs->file, errp);
--    return ret;
-+    return qcrypto_block_amend_options(crypto->block,
-+                                       block_crypto_read_func,
-+                                       block_crypto_write_func,
-+                                       bs,
-+                                       amend_options,
-+                                       force,
-+                                       errp);
+ /* Ensure contents are flushed to disk.  */
+diff --git a/block.c b/block.c
+index b54d59d1fa..7746727a47 100644
+--- a/block.c
++++ b/block.c
+@@ -6393,6 +6393,11 @@ void bdrv_init_with_whitelist(void)
+     bdrv_init();
  }
  
- static int
-@@ -864,8 +851,16 @@ block_crypto_amend_options_luks(BlockDriverState *bs,
-     if (!amend_options) {
-         goto cleanup;
++int bdrv_activate(BlockDriverState *bs, Error **errp)
++{
++    return bdrv_invalidate_cache(bs, errp);
++}
++
+ int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
+ {
+     BdrvChild *child, *parent;
+@@ -6478,7 +6483,7 @@ void bdrv_invalidate_cache_all(Error **errp)
+         int ret;
+ 
+         aio_context_acquire(aio_context);
+-        ret = bdrv_invalidate_cache(bs, errp);
++        ret = bdrv_activate(bs, errp);
+         aio_context_release(aio_context);
+         if (ret < 0) {
+             bdrv_next_cleanup(&it);
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 4ff6b4d785..c516113a36 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1889,7 +1889,7 @@ void blk_invalidate_cache(BlockBackend *blk, Error **errp)
+         return;
      }
-+
-+    ret = block_crypto_amend_prepare(bs, errp);
-+    if (ret) {
-+        goto perm_cleanup;
-+    }
-     ret = block_crypto_amend_options_generic_luks(bs, amend_options,
-                                                   force, errp);
-+
-+perm_cleanup:
-+    block_crypto_amend_cleanup(bs);
- cleanup:
-     qapi_free_QCryptoBlockAmendOptions(amend_options);
-     return ret;
+ 
+-    bdrv_invalidate_cache(bs, errp);
++    bdrv_activate(bs, errp);
+ }
+ 
+ bool blk_is_inserted(BlockBackend *blk)
+diff --git a/block/export/export.c b/block/export/export.c
+index 6d3b9964c8..7253af3bc3 100644
+--- a/block/export/export.c
++++ b/block/export/export.c
+@@ -139,7 +139,7 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+      * access since the export could be available before migration handover.
+      * ctx was acquired in the caller.
+      */
+-    bdrv_invalidate_cache(bs, NULL);
++    bdrv_activate(bs, NULL);
+ 
+     perm = BLK_PERM_CONSISTENT_READ;
+     if (export->writable) {
+diff --git a/block/parallels.c b/block/parallels.c
+index 6ebad2a2bb..e58c828422 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -873,7 +873,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+     s->bat_dirty_bmap =
+         bitmap_new(DIV_ROUND_UP(s->header_size, s->bat_dirty_block));
+ 
+-    /* Disable migration until bdrv_invalidate_cache method is added */
++    /* Disable migration until bdrv_activate method is added */
+     error_setg(&s->migration_blocker, "The Parallels format used by node '%s' "
+                "does not support live migration",
+                bdrv_get_device_or_node_name(bs));
+diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
+index aea660aeed..378a7b7869 100644
+--- a/tests/unit/test-block-iothread.c
++++ b/tests/unit/test-block-iothread.c
+@@ -282,7 +282,7 @@ static void test_sync_op_check(BdrvChild *c)
+ static void test_sync_op_invalidate_cache(BdrvChild *c)
+ {
+     /* Early success: Image is not inactive */
+-    bdrv_invalidate_cache(c->bs, NULL);
++    bdrv_activate(c->bs, NULL);
+ }
+ 
+ 
 -- 
 2.35.1
 
