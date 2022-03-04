@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7494CDD01
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:54:18 +0100 (CET)
-Received: from localhost ([::1]:46820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C1B4CDD18
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:01:53 +0100 (CET)
+Received: from localhost ([::1]:59910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQD4D-0002fw-6N
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:54:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49566)
+	id 1nQDBX-0003MA-Qs
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:01:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nQCxx-0005Nu-8V
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:47:50 -0500
-Received: from [2607:f8b0:4864:20::52c] (port=36745
- helo=mail-pg1-x52c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nQCxv-00016b-O0
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:47:49 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id t14so8250425pgr.3
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 10:47:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=4igLOcFBxSteDHVUcWP4MUQjJu9aP43KI7TWJtdETPg=;
- b=HMtGcDtRTkxjrnK8CZNwiJeukcjHFWtqxfpRyruPOIVTj79ajSQfPkYZpzQ81cSRXf
- i2Xd+vFov4WLR9727fQ7JCCq5yl6wB7HZZi0VioNt+v3Wvq5/MI7SMdsUWZa6rrjZbu+
- oBaKxI1KKPLzN0JBY/a/25UoIPcqq5fJePwtRuo+mveT/oEarOLH1j/rFPrBrpum95GZ
- hK9RxiDaZowhY6Ou+020wOquwFg1x4sg9mEWuAKod+3dL9chdKZIcuQ59OI81uMOdDkn
- WGBbhhof5MUpYYhZsPKNnnN/X0PInoJw+N4CeGh6myOdbpejNBCRI+u+U54Yj8agtarx
- QEiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4igLOcFBxSteDHVUcWP4MUQjJu9aP43KI7TWJtdETPg=;
- b=22tt3f+UX6WTN4eiCJ4ItMAqg08YoS1dCPnBNHs9l3Mq82fjnwM2QU3X/uRC79YfUd
- LX6gCn2Zi/cBeB2OXejkHbfK0VPKdCcIMmOU0RYhfU0/KBypCSr48/R8Jok1ggmeprLH
- rnyy6BQeKJs6XjfZ7wCp3pRNqSBbBnUxcj6utneXbLxyL0pfYWYG+6RXX7e1riZ7DAxS
- tLqGDUcJS+9EadcA+rEZ2StyrpsSIx22e+SGLs98QcERpl4SB2JQqSrBuOZQySsuD3xH
- 2B5kMqbnwpI6lKMlOBFTx9US0mIxUOSR2ik3KHVQYe3JaiaZbPVhdoKwDfReqPxPF6fn
- MC8g==
-X-Gm-Message-State: AOAM5331ZyaXhnqAkfNNKKL3dtsscw7hfR/KOcHpabz93rDy5I7cyIqe
- pk/dGimvgkdAAD/GSlI8ODSI6Q==
-X-Google-Smtp-Source: ABdhPJw12gJEtYxMMyXNfnSD1hVeuxTxEs5EveUO3xILNL4CPs2ZoPdG0v6VwFagVDQq+nVjMO+lPQ==
-X-Received: by 2002:a65:6941:0:b0:372:b6bc:4328 with SMTP id
- w1-20020a656941000000b00372b6bc4328mr35644848pgq.106.1646419665733; 
- Fri, 04 Mar 2022 10:47:45 -0800 (PST)
-Received: from ?IPV6:2603:800c:1201:c600:f24b:57b2:da7c:e304?
- (2603-800c-1201-c600-f24b-57b2-da7c-e304.res6.spectrum.com.
- [2603:800c:1201:c600:f24b:57b2:da7c:e304])
- by smtp.gmail.com with ESMTPSA id
- w23-20020a627b17000000b004f6cf170070sm315320pfc.186.2022.03.04.10.47.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 10:47:45 -0800 (PST)
-Message-ID: <0212da77-3bed-3e06-6b55-cda90dd27779@linaro.org>
-Date: Fri, 4 Mar 2022 08:47:41 -1000
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQCH7-0001A5-VV
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:03:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQCH5-0004jH-Gx
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:03:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646417010;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dovzthCtNS3nJLMmC12qLRIDu2VuXkTuG6yw3djmB6Y=;
+ b=CMJXaKwPvQ2JmJXEbD6io8U9JTVJa9d2ekwkTicLXkYbn6fJ8GSa+S3Tat4qsXlwMG5a36
+ UrLhIOQYqq2P6yWA9fTGmf+rQxzX5KEKt/XX+0zbrIET3KbADvxfy0uFxBigzefQXB2Wg1
+ lbfCCyQxCRHTr+QwgRNRFi0tpquJyyQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-377-itBfmiMeN4q_ns7COedGCw-1; Fri, 04 Mar 2022 13:03:29 -0500
+X-MC-Unique: itBfmiMeN4q_ns7COedGCw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CDA35200;
+ Fri,  4 Mar 2022 18:03:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB46A865AA;
+ Fri,  4 Mar 2022 18:03:26 +0000 (UTC)
+Date: Fri, 4 Mar 2022 18:03:23 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 10/10] python/aqmp: drop _bind_hack()
+Message-ID: <YiJUa3Mn6QhLiN3K@redhat.com>
+References: <20220225205948.3693480-1-jsnow@redhat.com>
+ <20220225205948.3693480-11-jsnow@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PULL 00/30] tcg patch queue
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220303205944.469445-1-richard.henderson@linaro.org>
- <CAFEAcA8EWNdCa7cAaVKQpuuj+0-KLfYaybjjQYUtyy+k7MVrSw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8EWNdCa7cAaVKQpuuj+0-KLfYaybjjQYUtyy+k7MVrSw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220225205948.3693480-11-jsnow@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,27 +84,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/4/22 05:22, Peter Maydell wrote:
-> This causes the linux-user tests to fail on the aarch64 host:
-> https://gitlab.com/qemu-project/qemu/-/jobs/2163919769
+On Fri, Feb 25, 2022 at 03:59:48PM -0500, John Snow wrote:
+> With the better fix in place, we don't need this anymore.
+
+"the better fix" being the previous patch in this series. Perhaps bit
+a little more verbose here.
+
 > 
-> All the qemu-i386 invocations fail like this:
-> 
-> timeout --foreground 90
-> /home/gitlab-runner/builds/CMuZxyfG/0/qemu-project/qemu/build/qemu-i386
-> sigbus > sigbus.out
-> qemu-i386: Unable to reserve 0x100000000 bytes of virtual address
-> space at 0x8000 (File exists) for use as guest address space (check
-> your virtual memory ulimit setting, min_mmap_addr or reserve less
-> using -R option)
+> Fixes: b0b662bb2b3
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/aqmp/legacy.py   |  2 +-
+>  python/qemu/aqmp/protocol.py | 41 +++---------------------------------
+>  2 files changed, 4 insertions(+), 39 deletions(-)
 
-Hmm.  It works when run standalone on aarch64.ci.qemu.org, so it must be something within 
-the ci environment.  Alex, any idea how to replicate this?
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 
-r~
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
