@@ -2,74 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B53B4CCC7A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 05:09:50 +0100 (CET)
-Received: from localhost ([::1]:42414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01314CCC9C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 05:38:37 +0100 (CET)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPzGG-0004IZ-M0
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 23:09:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57358)
+	id 1nPzi8-0003U5-AC
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 23:38:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nPzC1-0001KW-3r
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 23:05:26 -0500
-Received: from [2a00:1450:4864:20::433] (port=36854
- helo=mail-wr1-x433.google.com)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nPzh6-0002oH-Qz
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 23:37:34 -0500
+Received: from [2607:f8b0:4864:20::629] (port=41579
+ helo=mail-pl1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1nPzBz-0001Aw-5q
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 23:05:24 -0500
-Received: by mail-wr1-x433.google.com with SMTP id r10so10785349wrp.3
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 20:05:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3D0i1qD3+g6hEHFwkYhMrNGOOIatV/jutGJWb60WWfI=;
- b=2DhZAOnPEyjAvbDhyAJiQsfchNezGP72RudnUsWL7jnx/IbJwKeOiOWD7e+DEJRgpz
- EJA5ElVxNKfHe2kfnqQaEyte4rbVwfF2rsAwUTEFBWQTdi4dgxiVaME6Bj+9/Q0Bbbdc
- eG7lonvYjFzRN+bfP4eN2V/7NeBdfdyH1QYsen2n5wIU14nAmJOTDBgFj7XXHasmXMy+
- m0R40NBrtloDl1m+m3aIOEYd9f7W6oEw6az/roKvXujgJkqyb8O9JOWs/l8syVnrcA/Q
- dQ/ez/4IwG5clwdKEKMhArZeb0p9evrPCKCXCuCk9r0KwQgS0kUtohXyGZOe6e8eFWBn
- MEJg==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nPzh4-0005gF-QY
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 23:37:32 -0500
+Received: by mail-pl1-x629.google.com with SMTP id z2so6714075plg.8
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 20:37:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=/7wIepgkEEBlE4OAl3WdYdFrfmdbRU8pSWHicR5wt+8=;
+ b=KzheYB+p+ZpeXdVbIMSdBsCEmFKgfg2vhYADmMibOZA1ci+lxO7bD17pZgA5xvsAPu
+ 2Gx6zrk+kRr/llm0QoaS0sAFjsoK4lblv5QFN+r5VYOyxISe3CwuZtvfN9eVH5g0qJFZ
+ GhJnBw0g5j4NXp4smB4KG68G8f9ePbmZMfYv015w0i8BsH9MQOlJeVvgIHJHyz1/kWsX
+ 2ArfPqDgt48OqvLC6F/2c7J+b1U7W1gNWy3duT6T7Q7a3ujjajaEtAfMsbQ7I7Iqw1kc
+ I25vFgxI2XCQZVeowng3m67RjOMFpkKWcA+hjilcaxPFeRfYuhfqUgldfza+VVW6CxvJ
+ lrHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3D0i1qD3+g6hEHFwkYhMrNGOOIatV/jutGJWb60WWfI=;
- b=pbgesOGdaLC6zZLH/qazDVwxaCcsPAruhacwfp4kn/ZeBd+P9XGkh7i23ezgxvFUyD
- OAaC4HrRgAtoX7ejWBz6aTrA875cwU4b83QNQa2u0VjCJFLpm9//cLvkAY/ZN97bPmaF
- Ik5DzFujlz9fNrW6SN563lJGDiX0hXe9czlg2wU7h3nrrIjZq/8u5LrcO7Ko3O/Tbz8U
- oNDdetUo907U9L2vTyONyIirwX0yivj7E+eW8plMwt8W6ldpfcEsBTILkaYTVzOZhhlZ
- KuMgToH4rhGDm5cnXKA6GH3GullV81GYkWhePal0wz3XYOaGVHJe/39/U6i35Zchn7QE
- m7qw==
-X-Gm-Message-State: AOAM532NiyqUazR2YtWrlR5SRFdaXeA6bQZbjupG2bCQYR28tgem6W0i
- BpsdVSFBeqwMYi2PtIcikrwY2/NI8jI5zSNTsbfnTg==
-X-Google-Smtp-Source: ABdhPJxGwu869lt41yeW+9WDeistv6eUXDDI6ZIFxOmERe6GZ1qSGFSktVwQr+7F8dp1yIdAPE3w1xlxoXvZBIKaW2c=
-X-Received: by 2002:a5d:6c6b:0:b0:1ea:77ea:dde8 with SMTP id
- r11-20020a5d6c6b000000b001ea77eadde8mr29085283wrz.690.1646366720968; Thu, 03
- Mar 2022 20:05:20 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/7wIepgkEEBlE4OAl3WdYdFrfmdbRU8pSWHicR5wt+8=;
+ b=8BK4G2vvs4uPNJNiJEBGvDg7wr3Y8jPlguVy8Z+P+gOBU92CMvCEtcxf01MPQhduHq
+ NWWk59uVlyoA9DaVlTAr7sdITAqaswlOCLPcjBgf3ClCDLMgYIlzYvS6H/un+qaMMKu1
+ d/GGHVz9zbVcE9OsLPXaFCFsj+jvEJoaFCR2/wPuA6nVCBZUiMSCpqSNTPqFwtq2cqah
+ cs266SUrmloCT1fq/+zZg6N2TQyeAryEXcntyGkGdFQiqsTkFuBb9JQK4dPGd3zk99R6
+ AhFnZnVOhAAl040E+GZh/APHSpcTaklfAVE2xwHqEzw7Idykb3+cZ9wPPJfT3myM6zPU
+ aTHA==
+X-Gm-Message-State: AOAM532yMnLi6D/KU3x8Kb/6ZaLIB6HCIPZuMHKcxF1fI6LLDdQUceAd
+ /yg1jM32IzHHZB67cOWg2XQ=
+X-Google-Smtp-Source: ABdhPJzqrX1tdc9WSt/0shNydSDKBnZKARAHUoQsoO7yoE5GX/YTUxPI/WgK3A1lVKLwuNglwyxy3Q==
+X-Received: by 2002:a17:902:ea11:b0:151:a425:1ebb with SMTP id
+ s17-20020a170902ea1100b00151a4251ebbmr8966689plg.63.1646368648472; 
+ Thu, 03 Mar 2022 20:37:28 -0800 (PST)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ b9-20020a056a000cc900b004f3581ae086sm4435327pfv.16.2022.03.03.20.37.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Mar 2022 20:37:27 -0800 (PST)
+Message-ID: <b3279a3c-6951-8016-617a-81abb04bd137@gmail.com>
+Date: Fri, 4 Mar 2022 13:37:22 +0900
 MIME-Version: 1.0
-References: <20220304032023.730344-1-atishp@rivosinc.com>
- <20220304032023.730344-2-atishp@rivosinc.com>
-In-Reply-To: <20220304032023.730344-2-atishp@rivosinc.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 4 Mar 2022 09:35:07 +0530
-Message-ID: <CAAhSdy2W4aDauH50zS_BNaeghTsDNVMsYHQtkaeydz5Ob-O_SQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] target/riscv: Rename timer & timecmp to mtimer
- and mtimecmp
-To: Atish Patra <atishp@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v15 3/8] net/vmnet: implement shared mode (vmnet-shared)
+Content-Language: en-US
+To: Jason Wang <jasowang@redhat.com>,
+ Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
+References: <20220225171402.64861-1-Vladislav.Yaroshchuk@jetbrains.com>
+ <20220225171402.64861-4-Vladislav.Yaroshchuk@jetbrains.com>
+ <50a27646-ce9c-c702-965f-46b602be9220@gmail.com>
+ <CAGmdLqQ8J+-sK=Huh-G8w-S0RQUEyKkN2rb6PsZAFXbd6Jk2EQ@mail.gmail.com>
+ <f839edfc-de5f-7002-4916-21c541a5185b@gmail.com>
+ <CAGmdLqRVtJN8YoxfeCYuay-k+RVofM8W=wicn0fRdjau0uwCHQ@mail.gmail.com>
+ <CAMVc7JVnxNTMhked8x=Z0baY2ApMKwB8FrESYWQjm43-6Wm+3A@mail.gmail.com>
+ <CAGmdLqQhd9q9VQUKEd_hb9rnb2HwrdAv31aB67sUj_=jiLX_Sw@mail.gmail.com>
+ <7b4e06fe-4d10-0870-5d6e-d2e70d7eb3a2@gmail.com>
+ <CAGmdLqTqcESsiyTMavKZ3U8=5yPtqdq2tunZTH-tfrzwfUMGug@mail.gmail.com>
+ <e5302fba-e773-c56d-388f-a3593bacd977@gmail.com>
+ <CAGmdLqRCSYzjWBT7OhfP-hZHYwP8F3=4hpwQ+E76ShxjmRTO5Q@mail.gmail.com>
+ <CACGkMEsgqUzm+30jxRCq1Jce6Pu=1+Jw_Q08KzoBviSb-CO6Kg@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <CACGkMEsgqUzm+30jxRCq1Jce6Pu=1+Jw_Q08KzoBviSb-CO6Kg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::433;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,206 +105,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, phillip.ennen@gmail.com,
+ qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>, Phillip Tennen <phillip@axleos.com>,
+ Roman Bolshakov <roman@roolebo.dev>, Howard Spoelstra <hsp.cat7@gmail.com>,
+ Alessio Dionisi <hello@adns.io>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Eric Blake <eblake@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 4, 2022 at 8:50 AM Atish Patra <atishp@rivosinc.com> wrote:
->
-> Currently, the aclint and ibex timer devices uses the "timer" &
-> "timecmp" to generate the m-mode timer interrupt. In future,
-> we will have timer interrupt injected to S/VS mode directly.
-> No functionality change introduced in this patch.
+On 2022/03/04 10:37, Jason Wang wrote:
+> On Thu, Mar 3, 2022 at 11:43 PM Vladislav Yaroshchuk
+> <vladislav.yaroshchuk@jetbrains.com> wrote:
+>>
+>>
+>>
+>> On Tue, Mar 1, 2022 at 11:21 AM Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+>>>
+>>> On 2022/03/01 17:09, Vladislav Yaroshchuk wrote:
+>>>>       > Not sure that only one field is enough, cause
+>>>>       > we may have two states on bh execution start:
+>>>>       > 1. There are packets in vmnet buffer s->packets_buf
+>>>>       >      that were rejected by qemu_send_async and waiting
+>>>>       >      to be sent. If this happens, we should complete sending
+>>>>       >      these waiting packets with qemu_send_async firstly,
+>>>>       >      and after that we should call vmnet_read to get
+>>>>       >      new ones and send them to QEMU;
+>>>>       > 2. There are no packets in s->packets_buf to be sent to
+>>>>       >      qemu, we only need to get new packets from vmnet
+>>>>       >      with vmnet_read and send them to QEMU
+>>>>
+>>>>      In case 1, you should just keep calling qemu_send_packet_async.
+>>>>      Actually
+>>>>      qemu_send_packet_async adds the packet to its internal queue and calls
+>>>>      the callback when it is consumed.
+>>>>
+>>>>
+>>>> I'm not sure we can keep calling qemu_send_packet_async,
+>>>> because as docs from net/queue.c says:
+>>>>
+>>>> /* [...]
+>>>>    * If a sent callback is provided to send(), the caller must handle a
+>>>>    * zero return from the delivery handler by not sending any more packets
+>>>>    * until we have invoked the callback. Only in that case will we queue
+>>>>    * the packet.
+>>>>    *
+>>>>    * If a sent callback isn't provided, we just drop the packet to avoid
+>>>>    * unbounded queueing.
+>>>>    */
+>>>>
+>>>> So after we did vmnet_read and read N packets
+>>>> into temporary s->packets_buf, we begin calling
+>>>> qemu_send_packet_async. If it returns 0 - it says
+>>>> "no more packets until sent_cb called please".
+>>>> At this moment we have N packets in s->packets_buf
+>>>> and already queued K < N of them. But, packets K..N
+>>>> are not queued and keep waiting for sent_cb to be sent
+>>>> with qemu_send_packet_async.
+>>>> Thus when sent_cb called, we should finish
+>>>> our transfer of packets K..N from s->packets_buf
+>>>> to qemu calling qemu_send_packet_async.
+>>>> I meant this.
+>>>
+>>> I missed the comment. The description is contradicting with the actual
+>>> code; qemu_net_queue_send_iov appends the packet to the queue whenever
+>>> it cannot send one immediately.
+>>>
+>>
+>> Yes, it appends, but (net/queue.c):
+>> *  qemu_net_queue_send tries to deliver the packet
+>>      immediately. If the packet cannot be delivered, the
+>>      qemu_net_queue_append is called and 0 is returned
+>>      to say the caller "the receiver is not ready, hold on";
+>> *  qemu_net_queue_append does a probe before adding
+>>      the packet to the queue:
+>>      if (queue->nq_count >= queue->nq_maxlen && !sent_cb) {
+>>          return; /* drop if queue full and no callback */
+>>      }
+>>
+>> The queue is not infinite, so we have three cases:
+>> 1. The queue is not full -> append the packet, no
+>>      problems here
+>> 2. The queue is full, no callback -> we cannot notify
+>>      a caller when we're ready, so just drop the packet
+>>      if we can't append it.
+>> 3. The queue is full, callback present -> we can notify
+>>      a caller when we are ready, so "let's queue this packet,
+>>      but expect no more (!) packets is sent until I call
+>>      sent_cb when the queue is ready"
+>>
+>> Therefore if we provide a callback and keep sending
+>> packets if 0 is returned, this may cause unlimited(!)
+>> queue growth. To prevent this, we should stop sending
+>> packets and wait for notification callback to continue.
+> 
+> Right.
+> 
+>>
+>> I don't see any contradiction with that comment.
+>>
+>>> Jason Wang, I saw you are in the MAINTAINERS for net/. Can you tell if
+>>> calling qemu_send_packet_async is allowed after it returns 0?
+>>>
+>>
+>> It may be wrong, but I think it's not allowed to send
+>> packets after qemu_send_packet_async returns 0.
+>>
+>> Jason Wang, can you confirm please?
+> 
+> With a cb, we can't do this. All users with cb will disable the source
+> polling and depend on the cb to re-read the polling.
+> (tap/l2tpv3/socket).
+> 
+> Without a cb, we can. As analyzed above, qemu_net_queue_append() can
+> limit the number of packets queued in this case.
 
-s/have timer/have a timer/
-
->
-> Add a prefix "m" these enviornment variables to indicate its
-> true purpose.
-
-s/enviornment/environment/
-
->
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-
-I suggest we should remove mtimecmp and mtimer from
-target/riscv because mtimer is a memory mapped device.
+vmnet can read multiple packets at once. What about such a case? Isn't 
+calling qemu_send_packet_async for already read packet and stopping 
+reading more fine?
 
 Regards,
-Anup
+Akihiko Odaki
 
-> ---
->  hw/intc/riscv_aclint.c | 20 ++++++++++----------
->  hw/timer/ibex_timer.c  | 14 +++++++-------
->  target/riscv/cpu.h     |  4 ++--
->  target/riscv/machine.c |  2 +-
->  4 files changed, 20 insertions(+), 20 deletions(-)
->
-> diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c
-> index f1a5d3d284fd..642794a06865 100644
-> --- a/hw/intc/riscv_aclint.c
-> +++ b/hw/intc/riscv_aclint.c
-> @@ -59,8 +59,8 @@ static void riscv_aclint_mtimer_write_timecmp(RISCVAclintMTimerState *mtimer,
->
->      uint64_t rtc_r = cpu_riscv_read_rtc(timebase_freq);
->
-> -    cpu->env.timecmp = value;
-> -    if (cpu->env.timecmp <= rtc_r) {
-> +    cpu->env.mtimecmp = value;
-> +    if (cpu->env.mtimecmp <= rtc_r) {
->          /*
->           * If we're setting an MTIMECMP value in the "past",
->           * immediately raise the timer interrupt
-> @@ -71,7 +71,7 @@ static void riscv_aclint_mtimer_write_timecmp(RISCVAclintMTimerState *mtimer,
->
->      /* otherwise, set up the future timer interrupt */
->      qemu_irq_lower(mtimer->timer_irqs[hartid - mtimer->hartid_base]);
-> -    diff = cpu->env.timecmp - rtc_r;
-> +    diff = cpu->env.mtimecmp - rtc_r;
->      /* back to ns (note args switched in muldiv64) */
->      uint64_t ns_diff = muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
->
-> @@ -96,7 +96,7 @@ static void riscv_aclint_mtimer_write_timecmp(RISCVAclintMTimerState *mtimer,
->          next = MIN(next, INT64_MAX);
->      }
->
-> -    timer_mod(cpu->env.timer, next);
-> +    timer_mod(cpu->env.mtimer, next);
->  }
->
->  /*
-> @@ -127,11 +127,11 @@ static uint64_t riscv_aclint_mtimer_read(void *opaque, hwaddr addr,
->                            "aclint-mtimer: invalid hartid: %zu", hartid);
->          } else if ((addr & 0x7) == 0) {
->              /* timecmp_lo */
-> -            uint64_t timecmp = env->timecmp;
-> +            uint64_t timecmp = env->mtimecmp;
->              return timecmp & 0xFFFFFFFF;
->          } else if ((addr & 0x7) == 4) {
->              /* timecmp_hi */
-> -            uint64_t timecmp = env->timecmp;
-> +            uint64_t timecmp = env->mtimecmp;
->              return (timecmp >> 32) & 0xFFFFFFFF;
->          } else {
->              qemu_log_mask(LOG_UNIMP,
-> @@ -168,14 +168,14 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
->                            "aclint-mtimer: invalid hartid: %zu", hartid);
->          } else if ((addr & 0x7) == 0) {
->              /* timecmp_lo */
-> -            uint64_t timecmp_hi = env->timecmp >> 32;
-> +            uint64_t timecmp_hi = env->mtimecmp >> 32;
->              riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
->                  timecmp_hi << 32 | (value & 0xFFFFFFFF),
->                  mtimer->timebase_freq);
->              return;
->          } else if ((addr & 0x7) == 4) {
->              /* timecmp_hi */
-> -            uint64_t timecmp_lo = env->timecmp;
-> +            uint64_t timecmp_lo = env->mtimecmp;
->              riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
->                  value << 32 | (timecmp_lo & 0xFFFFFFFF),
->                  mtimer->timebase_freq);
-> @@ -304,9 +304,9 @@ DeviceState *riscv_aclint_mtimer_create(hwaddr addr, hwaddr size,
->
->          cb->s = RISCV_ACLINT_MTIMER(dev);
->          cb->num = i;
-> -        env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-> +        env->mtimer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
->                                    &riscv_aclint_mtimer_cb, cb);
-> -        env->timecmp = 0;
-> +        env->mtimecmp = 0;
->
->          qdev_connect_gpio_out(dev, i,
->                                qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_TIMER));
-> diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
-> index 8c2ca364daab..4c34f9e08282 100644
-> --- a/hw/timer/ibex_timer.c
-> +++ b/hw/timer/ibex_timer.c
-> @@ -73,9 +73,9 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
->      }
->
->      /* Update the CPUs mtimecmp */
-> -    cpu->env.timecmp = value;
-> +    cpu->env.mtimecmp = value;
->
-> -    if (cpu->env.timecmp <= now) {
-> +    if (cpu->env.mtimecmp <= now) {
->          /*
->           * If the mtimecmp was in the past raise the interrupt now.
->           */
-> @@ -91,7 +91,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
->      qemu_irq_lower(s->m_timer_irq);
->      qemu_set_irq(s->irq, false);
->
-> -    diff = cpu->env.timecmp - now;
-> +    diff = cpu->env.mtimecmp - now;
->      next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
->                                   muldiv64(diff,
->                                            NANOSECONDS_PER_SECOND,
-> @@ -99,9 +99,9 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
->
->      if (next < qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)) {
->          /* We overflowed the timer, just set it as large as we can */
-> -        timer_mod(cpu->env.timer, 0x7FFFFFFFFFFFFFFF);
-> +        timer_mod(cpu->env.mtimer, 0x7FFFFFFFFFFFFFFF);
->      } else {
-> -        timer_mod(cpu->env.timer, next);
-> +        timer_mod(cpu->env.mtimer, next);
->      }
->  }
->
-> @@ -122,9 +122,9 @@ static void ibex_timer_reset(DeviceState *dev)
->
->      CPUState *cpu = qemu_get_cpu(0);
->      CPURISCVState *env = cpu->env_ptr;
-> -    env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-> +    env->mtimer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
->                                &ibex_timer_cb, s);
-> -    env->timecmp = 0;
-> +    env->mtimecmp = 0;
->
->      s->timer_ctrl = 0x00000000;
->      s->timer_cfg0 = 0x00010000;
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 5d914bd34550..94234c59ffa8 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -265,7 +265,7 @@ struct CPURISCVState {
->      /* temporary htif regs */
->      uint64_t mfromhost;
->      uint64_t mtohost;
-> -    uint64_t timecmp;
-> +    uint64_t mtimecmp;
->
->      /* physical memory protection */
->      pmp_table_t pmp_state;
-> @@ -316,7 +316,7 @@ struct CPURISCVState {
->      float_status fp_status;
->
->      /* Fields from here on are preserved across CPU reset. */
-> -    QEMUTimer *timer; /* Internal timer */
-> +    QEMUTimer *mtimer; /* Internal timer for M-mode interrupt */
->
->      hwaddr kernel_addr;
->      hwaddr fdt_addr;
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index ebc33c9e2781..be3022082a46 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -303,7 +303,7 @@ const VMStateDescription vmstate_riscv_cpu = {
->          VMSTATE_UINTTL(env.mscratch, RISCVCPU),
->          VMSTATE_UINT64(env.mfromhost, RISCVCPU),
->          VMSTATE_UINT64(env.mtohost, RISCVCPU),
-> -        VMSTATE_UINT64(env.timecmp, RISCVCPU),
-> +        VMSTATE_UINT64(env.mtimecmp, RISCVCPU),
->
->          VMSTATE_END_OF_LIST()
->      },
-> --
-> 2.30.2
->
->
+> 
+> Thanks
+> 
+>>
+>> Best Regards,
+>>
+>> Vladislav Yaroshchuk
+>>
+>>>
+>>> Regards,
+>>> Akihiko Odaki
+>>
+>>
+>>
+> 
+
 
