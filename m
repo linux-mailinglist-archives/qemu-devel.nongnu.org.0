@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5824D4CDC86
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:32:09 +0100 (CET)
-Received: from localhost ([::1]:50258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4494F4CDD11
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:00:10 +0100 (CET)
+Received: from localhost ([::1]:59040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQCim-0001bp-9z
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:32:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46010)
+	id 1nQD9s-0002lB-Vq
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:00:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQCfX-00083t-KG
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:28:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48995)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQCfR-0004Dz-GR
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:28:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646418520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aT571ZHY94nTrFNLacZxNd/vn1stDjS/niJ2mQL87L8=;
- b=P0zaOKmvWVkjglsaXebzJUW/FBxB0CM2GftVpR/4SWYuXgF5w18MqaNUa/MeRltwlQXE5F
- BM33YJgFfCqx4ftCbdsk2N3XSrBlZG6lsNr1fWqF4kdUcTXp4lyv+ePjAMd/qbzgHCiEQ+
- UZRY4GdpV20uQJ+at+18QEeqRTDpSwU=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-va9aKSgVNJqlTYkK5tAbcg-1; Fri, 04 Mar 2022 13:28:39 -0500
-X-MC-Unique: va9aKSgVNJqlTYkK5tAbcg-1
-Received: by mail-ua1-f71.google.com with SMTP id
- i39-20020a9f3b27000000b00341888cb8e8so4354408uah.5
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 10:28:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nQCn9-0007fz-Fl
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:36:43 -0500
+Received: from [2607:f8b0:4864:20::1131] (port=33962
+ helo=mail-yw1-x1131.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nQCn6-00082I-Nj
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 13:36:38 -0500
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-2db2add4516so101459837b3.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 10:36:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gaDu5fZePzBVNfAVpXpEa0n5sdOjwhrJsI3Cis42Yvg=;
+ b=LdDLfapbrcYaq5qj6BObrTT+vlGB1XzD3+C4+Ug+FpmVenAVB0mIdZyoTTCdn/rkPT
+ L7OMPRJcKkZEF3eJqiMDopEERjEN9oaKSVwjAwIcgIEW+tY7Xt3+DSoi1YBjsTG0bpz2
+ IGpPY0IXJlYVjiiLE7BcQFOMkniFx8aIP4A+CONXooguFaiI9CLvWUXkvGCHDfEEe0YL
+ 8R8XZCV1FAdaNXR1oH1KQJXOFqk3r9ZCgTsAqTb9G5Qxdn05oVmXfcKXltIKSCw/exRM
+ PmjREfr0xVw2oW3s/S370zXmz6tKMApMlDtHx5ecklAo5suqA64NV6PuWW2zDwIoyGgy
+ 8ffA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=aT571ZHY94nTrFNLacZxNd/vn1stDjS/niJ2mQL87L8=;
- b=1VRCF15xodv7flgXLhffNAs2FImU1v5YqydR4MYtOGk/VvAoFOj7Y867IsDGVP0Ry9
- aiW4yBOC65Y3RRsm22UQ3z7f+RmQFEImwn0WZN/KWX9VoZp9b0UGtrxloHulkuHB05c2
- BwS1MMGWpi1pIL/EYhYecMNwFvbamRC6YsXllJWhuYia90JSLkjF6EsimOR8xGgBcDGE
- YVXrQKlZ+FuqmRaIp2nHM32xDkXNlAL3KZEtH7HHGjbmrqB6uAm4E2Laf6KojqCKeOPV
- y6mIL/Nl5jtduwmOOp9z7ITw7hfNgKR+tUk5VrblGzNxqJDNhpeHvIWYb3CRNeo1GO8C
- vrFA==
-X-Gm-Message-State: AOAM531seKgYEjt9U9FOfOq1zYSa9k28wwl4Y66dgJKie+K88DcTaNnE
- 3+8phfkjoxqkI0O1IcaYQ3lqOQkmST8avwdjdDzi1f1UMazK/tCxHmOx0eHzVl9ECU+GbBu2kR0
- eAqiLM0wg8zA7x14mJszj6xSufkZqpjs=
-X-Received: by 2002:a05:6122:985:b0:32d:a8d5:7b12 with SMTP id
- g5-20020a056122098500b0032da8d57b12mr18356472vkd.3.1646418518494; 
- Fri, 04 Mar 2022 10:28:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwO8Nl8mSZjJu7juc6KrFY49Jts2xkYZ0b5q6nAOd5y9gV+0DSJoNcv/+sFbbhCXJSPlE130B68Jbz2+EivV7w=
-X-Received: by 2002:a05:6122:985:b0:32d:a8d5:7b12 with SMTP id
- g5-20020a056122098500b0032da8d57b12mr18356463vkd.3.1646418518298; Fri, 04 Mar
- 2022 10:28:38 -0800 (PST)
+ bh=gaDu5fZePzBVNfAVpXpEa0n5sdOjwhrJsI3Cis42Yvg=;
+ b=zIGElqw5th/F079D9mqlMm9ELYwW4hOKOGYSRkOxNqQlX2fnGN9qxyO4DcI6o3OM1o
+ kw4SP89vofzSjPNfj7+GU09ezzLXmWEPGOMN5FKBE+SSvtdOiLCC1MANNRRzFQx+XaLm
+ CjSNlQ1BE7Ounv9s44Iz/aqeQ+Q9ReVpoFTf0s8O80L5jWIEQTaFs6mUxeesnh3zz9Gx
+ CUYXczsnhKMCG64rvu/CKQrFZfUDMAYNwFhL/AKVUoqLqiXMna3EyJZBGH2VxyZqnMDz
+ d9hYahouP4gpOY8hio5VV4Qg731+CxfbXKO1YqrqyMLerf5VliihHBAJ2K2KX+bugeC4
+ 9zLQ==
+X-Gm-Message-State: AOAM533Avmz8gyiSx+sbUAMPPy66i/Hhq9aqMI4UdR1BzLEGxU4+FnsT
+ 8fD2nY6Q25Hny/yIbeLfciqlL//hnQC78xc0r43jmg==
+X-Google-Smtp-Source: ABdhPJxF/DUy2Q3lENHzYNKpvtCdf0QODNE8Q1nvKLKevvFMaTxdK2Ybb4WrMotCAPSqZtnD7jw1HtUHqLxHnWBUVJ8=
+X-Received: by 2002:a81:12c3:0:b0:2dc:5f5a:38ec with SMTP id
+ 186-20020a8112c3000000b002dc5f5a38ecmr4095695yws.347.1646418994639; Fri, 04
+ Mar 2022 10:36:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20220225205948.3693480-1-jsnow@redhat.com>
- <YiJRKKMtK9sdB1+9@redhat.com>
-In-Reply-To: <YiJRKKMtK9sdB1+9@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 4 Mar 2022 13:28:27 -0500
-Message-ID: <CAFn=p-ZvGQkd51AvBmfDuyXb=mCRS061EOcjk5Hj46wccVVCCA@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Python: Fix qmp race condition on accept()
-To: Kevin Wolf <kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220304174559.55645-1-eric.auger@redhat.com>
+In-Reply-To: <20220304174559.55645-1-eric.auger@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 4 Mar 2022 18:36:23 +0000
+Message-ID: <CAFEAcA9_Kiu4mhaS6Sji4-aqcMAOQ3U3AYWm5mdSthBhFxK=ew@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/arm/virt: Fix gic-version=max when
+ CONFIG_ARM_GIC_TCG is unset
+To: Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1131
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,30 +83,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: qemu-devel@nongnu.org, drjones@redhat.com, qemu-arm@nongnu.org,
+ f4bug@amsat.org, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 4, 2022 at 12:49 PM Kevin Wolf <kwolf@redhat.com> wrote:
+On Fri, 4 Mar 2022 at 17:46, Eric Auger <eric.auger@redhat.com> wrote:
 >
-> Am 25.02.2022 um 21:59 hat John Snow geschrieben:
-> > GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-aqmp-accept-changes
-> > CI: https://gitlab.com/jsnow/qemu/-/pipelines/479795153
-> >
-> > This redesigns the async QMP interface to allow for race-free
-> > connections from the synchronous interface. It should hopefully address
-> > the race conditions Peter has been seeing on the NetBSD vm tests.
+> In TCG mode, if gic-version=max we always select GICv3 even if
+> CONFIG_ARM_GIC_TCG is unset. We shall rather select GICv2.
+> This also brings the benefit of fixing qos tests errors for tests
+> using gic-version=max with CONFIG_ARM_GIC_TCG unset.
 >
-> Acked-by: Kevin Wolf <kwolf@redhat.com>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Fixes: a8a5546798c3 ("hw/intc/arm_gicv3: Introduce CONFIG_ARM_GIC_TCG Kconfig selector")
 >
+> ---
+>
+> v1 -> v2:
+> - added Drew's R-b
+> - dropped PATCH 2/2 for the time being (requires more discussions)
+> ---
+>  hw/arm/virt.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 46bf7ceddf..f29779c951 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1852,7 +1852,11 @@ static void finalize_gic_version(VirtMachineState *vms)
+>          vms->gic_version = VIRT_GIC_VERSION_2;
+>          break;
+>      case VIRT_GIC_VERSION_MAX:
+> +#ifdef CONFIG_ARM_GIC_TCG
+>          vms->gic_version = VIRT_GIC_VERSION_3;
+> +#else
+> +        vms->gic_version = VIRT_GIC_VERSION_2;
+> +#endif
+>          break;
+>      case VIRT_GIC_VERSION_HOST:
+>          error_report("gic-version=host requires KVM");
 
-Thanks so much to the both of you!
+This doesn't look right, because the correct condition for
+"should 'max' be 2 or 3" is "do we have a GICv2 or a GICv3
+compiled in", which is nothing to do with "is the GIC a TCG
+GIC or the KVM GIC". Indeed at this point in the code we
+know we're dealing with TCG, so the right response to
+"we don't have a TCG GIC" is "give up entirely".
 
-I was dreading this fix, but it wound up being *pretty* clean in the
-end, I think. I really appreciate the double-check here.
+I think fundamentally CONFIG_ARM_GIC_TCG is either misnamed
+or selecting the wrong files to compile.
 
---js
-
+thanks
+-- PMM
 
