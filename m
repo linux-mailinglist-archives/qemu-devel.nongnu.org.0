@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C324CDCB0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:37:20 +0100 (CET)
-Received: from localhost ([::1]:58076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BED4CDBE0
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:12:55 +0100 (CET)
+Received: from localhost ([::1]:42170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQCnn-0006zy-Og
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:37:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38856)
+	id 1nQCQA-0001NP-3f
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:12:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQCBI-0003ga-TS
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:57:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35269)
+ id 1nQCBi-0004Co-T4
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:57:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQCBG-0003sH-S6
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:57:32 -0500
+ id 1nQCBh-0003uy-Do
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 12:57:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646416650;
+ s=mimecast20190719; t=1646416676;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yzo76Ni3PpwcgL2fguB4KPw0ZqKA5SEdC7L2nrGbvV8=;
- b=Af5bdc6s60AjwngSfPG3Z0BDqfC5Hu8fEFBpZzQH6kSxyYPDUW3GrKa/kiVH6bvquU+g4F
- JxxWX+FxjcOWIHoSq8P1qprcGI+WZ+YrHijJnkAJgC7ZL2DfjtynpvyfWyOVFbcSlBpJp/
- H2rPKE6Unb5KQMkpieyrItxQKHyRrNA=
+ bh=i4qMDn5XKc4PD9utwgVZGgxvwp4YpnAihL4Tz0qLdwM=;
+ b=gWVFLrmCy279iA45hvlJw8Xng59/IQUZhzf//XqjhpnXEGHPrXljcLyNjkKmGEMaYGGWbG
+ P3/E1x/HQ81PIO/wN0kTn+Lp1c7M2zPdTn4fUXHGZb8vK1ySVeJl6Cy0C6DL5V1WDRPipL
+ XDwYFAb5i7D2CA7tcpLR0Wx6v7FbCAw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-RMw_Fzi9MxieScgMLoXsgw-1; Fri, 04 Mar 2022 12:57:27 -0500
-X-MC-Unique: RMw_Fzi9MxieScgMLoXsgw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-531-93ovHWx2Mw6dAQVdJLx-kQ-1; Fri, 04 Mar 2022 12:57:53 -0500
+X-MC-Unique: 93ovHWx2Mw6dAQVdJLx-kQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AB311006AA5;
- Fri,  4 Mar 2022 17:57:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9E29800423;
+ Fri,  4 Mar 2022 17:57:52 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CA4986B56;
- Fri,  4 Mar 2022 17:57:24 +0000 (UTC)
-Date: Fri, 4 Mar 2022 17:57:21 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA509797E1;
+ Fri,  4 Mar 2022 17:57:50 +0000 (UTC)
+Date: Fri, 4 Mar 2022 17:57:47 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 06/10] python/aqmp: refactor _do_accept() into two
- distinct steps
-Message-ID: <YiJTAR1wVu2tBgWO@redhat.com>
+Subject: Re: [PATCH 07/10] python/aqmp: stop the server during disconnect()
+Message-ID: <YiJTG6f68EYQMneJ@redhat.com>
 References: <20220225205948.3693480-1-jsnow@redhat.com>
- <20220225205948.3693480-7-jsnow@redhat.com>
+ <20220225205948.3693480-8-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220225205948.3693480-7-jsnow@redhat.com>
+In-Reply-To: <20220225205948.3693480-8-jsnow@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,20 +91,15 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 25, 2022 at 03:59:44PM -0500, John Snow wrote:
-> Refactor _do_accept() into _do_start_server() and _do_accept(). As of
-> this commit, the former calls the latter, but in subsequent commits
-> they'll be split apart.
-> 
-> (So please forgive the misnomer for _do_start_server(); it will live up
-> to its name shortly, and the docstring will be updated then too. I'm
-> just cutting down on some churn.)
+On Fri, Feb 25, 2022 at 03:59:45PM -0500, John Snow wrote:
+> Before we allow the full separation of starting the server and accepting
+> new connections, make sure that the disconnect cleans up the server and
+> its new state, too.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/aqmp/protocol.py | 29 ++++++++++++++++++++++++-----
->  python/tests/protocol.py     |  4 ++--
->  2 files changed, 26 insertions(+), 7 deletions(-)
+>  python/qemu/aqmp/protocol.py | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
