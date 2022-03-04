@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008004CD226
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:13:40 +0100 (CET)
-Received: from localhost ([::1]:51586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 996B44CD227
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:14:17 +0100 (CET)
+Received: from localhost ([::1]:52746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ4wN-0006pZ-2Y
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:13:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38564)
+	id 1nQ4wy-0007b4-EX
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:14:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nQ4u7-00048M-Ix
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:11:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49541)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nQ4uS-0004fu-C2
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:11:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nQ4u5-0007ou-P8
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:11:19 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1nQ4uN-0007rE-B1
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:11:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646388677;
+ s=mimecast20190719; t=1646388694;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ztDvj7fiM7xkapi0r03fC+oUdKdfsZD0L/E+xi9O+Iw=;
- b=cbgSqwWcxFPhc7N7nD49KRKOTPvrj5AMXcOfOlvj6SXDDAobEGzWi1Tjgtsn+upJ43e3am
- rCPjotMN6B9YRB0nqm0Y4XCCpHJEjAzcJkiolPpVbnJQsGlt0EvkG/uN8sqbCAqTLlZiDR
- 5vnzKGslEMnueuXF0SSUDmPggidNuqc=
+ bh=XKvBT0IgzI7fojcpNLya1TNPvRgQkv3CgqP1MpKeJKE=;
+ b=RJgOJe7cyJrza5iwbefo8flZu/Nb0PZnrODGhnMscfacNgwtczeKzZFi5tYRGBB/srQaGz
+ ZzynjbEtF3AB/asEvA7hW9368qF7KS1AbCuzBFGj4+7EiIcX8vSlj2kDNc7roB+2Nmazo9
+ 0O6CoZXbHvzqCuMWebKBzcCIbrbZ/Bs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-544-LTD4M1sSPUWJyQrxSp1IhQ-1; Fri, 04 Mar 2022 05:11:14 -0500
-X-MC-Unique: LTD4M1sSPUWJyQrxSp1IhQ-1
+ us-mta-83-PtLhnYhaO_iY1Dc7Xj4OcA-1; Fri, 04 Mar 2022 05:11:31 -0500
+X-MC-Unique: PtLhnYhaO_iY1Dc7Xj4OcA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 258E851DF;
- Fri,  4 Mar 2022 10:11:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7776C5234;
+ Fri,  4 Mar 2022 10:11:29 +0000 (UTC)
 Received: from toolbox.redhat.com (unknown [10.33.36.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48B4C842BA;
- Fri,  4 Mar 2022 10:09:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7916D842CA;
+ Fri,  4 Mar 2022 10:11:12 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/4] vhost: use wfd on functions setting vring call fd
-Date: Fri,  4 Mar 2022 11:08:52 +0100
-Message-Id: <20220304100854.14829-3-slp@redhat.com>
+Subject: [PATCH v4 3/4] configure,
+ meson: allow enabling vhost-user on all POSIX systems
+Date: Fri,  4 Mar 2022 11:08:53 +0100
+Message-Id: <20220304100854.14829-4-slp@redhat.com>
 In-Reply-To: <20220304100854.14829-1-slp@redhat.com>
 References: <20220304100854.14829-1-slp@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -91,43 +92,49 @@ Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When ioeventfd is emulated using qemu_pipe(), only EventNotifier's wfd
-can be used for writing.
+With the possibility of using a pipe pair via qemu_pipe() as a
+replacement on operating systems that doesn't support eventfd,
+vhost-user can also work on all POSIX systems.
 
-Use the recently introduced event_notifier_get_wfd() function to
-obtain the fd that our peer must use to signal the vring.
+This change allows enabling vhost-user on all non-Windows platforms
+and makes libvhost_user (which still depends on eventfd) a linux-only
+feature.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/virtio/vhost.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ configure   | 4 ++--
+ meson.build | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 7b03efccec..b643f42ea4 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1287,7 +1287,7 @@ static int vhost_virtqueue_init(struct vhost_dev *dev,
-         return r;
-     }
+diff --git a/configure b/configure
+index c56ed53ee3..daccf4be7c 100755
+--- a/configure
++++ b/configure
+@@ -1659,8 +1659,8 @@ fi
+ # vhost interdependencies and host support
  
--    file.fd = event_notifier_get_fd(&vq->masked_notifier);
-+    file.fd = event_notifier_get_wfd(&vq->masked_notifier);
-     r = dev->vhost_ops->vhost_set_vring_call(dev, &file);
-     if (r) {
-         VHOST_OPS_DEBUG(r, "vhost_set_vring_call failed");
-@@ -1542,9 +1542,9 @@ void vhost_virtqueue_mask(struct vhost_dev *hdev, VirtIODevice *vdev, int n,
+ # vhost backends
+-if test "$vhost_user" = "yes" && test "$linux" != "yes"; then
+-  error_exit "vhost-user is only available on Linux"
++if test "$vhost_user" = "yes" && test "$mingw32" = "yes"; then
++  error_exit "vhost-user is not available on Windows"
+ fi
+ test "$vhost_vdpa" = "" && vhost_vdpa=$linux
+ if test "$vhost_vdpa" = "yes" && test "$linux" != "yes"; then
+diff --git a/meson.build b/meson.build
+index 8df40bfac4..f2bc439c30 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2701,7 +2701,7 @@ if have_system or have_user
+ endif
  
-     if (mask) {
-         assert(vdev->use_guest_notifier_mask);
--        file.fd = event_notifier_get_fd(&hdev->vqs[index].masked_notifier);
-+        file.fd = event_notifier_get_wfd(&hdev->vqs[index].masked_notifier);
-     } else {
--        file.fd = event_notifier_get_fd(virtio_queue_get_guest_notifier(vvq));
-+        file.fd = event_notifier_get_wfd(virtio_queue_get_guest_notifier(vvq));
-     }
- 
-     file.index = hdev->vhost_ops->vhost_get_vq_index(hdev, n);
+ vhost_user = not_found
+-if 'CONFIG_VHOST_USER' in config_host
++if targetos == 'linux' and 'CONFIG_VHOST_USER' in config_host
+   libvhost_user = subproject('libvhost-user')
+   vhost_user = libvhost_user.get_variable('vhost_user_dep')
+ endif
 -- 
 2.35.1
 
