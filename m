@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25764CD9BC
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:07:33 +0100 (CET)
-Received: from localhost ([::1]:46024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E8ED4CDAC5
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:34:07 +0100 (CET)
+Received: from localhost ([::1]:59648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQBOv-0005bi-1O
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:07:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52342)
+	id 1nQBoc-0003qv-88
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:34:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB6A-0005lG-TQ
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB6A-0005l6-Sn
  for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30671)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB64-0007W9-Ol
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:07 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB66-0007Wv-Td
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646412483;
+ s=mimecast20190719; t=1646412485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C4NgjCNYflZ+Acwj3sJCY8vSC4ZsmygsSHlGPHs6ZTs=;
- b=Lq6lOWofMsSy5KTgC7A/jaypPZY9Tsfqddpq9wz1mVFhvZaRn+Ipvb9V/1nxX1U+LSVliH
- YizMKFnHZS7/PDiWFKppJhj0K7f767Ib649VNWHcHU0st04obTcxPwOd5EB8/jVlzLX+Yg
- fPxoMgegQ533r6C6+ysjCCc9F129EUU=
+ bh=5ATfoxIqS/4CInOpIrgkGGu4ACsvBXErhI+aWNlTSqM=;
+ b=h38n3qPk5J4WnAIKpnWnKgYHA/mM8pwESybV5Or9FiiUjS8AbYM3gfLwyixePM3TA1l7nb
+ c/pYw2vNEgIKtiXTWk9wIm2Pt1SDY/W6vqR0RGtOKm3tP1/6vvlgoG5r8pBh1b4kHwd17+
+ VyqdeN7dlRs/WODinxOTf1uovyQfPOc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-365-rh-EAFMzMyGg-uZzW2hPcg-1; Fri, 04 Mar 2022 11:48:00 -0500
-X-MC-Unique: rh-EAFMzMyGg-uZzW2hPcg-1
+ us-mta-424-KNm2W9pIOMSCicRJGP88Dg-1; Fri, 04 Mar 2022 11:48:01 -0500
+X-MC-Unique: KNm2W9pIOMSCicRJGP88Dg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73A921091DA3;
- Fri,  4 Mar 2022 16:47:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B7DF801AFE;
+ Fri,  4 Mar 2022 16:48:00 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 592318547C;
- Fri,  4 Mar 2022 16:47:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A00168547F;
+ Fri,  4 Mar 2022 16:47:59 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 32/50] assertions for blockjob.h global state API
-Date: Fri,  4 Mar 2022 17:46:53 +0100
-Message-Id: <20220304164711.474713-33-kwolf@redhat.com>
+Subject: [PULL 33/50] include/sysemu/blockdev.h: global state API
+Date: Fri,  4 Mar 2022 17:46:54 +0100
+Message-Id: <20220304164711.474713-34-kwolf@redhat.com>
 In-Reply-To: <20220304164711.474713-1-kwolf@redhat.com>
 References: <20220304164711.474713-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,90 +84,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
+blockdev functions run always under the BQL lock.
+
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20220303151616.325444-20-eesposit@redhat.com>
+Message-Id: <20220303151616.325444-21-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- blockjob.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/sysemu/blockdev.h | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/blockjob.c b/blockjob.c
-index d79a52d204..4868453d74 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -62,6 +62,7 @@ static bool is_block_job(Job *job)
- BlockJob *block_job_next(BlockJob *bjob)
- {
-     Job *job = bjob ? &bjob->job : NULL;
-+    GLOBAL_STATE_CODE();
+diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
+index f9fb54d437..3211b16513 100644
+--- a/include/sysemu/blockdev.h
++++ b/include/sysemu/blockdev.h
+@@ -13,9 +13,6 @@
+ #include "block/block.h"
+ #include "qemu/queue.h"
  
-     do {
-         job = job_next(job);
-@@ -73,6 +74,7 @@ BlockJob *block_job_next(BlockJob *bjob)
- BlockJob *block_job_get(const char *id)
- {
-     Job *job = job_get(id);
-+    GLOBAL_STATE_CODE();
- 
-     if (job && is_block_job(job)) {
-         return container_of(job, BlockJob, job);
-@@ -184,6 +186,7 @@ static const BdrvChildClass child_job = {
- 
- void block_job_remove_all_bdrv(BlockJob *job)
- {
-+    GLOBAL_STATE_CODE();
+-void blockdev_mark_auto_del(BlockBackend *blk);
+-void blockdev_auto_del(BlockBackend *blk);
+-
+ typedef enum {
+     IF_DEFAULT = -1,            /* for use with drive_add() only */
      /*
-      * bdrv_root_unref_child() may reach child_job_[can_]set_aio_ctx(),
-      * which will also traverse job->nodes, so consume the list one by
-@@ -206,6 +209,7 @@ void block_job_remove_all_bdrv(BlockJob *job)
- bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs)
- {
-     GSList *el;
-+    GLOBAL_STATE_CODE();
+@@ -38,6 +35,16 @@ struct DriveInfo {
+     QTAILQ_ENTRY(DriveInfo) next;
+ };
  
-     for (el = job->nodes; el; el = el->next) {
-         BdrvChild *c = el->data;
-@@ -222,6 +226,7 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
- {
-     BdrvChild *c;
-     bool need_context_ops;
-+    GLOBAL_STATE_CODE();
- 
-     bdrv_ref(bs);
- 
-@@ -271,6 +276,8 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-     const BlockJobDriver *drv = block_job_driver(job);
-     int64_t old_speed = job->speed;
- 
-+    GLOBAL_STATE_CODE();
++/*
++ * Global state (GS) API. These functions run under the BQL.
++ *
++ * See include/block/block-global-state.h for more information about
++ * the GS API.
++ */
 +
-     if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
-         return false;
-     }
-@@ -309,6 +316,8 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
-     BlockJobInfo *info;
-     uint64_t progress_current, progress_total;
- 
-+    GLOBAL_STATE_CODE();
++void blockdev_mark_auto_del(BlockBackend *blk);
++void blockdev_auto_del(BlockBackend *blk);
 +
-     if (block_job_is_internal(job)) {
-         error_setg(errp, "Cannot query QEMU internal jobs");
-         return NULL;
-@@ -491,6 +500,7 @@ fail:
- 
- void block_job_iostatus_reset(BlockJob *job)
- {
-+    GLOBAL_STATE_CODE();
-     if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
-         return;
-     }
-@@ -548,5 +558,6 @@ BlockErrorAction block_job_error_action(BlockJob *job, BlockdevOnError on_err,
- 
- AioContext *block_job_get_aio_context(BlockJob *job)
- {
-+    GLOBAL_STATE_CODE();
-     return job->job.aio_context;
- }
+ DriveInfo *blk_legacy_dinfo(BlockBackend *blk);
+ DriveInfo *blk_set_legacy_dinfo(BlockBackend *blk, DriveInfo *dinfo);
+ BlockBackend *blk_by_legacy_dinfo(DriveInfo *dinfo);
 -- 
 2.35.1
 
