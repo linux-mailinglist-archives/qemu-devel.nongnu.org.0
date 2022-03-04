@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77E94CD9F9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:19:20 +0100 (CET)
-Received: from localhost ([::1]:49092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD494CDA2F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:22:23 +0100 (CET)
+Received: from localhost ([::1]:57716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQBaJ-0001wj-Me
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:19:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52594)
+	id 1nQBdG-0007pQ-Vb
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:22:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB6R-00064r-N3
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54775)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB6S-00066p-R2
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB6Q-0007bG-83
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:27 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB6R-0007bg-FA
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646412505;
+ s=mimecast20190719; t=1646412506;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DYLtI6vdheTN/nOHTEQBJofIbsAa4YoJ1MptXr34iT4=;
- b=Yk+USc0ER55MGNMZ3EbaLEMjqYSEMilCGCEJW9W26vQCCohBX8w+37Ee8E2u8BS5WjVa+Z
- JVqy3lA4kXMQtMhMEVM5Z5nQ7D7r8+RZduI3Zl+Mtfnz7pgOWAs3JsNXF8mLudV+Yz+Xwe
- vNh2aQ47LlQ0Er//3B3s8SwZFtGR7qI=
+ bh=/Ps6sJZSmr27t0bKkQwo1DolIrUHu5VJm1oHCi7/KxY=;
+ b=PqLXUDIDk6l244X75dwAeVNGlu9JXFPIuwSbZ+LVQOCNPTwre/UOipPW06VmRgbFfEobUY
+ eDWAW0w5Muu99r1Yc9v0FV5CcBMPxnx4IYi9Vda6fa4YKrs42DvuADVLut29mVrw+5MGW1
+ Gq9LhdeNWpNJVMXsq0amWqVrggzB/0o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-346-gFhvv0PZM_ODWj9hZVvwpQ-1; Fri, 04 Mar 2022 11:48:22 -0500
-X-MC-Unique: gFhvv0PZM_ODWj9hZVvwpQ-1
+ us-mta-232-2I8IUYRQOpmtRU4lkeskqg-1; Fri, 04 Mar 2022 11:48:23 -0500
+X-MC-Unique: 2I8IUYRQOpmtRU4lkeskqg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68328FC82;
- Fri,  4 Mar 2022 16:48:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B269FFC80;
+ Fri,  4 Mar 2022 16:48:22 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69C958547F;
- Fri,  4 Mar 2022 16:48:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4A6183BF9;
+ Fri,  4 Mar 2022 16:48:21 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 41/50] block_int-common.h: assertions in the callers of
- BdrvChildClass function pointers
-Date: Fri,  4 Mar 2022 17:47:02 +0100
-Message-Id: <20220304164711.474713-42-kwolf@redhat.com>
+Subject: [PULL 42/50] block-backend-common.h: split function pointers in
+ BlockDevOps
+Date: Fri,  4 Mar 2022 17:47:03 +0100
+Message-Id: <20220304164711.474713-43-kwolf@redhat.com>
 In-Reply-To: <20220304164711.474713-1-kwolf@redhat.com>
 References: <20220304164711.474713-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,8 +55,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -66,7 +66,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,90 +85,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
+Assertions in the callers of the function pointrs are already
+added by previous patches.
+
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20220303151616.325444-29-eesposit@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20220303151616.325444-30-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ include/sysemu/block-backend-common.h | 28 ++++++++++++++++++++++-----
+ 1 file changed, 23 insertions(+), 5 deletions(-)
 
-diff --git a/block.c b/block.c
-index e5ba40d028..718e4cae8b 100644
---- a/block.c
-+++ b/block.c
-@@ -1497,7 +1497,7 @@ const BdrvChildClass child_of_bds = {
+diff --git a/include/sysemu/block-backend-common.h b/include/sysemu/block-backend-common.h
+index 6963bbf45a..2391679c56 100644
+--- a/include/sysemu/block-backend-common.h
++++ b/include/sysemu/block-backend-common.h
+@@ -27,6 +27,14 @@
  
- AioContext *bdrv_child_get_parent_aio_context(BdrvChild *c)
- {
--    IO_CODE();
-+    GLOBAL_STATE_CODE();
-     return c->klass->get_parent_aio_context(c);
- }
- 
-@@ -2128,6 +2128,7 @@ bool bdrv_is_writable(BlockDriverState *bs)
- 
- static char *bdrv_child_user_desc(BdrvChild *c)
- {
-+    GLOBAL_STATE_CODE();
-     return c->klass->get_parent_desc(c);
- }
- 
-@@ -2844,6 +2845,7 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
- 
-     assert(!child->frozen);
-     assert(old_bs != new_bs);
-+    GLOBAL_STATE_CODE();
- 
-     if (old_bs && new_bs) {
-         assert(bdrv_get_aio_context(old_bs) == bdrv_get_aio_context(new_bs));
-@@ -2940,6 +2942,7 @@ static void bdrv_attach_child_common_abort(void *opaque)
-     BdrvChild *child = *s->child;
-     BlockDriverState *bs = child->bs;
- 
-+    GLOBAL_STATE_CODE();
+ /* Callbacks for block device models */
+ typedef struct BlockDevOps {
++
++    /*
++     * Global state (GS) API. These functions run under the BQL.
++     *
++     * See include/block/block-global-state.h for more information about
++     * the GS API.
++     */
++
      /*
-      * Pass free_empty_child=false, because we still need the child
-      * for the AioContext operations on the parent below; those
-@@ -3308,6 +3311,7 @@ void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
- static void bdrv_parent_cb_change_media(BlockDriverState *bs, bool load)
- {
-     BdrvChild *c;
-+    GLOBAL_STATE_CODE();
-     QLIST_FOREACH(c, &bs->parents, next_parent) {
-         if (c->klass->change_media) {
-             c->klass->change_media(c, load);
-@@ -3807,6 +3811,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
- 
-     assert(!child_class || !flags);
-     assert(!child_class == !parent);
-+    GLOBAL_STATE_CODE();
- 
-     if (reference) {
-         bool options_non_empty = options ? qdict_size(options) : false;
-@@ -4193,6 +4198,7 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
-      * important to avoid graph changes between the recursive queuing here and
-      * bdrv_reopen_multiple(). */
-     assert(bs->quiesce_counter > 0);
-+    GLOBAL_STATE_CODE();
- 
-     if (bs_queue == NULL) {
-         bs_queue = g_new0(BlockReopenQueue, 1);
-@@ -7327,6 +7333,7 @@ void bdrv_set_aio_context_ignore(BlockDriverState *bs,
-     BdrvChild *child, *parent;
- 
-     g_assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-+    GLOBAL_STATE_CODE();
- 
-     if (old_context == new_context) {
-         return;
-@@ -7399,6 +7406,7 @@ void bdrv_set_aio_context_ignore(BlockDriverState *bs,
- static bool bdrv_parent_can_set_aio_context(BdrvChild *c, AioContext *ctx,
-                                             GSList **ignore, Error **errp)
- {
-+    GLOBAL_STATE_CODE();
-     if (g_slist_find(*ignore, c)) {
-         return true;
-     }
+      * Runs when virtual media changed (monitor commands eject, change)
+      * Argument load is true on load and false on eject.
+@@ -44,16 +52,26 @@ typedef struct BlockDevOps {
+      * true, even if they do not support eject requests.
+      */
+     void (*eject_request_cb)(void *opaque, bool force);
+-    /*
+-     * Is the virtual tray open?
+-     * Device models implement this only when the device has a tray.
+-     */
+-    bool (*is_tray_open)(void *opaque);
++
+     /*
+      * Is the virtual medium locked into the device?
+      * Device models implement this only when device has such a lock.
+      */
+     bool (*is_medium_locked)(void *opaque);
++
++    /*
++     * I/O API functions. These functions are thread-safe.
++     *
++     * See include/block/block-io.h for more information about
++     * the I/O API.
++     */
++
++    /*
++     * Is the virtual tray open?
++     * Device models implement this only when the device has a tray.
++     */
++    bool (*is_tray_open)(void *opaque);
++
+     /*
+      * Runs when the size changed (e.g. monitor command block_resize)
+      */
 -- 
 2.35.1
 
