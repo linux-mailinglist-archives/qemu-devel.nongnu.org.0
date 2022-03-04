@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097F94CD258
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:25:20 +0100 (CET)
-Received: from localhost ([::1]:35578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F0054CD256
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:25:01 +0100 (CET)
+Received: from localhost ([::1]:34450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ57f-0007fN-41
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:25:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40436)
+	id 1nQ57M-0006dz-Ip
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:25:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ52n-0003ca-NV
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:20:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60448)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQ53M-0004Km-42
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:20:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ52l-0001vd-MZ
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:20:17 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQ53K-000231-Pi
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:20:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646389214;
+ s=mimecast20190719; t=1646389250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xT9rMbAJiIPmZJCBsFjN9G6fildk+Sf62878RFPslXU=;
- b=O0Xrx7Xuuh+vIbHP2BBZZ0uhHGpxtaZxIPU29j5C8HIb9YSx68Z4bRwgtQ2YtUMqu3ubR1
- Jn6VNRIr1LixPUe9RFBUR0WK0hAdME5cziPJRy40f8rrxu7ocbrlMYH7r70vXGATF+GI0f
- iJXhrUkBOcZKkjg6msO+2s0NwUsi6TI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AV6aeINCyhEid84tyuZpLcbbAEVehAtxRgfa8zDL4aM=;
+ b=NPuvmd4ct2D08bD3O/xFzn45QnyU8apXYkx4tEY+1KCsTIMtl1aLa2yLdRvGSp8ZUERuNM
+ DQ/uIsVbjA59MLn4Q1JsyQk66VerttuoAqiMa9TV5R5VgLUMviAk51xN4xX7sKr2juAIAa
+ RNDZwCQb+G5x1PH9Q/+jd4F7irCvUKQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-196-tDKSH2-EMUyRB-PejTe8Lw-1; Fri, 04 Mar 2022 05:20:13 -0500
-X-MC-Unique: tDKSH2-EMUyRB-PejTe8Lw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- b7-20020a05600003c700b001efac398af7so3208342wrg.22
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 02:20:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xT9rMbAJiIPmZJCBsFjN9G6fildk+Sf62878RFPslXU=;
- b=ppgIsTMHhs/IyTPshpo1gzDbIM5cHX/Om/QIGJhe1xf+Lyqjjlt/A1V3noPc81RdpR
- jkIEibQprK+85mtvhLEqR3hrP7z5HZAQrWsA8bPNU5rc+CILP5/+nMebWm2iIK/P6DTg
- SQFmPfrkHIp8Cz8BGgISi6z/uRrIWk6gPXO0+qdJOFgZDAEdhNbyCpJ2yJBER6S5hxZF
- 53XECVxjTKN7Pae1X2mlpc2Lhzk9OuSIql5SngFRL30IqB4qdk6LgwjRIJJQRoeMGhZV
- TGCHiXXSWeEURmM9yM6AidLgCCzvS4mblYXkA1HtYruKX25ePr4UaXW70F217xXUz2bR
- FARA==
-X-Gm-Message-State: AOAM531M9jqCcGmkoJHvoOfPPj7oOLXcI8b/iRIFxdhKXrBcDw/T2X9E
- /l6S6HZqHvNOt+6cv8rTB7/G1jT1x0MFSzazJhrA15POStRUI0MedyiXBR0lk14beSOwAr/riT8
- QF4UR4HsDJ7gfQZg=
-X-Received: by 2002:a05:600c:2314:b0:381:8931:2387 with SMTP id
- 20-20020a05600c231400b0038189312387mr7292626wmo.76.1646389211922; 
- Fri, 04 Mar 2022 02:20:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxpGLeu6GFNwzLmx6/18eiP2hVylgSCWZjJnfi97EUQfV/GACBYS0j9xP16Gr5VdqGRWxR7QQ==
-X-Received: by 2002:a05:600c:2314:b0:381:8931:2387 with SMTP id
- 20-20020a05600c231400b0038189312387mr7292602wmo.76.1646389211537; 
- Fri, 04 Mar 2022 02:20:11 -0800 (PST)
-Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- d8-20020a056000114800b001f045f3435asm5966127wrx.108.2022.03.04.02.20.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 02:20:10 -0800 (PST)
-Date: Fri, 4 Mar 2022 05:20:07 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH vRESEND] virtio/virtio-balloon: Prefer Object* over void*
- parameter
-Message-ID: <20220304051952-mutt-send-email-mst@kernel.org>
-References: <20220301222301.103821-1-shentey@gmail.com>
- <20220301222301.103821-2-shentey@gmail.com>
+ us-mta-616-himtsi-gNrKkmjUoLlNaMw-1; Fri, 04 Mar 2022 05:20:48 -0500
+X-MC-Unique: himtsi-gNrKkmjUoLlNaMw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8766800423;
+ Fri,  4 Mar 2022 10:20:47 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C78177C0CB;
+ Fri,  4 Mar 2022 10:20:41 +0000 (UTC)
+Date: Fri, 4 Mar 2022 11:20:39 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 1/4] os-posix: Add os_set_daemonize()
+Message-ID: <YiHn9yQY2d98KaHk@redhat.com>
+References: <20220303164814.284974-1-hreitz@redhat.com>
+ <20220303164814.284974-2-hreitz@redhat.com>
+ <YiHZsQghj8E5TRZX@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220301222301.103821-2-shentey@gmail.com>
+In-Reply-To: <YiHZsQghj8E5TRZX@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,74 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 01, 2022 at 11:23:01PM +0100, Bernhard Beschow wrote:
-> *opaque is an alias to *obj. Using the ladder makes the code consistent with
-> with other devices, e.g. accel/kvm/kvm-all and accel/tcg/tcg-all. It also
-> makes the cast more typesafe.
+Am 04.03.2022 um 10:19 hat Daniel P. Berrangé geschrieben:
+> On Thu, Mar 03, 2022 at 05:48:11PM +0100, Hanna Reitz wrote:
+> > The daemonizing functions in os-posix (os_daemonize() and
+> > os_setup_post()) only daemonize the process if the static `daemonize`
+> > variable is set.  Right now, it can only be set by os_parse_cmd_args().
+> > 
+> > In order to use os_daemonize() and os_setup_post() from the storage
+> > daemon to have it be daemonized, we need some other way to set this
+> > `daemonize` variable, because I would rather not tap into the system
+> > emulator's arg-parsing code.  Therefore, this patch adds an
+> > os_set_daemonize() function, which will return an error on os-win32
+> > (because daemonizing is not supported there).
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-trivial tree pls
-
-> ---
->  hw/virtio/virtio-balloon.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+> IMHO the real flaw here is the design of 'os_daemonize' in that it
+> relies on static state. If I see a call to a function 'os_daemonize()'
+> I expect to be daemonized on return, but with this design that is not
+> guaranteed which is a big surprise.
 > 
-> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> index e6c1b0aa46..163d244eb4 100644
-> --- a/hw/virtio/virtio-balloon.c
-> +++ b/hw/virtio/virtio-balloon.c
-> @@ -242,7 +242,7 @@ static void balloon_stats_get_all(Object *obj, Visitor *v, const char *name,
->                                    void *opaque, Error **errp)
->  {
->      Error *err = NULL;
-> -    VirtIOBalloon *s = opaque;
-> +    VirtIOBalloon *s = VIRTIO_BALLOON(obj);
->      int i;
->  
->      if (!visit_start_struct(v, name, NULL, 0, &err)) {
-> @@ -277,7 +277,7 @@ static void balloon_stats_get_poll_interval(Object *obj, Visitor *v,
->                                              const char *name, void *opaque,
->                                              Error **errp)
->  {
-> -    VirtIOBalloon *s = opaque;
-> +    VirtIOBalloon *s = VIRTIO_BALLOON(obj);
->      visit_type_int(v, name, &s->stats_poll_interval, errp);
->  }
->  
-> @@ -285,7 +285,7 @@ static void balloon_stats_set_poll_interval(Object *obj, Visitor *v,
->                                              const char *name, void *opaque,
->                                              Error **errp)
->  {
-> -    VirtIOBalloon *s = opaque;
-> +    VirtIOBalloon *s = VIRTIO_BALLOON(obj);
->      int64_t value;
->  
->      if (!visit_type_int(v, name, &value, errp)) {
-> @@ -1015,12 +1015,12 @@ static void virtio_balloon_instance_init(Object *obj)
->      s->free_page_hint_notify.notify = virtio_balloon_free_page_hint_notify;
->  
->      object_property_add(obj, "guest-stats", "guest statistics",
-> -                        balloon_stats_get_all, NULL, NULL, s);
-> +                        balloon_stats_get_all, NULL, NULL, NULL);
->  
->      object_property_add(obj, "guest-stats-polling-interval", "int",
->                          balloon_stats_get_poll_interval,
->                          balloon_stats_set_poll_interval,
-> -                        NULL, s);
-> +                        NULL, NULL);
->  }
->  
->  static const VMStateDescription vmstate_virtio_balloon = {
-> -- 
-> 2.35.1
+> I'd suggest we push the condition into the caller instead of adding
+> this extra function, so we have the more sane pattern:
+> 
+>    if (daemonmize()) {
+>       os_daemonize()
+>    }
+
+It's not as simple, the static daemonize variable is used in more places
+than just os_daemonize(). I'm not sure if it's worth changing how all of
+this works, but if we did, it would be a refactoring mostly focussed on
+the system emulator and an issue separate from adding the option to the
+storage daemon.
+
+Kevin
 
 
