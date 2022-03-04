@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11D44CD6C4
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:50:57 +0100 (CET)
-Received: from localhost ([::1]:60282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66324CD67A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:34:10 +0100 (CET)
+Received: from localhost ([::1]:50716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9Gi-0004we-RQ
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:50:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57476)
+	id 1nQ90T-0004Vk-Ox
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:34:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8Co-0006DP-E1
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:42:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26097)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8Ct-0006FQ-3E
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:42:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8Cm-0001L8-St
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:42:50 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ8Cr-0001LZ-KC
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 08:42:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646401368;
+ s=mimecast20190719; t=1646401373;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Oz/pT6RHRd21r93UDxWq5uxTXK9PW2uGHjqtboSYYd0=;
- b=bZl8oMU5DzB5dpQc6hYZsTA+P1WYeVcmx7aGuXXAzzj8DraH6xcUXyl+arrfih7o+8qHCQ
- GxbQU+jRR+Nvld8ptYr9XFpaXJ3bwpwt3eZW76v/wgwHg316n2//iWif9BWXwuk0EzmSiA
- GjUTRV8NptEhCulk2iUqxCRkAFgOjoU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/ZxXlOj3fAgvkjAX4A6KwV8H+KbKN1xHiKgMxaMfuzk=;
+ b=XAst3OhQQXSru0Vqw3i80jxF0HchAn9jiqyevtli2TYk83YsSfBTGMKRiuourjLVEYFZZD
+ Zt4ny9sk5RR/m8P5hsr8+DHdPEgyOOz+iBTuIr6r830iFfPxE5XsORk+6LFI4aIpR95RV7
+ 7cbprtCXgsatcdtl/q9gTvlk8J5GCVU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-377-xlEq9hlwNOikpg4lXsLItQ-1; Fri, 04 Mar 2022 08:42:47 -0500
-X-MC-Unique: xlEq9hlwNOikpg4lXsLItQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k20-20020adfc714000000b001e305cd1597so3382110wrg.19
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:42:47 -0800 (PST)
+ us-mta-509-hPCkZOPAOVq7p44FdrQr2A-1; Fri, 04 Mar 2022 08:42:52 -0500
+X-MC-Unique: hPCkZOPAOVq7p44FdrQr2A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f189-20020a1c38c6000000b0037d1bee4847so4143634wma.9
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 05:42:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Oz/pT6RHRd21r93UDxWq5uxTXK9PW2uGHjqtboSYYd0=;
- b=z3mSXXKKKKlb7AWak3fpkQAXbllpVj1mcRI12O9ZhNimPU5YKveN+1BZcRv20K7Vnu
- lH91AaeX+TEswkOLAxuyrM0KxOoRcZrTGs82l7RhxqIGGESV8uPraYanGKmjuhZrrhL/
- F43ubzUi/oau42CNH0fs6OOZ2fCmu1dmFD48ENI/0U3egKLKpCQqJufvjtU6sBmCPkWo
- aYGVMWS1f0rhmKD1SRn0DWE1Wwr82p6gsdAi4IMDzgYtFlSVse0weNPFlcgdB2qgwZT1
- LCT/Ba4EP0iu/feyO6xTITKt3Hvq4EEuDBMQxtN3syZ5O8x4MF6yQf/sHrYEiYVIDB8J
- LO1Q==
-X-Gm-Message-State: AOAM531Lnj4l2n+G5TjmLeUYrJsF3UzsqqZ+ep8wzaNgPHVseTyFn1Yq
- oz41LdjjTo3UrMr2xsB+8RQRtHnQp6pyEojkrrmj2nlXCRqGNhZRgyEaZ+QCjjw/sA1Kv76yVBb
- GBMBsqftLz5lU0ctGqqFAckpZJcGQohBEGQy/mS9h9XsVpWqU4KH9Bre7GzNk
-X-Received: by 2002:a1c:7518:0:b0:381:c77:ceec with SMTP id
- o24-20020a1c7518000000b003810c77ceecmr7930187wmc.57.1646401365949; 
- Fri, 04 Mar 2022 05:42:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyISDMi0Og+5cEZNiudGRWUpB4gdwqeGbq3utK59Qgp26eH9aer2OThi7pM3sq5LTEieYfzDw==
-X-Received: by 2002:a1c:7518:0:b0:381:c77:ceec with SMTP id
- o24-20020a1c7518000000b003810c77ceecmr7930165wmc.57.1646401365634; 
- Fri, 04 Mar 2022 05:42:45 -0800 (PST)
+ bh=/ZxXlOj3fAgvkjAX4A6KwV8H+KbKN1xHiKgMxaMfuzk=;
+ b=RHXrwMMkmnTvjMt7oS/Th2smAyW3RjgFtlTDv9NQ40uipPiw6dWGDDCUcF7OaIcRft
+ +O7LlFaCFJjd7WN/7s2NArnenRF/Wg/vPbpHSYKzgHgrxMIZWFVtjosc4PJ9iZZrcM5W
+ DuViNZqWJD+Lb59bgfHah8wV2Wr2AgPcI00FEnWkWsMEA+avkjFpoBqDQR4s9Wi53cCy
+ /jIWezYID9tOjkXCFUYNBAjszbtk+FX6mwGXqpSoBTiUWOqMrSYJ33ZgGClgupXbPYmO
+ lBB5zQqMT05HZfMiaSu35tKvOb99AD5rWLvVM9GHxJUiV7HAge3s/915VdXiDCw7+f2I
+ gQFw==
+X-Gm-Message-State: AOAM5338K8U6wZHUTtsU3sP9/13Bb5rPwm3zDpMHn0O4yxUqeFr6x/yD
+ KUDLAgC1QOIHDS/geSYGSyCD4UEnRy92PNZjs/HGLCkgrtXUQTCL2+IUP+d7w7DZKYoojczfxCN
+ xc24af75Saz1q/2gIwZeStXSNPTrUHLbEBYi4xxaFQMGviRQU5f7NhuMBV4bH
+X-Received: by 2002:a1c:e908:0:b0:37c:3d08:e0d3 with SMTP id
+ q8-20020a1ce908000000b0037c3d08e0d3mr7732263wmc.97.1646401370580; 
+ Fri, 04 Mar 2022 05:42:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzi9Nf7HZG+J2/jekPnAL5h+Qv2phV9WaZIK3tIJvJLPaZ2lJC3Nv9Up8inbzlMsuUwMf/dKw==
+X-Received: by 2002:a1c:e908:0:b0:37c:3d08:e0d3 with SMTP id
+ q8-20020a1ce908000000b0037c3d08e0d3mr7732247wmc.97.1646401370228; 
+ Fri, 04 Mar 2022 05:42:50 -0800 (PST)
 Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- m12-20020adfe0cc000000b001ede2dd604esm4502903wri.106.2022.03.04.05.42.40
+ z6-20020a1cf406000000b0037c4e2d3baesm11719232wma.19.2022.03.04.05.42.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 05:42:42 -0800 (PST)
-Date: Fri, 4 Mar 2022 08:42:38 -0500
+ Fri, 04 Mar 2022 05:42:48 -0800 (PST)
+Date: Fri, 4 Mar 2022 08:42:46 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/45] event_notifier: add event_notifier_get_wfd()
-Message-ID: <20220304133556.233983-43-mst@redhat.com>
+Subject: [PULL 43/45] vhost: use wfd on functions setting vring call fd
+Message-ID: <20220304133556.233983-44-mst@redhat.com>
 References: <20220304133556.233983-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220304133556.233983-1-mst@redhat.com>
@@ -98,68 +98,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sergio Lopez <slp@redhat.com>
 
-event_notifier_get_fd(const EventNotifier *e) always returns
-EventNotifier's read file descriptor (rfd). This is not a problem when
-the EventNotifier is backed by a an eventfd, as a single file
-descriptor is used both for reading and triggering events (rfd ==
-wfd).
+When ioeventfd is emulated using qemu_pipe(), only EventNotifier's wfd
+can be used for writing.
 
-But, when EventNotifier is backed by a pipe pair, we have two file
-descriptors, one that can only be used for reads (rfd), and the other
-only for writes (wfd).
-
-There's, at least, one known situation in which we need to obtain wfd
-instead of rfd, which is when setting up the file that's going to be
-sent to the peer in vhost's SET_VRING_CALL.
-
-Add a new event_notifier_get_wfd(const EventNotifier *e) that can be
-used to obtain wfd where needed.
+Use the recently introduced event_notifier_get_wfd() function to
+obtain the fd that our peer must use to signal the vring.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
-Message-Id: <20220303115911.20962-2-slp@redhat.com>
+Message-Id: <20220303115911.20962-3-slp@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/qemu/event_notifier.h | 1 +
- util/event_notifier-posix.c   | 5 +++++
- 2 files changed, 6 insertions(+)
+ hw/virtio/vhost.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/qemu/event_notifier.h b/include/qemu/event_notifier.h
-index b79add035d..8a4ff308e1 100644
---- a/include/qemu/event_notifier.h
-+++ b/include/qemu/event_notifier.h
-@@ -38,6 +38,7 @@ int event_notifier_test_and_clear(EventNotifier *);
- #ifdef CONFIG_POSIX
- void event_notifier_init_fd(EventNotifier *, int fd);
- int event_notifier_get_fd(const EventNotifier *);
-+int event_notifier_get_wfd(const EventNotifier *);
- #else
- HANDLE event_notifier_get_handle(EventNotifier *);
- #endif
-diff --git a/util/event_notifier-posix.c b/util/event_notifier-posix.c
-index 8307013c5d..16294e98d4 100644
---- a/util/event_notifier-posix.c
-+++ b/util/event_notifier-posix.c
-@@ -99,6 +99,11 @@ int event_notifier_get_fd(const EventNotifier *e)
-     return e->rfd;
- }
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 7b03efccec..b643f42ea4 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1287,7 +1287,7 @@ static int vhost_virtqueue_init(struct vhost_dev *dev,
+         return r;
+     }
  
-+int event_notifier_get_wfd(const EventNotifier *e)
-+{
-+    return e->wfd;
-+}
-+
- int event_notifier_set(EventNotifier *e)
- {
-     static const uint64_t value = 1;
+-    file.fd = event_notifier_get_fd(&vq->masked_notifier);
++    file.fd = event_notifier_get_wfd(&vq->masked_notifier);
+     r = dev->vhost_ops->vhost_set_vring_call(dev, &file);
+     if (r) {
+         VHOST_OPS_DEBUG(r, "vhost_set_vring_call failed");
+@@ -1542,9 +1542,9 @@ void vhost_virtqueue_mask(struct vhost_dev *hdev, VirtIODevice *vdev, int n,
+ 
+     if (mask) {
+         assert(vdev->use_guest_notifier_mask);
+-        file.fd = event_notifier_get_fd(&hdev->vqs[index].masked_notifier);
++        file.fd = event_notifier_get_wfd(&hdev->vqs[index].masked_notifier);
+     } else {
+-        file.fd = event_notifier_get_fd(virtio_queue_get_guest_notifier(vvq));
++        file.fd = event_notifier_get_wfd(virtio_queue_get_guest_notifier(vvq));
+     }
+ 
+     file.index = hdev->vhost_ops->vhost_get_vq_index(hdev, n);
 -- 
 MST
 
