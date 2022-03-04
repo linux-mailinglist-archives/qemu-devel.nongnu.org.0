@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54CE4CDA50
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:25:12 +0100 (CET)
-Received: from localhost ([::1]:38936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC564CDA4C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:24:43 +0100 (CET)
+Received: from localhost ([::1]:36342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQBfz-00061A-Rh
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:25:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52188)
+	id 1nQBfW-0004HC-BX
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:24:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB65-0005e5-0x
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21538)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB62-0005bE-Em
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB60-0007UQ-Fl
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5y-0007Tu-Oy
  for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:48:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646412479;
+ s=mimecast20190719; t=1646412478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lwdYSln28P0cgho2n9dOjg1ckh7jWGmPCv0bJAJkjRs=;
- b=QjEUI4wxVp8KybbHMcg3/l+CJJqNIR/g+wg8L43grd3p0YXSuDgvkURQFmbQka+mem56UQ
- 0kEWb8yrt3XFpvcTvE7XyDUl5st5WPrDSf0vzSoP/G/UDxYH4fr+xASKxIJxs5A/762MH0
- yok72DIW3VotEAkYM4krXj2zApq2lws=
+ bh=9XBILmH4kN+8Ai9oWIidXP53PpJN6owIT7VKMkDI9hM=;
+ b=iCFPCzTyBnuIzgAjXyQH6xP1bzAfEUhOX9BoVIA9hlxUN85tkeBCZUy5rRptgpIjs/EwgJ
+ xms868F47Ausstf4Dly3snF+jKB8Gvtsa5kt7OA5UseI8MRYZrw67h87UzHFAPwWMySFxd
+ HvlCEx+sQhRu3/7L9/DSo5ZmyufzQdM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-oJ8kLsqfOQWy6cGFvKG5LA-1; Fri, 04 Mar 2022 11:47:54 -0500
-X-MC-Unique: oJ8kLsqfOQWy6cGFvKG5LA-1
+ us-mta-606-PVacu1tLMbKuk-aZn1vEIg-1; Fri, 04 Mar 2022 11:47:54 -0500
+X-MC-Unique: PVacu1tLMbKuk-aZn1vEIg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B22FA180FD72;
- Fri,  4 Mar 2022 16:47:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04026801AFE;
+ Fri,  4 Mar 2022 16:47:54 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5F4383BF9;
- Fri,  4 Mar 2022 16:47:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 099B283BF9;
+ Fri,  4 Mar 2022 16:47:52 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 27/50] block: introduce assert_bdrv_graph_writable
-Date: Fri,  4 Mar 2022 17:46:48 +0100
-Message-Id: <20220304164711.474713-28-kwolf@redhat.com>
+Subject: [PULL 28/50] include/block/blockjob_int.h: split header into I/O and
+ GS API
+Date: Fri,  4 Mar 2022 17:46:49 +0100
+Message-Id: <20220304164711.474713-29-kwolf@redhat.com>
 In-Reply-To: <20220304164711.474713-1-kwolf@redhat.com>
 References: <20220304164711.474713-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,87 +85,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-We want to be sure that the functions that write the child and
-parent list of a bs are under BQL and drain.
-
-BQL prevents from concurrent writings from the GS API, while
-drains protect from I/O.
-
-TODO: drains are missing in some functions using this assert.
-Therefore a proper assertion will fail. Because adding drains
-requires additional discussions, they will be added in future
-series.
+Since the I/O functions are not many, keep a single file.
+Also split the function pointers in BlockJobDriver.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20220303151616.325444-15-eesposit@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20220303151616.325444-16-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block_int-global-state.h | 17 +++++++++++++++++
- block.c                                |  4 ++++
- 2 files changed, 21 insertions(+)
+ include/block/blockjob_int.h | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/include/block/block_int-global-state.h b/include/block/block_int-global-state.h
-index 5078d6a6ea..0f21b0570b 100644
---- a/include/block/block_int-global-state.h
-+++ b/include/block/block_int-global-state.h
-@@ -309,4 +309,21 @@ void bdrv_remove_aio_context_notifier(BlockDriverState *bs,
-  */
- void bdrv_drain_all_end_quiesce(BlockDriverState *bs);
+diff --git a/include/block/blockjob_int.h b/include/block/blockjob_int.h
+index 6633d83da2..6bd9ae2b20 100644
+--- a/include/block/blockjob_int.h
++++ b/include/block/blockjob_int.h
+@@ -38,6 +38,13 @@ struct BlockJobDriver {
+     /** Generic JobDriver callbacks and settings */
+     JobDriver job_driver;
  
-+/**
-+ * Make sure that the function is running under both drain and BQL.
-+ * The latter protects from concurrent writings
-+ * from the GS API, while the former prevents concurrent reads
-+ * from I/O.
-+ */
-+static inline void assert_bdrv_graph_writable(BlockDriverState *bs)
-+{
 +    /*
-+     * TODO: this function is incomplete. Because the users of this
-+     * assert lack the necessary drains, check only for BQL.
-+     * Once the necessary drains are added,
-+     * assert also for qatomic_read(&bs->quiesce_counter) > 0
++     * I/O API functions. These functions are thread-safe.
++     *
++     * See include/block/block-io.h for more information about
++     * the I/O API.
 +     */
-+    assert(qemu_in_main_thread());
-+}
 +
- #endif /* BLOCK_INT_GLOBAL_STATE */
-diff --git a/block.c b/block.c
-index f2a7350548..fe05df471a 100644
---- a/block.c
-+++ b/block.c
-@@ -1420,6 +1420,7 @@ static void bdrv_child_cb_attach(BdrvChild *child)
- {
-     BlockDriverState *bs = child->opaque;
+     /*
+      * Returns whether the job has pending requests for the child or will
+      * submit new requests before the next pause point. This callback is polled
+@@ -46,6 +53,13 @@ struct BlockJobDriver {
+      */
+     bool (*drained_poll)(BlockJob *job);
  
-+    assert_bdrv_graph_writable(bs);
-     QLIST_INSERT_HEAD(&bs->children, child, next);
++    /*
++     * Global state (GS) API. These functions run under the BQL.
++     *
++     * See include/block/block-global-state.h for more information about
++     * the GS API.
++     */
++
+     /*
+      * If the callback is not NULL, it will be invoked before the job is
+      * resumed in a new AioContext.  This is the place to move any resources
+@@ -56,6 +70,13 @@ struct BlockJobDriver {
+     void (*set_speed)(BlockJob *job, int64_t speed);
+ };
  
-     if (child->role & BDRV_CHILD_COW) {
-@@ -1439,6 +1440,7 @@ static void bdrv_child_cb_detach(BdrvChild *child)
++/*
++ * Global state (GS) API. These functions run under the BQL.
++ *
++ * See include/block/block-global-state.h for more information about
++ * the GS API.
++ */
++
+ /**
+  * block_job_create:
+  * @job_id: The id of the newly-created job, or %NULL to have one
+@@ -98,6 +119,13 @@ void block_job_free(Job *job);
+  */
+ void block_job_user_resume(Job *job);
  
-     bdrv_unapply_subtree_drain(child, bs);
- 
-+    assert_bdrv_graph_writable(bs);
-     QLIST_REMOVE(child, next);
- }
- 
-@@ -2829,6 +2831,7 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
-         if (child->klass->detach) {
-             child->klass->detach(child);
-         }
-+        assert_bdrv_graph_writable(old_bs);
-         QLIST_REMOVE(child, next_parent);
-     }
- 
-@@ -2838,6 +2841,7 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
-     }
- 
-     if (new_bs) {
-+        assert_bdrv_graph_writable(new_bs);
-         QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
- 
-         /*
++/*
++ * I/O API functions. These functions are thread-safe.
++ *
++ * See include/block/block-io.h for more information about
++ * the I/O API.
++ */
++
+ /**
+  * block_job_ratelimit_get_delay:
+  *
 -- 
 2.35.1
 
