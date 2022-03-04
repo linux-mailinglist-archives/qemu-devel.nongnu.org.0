@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC374CD7CE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:30:55 +0100 (CET)
-Received: from localhost ([::1]:58254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E234CD7BD
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:28:25 +0100 (CET)
+Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9tM-0007Fk-JJ
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:30:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46374)
+	id 1nQ9qy-0001ad-BM
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:28:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQ9G6-0005oZ-NX
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:50:20 -0500
-Received: from [2a00:1450:4864:20::42e] (port=34600
- helo=mail-wr1-x42e.google.com)
+ id 1nQ9GC-0005to-6l; Fri, 04 Mar 2022 09:50:24 -0500
+Received: from [2a00:1450:4864:20::329] (port=55850
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQ9G5-0002o3-Az
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:50:18 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id j26so2686635wrb.1
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 06:50:16 -0800 (PST)
+ id 1nQ9G9-00037J-1d; Fri, 04 Mar 2022 09:50:23 -0500
+Received: by mail-wm1-x329.google.com with SMTP id i66so5146288wma.5;
+ Fri, 04 Mar 2022 06:50:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Yeugmeny9qhtt9DSuMJQhjxlvN9/PffYcS8pvXFRqrI=;
- b=EFeyEEkPQ4NHZdY6Vpa5cuqW5YGoG+HpcrIarOKbaxeei+9TTGrLuQEjgc5U3sYqsa
- 7pFNokre5oVVppvZDGygyfFl62j948OacTV9Y8KFMs3mitv8pV0wze2lTvGPerGVwJ71
- 25YiG4qhLKsMWEUzcE6NwJatRaXwrW/XPy0l3rC65ZsGtdt8Ec7jSnFsprabF6V2VXRY
- UPJ9+oiyw+Ytjg+lwJkbsZeX3+brqp2DfPxl/I+2L3DN9YOA2V4i/K//rPJQSoUtxmZN
- v2HmNJBrBkhZKbcCzDpImRSlCxxrZsvFWYFXSZhDCdjjEmn/5mRYADgsgo8nh72xqosH
- w84g==
+ bh=TVXD4dj9GpshhDxg4kkvPv9EmNEBNrYlzIRgUSLQXPo=;
+ b=UpweMWdq1NPaEB/0/nhZJva7aoFXk1mRcOmRUGzv6+8kjfYDNb/aY+cSFBtlJqLCB+
+ 7Cc8tU1ffxAxaErQK1yUTojsueJOsdvttQ+n0naG84fbZ1I6CUJkd8hZUoQOJ0HV+A8u
+ AtvAGKQV0Pfpdq7yI0oCyHCBA6Ih/fy0Wd9hynTSOrZ8DxSWJgr9ozBfORj0s2iYO/Hf
+ 1GMV6qPdcmchmtfCPMcZ0aaUG4YY/KMTWOVeY2J4RX0J9/fXOSzS6PTSrlxmL5HTDnXp
+ zXqc7m1n6PGGBHlJJY1CE90BsF4R77xPCtk/ES8S+pXh0Sdi6JCHi7islMV5cmu+IRPM
+ i6xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Yeugmeny9qhtt9DSuMJQhjxlvN9/PffYcS8pvXFRqrI=;
- b=ckRA1cABJSyRCGi+YNZ0NucEY860M+w+fGUxLNKKw/3d7TamaEhyskPdLcWb+RXmFa
- qD98e/+68lvbLqabpsX93CXrE2DqIU3j+sq6WsunOM4VzkUpGQLumZY5FrQtnItzr64T
- SuJ31rAHkC8PvTF1rcEu5YzCQXxgXJSVKyJe7LpvbgDvrT/NkWbsF+D6PgzyZcouQEbn
- y6/qiFX/9EuR96eai0TAwa2mGabmfg5LGZx+zOqM/Uy0NgzJf3x8OdHI79KzpkitDnyt
- Wt89Gyy6VK6cN+2Q6RerFvJe7fRg9XRc0F8OKnXFdaRB6m2khX5WLR0l394sELdEuhuP
- z2Fw==
-X-Gm-Message-State: AOAM531zoPzPGAUnrHxDzUMmQrL1xDemmgxKWEMHVR5xFOEFyQTTX31M
- MwFLfcXC/Ic8g7TcYm7Va4c=
-X-Google-Smtp-Source: ABdhPJxEJ2G7wBZ7flgWp/7897MUyLuZ14jQZUbelM/NNgAAnpNgwUGfzpp7PSBfy3MuyiesRx8yJQ==
-X-Received: by 2002:a5d:6da1:0:b0:1e3:2bf5:13c with SMTP id
- u1-20020a5d6da1000000b001e32bf5013cmr31816359wrs.316.1646405415548; 
- Fri, 04 Mar 2022 06:50:15 -0800 (PST)
+ bh=TVXD4dj9GpshhDxg4kkvPv9EmNEBNrYlzIRgUSLQXPo=;
+ b=mQcxOZugaXgnCXNDUIvYWbWL+tNvee0VfWfbLkMgilsFNO3raj96ZhBGQSK9A0y9Ud
+ N+96+su+/VicYil+9OrmDe5gDKbd4EaTvO9MSgiuKFXTkiZlfB9xzf85U/9MZb88hnBB
+ 2a5f21i+ljRVx2y7bPPnbT+2Y9E37evUA/d1ueXFZ+9P1/ukOdhr3O3DxYDJWdRm8XIf
+ LWeefrppB22PL0i7UclDH/apS7s/sR8YQBqiun4iOVZPFpJze/f3dWbXjEuBriyzuzP2
+ 6AdULN8pkXnOg+2SwjDBuOIgeAGZq44+MsqI2vbWV4dGO++w3ZkUVC4N6Bu3FWY+A80+
+ XlGQ==
+X-Gm-Message-State: AOAM532WoANFwruk7Yc6xPfE16qp71QE4v540WMHl4JS3kyP7r+gKMoo
+ xEg1DNL3Zu3pPK/XjOYJiCg=
+X-Google-Smtp-Source: ABdhPJxrtmgr6cjH+H4S0gSf6RMS8sz9uT1qDTLctB21i4LtAKuGe5IaX3QTUuGCCWlaoc905zdHNA==
+X-Received: by 2002:a05:600c:3d99:b0:381:546c:8195 with SMTP id
+ bi25-20020a05600c3d9900b00381546c8195mr8056940wmb.112.1646405419188; 
+ Fri, 04 Mar 2022 06:50:19 -0800 (PST)
 Received: from [192.168.88.252] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- d3-20020a05600c34c300b003884e826642sm4826384wmq.12.2022.03.04.06.50.13
+ m14-20020a05600c4f4e00b0038181486018sm6040353wmq.40.2022.03.04.06.50.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 06:50:14 -0800 (PST)
-Message-ID: <d87b6338-d1ea-3e9b-ffc0-fc822d98d26f@gmail.com>
-Date: Fri, 4 Mar 2022 13:48:54 +0100
+ Fri, 04 Mar 2022 06:50:18 -0800 (PST)
+Message-ID: <5eadd17a-9fb4-4a0a-2608-c2ca08b18645@gmail.com>
+Date: Fri, 4 Mar 2022 13:58:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH V7 08/29] memory: flat section iterator
+Subject: Re: [PATCH v4 14/14] hw: set user_creatable on opentitan/sifive_e
+ devices
 Content-Language: en-US
-To: Steve Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org
-References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-9-git-send-email-steven.sistare@oracle.com>
+To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org,
+ mark.burton@greensocs.com, edgari@xilinx.com
+References: <20220223090706.4888-1-damien.hedde@greensocs.com>
+ <20220223090706.4888-15-damien.hedde@greensocs.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <1640199934-455149-9-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <20220223090706.4888-15-damien.hedde@greensocs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,52 +94,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Zeng <jason.zeng@linux.intel.com>,
- Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Zheng Chuan <zhengchuan@huawei.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:OpenTitan" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/12/21 20:05, Steve Sistare wrote:
-> Add an iterator over the sections of a flattened address space.
+On 23/2/22 10:07, Damien Hedde wrote:
+> The devices are:
+> + ibex-timer
+> + ibex-uart
+> + riscv.aclint.swi
+> + riscv.aclint.mtimer
+> + riscv.hart_array
+> + riscv.sifive.e.prci
+> + riscv.sifive.plic
+> + riscv.sifive.uart
+> + sifive_soc.gpio
+> + unimplemented-device
 > 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> These devices are clean regarding error handling in realize.
+> 
+> They are all sysbus devices, so setting user-creatable will only
+> enable cold-plugging them on machine having explicitely allowed them
+> (only _none_ machine does that).
+> 
+> Note that this commit include the ricv_array which embeds cpus. There
+
+Typo "includes" I guess.
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> are some deep internal constraints about them: you cannot create more
+> cpus than the machine's maxcpus. TCG accelerator's code will for example
+> assert if a user try to create too many cpus.
+> 
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 > ---
->   include/exec/memory.h | 31 +++++++++++++++++++++++++++++++
->   softmmu/memory.c      | 20 ++++++++++++++++++++
->   2 files changed, 51 insertions(+)
 > 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 137f5f3..9660475 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -2338,6 +2338,37 @@ void memory_region_set_ram_discard_manager(MemoryRegion *mr,
->                                              RamDiscardManager *rdm);
->   
->   /**
-> + * memory_region_section_cb: callback for address_space_flat_for_each_section()
-> + *
-> + * @s: MemoryRegionSection of the range
-
-Nitpicking, can we name this @mrs?
-
-> + * @opaque: data pointer passed to address_space_flat_for_each_section()
-> + * @errp: error message, returned to the address_space_flat_for_each_section
-> + *        caller.
-> + *
-> + * Returns: non-zero to stop the iteration, and 0 to continue.  The same
-> + * non-zero value is returned to the address_space_flat_for_each_section caller.
-> + */
-> +
-> +typedef int (*memory_region_section_cb)(MemoryRegionSection *s,
-> +                                        void *opaque,
-> +                                        Error **errp);
+> I can also split this patch if you think it's better.
+> But it is mostly a one-line fix per file.
+> 
+> This patch requires first some cleanups in order to fix error errors
+> and some more memory leaks that could happend in legit user-related
+> life cycles: a miss-configuration should not be a fatal error anymore.
+> https://lore.kernel.org/qemu-devel/20220218164646.132112-1-damien.hedde@greensocs.com
+> ---
+>   hw/char/ibex_uart.c     | 1 +
+>   hw/char/sifive_uart.c   | 1 +
+>   hw/gpio/sifive_gpio.c   | 1 +
+>   hw/intc/riscv_aclint.c  | 2 ++
+>   hw/intc/sifive_plic.c   | 1 +
+>   hw/misc/sifive_e_prci.c | 8 ++++++++
+>   hw/misc/unimp.c         | 1 +
+>   hw/riscv/riscv_hart.c   | 1 +
+>   hw/timer/ibex_timer.c   | 1 +
+>   9 files changed, 17 insertions(+)
 
