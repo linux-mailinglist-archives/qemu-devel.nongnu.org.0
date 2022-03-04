@@ -2,87 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06484CD265
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:29:33 +0100 (CET)
-Received: from localhost ([::1]:44978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7164CD267
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:30:03 +0100 (CET)
+Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ5Bk-0005lh-Vg
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:29:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41722)
+	id 1nQ5CE-0006nT-6f
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:30:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ591-0003YW-VZ
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:26:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22175)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nQ59j-0004WG-Gm
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:27:27 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:56661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQ590-0007qA-4k
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:26:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646389601;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OOpJTizAUdq0EHiuLMBkJYB2iBFmp3Eo4R2DLtf78mo=;
- b=VQ/MN2mhd0ZOj2rqcpKbYD10m3+bbDwCtsF0XBrdRZXeaRN8FzX17WX6vauWOO5tNCatdm
- OysL5aq9N+9CFtDp2+K9A0EkvoAtVcRcNuU4RRqIhgOWH3fONfAPqjooFDpbMyZtfvA1OV
- TaI1k5U8/bxtojJBJ2/J3rdjQ7l/fc8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207-Yu_jiTP5MHKg6BWa-ttH8w-1; Fri, 04 Mar 2022 05:26:40 -0500
-X-MC-Unique: Yu_jiTP5MHKg6BWa-ttH8w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- o1-20020adfe801000000b001f023455317so3211398wrm.3
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 02:26:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OOpJTizAUdq0EHiuLMBkJYB2iBFmp3Eo4R2DLtf78mo=;
- b=MLbu4/VamKK8SqKXBvTyg/hM/Jm7Z8uQrhp7f24qeCD6AmqvsZbyLcjRHs1AEFwvvM
- bDVE3v7lgKoYwhGwSsP39Nj1Zr2l1dz9K4xVC01rFPoKu9LW8RYm8XA9YcPDuUDHLKcK
- JHATarr0bBos5HNHuXKlq4B18TxBsXXJS7RjHZBqzI0LKw+ewRbGa29M5KIX5wXuv9R8
- 5maz+GbSC6jWRcqmmAw978i/wdiX8fmvaCI8KNzcAazq0e1zbzQLKR+juccwtcC8oKs3
- TjRITc6EXaM8edqpuhcXbfYZwqJnLw7+LNKqXqshdOWzeNxkcfhAOL6ZfO/73ZGailP/
- vVeQ==
-X-Gm-Message-State: AOAM530lLxVN9X9xKmcFL7KtqAdjbS0Mm+FXFxyshE9eqVQCBUkCchGx
- yFQH2ukGIyVGWCWcvXhp2lbhh+lfPfq2S8pQXrG2g4sQoE9KMLcCyjhXOX2X+tEDGV67aWTaNnY
- K5B0vK2tdncsRsE8=
-X-Received: by 2002:a1c:a4c6:0:b0:389:7269:5044 with SMTP id
- n189-20020a1ca4c6000000b0038972695044mr3938322wme.129.1646389598893; 
- Fri, 04 Mar 2022 02:26:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwZlN65MsEiJ2GxqcOUEd1q6jBVwSCmSeiTs1IqpjHy0gQUexAJeKiZNgDDHsWYo9Azx9X8gA==
-X-Received: by 2002:a1c:a4c6:0:b0:389:7269:5044 with SMTP id
- n189-20020a1ca4c6000000b0038972695044mr3938304wme.129.1646389598667; 
- Fri, 04 Mar 2022 02:26:38 -0800 (PST)
-Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- n5-20020a05600c3b8500b00380fc02ff76sm5101823wms.15.2022.03.04.02.26.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 02:26:38 -0800 (PST)
-Date: Fri, 4 Mar 2022 05:26:34 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Liav Albani <liavalb@gmail.com>
-Subject: Re: [PATCH v4 0/3] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-Message-ID: <20220304052617-mutt-send-email-mst@kernel.org>
-References: <20220228201733.714580-1-liavalb@gmail.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nQ59g-0007zU-CX
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:27:25 -0500
+Received: from [192.168.100.1] ([82.142.8.122]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N4z2Y-1o8wVu197M-010rUJ; Fri, 04 Mar 2022 11:27:18 +0100
+Message-ID: <8c1e698d-70e9-2c26-e991-e761a9ed73dd@vivier.eu>
+Date: Fri, 4 Mar 2022 11:27:17 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220228201733.714580-1-liavalb@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 04/10] macfb: add VMStateDescription fields for display
+ type and VBL timer
+Content-Language: fr
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
+ fam@euphon.net, qemu-devel@nongnu.org
+References: <20220302212752.6922-1-mark.cave-ayland@ilande.co.uk>
+ <20220302212752.6922-5-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220302212752.6922-5-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:We/NzyyCdn6HoGBy7o+nn+ciCE6b0JVG5pMPcHH9VsrDSRjS96w
+ fkyf/WvCP1N93N9jczJJswPNeO4AyvFFfFQfX8Vj5N281vxyrsVcFJB+6mvHi2q86NDRw1y
+ MxK22QQe225axtsKsDGIq40ulcHsqqOlLNIxzw46Hp36NcmXk33Koe/amhB5qYLuz5t+yyP
+ sLRzyqifO440O5UokIXcw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+EpAqBdg0qg=:LSrgLkzL4Vwf7ujUKmvtE6
+ vSXA1O4zTtfO76VxCA7PiD94tM3rC6yc+THVCt/RB9l6tNag8N4IkIUvfTP5k34wvYSnCnRoX
+ DMJkTxrkmeeh1LVXkq5Pb6Izj3I+mfA+UwXmV/87sj2rlkrv6nGdmDHU+spwFclXt8fUiD+rr
+ mx++Potrrq+6oBkbbv0m/QKGTVyWaSEzAUm8H8th5FM5p0slRveNe+yH6gtQHUKtH/a6fM2cL
+ VpLZicGvzoYw9Oi69QjaFeWL6wqEJfErSRH6JIl6ykdgMDOMXSJb/DeHMhaNe67Kd/4Wdvpe/
+ 4X3ro+cicDS2BAeqxQsuQaSeAJF+dPiNyjyv4uwvCCkmULk7gPm/BNH6XOdrhC4ntRKQykBks
+ 4+JaJgNrMvUo9C5TTVVz+kqj6hz6Cb5LJwhs1wdBg6WDBRJJLY+UszJ+3+ehIGc4tdRRpqa/M
+ EGUSquLBFuzcolKv8ANUloWC8tK0bMzGirhce7U7Rz23ITsziAMOB+eNa2zRk99Yi+6hs5m6d
+ ZtfM8aZxZB7JEVDAoh37a2sh0RUmL9VMOKw3lR/BKDFqCvtPZ79gr0xKJB4r2UVL0X1E2gUgl
+ sCxGYlYxmUQ/bdN4Zch+uwRVITIxM6vzqKI66w7+F+ocgmbbDtucj16VXsOR0e1s8GEEIvht6
+ 3kAHHpLUhkHnAnCRmEdS7ZH6UbvghJB0Ju2oi/pJMUcp5RMD4lvLCrCuLuT9G1S/w/dg=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,48 +72,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca, imammedo@redhat.com, shentey@gmail.com,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 28, 2022 at 10:17:30PM +0200, Liav Albani wrote:
-> This can allow the guest OS to determine more easily if i8042 controller
-> is present in the system or not, so it doesn't need to do probing of the
-> controller, but just initialize it immediately, before enumerating the
-> ACPI AML namespace.
+Le 02/03/2022 à 22:27, Mark Cave-Ayland a écrit :
+> These fields are required in the migration stream to restore macfb state
+> correctly.
 > 
-> To allow "flexible" indication, I don't hardcode the bit at location 1
-> as on in the IA-PC boot flags, but try to search for i8042 on the ISA
-> bus to verify it exists in the system.
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>   hw/display/macfb.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> Why this is useful you might ask - this patch allows the guest OS to
-> probe and use the i8042 controller without decoding the ACPI AML blob
-> at all. For example, as a developer of the SerenityOS kernel, I might
-> want to allow people to not try to decode the ACPI AML namespace (for
-> now, we still don't support ACPI AML as it's a work in progress), but
-> still to not probe for the i8042 but just use it after looking in the
-> IA-PC boot flags in the ACPI FADT table.
 
-OK still waiting for v5.
-
-> Liav Albani (3):
->   tests/acpi: i386: allow FACP acpi table changes
->   hw/acpi: add indication for i8042 in IA-PC boot flags of the FADT
->     table
->   tests/acpi: i386: update FACP table differences
-> 
->  hw/acpi/aml-build.c            |  11 ++++++++++-
->  hw/i386/acpi-build.c           |   9 +++++++++
->  hw/i386/acpi-microvm.c         |   9 +++++++++
->  include/hw/acpi/acpi-defs.h    |   1 +
->  tests/data/acpi/q35/FACP       | Bin 244 -> 244 bytes
->  tests/data/acpi/q35/FACP.nosmm | Bin 244 -> 244 bytes
->  tests/data/acpi/q35/FACP.slic  | Bin 244 -> 244 bytes
->  tests/data/acpi/q35/FACP.xapic | Bin 244 -> 244 bytes
->  8 files changed, 29 insertions(+), 1 deletion(-)
-> 
-> -- 
-> 2.35.1
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
