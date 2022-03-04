@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5214CD790
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:21:10 +0100 (CET)
-Received: from localhost ([::1]:59190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A02944CD777
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:14:35 +0100 (CET)
+Received: from localhost ([::1]:43092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9jx-0003Zz-IK
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:21:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39536)
+	id 1nQ9da-0000qK-Nz
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:14:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rq-0005ul-Ir
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60613)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rs-0005zA-O5
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rp-0003jZ-2e
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:14 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rq-0003jl-UR
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403912;
+ s=mimecast20190719; t=1646403914;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zxTB1op1Ykv/qiF9h6GJ/vbetoB1UFiuIdJ3qs8E528=;
- b=gMf0wPPmvQc5XcFU+BZXiodTm+eKH/HltIuPnLbqMscyBJ0VZTheciJDGRHKra3DTdHSe5
- HRgPA5sR72k2jnf4XrtNaiDIxgV1px7ML5kmRnyb5YCL1n/rI2kEWdnSIOFAVafeXab2hF
- ngeOJkIMhOQKQyZ5WzcjmSeAnGCnoJw=
+ bh=sAtABj5a02/dn0ZmsdYNgkJzHoZl/SCjASDomLNiUe8=;
+ b=POde7B23/Iq9GtStyZFq9JzOmldT+mB2c4O7GtlOm83YaCuYEBjMtA1ND9vt3bopKJirA+
+ gRaETDaBvNIav4osQugN0GmMMFWnsFpZ6edRoIXFhAOevME4Vw8DqRy+y8531UoSi+IUEj
+ XuNFXuiEhMJ63hP3uxG6MarlUMvq/gI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-YOl7vMUwPXGkuip4YicFeQ-1; Fri, 04 Mar 2022 09:25:09 -0500
-X-MC-Unique: YOl7vMUwPXGkuip4YicFeQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-611-nN5WgqcgMvW9p91w9fsaXQ-1; Fri, 04 Mar 2022 09:25:11 -0500
+X-MC-Unique: nN5WgqcgMvW9p91w9fsaXQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DBD01854E21;
- Fri,  4 Mar 2022 14:25:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCB7BFC80;
+ Fri,  4 Mar 2022 14:25:09 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 350102ED90;
- Fri,  4 Mar 2022 14:24:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D923866F2;
+ Fri,  4 Mar 2022 14:25:09 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7BDF418009BE; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
+ id 87FE918009BF; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/35] ui/clipboard: fix use-after-free regression
-Date: Fri,  4 Mar 2022 15:21:19 +0100
-Message-Id: <20220304142123.956171-32-kraxel@redhat.com>
+Subject: [PULL 32/35] ui/cocoa: Add Services menu
+Date: Fri,  4 Mar 2022 15:21:20 +0100
+Message-Id: <20220304142123.956171-33-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -88,44 +88,44 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-The same info may be used to update the clipboard, and may be freed
-before being ref'ed again.
+Services menu functionality of Cocoa is described at:
+https://developer.apple.com/design/human-interface-guidelines/macos/extensions/services/
 
-Fixes: 70a54b01693ed ("ui: avoid compiler warnings from unused clipboard info variable")
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220214115917.1679568-1-marcandre.lureau@redhat.com>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220214091320.51750-1-akihiko.odaki@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/clipboard.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ ui/cocoa.m | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/ui/clipboard.c b/ui/clipboard.c
-index 5f15cf853d07..9079ef829b51 100644
---- a/ui/clipboard.c
-+++ b/ui/clipboard.c
-@@ -66,8 +66,10 @@ void qemu_clipboard_update(QemuClipboardInfo *info)
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index b6e70e9134db..8ab9ab5e84da 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1611,11 +1611,15 @@ static void create_initial_menus(void)
+     NSMenuItem  *menuItem;
  
-     notifier_list_notify(&clipboard_notifiers, &notify);
+     [NSApp setMainMenu:[[NSMenu alloc] init]];
++    [NSApp setServicesMenu:[[NSMenu alloc] initWithTitle:@"Services"]];
  
--    qemu_clipboard_info_unref(cbinfo[info->selection]);
--    cbinfo[info->selection] = qemu_clipboard_info_ref(info);
-+    if (cbinfo[info->selection] != info) {
-+        qemu_clipboard_info_unref(cbinfo[info->selection]);
-+        cbinfo[info->selection] = qemu_clipboard_info_ref(info);
-+    }
- }
- 
- QemuClipboardInfo *qemu_clipboard_info(QemuClipboardSelection selection)
+     // Application menu
+     menu = [[NSMenu alloc] initWithTitle:@""];
+     [menu addItemWithTitle:@"About QEMU" action:@selector(do_about_menu_item:) keyEquivalent:@""]; // About QEMU
+     [menu addItem:[NSMenuItem separatorItem]]; //Separator
++    menuItem = [menu addItemWithTitle:@"Services" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:[NSApp servicesMenu]];
++    [menu addItem:[NSMenuItem separatorItem]];
+     [menu addItemWithTitle:@"Hide QEMU" action:@selector(hide:) keyEquivalent:@"h"]; //Hide QEMU
+     menuItem = (NSMenuItem *)[menu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"]; // Hide Others
+     [menuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
 -- 
 2.35.1
 
