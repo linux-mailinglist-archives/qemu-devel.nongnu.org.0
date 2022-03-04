@@ -2,59 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43724CDDB5
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 21:05:48 +0100 (CET)
-Received: from localhost ([::1]:45362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0E24CDDB9
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 21:07:46 +0100 (CET)
+Received: from localhost ([::1]:54714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQEBP-0006ct-UQ
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 15:05:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33116)
+	id 1nQEDI-00036n-TL
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 15:07:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael@walle.cc>)
- id 1nQDuH-0008Hw-VY; Fri, 04 Mar 2022 14:48:06 -0500
-Received: from ssl.serverraum.org ([176.9.125.105]:46655)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael@walle.cc>)
- id 1nQDuF-0005v1-Cr; Fri, 04 Mar 2022 14:48:04 -0500
-Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ssl.serverraum.org (Postfix) with ESMTPSA id 5571A22175;
- Fri,  4 Mar 2022 20:47:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
- s=mail2016061301; t=1646423279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fJUd/HtX9HoEJ+sZKQW3Av+u/TAh+6J9tjYoDk5n9vI=;
- b=PVDSdnQzOkORcQRDbSIqOuY4FO2NnTrUdZxSsG8HcnVCxote4DxOjqS9UdWKHrqPtpwEEh
- MhEliB/1njUZHir0L23/d1luLep4SGZUolz1so9uSsbHZikTTetJoe4+m3K6eWVfVAff5/
- qZjmaPIzZRl10gYVKMCKgeiynxLix5A=
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nQDz2-0007yU-Ou
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:53:00 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=43657
+ helo=mail-pj1-x1029.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nQDz1-0002Jh-3z
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:53:00 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ z12-20020a17090ad78c00b001bf022b69d6so7755536pju.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 11:52:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=isLEgj/rIE9pf2fYCkbJfnTSK+RAGub5ms/ITRC6pyE=;
+ b=tuaRef82qCZYrxgm+5GUvFVSoKfMkPhF/lp5DU0pkblok3bH8CvNcZwdZVUEQ2m4Q2
+ ZgFkkyysbQ6uL6K+JIcpZEuQeCwlNkM6cGI4BDFvNHWV+5tdE6+dhITzrWH45e3y/3Zi
+ L56gbLgzKnM2dJfJ15kODLDrliKaU/yttKy0NrFyxZngDRwE16dELkAd/0E7hBajzDCB
+ GQ85EkRmjVxQsMiCgw4I57v+8wpvT7HWzY9rDf6q4fKKDJMJzj6XqPB7YbjzSXEOHCwc
+ HMZPUL/KfSAfLNi2/4DaeLCdtvsV/9/9Wm3o+8mcWBRh8n6e+N82NO5wNZ2QtVb6zfp0
+ 68SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=isLEgj/rIE9pf2fYCkbJfnTSK+RAGub5ms/ITRC6pyE=;
+ b=xyOPib9CHqCh9d0BuBABwDoTwUtQr0Fea6yoewPwdLCKKaiqAiKtHKJHfKtfrAZd7H
+ sQ6T5ueiMTfVByE1B1qqLfIHu6/QKUKpBr5F31ex0HMikFIqqjuCmBClPGmNWKcv4VEx
+ +fWkBTjLTbqPGnqZB2x0pZ7jpSrPRc/y7qNn2FzJbTjWPA2Vh2DCjH4dsdwUM53nglea
+ fRonX1Ft+Y1ZY0ZvRxM82LGDKZFaNwSDs9cg/Y3vdhhnQLNFKVGCqG34OHntwc6D9Mpk
+ Ih6J7duENZwhFX9GbKJ/wPf0qX6coU6XGqOh999lLgWC/O8VZ4f3ar9rWDyu2WrdOvxS
+ n5LQ==
+X-Gm-Message-State: AOAM532WpOMaHbp3JFrVWIyIYaV2rpQVoEEvq+Bz7HsnqRolSNpWIP2Z
+ 32ds6B3WvD3wQ2v3+NYJ4csf7Q==
+X-Google-Smtp-Source: ABdhPJyJNwvTvAtJGxDlgaXT/IqWeQJETz1IRasvOPaxPbq87mejsUMgIU8nt8o/F667DQS3rO9hnQ==
+X-Received: by 2002:a17:902:cf08:b0:151:9d28:f46f with SMTP id
+ i8-20020a170902cf0800b001519d28f46fmr208080plg.53.1646423577416; 
+ Fri, 04 Mar 2022 11:52:57 -0800 (PST)
+Received: from ?IPV6:2603:800c:1201:c600:f24b:57b2:da7c:e304?
+ (2603-800c-1201-c600-f24b-57b2-da7c-e304.res6.spectrum.com.
+ [2603:800c:1201:c600:f24b:57b2:da7c:e304])
+ by smtp.gmail.com with ESMTPSA id
+ h8-20020a17090a648800b001bf2b437609sm2234897pjj.24.2022.03.04.11.52.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Mar 2022 11:52:56 -0800 (PST)
+Message-ID: <df2c63db-54d9-ae40-f403-b1adfa6bdbdc@linaro.org>
+Date: Fri, 4 Mar 2022 09:52:53 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date: Fri, 04 Mar 2022 20:47:58 +0100
-From: Michael Walle <michael@walle.cc>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
-Subject: Re: [PATCH] hw/block: m25p80: Add support for w25q01jvq
-In-Reply-To: <9b9b0251-2698-61b9-b4b1-5e5e54fea5a1@gmail.com>
-References: <20220304180920.1780992-1-patrick@stwcx.xyz>
- <9b9b0251-2698-61b9-b4b1-5e5e54fea5a1@gmail.com>
-User-Agent: Roundcube Webmail/1.4.12
-Message-ID: <7827c791b7f91f4eb216b33473dd6103@walle.cc>
-X-Sender: michael@walle.cc
-Received-SPF: pass client-ip=176.9.125.105; envelope-from=michael@walle.cc;
- helo=ssl.serverraum.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 18/18] hw/arm/virt: Disable LPA2 for -machine virt-6.2
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20220301215958.157011-1-richard.henderson@linaro.org>
+ <20220301215958.157011-19-richard.henderson@linaro.org>
+ <CAFEAcA9zcf+A6h3R+x2uSEk1aUpV_iWfEZT72CCUeSs32OUJcA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA9zcf+A6h3R+x2uSEk1aUpV_iWfEZT72CCUeSs32OUJcA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,50 +97,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Potin Lai <potin.lai@quantatw.com>, Alistair Francis <alistair@alistair23.me>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Patrick Williams <patrick@stwcx.xyz>, Hanna Reitz <hreitz@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-arm@nongnu.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 2022-03-04 20:30, schrieb Philippe Mathieu-Daudé:
-> On 4/3/22 19:09, Patrick Williams wrote:
->> The w25q01jvq is a 128MB part.  Support is being added to the 
->> kernel[1]
->> and the two have been tested together.
->> 
->> 1. 
->> https://lore.kernel.org/lkml/20220222092222.23108-1-potin.lai@quantatw.com/
->> 
->> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
->> Cc: Potin Lai <potin.lai@quantatw.com>
->> ---
->>   hw/block/m25p80.c | 1 +
->>   1 file changed, 1 insertion(+)
->> 
->> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
->> index c6bf3c6bfa..7d3d8b12e0 100644
->> --- a/hw/block/m25p80.c
->> +++ b/hw/block/m25p80.c
->> @@ -340,6 +340,7 @@ static const FlashPartInfo known_devices[] = {
->>       { INFO("w25q80bl",    0xef4014,      0,  64 << 10,  16, ER_4K) 
->> },
->>       { INFO("w25q256",     0xef4019,      0,  64 << 10, 512, ER_4K) 
->> },
->>       { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K) 
->> },
->> +    { INFO("w25q01jvq",   0xef4021,      0,  64 << 10, 2048, ER_4K) 
->> },
->>   };
->>     typedef enum {
+On 3/4/22 01:52, Peter Maydell wrote:
+> Is it not possible to implement this in the usual "change
+> property for older versioned machines" way of adding to
+> the hw_compat arrays?
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index d856485cb4d..dac82a709ba 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -37,7 +37,9 @@
+>   #include "hw/virtio/virtio.h"
+>   #include "hw/virtio/virtio-pci.h"
+> 
+> -GlobalProperty hw_compat_6_2[] = {};
+> +GlobalProperty hw_compat_6_2[] = {
+> +    { "arm-cpu-max", "lpa2", "false" },
+> +};
+>   const size_t hw_compat_6_2_len = G_N_ELEMENTS(hw_compat_6_2);
 
-FWIW, the linux spi nor subsystem will rely more and more on the SFDP
-for newer flashes. I had a quick look at qemu's source and command
-RDSFDP (0x5a) isn't emulated. Might be worth implementing ;)
+Hmm, I didn't try that, just mirrored the other examples within hw/arm/virt.c.
+I guess the real type name would be TYPE_ARM_MAX_CPU, or "max-arm-cpu".
 
--michael
+...
+
+Yes, that works.  I'll send an update.
+
+
+r~
 
