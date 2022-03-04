@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205594CD0F6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 10:22:11 +0100 (CET)
-Received: from localhost ([::1]:47558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2870D4CD0FF
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 10:25:39 +0100 (CET)
+Received: from localhost ([::1]:49980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ48V-0005hc-30
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 04:22:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55128)
+	id 1nQ4Bu-00083s-7c
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 04:25:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQ46Z-0004rx-QR
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 04:20:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36229)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nQ487-00067s-SB
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 04:21:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQ46X-0003kY-5j
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 04:20:06 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nQ485-00047m-A0
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 04:21:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646385604;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=HEgtTkZ8oo+LXysUq2vqQ4tiuO7VgGtxXYrnrJHtd5s=;
- b=VtByDBVvSfEVU5tEmZQIrWk44yZUUyszBO6emObJyVwzkXTLKK3r6xXtcP8s4ewB1n1UxA
- fHK8RGD943dDxRgtsfHyQrNc7x2DQYiLFbOqZWG9tDtcieRpBSxQtuwKQHsjOOdQcaddVP
- b1hT8HQP7xZdzBm7SC3FLmCIGfH3eDc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1646385700;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7aNFDu6SmQOcbtoHQRBJz7RAvrYTgqB9tmwLm24r/ts=;
+ b=Hzz6Jp+AT2Nf86JSgnu/wpolHEgEpr+XziMNjJG+drc2ebf38JslmUIEXioX5daljJefDy
+ BjtbMOvPCMLxuRQYpNoDz4nJik1w6fkeMckEmh7Yh9p40h1CqUZiIKPzluzFpUFR1gNl3g
+ bx0rWxv5dXjvCAo6ljkgMmQUfPbtny0=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-1hviN2dsOgOcUTfWDZH0ow-1; Fri, 04 Mar 2022 04:19:56 -0500
-X-MC-Unique: 1hviN2dsOgOcUTfWDZH0ow-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 623F5824FA7;
- Fri,  4 Mar 2022 09:19:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E207027CD2;
- Fri,  4 Mar 2022 09:19:48 +0000 (UTC)
-Date: Fri, 4 Mar 2022 09:19:45 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v2 1/4] os-posix: Add os_set_daemonize()
-Message-ID: <YiHZsQghj8E5TRZX@redhat.com>
-References: <20220303164814.284974-1-hreitz@redhat.com>
- <20220303164814.284974-2-hreitz@redhat.com>
+ us-mta-212-d1F8v8u8P4qEmPA5AxHhrg-1; Fri, 04 Mar 2022 04:21:37 -0500
+X-MC-Unique: d1F8v8u8P4qEmPA5AxHhrg-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ cf41-20020a056512282900b00445c0a8069bso1711375lfb.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 01:21:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7aNFDu6SmQOcbtoHQRBJz7RAvrYTgqB9tmwLm24r/ts=;
+ b=CK1QnEfDarlyw0CwRtnnWCpmles4FZLh47Q6Mfx0wg0R8zEOl5hDjY55Bwn+p1BGLc
+ mCuqOu8fZ6Cdo3sPxy0ecMyyP/qSd3OC9NzNtbbFRJa2P0WjPTsWDby7Hye6VDbOt/zg
+ yZOyeNrVp7l3L7TvqgectDalLo6x4J6j64AHd5aU/ZvdakfN83TTdd7MIlsPhqxBMxCD
+ KMFH+mB6LReV9ULW/p00lgdQwqjadWO8lbExjrTLPMFTwF0mnQb0XM1nE0UxV/wopikC
+ DA/zlAWXos/s3+g6+Z25yan57hx03m0iNU5CJSaSUQkLyprZ9KBhbSCtPPrbj9+8Cdj8
+ 7PYw==
+X-Gm-Message-State: AOAM5333CZoVBk1UMO9jkU4UDlkc/bwSZtC81g22FSpG8ZnvipRz+KFD
+ CYRJvNpIyPwBUSXeXbKVH9FjVDrSMD1CYV6b6AYXe9kNedKgRqZXRZDoDOFMwghRcsOp8YssXIZ
+ /8nx8CT1U/vXkoT5gpCbmOKLpRrshgB8=
+X-Received: by 2002:a2e:8496:0:b0:246:4e82:c7d3 with SMTP id
+ b22-20020a2e8496000000b002464e82c7d3mr24867685ljh.460.1646385696111; 
+ Fri, 04 Mar 2022 01:21:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx+OSxuQ9kvIwUhG1p3FStcG68umYfqemfnjwT2fv6vAWwxGc+6wttraAXLryTFUNKDW0Hu4tqqhWNpyPLt4Oc=
+X-Received: by 2002:a2e:8496:0:b0:246:4e82:c7d3 with SMTP id
+ b22-20020a2e8496000000b002464e82c7d3mr24867656ljh.460.1646385695821; Fri, 04
+ Mar 2022 01:21:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220303164814.284974-2-hreitz@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20220303185147.3605350-1-eperezma@redhat.com>
+ <20220303185147.3605350-15-eperezma@redhat.com>
+ <8735jy8bty.fsf@pond.sub.org>
+In-Reply-To: <8735jy8bty.fsf@pond.sub.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 4 Mar 2022 10:20:59 +0100
+Message-ID: <CAJaqyWeYTyhJT1zN31msbkXx6JLNJtxK5bBFz3SLq4muDvWT1w@mail.gmail.com>
+Subject: Re: [PATCH v4 14/14] vdpa: Add x-svq to NetdevVhostVDPAOptions
+To: Markus Armbruster <armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,41 +96,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
+ "Fangyi \(Eric\)" <eric.fangyi@huawei.com>, yebiaoxiang@huawei.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 03, 2022 at 05:48:11PM +0100, Hanna Reitz wrote:
-> The daemonizing functions in os-posix (os_daemonize() and
-> os_setup_post()) only daemonize the process if the static `daemonize`
-> variable is set.  Right now, it can only be set by os_parse_cmd_args().
-> 
-> In order to use os_daemonize() and os_setup_post() from the storage
-> daemon to have it be daemonized, we need some other way to set this
-> `daemonize` variable, because I would rather not tap into the system
-> emulator's arg-parsing code.  Therefore, this patch adds an
-> os_set_daemonize() function, which will return an error on os-win32
-> (because daemonizing is not supported there).
+On Fri, Mar 4, 2022 at 7:35 AM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
+>
+> > Finally offering the possibility to enable SVQ from the command line.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  qapi/net.json    |  8 +++++++-
+> >  net/vhost-vdpa.c | 48 ++++++++++++++++++++++++++++++++++++++++--------
+> >  2 files changed, 47 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/qapi/net.json b/qapi/net.json
+> > index 7fab2e7cd8..06a74d4224 100644
+> > --- a/qapi/net.json
+> > +++ b/qapi/net.json
+> > @@ -445,12 +445,18 @@
+> >  # @queues: number of queues to be created for multiqueue vhost-vdpa
+> >  #          (default: 1)
+> >  #
+> > +# @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.=
+0)
+> > +#
+> > +# Features:
+> > +# @unstable: Member @x-svq could change in future revisions.
+>
+> Elsewhere we document "Member @foo is experimental."  Does your
+> different phrasing indicate a difference in intent?
+>
 
-IMHO the real flaw here is the design of 'os_daemonize' in that it
-relies on static state. If I see a call to a function 'os_daemonize()'
-I expect to be daemonized on return, but with this design that is not
-guaranteed which is a big surprise.
+Not really, I can use "Member @foo is experimental." too. I'll change
+for the next revision.
 
-I'd suggest we push the condition into the caller instead of adding
-this extra function, so we have the more sane pattern:
+> > +#
+> >  # Since: 5.1
+> >  ##
+> >  { 'struct': 'NetdevVhostVDPAOptions',
+> >    'data': {
+> >      '*vhostdev':     'str',
+> > -    '*queues':       'int' } }
+> > +    '*queues':       'int',
+> > +    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
+> >
+> >  ##
+> >  # @NetClientDriver:
+>
+> Do you hope to make @x-svq stable eventually?  If yes: you'll want to
+> rename it to @svq then, which could be a bother.  Can be avoided by
+> naming it @svq now.  Up to you.
+>
 
-   if (daemonmize()) {
-      os_daemonize()
-   }
+Yes, I'll rename for the next revision.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks!
+
+> [...]
+>
 
 
