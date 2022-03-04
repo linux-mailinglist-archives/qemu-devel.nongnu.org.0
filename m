@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98664CD6D9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:56:23 +0100 (CET)
-Received: from localhost ([::1]:47924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A804CD6C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 15:52:22 +0100 (CET)
+Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9Ly-0007Q4-OW
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:56:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38368)
+	id 1nQ9I5-0000PW-Ey
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 09:52:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8pd-0002At-TE
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:22:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60450)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8pk-0002ZT-IB
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8pc-0000Ok-Bs
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:22:57 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8pj-0000PF-4I
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403775;
+ s=mimecast20190719; t=1646403782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1CIrGEnX/ivFjkEyndIGbmi18SsTsrHcjbfXWxVknGo=;
- b=D0To/mt6yUQP+47yLqs27LWBr3YJdTzh4+8BVN4sEoetaudZUVPna2ggOfpMdnB5yD7j+c
- fO8KG0a7aceHa52e1ESpB2/ozqnDIqGNWWr1fnLOqhMVuLYoE9e46XECv+U/tvJegFaZ3i
- /0LPsrD3XG6vgF8UUBsd6kWvKSORFU4=
+ bh=QM4SxWKptiEN0lpRGR0RN07jbGnJmBLPK7wOIAq9Uiw=;
+ b=ECKSqmjpg7c6qIy1MuVQdN01NE8r4OBx8naTTW0Z4VOHnB5UGiFFsE4XXLAMIvIqyB3Ju/
+ eysk/Ynb3SXDeYDPGPiMJurlf0ntbbScPCzHE7OHVwy4J2LvP5uqQ65k598L6mG4M4sZMy
+ J40bMTNiFv1tNxVqnfB8tFW5cCfURfk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-107-6cxZujNaPuOOk1XqWPbP6Q-1; Fri, 04 Mar 2022 09:22:50 -0500
-X-MC-Unique: 6cxZujNaPuOOk1XqWPbP6Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-590-m8MJbeduMQS3CU0IxTO7FA-1; Fri, 04 Mar 2022 09:23:01 -0500
+X-MC-Unique: m8MJbeduMQS3CU0IxTO7FA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E16901854E21;
- Fri,  4 Mar 2022 14:22:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3403A1854E27;
+ Fri,  4 Mar 2022 14:22:59 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4837483092;
- Fri,  4 Mar 2022 14:22:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFDE22ED81;
+ Fri,  4 Mar 2022 14:22:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5CE2D1800934; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
+ id 74B231800937; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/35] audio: add function audio_pcm_hw_conv_in()
-Date: Fri,  4 Mar 2022 15:20:58 +0100
-Message-Id: <20220304142123.956171-11-kraxel@redhat.com>
+Subject: [PULL 12/35] paaudio: increase default latency to 46ms
+Date: Fri,  4 Mar 2022 15:21:00 +0100
+Message-Id: <20220304142123.956171-13-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -95,69 +95,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Add a function audio_pcm_hw_conv_in() similar to the existing
-counterpart function audio_pcm_hw_clip_out(). This function reduces
-the number of calls to the pcm_ops functions get_buffer_in() and
-put_buffer_in(). That's one less call to get_buffer_in() and
-put_buffer_in() every time the conv_buffer wraps around.
+This is a patch to improve the pulseaudio playback experience.
+Asking pulseaudio for a playback latency of 15ms is quite
+demanding. Increase this to 46ms. The total playback latency
+now is 31ms larger. One of the next patches will reduce the
+total playback latency again by more than 46ms.
+
+Here is a quote from the PulseAudio Latency Control
+documentation: 'For the sake of (...) drop-out safety always
+make sure to pick the highest latency possible that fulfills
+your needs.'
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20220301191311.26695-3-vr_qemu@t-online.de>
+Message-Id: <20220301191311.26695-5-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+ audio/paaudio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index dfd32912da48..f28e91853f0b 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -548,6 +548,24 @@ static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
-     return live;
- }
- 
-+static size_t audio_pcm_hw_conv_in(HWVoiceIn *hw, void *pcm_buf, size_t samples)
-+{
-+    size_t conv = 0;
-+    STSampleBuffer *conv_buf = hw->conv_buf;
-+
-+    while (samples) {
-+        uint8_t *src = advance(pcm_buf, conv * hw->info.bytes_per_frame);
-+        size_t proc = MIN(samples, conv_buf->size - conv_buf->pos);
-+
-+        hw->conv(conv_buf->samples + conv_buf->pos, src, proc);
-+        conv_buf->pos = (conv_buf->pos + proc) % conv_buf->size;
-+        samples -= proc;
-+        conv += proc;
-+    }
-+
-+    return conv;
-+}
-+
- /*
-  * Soft voice (capture)
-  */
-@@ -1219,7 +1237,6 @@ static void audio_run_out (AudioState *s)
- static size_t audio_pcm_hw_run_in(HWVoiceIn *hw, size_t samples)
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index 75401d53910a..9df1e69c086f 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -744,7 +744,7 @@ static int qpa_validate_per_direction_opts(Audiodev *dev,
  {
-     size_t conv = 0;
--    STSampleBuffer *conv_buf = hw->conv_buf;
- 
-     if (hw->pcm_ops->run_buffer_in) {
-         hw->pcm_ops->run_buffer_in(hw);
-@@ -1235,11 +1252,7 @@ static size_t audio_pcm_hw_run_in(HWVoiceIn *hw, size_t samples)
-             break;
-         }
- 
--        proc = MIN(size / hw->info.bytes_per_frame,
--                   conv_buf->size - conv_buf->pos);
--
--        hw->conv(conv_buf->samples + conv_buf->pos, buf, proc);
--        conv_buf->pos = (conv_buf->pos + proc) % conv_buf->size;
-+        proc = audio_pcm_hw_conv_in(hw, buf, size / hw->info.bytes_per_frame);
- 
-         samples -= proc;
-         conv += proc;
+     if (!pdo->has_latency) {
+         pdo->has_latency = true;
+-        pdo->latency = 15000;
++        pdo->latency = 46440;
+     }
+     return 1;
+ }
 -- 
 2.35.1
 
