@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A4E4CD978
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 17:50:34 +0100 (CET)
-Received: from localhost ([::1]:57246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7D24CD979
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 17:51:02 +0100 (CET)
+Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQB8S-0007nn-Ot
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 11:50:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51130)
+	id 1nQB8v-0000FQ-LY
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 11:51:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5R-0004Ll-Nz
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20261)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5W-0004Yz-0a
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5O-0007Ew-Mx
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:25 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5U-0007Is-3d
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646412441;
+ s=mimecast20190719; t=1646412447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FBLhYyHGxDa852f1UgmSYeaagEna4adluNcI2ZCxDIo=;
- b=FZF41SLQB7m74eC5KzXiFJ7MtYyhGvQifqFyHSqbVbogZ54nHD8kQTTN/Iy9Z9PeyacVVZ
- bWjRQqr6jrWPQ/8GE4ElFCcTxG9Pf7Q9mKdDRDx2eozdXh73g9n4kvfut5Z1IYy59n6bW6
- 6Ev7VsncFhalH5No7ExdbqrAcbGg/bQ=
+ bh=AaBdy2pIWXrdfhFA3HMwVQlkhTGtqFU6d+QMsLshN4g=;
+ b=gxodzXTdg5MYaIaLEffJb9NhV8iufErWONaIDUMFzVtfqLOGsixpbNEjFRS64b1GN3488r
+ Tfow/7y4274L7k1Zwktgx2tvdy/C4hfF5CBdDOnPvWSr2LFiKllpkvNVbCsYkt6c/Z08q0
+ ODvuLYSZoRg9HGYiMMFkcrmDc3544Pg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-323-uN8m6q6mNC6AOxqB4xqMLg-1; Fri, 04 Mar 2022 11:47:20 -0500
-X-MC-Unique: uN8m6q6mNC6AOxqB4xqMLg-1
+ us-mta-645-nh62bwEkPG6uSigGbrmC9A-1; Fri, 04 Mar 2022 11:47:24 -0500
+X-MC-Unique: nh62bwEkPG6uSigGbrmC9A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48928800423;
- Fri,  4 Mar 2022 16:47:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DB761091DA0;
+ Fri,  4 Mar 2022 16:47:22 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 47B7683BF9;
- Fri,  4 Mar 2022 16:47:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 323DD85476;
+ Fri,  4 Mar 2022 16:47:21 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/50] crypto: perform permission checks under BQL
-Date: Fri,  4 Mar 2022 17:46:22 +0100
-Message-Id: <20220304164711.474713-2-kwolf@redhat.com>
+Subject: [PULL 04/50] block: rename bdrv_invalidate_cache_all,
+ blk_invalidate_cache and test_sync_op_invalidate_cache
+Date: Fri,  4 Mar 2022 17:46:25 +0100
+Message-Id: <20220304164711.474713-5-kwolf@redhat.com>
 In-Reply-To: <20220304164711.474713-1-kwolf@redhat.com>
 References: <20220304164711.474713-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -84,225 +85,242 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Move the permission API calls into driver-specific callbacks
-that always run under BQL. In this case, bdrv_crypto_luks
-needs to perform permission checks before and after
-qcrypto_block_amend_options(). The problem is that the caller,
-block_crypto_amend_options_generic_luks(), can also run in I/O
-from .bdrv_co_amend(). This does not comply with Global State-I/O API split,
-as permissions API must always run under BQL.
+Following the bdrv_activate renaming, change also the name
+of the respective callers.
 
-Firstly, introduce .bdrv_amend_pre_run() and .bdrv_amend_clean()
-callbacks. These two callbacks are guaranteed to be invoked under
-BQL, respectively before and after .bdrv_co_amend().
-They take care of performing the permission checks
-in the same way as they are currently done before and after
-qcrypto_block_amend_options().
-These callbacks are in preparation for next patch, where we
-delete the original permission check. Right now they just add redundant
-control.
+bdrv_invalidate_cache_all -> bdrv_activate_all
+blk_invalidate_cache -> blk_activate
+test_sync_op_invalidate_cache -> test_sync_op_activate
 
-Then, call .bdrv_amend_pre_run() before job_start in
-qmp_x_blockdev_amend(), so that it will be run before the job coroutine
-is created and stay in the main loop.
-As a cleanup, use JobDriver's .clean() callback to call
-.bdrv_amend_clean(), and run amend-specific cleanup callbacks under BQL.
-
-After this patch, permission failures occur early in the blockdev-amend
-job to update a LUKS volume's keys.  iotest 296 must now expect them in
-x-blockdev-amend's QMP reply instead of waiting for the actual job to
-fail later.
+No functional change intended.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-Id: <20220209105452.1694545-2-eesposit@redhat.com>
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220304153729.711387-6-hreitz@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20220209105452.1694545-5-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block_int.h  | 14 ++++++++++++++
- block/amend.c              | 25 +++++++++++++++++++++++++
- block/crypto.c             | 33 +++++++++++++++++++++++++++++++++
- tests/qemu-iotests/296     |  8 ++++++--
- tests/qemu-iotests/296.out | 17 +++++------------
- 5 files changed, 83 insertions(+), 14 deletions(-)
+ include/block/block.h            |  2 +-
+ include/sysemu/block-backend.h   |  2 +-
+ block.c                          |  2 +-
+ block/block-backend.c            |  2 +-
+ hw/block/pflash_cfi01.c          |  2 +-
+ hw/nvram/spapr_nvram.c           |  2 +-
+ migration/block.c                |  2 +-
+ migration/migration.c            | 14 +++++++-------
+ migration/savevm.c               |  6 +++---
+ monitor/qmp-cmds.c               |  2 +-
+ tests/unit/test-block-iothread.c |  6 +++---
+ 11 files changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 27008cfb22..31bd788919 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -124,6 +124,20 @@ struct BlockDriver {
-      * on those children.
-      */
-     bool is_format;
-+
-+    /*
-+     * This function is invoked under BQL before .bdrv_co_amend()
-+     * (which in contrast does not necessarily run under the BQL)
-+     * to allow driver-specific initialization code that requires
-+     * the BQL, like setting up specific permission flags.
-+     */
-+    int (*bdrv_amend_pre_run)(BlockDriverState *bs, Error **errp);
-+    /*
-+     * This function is invoked under BQL after .bdrv_co_amend()
-+     * to allow cleaning up what was done in .bdrv_amend_pre_run().
-+     */
-+    void (*bdrv_amend_clean)(BlockDriverState *bs);
-+
-     /*
-      * Return true if @to_replace can be replaced by a BDS with the
-      * same data as @bs without it affecting @bs's behavior (that is,
-diff --git a/block/amend.c b/block/amend.c
-index 392df9ef83..f465738665 100644
---- a/block/amend.c
-+++ b/block/amend.c
-@@ -53,10 +53,29 @@ static int coroutine_fn blockdev_amend_run(Job *job, Error **errp)
-     return ret;
+diff --git a/include/block/block.h b/include/block/block.h
+index 18cd336911..d27e616d29 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -493,8 +493,8 @@ int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
+ /* Invalidate any cached metadata used by image formats */
+ int generated_co_wrapper bdrv_invalidate_cache(BlockDriverState *bs,
+                                                Error **errp);
+-void bdrv_invalidate_cache_all(Error **errp);
+ int bdrv_activate(BlockDriverState *bs, Error **errp);
++void bdrv_activate_all(Error **errp);
+ int bdrv_inactivate_all(void);
+ 
+ /* Ensure contents are flushed to disk.  */
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+index e5e1524f06..6c5104cd4a 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -206,7 +206,7 @@ bool blk_is_writable(BlockBackend *blk);
+ bool blk_is_sg(BlockBackend *blk);
+ bool blk_enable_write_cache(BlockBackend *blk);
+ void blk_set_enable_write_cache(BlockBackend *blk, bool wce);
+-void blk_invalidate_cache(BlockBackend *blk, Error **errp);
++void blk_activate(BlockBackend *blk, Error **errp);
+ bool blk_is_inserted(BlockBackend *blk);
+ bool blk_is_available(BlockBackend *blk);
+ void blk_lock_medium(BlockBackend *blk, bool locked);
+diff --git a/block.c b/block.c
+index 7746727a47..5e65f134f8 100644
+--- a/block.c
++++ b/block.c
+@@ -6473,7 +6473,7 @@ int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
+     return 0;
  }
  
-+static int blockdev_amend_pre_run(BlockdevAmendJob *s, Error **errp)
-+{
-+    if (s->bs->drv->bdrv_amend_pre_run) {
-+        return s->bs->drv->bdrv_amend_pre_run(s->bs, errp);
-+    }
-+
-+    return 0;
-+}
-+
-+static void blockdev_amend_clean(Job *job)
-+{
-+    BlockdevAmendJob *s = container_of(job, BlockdevAmendJob, common);
-+
-+    if (s->bs->drv->bdrv_amend_clean) {
-+        s->bs->drv->bdrv_amend_clean(s->bs);
-+    }
-+}
-+
- static const JobDriver blockdev_amend_job_driver = {
-     .instance_size = sizeof(BlockdevAmendJob),
-     .job_type      = JOB_TYPE_AMEND,
-     .run           = blockdev_amend_run,
-+    .clean         = blockdev_amend_clean,
+-void bdrv_invalidate_cache_all(Error **errp)
++void bdrv_activate_all(Error **errp)
+ {
+     BlockDriverState *bs;
+     BdrvNextIterator it;
+diff --git a/block/block-backend.c b/block/block-backend.c
+index c516113a36..98bfcd5cf2 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1880,7 +1880,7 @@ void blk_set_enable_write_cache(BlockBackend *blk, bool wce)
+     blk->enable_write_cache = wce;
+ }
+ 
+-void blk_invalidate_cache(BlockBackend *blk, Error **errp)
++void blk_activate(BlockBackend *blk, Error **errp)
+ {
+     BlockDriverState *bs = blk_bs(blk);
+ 
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index 81f9f971d8..74c7190302 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -1023,7 +1023,7 @@ static void postload_update_cb(void *opaque, bool running, RunState state)
+ {
+     PFlashCFI01 *pfl = opaque;
+ 
+-    /* This is called after bdrv_invalidate_cache_all.  */
++    /* This is called after bdrv_activate_all.  */
+     qemu_del_vm_change_state_handler(pfl->vmstate);
+     pfl->vmstate = NULL;
+ 
+diff --git a/hw/nvram/spapr_nvram.c b/hw/nvram/spapr_nvram.c
+index fbfdf47e26..18b43be7f6 100644
+--- a/hw/nvram/spapr_nvram.c
++++ b/hw/nvram/spapr_nvram.c
+@@ -219,7 +219,7 @@ static void postload_update_cb(void *opaque, bool running, RunState state)
+ {
+     SpaprNvram *nvram = opaque;
+ 
+-    /* This is called after bdrv_invalidate_cache_all.  */
++    /* This is called after bdrv_activate_all.  */
+ 
+     qemu_del_vm_change_state_handler(nvram->vmstate);
+     nvram->vmstate = NULL;
+diff --git a/migration/block.c b/migration/block.c
+index a950977855..077a413325 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -932,7 +932,7 @@ static int block_load(QEMUFile *f, void *opaque, int version_id)
+                     return -EINVAL;
+                 }
+ 
+-                blk_invalidate_cache(blk, &local_err);
++                blk_activate(blk, &local_err);
+                 if (local_err) {
+                     error_report_err(local_err);
+                     return -EINVAL;
+diff --git a/migration/migration.c b/migration/migration.c
+index 9cc344514b..695f0f2900 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -503,9 +503,9 @@ static void process_incoming_migration_bh(void *opaque)
+     if (!migrate_late_block_activate() ||
+          (autostart && (!global_state_received() ||
+             global_state_get_runstate() == RUN_STATE_RUNNING))) {
+-        /* Make sure all file formats flush their mutable metadata.
++        /* Make sure all file formats throw away their mutable metadata.
+          * If we get an error here, just don't restart the VM yet. */
+-        bdrv_invalidate_cache_all(&local_err);
++        bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
+             local_err = NULL;
+@@ -591,8 +591,8 @@ static void process_incoming_migration_co(void *opaque)
+ 
+     /* we get COLO info, and know if we are in COLO mode */
+     if (!ret && migration_incoming_colo_enabled()) {
+-        /* Make sure all file formats flush their mutable metadata */
+-        bdrv_invalidate_cache_all(&local_err);
++        /* Make sure all file formats throw away their mutable metadata */
++        bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
+             goto fail;
+@@ -1932,7 +1932,7 @@ static void migrate_fd_cancel(MigrationState *s)
+     if (s->state == MIGRATION_STATUS_CANCELLING && s->block_inactive) {
+         Error *local_err = NULL;
+ 
+-        bdrv_invalidate_cache_all(&local_err);
++        bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
+         } else {
+@@ -3111,7 +3111,7 @@ fail:
+          */
+         Error *local_err = NULL;
+ 
+-        bdrv_invalidate_cache_all(&local_err);
++        bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
+         }
+@@ -3256,7 +3256,7 @@ fail_invalidate:
+         Error *local_err = NULL;
+ 
+         qemu_mutex_lock_iothread();
+-        bdrv_invalidate_cache_all(&local_err);
++        bdrv_activate_all(&local_err);
+         if (local_err) {
+             error_report_err(local_err);
+         } else {
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 967ff80547..6b79f9673a 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1438,7 +1438,7 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+ 
+     if (inactivate_disks) {
+         /* Inactivate before sending QEMU_VM_EOF so that the
+-         * bdrv_invalidate_cache_all() on the other end won't fail. */
++         * bdrv_activate_all() on the other end won't fail. */
+         ret = bdrv_inactivate_all();
+         if (ret) {
+             error_report("%s: bdrv_inactivate_all() failed (%d)",
+@@ -2013,9 +2013,9 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
+ 
+     trace_loadvm_postcopy_handle_run_bh("after announce");
+ 
+-    /* Make sure all file formats flush their mutable metadata.
++    /* Make sure all file formats throw away their mutable metadata.
+      * If we get an error here, just don't restart the VM yet. */
+-    bdrv_invalidate_cache_all(&local_err);
++    bdrv_activate_all(&local_err);
+     if (local_err) {
+         error_report_err(local_err);
+         local_err = NULL;
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index df97582dd4..ad82c275c4 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -144,7 +144,7 @@ void qmp_cont(Error **errp)
+      * If there are no inactive block nodes (e.g. because the VM was just
+      * paused rather than completing a migration), bdrv_inactivate_all() simply
+      * doesn't do anything. */
+-    bdrv_invalidate_cache_all(&local_err);
++    bdrv_activate_all(&local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
+index 378a7b7869..94718c9319 100644
+--- a/tests/unit/test-block-iothread.c
++++ b/tests/unit/test-block-iothread.c
+@@ -279,7 +279,7 @@ static void test_sync_op_check(BdrvChild *c)
+     g_assert_cmpint(ret, ==, -ENOTSUP);
+ }
+ 
+-static void test_sync_op_invalidate_cache(BdrvChild *c)
++static void test_sync_op_activate(BdrvChild *c)
+ {
+     /* Early success: Image is not inactive */
+     bdrv_activate(c->bs, NULL);
+@@ -325,8 +325,8 @@ const SyncOpTest sync_op_tests[] = {
+         .name   = "/sync-op/check",
+         .fn     = test_sync_op_check,
+     }, {
+-        .name   = "/sync-op/invalidate_cache",
+-        .fn     = test_sync_op_invalidate_cache,
++        .name   = "/sync-op/activate",
++        .fn     = test_sync_op_activate,
+     },
  };
  
- void qmp_x_blockdev_amend(const char *job_id,
-@@ -113,5 +132,11 @@ void qmp_x_blockdev_amend(const char *job_id,
-     s->bs = bs,
-     s->opts = QAPI_CLONE(BlockdevAmendOptions, options),
-     s->force = has_force ? force : false;
-+
-+    if (blockdev_amend_pre_run(s, errp)) {
-+        job_early_fail(&s->common);
-+        return;
-+    }
-+
-     job_start(&s->common);
- }
-diff --git a/block/crypto.c b/block/crypto.c
-index c8ba4681e2..70b2f07351 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -777,6 +777,37 @@ block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
-     return spec_info;
- }
- 
-+static int
-+block_crypto_amend_prepare(BlockDriverState *bs, Error **errp)
-+{
-+    BlockCrypto *crypto = bs->opaque;
-+    int ret;
-+
-+    /* apply for exclusive read/write permissions to the underlying file */
-+    crypto->updating_keys = true;
-+    ret = bdrv_child_refresh_perms(bs, bs->file, errp);
-+    if (ret < 0) {
-+        /* Well, in this case we will not be updating any keys */
-+        crypto->updating_keys = false;
-+    }
-+    return ret;
-+}
-+
-+static void
-+block_crypto_amend_cleanup(BlockDriverState *bs)
-+{
-+    BlockCrypto *crypto = bs->opaque;
-+    Error *errp = NULL;
-+
-+    /* release exclusive read/write permissions to the underlying file */
-+    crypto->updating_keys = false;
-+    bdrv_child_refresh_perms(bs, bs->file, &errp);
-+
-+    if (errp) {
-+        error_report_err(errp);
-+    }
-+}
-+
- static int
- block_crypto_amend_options_generic_luks(BlockDriverState *bs,
-                                         QCryptoBlockAmendOptions *amend_options,
-@@ -931,6 +962,8 @@ static BlockDriver bdrv_crypto_luks = {
-     .bdrv_get_specific_info = block_crypto_get_specific_info_luks,
-     .bdrv_amend_options = block_crypto_amend_options_luks,
-     .bdrv_co_amend      = block_crypto_co_amend_luks,
-+    .bdrv_amend_pre_run = block_crypto_amend_prepare,
-+    .bdrv_amend_clean   = block_crypto_amend_cleanup,
- 
-     .is_format          = true,
- 
-diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
-index 099a3eeaa5..f80ef3434a 100755
---- a/tests/qemu-iotests/296
-+++ b/tests/qemu-iotests/296
-@@ -174,8 +174,12 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-         }
- 
-         result = vm.qmp('x-blockdev-amend', **args)
--        assert result['return'] == {}
--        vm.run_job('job0')
-+        iotests.log(result)
-+        # Run the job only if it was created
-+        event = ('JOB_STATUS_CHANGE',
-+                 {'data': {'id': 'job0', 'status': 'created'}})
-+        if vm.events_wait([event], timeout=0.0) is not None:
-+            vm.run_job('job0')
- 
-     # test that when the image opened by two qemu processes,
-     # neither of them can update the encryption keys
-diff --git a/tests/qemu-iotests/296.out b/tests/qemu-iotests/296.out
-index 42205cc981..609826eaa0 100644
---- a/tests/qemu-iotests/296.out
-+++ b/tests/qemu-iotests/296.out
-@@ -1,11 +1,9 @@
- 
--{"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
--Job failed: Failed to get shared "consistent read" lock
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
--Job failed: Failed to get shared "consistent read" lock
--{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"error": {"class": "GenericError", "desc": "Failed to get shared \"consistent read\" lock"}}
-+{"error": {"class": "GenericError", "desc": "Failed to get shared \"consistent read\" lock"}}
- {"return": {}}
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
-@@ -13,14 +11,9 @@ qemu-img: Failed to get shared "consistent read" lock
- Is another process using the image [TEST_DIR/test.img]?
- 
- .
--Job failed: Block node is read-only
--{"execute": "job-dismiss", "arguments": {"id": "job0"}}
--{"return": {}}
--Job failed: Failed to get shared "consistent read" lock
--{"execute": "job-dismiss", "arguments": {"id": "job0"}}
--{"return": {}}
--Job failed: Failed to get shared "consistent read" lock
--{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"error": {"class": "GenericError", "desc": "Block node is read-only"}}
-+{"error": {"class": "GenericError", "desc": "Failed to get shared \"consistent read\" lock"}}
-+{"error": {"class": "GenericError", "desc": "Failed to get shared \"consistent read\" lock"}}
- {"return": {}}
- {"execute": "job-dismiss", "arguments": {"id": "job0"}}
- {"return": {}}
 -- 
 2.35.1
 
