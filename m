@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2DA4CD99A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:01:36 +0100 (CET)
-Received: from localhost ([::1]:55460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196CC4CD99B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:01:50 +0100 (CET)
+Received: from localhost ([::1]:55976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQBJ9-0000sG-C9
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:01:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51328)
+	id 1nQBJN-0001E7-5K
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:01:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5a-0004se-Vs
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54191)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5c-0004xh-Jh
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5Z-0007LH-Cq
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:34 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQB5Z-0007LQ-Jk
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 11:47:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646412452;
+ s=mimecast20190719; t=1646412453;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xnz9gUdPLjEfkILxFU1TG62D3jDVigV1WYKRGuoacbk=;
- b=Z7rLTrCUGkZdxXuGnlC/ktz2DOCETxVMjO2ANiURtK6Ln48KzWXNrcv2FkQy1KpQfX22mU
- 4BCQuV+cAjZILpK3Lo32AzAmUwB75eJ7Zb5fdn9G5q0/d2z2w//GEkOsJ5fYvSCRs/a5Ly
- fH1F/qks5fJ+QD1GTL6DcnNxKDMLdDE=
+ bh=TyGt551tDjSKyEo2xbzP525Wu/xijYhjcr0+TfWDaiM=;
+ b=D5Cqb8YhIbRzMImBFUUszmPPUqZ1+ALUnO+xydjGJgOtuNkfQw3SfAfN67Wg5D4UleDrvj
+ X1jxJ1klMx+E2KieJjnpT8asyzgKoAfrBavLvPaKgyWjoUxe7oGLLeTd3TroDRlXj2Rhcq
+ n4O8XCTYIuFJKt4tTc2sV7oBJ3ZYgso=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-B1BSifLgOAWRjBHe_wFDLg-1; Fri, 04 Mar 2022 11:47:29 -0500
-X-MC-Unique: B1BSifLgOAWRjBHe_wFDLg-1
+ us-mta-281-pa6WxGveMnu_8ob3FzAcLw-1; Fri, 04 Mar 2022 11:47:31 -0500
+X-MC-Unique: pa6WxGveMnu_8ob3FzAcLw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 948F0801DDC;
- Fri,  4 Mar 2022 16:47:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9895824FA6;
+ Fri,  4 Mar 2022 16:47:29 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 995A983BF9;
- Fri,  4 Mar 2022 16:47:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DED8383BF9;
+ Fri,  4 Mar 2022 16:47:28 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/50] cpus: use coroutine TLS macros for iothread_locked
-Date: Fri,  4 Mar 2022 17:46:30 +0100
-Message-Id: <20220304164711.474713-10-kwolf@redhat.com>
+Subject: [PULL 10/50] os-posix: Add os_set_daemonize()
+Date: Fri,  4 Mar 2022 17:46:31 +0100
+Message-Id: <20220304164711.474713-11-kwolf@redhat.com>
 In-Reply-To: <20220304164711.474713-1-kwolf@redhat.com>
 References: <20220304164711.474713-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -82,61 +82,76 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
 
-qemu_mutex_iothread_locked() may be used from coroutines. Standard
-__thread variables cannot be used by coroutines. Use the coroutine TLS
-macros instead.
+The daemonizing functions in os-posix (os_daemonize() and
+os_setup_post()) only daemonize the process if the static `daemonize`
+variable is set.  Right now, it can only be set by os_parse_cmd_args().
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220222140150.27240-5-stefanha@redhat.com>
+In order to use os_daemonize() and os_setup_post() from the storage
+daemon to have it be daemonized, we need some other way to set this
+`daemonize` variable, because I would rather not tap into the system
+emulator's arg-parsing code.  Therefore, this patch adds an
+os_set_daemonize() function, which will return an error on os-win32
+(because daemonizing is not supported there).
+
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20220303164814.284974-2-hreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- softmmu/cpus.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ include/sysemu/os-posix.h | 1 +
+ include/sysemu/os-win32.h | 8 ++++++++
+ os-posix.c                | 6 ++++++
+ 3 files changed, 15 insertions(+)
 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 035395ae13..d1ff3cfea1 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -25,6 +25,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "monitor/monitor.h"
-+#include "qemu/coroutine-tls.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
-@@ -473,11 +474,11 @@ bool qemu_in_vcpu_thread(void)
-     return current_cpu && qemu_cpu_is_self(current_cpu);
- }
+diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
+index 2edf33658a..dd64fb401d 100644
+--- a/include/sysemu/os-posix.h
++++ b/include/sysemu/os-posix.h
+@@ -55,6 +55,7 @@ int os_mlock(void);
+ typedef struct timeval qemu_timeval;
+ #define qemu_gettimeofday(tp) gettimeofday(tp, NULL)
  
--static __thread bool iothread_locked = false;
-+QEMU_DEFINE_STATIC_CO_TLS(bool, iothread_locked)
++int os_set_daemonize(bool d);
+ bool is_daemonized(void);
  
- bool qemu_mutex_iothread_locked(void)
+ /**
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index 43f569b5c2..770752222a 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -77,6 +77,14 @@ typedef struct {
+ } qemu_timeval;
+ int qemu_gettimeofday(qemu_timeval *tp);
+ 
++static inline int os_set_daemonize(bool d)
++{
++    if (d) {
++        return -ENOTSUP;
++    }
++    return 0;
++}
++
+ static inline bool is_daemonized(void)
  {
--    return iothread_locked;
-+    return get_iothread_locked();
+     return false;
+diff --git a/os-posix.c b/os-posix.c
+index ae6c9f2a5e..24692c8593 100644
+--- a/os-posix.c
++++ b/os-posix.c
+@@ -317,6 +317,12 @@ bool is_daemonized(void)
+     return daemonize;
  }
  
- /*
-@@ -490,13 +491,13 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line)
- 
-     g_assert(!qemu_mutex_iothread_locked());
-     bql_lock(&qemu_global_mutex, file, line);
--    iothread_locked = true;
-+    set_iothread_locked(true);
- }
- 
- void qemu_mutex_unlock_iothread(void)
++int os_set_daemonize(bool d)
++{
++    daemonize = d;
++    return 0;
++}
++
+ int os_mlock(void)
  {
-     g_assert(qemu_mutex_iothread_locked());
--    iothread_locked = false;
-+    set_iothread_locked(false);
-     qemu_mutex_unlock(&qemu_global_mutex);
- }
- 
+ #ifdef HAVE_MLOCKALL
 -- 
 2.35.1
 
