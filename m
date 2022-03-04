@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762B54CE142
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 00:56:04 +0100 (CET)
-Received: from localhost ([::1]:57202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604634CE143
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 00:56:44 +0100 (CET)
+Received: from localhost ([::1]:59246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQHmF-0003Kt-8E
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 18:56:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50816)
+	id 1nQHmt-0004nK-Gb
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 18:56:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQHk4-0002Ep-8Q; Fri, 04 Mar 2022 18:53:48 -0500
-Received: from [2607:f8b0:4864:20::435] (port=41836
- helo=mail-pf1-x435.google.com)
+ id 1nQHlH-0003L2-1M; Fri, 04 Mar 2022 18:55:03 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=44816
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQHk3-0000Wm-05; Fri, 04 Mar 2022 18:53:47 -0500
-Received: by mail-pf1-x435.google.com with SMTP id p8so8888741pfh.8;
- Fri, 04 Mar 2022 15:53:46 -0800 (PST)
+ id 1nQHlF-0001Ok-KN; Fri, 04 Mar 2022 18:55:02 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ gj15-20020a17090b108f00b001bef86c67c1so9175767pjb.3; 
+ Fri, 04 Mar 2022 15:55:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ot/1RYIsi/u9PlYsiFuK7XlXxkuHnmPUD8ShAIAKs1g=;
- b=KUd+DKotVqx6+AI29nZ4TqIfl2BHhW6VzGGVEzkoqkVMQAtM+KPbMGB8vcJvTWPm9E
- wCeQ8NsFFECVbjRrHovNj5Lvgnl6q3kX0XCplT/jJ5v5FejjNS/tOC8GaxnFLtISASG7
- zx0a71xmmFMgMyTzV/77d5I4t1Rl1vTbqcSaYCN3WjDc0663N96OA1GdqcjUcUgzH8sO
- Jz3X+o7QarY2oXdv54sc5m/c5sT50MNUsnmPvdxY4ahv/hjeS3KsyQC8XUuNGYXluAd3
- 1rKyJ+i3j3+g+jylKUV41yJQpu3tDpOzVN7aNboINkiKUxoHqoCl2vByylfjlkcg8IlY
- KWmg==
+ bh=/C5Efif1d2CDO8LCWs1fSo42W+5+JfZwwTEVjYBXgtg=;
+ b=WjAsPkRJBBagAulzUgmzAXzIHjj3tuAN9FlKXSEtx/Yl1N5aMv8+gpU1QmAqaAFFyg
+ cTHiKxZFG8qW9vQOPT988Aa1O+LjAX/XOD4pRB+DmqSv5QTC7JWl7bwb8FnZIyL6/jHu
+ BL8BXe1VpWxjdVwhjhK/5yunYXe8JLE0Pw4pQLSNTrOvLH1c+VCVEIJoPhW4GVcNKWPF
+ amqHqWyWGT5X6979u3dRIPoaP4Lx91RGeGUBQjkMNRETBr56Qwr5+YVvzi78WHvsSG/M
+ 5ggfiWEw9zvF9/cG7xcPScAsy9N0P0Ph4RiM+SCbiqd6pgzypX2KOCP2hTuOmZ+2aQtq
+ wjoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ot/1RYIsi/u9PlYsiFuK7XlXxkuHnmPUD8ShAIAKs1g=;
- b=KsqQBT5xI/rq11fCzcE1S80sNNPU0NxuhkmsNPuvUiiVDd4EbWR0CXDXnjWsLhWUma
- oLU5ERa8LVzspqdS7cCQh76owMBtxw4J2zSmpKOsjiBahXDG71oqk0x3N/9xbxlPwEqk
- fnGHJPuQmxbHMZmObIwaB/itXWlff9/SWfPg2Da7Vv6VYfqhb3rQ3Ov0aPxMM4bDhmgq
- UeRCvf3Gp2xTmipdzH67yejAN/Mwb7w8O/XJ5YrMh+Ch+8+QulY4IQoSi3nlRVh0/6gJ
- vxjjHyRISXRoMfA3PCaACtYnry3xovdkE94OJRNS6Bz+mnCurnTo3dRljSvr2J51Zl4X
- ZiZQ==
-X-Gm-Message-State: AOAM531jurodgz/Sdp2txatVzMpQJIDdGLl3p9CfmhXJ7+dVhsEqv6Fw
- z06FlQ6l5R7lHFNJwedcitI=
-X-Google-Smtp-Source: ABdhPJzkYcJoqyOnr6L7P2jZgkPPzbn8CgGx/MG2Dxuop7qESmWBx/B3M3rRmrn3nLJOxm24JZVoDw==
-X-Received: by 2002:a05:6a00:16cd:b0:4e1:366:7ee8 with SMTP id
- l13-20020a056a0016cd00b004e103667ee8mr1003197pfc.9.1646438025225; 
- Fri, 04 Mar 2022 15:53:45 -0800 (PST)
+ bh=/C5Efif1d2CDO8LCWs1fSo42W+5+JfZwwTEVjYBXgtg=;
+ b=PG19+6jnu+tddaclMl/OaxFCNIAgrFqBx37uxooa/64M0ao47A8hx0yEXpYpys8GR2
+ c/h4NAfHM2RNMCl58QPO7ODMsVao46SeHSjoMl0ZVPw7+NpDU697DjD9Q0yVaOl6+8sJ
+ iCR5qNzQR2hFtx9KwBv4pVsfQiPoQ1GcydAep7V2nRYNbk1nGqTcuZEmMPDGp0WmWvx5
+ UBghcLUNtz2jkEjZu3lw1n1+FhUe5Q3C/c5w8xe9+Y06HI2sf8m9/eqoZd0djoUGKK23
+ 17a45rkGO/PkbEzOmHMK66LI41PcW3+DeaRj+h6fKqxsCSThDsEKXMMeFBlELlX6KP9e
+ d6RQ==
+X-Gm-Message-State: AOAM532aKFXo86efyxyHT45aJ8prLLurl9qTLr9TSjLst+spp9i03o23
+ QNyVCdkkpfaPZaQEVr73CXQsdoBR31Y=
+X-Google-Smtp-Source: ABdhPJysONT1rteQALPguRCpfyz64AxuGAajPdhzb2n2ByQewCXmslFdGbpg2+IOlle/TSLGGMmjfA==
+X-Received: by 2002:a17:90b:1bc2:b0:1bf:993:f736 with SMTP id
+ oa2-20020a17090b1bc200b001bf0993f736mr1117079pjb.190.1646438099998; 
+ Fri, 04 Mar 2022 15:54:59 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- 2-20020a631342000000b0037487b6b018sm5368261pgt.0.2022.03.04.15.53.42
+ f7-20020a056a0022c700b004e11d3d0459sm7167566pfj.65.2022.03.04.15.54.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 15:53:44 -0800 (PST)
-Message-ID: <e6720b50-4c0d-6208-b285-771fe2bd9aff@gmail.com>
-Date: Sat, 5 Mar 2022 00:53:40 +0100
+ Fri, 04 Mar 2022 15:54:59 -0800 (PST)
+Message-ID: <980c5b74-744a-f5fa-843f-31b8f55703b7@gmail.com>
+Date: Sat, 5 Mar 2022 00:54:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v3 6/9] hw/i2c: Added linear mode translation for pmbus
- devices
+Subject: Re: [PATCH v3 8/9] hw/sensor: add Renesas raa229004 PMBus device
 Content-Language: en-US
 To: Titus Rwantare <titusr@google.com>, Corey Minyard <minyard@acm.org>
 References: <20220302015053.1984165-1-titusr@google.com>
- <20220302015053.1984165-7-titusr@google.com>
+ <20220302015053.1984165-9-titusr@google.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220302015053.1984165-7-titusr@google.com>
+In-Reply-To: <20220302015053.1984165-9-titusr@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,21 +93,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, venture@google.com,
- Shengtan Mao <stmao@google.com>, qemu-devel@nongnu.org, f4bug@amsat.org,
- wuhaotsh@google.com, qemu-arm@nongnu.org
+Cc: peter.maydell@linaro.org, venture@google.com, qemu-devel@nongnu.org,
+ f4bug@amsat.org, wuhaotsh@google.com, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/3/22 02:50, Titus Rwantare wrote:
-> From: Shengtan Mao <stmao@google.com>
+> The Renesas RAA229004 is a PMBus Multiphase Voltage Regulator
 > 
-> Signed-off-by: Shengtan Mao <stmao@google.com>
-> Reviewed-by: Titus Rwantare <titusr@google.com>
+> Signed-off-by: Titus Rwantare <titusr@google.com>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
 > ---
->   hw/i2c/pmbus_device.c         | 18 ++++++++++++++++++
->   include/hw/i2c/pmbus_device.h | 20 +++++++++++++++++++-
->   2 files changed, 37 insertions(+), 1 deletion(-)
+>   hw/sensor/isl_pmbus_vr.c         | 18 ++++++++++++++++++
+>   include/hw/sensor/isl_pmbus_vr.h |  1 +
+>   tests/qtest/isl_pmbus_vr-test.c  |  8 ++++++++
+>   3 files changed, 27 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
