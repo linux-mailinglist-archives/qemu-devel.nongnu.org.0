@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619AD4CD787
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:18:51 +0100 (CET)
-Received: from localhost ([::1]:53844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159D64CD7A0
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:22:55 +0100 (CET)
+Received: from localhost ([::1]:34900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9hi-0008Fx-Fb
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:18:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46562)
+	id 1nQ9la-0006PK-LA
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:22:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQ9GN-0006O1-EY; Fri, 04 Mar 2022 09:50:35 -0500
-Received: from [2a00:1450:4864:20::430] (port=47083
- helo=mail-wr1-x430.google.com)
+ id 1nQ9GQ-0006W3-76; Fri, 04 Mar 2022 09:50:38 -0500
+Received: from [2a00:1450:4864:20::331] (port=52883
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQ9GL-0003oE-T1; Fri, 04 Mar 2022 09:50:35 -0500
-Received: by mail-wr1-x430.google.com with SMTP id x15so13023993wru.13;
- Fri, 04 Mar 2022 06:50:33 -0800 (PST)
+ id 1nQ9GO-0003sL-J5; Fri, 04 Mar 2022 09:50:37 -0500
+Received: by mail-wm1-x331.google.com with SMTP id r65so5172274wma.2;
+ Fri, 04 Mar 2022 06:50:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Q5kGzbpYM0SoZse+km/zvjvymHQ7Ii9XWIsLly79tDs=;
- b=mWHjN9FA+hpPNsworOfND4L5yC9zV8vmfgWE4wSE2Tc9dU3UssRiWL2Ui71yTZZXwC
- VtY0Sx6BNk1nF5ImD3BKXYpMZTZv3iit72h6bdBQEOhJtw0ZWnXrCxpggrEUw2oxHhL1
- 6h4CnPZmAaKwh8ZgcaXQLt6Y/HnUdNsOvASWgqtUmrPIvC1DONeGK6h2zxFjFXfF101J
- 1BWIBoMzqUywzInecWjb2ykXRGMGykjios8T+mdKak0VMT36UVswfcOHapfZmj4vTsm4
- iKMVGbySZUsPI6E5JJWqyx4yR2q7NHQ07JtK6Xe+7Tvko+q3/yNjCIIeMvzUn3vk2q60
- WGKQ==
+ bh=PIzom54KlKXM2O3ojwcf86n5xJUYw+LTRbd0luKA2WY=;
+ b=pWoXi8z456fMV30GeD1XgAaNB5jPYKFdA5FxqdKVLCtP9qf/kv5bMo+HxPCol0ngon
+ 1Vk79MKik2YckZzpOS+w6Y3jP1lTuxbj6hxl10DRc6UFmG4kbhUYyXx2E1wTQceEHPqY
+ 1Z63G154onDZLdVGtVGD+qwYkNggneqU5/16aMW4piJh3dwsz0mbXqocvtupg1ISlPu4
+ Y9BbdeyHQLBt8fnoIQFXmjwvX1q5NXsPis9vnVlehkLL2tGyERMzP9/sQK3ZaLg1nRU5
+ HTU82HFDX5EavJv86Ec/Qyp7ZO9zElIkxIZh7ASFdG2xHlK8Q1RKffVQHs4871o4Oazb
+ 5CSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Q5kGzbpYM0SoZse+km/zvjvymHQ7Ii9XWIsLly79tDs=;
- b=nyfMSbcGCjSJZxYHGOAGhBRIMK2e4GQM0mlcut5l3IdgTBHcT77DG4Swwr83sTwalI
- H3JJnj8soK5GAvjNDTGtxVwV//b5Hnb8enBdOMw4cxtaa+Ra7xWRckOc76gn7ZDfZpZW
- GixMJYbckVt/kXLClHEvG+4KCYz7aqGuRAEwL5zGJ4FeW7n0ZpLUsQdfOpSgOvUpNgbX
- bKEJ5KqC4L06ySw8AgF4kwOAXEppH3KNz7aeEAGKPZ93KBb9ky8F8l0WPZxoAm+FrUIp
- 8lcFag6Py1LfeU/6UpT5GxRCV5pUAv2+I5WDejUzWzDuRy5Dng2PruExYxIiRkbNH8H3
- 3teA==
-X-Gm-Message-State: AOAM53353Nlh6Uq5x+6rA5wYz0XN1kTWJpeusbxxzFNlRxjWPMx2qbAF
- xTaHuyIhgmivyyvhJiGU9GA=
-X-Google-Smtp-Source: ABdhPJwJ9b2rxvDShrpD2hQPMCIwT3Y6AkH0D55vfX4A8ZH2NgP/C8cwUvxw48h5FaCSo0yts79sjQ==
-X-Received: by 2002:a05:6000:1866:b0:1ef:8a14:ab6a with SMTP id
- d6-20020a056000186600b001ef8a14ab6amr22347385wri.12.1646405432251; 
- Fri, 04 Mar 2022 06:50:32 -0800 (PST)
+ bh=PIzom54KlKXM2O3ojwcf86n5xJUYw+LTRbd0luKA2WY=;
+ b=Q9Q1xxgP4Sz0QKH1bO9QPencX/r5Jh+znvbLkL0UV00ZDyZd2RfJorezJ3a4EX1tNQ
+ fVccqA3qI0JO1PZR6vInckGJL4jPE/qQuuu9d44cULGocs1t82ayy+UguoM3t2PXJ5o4
+ Vdp/XIvqBmEEM7Puv08k6bNnEYRcTyQ7WoSTcy6jJZma5Yv692N5e5Cb+hxo9aFV/KFM
+ +xBjFOSpj79H+yaEG2eQRBq/4QJdzsKXVaLEiW6kZJyoyy5IqiWQNJ5HmgMSkatVnC3c
+ p6HI0xJlZzGqOYrmkq07v71Ve+h397FMM6uH32XN2Q/0AH8o1pLQXamNVLGXuhBIUNT4
+ Gvgg==
+X-Gm-Message-State: AOAM530SMZaoH4TxJvA3LOpgNok9X7Az72GBpS0xyxdyc5YdlIKIZc8W
+ b3kvkkSR311+Op0IFF85AQ+oP8tima0=
+X-Google-Smtp-Source: ABdhPJx0XJv7awghOg268FNEmRa773gA0HuF8gc5sz9IwDopRrVrDBjKwQRnN1Mo2G4zx+VNS0jTLw==
+X-Received: by 2002:a7b:c950:0:b0:389:5328:aaa8 with SMTP id
+ i16-20020a7bc950000000b003895328aaa8mr5038170wml.181.1646405434962; 
+ Fri, 04 Mar 2022 06:50:34 -0800 (PST)
 Received: from [192.168.88.252] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n8-20020adf8b08000000b001f046cc8891sm4752021wra.24.2022.03.04.06.50.31
+ g9-20020a5d6989000000b001f073d78a68sm1932210wru.115.2022.03.04.06.50.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 06:50:31 -0800 (PST)
-Message-ID: <ff763044-1e6a-18ea-02b9-9f7a7107bf43@gmail.com>
-Date: Fri, 4 Mar 2022 15:02:26 +0100
+ Fri, 04 Mar 2022 06:50:34 -0800 (PST)
+Message-ID: <103f7819-ecdb-7918-30a8-3bb09b8acdc0@gmail.com>
+Date: Fri, 4 Mar 2022 15:03:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2 6/9] util: Share qemu_try_memalign() implementation
- between POSIX and Windows
+Subject: Re: [PATCH v2 8/9] util: Put qemu_vfree() in memalign.c
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20220304112126.2261039-1-peter.maydell@linaro.org>
- <20220304112126.2261039-7-peter.maydell@linaro.org>
+ <20220304112126.2261039-9-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220304112126.2261039-7-peter.maydell@linaro.org>
+In-Reply-To: <20220304112126.2261039-9-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,25 +98,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/3/22 12:21, Peter Maydell wrote:
-> The qemu_try_memalign() functions for POSIX and Windows used to be
-> significantly different, but these days they are identical except for
-> the actual allocation function called, and the POSIX version already
-> has to have ifdeffery for different allocation functions.
-> 
-> Move to a single implementation in memalign.c, which uses the Windows
-> _aligned_malloc if we detect that function in meson.
+> qemu_vfree() is the companion free function to qemu_memalign(); put
+> it in memalign.c so the allocation and free functions are together.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-id: 20220226180723.1706285-7-peter.maydell@linaro.org
+> Message-id: 20220226180723.1706285-9-peter.maydell@linaro.org
 > ---
->   meson.build        |  1 +
->   util/memalign.c    | 39 +++++++++++++++++++++++++++++++++++++++
->   util/oslib-posix.c | 29 -----------------------------
->   util/oslib-win32.c | 17 -----------------
->   4 files changed, 40 insertions(+), 46 deletions(-)
-
-Nice.
+>   util/memalign.c    | 11 +++++++++++
+>   util/oslib-posix.c |  6 ------
+>   util/oslib-win32.c |  6 ------
+>   3 files changed, 11 insertions(+), 12 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
