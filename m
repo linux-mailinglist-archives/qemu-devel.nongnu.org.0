@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29A04CD76E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:13:31 +0100 (CET)
-Received: from localhost ([::1]:38638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89E04CD711
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:03:16 +0100 (CET)
+Received: from localhost ([::1]:34794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9cZ-0006KI-0A
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:13:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38596)
+	id 1nQ9Sd-0001AK-Vu
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:03:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8qJ-00043n-GI
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39780)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8qr-0004kX-15
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8qH-0000Ty-Ui
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:23:39 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8qp-0001IN-AS
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403816;
+ s=mimecast20190719; t=1646403850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZtW+dPwkd4OdT/Zpa2fY3A7LD1PtcBH5jmip8WSVPyo=;
- b=ZIVvUu3T9g7ZgxzY50rwIM6qi8FHgv94trtROMRgKsAHFf/0Do9wBWlYao88tVEI7s/edt
- WPGlNMi8Krtg4Xa+UV51GiPGddT0WRPr6T+UVxqhsODxG8qEvo4KK0348n97Pk8R/Ai+G5
- JQxXmgPT56eXhkzJ52lo/jBopJthlUY=
+ bh=/t8awGVSb3LoEgSj8kOF9+qQ1uXEEzUpjHhd65P9f24=;
+ b=i9Nz+qe7srTVNdP/cD8xiLqfw3avmD2mK9GqE0Mf+LhhasuidPWDFAghrQolqM8aAcK2Vs
+ qiJrWpg1/teXt+BgsDOWf4d0j40EaL8NjeX61eZS4YvWecMZyeFnI5ZajUAe1NLRW/fb/h
+ yWeLKI8D2iMjrq1CMnIEyRtxGWDtuYU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-2WE27digNReB00JcLDunLw-1; Fri, 04 Mar 2022 09:23:33 -0500
-X-MC-Unique: 2WE27digNReB00JcLDunLw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-247-qSvx-YxXMWiSbhTKL01krw-1; Fri, 04 Mar 2022 09:24:09 -0500
+X-MC-Unique: qSvx-YxXMWiSbhTKL01krw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6D10801AFE;
- Fri,  4 Mar 2022 14:23:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE4A81006AA5;
+ Fri,  4 Mar 2022 14:24:07 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 282CB7A525;
- Fri,  4 Mar 2022 14:23:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AFB0C832AE;
+ Fri,  4 Mar 2022 14:23:33 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A50D418009AA; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
+ id CDB6018009AC; Fri,  4 Mar 2022 15:21:24 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/35] Revert "audio: fix wavcapture segfault"
-Date: Fri,  4 Mar 2022 15:21:04 +0100
-Message-Id: <20220304142123.956171-17-kraxel@redhat.com>
+Subject: [PULL 18/35] paaudio: reduce effective playback buffer size
+Date: Fri,  4 Mar 2022 15:21:06 +0100
+Message-Id: <20220304142123.956171-19-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -95,40 +95,99 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-This reverts commit cbaf25d1f59ee13fc7542a06ea70784f2e000c04.
-
-Since previous commit every audio backend has a pcm_ops function
-table. It's no longer necessary to test if the table is available.
+Add the buffer_get_free pcm_ops function to reduce the effective
+playback buffer size. All intermediate audio playback buffers
+become temporary buffers.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20220301191311.26695-9-vr_qemu@t-online.de>
+Message-Id: <20220301191311.26695-11-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ audio/paaudio.c | 47 +++++++++++++++++++++++++++++++----------------
+ 1 file changed, 31 insertions(+), 16 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 55f885f8e9cf..c420a8bd1c4a 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -612,7 +612,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-         total += isamp;
-     }
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index 9df1e69c086f..d94f858ec761 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -201,39 +201,53 @@ unlock_and_fail:
+     return 0;
+ }
  
--    if (hw->pcm_ops && !hw->pcm_ops->volume_in) {
-+    if (!hw->pcm_ops->volume_in) {
-         mixeng_volume (sw->buf, ret, &sw->vol);
-     }
++static size_t qpa_buffer_get_free(HWVoiceOut *hw)
++{
++    PAVoiceOut *p = (PAVoiceOut *)hw;
++    PAConnection *c = p->g->conn;
++    size_t l;
++
++    pa_threaded_mainloop_lock(c->mainloop);
++
++    CHECK_DEAD_GOTO(c, p->stream, unlock_and_fail,
++                    "pa_threaded_mainloop_lock failed\n");
++    if (pa_stream_get_state(p->stream) != PA_STREAM_READY) {
++        /* wait for stream to become ready */
++        l = 0;
++        goto unlock;
++    }
++
++    l = pa_stream_writable_size(p->stream);
++    CHECK_SUCCESS_GOTO(c, l != (size_t) -1, unlock_and_fail,
++                       "pa_stream_writable_size failed\n");
++
++unlock:
++    pa_threaded_mainloop_unlock(c->mainloop);
++    return l;
++
++unlock_and_fail:
++    pa_threaded_mainloop_unlock(c->mainloop);
++    return 0;
++}
++
+ static void *qpa_get_buffer_out(HWVoiceOut *hw, size_t *size)
+ {
+-    PAVoiceOut *p = (PAVoiceOut *) hw;
++    PAVoiceOut *p = (PAVoiceOut *)hw;
+     PAConnection *c = p->g->conn;
+     void *ret;
+-    size_t l;
+     int r;
  
-@@ -718,7 +718,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
-     if (swlim) {
-         sw->conv (sw->buf, buf, swlim);
+     pa_threaded_mainloop_lock(c->mainloop);
  
--        if (sw->hw->pcm_ops && !sw->hw->pcm_ops->volume_out) {
-+        if (!sw->hw->pcm_ops->volume_out) {
-             mixeng_volume (sw->buf, swlim, &sw->vol);
-         }
-     }
+     CHECK_DEAD_GOTO(c, p->stream, unlock_and_fail,
+                     "pa_threaded_mainloop_lock failed\n");
+-    if (pa_stream_get_state(p->stream) != PA_STREAM_READY) {
+-        /* wait for stream to become ready */
+-        l = 0;
+-        ret = NULL;
+-        goto unlock;
+-    }
+-
+-    l = pa_stream_writable_size(p->stream);
+-    CHECK_SUCCESS_GOTO(c, l != (size_t) -1, unlock_and_fail,
+-                       "pa_stream_writable_size failed\n");
+ 
+     *size = -1;
+     r = pa_stream_begin_write(p->stream, &ret, size);
+     CHECK_SUCCESS_GOTO(c, r >= 0, unlock_and_fail,
+                        "pa_stream_begin_write failed\n");
+ 
+-unlock:
+     pa_threaded_mainloop_unlock(c->mainloop);
+-    if (*size > l) {
+-        *size = l;
+-    }
+     return ret;
+ 
+ unlock_and_fail:
+@@ -901,6 +915,7 @@ static struct audio_pcm_ops qpa_pcm_ops = {
+     .init_out = qpa_init_out,
+     .fini_out = qpa_fini_out,
+     .write    = qpa_write,
++    .buffer_get_free = qpa_buffer_get_free,
+     .get_buffer_out = qpa_get_buffer_out,
+     .put_buffer_out = qpa_put_buffer_out,
+     .volume_out = qpa_volume_out,
 -- 
 2.35.1
 
