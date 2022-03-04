@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E384CDD28
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:10:22 +0100 (CET)
-Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC82F4CDD2B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:11:15 +0100 (CET)
+Received: from localhost ([::1]:51236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQDJl-0007on-1i
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:10:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52866)
+	id 1nQDKc-0000jL-V5
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:11:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQDCk-0006gi-Fu
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:03:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56147)
+ id 1nQDFD-0001Dq-Td
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:05:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQDCg-0001IK-6v
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:03:06 -0500
+ id 1nQDFB-0001mx-78
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:05:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646420577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sDyMCL+WNqokqeRg1184B87VJ2cSo0YlCiIByD/SOjg=;
- b=jA3/RBsFQNizonZs+/v/LW73QhvJ/V4oRL+oPOh/j7AVXeaOH0aHh/0zRsUG0PQfpGZ7wS
- Qg8DSSrbkBHEE/la9ZyQL40WyqfitZoksxyMKnR0ehSz7rOdyD0F54+33N7CMlniOXXVgp
- TKrOvdY3qrlLJCwPJGAN9efMB7QBMIA=
+ s=mimecast20190719; t=1646420736;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=QsEZdECL9CO/8Rbo/YAaICdmr+wHlhPaRNfeTYH5570=;
+ b=hXCGYQEHI4hNqL3EAv7Tbv9MuscGx2+xFoli64l8UNoAt18QZy80S4hkiu2lxgIZAwzD0o
+ MBuQ1eIozdFx4J9T5niVMWb0yIqSU3pB+DRUKLIDdTj5sEiUJpAiOBoGYW/VkEuNcP0kYl
+ rg29uUj9WFlFNGHOcBRlJRw6L7YeBwY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-nADfQsWNOHK0P7eo5IdJDQ-1; Fri, 04 Mar 2022 14:02:56 -0500
-X-MC-Unique: nADfQsWNOHK0P7eo5IdJDQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-648-OIWayi5wNH2UNMu7atr7PA-1; Fri, 04 Mar 2022 14:05:29 -0500
+X-MC-Unique: OIWayi5wNH2UNMu7atr7PA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E14B824FB6;
- Fri,  4 Mar 2022 19:02:55 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.39.194.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2076860BF1;
- Fri,  4 Mar 2022 19:01:59 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 8/8] softmmu: remove is_daemonized() method
-Date: Fri,  4 Mar 2022 18:56:20 +0000
-Message-Id: <20220304185620.3272401-9-berrange@redhat.com>
-In-Reply-To: <20220304185620.3272401-1-berrange@redhat.com>
-References: <20220304185620.3272401-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1138A1006AA7;
+ Fri,  4 Mar 2022 19:05:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44F1110016F2;
+ Fri,  4 Mar 2022 19:05:27 +0000 (UTC)
+Date: Fri, 4 Mar 2022 19:05:24 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Tyler Fanelli <tfanelli@redhat.com>
+Subject: Re: [PATCH] i386/sev: Ensure attestation report length is valid
+ before retrieving
+Message-ID: <YiJi9IYqtZvNQIRc@redhat.com>
+References: <20220304183930.502777-1-tfanelli@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220304183930.502777-1-tfanelli@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,102 +77,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- libvir-list@redhat.com, Stefan Weil <sw@weilnetz.de>,
- Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pbonzini@redhat.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are no longer any users of this method, so it can be removed to
-prevent future accidental (mis)use.
+On Fri, Mar 04, 2022 at 01:39:32PM -0500, Tyler Fanelli wrote:
+> The length of the attestation report buffer is never checked to be
+> valid before allocation is made. If the length of the report is returned
+> to be 0, the buffer to retrieve the attestation report is allocated with
+> length 0 and passed to the kernel to fill with contents of the attestation
+> report. Leaving this unchecked is dangerous and could lead to undefined
+> behavior.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- include/sysemu/os-posix.h | 2 --
- include/sysemu/os-win32.h | 5 -----
- os-posix.c                | 5 -----
- stubs/is-daemonized.c     | 9 ---------
- stubs/meson.build         | 1 -
- 5 files changed, 22 deletions(-)
- delete mode 100644 stubs/is-daemonized.c
+I don't see the undefined behaviour risk here.
 
-diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
-index 390f3f8396..2c375f5b49 100644
---- a/include/sysemu/os-posix.h
-+++ b/include/sysemu/os-posix.h
-@@ -57,8 +57,6 @@ int os_mlock(void);
- typedef struct timeval qemu_timeval;
- #define qemu_gettimeofday(tp) gettimeofday(tp, NULL)
- 
--bool is_daemonized(void);
--
- /**
-  * qemu_alloc_stack:
-  * @sz: pointer to a size_t holding the requested usable stack size
-diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-index 4879f8731d..a81f4fa9c1 100644
---- a/include/sysemu/os-win32.h
-+++ b/include/sysemu/os-win32.h
-@@ -76,11 +76,6 @@ typedef struct {
- } qemu_timeval;
- int qemu_gettimeofday(qemu_timeval *tp);
- 
--static inline bool is_daemonized(void)
--{
--    return false;
--}
--
- static inline int os_mlock(void)
- {
-     return -ENOSYS;
-diff --git a/os-posix.c b/os-posix.c
-index f598a52a4f..bd1140ab22 100644
---- a/os-posix.c
-+++ b/os-posix.c
-@@ -232,11 +232,6 @@ void os_set_line_buffering(void)
-     setvbuf(stdout, NULL, _IOLBF, 0);
- }
- 
--bool is_daemonized(void)
--{
--    return daemonize;
--}
--
- int os_mlock(void)
- {
- #ifdef HAVE_MLOCKALL
-diff --git a/stubs/is-daemonized.c b/stubs/is-daemonized.c
-deleted file mode 100644
-index 8f63325bb2..0000000000
---- a/stubs/is-daemonized.c
-+++ /dev/null
-@@ -1,9 +0,0 @@
--#include "qemu/osdep.h"
--
--/* Win32 has its own inline stub */
--#ifndef _WIN32
--bool is_daemonized(void)
--{
--    return false;
--}
--#endif
-diff --git a/stubs/meson.build b/stubs/meson.build
-index d359cbe1ad..3d092b808e 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -18,7 +18,6 @@ if linux_io_uring.found()
- endif
- stub_ss.add(files('iothread-lock.c'))
- stub_ss.add(files('isa-bus.c'))
--stub_ss.add(files('is-daemonized.c'))
- if libaio.found()
-   stub_ss.add(files('linux-aio.c'))
- endif
+The KVM_SEV_ATTESTATION_REPORT semantics indicate that the kernel
+will fill in a valid length if the buffer we provide is too small
+and we can re-call with that buffer.
+
+If the kernel tells us the buffer is 0 bytes, then it should be
+fine having a second call with length 0. If not, then the kernel
+is broken and we're doomed.
+
+The QEMU code looks like it would cope with a zero length, unless
+I'm mistaken, it'll  just return a zero length attestation report.
+
+> Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
+> ---
+>  target/i386/sev.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 025ff7a6f8..215acd7c6b 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -616,6 +616,8 @@ static SevAttestationReport *sev_get_attestation_report(const char *mnonce,
+>          return NULL;
+>      }
+>  
+> +    input.len = 0;
+
+The declaration of 'input' already zero initializes.
+
+>      /* Query the report length */
+>      ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
+>              &input, &err);
+> @@ -626,6 +628,11 @@ static SevAttestationReport *sev_get_attestation_report(const char *mnonce,
+>                         ret, err, fw_error_to_str(err));
+>              return NULL;
+>          }
+> +    } else if (input.len <= 0) {
+
+It can't be less than 0 because 'len' is an unsigned integer.
+
+> +        error_setg(errp, "SEV: Failed to query attestation report:"
+> +                         " length returned=%d",
+> +                   input.len);
+> +        return NULL;
+>      }
+
+
+
+Regards,
+Daniel
 -- 
-2.34.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
