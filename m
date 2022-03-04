@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB184CDD50
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:28:21 +0100 (CET)
-Received: from localhost ([::1]:37834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E1F4CDD4E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 20:24:42 +0100 (CET)
+Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQDbA-0004UT-Ii
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:28:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56210)
+	id 1nQDXZ-0002yx-26
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 14:24:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQDTD-0008RY-8k
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:20:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40449)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nQDT9-0003wL-Ug
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:20:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646421603;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5W+tuq0fUqUdnl/2IEnEa1IAqD8jcMxrB5i9UOQLm9E=;
- b=WnBbV4y3gbtsB3nRMK6ZrnpWHSl10pXhhbzr0Grk+CHkI8WMuHBeHk1MVGo+nRgiR5EHGR
- 5CYqsxis/JaQDFGR0fwfL5DvPq6wK3oF4TOJJNmMYyHEv3W3YH83Tqem0omfIlP7XpOhWL
- miktwwFkbF3aig5MpEUKyxMkmkJ/9qs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-5JOA9gaCPoe0AZ9gagI-TA-1; Fri, 04 Mar 2022 14:20:01 -0500
-X-MC-Unique: 5JOA9gaCPoe0AZ9gagI-TA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 476D01006AA7;
- Fri,  4 Mar 2022 19:20:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DAF219700;
- Fri,  4 Mar 2022 19:19:58 +0000 (UTC)
-Date: Fri, 4 Mar 2022 19:19:55 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 02/12] block: pass desired TLS hostname through from
- block driver client
-Message-ID: <YiJmW4+c+Iv8JUIZ@redhat.com>
-References: <20220303160330.2979753-1-berrange@redhat.com>
- <20220303160330.2979753-3-berrange@redhat.com>
- <20220303201434.gioet2wepccja7ag@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nQDVW-0001bX-B0
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:22:31 -0500
+Received: from [2607:f8b0:4864:20::b33] (port=41798
+ helo=mail-yb1-xb33.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nQDVU-0004uP-3Y
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 14:22:29 -0500
+Received: by mail-yb1-xb33.google.com with SMTP id t7so15290478ybi.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 11:22:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HmLs4QD13dXQvsoDuuwrH3dfyfawmOFH6rIxg7ewjqI=;
+ b=gLDFlVbKILCST2IGnEMgNOAo0ajb6PubLEixVLeicXUsPQZhmg2fuPCHO4mBmi6Y2G
+ VX/seElJfrEfgO0u2hQoBBwofGAuJ8QxYpa2aTm9t4yP4O+G9p3rvg2cdyGhSBw3luM9
+ J5likZ6K5P9CZ0lgWpXsFDWvCw04bw8XpYlyQBI068qAUIKfOR/8cd3BWCaOVbVprOdK
+ fAmlSJD/RYOI8ohtq6055HheyAJHTYnCYj470a5292sUBlkEYH+7WsKhmlXf8h3ntikR
+ NOnZzAo36MeNeXMmcj2Q7Ae2XR59YrWgt1Zp1lUfkOik1ZlWCvwi0hGcTnqhMVwg6D38
+ 3ZQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HmLs4QD13dXQvsoDuuwrH3dfyfawmOFH6rIxg7ewjqI=;
+ b=mSXcQHnaSSgS1z88kucBN8Yn5RPfQ7Oj2TWyf4dsNQuu30c/DPp+VqHP1+C0Bk22M4
+ 3qNrMwSdWdrxKOPluqap5YLDQ4S7TDDZXWWMcFjfQdeJlZ3Skc0CzauLMMtxGfVnO8GX
+ a35qNLzAXX+0sKv6R8xldjGF8ZdWWXKzPo43aiwbtPLZN0kPr+z50V9tAjdwpYjQxHhi
+ K0yBTyYTaA8kmZRcHNs1Gs4tXJp2JW1ob4VRe8LG7p9xuGAyXBHv/vnkEvuHemdEc4AT
+ zLQQUgs7ThHwHMHuWu7xvj+BzSeC+lForVMKE57YtZVC2TFafp5nKjTwkl+sbFfdJ7jA
+ wBSA==
+X-Gm-Message-State: AOAM532DqgoKacUjmq7fQozk1cdFxUT6luFEDoJw1Wc5F6xVzjUhk3gR
+ dl6c6nQoaoocf9DRBW+nyfs6f8zOkULO1iWhiE434g==
+X-Google-Smtp-Source: ABdhPJxuD/fkaHQGkGxTmnvDmM/+S6xJCQh5E6pcmJ+P7OXrO31xR2ZolZIWY5PbbcGsq2A7NMavEYb7Qx0cuHrw5+o=
+X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
+ q16-20020a5b0350000000b0062886b86e09mr17115655ybp.39.1646421747128; Fri, 04
+ Mar 2022 11:22:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220303201434.gioet2wepccja7ag@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220302181134.285107-1-pbonzini@redhat.com>
+ <CAFEAcA8=8tiqmFTFPaNXcqjXy6Rb5xR59Q2VYUXOTbN91rbYuA@mail.gmail.com>
+ <088024f5-7066-e6ec-953e-f55d7ff83b96@redhat.com>
+ <CAFEAcA--dtmffH4FJUuuE1d6yR-4Mweu481p_y-EsJKEtPRjTw@mail.gmail.com>
+ <YiJlSlJube4dOk/m@redhat.com>
+In-Reply-To: <YiJlSlJube4dOk/m@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 4 Mar 2022 19:22:16 +0000
+Message-ID: <CAFEAcA9z7bMdRmi8LRuywf8rArAubSk24imPoUgXhz1=roSZWg@mail.gmail.com>
+Subject: Re: [PULL 00/11] QEMU changes for 2021-03-02
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b33
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,77 +87,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 03, 2022 at 02:14:34PM -0600, Eric Blake wrote:
-> On Thu, Mar 03, 2022 at 04:03:20PM +0000, Daniel P. Berrangé wrote:
-> > In
-> > 
-> >   commit a71d597b989fd701b923f09b3c20ac4fcaa55e81
-> >   Author: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> >   Date:   Thu Jun 10 13:08:00 2021 +0300
-> > 
-> >     block/nbd: reuse nbd_co_do_establish_connection() in nbd_open()
-> > 
-> > the use of the 'hostname' field from the BDRVNBDState struct was
-> > lost, and 'nbd_connect' just hardcoded it to match the IP socket
-> > address. This was a harmless bug at the time since we block use
-> > with anything other than IP sockets.
-> > 
-> > Shortly though, We want to allow the caller to override the hostname
-> 
-> s/We/we/
-> 
-> > used in the TLS certificate checks. This is to allow for TLS
-> > when doing port forwarding or tunneling. Thus we need to reinstate
-> > the passing along of the 'hostname'.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  block/nbd.c             |  7 ++++---
-> >  include/block/nbd.h     |  3 ++-
-> >  nbd/client-connection.c | 12 +++++++++---
-> >  3 files changed, 15 insertions(+), 7 deletions(-)
-> 
-> Nice - this a great step towards fixing a longstanding annoyance of
-> mine that libnbd and nbdkit support TLS over Unix sockets, but qemu
-> didn't.
+On Fri, 4 Mar 2022 at 19:15, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+wrote:
+> On Fri, Mar 04, 2022 at 06:46:51PM +0000, Peter Maydell wrote:
+> > Either of these is fine; my requirement is only that either:
+> >  (1) the oss-fuzz gitlab CI job needs to in practice actually
+> > pass at least most of the time
+> >  (2) we need to switch it to ok-to-fail or disable it
+> >
+> > so I don't have CI failing for every merge I make.
+>
+> This is far from the first time that oss-fuzz has caused us pain. It
+> feels like it has been flaky  for prolonged periods of time, for as
+> long as it has existed.
+>
+> When I tried to switch CI to use Fedora 35 oss-fuzz was consistently
+> failing for months for no obvious reason that I could determine
+> despite days of debugging. Then one day I woke up and it magically
+> started working again, for no obvious reason. Inexplicable.
+>
+> Conceptually we benefit from fuzzing to find obscure bugs.
+> Have we actually found any real bugs from the oss-fuzz CI
+> job we have though ?
 
+It did find a buffer-overrun bug in the 9p pullreq less than
+a month ago:
+https://lore.kernel.org/qemu-devel/CAFEAcA-VRNzxOwMX4nPPm0vQba1ufL5yVwW5P1j=
+9S2u7_fbW-w@mail.gmail.com/
 
-> > diff --git a/include/block/nbd.h b/include/block/nbd.h
-> > index 78d101b774..a98eb665da 100644
-> > --- a/include/block/nbd.h
-> > +++ b/include/block/nbd.h
-> > @@ -415,7 +415,8 @@ NBDClientConnection *nbd_client_connection_new(const SocketAddress *saddr,
-> >                                                 bool do_negotiation,
-> >                                                 const char *export_name,
-> >                                                 const char *x_dirty_bitmap,
-> > -                                               QCryptoTLSCreds *tlscreds);
-> > +                                               QCryptoTLSCreds *tlscreds,
-> > +                                               const char *tlshostname);
-> 
-> We already have a lot of parameters; does it make sense to bundle
-> tlshostname into the QCryptoTLSCreds struct at all?  But that would
-> change the QAPI (or maybe you do it later in the series), it is not a
-> show-stopper to this patch.
+But overall I'm sympathetic to the idea that as it stands it's
+costing us more than it's helping.
 
-The credentials object is something that can be used for multiple
-connections. The TLS hostname override meanwhile is specific to
-a single connection. Thus it would not be appropriate to store the
-TLS hostname in the credentials struct.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
