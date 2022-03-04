@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72984CDAD2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:36:10 +0100 (CET)
-Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1468E4CDB7D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 18:57:18 +0100 (CET)
+Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQBqb-0004aO-N8
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:36:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54404)
+	id 1nQCB3-0007zT-2W
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 12:57:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nQBCT-0000Du-Bv; Fri, 04 Mar 2022 11:54:41 -0500
+ id 1nQBCW-0000Mz-0M; Fri, 04 Mar 2022 11:54:44 -0500
 Received: from [187.72.171.209] (port=61123 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nQBCR-0004rt-O1; Fri, 04 Mar 2022 11:54:41 -0500
+ id 1nQBCU-0004rt-B0; Fri, 04 Mar 2022 11:54:43 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 4 Mar 2022 13:54:26 -0300
+ Fri, 4 Mar 2022 13:54:27 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 90E0C800502;
+ by p9ibm (Postfix) with ESMTP id EC16E8001C2;
  Fri,  4 Mar 2022 13:54:26 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 3/5] tests/tcg/ppc64le: drop __int128 usage in bcdsub
-Date: Fri,  4 Mar 2022 13:54:15 -0300
-Message-Id: <20220304165417.1981159-4-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v3 4/5] tests/tcg/ppc64le: emit bcdsub with .long when needed
+Date: Fri,  4 Mar 2022 13:54:16 -0300
+Message-Id: <20220304165417.1981159-5-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220304165417.1981159-1-matheus.ferst@eldorado.org.br>
 References: <20220304165417.1981159-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Mar 2022 16:54:26.0992 (UTC)
- FILETIME=[8226AB00:01D82FE8]
+X-OriginalArrivalTime: 04 Mar 2022 16:54:27.0382 (UTC)
+ FILETIME=[82622D60:01D82FE8]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,193 +66,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Using __int128 with inline asm constraints like "v" generates incorrect
-code when compiling with LLVM/Clang (e.g., only one doubleword of the
-VSR is loaded). Instead, use a GPR pair to pass the 128-bits value and
-load the VSR with mtvsrd/xxmrghd.
+Based on GCC docs[1], we use the '-mpower8-vector' flag at config-time
+to detect the toolchain support to the bcdsub instruction. LLVM/Clang
+supports this flag since version 3.6[2], but the instruction and related
+builtins were only added in LLVM 14[3]. In the absence of other means to
+detect this support at config-time, we resort to __has_builtin to
+identify the presence of __builtin_bcdsub at compile-time. If the
+builtin is not available, the instruction is emitted with a ".long".
+
+[1] https://gcc.gnu.org/onlinedocs/gcc-8.3.0/gcc/PowerPC-AltiVec_002fVSX-Built-in-Functions.html
+[2] https://github.com/llvm/llvm-project/commit/59eb767e11d4ffefb5f55409524e5c8416b2b0db
+[3] https://github.com/llvm/llvm-project/commit/c933c2eb334660c131f4afc9d194fafb0cec0423
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- tests/tcg/ppc64le/bcdsub.c | 123 +++++++++++++++++--------------------
- 1 file changed, 58 insertions(+), 65 deletions(-)
+v3:
+ - Fixed __has_builtin check.
+---
+ tests/tcg/ppc64le/bcdsub.c | 71 ++++++++++++++++++++++----------------
+ 1 file changed, 41 insertions(+), 30 deletions(-)
 
 diff --git a/tests/tcg/ppc64le/bcdsub.c b/tests/tcg/ppc64le/bcdsub.c
-index 8c188cae6d..12da19b78e 100644
+index 12da19b78e..87c8c44a44 100644
 --- a/tests/tcg/ppc64le/bcdsub.c
 +++ b/tests/tcg/ppc64le/bcdsub.c
-@@ -1,6 +1,7 @@
- #include <assert.h>
- #include <unistd.h>
- #include <signal.h>
-+#include <stdint.h>
- 
- #define CRF_LT  (1 << 3)
- #define CRF_GT  (1 << 2)
-@@ -8,24 +9,39 @@
+@@ -9,37 +9,48 @@
  #define CRF_SO  (1 << 0)
  #define UNDEF   0
  
--#define BCDSUB(vra, vrb, ps)                    \
--    asm ("bcdsub. %1,%2,%3,%4;"                 \
--         "mfocrf %0,0b10;"                      \
--         : "=r" (cr), "=v" (vrt)                \
--         : "v" (vra), "v" (vrb), "i" (ps)       \
--         : );
-+/*
-+ * Use GPR pairs to load the VSR values and place the resulting VSR and CR6 in
-+ * th, tl, and cr. Note that we avoid newer instructions (e.g., mtvsrdd/mfvsrld)
-+ * so we can run this test on POWER8 machines.
-+ */
-+#define BCDSUB(AH, AL, BH, BL, PS)                          \
-+    asm ("mtvsrd 32, %3\n\t"                                \
-+         "mtvsrd 33, %4\n\t"                                \
-+         "xxmrghd 32, 32, 33\n\t"                           \
-+         "mtvsrd 33, %5\n\t"                                \
-+         "mtvsrd 34, %6\n\t"                                \
-+         "xxmrghd 33, 33, 34\n\t"                           \
-+         "bcdsub. 0, 0, 1, %7\n\t"                          \
-+         "mfocrf %0, 0b10\n\t"                              \
-+         "mfvsrd %1, 32\n\t"                                \
-+         "xxswapd 32, 32\n\t"                               \
-+         "mfvsrd %2, 32\n\t"                                \
-+         : "=r" (cr), "=r" (th), "=r" (tl)                  \
-+         : "r" (AH), "r" (AL), "r" (BH), "r" (BL), "i" (PS) \
-+         : "v0", "v1", "v2");
+-/*
+- * Use GPR pairs to load the VSR values and place the resulting VSR and CR6 in
+- * th, tl, and cr. Note that we avoid newer instructions (e.g., mtvsrdd/mfvsrld)
+- * so we can run this test on POWER8 machines.
+- */
+-#define BCDSUB(AH, AL, BH, BL, PS)                          \
+-    asm ("mtvsrd 32, %3\n\t"                                \
+-         "mtvsrd 33, %4\n\t"                                \
+-         "xxmrghd 32, 32, 33\n\t"                           \
+-         "mtvsrd 33, %5\n\t"                                \
+-         "mtvsrd 34, %6\n\t"                                \
+-         "xxmrghd 33, 33, 34\n\t"                           \
+-         "bcdsub. 0, 0, 1, %7\n\t"                          \
+-         "mfocrf %0, 0b10\n\t"                              \
+-         "mfvsrd %1, 32\n\t"                                \
+-         "xxswapd 32, 32\n\t"                               \
+-         "mfvsrd %2, 32\n\t"                                \
+-         : "=r" (cr), "=r" (th), "=r" (tl)                  \
+-         : "r" (AH), "r" (AL), "r" (BH), "r" (BL), "i" (PS) \
+-         : "v0", "v1", "v2");
++#ifdef __has_builtin
++#if !__has_builtin(__builtin_bcdsub)
++#define NO_BUILTIN_BCDSUB
++#endif
++#endif
  
--#define TEST(vra, vrb, ps, exp_res, exp_cr6)    \
-+#define TEST(AH, AL, BH, BL, PS, TH, TL, CR6)   \
-     do {                                        \
--        __int128 vrt = 0;                       \
-         int cr = 0;                             \
--        BCDSUB(vra, vrb, ps);                   \
--        if (exp_res)                            \
--            assert(vrt == exp_res);             \
--        assert((cr >> 4) == exp_cr6);           \
-+        uint64_t th, tl;                        \
-+        BCDSUB(AH, AL, BH, BL, PS);             \
-+        if (TH != UNDEF || TL != UNDEF) {       \
-+            assert(tl == TL);                   \
-+            assert(th == TH);                   \
-+        }                                       \
-+        assert((cr >> 4) == CR6);               \
+-#define TEST(AH, AL, BH, BL, PS, TH, TL, CR6)   \
+-    do {                                        \
+-        int cr = 0;                             \
+-        uint64_t th, tl;                        \
+-        BCDSUB(AH, AL, BH, BL, PS);             \
+-        if (TH != UNDEF || TL != UNDEF) {       \
+-            assert(tl == TL);                   \
+-            assert(th == TH);                   \
+-        }                                       \
+-        assert((cr >> 4) == CR6);               \
++#ifdef NO_BUILTIN_BCDSUB
++#define BCDSUB(T, A, B, PS) \
++    ".long 4 << 26 | (" #T ") << 21 | (" #A ") << 16 | (" #B ") << 11"  \
++    " | 1 << 10 | (" #PS ") << 9 | 65\n\t"
++#else
++#define BCDSUB(T, A, B, PS) "bcdsub. " #T ", " #A ", " #B ", " #PS "\n\t"
++#endif
++
++#define TEST(AH, AL, BH, BL, PS, TH, TL, CR6)                                  \
++    do {                                                                       \
++        int cr = 0;                                                            \
++        uint64_t th, tl;                                                       \
++        /*                                                                     \
++         * Use GPR pairs to load the VSR values and place the resulting VSR and\
++         * CR6 in th, tl, and cr. Note that we avoid newer instructions (e.g., \
++         * mtvsrdd/mfvsrld) so we can run this test on POWER8 machines.        \
++         */                                                                    \
++        asm ("mtvsrd 32, %3\n\t"                                               \
++             "mtvsrd 33, %4\n\t"                                               \
++             "xxmrghd 32, 32, 33\n\t"                                          \
++             "mtvsrd 33, %5\n\t"                                               \
++             "mtvsrd 34, %6\n\t"                                               \
++             "xxmrghd 33, 33, 34\n\t"                                          \
++             BCDSUB(0, 0, 1, PS)                                               \
++             "mfocrf %0, 0b10\n\t"                                             \
++             "mfvsrd %1, 32\n\t"                                               \
++             "xxswapd 32, 32\n\t"                                              \
++             "mfvsrd %2, 32\n\t"                                               \
++             : "=r" (cr), "=r" (th), "=r" (tl)                                 \
++             : "r" (AH), "r" (AL), "r" (BH), "r" (BL)                          \
++             : "v0", "v1", "v2");                                              \
++        if (TH != UNDEF || TL != UNDEF) {                                      \
++            assert(tl == TL);                                                  \
++            assert(th == TH);                                                  \
++        }                                                                      \
++        assert((cr >> 4) == CR6);                                              \
      } while (0)
  
--
  /*
-  * Unbounded result is equal to zero:
-  *   sign = (PS) ? 0b1111 : 0b1100
-@@ -33,13 +49,13 @@
-  */
- void test_bcdsub_eq(void)
- {
--    __int128 a, b;
--
-     /* maximum positive BCD value */
--    a = b = (((__int128) 0x9999999999999999) << 64 | 0x999999999999999c);
--
--    TEST(a, b, 0, 0xc, CRF_EQ);
--    TEST(a, b, 1, 0xf, CRF_EQ);
-+    TEST(0x9999999999999999, 0x999999999999999c,
-+         0x9999999999999999, 0x999999999999999c,
-+         0, 0x0, 0xc, CRF_EQ);
-+    TEST(0x9999999999999999, 0x999999999999999c,
-+         0x9999999999999999, 0x999999999999999c,
-+         1, 0x0, 0xf, CRF_EQ);
- }
- 
- /*
-@@ -49,21 +65,16 @@ void test_bcdsub_eq(void)
-  */
- void test_bcdsub_gt(void)
- {
--    __int128 a, b, c;
-+    /* maximum positive and negative one BCD values */
-+    TEST(0x9999999999999999, 0x999999999999999c, 0x0, 0x1d, 0,
-+         0x0, 0xc, (CRF_GT | CRF_SO));
-+    TEST(0x9999999999999999, 0x999999999999999c, 0x0, 0x1d, 1,
-+         0x0, 0xf, (CRF_GT | CRF_SO));
- 
--    /* maximum positive BCD value */
--    a = (((__int128) 0x9999999999999999) << 64 | 0x999999999999999c);
--
--    /* negative one BCD value */
--    b = (__int128) 0x1d;
--
--    TEST(a, b, 0, 0xc, (CRF_GT | CRF_SO));
--    TEST(a, b, 1, 0xf, (CRF_GT | CRF_SO));
--
--    c = (((__int128) 0x9999999999999999) << 64 | 0x999999999999998c);
--
--    TEST(c, b, 0, a, CRF_GT);
--    TEST(c, b, 1, (a | 0x3), CRF_GT);
-+    TEST(0x9999999999999999, 0x999999999999998c, 0x0, 0x1d, 0,
-+         0x9999999999999999, 0x999999999999999c, CRF_GT);
-+    TEST(0x9999999999999999, 0x999999999999998c, 0x0, 0x1d, 1,
-+         0x9999999999999999, 0x999999999999999f, CRF_GT);
- }
- 
- /*
-@@ -73,45 +84,27 @@ void test_bcdsub_gt(void)
-  */
- void test_bcdsub_lt(void)
- {
--    __int128 a, b;
-+    /* positive zero and positive one BCD values */
-+    TEST(0x0, 0xc, 0x0, 0x1c, 0, 0x0, 0x1d, CRF_LT);
-+    TEST(0x0, 0xc, 0x0, 0x1c, 1, 0x0, 0x1d, CRF_LT);
- 
--    /* positive zero BCD value */
--    a = (__int128) 0xc;
--
--    /* positive one BCD value */
--    b = (__int128) 0x1c;
--
--    TEST(a, b, 0, 0x1d, CRF_LT);
--    TEST(a, b, 1, 0x1d, CRF_LT);
--
--    /* maximum negative BCD value */
--    a = (((__int128) 0x9999999999999999) << 64 | 0x999999999999999d);
--
--    /* positive one BCD value */
--    b = (__int128) 0x1c;
--
--    TEST(a, b, 0, 0xd, (CRF_LT | CRF_SO));
--    TEST(a, b, 1, 0xd, (CRF_LT | CRF_SO));
-+    /* maximum negative and positive one BCD values */
-+    TEST(0x9999999999999999, 0x999999999999999d, 0x0, 0x1c, 0,
-+         0x0, 0xd, (CRF_LT | CRF_SO));
-+    TEST(0x9999999999999999, 0x999999999999999d, 0x0, 0x1c, 1,
-+         0x0, 0xd, (CRF_LT | CRF_SO));
- }
- 
- void test_bcdsub_invalid(void)
- {
--    __int128 a, b;
-+    TEST(0x0, 0x1c, 0x0, 0xf00, 0, UNDEF, UNDEF, CRF_SO);
-+    TEST(0x0, 0x1c, 0x0, 0xf00, 1, UNDEF, UNDEF, CRF_SO);
- 
--    /* positive one BCD value */
--    a = (__int128) 0x1c;
--    b = 0xf00;
-+    TEST(0x0, 0xf00, 0x0, 0x1c, 0, UNDEF, UNDEF, CRF_SO);
-+    TEST(0x0, 0xf00, 0x0, 0x1c, 1, UNDEF, UNDEF, CRF_SO);
- 
--    TEST(a, b, 0, UNDEF, CRF_SO);
--    TEST(a, b, 1, UNDEF, CRF_SO);
--
--    TEST(b, a, 0, UNDEF, CRF_SO);
--    TEST(b, a, 1, UNDEF, CRF_SO);
--
--    a = 0xbad;
--
--    TEST(a, b, 0, UNDEF, CRF_SO);
--    TEST(a, b, 1, UNDEF, CRF_SO);
-+    TEST(0x0, 0xbad, 0x0, 0xf00, 0, UNDEF, UNDEF, CRF_SO);
-+    TEST(0x0, 0xbad, 0x0, 0xf00, 1, UNDEF, UNDEF, CRF_SO);
- }
- 
- int main(void)
 -- 
 2.25.1
 
