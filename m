@@ -2,73 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0054CD256
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:25:01 +0100 (CET)
-Received: from localhost ([::1]:34450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A3E4CD257
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 11:25:05 +0100 (CET)
+Received: from localhost ([::1]:34734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ57M-0006dz-Ip
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:25:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40514)
+	id 1nQ57Q-0006pg-K7
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 05:25:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQ53M-0004Km-42
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:20:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53329)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nQ53T-0004Vi-2U
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:21:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1nQ53K-000231-Pi
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:20:51 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nQ53R-00023h-6w
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 05:20:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646389250;
+ s=mimecast20190719; t=1646389256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AV6aeINCyhEid84tyuZpLcbbAEVehAtxRgfa8zDL4aM=;
- b=NPuvmd4ct2D08bD3O/xFzn45QnyU8apXYkx4tEY+1KCsTIMtl1aLa2yLdRvGSp8ZUERuNM
- DQ/uIsVbjA59MLn4Q1JsyQk66VerttuoAqiMa9TV5R5VgLUMviAk51xN4xX7sKr2juAIAa
- RNDZwCQb+G5x1PH9Q/+jd4F7irCvUKQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5hvRIATdrZDjs90oj77Chb+AnjPdCKJGRn7pvSG3qkc=;
+ b=N5vFxssqmWHScOsqnjgTpc9Hv/7zsxdwciMjh+uz4b+E4dTfaa4Liu7tWv4iGl9oAI33VW
+ wo82YL16EjqKolgTM39VT0OCLCfSPjx16FVchktqCnC+OoHxTa/FovHXj9Xq+IEEGHNI0N
+ d0ljP7Di5id2uUso0Y5Hpi5QB9raQ+8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-himtsi-gNrKkmjUoLlNaMw-1; Fri, 04 Mar 2022 05:20:48 -0500
-X-MC-Unique: himtsi-gNrKkmjUoLlNaMw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8766800423;
- Fri,  4 Mar 2022 10:20:47 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C78177C0CB;
- Fri,  4 Mar 2022 10:20:41 +0000 (UTC)
-Date: Fri, 4 Mar 2022 11:20:39 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 1/4] os-posix: Add os_set_daemonize()
-Message-ID: <YiHn9yQY2d98KaHk@redhat.com>
-References: <20220303164814.284974-1-hreitz@redhat.com>
- <20220303164814.284974-2-hreitz@redhat.com>
- <YiHZsQghj8E5TRZX@redhat.com>
+ us-mta-655-ZNhK7whwO2KpL2DFFMJDbw-1; Fri, 04 Mar 2022 05:20:55 -0500
+X-MC-Unique: ZNhK7whwO2KpL2DFFMJDbw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ ga31-20020a1709070c1f00b006cec400422fso4179196ejc.22
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 02:20:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=5hvRIATdrZDjs90oj77Chb+AnjPdCKJGRn7pvSG3qkc=;
+ b=IQ2okjemnsRsOyLkJf0gSwXntb6c04gob/g/ukAIF2ySNtZfX8U6qb7JQpc/Jxnbd3
+ kQvF8kq2ohBiIS1XIa5xlokF/41xFn3aQm0hh9wROYpTdfQTyEVY3LeiaIvMBWndsa/C
+ 5vsHeGcJBfyZimC1oUUcdznGiBOzm+824kaIKzwC5Z15aS5qipSVfYKHU5cNdDl1Ttuf
+ d/NKX01rd1rIZdknclJ/XVTTxxOU9Z5sbiVDPLPSYfy4U2NI+j6JZg0IBbmmlTseSlKc
+ 6Da8UhRDJWP7L+4IKcPHdtJiYGx/rebqp8quFRKdwvp8xOf0sAmFVR78JW49wGj3Db/t
+ XI1Q==
+X-Gm-Message-State: AOAM5310rRV8yVJ1yQ106tDIdoPewkdYVdFcoqDIAh+od/miTosPxNWd
+ /sbtJ8zJX2umX+rnKcSeFdKpzfuqH4aUtBu8ayMqiuCF0K532uQyNZWwLwMqs4AHc2geJvJgGR4
+ yDSWYuJ5am7MJekw=
+X-Received: by 2002:a17:906:1e42:b0:6d6:df12:7f8d with SMTP id
+ i2-20020a1709061e4200b006d6df127f8dmr16128251ejj.15.1646389254267; 
+ Fri, 04 Mar 2022 02:20:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxX1qdJKFJtgUyFCAQf8peUF/ttWvKc+CcZUcGwacVPIQ3KTpuLH0hVrlrBPGnL113TZY9w3g==
+X-Received: by 2002:a17:906:1e42:b0:6d6:df12:7f8d with SMTP id
+ i2-20020a1709061e4200b006d6df127f8dmr16128239ejj.15.1646389254027; 
+ Fri, 04 Mar 2022 02:20:54 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ r19-20020a17090638d300b006d6e4fc047bsm1627319ejd.11.2022.03.04.02.20.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Mar 2022 02:20:53 -0800 (PST)
+Message-ID: <4e6fdc26-50ab-2ca2-3a4c-e176955833d1@redhat.com>
+Date: Fri, 4 Mar 2022 11:20:52 +0100
 MIME-Version: 1.0
-In-Reply-To: <YiHZsQghj8E5TRZX@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v6 00/16] Make image fleecing more usable
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20220303194349.2304213-1-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220303194349.2304213-1-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,42 +103,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, stefanha@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.03.2022 um 10:19 hat Daniel P. Berrangé geschrieben:
-> On Thu, Mar 03, 2022 at 05:48:11PM +0100, Hanna Reitz wrote:
-> > The daemonizing functions in os-posix (os_daemonize() and
-> > os_setup_post()) only daemonize the process if the static `daemonize`
-> > variable is set.  Right now, it can only be set by os_parse_cmd_args().
-> > 
-> > In order to use os_daemonize() and os_setup_post() from the storage
-> > daemon to have it be daemonized, we need some other way to set this
-> > `daemonize` variable, because I would rather not tap into the system
-> > emulator's arg-parsing code.  Therefore, this patch adds an
-> > os_set_daemonize() function, which will return an error on os-win32
-> > (because daemonizing is not supported there).
-> 
-> IMHO the real flaw here is the design of 'os_daemonize' in that it
-> relies on static state. If I see a call to a function 'os_daemonize()'
-> I expect to be daemonized on return, but with this design that is not
-> guaranteed which is a big surprise.
-> 
-> I'd suggest we push the condition into the caller instead of adding
-> this extra function, so we have the more sane pattern:
-> 
->    if (daemonmize()) {
->       os_daemonize()
->    }
+On 03.03.22 20:43, Vladimir Sementsov-Ogievskiy wrote:
+> v6:
+> 11: add comment
+> 15: limit to qcow2 with unsupported compat
+>      fix style
+> 16: fix style
+>      change log('Backup finished ...') to assertion and comment
 
-It's not as simple, the static daemonize variable is used in more places
-than just os_daemonize(). I'm not sure if it's worth changing how all of
-this works, but if we did, it would be a refactoring mostly focussed on
-the system emulator and an issue separate from adding the option to the
-storage daemon.
+Thanks a lot!
 
-Kevin
+Applied to my block branch:
+
+https://gitlab.com/hreitz/qemu/-/commits/block
 
 
