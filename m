@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01314CCC9C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 05:38:37 +0100 (CET)
-Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B4C4CCCA4
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 05:40:44 +0100 (CET)
+Received: from localhost ([::1]:51248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nPzi8-0003U5-AC
-	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 23:38:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33968)
+	id 1nPzkB-0004yi-3K
+	for lists+qemu-devel@lfdr.de; Thu, 03 Mar 2022 23:40:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nPzh6-0002oH-Qz
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 23:37:34 -0500
-Received: from [2607:f8b0:4864:20::629] (port=41579
- helo=mail-pl1-x629.google.com)
+ id 1nPzif-0004HF-Mn
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 23:39:09 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=56313
+ helo=mail-pj1-x102a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nPzh4-0005gF-QY
- for qemu-devel@nongnu.org; Thu, 03 Mar 2022 23:37:32 -0500
-Received: by mail-pl1-x629.google.com with SMTP id z2so6714075plg.8
- for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 20:37:29 -0800 (PST)
+ id 1nPzid-0005nZ-Sf
+ for qemu-devel@nongnu.org; Thu, 03 Mar 2022 23:39:09 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id gb21so6408696pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Mar 2022 20:39:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/7wIepgkEEBlE4OAl3WdYdFrfmdbRU8pSWHicR5wt+8=;
- b=KzheYB+p+ZpeXdVbIMSdBsCEmFKgfg2vhYADmMibOZA1ci+lxO7bD17pZgA5xvsAPu
- 2Gx6zrk+kRr/llm0QoaS0sAFjsoK4lblv5QFN+r5VYOyxISe3CwuZtvfN9eVH5g0qJFZ
- GhJnBw0g5j4NXp4smB4KG68G8f9ePbmZMfYv015w0i8BsH9MQOlJeVvgIHJHyz1/kWsX
- 2ArfPqDgt48OqvLC6F/2c7J+b1U7W1gNWy3duT6T7Q7a3ujjajaEtAfMsbQ7I7Iqw1kc
- I25vFgxI2XCQZVeowng3m67RjOMFpkKWcA+hjilcaxPFeRfYuhfqUgldfza+VVW6CxvJ
- lrHw==
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:cc:references:in-reply-to:content-transfer-encoding;
+ bh=3I20mvAa5JpG1omtmnM5hWQM857bYm4Qu06tzPBNBns=;
+ b=L0zw/GB5kYN50v4VO5HR7mr6G5d8Yja045Juu04LfUUGHE4QpHCtWUo6OmYJiWLZ7K
+ F6IENeD0Vs2gWY3Xs+WrYEaVRAuNT4FHu03eoe3pxyi6bmw5vyq4YHsjE84TX95Do0BA
+ kglojVvMNkyczdiVwwpB4BD23yTk2m3iSJFKb1jIgyY6NlvRgTWSnWmiOjR6Pb4YSoAU
+ RUtWqt+9P6pfCAa2Agyr/GHkRvS8k+0mwBNvpkaORPSENy/GoRv66jyuTQtwV8V8ppP7
+ 3pOHpaFoToJYLXajZ5K5Kqb38vA12XgL5eghKLMdZjFEvTZPzXidkafzvI5EAl2fWTsl
+ XB5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:from:to:cc:references:in-reply-to
  :content-transfer-encoding;
- bh=/7wIepgkEEBlE4OAl3WdYdFrfmdbRU8pSWHicR5wt+8=;
- b=8BK4G2vvs4uPNJNiJEBGvDg7wr3Y8jPlguVy8Z+P+gOBU92CMvCEtcxf01MPQhduHq
- NWWk59uVlyoA9DaVlTAr7sdITAqaswlOCLPcjBgf3ClCDLMgYIlzYvS6H/un+qaMMKu1
- d/GGHVz9zbVcE9OsLPXaFCFsj+jvEJoaFCR2/wPuA6nVCBZUiMSCpqSNTPqFwtq2cqah
- cs266SUrmloCT1fq/+zZg6N2TQyeAryEXcntyGkGdFQiqsTkFuBb9JQK4dPGd3zk99R6
- AhFnZnVOhAAl040E+GZh/APHSpcTaklfAVE2xwHqEzw7Idykb3+cZ9wPPJfT3myM6zPU
- aTHA==
-X-Gm-Message-State: AOAM532yMnLi6D/KU3x8Kb/6ZaLIB6HCIPZuMHKcxF1fI6LLDdQUceAd
- /yg1jM32IzHHZB67cOWg2XQ=
-X-Google-Smtp-Source: ABdhPJzqrX1tdc9WSt/0shNydSDKBnZKARAHUoQsoO7yoE5GX/YTUxPI/WgK3A1lVKLwuNglwyxy3Q==
-X-Received: by 2002:a17:902:ea11:b0:151:a425:1ebb with SMTP id
- s17-20020a170902ea1100b00151a4251ebbmr8966689plg.63.1646368648472; 
- Thu, 03 Mar 2022 20:37:28 -0800 (PST)
+ bh=3I20mvAa5JpG1omtmnM5hWQM857bYm4Qu06tzPBNBns=;
+ b=IfpAsWexXBm7ug1vrLM8g9k/1+PTU8U6lg35pSieeCdbL5jgIRB/gcqn7k28T+4NIC
+ YE5GfPBNW2gVzm8+Wu2ZbXveJxFWvQXQ4rp5uZNHasIb9EPLWN35EElCe18bQStU610Q
+ UWC27+hsSHHz2WYIP/BZiJyGswjIOkgvocXi5v3TlDYkelFtu2/33eTJgBwfD1Hg9fSN
+ JwGUyIglKOghe3N9gPE6wlG0S3iFLWZpuLTBCkzMgNgKKZE2Lygkvh7wFZdjYnyxBL1P
+ CpkQn/NNp6RXlKBvk4IPMPnyOcyXA8iLTo6nCjinS6/cescIVHcGOMeMMpCVVjkXk/bM
+ 4QTw==
+X-Gm-Message-State: AOAM532cmsSfMp5NG9JGdA7Niuk+nmJiD9lwhr0am7Vf8bFAWVHvyv4g
+ QwLjtEDtUFUDAg97XZ+oBc8=
+X-Google-Smtp-Source: ABdhPJx1S81gEMLL/LgVOUWf479cr+XnDRZ118amJ/JJZ18ZbwOIUtjlME7m7tM213GlQLIKi0/S2g==
+X-Received: by 2002:a17:90a:19d2:b0:1be:d815:477f with SMTP id
+ 18-20020a17090a19d200b001bed815477fmr8807490pjj.23.1646368746538; 
+ Thu, 03 Mar 2022 20:39:06 -0800 (PST)
 Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
  by smtp.gmail.com with ESMTPSA id
- b9-20020a056a000cc900b004f3581ae086sm4435327pfv.16.2022.03.03.20.37.23
+ m11-20020a17090a3f8b00b001bc299e0aefsm9455293pjc.56.2022.03.03.20.39.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Mar 2022 20:37:27 -0800 (PST)
-Message-ID: <b3279a3c-6951-8016-617a-81abb04bd137@gmail.com>
-Date: Fri, 4 Mar 2022 13:37:22 +0900
+ Thu, 03 Mar 2022 20:39:06 -0800 (PST)
+Message-ID: <a54418ad-0207-4e91-3070-57e337c9d50a@gmail.com>
+Date: Fri, 4 Mar 2022 13:39:01 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
 Subject: Re: [PATCH v15 3/8] net/vmnet: implement shared mode (vmnet-shared)
 Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: Jason Wang <jasowang@redhat.com>,
  Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
 References: <20220225171402.64861-1-Vladislav.Yaroshchuk@jetbrains.com>
@@ -76,15 +77,14 @@ References: <20220225171402.64861-1-Vladislav.Yaroshchuk@jetbrains.com>
  <CAGmdLqTqcESsiyTMavKZ3U8=5yPtqdq2tunZTH-tfrzwfUMGug@mail.gmail.com>
  <e5302fba-e773-c56d-388f-a3593bacd977@gmail.com>
  <CAGmdLqRCSYzjWBT7OhfP-hZHYwP8F3=4hpwQ+E76ShxjmRTO5Q@mail.gmail.com>
- <CACGkMEsgqUzm+30jxRCq1Jce6Pu=1+Jw_Q08KzoBviSb-CO6Kg@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <CACGkMEsgqUzm+30jxRCq1Jce6Pu=1+Jw_Q08KzoBviSb-CO6Kg@mail.gmail.com>
+ <CAMVc7JWASjc5BCZEyDyS44wPXFGk+Lw78fVNPPT4PL7ac_pJKg@mail.gmail.com>
+In-Reply-To: <CAMVc7JWASjc5BCZEyDyS44wPXFGk+Lw78fVNPPT4PL7ac_pJKg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -117,8 +117,8 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/03/04 10:37, Jason Wang wrote:
-> On Thu, Mar 3, 2022 at 11:43 PM Vladislav Yaroshchuk
+On 2022/03/04 3:34, Akihiko Odaki wrote:
+> On Fri, Mar 4, 2022 at 12:43 AM Vladislav Yaroshchuk
 > <vladislav.yaroshchuk@jetbrains.com> wrote:
 >>
 >>
@@ -201,9 +201,6 @@ On 2022/03/04 10:37, Jason Wang wrote:
 >> packets if 0 is returned, this may cause unlimited(!)
 >> queue growth. To prevent this, we should stop sending
 >> packets and wait for notification callback to continue.
-> 
-> Right.
-> 
 >>
 >> I don't see any contradiction with that comment.
 >>
@@ -215,24 +212,6 @@ On 2022/03/04 10:37, Jason Wang wrote:
 >> packets after qemu_send_packet_async returns 0.
 >>
 >> Jason Wang, can you confirm please?
-> 
-> With a cb, we can't do this. All users with cb will disable the source
-> polling and depend on the cb to re-read the polling.
-> (tap/l2tpv3/socket).
-> 
-> Without a cb, we can. As analyzed above, qemu_net_queue_append() can
-> limit the number of packets queued in this case.
-
-vmnet can read multiple packets at once. What about such a case? Isn't 
-calling qemu_send_packet_async for already read packet and stopping 
-reading more fine?
-
-Regards,
-Akihiko Odaki
-
-> 
-> Thanks
-> 
 >>
 >> Best Regards,
 >>
@@ -245,5 +224,20 @@ Akihiko Odaki
 >>
 >>
 > 
+> The unlimited queue growth would not happen if you stop calling
+> vmnet_read after qemu_send_packet_async returns 0. So I think the
+> comment should be amended to say something like:
+> "Once qemu_send_packet_async returns 0, the client should stop reading
+> more packets from the underlying NIC to prevent infinite growth of the
+> queue until the last callback gets called."
+> 
+> The unique feature of vmnet is that it can read multiple packets at
+> once, and I guess it is the reason why the comment in net/queue.c
+> missed the case. But this is all my guess so I need confirmation from
+> the maintainer.
+> 
+> Regards,
+> Akihiko Odaki
 
+I forgot to include Jason Wang to To for this email.
 
