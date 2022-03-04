@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133754CD3DB
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 12:56:29 +0100 (CET)
-Received: from localhost ([::1]:45700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A38E4CD3E7
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 13:01:34 +0100 (CET)
+Received: from localhost ([::1]:52594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ6Xs-0003lP-6q
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 06:56:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33142)
+	id 1nQ6ch-0008OI-LA
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 07:01:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQ6Uy-0006t4-Jh
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:53:28 -0500
-Received: from [2607:f8b0:4864:20::112e] (port=34456
- helo=mail-yw1-x112e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQ6Uw-0005No-DC
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:53:28 -0500
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2db2add4516so88767957b3.1
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 03:53:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gLIvz9QKtJ7n1hgwuOlCbujSVYqtQLwekK7mffqhgsk=;
- b=TCZ+ubJrG6Qf91DOpA2iKiOHVfhKfGAMx5VBZpjhi9PsSTgkYZf/4Po2az1xYkSLUT
- 1chOVFEDTbcfLKdxJS6jULyPkvw094lqVfb68iYhhXpDWkHwA7AzIPICIkx+Zv93Tdy5
- ftUJYi74yj2AETC3vHdediIr4Eda2mFJZBb8osskC7xj6knD9lmn0bmi5NGaiaITn9OI
- /o3bx6LCYDYcovQ3lBlU40QvAeFipYn9Q1v7XO43HAMMW6APshQhCAjJpEolaXiaoqyB
- VAUQAZauddDVKJqpOFrZV+t0Fe3MgvLUtGN+9tYoHowIuVNwnhkcxRE6rSw5Hmwwsx2N
- tUrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gLIvz9QKtJ7n1hgwuOlCbujSVYqtQLwekK7mffqhgsk=;
- b=cCfTXo9MevE9h9+1tOMl52PG0kP6SMwkGbDm9zshGmwKQYtsBzCx4tgQt34KRZh8cr
- A8w1E4EA7ipPU1NGqy+JIH5CUz25HKLtgBQGN0cT/XJzcFqGjkM896ZEvSG7bQma01Xw
- SbmlL0BMwKTNZ+pB06bRaluDU+6XDBTB6rBsUnh9xaIsRgJSvEjUOeenuKZspX12uRCF
- +A27uga0hgerdMBFO2KoD/qaXMlZKIHNkdjwLFXgaU/riSv43NW9m3bFYElgFUDx+V4t
- OIMK1Y97HPYw/8mKOioLENlhrjwFT3J5mob8XHvWN8eY8vx2vpEPxuBpT3Y3goO2fjYP
- Beag==
-X-Gm-Message-State: AOAM532K4PhS7FgFh/+pw1VukYqIZwUVsqsAnXwiI04iDnN65veiVRkR
- 8FOC9Q64TfuAvKr/on9UAp5ZqR6xIIKn62NnBp1d9Cd60HwJaw==
-X-Google-Smtp-Source: ABdhPJwaxnQuz8GdwqyeENQqwuhdTr8/NERdEBFE2DJ0DoQyvgJDRmR4KULmvpGPJjkLtO83yXaWwR1cipTAHyNZEiU=
-X-Received: by 2002:a81:b49:0:b0:2db:f472:dfca with SMTP id
- 70-20020a810b49000000b002dbf472dfcamr15890394ywl.455.1646394804847; Fri, 04
- Mar 2022 03:53:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQ6Yq-00065A-Pd
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:57:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49660)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQ6Ym-0006F0-R6
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 06:57:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646395043;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oAqmDBTjaRZDUnkDOq0yosRHqiHAkhV7gg+zyWyYgHo=;
+ b=hgRtg7glEVe6X6D9GzrRURmcCL37NmqWUG8HxVloCnkKrqjHvkv9Zi5ZdOaXyLsDvXVP9Y
+ k2EGu2ye7GdCnnBvMMz6xEfVlsWBW1aeX3/HhT6b5XYt6JUhQe4Da6qJ6aMOc0M9e+d8D6
+ fMg1qa4Q61Uy7ZFvJsLkfnD+mxEHDL0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-408-kMrRYze0NcSG3c-wx8kTow-1; Fri, 04 Mar 2022 06:57:20 -0500
+X-MC-Unique: kMrRYze0NcSG3c-wx8kTow-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 480CD1006AA5;
+ Fri,  4 Mar 2022 11:57:19 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.194.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBB292B45E;
+ Fri,  4 Mar 2022 11:56:58 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] softmmu: move and refactor -runas, -chroot and -daemonize
+Date: Fri,  4 Mar 2022 11:56:53 +0000
+Message-Id: <20220304115657.3177925-1-berrange@redhat.com>
 MIME-Version: 1.0
-References: <20220301215958.157011-1-richard.henderson@linaro.org>
- <20220301215958.157011-18-richard.henderson@linaro.org>
-In-Reply-To: <20220301215958.157011-18-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Mar 2022 11:53:13 +0000
-Message-ID: <CAFEAcA9_z2RB0xvKWzSVQqopZ2-QCY-2GtQ5ES70vPApQ-KN_A@mail.gmail.com>
-Subject: Re: [PATCH v4 17/18] target/arm: Provide cpu property for controling
- FEAT_LPA2
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,25 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ libvir-list@redhat.com, Stefan Weil <sw@weilnetz.de>,
+ Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Mar 2022 at 22:00, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> There is a Linux kernel bug present until v5.12 that prevents
-> booting with FEAT_LPA2 enabled.  As a workaround for TCG, allow
-> the feature to be disabled from -cpu max.
->
-> Since this kernel bug is present in the Fedora 31 image that
-> we test in avocado, disable lpa2 on the command-line.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+This small series was motivated by my thoughts on the proposals in=0D
+=0D
+  https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg01135.html=0D
+=0D
+It demostrates the approach I mention there, and has the further=0D
+benefit of untangling and isolating the implementation of UID=0D
+changing, chrooting and daemonized, from the parsing of the=0D
+corresponding command line options.=0D
+=0D
+Daniel P. Berrang=C3=A9 (4):=0D
+  softmmu: remove deprecated --enable-fips option=0D
+  os-posix: refactor code handling the -runas argument=0D
+  os-posix: refactor code handling the -chroot argument=0D
+  softmmu: move parsing of -runas, -chroot and -daemonize code=0D
+=0D
+ docs/about/deprecated.rst       |  12 --=0D
+ docs/about/removed-features.rst |  11 ++=0D
+ include/qemu/osdep.h            |   3 -=0D
+ include/sysemu/os-posix.h       |   4 +-=0D
+ include/sysemu/os-win32.h       |   1 -=0D
+ os-posix.c                      | 222 ++++++++++----------------------=0D
+ os-win32.c                      |   9 --=0D
+ qemu-options.hx                 |  10 --=0D
+ softmmu/vl.c                    |  76 ++++++++++-=0D
+ ui/vnc.c                        |   7 -=0D
+ util/osdep.c                    |  28 ----=0D
+ 11 files changed, 154 insertions(+), 229 deletions(-)=0D
+=0D
+--=20=0D
+2.34.1=0D
+=0D
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
