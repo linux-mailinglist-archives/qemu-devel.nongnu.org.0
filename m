@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D7464CD08E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 09:57:57 +0100 (CET)
-Received: from localhost ([::1]:42746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205594CD0F6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 10:22:11 +0100 (CET)
+Received: from localhost ([::1]:47558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ3l6-00081U-1l
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 03:57:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50726)
+	id 1nQ48V-0005hc-30
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 04:22:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nQ3ii-00079H-IR
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 03:55:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59393)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQ46Z-0004rx-QR
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 04:20:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nQ3if-0007tu-2S
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 03:55:26 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nQ46X-0003kY-5j
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 04:20:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646384123;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gDUYfAJ0FQjCckNo4JICwZtn8uYSZZMrr8sbQXjaATI=;
- b=cc/esIQttJG4KLyfVdwRoJFfGBamSF7ZiCQ8lUOthDQDLtsaT1dUABC0046l9MWDSfvNiX
- LlxZeMI7uyF62M+CtFBoA1fXRzm2Wnz6fL3e/AlVC4lRSEYA5A+Mlbi45ZfDVI5LHU8EjI
- kJLT3rHUoY6HWWp4gEax3HsyLgabskc=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1646385604;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=HEgtTkZ8oo+LXysUq2vqQ4tiuO7VgGtxXYrnrJHtd5s=;
+ b=VtByDBVvSfEVU5tEmZQIrWk44yZUUyszBO6emObJyVwzkXTLKK3r6xXtcP8s4ewB1n1UxA
+ fHK8RGD943dDxRgtsfHyQrNc7x2DQYiLFbOqZWG9tDtcieRpBSxQtuwKQHsjOOdQcaddVP
+ b1hT8HQP7xZdzBm7SC3FLmCIGfH3eDc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-168-y_YmNw4cPCe5l9CRjZkVeA-1; Fri, 04 Mar 2022 03:55:19 -0500
-X-MC-Unique: y_YmNw4cPCe5l9CRjZkVeA-1
-Received: by mail-qv1-f70.google.com with SMTP id
- g8-20020a0cdf08000000b004354e0aa0cdso819395qvl.17
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 00:55:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gDUYfAJ0FQjCckNo4JICwZtn8uYSZZMrr8sbQXjaATI=;
- b=ndCaIw+1wbW/TZV2XjhT8dyN/TU/aX8ClDoVWPsZzx6M5OP13nGt5coXIE8H76M66y
- 1NzeS17t36Jzac2FE6ycYSeXuqUYDOM1QNXzKQ5TdFYNguYlKt5xk2MxEyoy4Wa+Fr5A
- wY7aKYub+CiJQxBUEacKzZi81VspcXaDIk4lSiv9m0nMF/i6j9ZQoBwww4/6pXYYnNoE
- vmU1igBg2/HTflpgsQEGDX1OFOBIORBWAFBYwMWH/d0DT05XWuuKTyA7uYIxudl9t3xQ
- xfEEg/q/2Znf6IQ1nn+xVAbPTi+xhaCp/SDMaRzFGkChx1kGh+7fjhQajJS/f9PGtQbK
- mxmg==
-X-Gm-Message-State: AOAM530f75nfRjIrj9wlhPxdG71mfUIS+r001J7UQFyJkUughKd4X4SW
- dDkLYcErvo/E76MaqicM0vQHzaNqlLZh0BwRRqoSvl1VcBmZmwQaZTbqqoL6LxYSehcVpC3u0hd
- 7wmFii0SEn+zd9HjilYaaTxRtskK45ds=
-X-Received: by 2002:a05:6214:104b:b0:435:17bf:da07 with SMTP id
- l11-20020a056214104b00b0043517bfda07mr10109470qvr.91.1646384118957; 
- Fri, 04 Mar 2022 00:55:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxbLgKdllXDExkWlyBk3m4J8epOtxPU1/KV5ybIY14+E59je8tYVMcxQq9nKm2VUuDjPWx4GrPhY04r0t5+oXg=
-X-Received: by 2002:a05:6214:104b:b0:435:17bf:da07 with SMTP id
- l11-20020a056214104b00b0043517bfda07mr10109435qvr.91.1646384118790; Fri, 04
- Mar 2022 00:55:18 -0800 (PST)
+ us-mta-662-1hviN2dsOgOcUTfWDZH0ow-1; Fri, 04 Mar 2022 04:19:56 -0500
+X-MC-Unique: 1hviN2dsOgOcUTfWDZH0ow-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 623F5824FA7;
+ Fri,  4 Mar 2022 09:19:55 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E207027CD2;
+ Fri,  4 Mar 2022 09:19:48 +0000 (UTC)
+Date: Fri, 4 Mar 2022 09:19:45 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2 1/4] os-posix: Add os_set_daemonize()
+Message-ID: <YiHZsQghj8E5TRZX@redhat.com>
+References: <20220303164814.284974-1-hreitz@redhat.com>
+ <20220303164814.284974-2-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20220302203012.3476835-1-eperezma@redhat.com>
- <20220302203012.3476835-15-eperezma@redhat.com>
- <87ee3jeff1.fsf@pond.sub.org>
- <CAJaqyWfKQKWMs-tLRyuJ=C7VrsFUS8KHiXQVZHqfj_T5_zeBXQ@mail.gmail.com>
- <87bkyncklt.fsf@pond.sub.org>
- <CAJaqyWfSkfV_FDOMD326SWBQAzK3=bxG+xfUZEmXeYudTG5cgQ@mail.gmail.com>
- <877d9a8c2t.fsf@pond.sub.org>
-In-Reply-To: <877d9a8c2t.fsf@pond.sub.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 4 Mar 2022 09:54:42 +0100
-Message-ID: <CAJaqyWdZRz2XVV8xtojntjhez+dYJrMMLmuWz71mFa3o+Y8SMQ@mail.gmail.com>
-Subject: Re: [PATCH v3 14/14] vdpa: Add x-svq to NetdevVhostVDPAOptions
-To: Markus Armbruster <armbru@redhat.com>
+In-Reply-To: <20220303164814.284974-2-hreitz@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,58 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 4, 2022 at 7:30 AM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Eugenio Perez Martin <eperezma@redhat.com> writes:
->
-> > Yes, that's right. I expressed my point poorly actually, I'll go the reverse.
-> >
-> > qapi-gen.py forces me to write a comment in the doc:
-> > qapi/block-core.json:2971: feature 'unstable' lacks documentation
-> >
-> > When I add the documentation line, it's enough to add @unstable. But
-> > there is no way to tell if this tag is because the whole struct is
-> > unstable or if it's because individual members are unstable unless the
-> > reader either checks the tag or the struct code.
-> >
-> > I was mostly worried about doc generators, I would not like to make
-> > NetdevVhostVDPAOptions unstable at this point. But I see that there is
-> > no problem with that.
-> >
-> > Thanks!
->
-> Yes, the doc generator insists on features being documented, and it
-> doesn't provide for documenting them next to members, only top-level.
-> The common solution is to phrase the comment like we do in
-> BlockdevOptionsFile:
->
->     # @unstable: Member x-check-cache-dropped is meant for debugging.
->
-> If there were multiple members so flagged, we'd enumerate them all.
->
-> The generator doesn't check you do this right.  The existing check
-> guards against *forgetting* to do it, not against doing it wrong.
->
-> More questions?
->
+On Thu, Mar 03, 2022 at 05:48:11PM +0100, Hanna Reitz wrote:
+> The daemonizing functions in os-posix (os_daemonize() and
+> os_setup_post()) only daemonize the process if the static `daemonize`
+> variable is set.  Right now, it can only be set by os_parse_cmd_args().
+> 
+> In order to use os_daemonize() and os_setup_post() from the storage
+> daemon to have it be daemonized, we need some other way to set this
+> `daemonize` variable, because I would rather not tap into the system
+> emulator's arg-parsing code.  Therefore, this patch adds an
+> os_set_daemonize() function, which will return an error on os-win32
+> (because daemonizing is not supported there).
 
-Got it, it matches my impression. Thank you very much!
+IMHO the real flaw here is the design of 'os_daemonize' in that it
+relies on static state. If I see a call to a function 'os_daemonize()'
+I expect to be daemonized on return, but with this design that is not
+guaranteed which is a big surprise.
+
+I'd suggest we push the condition into the caller instead of adding
+this extra function, so we have the more sane pattern:
+
+   if (daemonmize()) {
+      os_daemonize()
+   }
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
