@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8105F4CD765
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:12:06 +0100 (CET)
-Received: from localhost ([::1]:34416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5214CD790
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 16:21:10 +0100 (CET)
+Received: from localhost ([::1]:59190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQ9bB-0003U6-Js
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:12:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39430)
+	id 1nQ9jx-0003Zz-IK
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 10:21:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rX-0005Tz-GE
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30343)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rq-0005ul-Ir
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rV-0003QQ-OF
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:24:54 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nQ8rp-0003jZ-2e
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 09:25:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646403893;
+ s=mimecast20190719; t=1646403912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g2h1ELJiTAe2kno7BGPFP7lqi+SRruAWDb3ZkkVobtY=;
- b=g3KlrK6DqGiNQK0LzMxvEK9UW+6ipgR6LC091uKlXi/smNUYAkVPwzL94njTkUglzOyM2t
- 9v60obIug7zukxmEZTdeBAwswye8VTYpaWIQXYT03mnysmJV0JfHR8yFldKTpaxDKMGz8X
- fGIK/extIqxMoI7W9HYMYDAYYC6qJL8=
+ bh=zxTB1op1Ykv/qiF9h6GJ/vbetoB1UFiuIdJ3qs8E528=;
+ b=gMf0wPPmvQc5XcFU+BZXiodTm+eKH/HltIuPnLbqMscyBJ0VZTheciJDGRHKra3DTdHSe5
+ HRgPA5sR72k2jnf4XrtNaiDIxgV1px7ML5kmRnyb5YCL1n/rI2kEWdnSIOFAVafeXab2hF
+ ngeOJkIMhOQKQyZ5WzcjmSeAnGCnoJw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-74EwTDLBPHK7sxxd7ltDOQ-1; Fri, 04 Mar 2022 09:24:43 -0500
-X-MC-Unique: 74EwTDLBPHK7sxxd7ltDOQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-588-YOl7vMUwPXGkuip4YicFeQ-1; Fri, 04 Mar 2022 09:25:09 -0500
+X-MC-Unique: YOl7vMUwPXGkuip4YicFeQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 472701854E21;
- Fri,  4 Mar 2022 14:24:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DBD01854E21;
+ Fri,  4 Mar 2022 14:25:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF842866ED;
- Fri,  4 Mar 2022 14:24:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 350102ED90;
+ Fri,  4 Mar 2022 14:24:39 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6F81D18009BD; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
+ id 7BDF418009BE; Fri,  4 Mar 2022 15:21:25 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/35] ui: do not create a surface when resizing a GL scanout
-Date: Fri,  4 Mar 2022 15:21:18 +0100
-Message-Id: <20220304142123.956171-31-kraxel@redhat.com>
+Subject: [PULL 31/35] ui/clipboard: fix use-after-free regression
+Date: Fri,  4 Mar 2022 15:21:19 +0100
+Message-Id: <20220304142123.956171-32-kraxel@redhat.com>
 In-Reply-To: <20220304142123.956171-1-kraxel@redhat.com>
 References: <20220304142123.956171-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -96,51 +96,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-qemu_console_resize() will create a blank surface and replace the
-current scanout with it if called while the current scanout is
-GL (texture or dmabuf).
+The same info may be used to update the clipboard, and may be freed
+before being ref'ed again.
 
-This is not only very costly, but also can produce glitches on the
-display/listener side.
-
-Instead, compare the current console size with the fitting console
-functions, which also works when the scanout is GL.
-
-Note: there might be still an unnecessary surface creation on calling
-qemu_console_resize() when the size is actually changing, but display
-backends currently rely on DisplaySurface details during
-dpy_gfx_switch() to handle various resize aspects. We would need more
-refactoring to handle resize without DisplaySurface, this is left for a
-future improvement.
+Fixes: 70a54b01693ed ("ui: avoid compiler warnings from unused clipboard info variable")
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220214201337.1814787-4-marcandre.lureau@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220214115917.1679568-1-marcandre.lureau@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/console.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ ui/clipboard.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/ui/console.c b/ui/console.c
-index 79a01afd1ea7..365a2c14b809 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -2400,13 +2400,12 @@ static void vc_chr_open(Chardev *chr,
+diff --git a/ui/clipboard.c b/ui/clipboard.c
+index 5f15cf853d07..9079ef829b51 100644
+--- a/ui/clipboard.c
++++ b/ui/clipboard.c
+@@ -66,8 +66,10 @@ void qemu_clipboard_update(QemuClipboardInfo *info)
  
- void qemu_console_resize(QemuConsole *s, int width, int height)
- {
--    DisplaySurface *surface = qemu_console_surface(s);
-+    DisplaySurface *surface;
+     notifier_list_notify(&clipboard_notifiers, &notify);
  
-     assert(s->console_type == GRAPHIC_CONSOLE);
+-    qemu_clipboard_info_unref(cbinfo[info->selection]);
+-    cbinfo[info->selection] = qemu_clipboard_info_ref(info);
++    if (cbinfo[info->selection] != info) {
++        qemu_clipboard_info_unref(cbinfo[info->selection]);
++        cbinfo[info->selection] = qemu_clipboard_info_ref(info);
++    }
+ }
  
--    if (surface && (surface->flags & QEMU_ALLOCATED_FLAG) &&
--        pixman_image_get_width(surface->image) == width &&
--        pixman_image_get_height(surface->image) == height) {
-+    if (qemu_console_get_width(s, -1) == width &&
-+        qemu_console_get_height(s, -1) == height) {
-         return;
-     }
- 
+ QemuClipboardInfo *qemu_clipboard_info(QemuClipboardSelection selection)
 -- 
 2.35.1
 
