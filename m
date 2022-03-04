@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429F54CDBDF
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:12:31 +0100 (CET)
-Received: from localhost ([::1]:39984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2744CDC98
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 19:34:00 +0100 (CET)
+Received: from localhost ([::1]:52712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQCPm-0007pm-89
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:12:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37854)
+	id 1nQCkZ-0003N1-57
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 13:33:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nQC77-0006Da-MR; Fri, 04 Mar 2022 12:53:13 -0500
+ id 1nQC79-0006L8-Jq; Fri, 04 Mar 2022 12:53:15 -0500
 Received: from [187.72.171.209] (port=8389 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nQC75-0003AM-RH; Fri, 04 Mar 2022 12:53:13 -0500
+ id 1nQC78-0003AM-70; Fri, 04 Mar 2022 12:53:15 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 4 Mar 2022 14:53:05 -0300
+ Fri, 4 Mar 2022 14:53:06 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 8E9498001C2;
+ by p9ibm (Postfix) with ESMTP id DAA54800502;
  Fri,  4 Mar 2022 14:53:05 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 0/7] target/ppc: Vector/VSX instruction batch fixes
-Date: Fri,  4 Mar 2022 14:51:49 -0300
-Message-Id: <20220304175156.2012315-1-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 1/7] target/ppc: Fix vmul[eo]* instructions marked 2.07
+Date: Fri,  4 Mar 2022 14:51:50 -0300
+Message-Id: <20220304175156.2012315-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220304175156.2012315-1-matheus.ferst@eldorado.org.br>
+References: <20220304175156.2012315-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Mar 2022 17:53:06.0003 (UTC)
- FILETIME=[B3A52230:01D82FF0]
+X-OriginalArrivalTime: 04 Mar 2022 17:53:06.0300 (UTC)
+ FILETIME=[B3D273C0:01D82FF0]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
 Received-SPF: pass client-ip=187.72.171.209;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -56,35 +57,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
- clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: Fabiano Rosas <farosas@linux.ibm.com>, danielhb413@gmail.com,
+ richard.henderson@linaro.org, groug@kaod.org,
+ "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>, clg@kaod.org,
+ Howard Spoelstra <hsp.cat7@gmail.com>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Some fixes to the insns of our last patch series.
+Some ISA v2.03 Vector Multiply instructions marked to be ISA v2.07 only.
+This patch fixes it.
 
-Lucas Mateus Castro (alqotel) (1):
-  target/ppc: Fix vmul[eo]* instructions marked 2.07
+Fixes: 80eca687c851 ("target/ppc: moved vector even and odd multiplication to decodetree")
+Reported-by: Howard Spoelstra <hsp.cat7@gmail.com>
+Suggested-by: Fabiano Rosas <farosas@linux.ibm.com>
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/translate/vmx-impl.c.inc | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Matheus Ferst (4):
-  target/ppc: use ext32u and deposit in do_vx_vmulhw_i64
-  target/ppc: use extract/extract2 to create vrlqnm mask
-  target/ppc: use andc in vrlqmi
-  target/ppc: split XXGENPCV macros for readability
-
-Víctor Colombo (2):
-  target/ppc: Add missing helper_reset_fpstatus to VSX_MAX_MINC
-  target/ppc: Add missing helper_reset_fpstatus to helper_XVCVSPBF16
-
- target/ppc/fpu_helper.c             |  4 ++
- target/ppc/int_helper.c             | 28 +++++++++---
- target/ppc/translate/vmx-impl.c.inc | 42 +++++++----------
- target/ppc/translate/vsx-impl.c.inc | 71 +++++++++++++++--------------
- 4 files changed, 77 insertions(+), 68 deletions(-)
-
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index f91bee839d..c5d02d13fe 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -3141,14 +3141,14 @@ static bool trans_VMULLD(DisasContext *ctx, arg_VX *a)
+     return true;
+ }
+ 
+-TRANS_FLAGS2(ALTIVEC_207, VMULESB, do_vx_helper, gen_helper_VMULESB)
+-TRANS_FLAGS2(ALTIVEC_207, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
+-TRANS_FLAGS2(ALTIVEC_207, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
+-TRANS_FLAGS2(ALTIVEC_207, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
+-TRANS_FLAGS2(ALTIVEC_207, VMULESH, do_vx_helper, gen_helper_VMULESH)
+-TRANS_FLAGS2(ALTIVEC_207, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
+-TRANS_FLAGS2(ALTIVEC_207, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
+-TRANS_FLAGS2(ALTIVEC_207, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
++TRANS_FLAGS(ALTIVEC, VMULESB, do_vx_helper, gen_helper_VMULESB)
++TRANS_FLAGS(ALTIVEC, VMULOSB, do_vx_helper, gen_helper_VMULOSB)
++TRANS_FLAGS(ALTIVEC, VMULEUB, do_vx_helper, gen_helper_VMULEUB)
++TRANS_FLAGS(ALTIVEC, VMULOUB, do_vx_helper, gen_helper_VMULOUB)
++TRANS_FLAGS(ALTIVEC, VMULESH, do_vx_helper, gen_helper_VMULESH)
++TRANS_FLAGS(ALTIVEC, VMULOSH, do_vx_helper, gen_helper_VMULOSH)
++TRANS_FLAGS(ALTIVEC, VMULEUH, do_vx_helper, gen_helper_VMULEUH)
++TRANS_FLAGS(ALTIVEC, VMULOUH, do_vx_helper, gen_helper_VMULOUH)
+ TRANS_FLAGS2(ALTIVEC_207, VMULESW, do_vx_helper, gen_helper_VMULESW)
+ TRANS_FLAGS2(ALTIVEC_207, VMULOSW, do_vx_helper, gen_helper_VMULOSW)
+ TRANS_FLAGS2(ALTIVEC_207, VMULEUW, do_vx_helper, gen_helper_VMULEUW)
 -- 
 2.25.1
 
