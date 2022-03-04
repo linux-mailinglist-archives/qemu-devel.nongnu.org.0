@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED5A4CDFA3
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:13:53 +0100 (CET)
-Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A16D64CDFAA
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Mar 2022 22:18:28 +0100 (CET)
+Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQFFI-0000MG-Tg
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:13:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50402)
+	id 1nQFJj-0003KR-N0
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 16:18:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nQFEC-00086R-N5
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:12:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50688)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nQFIB-0001kQ-Eh
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:16:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nQFEA-00033u-BA
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:12:44 -0500
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1nQFI9-0003fq-1R
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 16:16:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646428361;
+ s=mimecast20190719; t=1646428608;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=R51oADLOiPp1ia3mZt3LlEMogvpSym3jHdW4znUdQAo=;
- b=eksxEe0ozTLMR/hAECINfZlMi1eEzMMiy8g2jAY1fMYLZfJM6fYRhk7grF0wxNEkdBlVkT
- Y6SYAd5dv+pSfyljFbhacZKp9Vu77bibp+G5cSqsMh7z0JvkT47aJtoFMTx0YZ5qAKjamw
- uKMp03X9UKET1eNpDlvjkn7DczceUOY=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NdT8zDvsJDHiraOVeHcwjnNH0oUrIhJUEknDrt+82IE=;
+ b=YsU0vIg6UsZIShqd7w/Or/fqZUq/baVzg7cYgm2mElInUCjegefSwaVPBVAeLSv47NnVgE
+ JJoN3gvuTPc2L+5z2hkGwH3J8nVamj7wZnJlr4YWBKa+mZveJSDVLA+zia2PQOVk7bXWOa
+ CLB0jTw3VAtssa1eeKYbm0rETDzNQtc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-ixqkWCvXMiCKJZmptAIYFg-1; Fri, 04 Mar 2022 16:12:40 -0500
-X-MC-Unique: ixqkWCvXMiCKJZmptAIYFg-1
-Received: by mail-yb1-f197.google.com with SMTP id
- o133-20020a25738b000000b0062872621d0eso8485075ybc.2
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 13:12:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R51oADLOiPp1ia3mZt3LlEMogvpSym3jHdW4znUdQAo=;
- b=WHAaLwfs614KwgJyCL9jvpwOWVoR2dMhThFPs3cGBcN/vjlXZ02GpXHf7Vnt436chB
- 2FO3P+GcexX2VRGIR9V7QPp3MUIvfwjd0LglrGYXU3c4xIJ7sP0y4s0McHofbpNJq61o
- cf0qunPAn3dYb6kvNCha4GpC++Y15aGHowvfbRWoqOg/IX2mM5/kta4oB0Lgl1Yx2U+U
- F0KM4XFNMGAgVCV8T/ClDlfE8/6XHcTL1yBcnhnNTKFY8j3ufEaVy311AYlb5I5X/I7C
- 7d0UT4djfjFrn6sS7ZHmzxfSv0mTEA8tncASCHOTtcpfaLfD82pQVV5wlMJVl/dl1NpZ
- jcZw==
-X-Gm-Message-State: AOAM531HR3j4s2xodFgCdC+cMEoRfJdPsUDhdhMwhJX08lysGo1gxPpH
- w54gHEYq7ifFAvuZXmt32jNgSFn6CJe00s6VqHsZGBqNBmgcLbz9QkvnvRWYuXx4S4oy4u4uZPN
- QpFPdPiFx0n3w61kmKmG/k+bQyU5ABgA=
-X-Received: by 2002:a25:84cc:0:b0:628:d4ad:8f33 with SMTP id
- x12-20020a2584cc000000b00628d4ad8f33mr362317ybm.559.1646428359823; 
- Fri, 04 Mar 2022 13:12:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw0rwVGpEsERV87BZJDYbmdCi3jNhfSxXVAbhdd+9pMpatNfzkf9rg+NX6iqQEFLOfsxfMAitsguQJQq2XIiEQ=
-X-Received: by 2002:a25:84cc:0:b0:628:d4ad:8f33 with SMTP id
- x12-20020a2584cc000000b00628d4ad8f33mr362299ybm.559.1646428359659; Fri, 04
- Mar 2022 13:12:39 -0800 (PST)
+ us-mta-446-BnATs81WNZOTzA1P3HpvIQ-1; Fri, 04 Mar 2022 16:16:45 -0500
+X-MC-Unique: BnATs81WNZOTzA1P3HpvIQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 347B8180FD71;
+ Fri,  4 Mar 2022 21:16:43 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7F074ABAD;
+ Fri,  4 Mar 2022 21:16:22 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] Remove qemu_gettimeofday()
+Date: Sat,  5 Mar 2022 01:16:13 +0400
+Message-Id: <20220304211618.3715999-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20220304152704.3466036-1-marcandre.lureau@redhat.com>
- <20220304152704.3466036-3-marcandre.lureau@redhat.com>
- <0de2304e-7902-dc63-4a77-b16786beaac9@linaro.org>
-In-Reply-To: <0de2304e-7902-dc63-4a77-b16786beaac9@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Sat, 5 Mar 2022 01:12:28 +0400
-Message-ID: <CAMxuvawR_jVUNKg+GrAX=8k-5GNDGvd1Po0PrH1jG=JZphWSSA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] qtest: replace gettimeofday with GTimer
-To: Richard Henderson <richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,7 +65,7 @@ X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,29 +78,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Marek Vasut <marex@denx.de>,
+ Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Chris Wulff <crwulff@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-ppc@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
-On Sat, Mar 5, 2022 at 12:50 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 3/4/22 05:27, marcandre.lureau@redhat.com wrote:
-> > +        g_clear_pointer(&timer, g_timer_destroy);
-> > +        timer = g_timer_new();
->
-> Why not g_timer_{reset,start}, instead of destroying and recreating?
-
-Well, that didn't seem much easier, as that opens the question where
-to create/destroy. And we would potentially have a "running" timer at
-creation time, which could be confusing.
-
-(btw, just found that doc : "This function is useless; it's fine to
-call g_timer_start() on an already-started timer to reset the start
-time, so g_timer_reset() serves no purpose" ;)
-
-thanks
+Hi,=0D
+=0D
+Here is a few patches to replace qemu_gettimeofday() helper with functions=
+=0D
+provided by GLib.=0D
+=0D
+v2:=0D
+- fix return of get-time in nanoseconds=0D
+- qga: replace with a common get-time function for qga posix/win32=0D
+- split qga patch=0D
+- add r-b tags, drop RFC=0D
+=0D
+Marc-Andr=C3=A9 Lureau (5):=0D
+  m68k/nios2-semi: fix gettimeofday() result check=0D
+  qtest: replace gettimeofday with GTimer=0D
+  qga: replace qemu_gettimeofday() with g_get_real_time()=0D
+  Replace qemu_gettimeofday() with g_get_real_time()=0D
+  oslib: drop qemu_gettimeofday()=0D
+=0D
+ include/sysemu/os-posix.h  |  3 ---=0D
+ include/sysemu/os-win32.h  |  6 ------=0D
+ blockdev.c                 |  8 ++++----=0D
+ hw/rtc/m41t80.c            |  6 +++---=0D
+ hw/virtio/virtio-balloon.c |  9 +--------=0D
+ qapi/qmp-event.c           | 12 +++++-------=0D
+ qemu-img.c                 |  8 ++++----=0D
+ qga/commands-posix.c       | 14 --------------=0D
+ qga/commands-win32.c       | 19 -------------------=0D
+ qga/commands.c             |  5 +++++=0D
+ softmmu/qtest.c            | 39 ++++++++++----------------------------=0D
+ target/m68k/m68k-semi.c    | 22 ++++++++++-----------=0D
+ target/nios2/nios2-semi.c  | 23 ++++++++++------------=0D
+ util/oslib-win32.c         | 20 -------------------=0D
+ 14 files changed, 52 insertions(+), 142 deletions(-)=0D
+=0D
+--=20=0D
+2.35.1.273.ge6ebfd0e8cbb=0D
+=0D
 
 
