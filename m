@@ -2,50 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AF74CE520
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 15:09:21 +0100 (CET)
-Received: from localhost ([::1]:39928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61AC74CE529
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 15:14:04 +0100 (CET)
+Received: from localhost ([::1]:51978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQV60-0004qe-Bv
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 09:09:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54868)
+	id 1nQVAZ-00056q-GO
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 09:14:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1nQV4U-00047p-KP
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 09:07:47 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:39478
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nQV7b-0006lF-Ry
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 09:10:59 -0500
+Received: from [2001:41c9:1:41f::167] (port=58902
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1nQV4S-0006KS-Be
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 09:07:46 -0500
-Received: from [192.168.178.59] (p5b1510d9.dip0.t-ipconnect.de [91.21.16.217])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 7C47FDA1418;
- Sat,  5 Mar 2022 15:07:23 +0100 (CET)
-Message-ID: <0512fcfd-6a3f-0b84-58df-8dd96d81059d@weilnetz.de>
-Date: Sat, 5 Mar 2022 15:07:23 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nQV7a-0006sh-47
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 09:10:59 -0500
+Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nQV6q-00082l-Q4; Sat, 05 Mar 2022 14:10:16 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: laurent@vivier.eu,
+	qemu-devel@nongnu.org
+Date: Sat,  5 Mar 2022 14:10:32 +0000
+Message-Id: <20220305141044.31911-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 1/3] nsis installer: List emulators in alphabetical order
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220305105743.2384766-1-peter.maydell@linaro.org>
- <20220305105743.2384766-2-peter.maydell@linaro.org>
-From: Stefan Weil <sw@weilnetz.de>
-In-Reply-To: <20220305105743.2384766-2-peter.maydell@linaro.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------EdfX00aFFPR0E0N6EZ3USLbP"
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v3 00/12] mos6522: switch to gpios,
+ add control line edge-triggering and extra debugging
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,315 +63,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------EdfX00aFFPR0E0N6EZ3USLbP
-Content-Type: multipart/mixed; boundary="------------GfE4FBdPZGOaYDxgYN6Ff3WY";
- protected-headers="v1"
-From: Stefan Weil <sw@weilnetz.de>
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>
-Message-ID: <0512fcfd-6a3f-0b84-58df-8dd96d81059d@weilnetz.de>
-Subject: Re: [PATCH 1/3] nsis installer: List emulators in alphabetical order
-References: <20220305105743.2384766-1-peter.maydell@linaro.org>
- <20220305105743.2384766-2-peter.maydell@linaro.org>
-In-Reply-To: <20220305105743.2384766-2-peter.maydell@linaro.org>
+Here is another patchset taken from my series to enable MacOS to boot on the q800
+machine.
 
---------------GfE4FBdPZGOaYDxgYN6Ff3WY
-Content-Type: multipart/mixed; boundary="------------vQDZGJctf0ci56JcSK0o1uYQ"
+Patches 1-3 define the IFR bit flags in terms of the physical control lines and
+update mac_via to use them.
 
---------------vQDZGJctf0ci56JcSK0o1uYQ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Patch 4 does the main switch from custom methods in MOS6522DeviceClass to using
+standard gpios whilst patch 5 removes these now-obsolete methods.
 
-QW0gMDUuMDMuMjIgdW0gMTE6NTcgc2NocmllYiBQZXRlciBNYXlkZWxsOg0KDQo+IFdlIGN1
-cnJlbnRseSBsaXN0IHRoZSBlbXVsYXRvcnMgaW4gdGhlIFdpbmRvd3MgaW5zdGFsbGVyJ3Mg
-ZGlhbG9nDQo+IGluIGFuIGVzc2VudGlhbGx5IHJhbmRvbSBvcmRlciAoaXQncyB3aGF0ZXZl
-ciBnbG9iLmdsb2IoKSByZXR1cm5zDQo+IHRoZW0gdG8sIHdoaWNoIGlzIGZpbGVzeXN0ZW0t
-aW1wbGVtZW50YXRpb24tZGVwZW5kZW50KS4gQWRkIGENCj4gY2FsbCB0byBzb3J0ZWQoKSBz
-byB0aGV5IGFwcGVhciBpbiBhbHBoYWJldGljYWwgb3JkZXIuDQo+DQo+IFNpZ25lZC1vZmYt
-Ynk6IFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4NCj4gLS0tDQo+
-ICAgc2NyaXB0cy9uc2lzLnB5IHwgNCArKy0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5z
-ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL3NjcmlwdHMv
-bnNpcy5weSBiL3NjcmlwdHMvbnNpcy5weQ0KPiBpbmRleCA1MTM1YTA1ODMxNi4uMzgzYmVm
-NzAzMzIgMTAwNjQ0DQo+IC0tLSBhL3NjcmlwdHMvbnNpcy5weQ0KPiArKysgYi9zY3JpcHRz
-L25zaXMucHkNCj4gQEAgLTM0LDkgKzM0LDkgQEAgZGVmIG1haW4oKToNCj4gICAgICAgICAg
-IHdpdGggb3BlbigNCj4gICAgICAgICAgICAgICBvcy5wYXRoLmpvaW4oZGVzdGRpciArIGFy
-Z3MucHJlZml4LCAic3lzdGVtLWVtdWxhdGlvbnMubnNoIiksICJ3Ig0KPiAgICAgICAgICAg
-KSBhcyBuc2g6DQo+IC0gICAgICAgICAgICBmb3IgZXhlIGluIGdsb2IuZ2xvYigNCj4gKyAg
-ICAgICAgICAgIGZvciBleGUgaW4gc29ydGVkKGdsb2IuZ2xvYigNCj4gICAgICAgICAgICAg
-ICAgICAgb3MucGF0aC5qb2luKGRlc3RkaXIgKyBhcmdzLnByZWZpeCwgInFlbXUtc3lzdGVt
-LSouZXhlIikNCj4gLSAgICAgICAgICAgICk6DQo+ICsgICAgICAgICAgICApKToNCj4gICAg
-ICAgICAgICAgICAgICAgZXhlID0gb3MucGF0aC5iYXNlbmFtZShleGUpDQo+ICAgICAgICAg
-ICAgICAgICAgIGFyY2ggPSBleGVbMTI6LTRdDQo+ICAgICAgICAgICAgICAgICAgIG5zaC53
-cml0ZSgNCg0KDQpSZXZpZXdlZC1ieTogU3RlZmFuIFdlaWwgPHN3QHdlaWxuZXR6LmRlPg0K
-DQoNCg==
---------------vQDZGJctf0ci56JcSK0o1uYQ
-Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+Patch 6 updates mos6522 instances to use the recommended method of calling
+device_class_set_parent_reset() to propagate the device reset to the parent.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Patches 7 and 8 add more support for debugging guests using the mos6522 devices
+by adding register names into the trace-event output and implementing a new
+"info via" HMP command to give detailed information about the registers and timer
+states.
 
-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3D=3D
-=3DoVqG
------END PGP PUBLIC KEY BLOCK-----
+Patch 9 introduces a new last_irq_levels field within MOS6522State to enable detection
+of edge transitions, which is also a migration break for the q800 and g3beige/mac99
+machines.
 
---------------vQDZGJctf0ci56JcSK0o1uYQ--
+Patch 10 ensures that the SCSI_DATA (DRQ) bit in VIA2 is unlatched since in the q800
+machine VIA2 is integrated within the on-board logic, and analysis of the MacOS
+toolbox ROM suggests that the DRQ bit is expected to be live compared with older
+Macs which use a real (latched) VIA.
 
---------------GfE4FBdPZGOaYDxgYN6Ff3WY--
+Patches 11 implement edge-triggering for the CA1/2 and CB1/2 control lines as
+documented in the datasheet, including updating the relevant inputs for negative
+edge-triggering if required.
 
---------------EdfX00aFFPR0E0N6EZ3USLbP
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Finally patch 12 removes some old code in the PMU mos6522 instance which is now no
+longer required with these latest changes.
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmIjbpsFAwAAAAAACgkQ4Iwh1Wd0UK3q
-NxAAgwGD0bLWYWXHB7eqxKVLl5MlVcA6lhOXqVbjlt+r3Xr+7NZsqUhlXaciSM4R87KYmEHKyTwW
-wFd08V+Dln/r6QBeQqPBZnzf66hv9sm3uaBW+Oc+7cOBea4EFTvzdUYr5MLP4KlTuf9bDFzXtMyb
-bQXs6i00pqzIA+H4Xz2GOTYn89MbFtloLhApZg7fxphuGhHcE2ep8zSf06MlE3q2yVc1jeOYyimf
-XB3jZf6CJXSuqlARWABe/u87z3Vv9GXwkbvkIOPEg8N/Xkl2DK6bvmGiLMauF6SvBwyR/svypcG8
-o1QGAXkuTcRZ+teHKnBvoEyII7rXiItxIaLt0OL1y/xZ648tWqR/QjC/UdMcXpcUyw0mtdGRBEGH
-xFpDcIXZgsvYbREEKtQANIR8uhrVB/lDVIj/O55onaqY+3Qu5uLiiIpMXjVXNJ1yVrsS4WjhbbWw
-1FSVQIi01fhbV8CFf6tcaE+qf+um+160xKCZCTeNFEYzI6NbYnRgePwquoTVKP6LbSythEvFBLdN
-06dQ4iN5gwxhuDAL0h1h4ToYTVnE0TAPhcwS9G7UtZ2hPmbYdsfzOUqbvhSwD1KGUJ+rN7IDBvnN
-xjzBpfUlIYxyC3agZpJ5BlCg60xq4wrclAnPlll2eBcje3kfff73kYkEcCaaNB/Yizp23zG0V6J3
-5+o=
-=fAGC
------END PGP SIGNATURE-----
+v3:
+- Rebase onto master
+- Add R-B tags from Laurent
+- Introduce MOS6522_NUM_REGS in patch 7 as suggested by Phil
 
---------------EdfX00aFFPR0E0N6EZ3USLbP--
+v2:
+- Update patches 1-3 to use the BIT() macro
+- Add R-B tags from Peter
+- Update "info via" patch to use a target-specific HMP command as discussed on-list
+- Add patch 10 "mac_via: make SCSI_DATA (DRQ) bit live rather than latched"
+
+
+Mark Cave-Ayland (12):
+  mos6522: add defines for IFR bit flags
+  mac_via: use IFR bit flag constants for VIA1 IRQs
+  mac_via: use IFR bit flag constants for VIA2 IRQs
+  mos6522: switch over to use qdev gpios for IRQs
+  mos6522: remove update_irq() and set_sr_int() methods from
+    MOS6522DeviceClass
+  mos6522: use device_class_set_parent_reset() to propagate reset to
+    parent
+  mos6522: add register names to register read/write trace events
+  mos6522: add "info via" HMP command for debugging
+  mos6522: record last_irq_levels in mos6522_set_irq()
+  mac_via: make SCSI_DATA (DRQ) bit live rather than latched
+  mos6522: implement edge-triggering for CA1/2 and CB1/2 control line
+    IRQs
+  macio/pmu.c: remove redundant code
+
+ hmp-commands-info.hx         |  15 +++
+ hw/m68k/q800.c               |   9 +-
+ hw/misc/mac_via.c            |  87 ++++++--------
+ hw/misc/macio/cuda.c         |   8 +-
+ hw/misc/macio/pmu.c          |  40 +------
+ hw/misc/mos6522.c            | 226 ++++++++++++++++++++++++++++++++---
+ hw/misc/trace-events         |   4 +-
+ include/hw/misc/mac_via.h    |  46 ++++---
+ include/hw/misc/macio/pmu.h  |   2 -
+ include/hw/misc/mos6522.h    |  46 +++++--
+ include/monitor/hmp-target.h |   1 +
+ 11 files changed, 337 insertions(+), 147 deletions(-)
+
+-- 
+2.20.1
+
 
