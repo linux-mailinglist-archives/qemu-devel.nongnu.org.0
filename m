@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28424CE44F
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 11:59:21 +0100 (CET)
-Received: from localhost ([::1]:50284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B474CE451
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 11:59:23 +0100 (CET)
+Received: from localhost ([::1]:50434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQS88-00065o-MQ
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 05:59:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53862)
+	id 1nQS8A-0006BP-PL
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 05:59:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQS6e-00044P-Sn
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 05:57:48 -0500
-Received: from [2a00:1450:4864:20::431] (port=41740
- helo=mail-wr1-x431.google.com)
+ id 1nQS6f-00044c-T4
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 05:57:49 -0500
+Received: from [2a00:1450:4864:20::32d] (port=38746
+ helo=mail-wm1-x32d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQS6d-0002Qf-HX
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 05:57:48 -0500
-Received: by mail-wr1-x431.google.com with SMTP id i8so16143400wrr.8
+ id 1nQS6e-0002Qk-DA
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 05:57:49 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ m42-20020a05600c3b2a00b00382ab337e14so7362921wms.3
  for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 02:57:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9wtRAo/PrrlV5Bn1mFToRucomuxQO+/fw/ePLHNPTDg=;
- b=Vu9n0g1/QDVtu/lOsGTPfULn42L9DaUYBNVpK82c+A981JyRPa0dr+JxToslWsguoJ
- McdpFQ3Pdk5Xf0msM7EVv7+tNz0lu7MBo63k5P1Lz2EVh6HmYMXbrlA6yGiJe6JIKT7S
- 8nSaY50chBHrdI162YKbMCUeHOL7n0BxILOwoylQb8bqvvp5cKP4IoAWRhD5332MY2Kb
- q9o24lpUf2qaD5GmyJJJapb9TRDOFv7GFS8Z1RMqBwNA8PPjrBIy4VUbOZL0fEvhhsRB
- YnrkWXtu6pdIWStf7VCVuExSuK4uUlX3k5nG7dHDrdZgKDhOThwiMsqO0yFRFGCpbR14
- rGmA==
+ bh=7zONuSKHAqhLjp/GIujk3Eq5yTF2yfO0KL8UNCqj52k=;
+ b=Tzy9Nqwa89b3SM3iK5WHi6cu1QXOsLYr3/mikC9r8NsO2BwZr+/nurFoB++eHiIjHZ
+ eKz0BprdmzLe6sZtGQRVNKr47a/BVXpG3cjKZ7yJgI8rasCLy6ae5FlZguSu+/af1+Ry
+ NBPJBDlZgiOuM5a7x2mrjJXfyMWuy9xsX4s25sVf93v5jCTtnMyRdH22iSoK+MJdKjBl
+ IpPIlnujKyUkfQQ3MH6CNWEGqvK72xhkt4kFZWXfm41NMoNvMnh2gz+Lh3I432GnAN5k
+ W4gqHgN+O+PdyBOgcXjkjbUdQ+eVkWu6KFgglkTaqAEjiEuhXtWKMxElv9fQU7PoYbGp
+ gtYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9wtRAo/PrrlV5Bn1mFToRucomuxQO+/fw/ePLHNPTDg=;
- b=0b1GBzhuDSw29E5tI66W+tooNB1U7CZ3Kr0JRY/TyNw7UIaFKPElqsLjrKAfcfyFXh
- bW3w+zipofiDnQW0CEyQyTE2NhNkVapI4QUdjrKD7qh2x1sOliRmO3ymJASZhdsO9JHG
- AwROZ6HtJHVTyWzNhhzGO0MB1GwKdOw11hZdIu+iIglatfW/qN3Ci7r+FT5VqzB8AM5X
- BX8MSK2mlfwPoOcIyOTQfewQE3P58IznLdZd8wxvM2B34xdOfQxMBdQrI731ZJRsEqjx
- b/0yHmYfRFAbWorM1mpApkEJ9WMdEhhkbQ/pU1u+9ili57UjdYnSuTEky4ZJlBmY9ZEM
- 9aYw==
-X-Gm-Message-State: AOAM532MCvdAyV+oXFCl9jTFpf67PTTlYr6n0XWoaR+H+ve/cJxP+V1T
- m5t0nKo3pAdHVZcHxA+mSdNDglRub7Ux4A==
-X-Google-Smtp-Source: ABdhPJxy10tDYW1w0OHGeCIIbHTVuJqVOJRlQRxwsjrHfBiaDeWhs7CTP4vqA4NAP6YbihFv56tSzQ==
-X-Received: by 2002:a05:6000:1b8a:b0:1e4:b3a3:4c1f with SMTP id
- r10-20020a0560001b8a00b001e4b3a34c1fmr2143964wru.202.1646477866211; 
- Sat, 05 Mar 2022 02:57:46 -0800 (PST)
+ bh=7zONuSKHAqhLjp/GIujk3Eq5yTF2yfO0KL8UNCqj52k=;
+ b=bCbjLrwl/aKpeyl82v8CpMpGEpXqCe5z137/ps4cZwt6O55SI6I1bPuETEy3rnr3b2
+ wY6+fwNMg/qMGc5NT2QLN4rcpzPUfXgdRNCiwY0wusTx9CC6SFNZMYgmQNpK+6VTKhlU
+ PSgvDAxj+poqdkKfj2YpLEMr37EZMHdG3r2fwB6geqk2CgE7Xov9EUrNSSknxGK55mfR
+ H/ycMZ+w8lzQZojVfyBjWbOgIUJEEAoCr9+wlngc16+euwDttyhDA9DHbLLaP82ekNT5
+ nrYKHGJga02mP4EC32W7mrXblxFZ51I9VQXlgaXVoaEFKf240ldCUAPYOTjGfAvEtQYz
+ 9eMA==
+X-Gm-Message-State: AOAM531I5j6DlAbdq033iJ6KCzSDe5uuJxUFwejZm1QETzgXubhXL8W4
+ +G4J5mthG5mfWCHpQEVi5B1GNGx8GgqrGQ==
+X-Google-Smtp-Source: ABdhPJwWq5XlxDcVOWQBCYLxv8FO6iQIu1MSmXVaOyu95xCLAzr+fSVNkWQER8CDoVkF7U+0RO+aWQ==
+X-Received: by 2002:a05:600c:4e08:b0:381:9094:6b3c with SMTP id
+ b8-20020a05600c4e0800b0038190946b3cmr11167256wmq.103.1646477867008; 
+ Sat, 05 Mar 2022 02:57:47 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- b13-20020a05600c4e0d00b003816cb4892csm24079324wmq.0.2022.03.05.02.57.45
+ b13-20020a05600c4e0d00b003816cb4892csm24079324wmq.0.2022.03.05.02.57.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Mar 2022 02:57:45 -0800 (PST)
+ Sat, 05 Mar 2022 02:57:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] nsis installer: List emulators in alphabetical order
-Date: Sat,  5 Mar 2022 10:57:41 +0000
-Message-Id: <20220305105743.2384766-2-peter.maydell@linaro.org>
+Subject: [PATCH 2/3] nsis installer: Suppress "ANSI targets are deprecated"
+ warning
+Date: Sat,  5 Mar 2022 10:57:42 +0000
+Message-Id: <20220305105743.2384766-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220305105743.2384766-1-peter.maydell@linaro.org>
 References: <20220305105743.2384766-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,32 +95,36 @@ Cc: Stefan Weil <sw@weilnetz.de>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently list the emulators in the Windows installer's dialog
-in an essentially random order (it's whatever glob.glob() returns
-them to, which is filesystem-implementation-dependent). Add a
-call to sorted() so they appear in alphabetical order.
+When we build our Windows installer, it emits the warning:
+
+   warning 7998: ANSI targets are deprecated
+
+Fix this by making our installer a Unicode installer instead.  These
+won't work on Win95/98/ME, but we already do not support those.
+
+See
+https://nsis.sourceforge.io/Docs/Chapter4.html#aunicodetarget
+for the documentation of the Unicode directive.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- scripts/nsis.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ qemu.nsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/nsis.py b/scripts/nsis.py
-index 5135a058316..383bef70332 100644
---- a/scripts/nsis.py
-+++ b/scripts/nsis.py
-@@ -34,9 +34,9 @@ def main():
-         with open(
-             os.path.join(destdir + args.prefix, "system-emulations.nsh"), "w"
-         ) as nsh:
--            for exe in glob.glob(
-+            for exe in sorted(glob.glob(
-                 os.path.join(destdir + args.prefix, "qemu-system-*.exe")
--            ):
-+            )):
-                 exe = os.path.basename(exe)
-                 arch = exe[12:-4]
-                 nsh.write(
+diff --git a/qemu.nsi b/qemu.nsi
+index c3df8c9d3b0..a44d2be32a2 100644
+--- a/qemu.nsi
++++ b/qemu.nsi
+@@ -35,6 +35,9 @@
+ !define OUTFILE "qemu-setup.exe"
+ !endif
+ 
++; Build a unicode installer
++Unicode True
++
+ ; Use maximum compression.
+ SetCompressor /SOLID lzma
+ 
 -- 
 2.25.1
 
