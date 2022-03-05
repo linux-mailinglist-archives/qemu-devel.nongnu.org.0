@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E429D4CE16D
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 01:22:16 +0100 (CET)
-Received: from localhost ([::1]:59384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0274CE1BD
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 01:51:15 +0100 (CET)
+Received: from localhost ([::1]:36266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQIBb-0000W4-Up
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 19:22:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54694)
+	id 1nQIde-0007Dx-1d
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 19:51:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nQI9h-0007U9-9n
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 19:20:18 -0500
-Received: from [2607:f8b0:4864:20::436] (port=41950
- helo=mail-pf1-x436.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nQIbZ-00066L-Q0; Fri, 04 Mar 2022 19:49:05 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=40638
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nQI9f-0001Rp-9q
- for qemu-devel@nongnu.org; Fri, 04 Mar 2022 19:20:16 -0500
-Received: by mail-pf1-x436.google.com with SMTP id p8so8924945pfh.8
- for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 16:20:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nQIbX-0008Ux-Jb; Fri, 04 Mar 2022 19:49:04 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ mv5-20020a17090b198500b001bf2a039831so2579323pjb.5; 
+ Fri, 04 Mar 2022 16:49:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:from:subject:to:references
- :content-language:cc:in-reply-to:content-transfer-encoding;
- bh=Ej9RttFaIxGbJ7gPW+tPAaXPkUqlYR5/RO6I9zDDiQI=;
- b=KiTEJXJIUaLBnwVuXKr110KDhnOkqC9aR9xoQHfjdlxw3B3ZARJKdrBrIUsQ6W5D0s
- 4BLqXaJPvjN2s+Dispm9oCv0OJKjsy/+zqkfUr09P3lVlS/XbxTzlSk5EfqvONP9Vmg2
- pL3xrrbC6cjhzI8DegSdaUf82gTon6aujPlH+YrP25yT44tOPV97sG+/4laYV8wg8IIi
- uouoGpO7j1WhOTTXCZq7FLltlv92070JHbY9fnVGYjC83PXIs9/rzkZFeS8i/jUvjmuu
- 5G67YZBYgrgFRZIKiTG2CCVzVUPAJiHHwNa+0I+Q92wq6ijxtrNykoIBDlnAM1f+csOz
- Llpw==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=g2NEExCeK5GU8hez5cuCyGGVOd/BrQp9pumsNVQYpZc=;
+ b=BIAQtc54oxrH6Wo3FoDw2ln9oRnx0yUMyFFfFVrgRFYoSkitocKf0gTY01U8Sb9Gew
+ bqhv35qfPPPX8s9ghwlB/XKYdwVC4i11H3mT4zV0gnqCN8JmJdeYGctesGOgOcqlNu0d
+ YVMzOX6h1xe+P+7mBJUCmswp8+WZSZhHEUqDHpy9rC+U5t9Na4b3fDOjKy7cP2NID3h+
+ 1N0Vje+KYkFxgU+8gyunxUuN3mC2eDhyTMc2JY+xFhrQpFxCYdsX643ligZhV0W3nLQL
+ HPwpQe8bXn6xpkc0t+L1rg5+fRBK6INUCO8ugaa7RpR/13/yEs4p+ujIkL5+k7R+Kn/J
+ auNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:from
- :subject:to:references:content-language:cc:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Ej9RttFaIxGbJ7gPW+tPAaXPkUqlYR5/RO6I9zDDiQI=;
- b=I7+pURbBGRGBmZvZLwuLETvQBG1VJjyhkYT0infoP6gkVv5VxoX3pCDTeSG1U3KPFd
- uMfRi+BEcU0dk/2d38jpoQIpuJW1rLnuOXODruBU3w8SBFx/KFRYOLDg0aPENMmUQ8+L
- 6bRa5b2We7wi0gPf61fJsb0Ct2zKj3BuaBYRJPxajepSqIe+uDn1h2RpY4hFcsBGRA9O
- +/H8a8JWYGGoJWKJLJa5oEVRcQ0AwqyVLbAUVeAJ9nkzYXbEmZgjW3Vcngm0aLrq4AKR
- YWIxdxQ1f6RwulbGPtiJsPtTDnyorp/+u7y4BEiRplYfy5LZL+obdvCHuREhVHzA/BAg
- T7wQ==
-X-Gm-Message-State: AOAM533PFfzSUr6HCWIdzR0G3wQojk4v66UfODg4LdJAQFMEct0QZYr+
- HrFzvsj9TOf9jxg0PFkiYHU=
-X-Google-Smtp-Source: ABdhPJx8vftor53PqTE7CJr62EtdW1Y8/EBbqHIQH/p2829BnnWAuJStJpaWSpY0Su69+v/aROxC8g==
-X-Received: by 2002:a63:3802:0:b0:378:a563:78aa with SMTP id
- f2-20020a633802000000b00378a56378aamr749323pga.462.1646439607658; 
- Fri, 04 Mar 2022 16:20:07 -0800 (PST)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ bh=g2NEExCeK5GU8hez5cuCyGGVOd/BrQp9pumsNVQYpZc=;
+ b=mNLJ0jFRlCC5oRQrd7lBvWtphZjbQBNUd/DssUpRQ0DT84+daHKCsAlq4fx5MrzjYb
+ kLdckrYuLaEKHecJLHHPt1bZ7HIfiNBUEZMFHhvadlowJgkHbpQgRaKb9W+BwCIRrm5o
+ uplpuXHjZq5MY1ilg0+EIjuv7v/B94B4UEqpR+Z3xCgPjkPaK0aEFTwvQaMey77eYDVp
+ GbTYPILNZm4opu9+OQWaSIje/WnTF8ZPzUG9Q0c/7g9simp+05EZaPKA8PTDII4/0eTR
+ 4lpKPQo6FLpdPLZHmMYK0/RZQB6C+M+WB0iKY9fU2XnyLDJkGwf3od9oPQN82P5sRwHm
+ T84Q==
+X-Gm-Message-State: AOAM531jlx4MVeHJ1lktbWIBDc7UFTt0AELsvDyaec0ca0C6hqQKExbq
+ Dko5S+VqqYjs94WCtypuZnk=
+X-Google-Smtp-Source: ABdhPJzuBkDcy8e1iSExTZKWlESrZmgPc33ZGG+JmihZWHXfmEikuQfqmmyRpUDXbznELZAcZIJr+A==
+X-Received: by 2002:a17:902:bc89:b0:151:accf:afad with SMTP id
+ bb9-20020a170902bc8900b00151accfafadmr1051259plb.169.1646441341633; 
+ Fri, 04 Mar 2022 16:49:01 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- d5-20020a056a0010c500b004e1b283a072sm7223227pfu.76.2022.03.04.16.20.06
+ q13-20020a056a00088d00b004e1bea9c582sm7232251pfj.43.2022.03.04.16.48.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 16:20:07 -0800 (PST)
-Message-ID: <1b6a9b0c-30d2-55b9-bb25-2c41e16669dc@gmail.com>
-Date: Sat, 5 Mar 2022 09:20:05 +0900
+ Fri, 04 Mar 2022 16:49:01 -0800 (PST)
+Message-ID: <921b5f06-75f3-2500-68cb-f091761eeb72@gmail.com>
+Date: Sat, 5 Mar 2022 01:48:57 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: MacOS cocoa/OpenGL
-To: R Kim <pileonline@protonmail.com>
-References: <0P0iiNxVKqFOXz4LwSKg6b3UyehJMQubj3tBB6BzotYiRSOuZv2b45aE9c6Ese7sKSFmXttUsRg0mm_EdwC_uHQavZr7EgnL1nuTYyxG0ik=@protonmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH v2 5/9] meson.build: Don't misdetect posix_memalign() on
+ Windows
 Content-Language: en-US
-In-Reply-To: <0P0iiNxVKqFOXz4LwSKg6b3UyehJMQubj3tBB6BzotYiRSOuZv2b45aE9c6Ese7sKSFmXttUsRg0mm_EdwC_uHQavZr7EgnL1nuTYyxG0ik=@protonmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20220304112126.2261039-1-peter.maydell@linaro.org>
+ <20220304112126.2261039-6-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220304112126.2261039-6-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,99 +94,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, KJ Liew <liewkj@yahoo.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/03/05 0:34, R Kim wrote:
-> Hello Guys,
+On 4/3/22 12:21, Peter Maydell wrote:
+> Currently we incorrectly think that posix_memalign() exists on
+> Windows.  This is because of a combination of:
 > 
-> Looks like we haven't yet official support for OpenGL on MacOS? I need 
-> to apply third-party patches to make it work. It would be great if these 
-> parts are imported to qemu and be official. Nowaways, it's really needed 
-> Acceleration on VMs for who uses Graphical interfaces browsing, eg, chrome.
+>   * the msys2/mingw toolchain/libc claim to have a
+>     __builtin_posix_memalign when there isn't a builtin of that name
+>   * meson will assume that if you have a __builtin_foo that
+>     counts for has_function('foo')
 > 
+> Specifying a specific include file via prefix: causes meson to not
+> treat builtins as sufficient and actually look for the function
+> itself; see this meson pull request which added that as the official
+> way to get the right answer:
+>    https://github.com/mesonbuild/meson/pull/1150
+
+Interesting, TIL.
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> Currently this misdectection doesn't cause problems because we only
+> use CONFIG_POSIX_MEMALIGN in oslib-posix.c; however that will change
+> in a following commit.
 > 
-> I have found it:
-> https://mail.gnu.org/archive/html/qemu-devel/2021-02/msg04235.html 
-> <https://mail.gnu.org/archive/html/qemu-devel/2021-02/msg04235.html>
-> 
-> It uses Angle from Google and the developer seems to be creating you own 
-> branch, with a lot of patches in 
-> https://github.com/akihikodaki/qemu/tree/macos 
-> <https://github.com/akihikodaki/qemu/tree/macos>
-> 
-> Another it this one, did small changes, but uses SDL instead of cocoa:
-> Based on initial work "Virgil 3D on macOS" by 小田喜陽彦 akihikodaki. 
-> https://mail.gnu.org/archive/html/qem...  > 
-<https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqa3FxTDVuaWhiSFZkWWRkbHZkeTRTckc0bTJIQXxBQ3Jtc0trY3kza3JQT1dPS09vWmhCZktYSTRuWUdJMzB5MGdmV01DYUN4UGpOVTFWS3RwLUNZVGw5MzE3Zzg3WXZLNlJqNVNFZkM5QUZwRUN3UnJfOU5kVWxQaUJLdGo4N0IxVXd3X3pIb1lQUThMcmpJVktfWQ&q=https%3A%2F%2Fmail.gnu.org%2Farchive%2Fhtml%2Fqemu-devel%2F2021-02%2Fmsg04235.html>With 
-
-> improvements: - Get rid of ANGLE as EGL libraries. Virgil 3D solely uses 
-> OpenGL Core backend through SDL2 which wraps to NSOpenGL. - No patch to 
-> "cocoa" display of QEMU. Minimal modification to SDL2 display to support 
-> Virgil 3D on macOS. QEMU cannot have both "cocoa" and "sdl2" display in 
-> the same build. - Minimal change to libepoxy and virglrenderer, 
-> basically only have to make sure they built without libdrm and libEGL. - 
-> Fix known issues with OpenGL Core - Performance comparable to ANGLE 
-> OpenGL ES backend. WebGL Aquarium at 60 FPS. Chromium web rendering is 
-> accelerated. The accelerated ArchLinux ARM is very snappy & usable with 
-> Apple HVF virtualization. It matches or even exceeds the performance of 
-> typical ARM Linux flavors running on RK3399 or RPi4 bare-metal. It 
-> probably makes M1 MacBooks the world fastest (... most expensive) Linux 
-> ARM laptops. Nested VM is possible, and there is a demo of qemu-3dfx 
-> Glide passthrough from nested QEMU i386 instance running Blood 1.2 3Dfx 
-> DOS game.
-> 
-> https://www.youtube.com/watch?v=FVv8UjGhYPU 
-> <https://www.youtube.com/watch?v=FVv8UjGhYPU>
-> 
-> 
-> What should we do to have this changes in?
-> 
-> Sent with ProtonMail <https://protonmail.com/> Secure Email.
-
-Hi,
-
-I'm adding KJ Liew, the author of the implementation with Apple's OpenGL 
-and sdl2, to Cc. I found the email address at:
-https://github.com/kjliew/qemu-3dfx/commit/e01af020580afe172237dfeb471643aa0b6ea60b
-
-https://github.com/akihikodaki/qemu/tree/macos is my tree. My aim is to 
-have a decent Linux desktop experience, and it has changes irrelevant 
-with graphics acceleration. The patches I thought ready for submission 
-are submitted to the mailing list, but the patch to support Virgil 3D is 
-not because the dependent change for libepoxy is somewhat stuck:
-https://github.com/anholt/libepoxy/pull/239
-
-It also contains patches posted on the mailing list I am reviewing and 
-testing.
-
-I choose cocoa instead of sdl2 to implement Cocoa-specific code like 
-HiDPI support and cursor composition.
-
-I decided to use ANGLE because the OpenGL implementation by Apple is 
-deprecated and possible bugs in the implementation would not be 
-(promptly) fixed. Such bugs may require workarounds in virglrenderer, 
-but they are not really great for submitting to the upstream.
-
-Those does not mean, however, it is not appropriate to the other 
-implementation you mentioned, which uses Apple's OpenGL with sdl2. It is 
-reasonable to choose sdl2 if you don't need features provided by (my 
-modified) cocoa. The deprecation of Apple's OpenGL may not matter much 
-since there are many other programs which still rely on it. ANGLE is 
-also one of them although it is switching to Metal with Apple's help:
-https://bugs.chromium.org/p/angleproject/issues/detail?id=5505
-
-The best option to get the patches for Apple OpenGL/sdl2 in is to ask 
-the author for that. However, the author may not be willing to spend or 
-cannot afford necessary efforts. In that case, you still need to ask the 
-author if it is fine to add Signed-off-by line for the patches. The 
-implication of the line is described at:
-https://www.qemu.org/docs/master/devel/submitting-a-patch.html#patch-emails-must-include-a-signed-off-by-line
-
-If you are going to submit patches, please add me to Cc. I'll review and 
-propose necessary changes.
-
-Regards,
-Akihiko Odaki
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-id: 20220226180723.1706285-6-peter.maydell@linaro.org
+> ---
+>   meson.build | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 
