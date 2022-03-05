@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67A54CE163
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 01:18:03 +0100 (CET)
-Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACEFD4CE166
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 01:20:23 +0100 (CET)
+Received: from localhost ([::1]:56256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQI7W-0004sA-Nt
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 19:18:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54206)
+	id 1nQI9m-0006kB-G9
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 19:20:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQI6f-0003zo-RN; Fri, 04 Mar 2022 19:17:09 -0500
-Received: from [2607:f8b0:4864:20::635] (port=33622
- helo=mail-pl1-x635.google.com)
+ id 1nQI8H-0005jU-5Q
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 19:18:49 -0500
+Received: from [2607:f8b0:4864:20::535] (port=39630
+ helo=mail-pg1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQI6e-0006A4-53; Fri, 04 Mar 2022 19:17:09 -0500
-Received: by mail-pl1-x635.google.com with SMTP id m2so3159439pll.0;
- Fri, 04 Mar 2022 16:17:07 -0800 (PST)
+ id 1nQI8F-0006a7-Jw
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 19:18:48 -0500
+Received: by mail-pg1-x535.google.com with SMTP id 195so8791635pgc.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 16:18:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/+LBsr+R8aZv4TEpfYVzSgOSHkJOKaDP2KR3gMyfG8c=;
- b=qP3uEoRzHacmu0jvmy0WivbwforaxjN7oD0Iq1WiycXPis2GxdGtVLBYug4YcphiCx
- 9REefjcMPytRW2xIAmDmopOzpbWYZIHZXpU6gEH059H1EFzCAjj45ZQqappqRSLEQVG5
- E7yN1bWCc5Cnuq3bsaho8fj65t0WkSfOu2z+unzn3a+/d6tE4HmmYYKfKCp/8Fwaryfa
- TmT30qjR6lEMUXa4P1M0w+3V5S63QrvsFdPfIvFW9EppWjacuDt0hXMNi8Nm/t8JiAKd
- TS7Cg6ANDnLnSpzRWdJECba9yFRfLhrA7hVbxixmeu6vLGUJ5NiQZzkeZmwbsgBz3eE6
- QJrw==
+ :references:cc:from:in-reply-to:content-transfer-encoding;
+ bh=p8BD7qnJVzyyy685ob7KbC0oNpjbNSJsED9T5ntBgnA=;
+ b=OL1jRcxBpEpaNr2rJLk+9h5sf72GfhwgtKRaRd6xgus8ZySyUqfLPN9lkQHs8yBaoU
+ Z1eDIscBftAsBQytLHIqJToH3BBLOirmwQ2/yWPzFRS5W+0+XYOJ8Xc30QMVgYlmJ+Xs
+ 82nxgwUewUpXwnic3SKcic6FJkrp+bcrm9QwCdTj2+TGDIKnMCwV5KDwB8yvl9z3glR8
+ /CZy4b7trASt8DPfccmysYeqa1U0SqsMbx8pm1jxreSrqGiKH5cRBo0PhdfVXRnFFrfe
+ WQLFnnnpa6eIJhkpLTMOZZLZBQazeZ+4uTYFfMKo531JDVX4od5WIKLs1+gC0OtNv5xX
+ d+tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:cc:from:in-reply-to
  :content-transfer-encoding;
- bh=/+LBsr+R8aZv4TEpfYVzSgOSHkJOKaDP2KR3gMyfG8c=;
- b=dbZCyiYKU/6tuuQlJlU553agfDLsGyx5e4AW6Jvxa1YM4F+MUkAYmwfPszTlqJAIzL
- hEYIPAYvz+PmUuBKfrXrn/tWwxtFiiwJAwwJ4e1mQnRADTSmVG4K+HFmqKGzN+Rje3Sy
- Z+MtiBUCpWo0djuVX2BEqI9yeatPOr+jgylTifUrc3KrRz7IJVBnb+IKVBR+U0/ojGFl
- M4W0SavTP1qmnA5p9ck8XoDBZw4PFbY0TZruXv81b6dkJb/AjReTubjWk+00bohYMTOI
- xwdAIvzFFCysN/Ak7mzzJ0z5ziVUNtShoeUT8dbMmtObDO6zBnHHNmvdQiYPZOZmqZX5
- 2fNA==
-X-Gm-Message-State: AOAM532dpqX8Eup7VfH72T3XFcPAVeDTUsMtxGmN78/ZP7M3Ah0vNmj7
- ORMB3pqKiHHtAXoun+KhiUA=
-X-Google-Smtp-Source: ABdhPJz3ez7nEh1yo3ZkPdqoPQu/bzNd37Y6hzW34oMkdHOyULMt/XmTh7wu9UhE7j7RPu/2Xz9Ftw==
-X-Received: by 2002:a17:90b:1193:b0:1bc:1b5a:84e4 with SMTP id
- gk19-20020a17090b119300b001bc1b5a84e4mr13425326pjb.113.1646439426295; 
- Fri, 04 Mar 2022 16:17:06 -0800 (PST)
+ bh=p8BD7qnJVzyyy685ob7KbC0oNpjbNSJsED9T5ntBgnA=;
+ b=xWw4aOAEnYtKl4Js8V3FYa8mAFKUfq9abG7NGNbXDAaPuC4Udj/1x5B3WEnSyVtOLS
+ jZUmWUsuYcFkcW73YXyzLf4JwDy1r4flq017NhNSM+6KCtRoNIYySNfsvNwxzO07SQwe
+ ZUM2Uxq5V/OCc9e6tlUAvo/pBtxgdSaOf3DDTMKjOt7+8vypv5XofqiXVQchV6yQemfe
+ wRUdCduhgFnu/TMPqILi+FBfkczEzTDsKwdVJAUfWBpnpbhmv4KJjeHxai+/guzCamL1
+ 5or/FmdVPyO67o8ADjmEqSRvnj8ew0gUdXGFNFMYrfVFs3ipMLuJlEP0ansb7DIGu0kU
+ CL4Q==
+X-Gm-Message-State: AOAM531SIRIW9PLJY2hm6WSd7bsaJ1e2rOiNGX7UyFdKRtRooE69PB7i
+ xRO9lhCYOZtfF/wvZzq7XdY=
+X-Google-Smtp-Source: ABdhPJxpjUzQkHCAEfKDMjV3Vzv4HyHDA25TeZUfb4tMlg2T5Kv2XDzQk/zeNGUB4WKf3J8Dngh3fw==
+X-Received: by 2002:a63:89c6:0:b0:37d:7ff8:6c0 with SMTP id
+ v189-20020a6389c6000000b0037d7ff806c0mr751662pgd.196.1646439526174; 
+ Fri, 04 Mar 2022 16:18:46 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- s42-20020a056a0017aa00b004df8133df4asm7243463pfg.179.2022.03.04.16.17.03
+ bh11-20020a056a00308b00b004f40144cf76sm6304908pfb.142.2022.03.04.16.18.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 16:17:05 -0800 (PST)
-Message-ID: <1a2a23d4-b00f-24f5-aec2-f60a02ef36b6@gmail.com>
-Date: Sat, 5 Mar 2022 01:17:01 +0100
+ Fri, 04 Mar 2022 16:18:45 -0800 (PST)
+Message-ID: <b54bb834-84e9-6342-ecac-643cbd11549b@gmail.com>
+Date: Sat, 5 Mar 2022 01:18:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v3 7/9] hw/sensor: add Intersil ISL69260 device model
+Subject: Re: [PATCH v2] qemu-binfmt-conf.sh: allow elf EI_ABIVERSION=1 for mips
 Content-Language: en-US
-To: Titus Rwantare <titusr@google.com>, Corey Minyard <minyard@acm.org>
-References: <20220302015053.1984165-1-titusr@google.com>
- <20220302015053.1984165-8-titusr@google.com>
+To: =?UTF-8?Q?Andreas_K=2e_H=c3=bcttel?= <dilfridge@gentoo.org>,
+ qemu-devel@nongnu.org
+References: <20220303101750.55833-1-dilfridge@gentoo.org>
+ <20220305000624.1498181-1-dilfridge@gentoo.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220302015053.1984165-8-titusr@google.com>
+In-Reply-To: <20220305000624.1498181-1-dilfridge@gentoo.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,161 +95,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, venture@google.com, qemu-devel@nongnu.org,
- f4bug@amsat.org, wuhaotsh@google.com, qemu-arm@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/22 02:50, Titus Rwantare wrote:
-> Signed-off-by: Titus Rwantare <titusr@google.com>
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Cc'ing Laurent:
+
+$ ./scripts/get_maintainer.pl -f scripts/qemu-binfmt-conf.sh
+Laurent Vivier <laurent@vivier.eu> (maintainer:Linux user)
+qemu-devel@nongnu.org (open list:All patches CC here)
+
+On 5/3/22 01:06, Andreas K. Hüttel wrote:
+> With the command line flag -mplt and a recent toolchain, ELF binaries
+> generated by gcc can obtain EI_ABIVERSION=1, see below, which makes, e.g.,
+> gcc three-stage bootstrap in a mips-unknown-linux-gnu qemu-user chroot
+> fail since the binfmt-misc magic does not match anymore.
+> 
+> qemu executes these binaries just fine, so relax the mask slightly.
+> 
+> CHOST=mips-unknown-linux-gnu (and also mipsel-unknown-linux-gnu)
+> CFLAGS="-O2 -march=mips32 -mabi=32 -mplt -pipe"
+> gcc-11.2, binutils-2.37, glibc-2.34
+> 
+> |  /*
+> | - * ELF dump of './prev-gcc/build/gengenrtl'
+> | - *     29608 (0x73A8) bytes
+> | + * ELF dump of './gcc/build/gengenrtl'
+> | + *     54532 (0xD504) bytes
+> |   */
+> |
+> |  Elf32_Dyn dumpedelf_dyn_0[];
+> |  struct {
+> |         Elf32_Ehdr ehdr;
+> |         Elf32_Phdr phdrs[12];
+> | -       Elf32_Shdr shdrs[33];
+> | +       Elf32_Shdr shdrs[44];
+> |         Elf32_Dyn *dyns;
+> |  } dumpedelf_0 = {
+> |
+> |  .ehdr = {
+> |         .e_ident = { /* (EI_NIDENT bytes) */
+> |                 /* [0] EI_MAG:        */ 0x7F,'E','L','F',
+> |                 /* [4] EI_CLASS:      */ 1 , /* (ELFCLASS32) */
+> |                 /* [5] EI_DATA:       */ 2 , /* (ELFDATA2MSB) */
+> |                 /* [6] EI_VERSION:    */ 1 , /* (EV_CURRENT) */
+> |                 /* [7] EI_OSABI:      */ 0 , /* (ELFOSABI_NONE) */
+> | -               /* [8] EI_ABIVERSION: */ 0 ,
+> | +               /* [8] EI_ABIVERSION: */ 1 ,
+> |                 /* [9-15] EI_PAD:     */ 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+> |         },
+> |         .e_type      = 2          , /* (ET_EXEC) */
+> |         .e_machine   = 8          , /* (EM_MIPS) */
+> |         .e_version   = 1          , /* (EV_CURRENT) */
+> | (...)
+> 
+> Signed-off-by: Andreas K. Hüttel <dilfridge@gentoo.org>
 > ---
->   MAINTAINERS                      |   3 +
->   hw/arm/Kconfig                   |   1 +
->   hw/sensor/Kconfig                |   5 +
->   hw/sensor/isl_pmbus_vr.c         | 211 +++++++++++++++++
->   hw/sensor/meson.build            |   1 +
->   include/hw/sensor/isl_pmbus_vr.h |  50 ++++
->   tests/qtest/isl_pmbus_vr-test.c  | 394 +++++++++++++++++++++++++++++++
->   tests/qtest/meson.build          |   1 +
->   8 files changed, 666 insertions(+)
->   create mode 100644 hw/sensor/isl_pmbus_vr.c
->   create mode 100644 include/hw/sensor/isl_pmbus_vr.h
->   create mode 100644 tests/qtest/isl_pmbus_vr-test.c
+> 
+> v2: Add the same fix for little endian as for big endian
+> 
+>   scripts/qemu-binfmt-conf.sh | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+> index e9bfeb94d3..fc2f856800 100755
+> --- a/scripts/qemu-binfmt-conf.sh
+> +++ b/scripts/qemu-binfmt-conf.sh
+> @@ -61,11 +61,11 @@ m68k_family=m68k
+>   # FIXME: We could use the other endianness on a MIPS host.
+>   
+>   mips_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
+> -mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+> +mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xfe\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+>   mips_family=mips
+>   
+>   mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
+> -mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+> +mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xfe\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+>   mipsel_family=mips
+>   
+>   mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
 
-> diff --git a/hw/sensor/Kconfig b/hw/sensor/Kconfig
-> index 215944decc..a834d2f814 100644
-> --- a/hw/sensor/Kconfig
-> +++ b/hw/sensor/Kconfig
-> @@ -30,3 +30,8 @@ config LSM303DLHC_MAG
->       bool
->       depends on I2C
->       default y if I2C_DEVICES
-> +
-> +config ISL_PMBUS_VR
-> +    bool
-> +    depends on I2C
-
-There is a PMBUS kconfig selector (which selects SMBUS -> I2C).
-
-> +
-> diff --git a/hw/sensor/isl_pmbus_vr.c b/hw/sensor/isl_pmbus_vr.c
-> new file mode 100644
-> index 0000000000..b3d24e40ab
-> --- /dev/null
-> +++ b/hw/sensor/isl_pmbus_vr.c
-> @@ -0,0 +1,211 @@
-> +/*
-> + * PMBus device for Renesas Digital Multiphase Voltage Regulators
-> + *
-> + * Copyright 2021 Google LLC
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/sensor/isl_pmbus_vr.h"
-> +#include "hw/qdev-properties.h"
-> +#include "qapi/visitor.h"
-> +#include "qemu/log.h"
-> +#include "qemu/module.h"
-> +
-> +static uint8_t isl_pmbus_vr_read_byte(PMBusDevice *pmdev)
-> +{
-> +    qemu_log_mask(LOG_GUEST_ERROR,
-> +                  "%s: reading from unsupported register: 0x%02x\n",
-> +                  __func__, pmdev->code);
-> +    return 0xFF;
-
-Eventually PMBUS_ERROR_BYTE.
-
-> +}
-> +
-> +static int isl_pmbus_vr_write_data(PMBusDevice *pmdev, const uint8_t *buf,
-> +                              uint8_t len)
-
-Mis-aligned.
-
-> +{
-> +    qemu_log_mask(LOG_GUEST_ERROR,
-> +                  "%s: write to unsupported register: 0x%02x\n",
-> +                  __func__, pmdev->code);
-> +    return 0xFF;
-> +}
-
-> +static void raa22xx_init(Object *obj)
-> +{
-> +    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-> +    uint64_t flags[2];
-> +
-> +    flags[0] = PB_HAS_VIN | PB_HAS_VOUT | PB_HAS_VOUT_MODE |
-> +               PB_HAS_VOUT_RATING | PB_HAS_VOUT_MARGIN | PB_HAS_IIN |
-> +               PB_HAS_IOUT | PB_HAS_PIN | PB_HAS_POUT | PB_HAS_TEMPERATURE |
-> +               PB_HAS_TEMP2 | PB_HAS_TEMP3 | PB_HAS_STATUS_MFR_SPECIFIC;
-> +    flags[1] = PB_HAS_IIN | PB_HAS_PIN | PB_HAS_TEMPERATURE | PB_HAS_TEMP3 |
-> +               PB_HAS_VOUT | PB_HAS_VOUT_MODE | PB_HAS_VOUT_MARGIN |
-> +               PB_HAS_VOUT_RATING | PB_HAS_IOUT | PB_HAS_POUT |
-> +               PB_HAS_STATUS_MFR_SPECIFIC;
-> +
-> +    pmbus_page_config(pmdev, 0, flags[0]);
-> +    pmbus_page_config(pmdev, 1, flags[1]);
-> +    isl_pmbus_vr_add_props(obj, flags, 2);
-
-Eventually 2 -> ARRAY_SIZE(flags).
-
-> +++ b/include/hw/sensor/isl_pmbus_vr.h
-> @@ -0,0 +1,50 @@
-> +/*
-> + * PMBus device for Renesas Digital Multiphase Voltage Regulators
-> + *
-> + * Copyright 2022 Google LLC
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#ifndef HW_MISC_ISL_PMBUS_VR_H
-> +#define HW_MISC_ISL_PMBUS_VR_H
-> +
-> +#include "hw/i2c/pmbus_device.h"
-> +#include "qom/object.h"
-> +
-> +#define TYPE_ISL69260   "isl69260"
-> +
-> +struct ISLState {
-> +    PMBusDevice parent;
-> +};
-> +
-> +OBJECT_DECLARE_SIMPLE_TYPE(ISLState, ISL69260)
-> +
-> +#define ISL_CAPABILITY_DEFAULT                 0x40
-> +#define ISL_OPERATION_DEFAULT                  0x80
-> +#define ISL_ON_OFF_CONFIG_DEFAULT              0x16
-> +#define ISL_VOUT_MODE_DEFAULT                  0x40
-> +#define ISL_VOUT_COMMAND_DEFAULT               0x0384
-> +#define ISL_VOUT_MAX_DEFAULT                   0x08FC
-> +#define ISL_VOUT_MARGIN_HIGH_DEFAULT           0x0640
-> +#define ISL_VOUT_MARGIN_LOW_DEFAULT            0xFA
-> +#define ISL_VOUT_TRANSITION_RATE_DEFAULT       0x64
-> +#define ISL_VOUT_OV_FAULT_LIMIT_DEFAULT        0x076C
-> +#define ISL_OT_FAULT_LIMIT_DEFAULT             0x7D
-> +#define ISL_OT_WARN_LIMIT_DEFAULT              0x07D0
-> +#define ISL_VIN_OV_WARN_LIMIT_DEFAULT          0x36B0
-> +#define ISL_VIN_UV_WARN_LIMIT_DEFAULT          0x1F40
-> +#define ISL_IIN_OC_FAULT_LIMIT_DEFAULT         0x32
-> +#define ISL_TON_DELAY_DEFAULT                  0x14
-> +#define ISL_TON_RISE_DEFAULT                   0x01F4
-> +#define ISL_TOFF_FALL_DEFAULT                  0x01F4
-> +#define ISL_REVISION_DEFAULT                   0x33
-> +#define ISL_READ_VOUT_DEFAULT                  1000
-> +#define ISL_READ_IOUT_DEFAULT                  40
-> +#define ISL_READ_POUT_DEFAULT                  4
-> +#define ISL_READ_TEMP_DEFAULT                  25
-> +#define ISL_READ_VIN_DEFAULT                   1100
-> +#define ISL_READ_IIN_DEFAULT                   40
-> +#define ISL_READ_PIN_DEFAULT                   4
-
-Hmmm we need to expose the DEFAULT definitions for the tests. OK.
-
-Changing Kconfig:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
