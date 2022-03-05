@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F3E4CE5A4
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 16:57:13 +0100 (CET)
-Received: from localhost ([::1]:52632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774944CE5A5
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 16:57:20 +0100 (CET)
+Received: from localhost ([::1]:53284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQWmO-0005ag-1s
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 10:57:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43768)
+	id 1nQWmV-00061B-83
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 10:57:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQWl4-0003TO-1Z
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:55:50 -0500
-Received: from [2001:41c9:1:41f::167] (port=59228
+ id 1nQWl7-0003XZ-Dz
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:55:53 -0500
+Received: from [2001:41c9:1:41f::167] (port=59238
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQWl2-0003fP-4M
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:55:49 -0500
+ id 1nQWl5-0003fu-UN
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:55:53 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQWkG-0008cY-RI; Sat, 05 Mar 2022 15:55:05 +0000
+ id 1nQWkL-0008cY-3v; Sat, 05 Mar 2022 15:55:08 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu, pbonzini@redhat.com, fam@euphon.net,
  qemu-devel@nongnu.org
-Date: Sat,  5 Mar 2022 15:55:20 +0000
-Message-Id: <20220305155530.9265-1-mark.cave-ayland@ilande.co.uk>
+Date: Sat,  5 Mar 2022 15:55:21 +0000
+Message-Id: <20220305155530.9265-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220305155530.9265-1-mark.cave-ayland@ilande.co.uk>
+References: <20220305155530.9265-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 00/10] q800: migration fixes
+Subject: [PATCH v3 01/10] macfb: add VMStateDescription for MacfbNubusState
+ and MacfbSysBusState
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -65,59 +67,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset contains fixes for the macfb and esp devices which enable
-migration of the q800 machine to succeed here in local testing.
+Currently when QEMU tries to migrate the macfb framebuffer it crashes randomly
+because the opaque provided by the DeviceClass vmsd property for both devices
+is set to MacfbState rather than MacfbNubusState or MacfbSysBusState as
+appropriate.
 
-Patches 1-5 contain fixes and improvements for migrating the macfb device
-whilst patches 6-9 change the ESPState pdma_cb field from being a
-function pointer to an integer index that can be included in the migration
-stream.
-
-Finally patch 10 ensures that any in-flight SCSI requests active during
-migration are resumed correctly post-migration. This is required because
-PDMA requires the guest to read/write DMA data and hence an active
-SCSI request cannot run to completion before migration starts.
-
-NOTE: this patchset is based upon my previous mos6522 patchset posted at
-https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg01641.html.
+Resolve the issue by adding new VMStateDescriptions for MacfbNubusState and
+MacfbSysBusState which embed the existing vmstate_macfb VMStateDescription
+within them using VMSTATE_STRUCT.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Based-on: <20220305150957.5053-1-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/display/macfb.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
-v3:
-- Add R-B tags from Peter
-- Add paragraph to commit messages in patches 3 and 4 indicating why we don't
-  care about the migration break
-- Add comment in patch 9 explaining the logic around esp_pdma_is_needed()
-- Add R-B tags from Laurent
-
-v2:
-- Rebase onto master
-- Add R-B tags from Phil
-- Update patch 8 to use an unsigned type for pdma_cb along with an enum
-- Squash fixes into patch 3 (missing default in switch)
-
-
-Mark Cave-Ayland (10):
-  macfb: add VMStateDescription for MacfbNubusState and MacfbSysBusState
-  macfb: don't use special irq_state and irq_mask variables in
-    MacfbState
-  macfb: increase number of registers saved in MacfbState
-  macfb: add VMStateDescription fields for display type and VBL timer
-  macfb: set initial value of mode control registers in
-    macfb_common_realize()
-  esp: introduce esp_set_pdma_cb() function
-  esp: introduce esp_pdma_cb() function
-  esp: convert ESPState pdma_cb from a function pointer to an integer
-  esp: include the current PDMA callback in the migration stream
-  esp: recreate ESPState current_req after migration
-
- hw/display/macfb.c         | 57 ++++++++++++++++++++-----
- hw/scsi/esp.c              | 87 ++++++++++++++++++++++++++++++++++----
- include/hw/display/macfb.h |  5 +--
- include/hw/scsi/esp.h      | 11 ++++-
- 4 files changed, 137 insertions(+), 23 deletions(-)
-
+diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+index c9b468c10e..66ceacf1ae 100644
+--- a/hw/display/macfb.c
++++ b/hw/display/macfb.c
+@@ -746,6 +746,16 @@ static Property macfb_sysbus_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static const VMStateDescription vmstate_macfb_sysbus = {
++    .name = "macfb-sysbus",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT(macfb, MacfbSysBusState, 1, vmstate_macfb, MacfbState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static Property macfb_nubus_properties[] = {
+     DEFINE_PROP_UINT32("width", MacfbNubusState, macfb.width, 640),
+     DEFINE_PROP_UINT32("height", MacfbNubusState, macfb.height, 480),
+@@ -755,6 +765,16 @@ static Property macfb_nubus_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++static const VMStateDescription vmstate_macfb_nubus = {
++    .name = "macfb-nubus",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT(macfb, MacfbNubusState, 1, vmstate_macfb, MacfbState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static void macfb_sysbus_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -762,7 +782,7 @@ static void macfb_sysbus_class_init(ObjectClass *klass, void *data)
+     dc->realize = macfb_sysbus_realize;
+     dc->desc = "SysBus Macintosh framebuffer";
+     dc->reset = macfb_sysbus_reset;
+-    dc->vmsd = &vmstate_macfb;
++    dc->vmsd = &vmstate_macfb_sysbus;
+     device_class_set_props(dc, macfb_sysbus_properties);
+ }
+ 
+@@ -777,7 +797,7 @@ static void macfb_nubus_class_init(ObjectClass *klass, void *data)
+                                       &ndc->parent_unrealize);
+     dc->desc = "Nubus Macintosh framebuffer";
+     dc->reset = macfb_nubus_reset;
+-    dc->vmsd = &vmstate_macfb;
++    dc->vmsd = &vmstate_macfb_nubus;
+     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+     device_class_set_props(dc, macfb_nubus_properties);
+ }
 -- 
 2.20.1
 
