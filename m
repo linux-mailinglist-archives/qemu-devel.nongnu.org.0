@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBCF4CE46C
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 12:12:29 +0100 (CET)
-Received: from localhost ([::1]:54784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A624CE46F
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 12:13:29 +0100 (CET)
+Received: from localhost ([::1]:56930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQSKq-0003Yg-Rp
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 06:12:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54838)
+	id 1nQSLo-0004zn-M5
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 06:13:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nQS9X-0001eW-Tk; Sat, 05 Mar 2022 06:00:47 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7922)
+ id 1nQS9Y-0001fJ-6r; Sat, 05 Mar 2022 06:00:48 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61668
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nQS9V-00031i-KW; Sat, 05 Mar 2022 06:00:47 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2259ktrJ009885; 
+ id 1nQS9W-00032H-5r; Sat, 05 Mar 2022 06:00:47 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2259HnNc019203; 
  Sat, 5 Mar 2022 11:00:31 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3em5hf8qry-1
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3em53u90fa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Sat, 05 Mar 2022 11:00:31 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 225As6E8011785;
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 225ArmEs009120;
  Sat, 5 Mar 2022 11:00:29 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma05fra.de.ibm.com with ESMTP id 3ekyg90mhf-1
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06ams.nl.ibm.com with ESMTP id 3eky4hrrf5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 05 Mar 2022 11:00:28 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 225B0QB339846364
+ Sat, 05 Mar 2022 11:00:29 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 225B0Rl832964938
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 5 Mar 2022 11:00:26 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6394452069;
- Sat,  5 Mar 2022 11:00:26 +0000 (GMT)
+ Sat, 5 Mar 2022 11:00:27 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4C3EC4204D;
+ Sat,  5 Mar 2022 11:00:27 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 021544204B;
+ Sat,  5 Mar 2022 11:00:27 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 24B9A52054;
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Sat,  5 Mar 2022 11:00:26 +0000 (GMT)
 Received: from yukon.home (unknown [9.171.13.194])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 5ACD222027F;
- Sat,  5 Mar 2022 12:00:25 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 246282203EC;
+ Sat,  5 Mar 2022 12:00:26 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 12/13] target/ppc: Add missing helper_reset_fpstatus to
- VSX_MAX_MINC
-Date: Sat,  5 Mar 2022 12:00:09 +0100
-Message-Id: <20220305110010.1283654-13-clg@kaod.org>
+Subject: [PULL 13/13] target/ppc: Add missing helper_reset_fpstatus to
+ helper_XVCVSPBF16
+Date: Sat,  5 Mar 2022 12:00:10 +0100
+Message-Id: <20220305110010.1283654-14-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220305110010.1283654-1-clg@kaod.org>
 References: <20220305110010.1283654-1-clg@kaod.org>
@@ -61,25 +64,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: L7F33kgTOkxoOZyht1nhXEIqDZ2zbDlh
-X-Proofpoint-ORIG-GUID: L7F33kgTOkxoOZyht1nhXEIqDZ2zbDlh
+X-Proofpoint-ORIG-GUID: uem9EVqTZXoWhpok1DeO4I53R2gZSvqh
+X-Proofpoint-GUID: uem9EVqTZXoWhpok1DeO4I53R2gZSvqh
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-05_03,2022-03-04_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 mlxscore=0
- spamscore=0 adultscore=0 clxscore=1034 phishscore=0 mlxlogscore=783
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ impostorscore=0 malwarescore=0 suspectscore=0 mlxscore=0 mlxlogscore=619
+ spamscore=0 bulkscore=0 adultscore=0 phishscore=0 clxscore=1034
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2203050057
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.187,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,38 +105,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
 
-Fixes: da499405aa ("target/ppc: Refactor VSX_MAX_MINC helper")
+Fixes: 3909ff1fac ("target/ppc: Implement xvcvbf16spn and xvcvspbf16 inst=
+ructions")
 Signed-off-by: V=C3=ADctor Colombo <victor.colombo@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220304175156.2012315-7-matheus.ferst@eldorado.org.br>
+Message-Id: <20220304175156.2012315-8-matheus.ferst@eldorado.org.br>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
  target/ppc/fpu_helper.c | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 2cad05c9cf7e..7d34b88577a8 100644
+index 7d34b88577a8..bd12db960af3 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -2522,6 +2522,8 @@ void helper_##name(CPUPPCState *env,               =
-                           \
-     ppc_vsr_t t =3D { };                                                =
-        \
-     bool first;                                                         =
-      \
-                                                                         =
-      \
-+    helper_reset_fpstatus(env);                                         =
-      \
-+                                                                        =
-      \
-     if (max) {                                                          =
-      \
-         first =3D tp##_le_quiet(xb->fld, xa->fld, &env->fp_status);     =
-        \
-     } else {                                                            =
-      \
+@@ -2774,6 +2774,8 @@ void helper_XVCVSPBF16(CPUPPCState *env, ppc_vsr_t =
+*xt, ppc_vsr_t *xb)
+     ppc_vsr_t t =3D { };
+     int i, status;
+=20
++    helper_reset_fpstatus(env);
++
+     for (i =3D 0; i < 4; i++) {
+         t.VsrH(2 * i + 1) =3D float32_to_bfloat16(xb->VsrW(i), &env->fp_=
+status);
+     }
 --=20
 2.34.1
 
