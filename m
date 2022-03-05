@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0274CE1BD
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 01:51:15 +0100 (CET)
-Received: from localhost ([::1]:36266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB314CE200
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 03:05:18 +0100 (CET)
+Received: from localhost ([::1]:43312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQIde-0007Dx-1d
-	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 19:51:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57876)
+	id 1nQJnJ-0001zj-B3
+	for lists+qemu-devel@lfdr.de; Fri, 04 Mar 2022 21:05:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQIbZ-00066L-Q0; Fri, 04 Mar 2022 19:49:05 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=40638
- helo=mail-pj1-x1036.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQIbX-0008Ux-Jb; Fri, 04 Mar 2022 19:49:04 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- mv5-20020a17090b198500b001bf2a039831so2579323pjb.5; 
- Fri, 04 Mar 2022 16:49:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=g2NEExCeK5GU8hez5cuCyGGVOd/BrQp9pumsNVQYpZc=;
- b=BIAQtc54oxrH6Wo3FoDw2ln9oRnx0yUMyFFfFVrgRFYoSkitocKf0gTY01U8Sb9Gew
- bqhv35qfPPPX8s9ghwlB/XKYdwVC4i11H3mT4zV0gnqCN8JmJdeYGctesGOgOcqlNu0d
- YVMzOX6h1xe+P+7mBJUCmswp8+WZSZhHEUqDHpy9rC+U5t9Na4b3fDOjKy7cP2NID3h+
- 1N0Vje+KYkFxgU+8gyunxUuN3mC2eDhyTMc2JY+xFhrQpFxCYdsX643ligZhV0W3nLQL
- HPwpQe8bXn6xpkc0t+L1rg5+fRBK6INUCO8ugaa7RpR/13/yEs4p+ujIkL5+k7R+Kn/J
- auNA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQJll-0001Al-IE
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 21:03:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44387)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nQJli-0000U3-GH
+ for qemu-devel@nongnu.org; Fri, 04 Mar 2022 21:03:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646445814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mzCPwUrrT8RRfIVF+qMxQdmfL8uKP2G4T/pVbazC7+g=;
+ b=h8b6S/8cDuRRg/Q9aKv3fnC8YBHj+jEdKFLAlkggdw/h0SGLRLlm0PCvaLP4PqrlW9Lxir
+ AcnL2VH1lkjCtagSAr5M3YK0kY5R8KP4Zp7srvhRmT7GFoicDAuQO3T62PP3AwGM8E+CWV
+ PaIt5oEv2+ynIFScuVAxW/RG6yEH4MI=
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
+ [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-142-_nsjRm8sMPemChCFd_eqXg-1; Fri, 04 Mar 2022 21:03:33 -0500
+X-MC-Unique: _nsjRm8sMPemChCFd_eqXg-1
+Received: by mail-vs1-f69.google.com with SMTP id
+ v11-20020a056102302b00b0031b7d1906a3so1218791vsa.22
+ for <qemu-devel@nongnu.org>; Fri, 04 Mar 2022 18:03:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=g2NEExCeK5GU8hez5cuCyGGVOd/BrQp9pumsNVQYpZc=;
- b=mNLJ0jFRlCC5oRQrd7lBvWtphZjbQBNUd/DssUpRQ0DT84+daHKCsAlq4fx5MrzjYb
- kLdckrYuLaEKHecJLHHPt1bZ7HIfiNBUEZMFHhvadlowJgkHbpQgRaKb9W+BwCIRrm5o
- uplpuXHjZq5MY1ilg0+EIjuv7v/B94B4UEqpR+Z3xCgPjkPaK0aEFTwvQaMey77eYDVp
- GbTYPILNZm4opu9+OQWaSIje/WnTF8ZPzUG9Q0c/7g9simp+05EZaPKA8PTDII4/0eTR
- 4lpKPQo6FLpdPLZHmMYK0/RZQB6C+M+WB0iKY9fU2XnyLDJkGwf3od9oPQN82P5sRwHm
- T84Q==
-X-Gm-Message-State: AOAM531jlx4MVeHJ1lktbWIBDc7UFTt0AELsvDyaec0ca0C6hqQKExbq
- Dko5S+VqqYjs94WCtypuZnk=
-X-Google-Smtp-Source: ABdhPJzuBkDcy8e1iSExTZKWlESrZmgPc33ZGG+JmihZWHXfmEikuQfqmmyRpUDXbznELZAcZIJr+A==
-X-Received: by 2002:a17:902:bc89:b0:151:accf:afad with SMTP id
- bb9-20020a170902bc8900b00151accfafadmr1051259plb.169.1646441341633; 
- Fri, 04 Mar 2022 16:49:01 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- q13-20020a056a00088d00b004e1bea9c582sm7232251pfj.43.2022.03.04.16.48.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Mar 2022 16:49:01 -0800 (PST)
-Message-ID: <921b5f06-75f3-2500-68cb-f091761eeb72@gmail.com>
-Date: Sat, 5 Mar 2022 01:48:57 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mzCPwUrrT8RRfIVF+qMxQdmfL8uKP2G4T/pVbazC7+g=;
+ b=7nyhGGd708jli9/SBoTZuSCr6N++cFB1nchk2uuTRC0/4kWMAEfkLSxiK766k3qT3F
+ ismbIHoXpQg4ECEQa7l5OWo1YiLFWc6LLyiM+lwIDJJ4zpW+kNtt+rz4ocM4QCFKLF92
+ +vdWY7RiW/QFqg8RUTAxf3/rfsEXMwOCfrzgSc1IdmX3cThPVCSPkw81ibjf2VhcooWy
+ gKQqFUD/w9DXfiHyiGYSOvZaozUveIc1H2ARG15DZbd8ini4tNyCd4y1bn7SZYDOU8pO
+ G1J3HrUpEaqjNrglQp8BD+w5sXW5CWVDN7xnEwc5G2uBmglm6gH78SDtWnIQAIk7D/hz
+ rMqw==
+X-Gm-Message-State: AOAM531iM1a/D6ygYFPoGNkefo0YbIO3idDnii4Ka1otJry5XtXX/Qk1
+ XwJhVq4DCvHAWmIIkw2UndlNIDsEFarXSog9qeoj8kATmKUI1DDn9wYxI1kokvOlu5XfmRiUayR
+ 0yoA/5D4xV1mfkiZEq2ZquOsaIGyLUpY=
+X-Received: by 2002:ab0:2809:0:b0:341:f4aa:829d with SMTP id
+ w9-20020ab02809000000b00341f4aa829dmr537426uap.42.1646445812751; 
+ Fri, 04 Mar 2022 18:03:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx2iTG0kIoiz4NqksG8+w60VMClpa4AXienfV83m0ME2pGxCWuyyFNmGswY9xKS4EMVQRvNaxJ9vDBpy+gFE18=
+X-Received: by 2002:ab0:2809:0:b0:341:f4aa:829d with SMTP id
+ w9-20020ab02809000000b00341f4aa829dmr537402uap.42.1646445811061; Fri, 04 Mar
+ 2022 18:03:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2 5/9] meson.build: Don't misdetect posix_memalign() on
- Windows
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220304112126.2261039-1-peter.maydell@linaro.org>
- <20220304112126.2261039-6-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220304112126.2261039-6-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220304194746.486226-1-jsnow@redhat.com>
+ <20220304194746.486226-4-jsnow@redhat.com>
+ <20220304202326.cj265z3pxrm45c34@redhat.com>
+In-Reply-To: <20220304202326.cj265z3pxrm45c34@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 4 Mar 2022 21:03:20 -0500
+Message-ID: <CAFn=p-Y4tgUn1aEwCckC6=D9JS4g45LJ6Le8LP0vtpJJ8p0oDQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] iotests: Remove explicit checks for qemu_img() == 0
+To: Eric Blake <eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,38 +92,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/3/22 12:21, Peter Maydell wrote:
-> Currently we incorrectly think that posix_memalign() exists on
-> Windows.  This is because of a combination of:
-> 
->   * the msys2/mingw toolchain/libc claim to have a
->     __builtin_posix_memalign when there isn't a builtin of that name
->   * meson will assume that if you have a __builtin_foo that
->     counts for has_function('foo')
-> 
-> Specifying a specific include file via prefix: causes meson to not
-> treat builtins as sufficient and actually look for the function
-> itself; see this meson pull request which added that as the official
-> way to get the right answer:
->    https://github.com/mesonbuild/meson/pull/1150
+On Fri, Mar 4, 2022 at 3:23 PM Eric Blake <eblake@redhat.com> wrote:
+>
+> On Fri, Mar 04, 2022 at 02:47:44PM -0500, John Snow wrote:
+> > qemu_img() returning zero ought to be the rule, not the
+> > exception. Remove all explicit checks against the condition in
+> > preparation for making non-zero returns an Exception.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+>
+> > +++ b/tests/qemu-iotests/310
+>
+> > @@ -105,8 +105,8 @@ with iotests.FilePath('base.img') as base_img_path, \
+> >      log('')
+> >
+> >      # Detach backing to check that we can read the data from the top level now
+> > -    assert qemu_img('rebase', '-u', '-b', '', '-f', iotests.imgfmt,
+> > -                    top_img_path) == 0
+> > +    qemu_img('rebase', '-u', '-b', '', '-f', iotests.imgfmt,
+> > +             top_img_path)
+>
+> You collapsed other wrapped lines into one where they fit, why not
+> this one?  But it's not essential.
+>
 
-Interesting, TIL.
+jsnow is non-deterministic.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+(I can smoosh this in, or kwolf/hreitz can smoosh it in. Probably not
+worth a respin, tho.)
 
-> Currently this misdectection doesn't cause problems because we only
-> use CONFIG_POSIX_MEMALIGN in oslib-posix.c; however that will change
-> in a following commit.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-id: 20220226180723.1706285-6-peter.maydell@linaro.org
-> ---
->   meson.build | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--js
+
 
