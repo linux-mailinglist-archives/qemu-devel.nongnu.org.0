@@ -2,88 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF2A4CE49F
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 12:27:19 +0100 (CET)
-Received: from localhost ([::1]:41790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1734C4CE51E
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 15:05:07 +0100 (CET)
+Received: from localhost ([::1]:37680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQSZC-0007It-Tf
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 06:27:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58756)
+	id 1nQV1t-00037X-PC
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 09:05:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQSXT-0006VL-BO
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 06:25:31 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=42635
- helo=mail-pj1-x1036.google.com)
+ (Exim 4.90_1) (envelope-from <klange@toaruos.org>)
+ id 1nQRuj-0001O0-Co
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 05:45:29 -0500
+Received: from [2607:f8b0:4864:20::52f] (port=37660
+ helo=mail-pg1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQSXM-00088J-Ij
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 06:25:26 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- c16-20020a17090aa61000b001befad2bfaaso9693672pjq.1
- for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 03:25:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=AJ75C0Tn6euvXAljkSJPwcS/hlE2vhaVqNrdp4DgqTU=;
- b=ADQTSSLQBFn5O4XMkaNgtigswftqP/LXC492XN2SWDB79YniwO5zys2pyXQVFtkbHZ
- 6f48H8YNlpxkOEErfJkvh2CV2NYOZ2J5JRzoirVOV3M7nsI3WDJd3fmIVymZLk9s51gE
- IeD+epSzZb2hO0RGXUP0dxcKWQHWm5GFs+OZZdaaFb0ly3QXRml0F2m1W4kcU2/AKSe3
- p1qvu3AS3/nmHSgzU/wjfuX6uLJ7rhfrVVyqxhZB5jrO3R+j+wO0uLHhHETNbnNi4WNn
- HA/Lnwz0QCEMpK4yfDaN20N3ZngB274pmSqot+HuxdiGasSGaQJxD5tl955PumtrgDaz
- KUrg==
+ (Exim 4.90_1) (envelope-from <klange@toaruos.org>)
+ id 1nQRuh-0004qJ-Ml
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 05:45:29 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id bc27so9599146pgb.4
+ for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 02:45:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=toaruos-org.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+PcUBwtyLONahwm9KYX/VH157VeW5IvLAn6bEjXJ16g=;
+ b=euPNrQXAbcqsc0RsNPPvDs3I5KKl0AipO3o+LBW+eG0t3GwIKV41o3F3mWC/TZ1hDH
+ JkdNWjLNLADkLpkgkd/TDvH0PtszMyo6SK0JyJkj71x0ZZ9fKfAWgLlTVbuUxyHWfaGz
+ 9XR3D6uPb/G7+6j7Y0boN/j6IUoZFJ/+54lv7ehh1rp1dp9/RCQIw1Roc1/vnUsDWko/
+ CnqFTuii7o/zugtELRQ9lF7TALBVGw+BNkd2eGUb2ffU01nqX480/pgfPIRUfYjQV/35
+ 26APUN2vHD6WcjDkWeYdYoE00byAEmgnbD9GTjc8IZBj8b2WSj15SJRlUhsKi2Zo1TmG
+ y4UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=AJ75C0Tn6euvXAljkSJPwcS/hlE2vhaVqNrdp4DgqTU=;
- b=kkRfqkIRUhPoinzK3ApgSD3IGqnTjtVIQC42gFeYVX4//g1aLu0wa0vsX4MlsRLJcL
- o1RU0jhXVyc7ADFvHTgl0Q+yJyDZPoM5UMAHdDj9U7yCR9HRSPv4VgVdSr694hKWRhI+
- BUaSbozQds2tTXJcIfid1unW6CxZdFmIKud3VuI2pu97xXnSNHucrbjS33LfRsOplnQU
- ehlXFdgmrG16veZlV3+1NvboYBECiLmAgN6XJBP0kqMbK4bZoBsrEvgWEifYJ9i+yUCE
- P3vMQr2mDMGcEQ+P50fIRb/pjUmZoTyErsOqVvkik/yoC0P/xhe934JNC1Kz5GgGJbrp
- /dSA==
-X-Gm-Message-State: AOAM530dMYHxXHWu5wAPkc0HhRkSupLw3qA135/6it/DrrdjEbfXaIzh
- 9IK9Rykh/i/fhIRuLK+6DnA=
-X-Google-Smtp-Source: ABdhPJxb8Bo3m6T6ACt28w7XYbfA1q6E5yA6CjggbR6jJyhmMRnDvYz/s7gZ6hkLeN0ZB/0BuA7OCA==
-X-Received: by 2002:a17:90b:4c8f:b0:1bc:a64b:805 with SMTP id
- my15-20020a17090b4c8f00b001bca64b0805mr3334972pjb.156.1646479520391; 
- Sat, 05 Mar 2022 03:25:20 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=+PcUBwtyLONahwm9KYX/VH157VeW5IvLAn6bEjXJ16g=;
+ b=KUp1tN7lcsK0MMIlBsIWrEjclVmm937lV9w746vfJlUsvmQ+I/t5A8dQD0I5jFJvx1
+ IGY08Vti4jlrQLumXI68XJlsHsNMqY/4zGfCZSmOpnKZdlyp31Waj82gZJUQiLRTv/F3
+ yLwtUdbRFeENCfnzhehehXfN4iVZ1IoZ1gmHs/jtzF3t0GKUfg37oe8G0H3xlZTxDwW7
+ nVXvNhncnlWEtAAFVCPeSpKGkNFubjSfKlVYhFWMnIIiCH/bRax0NMjavzdOLg4KlkQh
+ +97nI/RjdMv0jx/kplnp6B/u2BncTbS6nFhOV27nRSG8V7M76a/qTSfmxeuG3RfiIYtV
+ wdWg==
+X-Gm-Message-State: AOAM5312Jqtcm8/31O52t3/q1KfkUs2WuHSC2kBrHjNe7R9lenPNgm9Q
+ dOKlbw/cMazMdpAVIQX03RbWayCoJ0N4+ubT
+X-Google-Smtp-Source: ABdhPJzJ5BN3U3qB972qbQH9laRYH9q+D8r2GpCBU8PBIBBv4JQSHt6SkXQ5dVI8TakuV5j7uG3Vqw==
+X-Received: by 2002:a05:6a00:174d:b0:4f6:67e3:965 with SMTP id
+ j13-20020a056a00174d00b004f667e30965mr3200379pfc.39.1646477125605; 
+ Sat, 05 Mar 2022 02:45:25 -0800 (PST)
+Received: from luka.sso.indeed.net ([2405:6580:a880:4700:a153:19a4:ff82:9114])
  by smtp.gmail.com with ESMTPSA id
- nl12-20020a17090b384c00b001bc1bb5449bsm7868030pjb.2.2022.03.05.03.25.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Mar 2022 03:25:20 -0800 (PST)
-Message-ID: <8624c864-b459-f178-a8be-20ee6bac780b@gmail.com>
-Date: Sat, 5 Mar 2022 12:25:12 +0100
+ on17-20020a17090b1d1100b001bf33c61444sm2546622pjb.12.2022.03.05.02.45.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 05 Mar 2022 02:45:24 -0800 (PST)
+From: "K. Lange" <klange@toaruos.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] ui/gtk: Ignore 2- and 3-button press events
+Date: Sat,  5 Mar 2022 19:45:21 +0900
+Message-Id: <20220305104521.3583703-1-klange@toaruos.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v3] i386/sev: Ensure attestation report length is valid
- before retrieving
-Content-Language: en-US
-To: Tyler Fanelli <tfanelli@redhat.com>, qemu-devel@nongnu.org
-References: <20220304201141.509492-1-tfanelli@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220304201141.509492-1-tfanelli@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: none client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=klange@toaruos.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 05 Mar 2022 09:03:29 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,54 +87,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, mtosatti@redhat.com, berrange@redhat.com,
- kvm@vger.kernel.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "K. Lange" <klange@toaruos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/3/22 21:11, Tyler Fanelli wrote:
-> The length of the attestation report buffer is never checked to be
-> valid before allocation is made. If the length of the report is returned
-> to be 0, the buffer to retrieve the attestation buffer is allocated with
-> length 0 and passed to the kernel to fill with contents of the attestation
-> report. Leaving this unchecked is dangerous and could lead to undefined
-> behavior.
-> 
-> Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
-> ---
->   target/i386/sev.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 025ff7a6f8..e82be3e350 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -616,6 +616,8 @@ static SevAttestationReport *sev_get_attestation_report(const char *mnonce,
->           return NULL;
->       }
->   
-> +    input.len = 0;
+GTK already produces corresponding GDK_BUTTON_PRESS events
+alongside 2BUTTON and 3BUTTON_PRESS events. The 2BUTTON and
+3BUTTON_PRESS events were incorrectly being interpreted and
+passed to guests as button release events.
 
-I agree with Daniel's review of your v1:
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/558
+Signed-off-by: K. Lange <klange@toaruos.org>
+---
+ ui/gtk.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-   "The declaration of 'input' already zero initializes."
-
-https://lore.kernel.org/qemu-devel/YiJi9IYqtZvNQIRc@redhat.com/
-
->       /* Query the report length */
->       ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
->               &input, &err);
-> @@ -626,6 +628,11 @@ static SevAttestationReport *sev_get_attestation_report(const char *mnonce,
->                          ret, err, fw_error_to_str(err));
->               return NULL;
->           }
-> +    } else if (input.len == 0) {
-> +        error_setg(errp, "SEV: Failed to query attestation report:"
-> +                         " length returned=%u",
-> +                   input.len);
-> +        return NULL;
->       }
->   
->       data = g_malloc(input.len);
+diff --git a/ui/gtk.c b/ui/gtk.c
+index a8567b9ddc..8675ae76fa 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -958,6 +958,10 @@ static gboolean gd_button_event(GtkWidget *widget, GdkEventButton *button,
+         return TRUE;
+     }
+ 
++    if (button->type == GDK_2BUTTON_PRESS || button->type == GDK_3BUTTON_PRESS) {
++        return TRUE;
++    }
++
+     qemu_input_queue_btn(vc->gfx.dcl.con, btn,
+                          button->type == GDK_BUTTON_PRESS);
+     qemu_input_event_sync();
+-- 
+2.25.1
 
 
