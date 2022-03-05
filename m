@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D544CE450
+	by mail.lfdr.de (Postfix) with ESMTPS id D28424CE44F
 	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 11:59:21 +0100 (CET)
-Received: from localhost ([::1]:50342 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:50284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQS89-00067p-0d
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 05:59:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53858)
+	id 1nQS88-00065o-MQ
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 05:59:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQS6e-00044L-Md
+ id 1nQS6e-00044P-Sn
  for qemu-devel@nongnu.org; Sat, 05 Mar 2022 05:57:48 -0500
-Received: from [2a00:1450:4864:20::32f] (port=35734
- helo=mail-wm1-x32f.google.com)
+Received: from [2a00:1450:4864:20::431] (port=41740
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQS6d-0002Qb-2s
+ id 1nQS6d-0002Qf-HX
  for qemu-devel@nongnu.org; Sat, 05 Mar 2022 05:57:48 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- v2-20020a7bcb42000000b0037b9d960079so8572565wmj.0
- for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 02:57:46 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id i8so16143400wrr.8
+ for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 02:57:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0dfROMJZXW9l7pNXbMWCLpRguTZiBURRNc9RE8/h2rI=;
- b=mGkImEbzDSSAK15zZ0HEbXxlCh7FEHV8pyGThhDnD2FPpl4mZegg8kgz1T6x6/Ck+Z
- IYFCvQkUF6W0/Q0slhis7pqNXyM9iyJOg3GUdxwdapOT6g7MjuB6MQ3vMu7Y6wLn+03j
- 8ejt+gEbf4JyA57OH0bdHJ1t9OXbijqZLxLV7x/ojTRJXgQ3Yw9zy2yrqp5e3fyFvYlA
- C2ekobk86gAuhJhhRHDx8EDzZFRKLk7ZvCAGLG5yjT21opCUWO0N9VIkQd9YOSY9jOsZ
- UTiXV/38pICy7rDU31HrMKdeupn8ynyWoyVAJzirQtJyDSpcSVo6cctKGcWGna7QTUOS
- 3PSA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=9wtRAo/PrrlV5Bn1mFToRucomuxQO+/fw/ePLHNPTDg=;
+ b=Vu9n0g1/QDVtu/lOsGTPfULn42L9DaUYBNVpK82c+A981JyRPa0dr+JxToslWsguoJ
+ McdpFQ3Pdk5Xf0msM7EVv7+tNz0lu7MBo63k5P1Lz2EVh6HmYMXbrlA6yGiJe6JIKT7S
+ 8nSaY50chBHrdI162YKbMCUeHOL7n0BxILOwoylQb8bqvvp5cKP4IoAWRhD5332MY2Kb
+ q9o24lpUf2qaD5GmyJJJapb9TRDOFv7GFS8Z1RMqBwNA8PPjrBIy4VUbOZL0fEvhhsRB
+ YnrkWXtu6pdIWStf7VCVuExSuK4uUlX3k5nG7dHDrdZgKDhOThwiMsqO0yFRFGCpbR14
+ rGmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0dfROMJZXW9l7pNXbMWCLpRguTZiBURRNc9RE8/h2rI=;
- b=KbOziUY4NruEG1HQILzR0BsWxgTEUZWwKNyVOhaQwPiVuAUv26pNoVZwTaxrs8/1uP
- YQZ0nbCkEY5EMM8o0FUVpUqoDETrUZifRP9r9Xv2XakYOm2ZtUN7/9bcJssLipUgOE/c
- agfHO6Q9oWMtP6XYP/xU9iptY0isg1vh1bFL8H/9SuU6qSPhlSPxn9yHXQSNwL+hF/Iz
- LCYcgXNCh5yYGy4PK1AlxUL2B3bRQXgY89EtMAs8uyf8xxKnKGdW86i4xombzxEnlJUS
- qCsOqwDIeS5QUtrRlOdtCz5X5gO5FtkoE68d9WuNOPpDMZIk7+JVP0swhylFsI0n9kIl
- YNAw==
-X-Gm-Message-State: AOAM532maL5f4W5uZNwE4f68KAEMbeIKbs3PJ/wV3HNbKPchLUrVMtCm
- 0QqLpLeyFyqyHfAA0/aj7Ts30cTnVTZrVQ==
-X-Google-Smtp-Source: ABdhPJyKk+9+rWWCQuI6T3Z5+q/eB9jWFaeZ3nU8Ij6/TvdXo/RMpnPWJM46RHSV4WdgRDOaZaoytg==
-X-Received: by 2002:a05:600c:19d4:b0:389:771e:3c4f with SMTP id
- u20-20020a05600c19d400b00389771e3c4fmr2013590wmq.23.1646477865369; 
- Sat, 05 Mar 2022 02:57:45 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=9wtRAo/PrrlV5Bn1mFToRucomuxQO+/fw/ePLHNPTDg=;
+ b=0b1GBzhuDSw29E5tI66W+tooNB1U7CZ3Kr0JRY/TyNw7UIaFKPElqsLjrKAfcfyFXh
+ bW3w+zipofiDnQW0CEyQyTE2NhNkVapI4QUdjrKD7qh2x1sOliRmO3ymJASZhdsO9JHG
+ AwROZ6HtJHVTyWzNhhzGO0MB1GwKdOw11hZdIu+iIglatfW/qN3Ci7r+FT5VqzB8AM5X
+ BX8MSK2mlfwPoOcIyOTQfewQE3P58IznLdZd8wxvM2B34xdOfQxMBdQrI731ZJRsEqjx
+ b/0yHmYfRFAbWorM1mpApkEJ9WMdEhhkbQ/pU1u+9ili57UjdYnSuTEky4ZJlBmY9ZEM
+ 9aYw==
+X-Gm-Message-State: AOAM532MCvdAyV+oXFCl9jTFpf67PTTlYr6n0XWoaR+H+ve/cJxP+V1T
+ m5t0nKo3pAdHVZcHxA+mSdNDglRub7Ux4A==
+X-Google-Smtp-Source: ABdhPJxy10tDYW1w0OHGeCIIbHTVuJqVOJRlQRxwsjrHfBiaDeWhs7CTP4vqA4NAP6YbihFv56tSzQ==
+X-Received: by 2002:a05:6000:1b8a:b0:1e4:b3a3:4c1f with SMTP id
+ r10-20020a0560001b8a00b001e4b3a34c1fmr2143964wru.202.1646477866211; 
+ Sat, 05 Mar 2022 02:57:46 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- b13-20020a05600c4e0d00b003816cb4892csm24079324wmq.0.2022.03.05.02.57.44
+ b13-20020a05600c4e0d00b003816cb4892csm24079324wmq.0.2022.03.05.02.57.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Mar 2022 02:57:44 -0800 (PST)
+ Sat, 05 Mar 2022 02:57:45 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] windows installer: Fix warnings, mouse-over descriptions,
- item order
-Date: Sat,  5 Mar 2022 10:57:40 +0000
-Message-Id: <20220305105743.2384766-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/3] nsis installer: List emulators in alphabetical order
+Date: Sat,  5 Mar 2022 10:57:41 +0000
+Message-Id: <20220305105743.2384766-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220305105743.2384766-1-peter.maydell@linaro.org>
+References: <20220305105743.2384766-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,58 +93,32 @@ Cc: Stefan Weil <sw@weilnetz.de>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we build our Windows installer, there are some warnings
-generated:
+We currently list the emulators in the Windows installer's dialog
+in an essentially random order (it's whatever glob.glob() returns
+them to, which is filesystem-implementation-dependent). Add a
+call to sorted() so they appear in alphabetical order.
 
- warning 7998: ANSI targets are deprecated
- warning 6000: unknown variable/constant "{Section_i386}" detected, ignoring (macro:_==:1)
- warning 6000: unknown variable/constant "{Section_i386w}" detected, ignoring (macro:_==:1)
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ scripts/nsis.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-(you can see these in the relevant gitlab CI job logs).
-This series fixes them; one of them is flagging up an actual bug.
-It also fixes the basically-random order we were listing the
-emulators in.
-
-I noticed while working on this that we list the emulators in
-basically random order (whatever glob.glob() returns); so I start off
-with fixing that in patch 1 by adding a sorted() call.
-
-The "ANSI targets" warning is just complaining that we don't declare
-our installer to be a Unicode installer. Doing so silences the
-warning, and would allow us to include non-ASCII text in messages
-(which we don't currently need). The resulting installer won't run on
-Win95/98/ME, but we don't support those anyway. Fixed in patch 2.
-
-The "unknown variable" warnings are about a real problem: we generate
-installer sections for each emulator executable using the nsis.py
-script, but still have a fixed and very out of date list of mouse-over
-description text in the qemu.nsi file. So if you build the installer
-for a configuration which doesn't include either i386 or alpha then
-you get warnings about the mouse-over text defined for the
-non-existent sections; and we don't provide any mouse-over text for
-anything other than i386 and alpha. Patch 3 makes the nsis.py script
-also generate a second installer script fragment with mouseover text
-for all and only the sections it generates in the existing fragment.
-The generated text is not particularly pretty or informative, but at
-least it's there and clarifies the "GUI" vs "not GUI" versions of each
-executable.
-
-Tested by building the installer executable via the gitlab
-'cross-win64-system' CI job and test-installing it on a Windows 10 VM
-I had to hand.
-
-thanks
--- PMM
-
-Peter Maydell (3):
-  nsis installer: List emulators in alphabetical order
-  nsis installer: Suppress "ANSI targets are deprecated" warning
-  nsis installer: Fix mouse-over descriptions for emulators
-
- qemu.nsi        |  8 ++++----
- scripts/nsis.py | 17 ++++++++++++++---
- 2 files changed, 18 insertions(+), 7 deletions(-)
-
+diff --git a/scripts/nsis.py b/scripts/nsis.py
+index 5135a058316..383bef70332 100644
+--- a/scripts/nsis.py
++++ b/scripts/nsis.py
+@@ -34,9 +34,9 @@ def main():
+         with open(
+             os.path.join(destdir + args.prefix, "system-emulations.nsh"), "w"
+         ) as nsh:
+-            for exe in glob.glob(
++            for exe in sorted(glob.glob(
+                 os.path.join(destdir + args.prefix, "qemu-system-*.exe")
+-            ):
++            )):
+                 exe = os.path.basename(exe)
+                 arch = exe[12:-4]
+                 nsh.write(
 -- 
 2.25.1
 
