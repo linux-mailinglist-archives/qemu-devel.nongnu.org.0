@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A04B4CE586
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 16:18:43 +0100 (CET)
-Received: from localhost ([::1]:38472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE244CE57F
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 16:15:44 +0100 (CET)
+Received: from localhost ([::1]:53744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQWB8-0001AK-DW
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 10:18:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37460)
+	id 1nQW8F-0000tm-7G
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 10:15:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQW3M-0001Ws-2D
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:10:41 -0500
-Received: from [2001:41c9:1:41f::167] (port=59136
+ id 1nQW3L-0001WB-Rf
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:10:39 -0500
+Received: from [2001:41c9:1:41f::167] (port=59140
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQW3K-0006vQ-2S
+ id 1nQW3K-0006vT-AV
  for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:10:39 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQW2e-0008Q9-Kh; Sat, 05 Mar 2022 15:10:00 +0000
+ id 1nQW2i-0008Q9-J1; Sat, 05 Mar 2022 15:10:00 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Sat,  5 Mar 2022 15:09:53 +0000
-Message-Id: <20220305150957.5053-9-mark.cave-ayland@ilande.co.uk>
+Date: Sat,  5 Mar 2022 15:09:54 +0000
+Message-Id: <20220305150957.5053-10-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220305150957.5053-1-mark.cave-ayland@ilande.co.uk>
 References: <20220305150957.5053-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v4 08/12] mos6522: add "info via" HMP command for debugging
+Subject: [PATCH v4 09/12] mos6522: record last_irq_levels in mos6522_set_irq()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -66,189 +66,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This displays detailed information about the device registers and timers to aid
-debugging problems with timers and interrupts.
+To detect edge-triggered IRQs it is necessary to store the last state of each
+IRQ in a last_irq_levels bitmap.
 
-Currently the QAPI generators for HumanReadableText don't work correctly if
-used in qapi/target-misc.json when a non-specified target is built, so for
-now manually add a hmp_info_via() wrapper until direct support for per-device
-HMP/QMP commands is implemented.
+Note: this is a migration break for machines which use mos6522 instances which
+are g3beige/mac99 (PPC) and q800 (m68k).
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hmp-commands-info.hx         |  15 +++++
- hw/misc/mos6522.c            | 103 +++++++++++++++++++++++++++++++++++
- include/hw/misc/mos6522.h    |   2 +
- include/monitor/hmp-target.h |   1 +
- 4 files changed, 121 insertions(+)
+ hw/misc/mos6522.c         | 11 +++++++++--
+ include/hw/misc/mos6522.h |  1 +
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index e90f20a107..adfa085a9b 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -879,3 +879,18 @@ SRST
-   ``info sgx``
-     Show intel SGX information.
- ERST
-+
-+#if defined(TARGET_M68K) || defined(TARGET_PPC)
-+    {
-+        .name         = "via",
-+        .args_type    = "",
-+        .params       = "",
-+        .help         = "show guest mos6522 VIA devices",
-+        .cmd          = hmp_info_via,
-+    },
-+#endif
-+
-+SRST
-+  ``info via``
-+    Show guest mos6522 VIA devices.
-+ERST
 diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index 9c8d4ca6ad..2c20decca1 100644
+index 2c20decca1..c67123f864 100644
 --- a/hw/misc/mos6522.c
 +++ b/hw/misc/mos6522.c
-@@ -30,6 +30,9 @@
- #include "hw/misc/mos6522.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-+#include "monitor/monitor.h"
-+#include "monitor/hmp.h"
-+#include "qapi/type-helpers.h"
- #include "qemu/timer.h"
- #include "qemu/cutils.h"
- #include "qemu/log.h"
-@@ -415,6 +418,106 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+@@ -72,6 +72,12 @@ static void mos6522_set_irq(void *opaque, int n, int level)
      }
+ 
+     mos6522_update_irq(s);
++
++    if (level) {
++        s->last_irq_levels |= 1 << n;
++    } else {
++        s->last_irq_levels &= ~(1 << n);
++    }
  }
  
-+static int qmp_x_query_via_foreach(Object *obj, void *opaque)
-+{
-+    GString *buf = opaque;
-+
-+    if (object_dynamic_cast(obj, TYPE_MOS6522)) {
-+        MOS6522State *s = MOS6522(obj);
-+        int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        uint16_t t1counter = get_counter(s, &s->timers[0]);
-+        uint16_t t2counter = get_counter(s, &s->timers[1]);
-+
-+        g_string_append_printf(buf, "%s:\n", object_get_typename(obj));
-+
-+        g_string_append_printf(buf, "  Registers:\n");
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[0], s->b);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[1], s->a);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[2], s->dirb);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[3], s->dira);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[4], t1counter & 0xff);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[5], t1counter >> 8);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[6],
-+                               s->timers[0].latch & 0xff);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[7],
-+                               s->timers[0].latch >> 8);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[8], t2counter & 0xff);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[9], t2counter >> 8);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[10], s->sr);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[11], s->acr);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[12], s->pcr);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[13], s->ifr);
-+        g_string_append_printf(buf, "    %-*s:    0x%x\n", 4,
-+                               mos6522_reg_names[14], s->ier);
-+
-+        g_string_append_printf(buf, "  Timers:\n");
-+        g_string_append_printf(buf, "    Using current time now(ns)=%"PRId64
-+                                    "\n", now);
-+        g_string_append_printf(buf, "    T1 freq(hz)=%"PRId64
-+                               " mode=%s"
-+                               " counter=0x%x"
-+                               " latch=0x%x\n"
-+                               "       load_time(ns)=%"PRId64
-+                               " next_irq_time(ns)=%"PRId64 "\n",
-+                               s->timers[0].frequency,
-+                               ((s->acr & T1MODE) == T1MODE_CONT) ? "continuous"
-+                                                                  : "one-shot",
-+                               t1counter,
-+                               s->timers[0].latch,
-+                               s->timers[0].load_time,
-+                               get_next_irq_time(s, &s->timers[0], now));
-+        g_string_append_printf(buf, "    T2 freq(hz)=%"PRId64
-+                               " mode=%s"
-+                               " counter=0x%x"
-+                               " latch=0x%x\n"
-+                               "       load_time(ns)=%"PRId64
-+                               " next_irq_time(ns)=%"PRId64 "\n",
-+                               s->timers[1].frequency,
-+                               "one-shot",
-+                               t2counter,
-+                               s->timers[1].latch,
-+                               s->timers[1].load_time,
-+                               get_next_irq_time(s, &s->timers[1], now));
-+    }
-+
-+    return 0;
-+}
-+
-+static HumanReadableText *qmp_x_query_via(Error **errp)
-+{
-+    g_autoptr(GString) buf = g_string_new("");
-+
-+    object_child_foreach_recursive(object_get_root(),
-+                                   qmp_x_query_via_foreach, buf);
-+
-+    return human_readable_text_from_str(buf);
-+}
-+
-+void hmp_info_via(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+    g_autoptr(HumanReadableText) info = qmp_x_query_via(&err);
-+
-+    if (hmp_handle_error(mon, err)) {
-+        return;
-+    }
-+    monitor_printf(mon, "%s", info->human_readable_text);
-+}
-+
- static const MemoryRegionOps mos6522_ops = {
-     .read = mos6522_read,
-     .write = mos6522_write,
+ static uint64_t get_counter_value(MOS6522State *s, MOS6522Timer *ti)
+@@ -544,8 +550,8 @@ static const VMStateDescription vmstate_mos6522_timer = {
+ 
+ const VMStateDescription vmstate_mos6522 = {
+     .name = "mos6522",
+-    .version_id = 0,
+-    .minimum_version_id = 0,
++    .version_id = 1,
++    .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT8(a, MOS6522State),
+         VMSTATE_UINT8(b, MOS6522State),
+@@ -556,6 +562,7 @@ const VMStateDescription vmstate_mos6522 = {
+         VMSTATE_UINT8(pcr, MOS6522State),
+         VMSTATE_UINT8(ifr, MOS6522State),
+         VMSTATE_UINT8(ier, MOS6522State),
++        VMSTATE_UINT8(last_irq_levels, MOS6522State),
+         VMSTATE_STRUCT_ARRAY(timers, MOS6522State, 2, 0,
+                              vmstate_mos6522_timer, MOS6522Timer),
+         VMSTATE_END_OF_LIST()
 diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
-index bbaec4ede2..193a3dc870 100644
+index 193a3dc870..babea99e06 100644
 --- a/include/hw/misc/mos6522.h
 +++ b/include/hw/misc/mos6522.h
-@@ -157,4 +157,6 @@ extern const VMStateDescription vmstate_mos6522;
- uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size);
- void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size);
+@@ -133,6 +133,7 @@ struct MOS6522State {
+     uint64_t frequency;
  
-+void hmp_info_via(Monitor *mon, const QDict *qdict);
-+
- #endif /* MOS6522_H */
-diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
-index ffdc15a34b..1891a19b21 100644
---- a/include/monitor/hmp-target.h
-+++ b/include/monitor/hmp-target.h
-@@ -50,5 +50,6 @@ void hmp_mce(Monitor *mon, const QDict *qdict);
- void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
- void hmp_info_sev(Monitor *mon, const QDict *qdict);
- void hmp_info_sgx(Monitor *mon, const QDict *qdict);
-+void hmp_info_via(Monitor *mon, const QDict *qdict);
+     qemu_irq irq;
++    uint8_t last_irq_levels;
+ };
  
- #endif /* MONITOR_HMP_TARGET_H */
+ #define TYPE_MOS6522 "mos6522"
 -- 
 2.20.1
 
