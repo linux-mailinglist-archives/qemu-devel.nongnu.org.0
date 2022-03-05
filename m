@@ -2,55 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906C94CE53B
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 15:19:46 +0100 (CET)
-Received: from localhost ([::1]:43312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E219E4CE539
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 15:19:01 +0100 (CET)
+Received: from localhost ([::1]:39372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQVG5-0002RZ-Mi
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 09:19:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55702)
+	id 1nQVFM-0008EC-SY
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 09:19:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQV8H-0000oB-PT
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 09:11:41 -0500
-Received: from [2001:41c9:1:41f::167] (port=58972
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQV8G-00073y-8R
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 09:11:41 -0500
-Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQV7a-00082l-Fk; Sat, 05 Mar 2022 14:11:02 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: laurent@vivier.eu,
-	qemu-devel@nongnu.org
-Date: Sat,  5 Mar 2022 14:10:44 +0000
-Message-Id: <20220305141044.31911-13-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220305141044.31911-1-mark.cave-ayland@ilande.co.uk>
-References: <20220305141044.31911-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nQV8B-0000PR-2a
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 09:11:35 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:52220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nQV89-000732-6D
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 09:11:34 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 89C3D210F9;
+ Sat,  5 Mar 2022 14:11:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1646489491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ERG30eCWn23slw+HqQGxi8kGcDdezH5zCV1mOAfb9wk=;
+ b=uH9Ccmf/xPo8/3Stl60W+Wt5hViF23Wu4KSiR+Lv8pTEc+0w/X1GMW+BPEd7w/viIKJWZ6
+ xCAn8ZSfO7+Aj0WRvgV5Y+FuZzPQW3ueOacdPvpqVixPw+yb3SrQ3QDbhl/pRjmiBAvqcl
+ HfHquyMxGKQdZfyn3TeBPSOsaf2bsWE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1646489491;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ERG30eCWn23slw+HqQGxi8kGcDdezH5zCV1mOAfb9wk=;
+ b=MA1sOB2gP+eh1irP5o7PoWfwSpIzgGNNU0q/uA42wzlcsoLFDl1Kz3gHRUYgVacOOx8bwf
+ q5Dj7dbxwEKl1UBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 527E513479;
+ Sat,  5 Mar 2022 14:11:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id O2CrEZNvI2LQVAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Sat, 05 Mar 2022 14:11:31 +0000
+Subject: Re: starting to look at qemu savevm performance, a first regression
+ detected
+From: Claudio Fontana <cfontana@suse.de>
+To: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <0ffe2660-4bae-9a84-e981-687b2c7a8877@suse.de>
+Message-ID: <5c028590-d71b-91a8-9ee6-d43cd162ec13@suse.de>
+Date: Sat, 5 Mar 2022 15:11:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <0ffe2660-4bae-9a84-e981-687b2c7a8877@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 12/12] macio/pmu.c: remove redundant code
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,95 +87,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the logic related to edge-triggered interrupts is all contained within
-the mos6522 device the redundant implementation for the mac99 PMU device can
-be removed.
+On 3/5/22 2:20 PM, Claudio Fontana wrote:
+> 
+> Hello all,
+> 
+> I have been looking at some reports of bad qemu savevm performance in large VMs (around 20+ Gb),
+> when used in libvirt commands like:
+> 
+> 
+> virsh save domain /dev/null
+> 
+> 
+> 
+> I have written a simple test to run in a Linux centos7-minimal-2009 guest, which allocates and touches 20G mem.
+> 
+> With any qemu version since around 2020, I am not seeing more than 580 Mb/Sec even in the most ideal of situations.
+> 
+> This drops to around 122 Mb/sec after commit: cbde7be900d2a2279cbc4becb91d1ddd6a014def .
+> 
+> Here is the bisection for this particular drop in throughput:
+> 
+> commit cbde7be900d2a2279cbc4becb91d1ddd6a014def (HEAD, refs/bisect/bad)
+> Author: Daniel P. Berrangé <berrange@redhat.com>
+> Date:   Fri Feb 19 18:40:12 2021 +0000
+> 
+>     migrate: remove QMP/HMP commands for speed, downtime and cache size
+>     
+>     The generic 'migrate_set_parameters' command handle all types of param.
+>     
+>     Only the QMP commands were documented in the deprecations page, but the
+>     rationale for deprecating applies equally to HMP, and the replacements
+>     exist. Furthermore the HMP commands are just shims to the QMP commands,
+>     so removing the latter breaks the former unless they get re-implemented.
+>     
+>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>     Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> 
+> 
+> git bisect start
+> # bad: [5c8463886d50eeb0337bd121ab877cf692731e36] Merge remote-tracking branch 'remotes/kraxel/tags/kraxel-20220304-pull-request' into staging
+> git bisect bad 5c8463886d50eeb0337bd121ab877cf692731e36
+> # good: [6cdf8c4efa073eac7d5f9894329e2d07743c2955] Update version for 4.2.1 release
+> git bisect good 6cdf8c4efa073eac7d5f9894329e2d07743c2955
+> # good: [b0ca999a43a22b38158a222233d3f5881648bb4f] Update version for v4.2.0 release
+> git bisect good b0ca999a43a22b38158a222233d3f5881648bb4f
+> # skip: [e2665f314d80d7edbfe7f8275abed7e2c93c0ddc] target/mips: Alias MSA vector registers on FPU scalar registers
+> git bisect skip e2665f314d80d7edbfe7f8275abed7e2c93c0ddc
+> # good: [4762c82cbda22b1036ce9dd2c5e951ac0ed0a7d3] tests/docker: Install static libc package in CentOS 7
+> git bisect good 4762c82cbda22b1036ce9dd2c5e951ac0ed0a7d3
+> # bad: [d4127349e316b5c78645f95dba5922196ac4cc23] Merge remote-tracking branch 'remotes/berrange-gitlab/tags/crypto-and-more-pull-request' into staging
+> git bisect bad d4127349e316b5c78645f95dba5922196ac4cc23
+> # bad: [d90f154867ec0ec22fd719164b88716e8fd48672] Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging
+> git bisect bad d90f154867ec0ec22fd719164b88716e8fd48672
+> # good: [dd5af6ece9b101d29895851a7441d848b7ccdbff] tests/docker: add a test-tcg for building then running check-tcg
+> git bisect good dd5af6ece9b101d29895851a7441d848b7ccdbff
+> # bad: [90ec1cff768fcbe1fa2870d2018f378376f4f744] target/riscv: Adjust privilege level for HLV(X)/HSV instructions
+> git bisect bad 90ec1cff768fcbe1fa2870d2018f378376f4f744
+> # good: [373969507a3dc7de2d291da7e1bd03acf46ec643] migration: Replaced qemu_mutex_lock calls with QEMU_LOCK_GUARD
+> git bisect good 373969507a3dc7de2d291da7e1bd03acf46ec643
+> # good: [4083904bc9fe5da580f7ca397b1e828fbc322732] Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210317' into staging
+> git bisect good 4083904bc9fe5da580f7ca397b1e828fbc322732
+> # bad: [009ff89328b1da3ea8ba316bf2be2125bc9937c5] vl: allow passing JSON to -object
+> git bisect bad 009ff89328b1da3ea8ba316bf2be2125bc9937c5
+> # bad: [50243407457a9fb0ed17b9a9ba9fc9aee09495b1] qapi/qom: Drop deprecated 'props' from object-add
+> git bisect bad 50243407457a9fb0ed17b9a9ba9fc9aee09495b1
+> # bad: [1b507e55f8199eaad99744613823f6929e4d57c6] Merge remote-tracking branch 'remotes/berrange-gitlab/tags/dep-many-pull-request' into staging
+> git bisect bad 1b507e55f8199eaad99744613823f6929e4d57c6
+> # bad: [24e13a4dc1eb1630eceffc7ab334145d902e763d] chardev: reject use of 'wait' flag for socket client chardevs
+> git bisect bad 24e13a4dc1eb1630eceffc7ab334145d902e763d
+> # good: [8becb36063fb14df1e3ae4916215667e2cb65fa2] monitor: remove 'query-events' QMP command
+> git bisect good 8becb36063fb14df1e3ae4916215667e2cb65fa2
+> # bad: [8af54b9172ff3b9bbdbb3191ed84994d275a0d81] machine: remove 'query-cpus' QMP command
+> git bisect bad 8af54b9172ff3b9bbdbb3191ed84994d275a0d81
+> # bad: [cbde7be900d2a2279cbc4becb91d1ddd6a014def] migrate: remove QMP/HMP commands for speed, downtime and cache size
+> git bisect bad cbde7be900d2a2279cbc4becb91d1ddd6a014def
+> # first bad commit: [cbde7be900d2a2279cbc4becb91d1ddd6a014def] migrate: remove QMP/HMP commands for speed, downtime and cache size
+> 
+> 
+> Are there some obvious settings / options I am missing to regain the savevm performance after this commit?
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/misc/macio/pmu.c         | 33 ---------------------------------
- include/hw/misc/macio/pmu.h |  2 --
- 2 files changed, 35 deletions(-)
+Answering myself: 
 
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index 5b1ec100e2..336502a84b 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -57,19 +57,6 @@
- 
- #define VIA_TIMER_FREQ (4700000 / 6)
- 
--static void via_update_irq(PMUState *s)
--{
--    MOS6522PMUState *mps = MOS6522_PMU(&s->mos6522_pmu);
--    MOS6522State *ms = MOS6522(mps);
--
--    bool new_state = !!(ms->ifr & ms->ier & (SR_INT | T1_INT | T2_INT));
--
--    if (new_state != s->via_irq_state) {
--        s->via_irq_state = new_state;
--        qemu_set_irq(s->via_irq, new_state);
--    }
--}
--
- static void via_set_sr_int(void *opaque)
- {
-     PMUState *s = opaque;
-@@ -808,28 +795,9 @@ static void mos6522_pmu_portB_write(MOS6522State *s)
-     MOS6522PMUState *mps = container_of(s, MOS6522PMUState, parent_obj);
-     PMUState *ps = container_of(mps, PMUState, mos6522_pmu);
- 
--    if ((s->pcr & 0xe0) == 0x20 || (s->pcr & 0xe0) == 0x60) {
--        s->ifr &= ~CB2_INT;
--    }
--    s->ifr &= ~CB1_INT;
--
--    via_update_irq(ps);
-     pmu_update(ps);
- }
- 
--static void mos6522_pmu_portA_write(MOS6522State *s)
--{
--    MOS6522PMUState *mps = container_of(s, MOS6522PMUState, parent_obj);
--    PMUState *ps = container_of(mps, PMUState, mos6522_pmu);
--
--    if ((s->pcr & 0x0e) == 0x02 || (s->pcr & 0x0e) == 0x06) {
--        s->ifr &= ~CA2_INT;
--    }
--    s->ifr &= ~CA1_INT;
--
--    via_update_irq(ps);
--}
--
- static void mos6522_pmu_reset(DeviceState *dev)
- {
-     MOS6522State *ms = MOS6522(dev);
-@@ -853,7 +821,6 @@ static void mos6522_pmu_class_init(ObjectClass *oc, void *data)
-     device_class_set_parent_reset(dc, mos6522_pmu_reset,
-                                   &mdc->parent_reset);
-     mdc->portB_write = mos6522_pmu_portB_write;
--    mdc->portA_write = mos6522_pmu_portA_write;
- }
- 
- static const TypeInfo mos6522_pmu_type_info = {
-diff --git a/include/hw/misc/macio/pmu.h b/include/hw/misc/macio/pmu.h
-index 78237d99a2..00fcdd23f5 100644
---- a/include/hw/misc/macio/pmu.h
-+++ b/include/hw/misc/macio/pmu.h
-@@ -193,8 +193,6 @@ struct PMUState {
- 
-     MemoryRegion mem;
-     uint64_t frequency;
--    qemu_irq via_irq;
--    bool via_irq_state;
- 
-     /* PMU state */
-     MOS6522PMUState mos6522_pmu;
--- 
-2.20.1
+this seems to be due to a resulting different default xbzrle cache size (probably interactions between libvirt/qemu versions?).
 
+When forcing the xbzrle cache size to a larger value, the performance is back.
+
+
+> 
+> I have seen projects attempting to improve other aspects of performance (snapshot performance, etc), is there something going on to improve the transfer of RAM in savevm too?
+
+
+Still I would think that we should be able to do better than 600ish Mb/s , any ideas, prior work on this,
+to improve savevm performance, especially looking at RAM regions transfer speed?
+
+Thanks,
+
+Claudio
 
