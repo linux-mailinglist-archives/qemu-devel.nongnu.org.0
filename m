@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3384A4CE7B3
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 00:35:53 +0100 (CET)
-Received: from localhost ([::1]:49948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAD64CE7B4
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 00:36:06 +0100 (CET)
+Received: from localhost ([::1]:50778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQdwF-0005bz-MR
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 18:35:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34848)
+	id 1nQdwT-0006AO-Lg
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 18:36:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQdut-0004Vy-IL
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 18:34:27 -0500
-Received: from [2607:f8b0:4864:20::536] (port=35505
- helo=mail-pg1-x536.google.com)
+ id 1nQdv3-0004iq-5w
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 18:34:37 -0500
+Received: from [2607:f8b0:4864:20::533] (port=46648
+ helo=mail-pg1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQdus-0008D5-3F
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 18:34:27 -0500
-Received: by mail-pg1-x536.google.com with SMTP id e6so10501570pgn.2
- for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 15:34:25 -0800 (PST)
+ id 1nQdv1-0008Df-M5
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 18:34:36 -0500
+Received: by mail-pg1-x533.google.com with SMTP id o23so10467979pgk.13
+ for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 15:34:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VLjAFUNN93YrbMjmxzNEmvOQZXkxUVnMPGd9SBdp3CM=;
- b=DX1B3/v8yf22gV2UA4GHVy2qCtUJAdgeAGjuwnx0XUUkHRFvnLoaehjyBbEGkSSRaz
- z4k2t/fq/AIUBHle9z/GDpULHjkVzQTeSHxA7Er7cUUNwLyXXJ1nbnNG02U51vJ7kvsT
- t/6gBl6UaJRUkxVn2kpDPQgT1cnCKGJJCi6TKpYcjWJTcQNr9dzLxrNIHv6ZwKpNlbPo
- a5AoK3o3FAwCGrv6+VQT3WbhsGfF+uGiu/OC+LcUZM7Vf49NYZc+o4+7XTPJG2sAkTJK
- naae8knfRBFruYsw+KbUwkoGZTU87yJ6ApSip5+GU1XjwlQsX73omNiF/Oui4TRJlbct
- xtsQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0Mae+MGp+fmN6Bmkdy8MME/MQE4g9EpYM1MAhDsNrhI=;
+ b=CD20LUGiM40G/kpzMwA1sBHO+9ounB7urW84WAZa8g/IIkxuK/ZT50/pWTYEyXv9ej
+ W+iVIb/cvsYxmTcNcu7kRz8ywH4wSeqjk3kHEQ7Z2C9ZoUdttlufCKAibXmB4S8lCsN7
+ s+eu2e5CDPB9V0aEWNYUblLZCfA7kdPOIcphxlV8t7QUEEP0KrToTtYuBAtLjJcUrmv5
+ 1WPYnSveSyDeSCuIjVjIy6169VdOiln+GSYMAlg1+58OBYEruTwZc922cMFs3gMmZj/O
+ G0WbXoizejSq3csfYcIqnXCnhgq029Y7YG96gU99SjDSBWS75fViextgO5e0cLoMA+bz
+ NB4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VLjAFUNN93YrbMjmxzNEmvOQZXkxUVnMPGd9SBdp3CM=;
- b=pvL3V7EiwdibctpztJIN4gQqU8dEJc7muA76F1eCeROwd/6wc+8gYujSF7TH8kOwep
- P7Gmvd/bqnVnZspS2NAC6ngEK+TbAq2/UJdZEsm0+5QuCZuMLBWYlzqynekSwY3Fcc32
- ygYP994oT7nKY5LhY0h801OWW6w8OAqpbBH/7BZbjGF1u+NLuQOREB5KoG1S2psg4acD
- ZgxFNCNoLEidT/Tkglu+fA5I448K8QtIPy3IdTQAcA49a9duM8YftJK7KTkcdNhk+5YR
- TiD7/jWuGbm8kvLvwW4IpNQhLRZEPHYWZaK/MQIkshb4ugNjCB/+3TgXEkMc0gGcXHQo
- mn7w==
-X-Gm-Message-State: AOAM531NcXZXJXcuOBDA39L2vYb/uA7hNQU+ur1yvD53jWoiYtWAg7Py
- eTm8ezAtd+s31VLn39yR+wNXWakSI3Q=
-X-Google-Smtp-Source: ABdhPJyRaCfM3fKT+nzehhXmZAQmkSCbNc3Rfxo7MrFN8Unr/QCdON/X09rvqZuRwX/p07/Z16+KJw==
-X-Received: by 2002:a63:8b41:0:b0:37f:f658:8fd1 with SMTP id
- j62-20020a638b41000000b0037ff6588fd1mr4038950pge.214.1646523264492; 
- Sat, 05 Mar 2022 15:34:24 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0Mae+MGp+fmN6Bmkdy8MME/MQE4g9EpYM1MAhDsNrhI=;
+ b=22k4pi4tQsBqfwOIJJYCEi2q8hSJRAjTemImOQ6r1pzFDHS62ewXqDphinweHogbbK
+ dbdvfY1zQ/9/KQ1GBZQV9QQZSyL4EiUKnCNHdoPEC8d5We5sLfqmxO+SLUZ0fFRsO15D
+ 6AuR0ozTLL8cmP55lxbPtHL6WD9j3LhP/kiqFM1FO4RAM9M1Sz6N4Mf1gSblJhZQRcEW
+ 2pEbha3UVyLF5wFfqIuBHnSGmezPxOk31ytH4klCyFJFMri9PXt1l1FrMk1C0RnzTklO
+ /4F67sxb6UQwdyBW3YJjtkeBoE4trDVJkVUTVE7rACQ6hgBtM4Ud1oG0YNG4RvAYvIbX
+ q2eQ==
+X-Gm-Message-State: AOAM532bYrf9O3/z0ODADXt5bsiW91BvDvYd1zWop5i7c8sJj+hnOgBC
+ W7ma9gZFKJgMEJa6SUfUSbFNIrxX36s=
+X-Google-Smtp-Source: ABdhPJxqPbyDp91ZGYo2NJ3BPJWPJpYibY98zxaApu7ZHSmZifDjI9zlY1fgKbk27dXhcAOQquABOQ==
+X-Received: by 2002:a63:e60:0:b0:374:6620:f372 with SMTP id
+ 32-20020a630e60000000b003746620f372mr4242141pgo.557.1646523274311; 
+ Sat, 05 Mar 2022 15:34:34 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- z192-20020a6333c9000000b0037c7a6f1798sm6061440pgz.7.2022.03.05.15.34.21
+ mu9-20020a17090b388900b001bef86b7d92sm11413693pjb.24.2022.03.05.15.34.31
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 05 Mar 2022 15:34:24 -0800 (PST)
+ Sat, 05 Mar 2022 15:34:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] accel|target: Remove pointless CPUArchState casts
-Date: Sun,  6 Mar 2022 00:34:13 +0100
-Message-Id: <20220305233415.64627-1-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH 1/2] accel/tcg: Remove pointless CPUArchState casts
+Date: Sun,  6 Mar 2022 00:34:14 +0100
+Message-Id: <20220305233415.64627-2-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220305233415.64627-1-philippe.mathieu.daude@gmail.com>
+References: <20220305233415.64627-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x536.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,21 +102,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Now than we can use the abstract CPUArchState, let's clean up.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ accel/tcg/cpu-exec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Based-on: <20220214183144.27402-1-f4bug@amsat.org>
-target: Use ArchCPU & CPUArchState as abstract interface to target CPU
-
-Philippe Mathieu-Daudé (2):
-  accel/tcg: Remove pointless CPUArchState casts
-  target/i386: Remove pointless CPUArchState casts
-
- accel/tcg/cpu-exec.c        |  4 ++--
- target/i386/hax/hax-all.c   |  4 ++--
- target/i386/nvmm/nvmm-all.c | 14 +++++++-------
- target/i386/whpx/whpx-all.c | 18 +++++++++---------
- 4 files changed, 20 insertions(+), 20 deletions(-)
-
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index c68270f794..c997c2e8e0 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -422,7 +422,7 @@ static void cpu_exec_exit(CPUState *cpu)
+ 
+ void cpu_exec_step_atomic(CPUState *cpu)
+ {
+-    CPUArchState *env = (CPUArchState *)cpu->env_ptr;
++    CPUArchState *env = cpu->env_ptr;
+     TranslationBlock *tb;
+     target_ulong cs_base, pc;
+     uint32_t flags, cflags;
+@@ -532,7 +532,7 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+     struct tb_desc desc;
+     uint32_t h;
+ 
+-    desc.env = (CPUArchState *)cpu->env_ptr;
++    desc.env = cpu->env_ptr;
+     desc.cs_base = cs_base;
+     desc.flags = flags;
+     desc.cflags = cflags;
 -- 
 2.34.1
 
