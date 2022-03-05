@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504A44CE453
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 12:00:57 +0100 (CET)
-Received: from localhost ([::1]:54950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855F24CE459
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 12:02:51 +0100 (CET)
+Received: from localhost ([::1]:58840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQS9g-0000oE-9w
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 06:00:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53886)
+	id 1nQSBW-0003eP-J5
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 06:02:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQS6g-00045s-Sg
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 05:57:50 -0500
-Received: from [2a00:1450:4864:20::333] (port=36749
- helo=mail-wm1-x333.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQS6f-0002Qp-6c
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 05:57:50 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- r64-20020a1c4443000000b003898fc06f1eso28893wma.1
- for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 02:57:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bUX9V0ZBEbQk4Ir+TZBJ/F4T0+S7tCpReG3Qi8NpDVg=;
- b=Pn8ePUqV0cbmn1wpDyBxyC4C4xwuXTsjs3WnQMKknRNiUtHLxOgAxtWEEqtc8mhImE
- E0b3QhPJU/XHlfIXDHHwwWyRPzw6bD750VVHBKNmsiAJiq/2jfrVUf9Yu32gv2b39y75
- /fT0caxTsXq7x3Yi1mK/fzJVkm9wiLo9sxXUwuxfzacLYDt8M21VehC2qg4edehcM8OO
- zxAHc93H8B/YfOLpd0aKsKhHBRmIHp0UzNZRjGFssDxgaAuPPX6O3hD22emPZSqr+NN/
- C3BwTiwHBMp3p155FTx6JGQjrYZQ/dOdnRHkuH7u0tEOOXtIKmfL1cWJNriSBGF8Jy4i
- Z73Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bUX9V0ZBEbQk4Ir+TZBJ/F4T0+S7tCpReG3Qi8NpDVg=;
- b=GUkL49DzxoUPhh7D4Sghvyd8r/OX7r3qqMYRhP11V4GvyBy8rdZi0qhS4DYAkMwPzc
- w7F8TOnaWVCckSP2TEIPggGGqV5fpq0F0ukXshvjOD7+eehM33Vrvw70HVPhyAB9l2/W
- cxpz4SDG9zTKglE5dxMM6LKzMDdIj56alVVAu6CTQQ+4slME9Av6Xfnw1bU42g3ARvSP
- jQkdKfD9m5+WHxlsOwAf5GMbcoUTaM2E9lUm6gTDSSt2mD7dkhXvMTqsutVzvmRQddWV
- 2C7NzH8smzQAcnmicWLtyBJqTex6bfDfbFeoVvCn05oJMA7TsW9f7ZV3CqPz0mY0acI9
- tD9g==
-X-Gm-Message-State: AOAM5307511YYKG5bGmJrRQYpIwyr1bxTyLnhsTdDOUCb2UUZWzTV2g1
- 3/hep45E4jpQ7yGKDojGD+8tMtwAD+2jZQ==
-X-Google-Smtp-Source: ABdhPJw24MyLwK6Nd8Raokx4X8UA6aAURllFsgyOWF0MW833o20qS7RJj7FTjRkJIAi/b7UAe+gQ6Q==
-X-Received: by 2002:a05:600c:190c:b0:389:8f94:fcac with SMTP id
- j12-20020a05600c190c00b003898f94fcacmr2023482wmq.27.1646477867859; 
- Sat, 05 Mar 2022 02:57:47 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- b13-20020a05600c4e0d00b003816cb4892csm24079324wmq.0.2022.03.05.02.57.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Mar 2022 02:57:47 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] nsis installer: Fix mouse-over descriptions for emulators
-Date: Sat,  5 Mar 2022 10:57:43 +0000
-Message-Id: <20220305105743.2384766-4-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220305105743.2384766-1-peter.maydell@linaro.org>
-References: <20220305105743.2384766-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nQS9H-0000zl-EC; Sat, 05 Mar 2022 06:00:31 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40674)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nQS9F-0002zo-FC; Sat, 05 Mar 2022 06:00:30 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2255HOf6028435; 
+ Sat, 5 Mar 2022 11:00:23 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3em1k7kh0h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 05 Mar 2022 11:00:22 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 225Arsve022869;
+ Sat, 5 Mar 2022 11:00:20 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3ekyg90qbc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 05 Mar 2022 11:00:20 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 225B0HGn38928872
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 5 Mar 2022 11:00:17 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AB61611C050;
+ Sat,  5 Mar 2022 11:00:17 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 79E4511C05B;
+ Sat,  5 Mar 2022 11:00:17 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Sat,  5 Mar 2022 11:00:17 +0000 (GMT)
+Received: from yukon.home (unknown [9.171.13.194])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 980E422027F;
+ Sat,  5 Mar 2022 12:00:16 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PULL 00/13] ppc queue
+Date: Sat,  5 Mar 2022 11:59:57 +0100
+Message-Id: <20220305110010.1283654-1-clg@kaod.org>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: tESnjRFx1brCwhoXSYM78TXV6AMkSuY0
+X-Proofpoint-ORIG-GUID: tESnjRFx1brCwhoXSYM78TXV6AMkSuY0
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-05_03,2022-03-04_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0
+ mlxlogscore=842 adultscore=0 bulkscore=0 mlxscore=0 spamscore=0
+ clxscore=1034 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2202240000 definitions=main-2203050057
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,90 +93,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, John Snow <jsnow@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We use the nsis.py script to write out an installer script Section
-for each emulator executable, so the exact set of Sections depends on
-which executables were built.  However the part of qemu.nsi which
-specifies mouse-over descriptions for each Section still has a
-hard-coded and very outdated list (with just i386 and alpha).  This
-causes two problems.  Firstly, if you build the installer for a
-configuration where you didn't build the i386 binaries you get
-warnings like this:
-  warning 6000: unknown variable/constant "{Section_i386}" detected, ignoring (macro:_==:1)
-  warning 6000: unknown variable/constant "{Section_i386w}" detected, ignoring (macro:_==:1)
-(this happens in our gitlab CI jobs, for instance).
-Secondly, most of the emulators in the generated installer don't have
-any mouseover text.
+The following changes since commit 3d1fbc59665ff8a5d74b0fd30583044fe99e1117:
 
-Make nsis.py generate a second output file which has the necessary
-MUI_DESCRIPTION_TEXT lines for each Section it creates, so we can
-include that at the right point in qemu.nsi to set the mouse-over
-text.
+  Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request' i=
+nto staging (2022-03-04 15:31:23 +0000)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-I opted to put the logic into the Python script, which I think
-many QEMU contributors understand, rather than investigating
-whether NSIS installer script magic might for instance allow
-us to write out only one file rather than two, since I think
-very few of us understand the NSIS installer...
----
- qemu.nsi        |  5 +----
- scripts/nsis.py | 13 ++++++++++++-
- 2 files changed, 13 insertions(+), 5 deletions(-)
+are available in the Git repository at:
 
-diff --git a/qemu.nsi b/qemu.nsi
-index a44d2be32a2..aa93adee396 100644
---- a/qemu.nsi
-+++ b/qemu.nsi
-@@ -228,10 +228,7 @@ SectionEnd
- ; Descriptions (mouse-over).
- !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-     !insertmacro MUI_DESCRIPTION_TEXT ${SectionSystem}  "System emulation."
--    !insertmacro MUI_DESCRIPTION_TEXT ${Section_alpha}  "Alpha system emulation."
--    !insertmacro MUI_DESCRIPTION_TEXT ${Section_alphaw} "Alpha system emulation (GUI)."
--    !insertmacro MUI_DESCRIPTION_TEXT ${Section_i386}   "PC i386 system emulation."
--    !insertmacro MUI_DESCRIPTION_TEXT ${Section_i386w}  "PC i386 system emulation (GUI)."
-+!include "${BINDIR}\system-mui-text.nsh"
-     !insertmacro MUI_DESCRIPTION_TEXT ${SectionTools} "Tools."
- !ifdef DLLDIR
-     !insertmacro MUI_DESCRIPTION_TEXT ${SectionDll}   "Runtime Libraries (DLL)."
-diff --git a/scripts/nsis.py b/scripts/nsis.py
-index 383bef70332..462d6cac3b6 100644
---- a/scripts/nsis.py
-+++ b/scripts/nsis.py
-@@ -33,7 +33,9 @@ def main():
-         subprocess.run(["make", "install", "DESTDIR=" + destdir + os.path.sep])
-         with open(
-             os.path.join(destdir + args.prefix, "system-emulations.nsh"), "w"
--        ) as nsh:
-+        ) as nsh, open(
-+            os.path.join(destdir + args.prefix, "system-mui-text.nsh"), "w"
-+        ) as muinsh:
-             for exe in sorted(glob.glob(
-                 os.path.join(destdir + args.prefix, "qemu-system-*.exe")
-             )):
-@@ -49,6 +51,15 @@ def main():
-                         arch, exe
-                     )
-                 )
-+                if arch.endswith('w'):
-+                    desc = arch[:-1] + " emulation (GUI)."
-+                else:
-+                    desc = arch + " emulation."
-+
-+                muinsh.write(
-+                    """
-+                !insertmacro MUI_DESCRIPTION_TEXT ${{Section_{0}}} "{1}"
-+                """.format(arch, desc))
- 
-         for exe in glob.glob(os.path.join(destdir + args.prefix, "*.exe")):
-             signcode(exe)
--- 
-2.25.1
+  https://github.com/legoater/qemu/ tags/pull-ppc-20220305
 
+for you to fetch changes up to a9eb50376ffb27a3f348b0bccf70a34b26be2a3c:
+
+  target/ppc: Add missing helper_reset_fpstatus to helper_XVCVSPBF16 (2022-=
+03-05 07:16:48 +0100)
+
+----------------------------------------------------------------
+ppc-7.0 queue :
+
+* Clang fixes
+* Vector/VSX instruction batch fixes
+
+----------------------------------------------------------------
+Lucas Mateus Castro (alqotel) (1):
+      target/ppc: Fix vmul[eo]* instructions marked 2.07
+
+Matheus Ferst (9):
+      tests/tcg/ppc64le: use inline asm instead of __builtin_mtfsf
+      target/ppc: change xs[n]madd[am]sp to use float64r32_muladd
+      tests/tcg/ppc64le: drop __int128 usage in bcdsub
+      tests/tcg/ppc64le: emit bcdsub with .long when needed
+      tests/tcg/ppc64le: Use Altivec register names in clobber list
+      target/ppc: use ext32u and deposit in do_vx_vmulhw_i64
+      target/ppc: use extract/extract2 to create vrlqnm mask
+      target/ppc: use andc in vrlqmi
+      target/ppc: split XXGENPCV macros for readability
+
+Miroslav Rezanina (1):
+      Use long endian options for ppc64
+
+V=C3=ADctor Colombo (2):
+      target/ppc: Add missing helper_reset_fpstatus to VSX_MAX_MINC
+      target/ppc: Add missing helper_reset_fpstatus to helper_XVCVSPBF16
+
+ configure                               |   4 +-
+ target/ppc/fpu_helper.c                 |  58 +++++--------
+ target/ppc/int_helper.c                 |  28 +++++--
+ tests/tcg/ppc64le/bcdsub.c              | 144 ++++++++++++++++------------=
+----
+ tests/tcg/ppc64le/mtfsf.c               |  19 ++---
+ tests/tcg/ppc64le/non_signalling_xscv.c |  16 ++--
+ target/ppc/translate/vmx-impl.c.inc     |  42 ++++------
+ target/ppc/translate/vsx-impl.c.inc     |  71 ++++++++--------
+ tests/tcg/configure.sh                  |   4 +-
+ 9 files changed, 190 insertions(+), 196 deletions(-)
 
