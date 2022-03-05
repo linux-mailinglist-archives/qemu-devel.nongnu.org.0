@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73124CE5B2
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 17:02:06 +0100 (CET)
-Received: from localhost ([::1]:41296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775A34CE5B3
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 17:03:11 +0100 (CET)
+Received: from localhost ([::1]:44754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQWr7-0000vG-EL
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 11:02:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43932)
+	id 1nQWsA-0003zC-KC
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 11:03:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQWlT-0004hz-Nf
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:56:15 -0500
-Received: from [2001:41c9:1:41f::167] (port=59314
+ id 1nQWlX-0004wW-R3
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:56:19 -0500
+Received: from [2001:41c9:1:41f::167] (port=59324
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQWlS-0003jF-87
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:56:15 -0500
+ id 1nQWlW-0003lf-9K
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:56:19 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQWkn-0008cY-V7; Sat, 05 Mar 2022 15:55:34 +0000
+ id 1nQWko-0008cY-CH; Sat, 05 Mar 2022 15:55:38 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu, pbonzini@redhat.com, fam@euphon.net,
  qemu-devel@nongnu.org
-Date: Sat,  5 Mar 2022 15:55:29 +0000
-Message-Id: <20220305155530.9265-10-mark.cave-ayland@ilande.co.uk>
+Date: Sat,  5 Mar 2022 15:55:30 +0000
+Message-Id: <20220305155530.9265-11-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220305155530.9265-1-mark.cave-ayland@ilande.co.uk>
 References: <20220305155530.9265-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 09/10] esp: include the current PDMA callback in the
- migration stream
+Subject: [PATCH v3 10/10] esp: recreate ESPState current_req after migration
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -67,65 +66,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This involves (re)adding a PDMA-specific subsection to hold the reference to the
-current PDMA callback.
+Since PDMA reads/writes are driven by the guest, it is possible that migration
+can occur whilst a SCSIRequest is still active. Fortunately active SCSIRequests
+are already included in the migration stream and restarted post migration but
+this still leaves the reference in ESPState uninitialised.
 
+Implement the SCSIBusInfo .load_request callback to obtain a reference to the
+currently active SCSIRequest and use it to recreate ESPState current_req
+after migration.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/esp.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ hw/scsi/esp.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index a818b2b07a..3f7cf30fa7 100644
+index 3f7cf30fa7..2d3c649567 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -1209,6 +1209,33 @@ static int esp_post_load(void *opaque, int version_id)
-     return 0;
+@@ -1349,6 +1349,15 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
+     return val;
  }
  
-+/*
-+ * PDMA (or pseudo-DMA) is only used on the Macintosh and requires the
-+ * guest CPU to perform the transfers between the SCSI bus and memory
-+ * itself. This is indicated by the dma_memory_read and dma_memory_write
-+ * functions being NULL (in contrast to the ESP PCI device) whilst
-+ * dma_enabled is still set.
-+ */
-+
-+static bool esp_pdma_needed(void *opaque)
++static void *esp_load_request(QEMUFile *f, SCSIRequest *req)
 +{
-+    ESPState *s = ESP(opaque);
++    ESPState *s = container_of(req->bus, ESPState, bus);
 +
-+    return s->dma_memory_read == NULL && s->dma_memory_write == NULL &&
-+           s->dma_enabled;
++    scsi_req_ref(req);
++    s->current_req = req;
++    return s;
 +}
 +
-+static const VMStateDescription vmstate_esp_pdma = {
-+    .name = "esp/pdma",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .needed = esp_pdma_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(pdma_cb, ESPState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- const VMStateDescription vmstate_esp = {
-     .name = "esp",
-     .version_id = 6,
-@@ -1243,6 +1270,10 @@ const VMStateDescription vmstate_esp = {
-         VMSTATE_UINT8_TEST(lun, ESPState, esp_is_version_6),
-         VMSTATE_END_OF_LIST()
-     },
-+    .subsections = (const VMStateDescription * []) {
-+        &vmstate_esp_pdma,
-+        NULL
-+    }
- };
+ static const MemoryRegionOps sysbus_esp_pdma_ops = {
+     .read = sysbus_esp_pdma_read,
+     .write = sysbus_esp_pdma_write,
+@@ -1364,6 +1373,7 @@ static const struct SCSIBusInfo esp_scsi_info = {
+     .max_target = ESP_MAX_DEVS,
+     .max_lun = 7,
  
- static void sysbus_esp_mem_write(void *opaque, hwaddr addr,
++    .load_request = esp_load_request,
+     .transfer_data = esp_transfer_data,
+     .complete = esp_command_complete,
+     .cancel = esp_request_cancelled
 -- 
 2.20.1
 
