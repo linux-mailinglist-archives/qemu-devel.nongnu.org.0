@@ -2,48 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E004CE573
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 16:11:03 +0100 (CET)
-Received: from localhost ([::1]:40734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A764CE578
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Mar 2022 16:13:16 +0100 (CET)
+Received: from localhost ([::1]:48006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQW3e-0000X6-Ap
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 10:10:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37154)
+	id 1nQW5r-0005VP-Tz
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 10:13:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQW2K-0008HV-7b
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:09:36 -0500
-Received: from [2001:41c9:1:41f::167] (port=59080
+ id 1nQW2p-0000dL-MH
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:10:07 -0500
+Received: from [2001:41c9:1:41f::167] (port=59086
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQW2I-0006Z0-O5
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:09:35 -0500
-Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
+ id 1nQW2o-0006ll-2P
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 10:10:07 -0500
+Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nQW1f-0008Oy-GQ; Sat, 05 Mar 2022 15:08:55 +0000
-Message-ID: <fd5b81bf-786a-4cf8-5901-4740793a7cff@ilande.co.uk>
-Date: Sat, 5 Mar 2022 15:09:30 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Content-Language: en-US
+ id 1nQW27-0008Q9-W4; Sat, 05 Mar 2022 15:09:28 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, laurent@vivier.eu, qemu-devel@nongnu.org
-References: <20220305141044.31911-1-mark.cave-ayland@ilande.co.uk>
- <97fe5156-d103-8af6-ab9c-cef21d7f5d18@gmail.com>
- <f5345278-d6d6-6499-2e0b-cd26461ae97f@ilande.co.uk>
-In-Reply-To: <f5345278-d6d6-6499-2e0b-cd26461ae97f@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: laurent@vivier.eu,
+	qemu-devel@nongnu.org
+Date: Sat,  5 Mar 2022 15:09:45 +0000
+Message-Id: <20220305150957.5053-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 00/12] mos6522: switch to gpios, add control line
- edge-triggering and extra debugging
+Subject: [PATCH v4 00/12] mos6522: switch to gpios,
+ add control line edge-triggering and extra debugging
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -54,8 +48,8 @@ Received-SPF: pass client-ip=2001:41c9:1:41f::167;
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,28 +66,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/03/2022 14:51, Mark Cave-Ayland wrote:
+Here is another patchset taken from my series to enable MacOS to boot on the q800
+machine.
 
-> On 05/03/2022 14:34, Philippe Mathieu-Daudé wrote:
-> 
->> On 5/3/22 15:10, Mark Cave-Ayland wrote:
->>> Here is another patchset taken from my series to enable MacOS to boot on the q800
->>> machine.
->>
->>> v3:
->>> - Rebase onto master
->>> - Add R-B tags from Laurent
->>
->> It seems you missed all my R-b...
-> 
-> Apologies Phil, looks like I missed a couple. Patch 7 already has your R-B with your 
-> suggested change, so it's just patches 1 and 3 that I think I missed?
+Patches 1-3 define the IFR bit flags in terms of the physical control lines and
+update mac_via to use them.
 
-Looks like it's 1, 3 and 10 which I missed your R-b tags for. I'll send as a v4 
-shortly, and sorry once again.
+Patch 4 does the main switch from custom methods in MOS6522DeviceClass to using
+standard gpios whilst patch 5 removes these now-obsolete methods.
 
+Patch 6 updates mos6522 instances to use the recommended method of calling
+device_class_set_parent_reset() to propagate the device reset to the parent.
 
-ATB,
+Patches 7 and 8 add more support for debugging guests using the mos6522 devices
+by adding register names into the trace-event output and implementing a new
+"info via" HMP command to give detailed information about the registers and timer
+states.
 
-Mark.
+Patch 9 introduces a new last_irq_levels field within MOS6522State to enable detection
+of edge transitions, which is also a migration break for the q800 and g3beige/mac99
+machines.
+
+Patch 10 ensures that the SCSI_DATA (DRQ) bit in VIA2 is unlatched since in the q800
+machine VIA2 is integrated within the on-board logic, and analysis of the MacOS
+toolbox ROM suggests that the DRQ bit is expected to be live compared with older
+Macs which use a real (latched) VIA.
+
+Patches 11 implement edge-triggering for the CA1/2 and CB1/2 control lines as
+documented in the datasheet, including updating the relevant inputs for negative
+edge-triggering if required.
+
+Finally patch 12 removes some old code in the PMU mos6522 instance which is now no
+longer required with these latest changes.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+v4:
+- Add missing R-b tags from Phil
+
+v3:
+- Rebase onto master
+- Add R-B tags from Laurent
+- Introduce MOS6522_NUM_REGS in patch 7 as suggested by Phil
+
+v2:
+- Update patches 1-3 to use the BIT() macro
+- Add R-B tags from Peter
+- Update "info via" patch to use a target-specific HMP command as discussed on-list
+- Add patch 10 "mac_via: make SCSI_DATA (DRQ) bit live rather than latched"
+
+Mark Cave-Ayland (12):
+  mos6522: add defines for IFR bit flags
+  mac_via: use IFR bit flag constants for VIA1 IRQs
+  mac_via: use IFR bit flag constants for VIA2 IRQs
+  mos6522: switch over to use qdev gpios for IRQs
+  mos6522: remove update_irq() and set_sr_int() methods from
+    MOS6522DeviceClass
+  mos6522: use device_class_set_parent_reset() to propagate reset to
+    parent
+  mos6522: add register names to register read/write trace events
+  mos6522: add "info via" HMP command for debugging
+  mos6522: record last_irq_levels in mos6522_set_irq()
+  mac_via: make SCSI_DATA (DRQ) bit live rather than latched
+  mos6522: implement edge-triggering for CA1/2 and CB1/2 control line
+    IRQs
+  macio/pmu.c: remove redundant code
+
+ hmp-commands-info.hx         |  15 +++
+ hw/m68k/q800.c               |   9 +-
+ hw/misc/mac_via.c            |  87 ++++++--------
+ hw/misc/macio/cuda.c         |   8 +-
+ hw/misc/macio/pmu.c          |  40 +------
+ hw/misc/mos6522.c            | 226 ++++++++++++++++++++++++++++++++---
+ hw/misc/trace-events         |   4 +-
+ include/hw/misc/mac_via.h    |  46 ++++---
+ include/hw/misc/macio/pmu.h  |   2 -
+ include/hw/misc/mos6522.h    |  46 +++++--
+ include/monitor/hmp-target.h |   1 +
+ 11 files changed, 337 insertions(+), 147 deletions(-)
+
+-- 
+2.20.1
+
 
