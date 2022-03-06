@@ -2,88 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCE34CEAF9
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 12:21:48 +0100 (CET)
-Received: from localhost ([::1]:54874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7CE4CEB1F
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 12:31:15 +0100 (CET)
+Received: from localhost ([::1]:32816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQoxP-00046q-H8
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 06:21:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55966)
+	id 1nQp6Y-0000RP-1i
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 06:31:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQovE-0002d2-Ef
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:19:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37603)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nQp4H-0007Sb-PV
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:28:55 -0500
+Received: from [2001:738:2001:2001::2001] (port=38520 helo=zero.eik.bme.hu)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQovB-00012i-9l
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:19:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646565567;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CduO+3gxLOWm8JKrF0A94f5pzyPfp1d52y539D4bG2U=;
- b=Ju7W0Ej01eKzmNsN7yTkxaCkr4qyx3/zfZDYhJ1CIirn1/9nu+aHGswz9Vdsq1ymzmltut
- qsLl5JRra82QeT2iUyrnJm7eI/J+1dLWIOx/pgyxg0TI4mgzuIFKj6gwE03r/98WrVkAU2
- BCsgkhILQ5q3s1NbJCIkfSxLRZRMmEY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-cQOIkLN8O4GCbwDnPr_bxQ-1; Sun, 06 Mar 2022 06:19:26 -0500
-X-MC-Unique: cQOIkLN8O4GCbwDnPr_bxQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 20-20020a05600c231400b00389886f6b23so2950131wmo.6
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 03:19:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CduO+3gxLOWm8JKrF0A94f5pzyPfp1d52y539D4bG2U=;
- b=UjFr7d8M19h0zsyCKFM+Iwxq59Y3LosSQeDuwjOrroS3LeskanB5rrOrvJnbWul9Ko
- nAh3f+DLf7/b+Af7V05m59v1F0DVLrYZHsRuOLvM9UoELndBxJ7HCWRokUtAZAziujA7
- NK1w83pyEg4eR0UdOy4sQ8ScD5dAMvFK3RVEtZ25aMWQqAX6FfdLiTC3psDJQakSEPNl
- w+tGaYFXqhKCGgDJ7XsajLqgUD6hEuYEbHOwQZ3TIXmErKH07iDDaB8ZwGQEwuYF67kD
- II1SPRqwyJBXiOmE6hKuZI2K4VGlestQ7TeGgl21eo8eum075YF/iK15yYK8op6a9WfO
- NzMQ==
-X-Gm-Message-State: AOAM533zRMcOIHLeBPsCsFe6eNNxcrAV3FSkmPDANg6L8cGt+ESX/5GU
- VJiDHXMBxN0Ihiy+nkZeKC2YJidF2SsYzR5Gvj1pTiXt6tW9uox8KdXeBo96KMlZpfbrucrmbDR
- 6h5yyH6TLZH9IZBU=
-X-Received: by 2002:adf:f70f:0:b0:1f1:dfb1:ab68 with SMTP id
- r15-20020adff70f000000b001f1dfb1ab68mr4613066wrp.439.1646565565033; 
- Sun, 06 Mar 2022 03:19:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxZxVBPqg/Mhodh007LvhJJi7wrGiH+U0e8q+QQtXbkJzR1KOzlR+59wfg7YPufxmDsKiSwbg==
-X-Received: by 2002:adf:f70f:0:b0:1f1:dfb1:ab68 with SMTP id
- r15-20020adff70f000000b001f1dfb1ab68mr4613046wrp.439.1646565564713; 
- Sun, 06 Mar 2022 03:19:24 -0800 (PST)
-Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- s17-20020adfbc11000000b001f023d197b8sm8758829wrg.68.2022.03.06.03.19.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 03:19:24 -0800 (PST)
-Date: Sun, 6 Mar 2022 06:19:21 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v6 1/4] tests/acpi: i386: allow FACP acpi table changes
-Message-ID: <20220306061833-mutt-send-email-mst@kernel.org>
-References: <20220304150722.2069132-1-ani@anisinha.ca>
- <20220304150722.2069132-2-ani@anisinha.ca>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nQp4E-0003TK-Go
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:28:52 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id DE9C27462D3;
+ Sun,  6 Mar 2022 12:28:44 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 9DD6B745708; Sun,  6 Mar 2022 12:28:44 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 99D337456FE;
+ Sun,  6 Mar 2022 12:28:44 +0100 (CET)
+Date: Sun, 6 Mar 2022 12:28:44 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH 1/2] ui/cocoa: capture all keys and combos when mouse is
+ grabbed
+In-Reply-To: <20220306111114.18285-2-akihiko.odaki@gmail.com>
+Message-ID: <2d33845-275f-d4b0-2c7a-a0290f43046@eik.bme.hu>
+References: <20220306111114.18285-1-akihiko.odaki@gmail.com>
+ <20220306111114.18285-2-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220304150722.2069132-2-ani@anisinha.ca>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
+ (failed)
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,40 +61,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- liavalb@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Gustavo Noronha Silva <gustavo@noronha.dev.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 08:37:19PM +0530, Ani Sinha wrote:
-> From: Liav Albani <liavalb@gmail.com>
-> 
-> The FACP table is going to be changed for x86/q35 machines. To be sure
-> the following changes are not breaking any QEMU test this change follows
-> step 2 from the bios-tables-test.c guide on changes that affect ACPI
-> tables.
-> 
-> Signed-off-by: Liav Albani <liavalb@gmail.com>
-> Acked-by: Ani Sinha <ani@anisinha.ca>
+On Sun, 6 Mar 2022, Akihiko Odaki wrote:
+> From: Gustavo Noronha Silva <gustavo@noronha.dev.br>
+>
+> Applications such as Gnome may use Alt-Tab and Super-Tab for different
+> purposes, some use Ctrl-arrows so we want to allow qemu to handle
+> everything when it captures the mouse/keyboard.
+>
+> However, Mac OS handles some combos like Command-Tab and Ctrl-arrows
+> at an earlier part of the event handling chain, not letting qemu see it.
+>
+> We add a global Event Tap that allows qemu to see all events when the
+> mouse is grabbed. Note that this requires additional permissions.
+>
+> See:
+>
+> https://developer.apple.com/documentation/coregraphics/1454426-cgeventtapcreate?language=objc#discussion
+> https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+>
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.dev.br>
+> Message-Id: <20210713213200.2547-2-gustavo@noronha.dev.br>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 > ---
->  tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..7570e39369 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,5 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/q35/FACP",
-> +"tests/data/acpi/q35/FACP.nosmm",
-> +"tests/data/acpi/q35/FACP.slic",
-> +"tests/data/acpi/q35/FACP.xapic",
+> qapi/ui.json    | 16 ++++++++++++
+> qemu-options.hx |  3 +++
+> ui/cocoa.m      | 65 ++++++++++++++++++++++++++++++++++++++++++++++++-
+> 3 files changed, 83 insertions(+), 1 deletion(-)
+>
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 4a13f883a30..1e9893419fe 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -1260,6 +1260,21 @@
+> { 'struct'  : 'DisplayCurses',
+>   'data'    : { '*charset'       : 'str' } }
+>
+> +##
+> +# @DisplayCocoa:
+> +#
+> +# Cocoa display options.
+> +#
+> +# @full-grab: Capture all key presses, including system combos. This
+> +#             requires accessibility permissions, since it performs
+> +#             a global grab on key events. (default: off)
+> +#             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'struct'  : 'DisplayCocoa',
+> +  'data'    : { '*full-grab'     : 'bool' } }
+> +
+> ##
+> # @DisplayType:
+> #
+> @@ -1338,6 +1353,7 @@
+>   'discriminator' : 'type',
+>   'data'    : {
+>       'gtk': { 'type': 'DisplayGTK', 'if': 'CONFIG_GTK' },
+> +      'cocoa': { 'type': 'DisplayCocoa', 'if': 'CONFIG_COCOA' },
+>       'curses': { 'type': 'DisplayCurses', 'if': 'CONFIG_CURSES' },
+>       'egl-headless': { 'type': 'DisplayEGLHeadless',
+>                         'if': { 'all': ['CONFIG_OPENGL', 'CONFIG_GBM'] } },
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 094a6c1d7c2..4df9ccc3446 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1916,6 +1916,9 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
+> #if defined(CONFIG_CURSES)
+>     "-display curses[,charset=<encoding>]\n"
+> #endif
+> +#if defined(CONFIG_COCOA)
+> +    "-display cocoa[,full_grab=on|off]\n"
+> +#endif
+> #if defined(CONFIG_OPENGL)
+>     "-display egl-headless[,rendernode=<file>]\n"
+> #endif
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index 8ab9ab5e84d..c41bc615d33 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -308,11 +308,13 @@ @interface QemuCocoaView : NSView
+>     BOOL isMouseGrabbed;
+>     BOOL isFullscreen;
+>     BOOL isAbsoluteEnabled;
+> +    CFMachPortRef eventsTap;
+> }
+> - (void) switchSurface:(pixman_image_t *)image;
+> - (void) grabMouse;
+> - (void) ungrabMouse;
+> - (void) toggleFullScreen:(id)sender;
+> +- (void) setFullGrab:(id)sender;
+> - (void) handleMonitorInput:(NSEvent *)event;
+> - (bool) handleEvent:(NSEvent *)event;
+> - (bool) handleEventLocked:(NSEvent *)event;
+> @@ -335,6 +337,19 @@ - (void) raiseAllKeys;
+>
+> QemuCocoaView *cocoaView;
+>
+> +static CGEventRef handleTapEvent(CGEventTapProxy proxy, CGEventType type, CGEventRef cgEvent, void *userInfo)
+> +{
+> +    QemuCocoaView *cocoaView = (QemuCocoaView*) userInfo;
 
-For me make check fails with the changes in patch 2.
-what about the rest of q35 FACP tables?
+Extra space between cast and userinfo? Do you need explicit cast at all? 
+In C at least void * does not need explicit cast, not sure about 
+Objective-C but if it's not needed you could just remove the cast.
 
-> -- 
-> 2.25.1
+Regards,
+BALATON Zoltan
 
+> +    NSEvent* event = [NSEvent eventWithCGEvent:cgEvent];
+> +    if ([cocoaView isMouseGrabbed] && [cocoaView handleEvent:event]) {
+> +        COCOA_DEBUG("Global events tap: qemu handled the event, capturing!\n");
+> +        return NULL;
+> +    }
+> +    COCOA_DEBUG("Global events tap: qemu did not handle the event, letting it through...\n");
+> +
+> +    return cgEvent;
+> +}
+> +
+> @implementation QemuCocoaView
+> - (id)initWithFrame:(NSRect)frameRect
+> {
+> @@ -360,6 +375,11 @@ - (void) dealloc
+>     }
+>
+>     qkbd_state_free(kbd);
+> +
+> +    if (eventsTap) {
+> +        CFRelease(eventsTap);
+> +    }
+> +
+>     [super dealloc];
+> }
+>
+> @@ -654,6 +674,36 @@ - (void) toggleFullScreen:(id)sender
+>     }
+> }
+>
+> +- (void) setFullGrab:(id)sender
+> +{
+> +    COCOA_DEBUG("QemuCocoaView: setFullGrab\n");
+> +
+> +    CGEventMask mask = CGEventMaskBit(kCGEventKeyDown) | CGEventMaskBit(kCGEventKeyUp) | CGEventMaskBit(kCGEventFlagsChanged);
+> +    eventsTap = CGEventTapCreate(kCGHIDEventTap, kCGHeadInsertEventTap, kCGEventTapOptionDefault,
+> +                                 mask, handleTapEvent, self);
+> +    if (!eventsTap) {
+> +        warn_report("Could not create event tap, system key combos will not be captured.\n");
+> +        return;
+> +    } else {
+> +        COCOA_DEBUG("Global events tap created! Will capture system key combos.\n");
+> +    }
+> +
+> +    CFRunLoopRef runLoop = CFRunLoopGetCurrent();
+> +    if (!runLoop) {
+> +        warn_report("Could not obtain current CF RunLoop, system key combos will not be captured.\n");
+> +        return;
+> +    }
+> +
+> +    CFRunLoopSourceRef tapEventsSrc = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventsTap, 0);
+> +    if (!tapEventsSrc ) {
+> +        warn_report("Could not obtain current CF RunLoop, system key combos will not be captured.\n");
+> +        return;
+> +    }
+> +
+> +    CFRunLoopAddSource(runLoop, tapEventsSrc, kCFRunLoopDefaultMode);
+> +    CFRelease(tapEventsSrc);
+> +}
+> +
+> - (void) toggleKey: (int)keycode {
+>     qkbd_state_key_event(kbd, keycode, !qkbd_state_key_get(kbd, keycode));
+> }
+> @@ -1281,6 +1331,13 @@ - (void)toggleFullScreen:(id)sender
+>     [cocoaView toggleFullScreen:sender];
+> }
+>
+> +- (void) setFullGrab:(id)sender
+> +{
+> +    COCOA_DEBUG("QemuCocoaAppController: setFullGrab\n");
+> +
+> +    [cocoaView setFullGrab:sender];
+> +}
+> +
+> /* Tries to find then open the specified filename */
+> - (void) openDocumentation: (NSString *) filename
+> {
+> @@ -2057,11 +2114,17 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+>     qemu_sem_wait(&app_started_sem);
+>     COCOA_DEBUG("cocoa_display_init: app start completed\n");
+>
+> +    QemuCocoaAppController* controller = (QemuCocoaAppController*)[[NSApplication sharedApplication] delegate];
+>     /* if fullscreen mode is to be used */
+>     if (opts->has_full_screen && opts->full_screen) {
+>         dispatch_async(dispatch_get_main_queue(), ^{
+>             [NSApp activateIgnoringOtherApps: YES];
+> -            [(QemuCocoaAppController *)[[NSApplication sharedApplication] delegate] toggleFullScreen: nil];
+> +            [controller toggleFullScreen: nil];
+> +        });
+> +    }
+> +    if (opts->u.cocoa.has_full_grab && opts->u.cocoa.full_grab) {
+> +        dispatch_async(dispatch_get_main_queue(), ^{
+> +            [controller setFullGrab: nil];
+>         });
+>     }
+>     if (opts->has_show_cursor && opts->show_cursor) {
+>
 
