@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266124CEE79
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:27:50 +0100 (CET)
-Received: from localhost ([::1]:36726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C18BF4CEE73
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:25:21 +0100 (CET)
+Received: from localhost ([::1]:55648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR0I1-0002cN-8b
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:27:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49446)
+	id 1nR0Fc-0004oA-RA
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:25:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR09M-0007pV-55; Sun, 06 Mar 2022 18:18:52 -0500
-Received: from [2a00:1450:4864:20::42f] (port=45919
- helo=mail-wr1-x42f.google.com)
+ id 1nR09Q-00086k-UO; Sun, 06 Mar 2022 18:18:56 -0500
+Received: from [2a00:1450:4864:20::330] (port=46833
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR09K-0007QI-A1; Sun, 06 Mar 2022 18:18:51 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id p9so20648625wra.12;
- Sun, 06 Mar 2022 15:18:49 -0800 (PST)
+ id 1nR09P-0007Rj-BW; Sun, 06 Mar 2022 18:18:56 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ p184-20020a1c29c1000000b0037f76d8b484so8291839wmp.5; 
+ Sun, 06 Mar 2022 15:18:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=46NBNvVoysH9eJqR3eLDXH7RhT1oumyXXssv7c0pDs4=;
- b=EuVul0FiVgxxO0SMtN1aleSrFSR5fQ6OC/jIirSGVyDO2GxsKPR8KCho202pLkUSRj
- APsOA/RdsViUtfDlA3MKhtuzTUv7DMelrMmmUBb2cO8ipE4Et9r2/jkTVX9xp+HX/u3z
- 1O4cSrGBTq08Xy3w5MIMR8XVq4VTgcERi5n56lYw9Zf8wbFe84VDUkZMd1FRd068meyY
- 3QndukVGeQ0TL6bbhzt8A5Q+Adcb1pNLryEOMRjfE79EUMi3pTuI3G5xdboc8Na7lIsc
- CdPT8l9LaIRTCaJgKzQg5Ajf/ZElNMW2ZauEnSYIMu0+i2OFpMCUDkSHmnuTmg5RDJmG
- jQIQ==
+ bh=4Tp3WhNKm8JxXl/T2EoFZ8o3VjhBm7jaY9n4gps6ekw=;
+ b=c5vj0Ib1OzUvzJdZ7tINjDtHZ03sVw7XitsvE8MwOUnaSZ834UgQQdX92QJZ8/2JGY
+ s8tqyrbeVsEIpv0aFptI+vX8NWxjt3HwuE9VC158hdXEWgMkLgm5P+hAfbyZxTFLZTRI
+ Yt02OFOf8HuLzEh8zGsfzj1Sip+G3V6e05NGGA9vjT3aXa+84kq7v/7cqX5VtAuebCI3
+ bO+WD3UKfr3mdT1GLy7DR1KxaCO777/S73jxHOoWrsCpRPP5T6rrAXDoOX7+2pTJSaNC
+ WfNzJlwusJreLT9vfQmBnTIb+4c3aBZ+l28tEX8U6sxVaA+qlpSHTVR0BphIV2zpcrGJ
+ 34Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=46NBNvVoysH9eJqR3eLDXH7RhT1oumyXXssv7c0pDs4=;
- b=dbVDIzKpbP5vFky510PQKONSDhLias3nUFzDjBFZnYFKjPt7qMV663gDYoBr3c8sN7
- Dwxffmj1rW+4bToQcFb7tpPAPVvHRZHmos16is+gm109nAQO4FEIIt7FCvMiQiv75Jc/
- 0iyqcPc4fN5squ5sJP36ayJmjcRuQiWfU8b59Yo675HQcW3vkHSFxyf34TqjsXXYW0Gg
- OA/yZLcWuE82PB6nlOaox+deKxMTksjO+3sMsNrVlFTDtuUDyIFjIM9pnCazbdF7BpFj
- NWhsPchffydsVJ0oRf4NVmZHiv6jg1iy6D4ErYHmymGrJjXWF7w7LvJ2+MkRC7vQ6yCd
- lGkg==
-X-Gm-Message-State: AOAM531XDY9vuXPw/hcqj9AHGudiuz54CU2pcpA1lG8c3c+5EJN050J3
- rrj+fNu/rDM9or0nQD2wdzDTZGaVbW0=
-X-Google-Smtp-Source: ABdhPJygEy1oAaDpNEut47oj2XoNGyAjL54W5qLvJl7kEM2dLX7Hq1rbIO1e+TS6iRR+xO0C+lSlVA==
-X-Received: by 2002:a5d:53cb:0:b0:1f1:e947:1933 with SMTP id
- a11-20020a5d53cb000000b001f1e9471933mr3247310wrw.478.1646608728349; 
- Sun, 06 Mar 2022 15:18:48 -0800 (PST)
+ bh=4Tp3WhNKm8JxXl/T2EoFZ8o3VjhBm7jaY9n4gps6ekw=;
+ b=HQSUnW912pjns4PtujndawVlHb9QO3AhYCQqjC93QnhblB6jYPlywJl6DdWc4urFO/
+ gI5Ik6cw4eMnAThAFYzqUbWHS6zBoIsycvwbJHP//MQrHeCLqqyvzJsY31oYEoYy9EgS
+ hp5LpV8pKiEobn0/J+/EP34nps2V6Izr2AZQAEKDv2DgPO1AIwQ/6+AAuYgf8OD9hUS9
+ uP4xb9KlTnaqrgRt0RVUfKPFCbODPBh/X7kxQOSot5GVQmwouKBWoBy+F6Te48nZgcwC
+ 1SC/IPVWT01wCbEamc7yypPxNiSHSyorFoiTcmn13k1SM5jpZGqyHAppH8TxPcrJABp3
+ XyqQ==
+X-Gm-Message-State: AOAM530tOnii+LzSqPQsT2gG/M8ec9RpeL/iZ5ICE7OGHLHVynwhOLMC
+ u0nT1AmQfo/Sj9tz9vjzkKViPKK4LSA=
+X-Google-Smtp-Source: ABdhPJwTK+JYPiA2tUiszKvVTa18E5BjmwJ4PKdxqbUBPSFN/Aah+X5bzr1AAXY66NXMWW9J+f4c6Q==
+X-Received: by 2002:a05:600c:1d91:b0:389:ac07:37eb with SMTP id
+ p17-20020a05600c1d9100b00389ac0737ebmr344171wms.133.1646608733617; 
+ Sun, 06 Mar 2022 15:18:53 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- bg18-20020a05600c3c9200b0037c2ef07493sm13424506wmb.3.2022.03.06.15.18.47
+ 186-20020a1c19c3000000b0038990c0925fsm6001041wmz.14.2022.03.06.15.18.52
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 06 Mar 2022 15:18:47 -0800 (PST)
+ Sun, 06 Mar 2022 15:18:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 10/22] audio: Log context for audio bug
-Date: Mon,  7 Mar 2022 00:17:41 +0100
-Message-Id: <20220306231753.50277-11-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v7 11/22] coreaudio: Always return 0 in handle_voice_change
+Date: Mon,  7 Mar 2022 00:17:42 +0100
+Message-Id: <20220306231753.50277-12-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,242 +101,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Without this change audio_bug aborts when the bug condition is met,
-which discards following useful logs. Call abort after such logs.
+handle_voice_change() is a CoreAudio callback function as of CoreAudio type
+AudioObjectPropertyListenerProc, and for the latter MacOSX.sdk/System/
+Library/Frameworks/CoreAudio.framework/Headers/AudioHardware.h
+says "The return value is currently unused and should always be 0.".
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220306063202.27331-1-akihiko.odaki@gmail.com>
+Message-Id: <20220306123410.61063-1-akihiko.odaki@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- audio/audio.c          | 25 ++++++++++++-------------
- audio/audio_template.h | 27 ++++++++++++---------------
- 2 files changed, 24 insertions(+), 28 deletions(-)
+ audio/coreaudio.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index a88572e713..6bc313d9f5 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -117,7 +117,6 @@ int audio_bug (const char *funcname, int cond)
-             AUD_log (NULL, "I am sorry\n");
-         }
-         AUD_log (NULL, "Context:\n");
--        abort();
+diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+index 23d7593eb9..3186b68474 100644
+--- a/audio/coreaudio.c
++++ b/audio/coreaudio.c
+@@ -545,7 +545,6 @@ static OSStatus handle_voice_change(
+     const AudioObjectPropertyAddress *in_addresses,
+     void *in_client_data)
+ {
+-    OSStatus status;
+     coreaudioVoiceOut *core = in_client_data;
+ 
+     qemu_mutex_lock_iothread();
+@@ -554,13 +553,12 @@ static OSStatus handle_voice_change(
+         fini_out_device(core);
      }
  
-     return cond;
-@@ -138,7 +137,7 @@ static inline int audio_bits_to_index (int bits)
-     default:
-         audio_bug ("bits_to_index", 1);
-         AUD_log (NULL, "invalid bits %d\n", bits);
--        return 0;
-+        abort();
+-    status = init_out_device(core);
+-    if (!status) {
++    if (!init_out_device(core)) {
+         update_device_playback_state(core);
      }
+ 
+     qemu_mutex_unlock_iothread();
+-    return status;
++    return 0;
  }
  
-@@ -156,7 +155,7 @@ void *audio_calloc (const char *funcname, int nmemb, size_t size)
-         AUD_log (NULL, "%s passed invalid arguments to audio_calloc\n",
-                  funcname);
-         AUD_log (NULL, "nmemb=%d size=%zu (len=%zu)\n", nmemb, size, len);
--        return NULL;
-+        abort();
-     }
- 
-     return g_malloc0 (len);
-@@ -543,7 +542,7 @@ static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
-     size_t live = hw->total_samples_captured - audio_pcm_hw_find_min_in (hw);
-     if (audio_bug(__func__, live > hw->conv_buf->size)) {
-         dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
--        return 0;
-+        abort();
-     }
-     return live;
- }
-@@ -581,7 +580,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-     }
-     if (audio_bug(__func__, live > hw->conv_buf->size)) {
-         dolog("live_in=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
--        return 0;
-+        abort();
-     }
- 
-     rpos = audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
-@@ -656,7 +655,7 @@ static size_t audio_pcm_hw_get_live_out (HWVoiceOut *hw, int *nb_live)
- 
-         if (audio_bug(__func__, live > hw->mix_buf->size)) {
-             dolog("live=%zu hw->mix_buf->size=%zu\n", live, hw->mix_buf->size);
--            return 0;
-+            abort();
-         }
-         return live;
-     }
-@@ -706,7 +705,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
-     live = sw->total_hw_samples_mixed;
-     if (audio_bug(__func__, live > hwsamples)) {
-         dolog("live=%zu hw->mix_buf->size=%zu\n", live, hwsamples);
--        return 0;
-+        abort();
-     }
- 
-     if (live == hwsamples) {
-@@ -998,7 +997,7 @@ static size_t audio_get_avail (SWVoiceIn *sw)
-     if (audio_bug(__func__, live > sw->hw->conv_buf->size)) {
-         dolog("live=%zu sw->hw->conv_buf->size=%zu\n", live,
-               sw->hw->conv_buf->size);
--        return 0;
-+        abort();
-     }
- 
-     ldebug (
-@@ -1028,7 +1027,7 @@ static size_t audio_get_free(SWVoiceOut *sw)
-     if (audio_bug(__func__, live > sw->hw->mix_buf->size)) {
-         dolog("live=%zu sw->hw->mix_buf->size=%zu\n", live,
-               sw->hw->mix_buf->size);
--        return 0;
-+        abort();
-     }
- 
-     dead = sw->hw->mix_buf->size - live;
-@@ -1170,7 +1169,7 @@ static void audio_run_out (AudioState *s)
- 
-         if (audio_bug(__func__, live > hw->mix_buf->size)) {
-             dolog("live=%zu hw->mix_buf->size=%zu\n", live, hw->mix_buf->size);
--            continue;
-+            abort();
-         }
- 
-         if (hw->pending_disable && !nb_live) {
-@@ -1203,7 +1202,7 @@ static void audio_run_out (AudioState *s)
-         if (audio_bug(__func__, hw->mix_buf->pos >= hw->mix_buf->size)) {
-             dolog("hw->mix_buf->pos=%zu hw->mix_buf->size=%zu played=%zu\n",
-                   hw->mix_buf->pos, hw->mix_buf->size, played);
--            hw->mix_buf->pos = 0;
-+            abort();
-         }
- 
- #ifdef DEBUG_OUT
-@@ -1223,7 +1222,7 @@ static void audio_run_out (AudioState *s)
-             if (audio_bug(__func__, played > sw->total_hw_samples_mixed)) {
-                 dolog("played=%zu sw->total_hw_samples_mixed=%zu\n",
-                       played, sw->total_hw_samples_mixed);
--                played = sw->total_hw_samples_mixed;
-+                abort();
-             }
- 
-             sw->total_hw_samples_mixed -= played;
-@@ -1346,7 +1345,7 @@ static void audio_run_capture (AudioState *s)
-             if (audio_bug(__func__, captured > sw->total_hw_samples_mixed)) {
-                 dolog("captured=%zu sw->total_hw_samples_mixed=%zu\n",
-                       captured, sw->total_hw_samples_mixed);
--                captured = sw->total_hw_samples_mixed;
-+                abort();
-             }
- 
-             sw->total_hw_samples_mixed -= captured;
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index d2d348638b..7192b19e73 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -59,12 +59,13 @@ static void glue(audio_init_nb_voices_, TYPE)(AudioState *s,
-     if (audio_bug(__func__, !voice_size && max_voices)) {
-         dolog ("drv=`%s' voice_size=0 max_voices=%d\n",
-                drv->name, max_voices);
--        glue (s->nb_hw_voices_, TYPE) = 0;
-+        abort();
-     }
- 
-     if (audio_bug(__func__, voice_size && !max_voices)) {
-         dolog ("drv=`%s' voice_size=%d max_voices=0\n",
-                drv->name, voice_size);
-+        abort();
-     }
- }
- 
-@@ -81,6 +82,7 @@ static void glue(audio_pcm_hw_alloc_resources_, TYPE)(HW *hw)
-         size_t samples = hw->samples;
-         if (audio_bug(__func__, samples == 0)) {
-             dolog("Attempted to allocate empty buffer\n");
-+            abort();
-         }
- 
-         HWBUF = g_malloc0(sizeof(STSampleBuffer) + sizeof(st_sample) * samples);
-@@ -252,12 +254,12 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
- 
-     if (audio_bug(__func__, !drv)) {
-         dolog ("No host audio driver\n");
--        return NULL;
-+        abort();
-     }
- 
-     if (audio_bug(__func__, !drv->pcm_ops)) {
-         dolog ("Host audio driver without pcm_ops\n");
--        return NULL;
-+        abort();
-     }
- 
-     hw = audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
-@@ -275,12 +277,13 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
-     QLIST_INIT (&hw->cap_head);
- #endif
-     if (glue (hw->pcm_ops->init_, TYPE) (hw, as, s->drv_opaque)) {
--        goto err0;
-+        g_free(hw);
-+        return NULL;
-     }
- 
-     if (audio_bug(__func__, hw->samples <= 0)) {
-         dolog("hw->samples=%zd\n", hw->samples);
--        goto err1;
-+        abort();
-     }
- 
-     if (hw->info.is_float) {
-@@ -309,12 +312,6 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
-     audio_attach_capture (hw);
- #endif
-     return hw;
--
-- err1:
--    glue (hw->pcm_ops->fini_, TYPE) (hw);
-- err0:
--    g_free (hw);
--    return NULL;
- }
- 
- AudiodevPerDirectionOptions *glue(audio_get_pdo_, TYPE)(Audiodev *dev)
-@@ -435,7 +432,7 @@ void glue (AUD_close_, TYPE) (QEMUSoundCard *card, SW *sw)
-     if (sw) {
-         if (audio_bug(__func__, !card)) {
-             dolog ("card=%p\n", card);
--            return;
-+            abort();
-         }
- 
-         glue (audio_close_, TYPE) (sw);
-@@ -457,7 +454,7 @@ SW *glue (AUD_open_, TYPE) (
-     if (audio_bug(__func__, !card || !name || !callback_fn || !as)) {
-         dolog ("card=%p name=%p callback_fn=%p as=%p\n",
-                card, name, callback_fn, as);
--        goto fail;
-+        abort();
-     }
- 
-     s = card->state;
-@@ -468,12 +465,12 @@ SW *glue (AUD_open_, TYPE) (
- 
-     if (audio_bug(__func__, audio_validate_settings(as))) {
-         audio_print_settings (as);
--        goto fail;
-+        abort();
-     }
- 
-     if (audio_bug(__func__, !s->drv)) {
-         dolog ("Can not open `%s' (no host audio driver)\n", name);
--        goto fail;
-+        abort();
-     }
- 
-     if (sw && audio_pcm_info_eq (&sw->info, as)) {
+ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
 -- 
 2.34.1
 
