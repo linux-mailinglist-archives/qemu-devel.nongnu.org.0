@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E02C4CEE69
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:23:04 +0100 (CET)
-Received: from localhost ([::1]:46252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EF14CEE6A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:23:13 +0100 (CET)
+Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR0DP-00072i-Ij
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:23:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49330)
+	id 1nR0DX-0007YJ-QU
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:23:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR08v-0006av-RD; Sun, 06 Mar 2022 18:18:27 -0500
-Received: from [2a00:1450:4864:20::433] (port=41950
- helo=mail-wr1-x433.google.com)
+ id 1nR091-0006eA-4j; Sun, 06 Mar 2022 18:18:32 -0500
+Received: from [2a00:1450:4864:20::42c] (port=36805
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR08u-0007MK-Av; Sun, 06 Mar 2022 18:18:25 -0500
-Received: by mail-wr1-x433.google.com with SMTP id i8so20637604wrr.8;
- Sun, 06 Mar 2022 15:18:23 -0800 (PST)
+ id 1nR08z-0007Mh-Eu; Sun, 06 Mar 2022 18:18:30 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id r10so20674333wrp.3;
+ Sun, 06 Mar 2022 15:18:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RcstpUhbUgnI9fuTcLWWtxfVGC/x5MLDlmMnW6NP8eM=;
- b=g1bKIailuqLbe6D/eWA98fYHCMGuAYc/LjwxBJnrRtbHMKM7zim5SuLTkDcD2/yjR2
- 6MZRZ9qEqZrVXCrOze64aCmnAaDgvkAjOuK0XAS7KWOckOjztBBb+Z3gK+NjYZhykZTO
- I2lyn2ZxXVTshkarkrV89JiCEtduManbVgotKb2kR0JgmzFSYwKG5Zev/nDtmD7+vVQ0
- INpTPwjNAB6V+D2TSQuqm/JG2xo5MBy0LLf/WoyEvRB/neRjUvfJoKbg3XAg3xM+puti
- fIPEN8O8GIkoC0pYKX0+nQCJzRfV6vFbSsnzWmATPePSRGBrUXYJON2pEoPg3fCPgI9y
- cE4A==
+ bh=3oE10bEiyixc2uXJpKqOp4Nvl3FEz90xEnyLDQlRTXc=;
+ b=nVRhgWmB8IrWpY15THJ0z3MEV3zW0LBSw3uaxXzKs4Q3wmELLNRe6mM4U3jkqYSYFx
+ edP+jTisQ+3tUBD6JmM9yfCbSWabtETTyHYi2NuygCUrIXk09KA0cpLoS+Zn3aTED7iO
+ sIJT+jShUrHc4nrg2bWEFVgBcquWx0qd1tvwM93Feq7PPaybeT3DJugi8Yn60bTBfL8D
+ wdPl8h14PNEr91bnfjvDOBJewijowJD7z7VxKyovRB0GQVO8A3iKNgurFIxA/JGo+O/U
+ yma4KKH1/nGPSGrkaJw8fAT80zHIvwnciZ4b6p4v7Sb9H8YiUz+C9qdSfIZLfBJqzl1t
+ RZfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RcstpUhbUgnI9fuTcLWWtxfVGC/x5MLDlmMnW6NP8eM=;
- b=5tY/riGT1pUqtxzT7XgoXQbPepzULzpgM32vofOtNWUPMOK7i13NjE8qZk6aaXxBlH
- 9nCxxCvvzVV52Q251P4qp7QH+ahnQDN3dNx5wAglaS94YegJRIg/WW4C14rGOMv0lwGn
- p4DP5VYwaRegNZqDV7lEzcdb5W9FfkXQt4CyGLbrEAihoUZJm1rcjB35J7/H7TwFJM2u
- CdFlj0MHKMAmagbx4Uizn1gc66YCm0T9cWRvZgh0Cnmq454nUK47UDsU9A6EtN0X/o57
- seo48dHscGSUcwRBHuz5ig2Cmo4cy8bRTCXFWrhWZXn78ZEjJHVBE40syIBbt3ruEHLs
- PWBg==
-X-Gm-Message-State: AOAM532w5ZaTqNMR4lOREmzgv0K5FV3h935WjLVrXEeiQLoxqeX/3Q6M
- oaictKe4Un9N3Bxb28+NgBIIP84j04Y=
-X-Google-Smtp-Source: ABdhPJywy3lQ96uXdW0ZdybHLqYpb6lyyFk430+e6Z7WJ9zlsNBLaHCj5Bb8F+fIN4ZhKX/O2dZbOw==
-X-Received: by 2002:a5d:4dc5:0:b0:1f0:73e4:2cd9 with SMTP id
- f5-20020a5d4dc5000000b001f073e42cd9mr6180089wru.212.1646608702322; 
- Sun, 06 Mar 2022 15:18:22 -0800 (PST)
+ bh=3oE10bEiyixc2uXJpKqOp4Nvl3FEz90xEnyLDQlRTXc=;
+ b=ZnpFtl+qdWu1M3u7qVATKDLa2niGxJZAjVZFuapJEAHDmQah+k7rFab0MdzpBA0Hpo
+ jnh+HVWePxku4XsYxIf8lnL+wfxCilUX4v9saljovPOGV4r4AvFhhjt9bnwTm1yOx3qH
+ fRF1QfxkLw3NJQiohXOW6fjkLfhvhg7R2Mt8OWHhgHEoApqLfhLQbOAQ8ksz2KpzD8aI
+ l1cBvXbvcQzoKSZ1smhj8qaVKsK0VW/V/9Pgduh8+X62sPVLgn2R8G/dImYmwchM+tH6
+ pkIO55OaVbtiApvySRhod/Kdv6OQJZECw70dabG6Q5XVLsXi/kzkoeLTkB4vSWA4NuxD
+ 3yJA==
+X-Gm-Message-State: AOAM530FC2WusPXubdXZMl+kjGiLbBfOCUDqaVB0FKIh4d6mGCKM4CmO
+ aQ1xVXNlVfLygH2QwY3sfKIIAt7g790=
+X-Google-Smtp-Source: ABdhPJxMZRPHq5veC5HzibBDBbuHotZCVFrJGRpVHTzfyWyqmnRKR2syVb4qMYjnnwwY9Np0loYfdA==
+X-Received: by 2002:a5d:6392:0:b0:1f0:651d:51ac with SMTP id
+ p18-20020a5d6392000000b001f0651d51acmr6524203wru.253.1646608707758; 
+ Sun, 06 Mar 2022 15:18:27 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- e20-20020adfa454000000b001f01a14dce8sm9739269wra.97.2022.03.06.15.18.21
+ c11-20020a05600c0a4b00b0037c91e085ddsm22191017wmq.40.2022.03.06.15.18.26
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 06 Mar 2022 15:18:21 -0800 (PST)
+ Sun, 06 Mar 2022 15:18:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 05/22] hvf: Remove deprecated hv_vcpu_flush() calls
-Date: Mon,  7 Mar 2022 00:17:36 +0100
-Message-Id: <20220306231753.50277-6-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v7 06/22] hvf: Fix OOB write in RDTSCP instruction decode
+Date: Mon,  7 Mar 2022 00:17:37 +0100
+Message-Id: <20220306231753.50277-7-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,78 +98,112 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Cameron Esfahani <dirty@apple.com>
 
-When building on macOS 11 [*], we get:
+A guest could craft a specific stream of instructions that will have QEMU
+write 0xF9 to inappropriate locations in memory.  Add additional asserts
+to check for this.  Generate a #UD if there are more than 14 prefix bytes.
 
-  In file included from ../target/i386/hvf/hvf.c:59:
-  ../target/i386/hvf/vmx.h:174:5: error: 'hv_vcpu_flush' is deprecated: first deprecated in macOS 11.0 - This API has no effect and always returns HV_UNSUPPORTED [-Werror,-Wdeprecated-declarations]
-      hv_vcpu_flush(vcpu);
-      ^
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Hypervisor.framework/Headers/hv.h:364:20: note: 'hv_vcpu_flush' has been explicitly marked deprecated here
-  extern hv_return_t hv_vcpu_flush(hv_vcpuid_t vcpu)
-                     ^
+Found by Julian Stecklina <julian.stecklina@cyberus-technology.de>
 
-Since this call "has no effect", simply remove it ¯\_(ツ)_/¯
-
-Not very useful deprecation doc:
-https://developer.apple.com/documentation/hypervisor/1441386-hv_vcpu_flush
-
-[*] Also 10.15 (Catalina):
-    https://lore.kernel.org/qemu-devel/Yd3DmSqZ1SiJwd7P@roolebo.dev/
-
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Signed-off-by: Cameron Esfahani <dirty@apple.com>
+Message-Id: <20220219063831.35356-1-dirty@apple.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/hvf/vmx.h      | 2 --
- target/i386/hvf/x86_task.c | 1 -
- target/i386/hvf/x86hvf.c   | 2 --
- 3 files changed, 5 deletions(-)
+ target/i386/hvf/x86_decode.c | 12 ++++++++++--
+ target/i386/hvf/x86hvf.c     |  8 ++++++++
+ target/i386/hvf/x86hvf.h     |  1 +
+ 3 files changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
-index 29b7deed3c..573ddc33c0 100644
---- a/target/i386/hvf/vmx.h
-+++ b/target/i386/hvf/vmx.h
-@@ -160,7 +160,6 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
-     wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE_MASK | CR0_ET_MASK);
+diff --git a/target/i386/hvf/x86_decode.c b/target/i386/hvf/x86_decode.c
+index 062713b1a4..5d051252b4 100644
+--- a/target/i386/hvf/x86_decode.c
++++ b/target/i386/hvf/x86_decode.c
+@@ -24,8 +24,10 @@
+ #include "vmx.h"
+ #include "x86_mmu.h"
+ #include "x86_descr.h"
++#include "x86hvf.h"
  
-     hv_vcpu_invalidate_tlb(vcpu);
--    hv_vcpu_flush(vcpu);
+ #define OPCODE_ESCAPE   0xf
++#define X86_MAX_INSN_PREFIX_LENGTH (14)
+ 
+ static void decode_invalid(CPUX86State *env, struct x86_decode *decode)
+ {
+@@ -541,7 +543,8 @@ static void decode_lidtgroup(CPUX86State *env, struct x86_decode *decode)
+     };
+     decode->cmd = group[decode->modrm.reg];
+     if (0xf9 == decode->modrm.modrm) {
+-        decode->opcode[decode->len++] = decode->modrm.modrm;
++        VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
++        decode->opcode[decode->opcode_len++] = decode->modrm.modrm;
+         decode->cmd = X86_DECODE_CMD_RDTSCP;
+     }
+ }
+@@ -1847,7 +1850,8 @@ void calc_modrm_operand(CPUX86State *env, struct x86_decode *decode,
+ 
+ static void decode_prefix(CPUX86State *env, struct x86_decode *decode)
+ {
+-    while (1) {
++    /* At most X86_MAX_INSN_PREFIX_LENGTH prefix bytes. */
++    for (int i = 0; i < X86_MAX_INSN_PREFIX_LENGTH; i++) {
+         /*
+          * REX prefix must come after legacy prefixes.
+          * REX before legacy is ignored.
+@@ -1892,6 +1896,8 @@ static void decode_prefix(CPUX86State *env, struct x86_decode *decode)
+             return;
+         }
+     }
++    /* Too many prefixes!  Generate #UD. */
++    hvf_inject_ud(env);
  }
  
- static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
-@@ -172,7 +171,6 @@ static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
-     wvmcs(vcpu, VMCS_CR4_MASK, CR4_VMXE_MASK);
+ void set_addressing_size(CPUX86State *env, struct x86_decode *decode)
+@@ -2090,11 +2096,13 @@ static void decode_opcodes(CPUX86State *env, struct x86_decode *decode)
+     uint8_t opcode;
  
-     hv_vcpu_invalidate_tlb(vcpu);
--    hv_vcpu_flush(vcpu);
- }
- 
- static inline void macvm_set_rip(CPUState *cpu, uint64_t rip)
-diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
-index e1301599e9..d24daf6a41 100644
---- a/target/i386/hvf/x86_task.c
-+++ b/target/i386/hvf/x86_task.c
-@@ -182,5 +182,4 @@ void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel, int rea
-     store_regs(cpu);
- 
-     hv_vcpu_invalidate_tlb(cpu->hvf->fd);
--    hv_vcpu_flush(cpu->hvf->fd);
- }
+     opcode = decode_byte(env, decode);
++    VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
+     decode->opcode[decode->opcode_len++] = opcode;
+     if (opcode != OPCODE_ESCAPE) {
+         decode_opcode_1(env, decode, opcode);
+     } else {
+         opcode = decode_byte(env, decode);
++        VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
+         decode->opcode[decode->opcode_len++] = opcode;
+         decode_opcode_2(env, decode, opcode);
+     }
 diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index 907f09f1b4..bec9fc5814 100644
+index bec9fc5814..a338c207b7 100644
 --- a/target/i386/hvf/x86hvf.c
 +++ b/target/i386/hvf/x86hvf.c
-@@ -125,8 +125,6 @@ static void hvf_put_segments(CPUState *cpu_state)
- 
-     hvf_set_segment(cpu_state, &seg, &env->ldt, false);
-     vmx_write_segment_descriptor(cpu_state, &seg, R_LDTR);
--    
--    hv_vcpu_flush(cpu_state->hvf->fd);
+@@ -423,6 +423,14 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
+             & (CPU_INTERRUPT_INIT | CPU_INTERRUPT_TPR));
  }
-     
- void hvf_put_msrs(CPUState *cpu_state)
+ 
++void hvf_inject_ud(CPUX86State *env)
++{
++    env->exception_nr = EXCP06_ILLOP;
++    env->exception_injected = 1;
++    env->has_error_code = false;
++    env->error_code = 0;
++}
++
+ int hvf_process_events(CPUState *cpu_state)
+ {
+     X86CPU *cpu = X86_CPU(cpu_state);
+diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
+index db6003d6bd..427cdc1c13 100644
+--- a/target/i386/hvf/x86hvf.h
++++ b/target/i386/hvf/x86hvf.h
+@@ -22,6 +22,7 @@
+ 
+ int hvf_process_events(CPUState *);
+ bool hvf_inject_interrupts(CPUState *);
++void hvf_inject_ud(CPUX86State *);
+ void hvf_set_segment(struct CPUState *cpu, struct vmx_segment *vmx_seg,
+                      SegmentCache *qseg, bool is_tr);
+ void hvf_get_segment(SegmentCache *qseg, struct vmx_segment *vmx_seg);
 -- 
 2.34.1
 
