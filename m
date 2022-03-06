@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E354CEBAB
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:15:43 +0100 (CET)
-Received: from localhost ([::1]:36798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEB44CEBB0
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:19:52 +0100 (CET)
+Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQqjf-0005ZX-0W
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:15:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42108)
+	id 1nQqnf-0002zz-5D
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:19:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqVa-0000p6-Sw
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:13 -0500
-Received: from [2a00:1450:4864:20::434] (port=43905
- helo=mail-wr1-x434.google.com)
+ id 1nQqVf-0000sP-Ao
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:15 -0500
+Received: from [2a00:1450:4864:20::429] (port=36628
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqVZ-0003xC-GT
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:10 -0500
-Received: by mail-wr1-x434.google.com with SMTP id e24so6344772wrc.10
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:01:08 -0800 (PST)
+ id 1nQqVd-0003xf-MU
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:14 -0500
+Received: by mail-wr1-x429.google.com with SMTP id r10so19338490wrp.3
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:01:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bZ6XfT5ghTxxwhHbhvIROOJOz3Z2nwVUuV/FAqsIjmw=;
- b=m75Ne29yrEqGK6prFkrreUAwuXh6r6gyHv9HLjeloTPVqGIJU/vlUPPScLWqmUcaNU
- 32pGVVHWNEn9ogwL7X58nAJGXSf5MuNOgop/HRbSFPxU7j+t5Or0ZH/ufiW/BN9+VOsD
- BIg8wTO3QVPCjkoS/bSUArpTH6gLkOYV1syNS8SQ8vBDzUfQAsHo3JL8qJEmrXaZ8jc9
- xUGTYoCk8YjPmdn54QtxmUOjCs/qA0yWg0M9vsPznb0PRNLB+jEOoLfS1zheln60Rfqn
- /Cax2rum4BBiLn8uEoYkqFa0AjEeQdXJnIoqN3HRDe6mQ+kv6p5P7xteVp4wY0gpNxXN
- 3bOw==
+ bh=LDkOBzD1NeiyCs7398uvnovIqEumzOK3cJlInlmNTUU=;
+ b=NEGBG6ANeBb1XrO+WQdvGqbV3soQeIRTPi/1qUi797XuoBe1/ged2u2Up/NrurEakQ
+ qveyNCGrNcHDOFr++I8SJ9pm/MZjjYPucqRgj1XshCoFkDBozd05qspQnVyVBw4sZfsp
+ 2jdTaeAI2qByWaUysGebQr845ddFdANSKgO3soSSdcWG33biSrSYVOHxnpKaTZBMegf8
+ EoAangXxLBRu40+5zFYxuDFhpKOmBDumWIUxO6tBAwO9MSqfiaqSYXOv7UNiHPVQxCq2
+ dLe0RC/i7MjlE9sAU4V6Yyl2F4Kn58JtIt/QzyHR0LU3Nf4ByhUkw3cqN7IyA/3tSXSI
+ J+lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bZ6XfT5ghTxxwhHbhvIROOJOz3Z2nwVUuV/FAqsIjmw=;
- b=0mReQfMKBvMR1HrfJtcVW4YkkxWoyBEyeMIYC4vdIkg5UDDBlee7JqCJ5s1uNzLwjn
- SJIK1Pr4Ez4lGefNAZzXL/cHGuvJmobm26w8MEYHK0zj000Gn2fs2t7p48m2QG1ELnNc
- cn+2N2TBK+L94+iRa6BkVE2gBFy8sr3do1odu/8jiy/iYc2Tev/Wx6eo6dGMI8iQKJi6
- cQ4N0bWwnMz+9fvAjWsE3jk+JVSgz8iZK7IXMhwmfGj+gmFypK8gr1sSDhIXMYEy+4qi
- MSD0LFDY9dZesUczVdU6S/jXwjoBwWs86TauQ5AOGh5ce/F/0hdiunAJOvcPbTngpH02
- zL1g==
-X-Gm-Message-State: AOAM532eXU5kxWUHxqhehCjIZmvq57Tqp98Y3fEpQFDZ99bitz7gz7HN
- t4iRNG7GVFO1krXKmIGBdMrKrQenVyA=
-X-Google-Smtp-Source: ABdhPJwzwgCA8/4mnJdzQ+orfvcuJchdCZFyG4eRpAfw/ltg9oCJjfvPiL5rcKA/hi/j8SFNmaOj9g==
-X-Received: by 2002:a5d:558d:0:b0:1f0:7309:b429 with SMTP id
- i13-20020a5d558d000000b001f07309b429mr4898734wrv.704.1646571667123; 
- Sun, 06 Mar 2022 05:01:07 -0800 (PST)
+ bh=LDkOBzD1NeiyCs7398uvnovIqEumzOK3cJlInlmNTUU=;
+ b=2MrQsR/1wM4I9oTnOhS/Ys/u98M842tzoFF/r9E0BfX0JUQaYi3Hn1wlC+ixXmbjGM
+ uURLxcAr2NCpCc0v8C26/o3U21b8OOo1YBJ4xKwndWD2RqLOpCk3imaGwks20KswCIO6
+ w7PiC6ZFEJ0DMyQFYHIU7IFWnwjNwDGuFIM+IVkTMwMyjPUjzlE0gE0+uGK+fqt702Sa
+ CVB1WJT4SVCdH2Eazi6dxmuJnX/Y0l7bAXj81NQTrgIi2h5kLtwQCHcoRImdy6bb8fMC
+ Nfq65d5CI2+Ypu4IVA+JgLY1qHKb0uJqr03iLGrTURUXQROIaitg8uSS6ix4e/FN3E7f
+ RK7w==
+X-Gm-Message-State: AOAM532eMKAA4QJLv7DdiOOZ1CNc7bQ5O92brT6tYQcjIIIZo0cOkgeA
+ 7OmFPDRPRXEa9M4WCSEA+dxNGK9zMtE=
+X-Google-Smtp-Source: ABdhPJxQBe2YTtpO3EXRljjxlwtdkyTUyYf2pLXDZ7SqYnPZm/Qt+8LRSbGWQ6EWfxki+pMtbSRijQ==
+X-Received: by 2002:a5d:4487:0:b0:1f1:232b:794f with SMTP id
+ j7-20020a5d4487000000b001f1232b794fmr5359525wrq.715.1646571671990; 
+ Sun, 06 Mar 2022 05:01:11 -0800 (PST)
 Received: from nuc.lan ([185.126.107.38]) by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c228700b00389865c646dsm11243353wmf.14.2022.03.06.05.01.06
+ z2-20020a056000110200b001e7140ddb44sm8901714wrw.49.2022.03.06.05.01.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 05:01:06 -0800 (PST)
+ Sun, 06 Mar 2022 05:01:11 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/33] softmmu/globals: Remove unused 'hw/i386/*' headers
-Date: Sun,  6 Mar 2022 13:59:39 +0100
-Message-Id: <20220306130000.8104-13-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 13/33] softmmu/physmem: Remove unnecessary include
+Date: Sun,  6 Mar 2022 13:59:40 +0100
+Message-Id: <20220306130000.8104-14-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 References: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,27 +98,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220207075426.81934-13-f4bug@amsat.org>
+Message-Id: <20220207075426.81934-14-f4bug@amsat.org>
 ---
- softmmu/globals.c | 2 --
- 1 file changed, 2 deletions(-)
+ softmmu/physmem.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/softmmu/globals.c b/softmmu/globals.c
-index 7d0fc811835..3ebd718e35d 100644
---- a/softmmu/globals.c
-+++ b/softmmu/globals.c
-@@ -25,8 +25,6 @@
- #include "qemu/osdep.h"
- #include "exec/cpu-common.h"
- #include "hw/display/vga.h"
--#include "hw/i386/pc.h"
--#include "hw/i386/x86.h"
- #include "hw/loader.h"
- #include "hw/xen/xen.h"
- #include "net/net.h"
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index cf6b2b48995..364d563ee42 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -61,7 +61,6 @@
+ 
+ #include "exec/memory-internal.h"
+ #include "exec/ram_addr.h"
+-#include "exec/log.h"
+ 
+ #include "qemu/pmem.h"
+ 
 -- 
 2.35.1
 
