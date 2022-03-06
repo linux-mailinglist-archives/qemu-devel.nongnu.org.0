@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BCF4CEED7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:56:13 +0100 (CET)
-Received: from localhost ([::1]:49748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9C34CEEDB
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:58:53 +0100 (CET)
+Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR0jU-0005rC-M1
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:56:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54466)
+	id 1nR0m4-0007xD-6Y
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:58:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR0iF-0005Az-RS
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 18:54:55 -0500
-Received: from [2a00:1450:4864:20::32b] (port=37771
- helo=mail-wm1-x32b.google.com)
+ id 1nR0l0-0006nh-AP; Sun, 06 Mar 2022 18:57:46 -0500
+Received: from [2a00:1450:4864:20::331] (port=45983
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR0iE-0004Uo-8I
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 18:54:55 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- q7-20020a7bce87000000b00382255f4ca9so9854213wmj.2
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 15:54:47 -0800 (PST)
+ id 1nR0ky-00055w-Su; Sun, 06 Mar 2022 18:57:46 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ k29-20020a05600c1c9d00b003817fdc0f00so8316727wms.4; 
+ Sun, 06 Mar 2022 15:57:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=qe7Ga+z25p9VxXOvwD4mTjO5lfLWJw9o5XsqHitXpKs=;
- b=IaYkePIdorj6z8Mt+dQ6Ddfs5TvtO301yrbIQ+9YNcXl6WWNn2ECRz917yq4RT4h4r
- M8xiPynle2L8Q0DQF0O8Zj8agXH0TzDd7EPNx2/Lf+yo6dhKRbZeeteuNrRyl5oNSsDN
- nUhOca1aki7V8tJkqADcW9lFJ9okCDbUVSA7g74Xe1ps2TG1lYssRndWy0jcecSwjn7O
- c/BPyWBPVGCXQN82Kt5W0c876mEYoXiPzqvWgDywvmnO9SeAa5GAFxgHYkP2E8ZRQN7P
- TOXgB7ZldevHSDSfbDAS1nFDr2Ko43QdUk1CETtsFrr3VHuRcmWDauHWfBNYEaiFZQlV
- iUSg==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=FmGKt5Ps8WkmvlQS52E59Eh5O0glI+V8imZ9k49DHxc=;
+ b=dj7fDrSbEaeuHyaV9gkz2aKUEgcAgNCyWtYNEq6zt+TT3ytxp6/5ET6pmvM0/icJfL
+ UN2bbO8X3WaQD4dAAy/5s/7/lIvemgeiVCfm5rZ7iimqQ207vbLdsDY7NzO4By0qOwGM
+ g5UtMcju4adhcZ96R98gDPTHIItu7rV65Q7kUQCyXsRQMjOWTT5l0VBZ30PVAtfg+q7v
+ WF0Oz/LuIkD9bOUFaWV2bgBeUPiKawzP8HtU9w0WPXiWw6zMeYd9mTlYPqRuV8ZnB7lQ
+ 733ZtdDX4rTAVhi5LLWcVI5MCCM5qu3CYf9Sj8bANlJ+2Wl7Y8nV0IGQHcTSUUOZeCoF
+ yRIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=qe7Ga+z25p9VxXOvwD4mTjO5lfLWJw9o5XsqHitXpKs=;
- b=GsbfDN66ApKJ5PtXka5+HwnymM4J1riN3r1al5z0IzCyBFrPOXEZwY2wf/vZoNWefF
- u/d4JI8gTQA2zck9OlbHIF/h94UbYwaxHhvOsNYGkFhi+4J39v0nL22TSNRsSKVokt27
- rZAEZTGjTzZ/vHgwP4gYPrLbizYLQp3yngI16rhOZIk3Ql66uaxGaXMq3T9WTcIU1aYl
- PV9JOIVYsZ0W8523tyWg/9ST6F++1zmusFDaiVHXkmN5sDgYabGOF5zP/iC/Prhum/ZI
- tDmD6hCILCHmlxwLJojmxOFeu8aXe1DaFYClCWg4GOYytWpx+I+OStQWUNNgz+o/IzFi
- t4Ow==
-X-Gm-Message-State: AOAM533sISJbw2EIMu/ytvm4lRB7+sMeCU/YzC7YpjI9qJApYyCisE3+
- XkneVPOO09sOuU0tLZ5InaU=
-X-Google-Smtp-Source: ABdhPJwaKQjczUYWtyujGWyHV6M5XmkxOCx5yMnKyNvC1YEqlTA9lcwcOVcgvO1GdD473BJOYn3P1Q==
-X-Received: by 2002:a05:600c:1e85:b0:381:2d3f:d620 with SMTP id
- be5-20020a05600c1e8500b003812d3fd620mr7028477wmb.11.1646610886293; 
- Sun, 06 Mar 2022 15:54:46 -0800 (PST)
+ bh=FmGKt5Ps8WkmvlQS52E59Eh5O0glI+V8imZ9k49DHxc=;
+ b=l2ttPv46VY+4lBOzn21KHK7CYjT2nQNqzbF5a01rzxlk0JvCOaCiG08KtAJBafKI0z
+ gQKFlZzbGm07r1ANB2pFwz/4w9RpGY2fSX/3dLmD8C1TOBluuV5WSorZWK8PDc+ZGe1R
+ k1zQQbrOuofORyj75pfmiZ29DEjORV9IFkXz4uiUgAJnIcZMIS4kOM6B4L/61sPWXybB
+ xx5gt+JSCrdE6ZhXUDz8Xy5OyIVKxVYvlp+KjgMwLgk+w0XS0RpEL6xbWn73r0XbBuo3
+ RiNKPT88SC4Esp2rqktbZBmDkWUyDgIalLBpK6TpRdFwhE7bBBGWWffOZANRzEHnoB+0
+ w69g==
+X-Gm-Message-State: AOAM530u2d+i+lp4DMZcEZ9zU1MYLy0dRU0KC+9ee+MarkfB+zavt4bQ
+ AQiJliBjc32nh8NDr9seOOg=
+X-Google-Smtp-Source: ABdhPJxdhuQJ4Pq0gW6+ZNM47/OcltWQ4Zp2crQzg/pAlHwLXbif5ugMVm165ljTo5dAZuwo+oFZfA==
+X-Received: by 2002:a05:600c:35c2:b0:381:6cbc:7192 with SMTP id
+ r2-20020a05600c35c200b003816cbc7192mr6767816wmq.146.1646611062561; 
+ Sun, 06 Mar 2022 15:57:42 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- v8-20020a1cf708000000b0034d7b5f2da0sm11417408wmh.33.2022.03.06.15.54.45
+ v124-20020a1cac82000000b0037c3d08e0e7sm18143399wme.29.2022.03.06.15.57.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Mar 2022 15:54:45 -0800 (PST)
-Message-ID: <28ad3f08-6b08-1a92-a71b-4019e4c662a1@gmail.com>
-Date: Mon, 7 Mar 2022 00:54:44 +0100
+ Sun, 06 Mar 2022 15:57:42 -0800 (PST)
+Message-ID: <8f7d11b1-528c-e49d-ee5f-ed64ed5c5336@gmail.com>
+Date: Mon, 7 Mar 2022 00:57:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2] qemu-binfmt-conf.sh: allow elf EI_ABIVERSION=1 for mips
+Subject: Re: [PATCH 5/9] tests/avocado/linux_ssh_mips_malta.py: add missing
+ accel (tcg) tag
 Content-Language: en-US
+To: Cleber Rosa <crosa@redhat.com>
+References: <20220225210156.2032055-1-crosa@redhat.com>
+ <20220225210156.2032055-6-crosa@redhat.com>
+ <aa0e1eb4-ef43-b386-e7a3-c034f666181b@gmail.com>
+ <8735jzmdib.fsf@p50.localhost.localdomain>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-To: =?UTF-8?Q?Andreas_K=2e_H=c3=bcttel?= <dilfridge@gentoo.org>,
- qemu-devel@nongnu.org
-References: <20220303101750.55833-1-dilfridge@gentoo.org>
- <20220305000624.1498181-1-dilfridge@gentoo.org>
- <b54bb834-84e9-6342-ecac-643cbd11549b@gmail.com>
-In-Reply-To: <b54bb834-84e9-6342-ecac-643cbd11549b@gmail.com>
+In-Reply-To: <8735jzmdib.fsf@p50.localhost.localdomain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,101 +96,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Eric Farman <farman@linux.ibm.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alexandre Iooss <erdnaxe@crans.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(Cc'ing Richard)
-
-On 5/3/22 01:18, Philippe Mathieu-Daudé wrote:
-> Cc'ing Laurent:
+On 3/3/22 13:13, Cleber Rosa wrote:
 > 
-> $ ./scripts/get_maintainer.pl -f scripts/qemu-binfmt-conf.sh
-> Laurent Vivier <laurent@vivier.eu> (maintainer:Linux user)
-> qemu-devel@nongnu.org (open list:All patches CC here)
+> Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com> writes:
 > 
-> On 5/3/22 01:06, Andreas K. Hüttel wrote:
->> With the command line flag -mplt and a recent toolchain, ELF binaries
->> generated by gcc can obtain EI_ABIVERSION=1, see below, which makes, 
->> e.g.,
->> gcc three-stage bootstrap in a mips-unknown-linux-gnu qemu-user chroot
->> fail since the binfmt-misc magic does not match anymore.
+>> On 25/2/22 22:01, Cleber Rosa wrote:
+>>> Being explicit about the accelerator used on these tests is a good
+>>> thing in itself, but it will also be used in the filtering rules
+>>> applied on "make check-avocado".
+>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+>>> ---
+>>>    tests/avocado/linux_ssh_mips_malta.py | 3 +++
+>>>    1 file changed, 3 insertions(+)
+>>> diff --git a/tests/avocado/linux_ssh_mips_malta.py
+>>> b/tests/avocado/linux_ssh_mips_malta.py
+>>> index c0f0be5ade..0179d8a6ca 100644
+>>> --- a/tests/avocado/linux_ssh_mips_malta.py
+>>> +++ b/tests/avocado/linux_ssh_mips_malta.py
+>>> @@ -23,6 +23,9 @@
+>>>    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
 >>
->> qemu executes these binaries just fine, so relax the mask slightly.
->>
->> CHOST=mips-unknown-linux-gnu (and also mipsel-unknown-linux-gnu)
->> CFLAGS="-O2 -march=mips32 -mabi=32 -mplt -pipe"
->> gcc-11.2, binutils-2.37, glibc-2.34
->>
->> |  /*
->> | - * ELF dump of './prev-gcc/build/gengenrtl'
->> | - *     29608 (0x73A8) bytes
->> | + * ELF dump of './gcc/build/gengenrtl'
->> | + *     54532 (0xD504) bytes
->> |   */
->> |
->> |  Elf32_Dyn dumpedelf_dyn_0[];
->> |  struct {
->> |         Elf32_Ehdr ehdr;
->> |         Elf32_Phdr phdrs[12];
->> | -       Elf32_Shdr shdrs[33];
->> | +       Elf32_Shdr shdrs[44];
->> |         Elf32_Dyn *dyns;
->> |  } dumpedelf_0 = {
->> |
->> |  .ehdr = {
->> |         .e_ident = { /* (EI_NIDENT bytes) */
->> |                 /* [0] EI_MAG:        */ 0x7F,'E','L','F',
->> |                 /* [4] EI_CLASS:      */ 1 , /* (ELFCLASS32) */
->> |                 /* [5] EI_DATA:       */ 2 , /* (ELFDATA2MSB) */
->> |                 /* [6] EI_VERSION:    */ 1 , /* (EV_CURRENT) */
->> |                 /* [7] EI_OSABI:      */ 0 , /* (ELFOSABI_NONE) */
->> | -               /* [8] EI_ABIVERSION: */ 0 ,
->> | +               /* [8] EI_ABIVERSION: */ 1 ,
->> |                 /* [9-15] EI_PAD:     */ 0x0, 0x0, 0x0, 0x0, 0x0, 
->> 0x0, 0x0,
->> |         },
->> |         .e_type      = 2          , /* (ET_EXEC) */
->> |         .e_machine   = 8          , /* (EM_MIPS) */
->> |         .e_version   = 1          , /* (EV_CURRENT) */
->> | (...)
->>
->> Signed-off-by: Andreas K. Hüttel <dilfridge@gentoo.org>
->> ---
->>
->> v2: Add the same fix for little endian as for big endian
->>
->>   scripts/qemu-binfmt-conf.sh | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
-
-Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
->> diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
->> index e9bfeb94d3..fc2f856800 100755
->> --- a/scripts/qemu-binfmt-conf.sh
->> +++ b/scripts/qemu-binfmt-conf.sh
->> @@ -61,11 +61,11 @@ m68k_family=m68k
->>   # FIXME: We could use the other endianness on a MIPS host.
->>   
->> mips_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08' 
->>
->> -mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff' 
->>
->> +mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xfe\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff' 
->>
->>   mips_family=mips
->>   
->> mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00' 
->>
->> -mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff' 
->>
->> +mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xfe\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff' 
->>
->>   mipsel_family=mips
->>   
->> mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08' 
+>> Should we remove this line then? ^^^
 >>
 > 
+> Yes, we definitely should.  But, I thought it should be a next step.
 
+OK.
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+And queued to mips-next.
 
