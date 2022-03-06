@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA174CE97F
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 07:33:33 +0100 (CET)
-Received: from localhost ([::1]:35502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EAD4CE980
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 07:34:59 +0100 (CET)
+Received: from localhost ([::1]:38194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQkSR-0007Fw-Qv
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 01:33:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44242)
+	id 1nQkTp-0000i8-VN
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 01:34:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nQkRH-0006ZK-HR
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 01:32:19 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=36734
- helo=mail-pl1-x62c.google.com)
+ id 1nQkSi-0008Gv-JF
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 01:33:48 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=34539
+ helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nQkRE-00073J-KS
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 01:32:19 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id e13so11216317plh.3
- for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 22:32:16 -0800 (PST)
+ id 1nQkSg-0007GM-EJ
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 01:33:48 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ k5-20020a17090a3cc500b001befa0d3102so8168348pjd.1
+ for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 22:33:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=31q8B8kvRw6PWvGXdX2YBi3/L+AL09y3mh1VgXRMWDA=;
- b=RtJaOalswIKilwwuT6vgupkukQahH/E3lzqYsl1fV1dUwSMZ1g3oorZeukO4bVIyfz
- MIe831jQ9gWZx6gPPD9jbUy9fD4sHTNsj9Mg97fA0xTnTP7Qs/0eb0uHa2XEe65RNBpZ
- Sg5roYV2keEz8OoZrwoqBrBuALGMcpkS65VCeSSJMubgtWcw9oyI4v9ryVPppUC7x307
- u7iNiXVXeWkZXgp/EV/YA1n+AS6s0ZlZeJLV5T0tl8LGXC53CKvcY7WZ8veQabNaT+1L
- GJf7+PCtZUuy6Cf0ndjgyRCl/oCqvPM+bAFyma3eyYKFoEdlXOBsAcyfiSzFtaDSfxNh
- vnvg==
+ bh=Ihj/tmqKhpl9HhT8AGu2FxEQ+QegGv9q3/vkGL5J8DI=;
+ b=ZefpPLFDoKyyqp+Np2jPDvypp8yfTGFGTe1E4yi9DYwvDSLdE0A4ucAj2jMPGrlSHi
+ UZn2jEbi9gj75UI01rHk0EuLynGVYb6qgPfiLUgcSzPsZASIEJAzmkiu6M+SWZA4t4Gx
+ 2JbfxHbBDygcS7xdsWw/tAJ/Xl6OI1p4nc9gtlMx51OvPHNmBtIDE2U2PkpMSuywVQso
+ 79OL+bM8lgibi8Nb5qhQKVsJocQ1Vok8BY1S7aMCmQO7QsorU0IVC3Oetr2ZiUzHKjY/
+ IeczFd8mom4+zO8ZsX32mro5uQ+qG9J4Bbh+ptspYvE+0cW3fFAIJZfp9q+dQRZj15FQ
+ V0Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=31q8B8kvRw6PWvGXdX2YBi3/L+AL09y3mh1VgXRMWDA=;
- b=yhvmbZHWTwCqdCkYXV1iWYms2tsFVat2jb2qO2u+wCvDl8IFi9ysZh+z/QSRoqOcnk
- 4jYdAzwyCbygH8BknK9uCGAY4TCcDBpl95VyEtB+UBdrItRRzVLVLsVk1pLlirwPnuAK
- NC1Fh+Lx7WBCw0z2f6o7tjqZ7a7j8refGF3zn7AMGSSWSmOn+z9QWmknYg49vItQ5Ngl
- PnGEuc4Y43scFxGihC+tjlAgHEF8qFvwjaweH8QdRspFe7mVBPzUtFbeI72s+swQB7x3
- SN8pADXVdfP0Z7gWiaRZBa0+N3WC811+Z78Wk0CU5OsPtWSdd6ZAtGBZWw1UrrVgDvV9
- 2u6A==
-X-Gm-Message-State: AOAM532JKewrsNg9HM2DFlV5q9kqvqmRyaiSzHEWYT86P50i2GeAskNQ
- krB2aoc6EaI+VazQ9MyXDY6R+J30290=
-X-Google-Smtp-Source: ABdhPJzQufh1cC17MZZvPEYKU6+rycHYvYy6dFhyrS6u79DipDHLB12DadEZKk6HGtfXMpxsjpb+ZQ==
-X-Received: by 2002:a17:90a:9f90:b0:1bc:7e7c:2ea7 with SMTP id
- o16-20020a17090a9f9000b001bc7e7c2ea7mr18729698pjp.64.1646548334471; 
- Sat, 05 Mar 2022 22:32:14 -0800 (PST)
+ bh=Ihj/tmqKhpl9HhT8AGu2FxEQ+QegGv9q3/vkGL5J8DI=;
+ b=X0y6ckI4pGTv75mAfrAfE2/nakR1b0Yx0AbpMPqXZUxbionuu6q5hONlZb21h1GIXn
+ V7kL8GHnoVfsWA2v6RknBhVOqmanBacN+P1PfLqOANYZBFuUkp5eXQJCeNTrkBLxafut
+ bHbj4NZZkDBByI2FeS/tAG+Z2Qh6mD2Okn6Sf/b6MXohugybEo5ODX9WVjD1jqzk+WiV
+ 5KPbkIrs9rkGYYwiuCHEvUH9idWEk6g+mw6U3smhJwBEsJ3+2NjSoxA49T8qjxwlQxav
+ kCMsm5Sw0CV7XZf+u96iyjdgmWMaG1IFLOaFmwPnB9Snf1yHSfn+d2A+aWuiT6Hr5IYo
+ E89g==
+X-Gm-Message-State: AOAM530E4e5HbrOambXGNPXsJe16d1FAB+xb8+fMlD1NtyfoyeCwyvaI
+ tWvvmqT63hG5FoPJRrpADh0wdLeKiZA=
+X-Google-Smtp-Source: ABdhPJzMTRhFSQE/7426wcrzRPSoCEQ98SyP4/aARGjsgXSRrn/k7RIkTbRzb7sBW1flyIbFBfhRoQ==
+X-Received: by 2002:a17:902:d202:b0:14e:f6b4:aa0f with SMTP id
+ t2-20020a170902d20200b0014ef6b4aa0fmr6299573ply.104.1646548424587; 
+ Sat, 05 Mar 2022 22:33:44 -0800 (PST)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:f82b:4f21:14ee:1481])
  by smtp.gmail.com with ESMTPSA id
- 63-20020a630942000000b00372a99c1821sm8449035pgj.21.2022.03.05.22.32.12
+ f31-20020a631f1f000000b003742e45f7d7sm8107566pgf.32.2022.03.05.22.33.42
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 05 Mar 2022 22:32:13 -0800 (PST)
+ Sat, 05 Mar 2022 22:33:44 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH] audio: Log context for audio bug
-Date: Sun,  6 Mar 2022 15:32:02 +0900
-Message-Id: <20220306063202.27331-1-akihiko.odaki@gmail.com>
+Subject: [PATCH] ui/cocoa: Create menus in iothread
+Date: Sun,  6 Mar 2022 15:33:35 +0900
+Message-Id: <20220306063335.27456-1-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,244 +88,292 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without this change audio_bug aborts when the bug condition is met,
-which discards following useful logs. Call abort after such logs.
+Commit 0439c5a4623d674efa0c72abd62ca6e98bb7cf87 introduced an
+assertion that blk_all_next is called in the main thread. The function
+is called in the following chain:
+- blk_all_next
+- qmp_query_block
+- addRemovableDevicesMenuItems
+- main
+
+This change moves the menu creation to the iothread. This also changes
+the menu creation procedure to construct the entire menu tree before
+setting to NSApp, which is necessary because a menu set once cannot be
+modified if NSApp is already running.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- audio/audio.c          | 25 ++++++++++++-------------
- audio/audio_template.h | 27 ++++++++++++---------------
- 2 files changed, 24 insertions(+), 28 deletions(-)
+ ui/cocoa.m | 205 ++++++++++++++++++++++++-----------------------------
+ 1 file changed, 94 insertions(+), 111 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index a88572e7138..6bc313d9f53 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -117,7 +117,6 @@ int audio_bug (const char *funcname, int cond)
-             AUD_log (NULL, "I am sorry\n");
-         }
-         AUD_log (NULL, "Context:\n");
--        abort();
-     }
- 
-     return cond;
-@@ -138,7 +137,7 @@ static inline int audio_bits_to_index (int bits)
-     default:
-         audio_bug ("bits_to_index", 1);
-         AUD_log (NULL, "invalid bits %d\n", bits);
--        return 0;
-+        abort();
-     }
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 8ab9ab5e84d..bddae7c6dc0 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1604,97 +1604,6 @@ - (void)sendEvent:(NSEvent *)event
  }
+ @end
  
-@@ -156,7 +155,7 @@ void *audio_calloc (const char *funcname, int nmemb, size_t size)
-         AUD_log (NULL, "%s passed invalid arguments to audio_calloc\n",
-                  funcname);
-         AUD_log (NULL, "nmemb=%d size=%zu (len=%zu)\n", nmemb, size, len);
--        return NULL;
-+        abort();
-     }
- 
-     return g_malloc0 (len);
-@@ -543,7 +542,7 @@ static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
-     size_t live = hw->total_samples_captured - audio_pcm_hw_find_min_in (hw);
-     if (audio_bug(__func__, live > hw->conv_buf->size)) {
-         dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
--        return 0;
-+        abort();
-     }
-     return live;
- }
-@@ -581,7 +580,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-     }
-     if (audio_bug(__func__, live > hw->conv_buf->size)) {
-         dolog("live_in=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
--        return 0;
-+        abort();
-     }
- 
-     rpos = audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
-@@ -656,7 +655,7 @@ static size_t audio_pcm_hw_get_live_out (HWVoiceOut *hw, int *nb_live)
- 
-         if (audio_bug(__func__, live > hw->mix_buf->size)) {
-             dolog("live=%zu hw->mix_buf->size=%zu\n", live, hw->mix_buf->size);
--            return 0;
-+            abort();
-         }
-         return live;
-     }
-@@ -706,7 +705,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
-     live = sw->total_hw_samples_mixed;
-     if (audio_bug(__func__, live > hwsamples)) {
-         dolog("live=%zu hw->mix_buf->size=%zu\n", live, hwsamples);
--        return 0;
-+        abort();
-     }
- 
-     if (live == hwsamples) {
-@@ -998,7 +997,7 @@ static size_t audio_get_avail (SWVoiceIn *sw)
-     if (audio_bug(__func__, live > sw->hw->conv_buf->size)) {
-         dolog("live=%zu sw->hw->conv_buf->size=%zu\n", live,
-               sw->hw->conv_buf->size);
--        return 0;
-+        abort();
-     }
- 
-     ldebug (
-@@ -1028,7 +1027,7 @@ static size_t audio_get_free(SWVoiceOut *sw)
-     if (audio_bug(__func__, live > sw->hw->mix_buf->size)) {
-         dolog("live=%zu sw->hw->mix_buf->size=%zu\n", live,
-               sw->hw->mix_buf->size);
--        return 0;
-+        abort();
-     }
- 
-     dead = sw->hw->mix_buf->size - live;
-@@ -1170,7 +1169,7 @@ static void audio_run_out (AudioState *s)
- 
-         if (audio_bug(__func__, live > hw->mix_buf->size)) {
-             dolog("live=%zu hw->mix_buf->size=%zu\n", live, hw->mix_buf->size);
--            continue;
-+            abort();
-         }
- 
-         if (hw->pending_disable && !nb_live) {
-@@ -1203,7 +1202,7 @@ static void audio_run_out (AudioState *s)
-         if (audio_bug(__func__, hw->mix_buf->pos >= hw->mix_buf->size)) {
-             dolog("hw->mix_buf->pos=%zu hw->mix_buf->size=%zu played=%zu\n",
-                   hw->mix_buf->pos, hw->mix_buf->size, played);
--            hw->mix_buf->pos = 0;
-+            abort();
-         }
- 
- #ifdef DEBUG_OUT
-@@ -1223,7 +1222,7 @@ static void audio_run_out (AudioState *s)
-             if (audio_bug(__func__, played > sw->total_hw_samples_mixed)) {
-                 dolog("played=%zu sw->total_hw_samples_mixed=%zu\n",
-                       played, sw->total_hw_samples_mixed);
--                played = sw->total_hw_samples_mixed;
-+                abort();
-             }
- 
-             sw->total_hw_samples_mixed -= played;
-@@ -1346,7 +1345,7 @@ static void audio_run_capture (AudioState *s)
-             if (audio_bug(__func__, captured > sw->total_hw_samples_mixed)) {
-                 dolog("captured=%zu sw->total_hw_samples_mixed=%zu\n",
-                       captured, sw->total_hw_samples_mixed);
--                captured = sw->total_hw_samples_mixed;
-+                abort();
-             }
- 
-             sw->total_hw_samples_mixed -= captured;
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index d2d348638b8..7192b19e739 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -59,12 +59,13 @@ static void glue(audio_init_nb_voices_, TYPE)(AudioState *s,
-     if (audio_bug(__func__, !voice_size && max_voices)) {
-         dolog ("drv=`%s' voice_size=0 max_voices=%d\n",
-                drv->name, max_voices);
--        glue (s->nb_hw_voices_, TYPE) = 0;
-+        abort();
-     }
- 
-     if (audio_bug(__func__, voice_size && !max_voices)) {
-         dolog ("drv=`%s' voice_size=%d max_voices=0\n",
-                drv->name, voice_size);
-+        abort();
-     }
- }
- 
-@@ -81,6 +82,7 @@ static void glue(audio_pcm_hw_alloc_resources_, TYPE)(HW *hw)
-         size_t samples = hw->samples;
-         if (audio_bug(__func__, samples == 0)) {
-             dolog("Attempted to allocate empty buffer\n");
-+            abort();
-         }
- 
-         HWBUF = g_malloc0(sizeof(STSampleBuffer) + sizeof(st_sample) * samples);
-@@ -252,12 +254,12 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
- 
-     if (audio_bug(__func__, !drv)) {
-         dolog ("No host audio driver\n");
--        return NULL;
-+        abort();
-     }
- 
-     if (audio_bug(__func__, !drv->pcm_ops)) {
-         dolog ("Host audio driver without pcm_ops\n");
--        return NULL;
-+        abort();
-     }
- 
-     hw = audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
-@@ -275,12 +277,13 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
-     QLIST_INIT (&hw->cap_head);
- #endif
-     if (glue (hw->pcm_ops->init_, TYPE) (hw, as, s->drv_opaque)) {
--        goto err0;
-+        g_free(hw);
-+        return NULL;
-     }
- 
-     if (audio_bug(__func__, hw->samples <= 0)) {
-         dolog("hw->samples=%zd\n", hw->samples);
--        goto err1;
-+        abort();
-     }
- 
-     if (hw->info.is_float) {
-@@ -309,12 +312,6 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
-     audio_attach_capture (hw);
- #endif
-     return hw;
+-static void create_initial_menus(void)
+-{
+-    // Add menus
+-    NSMenu      *menu;
+-    NSMenuItem  *menuItem;
 -
-- err1:
--    glue (hw->pcm_ops->fini_, TYPE) (hw);
-- err0:
--    g_free (hw);
--    return NULL;
+-    [NSApp setMainMenu:[[NSMenu alloc] init]];
+-    [NSApp setServicesMenu:[[NSMenu alloc] initWithTitle:@"Services"]];
+-
+-    // Application menu
+-    menu = [[NSMenu alloc] initWithTitle:@""];
+-    [menu addItemWithTitle:@"About QEMU" action:@selector(do_about_menu_item:) keyEquivalent:@""]; // About QEMU
+-    [menu addItem:[NSMenuItem separatorItem]]; //Separator
+-    menuItem = [menu addItemWithTitle:@"Services" action:nil keyEquivalent:@""];
+-    [menuItem setSubmenu:[NSApp servicesMenu]];
+-    [menu addItem:[NSMenuItem separatorItem]];
+-    [menu addItemWithTitle:@"Hide QEMU" action:@selector(hide:) keyEquivalent:@"h"]; //Hide QEMU
+-    menuItem = (NSMenuItem *)[menu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"]; // Hide Others
+-    [menuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
+-    [menu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""]; // Show All
+-    [menu addItem:[NSMenuItem separatorItem]]; //Separator
+-    [menu addItemWithTitle:@"Quit QEMU" action:@selector(terminate:) keyEquivalent:@"q"];
+-    menuItem = [[NSMenuItem alloc] initWithTitle:@"Apple" action:nil keyEquivalent:@""];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-    [NSApp performSelector:@selector(setAppleMenu:) withObject:menu]; // Workaround (this method is private since 10.4+)
+-
+-    // Machine menu
+-    menu = [[NSMenu alloc] initWithTitle: @"Machine"];
+-    [menu setAutoenablesItems: NO];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Pause" action: @selector(pauseQEMU:) keyEquivalent: @""] autorelease]];
+-    menuItem = [[[NSMenuItem alloc] initWithTitle: @"Resume" action: @selector(resumeQEMU:) keyEquivalent: @""] autorelease];
+-    [menu addItem: menuItem];
+-    [menuItem setEnabled: NO];
+-    [menu addItem: [NSMenuItem separatorItem]];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Reset" action: @selector(restartQEMU:) keyEquivalent: @""] autorelease]];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Power Down" action: @selector(powerDownQEMU:) keyEquivalent: @""] autorelease]];
+-    menuItem = [[[NSMenuItem alloc] initWithTitle: @"Machine" action:nil keyEquivalent:@""] autorelease];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-
+-    // View menu
+-    menu = [[NSMenu alloc] initWithTitle:@"View"];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Enter Fullscreen" action:@selector(doToggleFullScreen:) keyEquivalent:@"f"] autorelease]]; // Fullscreen
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Zoom To Fit" action:@selector(zoomToFit:) keyEquivalent:@""] autorelease]];
+-    menuItem = [[[NSMenuItem alloc] initWithTitle:@"View" action:nil keyEquivalent:@""] autorelease];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-
+-    // Speed menu
+-    menu = [[NSMenu alloc] initWithTitle:@"Speed"];
+-
+-    // Add the rest of the Speed menu items
+-    int p, percentage, throttle_pct;
+-    for (p = 10; p >= 0; p--)
+-    {
+-        percentage = p * 10 > 1 ? p * 10 : 1; // prevent a 0% menu item
+-
+-        menuItem = [[[NSMenuItem alloc]
+-                   initWithTitle: [NSString stringWithFormat: @"%d%%", percentage] action:@selector(adjustSpeed:) keyEquivalent:@""] autorelease];
+-
+-        if (percentage == 100) {
+-            [menuItem setState: NSControlStateValueOn];
+-        }
+-
+-        /* Calculate the throttle percentage */
+-        throttle_pct = -1 * percentage + 100;
+-
+-        [menuItem setTag: throttle_pct];
+-        [menu addItem: menuItem];
+-    }
+-    menuItem = [[[NSMenuItem alloc] initWithTitle:@"Speed" action:nil keyEquivalent:@""] autorelease];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-
+-    // Window menu
+-    menu = [[NSMenu alloc] initWithTitle:@"Window"];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Minimize" action:@selector(performMiniaturize:) keyEquivalent:@"m"] autorelease]]; // Miniaturize
+-    menuItem = [[[NSMenuItem alloc] initWithTitle:@"Window" action:nil keyEquivalent:@""] autorelease];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-    [NSApp setWindowsMenu:menu];
+-
+-    // Help menu
+-    menu = [[NSMenu alloc] initWithTitle:@"Help"];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"QEMU Documentation" action:@selector(showQEMUDoc:) keyEquivalent:@"?"] autorelease]]; // QEMU Help
+-    menuItem = [[[NSMenuItem alloc] initWithTitle:@"Window" action:nil keyEquivalent:@""] autorelease];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-}
+-
+ /* Returns a name for a given console */
+ static NSString * getConsoleName(QemuConsole * console)
+ {
+@@ -1704,14 +1613,11 @@ static void create_initial_menus(void)
  }
  
- AudiodevPerDirectionOptions *glue(audio_get_pdo_, TYPE)(Audiodev *dev)
-@@ -435,7 +432,7 @@ void glue (AUD_close_, TYPE) (QEMUSoundCard *card, SW *sw)
-     if (sw) {
-         if (audio_bug(__func__, !card)) {
-             dolog ("card=%p\n", card);
--            return;
-+            abort();
-         }
+ /* Add an entry to the View menu for each console */
+-static void add_console_menu_entries(void)
++static void add_console_menu_entries(NSMenu *menu)
+ {
+-    NSMenu *menu;
+     NSMenuItem *menuItem;
+     int index = 0;
  
-         glue (audio_close_, TYPE) (sw);
-@@ -457,7 +454,7 @@ SW *glue (AUD_open_, TYPE) (
-     if (audio_bug(__func__, !card || !name || !callback_fn || !as)) {
-         dolog ("card=%p name=%p callback_fn=%p as=%p\n",
-                card, name, callback_fn, as);
--        goto fail;
-+        abort();
-     }
+-    menu = [[[NSApp mainMenu] itemWithTitle:@"View"] submenu];
+-
+     [menu addItem:[NSMenuItem separatorItem]];
  
-     s = card->state;
-@@ -468,12 +465,12 @@ SW *glue (AUD_open_, TYPE) (
+     while (qemu_console_lookup_by_index(index) != NULL) {
+@@ -1726,9 +1632,8 @@ static void add_console_menu_entries(void)
+ /* Make menu items for all removable devices.
+  * Each device is given an 'Eject' and 'Change' menu item.
+  */
+-static void addRemovableDevicesMenuItems(void)
++static void addRemovableDevicesMenuItems(NSMenu *menu)
+ {
+-    NSMenu *menu;
+     NSMenuItem *menuItem;
+     BlockInfoList *currentDevice, *pointerToFree;
+     NSString *deviceName;
+@@ -1736,8 +1641,6 @@ static void addRemovableDevicesMenuItems(void)
+     currentDevice = qmp_query_block(NULL);
+     pointerToFree = currentDevice;
  
-     if (audio_bug(__func__, audio_validate_settings(as))) {
-         audio_print_settings (as);
--        goto fail;
-+        abort();
-     }
+-    menu = [[[NSApp mainMenu] itemWithTitle:@"Machine"] submenu];
+-
+     // Add a separator between related groups of menu items
+     [menu addItem:[NSMenuItem separatorItem]];
  
-     if (audio_bug(__func__, !s->drv)) {
-         dolog ("Can not open `%s' (no host audio driver)\n", name);
--        goto fail;
-+        abort();
-     }
+@@ -1784,6 +1687,96 @@ static void addRemovableDevicesMenuItems(void)
+     qapi_free_BlockInfoList(pointerToFree);
+ }
  
-     if (sw && audio_pcm_info_eq (&sw->info, as)) {
++static void create_menus(void)
++{
++    // Add menus
++    NSString    *title = [[[NSBundle mainBundle] executablePath] lastPathComponent];
++    NSMenu      *mainMenu;
++    NSMenu      *menu;
++    NSMenuItem  *menuItem;
++
++    mainMenu = [[NSMenu alloc] initWithTitle:@"Main Menu"];
++    [NSApp setServicesMenu:[[NSMenu alloc] initWithTitle:@"Services"]];
++
++    // Application menu
++    menu = [[NSMenu alloc] initWithTitle:title];
++    [menu addItemWithTitle:@"About QEMU" action:@selector(do_about_menu_item:) keyEquivalent:@""]; // About QEMU
++    [menu addItem:[NSMenuItem separatorItem]]; //Separator
++    menuItem = [menu addItemWithTitle:@"Services" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:[NSApp servicesMenu]];
++    [menu addItem:[NSMenuItem separatorItem]];
++    [menu addItemWithTitle:@"Hide QEMU" action:@selector(hide:) keyEquivalent:@"h"]; //Hide QEMU
++    menuItem = (NSMenuItem *)[menu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"]; // Hide Others
++    [menuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
++    [menu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""]; // Show All
++    [menu addItem:[NSMenuItem separatorItem]]; //Separator
++    [menu addItemWithTitle:@"Quit QEMU" action:@selector(terminate:) keyEquivalent:@"q"];
++    menuItem = [mainMenu addItemWithTitle:title action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++
++    // Machine menu
++    menu = [[NSMenu alloc] initWithTitle: @"Machine"];
++    [menu setAutoenablesItems: NO];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Pause" action: @selector(pauseQEMU:) keyEquivalent: @""] autorelease]];
++    menuItem = [[[NSMenuItem alloc] initWithTitle: @"Resume" action: @selector(resumeQEMU:) keyEquivalent: @""] autorelease];
++    [menu addItem: menuItem];
++    [menuItem setEnabled: NO];
++    [menu addItem: [NSMenuItem separatorItem]];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Reset" action: @selector(restartQEMU:) keyEquivalent: @""] autorelease]];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Power Down" action: @selector(powerDownQEMU:) keyEquivalent: @""] autorelease]];
++    addRemovableDevicesMenuItems(menu);
++    menuItem = [mainMenu addItemWithTitle: @"Machine" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++
++    // View menu
++    menu = [[NSMenu alloc] initWithTitle:@"View"];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Enter Fullscreen" action:@selector(doToggleFullScreen:) keyEquivalent:@"f"] autorelease]]; // Fullscreen
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Zoom To Fit" action:@selector(zoomToFit:) keyEquivalent:@""] autorelease]];
++    add_console_menu_entries(menu);
++    menuItem = [mainMenu addItemWithTitle:@"View" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++
++    // Speed menu
++    menu = [[NSMenu alloc] initWithTitle:@"Speed"];
++
++    // Add the rest of the Speed menu items
++    int p, percentage, throttle_pct;
++    for (p = 10; p >= 0; p--)
++    {
++        percentage = p * 10 > 1 ? p * 10 : 1; // prevent a 0% menu item
++
++        menuItem = [[[NSMenuItem alloc]
++                   initWithTitle: [NSString stringWithFormat: @"%d%%", percentage] action:@selector(adjustSpeed:) keyEquivalent:@""] autorelease];
++
++        if (percentage == 100) {
++            [menuItem setState: NSControlStateValueOn];
++        }
++
++        /* Calculate the throttle percentage */
++        throttle_pct = -1 * percentage + 100;
++
++        [menuItem setTag: throttle_pct];
++        [menu addItem: menuItem];
++    }
++    menuItem = [mainMenu addItemWithTitle:@"Speed" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++
++    // Window menu
++    menu = [[NSMenu alloc] initWithTitle:@"Window"];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Minimize" action:@selector(performMiniaturize:) keyEquivalent:@"m"] autorelease]]; // Miniaturize
++    menuItem = [mainMenu addItemWithTitle:@"Window" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++    [NSApp setWindowsMenu:menu];
++
++    // Help menu
++    menu = [[NSMenu alloc] initWithTitle:@"Help"];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"QEMU Documentation" action:@selector(showQEMUDoc:) keyEquivalent:@"?"] autorelease]]; // QEMU Help
++    menuItem = [mainMenu addItemWithTitle:@"Window" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++
++    [NSApp setMainMenu:mainMenu];
++}
++
+ @interface QemuCocoaPasteboardTypeOwner : NSObject<NSPasteboardTypeOwner>
+ @end
+ 
+@@ -1947,18 +1940,6 @@ int main (int argc, char **argv) {
+ 
+     [QemuApplication sharedApplication];
+ 
+-    create_initial_menus();
+-
+-    /*
+-     * Create the menu entries which depend on QEMU state (for consoles
+-     * and removeable devices). These make calls back into QEMU functions,
+-     * which is OK because at this point we know that the second thread
+-     * holds the iothread lock and is synchronously waiting for us to
+-     * finish.
+-     */
+-    add_console_menu_entries();
+-    addRemovableDevicesMenuItems();
+-
+     // Create an Application controller
+     QemuCocoaAppController *appController = [[QemuCocoaAppController alloc] init];
+     [NSApp setDelegate:appController];
+@@ -2057,6 +2038,8 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+     qemu_sem_wait(&app_started_sem);
+     COCOA_DEBUG("cocoa_display_init: app start completed\n");
+ 
++    create_menus();
++
+     /* if fullscreen mode is to be used */
+     if (opts->has_full_screen && opts->full_screen) {
+         dispatch_async(dispatch_get_main_queue(), ^{
 -- 
 2.32.0 (Apple Git-132)
 
