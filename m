@@ -2,90 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE224CEAA9
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 12:07:02 +0100 (CET)
-Received: from localhost ([::1]:33186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52BC4CEABB
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 12:12:05 +0100 (CET)
+Received: from localhost ([::1]:35394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQoj7-0005zZ-3x
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 06:07:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53778)
+	id 1nQoo1-0007mP-1w
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 06:12:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1nQogL-0005Gf-5d
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:04:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1nQogH-0006pY-Rb
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:04:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646564643;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SqbiZzv4Jh6+DQqrPRGzXQQ0/kRA1zZUTyKBjx3NUmo=;
- b=ZVTlMdL3NX8w8PhOm7XwNgB+rlpm0ruUltEhwnbOGkOyBjzTC5/UBQOiSlzL3ZC49WWPmK
- u+Gd3t0NG3o2TEHhsklh/GYJwC9IsC7NpkGq0Sg46Y1OZCXe6u8PVw9C9026TzhloF2qZF
- btlymcKNcjXqiPXESOM29ufhotTMLPU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-JcWoRwiaOSmDgeZ7ZBmB4w-1; Sun, 06 Mar 2022 06:04:01 -0500
-X-MC-Unique: JcWoRwiaOSmDgeZ7ZBmB4w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o207-20020a1ca5d8000000b0038977354e75so2010104wme.1
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 03:04:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nQomY-00070t-HN
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:10:34 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=40713
+ helo=mail-pj1-x1034.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nQomX-0007v5-06
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:10:34 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ mv5-20020a17090b198500b001bf2a039831so4875711pjb.5
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 03:10:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=HhU0TH37D4DGh4VV37a7tH6CInztJjRQepGmsd8NhFk=;
+ b=a9W+S0lkqOnv0KJ1OMZ3O/Wqb+uBo6O3BCPEfs6BMf12Godc3EU6J2ZU53dR9Q5l61
+ 2hkslymC4xVHAy3qBWMJ1jIMCm/dkP7ouNToV2iwH/maLhF6VmMfRksCJF8CrqtpKhfb
+ FsfzkZ9RQ2dMV5wis2f4QK9kYrM+NIxh7kXnBaRBMTyL5XLTFiemTUDBAiLZwtqnYitE
+ x7EkuIBSzu/7Kd85jBrdy/KaxeGRLrIKebU/Yjs73xQrXQ9vI6nHF/ZRNroxOpzqDiIX
+ 1Cn3r12ZMCgKxyaFtVuEbfc4ZS84pNHAXUSbFAExgedmyS3F0k3cmNMHP2N2HrJXeCjk
+ MEwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=SqbiZzv4Jh6+DQqrPRGzXQQ0/kRA1zZUTyKBjx3NUmo=;
- b=RPgGZA2i9XR0kGRrSNF3vwL8biWFCM2VzvBQNP3tLxZphIsJb2LRFX5GreyomNQ891
- 2Xi/dWj9aws7ne0IxIDP6rCbaCpHdEw4xLSlvR2xPDxcCPy8E9bDtqdEVbqUvDjWHk2L
- ZC55ckhTbzdIZLW+V96xAIZTHIJ0y2r5yUJdLGOIPDt9uElxIDml9uuW8BILo9dL7tey
- mwsQJfztz7uvNPclcVQbDXMZlldpAIcnvHBWtMuZEWOOhlILjukysPKK9zowAEqM66EM
- P0ajBryoMcicgVjyxDMMqvcUPW/rhNO2ckCGx0nxB7drDauUQE1rAQH8BGWVxc9W9UwW
- x6/w==
-X-Gm-Message-State: AOAM530eV8DL+UvVP6ZbG8qIxoi5s1bdz6Hw/NLFWvUEQH7JcQMoGn4i
- zP5RLm8uqH6DNOB9/5NhnimOBpG7TNnqrUuF4jvJWGwuzai0HQhWtDbfqqZTDI2MxB6bY363YxM
- JT4ul/an8twoQ12k=
-X-Received: by 2002:a5d:5850:0:b0:1f0:2d5b:dc35 with SMTP id
- i16-20020a5d5850000000b001f02d5bdc35mr4865706wrf.344.1646564640587; 
- Sun, 06 Mar 2022 03:04:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx/hHPXLG2GWOGCQmLVhkb9+BYoURpIFHdksDAyPGyo9O9UAYUJwnasAdUE43+BndqWNl9ogA==
-X-Received: by 2002:a5d:5850:0:b0:1f0:2d5b:dc35 with SMTP id
- i16-20020a5d5850000000b001f02d5bdc35mr4865695wrf.344.1646564640346; 
- Sun, 06 Mar 2022 03:04:00 -0800 (PST)
-Received: from fedora (ec2-3-80-233-239.compute-1.amazonaws.com.
- [3.80.233.239]) by smtp.gmail.com with ESMTPSA id
- i4-20020a05600c354400b003899f5a8195sm1891782wmq.32.2022.03.06.03.03.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 03:03:59 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 0/3] i386: Add support for Hyper-V Enlightened
- MSR-Bitmap and XMM fast hypercall input features
-In-Reply-To: <20220217142949.297454-1-vkuznets@redhat.com>
-References: <20220217142949.297454-1-vkuznets@redhat.com>
-Date: Sun, 06 Mar 2022 12:03:55 +0100
-Message-ID: <8735jvbaw4.fsf@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HhU0TH37D4DGh4VV37a7tH6CInztJjRQepGmsd8NhFk=;
+ b=bVNt2GCJ85csOG9k8crECZvE+0OlriOIF6BC37pcOX4WaQaJ9xl0irpWi7uWdui7qR
+ i0KmN9Pd26s3UnACgy+b9Gd4+aukbX1OCpkp5fZwBpokGi9OoB/MEFfVIG7rbVLNsJxU
+ fKzjXsDW2FU10JcBcyuTuaQ9UY0eXx2CL2adzDsYYawLDw2WRDoOiz+LeDEnv3cPM+Q8
+ 02GsldH9KeOEhb1eDz0wsFDncwzfFZDwGN6dpVcTGHZ+nOfzHp0RxmmZs4Q0iovEwxUN
+ qfHGTEzVHGSCjwsi9F4YVon4w2bJbI6SVo4Dlc1SAQIRgvexWo7vxAB6WiuBqamYa8Kz
+ 8r4Q==
+X-Gm-Message-State: AOAM532AQeQIFNgveedMlp3xZCdDVWoF5fRClhE9x1m+JOgYdGFqoAcO
+ OgJGhP/YGdEQRxbeHEq0Ntw=
+X-Google-Smtp-Source: ABdhPJxoZxXbMlas4juhyivH4MIFQaSoXVwdIBLYFWaV5fSGsjXGnqYwTCmuLP/rUQrMQhHLqzKrVA==
+X-Received: by 2002:a17:902:bc83:b0:14f:d9b7:ab3 with SMTP id
+ bb3-20020a170902bc8300b0014fd9b70ab3mr7040428plb.23.1646565031008; 
+ Sun, 06 Mar 2022 03:10:31 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ p16-20020a056a000b5000b004f669806cd9sm12292706pfo.87.2022.03.06.03.10.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 06 Mar 2022 03:10:30 -0800 (PST)
+Message-ID: <41165fcb-7ef1-3fb4-0655-24642f8fa0e1@gmail.com>
+Date: Sun, 6 Mar 2022 12:10:25 +0100
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH v3 00/21] softmmu: Make various objects target agnostic
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220207075426.81934-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220207075426.81934-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,24 +95,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vitaly Kuznetsov <vkuznets@redhat.com> writes:
+On 7/2/22 08:54, Philippe Mathieu-Daudé wrote:
+> This is a re-org accel/ and softmmu/ to have more target-agnostic
+> objects.
+> 
+> Series fully reviewed. Paolo, Richard, do you want me to send a
+> pull request for this and the 'Remove "qemu/log.h"' series?
 
-> 'XMM fast hypercall input feature' is supported by KVM since v5.14,
-> it allows for faster Hyper-V hypercall processing.
->
-> 'Enlightened MSR-Bitmap' is a new nested specific enlightenment speeds up
-> L2 vmexits by avoiding unnecessary updates to L2 MSR-Bitmap. KVM support
-> for the feature on Intel CPUs is coming in v5.17 and is queued for 5.18 for
-> AMD CPUs.
->
+Since soft-freeze is soon, I'm going to send a pull request for
+this cleanup. Queuing as 'abstract-arch-cpu'.
 
-Gentle ping) It seems the time is running out to get this in 7.0...
-
--- 
-Vitaly
-
+> Philippe Mathieu-Daudé (21):
+>    accel: Restrict sysemu stubs to system emulation
+>    accel/meson: Only build hw virtualization with system emulation
+>    exec: Declare vaddr as a generic target-agnostic type
+>    exec: Make cpu_memory_rw_debug() target agnostic
+>    sysemu/memory_mapping: Become target-agnostic
+>    sysemu/kvm: Make kvm_on_sigbus() / kvm_on_sigbus_vcpu() target
+>      agnostic
+>    accel/kvm: Simplify user-mode #ifdef'ry
+>    accel/hax: Introduce CONFIG_HAX_IS_POSSIBLE
+>    softmmu/cpus: Code movement
+>    accel: Introduce AccelOpsClass::cpu_thread_is_idle()
+>    accel: Introduce AccelOpsClass::cpus_are_resettable()
+>    softmmu/globals: Remove unused 'hw/i386/*' headers
+>    softmmu/runstate: Clean headers
+>    softmmu/physmem: Remove unnecessary include
+>    softmmu/cpu-timers: Remove unused 'exec/exec-all.h' header
+>    misc: Remove unnecessary "sysemu/cpu-timers.h" include
+>    misc: Add missing "sysemu/cpu-timers.h" include
+>    exec/gdbstub: Make gdb_exit() / gdb_set_stop_cpu() target agnostic
+>    exec/cpu: Make address_space_init/reloading_memory_map target agnostic
+>    softmmu: Add qemu_init_arch_modules()
+>    softmmu: Build target-agnostic objects once
 
