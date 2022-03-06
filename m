@@ -2,72 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E174CEDE0
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 22:02:23 +0100 (CET)
-Received: from localhost ([::1]:42666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AD94CEDE7
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 22:15:03 +0100 (CET)
+Received: from localhost ([::1]:51690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQy1G-0002Gt-4z
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 16:02:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57680)
+	id 1nQyDW-0000RM-2N
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 16:15:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nQxzB-0001Qo-IW
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 16:00:16 -0500
-Received: from [2a00:1450:4864:20::133] (port=33588
- helo=mail-lf1-x133.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nQyCT-0007eC-2i
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 16:13:57 -0500
+Received: from [2a00:1450:4864:20::332] (port=44590
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wwcohen@gmail.com>) id 1nQxz7-0004Y4-Ln
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 16:00:11 -0500
-Received: by mail-lf1-x133.google.com with SMTP id bu29so23175001lfb.0
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 13:00:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nQyCR-0006DS-Ij
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 16:13:56 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ bg31-20020a05600c3c9f00b00381590dbb33so8181996wmb.3
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 13:13:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GTf/jOqFfmESprD5DDhp/0kLPhj2Pv4wsfM000zeBQA=;
- b=RqMCetPIcLN1Mw5kXcOls9Mh8PQCPKoo2PZPPYGowJZLkOpYTWVcNoR6rXhtkpGYJN
- pD6xeckgTL7yZUTii2+1Y+YxhnhNhr1Xktl8fZOZqd6DyuX9qO4yeJ9udS3T8wpw35P/
- +JOigqMEoNdzPDW3CBi2+dFtjPOqTl/mOweY5dXgzdY7Jo0QedRcnP4933e372cWLiyo
- tH0QwKmkYdnfAjVQZNhmK5WXLhYfYdC6sWq64/RNODBIsDPyOhsi3oby269pi27yEmty
- dFcHaAWljQB+27djg9JTmC8vJgLnpe2jOE5Ma7S9jS+jai3dzCVHG53hjfdLENEyF/Dy
- T4Ew==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=gS43pXPX+JiZYs3T3V0khYqgSQAQnZPTdsFT/VCuQ/E=;
+ b=Iu6ThcwlOU91kgE8JHE0mDpFMNXXrwWaG6UzEGyEovHs7we3rRbU44XU5E1Q1depUh
+ yQf9lB2REalnEGNfssCoYGfvnsmxBhC3FMLX8kz0JYBvUrBcBxi0J5OTIkTc4lYZFg2A
+ nHYxt6NrKQ6cQuIKkN5YUkOUylG42l6wbqV71mC8kLW8ZS8+2H/b3OfmJ7GRzpLmJp3m
+ VC56B2Pl+vrFUqxCJVylazKQhG9TXO++y6PG8mMW+hFAeVThsrz1YCXEyRxQnOML3rU6
+ 6VZ8IjP+x3uSqdS0zFkjR86NTu8kj/5EaEqD/l2H2RE4RJacN5yguw2GcPF5uJsbtBoL
+ wLHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GTf/jOqFfmESprD5DDhp/0kLPhj2Pv4wsfM000zeBQA=;
- b=BYW9tFGWANv4oM9rZyYqQX2LBMOWRsu/rj6ssqZk+LHfnwoXVeteOI56G+VoB2KqoQ
- 25PXY0nGh8sM4XL+EYjDs746MRteERoA/fAi9Gp5mtRAYqwVRksmWcwXOauoITHzgC/r
- EDO3S7OD4qAxfXAybG6CFgG4zEd5aZxsGo9TAC7vopn+sBChh4kfl40XVtuwVcl7HBW9
- nsTkVbgSxObHgzaJyBDS4/Hm9621mNSadSVEZt6STqUKhdFDUhac3XJI3sG1e9Xw4nVU
- +j1N5anZUUhwJiKclmTZOZOviSs7K0oSOXyv2avMKGJRORcCT1L90lSxe5YjpawzfS6Y
- 0anQ==
-X-Gm-Message-State: AOAM532zhe1Zcn2kpc6d1g1PjjD7GgcE/Ln0FY2TZxasr49ET8moB3SM
- PLJgyMJTJ3eQNR02Wf4RUH4CjlmXg0iRzM4rUVQ=
-X-Google-Smtp-Source: ABdhPJwxct8tyOIRBemfksJ+EJKmlt5LSqf7DLag/crkoNQjl1kEkESsmQeljlTLQEPww6X5lv0nFUKdGeBW3VjSl5A=
-X-Received: by 2002:a05:6512:ac3:b0:443:d3e3:db0a with SMTP id
- n3-20020a0565120ac300b00443d3e3db0amr5895808lfu.298.1646600407264; Sun, 06
- Mar 2022 13:00:07 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=gS43pXPX+JiZYs3T3V0khYqgSQAQnZPTdsFT/VCuQ/E=;
+ b=mQQMY2h50WP36NgUYHicM4piqwqNDw1s4f9C2ZkCeGOcGIk6P/Js+V4qF2yE05MFW1
+ IEwL97mWNhVUd86XbfPw/oPwASm3DlKLp63tenGHSRoVvkGkdz1cTGg2JXnXo1f9Vt9k
+ i+7YOLA4hE6FENpAiEBPrrJH2XV54mvOJgW57FSAuGBNolMfwc36JgfYreOWnX2kVZgP
+ 8bbf1aoViFWM7xMRVb3IxFYwoEizlU4imjYZV2QdwvIWo9TwDolduvpXyFQ/cCE6HsCk
+ ury1j6eYEmyeMe1vZqxAap9vI04JvF59YOOQsF5bCQPgUv0p3/k6Q/UeeDz7KOK9Lg69
+ hmmw==
+X-Gm-Message-State: AOAM5324EB58BRwqWmLr62dXUqH/LhXY5ow/93O4dQjHAjnTgTWvUjaC
+ y6wPxGS/gjBAc31VuGmvAds=
+X-Google-Smtp-Source: ABdhPJyyfvxYRd8rPAqyB9Lc0CK8wciVREVE51NtBst2MDBxO55i20JRPLy7qcMqMsy/AvZsT5RQkg==
+X-Received: by 2002:a05:600c:3c98:b0:37f:2f14:7be7 with SMTP id
+ bg24-20020a05600c3c9800b0037f2f147be7mr15925047wmb.180.1646601233717; 
+ Sun, 06 Mar 2022 13:13:53 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ a14-20020a05600c348e00b00389ab74c033sm157146wmq.4.2022.03.06.13.13.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 06 Mar 2022 13:13:53 -0800 (PST)
+Message-ID: <ec456ba2-71ed-7cbd-ae3a-595131962918@gmail.com>
+Date: Sun, 6 Mar 2022 22:13:51 +0100
 MIME-Version: 1.0
-References: <cover.1646396869.git.qemu_oss@crudebyte.com>
- <CAFEAcA8EN8sSSYYMh=u68-a7qXGaG-oSnAz2hT8kXXGtnDLnww@mail.gmail.com>
- <11201492.CjeqJxXfGd@silver>
- <CAB26zV0PP1Pv0wHBk+qp4C+v-Ykh22VnU5Ridw6WD8rZft7o_Q@mail.gmail.com>
-In-Reply-To: <CAB26zV0PP1Pv0wHBk+qp4C+v-Ykh22VnU5Ridw6WD8rZft7o_Q@mail.gmail.com>
-From: Will Cohen <wwcohen@gmail.com>
-Date: Sun, 6 Mar 2022 15:59:55 -0500
-Message-ID: <CAB26zV061-xniKvdO5x0r9WpLE3Gu2gVjyrp1TWJqQZjcKd9-Q@mail.gmail.com>
-Subject: Re: [PULL 00/19] 9p queue 2022-03-04
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: multipart/alternative; boundary="0000000000005cb28f05d993084e"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::133
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PULL 00/33] Abstract ArchCPU
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
+ <CAFEAcA_Gedun4yL_DcfK9Pk7e5j5gYpHuue139gq3rYH3zbETQ@mail.gmail.com>
+ <ad3118f9-0079-16cc-8a9d-51b8e32e7b2c@gmail.com>
+ <CAFEAcA_rLaphLoyZNUGOPoj5n2z7X+RJNSpnJGqhu9ujAMduEQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <CAFEAcA_rLaphLoyZNUGOPoj5n2z7X+RJNSpnJGqhu9ujAMduEQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::133;
- envelope-from=wwcohen@gmail.com; helo=mail-lf1-x133.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -82,259 +99,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Keno Fischer <keno@juliacomputing.com>, Greg Kurz <groug@kaod.org>,
- qemu Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005cb28f05d993084e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
++Daniel/Alex
 
-On Fri, Mar 4, 2022 at 4:31 PM Will Cohen <wwcohen@gmail.com> wrote:
+On 6/3/22 20:56, Peter Maydell wrote:
+> On Sun, 6 Mar 2022 at 19:06, Philippe Mathieu-Daudé
+> <philippe.mathieu.daude@gmail.com> wrote:
+>> I see. I only have access to aarch64 Darwin, not x86_64; I was relying
+>> on our CI for that (my GitLab CI is green). I'll work a fix, thanks.
+> 
+> This was on my ad-hoc stuff -- I guess our gitlab CI for macos
+> doesn't build hvf ?
 
-> On Fri, Mar 4, 2022 at 3:16 PM Christian Schoenebeck <
-> qemu_oss@crudebyte.com> wrote:
->
->> On Freitag, 4. M=C3=A4rz 2022 19:42:18 CET Peter Maydell wrote:
->> > On Fri, 4 Mar 2022 at 12:32, Christian Schoenebeck
->> >
->> > <qemu_oss@crudebyte.com> wrote:
->> > > The following changes since commit
->> 5959ef7d431ffd02db112209cf55e47b677256fd:
->> > >   Merge remote-tracking branch
->> > >   'remotes/alistair/tags/pull-riscv-to-apply-20220303' into staging
->> > >   (2022-03-03 19:59:38 +0000)>
->> > > are available in the Git repository at:
->> > >   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220304
->> > >
->> > > for you to fetch changes up to
->> 39edfe337c418995b2932a9a14a612fb0c329dc5:
->> > >   fsdev/p9array.h: convert Doxygen -> kerneldoc format (2022-03-04
->> > >   13:07:39 +0100)>
->> > > ----------------------------------------------------------------
->> > > 9pfs: introduce macOS host support and cleanup
->> > >
->> > > * Add support for Darwin (a.k.a. macOS) hosts.
->> > >
->> > > * Code cleanup (move qemu_dirent_dup() from osdep -> 9p-util).
->> > >
->> > > * API doc cleanup (convert Doxygen -> kerneldoc format).
->> >
->> > This fails to build on my OSX box:
->> >
->> > In file included from ../../hw/9pfs/9p-util-darwin.c:12:
->> > ../../hw/9pfs/9p-util.h:57:1: error: unused label 'again'
->> > [-Werror,-Wunused-label]
->> > again:
->> > ^~~~~~
->> >
->> > because the use of the label is inside a #ifndef CONFIG_DARWIN
->> > but the definition is not.
->> >
->> > thanks
->> > -- PMM
->>
->> So basically it needs this change:
->>
->> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
->> index cfa7af43c5..97e681e167 100644
->> --- a/hw/9pfs/9p-util.h
->> +++ b/hw/9pfs/9p-util.h
->> @@ -54,7 +54,9 @@ static inline int openat_file(int dirfd, const char
->> *name,
->> int flags,
->>  {
->>      int fd, serrno, ret;
->>
->> +#ifndef CONFIG_DARWIN
->>  again:
->> +#endif
->>      fd =3D openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLO=
-CK,
->>                  mode);
->>      if (fd =3D=3D -1) {
->>
->> Will, can you check why this did not fail there and whether there are
->> probably
->> more issues?
->>
->> If that's the only one, let me know, then I would fix this on my end and
->> resend a PR ASAP. Thanks!
->
->
-> These were just warnings for me so I didn=E2=80=99t worry about them. Wil=
-l check
-> where else it appears when building!
->
+No, it does:
 
-When building using 9p.next, here's the full extent of warnings I see. It
-appears it's just that one again at 9p-util.h:57.
+https://gitlab.com/philmd/qemu/-/jobs/2167582776#L6444
 
-In file included from ../hw/9pfs/9p-xattr.c:23:
-../hw/9pfs/9p-util.h:57:1: warning: unused label 'again' [-Wunused-label]
-again:
-^~~~~~
-1 warning generated.
-[3690/6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-synth.c.o
-[3691/6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-local.c.o
-In file included from ../hw/9pfs/9p-local.c:22:
-../hw/9pfs/9p-util.h:57:1: warning: unused label 'again' [-Wunused-label]
-again:
-^~~~~~
-1 warning generated.
-[3692/6798] Compiling C object libcommon.fa.p/hw_9pfs_codir.c.o
-In file included from ../hw/9pfs/codir.c:26:
-../hw/9pfs/9p-util.h:57:1: warning: unused label 'again' [-Wunused-label]
-again:
-^~~~~~
-1 warning generated.
-[3693/6798] Compiling C object libcommon.fa.p/hw_9pfs_coth.c.o
-[3694/6798] Compiling C object libcommon.fa.p/hw_9pfs_cofile.c.o
-[3695/6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-proxy.c.o
-[3696/6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-util-darwin.c.o
-In file included from ../hw/9pfs/9p-util-darwin.c:12:
-../hw/9pfs/9p-util.h:57:1: warning: unused label 'again' [-Wunused-label]
-again:
-^~~~~~
-1 warning generated.
-In file included from ../hw/9pfs/9p.c:30:
-../hw/9pfs/9p-util.h:57:1: warning: unused label 'again' [-Wunused-label]
-again:
-^~~~~~
-1 warning generated.
+   Targets and accelerators
+     KVM support                  : NO
+     HAX support                  : YES
+     HVF support                  : YES
+     WHPX support                 : NO
+     NVMM support                 : NO
+     Xen support                  : NO
+     TCG support                  : YES
 
+But the Cirrus job are allowed to fail:
 
->
->>
->> Best regards,
->> Christian Schoenebeck
->>
->>
->>
+   .cirrus_build_job:
+     stage: build
+     image: registry.gitlab.com/libvirt/libvirt-ci/cirrus-run:master
+     needs: []
+     allow_failure: true
 
---0000000000005cb28f05d993084e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+So I've been missing this error since 2 months...
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Mar 4, 2022 at 4:31 PM Will Cohen=
- &lt;<a href=3D"mailto:wwcohen@gmail.com">wwcohen@gmail.com</a>&gt; wrote:<=
-br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><div>On Fri, Mar 4, 2022 at 3:16 PM Christian Schoenebeck &lt;<a=
- href=3D"mailto:qemu_oss@crudebyte.com" target=3D"_blank">qemu_oss@crudebyt=
-e.com</a>&gt; wrote:<br></div><div><div class=3D"gmail_quote"><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">On Freitag, 4. M=C3=A4rz 2022 19:42:18=
- CET Peter Maydell wrote:<br>
-&gt; On Fri, 4 Mar 2022 at 12:32, Christian Schoenebeck<br>
-&gt; <br>
-&gt; &lt;<a href=3D"mailto:qemu_oss@crudebyte.com" target=3D"_blank">qemu_o=
-ss@crudebyte.com</a>&gt; wrote:<br>
-&gt; &gt; The following changes since commit <br>
-5959ef7d431ffd02db112209cf55e47b677256fd:<br>
-&gt; &gt;=C2=A0 =C2=A0Merge remote-tracking branch<br>
-&gt; &gt;=C2=A0 =C2=A0&#39;remotes/alistair/tags/pull-riscv-to-apply-202203=
-03&#39; into staging<br>
-&gt; &gt;=C2=A0 =C2=A0(2022-03-03 19:59:38 +0000)&gt; <br>
-&gt; &gt; are available in the Git repository at:<br>
-&gt; &gt;=C2=A0 =C2=A0<a href=3D"https://github.com/cschoenebeck/qemu.git" =
-rel=3D"noreferrer" target=3D"_blank">https://github.com/cschoenebeck/qemu.g=
-it</a> tags/pull-9p-20220304<br>
-&gt; &gt; <br>
-&gt; &gt; for you to fetch changes up to 39edfe337c418995b2932a9a14a612fb0c=
-329dc5:<br>
-&gt; &gt;=C2=A0 =C2=A0fsdev/p9array.h: convert Doxygen -&gt; kerneldoc form=
-at (2022-03-04<br>
-&gt; &gt;=C2=A0 =C2=A013:07:39 +0100)&gt; <br>
-&gt; &gt; ----------------------------------------------------------------<=
-br>
-&gt; &gt; 9pfs: introduce macOS host support and cleanup<br>
-&gt; &gt; <br>
-&gt; &gt; * Add support for Darwin (a.k.a. macOS) hosts.<br>
-&gt; &gt; <br>
-&gt; &gt; * Code cleanup (move qemu_dirent_dup() from osdep -&gt; 9p-util).=
-<br>
-&gt; &gt; <br>
-&gt; &gt; * API doc cleanup (convert Doxygen -&gt; kerneldoc format).<br>
-&gt; <br>
-&gt; This fails to build on my OSX box:<br>
-&gt; <br>
-&gt; In file included from ../../hw/9pfs/9p-util-darwin.c:12:<br>
-&gt; ../../hw/9pfs/9p-util.h:57:1: error: unused label &#39;again&#39;<br>
-&gt; [-Werror,-Wunused-label]<br>
-&gt; again:<br>
-&gt; ^~~~~~<br>
-&gt; <br>
-&gt; because the use of the label is inside a #ifndef CONFIG_DARWIN<br>
-&gt; but the definition is not.<br>
-&gt; <br>
-&gt; thanks<br>
-&gt; -- PMM<br>
-<br>
-So basically it needs this change:<br>
-<br>
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h<br>
-index cfa7af43c5..97e681e167 100644<br>
---- a/hw/9pfs/9p-util.h<br>
-+++ b/hw/9pfs/9p-util.h<br>
-@@ -54,7 +54,9 @@ static inline int openat_file(int dirfd, const char *name=
-, <br>
-int flags,<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0int fd, serrno, ret;<br>
-<br>
-+#ifndef CONFIG_DARWIN<br>
-=C2=A0again:<br>
-+#endif<br>
-=C2=A0 =C2=A0 =C2=A0fd =3D openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTT=
-Y | O_NONBLOCK,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mode);<br>
-=C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
-<br>
-Will, can you check why this did not fail there and whether there are proba=
-bly <br>
-more issues?<br>
-<br>
-If that&#39;s the only one, let me know, then I would fix this on my end an=
-d <br>
-resend a PR ASAP. Thanks!</blockquote><div dir=3D"auto"><br></div><div dir=
-=3D"auto">These were just warnings for me so I didn=E2=80=99t worry about t=
-hem. Will check where else it appears when building!</div></div></div></blo=
-ckquote><div><br></div><div>When building using 9p.next, here&#39;s the ful=
-l extent of warnings I see. It appears it&#39;s just that one again at 9p-u=
-til.h:57.<br></div><div><br></div><div>In file included from ../hw/9pfs/9p-=
-xattr.c:23:<br>../hw/9pfs/9p-util.h:57:1: warning: unused label &#39;again&=
-#39; [-Wunused-label]<br>again:<br>^~~~~~<br>1 warning generated.<br>[3690/=
-6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-synth.c.o<br>[3691/6798]=
- Compiling C object libcommon.fa.p/hw_9pfs_9p-local.c.o<br>In file included=
- from ../hw/9pfs/9p-local.c:22:<br>../hw/9pfs/9p-util.h:57:1: warning: unus=
-ed label &#39;again&#39; [-Wunused-label]<br>again:<br>^~~~~~<br>1 warning =
-generated.<br>[3692/6798] Compiling C object libcommon.fa.p/hw_9pfs_codir.c=
-.o<br>In file included from ../hw/9pfs/codir.c:26:<br>../hw/9pfs/9p-util.h:=
-57:1: warning: unused label &#39;again&#39; [-Wunused-label]<br>again:<br>^=
-~~~~~<br>1 warning generated.<br>[3693/6798] Compiling C object libcommon.f=
-a.p/hw_9pfs_coth.c.o<br>[3694/6798] Compiling C object libcommon.fa.p/hw_9p=
-fs_cofile.c.o<br>[3695/6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-p=
-roxy.c.o<br>[3696/6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-util-d=
-arwin.c.o<br>In file included from ../hw/9pfs/9p-util-darwin.c:12:<br>../hw=
-/9pfs/9p-util.h:57:1: warning: unused label &#39;again&#39; [-Wunused-label=
-]<br>again:<br>^~~~~~<br>1 warning generated.</div><div>In file included fr=
-om ../hw/9pfs/9p.c:30:<br>../hw/9pfs/9p-util.h:57:1: warning: unused label =
-&#39;again&#39; [-Wunused-label]<br>again:<br>^~~~~~<br>1 warning generated=
-.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
-v><div class=3D"gmail_quote"><div dir=3D"auto"><br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex" dir=3D"auto"><br>
-<br>
-Best regards,<br>
-Christian Schoenebeck<br>
-<br>
-<br>
-</blockquote></div></div>
-</blockquote></div></div>
-
---0000000000005cb28f05d993084e--
+   In file included from ../target/i386/hvf/x86_task.c:22:
+   ../target/i386/hvf/x86_emu.h:27:30: error: declaration of 'struct 
+CPUX86State' will not be visible outside of this function 
+[-Werror,-Wvisibility]
+   bool exec_instruction(struct CPUX86State *env, struct x86_decode *ins);
+                                ^
 
