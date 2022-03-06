@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66AB44CEBA1
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:07:10 +0100 (CET)
-Received: from localhost ([::1]:46122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FACA4CEBA7
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:12:09 +0100 (CET)
+Received: from localhost ([::1]:56454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQqbN-0000wx-El
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:07:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42028)
+	id 1nQqgC-00082Q-C6
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:12:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqVR-0000gv-JD
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:01 -0500
-Received: from [2a00:1450:4864:20::32b] (port=41797
- helo=mail-wm1-x32b.google.com)
+ id 1nQqVX-0000mu-Gt
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:07 -0500
+Received: from [2a00:1450:4864:20::32c] (port=42847
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqVO-0003vS-Ux
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:00 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- 7-20020a05600c228700b00385fd860f49so6900019wmf.0
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:00:58 -0800 (PST)
+ id 1nQqVU-0003vu-WE
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:06 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ r187-20020a1c2bc4000000b003810e6b192aso7759073wmr.1
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:01:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=I1BibOgzE1kXRXSK7t3OOwFMjdn8Qs/Lnfs/VlDah2s=;
- b=Jwy3EcOq9Hx+V/KGcjbZpIhkoqVlpAviEoarslz3zwL7cegBEqq+1SphtL40tiH6OC
- 8vXwQ9MlqNFynu3yNws2n4hcVa3B4Zrnmv+q3WmQmyMUQGw+VtRFyUmA5cnNMzctZCv1
- HAE+C1GTzSWDc0yo6DUC90Bt3ct7FgwBHufzTlz3aZN2pKVeJwJswlKIkZ9kX4U4gZz/
- 0YvkFPGR+UDX0QvJlhd5H7Kim/81fOvaHkmIxvOl600mNsJOw792Fo/KN3e2guv+HZtG
- MLs6TlRTZVGGZ9GClYZyJExBUtxVdzbU3eEmhUP6XQyd4u8Z7jGwbE1cBmsUZQXVyICV
- Iu7Q==
+ bh=zwXjzSzsl8TDGlKONbb5aSOhR7jvYd4YRdrKNrb6iSw=;
+ b=FxnNu7NLPeg1OgnE6k/7ZQEup0+z5Ji/e6J246HMimjVB7GZnvc9P5jvjYlJx3+a5c
+ wvDq/hYWm/ZJ9xbfbYEviaIHPpUijwubMyXHlk1NCM1g3tXSvbpI2c76/6VEIEJWayLR
+ VW+VHPzXKHb7uXahIB3Vy3R7b/mR/15qoe8QsbDepG4rIbASd2bBc8nuakp/HU1Vxc0i
+ hikfhSIhR/zb005LLblK8lZ1M8u6j964/CPf1OT6804A9WP6yy0PTOI24cL/v6wTVHdh
+ /GH/Ur0iOA2hfmKLwAdSLv/Ljc42v1f2w/SQECESoRGXiWhWG+KKSzH1ZxXDTgmty4lz
+ ciMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=I1BibOgzE1kXRXSK7t3OOwFMjdn8Qs/Lnfs/VlDah2s=;
- b=bzA9cE1/OkwhTNj+ZpkB17dqGz+JRPiYlRfnDx2wMGrkNnVgmn8z4+wMzyT+XEI9/1
- wTvpBSjc6Gp5Z9RFJhiM5fZlCgHFqeBcZLBqjudWsNSFiK12XNjgEgDjPsCswInAeCMl
- NvdwhsaCQywdiOxFng2A3Svo+e7T7R1PhzKsib4BUlbYX0q8wWzjT9MNHG7fEuxrTG5v
- TyxmfjIFCNCpUrxb4Puo5MMRRyoN+yIUJRdrKoc3aKFEmW/Msx2pqJSRNlnN2PSCfhwv
- 2ayg7tXkA1SIifHUOnUSOjs7Bb7GPF7y339PgBC+JOLw+Q9QeQJAFmG5zrVMnzzKfR/U
- iaNQ==
-X-Gm-Message-State: AOAM530FDmqVwtkVJhb4pxahUl2bP3jwGCTcqbmVZCjdyx7aLTtfpsY0
- fzSAb8Q9KB32zRuUpvQLZuZ+ubu+VTY=
-X-Google-Smtp-Source: ABdhPJw3jfcgaqTg/zd8lhpqboKH6UurEddO7oAFnulIktUIkw5cDsEY8G1UmHJRylgzobhXiKfvdA==
-X-Received: by 2002:a1c:c911:0:b0:389:8f96:28f3 with SMTP id
- f17-20020a1cc911000000b003898f9628f3mr6050694wmb.49.1646571657023; 
- Sun, 06 Mar 2022 05:00:57 -0800 (PST)
+ bh=zwXjzSzsl8TDGlKONbb5aSOhR7jvYd4YRdrKNrb6iSw=;
+ b=JaymApvm1/8FiF2BK16EG3StP1whzYZBucwbKdn7TAodLkUVmQazasFiBG+7OrdxJh
+ JZPYJP++SQBG5gHHesRdok5lXgSJM0+tKisyL7dhNCMUuoIGNoBN6ZYThnAtSgNowrqn
+ tji0YQUolXrPuP5Pg9B3ZmKx/UwHXNAIRXkJwdRMmmWRTpYGcNEiNWGMtzirpgvyUybV
+ y+0cSSr1PFkFGAkl2XkHCDU+NuRTJOQerqeR1uYXQ2ba9OD/zlgEn6A2UaQXgfPRS4oS
+ jvZEu4U5183r0ziBGjBGiqOOrlb4U5KbMIabk0JaIdKKaEUlVquO18J6Bd9dJqmZbONj
+ 6rwA==
+X-Gm-Message-State: AOAM532wIAUWdRQjiGmRaUzaYtsfa7j3ukSESKBgmAdm4ZEQQb435d2u
+ EH/zU+Y77G56B3VOKFuMZwIYev6d2yg=
+X-Google-Smtp-Source: ABdhPJxQ6eGy2jX85GPDbrSbIFNDp0qX7AeWkZ2RtWCZvB8wuIdI6KO/dtUgivXX+mLAtCtQR4w17g==
+X-Received: by 2002:a05:600c:22c9:b0:381:3b27:89be with SMTP id
+ 9-20020a05600c22c900b003813b2789bemr5671890wmg.83.1646571662127; 
+ Sun, 06 Mar 2022 05:01:02 -0800 (PST)
 Received: from nuc.lan ([185.126.107.38]) by smtp.gmail.com with ESMTPSA id
- g11-20020a5d554b000000b001f0326a23ddsm9113637wrw.70.2022.03.06.05.00.55
+ k13-20020a7bc40d000000b00381890032dfsm15786591wmi.1.2022.03.06.05.01.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 05:00:56 -0800 (PST)
+ Sun, 06 Mar 2022 05:01:01 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/33] accel: Introduce AccelOpsClass::cpu_thread_is_idle()
-Date: Sun,  6 Mar 2022 13:59:37 +0100
-Message-Id: <20220306130000.8104-11-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 11/33] accel: Introduce AccelOpsClass::cpus_are_resettable()
+Date: Sun,  6 Mar 2022 13:59:38 +0100
+Message-Id: <20220306130000.8104-12-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 References: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,44 +99,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Add cpu_thread_is_idle() to AccelOps, and implement it for the
-KVM / WHPX accelerators.
+Add cpus_are_resettable() to AccelOps, and implement it for the
+KVM accelerator.
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220207075426.81934-11-f4bug@amsat.org>
+Message-Id: <20220207075426.81934-12-f4bug@amsat.org>
 ---
- include/sysemu/accel-ops.h        | 1 +
- accel/kvm/kvm-accel-ops.c         | 6 ++++++
- softmmu/cpus.c                    | 6 ++++--
- target/i386/whpx/whpx-accel-ops.c | 6 ++++++
- 4 files changed, 17 insertions(+), 2 deletions(-)
+ include/sysemu/accel-ops.h | 2 ++
+ include/sysemu/hw_accel.h  | 5 -----
+ accel/kvm/kvm-accel-ops.c  | 6 ++++++
+ softmmu/cpus.c             | 5 ++++-
+ 4 files changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-index 032f6979d76..50c72540c73 100644
+index 50c72540c73..6013c9444cc 100644
 --- a/include/sysemu/accel-ops.h
 +++ b/include/sysemu/accel-ops.h
-@@ -30,6 +30,7 @@ struct AccelOpsClass {
+@@ -28,6 +28,8 @@ struct AccelOpsClass {
+     /* initialization function called when accel is chosen */
+     void (*ops_init)(AccelOpsClass *ops);
  
++    bool (*cpus_are_resettable)(void);
++
      void (*create_vcpu_thread)(CPUState *cpu); /* MANDATORY NON-NULL */
      void (*kick_vcpu_thread)(CPUState *cpu);
-+    bool (*cpu_thread_is_idle)(CPUState *cpu);
+     bool (*cpu_thread_is_idle)(CPUState *cpu);
+diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
+index 01b5ebf442a..22903a55f70 100644
+--- a/include/sysemu/hw_accel.h
++++ b/include/sysemu/hw_accel.h
+@@ -23,9 +23,4 @@ void cpu_synchronize_post_reset(CPUState *cpu);
+ void cpu_synchronize_post_init(CPUState *cpu);
+ void cpu_synchronize_pre_loadvm(CPUState *cpu);
  
-     void (*synchronize_post_reset)(CPUState *cpu);
-     void (*synchronize_post_init)(CPUState *cpu);
+-static inline bool cpu_check_are_resettable(void)
+-{
+-    return kvm_enabled() ? kvm_cpu_check_are_resettable() : true;
+-}
+-
+ #endif /* QEMU_HW_ACCEL_H */
 diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-index 7516c67a3f5..95b7b080202 100644
+index 95b7b080202..c4244a23c65 100644
 --- a/accel/kvm/kvm-accel-ops.c
 +++ b/accel/kvm/kvm-accel-ops.c
-@@ -74,11 +74,17 @@ static void kvm_start_vcpu_thread(CPUState *cpu)
-                        cpu, QEMU_THREAD_JOINABLE);
+@@ -79,12 +79,18 @@ static bool kvm_vcpu_thread_is_idle(CPUState *cpu)
+     return !kvm_halt_in_kernel();
  }
  
-+static bool kvm_vcpu_thread_is_idle(CPUState *cpu)
++static bool kvm_cpus_are_resettable(void)
 +{
-+    return !kvm_halt_in_kernel();
++    return !kvm_enabled() || kvm_cpu_check_are_resettable();
 +}
 +
  static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
@@ -144,52 +159,27 @@ index 7516c67a3f5..95b7b080202 100644
      AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
  
      ops->create_vcpu_thread = kvm_start_vcpu_thread;
-+    ops->cpu_thread_is_idle = kvm_vcpu_thread_is_idle;
+     ops->cpu_thread_is_idle = kvm_vcpu_thread_is_idle;
++    ops->cpus_are_resettable = kvm_cpus_are_resettable;
      ops->synchronize_post_reset = kvm_cpu_synchronize_post_reset;
      ops->synchronize_post_init = kvm_cpu_synchronize_post_init;
      ops->synchronize_state = kvm_cpu_synchronize_state;
 diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index ac6bec56038..b17033d3bce 100644
+index b17033d3bce..e1d84c8ccb7 100644
 --- a/softmmu/cpus.c
 +++ b/softmmu/cpus.c
-@@ -90,10 +90,12 @@ bool cpu_thread_is_idle(CPUState *cpu)
-     if (cpu_is_stopped(cpu)) {
-         return true;
-     }
--    if (!cpu->halted || cpu_has_work(cpu) ||
--        kvm_halt_in_kernel() || whpx_apic_in_platform()) {
-+    if (!cpu->halted || cpu_has_work(cpu)) {
-         return false;
-     }
-+    if (cpus_accel->cpu_thread_is_idle) {
-+        return cpus_accel->cpu_thread_is_idle(cpu);
-+    }
-     return true;
- }
+@@ -195,7 +195,10 @@ void cpu_synchronize_pre_loadvm(CPUState *cpu)
  
-diff --git a/target/i386/whpx/whpx-accel-ops.c b/target/i386/whpx/whpx-accel-ops.c
-index 6bc47c53098..1d30e4e2ed2 100644
---- a/target/i386/whpx/whpx-accel-ops.c
-+++ b/target/i386/whpx/whpx-accel-ops.c
-@@ -83,12 +83,18 @@ static void whpx_kick_vcpu_thread(CPUState *cpu)
-     }
- }
- 
-+static bool whpx_vcpu_thread_is_idle(CPUState *cpu)
-+{
-+    return !whpx_apic_in_platform();
-+}
-+
- static void whpx_accel_ops_class_init(ObjectClass *oc, void *data)
+ bool cpus_are_resettable(void)
  {
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
+-    return cpu_check_are_resettable();
++    if (cpus_accel->cpus_are_resettable) {
++        return cpus_accel->cpus_are_resettable();
++    }
++    return true;
+ }
  
-     ops->create_vcpu_thread = whpx_start_vcpu_thread;
-     ops->kick_vcpu_thread = whpx_kick_vcpu_thread;
-+    ops->cpu_thread_is_idle = whpx_vcpu_thread_is_idle;
- 
-     ops->synchronize_post_reset = whpx_cpu_synchronize_post_reset;
-     ops->synchronize_post_init = whpx_cpu_synchronize_post_init;
+ int64_t cpus_get_virtual_clock(void)
 -- 
 2.35.1
 
