@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA104CEB9E
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:07:03 +0100 (CET)
-Received: from localhost ([::1]:45542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F6B4CEB9B
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:03:50 +0100 (CET)
+Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQqbH-0000a0-1G
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:07:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41740)
+	id 1nQqY8-0003Gq-QK
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:03:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqUe-00008j-PS
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:00:12 -0500
-Received: from [2a00:1450:4864:20::42c] (port=39466
- helo=mail-wr1-x42c.google.com)
+ id 1nQqUj-0000Bk-64
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:00:18 -0500
+Received: from [2a00:1450:4864:20::42b] (port=42765
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqUd-0003mF-6f
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:00:12 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id n15so5204787wra.6
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:00:10 -0800 (PST)
+ id 1nQqUh-0003n1-O3
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:00:16 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id u10so17692652wra.9
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:00:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Wb7+viwSho19XAgJtTyRiyTuJeYdM+u977LfdFPHfVQ=;
- b=bBX6pq9iXxBS3TRdfa0xWO6jL8Ea+kWfanzGRRxKvYleD0cAIvOs/2KZ42j96Mlhm/
- QtPwheVUQv/54dNXnZxGCyVBletmmzzGHNfYCw7S/PjtMkP9UlNhOrj2FlGzYi/C6OQd
- a+a967rXli+RT1OrnTABuKdAjHinMj93qD3xQvVAVQYjWuQlrHhZynb2Sjjz3MYTmAzZ
- 9Sh8rQSmcDPInmFT9YsBXrV8CSxgp0G2CIXN8hlXe9YqTTe5+liRv7Cl6EM5pYghU/v0
- x8QI5aYlvRQW18wbSNrmBHCvM2DBnfURemSbLi8mFig+HG47Stt/7SPC20M5E1Or09BA
- kBhg==
+ bh=BOg+Rx+mC8Syyjx9fXrlTOUMVFKVJ0SJfpeDXko8AYU=;
+ b=i2RKhip5dL54CzkKPW3WAmIEMmfba2u/64E1VheUtJrUSM2BQ/mpWbEW4Hj6u3iEva
+ vHiMKXOoX4iQSrszRxqVSwaeC08QottM5BmLvFZRX+bREjeciRbgb+jJhcxb0RLoVq1+
+ p/mYZ2IGZRXtxYz7IcuNFGzz7GvyeB15HBC54Ooho4oCY0/yCvE5A+XUSxBIqKoIjX6R
+ r0vyeke+u+6rJw/+OeEMvCP+mwzJiBTDkQqndCDQSyLc7jdJY5OYdvTSLgisqoCVJtMG
+ OgVTMIqKxzFRn6sOTc+oPf5Q5TYgqrB7vXmX8UpI9rmPIm1c8fYq0AWALlmUDJiXNOK2
+ L3pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Wb7+viwSho19XAgJtTyRiyTuJeYdM+u977LfdFPHfVQ=;
- b=R2zeuQH63mvQ34iEeVEmpKevdsTZ+njda0WZscc4Kr0RMgUf4eZsvIgmzR7IWuoWa4
- sV1roKvjUK0mPm1GApeMOwE7ciPWr0bQF8h//KYmAhmHphS4PIDE35jlqDz3kgi+xZZU
- k2kcg0ImbRxEByJBA2MdnI9LLmo7bU77Hiph41Feg/1m968PyMhFSNEN5BB1uV6tkRAI
- aXirfzlsbogSyfxR8UChXn41b0eqD8hBfAQZiUkv0v6thPDfdCgErTvyEYd8uK6mjfdI
- 2wdWeDOM2MmnWmLXOfkdJh0WIa4aJv3poTOvFCprC7GnPa4dyH+z5O7mmJTeRyls7et5
- RilQ==
-X-Gm-Message-State: AOAM531ZUl8eYWL9L8fXYQVq1B6rJ7vPcvvq7CPkQ6EfRJczr3gasotX
- VKaxUC8Kb7PkALe8Z9eDKsQqMZxGNnM=
-X-Google-Smtp-Source: ABdhPJzoUM3YUzwk99t7sEBa/K+FfniYd26uVvb6ygh3tEFJXjCobx1B5ohhAm+0SMA2aXmiwr0CPg==
-X-Received: by 2002:adf:e401:0:b0:1ed:c254:d51f with SMTP id
- g1-20020adfe401000000b001edc254d51fmr5170781wrm.49.1646571609225; 
- Sun, 06 Mar 2022 05:00:09 -0800 (PST)
+ bh=BOg+Rx+mC8Syyjx9fXrlTOUMVFKVJ0SJfpeDXko8AYU=;
+ b=N4Qwt0aYUev+SqDhRz86ZujkurzGI6z5C/oINROvuyp2XFL20z+2CksNVGFxQr15Yp
+ JSFfYVekHMheWvGF8Wp5kFtyjVawWF42KAXG/0E3l3nISFtWtnE2eNplDnCqGpfzsU1C
+ g5HQZKpSejfqzJ1TwbLEBMFIPDP0A6vxJuP1xVoO46wjARHt99qT7igYpkRxfmXXhnJ4
+ 1uy7/gQT7QfeuVxCq6Cyb4i7cn10litwKMx2mOxbIJJZ7Sgw6tKPduI/mDxk2b+icPSl
+ UHLvc800RKQd2plkclnV0VdYWzxPzrnkdLBXIvmdxozUXj4O582JM+HLOWEpYpYw+HJQ
+ xLdg==
+X-Gm-Message-State: AOAM531fpJCXcdRtmE3uytkQSrp+xa1svlytPWaYWWjYs9CnfA48qAHj
+ SfiioxUAGTvM7s1RQDXPpFLdQKIid1c=
+X-Google-Smtp-Source: ABdhPJwUZGDPKZygRxm8nTIXkZwcEb18f2OE/9NufciMZJnyj5neCpIYQ+7/azhNMUib6P0jv8u27A==
+X-Received: by 2002:adf:f804:0:b0:1f0:326e:5e78 with SMTP id
+ s4-20020adff804000000b001f0326e5e78mr5350850wrp.251.1646571614311; 
+ Sun, 06 Mar 2022 05:00:14 -0800 (PST)
 Received: from nuc.lan ([185.126.107.38]) by smtp.gmail.com with ESMTPSA id
- l13-20020a05600002ad00b001ea78a5df11sm10367911wry.1.2022.03.06.05.00.08
+ n16-20020a5d4010000000b001f07772457csm5773437wrp.101.2022.03.06.05.00.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 05:00:08 -0800 (PST)
+ Sun, 06 Mar 2022 05:00:13 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/33] accel: Restrict sysemu stubs to system emulation
-Date: Sun,  6 Mar 2022 13:59:28 +0100
-Message-Id: <20220306130000.8104-2-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 02/33] accel/meson: Only build hw virtualization with system
+ emulation
+Date: Sun,  6 Mar 2022 13:59:29 +0100
+Message-Id: <20220306130000.8104-3-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 References: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,31 +99,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220207075426.81934-2-f4bug@amsat.org>
+Message-Id: <20220207075426.81934-3-f4bug@amsat.org>
 ---
- accel/stubs/meson.build | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ accel/meson.build | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/accel/stubs/meson.build b/accel/stubs/meson.build
-index 12dd1539afa..0249b9258fd 100644
---- a/accel/stubs/meson.build
-+++ b/accel/stubs/meson.build
-@@ -1,4 +1,7 @@
--specific_ss.add(when: 'CONFIG_HAX', if_false: files('hax-stub.c'))
--specific_ss.add(when: 'CONFIG_XEN', if_false: files('xen-stub.c'))
--specific_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
--specific_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
-+sysemu_stubs_ss = ss.source_set()
-+sysemu_stubs_ss.add(when: 'CONFIG_HAX', if_false: files('hax-stub.c'))
-+sysemu_stubs_ss.add(when: 'CONFIG_XEN', if_false: files('xen-stub.c'))
-+sysemu_stubs_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
-+sysemu_stubs_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
-+
-+specific_ss.add_all(when: ['CONFIG_SOFTMMU'], if_true: sysemu_stubs_ss)
+diff --git a/accel/meson.build b/accel/meson.build
+index dfd808d2c8e..b9a963cf80c 100644
+--- a/accel/meson.build
++++ b/accel/meson.build
+@@ -2,12 +2,14 @@
+ softmmu_ss.add(files('accel-softmmu.c'))
+ user_ss.add(files('accel-user.c'))
+ 
+-subdir('hvf')
+-subdir('qtest')
+-subdir('kvm')
+ subdir('tcg')
+-subdir('xen')
+-subdir('stubs')
++if have_system
++  subdir('hvf')
++  subdir('qtest')
++  subdir('kvm')
++  subdir('xen')
++  subdir('stubs')
++endif
+ 
+ dummy_ss = ss.source_set()
+ dummy_ss.add(files(
 -- 
 2.35.1
 
