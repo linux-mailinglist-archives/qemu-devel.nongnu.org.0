@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84F24CEBB9
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:30:48 +0100 (CET)
-Received: from localhost ([::1]:35334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE454CEBC6
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:37:35 +0100 (CET)
+Received: from localhost ([::1]:44708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQqyF-0007B1-Sy
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:30:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42512)
+	id 1nQr4o-0005T8-Dx
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:37:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqWk-0002F4-8x
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:02:23 -0500
-Received: from [2a00:1450:4864:20::32e] (port=38880
- helo=mail-wm1-x32e.google.com)
+ id 1nQqWo-0002GH-GY
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:02:28 -0500
+Received: from [2a00:1450:4864:20::42b] (port=45800
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqWi-0004G0-Kd
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:02:21 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- m42-20020a05600c3b2a00b00382ab337e14so8610625wms.3
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:02:19 -0800 (PST)
+ id 1nQqWn-0004GH-3R
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:02:26 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id p9so19316345wra.12
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:02:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Zos8Zctwf8FAmhXfOYhKKv/SQMI8Dq/LQDH08PxfbjM=;
- b=IaWawRR4/UpEzfN+6w1LaTZHp7vd0PzJVkPWAemlT+lUQFQecX0il/MKql5Bmry4TO
- ROfn5f1sdnZscAc+c5ArTgT+dxrxtHtFHSUs0p/XXaIJdv4hcTuXX2a88W0LyxGxl4lH
- iIjtMRR0Qk0W/6GEJuXTtkXzUftSSav729g2av2J1vJ/LFPHfhGQi0cVSykJvNTamRea
- KlhloAENs8wA+DPtB1PAvwprbos1lce6TK+dZ2J/ztxBfLW2oVe1TaDPZgR66yWAK/3o
- K+bF8W6dHH6KwsjDddxo2lMtpfoYdKT3D3EzFmo1xy4BQkqPkZBTDdESc+I3PIWcNIeN
- QNoQ==
+ bh=FqZUqugwz2Gh+ZwGfqwwxA+LCXKw6T1kyC3gBt3f4v0=;
+ b=kzjSa82nAr8ffBTBmIR/vHGrvockHsI7m8SSA0+YF2+ql6vuix4eGotsogUBhIqNpy
+ dqRte3C8uhGhte4vOmiundtMAew4f+5K2JfVbK8L4ew0WzOpkGrtU4s++aPNW3hYDSCk
+ EHfohG3715J1d0mYNRq7TMlaIcN81MbnYDga3iEwxvgMP1GyCTRSo24lyF7svv7KApXr
+ cqpW/AMtDPPW+g/Vxn6TDPyJDFHKSRR+ou972txiOgEase9+3jrNC23eVir6A07bjYKe
+ wyaOtomdLbwx0Zg45t54eZqMR4m2vPjisRuHtrLRKVhs+/KLrjZ6RLKFex1JJF5J1je8
+ adkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Zos8Zctwf8FAmhXfOYhKKv/SQMI8Dq/LQDH08PxfbjM=;
- b=TojqLYU8QHV35FaVzQQRbsf7Xsh0j3GOAw8gB7jCoz1sKQKXUXSsVfQMlqKuF7aAHQ
- 5YlalThxcP2HccmP7HFgLK1eTKKW0DciWO7Ma7MofTkGo1YPccXotKE8PXo2Nuf4cBwc
- 27z7xLFcsPwVTAfgikSOf52Of3gvLa1iridAXteYvzUjAN36BfJIliehaf+EpIb9uveL
- gJyJaerX1oJYqN4sqkm45u84Jtnj1VlASlaJSsG2IeiYMrGJoxgjxsauci4E+kNZbAQa
- oPM8RFN89TThubuZwKW8MLKviDnB1KHouig3jTt/KoNOXiKdoBncJFnYu7XPxBUwsZZ0
- kyXw==
-X-Gm-Message-State: AOAM532MEZXzY6150oOwkq56fJ6rHEKzV8navlZlaTYnw07ipgyMCnVz
- 7EFPCmkeTaIqKXLe36NMhW8zq10VbaU=
-X-Google-Smtp-Source: ABdhPJzrKs3+MF1ILgujIBFO55ebMu7DZHOXzgPeUyUgY4Hjsert38+VyYlsP5vBZeEvqSgEeOcB2w==
-X-Received: by 2002:a05:600c:1c13:b0:389:a475:9ed5 with SMTP id
- j19-20020a05600c1c1300b00389a4759ed5mr1151567wms.86.1646571738634; 
- Sun, 06 Mar 2022 05:02:18 -0800 (PST)
+ bh=FqZUqugwz2Gh+ZwGfqwwxA+LCXKw6T1kyC3gBt3f4v0=;
+ b=FxmWUWaOVCxqhUmLWphKm2qe8XIGIaBOQhYXq5TdhOFT06dqQy8AsAfuWyvGNQuRvx
+ Orn6LOFVMHeWAHyDvJUvCPlupmoOQAdtbsMZRdUv3l6WioUj4vkHSZbaQMQZYeUuR1WM
+ b6drXPCJ4vyGlhnwcYzQU7W4vOO+JPGW/EazHrtShUDzKM+PNrJHI/obQKVVb2dCAMF9
+ PAUizSvZJKWEH+M5A2tSQcJEbtY71rXYto5IyNN0UYTnoOidvmvhp57Ax/7dbArf8YCj
+ FgqsHnEvKFoK+Uees3gty93ODeEPQXPrJp4jK6nl0XRKspTBjYwtuy0csCXnptWIngrx
+ 1Oww==
+X-Gm-Message-State: AOAM530AldAZytHluD7gFPjpQhXjt/euq3IuuADbdSiXrXjj9k+FAbX7
+ 88FqExcRi/0sNsyUnjalZl/QPUN1kQc=
+X-Google-Smtp-Source: ABdhPJxuqXGnjayV8oy+miKDdgOgtuwmP1sG5KvLSJrZpL+RIgIGSbcFNAb0bBnTmJkGf4rXJ6z63w==
+X-Received: by 2002:adf:9d93:0:b0:1f0:639f:3bc2 with SMTP id
+ p19-20020adf9d93000000b001f0639f3bc2mr4977579wre.203.1646571743720; 
+ Sun, 06 Mar 2022 05:02:23 -0800 (PST)
 Received: from nuc.lan ([185.126.107.38]) by smtp.gmail.com with ESMTPSA id
- v2-20020adf8b42000000b001edc38024c9sm9774924wra.65.2022.03.06.05.02.17
+ b3-20020a5d4d83000000b001f1d72a6f97sm4726040wru.50.2022.03.06.05.02.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 05:02:18 -0800 (PST)
+ Sun, 06 Mar 2022 05:02:23 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/33] target: Include missing 'cpu.h'
-Date: Sun,  6 Mar 2022 13:59:53 +0100
-Message-Id: <20220306130000.8104-27-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 27/33] target/hexagon: Add missing 'hw/core/cpu.h' include
+Date: Sun,  6 Mar 2022 13:59:54 +0100
+Message-Id: <20220306130000.8104-28-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 References: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,90 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Damien Hedde <damien.hedde@greensocs.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-These target-specific files use the target-specific CPU state
-but lack to include "cpu.h"; i.e.:
+HexagonCPU field parent_class is of type CPUClass, which
+is declared in "hw/core/cpu.h".
 
-    ../target/riscv/pmp.h:61:23: error: unknown type name 'CPURISCVState'
-    void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
-                          ^
-    ../target/nios2/mmu.h:43:18: error: unknown type name 'CPUNios2State'
-    void mmu_flip_um(CPUNios2State *env, unsigned int um);
-                     ^
-    ../target/microblaze/mmu.h:88:19: error: unknown type name 'CPUMBState'; did you mean 'CPUState'?
-    uint32_t mmu_read(CPUMBState *env, bool ea, uint32_t rn);
-                      ^~~~~~~~~~
-                      CPUState
-
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220214183144.27402-10-f4bug@amsat.org>
+Message-Id: <20220214183144.27402-11-f4bug@amsat.org>
 ---
- target/microblaze/mmu.h | 2 ++
- target/mips/internal.h  | 1 +
- target/nios2/mmu.h      | 2 ++
- target/riscv/pmp.h      | 2 ++
- 4 files changed, 7 insertions(+)
+ target/hexagon/cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/microblaze/mmu.h b/target/microblaze/mmu.h
-index b6b4b9ad603..1068bd2d52b 100644
---- a/target/microblaze/mmu.h
-+++ b/target/microblaze/mmu.h
-@@ -20,6 +20,8 @@
- #ifndef TARGET_MICROBLAZE_MMU_H
- #define TARGET_MICROBLAZE_MMU_H
+diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
+index 096aa2deb6c..76cd1d50219 100644
+--- a/target/hexagon/cpu.h
++++ b/target/hexagon/cpu.h
+@@ -27,6 +27,7 @@ typedef struct CPUHexagonState CPUHexagonState;
+ #include "hex_regs.h"
+ #include "mmvec/mmvec.h"
+ #include "qom/object.h"
++#include "hw/core/cpu.h"
  
-+#include "cpu.h"
-+
- #define MMU_R_PID    0
- #define MMU_R_ZPR    1
- #define MMU_R_TLBX   2
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index daddb05fd43..f705d6bfa61 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -12,6 +12,7 @@
- #ifdef CONFIG_TCG
- #include "tcg/tcg-internal.h"
- #endif
-+#include "cpu.h"
- 
- /*
-  * MMU types, the first four entries have the same layout as the
-diff --git a/target/nios2/mmu.h b/target/nios2/mmu.h
-index b7785b46c01..5b085900fbf 100644
---- a/target/nios2/mmu.h
-+++ b/target/nios2/mmu.h
-@@ -21,6 +21,8 @@
- #ifndef NIOS2_MMU_H
- #define NIOS2_MMU_H
- 
-+#include "cpu.h"
-+
- typedef struct Nios2TLBEntry {
-     target_ulong tag;
-     target_ulong data;
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index a9a0b363a77..fcb6b7c4677 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -22,6 +22,8 @@
- #ifndef RISCV_PMP_H
- #define RISCV_PMP_H
- 
-+#include "cpu.h"
-+
- typedef enum {
-     PMP_READ  = 1 << 0,
-     PMP_WRITE = 1 << 1,
+ #define NUM_PREGS 4
+ #define TOTAL_PER_THREAD_REGS 64
 -- 
 2.35.1
 
