@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904C84CED1B
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 19:13:17 +0100 (CET)
-Received: from localhost ([::1]:38940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DE14CED13
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 19:09:00 +0100 (CET)
+Received: from localhost ([::1]:52098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQvNc-0004VT-K5
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 13:13:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60700)
+	id 1nQvJT-0002rD-FU
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 13:08:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nQvAG-0004EB-Un
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 12:59:29 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2373)
+ id 1nQvAi-0004ru-5H
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 12:59:56 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nQvAE-0004JA-Go
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 12:59:28 -0500
-Received: from fraeml745-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KBTpM0nGdz67MV8;
- Mon,  7 Mar 2022 01:58:03 +0800 (CST)
+ id 1nQvAg-0004Le-Id
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 12:59:55 -0500
+Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KBTpx5VH4z67QKJ;
+ Mon,  7 Mar 2022 01:58:33 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml745-chm.china.huawei.com (10.206.15.226) with Microsoft SMTP Server
+ fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Sun, 6 Mar 2022 18:59:21 +0100
+ 15.1.2308.21; Sun, 6 Mar 2022 18:59:52 +0100
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.21; Sun, 6 Mar 2022 17:59:21 +0000
+ 15.1.2308.21; Sun, 6 Mar 2022 17:59:51 +0000
 To: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
  <marcel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
@@ -41,9 +41,9 @@ CC: <linux-cxl@vger.kernel.org>, Ben Widawsky <ben.widawsky@intel.com>, "Peter
  <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
  <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
  Williams" <dan.j.williams@intel.com>
-Subject: [PATCH v7 35/46] hw/cxl/component Add a dumb HDM decoder handler
-Date: Sun, 6 Mar 2022 17:41:26 +0000
-Message-ID: <20220306174137.5707-36-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v7 36/46] i386/pc: Enable CXL fixed memory windows
+Date: Sun, 6 Mar 2022 17:41:27 +0000
+Message-ID: <20220306174137.5707-37-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
 References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
@@ -79,66 +79,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Ben Widawsky <ben.widawsky@intel.com>
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-Add a trivial handler for now to cover the root bridge
-where we could do some error checking in future.
+Add the CFMWs memory regions to the memorymap and adjust the
+PCI window to avoid hitting the same memory.
 
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 ---
- hw/cxl/cxl-component-utils.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ hw/i386/pc.c | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-index 443a11c837..110ec9864e 100644
---- a/hw/cxl/cxl-component-utils.c
-+++ b/hw/cxl/cxl-component-utils.c
-@@ -32,6 +32,31 @@ static uint64_t cxl_cache_mem_read_reg(void *opaque, hwaddr offset,
-     }
- }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 7a18dce529..5ece806d2b 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -816,7 +816,7 @@ void pc_memory_init(PCMachineState *pcms,
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+     X86MachineState *x86ms = X86_MACHINE(pcms);
+-    hwaddr cxl_base;
++    hwaddr cxl_base, cxl_resv_end = 0;
  
-+static void dumb_hdm_handler(CXLComponentState *cxl_cstate, hwaddr offset,
-+                             uint32_t value)
-+{
-+    ComponentRegisters *cregs = &cxl_cstate->crb;
-+    uint32_t *cache_mem = cregs->cache_mem_registers;
-+    bool should_commit = false;
+     assert(machine->ram_size == x86ms->below_4g_mem_size +
+                                 x86ms->above_4g_mem_size);
+@@ -924,6 +924,24 @@ void pc_memory_init(PCMachineState *pcms,
+         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+         memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
+         memory_region_add_subregion(system_memory, cxl_base, mr);
++        cxl_resv_end = cxl_base + cxl_size;
++        if (machine->cxl_devices_state->fixed_windows) {
++            hwaddr cxl_fmw_base;
++            GList *it;
 +
-+    switch (offset) {
-+    case A_CXL_HDM_DECODER0_CTRL:
-+        should_commit = FIELD_EX32(value, CXL_HDM_DECODER0_CTRL, COMMIT);
-+        break;
-+    default:
-+        break;
-+    }
++            cxl_fmw_base = ROUND_UP(cxl_base + cxl_size, 256 * MiB);
++            for (it = machine->cxl_devices_state->fixed_windows; it; it = it->next) {
++                CXLFixedWindow *fw = it->data;
 +
-+    memory_region_transaction_begin();
-+    stl_le_p((uint8_t *)cache_mem + offset, value);
-+    if (should_commit) {
-+        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
-+        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERR, 0);
-+        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
-+    }
-+    memory_region_transaction_commit();
-+}
-+
- static void cxl_cache_mem_write_reg(void *opaque, hwaddr offset, uint64_t value,
-                                     unsigned size)
- {
-@@ -45,6 +70,12 @@ static void cxl_cache_mem_write_reg(void *opaque, hwaddr offset, uint64_t value,
++                fw->base = cxl_fmw_base;
++                memory_region_init_io(&fw->mr, OBJECT(machine), &cfmws_ops, fw,
++                                      "cxl-fixed-memory-region", fw->size);
++                memory_region_add_subregion(system_memory, fw->base, &fw->mr);
++                e820_add_entry(fw->base, fw->size, E820_RESERVED);
++                cxl_fmw_base += fw->size;
++                cxl_resv_end = cxl_fmw_base;
++            }
++        }
      }
-     if (cregs->special_ops && cregs->special_ops->write) {
-         cregs->special_ops->write(cxl_cstate, offset, value, size);
-+        return;
-+    }
+ 
+     /* Initialize PC system firmware */
+@@ -953,6 +971,10 @@ void pc_memory_init(PCMachineState *pcms,
+         if (!pcmc->broken_reserved_end) {
+             res_mem_end += memory_region_size(&machine->device_memory->mr);
+         }
 +
-+    if (offset >= A_CXL_HDM_DECODER_CAPABILITY &&
-+        offset <= A_CXL_HDM_DECODER0_TARGET_LIST_HI) {
-+        dumb_hdm_handler(cxl_cstate, offset, value);
-     } else {
-         cregs->cache_mem_registers[offset / 4] = value;
++        if (machine->cxl_devices_state->is_enabled) {
++            res_mem_end = cxl_resv_end;
++        }
+         *val = cpu_to_le64(ROUND_UP(res_mem_end, 1 * GiB));
+         fw_cfg_add_file(fw_cfg, "etc/reserved-memory-end", val, sizeof(*val));
      }
+@@ -989,6 +1011,13 @@ uint64_t pc_pci_hole64_start(void)
+     if (ms->cxl_devices_state->host_mr.addr) {
+         hole64_start = ms->cxl_devices_state->host_mr.addr +
+             memory_region_size(&ms->cxl_devices_state->host_mr);
++        if (ms->cxl_devices_state->fixed_windows) {
++            GList *it;
++            for (it = ms->cxl_devices_state->fixed_windows; it; it = it->next) {
++                CXLFixedWindow *fw = it->data;
++                hole64_start = fw->mr.addr + memory_region_size(&fw->mr);
++            }
++        }
+     } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
+         hole64_start = ms->device_memory->base;
+         if (!pcmc->broken_reserved_end) {
 -- 
 2.32.0
 
