@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498A14CEBA9
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:14:56 +0100 (CET)
-Received: from localhost ([::1]:34892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5CB4CEBBD
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:33:46 +0100 (CET)
+Received: from localhost ([::1]:38110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQqit-0004GL-Ct
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:14:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42434)
+	id 1nQr17-0000n5-8u
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:33:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqWU-00024Y-4W
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:02:06 -0500
-Received: from [2a00:1450:4864:20::436] (port=34412
- helo=mail-wr1-x436.google.com)
+ id 1nQqWZ-000274-Sy
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:02:17 -0500
+Received: from [2a00:1450:4864:20::42a] (port=34402
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqWS-0004EX-NY
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:02:05 -0500
-Received: by mail-wr1-x436.google.com with SMTP id j26so8965188wrb.1
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:02:04 -0800 (PST)
+ id 1nQqWY-0004FC-GX
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:02:11 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id j26so8965395wrb.1
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:02:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YP/OwaNKn69ZY9LQU+sOJzCXfUeM/0snWCKQSSt7nAM=;
- b=Rs/PXqe32iT84ZdKdtPt0lgHXshw1iFTXCtvvpEdtGqy1g3cwuX4bOCujnO0Cbi39c
- q84RnzYDGJ2UGg9X9Z5+uZkYXA+ZSYU6mu0LDHbVplKI0o8oXe7RbEr5ph+T3PZkA1n0
- 8IsOxgcvGIfIY+kcaCvfsEBiUB9TUqnYudvKv4ngEdMdDn0fLcxi1NvZdOQV80kFjV5c
- dW6QiDIuXkvPe+9cBaQ464JMCBDXpeHqaZ3XtYWilURQlSvLSQNtuslfCqD5FMghSJjl
- cHt+cgw5G5Hd6xZfAcQwDaPxDKX8Klgdw8SSjVGTkvzDKyxYANskREdqDGHnfymNNSrQ
- JvjA==
+ bh=HWZy0WuZKRxWd4y7UfOWRQLRZyNZR4YbZ0QP9F4IRvw=;
+ b=Xgflv735MpUo1fyLSqFN3Oi/CdnRQdSzGJksw+xwupbScfmH3NafsXTo5HbsM3idaC
+ D49A17eBihOVx90KKNBRhWu4fah0wi48OAWehwFm4bz/luz69LBXcROEtf3nWvNPZI5M
+ koXmdkN+YeUUmwmes5PIWWfGOmmnTWcI/flFYha/W9mV7RH26zLIzHePVE+fXzhENcpv
+ 3G9tL/VExLfBvcR0TUdkmMNshpyZc0ujQIypfUZkbSy3frGUH/DzrPqWimDbZ2VpRYuG
+ 7FbC8yAJxXxUYy9h9/GEDrd3EJKe707Pg+WJzkCkXC+zJkw4pV71AkJ6uT2tgsAduTPZ
+ IkSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YP/OwaNKn69ZY9LQU+sOJzCXfUeM/0snWCKQSSt7nAM=;
- b=gxQbQMMdJuRGC6qFzwAah5OYi3rpBzok/0hvA8viZlriVS9D/VmHFaNQpyDTisOiGt
- 1LZvnM/VIfw5gmkDXt+VspamiDqnIodyitRWLoKlHjxz6YQbWW0C7yPyXP27iJloeVnn
- ax2IJHoSgfRvPxG5uKnkagpu8v97MgFTPjXk2paJlXbfIMo4W0huQ7tGubPakPsXNi1E
- v1lGYvXbYzIwt93pHC83iPcn84SRyooz785lC6xBbtqr8PcGkr4E8MmS7LpjUbTmBI1J
- tCUewQOfgJWVN9FzYGdjKRWdqa7VYjdAijSsOX76gEG7nh8sPzcWQXPwcgbNchFhPGD+
- 7lcg==
-X-Gm-Message-State: AOAM530mSKpH1mZPkFlNbhITBuesXsM/G59wAKJG8Or3gJlrsJvGhlow
- 8u5MiBjFzNK7idcZaexd4LSCfxhU4AQ=
-X-Google-Smtp-Source: ABdhPJxgYC1CglCtd++lNxw9JnAHKZgDwoF7AUPhyyDCwlkmtYnOvcQXoynJG1Swh3yW/lhhcjsh9Q==
-X-Received: by 2002:a5d:584f:0:b0:1e8:5697:e979 with SMTP id
- i15-20020a5d584f000000b001e85697e979mr5254013wrf.167.1646571723312; 
- Sun, 06 Mar 2022 05:02:03 -0800 (PST)
+ bh=HWZy0WuZKRxWd4y7UfOWRQLRZyNZR4YbZ0QP9F4IRvw=;
+ b=f0yEj1NbByMdB9yXNUUor+zVnl9ts9aOCU3FJobk3IpYhQUTR2Rj05kv5iVOq2AE9A
+ tC5Uarwe6EgmYhxSbq9Sen4RuQiEE/hBC1ET4D4YCf/hhMpZnNrL86EkAA2ok7OZSaXE
+ +pC+MDtxk4F0Hf/t7L6bZRVXGMz04obeCO9qIjXQQE/l0THUgJZ5uQqoDTu2T7uEm4c6
+ ch/pJQ2I+slQ7MrFiW4St0Kg98JBgJWZJl9G389MFK3MUDNvNcAsl9XnUx5qt7lPBMIA
+ bYCMe3dNPNqFz/CxMISHtM8XwlaXG3pEjaVj4oDLJfcM4MXyyjVB2M1MpmvWjt7gMWTY
+ vLaw==
+X-Gm-Message-State: AOAM531LO5o1ff0kyeoyxOT+gR8O0VfjPQc7n4rKbQjeObkic2K0Hykx
+ b6gUQzvBnEymhPSAfSYXlPH0WodFod0=
+X-Google-Smtp-Source: ABdhPJyt1+MuNy9aeCZwu9blx1vc+t60yE8GIW8J2MyyzG4diMzaNfvI0ThdQZoQKy9O+V+9ukvnpg==
+X-Received: by 2002:a5d:6d85:0:b0:1f1:d876:67d3 with SMTP id
+ l5-20020a5d6d85000000b001f1d87667d3mr5157339wrs.114.1646571728316; 
+ Sun, 06 Mar 2022 05:02:08 -0800 (PST)
 Received: from nuc.lan ([185.126.107.38]) by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c228700b00389865c646dsm11247156wmf.14.2022.03.06.05.02.02
+ v6-20020a5d5906000000b001f0639f69e6sm7499979wrd.55.2022.03.06.05.02.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 05:02:02 -0800 (PST)
+ Sun, 06 Mar 2022 05:02:07 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/33] cpu: Add missing 'exec/exec-all.h' and 'qemu/accel.h'
- headers
-Date: Sun,  6 Mar 2022 13:59:50 +0100
-Message-Id: <20220306130000.8104-24-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 24/33] target/i386/tcg/sysemu: Include missing
+ 'exec/exec-all.h' header
+Date: Sun,  6 Mar 2022 13:59:51 +0100
+Message-Id: <20220306130000.8104-25-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 References: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,33 +99,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-cpu.c requires "exec/exec-all.h" to call tlb_flush() and
-"qemu/accel.h" to call accel_cpu_realizefn().
+excp_helper.c requires "exec/exec-all.h" for tlb_set_page_with_attrs()
+and misc_helper.c for tlb_flush().
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220214183144.27402-6-f4bug@amsat.org>
+Message-Id: <20220214183144.27402-8-f4bug@amsat.org>
 ---
- cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/i386/tcg/sysemu/excp_helper.c | 1 +
+ target/i386/tcg/sysemu/misc_helper.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/cpu.c b/cpu.c
-index d5d4cbf8cb7..d5648861490 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -35,10 +35,12 @@
- #include "sysemu/tcg.h"
- #include "sysemu/kvm.h"
- #include "sysemu/replay.h"
-+#include "exec/exec-all.h"
- #include "exec/translate-all.h"
- #include "exec/log.h"
- #include "hw/core/accel-cpu.h"
- #include "trace/trace-root.h"
-+#include "qemu/accel.h"
+diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
+index 5ba739fbed9..5627772e7c3 100644
+--- a/target/i386/tcg/sysemu/excp_helper.c
++++ b/target/i386/tcg/sysemu/excp_helper.c
+@@ -19,6 +19,7 @@
  
- uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
+ #include "qemu/osdep.h"
+ #include "cpu.h"
++#include "exec/exec-all.h"
+ #include "tcg/helper-tcg.h"
+ 
+ int get_pg_mode(CPUX86State *env)
+diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
+index 9ccaa054c4c..3715c1e2625 100644
+--- a/target/i386/tcg/sysemu/misc_helper.c
++++ b/target/i386/tcg/sysemu/misc_helper.c
+@@ -23,6 +23,7 @@
+ #include "exec/helper-proto.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/address-spaces.h"
++#include "exec/exec-all.h"
+ #include "tcg/helper-tcg.h"
+ 
+ void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
 -- 
 2.35.1
 
