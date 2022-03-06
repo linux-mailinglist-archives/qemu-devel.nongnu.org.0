@@ -2,77 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9FF94CE7C0
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 00:44:42 +0100 (CET)
-Received: from localhost ([::1]:56524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9FF4CE8BE
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 05:32:52 +0100 (CET)
+Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQe4n-0001vc-CT
-	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 18:44:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35922)
+	id 1nQiZf-0000vX-Dc
+	for lists+qemu-devel@lfdr.de; Sat, 05 Mar 2022 23:32:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nQe2Y-00011B-MW
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 18:42:22 -0500
-Received: from [2a00:1450:4864:20::632] (port=45706
- helo=mail-ej1-x632.google.com)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nQiYS-00008r-H0
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 23:31:36 -0500
+Received: from [2607:f8b0:4864:20::535] (port=40794
+ helo=mail-pg1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1nQe2W-00014K-64
- for qemu-devel@nongnu.org; Sat, 05 Mar 2022 18:42:22 -0500
-Received: by mail-ej1-x632.google.com with SMTP id qa43so24615285ejc.12
- for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 15:42:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5FrL/EdIH80yL5qbNrhxOdW2I6oBqFL2u9otYKp+Ct4=;
- b=evO56H+xUhtpMXFXySuGZK3WjXLrDm4GJpUJFVpINtXhEccNaVu1ynQfa15aCQ2qmv
- 2GRLrFtYcF44BSvhOc0Iose2GvyGY7vAv8Odh9+E/16UThwMkrRMYxoXYb0Var0jo/tn
- 1Urky7vvXWEYaWGio90lsEQYA3xtodYTeDZ4Cd1gBQlqWkOQTrTdwSFvpk9IekqsLOuQ
- OFilmSlcVX9FypKecNxaIYzh5mpQi3P1pn4Sh5Kcm1zGq2w5IUiDVRXQ/mgIVfZZyfc0
- 3rbM5oRBnZVkV8aiNlyGCe6XYEQAoNZwwGAeR03d1FDBOsSwclXxyqYRWsurvNpMNjnV
- pfzw==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nQiYQ-0005Vb-T1
+ for qemu-devel@nongnu.org; Sat, 05 Mar 2022 23:31:36 -0500
+Received: by mail-pg1-x535.google.com with SMTP id w37so10847997pga.7
+ for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 20:31:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:cc:references:in-reply-to:content-transfer-encoding;
+ bh=c4EuYObtFDmVww4KYPrePH5dwgzlnxFAjtbDAm7hUKU=;
+ b=OKEz8vlVOLadU/VzIHL5PipHjOy5sjEVzVyWbGakwi2ATDHsBLfdvik7ILbOG7hO/I
+ 2YAocIhd5CgOzpd6RJZg+TYlGdePqbR2bHoW680wyb0FD5wEjv+jS+IZX5Fw8nuqI4NB
+ qqrIKDGK5/20bXzDXk/WEKobzdQZsWVqvfXypzLoHXSIhzclcplbzuDqi53rWTaemKVz
+ yqft4XjOFvSm57UY6J0H2Y/1l8xVNf86TkHgWESChK5GmpRnZdfPFolaqdwkKkQ6UMbi
+ Msy8cuAzkezF+UDltJgBRW0pfKiGYLXVTRP+C6iYOCgrcJCl4CBAv/lXEwmZXcjrZWMa
+ x7kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5FrL/EdIH80yL5qbNrhxOdW2I6oBqFL2u9otYKp+Ct4=;
- b=TQlk5ux3mYsoIHTYdmnkrP54FgLWmEdqip1MMtqhLxYInXVi2lEjq97ZQE9/SVjCb4
- b4Zja/PtvKfVJAgaGSNIDXchDvGetoZ+iqg3tEmk4JuVqLYxccJcahfHWQp6PV0TPU6p
- vFQ3K5THJSxSC6hdZowrVnCy4YNtIBCzRtCui7Nr434Pf3DPc8HRpH3K7CmFr+H2YZMA
- 1AuzaelldPlLY1TXBI/u/p9EszvQjFRD3W3o20RBNxqKRqOut66eBcEPLronioAcxCp7
- amVXtAna1BCKXfoB2VvOwwalrIO2Sviy7ONzp4vv4ufrlWGbxhrgylFivYLKIMFb/Ww2
- oTIg==
-X-Gm-Message-State: AOAM532btdPGnr0QcLYJw7Q9sjGgko+G00uFXbWNj3Xyn8LqJ9TMpSeQ
- L4cCY0feMTV5vbMud9gI4PeQDOqco5eWA2GNstHqxw==
-X-Google-Smtp-Source: ABdhPJwVeekxWHWbpgq1+3Zo1VFg26MaGMsHH770UplyYuPDn+anFXrzl5LRZ2H7/XRSqLkgR/Jbnnt59xdzllkoeRI=
-X-Received: by 2002:a17:906:7307:b0:6da:92e1:9c83 with SMTP id
- di7-20020a170906730700b006da92e19c83mr4213358ejc.459.1646523737391; Sat, 05
- Mar 2022 15:42:17 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=c4EuYObtFDmVww4KYPrePH5dwgzlnxFAjtbDAm7hUKU=;
+ b=fgyP/zFJaTXo7xfF99fQTNCsBfuSbJZGixVMXZYRFl5gxAf7HoO+fGdfcO0A4128Zd
+ qRDl9TZoiUtao7P7+Xc1qlEdIPMUcthwWU+S9lqrUhQ5RXDYhrN0cZbv8swUktvk34Wt
+ im4xNMdpO3OUU2b+TWbHqblqJDsRn4GG8MJ9cs3LTezCxIEL7nW7pcpfpV4nDDfKPwhL
+ 3it43B9kZs8Vc4bn3ITCjq3+yG3PhRouPkkgqC3B+HMsvqij4J3hLsucOP8thURunDPW
+ mwuV/lXe2s0F+ZvVO9SqTnyfaKUWxP4VKd66O55E/eDUuSBSYRqfNqMadiZ2rzQpRNiR
+ 2hDg==
+X-Gm-Message-State: AOAM533jFtPrgIq9rBsQA+a8fi0cDrL5eR1pQAYGbjMAQC28id62wPZc
+ V2rwQkGfnr7gRg9rskuvuIs=
+X-Google-Smtp-Source: ABdhPJwPXsnQqHjuCckQ45BSYuXJM2EZHEFinkCJwhCgJc+iSImXP5TojVI0xkGFPFzuVUXol+utTg==
+X-Received: by 2002:a63:2bc1:0:b0:35e:c54b:3be0 with SMTP id
+ r184-20020a632bc1000000b0035ec54b3be0mr5012521pgr.105.1646541092926; 
+ Sat, 05 Mar 2022 20:31:32 -0800 (PST)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ b13-20020a056a00114d00b004c122b90703sm10576108pfm.27.2022.03.05.20.31.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 05 Mar 2022 20:31:32 -0800 (PST)
+Message-ID: <a667b6a2-ec03-2fcd-9591-c6fe0d40cb9e@gmail.com>
+Date: Sun, 6 Mar 2022 13:31:29 +0900
 MIME-Version: 1.0
-References: <20220222223830.2319856-1-atishp@rivosinc.com>
- <CANzO1D05q8_-PSs5KJsnO+MPWVWLrFoYsvhPXGK2eUC8rwBqDw@mail.gmail.com>
- <CAOnJCULn7BbyfyeHpPQkyLTQyTcXrfu9wBheMAXDdFTnnRMphA@mail.gmail.com>
- <5780243.1I65i12eNQ@phil>
-In-Reply-To: <5780243.1I65i12eNQ@phil>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Sat, 5 Mar 2022 15:42:06 -0800
-Message-ID: <CAHBxVyE2QRE8+W36AzgQ5=0GJMuPCgcGVzmS-VOLqDWHxPWkug@mail.gmail.com>
-Subject: Re: [PATCH v3] target/riscv: Add isa extenstion strings to the device
- tree
-To: Heiko Stuebner <heiko@sntech.de>
-Content-Type: multipart/alternative; boundary="0000000000007b5aba05d9812e20"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 00/12] GL & D-Bus display related fixes
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20220217115829.2314347-1-marcandre.lureau@redhat.com>
+ <CAMVc7JVOJxkqLpvRu7JLNP48C5Kmu0JRYUSR8xP+dAtGp_n=_A@mail.gmail.com>
+ <CAJ+F1CKgvcA97kLdxVodSoAFbk1_kB3_po8vn4kX_gPZgKYxbg@mail.gmail.com>
+ <CAMVc7JU1rfBEHgofiveNopLkyXRLSEG8dA=6cn_qY52BqLB3iw@mail.gmail.com>
+In-Reply-To: <CAMVc7JU1rfBEHgofiveNopLkyXRLSEG8dA=6cn_qY52BqLB3iw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=atishp@rivosinc.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,393 +96,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Atish Patra <atishp@atishpatra.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007b5aba05d9812e20
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2022/02/18 1:11, Akihiko Odaki wrote:
+>>> You missed only one thing:
+>>>> - that console_select and register_displaychangelistener may not call
+>>>> dpy_gfx_switch and call dpy_gl_scanout_texture instead. It is
+>>>> incompatible with non-OpenGL displays
+>>>
+>>> displaychangelistener_display_console always has to call
+>>> dpy_gfx_switch for non-OpenGL displays, but it still doesn't.
+>>
+>>
+>> Ok, would that be what you have in mind?
+>>
+>>   --- a/ui/console.c
+>> +++ b/ui/console.c
+>> @@ -1122,6 +1122,10 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
+>>       } else if (con->scanout.kind == SCANOUT_SURFACE) {
+>>           dpy_gfx_create_texture(con, con->surface);
+>>           displaychangelistener_gfx_switch(dcl, con->surface);
+>> +    } else {
+>> +        /* use the fallback surface, egl-headless keeps it updated */
+>> +        assert(con->surface);
+>> +        displaychangelistener_gfx_switch(dcl, con->surface);
+>>       }
+> 
+> It should call displaychangelistener_gfx_switch even when e.g.
+> con->scanout.kind == SCANOUT_TEXTURE. egl-headless renders the content
+> to the last DisplaySurface it received while con->scanout.kind ==
+> SCANOUT_TEXTURE.
 
-On Sat, Mar 5, 2022 at 10:05 AM Heiko Stuebner <heiko@sntech.de> wrote:
+Hi,
 
-> Hi,
->
-> Am Donnerstag, 3. M=C3=A4rz 2022, 19:58:38 CET schrieb Atish Patra:
-> > On Fri, Feb 25, 2022 at 11:46 PM Frank Chang <frank.chang@sifive.com>
-> wrote:
-> > > Atish Patra <atishp@rivosinc.com> =E6=96=BC 2022=E5=B9=B42=E6=9C=8823=
-=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=886:39=E5=AF=AB=E9=81=93=EF=BC=
-=9A
-> > >>
-> > >> The Linux kernel parses the ISA extensions from "riscv,isa" DT
-> > >> property. It used to parse only the single letter base extensions
-> > >> until now. A generic ISA extension parsing framework was proposed[1]
-> > >> recently that can parse multi-letter ISA extensions as well.
-> > >>
-> > >> Generate the extended ISA string by appending  the available ISA
-> extensions
-> > >> to the "riscv,isa" string if it is enabled so that kernel can proces=
-s
-> it.
-> > >>
-> > >> [1] https://lkml.org/lkml/2022/2/15/263
-> > >>
-> > >> Suggested-by: Heiko Stubner <heiko@sntech.de>
-> > >> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > >> ---
-> > >> Changes from v2->v3:
-> > >> 1. Used g_strconcat to replace snprintf & a max isa string length as
-> > >> suggested by Anup.
-> > >> 2. I have not included the Tested-by Tag from Heiko because the
-> > >> implementation changed from v2 to v3.
-> > >>
-> > >> Changes from v1->v2:
-> > >> 1. Improved the code redability by using arrays instead of individua=
-l
-> check
-> > >> ---
-> > >>  target/riscv/cpu.c | 29 +++++++++++++++++++++++++++++
-> > >>  1 file changed, 29 insertions(+)
-> > >>
-> > >> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > >> index b0a40b83e7a8..2c7ff6ef555a 100644
-> > >> --- a/target/riscv/cpu.c
-> > >> +++ b/target/riscv/cpu.c
-> > >> @@ -34,6 +34,12 @@
-> > >>
-> > >>  /* RISC-V CPU definitions */
-> > >>
-> > >> +/* This includes the null terminated character '\0' */
-> > >> +struct isa_ext_data {
-> > >> +        const char *name;
-> > >> +        bool enabled;
-> > >> +};
-> > >> +
-> > >>  static const char riscv_exts[26] =3D "IEMAFDQCLBJTPVNSUHKORWXYZG";
-> > >>
-> > >>  const char * const riscv_int_regnames[] =3D {
-> > >> @@ -881,6 +887,28 @@ static void riscv_cpu_class_init(ObjectClass *c=
-,
-> void *data)
-> > >>      device_class_set_props(dc, riscv_cpu_properties);
-> > >>  }
-> > >>
-> > >> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int
-> max_str_len)
-> > >> +{
-> > >> +    char *old =3D *isa_str;
-> > >> +    char *new =3D *isa_str;
-> > >> +    int i;
-> > >> +    struct isa_ext_data isa_edata_arr[] =3D {
-> > >> +        { "svpbmt", cpu->cfg.ext_svpbmt   },
-> > >> +        { "svinval", cpu->cfg.ext_svinval },
-> > >> +        { "svnapot", cpu->cfg.ext_svnapot },
-> > >
-> > >
-> > > We still have other sub-extensions, e.g. Zfh, Zba, Zbb, Zbc, Zbs...
-> etc.
-> > > Do you mind adding them as well?
-> > >
-> >
-> > Do we really need it ? Does any OS actually parse it from the device
-> tree ?
-> > AFAIK, Linux kernel doesn't use them. As the device tree is intended
-> > to keep the information useful
-> > for supervisor software,
->
-> That actually isn't true ;-) .
->
-> The devicetree is intended to _describe_ the hardware present in full
-> and has really nothing to do with what the userspace needs.
-> So the argument "Linux doesn't need this" is never true when talking
-> about devicetrees ;-) .
->
+Let me remind that the release date is approaching but the regression 
+which breaks switching the console for vnc with egl-headless is still 
+not fixed. (vnc has the feature to switch consoles with Ctrl+Alt+[1-9] 
+if it is not bound to a particular console.)
 
-Yes. I didn=E2=80=99t mean that way. I was simply asking if these extension=
-s
-currently in use. I just mentioned Linux as an example.
+Please fix this or, if not possible, revert the changes related to dbus.
 
-The larger point I was trying to make if we should add all the supported
-extensions when they are added to Qemu or on a need basis.
+My patch series is available for fixing the problem. The design it 
+adopted is somewhat controversial and it cannot be applied to the 
+current master branch. Please tell me if it is necessary to rebase this.
+https://patchew.org/QEMU/20220213024222.3548-1-akihiko.odaki@gmail.com/
 
-I don=E2=80=99t feel strongly either way. So I am okay with the former appr=
-oach if
-that=E2=80=99s what everyone prefers!
-
->
-> On the other hand the devicetree user doesn't need to parse everything
-> from DT. So adding code to parse things only really is needed if you
-> need that information.
->
-
-Agreed.
-
-
-> So if some part of the kernel needs to know about those additional
-> extensions, the array entries for them can also be added in a later patch=
-.
->
-
-Yes. That was the idea in isa extension framework series where the
-extension specific array entries will only be added when support for that
-extension is enabled.
-
->
->
-> Heiko
->
-> > > Also, I think the order of ISA strings should be alphabetical as
-> described:
-> > >
-> https://github.com/riscv/riscv-isa-manual/blob/master/src/naming.tex#L96
-> > >
-> >
-> > Ahh yes. I will order them in alphabetical order and leave a big
-> > comment for future reference as well.
-> >
-> > > Regards,
-> > > Frank Chang
-> > >
-> > >>
-> > >> +    };
-> > >> +
-> > >> +    for (i =3D 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-> > >> +        if (isa_edata_arr[i].enabled) {
-> > >> +            new =3D g_strconcat(old, "_", isa_edata_arr[i].name, NU=
-LL);
-> > >> +            g_free(old);
-> > >> +            old =3D new;
-> > >> +        }
-> > >> +    }
-> > >> +
-> > >> +    *isa_str =3D new;
-> > >> +}
-> > >> +
-> > >>  char *riscv_isa_string(RISCVCPU *cpu)
-> > >>  {
-> > >>      int i;
-> > >> @@ -893,6 +921,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
-> > >>          }
-> > >>      }
-> > >>      *p =3D '\0';
-> > >> +    riscv_isa_string_ext(cpu, &isa_str, maxlen);
-> > >>      return isa_str;
-> > >>  }
-> > >>
-> > >> --
-> > >> 2.30.2
-> > >>
-> >
-> >
-> >
->
->
->
->
->
-
---0000000000007b5aba05d9812e20
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sat, Mar 5, 2022 at 10:05 AM Heiko Stuebner &lt;<a href=
-=3D"mailto:heiko@sntech.de">heiko@sntech.de</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">Hi,<br>
-<br>
-Am Donnerstag, 3. M=C3=A4rz 2022, 19:58:38 CET schrieb Atish Patra:<br>
-&gt; On Fri, Feb 25, 2022 at 11:46 PM Frank Chang &lt;<a href=3D"mailto:fra=
-nk.chang@sifive.com" target=3D"_blank">frank.chang@sifive.com</a>&gt; wrote=
-:<br>
-&gt; &gt; Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" target=3D"=
-_blank">atishp@rivosinc.com</a>&gt; =E6=96=BC 2022=E5=B9=B42=E6=9C=8823=E6=
-=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=886:39=E5=AF=AB=E9=81=93=EF=BC=9A=
-<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; The Linux kernel parses the ISA extensions from &quot;riscv,i=
-sa&quot; DT<br>
-&gt; &gt;&gt; property. It used to parse only the single letter base extens=
-ions<br>
-&gt; &gt;&gt; until now. A generic ISA extension parsing framework was prop=
-osed[1]<br>
-&gt; &gt;&gt; recently that can parse multi-letter ISA extensions as well.<=
-br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; Generate the extended ISA string by appending=C2=A0 the avail=
-able ISA extensions<br>
-&gt; &gt;&gt; to the &quot;riscv,isa&quot; string if it is enabled so that =
-kernel can process it.<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; [1] <a href=3D"https://lkml.org/lkml/2022/2/15/263" rel=3D"no=
-referrer" target=3D"_blank">https://lkml.org/lkml/2022/2/15/263</a><br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; Suggested-by: Heiko Stubner &lt;<a href=3D"mailto:heiko@sntec=
-h.de" target=3D"_blank">heiko@sntech.de</a>&gt;<br>
-&gt; &gt;&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivos=
-inc.com" target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
-&gt; &gt;&gt; ---<br>
-&gt; &gt;&gt; Changes from v2-&gt;v3:<br>
-&gt; &gt;&gt; 1. Used g_strconcat to replace snprintf &amp; a max isa strin=
-g length as<br>
-&gt; &gt;&gt; suggested by Anup.<br>
-&gt; &gt;&gt; 2. I have not included the Tested-by Tag from Heiko because t=
-he<br>
-&gt; &gt;&gt; implementation changed from v2 to v3.<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; Changes from v1-&gt;v2:<br>
-&gt; &gt;&gt; 1. Improved the code redability by using arrays instead of in=
-dividual check<br>
-&gt; &gt;&gt; ---<br>
-&gt; &gt;&gt;=C2=A0 target/riscv/cpu.c | 29 +++++++++++++++++++++++++++++<b=
-r>
-&gt; &gt;&gt;=C2=A0 1 file changed, 29 insertions(+)<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-&gt; &gt;&gt; index b0a40b83e7a8..2c7ff6ef555a 100644<br>
-&gt; &gt;&gt; --- a/target/riscv/cpu.c<br>
-&gt; &gt;&gt; +++ b/target/riscv/cpu.c<br>
-&gt; &gt;&gt; @@ -34,6 +34,12 @@<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt;=C2=A0 /* RISC-V CPU definitions */<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; +/* This includes the null terminated character &#39;\0&#39; =
-*/<br>
-&gt; &gt;&gt; +struct isa_ext_data {<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *name;<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool enabled;<br>
-&gt; &gt;&gt; +};<br>
-&gt; &gt;&gt; +<br>
-&gt; &gt;&gt;=C2=A0 static const char riscv_exts[26] =3D &quot;IEMAFDQCLBJT=
-PVNSUHKORWXYZG&quot;;<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt;=C2=A0 const char * const riscv_int_regnames[] =3D {<br>
-&gt; &gt;&gt; @@ -881,6 +887,28 @@ static void riscv_cpu_class_init(ObjectC=
-lass *c, void *data)<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 device_class_set_props(dc, riscv_cpu_prop=
-erties);<br>
-&gt; &gt;&gt;=C2=A0 }<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_s=
-tr, int max_str_len)<br>
-&gt; &gt;&gt; +{<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 char *old =3D *isa_str;<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 char *new =3D *isa_str;<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 int i;<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 struct isa_ext_data isa_edata_arr[] =3D {<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 { &quot;svpbmt&quot;, cpu-&gt;cf=
-g.ext_svpbmt=C2=A0 =C2=A0},<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 { &quot;svinval&quot;, cpu-&gt;c=
-fg.ext_svinval },<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 { &quot;svnapot&quot;, cpu-&gt;c=
-fg.ext_svnapot },<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; We still have other sub-extensions, e.g. Zfh, Zba, Zbb, Zbc, Zbs.=
-.. etc.<br>
-&gt; &gt; Do you mind adding them as well?<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; Do we really need it ? Does any OS actually parse it from the device t=
-ree ?<br>
-&gt; AFAIK, Linux kernel doesn&#39;t use them. As the device tree is intend=
-ed<br>
-&gt; to keep the information useful<br>
-&gt; for supervisor software,<br>
-<br>
-That actually isn&#39;t true ;-) .<br>
-<br>
-The devicetree is intended to _describe_ the hardware present in full<br>
-and has really nothing to do with what the userspace needs.<br>
-So the argument &quot;Linux doesn&#39;t need this&quot; is never true when =
-talking<br>
-about devicetrees ;-) .<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yes. I didn=E2=
-=80=99t mean that way. I was simply asking if these extensions currently in=
- use. I just mentioned Linux as an example.=C2=A0</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto">The larger point I was trying to make if we shoul=
-d add all the supported extensions when they are added to Qemu or on a need=
- basis.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">I don=E2=
-=80=99t feel strongly either way. So I am okay with the former approach if =
-that=E2=80=99s what everyone prefers!</div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
-br>
-On the other hand the devicetree user doesn&#39;t need to parse everything<=
-br>
-from DT. So adding code to parse things only really is needed if you<br>
-need that information.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Agreed.=C2=A0</d=
-iv><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-So if some part of the kernel needs to know about those additional<br>
-extensions, the array entries for them can also be added in a later patch.<=
-br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yes. That was th=
-e idea in isa extension framework series where the extension specific array=
- entries will only be added when support for that extension is enabled.</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex"><br>
-<br>
-Heiko<br>
-<br>
-&gt; &gt; Also, I think the order of ISA strings should be alphabetical as =
-described:<br>
-&gt; &gt; <a href=3D"https://github.com/riscv/riscv-isa-manual/blob/master/=
-src/naming.tex#L96" rel=3D"noreferrer" target=3D"_blank">https://github.com=
-/riscv/riscv-isa-manual/blob/master/src/naming.tex#L96</a><br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; Ahh yes. I will order them in alphabetical order and leave a big<br>
-&gt; comment for future reference as well.<br>
-&gt; <br>
-&gt; &gt; Regards,<br>
-&gt; &gt; Frank Chang<br>
-&gt; &gt;<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 };<br>
-&gt; &gt;&gt; +<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(isa_edata_arr)=
-; i++) {<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (isa_edata_arr[i].enabled) {<=
-br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 new =3D g_strconca=
-t(old, &quot;_&quot;, isa_edata_arr[i].name, NULL);<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(old);<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 old =3D new;<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 }<br>
-&gt; &gt;&gt; +<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 *isa_str =3D new;<br>
-&gt; &gt;&gt; +}<br>
-&gt; &gt;&gt; +<br>
-&gt; &gt;&gt;=C2=A0 char *riscv_isa_string(RISCVCPU *cpu)<br>
-&gt; &gt;&gt;=C2=A0 {<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 int i;<br>
-&gt; &gt;&gt; @@ -893,6 +921,7 @@ char *riscv_isa_string(RISCVCPU *cpu)<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 *p =3D &#39;\0&#39;;<br>
-&gt; &gt;&gt; +=C2=A0 =C2=A0 riscv_isa_string_ext(cpu, &amp;isa_str, maxlen=
-);<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 return isa_str;<br>
-&gt; &gt;&gt;=C2=A0 }<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; --<br>
-&gt; &gt;&gt; 2.30.2<br>
-&gt; &gt;&gt;<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-
---0000000000007b5aba05d9812e20--
+Regards,
+Akihiko Odaki
 
