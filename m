@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7CE4CEB1F
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 12:31:15 +0100 (CET)
-Received: from localhost ([::1]:32816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF1A4CEB66
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 12:49:32 +0100 (CET)
+Received: from localhost ([::1]:35340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQp6Y-0000RP-1i
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 06:31:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58230)
+	id 1nQpOE-00033W-Vv
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 06:49:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nQp4H-0007Sb-PV
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:28:55 -0500
-Received: from [2001:738:2001:2001::2001] (port=38520 helo=zero.eik.bme.hu)
+ id 1nQpL0-0002LW-E7
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:46:14 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:53800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1nQp4E-0003TK-Go
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:28:52 -0500
+ id 1nQpKx-0006BP-8N
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:46:09 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DE9C27462D3;
- Sun,  6 Mar 2022 12:28:44 +0100 (CET)
+ by localhost (Postfix) with SMTP id 91B7C7462D3;
+ Sun,  6 Mar 2022 12:46:04 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9DD6B745708; Sun,  6 Mar 2022 12:28:44 +0100 (CET)
+ id DD458745708; Sun,  6 Mar 2022 12:46:03 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 99D337456FE;
- Sun,  6 Mar 2022 12:28:44 +0100 (CET)
-Date: Sun, 6 Mar 2022 12:28:44 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id D79F47456FE;
+ Sun,  6 Mar 2022 12:46:03 +0100 (CET)
+Date: Sun, 6 Mar 2022 12:46:03 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH 1/2] ui/cocoa: capture all keys and combos when mouse is
- grabbed
-In-Reply-To: <20220306111114.18285-2-akihiko.odaki@gmail.com>
-Message-ID: <2d33845-275f-d4b0-2c7a-a0290f43046@eik.bme.hu>
+Subject: Re: [PATCH 2/2] ui/cocoa: add option to swap Option and Command
+In-Reply-To: <20220306111114.18285-3-akihiko.odaki@gmail.com>
+Message-ID: <a2a389c-b253-133b-9415-ecc5a352c2e@eik.bme.hu>
 References: <20220306111114.18285-1-akihiko.odaki@gmail.com>
- <20220306111114.18285-2-akihiko.odaki@gmail.com>
+ <20220306111114.18285-3-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
- (failed)
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,206 +68,207 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sun, 6 Mar 2022, Akihiko Odaki wrote:
 > From: Gustavo Noronha Silva <gustavo@noronha.dev.br>
 >
-> Applications such as Gnome may use Alt-Tab and Super-Tab for different
-> purposes, some use Ctrl-arrows so we want to allow qemu to handle
-> everything when it captures the mouse/keyboard.
+> On Mac OS X the Option key maps to Alt and Command to Super/Meta. This change
+> swaps them around so that Alt is the key closer to the space bar and Meta/Super
+> is between Control and Alt, like on non-Mac keyboards.
 >
-> However, Mac OS handles some combos like Command-Tab and Ctrl-arrows
-> at an earlier part of the event handling chain, not letting qemu see it.
->
-> We add a global Event Tap that allows qemu to see all events when the
-> mouse is grabbed. Note that this requires additional permissions.
->
-> See:
->
-> https://developer.apple.com/documentation/coregraphics/1454426-cgeventtapcreate?language=objc#discussion
-> https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+> It is a cocoa display option, disabled by default.
 >
 > Acked-by: Markus Armbruster <armbru@redhat.com>
 > Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.dev.br>
-> Message-Id: <20210713213200.2547-2-gustavo@noronha.dev.br>
+> Message-Id: <20210713213200.2547-3-gustavo@noronha.dev.br>
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 > ---
-> qapi/ui.json    | 16 ++++++++++++
-> qemu-options.hx |  3 +++
-> ui/cocoa.m      | 65 ++++++++++++++++++++++++++++++++++++++++++++++++-
-> 3 files changed, 83 insertions(+), 1 deletion(-)
+> qapi/ui.json    |  8 ++++++-
+> qemu-options.hx |  3 ++-
+> ui/cocoa.m      | 64 ++++++++++++++++++++++++++++++++++++++++++-------
+> 3 files changed, 65 insertions(+), 10 deletions(-)
 >
 > diff --git a/qapi/ui.json b/qapi/ui.json
-> index 4a13f883a30..1e9893419fe 100644
+> index 1e9893419fe..b082e1a7dee 100644
 > --- a/qapi/ui.json
 > +++ b/qapi/ui.json
-> @@ -1260,6 +1260,21 @@
-> { 'struct'  : 'DisplayCurses',
->   'data'    : { '*charset'       : 'str' } }
->
-> +##
-> +# @DisplayCocoa:
-> +#
-> +# Cocoa display options.
-> +#
-> +# @full-grab: Capture all key presses, including system combos. This
-> +#             requires accessibility permissions, since it performs
-> +#             a global grab on key events. (default: off)
-> +#             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct'  : 'DisplayCocoa',
-> +  'data'    : { '*full-grab'     : 'bool' } }
-> +
-> ##
-> # @DisplayType:
+> @@ -1270,10 +1270,16 @@
+> #             a global grab on key events. (default: off)
+> #             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
 > #
-> @@ -1338,6 +1353,7 @@
->   'discriminator' : 'type',
->   'data'    : {
->       'gtk': { 'type': 'DisplayGTK', 'if': 'CONFIG_GTK' },
-> +      'cocoa': { 'type': 'DisplayCocoa', 'if': 'CONFIG_COCOA' },
->       'curses': { 'type': 'DisplayCurses', 'if': 'CONFIG_CURSES' },
->       'egl-headless': { 'type': 'DisplayEGLHeadless',
->                         'if': { 'all': ['CONFIG_OPENGL', 'CONFIG_GBM'] } },
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 094a6c1d7c2..4df9ccc3446 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1916,6 +1916,9 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
-> #if defined(CONFIG_CURSES)
->     "-display curses[,charset=<encoding>]\n"
-> #endif
-> +#if defined(CONFIG_COCOA)
-> +    "-display cocoa[,full_grab=on|off]\n"
-> +#endif
-> #if defined(CONFIG_OPENGL)
->     "-display egl-headless[,rendernode=<file>]\n"
-> #endif
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index 8ab9ab5e84d..c41bc615d33 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -308,11 +308,13 @@ @interface QemuCocoaView : NSView
->     BOOL isMouseGrabbed;
->     BOOL isFullscreen;
->     BOOL isAbsoluteEnabled;
-> +    CFMachPortRef eventsTap;
-> }
-> - (void) switchSurface:(pixman_image_t *)image;
-> - (void) grabMouse;
-> - (void) ungrabMouse;
-> - (void) toggleFullScreen:(id)sender;
-> +- (void) setFullGrab:(id)sender;
-> - (void) handleMonitorInput:(NSEvent *)event;
-> - (bool) handleEvent:(NSEvent *)event;
-> - (bool) handleEventLocked:(NSEvent *)event;
-> @@ -335,6 +337,19 @@ - (void) raiseAllKeys;
->
-> QemuCocoaView *cocoaView;
->
-> +static CGEventRef handleTapEvent(CGEventTapProxy proxy, CGEventType type, CGEventRef cgEvent, void *userInfo)
-> +{
-> +    QemuCocoaView *cocoaView = (QemuCocoaView*) userInfo;
+> +# @swap-option-command: Swap the Option and Command keys so that their key
+> +#                       codes match their position on non-Mac keyboards and
+> +#                       you can use Meta/Super and Alt where you expect them.
+> +#                       (default: off)
+> +#
+> # Since: 6.1
+> ##
+> { 'struct'  : 'DisplayCocoa',
+> -  'data'    : { '*full-grab'     : 'bool' } }
+> +  'data'    : { '*full-grab'           : 'bool',
+> +                '*swap-option-command' : 'bool' } }
 
-Extra space between cast and userinfo? Do you need explicit cast at all? 
-In C at least void * does not need explicit cast, not sure about 
-Objective-C but if it's not needed you could just remove the cast.
+This option name is too long to type. Could we abbreviate it somehow? Like 
+swap-opt-cmd or swap-alt-meta?
 
 Regards,
 BALATON Zoltan
 
-> +    NSEvent* event = [NSEvent eventWithCGEvent:cgEvent];
-> +    if ([cocoaView isMouseGrabbed] && [cocoaView handleEvent:event]) {
-> +        COCOA_DEBUG("Global events tap: qemu handled the event, capturing!\n");
-> +        return NULL;
-> +    }
-> +    COCOA_DEBUG("Global events tap: qemu did not handle the event, letting it through...\n");
-> +
-> +    return cgEvent;
-> +}
-> +
-> @implementation QemuCocoaView
-> - (id)initWithFrame:(NSRect)frameRect
-> {
-> @@ -360,6 +375,11 @@ - (void) dealloc
->     }
+> ##
+> # @DisplayType:
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 4df9ccc3446..8431445e9c0 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1917,7 +1917,8 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
+>     "-display curses[,charset=<encoding>]\n"
+> #endif
+> #if defined(CONFIG_COCOA)
+> -    "-display cocoa[,full_grab=on|off]\n"
+> +    "-display cocoa[,full-grab=on|off]\n"
+> +    "              [,swap-option-command=on|off]\n"
+> #endif
+> #if defined(CONFIG_OPENGL)
+>     "-display egl-headless[,rendernode=<file>]\n"
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index c41bc615d33..b152d3a1563 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -73,6 +73,7 @@
+> typedef struct {
+>     int width;
+>     int height;
+> +    bool swap_option_command;
+> } QEMUScreen;
 >
->     qkbd_state_free(kbd);
-> +
-> +    if (eventsTap) {
-> +        CFRelease(eventsTap);
-> +    }
-> +
->     [super dealloc];
+> static void cocoa_update(DisplayChangeListener *dcl,
+> @@ -329,6 +330,7 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled;
+>  */
+> - (BOOL) isMouseGrabbed;
+> - (BOOL) isAbsoluteEnabled;
+> +- (BOOL) isSwapOptionCommandEnabled;
+> - (float) cdx;
+> - (float) cdy;
+> - (QEMUScreen) gscreen;
+> @@ -704,6 +706,13 @@ - (void) setFullGrab:(id)sender
+>     CFRelease(tapEventsSrc);
 > }
 >
-> @@ -654,6 +674,36 @@ - (void) toggleFullScreen:(id)sender
->     }
-> }
->
-> +- (void) setFullGrab:(id)sender
+> +- (void) setSwapOptionCommand:(id)sender
 > +{
-> +    COCOA_DEBUG("QemuCocoaView: setFullGrab\n");
+> +    COCOA_DEBUG("QemuCocoaView: setSwapOptionCommand\n");
 > +
-> +    CGEventMask mask = CGEventMaskBit(kCGEventKeyDown) | CGEventMaskBit(kCGEventKeyUp) | CGEventMaskBit(kCGEventFlagsChanged);
-> +    eventsTap = CGEventTapCreate(kCGHIDEventTap, kCGHeadInsertEventTap, kCGEventTapOptionDefault,
-> +                                 mask, handleTapEvent, self);
-> +    if (!eventsTap) {
-> +        warn_report("Could not create event tap, system key combos will not be captured.\n");
-> +        return;
-> +    } else {
-> +        COCOA_DEBUG("Global events tap created! Will capture system key combos.\n");
-> +    }
-> +
-> +    CFRunLoopRef runLoop = CFRunLoopGetCurrent();
-> +    if (!runLoop) {
-> +        warn_report("Could not obtain current CF RunLoop, system key combos will not be captured.\n");
-> +        return;
-> +    }
-> +
-> +    CFRunLoopSourceRef tapEventsSrc = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventsTap, 0);
-> +    if (!tapEventsSrc ) {
-> +        warn_report("Could not obtain current CF RunLoop, system key combos will not be captured.\n");
-> +        return;
-> +    }
-> +
-> +    CFRunLoopAddSource(runLoop, tapEventsSrc, kCFRunLoopDefaultMode);
-> +    CFRelease(tapEventsSrc);
+> +    screen.swap_option_command = true;
 > +}
 > +
 > - (void) toggleKey: (int)keycode {
 >     qkbd_state_key_event(kbd, keycode, !qkbd_state_key_get(kbd, keycode));
 > }
-> @@ -1281,6 +1331,13 @@ - (void)toggleFullScreen:(id)sender
->     [cocoaView toggleFullScreen:sender];
+> @@ -853,12 +862,22 @@ - (bool) handleEventLocked:(NSEvent *)event
+>         qkbd_state_key_event(kbd, Q_KEY_CODE_CTRL_R, false);
+>     }
+>     if (!(modifiers & NSEventModifierFlagOption)) {
+> -        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
+> -        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
+> +        if ([self isSwapOptionCommandEnabled]) {
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
+> +        } else {
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
+> +        }
+>     }
+>     if (!(modifiers & NSEventModifierFlagCommand)) {
+> -        qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
+> -        qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
+> +        if ([self isSwapOptionCommandEnabled]) {
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
+> +        } else {
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
+> +            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
+> +        }
+>     }
+>
+>     switch ([event type]) {
+> @@ -890,13 +909,21 @@ - (bool) handleEventLocked:(NSEvent *)event
+>
+>                 case kVK_Option:
+>                     if (!!(modifiers & NSEventModifierFlagOption)) {
+> -                        [self toggleKey:Q_KEY_CODE_ALT];
+> +                        if ([self isSwapOptionCommandEnabled]) {
+> +                            [self toggleKey:Q_KEY_CODE_META_L];
+> +                        } else {
+> +                            [self toggleKey:Q_KEY_CODE_ALT];
+> +                        }
+>                     }
+>                     break;
+>
+>                 case kVK_RightOption:
+>                     if (!!(modifiers & NSEventModifierFlagOption)) {
+> -                        [self toggleKey:Q_KEY_CODE_ALT_R];
+> +                        if ([self isSwapOptionCommandEnabled]) {
+> +                            [self toggleKey:Q_KEY_CODE_META_R];
+> +                        } else {
+> +                            [self toggleKey:Q_KEY_CODE_ALT_R];
+> +                        }
+>                     }
+>                     break;
+>
+> @@ -904,14 +931,22 @@ - (bool) handleEventLocked:(NSEvent *)event
+>                 case kVK_Command:
+>                     if (isMouseGrabbed &&
+>                         !!(modifiers & NSEventModifierFlagCommand)) {
+> -                        [self toggleKey:Q_KEY_CODE_META_L];
+> +                        if ([self isSwapOptionCommandEnabled]) {
+> +                            [self toggleKey:Q_KEY_CODE_ALT];
+> +                        } else {
+> +                            [self toggleKey:Q_KEY_CODE_META_L];
+> +                        }
+>                     }
+>                     break;
+>
+>                 case kVK_RightCommand:
+>                     if (isMouseGrabbed &&
+>                         !!(modifiers & NSEventModifierFlagCommand)) {
+> -                        [self toggleKey:Q_KEY_CODE_META_R];
+> +                        if ([self isSwapOptionCommandEnabled]) {
+> +                            [self toggleKey:Q_KEY_CODE_ALT_R];
+> +                        } else {
+> +                            [self toggleKey:Q_KEY_CODE_META_R];
+> +                        }
+>                     }
+>                     break;
+>             }
+> @@ -1146,6 +1181,7 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {
+> }
+> - (BOOL) isMouseGrabbed {return isMouseGrabbed;}
+> - (BOOL) isAbsoluteEnabled {return isAbsoluteEnabled;}
+> +- (BOOL) isSwapOptionCommandEnabled {return screen.swap_option_command;}
+> - (float) cdx {return cdx;}
+> - (float) cdy {return cdy;}
+> - (QEMUScreen) gscreen {return screen;}
+> @@ -1338,6 +1374,13 @@ - (void) setFullGrab:(id)sender
+>     [cocoaView setFullGrab:sender];
 > }
 >
-> +- (void) setFullGrab:(id)sender
+> +- (void) setSwapOptionCommand:(id)sender
 > +{
-> +    COCOA_DEBUG("QemuCocoaAppController: setFullGrab\n");
+> +    COCOA_DEBUG("QemuCocoaAppController: setSwapOptionCommand\n");
 > +
-> +    [cocoaView setFullGrab:sender];
+> +    [cocoaView setSwapOptionCommand:sender];
 > +}
 > +
 > /* Tries to find then open the specified filename */
 > - (void) openDocumentation: (NSString *) filename
 > {
-> @@ -2057,11 +2114,17 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
->     qemu_sem_wait(&app_started_sem);
->     COCOA_DEBUG("cocoa_display_init: app start completed\n");
->
-> +    QemuCocoaAppController* controller = (QemuCocoaAppController*)[[NSApplication sharedApplication] delegate];
->     /* if fullscreen mode is to be used */
->     if (opts->has_full_screen && opts->full_screen) {
->         dispatch_async(dispatch_get_main_queue(), ^{
->             [NSApp activateIgnoringOtherApps: YES];
-> -            [(QemuCocoaAppController *)[[NSApplication sharedApplication] delegate] toggleFullScreen: nil];
-> +            [controller toggleFullScreen: nil];
-> +        });
-> +    }
-> +    if (opts->u.cocoa.has_full_grab && opts->u.cocoa.full_grab) {
-> +        dispatch_async(dispatch_get_main_queue(), ^{
-> +            [controller setFullGrab: nil];
+> @@ -2127,6 +2170,11 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+>             [controller setFullGrab: nil];
 >         });
 >     }
+> +    if (opts->u.cocoa.has_swap_option_command && opts->u.cocoa.swap_option_command) {
+> +        dispatch_async(dispatch_get_main_queue(), ^{
+> +            [controller setSwapOptionCommand: nil];
+> +        });
+> +    }
 >     if (opts->has_show_cursor && opts->show_cursor) {
+>         cursor_hide = 0;
+>     }
 >
 
