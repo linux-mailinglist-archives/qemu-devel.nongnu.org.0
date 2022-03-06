@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57FE74CEBB2
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:23:40 +0100 (CET)
-Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25914CEBE7
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 15:25:02 +0100 (CET)
+Received: from localhost ([::1]:39624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQqrL-0007ku-Ec
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:23:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42734)
+	id 1nQroj-0000Ap-GB
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 09:25:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqXL-0003lT-2j
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:02:59 -0500
-Received: from [2a00:1450:4864:20::32a] (port=41801
- helo=mail-wm1-x32a.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQrnF-00079H-Jc
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 09:23:29 -0500
+Received: from [2a00:1450:4864:20::636] (port=34499
+ helo=mail-ej1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqXJ-0004Ke-LD
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:02:58 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- 7-20020a05600c228700b00385fd860f49so6901790wmf.0
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:02:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BF9gTXwWdI2zm0O5bncWqxr0u3MQeijHOpQIJ0UPc00=;
- b=bngAfwoMy3w8krdiSR/9mZmggxLgpzEh3Mtn8QAb8uDv1hPPtp/QpZdPzgLijgH3YF
- +6/GXHtE5pLptjTPpTu33WUvl5yCmkTZt3vq+MqrJIUW1DO5w2dfwS3m8ac29Dxsqmrr
- 0P0Z85ZTOj7L9KZy4nMX+8YJhprx6K3cw+QcPxk660A5PEmQ1pYmIl91ioI6UuCGks7t
- usNxUDBg/2MIgNSx2mdTfo0Sn3k+s8HRPOK4s67JgAfz8vVx9/RT6wTcRjupbGUih3SU
- upU4r7CGIJpJU7OYSy2gg+PIiLPPTNK7wfCSlkTpDW7ir3KKHzLnhD1UPFeJqiY5/ktT
- L+0A==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nQrnE-0004Ve-1f
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 09:23:29 -0500
+Received: by mail-ej1-x636.google.com with SMTP id gb39so26833900ejc.1
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 06:23:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AUStUpvTrwaf7AnqJNys9mFqax/KMs/1FOSv8Dun+cQ=;
+ b=wzJPiIHneJquXA9yMF7StPFUB6qD6L+l2fBYO3KH4gv65+KyjvvE5Lm/u6T0mJJVH3
+ U4ZwVOAxswo0zTT053EovGf6MeVEvmGDGWLHvf/pvCqIOXdxQIzRw+Jd/Sq98NR5jWQr
+ mzuKp/rflLzG3imlKye9bSGcnxL1SwYPfPOVZXBrhDO6EJNi3eldHinuS/88AEuPaHFK
+ Ux12+MVgJGVFauQ9ZUHzODJk9O593TggSjJjBxn5ch3Pfx3XeG8qvgGHWQsn3CY4RqDc
+ 22vv4u/Kq+ZRFDWK9z8AhmUxk41G4DHdnd6ZREaeEShGo6ZdXNoiOQQbLYQquB+bF8OE
+ 28WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BF9gTXwWdI2zm0O5bncWqxr0u3MQeijHOpQIJ0UPc00=;
- b=dFYA84AlhKwHvNJbloiR4+/WH2JGZFARdSShY2Wl6tgGVjdaXpfN1WzT/6GbXAq9/I
- 1X/wAvIUu/EAwuOCnJ3MwCVzDn/TxnSzE5tNYoY72j2ecikwBBNWHknxQ1udxUE43VuL
- QWU7uf2qCXMIe4sSiO/SppOTYlsry6LgdDWvRGsffCYng1mCxZAxw2urGqtUx3Qt8GPy
- kfIna4ICf6S+ravtL4UmInnc/KXnNyv/+G5ehEo6nWTJGOCiXxBI6TBbl99M5amNnNBI
- tkGM20PqtuKblHV2GW7CjIFTwCTwnDspoA5IT+2JjFms8U3rfLZJvyhtsjxA18ck76Vv
- Dznw==
-X-Gm-Message-State: AOAM531miBe4O7/pM+WoncfujbXDBUL2ikdXQZMw8VzlzczmwRd5HQMi
- gK9ZmxgxWcIIc4n6ZnYZ3jJSa+gnf/M=
-X-Google-Smtp-Source: ABdhPJzEnqCuazJUyOJAMmwAXzDSuEmUAG4eii588JCU47CwPoJLUY8TE3dhen73OGsU038CWgIgQQ==
-X-Received: by 2002:a05:600c:154e:b0:381:81d1:8e78 with SMTP id
- f14-20020a05600c154e00b0038181d18e78mr15233336wmg.51.1646571776232; 
- Sun, 06 Mar 2022 05:02:56 -0800 (PST)
-Received: from nuc.lan ([185.126.107.38]) by smtp.gmail.com with ESMTPSA id
- c1-20020adfed81000000b001f058a92dd2sm8712005wro.104.2022.03.06.05.02.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 05:02:55 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 33/33] accel/tcg: Remove pointless CPUArchState casts
-Date: Sun,  6 Mar 2022 14:00:00 +0100
-Message-Id: <20220306130000.8104-34-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
-References: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AUStUpvTrwaf7AnqJNys9mFqax/KMs/1FOSv8Dun+cQ=;
+ b=0wdk33PgjqC7Ad7PB2fdn1uRBMOr+rFTPMVt0zd3/sSlBNSwObLBpfYbKuu9+Zbpw2
+ OdCiofiDLQlYJd0ARwHCD9vphpYj+H54ewSY+ZKLnG/YQLHp80tmM16lsCOUqWi7tAuK
+ UM5SjfjsdQ13aJ/Vbkz+tpT283Ym7fnNeFf3j3xu0hJvF5AFS6KHy2FBsMXS7zvVj4/D
+ JmydiNNyocTb+skglHmwC8Sjn0MzVLLuhLpmGlkYhzJSwr+ChNXMw32ao9LlPSDHJSOk
+ JwIJ9Vkh+3Lwr9hU00y7ZjBjns1zV1BpZMHE4BA7H5sbmpNZHkjHO4jV2OSQ86NTFxQj
+ Xp7A==
+X-Gm-Message-State: AOAM530swgyDalAcsf7GvKKZ05PR+ICSoG9E/Q8Rzkfu8uTAfIVnH3H+
+ ZPEFSxAPSvaUHOSZ+K2+j4vdZXwXXlCcWT6NjNsTbg==
+X-Google-Smtp-Source: ABdhPJyCe7DOUEY3jsN0uyc7p020OptWOIpb9PbL3U/UQKi61i7pMszJU0/ixh/Kp0nXIM7BqNQgn88/3ryvU/9JreY=
+X-Received: by 2002:a17:907:8a25:b0:6d7:d59:6912 with SMTP id
+ sc37-20020a1709078a2500b006d70d596912mr5997066ejc.259.1646576605891; Sun, 06
+ Mar 2022 06:23:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+References: <20220304150722.2069132-1-ani@anisinha.ca>
+ <20220304150722.2069132-2-ani@anisinha.ca>
+ <20220306061833-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220306061833-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Sun, 6 Mar 2022 19:53:14 +0530
+Message-ID: <CAARzgwyVYHLfAm6LBMrEszbL=5A-+ZVTd0BQPW3YrehZAWLV2A@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] tests/acpi: i386: allow FACP acpi table changes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: none client-ip=2a00:1450:4864:20::636;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,45 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ liavalb@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Sun, Mar 6, 2022 at 4:49 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Fri, Mar 04, 2022 at 08:37:19PM +0530, Ani Sinha wrote:
+> > From: Liav Albani <liavalb@gmail.com>
+> >
+> > The FACP table is going to be changed for x86/q35 machines. To be sure
+> > the following changes are not breaking any QEMU test this change follows
+> > step 2 from the bios-tables-test.c guide on changes that affect ACPI
+> > tables.
+> >
+> > Signed-off-by: Liav Albani <liavalb@gmail.com>
+> > Acked-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >  tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> > index dfb8523c8b..7570e39369 100644
+> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > @@ -1 +1,5 @@
+> >  /* List of comma-separated changed AML files to ignore */
+> > +"tests/data/acpi/q35/FACP",
+> > +"tests/data/acpi/q35/FACP.nosmm",
+> > +"tests/data/acpi/q35/FACP.slic",
+> > +"tests/data/acpi/q35/FACP.xapic",
+>
+> For me make check fails with the changes in patch 2.
+> what about the rest of q35 FACP tables?
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220305233415.64627-2-philippe.mathieu.daude@gmail.com>
----
- accel/tcg/cpu-exec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This is what I have :
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index c68270f7945..c997c2e8e01 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -422,7 +422,7 @@ static void cpu_exec_exit(CPUState *cpu)
- 
- void cpu_exec_step_atomic(CPUState *cpu)
- {
--    CPUArchState *env = (CPUArchState *)cpu->env_ptr;
-+    CPUArchState *env = cpu->env_ptr;
-     TranslationBlock *tb;
-     target_ulong cs_base, pc;
-     uint32_t flags, cflags;
-@@ -532,7 +532,7 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
-     struct tb_desc desc;
-     uint32_t h;
- 
--    desc.env = (CPUArchState *)cpu->env_ptr;
-+    desc.env = cpu->env_ptr;
-     desc.cs_base = cs_base;
-     desc.flags = flags;
-     desc.cflags = cflags;
--- 
-2.35.1
+anisinha@anisinha-lenovo:~/workspace/qemu/tests/data/acpi/q35$ ls -l FACP*
+-rw-rw-r-- 1 anisinha anisinha 244 Mar  4 21:07 FACP
+-rw-rw-r-- 1 anisinha anisinha 244 Mar  4 21:07 FACP.nosmm
+-rw-rw-r-- 1 anisinha anisinha 244 Mar  4 21:07 FACP.slic
+-rw-rw-r-- 1 anisinha anisinha 244 Mar  4 21:07 FACP.xapic
 
+Do you have some more tables? Strange!
 
