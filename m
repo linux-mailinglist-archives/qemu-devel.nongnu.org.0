@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD8A4CE9D0
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 07:52:25 +0100 (CET)
-Received: from localhost ([::1]:45148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD3E4CE9D7
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 07:59:17 +0100 (CET)
+Received: from localhost ([::1]:47516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQkkj-00061D-0U
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 01:52:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46624)
+	id 1nQkrM-0007wh-LQ
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 01:59:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nQkg5-0004QN-LU
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 01:47:37 -0500
-Received: from [2a00:1450:4864:20::634] (port=34594
- helo=mail-ej1-x634.google.com)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nQkq7-0007Gm-9l
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 01:57:59 -0500
+Received: from [2607:f8b0:4864:20::635] (port=34573
+ helo=mail-pl1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nQkg3-0000uV-Qm
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 01:47:37 -0500
-Received: by mail-ej1-x634.google.com with SMTP id gb39so25659788ejc.1
- for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 22:47:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w0+dNaztdHc7pmiNt2k2jWKbdSVXlsz2bMvCfDEkCfw=;
- b=NOdS7HJY91UvKEcyGDwZrApOoKmy86xracOS8VQepcPyTvZR2upfq/InjlcnVY5ZGc
- /5ZhdID+U3KB7Djh7zOeqWrQbrd0nHqs5DtfRFe2O7DLFQPpkJKtfy66vBSgQjxhq2Dx
- 7jLFuw4+mCF4lGv7kht+YaWcwzuNxWbof/Wl7Nxcs9PWuUqCFy0k4IPES/UvFRr4DChP
- aVhhiZfJ7Ynx6LHWZzLhob4qdo+XJng0SzhFXnRUGosM6D/8/W2Sep6etExxtLZuUMaS
- goko4ILL2eCQBaqiuZpRe2wojs1AiP9BRQOxwnBndD6042+02PotQRUgKBcWrdOXWISL
- ACCg==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nQkq4-0003gJ-99
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 01:57:58 -0500
+Received: by mail-pl1-x635.google.com with SMTP id ay5so11250662plb.1
+ for <qemu-devel@nongnu.org>; Sat, 05 Mar 2022 22:57:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dg7UQn2NAdaqlLgkGA+v5Q7l7LORHpenzt/i/slwTOs=;
+ b=qaTlfRD05DAIByCa5D8lzP6AGM73UOReY6P4ZJpkyK+O1gZSE32S6vDg0gGaMvgqX6
+ 7waAsz77+AOpNexn4QKKpvKUKlOFHSqSscbS/W7gvxU3SSUiLAH72xnWo0YqLmQkCTBn
+ PEiRBWMonHEQxhHlqex7cVIUVI9QAZo6VMAUUerJwudJ/AaoSc8V+Wqq1KRVGrvn1He5
+ g5NO9DJmsCfUyikq37rrXyJ5Ad6kynF20hmtYIc8PWrcPjsQS2Vo8BmKTCTxjVX+EN6O
+ K9n9dvLlIRh0jDn/er928Z76ZLanqjrTNV3EBm9AnqjBu8xLv3+76jNR6ki8xCkl086g
+ Fd6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w0+dNaztdHc7pmiNt2k2jWKbdSVXlsz2bMvCfDEkCfw=;
- b=cnHCznay6GJMjYzSNN5hZypzedaYGd3CM1QPbXRKalAi5FS1wwPatbV+NbD9pI8FYn
- 1fc1pYuh2qVL4yzNNoZqCqEvDss3e5gs+i/Ao3BFlC8fTqdaEydHS8ddOLXeJ7rjVH+9
- NriMQQ6k6QQhcs5xQKiYBVsOItvLrNWch+QV2Y7qbaHQlXUA6iqiylAeb9uJVHmWjy4V
- N9d1p6JN1Ilx3B5NOxRf+qjiv2nyNwGNtDJ0Tyq3IdysYeofkDD/Tx/gkPe150WCU78e
- 5flIa8Dl5RWdJjIusD67KMjEDqDEmWx/ZZo3ZbqssTMC9o/EQbjon6Qp8/CzfacHWKz8
- 4oJA==
-X-Gm-Message-State: AOAM533kbwa6pZ9Oilkv+WqcWLHWQNJWbOLsSiHY9NcX49Z8hzJMNMKL
- 6ysXn/Z7ghvrz4ALmjdUS8Vc1oT/CsLFOob3+lv4oA==
-X-Google-Smtp-Source: ABdhPJy+GPAwrcYY8Nvf2URgxWkkur80W1TCGUfjL/+k9ZGOhfHZvhXtuaE+ZokZPuMxVRVvWSu2XhfU1kJijuGFeTc=
-X-Received: by 2002:a17:906:2486:b0:6cf:ced9:e4cc with SMTP id
- e6-20020a170906248600b006cfced9e4ccmr4970289ejb.201.1646549252556; Sat, 05
- Mar 2022 22:47:32 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dg7UQn2NAdaqlLgkGA+v5Q7l7LORHpenzt/i/slwTOs=;
+ b=vVp87ZyoAsMPpikGD16f0Q/19AoAlqhiebiBzqVY0fcpB3g0DdnCqgk9yzgJua16qu
+ dKRsSAmq5+FIJA5H5HJF8JnFQSKOVzSJuGekxsTcMlW9OMsqJkszd1ibNhydfhatb8U3
+ T0B0WbbZ39kKK8QHEhCwtOcAYQ+ErT3DqttFHyAusPy8kJXpdyE7C2PowwuGNhDYzQ78
+ /WMB6ZqhTPYjAPaUptCbYArtWds2Si+QuZjUJE/hVgDGGydKL3KR8DE/682HV6D9VJiE
+ Rgg/BNwx1ILpvIjkfdToED01rW7AL7pihHx643naqJDom0o45haw/OUrAKfc4N+BUSq9
+ qI8w==
+X-Gm-Message-State: AOAM530YWdbSY3ZSltvkPmgYD7Hg2/iiIF8PqS7BT1kZ6d6fn/MV1h5h
+ Q/nD/3tRYYUQbhRxaCyhQWyB4aPzzF4=
+X-Google-Smtp-Source: ABdhPJz7+ll+OYez1LLVdnwe7RTosE2Sbt9S2XDoQEpF71RvG3kuMWtY9XfakTVNJfUGGsTPF6/H9Q==
+X-Received: by 2002:a17:902:a582:b0:151:e09a:4e1a with SMTP id
+ az2-20020a170902a58200b00151e09a4e1amr1356054plb.101.1646549874036; 
+ Sat, 05 Mar 2022 22:57:54 -0800 (PST)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:f82b:4f21:14ee:1481])
+ by smtp.gmail.com with ESMTPSA id
+ nk5-20020a17090b194500b001bf01e6e558sm9037728pjb.29.2022.03.05.22.57.52
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sat, 05 Mar 2022 22:57:53 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH v2] ui/cocoa: Create menus in iothread
+Date: Sun,  6 Mar 2022 15:57:47 +0900
+Message-Id: <20220306065747.46486-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-References: <20220222223830.2319856-1-atishp@rivosinc.com>
- <CANzO1D05q8_-PSs5KJsnO+MPWVWLrFoYsvhPXGK2eUC8rwBqDw@mail.gmail.com>
-In-Reply-To: <CANzO1D05q8_-PSs5KJsnO+MPWVWLrFoYsvhPXGK2eUC8rwBqDw@mail.gmail.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Sun, 6 Mar 2022 14:47:21 +0800
-Message-ID: <CAE_xrPjKd0NEz3ZiYA5w+noG2XDtY0sqQYKbo=wNjAHicRw+dQ@mail.gmail.com>
-Subject: Re: [PATCH v3] target/riscv: Add isa extenstion strings to the device
- tree
-To: Atish Patra <atishp@rivosinc.com>
-Content-Type: multipart/alternative; boundary="0000000000004de51105d9871f61"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=frank.chang@sifive.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -83,255 +87,311 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stubner <heiko@sntech.de>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004de51105d9871f61
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Commit 0439c5a4623d674efa0c72abd62ca6e98bb7cf87 introduced an
+assertion that blk_all_next is called in the main thread. The function
+is called in the following chain:
+- blk_all_next
+- qmp_query_block
+- addRemovableDevicesMenuItems
+- main
 
-Typo in patch title:
-s/extenstion/extension/g
+This change moves the menu creation to the iothread. This also changes
+the menu creation procedure to construct the entire menu tree before
+setting to NSApp, which is necessary because a menu set once cannot be
+modified if NSApp is already running.
 
-Regards,
-Frank Chang
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ ui/cocoa.m | 209 +++++++++++++++++++++++++----------------------------
+ 1 file changed, 98 insertions(+), 111 deletions(-)
 
-On Sat, Feb 26, 2022 at 3:45 PM Frank Chang <frank.chang@sifive.com> wrote:
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 8ab9ab5e84d..edacbef9f7a 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1604,97 +1604,6 @@ - (void)sendEvent:(NSEvent *)event
+ }
+ @end
+ 
+-static void create_initial_menus(void)
+-{
+-    // Add menus
+-    NSMenu      *menu;
+-    NSMenuItem  *menuItem;
+-
+-    [NSApp setMainMenu:[[NSMenu alloc] init]];
+-    [NSApp setServicesMenu:[[NSMenu alloc] initWithTitle:@"Services"]];
+-
+-    // Application menu
+-    menu = [[NSMenu alloc] initWithTitle:@""];
+-    [menu addItemWithTitle:@"About QEMU" action:@selector(do_about_menu_item:) keyEquivalent:@""]; // About QEMU
+-    [menu addItem:[NSMenuItem separatorItem]]; //Separator
+-    menuItem = [menu addItemWithTitle:@"Services" action:nil keyEquivalent:@""];
+-    [menuItem setSubmenu:[NSApp servicesMenu]];
+-    [menu addItem:[NSMenuItem separatorItem]];
+-    [menu addItemWithTitle:@"Hide QEMU" action:@selector(hide:) keyEquivalent:@"h"]; //Hide QEMU
+-    menuItem = (NSMenuItem *)[menu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"]; // Hide Others
+-    [menuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
+-    [menu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""]; // Show All
+-    [menu addItem:[NSMenuItem separatorItem]]; //Separator
+-    [menu addItemWithTitle:@"Quit QEMU" action:@selector(terminate:) keyEquivalent:@"q"];
+-    menuItem = [[NSMenuItem alloc] initWithTitle:@"Apple" action:nil keyEquivalent:@""];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-    [NSApp performSelector:@selector(setAppleMenu:) withObject:menu]; // Workaround (this method is private since 10.4+)
+-
+-    // Machine menu
+-    menu = [[NSMenu alloc] initWithTitle: @"Machine"];
+-    [menu setAutoenablesItems: NO];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Pause" action: @selector(pauseQEMU:) keyEquivalent: @""] autorelease]];
+-    menuItem = [[[NSMenuItem alloc] initWithTitle: @"Resume" action: @selector(resumeQEMU:) keyEquivalent: @""] autorelease];
+-    [menu addItem: menuItem];
+-    [menuItem setEnabled: NO];
+-    [menu addItem: [NSMenuItem separatorItem]];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Reset" action: @selector(restartQEMU:) keyEquivalent: @""] autorelease]];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Power Down" action: @selector(powerDownQEMU:) keyEquivalent: @""] autorelease]];
+-    menuItem = [[[NSMenuItem alloc] initWithTitle: @"Machine" action:nil keyEquivalent:@""] autorelease];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-
+-    // View menu
+-    menu = [[NSMenu alloc] initWithTitle:@"View"];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Enter Fullscreen" action:@selector(doToggleFullScreen:) keyEquivalent:@"f"] autorelease]]; // Fullscreen
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Zoom To Fit" action:@selector(zoomToFit:) keyEquivalent:@""] autorelease]];
+-    menuItem = [[[NSMenuItem alloc] initWithTitle:@"View" action:nil keyEquivalent:@""] autorelease];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-
+-    // Speed menu
+-    menu = [[NSMenu alloc] initWithTitle:@"Speed"];
+-
+-    // Add the rest of the Speed menu items
+-    int p, percentage, throttle_pct;
+-    for (p = 10; p >= 0; p--)
+-    {
+-        percentage = p * 10 > 1 ? p * 10 : 1; // prevent a 0% menu item
+-
+-        menuItem = [[[NSMenuItem alloc]
+-                   initWithTitle: [NSString stringWithFormat: @"%d%%", percentage] action:@selector(adjustSpeed:) keyEquivalent:@""] autorelease];
+-
+-        if (percentage == 100) {
+-            [menuItem setState: NSControlStateValueOn];
+-        }
+-
+-        /* Calculate the throttle percentage */
+-        throttle_pct = -1 * percentage + 100;
+-
+-        [menuItem setTag: throttle_pct];
+-        [menu addItem: menuItem];
+-    }
+-    menuItem = [[[NSMenuItem alloc] initWithTitle:@"Speed" action:nil keyEquivalent:@""] autorelease];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-
+-    // Window menu
+-    menu = [[NSMenu alloc] initWithTitle:@"Window"];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Minimize" action:@selector(performMiniaturize:) keyEquivalent:@"m"] autorelease]]; // Miniaturize
+-    menuItem = [[[NSMenuItem alloc] initWithTitle:@"Window" action:nil keyEquivalent:@""] autorelease];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-    [NSApp setWindowsMenu:menu];
+-
+-    // Help menu
+-    menu = [[NSMenu alloc] initWithTitle:@"Help"];
+-    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"QEMU Documentation" action:@selector(showQEMUDoc:) keyEquivalent:@"?"] autorelease]]; // QEMU Help
+-    menuItem = [[[NSMenuItem alloc] initWithTitle:@"Window" action:nil keyEquivalent:@""] autorelease];
+-    [menuItem setSubmenu:menu];
+-    [[NSApp mainMenu] addItem:menuItem];
+-}
+-
+ /* Returns a name for a given console */
+ static NSString * getConsoleName(QemuConsole * console)
+ {
+@@ -1704,14 +1613,11 @@ static void create_initial_menus(void)
+ }
+ 
+ /* Add an entry to the View menu for each console */
+-static void add_console_menu_entries(void)
++static void add_console_menu_entries(NSMenu *menu)
+ {
+-    NSMenu *menu;
+     NSMenuItem *menuItem;
+     int index = 0;
+ 
+-    menu = [[[NSApp mainMenu] itemWithTitle:@"View"] submenu];
+-
+     [menu addItem:[NSMenuItem separatorItem]];
+ 
+     while (qemu_console_lookup_by_index(index) != NULL) {
+@@ -1726,9 +1632,8 @@ static void add_console_menu_entries(void)
+ /* Make menu items for all removable devices.
+  * Each device is given an 'Eject' and 'Change' menu item.
+  */
+-static void addRemovableDevicesMenuItems(void)
++static void addRemovableDevicesMenuItems(NSMenu *menu)
+ {
+-    NSMenu *menu;
+     NSMenuItem *menuItem;
+     BlockInfoList *currentDevice, *pointerToFree;
+     NSString *deviceName;
+@@ -1736,8 +1641,6 @@ static void addRemovableDevicesMenuItems(void)
+     currentDevice = qmp_query_block(NULL);
+     pointerToFree = currentDevice;
+ 
+-    menu = [[[NSApp mainMenu] itemWithTitle:@"Machine"] submenu];
+-
+     // Add a separator between related groups of menu items
+     [menu addItem:[NSMenuItem separatorItem]];
+ 
+@@ -1784,6 +1687,96 @@ static void addRemovableDevicesMenuItems(void)
+     qapi_free_BlockInfoList(pointerToFree);
+ }
+ 
++static void create_menus(void)
++{
++    // Add menus
++    NSString    *title = [[[NSBundle mainBundle] executablePath] lastPathComponent];
++    NSMenu      *mainMenu;
++    NSMenu      *menu;
++    NSMenuItem  *menuItem;
++
++    mainMenu = [[NSMenu alloc] initWithTitle:@"Main Menu"];
++    [NSApp setServicesMenu:[[NSMenu alloc] initWithTitle:@"Services"]];
++
++    // Application menu
++    menu = [[NSMenu alloc] initWithTitle:title];
++    [menu addItemWithTitle:@"About QEMU" action:@selector(do_about_menu_item:) keyEquivalent:@""]; // About QEMU
++    [menu addItem:[NSMenuItem separatorItem]]; //Separator
++    menuItem = [menu addItemWithTitle:@"Services" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:[NSApp servicesMenu]];
++    [menu addItem:[NSMenuItem separatorItem]];
++    [menu addItemWithTitle:@"Hide QEMU" action:@selector(hide:) keyEquivalent:@"h"]; //Hide QEMU
++    menuItem = (NSMenuItem *)[menu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"]; // Hide Others
++    [menuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
++    [menu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""]; // Show All
++    [menu addItem:[NSMenuItem separatorItem]]; //Separator
++    [menu addItemWithTitle:@"Quit QEMU" action:@selector(terminate:) keyEquivalent:@"q"];
++    menuItem = [mainMenu addItemWithTitle:title action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++
++    // Machine menu
++    menu = [[NSMenu alloc] initWithTitle: @"Machine"];
++    [menu setAutoenablesItems: NO];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Pause" action: @selector(pauseQEMU:) keyEquivalent: @""] autorelease]];
++    menuItem = [[[NSMenuItem alloc] initWithTitle: @"Resume" action: @selector(resumeQEMU:) keyEquivalent: @""] autorelease];
++    [menu addItem: menuItem];
++    [menuItem setEnabled: NO];
++    [menu addItem: [NSMenuItem separatorItem]];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Reset" action: @selector(restartQEMU:) keyEquivalent: @""] autorelease]];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle: @"Power Down" action: @selector(powerDownQEMU:) keyEquivalent: @""] autorelease]];
++    addRemovableDevicesMenuItems(menu);
++    menuItem = [mainMenu addItemWithTitle: @"Machine" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++
++    // View menu
++    menu = [[NSMenu alloc] initWithTitle:@"View"];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Enter Fullscreen" action:@selector(doToggleFullScreen:) keyEquivalent:@"f"] autorelease]]; // Fullscreen
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Zoom To Fit" action:@selector(zoomToFit:) keyEquivalent:@""] autorelease]];
++    add_console_menu_entries(menu);
++    menuItem = [mainMenu addItemWithTitle:@"View" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++
++    // Speed menu
++    menu = [[NSMenu alloc] initWithTitle:@"Speed"];
++
++    // Add the rest of the Speed menu items
++    int p, percentage, throttle_pct;
++    for (p = 10; p >= 0; p--)
++    {
++        percentage = p * 10 > 1 ? p * 10 : 1; // prevent a 0% menu item
++
++        menuItem = [[[NSMenuItem alloc]
++                   initWithTitle: [NSString stringWithFormat: @"%d%%", percentage] action:@selector(adjustSpeed:) keyEquivalent:@""] autorelease];
++
++        if (percentage == 100) {
++            [menuItem setState: NSControlStateValueOn];
++        }
++
++        /* Calculate the throttle percentage */
++        throttle_pct = -1 * percentage + 100;
++
++        [menuItem setTag: throttle_pct];
++        [menu addItem: menuItem];
++    }
++    menuItem = [mainMenu addItemWithTitle:@"Speed" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++
++    // Window menu
++    menu = [[NSMenu alloc] initWithTitle:@"Window"];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Minimize" action:@selector(performMiniaturize:) keyEquivalent:@"m"] autorelease]]; // Miniaturize
++    menuItem = [mainMenu addItemWithTitle:@"Window" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++    [NSApp setWindowsMenu:menu];
++
++    // Help menu
++    menu = [[NSMenu alloc] initWithTitle:@"Help"];
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"QEMU Documentation" action:@selector(showQEMUDoc:) keyEquivalent:@"?"] autorelease]]; // QEMU Help
++    menuItem = [mainMenu addItemWithTitle:@"Window" action:nil keyEquivalent:@""];
++    [menuItem setSubmenu:menu];
++
++    [NSApp setMainMenu:mainMenu];
++}
++
+ @interface QemuCocoaPasteboardTypeOwner : NSObject<NSPasteboardTypeOwner>
+ @end
+ 
+@@ -1947,18 +1940,6 @@ int main (int argc, char **argv) {
+ 
+     [QemuApplication sharedApplication];
+ 
+-    create_initial_menus();
+-
+-    /*
+-     * Create the menu entries which depend on QEMU state (for consoles
+-     * and removeable devices). These make calls back into QEMU functions,
+-     * which is OK because at this point we know that the second thread
+-     * holds the iothread lock and is synchronously waiting for us to
+-     * finish.
+-     */
+-    add_console_menu_entries();
+-    addRemovableDevicesMenuItems();
+-
+     // Create an Application controller
+     QemuCocoaAppController *appController = [[QemuCocoaAppController alloc] init];
+     [NSApp setDelegate:appController];
+@@ -2050,6 +2031,8 @@ static void cocoa_refresh(DisplayChangeListener *dcl)
+ 
+ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+ {
++    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
++
+     COCOA_DEBUG("qemu_cocoa: cocoa_display_init\n");
+ 
+     /* Tell main thread to go ahead and create the app and enter the run loop */
+@@ -2057,6 +2040,8 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+     qemu_sem_wait(&app_started_sem);
+     COCOA_DEBUG("cocoa_display_init: app start completed\n");
+ 
++    create_menus();
++
+     /* if fullscreen mode is to be used */
+     if (opts->has_full_screen && opts->full_screen) {
+         dispatch_async(dispatch_get_main_queue(), ^{
+@@ -2074,6 +2059,8 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+     qemu_event_init(&cbevent, false);
+     cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
+     qemu_clipboard_peer_register(&cbpeer);
++
++    [pool release];
+ }
+ 
+ static QemuDisplay qemu_display_cocoa = {
+-- 
+2.32.0 (Apple Git-132)
 
->
->
-> Atish Patra <atishp@rivosinc.com> =E6=96=BC 2022=E5=B9=B42=E6=9C=8823=E6=
-=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=886:39=E5=AF=AB=E9=81=93=EF=BC=9A
->
->> The Linux kernel parses the ISA extensions from "riscv,isa" DT
->> property. It used to parse only the single letter base extensions
->> until now. A generic ISA extension parsing framework was proposed[1]
->> recently that can parse multi-letter ISA extensions as well.
->>
->> Generate the extended ISA string by appending  the available ISA
->> extensions
->> to the "riscv,isa" string if it is enabled so that kernel can process it=
-.
->>
->> [1] https://lkml.org/lkml/2022/2/15/263
->>
->> Suggested-by: Heiko Stubner <heiko@sntech.de>
->> Signed-off-by: Atish Patra <atishp@rivosinc.com>
->> ---
->> Changes from v2->v3:
->> 1. Used g_strconcat to replace snprintf & a max isa string length as
->> suggested by Anup.
->> 2. I have not included the Tested-by Tag from Heiko because the
->> implementation changed from v2 to v3.
->>
->> Changes from v1->v2:
->> 1. Improved the code redability by using arrays instead of individual
->> check
->> ---
->>  target/riscv/cpu.c | 29 +++++++++++++++++++++++++++++
->>  1 file changed, 29 insertions(+)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index b0a40b83e7a8..2c7ff6ef555a 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -34,6 +34,12 @@
->>
->>  /* RISC-V CPU definitions */
->>
->> +/* This includes the null terminated character '\0' */
->> +struct isa_ext_data {
->> +        const char *name;
->> +        bool enabled;
->> +};
->> +
->>  static const char riscv_exts[26] =3D "IEMAFDQCLBJTPVNSUHKORWXYZG";
->>
->>  const char * const riscv_int_regnames[] =3D {
->> @@ -881,6 +887,28 @@ static void riscv_cpu_class_init(ObjectClass *c,
->> void *data)
->>      device_class_set_props(dc, riscv_cpu_properties);
->>  }
->>
->> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int
->> max_str_len)
->> +{
->> +    char *old =3D *isa_str;
->> +    char *new =3D *isa_str;
->> +    int i;
->> +    struct isa_ext_data isa_edata_arr[] =3D {
->> +        { "svpbmt", cpu->cfg.ext_svpbmt   },
->> +        { "svinval", cpu->cfg.ext_svinval },
->> +        { "svnapot", cpu->cfg.ext_svnapot },
->>
->
-> We still have other sub-extensions, e.g. Zfh, Zba, Zbb, Zbc, Zbs... etc.
-> Do you mind adding them as well?
->
-> Also, I think the order of ISA strings should be alphabetical as describe=
-d:
-> https://github.com/riscv/riscv-isa-manual/blob/master/src/naming.tex#L96
->
-> Regards,
-> Frank Chang
->
->
->> +    };
->> +
->> +    for (i =3D 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
->> +        if (isa_edata_arr[i].enabled) {
->> +            new =3D g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
->> +            g_free(old);
->> +            old =3D new;
->> +        }
->> +    }
->> +
->> +    *isa_str =3D new;
->> +}
->> +
->>  char *riscv_isa_string(RISCVCPU *cpu)
->>  {
->>      int i;
->> @@ -893,6 +921,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
->>          }
->>      }
->>      *p =3D '\0';
->> +    riscv_isa_string_ext(cpu, &isa_str, maxlen);
->>      return isa_str;
->>  }
->>
->> --
->> 2.30.2
->>
->>
-
---0000000000004de51105d9871f61
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Typo in patch title:</div><div>s/extenstion/extension=
-/g</div><div><br></div><div>Regards,</div><div>Frank Chang</div><div dir=3D=
-"ltr"><br></div><div dir=3D"ltr">On Sat, Feb 26, 2022 at 3:45 PM Frank Chan=
-g &lt;<a href=3D"mailto:frank.chang@sifive.com">frank.chang@sifive.com</a>&=
-gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Atish Patra &lt=
-;<a href=3D"mailto:atishp@rivosinc.com" target=3D"_blank">atishp@rivosinc.c=
-om</a>&gt; =E6=96=BC 2022=E5=B9=B42=E6=9C=8823=E6=97=A5 =E9=80=B1=E4=B8=89 =
-=E4=B8=8A=E5=8D=886:39=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">The Linux kernel parses the ISA extension=
-s from &quot;riscv,isa&quot; DT<br>
-property. It used to parse only the single letter base extensions<br>
-until now. A generic ISA extension parsing framework was proposed[1]<br>
-recently that can parse multi-letter ISA extensions as well.<br>
-<br>
-Generate the extended ISA string by appending=C2=A0 the available ISA exten=
-sions<br>
-to the &quot;riscv,isa&quot; string if it is enabled so that kernel can pro=
-cess it.<br>
-<br>
-[1] <a href=3D"https://lkml.org/lkml/2022/2/15/263" rel=3D"noreferrer" targ=
-et=3D"_blank">https://lkml.org/lkml/2022/2/15/263</a><br>
-<br>
-Suggested-by: Heiko Stubner &lt;<a href=3D"mailto:heiko@sntech.de" target=
-=3D"_blank">heiko@sntech.de</a>&gt;<br>
-Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" targe=
-t=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
----<br>
-Changes from v2-&gt;v3:<br>
-1. Used g_strconcat to replace snprintf &amp; a max isa string length as<br=
->
-suggested by Anup.<br>
-2. I have not included the Tested-by Tag from Heiko because the<br>
-implementation changed from v2 to v3.<br>
-<br>
-Changes from v1-&gt;v2:<br>
-1. Improved the code redability by using arrays instead of individual check=
-<br>
----<br>
-=C2=A0target/riscv/cpu.c | 29 +++++++++++++++++++++++++++++<br>
-=C2=A01 file changed, 29 insertions(+)<br>
-<br>
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-index b0a40b83e7a8..2c7ff6ef555a 100644<br>
---- a/target/riscv/cpu.c<br>
-+++ b/target/riscv/cpu.c<br>
-@@ -34,6 +34,12 @@<br>
-<br>
-=C2=A0/* RISC-V CPU definitions */<br>
-<br>
-+/* This includes the null terminated character &#39;\0&#39; */<br>
-+struct isa_ext_data {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *name;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool enabled;<br>
-+};<br>
-+<br>
-=C2=A0static const char riscv_exts[26] =3D &quot;IEMAFDQCLBJTPVNSUHKORWXYZG=
-&quot;;<br>
-<br>
-=C2=A0const char * const riscv_int_regnames[] =3D {<br>
-@@ -881,6 +887,28 @@ static void riscv_cpu_class_init(ObjectClass *c, void =
-*data)<br>
-=C2=A0 =C2=A0 =C2=A0device_class_set_props(dc, riscv_cpu_properties);<br>
-=C2=A0}<br>
-<br>
-+static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_st=
-r_len)<br>
-+{<br>
-+=C2=A0 =C2=A0 char *old =3D *isa_str;<br>
-+=C2=A0 =C2=A0 char *new =3D *isa_str;<br>
-+=C2=A0 =C2=A0 int i;<br>
-+=C2=A0 =C2=A0 struct isa_ext_data isa_edata_arr[] =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 { &quot;svpbmt&quot;, cpu-&gt;cfg.ext_svpbmt=
-=C2=A0 =C2=A0},<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 { &quot;svinval&quot;, cpu-&gt;cfg.ext_svinval=
- },<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 { &quot;svnapot&quot;, cpu-&gt;cfg.ext_svnapot=
- },<br></blockquote><div><br></div><div>We still have other sub-extensions,=
- e.g. Zfh, Zba, Zbb, Zbc, Zbs... etc.</div><div>Do you mind adding them as =
-well?</div><div><br></div><div>Also, I think the order of ISA strings shoul=
-d be alphabetical as described:</div><div><a href=3D"https://github.com/ris=
-cv/riscv-isa-manual/blob/master/src/naming.tex#L96" target=3D"_blank">https=
-://github.com/riscv/riscv-isa-manual/blob/master/src/naming.tex#L96</a><br>=
-</div><div><br></div><div>Regards,</div><div>Frank Chang</div><div>=C2=A0</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 };<br>
-+<br>
-+=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(isa_edata_arr); i++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (isa_edata_arr[i].enabled) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 new =3D g_strconcat(old, &quot;_=
-&quot;, isa_edata_arr[i].name, NULL);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(old);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 old =3D new;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 *isa_str =3D new;<br>
-+}<br>
-+<br>
-=C2=A0char *riscv_isa_string(RISCVCPU *cpu)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0int i;<br>
-@@ -893,6 +921,7 @@ char *riscv_isa_string(RISCVCPU *cpu)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0*p =3D &#39;\0&#39;;<br>
-+=C2=A0 =C2=A0 riscv_isa_string_ext(cpu, &amp;isa_str, maxlen);<br>
-=C2=A0 =C2=A0 =C2=A0return isa_str;<br>
-=C2=A0}<br>
-<br>
--- <br>
-2.30.2<br>
-<br></blockquote></div></div>
-</blockquote></div></div>
-
---0000000000004de51105d9871f61--
 
