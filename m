@@ -2,91 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0041E4CEA8C
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 11:39:46 +0100 (CET)
-Received: from localhost ([::1]:43768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638704CEA92
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 11:51:57 +0100 (CET)
+Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQoIk-0001pU-43
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 05:39:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50474)
+	id 1nQoUV-0005ie-T5
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 05:51:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQoH0-0000e8-C6
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:37:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27436)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nQoSf-0004IS-SF
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:50:01 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:57115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQoGy-0002BD-G2
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:37:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646563074;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=irk64xG3HwFNxPlwGgO3gOfzsducO2rhptLSIH+P36w=;
- b=cV1DdQldnnBeIVZ9kqQP66HxOpHFimv5WQeB1nXAK23IoxsQ3sc49nXOyBTpMkgC6tYjY9
- DJJ50Risf0/qsZO5FpEaREVc/E2M0zaNIMX4j5k21EnkO1f7r+wNtDFzNRhxG/q/IrbxZu
- qATk5TRNyICSilTlabsnZYv2yaRLSY8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-32-UY9s-YE5Ooik5VdzuyYRMg-1; Sun, 06 Mar 2022 05:37:53 -0500
-X-MC-Unique: UY9s-YE5Ooik5VdzuyYRMg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- b24-20020a50e798000000b0041631767675so820715edn.23
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 02:37:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=irk64xG3HwFNxPlwGgO3gOfzsducO2rhptLSIH+P36w=;
- b=LnunFoYCq7r2xX6fl+O/RkManhKtAeeduwRMHwB2WZ4wXtpBmt6hZKuEK3IrI6Dgjl
- Ij8eb9x+lCCrNbx6MYkEJkrsKLi+jpefJt4u8Udf9AHgbTsFcpSvalj6jbEGNiWmxJ26
- h4Rq0h2IhaII9FX5eiEat29CYFKeNaRhaveHDRRwwKaVRNoGG4Busutj+DlaVWKGjNln
- 0/CPB9zdW1EYpqKjzZsS6rRWWKsJsiKYZ2Eo3mn6j9DOyFbgGbG1n6083RlhmLgbbUd2
- OV88N18MKuAYLRSFa+0AduG3JfQwcOwIUlxNbvY8wPC2u5v7TiXR1PPS5Ae01c1Tjy2b
- LO0w==
-X-Gm-Message-State: AOAM531z7BeDyTviRHvIZMEXvWO7C+pxU3JeABsrxElBx06nRzGSpbfv
- rgFTJ3aMSwSfn/EqGhvbRnV4OIT2SjjYK831FWyumWylkLR89kSF+piRToXn8uSU8in4z7OjqfM
- PN+QcpiZ/MOLhZtM=
-X-Received: by 2002:a17:906:b7d2:b0:6db:385:dafd with SMTP id
- fy18-20020a170906b7d200b006db0385dafdmr4503095ejb.139.1646563071645; 
- Sun, 06 Mar 2022 02:37:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxbgOPJMoJcANcbIvtPFWaG3LIsLRQzuueYa+XC/YhFmPLkP43vSIDsaq3PAUR8t8CbjMpkGw==
-X-Received: by 2002:a17:906:b7d2:b0:6db:385:dafd with SMTP id
- fy18-20020a170906b7d200b006db0385dafdmr4503089ejb.139.1646563071422; 
- Sun, 06 Mar 2022 02:37:51 -0800 (PST)
-Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- z22-20020a05640240d600b00415d8c59bf5sm4661160edb.25.2022.03.06.02.37.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 02:37:50 -0800 (PST)
-Date: Sun, 6 Mar 2022 05:37:47 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/45] virtio,pc,pci: features, cleanups, fixes
-Message-ID: <20220306053652-mutt-send-email-mst@kernel.org>
-References: <20220304133556.233983-1-mst@redhat.com>
- <CAFEAcA8Vo4bi_ar-Av7mzbCO6ZFv9pABpyi=0niGPi0U5Vxdvg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nQoSd-00048T-Vm
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:50:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=Wn6PfVE6UmvZzAnmagWcd20dLTFk2gwaFmSP+4KRAGo=; b=U/G9qk9e6K2lNNLYVu9hCBaRSP
+ znziHYHdzeD4dbnvdedU6QiNcuNHKX4+7EnraDlL78uAPGX6DIB0p5y8X1yAgDSrfXC292GmXKh0D
+ SO8HDKo90h8qj47fEDtfkAtfcGc3rX81a0Mnj1Mzcr6zDUlwFOId+xL8jSFYlEORK9njt6TNNCBPT
+ vSAuLhNlJJF/JvbpQnV0b050+f5HRsQnEmUz0LgwPbcYQTaiuIO8t/LGMLnEEyWg9m1xI/wYEd0o6
+ vE5FyTZhpssSw/qglH7ktS/97H75sql8yNzhyAvGDya0ASryOpmWMyJTm/vj5r+O9Nf2B5kV3fvXD
+ I3SPX516NDZ7zhLdzSJa4Ge3kyE12Z6mD9PBSjkPEEPqboxazpPKI2JMdBrJlSvFrjK4sgc0Mitk5
+ J1aRG5Vfuyl2Nojm4Cl2cSWarMCw0P1M/B4RZUKKxcM8IFn1Kzmdl97WLQLGeN5l0gPU6xhqIQw64
+ q7wyM/JgeJOMCer/2vVsJhW7k+OQjsgniucjWnhFI0TVIRWajRPGYwqMp2heFRvkSCkqJZp0DntHi
+ R9UZZemiMNb/BTW6yIkzJER+6lQnNtaLdxN+NSxirJrfJ0O9Pt3QCw/T+o1E0aX8EJpUNj4qHu1XL
+ WTEQqHAEYAB5lBEQzwWCTkOfjWDkwd7L36M+lAkac=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] coreaudio: Always return 0 in handle_voice_change
+Date: Sun, 06 Mar 2022 11:49:55 +0100
+Message-ID: <1771824.72ebOKuLVD@silver>
+In-Reply-To: <20220306063949.28138-1-akihiko.odaki@gmail.com>
+References: <20220306063949.28138-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8Vo4bi_ar-Av7mzbCO6ZFv9pABpyi=0niGPi0U5Vxdvg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,94 +64,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 10:13:13PM +0000, Peter Maydell wrote:
-> On Fri, 4 Mar 2022 at 13:37, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > The following changes since commit 6629bf78aac7e53f83fd0bcbdbe322e2302dfd1f:
-> >
-> >   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220302' into staging (2022-03-03 14:46:48 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to 74bc2c502da74191a34fb61b4c890061368269c8:
-> >
-> >   docs: vhost-user: add subsection for non-Linux platforms (2022-03-04 08:30:53 -0500)
-> >
-> > ----------------------------------------------------------------
-> > virtio,pc,pci: features, cleanups, fixes
-> >
-> > vhost-user enabled on non-linux systems
-> > beginning of nvme sriov support
-> > bigger tx queue for vdpa
-> > virtio iommu bypass
-> > pci tests for arm
-> >
-> > Fixes, cleanups all over the place
-> >
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >
-> > ----------------------------------------------------------------
-> 
-> This failed an assertion on ppc64:
-> 
-> >>> G_TEST_DBUS_DAEMON=/home/pm215/qemu/tests/dbus-vmstate-daemon.sh QTEST_QEMU_BINARY=./qemu-system-aarch64 QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon MALLOC_PERTURB_=120 /home/pm215/qemu/build/all/tests/qtest/qos-test --tap -k
-> ▶  71/716 /aarch64/xlnx-zcu102/generic-sdhci/sdhci/sdhci-tests/registers
->          OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/AC97/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/e1000/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/e1000-82544gc/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/e1000-82545em/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82550/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82551/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82557a/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82557b/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82557c/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82558a/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82558b/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82559a/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82559b/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82559c/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82559er/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82562/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82801/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/ES1370/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/megasas/pci-device/pci-device-tests/nop
-> OK
-> ▶  71/716 ERROR:../../tests/qtest/libqos/pci.c:232:qpci_device_enable:
-> assertion failed (cmd & PCI_COMMAND_IO == PCI_COMMAND_IO): (0x00000000
-> == 0x00000001) ERROR
-> 
-> 
-> 
+On Sonntag, 6. M=E4rz 2022 07:39:49 CET Akihiko Odaki wrote:
+> MacOSX.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/AudioHar=
+dwa
+> re.h
+> says:
+> > The return value is currently unused and should always be 0.
 
-Clearly yhe addition of aarch tests. I dropped these for now.
-Added Ani's FACP patches instead, new pull sent.
+Where does it say that, about which macOS functions? There are quite a bunc=
+h=20
+of macOS functions involved in init_out_device(), and they all have error=20
+pathes in init_out_device(), and they still will have them after this patch.
 
--- 
-MST
+And again, I'm missing: this as an improvement because? Is this a user=20
+invisible improvement (e.g. removing redundant branches), or is this a user=
+=20
+visible improvement, i.e. does it fix a misbehaviour? In case of the latter=
+,=20
+which misbehaviour did you encounter?
+
+Best regards,
+Christian Schoenebeck
+
+>=20
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>  audio/coreaudio.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+> index 0f19d0ce01c..91445096358 100644
+> --- a/audio/coreaudio.c
+> +++ b/audio/coreaudio.c
+> @@ -540,7 +540,6 @@ static OSStatus handle_voice_change(
+>      const AudioObjectPropertyAddress *in_addresses,
+>      void *in_client_data)
+>  {
+> -    OSStatus status;
+>      coreaudioVoiceOut *core =3D in_client_data;
+>=20
+>      qemu_mutex_lock_iothread();
+> @@ -549,13 +548,12 @@ static OSStatus handle_voice_change(
+>          fini_out_device(core);
+>      }
+>=20
+> -    status =3D init_out_device(core);
+> -    if (!status) {
+> +    if (!init_out_device(core)) {
+>          update_device_playback_state(core);
+>      }
+>=20
+>      qemu_mutex_unlock_iothread();
+> -    return status;
+> +    return 0;
+>  }
+>=20
+>  static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
+
 
 
