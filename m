@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F7E4CEBB7
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:28:13 +0100 (CET)
-Received: from localhost ([::1]:59902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5904CEBB3
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 14:24:06 +0100 (CET)
+Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQqvi-0004ez-RE
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:28:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42360)
+	id 1nQqrl-0007wD-Gx
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 08:24:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqWF-0001fc-P8
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:52 -0500
-Received: from [2a00:1450:4864:20::429] (port=33486
- helo=mail-wr1-x429.google.com)
+ id 1nQqWK-0001tq-Ix
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:56 -0500
+Received: from [2a00:1450:4864:20::42f] (port=38591
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nQqWD-00048O-Ls
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:51 -0500
-Received: by mail-wr1-x429.google.com with SMTP id j17so19404430wrc.0
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:01:49 -0800 (PST)
+ id 1nQqWJ-00049z-1b
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 08:01:56 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id t11so19341844wrm.5
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 05:01:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uOLNRTgRZFcXCYq8OA8jxbMqyWWPp6ZZ6CP6NThIhP8=;
- b=CwsdGpCTwjSY1+w/x27L+t3lxJeu2KOYlxFQME45pTJedJTmiVCE2oUl+Jqvpe0Vq/
- 9dxcOW9JhGhxbynAV4bHgKHdd9p2NYlKSYl9UOG+8P42x7kcGakwbW8xwQcUt6nm4DhB
- u1sc5NbTnRFT79BlxQ9b8G1R6SIf+M15mjzBoNPC0FG06loizSq4nnq8Z3qIyEvYe1sg
- 8G0kWDgW+MP+nDvdpkuilIfKFY4b42ctgQv9/KpXX807y+GWTgrytYZrqu0GMTceJUkV
- ToxdGMWVop4laAqHQOYyhxBksFR6VmjMTgFJN5Qw2sbWy4q/NGT7yZkD4GcrZg8HX0ea
- k47A==
+ bh=kTrw3XRDj+tgiVtXO7ENwfe1mgMm5pqjvasuYqM/79M=;
+ b=msaYdiifzTp3ERXihI8HAoGZ73F/I0a2FnaJQF28y8pKqvh9eDMmCHNpgZiN8SLAiS
+ VuvOGJXV7Pm+n64rNf9a0idFQ42+9p9UKit/sW30J32JcjkvSc4Ugve847Q87fvkXPvo
+ boWn7snoLsMSgzeiElZy0VSK6fg5OGM/BPmVN7pe53xaLB32fhDihaon9zphtrNvt+FP
+ Pd1CbEy56paitBx/rE5Cgb6WywIhTkxiQFnR6mC7HRXHkO/A0qlVUxYfpb+NmRJ4HHyw
+ rY84xEbXpgWSVH7kXi1J+m2s2XkkPFe7BIXObURnHcA5IzlYlFZ5QXc6KNaOacP2pUGz
+ xMiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uOLNRTgRZFcXCYq8OA8jxbMqyWWPp6ZZ6CP6NThIhP8=;
- b=t/G6iADguBHvgUqlW8VZiUd1oaJCgpvsgjGF1Xkit6/cCnQdYtlPgZNi0Lfxn6qRFt
- 6+P2t44xJaZ0iSS/9xjPkk0iBiRXnEdjxtia0pgb4PmdgDi2G3+qgU2BgYio85TOw5hN
- /oHpSWhpt30VvlRFwKcDuCGMbTafVmP8zrvT9lKYyvEN1AIUya3tk1+B1ysmHiNPG/kx
- YsI1BPuwVIbtSlsJc0rBVxyibeJmV3vlZFj5zesXbfRFLqhzQtzB2gCkWiQ1vG9vyb6K
- uay98VXxszbca40fFrtBkzkifpqSRyFV4MxGManqkNhWYOkdnjnl0nU8H06iizXYP9Bu
- dxng==
-X-Gm-Message-State: AOAM533DJxQioko+78HbrQi3T0JrJbDVk2zfwnc4JV/Rlw58ln69m13x
- ZXrcFvpprlhth42c5vRTsbqL21eYrY4=
-X-Google-Smtp-Source: ABdhPJy6ruXfrsC9XujR7X8xDu3yd3tWCry0ZmQ1YVpf1vSEuTm/M3wzu9wO5OkJ4a6IN36EYnMRSQ==
-X-Received: by 2002:a05:6000:1449:b0:1f1:f821:5582 with SMTP id
- v9-20020a056000144900b001f1f8215582mr825693wrx.473.1646571708242; 
- Sun, 06 Mar 2022 05:01:48 -0800 (PST)
+ bh=kTrw3XRDj+tgiVtXO7ENwfe1mgMm5pqjvasuYqM/79M=;
+ b=MeSZFeyxqzxR7zwUDBFiQWzrt7j8wBgKwEv5ztzzp/FoMKjGcE38tNqCS1jlNGuth+
+ H2NGGGS8wj42oziTWhv+tzTVLEQxpNBPL0ORHjLJFb3VYFIPFDhYsWvqiB3LRXCMZMDX
+ Wu60/VL6Es6MREVcxvsJbJ2FNO0F9tVFw+dcej3pmingVwf9z91U2Dk3QTkY9jvc8mNh
+ SgYuR13HrG5ktClo4KcqTk0PSM/jmk27RpVDgWJufrzugSiFAcHyu1COFOFBDX+in5i2
+ uv2yIU7kJeDg0dCvg50EFWf+jtj9um+ckfY4i0caZO3nTvBvYbStoK8xi0B/QEFnw8EY
+ KA7Q==
+X-Gm-Message-State: AOAM531Nr/iQYV1dp+ymkTm7iQCf5h63cVaiuTIKrhwOGV79pee5uBo/
+ KvhbOKfOvESgOqs2A5bbSt2FeEj03Xo=
+X-Google-Smtp-Source: ABdhPJz0EsjYrdjOR7EA58JMIbeG19RK6Xg47s0wXWhRIdcGo+SJXHr8wPB/unbd2CmWgGxRiZIvIA==
+X-Received: by 2002:adf:e401:0:b0:1ed:c254:d51f with SMTP id
+ g1-20020adfe401000000b001edc254d51fmr5174751wrm.49.1646571713237; 
+ Sun, 06 Mar 2022 05:01:53 -0800 (PST)
 Received: from nuc.lan ([185.126.107.38]) by smtp.gmail.com with ESMTPSA id
- f7-20020a5d4dc7000000b001f1d99e9441sm4200687wru.106.2022.03.06.05.01.47
+ o6-20020a5d6846000000b001f044a8e214sm8813635wrw.107.2022.03.06.05.01.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 05:01:47 -0800 (PST)
+ Sun, 06 Mar 2022 05:01:52 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/33] softmmu: Build target-agnostic objects once
-Date: Sun,  6 Mar 2022 13:59:47 +0100
-Message-Id: <20220306130000.8104-21-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 21/33] meson: Display libfdt as disabled when system emulation
+ is disabled
+Date: Sun,  6 Mar 2022 13:59:48 +0100
+Message-Id: <20220306130000.8104-22-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 References: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,67 +99,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Various softmmu objects aren't target specific. Move them
-to the generic softmmu source set.
+When configuring QEMU with --disable-system, meson keeps showing
+libfdt as "auto". Mark it as disabled instead.
 
-For our 31 softmmu targets, this is in total 330 objects
-less to build!
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220207075426.81934-22-f4bug@amsat.org>
+Message-Id: <20220214183144.27402-2-f4bug@amsat.org>
 ---
- softmmu/meson.build | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ meson.build | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/softmmu/meson.build b/softmmu/meson.build
-index 39f766ce7c1..8138248661a 100644
---- a/softmmu/meson.build
-+++ b/softmmu/meson.build
-@@ -1,20 +1,9 @@
- specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
-   'arch_init.c',
--  'balloon.c',
--  'cpus.c',
--  'cpu-throttle.c',
--  'datadir.c',
--  'globals.c',
--  'physmem.c',
-   'ioport.c',
--  'rtc.c',
--  'runstate.c',
-   'memory.c',
--  'memory_mapping.c',
-+  'physmem.c',
-   'qtest.c',
--  'vl.c',
--  'cpu-timers.c',
--  'runstate-action.c',
- )])
+diff --git a/meson.build b/meson.build
+index 038502714ab..746ce478e03 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2432,8 +2432,8 @@
+ endif
  
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: [files(
-@@ -22,9 +11,20 @@
- )])
- 
- softmmu_ss.add(files(
-+  'balloon.c',
-   'bootdevice.c',
-+  'cpus.c',
-+  'cpu-throttle.c',
-+  'cpu-timers.c',
-+  'datadir.c',
-   'dma-helpers.c',
-+  'globals.c',
-+  'memory_mapping.c',
-   'qdev-monitor.c',
-+  'rtc.c',
-+  'runstate-action.c',
-+  'runstate.c',
-+  'vl.c',
- ), sdl, libpmem, libdaxctl)
- 
- if have_tpm
+ fdt = not_found
+-fdt_opt = get_option('fdt')
+ if have_system
++  fdt_opt = get_option('fdt')
+   if fdt_opt in ['enabled', 'auto', 'system']
+     have_internal = fs.exists(meson.current_source_dir() / 'dtc/libfdt/Makefile.libfdt')
+     fdt = cc.find_library('fdt', kwargs: static_kwargs,
+@@ -2476,6 +2476,8 @@
+     fdt = declare_dependency(link_with: libfdt,
+                              include_directories: fdt_inc)
+   endif
++else
++  fdt_opt = 'disabled'
+ endif
+ if not fdt.found() and fdt_required.length() > 0
+   error('fdt not available but required by targets ' + ', '.join(fdt_required))
 -- 
 2.35.1
 
