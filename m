@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439014CEA8B
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 11:38:23 +0100 (CET)
-Received: from localhost ([::1]:41634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0041E4CEA8C
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 11:39:46 +0100 (CET)
+Received: from localhost ([::1]:43768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQoHN-0000PD-Jw
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 05:38:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50220)
+	id 1nQoIk-0001pU-43
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 05:39:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQoFr-00087R-7v
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:36:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59911)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQoH0-0000e8-C6
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:37:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQoFo-00020U-3a
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:36:45 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQoGy-0002BD-G2
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:37:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646563002;
+ s=mimecast20190719; t=1646563074;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vpWSkEfD+PEOaVHmQEgFYIq2hHkxBF7vNmWFagkqtuA=;
- b=SPi8P7fz2IhkQsBiTIvUAgPFSw9qaPO35DCcitpAV1226iQU4Jwp+vuAb7UzfpekVjzkPT
- Lgw9ZjmLYDe0VcW591HsjwO2LKZJMeCGe5fJN3Q3HedEw7QluMyc/Ml8U2sjwyOa+svhX5
- 3RzmfHQCpI1gqJUzaVhzDVOnIxXPJe8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=irk64xG3HwFNxPlwGgO3gOfzsducO2rhptLSIH+P36w=;
+ b=cV1DdQldnnBeIVZ9kqQP66HxOpHFimv5WQeB1nXAK23IoxsQ3sc49nXOyBTpMkgC6tYjY9
+ DJJ50Risf0/qsZO5FpEaREVc/E2M0zaNIMX4j5k21EnkO1f7r+wNtDFzNRhxG/q/IrbxZu
+ qATk5TRNyICSilTlabsnZYv2yaRLSY8=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-47-8WcocVV6Mr-j-qxZBmNoUw-1; Sun, 06 Mar 2022 05:36:41 -0500
-X-MC-Unique: 8WcocVV6Mr-j-qxZBmNoUw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 187-20020a1c19c4000000b0037cc0d56524so6281545wmz.2
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 02:36:41 -0800 (PST)
+ us-mta-32-UY9s-YE5Ooik5VdzuyYRMg-1; Sun, 06 Mar 2022 05:37:53 -0500
+X-MC-Unique: UY9s-YE5Ooik5VdzuyYRMg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ b24-20020a50e798000000b0041631767675so820715edn.23
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 02:37:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vpWSkEfD+PEOaVHmQEgFYIq2hHkxBF7vNmWFagkqtuA=;
- b=tNNN4gfGqDgkO5CUOTrXX0+Dw82JnMGHcK7Ws5+PUggy58GV3ETVqBaQpzXFL9VaIY
- 3XcpXfcEWGK9oHxJDlorwoXQobqD/Mj0NZVQSKVfeP8kFFdIsEyQW8OglQ2Gnzmk+XPr
- 9AkwpFzKhBLNNo3RtLNrCNdg7NQiB3pbj/Ze/lnQlPmwtitdb+edA/1gW6zVPsY+bO+N
- heEnI9SMmnNGrhPo9IhiUz/nEDUv2x8M6p352W1ML2Wb3o5pGH21aVeRkmOLRSVw+4Ku
- 9duQNXWfRIB0xhzDXocLH2dfw2XesMoywWNGxvhBLOTfzQPbDY6kD1YnggQUk/h0Vp+c
- cCnA==
-X-Gm-Message-State: AOAM530OYymzjutgp/tc9ORBw8zlGCYmi2DthtB8VWcqeXEntWqoP2NO
- yv9jJbB53HajMy+DR0act13NzjTAVHT74SbYcQv5W4Yax+568Sl31t/gcPPDfkNzeTj9Q2FVKsr
- hA8EPdhh78Awyi9I=
-X-Received: by 2002:a5d:49c9:0:b0:1f0:16b2:584f with SMTP id
- t9-20020a5d49c9000000b001f016b2584fmr4896434wrs.710.1646563000271; 
- Sun, 06 Mar 2022 02:36:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxgU6Wgqttd4o6B/nFZLyIagw0wcW/pDKGTFaqmo6OizkpbdvnTNr6Cfp0PlshymBos6tILuQ==
-X-Received: by 2002:a5d:49c9:0:b0:1f0:16b2:584f with SMTP id
- t9-20020a5d49c9000000b001f016b2584fmr4896420wrs.710.1646563000040; 
- Sun, 06 Mar 2022 02:36:40 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=irk64xG3HwFNxPlwGgO3gOfzsducO2rhptLSIH+P36w=;
+ b=LnunFoYCq7r2xX6fl+O/RkManhKtAeeduwRMHwB2WZ4wXtpBmt6hZKuEK3IrI6Dgjl
+ Ij8eb9x+lCCrNbx6MYkEJkrsKLi+jpefJt4u8Udf9AHgbTsFcpSvalj6jbEGNiWmxJ26
+ h4Rq0h2IhaII9FX5eiEat29CYFKeNaRhaveHDRRwwKaVRNoGG4Busutj+DlaVWKGjNln
+ 0/CPB9zdW1EYpqKjzZsS6rRWWKsJsiKYZ2Eo3mn6j9DOyFbgGbG1n6083RlhmLgbbUd2
+ OV88N18MKuAYLRSFa+0AduG3JfQwcOwIUlxNbvY8wPC2u5v7TiXR1PPS5Ae01c1Tjy2b
+ LO0w==
+X-Gm-Message-State: AOAM531z7BeDyTviRHvIZMEXvWO7C+pxU3JeABsrxElBx06nRzGSpbfv
+ rgFTJ3aMSwSfn/EqGhvbRnV4OIT2SjjYK831FWyumWylkLR89kSF+piRToXn8uSU8in4z7OjqfM
+ PN+QcpiZ/MOLhZtM=
+X-Received: by 2002:a17:906:b7d2:b0:6db:385:dafd with SMTP id
+ fy18-20020a170906b7d200b006db0385dafdmr4503095ejb.139.1646563071645; 
+ Sun, 06 Mar 2022 02:37:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxbgOPJMoJcANcbIvtPFWaG3LIsLRQzuueYa+XC/YhFmPLkP43vSIDsaq3PAUR8t8CbjMpkGw==
+X-Received: by 2002:a17:906:b7d2:b0:6db:385:dafd with SMTP id
+ fy18-20020a170906b7d200b006db0385dafdmr4503089ejb.139.1646563071422; 
+ Sun, 06 Mar 2022 02:37:51 -0800 (PST)
 Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
- f13-20020adff8cd000000b001f03439743fsm8728818wrq.75.2022.03.06.02.36.37
+ z22-20020a05640240d600b00415d8c59bf5sm4661160edb.25.2022.03.06.02.37.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 02:36:39 -0800 (PST)
-Date: Sun, 6 Mar 2022 05:36:35 -0500
+ Sun, 06 Mar 2022 02:37:50 -0800 (PST)
+Date: Sun, 6 Mar 2022 05:37:47 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v7 2/4] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-Message-ID: <20220306053131-mutt-send-email-mst@kernel.org>
-References: <20220304154032.2071585-1-ani@anisinha.ca>
- <20220304154032.2071585-3-ani@anisinha.ca>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/45] virtio,pc,pci: features, cleanups, fixes
+Message-ID: <20220306053652-mutt-send-email-mst@kernel.org>
+References: <20220304133556.233983-1-mst@redhat.com>
+ <CAFEAcA8Vo4bi_ar-Av7mzbCO6ZFv9pABpyi=0niGPi0U5Vxdvg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220304154032.2071585-3-ani@anisinha.ca>
+In-Reply-To: <CAFEAcA8Vo4bi_ar-Av7mzbCO6ZFv9pABpyi=0niGPi0U5Vxdvg@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -97,131 +99,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- liavalb@gmail.com, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 04, 2022 at 09:10:30PM +0530, Ani Sinha wrote:
-> From: Liav Albani <liavalb@gmail.com>
+On Fri, Mar 04, 2022 at 10:13:13PM +0000, Peter Maydell wrote:
+> On Fri, 4 Mar 2022 at 13:37, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > The following changes since commit 6629bf78aac7e53f83fd0bcbdbe322e2302dfd1f:
+> >
+> >   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220302' into staging (2022-03-03 14:46:48 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> >
+> > for you to fetch changes up to 74bc2c502da74191a34fb61b4c890061368269c8:
+> >
+> >   docs: vhost-user: add subsection for non-Linux platforms (2022-03-04 08:30:53 -0500)
+> >
+> > ----------------------------------------------------------------
+> > virtio,pc,pci: features, cleanups, fixes
+> >
+> > vhost-user enabled on non-linux systems
+> > beginning of nvme sriov support
+> > bigger tx queue for vdpa
+> > virtio iommu bypass
+> > pci tests for arm
+> >
+> > Fixes, cleanups all over the place
+> >
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> >
+> > ----------------------------------------------------------------
 > 
-> This can allow the guest OS to determine more easily if i8042 controller
-> is present in the system or not, so it doesn't need to do probing of the
-> controller, but just initialize it immediately, before enumerating the
-> ACPI AML namespace.
+> This failed an assertion on ppc64:
 > 
-> The 8042 bit in IAPC_BOOT_ARCH was introduced from ACPI spec v2 (FADT
-> revision 2 and above). Therefore, in this change, we only enable this bit for
-> x86/q35 machine types since x86/i440fx machines use FADT ACPI table with
-> revision 1.
+> >>> G_TEST_DBUS_DAEMON=/home/pm215/qemu/tests/dbus-vmstate-daemon.sh QTEST_QEMU_BINARY=./qemu-system-aarch64 QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon MALLOC_PERTURB_=120 /home/pm215/qemu/build/all/tests/qtest/qos-test --tap -k
+> ▶  71/716 /aarch64/xlnx-zcu102/generic-sdhci/sdhci/sdhci-tests/registers
+>          OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/AC97/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/e1000/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/e1000-82544gc/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/e1000-82545em/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82550/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82551/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82557a/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82557b/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82557c/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82558a/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82558b/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82559a/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82559b/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82559c/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82559er/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82562/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/i82801/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/ES1370/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 /aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/megasas/pci-device/pci-device-tests/nop
+> OK
+> ▶  71/716 ERROR:../../tests/qtest/libqos/pci.c:232:qpci_device_enable:
+> assertion failed (cmd & PCI_COMMAND_IO == PCI_COMMAND_IO): (0x00000000
+> == 0x00000001) ERROR
 > 
-> Signed-off-by: Liav Albani <liavalb@gmail.com>
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> ---
->  hw/acpi/aml-build.c         |  8 +++++++-
->  hw/i386/acpi-build.c        |  8 ++++++++
->  include/hw/acpi/acpi-defs.h |  1 +
->  include/hw/input/i8042.h    | 15 +++++++++++++++
->  4 files changed, 31 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index 8966e16320..1773cf55f1 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -2152,7 +2152,13 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->      build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
->      build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
->      build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
-> -    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
-> +    /* IAPC_BOOT_ARCH */
-> +    if (f->rev == 1) {
-> +        build_append_int_noprefix(tbl, 0, 2);
-> +    } else {
-> +        /* since ACPI v2.0 */
-> +        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
-> +    }
->      build_append_int_noprefix(tbl, 0, 1); /* Reserved */
->      build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
->  
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index ebd47aa26f..4ad4d7286c 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -38,6 +38,7 @@
->  #include "hw/nvram/fw_cfg.h"
->  #include "hw/acpi/bios-linker-loader.h"
->  #include "hw/isa/isa.h"
-> +#include "hw/input/i8042.h"
->  #include "hw/block/fdc.h"
->  #include "hw/acpi/memory_hotplug.h"
->  #include "sysemu/tpm.h"
-> @@ -192,6 +193,13 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
->              .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
->          },
->      };
-> +
-> +    /*
-> +     * ACPI v2, Table 5-10 - Fixed ACPI Description Table Boot Architecture
-> +     * Flags, bit offset 1 - 8042.
-> +     */
+> 
 
-I think we should drop this comment (and one for microvm).
-If you like, add
+Clearly yhe addition of aarch tests. I dropped these for now.
+Added Ani's FACP patches instead, new pull sent.
 
-/*
-Table 5-8 Fixed ACPI Description Table (FADT) Format
-IAPC_BOOT_ARCH
-*/
-
-instead.
-
-
-Let's do that with a patch on top, we have a soft freeze to consider.
-
-> +    fadt.iapc_boot_arch = iapc_boot_arch_8042();
-> +
->      *data = fadt;
->  }
->  
-> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-> index c97e8633ad..2b42e4192b 100644
-> --- a/include/hw/acpi/acpi-defs.h
-> +++ b/include/hw/acpi/acpi-defs.h
-> @@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
->      uint16_t plvl2_lat;        /* P_LVL2_LAT */
->      uint16_t plvl3_lat;        /* P_LVL3_LAT */
->      uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
-> +    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
->      uint8_t minor_ver;         /* FADT Minor Version */
->  
->      /*
-> diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
-> index 1d90432dae..e070f546e4 100644
-> --- a/include/hw/input/i8042.h
-> +++ b/include/hw/input/i8042.h
-> @@ -23,4 +23,19 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
->  void i8042_isa_mouse_fake_event(ISAKBDState *isa);
->  void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out);
->  
-> +static inline bool i8042_present(void)
-> +{
-> +    bool amb = false;
-> +    return object_resolve_path_type("", TYPE_I8042, &amb) || amb;
-> +}
-> +
-> +/*
-> + * ACPI v2, Table 5-10 - Fixed ACPI Description Table Boot Architecture
-> + * Flags, bit offset 1 - 8042.
-> + */
-> +static inline uint16_t iapc_boot_arch_8042(void)
-> +{
-> +    return i8042_present() ? 0x1 << 1 : 0x0 ;
-> +}
-> +
->  #endif /* HW_INPUT_I8042_H */
-> -- 
-> 2.25.1
+-- 
+MST
 
 
