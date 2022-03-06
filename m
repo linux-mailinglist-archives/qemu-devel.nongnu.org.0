@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA724CEB6E
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 12:59:10 +0100 (CET)
-Received: from localhost ([::1]:38638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AC44CEB76
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 13:14:12 +0100 (CET)
+Received: from localhost ([::1]:43034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQpXZ-0005k2-6U
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 06:59:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33320)
+	id 1nQpm7-0001wA-CP
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 07:14:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQpWF-0004SD-DU
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:57:47 -0500
-Received: from [2607:f8b0:4864:20::b29] (port=35389
- helo=mail-yb1-xb29.google.com)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nQpjk-0008C8-JS
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 07:11:45 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=33380
+ helo=mail-pf1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nQpWD-0008UA-T4
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 06:57:47 -0500
-Received: by mail-yb1-xb29.google.com with SMTP id z30so12963730ybi.2
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 03:57:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=moombtcN5es1yJGI8gJ4LsDUMffX0cJpKcsmkr3hzOY=;
- b=eFkm2lbY8FNRJI1OHzkqS8Cf7lMQFB+EVlEWhUhPatp6V8SxQgyNrZWb/bIELcAX6n
- i7dWNmI8R0VdQfR5xBHgDJzfO10XAqQz96vyVezPFLD2p1qmeHYhCh6B+rQW7tb9HNGi
- pW9zTqTdc19jVK7S9tNO3nTE1jc/fcLf8OSEWpHxx4lOp4KpzEzA96pxjRBeYRTq3Skc
- NCw6HAEFKUxDbTctaUb4WMzNZk70UpfPodC2lnwzjP1c0tSekZZs1MraWYz1fbz8KNFC
- juhxtlivof0Rwr/PYGfAoCa/xB/P/KTpmBEX0+ByI/K4l7ZaT3QDVLSXMe70n1BfqZv8
- TLzA==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nQpjg-00031y-5n
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 07:11:44 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id d17so11501920pfl.0
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 04:11:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iMB3Ifd6s7S7VN6SmtGdBRinN4ZfD2P+ZwrbUqYY3XY=;
+ b=hWsUYKk3uAppnKsKplnDmqrX5Vr2/A9DSYmZq6lrVpLIPsKKS5Prda3895lxFE9UQQ
+ eXTV9Xur2esMit1Uy50A+19woq0L1/XnZ3nmmfDuifVk3VOUze0HEmfCc9KQlfDI9m1z
+ ykwaqQa6jqGnG/f+888ssbwhy/XfUYg5EOfL9Bltla4PQuT0tlmzXK0jmD565n6RlhBb
+ UFC8eAJNoXvaw420tCroOr2Yfvi4ooWjD5QHUG7c/3pDYDFTrGBVcBWspB6ys7kz0ho6
+ 2LvOtXja9QWZiUiV35AmChs/y6uB5bpH1+9cY/05tV1mNO012ZwqiMwBwFr0bztYV93/
+ 7jeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=moombtcN5es1yJGI8gJ4LsDUMffX0cJpKcsmkr3hzOY=;
- b=hO/LBtCOMBdz3w2EXUAEsYQFDxO93ATfX4CaroiyIzqcN81yiw979Kxmz5LU25L7rM
- eUrrcnyIvARvedwNsbzoGQmokC44LlUq2/nIxAGKojKXeMEY5pmEI7Kh1kxQc3NmK0hd
- QjSOt/dl00TFjrL7onUj7dKFmAFYu8rmMmkLxl0IkyfprzsCk8JAhJcJwgo8pkryP+Iu
- GiuTvEgjolQZMHxS8yFdAjaBCvRKA7wRx9IeV042vXzUDzaCod6UfVFJ7aez0ExKDvwA
- BBYL7cnKA/izpI17yqnRM9rHVWik0foGXB4CX/Basj9WSTcYgMY+6ry4q2/xanw9iwaz
- pKQQ==
-X-Gm-Message-State: AOAM533sVUSLe7BA1S226FxNS8gu5TOf/yCRCtU0iIuLa+t8bdDgZpw8
- 06UHh4LShKfae5P23IHDg5coqqqp79xaNnZc7hLOciWBIGPgfw==
-X-Google-Smtp-Source: ABdhPJyL4+/RARwIY2gaTfjzL8BSWWVa3vCc4XAEEnZ/1wyx2MgAEfren6jwT3i2nThCd0FBulVPNldsl2A4JtH8gj0=
-X-Received: by 2002:a25:6e84:0:b0:628:97de:9430 with SMTP id
- j126-20020a256e84000000b0062897de9430mr4871384ybc.288.1646567863700; Sun, 06
- Mar 2022 03:57:43 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iMB3Ifd6s7S7VN6SmtGdBRinN4ZfD2P+ZwrbUqYY3XY=;
+ b=Uf2SwFjvlV9IMAd2fRm+FUz6MT9zNNcCT6fm5Z48M0J4DV16uMiKkfKFWNcjGHc2vd
+ beabEXGLH8KL22bMh6QTU+knLwV9dWtOMpUA4xJaBZK9VhZu9aphE0TEO6E3VaT/PmPT
+ pztm3+RLNO3Hgjd4h6T7JRaVc+vQShOH3i8oqX21os5xRWeN2i32p10v2yn2i2RUKt0P
+ hAak/0oUuxcESv+70gMH7hR7WDpZdR/9JYt7FzKSF2foMVbbIa95y6+XN2RxjRPGzTSy
+ GtJvgiDBdq2fOThDbgy4iCsLfJC6w6CPrO62uOYBykGPCqyB8evfA+sSgTwpLJqnHJ/S
+ 7tZw==
+X-Gm-Message-State: AOAM530ZuBjqNW3nOP1pR9FhPMlfAMGzY7V2/fNyJwhprZ6+VYBOzm/x
+ cjvdwSPQ7+nnkyecvWqrClWmiHHlNEc=
+X-Google-Smtp-Source: ABdhPJzYmZ0fMp52MhURE8DSC8ipWVfmZO8YRo/Aq/XO7tljonWPcCEX8bTfWCm999YpoG2ydIKRsA==
+X-Received: by 2002:aa7:94a4:0:b0:4f3:6215:5d1e with SMTP id
+ a4-20020aa794a4000000b004f362155d1emr8056630pfl.73.1646568697682; 
+ Sun, 06 Mar 2022 04:11:37 -0800 (PST)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:9574:a172:f92a:5d0f])
+ by smtp.gmail.com with ESMTPSA id
+ s42-20020a056a0017aa00b004df8133df4asm12820042pfg.179.2022.03.06.04.11.35
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sun, 06 Mar 2022 04:11:37 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH v2 0/2] cocoa: keyboard quality of life
+Date: Sun,  6 Mar 2022 21:11:17 +0900
+Message-Id: <20220306121119.45631-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-References: <20220305110010.1283654-1-clg@kaod.org>
-In-Reply-To: <20220305110010.1283654-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 6 Mar 2022 11:57:32 +0000
-Message-ID: <CAFEAcA9OFtHs6NqZF=7rXvEiroKPFH3FAQbHkwA4L-5Z7Vj4MQ@mail.gmail.com>
-Subject: Re: [PULL 00/13] ppc queue
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b29
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -83,39 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Eric Blake <eblake@redhat.com>, Gustavo Noronha Silva <gustavo@noronha.dev.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 5 Mar 2022 at 11:00, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> The following changes since commit 3d1fbc59665ff8a5d74b0fd30583044fe99e11=
-17:
->
->   Merge remote-tracking branch 'remotes/nvme/tags/nvme-next-pull-request'=
- into staging (2022-03-04 15:31:23 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/legoater/qemu/ tags/pull-ppc-20220305
->
-> for you to fetch changes up to a9eb50376ffb27a3f348b0bccf70a34b26be2a3c:
->
->   target/ppc: Add missing helper_reset_fpstatus to helper_XVCVSPBF16 (202=
-2-03-05 07:16:48 +0100)
->
-> ----------------------------------------------------------------
-> ppc-7.0 queue :
->
-> * Clang fixes
-> * Vector/VSX instruction batch fixes
->
+The patch series was originally posted by Gustavo Noronha Silva,
+and rebased to commit 2acf5e1d0e0f15be1b0ad85cf05b3a6e6307680c by
+Akihiko Odaki.
 
+This series adds two new options to the cocoa display:
 
-Applied, thanks.
+ - full-grab causes it to use a global tap to steal system combos
+   away from Mac OS X, so they can be handled by the VM
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+ - swap-opt-cmd does what it says on the tin; while that is something
+   you can do at the Mac OS X level or even supported by some
+   keyboards, it is much more convenient to have qemu put Meta/Super
+   and Alt where they belong if you are running a non-Mac VM
 
--- PMM
+Both are off by default. For full-grab in particular, it is off also
+because unfortunately it needs accessibility permissions for input
+grabbing, so it requires more deliberate action by the user anyway.
+
+v2:
+ - Removed extra cast operator (BALATON Zoltan)
+ - Renamed swap-option-command to swap-opt-cmd (BALATON Zoltan)
+ - Simplified swap-opt-cmd flag setting
+ - Updated qapi/ui.json for 7.0
+
+Gustavo Noronha Silva (2):
+  ui/cocoa: capture all keys and combos when mouse is grabbed
+  ui/cocoa: add option to swap Option and Command
+
+ qapi/ui.json    |  21 +++++++++
+ qemu-options.hx |   3 ++
+ ui/cocoa.m      | 111 ++++++++++++++++++++++++++++++++++++++++++++----
+ 3 files changed, 126 insertions(+), 9 deletions(-)
+
+-- 
+2.32.0 (Apple Git-132)
+
 
