@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18BF4CEE73
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:25:21 +0100 (CET)
-Received: from localhost ([::1]:55648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B914CEE78
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:27:48 +0100 (CET)
+Received: from localhost ([::1]:36728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR0Fc-0004oA-RA
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:25:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49462)
+	id 1nR0Hy-0002cO-T2
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:27:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR09Q-00086k-UO; Sun, 06 Mar 2022 18:18:56 -0500
-Received: from [2a00:1450:4864:20::330] (port=46833
- helo=mail-wm1-x330.google.com)
+ id 1nR09W-0008Rl-BD; Sun, 06 Mar 2022 18:19:02 -0500
+Received: from [2a00:1450:4864:20::42f] (port=45920
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR09P-0007Rj-BW; Sun, 06 Mar 2022 18:18:56 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- p184-20020a1c29c1000000b0037f76d8b484so8291839wmp.5; 
- Sun, 06 Mar 2022 15:18:54 -0800 (PST)
+ id 1nR09U-0007S8-KX; Sun, 06 Mar 2022 18:19:02 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id p9so20648919wra.12;
+ Sun, 06 Mar 2022 15:18:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4Tp3WhNKm8JxXl/T2EoFZ8o3VjhBm7jaY9n4gps6ekw=;
- b=c5vj0Ib1OzUvzJdZ7tINjDtHZ03sVw7XitsvE8MwOUnaSZ834UgQQdX92QJZ8/2JGY
- s8tqyrbeVsEIpv0aFptI+vX8NWxjt3HwuE9VC158hdXEWgMkLgm5P+hAfbyZxTFLZTRI
- Yt02OFOf8HuLzEh8zGsfzj1Sip+G3V6e05NGGA9vjT3aXa+84kq7v/7cqX5VtAuebCI3
- bO+WD3UKfr3mdT1GLy7DR1KxaCO777/S73jxHOoWrsCpRPP5T6rrAXDoOX7+2pTJSaNC
- WfNzJlwusJreLT9vfQmBnTIb+4c3aBZ+l28tEX8U6sxVaA+qlpSHTVR0BphIV2zpcrGJ
- 34Wg==
+ bh=Ldn2Z6B3k3Plt1cJVie4T8Wt19hcp59Igf8ZqI/jiUE=;
+ b=o9gDAPqIfP4UFswBmNZwq2O//adImPtB2z2BLKdX5hx0/7Dl9pE2VVv4KSnge7Z0RN
+ y2YL0rY1PT8uFjAhRmvjLxx6CdhyMcX8ZGhM9M5bo6mFXH5bSol4epwCKESF8rOPxUdK
+ 3ht7E/IVJ3xj5VkIv+A7V1iwXCq7xMIN9dsQzHrZkIjIX9NYaX6yQz5047shf4H4hx7k
+ ++uB0znPTerAyFRT7KseVt3YaXcfIBMF800uonsdWAX+79Ifrqd4Wna6A02tdIdQqeNQ
+ O9tT9AeV5aQe5SocnuzOvEtMsmj+swVmDbOdiMxpJLifD00knJTk01tqNDOmKeErR4el
+ 23/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4Tp3WhNKm8JxXl/T2EoFZ8o3VjhBm7jaY9n4gps6ekw=;
- b=HQSUnW912pjns4PtujndawVlHb9QO3AhYCQqjC93QnhblB6jYPlywJl6DdWc4urFO/
- gI5Ik6cw4eMnAThAFYzqUbWHS6zBoIsycvwbJHP//MQrHeCLqqyvzJsY31oYEoYy9EgS
- hp5LpV8pKiEobn0/J+/EP34nps2V6Izr2AZQAEKDv2DgPO1AIwQ/6+AAuYgf8OD9hUS9
- uP4xb9KlTnaqrgRt0RVUfKPFCbODPBh/X7kxQOSot5GVQmwouKBWoBy+F6Te48nZgcwC
- 1SC/IPVWT01wCbEamc7yypPxNiSHSyorFoiTcmn13k1SM5jpZGqyHAppH8TxPcrJABp3
- XyqQ==
-X-Gm-Message-State: AOAM530tOnii+LzSqPQsT2gG/M8ec9RpeL/iZ5ICE7OGHLHVynwhOLMC
- u0nT1AmQfo/Sj9tz9vjzkKViPKK4LSA=
-X-Google-Smtp-Source: ABdhPJwTK+JYPiA2tUiszKvVTa18E5BjmwJ4PKdxqbUBPSFN/Aah+X5bzr1AAXY66NXMWW9J+f4c6Q==
-X-Received: by 2002:a05:600c:1d91:b0:389:ac07:37eb with SMTP id
- p17-20020a05600c1d9100b00389ac0737ebmr344171wms.133.1646608733617; 
- Sun, 06 Mar 2022 15:18:53 -0800 (PST)
+ bh=Ldn2Z6B3k3Plt1cJVie4T8Wt19hcp59Igf8ZqI/jiUE=;
+ b=D7wRWFuScaXFfI7EyLjx9voZhMAkcCwK2C0wYsjvsNpAJVu4Ad9c7hpAtvhERMUJv5
+ a0T9KedkCNpMnG6ywl9TXpd6QRqGgE2XdVj9tYx2H0ijiWj5YDnBVNZilxYRGVpYWJ3a
+ hWwYonNmI4EPKIwZqCTadIA2gq2sLavuUkdzMPWr/bfbv1FYww2Ztp0kS8/+bR8aD3/b
+ xvaXl8X+b2dFoWWADEj1vNTJZIDN35sqL0efMdWcMkueJKo3a6sT4b4hsEj+uBazdFsz
+ iK7juF4C+YP9E6FM8Sx3ziukPXIBuZs3/nTslF8Mi3IBWp0dvKLmY3ukaRgdx7asbRvq
+ uW4w==
+X-Gm-Message-State: AOAM531Ty7VNIc0rZ0w2ZCP9hJR3Sb7CCYNNLf8tr5p+3g3UdTIMpGds
+ SYoHHdFKpsKTOF61/jrrCp/1KGTJdxE=
+X-Google-Smtp-Source: ABdhPJztQwRBMpekx3C6bxQ+E+YGGyqWL/w+6tUQpDAZrAPoYx1PrjlJMpRQbKhGueXgh5klHMyj5w==
+X-Received: by 2002:adf:8b9d:0:b0:1f1:deb6:5607 with SMTP id
+ o29-20020adf8b9d000000b001f1deb65607mr5844511wra.125.1646608738838; 
+ Sun, 06 Mar 2022 15:18:58 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- 186-20020a1c19c3000000b0038990c0925fsm6001041wmz.14.2022.03.06.15.18.52
+ ay23-20020a5d6f17000000b001ea79f73fbcsm9611259wrb.25.2022.03.06.15.18.57
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 06 Mar 2022 15:18:53 -0800 (PST)
+ Sun, 06 Mar 2022 15:18:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 11/22] coreaudio: Always return 0 in handle_voice_change
-Date: Mon,  7 Mar 2022 00:17:42 +0100
-Message-Id: <20220306231753.50277-12-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v7 12/22] audio: Rename coreaudio extension to use Objective-C
+ compiler
+Date: Mon,  7 Mar 2022 00:17:43 +0100
+Message-Id: <20220306231753.50277-13-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,49 +99,50 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-handle_voice_change() is a CoreAudio callback function as of CoreAudio type
-AudioObjectPropertyListenerProc, and for the latter MacOSX.sdk/System/
-Library/Frameworks/CoreAudio.framework/Headers/AudioHardware.h
-says "The return value is currently unused and should always be 0.".
+The coreaudio library includes Objective-C declarations (using the
+caret '^' symbol to declare block references [*]). When building
+with a C compiler we get:
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220306123410.61063-1-akihiko.odaki@gmail.com>
+  [175/839] Compiling C object libcommon.fa.p/audio_coreaudio.c.o
+    In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX12.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/CoreAudio.h:18,
+                     from ../../audio/coreaudio.c:26:
+    /Library/Developer/CommandLineTools/SDKs/MacOSX12.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/AudioHardware.h:162:2: error: expected identifier or '(' before '^' token
+      162 | (^AudioObjectPropertyListenerBlock)(    UInt32                              inNumberAddresses,
+          |  ^
+    FAILED: libcommon.fa.p/audio_coreaudio.c.o
+
+Rename the file to use the Objective-C default extension (.m) so
+meson calls the correct compiler.
+
+[*] https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html
+
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- audio/coreaudio.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ audio/{coreaudio.c => coreaudio.m} | 0
+ audio/meson.build                  | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename audio/{coreaudio.c => coreaudio.m} (100%)
 
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index 23d7593eb9..3186b68474 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -545,7 +545,6 @@ static OSStatus handle_voice_change(
-     const AudioObjectPropertyAddress *in_addresses,
-     void *in_client_data)
- {
--    OSStatus status;
-     coreaudioVoiceOut *core = in_client_data;
+diff --git a/audio/coreaudio.c b/audio/coreaudio.m
+similarity index 100%
+rename from audio/coreaudio.c
+rename to audio/coreaudio.m
+diff --git a/audio/meson.build b/audio/meson.build
+index d9b295514f..94dab16891 100644
+--- a/audio/meson.build
++++ b/audio/meson.build
+@@ -7,7 +7,7 @@ softmmu_ss.add(files(
+   'wavcapture.c',
+ ))
  
-     qemu_mutex_lock_iothread();
-@@ -554,13 +553,12 @@ static OSStatus handle_voice_change(
-         fini_out_device(core);
-     }
+-softmmu_ss.add(when: coreaudio, if_true: files('coreaudio.c'))
++softmmu_ss.add(when: coreaudio, if_true: files('coreaudio.m'))
+ softmmu_ss.add(when: dsound, if_true: files('dsoundaudio.c', 'audio_win_int.c'))
  
--    status = init_out_device(core);
--    if (!status) {
-+    if (!init_out_device(core)) {
-         update_device_playback_state(core);
-     }
- 
-     qemu_mutex_unlock_iothread();
--    return status;
-+    return 0;
- }
- 
- static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
+ audio_modules = {}
 -- 
 2.34.1
 
