@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657344CEE5F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:20:18 +0100 (CET)
-Received: from localhost ([::1]:36924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83174CEE60
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:20:26 +0100 (CET)
+Received: from localhost ([::1]:37462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR0Aj-0000fO-4R
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:20:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49246)
+	id 1nR0Ar-00011z-NM
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:20:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR08b-0006HZ-E9; Sun, 06 Mar 2022 18:18:06 -0500
-Received: from [2a00:1450:4864:20::432] (port=33663
- helo=mail-wr1-x432.google.com)
+ id 1nR08f-0006KB-TV; Sun, 06 Mar 2022 18:18:10 -0500
+Received: from [2a00:1450:4864:20::42e] (port=37389
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR08Z-0007Kc-6C; Sun, 06 Mar 2022 18:18:04 -0500
-Received: by mail-wr1-x432.google.com with SMTP id j17so20736152wrc.0;
- Sun, 06 Mar 2022 15:18:02 -0800 (PST)
+ id 1nR08e-0007L0-IC; Sun, 06 Mar 2022 18:18:09 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id q14so5105462wrc.4;
+ Sun, 06 Mar 2022 15:18:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N7G7pua0ux3SixtBsNiCF9TVOy1kTa/nTaWJb2Ht7yQ=;
- b=gaR6VjiqS03w7lLwDlOzgusIOhdj3dOO1C3Mt25FtNsvlBpH2uXyoRAqqWYj8LWhdp
- 9iDKChA89MNsxLLG5yDbrOy0jj3dHmQqKmqVy+HH3sGtpj+RYBBIR4aaM6dhwvJHwt1I
- zBFXKZNJTTKpzx5GeOcLtUOXkrzxZx44lSl7Jt3yQVWgHPlXMPrFjjkrrnXHH2Tu7unV
- DuLMXiv1zsd9ckQEoozZluAe3tiQXJtxKszYNCxFXuShJ0rYSnfzCMPTy0DHwYp16BR/
- dcfwQAyLkke+Rr5tkgHuAubaKAPt1RGc3ucB4jpUkUHwTd2ZeyYz6EbJFit4RZijILbQ
- BR3g==
+ bh=/n/kp/EEzr/qAon/GdLY35mCaB/pGz6v6JFGGwXRBP4=;
+ b=C0W5U2YuG2OrjxgScBW+VzEe5rWVw64MPCGaghWgtDj9WYrTGc3Yj2I8bn3UCqnSNX
+ 51XY+iX9vnDINj5/P2ytv5kagB5zOnycr93nb7vQCwRbFuGhTJkZopA8faTwjPc5Q6S8
+ YONFiMHghToFziP09ynrWTaZsA2trb98FJT/7qUZPECA1bf8XXay/5gCztjsk4+GGEOd
+ axa/KUYXnnUnQo1p1KAHvIThxzNNLfwP+gvoVip5Vc+CCkMsYzgLixxQFnqR1hJEwAo5
+ v/2UB8gsnyPa/fO3MOCiDpc9u7Id2UZCxC0/mocbTYrlMT1CMr95DxSS2Q5+AomTeoil
+ uK+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N7G7pua0ux3SixtBsNiCF9TVOy1kTa/nTaWJb2Ht7yQ=;
- b=hw2bYKo0lUy6PHxwuctvwYJTvd4gUhLX+cIVkllCFB3dUTUQN1YHIu/8mH7eFw0lU9
- not8Q+Nzs4jkz2Bwku8+KLlZLgp6jwzRea2S4fsbsRfaXjO4MFEE3UuW1fzadb1r1ypK
- R0nnvpRkh+FJVTaqTBGCzV5zw/R+0htYrskRiooXd1b8tO4sbio9Y9tQaMctO/oIIzw0
- b7QD53UUsxAPi44xbypBaZqd5ZOwiZiPQ0IB5Zhr/SsN5Ly3FM8yi3IBUGA7TVktwE3H
- /tcCPSUj9Qc6UPZ3aY23Owl+OsoAK/JlV+AAGHwkRvTPKw28hMQdKWEWHWReVGVB89AC
- SG6A==
-X-Gm-Message-State: AOAM531+Z7IeBzYxOEBr3B5ARG0g5SFlwBZ/D9Z9WDE0rXvkkifekgx2
- QORCN6Qedfz+5FnB/fdacLdaYY2apU0=
-X-Google-Smtp-Source: ABdhPJwq6E43+mTvSblhaBd0SWBSmi9/KrNHMTsOI4V00TJyu6mMxgGIG8+evASsugSghn1qGAFHlg==
-X-Received: by 2002:a5d:4e08:0:b0:1f1:e606:a81a with SMTP id
- p8-20020a5d4e08000000b001f1e606a81amr4388681wrt.393.1646608681226; 
- Sun, 06 Mar 2022 15:18:01 -0800 (PST)
+ bh=/n/kp/EEzr/qAon/GdLY35mCaB/pGz6v6JFGGwXRBP4=;
+ b=i4XDg6abZkV+C4BewbagKL9kk/+PReizbuhtAnPiFlVNS78kOH1LgMZ4LfVY6quKt+
+ ol4UjK2rzvkLvgHwj82oMBSKt+KgEx+/0YG/4fy0OLyrxb/+fyetiiE4Bdqc20yZpiMG
+ OI8dTteRm7dwHzieyBa8uQAVzmdLrxwOvR1UafqrC0HfnpPdqoP5c4n0mhLnOJtc0sph
+ Hv9eC/uTcSUnGQCZpvVIBYzBdqyr2/esju7F5loGkBB8fSwNbxLpklyKMwEgAwXIVJdK
+ le0eZh14q0uTxzreywxKhTRSfdFm09KJJP6yVyriDd8PwvIfjPrx0ykr8PhHjl+W52C3
+ CbRw==
+X-Gm-Message-State: AOAM530sxLEXRUC9nY2eSfyFLE+N9DOJwweWIPKpU3PuzfDbtw9jQaeo
+ umL5M+u4E5mFY4y4A/4fndN07UV0qJY=
+X-Google-Smtp-Source: ABdhPJyu+FvKzRahj2WTzb8KJbelZAGrL7HvBmRld+qKI9uJ9FpOQZryp2AQLbZEHncgA3/bpmdZtQ==
+X-Received: by 2002:adf:db82:0:b0:1ed:bf4b:e327 with SMTP id
+ u2-20020adfdb82000000b001edbf4be327mr6220407wri.527.1646608686406; 
+ Sun, 06 Mar 2022 15:18:06 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- l13-20020a05600002ad00b001ea78a5df11sm11404363wry.1.2022.03.06.15.17.59
+ u23-20020a7bcb17000000b0037bdfa1665asm27125392wmj.18.2022.03.06.15.18.05
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 06 Mar 2022 15:18:00 -0800 (PST)
+ Sun, 06 Mar 2022 15:18:05 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 01/22] configure: Allow passing extra Objective C compiler
- flags
-Date: Mon,  7 Mar 2022 00:17:32 +0100
-Message-Id: <20220306231753.50277-2-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v7 02/22] tests/fp/berkeley-testfloat-3: Ignore ignored
+ #pragma directives
+Date: Mon,  7 Mar 2022 00:17:33 +0100
+Message-Id: <20220306231753.50277-3-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,92 +94,52 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
  Will Cohen <wwcohen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Roman Bolshakov <roman@roolebo.dev>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We can pass C/CPP/LD flags via CFLAGS/CXXFLAGS/LDFLAGS environment
-variables, or via configure --extra-cflags / --extra-cxxflags /
---extra-ldflags options. Provide similar behavior for Objective C:
-use existing flags from $OBJCFLAGS, or passed via --extra-objcflags.
+Since we already use -Wno-unknown-pragmas, we can also use
+-Wno-ignored-pragmas. This silences hundred of warnings using
+clang 13 on macOS Monterey:
 
+  [409/771] Compiling C object tests/fp/libtestfloat.a.p/berkeley-testfloat-3_source_test_az_f128_rx.c.o
+  ../tests/fp/berkeley-testfloat-3/source/test_az_f128_rx.c:49:14: warning: '#pragma FENV_ACCESS' is not supported on this target - ignored [-Wignored-pragmas]
+  #pragma STDC FENV_ACCESS ON
+               ^
+  1 warning generated.
+
+Having:
+
+  $ cc -v
+  Apple clang version 13.0.0 (clang-1300.0.29.30)
+
+Reported-by: Roman Bolshakov <roman@roolebo.dev>
 Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- configure   | 8 ++++++++
- meson.build | 5 +++++
- 2 files changed, 13 insertions(+)
+ tests/fp/meson.build | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/configure b/configure
-index 81618708e4..e60156f90f 100755
---- a/configure
-+++ b/configure
-@@ -285,6 +285,7 @@ done
+diff --git a/tests/fp/meson.build b/tests/fp/meson.build
+index 59776a00a7..8bd0979f67 100644
+--- a/tests/fp/meson.build
++++ b/tests/fp/meson.build
+@@ -37,6 +37,11 @@ tfcflags = [
+   '-Wno-error',
+ ]
  
- EXTRA_CFLAGS=""
- EXTRA_CXXFLAGS=""
-+EXTRA_OBJCFLAGS=""
- EXTRA_LDFLAGS=""
- 
- xen_ctrl_version="$default_feature"
-@@ -366,9 +367,12 @@ for opt do
-   --extra-cflags=*)
-     EXTRA_CFLAGS="$EXTRA_CFLAGS $optarg"
-     EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $optarg"
-+    EXTRA_OBJCFLAGS="$EXTRA_OBJCFLAGS $optarg"
-     ;;
-   --extra-cxxflags=*) EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $optarg"
-   ;;
-+  --extra-objcflags=*) EXTRA_OBJCFLAGS="$EXTRA_OBJCFLAGS $optarg"
-+  ;;
-   --extra-ldflags=*) EXTRA_LDFLAGS="$EXTRA_LDFLAGS $optarg"
-   ;;
-   --enable-debug-info) debug_info="yes"
-@@ -748,6 +752,8 @@ for opt do
-   ;;
-   --extra-cxxflags=*)
-   ;;
-+  --extra-objcflags=*)
-+  ;;
-   --extra-ldflags=*)
-   ;;
-   --enable-debug-info)
-@@ -1172,6 +1178,7 @@ Advanced options (experts only):
-   --objcc=OBJCC            use Objective-C compiler OBJCC [$objcc]
-   --extra-cflags=CFLAGS    append extra C compiler flags CFLAGS
-   --extra-cxxflags=CXXFLAGS append extra C++ compiler flags CXXFLAGS
-+  --extra-objcflags=OBJCFLAGS append extra Objective C compiler flags OBJCFLAGS
-   --extra-ldflags=LDFLAGS  append extra linker flags LDFLAGS
-   --cross-cc-ARCH=CC       use compiler when building ARCH guest test cases
-   --cross-cc-cflags-ARCH=  use compiler flags when building ARCH guest tests
-@@ -3137,6 +3144,7 @@ if test "$skip_meson" = no; then
-   echo "[built-in options]" >> $cross
-   echo "c_args = [$(meson_quote $CFLAGS $EXTRA_CFLAGS)]" >> $cross
-   echo "cpp_args = [$(meson_quote $CXXFLAGS $EXTRA_CXXFLAGS)]" >> $cross
-+  test -n "$objcc" && echo "objc_args = [$(meson_quote $OBJCFLAGS $EXTRA_OBJCFLAGS)]" >> $cross
-   echo "c_link_args = [$(meson_quote $CFLAGS $LDFLAGS $EXTRA_CFLAGS $EXTRA_LDFLAGS)]" >> $cross
-   echo "cpp_link_args = [$(meson_quote $CXXFLAGS $LDFLAGS $EXTRA_CXXFLAGS $EXTRA_LDFLAGS)]" >> $cross
-   echo "[binaries]" >> $cross
-diff --git a/meson.build b/meson.build
-index 038502714a..b6e30d7463 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3457,6 +3457,11 @@ if link_language == 'cpp'
-                                                + ['-O' + get_option('optimization')]
-                                                + (get_option('debug') ? ['-g'] : []))}
- endif
-+if targetos == 'darwin'
-+  summary_info += {'OBJCFLAGS':       ' '.join(get_option('objc_args')
-+                                               + ['-O' + get_option('optimization')]
-+                                               + (get_option('debug') ? ['-g'] : []))}
++if cc.get_id() == 'clang'
++  # Clang does not support '#pragma STDC FENV_ACCESS'
++  tfcflags += [ '-Wno-ignored-pragmas' ]
 +endif
- link_args = get_option(link_language + '_link_args')
- if link_args.length() > 0
-   summary_info += {'LDFLAGS':         ' '.join(link_args)}
++
+ tfgencases = [
+   tfdir / 'genCases_ui32.c',
+   tfdir / 'genCases_ui64.c',
 -- 
 2.34.1
 
