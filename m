@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B97A4CEE81
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:30:09 +0100 (CET)
-Received: from localhost ([::1]:46792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFA0F4CEE8F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:35:02 +0100 (CET)
+Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR0KG-0000qR-BF
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:30:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49670)
+	id 1nR0P0-0002ZN-18
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:35:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR0AP-0002Ak-DF; Sun, 06 Mar 2022 18:19:57 -0500
-Received: from [2a00:1450:4864:20::433] (port=38698
- helo=mail-wr1-x433.google.com)
+ id 1nR0IA-0004na-8Q
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 18:27:58 -0500
+Received: from [2a00:1450:4864:20::334] (port=42666
+ helo=mail-wm1-x334.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR0AN-0007YV-B3; Sun, 06 Mar 2022 18:19:57 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t11so20679725wrm.5;
- Sun, 06 Mar 2022 15:19:54 -0800 (PST)
+ id 1nR0I8-0000Zt-9f
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 18:27:57 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ r187-20020a1c2bc4000000b003810e6b192aso8315591wmr.1
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 15:27:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hG3fzMLjA1MqokTt6OJRgmQLIdkbnzb2RNEkMvPsfF0=;
- b=JjsrdUDXCB2+jSMOrGHFJsxc7weqEdBw8e/CzkqRvL8G3I7/agdMKAtPJykeyAdO0Q
- G0kKu5A8tFd5k14u/S60+OAJUXSrm+9fKwsvf7TnPDjyqsuEI16EKo6srrrPaVvF1vR8
- gszfE62BCddZytBcMiMJw4UDZuzXvnNkKcUfqvIsgANqhEPwabMGqNBmVRrZ2aRQa8vS
- J8zaUj/W8x9dmY7wMg12ZFn7c56r47CEXpdixVBTel/4YiJgd6/V5BnGi5wPNp2To8DB
- 6zfy9jYj3OXOyZ35QYgR7/vFQN7lm/+2TjQfIgXEXOY/QVPhCDZYTQ9V3mz0z2oT0ofF
- kcng==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cdsng5+QHYSkS+sGe6TtsNfAGbO/1Fxw+/QdFNaIiHI=;
+ b=X/HmkH6p6AP4sjlLduRhwae4eKOdYEYGZPTAt44eDTmMVP4KHlsID6lecI5lh8Wq/D
+ EOMRPPTijWJ41VF2XuSXiyMX1XMTjNuiYHp+7+JCZxBnRojsZUiiUTO2mc++WIqDTbBp
+ +l2I/juwnUHIzd+zuYE/DmeuJhmzN9+jr5aJDIf5/4P+pKJoBU+kKCh7j0R4PptNO/0G
+ lXHBq1g19+qgsBn+ZZIRoEL9yE3cblLnVmu8JsFkNQTBovWJLFPF4NM+ayTBOMinohAj
+ 0YLZOpJlVcVQRO5J5wQfA7ziFFVnjrkrg17RpmoMWkkhOtgX6G0dJ5VSmvW0ExIBKK2U
+ Avqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hG3fzMLjA1MqokTt6OJRgmQLIdkbnzb2RNEkMvPsfF0=;
- b=hi1cCEvm1ivO9I97aZKjQ/uCPy0kB4wG5kxKwUKya34rqVuuYwgt083oEGrnvSjESN
- 32tHJjICX5PGSGQAsdYbY1RYXVy2ckNApV2jIfYdWUkCtgRfHdh6hiyqrXwI2ZGUTMNL
- z8fu4zMlKZ9kG2EA9ggSNEbtkj8JZQshRUae0gxQS/mBgurhUlldkphLgdolsuy3isAN
- zA4WmMJujSKWzHQea6+jDIz3GwMFFE9iMbH6185KQ2pdYc+T55jrwqyqAwEwrEskO8/z
- s4fnrdfPfYeIkFWfcbiP90d2PfGr565SCGir0PG0hZeO4RLidf4sQbDJofVs273KzEvj
- ddvg==
-X-Gm-Message-State: AOAM530u1Ejq/XzL+BOafzHTAwkHvVkSp+Vap6yWJ1/aGh5Oarn+T6fy
- iKcU9dHoI+MBGb5EUz0ravnidaLIPkU=
-X-Google-Smtp-Source: ABdhPJw35sUeyKXU+Ir6y5wMH8wd0hCu4iRMSWSdtt1XNtbiWu7Q8TQVriP/WsZpYWqAAuCYOlRnOA==
-X-Received: by 2002:a5d:4e83:0:b0:1ea:99dd:d335 with SMTP id
- e3-20020a5d4e83000000b001ea99ddd335mr6584646wru.16.1646608793397; 
- Sun, 06 Mar 2022 15:19:53 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- l16-20020a05600c1d1000b003816edb5711sm18689220wms.26.2022.03.06.15.19.52
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 06 Mar 2022 15:19:52 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cdsng5+QHYSkS+sGe6TtsNfAGbO/1Fxw+/QdFNaIiHI=;
+ b=a9pOcpnhcn/pNLu05brRgqFVfqd7ixhtuQLaBVs0EHM9Ol+YiCJRSvuUQZ+ibGktKF
+ A3eziUSahPh9vKIe6GGH/uisYFYJCC+cTAv4UWjAD6kIcKv3pN/i8cg7nsRgEKq750wH
+ yecw0d00Oa2gxKT09TPy4IobE4n8+PVYW5h0QiE3/qhMQzcaP99XAbiDPuET5ejJNQP/
+ KEt64Bb0ICFpeC1ePtKcdnqq13urBB20kfhegtfUh5lpGrw0N1HrzxWYfIM1++VIzSIu
+ YQZI3lt9ppeVRm+u8Ir/q61tWV5x+Ix218k3Yz+Hz0UKHjY2LrRQasexA/B79EUhdiDs
+ RsAQ==
+X-Gm-Message-State: AOAM533wlHVkl9LRp/ucHGizpEIl91ZMgkzlnJc1E56iD2H5joLULJWL
+ z8V2zX3rMLmZjJe6hT1i2qg=
+X-Google-Smtp-Source: ABdhPJz4DcWDidFKccCI4pzTvQnWpSgSxRR5UijTB70vR5p8+FyVvys5sAnBRCgae952nr/gVF148g==
+X-Received: by 2002:a1c:7303:0:b0:37c:9270:2ff4 with SMTP id
+ d3-20020a1c7303000000b0037c92702ff4mr6993810wmb.99.1646609274784; 
+ Sun, 06 Mar 2022 15:27:54 -0800 (PST)
+Received: from nuc.. ([185.126.107.38]) by smtp.gmail.com with ESMTPSA id
+ g1-20020a1c4e01000000b003899c8053e1sm7604745wmh.41.2022.03.06.15.27.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Mar 2022 15:27:54 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 22/22] gitlab-ci: Support macOS 12 via cirrus-run
-Date: Mon,  7 Mar 2022 00:17:53 +0100
-Message-Id: <20220306231753.50277-23-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
-References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
+To: 
+Subject: [PULL v2 00/33] Abstract ArchCPU
+Date: Mon,  7 Mar 2022 00:27:49 +0100
+Message-Id: <20220306232750.41671-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: 23
+X-Spam_score: 2.3
+X-Spam_bar: ++
+X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,97 +88,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Will Cohen <wwcohen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Add support for macOS 12 build on Cirrus-CI, similarly to commit
-0e103a65ba1 ("gitlab: support for ... macOS 11 via cirrus-run"),
-but with the following differences:
- - Enable modules (configure --enable-modules)
- - Do not run softfloat3 tests (make check-softfloat)
- - Run Aarch64 qtests instead of x86_64 ones
+The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5:
 
-Generate the vars file by calling 'make lcitool-refresh'.
+  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' into staging (2022-03-05 18:03:15 +0000)
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .gitlab-ci.d/cirrus.yml           | 16 ++++++++++++++++
- .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++
- tests/lcitool/refresh             |  1 +
- 3 files changed, 33 insertions(+)
- create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
+are available in the Git repository at:
 
-diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-index b96b22e269..be1dce5d4e 100644
---- a/.gitlab-ci.d/cirrus.yml
-+++ b/.gitlab-ci.d/cirrus.yml
-@@ -87,6 +87,22 @@ x64-macos-11-base-build:
-     PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
-     TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
- 
-+x64-macos-12-base-build:
-+  extends: .cirrus_build_job
-+  variables:
-+    NAME: macos-12
-+    CIRRUS_VM_INSTANCE_TYPE: osx_instance
-+    CIRRUS_VM_IMAGE_SELECTOR: image
-+    CIRRUS_VM_IMAGE_NAME: monterey-base
-+    CIRRUS_VM_CPUS: 12
-+    CIRRUS_VM_RAM: 24G
-+    UPDATE_COMMAND: brew update
-+    INSTALL_COMMAND: brew install
-+    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
-+    PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
-+    CONFIGURE_ARGS: --enable-modules
-+    TEST_TARGETS: check-unit check-block check-qapi-schema check-qtest-aarch64
-+
- 
- # The following jobs run VM-based tests via KVM on a Linux-based Cirrus-CI job
- .cirrus_kvm_job:
-diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/macos-12.vars
-new file mode 100644
-index 0000000000..a793258c64
---- /dev/null
-+++ b/.gitlab-ci.d/cirrus/macos-12.vars
-@@ -0,0 +1,16 @@
-+# THIS FILE WAS AUTO-GENERATED
-+#
-+#  $ lcitool variables macos-12 qemu
-+#
-+# https://gitlab.com/libvirt/libvirt-ci
-+
-+CCACHE='/usr/local/bin/ccache'
-+CPAN_PKGS='Test::Harness'
-+CROSS_PKGS=''
-+MAKE='/usr/local/bin/gmake'
-+NINJA='/usr/local/bin/ninja'
-+PACKAGING_COMMAND='brew'
-+PIP3='/usr/local/bin/pip3'
-+PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
-+PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme virtualenv'
-+PYTHON='/usr/local/bin/python3'
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 1f00281b44..e2f0bbd1b1 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -105,6 +105,7 @@ try:
-    generate_cirrus("freebsd-12")
-    generate_cirrus("freebsd-13")
-    generate_cirrus("macos-11")
-+   generate_cirrus("macos-12")
- 
-    sys.exit(0)
- except Exception as ex:
+  https://github.com/philmd/qemu.git tags/abstract-arch-cpu-20220307
+
+for you to fetch changes up to 61deada4bf54fddf1bc36e15c16269c33462aa90:
+
+  accel/tcg: Remove pointless CPUArchState casts (2022-03-06 22:47:52 +0100)
+
+Since v1: Fixed Darwin/x86_64 (HVF)
+
+----------------------------------------------------------------
+- Re-org accel/ and softmmu/ to have more target-agnostic objects.
+
+- Use CPUArchState as an abstract type, defined by each target
+  (CPUState is our interface with generic code, CPUArchState is
+   our interface with target-specific code).
+
+----------------------------------------------------------------
+
+Philippe Mathieu-Daudé (32):
+  accel: Restrict sysemu stubs to system emulation
+  accel/meson: Only build hw virtualization with system emulation
+  exec: Declare vaddr as a generic target-agnostic type
+  exec: Make cpu_memory_rw_debug() target agnostic
+  sysemu/memory_mapping: Become target-agnostic
+  sysemu/kvm: Make kvm_on_sigbus() / kvm_on_sigbus_vcpu() target
+    agnostic
+  accel/kvm: Simplify user-mode #ifdef'ry
+  accel/hax: Introduce CONFIG_HAX_IS_POSSIBLE
+  softmmu/cpus: Code movement
+  accel: Introduce AccelOpsClass::cpu_thread_is_idle()
+  accel: Introduce AccelOpsClass::cpus_are_resettable()
+  softmmu/globals: Remove unused 'hw/i386/*' headers
+  softmmu/physmem: Remove unnecessary include
+  softmmu/cpu-timers: Remove unused 'exec/exec-all.h' header
+  misc: Remove unnecessary "sysemu/cpu-timers.h" include
+  misc: Add missing "sysemu/cpu-timers.h" include
+  exec/gdbstub: Make gdb_exit() / gdb_set_stop_cpu() target agnostic
+  exec/cpu: Make address_space_init/reloading_memory_map target agnostic
+  softmmu: Add qemu_init_arch_modules()
+  softmmu: Build target-agnostic objects once
+  meson: Display libfdt as disabled when system emulation is disabled
+  exec/cpu_ldst: Include 'cpu.h' to get target_ulong definition
+  cpu: Add missing 'exec/exec-all.h' and 'qemu/accel.h' headers
+  target/i386/tcg/sysemu: Include missing 'exec/exec-all.h' header
+  target: Include missing 'cpu.h'
+  target/hexagon: Add missing 'hw/core/cpu.h' include
+  target: Use forward declared type instead of structure type
+  target: Use CPUArchState as interface to target-specific CPU state
+  target: Introduce and use OBJECT_DECLARE_CPU_TYPE() macro
+  target: Use ArchCPU as interface to target CPU
+  target/i386: Remove pointless CPUArchState casts
+  accel/tcg: Remove pointless CPUArchState casts
+
+Taylor Simpson (1):
+  Hexagon (target/hexagon) convert to OBJECT_DECLARE_TYPE
+
+ meson.build                          |   4 +-
+ include/exec/cpu-all.h               |   4 -
+ include/exec/cpu-common.h            |  39 ++++++++++
+ include/exec/cpu_ldst.h              |   1 +
+ include/exec/exec-all.h              |  26 -------
+ include/exec/gdbstub.h               |  25 +++---
+ include/exec/poison.h                |   2 -
+ include/hw/core/cpu.h                |  33 ++++----
+ include/qemu/typedefs.h              |   2 +
+ include/sysemu/accel-ops.h           |   3 +
+ include/sysemu/arch_init.h           |   2 +
+ include/sysemu/hax.h                 |  18 +++--
+ include/sysemu/hw_accel.h            |   5 --
+ include/sysemu/kvm.h                 |   6 +-
+ include/sysemu/memory_mapping.h      |   5 +-
+ target/alpha/cpu-qom.h               |   3 +-
+ target/alpha/cpu.h                   |  11 +--
+ target/arm/cpu-qom.h                 |   3 +-
+ target/arm/cpu.h                     |   7 +-
+ target/arm/hvf_arm.h                 |   2 +-
+ target/avr/cpu-qom.h                 |   3 +-
+ target/avr/cpu.h                     |  13 +---
+ target/cris/cpu-qom.h                |   3 +-
+ target/cris/cpu.h                    |   7 +-
+ target/hexagon/cpu.h                 |  23 ++----
+ target/hppa/cpu-qom.h                |   3 +-
+ target/hppa/cpu.h                    |  12 +--
+ target/i386/cpu-qom.h                |   3 +-
+ target/i386/cpu.h                    |   7 +-
+ target/i386/hvf/x86_emu.h            |  22 +++---
+ target/m68k/cpu-qom.h                |   3 +-
+ target/m68k/cpu.h                    |   7 +-
+ target/microblaze/cpu-qom.h          |   3 +-
+ target/microblaze/cpu.h              |   9 +--
+ target/microblaze/mmu.h              |   2 +
+ target/mips/cpu-qom.h                |   3 +-
+ target/mips/cpu.h                    |  10 +--
+ target/mips/internal.h               |  15 ++--
+ target/nios2/cpu.h                   |   9 +--
+ target/nios2/mmu.h                   |   2 +
+ target/openrisc/cpu.h                |  17 ++---
+ target/ppc/cpu-qom.h                 |   5 +-
+ target/ppc/cpu.h                     |   7 +-
+ target/riscv/cpu.h                   |  11 +--
+ target/riscv/pmp.h                   |   2 +
+ target/rx/cpu-qom.h                  |   5 +-
+ target/rx/cpu.h                      |   6 +-
+ target/s390x/cpu-qom.h               |   7 +-
+ target/s390x/cpu.h                   |   7 +-
+ target/sh4/cpu-qom.h                 |   3 +-
+ target/sh4/cpu.h                     |   7 +-
+ target/sparc/cpu-qom.h               |   3 +-
+ target/sparc/cpu.h                   |   9 +--
+ target/tricore/cpu-qom.h             |   3 +-
+ target/tricore/cpu.h                 |  10 +--
+ target/xtensa/cpu-qom.h              |   3 +-
+ target/xtensa/cpu.h                  |  13 ++--
+ accel/kvm/kvm-accel-ops.c            |  12 +++
+ accel/qtest/qtest.c                  |   1 -
+ accel/stubs/hax-stub.c               |   2 +
+ accel/stubs/kvm-stub.c               |   5 --
+ accel/tcg/cpu-exec.c                 |   4 +-
+ accel/tcg/tcg-accel-ops-icount.c     |   1 +
+ accel/tcg/tcg-accel-ops-mttcg.c      |   1 +
+ accel/tcg/tcg-accel-ops-rr.c         |   1 +
+ accel/tcg/tcg-accel-ops.c            |   1 +
+ cpu.c                                |   8 +-
+ softmmu/arch_init.c                  |   9 +++
+ softmmu/cpu-timers.c                 |   1 -
+ softmmu/cpus.c                       |  23 +++---
+ softmmu/globals.c                    |   2 -
+ softmmu/memory_mapping.c             |   1 +
+ softmmu/physmem.c                    |   7 +-
+ softmmu/vl.c                         |   5 +-
+ target/alpha/translate.c             |   1 -
+ target/i386/hax/hax-all.c            |  11 +--
+ target/i386/hvf/x86_emu.c            | 110 +++++++++++++--------------
+ target/i386/nvmm/nvmm-all.c          |  14 ++--
+ target/i386/tcg/sysemu/excp_helper.c |   1 +
+ target/i386/tcg/sysemu/misc_helper.c |   1 +
+ target/i386/whpx/whpx-accel-ops.c    |   6 ++
+ target/i386/whpx/whpx-all.c          |  18 ++---
+ target/riscv/csr.c                   |   1 +
+ tests/unit/ptimer-test-stubs.c       |   1 -
+ accel/meson.build                    |  12 +--
+ accel/stubs/meson.build              |  11 ++-
+ softmmu/meson.build                  |  24 +++---
+ 87 files changed, 371 insertions(+), 402 deletions(-)
+
 -- 
-2.34.1
+2.35.1
 
 
