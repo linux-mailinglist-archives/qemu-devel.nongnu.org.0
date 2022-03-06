@@ -2,56 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638704CEA92
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 11:51:57 +0100 (CET)
-Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAF24CEA96
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Mar 2022 11:52:15 +0100 (CET)
+Received: from localhost ([::1]:50928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nQoUV-0005ie-T5
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 05:51:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52056)
+	id 1nQoUo-0006o4-Ah
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 05:52:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nQoSf-0004IS-SF
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:50:01 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:57115)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQoTC-0004kk-ER
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:50:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nQoSd-00048T-Vm
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:50:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Wn6PfVE6UmvZzAnmagWcd20dLTFk2gwaFmSP+4KRAGo=; b=U/G9qk9e6K2lNNLYVu9hCBaRSP
- znziHYHdzeD4dbnvdedU6QiNcuNHKX4+7EnraDlL78uAPGX6DIB0p5y8X1yAgDSrfXC292GmXKh0D
- SO8HDKo90h8qj47fEDtfkAtfcGc3rX81a0Mnj1Mzcr6zDUlwFOId+xL8jSFYlEORK9njt6TNNCBPT
- vSAuLhNlJJF/JvbpQnV0b050+f5HRsQnEmUz0LgwPbcYQTaiuIO8t/LGMLnEEyWg9m1xI/wYEd0o6
- vE5FyTZhpssSw/qglH7ktS/97H75sql8yNzhyAvGDya0ASryOpmWMyJTm/vj5r+O9Nf2B5kV3fvXD
- I3SPX516NDZ7zhLdzSJa4Ge3kyE12Z6mD9PBSjkPEEPqboxazpPKI2JMdBrJlSvFrjK4sgc0Mitk5
- J1aRG5Vfuyl2Nojm4Cl2cSWarMCw0P1M/B4RZUKKxcM8IFn1Kzmdl97WLQLGeN5l0gPU6xhqIQw64
- q7wyM/JgeJOMCer/2vVsJhW7k+OQjsgniucjWnhFI0TVIRWajRPGYwqMp2heFRvkSCkqJZp0DntHi
- R9UZZemiMNb/BTW6yIkzJER+6lQnNtaLdxN+NSxirJrfJ0O9Pt3QCw/T+o1E0aX8EJpUNj4qHu1XL
- WTEQqHAEYAB5lBEQzwWCTkOfjWDkwd7L36M+lAkac=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] coreaudio: Always return 0 in handle_voice_change
-Date: Sun, 06 Mar 2022 11:49:55 +0100
-Message-ID: <1771824.72ebOKuLVD@silver>
-In-Reply-To: <20220306063949.28138-1-akihiko.odaki@gmail.com>
-References: <20220306063949.28138-1-akihiko.odaki@gmail.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nQoT8-0004Tg-SH
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 05:50:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646563829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xEPibcsY0rD2sw2sNqWWu16MLbTcWrqLWLCnuAdeQ40=;
+ b=iJYAvicyBSriL4anq5iSiGj8wJKbnAN16mX711XvguOw+H/0vE3dbnyokPMAhkSyn6QDQX
+ YuiLYPsm+c0m2s+WYsnN+SxivQ8V42WRPlZsu649YSsup7w7dhgSjX91l7PHNkd0EZ4RHe
+ 4SNyW3F75WmImVF5JL5YW6vXuO7jvt4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-169-cN2C26mgPj6Hr2BMFK9cvg-1; Sun, 06 Mar 2022 05:50:27 -0500
+X-MC-Unique: cN2C26mgPj6Hr2BMFK9cvg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ d8-20020a05600c34c800b0037e3cd6225eso4218867wmq.6
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 02:50:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=xEPibcsY0rD2sw2sNqWWu16MLbTcWrqLWLCnuAdeQ40=;
+ b=GTEA65q7caVtqZYyoNg1lUdEeU9+adKO44lD83w5vaqIN3VNm4uF1FbnByywnzQ1+D
+ ifcx/vqDsLxH/TG0yjY9+WiLTBQdgshiNApXkMGIFKM+UXKkGhVc16Vc1n+B/rOLjgBS
+ gebjCN9BqphtKM+Im35FZjQ0HBXhhP3ZPL9VO+cxojnu5bhwi569ELBKO5i7JLDM/lKE
+ WAoy9Lfy7ynC7XgZXbd6NYI5jXX0Ml9oJn2eqvlNxnHkYmv6eOLuLkTjNsBFvnpqxztX
+ /Bt2c+HClsF/dAZM1oVHndHlyGYsXU4USFS7jr/FuFCZxF2FG4jZRApURh2gelFuo2mR
+ pWvQ==
+X-Gm-Message-State: AOAM5311bGTUnbdvSYk5+uKbI/90g/S0v6ocpfKZMcWGiAIEyrIbcMyZ
+ 2l7Kz6vD7puZtZbln8qZMGfus3RUid+q+IDISroPpi6Gi6kRQRq3nbBQbs9GuY+KdQcZFN7szw7
+ rTzO9ZDE43UCgMGQ=
+X-Received: by 2002:adf:ef81:0:b0:1f0:95f:30a7 with SMTP id
+ d1-20020adfef81000000b001f0095f30a7mr4824541wro.636.1646563825961; 
+ Sun, 06 Mar 2022 02:50:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyDVegQICvyLcfzsG8pCTFyj4SdCk3ga8+twXgDX9Il7Bb14NLiQACW+E7P8O4S7PXgorXR2w==
+X-Received: by 2002:adf:ef81:0:b0:1f0:95f:30a7 with SMTP id
+ d1-20020adfef81000000b001f0095f30a7mr4824520wro.636.1646563825693; 
+ Sun, 06 Mar 2022 02:50:25 -0800 (PST)
+Received: from redhat.com ([2.52.16.157]) by smtp.gmail.com with ESMTPSA id
+ f11-20020a7bcc0b000000b0037e0c362b6dsm9821479wmh.31.2022.03.06.02.50.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Mar 2022 02:50:24 -0800 (PST)
+Date: Sun, 6 Mar 2022 05:50:20 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 0/5] qtests/libqos: Allow PCI tests to be run with
+ virt-machine
+Message-ID: <20220306054927-mutt-send-email-mst@kernel.org>
+References: <20220210145254.157790-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220210145254.157790-1-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,65 +96,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: eesposit@redhat.com, jean-philippe@linaro.org, qemu-devel@nongnu.org,
+ Coiby.Xu@gmail.com, qemu-arm@nongnu.org, clg@kaod.org, stefanha@redhat.com,
+ pbonzini@redhat.com, eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sonntag, 6. M=E4rz 2022 07:39:49 CET Akihiko Odaki wrote:
-> MacOSX.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/AudioHar=
-dwa
-> re.h
-> says:
-> > The return value is currently unused and should always be 0.
+On Thu, Feb 10, 2022 at 03:52:49PM +0100, Eric Auger wrote:
+> Up to now the virt-machine node only contains a virtio-mmio
+> driver node but no driver that eventually produces any pci-bus
+> interface.
+> 
+> Hence, PCI libqos tests cannot be run with aarch64 binary.
+> 
+> This series brings the pieces needed to be able to run PCI tests
+> with the aarch64 binary: a generic-pcihost driver node gets
+> instantiated by the machine. This later contains a pci-bus-generic
+> driver which produces a pci-bus interface. Then all tests
+> consuming the pci-bus interface can be run with the libqos arm
+> virt machine.
+> 
+> One of the first goal was to be able to run the virtio-iommu-pci
+> tests as the virtio-iommu was initially targetting ARM and it
+> was awkard to be run the test with the pc machine. This is now
+> possible.
+> 
+> Only the tests doing hotplug cannot be run yet as hotplug is
+> not possible on the root bus. This will be dealt with separately
+> by adding a root port to the object tree.
+> 
+> Also I have some trouble with 2 of the vhost-user-blk-tests. I am
+> obliged to hack them in "tests/qtest/vhost-user-blk-test: Temporary
+> hack to get tests passing on aarch64". Looks like a memory
+> allocation issue, which at first sight seems unrelated to the
+> aarch64 pci libqos enablement but we are never sure. Calling for
+> help on this issue, if some vhost-user specialists can dedicate
+> some cycles on this. Otherwise I will try my best to further debug.
+> 
+> To reproduce the issue, revert the above hack and run
+> 
+> QTEST_QEMU_STORAGE_DAEMON_BINARY=build/storage-daemon/qemu-storage-daemon QTEST_QEMU_BINARY=build/aarch64-softmmu/qemu-system-aarch64 build/tests/qtest/qos-test
+> 
+> you should get:
+> 
+>     ERROR:../tests/qtest/libqos/virtio.c:224:qvirtio_wait_used_elem:
+>     assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
+>     Bail out! ERROR:../tests/qtest/libqos/virtio.c:224: qvirtio_wait_used_elem:
+>     assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
+> 
+> Best Regards
+> 
+> Eric
+> 
+> This series can be found at:
+> https://github.com/eauger/qemu/tree/libqos-pci-arm-v3
 
-Where does it say that, about which macOS functions? There are quite a bunc=
-h=20
-of macOS functions involved in init_out_device(), and they all have error=20
-pathes in init_out_device(), and they still will have them after this patch.
+Seems to cause issues when run on a powerpc host (see Peter's
+response to the pull request).
+Dropped from pull for now.
 
-And again, I'm missing: this as an improvement because? Is this a user=20
-invisible improvement (e.g. removing redundant branches), or is this a user=
-=20
-visible improvement, i.e. does it fix a misbehaviour? In case of the latter=
-,=20
-which misbehaviour did you encounter?
 
-Best regards,
-Christian Schoenebeck
-
->=20
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
->  audio/coreaudio.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-> index 0f19d0ce01c..91445096358 100644
-> --- a/audio/coreaudio.c
-> +++ b/audio/coreaudio.c
-> @@ -540,7 +540,6 @@ static OSStatus handle_voice_change(
->      const AudioObjectPropertyAddress *in_addresses,
->      void *in_client_data)
->  {
-> -    OSStatus status;
->      coreaudioVoiceOut *core =3D in_client_data;
->=20
->      qemu_mutex_lock_iothread();
-> @@ -549,13 +548,12 @@ static OSStatus handle_voice_change(
->          fini_out_device(core);
->      }
->=20
-> -    status =3D init_out_device(core);
-> -    if (!status) {
-> +    if (!init_out_device(core)) {
->          update_device_playback_state(core);
->      }
->=20
->      qemu_mutex_unlock_iothread();
-> -    return status;
-> +    return 0;
->  }
->=20
->  static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
-
+> History
+> 
+> v2 -> v3:
+> - force -cpu=max along with aarch64/virt
+> - reduced the vhost-user-block-pci issue workaround to a
+>   single guest_alloc() instead of enabling MSIs. Call for
+>   help on this specific issue. The 2 tests which fail otherwise
+>   are: test_basic and indirect.
+> 
+> v1 -> v2:
+> - copyright updated to 2022
+> - QPCIBusARM renamed into QGenericPCIBus
+> - QGenericPCIHost declarations and definitions moved in the same
+>   place as the generic pci implementation
+> - rename pci-arm.c/h in generic-pcihost.c/h and remove any ref to
+>   ARM there
+> - remove qos_node_produces_opts, qpci_new_arm, qpci_free_arm
+> - ecam_alloc_ptr now is a field of QGenericPCIBus and not QPCIBus
+> - new libqos_init to create generic-pcihost driver that contains
+>   pci-bus-generic
+> - QGenericPCIHost moved in the same place as the generic pci
+>   bindings
+> - collected Thomas A-b/R-b
+> 
+> Eric Auger (5):
+>   tests/qtest/vhost-user-test.c: Use vhostforce=on
+>   tests/qtest/libqos/pci: Introduce pio_limit
+>   tests/qtest/libqos: Skip hotplug tests if pci root bus is not
+>     hotpluggable
+>   tests/qtest/vhost-user-blk-test: Temporary hack to get tests passing
+>     on aarch64
+>   tests/qtest/libqos: Add generic pci host bridge in arm-virt machine
+> 
+>  tests/qtest/e1000e-test.c             |   6 +
+>  tests/qtest/libqos/arm-virt-machine.c |  19 ++-
+>  tests/qtest/libqos/generic-pcihost.c  | 231 ++++++++++++++++++++++++++
+>  tests/qtest/libqos/generic-pcihost.h  |  54 ++++++
+>  tests/qtest/libqos/meson.build        |   1 +
+>  tests/qtest/libqos/pci-pc.c           |   1 +
+>  tests/qtest/libqos/pci-spapr.c        |   1 +
+>  tests/qtest/libqos/pci.c              |  78 +++++----
+>  tests/qtest/libqos/pci.h              |   6 +-
+>  tests/qtest/vhost-user-blk-test.c     |  16 ++
+>  tests/qtest/vhost-user-test.c         |   2 +-
+>  tests/qtest/virtio-blk-test.c         |   5 +
+>  tests/qtest/virtio-net-test.c         |   5 +
+>  tests/qtest/virtio-rng-test.c         |   5 +
+>  14 files changed, 394 insertions(+), 36 deletions(-)
+>  create mode 100644 tests/qtest/libqos/generic-pcihost.c
+>  create mode 100644 tests/qtest/libqos/generic-pcihost.h
+> 
+> -- 
+> 2.26.3
 
 
