@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623904CEE82
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:31:11 +0100 (CET)
-Received: from localhost ([::1]:48944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCD44CEE80
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:30:08 +0100 (CET)
+Received: from localhost ([::1]:46742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR0LG-0002H0-6E
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:31:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49504)
+	id 1nR0KF-0000oX-8B
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:30:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR09h-0000ib-5A; Sun, 06 Mar 2022 18:19:13 -0500
-Received: from [2a00:1450:4864:20::32b] (port=53009
- helo=mail-wm1-x32b.google.com)
+ id 1nR09m-000144-LI; Sun, 06 Mar 2022 18:19:18 -0500
+Received: from [2a00:1450:4864:20::435] (port=34532
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR09f-0007T4-MU; Sun, 06 Mar 2022 18:19:12 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id r65so8197283wma.2;
- Sun, 06 Mar 2022 15:19:10 -0800 (PST)
+ id 1nR09l-0007Tf-7c; Sun, 06 Mar 2022 18:19:18 -0500
+Received: by mail-wr1-x435.google.com with SMTP id j26so10296269wrb.1;
+ Sun, 06 Mar 2022 15:19:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8/7dyfQ+q13OVQN73h3YfXem2xDDBUD4YaJugztqF7Q=;
- b=bOEU7lD256+f4WT3ERWIvQPJKpvJ5Y/X5SjpUdN2JucmyBt/s3WsWdzqBpw826Z2Dw
- +mFsukII2c71MJs9/ju60AhwX6c9wE/bdT1PM34AZ2l/cuAsMji3de8CAQM6k/ueVDQa
- dFgiuQ3s1Y5F2ogcnSRBj0v+dr/co5DKdsZwgIs0JBUqWKC9gsv2XE69onvUn0o/u0x2
- 4p/ChhemMoy2zs5+7unwKUcPWTZuEGOp2V30WBI0qmyNKBsZEgl0sWOn1DNVfXx0n02o
- bKcbFaXKIfDr47Y3SWoMyrX4K03Y9z6JHHI+QRVkpEv7pKxUE2H1HYmNNRDGWRcQnCBQ
- S5EQ==
+ bh=3t7+/mInACvZRYaoFuoTkf2bXtSvwwVEGgg+XICyn98=;
+ b=pBE1ErkSmCwti0ezSSn3RhFe/Vle4NxGvsEZWw5OZQ4xj6MsOrxxWdhiwUXuGuTY1w
+ cJBWwf+jX+RFuWzYcsjQEIxjFcaCFV93UQNAiU1G2qdl0uzu1LQJgY7uBf2rQFvzbdcA
+ 47JR3OUNxr0Fnd8QV/zuOKTdei16/tTFzkC6B47cIZqSTLQR3xoN72fE/9Cl0nQV2d8E
+ 1IkyoLY2xoeB9/fgjoJBXV4XlgQu/M8CZzXBzaUOOW7hfjqBJgztG4E1UPuKayu/E2gs
+ 0a1ttdGMmWHmjfxt8/y1oZkbWNPejlQ8JFFuP35TBFO5mh2vGcxbiI73DG0g/0LOQnN+
+ XnTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8/7dyfQ+q13OVQN73h3YfXem2xDDBUD4YaJugztqF7Q=;
- b=fLUDTYX0mxtKVV8j2inktngkoF6xQDhz4eK4IsxwaySHFlxCwNb0AsBdn+4hwnS86o
- ACkHH83iBNK5JMndqSfiN5pujNlqXztugCB/0X0d9w2NL4PvJYWAZJZYKe677B7dS3TI
- necg08Cl3prESM1vyT/kUUd89aQ0krukP7OQ6diIRoQsKUTMlRi9ZcadwNYAccB1mzMx
- guwTGYV65MvthY+AmZiL9yIKskEiCG+T1E0h4wX9Rsb/fF1tkStIBlZNHn0PhdF2KY4T
- 4LYUndBBjqesee+Pxo36q2THoYkVURhcUZfQmLqXXsV0SvtIJtTetv1BYDR27wPEfg11
- Hlbg==
-X-Gm-Message-State: AOAM530sJxz/ivdrHWGic1AM2OHl9wb/PU0rLwR7OE+ucRmXRs6AZCgV
- w0KW5TA9pQvqFx8SuelusIs7+W4cBXM=
-X-Google-Smtp-Source: ABdhPJxW2G7iCog24saAI7iCmSuUziLH4TaNhQoKCiovACEDGNf3u0rdeK0l2jgedUx+MmSra6RSFg==
-X-Received: by 2002:a05:600c:643:b0:389:9596:4d27 with SMTP id
- p3-20020a05600c064300b0038995964d27mr6418885wmm.194.1646608749847; 
- Sun, 06 Mar 2022 15:19:09 -0800 (PST)
+ bh=3t7+/mInACvZRYaoFuoTkf2bXtSvwwVEGgg+XICyn98=;
+ b=lPCk7CqIxfxqzh7Zb6Vdj6VR/uNJCAx0tYWzRiHOx0/Vzfcn7O1rOo9dHi56oa59dt
+ ovuYarrEEdxQGAXHKUpWNTVo90WVqXZqcDFHyHs3GzB8uj9rqQnx3tjiQg7azUb4eQq6
+ lSLYiY8e4i79c7CsNz2QX7nkaakaMUTReZ6WGVOUr68QOJDb0RwiFOa3Xol5CTOBYRnh
+ sZw8guelxMZOxG48NQLgej8mW6PKI+gHhqd5U9EWeFY8mrmrcXT5RLe05e1hMhFknyFT
+ cI1vjagR12PEdTmwySRsQPW8aB6mgOTCyOxgEKpHVk0kQQfagTII2EySjGqD0+xUdKbR
+ K88g==
+X-Gm-Message-State: AOAM533Qtq7GNHz3Ne+3OBGDJlmDXYu4Azx9DthB4dP0/r1z6Imu6FJs
+ L5IWZBlHiPx1LdcWfyvMX51adBebbDo=
+X-Google-Smtp-Source: ABdhPJy6iX5M2HLhf7G77Wp6ObJUl4xEig48PNmQWKYpIM8IMMZcBRZF5bg5Xuh875fmKVUAd6UHSw==
+X-Received: by 2002:adf:f804:0:b0:1f0:326e:5e78 with SMTP id
+ s4-20020adff804000000b001f0326e5e78mr6507322wrp.251.1646608755220; 
+ Sun, 06 Mar 2022 15:19:15 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f1-20020a056000128100b001f04a47762dsm9661248wrx.109.2022.03.06.15.19.08
+ p12-20020a056000018c00b001f079518150sm6632238wrx.93.2022.03.06.15.19.13
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 06 Mar 2022 15:19:09 -0800 (PST)
+ Sun, 06 Mar 2022 15:19:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 14/22] meson: Resolve the entitlement.sh script once for
- good
-Date: Mon,  7 Mar 2022 00:17:45 +0100
-Message-Id: <20220306231753.50277-15-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH v7 15/22] meson: Log QEMU_CXXFLAGS content in summary
+Date: Mon,  7 Mar 2022 00:17:46 +0100
+Message-Id: <20220306231753.50277-16-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -101,39 +100,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Commit 235b523dba ("meson: Use find_program() to resolve the
-entitlement.sh script") didn't correctly fixed the issue, as
-the script is still resolved for each target. Move the check
-earlier, before processing each target.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- meson.build | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meson.build | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meson.build b/meson.build
-index b6e30d7463..8ca2b7c8c2 100644
+index 8ca2b7c8c2..0d38b2e72a 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -3063,6 +3063,10 @@ common_all = static_library('common',
- 
- feature_to_c = find_program('scripts/feature_to_c.sh')
- 
-+if targetos == 'darwin'
-+  entitlement = find_program('scripts/entitlement.sh')
-+endif
-+
- emulators = {}
- foreach target : target_dirs
-   config_target = config_target_mak[target]
-@@ -3220,7 +3224,6 @@ foreach target : target_dirs
-         install_input += meson.current_source_dir() / entitlements
-       endif
- 
--      entitlement = find_program('scripts/entitlement.sh')
-       emulators += {exe['name'] : custom_target(exe['name'],
-                    input: build_input,
-                    output: exe['name'],
+@@ -3470,6 +3470,7 @@ if link_args.length() > 0
+   summary_info += {'LDFLAGS':         ' '.join(link_args)}
+ endif
+ summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
++summary_info += {'QEMU_CXXFLAGS':     config_host['QEMU_CXXFLAGS']}
+ summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
+ summary_info += {'profiler':          get_option('profiler')}
+ summary_info += {'link-time optimization (LTO)': get_option('b_lto')}
 -- 
 2.34.1
 
