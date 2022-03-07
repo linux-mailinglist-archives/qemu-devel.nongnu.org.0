@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A604CFFB8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 14:13:36 +0100 (CET)
-Received: from localhost ([::1]:60224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40114CFFE2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 14:22:52 +0100 (CET)
+Received: from localhost ([::1]:44920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRDB9-0001zT-SW
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 08:13:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48774)
+	id 1nRDK5-0002b6-QJ
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 08:22:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1nRD7g-0007Sf-Po; Mon, 07 Mar 2022 08:10:00 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:50152)
+ id 1nRD7g-0007Sg-QA; Mon, 07 Mar 2022 08:10:00 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:54692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1nRD7Q-0000SK-4l; Mon, 07 Mar 2022 08:09:57 -0500
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 227C4lqX009900; 
- Mon, 7 Mar 2022 13:09:26 GMT
+ id 1nRD7Q-0000Sb-DF; Mon, 07 Mar 2022 08:09:57 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 227Bgfkn008819; 
+ Mon, 7 Mar 2022 13:09:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=Jmlg8kLLObSjMw65EBnpH+hE3PgRU8IKLMQ1Dfr/fQw=;
- b=HHHPiOydmJrBg9fqCNNOjL1rnl518ggAinPc3vzIwCJTyeJ68kApaaVjUu+O7BGQPIqX
- viaW7xFLZiYaF5RBVYH7xawBVeiW2zVKD8YCtsAFW3F5pGLRjRvJ4JBAdjKYhT3InSyY
- GWnk4ZPLNoE2IMaePtVpuXuUCROrKJZ27J8EdwKpRNRjCXWYDIqrgoYhYheQhy0aet8X
- odA2PZ1LbgiF5VgirkgmT9A+KnPckDzwjs9ABqKVBUYMWDkNyRwCEjxIbUuwRZqS/x0z
- GouPkIsuVYy1HpoZD3msGXFXpuJSmaKjwmbaOQMqIUmrbzMGxzzfXBF+Q83CI//XzJ00 ug== 
+ bh=Oeizfcx6ghfbN+v8NBJUtaUldcms17wOoJG43XBOgnc=;
+ b=ysmPFK9kOfo52/bldXfShhW1DOCuT9QcsHQkAPJZ3yXtl546PHXUiVFwFcwnN/V+mZ1v
+ eKJrgyr1LjhjnAzO8iC8joRUJGMQZWAIgaUoJJW445lRd3ePehtJQ5ZNX36ubrMJgBij
+ U4Ge10aBVBjOO8/kO5sr0LYi0za8v/NXMQfXgpe3mo9/M2Ll9gjsbQeW8YLo2pW27nz+
+ /PagC0eI2YhqSWWFcqwXg8dxSg6BnWdMTgHcWzbSU+2mLtfmMC+xCuNtOb3fyTLg6Krh
+ XATjGEpl/W+/EsLYlGx35FENfMIvEKu0PF/RFbrgYsPQ33tsTMf3kQAUPYrODM1GQQ1e jw== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ekyraknm9-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ekxf0ktex-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 07 Mar 2022 13:09:26 +0000
+ Mon, 07 Mar 2022 13:09:30 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 227D56sQ070204;
- Mon, 7 Mar 2022 13:09:25 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2177.outbound.protection.outlook.com [104.47.59.177])
- by aserp3020.oracle.com with ESMTP id 3ekyp15pbq-1
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 227D5CY2070324;
+ Mon, 7 Mar 2022 13:09:29 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
+ by aserp3020.oracle.com with ESMTP id 3ekyp15pc7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 07 Mar 2022 13:09:25 +0000
+ Mon, 07 Mar 2022 13:09:29 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RveugmoZwhLLhy6Y8c6FODN2vB2d9n2C/LgLWXQDSmoXQ1GXNcfsap4QKYyig+cTjsThFNgrg/YXqXJ6wHwEQTpnS5hebIXQ1B0EEOuudQv9RhjPlO/gYFkN7zCmnYwxW95uYDTiNnId3nIoMKzkLcS9tinCD9j5ksM+bZJhEwOqsAs8lI1Cuvh2lnIcET67+Nh1q6m5oFfQBJKrVNXC+3h3T/wLUEY+tc8fUosuuXR8Wy5eP7gVYx9ZNDcjdluhtzZhtgApO3l6dtZoH4GTnYP12P2Aqo4MHXToB+LuahA+lStNxeQG+xJk3puTkN57cyGJ8xW8yul3u/owYsFsFw==
+ b=U9JdAgsVGAhJDhZPIgE3GdrE10hMq1Ws4j6ex1snzMfwdPkQW9JORgQCKFXHbl2EhFzuX7QGt5x0/LsPGKOdOmOnjV+TiUCgMp6hDrBady1OLfEzDmTVWTg398Ay/FR30eXvN83S680ZxD6jH+WG178nZY90m1m7oLEZvndlNdvnmcYTI+BD3avsR7tsmgZa11zMDFdEIQlIcktcQ57IO6eWC+TYAR1uy+L94hB5IcebuZoBpEX4lSgFY+lPt1Odu/xBSFwK8rz6phVhfS823P8E48vcpzPIQ2Uk1SKCB4RVVfJHRPZ9rv/w4Pnfi+zttLN3I9Psk15th78q2jxwsA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jmlg8kLLObSjMw65EBnpH+hE3PgRU8IKLMQ1Dfr/fQw=;
- b=f1XA6ZDfNUDV3v9IQFDXwvSl7XlqzrYcf8mhnINFLRIRUKrScdhnIUgXbn4gtgf7pnJmsF2oCarCzlNWEbFoYcCEtjTvb7O/5jXz2ZNXI6GHk8JdkZLGKRvh6Bi2rsOI/CDAPjXLSzwTOlZzajjuSXFwEs4D3ctTdUNUtGKS3qYMWa9D+WsfZK0OjztsFefKb7Oj2xeuAFNq3CTnKJrPbkGhhfekr8OyUiDOVT9mzaqTpr5AeBqAMKryDrEVJEwdfgA6x2+gNnfbJ7FP4gC8TxIgoOv1ymTnIz5eWGFDFHRV5X1H7ZluStL60uBLbYHpHaNZiCdfI4Q0icdy7hSGKQ==
+ bh=Oeizfcx6ghfbN+v8NBJUtaUldcms17wOoJG43XBOgnc=;
+ b=aGHwyNCOXzp1PGKFrWfJl5F0hbSqWQ6Bex1qmANgOVa9QFcvasaIWTMlbEggJ78qY4Bp5a78GNSlq1oQeaRaUgZdqXKiH2vj0/jXTKA8bE2zDZ1PhsxX9f3m1OfHa2SKAiswwvRoobGWVbplJh82/yjOCzlK0n9cAFceY9aM9ElCxSLUX+kyVb6KnLAqZe180Cq1B/p+NT0S84oqST+IutyKW/aVO6T6j3UGkQZjHJ/teEa56Xj1zZag2s9q1FvDrEXVuaWxeHeToF4zIxEc+7RZ1/LxBtQAb7cYeU3kDzwr1EUsFkyQwCLeQIXWA3e5SzaHwYyBV0typQvvj6K1lw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jmlg8kLLObSjMw65EBnpH+hE3PgRU8IKLMQ1Dfr/fQw=;
- b=VZtW/5F8So2e/T/iLIT/wHDzR+f3HTg0rLtx0mBVZ4rUB8FsW/R6wLI8j3OVstl9dHB11uIfp2qP8PFgAqcfYKqPacDkIQ/7jWm8PZS3jqs9re2odgWIkhzqKNXbnJXl/k3xe4aRkLeaAeyuJWZKelaLI70C803opBTimcr0HqM=
+ bh=Oeizfcx6ghfbN+v8NBJUtaUldcms17wOoJG43XBOgnc=;
+ b=sSWS+u0ldIu4h/hwpiVqC8NQnBJHFMqzbEl9SHdZxfntxVGTS12bOXGzMHHNhH8cdTfUrTlwG6ErKKQKoshnw7jQB4H6NVt23QJa4gMv++/vI1xCquva2Fq4hopbuhQYT0/JvtP8fWc+qgID2roooW7QCEo02sOVHyJLAELSyCM=
 Received: from PH0PR10MB4664.namprd10.prod.outlook.com (2603:10b6:510:41::11)
- by DM6PR10MB2619.namprd10.prod.outlook.com (2603:10b6:5:aa::23) with
- Microsoft SMTP Server (version=TLS1_2,
+ by SN4PR10MB5608.namprd10.prod.outlook.com (2603:10b6:806:20b::8)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Mon, 7 Mar
- 2022 13:09:22 +0000
+ 2022 13:09:25 +0000
 Received: from PH0PR10MB4664.namprd10.prod.outlook.com
  ([fe80::500d:126d:b54c:cc85]) by PH0PR10MB4664.namprd10.prod.outlook.com
  ([fe80::500d:126d:b54c:cc85%7]) with mapi id 15.20.5038.027; Mon, 7 Mar 2022
- 13:09:22 +0000
+ 13:09:25 +0000
 From: Jonah Palmer <jonah.palmer@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v13 3/8] qmp: add QMP command x-query-virtio
-Date: Mon,  7 Mar 2022 08:08:36 -0500
-Message-Id: <1646658521-31652-4-git-send-email-jonah.palmer@oracle.com>
+Subject: [PATCH v13 4/8] qmp: add QMP command x-query-virtio-status
+Date: Mon,  7 Mar 2022 08:08:37 -0500
+Message-Id: <1646658521-31652-5-git-send-email-jonah.palmer@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1646658521-31652-1-git-send-email-jonah.palmer@oracle.com>
 References: <1646658521-31652-1-git-send-email-jonah.palmer@oracle.com>
@@ -80,56 +80,56 @@ X-ClientProxiedBy: SN4PR0701CA0034.namprd07.prod.outlook.com
  (2603:10b6:510:41::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0e01055f-49a6-4c6b-97f8-08da003bb2a2
-X-MS-TrafficTypeDiagnostic: DM6PR10MB2619:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR10MB2619472BB9FFE89A1B82FA19E8089@DM6PR10MB2619.namprd10.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: c3b1ab8f-176e-43f4-1179-08da003bb452
+X-MS-TrafficTypeDiagnostic: SN4PR10MB5608:EE_
+X-Microsoft-Antispam-PRVS: <SN4PR10MB56081141075E8B0D464D8B25E8089@SN4PR10MB5608.namprd10.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QDgBGMjwVkBdjg68YNqru1DM/2rACWecPLgZeyYmgw+AV98akLZhApbfqCnWQHGbXCogm7d+XkR5eApIIAmLerUa7Csf2IqZSAZf4m77QWVilIDJdybCXrayzLWeXSFe7X95eaMTYwdvyL6EOpMKABlmRjQzAdXchIhIVKULr7Tab+Hp/XKU/SlKevcnmkcn+ayrT2tOGM/AYV24S+2S/jMbaF/saKKw5ptw5r0eXSDodQOWIj2slg/eDF+1YNjrPpCYyQ6Efe1ItwxQ30FBmW7GThRIynikV2o41PvpX1JKj7SR5ck4fH7X3naSlxtMN34AGjuO4kNvFO5plOiifPX/ujxYqFsTNJi5q8XXgoHSUJLj60xA3QlbfloQ7jOf6zmJYJuzoaayHdH3qq4nL2mzwPLhmymoLvJRsHoTFHNSzCgTpgMx4tjES/R6Wl9RsIKIrl+KrAHj9/VSNQxtgrQ0hg1/YcBc3FqMk4kzeAe78EMroUNKnAumkS0HVV9MbXiBv7zO/PrnNWe+0ElUOky89v4AIcaKGNHYMLfBHz+hAo4wRXQL5HRb4ZK9xt2LeeBGeV0IXXvg4b5DpFTx5eNv0Gf7kH73zueApJunC3TIk8Faq1x79S3U1kFqCUfy9fLeDInpkGKuwFMXqUOBAejUGBhWLIQhlgFrlka03NCmDKnQKjABmARVV7gO6XcJNh3CdD3EBBlE8cVmU6GQqQ==
+X-Microsoft-Antispam-Message-Info: fkmjPfk8ld7Kt5Khiu4GEnFm+1/S7tc0eZJs3vshRkDgiqggTvzbJHQsDrEtpsARiuzR1syStcakEL430VqpkqKSWJwhruirzNNiAmqiug9sALliBuHOI/vCN473KcdlqxOR9+MvNa2cRx/+0x0VxW5YMKzKM4I722qsJZPnTazwyyrG9FJP0lPcUZJXObobu8DqLXYLwphhG98NkwLkNEBxkBl57PsDd8EwjAUP4ilzuZhfG5pnCYubpRXPMjWj0rLKeKUwccU90tqiZTEuUH6RNw8OUnAEi5kfzo1jHWnKqWxrdWouERDzV5cW91U/fTGvu3n7+iJ12dDY7sYBIzJaCgl7fWAYu4LJqrtIzuQQpZllRMiUVy3O98pdl/xZMptXmv0Z1T0WHLCu/UHrCgjBlbHxWQ2yDTJvnjbh1R754MwDtXzEtXPdngowJj2wh76groMh6uxKHoea7xSm4MnpOYNzGgoJVmay3WJisnHxw421vBFDoyw8t4VqCqlnhRaDLA/7BCDuXrFTaAxDda4zteRq1e+xCTttN6qrPBeHSOlsSSbiUywCv7yOMnXXkqz7wnpWFklzt2ySyQZuOpp+ySVMp3a0PBwt/45bl5KwuVUV87YW1+8CXoxKiLZBsKWt3yfveewn2KFf4Tw2i/W5Nh/7DXIh2iX9/DsFoVnjEllaW7EV/hUUEHFUeH4Y1tKQ9N1+yuU5j95KAdHiGg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR10MB4664.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(4326008)(66946007)(508600001)(66556008)(66476007)(8676002)(6486002)(83380400001)(5660300002)(8936002)(6506007)(6666004)(36756003)(52116002)(38100700002)(26005)(38350700002)(44832011)(7416002)(86362001)(316002)(186003)(2906002)(6512007)(2616005)(6916009);
+ SFS:(13230001)(366004)(83380400001)(44832011)(30864003)(86362001)(26005)(186003)(38100700002)(6916009)(316002)(38350700002)(2906002)(8676002)(66946007)(4326008)(66476007)(66556008)(8936002)(5660300002)(7416002)(6666004)(6506007)(6512007)(52116002)(6486002)(36756003)(508600001)(2616005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M3AauvrHP4kch3WJobkDL0MwgJhSehbjrpK6eRreMfqOf1kvNT+rWDKhHwVk?=
- =?us-ascii?Q?dV1rWsnLTdJoNDRORbPEkYXC5nYl60dLyp0+hataZYUs/SYMhY5DLeDjscFY?=
- =?us-ascii?Q?sO2F9STQsrbDC60J1iuKenViFIlQavV8v8raPV0/EorzzCWTFd/TyRwJCmQc?=
- =?us-ascii?Q?CL4q72CpWHlv17t64gPNHmToFo1ggI18ZAO5tl7EUnKIglVLMVDta72qqBgx?=
- =?us-ascii?Q?oyvepSSaRq3m8wGShpG1Q72KWxNXiQiscPk+YCPFq1UuwjtqCNfUdQHOXv66?=
- =?us-ascii?Q?Hjel7LaalTk0+cOG21PykmlU+Y68HGlm5St7u0BubwfswNdFJBkYa2GnR6Iy?=
- =?us-ascii?Q?b6BkXtiL9dc6y25bp6zlcnMqp0NmpDa3WNQxCyQ72UtguZzhvpCVjgTg/xa6?=
- =?us-ascii?Q?U/+Q55khRB8h5yuUgvPLK2M9/XX6tQJyR5qkzIqxKc8BN2Cd88bPzy6GtABf?=
- =?us-ascii?Q?xdYNeZqq+yiPWdhh/ucGMv/JuwwDdoQgDmycqDcGhxOGWTHZTpqPTMLv+Rkb?=
- =?us-ascii?Q?NmVt7s6gQh2IBPxRAYcDMcFgnWaxu26OGOHLOR7fW675Ym8M0pPPpTS7S8gk?=
- =?us-ascii?Q?PkiOzq2UJA7VitZK7o+7fV33IG4OGxPCrEvTlXwgTURdES0oIXqfS+OCkoQ6?=
- =?us-ascii?Q?jqw6qUDTb8OZixn8hp4lYAD0rLkHSDtKglAzx/ltZEnexmixNCmVz1rzDrJO?=
- =?us-ascii?Q?yNZ200PrhGkLf/NsV2rJnLEvdxG2HXTYO/q7X4VIuXfTQ4TAk1KZ7ZZWn72q?=
- =?us-ascii?Q?hEmM3inKSQnb9/e3zdbzZU/2EliTXG4hxCsy0F2g62fA5SmU1MLJmVNnXoSi?=
- =?us-ascii?Q?iJZWDgcZJM1auLGHHQI3QlW4IvK2qVvgK0trNUj5KqUvUXWk4PQKKGauTP8x?=
- =?us-ascii?Q?uDxBgYinO7Fqwlwhlntqm5VNvFNt7RLeWqEscluu3/ubUjRlbNUreTCJ1Mpd?=
- =?us-ascii?Q?UKENeD20balPYYtp1P+b60ZTVP5Om/VkYs/0pKyOTA8CSbcZ2UF5zEKRbDTU?=
- =?us-ascii?Q?2CCpFkji99MhX+RJxHb2JnK0b1Lxpt7YCKiYpHdgKSZdi0X9xw/TZ28TTo6/?=
- =?us-ascii?Q?j1I0LIH/mWiScGzGlCQG2sw9L9kyMXqznu7SrIXV40RzAEvWe4BPw5unw+jC?=
- =?us-ascii?Q?3w6AaN+FYcsNKOULZ+UljaERHWICjNcA9B4l2NM3KLZN1bEbnX6JEkstzdcy?=
- =?us-ascii?Q?tR33sRrGcga7A+JegVOpeI5LrXFSdDwJRJd8WZgAJsA49hOvcLfDrEyGfllR?=
- =?us-ascii?Q?3DZ6+QWz8nFXdBaEidQAw2+wpOFZbUcsNKx4EECcgwBGgQhlLGVn50PlquUA?=
- =?us-ascii?Q?NsnoZUQjgl+PfRMuDnZo4dDFuC3br2FwpmQd688q0pfLEltDkib0Tvnj+67i?=
- =?us-ascii?Q?jL66cRMfqYVC5kEtJaC4QDfIlRaGpTYkk8RDB8hLXSUsePk4Yt9grXv9dTEP?=
- =?us-ascii?Q?g1/2PYRXUythJWlXzYJqBPBJaT1T+KWIa4ZVqTnFEk4iu0oe/0rygWl66En7?=
- =?us-ascii?Q?pdjACgFu5jmXSgIhHMD3qObxfxlr4silHy+wT4ktHjPDBR+CbEeV6Azv6N5g?=
- =?us-ascii?Q?TBTm+FSf4Yj7F+1gkxOwge0cy+lhjMlt4Qt75XDlyxDovjwOV3KEJIB2uOAy?=
- =?us-ascii?Q?lZkrm/iKX33XCjUBkpJsuQk=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gahMtxjJbUG2Nx0yvsS21ofPa9k6ByTzq3S/kf6asl/Fv3kQeLR7R5lVqHKt?=
+ =?us-ascii?Q?tTQ6FKlyR9VcLElYSnWEz4Z/WwHxRpMOn3Q2DG6BkjA5aQ6P3fbD5zlmYofm?=
+ =?us-ascii?Q?OED/tKCooaemlog24nfXxRJGHKG2o73Fgn9LnugHICczt4WCl/178mSXQ7Ns?=
+ =?us-ascii?Q?kXZt2nf/HJSk9kmnC3UWAns5Mi8nFfaNj6gOberGm8qwDGcwg2y0RSpKUl5R?=
+ =?us-ascii?Q?kQQJd9gl3pBW0XEUUm1a+R+XVj7329e6b8pGB3PDBemRsR2G1cx8V5WOGAeR?=
+ =?us-ascii?Q?PAuYsM+qkkIzXNYqlYIOpqFG5Yvm3gVPbSeJ52mW5u5fGpL++iMcStLEn57D?=
+ =?us-ascii?Q?g593DTMneBTn+MektArKpnAppdaQNwk3mug1O/6lUHeCLba9WTKwb9iBg7D0?=
+ =?us-ascii?Q?00gsdVxuOieT2kjc6gmzbPSwUDxi1HNMQrdyJSye3JAUT3B2CG+WdpDiNENj?=
+ =?us-ascii?Q?v/Uvwem4/8OlSxLBYS9UpJNfrgTFRp04G/JiTPCBxocY8COlbIrb5fwHagWS?=
+ =?us-ascii?Q?tlV8cxW+pmp/mV/HWDmpsW1GtkzeTWrJ44jPUFtCx/ysmS+IsFTgbCxetu10?=
+ =?us-ascii?Q?fDYDxXlAQEVlxz8AXUgjSHKwY/feVDDjkey3lzd+44FGcq/oH+s+YnN/XjNR?=
+ =?us-ascii?Q?Nlhqir4gPKw4G0e4SlHVI2KjbZTKpm4rImzFKL5PJXUSI+89Gukl/NRlO/kZ?=
+ =?us-ascii?Q?LtcnUdNk0L4vIANR4/6EqmMJw6G4OQ7Jp+Yz0ZsdZtvbbNj5O0TwBFeSMeqH?=
+ =?us-ascii?Q?SpeUBJPlqGbv6UtpTw4ZHF1HkB2AFIq8Zkx/iYuelksH6W8vRmm6u6k/hOap?=
+ =?us-ascii?Q?jW/QWnuSdyD/g46JzOuQdi6sBzXuKnmEo7LWrLbEoJ9aJdzBy53vgJ7l+sdf?=
+ =?us-ascii?Q?xzNzj9kc8GXSScZg8z26UNGNfvz79A6koMJqHO9J2LNPLw/mN3PbKF8l1v31?=
+ =?us-ascii?Q?ObcTdlytnv7wB/l2icvs2L3KYYkWohmHY2UbZ0lMw+JQLT3EZrQqWQYJLqZ6?=
+ =?us-ascii?Q?NPrDw/2hw240Cr//Mj2OVsOLlpLO1dxt1R8R2b8jsTShoO+vDUruZA8Hm3t9?=
+ =?us-ascii?Q?fAbwBJq8m9tza8YJ4WPWsyLD4OvS0xEQTnBwwdwlIjI3EkD07CNKCW19GSfF?=
+ =?us-ascii?Q?ww0b4TCvLjRhjqQIkn4JJJmjjAkzksDoykbuTyxCkHox/4LkGYtzLMkvcDki?=
+ =?us-ascii?Q?Gc7hZ+23viSUbqRsteTrYixAN8DEzQrQq5TaUd4IQyz/QZ6kEJdA/HVytBwB?=
+ =?us-ascii?Q?AWssDjWeDe4mVT+UgkwggoKelue3U29rD0jhxlGLhFsGnd4E4zdJSq3FchRl?=
+ =?us-ascii?Q?qZAtVShGS4uJh4RY6FtZmfnY+rl+bKm3CrR2SubYlbM1f32EdbLeZ63kNvM+?=
+ =?us-ascii?Q?sUfhJx/K9ItA440owYhKQfoCGvHksQ7MPYAQsrncrS9vv/jQH2g3gKgU4Pxd?=
+ =?us-ascii?Q?RpQO2ylKjL5sp+LxmK62v9xs5jPvQPFSs/uc6G+H4/QRG7y8PMvLiy/03Q18?=
+ =?us-ascii?Q?Y2d0tjmpmVrDAunX1l+uBcO4LyemBqmQZK96rOtHOkFKOn9xS6CB5NCnBYhg?=
+ =?us-ascii?Q?NCK0SkcpJJ+YCDn5myR93WWfMC+W5XmpZK9pfNOvJo0R4jz6UbCn8/6RLmgE?=
+ =?us-ascii?Q?9K0MjzkxO6/4uBWF+agHgpA=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e01055f-49a6-4c6b-97f8-08da003bb2a2
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3b1ab8f-176e-43f4-1179-08da003bb452
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4664.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2022 13:09:22.7666 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2022 13:09:25.6256 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kwGBJATHwovn3o0Y4wtgEIopfHWrOG8E0nCJksGIgdc/Zu6xdbEnLFFOWqMX50CoDIZZiRr4EZOsE2L8hOMqIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB2619
+X-MS-Exchange-CrossTenant-UserPrincipalName: NT4MPo+I0N5/Tyd+V9BvAODSF5M8i4/Kbsau2I/Doau8J20F58+IO4o6xlvi0pA2XqK8ysVvMjDx8cE+kbyCYg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5608
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10278
  signatures=690470
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
@@ -137,8 +137,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  bulkscore=0 mlxlogscore=999 spamscore=0 adultscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
  definitions=main-2203070076
-X-Proofpoint-GUID: ZQv_I4AWe0uRkbcrUdWj_jqBS_UBPgFv
-X-Proofpoint-ORIG-GUID: ZQv_I4AWe0uRkbcrUdWj_jqBS_UBPgFv
+X-Proofpoint-ORIG-GUID: WRvoojmf3qZl4J-qQ4qCXH_rCS66AzfU
+X-Proofpoint-GUID: WRvoojmf3qZl4J-qQ4qCXH_rCS66AzfU
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=jonah.palmer@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -174,288 +174,382 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <lvivier@redhat.com>
 
-This new command lists all the instances of VirtIODevices with
-their canonical QOM path and name.
+This new command shows the status of a VirtIODevice, including
+its corresponding vhost device's status (if active).
 
-[Jonah: @virtio_list duplicates information that already exists in
- the QOM composition tree. However, extracting necessary information
- from this tree seems to be a bit convoluted.
+Next patch will improve output by decoding feature bits, including
+vhost device's feature bits (backend, protocol, acked, and features).
+Also will decode status bits of a VirtIODevice.
 
- Instead, we still create our own list of realized virtio devices
- but use @qmp_qom_get with the device's canonical QOM path to confirm
- that the device exists and is realized. If the device exists but
- is actually not realized, then we remove it from our list (for
- synchronicity to the QOM composition tree).
-
- Also, the QMP command @x-query-virtio is redundant as @qom-list
- and @qom-get are sufficient to search '/machine/' for realized
- virtio devices. However, @x-query-virtio is much more convenient
- in listing realized virtio devices.]
+[Jonah: From patch v12; added a check to @virtio_device_find
+ to ensure synchronicity between @virtio_list and the devices in the QOM
+ composition tree.]
 
 Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
 ---
- hw/virtio/meson.build      |  2 ++
- hw/virtio/virtio-stub.c    | 14 ++++++++++
- hw/virtio/virtio.c         | 44 ++++++++++++++++++++++++++++++
- include/hw/virtio/virtio.h |  1 +
- qapi/meson.build           |  1 +
- qapi/qapi-schema.json      |  1 +
- qapi/virtio.json           | 68 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/qtest/qmp-cmd-test.c |  1 +
- 8 files changed, 132 insertions(+)
- create mode 100644 hw/virtio/virtio-stub.c
- create mode 100644 qapi/virtio.json
+ hw/virtio/virtio-stub.c |   5 ++
+ hw/virtio/virtio.c      | 104 +++++++++++++++++++++++
+ qapi/virtio.json        | 222 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 331 insertions(+)
 
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 521f7d6..d893f5f 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -6,8 +6,10 @@ softmmu_virtio_ss.add(when: 'CONFIG_VHOST', if_false: files('vhost-stub.c'))
- 
- softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
- softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('virtio-stub.c'))
- 
- softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
-+softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('virtio-stub.c'))
- 
- virtio_ss = ss.source_set()
- virtio_ss.add(files('virtio.c'))
 diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
-new file mode 100644
-index 0000000..05a81ed
---- /dev/null
+index 05a81ed..0b432e8 100644
+--- a/hw/virtio/virtio-stub.c
 +++ b/hw/virtio/virtio-stub.c
-@@ -0,0 +1,14 @@
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-virtio.h"
+@@ -12,3 +12,8 @@ VirtioInfoList *qmp_x_query_virtio(Error **errp)
+ {
+     return qmp_virtio_unsupported(errp);
+ }
 +
-+static void *qmp_virtio_unsupported(Error **errp)
-+{
-+    error_setg(errp, "Virtio is disabled");
-+    return NULL;
-+}
-+
-+VirtioInfoList *qmp_x_query_virtio(Error **errp)
++VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
 +{
 +    return qmp_virtio_unsupported(errp);
 +}
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 443475b..dd02909 100644
+index dd02909..59665f7 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -13,12 +13,18 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qapi-commands-virtio.h"
-+#include "qapi/qapi-commands-qom.h"
-+#include "qapi/qapi-visit-virtio.h"
-+#include "qapi/qmp/qjson.h"
- #include "cpu.h"
- #include "trace.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
-+#include "qom/object_interfaces.h"
- #include "hw/virtio/virtio.h"
- #include "migration/qemu-file-types.h"
- #include "qemu/atomic.h"
-@@ -29,6 +35,9 @@
- #include "sysemu/runstate.h"
- #include "standard-headers/linux/virtio_ids.h"
- 
-+/* QAPI list of realized VirtIODevices */
-+static QTAILQ_HEAD(, VirtIODevice) virtio_list;
-+
- /*
-  * The alignment to use between consumer and producer parts of vring.
-  * x86 pagesize again. This is the default, used by transports like PCI
-@@ -3686,6 +3695,7 @@ static void virtio_device_realize(DeviceState *dev, Error **errp)
-     vdev->listener.commit = virtio_memory_listener_commit;
-     vdev->listener.name = "virtio";
-     memory_listener_register(&vdev->listener, vdev->dma_as);
-+    QTAILQ_INSERT_TAIL(&virtio_list, vdev, next);
+@@ -3927,6 +3927,110 @@ VirtioInfoList *qmp_x_query_virtio(Error **errp)
+     return list;
  }
  
- static void virtio_device_unrealize(DeviceState *dev)
-@@ -3700,6 +3710,7 @@ static void virtio_device_unrealize(DeviceState *dev)
-         vdc->unrealize(dev);
-     }
- 
-+    QTAILQ_REMOVE(&virtio_list, vdev, next);
-     g_free(vdev->bus_name);
-     vdev->bus_name = NULL;
- }
-@@ -3873,6 +3884,8 @@ static void virtio_device_class_init(ObjectClass *klass, void *data)
-     vdc->stop_ioeventfd = virtio_device_stop_ioeventfd_impl;
- 
-     vdc->legacy_features |= VIRTIO_LEGACY_FEATURES;
-+
-+    QTAILQ_INIT(&virtio_list);
- }
- 
- bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
-@@ -3883,6 +3896,37 @@ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
-     return virtio_bus_ioeventfd_enabled(vbus);
- }
- 
-+VirtioInfoList *qmp_x_query_virtio(Error **errp)
++static VirtIODevice *virtio_device_find(const char *path)
 +{
-+    VirtioInfoList *list = NULL;
-+    VirtioInfoList *node;
 +    VirtIODevice *vdev;
 +
 +    QTAILQ_FOREACH(vdev, &virtio_list, next) {
 +        DeviceState *dev = DEVICE(vdev);
++
++        if (strcmp(dev->canonical_path, path) != 0) {
++            continue;
++        }
++
 +        Error *err = NULL;
 +        QObject *obj = qmp_qom_get(dev->canonical_path, "realized", &err);
-+
 +        if (err == NULL) {
 +            GString *is_realized = qobject_to_json_pretty(obj, true);
 +            /* virtio device is NOT realized, remove it from list */
 +            if (!strncmp(is_realized->str, "false", 4)) {
++                g_string_free(is_realized, true);
++                qobject_unref(obj);
 +                QTAILQ_REMOVE(&virtio_list, vdev, next);
-+            } else {
-+                node = g_new0(VirtioInfoList, 1);
-+                node->value = g_new(VirtioInfo, 1);
-+                node->value->path = g_strdup(dev->canonical_path);
-+                node->value->name = g_strdup(vdev->name);
-+                QAPI_LIST_PREPEND(list, node->value);
++                return NULL;
 +            }
-+           g_string_free(is_realized, true);
++            g_string_free(is_realized, true);
++        } else {
++            /* virtio device doesn't exist in QOM tree */
++            QTAILQ_REMOVE(&virtio_list, vdev, next);
++            qobject_unref(obj);
++            return NULL;
 +        }
++        /* device exists in QOM tree & is realized */
 +        qobject_unref(obj);
++        return vdev;
++    }
++    return NULL;
++}
++
++VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
++{
++    VirtIODevice *vdev;
++    VirtioStatus *status;
++
++    vdev = virtio_device_find(path);
++    if (vdev == NULL) {
++        error_setg(errp, "Path %s is not a VirtIODevice", path);
++        return NULL;
 +    }
 +
-+    return list;
++    status = g_new0(VirtioStatus, 1);
++    status->name = g_strdup(vdev->name);
++    status->device_id = vdev->device_id;
++    status->vhost_started = vdev->vhost_started;
++    status->guest_features = vdev->guest_features;
++    status->host_features = vdev->host_features;
++    status->backend_features = vdev->backend_features;
++
++    switch (vdev->device_endian) {
++    case VIRTIO_DEVICE_ENDIAN_LITTLE:
++        status->device_endian = g_strdup("little");
++        break;
++    case VIRTIO_DEVICE_ENDIAN_BIG:
++        status->device_endian = g_strdup("big");
++        break;
++    default:
++        status->device_endian = g_strdup("unknown");
++        break;
++    }
++
++    status->num_vqs = virtio_get_num_queues(vdev);
++    status->status = vdev->status;
++    status->isr = vdev->isr;
++    status->queue_sel = vdev->queue_sel;
++    status->vm_running = vdev->vm_running;
++    status->broken = vdev->broken;
++    status->disabled = vdev->disabled;
++    status->use_started = vdev->use_started;
++    status->started = vdev->started;
++    status->start_on_kick = vdev->start_on_kick;
++    status->disable_legacy_check = vdev->disable_legacy_check;
++    status->bus_name = g_strdup(vdev->bus_name);
++    status->use_guest_notifier_mask = vdev->use_guest_notifier_mask;
++    status->has_vhost_dev = vdev->vhost_started;
++
++    if (vdev->vhost_started) {
++        VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
++        struct vhost_dev *hdev = vdc->get_vhost(vdev);
++
++        status->vhost_dev = g_new0(VhostStatus, 1);
++        status->vhost_dev->n_mem_sections = hdev->n_mem_sections;
++        status->vhost_dev->n_tmp_sections = hdev->n_tmp_sections;
++        status->vhost_dev->nvqs = hdev->nvqs;
++        status->vhost_dev->vq_index = hdev->vq_index;
++        status->vhost_dev->features = hdev->features;
++        status->vhost_dev->acked_features = hdev->acked_features;
++        status->vhost_dev->backend_features = hdev->backend_features;
++        status->vhost_dev->protocol_features = hdev->protocol_features;
++        status->vhost_dev->max_queues = hdev->max_queues;
++        status->vhost_dev->backend_cap = hdev->backend_cap;
++        status->vhost_dev->log_enabled = hdev->log_enabled;
++        status->vhost_dev->log_size = hdev->log_size;
++    }
++
++    return status;
 +}
 +
  static const TypeInfo virtio_device_info = {
      .name = TYPE_VIRTIO_DEVICE,
      .parent = TYPE_DEVICE,
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 90e6080..8f4e4c1 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -110,6 +110,7 @@ struct VirtIODevice
-     bool use_guest_notifier_mask;
-     AddressSpace *dma_as;
-     QLIST_HEAD(, VirtQueue) *vector_queues;
-+    QTAILQ_ENTRY(VirtIODevice) next;
- };
- 
- struct VirtioDeviceClass {
-diff --git a/qapi/meson.build b/qapi/meson.build
-index 656ef0e..10c54d6 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -48,6 +48,7 @@ qapi_all_modules = [
-   'sockets',
-   'trace',
-   'transaction',
-+  'virtio',
-   'yank',
- ]
- if have_system
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 4912b97..1512ada 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -93,3 +93,4 @@
- { 'include': 'audio.json' }
- { 'include': 'acpi.json' }
- { 'include': 'pci.json' }
-+{ 'include': 'virtio.json' }
 diff --git a/qapi/virtio.json b/qapi/virtio.json
-new file mode 100644
-index 0000000..aee0e40
---- /dev/null
+index aee0e40..ba61d83 100644
+--- a/qapi/virtio.json
 +++ b/qapi/virtio.json
-@@ -0,0 +1,68 @@
-+# -*- Mode: Python -*-
-+# vim: filetype=python
-+#
+@@ -66,3 +66,225 @@
+ { 'command': 'x-query-virtio',
+   'returns': [ 'VirtioInfo' ],
+   'features': [ 'unstable' ] }
 +
 +##
-+# = Virtio devices
-+##
-+
-+##
-+# @VirtioInfo:
++# @VhostStatus:
 +#
-+# Basic information about a given VirtIODevice
++# Information about a vhost device. This information will only be
++# displayed if the vhost device is active.
 +#
-+# @path: The VirtIODevice's canonical QOM path
++# @n-mem-sections: vhost_dev n_mem_sections
 +#
-+# @name: Name of the VirtIODevice
++# @n-tmp-sections: vhost_dev n_tmp_sections
++#
++# @nvqs: vhost_dev nvqs (number of virtqueues being used)
++#
++# @vq-index: vhost_dev vq_index
++#
++# @features: vhost_dev features
++#
++# @acked-features: vhost_dev acked_features
++#
++# @backend-features: vhost_dev backend_features
++#
++# @protocol-features: vhost_dev protocol_features
++#
++# @max-queues: vhost_dev max_queues
++#
++# @backend-cap: vhost_dev backend_cap
++#
++# @log-enabled: vhost_dev log_enabled flag
++#
++# @log-size: vhost_dev log_size
 +#
 +# Since: 7.0
 +#
 +##
-+{ 'struct': 'VirtioInfo',
-+  'data': { 'path': 'str',
-+            'name': 'str' } }
++
++{ 'struct': 'VhostStatus',
++  'data': { 'n-mem-sections': 'int',
++            'n-tmp-sections': 'int',
++            'nvqs': 'uint32',
++            'vq-index': 'int',
++            'features': 'uint64',
++            'acked-features': 'uint64',
++            'backend-features': 'uint64',
++            'protocol-features': 'uint64',
++            'max-queues': 'uint64',
++            'backend-cap': 'uint64',
++            'log-enabled': 'bool',
++            'log-size': 'uint64' } }
 +
 +##
-+# @x-query-virtio:
++# @VirtioStatus:
 +#
-+# Returns a list of all realized VirtIODevices
++# Full status of the virtio device with most VirtIODevice members.
++# Also includes the full status of the corresponding vhost device
++# if the vhost device is active.
++#
++# @name: VirtIODevice name
++#
++# @device-id: VirtIODevice ID
++#
++# @vhost-started: VirtIODevice vhost_started flag
++#
++# @guest-features: VirtIODevice guest_features
++#
++# @host-features: VirtIODevice host_features
++#
++# @backend-features: VirtIODevice backend_features
++#
++# @device-endian: VirtIODevice device_endian
++#
++# @num-vqs: VirtIODevice virtqueue count. This is the number of active
++#           virtqueues being used by the VirtIODevice.
++#
++# @status: VirtIODevice configuration status (VirtioDeviceStatus)
++#
++# @isr: VirtIODevice ISR
++#
++# @queue-sel: VirtIODevice queue_sel
++#
++# @vm-running: VirtIODevice vm_running flag
++#
++# @broken: VirtIODevice broken flag
++#
++# @disabled: VirtIODevice disabled flag
++#
++# @use-started: VirtIODevice use_started flag
++#
++# @started: VirtIODevice started flag
++#
++# @start-on-kick: VirtIODevice start_on_kick flag
++#
++# @disable-legacy-check: VirtIODevice disabled_legacy_check flag
++#
++# @bus-name: VirtIODevice bus_name
++#
++# @use-guest-notifier-mask: VirtIODevice use_guest_notifier_mask flag
++#
++# @vhost-dev: Corresponding vhost device info for a given VirtIODevice.
++#             Present if the given VirtIODevice has an active vhost
++#             device.
++#
++# Since: 7.0
++#
++##
++
++{ 'struct': 'VirtioStatus',
++  'data': { 'name': 'str',
++            'device-id': 'uint16',
++            'vhost-started': 'bool',
++            'device-endian': 'str',
++            'guest-features': 'uint64',
++            'host-features': 'uint64',
++            'backend-features': 'uint64',
++            'num-vqs': 'int',
++            'status': 'uint8',
++            'isr': 'uint8',
++            'queue-sel': 'uint16',
++            'vm-running': 'bool',
++            'broken': 'bool',
++            'disabled': 'bool',
++            'use-started': 'bool',
++            'started': 'bool',
++            'start-on-kick': 'bool',
++            'disable-legacy-check': 'bool',
++            'bus-name': 'str',
++            'use-guest-notifier-mask': 'bool',
++            '*vhost-dev': 'VhostStatus' } }
++
++##
++# @x-query-virtio-status:
++#
++# Poll for a comprehensive status of a given virtio device
++#
++# @path: Canonical QOM path of the VirtIODevice
 +#
 +# Features:
 +# @unstable: This command is meant for debugging.
 +#
-+# Returns: List of gathered VirtIODevices
++# Returns: VirtioStatus of the virtio device
 +#
 +# Since: 7.0
 +#
-+# Example:
++# Examples:
 +#
-+# -> { "execute": "x-query-virtio" }
-+# <- { "return": [
-+#        {
-+#            "path": "/machine/peripheral-anon/device[4]/virtio-backend",
-+#            "name": "virtio-input"
-+#        },
-+#        {
-+#            "path": "/machine/peripheral/crypto0/virtio-backend",
-+#            "name": "virtio-crypto"
-+#        },
-+#        {
-+#            "path": "/machine/peripheral-anon/device[2]/virtio-backend",
-+#            "name": "virtio-scsi"
-+#        },
-+#        {
-+#            "path": "/machine/peripheral-anon/device[1]/virtio-backend",
-+#            "name": "virtio-net"
-+#        },
-+#        {
-+#            "path": "/machine/peripheral-anon/device[0]/virtio-backend",
-+#            "name": "virtio-serial"
-+#        }
-+#      ]
++# 1. Poll for the status of virtio-crypto (no vhost-crypto active)
++#
++# -> { "execute": "x-query-virtio-status",
++#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend" }
++#    }
++# <- { "return": {
++#            "device-endian": "little",
++#            "bus-name": "",
++#            "disable-legacy-check": false,
++#            "name": "virtio-crypto",
++#            "started": true,
++#            "device-id": 20,
++#            "backend-features": 0,
++#            "start-on-kick": false,
++#            "isr": 1,
++#            "broken": false,
++#            "status": 15,
++#            "num-vqs": 2,
++#            "guest-features": 5100273664,
++#            "host-features": 6325010432,
++#            "use-guest-notifier-mask": true,
++#            "vm-running": true,
++#            "queue-sel": 1,
++#            "disabled": false,
++#            "vhost-started": false,
++#            "use-started": true
++#      }
++#    }
++#
++# 2. Poll for the status of virtio-net (vhost-net is active)
++#
++# -> { "execute": "x-query-virtio-status",
++#      "arguments": { "path": "/machine/peripheral-anon/device[1]/virtio-backend" }
++#    }
++# <- { "return": {
++#            "device-endian": "little",
++#            "bus-name": "",
++#            "disabled-legacy-check": false,
++#            "name": "virtio-net",
++#            "started": true,
++#            "device-id": 1,
++#            "vhost-dev": {
++#               "n-tmp-sections": 4,
++#               "n-mem-sections": 4,
++#               "max-queues": 1,
++#               "backend-cap": 2,
++#               "log-size": 0,
++#               "backend-features": 0,
++#               "nvqs": 2,
++#               "protocol-features": 0,
++#               "vq-index": 0,
++#               "log-enabled": false,
++#               "acked-features": 5100306432,
++#               "features": 13908344832
++#            },
++#            "backend-features": 6337593319,
++#            "start-on-kick": false,
++#            "isr": 1,
++#            "broken": false,
++#            "status": 15,
++#            "num-vqs": 3,
++#            "guest-features": 5111807911,
++#            "host-features": 6337593319,
++#            "use-guest-notifier-mask": true,
++#            "vm-running": true,
++#            "queue-sel": 2,
++#            "disabled": false,
++#            "vhost-started": true,
++#            "use-started": true
++#      }
 +#    }
 +#
 +##
 +
-+{ 'command': 'x-query-virtio',
-+  'returns': [ 'VirtioInfo' ],
++{ 'command': 'x-query-virtio-status',
++  'data': { 'path': 'str' },
++  'returns': 'VirtioStatus',
 +  'features': [ 'unstable' ] }
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index 7f103ea..fd00ee2 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -103,6 +103,7 @@ static bool query_is_ignored(const char *cmd)
-         "query-gic-capabilities", /* arm */
-         /* Success depends on target-specific build configuration: */
-         "query-pci",              /* CONFIG_PCI */
-+        "x-query-virtio",         /* CONFIG_VIRTIO */
-         /* Success depends on launching SEV guest */
-         "query-sev-launch-measure",
-         /* Success depends on Host or Hypervisor SEV support */
 -- 
 1.8.3.1
 
