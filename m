@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0804D083D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:19:25 +0100 (CET)
-Received: from localhost ([::1]:33090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 285204D0830
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:14:53 +0100 (CET)
+Received: from localhost ([::1]:48806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRJpE-0007EI-CI
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:19:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50702)
+	id 1nRJkq-000715-6Z
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:14:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <33GUmYgYKClkK9KLJI7FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--titusr.bounces.google.com>)
- id 1nRJju-0006GX-E7
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:13:54 -0500
-Received: from [2607:f8b0:4864:20::24a] (port=52840
- helo=mail-oi1-x24a.google.com)
+ <332UmYgYKClwNCNOMLAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--titusr.bounces.google.com>)
+ id 1nRJjg-0005nR-8z
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:13:40 -0500
+Received: from [2607:f8b0:4864:20::114a] (port=41104
+ helo=mail-yw1-x114a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <33GUmYgYKClkK9KLJI7FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--titusr.bounces.google.com>)
- id 1nRJjt-00071U-0Y
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:13:54 -0500
-Received: by mail-oi1-x24a.google.com with SMTP id
- w19-20020a0568080d5300b002d54499cc1eso10368361oik.19
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 12:13:51 -0800 (PST)
+ <332UmYgYKClwNCNOMLAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--titusr.bounces.google.com>)
+ id 1nRJje-0006zX-R3
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:13:40 -0500
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-2d07ae11462so142279847b3.8
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 12:13:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=C1QU/XG0WjYMmOuB0Sr7RgGJYPpVOPbbX4rLSKFUlSI=;
- b=dTbZYyaBO0lInfSz39p94rFrVu7K3EIittObjn0BlWf0jJg9rmlvsIOVyuPm0Gj9c2
- I0VS7ybCGUSWfOkOqjehQZsg+JkKMLsA4nEkVmBoJCebSYVKTqk/sFQVgaZJ3KVdIFAt
- pZuIM9tM6kHpZiDjA+/jeG0ddEM2Ot32+N1JRIR6OJ0hCc39u/sGjYh1nBCYabWjMRyj
- NFHF8gTw32ZgQK6cV/UJUPbbcS/sXN2JzAf2I9sx3hbMeSM1dfpubgmSTAdhR/9ev3jG
- NDSv4Sfuwv4ftgsrzmq/raDDBDL5FdgtIYBrJ6dcMiqB6T/jWzeBqduEdvX/+qXFCiIe
- Hrww==
+ :cc:content-transfer-encoding;
+ bh=lIRfi2f2amHB6ihbKUdscawcMADEbKCKME61okDpwFk=;
+ b=VPWHY7L8yT3cUqhLgnAFNFePpCoP6cZloGIjY4e19s75M3rID2Zx24ewRKOqsMmtJf
+ mSUnjpyePv6M32WcRqqQzINr1vEaH5P2KRezLa5nAZ/nusST9T1lJCXIEzFVYOHYrmf8
+ CzXbMZileBNdylJMRilytxVNyXxqYZBv8hulUdAveJ8ss88erwoLKJiG7jPOcp0RezwT
+ 57imJ2P5kf/1UGE40uSOj4EWmpUT8T630AVix2T/hkuJ0DLN4QNR4NG2LIhYfxeR5+Hk
+ VCV18RsoKUutwR/a9cQb+NReWX8tI3Q5M575tP20F8Bh/M2uKo4e6SBWal8ZwmAR6+sw
+ PqbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=C1QU/XG0WjYMmOuB0Sr7RgGJYPpVOPbbX4rLSKFUlSI=;
- b=pIq44tYBWw4Wp9Ya0IUVWCSQS7Fn71XjECsniKY75rUN3EwfSo46oclMt4O0tuEh+f
- GiA3AQWMjMlSjXvyHg77wqYpnzmv/SNaVa9hY/TR8X/tqSUrGbcnuioexeutH2sfoaMS
- 1OFuKwLecyTHypjdSo5tFgZoVPOT9KnPcw6oZ3O6zqZq0mkIUdK0rPDZCiI2nkZJcaeQ
- OXj/xFEgc7/zllQzfNT916Q/sRUCRDdi2o7mkUPV1E2gWrV0Hrv4c56ke3kiIvDYrFWl
- d8GXeD+GjxF1GvaxjKO37CjFcJZE4Lzxg29Cmxi10gzj1xUz+ECxXT6ecgIxo7S3Pa2M
- uHQQ==
-X-Gm-Message-State: AOAM533725h4lMgTale+RdyOLdDAqrzPhun2fKEfuLqGk/62eghVA4ir
- /UWuKOYAtNLPktxdU3Z2+aBvprRoNQ4=
-X-Google-Smtp-Source: ABdhPJypyEYe5TvU/gqjsiZfBOuoluqnHFS5pN/ubNi9RkHB9jg0odypGzGqU6aIXuFTtUfjeRtAah0IZ1c=
+ :references:subject:from:to:cc:content-transfer-encoding;
+ bh=lIRfi2f2amHB6ihbKUdscawcMADEbKCKME61okDpwFk=;
+ b=ux6K0jqOzPQGWtjqmK9fvmGMt7CAxDd0h9r4KJWetluWuX+m++jHv/kFfYUwReoPOA
+ /kx4fRH1NZDwmO7zTvmmcsSyepgjxDI78SKWFuJgN4cgbaryCpXNrcrYkfrw0zdG02NP
+ QDIOLdUDrwmaoCCg73IQRSFCHV0OrBc352jbgAwU/r3SImFhJAbKfO909xF9KZUTIDjo
+ oYNWvuFrisMQNhF3VmdnA5gMmxLgC8GFZeiHTJcsMzDqPFi0yplgOWA9bsGLeLzbiftJ
+ ROXBBd30VaZmvNC7lm+cyqJ0pAE0A7oPEvJeiNtpcn/UftNjWoHs+Yl8ZKRc7MG1amuI
+ creA==
+X-Gm-Message-State: AOAM532K3jUWNwAI2iKOAaDY798rM4rQDuYW46eA0/wPRX0EdBYX5jqR
+ Oo7Pzyf8/tkwaRblgqPRe82RTPpiEeQ=
+X-Google-Smtp-Source: ABdhPJw9EFOzQ0aQ5l5raO8i62JoB0YJDvsO+xVr+3VvPtC81LhjQJiIn/KXKDgZuj96icdCciSi/W3Xxi8=
 X-Received: from titusr.svl.corp.google.com
  ([2620:15c:2a3:201:3c4a:fc8b:1418:53ce])
- (user=titusr job=sendgmr) by 2002:a25:2c86:0:b0:629:1915:3bbe with SMTP id
- s128-20020a252c86000000b0062919153bbemr8540178ybs.49.1646683612671; Mon, 07
- Mar 2022 12:06:52 -0800 (PST)
-Date: Mon,  7 Mar 2022 12:05:59 -0800
+ (user=titusr job=sendgmr) by 2002:a25:d181:0:b0:629:1919:d8e5 with SMTP id
+ i123-20020a25d181000000b006291919d8e5mr8293718ybg.85.1646683615214; Mon, 07
+ Mar 2022 12:06:55 -0800 (PST)
+Date: Mon,  7 Mar 2022 12:06:00 -0800
 In-Reply-To: <20220307200605.4001451-1-titusr@google.com>
-Message-Id: <20220307200605.4001451-4-titusr@google.com>
+Message-Id: <20220307200605.4001451-5-titusr@google.com>
 Mime-Version: 1.0
 References: <20220307200605.4001451-1-titusr@google.com>
 X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
-Subject: [PATCH v4 3/9] hw/i2c: pmbus: add PEC unsupported warning
+Subject: [PATCH v4 4/9] hw/i2c: pmbus: refactor uint handling
 From: Titus Rwantare <titusr@google.com>
 To: Corey Minyard <minyard@acm.org>, 
  "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <f4bug@amsat.org>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
  venture@google.com, Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::24a
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::114a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::24a;
- envelope-from=33GUmYgYKClkK9KLJI7FF7C5.3FDH5DL-45M5CEFE7EL.FI7@flex--titusr.bounces.google.com;
- helo=mail-oi1-x24a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::114a;
+ envelope-from=332UmYgYKClwNCNOMLAIIAF8.6IGK8GO-78P8FHIHAHO.ILA@flex--titusr.bounces.google.com;
+ helo=mail-yw1-x114a.google.com
 X-Spam_score_int: -81
 X-Spam_score: -8.2
 X-Spam_bar: --------
@@ -94,28 +96,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This change cleans up the inputs to pmbus_receive uint, the length of
+received data is contained in PMBusDevice state and doesn't need to be
+passed around.
+
 Signed-off-by: Titus Rwantare <titusr@google.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
- hw/i2c/pmbus_device.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/i2c/pmbus_device.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
-index c7ec8e5499..ff644c1d4a 100644
+index ff644c1d4a..8cb9db0f80 100644
 --- a/hw/i2c/pmbus_device.c
 +++ b/hw/i2c/pmbus_device.c
-@@ -307,6 +307,11 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
- 
-     case PMBUS_CAPABILITY:
-         pmbus_send8(pmdev, pmdev->capability);
-+        if (pmdev->capability & BIT(7)) {
-+            qemu_log_mask(LOG_UNIMP,
-+                          "%s: PEC is enabled but not yet supported.\n",
-+                          __func__);
-+        }
-         break;
- 
-     case PMBUS_VOUT_MODE:                 /* R/W byte */
--- 
+@@ -89,16 +89,16 @@ void pmbus_send_string(PMBusDevice *pmdev, const char *=
+data)
+ }
+=20
+=20
+-static uint64_t pmbus_receive_uint(const uint8_t *buf, uint8_t len)
++static uint64_t pmbus_receive_uint(PMBusDevice *pmdev)
+ {
+     uint64_t ret =3D 0;
+=20
+     /* Exclude command code from return value */
+-    buf++;
+-    len--;
++    pmdev->in_buf++;
++    pmdev->in_buf_len--;
+=20
+-    for (int i =3D len - 1; i >=3D 0; i--) {
+-        ret =3D ret << 8 | buf[i];
++    for (int i =3D pmdev->in_buf_len - 1; i >=3D 0; i--) {
++        ret =3D ret << 8 | pmdev->in_buf[i];
+     }
+     return ret;
+ }
+@@ -110,7 +110,7 @@ uint8_t pmbus_receive8(PMBusDevice *pmdev)
+                       "%s: length mismatch. Expected 1 byte, got %d bytes\=
+n",
+                       __func__, pmdev->in_buf_len - 1);
+     }
+-    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
++    return pmbus_receive_uint(pmdev);
+ }
+=20
+ uint16_t pmbus_receive16(PMBusDevice *pmdev)
+@@ -120,7 +120,7 @@ uint16_t pmbus_receive16(PMBusDevice *pmdev)
+                       "%s: length mismatch. Expected 2 bytes, got %d bytes=
+\n",
+                       __func__, pmdev->in_buf_len - 1);
+     }
+-    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
++    return pmbus_receive_uint(pmdev);
+ }
+=20
+ uint32_t pmbus_receive32(PMBusDevice *pmdev)
+@@ -130,7 +130,7 @@ uint32_t pmbus_receive32(PMBusDevice *pmdev)
+                       "%s: length mismatch. Expected 4 bytes, got %d bytes=
+\n",
+                       __func__, pmdev->in_buf_len - 1);
+     }
+-    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
++    return pmbus_receive_uint(pmdev);
+ }
+=20
+ uint64_t pmbus_receive64(PMBusDevice *pmdev)
+@@ -140,7 +140,7 @@ uint64_t pmbus_receive64(PMBusDevice *pmdev)
+                       "%s: length mismatch. Expected 8 bytes, got %d bytes=
+\n",
+                       __func__, pmdev->in_buf_len - 1);
+     }
+-    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
++    return pmbus_receive_uint(pmdev);
+ }
+=20
+ static uint8_t pmbus_out_buf_pop(PMBusDevice *pmdev)
+--=20
 2.35.1.616.g0bdcbb4464-goog
 
 
