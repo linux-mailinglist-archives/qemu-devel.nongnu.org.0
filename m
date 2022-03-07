@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195B04D0573
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 18:43:32 +0100 (CET)
-Received: from localhost ([::1]:45588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A97C4D05B4
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 18:51:49 +0100 (CET)
+Received: from localhost ([::1]:50588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRHOM-0000he-Lk
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 12:43:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48904)
+	id 1nRHWO-0004gW-43
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 12:51:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRHMS-0008S2-O1
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:41:32 -0500
-Received: from [2607:f8b0:4864:20::433] (port=40468
- helo=mail-pf1-x433.google.com)
+ id 1nRHUy-0003wE-WF
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:50:21 -0500
+Received: from [2607:f8b0:4864:20::530] (port=43820
+ helo=mail-pg1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRHMR-0008Fr-4O
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:41:32 -0500
-Received: by mail-pf1-x433.google.com with SMTP id z15so14623111pfe.7
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 09:41:30 -0800 (PST)
+ id 1nRHUx-00011K-JV
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:50:20 -0500
+Received: by mail-pg1-x530.google.com with SMTP id 27so14217845pgk.10
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 09:50:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Zp7+9/mftR1xCD8G8RzN34v4LUFFf5S3GBg1hVGw7CU=;
- b=aNDmcu5jBr8pd+k1vDFidn3KxDkD5Ece3JSmurZ3CK0BDnTStK/OvGFvnXzHh6QscA
- Y4ykm3m4dmX6GqX5z00v9M6PD7/yo6sW3Pz6+tO7RpXcWvwIPRB9HigJDEUUVM7u9Ndz
- HVtU2UPPlfc/YwE22WazW2nWSJMMEmjMbGdqLocEWNUMMgyR4mx8Kb/FPxYyCloJ96HN
- EKGwFXTxcsNW6FaWD3YKrndu1vvkW3uUsgKnMaJodXHjwlKbx2IPjhwECM3twtHo44+K
- v/0bvGxrLsTuJWrc+07wgAOBkpAJf7TCij6FRtDTECAi60mL04z6uNWkPImuTvNYJ0wj
- abZg==
+ bh=MOTfyWeMbrMB4KtwsVsk/zbUoScw+bU4ZVswEDOxNfI=;
+ b=srTQREdAcmULbZH4RfgY373xjVnSP2JnuGpL87VdvT4HxnUdYmSX2+M8fFTZ959cV8
+ C5SiYiXxvsYAVwUGCjO5FiaEjDxkCaS53btFKWQGST5qIpl1c3LoY4+4sYpMaum6l8S4
+ YyGelJHWGYu9kLwF+MYgbO8PhEdDxOae/nfAK3MHEfc6wB7ImKeI6E7laKxSRAcPtKVh
+ csKnJMJ36OBkmpEaLwJs5D380f4/V3gWGi/Yam+gac1wT9bWk3KF/JJYv8YCflLL9M60
+ nhpc/kDgzBNQ41YDzka5QgZ4LyqUo6K/L/AJ9hxb5ZV8UFrVNvJtWNULbqQ7+NxCWK80
+ NHwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Zp7+9/mftR1xCD8G8RzN34v4LUFFf5S3GBg1hVGw7CU=;
- b=YY99+eCNATzGVzPd8pGIRutjVN64er0xRCkWB/uCrnRU8fM5Flhi+v/cOjIwUIp7Qn
- 0YV9YWroLaNpuwE6j8c3HSfqPBVYLEjYA7jzMm2NVuIw9iOU7YilWJigekXMRPRIPVvq
- AtUWPMYckhyinjhvippT/i2e3YyfisssPqfWiGq2rpaCKGPk6K54qydYrlfSvv18ITkn
- fCHvHnETdLFmhtmOVvX/aKh35UWn5ef8+48oNVJIRHNRuyKTk1n/WrhFj8ERVZ0TGS3T
- fyj0T5g9ASkvOi98Z7B9cLmJ8wZYZmWG7TlvnagfIqRPSPA15ykKp89iHyafxJha/9Ck
- vNYA==
-X-Gm-Message-State: AOAM530CTgc6O3sqUfahNuxZX1K4U8IMDGhx7U0A0jPSjdVk4ieJH3bQ
- bKEra0d3rFMturGLIXsgplR3YA==
-X-Google-Smtp-Source: ABdhPJy8oyryDGs08ahudY7HE2ani88vXiBo4O28G7bLzTZzR+xgCMar4e+ziMIVAtYtF1mgJ7Z8Uw==
-X-Received: by 2002:a63:90c7:0:b0:37c:7a8c:c2d3 with SMTP id
- a190-20020a6390c7000000b0037c7a8cc2d3mr10803305pge.473.1646674889137; 
- Mon, 07 Mar 2022 09:41:29 -0800 (PST)
+ bh=MOTfyWeMbrMB4KtwsVsk/zbUoScw+bU4ZVswEDOxNfI=;
+ b=FJo4hi8R9Q0cEyU/Cklh0LxWCZ7N6Lbio5zaIFO6r4UgVmRNzFwUG1zJpKoEgiB8a5
+ CtvD/6pn9ODiceyNajM2IXm913/FDw/0hKD6s3Ey4H7fEkMMf9QPc/rHboS3umdhfzRz
+ 94G6bz1iyVLO3GMxBOTxXwbKyJgS2XwGNHjxZng/8Xf6U7W1ewdfWl6dTnGpvK0WsM8O
+ GO8E5nbYQm3N6iU5j9zTQgmWStMjj6YIJeHceLxLTnT837QUKkwrKH/r2q/tzwgd380O
+ WDj/wtUfWXgYMU4YryLC0LrHsFVXyNn2JzrBa01Ufj/xRRS2+Am9e1pzabVMP6KlCf/g
+ 78bA==
+X-Gm-Message-State: AOAM531SQ4fHBWhVIukhrWB+RXGR/ccuDlfFZarXlUaT3n/g+23lDNbr
+ hEfSDcUJ/ouTarWwNusxqQvqUg==
+X-Google-Smtp-Source: ABdhPJxzPczSutjFcl5xYefQ5jUbQI5iwwto9PV3pN6bXMqhxhLwm5nI3qvUXYkrZbN1HRo2NC4Y2w==
+X-Received: by 2002:aa7:8585:0:b0:4f6:f528:2e02 with SMTP id
+ w5-20020aa78585000000b004f6f5282e02mr7154634pfn.76.1646675418210; 
+ Mon, 07 Mar 2022 09:50:18 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- f9-20020a056a00228900b004f3ba7d177csm16177513pfe.54.2022.03.07.09.41.27
+ o7-20020a056a00214700b004c169d45699sm16438840pfk.184.2022.03.07.09.50.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 09:41:28 -0800 (PST)
-Message-ID: <fedbc4bc-c5de-4320-4103-f46730680dbe@linaro.org>
-Date: Mon, 7 Mar 2022 07:41:24 -1000
+ Mon, 07 Mar 2022 09:50:17 -0800 (PST)
+Message-ID: <6bbb469f-3043-6a7c-bfbe-c2bd5d138907@linaro.org>
+Date: Mon, 7 Mar 2022 07:50:14 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH] RFC: replace qemu_real_host_page variables with inlined
- functions
+Subject: Re: [PATCH v3] tests/tcg/s390x: Cleanup of mie3 tests.
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20220301144611.1299277-1-marcandre.lureau@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, David Miller <dmiller423@gmail.com>,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+References: <20220301214305.2778-1-dmiller423@gmail.com>
+ <23a9e21b-5f2b-1945-1b04-8bf71a9c637b@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220301144611.1299277-1-marcandre.lureau@redhat.com>
+In-Reply-To: <23a9e21b-5f2b-1945-1b04-8bf71a9c637b@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,18 +94,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, peter.maydell@linaro.org
+Cc: pasic@linux.ibm.com, borntraeger@linux.ibm.com, farman@linux.ibm.com,
+ cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/1/22 04:46, marcandre.lureau@redhat.com wrote:
-> Replace the global variables with inlined helper functions. getpagesize() is very
-> likely annotated with a "const" function attribute (at least with glibc), and thus
-> optimization should apply even better.
+On 3/6/22 22:42, Thomas Huth wrote:
+>> +asm volatile (          \
+>> +    "llihf %[res],801\n"\
+>> +    ASM                 \
+>> +    : [res] "=&r" (res)  \
+>> +    : [a] "r" (a)       \
+>> +    , [b] "r" (b)       \
+>> +);                      \
 > 
-> This avoids the need for a constructor initialization too.
+> Hmm, don't we still need "cc" in the clobber list? AFAICS some of these instructions still 
+> alter the CC register... so I'd suggest to rather drop the changes to this file?
 
-What's the change in the size of the qemu text section with this change?
+Yep, my bad.  I wrongly assumed cc would be auto-clobbered, like i386.
 
 
 r~
