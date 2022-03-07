@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2494CEEDD
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 01:01:51 +0100 (CET)
-Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C009E4CEEEB
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 01:15:42 +0100 (CET)
+Received: from localhost ([::1]:59632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR0ow-0001SG-Hd
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 19:01:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55524)
+	id 1nR12L-00052w-Ap
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 19:15:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR0nH-0000So-EG; Sun, 06 Mar 2022 19:00:07 -0500
-Received: from [2a00:1450:4864:20::42f] (port=35570
- helo=mail-wr1-x42f.google.com)
+ id 1nR10a-0004MU-Q4
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 19:13:52 -0500
+Received: from [2a00:1450:4864:20::42b] (port=37780
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR0nF-0005WD-TV; Sun, 06 Mar 2022 19:00:07 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id b5so20762808wrr.2;
- Sun, 06 Mar 2022 16:00:05 -0800 (PST)
+ id 1nR10V-0007QZ-Rv
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 19:13:48 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id q14so5201145wrc.4
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 16:13:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=9jUzM3h68dB2doXx5iieL8MIWnihNaAzc5IOtQGPZXM=;
- b=lTWP00GjQdR0GKejhKwJUk5eR70uHt4KwgMssBVU3QtfaDS3vAMmqQNMTmk3ag7EI0
- GQGXdetV8g/YyfXOlLbxsectvTgdpQObnS2xPGdE0TXgiOlbaY1i5Vu2hwIiIfpX7hqO
- HxQldOgNkhzDKL+pafGV3TPXrI2Q8fByR8IryVp6VKqXBZ63Ory8toNrKDWVQdeha6LY
- Tg4wW40vVqXWvxuGrerbDas2sxKKogPQC2Tk1VKAc+6VhYpXz7yyHGsQsvfTS5txXSdl
- /LtBi2eaFibJ3/4Dxvxiwku8jQNMJsZzCR7lhchWkVJrL8PvRjT+QYGCv76apJk16NxN
- NClw==
+ bh=ozMp5rzXMEAHcl2Pk33PF4ER/L0fON4NGa8B2E0PfDs=;
+ b=TImg02SP9MFhjj4i/W9EZZkEHTNscu156StazP9yxHVHcEh9GmHbGxv+jB+7JWIiN3
+ yZFlHXSpcmVYOY+MYSp1yog5cecpvFdB3voBwKBuTmPpH7HzeVVgd6npzq6QXuPxqX70
+ qASXzX+q22GdyA8ttPBUVtr/qS/2Dc/ACTOU4QKgzJlC2viQuK5F8wQtuM6hJ9Gpd9Dh
+ dx5KFib/QpBrl63DU5GbndUsC7gxwYuyW/yCXomHs4lItaDaQrI9ZqYDGDFWcOANfB6L
+ m3E0zDi8fW64CS2AiFr3/ymA7L4jC4Z1eUu7o9S0GbDii+hO7/lPjtgy4MRSGqof2G5T
+ BnYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9jUzM3h68dB2doXx5iieL8MIWnihNaAzc5IOtQGPZXM=;
- b=BvinT7fD+z24GJUqYM8B031xR9gi8dBdEacLXEPCgoabn75TOK8ypY7khFOZUd6SW5
- WHjf/PlTmPRN9F6y2moo20TeqjceJZm4zMLFH5Rxw+jq79m1f8Wz2Tp+iAGa5qYqSMBb
- oxU5OsfE9SErsbs/SYGxPSS7Z1H4z2zQFiX1O4pEUs+1MdCwljM6XBzuJ97ps5Q/Mh3Y
- 139SV7bAxWOalHxKOkKfJ9nQBe4H3x49/HNoYUV8Lpq0h2MndHnNF6I8NPMegtg8PAMn
- jJkeYidhUjwpWTSIwZiuhDCnlPSmPDTuM8jhT88HsjPu8gJ8R83hDXsln/cryow0McZR
- rIWQ==
-X-Gm-Message-State: AOAM532TcOPs+wqIq3x/EM+8MAnybaRGTPQa4JyIbooHaUCmJOWU9lo4
- 4qQfFGQ7m+CsviMGyK85wN0=
-X-Google-Smtp-Source: ABdhPJyvobDaPOFCP/7kQlESaKbTQIaxjIswhx3UtTNj1ROzBZY56tfrz3mWM9+ynFhbnMNB0ouoYg==
-X-Received: by 2002:a05:6000:22c:b0:1f0:ff85:948d with SMTP id
- l12-20020a056000022c00b001f0ff85948dmr6234508wrz.494.1646611203879; 
- Sun, 06 Mar 2022 16:00:03 -0800 (PST)
+ bh=ozMp5rzXMEAHcl2Pk33PF4ER/L0fON4NGa8B2E0PfDs=;
+ b=PMsUerfnewLK39eYoDIsEmbS/gASNGoS+Om3TQB38JL8TQiffkUJDXhH17rO8zKOXC
+ MSiyYivjiWyJx3VR641ZXb5qphXZRmPeL7oFm9YtFA3YxfTyuHmciOllwcHfqkROZutb
+ MECk5nvoaIQguCo1JgzHQPnzglISQrhYqvE9AtTWOGBjcXVN6+bJOU1U/BffEUwPrWd1
+ Dz23qYszEFVMT5kUvCngCc7hhDI8hqsyqOPpIBLA5DQwhmyJHMKn3pFSIiMZrBRxij4W
+ PX2UW8vSbstUlxNEaOs+Rmh5iDEkJyRZ3g8ml7+VSaeUiDNA+ln8wJOOfXtMTYFFs6ny
+ V43g==
+X-Gm-Message-State: AOAM532wEVqF5gmt443ihfYGd7DjCS+Nl1THaYUL6xnkDHGrGWUXRp7A
+ hIrpuc1j4Hgd5tIsosFcl3s=
+X-Google-Smtp-Source: ABdhPJwzAfU+NJEZVOyiodzs2ILq5r/UD1Y4ewhXQCcmZ93BWlQZALaYyXiHoDL54CmYxuyy+SNIVA==
+X-Received: by 2002:a5d:48d1:0:b0:1e3:2401:f229 with SMTP id
+ p17-20020a5d48d1000000b001e32401f229mr6444797wrs.694.1646612025867; 
+ Sun, 06 Mar 2022 16:13:45 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- m3-20020a5d6a03000000b001f06621641fsm7786226wru.96.2022.03.06.16.00.02
+ t184-20020a1c46c1000000b003814de297fcsm5629264wma.16.2022.03.06.16.13.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Mar 2022 16:00:03 -0800 (PST)
-Message-ID: <1af23dba-8f7a-8d93-706d-6e16067cdce2@gmail.com>
-Date: Mon, 7 Mar 2022 01:00:02 +0100
+ Sun, 06 Mar 2022 16:13:45 -0800 (PST)
+Message-ID: <5990c4ce-9882-6c96-c19d-830f343ae7ff@gmail.com>
+Date: Mon, 7 Mar 2022 01:13:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v3 0/9] This patch series contains updates to PMBus in
- QEMU along with some PMBus device models for Renesas regulators. I have also
- added myself to MAINTAINERS as this code is in use daily, where I am
- responsible for it.
+Subject: Re: [PATCH] [RESEND] docs: Add spec of OVMF GUIDed table for SEV
+ guests
 Content-Language: en-US
-To: Titus Rwantare <titusr@google.com>, minyard@acm.org
-References: <20220302015053.1984165-1-titusr@google.com>
- <20220304214354.GL3457@minyard.net>
- <CAMvPwGpzO3VyCqGJY28QVQoo9AwYxxrvP3RqPS6JTgpTk8ojtw@mail.gmail.com>
+To: Dov Murik <dovmurik@linux.ibm.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20220103091413.2869-1-dovmurik@linux.ibm.com>
+ <YdSM8wFu4xiRcKMt@redhat.com>
+ <acbcbb8a-3b50-a380-ad58-0d1545c8715a@linux.ibm.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <CAMvPwGpzO3VyCqGJY28QVQoo9AwYxxrvP3RqPS6JTgpTk8ojtw@mail.gmail.com>
+In-Reply-To: <acbcbb8a-3b50-a380-ad58-0d1545c8715a@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,42 +97,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, venture@google.com, qemu-devel@nongnu.org,
- f4bug@amsat.org, wuhaotsh@google.com, qemu-arm@nongnu.org
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/22 00:42, Titus Rwantare wrote:
-> On Fri, 4 Mar 2022 at 13:43, Corey Minyard <minyard@acm.org> wrote:
->>
->> On Tue, Mar 01, 2022 at 05:50:44PM -0800, Titus Rwantare wrote:
->>> v2:
->>>    - split PMBus commit with updates into individual fixes
->>>    - renamed isl_pmbus[.ch] adding _vr for voltage regulators
+On 15/2/22 07:21, Dov Murik wrote:
+> On 04/01/2022 20:07, Daniel P. Berrangé wrote:
+>> On Mon, Jan 03, 2022 at 11:14:13AM +0200, Dov Murik wrote:
+>>> Add docs/specs/sev-guest-firmware.rst which describes the GUIDed table
+>>> in the end of OVMF's image which is parsed by QEMU, and currently used
+>>> to describe some values for SEV and SEV-ES guests.
 >>>
->>> v3:
->>>    - split uint refactor commit and removed commit renaming files
->>>    - rename rolled into preceding commits
->>>    - update commit description for uint refactoring change
+>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>>> ---
+>>>   docs/specs/index.rst              |   1 +
+>>>   docs/specs/sev-guest-firmware.rst | 125 ++++++++++++++++++++++++++++++
+>>>   2 files changed, 126 insertions(+)
+>>>   create mode 100644 docs/specs/sev-guest-firmware.rst
 >>
->> This all looks good to me:
+>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 >>
->> Acked-by: Corey Minyard <cminyard@mvista.com>
->>
->> Do you have a plan for getting this in to qemu?  Like through the ARM
->> tree?  I could take it into an I2C tree, but there's really not much
->> activity or work there.
->>
->> -corey
 > 
-> In general PMBus is more specific to i2c than ARM, but I'm not sure of
-> the QEMU implications.
+> Phil,
+> 
+> Can you please add this to your queue? (I assume this is yours
+> because this is documentation of OVMF-QEMU interface)
 
-Titus, could you address my comments?
+Catching up for 7.0 I see Gerd merged it as 0a2a40da4f. Thank you Gerd!
 
-Corey, if you are busy, I can take care of this series.
-
-Regards,
-
-Phil.
 
