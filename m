@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F134D07C8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:34:12 +0100 (CET)
-Received: from localhost ([::1]:36020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643664D07D8
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:44:09 +0100 (CET)
+Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRJ7T-00045o-9B
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:34:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41088)
+	id 1nRJH5-00052D-TI
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:44:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1nRJ46-0000RR-4K
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:30:42 -0500
-Received: from [2a00:1450:4864:20::632] (port=40578
- helo=mail-ej1-x632.google.com)
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1nRJ4e-00017K-QV
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:31:16 -0500
+Received: from [2a00:1450:4864:20::636] (port=39579
+ helo=mail-ej1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1nRJ44-0008B3-I5
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:30:41 -0500
-Received: by mail-ej1-x632.google.com with SMTP id p15so34257195ejc.7
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 11:30:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1nRJ4d-0008Em-Az
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:31:16 -0500
+Received: by mail-ej1-x636.google.com with SMTP id dr20so34186712ejc.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 11:31:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=b+5Q/BguSUazMSqVhw2SH2qkG5kNVZqZ2CMecoqrJkk=;
- b=l03Mnlk5JVYSevtecOmRl5/anrJeBQ6FIOsxF3FUbWvsJyYCvXfWPS23BxKle8ERXC
- XtLMRMwiJssZvQifrI9dip3CgFJ2oWy8ifG5bm/iVqY3vaQX5BqTypuQ6oBvUabd0unV
- Ms917FGKIHeN1GDFET2nue0ALaPokAiYMwngFmQCfGrUYOZ0lHkrudZBXqnhOjbG+nT0
- KVOLq3iah6ZGrLHREChY+MMs4c/2NgXBuY80nQsLRL4khzkstt2atSLP4sPM6/3T8kSJ
- co/yT9n6X2V0TqmWT3lwY8GPQcYdMvQs5tC/Wr+mf7CcfWn+rRmJLbDa8cMFbzN73n2k
- kveA==
+ bh=+VBjgqfAmm5FqntNoXnZ0xJrYlHgIcSItu6rjEPK8fw=;
+ b=ePZCBKRSDeJf3B01MUXTxHy8A5j2SyQ3XlE7Ua62M6l7NxWzg82ElV6GjhFXeEsOzt
+ ojkVX/nbEsl4yYI9mVYZ6oQDYgcqQCffRqUokqFhod+f0N3ln8IXKKxv/1GQAifhDtrE
+ 7DooeEqim6sZiYbGzQB4JjMMp8feSN024Ri5G8WZen4djqlELOgV7A2HzXs8sDIcZt54
+ ZTUNHLd9ME/R4PjNo2pfpEXGnrs8xclK0dxA2oGnNUHRpLL4h26QewO4ehZbYH31HV5X
+ 55S9/80NthwH6kkFcxOIIPeE6mGluRNt2QPZFztqRskwLHHUnK73ulTkqYQplqJscV/M
+ 5V/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=b+5Q/BguSUazMSqVhw2SH2qkG5kNVZqZ2CMecoqrJkk=;
- b=VT5rimb98W4JPdFJU3ON6YOhuu/CK/OdQN1QULeacP9jQ2zXxDJkGK9iiu2xqfBXof
- QSNFXYiCkaNLZY3Ai+WRVUcSg9XvIIAr/+3cGXQeZu+kATfE5rbB2pCHeYHYD8qMlxnJ
- TLysooYW9EOgh+JbNkgn9TpQci1d8dHJbjD5kMD5h+ZbQ6LQ28oWwumJAN5GK1M2l8Xc
- cPdMUDO8y3dcdGPH8DFFCC415XBxgfDfopjXsfjeA7AJmP0e+5urfN4wtRbbeaBihr6V
- pZ5inxq4pr7A2ZGBhFd9QOoGMAyHOYNeSbNQNF5syQd8/V7QqPjoNEHqjsgJiHVWwvRl
- Nlcg==
-X-Gm-Message-State: AOAM530iAPy0hI9yRu7zNcuxbdEDN48LDa7dbfz6DJcNTLr7AiRDKPD/
- rD8v+QNFU0su2LIO47i9gcKW9zGiAM4IrxT7Xp8MPA==
-X-Google-Smtp-Source: ABdhPJxjwcbrVbLvsetszBDSLfPhW+GWtVikge2WJWSzOyjKtXBsncPCD46JWI+Gn+GsCmAntCzzaxVkMsUwhopdBG8=
-X-Received: by 2002:a17:906:49d4:b0:6d6:e5ec:9a23 with SMTP id
- w20-20020a17090649d400b006d6e5ec9a23mr10270392ejv.79.1646681436938; Mon, 07
- Mar 2022 11:30:36 -0800 (PST)
+ bh=+VBjgqfAmm5FqntNoXnZ0xJrYlHgIcSItu6rjEPK8fw=;
+ b=3U/2ucCSBy2n7euCpAiCKJ26xasHz/ji6O2T/G1NeVd/eG1YoTSIXwxaQMH5IZY7t4
+ DcFSZTazAMYrgZ3wXMw1zSosgBrFPM1HG8Oq/z5Nrg/uDR2lcg32mDtFJrGb2k8fI17B
+ 69n0cfyJohafWjUW5Y2cJUkuYqFyECMKLCLfxAYM48xBEexYqrRYvn9PkG4DjYCEWDIR
+ WUFZhKcFd6Xd6VysGGlpBnjg6kcdOhozGjrKKzC68StNsUYCNMAMDSI7i3JDeTM8n6om
+ JabTY1tWIToL5582nqnkEdnxSmMv6D56NyFK+pmTUolN1Ma628SxoAmzDmD0bMo+Dw6P
+ 7GPA==
+X-Gm-Message-State: AOAM530527rrtrFzl1ubRC3fTt94mmxj6ZJMlsI2mJRzYPupLlFlcAR7
+ rZAmVFY0RQV8GnJW3m4ZHUFEpa4vof2xCEYymnor8g==
+X-Google-Smtp-Source: ABdhPJyh4O3FcH/U+aTx6JLnj+z/pDNXHhfUgK4HRVw4OuUt16wQ6OmcspGmFfHseyOhzIeiwhMe0vQ+s3VYtuSUdKw=
+X-Received: by 2002:a17:906:3583:b0:6d1:c07:fac0 with SMTP id
+ o3-20020a170906358300b006d10c07fac0mr10112701ejb.749.1646681473825; Mon, 07
+ Mar 2022 11:31:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20220302015053.1984165-1-titusr@google.com>
- <20220302015053.1984165-3-titusr@google.com>
- <8524997d-48a4-9a00-8d94-b6e4d922a82e@gmail.com>
-In-Reply-To: <8524997d-48a4-9a00-8d94-b6e4d922a82e@gmail.com>
+ <20220302015053.1984165-4-titusr@google.com>
+ <96a31b84-3479-ef79-1d1d-b7515dc3f0f6@gmail.com>
+In-Reply-To: <96a31b84-3479-ef79-1d1d-b7515dc3f0f6@gmail.com>
 From: Titus Rwantare <titusr@google.com>
-Date: Mon, 7 Mar 2022 11:30:00 -0800
-Message-ID: <CAMvPwGpiyw3MhSY8AQkT-5WpsdgONDJz7St_WDwEiEM5j_b+qw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/9] hw/i2c: pmbus: guard against out of range accesses
+Date: Mon, 7 Mar 2022 11:31:00 -0800
+Message-ID: <CAMvPwGqKfVMNpUt9wONm2GvasAHWw5mnYEoR94s-fdws8WAZ+w@mail.gmail.com>
+Subject: Re: [PATCH v3 3/9] hw/i2c: pmbus: add PEC unsupported warning
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 Cc: Corey Minyard <minyard@acm.org>, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
@@ -63,10 +63,10 @@ Cc: Corey Minyard <minyard@acm.org>, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
  peter.maydell@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=titusr@google.com; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=titusr@google.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -161
 X-Spam_score: -16.2
 X-Spam_bar: ----------------
@@ -91,54 +91,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ack. All errors for PMBus should
-ideally be reflected in status and status_cml registers instead of
-carrying meaning in return values. I'll have to separately go through
-the existing code to make it consistent.
+Yes, fixed.
 
-
-On Fri, 4 Mar 2022 at 16:08, Philippe Mathieu-Daud=C3=A9
+On Fri, 4 Mar 2022 at 16:02, Philippe Mathieu-Daud=C3=A9
 <philippe.mathieu.daude@gmail.com> wrote:
 >
 > On 2/3/22 02:50, Titus Rwantare wrote:
 > > Signed-off-by: Titus Rwantare <titusr@google.com>
 > > ---
-> >   hw/i2c/pmbus_device.c | 41 ++++++++++++++++++++++++++++++++++++++++-
-> >   1 file changed, 40 insertions(+), 1 deletion(-)
->
-> >   static uint8_t pmbus_receive_byte(SMBusDevice *smd)
-> >   {
-> >       PMBusDevice *pmdev =3D PMBUS_DEVICE(smd);
-> >       PMBusDeviceClass *pmdc =3D PMBUS_DEVICE_GET_CLASS(pmdev);
-> >       uint8_t ret =3D 0xFF;
-> > -    uint8_t index =3D pmdev->page;
-> > +    uint8_t index;
+> >   hw/i2c/pmbus_device.c | 5 +++++
+> >   1 file changed, 5 insertions(+)
 > >
-> >       if (pmdev->out_buf_len !=3D 0) {
-> >           ret =3D pmbus_out_buf_pop(pmdev);
-> >           return ret;
-> >       }
+> > diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+> > index 93c746bab3..6eeb0731d7 100644
+> > --- a/hw/i2c/pmbus_device.c
+> > +++ b/hw/i2c/pmbus_device.c
+> > @@ -307,6 +307,11 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd=
+)
 > >
-> > +    /*
-> > +     * Reading from all pages will return the value from page 0,
-> > +     * this is unspecified behaviour in general.
-> > +     */
-> > +    if (pmdev->page =3D=3D PB_ALL_PAGES) {
-> > +        index =3D 0;
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +                      "%s: tried to read from all pages\n",
-> > +                      __func__);
-> > +        pmbus_cml_error(pmdev);
-> > +    } else if (pmdev->page > pmdev->num_pages - 1) {
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +                      "%s: page %d is out of range\n",
-> > +                      __func__, pmdev->page);
-> > +        pmbus_cml_error(pmdev);
-> > +        return -1;
+> >       case PMBUS_CAPABILITY:
+> >           pmbus_send8(pmdev, pmdev->capability);
+> > +        if (pmdev->capability & BIT(7)) {
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
 >
-> This file returns a mix of 0xFF/-1 for error. It would be nice
-> to pick one. Adding a definition (PMBUS_ERR_BYTE?) could help.
+> That would be LOG_UNIMP?
 >
-> Preferably with error unified:
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > +                          "%s: PEC is enabled but not yet supported.\n=
+",
+> > +                          __func__);
+> > +        }
+> >           break;
+> >
+> >       case PMBUS_VOUT_MODE:                 /* R/W byte */
+>
 
