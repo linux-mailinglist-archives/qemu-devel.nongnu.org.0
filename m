@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C484CFDF8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:17:40 +0100 (CET)
-Received: from localhost ([::1]:51104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077C14CFD98
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:00:47 +0100 (CET)
+Received: from localhost ([::1]:43920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCJ1-0004BE-Fx
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:17:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58310)
+	id 1nRC2g-0004NT-2f
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:00:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <35b6466459f9234b9cb30296f243a70b6f1b44b7@lizzy.crudebyte.com>)
- id 1nRBmP-0002Tc-7P
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:43:57 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:53379)
+ (envelope-from <6450084a66b6cf72b9126a8c8ecead7ddca896e9@lizzy.crudebyte.com>)
+ id 1nRBpi-00008F-TX
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:47:23 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:35455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <35b6466459f9234b9cb30296f243a70b6f1b44b7@lizzy.crudebyte.com>)
- id 1nRBmN-00029D-JY
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:43:56 -0500
+ (envelope-from <6450084a66b6cf72b9126a8c8ecead7ddca896e9@lizzy.crudebyte.com>)
+ id 1nRBph-0002ln-8S
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:47:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:Message-Id:References:In-Reply-To:Content-ID:
- Content-Description; bh=KAD5TkEn+eLXMzOllwRgusc1JeI1lqYqQiKHjgzGSWM=; b=aRQlm
- ocsbhCfVjdmsmKv/HInY/5wuKTN2wB4MGOaI+MczZjRyTX53CrLoVoLts7nDSwCPV3YnOTpKYV4KY
- 90JPNTENRjzrsZVP7j3vAmVeUGCFS1ysmfPwyhYU9sB/6P5kgTCnfvK7V1qtcHke9tjCWCojgM+11
- UcVjhJYefs0v3ePClegufdMNvQ14N4+SFSEjiv4rooLcd1eRrvOvg9z3ZO99yU4I8QPzeA2rAs+JW
- 6NlWmOBEAly/AAozrOwxedp/D2V/xK3z8+18IUziw3WNjeWIFfAx2QFPNMXrnXcFpOmL6U/tIsPtq
- yy89AfhcBBBxN30y2TYDwGelXxK3g==;
-Message-Id: <cover.1646651700.git.qemu_oss@crudebyte.com>
+ MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
+ Content-Description; bh=5oLuXWTJKZvpRWIxoiPJFUVce5lljtpqW3n1BbXrpOw=; b=PBwzf
+ 8gcOAjiPv2NQPgnzHKOgfbgnzLgN0gQR8RQxQIA4OaT613ZsocBi3IZlONHTXwi3HsJf5VPHuMso8
+ F0q8sXL8WihHkFy9S3T2K6pP4N7neM6rouplDjHuU0KpqsA6Ssgit76GSDiwRFradhEMKxH0HUyfR
+ V1IF2bR1sxMmTUCfnroQ49ON+/dDVoqQ3hHBF3170N7uRu2QuRUPDYGw8ImguWVh7w1lBQqdrGdLv
+ 6vXq8/0s7RsmkkClIh0wpLnvx0DI7eeUjmeeUguGsrA0jfvp2fmdej3aT/FLrO36oDExJE/pbmAr5
+ trwjcz4muOigw8hs0GSsQ6lfpaBgg==;
+Message-Id: <6450084a66b6cf72b9126a8c8ecead7ddca896e9.1646651700.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1646651700.git.qemu_oss@crudebyte.com>
+References: <cover.1646651700.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 07 Mar 2022 12:15:00 +0100
-Subject: [PULL v2 00/19] 9p queue 2022-03-07 (previous 2022-03-04)
+Subject: [PULL v2 02/19] 9p: Rename 9p-util -> 9p-util-linux
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -45,7 +47,7 @@ Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
  Fabian Franz <fabianfranz.oss@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=35b6466459f9234b9cb30296f243a70b6f1b44b7@lizzy.crudebyte.com;
+ envelope-from=6450084a66b6cf72b9126a8c8ecead7ddca896e9@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -68,76 +70,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5:
+From: Keno Fischer <keno@juliacomputing.com>
 
-  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' into staging (2022-03-05 18:03:15 +0000)
+The current file only has the Linux versions of these functions.
+Rename the file accordingly and update the Makefile to only build
+it on Linux. A Darwin version of these will follow later in the
+series.
 
-are available in the Git repository at:
+Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+[Michael Roitzsch: - Rebase for NixOS]
+Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220227223522.91937-3-wwcohen@gmail.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ hw/9pfs/{9p-util.c => 9p-util-linux.c} | 2 +-
+ hw/9pfs/meson.build                    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (97%)
 
-  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220307
+diff --git a/hw/9pfs/9p-util.c b/hw/9pfs/9p-util-linux.c
+similarity index 97%
+rename from hw/9pfs/9p-util.c
+rename to hw/9pfs/9p-util-linux.c
+index 3221d9b498..398614a5d0 100644
+--- a/hw/9pfs/9p-util.c
++++ b/hw/9pfs/9p-util-linux.c
+@@ -1,5 +1,5 @@
+ /*
+- * 9p utilities
++ * 9p utilities (Linux Implementation)
+  *
+  * Copyright IBM, Corp. 2017
+  *
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
+index 99be5d9119..1b28e70040 100644
+--- a/hw/9pfs/meson.build
++++ b/hw/9pfs/meson.build
+@@ -4,7 +4,6 @@ fs_ss.add(files(
+   '9p-posix-acl.c',
+   '9p-proxy.c',
+   '9p-synth.c',
+-  '9p-util.c',
+   '9p-xattr-user.c',
+   '9p-xattr.c',
+   '9p.c',
+@@ -14,6 +13,7 @@ fs_ss.add(files(
+   'coth.c',
+   'coxattr.c',
+ ))
++fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-util-linux.c'))
+ fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
+ softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
+ 
+-- 
+2.20.1
 
-for you to fetch changes up to 35b6466459f9234b9cb30296f243a70b6f1b44b7:
-
-  fsdev/p9array.h: convert Doxygen -> kerneldoc format (2022-03-07 11:49:31 +0100)
-
-----------------------------------------------------------------
-9pfs: introduce macOS host support and cleanup
-
-* Add support for Darwin (a.k.a. macOS) hosts.
-
-* Code cleanup (move qemu_dirent_dup() from osdep -> 9p-util).
-
-* API doc cleanup (convert Doxygen -> kerneldoc format).
-
-----------------------------------------------------------------
-v1 -> v2:
-  - Fix compiler warning "unused label 'again'" [patch 5].
-
-Christian Schoenebeck (8):
-      9pfs: move qemu_dirent_dup() from osdep -> 9p-util
-      9pfs: drop Doxygen format from qemu_dirent_dup() API comment
-      9pfs/9p.h: convert Doxygen -> kerneldoc format
-      9pfs/codir.c: convert Doxygen -> kerneldoc format
-      9pfs/9p.c: convert Doxygen -> kerneldoc format
-      9pfs/9p-util.h: convert Doxygen -> kerneldoc format
-      9pfs/coth.h: drop Doxygen format on v9fs_co_run_in_worker()
-      fsdev/p9array.h: convert Doxygen -> kerneldoc format
-
-Keno Fischer (10):
-      9p: linux: Fix a couple Linux assumptions
-      9p: Rename 9p-util -> 9p-util-linux
-      9p: darwin: Handle struct stat(fs) differences
-      9p: darwin: Handle struct dirent differences
-      9p: darwin: Ignore O_{NOATIME, DIRECT}
-      9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
-      9p: darwin: *xattr_nofollow implementations
-      9p: darwin: Compatibility for f/l*xattr
-      9p: darwin: Implement compatibility for mknodat
-      9p: darwin: meson: Allow VirtFS on Darwin
-
-Will Cohen (1):
-      9p: darwin: Adjust assumption on virtio-9p-test
-
- fsdev/file-op-9p.h                     |   9 ++-
- fsdev/meson.build                      |   1 +
- fsdev/p9array.h                        |  38 ++++++------
- hw/9pfs/9p-local.c                     |  27 +++++++--
- hw/9pfs/9p-proxy.c                     |  38 +++++++++++-
- hw/9pfs/9p-synth.c                     |   6 ++
- hw/9pfs/9p-util-darwin.c               |  97 ++++++++++++++++++++++++++++++
- hw/9pfs/{9p-util.c => 9p-util-linux.c} |   8 ++-
- hw/9pfs/9p-util.h                      |  78 +++++++++++++++++++++++++
- hw/9pfs/9p.c                           | 104 ++++++++++++++++++++++-----------
- hw/9pfs/9p.h                           |  30 ++++++++--
- hw/9pfs/codir.c                        |  34 ++++++-----
- hw/9pfs/coth.h                         |   4 +-
- hw/9pfs/meson.build                    |   3 +-
- include/qemu/osdep.h                   |  13 -----
- include/qemu/xattr.h                   |   4 +-
- meson.build                            |  13 +++--
- tests/qtest/virtio-9p-test.c           |   2 +-
- util/osdep.c                           |  21 -------
- 19 files changed, 403 insertions(+), 127 deletions(-)
- create mode 100644 hw/9pfs/9p-util-darwin.c
- rename hw/9pfs/{9p-util.c => 9p-util-linux.c} (90%)
 
