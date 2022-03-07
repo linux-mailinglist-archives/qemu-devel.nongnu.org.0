@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 993BE4CFAF6
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:24:54 +0100 (CET)
-Received: from localhost ([::1]:53866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 304FB4CFBF7
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:53:45 +0100 (CET)
+Received: from localhost ([::1]:45488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRAXt-0007zy-Ms
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:24:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35322)
+	id 1nRAzo-0000Wt-75
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:53:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRAD7-0002Q1-0v
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRAD8-0002QH-Np
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39536)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRAD5-0002uO-FU
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:24 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRAD7-0002v6-6t
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647402;
+ s=mimecast20190719; t=1646647404;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=s3tpCVjYIOk1B/dIJbNsw4y7BbXatFeQMGgCwwa4oeU=;
- b=eR3U4xIEWH/kofdHBFW8FSNfJsX/4y6AxsYv0VBpyCvVuufVe+ja9dGz49iZDqtMmogWsv
- UjfWQNmHaBdMzjiyLQSo6XC/xtboNG2s1X2qAvYvPIOKYTJ3HdlK91Ki84+xic4A0GK2m/
- fGglPmnbJsyTkMoszeqmmrhw4shc6QA=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZuOy/7+HfqjI4TvmqHPnqx0Q0KWAobCs5iZB1N1AGuw=;
+ b=TlCWDVNLK2DvG4DK2BjberWCCh7EMy00nHbpgk0uhIDoccvYF9eemXf4Lxbs9GnID3aiCH
+ FuqrAK0LEF/zjSISzbU8Hq7eGVznO0rU/rRpZCKRqPNjGYLXCaNMT0t186qgHyNRsPHZJb
+ vXnnQo/Wx+Yh+XLr0n9ia9Cqfkstn/I=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-135-9uuAo95COo-4N14iNnuh0g-1; Mon, 07 Mar 2022 05:03:20 -0500
-X-MC-Unique: 9uuAo95COo-4N14iNnuh0g-1
-Received: by mail-ej1-f72.google.com with SMTP id
- x2-20020a1709065ac200b006d9b316257fso6773560ejs.12
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:03:20 -0800 (PST)
+ us-mta-397-Xwni9VuePJqWhGCF8Qx7xw-1; Mon, 07 Mar 2022 05:03:23 -0500
+X-MC-Unique: Xwni9VuePJqWhGCF8Qx7xw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ i5-20020a056402054500b00415ce7443f4so7385626edx.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:03:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=s3tpCVjYIOk1B/dIJbNsw4y7BbXatFeQMGgCwwa4oeU=;
- b=l/VTl4cNoAwxAB5uwWjpTg/FkesvDxtq07RI0ptQ+QzAGh4gRNGGMtq2+dndt05q/r
- +VOq3IxAk4Jpd8lPS/ZjpXMn6nGyVOcdOlUT7TakqLqTixNasHE6gyWlddKVSnuNYn9I
- 2Nkw7rfTeu7SuuhP2gE0VvKXtJMglGWPJmZzsg9je7x5w8R3IgzRn6otQ0cPmRbxsQNa
- w/K5fCsu3cRhTznC0o/VujgH1tLER4mkLHl4hmZkmscJbCgJ8SL5cwTMpoXstTXtYs/v
- h8cTMw8VYnMdH2mAQScoMPqgtHSrrRiRF/qa/942SKk5+fwBD8ERMda0ZhimsoPgJljZ
- RVXQ==
-X-Gm-Message-State: AOAM532YVyPJqQKgrp1CEf/2dOF5i3onniaD82sRtQgsh6uu8Ntas/tS
- GgvBrfla+/1nMIM4m23n9rRy5tjbdDkM418YayNVc+xOI06EsHKexc8YF5sn/KAJdgxaYHoPvMj
- qpd/nIrdmOFzOIlMQEDcqwTz/Z7rZDVOATYcx7mPTPD7m7IRlms2Io2qrQfxX
-X-Received: by 2002:aa7:de0e:0:b0:416:607c:6d45 with SMTP id
- h14-20020aa7de0e000000b00416607c6d45mr346622edv.127.1646647399424; 
- Mon, 07 Mar 2022 02:03:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzJAHcorC74goI+OM5/OJsjRIULHpmBLOLAd8Dh8Uu22SKfL4/S4s68onsQbTd6h/dIQMXnvw==
-X-Received: by 2002:aa7:de0e:0:b0:416:607c:6d45 with SMTP id
- h14-20020aa7de0e000000b00416607c6d45mr346600edv.127.1646647399166; 
- Mon, 07 Mar 2022 02:03:19 -0800 (PST)
+ bh=ZuOy/7+HfqjI4TvmqHPnqx0Q0KWAobCs5iZB1N1AGuw=;
+ b=Cu4pfNkgyIzdKS1xJOKVs8gXL+Gh3w2YpXJKqGYRaRY1mr03G2xBJRR6WsghMi8dIP
+ V5IDfyC6IhHifrqSCPyYKVlE7auaAkOFn73u4EjBtk9uIuXAKxl5Dam+d2dB0T5zBhSA
+ sLe19oOnBkIP0yDrO8xa5my22wB+rcdmQDfEIzKkaLKiBdMWJnv21hI+dCRsJVO8mZId
+ m6J/tBXszd7ZqtR5bbrT8Nnx8BdWNOY2JwJeMzaf0A6qnVJxbLMXvEJbNVkBhgixZueD
+ xQryg9ghupAaWOGkdpp8HiiygaBYgItkMsFSyrkABC2TqLUrSKuNNI4f50CcNvDz7Oxy
+ SrlA==
+X-Gm-Message-State: AOAM533S0zN+/Wea9ydmn5ohlTAmbXg1JxRjlhA18gFqtE+UUxfrzZ3U
+ sUINLMNjoPCeYiiJedFbaOHo/yRK2i6hvye5HOHKk5zKDiDyAvKrXiWlxH17L8Cua8Sv+ZzaZaQ
+ pdcZ+KX5bHIsk5P70G337Nz6WTycbxAS1dPdxHCjH7Rasangt7EcRrvWxJ5sP
+X-Received: by 2002:a17:906:1e94:b0:6b9:6fcc:53fd with SMTP id
+ e20-20020a1709061e9400b006b96fcc53fdmr8364009ejj.450.1646647402068; 
+ Mon, 07 Mar 2022 02:03:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyY6Mab7A0Gj8mQf0ZdX9ZFZL5UllDCQGaFrdQqUzz7E0JQ3K/qkMjIU8nw/DzAfZOKaNg+pw==
+X-Received: by 2002:a17:906:1e94:b0:6b9:6fcc:53fd with SMTP id
+ e20-20020a1709061e9400b006b96fcc53fdmr8363982ejj.450.1646647401722; 
+ Mon, 07 Mar 2022 02:03:21 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- gb11-20020a170907960b00b006d20acf7e36sm4810736ejc.144.2022.03.07.02.03.17
+ da23-20020a056402177700b0041394d8173csm5914341edb.31.2022.03.07.02.03.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 02:03:18 -0800 (PST)
-Date: Mon, 7 Mar 2022 05:03:16 -0500
+ Mon, 07 Mar 2022 02:03:21 -0800 (PST)
+Date: Mon, 7 Mar 2022 05:03:19 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 39/47] pci: drop COMPAT_PROP_PCP for 2.0 machine types
-Message-ID: <20220307100058.449628-40-mst@redhat.com>
+Subject: [PULL v2 40/47] event_notifier: add event_notifier_get_wfd()
+Message-ID: <20220307100058.449628-41-mst@redhat.com>
 References: <20220307100058.449628-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307100058.449628-1-mst@redhat.com>
@@ -97,42 +97,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Sergio Lopez <slp@redhat.com>
 
-COMPAT_PROP_PCP is 'on' by default and it's used for turning
-off PCP capability on PCIe slots for 2.0 machine types using
-compat machinery.
-Drop not needed compat glue as Q35 supports migration starting
-from 2.4 machine types.
+event_notifier_get_fd(const EventNotifier *e) always returns
+EventNotifier's read file descriptor (rfd). This is not a problem when
+the EventNotifier is backed by a an eventfd, as a single file
+descriptor is used both for reading and triggering events (rfd ==
+wfd).
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220222102504.3080104-1-imammedo@redhat.com>
+But, when EventNotifier is backed by a pipe pair, we have two file
+descriptors, one that can only be used for reads (rfd), and the other
+only for writes (wfd).
+
+There's, at least, one known situation in which we need to obtain wfd
+instead of rfd, which is when setting up the file that's going to be
+sent to the peer in vhost's SET_VRING_CALL.
+
+Add a new event_notifier_get_wfd(const EventNotifier *e) that can be
+used to obtain wfd where needed.
+
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20220304100854.14829-2-slp@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/pc.c | 2 --
- 1 file changed, 2 deletions(-)
+ include/qemu/event_notifier.h | 1 +
+ util/event_notifier-posix.c   | 5 +++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 32bf12421e..fd55fc725c 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -318,8 +318,6 @@ GlobalProperty pc_compat_2_0[] = {
-     { "pci-serial-4x", "prog_if", "0" },
-     { "virtio-net-pci", "guest_announce", "off" },
-     { "ICH9-LPC", "memory-hotplug-support", "off" },
--    { "xio3130-downstream", COMPAT_PROP_PCP, "off" },
--    { "ioh3420", COMPAT_PROP_PCP, "off" },
- };
- const size_t pc_compat_2_0_len = G_N_ELEMENTS(pc_compat_2_0);
+diff --git a/include/qemu/event_notifier.h b/include/qemu/event_notifier.h
+index b79add035d..8a4ff308e1 100644
+--- a/include/qemu/event_notifier.h
++++ b/include/qemu/event_notifier.h
+@@ -38,6 +38,7 @@ int event_notifier_test_and_clear(EventNotifier *);
+ #ifdef CONFIG_POSIX
+ void event_notifier_init_fd(EventNotifier *, int fd);
+ int event_notifier_get_fd(const EventNotifier *);
++int event_notifier_get_wfd(const EventNotifier *);
+ #else
+ HANDLE event_notifier_get_handle(EventNotifier *);
+ #endif
+diff --git a/util/event_notifier-posix.c b/util/event_notifier-posix.c
+index 8307013c5d..16294e98d4 100644
+--- a/util/event_notifier-posix.c
++++ b/util/event_notifier-posix.c
+@@ -99,6 +99,11 @@ int event_notifier_get_fd(const EventNotifier *e)
+     return e->rfd;
+ }
  
++int event_notifier_get_wfd(const EventNotifier *e)
++{
++    return e->wfd;
++}
++
+ int event_notifier_set(EventNotifier *e)
+ {
+     static const uint64_t value = 1;
 -- 
 MST
 
