@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802394E4BCE
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 05:12:34 +0100 (CET)
-Received: from localhost ([::1]:59174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5E14E4B68
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 04:24:02 +0100 (CET)
+Received: from localhost ([::1]:58502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWsML-0000mQ-Jl
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 00:12:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57546)
+	id 1nWrbN-0002xZ-Rr
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 23:24:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nWs8p-0005XY-QB; Tue, 22 Mar 2022 23:58:36 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:36452)
+ id 1nWrNE-00048z-8S; Tue, 22 Mar 2022 23:09:24 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:36422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nWs8m-0005yY-2f; Tue, 22 Mar 2022 23:58:35 -0400
+ id 1nWrN9-00039k-04; Tue, 22 Mar 2022 23:09:23 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id D187511F103;
- Wed, 23 Mar 2022 03:58:04 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id D7F7B11F102;
+ Wed, 23 Mar 2022 03:08:52 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
 Date: Mon, 07 Mar 2022 02:05:42 -0800
-Subject: [PATCH qemu v3 11/14] target/riscv: rvv: Add tail agnostic for vector
+Subject: [PATCH qemu v2 10/13] target/riscv: rvv: Add tail agnostic for vector
  floating-point instructions
-Message-ID: <164800788276.12449.15168787569124374586-11@git.sr.ht>
+Message-ID: <164800493107.31817.14053311036718644936-10@git.sr.ht>
 X-Mailer: git.sr.ht
-In-Reply-To: <164800788276.12449.15168787569124374586-0@git.sr.ht>
+In-Reply-To: <164800493107.31817.14053311036718644936-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
