@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70512523B5C
-	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 19:19:40 +0200 (CEST)
-Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8092F523B5E
+	for <lists+qemu-devel@lfdr.de>; Wed, 11 May 2022 19:19:46 +0200 (CEST)
+Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nopzv-000173-Ja
-	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 13:19:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50826)
+	id 1noq01-0001S4-Kj
+	for lists+qemu-devel@lfdr.de; Wed, 11 May 2022 13:19:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nopkW-0008OF-49; Wed, 11 May 2022 13:03:44 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:45156)
+ id 1nopkW-0008Oo-Ce; Wed, 11 May 2022 13:03:44 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:45154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nopkU-0005fS-5G; Wed, 11 May 2022 13:03:43 -0400
+ id 1nopkU-0005fR-6A; Wed, 11 May 2022 13:03:44 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id E5E0511F112;
- Wed, 11 May 2022 17:03:15 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 208B511F113;
+ Wed, 11 May 2022 17:03:16 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
-Date: Mon, 07 Mar 2022 07:26:05 -0800
-Subject: [PATCH qemu v16 13/15] target/riscv: rvv: Add tail agnostic for
- vector mask instructions
-Message-ID: <165228859378.22204.7336259119424019499-13@git.sr.ht>
+Date: Mon, 07 Mar 2022 07:59:26 -0800
+Subject: [PATCH qemu v16 14/15] target/riscv: rvv: Add tail agnostic for
+ vector permutation instructions
+Message-ID: <165228859378.22204.7336259119424019499-14@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <165228859378.22204.7336259119424019499-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
@@ -62,129 +62,181 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: eopXD <eop.chen@sifive.com>
 
-The tail elements in the destination mask register are updated under
-a tail-agnostic policy.
-
 Signed-off-by: eop Chen <eop.chen@sifive.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc |  6 +++++
- target/riscv/vector_helper.c            | 30 +++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
+ target/riscv/insn_trans/trans_rvv.c.inc |  7 +++--
+ target/riscv/vector_helper.c            | 40 +++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 2 deletions(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_tran=
 s/trans_rvv.c.inc
-index 7d2042f3f1..e15dbdb01b 100644
+index e15dbdb01b..9717cfe657 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -3136,6 +3136,8 @@ static bool trans_##NAME(DisasContext *s, arg_r *a)    =
-            \
-         tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over); \
-                                                                    \
-         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-+        data =3D                                                     \
-+            FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s);\
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-                            vreg_ofs(s, a->rs1),                    \
-                            vreg_ofs(s, a->rs2), cpu_env,           \
-@@ -3240,6 +3242,8 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)  =
-            \
-                                                                    \
-         data =3D FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-+        data =3D                                                     \
-+            FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s);\
-         tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd),                     \
-                            vreg_ofs(s, 0), vreg_ofs(s, a->rs2),    \
-                            cpu_env, s->cfg_ptr->vlen / 8,          \
-@@ -3277,6 +3281,7 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m =
-*a)
+@@ -3670,7 +3670,7 @@ static bool trans_vrgather_vx(DisasContext *s, arg_rmrr=
+ *a)
+         return false;
+     }
 =20
-         data =3D FIELD_DP32(data, VDATA, VM, a->vm);
+-    if (a->vm && s->vl_eq_vlmax) {
++    if (a->vm && s->vl_eq_vlmax && !(s->vta && s->lmul < 0)) {
+         int scale =3D s->lmul - (s->sew + 3);
+         int vlmax =3D s->cfg_ptr->vlen >> -scale;
+         TCGv_i64 dest =3D tcg_temp_new_i64();
+@@ -3702,7 +3702,7 @@ static bool trans_vrgather_vi(DisasContext *s, arg_rmrr=
+ *a)
+         return false;
+     }
+=20
+-    if (a->vm && s->vl_eq_vlmax) {
++    if (a->vm && s->vl_eq_vlmax && !(s->vta && s->lmul < 0)) {
+         int scale =3D s->lmul - (s->sew + 3);
+         int vlmax =3D s->cfg_ptr->vlen >> -scale;
+         if (a->rs1 >=3D vlmax) {
+@@ -3754,6 +3754,7 @@ static bool trans_vcompress_vm(DisasContext *s, arg_r *=
+a)
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+=20
          data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
 +        data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
-         static gen_helper_gvec_3_ptr * const fns[4] =3D {
-             gen_helper_viota_m_b, gen_helper_viota_m_h,
-             gen_helper_viota_m_w, gen_helper_viota_m_d,
-@@ -3306,6 +3311,7 @@ static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
+         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+                            vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),
+                            cpu_env, s->cfg_ptr->vlen / 8,
+@@ -3854,6 +3855,8 @@ static bool int_ext_op(DisasContext *s, arg_rmr *a, uin=
+t8_t seq)
+     }
 =20
-         data =3D FIELD_DP32(data, VDATA, VM, a->vm);
-         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
-+        data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
-         static gen_helper_gvec_2_ptr * const fns[4] =3D {
-             gen_helper_vid_v_b, gen_helper_vid_v_h,
-             gen_helper_vid_v_w, gen_helper_vid_v_d,
+     data =3D FIELD_DP32(data, VDATA, VM, a->vm);
++    data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);
++    data =3D FIELD_DP32(data, VDATA, VTA, s->vta);
+=20
+     tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+                        vreg_ofs(s, a->rs2), cpu_env,
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index a86b4a7771..dc3d8c832d 100644
+index dc3d8c832d..28d62565d1 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4719,6 +4719,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,       =
-   \
-                   uint32_t desc)                          \
- {                                                         \
-     uint32_t vl =3D env->vl;                                \
-+    uint32_t total_elems =3D env_archcpu(env)->cfg.vlen;    \
-+    uint32_t vta_all_1s =3D vext_vta_all_1s(desc);          \
-     uint32_t i;                                           \
-     int a, b;                                             \
-                                                           \
-@@ -4728,6 +4730,15 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,      =
-    \
-         vext_set_elem_mask(vd, i, OP(b, a));              \
-     }                                                     \
-     env->vstart =3D 0;                                      \
-+    /* mask destination register are always tail-         \
-+     * agnostic                                           \
-+     */                                                   \
-+    /* set tail elements to 1s */                         \
-+    if (vta_all_1s) {                                     \
-+        for (; i < total_elems; i++) {                    \
-+            vext_set_elem_mask(vd, i, 1);                 \
-+        }                                                 \
-+    }                                                     \
- }
-=20
- #define DO_NAND(N, M)  (!(N & M))
-@@ -4795,6 +4806,8 @@ static void vmsetm(void *vd, void *v0, void *vs2, CPURI=
-SCVState *env,
- {
-     uint32_t vm =3D vext_vm(desc);
-     uint32_t vl =3D env->vl;
-+    uint32_t total_elems =3D env_archcpu(env)->cfg.vlen;
-+    uint32_t vta_all_1s =3D vext_vta_all_1s(desc);
-     int i;
-     bool first_mask_bit =3D false;
-=20
-@@ -4823,6 +4836,13 @@ static void vmsetm(void *vd, void *v0, void *vs2, CPUR=
-ISCVState *env,
-         }
-     }
-     env->vstart =3D 0;
-+    /* mask destination register are always tail-agnostic */
-+    /* set tail elements to 1s */
-+    if (vta_all_1s) {
-+        for (; i < total_elems; i++) {
-+            vext_set_elem_mask(vd, i, 1);
-+        }
-+    }
- }
-=20
- void HELPER(vmsbf_m)(void *vd, void *v0, void *vs2, CPURISCVState *env,
-@@ -4850,6 +4870,9 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2, CPURIS=
-CVState *env,      \
+@@ -4933,6 +4933,9 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, =
+void *vs2,         \
  {                                                                         \
      uint32_t vm =3D vext_vm(desc);                                          \
      uint32_t vl =3D env->vl;                                                \
 +    uint32_t esz =3D sizeof(ETYPE);                                         \
 +    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
 +    uint32_t vta =3D vext_vta(desc);                                        \
-     uint32_t sum =3D 0;                                                     \
-     int i;                                                                \
+     target_ulong offset =3D s1, i_min, i;                                   \
                                                                            \
-@@ -4863,6 +4886,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2, CPURIS=
-CVState *env,      \
+     i_min =3D MAX(env->vstart, offset);                                     \
+@@ -4942,6 +4945,8 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, =
+void *vs2,         \
+         }                                                                 \
+         *((ETYPE *)vd + H(i)) =3D *((ETYPE *)vs2 + H(i - offset));          \
+     }                                                                     \
++    /* set tail elements to 1s */                                         \
++    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
+ }
+=20
+ /* vslideup.vx vd, vs2, rs1, vm # vd[i+rs1] =3D vs2[i] */
+@@ -4957,6 +4962,9 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, =
+void *vs2,         \
+     uint32_t vlmax =3D vext_max_elems(desc, ctzl(sizeof(ETYPE)));           \
+     uint32_t vm =3D vext_vm(desc);                                          \
+     uint32_t vl =3D env->vl;                                                \
++    uint32_t esz =3D sizeof(ETYPE);                                         \
++    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
++    uint32_t vta =3D vext_vta(desc);                                        \
+     target_ulong i_max, i;                                                \
+                                                                           \
+     i_max =3D MAX(MIN(s1 < vlmax ? vlmax - s1 : 0, vl), env->vstart);       \
+@@ -4973,6 +4981,8 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, =
+void *vs2,         \
+     }                                                                     \
+                                                                           \
+     env->vstart =3D 0;                                                      \
++    /* set tail elements to 1s */                                         \
++    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
+ }
+=20
+ /* vslidedown.vx vd, vs2, rs1, vm # vd[i] =3D vs2[i+rs1] */
+@@ -4988,6 +4998,9 @@ static void vslide1up_##BITWIDTH(void *vd, void *v0, ta=
+rget_ulong s1,       \
+     typedef uint##BITWIDTH##_t ETYPE;                                       \
+     uint32_t vm =3D vext_vm(desc);                                          =
+  \
+     uint32_t vl =3D env->vl;                                                =
+  \
++    uint32_t esz =3D sizeof(ETYPE);                                         =
+  \
++    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          =
+  \
++    uint32_t vta =3D vext_vta(desc);                                        =
+  \
+     uint32_t i;                                                             \
+                                                                             \
+     for (i =3D env->vstart; i < vl; i++) {                                  =
+  \
+@@ -5001,6 +5014,8 @@ static void vslide1up_##BITWIDTH(void *vd, void *v0, ta=
+rget_ulong s1,       \
+         }                                                                   \
+     }                                                                       \
+     env->vstart =3D 0;                                                      =
+  \
++    /* set tail elements to 1s */                                           \
++    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);                \
+ }
+=20
+ GEN_VEXT_VSLIE1UP(8,  H1)
+@@ -5028,6 +5043,9 @@ static void vslide1down_##BITWIDTH(void *vd, void *v0, =
+target_ulong s1,       \
+     typedef uint##BITWIDTH##_t ETYPE;                                       =
+  \
+     uint32_t vm =3D vext_vm(desc);                                          =
+    \
+     uint32_t vl =3D env->vl;                                                =
+    \
++    uint32_t esz =3D sizeof(ETYPE);                                         =
+    \
++    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          =
+    \
++    uint32_t vta =3D vext_vta(desc);                                        =
+    \
+     uint32_t i;                                                             =
+  \
+                                                                             =
+  \
+     for (i =3D env->vstart; i < vl; i++) {                                  =
+    \
+@@ -5041,6 +5059,8 @@ static void vslide1down_##BITWIDTH(void *vd, void *v0, =
+target_ulong s1,       \
+         }                                                                   =
+  \
+     }                                                                       =
+  \
+     env->vstart =3D 0;                                                      =
+    \
++    /* set tail elements to 1s */                                           =
+  \
++    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);                =
+  \
+ }
+=20
+ GEN_VEXT_VSLIDE1DOWN(8,  H1)
+@@ -5094,6 +5114,9 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *=
+vs2,               \
+     uint32_t vlmax =3D vext_max_elems(desc, ctzl(sizeof(TS2)));             \
+     uint32_t vm =3D vext_vm(desc);                                          \
+     uint32_t vl =3D env->vl;                                                \
++    uint32_t esz =3D sizeof(TS2);                                           \
++    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
++    uint32_t vta =3D vext_vta(desc);                                        \
+     uint64_t index;                                                       \
+     uint32_t i;                                                           \
+                                                                           \
+@@ -5109,6 +5132,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *=
+vs2,               \
          }                                                                 \
      }                                                                     \
      env->vstart =3D 0;                                                      \
@@ -192,28 +244,70 @@ CVState *env,      \
 +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
  }
 =20
- GEN_VEXT_VIOTA_M(viota_m_b, uint8_t,  H1)
-@@ -4876,6 +4901,9 @@ void HELPER(NAME)(void *vd, void *v0, CPURISCVState *en=
-v, uint32_t desc)  \
- {                                                                         \
+ /* vd[i] =3D (vs1[i] >=3D VLMAX) ? 0 : vs2[vs1[i]]; */
+@@ -5129,6 +5154,9 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, =
+void *vs2,         \
+     uint32_t vlmax =3D vext_max_elems(desc, ctzl(sizeof(ETYPE)));           \
      uint32_t vm =3D vext_vm(desc);                                          \
      uint32_t vl =3D env->vl;                                                \
 +    uint32_t esz =3D sizeof(ETYPE);                                         \
 +    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
 +    uint32_t vta =3D vext_vta(desc);                                        \
-     int i;                                                                \
+     uint64_t index =3D s1;                                                  \
+     uint32_t i;                                                           \
                                                                            \
-     for (i =3D env->vstart; i < vl; i++) {                                  \
-@@ -4885,6 +4913,8 @@ void HELPER(NAME)(void *vd, void *v0, CPURISCVState *en=
-v, uint32_t desc)  \
-         *((ETYPE *)vd + H(i)) =3D i;                                        \
+@@ -5143,6 +5171,8 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, =
+void *vs2,         \
+         }                                                                 \
      }                                                                     \
      env->vstart =3D 0;                                                      \
 +    /* set tail elements to 1s */                                         \
 +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
  }
 =20
- GEN_VEXT_VID_V(vid_v_b, uint8_t,  H1)
+ /* vd[i] =3D (x[rs1] >=3D VLMAX) ? 0 : vs2[rs1] */
+@@ -5157,6 +5187,9 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *=
+vs2,               \
+                   CPURISCVState *env, uint32_t desc)                      \
+ {                                                                         \
+     uint32_t vl =3D env->vl;                                                \
++    uint32_t esz =3D sizeof(ETYPE);                                         \
++    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
++    uint32_t vta =3D vext_vta(desc);                                        \
+     uint32_t num =3D 0, i;                                                  \
+                                                                           \
+     for (i =3D env->vstart; i < vl; i++) {                                  \
+@@ -5167,6 +5200,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *=
+vs2,               \
+         num++;                                                            \
+     }                                                                     \
+     env->vstart =3D 0;                                                      \
++    /* set tail elements to 1s */                                         \
++    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
+ }
+=20
+ /* Compress into vd elements of vs2 where vs1 is enabled */
+@@ -5198,6 +5233,9 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2,       =
+          \
+ {                                                                \
+     uint32_t vl =3D env->vl;                                       \
+     uint32_t vm =3D vext_vm(desc);                                 \
++    uint32_t esz =3D sizeof(ETYPE);                                \
++    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz); \
++    uint32_t vta =3D vext_vta(desc);                               \
+     uint32_t i;                                                  \
+                                                                  \
+     for (i =3D env->vstart; i < vl; i++) {                         \
+@@ -5207,6 +5245,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2,       =
+          \
+         *((ETYPE *)vd + HD(i)) =3D *((DTYPE *)vs2 + HS1(i));       \
+     }                                                            \
+     env->vstart =3D 0;                                             \
++    /* set tail elements to 1s */                                \
++    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);     \
+ }
+=20
+ GEN_VEXT_INT_EXT(vzext_vf2_h, uint16_t, uint8_t,  H2, H1)
 --=20
 2.34.2
 
