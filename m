@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A284CFDE2
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:11:15 +0100 (CET)
-Received: from localhost ([::1]:35548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17014CFDEE
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:14:21 +0100 (CET)
+Received: from localhost ([::1]:42088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCCo-0001ZG-SN
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:11:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35352)
+	id 1nRCFo-0006Ur-JM
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:14:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nRC90-00056M-EB
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:07:18 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:55334)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nRCBa-0001gB-Qm
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:09:59 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:47502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nRC8y-0006CE-D7
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:07:18 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nRCBZ-0006gp-35
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:09:58 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A726B210FE;
- Mon,  7 Mar 2022 12:07:14 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E95A71F37D;
+ Mon,  7 Mar 2022 12:09:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1646654834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1646654995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PEAZFBEjgWUyR5/aJRAhi19xaVs+kp7JVtOsLS+2cF8=;
- b=gH5GCyZlPNuhbAAH7lCas6VnyuqVCpD6y2PsvX5RUq+CjNRgyIh9o6KMme+tTjbeDh9qEA
- D+eAyufdu44XaHfmp56o7cnHKCGhYzqdXFCYzKG8Fu+syDWxwAzgzzI/9FjrQTTin6yhOz
- 8mTKYAfwGlUldaFgvzUUttflc5X/FPo=
+ bh=kqJfLIvm2LhwzNT0MNFrcpeAcBeHvd712ei/vn3t/2Q=;
+ b=LIx95JtMWoWjeiYyspc05iC5xkLRf0poxFIocUizDT5TuTf2HlLzgPKbMsYU98xXXGMSWR
+ YomosnuZUkUYAQO5xl5BHpTR4bD+OTi0K1QGIo4dNM+73Vobq3dd87gYDyZ9ZmgOjZzAkx
+ ik877mLoA7iKIazsTwE/YSixxM65nKo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1646654834;
+ s=susede2_ed25519; t=1646654995;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PEAZFBEjgWUyR5/aJRAhi19xaVs+kp7JVtOsLS+2cF8=;
- b=VNn9MzV486+HhGtFdefZuPW4YqZoa1TuCa3VfQk2QCoH9I9xWXLVVKN3RKnNApuJ82eHPM
- /sdhgWbJsV+7orBg==
+ bh=kqJfLIvm2LhwzNT0MNFrcpeAcBeHvd712ei/vn3t/2Q=;
+ b=Ypkppn1HglCnRN41WSzJVy46bLt4KuKgk07X4XkKkP30rOQKslJmurx5BspnitMSITgVpy
+ PRFvolyYCByliZCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7F84A13AF0;
- Mon,  7 Mar 2022 12:07:14 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B97EE13AD8;
+ Mon,  7 Mar 2022 12:09:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GuWnHXL1JWI+XwAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 07 Mar 2022 12:07:14 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id O9yVKxP2JWJdYAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 07 Mar 2022 12:09:55 +0000
 Subject: Re: starting to look at qemu savevm performance, a first regression
  detected
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <0ffe2660-4bae-9a84-e981-687b2c7a8877@suse.de>
- <5c028590-d71b-91a8-9ee6-d43cd162ec13@suse.de> <YiXfRe9qRHC+dVi5@work-vm>
- <29a4b12d-a4b9-1652-22ea-0a273ca8f1b5@suse.de> <YiXtLZxyTMfEZ384@work-vm>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <8826b03d-e5e9-0e65-cab7-ea1829f48e6c@suse.de>
+ <YiXQHIWtHx5BocxK@redhat.com> <62ba8b1e-d641-5b10-c1b3-54b7d5a652e7@suse.de>
+ <YiXVh1P4oJNuEtFM@redhat.com> <1f70a086-2b72-bd83-414b-476f5e6d0094@suse.de>
+ <YiXzw8pF9If2/M7M@redhat.com>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <bbfa7352-d632-336f-f5d6-cc8ff85ba528@suse.de>
-Date: Mon, 7 Mar 2022 13:07:14 +0100
+Message-ID: <5f318297-51c0-366b-758b-733ba27684ba@suse.de>
+Date: Mon, 7 Mar 2022 13:09:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <YiXtLZxyTMfEZ384@work-vm>
+In-Reply-To: <YiXzw8pF9If2/M7M@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -87,142 +88,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/7/22 12:31 PM, Dr. David Alan Gilbert wrote:
-> * Claudio Fontana (cfontana@suse.de) wrote:
->> On 3/7/22 11:32 AM, Dr. David Alan Gilbert wrote:
->>> * Claudio Fontana (cfontana@suse.de) wrote:
->>>> On 3/5/22 2:20 PM, Claudio Fontana wrote:
->>>>>
->>>>> Hello all,
->>>>>
->>>>> I have been looking at some reports of bad qemu savevm performance in large VMs (around 20+ Gb),
->>>>> when used in libvirt commands like:
->>>>>
->>>>>
->>>>> virsh save domain /dev/null
->>>>>
->>>>>
->>>>>
->>>>> I have written a simple test to run in a Linux centos7-minimal-2009 guest, which allocates and touches 20G mem.
->>>>>
->>>>> With any qemu version since around 2020, I am not seeing more than 580 Mb/Sec even in the most ideal of situations.
->>>>>
->>>>> This drops to around 122 Mb/sec after commit: cbde7be900d2a2279cbc4becb91d1ddd6a014def .
->>>>>
->>>>> Here is the bisection for this particular drop in throughput:
->>>>>
->>>>> commit cbde7be900d2a2279cbc4becb91d1ddd6a014def (HEAD, refs/bisect/bad)
->>>>> Author: Daniel P. Berrangé <berrange@redhat.com>
->>>>> Date:   Fri Feb 19 18:40:12 2021 +0000
->>>>>
->>>>>     migrate: remove QMP/HMP commands for speed, downtime and cache size
->>>>>     
->>>>>     The generic 'migrate_set_parameters' command handle all types of param.
->>>>>     
->>>>>     Only the QMP commands were documented in the deprecations page, but the
->>>>>     rationale for deprecating applies equally to HMP, and the replacements
->>>>>     exist. Furthermore the HMP commands are just shims to the QMP commands,
->>>>>     so removing the latter breaks the former unless they get re-implemented.
->>>>>     
->>>>>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>>>>     Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>>>>
->>>>>
->>>>> git bisect start
->>>>> # bad: [5c8463886d50eeb0337bd121ab877cf692731e36] Merge remote-tracking branch 'remotes/kraxel/tags/kraxel-20220304-pull-request' into staging
->>>>> git bisect bad 5c8463886d50eeb0337bd121ab877cf692731e36
->>>>> # good: [6cdf8c4efa073eac7d5f9894329e2d07743c2955] Update version for 4.2.1 release
->>>>> git bisect good 6cdf8c4efa073eac7d5f9894329e2d07743c2955
->>>>> # good: [b0ca999a43a22b38158a222233d3f5881648bb4f] Update version for v4.2.0 release
->>>>> git bisect good b0ca999a43a22b38158a222233d3f5881648bb4f
->>>>> # skip: [e2665f314d80d7edbfe7f8275abed7e2c93c0ddc] target/mips: Alias MSA vector registers on FPU scalar registers
->>>>> git bisect skip e2665f314d80d7edbfe7f8275abed7e2c93c0ddc
->>>>> # good: [4762c82cbda22b1036ce9dd2c5e951ac0ed0a7d3] tests/docker: Install static libc package in CentOS 7
->>>>> git bisect good 4762c82cbda22b1036ce9dd2c5e951ac0ed0a7d3
->>>>> # bad: [d4127349e316b5c78645f95dba5922196ac4cc23] Merge remote-tracking branch 'remotes/berrange-gitlab/tags/crypto-and-more-pull-request' into staging
->>>>> git bisect bad d4127349e316b5c78645f95dba5922196ac4cc23
->>>>> # bad: [d90f154867ec0ec22fd719164b88716e8fd48672] Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging
->>>>> git bisect bad d90f154867ec0ec22fd719164b88716e8fd48672
->>>>> # good: [dd5af6ece9b101d29895851a7441d848b7ccdbff] tests/docker: add a test-tcg for building then running check-tcg
->>>>> git bisect good dd5af6ece9b101d29895851a7441d848b7ccdbff
->>>>> # bad: [90ec1cff768fcbe1fa2870d2018f378376f4f744] target/riscv: Adjust privilege level for HLV(X)/HSV instructions
->>>>> git bisect bad 90ec1cff768fcbe1fa2870d2018f378376f4f744
->>>>> # good: [373969507a3dc7de2d291da7e1bd03acf46ec643] migration: Replaced qemu_mutex_lock calls with QEMU_LOCK_GUARD
->>>>> git bisect good 373969507a3dc7de2d291da7e1bd03acf46ec643
->>>>> # good: [4083904bc9fe5da580f7ca397b1e828fbc322732] Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210317' into staging
->>>>> git bisect good 4083904bc9fe5da580f7ca397b1e828fbc322732
->>>>> # bad: [009ff89328b1da3ea8ba316bf2be2125bc9937c5] vl: allow passing JSON to -object
->>>>> git bisect bad 009ff89328b1da3ea8ba316bf2be2125bc9937c5
->>>>> # bad: [50243407457a9fb0ed17b9a9ba9fc9aee09495b1] qapi/qom: Drop deprecated 'props' from object-add
->>>>> git bisect bad 50243407457a9fb0ed17b9a9ba9fc9aee09495b1
->>>>> # bad: [1b507e55f8199eaad99744613823f6929e4d57c6] Merge remote-tracking branch 'remotes/berrange-gitlab/tags/dep-many-pull-request' into staging
->>>>> git bisect bad 1b507e55f8199eaad99744613823f6929e4d57c6
->>>>> # bad: [24e13a4dc1eb1630eceffc7ab334145d902e763d] chardev: reject use of 'wait' flag for socket client chardevs
->>>>> git bisect bad 24e13a4dc1eb1630eceffc7ab334145d902e763d
->>>>> # good: [8becb36063fb14df1e3ae4916215667e2cb65fa2] monitor: remove 'query-events' QMP command
->>>>> git bisect good 8becb36063fb14df1e3ae4916215667e2cb65fa2
->>>>> # bad: [8af54b9172ff3b9bbdbb3191ed84994d275a0d81] machine: remove 'query-cpus' QMP command
->>>>> git bisect bad 8af54b9172ff3b9bbdbb3191ed84994d275a0d81
->>>>> # bad: [cbde7be900d2a2279cbc4becb91d1ddd6a014def] migrate: remove QMP/HMP commands for speed, downtime and cache size
->>>>> git bisect bad cbde7be900d2a2279cbc4becb91d1ddd6a014def
->>>>> # first bad commit: [cbde7be900d2a2279cbc4becb91d1ddd6a014def] migrate: remove QMP/HMP commands for speed, downtime and cache size
->>>>>
->>>>>
->>>>> Are there some obvious settings / options I am missing to regain the savevm performance after this commit?
+On 3/7/22 1:00 PM, Daniel P. Berrangé wrote:
+> On Mon, Mar 07, 2022 at 12:19:22PM +0100, Claudio Fontana wrote:
+>> On 3/7/22 10:51 AM, Daniel P. Berrangé wrote:
+>>> On Mon, Mar 07, 2022 at 10:44:56AM +0100, Claudio Fontana wrote:
+>>>> Hello Daniel,
 >>>>
->>>> Answering myself: 
->>>
->>> <oops we seem to have split this thread into two>
->>>
->>>> this seems to be due to a resulting different default xbzrle cache size (probably interactions between libvirt/qemu versions?).
->>>>
->>>> When forcing the xbzrle cache size to a larger value, the performance is back.
->>>
->>> That's weird that 'virsh save' is ending up using xbzrle.
->>
->> virsh save (or qemu savevm..) seems to me like it uses a subset of the migration code and migration parameters but not all..
->>
->>>
+>>>> On 3/7/22 10:27 AM, Daniel P. Berrangé wrote:
+>>>>> On Sat, Mar 05, 2022 at 02:19:39PM +0100, Claudio Fontana wrote:
+>>>>>>
+>>>>>> Hello all,
+>>>>>>
+>>>>>> I have been looking at some reports of bad qemu savevm performance in large VMs (around 20+ Gb),
+>>>>>> when used in libvirt commands like:
+>>>>>>
+>>>>>>
+>>>>>> virsh save domain /dev/null
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> I have written a simple test to run in a Linux centos7-minimal-2009 guest, which allocates and touches 20G mem.
+>>>>>>
+>>>>>> With any qemu version since around 2020, I am not seeing more than 580 Mb/Sec even in the most ideal of situations.
+>>>>>>
+>>>>>> This drops to around 122 Mb/sec after commit: cbde7be900d2a2279cbc4becb91d1ddd6a014def .
+>>>>>>
+>>>>>> Here is the bisection for this particular drop in throughput:
+>>>>>>
+>>>>>> commit cbde7be900d2a2279cbc4becb91d1ddd6a014def (HEAD, refs/bisect/bad)
+>>>>>> Author: Daniel P. Berrangé <berrange@redhat.com>
+>>>>>> Date:   Fri Feb 19 18:40:12 2021 +0000
+>>>>>>
+>>>>>>     migrate: remove QMP/HMP commands for speed, downtime and cache size
+>>>>>>     
+>>>>>>     The generic 'migrate_set_parameters' command handle all types of param.
+>>>>>>     
+>>>>>>     Only the QMP commands were documented in the deprecations page, but the
+>>>>>>     rationale for deprecating applies equally to HMP, and the replacements
+>>>>>>     exist. Furthermore the HMP commands are just shims to the QMP commands,
+>>>>>>     so removing the latter breaks the former unless they get re-implemented.
+>>>>>>     
+>>>>>>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>>>>>     Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 >>>>>
->>>>> I have seen projects attempting to improve other aspects of performance (snapshot performance, etc), is there something going on to improve the transfer of RAM in savevm too?
+>>>>> That doesn't make a whole lot of sense as a bisect result.
+>>>>> How reliable is that bisect end point ? Have you bisected
+>>>>> to that point more than once ?
 >>>>
+>>>> I did run through the bisect itself only once, so I'll double check that.
+>>>> The results seem to be reproducible almost to the second though, a savevm that took 35 seconds before the commit takes 2m 48 seconds after.
 >>>>
->>>> Still I would think that we should be able to do better than 600ish Mb/s , any ideas, prior work on this,
->>>> to improve savevm performance, especially looking at RAM regions transfer speed?
->>>
->>> My normal feeling is ~10Gbps for a live migrate over the wire; I rarely
->>> try virsh save though.
->>> If you're using xbzrle that might explain it; it's known to eat cpu -
->>> but I'd never expect it to have been used with 'virsh save'.
->>
->> some valgrind shows it among the top cpu eaters;
-
-well.. I was confused.
-
-The usage of xbzrle is just on constantly calling migrate_use_xbzrle() and XBZRLE_cache_lock and XBZRLE_cache_unlock() as well as some xbzrle_cache_zero_page(),
-which likely do not do anything useful, as ->ram_bulk_stage is not changed by anything so it should be true.
-
-
->>
->> I wonder why we are able to do more than 2x better for actual live migration, compared with virsh save /dev/null ...
+>>>> For this test I am using libvirt v6.0.0.
 > 
-> What speed do you get if you force xbzrle off?
-
-
-no substantial difference.
-
-
+> I've just noticed this.  That version of libvirt is 2 years old and
+> doesn't have full support for migrate_set_parameters.
 > 
-> Dave
 > 
->> Thanks,
->>
->> Claudio
->>
+>> 2022-03-07 10:47:20.145+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-19"}^M
+>>  len=93 ret=93 errno=0
+>> 2022-03-07 10:47:20.146+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"id": "libvirt-19", "error": {"class": "CommandNotFound", "desc": "The command migrate_set_speed has not been found"}}
+>> 2022-03-07 10:47:20.147+0000: 134391: error : qemuMonitorJSONCheckError:412 : internal error: unable to execute QEMU command 'migrate_set_speed': The command migrate_set_speed has not been found
+> 
+> We see the migrate_set_speed failing and libvirt obviously ignores that
+> failure.
+> 
+> In current libvirt migrate_set_speed is not used as it properly
+> handles migrate_set_parameters AFAICT.
+> 
+> I think you just need to upgrade libvirt if you want to use this
+> newer QEMU version
+> 
+> Regards,
+> Daniel
+> 
 
+Got it, this explains it, sorry for the noise on this.
+
+I'll continue to investigate the general issue of low throughput with virsh save / qemu savevm .
+
+Thanks,
+
+CLaudio
 
