@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3860F4CFB93
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:40:06 +0100 (CET)
-Received: from localhost ([::1]:35182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A96084CFBB2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:43:21 +0100 (CET)
+Received: from localhost ([::1]:43812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRAmb-0008Pp-7r
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:40:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37224)
+	id 1nRApk-0005qE-OP
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:43:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRALg-0002qU-PF
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:18 -0500
-Received: from [2a00:1450:4864:20::434] (port=34668
- helo=mail-wr1-x434.google.com)
+ id 1nRALr-00032T-JB
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:27 -0500
+Received: from [2a00:1450:4864:20::429] (port=45681
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRALf-0004HP-9w
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:16 -0500
-Received: by mail-wr1-x434.google.com with SMTP id j26so11989340wrb.1
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:14 -0800 (PST)
+ id 1nRALo-0004J3-Tx
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:26 -0500
+Received: by mail-wr1-x429.google.com with SMTP id p9so22348005wra.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W8OlnKGBcJmp8ZSBDdM9hwxfl+ILOgzIJHWHqjOQrx0=;
- b=nmBaKEbT+EaNDb12oP2syZp4IAXvLANNAbEQxjdr2Y38w4Zhmb8gjnQlPp5iySi7t4
- Dsgexwxk/QaoxMGwoxCi0ygmGpmtAwM7AVqGd2lHDdR9ID0vq66UX7M86VP14AClaZ2r
- ppkx1TRaSuoOx5L6RFrkt10r3XvrbOCRePUhAAUphgGlYpocVBy0qeUQ5XMJ9jKEa0yj
- p/BeIb6UmkaOFaPjpL2eo0QMaaoHTUzd2RNekEEB4yha68GRIPLSObmwlS1vwpLwhAE9
- hMmjZmPXRnhqQK6ekVPbl26jb/WHx26Q3W+v2ZABWtRErPXIG/2W9m2rL4cTSlincrh1
- ZX2Q==
+ bh=m5DGgo+E7BroNY51ivtexNtcI1JQgvQ9mCnqaaS1YQ8=;
+ b=Ms5zq5cos4yjabzeyCR8vXS9YSWh+AlAkrqentH/zydV9NXu/aueDL91yEqb8qoZeC
+ XA6ib9Dfr8/RhbExHQ6oHMd1KdS28QfHOhYjtBBoOn78nKT6li10jNMHTaOayDhYGEiy
+ B+LtG/QODNxuaXe3XQsOvblX3evegG8uLhWrGA3O/FGZO7PO7gPpEdv6oHiGcSswawoS
+ wKL3G6/2q52kFgQqgqewt+myY92no6dDl3dJeTXgpDhzrMKixe2wSUKP3zGv7Tq3SSlV
+ aw64ja3T1sordpSFi6S98zszv37dUvqgcfam+sn+mq0ym9tcGvlxmlIVIOQDQ6KkcEti
+ unVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W8OlnKGBcJmp8ZSBDdM9hwxfl+ILOgzIJHWHqjOQrx0=;
- b=pHQJdxhZgo2oyTdyVQmHWqXGuFdS1YNmiWERoVvfKEb8zNeE3bR4G1lEtVUf/ao/k5
- a87XE6Eeub3tdbQCi9LOV56J6ml+clk6M5grzDCom6Q4/uZpHkw0WJB7hLPAb3FLVKWY
- 189KbF4byCdPh8xc5oDAvDT2ZkYxGNVWS21qKffZfMvia2jT96b/kHyoXVyrh7QjLPcc
- HEynJg/X93AIXAo54PPyx+U0XSN+2bfebU7pkWX6DWVwS9XN5l8V/FeJW7YkoY7yxm1Q
- 2HzcCaMevjW0djpcEgRyesQhRSYQEuC6h2IrwOszTyGIMrep4/3HaT7I0Pt8ADVQ8yeN
- K47g==
-X-Gm-Message-State: AOAM5334E8MYb+tosATKBXp1pNaQB+4E63IGj+ZWf7c742OVOxKWVvOZ
- /55BlXXtKj0Jj5HjGQoS5oQrfCRFeGE=
-X-Google-Smtp-Source: ABdhPJxW6umkoOY9QxXMNjx3Yfjp7u1eXTY/54Kn5SZ93m4f/zPD3a1JeO2riVyRvbBJXNeqEn3yoA==
-X-Received: by 2002:adf:bc09:0:b0:1f0:2483:48b with SMTP id
- s9-20020adfbc09000000b001f02483048bmr7991671wrg.118.1646647933648; 
- Mon, 07 Mar 2022 02:12:13 -0800 (PST)
+ bh=m5DGgo+E7BroNY51ivtexNtcI1JQgvQ9mCnqaaS1YQ8=;
+ b=J849pmy1jCBnyG17MjJNvihg9rl4Ga+ckclNtXub8wgrBse+nLFjBS2N0YMRXqi/YJ
+ nT30PdI4ylxn4kpCYLGp5vjAmCPyPoETPsQh57cA8kYSB00w1aC1Z5nYE2iygbnWLy5+
+ KleQKTottg32VlD842elW4c7/DWPJ7TJJQXHp82dMMozx71b3tE7j162JH4i9FJgLWwm
+ we6VsAPW/zfh6MDQaSZMoXHXwVaSlQJOh3IXsfQ1IY9asz44HDqyMBeLAmRprXE+RoBv
+ FCQlECguXpws6IOGSMusYQVOi9E530MeL0IOWP+OYYh8E7go3y0BoUmAF1RFDKzt5xRO
+ t2cg==
+X-Gm-Message-State: AOAM5303J3AReZfcWMkVbOWa8L2N+qxjPucZG0R89QoJmCwOZhurnl54
+ qBiqMnDbu1z0E1MCksrUx1RDU+HIgjE=
+X-Google-Smtp-Source: ABdhPJy2pc/2Jog6rL2FzmKDnO8QHRy9mDyQRB3Qw2KlG2xHSBaAbq0FrQVv1Pe92ejsC0pcgL4aXA==
+X-Received: by 2002:a5d:64af:0:b0:1f1:e6e5:c7cb with SMTP id
+ m15-20020a5d64af000000b001f1e6e5c7cbmr5064929wrp.642.1646647943222; 
+ Mon, 07 Mar 2022 02:12:23 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- bg20-20020a05600c3c9400b0037fa5c422c8sm21859356wmb.48.2022.03.07.02.12.12
+ e6-20020a5d5006000000b001e75916a7c2sm10852834wrt.84.2022.03.07.02.12.22
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Mar 2022 02:12:13 -0800 (PST)
+ Mon, 07 Mar 2022 02:12:22 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/16] target/mips: Fix cycle counter timing calculations
-Date: Mon,  7 Mar 2022 11:11:52 +0100
-Message-Id: <20220307101207.90369-2-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 03/16] hw/mips/gt64xxx_pci: Fix PCI IRQ levels to be preserved
+ during migration
+Date: Mon,  7 Mar 2022 11:11:54 +0100
+Message-Id: <20220307101207.90369-4-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
 References: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,43 +91,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Simon Burge <simonb@NetBSD.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Simon Burge <simonb@NetBSD.org>
+From: Bernhard Beschow <shentey@gmail.com>
 
-The cp0_count_ns value is calculated from the CP0_COUNT_RATE_DEFAULT
-constant in target/mips/cpu.c.  The cycle counter resolution is defined
-per-CPU in target/mips/cpu-defs.c.inc; use this value for calculating
-cp0_count_ns.  Fixings timing problems on guest OSs for the 20Kc CPU
-which has a CCRes of 1.
+Based on commit e735b55a8c11dd455e31ccd4420e6c9485191d0c:
 
-Signed-off-by: Simon Burge <simonb@NetBSD.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211213135125.18378-1-simonb@NetBSD.org>
+  piix_pci: eliminate PIIX3State::pci_irq_levels
+
+  PIIX3State::pci_irq_levels are redundant which is already tracked by
+  PCIBus layer. So eliminate them.
+
+The IRQ levels in the PCIBus layer are already preserved during
+migration. By reusing them and rather than having a redundant implementation
+the bug is avoided in the first place.
+
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20220217101924.15347-2-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/cpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/mips/gt64xxx_pci.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 4aae23934b..0766e25693 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -440,8 +440,9 @@ static void mips_cp0_period_set(MIPSCPU *cpu)
- {
-     CPUMIPSState *env = &cpu->env;
- 
-+    /* env->CCRes isn't initialised this early, use env->cpu_model->CCRes. */
-     env->cp0_count_ns = clock_ticks_to_ns(MIPS_CPU(cpu)->clock,
--                                          cpu->cp0_count_rate);
-+                                          env->cpu_model->CCRes);
-     assert(env->cp0_count_ns);
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+index c7480bd019..4cbd0911f5 100644
+--- a/hw/mips/gt64xxx_pci.c
++++ b/hw/mips/gt64xxx_pci.c
+@@ -1006,14 +1006,11 @@ static int gt64120_pci_map_irq(PCIDevice *pci_dev, int irq_num)
+     }
  }
  
+-static int pci_irq_levels[4];
+-
+ static void gt64120_pci_set_irq(void *opaque, int irq_num, int level)
+ {
+     int i, pic_irq, pic_level;
+     qemu_irq *pic = opaque;
+-
+-    pci_irq_levels[irq_num] = level;
++    PCIBus *bus = pci_get_bus(piix4_dev);
+ 
+     /* now we change the pic irq level according to the piix irq mappings */
+     /* XXX: optimize */
+@@ -1023,7 +1020,7 @@ static void gt64120_pci_set_irq(void *opaque, int irq_num, int level)
+         pic_level = 0;
+         for (i = 0; i < 4; i++) {
+             if (pic_irq == piix4_dev->config[PIIX_PIRQCA + i]) {
+-                pic_level |= pci_irq_levels[i];
++                pic_level |= pci_bus_get_irq_level(bus, i);
+             }
+         }
+         qemu_set_irq(pic[pic_irq], pic_level);
 -- 
 2.34.1
 
