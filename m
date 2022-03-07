@@ -2,40 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BD64CFDF7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:17:33 +0100 (CET)
-Received: from localhost ([::1]:50794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C914CFDA0
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:04:39 +0100 (CET)
+Received: from localhost ([::1]:47094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCIu-000408-KP
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:17:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36120)
+	id 1nRC6Q-0006Wq-FD
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:04:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e16fea4156b6f0877df45104320164501ca689f6@lizzy.crudebyte.com>)
- id 1nRCCR-0002r7-2o
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:10:51 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:33469)
+ (envelope-from <e0bd743bb2dd4985791d4de880446bdbb4e04fed@lizzy.crudebyte.com>)
+ id 1nRBzY-0000iH-NU
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:57:32 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:34857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e16fea4156b6f0877df45104320164501ca689f6@lizzy.crudebyte.com>)
- id 1nRCCP-0006fX-3d
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:10:50 -0500
+ (envelope-from <e0bd743bb2dd4985791d4de880446bdbb4e04fed@lizzy.crudebyte.com>)
+ id 1nRBzX-0004Q5-6i
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:57:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=JxwJG9r+Tf4XE67kO24LxoQgtYGtj/d4r4gjFVEHVJ0=; b=mWRJf
- l6SIcvzFc3PSVpQq7BvOnbQzHfp9WiM5uHM7yQkl3NTythf9Pz5GoOAm6tCottM4KHbVyAQ1nj2AU
- l639PQ235Kd+2OuP+PULQXnL2Y3pibity6QAmqwyJty6lvrlbk4FTd7dt1vjDLUKe2aW2rcAy/HG/
- wHxBd0P5pwj3HAlP4bv84weShWnbFbDGezsg7PGjXk8JM7Ov4qkfcEdZ2CPx1Th/rH1ZbHV75teFX
- 7pk+t/obqiqAWwQqlRtyuKSBoKz4Ky8sbZPQoeRMVv+YaFVeOrvnlgE6s0axAOIvbW4rJ4v6ZbFVA
- qEPL8XPFEDOziD9wnZNSPHb0PTJhA==;
-Message-Id: <e16fea4156b6f0877df45104320164501ca689f6.1646651700.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
+ Content-Description; bh=KO3uCcDtoP8ypvHqVZeogjqwQxCYF7uWlWLOucj+apQ=; b=CDT90
+ R1XMJyayWqWK9zOA+/nAsoQJ24iB5jJpi1HigtE+rL/zUtGxHqV79pqB3vUSMTLTM+4aQj41Fn9jC
+ owuyKYiOOCS/iQvfqcdTPSzzWFLb8cadhgK/SHhsZjwy8p++v/VPnJFa7ZcdT+ktRQAtCFdCWvt4x
+ En6Y/WR6mNZdGnAMh63qVrg8dmSJRxMCLgB/ywbTPHc0u2GqltDTdKmy+SRWGmXXQ4w0ANk0iymBn
+ udtPmWbwAgBYxN1Ij97eSgF4lk4QnkdjpVCXQrXgIn1aD9EqDrR/xjYlNmpzaiOcggtL+npz1+Ook
+ vJKXPb0q7B0V/LmLrTlpbFTHQmi9Q==;
+Message-Id: <e0bd743bb2dd4985791d4de880446bdbb4e04fed.1646651700.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646651700.git.qemu_oss@crudebyte.com>
 References: <cover.1646651700.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 07 Mar 2022 12:15:00 +0100
-Subject: [PULL v2 16/19] 9pfs/9p.c: convert Doxygen -> kerneldoc format
+Subject: [PULL v2 01/19] 9p: linux: Fix a couple Linux assumptions
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
@@ -44,7 +47,7 @@ Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
  Fabian Franz <fabianfranz.oss@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=e16fea4156b6f0877df45104320164501ca689f6@lizzy.crudebyte.com;
+ envelope-from=e0bd743bb2dd4985791d4de880446bdbb4e04fed@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -67,168 +70,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-API doc comments in QEMU are supposed to be in kerneldoc format, so
-convert API doc comments from Doxygen format to kerneldoc format.
+From: Keno Fischer <keno@juliacomputing.com>
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ - Guard Linux only headers.
+ - Add qemu/statfs.h header to abstract over the which
+   headers are needed for struct statfs
+ - Define `ENOATTR` only if not only defined
+   (it's defined in system headers on Darwin).
+
+Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+[Michael Roitzsch: - Rebase for NixOS]
+Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+
+While it might at first appear that fsdev/virtfs-proxy-header.c would
+need similar adjustment for darwin as file-op-9p here, a later patch in
+this series disables virtfs-proxy-helper for non-Linux. Allowing
+virtfs-proxy-helper on darwin could potentially be an additional
+optimization later.
+
+[Will Cohen: - Fix headers for Alpine
+             - Integrate statfs.h back into file-op-9p.h
+             - Remove superfluous header guards from file-opt-9p
+             - Add note about virtfs-proxy-helper being disabled
+               on non-Linux for this patch series]
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <4ece6ffa4465c271c6a7c42a3040f42780fcce87.1646314856.git.qemu_oss@crudebyte.com>
+Message-Id: <20220227223522.91937-2-wwcohen@gmail.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c | 62 +++++++++++++++++++++++++++++-----------------------
- 1 file changed, 35 insertions(+), 27 deletions(-)
+ fsdev/file-op-9p.h   | 9 ++++++++-
+ hw/9pfs/9p-local.c   | 2 ++
+ hw/9pfs/9p.c         | 4 ++++
+ include/qemu/xattr.h | 4 +++-
+ 4 files changed, 17 insertions(+), 2 deletions(-)
 
+diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+index 8fd89f0447..4997677460 100644
+--- a/fsdev/file-op-9p.h
++++ b/fsdev/file-op-9p.h
+@@ -16,10 +16,17 @@
+ 
+ #include <dirent.h>
+ #include <utime.h>
+-#include <sys/vfs.h>
+ #include "qemu-fsdev-throttle.h"
+ #include "p9array.h"
+ 
++#ifdef CONFIG_LINUX
++# include <sys/vfs.h>
++#endif
++#ifdef CONFIG_DARWIN
++# include <sys/param.h>
++# include <sys/mount.h>
++#endif
++
+ #define SM_LOCAL_MODE_BITS    0600
+ #define SM_LOCAL_DIR_MODE_BITS    0700
+ 
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 210d9e7705..1a5e3eed73 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -32,10 +32,12 @@
+ #include "qemu/error-report.h"
+ #include "qemu/option.h"
+ #include <libgen.h>
++#ifdef CONFIG_LINUX
+ #include <linux/fs.h>
+ #ifdef CONFIG_LINUX_MAGIC_H
+ #include <linux/magic.h>
+ #endif
++#endif
+ #include <sys/ioctl.h>
+ 
+ #ifndef XFS_SUPER_MAGIC
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 7405352c37..a6d6b3f835 100644
+index 15b3f4d385..9c63e14b28 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -628,8 +628,8 @@ static inline uint64_t mirror64bit(uint64_t value)
-            ((uint64_t)mirror8bit((value >> 56) & 0xff));
- }
+@@ -32,7 +32,11 @@
+ #include "migration/blocker.h"
+ #include "qemu/xxhash.h"
+ #include <math.h>
++#ifdef CONFIG_LINUX
+ #include <linux/limits.h>
++#else
++#include <limits.h>
++#endif
  
--/**
-- * @brief Parameter k for the Exponential Golomb algorihm to be used.
-+/*
-+ * Parameter k for the Exponential Golomb algorihm to be used.
-  *
-  * The smaller this value, the smaller the minimum bit count for the Exp.
-  * Golomb generated affixes will be (at lowest index) however for the
-@@ -642,28 +642,30 @@ static inline uint64_t mirror64bit(uint64_t value)
-  * should be small, for a large amount of devices k might be increased
-  * instead. The default of k=0 should be fine for most users though.
-  *
-- * @b IMPORTANT: In case this ever becomes a runtime parameter; the value of
-+ * IMPORTANT: In case this ever becomes a runtime parameter; the value of
-  * k should not change as long as guest is still running! Because that would
-  * cause completely different inode numbers to be generated on guest.
-  */
- #define EXP_GOLOMB_K    0
+ int open_fd_hw;
+ int total_open_fd;
+diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
+index a83fe8e749..f1d0f7be74 100644
+--- a/include/qemu/xattr.h
++++ b/include/qemu/xattr.h
+@@ -22,7 +22,9 @@
+ #ifdef CONFIG_LIBATTR
+ #  include <attr/xattr.h>
+ #else
+-#  define ENOATTR ENODATA
++#  if !defined(ENOATTR)
++#    define ENOATTR ENODATA
++#  endif
+ #  include <sys/xattr.h>
+ #endif
  
- /**
-- * @brief Exponential Golomb algorithm for arbitrary k (including k=0).
-+ * expGolombEncode() - Exponential Golomb algorithm for arbitrary k
-+ *                     (including k=0).
-  *
-- * The Exponential Golomb algorithm generates @b prefixes (@b not suffixes!)
-+ * @n: natural number (or index) of the prefix to be generated
-+ *     (1, 2, 3, ...)
-+ * @k: parameter k of Exp. Golomb algorithm to be used
-+ *     (see comment on EXP_GOLOMB_K macro for details about k)
-+ * Return: prefix for given @n and @k
-+ *
-+ * The Exponential Golomb algorithm generates prefixes (NOT suffixes!)
-  * with growing length and with the mathematical property of being
-  * "prefix-free". The latter means the generated prefixes can be prepended
-  * in front of arbitrary numbers and the resulting concatenated numbers are
-  * guaranteed to be always unique.
-  *
-  * This is a minor adjustment to the original Exp. Golomb algorithm in the
-- * sense that lowest allowed index (@param n) starts with 1, not with zero.
-- *
-- * @param n - natural number (or index) of the prefix to be generated
-- *            (1, 2, 3, ...)
-- * @param k - parameter k of Exp. Golomb algorithm to be used
-- *            (see comment on EXP_GOLOMB_K macro for details about k)
-+ * sense that lowest allowed index (@n) starts with 1, not with zero.
-  */
- static VariLenAffix expGolombEncode(uint64_t n, int k)
- {
-@@ -677,7 +679,9 @@ static VariLenAffix expGolombEncode(uint64_t n, int k)
- }
- 
- /**
-- * @brief Converts a suffix into a prefix, or a prefix into a suffix.
-+ * invertAffix() - Converts a suffix into a prefix, or a prefix into a suffix.
-+ * @affix: either suffix or prefix to be inverted
-+ * Return: inversion of passed @affix
-  *
-  * Simply mirror all bits of the affix value, for the purpose to preserve
-  * respectively the mathematical "prefix-free" or "suffix-free" property
-@@ -701,16 +705,16 @@ static VariLenAffix invertAffix(const VariLenAffix *affix)
- }
- 
- /**
-- * @brief Generates suffix numbers with "suffix-free" property.
-+ * affixForIndex() - Generates suffix numbers with "suffix-free" property.
-+ * @index: natural number (or index) of the suffix to be generated
-+ *         (1, 2, 3, ...)
-+ * Return: Suffix suitable to assemble unique number.
-  *
-  * This is just a wrapper function on top of the Exp. Golomb algorithm.
-  *
-  * Since the Exp. Golomb algorithm generates prefixes, but we need suffixes,
-  * this function converts the Exp. Golomb prefixes into appropriate suffixes
-  * which are still suitable for generating unique numbers.
-- *
-- * @param n - natural number (or index) of the suffix to be generated
-- *            (1, 2, 3, ...)
-  */
- static VariLenAffix affixForIndex(uint64_t index)
- {
-@@ -810,8 +814,8 @@ static int qid_inode_prefix_hash_bits(V9fsPDU *pdu, dev_t dev)
-     return val->prefix_bits;
- }
- 
--/**
-- * @brief Slow / full mapping host inode nr -> guest inode nr.
-+/*
-+ * Slow / full mapping host inode nr -> guest inode nr.
-  *
-  * This function performs a slower and much more costly remapping of an
-  * original file inode number on host to an appropriate different inode
-@@ -823,7 +827,7 @@ static int qid_inode_prefix_hash_bits(V9fsPDU *pdu, dev_t dev)
-  * qid_path_suffixmap() failed. In practice this slow / full mapping is not
-  * expected ever to be used at all though.
-  *
-- * @see qid_path_suffixmap() for details
-+ * See qid_path_suffixmap() for details
-  *
-  */
- static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
-@@ -864,8 +868,8 @@ static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
-     return 0;
- }
- 
--/**
-- * @brief Quick mapping host inode nr -> guest inode nr.
-+/*
-+ * Quick mapping host inode nr -> guest inode nr.
-  *
-  * This function performs quick remapping of an original file inode number
-  * on host to an appropriate different inode number on guest. This remapping
-@@ -1281,12 +1285,15 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
- 
- 
- /**
-- * Convert host filesystem's block size into an appropriate block size for
-- * 9p client (guest OS side). The value returned suggests an "optimum" block
-- * size for 9p I/O, i.e. to maximize performance.
-+ * blksize_to_iounit() - Block size exposed to 9p client.
-+ * Return: block size
-  *
-  * @pdu: 9p client request
-  * @blksize: host filesystem's block size
-+ *
-+ * Convert host filesystem's block size into an appropriate block size for
-+ * 9p client (guest OS side). The value returned suggests an "optimum" block
-+ * size for 9p I/O, i.e. to maximize performance.
-  */
- static int32_t blksize_to_iounit(const V9fsPDU *pdu, int32_t blksize)
- {
-@@ -2398,10 +2405,11 @@ out_nofid:
- }
- 
- /**
-- * Returns size required in Rreaddir response for the passed dirent @p name.
-+ * v9fs_readdir_response_size() - Returns size required in Rreaddir response
-+ * for the passed dirent @name.
-  *
-- * @param name - directory entry's name (i.e. file name, directory name)
-- * @returns required size in bytes
-+ * @name: directory entry's name (i.e. file name, directory name)
-+ * Return: required size in bytes
-  */
- size_t v9fs_readdir_response_size(V9fsString *name)
- {
 -- 
 2.20.1
 
