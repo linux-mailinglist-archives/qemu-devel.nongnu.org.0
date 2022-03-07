@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7999A4D069A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:33:15 +0100 (CET)
-Received: from localhost ([::1]:35592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B544D06C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:42:09 +0100 (CET)
+Received: from localhost ([::1]:52862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRIAU-0002t1-Jc
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:33:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55516)
+	id 1nRIJ6-0006Oz-BG
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:42:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHum-0001K1-3h
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:17:00 -0500
-Received: from [2a00:1450:4864:20::534] (port=43887
- helo=mail-ed1-x534.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHuh-0005PB-Li
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:59 -0500
-Received: by mail-ed1-x534.google.com with SMTP id f8so21138088edf.10
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bQ7QzzDfZTAEzBPQemH/goOcF8IL8Rwa/E0oZZAhyPI=;
- b=Ctx+b7qnam6DgRiLYavBX+b3ga4c6OwkvGFaGxrAtqB+rJ8f9+H2MbWWhNcNKNRG76
- r2UEUoyMpKYGVpMnlO7Mg9lWlFRsD3ZtcraAR0LcXfoE8rclf0bKbhQqYJnt6ZgVWgv3
- I0OgfTYO1LWv8Qep86MNKiTNDYSPMFwixkrL0I1OgX/2NJ/4aA19ysZVR8LJ2dZtdp9+
- sAhbTZkgZt1q5DGDVaEXmtpcg6wd1CVGjompmne2x68gB/andm3US88PvH0pVdKMDnbp
- WDHpGkwjxwrpZE1dRezMYbKf+C4Wc50QSRyRqJ6qxydArfV3OtkCDMQtCAWjyMAtspx3
- v9cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=bQ7QzzDfZTAEzBPQemH/goOcF8IL8Rwa/E0oZZAhyPI=;
- b=g2VP5wLBv3jx3XC5NnEOg1/smAygOREyS3Eu6aigT1EF5qbI7BqF2GU9tu/Adww3g5
- 9sQqRpNyr90NE6P+eYBvjx6XCVfu/ySt4bCIUp/ez2iqNMM0hP+mYO/w36eu+9hCLr2k
- Own20HXs2tvT08ZKSggZ78CTRW2MjmkEvdG7uoNyxCv9LyV+i2EhSLb/RUH7UB+AP/HI
- yfh2yrqqhFEYgI0SsZC12PXKdg5u62eLP+tbzbRK/MLZLGhycRqh7v/gLDtL+IDRJgwp
- /l1ZWy6b+hP9p0DJ2RNNYBhBE6ySB01nvssqu4xm6KnbHowCPppUj0x4C89HRAsTurgL
- eXeQ==
-X-Gm-Message-State: AOAM5306I3wJW9cwi1vCIyFRNNZGpWV5iY6QkOg8+e7JSg5yg8lPU+Ws
- ostaxjKiEXyn544+LYWltYyBGNC08wQ=
-X-Google-Smtp-Source: ABdhPJzWqSj4F3uVvY6yxEGJb/VK0KKRltTPBvsl4q6Nh6ZohnlFD1q5NTbRIb6kLVOnmta+T9YzPw==
-X-Received: by 2002:aa7:de0e:0:b0:416:607c:6d45 with SMTP id
- h14-20020aa7de0e000000b00416607c6d45mr2402905edv.127.1646677014242; 
- Mon, 07 Mar 2022 10:16:54 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.53
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 10:16:53 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRI3r-0005gN-G1
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:26:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50891)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRI3k-0006sM-At
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:26:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646677574;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EreJ8qXVmoCa7BeZFRZJJoA3n9Dy8rQ3LfmRfTzTlbE=;
+ b=W2MhuFxrGcMBLCXHy1W+EofpJkW+HYJyP47KRYFKfYOHtJA71PwPkBdjcJCGRCW0/iiW9E
+ xMGP+L07SJgOv/yRn6nQPMb5oaNbRvkT2QfE8DWM11m9QeIszG5rT2dcISQQdZt0K0Aw+f
+ 0i/qQ5RwwdEJ3PktnvjwH+QeySN57O8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-15-78zCTYebPzyTYbe5ZlyFQw-1; Mon, 07 Mar 2022 13:26:13 -0500
+X-MC-Unique: 78zCTYebPzyTYbe5ZlyFQw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA5C4FC82;
+ Mon,  7 Mar 2022 18:26:12 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDBBA80FC5;
+ Mon,  7 Mar 2022 18:26:11 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/23] gitlab-ci: do not run tests with address sanitizer
-Date: Mon,  7 Mar 2022 19:16:33 +0100
-Message-Id: <20220307181633.596898-24-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220307181633.596898-1-pbonzini@redhat.com>
-References: <20220307181633.596898-1-pbonzini@redhat.com>
+Subject: [PULL 0/7] s390x, tests and misc patches
+Date: Mon,  7 Mar 2022 19:26:02 +0100
+Message-Id: <20220307182609.94466-1-thuth@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,30 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is flaky and sometimes fails or hangs unexplicably.
+ Hi Peter!
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- .gitlab-ci.d/buildtest.yml | 2 --
- 1 file changed, 2 deletions(-)
+The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5:
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 0aa70213fb..0aea7ab84c 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -515,8 +515,6 @@ build-oss-fuzz:
-         echo Testing ${fuzzer} ... ;
-         "${fuzzer}" -runs=1 -seed=1 || exit 1 ;
-       done
--    # Unrelated to fuzzer: run some tests with -fsanitize=address
--    - cd build-oss-fuzz && make check-qtest-i386 check-unit
- 
- build-tci:
-   extends: .native_build_job_template
--- 
-2.34.1
+  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' into staging (2022-03-05 18:03:15 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-03-07
+
+for you to fetch changes up to 818e1636080768749dc826acd4825e71828ec7e6:
+
+  Check and report for incomplete 'global' option format (2022-03-07 19:00:05 +0100)
+
+----------------------------------------------------------------
+* Fixes for s390x TCG tests
+* Update Haiku VM to a usable level
+* Some other miscellaneous small fixes
+
+----------------------------------------------------------------
+David Miller (1):
+      tests/tcg/s390x: Cleanup of mie3 tests.
+
+Rohit Kumar (1):
+      Check and report for incomplete 'global' option format
+
+Thomas Huth (5):
+      tests/tcg/s390x: Fix mvc, mvo and pack tests with Clang
+      tests/tcg/s390x: Fix the exrl-trt* tests with Clang
+      MAINTAINERS: Update the files in the FreeBSD section
+      tests/avocado: Cancel BootLinux tests in case there is no free port
+      tests/vm: Update haiku test vm to R1/Beta3
+
+ MAINTAINERS                            |  3 ++-
+ softmmu/qdev-monitor.c                 |  7 +++++++
+ tests/avocado/avocado_qemu/__init__.py |  2 ++
+ tests/tcg/s390x/exrl-trt.c             |  8 +++-----
+ tests/tcg/s390x/exrl-trtr.c            |  8 +++-----
+ tests/tcg/s390x/mie3-mvcrl.c           | 10 ++++++----
+ tests/tcg/s390x/mie3-sel.c             | 35 +++++++++++++++-------------------
+ tests/tcg/s390x/mvc.c                  |  4 ++--
+ tests/tcg/s390x/mvo.c                  |  4 ++--
+ tests/tcg/s390x/pack.c                 |  2 +-
+ tests/vm/haiku.x86_64                  |  8 ++++----
+ 11 files changed, 47 insertions(+), 44 deletions(-)
 
 
