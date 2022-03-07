@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C4F4D0641
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:19:35 +0100 (CET)
-Received: from localhost ([::1]:46028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E06C94D0657
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:22:04 +0100 (CET)
+Received: from localhost ([::1]:54554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRHxG-0005SN-5D
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:19:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55222)
+	id 1nRHzf-0002lm-Ve
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:22:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHue-0000um-Tx
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:52 -0500
-Received: from [2a00:1450:4864:20::62f] (port=37536
- helo=mail-ej1-x62f.google.com)
+ id 1nRHug-0000zA-FN
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:54 -0500
+Received: from [2a00:1450:4864:20::52c] (port=33287
+ helo=mail-ed1-x52c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHud-0005Mv-26
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:52 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id bg10so33860475ejb.4
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:40 -0800 (PST)
+ id 1nRHud-0005N2-2e
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:54 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id m21so15656535edc.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=x3Wm5zyvRpbzPis/TBvRWMn+RknvyzFIxPlVh7GOxBE=;
- b=YGCBJlp3CPJbSztuaVbzR1r3QSBKb3zoYkm2sqLDgZPlUso5o8LuO7qeJj3BbU22cs
- 4cPQBEyKE8q55uI7Ge0MyMq7pEXSHcAXBMP3hxbk6f/zKqJiMc6Zj0ZjPMZhuTM3L9yY
- uGodp8W5zwNMMES5j91rycIyYD+iOS35dRNO2ZSHj2lCeSFlwz66su0DfLb6P8wW9csx
- DMqZER+JsG2VXO4SSxmUo/wwYrTq1gqptcEWJc/SabMmMVfx8pcTQxdsTz8ceq54nHZA
- essMfzh2673YAarX+rfsfvXPrdBysAm2RQAU8UuZay5uN6jjtuOvmI+VJbxs5n6+pSBJ
- flQQ==
+ bh=5jubMeLfMS6DO/0PCPGI57Go6LtnBr0CArY5PUrgsRY=;
+ b=V1o+of6JosL1iyVdmwLrRXN3uymfNudvXEQ5h/HOt2JETYUx6lUcNsnwFiPGanuBbd
+ 3VZozjrMWisU96KKgQLQiGJaKlUz1Gw5LIT4fmt3RN4OR9+fbYFqQ8ia4MdF+hqzU5Tf
+ P1TR709oFzg6aLqyR4+iYccxApSHqjeQVx1wTVjjy4BR/MfCHeoaEuqPJHiD/nXWtw0S
+ q7Nvy5tlr+EgNaLA1BYs7XmB0/zIMWCSdfga+xm5od4DxLRRh+fy+yHRTkUe5zC+FErs
+ /TSOkq5O/0kelessGZf0RmDJfCjSvNhCqLb7wdv0O36myLso8knb4bCVGxDD3Grl3qrL
+ pF7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=x3Wm5zyvRpbzPis/TBvRWMn+RknvyzFIxPlVh7GOxBE=;
- b=V4ts9ABR879CtA6sg9FAgWDk6wWPePhsLf7uspsvxj0B4lxOVUMzqw3/mz+ZBNYJoL
- vCElhtW5wO/xmF/OTwiJyccGT0LzB8PUTorYI8dviewflASp1TXfoe1TTsU6QZw+FMEm
- q/1V0IbSthMsZaav3bltgxyldU0cMhiko/bAZ7NBiqqLlCkL2jDOxSo6gc7YoSQYwdkK
- yT8jtsD2c/9b+E5JQ+AqY8S5iZ/Uw4jI/iMv1+BntQfqGeCxn8cWWP8POwsGtCFJy/cW
- //bcyfdAWD0UiBmLDokpV24unpL4yzPIDxWGZmN4BAam1z3jmvVraFA220XMMiMooKWZ
- Cg6g==
-X-Gm-Message-State: AOAM533oRU1v0sB+LY9lPja2ArEANg/Z/pyR/J0fRdJy/DaTffCT/kNS
- q/kF6TqTn8S4mUnNzXCDzw1eO6244Jg=
-X-Google-Smtp-Source: ABdhPJzwdJgGDZCQ1KAUj0hi9rvX46lPgcW477Wfq9vZoGJQzoo80/FLt5/Yv1YYdUsY3h+A15orew==
-X-Received: by 2002:a17:906:2991:b0:6cf:6b24:e92f with SMTP id
- x17-20020a170906299100b006cf6b24e92fmr9936737eje.748.1646676999636; 
- Mon, 07 Mar 2022 10:16:39 -0800 (PST)
+ bh=5jubMeLfMS6DO/0PCPGI57Go6LtnBr0CArY5PUrgsRY=;
+ b=W4z5mGpPMAzO0asRmiYOncQ7+NDHX25v5C0gqvlPmnEXcDayhIy2lF1MRi/Tk4G5ks
+ qiPQe6qTbXYDqavNYgd2Kw4Ea2nn1hDN/5apFxnX+Q0lnvMTHvCqB2jLTkLwkYEujxew
+ XVmipHYyGb8IXlnGFZAtbEPIs/Ro01I1nutnD8eAIPXm7hAUZB2J8xD1AhW/YClNn309
+ o8yR4WLrpWIw3QiaJ4eaA6aF+5fJIvUJV+SGcdMf3VZf3lHczH2LDVHwK2533oWY0Gzi
+ xsbEhBXEP3p9eZ+S8qgh2ljXp99hmQ2/RlHLvqZBK+sJ8gL5Lhr+w2Tk9iUmdevmDehp
+ WnjA==
+X-Gm-Message-State: AOAM533oxhegWH3GnNxXkTqT5DqI7INYfa03FdYa/F0R5bapY9KnrOqj
+ VtgdcCBNUgfM/dqILcX9sXpxyHm3OzE=
+X-Google-Smtp-Source: ABdhPJy15tTVn4a58v03Vm1NzbeGN+rVqqhkNN8zFe1+tLJeGBLL2+aTJjrnGJWbTE2zp7OMJ+tZuw==
+X-Received: by 2002:a05:6402:1385:b0:413:2bc6:4400 with SMTP id
+ b5-20020a056402138500b004132bc64400mr12504809edv.94.1646677000427; 
+ Mon, 07 Mar 2022 10:16:40 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.38
+ d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 10:16:39 -0800 (PST)
+ Mon, 07 Mar 2022 10:16:40 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/23] qga/vss-win32: check old VSS SDK headers
-Date: Mon,  7 Mar 2022 19:16:15 +0100
-Message-Id: <20220307181633.596898-6-pbonzini@redhat.com>
+Subject: [PULL 06/23] qga/vss: update informative message about MinGW
+Date: Mon,  7 Mar 2022 19:16:16 +0100
+Message-Id: <20220307181633.596898-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307181633.596898-1-pbonzini@redhat.com>
 References: <20220307181633.596898-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -96,90 +96,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The VssCoordinator & VssAdmin interfaces have been moved to vsadmin.h in
-the Windows SDK.
+The headers are now all available in MinGW master branch.
+(commit 13390dbbf885f and earlier) aiming for 10.0.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220222194008.610377-3-marcandre.lureau@redhat.com>
+Message-Id: <20220222194008.610377-4-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build                | 3 +++
- qga/vss-win32/install.cpp  | 4 ++++
- qga/vss-win32/provider.cpp | 4 ++++
- qga/vss-win32/vss-common.h | 3 ++-
- 4 files changed, 13 insertions(+), 1 deletion(-)
+ qga/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index b871098dbb..101a3f2d31 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1933,12 +1933,15 @@ config_host_data.set('CONFIG_AF_VSOCK', cc.compiles(gnu_source_prefix + '''
-   }'''))
- 
- have_vss = false
-+have_vss_sdk = false # old xp/2003 SDK
- if targetos == 'windows' and link_language == 'cpp'
-   have_vss = cxx.compiles('''
-     #define __MIDL_user_allocate_free_DEFINED__
-     #include <vss.h>
-     int main(void) { return VSS_CTX_BACKUP; }''')
-+  have_vss_sdk = cxx.has_header('vscoordint.h')
- endif
-+config_host_data.set('HAVE_VSS_SDK', have_vss_sdk)
- 
- have_ntddscsi = false
- if targetos == 'windows'
-diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
-index efc5bb9909..8076efe3cb 100644
---- a/qga/vss-win32/install.cpp
-+++ b/qga/vss-win32/install.cpp
-@@ -13,7 +13,11 @@
- #include "qemu/osdep.h"
- 
- #include "vss-common.h"
-+#ifdef HAVE_VSS_SDK
- #include <vscoordint.h>
-+#else
-+#include <vsadmin.h>
-+#endif
- #include "install.h"
- #include <wbemidl.h>
- #include <comdef.h>
-diff --git a/qga/vss-win32/provider.cpp b/qga/vss-win32/provider.cpp
-index fd187fb66f..1b885e24ee 100644
---- a/qga/vss-win32/provider.cpp
-+++ b/qga/vss-win32/provider.cpp
-@@ -12,7 +12,11 @@
- 
- #include "qemu/osdep.h"
- #include "vss-common.h"
-+#ifdef HAVE_VSS_SDK
- #include <vscoordint.h>
-+#else
-+#include <vsadmin.h>
-+#endif
- #include <vsprov.h>
- 
- #define VSS_TIMEOUT_MSEC (60*1000)
-diff --git a/qga/vss-win32/vss-common.h b/qga/vss-win32/vss-common.h
-index 54f8de8c88..0e67e7822c 100644
---- a/qga/vss-win32/vss-common.h
-+++ b/qga/vss-win32/vss-common.h
-@@ -64,12 +64,13 @@ const CLSID CLSID_QGAVSSProvider = { 0x6e6a3492, 0x8d4d, 0x440c,
- const TCHAR g_szClsid[] = TEXT("{6E6A3492-8D4D-440C-9619-5E5D0CC31CA8}");
- const TCHAR g_szProgid[] = TEXT("QGAVSSProvider");
- 
-+#ifdef HAVE_VSS_SDK
- /* Enums undefined in VSS SDK 7.2 but defined in newer Windows SDK */
- enum __VSS_VOLUME_SNAPSHOT_ATTRIBUTES {
-     VSS_VOLSNAP_ATTR_NO_AUTORECOVERY       = 0x00000002,
-     VSS_VOLSNAP_ATTR_TXF_RECOVERY          = 0x02000000
- };
--
-+#endif
- 
- /* COM pointer utility; call ->Release() when it goes out of scope */
- template <class T>
+diff --git a/qga/meson.build b/qga/meson.build
+index 54f2da5b07..62472747f1 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -15,7 +15,7 @@ have_qga_vss = get_option('qga_vss') \
+     If your Visual Studio installation doesn't have the VSS headers,
+     Please download and install Microsoft VSS SDK:
+     http://www.microsoft.com/en-us/download/details.aspx?id=23490
+-    On POSIX-systems, MinGW doesn't yet provide working headers.
++    On POSIX-systems, MinGW should provide headers in >=10.0 releases.
+     you can extract the SDK headers by:
+     $ scripts/extract-vsssdk-headers setup.exe
+     The headers are extracted in the directory 'inc/win2003'.
 -- 
 2.34.1
 
