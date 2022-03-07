@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5CA4D049A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 17:53:23 +0100 (CET)
-Received: from localhost ([::1]:51590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030494D048B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 17:51:16 +0100 (CET)
+Received: from localhost ([::1]:44570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRGbq-0005kg-Fi
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 11:53:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33910)
+	id 1nRGZn-00011B-3p
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 11:51:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGVx-0001N2-H9
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:17 -0500
-Received: from [2a00:1450:4864:20::42d] (port=39515
- helo=mail-wr1-x42d.google.com)
+ id 1nRGVy-0001QQ-Db
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:18 -0500
+Received: from [2a00:1450:4864:20::431] (port=33631
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGVv-0007iz-Qv
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:17 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id n15so10165596wra.6
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 08:47:15 -0800 (PST)
+ id 1nRGVw-0007jF-Ks
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:18 -0500
+Received: by mail-wr1-x431.google.com with SMTP id j17so24366977wrc.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 08:47:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wNLlmiJKgcgevH7l2nRJUQn8/Ms/TerlHklY+uOxLsA=;
- b=xTyjjVL2OXeg6EXRwId/5u2w32ZmV6gDAzGVwLT/AKmz4mcTs608VSAqj0yAeczzUc
- K4nGm7aHCDGHZOiPlc38ZXUFMco9IOjpsUy9J1evcJ8VWFZBusSi2jc6k/EVzMp3gUE4
- mGT+vZW50G38wefn7vvcv78q0AmzD7g0RFh/E5Am2Mbfr2leCOogZ7sf9XL3RIy5TCi6
- HofSJdoCHwXWN/FGsD+DY3DYBOIByevQ1h+Ky3qRnCcxwFwfX1tNuvOoqLuehyc73vMd
- esIQ7153KkeRMJcBY/y/kA0StG9GhLBxGMCKmux4Dgq59Kc7GpEiKMYXuYhzsu3XAFWH
- K5gA==
+ bh=xpC06DHhxVDLscz6Xo2CkegCEhzKYUxBYFFVOWGgdvk=;
+ b=SIqeN4AtLpG9QCpuK4KlXzRTsmeuUtwHAJ6m5pZMNg/XPLrpK6p7G2BkS6MsYsIHso
+ S+/2NuSTbjQ2PPEg3Bv1JxgpR+G36OReOaV/fN6GLwR3LGcSWoeuMUlSGO8WeXky1QNG
+ f9OojReDk8Z5KMd+0ZcuwBtPD0yR8VXexKXLCYvYvOB4g8vMCl6iEB5Hh2XDPuftoWk4
+ TN4IKmh3BRHulQ+uIRiTv+YgA+/h1dLJojTAyGHCbkXA8W02/fW4MDwmBxJN8bJ98Kuy
+ A8g3v+jQvLhIFCJ4nRGKwWSdH2DbYqHjM4362bmLzASgDhh4CtYv4Lg1/hgI1P34hDqj
+ +upw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wNLlmiJKgcgevH7l2nRJUQn8/Ms/TerlHklY+uOxLsA=;
- b=uLnQUqg87uNdRqRVdf4+ChFf8j1JF/TF85pmUUL/+JhUgqlNIfULQE2VUB+fts9+p9
- ZCtGHiATM34rFYF4cYJvKH2KfP9pWkLgWbO1dME/vC37I9DX/RYtHCTJ/RRdsO0G2TI3
- Zqp4WW/zH/Wsj4Q/J55Q2LeSoCUWZ2k5D+9xVe3P0BtjVBokOe4DLAyRBPZKfWiMVbdH
- W8htKSO2O1t/9NFUaTqZUOyycKISMfOhKqQhCJAj7D7D5QCAWxVk1S0lKu+XnMjR3j/T
- MAvc0KL10yYvDK4ojSDLx/vxjsOxU++KknAZ2zZtu2VRfgGM+rEs0qPLbyEHzqPfShFL
- /mmQ==
-X-Gm-Message-State: AOAM533PtyegshhGmt2tl1gGN2Caim2yx3aKJ3cWyaVyzVQ6EOvWJ+ei
- Vhki7P4qW2B2hlGomGqo6dz6rCE8bqN9Mw==
-X-Google-Smtp-Source: ABdhPJyoR4SzrLYfoJQrJj553yEq1lUK0dNicSOPjv+Q06b82YF+60d1ITwT4/a5bTlS2ds504yVxw==
-X-Received: by 2002:a05:6000:15cb:b0:1f1:e283:fcc0 with SMTP id
- y11-20020a05600015cb00b001f1e283fcc0mr8029596wry.18.1646671634444; 
- Mon, 07 Mar 2022 08:47:14 -0800 (PST)
+ bh=xpC06DHhxVDLscz6Xo2CkegCEhzKYUxBYFFVOWGgdvk=;
+ b=CboB/6hH3jH0eK6wygrIGkiRsnyHCB8ChNYDdPrzZ6rKlIEjDw61A52uJWY19cE7rP
+ l1iHOm6LaeUQlNQaBZudL9O4L6/q0aN2wVW7o6yi+CsSgWjkE2lCoAfcUUYpZhjv0SIf
+ yhLG56oJ4t1uwGCJlpGydO8TAXFai86ZN32Clam/pu+GzgHshhch1xCkj9D3Sgi9rftw
+ r7b7AFiBeLjA7U/MfIcfRVXIaroJ56iWCcUxyWlLH5u9ncLVjl6HrWy156QMVZSIgNEY
+ zZOlA+UX0iRIDfDCk0fpS9+zamW4cLlVD0ABgoFF5et56CGY88xubl0Ng2lH/PUu8x0i
+ mtSQ==
+X-Gm-Message-State: AOAM533TpExL7ayCcS3t3tqhp2CxBmlF5EdtcfXrt89DgegwrBD90sXL
+ GnGdvoj0ztDQiLMdj1m/I0fW1RQvP/Fj5A==
+X-Google-Smtp-Source: ABdhPJyYqX89o75e8QOpUWCcB9fnjQTBtGK+ibx/acEvRqrWCafg8M7GE+ejesMPyjQL1e+HtJzhgw==
+X-Received: by 2002:adf:f1c1:0:b0:1e3:1381:7bd5 with SMTP id
+ z1-20020adff1c1000000b001e313817bd5mr9076519wro.450.1646671635234; 
+ Mon, 07 Mar 2022 08:47:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- v188-20020a1cacc5000000b00384b71a50d5sm13806652wme.24.2022.03.07.08.47.13
+ v188-20020a1cacc5000000b00384b71a50d5sm13806652wme.24.2022.03.07.08.47.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 07 Mar 2022 08:47:14 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/18] util: Return valid allocation for qemu_try_memalign()
- with zero size
-Date: Mon,  7 Mar 2022 16:46:54 +0000
-Message-Id: <20220307164709.2503250-4-peter.maydell@linaro.org>
+Subject: [PULL 04/18] meson.build: Don't misdetect posix_memalign() on Windows
+Date: Mon,  7 Mar 2022 16:46:55 +0000
+Message-Id: <20220307164709.2503250-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220307164709.2503250-1-peter.maydell@linaro.org>
 References: <20220307164709.2503250-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,68 +93,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently qemu_try_memalign()'s behaviour if asked to allocate
-0 bytes is rather variable:
- * on Windows, we will assert
- * on POSIX platforms, we get the underlying behaviour of
-   the posix_memalign() or equivalent function, which may be
-   either "return a valid non-NULL pointer" or "return NULL"
+Currently we incorrectly think that posix_memalign() exists on
+Windows.  This is because of a combination of:
 
-Explictly check for 0 byte allocations, so we get consistent
-behaviour across platforms.  We handle them by incrementing the size
-so that we return a valid non-NULL pointer that can later be passed
-to qemu_vfree().  This is permitted behaviour for the
-posix_memalign() API and is the most usual way that underlying
-malloc() etc implementations handle a zero-sized allocation request,
-because it won't trip up calling code that assumes NULL means an
-error.  (This includes our own qemu_memalign(), which will abort on
-NULL.)
+ * the msys2/mingw toolchain/libc claim to have a
+   __builtin_posix_memalign when there isn't a builtin of that name
+ * meson will assume that if you have a __builtin_foo that
+   counts for has_function('foo')
 
-This change is a preparation for sharing the qemu_try_memalign() code
-between Windows and POSIX.
+Specifying a specific include file via prefix: causes meson to not
+treat builtins as sufficient and actually look for the function
+itself; see this meson pull request which added that as the official
+way to get the right answer:
+  https://github.com/mesonbuild/meson/pull/1150
+
+Currently this misdectection doesn't cause problems because we only
+use CONFIG_POSIX_MEMALIGN in oslib-posix.c; however that will change
+in a following commit.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220226180723.1706285-6-peter.maydell@linaro.org
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- util/oslib-posix.c | 3 +++
- util/oslib-win32.c | 4 +++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ meson.build | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 0278902ee79..f7e22f4ff9b 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -209,6 +209,9 @@ void *qemu_try_memalign(size_t alignment, size_t size)
-         g_assert(is_power_of_2(alignment));
-     }
- 
-+    if (size == 0) {
-+        size++;
-+    }
- #if defined(CONFIG_POSIX_MEMALIGN)
-     int ret;
-     ret = posix_memalign(&ptr, alignment, size);
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 05857414695..8c28d70904d 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -48,12 +48,14 @@ void *qemu_try_memalign(size_t alignment, size_t size)
- {
-     void *ptr;
- 
--    g_assert(size != 0);
-     if (alignment < sizeof(void *)) {
-         alignment = sizeof(void *);
-     } else {
-         g_assert(is_power_of_2(alignment));
-     }
-+    if (size == 0) {
-+        size++;
-+    }
-     ptr = _aligned_malloc(size, alignment);
-     trace_qemu_memalign(alignment, size, ptr);
-     return ptr;
+diff --git a/meson.build b/meson.build
+index 038502714ab..b541506c1c5 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1619,7 +1619,9 @@ config_host_data.set('CONFIG_CLOCK_ADJTIME', cc.has_function('clock_adjtime'))
+ config_host_data.set('CONFIG_DUP3', cc.has_function('dup3'))
+ config_host_data.set('CONFIG_FALLOCATE', cc.has_function('fallocate'))
+ config_host_data.set('CONFIG_POSIX_FALLOCATE', cc.has_function('posix_fallocate'))
+-config_host_data.set('CONFIG_POSIX_MEMALIGN', cc.has_function('posix_memalign'))
++# Note that we need to specify prefix: here to avoid incorrectly
++# thinking that Windows has posix_memalign()
++config_host_data.set('CONFIG_POSIX_MEMALIGN', cc.has_function('posix_memalign', prefix: '#include <stdlib.h>'))
+ config_host_data.set('CONFIG_PPOLL', cc.has_function('ppoll'))
+ config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
+ config_host_data.set('CONFIG_SEM_TIMEDWAIT', cc.has_function('sem_timedwait', dependencies: threads))
 -- 
 2.25.1
 
