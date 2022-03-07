@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9079B4D04B0
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 17:56:10 +0100 (CET)
-Received: from localhost ([::1]:35896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65424D0482
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 17:49:11 +0100 (CET)
+Received: from localhost ([::1]:37074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRGeX-0005Tm-NO
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 11:56:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33996)
+	id 1nRGXm-0004Ws-Oy
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 11:49:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGW0-0001Wp-H9
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:20 -0500
-Received: from [2a00:1450:4864:20::32c] (port=33993
- helo=mail-wm1-x32c.google.com)
+ id 1nRGW3-0001fm-9p
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:23 -0500
+Received: from [2a00:1450:4864:20::32e] (port=36380
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGVy-0007jw-VU
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:20 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- k8-20020a05600c1c8800b003899c7ac55dso197080wms.1
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 08:47:18 -0800 (PST)
+ id 1nRGW0-0007kP-GC
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:23 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ n31-20020a05600c3b9f00b003898fc06f1eso486244wms.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 08:47:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FESTC/0BZsNEujezQb148jTd0VqMzayMHKHa6G291j4=;
- b=bcyXpi2u7b757mR/7vciHB5XPXLe+n8WxN07JDjKkVVzm16Zh1Q5RevZwwHbVPwFV7
- w40o2w3MlOR8nfWt6+auDqXgih/+xvSlnzBMq2dA+f3zXK8cyinvavjm2sd7uxrwcTFE
- GoJ2QesyiSUKFL4JdRrTAmo49tjkgE1V5nDTtz8T/5g1j4cJolPhuz6Ta0N5nqKWj+iR
- afgX7Lh8gKqHALiVnXpr+3joa2Vgo+bRHv+amRvter1b53VNUFMmoWljqER2xcRcA9Vw
- eXATzt8VTce82c+w/30IrVP1rrKDaub6dvBSZhcHZL/5PrfUu0wrTkofE/D9+0F38sTE
- wzAQ==
+ bh=NXJeKfiydTxWODRLKaEdrTagQPu6Toife0/QFAZ3RT4=;
+ b=Rs5MFR6sMT7EKbRlfxu/ozi59p30i2ldUsx2rtmAhrye9pYY1ul/pa729HHnOuDRK/
+ C9MZ/GslSZQSf62qHCrh6RIEfAcsXQpd15dyxHNi0oE9w7tws+xZMSFrOxiB+RQO+ZkW
+ cP+LV2QI+dHK+8PsecH87agRsOKjRtRdN97NZuueI6n5k9uqCogp5xxtENyb8rBzyczq
+ d1uY/JZKxRWhfJrNbwWC/18eaW5o6jtpzCtvzn+9T5K5Sixt4HYQHodFFoFT4IQsUnnA
+ 5TjXf5AmmpovvNzfwXGHy/dDQvumZmE8Z3wDGEWdQ7fn5wDSBEGuN/V7+OTBkuLcnDhH
+ ip6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FESTC/0BZsNEujezQb148jTd0VqMzayMHKHa6G291j4=;
- b=hQ1NYv0Jqku/+adTzHGvBffLF297lu4YFDMizewEolSHwX6RNLRsNIQPN3v7v5Zmpu
- HsvLUsJotzZ3kGbAl9RSOVwybgK2EJ8N6Og8zi68IeIKhFr9IzAw/zwxPMC916W586pM
- DwOU0q3jOPLHg/+z7COoKsc0CNbGLKB/aMtw6Ylo6rQMWkRRCz/MMwUB2FwlqXbT69AX
- UMad+AknWGzEfRUyJ2vulONr4fif8NTdOTpiGQnjblhr59IqSwXDBcwWBw3jZ3liUD8H
- wHvBCDlHvSzhY9IR/w/nrklyUiPkw1qV6+umYptaMdechsyp+eXVBvWrrYfkAbjlqLi9
- pBJQ==
-X-Gm-Message-State: AOAM5301k0Nk0HBrcgAAgC0k/SEGLO2Vx1u4RcGn8/RORaKPknHsT7jg
- ScJfUR+Mw7ZibukBzt0yp27l5eqaNT5vwA==
-X-Google-Smtp-Source: ABdhPJxte/Gqa2PiRTUA1wKNs5vphw9dtnBbtq0cR38CT1ARlb7U0sG9Bg8R3rX08xvYvYoIwqhvbw==
-X-Received: by 2002:a05:600c:2846:b0:389:9347:9aaf with SMTP id
- r6-20020a05600c284600b0038993479aafmr9635461wmb.87.1646671637689; 
- Mon, 07 Mar 2022 08:47:17 -0800 (PST)
+ bh=NXJeKfiydTxWODRLKaEdrTagQPu6Toife0/QFAZ3RT4=;
+ b=dmcJHTt76OG0k+j3LQeSHFH9ay4PypOJThRgHTtBzwxLx1WAySP/TaAH6QRI6Y7ZXB
+ 9RrlwWXWJLcSZoAapqq1te0RNN1mc2c93q2LFP26mnLuzJPCoAyEVg7b5Zkgogdzug9V
+ cWr6SzHP+6wvISbTyb94SlQTx2HKd2xGq4ZVTI9W95zDNV4xhrko4kLv4TD1O7frElpZ
+ M8wUAbcssXw8QuZpiOC8ZF9G+xVdwFvxcC48umfdHatz7i2ZvSLWbvXI5jLH8Rjysnqd
+ d8eO3D1MOBjC9XmuBZyRksJ1gsUgmZTNXQs3QXfSUn4QoIfK5FdmJkdVN0+ilsUvae6M
+ f1ig==
+X-Gm-Message-State: AOAM530C5OP0fk7Du30kKxzduSZe3+lIOzcCLRqMbNwxHlhuQkAQlc2Y
+ QtwGvDrGBQrBY2tJay8RlBMQ82WF3ICwXA==
+X-Google-Smtp-Source: ABdhPJwQOof+/ye+uympgiHJhWjmcftRZkfyZqJKsQQzi7gMdt9AuX5saFcPIHE5KdV6PYvyOA7auA==
+X-Received: by 2002:a7b:cb8d:0:b0:389:7389:ff9b with SMTP id
+ m13-20020a7bcb8d000000b003897389ff9bmr9994118wmi.32.1646671638899; 
+ Mon, 07 Mar 2022 08:47:18 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  v188-20020a1cacc5000000b00384b71a50d5sm13806652wme.24.2022.03.07.08.47.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 08:47:17 -0800 (PST)
+ Mon, 07 Mar 2022 08:47:18 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/18] util: Put qemu_vfree() in memalign.c
-Date: Mon,  7 Mar 2022 16:46:58 +0000
-Message-Id: <20220307164709.2503250-8-peter.maydell@linaro.org>
+Subject: [PULL 08/18] osdep: Move memalign-related functions to their own
+ header
+Date: Mon,  7 Mar 2022 16:46:59 +0000
+Message-Id: <20220307164709.2503250-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220307164709.2503250-1-peter.maydell@linaro.org>
 References: <20220307164709.2503250-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,72 +95,784 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_vfree() is the companion free function to qemu_memalign(); put
-it in memalign.c so the allocation and free functions are together.
+Move the various memalign-related functions out of osdep.h and into
+their own header, which we include only where they are used.
+While we're doing this, add some brief documentation comments.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220226180723.1706285-9-peter.maydell@linaro.org
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20220226180723.1706285-10-peter.maydell@linaro.org
 ---
- util/memalign.c    | 11 +++++++++++
- util/oslib-posix.c |  6 ------
- util/oslib-win32.c |  6 ------
- 3 files changed, 11 insertions(+), 12 deletions(-)
+ include/qemu/memalign.h        | 61 ++++++++++++++++++++++++++++++++++
+ include/qemu/osdep.h           | 18 ----------
+ block/blkverify.c              |  1 +
+ block/block-copy.c             |  1 +
+ block/commit.c                 |  1 +
+ block/crypto.c                 |  1 +
+ block/dmg.c                    |  1 +
+ block/export/fuse.c            |  1 +
+ block/file-posix.c             |  1 +
+ block/io.c                     |  1 +
+ block/mirror.c                 |  1 +
+ block/nvme.c                   |  1 +
+ block/parallels-ext.c          |  1 +
+ block/parallels.c              |  1 +
+ block/qcow.c                   |  1 +
+ block/qcow2-cache.c            |  1 +
+ block/qcow2-cluster.c          |  1 +
+ block/qcow2-refcount.c         |  1 +
+ block/qcow2-snapshot.c         |  1 +
+ block/qcow2.c                  |  1 +
+ block/qed-l2-cache.c           |  1 +
+ block/qed-table.c              |  1 +
+ block/qed.c                    |  1 +
+ block/quorum.c                 |  1 +
+ block/raw-format.c             |  1 +
+ block/vdi.c                    |  1 +
+ block/vhdx-log.c               |  1 +
+ block/vhdx.c                   |  1 +
+ block/vmdk.c                   |  1 +
+ block/vpc.c                    |  1 +
+ block/win32-aio.c              |  1 +
+ hw/block/dataplane/xen-block.c |  1 +
+ hw/block/fdc.c                 |  1 +
+ hw/ide/core.c                  |  1 +
+ hw/ppc/spapr.c                 |  1 +
+ hw/ppc/spapr_softmmu.c         |  1 +
+ hw/scsi/scsi-disk.c            |  1 +
+ hw/tpm/tpm_ppi.c               |  2 +-
+ nbd/server.c                   |  1 +
+ net/l2tpv3.c                   |  2 +-
+ plugins/loader.c               |  1 +
+ qemu-img.c                     |  1 +
+ qemu-io-cmds.c                 |  1 +
+ qom/object.c                   |  1 +
+ softmmu/physmem.c              |  1 +
+ target/i386/hvf/hvf.c          |  1 +
+ target/i386/kvm/kvm.c          |  1 +
+ tcg/region.c                   |  1 +
+ tests/bench/atomic_add-bench.c |  1 +
+ tests/bench/qht-bench.c        |  1 +
+ util/atomic64.c                |  1 +
+ util/memalign.c                |  1 +
+ util/qht.c                     |  1 +
+ 53 files changed, 112 insertions(+), 20 deletions(-)
+ create mode 100644 include/qemu/memalign.h
 
+diff --git a/include/qemu/memalign.h b/include/qemu/memalign.h
+new file mode 100644
+index 00000000000..fa299f3bf67
+--- /dev/null
++++ b/include/qemu/memalign.h
+@@ -0,0 +1,61 @@
++/*
++ * Allocation and free functions for aligned memory
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef QEMU_MEMALIGN_H
++#define QEMU_MEMALIGN_H
++
++/**
++ * qemu_try_memalign: Allocate aligned memory
++ * @alignment: required alignment, in bytes
++ * @size: size of allocation, in bytes
++ *
++ * Allocate memory on an aligned boundary (i.e. the returned
++ * address will be an exact multiple of @alignment).
++ * @alignment must be a power of 2, or the function will assert().
++ * On success, returns allocated memory; on failure, returns NULL.
++ *
++ * The memory allocated through this function must be freed via
++ * qemu_vfree() (and not via free()).
++ */
++void *qemu_try_memalign(size_t alignment, size_t size);
++/**
++ * qemu_memalign: Allocate aligned memory, without failing
++ * @alignment: required alignment, in bytes
++ * @size: size of allocation, in bytes
++ *
++ * Allocate memory in the same way as qemu_try_memalign(), but
++ * abort() with an error message if the memory allocation fails.
++ *
++ * The memory allocated through this function must be freed via
++ * qemu_vfree() (and not via free()).
++ */
++void *qemu_memalign(size_t alignment, size_t size);
++/**
++ * qemu_vfree: Free memory allocated through qemu_memalign
++ * @ptr: memory to free
++ *
++ * This function must be used to free memory allocated via qemu_memalign()
++ * or qemu_try_memalign(). (Using the wrong free function will cause
++ * subtle bugs on Windows hosts.)
++ */
++void qemu_vfree(void *ptr);
++/*
++ * It's an analog of GLIB's g_autoptr_cleanup_generic_gfree(), used to define
++ * g_autofree macro.
++ */
++static inline void qemu_cleanup_generic_vfree(void *p)
++{
++  void **pp = (void **)p;
++  qemu_vfree(*pp);
++}
++
++/*
++ * Analog of g_autofree, but qemu_vfree is called on cleanup instead of g_free.
++ */
++#define QEMU_AUTO_VFREE __attribute__((cleanup(qemu_cleanup_generic_vfree)))
++
++#endif
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 7bcce3bceb0..bc3df26da36 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -379,28 +379,10 @@ extern "C" {
+ #endif
+ 
+ int qemu_daemon(int nochdir, int noclose);
+-void *qemu_try_memalign(size_t alignment, size_t size);
+-void *qemu_memalign(size_t alignment, size_t size);
+ void *qemu_anon_ram_alloc(size_t size, uint64_t *align, bool shared,
+                           bool noreserve);
+-void qemu_vfree(void *ptr);
+ void qemu_anon_ram_free(void *ptr, size_t size);
+ 
+-/*
+- * It's an analog of GLIB's g_autoptr_cleanup_generic_gfree(), used to define
+- * g_autofree macro.
+- */
+-static inline void qemu_cleanup_generic_vfree(void *p)
+-{
+-  void **pp = (void **)p;
+-  qemu_vfree(*pp);
+-}
+-
+-/*
+- * Analog of g_autofree, but qemu_vfree is called on cleanup instead of g_free.
+- */
+-#define QEMU_AUTO_VFREE __attribute__((cleanup(qemu_cleanup_generic_vfree)))
+-
+ #ifdef _WIN32
+ #define HAVE_CHARDEV_SERIAL 1
+ #elif defined(__linux__) || defined(__sun__) || defined(__FreeBSD__)    \
+diff --git a/block/blkverify.c b/block/blkverify.c
+index d1facf5ba90..53ba1c91957 100644
+--- a/block/blkverify.c
++++ b/block/blkverify.c
+@@ -16,6 +16,7 @@
+ #include "qemu/cutils.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
++#include "qemu/memalign.h"
+ 
+ typedef struct {
+     BdrvChild *test_file;
+diff --git a/block/block-copy.c b/block/block-copy.c
+index ce116318b57..619e5580faf 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -22,6 +22,7 @@
+ #include "qemu/coroutine.h"
+ #include "block/aio_task.h"
+ #include "qemu/error-report.h"
++#include "qemu/memalign.h"
+ 
+ #define BLOCK_COPY_MAX_COPY_RANGE (16 * MiB)
+ #define BLOCK_COPY_MAX_BUFFER (1 * MiB)
+diff --git a/block/commit.c b/block/commit.c
+index c76899f640c..851d1c557a1 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -20,6 +20,7 @@
+ #include "qapi/error.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/ratelimit.h"
++#include "qemu/memalign.h"
+ #include "sysemu/block-backend.h"
+ 
+ enum {
+diff --git a/block/crypto.c b/block/crypto.c
+index 9d5fecbef86..1ba82984efe 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -31,6 +31,7 @@
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+ #include "qemu/cutils.h"
++#include "qemu/memalign.h"
+ #include "crypto.h"
+ 
+ typedef struct BlockCrypto BlockCrypto;
+diff --git a/block/dmg.c b/block/dmg.c
+index 447901fbb87..c626587f9c5 100644
+--- a/block/dmg.c
++++ b/block/dmg.c
+@@ -27,6 +27,7 @@
+ #include "qemu/bswap.h"
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
++#include "qemu/memalign.h"
+ #include "dmg.h"
+ 
+ int (*dmg_uncompress_bz2)(char *next_in, unsigned int avail_in,
+diff --git a/block/export/fuse.c b/block/export/fuse.c
+index 5029e70f843..e80b24a8671 100644
+--- a/block/export/fuse.c
++++ b/block/export/fuse.c
+@@ -19,6 +19,7 @@
+ #define FUSE_USE_VERSION 31
+ 
+ #include "qemu/osdep.h"
++#include "qemu/memalign.h"
+ #include "block/aio.h"
+ #include "block/block.h"
+ #include "block/export.h"
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 1f1756e192a..c000a61db29 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -31,6 +31,7 @@
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+ #include "qemu/units.h"
++#include "qemu/memalign.h"
+ #include "trace.h"
+ #include "block/thread-pool.h"
+ #include "qemu/iov.h"
+diff --git a/block/io.c b/block/io.c
+index efc011ce657..8e621a49464 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -32,6 +32,7 @@
+ #include "block/coroutines.h"
+ #include "block/write-threshold.h"
+ #include "qemu/cutils.h"
++#include "qemu/memalign.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+diff --git a/block/mirror.c b/block/mirror.c
+index ce6bc58d1f4..d8ecb9efa29 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -23,6 +23,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/ratelimit.h"
+ #include "qemu/bitmap.h"
++#include "qemu/memalign.h"
+ 
+ #define MAX_IN_FLIGHT 16
+ #define MAX_IO_BYTES (1 << 20) /* 1 Mb */
+diff --git a/block/nvme.c b/block/nvme.c
+index dd20de3865b..552029931d5 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -21,6 +21,7 @@
+ #include "qemu/module.h"
+ #include "qemu/cutils.h"
+ #include "qemu/option.h"
++#include "qemu/memalign.h"
+ #include "qemu/vfio-helpers.h"
+ #include "block/block_int.h"
+ #include "sysemu/replay.h"
+diff --git a/block/parallels-ext.c b/block/parallels-ext.c
+index e0dd0975c6f..cb22a427d72 100644
+--- a/block/parallels-ext.c
++++ b/block/parallels-ext.c
+@@ -29,6 +29,7 @@
+ #include "parallels.h"
+ #include "crypto/hash.h"
+ #include "qemu/uuid.h"
++#include "qemu/memalign.h"
+ 
+ #define PARALLELS_FORMAT_EXTENSION_MAGIC 0xAB234CEF23DCEA87ULL
+ 
+diff --git a/block/parallels.c b/block/parallels.c
+index e58c8284222..cd23e02d06c 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -41,6 +41,7 @@
+ #include "qapi/qapi-visit-block-core.h"
+ #include "qemu/bswap.h"
+ #include "qemu/bitmap.h"
++#include "qemu/memalign.h"
+ #include "migration/blocker.h"
+ #include "parallels.h"
+ 
+diff --git a/block/qcow.c b/block/qcow.c
+index c39940f33eb..4fba1b9e364 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -32,6 +32,7 @@
+ #include "qemu/option.h"
+ #include "qemu/bswap.h"
+ #include "qemu/cutils.h"
++#include "qemu/memalign.h"
+ #include <zlib.h>
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qstring.h"
+diff --git a/block/qcow2-cache.c b/block/qcow2-cache.c
+index 7444b9c4ab0..8a0105911f7 100644
+--- a/block/qcow2-cache.c
++++ b/block/qcow2-cache.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/memalign.h"
+ #include "qcow2.h"
+ #include "trace.h"
+ 
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 21884a1ab9a..20a16ba6ee0 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -28,6 +28,7 @@
+ #include "qapi/error.h"
+ #include "qcow2.h"
+ #include "qemu/bswap.h"
++#include "qemu/memalign.h"
+ #include "trace.h"
+ 
+ int qcow2_shrink_l1_table(BlockDriverState *bs, uint64_t exact_size)
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index 46145722527..94033972bed 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -28,6 +28,7 @@
+ #include "qemu/range.h"
+ #include "qemu/bswap.h"
+ #include "qemu/cutils.h"
++#include "qemu/memalign.h"
+ #include "trace.h"
+ 
+ static int64_t alloc_clusters_noref(BlockDriverState *bs, uint64_t size,
+diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
+index 71ddb08c212..075269a0237 100644
+--- a/block/qcow2-snapshot.c
++++ b/block/qcow2-snapshot.c
+@@ -29,6 +29,7 @@
+ #include "qemu/bswap.h"
+ #include "qemu/error-report.h"
+ #include "qemu/cutils.h"
++#include "qemu/memalign.h"
+ 
+ static void qcow2_free_single_snapshot(BlockDriverState *bs, int i)
+ {
+diff --git a/block/qcow2.c b/block/qcow2.c
+index c8115e1cba0..b5c47931ef4 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -38,6 +38,7 @@
+ #include "qemu/option_int.h"
+ #include "qemu/cutils.h"
+ #include "qemu/bswap.h"
++#include "qemu/memalign.h"
+ #include "qapi/qobject-input-visitor.h"
+ #include "qapi/qapi-visit-block-core.h"
+ #include "crypto.h"
+diff --git a/block/qed-l2-cache.c b/block/qed-l2-cache.c
+index b5483623989..caf2c024c2d 100644
+--- a/block/qed-l2-cache.c
++++ b/block/qed-l2-cache.c
+@@ -51,6 +51,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/memalign.h"
+ #include "trace.h"
+ #include "qed.h"
+ 
+diff --git a/block/qed-table.c b/block/qed-table.c
+index 405d446cbe7..1cc844b1a5f 100644
+--- a/block/qed-table.c
++++ b/block/qed-table.c
+@@ -17,6 +17,7 @@
+ #include "qemu/sockets.h" /* for EINPROGRESS on Windows */
+ #include "qed.h"
+ #include "qemu/bswap.h"
++#include "qemu/memalign.h"
+ 
+ /* Called with table_lock held.  */
+ static int coroutine_fn qed_read_table(BDRVQEDState *s, uint64_t offset,
+diff --git a/block/qed.c b/block/qed.c
+index 558d3646c4b..f34d9a3ac1a 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -20,6 +20,7 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
++#include "qemu/memalign.h"
+ #include "trace.h"
+ #include "qed.h"
+ #include "sysemu/block-backend.h"
+diff --git a/block/quorum.c b/block/quorum.c
+index c28dda7baac..f33f30d36b8 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -17,6 +17,7 @@
+ #include "qemu/cutils.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
++#include "qemu/memalign.h"
+ #include "block/block_int.h"
+ #include "block/coroutines.h"
+ #include "block/qdict.h"
+diff --git a/block/raw-format.c b/block/raw-format.c
+index bda757fd195..69fd650eaf7 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -31,6 +31,7 @@
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
++#include "qemu/memalign.h"
+ 
+ typedef struct BDRVRawState {
+     uint64_t offset;
+diff --git a/block/vdi.c b/block/vdi.c
+index bdc58d726ee..cca3a3a3567 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -64,6 +64,7 @@
+ #include "qemu/coroutine.h"
+ #include "qemu/cutils.h"
+ #include "qemu/uuid.h"
++#include "qemu/memalign.h"
+ 
+ /* Code configuration options. */
+ 
+diff --git a/block/vhdx-log.c b/block/vhdx-log.c
+index 7672161d955..ff0d4e0da05 100644
+--- a/block/vhdx-log.c
++++ b/block/vhdx-log.c
+@@ -23,6 +23,7 @@
+ #include "block/block_int.h"
+ #include "qemu/error-report.h"
+ #include "qemu/bswap.h"
++#include "qemu/memalign.h"
+ #include "vhdx.h"
+ 
+ 
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 356ec4c455a..410c6f96101 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -25,6 +25,7 @@
+ #include "qemu/crc32c.h"
+ #include "qemu/bswap.h"
+ #include "qemu/error-report.h"
++#include "qemu/memalign.h"
+ #include "vhdx.h"
+ #include "migration/blocker.h"
+ #include "qemu/uuid.h"
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 0dfab6e9413..37c0946066e 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -33,6 +33,7 @@
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+ #include "qemu/bswap.h"
++#include "qemu/memalign.h"
+ #include "migration/blocker.h"
+ #include "qemu/cutils.h"
+ #include <zlib.h>
+diff --git a/block/vpc.c b/block/vpc.c
+index 297a26262ab..4d8f16e1990 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -33,6 +33,7 @@
+ #include "migration/blocker.h"
+ #include "qemu/bswap.h"
+ #include "qemu/uuid.h"
++#include "qemu/memalign.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qobject-input-visitor.h"
+ #include "qapi/qapi-visit-block-core.h"
+diff --git a/block/win32-aio.c b/block/win32-aio.c
+index c57e10c9979..aadc7b1bc3c 100644
+--- a/block/win32-aio.c
++++ b/block/win32-aio.c
+@@ -29,6 +29,7 @@
+ #include "block/raw-aio.h"
+ #include "qemu/event_notifier.h"
+ #include "qemu/iov.h"
++#include "qemu/memalign.h"
+ #include <windows.h>
+ #include <winioctl.h>
+ 
+diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
+index 860787580a3..2785b9e8497 100644
+--- a/hw/block/dataplane/xen-block.c
++++ b/hw/block/dataplane/xen-block.c
+@@ -21,6 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
++#include "qemu/memalign.h"
+ #include "qapi/error.h"
+ #include "hw/xen/xen_common.h"
+ #include "hw/block/xen_blkif.h"
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 21d18ac2e36..347875a0cda 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -32,6 +32,7 @@
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/timer.h"
++#include "qemu/memalign.h"
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+ #include "hw/qdev-properties.h"
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index 33463d9b8f2..a7ac4de18ad 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -30,6 +30,7 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/timer.h"
+ #include "qemu/hw-version.h"
++#include "qemu/memalign.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/blockdev.h"
+ #include "sysemu/dma.h"
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 4cc204f90df..953fc65fa86 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -27,6 +27,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+ #include "qemu/datadir.h"
++#include "qemu/memalign.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-events-machine.h"
+ #include "qapi/qapi-events-qdev.h"
+diff --git a/hw/ppc/spapr_softmmu.c b/hw/ppc/spapr_softmmu.c
+index 4ee03c83e48..5170a33369e 100644
+--- a/hw/ppc/spapr_softmmu.c
++++ b/hw/ppc/spapr_softmmu.c
+@@ -1,5 +1,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/cutils.h"
++#include "qemu/memalign.h"
+ #include "cpu.h"
+ #include "helper_regs.h"
+ #include "hw/ppc/spapr.h"
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 3666b8d9468..072686ed58f 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -26,6 +26,7 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "qemu/hw-version.h"
++#include "qemu/memalign.h"
+ #include "hw/scsi/scsi.h"
+ #include "migration/qemu-file-types.h"
+ #include "migration/vmstate.h"
+diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
+index 6dbb9f41e40..c89ac53e65e 100644
+--- a/hw/tpm/tpm_ppi.c
++++ b/hw/tpm/tpm_ppi.c
+@@ -12,7 +12,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-
++#include "qemu/memalign.h"
+ #include "qapi/error.h"
+ #include "sysemu/memory_mapping.h"
+ #include "migration/vmstate.h"
+diff --git a/nbd/server.c b/nbd/server.c
+index 9fb2f264023..53e68cf027f 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -25,6 +25,7 @@
+ #include "trace.h"
+ #include "nbd-internal.h"
+ #include "qemu/units.h"
++#include "qemu/memalign.h"
+ 
+ #define NBD_META_ID_BASE_ALLOCATION 0
+ #define NBD_META_ID_ALLOCATION_DEPTH 1
+diff --git a/net/l2tpv3.c b/net/l2tpv3.c
+index e4d4218db69..b8faa8796c8 100644
+--- a/net/l2tpv3.c
++++ b/net/l2tpv3.c
+@@ -34,7 +34,7 @@
+ #include "qemu/sockets.h"
+ #include "qemu/iov.h"
+ #include "qemu/main-loop.h"
+-
++#include "qemu/memalign.h"
+ 
+ /* The buffer size needs to be investigated for optimum numbers and
+  * optimum means of paging in on different systems. This size is
+diff --git a/plugins/loader.c b/plugins/loader.c
+index 4883b0a1cbc..88c30bde2d6 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -27,6 +27,7 @@
+ #include "qemu/cacheinfo.h"
+ #include "qemu/xxhash.h"
+ #include "qemu/plugin.h"
++#include "qemu/memalign.h"
+ #include "hw/core/cpu.h"
+ #include "exec/exec-all.h"
+ #ifndef CONFIG_USER_ONLY
+diff --git a/qemu-img.c b/qemu-img.c
+index 6fe2466032f..5dffb3e6160 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -42,6 +42,7 @@
+ #include "qemu/module.h"
+ #include "qemu/sockets.h"
+ #include "qemu/units.h"
++#include "qemu/memalign.h"
+ #include "qom/object_interfaces.h"
+ #include "sysemu/block-backend.h"
+ #include "block/block_int.h"
+diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+index 46593d632d8..633b46cdb25 100644
+--- a/qemu-io-cmds.c
++++ b/qemu-io-cmds.c
+@@ -21,6 +21,7 @@
+ #include "qemu/option.h"
+ #include "qemu/timer.h"
+ #include "qemu/cutils.h"
++#include "qemu/memalign.h"
+ 
+ #define CMD_NOFILE_OK   0x01
+ 
+diff --git a/qom/object.c b/qom/object.c
+index 9f7a33139d4..4048a2fef1e 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -16,6 +16,7 @@
+ #include "qom/object.h"
+ #include "qom/object_interfaces.h"
+ #include "qemu/cutils.h"
++#include "qemu/memalign.h"
+ #include "qapi/visitor.h"
+ #include "qapi/string-input-visitor.h"
+ #include "qapi/string-output-visitor.h"
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index a13289a594a..59dcf13faf4 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -42,6 +42,7 @@
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+ #include "qemu/qemu-print.h"
++#include "qemu/memalign.h"
+ #include "exec/memory.h"
+ #include "exec/ioport.h"
+ #include "sysemu/dma.h"
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index 4ba6e82fab3..fc12c02fb21 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -49,6 +49,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+ #include "qemu/error-report.h"
++#include "qemu/memalign.h"
+ 
+ #include "sysemu/hvf.h"
+ #include "sysemu/hvf_int.h"
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 2c8feb4a6f7..83d09883020 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -37,6 +37,7 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
++#include "qemu/memalign.h"
+ #include "hw/i386/x86.h"
+ #include "hw/i386/apic.h"
+ #include "hw/i386/apic_internal.h"
+diff --git a/tcg/region.c b/tcg/region.c
+index 72afb357389..97ca5291d52 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -26,6 +26,7 @@
+ #include "qemu/units.h"
+ #include "qemu/madvise.h"
+ #include "qemu/mprotect.h"
++#include "qemu/memalign.h"
+ #include "qemu/cacheinfo.h"
+ #include "qapi/error.h"
+ #include "exec/exec-all.h"
+diff --git a/tests/bench/atomic_add-bench.c b/tests/bench/atomic_add-bench.c
+index f05471ab45c..8a6faad6ece 100644
+--- a/tests/bench/atomic_add-bench.c
++++ b/tests/bench/atomic_add-bench.c
+@@ -2,6 +2,7 @@
+ #include "qemu/thread.h"
+ #include "qemu/host-utils.h"
+ #include "qemu/processor.h"
++#include "qemu/memalign.h"
+ 
+ struct thread_info {
+     uint64_t r;
+diff --git a/tests/bench/qht-bench.c b/tests/bench/qht-bench.c
+index 2e5b70ccd04..8afe161d106 100644
+--- a/tests/bench/qht-bench.c
++++ b/tests/bench/qht-bench.c
+@@ -10,6 +10,7 @@
+ #include "qemu/qht.h"
+ #include "qemu/rcu.h"
+ #include "qemu/xxhash.h"
++#include "qemu/memalign.h"
+ 
+ struct thread_stats {
+     size_t rd;
+diff --git a/util/atomic64.c b/util/atomic64.c
+index 22983a970f1..c20d071d8e5 100644
+--- a/util/atomic64.c
++++ b/util/atomic64.c
+@@ -8,6 +8,7 @@
+ #include "qemu/atomic.h"
+ #include "qemu/thread.h"
+ #include "qemu/cacheinfo.h"
++#include "qemu/memalign.h"
+ 
+ #ifdef CONFIG_ATOMIC64
+ #error This file must only be compiled if !CONFIG_ATOMIC64
 diff --git a/util/memalign.c b/util/memalign.c
-index 083aaae619c..440b8fd9a76 100644
+index 440b8fd9a76..c199ae70732 100644
 --- a/util/memalign.c
 +++ b/util/memalign.c
-@@ -78,3 +78,14 @@ void *qemu_memalign(size_t alignment, size_t size)
-             size, alignment, strerror(errno));
-     abort();
- }
-+
-+void qemu_vfree(void *ptr)
-+{
-+    trace_qemu_vfree(ptr);
-+#if !defined(CONFIG_POSIX_MEMALIGN) && defined(CONFIG_ALIGNED_MALLOC)
-+    /* Only Windows _aligned_malloc needs a special free function */
-+    _aligned_free(ptr);
-+#else
-+    free(ptr);
-+#endif
-+}
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 91798f7e504..2ebfb750578 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -220,12 +220,6 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t *alignment, bool shared,
-     return ptr;
- }
+@@ -26,6 +26,7 @@
  
--void qemu_vfree(void *ptr)
--{
--    trace_qemu_vfree(ptr);
--    free(ptr);
--}
--
- void qemu_anon_ram_free(void *ptr, size_t size)
- {
-     trace_qemu_anon_ram_free(ptr, size);
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index d9768532bec..4b1ce0be4b0 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -75,12 +75,6 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t *align, bool shared,
-     return ptr;
- }
+ #include "qemu/osdep.h"
+ #include "qemu/host-utils.h"
++#include "qemu/memalign.h"
+ #include "trace.h"
  
--void qemu_vfree(void *ptr)
--{
--    trace_qemu_vfree(ptr);
--    _aligned_free(ptr);
--}
--
- void qemu_anon_ram_free(void *ptr, size_t size)
- {
-     trace_qemu_anon_ram_free(ptr, size);
+ void *qemu_try_memalign(size_t alignment, size_t size)
+diff --git a/util/qht.c b/util/qht.c
+index 079605121b1..065fc501f44 100644
+--- a/util/qht.c
++++ b/util/qht.c
+@@ -69,6 +69,7 @@
+ #include "qemu/qht.h"
+ #include "qemu/atomic.h"
+ #include "qemu/rcu.h"
++#include "qemu/memalign.h"
+ 
+ //#define QHT_DEBUG
+ 
 -- 
 2.25.1
 
