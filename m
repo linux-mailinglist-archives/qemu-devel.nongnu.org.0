@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52EC64CFBA0
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:41:24 +0100 (CET)
-Received: from localhost ([::1]:37892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1519A4CFBE0
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:49:49 +0100 (CET)
+Received: from localhost ([::1]:33804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRAnr-0001my-Dj
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:41:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35138)
+	id 1nRAw0-00018l-48
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:49:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRAD0-0002JM-D7
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33350)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRAD4-0002Nu-Lp
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRACy-0002qt-NN
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:18 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRAD2-0002tG-OK
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647396;
+ s=mimecast20190719; t=1646647400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pYeaIUsJ9p0JJMezYpclW6q507JeS1XFz2MM26g4c9M=;
- b=E3F7g3s4e0Wdsm2ZVwizDStxof9CgkNaRMEaSyszmdjAWzaNSjymlh/VTVgVp2vohh9JsT
- 2Os1IEtoEnUy+3QgukKlb+a9WDY0M498vawtb1snIMcJzbFIpm8m7bCeAfsa8kpr5AMNaE
- AkzWMueHcN735XLVikQSjAmIpBxmMis=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WM8DbqbTKSLQVyBrsakCaCO02eOzlZ2Ph3Cq4l91luQ=;
+ b=Fk7L1xsuoFABnrVbdckvJDWgUGzno+EXJkviE3t3FymWxUwwrPB9hCGEbpVapB/T6ZF1i0
+ EpFKbHvTB/trqgaIRzKjWh9e74s3c6FGk9Xd/MWiEQSk0DOvoZe0Ce8HnKOjsMQzb0fNUW
+ ImDvgrvkg9el5ZkNNF/ogKZu67G0RjI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-132-XH5Rp1jlO8WbtNpvV84R0Q-1; Mon, 07 Mar 2022 05:03:15 -0500
-X-MC-Unique: XH5Rp1jlO8WbtNpvV84R0Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- r9-20020a05640251c900b00412d54ea618so8269835edd.3
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:03:15 -0800 (PST)
+ us-mta-388-AQgf7U94MFGkg0z8cPhvGg-1; Mon, 07 Mar 2022 05:03:18 -0500
+X-MC-Unique: AQgf7U94MFGkg0z8cPhvGg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hr26-20020a1709073f9a00b006d6d1ee8cf8so6682218ejc.19
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:03:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=pYeaIUsJ9p0JJMezYpclW6q507JeS1XFz2MM26g4c9M=;
- b=3Ccfo1RBj0a45VpOGw1OIXRZZMQx4ww3lA15Z5xRVy9i7jwLvSobdOsyKvkSt0Y594
- CHkB+aV0iI9mtJyj2w7ceCOkj36cjI0aEkVyRg7fpQOhiy5aJx0TdhygyjGwaHJUxOcH
- axA7dfapG/zSlQf5GuFgoURuSoT098SWvsBw6cG0HdNz8iwZGTU2sm2FcpEj+tajOPSd
- fft6huqpBIPd3JnRqxcIYef3sQMkRrhCUanJAf8qaSTs0WYAL9oSyUEKV2wNxhNvROTU
- wQoQayBmhh3dgmFxD+rX+X3MYUdnGwUDD7UbALhxCi26v69NZneEY5rArbcPICRDOQA5
- zpSA==
-X-Gm-Message-State: AOAM532mDWyY5RVcjT2DNTohCbm9FL1DFN+bhdnVH29T8nlnWa5pco1Z
- dYCLoigdbT12SXatswLAEp476A87yEEc6Ry7RzSDSO4UETx5GRjWyg91ycskHgOsI6Nrasep/C3
- vi92cxSE79B3E5rwRFEPJ/4o0Qw6dCcLZ1FADn6fEbinWqcCHVaY6vWH+hi9p
-X-Received: by 2002:a17:907:1b15:b0:6d7:13bd:dd62 with SMTP id
- mp21-20020a1709071b1500b006d713bddd62mr8453235ejc.673.1646647393677; 
- Mon, 07 Mar 2022 02:03:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzbNpgud0wYD8pnN09BEMNsJY3vlhf7quxUV1otvgYTEcHOAvDt3TErYm6xV5lxXNXBzvPZ0g==
-X-Received: by 2002:a17:907:1b15:b0:6d7:13bd:dd62 with SMTP id
- mp21-20020a1709071b1500b006d713bddd62mr8453201ejc.673.1646647393297; 
- Mon, 07 Mar 2022 02:03:13 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=WM8DbqbTKSLQVyBrsakCaCO02eOzlZ2Ph3Cq4l91luQ=;
+ b=TdcHLUav1POQpPN/7f8rKlpSPhkSDudxQdN3LnzvbnLtmhwcHf4HssanY1ETywdBTN
+ NBjxOkoTZ+lSNIYwLPzWHzsIhDESVM1RGgS205FBL6bT5TmFMbgQFexUW6lCm1mpyj6z
+ dhZiWhr+lpT8SkjHPGFdVgXgO+dx5hivwF+JVbl0qkDsHLSCy8JpQBJrC99KOTYBnWS8
+ MYhh0We/Ltq1TZdC92MaMVx1xAJQvqo6pg38W936K1kQRbuUGJ06wvs0MFIuSGDWjYg3
+ ZYwk083wbvSF0RRAcY50knff6FsZvEAalNYRvX2DJd7G7qjTswSyvOJEufUd1PjwEtA5
+ /qcQ==
+X-Gm-Message-State: AOAM533D8DPxjd7mowaR/oMWWlMTXwo85aFNVmVEkK/z3Cap0VRRu0lw
+ Xj2STiKapWGmQQqgHWk/22gSB1LiL7yrRQxTCtyZFwHFVKsXdWEJUa6SMexRnrP9ergtGDR7sB+
+ 6a0rU1hRv0/LvFlR4roe3gPUZIofajkIs3jG0ujsavJxkSngflfCd3MRh4Hum
+X-Received: by 2002:a17:907:3f95:b0:6d3:feb2:ef88 with SMTP id
+ hr21-20020a1709073f9500b006d3feb2ef88mr8631282ejc.480.1646647396496; 
+ Mon, 07 Mar 2022 02:03:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzG9SGHzriGbKcfGLF7857rC+AsQ8yrnEBnDQ1yQpvQrPGtA3Smhd8lmItzGXaMNlh4BDG4eA==
+X-Received: by 2002:a17:907:3f95:b0:6d3:feb2:ef88 with SMTP id
+ hr21-20020a1709073f9500b006d3feb2ef88mr8631255ejc.480.1646647396138; 
+ Mon, 07 Mar 2022 02:03:16 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- fy1-20020a1709069f0100b006d229ed7f30sm4685996ejc.39.2022.03.07.02.03.11
+ c1-20020a170906762100b006d00ae72b0csm4506501ejn.221.2022.03.07.02.03.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 02:03:12 -0800 (PST)
-Date: Mon, 7 Mar 2022 05:03:09 -0500
+ Mon, 07 Mar 2022 02:03:15 -0800 (PST)
+Date: Mon, 7 Mar 2022 05:03:13 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 37/47] x86: cleanup unused compat_apic_id_mode
-Message-ID: <20220307100058.449628-38-mst@redhat.com>
+Subject: [PULL v2 38/47] hw/smbios: Add table 4 parameter, "processor-id"
+Message-ID: <20220307100058.449628-39-mst@redhat.com>
 References: <20220307100058.449628-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307100058.449628-1-mst@redhat.com>
@@ -75,9 +73,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -100,84 +97,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Titus Rwantare <titusr@google.com>, Patrick Venture <venture@google.com>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Peter Foley <pefoley@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Patrick Venture <venture@google.com>
 
-commit
-  f862ddbb1a4 (hw/i386: Remove the deprecated pc-1.x machine types)
-removed the last user of broken APIC ID compat knob,
-but compat_apic_id_mode itself was forgotten.
-Clean it up and simplify x86_cpu_apic_id_from_index()
+This parameter is to be used in the processor_id entry in the type 4
+table.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220228131634.3389805-1-imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+This parameter is set as optional and if left will use the values from
+the CPU model.
+
+This enables hiding the host information from the guest and allowing AMD
+VMs to run pretending to be Intel for some userspace software concerns.
+
+Reviewed-by: Peter Foley <pefoley@google.com>
+Reviewed-by: Titus Rwantare <titusr@google.com>
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20220125163118.1011809-1-venture@google.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/i386/x86.h |  2 --
- hw/i386/x86.c         | 16 +---------------
- 2 files changed, 1 insertion(+), 17 deletions(-)
+ hw/smbios/smbios.c | 19 ++++++++++++++++---
+ qemu-options.hx    |  3 ++-
+ 2 files changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index a145a30370..916cc325ee 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -35,8 +35,6 @@ struct X86MachineClass {
- 
-     /* TSC rate migration: */
-     bool save_tsc_khz;
--    /* Enables contiguous-apic-ID mode */
--    bool compat_apic_id_mode;
-     /* use DMA capable linuxboot option rom */
-     bool fwcfg_dma_enabled;
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 1f8d5c252f..60349ee402 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -104,9 +104,11 @@ static struct {
+     const char *sock_pfx, *manufacturer, *version, *serial, *asset, *part;
+     uint64_t max_speed;
+     uint64_t current_speed;
++    uint64_t processor_id;
+ } type4 = {
+     .max_speed = DEFAULT_CPU_SPEED,
+-    .current_speed = DEFAULT_CPU_SPEED
++    .current_speed = DEFAULT_CPU_SPEED,
++    .processor_id = 0,
  };
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index b84840a1bb..4cf107baea 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -83,24 +83,11 @@ inline void init_topo_info(X86CPUTopoInfo *topo_info,
- uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
-                                     unsigned int cpu_index)
- {
--    X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
-     X86CPUTopoInfo topo_info;
--    uint32_t correct_id;
--    static bool warned;
  
-     init_topo_info(&topo_info, x86ms);
+ static struct {
+@@ -327,6 +329,10 @@ static const QemuOptDesc qemu_smbios_type4_opts[] = {
+         .name = "part",
+         .type = QEMU_OPT_STRING,
+         .help = "part number",
++    }, {
++        .name = "processor-id",
++        .type = QEMU_OPT_NUMBER,
++        .help = "processor id",
+     },
+     { /* end of list */ }
+ };
+@@ -683,8 +689,13 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+     t->processor_type = 0x03; /* CPU */
+     t->processor_family = 0x01; /* Other */
+     SMBIOS_TABLE_SET_STR(4, processor_manufacturer_str, type4.manufacturer);
+-    t->processor_id[0] = cpu_to_le32(smbios_cpuid_version);
+-    t->processor_id[1] = cpu_to_le32(smbios_cpuid_features);
++    if (type4.processor_id == 0) {
++        t->processor_id[0] = cpu_to_le32(smbios_cpuid_version);
++        t->processor_id[1] = cpu_to_le32(smbios_cpuid_features);
++    } else {
++        t->processor_id[0] = cpu_to_le32((uint32_t)type4.processor_id);
++        t->processor_id[1] = cpu_to_le32(type4.processor_id >> 32);
++    }
+     SMBIOS_TABLE_SET_STR(4, processor_version_str, type4.version);
+     t->voltage = 0;
+     t->external_clock = cpu_to_le16(0); /* Unknown */
+@@ -1323,6 +1334,8 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+             save_opt(&type4.serial, opts, "serial");
+             save_opt(&type4.asset, opts, "asset");
+             save_opt(&type4.part, opts, "part");
++            /* If the value is 0, it will take the value from the CPU model. */
++            type4.processor_id = qemu_opt_get_number(opts, "processor-id", 0);
+             type4.max_speed = qemu_opt_get_number(opts, "max-speed",
+                                                   DEFAULT_CPU_SPEED);
+             type4.current_speed = qemu_opt_get_number(opts, "current-speed",
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 094a6c1d7c..5ce0ada75e 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2537,6 +2537,7 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+     "                specify SMBIOS type 3 fields\n"
+     "-smbios type=4[,sock_pfx=str][,manufacturer=str][,version=str][,serial=str]\n"
+     "              [,asset=str][,part=str][,max-speed=%d][,current-speed=%d]\n"
++    "              [,processor-id=%d]\n"
+     "                specify SMBIOS type 4 fields\n"
+     "-smbios type=11[,value=str][,path=filename]\n"
+     "                specify SMBIOS type 11 fields\n"
+@@ -2562,7 +2563,7 @@ SRST
+ ``-smbios type=3[,manufacturer=str][,version=str][,serial=str][,asset=str][,sku=str]``
+     Specify SMBIOS type 3 fields
  
--    correct_id = x86_apicid_from_cpu_idx(&topo_info, cpu_index);
--    if (x86mc->compat_apic_id_mode) {
--        if (cpu_index != correct_id && !warned && !qtest_enabled()) {
--            error_report("APIC IDs set in compatibility mode, "
--                         "CPU topology won't match the configuration");
--            warned = true;
--        }
--        return cpu_index;
--    } else {
--        return correct_id;
--    }
-+    return x86_apicid_from_cpu_idx(&topo_info, cpu_index);
- }
+-``-smbios type=4[,sock_pfx=str][,manufacturer=str][,version=str][,serial=str][,asset=str][,part=str]``
++``-smbios type=4[,sock_pfx=str][,manufacturer=str][,version=str][,serial=str][,asset=str][,part=str][,processor-id=%d]``
+     Specify SMBIOS type 4 fields
  
- 
-@@ -1330,7 +1317,6 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-     mc->cpu_index_to_instance_props = x86_cpu_index_to_props;
-     mc->get_default_cpu_node_id = x86_get_default_cpu_node_id;
-     mc->possible_cpu_arch_ids = x86_possible_cpu_arch_ids;
--    x86mc->compat_apic_id_mode = false;
-     x86mc->save_tsc_khz = true;
-     x86mc->fwcfg_dma_enabled = true;
-     nc->nmi_monitor_handler = x86_nmi;
+ ``-smbios type=11[,value=str][,path=filename]``
 -- 
 MST
 
