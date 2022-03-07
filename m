@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F464D030F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 16:38:32 +0100 (CET)
-Received: from localhost ([::1]:40126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 076D74D0328
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 16:43:38 +0100 (CET)
+Received: from localhost ([::1]:57874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRFRP-00043P-Gm
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 10:38:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39390)
+	id 1nRFWL-00082A-2v
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 10:43:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nRFPG-00019K-FN
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:36:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38680)
+ id 1nRFPO-0001ZZ-4m
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:36:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nRFPE-0003mt-Pu
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:36:18 -0500
+ id 1nRFPL-0003nm-6u
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:36:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646667376;
+ s=mimecast20190719; t=1646667382;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IL082zgIxxbw7CmW513AtniHZ4NjTwdDAirVWG2mP3U=;
- b=cMhdHBlSEkqfWTmFgruqUvQZzrCuJGU7zNocMG3wgnaosarn7AWw3r6C4XdCFSkxdj1GFE
- pQuwZbV2bGaz7wAyx6akzQ13vgsM+WH6yIf7V6gSr7fD0T3+tlcE2+S9wfDTafdAws4jka
- kFT0NnBg/WKxt4IvfI5M18QkwS1kabg=
+ bh=YpHLqqflyEsTnmtY+rsIQGrTIhNy7rt8lObZym91UfE=;
+ b=h7PO9vSTMuM7eA7A3I5Pqbkd8jqC7/dsUE2sBPFXrTzpm/VHMfGEtKZ8UxQZc7GISxKNwe
+ nH2yWGHvWB7/LKm8CS6/T8V7W2HsLzn6naP1DWcLUpxn6sdahepgOKcCM7Jb6B+BChZ3wo
+ DFvB74na5RZR6ADLw2C2zHbm9hOaffs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-456-chNSez_eOCqwVmHkiEOGFA-1; Mon, 07 Mar 2022 10:36:13 -0500
-X-MC-Unique: chNSez_eOCqwVmHkiEOGFA-1
+ us-mta-328-GyQfrHcUNHWbePcS6EzFJg-1; Mon, 07 Mar 2022 10:36:19 -0500
+X-MC-Unique: GyQfrHcUNHWbePcS6EzFJg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45EF61091DA0;
- Mon,  7 Mar 2022 15:36:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 867611800D50;
+ Mon,  7 Mar 2022 15:36:17 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C97D47D3D2;
- Mon,  7 Mar 2022 15:36:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B04307DE5C;
+ Mon,  7 Mar 2022 15:36:11 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 04/15] vhost: Add vhost_svq_valid_features to shadow vq
-Date: Mon,  7 Mar 2022 16:33:23 +0100
-Message-Id: <20220307153334.3854134-5-eperezma@redhat.com>
+Subject: [PATCH v5 05/15] virtio: Add vhost_svq_get_vring_addr
+Date: Mon,  7 Mar 2022 16:33:24 +0100
+Message-Id: <20220307153334.3854134-6-eperezma@redhat.com>
 In-Reply-To: <20220307153334.3854134-1-eperezma@redhat.com>
 References: <20220307153334.3854134-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -96,125 +96,88 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows SVQ to negotiate features with the guest and the device. For
-the device, SVQ is a driver. While this function bypasses all
-non-transport features, it needs to disable the features that SVQ does
-not support when forwarding buffers. This includes packed vq layout,
-indirect descriptors or event idx.
+It reports the shadow virtqueue address from qemu virtual address space.
 
-Future changes can add support to offer more features to the guest,
-since the use of VirtQueue gives this for free. This is left out at the
-moment for simplicity.
+Since this will be different from the guest's vaddr, but the device can
+access it, SVQ takes special care about its alignment & lack of garbage
+data. It assumes that IOMMU will work in host_page_size ranges for that.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.h |  2 ++
- hw/virtio/vhost-shadow-virtqueue.c | 44 ++++++++++++++++++++++++++++++
- hw/virtio/vhost-vdpa.c             | 15 ++++++++++
- 3 files changed, 61 insertions(+)
+ hw/virtio/vhost-shadow-virtqueue.h |  9 +++++++++
+ hw/virtio/vhost-shadow-virtqueue.c | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
-index cbc5213579..9e12f77201 100644
+index 9e12f77201..82cea1c3fa 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.h
 +++ b/hw/virtio/vhost-shadow-virtqueue.h
-@@ -33,6 +33,8 @@ typedef struct VhostShadowVirtqueue {
-     EventNotifier svq_call;
- } VhostShadowVirtqueue;
+@@ -11,9 +11,14 @@
+ #define VHOST_SHADOW_VIRTQUEUE_H
  
-+bool vhost_svq_valid_features(uint64_t features, Error **errp);
+ #include "qemu/event_notifier.h"
++#include "hw/virtio/virtio.h"
++#include "standard-headers/linux/vhost_types.h"
+ 
+ /* Shadow virtqueue to relay notifications */
+ typedef struct VhostShadowVirtqueue {
++    /* Shadow vring */
++    struct vring vring;
 +
+     /* Shadow kick notifier, sent to vhost */
+     EventNotifier hdev_kick;
+     /* Shadow call notifier, sent to vhost */
+@@ -37,6 +42,10 @@ bool vhost_svq_valid_features(uint64_t features, Error **errp);
+ 
  void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_fd);
  void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_fd);
++void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
++                              struct vhost_vring_addr *addr);
++size_t vhost_svq_driver_area_size(const VhostShadowVirtqueue *svq);
++size_t vhost_svq_device_area_size(const VhostShadowVirtqueue *svq);
+ 
+ void vhost_svq_stop(VhostShadowVirtqueue *svq);
  
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 5c1e09be5d..280736e30d 100644
+index 280736e30d..b44759e1a4 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -11,9 +11,53 @@
- #include "hw/virtio/vhost-shadow-virtqueue.h"
- 
- #include "qemu/error-report.h"
-+#include "qapi/error.h"
- #include "qemu/main-loop.h"
- #include "linux-headers/linux/vhost.h"
+@@ -107,6 +107,35 @@ void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_fd)
+     }
+ }
  
 +/**
-+ * Validate the transport device features that both guests can use with the SVQ
-+ * and SVQs can use with the device.
-+ *
-+ * @dev_features: The features
-+ * @errp: Error pointer
++ * Get the shadow vq vring address.
++ * @svq: Shadow virtqueue
++ * @addr: Destination to store address
 + */
-+bool vhost_svq_valid_features(uint64_t features, Error **errp)
++void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
++                              struct vhost_vring_addr *addr)
 +{
-+    bool ok = true;
-+    uint64_t svq_features = features;
++    addr->desc_user_addr = (uint64_t)svq->vring.desc;
++    addr->avail_user_addr = (uint64_t)svq->vring.avail;
++    addr->used_user_addr = (uint64_t)svq->vring.used;
++}
 +
-+    for (uint64_t b = VIRTIO_TRANSPORT_F_START; b <= VIRTIO_TRANSPORT_F_END;
-+         ++b) {
-+        switch (b) {
-+        case VIRTIO_F_ANY_LAYOUT:
-+            continue;
++size_t vhost_svq_driver_area_size(const VhostShadowVirtqueue *svq)
++{
++    size_t desc_size = sizeof(vring_desc_t) * svq->vring.num;
++    size_t avail_size = offsetof(vring_avail_t, ring) +
++                                             sizeof(uint16_t) * svq->vring.num;
 +
-+        case VIRTIO_F_ACCESS_PLATFORM:
-+            /* SVQ trust in the host's IOMMU to translate addresses */
-+        case VIRTIO_F_VERSION_1:
-+            /* SVQ trust that the guest vring is little endian */
-+            if (!(svq_features & BIT_ULL(b))) {
-+                set_bit(b, &svq_features);
-+                ok = false;
-+            }
-+            continue;
++    return ROUND_UP(desc_size + avail_size, qemu_real_host_page_size);
++}
 +
-+        default:
-+            if (svq_features & BIT_ULL(b)) {
-+                clear_bit(b, &svq_features);
-+                ok = false;
-+            }
-+        }
-+    }
-+
-+    if (!ok) {
-+        error_setg(errp, "SVQ Invalid device feature flags, offer: 0x%"PRIx64
-+                         ", ok: 0x%"PRIx64, features, svq_features);
-+    }
-+    return ok;
++size_t vhost_svq_device_area_size(const VhostShadowVirtqueue *svq)
++{
++    size_t used_size = offsetof(vring_used_t, ring) +
++                                    sizeof(vring_used_elem_t) * svq->vring.num;
++    return ROUND_UP(used_size, qemu_real_host_page_size);
 +}
 +
  /**
-  * Forward guest notifications.
+  * Set a new file descriptor for the guest to kick the SVQ and notify for avail
   *
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index d5865a5d77..77ad56e06c 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -348,11 +348,26 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
-                                Error **errp)
- {
-     g_autoptr(GPtrArray) shadow_vqs = NULL;
-+    uint64_t dev_features, svq_features;
-+    int r;
-+    bool ok;
- 
-     if (!v->shadow_vqs_enabled) {
-         return 0;
-     }
- 
-+    r = hdev->vhost_ops->vhost_get_features(hdev, &dev_features);
-+    if (r != 0) {
-+        error_setg_errno(errp, -r, "Can't get vdpa device features");
-+        return r;
-+    }
-+
-+    svq_features = dev_features;
-+    ok = vhost_svq_valid_features(svq_features, errp);
-+    if (unlikely(!ok)) {
-+        return -1;
-+    }
-+
-     shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
-     for (unsigned n = 0; n < hdev->nvqs; ++n) {
-         g_autoptr(VhostShadowVirtqueue) svq = vhost_svq_new();
 -- 
 2.27.0
 
