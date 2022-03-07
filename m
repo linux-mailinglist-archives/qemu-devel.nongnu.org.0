@@ -2,84 +2,163 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A1E4D0310
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 16:38:36 +0100 (CET)
-Received: from localhost ([::1]:40466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4313E4D036D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 16:51:14 +0100 (CET)
+Received: from localhost ([::1]:51714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRFRT-0004Kq-GM
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 10:38:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38806)
+	id 1nRFdh-0005zG-BJ
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 10:51:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nRFNi-00079g-M8
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:34:42 -0500
-Received: from [2607:f8b0:4864:20::536] (port=35623
- helo=mail-pg1-x536.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nRFNg-0003Ns-Ny
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:34:42 -0500
-Received: by mail-pg1-x536.google.com with SMTP id e6so13861945pgn.2
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 07:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jLNUR4s0THKei5YIh3k/7qMp5F3ugf6ZTk+Cr+SfD20=;
- b=oFj66cCOf22eVs78q2GJJ2x2ehRYFkGx/ppWuwQxo3DOq/Ia/XZzwb3SIJ3wZmxX+j
- HQjiQfLE4jwkiL4JwyxklGoH7WVO6SuhRKoKzPkqKZxe4wg2c2m1B6FNsnWSRjiWD/io
- SbqsRxWjpRzPCOND27wrF6gp6QgWndPrMO8rJji1QfVZE7OraYYKK4rEkLz5z620teDI
- /61M1j22BQ5sWnGTkGQ4HiYU5sC8fSMI4cyPT8/hyqqWINnbqta4rQ1RgVZN6yI564rw
- rrIARllJ3vSjRoUPPgF3AjreKGhFKlu5Umm8cJk8kZzy0wop4XVjHywVjqYABmUl7npM
- NjIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jLNUR4s0THKei5YIh3k/7qMp5F3ugf6ZTk+Cr+SfD20=;
- b=gWd2E6OWf/bA3PMFKZmI5LT3nykZ4ESR/ZBhY3GAKek6NbBiLFFFR1+7jhh4A/qULM
- BlVX3sO1WDQcIZKtcUUtkCT8lBZNLfvTouOxgJ1mRSLPKi4aCagXMrll0sAVuAMQFeX/
- s9lGhrg1xWXqfOTiW3D9KLRfOwl6tJM/HIS/dbDCLdwhGOcCkORnuZhYMZ4w4c4cgn2M
- tMb7mcDyTRKB83ZY4bZLfSkpVHtrbkIUys0X6b0znmjnRgNS3oi9YM4mZSWJvL12eLZQ
- f6xXKK48Bv2cE9p6nEfo1i644y649SBB+wG1KGn4P0T2w9P5GDaBj80wOygPuL4TPkTQ
- YnKw==
-X-Gm-Message-State: AOAM532lAiqrEW2Lh3XO9yQhpVfTa0eIAm5+x2SKFkHr/HvUItVzEPj/
- Grs3ABK23Eo9o60mVfJ7TMk=
-X-Google-Smtp-Source: ABdhPJwwc38vYZv1tsNlCNltYDpMOMo5OMUXuquldSsWPJjxSJuv55jCerya7bycQzqCT6RCAAPJHQ==
-X-Received: by 2002:a05:6a00:a92:b0:4e0:57a7:2d5d with SMTP id
- b18-20020a056a000a9200b004e057a72d5dmr13162284pfl.81.1646667279019; 
- Mon, 07 Mar 2022 07:34:39 -0800 (PST)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- nv4-20020a17090b1b4400b001bf64a39579sm4243546pjb.4.2022.03.07.07.34.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 07:34:38 -0800 (PST)
-Message-ID: <59f773ed-9a1f-10ff-637e-b41848aa534d@gmail.com>
-Date: Tue, 8 Mar 2022 00:34:36 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC uncompiled PATCH] cocoa: run qemu_init in the main thread
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nRFRF-0005vP-N4
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:38:21 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:38694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1nRFRB-00044T-1z
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:38:20 -0500
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 227F04jt029198; 
+ Mon, 7 Mar 2022 15:37:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=vOcbd0u5aZK3nzEiCQR7r/2Pwt90w/Cxu3/ydBeiKY8=;
+ b=SV5qW1Gnwgz2hG4AZpusmzZYAJqe1ysRV5WqywnGiBanu8tgrZ7S8m6GeFCCNiMubXUq
+ RdYODxtFbSR0iHHfZ/8WgWuPFZ5OXm5+lZXMrs41z7NtA5CM10k8SRkPntBGiwVpSlQN
+ iUr1Nhyka2+Ua68Ago1pfZDtfYRYKYWI8kXnqWTveLUZMvL+24SfJCmMJ8Y7XcI+MWQK
+ +0CZv0TVjYJ2OoDeSDFXM/J9Wlc9W7AF7xn5HBQHyIFUIpaAS/f9FmhM/kNv1N/V5j/x
+ 8zQAeTJsQHYmUt2xpABLf4SYWIW4jt6ANRlxsXLwFICF3OTkMoiYDQAPcTqKHjTjRU38 kA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ekyfsc4u5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 07 Mar 2022 15:37:55 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 227FHVmP153173;
+ Mon, 7 Mar 2022 15:37:54 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08lp2047.outbound.protection.outlook.com [104.47.74.47])
+ by userp3020.oracle.com with ESMTP id 3em1aj3r6u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 07 Mar 2022 15:37:54 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gJaNnw8FOfkELz9o5lz+5B5Rfy2OPjpUvTopjjXHhV4ZlA5zMMwyZgm2K4YzNL3auolNLtV4vmS/qNsx/m/yBwMwUPvjHPOqt07TtbsxDqK2UvGRpFY65dn+IJ3e5EKlJbrpuwofU9vGhuktwlvLT6W/ye5sDxb8RXtxWWXrqlaP28e7Z78qVZiwZUj++PoUe+rJ1RkjoZ8Gf1R8BkuZY4zUfne/zC4dbwE0XSUF4uYfzRria+Ic3wemlPFAcJEe3tmN4s40VkMm1dGQCfPDBA0NhSXcqVbXic3jK8DyY0l5++H9XqkwXClOhlWJBbQXV4UhtuT+clseGTOTRzSH5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vOcbd0u5aZK3nzEiCQR7r/2Pwt90w/Cxu3/ydBeiKY8=;
+ b=JbzL/C/a7zDkN5DymaL6p0Sk4AZL+LwKayyLNQcKH8lTlA2ld1ufDYxYqHaDrlWfZrO8PfPAQRegjvdh5dDqPyHhKYPhDRORiKZj9DaJ99mxLWbUhZyHUAC9KAAgrqMCAytD6W6o3dScej+CWWk/iCCjLdR5LbyJ4DrUpSmm5mR8IjzqpiMEHG6iTRhleV04AzdzjYzHw1syHDg6X+meE6ctM8JYEPpV3f77eOnz/JT5HTNl1ci5AoE1SASNJ3A2gTBbUQsFMcVHU1ZlZOmaSOGpkNOfZ8IDxoy7T0Vg0qRDopfZNsnHtq/ERT8OmoWJ8AYOwu0zgHmEucQzVcS7qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vOcbd0u5aZK3nzEiCQR7r/2Pwt90w/Cxu3/ydBeiKY8=;
+ b=gfRxCSXyJdglJec29QPacJEDLpNqu2szSeEUzFAmb6UEo0Gq/kHzm2Nwa2Yr+4xwSjdbZQeC37VDAT0BPmpkCesI2BinB+ewbRemjMnYSjyKDONK+V1ToCia4HTVuuvHalzmHd1qbsIbQNZSFRDiIKhmxsHFq2NaMjzbx+1hWTw=
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
+ by SJ0PR10MB4766.namprd10.prod.outlook.com (2603:10b6:a03:2ac::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Mon, 7 Mar
+ 2022 15:37:51 +0000
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::508e:7f79:394:563a]) by MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::508e:7f79:394:563a%5]) with mapi id 15.20.5038.027; Mon, 7 Mar 2022
+ 15:37:51 +0000
+From: Jag Raman <jag.raman@oracle.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v6 18/19] vfio-user: handle reset of remote device
+Thread-Topic: [PATCH v6 18/19] vfio-user: handle reset of remote device
+Thread-Index: AQHYI8rsS0cXsT7SIku2CN/C7/Iq2Kyz53uAgABDiQA=
+Date: Mon, 7 Mar 2022 15:37:51 +0000
+Message-ID: <36FEEF91-B3AD-4DCB-B529-546FAF75E9DB@oracle.com>
+References: <cover.1645079934.git.jag.raman@oracle.com>
+ <54278334564d9e9f8d2eb3ff884260ac90da44e5.1645079934.git.jag.raman@oracle.com>
+ <YiXuJ2YqCZEbrsHn@stefanha-x1.localdomain>
+In-Reply-To: <YiXuJ2YqCZEbrsHn@stefanha-x1.localdomain>
+Accept-Language: en-US
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220307151004.578069-1-pbonzini@redhat.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20220307151004.578069-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3693.60.0.1.1)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0c08ab2d-1d9d-47ae-0b43-08da005070f8
+x-ms-traffictypediagnostic: SJ0PR10MB4766:EE_
+x-microsoft-antispam-prvs: <SJ0PR10MB4766DBBE6F4C88E6EEBB472090089@SJ0PR10MB4766.namprd10.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YsK1i1tdsGrzpFZsM8O0bCsPPCcbJfW1WZ5h8WdorHx1c6l6H8RPd46lIFPZrb0HCIoLQofauJFFchcCqv+LWMSCJHyf6qWyAfua5GKPfHbo6QIchgOT3WvFxtjZ+ece66dlOHKQqfUnv6BqmH8ZFY9C+sO1jWSeioUpQPef12nTPzZnQc+jgx/xr5Wvqovgdn9fa5tJNXeNLMB0RnWkTvocB5y6R64vk9VHsgPawM7JeELm+MJiB44O7oGLLJUvjQjULIl4c3K6+X91vK3i9HxCihaFA/wIW+/S0H3gys04i9b5EmzlYfkr8okt2HOYELalJpdJ2VlPzKRPGTPhVvp0Dy5jJEKz7+w2TuDDiShTbNT+xnLKfhQUpIX/GLFV9BJf95hOe/QWKSksTL3wNycA8UsNlPmeP1R7CcCdyQmuPFpV3kDfpTRdBUBbT2UEDFKmD9Sp6VTaPuS6DfExyEdv3eL28AeXYvTCflzJU/UGWhMwibCS6jjZIi8L3BLsxwgierH2s8yuGr+w+soCFNKhgetRjiILpaQL3wqe7jOSa114v4QldHGIm61Dlu2t8H5xJrb6KGC5Eqnmpf7Bi5bT5pT4jZUv91ozVBp/6t4lo1PV+Fcq0Kp246XOLrlBCshaPotU32h9Kh8uwuDzJH7eP4NMTvuCGWLeJaXMRXqYimrBFVMMpwS2sjVDR5pBdqWuh2GEcNVsXs7KV3+QHV7VvyrxyZ/cPYaupykk+r8ODT9V5N//7oM6Zvqyz/l3
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(36756003)(66946007)(66556008)(66476007)(66446008)(76116006)(8936002)(6506007)(6512007)(33656002)(53546011)(54906003)(316002)(64756008)(122000001)(186003)(2616005)(6486002)(71200400001)(508600001)(107886003)(6916009)(2906002)(86362001)(38070700005)(8676002)(4326008)(5660300002)(38100700002)(7416002)(44832011)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?B9uyHYjmoaixrNVLOSSQTHHwPI6Oh6IJmUBVq8/ZnwPXe4zgA4mO85kz/+xU?=
+ =?us-ascii?Q?sP6qQRaKaENpkTtdHgHqjM3x6Zflf6v5Ndq3sDaQJirAfpj4+TOS89mZgSva?=
+ =?us-ascii?Q?Ku9mZ+nnjqd/Wo1hmxHR/ejl3BekP559cz61kZvNvHul4MxOnANfpqnS1mXz?=
+ =?us-ascii?Q?Ju5OxZwM/7stHD6s6sA66bqLWfJX10fzbaYhUNAy2OmGxXaknG+Ohy39GIRn?=
+ =?us-ascii?Q?LfMl7c/sx6WIHBJxwswQp+T5XTr+rmAmLSQH/GGBefVVzVfX5++2X+UhTbYt?=
+ =?us-ascii?Q?VXTW7b2KZo7ynd3iT2Zb7lQ8/J7nub0RwncO2CxgSxb5s0XvLujESo5ZL51v?=
+ =?us-ascii?Q?d3esRRb9WXhqOA9x0BxzXhI2aZlB5VKOdFvxD3hPcZHDcJBTbl/zsGBCgW9g?=
+ =?us-ascii?Q?ZTbg/F3hbcRceYik5RA6MqSfXf4JQ6h9GAPUEuZTLVpLQSsW8sWIlrrmxl3Y?=
+ =?us-ascii?Q?OYT2YYCNbIQRpRGPNca3jeqxeARTV/J8V7+HfjYTnXIYiiz147psuhoQNWYj?=
+ =?us-ascii?Q?NM5Cy4tEVIpwAozi7Y6ngqABWNFwwyCSu77g3/Jav28bkOYeFsL83La5qxet?=
+ =?us-ascii?Q?K2SKqLk+boZ8wHUM6OPY+cUF3KIy2W3UssccV8ZvuMxqsYmip+eDoyiDQvZF?=
+ =?us-ascii?Q?Z/LTMMZ035wUACwtuhSYGCbz7jlpMPbA4rvtVxgilMWugPGS18nBgVqeJIMY?=
+ =?us-ascii?Q?wjgL2vIXRu38SXKHPzKwf+yF23wsT4BTiymql8+IxjSnq3OiITvYRl5X5Ve8?=
+ =?us-ascii?Q?e6gTO5mXf6KG0X8dmQU1AaiBGcdtLEAz1hvU9Dbr+GtJS8aNSFAgSkzyu5Jt?=
+ =?us-ascii?Q?yoWcDUaxAJ+hds4lHeDBc3VWfY5A3YA2Uo+ATKNlzJcaho3m65Xzt41vV9rk?=
+ =?us-ascii?Q?Ks8HcWyM3YFRstgXYXejMw6iChZC9BrGgoNwVEPlC8g2WI9+gUb8ScOeNBe4?=
+ =?us-ascii?Q?HPkhqj6mC0j0cu3Yd3m+Sa+k3gxiQyNFhSVaGzPKjpFmNLxa/YaQ5ImnLOLE?=
+ =?us-ascii?Q?2/ddSgS09nrvrPBSki264kT8y5ZZdZCxRAFyRrXeSCTcZimwl9FrrfOQqM03?=
+ =?us-ascii?Q?cV71O5/Vn02xI30x2bHIWgTywzSp3MId25DPqc0B+Ha9mi+prgAqMfT5j8o4?=
+ =?us-ascii?Q?MKcJvC9emoe7YGY9D2m3g7YdS4GbfcqgWBJiGsD8u3+EFMEGh7kiXt903NYH?=
+ =?us-ascii?Q?oRnis8vuLlzkygoxx9XQGEmXqInyrPy9il9AbnNl7BtiSVevOmr85bNDFu8N?=
+ =?us-ascii?Q?NJL9yWZVm7SCmAcA2sKZ28L184ECLbm2KI9/P4tAdMKbdqZh9CKKVV8ltZpi?=
+ =?us-ascii?Q?GfzgR23iA+ZDKi0llYBHkd2tan+L6jbZ/6S1sT5Xcfvd4WpFDiN1Itat9xu5?=
+ =?us-ascii?Q?qElFLR3LshGPTLRlX67jRz+TZooarOvYGBIdWjpvkQC/iNvk2XIaZnTlDjuO?=
+ =?us-ascii?Q?GaEY08Or0/HzRq8bau63AzLKpBr8gQU+QM8HE1Xokqf0/NIMLqLh51LJnsbW?=
+ =?us-ascii?Q?3wG6rnNWtem4RnAXRNXd88vsuKhBGDdOmUFOfwMVxAP5Z9dkEEBGAWsV9OcO?=
+ =?us-ascii?Q?THkyx7TleI+oIS3LaoKBzcaCSsZ3OWpPxR4vlwiWY6rQfYTa778l7KZ+gRdu?=
+ =?us-ascii?Q?uBXVSmdbpSvefBCClQ5SdfCKz13CbTkhu6hB25skN8GzCgYm07RCMquUjKJl?=
+ =?us-ascii?Q?920+UA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <695A10FC41EA604B91176AED4B27BEE1@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c08ab2d-1d9d-47ae-0b43-08da005070f8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Mar 2022 15:37:51.8409 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cUYZPz1+SAJQu/Bakv4CsNeVeqHK54E5mfwMRWjNOTLQEMPq0dLqWIIUINF0pCbXafLrxVqz5zvvOXBI041G+Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4766
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10279
+ signatures=690470
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ phishscore=0 bulkscore=0
+ malwarescore=0 spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203070090
+X-Proofpoint-GUID: RBh2VqV0Jx7V73Hm6DXNPKGjpv6EcMOf
+X-Proofpoint-ORIG-GUID: RBh2VqV0Jx7V73Hm6DXNPKGjpv6EcMOf
+Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,261 +171,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "bleal@redhat.com" <bleal@redhat.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "f4bug@amsat.org" <f4bug@amsat.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "eblake@redhat.com" <eblake@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/03/08 0:10, Paolo Bonzini wrote:
-> Simplify the initialization dance by running qemu_init() in the main
-> thread before the Cocoa event loop starts.  The cocoa_display_init()
-> code that is post-applicationDidFinishLaunching: moves to the
-> application delegate itself, and the secondary thread only runs
-> the rest of qemu_main(), namely qemu_main_loop() and qemu_cleanup().
-> 
-> This fixes a case where addRemovableDevicesMenuItems() calls
-> qmp_query_block() while expecting the main thread to still hold
-> the BQL.  The newly-introduced assertions in the block layer
-> complain about this.
 
-Hi,
 
-Thanks for this interesting suggestion. However I don't think this 
-improves the situation much. The main contribution of this change is 
-that elimination of display_init_sem but it is still necessary for 
-command line usage of the executable.
+> On Mar 7, 2022, at 6:36 AM, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>=20
+> On Thu, Feb 17, 2022 at 02:49:05AM -0500, Jagannathan Raman wrote:
+>> Adds handler to reset a remote device
+>>=20
+>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+>> ---
+>> hw/remote/vfio-user-obj.c | 19 +++++++++++++++++++
+>> 1 file changed, 19 insertions(+)
+>>=20
+>> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+>> index 2304643003..55f1bf5e0f 100644
+>> --- a/hw/remote/vfio-user-obj.c
+>> +++ b/hw/remote/vfio-user-obj.c
+>> @@ -989,6 +989,19 @@ static bool vfu_object_migratable(VfuObject *o)
+>>     return dc->vmsd && !dc->vmsd->unmigratable;
+>> }
+>>=20
+>> +static int vfu_object_device_reset(vfu_ctx_t *vfu_ctx, vfu_reset_type_t=
+ type)
+>> +{
+>> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+>> +
+>> +    if (type =3D=3D VFU_RESET_LOST_CONN) {
+>> +        return 0;
+>> +    }
+>=20
+> Why is a lost connection ignored? Should there be a QMP monitor event?
 
-display_init_sem is kind of overloaded has two roles. One is to tell 
-that the QEMU is ready to initialize the display. The other is to tell 
-if it is going to initialize the display, which would not happen when it 
-is used entirely in the command line. The former role can be eliminated 
-by waiting for qemu_init, but the latter cannot be.
+We handle the lost connection case in vfu_object_ctx_run(), which is in
+PATCH 5 of this series. We are sending a QMP monitor event in this case.
 
-Regards,
-Akihiko Odaki
+Thank you!
+--
+Jag
 
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   softmmu/main.c |  12 +++--
->   ui/cocoa.m     | 122 +++++++++++++++++++------------------------------
->   2 files changed, 53 insertions(+), 81 deletions(-)
-> 
-> diff --git a/softmmu/main.c b/softmmu/main.c
-> index 639c67ff48..0c4384e980 100644
-> --- a/softmmu/main.c
-> +++ b/softmmu/main.c
-> @@ -39,16 +39,18 @@ int main(int argc, char **argv)
->   #endif
->   #endif /* CONFIG_SDL */
->   
-> -#ifdef CONFIG_COCOA
-> -#undef main
-> -#define main qemu_main
-> -#endif /* CONFIG_COCOA */
-> -
-> +#ifndef CONFIG_COCOA
->   int main(int argc, char **argv, char **envp)
->   {
-> +    /*
-> +     * ui/cocoa.m relies on this being the exact content of main(),
-> +     * because it has to run everything after qemu_init in a secondary
-> +     * thread.
-> +     */
->       qemu_init(argc, argv, envp);
->       qemu_main_loop();
->       qemu_cleanup();
->   
->       return 0;
->   }
-> +#endif /* CONFIG_COCOA */
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index a8f1cdaf92..44d8ea7a39 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -95,14 +95,11 @@ static DisplayChangeListener dcl = {
->   };
->   static int last_buttons;
->   static int cursor_hide = 1;
-> +static bool full_screen;
->   
-> -static int gArgc;
-> -static char **gArgv;
->   static bool stretch_video;
->   static NSTextField *pauseLabel;
->   
-> -static QemuSemaphore display_init_sem;
-> -static QemuSemaphore app_started_sem;
->   static bool allow_events;
->   
->   static NSInteger cbchangecount = -1;
-> @@ -140,6 +137,32 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
->       return val;
->   }
->   
-> +/*
-> + * The startup process for the OSX/Cocoa UI is complicated, because
-> + * OSX insists that the UI runs on the initial main thread, and so we
-> + * need to start a second thread which runs qemu_main_loop():
-> + *
-> + * Initial thread:                    2nd thread:
-> + * in main():
-> + *  qemu_init()
-> + *  create application, menus, etc
-> + *  enter OSX run loop
-> + * in applicationDidFinishLaunching:
-> + *  fullscreen if needed
-> + *  create main loop thread
-> + *                                    call qemu_main_loop()
-> + */
-> +
-> +static void *call_qemu_main_loop(void *opaque)
-> +{
-> +    COCOA_DEBUG("Second thread: calling qemu_main()\n");
-> +    qemu_main_loop();
-> +    COCOA_DEBUG("Second thread: qemu_main_loop() returned, exiting\n");
-> +    qemu_cleanup();
-> +    [cbowner release];
-> +    exit(0);
-> +}
-> +
->   // Mac to QKeyCode conversion
->   static const int mac_to_qkeycode_map[] = {
->       [kVK_ANSI_A] = Q_KEY_CODE_A,
-> @@ -708,9 +731,7 @@ QemuCocoaView *cocoaView;
->           /*
->            * Just let OSX have all events that arrive before
->            * applicationDidFinishLaunching.
-> -         * This avoids a deadlock on the iothread lock, which cocoa_display_init()
-> -         * will not drop until after the app_started_sem is posted. (In theory
-> -         * there should not be any such events, but OSX Catalina now emits some.)
-> +         * This may not be needed anymore?
->            */
->           return false;
->       }
-> @@ -1185,8 +1206,19 @@ QemuCocoaView *cocoaView;
->   {
->       COCOA_DEBUG("QemuCocoaAppController: applicationDidFinishLaunching\n");
->       allow_events = true;
-> -    /* Tell cocoa_display_init to proceed */
-> -    qemu_sem_post(&app_started_sem);
-> +
-> +    // register vga output callbacks
-> +    register_displaychangelistener(&dcl);
-> +
-> +    qemu_clipboard_peer_register(&cbpeer);
-> +    qemu_mutex_unlock_iothread();
-> +    qemu_thread_create(&thread, "qemu_main_loop", call_qemu_main_loop,
-> +                       NULL, QEMU_THREAD_DETACHED);
-> +
-> +    if (full_screen) {
-> +        [NSApp activateIgnoringOtherApps: YES];
-> +        [self toggleFullScreen: nil];
-> +    }
->   }
->   
->   - (void)applicationWillTerminate:(NSNotification *)aNotification
-> @@ -1859,60 +1891,14 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
->       }
->   }
->   
-> -/*
-> - * The startup process for the OSX/Cocoa UI is complicated, because
-> - * OSX insists that the UI runs on the initial main thread, and so we
-> - * need to start a second thread which runs the vl.c qemu_main():
-> - *
-> - * Initial thread:                    2nd thread:
-> - * in main():
-> - *  create qemu-main thread
-> - *  wait on display_init semaphore
-> - *                                    call qemu_main()
-> - *                                    ...
-> - *                                    in cocoa_display_init():
-> - *                                     post the display_init semaphore
-> - *                                     wait on app_started semaphore
-> - *  create application, menus, etc
-> - *  enter OSX run loop
-> - * in applicationDidFinishLaunching:
-> - *  post app_started semaphore
-> - *                                     tell main thread to fullscreen if needed
-> - *                                    [...]
-> - *                                    run qemu main-loop
-> - *
-> - * We do this in two stages so that we don't do the creation of the
-> - * GUI application menus and so on for command line options like --help
-> - * where we want to just print text to stdout and exit immediately.
-> - */
-> -
-> -static void *call_qemu_main(void *opaque)
-> -{
-> -    int status;
-> -
-> -    COCOA_DEBUG("Second thread: calling qemu_main()\n");
-> -    status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
-> -    COCOA_DEBUG("Second thread: qemu_main() returned, exiting\n");
-> -    [cbowner release];
-> -    exit(status);
-> -}
-> -
->   int main (int argc, char **argv) {
->       QemuThread thread;
->   
->       COCOA_DEBUG("Entered main()\n");
-> -    gArgc = argc;
-> -    gArgv = argv;
-> +    qemu_event_init(&cbevent, false);
->   
-> -    qemu_sem_init(&display_init_sem, 0);
-> -    qemu_sem_init(&app_started_sem, 0);
-> -
-> -    qemu_thread_create(&thread, "qemu_main", call_qemu_main,
-> -                       NULL, QEMU_THREAD_DETACHED);
-> -
-> -    COCOA_DEBUG("Main thread: waiting for display_init_sem\n");
-> -    qemu_sem_wait(&display_init_sem);
-> -    COCOA_DEBUG("Main thread: initializing app\n");
-> +    /* Takes iothread lock, released in applicationDidFinishLaunching:.  */
-> +    qemu_init(argc, argv);
->   
->       NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
->   
-> @@ -1934,6 +1920,7 @@ int main (int argc, char **argv) {
->        */
->       add_console_menu_entries();
->       addRemovableDevicesMenuItems();
-> +    cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
->   
->       // Create an Application controller
->       QemuCocoaAppController *appController = [[QemuCocoaAppController alloc] init];
-> @@ -2034,29 +2021,12 @@ static void cocoa_refresh(DisplayChangeListener *dcl)
->   static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
->   {
->       COCOA_DEBUG("qemu_cocoa: cocoa_display_init\n");
-> -
-> -    /* Tell main thread to go ahead and create the app and enter the run loop */
-> -    qemu_sem_post(&display_init_sem);
-> -    qemu_sem_wait(&app_started_sem);
-> -    COCOA_DEBUG("cocoa_display_init: app start completed\n");
-> -
-> -    /* if fullscreen mode is to be used */
->       if (opts->has_full_screen && opts->full_screen) {
-> -        dispatch_async(dispatch_get_main_queue(), ^{
-> -            [NSApp activateIgnoringOtherApps: YES];
-> -            [(QemuCocoaAppController *)[[NSApplication sharedApplication] delegate] toggleFullScreen: nil];
-> -        });
-> +        full_screen = 1;
->       }
->       if (opts->has_show_cursor && opts->show_cursor) {
->           cursor_hide = 0;
->       }
-> -
-> -    // register vga output callbacks
-> -    register_displaychangelistener(&dcl);
-> -
-> -    qemu_event_init(&cbevent, false);
-> -    cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
-> -    qemu_clipboard_peer_register(&cbpeer);
->   }
->   
->   static QemuDisplay qemu_display_cocoa = {
+>=20
+>> +
+>> +    qdev_reset_all(DEVICE(o->pci_dev));
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> /*
+>>  * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'devi=
+ce'
+>>  * properties. It also depends on devices instantiated in QEMU. These
+>> @@ -1105,6 +1118,12 @@ static void vfu_object_init_ctx(VfuObject *o, Err=
+or **errp)
+>>         goto fail;
+>>     }
+>>=20
+>> +    ret =3D vfu_setup_device_reset_cb(o->vfu_ctx, &vfu_object_device_re=
+set);
+>> +    if (ret < 0) {
+>> +        error_setg(errp, "vfu: Failed to setup reset callback");
+>> +        goto fail;
+>> +    }
+>> +
+>>     if (!vfu_object_migratable(o)) {
+>>         goto realize_ctx;
+>>     }
+>> --=20
+>> 2.20.1
+>>=20
 
 
