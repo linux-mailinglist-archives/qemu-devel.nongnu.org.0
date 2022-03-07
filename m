@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48C84D0BA9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 00:04:58 +0100 (CET)
-Received: from localhost ([::1]:49570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD584D0BB0
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 00:07:51 +0100 (CET)
+Received: from localhost ([::1]:58116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRMPR-0003fG-RX
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 18:04:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52782)
+	id 1nRMSD-00010g-Rt
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 18:07:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6b-0006YV-Jt
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37940)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6t-0007LJ-6T
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6Z-0005WH-TH
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:29 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6r-0005dF-NC
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693127;
+ s=mimecast20190719; t=1646693145;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hG63fk2e7vwNR105jMKcH2PAlFDWHa3moRydXJnnvuY=;
- b=INIrGLXM9BPeQbOnUVxMdf9eNeZZyx3ffv3mfmzCZ8IMXwbyKo/AaXKlU0SWdMdpd7Uhs1
- Dq3FKMPOTrWJ/3k6qiyVnNruTlKpyA/+ZJff3wpgbnmYmaQO91CMmDPx/XjAQ0rLcbKJSD
- LLmCflVrnD/r95cDVc82EtQW673JKLE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ezHczUZNer51n68XHQRo+8Gd2wahCXeNyLSEi3/WKiI=;
+ b=QywDdwbjCmwXtQvOrzcxUU4pL9uYBxX39fQ2FeB51zKps/Gji/Ppif9r5mfmTuihEiyihw
+ I2mdgAPoHDCNDdH2/GZq4GdJoWFOmjA/edDd5KzXIW7CmVz+JtNbAUOhh9A+YK1EiZXRVf
+ UYEXGnHq5san3zo5sTQ0XCKgBxwDpqM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-RSt4UaU3PB6oPZtr2yQMQA-1; Mon, 07 Mar 2022 17:45:26 -0500
-X-MC-Unique: RSt4UaU3PB6oPZtr2yQMQA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 187-20020a1c19c4000000b0037cc0d56524so264667wmz.2
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:26 -0800 (PST)
+ us-mta-633-XYgw29DnNAa5-f3CTvDJTw-1; Mon, 07 Mar 2022 17:45:44 -0500
+X-MC-Unique: XYgw29DnNAa5-f3CTvDJTw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ h11-20020a5d430b000000b001f01a35a86fso4955521wrq.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hG63fk2e7vwNR105jMKcH2PAlFDWHa3moRydXJnnvuY=;
- b=A91BD/JpzaADUmbUaQ5YA14ayxAeX3gmfIhzQ+0Fp42tE7ELbFf6+zLDKggIZKwv4j
- KOf7vGJT8gu8HSAyz2MZMK2tLV2F7Nzy6/nqX9VDbpldikjzGjqMnEg1gx9WjPwALtFJ
- ZmLQkIaqd3eSrKSqu2iWc9wBKIS1yVbOBSvH7T95woLd9yk7/8fPxRqjqsv++6Z0QVCs
- 2YMfEpuQmQWTUald1ZLcPlWnjwyagm7Iz/E6ZFFDdp6lC6lvPvaAZQXCZluCYQKC7kuJ
- sCkqqFBEKFYoqfZ5yNp6SoWC/qbikNsO5p9QLSVhygNK2+luQe4WD57QDOboW9y+y6+1
- OF4w==
-X-Gm-Message-State: AOAM530/ehea3VxxhsiSyibll1zIp+tBKpb1u4bYgwQ0Du1yLf0+p8+g
- ZMlGdCcYQkprxTHjJ+Q/ZuNuNnAin1i8hSxgHZaKjlWOYGco9lEodBsXo7pbru/m2SIw9wurwga
- W2VIuQDp/kjSom+6O9hTOg41FXACbO2Q297dSUi+w0ieI7ptp2ssePNKI3xri
-X-Received: by 2002:a7b:c855:0:b0:384:91d1:8120 with SMTP id
- c21-20020a7bc855000000b0038491d18120mr1013431wml.110.1646693124755; 
- Mon, 07 Mar 2022 14:45:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy7NjgGJQLscxD0tdfB/eYmpyLXX4U9b70fYCbkT3omrHQR0JI6WztBBvhvFM2vLMAvBJce8g==
-X-Received: by 2002:a7b:c855:0:b0:384:91d1:8120 with SMTP id
- c21-20020a7bc855000000b0038491d18120mr1013404wml.110.1646693124352; 
- Mon, 07 Mar 2022 14:45:24 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=ezHczUZNer51n68XHQRo+8Gd2wahCXeNyLSEi3/WKiI=;
+ b=MmDdVwmPLT3GpviHgCZPhAOAr/6wi/0+WM8vUEzJ9PLJSs2GQSeRgKKXApgieUlANH
+ HU0snto5oIEj/LMizMuNuS4pTUxK+HGG8ZhfeZ85yUd+O8/utUbK6kmdnd33EimEY4jR
+ sedBL8oPaPkNpQGWPElyC5jtJ9oW2d4fVSpbr86Oxtjd+NA4IYL53Br+QY7OfX46J/+U
+ Jws4uZx2DlGuB6vLDBxpfEbYz73Zbe0CBrkx+6GaoejaDIag2egp/Zz1QCHEgixMTfWQ
+ 2KCbNBAt70TzgnPNLwL81YZQtvQiYMMdOkP4G94ngbDZoPZA6w/qYp5hiTCTam9t7bA6
+ siJQ==
+X-Gm-Message-State: AOAM532GZRqy9AUuPTGoBdkEnQyRv99eio4oqXFVDUEEA5Ep0Ps9YO2d
+ uD0+wYA96b/atJwUQJziZHPxx/StVpnZKowWEwIU64wEWMrytYp2iZwvSQNbf+YFx3wcA0nZIHG
+ ymSACC8cXJ18uLk4VweujVf8ewqaf+7y/LOtojz7sUpFhQtyj+Tqp4itlQxJn
+X-Received: by 2002:a7b:ca57:0:b0:381:570c:ed95 with SMTP id
+ m23-20020a7bca57000000b00381570ced95mr945321wml.169.1646693142170; 
+ Mon, 07 Mar 2022 14:45:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwjtQK2+O9iQR+hwxcI/3iWs55gB8EA67dvBtvyHwRpjKi6oP2KHp6d6Vmxq5i+swUjHvFr+A==
+X-Received: by 2002:a7b:ca57:0:b0:381:570c:ed95 with SMTP id
+ m23-20020a7bca57000000b00381570ced95mr945302wml.169.1646693141922; 
+ Mon, 07 Mar 2022 14:45:41 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- u4-20020adfdb84000000b001e8d8ac5394sm13277572wri.110.2022.03.07.14.45.22
+ l10-20020a7bc44a000000b003899263bab1sm493798wmi.20.2022.03.07.14.45.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:45:23 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:45:20 -0500
+ Mon, 07 Mar 2022 14:45:41 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:45:38 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 16/47] hw/i386: Improve bounds checking in OVMF table parsing
-Message-ID: <20220307224357.682101-17-mst@redhat.com>
+Subject: [PULL v4 21/47] hw/i386/pc_piix: Mark the machine types from version
+ 1.4 to 1.7 as deprecated
+Message-ID: <20220307224357.682101-22-mst@redhat.com>
 References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
@@ -75,10 +74,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -101,67 +99,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ libvir-list@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dov Murik <dovmurik@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
 
-When pc_system_parse_ovmf_flash() parses the optional GUIDed table in
-the end of the OVMF flash memory area, the table length field is checked
-for sizes that are too small, but doesn't error on sizes that are too
-big (bigger than the flash content itself).
+The list of machine types grows larger and larger each release ... and
+it is unlikely that many people still use the very old ones for live
+migration. QEMU v1.7 has been released more than 8 years ago, so most
+people should have updated their machines to a newer version in those
+8 years at least once. Thus let's mark the very old 1.x machine types
+as deprecated now.
 
-Add a check for maximal size of the OVMF table, and add an error report
-in case the size is invalid.  In such a case, an error like this will be
-displayed during launch:
-
-    qemu-system-x86_64: OVMF table has invalid size 4047
-
-and the table parsing is skipped.
-
-Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-Message-Id: <20220222071906.2632426-2-dovmurik@linux.ibm.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220117191639.278497-1-thuth@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/i386/pc_sysfw_ovmf.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ hw/i386/pc_piix.c         | 1 +
+ docs/about/deprecated.rst | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/hw/i386/pc_sysfw_ovmf.c b/hw/i386/pc_sysfw_ovmf.c
-index f4dd92c588..df15c9737b 100644
---- a/hw/i386/pc_sysfw_ovmf.c
-+++ b/hw/i386/pc_sysfw_ovmf.c
-@@ -24,6 +24,7 @@
-  */
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 8d33cf689d..b72c03d0a6 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -757,6 +757,7 @@ static void pc_i440fx_1_7_machine_options(MachineClass *m)
+     m->hw_version = "1.7.0";
+     m->default_machine_opts = NULL;
+     m->option_rom_has_mr = true;
++    m->deprecation_reason = "old and unattended - use a newer version instead";
+     compat_props_add(m->compat_props, pc_compat_1_7, pc_compat_1_7_len);
+     pcmc->smbios_defaults = false;
+     pcmc->gigabyte_align = false;
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 85773db631..cf02ef6821 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -324,6 +324,14 @@ machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
+ been implemented), so there is not much value added by this board. Use the
+ ``ref405ep`` machine instead.
  
- #include "qemu/osdep.h"
-+#include "qemu/error-report.h"
- #include "hw/i386/pc.h"
- #include "cpu.h"
- 
-@@ -66,7 +67,13 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
-     ptr -= sizeof(uint16_t);
-     tot_len = le16_to_cpu(*(uint16_t *)ptr) - sizeof(guid) - sizeof(uint16_t);
- 
--    if (tot_len <= 0) {
-+    if (tot_len < 0 || tot_len > (ptr - flash_ptr)) {
-+        error_report("OVMF table has invalid size %d", tot_len);
-+        return;
-+    }
++``pc-i440fx-1.4`` up to ``pc-i440fx-1.7`` (since 7.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-+    if (tot_len == 0) {
-+        /* no entries in the OVMF table */
-         return;
-     }
++These old machine types are quite neglected nowadays and thus might have
++various pitfalls with regards to live migration. Use a newer machine type
++instead.
++
++
+ Backend options
+ ---------------
  
 -- 
 MST
