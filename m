@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7954D037D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 16:55:03 +0100 (CET)
-Received: from localhost ([::1]:36438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8B44D0373
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 16:52:56 +0100 (CET)
+Received: from localhost ([::1]:57078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRFhO-0006Js-AN
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 10:55:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40610)
+	id 1nRFfL-0001FF-CV
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 10:52:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRFSE-00019m-Uw
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:39:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40777)
+ id 1nRFSW-0001se-FU
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:39:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRFSD-0004DH-8Q
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:39:22 -0500
+ id 1nRFSU-0004Fj-UI
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 10:39:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646667560;
+ s=mimecast20190719; t=1646667578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/xindar3VGj8mumCbzf67K+hTm+ax+lScp0gCxWqpxs=;
- b=Q6JfSb+lnGLHHN7De3Plpw2pZYyZeU8IAn0OPH5LI8tln4GZ6HSXXo5w8C/YIlbOt0VCHJ
- ypFa+4s6mlMri7l6XfanOKXneDQUplFrLz45Vs9umJePSlxdLYEYtsQw+3i/4Q41rVd2dm
- QXk12G5t2fK+4Z2CUANIU7Av+9EnSxE=
+ bh=WtPyu4SE08yqpJyQZ1vSYghMG9hrA1SFpeRBeHQXJcE=;
+ b=DgYY5uN3JQxuyPXMAogt6w9rVTyUkvvl8Ljx89+49Ol6jcFaUroFNW0tatuh/XPI7LlEFy
+ PZYCDKD4emfJ1KcyWuRuTrH2byUm7nmIwJhv9b5KV2HsMex3tocLfNsD0sbkMcTkMj11oh
+ TkPHwR6QUqasI7046xDOL34FL0Q7ec8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-499-QpwTFtXnOZCQpDTy3M8RPw-1; Mon, 07 Mar 2022 10:39:19 -0500
-X-MC-Unique: QpwTFtXnOZCQpDTy3M8RPw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-645-Zucy5zwaOtWELFOPLrBDCQ-1; Mon, 07 Mar 2022 10:39:35 -0500
+X-MC-Unique: Zucy5zwaOtWELFOPLrBDCQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B67E824FA8;
- Mon,  7 Mar 2022 15:39:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDF9251DC;
+ Mon,  7 Mar 2022 15:39:33 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3DBDB80009;
- Mon,  7 Mar 2022 15:39:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E8A77DE58;
+ Mon,  7 Mar 2022 15:39:19 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] coroutine: use QEMU_DEFINE_STATIC_CO_TLS()
-Date: Mon,  7 Mar 2022 15:38:52 +0000
-Message-Id: <20220307153853.602859-3-stefanha@redhat.com>
+Subject: [PATCH 3/3] coroutine-win32: use QEMU_DEFINE_STATIC_CO_TLS()
+Date: Mon,  7 Mar 2022 15:38:53 +0000
+Message-Id: <20220307153853.602859-4-stefanha@redhat.com>
 In-Reply-To: <20220307153853.602859-1-stefanha@redhat.com>
 References: <20220307153853.602859-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,109 +92,74 @@ another thread the TLS variables from the old thread must no longer be
 used.
 
 Use QEMU_DEFINE_STATIC_CO_TLS() for the current and leader variables.
-The alloc_pool QSLIST needs a typedef so the return value of
-get_ptr_alloc_pool() can be stored in a local variable.
 
-One example of why this code is necessary: a coroutine that yields
-before calling qemu_coroutine_create() to create another coroutine is
-affected by the TLS issue.
+I think coroutine-win32.c could get away with __thread because the
+variables are only used in situations where either the stale value is
+correct (current) or outside coroutine context (loading leader when
+current is NULL). Due to the difficulty of being sure that this is
+really safe in all scenarios it seems worth converting it anyway.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- util/qemu-coroutine.c | 41 ++++++++++++++++++++++++-----------------
- 1 file changed, 24 insertions(+), 17 deletions(-)
+ util/coroutine-win32.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
-index c03b2422ff..f3e8300c8d 100644
---- a/util/qemu-coroutine.c
-+++ b/util/qemu-coroutine.c
-@@ -18,6 +18,7 @@
- #include "qemu/atomic.h"
- #include "qemu/coroutine.h"
+diff --git a/util/coroutine-win32.c b/util/coroutine-win32.c
+index de6bd4fd3e..c02a62c896 100644
+--- a/util/coroutine-win32.c
++++ b/util/coroutine-win32.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
  #include "qemu/coroutine_int.h"
 +#include "qemu/coroutine-tls.h"
- #include "block/aio.h"
  
- /** Initial batch size is 64, and is increased on demand */
-@@ -29,17 +30,20 @@ enum {
- static QSLIST_HEAD(, Coroutine) release_pool = QSLIST_HEAD_INITIALIZER(pool);
- static unsigned int pool_batch_size = POOL_INITIAL_BATCH_SIZE;
- static unsigned int release_pool_size;
--static __thread QSLIST_HEAD(, Coroutine) alloc_pool = QSLIST_HEAD_INITIALIZER(pool);
--static __thread unsigned int alloc_pool_size;
--static __thread Notifier coroutine_pool_cleanup_notifier;
-+
-+typedef QSLIST_HEAD(, Coroutine) CoroutineQSList;
-+QEMU_DEFINE_STATIC_CO_TLS(CoroutineQSList, alloc_pool);
-+QEMU_DEFINE_STATIC_CO_TLS(unsigned int, alloc_pool_size);
-+QEMU_DEFINE_STATIC_CO_TLS(Notifier, coroutine_pool_cleanup_notifier);
- 
- static void coroutine_pool_cleanup(Notifier *n, void *value)
+ typedef struct
  {
-     Coroutine *co;
-     Coroutine *tmp;
-+    CoroutineQSList *alloc_pool = get_ptr_alloc_pool();
+@@ -34,8 +35,8 @@ typedef struct
+     CoroutineAction action;
+ } CoroutineWin32;
  
--    QSLIST_FOREACH_SAFE(co, &alloc_pool, pool_next, tmp) {
--        QSLIST_REMOVE_HEAD(&alloc_pool, pool_next);
-+    QSLIST_FOREACH_SAFE(co, alloc_pool, pool_next, tmp) {
-+        QSLIST_REMOVE_HEAD(alloc_pool, pool_next);
-         qemu_coroutine_delete(co);
-     }
- }
-@@ -49,27 +53,30 @@ Coroutine *qemu_coroutine_create(CoroutineEntry *entry, void *opaque)
-     Coroutine *co = NULL;
+-static __thread CoroutineWin32 leader;
+-static __thread Coroutine *current;
++QEMU_DEFINE_STATIC_CO_TLS(CoroutineWin32, leader);
++QEMU_DEFINE_STATIC_CO_TLS(Coroutine *, current);
  
-     if (CONFIG_COROUTINE_POOL) {
--        co = QSLIST_FIRST(&alloc_pool);
-+        CoroutineQSList *alloc_pool = get_ptr_alloc_pool();
+ /* This function is marked noinline to prevent GCC from inlining it
+  * into coroutine_trampoline(). If we allow it to do that then it
+@@ -52,7 +53,7 @@ qemu_coroutine_switch(Coroutine *from_, Coroutine *to_,
+     CoroutineWin32 *from = DO_UPCAST(CoroutineWin32, base, from_);
+     CoroutineWin32 *to = DO_UPCAST(CoroutineWin32, base, to_);
+ 
+-    current = to_;
++    set_current(to_);
+ 
+     to->action = action;
+     SwitchToFiber(to->fiber);
+@@ -89,14 +90,21 @@ void qemu_coroutine_delete(Coroutine *co_)
+ 
+ Coroutine *qemu_coroutine_self(void)
+ {
++    Coroutine *current = get_current();
 +
-+        co = QSLIST_FIRST(alloc_pool);
-         if (!co) {
-             if (release_pool_size > qatomic_read(&pool_batch_size)) {
-                 /* Slow path; a good place to register the destructor, too.  */
--                if (!coroutine_pool_cleanup_notifier.notify) {
--                    coroutine_pool_cleanup_notifier.notify = coroutine_pool_cleanup;
--                    qemu_thread_atexit_add(&coroutine_pool_cleanup_notifier);
-+                Notifier *notifier = get_ptr_coroutine_pool_cleanup_notifier();
-+                if (!notifier->notify) {
-+                    notifier->notify = coroutine_pool_cleanup;
-+                    qemu_thread_atexit_add(notifier);
-                 }
- 
-                 /* This is not exact; there could be a little skew between
-                  * release_pool_size and the actual size of release_pool.  But
-                  * it is just a heuristic, it does not need to be perfect.
-                  */
--                alloc_pool_size = qatomic_xchg(&release_pool_size, 0);
--                QSLIST_MOVE_ATOMIC(&alloc_pool, &release_pool);
--                co = QSLIST_FIRST(&alloc_pool);
-+                set_alloc_pool_size(qatomic_xchg(&release_pool_size, 0));
-+                QSLIST_MOVE_ATOMIC(alloc_pool, &release_pool);
-+                co = QSLIST_FIRST(alloc_pool);
-             }
-         }
-         if (co) {
--            QSLIST_REMOVE_HEAD(&alloc_pool, pool_next);
--            alloc_pool_size--;
-+            QSLIST_REMOVE_HEAD(alloc_pool, pool_next);
-+            set_alloc_pool_size(get_alloc_pool_size() - 1);
-         }
+     if (!current) {
+-        current = &leader.base;
+-        leader.fiber = ConvertThreadToFiber(NULL);
++        CoroutineWin32 *leader = get_ptr_leader();
++
++        current = &leader->base;
++        set_current(current);
++        leader->fiber = ConvertThreadToFiber(NULL);
      }
+     return current;
+ }
  
-@@ -93,9 +100,9 @@ static void coroutine_delete(Coroutine *co)
-             qatomic_inc(&release_pool_size);
-             return;
-         }
--        if (alloc_pool_size < qatomic_read(&pool_batch_size)) {
--            QSLIST_INSERT_HEAD(&alloc_pool, co, pool_next);
--            alloc_pool_size++;
-+        if (get_alloc_pool_size() < qatomic_read(&pool_batch_size)) {
-+            QSLIST_INSERT_HEAD(get_ptr_alloc_pool(), co, pool_next);
-+            set_alloc_pool_size(get_alloc_pool_size() + 1);
-             return;
-         }
-     }
+ bool qemu_in_coroutine(void)
+ {
++    Coroutine *current = get_current();
++
+     return current && current->caller;
+ }
 -- 
 2.35.1
 
