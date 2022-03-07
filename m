@@ -2,60 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A584CFC43
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:07:49 +0100 (CET)
-Received: from localhost ([::1]:51778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8694CFC60
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:11:38 +0100 (CET)
+Received: from localhost ([::1]:35758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBDQ-00073R-Cf
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:07:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36032)
+	id 1nRBH7-0006pV-8j
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:11:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nRAFZ-0007Qd-4x
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:05:57 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:41444)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nRAFX-0003NH-7p
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:05:56 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-538-q_9eHK1sO8WTRvz_AOHJzg-1; Mon, 07 Mar 2022 05:05:42 -0500
-X-MC-Unique: q_9eHK1sO8WTRvz_AOHJzg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 258E01006AA6;
- Mon,  7 Mar 2022 10:05:41 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E61580920;
- Mon,  7 Mar 2022 10:05:39 +0000 (UTC)
-Date: Mon, 7 Mar 2022 11:05:38 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Will Cohen <wwcohen@gmail.com>
-Subject: Re: [PULL 00/19] 9p queue 2022-03-04
-Message-ID: <20220307110538.1ac88f8e@bahia>
-In-Reply-To: <CAB26zV0PP1Pv0wHBk+qp4C+v-Ykh22VnU5Ridw6WD8rZft7o_Q@mail.gmail.com>
-References: <cover.1646396869.git.qemu_oss@crudebyte.com>
- <CAFEAcA8EN8sSSYYMh=u68-a7qXGaG-oSnAz2hT8kXXGtnDLnww@mail.gmail.com>
- <11201492.CjeqJxXfGd@silver>
- <CAB26zV0PP1Pv0wHBk+qp4C+v-Ykh22VnU5Ridw6WD8rZft7o_Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRALc-0002i8-4L
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:12 -0500
+Received: from [2a00:1450:4864:20::32e] (port=44584
+ helo=mail-wm1-x32e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRALa-0004HC-KS
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:11 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ bg31-20020a05600c3c9f00b00381590dbb33so8940771wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eZZT+kIObjw3NyncUyfon3VlVvVoaWpfKUsK0QKjLhs=;
+ b=gl4bpAjyVwx+aGDli8pjWhgtFvMOyfh8P6Y3EOCAPK/HCA4MK9mRQibuGcOuR4q0px
+ /hcQ6myNlrh6MB2YB3wmPAdLff9eiMJHaDbAS7f/pu5jlN+7DSsn7RojS5oud5PswvC1
+ 31cldL10e11m0tuSxQkyfBCnElCnuVqR7seevcajy0UP80qjyfMv6Ar33dAsNu0kWVbH
+ LKcbDtdoHWiakeniOBf4hdPtuYj8v3LNIsUPn8BHkp1mh8w/5gRrUB84StduNpKtQeNc
+ geKkoAtIdAedgozO78uEdjYZJBxjU3FPQZvtzk/Gb3J100zrB3xS0QE7ITaVBqLXDy9F
+ O8UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eZZT+kIObjw3NyncUyfon3VlVvVoaWpfKUsK0QKjLhs=;
+ b=HpbLXAteLfOb19sUKkEPL/HMSL+uYGbEN0aDz1Dx12SodP9wlX6s39EAykdE+HwMwB
+ skjrE0EGyp2nVM3cKVj4kIZH7ZZeSbbEcHWM0hdQ7QQ3qUfYXP2hLb2wq5Y8fjcRbtd3
+ e7k4qBhXPfxu1oYDFwJ4xq1gyk8IZdm1fupgt+ZP0mBUF+oWP2q9QnTWRLb7KuniyWiE
+ 8fuHo3tAzhd81HIfn3leXA3X6s7l8xxOVrEQSDwOfhC8vYqbTa6qDkSJAU0K7UntP9dC
+ rfWIuFPy6uQN6WtsR7ZsnOiNs3SoC/cCbdC7I0PA/F4+2nHvVHnRs4aO/1lw0FyULabb
+ iy2g==
+X-Gm-Message-State: AOAM531rCjImeXVl/B0NpDKxZFK8AOJpGnormwt44ODKQBFskD9p0SoW
+ G5ZDHsv7jGEAvBzsZTA4cRnrcsCQ994=
+X-Google-Smtp-Source: ABdhPJyZiJSnhjVabvn23VEOG5t4Wrh6eirEI5SL8oagAVdvkRHDOxOo7DpYZVoUYsmZ42uqY1zTiA==
+X-Received: by 2002:a05:600c:2d4c:b0:389:7be9:2885 with SMTP id
+ a12-20020a05600c2d4c00b003897be92885mr12637216wmg.188.1646647928872; 
+ Mon, 07 Mar 2022 02:12:08 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ q125-20020a1c4383000000b003899720641dsm6431259wma.30.2022.03.07.02.12.08
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 07 Mar 2022 02:12:08 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/16] MIPS patches for 2022-03-07
+Date: Mon,  7 Mar 2022 11:11:51 +0100
+Message-Id: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: 23
+X-Spam_score: 2.3
+X-Spam_bar: ++
+X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,104 +89,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Keno Fischer <keno@juliacomputing.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Mar 2022 16:31:07 -0500
-Will Cohen <wwcohen@gmail.com> wrote:
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-> On Fri, Mar 4, 2022 at 3:16 PM Christian Schoenebeck <qemu_oss@crudebyte.=
-com>
-> wrote:
->=20
-> > On Freitag, 4. M=C3=A4rz 2022 19:42:18 CET Peter Maydell wrote:
-> > > On Fri, 4 Mar 2022 at 12:32, Christian Schoenebeck
-> > >
-> > > <qemu_oss@crudebyte.com> wrote:
-> > > > The following changes since commit
-> > 5959ef7d431ffd02db112209cf55e47b677256fd:
-> > > >   Merge remote-tracking branch
-> > > >   'remotes/alistair/tags/pull-riscv-to-apply-20220303' into staging
-> > > >   (2022-03-03 19:59:38 +0000)>
-> > > > are available in the Git repository at:
-> > > >   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220304
-> > > >
-> > > > for you to fetch changes up to
-> > 39edfe337c418995b2932a9a14a612fb0c329dc5:
-> > > >   fsdev/p9array.h: convert Doxygen -> kerneldoc format (2022-03-04
-> > > >   13:07:39 +0100)>
-> > > > ----------------------------------------------------------------
-> > > > 9pfs: introduce macOS host support and cleanup
-> > > >
-> > > > * Add support for Darwin (a.k.a. macOS) hosts.
-> > > >
-> > > > * Code cleanup (move qemu_dirent_dup() from osdep -> 9p-util).
-> > > >
-> > > > * API doc cleanup (convert Doxygen -> kerneldoc format).
-> > >
-> > > This fails to build on my OSX box:
-> > >
-> > > In file included from ../../hw/9pfs/9p-util-darwin.c:12:
-> > > ../../hw/9pfs/9p-util.h:57:1: error: unused label 'again'
-> > > [-Werror,-Wunused-label]
-> > > again:
-> > > ^~~~~~
-> > >
-> > > because the use of the label is inside a #ifndef CONFIG_DARWIN
-> > > but the definition is not.
-> > >
-> > > thanks
-> > > -- PMM
-> >
-> > So basically it needs this change:
-> >
-> > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> > index cfa7af43c5..97e681e167 100644
-> > --- a/hw/9pfs/9p-util.h
-> > +++ b/hw/9pfs/9p-util.h
-> > @@ -54,7 +54,9 @@ static inline int openat_file(int dirfd, const char
-> > *name,
-> > int flags,
-> >  {
-> >      int fd, serrno, ret;
-> >
-> > +#ifndef CONFIG_DARWIN
-> >  again:
-> > +#endif
-> >      fd =3D openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBL=
-OCK,
-> >                  mode);
-> >      if (fd =3D=3D -1) {
-> >
-> > Will, can you check why this did not fail there and whether there are
-> > probably
-> > more issues?
-> >
-> > If that's the only one, let me know, then I would fix this on my end an=
-d
-> > resend a PR ASAP. Thanks!
->=20
->=20
-> These were just warnings for me so I didn=E2=80=99t worry about them. Wil=
-l check
-> where else it appears when building!
->=20
+The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5:
 
-Compiler warnings are frowned upon in the QEMU community since they
-likely point to something that isn't right in your code. As you
-might see, Peter's build has -Werror set and so have the builds
-in the gitlab CI. Please consider passing --enable-werror to
-configure, at least when you're about to post to the list.
+  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' into staging (2022-03-05 18:03:15 +0000)
 
->=20
-> >
-> > Best regards,
-> > Christian Schoenebeck
-> >
-> >
-> >
+are available in the Git repository at:
+
+  https://github.com/philmd/qemu.git tags/mips-20220307
+
+for you to fetch changes up to 9be5a9f464c1fc106a4aaf941f7792404c43556d:
+
+  tests/avocado/linux_ssh_mips_malta.py: add missing accel (tcg) tag (2022-03-07 01:35:07 +0100)
+
+----------------------------------------------------------------
+MIPS patches queue
+
+- Fix CP0 cycle counter timing
+- Fix VMState of gt64120 IRQs
+- Long due PIIX4 QOM cleanups
+- ISA IRQ QOM'ification / cleanups
+
+----------------------------------------------------------------
+
+Bernhard Beschow (13):
+  hw/mips/gt64xxx_pci: Fix PCI IRQ levels to be preserved during
+    migration
+  malta: Move PCI interrupt handling from gt64xxx_pci to piix4
+  hw/isa/piix4: Resolve redundant i8259[] attribute
+  hw/isa/piix4: Pass PIIX4State as opaque parameter for piix4_set_irq()
+  hw/isa/piix4: Resolve global instance variable
+  hw/isa/piix4: Replace some magic IRQ constants
+  hw/mips/gt64xxx_pci: Resolve gt64120_register()
+  hw/rtc/mc146818rtc: QOM'ify IRQ number
+  hw/rtc/m48t59-isa: QOM'ify IRQ number
+  hw/input/pckbd: QOM'ify IRQ numbers
+  hw/isa/isa-bus: Remove isabus_dev_print()
+  isa: Drop unused attributes from ISADevice
+  isa: Inline and remove one-line isa_init_irq()
+
+Cleber Rosa (1):
+  tests/avocado/linux_ssh_mips_malta.py: add missing accel (tcg) tag
+
+Philippe Mathieu-Daudé (1):
+  target/mips: Remove duplicated MIPSCPU::cp0_count_rate
+
+Simon Burge (1):
+  target/mips: Fix cycle counter timing calculations
+
+ hw/input/pckbd.c                      | 26 +++++++--
+ hw/isa/isa-bus.c                      | 29 ----------
+ hw/isa/piix4.c                        | 56 +++++++++++++++++--
+ hw/mips/gt64xxx_pci.c                 | 80 +++------------------------
+ hw/mips/malta.c                       |  7 +--
+ hw/rtc/m48t59-isa.c                   |  9 ++-
+ hw/rtc/mc146818rtc.c                  | 13 ++++-
+ include/hw/isa/isa.h                  |  2 -
+ include/hw/mips/mips.h                |  3 -
+ include/hw/rtc/mc146818rtc.h          |  1 +
+ include/hw/southbridge/piix.h         |  2 -
+ target/mips/cpu.c                     | 11 +---
+ target/mips/cpu.h                     |  9 ---
+ target/mips/internal.h                |  9 +++
+ tests/avocado/linux_ssh_mips_malta.py |  3 +
+ tests/qemu-iotests/172.out            | 26 ---------
+ 16 files changed, 115 insertions(+), 171 deletions(-)
+
+-- 
+2.34.1
 
 
