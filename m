@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C1D4D0B5E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:47:18 +0100 (CET)
-Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB434D0B7C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:52:25 +0100 (CET)
+Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRM8K-0000L8-Pk
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:47:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52500)
+	id 1nRMDI-0002do-GC
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:52:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6A-0005fG-Q7
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23724)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6D-0005pt-Rm
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM69-0005Bc-5d
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:02 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6C-0005NJ-8Z
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693100;
+ s=mimecast20190719; t=1646693103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=5n/FHmC/Dor0xLSEuoyybbuicDeG0aqX5h3Rj+dixSE=;
- b=B6E65T3L5kqMb76mSsPyBZGHLWf6U3Ta+rI/FuuVeAJF6yI9xI7Cnki28KLI3yuIx6JVDF
- zDnzMoKGxjaK9xDBPiApBugNJoKCxx3QjEmbtTjjz7JCeaGkBjOUDAQqfg8f39OLuShuO8
- Hsiln2fDkjCaPCgBIkp+CPAEv6+Whf8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tZpSULKN+Xln7Ddi4XAIsi4Ma9E+7GOx9U1W/EkBGEQ=;
+ b=FlanAXUpqzUhrOnI4ojyOTv2DRxzW3nslpkNBjgk98MBdg6jmL7Kyj3jjn2wyrj15n6Hpp
+ WLXiQzXkl7+sEWa5Zb4wH6xdINlndgiyF+ekQpWQk3Nuo8efe+9kMQjRYnVwCUE5mtU+Sf
+ IJD3hzmvuV29mAlS2iNdVVvvIz9rYiE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-qmCP-15GPTmIyKG2B5i2bw-1; Mon, 07 Mar 2022 17:44:59 -0500
-X-MC-Unique: qmCP-15GPTmIyKG2B5i2bw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j42-20020a05600c1c2a00b00381febe402eso277650wms.0
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:44:59 -0800 (PST)
+ us-mta-582-Nb5us9nPN2qZrvp8EPq8Ng-1; Mon, 07 Mar 2022 17:45:02 -0500
+X-MC-Unique: Nb5us9nPN2qZrvp8EPq8Ng-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ l10-20020a05600012ca00b001f1e4669c98so1289104wrx.23
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=5n/FHmC/Dor0xLSEuoyybbuicDeG0aqX5h3Rj+dixSE=;
- b=E33WJy2oc77KuxFV4Jo1b4FOJm9wHzvCkiYlOTUDAv1QbX6HpSS4qN6pEvNn7AMDfo
- 15j1m/fVXam0NRNq/ZK5qGab3AG6hc1IQm9d0kRQ713NuioDY9RlcvRS6WQ4LCrG1k+9
- JXKEGUcR2OyQ58T3q/EoCkX47Hjw5jJxf2ilKEn/iH5FjNsugMCMaQa1dYU7u5g4dBQn
- uGmxoMXgbq6kgTCGmHDNLcdpqvsoxTzn9/8Z4gcubs1VbGLizTjZ4zdInqZfDBLEfPs+
- BcgLhDQ5NL1mUgF0VXOV1nhyDu9e5EoMkx74/UEAWJ+u6olUNb9iR2/Y1gqftrWeAj5S
- b/Bw==
-X-Gm-Message-State: AOAM530FOFuiEN1jJ3Oe5bmIItB41wkuN+2UYdb6bgNShjrNXfBmd8PR
- M0P2vJtEVzubDQRRu0Y4LZAq7ENTUGQPUDqkpEptetdrfK4cWQqXkqbprnacYxh8ELerRi31Mr5
- XJon3TLx9IgArJh+mFdgbsA9bRWHQJYWy6ls0+x9e33Lg9e83l7safyVgRlwG
-X-Received: by 2002:a5d:6251:0:b0:1ea:9412:fc8b with SMTP id
- m17-20020a5d6251000000b001ea9412fc8bmr9696542wrv.657.1646693098157; 
- Mon, 07 Mar 2022 14:44:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy9QpEJ2I5ppjKApkbgSZm2QTNENduLUwByX0eEsHTwCKsUU3IdzYOq6WKK51yisp8BZWv6/w==
-X-Received: by 2002:a5d:6251:0:b0:1ea:9412:fc8b with SMTP id
- m17-20020a5d6251000000b001ea9412fc8bmr9696530wrv.657.1646693097877; 
- Mon, 07 Mar 2022 14:44:57 -0800 (PST)
+ bh=tZpSULKN+Xln7Ddi4XAIsi4Ma9E+7GOx9U1W/EkBGEQ=;
+ b=4AXx2kVKcTeClDbS99oKvApY4RSwXgNg3CWCOT2SpKhHueTvZ5DlBR7oVZf56ZBBn+
+ oaiR80RMOIKEQ4kw74zKW3OjtMNquHHa22cr6E6Xcg76dJ+RJ16TgMgwihSAGyAfUkJ3
+ ccwM2FA+NF7jqD5Dn/gzPYglz+JDNPLWOIKRmru2pOvIsxZTh1nxmddPlL9XQouOc5Tc
+ cjdK2X4sgTHhTknL03cknmBEIyVaOsKaRPKA6c9vHzzjsPMC49PdE/7VvJ388IcSnz83
+ qHDoCVRNpmZG2LYH069qqz0qSFT2VtSLB6v8zrGQeueXklAHH8Egi95G8Xxi7Is4Pn9w
+ VGQg==
+X-Gm-Message-State: AOAM532u9v+SeGKkdjxjgjn90sVjG1e9N4yCAmO5whADmGdA+4Wyu7wU
+ mtd4T1QJGOf804sqJz+q/raZQ1+q6Ns+aMuGhK/o4q6j/5LNC0ur/aQpGr4D2+C3AezQLgeXJZK
+ ZfLZnuinKCiWnTI3m+h5m0dxvHOzuVOm+YUbdVyrHyrB8hFUooAzOFJiYRKw0
+X-Received: by 2002:a5d:5746:0:b0:1ea:9643:92ac with SMTP id
+ q6-20020a5d5746000000b001ea964392acmr9858990wrw.597.1646693101114; 
+ Mon, 07 Mar 2022 14:45:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwv0epJJcONpFJuqPgmHfisWgJXGpB/ff+mGu/Ta/7BASqYc0xpU6hqSl2ynAoc/Zpyc98/IA==
+X-Received: by 2002:a5d:5746:0:b0:1ea:9643:92ac with SMTP id
+ q6-20020a5d5746000000b001ea964392acmr9858978wrw.597.1646693100806; 
+ Mon, 07 Mar 2022 14:45:00 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- y4-20020adff144000000b001f022290737sm12192179wro.6.2022.03.07.14.44.56
+ n16-20020a5d4010000000b001f07772457csm9127654wrp.101.2022.03.07.14.44.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:44:57 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:44:55 -0500
+ Mon, 07 Mar 2022 14:45:00 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:44:58 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 08/47] hw/smbios: add assertion to ensure handles of tables
- 19 and 32 do not collide
-Message-ID: <20220307224357.682101-9-mst@redhat.com>
+Subject: [PULL v4 09/47] vhost-user: remove VirtQ notifier restore
+Message-ID: <20220307224357.682101-10-mst@redhat.com>
 References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
@@ -76,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -85,7 +84,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,46 +97,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org,
+ Xueming Li <xuemingl@nvidia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ani Sinha <ani@anisinha.ca>
+From: Xueming Li <xuemingl@nvidia.com>
 
-Since change dcf359832eec02 ("hw/smbios: fix table memory corruption with large memory vms")
-we reserve additional space between handle numbers of tables 17 and 19 for
-large VMs. This may cause table 19 to collide with table 32 in their handle
-numbers for those large VMs. This change adds an assertion to ensure numbers
-do not collide. If they do, qemu crashes with useful debug information for
-taking additional steps.
+Notifier set when vhost-user backend asks qemu to mmap an FD and
+offset. When vhost-user backend restart or getting killed, VQ notifier
+FD and mmap addresses become invalid. After backend restart, MR contains
+the invalid address will be restored and fail on notifier access.
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220223143322.927136-8-ani@anisinha.ca>
+On the other hand, qemu should munmap the notifier, release underlying
+hardware resources to enable backend restart and allocate hardware
+notifier resources correctly.
+
+Qemu shouldn't reference and use resources of disconnected backend.
+
+This patch removes VQ notifier restore, uses the default vhost-user
+notifier to avoid invalid address access.
+
+After backend restart, the backend should ask qemu to install a hardware
+notifier if needed.
+
+Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Xueming Li <xuemingl@nvidia.com>
+Message-Id: <20220207071929.527149-2-xuemingl@nvidia.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/smbios/smbios.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/hw/virtio/vhost-user.h |  1 -
+ hw/virtio/vhost-user.c         | 19 +------------------
+ 2 files changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 44c53797a4..1f8d5c252f 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -1048,6 +1048,12 @@ void smbios_get_tables(MachineState *ms,
-                                        mem_array[i].length);
-         }
+diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
+index a9abca3288..f6012b2078 100644
+--- a/include/hw/virtio/vhost-user.h
++++ b/include/hw/virtio/vhost-user.h
+@@ -14,7 +14,6 @@
+ typedef struct VhostUserHostNotifier {
+     MemoryRegion mr;
+     void *addr;
+-    bool set;
+ } VhostUserHostNotifier;
  
-+        /*
-+         * make sure 16 bit handle numbers in the headers of tables 19
-+         * and 32 do not overlap.
-+         */
-+        assert((mem_array_size + offset) < (T32_BASE - T19_BASE));
-+
-         smbios_build_type_32_table();
-         smbios_build_type_38_table();
-         smbios_build_type_41_table(errp);
+ typedef struct VhostUserState {
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 662853513e..ebe9bd58d0 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1162,19 +1162,6 @@ static int vhost_user_set_vring_num(struct vhost_dev *dev,
+     return vhost_set_vring(dev, VHOST_USER_SET_VRING_NUM, ring);
+ }
+ 
+-static void vhost_user_host_notifier_restore(struct vhost_dev *dev,
+-                                             int queue_idx)
+-{
+-    struct vhost_user *u = dev->opaque;
+-    VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
+-    VirtIODevice *vdev = dev->vdev;
+-
+-    if (n->addr && !n->set) {
+-        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true);
+-        n->set = true;
+-    }
+-}
+-
+ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
+                                             int queue_idx)
+ {
+@@ -1182,17 +1169,14 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
+     VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
+     VirtIODevice *vdev = dev->vdev;
+ 
+-    if (n->addr && n->set) {
++    if (n->addr) {
+         virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
+-        n->set = false;
+     }
+ }
+ 
+ static int vhost_user_set_vring_base(struct vhost_dev *dev,
+                                      struct vhost_vring_state *ring)
+ {
+-    vhost_user_host_notifier_restore(dev, ring->index);
+-
+     return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
+ }
+ 
+@@ -1558,7 +1542,6 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+     }
+ 
+     n->addr = addr;
+-    n->set = true;
+ 
+     return 0;
+ }
 -- 
 MST
 
