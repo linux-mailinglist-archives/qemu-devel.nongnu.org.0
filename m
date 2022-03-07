@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4330D4D0499
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 17:53:23 +0100 (CET)
-Received: from localhost ([::1]:51612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04DBE4D049D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 17:54:50 +0100 (CET)
+Received: from localhost ([::1]:58022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRGbq-0005lV-Co
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 11:53:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34040)
+	id 1nRGdF-0001Xx-4L
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 11:54:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGW2-0001cm-KZ
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:22 -0500
-Received: from [2a00:1450:4864:20::32d] (port=54005
- helo=mail-wm1-x32d.google.com)
+ id 1nRGW3-0001fr-9y
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:23 -0500
+Received: from [2a00:1450:4864:20::42c] (port=41971
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGW1-0007ka-0s
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:22 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id 19so9301644wmy.3
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 08:47:20 -0800 (PST)
+ id 1nRGW1-0007km-Pu
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:23 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id i8so24262095wrr.8
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 08:47:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=uwF139MRa/ui3lWjCgZadSTEZfoUO9damBLTd17IfOk=;
- b=o3RMUUxiOJv65VQuPTkA4plC6vqEKnqwELwGthRYYsMOb97IeZG5r8HkHsrk19WPrC
- pL85KVuCV6EJQ/GljECP0JNKWi96ascudzorEQxl1K+uD5Ts07BJfBzR00+Zq4FFpUGW
- gjZO8/gNhQchtMzzBKvC1gzw0DLLojbhTefdlPzipWMeJLswaDWu7MnM2KBFO4zE9YNO
- ATEwYr998+ZWH/lt4CE72I8MpplbzJH/I92FDFNSyjgSS6TMlRM004lMu3dSH2MeDLZY
- t+4EX/Pw/g8tt0uDlZJHNImE3yG5OPdDdc+gC0dm/3UlV9Ep1/VN5FIJrLYhmwPuhjPF
- ebgQ==
+ bh=cuM6/+p90e9wLyBjLSQA/Njnuwiyeuurw2dGmJV2SRg=;
+ b=MOllhC7TI+Mxey5Cl0jmwWdbv25DDA81Z/5GU+DSJocmnSwcvx4Mti+zVkrpkoGuyI
+ zAZyw9VhMIkvrA0T7gU4zez/ox3pYrQ2xI2vK4+l8QsQjqFguv+RtDthaKcIxr7oT7J0
+ WJUtF9WOxHNqwOTxHT9ja2OZJgAwETBy77IObgolt6Hn0x4w129+h9WWPwfFEYjnPcry
+ MQWlFnQlY2t3WRyboXjZ0i7NRdm5JzhawRWMe2ZCCa5OiZ76bcbi+bQkZFuzz800AaKC
+ HjFPbb76OltewSW76Mk1kvMCtSFRCzcoesqmryRy9qLS88le4OeMKPrADBLKJ2Mmc8gG
+ Q6LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uwF139MRa/ui3lWjCgZadSTEZfoUO9damBLTd17IfOk=;
- b=IANND6hb/w76F8edJxutdcrIu3h72JNSMnabjIOLm8LDE4Ily25ZmNgeic6jD9h7QP
- iSsQqB0fwxbdquLK0qvrZYEdXroYMmFaDyrqJb/jsfaoJHFKpQTo49YAMNCvF7tiQ2d4
- h4laDJhMX19nooz8Jqfo6dETh/8hW4itYGKTSLWgqe3MpDhH376eim8CfBOyPZkJYg8j
- H7AMbOoUKifXLcz6kT2BzSD6P6Sj8kw17+rd2U+ddAidFeLkC3rCD/rMxycPpAqZIzFV
- tIlqZKtgxLdVoPWpBWOCGkkuKIWUeoRtas6Fw2z6X+/f11kB+VC6pVfaNuoO9C1JMAtL
- i1ew==
-X-Gm-Message-State: AOAM531Pt/wzQVXy7MR5fLnv1a7TA8GMv40cmMSS6OpW70TJU1aIxQGf
- YtltpxH8HVZz9dAQsBvMmOPDvaqg9BuoqQ==
-X-Google-Smtp-Source: ABdhPJwZ3SgXz/hUrwwiMngr+MzN6/RvEh1rN6DwLqQHSuRUfWlOkS2EAcNPYrxlN4XHBEzP+VWUeg==
-X-Received: by 2002:a05:600c:4e56:b0:389:bc4e:6ffb with SMTP id
- e22-20020a05600c4e5600b00389bc4e6ffbmr2223398wmq.63.1646671639710; 
- Mon, 07 Mar 2022 08:47:19 -0800 (PST)
+ bh=cuM6/+p90e9wLyBjLSQA/Njnuwiyeuurw2dGmJV2SRg=;
+ b=Zhp032pVODN/qErYbw6TklS33tqqM90HnXX1H6YaJUo49cStVU/Qn3RxcKi42G3Tuo
+ ZKuIMdQFEgnvbeN2L0Hl7GtfE8uP413mfmPinTOnG5/0QclcfhssN1Aeur2Nzj6pknay
+ LDB8+0dPYNRUv4aI0M26n2D1mHfmO0MB0qlU30V2wVqXDq7KIfZdK2/nEwmXIM4lVe9T
+ hvQIsoLTSna4HhK9not5QfBAWShGOc3XC6qKL8B9hXEyf4hEvqKQ9ezhrNcKCKVftagj
+ AlZGkDjvbJK/g0nf23VLGQqP9P0OlbViHPzW/I6w9F1TDKTMime6md50Mt8zraR1R69v
+ +B7w==
+X-Gm-Message-State: AOAM5302+OoKHzfoYbYYHpvyO9473wZMaw2NCsGd1IbFbeB0RA8ehvWB
+ dfCDCsLSVzt44b35U1fQT3viGcEJi4avUg==
+X-Google-Smtp-Source: ABdhPJzWRfeSZCjR545/qCKZRJX8v2lnqoI5Tsk/OcC0RET37RDumfezHIcz6hNlWtazn9j68UQe6g==
+X-Received: by 2002:a5d:47c5:0:b0:1ef:f2e8:11fc with SMTP id
+ o5-20020a5d47c5000000b001eff2e811fcmr8670979wrc.109.1646671640502; 
+ Mon, 07 Mar 2022 08:47:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  v188-20020a1cacc5000000b00384b71a50d5sm13806652wme.24.2022.03.07.08.47.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 08:47:19 -0800 (PST)
+ Mon, 07 Mar 2022 08:47:20 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/18] target/arm/translate-neon: UNDEF if VLD1/VST1 stride
- bits are non-zero
-Date: Mon,  7 Mar 2022 16:47:00 +0000
-Message-Id: <20220307164709.2503250-10-peter.maydell@linaro.org>
+Subject: [PULL 10/18] target/arm/translate-neon: Simplify align field check
+ for VLD3
+Date: Mon,  7 Mar 2022 16:47:01 +0000
+Message-Id: <20220307164709.2503250-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220307164709.2503250-1-peter.maydell@linaro.org>
 References: <20220307164709.2503250-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,39 +93,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For VLD1/VST1 (single element to one lane) we are only accessing one
-register, and so the 'stride' is meaningless.  The bits that would
-specify stride (insn bit [4] for size=1, bit [6] for size=2) are
-specified to be zero in the encoding (which would correspond to a
-stride of 1 for VLD2/VLD3/VLD4 etc), and we must UNDEF if they are
-not.
+For VLD3 (single 3-element structure to one lane), there is no
+alignment specification and the alignment bits in the instruction
+must be zero.  This is bit [4] for the size=0 and size=1 cases, and
+bits [5:4] for the size=2 case.  We do this check correctly in
+VLDST_single(), but we write it a bit oddly: in the 'case 3' code we
+check for bit 0 of a->align (bit [4] of the insn), and then we fall
+through to the 'case 2' code which checks bit 1 of a->align (bit [5]
+of the insn) in the size 2 case.  Replace this with just checking "is
+a->align non-zero" for VLD3, which lets us drop the fall-through and
+put the cases in this switch in numerical order.
 
-We failed to make this check, which meant that we would incorrectly
-handle some instruction patterns as loads or stores instead of
-UNDEFing them. Enforce that stride == 1 for the nregs == 1 case.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/890
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220303113741.2156877-2-peter.maydell@linaro.org
+Message-id: 20220303113741.2156877-3-peter.maydell@linaro.org
 ---
- target/arm/translate-neon.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/arm/translate-neon.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
-index 3854dd35163..072fdc1e6ee 100644
+index 072fdc1e6ee..384604c0095 100644
 --- a/target/arm/translate-neon.c
 +++ b/target/arm/translate-neon.c
-@@ -657,6 +657,9 @@ static bool trans_VLDST_single(DisasContext *s, arg_VLDST_single *a)
-     /* Catch the UNDEF cases. This is unavoidably a bit messy. */
-     switch (nregs) {
-     case 1:
-+        if (a->stride != 1) {
+@@ -665,16 +665,16 @@ static bool trans_VLDST_single(DisasContext *s, arg_VLDST_single *a)
+             return false;
+         }
+         break;
+-    case 3:
+-        if ((a->align & 1) != 0) {
+-            return false;
+-        }
+-        /* fall through */
+     case 2:
+         if (a->size == 2 && (a->align & 2) != 0) {
+             return false;
+         }
+         break;
++    case 3:
++        if (a->align != 0) {
 +            return false;
 +        }
-         if (((a->align & (1 << a->size)) != 0) ||
-             (a->size == 2 && (a->align == 1 || a->align == 2))) {
++        break;
+     case 4:
+         if (a->size == 2 && a->align == 3) {
              return false;
 -- 
 2.25.1
