@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747484D00B5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 15:07:00 +0100 (CET)
-Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 423CE4D00DD
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 15:14:46 +0100 (CET)
+Received: from localhost ([::1]:46060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRE0p-0006u3-Hn
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 09:06:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34646)
+	id 1nRE8L-000564-Ci
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 09:14:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nRDth-0007dI-FM
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:59:39 -0500
-Received: from [2a00:1450:4864:20::52f] (port=38495
- helo=mail-ed1-x52f.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nRDu9-0007mj-Pq
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 09:00:13 -0500
+Received: from [2a00:1450:4864:20::534] (port=37509
+ helo=mail-ed1-x534.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nRDtb-0001DJ-AC
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:59:34 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id h13so7882921ede.5
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 05:59:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nRDu7-0001Ig-UV
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 09:00:05 -0500
+Received: by mail-ed1-x534.google.com with SMTP id q17so20041616edd.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 06:00:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:in-reply-to:references:message-id
  :mime-version:content-transfer-encoding;
- bh=bf+iX2o3O9l2G7SWUG/ZZ8BnGfU63V74IaKm1svboR8=;
- b=kxMfwwMrpcy07JBhKOPWKwAeFJt70aDVoUDnkK8gqw5SG2Jn6sNjh1uAa9SywC6f+u
- +F3Gi1q2I8sGr9DE8paaejOLWmo/QJt56KwjnqfK+hAl69z11uetqffUGT6I1p+MNnKN
- oSIZ8lmKm2NKAiDTi18J1GQilpxgDZztrpxRquT9Tj6ObiUFfJPsAC9WCPvGd/1rplSl
- udgE4z1N5kKTW0Uge+EUxs4+pyOIndMjeO6YCyfaC9MJEmBnklEowfFHv+Qrmmchh7QR
- zFgoHQn5qBri8uNX4NEq03co264yEOFg2AloFxoSghml2L3FrR2EHzeYdATYf9Cpc2s+
- FYaA==
+ bh=ZTaaOmD4U76L+EqcmL8RZj5WpgFMchQzUSXgiP4Zyrs=;
+ b=g4ANE3tp8HmhFxMPSsZgn6vYxLdmuPRitbrqU3wanR8Vz4daUx1mp41LXCMTenqMlj
+ NUlQowJE7QOpEn5iql/0Ncp5/gVHAYdhWZ7h8icAHjbCiCJQsVR51v4rNVedB1UPdpz7
+ 2kWB9TPnVMjkPHPGKRy54pJZTFFQgYjIH0KoKPGPLAUueHq8UsE1QfT6cTBruf1BhG5n
+ XxWPg8qDHh2GUlQYbMrKTRRHbzz10mnlttG7p7oHC5iLqGCSn1xMjm/ZVSogpNqc87E2
+ MeApr4sLRKanZyf/9wCQLZ6VaOlN/bt8JYRmVnt54If7xZunh4+2V2Uf2l9RHCtgA0xe
+ jx9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
  :message-id:mime-version:content-transfer-encoding;
- bh=bf+iX2o3O9l2G7SWUG/ZZ8BnGfU63V74IaKm1svboR8=;
- b=7WBB3H4fDNeRC4sMf5bXfR9yJ88ZixDBcf02pwCA4ZW0s8mq7I1Ar3hY2DXZzs1/zP
- 06/cYxLHCIkisiLt0eoUGWBOjyDCAl8/8rHWiyL307wcJ7elTsZcAaqA7PlFJb4UzH+S
- Yeh9kGDKndSPFDVn56iqeDrE+NGS9jG+8P0yiaoSLB2/OjlPjNYZvcX3AgLYbUhs+rFF
- 5AEWXyva+yty67/3iByx1+GhwDoHmHfmmnUO8CWdvfPZymHT7hnYuNB4wDEXLtAbKPqe
- tNF9UKfQ25/i4tamqxb/Lx13H7aSHUfDsFrAuUyh0UUcNAqqTGVbut/gp0BgfO23wEzD
- VHMg==
-X-Gm-Message-State: AOAM531F6DLR0FVTNTpdXZA2NQiXIrh7e8bC8P9wwMBo+L7EDl1b+D23
- ggBtZ8C3JL/FB0eUt1ySkUUEIcw0X+4=
-X-Google-Smtp-Source: ABdhPJwqoSs/v0vttn6L3zGUuMwi4FaMIvdsH6tR8iaERm/Xkocaluct6bl3QXzXIpQIpTROGrc/7Q==
-X-Received: by 2002:aa7:de0e:0:b0:416:607c:6d45 with SMTP id
- h14-20020aa7de0e000000b00416607c6d45mr1284511edv.127.1646661567286; 
- Mon, 07 Mar 2022 05:59:27 -0800 (PST)
+ bh=ZTaaOmD4U76L+EqcmL8RZj5WpgFMchQzUSXgiP4Zyrs=;
+ b=IgRmSY+h9+iIC7QMEFwPtsD1OIuNkfH7buBg4VlWo6grsI1hmUzCj3pN22/wwrttJy
+ apscN5DSv2ThNBsVA5OjNKS0TyvYf8i12h0lHtBuUiihyX6GbyVKxr+l5dR+cfZYVu1/
+ 0Gi1RY6iqN0zDkF76l0bpsjGPl7Q1NUsHfnvbZvi36mXYnsbABROZ3R3CM0G6hbuJnrg
+ p6C3bjpVwRvTDX1Gx4+kzWWYmDCAGqrqEhidXAiGTqllIb6UynikrZJ0x3w6l4wz55Gc
+ iz17n3JvibWNU8XMP1VgujpnwPCk6EPi0HAcLS1XeGKMYZoWBCdl1GiFd+H9wzm7uhLS
+ DP3g==
+X-Gm-Message-State: AOAM533dt+RDCM3g6SRW5GKgRt8zbe0tw7Mun9p9GFsE2zhfXIoNW4Lm
+ 1fBbuitsmu/3VbOmff6E2fs=
+X-Google-Smtp-Source: ABdhPJw9jFeiotue0nYg88hpdwinyoFxHVtgR4iTjarUQlYtWoJNztbWSjYVjKhZOBdB9rllTRg8zQ==
+X-Received: by 2002:aa7:cd81:0:b0:410:d64e:aa31 with SMTP id
+ x1-20020aa7cd81000000b00410d64eaa31mr11180103edv.167.1646661601420; 
+ Mon, 07 Mar 2022 06:00:01 -0800 (PST)
 Received: from [127.0.0.1] (dynamic-089-012-143-092.89.12.pool.telefonica.de.
  [89.12.143.92]) by smtp.gmail.com with ESMTPSA id
- r14-20020a1709067fce00b006db0edb8a80sm1800063ejs.225.2022.03.07.05.59.26
+ cy1-20020a0564021c8100b003e359e4f54asm6209825edb.43.2022.03.07.06.00.00
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 07 Mar 2022 05:59:26 -0800 (PST)
-Date: Mon, 07 Mar 2022 13:59:24 +0000
+ Mon, 07 Mar 2022 06:00:01 -0800 (PST)
+Date: Mon, 07 Mar 2022 13:59:59 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?=
  <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 09/13] hw/rtc/m48t59-isa: QOM'ify IRQ number
-In-Reply-To: <20220307134353.1950-10-philippe.mathieu.daude@gmail.com>
+Subject: Re: [PATCH 10/13] hw/input/pckbd: QOM'ify IRQ numbers
+In-Reply-To: <20220307134353.1950-11-philippe.mathieu.daude@gmail.com>
 References: <20220307134353.1950-1-philippe.mathieu.daude@gmail.com>
- <20220307134353.1950-10-philippe.mathieu.daude@gmail.com>
-Message-ID: <790C07C7-9301-485E-A7A0-D79DA48C2F89@gmail.com>
+ <20220307134353.1950-11-philippe.mathieu.daude@gmail.com>
+Message-ID: <D94F12FD-7629-44D0-8588-6F9BC6C021D5@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,64 +93,107 @@ Cc: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 7=2E M=C3=A4rz 2022 13:43:49 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+Am 7=2E M=C3=A4rz 2022 13:43:50 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
 philippe=2Emathieu=2Edaude@gmail=2Ecom>:
 >From: Bernhard Beschow <shentey@gmail=2Ecom>
 >
->Exposing the IRQ number as a QOM property not only allows it to be
->configurable but also to be printed by standard QOM mechanisms=2E This al=
-lows
->isabus_dev_print() to be retired eventually=2E
+>Exposing the IRQ numbers as QOM properties not only allows them to be
+>configurable but also to be printed by standard QOM mechanisms=2E This
+>allows isabus_dev_print() to be retired eventually=2E
 >
 >Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
 >Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
->Message-Id: <20220301220037=2E76555-3-shentey@gmail=2Ecom>
+>Message-Id: <20220301220037=2E76555-4-shentey@gmail=2Ecom>
 >Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
 >---
-> hw/rtc/m48t59-isa=2Ec | 9 ++++++++-
-> 1 file changed, 8 insertions(+), 1 deletion(-)
+> hw/input/pckbd=2Ec | 26 ++++++++++++++++++++++----
+> 1 file changed, 22 insertions(+), 4 deletions(-)
 >
->diff --git a/hw/rtc/m48t59-isa=2Ec b/hw/rtc/m48t59-isa=2Ec
->index dc21fb10a5=2E=2Ee9086eada4 100644
->--- a/hw/rtc/m48t59-isa=2Ec
->+++ b/hw/rtc/m48t59-isa=2Ec
->@@ -42,6 +42,7 @@ struct M48txxISAState {
->     ISADevice parent_obj;
->     M48t59State state;
->     uint32_t io_base;
->+    uint8_t isairq;
->     MemoryRegion io;
+>diff --git a/hw/input/pckbd=2Ec b/hw/input/pckbd=2Ec
+>index baba62f357=2E=2Eeb77e12f6f 100644
+>--- a/hw/input/pckbd=2Ec
+>+++ b/hw/input/pckbd=2Ec
+>@@ -26,6 +26,7 @@
+> #include "qemu/error-report=2Eh"
+> #include "qemu/log=2Eh"
+> #include "qemu/timer=2Eh"
+>+#include "qapi/error=2Eh"
+> #include "hw/isa/isa=2Eh"
+> #include "migration/vmstate=2Eh"
+> #include "hw/acpi/aml-build=2Eh"
+>@@ -671,6 +672,8 @@ struct ISAKBDState {
+>     KBDState kbd;
+>     bool kbd_throttle;
+>     MemoryRegion io[2];
+>+    uint8_t kbd_irq;
+>+    uint8_t mouse_irq;
 > };
 >=20
->@@ -79,6 +80,7 @@ static void m48txx_isa_toggle_lock(Nvram *obj, int lock=
-)
-> static Property m48t59_isa_properties[] =3D {
->     DEFINE_PROP_INT32("base-year", M48txxISAState, state=2Ebase_year, 0)=
-,
->     DEFINE_PROP_UINT32("iobase", M48txxISAState, io_base, 0x74),
->+    DEFINE_PROP_UINT8("irq", M48txxISAState, isairq, 8),
->     DEFINE_PROP_END_OF_LIST(),
-> };
+> void i8042_isa_mouse_fake_event(ISAKBDState *isa)
+>@@ -734,8 +737,20 @@ static void i8042_realizefn(DeviceState *dev, Error =
+**errp)
+>     ISAKBDState *isa_s =3D I8042(dev);
+>     KBDState *s =3D &isa_s->kbd;
 >=20
->@@ -97,9 +99,14 @@ static void m48t59_isa_realize(DeviceState *dev, Error=
- **errp)
->     M48txxISAState *d =3D M48TXX_ISA(dev);
->     M48t59State *s =3D &d->state;
->=20
->+    if (d->isairq >=3D ISA_NUM_IRQS) {
->+        error_setg(errp, "Maximum value for \"irq\" is: %u", ISA_NUM_IRQ=
-S - 1);
+>-    isa_init_irq(isadev, &s->irq_kbd, 1);
+>-    isa_init_irq(isadev, &s->irq_mouse, 12);
+>+    if (isa_s->kbd_irq >=3D ISA_NUM_IRQS) {
+>+        error_setg(errp, "Maximum value for \"kbd-irq\" is: %u",
+>+                   ISA_NUM_IRQS - 1);
 >+        return;
 >+    }
 >+
->     s->model =3D u->info=2Emodel;
->     s->size =3D u->info=2Esize;
->-    isa_init_irq(isadev, &s->IRQ, 8);
->+    isa_init_irq(isadev, &s->IRQ, d->isairq);
->     m48t59_realize_common(s, errp);
->     memory_region_init_io(&d->io, OBJECT(dev), &m48t59_io_ops, s, "m48t5=
-9", 4);
->     if (d->io_base !=3D 0) {
+>+    if (isa_s->mouse_irq >=3D ISA_NUM_IRQS) {
+>+        error_setg(errp, "Maximum value for \"mouse-irq\" is: %u",
+>+                   ISA_NUM_IRQS - 1);
+>+        return;
+>+    }
+>+
+>+    isa_init_irq(isadev, &s->irq_kbd, isa_s->kbd_irq);
+>+    isa_init_irq(isadev, &s->irq_mouse, isa_s->mouse_irq);
+>=20
+>     isa_register_ioport(isadev, isa_s->io + 0, 0x60);
+>     isa_register_ioport(isadev, isa_s->io + 1, 0x64);
+>@@ -754,6 +769,7 @@ static void i8042_realizefn(DeviceState *dev, Error *=
+*errp)
+>=20
+> static void i8042_build_aml(ISADevice *isadev, Aml *scope)
+> {
+>+    ISAKBDState *isa_s =3D I8042(isadev);
+>     Aml *kbd;
+>     Aml *mou;
+>     Aml *crs;
+>@@ -761,7 +777,7 @@ static void i8042_build_aml(ISADevice *isadev, Aml *s=
+cope)
+>     crs =3D aml_resource_template();
+>     aml_append(crs, aml_io(AML_DECODE16, 0x0060, 0x0060, 0x01, 0x01));
+>     aml_append(crs, aml_io(AML_DECODE16, 0x0064, 0x0064, 0x01, 0x01));
+>-    aml_append(crs, aml_irq_no_flags(1));
+>+    aml_append(crs, aml_irq_no_flags(isa_s->kbd_irq));
+>=20
+>     kbd =3D aml_device("KBD");
+>     aml_append(kbd, aml_name_decl("_HID", aml_eisaid("PNP0303")));
+>@@ -769,7 +785,7 @@ static void i8042_build_aml(ISADevice *isadev, Aml *s=
+cope)
+>     aml_append(kbd, aml_name_decl("_CRS", crs));
+>=20
+>     crs =3D aml_resource_template();
+>-    aml_append(crs, aml_irq_no_flags(12));
+>+    aml_append(crs, aml_irq_no_flags(isa_s->mouse_irq));
+>=20
+>     mou =3D aml_device("MOU");
+>     aml_append(mou, aml_name_decl("_HID", aml_eisaid("PNP0F13")));
+>@@ -783,6 +799,8 @@ static void i8042_build_aml(ISADevice *isadev, Aml *s=
+cope)
+> static Property i8042_properties[] =3D {
+>     DEFINE_PROP_BOOL("extended-state", ISAKBDState, kbd=2Eextended_state=
+, true),
+>     DEFINE_PROP_BOOL("kbd-throttle", ISAKBDState, kbd_throttle, false),
+>+    DEFINE_PROP_UINT8("kbd-irq", ISAKBDState, kbd_irq, 1),
+>+    DEFINE_PROP_UINT8("mouse-irq", ISAKBDState, mouse_irq, 12),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
+>=20
 
 Reviewed-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
