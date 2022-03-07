@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4BD4D0B92
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:58:46 +0100 (CET)
-Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A41E24D0B7D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:52:38 +0100 (CET)
+Received: from localhost ([::1]:39848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRMJS-0000l2-1d
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:58:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52724)
+	id 1nRMDV-0003LI-OD
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:52:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6T-0006FG-Kw
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60677)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6f-0006pD-7U
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6S-0005TU-30
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:21 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6d-0005Wk-K7
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693119;
+ s=mimecast20190719; t=1646693131;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XiwXEThr1SLQJqLQ68T7zcCUyaMzcHqcL8oJCLXsU/A=;
- b=CSSGy1frmrossNBQm+UoblqAcJlljwXg7n11YnSHTf/EJbSgLnz4dmm9Zuxgf7PxVty8ar
- QxjdGqGWWaLbFeytVTyqMvNYsBmkm0kqCedH56527wi2qOe/S+1us+lw0HWxnljVmBrnSM
- P5NIye+XgODwgCrZtOVlRz1USoGlVRk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xIYTx9xMPVdCirDAB9Y8FCSD6kEXvGl7DGfbZeP6K2A=;
+ b=TnfS0Q/HlR03IbD/nIuSBC+bLxoHpWBozJwBFoRSDRFtRBoWGfgJHRlw2qczKYqFJ3PC9j
+ NhKVBvI1CL6xC3CX2e2xCTF/Mk85qloWOJkdTsHgTETkS2Lc7Ywla5oh8jxDNOfvcwiIhX
+ fCfIvjpIQqsVUaNZBoLoE8mXxwvFhXc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-kiVZolHiN9a5z7dKPrjRkg-1; Mon, 07 Mar 2022 17:45:18 -0500
-X-MC-Unique: kiVZolHiN9a5z7dKPrjRkg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- w17-20020adfec51000000b001f068bc3342so2735709wrn.6
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:18 -0800 (PST)
+ us-mta-64-WiBOVI5cNQG66HhlUXbQxw-1; Mon, 07 Mar 2022 17:45:30 -0500
+X-MC-Unique: WiBOVI5cNQG66HhlUXbQxw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l2-20020a1ced02000000b0038482a47e7eso253375wmh.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XiwXEThr1SLQJqLQ68T7zcCUyaMzcHqcL8oJCLXsU/A=;
- b=qORBpoGqHKe8XdcrrQqYG/mZpQ9Za+s1mt6am1N1ZCu3giDzIFWp9bCK8zAxJioQzb
- TUnczpgu0/UfLTquVMQ9zGULvZ2yFPJ85kW8XvW3Xyh6HPZL21+oH6+2rr5th3BIJp/+
- 6jt2sCqmwcDQtKptvRl3W+he/UeZE/oYbxppGFI9K9bLnP6LifciCuzSAOkzVL46CapC
- GsyZ0xnp157UhZxaZBBaRoPjce84Lo7gJmWu9XbwrgEhOskCzU2Q/UAOoZ/Pqx3gnY1h
- H///+2lpVuCzttC12vlPJrv25407//+su3cE/55caJlc5XrwYZjZTpvq2VGFVCFpYDYs
- zU9w==
-X-Gm-Message-State: AOAM532xrevDgZav2ufOJlI5ko+QW6GKdi5XkipzUSwF51HOZFYQrsD2
- aXKjC3M5z9Ga5Fp4eB4LiIeIc36CFic9siT/L/rf3MgsJOW6oinVTAfORWYZIdy79dOdbPhSk7S
- CVZiL2rWiu0CLOOnizCem3p5kZTe9r7rgzkASrT4D4xEd8hz3ijtd3N1ew627
-X-Received: by 2002:adf:a109:0:b0:1ed:c2bd:8a57 with SMTP id
- o9-20020adfa109000000b001edc2bd8a57mr9792491wro.612.1646693116934; 
- Mon, 07 Mar 2022 14:45:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzvm61ZXnHOtG+Ro6jtOZO7HiSpPcytwU0cNM0e0fFCDGODMEr8VPkYCouAf0/nzXhqMDNQ5Q==
-X-Received: by 2002:adf:a109:0:b0:1ed:c2bd:8a57 with SMTP id
- o9-20020adfa109000000b001edc2bd8a57mr9792475wro.612.1646693116633; 
- Mon, 07 Mar 2022 14:45:16 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=xIYTx9xMPVdCirDAB9Y8FCSD6kEXvGl7DGfbZeP6K2A=;
+ b=H6YR2w3Wgde2KoUgAHznMjwwi+T0O/3wvhfQm67wUIvnVfQ8ZJl7OUtaFQZryFXIue
+ RLgFlN3YlD7ih7ZgRZZ1ph7cHnQqHG26XRbtr3k6maOxvwDFlIfL5lVNI8Ux5pfTz60S
+ Zoepciq5/IKQV88w79DljBlKyKKF9sFWg8J+NDZizoT//6y08HmVISjMhwzkk09aE7Z0
+ N7ytPJGc6l0pKhipsxOZkCEZCBUIGGjSN0R+c4UlAQLB9Shm+ESu66wl0ADn1OjmAQUt
+ yc3eYaTRmRkJKfd/yyT+MT28QaA4/XhhLdFpd7/Dn/D6s0L58QGejBVJElCd8PYjudfv
+ IqXg==
+X-Gm-Message-State: AOAM5327guA4FvUF2oEbk4LWrPjSiiw45XYNVjcj2MpyxkT8fKpRbgkK
+ pMDH2rIommedf0d6U/2e2O+pN48GzjHXlgNV1eSDUE5Hqk8qi1r7SjbmXJ1XZ2GLGdOVU3fYs01
+ PwmGg4zp2IG4SpmhPG2yn8MFdV0qXWdt5eae9OVG/gKW6y3oeM7UYz2RW3a+7
+X-Received: by 2002:a05:600c:35c2:b0:381:6cbc:7192 with SMTP id
+ r2-20020a05600c35c200b003816cbc7192mr951580wmq.146.1646693128482; 
+ Mon, 07 Mar 2022 14:45:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyLZMrYquLUbkvA4xH+9Jdo8NpUQ7WKVr81Or7BxvARLeiHifTUfmd2fhD30uMd+W67/4qodg==
+X-Received: by 2002:a05:600c:35c2:b0:381:6cbc:7192 with SMTP id
+ r2-20020a05600c35c200b003816cbc7192mr951561wmq.146.1646693128262; 
+ Mon, 07 Mar 2022 14:45:28 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- q23-20020a1cf317000000b003815206a638sm516801wmq.15.2022.03.07.14.45.15
+ s2-20020a1cf202000000b0038977146b28sm523742wmc.18.2022.03.07.14.45.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:45:16 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:45:14 -0500
+ Mon, 07 Mar 2022 14:45:27 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:45:24 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 14/47] vhost-vdpa: make notifiers _init()/_uninit() symmetric
-Message-ID: <20220307224357.682101-15-mst@redhat.com>
+Subject: [PULL v4 17/47] hw/i386: Replace magic number with field length
+ calculation
+Message-ID: <20220307224357.682101-18-mst@redhat.com>
 References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
@@ -73,9 +76,10 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -97,79 +101,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, jasowang@redhat.com,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
 
-vhost_vdpa_host_notifiers_init() initializes queue notifiers
-for queues "dev->vq_index" to queue "dev->vq_index + dev->nvqs",
-whereas vhost_vdpa_host_notifiers_uninit() uninitializes the
-same notifiers for queue "0" to queue "dev->nvqs".
+Replce the literal magic number 48 with length calculation (32 bytes at
+the end of the firmware after the table footer + 16 bytes of the OVMF
+table footer GUID).
 
-This asymmetry seems buggy, fix that by using dev->vq_index
-as the base for both.
+No functional change intended.
 
-Fixes: d0416d487bd5 ("vhost-vdpa: map virtqueue notification area if possible")
-Cc: jasowang@redhat.com
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20220211161309.1385839-1-lvivier@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+Message-Id: <20220222071906.2632426-3-dovmurik@linux.ibm.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ hw/i386/pc_sysfw_ovmf.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 11f696468d..6c67d5f034 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -395,15 +395,6 @@ static void vhost_vdpa_host_notifier_uninit(struct vhost_dev *dev,
+diff --git a/hw/i386/pc_sysfw_ovmf.c b/hw/i386/pc_sysfw_ovmf.c
+index df15c9737b..07a4c267fa 100644
+--- a/hw/i386/pc_sysfw_ovmf.c
++++ b/hw/i386/pc_sysfw_ovmf.c
+@@ -30,6 +30,8 @@
+ 
+ #define OVMF_TABLE_FOOTER_GUID "96b582de-1fb2-45f7-baea-a366c55a082d"
+ 
++static const int bytes_after_table_footer = 32;
++
+ static bool ovmf_flash_parsed;
+ static uint8_t *ovmf_table;
+ static int ovmf_table_len;
+@@ -53,12 +55,13 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
+ 
+     /*
+      * if this is OVMF there will be a table footer
+-     * guid 48 bytes before the end of the flash file.  If it's
+-     * not found, silently abort the flash parsing.
++     * guid 48 bytes before the end of the flash file
++     * (= 32 bytes after the table + 16 bytes the GUID itself).
++     * If it's not found, silently abort the flash parsing.
+      */
+     qemu_uuid_parse(OVMF_TABLE_FOOTER_GUID, &guid);
+     guid = qemu_uuid_bswap(guid); /* guids are LE */
+-    ptr = flash_ptr + flash_size - 48;
++    ptr = flash_ptr + flash_size - (bytes_after_table_footer + sizeof(guid));
+     if (!qemu_uuid_is_equal((QemuUUID *)ptr, &guid)) {
+         return;
      }
- }
- 
--static void vhost_vdpa_host_notifiers_uninit(struct vhost_dev *dev, int n)
--{
--    int i;
--
--    for (i = 0; i < n; i++) {
--        vhost_vdpa_host_notifier_uninit(dev, i);
--    }
--}
--
- static int vhost_vdpa_host_notifier_init(struct vhost_dev *dev, int queue_index)
- {
-     size_t page_size = qemu_real_host_page_size;
-@@ -443,6 +434,15 @@ err:
-     return -1;
- }
- 
-+static void vhost_vdpa_host_notifiers_uninit(struct vhost_dev *dev, int n)
-+{
-+    int i;
-+
-+    for (i = dev->vq_index; i < dev->vq_index + n; i++) {
-+        vhost_vdpa_host_notifier_uninit(dev, i);
-+    }
-+}
-+
- static void vhost_vdpa_host_notifiers_init(struct vhost_dev *dev)
- {
-     int i;
-@@ -456,7 +456,7 @@ static void vhost_vdpa_host_notifiers_init(struct vhost_dev *dev)
-     return;
- 
- err:
--    vhost_vdpa_host_notifiers_uninit(dev, i);
-+    vhost_vdpa_host_notifiers_uninit(dev, i - dev->vq_index);
-     return;
- }
- 
 -- 
 MST
 
