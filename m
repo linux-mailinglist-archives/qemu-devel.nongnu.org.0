@@ -2,89 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA1E4CFE74
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:27:40 +0100 (CET)
-Received: from localhost ([::1]:51966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99B54CFE73
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:27:37 +0100 (CET)
+Received: from localhost ([::1]:51860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCSh-0006zh-EK
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:27:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38278)
+	id 1nRCSe-0006vI-To
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:27:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nRCPM-0000G4-OU
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:24:12 -0500
-Received: from [2607:f8b0:4864:20::631] (port=36643
- helo=mail-pl1-x631.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nRCPL-00010X-31
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:24:12 -0500
-Received: by mail-pl1-x631.google.com with SMTP id e13so13607979plh.3
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 04:24:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=1lOwkrNNKUEXYo5Ub///6FCTaDaRoMXW7acsQg9w/Jk=;
- b=E4vzIuGQugzp5WPvINWSCMBWt96xnoDkeYooAdvdr2C4dMaJBuGfo3PeiwVLzWQwsl
- Jz9BZV/vggkxaU2RGv6skZY8mU9+A6epmoD0TjpCBANqJi84azTNGXgqWfRjhGvJo9Pw
- BtZh4k1E0p8saLJy90YHZVYDAVI3SIi5BS7PJOBol3XrHxvbkBgLGo/+DnCQv+uBCaLd
- bTYI1ISN5BTR36cZ/H3GUsGnFT2G1znwWDk9waA65q2uapQrtCxsk3uaGtloXTTxr4Az
- EAQWMiZQ6rVCdzM1z62w/z0QNCHlBrSDeOFnKB/GNuXPsoBSvJrCM23S4KEux2w7d8Gv
- hYgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1lOwkrNNKUEXYo5Ub///6FCTaDaRoMXW7acsQg9w/Jk=;
- b=bEamXd/tM6Yv+d7jha8OitbiBnaj9rCa7ujZ+oISt/k7KN3M6R1N+XUZ5M/ak3RGGR
- aogfODpPlzsHn81Tv78YTi5hD+2KAlyeU//4C6WittGwh5hMamnfouzG+J6iEVqjUWF2
- WRWpPLY3t5ZWhNiUfRTRa6ep7KX4cN+SmcGo5R9VA9Zg0Ae9yj0OvAJKEtqlEpTmdVYJ
- nM3vKbrBwUe1P7dH7Sgyh0LtjGH1Kmu4AZfMAroBndrDl2+c7C8S5aecouUk6lKsqJw9
- IV06iZT8Ak2UY4S7hlZKb6ERtynmfnXcYPykuEJDxujBI3q21t6O5M8SFutmYXW/r23I
- bduA==
-X-Gm-Message-State: AOAM5319TYd0kybPHRbIJvht0zjb0vessU8bk7trMpz7+H99bbnRbfjC
- 5EsKQekW8R6z1M7sKkOxJE8=
-X-Google-Smtp-Source: ABdhPJyT2fmCW6PGCCe3TJckPOd8TnUKz8ErixlORxYcmhoNRAh6iXGOt+p/35LpHzwhCikgr4ffZA==
-X-Received: by 2002:a17:90a:c6:b0:1bc:c0be:4696 with SMTP id
- v6-20020a17090a00c600b001bcc0be4696mr25082891pjd.7.1646655843750; 
- Mon, 07 Mar 2022 04:24:03 -0800 (PST)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- 1-20020a17090a1a0100b001bf3ba1508fsm7559103pjk.33.2022.03.07.04.24.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 04:24:03 -0800 (PST)
-Message-ID: <d7df9ba7-40db-7b2a-63d7-eacf811da4f2@gmail.com>
-Date: Mon, 7 Mar 2022 21:24:00 +0900
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nRCQr-0003VY-Hb
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:25:46 -0500
+Received: from [2001:738:2001:2001::2001] (port=47327 helo=zero.eik.bme.hu)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1nRCQn-0001Nu-Sv
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:25:44 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0020A745958;
+ Mon,  7 Mar 2022 13:25:36 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id D0AC974581A; Mon,  7 Mar 2022 13:25:36 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id CE86574579D;
+ Mon,  7 Mar 2022 13:25:36 +0100 (CET)
+Date: Mon, 7 Mar 2022 13:25:36 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH 2/2] ui/cocoa: add option to swap Option and Command
+In-Reply-To: <4c171d81-576f-e2ff-787f-9b9744f79013@gmail.com>
+Message-ID: <d459463b-c093-8a57-278-ef85c8fa464@eik.bme.hu>
+References: <20220306111114.18285-1-akihiko.odaki@gmail.com>
+ <20220306111114.18285-3-akihiko.odaki@gmail.com>
+ <a2a389c-b253-133b-9415-ecc5a352c2e@eik.bme.hu> <87lexmw7t8.fsf@pond.sub.org>
+ <4c171d81-576f-e2ff-787f-9b9744f79013@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
- current scanout is GL
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
- <20220307074632.238049-13-marcandre.lureau@redhat.com>
- <c80fde18-bb3e-e780-356c-f935e7390e4d@gmail.com>
- <CAMxuvaw_QT4wEGLZRNJEd1m-58JV-8AOc6CHKkMw4i_yrVNgew@mail.gmail.com>
- <28ef9b06-3225-112f-b664-176e67c824d9@gmail.com>
- <CAMxuvaz3+ySgiOxawVT=P7x4ikDcap0o5Ux78_HdewL0XXa5Kg@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <CAMxuvaz3+ySgiOxawVT=P7x4ikDcap0o5Ux78_HdewL0XXa5Kg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:738:2001:2001::2001
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,66 +62,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Gustavo Noronha Silva <gustavo@noronha.dev.br>, Eric Blake <eblake@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/03/07 20:50, Marc-André Lureau wrote:
-> Hi
-> 
-> On Mon, Mar 7, 2022 at 2:35 PM Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->>
->> On 2022/03/07 19:19, Marc-André Lureau wrote:
->>> Hi Akihiko
->>>
->>> On Mon, Mar 7, 2022 at 12:09 PM Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->>>>
->>>> On 2022/03/07 16:46, marcandre.lureau@redhat.com wrote:
->>>>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
->>>>>
->>>>> egl-headless depends on the backing surface to be set before texture are
->>>>> set and updated. Display it (update=true) iff the current scanout kind
->>>>> is SURFACE.
->>>>
->>>> egl-headless does not dynamically call register_displaychangelistener
->>>> and has console associated (console_select would not affect egl-headless
->>>> itself) so this should not be necessary.
->>>
->>> Could you help me understand, what should not be necessary?
->>
->> I read the description as it sets the backing surface for egl-headless
->> when register_displaychangelistener or console_select is called. The
->> change is not necessary.
-> 
-> Without it, gfx_switch is not called to set the new surface. Switching
-> console with VNC would fail (via ctrl+alt+num).
+On Mon, 7 Mar 2022, Akihiko Odaki wrote:
+> On 2022/03/07 16:17, Markus Armbruster wrote:
+>> BALATON Zoltan <balaton@eik.bme.hu> writes:
+>> 
+>>> On Sun, 6 Mar 2022, Akihiko Odaki wrote:
+>>>> From: Gustavo Noronha Silva <gustavo@noronha.dev.br>
+>>>> 
+>>>> On Mac OS X the Option key maps to Alt and Command to Super/Meta. This 
+>>>> change
+>>>> swaps them around so that Alt is the key closer to the space bar and 
+>>>> Meta/Super
+>>>> is between Control and Alt, like on non-Mac keyboards.
+>>>> 
+>>>> It is a cocoa display option, disabled by default.
+>>>> 
+>>>> Acked-by: Markus Armbruster <armbru@redhat.com>
+>>>> Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.dev.br>
+>>>> Message-Id: <20210713213200.2547-3-gustavo@noronha.dev.br>
+>>>> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+>>>> ---
+>>>> qapi/ui.json    |  8 ++++++-
+>>>> qemu-options.hx |  3 ++-
+>>>> ui/cocoa.m      | 64 ++++++++++++++++++++++++++++++++++++++++++-------
+>>>> 3 files changed, 65 insertions(+), 10 deletions(-)
+>>>> 
+>>>> diff --git a/qapi/ui.json b/qapi/ui.json
+>>>> index 1e9893419fe..b082e1a7dee 100644
+>>>> --- a/qapi/ui.json
+>>>> +++ b/qapi/ui.json
+>>>> @@ -1270,10 +1270,16 @@
+>>>> #             a global grab on key events. (default: off)
+>>>> #             See 
+>>>> https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+>>>> #
+>>>> +# @swap-option-command: Swap the Option and Command keys so that their 
+>>>> key
+>>>> +#                       codes match their position on non-Mac keyboards 
+>>>> and
+>>>> +#                       you can use Meta/Super and Alt where you expect 
+>>>> them.
+>>>> +#                       (default: off)
+>>>> +#
+>>>> # Since: 6.1
+>>>> ##
+>>>> { 'struct'  : 'DisplayCocoa',
+>>>> -  'data'    : { '*full-grab'     : 'bool' } }
+>>>> +  'data'    : { '*full-grab'           : 'bool',
+>>>> +                '*swap-option-command' : 'bool' } }
+>>> 
+>>> This option name is too long to type. Could we abbreviate it somehow?
+>> 
+>> We've largely avoided abbreviations in the QAPI schema, for better or
+>> worse.
 
-Yes, but that is not because egl-headless requires its dpy_gfx_switch to 
-be called. It is because vnc does not receive the surface. The patch 
-adds a call of dpy_gfx_switch no matter if the receiver is an OpenGL 
-display or not, but an OpenGL display would not need one.
+There are already some abreviated options in this file and since users 
+will need to use it to switch this on it's better to have something that 
+can be typed without too much hassle and result in a command that still 
+fits in a window...
 
-> 
->>
->>>
->>>> The remaining problem with egl-headless is that egl-headless renders the
->>>> image to DisplaySurface, and a non-OpenGL display (namely vnc) has to
->>>> consume it instead of texture even when con->scanout.kind is
->>>> SCANOUT_TEXTURE or SCANOUT_DMABUF.
->>>
->>> This is already happening, because egl-headless calls dpy_gfx_update().
->>
->> It is not called when register_displaychangelistener or console_select
->> is called by non-OpenGL display consuming the DisplaySurface.
-> 
-> When displaychangelistener_display_console() is called with
-> con->scanount.kind == SCANOUT_SURFACE, it calls gfx_update(update ==
-> TRUE), and thus calls gfx_update on the whole surface.
-> 
+>>> Like swap-opt-cmd or swap-alt-meta?
+>> 
+>> We should stick to how the keys are generally called on this platform.
+>> I can't say (I'm not using it).
+>> 
+>
+> The patch series is now in:
+> https://patchew.org/QEMU/20220306231753.50277-1-philippe.mathieu.daude@gmail.com/
+>
+> It uses swap-opt-cmd for the name. Please reply to the series if it is 
+> problematic.
 
-con->scanout.kind is SCANOUT_TEXTURE or SCANOUT_DMABUF when egl-headless 
-is rendering to surface. It would not call gfx_update in the case.
+The more common name for these keys on macOS is option and command 
+although the opt key sometimes also has alt written on it and the code 
+seems to use meta instead of command but I think swap-opt-cmd is simple 
+and clear so unless it's mandatory to have very long options that's not 
+practical for users I'd go with swap-opt-cmd (which is what's in the last 
+patch from Philippe so it should be OK).
 
 Regards,
-Akihiko Odaki
+BALATON Zoltan
 
