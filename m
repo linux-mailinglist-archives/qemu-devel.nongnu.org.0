@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAE64D0695
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:31:34 +0100 (CET)
-Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE8D4D069D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:33:41 +0100 (CET)
+Received: from localhost ([::1]:37412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRI8r-00070P-Fj
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:31:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55484)
+	id 1nRIAu-00047A-N8
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:33:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHuk-0001GK-Tg
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:58 -0500
-Received: from [2a00:1450:4864:20::532] (port=46710
- helo=mail-ed1-x532.google.com)
+ id 1nRHul-0001II-M1
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:59 -0500
+Received: from [2a00:1450:4864:20::633] (port=46894
+ helo=mail-ej1-x633.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHuf-0005OM-2P
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:58 -0500
-Received: by mail-ed1-x532.google.com with SMTP id y12so1429790edc.13
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:52 -0800 (PST)
+ id 1nRHuf-0005OY-SI
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:59 -0500
+Received: by mail-ej1-x633.google.com with SMTP id qx21so33792534ejb.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZfOpyFRoufciIywj58YNuToW8FcorvQ7w95GMuMr8Iw=;
- b=DuiOKZ/wBafdC6eTxaKfZ/L3x4BKXxd4qPPoZT310+Rf0aqL8T+BOsnHx3qXwUOt9i
- zcPlJuJyLZG7kJUebINv17/Vmzj/qItdZFbd8eSGaerb/tylud7H6fRlSkiee+F59uK9
- zyiOE+GUkAV1CbMZCdTovrgSOHwVwkMTldts6AsEivn2cnkj4BF27G1WRSXOsEVXsMW9
- FzY3hT3mPdbZnqYGYYi7ik/7jqRbyDLNRzwPQH+MiNqh5MwPI/U0AQX2UAZgUNjeyhyi
- gWwwACaZKq5OI9MaimHPJ5S8rkMwJoCovdfL3lAR8csZsygrMZrdELfsqFgI0GNwZoWF
- 18mA==
+ bh=vbENdtqNo7P6LUkUy9opFFE8Xsb+w0xvUOKfrIByXG0=;
+ b=oYM4OFgVuyvqCaD8iwmVmYNwwSmbms2RD4Eq8AWdOve95q7JhzE5ifYau1qDxdy1ej
+ V1cOIegbyuEXV8YRtk1Wq+4stxXggmHvnNfdNhLowQ7Pgw1/C+Cp1ZFOSdVd7MU4UHS1
+ ew24Tk0DH1dehQOBfCW2xS/GoHXO54SsBQI/yB1/+GfCkEtFfiJWj7qjRXyhJ6FN51t0
+ sFTmZqclAVtI1Bq8uGzjTQ7c1+xEky83lu/huC/CB7LPdtSBxhmVos4NR8I8vdINfk/B
+ E8Dvc6WKu8WNWtmW+XLacb6UalQzx8t8bL6fZoMQTs0HchihVXP+nyMApR5JLSzJVC7e
+ libQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZfOpyFRoufciIywj58YNuToW8FcorvQ7w95GMuMr8Iw=;
- b=N17fZs5ErpAmUSOEeGu7UzLW4x5z1PvPo6f95rt7rIEI6P8WoR87z73YSACw8ipBXa
- yWfJK6BRcLj8yDLLxd4Rlz1UtSMOmuzylDGfQMclTz6S/hunAQEmARfo2GKHiwo2zBsE
- ThhRMABxWqX/c7IrXR/7R6Snz0Zva/oyeZWl9whQZt//TT/FR3Rhz9ieWhE0okojEXkt
- KgGQL+BFpr6IDd2OmZvzzSNy6Fua7J26BfHXV0+NmLOvpeUwc3RefVqX1txfQPpdZvvQ
- cVhuKnzSED9dAOVfQJGDAWDVR0y49z5lxiS6V1y8OawNhXkRT+v/oasz7kcxeOwU49ru
- LCxw==
-X-Gm-Message-State: AOAM531R+lg5EQ87TU2ws+D80Zx0vuV8eUe8Q+RJBxoRH5USdYZ4YkQo
- 4x7YB7p42uP7oBOSsFd0wK3u3RORDJc=
-X-Google-Smtp-Source: ABdhPJyuSrLX6Hr+Mm+n7wALN3Tbt5JGNZxnwqcpPFq4mmUjdf0LGCTeSUID/Z1Jw1NoRSomOApcvA==
-X-Received: by 2002:aa7:cac8:0:b0:410:cc6c:6512 with SMTP id
- l8-20020aa7cac8000000b00410cc6c6512mr12407748edt.408.1646677011743; 
- Mon, 07 Mar 2022 10:16:51 -0800 (PST)
+ bh=vbENdtqNo7P6LUkUy9opFFE8Xsb+w0xvUOKfrIByXG0=;
+ b=I1HnYCKCOAt2JYJNbwsP9ZQ7Krz2neIN3Um7j/gLC44Qn05cX3kko/u+vPFYqNY3GJ
+ kaBH84rFkPOmZjQlbLt7Ko1pdOkOtKYTYA5odBsDMTR/vvjfsygrrQyrEBqQzl26G+Of
+ lC2eEPJpW9XMDLlvcdk+2bdjCQmyyrgO/zCE7qT5lQnVjwC6a/oIsPDZc6Fu03bYwVZd
+ pldML+8Al3FDlyHnuJLrHBmey58lTG7JvlHilupmiBtGrWgwPnXEAtaXGuSuvFbG2zxL
+ sm/63+kgHnrEaevjX6jUgUB4iBo0k9rWOtK5mifE/Ll9iEdLcEuAtnMGZV1MjA/bkEeH
+ 6LIA==
+X-Gm-Message-State: AOAM533x8M4ADxpohBCafn6L8KS09JrnvpTwcyRInM+C+DFlgz5yyn10
+ 7zX/8yQ+LNAQdMxmDAByIojI+MGFQHA=
+X-Google-Smtp-Source: ABdhPJwq0ys+qnMwy5y/DftGa5hdsCclsri41DAxZS6JKSlajiiDAjgvn/itjt5/t4sX/5mLHHCqwQ==
+X-Received: by 2002:a17:907:c16:b0:6da:7d72:1357 with SMTP id
+ ga22-20020a1709070c1600b006da7d721357mr9985820ejc.251.1646677012657; 
+ Mon, 07 Mar 2022 10:16:52 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
  d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 10:16:51 -0800 (PST)
+ Mon, 07 Mar 2022 10:16:52 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/23] i386: Add Icelake-Server-v6 CPU model with 5-level EPT
- support
-Date: Mon,  7 Mar 2022 19:16:30 +0100
-Message-Id: <20220307181633.596898-21-pbonzini@redhat.com>
+Subject: [PULL 21/23] KVM: SVM: always set MSR_AMD64_TSC_RATIO to default value
+Date: Mon,  7 Mar 2022 19:16:31 +0100
+Message-Id: <20220307181633.596898-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307181633.596898-1-pbonzini@redhat.com>
 References: <20220307181633.596898-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -90,44 +89,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-Windows 11 with WSL2 enabled (Hyper-V) fails to boot with Icelake-Server
-{-v5} CPU model but boots well with '-cpu host'. Apparently, it expects
-5-level paging and 5-level EPT support to come in pair but QEMU's
-Icelake-Server CPU model lacks the later. Introduce 'Icelake-Server-v6'
-CPU model with 'vmx-page-walk-5' enabled by default.
+Even when the feature is not supported in guest CPUID,
+still set the msr to the default value which will
+be the only value KVM will accept in this case
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Message-Id: <20220221145316.576138-1-vkuznets@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Message-Id: <20220223115824.319821-1-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/i386/cpu.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 351a1e4f2a..916d3354fe 100644
+index 916d3354fe..a88d6554c8 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -3526,6 +3526,14 @@ static const X86CPUDefinition builtin_x86_defs[] = {
-                     { /* end of list */ }
-                 },
-             },
-+            {
-+                .version = 6,
-+                .note = "5-level EPT",
-+                .props = (PropValue[]) {
-+                    { "vmx-page-walk-5", "on" },
-+                    { /* end of list */ }
-+                },
-+            },
-             { /* end of list */ }
-         }
-     },
+@@ -5997,9 +5997,7 @@ static void x86_cpu_reset(DeviceState *dev)
+ 
+     x86_cpu_set_sgxlepubkeyhash(env);
+ 
+-    if (env->features[FEAT_SVM] & CPUID_SVM_TSCSCALE) {
+-        env->amd_tsc_scale_msr =  MSR_AMD64_TSC_RATIO_DEFAULT;
+-    }
++    env->amd_tsc_scale_msr =  MSR_AMD64_TSC_RATIO_DEFAULT;
+ 
+ #endif
+ }
 -- 
 2.34.1
 
