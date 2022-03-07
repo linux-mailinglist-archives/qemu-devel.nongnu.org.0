@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF478516EAC
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 13:15:53 +0200 (CEST)
-Received: from localhost ([::1]:35656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E37B516EDB
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 May 2022 13:25:31 +0200 (CEST)
+Received: from localhost ([::1]:56250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nlU1w-0000uW-TV
-	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 07:15:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45146)
+	id 1nlUBG-00079f-BN
+	for lists+qemu-devel@lfdr.de; Mon, 02 May 2022 07:25:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nlTyd-0006Ms-Ul; Mon, 02 May 2022 07:12:29 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:43526)
+ id 1nlTyd-0006Mr-Tc; Mon, 02 May 2022 07:12:29 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:43532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nlTyX-0004QN-Uo; Mon, 02 May 2022 07:12:24 -0400
+ id 1nlTyY-0004QS-0T; Mon, 02 May 2022 07:12:24 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id C251311F108;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id DF96D11F123;
  Mon,  2 May 2022 11:12:10 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
-Date: Mon, 07 Mar 2022 01:38:18 -0800
-Subject: [PATCH qemu v13 07/15] target/riscv: rvv: Add tail agnostic for
- vector integer shift instructions
-Message-ID: <165148992946.19543.7306630137674612238-7@git.sr.ht>
+Date: Mon, 07 Mar 2022 01:43:53 -0800
+Subject: [PATCH qemu v13 08/15] target/riscv: rvv: Add tail agnostic for
+ vector integer comparison instructions
+Message-ID: <165148992946.19543.7306630137674612238-8@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <165148992946.19543.7306630137674612238-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
@@ -62,93 +62,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: eopXD <eop.chen@sifive.com>
 
+Compares write mask registers, and so always operate under a tail-
+agnostic policy.
+
 Signed-off-by: eop Chen <eop.chen@sifive.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 11 +++++++++++
- target/riscv/vector_helper.c            | 11 +++++++++++
- 2 files changed, 22 insertions(+)
+ target/riscv/vector_helper.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_tran=
-s/trans_rvv.c.inc
-index d15858fc6f..430847b0f9 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -1858,6 +1858,16 @@ do_opivx_gvec_shift(DisasContext *s, arg_rmrr *a, GVec=
-Gen2sFn32 *gvec_fn,
-     }
-=20
-     if (a->vm && s->vl_eq_vlmax) {
-+        if (s->vta && s->lmul < 0) {
-+            /*
-+             * tail elements may pass vlmax when lmul < 0
-+             * set tail elements to 1s
-+             */
-+            uint32_t vlenb =3D s->cfg_ptr->vlen >> 3;
-+            tcg_gen_gvec_ori(s->sew, vreg_ofs(s, a->rd),
-+                             vreg_ofs(s, a->rd), -1,
-+                             vlenb, vlenb);
-+        }
-         TCGv_i32 src1 =3D tcg_temp_new_i32();
-=20
-         tcg_gen_trunc_tl_i32(src1, get_gpr(s, a->rs1, EXT_NONE));
-@@ -1916,6 +1926,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a) =
-            \
-                                                                    \
-         data =3D FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data =3D FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-+        data =3D FIELD_DP32(data, VDATA, VTA, s->vta);               \
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-                            vreg_ofs(s, a->rs1),                    \
-                            vreg_ofs(s, a->rs2), cpu_env,           \
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index e00f9353b9..c1ae2ea2f1 100644
+index c1ae2ea2f1..ddaf364573 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -1273,6 +1273,9 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,       =
-                   \
- {                                                                         \
-     uint32_t vm =3D vext_vm(desc);                                          \
-     uint32_t vl =3D env->vl;                                                \
-+    uint32_t esz =3D sizeof(TS1);                                           \
-+    uint32_t total_elems =3D vext_get_total_elems(env, desc, esz);          \
-+    uint32_t vta =3D vext_vta(desc);                                        \
-     uint32_t i;                                                           \
-                                                                           \
-     for (i =3D env->vstart; i < vl; i++) {                                  \
-@@ -1284,6 +1287,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,       =
-                   \
-         *((TS1 *)vd + HS1(i)) =3D OP(s2, s1 & MASK);                        \
-     }                                                                     \
-     env->vstart =3D 0;                                                      \
-+    /* set tail elements to 1s */                                         \
-+    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);              \
+@@ -1373,6 +1373,8 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *=
+vs2,   \
+ {                                                             \
+     uint32_t vm =3D vext_vm(desc);                              \
+     uint32_t vl =3D env->vl;                                    \
++    uint32_t total_elems =3D env_archcpu(env)->cfg.vlen;        \
++    uint32_t vta_all_1s =3D vext_vta_all_1s(desc);              \
+     uint32_t i;                                               \
+                                                               \
+     for (i =3D env->vstart; i < vl; i++) {                      \
+@@ -1384,6 +1386,13 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void =
+*vs2,   \
+         vext_set_elem_mask(vd, i, DO_OP(s2, s1));             \
+     }                                                         \
+     env->vstart =3D 0;                                          \
++    /* mask destination register are always tail-agnostic */  \
++    /* set tail elements to 1s */                             \
++    if (vta_all_1s) {                                         \
++        for (; i < total_elems; i++) {                        \
++            vext_set_elem_mask(vd, i, 1);                     \
++        }                                                     \
++    }                                                         \
  }
 =20
- GEN_VEXT_SHIFT_VV(vsll_vv_b, uint8_t,  uint8_t, H1, H1, DO_SLL, 0x7)
-@@ -1308,6 +1313,10 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1,=
-      \
- {                                                           \
-     uint32_t vm =3D vext_vm(desc);                            \
-     uint32_t vl =3D env->vl;                                  \
-+    uint32_t esz =3D sizeof(TD);                              \
-+    uint32_t total_elems =3D                                  \
-+        vext_get_total_elems(env, desc, esz);               \
-+    uint32_t vta =3D vext_vta(desc);                          \
-     uint32_t i;                                             \
-                                                             \
-     for (i =3D env->vstart; i < vl; i++) {                    \
-@@ -1318,6 +1327,8 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, =
-     \
-         *((TD *)vd + HD(i)) =3D OP(s2, s1 & MASK);            \
-     }                                                       \
-     env->vstart =3D 0;                                        \
-+    /* set tail elements to 1s */                           \
-+    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);\
+ GEN_VEXT_CMP_VV(vmseq_vv_b, uint8_t,  H1, DO_MSEQ)
+@@ -1422,6 +1431,8 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, =
+void *vs2,   \
+ {                                                                   \
+     uint32_t vm =3D vext_vm(desc);                                    \
+     uint32_t vl =3D env->vl;                                          \
++    uint32_t total_elems =3D env_archcpu(env)->cfg.vlen;              \
++    uint32_t vta_all_1s =3D vext_vta_all_1s(desc);                    \
+     uint32_t i;                                                     \
+                                                                     \
+     for (i =3D env->vstart; i < vl; i++) {                            \
+@@ -1433,6 +1444,13 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1,=
+ void *vs2,   \
+                 DO_OP(s2, (ETYPE)(target_long)s1));                 \
+     }                                                               \
+     env->vstart =3D 0;                                                \
++    /* mask destination register are always tail-agnostic */        \
++    /* set tail elements to 1s */                                   \
++    if (vta_all_1s) {                                               \
++        for (; i < total_elems; i++) {                              \
++            vext_set_elem_mask(vd, i, 1);                           \
++        }                                                           \
++    }                                                               \
  }
 =20
- GEN_VEXT_SHIFT_VX(vsll_vx_b, uint8_t, int8_t, H1, H1, DO_SLL, 0x7)
+ GEN_VEXT_CMP_VX(vmseq_vx_b, uint8_t,  H1, DO_MSEQ)
 --=20
 2.34.2
 
