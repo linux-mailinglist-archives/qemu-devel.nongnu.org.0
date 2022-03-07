@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B320B4CFA77
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:19:55 +0100 (CET)
-Received: from localhost ([::1]:36734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C504CFA7B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:23:00 +0100 (CET)
+Received: from localhost ([::1]:45292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRAT4-0004qh-Ox
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:19:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35034)
+	id 1nRAW3-0002HU-UF
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:22:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRACq-0002Em-T1
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36986)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRACv-0002FO-Mi
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRACp-0002pj-0j
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:08 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRACt-0002q7-VJ
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647386;
+ s=mimecast20190719; t=1646647390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SQth6lOfktpVOUsr0klqFIRbAjmvm/XtYoxQErUCb0c=;
- b=Y+SaMaQ73BBmlbDFTPDu/KbVyB4g1rf0L2L3MR6zj/MEDpAmy0DPeoF8EjHqG3tNQ1AYMa
- Q+oDiPSMufSRTO2/jLN/wPc0WBA6AUaI4orlH1Y/yRplrhEOZpJD6AruTmO9DckyGNE9/C
- W8wwONLkfLPX2WBePyQMR6SxWWrTGiU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=C+16yrqZp55TwfaBLxhPraAA/6nWa+yRsPNvd15Z0zY=;
+ b=LcmpF/quPU/DxYNctmh57Pg0Ur99WhG/11bH5zQNRs4NNnme8jsRRHBw9l5omv2geoKX66
+ P1Jh83v0TXT2q1qxLC4mRo/oJPQ9Nbq1EovG5GCCCNTzm6UP1aAgmJ81WPfjd5MWZ+cv7K
+ iYguHcgMp+iUvOCJwLjo3ZUi7PtirUc=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-26-cL6cKT9POPyQDvcS4ir0sA-1; Mon, 07 Mar 2022 05:03:05 -0500
-X-MC-Unique: cL6cKT9POPyQDvcS4ir0sA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- hr26-20020a1709073f9a00b006d6d1ee8cf8so6681968ejc.19
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:03:05 -0800 (PST)
+ us-mta-253-maKqiCQzOW-fEHXc9k_-bA-1; Mon, 07 Mar 2022 05:03:08 -0500
+X-MC-Unique: maKqiCQzOW-fEHXc9k_-bA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ x5-20020a50ba85000000b004161d68ace6so3204083ede.15
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:03:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=SQth6lOfktpVOUsr0klqFIRbAjmvm/XtYoxQErUCb0c=;
- b=Bu+wuekUvE2g7358Q0JD246nrCX0RQAVqutG47z8dfeySNPGn8bBOCveHtuCk3pabV
- ML7Isu1yETIyGEEsS9N5i0zZnLWfL6eiG0IjhFF8vk6O07vU93mfDA7YeQaPPaeuuDMT
- xCfM8kBMEGdCZiCMjaf2d4rIurr2Skgfj14zm2jta5KO4pJgEg3N9RAFfEdoLz1uvz+q
- gbmmVpMMrgHMnO7c76DziDMqU0hZOLgHwBc0qMVh5ymJ9yb/ck5CWoxHc2TY4OYiVLzO
- 1Rvznk+J5sS/3czaB3KUQhZhfC7LdemnGTYJncjSFHZV/cFemY+uo4sK4EpoXS39ZMfg
- H7uQ==
-X-Gm-Message-State: AOAM532/xCK4t2p9HklPU40ELGPSoRug2oHtZ117OyjYUmnxea95BAdG
- Os/3iZyZsnLgc3iL8ESh9XQAVq7Je3/Baal316yPdbaB9VMT/vCaLyc640zxESAe4eY+1byw0FP
- xlnz1PY+jFGFuULgRz11VQwXU0S34JUSVqXDNazKTLijfjDwv5GiByPpH7Qhy
-X-Received: by 2002:a05:6402:3492:b0:416:3846:c1a6 with SMTP id
- v18-20020a056402349200b004163846c1a6mr5757352edc.221.1646647383755; 
- Mon, 07 Mar 2022 02:03:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyIqQtGtxhhhdxKQ4W/Ft95AY9Rvdx1+Ykt+n/Y6gK23xVt6kBnijwljb6XcaB9LX+QQC3xgg==
-X-Received: by 2002:a05:6402:3492:b0:416:3846:c1a6 with SMTP id
- v18-20020a056402349200b004163846c1a6mr5757329edc.221.1646647383437; 
- Mon, 07 Mar 2022 02:03:03 -0800 (PST)
+ bh=C+16yrqZp55TwfaBLxhPraAA/6nWa+yRsPNvd15Z0zY=;
+ b=eArBV4MA4XUCjq5zZrHZttxAYTQKZ69aD94KDUAXRaWezmEfjU7tXeGOEQKBCBvKPY
+ gPjtOIkuMHM8MN9xqDu/7pHEyG+nsoVfxSpttY4cRj+rBLxNLHiBbB5q2Podhx+3DSnY
+ YW8Zz7inEqr4CT5u7jex5pDgX3AuR2ElqBPvwchwVALqmjWbU+Qn9Wicoa14Ih3itCP7
+ B3kPjFTc/kN6NpU7DUVzKZoownb7/d7kmnFznuhRMI+6MByt5tBVOLA2JASHXcTMXhQH
+ SAw98u+3+Hlk/YFlvcmpuw0eNNmSmEcTUVkr+PbYr4MiSj9B4GX1wKl1mdvct2PnuGO7
+ sIDw==
+X-Gm-Message-State: AOAM532ZJ6iSL9e3mzW0z6VbFqss9tZs8qbQKtr/Jw372Pp/PqdD+3lG
+ qXsk6ZfAcYJp1XjTYKBOd89BszUbRS4gbi7EL05Gg6ztnVG01VzSjQ203gzovbAZgrXsmo+iVlg
+ TXgA1pEoC89zZrHria13Ijh2nIzFycsHngAv8eDnKvZDwBiAORnJTzwHabA/B
+X-Received: by 2002:a05:6402:278f:b0:410:d242:465e with SMTP id
+ b15-20020a056402278f00b00410d242465emr10292879ede.292.1646647387098; 
+ Mon, 07 Mar 2022 02:03:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx1xyFXDiil++4dcYXMc2v3iNQBg9eQ5369l6BmaivwcH9L07B+cr10GSg1kL0a27vseMnp0A==
+X-Received: by 2002:a05:6402:278f:b0:410:d242:465e with SMTP id
+ b15-20020a056402278f00b00410d242465emr10292856ede.292.1646647386795; 
+ Mon, 07 Mar 2022 02:03:06 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- z2-20020a05640235c200b00415cec386a5sm6099651edc.16.2022.03.07.02.03.01
+ gb25-20020a170907961900b006ce423d43e1sm4620041ejc.13.2022.03.07.02.03.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 02:03:03 -0800 (PST)
-Date: Mon, 7 Mar 2022 05:03:00 -0500
+ Mon, 07 Mar 2022 02:03:06 -0800 (PST)
+Date: Mon, 7 Mar 2022 05:03:03 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 34/47] acpi: pcihp: pcie: set power on cap on parent slot
-Message-ID: <20220307100058.449628-35-mst@redhat.com>
+Subject: [PULL v2 35/47] pc: add option to disable PS/2 mouse/keyboard
+Message-ID: <20220307100058.449628-36-mst@redhat.com>
 References: <20220307100058.449628-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307100058.449628-1-mst@redhat.com>
@@ -75,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -97,125 +97,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Joelle van Dyne <j@getutm.app>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Joelle van Dyne <j@getutm.app>
 
-on creation a PCIDevice has power turned on at the end of pci_qdev_realize()
-however later on if PCIe slot isn't populated with any children
-it's power is turned off. It's fine if native hotplug is used
-as plug callback will power slot on among other things.
-However when ACPI hotplug is enabled it replaces native PCIe plug
-callbacks with ACPI specific ones (acpi_pcihp_device_*plug_cb) and
-as result slot stays powered off. It works fine as ACPI hotplug
-on guest side takes care of enumerating/initializing hotplugged
-device. But when later guest is migrated, call chain introduced by]
-commit d5daff7d312 (pcie: implement slot power control for pcie root ports)
+On some older software like Windows 7 installer, having both a PS/2
+mouse and USB mouse results in only one device working property (which
+might be a different device each boot). While the workaround to not use
+a USB mouse with such software is valid, it creates an inconsistent
+experience if the user wishes to always use a USB mouse.
 
-   pcie_cap_slot_post_load()
-       -> pcie_cap_update_power()
-           -> pcie_set_power_device()
-               -> pci_set_power()
-                   -> pci_update_mappings()
+This introduces a new machine property to inhibit the creation of the
+i8042 PS/2 controller.
 
-will disable earlier initialized BARs for the hotplugged device
-in powered off slot due to commit 23786d13441 (pci: implement power state)
-which disables BARs if power is off.
-
-Fix it by setting PCI_EXP_SLTCTL_PCC to PCI_EXP_SLTCTL_PWR_ON
-on slot (root port/downstream port) at the time a device
-hotplugged into it. As result PCI_EXP_SLTCTL_PWR_ON is migrated
-to target and above call chain keeps device plugged into it
-powered on.
-
-Fixes: d5daff7d312 ("pcie: implement slot power control for pcie root ports")
-Fixes: 23786d13441 ("pci: implement power state")
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2053584
-Suggested-by: "Michael S. Tsirkin" <mst@redhat.com>
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220301151200.3507298-3-imammedo@redhat.com>
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+Message-Id: <20220227210655.45592-1-j@getutm.app>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pcie.h |  1 +
- hw/acpi/pcihp.c       | 12 +++++++++++-
- hw/pci/pcie.c         | 11 +++++++++++
- 3 files changed, 23 insertions(+), 1 deletion(-)
+ include/hw/i386/pc.h |  2 ++
+ hw/i386/pc.c         | 28 ++++++++++++++++++++++++++--
+ 2 files changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-index 168950a83b..798a262a0a 100644
---- a/include/hw/pci/pcie.h
-+++ b/include/hw/pci/pcie.h
-@@ -118,6 +118,7 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-                                 uint32_t addr, uint32_t val, int len);
- int pcie_cap_slot_post_load(void *opaque, int version_id);
- void pcie_cap_slot_push_attention_button(PCIDevice *dev);
-+void pcie_cap_slot_enable_power(PCIDevice *dev);
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 9c9f4ac748..1a27de9c8b 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -48,6 +48,7 @@ typedef struct PCMachineState {
+     bool sata_enabled;
+     bool pit_enabled;
+     bool hpet_enabled;
++    bool i8042_enabled;
+     bool default_bus_bypass_iommu;
+     uint64_t max_fw_size;
  
- void pcie_cap_root_init(PCIDevice *dev);
- void pcie_cap_root_reset(PCIDevice *dev);
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 6befd23e16..6351bd3424 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -32,6 +32,7 @@
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_host.h"
- #include "hw/pci/pcie_port.h"
-+#include "hw/pci-bridge/xio3130_downstream.h"
- #include "hw/i386/acpi-build.h"
- #include "hw/acpi/acpi.h"
- #include "hw/pci/pci_bus.h"
-@@ -336,6 +337,8 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
+@@ -64,6 +65,7 @@ typedef struct PCMachineState {
+ #define PC_MACHINE_SMBUS            "smbus"
+ #define PC_MACHINE_SATA             "sata"
+ #define PC_MACHINE_PIT              "pit"
++#define PC_MACHINE_I8042            "i8042"
+ #define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
+ #define PC_MACHINE_SMBIOS_EP        "smbios-entry-point-type"
+ 
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index c8696ac01e..32bf12421e 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1014,7 +1014,8 @@ static const MemoryRegionOps ioportF0_io_ops = {
+     },
+ };
+ 
+-static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
++static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl,
++                            bool create_i8042, bool no_vmport)
  {
-     PCIDevice *pdev = PCI_DEVICE(dev);
-     int slot = PCI_SLOT(pdev->devfn);
-+    PCIDevice *bridge;
-+    PCIBus *bus;
-     int bsel;
- 
-     /* Don't send event when device is enabled during qemu machine creation:
-@@ -365,7 +368,14 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-         return;
+     int i;
+     DriveInfo *fd[MAX_FD];
+@@ -1036,6 +1037,10 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
+         }
      }
  
--    bsel = acpi_pcihp_get_bsel(pci_get_bus(pdev));
-+    bus = pci_get_bus(pdev);
-+    bridge = pci_bridge_get_device(bus);
-+    if (object_dynamic_cast(OBJECT(bridge), TYPE_PCIE_ROOT_PORT) ||
-+        object_dynamic_cast(OBJECT(bridge), TYPE_XIO3130_DOWNSTREAM)) {
-+        pcie_cap_slot_enable_power(bridge);
++    if (!create_i8042) {
++        return;
 +    }
 +
-+    bsel = acpi_pcihp_get_bsel(bus);
-     g_assert(bsel >= 0);
-     s->acpi_pcihp_pci_status[bsel].up |= (1U << slot);
-     acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 3c44204cf3..67a5d67372 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -366,6 +366,17 @@ static void hotplug_event_clear(PCIDevice *dev)
-     }
+     i8042 = isa_create_simple(isa_bus, "i8042");
+     if (!no_vmport) {
+         isa_create_simple(isa_bus, TYPE_VMPORT);
+@@ -1131,7 +1136,8 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+     i8257_dma_init(isa_bus, 0);
+ 
+     /* Super I/O */
+-    pc_superio_init(isa_bus, create_fdctrl, pcms->vmport != ON_OFF_AUTO_ON);
++    pc_superio_init(isa_bus, create_fdctrl, pcms->i8042_enabled,
++                    pcms->vmport != ON_OFF_AUTO_ON);
  }
  
-+void pcie_cap_slot_enable_power(PCIDevice *dev)
+ void pc_nic_init(PCMachineClass *pcmc, ISABus *isa_bus, PCIBus *pci_bus)
+@@ -1512,6 +1518,20 @@ static void pc_machine_set_hpet(Object *obj, bool value, Error **errp)
+     pcms->hpet_enabled = value;
+ }
+ 
++static bool pc_machine_get_i8042(Object *obj, Error **errp)
 +{
-+    uint8_t *exp_cap = dev->config + dev->exp.exp_cap;
-+    uint32_t sltcap = pci_get_long(exp_cap + PCI_EXP_SLTCAP);
++    PCMachineState *pcms = PC_MACHINE(obj);
 +
-+    if (sltcap & PCI_EXP_SLTCAP_PCP) {
-+        pci_set_word_by_mask(exp_cap + PCI_EXP_SLTCTL,
-+                             PCI_EXP_SLTCTL_PCC, PCI_EXP_SLTCTL_PWR_ON);
-+    }
++    return pcms->i8042_enabled;
 +}
 +
- static void pcie_set_power_device(PCIBus *bus, PCIDevice *dev, void *opaque)
++static void pc_machine_set_i8042(Object *obj, bool value, Error **errp)
++{
++    PCMachineState *pcms = PC_MACHINE(obj);
++
++    pcms->i8042_enabled = value;
++}
++
+ static bool pc_machine_get_default_bus_bypass_iommu(Object *obj, Error **errp)
  {
-     bool *power = opaque;
+     PCMachineState *pcms = PC_MACHINE(obj);
+@@ -1641,6 +1661,7 @@ static void pc_machine_initfn(Object *obj)
+     pcms->smbus_enabled = true;
+     pcms->sata_enabled = true;
+     pcms->pit_enabled = true;
++    pcms->i8042_enabled = true;
+     pcms->max_fw_size = 8 * MiB;
+ #ifdef CONFIG_HPET
+     pcms->hpet_enabled = true;
+@@ -1777,6 +1798,9 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, "hpet",
+         "Enable/disable high precision event timer emulation");
+ 
++    object_class_property_add_bool(oc, PC_MACHINE_I8042,
++        pc_machine_get_i8042, pc_machine_set_i8042);
++
+     object_class_property_add_bool(oc, "default-bus-bypass-iommu",
+         pc_machine_get_default_bus_bypass_iommu,
+         pc_machine_set_default_bus_bypass_iommu);
 -- 
 MST
 
