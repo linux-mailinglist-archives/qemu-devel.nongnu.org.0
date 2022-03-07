@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC384CF32D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 09:07:56 +0100 (CET)
-Received: from localhost ([::1]:47858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EAA4CF350
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 09:10:34 +0100 (CET)
+Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR8PK-0006au-Vz
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 03:07:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41492)
+	id 1nR8Rt-0002Rn-42
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 03:10:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR8JN-0002TI-Gx
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:01:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR8JL-00017w-QE
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:01:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646640103;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ij6L38iN0WAgIZmYyyiAINpWMXQSSt+HMxpB4VYzFcg=;
- b=aApeKc+GR4BfNzz74Pu3/HlBCXbbkN/TCb6y8JWGLN9xaYyUUDx59et82RdsTBgsPGfbaZ
- 9jXw2QDya6zc/xpbesGuAq/5h/a4C0q7lIiY1kETVWRmY/GVG/cEwz3y4eAgC44K5VdbF9
- XYE6KOIAOHW1l7H0hUEXH6txsLVsss4=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-361-d5GzCtCqN5mIfTpdGMKhdA-1; Mon, 07 Mar 2022 03:01:42 -0500
-X-MC-Unique: d5GzCtCqN5mIfTpdGMKhdA-1
-Received: by mail-pf1-f199.google.com with SMTP id
- z194-20020a627ecb000000b004f6db380a59so3694605pfc.19
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 00:01:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nR8ND-0006W3-WF; Mon, 07 Mar 2022 03:05:45 -0500
+Received: from [2a00:1450:4864:20::431] (port=36427
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nR8NC-0001kw-FH; Mon, 07 Mar 2022 03:05:43 -0500
+Received: by mail-wr1-x431.google.com with SMTP id r10so21830307wrp.3;
+ Mon, 07 Mar 2022 00:05:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R6vw0M+TOOS8/qdbjoqMVkbE+mUwsOgvMBbD0tw5XEY=;
+ b=Y1FFBpgkqeH7WitxMInFpKIzhPzDAhX3Rp5exIbARbby8z97N2nQ/vqP4glynmPbCA
+ /YxT7uyg9dY1+dOBYWyaebWfFaPCRXPp7AxNUFyf2KFsUL301pQTVIt2wtpTzEO/kuzv
+ bd688m1WgsZakbLQ/sVUUv09Jr5ANHaFulFR9rFjP3MAQNvKSBbyzPpcZ2xO9wh4vmvr
+ Tu5Hl8lukgBCSexrrOJKdYlEX6R1VcTYHrB3867Pj8Pd1ug1/MW79c1JlxKCYtnYqhlY
+ /57SqichrttvzefEGeJWzaWX/IEbN1IUbmbCTO2CAGWRH2Vc7yfyS4tO9xkdnOTAPmOx
+ yjbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ij6L38iN0WAgIZmYyyiAINpWMXQSSt+HMxpB4VYzFcg=;
- b=OTL9m7VCpeWJhQUW1kJogvbS0T80NQoltbwMeyFsKUITfx5R82jr6PBOYqJjYMMBs8
- yrIGxyyvSYSYV1/Uu2slRyTjQOSAYhdhRdiA9shnGyeALmClkKnWzSuF5eP6zOhUnZ+5
- pRo1OTHBiSgxZfR1Myv6mq/8yd/JysSlJMyHWEkHI6XrSDixynf1Mj/jR0iks5oEkjV1
- XOhcdDq9FDVwB37xMVIYg39+sqzuFUlHt/OiB/6lwa2L68Z0isuXcAmEmIEzDCOxgfmk
- gxovUvXjZzLw0kMcO+Zm7B6SUfH6VoYU0SfrsLKS84NQ4o3eoX8Zb+k5k9gfiOVq5CzI
- v9Ew==
-X-Gm-Message-State: AOAM532OzeWc89yzslsogF3zP1q6cl024+GtopqX1c/nuwCMBdTvP8ro
- s68Ujs0Ps4K/mwXHPd/N4Ej3k/IbK6aR8/tdpCiHPtCL72b3KY9OHTa9+zDPTXBlkNTA1qGkNBW
- 8f4ml0dv8yOKm4Bw=
-X-Received: by 2002:a17:903:1210:b0:14f:973e:188d with SMTP id
- l16-20020a170903121000b0014f973e188dmr10914276plh.61.1646640100461; 
- Mon, 07 Mar 2022 00:01:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy67TLseImS1Ko2NjHi+s0TvghVNNx7yWnycvM5/DxsFZq1ezOTGWGQTPp2DvNsXLv1FC0nWw==
-X-Received: by 2002:a17:903:1210:b0:14f:973e:188d with SMTP id
- l16-20020a170903121000b0014f973e188dmr10914252plh.61.1646640100118; 
- Mon, 07 Mar 2022 00:01:40 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.47]) by smtp.gmail.com with ESMTPSA id
- lk13-20020a17090b33cd00b001bf72ab711asm1581734pjb.35.2022.03.07.00.01.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 00:01:39 -0800 (PST)
-Date: Mon, 7 Mar 2022 16:01:35 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 14/18] tests: convert XBZRLE migration test to use common
- helper
-Message-ID: <YiW737sCTsUfu+D4@xz-m1.local>
-References: <20220302174932.2692378-1-berrange@redhat.com>
- <20220302174932.2692378-15-berrange@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R6vw0M+TOOS8/qdbjoqMVkbE+mUwsOgvMBbD0tw5XEY=;
+ b=m2onhmWrCCsd0lMe0zSya9/++Pxv0QMC7lSt45g59A7BJ13oHDtMZplMSDvdkpFaJn
+ DHGZ2khgBgmRkKmJQS4YNBtg5lb40gD9rOEg5dlSAyiSFb9LEFK1cNf17nLSM+jq54c4
+ 0bOaHOa1vdIlX8xWQMgJnIok1P+iZSkvsqMlH58yqCrqKAQLyfyKo+QNmtuGMaootCGV
+ NmqXeBiGpL9pL5P5NUnQxwJ5PYlU8vGEJzktOta5S0V8clxE6pCDiO1Yy5719eyNdPbE
+ atA2w/titg4LUCv2r30BEmhaKjOjbudvYeHB3ndrz1XAtkJsxxsWB4kVqTWHmd1k60Gw
+ QU7w==
+X-Gm-Message-State: AOAM532HyfC4GsEvUfifZLps6OaTusrWFESgVKv5XdU+uXzW77xFzpSB
+ mVeVzOxxrBV4aPMxD1l0Gze0oiX+uMUziaWQ8Oo=
+X-Google-Smtp-Source: ABdhPJyIgrJSjXlKS68Ss7gX7aDNS/m24vsDKgjyAaEN8gAvZvwgpWssp+oMdPrFWVfQ90D5eGqM249jKppiMbCz5Z4=
+X-Received: by 2002:a5d:4704:0:b0:1fb:768d:7b6 with SMTP id
+ y4-20020a5d4704000000b001fb768d07b6mr260024wrq.187.1646640339391; Mon, 07 Mar
+ 2022 00:05:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220302174932.2692378-15-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220307070401.171986-1-marcandre.lureau@redhat.com>
+ <20220307070401.171986-3-marcandre.lureau@redhat.com>
+ <673b8beb-352a-df7e-27af-7f81022d5adc@redhat.com>
+In-Reply-To: <673b8beb-352a-df7e-27af-7f81022d5adc@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 7 Mar 2022 12:05:26 +0400
+Message-ID: <CAJ+F1CJgpC5JQ=Duw7vk8oF+fK9M0=ecqv+HVVaZS67FGY8C=A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] qtest: replace gettimeofday with GTimer
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000080983005d99c54b1"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,78 +81,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Marek Vasut <marex@denx.de>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Chris Wulff <crwulff@gmail.com>,
+ David Hildenbrand <david@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ "open list:sPAPR pseries" <qemu-ppc@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 02, 2022 at 05:49:28PM +0000, Daniel P. Berrangé wrote:
-> @@ -1255,6 +1259,7 @@ static void test_precopy_unix_common(TestMigrateStartHook start_hook,
->                                       TestMigrateFinishHook finish_hook,
->                                       bool expect_fail,
->                                       bool dst_quit,
-> +                                     unsigned int iterations,
->                                       bool dirty_ring)
->  {
->      g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-> @@ -1265,6 +1270,7 @@ static void test_precopy_unix_common(TestMigrateStartHook start_hook,
->                          finish_hook,
->                          expect_fail,
->                          dst_quit,
-> +                        iterations,
->                          dirty_ring);
->  }
->  
-> @@ -1274,6 +1280,7 @@ static void test_precopy_unix_plain(void)
->                               NULL, /* finish_hook */
->                               false, /* expect_fail */
->                               false, /* dst_quit */
-> +                             1, /* iterations */
->                               false /* dirty_ring */);
->  }
->  
-> @@ -1283,6 +1290,7 @@ static void test_precopy_unix_dirty_ring(void)
->                               NULL, /* finish_hook */
->                               false, /* clientReject */
->                               false, /* dst_quit */
-> +                             1, /* iterations */
->                               true /* dirty_ring */);
->  }
->  
-> @@ -1293,6 +1301,7 @@ static void test_precopy_unix_tls_psk(void)
->                               test_migrate_tls_psk_finish,
->                               false, /* expect_fail */
->                               false, /* dst_quit */
-> +                             1, /* iterations */
->                               false /* dirty_ring */);
->  }
->  
-> @@ -1303,6 +1312,7 @@ static void test_precopy_unix_tls_x509_default_host(void)
->                               test_migrate_tls_x509_finish,
->                               true, /* expect_fail */
->                               true, /* dst_quit */
-> +                             1, /* iterations */
->                               false /* dirty_ring */);
->  }
->  
-> @@ -1312,6 +1322,7 @@ static void test_precopy_unix_tls_x509_override_host(void)
->                               test_migrate_tls_x509_finish,
->                               false, /* expect_fail */
->                               false, /* dst_quit */
-> +                             1, /* iterations */
->                               false /* dirty_ring */);
+--00000000000080983005d99c54b1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Another side benefit to merge parameters (e.g. the new "iterations") into
-MigrateStart (which I mentioned in the other thread) is that we don't need
-to touch the value in every test if there's a default, because we will set
-the default in migrate_start_new() and we only need a tweak on tests that
-want to overwrite the default values.
+Hi
 
-Thanks,
+On Mon, Mar 7, 2022 at 11:46 AM Thomas Huth <thuth@redhat.com> wrote:
 
--- 
-Peter Xu
+> On 07/03/2022 08.03, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > glib provides a convenience helper to measure elapsed time. It isn't
+> > subject to wall-clock time changes.
+> >
+> > Note that this changes the initial OPENED time, which used to print the
+> > current time.
+> [...]
+> > @@ -846,21 +828,20 @@ static void qtest_event(void *opaque, QEMUChrEven=
+t
+> event)
+> >           for (i =3D 0; i < ARRAY_SIZE(irq_levels); i++) {
+> >               irq_levels[i] =3D 0;
+> >           }
+> > -        qemu_gettimeofday(&start_time);
+> > +
+> > +        g_clear_pointer(&timer, g_timer_destroy);
+> > +        timer =3D g_timer_new();
+> >           qtest_opened =3D true;
+> >           if (qtest_log_fp) {
+> > -            fprintf(qtest_log_fp, "[I " FMT_timeval "] OPENED\n",
+> > -                    (long) start_time.tv_sec, (long)
+> start_time.tv_usec);
+> > +            fprintf(qtest_log_fp, "[I " FMT_timeval "] OPENED\n",
+> g_timer_elapsed(timer, NULL));
+> >           }
+> >           break;
+>
+> The new timestamp here is quite unuseful now, of course ... could you
+> replace it with g_get_current_time()  instead?
+>
 
+Eventually, but I wonder why this (and only this) particular timestamp
+should be the current time.
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000080983005d99c54b1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 7, 2022 at 11:46 AM Tho=
+mas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 07/03/2=
+022 08.03, <a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank"=
+>marcandre.lureau@redhat.com</a> wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; glib provides a convenience helper to measure elapsed time. It isn&#39=
+;t<br>
+&gt; subject to wall-clock time changes.<br>
+&gt; <br>
+&gt; Note that this changes the initial OPENED time, which used to print th=
+e<br>
+&gt; current time.<br>
+[...]<br>
+&gt; @@ -846,21 +828,20 @@ static void qtest_event(void *opaque, QEMUChrEve=
+nt event)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; ARRAY_SIZ=
+E(irq_levels); i++) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0irq_levels[i] =
+=3D 0;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_gettimeofday(&amp;start_time);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_clear_pointer(&amp;timer, g_timer_destr=
+oy);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 timer =3D g_timer_new();<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qtest_opened =3D true;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (qtest_log_fp) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(qtest_log_fp, &quot=
+;[I &quot; FMT_timeval &quot;] OPENED\n&quot;,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ (long) start_time.tv_sec, (long) start_time.tv_usec);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(qtest_log_fp, &quot=
+;[I &quot; FMT_timeval &quot;] OPENED\n&quot;, g_timer_elapsed(timer, NULL)=
+);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+<br>
+The new timestamp here is quite unuseful now, of course ... could you <br>
+replace it with g_get_current_time()=C2=A0 instead?<br>
+</blockquote></div><div><br></div><div>Eventually, but I wonder why this (a=
+nd only this) particular timestamp should be the current time.<br></div><di=
+v><br></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=
+=C3=A9 Lureau<br></div></div>
+
+--00000000000080983005d99c54b1--
 
