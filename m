@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2674D068C
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:29:57 +0100 (CET)
-Received: from localhost ([::1]:51942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78ED4D066B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:23:51 +0100 (CET)
+Received: from localhost ([::1]:60720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRI7I-0003CY-53
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:29:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55420)
+	id 1nRI1O-0006pE-Uv
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:23:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHuj-0001AB-Cx
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:57 -0500
-Received: from [2a00:1450:4864:20::62a] (port=33713
+ id 1nRHui-000184-RB
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:56 -0500
+Received: from [2a00:1450:4864:20::62a] (port=44941
  helo=mail-ej1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHud-0005NV-99
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:57 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id kt27so33956554ejb.0
+ id 1nRHud-0005Nd-7j
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:56 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id qt6so33797542ejb.11
  for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sUSJfkexg7KkY2CuTVEeR2bYeZuOFKrm5GHwZ7Vta6I=;
- b=FUDWAhLhf+opo/MiYM1FjXNwgxOPIiar99xq+5C903fR5rqNSCVOszMH9hhpuTsSiQ
- G+gmDYujJjzBWDQQYgi1DApjssqbkuSMWzWrc6G0rzdUtLkDDdFsjTC7Bi6BV5WNAQmP
- 5QbHHSkJZeNqV2NH6tcQPV2YR6CFN+K98xqEmm7KrhlQRIYn4loM52G/W2lNtzYXGyxr
- fNv78b1c0O2sVR8sq81UVMSeGA8XeAkmKXyhEOMu4zUY46RV7/tfBw+CH7DriIOU7AQO
- S3TohEHaM+KlXQLduwT0bwp+SdhteHV1By+tLs5r6VoHs88vixij91riKDaLd22AW591
- Ej9g==
+ bh=ohuOj7/RPeB7VtN1AquejguYaBzi1b7GC1f/dw4ahVU=;
+ b=dgVUNGpfOMpSYcgiLZ87A1qpx0qYLarLdZPLI4orYikX2XwFJKJwNqCr+jjlZSNDNo
+ AD639bORQCsbvz4JCdRvDsT5m8SVfKRm0HWhLhthhHeix31uiJiLOsKOAYoU/sgOBDDA
+ +/9BbvheXRh1VJJYq4LHJbdmEr0JMKaR0jkWe2dWQ8YStd8Y+9Ck4FURNPbd3uydR/5J
+ 8Oz2FPzf7o/TVP6GgE5/WiAcRf3NXPKy2zS0oEJdPhKUIh46/N8glvHuazM/EmuGthXn
+ vBU8MWU++t4cTqyZH/2JA+fhmsj8JgkqH3AHd2qOEJt8ev7mYWF0Ukjj690qvTpg/bOV
+ HXzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sUSJfkexg7KkY2CuTVEeR2bYeZuOFKrm5GHwZ7Vta6I=;
- b=xvmUDmlEdp9FwR1S9KT6Fd/jBYfdIz66SaTdK7TWgMdHHCXJ4q6jHUvuzwB1slAulZ
- ZvWV5vMAj6OVQT9WHX4jJwPqX0Td09WH00+FChi+LgPbd5zDTsR2dKgHusKtDZNRKnhq
- XFaNNTjZv8mFmJOC1625PLRxYWgeD/0OClqliLWi8kWZCVKnoJwA852hsS61o99k+pv7
- 87pjD76lS+duZN0NTHZdoyX+m19Ls1hUpCsfEKKCKHwVcD2qs+wquE0xOx3v0wE1oEXN
- Rsahyp5j0BJiLJpQ/8oN4UKUt07wF/I9a0eu6Z8cNthDT3hFtrv/uVpXxO5nImT8FrRG
- OHKA==
-X-Gm-Message-State: AOAM530kg+iSbl/njhw1aCG0UKTllRq0bcmWD04ibx4JXxgio4z0u8J6
- NiygyCvzWEGcOOQ+iyuSzNa+qZQWBJc=
-X-Google-Smtp-Source: ABdhPJyEEHe1pfSti6X929tBQiqSzxAe41nXiiwQWW5P5HWVdAO6N1Bw4Yhx6Pc/NdvHqxJQrOb9mA==
-X-Received: by 2002:a17:906:1ece:b0:6ce:e14:6d92 with SMTP id
- m14-20020a1709061ece00b006ce0e146d92mr10189677ejj.408.1646677004305; 
- Mon, 07 Mar 2022 10:16:44 -0800 (PST)
+ bh=ohuOj7/RPeB7VtN1AquejguYaBzi1b7GC1f/dw4ahVU=;
+ b=7dok4O8yZy1Bu1fU3YR73Am8lGic6Sk4BVY1fEd4BRVjU76dcov7XF2GVxGfpz8FI1
+ x/WWIyGQ234xxkglhm58u9Vb2Ivxe4xdbWKjBYAJJ4xoL0Fz3RGHcPrf2NPgwiPM1bX6
+ lqIrYgf5KbQIDebcAFyewRNXmV42wgNxFUcloEGWO/5xI5spisG5+KvEJmUNKJN8AqYL
+ kQXYp0UHFt1r2x9X5M5suWFWaaJ6Ts8h1TO2O2FeOEhmecUbvT8JQnCIBKuuqzusUfVE
+ H+Ix66/ciGa/zhG3uMQyhf5yZxfwxa95m+iXQPCeN37kUF/8tnZ3cdMxncxL09qdMN1Q
+ XyOA==
+X-Gm-Message-State: AOAM532HDbMTSrUKV/QoOgFcSjNL7TiBm6b5Y5tIKsdvTQnXej9Drk+D
+ 9ZFaZYJQD96yhMDmjhYs2HJgawgIhwA=
+X-Google-Smtp-Source: ABdhPJwcUh2s6uA32HOG02zhAF55i8cleYHz0FaUzmRwVYYrFloWzHMeJ7KODHYs5BlTuQzjR2fkqw==
+X-Received: by 2002:a17:906:402:b0:6d5:c6bc:3150 with SMTP id
+ d2-20020a170906040200b006d5c6bc3150mr10176662eja.403.1646677005056; 
+ Mon, 07 Mar 2022 10:16:45 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.43
+ d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.44
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 10:16:43 -0800 (PST)
+ Mon, 07 Mar 2022 10:16:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/23] target/i386: Throw a #SS when loading a non-canonical IST
-Date: Mon,  7 Mar 2022 19:16:21 +0100
-Message-Id: <20220307181633.596898-12-pbonzini@redhat.com>
+Subject: [PULL 12/23] linux-headers: include missing changes from 5.17
+Date: Mon,  7 Mar 2022 19:16:22 +0100
+Message-Id: <20220307181633.596898-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307181633.596898-1-pbonzini@redhat.com>
 References: <20220307181633.596898-1-pbonzini@redhat.com>
@@ -89,146 +90,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
-
-Loading a non-canonical address into rsp when handling an interrupt or
-performing a far call should raise a #SS not a #GP.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/870
-Signed-off-by: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
-Message-Id: <164529651121.25406.15337137068584246397-0@git.sr.ht>
-[Move get_pg_mode to seg_helper.c for user-mode emulators. - Paolo]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/seg_helper.c         | 49 +++++++++++++++++++++++++++-
- target/i386/tcg/sysemu/excp_helper.c | 36 --------------------
- 2 files changed, 48 insertions(+), 37 deletions(-)
+ linux-headers/asm-x86/kvm.h | 3 +++
+ linux-headers/linux/kvm.h   | 4 ++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index baa905a0cd..4cf1f973cf 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -28,6 +28,42 @@
- #include "helper-tcg.h"
- #include "seg_helper.h"
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 2da3316bb5..bf6e96011d 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -452,6 +452,9 @@ struct kvm_sync_regs {
  
-+int get_pg_mode(CPUX86State *env)
-+{
-+    int pg_mode = 0;
-+    if (!(env->cr[0] & CR0_PG_MASK)) {
-+        return 0;
-+    }
-+    if (env->cr[0] & CR0_WP_MASK) {
-+        pg_mode |= PG_MODE_WP;
-+    }
-+    if (env->cr[4] & CR4_PAE_MASK) {
-+        pg_mode |= PG_MODE_PAE;
-+        if (env->efer & MSR_EFER_NXE) {
-+            pg_mode |= PG_MODE_NXE;
-+        }
-+    }
-+    if (env->cr[4] & CR4_PSE_MASK) {
-+        pg_mode |= PG_MODE_PSE;
-+    }
-+    if (env->cr[4] & CR4_SMEP_MASK) {
-+        pg_mode |= PG_MODE_SMEP;
-+    }
-+    if (env->hflags & HF_LMA_MASK) {
-+        pg_mode |= PG_MODE_LMA;
-+        if (env->cr[4] & CR4_PKE_MASK) {
-+            pg_mode |= PG_MODE_PKE;
-+        }
-+        if (env->cr[4] & CR4_PKS_MASK) {
-+            pg_mode |= PG_MODE_PKS;
-+        }
-+        if (env->cr[4] & CR4_LA57_MASK) {
-+            pg_mode |= PG_MODE_LA57;
-+        }
-+    }
-+    return pg_mode;
-+}
+ #define KVM_STATE_VMX_PREEMPTION_TIMER_DEADLINE	0x00000001
+ 
++/* attributes for system fd (group 0) */
++#define KVM_X86_XCOMP_GUEST_SUPP	0
 +
- /* return non zero if error */
- static inline int load_segment_ra(CPUX86State *env, uint32_t *e1_ptr,
-                                uint32_t *e2_ptr, int selector,
-@@ -795,6 +831,8 @@ static inline target_ulong get_rsp_from_tss(CPUX86State *env, int level)
- {
-     X86CPU *cpu = env_archcpu(env);
-     int index;
-+    target_ulong rsp;
-+    int32_t sext;
+ struct kvm_vmx_nested_state_data {
+ 	__u8 vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
+ 	__u8 shadow_vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 00af3bc333..d232feaae9 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1133,6 +1133,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_VM_MOVE_ENC_CONTEXT_FROM 206
+ #define KVM_CAP_VM_GPA_BITS 207
+ #define KVM_CAP_XSAVE2 208
++#define KVM_CAP_SYS_ATTRIBUTES 209
  
- #if 0
-     printf("TR: base=" TARGET_FMT_lx " limit=%x\n",
-@@ -808,7 +846,16 @@ static inline target_ulong get_rsp_from_tss(CPUX86State *env, int level)
-     if ((index + 7) > env->tr.limit) {
-         raise_exception_err(env, EXCP0A_TSS, env->tr.selector & 0xfffc);
-     }
--    return cpu_ldq_kernel(env, env->tr.base + index);
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -2047,4 +2048,7 @@ struct kvm_stats_desc {
+ 
+ #define KVM_GET_STATS_FD  _IO(KVMIO,  0xce)
+ 
++/* Available with KVM_CAP_XSAVE2 */
++#define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct kvm_xsave)
 +
-+    rsp = cpu_ldq_kernel(env, env->tr.base + index);
-+
-+    /* test virtual address sign extension */
-+    sext = rsp >> (get_pg_mode(env) & PG_MODE_LA57 ? 56 : 47);
-+    if (sext != 0 && sext != -1) {
-+        raise_exception_err(env, EXCP0C_STACK, 0);
-+    }
-+
-+    return rsp;
- }
- 
- /* 64 bit interrupt */
-diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index 0410170d64..db4c266c86 100644
---- a/target/i386/tcg/sysemu/excp_helper.c
-+++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -21,42 +21,6 @@
- #include "cpu.h"
- #include "tcg/helper-tcg.h"
- 
--int get_pg_mode(CPUX86State *env)
--{
--    int pg_mode = 0;
--    if (!(env->cr[0] & CR0_PG_MASK)) {
--        return 0;
--    }
--    if (env->cr[0] & CR0_WP_MASK) {
--        pg_mode |= PG_MODE_WP;
--    }
--    if (env->cr[4] & CR4_PAE_MASK) {
--        pg_mode |= PG_MODE_PAE;
--        if (env->efer & MSR_EFER_NXE) {
--            pg_mode |= PG_MODE_NXE;
--        }
--    }
--    if (env->cr[4] & CR4_PSE_MASK) {
--        pg_mode |= PG_MODE_PSE;
--    }
--    if (env->cr[4] & CR4_SMEP_MASK) {
--        pg_mode |= PG_MODE_SMEP;
--    }
--    if (env->hflags & HF_LMA_MASK) {
--        pg_mode |= PG_MODE_LMA;
--        if (env->cr[4] & CR4_PKE_MASK) {
--            pg_mode |= PG_MODE_PKE;
--        }
--        if (env->cr[4] & CR4_PKS_MASK) {
--            pg_mode |= PG_MODE_PKS;
--        }
--        if (env->cr[4] & CR4_LA57_MASK) {
--            pg_mode |= PG_MODE_LA57;
--        }
--    }
--    return pg_mode;
--}
--
- #define PG_ERROR_OK (-1)
- 
- typedef hwaddr (*MMUTranslateFunc)(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
+ #endif /* __LINUX_KVM_H */
 -- 
 2.34.1
 
