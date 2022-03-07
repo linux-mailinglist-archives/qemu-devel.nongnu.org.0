@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902D84D04D3
+	by mail.lfdr.de (Postfix) with ESMTPS id 299B54D04D2
 	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 18:02:08 +0100 (CET)
-Received: from localhost ([::1]:45372 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:45328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRGkI-0003Og-I1
+	id 1nRGkI-0003Mr-3g
 	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 12:02:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34188)
+Received: from eggs.gnu.org ([209.51.188.92]:34224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGW7-0001v4-Bs
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:27 -0500
-Received: from [2a00:1450:4864:20::335] (port=56172
- helo=mail-wm1-x335.google.com)
+ id 1nRGW8-000208-Pk
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:28 -0500
+Received: from [2a00:1450:4864:20::430] (port=45966
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGW5-0007lw-Tx
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:26 -0500
-Received: by mail-wm1-x335.google.com with SMTP id i66so9555178wma.5
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 08:47:25 -0800 (PST)
+ id 1nRGW6-0007mO-Rq
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:28 -0500
+Received: by mail-wr1-x430.google.com with SMTP id p9so24271579wra.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 08:47:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=MRh+1RqLLcfZLhVPGuXevsBv8v4iq4OG65QKu3dfbzw=;
- b=lA6lducashhhMtl8Li24OA+QT+sv8GjzsqDictcjJuoT4yf09sii/biSZtOMr2nIvE
- AqRHQAdEbZx3330YwXUpoA8d4eOEFTVLjoXT88izbo1cvm8hUsWxbb0AW6Au86O6RZyA
- rxfXgtstZMJD5X5f0wDHkqhhHXMIeghRXGXohlbVG7Eyi72ncvxRiGTOdkr+XPyGKRNN
- r+/lCQNvexIIpcr+ahedyxYukMlRUlmPz19OLYWFfqWqH+78vspfoKD2yLkHx8yNGyj4
- +fILhI3NQeXYNUcKDiXQabc9mldvcPf6u+VTL5bCODg4KUXt3CnN7A4y/eeUHEvUw2wg
- AnEg==
+ bh=U2DXG281yG+T8TcjY7hKoPvKUj4soEUbCsJuYEFv69Y=;
+ b=DXRtA6IKLXX0B5QfLDpI41/XiSIvhTtaCneWcPBiJTHzBZNP2xKUUzQ6Hkic3NFKj6
+ fHTiC7VUfIJJ+yVntqxA+7+2ybrRDbiB0rcjX0kjMcAmSm5j1DsVdX0GjCdC9WJVjXIQ
+ bT+DOjsduf4U0njNYtIYmeVO5jIMpAHdwA+Eb7mskW0Py5hH5yMuyuo1inNVNbGDtgGc
+ vG+NvG/QeOQVrtTztD/0ho7wIL295xGzzt0kXDrqR8E482CXocZUKMYLi5eZNexm3RAV
+ UWbjXGEm826IgZYvrMo5kijPCOC2lCGYvw+kka5osGA1xg6gR6n+mvcWSumGtYkZ8GKc
+ oP5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MRh+1RqLLcfZLhVPGuXevsBv8v4iq4OG65QKu3dfbzw=;
- b=TUrCMW9dAUwbDvZ59vuN1niQRIWAe7YXojVmxDq3aMfqSxRNAyK/iAXlPwcs+rf3gW
- C6zGqJ+uwBVJvJDRLBw79Win74Uhe4JOVgXaNaH/uCRn8uXmjlOhQOwYn3i8/d38kvMq
- hfnlsHqANI/FSWP2/JhbwZFwfrpoJfs3nu3QFQTU81weFcxOxpSAuKrxfGWYzEvX/yfH
- XyG3ORazB71rlxTtpwu3p4AFpDYIZPv/VX5Wc/6jDcsfw1MWcDE+C9mMETl3jRvMWz/N
- P3kGRcYROlkQk1GCHZqDc/3syPmGMMeS33Run0BrmRfOzr5W9G2YgYAjIhqxwoZbM0NI
- 7wRQ==
-X-Gm-Message-State: AOAM532VLTmmdeFkuTfmj3bcRxMt1j3Y4vtx28doq5u/YE2ZmFjONZF+
- aqJHje7ZcOHYs4Pw9BBqbhldOqi+AUtNpQ==
-X-Google-Smtp-Source: ABdhPJwcDAStyz91+FCCEtr63klDX1df/Q9Bo3I/pqeWTNKKxNtx02d9x5ah8IbEbB0v/oPynPr7mw==
-X-Received: by 2002:a05:600c:19d4:b0:389:771e:3c4f with SMTP id
- u20-20020a05600c19d400b00389771e3c4fmr9799281wmq.23.1646671644689; 
- Mon, 07 Mar 2022 08:47:24 -0800 (PST)
+ bh=U2DXG281yG+T8TcjY7hKoPvKUj4soEUbCsJuYEFv69Y=;
+ b=mWE0/kjIbe532qspzzGwRygccEqvRiDelBrzmPkzW9DGMpMzx1qf5cu+t1qvr6tT09
+ ik2/b+dieIyVg+TY96uYJREhrbzLFoyDEv5r66FaptIAEjoMkVyc+Rmpt/fLq67JdRlF
+ x7IVP9SW9qVSprVCSUTpfvwh2axClGGJrSPQMuLmAQu+CXzreUUZoyrWwQ3WGVBqBG4Y
+ /E2zgtkWAKsCyuR4yl1ZBb/UZMEA5LNVvQpvUBJW9tUuKythYhMdvvuxTPtescJ8G8Rr
+ BiBTpGfb8ye8rpzFG7Am+B4PZMxiF7wWIA2JoIq7LuQupzBC4KubBS7ddtmGuKB4soqZ
+ m5BQ==
+X-Gm-Message-State: AOAM532qetXPw60EnNCRhFb7UxlCjhil+WN5jmKx/dayhjyCHxkjFPL7
+ dslKCWKRI1PbTeAD9oAot18/b++oR1Ejew==
+X-Google-Smtp-Source: ABdhPJx46UBkJ2FLl9gtCKNEjsE5aQo38HTGtUhiZkJDDhyQKOXNGqH7JyvTKmiAa3qcZaeL6chyMw==
+X-Received: by 2002:a5d:534a:0:b0:1f0:5c4b:cec8 with SMTP id
+ t10-20020a5d534a000000b001f05c4bcec8mr9360646wrv.115.1646671645509; 
+ Mon, 07 Mar 2022 08:47:25 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- v188-20020a1cacc5000000b00384b71a50d5sm13806652wme.24.2022.03.07.08.47.23
+ v188-20020a1cacc5000000b00384b71a50d5sm13806652wme.24.2022.03.07.08.47.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 08:47:24 -0800 (PST)
+ Mon, 07 Mar 2022 08:47:25 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/18] hw/intc/arm_gicv3_cpuif: Fix register names in ICV_HPPIR
- read trace event
-Date: Mon,  7 Mar 2022 16:47:06 +0000
-Message-Id: <20220307164709.2503250-16-peter.maydell@linaro.org>
+Subject: [PULL 16/18] ui/cocoa: Use the standard about panel
+Date: Mon,  7 Mar 2022 16:47:07 +0000
+Message-Id: <20220307164709.2503250-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220307164709.2503250-1-peter.maydell@linaro.org>
 References: <20220307164709.2503250-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,38 +92,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The trace_gicv3_icv_hppir_read trace event takes an integer value
-which it uses to form the register name, which should be either
-ICV_HPPIR0 or ICV_HPPIR1.  We were passing in the 'grp' variable for
-this, but that is either GICV3_G0 or GICV3_G1NS, which happen to be 0
-and 2, which meant that tracing for the ICV_HPPIR1 register was
-incorrectly printed as ICV_HPPIR2.
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Use the same approach we do for all the other similar trace events,
-and pass in 'ri->crm == 8 ?  0 : 1', deriving the index value
-directly from the ARMCPRegInfo struct.
+This provides standard look and feel for the about panel and reduces
+code.
 
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Message-id: 20220227042241.1543-1-akihiko.odaki@gmail.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220303202341.2232284-6-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_cpuif.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ ui/cocoa.m | 112 +++++++++++------------------------------------------
+ 1 file changed, 23 insertions(+), 89 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index d7e03d0cab8..1a3d440a54b 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -612,7 +612,8 @@ static uint64_t icv_hppir_read(CPUARMState *env, const ARMCPRegInfo *ri)
-         }
-     }
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 8ab9ab5e84d..c88149852b0 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -83,7 +83,7 @@ static void cocoa_switch(DisplayChangeListener *dcl,
  
--    trace_gicv3_icv_hppir_read(grp, gicv3_redist_affid(cs), value);
-+    trace_gicv3_icv_hppir_read(ri->crm == 8 ? 0 : 1,
-+                               gicv3_redist_affid(cs), value);
-     return value;
+ static void cocoa_refresh(DisplayChangeListener *dcl);
+ 
+-static NSWindow *normalWindow, *about_window;
++static NSWindow *normalWindow;
+ static const DisplayChangeListenerOps dcl_ops = {
+     .dpy_name          = "cocoa",
+     .dpy_gfx_update = cocoa_update,
+@@ -1140,7 +1140,6 @@ QemuCocoaView *cocoaView;
+ - (BOOL)verifyQuit;
+ - (void)openDocumentation:(NSString *)filename;
+ - (IBAction) do_about_menu_item: (id) sender;
+-- (void)make_about_window;
+ - (void)adjustSpeed:(id)sender;
+ @end
+ 
+@@ -1186,8 +1185,6 @@ QemuCocoaView *cocoaView;
+         [pauseLabel setFont: [NSFont fontWithName: @"Helvetica" size: 90]];
+         [pauseLabel setTextColor: [NSColor blackColor]];
+         [pauseLabel sizeToFit];
+-
+-        [self make_about_window];
+     }
+     return self;
+ }
+@@ -1471,92 +1468,29 @@ QemuCocoaView *cocoaView;
+ /* The action method for the About menu item */
+ - (IBAction) do_about_menu_item: (id) sender
+ {
+-    [about_window makeKeyAndOrderFront: nil];
+-}
+-
+-/* Create and display the about dialog */
+-- (void)make_about_window
+-{
+-    /* Make the window */
+-    int x = 0, y = 0, about_width = 400, about_height = 200;
+-    NSRect window_rect = NSMakeRect(x, y, about_width, about_height);
+-    about_window = [[NSWindow alloc] initWithContentRect:window_rect
+-                    styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
+-                    NSWindowStyleMaskMiniaturizable
+-                    backing:NSBackingStoreBuffered
+-                    defer:NO];
+-    [about_window setTitle: @"About"];
+-    [about_window setReleasedWhenClosed: NO];
+-    [about_window center];
+-    NSView *superView = [about_window contentView];
+-
+-    /* Create the dimensions of the picture */
+-    int picture_width = 80, picture_height = 80;
+-    x = (about_width - picture_width)/2;
+-    y = about_height - picture_height - 10;
+-    NSRect picture_rect = NSMakeRect(x, y, picture_width, picture_height);
+-
+-    /* Make the picture of QEMU */
+-    NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
+-                                                     picture_rect];
+-    char *qemu_image_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
+-    NSString *qemu_image_path = [NSString stringWithUTF8String:qemu_image_path_c];
+-    g_free(qemu_image_path_c);
+-    NSImage *qemu_image = [[NSImage alloc] initWithContentsOfFile:qemu_image_path];
+-    [picture_view setImage: qemu_image];
+-    [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
+-    [superView addSubview: picture_view];
+-
+-    /* Make the name label */
+-    NSBundle *bundle = [NSBundle mainBundle];
+-    if (bundle) {
+-        x = 0;
+-        y = y - 25;
+-        int name_width = about_width, name_height = 20;
+-        NSRect name_rect = NSMakeRect(x, y, name_width, name_height);
+-        NSTextField *name_label = [[NSTextField alloc] initWithFrame: name_rect];
+-        [name_label setEditable: NO];
+-        [name_label setBezeled: NO];
+-        [name_label setDrawsBackground: NO];
+-        [name_label setAlignment: NSTextAlignmentCenter];
+-        NSString *qemu_name = [[bundle executablePath] lastPathComponent];
+-        [name_label setStringValue: qemu_name];
+-        [superView addSubview: name_label];
++    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
++    char *icon_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
++    NSString *icon_path = [NSString stringWithUTF8String:icon_path_c];
++    g_free(icon_path_c);
++    NSImage *icon = [[NSImage alloc] initWithContentsOfFile:icon_path];
++    NSString *version = @"QEMU emulator version " QEMU_FULL_VERSION;
++    NSString *copyright = @QEMU_COPYRIGHT;
++    NSDictionary *options;
++    if (icon) {
++        options = @{
++            NSAboutPanelOptionApplicationIcon : icon,
++            NSAboutPanelOptionApplicationVersion : version,
++            @"Copyright" : copyright,
++        };
++        [icon release];
++    } else {
++        options = @{
++            NSAboutPanelOptionApplicationVersion : version,
++            @"Copyright" : copyright,
++        };
+     }
+-
+-    /* Set the version label's attributes */
+-    x = 0;
+-    y = 50;
+-    int version_width = about_width, version_height = 20;
+-    NSRect version_rect = NSMakeRect(x, y, version_width, version_height);
+-    NSTextField *version_label = [[NSTextField alloc] initWithFrame:
+-                                                      version_rect];
+-    [version_label setEditable: NO];
+-    [version_label setBezeled: NO];
+-    [version_label setAlignment: NSTextAlignmentCenter];
+-    [version_label setDrawsBackground: NO];
+-
+-    /* Create the version string*/
+-    NSString *version_string;
+-    version_string = [[NSString alloc] initWithFormat:
+-    @"QEMU emulator version %s", QEMU_FULL_VERSION];
+-    [version_label setStringValue: version_string];
+-    [superView addSubview: version_label];
+-
+-    /* Make copyright label */
+-    x = 0;
+-    y = 35;
+-    int copyright_width = about_width, copyright_height = 20;
+-    NSRect copyright_rect = NSMakeRect(x, y, copyright_width, copyright_height);
+-    NSTextField *copyright_label = [[NSTextField alloc] initWithFrame:
+-                                                        copyright_rect];
+-    [copyright_label setEditable: NO];
+-    [copyright_label setBezeled: NO];
+-    [copyright_label setDrawsBackground: NO];
+-    [copyright_label setAlignment: NSTextAlignmentCenter];
+-    [copyright_label setStringValue: [NSString stringWithFormat: @"%s",
+-                                     QEMU_COPYRIGHT]];
+-    [superView addSubview: copyright_label];
++    [NSApp orderFrontStandardAboutPanelWithOptions:options];
++    [pool release];
  }
  
+ /* Used by the Speed menu items */
 -- 
 2.25.1
 
