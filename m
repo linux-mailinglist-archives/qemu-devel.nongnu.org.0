@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E55E84CFF43
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:56:41 +0100 (CET)
-Received: from localhost ([::1]:40084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9ED4CFD77
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:55:18 +0100 (CET)
+Received: from localhost ([::1]:54022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCun-0004MQ-18
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:56:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60060)
+	id 1nRBxN-0000f2-Jm
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:55:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nRBsz-0005G8-Ed
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:50:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49575)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nRBsv-0003QX-Mb
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:50:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646653837;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O+8DRlc7qaML/UBnPypIWyERMJ3Uvk4zrpOJ961VSmw=;
- b=AXI25ljdcr+UgwBlqwVfTCuXItnpVbqwtdGbd5xTs7AmN7AOZ6LsZNQEmyvfNKTfVp46h/
- +y0CUzykOC5fkxvt2pU5Dl+z5eUySA+fUxczBqglpOSVRxoB7LVzAAcRXCAodigx0lpMoI
- Wq95ZYUHFWtWNFZGOxmvggBwODfFq0Q=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-SHmcfNQzOVatXKyReJUKJA-1; Mon, 07 Mar 2022 06:50:36 -0500
-X-MC-Unique: SHmcfNQzOVatXKyReJUKJA-1
-Received: by mail-yb1-f198.google.com with SMTP id
- x11-20020a5b0f0b000000b0062277953037so13183438ybr.21
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 03:50:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRBts-0006LB-BK
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:51:47 -0500
+Received: from [2607:f8b0:4864:20::b33] (port=43703
+ helo=mail-yb1-xb33.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRBtn-0003Zz-6e
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:51:39 -0500
+Received: by mail-yb1-xb33.google.com with SMTP id g26so30292844ybj.10
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 03:51:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WRpBGxlKqz7wgf9vlrHm12BEWHv1c6+OKPvkEZ8OTXg=;
+ b=yXbp01fjwK6axOYGgEfM1ultrVbUXYZ90QU75DXLS4HlTUL2gInc7IlMWpk9ZzjGwR
+ syFcdh6IDOtTqgEMe8dyvHWYLShRUUAA+7KNKqbWq0+CsElJxwTZNvuhxobwcsmcbx4U
+ HKkPB61H0nSIXriJsf+dJVzPxfKcTWGXS1dpx+KdAF1nj7v+mdde6a8mulK/ddV10jGv
+ xEI8u27CHSu0ZffgPBl68Az4Wb5JZhoPc2tX/FQDGnTeC7fefAgv3HWCuJQlKTdqKeWX
+ g2h7ra6YyhbWfzj54jX1uT5YdyXAB2Xj0N8cjM57yyxziakV1pgqyXtzcNBgTf/nWDL2
+ tRVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=O+8DRlc7qaML/UBnPypIWyERMJ3Uvk4zrpOJ961VSmw=;
- b=ky/pMWp+dXbJu2sRfBkakpR90e06ceqNcSjK9Mq7QIILV3BdnXmeTDk+87VBVPkK1C
- MSzFGYKsEYta75EhsROHAGeWkF7IEspARgHHjw45iYDJoK6W2BW8yViFWCyAhvRXJ+GY
- bjl3QOk/vDL7CfK69KyzGWp5t4Ye8nAVkdjZZcmOUJjMf4Aq5Vkw8cZywzq6AZHOGLCi
- mHKW014iz6yObU/oJfJUxYtWAQMHwBGP6P3yWu+M+SeM59uwIsiLV8+as4fRYB6SKSW5
- dEhuLbwX2y4lNsqGLynnRLt8bx6kfbQ6kZWDqU9FFkFDXOa4lQbiEfZ2DyoYI+pnTsQ7
- 3aWQ==
-X-Gm-Message-State: AOAM531TYHfXyBX+FF9SQEyFZOdib1U7tUNTuUcOnzAVbeONL48N85jn
- kKRi2cxl7/b2KvOUDJNTq8J/pWms3yj9QTbdRggqocFVKngktr2fA7/sz5xL0piMXng6ej7mCyt
- tM3CbtjhsB6HpctTCsjnolHL7HOWbasA=
-X-Received: by 2002:a81:9285:0:b0:2dc:ae1c:5d5 with SMTP id
- j127-20020a819285000000b002dcae1c05d5mr4349631ywg.33.1646653835592; 
- Mon, 07 Mar 2022 03:50:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyoQIWVDg1H/GdXjIi2t/eENRJpHf/wImvtduPX0wk9PE7j3gCxbSwFGzcQOLHycqRU4dTmrYRqJF7arfTbv/A=
-X-Received: by 2002:a81:9285:0:b0:2dc:ae1c:5d5 with SMTP id
- j127-20020a819285000000b002dcae1c05d5mr4349622ywg.33.1646653835389; Mon, 07
- Mar 2022 03:50:35 -0800 (PST)
+ bh=WRpBGxlKqz7wgf9vlrHm12BEWHv1c6+OKPvkEZ8OTXg=;
+ b=bHXu9xh/7XqkUoewg6MpuopKQKv1SrJT5wWqDMcQrvzumrdF3pM/XU0zOXWKbOljJr
+ bfWrBOSEV8vDWFez68njnv2kWsj9VpHnmcs57he41R2yN0ZS2k5yG3ZKT+Z2kdcp12qy
+ 6Zpuxfi9RgWH9b/abX7htw4P5lbBJEqTI8OPi9+sr2mJFmj1uAhwvxpltMgtK6PtYM7I
+ 5acZ3mOOUHJ1J7yVHS8mg86SkIMzro3IxU7PFBhBgBfEqak89FQqpR4xUKKV0g9kdHom
+ D9QyNEHOrVvhY4B2hoSo3YPNAxC/BFF7ETdwuKsTLGNRRdc5gVcgrhsVR/yCeCGyh6Tu
+ JWDQ==
+X-Gm-Message-State: AOAM533KzvwIWJCMH/v7npK1J4L+ix+VgYEPJxNb2V7A3Duqk1dn1HUg
+ EaKhEpPeq9NeHkhZexgYmHK4UGG1u63d7RL+B/qSUQ==
+X-Google-Smtp-Source: ABdhPJw4+ejNnPkz4MvxVil0BEG0jEm7aTZ+lTjJGi0b4KLKQWhVM+8Y6fIlNVI6TQo+J2BqcHINCAZ1Qs2llHj5PT4=
+X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
+ s5-20020a5b0745000000b006221c463c19mr7624767ybq.479.1646653891151; Mon, 07
+ Mar 2022 03:51:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
- <20220307074632.238049-13-marcandre.lureau@redhat.com>
- <c80fde18-bb3e-e780-356c-f935e7390e4d@gmail.com>
- <CAMxuvaw_QT4wEGLZRNJEd1m-58JV-8AOc6CHKkMw4i_yrVNgew@mail.gmail.com>
- <28ef9b06-3225-112f-b664-176e67c824d9@gmail.com>
-In-Reply-To: <28ef9b06-3225-112f-b664-176e67c824d9@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 7 Mar 2022 15:50:24 +0400
-Message-ID: <CAMxuvaz3+ySgiOxawVT=P7x4ikDcap0o5Ux78_HdewL0XXa5Kg@mail.gmail.com>
-Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
- current scanout is GL
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
+ <CAFEAcA_Gedun4yL_DcfK9Pk7e5j5gYpHuue139gq3rYH3zbETQ@mail.gmail.com>
+ <ad3118f9-0079-16cc-8a9d-51b8e32e7b2c@gmail.com>
+ <CAFEAcA_rLaphLoyZNUGOPoj5n2z7X+RJNSpnJGqhu9ujAMduEQ@mail.gmail.com>
+ <ec456ba2-71ed-7cbd-ae3a-595131962918@gmail.com>
+In-Reply-To: <ec456ba2-71ed-7cbd-ae3a-595131962918@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Mar 2022 11:51:20 +0000
+Message-ID: <CAFEAcA9tzq6atDCFDSmFZ2FhNgn7dXt21=GazcXZ9+3WYVtWuA@mail.gmail.com>
+Subject: Re: [PULL 00/33] Abstract ArchCPU
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b33
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,60 +88,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Mon, Mar 7, 2022 at 2:35 PM Akihiko Odaki <akihiko.odaki@gmail.com> wrot=
-e:
+On Sun, 6 Mar 2022 at 21:13, Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
 >
-> On 2022/03/07 19:19, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi Akihiko
-> >
-> > On Mon, Mar 7, 2022 at 12:09 PM Akihiko Odaki <akihiko.odaki@gmail.com>=
- wrote:
-> >>
-> >> On 2022/03/07 16:46, marcandre.lureau@redhat.com wrote:
-> >>> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >>>
-> >>> egl-headless depends on the backing surface to be set before texture =
-are
-> >>> set and updated. Display it (update=3Dtrue) iff the current scanout k=
-ind
-> >>> is SURFACE.
-> >>
-> >> egl-headless does not dynamically call register_displaychangelistener
-> >> and has console associated (console_select would not affect egl-headle=
-ss
-> >> itself) so this should not be necessary.
-> >
-> > Could you help me understand, what should not be necessary?
+> +Daniel/Alex
 >
-> I read the description as it sets the backing surface for egl-headless
-> when register_displaychangelistener or console_select is called. The
-> change is not necessary.
-
-Without it, gfx_switch is not called to set the new surface. Switching
-console with VNC would fail (via ctrl+alt+num).
-
->
+> On 6/3/22 20:56, Peter Maydell wrote:
+> > On Sun, 6 Mar 2022 at 19:06, Philippe Mathieu-Daud=C3=A9
+> > <philippe.mathieu.daude@gmail.com> wrote:
+> >> I see. I only have access to aarch64 Darwin, not x86_64; I was relying
+> >> on our CI for that (my GitLab CI is green). I'll work a fix, thanks.
 > >
-> >> The remaining problem with egl-headless is that egl-headless renders t=
-he
-> >> image to DisplaySurface, and a non-OpenGL display (namely vnc) has to
-> >> consume it instead of texture even when con->scanout.kind is
-> >> SCANOUT_TEXTURE or SCANOUT_DMABUF.
-> >
-> > This is already happening, because egl-headless calls dpy_gfx_update().
+> > This was on my ad-hoc stuff -- I guess our gitlab CI for macos
+> > doesn't build hvf ?
 >
-> It is not called when register_displaychangelistener or console_select
-> is called by non-OpenGL display consuming the DisplaySurface.
+> No, it does:
+>
+> https://gitlab.com/philmd/qemu/-/jobs/2167582776#L6444
+>
+>    Targets and accelerators
+>      KVM support                  : NO
+>      HAX support                  : YES
+>      HVF support                  : YES
+>      WHPX support                 : NO
+>      NVMM support                 : NO
+>      Xen support                  : NO
+>      TCG support                  : YES
+>
+> But the Cirrus job are allowed to fail:
 
-When displaychangelistener_display_console() is called with
-con->scanount.kind =3D=3D SCANOUT_SURFACE, it calls gfx_update(update =3D=
-=3D
-TRUE), and thus calls gfx_update on the whole surface.
+Overall I am starting to feel that we should stop having
+these CI jobs that are in the "allowed to fail" category.
+All that happens is that they eat a lot of CPU on our CI
+hosts, but they don't actually find bugs because everybody
+(rightly) treats "allowed-to-fail-and-failed" as "ignore me".
+I think our CI jobs should either be "must pass", or else
+"run only manually", with that latter category being rarely
+used and only where there's a good reason (eg somebody
+specific has taken responsibility for debugging some
+intermittent failure and having it still available in the
+CI UI for them to trigger is helpful).
 
+Plus we really need to get on top of all the intermittent
+failures. The current state of the world is that we have
+some intermittents, which makes it easy for new intermittents
+to get into the tree, because everybody is in the habit of
+"just hit retry"...
+
+thanks
+-- PMM
 
