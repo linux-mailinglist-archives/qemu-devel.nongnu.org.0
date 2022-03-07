@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93D14D00AB
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 15:05:18 +0100 (CET)
-Received: from localhost ([::1]:48858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747484D00B5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 15:07:00 +0100 (CET)
+Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRDzB-00040m-Q5
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 09:05:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34472)
+	id 1nRE0p-0006u3-Hn
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 09:06:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nRDsi-0006eI-G5
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:58:36 -0500
-Received: from [2a00:1450:4864:20::62a] (port=43589
- helo=mail-ej1-x62a.google.com)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nRDth-0007dI-FM
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:59:39 -0500
+Received: from [2a00:1450:4864:20::52f] (port=38495
+ helo=mail-ed1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nRDsg-00012T-Ov
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:58:36 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id d10so32089448eje.10
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 05:58:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nRDtb-0001DJ-AC
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:59:34 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id h13so7882921ede.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 05:59:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:in-reply-to:references:message-id
  :mime-version:content-transfer-encoding;
- bh=uNtE9f+O5cuVCwnZAFRoalUjRpC9TUlMrKBK/skdjns=;
- b=OYvcd8x7vi3yEwUEH+S/ZegKj/jWmcma5usppkQJBssFqx03pKIaGYn2Db7etIkFmV
- y7vOQr4piCoahK1HIdAgGr+159GbZMZcwP2C27iUhTuPYAeSsD3SmqC+wD4P0gKIcdNF
- 9DTK/hKxo7woH1i507f9h+zeiZeid5TKv7Qm785vWzmmFtvlhRclPB3B5DQOqH3GEqM5
- S53sPM2D0V2XFapqfo8KrYx9dvT4NDXoGh1LjO3XUx2wIl5lNRtejw1cCq57gxRGstMF
- xrGFlt67YK+1N9VSiwGHAMMgE+aSsH3OqtisUOeYIR8sHUNGzSHO1RNBPAiZjtSoF22X
- ELDA==
+ bh=bf+iX2o3O9l2G7SWUG/ZZ8BnGfU63V74IaKm1svboR8=;
+ b=kxMfwwMrpcy07JBhKOPWKwAeFJt70aDVoUDnkK8gqw5SG2Jn6sNjh1uAa9SywC6f+u
+ +F3Gi1q2I8sGr9DE8paaejOLWmo/QJt56KwjnqfK+hAl69z11uetqffUGT6I1p+MNnKN
+ oSIZ8lmKm2NKAiDTi18J1GQilpxgDZztrpxRquT9Tj6ObiUFfJPsAC9WCPvGd/1rplSl
+ udgE4z1N5kKTW0Uge+EUxs4+pyOIndMjeO6YCyfaC9MJEmBnklEowfFHv+Qrmmchh7QR
+ zFgoHQn5qBri8uNX4NEq03co264yEOFg2AloFxoSghml2L3FrR2EHzeYdATYf9Cpc2s+
+ FYaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:references
  :message-id:mime-version:content-transfer-encoding;
- bh=uNtE9f+O5cuVCwnZAFRoalUjRpC9TUlMrKBK/skdjns=;
- b=RVH3Vldxet0n+KHfb6I86r0RPc4b6sOzsAX5sqdzEdbqKGySDJvuOLydBh7ZoQ2hFl
- ZZWE1ygMC0NIS4GUDYCwOrCUO5OTezqA9CFPqeiikYw0cZN4XNTvxWfHiw7dirsUm+0n
- nxkypY7RzP8PcT2xG7RKN6b1Ki2byQYLcx1NNxcsXr9Opy1EYRuEpUtcWQ/BdYtYURSr
- jiP5yxAr2mlRFdHW36sFnqhVR4O++mue2L+CQzMtecmbneqTK6+ujPfdBW3YUd1uSFI5
- 7AeUI2N9PJdcWG1bPq9Bxk6ph5AWq6uPw5OMMdWqFTnCiyLfIF+7ahG/j3I0z6DzJkMe
- q41g==
-X-Gm-Message-State: AOAM532LDrp+3Wdz1z5pC8P8Lj5+Vfd74Dz7tm3ykruouvzQBfWnEhUD
- dulz+SU2/GADw58WMZciPYM=
-X-Google-Smtp-Source: ABdhPJwlc7k+bGGGKqNS7yiM/DBFhIxzoof4RQQkqvPVKxZh+yi2uzVndlp6KOFhBXXJURpzcfXn6g==
-X-Received: by 2002:a17:906:6547:b0:6bd:e2ad:8c82 with SMTP id
- u7-20020a170906654700b006bde2ad8c82mr9072214ejn.693.1646661508277; 
- Mon, 07 Mar 2022 05:58:28 -0800 (PST)
+ bh=bf+iX2o3O9l2G7SWUG/ZZ8BnGfU63V74IaKm1svboR8=;
+ b=7WBB3H4fDNeRC4sMf5bXfR9yJ88ZixDBcf02pwCA4ZW0s8mq7I1Ar3hY2DXZzs1/zP
+ 06/cYxLHCIkisiLt0eoUGWBOjyDCAl8/8rHWiyL307wcJ7elTsZcAaqA7PlFJb4UzH+S
+ Yeh9kGDKndSPFDVn56iqeDrE+NGS9jG+8P0yiaoSLB2/OjlPjNYZvcX3AgLYbUhs+rFF
+ 5AEWXyva+yty67/3iByx1+GhwDoHmHfmmnUO8CWdvfPZymHT7hnYuNB4wDEXLtAbKPqe
+ tNF9UKfQ25/i4tamqxb/Lx13H7aSHUfDsFrAuUyh0UUcNAqqTGVbut/gp0BgfO23wEzD
+ VHMg==
+X-Gm-Message-State: AOAM531F6DLR0FVTNTpdXZA2NQiXIrh7e8bC8P9wwMBo+L7EDl1b+D23
+ ggBtZ8C3JL/FB0eUt1ySkUUEIcw0X+4=
+X-Google-Smtp-Source: ABdhPJwqoSs/v0vttn6L3zGUuMwi4FaMIvdsH6tR8iaERm/Xkocaluct6bl3QXzXIpQIpTROGrc/7Q==
+X-Received: by 2002:aa7:de0e:0:b0:416:607c:6d45 with SMTP id
+ h14-20020aa7de0e000000b00416607c6d45mr1284511edv.127.1646661567286; 
+ Mon, 07 Mar 2022 05:59:27 -0800 (PST)
 Received: from [127.0.0.1] (dynamic-089-012-143-092.89.12.pool.telefonica.de.
  [89.12.143.92]) by smtp.gmail.com with ESMTPSA id
- o23-20020a170906861700b006da745f7233sm4727961ejx.5.2022.03.07.05.58.27
+ r14-20020a1709067fce00b006db0edb8a80sm1800063ejs.225.2022.03.07.05.59.26
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 07 Mar 2022 05:58:27 -0800 (PST)
-Date: Mon, 07 Mar 2022 13:58:25 +0000
+ Mon, 07 Mar 2022 05:59:26 -0800 (PST)
+Date: Mon, 07 Mar 2022 13:59:24 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?=
  <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 08/13] hw/rtc/mc146818rtc: QOM'ify IRQ number
-In-Reply-To: <20220307134353.1950-9-philippe.mathieu.daude@gmail.com>
+Subject: Re: [PATCH 09/13] hw/rtc/m48t59-isa: QOM'ify IRQ number
+In-Reply-To: <20220307134353.1950-10-philippe.mathieu.daude@gmail.com>
 References: <20220307134353.1950-1-philippe.mathieu.daude@gmail.com>
- <20220307134353.1950-9-philippe.mathieu.daude@gmail.com>
-Message-ID: <656F546D-8A99-45A3-9278-D24A24B5AFEC@gmail.com>
+ <20220307134353.1950-10-philippe.mathieu.daude@gmail.com>
+Message-ID: <790C07C7-9301-485E-A7A0-D79DA48C2F89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,138 +93,64 @@ Cc: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 7=2E M=C3=A4rz 2022 13:43:48 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+Am 7=2E M=C3=A4rz 2022 13:43:49 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
 philippe=2Emathieu=2Edaude@gmail=2Ecom>:
 >From: Bernhard Beschow <shentey@gmail=2Ecom>
 >
 >Exposing the IRQ number as a QOM property not only allows it to be
->configurable but also to be displayed in HMP:
->
->Before:
->
->(qemu) info qtree
->       =2E=2E=2E
->          dev: mc146818rtc, id ""
->            gpio-out "" 1
->            base_year =3D 0 (0x0)
->            lost_tick_policy =3D "discard"
->
->After:
->
->          dev: mc146818rtc, id ""
->            gpio-out "" 1
->            base_year =3D 0 (0x0)
->            irq =3D 8 (0x8)
->            lost_tick_policy =3D "discard"
->
->The reason the IRQ number didn's show up before is that this device does =
-not
->call isa_init_irq()=2E
+>configurable but also to be printed by standard QOM mechanisms=2E This al=
+lows
+>isabus_dev_print() to be retired eventually=2E
 >
 >Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
 >Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
->Message-Id: <20220301220037=2E76555-2-shentey@gmail=2Ecom>
+>Message-Id: <20220301220037=2E76555-3-shentey@gmail=2Ecom>
 >Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
 >---
-> hw/isa/piix4=2Ec               |  2 +-
-> hw/rtc/mc146818rtc=2Ec         | 13 +++++++++++--
-> include/hw/rtc/mc146818rtc=2Eh |  1 +
-> 3 files changed, 13 insertions(+), 3 deletions(-)
+> hw/rtc/m48t59-isa=2Ec | 9 ++++++++-
+> 1 file changed, 8 insertions(+), 1 deletion(-)
 >
->diff --git a/hw/isa/piix4=2Ec b/hw/isa/piix4=2Ec
->index f876c71750=2E=2Efc3c8b3fd1 100644
->--- a/hw/isa/piix4=2Ec
->+++ b/hw/isa/piix4=2Ec
->@@ -216,7 +216,7 @@ static void piix4_realize(PCIDevice *dev, Error **err=
-p)
->     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
->         return;
->     }
->-    isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc=2Eirq, RTC_ISA_IRQ);
->+    isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc=2Eirq, s->rtc=2Eisairq);
-> }
+>diff --git a/hw/rtc/m48t59-isa=2Ec b/hw/rtc/m48t59-isa=2Ec
+>index dc21fb10a5=2E=2Ee9086eada4 100644
+>--- a/hw/rtc/m48t59-isa=2Ec
+>+++ b/hw/rtc/m48t59-isa=2Ec
+>@@ -42,6 +42,7 @@ struct M48txxISAState {
+>     ISADevice parent_obj;
+>     M48t59State state;
+>     uint32_t io_base;
+>+    uint8_t isairq;
+>     MemoryRegion io;
+> };
 >=20
-> static void piix4_init(Object *obj)
->diff --git a/hw/rtc/mc146818rtc=2Ec b/hw/rtc/mc146818rtc=2Ec
->index ac9a60c90e=2E=2Ef235c2ddbe 100644
->--- a/hw/rtc/mc146818rtc=2Ec
->+++ b/hw/rtc/mc146818rtc=2Ec
->@@ -912,6 +912,11 @@ static void rtc_realizefn(DeviceState *dev, Error **=
-errp)
->         s->base_year =3D 0;
->     }
+>@@ -79,6 +80,7 @@ static void m48txx_isa_toggle_lock(Nvram *obj, int lock=
+)
+> static Property m48t59_isa_properties[] =3D {
+>     DEFINE_PROP_INT32("base-year", M48txxISAState, state=2Ebase_year, 0)=
+,
+>     DEFINE_PROP_UINT32("iobase", M48txxISAState, io_base, 0x74),
+>+    DEFINE_PROP_UINT8("irq", M48txxISAState, isairq, 8),
+>     DEFINE_PROP_END_OF_LIST(),
+> };
 >=20
->+    if (s->isairq >=3D ISA_NUM_IRQS) {
+>@@ -97,9 +99,14 @@ static void m48t59_isa_realize(DeviceState *dev, Error=
+ **errp)
+>     M48txxISAState *d =3D M48TXX_ISA(dev);
+>     M48t59State *s =3D &d->state;
+>=20
+>+    if (d->isairq >=3D ISA_NUM_IRQS) {
 >+        error_setg(errp, "Maximum value for \"irq\" is: %u", ISA_NUM_IRQ=
 S - 1);
 >+        return;
 >+    }
 >+
->     rtc_set_date_from_host(isadev);
->=20
->     switch (s->lost_tick_policy) {
->@@ -957,15 +962,17 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_=
-year, qemu_irq intercept_irq)
-> {
->     DeviceState *dev;
->     ISADevice *isadev;
->+    RTCState *s;
->=20
->     isadev =3D isa_new(TYPE_MC146818_RTC);
->     dev =3D DEVICE(isadev);
->+    s =3D MC146818_RTC(isadev);
->     qdev_prop_set_int32(dev, "base_year", base_year);
->     isa_realize_and_unref(isadev, bus, &error_fatal);
->     if (intercept_irq) {
->         qdev_connect_gpio_out(dev, 0, intercept_irq);
->     } else {
->-        isa_connect_gpio_out(isadev, 0, RTC_ISA_IRQ);
->+        isa_connect_gpio_out(isadev, 0, s->isairq);
->     }
->=20
->     object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(isa=
-dev),
->@@ -976,6 +983,7 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_ye=
-ar, qemu_irq intercept_irq)
->=20
-> static Property mc146818rtc_properties[] =3D {
->     DEFINE_PROP_INT32("base_year", RTCState, base_year, 1980),
->+    DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
->     DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
->                                lost_tick_policy, LOST_TICK_POLICY_DISCAR=
-D),
->     DEFINE_PROP_END_OF_LIST(),
->@@ -1011,6 +1019,7 @@ static void rtc_reset_hold(Object *obj)
->=20
-> static void rtc_build_aml(ISADevice *isadev, Aml *scope)
-> {
->+    RTCState *s =3D MC146818_RTC(isadev);
->     Aml *dev;
->     Aml *crs;
->=20
->@@ -1021,7 +1030,7 @@ static void rtc_build_aml(ISADevice *isadev, Aml *s=
-cope)
->     crs =3D aml_resource_template();
->     aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
->                            0x01, 0x08));
->-    aml_append(crs, aml_irq_no_flags(RTC_ISA_IRQ));
->+    aml_append(crs, aml_irq_no_flags(s->isairq));
->=20
->     dev =3D aml_device("RTC");
->     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0B00")));
->diff --git a/include/hw/rtc/mc146818rtc=2Eh b/include/hw/rtc/mc146818rtc=
-=2Eh
->index 5b45b22924=2E=2Edeef93f89a 100644
->--- a/include/hw/rtc/mc146818rtc=2Eh
->+++ b/include/hw/rtc/mc146818rtc=2Eh
->@@ -25,6 +25,7 @@ struct RTCState {
->     MemoryRegion coalesced_io;
->     uint8_t cmos_data[128];
->     uint8_t cmos_index;
->+    uint8_t isairq;
->     int32_t base_year;
->     uint64_t base_rtc;
->     uint64_t last_update;
+>     s->model =3D u->info=2Emodel;
+>     s->size =3D u->info=2Esize;
+>-    isa_init_irq(isadev, &s->IRQ, 8);
+>+    isa_init_irq(isadev, &s->IRQ, d->isairq);
+>     m48t59_realize_common(s, errp);
+>     memory_region_init_io(&d->io, OBJECT(dev), &m48t59_io_ops, s, "m48t5=
+9", 4);
+>     if (d->io_base !=3D 0) {
 
 Reviewed-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
