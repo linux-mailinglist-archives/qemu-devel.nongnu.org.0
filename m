@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF5E4CFD41
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:45:42 +0100 (CET)
-Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55E84CFF43
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:56:41 +0100 (CET)
+Received: from localhost ([::1]:40084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBo5-0003rm-0b
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:45:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58068)
+	id 1nRCun-0004MQ-18
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:56:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRBlT-0001A3-Lj
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:42:59 -0500
-Received: from [2607:f8b0:4864:20::634] (port=35409
- helo=mail-pl1-x634.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRBlS-00029d-5c
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:42:59 -0500
-Received: by mail-pl1-x634.google.com with SMTP id n15so3521448plh.2
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 03:42:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=4odH6U8Pivs8O7m2aa9H7/TXHdSsws83YkqtYFqBWIE=;
- b=f6mY3e8AgwgaCAwx8V+77YfNwDtssO6k+NJjhxygyPszR9GWtkzyx8PRoxwH/C+2ut
- WQibV1FryBxlSyota48SemF/3Muz7Zy2Hil0GilPtKi6nEKeXWuGxrKpV8MGoMJ0aHHE
- UrkJUshWkbI1YtnIuLyDN5OSASLq/ZZjnbLtniNxof1be9yYaMiukeVo9wiCosKxPn7I
- 7EJtJnB+WAUmzBMtsqZCaBIlzqrGRNSlP4cAr4R7A9oZQIjmlAH5sHzf/dD0xcwKwvX2
- YMOYYPDdWSP2pUBYIEwkVx711aSXoxWQ7OiO+818/WcLDxnK2kKA2B9815FfiMmg9NcJ
- JvRg==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nRBsz-0005G8-Ed
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:50:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49575)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nRBsv-0003QX-Mb
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:50:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646653837;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O+8DRlc7qaML/UBnPypIWyERMJ3Uvk4zrpOJ961VSmw=;
+ b=AXI25ljdcr+UgwBlqwVfTCuXItnpVbqwtdGbd5xTs7AmN7AOZ6LsZNQEmyvfNKTfVp46h/
+ +y0CUzykOC5fkxvt2pU5Dl+z5eUySA+fUxczBqglpOSVRxoB7LVzAAcRXCAodigx0lpMoI
+ Wq95ZYUHFWtWNFZGOxmvggBwODfFq0Q=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-596-SHmcfNQzOVatXKyReJUKJA-1; Mon, 07 Mar 2022 06:50:36 -0500
+X-MC-Unique: SHmcfNQzOVatXKyReJUKJA-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ x11-20020a5b0f0b000000b0062277953037so13183438ybr.21
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 03:50:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4odH6U8Pivs8O7m2aa9H7/TXHdSsws83YkqtYFqBWIE=;
- b=SFdC7jC8lcw/66yPT+9nR0K+WR/Uxf/FLEnQHmddW1nb5F0D5LXiMs3l/2bA2USYAs
- MgIOivHfPIEfQPv+wAj3V6wKQe/QIPfXvPM+UiW9PWE55s9TPODICH9XB6/PelrZTa8e
- awhm9uxOHWSF9qACTlP37zlbT6d2NJKS4lI2CdUO7imHJrvgUvQgafCnGwHh2/07RPaN
- P21s/yg4oAJ8qcS6lnMS/pScRPc+PmJEbD/h/UGMejGS2fzvQq9OJrZ+uIcF6WI13pv8
- 8Xf3f4LiUkLU+JKtC9gJMq3r75JC+OAh4rHlQSgpyDdukW/Fpj0hM8xWGZqQDujUI+t/
- 7+Cw==
-X-Gm-Message-State: AOAM530e33iIORRiok7Mw+CMNSz/4d/NabA3NuyBVO8iOzyKbgKO+18d
- 4E1U1UqebVyZbrxiz87QkhSrX47Y794=
-X-Google-Smtp-Source: ABdhPJzQQLO6be2ZIssF7axlA+a2QgN6IBEA8iqb7l0e2JlJgorS/d3tc6QkzlupWMono2F3NjaEhg==
-X-Received: by 2002:a17:90b:4b07:b0:1bf:5d59:a936 with SMTP id
- lx7-20020a17090b4b0700b001bf5d59a936mr5605229pjb.96.1646653376273; 
- Mon, 07 Mar 2022 03:42:56 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- p10-20020a056a000b4a00b004e12fd48035sm16475842pfo.96.2022.03.07.03.42.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 03:42:55 -0800 (PST)
-Message-ID: <0736a795-334b-2904-5fca-ac8493cfb676@gmail.com>
-Date: Mon, 7 Mar 2022 12:42:51 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=O+8DRlc7qaML/UBnPypIWyERMJ3Uvk4zrpOJ961VSmw=;
+ b=ky/pMWp+dXbJu2sRfBkakpR90e06ceqNcSjK9Mq7QIILV3BdnXmeTDk+87VBVPkK1C
+ MSzFGYKsEYta75EhsROHAGeWkF7IEspARgHHjw45iYDJoK6W2BW8yViFWCyAhvRXJ+GY
+ bjl3QOk/vDL7CfK69KyzGWp5t4Ye8nAVkdjZZcmOUJjMf4Aq5Vkw8cZywzq6AZHOGLCi
+ mHKW014iz6yObU/oJfJUxYtWAQMHwBGP6P3yWu+M+SeM59uwIsiLV8+as4fRYB6SKSW5
+ dEhuLbwX2y4lNsqGLynnRLt8bx6kfbQ6kZWDqU9FFkFDXOa4lQbiEfZ2DyoYI+pnTsQ7
+ 3aWQ==
+X-Gm-Message-State: AOAM531TYHfXyBX+FF9SQEyFZOdib1U7tUNTuUcOnzAVbeONL48N85jn
+ kKRi2cxl7/b2KvOUDJNTq8J/pWms3yj9QTbdRggqocFVKngktr2fA7/sz5xL0piMXng6ej7mCyt
+ tM3CbtjhsB6HpctTCsjnolHL7HOWbasA=
+X-Received: by 2002:a81:9285:0:b0:2dc:ae1c:5d5 with SMTP id
+ j127-20020a819285000000b002dcae1c05d5mr4349631ywg.33.1646653835592; 
+ Mon, 07 Mar 2022 03:50:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyoQIWVDg1H/GdXjIi2t/eENRJpHf/wImvtduPX0wk9PE7j3gCxbSwFGzcQOLHycqRU4dTmrYRqJF7arfTbv/A=
+X-Received: by 2002:a81:9285:0:b0:2dc:ae1c:5d5 with SMTP id
+ j127-20020a819285000000b002dcae1c05d5mr4349622ywg.33.1646653835389; Mon, 07
+ Mar 2022 03:50:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PULL 00/16] MIPS patches for 2022-03-07
-Content-Language: en-US
-To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
+ <20220307074632.238049-13-marcandre.lureau@redhat.com>
+ <c80fde18-bb3e-e780-356c-f935e7390e4d@gmail.com>
+ <CAMxuvaw_QT4wEGLZRNJEd1m-58JV-8AOc6CHKkMw4i_yrVNgew@mail.gmail.com>
+ <28ef9b06-3225-112f-b664-176e67c824d9@gmail.com>
+In-Reply-To: <28ef9b06-3225-112f-b664-176e67c824d9@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 7 Mar 2022 15:50:24 +0400
+Message-ID: <CAMxuvaz3+ySgiOxawVT=P7x4ikDcap0o5Ux78_HdewL0XXa5Kg@mail.gmail.com>
+Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
+ current scanout is GL
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,35 +99,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/3/22 11:11, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5:
-> 
->    Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' into staging (2022-03-05 18:03:15 +0000)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/philmd/qemu.git tags/mips-20220307
-> 
-> for you to fetch changes up to 9be5a9f464c1fc106a4aaf941f7792404c43556d:
-> 
->    tests/avocado/linux_ssh_mips_malta.py: add missing accel (tcg) tag (2022-03-07 01:35:07 +0100)
-> 
-> ----------------------------------------------------------------
-> MIPS patches queue
-> 
-> - Fix CP0 cycle counter timing
-> - Fix VMState of gt64120 IRQs
-> - Long due PIIX4 QOM cleanups
-> - ISA IRQ QOM'ification / cleanups
-> 
-> ----------------------------------------------------------------
+Hi
 
-Please ignore this PR, I'll send a v2.
+On Mon, Mar 7, 2022 at 2:35 PM Akihiko Odaki <akihiko.odaki@gmail.com> wrot=
+e:
+>
+> On 2022/03/07 19:19, Marc-Andr=C3=A9 Lureau wrote:
+> > Hi Akihiko
+> >
+> > On Mon, Mar 7, 2022 at 12:09 PM Akihiko Odaki <akihiko.odaki@gmail.com>=
+ wrote:
+> >>
+> >> On 2022/03/07 16:46, marcandre.lureau@redhat.com wrote:
+> >>> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >>>
+> >>> egl-headless depends on the backing surface to be set before texture =
+are
+> >>> set and updated. Display it (update=3Dtrue) iff the current scanout k=
+ind
+> >>> is SURFACE.
+> >>
+> >> egl-headless does not dynamically call register_displaychangelistener
+> >> and has console associated (console_select would not affect egl-headle=
+ss
+> >> itself) so this should not be necessary.
+> >
+> > Could you help me understand, what should not be necessary?
+>
+> I read the description as it sets the backing surface for egl-headless
+> when register_displaychangelistener or console_select is called. The
+> change is not necessary.
+
+Without it, gfx_switch is not called to set the new surface. Switching
+console with VNC would fail (via ctrl+alt+num).
+
+>
+> >
+> >> The remaining problem with egl-headless is that egl-headless renders t=
+he
+> >> image to DisplaySurface, and a non-OpenGL display (namely vnc) has to
+> >> consume it instead of texture even when con->scanout.kind is
+> >> SCANOUT_TEXTURE or SCANOUT_DMABUF.
+> >
+> > This is already happening, because egl-headless calls dpy_gfx_update().
+>
+> It is not called when register_displaychangelistener or console_select
+> is called by non-OpenGL display consuming the DisplaySurface.
+
+When displaychangelistener_display_console() is called with
+con->scanount.kind =3D=3D SCANOUT_SURFACE, it calls gfx_update(update =3D=
+=3D
+TRUE), and thus calls gfx_update on the whole surface.
+
 
