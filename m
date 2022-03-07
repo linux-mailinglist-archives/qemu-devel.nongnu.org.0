@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280724D00B4
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 15:06:54 +0100 (CET)
-Received: from localhost ([::1]:52384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1328B4D0078
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 14:52:57 +0100 (CET)
+Received: from localhost ([::1]:57592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRE0j-0006Vg-7y
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 09:06:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59022)
+	id 1nRDnE-00063v-4e
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 08:52:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRDg1-0005xz-TY
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:45:30 -0500
-Received: from [2607:f8b0:4864:20::430] (port=41938
- helo=mail-pf1-x430.google.com)
+ id 1nRDg7-000626-Ah
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:45:35 -0500
+Received: from [2607:f8b0:4864:20::429] (port=42612
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRDfx-0007E1-Qn
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:45:27 -0500
-Received: by mail-pf1-x430.google.com with SMTP id p8so13806772pfh.8
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 05:45:24 -0800 (PST)
+ id 1nRDg5-0007Ho-EY
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:45:35 -0500
+Received: by mail-pf1-x429.google.com with SMTP id g19so2259027pfc.9
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 05:45:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iq/phndxmXP1fEuqNLg+aeoAruQ+H73qFUXnPncUnqs=;
- b=SiXh9U2H27ehE4Dvu3zsK7bwbOIAwj+f2EUtwRk94l62s+drIqtrAqaeIZQccDO1T0
- VL8Uy2OmlZhOxg7aMxSNP9avGnvC8Wmyq5ZRoJcDo6yPjkWL3l8zUXhwf3mG2nVt1Vtr
- JgxSSQLnsM2s++QntG605Yj5BOPutfuVHWIuFQQhSmtJADYWvTzLmPS11DRNyRr4Gb07
- K9y7lpb5DbV4KIjxKUe70PYnf5O9K5yfwCeidYrapkBrriYleeCQIKtJRFPpOcRZP3pi
- OtXlxvs4lMGoaS4Sd8pLyZwZEVwaZUxiGUZUBjXT3OmGnsg4+HI4Pq0MPVPVayd+XEy/
- 8cdg==
+ bh=2EWxsRqGLmu+y9a9we3MPYsnUoSssM0/xVYg8aJ1C4w=;
+ b=GMqB38FfSYvAOVXVP+qjOwle9pgAMWWa5ZGBMEnKCkFkI9jXNiJvclIXTbma6fFUqj
+ hvi3XsjXnkWYYVxQcLhssO+6yQCeNfuphQpOAl94xuVjLIpFJ2MLCaC+35gf9r9RF9bC
+ j3k7P1rKR+Y/ZE3MALFa3w131tobtwm1oLI2I1p4Ox1FKtKude+Gtlr9gaydnhhl9BSf
+ ccO5GQcIGWK/mP2tDniTJZ9zqj8KiV5wt+SzNw2Ex3Tel9uIzCUMp2F3Xg8WTSWGJX7y
+ WU3dkAaUpJW76oXE+uNMP7qoYpmtZNEgRgg648vsszpx4xHHi2iX9mI+SPXgo4URDXBQ
+ WoeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iq/phndxmXP1fEuqNLg+aeoAruQ+H73qFUXnPncUnqs=;
- b=BjfjzYHdQzAnRMumiuaMt14lGu6PmThzVh3UcRUZsCvmQM7kIBOu6DrZQ1VfEoQ3+m
- nkthOO201jS38oa7EkfR04rTKHaX/9w9F43+EyIquf+6HG0P0sMNLt9QqQP49kbsTrIw
- d8um5etVo9DO6r/UTRYTWLX7TleK+ASyix+c9/d1n7PSjseoiSjXW2DYLKrXsVhA7U5H
- F6hx0fFn4nJJjKqlVNUsnj3dasupN86HTFlFpUykID2P40YyVOttaq0IgdgTEHy5s1rs
- Gl3aFoH/oavW2vJzSS2ZoMTMjBiEa3+Db3P5BNEz7fqmppipkyjQ4ZiZRwt3KsmJ36re
- p89A==
-X-Gm-Message-State: AOAM531vUHBjq853ssDlzbyFlobV60BlGpkxrm4uO/k/LieJ19BzLGZr
- 9gXbvgQ7P0LVwKxIVqvvYbg=
-X-Google-Smtp-Source: ABdhPJx5KGF7t0432TRfHGluTnbHsimr8gCtUjATjIh4cXCwdmRcgUkv18FB4va7dlX0o5wwVGut8w==
-X-Received: by 2002:a05:6a00:a8f:b0:4e1:2619:11a2 with SMTP id
- b15-20020a056a000a8f00b004e1261911a2mr12817164pfl.53.1646660723979; 
- Mon, 07 Mar 2022 05:45:23 -0800 (PST)
+ bh=2EWxsRqGLmu+y9a9we3MPYsnUoSssM0/xVYg8aJ1C4w=;
+ b=2GwbGuOgzDWc9ERaMndU4E7N5uPcn+O1humST71oYC2183QmKVNvPLzdKVAsZ4pMKj
+ wgLygrHgIyFWRzTl7ITY5ryWm+ST07gzDX1i3TqtxpzuI9y1h0BzvflSxzu9XFaMToC4
+ MSv3s8WX4AQjPih1D1nBel5ZiBaCddZLhdWYmO5SOwZKyGDB6Iu6xRShrx0e5HwAYQLs
+ OY6ritFAWZXkXyeUKCvoLjg41z6dpdXh28OZsuJ/qQGT6XMJyxgy6mmVa0n98V4QaYyA
+ i702Hw74c1EqFeWcvN3ln0V8JKFWaZy5slbjzvKnN/rw83/ENhidImrBgaMwpz5yxvLO
+ O6SA==
+X-Gm-Message-State: AOAM532WhuRoFeEeMLXjm5k4/DAus2OIpWB/Oj5roLBIypOezt8FUpOE
+ xf/mbpsvMTGLLvl1G2CNwj0=
+X-Google-Smtp-Source: ABdhPJwbCOyh0yn/ul0vx44utYXAcW5SMzDwP9Ufs4QT9oKQ7NGFEJlEFWPrMDDWB+bJrGIKejn/pw==
+X-Received: by 2002:a63:471f:0:b0:373:9b10:886e with SMTP id
+ u31-20020a63471f000000b003739b10886emr9718846pga.307.1646660732236; 
+ Mon, 07 Mar 2022 05:45:32 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u37-20020a056a0009a500b004e1414d69besm16489254pfg.151.2022.03.07.05.45.21
+ w5-20020a17090aaf8500b001bd4c825deesm18740158pjq.43.2022.03.07.05.45.30
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Mar 2022 05:45:23 -0800 (PST)
+ Mon, 07 Mar 2022 05:45:31 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: Bernhard Beschow <shentey@gmail.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 10/13] hw/input/pckbd: QOM'ify IRQ numbers
-Date: Mon,  7 Mar 2022 14:43:50 +0100
-Message-Id: <20220307134353.1950-11-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH 11/13] hw/isa/isa-bus: Remove isabus_dev_print()
+Date: Mon,  7 Mar 2022 14:43:51 +0100
+Message-Id: <20220307134353.1950-12-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307134353.1950-1-philippe.mathieu.daude@gmail.com>
 References: <20220307134353.1950-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,97 +97,281 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-Exposing the IRQ numbers as QOM properties not only allows them to be
-configurable but also to be printed by standard QOM mechanisms. This
-allows isabus_dev_print() to be retired eventually.
+All isabus_dev_print() did was to print up to two IRQ numbers per
+device. This is redundant if the IRQ numbers are present as QOM
+properties (see e.g. the modified tests/qemu-iotests/172.out).
+
+Now that the last devices relying on isabus_dev_print() had their IRQ
+numbers QOM'ified, the contribution of this function ultimately became
+redundant. Remove it.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220301220037.76555-4-shentey@gmail.com>
+Message-Id: <20220301220037.76555-5-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/input/pckbd.c | 26 ++++++++++++++++++++++----
- 1 file changed, 22 insertions(+), 4 deletions(-)
+ hw/isa/isa-bus.c           | 16 ----------------
+ tests/qemu-iotests/172.out | 26 --------------------------
+ 2 files changed, 42 deletions(-)
 
-diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index baba62f357..eb77e12f6f 100644
---- a/hw/input/pckbd.c
-+++ b/hw/input/pckbd.c
-@@ -26,6 +26,7 @@
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 6c31398dda..af5add6a26 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -21,21 +21,18 @@
  #include "qemu/error-report.h"
- #include "qemu/log.h"
- #include "qemu/timer.h"
-+#include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "qapi/error.h"
+-#include "monitor/monitor.h"
+ #include "hw/sysbus.h"
+ #include "sysemu/sysemu.h"
  #include "hw/isa/isa.h"
- #include "migration/vmstate.h"
- #include "hw/acpi/aml-build.h"
-@@ -671,6 +672,8 @@ struct ISAKBDState {
-     KBDState kbd;
-     bool kbd_throttle;
-     MemoryRegion io[2];
-+    uint8_t kbd_irq;
-+    uint8_t mouse_irq;
- };
  
- void i8042_isa_mouse_fake_event(ISAKBDState *isa)
-@@ -734,8 +737,20 @@ static void i8042_realizefn(DeviceState *dev, Error **errp)
-     ISAKBDState *isa_s = I8042(dev);
-     KBDState *s = &isa_s->kbd;
+ static ISABus *isabus;
  
--    isa_init_irq(isadev, &s->irq_kbd, 1);
--    isa_init_irq(isadev, &s->irq_mouse, 12);
-+    if (isa_s->kbd_irq >= ISA_NUM_IRQS) {
-+        error_setg(errp, "Maximum value for \"kbd-irq\" is: %u",
-+                   ISA_NUM_IRQS - 1);
-+        return;
-+    }
-+
-+    if (isa_s->mouse_irq >= ISA_NUM_IRQS) {
-+        error_setg(errp, "Maximum value for \"mouse-irq\" is: %u",
-+                   ISA_NUM_IRQS - 1);
-+        return;
-+    }
-+
-+    isa_init_irq(isadev, &s->irq_kbd, isa_s->kbd_irq);
-+    isa_init_irq(isadev, &s->irq_mouse, isa_s->mouse_irq);
+-static void isabus_dev_print(Monitor *mon, DeviceState *dev, int indent);
+ static char *isabus_get_fw_dev_path(DeviceState *dev);
  
-     isa_register_ioport(isadev, isa_s->io + 0, 0x60);
-     isa_register_ioport(isadev, isa_s->io + 1, 0x64);
-@@ -754,6 +769,7 @@ static void i8042_realizefn(DeviceState *dev, Error **errp)
- 
- static void i8042_build_aml(ISADevice *isadev, Aml *scope)
+ static void isa_bus_class_init(ObjectClass *klass, void *data)
  {
-+    ISAKBDState *isa_s = I8042(isadev);
-     Aml *kbd;
-     Aml *mou;
-     Aml *crs;
-@@ -761,7 +777,7 @@ static void i8042_build_aml(ISADevice *isadev, Aml *scope)
-     crs = aml_resource_template();
-     aml_append(crs, aml_io(AML_DECODE16, 0x0060, 0x0060, 0x01, 0x01));
-     aml_append(crs, aml_io(AML_DECODE16, 0x0064, 0x0064, 0x01, 0x01));
--    aml_append(crs, aml_irq_no_flags(1));
-+    aml_append(crs, aml_irq_no_flags(isa_s->kbd_irq));
+     BusClass *k = BUS_CLASS(klass);
  
-     kbd = aml_device("KBD");
-     aml_append(kbd, aml_name_decl("_HID", aml_eisaid("PNP0303")));
-@@ -769,7 +785,7 @@ static void i8042_build_aml(ISADevice *isadev, Aml *scope)
-     aml_append(kbd, aml_name_decl("_CRS", crs));
+-    k->print_dev = isabus_dev_print;
+     k->get_fw_dev_path = isabus_get_fw_dev_path;
+ }
  
-     crs = aml_resource_template();
--    aml_append(crs, aml_irq_no_flags(12));
-+    aml_append(crs, aml_irq_no_flags(isa_s->mouse_irq));
+@@ -222,19 +219,6 @@ void isa_build_aml(ISABus *bus, Aml *scope)
+     }
+ }
  
-     mou = aml_device("MOU");
-     aml_append(mou, aml_name_decl("_HID", aml_eisaid("PNP0F13")));
-@@ -783,6 +799,8 @@ static void i8042_build_aml(ISADevice *isadev, Aml *scope)
- static Property i8042_properties[] = {
-     DEFINE_PROP_BOOL("extended-state", ISAKBDState, kbd.extended_state, true),
-     DEFINE_PROP_BOOL("kbd-throttle", ISAKBDState, kbd_throttle, false),
-+    DEFINE_PROP_UINT8("kbd-irq", ISAKBDState, kbd_irq, 1),
-+    DEFINE_PROP_UINT8("mouse-irq", ISAKBDState, mouse_irq, 12),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+-static void isabus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+-{
+-    ISADevice *d = ISA_DEVICE(dev);
+-
+-    if (d->isairq[1] != -1) {
+-        monitor_printf(mon, "%*sisa irqs %d,%d\n", indent, "",
+-                       d->isairq[0], d->isairq[1]);
+-    } else if (d->isairq[0] != -1) {
+-        monitor_printf(mon, "%*sisa irq %d\n", indent, "",
+-                       d->isairq[0]);
+-    }
+-}
+-
+ static void isabus_bridge_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
+index 4cf4d536b4..9479b92185 100644
+--- a/tests/qemu-iotests/172.out
++++ b/tests/qemu-iotests/172.out
+@@ -15,7 +15,6 @@ Testing:
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -43,7 +42,6 @@ Testing: -fda TEST_DIR/t.qcow2
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -81,7 +79,6 @@ Testing: -fdb TEST_DIR/t.qcow2
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -135,7 +132,6 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -190,7 +186,6 @@ Testing: -fdb
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -230,7 +225,6 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -268,7 +262,6 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -322,7 +315,6 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -380,7 +372,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -418,7 +409,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,unit=1
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -456,7 +446,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -520,7 +509,6 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -575,7 +563,6 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -630,7 +617,6 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -685,7 +671,6 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -749,7 +734,6 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -804,7 +788,6 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -865,7 +848,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global floppy.drive=none0 -device
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -933,7 +915,6 @@ Testing: -device floppy
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -958,7 +939,6 @@ Testing: -device floppy,drive-type=120
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -983,7 +963,6 @@ Testing: -device floppy,drive-type=144
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -1008,7 +987,6 @@ Testing: -device floppy,drive-type=288
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -1036,7 +1014,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -1074,7 +1051,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -1115,7 +1091,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,logical
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
+@@ -1153,7 +1128,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physica
+             fdtypeA = "auto"
+             fdtypeB = "auto"
+             fallback = "288"
+-            isa irq 6
+             bus: floppy-bus.0
+               type floppy-bus
+               dev: floppy, id ""
 -- 
 2.34.1
 
