@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BEE4CFD32
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:41:50 +0100 (CET)
-Received: from localhost ([::1]:51920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A3E4CFD27
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:39:09 +0100 (CET)
+Received: from localhost ([::1]:45668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBkL-0005N7-MY
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:41:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43324)
+	id 1nRBhk-000183-2e
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:39:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAjW-0005NB-7O
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49353)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAjS-0008LJ-79
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAjU-0005LL-1o
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAjS-0008LO-6y
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1646649409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8R4ojwN55JUbVSUHbXAlMy94ZelSYyRy2w27t5I+2FA=;
- b=hIt6mmAvLLluPsqMKcykmAvgxIzmOxzXJcvtTeYVWjBK32gsSpZPmPgTtzYpV7V61AYGVA
- BVD0RjNn70aDWf2SvjVQSGCVTyb/qN0et3byp6lEANXD+wdndOgmPD3n0Bf4raDUOKLtjf
- OGQO8T3JzBPxlJUhfup8EGD8iA0mqJM=
+ bh=fPnPj9MfX+Kc5TBXJ9WCG0Hco6Xf191S7VvWVI2RlDc=;
+ b=LTSzbu10yQwJUciRa8Owh4heK7xteK6nX5yaefIOnj6bh6Sn9mB5JwWB2y9dIJ7tMYKbsB
+ 9WMZPqPOvqcB4hicwbL9qQWYdOY4KLFJKWxphEFGehTolorZj7pX72M8ql8jiY0o/YlF4j
+ vleZw+Hj2ljVuH/hfBppZHxN+1TBq/Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-WhW4c0RsMOy6z-8tQxBemA-1; Mon, 07 Mar 2022 05:36:45 -0500
-X-MC-Unique: WhW4c0RsMOy6z-8tQxBemA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-55-yHnb5dGNPQekEJdUYGlIQg-1; Mon, 07 Mar 2022 05:36:48 -0500
+X-MC-Unique: yHnb5dGNPQekEJdUYGlIQg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82FBF835DE5;
- Mon,  7 Mar 2022 10:36:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE6501854E21;
+ Mon,  7 Mar 2022 10:36:46 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 964527A5C5;
- Mon,  7 Mar 2022 10:36:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B2DA7219A;
+ Mon,  7 Mar 2022 10:36:46 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 19/23] block: copy-before-write: realize snapshot-access API
-Date: Mon,  7 Mar 2022 11:35:45 +0100
-Message-Id: <20220307103549.808809-20-hreitz@redhat.com>
+Subject: [PULL 20/23] iotests/image-fleecing: add test-case for fleecing
+ format node
+Date: Mon,  7 Mar 2022 11:35:46 +0100
+Message-Id: <20220307103549.808809-21-hreitz@redhat.com>
 In-Reply-To: <20220307103549.808809-1-hreitz@redhat.com>
 References: <20220307103549.808809-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -65,7 +66,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,703 +86,262 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Current scheme of image fleecing looks like this:
-
-[guest]                    [NBD export]
-  |                              |
-  |root                          | root
-  v                              v
-[copy-before-write] -----> [temp.qcow2]
-  |                 target  |
-  |file                     |backing
-  v                         |
-[active disk] <-------------+
-
- - On guest writes copy-before-write filter copies old data from active
-   disk to temp.qcow2. So fleecing client (NBD export) when reads
-   changed regions from temp.qcow2 image and unchanged from active disk
-   through backing link.
-
-This patch makes possible new image fleecing scheme:
-
-[guest]                   [NBD export]
-   |                            |
-   | root                       | root
-   v                 file       v
-[copy-before-write]<------[snapshot-access]
-   |           |
-   | file      | target
-   v           v
-[active-disk] [temp.img]
-
- - copy-before-write does CBW operations and also provides
-   snapshot-access API. The API may be accessed through
-   snapshot-access driver.
-
-Benefits of new scheme:
-
-1. Access control: if remote client try to read data that not covered
-   by original dirty bitmap used on copy-before-write open, client gets
-   -EACCES.
-
-2. Discard support: if remote client do DISCARD, this additionally to
-   discarding data in temp.img informs block-copy process to not copy
-   these clusters. Next read from discarded area will return -EACCES.
-   This is significant thing: when fleecing user reads data that was
-   not yet copied to temp.img, we can avoid copying it on further guest
-   write.
-
-3. Synchronisation between client reads and block-copy write is more
-   efficient. In old scheme we just rely on BDRV_REQ_SERIALISING flag
-   used for writes to temp.qcow2. New scheme is less blocking:
-     - fleecing reads are never blocked: if data region is untouched or
-       in-flight, we just read from active-disk, otherwise we read from
-       temp.img
-     - writes to temp.img are not blocked by fleecing reads
-     - still, guest writes of-course are blocked by in-flight fleecing
-       reads, that currently read from active-disk - it's the minimum
-       necessary blocking
-
-4. Temporary image may be of any format, as we don't rely on backing
-   feature.
-
-5. Permission relation are simplified. With old scheme we have to share
-   write permission on target child of copy-before-write, otherwise
-   backing link conflicts with copy-before-write file child write
-   permissions. With new scheme we don't have backing link, and
-   copy-before-write node may have unshared access to temporary node.
-   (Not realized in this commit, will be in future).
-
-6. Having control on fleecing reads we'll be able to implement
-   alternative behavior on failed copy-before-write operations.
-   Currently we just break guest request (that's a historical behavior
-   of backup). But in some scenarios it's a bad behavior: better
-   is to drop the backup as failed but don't break guest request.
-   With new scheme we can simply unset some bits in a bitmap on CBW
-   failure and further fleecing reads will -EACCES, or something like
-   this. (Not implemented in this commit, will be in future)
-   Additional application for this is implementing timeout for CBW
-   operations.
-
-Iotest 257 output is updated, as two more bitmaps now live in
-copy-before-write filter.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20220303194349.2304213-13-vsementsov@virtuozzo.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20220303194349.2304213-14-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/copy-before-write.c  | 212 ++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/257.out | 224 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 435 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/tests/image-fleecing     | 64 +++++++++++++-----
+ tests/qemu-iotests/tests/image-fleecing.out | 74 ++++++++++++++++++++-
+ 2 files changed, 119 insertions(+), 19 deletions(-)
 
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index c83c9c7c46..a8a06fdc09 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -33,12 +33,37 @@
- #include "block/block-copy.h"
+diff --git a/tests/qemu-iotests/tests/image-fleecing b/tests/qemu-iotests/tests/image-fleecing
+index a58b5a1781..909fc0a7ad 100755
+--- a/tests/qemu-iotests/tests/image-fleecing
++++ b/tests/qemu-iotests/tests/image-fleecing
+@@ -49,12 +49,17 @@ remainder = [('0xd5', '0x108000',  '32k'), # Right-end of partial-left [1]
+              ('0xdc', '32M',       '32k'), # Left-end of partial-right [2]
+              ('0xcd', '0x3ff0000', '64k')] # patterns[3]
  
- #include "block/copy-before-write.h"
-+#include "block/reqlist.h"
+-def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
++def do_test(use_cbw, use_snapshot_access_filter, base_img_path,
++            fleece_img_path, nbd_sock_path, vm):
+     log('--- Setting up images ---')
+     log('')
  
- #include "qapi/qapi-visit-block-core.h"
+     assert qemu_img('create', '-f', iotests.imgfmt, base_img_path, '64M') == 0
+-    assert qemu_img('create', '-f', 'qcow2', fleece_img_path, '64M') == 0
++    if use_snapshot_access_filter:
++        assert use_cbw
++        assert qemu_img('create', '-f', 'raw', fleece_img_path, '64M') == 0
++    else:
++        assert qemu_img('create', '-f', 'qcow2', fleece_img_path, '64M') == 0
  
- typedef struct BDRVCopyBeforeWriteState {
-     BlockCopyState *bcs;
-     BdrvChild *target;
-+
-+    /*
-+     * @lock: protects access to @access_bitmap, @done_bitmap and
-+     * @frozen_read_reqs
-+     */
-+    CoMutex lock;
-+
-+    /*
-+     * @access_bitmap: represents areas allowed for reading by fleecing user.
-+     * Reading from non-dirty areas leads to -EACCES.
-+     */
-+    BdrvDirtyBitmap *access_bitmap;
-+
-+    /*
-+     * @done_bitmap: represents areas that was successfully copied to @target by
-+     * copy-before-write operations.
-+     */
-+    BdrvDirtyBitmap *done_bitmap;
-+
-+    /*
-+     * @frozen_read_reqs: current read requests for fleecing user in bs->file
-+     * node. These areas must not be rewritten by guest.
-+     */
-+    BlockReqList frozen_read_reqs;
- } BDRVCopyBeforeWriteState;
+     for p in patterns:
+         qemu_io('-f', iotests.imgfmt,
+@@ -81,16 +86,23 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('')
  
- static coroutine_fn int cbw_co_preadv(
-@@ -48,10 +73,20 @@ static coroutine_fn int cbw_co_preadv(
-     return bdrv_co_preadv(bs->file, offset, bytes, qiov, flags);
- }
  
-+/*
-+ * Do copy-before-write operation.
-+ *
-+ * On failure guest request must be failed too.
-+ *
-+ * On success, we also wait for all in-flight fleecing read requests in source
-+ * node, and it's guaranteed that after cbw_do_copy_before_write() successful
-+ * return there are no such requests and they will never appear.
-+ */
- static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
-         uint64_t offset, uint64_t bytes, BdrvRequestFlags flags)
- {
-     BDRVCopyBeforeWriteState *s = bs->opaque;
-+    int ret;
-     uint64_t off, end;
-     int64_t cluster_size = block_copy_cluster_size(s->bcs);
+-    # create tmp_node backed by src_node
+-    log(vm.qmp('blockdev-add', {
+-        'driver': 'qcow2',
+-        'node-name': tmp_node,
+-        'file': {
++    if use_snapshot_access_filter:
++        log(vm.qmp('blockdev-add', {
++            'node-name': tmp_node,
+             'driver': 'file',
+             'filename': fleece_img_path,
+-        },
+-        'backing': src_node,
+-    }))
++        }))
++    else:
++        # create tmp_node backed by src_node
++        log(vm.qmp('blockdev-add', {
++            'driver': 'qcow2',
++            'node-name': tmp_node,
++            'file': {
++                'driver': 'file',
++                'filename': fleece_img_path,
++            },
++            'backing': src_node,
++        }))
  
-@@ -62,7 +97,17 @@ static coroutine_fn int cbw_do_copy_before_write(BlockDriverState *bs,
-     off = QEMU_ALIGN_DOWN(offset, cluster_size);
-     end = QEMU_ALIGN_UP(offset + bytes, cluster_size);
+     # Establish CBW from source to fleecing node
+     if use_cbw:
+@@ -102,6 +114,13 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+         }))
  
--    return block_copy(s->bcs, off, end - off, true);
-+    ret = block_copy(s->bcs, off, end - off, true);
-+    if (ret < 0) {
-+        return ret;
-+    }
+         log(vm.qmp('qom-set', path=qom_path, property='drive', value='fl-cbw'))
 +
-+    WITH_QEMU_LOCK_GUARD(&s->lock) {
-+        bdrv_set_dirty_bitmap(s->done_bitmap, off, end - off);
-+        reqlist_wait_all(&s->frozen_read_reqs, off, end - off, &s->lock);
-+    }
-+
-+    return 0;
- }
++        if use_snapshot_access_filter:
++            log(vm.qmp('blockdev-add', {
++                'driver': 'snapshot-access',
++                'node-name': 'fl-access',
++                'file': 'fl-cbw',
++            }))
+     else:
+         log(vm.qmp('blockdev-backup',
+                    job_id='fleecing',
+@@ -109,16 +128,18 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+                    target=tmp_node,
+                    sync='none'))
  
- static int coroutine_fn cbw_co_pdiscard(BlockDriverState *bs,
-@@ -110,6 +155,142 @@ static int coroutine_fn cbw_co_flush(BlockDriverState *bs)
-     return bdrv_co_flush(bs->file->bs);
- }
++    export_node = 'fl-access' if use_snapshot_access_filter else tmp_node
++
+     log('')
+     log('--- Setting up NBD Export ---')
+     log('')
  
-+/*
-+ * If @offset not accessible - return NULL.
-+ *
-+ * Otherwise, set @pnum to some bytes that accessible from @file (@file is set
-+ * to bs->file or to s->target). Return newly allocated BlockReq object that
-+ * should be than passed to cbw_snapshot_read_unlock().
-+ *
-+ * It's guaranteed that guest writes will not interact in the region until
-+ * cbw_snapshot_read_unlock() called.
-+ */
-+static BlockReq *cbw_snapshot_read_lock(BlockDriverState *bs,
-+                                        int64_t offset, int64_t bytes,
-+                                        int64_t *pnum, BdrvChild **file)
-+{
-+    BDRVCopyBeforeWriteState *s = bs->opaque;
-+    BlockReq *req = g_new(BlockReq, 1);
-+    bool done;
-+
-+    QEMU_LOCK_GUARD(&s->lock);
-+
-+    if (bdrv_dirty_bitmap_next_zero(s->access_bitmap, offset, bytes) != -1) {
-+        g_free(req);
-+        return NULL;
-+    }
-+
-+    done = bdrv_dirty_bitmap_status(s->done_bitmap, offset, bytes, pnum);
-+    if (done) {
-+        /*
-+         * Special invalid BlockReq, that is handled in
-+         * cbw_snapshot_read_unlock(). We don't need to lock something to read
-+         * from s->target.
-+         */
-+        *req = (BlockReq) {.offset = -1, .bytes = -1};
-+        *file = s->target;
-+    } else {
-+        reqlist_init_req(&s->frozen_read_reqs, req, offset, bytes);
-+        *file = bs->file;
-+    }
-+
-+    return req;
-+}
-+
-+static void cbw_snapshot_read_unlock(BlockDriverState *bs, BlockReq *req)
-+{
-+    BDRVCopyBeforeWriteState *s = bs->opaque;
-+
-+    if (req->offset == -1 && req->bytes == -1) {
-+        g_free(req);
-+        return;
-+    }
-+
-+    QEMU_LOCK_GUARD(&s->lock);
-+
-+    reqlist_remove_req(req);
-+    g_free(req);
-+}
-+
-+static coroutine_fn int
-+cbw_co_preadv_snapshot(BlockDriverState *bs, int64_t offset, int64_t bytes,
-+                       QEMUIOVector *qiov, size_t qiov_offset)
-+{
-+    BlockReq *req;
-+    BdrvChild *file;
-+    int ret;
-+
-+    /* TODO: upgrade to async loop using AioTask */
-+    while (bytes) {
-+        int64_t cur_bytes;
-+
-+        req = cbw_snapshot_read_lock(bs, offset, bytes, &cur_bytes, &file);
-+        if (!req) {
-+            return -EACCES;
-+        }
-+
-+        ret = bdrv_co_preadv_part(file, offset, cur_bytes,
-+                                  qiov, qiov_offset, 0);
-+        cbw_snapshot_read_unlock(bs, req);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        bytes -= cur_bytes;
-+        offset += cur_bytes;
-+        qiov_offset += cur_bytes;
-+    }
-+
-+    return 0;
-+}
-+
-+static int coroutine_fn
-+cbw_co_snapshot_block_status(BlockDriverState *bs,
-+                             bool want_zero, int64_t offset, int64_t bytes,
-+                             int64_t *pnum, int64_t *map,
-+                             BlockDriverState **file)
-+{
-+    BDRVCopyBeforeWriteState *s = bs->opaque;
-+    BlockReq *req;
-+    int ret;
-+    int64_t cur_bytes;
-+    BdrvChild *child;
-+
-+    req = cbw_snapshot_read_lock(bs, offset, bytes, &cur_bytes, &child);
-+    if (!req) {
-+        return -EACCES;
-+    }
-+
-+    ret = bdrv_block_status(child->bs, offset, cur_bytes, pnum, map, file);
-+    if (child == s->target) {
-+        /*
-+         * We refer to s->target only for areas that we've written to it.
-+         * And we can not report unallocated blocks in s->target: this will
-+         * break generic block-status-above logic, that will go to
-+         * copy-before-write filtered child in this case.
-+         */
-+        assert(ret & BDRV_BLOCK_ALLOCATED);
-+    }
-+
-+    cbw_snapshot_read_unlock(bs, req);
-+
-+    return ret;
-+}
-+
-+static int coroutine_fn cbw_co_pdiscard_snapshot(BlockDriverState *bs,
-+                                                 int64_t offset, int64_t bytes)
-+{
-+    BDRVCopyBeforeWriteState *s = bs->opaque;
-+
-+    WITH_QEMU_LOCK_GUARD(&s->lock) {
-+        bdrv_reset_dirty_bitmap(s->access_bitmap, offset, bytes);
-+    }
-+
-+    block_copy_reset(s->bcs, offset, bytes);
-+
-+    return bdrv_co_pdiscard(s->target, offset, bytes);
-+}
-+
- static void cbw_refresh_filename(BlockDriverState *bs)
- {
-     pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
-@@ -194,6 +375,7 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
- {
-     BDRVCopyBeforeWriteState *s = bs->opaque;
-     BdrvDirtyBitmap *bitmap = NULL;
-+    int64_t cluster_size;
+-    nbd_uri = 'nbd+unix:///%s?socket=%s' % (tmp_node, nbd_sock_path)
++    nbd_uri = 'nbd+unix:///%s?socket=%s' % (export_node, nbd_sock_path)
+     log(vm.qmp('nbd-server-start',
+                {'addr': {'type': 'unix',
+                          'data': {'path': nbd_sock_path}}}))
  
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
-@@ -225,6 +407,27 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
-         return -EINVAL;
-     }
+-    log(vm.qmp('nbd-server-add', device=tmp_node))
++    log(vm.qmp('nbd-server-add', device=export_node))
  
-+    cluster_size = block_copy_cluster_size(s->bcs);
-+
-+    s->done_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
-+    if (!s->done_bitmap) {
-+        return -EINVAL;
-+    }
-+    bdrv_disable_dirty_bitmap(s->done_bitmap);
-+
-+    /* s->access_bitmap starts equal to bcs bitmap */
-+    s->access_bitmap = bdrv_create_dirty_bitmap(bs, cluster_size, NULL, errp);
-+    if (!s->access_bitmap) {
-+        return -EINVAL;
-+    }
-+    bdrv_disable_dirty_bitmap(s->access_bitmap);
-+    bdrv_dirty_bitmap_merge_internal(s->access_bitmap,
-+                                     block_copy_dirty_bitmap(s->bcs), NULL,
-+                                     true);
-+
-+    qemu_co_mutex_init(&s->lock);
-+    QLIST_INIT(&s->frozen_read_reqs);
-+
-     return 0;
- }
+     log('')
+     log('--- Sanity Check ---')
+@@ -151,7 +172,11 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('--- Cleanup ---')
+     log('')
  
-@@ -232,6 +435,9 @@ static void cbw_close(BlockDriverState *bs)
- {
-     BDRVCopyBeforeWriteState *s = bs->opaque;
- 
-+    bdrv_release_dirty_bitmap(s->access_bitmap);
-+    bdrv_release_dirty_bitmap(s->done_bitmap);
++    log(vm.qmp('nbd-server-stop'))
 +
-     block_copy_state_free(s->bcs);
-     s->bcs = NULL;
- }
-@@ -249,6 +455,10 @@ BlockDriver bdrv_cbw_filter = {
-     .bdrv_co_pdiscard           = cbw_co_pdiscard,
-     .bdrv_co_flush              = cbw_co_flush,
+     if use_cbw:
++        if use_snapshot_access_filter:
++            log(vm.qmp('blockdev-del', node_name='fl-access'))
+         log(vm.qmp('qom-set', path=qom_path, property='drive', value=src_node))
+         log(vm.qmp('blockdev-del', node_name='fl-cbw'))
+     else:
+@@ -160,7 +185,6 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+         assert e is not None
+         log(e, filters=[iotests.filter_qmp_event])
  
-+    .bdrv_co_preadv_snapshot       = cbw_co_preadv_snapshot,
-+    .bdrv_co_pdiscard_snapshot     = cbw_co_pdiscard_snapshot,
-+    .bdrv_co_snapshot_block_status = cbw_co_snapshot_block_status,
+-    log(vm.qmp('nbd-server-stop'))
+     log(vm.qmp('blockdev-del', node_name=tmp_node))
+     vm.shutdown()
+ 
+@@ -177,17 +201,21 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('Done')
+ 
+ 
+-def test(use_cbw):
++def test(use_cbw, use_snapshot_access_filter):
+     with iotests.FilePath('base.img') as base_img_path, \
+          iotests.FilePath('fleece.img') as fleece_img_path, \
+          iotests.FilePath('nbd.sock',
+                           base_dir=iotests.sock_dir) as nbd_sock_path, \
+          iotests.VM() as vm:
+-        do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm)
++        do_test(use_cbw, use_snapshot_access_filter, base_img_path,
++                fleece_img_path, nbd_sock_path, vm)
+ 
+ 
+ log('=== Test backup(sync=none) based fleecing ===\n')
+-test(False)
++test(False, False)
 +
-     .bdrv_refresh_filename      = cbw_refresh_filename,
++log('=== Test cbw-filter based fleecing ===\n')
++test(True, False)
  
-     .bdrv_child_perm            = cbw_child_perm,
-diff --git a/tests/qemu-iotests/257.out b/tests/qemu-iotests/257.out
-index 50cbd8e882..aa76131ca9 100644
---- a/tests/qemu-iotests/257.out
-+++ b/tests/qemu-iotests/257.out
-@@ -106,6 +106,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -566,6 +582,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -819,6 +851,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -1279,6 +1327,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -1532,6 +1596,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -1992,6 +2072,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -2245,6 +2341,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -2705,6 +2817,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -2958,6 +3086,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -3418,6 +3562,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -3671,6 +3831,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -4131,6 +4307,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -4384,6 +4576,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
-@@ -4844,6 +5052,22 @@ write -P0x67 0x3fe0000 0x20000
- {"return": ""}
- {
-   "bitmaps": {
-+    "backup-top": [
-+      {
-+        "busy": false,
-+        "count": 67108864,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      },
-+      {
-+        "busy": false,
-+        "count": 458752,
-+        "granularity": 65536,
-+        "persistent": false,
-+        "recording": false
-+      }
-+    ],
-     "drive0": [
-       {
-         "busy": false,
+-log('=== Test filter based fleecing ===\n')
+-test(True)
++log('=== Test fleecing-format based fleecing ===\n')
++test(True, True)
+diff --git a/tests/qemu-iotests/tests/image-fleecing.out b/tests/qemu-iotests/tests/image-fleecing.out
+index e96d122a8b..da0af93388 100644
+--- a/tests/qemu-iotests/tests/image-fleecing.out
++++ b/tests/qemu-iotests/tests/image-fleecing.out
+@@ -51,9 +51,79 @@ read -P0 0x3fe0000 64k
+ 
+ --- Cleanup ---
+ 
++{"return": {}}
+ {"return": {}}
+ {"data": {"device": "fleecing", "len": 67108864, "offset": 393216, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"return": {}}
++
++--- Confirming writes ---
++
++read -P0xab 0 64k
++read -P0xad 0x00f8000 64k
++read -P0x1d 0x2008000 64k
++read -P0xea 0x3fe0000 64k
++read -P0xd5 0x108000 32k
++read -P0xdc 32M 32k
++read -P0xcd 0x3ff0000 64k
++
++Done
++=== Test cbw-filter based fleecing ===
++
++--- Setting up images ---
++
++Done
++
++--- Launching VM ---
++
++Done
++
++--- Setting up Fleecing Graph ---
++
++{"return": {}}
++{"return": {}}
++{"return": {}}
++
++--- Setting up NBD Export ---
++
++{"return": {}}
++{"return": {}}
++
++--- Sanity Check ---
++
++read -P0x5d 0 64k
++read -P0xd5 1M 64k
++read -P0xdc 32M 64k
++read -P0xcd 0x3ff0000 64k
++read -P0 0x00f8000 32k
++read -P0 0x2010000 32k
++read -P0 0x3fe0000 64k
++
++--- Testing COW ---
++
++write -P0xab 0 64k
++{"return": ""}
++write -P0xad 0x00f8000 64k
++{"return": ""}
++write -P0x1d 0x2008000 64k
++{"return": ""}
++write -P0xea 0x3fe0000 64k
++{"return": ""}
++
++--- Verifying Data ---
++
++read -P0x5d 0 64k
++read -P0xd5 1M 64k
++read -P0xdc 32M 64k
++read -P0xcd 0x3ff0000 64k
++read -P0 0x00f8000 32k
++read -P0 0x2010000 32k
++read -P0 0x3fe0000 64k
++
++--- Cleanup ---
++
++{"return": {}}
++{"return": {}}
++{"return": {}}
+ {"return": {}}
+ 
+ --- Confirming writes ---
+@@ -67,7 +137,7 @@ read -P0xdc 32M 32k
+ read -P0xcd 0x3ff0000 64k
+ 
+ Done
+-=== Test filter based fleecing ===
++=== Test fleecing-format based fleecing ===
+ 
+ --- Setting up images ---
+ 
+@@ -82,6 +152,7 @@ Done
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
++{"return": {}}
+ 
+ --- Setting up NBD Export ---
+ 
+@@ -125,6 +196,7 @@ read -P0 0x3fe0000 64k
+ {"return": {}}
+ {"return": {}}
+ {"return": {}}
++{"return": {}}
+ 
+ --- Confirming writes ---
+ 
 -- 
 2.34.1
 
