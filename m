@@ -2,74 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87094CF337
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 09:08:47 +0100 (CET)
-Received: from localhost ([::1]:49186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BE24CF313
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 08:58:59 +0100 (CET)
+Received: from localhost ([::1]:34524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR8QA-0007fo-SH
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 03:08:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39396)
+	id 1nR8Gg-0005qk-Cu
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 02:58:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nR87y-00017F-Ml
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:49:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43397)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nR87x-0007WI-6B
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:49:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646639396;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CCLbPYQvVDge1/PLwWzLscG+GyCK1zrOBFOmFKi19QU=;
- b=FiJmWURCmh7oEBbJfRGOTPvFQ7jUEAVOKvIutOq79RQB+NAqWf1xRRqc4ELxNPFTZukVGI
- skJTp47I1H4xjueh6ycfRrFGGUa3sOdMxqTdImdQ5lTrQbljVDSVADGRF9i/qPfrfPvK0X
- DSwZV/BbWcTVs/zgWrQrNWE1ieDrtGY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-MBgh6PuiM8acqRu6LECmzQ-1; Mon, 07 Mar 2022 02:49:53 -0500
-X-MC-Unique: MBgh6PuiM8acqRu6LECmzQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 993321800D50;
- Mon,  7 Mar 2022 07:49:52 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 611BA827A3;
- Mon,  7 Mar 2022 07:49:41 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/12] ui/console: call gfx_switch() even if the current
- scanout is GL
-Date: Mon,  7 Mar 2022 11:46:32 +0400
-Message-Id: <20220307074632.238049-13-marcandre.lureau@redhat.com>
-In-Reply-To: <20220307074632.238049-1-marcandre.lureau@redhat.com>
-References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nR888-0001bd-V0
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:50:09 -0500
+Received: from [2607:f8b0:4864:20::633] (port=43998
+ helo=mail-pl1-x633.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nR887-0007XZ-4K
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:50:08 -0500
+Received: by mail-pl1-x633.google.com with SMTP id e2so13028379pls.10
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 23:50:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Y6AVoKg94+mWL5MWBhHsPQ4sRRq7OrimnTtK7TbWXwo=;
+ b=hab/Wxn3CNT3D1vym1Kc9nD0tb6OIGo1DOGekjRVH61iQM1OqzDrov2MiEtNps8Rn2
+ 5yLkVrrCcz8UmYCFjIyembZbQVO55PJJGzVRyhdl6mK+w+TySnvnPTyVF0oVz00uVGM5
+ 3fKskA2pc//l+N+CTPKP9ikQpjutVvIAC3roxcVSYrscVMojS7qvxcXA+oRgjAYM/DHo
+ ABg95VJcd1mbRGHb7d7S15nv8QLwIs17t49CxyB9qtJv8YwbhehkCr1Y4ikgYozs5NeA
+ UpzFp28GU8mcAkulBZ1oqzZszNJU2pJbOE8PzrmT8bWiJV4MH48CUG5706yOGc7DAxIu
+ FLUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Y6AVoKg94+mWL5MWBhHsPQ4sRRq7OrimnTtK7TbWXwo=;
+ b=8OR2H3NGS/bxZRx5Q21L1IZ9scP0H8OZOUXwvqV1PF4wKGOx5oDDx7wruLvJ8xEWf8
+ PQwx5RFJtkydWiWYUDAdWcTbcXkr6epuWFKZCmAcOZTKCG+XkkVraoBiLgNPtDzB9A0m
+ sVj8mDNjGh5pr3kF9GiBQVljEmm+DfiBrtTXZEQeV4MHVJ4pb0cWL7Ph6uN6ElxS5hUe
+ mrM/QTE2hl2Y/f/Lc4CIJRp8Ao8XV/UTJTz65J/P549f3qyZoayG5Sm2uZ7cDU+1JcUx
+ pG8iUQQDnCFWf993Nvmo1i6WMnEyDIQR7Y5lomZ+xeZy4+SRmhJzF2yHyIhh46/Xzu7K
+ ui3w==
+X-Gm-Message-State: AOAM532ZQ0GpFv7PFo34gZodaUvR8TtQ2t0lnGRuqa4OMLSsfoVqEDxb
+ ZUm2ojcEoHH2VYwdL8oG8us=
+X-Google-Smtp-Source: ABdhPJwP6TwgKwrWM1WSxMtrkBRfBcgU6KxdixtCA7P0VyclulMChJ5HIekdJ+xfqCxkACBijl36hw==
+X-Received: by 2002:a17:902:f54a:b0:151:9c5a:3c7a with SMTP id
+ h10-20020a170902f54a00b001519c5a3c7amr11260616plf.118.1646639405631; 
+ Sun, 06 Mar 2022 23:50:05 -0800 (PST)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ t9-20020a656089000000b00372c36604a7sm10951971pgu.13.2022.03.06.23.50.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 06 Mar 2022 23:50:05 -0800 (PST)
+Message-ID: <4c171d81-576f-e2ff-787f-9b9744f79013@gmail.com>
+Date: Mon, 7 Mar 2022 16:50:01 +0900
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 2/2] ui/cocoa: add option to swap Option and Command
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, BALATON Zoltan
+ <balaton@eik.bme.hu>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20220306111114.18285-1-akihiko.odaki@gmail.com>
+ <20220306111114.18285-3-akihiko.odaki@gmail.com>
+ <a2a389c-b253-133b-9415-ecc5a352c2e@eik.bme.hu> <87lexmw7t8.fsf@pond.sub.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <87lexmw7t8.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,49 +96,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, akihiko.odaki@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Gustavo Noronha Silva <gustavo@noronha.dev.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 2022/03/07 16:17, Markus Armbruster wrote:
+> BALATON Zoltan <balaton@eik.bme.hu> writes:
+> 
+>> On Sun, 6 Mar 2022, Akihiko Odaki wrote:
+>>> From: Gustavo Noronha Silva <gustavo@noronha.dev.br>
+>>>
+>>> On Mac OS X the Option key maps to Alt and Command to Super/Meta. This change
+>>> swaps them around so that Alt is the key closer to the space bar and Meta/Super
+>>> is between Control and Alt, like on non-Mac keyboards.
+>>>
+>>> It is a cocoa display option, disabled by default.
+>>>
+>>> Acked-by: Markus Armbruster <armbru@redhat.com>
+>>> Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.dev.br>
+>>> Message-Id: <20210713213200.2547-3-gustavo@noronha.dev.br>
+>>> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+>>> ---
+>>> qapi/ui.json    |  8 ++++++-
+>>> qemu-options.hx |  3 ++-
+>>> ui/cocoa.m      | 64 ++++++++++++++++++++++++++++++++++++++++++-------
+>>> 3 files changed, 65 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/qapi/ui.json b/qapi/ui.json
+>>> index 1e9893419fe..b082e1a7dee 100644
+>>> --- a/qapi/ui.json
+>>> +++ b/qapi/ui.json
+>>> @@ -1270,10 +1270,16 @@
+>>> #             a global grab on key events. (default: off)
+>>> #             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
+>>> #
+>>> +# @swap-option-command: Swap the Option and Command keys so that their key
+>>> +#                       codes match their position on non-Mac keyboards and
+>>> +#                       you can use Meta/Super and Alt where you expect them.
+>>> +#                       (default: off)
+>>> +#
+>>> # Since: 6.1
+>>> ##
+>>> { 'struct'  : 'DisplayCocoa',
+>>> -  'data'    : { '*full-grab'     : 'bool' } }
+>>> +  'data'    : { '*full-grab'           : 'bool',
+>>> +                '*swap-option-command' : 'bool' } }
+>>
+>> This option name is too long to type. Could we abbreviate it somehow?
+> 
+> We've largely avoided abbreviations in the QAPI schema, for better or
+> worse.
+> 
+>> Like swap-opt-cmd or swap-alt-meta?
+> 
+> We should stick to how the keys are generally called on this platform.
+> I can't say (I'm not using it).
+> 
 
-egl-headless depends on the backing surface to be set before texture are
-set and updated. Display it (update=true) iff the current scanout kind
-is SURFACE.
+The patch series is now in:
+https://patchew.org/QEMU/20220306231753.50277-1-philippe.mathieu.daude@gmail.com/
 
-Reported-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- ui/console.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+It uses swap-opt-cmd for the name. Please reply to the series if it is 
+problematic.
 
-diff --git a/ui/console.c b/ui/console.c
-index 5bfecea4549e..16a0b0909ba2 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1112,6 +1112,10 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
-         return;
-     }
- 
-+    dpy_gfx_create_texture(con, con->surface);
-+    displaychangelistener_gfx_switch(dcl, con->surface,
-+                                     con->scanout.kind == SCANOUT_SURFACE);
-+
-     if (con->scanout.kind == SCANOUT_DMABUF &&
-         displaychangelistener_has_dmabuf(dcl)) {
-         dcl->ops->dpy_gl_scanout_dmabuf(dcl, con->scanout.dmabuf);
-@@ -1126,9 +1130,6 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
-                                          con->scanout.texture.y,
-                                          con->scanout.texture.width,
-                                          con->scanout.texture.height);
--    } else if (con->scanout.kind == SCANOUT_SURFACE) {
--        dpy_gfx_create_texture(con, con->surface);
--        displaychangelistener_gfx_switch(dcl, con->surface, TRUE);
-     }
- }
- 
--- 
-2.35.1.273.ge6ebfd0e8cbb
-
+Regards,
+Akihiko Odaki
 
