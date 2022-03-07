@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BFD4D00C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 15:09:52 +0100 (CET)
-Received: from localhost ([::1]:34730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A03BE4D00C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 15:12:05 +0100 (CET)
+Received: from localhost ([::1]:40458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRE3b-0005mT-M2
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 09:09:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60098)
+	id 1nRE5k-0001B4-P0
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 09:12:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nRDkL-0003uf-GX
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:49:57 -0500
-Received: from [2607:f8b0:4864:20::42e] (port=39775
- helo=mail-pf1-x42e.google.com)
+ id 1nRDkN-00043a-Vq
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:50:00 -0500
+Received: from [2607:f8b0:4864:20::62c] (port=43969
+ helo=mail-pl1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nRDkK-0007jb-1Y
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:49:57 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id d17so4991862pfv.6
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 05:49:55 -0800 (PST)
+ id 1nRDkM-0007jg-2X
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:49:59 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id e2so13799459pls.10
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 05:49:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DxXDyM30e+DRLqa3LVgy1MxelVHL/QOEkyDo0vYh3Qw=;
- b=Dth5uhdS4y9SFXVdJx1mncXZcrb3UxU0Pg30+umJl5NzwOTwU8aJfUgkUtRZawoq50
- 225wmpH9R4tuOrqYfHxFab5mSNPwm1KAhuYd9DIZ89Mim1VORMooY3qmPRSZgWGVK9bx
- S7X6D4W23hiIWfvDB0Sz612iMkRjM1OjxvkkBC5UqPj8T5KkSjgmJKUWJiTpKP5j2j2t
- YWWkaIyTLsWTYhNW8M43TsHCgJvKSctgwAatCWNafiLHIlxUu+r0wkSAS064HDze1iRa
- QFYIkN2nN+SRwCWBnLfFQaq9Ubcm7rnoeCs0wys9JR1TmkpZOW7UNCkNXeOAqnHH+RcS
- 5tzw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=EfTY8TLtEi3OCisjI7SCHQnGUVW3tHzs9UCEtgZJuz0=;
+ b=XilTYKZDSUw89raljsBYMconzFClDQGssy628SWWEJxJYn0/FDeNv5X6Q0+LdSs2LQ
+ c44BTf39ULqihYaE44cz9Wdr//XjB/Py6KQhoCmonWela/NnauFrSdp8dgTbVs6ruQpv
+ 7NO7fNOE1j7RdJS7a+Xni7/EbYjLAVnJWwBIiQwbMYjOef/UjA6BCXySIPkXsgqyD6O6
+ lWMYkAReA4I3zOsxKfT8CJcklBXwCP21qJqEDunYllrdEdC9MwgXOomrg2wCCPDfk+3F
+ TiREJ4eMsvimmkelQDJ6AAouqLhtaBSZH7V3floIb79gzQ3hbZVZ04Ms5frdGEh0JsDi
+ FHmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DxXDyM30e+DRLqa3LVgy1MxelVHL/QOEkyDo0vYh3Qw=;
- b=v7c3b1bebzzCBP0dygObWbbyioL6TRNMXKc91IgRiviNd0EADGK17x9teMsICPlp1d
- ALsqIyVQ7j86RmtrnIj8Wm1JjH5ex4hhUPDhxtzDxN1jRPb6JdrKdU6EmFjYsEE/kViY
- 95mguUB1+RmklMtReXRgIgXUaEA06vP9PZ5OIiZE02tuxYuZiaf7N4hEDzlSbm9djLKd
- TGEU2d7Col2ReY6r4Iud9saAtdCkBFtQsuWHYaiwPVhaDJudBFMh6uLWF68qRgDAOOnV
- UmLbBFM7qqckWjPVfSb6d7jSKnfQ+3MKdapjj2ZbY+APc2aJbOUzqVCRjrNOkvUYmbva
- jWXw==
-X-Gm-Message-State: AOAM533ApzDl/JgD3FjP0DbPv3PmOrrxOIS9ADqrNcPdzvdU2qRwcUzc
- yVWrMilnVaQhsmuWNVudLHtRtN8xPqc=
-X-Google-Smtp-Source: ABdhPJxz595wlLaFHJhVeVSI/H0eJuf2lhsT2q6Rj9utnSVEnvYWDsmAQ9rxaalNZesGf+V0FKAhGg==
-X-Received: by 2002:a05:6a00:238f:b0:4f6:b09a:4c63 with SMTP id
- f15-20020a056a00238f00b004f6b09a4c63mr12856740pfc.35.1646660994527; 
- Mon, 07 Mar 2022 05:49:54 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=EfTY8TLtEi3OCisjI7SCHQnGUVW3tHzs9UCEtgZJuz0=;
+ b=2kMbWZCtASzz11YVTemjonBWwRh7zdplZiVOia0TjURiGo3L831kOkncOD6CxqfWOm
+ 5ir/eI2jShV0X3qjtewfvy5hCKLFf9nvn4EzHlyDo+PMIkSV6H9megi2VTHoSHeM1ZLj
+ niiDFoI5JMxzvUkDnQeHTyvJ1qEe1oa9UK0bA1lpOu6DIz6RlT3Bx6q0LRFDJ4v96WwL
+ X0jalcrIekLFVBa9Kpjt+hMCYUoA3op1aeRlHILnq2Uzok8zRSJ7LcK3UECZXy/2cyxW
+ Rt3Oitx8AR+3bL2n6m58I+a1UzTacFSQCKlsCyrKXvcUBAQhbxgxNC07rTYhQBG0IVyn
+ kX7w==
+X-Gm-Message-State: AOAM532TEzJPYNin6gIfq3thd+8ynwUqlPO8+5AG6gWBg4+rUJHQ0bCN
+ jzlPYD8NMPL9gU+o/NLs/uYPKwXdfIQ=
+X-Google-Smtp-Source: ABdhPJwzdgDdTkGIMuLrPsvbPyasjE7LddLY69EKcDlZE1Elhk1cTkPBNC5t5gjwyypuLbfzw1gsMA==
+X-Received: by 2002:a17:902:b582:b0:14c:a63d:3df6 with SMTP id
+ a2-20020a170902b58200b0014ca63d3df6mr12117861pls.51.1646660996399; 
+ Mon, 07 Mar 2022 05:49:56 -0800 (PST)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:9058:25bf:2793:c7c7])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a17090a168f00b001bf66741097sm3622387pja.16.2022.03.07.05.49.52
+ o15-20020a17090a168f00b001bf66741097sm3622387pja.16.2022.03.07.05.49.54
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Mar 2022 05:49:54 -0800 (PST)
+ Mon, 07 Mar 2022 05:49:55 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH v2 0/2] Create menus in iothread
-Date: Mon,  7 Mar 2022 22:49:44 +0900
-Message-Id: <20220307134946.61407-1-akihiko.odaki@gmail.com>
+Subject: [PATCH v2 1/2] ui/cocoa: Move create_initial_menus
+Date: Mon,  7 Mar 2022 22:49:45 +0900
+Message-Id: <20220307134946.61407-2-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+In-Reply-To: <20220307134946.61407-1-akihiko.odaki@gmail.com>
+References: <20220307134946.61407-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,30 +94,210 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ui/cocoa: Create menus in iothread
+The following change would make it use add_console_menu_entries and
+addRemovableDevicesMenuItems so it should come after them.
 
-Commit 0439c5a4623d674efa0c72abd62ca6e98bb7cf87 introduced an
-assertion that blk_all_next is called in the main thread. The function
-is called in the following chain:
-- blk_all_next
-- qmp_query_block
-- addRemovableDevicesMenuItems
-- main
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ ui/cocoa.m | 178 ++++++++++++++++++++++++++---------------------------
+ 1 file changed, 89 insertions(+), 89 deletions(-)
 
-This change moves the menu creation to the iothread. This also changes
-the menu creation procedure to construct the entire menu tree before
-setting to NSApp, which is necessary because a menu set once cannot be
-modified if NSApp is already running.
-
-v2: Separate a change moving create_initial_menus (Peter Maydell)
-
-Akihiko Odaki (2):
-  ui/cocoa: Move create_initial_menus
-  ui/cocoa: Create menus in iothread
-
- ui/cocoa.m | 209 +++++++++++++++++++++++++----------------------------
- 1 file changed, 98 insertions(+), 111 deletions(-)
-
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 8ab9ab5e84d..6c6e82afb90 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1604,6 +1604,95 @@ - (void)sendEvent:(NSEvent *)event
+ }
+ @end
+ 
++/* Returns a name for a given console */
++static NSString * getConsoleName(QemuConsole * console)
++{
++    g_autofree char *label = qemu_console_get_label(console);
++
++    return [NSString stringWithUTF8String:label];
++}
++
++/* Add an entry to the View menu for each console */
++static void add_console_menu_entries(void)
++{
++    NSMenu *menu;
++    NSMenuItem *menuItem;
++    int index = 0;
++
++    menu = [[[NSApp mainMenu] itemWithTitle:@"View"] submenu];
++
++    [menu addItem:[NSMenuItem separatorItem]];
++
++    while (qemu_console_lookup_by_index(index) != NULL) {
++        menuItem = [[[NSMenuItem alloc] initWithTitle: getConsoleName(qemu_console_lookup_by_index(index))
++                                               action: @selector(displayConsole:) keyEquivalent: @""] autorelease];
++        [menuItem setTag: index];
++        [menu addItem: menuItem];
++        index++;
++    }
++}
++
++/* Make menu items for all removable devices.
++ * Each device is given an 'Eject' and 'Change' menu item.
++ */
++static void addRemovableDevicesMenuItems(void)
++{
++    NSMenu *menu;
++    NSMenuItem *menuItem;
++    BlockInfoList *currentDevice, *pointerToFree;
++    NSString *deviceName;
++
++    currentDevice = qmp_query_block(NULL);
++    pointerToFree = currentDevice;
++
++    menu = [[[NSApp mainMenu] itemWithTitle:@"Machine"] submenu];
++
++    // Add a separator between related groups of menu items
++    [menu addItem:[NSMenuItem separatorItem]];
++
++    // Set the attributes to the "Removable Media" menu item
++    NSString *titleString = @"Removable Media";
++    NSMutableAttributedString *attString=[[NSMutableAttributedString alloc] initWithString:titleString];
++    NSColor *newColor = [NSColor blackColor];
++    NSFontManager *fontManager = [NSFontManager sharedFontManager];
++    NSFont *font = [fontManager fontWithFamily:@"Helvetica"
++                                          traits:NSBoldFontMask|NSItalicFontMask
++                                          weight:0
++                                            size:14];
++    [attString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [titleString length])];
++    [attString addAttribute:NSForegroundColorAttributeName value:newColor range:NSMakeRange(0, [titleString length])];
++    [attString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt: 1] range:NSMakeRange(0, [titleString length])];
++
++    // Add the "Removable Media" menu item
++    menuItem = [NSMenuItem new];
++    [menuItem setAttributedTitle: attString];
++    [menuItem setEnabled: NO];
++    [menu addItem: menuItem];
++
++    /* Loop through all the block devices in the emulator */
++    while (currentDevice) {
++        deviceName = [[NSString stringWithFormat: @"%s", currentDevice->value->device] retain];
++
++        if(currentDevice->value->removable) {
++            menuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"Change %s...", currentDevice->value->device]
++                                                  action: @selector(changeDeviceMedia:)
++                                           keyEquivalent: @""];
++            [menu addItem: menuItem];
++            [menuItem setRepresentedObject: deviceName];
++            [menuItem autorelease];
++
++            menuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"Eject %s", currentDevice->value->device]
++                                                  action: @selector(ejectDeviceMedia:)
++                                           keyEquivalent: @""];
++            [menu addItem: menuItem];
++            [menuItem setRepresentedObject: deviceName];
++            [menuItem autorelease];
++        }
++        currentDevice = currentDevice->next;
++    }
++    qapi_free_BlockInfoList(pointerToFree);
++}
++
+ static void create_initial_menus(void)
+ {
+     // Add menus
+@@ -1695,95 +1784,6 @@ static void create_initial_menus(void)
+     [[NSApp mainMenu] addItem:menuItem];
+ }
+ 
+-/* Returns a name for a given console */
+-static NSString * getConsoleName(QemuConsole * console)
+-{
+-    g_autofree char *label = qemu_console_get_label(console);
+-
+-    return [NSString stringWithUTF8String:label];
+-}
+-
+-/* Add an entry to the View menu for each console */
+-static void add_console_menu_entries(void)
+-{
+-    NSMenu *menu;
+-    NSMenuItem *menuItem;
+-    int index = 0;
+-
+-    menu = [[[NSApp mainMenu] itemWithTitle:@"View"] submenu];
+-
+-    [menu addItem:[NSMenuItem separatorItem]];
+-
+-    while (qemu_console_lookup_by_index(index) != NULL) {
+-        menuItem = [[[NSMenuItem alloc] initWithTitle: getConsoleName(qemu_console_lookup_by_index(index))
+-                                               action: @selector(displayConsole:) keyEquivalent: @""] autorelease];
+-        [menuItem setTag: index];
+-        [menu addItem: menuItem];
+-        index++;
+-    }
+-}
+-
+-/* Make menu items for all removable devices.
+- * Each device is given an 'Eject' and 'Change' menu item.
+- */
+-static void addRemovableDevicesMenuItems(void)
+-{
+-    NSMenu *menu;
+-    NSMenuItem *menuItem;
+-    BlockInfoList *currentDevice, *pointerToFree;
+-    NSString *deviceName;
+-
+-    currentDevice = qmp_query_block(NULL);
+-    pointerToFree = currentDevice;
+-
+-    menu = [[[NSApp mainMenu] itemWithTitle:@"Machine"] submenu];
+-
+-    // Add a separator between related groups of menu items
+-    [menu addItem:[NSMenuItem separatorItem]];
+-
+-    // Set the attributes to the "Removable Media" menu item
+-    NSString *titleString = @"Removable Media";
+-    NSMutableAttributedString *attString=[[NSMutableAttributedString alloc] initWithString:titleString];
+-    NSColor *newColor = [NSColor blackColor];
+-    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+-    NSFont *font = [fontManager fontWithFamily:@"Helvetica"
+-                                          traits:NSBoldFontMask|NSItalicFontMask
+-                                          weight:0
+-                                            size:14];
+-    [attString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [titleString length])];
+-    [attString addAttribute:NSForegroundColorAttributeName value:newColor range:NSMakeRange(0, [titleString length])];
+-    [attString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt: 1] range:NSMakeRange(0, [titleString length])];
+-
+-    // Add the "Removable Media" menu item
+-    menuItem = [NSMenuItem new];
+-    [menuItem setAttributedTitle: attString];
+-    [menuItem setEnabled: NO];
+-    [menu addItem: menuItem];
+-
+-    /* Loop through all the block devices in the emulator */
+-    while (currentDevice) {
+-        deviceName = [[NSString stringWithFormat: @"%s", currentDevice->value->device] retain];
+-
+-        if(currentDevice->value->removable) {
+-            menuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"Change %s...", currentDevice->value->device]
+-                                                  action: @selector(changeDeviceMedia:)
+-                                           keyEquivalent: @""];
+-            [menu addItem: menuItem];
+-            [menuItem setRepresentedObject: deviceName];
+-            [menuItem autorelease];
+-
+-            menuItem = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: @"Eject %s", currentDevice->value->device]
+-                                                  action: @selector(ejectDeviceMedia:)
+-                                           keyEquivalent: @""];
+-            [menu addItem: menuItem];
+-            [menuItem setRepresentedObject: deviceName];
+-            [menuItem autorelease];
+-        }
+-        currentDevice = currentDevice->next;
+-    }
+-    qapi_free_BlockInfoList(pointerToFree);
+-}
+-
+ @interface QemuCocoaPasteboardTypeOwner : NSObject<NSPasteboardTypeOwner>
+ @end
+ 
 -- 
 2.32.0 (Apple Git-132)
 
