@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB844D08F9
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:54:43 +0100 (CET)
-Received: from localhost ([::1]:53138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1559A4D08EA
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:54:05 +0100 (CET)
+Received: from localhost ([::1]:50584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRKNO-0006Mc-QH
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:54:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58572)
+	id 1nRKMl-0004fw-Mz
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:54:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nRKM9-0004oP-VO
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:53:26 -0500
-Received: from [2a00:1450:4864:20::629] (port=34534
- helo=mail-ej1-x629.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nRKL8-0003V3-OQ; Mon, 07 Mar 2022 15:52:22 -0500
+Received: from [2607:f8b0:4864:20::136] (port=39817
+ helo=mail-il1-x136.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nRKM8-0004vK-0C
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:53:25 -0500
-Received: by mail-ej1-x629.google.com with SMTP id gb39so34648704ejc.1
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 12:53:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=HQvIAiCCt/Nr2/RW8spkGn4etZmUoZQVrjp/HY6FTPg=;
- b=CL0RQlnvjkmuRy294pPPeNlGlw5gKocJgMZoBMNnoBOpccgC05tpGgYNUihT30KYaf
- hRfXJefCHbGdHxAcv+LyQ3KkMq1iR2gSGg8jrKU+Fjllk2LBnDeZj3htO/96ENQl0vwL
- XwUtS5HR/QhqbVFdiT8PcGLx3l9fHwSm7/fxzZ/aLXQUO/jdSuAG6A/UXd7+UV4m2RLY
- IKxCycl5P3YSlGd4jnvjFtGyjuCFHCR+mq1xC++3GqmYSiNgEiJpLroE869TqgOYdNsk
- 5tR2A90Hc1pNsmxAAwCAolIgV+gLDdxenDCW9DWeqgbZc/Ht1fWAnLT6d1w0PT+Z5PM5
- /C1w==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nRKL7-0004rM-7K; Mon, 07 Mar 2022 15:52:22 -0500
+Received: by mail-il1-x136.google.com with SMTP id b14so2107917ilf.6;
+ Mon, 07 Mar 2022 12:52:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=1jfEMK8efTkZBDUaALq1cuq5BkxsGKIjkbTz/4RXjsQ=;
+ b=VBZjCHJfEzI1GXX9Jk8wQKZlqfs87bBhA4b80mid2jSEp0YQy4rJ4tC5pzVWX4oY1c
+ /eyn2nu7z1+ijbVpjhhT3Uv8XS0rkaW62mpx//MzNhXIOUzLlnfb97DWxnxVrgDx+fCR
+ bHjh5+Ow9Y7Z8hGwzmTK9YkJO9WkT0/cRrb3UhXoTvem+pttnxE4T5pn9AcKxRGrL5rc
+ YbGAH4hmouGl0H4lI7wKyBT8jSqqOJROebL9bvU0aBSjaPta7k+h7uhUm6TtzLOlMEVV
+ yHSaacYHc9rnjgq5QkuhB7KgmaxWTlvMkuOjcB9TLV+QBlRpYHUsbY12+rBbaVcQ6/Y1
+ ORlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=HQvIAiCCt/Nr2/RW8spkGn4etZmUoZQVrjp/HY6FTPg=;
- b=VcvlP+iCn6/rvsHu5I9T+v0oyAzw/thHlPe9mxXsLHvR8g791+2skWgJFXu7JQHDn3
- WLDCEUQ50vtknVxUTlrAszV7nf1SG0oTP5Gy3xMZiaQnQ9E//QFXW7/N7IK25DEh1Vsj
- MfW/5lRFMXXCXPJOCRufkCbNKqDwFmSUYqRLaRTj9w37y6MKG9ZxXzCM24daXAn29HIH
- 7cXmbAHB98sgeR2Ks56PLhOz6m8uYPyqlCUXrLr21fCKZ+0OF5yBNtez1LFfvHAo01Mi
- YPyg5gJnpWaLGOh9z8TNCG2euE/MfM8RT2ptKMQlN3g9RWm5mNeAovUIfbDDGSzMz4pb
- eDJQ==
-X-Gm-Message-State: AOAM533nHEeun7Q9oG5lhfJg18/0RlpKq8WWd51kTg2qxZA/u/7ifvOj
- NT66PcvLC/KzSQxAcaA6g4TdDQ==
-X-Google-Smtp-Source: ABdhPJx5kbUvkLGczKzBlGRGSOZvQWZG/pONj/wujuhLjNIsJokV8irebnqZqWL+ylfhUBTg+7M7jg==
-X-Received: by 2002:a17:906:9743:b0:6d8:632a:a42d with SMTP id
- o3-20020a170906974300b006d8632aa42dmr10479237ejy.157.1646686402180; 
- Mon, 07 Mar 2022 12:53:22 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- qb30-20020a1709077e9e00b006d6f8c77695sm5021795ejc.101.2022.03.07.12.53.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 12:53:21 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7A4E81FFB7;
- Mon,  7 Mar 2022 20:53:20 +0000 (GMT)
-References: <20220307184446.3149199-1-alex.bennee@linaro.org>
- <4a6212f0-9491-7260-01e0-e0c0659a1aab@linaro.org>
-User-agent: mu4e 1.7.9; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [RFC PATCH] target/i386: for maximum rounding precision for fildll
-Date: Mon, 07 Mar 2022 20:48:26 +0000
-In-reply-to: <4a6212f0-9491-7260-01e0-e0c0659a1aab@linaro.org>
-Message-ID: <87h789fprz.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1jfEMK8efTkZBDUaALq1cuq5BkxsGKIjkbTz/4RXjsQ=;
+ b=EWymPjhpuSoTeiRq08G85WKv3Xlv/9CIKRoQbQUHBFh4Sw4RjPvuW/ceTk0EtO3azl
+ 5FkVKRZ2Dxb4TaE8p7tZT78FXpew/ItiLShqWoX31sf5c8snFUKkT+mHdxY2/poaNbyK
+ ow2qRzQKx+ZecsG2TThl93kvMVOgAJz+ZFAt0M9iimzp79M7EJBiJhAn1su10V3yY6xV
+ JUi5YTDDcD07rKIRe8WoIRGrsmw4e9CS1PWMXh5RVJUEw3FLH6/Wz84TEGevPt4SF8G1
+ zBvK0sLX6/xhNkhgj2OkCW9OhYdBnZUeS/soLRZqWbXX1LAmXmk1Qe8k7ntB9NJddyqY
+ O32Q==
+X-Gm-Message-State: AOAM5303s/Y7n2I9H+BvYKW4/yqC1zQcn0SfPeGYv02PSZUsTLpUgmtj
+ U+lnDZoErsCbRc/gkUYOkhQOGvVTC2qCVmTQixk=
+X-Google-Smtp-Source: ABdhPJxYYPf8CjsbDOiBFJRTGLbuJbiqhOCz6GzMZebaKZtMo1wZyj2xNCuRVyP5JivHK9118pHKcKSbKVsRM/AnFZs=
+X-Received: by 2002:a92:d80c:0:b0:2c2:c40c:7bd4 with SMTP id
+ y12-20020a92d80c000000b002c2c40c7bd4mr12878526ilm.310.1646686339882; Mon, 07
+ Mar 2022 12:52:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220307071856.1410731-1-clg@kaod.org>
+ <20220307071856.1410731-3-clg@kaod.org>
+In-Reply-To: <20220307071856.1410731-3-clg@kaod.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 8 Mar 2022 06:51:53 +1000
+Message-ID: <CAKmqyKOvHX23Ef-dLNY_YbGn_nHQmX4WFmjJnuPzu6uRPsKEHg@mail.gmail.com>
+Subject: Re: [PATCH 2/6] aspeed: Rework aspeed_board_init_flashes() interface
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::136
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x136.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,116 +82,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org,
- incoming+7b48dc26643084f29a2bbb8c07f757b1@incoming.gitlab.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> On 3/7/22 08:44, Alex Benn=C3=A9e wrote:
->> The instruction description says "It is loaded without rounding
->> errors." which implies we should have the widest rounding mode
->> possible.
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/888
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>   target/i386/tcg/fpu_helper.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->> diff --git a/target/i386/tcg/fpu_helper.c
->> b/target/i386/tcg/fpu_helper.c
->> index cdd8e9f947..d986fd5792 100644
->> --- a/target/i386/tcg/fpu_helper.c
->> +++ b/target/i386/tcg/fpu_helper.c
->> @@ -250,11 +250,15 @@ void helper_fildl_ST0(CPUX86State *env, int32_t va=
-l)
->>   void helper_fildll_ST0(CPUX86State *env, int64_t val)
->>   {
->>       int new_fpstt;
->> +    FloatX80RoundPrec old =3D get_floatx80_rounding_precision(&env->fp_=
-status);
->> +    set_floatx80_rounding_precision(floatx80_precision_x, &env->fp_stat=
-us);
->>         new_fpstt =3D (env->fpstt - 1) & 7;
->>       env->fpregs[new_fpstt].d =3D int64_to_floatx80(val, &env->fp_statu=
-s);
->>       env->fpstt =3D new_fpstt;
->>       env->fptags[new_fpstt] =3D 0; /* validate stack entry */
->> +
->> +    set_floatx80_rounding_precision(old, &env->fp_status);
->>   }
+On Mon, Mar 7, 2022 at 5:24 PM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> Yep.
+> Currently, the allocation of the flash devices uses the number of
+> slave selects configured in the SoC realize routine. It is simpler to
+> use directly the number of FMC devices defined in the machine class
+> and 1 for spi devices (which is what the SoC does in the back of the
+> machine).
 >
-> Need a similar fix for fildl_ST0, for the case floatx80_precision_s is
-> currently set (int32_t has more than the 23 bits of single-precision).
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-It can't hurt to convert with:
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-  set_floatx80_rounding_precision(floatx80_precision_x, &env->fp_status);
+Alistair
 
-in that case as well right?
-
---8<---------------cut here---------------start------------->8---
-target/i386: for maximum rounding precision for fildll
-
-The instruction description says "It is loaded without rounding
-errors." which implies we should have the widest rounding mode
-possible.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/888
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-1 file changed, 13 insertions(+)
-target/i386/tcg/fpu_helper.c | 13 +++++++++++++
-
-modified   target/i386/tcg/fpu_helper.c
-@@ -237,24 +237,37 @@ void helper_fldl_ST0(CPUX86State *env, uint64_t val)
-     merge_exception_flags(env, old_flags);
- }
-=20
-+static FloatX80RoundPrec tmp_maximise_precision(float_status *st)
-+{
-+    FloatX80RoundPrec old =3D get_floatx80_rounding_precision(st);
-+    set_floatx80_rounding_precision(floatx80_precision_x, st);
-+    return old;
-+}
-+
- void helper_fildl_ST0(CPUX86State *env, int32_t val)
- {
-     int new_fpstt;
-+    FloatX80RoundPrec old =3D tmp_maximise_precision(&env->fp_status);
-=20
-     new_fpstt =3D (env->fpstt - 1) & 7;
-     env->fpregs[new_fpstt].d =3D int32_to_floatx80(val, &env->fp_status);
-     env->fpstt =3D new_fpstt;
-     env->fptags[new_fpstt] =3D 0; /* validate stack entry */
-+
-+    set_floatx80_rounding_precision(old, &env->fp_status);
- }
-=20
- void helper_fildll_ST0(CPUX86State *env, int64_t val)
- {
-     int new_fpstt;
-+    FloatX80RoundPrec old =3D tmp_maximise_precision(&env->fp_status);
-=20
-     new_fpstt =3D (env->fpstt - 1) & 7;
-     env->fpregs[new_fpstt].d =3D int64_to_floatx80(val, &env->fp_status);
-     env->fpstt =3D new_fpstt;
-     env->fptags[new_fpstt] =3D 0; /* validate stack entry */
-+
-+    set_floatx80_rounding_precision(old, &env->fp_status);
- }
---8<---------------cut here---------------end--------------->8---
-
-
+> ---
+>  hw/arm/aspeed.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 02918a594d24..be24508a9854 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -276,9 +276,8 @@ static void write_boot_rom(DriveInfo *dinfo, hwaddr a=
+ddr, size_t rom_size,
+>      rom_add_blob_fixed("aspeed.boot_rom", storage, rom_size, addr);
+>  }
+>
+> -static void aspeed_board_init_flashes(AspeedSMCState *s,
+> -                                      const char *flashtype,
+> -                                      int unit0)
+> +static void aspeed_board_init_flashes(AspeedSMCState *s, const char *fla=
+shtype,
+> +                                      int count, int unit0)
+>  {
+>      int i;
+>
+> @@ -286,7 +285,7 @@ static void aspeed_board_init_flashes(AspeedSMCState =
+*s,
+>          return;
+>      }
+>
+> -    for (i =3D 0; i < s->num_cs; ++i) {
+> +    for (i =3D 0; i < count; ++i) {
+>          DriveInfo *dinfo =3D drive_get(IF_MTD, 0, unit0 + i);
+>          qemu_irq cs_line;
+>          DeviceState *dev;
+> @@ -382,10 +381,10 @@ static void aspeed_machine_init(MachineState *machi=
+ne)
+>
+>      aspeed_board_init_flashes(&bmc->soc.fmc,
+>                                bmc->fmc_model ? bmc->fmc_model : amc->fmc=
+_model,
+> -                              0);
+> +                              amc->num_cs, 0);
+>      aspeed_board_init_flashes(&bmc->soc.spi[0],
+>                                bmc->spi_model ? bmc->spi_model : amc->spi=
+_model,
+> -                              bmc->soc.fmc.num_cs);
+> +                              1, amc->num_cs);
+>
+>      /* Install first FMC flash content as a boot rom. */
+>      if (drive0) {
+> --
+> 2.34.1
 >
 >
-> r~
-
-
---=20
-Alex Benn=C3=A9e
 
