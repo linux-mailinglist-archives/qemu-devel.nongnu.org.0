@@ -2,94 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 305064CF3E1
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 09:44:58 +0100 (CET)
-Received: from localhost ([::1]:49682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158C74CF3EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 09:47:45 +0100 (CET)
+Received: from localhost ([::1]:52308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR8zA-0003At-N0
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 03:44:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50396)
+	id 1nR91s-0004ye-63
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 03:47:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nR8xF-0002Qy-AJ
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:42:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nR8xC-0007X3-IY
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:42:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646642572;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bPUeBzrU/4JyPjRqsbUgIZcazLsmPQ8FodB+p+KIU+Y=;
- b=ikXTIQv/AnbgWYjfhq9CbHze1Zpu3msCLnAvBGzHhbj69OntdWEkJNFcMjh8TaVXZP5/4U
- sLT3sLfGAKeFvH0uPYBWb8UeZUQcsi1Ulc8sfzcqV4JvpE09wXXj+uk0I0VdA12mu7+Ief
- dVpDNHQ0+9xlsQPI0cRTgG2zHf/57cU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-235-TlTHHDakM3i9r5l9m0QskQ-1; Mon, 07 Mar 2022 03:42:51 -0500
-X-MC-Unique: TlTHHDakM3i9r5l9m0QskQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- f14-20020adfc98e000000b001e8593b40b0so4260145wrh.14
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 00:42:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nR90Q-0004EM-7i
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:46:14 -0500
+Received: from [2607:f8b0:4864:20::532] (port=35729
+ helo=mail-pg1-x532.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1nR90L-00082F-4c
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:46:11 -0500
+Received: by mail-pg1-x532.google.com with SMTP id e6so12993838pgn.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 00:46:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kZjEb3rm/x8/PUOmaFhmx82rfY+NWT5FkkQxJ8bEnRY=;
+ b=M9gCCJv5Uq8Y0BPdPWYa20h27UrC0bSJSC13+F+NuyJa51ntpDDCF37CNETXWqV4+w
+ e10TBE0re+V6Hcol627xZ4kyLnuDYvv5OqO+RJi4fy9D2d2pLTtn6ziUdZ+WSU9RiWFj
+ fRXEEACBOePz9+rZ+Us/EdAYCS7Dp1iKoOf+aHcO2yo+HiPhzjpBGPuyaw59VVfjPdcH
+ q6BQ7Gsa22cTvKUXBaCrnKUf6W0lRhre4uvOnpqfGWJKT/in6BFtBjPsP5mBk6PLECum
+ SU6hXdGLlqQVvkMfP4UE8vTKz2zy8x4eg9k3Xf11gMKR4DMuCpepz02p4p1oIA4k5jx7
+ N4xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=bPUeBzrU/4JyPjRqsbUgIZcazLsmPQ8FodB+p+KIU+Y=;
- b=vYWsA3nH67VS6R/BLT9FaI9jNzCpGP8GLgjJRzBurxbEgd68C17whN4KjZX1GxkmaO
- f3xMr4gfcnO2I8g9rwU8gc7/aUPJKdEOB8xg73Sw+T2uohtopJueqcWrwit3evBRMmVS
- B3AjGQIs+2hyzqE0VxkHzGSeZr91fgNu5XSkv5I2Rzhcficp9Q7xKjbO/bhkNVl2THXJ
- 0zeIzOPUoclUFPmBzFJeeBXB8qFjfZ9BaurVfy+2c+D91QugDCDJrh4sjjjHNbhhiw92
- PIdg1k6Ix/pkwDv0FCCv8z33bouulaLlefrOrMXbOpJaLrKiDfzCsbTfFcgAEqrIcMtd
- OchA==
-X-Gm-Message-State: AOAM532G2ngzKLquH676WTk++nw5YDdfB+vibc/KiXwTj2r9eZQuRpYj
- h1nbjROJ7QQ8lDVnHdREq9faIZgZjbJ7NpGeq06bOrY/5bQx3eiLgZW7E/ibtUH9QiXw6j7iOkF
- 3WvRAkLGeI54m910=
-X-Received: by 2002:a7b:cc0d:0:b0:381:220e:a3a0 with SMTP id
- f13-20020a7bcc0d000000b00381220ea3a0mr8446887wmh.59.1646642570530; 
- Mon, 07 Mar 2022 00:42:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxad3jFvu+Z4FUGrSqg3achebdNRqz7I4jRpkx7sjE7H93byJ1/qs/xbfuecX1ZHcPw34vaBA==
-X-Received: by 2002:a7b:cc0d:0:b0:381:220e:a3a0 with SMTP id
- f13-20020a7bcc0d000000b00381220ea3a0mr8446871wmh.59.1646642570322; 
- Mon, 07 Mar 2022 00:42:50 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ bh=kZjEb3rm/x8/PUOmaFhmx82rfY+NWT5FkkQxJ8bEnRY=;
+ b=p/xuAHsXgmd1vCSE+GqK6fblDMdPHe2waF9rFH4idYuzx12Uo0pNbwTaF8k+Mq6hB3
+ giQ2C5MJLgjMhISEe3tpxWFi3QgmLxmaPEUfGb3d7UxY2Cd6JJybAk/jz3Hq+b9/WWiC
+ 0EyGAKkgsSABC/dcw3Tz3G5PyCB1JOrBevE/lITEAVVo/ZnAGoaI0UcQGRQQB5q5qdn9
+ XLe6Lv5wWLfP9impOkeXMwgsxPn2f35+Xm8GAjtELPs2uUm+yErbs99qNz91zBqYZTYE
+ GutIlRN1JyzlkdeZtKaBrJVYao8Qy99SY/zXEmPQJCjg7Xx2HfBSPKznt6eXN+fZX4iE
+ GREA==
+X-Gm-Message-State: AOAM531FKKhItaaa5yWROahvaJHXpVVtR+taKjfQcrXpa+JU3w1oPQeF
+ XIKRYC3PHNDeUmJCQ0N3NH0fZw==
+X-Google-Smtp-Source: ABdhPJw5lDsjHwQt5zRFbo/THvPbPHwOqlFUOpG7dC5r/CDt0fuOhl12tif71FpWfpaw97Kb471sHg==
+X-Received: by 2002:a65:4348:0:b0:375:9840:b064 with SMTP id
+ k8-20020a654348000000b003759840b064mr9159976pgq.270.1646642767399; 
+ Mon, 07 Mar 2022 00:46:07 -0800 (PST)
+Received: from always-x1.bytedance.net ([61.120.150.76])
  by smtp.gmail.com with ESMTPSA id
- a10-20020a7bc1ca000000b00389bc87db45sm434886wmj.7.2022.03.07.00.42.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 00:42:49 -0800 (PST)
-Message-ID: <23a9e21b-5f2b-1945-1b04-8bf71a9c637b@redhat.com>
-Date: Mon, 7 Mar 2022 09:42:49 +0100
+ g10-20020a056a000b8a00b004de9129eb80sm15973825pfj.85.2022.03.07.00.46.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 00:46:06 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: michael.roth@amd.com
+Subject: [PATCH v3] qga: Introduce disk smart
+Date: Mon,  7 Mar 2022 16:43:07 +0800
+Message-Id: <20220307084307.1379107-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v3] tests/tcg/s390x: Cleanup of mie3 tests.
-To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220301214305.2778-1-dmiller423@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220301214305.2778-1-dmiller423@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,112 +87,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org, pasic@linux.ibm.com, borntraeger@linux.ibm.com
+Cc: armbru@redhat.com, zhenwei pi <pizhenwei@bytedance.com>,
+ qemu-devel@nongnu.org, philippe.mathieu.daude@gmail.com,
+ Keith Busch <kbusch@kernel.org>, marcandre.lureau@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/03/2022 22.43, David Miller wrote:
-> Adds clobbers and merges remaining separate asm statements.
-> 
-> v2 -> v3:
-> * Removed all direct memory references in mie3-sel.c
-> 
-> v1 -> v2:
-> * Corrected side in rebase conflict, removing older code.
-> 
-> Signed-off-by: David Miller <dmiller423@gmail.com>
-> ---
->   tests/tcg/s390x/mie3-compl.c | 18 ++++++++++++-----
->   tests/tcg/s390x/mie3-mvcrl.c | 12 ++++++++----
->   tests/tcg/s390x/mie3-sel.c   | 38 ++++++++++++++++--------------------
->   3 files changed, 38 insertions(+), 30 deletions(-)
-> 
-> diff --git a/tests/tcg/s390x/mie3-compl.c b/tests/tcg/s390x/mie3-compl.c
-> index 35649f3b02..938938df9e 100644
-> --- a/tests/tcg/s390x/mie3-compl.c
-> +++ b/tests/tcg/s390x/mie3-compl.c
-> @@ -1,13 +1,20 @@
->   #include <stdint.h>
->   
-> +
->   #define FbinOp(S, ASM) uint64_t S(uint64_t a, uint64_t b) \
-> -{ \
-> -    uint64_t res = 0; \
-> -    asm ("llihf %[res],801\n" ASM \
-> -         : [res]"=&r"(res) : [a]"r"(a), [b]"r"(b) : "cc"); \
-> -    return res; \
-> +{                       \
-> +    uint64_t res = 0;   \
-> +asm volatile (          \
-> +    "llihf %[res],801\n"\
-> +    ASM                 \
-> +    : [res] "=&r" (res)  \
-> +    : [a] "r" (a)       \
-> +    , [b] "r" (b)       \
-> +);                      \
+After assigning a NVMe/SCSI controller to guest by VFIO, we lose
+everything on the host side. A guest uses these devices exclusively,
+we usually don't care the actions on these devices. But there is a
+low probability that hitting physical hardware warning, we need a
+chance to get the basic smart log info.
 
-Hmm, don't we still need "cc" in the clobber list? AFAICS some of these 
-instructions still alter the CC register... so I'd suggest to rather drop 
-the changes to this file?
+Introduce disk smart, and implement NVMe smart on linux.
 
-Since QEMU has it's soft-freeze deadline tomorrow, I'll pick this up without 
-the changes to mie3-compl.c for now... in case it's necessary, we can still 
-sort this out later.
+Thanks to Keith and Marc-André.
 
-> +    return res;         \
->   }
->   
-> +
->   /* AND WITH COMPLEMENT */
->   FbinOp(_ncrk,  ".insn rrf, 0xB9F50000, %[res], %[b], %[a], 0\n")
->   FbinOp(_ncgrk, ".insn rrf, 0xB9E50000, %[res], %[b], %[a], 0\n")
-> @@ -28,6 +35,7 @@ FbinOp(_nogrk, ".insn rrf, 0xB9660000, %[res], %[b], %[a], 0\n")
->   FbinOp(_ocrk,  ".insn rrf, 0xB9750000, %[res], %[b], %[a], 0\n")
->   FbinOp(_ocgrk, ".insn rrf, 0xB9650000, %[res], %[b], %[a], 0\n")
->   
-> +
->   int main(int argc, char *argv[])
->   {
->       if (_ncrk(0xFF88, 0xAA11)  != 0x0000032100000011ull ||
-> diff --git a/tests/tcg/s390x/mie3-mvcrl.c b/tests/tcg/s390x/mie3-mvcrl.c
-> index 57b08e48d0..f749dad9c2 100644
-> --- a/tests/tcg/s390x/mie3-mvcrl.c
-> +++ b/tests/tcg/s390x/mie3-mvcrl.c
-> @@ -1,15 +1,17 @@
->   #include <stdint.h>
->   #include <string.h>
->   
-> +
->   static inline void mvcrl_8(const char *dst, const char *src)
->   {
->       asm volatile (
-> -    "llill %%r0, 8\n"
-> -    ".insn sse, 0xE50A00000000, 0(%[dst]), 0(%[src])"
-> -    : : [dst] "d" (dst), [src] "d" (src)
-> -    : "memory");
-> +        "llill %%r0, 8\n"
-> +        ".insn sse, 0xE50A00000000, 0(%[dst]), 0(%[src])"
-> +        : : [dst] "d" (dst), [src] "d" (src)
-> +        : "r0", "memory");
->   }
->   
-> +
->   int main(int argc, char *argv[])
->   {
->       const char *alpha = "abcdefghijklmnop";
-> @@ -25,3 +27,5 @@ int main(int argc, char *argv[])
->   
->       return strncmp(alpha, tstr, 16ul);
->   }
-> +
-> +
+CC: Keith Busch <kbusch@kernel.org>
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+---
+ qga/commands-posix.c | 73 ++++++++++++++++++++++++++++++++++++++++++++
+ qga/qapi-schema.json | 53 +++++++++++++++++++++++++++++++-
+ 2 files changed, 125 insertions(+), 1 deletion(-)
 
-Some tooling like "git am" (or rather "git apply") complain about trailing 
-whitespace, so please try to avoid empty lines at the end of files in future 
-patches if possible. (I've dropped the empty lines while picking up the 
-patch, so no need to resend just because of this)
-
-  Thomas
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 4ec83bbfbc..383bbebe42 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -27,6 +27,7 @@
+ #include "qemu/base64.h"
+ #include "qemu/cutils.h"
+ #include "commands-common.h"
++#include "block/nvme.h"
+ 
+ #ifdef HAVE_UTMPX
+ #include <utmpx.h>
+@@ -49,6 +50,7 @@ extern char **environ;
+ #include <sys/socket.h>
+ #include <net/if.h>
+ #include <sys/statvfs.h>
++#include <linux/nvme_ioctl.h>
+ 
+ #ifdef CONFIG_LIBUDEV
+ #include <libudev.h>
+@@ -1390,6 +1392,76 @@ static GuestDiskInfoList *get_disk_partitions(
+     return ret;
+ }
+ 
++static void get_nvme_smart(GuestDiskInfo *disk)
++{
++    int fd;
++    GuestNVMeSmart *smart;
++    NvmeSmartLog log = {0};
++    struct nvme_admin_cmd cmd = {
++        .opcode = NVME_ADM_CMD_GET_LOG_PAGE,
++        .nsid = NVME_NSID_BROADCAST,
++        .addr = (uint64_t)&log,
++        .data_len = sizeof(log),
++        .cdw10 = NVME_LOG_SMART_INFO | (1 << 15) /* RAE bit */
++                 | (((sizeof(log) >> 2) - 1) << 16)
++    };
++
++    fd = qemu_open_old(disk->name, O_RDONLY);
++    if (fd == -1) {
++        g_debug("Failed to open device: %s: %s", disk->name, g_strerror(errno));
++        return;
++    }
++
++    if (ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd)) {
++        g_debug("Failed to get smart: %s: %s", disk->name, g_strerror(errno));
++        close(fd);
++        return;
++    }
++
++    disk->has_smart = true;
++    disk->smart = g_new0(GuestDiskSmart, 1);
++    disk->smart->type = GUEST_DISK_BUS_TYPE_NVME;
++
++    smart = &disk->smart->u.nvme;
++    smart->critical_warning = log.critical_warning;
++    smart->temperature = lduw_le_p(&log.temperature); /* unaligned field */
++    smart->available_spare = log.available_spare;
++    smart->available_spare_threshold = log.available_spare_threshold;
++    smart->percentage_used = log.percentage_used;
++    smart->data_units_read_lo = le64_to_cpu(log.data_units_read[0]);
++    smart->data_units_read_hi = le64_to_cpu(log.data_units_read[1]);
++    smart->data_units_written_lo = le64_to_cpu(log.data_units_written[0]);
++    smart->data_units_written_hi = le64_to_cpu(log.data_units_written[1]);
++    smart->host_read_commands_lo = le64_to_cpu(log.host_read_commands[0]);
++    smart->host_read_commands_hi = le64_to_cpu(log.host_read_commands[1]);
++    smart->host_write_commands_lo = le64_to_cpu(log.host_write_commands[0]);
++    smart->host_write_commands_hi = le64_to_cpu(log.host_write_commands[1]);
++    smart->controller_busy_time_lo = le64_to_cpu(log.controller_busy_time[0]);
++    smart->controller_busy_time_hi = le64_to_cpu(log.controller_busy_time[1]);
++    smart->power_cycles_lo = le64_to_cpu(log.power_cycles[0]);
++    smart->power_cycles_hi = le64_to_cpu(log.power_cycles[1]);
++    smart->power_on_hours_lo = le64_to_cpu(log.power_on_hours[0]);
++    smart->power_on_hours_hi = le64_to_cpu(log.power_on_hours[1]);
++    smart->unsafe_shutdowns_lo = le64_to_cpu(log.unsafe_shutdowns[0]);
++    smart->unsafe_shutdowns_hi = le64_to_cpu(log.unsafe_shutdowns[1]);
++    smart->media_errors_lo = le64_to_cpu(log.media_errors[0]);
++    smart->media_errors_hi = le64_to_cpu(log.media_errors[1]);
++    smart->number_of_error_log_entries_lo =
++        le64_to_cpu(log.number_of_error_log_entries[0]);
++    smart->number_of_error_log_entries_hi =
++        le64_to_cpu(log.number_of_error_log_entries[1]);
++
++    close(fd);
++}
++
++static void get_disk_smart(GuestDiskInfo *disk)
++{
++    if (disk->has_address
++        && (disk->address->bus_type == GUEST_DISK_BUS_TYPE_NVME)) {
++        get_nvme_smart(disk);
++    }
++}
++
+ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+ {
+     GuestDiskInfoList *ret = NULL;
+@@ -1463,6 +1535,7 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+         }
+ 
+         get_disk_deps(disk_dir, disk);
++        get_disk_smart(disk);
+         ret = get_disk_partitions(ret, de->d_name, disk_dir, dev_name);
+     }
+ 
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 8f73770210..bbfb817347 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -888,6 +888,55 @@
+            '*serial': 'str', '*dev': 'str',
+            '*ccw-address': 'GuestCCWAddress'} }
+ 
++##
++# @GuestNVMeSmart:
++#
++# NVMe smart informations, based on NVMe specification,
++# section <SMART / Health Information (Log Identifier 02h)>
++#
++# Since: 7.0
++##
++{ 'struct': 'GuestNVMeSmart',
++  'data': {'critical-warning': 'int',
++           'temperature': 'int',
++           'available-spare': 'int',
++           'available-spare-threshold': 'int',
++           'percentage-used': 'int',
++           'data-units-read-lo': 'uint64',
++           'data-units-read-hi': 'uint64',
++           'data-units-written-lo': 'uint64',
++           'data-units-written-hi': 'uint64',
++           'host-read-commands-lo': 'uint64',
++           'host-read-commands-hi': 'uint64',
++           'host-write-commands-lo': 'uint64',
++           'host-write-commands-hi': 'uint64',
++           'controller-busy-time-lo': 'uint64',
++           'controller-busy-time-hi': 'uint64',
++           'power-cycles-lo': 'uint64',
++           'power-cycles-hi': 'uint64',
++           'power-on-hours-lo': 'uint64',
++           'power-on-hours-hi': 'uint64',
++           'unsafe-shutdowns-lo': 'uint64',
++           'unsafe-shutdowns-hi': 'uint64',
++           'media-errors-lo': 'uint64',
++           'media-errors-hi': 'uint64',
++           'number-of-error-log-entries-lo': 'uint64',
++           'number-of-error-log-entries-hi': 'uint64' } }
++
++##
++# @GuestDiskSmart:
++#
++# Disk type related smart information.
++#
++# - @nvme: NVMe disk smart
++#
++# Since: 7.0
++##
++{ 'union': 'GuestDiskSmart',
++  'base': { 'type': 'GuestDiskBusType' },
++  'discriminator': 'type',
++  'data': { 'nvme': 'GuestNVMeSmart' } }
++
+ ##
+ # @GuestDiskInfo:
+ #
+@@ -899,12 +948,14 @@
+ # @address: disk address information (only for non-virtual devices)
+ # @alias: optional alias assigned to the disk, on Linux this is a name assigned
+ #         by device mapper
++# @smart: disk smart information (Since 7.0)
+ #
+ # Since 5.2
+ ##
+ { 'struct': 'GuestDiskInfo',
+   'data': {'name': 'str', 'partition': 'bool', '*dependencies': ['str'],
+-           '*address': 'GuestDiskAddress', '*alias': 'str'} }
++           '*address': 'GuestDiskAddress', '*alias': 'str',
++           '*smart': 'GuestDiskSmart'} }
+ 
+ ##
+ # @guest-get-disks:
+-- 
+2.20.1
 
 
