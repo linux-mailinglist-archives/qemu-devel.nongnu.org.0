@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6215C4D04ED
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 18:07:23 +0100 (CET)
-Received: from localhost ([::1]:59840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F5D4D04F4
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 18:08:45 +0100 (CET)
+Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRGpN-0004cK-SY
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 12:07:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38608)
+	id 1nRGqi-0006a6-GD
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 12:08:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nRGjp-0004NC-97
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:01:37 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nRGjm-0001q7-2q
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:01:36 -0500
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KC4VD2xchz6GD1s;
- Tue,  8 Mar 2022 01:01:08 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Mar 2022 18:01:30 +0100
-Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 7 Mar
- 2022 17:01:29 +0000
-Date: Mon, 7 Mar 2022 17:01:27 +0000
-To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: <linuxarm@huawei.com>, <qemu-devel@nongnu.org>, Alex =?ISO-8859-1?Q?Benn?=
- =?ISO-8859-1?Q?=E9e?= <alex.bennee@linaro.org>, Marcel Apfelbaum
- <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Markus Armbruster
- <armbru@redhat.com>, <linux-cxl@vger.kernel.org>, Ben Widawsky
- <ben.widawsky@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Saransh Gupta1
- <saransh@ibm.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, Chris Browy
- <cbrowy@avery-design.com>, Samarth Saxena <samarths@cadence.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH v7 24/46] acpi/cxl: Add _OSC implementation (9.14.2)
-Message-ID: <20220307170127.0000582b@Huawei.com>
-In-Reply-To: <20220306162444-mutt-send-email-mst@kernel.org>
-References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
- <20220306174137.5707-25-Jonathan.Cameron@huawei.com>
- <20220306162444-mutt-send-email-mst@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nRGm6-0000hG-Lu
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:03:58 -0500
+Received: from [2607:f8b0:4864:20::32b] (port=44812
+ helo=mail-ot1-x32b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nRGm3-0002DU-7e
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:03:57 -0500
+Received: by mail-ot1-x32b.google.com with SMTP id
+ w17-20020a056830111100b005b22c584b93so3346986otq.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 09:03:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zKMsJi3MT02EqsZUuL2oDUrYY8wxQi4QJjYOIzYiQRk=;
+ b=pwtGdUuGD/KfCgO1pqjgzcfnGDRhVd7eqs5WbZndFmZJ7a+SC917qmPZvMSVX1bsxs
+ 48BBmCsSDQD3xW2YmgRWGp7EmETahGU59IECJcrbXqQwYFblMJZp8O0o8jIlxYsaLdHh
+ kML1K//Hvm6KHAxXcEPdnpQOV+1hNdJVgQO8BtjHufje5z3NCJnMtOQTiFKJGY2cM8DL
+ F24g1x/xERIX61mG19W+5fb9px1uapsSkths6HhIjnVJJKFtRM8vp4GAbaXI80OIfHPQ
+ mqiVjR640ji+aKkrK24j2eTid0ZiY0uG4FEOw9PUjKlN3xlIzv7GM83XJi7erNY7ffE7
+ yP4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zKMsJi3MT02EqsZUuL2oDUrYY8wxQi4QJjYOIzYiQRk=;
+ b=cdfVbuyOGKe9ik6aA8Tqnxs24UC0JHPquqwr6aCTeTIBGypLQeC+Dx4r5FwC5whtrv
+ hviFYPNGrL0SJ8B1mgZr98FXXgjASmi+mtK+fL6KJELYP3CB1sXifooaK2DuEnSAzB6O
+ DLK1pf/TFfK3tTBAFG76BzUogwBshzPVmzWm1u9s2MStGcnL7sClWSVQu6gTKJPZ2t9M
+ 7JuugltXv04UlbR72te19AbdYrci33fHoM/diHs/MlrfKVcKBb4xU6JOq5Jd79kaA5i0
+ LIDW9MuS292oz5sMIYTWAZK6aa3auL/hVBupjWTyY1h22XEXU2FnBCOQvZdSedrgNu0K
+ 1/Rw==
+X-Gm-Message-State: AOAM531z49TE4Rwd7wGvK1k3/aCiuvgFFB7CqvKZ4oOWYG1HM7fKP9lo
+ XijnCNKuj5+R/btLkkVBKNgRFCMv5QSeB8oDWq8=
+X-Google-Smtp-Source: ABdhPJyRpUctI/HFLz2fZCDoWp0OlmLHYCCI2YScDQGuLIgmMDYYPKfQ8gr6mwxbojVgTqhBwD5ra4rOGPAi6K1DUME=
+X-Received: by 2002:a9d:6a44:0:b0:5af:1886:86ec with SMTP id
+ h4-20020a9d6a44000000b005af188686ecmr6326940otn.333.1646672633365; Mon, 07
+ Mar 2022 09:03:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.202.226.41]
-X-ClientProxiedBy: lhreml729-chm.china.huawei.com (10.201.108.80) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220307151004.578069-1-pbonzini@redhat.com>
+ <59f773ed-9a1f-10ff-637e-b41848aa534d@gmail.com>
+ <f306bf54-e1bf-8ad6-a041-b6793bcf085f@redhat.com>
+In-Reply-To: <f306bf54-e1bf-8ad6-a041-b6793bcf085f@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Tue, 8 Mar 2022 02:03:42 +0900
+Message-ID: <CAMVc7JUkHeMy1oSKq4NE_dHR5QuUwzN5aTCSTMxJthR2rGNYJA@mail.gmail.com>
+Subject: Re: [RFC uncompiled PATCH] cocoa: run qemu_init in the main thread
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32b
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ot1-x32b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,340 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Sun, 6 Mar 2022 16:31:05 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Tue, Mar 8, 2022 at 1:39 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 3/7/22 16:34, Akihiko Odaki wrote:
+> > Thanks for this interesting suggestion. However I don't think this
+> > improves the situation much. The main contribution of this change is
+> > that elimination of display_init_sem but it is still necessary for
+> > command line usage of the executable.
+> >
+> > display_init_sem is kind of overloaded has two roles. One is to tell
+> > that the QEMU is ready to initialize the display. The other is to tell
+> > if it is going to initialize the display, which would not happen when it
+> > is used entirely in the command line. The former role can be eliminated
+> > by waiting for qemu_init, but the latter cannot be.
+>
+> This is easy to account for.  On top of this patch:
+>
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index 44d8ea7a39..3903fa4b9b 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -96,6 +96,7 @@ static DisplayChangeListener dcl = {
+>   static int last_buttons;
+>   static int cursor_hide = 1;
+>   static bool full_screen;
+> +static bool have_cocoa_ui;
+>
+>   static bool stretch_video;
+>   static NSTextField *pauseLabel;
+> @@ -1899,6 +1900,11 @@ int main (int argc, char **argv) {
+>
+>       /* Takes iothread lock, released in applicationDidFinishLaunching:.  */
+>       qemu_init(argc, argv);
+> +    if (!have_cocoa_ui) {
+> +         qemu_main_loop();
+> +         qemu_cleanup();
+> +         return 0;
+> +    }
+>
+>       NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+>
+> @@ -2021,6 +2027,7 @@ static void cocoa_refresh(DisplayChangeListener *dcl)
+>   static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+>   {
+>       COCOA_DEBUG("qemu_cocoa: cocoa_display_init\n");
+> +    have_cocoa_ui = 1;
+>       if (opts->has_full_screen && opts->full_screen) {
+>           full_screen = 1;
+>       }
+>
+> Paolo
 
-> On Sun, Mar 06, 2022 at 05:41:15PM +0000, Jonathan Cameron wrote:
-> > From: Ben Widawsky <ben.widawsky@intel.com>
-> >=20
-> > CXL 2.0 specification adds 2 new dwords to the existing _OSC definition
-> > from PCIe. The new dwords are accessed with a new uuid. This
-> > implementation supports what is in the specification.
-> >=20
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Reviewed-by: Alex Benn=E9e <alex.bennee@linaro.org>
+This would allow to have gtk and sdl2 in the same binary.
 
-Question for Ben inline.
-
-> > ---
-> >  hw/acpi/Kconfig       |   5 ++
-> >  hw/acpi/cxl-stub.c    |  12 +++++
-> >  hw/acpi/cxl.c         | 104 ++++++++++++++++++++++++++++++++++++++++++
-> >  hw/acpi/meson.build   |   4 +-
-> >  hw/i386/acpi-build.c  |  15 ++++--
-> >  include/hw/acpi/cxl.h |  23 ++++++++++
-> >  6 files changed, 157 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-> > index 19caebde6c..3703aca212 100644
-> > --- a/hw/acpi/Kconfig
-> > +++ b/hw/acpi/Kconfig
-> > @@ -5,6 +5,7 @@ config ACPI_X86
-> >      bool
-> >      select ACPI
-> >      select ACPI_NVDIMM
-> > +    select ACPI_CXL
-> >      select ACPI_CPU_HOTPLUG
-> >      select ACPI_MEMORY_HOTPLUG
-> >      select ACPI_HMAT
-> > @@ -66,3 +67,7 @@ config ACPI_ERST
-> >      bool
-> >      default y
-> >      depends on ACPI && PCI
-> > +
-> > +config ACPI_CXL
-> > +    bool
-> > +    depends on ACPI
-> > diff --git a/hw/acpi/cxl-stub.c b/hw/acpi/cxl-stub.c
-> > new file mode 100644
-> > index 0000000000..15bc21076b
-> > --- /dev/null
-> > +++ b/hw/acpi/cxl-stub.c
-> > @@ -0,0 +1,12 @@
-> > +
-> > +/*
-> > + * Stubs for ACPI platforms that don't support CXl
-> > + */
-> > +#include "qemu/osdep.h"
-> > +#include "hw/acpi/aml-build.h"
-> > +#include "hw/acpi/cxl.h"
-> > +
-> > +void build_cxl_osc_method(Aml *dev)
-> > +{
-> > +    g_assert_not_reached();
-> > +}
-> > diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
-> > new file mode 100644
-> > index 0000000000..7124d5a1a3
-> > --- /dev/null
-> > +++ b/hw/acpi/cxl.c
-> > @@ -0,0 +1,104 @@
-> > +/*
-> > + * CXL ACPI Implementation
-> > + *
-> > + * Copyright(C) 2020 Intel Corporation.
-> > + *
-> > + * This library is free software; you can redistribute it and/or
-> > + * modify it under the terms of the GNU Lesser General Public
-> > + * License as published by the Free Software Foundation; either
-> > + * version 2 of the License, or (at your option) any later version.
-> > + *
-> > + * This library is distributed in the hope that it will be useful,
-> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> > + * Lesser General Public License for more details.
-> > + *
-> > + * You should have received a copy of the GNU Lesser General Public
-> > + * License along with this library; if not, see <http://www.gnu.org/li=
-censes/>
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "hw/cxl/cxl.h"
-> > +#include "hw/acpi/acpi.h"
-> > +#include "hw/acpi/aml-build.h"
-> > +#include "hw/acpi/bios-linker-loader.h"
-> > +#include "hw/acpi/cxl.h"
-> > +#include "qapi/error.h"
-> > +#include "qemu/uuid.h"
-> > +
-> > +static Aml *__build_cxl_osc_method(void)
-> > +{
-> > +    Aml *method, *if_uuid, *else_uuid, *if_arg1_not_1, *if_cxl, *if_ca=
-ps_masked;
-> > +    Aml *a_ctrl =3D aml_local(0);
-> > +    Aml *a_cdw1 =3D aml_name("CDW1");
-> > +
-> > +    method =3D aml_method("_OSC", 4, AML_NOTSERIALIZED);
-> > +    aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), =
-"CDW1"));
-> > +
-> > +    /* 9.14.2.1.4 */ =20
->=20
-> List spec name and version pls?
-
-Added.
-
->=20
-> > +    if_uuid =3D aml_if(
-> > +        aml_lor(aml_equal(aml_arg(0),
-> > +                          aml_touuid("33DB4D5B-1FF7-401C-9657-7441C03D=
-D766")),
-> > +                aml_equal(aml_arg(0),
-> > +                          aml_touuid("68F2D50B-C469-4D8A-BD3D-941A103F=
-D3FC"))));
-> > +    aml_append(if_uuid, aml_create_dword_field(aml_arg(3), aml_int(4),=
- "CDW2"));
-> > +    aml_append(if_uuid, aml_create_dword_field(aml_arg(3), aml_int(8),=
- "CDW3"));
-> > +
-> > +    aml_append(if_uuid, aml_store(aml_name("CDW3"), a_ctrl));
-> > +
-> > +    /* This is all the same as what's used for PCIe */ =20
->=20
-> Referring to what exactly?
-> Better to also document the meaning.
-
-Wise advice.  Having added documentation it is clear this was strangely ord=
-ered
-and contained at least one bug.  Guess I took this on a bit too much trust.
-
->=20
->=20
-> > +    aml_append(if_uuid,
-> > +               aml_and(aml_name("CTRL"), aml_int(0x1F), aml_name("CTRL=
-")));
-
-This should be
-		    aml_and(a_ctrl, aml_int(0x1F), a_ctrl)
-as we haven't stored anything to CTRL yet.  The a_ctrl variable ends up nam=
-ed
-Local0 when disassembled  which isn't particularly intuitive.
-
-> > +
-> > +    if_arg1_not_1 =3D aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(0x=
-1))));
-> > +    /* Unknown revision */
-> > +    aml_append(if_arg1_not_1, aml_or(a_cdw1, aml_int(0x08), a_cdw1));
-> > +    aml_append(if_uuid, if_arg1_not_1);
-> > +
-> > +    if_caps_masked =3D aml_if(aml_lnot(aml_equal(aml_name("CDW3"), a_c=
-trl)));
-> > +    /* Capability bits were masked */
-> > +    aml_append(if_caps_masked, aml_or(a_cdw1, aml_int(0x10), a_cdw1));
-> > +    aml_append(if_uuid, if_caps_masked);
-> > +
-> > +    aml_append(if_uuid, aml_store(aml_name("CDW2"), aml_name("SUPP")));
-> > +    aml_append(if_uuid, aml_store(aml_name("CDW3"), aml_name("CTRL")));
-> > +
-> > +    if_cxl =3D aml_if(aml_equal(
-> > +        aml_arg(0), aml_touuid("68F2D50B-C469-4D8A-BD3D-941A103FD3FC")=
-));
-> > +    /* CXL support field */
-> > +    aml_append(if_cxl, aml_create_dword_field(aml_arg(3), aml_int(12),=
- "CDW4"));
-> > +    /* CXL capabilities */
-> > +    aml_append(if_cxl, aml_create_dword_field(aml_arg(3), aml_int(16),=
- "CDW5"));
-> > +    aml_append(if_cxl, aml_store(aml_name("CDW4"), aml_name("SUPC")));
-> > +    aml_append(if_cxl, aml_store(aml_name("CDW5"), aml_name("CTRC")));
-> > +
-> > +    /* CXL 2.0 Port/Device Register access */
-
-Ben, this seems to be wrong to me.  CDW5 is the CXL control register
-and the only defined bit in the 2.0 spec (and no ECR or errata seems to
-have changed it) is bit 0 as CXL Memory Error Reporting Control.
-We can't control access to the Port/Device registers as that's only
-specified in the 'supported' value in CDW4.
-
-We also should be setting bits the OS didn't ask for.
-
-Obvious was a long time ago now, but can you recall what was intended here?
-
-Thanks,
-
-Jonathan
-
-=20
-> > +    aml_append(if_cxl,
-> > +               aml_or(aml_name("CDW5"), aml_int(0x1), aml_name("CDW5")=
-));
-> > +    aml_append(if_uuid, if_cxl);
-> > +
-> > +    /* Update DWORD3 (the return value) */
-> > +    aml_append(if_uuid, aml_store(a_ctrl, aml_name("CDW3")));
-> > +
-> > +    aml_append(if_uuid, aml_return(aml_arg(3)));
-> > +    aml_append(method, if_uuid);
-> > +
-> > +    else_uuid =3D aml_else();
-> > +
-> > +    /* unrecognized uuid */
-> > +    aml_append(else_uuid,
-> > +               aml_or(aml_name("CDW1"), aml_int(0x4), aml_name("CDW1")=
-));
-> > +    aml_append(else_uuid, aml_return(aml_arg(3)));
-> > +    aml_append(method, else_uuid);
-> > +
-> > +    return method;
-> > +}
-> > +
-> > +void build_cxl_osc_method(Aml *dev)
-> > +{
-> > +    aml_append(dev, aml_name_decl("SUPP", aml_int(0)));
-> > +    aml_append(dev, aml_name_decl("CTRL", aml_int(0)));
-> > +    aml_append(dev, aml_name_decl("SUPC", aml_int(0)));
-> > +    aml_append(dev, aml_name_decl("CTRC", aml_int(0)));
-> > +    aml_append(dev, __build_cxl_osc_method());
-> > +}
-> > diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
-> > index 8bea2e6933..cea2f5f93a 100644
-> > --- a/hw/acpi/meson.build
-> > +++ b/hw/acpi/meson.build
-> > @@ -13,6 +13,7 @@ acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_fa=
-lse: files('acpi-mem-hotplu
-> >  acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_true: files('nvdimm.c'))
-> >  acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_false: files('acpi-nvdimm-s=
-tub.c'))
-> >  acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
-> > +acpi_ss.add(when: 'CONFIG_ACPI_CXL', if_true: files('cxl.c'), if_false=
-: files('cxl-stub.c'))
-> >  acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
-> >  acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_ev=
-ent_device.c'))
-> >  acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
-> > @@ -33,4 +34,5 @@ softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi=
-_ss)
-> >  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-=
-build-stub.c',
-> >                                                    'acpi-x86-stub.c', '=
-ipmi-stub.c', 'ghes-stub.c',
-> >                                                    'acpi-mem-hotplug-st=
-ub.c', 'acpi-cpu-hotplug-stub.c',
-> > -                                                  'acpi-pci-hotplug-st=
-ub.c', 'acpi-nvdimm-stub.c'))
-> > +                                                  'acpi-pci-hotplug-st=
-ub.c', 'acpi-nvdimm-stub.c',
-> > +                                                  'cxl-stub.c'))
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 0a28dd6d4e..b5a4b663f2 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -66,6 +66,7 @@
-> >  #include "hw/acpi/aml-build.h"
-> >  #include "hw/acpi/utils.h"
-> >  #include "hw/acpi/pci.h"
-> > +#include "hw/acpi/cxl.h"
-> > =20
-> >  #include "qom/qom-qobject.h"
-> >  #include "hw/i386/amd_iommu.h"
-> > @@ -1574,11 +1575,15 @@ build_dsdt(GArray *table_data, BIOSLinker *link=
-er,
-> >              aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
-> >              aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
-> >              if (pci_bus_is_cxl(bus)) {
-> > -                aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0=
-A08")));
-> > -                aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0=
-A03")));
-> > -
-> > -                /* Expander bridges do not have ACPI PCI Hot-plug enab=
-led */
-> > -                aml_append(dev, build_q35_osc_method(true));
-> > +                struct Aml *pkg =3D aml_package(2);
-> > +
-> > +                aml_append(dev, aml_name_decl("_HID", aml_string("ACPI=
-0016")));
-> > +                aml_append(pkg, aml_eisaid("PNP0A08"));
-> > +                aml_append(pkg, aml_eisaid("PNP0A03"));
-> > +                aml_append(dev, aml_name_decl("_CID", pkg));
-> > +                aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> > +                aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)=
-));
-> > +                build_cxl_osc_method(dev);
-> >              } else if (pci_bus_is_express(bus)) {
-> >                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0=
-A08")));
-> >                  aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0=
-A03")));
-> > diff --git a/include/hw/acpi/cxl.h b/include/hw/acpi/cxl.h
-> > new file mode 100644
-> > index 0000000000..7b8f3b8a2e
-> > --- /dev/null
-> > +++ b/include/hw/acpi/cxl.h
-> > @@ -0,0 +1,23 @@
-> > +/*
-> > + * Copyright (C) 2020 Intel Corporation
-> > + *
-> > + * This program is free software; you can redistribute it and/or modify
-> > + * it under the terms of the GNU General Public License as published by
-> > + * the Free Software Foundation; either version 2 of the License, or
-> > + * (at your option) any later version.
-> > +
-> > + * This program is distributed in the hope that it will be useful,
-> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > + * GNU General Public License for more details.
-> > +
-> > + * You should have received a copy of the GNU General Public License a=
-long
-> > + * with this program; if not, see <http://www.gnu.org/licenses/>.
-> > + */
-> > +
-> > +#ifndef HW_ACPI_CXL_H
-> > +#define HW_ACPI_CXL_H
-> > +
-> > +void build_cxl_osc_method(Aml *dev);
-> > +
-> > +#endif
-> > --=20
-> > 2.32.0 =20
->=20
-
+Regards,
+Akihiko Odaki
 
