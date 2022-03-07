@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B886C4CEF4F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 03:06:08 +0100 (CET)
-Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1379A4CEF52
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 03:08:13 +0100 (CET)
+Received: from localhost ([::1]:38698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR2lC-0004xp-TK
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 21:06:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41394)
+	id 1nR2nE-0000wh-5s
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 21:08:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nR2ir-0002Ts-DP; Sun, 06 Mar 2022 21:03:41 -0500
-Received: from [2607:f8b0:4864:20::832] (port=36534
- helo=mail-qt1-x832.google.com)
+ id 1nR2is-0002UQ-OP; Sun, 06 Mar 2022 21:03:42 -0500
+Received: from [2607:f8b0:4864:20::f36] (port=44719
+ helo=mail-qv1-xf36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nR2ip-0005wk-No; Sun, 06 Mar 2022 21:03:41 -0500
-Received: by mail-qt1-x832.google.com with SMTP id t18so1208183qtw.3;
- Sun, 06 Mar 2022 18:03:39 -0800 (PST)
+ id 1nR2iq-0005ww-LQ; Sun, 06 Mar 2022 21:03:42 -0500
+Received: by mail-qv1-xf36.google.com with SMTP id jr3so11009304qvb.11;
+ Sun, 06 Mar 2022 18:03:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m8g6GCvWKm8qFCJ0tBL6Zoou3yEoi/pV064BCq+EY+E=;
- b=W99Mqo4nVtU3Ri04an6me7kP/u/7Oi6bc7gDkvvPgjYiO9Zzeda7dueK7g3Go9PATq
- 4dp+/wCBIDNp/hNUAQOVs0JtgBlU5oDr+kVU1824bvreNuhRon5LeNtV/lezaMJHjVx8
- gKvEmyVmLxzH5VJRhspQFJoehR1R+dg+JMfVtbhXJlEFUxMdHaSpuPlSTVoIukaxdXec
- pBC7Zdi3LeAtdhv+76N1mgEidsjoiY6HPs9XUyAv/e6Mkvr82Y6SRTG8/oDIgbHb+r0W
- x/MiUELSyH5OYF05qAuOpsE1eQ4je85NNc5Bdrly9ZCQpFJ7ndaKLKOZYobxORrTKKA/
- GUKA==
+ bh=Z1Y2bDCmcXShyTNYfJ2xEuhOk5Smg5R1nDTPEyYkOD4=;
+ b=BijGUeI9Nwirwgkil4CgNMiwkAJ3HQNRn0sEvtozxPLZrcqiIpFQZeAjVeStxDh68L
+ /f4fKMV3ch6BseLTTdsluKrq0SIqfbgndk55skpq8MW/asrt8fC6cSQ5XtekIFY8j4va
+ HsP23QO5K07HGy70FRuNattzURROxXA+/f+aYByzKKIZ/L89mKV8ZOyAocJtmDqSxMVc
+ BNG9+THhKEvDuFxqpaCECNcqBsebSjtCFoJdT2Grp0USc45YxCqWHmADZwlcS8DAPJaZ
+ yRNEAuwiZsg+PMG1LieyRbGcBBW7WN3pU2XfRBTCvWfIuefYfr96iOkoUoxc87FYMtIQ
+ lN7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m8g6GCvWKm8qFCJ0tBL6Zoou3yEoi/pV064BCq+EY+E=;
- b=mRjEM6cX/MNzZSu3iWjVzquFCi78338QcVgNbTOQacsa0QHiKOxtJgb6W56zis/wGo
- yFMV+2264uDJlfM+SIzBe0Ka1tCDbM55CV8xhOrHxJB6oyLxuAX0Vurm0nOnShittO0e
- QSXrf2+TKCY84YvXuj9XFdkR6T1vKMlpNdHviv8hwhtk586saKqHQJRDo7wCVo5DkV+j
- EF0dbEB8QpDV2CC/qOkdXQ8xnBoNYKQG5oz7ZzIUW36mbEgczB94fWf1p2AKD8SqTem7
- cGiBqu62hadwtZ97dlAhJhGZAYTLDyWmcU7Hu3sAeMlYAEh0ZCke6kPkp0sjLooUlyvC
- aGOw==
-X-Gm-Message-State: AOAM533d6q2kIMr8W/eGvBzGeqFQWvpxiQWIWskBYsOg0UllK47sd1j/
- myGqPt/16EMPDhBmIBTncRs9B3bkkT8+Cw==
-X-Google-Smtp-Source: ABdhPJz4KyGCAvPkhn5+etFj5SUoXjzSXFZyDZnI/gw2MsQpoGDVHl1BlehHzh1Ouc6HTWJrJAb2Aw==
-X-Received: by 2002:a05:622a:14ca:b0:2de:904f:c1b2 with SMTP id
- u10-20020a05622a14ca00b002de904fc1b2mr7591414qtx.433.1646618618375; 
- Sun, 06 Mar 2022 18:03:38 -0800 (PST)
+ bh=Z1Y2bDCmcXShyTNYfJ2xEuhOk5Smg5R1nDTPEyYkOD4=;
+ b=c9u4U0+eq3DtZtKEKHdD5mazS7nQSzpoZxAZ1kFdZPrMOKzQp1df9GMgBYaYyW/B+r
+ QHQ/CxTNhs/ZPgKLNd3r2r89XzxRuDXjR4MZYP5FvbFRFxc5YiySgsiCueJx6rgiUxHX
+ 7Gsb2fBWWE43+ZSiJhmmFSMO79A5dA1jwG9RUnPBK2H6olz4JHROSDeSWeoqfxoFO3xa
+ x5iUu4SF90Dc+uCmU0OWnsKXs/hBoKfU1QDLhnN+dqSFi8amcI1nhIW0LFTCGN7yFNvj
+ Q7Rdy/0Jr//Bb5gWASEihUEtkvdW8T0ogXMABzBKr+snrI5olGupgPmXZvDprzO8wDr/
+ QGsQ==
+X-Gm-Message-State: AOAM533v3u4fG4ZTOtcANaL/IuFeOjxoOl+Q0CuZ+xIiWGnRGYO5Lwo1
+ yeL/Ttxkzq22i9OKSEmLkhP2PjM1OIk/uA==
+X-Google-Smtp-Source: ABdhPJwjlj0rHzuo/gIW2hfZYKgYQDvykj56cEtCbC+hAQCW539ikGOzTogI41nsJsKNeVYf4/Vggg==
+X-Received: by 2002:a05:6214:1949:b0:435:7a22:ae1c with SMTP id
+ q9-20020a056214194900b004357a22ae1cmr4173001qvk.31.1646618619205; 
+ Sun, 06 Mar 2022 18:03:39 -0800 (PST)
 Received: from localhost.localdomain (mont-dyn-146-145.pwrtc.com.
  [205.174.146.145]) by smtp.gmail.com with ESMTPSA id
- p190-20020a37a6c7000000b00648ea630a45sm5601053qke.121.2022.03.06.18.03.37
+ p190-20020a37a6c7000000b00648ea630a45sm5601053qke.121.2022.03.06.18.03.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 06 Mar 2022 18:03:38 -0800 (PST)
 From: David Miller <dmiller423@gmail.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 2/7] target/s390x: vxeh2: vector string search
-Date: Sun,  6 Mar 2022 21:03:22 -0500
-Message-Id: <20220307020327.3003-3-dmiller423@gmail.com>
+Subject: [PATCH v2 3/7] target/s390x: vxeh2: vector shift {double by bit, left,
+ right {logical, arithmetic}}
+Date: Sun,  6 Mar 2022 21:03:23 -0500
+Message-Id: <20220307020327.3003-4-dmiller423@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307020327.3003-1-dmiller423@gmail.com>
 References: <20220307020327.3003-1-dmiller423@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::832
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f36
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=dmiller423@gmail.com; helo=mail-qt1-x832.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
+ envelope-from=dmiller423@gmail.com; helo=mail-qv1-xf36.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -96,153 +97,318 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: David Miller <dmiller423@gmail.com>
 ---
- target/s390x/helper.h                |  1 +
- target/s390x/tcg/insn-data.def       |  2 +
- target/s390x/tcg/translate.c         |  3 +-
- target/s390x/tcg/translate_vx.c.inc  | 17 ++++++++
- target/s390x/tcg/vec_string_helper.c | 65 ++++++++++++++++++++++++++++
- 5 files changed, 87 insertions(+), 1 deletion(-)
+ include/qemu/bitops.h               |  25 +++++++
+ target/s390x/helper.h               |   3 +
+ target/s390x/tcg/insn-data.def      |   6 +-
+ target/s390x/tcg/translate_vx.c.inc | 108 ++++++++++++++++++----------
+ target/s390x/tcg/vec_int_helper.c   |  58 +++++++++++++++
+ 5 files changed, 163 insertions(+), 37 deletions(-)
 
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 03213ce952..72426deea0 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -445,6 +445,31 @@ static inline int64_t sextract64(uint64_t value, int start, int length)
+      */
+     return ((int64_t)(value << (64 - length - start))) >> (64 - length);
+ }
++/**
++ * deposit8:
++ * @value: initial value to insert bit field into
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ * @fieldval: the value to insert into the bit field
++ *
++ * Deposit @fieldval into the 8 bit @value at the bit field specified
++ * by the @start and @length parameters, and return the modified
++ * @value. Bits of @value outside the bit field are not modified.
++ * Bits of @fieldval above the least significant @length bits are
++ * ignored. The bit field must lie entirely within the 8 bit byte.
++ * It is valid to request that all 8 bits are modified (ie @length
++ * 8 and @start 0).
++ *
++ * Returns: the modified @value.
++ */
++static inline uint8_t deposit8(uint8_t value, int start, int length,
++                               uint8_t fieldval)
++{
++    uint8_t mask;
++    assert(start >= 0 && length > 0 && length <= 8 - start);
++    mask = (~0ULL >> (8 - length)) << start;
++    return (value & ~mask) | ((fieldval << start) & mask);
++}
+ 
+ /**
+  * deposit32:
 diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-index 7cbcbd7f0b..1e38ee2e4e 100644
+index 1e38ee2e4e..a36308d651 100644
 --- a/target/s390x/helper.h
 +++ b/target/s390x/helper.h
-@@ -246,6 +246,7 @@ DEF_HELPER_6(gvec_vstrc_cc32, void, ptr, cptr, cptr, cptr, env, i32)
- DEF_HELPER_6(gvec_vstrc_cc_rt8, void, ptr, cptr, cptr, cptr, env, i32)
- DEF_HELPER_6(gvec_vstrc_cc_rt16, void, ptr, cptr, cptr, cptr, env, i32)
- DEF_HELPER_6(gvec_vstrc_cc_rt32, void, ptr, cptr, cptr, cptr, env, i32)
-+DEF_HELPER_6(vstrs, void, ptr, cptr, cptr, ptr, env, i32)
- 
- /* === Vector Floating-Point Instructions */
- DEF_HELPER_FLAGS_5(gvec_vfa32, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
+@@ -203,8 +203,11 @@ DEF_HELPER_FLAGS_3(gvec_vpopct16, TCG_CALL_NO_RWG, void, ptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_verim8, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_verim16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vsl, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
++DEF_HELPER_FLAGS_4(gvec_vsl_ve2, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vsra, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
++DEF_HELPER_FLAGS_4(gvec_vsra_ve2, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vsrl, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
++DEF_HELPER_FLAGS_4(gvec_vsrl_ve2, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vscbi8, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vscbi16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_4(gvec_vtm, void, ptr, cptr, env, i32)
 diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-index 6c8a8b229f..46add91a0e 100644
+index 46add91a0e..1bfe88a4ac 100644
 --- a/target/s390x/tcg/insn-data.def
 +++ b/target/s390x/tcg/insn-data.def
-@@ -1246,6 +1246,8 @@
-     F(0xe75c, VISTR,   VRR_a, V,   0, 0, 0, 0, vistr, 0, IF_VEC)
- /* VECTOR STRING RANGE COMPARE */
-     F(0xe78a, VSTRC,   VRR_d, V,   0, 0, 0, 0, vstrc, 0, IF_VEC)
-+/* VECTOR STRING SEARCH */
-+    F(0xe78b, VSTRS,   VRR_d, VE2, 0, 0, 0, 0, vstrs, 0, IF_VEC)
- 
- /* === Vector Floating-Point Instructions */
- 
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 904b51542f..d9ac29573d 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -6222,7 +6222,8 @@ enum DisasInsnEnum {
- #define FAC_PCI         S390_FEAT_ZPCI /* z/PCI facility */
- #define FAC_AIS         S390_FEAT_ADAPTER_INT_SUPPRESSION
- #define FAC_V           S390_FEAT_VECTOR /* vector facility */
--#define FAC_VE          S390_FEAT_VECTOR_ENH /* vector enhancements facility 1 */
-+#define FAC_VE          S390_FEAT_VECTOR_ENH  /* vector enhancements facility 1 */
-+#define FAC_VE2         S390_FEAT_VECTOR_ENH2 /* vector enhancements facility 2 */
- #define FAC_MIE2        S390_FEAT_MISC_INSTRUCTION_EXT2 /* miscellaneous-instruction-extensions facility 2 */
- #define FAC_MIE3        S390_FEAT_MISC_INSTRUCTION_EXT3 /* miscellaneous-instruction-extensions facility 3 */
- 
+@@ -1207,12 +1207,16 @@
+     F(0xe774, VSL,     VRR_c, V,   0, 0, 0, 0, vsl, 0, IF_VEC)
+ /* VECTOR SHIFT LEFT BY BYTE */
+     F(0xe775, VSLB,    VRR_c, V,   0, 0, 0, 0, vsl, 0, IF_VEC)
++/* VECTOR SHIFT LEFT DOUBLE BY BIT */
++	F(0xe786, VSLD,    VRI_d, VE2, 0, 0, 0, 0, vsld, 0, IF_VEC)
+ /* VECTOR SHIFT LEFT DOUBLE BY BYTE */
+-    F(0xe777, VSLDB,   VRI_d, V,   0, 0, 0, 0, vsldb, 0, IF_VEC)
++    F(0xe777, VSLDB,   VRI_d, V,   0, 0, 0, 0, vsld, 0, IF_VEC)
+ /* VECTOR SHIFT RIGHT ARITHMETIC */
+     F(0xe77e, VSRA,    VRR_c, V,   0, 0, 0, 0, vsra, 0, IF_VEC)
+ /* VECTOR SHIFT RIGHT ARITHMETIC BY BYTE */
+     F(0xe77f, VSRAB,   VRR_c, V,   0, 0, 0, 0, vsra, 0, IF_VEC)
++/* VECTOR SHIFT RIGHT DOUBLE BY BIT */
++	F(0xe787, VSRD,    VRI_d, VE2, 0, 0, 0, 0, vsrd, 0, IF_VEC)
+ /* VECTOR SHIFT RIGHT LOGICAL */
+     F(0xe77c, VSRL,    VRR_c, V,   0, 0, 0, 0, vsrl, 0, IF_VEC)
+ /* VECTOR SHIFT RIGHT LOGICAL BY BYTE */
 diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
-index ea28e40d4f..db86d9b87d 100644
+index db86d9b87d..60e1efdbfa 100644
 --- a/target/s390x/tcg/translate_vx.c.inc
 +++ b/target/s390x/tcg/translate_vx.c.inc
-@@ -2497,6 +2497,23 @@ static DisasJumpType op_vstrc(DisasContext *s, DisasOps *o)
+@@ -2020,26 +2020,33 @@ static DisasJumpType op_ves(DisasContext *s, DisasOps *o)
+ 
+ static DisasJumpType op_vsl(DisasContext *s, DisasOps *o)
+ {
+-    TCGv_i64 shift = tcg_temp_new_i64();
+-
+-    read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
+-    if (s->fields.op2 == 0x74) {
+-        tcg_gen_andi_i64(shift, shift, 0x7);
++    const bool B = 0x75 == s->fields.op2;
++    if (!B && s390_has_feat(S390_FEAT_VECTOR_ENH2)) {
++        gen_gvec_3_ool(get_field(s, v1), get_field(s, v2),
++                       get_field(s, v3), 0,  gen_helper_gvec_vsl_ve2);
+     } else {
+-        tcg_gen_andi_i64(shift, shift, 0x78);
+-    }
++        TCGv_i64 shift = tcg_temp_new_i64();
+ 
+-    gen_gvec_2i_ool(get_field(s, v1), get_field(s, v2),
+-                    shift, 0, gen_helper_gvec_vsl);
+-    tcg_temp_free_i64(shift);
++        read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
++        tcg_gen_andi_i64(shift, shift, B ? 0x78 : 7);
++        gen_gvec_2i_ool(get_field(s, v1), get_field(s, v2),
++                        shift, 0, gen_helper_gvec_vsl);
++        tcg_temp_free_i64(shift);
++    }
      return DISAS_NEXT;
  }
  
-+static DisasJumpType op_vstrs(DisasContext *s, DisasOps *o)
-+{
-+    const uint8_t es = get_field(s, m5);
-+    const uint32_t D = get_field(s, m6);
+-static DisasJumpType op_vsldb(DisasContext *s, DisasOps *o)
++static DisasJumpType op_vsld(DisasContext *s, DisasOps *o)
+ {
+-    const uint8_t i4 = get_field(s, i4) & 0xf;
+-    const int left_shift = (i4 & 7) * 8;
+-    const int right_shift = 64 - left_shift;
++    const uint8_t mask = (0x86 == s->fields.op2) ? 7 : 15;
++    const uint8_t mul  = (0x86 == s->fields.op2) ? 1 : 8;
++    const uint8_t i4   = get_field(s, i4);
++    const int shift = 64 - (i4 & 7) * mul;
 +
-+    if (es > ES_32) {
++    if (i4 & ~mask) {
 +        gen_program_exception(s, PGM_SPECIFICATION);
 +        return DISAS_NORETURN;
 +    }
-+    gen_gvec_4_ptr(get_field(s, v1), get_field(s, v2),
-+                   get_field(s, v3), get_field(s, v4),
-+                   cpu_env, (D << 16) | es, gen_helper_vstrs);
+     TCGv_i64 t0 = tcg_temp_new_i64();
+     TCGv_i64 t1 = tcg_temp_new_i64();
+     TCGv_i64 t2 = tcg_temp_new_i64();
+@@ -2053,8 +2060,8 @@ static DisasJumpType op_vsldb(DisasContext *s, DisasOps *o)
+         read_vec_element_i64(t1, get_field(s, v3), 0, ES_64);
+         read_vec_element_i64(t2, get_field(s, v3), 1, ES_64);
+     }
+-    tcg_gen_extract2_i64(t0, t1, t0, right_shift);
+-    tcg_gen_extract2_i64(t1, t2, t1, right_shift);
++    tcg_gen_extract2_i64(t0, t1, t0, shift);
++    tcg_gen_extract2_i64(t1, t2, t1, shift);
+     write_vec_element_i64(t0, get_field(s, v1), 0, ES_64);
+     write_vec_element_i64(t1, get_field(s, v1), 1, ES_64);
+ 
+@@ -2064,37 +2071,66 @@ static DisasJumpType op_vsldb(DisasContext *s, DisasOps *o)
+     return DISAS_NEXT;
+ }
+ 
+-static DisasJumpType op_vsra(DisasContext *s, DisasOps *o)
++static DisasJumpType op_vsrd(DisasContext *s, DisasOps *o)
+ {
+-    TCGv_i64 shift = tcg_temp_new_i64();
++    const uint8_t i4 = get_field(s, i4);
++    const int left_shift = (i4 & 7);
++    if (i4 & ~7) {
++        gen_program_exception(s, PGM_SPECIFICATION);
++        return DISAS_NORETURN;
++    }
++    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv_i64 t1 = tcg_temp_new_i64();
++    TCGv_i64 t2 = tcg_temp_new_i64();
 +
-+    set_cc_static(s);
++    read_vec_element_i64(t0, get_field(s, v2), 1, ES_64);
++    read_vec_element_i64(t1, get_field(s, v3), 0, ES_64);
++    read_vec_element_i64(t2, get_field(s, v3), 1, ES_64);
++
++    tcg_gen_extract2_i64(t0, t1, t0, left_shift);
++    tcg_gen_extract2_i64(t1, t2, t1, left_shift);
++    write_vec_element_i64(t0, get_field(s, v1), 0, ES_64);
++    write_vec_element_i64(t1, get_field(s, v1), 1, ES_64);
+ 
+-    read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
+-    if (s->fields.op2 == 0x7e) {
+-        tcg_gen_andi_i64(shift, shift, 0x7);
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++    tcg_temp_free(t2);
 +    return DISAS_NEXT;
 +}
 +
- static DisasJumpType op_vfa(DisasContext *s, DisasOps *o)
++static DisasJumpType op_vsra(DisasContext *s, DisasOps *o)
++{
++    const bool B = 0x7f == s->fields.op2;
++    if (!B && s390_has_feat(S390_FEAT_VECTOR_ENH2)) {
++        gen_gvec_3_ool(get_field(s, v1), get_field(s, v2),
++                       get_field(s, v3), 0, gen_helper_gvec_vsra_ve2);
+     } else {
+-        tcg_gen_andi_i64(shift, shift, 0x78);
+-    }
++        TCGv_i64 shift = tcg_temp_new_i64();
+ 
+-    gen_gvec_2i_ool(get_field(s, v1), get_field(s, v2),
+-                    shift, 0, gen_helper_gvec_vsra);
+-    tcg_temp_free_i64(shift);
++        read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
++        tcg_gen_andi_i64(shift, shift, B ? 0x78 : 7);
++        gen_gvec_2i_ool(get_field(s, v1), get_field(s, v2),
++                        shift, 0, gen_helper_gvec_vsra);
++        tcg_temp_free_i64(shift);
++    }
+     return DISAS_NEXT;
+ }
+ 
+ static DisasJumpType op_vsrl(DisasContext *s, DisasOps *o)
  {
-     const uint8_t fpf = get_field(s, m4);
-diff --git a/target/s390x/tcg/vec_string_helper.c b/target/s390x/tcg/vec_string_helper.c
-index ac315eb095..22c14c6925 100644
---- a/target/s390x/tcg/vec_string_helper.c
-+++ b/target/s390x/tcg/vec_string_helper.c
-@@ -471,3 +471,68 @@ void HELPER(gvec_vstrc_cc_rt##BITS)(void *v1, const void *v2, const void *v3,  \
- DEF_VSTRC_CC_RT_HELPER(8)
- DEF_VSTRC_CC_RT_HELPER(16)
- DEF_VSTRC_CC_RT_HELPER(32)
-+
-+void HELPER(vstrs)(void *v1, const void *v2, const void *v3, void *v4,
-+                   CPUS390XState *env, uint32_t desc) {
-+    const bool zs = (desc >> 16);
-+    const uint8_t es = desc & 16;
-+    const uint8_t char_size = 1 << es;
-+
-+    uint32_t str_len = 0, eos = 0;
-+    uint32_t i = 0, j = 0, k = 0, cc = 0;
-+    uint32_t substr_len = ((uint8_t *)v4)[H1(7)] & 31;
-+
-+    for (i = 0; i < 16; i += char_size) {
-+        if (0 == es && !((uint8_t  *)v3)[H1(i >> es)]) { break; }
-+        if (1 == es && !((uint16_t *)v3)[H2(i >> es)]) { break; }
-+        if (2 == es && !((uint32_t *)v3)[H4(i >> es)]) { break; }
+-    TCGv_i64 shift = tcg_temp_new_i64();
+-
+-    read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
+-    if (s->fields.op2 == 0x7c) {
+-        tcg_gen_andi_i64(shift, shift, 0x7);
++    const bool B = 0x7d == s->fields.op2;
++    if (!B && s390_has_feat(S390_FEAT_VECTOR_ENH2)) {
++        gen_gvec_3_ool(get_field(s, v1), get_field(s, v2),
++                       get_field(s, v3), 0, gen_helper_gvec_vsrl_ve2);
+     } else {
+-        tcg_gen_andi_i64(shift, shift, 0x78);
+-    }
++        TCGv_i64 shift = tcg_temp_new_i64();
+ 
+-    gen_gvec_2i_ool(get_field(s, v1), get_field(s, v2),
+-                    shift, 0, gen_helper_gvec_vsrl);
+-    tcg_temp_free_i64(shift);
++        read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
++        tcg_gen_andi_i64(shift, shift, B ? 0x78 : 7);
++        gen_gvec_2i_ool(get_field(s, v1), get_field(s, v2),
++                        shift, 0, gen_helper_gvec_vsrl);
++        tcg_temp_free_i64(shift);
 +    }
-+    if (i < substr_len) {
-+        substr_len = i;
-+    }
-+    if (substr_len) {
-+        if (zs) {
-+            for (k = 0; k < 16; k += char_size) {
-+                if (0 == es && !((uint8_t  *)v2)[H1(k >> es)]) { break; }
-+                if (1 == es && !((uint16_t *)v2)[H2(k >> es)]) { break; }
-+                if (2 == es && !((uint32_t *)v2)[H4(k >> es)]) { break; }
+     return DISAS_NEXT;
+ }
+ 
+diff --git a/target/s390x/tcg/vec_int_helper.c b/target/s390x/tcg/vec_int_helper.c
+index 5561b3ed90..02d0a1cc94 100644
+--- a/target/s390x/tcg/vec_int_helper.c
++++ b/target/s390x/tcg/vec_int_helper.c
+@@ -540,18 +540,76 @@ void HELPER(gvec_vsl)(void *v1, const void *v2, uint64_t count,
+     s390_vec_shl(v1, v2, count);
+ }
+ 
++void HELPER(gvec_vsl_ve2)(void *v1, const void *v2, const void *v3,
++                          uint32_t desc)
++{
++    uint8_t i, v;
++    S390Vector tmp = {};
++    for (i = 0; i < 16; i++) {
++        const uint8_t shift = s390_vec_read_element8(v3, i) & 7;
++        v = s390_vec_read_element8(v2, i);
++
++        if (shift) {
++            v <<= shift;
++            if (i < 15) {
++                v |= extract8(s390_vec_read_element8(v2, i + 1),
++                              8 - shift, shift);
 +            }
-+            eos = (16 != k);
-+            str_len = k;
-+        } else {
-+            str_len = 16;
 +        }
-+
-+        for (k = 0; k < str_len; k += char_size) {
-+            if (0 == es && ((uint8_t  *)v3)[H1(0)]
-+                        == ((uint8_t  *)v2)[H1(k >> es)]) { break; }
-+            if (1 == es && ((uint16_t *)v3)[H2(0)]
-+                        == ((uint16_t *)v2)[H2(k >> es)]) { break; }
-+            if (2 == es && ((uint32_t *)v3)[H4(0)]
-+                        == ((uint32_t *)v2)[H4(k >> es)]) { break; }
-+        }
-+
-+        if (k < 16 &&  (!eos || (k + substr_len) <= str_len)) {
-+            if ((k + substr_len) <= 16) {
-+                for (j = 0; j < substr_len; j += char_size) {
-+                    if (0 == es && ((uint8_t  *)v3)[H1(j >> es)]
-+                                != ((uint8_t  *)v2)[H1((k + j) >> es)]) { break; }
-+                    if (1 == es && ((uint16_t *)v3)[H2(j >> es)]
-+                                != ((uint16_t *)v2)[H2((k + j) >> es)]) { break; }
-+                    if (2 == es && ((uint32_t *)v3)[H4(j >> es)]
-+                                != ((uint32_t *)v2)[H4((k + j) >> es)]) { break; }
-+                }
-+            }
-+            cc = (j == substr_len) ? 2 : 3;
-+        } else {
-+            cc = eos ? 1 : 0;
-+            k = 16;
-+        }
-+    } else {
-+        cc = 2;
++        s390_vec_write_element8(&tmp, i, v);
 +    }
-+
-+    ((uint64_t *)v1)[0] = ((uint64_t *)v1)[1] = 0;
-+    ((uint8_t *)v1)[H1(7)] = k;
-+    env->cc_op = cc;
++    *(S390Vector *)v1 = tmp;
 +}
++
+ void HELPER(gvec_vsra)(void *v1, const void *v2, uint64_t count,
+                        uint32_t desc)
+ {
+     s390_vec_sar(v1, v2, count);
+ }
+ 
++void HELPER(gvec_vsra_ve2)(void *v1, const void *v2, const void *v3,
++                           uint32_t desc)
++{
++    int i;
++    uint8_t t, v;
++    S390Vector tmp = {};
++    for (i = 0; i < 16; i++) {
++        const uint8_t shift = s390_vec_read_element8(v3, i) & 7;
++        v = s390_vec_read_element8(v2, i);
++        if (shift) {
++            t = i > 0 ? s390_vec_read_element8(v2, i - 1)
++                      : ((v & 0x80) ? ~0 : 0);
++            v = deposit8(v >> shift, 8 - shift, shift, t);
++        }
++        s390_vec_write_element8(&tmp, i, v);
++    }
++    *(S390Vector *)v1 = tmp;
++}
++
+ void HELPER(gvec_vsrl)(void *v1, const void *v2, uint64_t count,
+                        uint32_t desc)
+ {
+     s390_vec_shr(v1, v2, count);
+ }
+ 
++void HELPER(gvec_vsrl_ve2)(void *v1, const void *v2, const void *v3,
++                           uint32_t desc)
++{
++    int i;
++    uint8_t t, v;
++    S390Vector tmp = {};
++    for (i = 0; i < 16; i++) {
++        const uint8_t shift = s390_vec_read_element8(v3, i) & 7;
++        v = s390_vec_read_element8(v2, i) >> shift;
++        if (shift) {
++            t = (0 == i ? 0 : s390_vec_read_element8(v2, i - 1));
++            v = deposit8(v, 8 - shift, shift, t);
++        }
++        s390_vec_write_element8(&tmp, i, v);
++    }
++    *(S390Vector *)v1 = tmp;
++}
++
+ #define DEF_VSCBI(BITS)                                                        \
+ void HELPER(gvec_vscbi##BITS)(void *v1, const void *v2, const void *v3,        \
+                               uint32_t desc)                                   \
 -- 
 2.34.1
 
