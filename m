@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63084CEF5B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 03:12:16 +0100 (CET)
-Received: from localhost ([::1]:45928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51224CEF7F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 03:13:42 +0100 (CET)
+Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR2r9-0005vA-Vy
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 21:12:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41462)
+	id 1nR2sX-0007NZ-Vx
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 21:13:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nR2iw-0002Y4-0W; Sun, 06 Mar 2022 21:03:46 -0500
-Received: from [2607:f8b0:4864:20::730] (port=42924
- helo=mail-qk1-x730.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nR2pg-0005Ar-Of; Sun, 06 Mar 2022 21:10:44 -0500
+Received: from [2607:f8b0:4864:20::d34] (port=47103
+ helo=mail-io1-xd34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
- id 1nR2iu-0005xi-1e; Sun, 06 Mar 2022 21:03:45 -0500
-Received: by mail-qk1-x730.google.com with SMTP id 85so2778643qkm.9;
- Sun, 06 Mar 2022 18:03:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nR2pf-00078Z-3g; Sun, 06 Mar 2022 21:10:44 -0500
+Received: by mail-io1-xd34.google.com with SMTP id d62so15424962iog.13;
+ Sun, 06 Mar 2022 18:10:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=kE/I4bZbQPnUlNrUAPqcUXU1UxuB9wmPEkr5MdFV6VE=;
- b=JKF3VkDtOqvHQEVcE+UnqT/5O5aWG79AzorTxvkMDUaVXXZZSZfJ4/7rubsO2h6EDT
- G0Itk+wRLhj+j5Ws9ro1QHfFJ9thmrQxfDeVWIAtIchbS9XjpGOTGjLemTz5KK8YZB9G
- ZPXfj36v4wnbT8YVVCaFI79xK6+VrSSFo+C+G1/nrT4WIHPORbx946k6FN+ln/er395W
- EsowtxPONv3GvSID0a51hkCrRlkTHkNXuey+IGeRBMxfWH3Da5ECs6lBkad+rI16QaBS
- Yc2zdR5ozuteTcphMUIfPGfcqdvh4wp0hofIoaQR4ClD4CMZnxKceSS4WwkvGATlXFmB
- KQCQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=LjOhmsgnAesF3r6G9AUvVvl1u7Dja6cNjtK8/AS2Qp0=;
+ b=I1YmfUWr7dkKHDGNhsQsf0QYbIy+5jFDD26YnvKp81jjcM46hjOXxoGjt3Gznc1fuf
+ jMDYJSPfvTdqu+eSYEQStkDrC+RiY+kzWY69EXe12LesOp1T0Amn8YxvLiKcbo/brldQ
+ NPYahiBrTgy5oXvG27GzAdUq9a2YV8Zws/Z2dPpNuX6y3codIuujBBflzKdWaUnwI9Jf
+ +c/KeCDEjoJ4nIftolWWg9vZaUbGae7+NBdhJqJjOH4dVgAuu7xg++JgWNwr0UfYrSeH
+ voBkFVz7wpV4Ydp5v7mJBIOAvcmEgpp40wA82tWUXUJqL4djK+8wOdhgWmwmTLjoejRZ
+ BNPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kE/I4bZbQPnUlNrUAPqcUXU1UxuB9wmPEkr5MdFV6VE=;
- b=4xSXkLgtjM9G+4anW6gKsa2kFA/2QWLRRhJy3xtJ4g9EXj2l0pPY+SsPycwJLURQjl
- vOjfDTG2QkZCUAB+9skW+Bis7Ac0qYlyWEjI0XkS50gTPI8GnTjfEHiqXKb1NQ/k7a+e
- 4E+Mg4cxigeTxrDfpaSw576jRZBqpzBIs+5jgElrYp2V8LQ/F4skAws6RM7d1yU3HWGO
- YIeFJhDSbqtpEdqW+g7bHvE76hAuL36myDTMTel2FZlkAIhxfkUsSaNZlzs96aVVODEc
- SW7tg7IraUuZXigckGZIw1G2EPGiv2foq9t92skqUY0pN9SZtbPul9mf3Xj/lEx+v2d4
- lSKw==
-X-Gm-Message-State: AOAM532fAOtHyCGT0rIMHbvbGGjfH/i7Po3p9jqNFBkjNpa1Jd4Yf5cN
- GuWBn5ZJBhnxSARzJ6Y2o/41AQdsnbWaMA==
-X-Google-Smtp-Source: ABdhPJxh0bdAi9GCFPIEBmzK2LbXH/n2iCU6LpqSrnMYqmUkKNiQKZ/aVVQW7lE46VvvxrhHnJi8lg==
-X-Received: by 2002:a05:620a:4011:b0:67a:fce5:3dbb with SMTP id
- h17-20020a05620a401100b0067afce53dbbmr4529474qko.565.1646618622551; 
- Sun, 06 Mar 2022 18:03:42 -0800 (PST)
-Received: from localhost.localdomain (mont-dyn-146-145.pwrtc.com.
- [205.174.146.145]) by smtp.gmail.com with ESMTPSA id
- p190-20020a37a6c7000000b00648ea630a45sm5601053qke.121.2022.03.06.18.03.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 18:03:42 -0800 (PST)
-From: David Miller <dmiller423@gmail.com>
-To: qemu-s390x@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] tests/tcg/s390x: Tests for Vector Enhancements
- Facility 2
-Date: Sun,  6 Mar 2022 21:03:27 -0500
-Message-Id: <20220307020327.3003-8-dmiller423@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220307020327.3003-1-dmiller423@gmail.com>
-References: <20220307020327.3003-1-dmiller423@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LjOhmsgnAesF3r6G9AUvVvl1u7Dja6cNjtK8/AS2Qp0=;
+ b=oc6SaJnMNbRODKp67A3QFPi26cIwnfsFUTIeJqkrLQGeoldTAo1MWc6GoDbSn9RcAg
+ ZCQFVr/w25a3gLc/tgIRJWGr9D21x1Ta1SXk/x/pS9mJ5CC8UqUTRGVQXXJohjeBOpWc
+ F9VgkB85/h7TEBYKRU1lHeCUJRjHFi0FcPT+S3NLSMPoB9FQCDmayVuFrfYQM7DX72Y7
+ vlHUNP77MTtjTHOo1xAM0CH8BnO47MtpEY6oczFlVqWeOaynyOtAxreI5MuUZe0Ckns9
+ UwV97wUMx+0I8DYKnuVaVO0KQYrOWqBzHw1F4Ij35NcYCVTmqyYZpsbutkeQZ7O0vNN3
+ 4n7A==
+X-Gm-Message-State: AOAM533pOMJDPAF54yTekq19d2Akiawfn8t1w8UN5comVVLgVBiHSoWO
+ ONMX7GKSDzRAMtWIl6PgEmnn67uF9QHo/y6s7to=
+X-Google-Smtp-Source: ABdhPJxxH4mYGbTCutYk9vfhW9taome/ZQIJTzHQc/XfFUPsimTCB4mRNvrRLRTNmhoe0DYoHR09Eb2Ic5hdI6A/rHw=
+X-Received: by 2002:a6b:d60a:0:b0:63a:be64:c652 with SMTP id
+ w10-20020a6bd60a000000b0063abe64c652mr8729323ioa.27.1646619033660; Sun, 06
+ Mar 2022 18:10:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::730
+References: <20220303045426.511588-1-alistair.francis@opensource.wdc.com>
+ <20220303045426.511588-2-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20220303045426.511588-2-alistair.francis@opensource.wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 7 Mar 2022 12:10:07 +1000
+Message-ID: <CAKmqyKNe2WSEKffBSnr_4VpCDO1Fo=2UxrzJJ68asOz+x5RUTA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] riscv: opentitan: Connect opentitan SPI Host
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=dmiller423@gmail.com; helo=mail-qk1-x730.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -88,400 +82,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org, farman@linux.ibm.com,
- David Miller <dmiller423@gmail.com>, pasic@linux.ibm.com,
- borntraeger@linux.ibm.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, wilfred.mallawa@wdc.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* tests/tcg/s390x/vxeh2_vcvt.c  : vector convert
-* tests/tcg/s390x/vxeh2_vs.c    : vector shift
-* tests/tcg/s390x/vxeh2_vlstr.c : vector load/store reversed
+On Thu, Mar 3, 2022 at 2:55 PM Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>
+> Connect spi host[1/0] to opentitan.
+>
+> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Signed-off-by: David Miller <dmiller423@gmail.com>
----
- tests/tcg/s390x/Makefile.target |   8 ++
- tests/tcg/s390x/vxeh2_vcvt.c    |  97 +++++++++++++++++++++
- tests/tcg/s390x/vxeh2_vlstr.c   | 146 ++++++++++++++++++++++++++++++++
- tests/tcg/s390x/vxeh2_vs.c      |  91 ++++++++++++++++++++
- 4 files changed, 342 insertions(+)
- create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
- create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
- create mode 100644 tests/tcg/s390x/vxeh2_vs.c
+Thanks!
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 8c9b6a13ce..921a056dd1 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -16,6 +16,14 @@ TESTS+=shift
- TESTS+=trap
- TESTS+=signals-s390x
- 
-+VECTOR_TESTS=vxeh2_vs
-+VECTOR_TESTS+=vxeh2_vcvt
-+VECTOR_TESTS+=vxeh2_vlstr
-+
-+TESTS+=$(VECTOR_TESTS)
-+
-+$(VECTOR_TESTS): CFLAGS+=-march=z15 -O2
-+
- ifneq ($(HAVE_GDB_BIN),)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
- 
-diff --git a/tests/tcg/s390x/vxeh2_vcvt.c b/tests/tcg/s390x/vxeh2_vcvt.c
-new file mode 100644
-index 0000000000..71ecbd77b0
---- /dev/null
-+++ b/tests/tcg/s390x/vxeh2_vcvt.c
-@@ -0,0 +1,97 @@
-+/*
-+ * vxeh2_vcvt: vector-enhancements facility 2 vector convert *
-+ */
-+#include <stdint.h>
-+
-+typedef union S390Vector {
-+    uint64_t d[2];  /* doubleword */
-+    uint32_t w[4];  /* word */
-+    uint16_t h[8];  /* halfword */
-+    uint8_t  b[16]; /* byte */
-+    float    f[4];
-+    double   fd[2];
-+    __uint128_t v;
-+} S390Vector;
-+
-+#define M_S 8
-+#define M4_XxC 4
-+#define M4_def M4_XxC
-+
-+static inline void vcfps(S390Vector *v1, S390Vector *v2,
-+    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
-+{
-+    asm volatile("vcfps %[v1], %[v2], %[m3], %[m4], %[m5]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [m3]  "i" (m3)
-+                , [m4]  "i" (m4)
-+                , [m5]  "i" (m5));
-+}
-+
-+static inline void vcfpl(S390Vector *v1, S390Vector *v2,
-+    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
-+{
-+    asm volatile("vcfpl %[v1], %[v2], %[m3], %[m4], %[m5]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [m3]  "i" (m3)
-+                , [m4]  "i" (m4)
-+                , [m5]  "i" (m5));
-+}
-+
-+static inline void vcsfp(S390Vector *v1, S390Vector *v2,
-+    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
-+{
-+    asm volatile("vcsfp %[v1], %[v2], %[m3], %[m4], %[m5]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [m3]  "i" (m3)
-+                , [m4]  "i" (m4)
-+                , [m5]  "i" (m5));
-+}
-+
-+static inline void vclfp(S390Vector *v1, S390Vector *v2,
-+    const uint8_t m3,  const uint8_t m4,  const uint8_t m5)
-+{
-+    asm volatile("vclfp %[v1], %[v2], %[m3], %[m4], %[m5]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [m3]  "i" (m3)
-+                , [m4]  "i" (m4)
-+                , [m5]  "i" (m5));
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    S390Vector vd;
-+    S390Vector vs_i32 = { .w[0] = 1, .w[1] = 64, .w[2] = 1024, .w[3] = -10 };
-+    S390Vector vs_u32 = { .w[0] = 2, .w[1] = 32, .w[2] = 4096, .w[3] = 8888 };
-+    S390Vector vs_f32 = { .f[0] = 3.987, .f[1] = 5.123,
-+                          .f[2] = 4.499, .f[3] = 0.512 };
-+
-+    vd.d[0] = vd.d[1] = 0;
-+    vcfps(&vd, &vs_i32, 2, M4_def, 0);
-+    if (1 != vd.f[0] || 1024 != vd.f[2] || 64 != vd.f[1] || -10 != vd.f[3]) {
-+        return 1;
-+    }
-+
-+    vd.d[0] = vd.d[1] = 0;
-+    vcfpl(&vd, &vs_u32, 2, M4_def, 0);
-+    if (2 != vd.f[0] || 4096 != vd.f[2] || 32 != vd.f[1] || 8888 != vd.f[3]) {
-+        return 1;
-+    }
-+
-+    vd.d[0] = vd.d[1] = 0;
-+    vcsfp(&vd, &vs_f32, 2, M4_def, 0);
-+    if (4 != vd.w[0] || 4 != vd.w[2] || 5 != vd.w[1] || 1 != vd.w[3]) {
-+        return 1;
-+    }
-+
-+    vd.d[0] = vd.d[1] = 0;
-+    vclfp(&vd, &vs_f32, 2, M4_def, 0);
-+    if (4 != vd.w[0] || 4 != vd.w[2] || 5 != vd.w[1] || 1 != vd.w[3]) {
-+        return 1;
-+    }
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/s390x/vxeh2_vlstr.c b/tests/tcg/s390x/vxeh2_vlstr.c
-new file mode 100644
-index 0000000000..bf2954e86d
---- /dev/null
-+++ b/tests/tcg/s390x/vxeh2_vlstr.c
-@@ -0,0 +1,146 @@
-+/*
-+ * vxeh2_vlstr: vector-enhancements facility 2 vector load/store reversed *
-+ */
-+#include <stdint.h>
-+
-+typedef union S390Vector {
-+    uint64_t d[2];  /* doubleword */
-+    uint32_t w[4];  /* word */
-+    uint16_t h[8];  /* halfword */
-+    uint8_t  b[16]; /* byte */
-+    __uint128_t v;
-+} S390Vector;
-+
-+#define ES8  0
-+#define ES16 1
-+#define ES32 2
-+#define ES64 3
-+
-+#define vtst(v1, v2) \
-+    if (v1.d[0] != v2.d[0] || v1.d[1] != v2.d[1]) { \
-+        return 1;     \
-+    }
-+
-+static inline void vler(S390Vector *v1, const void *va, uint8_t m3)
-+{
-+    asm volatile("vler %[v1], 0(%[va]), %[m3]\n"
-+                : [v1] "+v" (v1->v)
-+                : [va]  "d" (va)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vster(S390Vector *v1, const void *va, uint8_t m3)
-+{
-+    asm volatile("vster %[v1], 0(%[va]), %[m3]\n"
-+                : [va] "+d" (va)
-+                : [v1]  "v" (v1->v)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vlbr(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vlbr %[v1], 0(%[va]), %[m3]\n"
-+                : [v1] "+v" (v1->v)
-+                : [va]  "d" (va)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vstbr(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vstbr %[v1], 0(%[va]), %[m3]\n"
-+                : [va] "+d" (va)
-+                : [v1]  "v" (v1->v)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+
-+static inline void vlebrh(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vlebrh %[v1], 0(%[va]), %[m3]\n"
-+                : [v1] "+v" (v1->v)
-+                : [va]  "d" (va)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vstebrh(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vstebrh %[v1], 0(%[va]), %[m3]\n"
-+                : [va] "+d" (va)
-+                : [v1]  "v" (v1->v)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vllebrz(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vllebrz %[v1], 0(%[va]), %[m3]\n"
-+                : [v1] "+v" (v1->v)
-+                : [va]  "d" (va)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+static inline void vlbrrep(S390Vector *v1, void *va, const uint8_t m3)
-+{
-+    asm volatile("vlbrrep %[v1], 0(%[va]), %[m3]\n"
-+                : [v1] "+v" (v1->v)
-+                : [va]  "d" (va)
-+                , [m3]  "i" (m3)
-+                : "memory");
-+}
-+
-+
-+int main(int argc, char *argv[])
-+{
-+    S390Vector vd = { .d[0] = 0, .d[1] = 0 };
-+    S390Vector vs = { .d[0] = 0x8FEEDDCCBBAA9988ull,
-+                      .d[1] = 0x7766554433221107ull };
-+
-+    const S390Vector vt_v_er16 = {
-+        .h[0] = 0x1107, .h[1] = 0x3322, .h[2] = 0x5544, .h[3] = 0x7766,
-+        .h[4] = 0x9988, .h[5] = 0xBBAA, .h[6] = 0xDDCC, .h[7] = 0x8FEE };
-+
-+    const S390Vector vt_v_br16 = {
-+        .h[0] = 0xEE8F, .h[1] = 0xCCDD, .h[2] = 0xAABB, .h[3] = 0x8899,
-+        .h[4] = 0x6677, .h[5] = 0x4455, .h[6] = 0x2233, .h[7] = 0x0711 };
-+
-+    int ix;
-+    uint64_t ss64 = 0xFEEDFACE0BADBEEFull, sd64 = 0;
-+
-+    vler (&vd, &vs, ES16);  vtst(vd, vt_v_er16);
-+    vster(&vs, &vd, ES16);  vtst(vd, vt_v_er16);
-+
-+    vlbr (&vd, &vs, ES16);  vtst(vd, vt_v_br16);
-+    vstbr(&vs, &vd, ES16);  vtst(vd, vt_v_br16);
-+
-+    vlebrh(&vd, &ss64, 5);
-+    if (0xEDFE != vd.h[5]) {
-+        return 1;
-+    }
-+
-+    vstebrh(&vs, (uint8_t *)&sd64 + 4, 7);
-+    if (0x0000000007110000ull != sd64) {
-+        return 1;
-+    }
-+
-+    vllebrz(&vd, (uint8_t *)&ss64 + 3, 2);
-+    for (ix = 0; ix < 4; ix++) {
-+        if (vd.w[ix] != (ix != 1 ? 0 : 0xBEAD0BCE)) {
-+            return 1;
-+        }
-+    }
-+
-+    vlbrrep(&vd, (uint8_t *)&ss64 + 4, 1);
-+    for (ix = 0; ix < 8; ix++) {
-+        if (0xAD0B != vd.h[ix]) {
-+            return 1;
-+        }
-+    }
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/s390x/vxeh2_vs.c b/tests/tcg/s390x/vxeh2_vs.c
-new file mode 100644
-index 0000000000..04a3d4d7bb
---- /dev/null
-+++ b/tests/tcg/s390x/vxeh2_vs.c
-@@ -0,0 +1,91 @@
-+/*
-+ * vxeh2_vs: vector-enhancements facility 2 vector shift
-+ */
-+#include <stdint.h>
-+
-+typedef union S390Vector {
-+    uint64_t d[2];  /* doubleword */
-+    uint32_t w[4];  /* word */
-+    uint16_t h[8];  /* halfword */
-+    uint8_t  b[16]; /* byte */
-+    __uint128_t v;
-+} S390Vector;
-+
-+#define vtst(v1, v2) \
-+    if (v1.d[0] != v2.d[0] || v1.d[1] != v2.d[1]) { \
-+        return 1;     \
-+    }
-+
-+static inline void vsl(S390Vector *v1, S390Vector *v2, S390Vector *v3)
-+{
-+    asm volatile("vsl %[v1], %[v2], %[v3]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [v3]  "v" (v3->v));
-+}
-+
-+static inline void vsra(S390Vector *v1, S390Vector *v2, S390Vector *v3)
-+{
-+    asm volatile("vsra %[v1], %[v2], %[v3]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [v3]  "v" (v3->v));
-+}
-+
-+static inline void vsrl(S390Vector *v1, S390Vector *v2, S390Vector *v3)
-+{
-+    asm volatile("vsrl %[v1], %[v2], %[v3]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [v3]  "v" (v3->v));
-+}
-+
-+static inline void vsld(S390Vector *v1, S390Vector *v2,
-+    S390Vector *v3, const uint8_t I)
-+{
-+    asm volatile("vsld %[v1], %[v2], %[v3], %[I]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [v3]  "v" (v3->v)
-+                , [I]   "i" (I & 7));
-+}
-+
-+static inline void vsrd(S390Vector *v1, S390Vector *v2,
-+    S390Vector *v3, const uint8_t I)
-+{
-+    asm volatile("vsrd %[v1], %[v2], %[v3], %[I]\n"
-+                : [v1] "=v" (v1->v)
-+                : [v2]  "v" (v2->v)
-+                , [v3]  "v" (v3->v)
-+                , [I]   "i" (I & 7));
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    const S390Vector vt_vsl  = { .d[0] = 0x7FEDBB32D5AA311Dull,
-+                                 .d[1] = 0xBB65AA10912220C0ull };
-+    const S390Vector vt_vsra = { .d[0] = 0xF1FE6E7399AA5466ull,
-+                                 .d[1] = 0x0E762A5188221044ull };
-+    const S390Vector vt_vsrl = { .d[0] = 0x11FE6E7399AA5466ull,
-+                                 .d[1] = 0x0E762A5188221044ull };
-+    const S390Vector vt_vsld = { .d[0] = 0x7F76EE65DD54CC43ull,
-+                                 .d[1] = 0xBB32AA2199108838ull };
-+    const S390Vector vt_vsrd = { .d[0] = 0x0E060802040E000Aull,
-+                                 .d[1] = 0x0C060802040E000Aull };
-+    S390Vector vs  = { .d[0] = 0x8FEEDDCCBBAA9988ull,
-+                       .d[1] = 0x7766554433221107ull };
-+    S390Vector  vd = { .d[0] = 0, .d[1] = 0 };
-+    S390Vector vsi = { .d[0] = 0, .d[1] = 0 };
-+
-+    for (int ix = 0; ix < 16; ix++) {
-+        vsi.b[ix] = (1 + (5 ^ ~ix)) & 7;
-+    }
-+
-+    vsl (&vd, &vs, &vsi);       vtst(vd, vt_vsl);
-+    vsra(&vd, &vs, &vsi);       vtst(vd, vt_vsra);
-+    vsrl(&vd, &vs, &vsi);       vtst(vd, vt_vsrl);
-+    vsld(&vd, &vs, &vsi, 3);  vtst(vd, vt_vsld);
-+    vsrd(&vd, &vs, &vsi, 15); vtst(vd, vt_vsrd);
-+
-+    return 0;
-+}
--- 
-2.34.1
+Applied to riscv-to-apply.next
 
+Alistair
+
+> ---
+> V2 -> V3 Changes:
+> 1. Fixup commit message typo.
+> In `opentitan.h`:
+> 1. Revert copyright year change from 2022 to 2020
+> 2. Moved `OPENTITAN_SPI_X` #defines into an enum
+> 3. Sorted IBEX_X_IRQ enum in ascending order.
+>
+>  hw/riscv/opentitan.c         | 36 ++++++++++++++++++++++++++++++++----
+>  include/hw/riscv/opentitan.h | 30 +++++++++++++++++++++---------
+>  2 files changed, 53 insertions(+), 13 deletions(-)
+>
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 833624d66c..2d401dcb23 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -120,11 +120,18 @@ static void lowrisc_ibex_soc_init(Object *obj)
+>      object_initialize_child(obj, "uart", &s->uart, TYPE_IBEX_UART);
+>
+>      object_initialize_child(obj, "timer", &s->timer, TYPE_IBEX_TIMER);
+> +
+> +    for (int i =3D 0; i < OPENTITAN_NUM_SPI_HOSTS; i++) {
+> +        object_initialize_child(obj, "spi_host[*]", &s->spi_host[i],
+> +                                TYPE_IBEX_SPI_HOST);
+> +    }
+>  }
+>
+>  static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+>  {
+>      const MemMapEntry *memmap =3D ibex_memmap;
+> +    DeviceState *dev;
+> +    SysBusDevice *busdev;
+>      MachineState *ms =3D MACHINE(qdev_get_machine());
+>      LowRISCIbexSoCState *s =3D RISCV_IBEX_SOC(dev_soc);
+>      MemoryRegion *sys_mem =3D get_system_memory();
+> @@ -209,14 +216,35 @@ static void lowrisc_ibex_soc_realize(DeviceState *d=
+ev_soc, Error **errp)
+>                            qdev_get_gpio_in(DEVICE(qemu_get_cpu(0)),
+>                                             IRQ_M_TIMER));
+>
+> +    /* SPI-Hosts */
+> +    for (int i =3D 0; i < OPENTITAN_NUM_SPI_HOSTS; ++i) {
+> +        dev =3D DEVICE(&(s->spi_host[i]));
+> +        if (!sysbus_realize(SYS_BUS_DEVICE(&s->spi_host[i]), errp)) {
+> +            return;
+> +        }
+> +        busdev =3D SYS_BUS_DEVICE(dev);
+> +        sysbus_mmio_map(busdev, 0, memmap[IBEX_DEV_SPI_HOST0 + i].base);
+> +
+> +        switch (i) {
+> +        case OPENTITAN_SPI_HOST0:
+> +            sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(DEVICE(&s->pl=
+ic),
+> +                                IBEX_SPI_HOST0_ERR_IRQ));
+> +            sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(DEVICE(&s->pl=
+ic),
+> +                                IBEX_SPI_HOST0_SPI_EVENT_IRQ));
+> +            break;
+> +        case OPENTITAN_SPI_HOST1:
+> +            sysbus_connect_irq(busdev, 0, qdev_get_gpio_in(DEVICE(&s->pl=
+ic),
+> +                                IBEX_SPI_HOST1_ERR_IRQ));
+> +            sysbus_connect_irq(busdev, 1, qdev_get_gpio_in(DEVICE(&s->pl=
+ic),
+> +                                IBEX_SPI_HOST1_SPI_EVENT_IRQ));
+> +            break;
+> +        }
+> +    }
+> +
+>      create_unimplemented_device("riscv.lowrisc.ibex.gpio",
+>          memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
+>      create_unimplemented_device("riscv.lowrisc.ibex.spi_device",
+>          memmap[IBEX_DEV_SPI_DEVICE].base, memmap[IBEX_DEV_SPI_DEVICE].si=
+ze);
+> -    create_unimplemented_device("riscv.lowrisc.ibex.spi_host0",
+> -        memmap[IBEX_DEV_SPI_HOST0].base, memmap[IBEX_DEV_SPI_HOST0].size=
+);
+> -    create_unimplemented_device("riscv.lowrisc.ibex.spi_host1",
+> -        memmap[IBEX_DEV_SPI_HOST1].base, memmap[IBEX_DEV_SPI_HOST1].size=
+);
+>      create_unimplemented_device("riscv.lowrisc.ibex.i2c",
+>          memmap[IBEX_DEV_I2C].base, memmap[IBEX_DEV_I2C].size);
+>      create_unimplemented_device("riscv.lowrisc.ibex.pattgen",
+> diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+> index 00da9ded43..68892cd8e5 100644
+> --- a/include/hw/riscv/opentitan.h
+> +++ b/include/hw/riscv/opentitan.h
+> @@ -23,11 +23,18 @@
+>  #include "hw/intc/sifive_plic.h"
+>  #include "hw/char/ibex_uart.h"
+>  #include "hw/timer/ibex_timer.h"
+> +#include "hw/ssi/ibex_spi_host.h"
+>  #include "qom/object.h"
+>
+>  #define TYPE_RISCV_IBEX_SOC "riscv.lowrisc.ibex.soc"
+>  OBJECT_DECLARE_SIMPLE_TYPE(LowRISCIbexSoCState, RISCV_IBEX_SOC)
+>
+> +enum {
+> +    OPENTITAN_SPI_HOST0,
+> +    OPENTITAN_SPI_HOST1,
+> +    OPENTITAN_NUM_SPI_HOSTS,
+> +};
+> +
+>  struct LowRISCIbexSoCState {
+>      /*< private >*/
+>      SysBusDevice parent_obj;
+> @@ -37,6 +44,7 @@ struct LowRISCIbexSoCState {
+>      SiFivePLICState plic;
+>      IbexUartState uart;
+>      IbexTimerState timer;
+> +    IbexSPIHostState spi_host[OPENTITAN_NUM_SPI_HOSTS];
+>
+>      MemoryRegion flash_mem;
+>      MemoryRegion rom;
+> @@ -89,15 +97,19 @@ enum {
+>  };
+>
+>  enum {
+> -    IBEX_TIMER_TIMEREXPIRED0_0 =3D 126,
+> -    IBEX_UART0_RX_PARITY_ERR_IRQ =3D 8,
+> -    IBEX_UART0_RX_TIMEOUT_IRQ =3D 7,
+> -    IBEX_UART0_RX_BREAK_ERR_IRQ =3D 6,
+> -    IBEX_UART0_RX_FRAME_ERR_IRQ =3D 5,
+> -    IBEX_UART0_RX_OVERFLOW_IRQ =3D 4,
+> -    IBEX_UART0_TX_EMPTY_IRQ =3D 3,
+> -    IBEX_UART0_RX_WATERMARK_IRQ =3D 2,
+> -    IBEX_UART0_TX_WATERMARK_IRQ =3D 1,
+> +    IBEX_UART0_TX_WATERMARK_IRQ   =3D 1,
+> +    IBEX_UART0_RX_WATERMARK_IRQ   =3D 2,
+> +    IBEX_UART0_TX_EMPTY_IRQ       =3D 3,
+> +    IBEX_UART0_RX_OVERFLOW_IRQ    =3D 4,
+> +    IBEX_UART0_RX_FRAME_ERR_IRQ   =3D 5,
+> +    IBEX_UART0_RX_BREAK_ERR_IRQ   =3D 6,
+> +    IBEX_UART0_RX_TIMEOUT_IRQ     =3D 7,
+> +    IBEX_UART0_RX_PARITY_ERR_IRQ  =3D 8,
+> +    IBEX_TIMER_TIMEREXPIRED0_0    =3D 126,
+> +    IBEX_SPI_HOST0_ERR_IRQ        =3D 150,
+> +    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 151,
+> +    IBEX_SPI_HOST1_ERR_IRQ        =3D 152,
+> +    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 153,
+>  };
+>
+>  #endif
+> --
+> 2.35.1
+>
 
