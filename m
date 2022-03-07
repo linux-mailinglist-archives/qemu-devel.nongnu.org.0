@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720DB4D07BA
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:30:30 +0100 (CET)
-Received: from localhost ([::1]:57004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33EC4D07C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:33:37 +0100 (CET)
+Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRJ3t-0007XN-IB
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:30:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38716)
+	id 1nRJ6u-0003CJ-Qd
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:33:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nRIqF-00070L-0Y; Mon, 07 Mar 2022 14:16:23 -0500
-Received: from [2607:f8b0:4864:20::235] (port=43748
- helo=mail-oi1-x235.google.com)
+ id 1nRIqH-00076L-40; Mon, 07 Mar 2022 14:16:25 -0500
+Received: from [2607:f8b0:4864:20::22e] (port=42920
+ helo=mail-oi1-x22e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nRIqD-0005yE-HW; Mon, 07 Mar 2022 14:16:22 -0500
-Received: by mail-oi1-x235.google.com with SMTP id w127so5917736oig.10;
- Mon, 07 Mar 2022 11:16:20 -0800 (PST)
+ id 1nRIqF-0005yZ-J1; Mon, 07 Mar 2022 14:16:24 -0500
+Received: by mail-oi1-x22e.google.com with SMTP id q189so670040oia.9;
+ Mon, 07 Mar 2022 11:16:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cL3cI4FY/fVeRwL4pUn2Dy69CS535x5dvlyRPTrkSFg=;
- b=NOq63a0Mq0Hpus8WoOTnG/jYruqD9s0tgcRCQApQL5OuvZ1SUh3CFsxt6vX/BYZHG9
- UafbyckR3du3QXC5b+Mh6j4qpCaRv0cRA/3t0Wv9GTgl8upj+82njTsb9WlFvufqVwGC
- 3aKzQTHaGfxF2NVS0ovqTPCdSB9b1gS5SjVx4fDx6CgupRTiMHnIXR+IbPh4ee9ON2AV
- wzEdgqKMF8Su0XcrbjZtdMw7dv2sOItSNVq2dHwwwt6madbVEV/F4dp2V9EDe4ep2pUn
- 5/Mb0hyKOPpZIjLHLbcH4Qu5NW0bQsUwzU1ZjfmEAN65YIn9j21KO4w5xcvWR3lG5G75
- 4k6g==
+ bh=ksVu9IpA+ghWKaCiI8cvIiyWjIJRCNBiEozz6JbHPWs=;
+ b=X2ihgi9heGxnhmM5wQ2rNtX+S2aQGQbfeEfbeWD8iUaydaD115zMeL6a23BYbjvKBY
+ pfFvqvK/YwDf9j4+w7JrND9q6OnoKTaoIbgzMsVZg+RBm6LYpav+OGLk0L82QCLLcb+Z
+ t6dDOJu3Wls9JZHoheetikusueTiJ3WnOUwtBUZy5qUjqAQ5PNP/oxR9R0d/EeiSxdsu
+ WMPw44r1yZHSvucKtquzYgaxY3BjxqO+eKHaLsLmwSTPVMa/iMyu/NqLTBY1HGacpU9n
+ XFfoFVLbfuXt5Pl5JOKcvBlsiCHVwfsYHii0YpLdQPdEtz5p0A/UQ//IezUb+yK9RJi7
+ Afzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cL3cI4FY/fVeRwL4pUn2Dy69CS535x5dvlyRPTrkSFg=;
- b=c0SX/ee05f4K+RVemk1JdfE8TrziJvz3b2byzkBWzw3qiPn/pn5ZJNMn43/uupjO/o
- hwpLom79Uaz5A1MDWBJ5qRBl+sH5XgWprB25OK50kByRdCQ6+0AmE3GD86S6ztssHrJj
- u6jw/LyDS8qwfCQ+AdgqkeeOBLjmaxx/LMBUL1p6yZ1qoC6pu+vXAyVHa+MHusIDea2p
- OxkXO0+qJ1TDHTPP58KPo9IANAAGzvyf4EHWngU1Hsv+8g+VWiSuPZt0F3EzWKzzBj5B
- W6Vdl7i0VP+FxbNanH77jkCyL8pqvWMie3ov341BSMGO2pgfbwM2B0xaDF0aK3cZI3r1
- thFg==
-X-Gm-Message-State: AOAM533c1XtdH8I0IPI+RS1Offa6EhzGu6cTaGvX9lp6gJYCJEWv/LH/
- OzVB7rpMK6GWw6RpMi5J6rV60fR7U4o=
-X-Google-Smtp-Source: ABdhPJx1Qd5YJhYPksXN864qe8T07TobDaXUC0WXkoEMv6LUtF4fHryDo0hT/WsjHE7hxb+lEfu8DA==
-X-Received: by 2002:a05:6808:1586:b0:2d5:1211:5785 with SMTP id
- t6-20020a056808158600b002d512115785mr313675oiw.0.1646680580118; 
- Mon, 07 Mar 2022 11:16:20 -0800 (PST)
+ bh=ksVu9IpA+ghWKaCiI8cvIiyWjIJRCNBiEozz6JbHPWs=;
+ b=sKcumWkUfuYQYA/Djnf9OBFfqJ7iFio3ErAt/cXFK863QbCHnLr6X6AZCznwiTJbCc
+ pgN2Z/W3B74vl+1FuwB6LqEWhePH2fBDa7zDsTvd2dP43kOMvwCnmeHYaeAshkyPkwfM
+ ZbqpGk2rauqTX8huHQAOrk9qpXqmEtRhYTVJBd0HWLzpxtf/hKs3xcBy1+su3PCorgCp
+ CXqGF7ukNpTDA6KAf9XPTU+AEt7fCIcOmtWHd4gmlJrJKyKJPZkcAofAkLVZqEk2nL1Q
+ xkPfTMGGMBDp8hqPvkcl/N3GlNV1DeURWy9wCCu79LOlBug1BGDqgFOedQwD9BXnki9/
+ zn5g==
+X-Gm-Message-State: AOAM532DeezFY3wOi2d2LQ6qnZn474towHUM9X2KeKP2xq4PrC9AeJuS
+ sqFNMKwXr8joq1dlzc3c7REPNYOVzrk=
+X-Google-Smtp-Source: ABdhPJyag3Q0edWJNG8j483kQEmrycrQ5gsYIsyiAtH++nxFCB5ughd8GmZ6aUEE++eJfUy8Dbtvlw==
+X-Received: by 2002:a05:6808:23c1:b0:2d7:390e:5c2a with SMTP id
+ bq1-20020a05680823c100b002d7390e5c2amr331987oib.108.1646680582168; 
+ Mon, 07 Mar 2022 11:16:22 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:3b4a:a86f:f27d:30ef:6eb6])
  by smtp.gmail.com with ESMTPSA id
- t40-20020a05680815a800b002d48ffad94bsm7283093oiw.2.2022.03.07.11.16.18
+ t40-20020a05680815a800b002d48ffad94bsm7283093oiw.2.2022.03.07.11.16.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 11:16:19 -0800 (PST)
+ Mon, 07 Mar 2022 11:16:21 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 8/9] hw/ppc/spapr_hcall.c: log H_GET_PPP as unsupported
-Date: Mon,  7 Mar 2022 16:15:52 -0300
-Message-Id: <20220307191553.429236-9-danielhb413@gmail.com>
+Subject: [PATCH 9/9] hw/ppc/spapr_hcall.c: log H_VIOCTL as unsupported
+Date: Mon,  7 Mar 2022 16:15:53 -0300
+Message-Id: <20220307191553.429236-10-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220307191553.429236-1-danielhb413@gmail.com>
 References: <20220307191553.429236-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::235
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x235.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -91,51 +91,65 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-H_GET_PPP is a SPLPAR hcall that we aren't able to support because, at
-least for now, we can't retrieve any performance metrics of the
-partition.
+H_VIOCTL is one of many VIO (Virtualized I/O) hcalls that we do not
+support in QEMU. An AIX 7.2 guest will attempt to execute this hcall a
+couple of times during boot, receiving H_FUNCTION replies every time,
+and eventually give it up.
 
-Mark it as unsupported.
+There are many VIO hcalls and we don't support none. H_VIOCTL seems to
+be the one that convinces the guest that we don't have VIO support in
+the platform, so let's add this one as unsupported in our model.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_hcall.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ hw/ppc/spapr_hcall.c   | 14 ++++++++++++++
+ include/hw/ppc/spapr.h |  1 +
+ 2 files changed, 15 insertions(+)
 
 diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index fdce44daf7..f7240fbd41 100644
+index f7240fbd41..ddaeea84fc 100644
 --- a/hw/ppc/spapr_hcall.c
 +++ b/hw/ppc/spapr_hcall.c
-@@ -638,6 +638,21 @@ static target_ulong h_prod(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     return H_SUCCESS;
+@@ -1618,6 +1618,17 @@ static target_ulong h_query_vas_capabilities(PowerPCCPU *cpu,
+     return H_FUNCTION;
  }
  
-+static target_ulong h_get_ppp(PowerPCCPU *cpu,
-+                              SpaprMachineState *spapr,
-+                              target_ulong opcode,
-+                              target_ulong *args)
++static target_ulong h_vioctl(PowerPCCPU *cpu,
++                             SpaprMachineState *spapr,
++                             target_ulong opcode,
++                             target_ulong *args)
 +{
-+    /*
-+     * H_GET_PPP (partition performance parameters) isn't supported
-+     * the same way h_get_em_parms or any other performance/metric
-+     * related HCALL is not supported in QEMU.
-+     */
++    /* We do not support any VIO (Virtualized I/O) HCALL */
 +    qemu_log_mask(LOG_UNSUPP, "Unsupported SPAPR hcall 0x"TARGET_FMT_lx"%s\n",
-+                  opcode, " (H_GET_PPP)");
++                  opcode, " (H_VIOCTL)");
 +    return H_FUNCTION;
 +}
 +
- static target_ulong h_rtas(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                            target_ulong opcode, target_ulong *args)
- {
-@@ -1894,6 +1909,7 @@ static void hypercall_register_types(void)
-     spapr_register_hypercall(H_CEDE, h_cede);
-     spapr_register_hypercall(H_CONFER, h_confer);
-     spapr_register_hypercall(H_PROD, h_prod);
-+    spapr_register_hypercall(H_GET_PPP, h_get_ppp);
+ /*
+  * When this handler returns, the environment is switched to the L2 guest
+  * and TCG begins running that. spapr_exit_nested() performs the switch from
+@@ -1965,6 +1976,9 @@ static void hypercall_register_types(void)
+     /* Unsupported VAS h-calls */
+     spapr_register_hypercall(H_QUERY_VAS_CAPABILITIES,
+                              h_query_vas_capabilities);
++
++    /* Unsupported Virtualized I/O (VIO) h-calls */
++    spapr_register_hypercall(H_VIOCTL, h_vioctl);
+ }
  
-     /* hcall-join */
-     spapr_register_hypercall(H_JOIN, h_join);
+ type_init(hypercall_register_types)
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 10df519b0a..232ac7650d 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -530,6 +530,7 @@ struct SpaprMachineState {
+ #define H_DEL_CONN              0x288
+ #define H_JOIN                  0x298
+ #define H_VASI_STATE            0x2A4
++#define H_VIOCTL                0x2A8
+ #define H_ENABLE_CRQ            0x2B0
+ #define H_GET_EM_PARMS          0x2B8
+ #define H_SET_MPP               0x2D0
 -- 
 2.35.1
 
