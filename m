@@ -2,77 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09C94CFC14
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:58:05 +0100 (CET)
-Received: from localhost ([::1]:57130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBB34CFB4F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:35:00 +0100 (CET)
+Received: from localhost ([::1]:54800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRB40-0008Q4-Sx
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:58:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36950)
+	id 1nRAhf-0002Gb-Qf
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:34:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nRAKA-0007uB-2v
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:10:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42847)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRAKh-0000x8-4B
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:11:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nRAK8-00045k-3v
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:10:41 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRAKe-0004DD-AY
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:11:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647839;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1646647871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jGnj2R6QsnmtvGBzY5CNGGKMbV4Sm6MPeXkmRtYpBMo=;
- b=aBpV3n6QT9/TQCe/WQtNjef8XW9MH5JQMm6CKTQ1oyEzmnp/U3Gh9ZFw0tEFq+aTPJIX9l
- I6Gh6ni6jJ2XIwhr7jNn1o30ZidzSU5/uGokV7/Aj4kkBEKDPRUdRAcIuIDxnSin6I/W2o
- FEzmphHZf4MQSG0Kf7EVBpuo1u34XDQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IWw6FgwYx7bv6PZP+h9r4mJsOY7iZMaFopfnU6wShhU=;
+ b=da1mplcrVPhJQvaSEdCa6el9zACH2Nk1wW9ehii0VSaT+mgNEyH8gpCgbzdamtmOJ4zLS0
+ vtWaMn3+5zz86FeLM9gKKj4/6hZsN56R/9OOLyQ1Jpqy989sDNN1XdqCkzYtssRHXv3Hwz
+ o9B3HDmhOvRTS0RHjjmteA+gYgHHnxs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-HMkn176XNg-lQUCdtW81Hw-1; Mon, 07 Mar 2022 05:10:36 -0500
-X-MC-Unique: HMkn176XNg-lQUCdtW81Hw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92CAB180FD72
- for <qemu-devel@nongnu.org>; Mon,  7 Mar 2022 10:10:35 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.133])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 739908306D;
- Mon,  7 Mar 2022 10:10:18 +0000 (UTC)
-Date: Mon, 7 Mar 2022 10:10:14 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 11/18] tests: expand the migration precopy helper to
- support failures
-Message-ID: <YiXaBtRDTo8nwRQ8@redhat.com>
-References: <20220302174932.2692378-1-berrange@redhat.com>
- <20220302174932.2692378-12-berrange@redhat.com>
- <YiW2qjiy+QQHlR6o@xz-m1.local>
+ us-mta-127-bHxbRU2kPFOdUpNY9YkFIQ-1; Mon, 07 Mar 2022 05:11:09 -0500
+X-MC-Unique: bHxbRU2kPFOdUpNY9YkFIQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v125-20020a1cac83000000b0037e3d70e7e1so7680800wme.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:11:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IWw6FgwYx7bv6PZP+h9r4mJsOY7iZMaFopfnU6wShhU=;
+ b=Xh2IS35FUjYnJ9cAVJCEqHq95AuhtSVOLsa9eLTeZkvt8kMIkLKn0nCnneoKrcBDoh
+ xG4zPB+eRcnhs1pL5Ue9wzYw/J4iIaYrarHjDQ4e3gQ6gVVyBMvpWuTUDRgQaztixUpF
+ biMTBDF53kdQWGqdC96w0nOhpYEfMXZiEje92WVrew3wdIbwHZLSb9sYr9Q3gwFGQFQ3
+ NQtVFXswHfgRFBSBbUDNJ5XyYRYYaxX5nly90mvDnMOx0F6ex0AWaKGNxlNwJqkOkNaN
+ 9Xc3fU/0DOzC21A5NISqHLOvbzeKBrpJ7j0ZAyy2km1AzW521uYWpWyCxXhY3jnDlqrl
+ fHUQ==
+X-Gm-Message-State: AOAM530faa+Jgx0Fng9DjUtWFF1P8MP+qbIKla7v8ucBD6+faK39/0i7
+ ro0RLN/OgNi88jIg9jF/XxsL4p+/XlfYuCpNx1jZETaBYxB6KcTbXnbVVErn8HDi88tK+/RkPYf
+ AKsu4l6f0WdaSYgs=
+X-Received: by 2002:a05:600c:588:b0:389:9e5f:59d3 with SMTP id
+ o8-20020a05600c058800b003899e5f59d3mr5869067wmd.35.1646647868793; 
+ Mon, 07 Mar 2022 02:11:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJydUzMDFSybbuZNEpR2onfZ5VlZrj5dHtzfIjK2l7hp2jD1Zl2NVynKGmlUDhIhe3+pGz7fSQ==
+X-Received: by 2002:a05:600c:588:b0:389:9e5f:59d3 with SMTP id
+ o8-20020a05600c058800b003899e5f59d3mr5869044wmd.35.1646647868473; 
+ Mon, 07 Mar 2022 02:11:08 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ q14-20020a1cf30e000000b0038986a18ec8sm8647869wmq.46.2022.03.07.02.11.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Mar 2022 02:11:08 -0800 (PST)
+Message-ID: <e4a80a6d-ab9b-8d9d-11d4-dd395ac7d347@redhat.com>
+Date: Mon, 7 Mar 2022 11:11:07 +0100
 MIME-Version: 1.0
-In-Reply-To: <YiW2qjiy+QQHlR6o@xz-m1.local>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 08/18] tests: merge code for UNIX and TCP migration
+ pre-copy tests
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220302174932.2692378-1-berrange@redhat.com>
+ <20220302174932.2692378-9-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220302174932.2692378-9-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,67 +104,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 07, 2022 at 03:39:22PM +0800, Peter Xu wrote:
-> On Wed, Mar 02, 2022 at 05:49:25PM +0000, Daniel P. Berrangé wrote:
-> > The migration precopy testing helper function always expects the
-> > migration to run to a completion state. There will be test scenarios
-> > for TLS where expect either the client or server to fail the migration.
-> > This expands the helper to cope with these scenarios.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  tests/qtest/migration-test.c | 47 +++++++++++++++++++++++++++++-------
-> >  1 file changed, 38 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> > index 2082c58e8b..e40b408988 100644
-> > --- a/tests/qtest/migration-test.c
-> > +++ b/tests/qtest/migration-test.c
-> > @@ -827,17 +827,32 @@ typedef void (*TestMigrateFinishHook)(QTestState *from,
-> >   * @connect_uri: the URI for the src QEMU to connect to
-> >   * @start_hook: (optional) callback to run at start to set migration parameters
-> >   * @finish_hook: (optional) callback to run at finish to cleanup
-> > + * @expect_fail: true if we expect migration to fail
-> > + * @dst_quit: true if we expect the dst QEMU to quit with an
-> > + *            abnormal exit status on failure
+On 02/03/2022 18.49, Daniel P. Berrangé wrote:
+> The test cases differ only in the URI they provide to the migration
+> commands, and the ability to set the dirty_ring mode. This code is
+> trivially merged into a common helper.
 > 
-> "dst_quit" sounds a bit confusing to me, as setting dst_quit=false seems to
-> mean "dest qemu should not quit" but it's actually for checking an abnormal
-> quit only.
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   roms/seabios                 |  2 +-
+>   tests/qtest/migration-test.c | 86 ++++++++++++++++--------------------
+>   2 files changed, 40 insertions(+), 48 deletions(-)
 > 
-> Rename may work. Or, IMHO it's nicer if we could merge the two parameters:
-> 
->   @expected_result: What is the expectation of this migration test
-> 
->   typedef enum {
->     /* This test should succeed, the default */
->     MIG_TEST_SUCCEED = 0,
->     /* This test should fail, dest qemu should keep alive */
->     MIG_TEST_FAIL,
->     /* This test should fail, dest qemu should fail with abnormal status */
->     MIG_TEST_FAIL_DEST_QUIT_ERR,
->   };
-> 
-> Because fundamentally the two parameters are correlated, e.g. there is no
-> combination of expect_fail==false && dst_quit==true.
-> 
-> No strong opinion, though.
+> diff --git a/roms/seabios b/roms/seabios
+> index 6a62e0cb0d..2dd4b9b3f8 160000
+> --- a/roms/seabios
+> +++ b/roms/seabios
+> @@ -1 +1 @@
+> -Subproject commit 6a62e0cb0dfe9cd28b70547dbea5caf76847c3a9
+> +Subproject commit 2dd4b9b3f84019668719344b40dba79d681be41c
 
-Using enums is more clear to someone reading code, so a good idea.
+Did you really want to update the submodule here?
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  Thomas
+
 
 
