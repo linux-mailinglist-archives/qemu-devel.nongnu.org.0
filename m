@@ -2,95 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BCB4D06EF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:52:50 +0100 (CET)
-Received: from localhost ([::1]:42538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75EB34D06E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:51:51 +0100 (CET)
+Received: from localhost ([::1]:37604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRITR-0002PC-P2
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:52:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58062)
+	id 1nRISU-0007a9-Hr
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:51:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRI9L-0001de-Vo
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:32:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRI9K-0007fG-CJ
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:32:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646677921;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1JwxISqjk34U/Em+QBjR5C6TkqMxFzvfG0OV6IcBE0o=;
- b=XEfQRKj+E0ZPIlwZx+V0MsT9vV7uidGDmaEfTDrIpmp10sg8YSd4/xhJrJbh9KxY2BbJb4
- 9K0lDq2OwNOo1EGey8hMtaqkIqTwvZiyxS1Qk34mSiVE29P7FcwTYaUtDlXt1n219vJLJt
- gV2/HClOWmY9fcCs+1PNmiMLfO++fno=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-KIw5LLF3Ozivm2tAPdU7LA-1; Mon, 07 Mar 2022 13:31:55 -0500
-X-MC-Unique: KIw5LLF3Ozivm2tAPdU7LA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- f14-20020adfc98e000000b001e8593b40b0so4843658wrh.14
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:31:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nRILo-0001r4-Lc
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:44:57 -0500
+Received: from [2a00:1450:4864:20::629] (port=45835
+ helo=mail-ej1-x629.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nRILm-0000lR-UU
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:44:56 -0500
+Received: by mail-ej1-x629.google.com with SMTP id qa43so33922728ejc.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:44:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=J5RlH1aPAeNLs2eT1p3Fp/sUrvv8+WG8rBzhKWTAWzY=;
+ b=i/rLFxDCQfoPsB79eDbIoERlMFyNOAHOEm3lOhcwylEkSCgRwpvIzSvAGjJ9HS1AeK
+ vAcC/8opf3HUXERTuLIJjUpeuF03pzh32upIFttUBNT00BmzQvqEWxPapS7OCXA1r0FN
+ 3b+Qtlj6ovdJwQJZuOKK/6kOVD2uMED1sscJoJkjTG/HAcd8/qtElZQF5iOt6wOYPlTF
+ cnG7AExFzdgTvw9aOXZJnrBEMJsSQrgHcOeP4CrhcV435/GiMpj/jTVWHHHT65GNJhSL
+ IZ8JcLuOVK5L6k01mNT7TZMHrhjc5i3g63JSgz7KLgnqSzkMLeHaCvisiGFdpqF2Lej0
+ y3QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=1JwxISqjk34U/Em+QBjR5C6TkqMxFzvfG0OV6IcBE0o=;
- b=kSvbI7w7mTDb/xmU0TNIMLPjHmmF/ai7rz79bGsHpKgJZdzFSr3CL6DOt0IFp6pN8X
- lGtYYSuRyfmb3Ktmcb98H66PhHm3UdNBcmF1oZ8XwOp7PP/ERlmkliiZqfKXLLBPMN/X
- 4dUp/c3O2CcOUMP+lzkaY/tBOaL1MydRWh5GRcQFPsjOtzv6VRXKZcQOJRFabHd/JaWw
- EeqogrztHPVsnWBuO4AryJsx3XX2Aie4ySZv7WLpmde4U2bG7IxyvS5Q3F+nQwN1bvVU
- /BKHRJ4gkwTqVqEqPXJvQ7tHGqfDvkQVXwnZUNzWqO3kVR9Y1tvTh3VrrUbpBdTo9GOO
- SqTg==
-X-Gm-Message-State: AOAM532wBeMKTrnqtCUa5OWlYxuBcTug9QJX8zcXr8H3O1SH1UG7To2O
- r1noCUYfgX7kMD4nl8oozRUCRwU7bXbpu3AGYfFzAw+fGRG+UbvXrYGvdxgFEReVN6Y8/7focEN
- SIRf0VsBZ2p5wv04=
-X-Received: by 2002:adf:f38d:0:b0:1f0:490a:92ae with SMTP id
- m13-20020adff38d000000b001f0490a92aemr9019426wro.497.1646677913231; 
- Mon, 07 Mar 2022 10:31:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzBN/mOP4/YumA5BFBl4oZHMDWuVUQySeMFKMOLP06Yr0XUhtUhBSYEo74DExtH0DrCdoY8qA==
-X-Received: by 2002:adf:f38d:0:b0:1f0:490a:92ae with SMTP id
- m13-20020adff38d000000b001f0490a92aemr9019409wro.497.1646677913013; 
- Mon, 07 Mar 2022 10:31:53 -0800 (PST)
-Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
- [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- z6-20020adfd0c6000000b001f1ffd04672sm2224188wrh.12.2022.03.07.10.31.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 10:31:52 -0800 (PST)
-Message-ID: <82a2233a-8bd2-66ef-b8f0-d44c039eeb52@redhat.com>
-Date: Mon, 7 Mar 2022 19:31:50 +0100
+ bh=J5RlH1aPAeNLs2eT1p3Fp/sUrvv8+WG8rBzhKWTAWzY=;
+ b=SUIj1D+bs7z+Qv9zvQbCNruPkSyvVfp9qmdB+e3GWGwi9X6vTXb2NJ5Y8weQbrdQ+h
+ HYYAWrlivthdGiATaBQHTdgt2Uhva8AdQH/AMUfn+83CZFZZl+qsoRpJW95kHKhr4cOj
+ hs9+nP82hlmpaaLQ6tm7T23W53Sw4w4lsjvL5dgQq5w010Y3hyvxFfww5rhAcLPe6BTy
+ zm620D0xYUep7Sw69ez6AudPaESZwK9zshdMx2Stgrjmrr+FGjKbm0A4Q2vtRTJl4j8p
+ rVfHSez5G67iahtGZjtGIWuipJaqU9Xo8lxUO3wdIhsUqlXg5MIDZA1eHVNj9QVaxAsV
+ fNJg==
+X-Gm-Message-State: AOAM531kG6eaocDL2T1O+zuYvXkECZi4nG8XxIoIxPovmETHRCHHXVNM
+ Ds+tAC9iKmcoo37twf0e7olmbw==
+X-Google-Smtp-Source: ABdhPJyPAlCTOcZIBpInqj4e6I8leYcH5iH2pLluQbRp30nmaEJG6f1jtZB5GrF+omvwhp6QLyWI/Q==
+X-Received: by 2002:a17:906:32cf:b0:6d5:83bc:e962 with SMTP id
+ k15-20020a17090632cf00b006d583bce962mr10370509ejk.108.1646678693202; 
+ Mon, 07 Mar 2022 10:44:53 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ n4-20020a056402060400b00415a1f9a4dasm6575931edv.91.2022.03.07.10.44.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 10:44:52 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5C53A1FFB7;
+ Mon,  7 Mar 2022 18:44:51 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] target/i386: for maximum rounding precision for fildll
+Date: Mon,  7 Mar 2022 18:44:46 +0000
+Message-Id: <20220307184446.3149199-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] tests/avocado: Cancel BootLinux tests in case there is no
- free port
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220228114325.818294-1-thuth@redhat.com>
- <YiX/kzf7cW+YcNN5@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <YiX/kzf7cW+YcNN5@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,56 +90,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ incoming+7b48dc26643084f29a2bbb8c07f757b1@incoming.gitlab.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/03/2022 13.50, Daniel P. Berrangé wrote:
-> On Mon, Feb 28, 2022 at 12:43:25PM +0100, Thomas Huth wrote:
->> The BootLinux tests are currently failing with an ugly python
->> stack trace on my RHEL8 system since they cannot get a free port
->> (likely due to the firewall settings on my system). Let's properly
->> check the return value of find_free_port() instead and cancel the
->> test gracefully if it cannot get a free port.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   Unfortunately, it still takes > 70 seconds for each and every
->>   tests from tests/avocado/boot_linux.py to get canceled, so
->>   tests/avocado/boot_linux.py still renders "make check-avocado"
->>   for me pretty unusable... looking at the implementation of
->>   find_free_port() in Avocado, I wonder whether there isn't a
->>   better way to get a free port number in Python? Brute-forcing
->>   all ports between 1024 and 65536 seems just quite cumbersome
->>   to me...
-> 
-> Even in the worst case of testing every single port,
-> for INET and INET6 and for STREAM and DGRAM sockets,
-> that find_free_port port completes in a couple of
-> seconds.
+The instruction description says "It is loaded without rounding
+errors." which implies we should have the widest rounding mode
+possible.
 
-Weird, on my system, the test runs for 70 seconds, just to finally 
-discovered that there was no free port available.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/888
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ target/i386/tcg/fpu_helper.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> This code is all inherantly racy though, because as
-> designed it is checking for a port that's available
-> and then later calls wait_for_phone_home which spins
-> up a HTTP server listening on the port. The port can
-> be used in between the check and use. This can be
-> the case if running many things in parallel on the
-> host.
-> 
-> It would be better to spin up that server using
-> kernel port auto-selection at the start eliminating
-> the race entirely.  Then just record the port that
-> was allocated and use that when building thue
-> cloudinit config for the guest.
-
-That sounds much better, indeed... now we just need a volunteer to fix it ;-)
-
-  Thomas
+diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+index cdd8e9f947..d986fd5792 100644
+--- a/target/i386/tcg/fpu_helper.c
++++ b/target/i386/tcg/fpu_helper.c
+@@ -250,11 +250,15 @@ void helper_fildl_ST0(CPUX86State *env, int32_t val)
+ void helper_fildll_ST0(CPUX86State *env, int64_t val)
+ {
+     int new_fpstt;
++    FloatX80RoundPrec old = get_floatx80_rounding_precision(&env->fp_status);
++    set_floatx80_rounding_precision(floatx80_precision_x, &env->fp_status);
+ 
+     new_fpstt = (env->fpstt - 1) & 7;
+     env->fpregs[new_fpstt].d = int64_to_floatx80(val, &env->fp_status);
+     env->fpstt = new_fpstt;
+     env->fptags[new_fpstt] = 0; /* validate stack entry */
++
++    set_floatx80_rounding_precision(old, &env->fp_status);
+ }
+ 
+ uint32_t helper_fsts_ST0(CPUX86State *env)
+-- 
+2.30.2
 
 
