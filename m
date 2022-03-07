@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269294CF9AD
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:13:51 +0100 (CET)
-Received: from localhost ([::1]:51356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451444CFA78
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:20:51 +0100 (CET)
+Received: from localhost ([::1]:38822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRANC-0003x1-73
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:13:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34572)
+	id 1nRATy-0006Ja-8u
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:20:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRABs-0000UD-D2
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:02:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28152)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRABv-0000VD-6v
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:02:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRABn-0002hT-AI
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:02:06 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRABq-0002hg-9A
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:02:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647322;
+ s=mimecast20190719; t=1646647325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xYUjGCjqDKAb5NDT97RnxRdsQlEA2CnL9zsqzwpbiAQ=;
- b=eoPD3Ro9b7e/OA2V/jBSK3E9cMcgKWOh20hzU8RyKvQFB8k7iNSDguKI4F0o9nLRjrkUXa
- QwptJfxYu/JsPfF4v1Il3zD6WQwlYnq8CLZ0P0MEI1SFQw+lMBxBw4hykUgL4/gLynNYls
- 04z6I7TUvkKT7GCISGEmEI/Cg6rKSHk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2MmbtRN8dUw8oStDJevhrQCWdjKFEsw6VGH8lAmLmm4=;
+ b=BZl/6xBYchDhLOR+YnNHRCANXuHORimRqj1iTtjhc9iYMksctI35JzSqlrmuOUD+FRVxwu
+ mO90f0TwonOau9fjqF58VSQ9RCFOIE4SRdQ9eq2ltojAXBaNvX5ybxT0CKrYcTlSxy0kB+
+ Xk70hS0GL7sjAahhdzxn6/sGA5m0iNA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-184-8LRMnF3TMMa8IFvh4cubZQ-1; Mon, 07 Mar 2022 05:02:01 -0500
-X-MC-Unique: 8LRMnF3TMMa8IFvh4cubZQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- le4-20020a170907170400b006dab546bc40so3492319ejc.15
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:02:01 -0800 (PST)
+ us-mta-240-kKQxzg9jN86FYeMZZLLaHw-1; Mon, 07 Mar 2022 05:02:04 -0500
+X-MC-Unique: kKQxzg9jN86FYeMZZLLaHw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ bq19-20020a056402215300b0040f276105a4so8331401edb.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:02:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=xYUjGCjqDKAb5NDT97RnxRdsQlEA2CnL9zsqzwpbiAQ=;
- b=kYrs23zC9N9pJK2p51C3pZw5sxhTe9ffTNLYv0ngyGZ63RC7QD5a+KWZF+0K6gXsjQ
- nwgTGD2UZl3qqIfTCCy3o1jdquj2ZYIQcNfNJWXzmD2FyuIQ9YAm9OF+/BGff38QmBMt
- JkDj4hp7ApRezFxn1EBZVOdN23V24ZlZz1WHJJrVpKsw5Yo6WM4wuE1qmbSY3SgMaevt
- 06+VGgjjkR98wXS20IS1hrnMYdTHoHJhYzmmCpOjtX4j9CihwljXtlXUf9fdFYrIRG9a
- I5h07BV/lk2Rd/nc4kjhaDcAWXFbagmPqE85eG1pKcoA/C8EmsvBZiZSdwCg2UkYGk4Z
- IB+g==
-X-Gm-Message-State: AOAM530IYg43XPOh1gwuPaRQ+NR/tkQ8qSUOgIhwraWM82GF3+gGuNdP
- 0ML9D5FFrJJ0gELZ7iLHngiZVT2mwz6uhhOl2+AEdNM9wA8tijxFmup8KlQd9oADbjg5dA4qiFg
- qHx4mT+YMHbX1CRUG93EempcqpE54XXYmTuEILqFtjgpvwF5SHUQPNmz7+4V5
-X-Received: by 2002:a17:907:7d94:b0:6db:207:c0cd with SMTP id
- oz20-20020a1709077d9400b006db0207c0cdmr8218415ejc.362.1646647320114; 
- Mon, 07 Mar 2022 02:02:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzC8Zg6VoOxBScylGaqQxjlF6IgAcGpvmaRmbRLiEqVpcxpXp+7JxkitQvgcRIsp2InfoLgHQ==
-X-Received: by 2002:a17:907:7d94:b0:6db:207:c0cd with SMTP id
- oz20-20020a1709077d9400b006db0207c0cdmr8218395ejc.362.1646647319880; 
- Mon, 07 Mar 2022 02:01:59 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=2MmbtRN8dUw8oStDJevhrQCWdjKFEsw6VGH8lAmLmm4=;
+ b=UPB/SHfS8NSnv3vkmJ5NobtKgOrSSHY2CY9MKDLxV6Y6cxCCKz305VxWx0AvwfQ65X
+ O1fpjs8xXYWTJSs5G3ubFWTuUsAqS2gqQRcJjQ0D0LupoBP7aF+KnKyz4qScg8YHaGyC
+ lO8V74SzjZdAYNx+A5mejHXi+KztaDU16UhCrFVU4eyLF6YUrozA0ULWfRk09HB8Lu5B
+ t+IbSjE1wXDgQKSgIsHC5aILUPE1SG4bY9PoFXcv+8hrVlwp1qeN4tMB3kgCvRwZl3C/
+ vlEzfeph28rltZdzj591EQsuk0+0VDYKJvSYsZuYIbjrRRtjoMBQvT2PMvQA1I/PsrXz
+ wI6w==
+X-Gm-Message-State: AOAM531RqvWTeoi+C/7SsFTLTtjVu/bzHi2Equo49dKM3vSsBh3fOUgu
+ GjTE67o1N8ZxtRafuMFuF1Z7H6vwmtzf7SBq9JF79aDy9eAEzhWqwjT6S39vbbkSU2lg3UGruas
+ g8FzQKeU91cfkBoq71y5uEJ2CMJnQ84Gq8WhXABKDKTK6xKtQuC5Q0EY2++lz
+X-Received: by 2002:a17:907:3ea5:b0:6da:6ef4:b058 with SMTP id
+ hs37-20020a1709073ea500b006da6ef4b058mr8781934ejc.124.1646647322776; 
+ Mon, 07 Mar 2022 02:02:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz1hAcJCcE4CFbWfxuTvMaT2t+peAlxG4mTvK3jFRo5SmHartrsqhkFUhdFrreq8OuN1vCOtg==
+X-Received: by 2002:a17:907:3ea5:b0:6da:6ef4:b058 with SMTP id
+ hs37-20020a1709073ea500b006da6ef4b058mr8781908ejc.124.1646647322548; 
+ Mon, 07 Mar 2022 02:02:02 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- y18-20020a170906471200b006da8a883b5fsm4528304ejq.54.2022.03.07.02.01.58
+ v2-20020a509d02000000b00412d53177a6sm5999457ede.20.2022.03.07.02.02.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 02:01:59 -0800 (PST)
-Date: Mon, 7 Mar 2022 05:01:57 -0500
+ Mon, 07 Mar 2022 02:02:02 -0800 (PST)
+Date: Mon, 7 Mar 2022 05:02:00 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 12/47] hw/vhost-user-i2c: Add support for
- VIRTIO_I2C_F_ZERO_LENGTH_REQUEST
-Message-ID: <20220307100058.449628-13-mst@redhat.com>
+Subject: [PULL v2 13/47] hw/virtio: vdpa: Fix leak of host-notifier
+ memory-region
+Message-ID: <20220307100058.449628-14-mst@redhat.com>
 References: <20220307100058.449628-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307100058.449628-1-mst@redhat.com>
@@ -76,9 +74,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -88,7 +85,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,68 +98,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, jasowang@redhat.com,
+ qemu-stable@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Viresh Kumar <viresh.kumar@linaro.org>
+From: Laurent Vivier <lvivier@redhat.com>
 
-VIRTIO_I2C_F_ZERO_LENGTH_REQUEST is a mandatory feature, that must be
-implemented by everyone. Add its support.
+If call virtio_queue_set_host_notifier_mr fails, should free
+host-notifier memory-region.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-Message-Id: <fc47ab63b1cd414319c9201e8d6c7705b5ec3bd9.1644490993.git.viresh.kumar@linaro.org>
+This problem can trigger a coredump with some vDPA drivers (mlx5,
+but not with the vdpasim), if we unplug the virtio-net card from
+the guest after a stop/start.
+
+The same fix has been done for vhost-user:
+  1f89d3b91e3e ("hw/virtio: Fix leak of host-notifier memory-region")
+
+Fixes: d0416d487bd5 ("vhost-vdpa: map virtqueue notification area if possible")
+Cc: jasowang@redhat.com
+Resolves: https://bugzilla.redhat.com/2027208
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Message-Id: <20220211170259.1388734-1-lvivier@redhat.com>
+Cc: qemu-stable@nongnu.org
+Acked-by: Jason Wang <jasowang@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost-user-i2c.h |  3 +++
- hw/virtio/vhost-user-i2c.c         | 11 +++++++++--
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ hw/virtio/vhost-vdpa.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/virtio/vhost-user-i2c.h b/include/hw/virtio/vhost-user-i2c.h
-index deae47a76d..d8372f3b43 100644
---- a/include/hw/virtio/vhost-user-i2c.h
-+++ b/include/hw/virtio/vhost-user-i2c.h
-@@ -25,4 +25,7 @@ struct VHostUserI2C {
-     bool connected;
- };
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 04ea43704f..11f696468d 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -431,6 +431,7 @@ static int vhost_vdpa_host_notifier_init(struct vhost_dev *dev, int queue_index)
+     g_free(name);
  
-+/* Virtio Feature bits */
-+#define VIRTIO_I2C_F_ZERO_LENGTH_REQUEST		0
-+
- #endif /* _QEMU_VHOST_USER_I2C_H */
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index d172632bb0..42c7f6d9e5 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -19,6 +19,11 @@
- #define VIRTIO_ID_I2C_ADAPTER                34
- #endif
- 
-+static const int feature_bits[] = {
-+    VIRTIO_I2C_F_ZERO_LENGTH_REQUEST,
-+    VHOST_INVALID_FEATURE_BIT
-+};
-+
- static void vu_i2c_start(VirtIODevice *vdev)
- {
-     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
-@@ -113,8 +118,10 @@ static void vu_i2c_set_status(VirtIODevice *vdev, uint8_t status)
- static uint64_t vu_i2c_get_features(VirtIODevice *vdev,
-                                     uint64_t requested_features, Error **errp)
- {
--    /* No feature bits used yet */
--    return requested_features;
-+    VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
-+
-+    virtio_add_feature(&requested_features, VIRTIO_I2C_F_ZERO_LENGTH_REQUEST);
-+    return vhost_get_features(&i2c->vhost_dev, feature_bits, requested_features);
- }
- 
- static void vu_i2c_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+     if (virtio_queue_set_host_notifier_mr(vdev, queue_index, &n->mr, true)) {
++        object_unparent(OBJECT(&n->mr));
+         munmap(addr, page_size);
+         goto err;
+     }
 -- 
 MST
 
