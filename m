@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DE34D0842
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:23:19 +0100 (CET)
-Received: from localhost ([::1]:41396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB844D08F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:54:43 +0100 (CET)
+Received: from localhost ([::1]:53138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRJt1-0004bq-1O
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:23:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52218)
+	id 1nRKNO-0006Mc-QH
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:54:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRJrK-0003Et-DG
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:21:36 -0500
-Received: from [2607:f8b0:4864:20::1136] (port=38374
- helo=mail-yw1-x1136.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nRKM9-0004oP-VO
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:53:26 -0500
+Received: from [2a00:1450:4864:20::629] (port=34534
+ helo=mail-ej1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRJrI-0008KI-Gz
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:21:33 -0500
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-2dbc48104beso178426527b3.5
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 12:21:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nRKM8-0004vK-0C
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:53:25 -0500
+Received: by mail-ej1-x629.google.com with SMTP id gb39so34648704ejc.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 12:53:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BTQ/utWAFYxXsy3F1wvvLF7VfAeHAAn62FoS3Q7VmaM=;
- b=WzT2NlRJJDb7WULwwmUWXNAx478efS+E3j8vkB2UXvPKTpqQ2LXrQbMTHDNcFnCdr+
- L/tQHjT+1NR6q7rYmfM+QOuUSqUeu330Nk/oQg82Qk56BU4Apu4j0UJE/NoTcGoolSdq
- VBXla5E8m0dExy6FEX8ESVgzGnU/N/9Uth5vfg4zMFsO2EUusx7RgNFZPEyXJgOXpv9+
- JyzVOKKmyp4M3CYJ+xIdJmK0JAyK5QLw/xKY8SBmUFN29KOWfRPUPtEJH+Tfubd+REnG
- dTwkb05L47AweymUmcus6hGN1Wc6A3sz0q2uJxyV6urn+Q3XrsT/sz/wu6HgMjCuo6q5
- Pl0A==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=HQvIAiCCt/Nr2/RW8spkGn4etZmUoZQVrjp/HY6FTPg=;
+ b=CL0RQlnvjkmuRy294pPPeNlGlw5gKocJgMZoBMNnoBOpccgC05tpGgYNUihT30KYaf
+ hRfXJefCHbGdHxAcv+LyQ3KkMq1iR2gSGg8jrKU+Fjllk2LBnDeZj3htO/96ENQl0vwL
+ XwUtS5HR/QhqbVFdiT8PcGLx3l9fHwSm7/fxzZ/aLXQUO/jdSuAG6A/UXd7+UV4m2RLY
+ IKxCycl5P3YSlGd4jnvjFtGyjuCFHCR+mq1xC++3GqmYSiNgEiJpLroE869TqgOYdNsk
+ 5tR2A90Hc1pNsmxAAwCAolIgV+gLDdxenDCW9DWeqgbZc/Ht1fWAnLT6d1w0PT+Z5PM5
+ /C1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BTQ/utWAFYxXsy3F1wvvLF7VfAeHAAn62FoS3Q7VmaM=;
- b=06LS7tAkntUYa9i5GrMjgLgrfLijy5jGo9i7RbBoPFw0Ha8uJJ4zp20BBNn0N4/GEK
- 9gL7UQqC173EJm83PBD4SYWHnjk0mRsPu0RUZ4NtLGKvD5iWWQ0zluzKKWruTeP+PEZJ
- BNXlyBkrwfC/y9/1lsco6OVAskBnu1IH1u0xfxorBPYlZh7qNTfHfBBH2xBENFWr3I9c
- wSBcAomAI7t+jTr0pUbqa3tuic0ja+RkbjMPYS3ci/HGYTx4Nla/Xg/PjSYU6KGwhOMP
- dH+OvxBU61oGlc4sPZHb3GS6rpg8jKcWa7n13P8/g8cIPchboeo1m6yLbZLv3dUYfPpM
- TL0w==
-X-Gm-Message-State: AOAM533oHSmGJ67guMGHF0cs8JAp+thU5/wGifm2Ya4qXeBAndmFLN0i
- nTTQHr0jQq2ynfCQPDg8urBz1efMnm7woMmCM8Ij6Q==
-X-Google-Smtp-Source: ABdhPJyhwYWC57LEQURiVkYi9GjERik+hrPaD35IVcJqy0vb/FX4UKuBMjfh/5PXC6b0wAA1wBanqiyvDiM5HyeZLmw=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr10564415ywb.257.1646684483796; Mon, 07
- Mar 2022 12:21:23 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=HQvIAiCCt/Nr2/RW8spkGn4etZmUoZQVrjp/HY6FTPg=;
+ b=VcvlP+iCn6/rvsHu5I9T+v0oyAzw/thHlPe9mxXsLHvR8g791+2skWgJFXu7JQHDn3
+ WLDCEUQ50vtknVxUTlrAszV7nf1SG0oTP5Gy3xMZiaQnQ9E//QFXW7/N7IK25DEh1Vsj
+ MfW/5lRFMXXCXPJOCRufkCbNKqDwFmSUYqRLaRTj9w37y6MKG9ZxXzCM24daXAn29HIH
+ 7cXmbAHB98sgeR2Ks56PLhOz6m8uYPyqlCUXrLr21fCKZ+0OF5yBNtez1LFfvHAo01Mi
+ YPyg5gJnpWaLGOh9z8TNCG2euE/MfM8RT2ptKMQlN3g9RWm5mNeAovUIfbDDGSzMz4pb
+ eDJQ==
+X-Gm-Message-State: AOAM533nHEeun7Q9oG5lhfJg18/0RlpKq8WWd51kTg2qxZA/u/7ifvOj
+ NT66PcvLC/KzSQxAcaA6g4TdDQ==
+X-Google-Smtp-Source: ABdhPJx5kbUvkLGczKzBlGRGSOZvQWZG/pONj/wujuhLjNIsJokV8irebnqZqWL+ylfhUBTg+7M7jg==
+X-Received: by 2002:a17:906:9743:b0:6d8:632a:a42d with SMTP id
+ o3-20020a170906974300b006d8632aa42dmr10479237ejy.157.1646686402180; 
+ Mon, 07 Mar 2022 12:53:22 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ qb30-20020a1709077e9e00b006d6f8c77695sm5021795ejc.101.2022.03.07.12.53.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 12:53:21 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7A4E81FFB7;
+ Mon,  7 Mar 2022 20:53:20 +0000 (GMT)
+References: <20220307184446.3149199-1-alex.bennee@linaro.org>
+ <4a6212f0-9491-7260-01e0-e0c0659a1aab@linaro.org>
+User-agent: mu4e 1.7.9; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [RFC PATCH] target/i386: for maximum rounding precision for fildll
+Date: Mon, 07 Mar 2022 20:48:26 +0000
+In-reply-to: <4a6212f0-9491-7260-01e0-e0c0659a1aab@linaro.org>
+Message-ID: <87h789fprz.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220307191553.429236-1-danielhb413@gmail.com>
-In-Reply-To: <20220307191553.429236-1-danielhb413@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Mar 2022 20:21:12 +0000
-Message-ID: <CAFEAcA-=--vfvh9ZddyRKfcXqoW7fnjLVcqZpyP2tM8b8vhO=A@mail.gmail.com>
-Subject: Re: [PATCH 0/9] add LOG_UNSUPP log type + mark hcalls as unsupp
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1136
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -82,41 +93,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- clg@kaod.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org,
+ incoming+7b48dc26643084f29a2bbb8c07f757b1@incoming.gitlab.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Mar 2022 at 19:19, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> On 3/7/22 08:44, Alex Benn=C3=A9e wrote:
+>> The instruction description says "It is loaded without rounding
+>> errors." which implies we should have the widest rounding mode
+>> possible.
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/888
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>   target/i386/tcg/fpu_helper.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>> diff --git a/target/i386/tcg/fpu_helper.c
+>> b/target/i386/tcg/fpu_helper.c
+>> index cdd8e9f947..d986fd5792 100644
+>> --- a/target/i386/tcg/fpu_helper.c
+>> +++ b/target/i386/tcg/fpu_helper.c
+>> @@ -250,11 +250,15 @@ void helper_fildl_ST0(CPUX86State *env, int32_t va=
+l)
+>>   void helper_fildll_ST0(CPUX86State *env, int64_t val)
+>>   {
+>>       int new_fpstt;
+>> +    FloatX80RoundPrec old =3D get_floatx80_rounding_precision(&env->fp_=
+status);
+>> +    set_floatx80_rounding_precision(floatx80_precision_x, &env->fp_stat=
+us);
+>>         new_fpstt =3D (env->fpstt - 1) & 7;
+>>       env->fpregs[new_fpstt].d =3D int64_to_floatx80(val, &env->fp_statu=
+s);
+>>       env->fpstt =3D new_fpstt;
+>>       env->fptags[new_fpstt] =3D 0; /* validate stack entry */
+>> +
+>> +    set_floatx80_rounding_precision(old, &env->fp_status);
+>>   }
 >
-> Hi,
+> Yep.
 >
-> I got a lot of noise trying to debug an AIX guest in a pseries machine when running with
-> '-d unimp'. The reason is that there is no distinction between features
-> (in my case, hypercalls) that are unimplemented because we never considered,
-> versus features that we made a design choice not to implement.
+> Need a similar fix for fildl_ST0, for the case floatx80_precision_s is
+> currently set (int32_t has more than the 23 bits of single-precision).
+
+It can't hurt to convert with:
+
+  set_floatx80_rounding_precision(floatx80_precision_x, &env->fp_status);
+
+in that case as well right?
+
+--8<---------------cut here---------------start------------->8---
+target/i386: for maximum rounding precision for fildll
+
+The instruction description says "It is loaded without rounding
+errors." which implies we should have the widest rounding mode
+possible.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/888
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+1 file changed, 13 insertions(+)
+target/i386/tcg/fpu_helper.c | 13 +++++++++++++
+
+modified   target/i386/tcg/fpu_helper.c
+@@ -237,24 +237,37 @@ void helper_fldl_ST0(CPUX86State *env, uint64_t val)
+     merge_exception_flags(env, old_flags);
+ }
+=20
++static FloatX80RoundPrec tmp_maximise_precision(float_status *st)
++{
++    FloatX80RoundPrec old =3D get_floatx80_rounding_precision(st);
++    set_floatx80_rounding_precision(floatx80_precision_x, st);
++    return old;
++}
++
+ void helper_fildl_ST0(CPUX86State *env, int32_t val)
+ {
+     int new_fpstt;
++    FloatX80RoundPrec old =3D tmp_maximise_precision(&env->fp_status);
+=20
+     new_fpstt =3D (env->fpstt - 1) & 7;
+     env->fpregs[new_fpstt].d =3D int32_to_floatx80(val, &env->fp_status);
+     env->fpstt =3D new_fpstt;
+     env->fptags[new_fpstt] =3D 0; /* validate stack entry */
++
++    set_floatx80_rounding_precision(old, &env->fp_status);
+ }
+=20
+ void helper_fildll_ST0(CPUX86State *env, int64_t val)
+ {
+     int new_fpstt;
++    FloatX80RoundPrec old =3D tmp_maximise_precision(&env->fp_status);
+=20
+     new_fpstt =3D (env->fpstt - 1) & 7;
+     env->fpregs[new_fpstt].d =3D int64_to_floatx80(val, &env->fp_status);
+     env->fpstt =3D new_fpstt;
+     env->fptags[new_fpstt] =3D 0; /* validate stack entry */
++
++    set_floatx80_rounding_precision(old, &env->fp_status);
+ }
+--8<---------------cut here---------------end--------------->8---
+
+
 >
-> This series adds a new log type, LOG_UNSUPP, as a way to filter the
-> second case. After changing the log level of existing unsupported
-> pseries hypercalls, -d unimp was reporting just the ones that I need to
-> worry about and decide whether we should implement it or mark as
-> unsupported in our model. After this series there's still one hypercall
-> thgat is being thrown by AIX. We'll deal with that another day.
+>
+> r~
 
-So the intention of the distinction is:
-  LOG_UNIMP: we don't implement this, but we should
-  LOG_UNSUPP: we don't implement this, and that's OK because it's optional
 
-?
-
-I think I'd be happier about adding a new log category if we had
-some examples of where we should be using it other than just in
-the spapr hcall code, to indicate that it's a bit more broadly
-useful. If this is a distinction that only makes sense for that
-narrow use case, then as Philippe says a tracepoint might be a
-better choice.
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
