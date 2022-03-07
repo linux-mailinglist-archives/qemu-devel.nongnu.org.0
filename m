@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9BB4D0B86
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:54:56 +0100 (CET)
-Received: from localhost ([::1]:47208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52BA24D0B7B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:52:00 +0100 (CET)
+Received: from localhost ([::1]:37670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRMFj-0008K5-MS
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:54:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52602)
+	id 1nRMCt-0001tr-Eg
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:51:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6J-00062c-CQ
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60068)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6K-00065r-Ro
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53079)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6G-0005O1-0P
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:10 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6J-0005OX-21
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693107;
+ s=mimecast20190719; t=1646693110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OvugmdpxhIxwfz2HUJRV04yMbqV2en4XJ2MBN9Lfiv4=;
- b=W4bPOBS/piqKWWgX+Q3LbGHPGiOpCsENVApqT+TK1yOcE+yozFV386F35p7SX/PHpL+mFw
- zk84qkUdChUHRJSWa06gT/TXtfMGcQF3oMZDww7ehz09W+JqkX0v5WEPEYYRwJd6nzCQxS
- YRQEef5QEV079DuVS6OYXIbhxuRES2o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TX6EjlT2hSkO078tNRAKGmtPlKuyy6GjReGhr8QOnJA=;
+ b=dmNra4NOtrq5pJZDU0+5FulxZR4GMWqnL/31Tp7ItpMKdUhIRCBQkqBAklSPrpEur9+Sfz
+ 1scagH+ZP0E2vCksFtJq5QUGZPc26a0u3/mp2qAW5bPHjKdljIRWEE19E/DRBZ1X9L7g+a
+ RxT1sRMoO3U3uiccrBEPXWl4hFaIODU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256-HvGvY7ZxPXuV1ePsBTcFqw-1; Mon, 07 Mar 2022 17:45:06 -0500
-X-MC-Unique: HvGvY7ZxPXuV1ePsBTcFqw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 14-20020a05600c104e00b003897a167353so218534wmx.8
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:06 -0800 (PST)
+ us-mta-114-gUiQ5TKJPfqHCDoOzekFXg-1; Mon, 07 Mar 2022 17:45:09 -0500
+X-MC-Unique: gUiQ5TKJPfqHCDoOzekFXg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ f14-20020adfc98e000000b001e8593b40b0so4952676wrh.14
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=OvugmdpxhIxwfz2HUJRV04yMbqV2en4XJ2MBN9Lfiv4=;
- b=XLcCDqGnMVzB0bV3rGT9mn1vsEWDnHpPbgywGaN4re/PbsV2jFg9Wv7VADhIrF//Tk
- +LDvhTsPMJdzFGf+QSkf+SEh+Rct8TuKnqnHj6LhkruNqny8RR9MjR1HMn4bJKTJE1TP
- jBoHm18z9+4YmfX7245wsjrr1vo6YPJ9MxhfG5PmEIq1MfLjWcVdx/00J7YrbRgoMkhy
- tqpr125JRd+zRyVuwmf5NwF6AQLbC9wbT7ZL/4D0O4pQg9S1WAra9nioSwD9KRqYhhz3
- 1ig9+yijz4wWTMvGYvLhqZBEeCmKVsFWaP7aKP+g7C0As5YMLOfprsyNjo/1WkYbLP2D
- JEHg==
-X-Gm-Message-State: AOAM531v84omc1wiVGlQ/E7Cw2YVLchdABMqFgXw0q9lJ7eDlUZgmPh3
- lqqyY1GpC30SG38T57Ib5WVEgaKsi/H/aKSM+MooW3P8hAr9vMtjhVXLOLAEGb1X3tGwN4GVF1G
- xZ1WZkGtnB4Cnx7+hGEPD9Q3ml9RQQq2N7c9oiP25bGE0Bq9dwAH0bRerooad
-X-Received: by 2002:a05:600c:644:b0:387:4a84:8a92 with SMTP id
- p4-20020a05600c064400b003874a848a92mr961886wmm.164.1646693104577; 
- Mon, 07 Mar 2022 14:45:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyuv/tM07RRppYuUIDgIPegm8oPx/6DEenV/B7uJ/qzZpRoz0MhFq7MdPe8kRqVIYQio2ytRQ==
-X-Received: by 2002:a05:600c:644:b0:387:4a84:8a92 with SMTP id
- p4-20020a05600c064400b003874a848a92mr961870wmm.164.1646693104244; 
- Mon, 07 Mar 2022 14:45:04 -0800 (PST)
+ bh=TX6EjlT2hSkO078tNRAKGmtPlKuyy6GjReGhr8QOnJA=;
+ b=AhZMnAOR5us/VwVz+1BV6FHSsuHt/2z4cr9ENbATMe4+ViJmDt7Tiv+pn3mk1VF9R4
+ D0K0iefdsPMDyt5JDIen12m7vOkeWqVY/czJD/m+5p7EebXKiwza05f9BotcOdid9Qm9
+ BqFgrjpGdKp0iN/zrLFu78ohZlfB8EFCHhxvbOAcACxA4Q2WTHUM0dZlz9KbJY1QrU0c
+ 9HjvRD8OcbQVhG5IKHG+CR09QBjrTQKf0ZN1ADMDGQETzOxEGmsO85iSxcykvkXq1AH3
+ HcLxM6nyyfyV/6eIcsmTlAKt0YCBmz/cX1qsbsyinimzENL9URm2F15Aq4xs75SrhjJA
+ ZQWA==
+X-Gm-Message-State: AOAM533SfeHKp7uqJlxxzKWCAZOeJZQrIKjZqTwrUzbxGMEUJfX3Th1v
+ RYqXqob8K121zveg/es6SdZLzW8kLu3PL21liMqBXiTqixGTV1BzHDT+8NvviKi2KAo+VKfwh8U
+ fpdO5gUHK+BMN6M4o1VPHUWnTO3n5H0myRSfy1K7XVzw4M5IM2lf7aXpFJAyI
+X-Received: by 2002:a1c:6a08:0:b0:388:73a2:1548 with SMTP id
+ f8-20020a1c6a08000000b0038873a21548mr949288wmc.163.1646693107515; 
+ Mon, 07 Mar 2022 14:45:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy0uDADHhQppZXFTt7jzomXpiia16xpO73+dka978+o11fP7duhSgjDZTsvE01fmXzu2cLyDQ==
+X-Received: by 2002:a1c:6a08:0:b0:388:73a2:1548 with SMTP id
+ f8-20020a1c6a08000000b0038873a21548mr949258wmc.163.1646693107199; 
+ Mon, 07 Mar 2022 14:45:07 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- a14-20020a05600c348e00b00389ab74c033sm532839wmq.4.2022.03.07.14.45.02
+ f13-20020adff8cd000000b001f03439743fsm12359207wrq.75.2022.03.07.14.45.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:45:03 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:45:01 -0500
+ Mon, 07 Mar 2022 14:45:06 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:45:04 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 10/47] vhost-user: fix VirtQ notifier cleanup
-Message-ID: <20220307224357.682101-11-mst@redhat.com>
+Subject: [PULL v4 11/47] virtio: fix the condition for iommu_platform not
+ supported
+Message-ID: <20220307224357.682101-12-mst@redhat.com>
 References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
@@ -84,7 +85,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,155 +98,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-stable@nongnu.org,
- Xueming Li <xuemingl@nvidia.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-stable@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Jakob Naucke <Jakob.Naucke@ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xueming Li <xuemingl@nvidia.com>
+From: Halil Pasic <pasic@linux.ibm.com>
 
-When vhost-user device cleanup, remove notifier MR and munmaps notifier
-address in the event-handling thread, VM CPU thread writing the notifier
-in concurrent fails with an error of accessing invalid address. It
-happens because MR is still being referenced and accessed in another
-thread while the underlying notifier mmap address is being freed and
-becomes invalid.
+The commit 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
+unsupported") claims to fail the device hotplug when iommu_platform
+is requested, but not supported by the (vhost) device. On the first
+glance the condition for detecting that situation looks perfect, but
+because a certain peculiarity of virtio_platform it ain't.
 
-This patch calls RCU and munmap notifiers in the callback after the
-memory flatview update finish.
+In fact the aforementioned commit introduces a regression. It breaks
+virtio-fs support for Secure Execution, and most likely also for AMD SEV
+or any other confidential guest scenario that relies encrypted guest
+memory.  The same also applies to any other vhost device that does not
+support _F_ACCESS_PLATFORM.
 
-Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
+The peculiarity is that iommu_platform and _F_ACCESS_PLATFORM collates
+"device can not access all of the guest RAM" and "iova != gpa, thus
+device needs to translate iova".
+
+Confidential guest technologies currently rely on the device/hypervisor
+offering _F_ACCESS_PLATFORM, so that, after the feature has been
+negotiated, the guest  grants access to the portions of memory the
+device needs to see. So in for confidential guests, generally,
+_F_ACCESS_PLATFORM is about the restricted access to memory, but not
+about the addresses used being something else than guest physical
+addresses.
+
+This is the very reason for which commit f7ef7e6e3b ("vhost: correctly
+turn on VIRTIO_F_IOMMU_PLATFORM") fences _F_ACCESS_PLATFORM from the
+vhost device that does not need it, because on the vhost interface it
+only means "I/O address translation is needed".
+
+This patch takes inspiration from f7ef7e6e3b ("vhost: correctly turn on
+VIRTIO_F_IOMMU_PLATFORM"), and uses the same condition for detecting the
+situation when _F_ACCESS_PLATFORM is requested, but no I/O translation
+by the device, and thus no device capability is needed. In this
+situation claiming that the device does not support iommu_plattform=on
+is counter-productive. So let us stop doing that!
+
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+Reported-by: Jakob Naucke <Jakob.Naucke@ibm.com>
+Fixes: 04ceb61a40 ("virtio: Fail if iommu_platform is requested, but
+unsupported")
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
 Cc: qemu-stable@nongnu.org
-Signed-off-by: Xueming Li <xuemingl@nvidia.com>
-Message-Id: <20220207071929.527149-3-xuemingl@nvidia.com>
+
+Message-Id: <20220207112857.607829-1-pasic@linux.ibm.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- include/hw/virtio/vhost-user.h |  2 ++
- hw/virtio/vhost-user.c         | 48 ++++++++++++++++++++--------------
- 2 files changed, 31 insertions(+), 19 deletions(-)
+ hw/virtio/virtio-bus.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
-index f6012b2078..e44a41bb70 100644
---- a/include/hw/virtio/vhost-user.h
-+++ b/include/hw/virtio/vhost-user.h
-@@ -12,8 +12,10 @@
- #include "hw/virtio/virtio.h"
+diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+index d23db98c56..0f69d1c742 100644
+--- a/hw/virtio/virtio-bus.c
++++ b/hw/virtio/virtio-bus.c
+@@ -48,6 +48,7 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+     VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
+     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
+     bool has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
++    bool vdev_has_iommu;
+     Error *local_err = NULL;
  
- typedef struct VhostUserHostNotifier {
-+    struct rcu_head rcu;
-     MemoryRegion mr;
-     void *addr;
-+    void *unmap_addr;
- } VhostUserHostNotifier;
- 
- typedef struct VhostUserState {
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index ebe9bd58d0..6abbc9da32 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -25,6 +25,7 @@
- #include "migration/migration.h"
- #include "migration/postcopy-ram.h"
- #include "trace.h"
-+#include "exec/ramblock.h"
- 
- #include <sys/ioctl.h>
- #include <sys/socket.h>
-@@ -1162,15 +1163,26 @@ static int vhost_user_set_vring_num(struct vhost_dev *dev,
-     return vhost_set_vring(dev, VHOST_USER_SET_VRING_NUM, ring);
- }
- 
--static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
--                                            int queue_idx)
-+static void vhost_user_host_notifier_free(VhostUserHostNotifier *n)
- {
--    struct vhost_user *u = dev->opaque;
--    VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
--    VirtIODevice *vdev = dev->vdev;
-+    assert(n && n->unmap_addr);
-+    munmap(n->unmap_addr, qemu_real_host_page_size);
-+    n->unmap_addr = NULL;
-+}
-+
-+static void vhost_user_host_notifier_remove(VhostUserState *user,
-+                                            VirtIODevice *vdev, int queue_idx)
-+{
-+    VhostUserHostNotifier *n = &user->notifier[queue_idx];
- 
-     if (n->addr) {
--        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-+        if (vdev) {
-+            virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-+        }
-+        assert(!n->unmap_addr);
-+        n->unmap_addr = n->addr;
-+        n->addr = NULL;
-+        call_rcu(n, vhost_user_host_notifier_free, rcu);
-     }
- }
- 
-@@ -1219,8 +1231,9 @@ static int vhost_user_get_vring_base(struct vhost_dev *dev,
-         .payload.state = *ring,
-         .hdr.size = sizeof(msg.payload.state),
-     };
-+    struct vhost_user *u = dev->opaque;
- 
--    vhost_user_host_notifier_remove(dev, ring->index);
-+    vhost_user_host_notifier_remove(u->user, dev->vdev, ring->index);
- 
-     ret = vhost_user_write(dev, &msg, NULL, 0);
-     if (ret < 0) {
-@@ -1506,12 +1519,7 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
- 
-     n = &user->notifier[queue_idx];
- 
--    if (n->addr) {
--        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
--        object_unparent(OBJECT(&n->mr));
--        munmap(n->addr, page_size);
--        n->addr = NULL;
--    }
-+    vhost_user_host_notifier_remove(user, vdev, queue_idx);
- 
-     if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
-         return 0;
-@@ -1530,9 +1538,12 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
- 
-     name = g_strdup_printf("vhost-user/host-notifier@%p mmaps[%d]",
-                            user, queue_idx);
--    if (!n->mr.ram) /* Don't init again after suspend. */
-+    if (!n->mr.ram) { /* Don't init again after suspend. */
-         memory_region_init_ram_device_ptr(&n->mr, OBJECT(vdev), name,
-                                           page_size, addr);
-+    } else {
-+        n->mr.ram_block->host = addr;
-+    }
-     g_free(name);
- 
-     if (virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true)) {
-@@ -2505,17 +2516,16 @@ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp)
- void vhost_user_cleanup(VhostUserState *user)
- {
-     int i;
-+    VhostUserHostNotifier *n;
- 
-     if (!user->chr) {
+     DPRINTF("%s: plug device.\n", qbus->name);
+@@ -69,11 +70,6 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
          return;
      }
-     memory_region_transaction_begin();
-     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
--        if (user->notifier[i].addr) {
--            object_unparent(OBJECT(&user->notifier[i].mr));
--            munmap(user->notifier[i].addr, qemu_real_host_page_size);
--            user->notifier[i].addr = NULL;
--        }
-+        n = &user->notifier[i];
-+        vhost_user_host_notifier_remove(user, NULL, i);
-+        object_unparent(OBJECT(&n->mr));
+ 
+-    if (has_iommu && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
+-        error_setg(errp, "iommu_platform=true is not supported by the device");
+-        return;
+-    }
+-
+     if (klass->device_plugged != NULL) {
+         klass->device_plugged(qbus->parent, &local_err);
      }
-     memory_region_transaction_commit();
-     user->chr = NULL;
+@@ -82,9 +78,15 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
+         return;
+     }
+ 
++    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+     if (klass->get_dma_as != NULL && has_iommu) {
+         virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
+         vdev->dma_as = klass->get_dma_as(qbus->parent);
++        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
++            error_setg(errp,
++                       "iommu_platform=true is not supported by the device");
++            return;
++        }
+     } else {
+         vdev->dma_as = &address_space_memory;
+     }
 -- 
 MST
 
