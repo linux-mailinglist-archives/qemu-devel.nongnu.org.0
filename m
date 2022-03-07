@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EE44D0745
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:08:44 +0100 (CET)
-Received: from localhost ([::1]:54370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAFF04D0776
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:18:17 +0100 (CET)
+Received: from localhost ([::1]:35232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRIip-0002h7-DF
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:08:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36872)
+	id 1nRIs4-0000vY-9B
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:18:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRIhi-0001Hd-9w
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:07:34 -0500
-Received: from [2607:f8b0:4864:20::b29] (port=44779
- helo=mail-yb1-xb29.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nRIq0-0006WP-VT; Mon, 07 Mar 2022 14:16:10 -0500
+Received: from [2607:f8b0:4864:20::230] (port=44699
+ helo=mail-oi1-x230.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRIhg-0004Y1-J3
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:07:33 -0500
-Received: by mail-yb1-xb29.google.com with SMTP id u61so32970001ybi.11
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 11:07:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Cl5rC3fJu27qrD7YIXJOM/SX0TXoVrEWo0Jk1NsivsI=;
- b=p/bqqKQ8jHulMAgnLCXAmC4HFUSOarw4ZlfHVsAPW57LjjgG3Cc3EOjoBX3QQkiZ3C
- 6x4W4TQog4Bk4QyfgreLgfBLJYNDLbkm/i7W0tw/tn665Wf0LQRwGPM/bkHeL+IIIzLX
- XiZOIfEWYzyB2eEEton2dAz03FX3pxBTFCb2Z02KdPvx1tg+7ZAeg3DvRpcG1Q4kLAGL
- u8hUBa3Za/ZBhzRE4pplM4OyDPl2TNSYXuBIz6fF0DICezwAnNgtc5yYyYlVjc+gUx8K
- DSK0xc/bbfXLoHJEiOjjK+RKPmEeqcNHGHcErlP5KWNv1z7Um2SpiV63gP+/1M6wbDIX
- 5LwA==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1nRIpy-0005vg-9g; Mon, 07 Mar 2022 14:16:07 -0500
+Received: by mail-oi1-x230.google.com with SMTP id j24so16281881oii.11;
+ Mon, 07 Mar 2022 11:16:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0fYpMuA68OXbuijMMrBNh4HbVkbPX/oWCD6OEX7sqbw=;
+ b=UgNkz+ywC8VN5EFuII8RbT0H4BvEcKbynHlG7Yy4vQ9W//DGT3b0lnvKGfmYQLkiNZ
+ lJmVGc/uC3uixgSEmgEufNFoUljxMWLsbYljlVgQkeRxev+DKWCHPsfdV08sfTI8vryh
+ 4YhpRnYZnJsca5MarOqzTrdK/dYl0Srp8pVjCw59teoLy/20zFGHdZ3sx8YllOaAlA+I
+ JGW8hrOH+/5iuEQlJ1MOGkPr7y7lBj6EN+gSwSHsbsDWAyau2OcGLU8Rods38D96i3zs
+ 0OJlnUb9cAbXz+LlMbBwmtdRySiLxSDjreCOHntaj4jlWwFvn01yoT3oEJhWHheld32r
+ fq1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Cl5rC3fJu27qrD7YIXJOM/SX0TXoVrEWo0Jk1NsivsI=;
- b=0C9VW5ejp9PD46mXzBpfcfFzsbNVihadles16ELiSiDYCo8M7YNBr6TNZV16SfMh2y
- svCuvoeAEkBOozpj75m8Udl/3Cf3kyDS1FyiIBvdkHk7q/zX5/6x1jzwpfq8WADzKh9t
- PBPZ2+jcslbd9KahMz0IV0MMObD4wiUjWoK2tHGuxjjSU3Ukx16ZV9G/TGiy66A3h28z
- g8bZ+gppLLhkDS03lud6Yn2+YjwWNB2zKg2VSTnNmbziRV3Qpe97lxCuDVMy5MIbZYgE
- mE2r5C50QVo20Z+HKkXdANd7h51DAhEeo5/+/LgVq69tR89zOSaSPfkKF++Zo5hFVT74
- /kWA==
-X-Gm-Message-State: AOAM532Rk1PYaSkZ32SbQ9nJDpe/0HVH/hcynA/X5rFDczrq3xD4Lmjx
- 5RW5QTbvu7BrUCpw4OxQVc+rt1r/rSwHq0SADXaEgg==
-X-Google-Smtp-Source: ABdhPJwn5CI2CQI7rXGSTHmvDIggkMTn0fajk4BdvFih3aJHrGrWZTY5CkFm31gZwIBd/tY7zCblM/6DBSE45X/xTdc=
-X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
- h3-20020a056902008300b0061a709bd841mr9021761ybs.140.1646680051398; Mon, 07
- Mar 2022 11:07:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0fYpMuA68OXbuijMMrBNh4HbVkbPX/oWCD6OEX7sqbw=;
+ b=0s7IfyF9vQ8yp9CiA8sy8glVYrUrtPftNeqgZZjGxAZjxy0oDxuE5WADNJhbL1ihAa
+ 6J7Dmi1DDDes8S7hT4eGBJssUFOWvhyWPl9CvL8rhjYMW2w4gE64UI8sArNSeFD+G3VM
+ YHC+7T9tHYjb1OVTo/QgmgimWMn8+PxFVVFEPbopoABdEjCCF4s5jdMzHkQwLFXAYiUy
+ NkXXO6zf2TLQesV55/bC0lKhPUPzaMmVelqTJGU9ipdmnAP9e6wAeZ8BT8r4uJAJ0yHl
+ WHCxRmlmWg5/nK7MM+8VYaprLSu4jhVFEdyJhcVmiSXp5rLKBP3TpQ/exCcCMNLVWyBO
+ WT8Q==
+X-Gm-Message-State: AOAM530AJLbLsjIweCQh2yZJnU9JWz8hrRNoDkUB0uLnUctnqur6/x9I
+ S6ScYOCD6vPqJMRkciaC7rsPeIAd7dw=
+X-Google-Smtp-Source: ABdhPJyENFDZz3l/Y2QsNbU9dVaYp2elgdBwhAwaqD5ND8GyRyNYHxgOztD2ZzUjVLYeREHne4VQoA==
+X-Received: by 2002:a05:6808:2026:b0:2d5:409e:1dc2 with SMTP id
+ q38-20020a056808202600b002d5409e1dc2mr316238oiw.130.1646680563528; 
+ Mon, 07 Mar 2022 11:16:03 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:3b4a:a86f:f27d:30ef:6eb6])
+ by smtp.gmail.com with ESMTPSA id
+ t40-20020a05680815a800b002d48ffad94bsm7283093oiw.2.2022.03.07.11.16.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 11:16:03 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/9] add LOG_UNSUPP log type + mark hcalls as unsupp
+Date: Mon,  7 Mar 2022 16:15:44 -0300
+Message-Id: <20220307191553.429236-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220307103549.808809-1-hreitz@redhat.com>
-In-Reply-To: <20220307103549.808809-1-hreitz@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Mar 2022 19:07:20 +0000
-Message-ID: <CAFEAcA_vDeyVCsziHg9rLEgF8jZnKU1KEACWqoAHD4ZTXsOJpw@mail.gmail.com>
-Subject: Re: [PULL 00/23] Block patches
-To: Hanna Reitz <hreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b29
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,38 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Mar 2022 at 10:35, Hanna Reitz <hreitz@redhat.com> wrote:
->
-> The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5:
->
->   Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' into staging (2022-03-05 18:03:15 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/hreitz/qemu.git tags/pull-block-2022-03-07
->
-> for you to fetch changes up to 743da0b401cdc3ee94bc519975e339a3cdbe0ad1:
->
->   iotests/image-fleecing: test push backup with fleecing (2022-03-07 09:33:31 +0100)
->
-> ----------------------------------------------------------------
-> Block patches for 7.0-rc0:
-> - New fleecing backup scheme
-> - iotest fixes
-> - Fixes for the curl block driver
-> - Fix for the preallocate block driver
-> - IDE fix for zero-length TRIM requests
->
+Hi,
 
+I got a lot of noise trying to debug an AIX guest in a pseries machine when running with 
+'-d unimp'. The reason is that there is no distinction between features
+(in my case, hypercalls) that are unimplemented because we never considered,
+versus features that we made a design choice not to implement.
 
-Applied, thanks.
+This series adds a new log type, LOG_UNSUPP, as a way to filter the
+second case. After changing the log level of existing unsupported
+pseries hypercalls, -d unimp was reporting just the ones that I need to
+worry about and decide whether we should implement it or mark as
+unsupported in our model. After this series there's still one hypercall
+thgat is being thrown by AIX. We'll deal with that another day.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+I am posting this a little too close of the soft freeze. If we manage
+to get it reviewed in time, since it's a debug QoL change that doesn't
+break anything, I'd say we take it. 
 
--- PMM
+Also, I didn't find the maintainer for the util/log.c file. Let me know
+if I need to CC someone in special for this file.
+
+Daniel Henrique Barboza (9):
+  util/log.c: add LOG_UNSUPP type
+  hw/ppc/spapr_hcall.c: log h_clean_slb() as unsupported
+  hw/ppc/spapr_hcall.c: log h_invalidate_pid() as unsupported
+  hw/ppc/spapr_hcall.c: log h_copy_tofrom_guest() as unsupported
+  hw/ppc/spapr_hcall.c: log H_GET_EM_PARMS as unsupported
+  hw/ppc/spapr_hcall.c: log H_BEST_ENERGY as unsupported
+  hw/ppc/spapr_hcall.c: log H_QUERY_VAS_CAPABILITIES as unsupported
+  hw/ppc/spapr_hcall.c: log H_GET_PPP as unsupported
+  hw/ppc/spapr_hcall.c: log H_VIOCTL as unsupported
+
+ hw/ppc/spapr_hcall.c   | 98 +++++++++++++++++++++++++++++++++++++++++-
+ include/hw/ppc/spapr.h |  3 ++
+ include/qemu/log.h     |  3 +-
+ util/log.c             |  2 +
+ 4 files changed, 103 insertions(+), 3 deletions(-)
+
+-- 
+2.35.1
+
 
