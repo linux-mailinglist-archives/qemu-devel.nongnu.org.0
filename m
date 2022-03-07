@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B8FF4CFC45
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:07:51 +0100 (CET)
-Received: from localhost ([::1]:51798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B66A24CFC5F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:10:48 +0100 (CET)
+Received: from localhost ([::1]:60522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBDS-00074Z-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:07:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42718)
+	id 1nRBGJ-0004VV-Rf
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:10:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAik-0004qa-Ev
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAik-0004qY-Dv
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53015)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAii-0008BP-8W
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAii-0008BW-FW
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1646649363;
@@ -23,41 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4hzzdM4EB8R0VL5oB5/SFcL14VY3+8SjltyLTPj44NU=;
- b=ggg09cXxe53eMg38lvzy8BWhGR5AKAUxZjNJWvZUJzSgHdXyPynKlT7PPbiZRGvugEXzHF
- SgknaL4kvOTCpztblkL0ZAKxre1QmaVYNzJ7nkIH/yb47t2rDahVmwgBAjyxjAvgzmKLhI
- EkAGTXbYph5a7KtEFTUnleU8VPbuBSo=
+ bh=R8PWxhzUI6Di3fIe9Wn9PnZu1OI3GMlrTVuwXVg5Qgs=;
+ b=GrDqtGvmiG7NCualRSWA2hWq4KB8QAPepX3L2YXTIECDVfrTXfo2tM9eyo14MO0pvKIHoW
+ QV6wu5hXRGn1bz7Ppa6ntm0uyB0s/0pjl3q9CiCFaF7jugrAa9bsvIG5c7XpKW4yhaBFqC
+ EZd2KzCjXHmXSDfHIqlVsBgH3ehXXtw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-286-m8fddpYmPzitcOSnL-sxuA-1; Mon, 07 Mar 2022 05:36:00 -0500
-X-MC-Unique: m8fddpYmPzitcOSnL-sxuA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-91-wtFLmau8NHCOxskJUQAMXw-1; Mon, 07 Mar 2022 05:36:02 -0500
+X-MC-Unique: wtFLmau8NHCOxskJUQAMXw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94A80801AFC;
- Mon,  7 Mar 2022 10:35:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1DCC657;
+ Mon,  7 Mar 2022 10:36:01 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3421A783AA;
- Mon,  7 Mar 2022 10:35:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5742E7B6FB;
+ Mon,  7 Mar 2022 10:36:01 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/23] block/curl.c: Set error message string if
- curl_init_state() fails
-Date: Mon,  7 Mar 2022 11:35:28 +0100
-Message-Id: <20220307103549.808809-3-hreitz@redhat.com>
+Subject: [PULL 03/23] block/curl.c: Check error return from curl_easy_setopt()
+Date: Mon,  7 Mar 2022 11:35:29 +0100
+Message-Id: <20220307103549.808809-4-hreitz@redhat.com>
 In-Reply-To: <20220307103549.808809-1-hreitz@redhat.com>
 References: <20220307103549.808809-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -86,37 +85,163 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-In curl_open(), the 'out' label assumes that the state->errmsg string
-has been set (either by curl_easy_perform() or by manually copying a
-string into it); however if curl_init_state() fails we will jump to
-that label without setting the string.  Add the missing error string
-setup.
+Coverity points out that we aren't checking the return value
+from curl_easy_setopt() for any of the calls to it we make
+in block/curl.c.
 
-(We can't be specific about the cause of failure: the documentation
-of curl_easy_init() just says "If this function returns NULL,
-something went wrong".)
+Some of these options are documented as always succeeding (e.g.
+CURLOPT_VERBOSE) but others have documented failure cases (e.g.
+CURLOPT_URL).  For consistency we check every call, even the ones
+that theoretically cannot fail.
 
+Fixes: Coverity CID 1459336, 1459482, 1460331
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220222152341.850419-2-peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220222152341.850419-3-peter.maydell@linaro.org>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/curl.c | 2 ++
- 1 file changed, 2 insertions(+)
+ block/curl.c | 90 +++++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 57 insertions(+), 33 deletions(-)
 
 diff --git a/block/curl.c b/block/curl.c
-index 6a6cd72975..9516852971 100644
+index 9516852971..1e0f609579 100644
 --- a/block/curl.c
 +++ b/block/curl.c
-@@ -759,6 +759,8 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     // Get file size
+@@ -458,38 +458,51 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
+         if (!state->curl) {
+             return -EIO;
+         }
+-        curl_easy_setopt(state->curl, CURLOPT_URL, s->url);
+-        curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYPEER,
+-                         (long) s->sslverify);
+-        curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYHOST,
+-                         s->sslverify ? 2L : 0L);
++        if (curl_easy_setopt(state->curl, CURLOPT_URL, s->url) ||
++            curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYPEER,
++                             (long) s->sslverify) ||
++            curl_easy_setopt(state->curl, CURLOPT_SSL_VERIFYHOST,
++                             s->sslverify ? 2L : 0L)) {
++            goto err;
++        }
+         if (s->cookie) {
+-            curl_easy_setopt(state->curl, CURLOPT_COOKIE, s->cookie);
++            if (curl_easy_setopt(state->curl, CURLOPT_COOKIE, s->cookie)) {
++                goto err;
++            }
++        }
++        if (curl_easy_setopt(state->curl, CURLOPT_TIMEOUT, (long)s->timeout) ||
++            curl_easy_setopt(state->curl, CURLOPT_WRITEFUNCTION,
++                             (void *)curl_read_cb) ||
++            curl_easy_setopt(state->curl, CURLOPT_WRITEDATA, (void *)state) ||
++            curl_easy_setopt(state->curl, CURLOPT_PRIVATE, (void *)state) ||
++            curl_easy_setopt(state->curl, CURLOPT_AUTOREFERER, 1) ||
++            curl_easy_setopt(state->curl, CURLOPT_FOLLOWLOCATION, 1) ||
++            curl_easy_setopt(state->curl, CURLOPT_NOSIGNAL, 1) ||
++            curl_easy_setopt(state->curl, CURLOPT_ERRORBUFFER, state->errmsg) ||
++            curl_easy_setopt(state->curl, CURLOPT_FAILONERROR, 1)) {
++            goto err;
+         }
+-        curl_easy_setopt(state->curl, CURLOPT_TIMEOUT, (long)s->timeout);
+-        curl_easy_setopt(state->curl, CURLOPT_WRITEFUNCTION,
+-                         (void *)curl_read_cb);
+-        curl_easy_setopt(state->curl, CURLOPT_WRITEDATA, (void *)state);
+-        curl_easy_setopt(state->curl, CURLOPT_PRIVATE, (void *)state);
+-        curl_easy_setopt(state->curl, CURLOPT_AUTOREFERER, 1);
+-        curl_easy_setopt(state->curl, CURLOPT_FOLLOWLOCATION, 1);
+-        curl_easy_setopt(state->curl, CURLOPT_NOSIGNAL, 1);
+-        curl_easy_setopt(state->curl, CURLOPT_ERRORBUFFER, state->errmsg);
+-        curl_easy_setopt(state->curl, CURLOPT_FAILONERROR, 1);
+-
+         if (s->username) {
+-            curl_easy_setopt(state->curl, CURLOPT_USERNAME, s->username);
++            if (curl_easy_setopt(state->curl, CURLOPT_USERNAME, s->username)) {
++                goto err;
++            }
+         }
+         if (s->password) {
+-            curl_easy_setopt(state->curl, CURLOPT_PASSWORD, s->password);
++            if (curl_easy_setopt(state->curl, CURLOPT_PASSWORD, s->password)) {
++                goto err;
++            }
+         }
+         if (s->proxyusername) {
+-            curl_easy_setopt(state->curl,
+-                             CURLOPT_PROXYUSERNAME, s->proxyusername);
++            if (curl_easy_setopt(state->curl,
++                                 CURLOPT_PROXYUSERNAME, s->proxyusername)) {
++                goto err;
++            }
+         }
+         if (s->proxypassword) {
+-            curl_easy_setopt(state->curl,
+-                             CURLOPT_PROXYPASSWORD, s->proxypassword);
++            if (curl_easy_setopt(state->curl,
++                                 CURLOPT_PROXYPASSWORD, s->proxypassword)) {
++                goto err;
++            }
+         }
  
-     if (curl_init_state(s, state) < 0) {
+         /* Restrict supported protocols to avoid security issues in the more
+@@ -499,18 +512,27 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
+          * Restricting protocols is only supported from 7.19.4 upwards.
+          */
+ #if LIBCURL_VERSION_NUM >= 0x071304
+-        curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS);
+-        curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS);
++        if (curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS) ||
++            curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS)) {
++            goto err;
++        }
+ #endif
+ 
+ #ifdef DEBUG_VERBOSE
+-        curl_easy_setopt(state->curl, CURLOPT_VERBOSE, 1);
++        if (curl_easy_setopt(state->curl, CURLOPT_VERBOSE, 1)) {
++            goto err;
++        }
+ #endif
+     }
+ 
+     state->s = s;
+ 
+     return 0;
++
++err:
++    curl_easy_cleanup(state->curl);
++    state->curl = NULL;
++    return -EIO;
+ }
+ 
+ /* Called with s->mutex held.  */
+@@ -765,10 +787,13 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+ 
+     s->accept_range = false;
+-    curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1);
+-    curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION,
+-                     curl_header_cb);
+-    curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s);
++    if (curl_easy_setopt(state->curl, CURLOPT_NOBODY, 1) ||
++        curl_easy_setopt(state->curl, CURLOPT_HEADERFUNCTION, curl_header_cb) ||
++        curl_easy_setopt(state->curl, CURLOPT_HEADERDATA, s)) {
 +        pstrcpy(state->errmsg, CURL_ERROR_SIZE,
 +                "curl library initialization failed.");
++        goto out;
++    }
+     if (curl_easy_perform(state->curl))
          goto out;
-     }
+     if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d)) {
+@@ -881,9 +906,8 @@ static void curl_setup_preadv(BlockDriverState *bs, CURLAIOCB *acb)
+ 
+     snprintf(state->range, 127, "%" PRIu64 "-%" PRIu64, start, end);
+     trace_curl_setup_preadv(acb->bytes, start, state->range);
+-    curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range);
+-
+-    if (curl_multi_add_handle(s->multi, state->curl) != CURLM_OK) {
++    if (curl_easy_setopt(state->curl, CURLOPT_RANGE, state->range) ||
++        curl_multi_add_handle(s->multi, state->curl) != CURLM_OK) {
+         state->acb[0] = NULL;
+         acb->ret = -EIO;
  
 -- 
 2.34.1
