@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FE04D0B93
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:59:34 +0100 (CET)
-Received: from localhost ([::1]:35662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 853574D0B9F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 00:02:29 +0100 (CET)
+Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRMKD-0002jZ-Sj
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:59:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53142)
+	id 1nRMN2-0006R0-8z
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 18:02:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM7T-0008Ct-Dn
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:46:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36392)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6Z-0006S0-PM
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM7R-0005iE-R4
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:46:23 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6W-0005W9-Ex
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693181;
+ s=mimecast20190719; t=1646693123;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2BxKih/Yy0qiS5QUDi7wjAqw2GnHJ/nwONeXDCjAw2o=;
- b=FON64Ebj+0RFWlb86Oh4XVpuwcV/E/7YH/sRVtNaMLTqcdYgn1tqvMik4GV6/tssOJleVO
- q7CGnJmRqvX1RDr18/T7MdPBacA7arnl4hTDPmuSZi2DLIWbT6nWUZv4FyYE19Uc5BAVuE
- Ut0p7lp8RMGmXE6eqlaZFCArQoruXQo=
+ bh=0lVkB02NxWofYSS4as/4ncAO6TZl7kf9saq/7ls1Nww=;
+ b=ereKY8MOdjSqaf9UGkm9aT5qgk7E6McvAwG53SjqBdD06YekFym7QjPC3W3dSgjrPferRw
+ k4PcoWfSYo1tdIISbZ0t5k+B8ue+FVzMvrtKlJg+2+b3Tjac+tv0M3s856pxnOwHXbaWR2
+ k1tpSU1zrZdpXL+XDIXxzTL35cxp5Ko=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-646-4ogDhwExNKKhl0LqyRvvzA-1; Mon, 07 Mar 2022 17:46:20 -0500
-X-MC-Unique: 4ogDhwExNKKhl0LqyRvvzA-1
+ us-mta-135-CHabOJGLNK6jTsR-vfxlWQ-1; Mon, 07 Mar 2022 17:45:23 -0500
+X-MC-Unique: CHabOJGLNK6jTsR-vfxlWQ-1
 Received: by mail-wm1-f70.google.com with SMTP id
- i83-20020a1c3b56000000b00389a203e5adso1101307wma.2
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:46:20 -0800 (PST)
+ h206-20020a1c21d7000000b003552c13626cso260640wmh.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=2BxKih/Yy0qiS5QUDi7wjAqw2GnHJ/nwONeXDCjAw2o=;
- b=czayQTvKk2xIkMY556kZu41TgNXMWs4JfSqmxs2Vv7rDue7Erzd+kr9KZqde69z/9Z
- Kk7RcYxda7zFO4s8JTfH5/za6Lake0+1hfdeZLqf5I7sexpOc769AKblu6dGQ8rgWTXv
- b3X7t8EgmUJVEnYJYBtsrsY4L3tR8BLJdKrpQTvLHfFW2FBkOk5a/tBKO6ExAErkvJrw
- coWy52GMdpVzUgXwya/mZVAllSpNxX3aE1BQh6Cb2NIzkwgVFhW6kgCGNcUp+xIQJYVW
- 1iFNk/Lm5tKuyKcZEDGYhN1Bh7aqXStgpBXPtKrrqHWlWT+TLrnTtLpfhjSh24S7tiFA
- 7nvw==
-X-Gm-Message-State: AOAM532lQYux9vs0nLtVt6dbE/LDizIb+pjA5SIcvMQGg4BP0daVWDli
- ci6+myXBac3GJ2gJxOtRhXYU+s3gP8a96YM0k5Xe/n1YiePQh1P4nLG6Acb1Au8Y1Xpb9ry7fwU
- SMGBRE4TVW/a1CYIfeU4EJWAd8z2+NCa49FbFfjDOLl9a523RZ6QAa9j3yhM1
-X-Received: by 2002:a5d:47c6:0:b0:1ef:f98f:900b with SMTP id
- o6-20020a5d47c6000000b001eff98f900bmr10086853wrc.314.1646693178721; 
- Mon, 07 Mar 2022 14:46:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzDxjDYW4pHxr1nL4UxkUWT36i9y4OvWUnD7pF5bG/+UnXVYyUzh5y8E+4/2fO6LoMvfZveWA==
-X-Received: by 2002:a5d:47c6:0:b0:1ef:f98f:900b with SMTP id
- o6-20020a5d47c6000000b001eff98f900bmr10086843wrc.314.1646693178443; 
- Mon, 07 Mar 2022 14:46:18 -0800 (PST)
+ bh=0lVkB02NxWofYSS4as/4ncAO6TZl7kf9saq/7ls1Nww=;
+ b=NJzZ+5714SZJqe6Td0nfFn301cubD6OuwOH81E25lDAsK0CuHJjHZFkaxGCjf/P7SG
+ r7qTSbyJckt8FKgz32y3IOLu9j4duOW8LRcjE2GFmyOuWjsxrpNbuot6hrB/uusPzHKt
+ Vhjz2ZH4gFsxiPK98IamrQnmREtwPdm/5RR2lWhy7wEMN2jtZ6SEt9QWsIPVihQLnHYM
+ K9r3G3oQHsfxzsW1hcGLXlDwOvu2YJWw9DXZ8sWZO8aKEt23R0SCFYbvWdW/7/py4pQ0
+ sBgthVstQYNaQ1sls+SpMkrxV5jpAD+q/KTrlXjvQILzVW+BngRsgKaRO12scxv0aYSP
+ 2xhw==
+X-Gm-Message-State: AOAM532RMZ1z+pEoMWw1WB5Q8+35Fm8Nr3U+NTmVc58ud7LDiV9njXuU
+ WQ0n9iwoqSh++FFshfjfCfcAmyITz5mf9XcfoYwrJ9Mf7Jne2NxTV2XQDd2Lb/1fJL8J2fmoOV0
+ QWwXJiM4UEId3G9j2P/VhaVTNA0zFBXbm8YpFS4z/yODFme6yhnkrCgFgKTiN
+X-Received: by 2002:a5d:4811:0:b0:1f1:d736:4862 with SMTP id
+ l17-20020a5d4811000000b001f1d7364862mr10068923wrq.147.1646693120591; 
+ Mon, 07 Mar 2022 14:45:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzGVwr+7njWHLisP5YQUPK4kGd+LIjm4h53XX0RaHJztJoLqENRby9Ni+uCYg6bghrGlBn7SQ==
+X-Received: by 2002:a5d:4811:0:b0:1f1:d736:4862 with SMTP id
+ l17-20020a5d4811000000b001f1d7364862mr10068901wrq.147.1646693120233; 
+ Mon, 07 Mar 2022 14:45:20 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- p26-20020a1c741a000000b00389ab9a53c8sm506183wmc.36.2022.03.07.14.46.17
+ p16-20020adff210000000b001f062b80091sm11229910wro.34.2022.03.07.14.45.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:46:18 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:46:16 -0500
+ Mon, 07 Mar 2022 14:45:19 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:45:17 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 33/47] pci: expose TYPE_XIO3130_DOWNSTREAM name
-Message-ID: <20220307224357.682101-34-mst@redhat.com>
+Subject: [PULL v4 15/47] intel_iommu: support snoop control
+Message-ID: <20220307224357.682101-16-mst@redhat.com>
 References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
@@ -75,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -97,68 +97,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
 
-Type name will be used in followup patch for cast check
-in pcihp code.
+SC is required for some kernel features like vhost-vDPA. So this patch
+implements basic SC feature. The idea is pretty simple, for software
+emulated DMA it would be always coherent. In this case we can simple
+advertise ECAP_SC bit. For VFIO and vhost, thing will be more much
+complicated, so this patch simply fail the IOMMU notifier
+registration.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220301151200.3507298-2-imammedo@redhat.com>
+In the future, we may want to have a dedicated notifiers flag or
+similar mechanism to demonstrate the coherency so VFIO could advertise
+that if it has VFIO_DMA_CC_IOMMU, for vhost kernel backend we don't
+need that since it's a software backend.
+
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20220214060346.72455-1-jasowang@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci-bridge/xio3130_downstream.h | 15 +++++++++++++++
- hw/pci-bridge/xio3130_downstream.c         |  3 ++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
- create mode 100644 include/hw/pci-bridge/xio3130_downstream.h
+ hw/i386/intel_iommu_internal.h |  1 +
+ include/hw/i386/intel_iommu.h  |  1 +
+ hw/i386/intel_iommu.c          | 14 +++++++++++++-
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/pci-bridge/xio3130_downstream.h b/include/hw/pci-bridge/xio3130_downstream.h
-new file mode 100644
-index 0000000000..1d10139aea
---- /dev/null
-+++ b/include/hw/pci-bridge/xio3130_downstream.h
-@@ -0,0 +1,15 @@
-+/*
-+ * TI X3130 pci express downstream port switch
-+ *
-+ * Copyright (C) 2022 Igor Mammedov <imammedo@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef HW_PCI_BRIDGE_XIO3130_DOWNSTREAM_H
-+#define HW_PCI_BRIDGE_XIO3130_DOWNSTREAM_H
-+
-+#define TYPE_XIO3130_DOWNSTREAM "xio3130-downstream"
-+
-+#endif
-+
-diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
-index 080a6613fe..05e2b06c0c 100644
---- a/hw/pci-bridge/xio3130_downstream.c
-+++ b/hw/pci-bridge/xio3130_downstream.c
-@@ -28,6 +28,7 @@
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
-+#include "hw/pci-bridge/xio3130_downstream.h"
+diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
+index a6c788049b..1ff13b40f9 100644
+--- a/hw/i386/intel_iommu_internal.h
++++ b/hw/i386/intel_iommu_internal.h
+@@ -188,6 +188,7 @@
+ #define VTD_ECAP_IR                 (1ULL << 3)
+ #define VTD_ECAP_EIM                (1ULL << 4)
+ #define VTD_ECAP_PT                 (1ULL << 6)
++#define VTD_ECAP_SC                 (1ULL << 7)
+ #define VTD_ECAP_MHMV               (15ULL << 20)
+ #define VTD_ECAP_SRS                (1ULL << 31)
+ #define VTD_ECAP_SMTS               (1ULL << 43)
+diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
+index 41783ee46d..3b5ac869db 100644
+--- a/include/hw/i386/intel_iommu.h
++++ b/include/hw/i386/intel_iommu.h
+@@ -228,6 +228,7 @@ struct IntelIOMMUState {
  
- #define PCI_DEVICE_ID_TI_XIO3130D       0x8233  /* downstream port */
- #define XIO3130_REVISION                0x1
-@@ -173,7 +174,7 @@ static void xio3130_downstream_class_init(ObjectClass *klass, void *data)
- }
+     bool caching_mode;              /* RO - is cap CM enabled? */
+     bool scalable_mode;             /* RO - is Scalable Mode supported? */
++    bool snoop_control;             /* RO - is SNP filed supported? */
  
- static const TypeInfo xio3130_downstream_info = {
--    .name          = "xio3130-downstream",
-+    .name          = TYPE_XIO3130_DOWNSTREAM,
-     .parent        = TYPE_PCIE_SLOT,
-     .class_init    = xio3130_downstream_class_init,
-     .interfaces = (InterfaceInfo[]) {
+     dma_addr_t root;                /* Current root table pointer */
+     bool root_scalable;             /* Type of root table (scalable or not) */
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 4c6c016388..32471a44cb 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3030,6 +3030,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+     VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
+     IntelIOMMUState *s = vtd_as->iommu_state;
+ 
++    /* TODO: add support for VFIO and vhost users */
++    if (s->snoop_control) {
++        error_setg_errno(errp, -ENOTSUP,
++                         "Snoop Control with vhost or VFIO is not supported");
++        return -ENOTSUP;
++    }
++
+     /* Update per-address-space notifier flags */
+     vtd_as->notifier_flags = new;
+ 
+@@ -3113,6 +3120,7 @@ static Property vtd_properties[] = {
+                       VTD_HOST_ADDRESS_WIDTH),
+     DEFINE_PROP_BOOL("caching-mode", IntelIOMMUState, caching_mode, FALSE),
+     DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
++    DEFINE_PROP_BOOL("snoop-control", IntelIOMMUState, snoop_control, false),
+     DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+@@ -3643,7 +3651,7 @@ static void vtd_init(IntelIOMMUState *s)
+     vtd_spte_rsvd_large[3] = VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits,
+                                                          x86_iommu->dt_supported);
+ 
+-    if (s->scalable_mode) {
++    if (s->scalable_mode || s->snoop_control) {
+         vtd_spte_rsvd[1] &= ~VTD_SPTE_SNP;
+         vtd_spte_rsvd_large[2] &= ~VTD_SPTE_SNP;
+         vtd_spte_rsvd_large[3] &= ~VTD_SPTE_SNP;
+@@ -3674,6 +3682,10 @@ static void vtd_init(IntelIOMMUState *s)
+         s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
+     }
+ 
++    if (s->snoop_control) {
++        s->ecap |= VTD_ECAP_SC;
++    }
++
+     vtd_reset_caches(s);
+ 
+     /* Define registers with default values and bit semantics */
 -- 
 MST
 
