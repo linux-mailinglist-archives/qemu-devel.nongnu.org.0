@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59324CFC7A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:16:26 +0100 (CET)
-Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FAE4CFC83
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:19:45 +0100 (CET)
+Received: from localhost ([::1]:52984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBLl-0004I7-Mk
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:16:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37238)
+	id 1nRBOx-0001lb-To
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:19:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRALm-0002tA-KD
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:22 -0500
-Received: from [2a00:1450:4864:20::42d] (port=42586
- helo=mail-wr1-x42d.google.com)
+ id 1nRALz-0003G7-Ri
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:36 -0500
+Received: from [2a00:1450:4864:20::42b] (port=44582
+ helo=mail-wr1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRALl-0004Ii-4S
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:22 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id u10so20725758wra.9
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:19 -0800 (PST)
+ id 1nRALy-0004KG-Ft
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:35 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id u1so22333320wrg.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DqaZ5Ub4osh9S6eeel3VjCBvvslN0dh7T/O90JZjAfc=;
- b=kFSzdr92zF2OUN0ZRJfIS0rqFvDPEjO2CzyCdxP6KyeOfepuG60RB/xJDDvmuxMjst
- r6KLU8uPw5ybTr8xYtZsOOHVymXr4LJSe1itImeEukEbhzFYnMOk2Pa9iAPAN00X5R/h
- qdxJWReUGw9kanbYMEHls5Qb0UApRrpLpPMuRhIsZogC06VcoVX40frmwvKCw1SLpeNf
- sdT5zp6Us0J4I2HMjlzfEp5keKbT2ArJX+Ftu2om9RlYWWhHtSTBBXjJUIcmDoKnzd0v
- 1YGzDzIZ/oBWJ1wdxXzgBgoK7JBCCvpZj0qaQO1JyLtuFVNy2ZX2texHzZh5AVGjCEFG
- D3Uw==
+ bh=KDE9Vz75Ls7oUn4Wdl9zyEDREjfA3a6GoIfStHrEoHA=;
+ b=BCzxjWnoRyYZCmlbcLnt2V7hyCrwlPDicDdR2mPrda/zUq+6/js9UgQGLJ5CzfsqOF
+ EdB3uzbZMPqRpg70Kuws0MJKotV5i9FbYzZFIobkbXNcwcorGhGT5GfcTF8A5Z0epnEu
+ WeVXt+F7sC0fIZyXdICncZarGv3EC9SzkHy67t3FQ+BAfb/A7vOj6ZlOdk50WIjFXBim
+ w9DJgREc4+Ov6ZCuel/LoBBoNWAz2rnPRZfNBVVjdlFhQr7DoTiLlLTM7TOmDs4kmxzL
+ IbHB4sdgEM/AZJu40jNeBhc/2a+9jjKZtmi6IZdlUXtHnZgv0YFSHXDFnTR7+OqveLot
+ DqzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DqaZ5Ub4osh9S6eeel3VjCBvvslN0dh7T/O90JZjAfc=;
- b=ukCGb3zdyzDM8fU3NLNuPMPGSf4M0gP1fXzvsxnaKVzBkmhxUwUM4zt5WYNDj2KjAi
- hlWUtbUre4NvCuhWMf0l8JOzX7Cww1Mnfmz3viDxwGozZ3NietjRU5LckG1Gzdt7Je7M
- fPFFxT0sxBzdO4cw5oaupiOgqa3gcqoGnE4NuiJX+jsyURw/cShbUHYxdcq7vS6Cw+5e
- KZafBv1dHkSMvsN7VV9f2ijWY8pR7mkm95IOb/ywdtAuG7KMCQvFs31g6ckoFKi/bPfZ
- +5eaCZ+fqbcIJEKVUoCPtYxdBqf5F6yWeN1p/pyjhEpFRdd3nBBUL1lWE7AQsKBi6Him
- IXxg==
-X-Gm-Message-State: AOAM5308zZ+9s4wnihCF6ovcdpB4aijAfTP/kjbp0Fd7QTpvTaeqJZLU
- Lizei8flKZKBVH3ZVcFuh61EtNJmNtc=
-X-Google-Smtp-Source: ABdhPJx93mYXBEwF24vXUkQWpaaY61okbPubdNO+QYuVLfT3Cdq7aQo9aij7B31Mbn/fU0ogdQINKw==
-X-Received: by 2002:adf:c40e:0:b0:1f1:d719:52d2 with SMTP id
- v14-20020adfc40e000000b001f1d71952d2mr7922389wrf.105.1646647938437; 
- Mon, 07 Mar 2022 02:12:18 -0800 (PST)
+ bh=KDE9Vz75Ls7oUn4Wdl9zyEDREjfA3a6GoIfStHrEoHA=;
+ b=jNWbVRsPnps5rQSTOk264syCu3uvQ8MBCm+GOdy0zuE6Tnp6dlzl7fIdT9PGWt/Am1
+ wEcqO60VafM6KTBFKrjofyo6zCCJDF2ErgStVLEadA9kIzt8ouwmAAnCHc7+0alghHQl
+ zXd4DGQibTwY/KT+9EgnOq9XJa0uvFRap81ECh3YWxk2OtLBqkocZr+tgzruarr+SmaG
+ XH9Qw1a7N7qnJIkYf+GD+oJKFtFJlg4sI5+pjeykx0AA4/JkSkznD3NhO+cEVGLdB+dp
+ 5dwl9W3v3fpouJ8yuezIvavoCI5Wu/p8XtYVYVk8pmGyEx7Da9kvJDJakg2vqwe0LcSj
+ zfkg==
+X-Gm-Message-State: AOAM533GrwicP72Yi8NNnqP+VXtUZYpQ/Pydcb7Hy5jIM2isb4pO3KDf
+ r/rtL1w6tM8AIqho4uqQlEFnQJlP/RY=
+X-Google-Smtp-Source: ABdhPJzJr6QkT1v6pZdzGOnHxQBWH/f9DnK3fWGCHRksg0qJ2sUPlUhKVm8gAlmSu84Oxv/TmKVGKw==
+X-Received: by 2002:a05:6000:18c3:b0:1e5:82d3:e4e2 with SMTP id
+ w3-20020a05600018c300b001e582d3e4e2mr7558451wrq.575.1646647953027; 
+ Mon, 07 Mar 2022 02:12:33 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- x2-20020adff0c2000000b001f1fa284a32sm1604906wro.115.2022.03.07.02.12.17
+ i5-20020a1c3b05000000b00382871cf734sm18454092wma.25.2022.03.07.02.12.32
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Mar 2022 02:12:17 -0800 (PST)
+ Mon, 07 Mar 2022 02:12:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/16] target/mips: Remove duplicated MIPSCPU::cp0_count_rate
-Date: Mon,  7 Mar 2022 11:11:53 +0100
-Message-Id: <20220307101207.90369-3-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 05/16] hw/isa/piix4: Resolve redundant i8259[] attribute
+Date: Mon,  7 Mar 2022 11:11:56 +0100
+Message-Id: <20220307101207.90369-6-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
 References: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,114 +91,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Bernhard Beschow <shentey@gmail.com>
 
-Since the previous commit 9ea89876f9d ("target/mips: Fix cycle
-counter timing calculations"), MIPSCPU::cp0_count_rate is not
-used anymore. We don't need it since it is already expressed
-as mips_def_t::CCRes. Remove the duplicate and clean.
+This is a follow-up on patch "malta: Move PCI interrupt handling from
+gt64xxx_pci to piix4" where i8259[] was moved from MaltaState to
+PIIX4State to make the code movement more obvious. However, i8259[]
+seems redundant to *isa, so remove it.
 
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20220217101924.15347-4-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <>20211213102340.1847248-1-f4bug@amsat.org>
 ---
- target/mips/cpu.c      | 10 ----------
- target/mips/cpu.h      |  9 ---------
- target/mips/internal.h |  9 +++++++++
- 3 files changed, 9 insertions(+), 19 deletions(-)
+ hw/isa/piix4.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 0766e25693..af287177d5 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -434,13 +434,11 @@ static void mips_cpu_disas_set_info(CPUState *s, disassemble_info *info)
-  * Since commit 6af0bf9c7c3 this model assumes a CPU clocked at 200MHz.
-  */
- #define CPU_FREQ_HZ_DEFAULT     200000000
--#define CP0_COUNT_RATE_DEFAULT  2
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index 196b56e69c..179968b18e 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -45,7 +45,6 @@ struct PIIX4State {
+     PCIDevice dev;
+     qemu_irq cpu_intr;
+     qemu_irq *isa;
+-    qemu_irq i8259[ISA_NUM_IRQS];
  
- static void mips_cp0_period_set(MIPSCPU *cpu)
- {
-     CPUMIPSState *env = &cpu->env;
+     RTCState rtc;
+     /* Reset Control Register */
+@@ -320,11 +319,7 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+                                NULL, 0, NULL);
+     }
  
--    /* env->CCRes isn't initialised this early, use env->cpu_model->CCRes. */
-     env->cp0_count_ns = clock_ticks_to_ns(MIPS_CPU(cpu)->clock,
-                                           env->cpu_model->CCRes);
-     assert(env->cp0_count_ns);
-@@ -515,13 +513,6 @@ static ObjectClass *mips_cpu_class_by_name(const char *cpu_model)
-     return oc;
- }
- 
--static Property mips_cpu_properties[] = {
--    /* CP0 timer running at half the clock of the CPU */
--    DEFINE_PROP_UINT32("cp0-count-rate", MIPSCPU, cp0_count_rate,
--                       CP0_COUNT_RATE_DEFAULT),
--    DEFINE_PROP_END_OF_LIST()
--};
+-    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s->i8259, 4);
 -
- #ifndef CONFIG_USER_ONLY
- #include "hw/core/sysemu-cpu-ops.h"
+-    for (int i = 0; i < ISA_NUM_IRQS; i++) {
+-        s->i8259[i] = qdev_get_gpio_in_named(dev, "isa", i);
+-    }
++    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s->isa, 4);
  
-@@ -561,7 +552,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_parent_realize(dc, mips_cpu_realizefn,
-                                     &mcc->parent_realize);
-     device_class_set_parent_reset(dc, mips_cpu_reset, &mcc->parent_reset);
--    device_class_set_props(dc, mips_cpu_properties);
- 
-     cc->class_by_name = mips_cpu_class_by_name;
-     cc->has_work = mips_cpu_has_work;
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 56b1cbd091..ea66b866c6 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -1168,7 +1168,6 @@ struct CPUMIPSState {
-  * @env: #CPUMIPSState
-  * @clock: this CPU input clock (may be connected
-  *         to an output clock from another device).
-- * @cp0_count_rate: rate at which the coprocessor 0 counter increments
-  *
-  * A MIPS CPU.
-  */
-@@ -1180,14 +1179,6 @@ struct MIPSCPU {
-     Clock *clock;
-     CPUNegativeOffsetState neg;
-     CPUMIPSState env;
--    /*
--     * The Count register acts as a timer, incrementing at a constant rate,
--     * whether or not an instruction is executed, retired, or any forward
--     * progress is made through the pipeline. The rate at which the counter
--     * increments is implementation dependent, and is a function of the
--     * pipeline clock of the processor, not the issue width of the processor.
--     */
--    unsigned cp0_count_rate;
- };
- 
- 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index daddb05fd4..1526fb880d 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -46,6 +46,15 @@ struct mips_def_t {
-     target_ulong CP0_LLAddr_rw_bitmask;
-     int CP0_LLAddr_shift;
-     int32_t SYNCI_Step;
-+    /*
-+     * @CCRes: rate at which the coprocessor 0 counter increments
-+     *
-+     * The Count register acts as a timer, incrementing at a constant rate,
-+     * whether or not an instruction is executed, retired, or any forward
-+     * progress is made through the pipeline. The rate at which the counter
-+     * increments is implementation dependent, and is a function of the
-+     * pipeline clock of the processor, not the issue width of the processor.
-+     */
-     int32_t CCRes;
-     int32_t CP0_Status_rw_bitmask;
-     int32_t CP0_TCStatus_rw_bitmask;
+     return dev;
+ }
 -- 
 2.34.1
 
