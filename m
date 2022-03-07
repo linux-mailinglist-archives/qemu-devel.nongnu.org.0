@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820874CFE16
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:21:57 +0100 (CET)
-Received: from localhost ([::1]:59688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFA24CFD59
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:48:52 +0100 (CET)
+Received: from localhost ([::1]:42528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCNA-0001V6-HE
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:21:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60110)
+	id 1nRBr9-0001Cf-Dn
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:48:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <b5989326f558faedd2511f29459112cced2ca8f5@lizzy.crudebyte.com>)
- id 1nRBtB-0005bL-J7
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:50:57 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:56571)
+ (envelope-from <35b6466459f9234b9cb30296f243a70b6f1b44b7@lizzy.crudebyte.com>)
+ id 1nRBnR-0004l0-Kw
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:45:01 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:53379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <b5989326f558faedd2511f29459112cced2ca8f5@lizzy.crudebyte.com>)
- id 1nRBt6-00039N-Gm
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:50:53 -0500
+ (envelope-from <35b6466459f9234b9cb30296f243a70b6f1b44b7@lizzy.crudebyte.com>)
+ id 1nRBnP-00029D-Vq
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:45:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=yCG8mfUuZb4ASX+9n9SbWhBnUD8nd9nbfeLYRBwUpm4=; b=Tvc//
- xwWBQf9iC5eXcTYiTyIlWVXpuE8POh9ruRgj5RNMNkq5GFvD+oSartctghNvzXnyCILhRG+YZ7UKa
- LjbFMr+IKaHo6ZVxDMBqpwEd93ZxUZYhq1l5q5wwEWWjLl+uqE6TXctK9ZYvXtNtqFBJRt7qPuAor
- ujDeBLeTRg/qh23MFzx3QjSVsf7muy+Dd6+4Dlgcdg0w2h0wYcDYfTaT/22zivHmAXktmwNcbC4jm
- U3MEAaFajLtORlN3nJhiEQaW/r5qT+mRnVE8J5GeJqqOskv2Rqg+/Lu/xebsJdxe7XolDxEjLofnm
- 5um57UJwtNJEdVn+7VHCWnRdai1DA==;
-Message-Id: <b5989326f558faedd2511f29459112cced2ca8f5.1646651700.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=b0kJJvQRJXiKQl93Iwsx0o6lTjxaRMH0jAe0PwTHfuQ=; b=AVzvI
+ KRecvIX0WRvwvVNOHw4cXrYMih3tPbhIJDK50KmMFfgV9dGxQl7Hhghd2Dvm2qCTauTehX5ebjDJQ
+ gvo8zx3psS3jtnLDVuZgxXSDjyd9VN/3bxf90gTUJa3cuuA4YRv6B2CzKKdQnK05E4bksxzeCPD/1
+ ly+8iQuGwW6p39EB/DFZc/Bpouf5rRpBh10W8hhKTa06ZjGkUkdH4gylKbMdFcWjtsSYif6IX5tII
+ HRCtPMiZrt99moq7pC0v+ErygLhTeTF4M1hGVkKKeFDGUTIrKkEVselH0MA0CB5hXe8kG7KPNEP0D
+ yuNj1+5TDgHKLTSDHiPp3+p02ppxQ==;
+Message-Id: <35b6466459f9234b9cb30296f243a70b6f1b44b7.1646651700.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646651700.git.qemu_oss@crudebyte.com>
 References: <cover.1646651700.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 07 Mar 2022 12:15:00 +0100
-Subject: [PULL v2 08/19] 9p: darwin: Compatibility for f/l*xattr
+Subject: [PULL v2 19/19] fsdev/p9array.h: convert Doxygen -> kerneldoc format
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
@@ -44,7 +44,7 @@ Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
  Fabian Franz <fabianfranz.oss@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=b5989326f558faedd2511f29459112cced2ca8f5@lizzy.crudebyte.com;
+ envelope-from=35b6466459f9234b9cb30296f243a70b6f1b44b7@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -67,81 +67,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Keno Fischer <keno@juliacomputing.com>
+API doc comments in QEMU are supposed to be in kerneldoc format, so
+convert API doc comments from Doxygen format to kerneldoc format.
 
-On darwin `fgetxattr` takes two extra optional arguments,
-and the l* variants are not defined (in favor of an extra
-flag to the regular variants.
-
-Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-[Michael Roitzsch: - Rebase for NixOS]
-Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Message-Id: <20220227223522.91937-9-wwcohen@gmail.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <2e2d46a402560f155de322d95789ba107d728885.1646314856.git.qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p-local.c | 12 ++++++++----
- hw/9pfs/9p-util.h  | 17 +++++++++++++++++
- 2 files changed, 25 insertions(+), 4 deletions(-)
+ fsdev/p9array.h | 38 +++++++++++++++++++++-----------------
+ 1 file changed, 21 insertions(+), 17 deletions(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index f3272f0b43..a0d08e5216 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -790,16 +790,20 @@ static int local_fstat(FsContext *fs_ctx, int fid_type,
-         mode_t tmp_mode;
-         dev_t tmp_dev;
+diff --git a/fsdev/p9array.h b/fsdev/p9array.h
+index 6aa25327ca..90e83a7c7b 100644
+--- a/fsdev/p9array.h
++++ b/fsdev/p9array.h
+@@ -81,11 +81,11 @@
+  */
  
--        if (fgetxattr(fd, "user.virtfs.uid", &tmp_uid, sizeof(uid_t)) > 0) {
-+        if (qemu_fgetxattr(fd, "user.virtfs.uid",
-+                           &tmp_uid, sizeof(uid_t)) > 0) {
-             stbuf->st_uid = le32_to_cpu(tmp_uid);
-         }
--        if (fgetxattr(fd, "user.virtfs.gid", &tmp_gid, sizeof(gid_t)) > 0) {
-+        if (qemu_fgetxattr(fd, "user.virtfs.gid",
-+                           &tmp_gid, sizeof(gid_t)) > 0) {
-             stbuf->st_gid = le32_to_cpu(tmp_gid);
-         }
--        if (fgetxattr(fd, "user.virtfs.mode", &tmp_mode, sizeof(mode_t)) > 0) {
-+        if (qemu_fgetxattr(fd, "user.virtfs.mode",
-+                           &tmp_mode, sizeof(mode_t)) > 0) {
-             stbuf->st_mode = le32_to_cpu(tmp_mode);
-         }
--        if (fgetxattr(fd, "user.virtfs.rdev", &tmp_dev, sizeof(dev_t)) > 0) {
-+        if (qemu_fgetxattr(fd, "user.virtfs.rdev",
-+                           &tmp_dev, sizeof(dev_t)) > 0) {
-             stbuf->st_rdev = le64_to_cpu(tmp_dev);
-         }
-     } else if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index a48da32f04..be8dc1a43a 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -19,6 +19,23 @@
- #define O_PATH_9P_UTIL 0
- #endif
+ /**
+- * Declares an array type for the passed @a scalar_type.
++ * P9ARRAY_DECLARE_TYPE() - Declares an array type for the passed @scalar_type.
+  *
+- * This is typically used from a shared header file.
++ * @scalar_type: type of the individual array elements
+  *
+- * @param scalar_type - type of the individual array elements
++ * This is typically used from a shared header file.
+  */
+ #define P9ARRAY_DECLARE_TYPE(scalar_type) \
+     typedef struct P9Array##scalar_type { \
+@@ -97,14 +97,14 @@
+     void p9array_auto_free_##scalar_type(scalar_type **auto_var); \
  
-+#ifdef CONFIG_DARWIN
-+#define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
-+#define qemu_lgetxattr(...) getxattr(__VA_ARGS__, 0, XATTR_NOFOLLOW)
-+#define qemu_llistxattr(...) listxattr(__VA_ARGS__, XATTR_NOFOLLOW)
-+#define qemu_lremovexattr(...) removexattr(__VA_ARGS__, XATTR_NOFOLLOW)
-+static inline int qemu_lsetxattr(const char *path, const char *name,
-+                                 const void *value, size_t size, int flags) {
-+    return setxattr(path, name, value, size, 0, flags | XATTR_NOFOLLOW);
-+}
-+#else
-+#define qemu_fgetxattr fgetxattr
-+#define qemu_lgetxattr lgetxattr
-+#define qemu_llistxattr llistxattr
-+#define qemu_lremovexattr lremovexattr
-+#define qemu_lsetxattr lsetxattr
-+#endif
-+
- static inline void close_preserve_errno(int fd)
- {
-     int serrno = errno;
+ /**
+- * Defines an array type for the passed @a scalar_type and appropriate
+- * @a scalar_cleanup_func.
++ * P9ARRAY_DEFINE_TYPE() - Defines an array type for the passed @scalar_type
++ * and appropriate @scalar_cleanup_func.
+  *
+- * This is typically used from a C unit file.
++ * @scalar_type: type of the individual array elements
++ * @scalar_cleanup_func: appropriate function to free memory dynamically
++ *                       allocated by individual array elements before
+  *
+- * @param scalar_type - type of the individual array elements
+- * @param scalar_cleanup_func - appropriate function to free memory dynamically
+- *                              allocated by individual array elements before
++ * This is typically used from a C unit file.
+  */
+ #define P9ARRAY_DEFINE_TYPE(scalar_type, scalar_cleanup_func) \
+     void p9array_new_##scalar_type(scalar_type **auto_var, size_t len) \
+@@ -132,23 +132,27 @@
+     } \
+ 
+ /**
++ * P9ARRAY_REF() - Declare a reference variable for an array.
++ *
++ * @scalar_type: type of the individual array elements
++ *
+  * Used to declare a reference variable (unique pointer) for an array. After
+  * leaving the scope of the reference variable, the associated array is
+  * automatically freed.
+- *
+- * @param scalar_type - type of the individual array elements
+  */
+ #define P9ARRAY_REF(scalar_type) \
+     __attribute((__cleanup__(p9array_auto_free_##scalar_type))) scalar_type*
+ 
+ /**
+- * Allocates a new array of passed @a scalar_type with @a len number of array
+- * elements and assigns the created array to the reference variable
+- * @a auto_var.
++ * P9ARRAY_NEW() - Allocate a new array.
+  *
+- * @param scalar_type - type of the individual array elements
+- * @param auto_var - destination reference variable
+- * @param len - amount of array elements to be allocated immediately
++ * @scalar_type: type of the individual array elements
++ * @auto_var: destination reference variable
++ * @len: amount of array elements to be allocated immediately
++ *
++ * Allocates a new array of passed @scalar_type with @len number of array
++ * elements and assigns the created array to the reference variable
++ * @auto_var.
+  */
+ #define P9ARRAY_NEW(scalar_type, auto_var, len) \
+     QEMU_BUILD_BUG_MSG( \
 -- 
 2.20.1
 
