@@ -2,90 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493EB4CFC38
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:05:33 +0100 (CET)
-Received: from localhost ([::1]:43228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A584CFC43
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:07:49 +0100 (CET)
+Received: from localhost ([::1]:51778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBBE-0001Ha-DH
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:05:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35600)
+	id 1nRBDQ-00073R-Cf
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:07:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRADT-00031D-Mh
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25058)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nRAFZ-0007Qd-4x
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:05:57 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:41444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRADS-0002yz-01
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647425;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fzFjMVjkMR0anaC3SFegEYUQ/LQ+fdsLfF/TQ60MTl8=;
- b=Lbg2QWA+VGT3F/RQwuCGBKmcOr9iyxOTKXgDZ7h1fwZt8P3gVH4mWsnrbg7OxvThdgdbzp
- cqbtT0ZIDnMMlrukPi8dwL0SfQ5l8Lk1ssA9YOwDGJsfLHwitS/Rac4qAjp7Ofo9zAMp3n
- xC00W/Qj4LEHPIg0PlVaGT5qA0UkS5U=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nRAFX-0003NH-7p
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:05:56 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-538-g6F-PLDIN-qHT7o3vw7gqA-1; Mon, 07 Mar 2022 05:03:37 -0500
-X-MC-Unique: g6F-PLDIN-qHT7o3vw7gqA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- go11-20020a1709070d8b00b006cf0d933739so6748045ejc.5
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:03:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fzFjMVjkMR0anaC3SFegEYUQ/LQ+fdsLfF/TQ60MTl8=;
- b=Uh1+YIp/IOjBUfY06zlYYPxAkRyxispxW7YknxOQJjmxPDtcxbs+AHeSyPdJgWIaOs
- Sj5VXgnb+fEUTW6oWvoxkrLBjfJfui4BpVqeYOncT7kBI7NgkW5fVaNtxXoyxlipzwaQ
- fkAUpjqhC1BKdXEAl3tTZ0qBWGsO0sMoaXdLeYQXxMaAhmKSeH/yMKA9Uk+hOtuf+cZr
- JRrGqU/t77l6L5+9Nyw8v2OlNZHZrXwr+nfx2+VCvV8n9w7TpGomTcfx9Z54Evaahbh5
- BgZeS6na92BJctH+epQ/eA8IoIyWvos2MnA4lEeO61dVKHXMZCGuckcpHGiakbotEX7Y
- d/TQ==
-X-Gm-Message-State: AOAM533iml80gzCzUxWXhZqtS19MGkIVn2sCkKMm/IZ1BIBa188Oy5N6
- NQN9og7LV0PA6MnraeuFJSwjx8wxs4NZE9hWl59H+oMkTOBeYM0vJG1hM+YXT/2t3irLR7eRpbr
- BVyaSwT+2nbS62H3NNz95E3L150RTzxBAOyFH5AuifW1caxnKLxbYfor6//gn
-X-Received: by 2002:a17:906:bc9b:b0:6da:9f90:a56a with SMTP id
- lv27-20020a170906bc9b00b006da9f90a56amr8633697ejb.575.1646647415920; 
- Mon, 07 Mar 2022 02:03:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzj/jLuoLpuCFTAWQ3+haD4Mq0g9r1i0iv42q4D11OctjxAJqwyi2NVJ82CRvw37Y1mNukFeA==
-X-Received: by 2002:a17:906:bc9b:b0:6da:9f90:a56a with SMTP id
- lv27-20020a170906bc9b00b006da9f90a56amr8633670ejb.575.1646647415536; 
- Mon, 07 Mar 2022 02:03:35 -0800 (PST)
-Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- z10-20020aa7cf8a000000b004160af67840sm4171791edx.66.2022.03.07.02.03.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 02:03:35 -0800 (PST)
-Date: Mon, 7 Mar 2022 05:03:32 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 45/47] hw/acpi: add indication for i8042 in IA-PC boot
- flags of the FADT table
-Message-ID: <20220307100058.449628-46-mst@redhat.com>
-References: <20220307100058.449628-1-mst@redhat.com>
+ us-mta-538-q_9eHK1sO8WTRvz_AOHJzg-1; Mon, 07 Mar 2022 05:05:42 -0500
+X-MC-Unique: q_9eHK1sO8WTRvz_AOHJzg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 258E01006AA6;
+ Mon,  7 Mar 2022 10:05:41 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E61580920;
+ Mon,  7 Mar 2022 10:05:39 +0000 (UTC)
+Date: Mon, 7 Mar 2022 11:05:38 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Will Cohen <wwcohen@gmail.com>
+Subject: Re: [PULL 00/19] 9p queue 2022-03-04
+Message-ID: <20220307110538.1ac88f8e@bahia>
+In-Reply-To: <CAB26zV0PP1Pv0wHBk+qp4C+v-Ykh22VnU5Ridw6WD8rZft7o_Q@mail.gmail.com>
+References: <cover.1646396869.git.qemu_oss@crudebyte.com>
+ <CAFEAcA8EN8sSSYYMh=u68-a7qXGaG-oSnAz2hT8kXXGtnDLnww@mail.gmail.com>
+ <11201492.CjeqJxXfGd@silver>
+ <CAB26zV0PP1Pv0wHBk+qp4C+v-Ykh22VnU5Ridw6WD8rZft7o_Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220307100058.449628-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,120 +69,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Liav Albani <liavalb@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Keno Fischer <keno@juliacomputing.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liav Albani <liavalb@gmail.com>
+On Fri, 4 Mar 2022 16:31:07 -0500
+Will Cohen <wwcohen@gmail.com> wrote:
 
-This can allow the guest OS to determine more easily if i8042 controller
-is present in the system or not, so it doesn't need to do probing of the
-controller, but just initialize it immediately, before enumerating the
-ACPI AML namespace.
+> On Fri, Mar 4, 2022 at 3:16 PM Christian Schoenebeck <qemu_oss@crudebyte.=
+com>
+> wrote:
+>=20
+> > On Freitag, 4. M=C3=A4rz 2022 19:42:18 CET Peter Maydell wrote:
+> > > On Fri, 4 Mar 2022 at 12:32, Christian Schoenebeck
+> > >
+> > > <qemu_oss@crudebyte.com> wrote:
+> > > > The following changes since commit
+> > 5959ef7d431ffd02db112209cf55e47b677256fd:
+> > > >   Merge remote-tracking branch
+> > > >   'remotes/alistair/tags/pull-riscv-to-apply-20220303' into staging
+> > > >   (2022-03-03 19:59:38 +0000)>
+> > > > are available in the Git repository at:
+> > > >   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220304
+> > > >
+> > > > for you to fetch changes up to
+> > 39edfe337c418995b2932a9a14a612fb0c329dc5:
+> > > >   fsdev/p9array.h: convert Doxygen -> kerneldoc format (2022-03-04
+> > > >   13:07:39 +0100)>
+> > > > ----------------------------------------------------------------
+> > > > 9pfs: introduce macOS host support and cleanup
+> > > >
+> > > > * Add support for Darwin (a.k.a. macOS) hosts.
+> > > >
+> > > > * Code cleanup (move qemu_dirent_dup() from osdep -> 9p-util).
+> > > >
+> > > > * API doc cleanup (convert Doxygen -> kerneldoc format).
+> > >
+> > > This fails to build on my OSX box:
+> > >
+> > > In file included from ../../hw/9pfs/9p-util-darwin.c:12:
+> > > ../../hw/9pfs/9p-util.h:57:1: error: unused label 'again'
+> > > [-Werror,-Wunused-label]
+> > > again:
+> > > ^~~~~~
+> > >
+> > > because the use of the label is inside a #ifndef CONFIG_DARWIN
+> > > but the definition is not.
+> > >
+> > > thanks
+> > > -- PMM
+> >
+> > So basically it needs this change:
+> >
+> > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> > index cfa7af43c5..97e681e167 100644
+> > --- a/hw/9pfs/9p-util.h
+> > +++ b/hw/9pfs/9p-util.h
+> > @@ -54,7 +54,9 @@ static inline int openat_file(int dirfd, const char
+> > *name,
+> > int flags,
+> >  {
+> >      int fd, serrno, ret;
+> >
+> > +#ifndef CONFIG_DARWIN
+> >  again:
+> > +#endif
+> >      fd =3D openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBL=
+OCK,
+> >                  mode);
+> >      if (fd =3D=3D -1) {
+> >
+> > Will, can you check why this did not fail there and whether there are
+> > probably
+> > more issues?
+> >
+> > If that's the only one, let me know, then I would fix this on my end an=
+d
+> > resend a PR ASAP. Thanks!
+>=20
+>=20
+> These were just warnings for me so I didn=E2=80=99t worry about them. Wil=
+l check
+> where else it appears when building!
+>=20
 
-The 8042 bit in IAPC_BOOT_ARCH was introduced from ACPI spec v2 (FADT
-revision 2 and above). Therefore, in this change, we only enable this bit for
-x86/q35 machine types since x86/i440fx machines use FADT ACPI table with
-revision 1.
+Compiler warnings are frowned upon in the QEMU community since they
+likely point to something that isn't right in your code. As you
+might see, Peter's build has -Werror set and so have the builds
+in the gitlab CI. Please consider passing --enable-werror to
+configure, at least when you're about to post to the list.
 
-Signed-off-by: Liav Albani <liavalb@gmail.com>
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20220304154032.2071585-3-ani@anisinha.ca>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- include/hw/acpi/acpi-defs.h |  1 +
- include/hw/input/i8042.h    | 15 +++++++++++++++
- hw/acpi/aml-build.c         |  8 +++++++-
- hw/i386/acpi-build.c        |  8 ++++++++
- 4 files changed, 31 insertions(+), 1 deletion(-)
-
-diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index c97e8633ad..2b42e4192b 100644
---- a/include/hw/acpi/acpi-defs.h
-+++ b/include/hw/acpi/acpi-defs.h
-@@ -77,6 +77,7 @@ typedef struct AcpiFadtData {
-     uint16_t plvl2_lat;        /* P_LVL2_LAT */
-     uint16_t plvl3_lat;        /* P_LVL3_LAT */
-     uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
-+    uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
-     uint8_t minor_ver;         /* FADT Minor Version */
- 
-     /*
-diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
-index 1d90432dae..e070f546e4 100644
---- a/include/hw/input/i8042.h
-+++ b/include/hw/input/i8042.h
-@@ -23,4 +23,19 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
- void i8042_isa_mouse_fake_event(ISAKBDState *isa);
- void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out);
- 
-+static inline bool i8042_present(void)
-+{
-+    bool amb = false;
-+    return object_resolve_path_type("", TYPE_I8042, &amb) || amb;
-+}
-+
-+/*
-+ * ACPI v2, Table 5-10 - Fixed ACPI Description Table Boot Architecture
-+ * Flags, bit offset 1 - 8042.
-+ */
-+static inline uint16_t iapc_boot_arch_8042(void)
-+{
-+    return i8042_present() ? 0x1 << 1 : 0x0 ;
-+}
-+
- #endif /* HW_INPUT_I8042_H */
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 8966e16320..1773cf55f1 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -2152,7 +2152,13 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-     build_append_int_noprefix(tbl, 0, 1); /* DAY_ALRM */
-     build_append_int_noprefix(tbl, 0, 1); /* MON_ALRM */
-     build_append_int_noprefix(tbl, f->rtc_century, 1); /* CENTURY */
--    build_append_int_noprefix(tbl, 0, 2); /* IAPC_BOOT_ARCH */
-+    /* IAPC_BOOT_ARCH */
-+    if (f->rev == 1) {
-+        build_append_int_noprefix(tbl, 0, 2);
-+    } else {
-+        /* since ACPI v2.0 */
-+        build_append_int_noprefix(tbl, f->iapc_boot_arch, 2);
-+    }
-     build_append_int_noprefix(tbl, 0, 1); /* Reserved */
-     build_append_int_noprefix(tbl, f->flags, 4); /* Flags */
- 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index ebd47aa26f..4ad4d7286c 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -38,6 +38,7 @@
- #include "hw/nvram/fw_cfg.h"
- #include "hw/acpi/bios-linker-loader.h"
- #include "hw/isa/isa.h"
-+#include "hw/input/i8042.h"
- #include "hw/block/fdc.h"
- #include "hw/acpi/memory_hotplug.h"
- #include "sysemu/tpm.h"
-@@ -192,6 +193,13 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
-             .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
-         },
-     };
-+
-+    /*
-+     * ACPI v2, Table 5-10 - Fixed ACPI Description Table Boot Architecture
-+     * Flags, bit offset 1 - 8042.
-+     */
-+    fadt.iapc_boot_arch = iapc_boot_arch_8042();
-+
-     *data = fadt;
- }
- 
--- 
-MST
+>=20
+> >
+> > Best regards,
+> > Christian Schoenebeck
+> >
+> >
+> >
 
 
