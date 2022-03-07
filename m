@@ -2,70 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72C04CF6A1
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 10:42:03 +0100 (CET)
-Received: from localhost ([::1]:38600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4C54CF6ED
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 10:43:37 +0100 (CET)
+Received: from localhost ([::1]:40768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR9sO-0000J1-UN
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 04:42:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59054)
+	id 1nR9tw-0001mv-8D
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 04:43:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nR9q3-0007OJ-2v
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 04:39:35 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2385)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nR9qa-0007Sy-0t
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 04:40:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nR9pr-0007XR-Ud
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 04:39:34 -0500
-Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KBtfs2RYZz67cHq;
- Mon,  7 Mar 2022 17:37:57 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Mar 2022 10:39:20 +0100
-Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 7 Mar
- 2022 09:39:19 +0000
-Date: Mon, 7 Mar 2022 09:39:18 +0000
-To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Peter Maydell <peter.maydell@linaro.org>, Ben Widawsky
- <ben.widawsky@intel.com>, <qemu-devel@nongnu.org>, Samarth Saxena
- <samarths@cadence.com>, Chris Browy <cbrowy@avery-design.com>,
- <linuxarm@huawei.com>, <linux-cxl@vger.kernel.org>, Markus Armbruster
- <armbru@redhat.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, "Saransh
- Gupta1" <saransh@ibm.com>, Shameerali Kolothum Thodi
- <shameerali.kolothum.thodi@huawei.com>, Marcel Apfelbaum <marcel@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>, 
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Philippe
- =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, David Hildenbrand
- <david@redhat.com>
-Subject: Re: [PATCH v7 00/46] CXl 2.0 emulation Support
-Message-ID: <20220307093918.00002f20@Huawei.com>
-In-Reply-To: <20220306163119-mutt-send-email-mst@kernel.org>
-References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
- <20220306163119-mutt-send-email-mst@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nR9qT-0007Zy-Ls
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 04:40:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646646000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y+zHzclCF+KBdFtlbiqIco229vrhyO4TQmz2ouHkG1A=;
+ b=KBL0LYfA1Ndx5wQmAVmt/9C/2Yj/8dKkv+Hp+S8xPHNG5KuItHb/eCQ+QOtJkTxnmiBQ7e
+ d1iOo5Hxf/ZIETi8WgRxxoQVHEEQWsMK0A6QccWj2pah0dJK/nTVHQKJUZ3Z39MGPSfFyD
+ 2WKi/TENMtQBTUtif2QM7BFj+tdAkXQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-501-cLvloQo9MueWL8zvCK5WEA-1; Mon, 07 Mar 2022 04:39:57 -0500
+X-MC-Unique: cLvloQo9MueWL8zvCK5WEA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w17-20020adfec51000000b001f068bc3342so2096330wrn.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 01:39:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=y+zHzclCF+KBdFtlbiqIco229vrhyO4TQmz2ouHkG1A=;
+ b=E+O1KOo3cljNzWjeLrTN3rFo7/x170OGLlhwiZ0s3RsrDX5nRs13awyYLSfxiFEExl
+ FxWYCa16Q80Q4n7Rg+qy1gzjVMEXogIS/DiB5VNOQwMlcgCaNM/jDx1lNZvdqLkJT0b5
+ W/o6vs0rtz0Tuo0y8iOqvAqx4/lY0F0t17IIBR5i9HYEzAI3bruZPdEWqcFWw34dwusR
+ MxJunO1X8cYACECBzAhfi2AgDDJeJ+95AfJWk4paNiE53/rr8Av9j4Tx99qib2W+Exh2
+ nzX7YeC/1At2aX05j/IMkQscQDjlF3vrr64HZDTPvNhLF+vZ+Z3BK3AQrXiON68pruvd
+ Iaww==
+X-Gm-Message-State: AOAM531HDAffx+vZnpQBK+1TMOq/hFsqI8rXLJXgHLypYBVLA/LpXIhy
+ tUJpUKG0GnmCF4kbiTTpmev/3MBXxfZNSOcNxSvOs7UVaRg0cey5MpbeL8iG2OWAM7ynNJYyLZH
+ juQHHaw1RlFPgqgc=
+X-Received: by 2002:a5d:4f06:0:b0:1f0:2346:36d9 with SMTP id
+ c6-20020a5d4f06000000b001f0234636d9mr7284500wru.144.1646645996474; 
+ Mon, 07 Mar 2022 01:39:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxdWpAGLHK/5fP86BoIoYjLNL7sdwsPbRxxYRa+1Ghc7dEKTUHcP/nBFh+CeoqgrHoc8P6MHg==
+X-Received: by 2002:a5d:4f06:0:b0:1f0:2346:36d9 with SMTP id
+ c6-20020a5d4f06000000b001f0234636d9mr7284466wru.144.1646645996257; 
+ Mon, 07 Mar 2022 01:39:56 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ p18-20020adfba92000000b001e4ae791663sm11329312wrg.62.2022.03.07.01.39.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Mar 2022 01:39:55 -0800 (PST)
+Message-ID: <17257e9d-1a2b-2c8d-954d-090d262ce079@redhat.com>
+Date: Mon, 7 Mar 2022 10:39:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.202.226.41]
-X-ClientProxiedBy: lhreml729-chm.china.huawei.com (10.201.108.80) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 3/4] configure, meson: allow enabling vhost-user on all
+ POSIX systems
+To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
+References: <20220304100854.14829-1-slp@redhat.com>
+ <20220304100854.14829-4-slp@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220304100854.14829-4-slp@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,325 +103,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, vgoyal@redhat.com,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Sun, 6 Mar 2022 16:33:40 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 04/03/2022 11.08, Sergio Lopez wrote:
+> With the possibility of using a pipe pair via qemu_pipe() as a
+> replacement on operating systems that doesn't support eventfd,
+> vhost-user can also work on all POSIX systems.
+> 
+> This change allows enabling vhost-user on all non-Windows platforms
+> and makes libvhost_user (which still depends on eventfd) a linux-only
+> feature.
+> 
+> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   configure   | 4 ++--
+>   meson.build | 2 +-
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index c56ed53ee3..daccf4be7c 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1659,8 +1659,8 @@ fi
+>   # vhost interdependencies and host support
+>   
+>   # vhost backends
+> -if test "$vhost_user" = "yes" && test "$linux" != "yes"; then
+> -  error_exit "vhost-user is only available on Linux"
+> +if test "$vhost_user" = "yes" && test "$mingw32" = "yes"; then
+> +  error_exit "vhost-user is not available on Windows"
+>   fi
+>   test "$vhost_vdpa" = "" && vhost_vdpa=$linux
+>   if test "$vhost_vdpa" = "yes" && test "$linux" != "yes"; then
+> diff --git a/meson.build b/meson.build
+> index 8df40bfac4..f2bc439c30 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2701,7 +2701,7 @@ if have_system or have_user
+>   endif
+>   
+>   vhost_user = not_found
+> -if 'CONFIG_VHOST_USER' in config_host
+> +if targetos == 'linux' and 'CONFIG_VHOST_USER' in config_host
+>     libvhost_user = subproject('libvhost-user')
+>     vhost_user = libvhost_user.get_variable('vhost_user_dep')
+>   endif
 
-> On Sun, Mar 06, 2022 at 05:40:51PM +0000, Jonathan Cameron wrote:
-> > Ideally I'd love it if we could start picking up the earlier
-> > sections of this series as I think those have been reasonably
-> > well reviewed and should not be particularly controversial.
-> > (perhaps up to patch 15 inline with what Michael Tsirkin suggested
-> > on v5). =20
->=20
-> Well true but given we are entering freeze this will leave
-> us with a half baked devices which cant be used.
-> At this point if we can't merge it up to documentation then
-> I think we should wait until after the release.
-
-Makes sense.
-
-If any of the memory maintainers can take a look at patch 34 that would
-be great as to my mind that and the related interleave decoding in general =
-is
-the big unknown in this set. I just realized I haven't cc'd everyone
-I should have for that - added them here and I'll make sure to CC them
-all on V8.
-
-Thanks.
-
-Jonathan
-
->=20
-> > There is one core memory handling related patch (34) marked as RFC.
-> > Whilst it's impact seems small to me, I'm not sure it is the best way
-> > to meet our requirements wrt interleaving.
-> >=20
-> > Changes since v7:
-> >=20
-> > Thanks to all who have taken a look.
-> > Small amount of reordering was necessary due to LSA fix in patch 17.
-> > Test moved forwards to patch 22 and so all intermediate patches
-> > move -1 in the series.
-> >=20
-> > (New stuff)
-> > - Switch support.  Needed to support more interesting topologies.
-> > (Ben Widawsky)
-> > - Patch 17: Fix reversed condition on presence of LSA that meant these =
-never
-> >   got properly initialized. Related change needed to ensure test for cx=
-l_type3
-> >   always needs an LSA. We can relax this later when adding volatile mem=
-ory
-> >   support.
-> > (Markus Armbuster)
-> > - Patch 27: Change -cxl-fixed-memory-window option handling to use
-> >   qobject_input_visitor_new_str().  This changed the required handling =
-of
-> >   targets parameter to require an array index and hence test and docs u=
-pdates.
-> >   e.g. targets.1=3Dcxl_hb0,targets.2=3Dcxl_hb1
-> >   (Patches 38,40,42,43)
-> > - Missing structure element docs and version number (optimisitic :)
-> > (Alex Benn=E9e)
-> > - Added Reviewed-by tags.  Thanks!.
-> > - Series wise: Switch to compiler.h QEMU_BUILD_BUG_ON/MSG QEMU_PACKED
-> >   and QEMU_ALIGNED as Alex suggested in patch 20.
-> > - Patch 6: Dropped documentation for a non-existent lock.
-> >            Added error code suitable for unimplemented commands.
-> > 	   Reordered code for better readability.
-> > - Patch 9: Reorder as suggested to avoid a goto.
-> > - Patch 16: Add LOG_UNIMP message where feature not yet implemented.
-> >             Drop "Explain" comment that doesn't explain anything.
-> > - Patch 18: Drop pointless void * cast.
-> >             Add assertion as suggested (without divide)
-> > - Patch 19: Use pstrcpy rather than snprintf for a fixed string.
-> >             The compiler.h comment was in this patch but affects a
-> > 	    number of other patches as well.
-> > - Patch 20: Move structure CXLType3Dev to header when originally
-> >             introduced so changes are more obvious in this patch.
-> > - Patch 21: Substantial refactor to resolve unclear use of sizeof
-> >             on the LSA command header. Now uses a variable length
-> > 	    last element so we can use offsetof()
-> > - Patch 22: Use g_autoptr() to avoid need for explicit free in tests
-> >   	    Similar in later patches.
-> > - Patch 29: Minor reorganziation as suggested.
-> > 	   =20
-> > (Tidy up from me)
-> > - Trivial stuff like moving header includes to patch where first used.
-> > - Patch 17: Drop ifndef protections from TYPE_CXL_TYPE3_DEV as there
-> >             doesn't seem to be a reason.
-> >=20
-> > Series organized to allow it to be taken in stages if the maintainers
-> > prefer that approach. Most sets end with the addition of appropriate
-> > tests (TBD for final set)
-> >=20
-> > Patches 0-15 - CXL PXB
-> > Patches 16-22 - Type 3 Device, Root Port
-> > Patches 23-40 - ACPI, board elements and interleave decoding to enable =
-x86 hosts
-> > Patches 41-42 - arm64 support on virt.
-> > Patch 43 - Initial documentation
-> > Patches 44-46 - Switch support.
-> >=20
-> > Gitlab CI is proving challenging to get a completely clean bill of heal=
-th
-> > as there seem to be some intermittent failures in common with the
-> > main QEMU gitlab. In particular an ASAN leak error that appears in some
-> > upstream CI runs and build-oss-fuzz timeouts.
-> > Results at http://gitlab.com/jic23/qemu cxl-v7-draft-2-for-test
-> > which also includes the DOE/CDAT patches serial number support which
-> > will form part of a future series.
-> >=20
-> > Updated background info:
-> >=20
-> > Looking in particular for:
-> > * Review of the PCI interactions
-> > * x86 and ARM machine interactions (particularly the memory maps)
-> > * Review of the interleaving approach - is the basic idea
-> >   acceptable?
-> > * Review of the command line interface.
-> > * CXL related review welcome but much of that got reviewed
-> >   in earlier versions and hasn't changed substantially.
-> >=20
-> > Big TODOs:
-> >=20
-> > * Volatile memory devices (easy but it's more code so left for now).
-> > * Hotplug?  May not need much but it's not tested yet!
-> > * More tests and tighter verification that values written to hardware
-> >   are actually valid - stuff that real hardware would check.
-> > * Testing, testing and more testing.  I have been running a basic
-> >   set of ARM and x86 tests on this, but there is always room for
-> >   more tests and greater automation.
-> > * CFMWS flags as requested by Ben.
-> >=20
-> > Why do we want QEMU emulation of CXL?
-> >=20
-> > As Ben stated in V3, QEMU support has been critical to getting OS
-> > software written given lack of availability of hardware supporting the
-> > latest CXL features (coupled with very high demand for support being
-> > ready in a timely fashion). What has become clear since Ben's v3
-> > is that situation is a continuous one. Whilst we can't talk about
-> > them yet, CXL 3.0 features and OS support have been prototyped on
-> > top of this support and a lot of the ongoing kernel work is being
-> > tested against these patches. The kernel CXL mocking code allows
-> > some forms of testing, but QEMU provides a more versatile and
-> > exensible platform.
-> >=20
-> > Other features on the qemu-list that build on these include PCI-DOE
-> > /CDAT support from the Avery Design team further showing how this
-> > code is useful. Whilst not directly related this is also the test
-> > platform for work on PCI IDE/CMA + related DMTF SPDM as CXL both
-> > utilizes and extends those technologies and is likely to be an early
-> > adopter.
-> > Refs:
-> > CMA Kernel: https://lore.kernel.org/all/20210804161839.3492053-1-Jonath=
-an.Cameron@huawei.com/
-> > CMA Qemu: https://lore.kernel.org/qemu-devel/1624665723-5169-1-git-send=
--email-cbrowy@avery-design.com/
-> > DOE Qemu: https://lore.kernel.org/qemu-devel/1623329999-15662-1-git-sen=
-d-email-cbrowy@avery-design.com/
-> >=20
-> > As can be seen there is non trivial interaction with other areas of
-> > Qemu, particularly PCI and keeping this set up to date is proving
-> > a burden we'd rather do without :)
-> >=20
-> > Ben mentioned a few other good reasons in v3:
-> > https://lore.kernel.org/qemu-devel/20210202005948.241655-1-ben.widawsky=
-@intel.com/
-> >=20
-> > What we have here is about what you need for it to be useful for testing
-> > currently kernel code.  Note the kernel code is moving fast so
-> > since v4, some features have been introduced we don't yet support in
-> > QEMU (e.g. use of the PCIe serial number extended capability).
-> >=20
-> > All comments welcome.
-> >=20
-> > Additional info that was here in v5 is now in the documentation patch.
-> >=20
-> > Thanks,
-> >=20
-> > Jonathan
-> >=20
-> > Ben Widawsky (24):
-> >   hw/pci/cxl: Add a CXL component type (interface)
-> >   hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
-> >   hw/cxl/device: Introduce a CXL device (8.2.8)
-> >   hw/cxl/device: Implement the CAP array (8.2.8.1-2)
-> >   hw/cxl/device: Implement basic mailbox (8.2.8.4)
-> >   hw/cxl/device: Add memory device utilities
-> >   hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
-> >   hw/cxl/device: Timestamp implementation (8.2.9.3)
-> >   hw/cxl/device: Add log commands (8.2.9.4) + CEL
-> >   hw/pxb: Use a type for realizing expanders
-> >   hw/pci/cxl: Create a CXL bus type
-> >   hw/pxb: Allow creation of a CXL PXB (host bridge)
-> >   hw/cxl/rp: Add a root port
-> >   hw/cxl/device: Add a memory device (8.2.8.5)
-> >   hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
-> >   hw/cxl/device: Add some trivial commands
-> >   hw/cxl/device: Plumb real Label Storage Area (LSA) sizing
-> >   hw/cxl/device: Implement get/set Label Storage Area (LSA)
-> >   hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
-> >   acpi/cxl: Add _OSC implementation (9.14.2)
-> >   acpi/cxl: Create the CEDT (9.14.1)
-> >   acpi/cxl: Introduce CFMWS structures in CEDT
-> >   hw/cxl/component Add a dumb HDM decoder handler
-> >   qtest/cxl: Add more complex test cases with CFMWs
-> >=20
-> > Jonathan Cameron (22):
-> >   MAINTAINERS: Add entry for Compute Express Link Emulation
-> >   cxl: Machine level control on whether CXL support is enabled
-> >   qtest/cxl: Introduce initial test for pxb-cxl only.
-> >   qtests/cxl: Add initial root port and CXL type3 tests
-> >   hw/cxl/component: Add utils for interleave parameter encoding/decoding
-> >   hw/cxl/host: Add support for CXL Fixed Memory Windows.
-> >   hw/pci-host/gpex-acpi: Add support for dsdt construction for pxb-cxl
-> >   pci/pcie_port: Add pci_find_port_by_pn()
-> >   CXL/cxl_component: Add cxl_get_hb_cstate()
-> >   mem/cxl_type3: Add read and write functions for associated hostmem.
-> >   cxl/cxl-host: Add memops for CFMWS region.
-> >   RFC: softmmu/memory: Add ops to memory_region_ram_init_from_file
-> >   i386/pc: Enable CXL fixed memory windows
-> >   tests/acpi: q35: Allow addition of a CXL test.
-> >   qtests/bios-tables-test: Add a test for CXL emulation.
-> >   tests/acpi: Add tables for CXL emulation.
-> >   hw/arm/virt: Basic CXL enablement on pci_expander_bridge instances
-> >     pxb-cxl
-> >   qtest/cxl: Add aarch64 virt test for CXL
-> >   docs/cxl: Add initial Compute eXpress Link (CXL) documentation.
-> >   pci-bridge/cxl_upstream: Add a CXL switch upstream port
-> >   pci-bridge/cxl_downstream: Add a CXL switch downstream port
-> >   cxl/cxl-host: Support interleave decoding with one level of switches.
-> >=20
-> >  MAINTAINERS                         |   7 +
-> >  docs/system/device-emulation.rst    |   1 +
-> >  docs/system/devices/cxl.rst         | 302 +++++++++++++++++
-> >  hw/Kconfig                          |   1 +
-> >  hw/acpi/Kconfig                     |   5 +
-> >  hw/acpi/cxl-stub.c                  |  12 +
-> >  hw/acpi/cxl.c                       | 231 +++++++++++++
-> >  hw/acpi/meson.build                 |   4 +-
-> >  hw/arm/Kconfig                      |   1 +
-> >  hw/arm/virt-acpi-build.c            |  33 ++
-> >  hw/arm/virt.c                       |  40 ++-
-> >  hw/core/machine.c                   |  28 ++
-> >  hw/cxl/Kconfig                      |   3 +
-> >  hw/cxl/cxl-component-utils.c        | 284 ++++++++++++++++
-> >  hw/cxl/cxl-device-utils.c           | 265 +++++++++++++++
-> >  hw/cxl/cxl-host-stubs.c             |  16 +
-> >  hw/cxl/cxl-host.c                   | 262 +++++++++++++++
-> >  hw/cxl/cxl-mailbox-utils.c          | 485 ++++++++++++++++++++++++++++
-> >  hw/cxl/meson.build                  |  12 +
-> >  hw/i386/acpi-build.c                |  57 +++-
-> >  hw/i386/pc.c                        |  57 +++-
-> >  hw/mem/Kconfig                      |   5 +
-> >  hw/mem/cxl_type3.c                  | 352 ++++++++++++++++++++
-> >  hw/mem/meson.build                  |   1 +
-> >  hw/meson.build                      |   1 +
-> >  hw/pci-bridge/Kconfig               |   5 +
-> >  hw/pci-bridge/cxl_downstream.c      | 229 +++++++++++++
-> >  hw/pci-bridge/cxl_root_port.c       | 231 +++++++++++++
-> >  hw/pci-bridge/cxl_upstream.c        | 206 ++++++++++++
-> >  hw/pci-bridge/meson.build           |   1 +
-> >  hw/pci-bridge/pci_expander_bridge.c | 172 +++++++++-
-> >  hw/pci-bridge/pcie_root_port.c      |   6 +-
-> >  hw/pci-host/gpex-acpi.c             |  20 +-
-> >  hw/pci/pci.c                        |  21 +-
-> >  hw/pci/pcie_port.c                  |  25 ++
-> >  include/hw/acpi/cxl.h               |  28 ++
-> >  include/hw/arm/virt.h               |   1 +
-> >  include/hw/boards.h                 |   2 +
-> >  include/hw/cxl/cxl.h                |  54 ++++
-> >  include/hw/cxl/cxl_component.h      | 207 ++++++++++++
-> >  include/hw/cxl/cxl_device.h         | 270 ++++++++++++++++
-> >  include/hw/cxl/cxl_pci.h            | 156 +++++++++
-> >  include/hw/pci/pci.h                |  14 +
-> >  include/hw/pci/pci_bridge.h         |  20 ++
-> >  include/hw/pci/pci_bus.h            |   7 +
-> >  include/hw/pci/pci_ids.h            |   1 +
-> >  include/hw/pci/pcie_port.h          |   2 +
-> >  qapi/machine.json                   |  18 ++
-> >  qemu-options.hx                     |  38 +++
-> >  scripts/device-crash-test           |   1 +
-> >  softmmu/memory.c                    |   9 +
-> >  softmmu/vl.c                        |  42 +++
-> >  tests/data/acpi/q35/CEDT.cxl        | Bin 0 -> 184 bytes
-> >  tests/data/acpi/q35/DSDT.cxl        | Bin 0 -> 9627 bytes
-> >  tests/qtest/bios-tables-test.c      |  44 +++
-> >  tests/qtest/cxl-test.c              | 181 +++++++++++
-> >  tests/qtest/meson.build             |   5 +
-> >  57 files changed, 4456 insertions(+), 25 deletions(-)
-> >  create mode 100644 docs/system/devices/cxl.rst
-> >  create mode 100644 hw/acpi/cxl-stub.c
-> >  create mode 100644 hw/acpi/cxl.c
-> >  create mode 100644 hw/cxl/Kconfig
-> >  create mode 100644 hw/cxl/cxl-component-utils.c
-> >  create mode 100644 hw/cxl/cxl-device-utils.c
-> >  create mode 100644 hw/cxl/cxl-host-stubs.c
-> >  create mode 100644 hw/cxl/cxl-host.c
-> >  create mode 100644 hw/cxl/cxl-mailbox-utils.c
-> >  create mode 100644 hw/cxl/meson.build
-> >  create mode 100644 hw/mem/cxl_type3.c
-> >  create mode 100644 hw/pci-bridge/cxl_downstream.c
-> >  create mode 100644 hw/pci-bridge/cxl_root_port.c
-> >  create mode 100644 hw/pci-bridge/cxl_upstream.c
-> >  create mode 100644 include/hw/acpi/cxl.h
-> >  create mode 100644 include/hw/cxl/cxl.h
-> >  create mode 100644 include/hw/cxl/cxl_component.h
-> >  create mode 100644 include/hw/cxl/cxl_device.h
-> >  create mode 100644 include/hw/cxl/cxl_pci.h
-> >  create mode 100644 tests/data/acpi/q35/CEDT.cxl
-> >  create mode 100644 tests/data/acpi/q35/DSDT.cxl
-> >  create mode 100644 tests/qtest/cxl-test.c
-> >=20
-> > --=20
-> > 2.32.0 =20
->=20
->=20
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
