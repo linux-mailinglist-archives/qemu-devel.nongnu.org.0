@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D264E4D060B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:12:33 +0100 (CET)
-Received: from localhost ([::1]:35794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292EC4D0680
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:27:14 +0100 (CET)
+Received: from localhost ([::1]:42978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRHqS-0006dQ-DW
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:12:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53970)
+	id 1nRI4f-0005Q4-81
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:27:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRHol-0005oG-24
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:10:47 -0500
-Received: from [2607:f8b0:4864:20::632] (port=46699
- helo=mail-pl1-x632.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nRHuk-0001Fv-Pw
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:58 -0500
+Received: from [2a00:1450:4864:20::52f] (port=39719
+ helo=mail-ed1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRHoj-0004Yp-C3
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:10:46 -0500
-Received: by mail-pl1-x632.google.com with SMTP id w4so4239901ply.13
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:10:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=U2qoltuXDDFCNaL6GgOnWktMGEDHkEaP5MTzBQ0sR7w=;
- b=n6XLCoh04rEGO5FumDQ7k2I8uHxEPeaZmFIer+l0UOrEse0nXsg2Ws8D+MkezQKLjS
- GAxm1UPlEgvIh5YjnPIOW5xXljNKgLBrBblSq9as5qdehc+fbU61qa1Ipsyve0v01E35
- orwS7Q7aXDTCOAKI9teji27q5n1oYGrWmaT2THrxqHiRUFt8oVZXVIX2cjTFOOT2k6Ia
- RZdiwELqqa047LVY0pNuOvpwBGvl0gsZVp9+tqyNslJtJhb+P1WLOXqewRFkuTqlCD5v
- Wd+zbcvchX4qsPslJVcsH/u4k25izWFKX9KUPUMyTcwip1aJdPD4RcvFzDAksb24YR1R
- KQnQ==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nRHud-0005LQ-Am
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:58 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id g20so21168234edw.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yPgNYPabYfPrHmgiaz6aRfRJ5aajKfBWZckrLxCJgUQ=;
+ b=V26rOgN1WYT+BDEUgLv1cfbPAp9TdWkHAvD9RBdFVIUOpFcGUmfWWjnt7P3VvVIlMy
+ 8j8V+oQG/LFgPBJ7CwMYScr9eW1XwYQ3yiYKLEmqgbwjfVUT+wr1ZUR02tXUeHu2+fmW
+ 7t1MK+O0Sp0qj3aSxP74qQDniqFmKzN4Up1aTaNxZRhB1aWmasz1IqCrN2mBk8g00Rfm
+ BMZgbj1iM4GPvZojbGyHvXL9+NuXp/1kY8i4k/Na/1XHb3IBlAVkYFmYE+nJ7dHm0xYD
+ IasypkxHwKJal87AMCdY8ZJRVx3zSsDt3N2WHod5KrD3LTBKTagey/RNvj+yBjA7Byl/
+ awJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=U2qoltuXDDFCNaL6GgOnWktMGEDHkEaP5MTzBQ0sR7w=;
- b=no87uLHCk/pvN9VBS0N4PnuuhqWRZszs8AKBoIyqGYnvNokyKNSjTVdRKxtIBwTvkN
- bbzJo7mrA0BvsD9prkJVLwf9Mo8ex799GzS+uhmWAeCZkSf4VhQaAbOKsbQ3Iln2/FRV
- 8eeEWEeSWmxdvoFQSVXwLe5S8UGb4PhYgsVEVGB1UNana4d3h6ZOcId6EfBRBCK3ynZI
- YEzwvhWHk39oFuE2ZfyUIRIDVhIbb6QgnXQgpWQv7GDX7FZzdMEVMPTK2AlGbcUNPQ3g
- Rg1T9qhJI+CJWZZUYhFybGWRFzzVi5rDe5cT+cwlkzl7qFLl085I7K7wJq6k7oIqxlOt
- pisw==
-X-Gm-Message-State: AOAM533APNHxnpjzZFVT3wvIqBq7QJOrMnfS8oIveAXalz8/P6v9L4xG
- u0QPNf1PRjqkM+BSVin1l2r6MA==
-X-Google-Smtp-Source: ABdhPJzqJ8sQBEvjP4dABif5B059wabR1Za2Vc0kz/5Um52ARVb6mCxA39TuRW/Ivz0arILcYKAoVQ==
-X-Received: by 2002:a17:903:110d:b0:14f:72a1:7b18 with SMTP id
- n13-20020a170903110d00b0014f72a17b18mr13444457plh.111.1646676643694; 
- Mon, 07 Mar 2022 10:10:43 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- b10-20020a056a000cca00b004f6f6dd8287sm5900854pfv.18.2022.03.07.10.10.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 10:10:43 -0800 (PST)
-Message-ID: <4f3eec7b-632c-d2fe-6781-bf00b804449b@linaro.org>
-Date: Mon, 7 Mar 2022 08:10:39 -1000
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=yPgNYPabYfPrHmgiaz6aRfRJ5aajKfBWZckrLxCJgUQ=;
+ b=liMuIaqOzZakD4zPAUPZuMI3uXQhLY49yukCfwS0GK27PEvqerUrAb7hM2b2QF018Y
+ HznXpGSjZHy4SS0BPIDVN9E8B8ZVlKJRLc0i2UWQfIah3pEJADfpMKAaAcM2c0SC9TRQ
+ zZ8VvinaO8KW3F+b/O5TH3O5EbyckxZxYgPUPtIt5dYWIakedGBHvs6tsLXy5NSwyQxC
+ QV0V+A+MCFTpV6UoxAFOOOFaKADQ0/3tjMHkweSYy65tz63nGZgKYyP1/Mq1ArpVSzhl
+ AwZ0cY/d7IvtXVgGpbiHMCqXOVGxHoYY53J5+yHfZ18wS51EhGXJ6tDwfPIMrlwPuVkj
+ /11A==
+X-Gm-Message-State: AOAM533X0HqHErT0WVoWUKeAAcTSzPExysexV5b809vw718K4cocJWtE
+ WC0R/U3oHh48J7Dar2sbeKZ7gz/1mLk=
+X-Google-Smtp-Source: ABdhPJxNVdCMMmpzwLcPMEQmkntnV5zvPmOIFFc7NmMN1z9pPIe7B6ahvYKZnQH7fdeUtqh9TBjptg==
+X-Received: by 2002:a05:6402:1cc1:b0:413:2cfb:b6ca with SMTP id
+ ds1-20020a0564021cc100b004132cfbb6camr12275864edb.265.1646676995541; 
+ Mon, 07 Mar 2022 10:16:35 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.34
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 10:16:35 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/23] QEMU changes for 7.0 soft freeze
+Date: Mon,  7 Mar 2022 19:16:10 +0100
+Message-Id: <20220307181633.596898-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/7] target/s390x: vxeh2: vector convert short/32b
-Content-Language: en-US
-To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220307020327.3003-1-dmiller423@gmail.com>
- <20220307020327.3003-2-dmiller423@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220307020327.3003-2-dmiller423@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -94,20 +89,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, farman@linux.ibm.com,
- pasic@linux.ibm.com, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/6/22 16:03, David Miller wrote:
-> Signed-off-by: David Miller<dmiller423@gmail.com>
-> ---
->   target/s390x/helper.h               |  4 +++
->   target/s390x/tcg/translate_vx.c.inc | 44 ++++++++++++++++++++++++++---
->   target/s390x/tcg/vec_fpu_helper.c   | 31 ++++++++++++++++++++
->   3 files changed, 75 insertions(+), 4 deletions(-)
+The following changes since commit 99c53410bc9d50e556f565b0960673cccb566452:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2022-02-28' into staging (2022-03-01 13:25:54 +0000)
 
-r~
+are available in the Git repository at:
+
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to d170dbb84f8ed8f8c9daa359d6d95cd02fd959b7:
+
+  gitlab-ci: do not run tests with address sanitizer (2022-03-07 17:41:51 +0100)
+
+----------------------------------------------------------------
+* whpx fixes in preparation for GDB support (Ivan)
+* VSS header fixes (Marc-André)
+* 5-level EPT support (Vitaly)
+* AMX support (Jing Liu & Yang Zhong)
+* Bundle changes to MSI routes (Longpeng)
+* More precise emulation of #SS (Gareth)
+* Disable TAP output for check-block
+* Disable ASAN testing
+----------------------------------------------------------------
+
+Gareth Webb (1):
+      target/i386: Throw a #SS when loading a non-canonical IST
+
+Ivan Shcherbakov (2):
+      whpx: Fixed reporting of the CPU context to GDB for 64-bit
+      whpx: Fixed incorrect CR8/TPR synchronization
+
+Jing Liu (5):
+      x86: Fix the 64-byte boundary enumeration for extended state
+      x86: Add AMX XTILECFG and XTILEDATA components
+      x86: Add XFD faulting bit for state components
+      x86: Add AMX CPUIDs enumeration
+      x86: add support for KVM_CAP_XSAVE2 and AMX state migration
+
+Longpeng (Mike) (2):
+      kvm-irqchip: introduce new API to support route change
+      kvm/msi: do explicit commit when adding msi routes
+
+Marc-André Lureau (3):
+      meson: fix generic location of vss headers
+      qga/vss-win32: check old VSS SDK headers
+      qga/vss: update informative message about MinGW
+
+Maxim Levitsky (1):
+      KVM: SVM: always set MSR_AMD64_TSC_RATIO to default value
+
+Paolo Bonzini (5):
+      update meson-buildoptions.sh
+      target/i386: only include bits in pg_mode if they are not ignored
+      linux-headers: include missing changes from 5.17
+      check-block: revert TAP output and reintroduce -makecheck
+      gitlab-ci: do not run tests with address sanitizer
+
+Vitaly Kuznetsov (2):
+      vmxcap: Add 5-level EPT bit
+      i386: Add Icelake-Server-v6 CPU model with 5-level EPT support
+
+Yang Zhong (1):
+      x86: Grant AMX permission for guest
+
+Zeng Guang (1):
+      x86: Support XFD and AMX xsave data migration
+
+ .gitlab-ci.d/buildtest.yml           |   2 -
+ accel/kvm/kvm-all.c                  |   7 +-
+ accel/stubs/kvm-stub.c               |   2 +-
+ hw/misc/ivshmem.c                    |   5 +-
+ hw/vfio/pci.c                        |   5 +-
+ hw/virtio/virtio-pci.c               |   4 +-
+ include/sysemu/kvm.h                 |  23 ++++++-
+ linux-headers/asm-x86/kvm.h          |   3 +
+ linux-headers/linux/kvm.h            |   4 ++
+ meson.build                          |   5 +-
+ qga/meson.build                      |   2 +-
+ qga/vss-win32/install.cpp            |   4 ++
+ qga/vss-win32/provider.cpp           |   4 ++
+ qga/vss-win32/vss-common.h           |   3 +-
+ scripts/kvm/vmxcap                   |   1 +
+ scripts/meson-buildoptions.sh        |   2 +-
+ target/i386/cpu.c                    |  84 +++++++++++++++++++++--
+ target/i386/cpu.h                    |  43 +++++++++++-
+ target/i386/kvm/kvm-cpu.c            |  11 +--
+ target/i386/kvm/kvm.c                | 125 ++++++++++++++++++++++++++++++-----
+ target/i386/kvm/kvm_i386.h           |   1 +
+ target/i386/machine.c                |  46 +++++++++++++
+ target/i386/tcg/seg_helper.c         |  49 +++++++++++++-
+ target/i386/tcg/sysemu/excp_helper.c |  40 +----------
+ target/i386/whpx/whpx-all.c          |  30 ++++++++-
+ target/i386/xsave_helper.c           |  28 ++++++++
+ tests/check-block.sh                 |   6 +-
+ tests/qemu-iotests/check             |   6 +-
+ tests/qemu-iotests/meson.build       |   1 -
+ tests/qemu-iotests/testenv.py        |  30 ++++-----
+ tests/qemu-iotests/testrunner.py     |  54 +++++++--------
+ 31 files changed, 494 insertions(+), 136 deletions(-)
+-- 
+2.34.1
+
 
