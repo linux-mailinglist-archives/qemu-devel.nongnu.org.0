@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3DA4D0B7A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:51:47 +0100 (CET)
-Received: from localhost ([::1]:37514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DCE4D0B84
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:54:42 +0100 (CET)
+Received: from localhost ([::1]:45932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRMCg-0001nc-3q
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:51:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52402)
+	id 1nRMFV-0007RR-So
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:54:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM5v-0004vs-QU
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28971)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM5y-00052Z-Hg
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM5u-00058u-6d
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:47 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM5x-00059A-2S
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693085;
+ s=mimecast20190719; t=1646693088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TYa/f3CO+AQEfD01xoN40acPIyF1N0ddSlAR4JbVXkw=;
- b=J8hjvivNveUzTs3QPCADKFoqMEjpWHj/oU9/i5tKk1LAWnxitx6Nh8JECukXYj0+FQdbfv
- j7oHY+fpqS+nbRYhJAKtfQuq1GMwHkyrltC4J5VLJGb2DuzCFWJKPRIBAOmOroZIq9URWm
- wfLbIOZrjZaR8ulj1MP7Rct9QMw+UWk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ma9iWGjH8QtszJxbcW9JyMpOmAV16xFQyYJbaD6EIFc=;
+ b=SdddsIh/EdZPI3Su3eDtQA7r3EKU/NUlVse25wP6P519eME5gvqoZbq74mAv+NZsov6dFJ
+ I20FP6KmZDxRt8sVCYK2seBOlOvvHZXwYmqycHvtkYG0lLVUAJp4v0eloJk28mSI2gn9FR
+ qYj/6fv0Db04LKsYaBuGZMuoXuCBdU0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-258-AWZChO2kPeqJceL1uwifKw-1; Mon, 07 Mar 2022 17:44:44 -0500
-X-MC-Unique: AWZChO2kPeqJceL1uwifKw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m34-20020a05600c3b2200b0038115c73361so5687647wms.5
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:44:44 -0800 (PST)
+ us-mta-102-qRtZ9trqMyeth4zu7g0h7A-1; Mon, 07 Mar 2022 17:44:47 -0500
+X-MC-Unique: qRtZ9trqMyeth4zu7g0h7A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 7-20020a1c1907000000b003471d9bbe8dso392180wmz.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:44:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=TYa/f3CO+AQEfD01xoN40acPIyF1N0ddSlAR4JbVXkw=;
- b=08Mf/X/A8ZT+WtPR8dm03HXLJNOcGLdRHHlrbwvK/Vu5RhxCH0vJ8AZ+b09sFsTlC5
- N1+RWZcLRit+43PbnkjfNpIbGRGjCXFkeEKzH7qiv5nSgElu/LfwW0vLOLhFA92I40+L
- Ps5itVTeuvHToAoIfazYFn0pJH0tAykKobqnOy/b9qA02Cl+rBbqLfiVL1WAHaIsHov0
- ZukRc2OXa05GXL0dPHL0+lqtTXl8QaIM+oS9TKWwPX6mtMrst+Q3SWE+gHpbbId5v//0
- gw/lxzj6In5Fm7yz3LJG7/8o52QEp1n2flRhN39sHYXEXi6wbb8D8qYdT9HtkELgNR3N
- 4icA==
-X-Gm-Message-State: AOAM533UgXKbsEhB3edJjrXmUuNcO3U3Z9mNbg8J7JYJpzetdUtosXrE
- 0jj5CqU7tOWrogk+MXt+EFMqMf1HFe3aBI6z5js3C1uGW/oLq+pB/8rjy/imyBDU31B1j16N6ej
- OrxK72e+SMEu7qmGclndeTThXMjQCyRMl0U6yViRi9PN3UFSYcpHYInmMCq5k
-X-Received: by 2002:a05:6000:154b:b0:1f0:4c09:ae5e with SMTP id
- 11-20020a056000154b00b001f04c09ae5emr10208106wry.610.1646693082698; 
- Mon, 07 Mar 2022 14:44:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzbr7OnJct8Kg8JYebCmODfwt8gVfiBKAvvsY1mRh4S/BZqaeD0P2opyDE+8hzBThwzyvqusg==
-X-Received: by 2002:a05:6000:154b:b0:1f0:4c09:ae5e with SMTP id
- 11-20020a056000154b00b001f04c09ae5emr10208089wry.610.1646693082435; 
- Mon, 07 Mar 2022 14:44:42 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=ma9iWGjH8QtszJxbcW9JyMpOmAV16xFQyYJbaD6EIFc=;
+ b=0hk9upPzNidTCh3dhkugOiKiR67VADUhJyVdbZutcCocnIUqxd/+J1UZdIVenOLEWW
+ NRKmLCAAULVHM3Pa2gwzBp4IITpVxMYX8iYF3SKbDUiRHKEb0hh0Zr4RtVQkcihWczir
+ hH785HrNJfbDxuBKejcwLTCb4cyIJhcoswnJ9L/t85NZO8bdVjKkRT8EJ4p43RjISnlO
+ 1mPzgZPCPjp0MzHbVCFU3IQXfx/0vbZy4WKyro/3IobF2wSEDBDYTPw8lEA1zx2CjG0j
+ yMgiQtn1bH1j9INRuivHFizocEAc2S1rSPjz6yMNFMaW/lbGS44CR9zM72BWVnQj/qHW
+ i7Qw==
+X-Gm-Message-State: AOAM531OU1WZXyXbGtXV9CBfJ2QsW03NxP1X4ps7qPbzahviv79H4B5t
+ a+AaQECbUesOM95s9gwWKxe+kZ8qyyBrBFUhHDPS7Frww0ar0cfljNVBJpg2bqwk9Z8UGn7y9VB
+ zN1GvQvenx/Ufh4f6ob9FN9bRzAVeEV0UMsPKPeqXHCss3elesk76sonQlS/2
+X-Received: by 2002:a05:6000:15c1:b0:1f0:73d6:b716 with SMTP id
+ y1-20020a05600015c100b001f073d6b716mr10050701wry.293.1646693085838; 
+ Mon, 07 Mar 2022 14:44:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJybdP4MfGEn7e4GHlftw/OBAJcwTtCE/kdChexelbkYJUfkuesH5EYdsLyfcbKLqgx/PqnymQ==
+X-Received: by 2002:a05:6000:15c1:b0:1f0:73d6:b716 with SMTP id
+ y1-20020a05600015c100b001f073d6b716mr10050686wry.293.1646693085560; 
+ Mon, 07 Mar 2022 14:44:45 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- p26-20020a1c741a000000b00389ab9a53c8sm503871wmc.36.2022.03.07.14.44.40
+ z2-20020a056000110200b001e7140ddb44sm12329972wrw.49.2022.03.07.14.44.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:44:42 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:44:39 -0500
+ Mon, 07 Mar 2022 14:44:45 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:44:42 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 03/47] MAINTAINERS: no need to add my name explicitly as a
- reviewer for VIOT tables
-Message-ID: <20220307224357.682101-4-mst@redhat.com>
+Subject: [PULL v4 04/47] docs/acpi/erst: add device id for ACPI ERST device
+ in pci-ids.txt
+Message-ID: <20220307224357.682101-5-mst@redhat.com>
 References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
@@ -76,9 +74,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -101,40 +98,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Ani Sinha <ani@anisinha.ca>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
+ Eric DeVolder <eric.devolder@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ani Sinha <ani@anisinha.ca>
 
-I am already listed as a reviewer for ACPI/SMBIOS subsystem. There is no need to
-again add me as a reviewer for ACPI/VIOT.
+Adding device ID for ERST device in pci-ids.txt. It was missed when ERST
+related patches were reviewed.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+CC: Eric DeVolder <eric.devolder@oracle.com>
+Reviewed-by: Eric DeVolder <eric.devolder@oracle.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20220223143322.927136-3-ani@anisinha.ca>
+Message-Id: <20220223143322.927136-4-ani@anisinha.ca>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+ docs/specs/pci-ids.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 68adaac373..83a9f79c1c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1819,7 +1819,6 @@ F: docs/specs/acpi_hw_reduced_hotplug.rst
+diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
+index 5e407a6f32..dd6859d039 100644
+--- a/docs/specs/pci-ids.txt
++++ b/docs/specs/pci-ids.txt
+@@ -65,6 +65,7 @@ PCI devices (other than virtio):
+ 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
+ 1b36:0010  PCIe NVMe device (-device nvme)
+ 1b36:0011  PCI PVPanic device (-device pvpanic-pci)
++1b36:0012  PCI ACPI ERST device (-device acpi-erst)
  
- ACPI/VIOT
- M: Jean-Philippe Brucker <jean-philippe@linaro.org>
--R: Ani Sinha <ani@anisinha.ca>
- S: Supported
- F: hw/acpi/viot.c
- F: hw/acpi/viot.h
+ All these devices are documented in docs/specs.
+ 
 -- 
 MST
 
