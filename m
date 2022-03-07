@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2172F4CFC87
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:19:55 +0100 (CET)
-Received: from localhost ([::1]:54058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5B94CFE11
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:20:28 +0100 (CET)
+Received: from localhost ([::1]:58066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBP8-0002T3-6y
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:19:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43138)
+	id 1nRCLj-0000Pd-Kb
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:20:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAjI-0005Dm-EK
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37274)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAjK-0005EF-6w
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAjG-0008Iw-OH
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:40 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAjI-0008Ja-7p
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646649397;
+ s=mimecast20190719; t=1646649399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kDXdT75HELstg6tfn0UH8c0ZOWIYe7kk7Ov5rDBXhhY=;
- b=GDMqNrRj7AvFhsty9d0SNK5QURoK80xusJNexJ/QLZipfpSCx5D//rPOB2Ed7BmTUmvzPi
- FzVSaPOKur0I8z8ccu5/Lx6z3q8fC/Nko3Oh763lKX1C/hys9BUXQwHRNWUH35EVLxPYU2
- tdd/0ZJjDkJSuBCel11IdC9yYtFJnkU=
+ bh=0ZirGpdn488NxfE1mRRZfLd97VQF/KAH/S5LQnyTu+U=;
+ b=A3DzrWltADwazWkwsSOjJJQ94GWiWYKWodrx8b/izZ1QRhoSa7bEo7afHid/K3AlvqdQKy
+ rpvA83GPbbk6gCtZoWdnSuMuV8xcKKd83ozYecGOjjIeIIwXgQPd3WBg+y9/ILwq+6cLEQ
+ M1U3/JbltZAByW+dFOGomfaFA9S/pkg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-MPGogaPgPVaSLB3qjTiDSw-1; Mon, 07 Mar 2022 05:36:36 -0500
-X-MC-Unique: MPGogaPgPVaSLB3qjTiDSw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-74-SblxfB3RMheK2Npm9KOt-g-1; Mon, 07 Mar 2022 05:36:38 -0500
+X-MC-Unique: SblxfB3RMheK2Npm9KOt-g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 452031854E26;
- Mon,  7 Mar 2022 10:36:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58461835DE6;
+ Mon,  7 Mar 2022 10:36:37 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD5587BB63;
- Mon,  7 Mar 2022 10:36:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE9D88319F;
+ Mon,  7 Mar 2022 10:36:36 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 15/23] block/dirty-bitmap: introduce bdrv_dirty_bitmap_status()
-Date: Mon,  7 Mar 2022 11:35:41 +0100
-Message-Id: <20220307103549.808809-16-hreitz@redhat.com>
+Subject: [PULL 16/23] block/reqlist: add reqlist_wait_all()
+Date: Mon,  7 Mar 2022 11:35:42 +0100
+Message-Id: <20220307103549.808809-17-hreitz@redhat.com>
 In-Reply-To: <20220307103549.808809-1-hreitz@redhat.com>
 References: <20220307103549.808809-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -85,117 +85,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Add a convenient function similar with bdrv_block_status() to get
-status of dirty bitmap.
+Add function to wait for all intersecting requests.
+To be used in the further commit.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220303194349.2304213-9-vsementsov@virtuozzo.com>
+Message-Id: <20220303194349.2304213-10-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- include/block/dirty-bitmap.h |  2 ++
- include/qemu/hbitmap.h       | 12 ++++++++++++
- block/dirty-bitmap.c         |  6 ++++++
- util/hbitmap.c               | 33 +++++++++++++++++++++++++++++++++
- 4 files changed, 53 insertions(+)
+ include/block/reqlist.h | 8 ++++++++
+ block/reqlist.c         | 8 ++++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index f95d350b70..6528336c4c 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -115,6 +115,8 @@ int64_t bdrv_dirty_bitmap_next_zero(BdrvDirtyBitmap *bitmap, int64_t offset,
- bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
-         int64_t start, int64_t end, int64_t max_dirty_count,
-         int64_t *dirty_start, int64_t *dirty_count);
-+bool bdrv_dirty_bitmap_status(BdrvDirtyBitmap *bitmap, int64_t offset,
-+                              int64_t bytes, int64_t *count);
- BdrvDirtyBitmap *bdrv_reclaim_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap,
-                                                   Error **errp);
- 
-diff --git a/include/qemu/hbitmap.h b/include/qemu/hbitmap.h
-index 5e71b6d6f7..5bd986aa44 100644
---- a/include/qemu/hbitmap.h
-+++ b/include/qemu/hbitmap.h
-@@ -340,6 +340,18 @@ bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t start, int64_t end,
-                              int64_t max_dirty_count,
-                              int64_t *dirty_start, int64_t *dirty_count);
+diff --git a/include/block/reqlist.h b/include/block/reqlist.h
+index 0fa1eef259..5253497bae 100644
+--- a/include/block/reqlist.h
++++ b/include/block/reqlist.h
+@@ -53,6 +53,14 @@ BlockReq *reqlist_find_conflict(BlockReqList *reqs, int64_t offset,
+ bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
+                                    int64_t bytes, CoMutex *lock);
  
 +/*
-+ * bdrv_dirty_bitmap_status:
-+ * @hb: The HBitmap to operate on
-+ * @start: The bit to start from
-+ * @count: Number of bits to proceed
-+ * @pnum: Out-parameter. How many bits has same value starting from @start
-+ *
-+ * Returns true if bitmap is dirty at @start, false otherwise.
++ * Wait for all intersecting requests. It just calls reqlist_wait_one() in a
++ * loop, caller is responsible to stop producing new requests in this region
++ * in parallel, otherwise reqlist_wait_all() may never return.
 + */
-+bool hbitmap_status(const HBitmap *hb, int64_t start, int64_t count,
-+                    int64_t *pnum);
++void coroutine_fn reqlist_wait_all(BlockReqList *reqs, int64_t offset,
++                                   int64_t bytes, CoMutex *lock);
 +
- /**
-  * hbitmap_iter_next:
-  * @hbi: HBitmapIter to operate on.
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 9aa5aebaa9..da1b91166f 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -879,6 +879,12 @@ bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
-                                    dirty_start, dirty_count);
- }
- 
-+bool bdrv_dirty_bitmap_status(BdrvDirtyBitmap *bitmap, int64_t offset,
-+                              int64_t bytes, int64_t *count)
-+{
-+    return hbitmap_status(bitmap->bitmap, offset, bytes, count);
-+}
-+
- /**
-  * bdrv_merge_dirty_bitmap: merge src into dest.
-  * Ensures permissions on bitmaps are reasonable; use for public API.
-diff --git a/util/hbitmap.c b/util/hbitmap.c
-index 305b894a63..dd0501d9a7 100644
---- a/util/hbitmap.c
-+++ b/util/hbitmap.c
-@@ -301,6 +301,39 @@ bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t start, int64_t end,
+ /*
+  * Shrink request and wake all waiting coroutines (maybe some of them are not
+  * intersecting with shrunk request).
+diff --git a/block/reqlist.c b/block/reqlist.c
+index 09fecbd48c..08cb57cfa4 100644
+--- a/block/reqlist.c
++++ b/block/reqlist.c
+@@ -58,6 +58,14 @@ bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
      return true;
  }
  
-+bool hbitmap_status(const HBitmap *hb, int64_t start, int64_t count,
-+                    int64_t *pnum)
++void coroutine_fn reqlist_wait_all(BlockReqList *reqs, int64_t offset,
++                                   int64_t bytes, CoMutex *lock)
 +{
-+    int64_t next_dirty, next_zero;
-+
-+    assert(start >= 0);
-+    assert(count > 0);
-+    assert(start + count <= hb->orig_size);
-+
-+    next_dirty = hbitmap_next_dirty(hb, start, count);
-+    if (next_dirty == -1) {
-+        *pnum = count;
-+        return false;
++    while (reqlist_wait_one(reqs, offset, bytes, lock)) {
++        /* continue */
 +    }
-+
-+    if (next_dirty > start) {
-+        *pnum = next_dirty - start;
-+        return false;
-+    }
-+
-+    assert(next_dirty == start);
-+
-+    next_zero = hbitmap_next_zero(hb, start, count);
-+    if (next_zero == -1) {
-+        *pnum = count;
-+        return true;
-+    }
-+
-+    assert(next_zero > start);
-+    *pnum = next_zero - start;
-+    return false;
 +}
 +
- bool hbitmap_empty(const HBitmap *hb)
+ void coroutine_fn reqlist_shrink_req(BlockReq *req, int64_t new_bytes)
  {
-     return hb->count == 0;
+     if (new_bytes == req->bytes) {
 -- 
 2.34.1
 
