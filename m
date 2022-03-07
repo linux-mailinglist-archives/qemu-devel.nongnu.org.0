@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BF64D0B94
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:59:37 +0100 (CET)
-Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403394D0B8B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:57:29 +0100 (CET)
+Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRMKG-0002tO-Ia
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:59:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52870)
+	id 1nRMIC-0005UM-0h
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:57:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6p-0007Ec-Af
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53604)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6x-0007Ly-US
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6n-0005bI-PH
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:43 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6w-0005dU-FJ
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693141;
+ s=mimecast20190719; t=1646693147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wqPGtWFCVDPRGhVgRp/c/kDyoLIXiZZqdrhcBaAKsjU=;
- b=GwcAekG9HLfY32Wtd0wvLq1CQcKs0snT95Nh61YGsllvrKbtOOtGPPwJqsl3XV3MlHjRee
- 68y/RFE4TgXsT5eF/TixMcbH6JzNCIW4NCXwSMUep+MQfvXnCrira/J6RALQA3fCn0QR55
- ks+QyDVeGIAC3qidAm+Aeo6EYtstRpM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gahauiWtzKVRJbmFnIa2BytU7N4O8wddJUnc6uKh6Qk=;
+ b=dWNvh9OyCWtL++Acco3mxAhwPm7syICK72uX1YBtNhNLfRa/ObNqCtr8aIMB4REtAI9rRe
+ DUdnXq+75i5VN2LK755Fk2HjiT4SvxWBBBrXViwyWO1AzHasMvdULJSuVxe/ddjQlXQalb
+ penx0IZ/u9Ma13FYOH+0a6DGankpMyA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-ipo7KVlTN8uZpgxaQ-SDmw-1; Mon, 07 Mar 2022 17:45:40 -0500
-X-MC-Unique: ipo7KVlTN8uZpgxaQ-SDmw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 3-20020a05600c230300b00384e15ceae4so248442wmo.7
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:40 -0800 (PST)
+ us-mta-259-ULgUNekROo-aBtLqblRJNA-1; Mon, 07 Mar 2022 17:45:46 -0500
+X-MC-Unique: ULgUNekROo-aBtLqblRJNA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l2-20020a1ced02000000b0038482a47e7eso253695wmh.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=wqPGtWFCVDPRGhVgRp/c/kDyoLIXiZZqdrhcBaAKsjU=;
- b=bGcgPVlKELak4n9ozXwaxtdCVQpXMlw7CCwgqO46pLWk0gza9+TnQHOtm0Scrzygaf
- bRBO7Rb93HTnxQU88OswcowAEjabTYa0Z01nOmrn1gXGcuTOTpMY4mS8BsB0Pjq6I3Fv
- vnzAUQxAVsOflaxxPfn1cNoFrmK9rZnaipAGyH+clXCcs2OnTM+fmHvxqCS834iqCGSz
- kYyi9y9ubtdi0H2wpdYXBeJtthYeMWkuDNZG6PAm9QYCJx1TxOQrA0qJY3TUrFBnwRBe
- KIoNPegbkIhqUxmvrYabqLZiaMm80VLLKkSINoVjBb/nftOA9eNoVLLdU0fkvP+d7U8I
- 8PrQ==
-X-Gm-Message-State: AOAM5307I+2pk6FjbpW9cdKorj2c69DiAuK5BXZcMbSn9XfeofSKV4Zj
- 6FbQiUO4J0CRSX/7cG89aQ640H13yFz0ERPKtJeLKbuWkJbMys0c+huHs6jyWvZAXNWS204rUcB
- nkzzzx1ydz2hPo/6Nu/qA11C2kjj3gwCySPbEuTJBXQjYwfPezYZO2tUylsdX
-X-Received: by 2002:a5d:548b:0:b0:1ed:e0b2:188c with SMTP id
- h11-20020a5d548b000000b001ede0b2188cmr9615834wrv.122.1646693138614; 
- Mon, 07 Mar 2022 14:45:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwAMoh1uXk1xvuI+oMV9z+qE+znv2aRFSjT6IrPy4mY9FBReidZ0D2drH3XI5FUSEwd1t8Jyg==
-X-Received: by 2002:a5d:548b:0:b0:1ed:e0b2:188c with SMTP id
- h11-20020a5d548b000000b001ede0b2188cmr9615818wrv.122.1646693138279; 
- Mon, 07 Mar 2022 14:45:38 -0800 (PST)
+ bh=gahauiWtzKVRJbmFnIa2BytU7N4O8wddJUnc6uKh6Qk=;
+ b=5dk9uwmebCcqjYGQKdZQJxiBzspCe4BVyXQ2CqQrthUIPmYP0x2yZfMCp5jnjTkv7C
+ UX+j4qcppOyBwarmZ+To23YEo2335Biu6duUnLZ8dWuOqih2coljq3nQNFUHqmmYvA6o
+ Z6bi2i5KgtbVIVlUPZI+SkN0HomINwQK76im940lkeAGxHrnI2+96bVzUhysyNJkADLK
+ 0gMLvxM34ie16rnnUjPSt0jDtOejDQBwsDsNsQ754CA8hCWttuqOye/+cMh3yojC9+Ve
+ f62c/YeJ8/Pu+C2ymUr9T36+pjB00CYJUpPUi8+I6einSCpqXxJlbGluo1WBmegAL6mE
+ l0Zw==
+X-Gm-Message-State: AOAM532nVIpI+GCJpt59BU2Bo8b12wwq3t5kWfKZtkmnRTfE3Dm2lMIA
+ 3R4z6guOfvyd0csvsyYJr+a9rlV3dDRwU2o2oocf9Ts/vUFVcywamCCa6k3tKP3CM/xMduBvxP1
+ ClyPN/A2foKQEp9X27jNgqNYSBy/HrM58+bbGiGZJwEPpm0n41hBuGex/WbBd
+X-Received: by 2002:a05:6000:15cc:b0:1f1:f814:27c4 with SMTP id
+ y12-20020a05600015cc00b001f1f81427c4mr5748702wry.630.1646693145264; 
+ Mon, 07 Mar 2022 14:45:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyPeuIqQwNR8ax5oKli/Nl48ohu8zY8HLB0eY0cOGmns7ImfUk6e6epk7A9N5KnKkzf/E6wfQ==
+X-Received: by 2002:a05:6000:15cc:b0:1f1:f814:27c4 with SMTP id
+ y12-20020a05600015cc00b001f1f81427c4mr5748683wry.630.1646693144970; 
+ Mon, 07 Mar 2022 14:45:44 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- p16-20020adff210000000b001f062b80091sm11230268wro.34.2022.03.07.14.45.36
+ r2-20020a5d6942000000b001f0485057c4sm12563396wrw.74.2022.03.07.14.45.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:45:37 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:45:34 -0500
+ Mon, 07 Mar 2022 14:45:44 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:45:42 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 20/47] tests/qtest/virtio-iommu-test: Check bypass config
-Message-ID: <20220307224357.682101-21-mst@redhat.com>
+Subject: [PULL v4 22/47] hw/pci-bridge/pxb: Fix missing swizzle
+Message-ID: <20220307224357.682101-23-mst@redhat.com>
 References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
@@ -75,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -97,49 +97,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-The bypass config field should be initialized to 1 by default.
+pxb_map_irq_fn() handled the necessary removal of the swizzle
+applied to the PXB interrupts by the bus to which it was attached
+but neglected to apply the normal swizzle for PCI root ports
+on the expander bridge.
 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-Id: <20220214124356.872985-5-jean-philippe@linaro.org>
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Tested-by: Eric Auger <eric.auger@redhat.com>
+Result of this was on ARM virt, the PME interrupts for a second
+RP on a PXB instance were miss-routed to #45 rather than #46.
+
+Tested with a selection of different configurations with 1 to 5
+RP per PXB instance.  Note on my x86 test setup the PME interrupts
+are not triggered so I haven't been able to test this.
+
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-Id: <20220118174855.19325-1-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/virtio-iommu-test.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/pci-bridge/pci_expander_bridge.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tests/qtest/virtio-iommu-test.c b/tests/qtest/virtio-iommu-test.c
-index 47e68388a0..068e7a9e6c 100644
---- a/tests/qtest/virtio-iommu-test.c
-+++ b/tests/qtest/virtio-iommu-test.c
-@@ -31,11 +31,13 @@ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
-     uint64_t input_range_end = qvirtio_config_readq(dev, 16);
-     uint32_t domain_range_start = qvirtio_config_readl(dev, 24);
-     uint32_t domain_range_end = qvirtio_config_readl(dev, 28);
-+    uint8_t bypass = qvirtio_config_readb(dev, 36);
+diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+index 10e6e7c2ab..de932286b5 100644
+--- a/hw/pci-bridge/pci_expander_bridge.c
++++ b/hw/pci-bridge/pci_expander_bridge.c
+@@ -192,6 +192,12 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int pin)
+ {
+     PCIDevice *pxb = pci_get_bus(pci_dev)->parent_dev;
  
-     g_assert_cmpint(input_range_start, ==, 0);
-     g_assert_cmphex(input_range_end, ==, UINT64_MAX);
-     g_assert_cmpint(domain_range_start, ==, 0);
-     g_assert_cmpint(domain_range_end, ==, UINT32_MAX);
-+    g_assert_cmpint(bypass, ==, 1);
- }
- 
- static int read_tail_status(struct virtio_iommu_req_tail *buffer)
++    /*
++     * First carry out normal swizzle to handle
++     * multple root ports on a pxb instance.
++     */
++    pin = pci_swizzle_map_irq_fn(pci_dev, pin);
++
+     /*
+      * The bios does not index the pxb slot number when
+      * it computes the IRQ because it resides on bus 0
 -- 
 MST
 
