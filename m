@@ -2,92 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6706B4CF280
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 08:18:26 +0100 (CET)
-Received: from localhost ([::1]:50290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9914CF281
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 08:19:54 +0100 (CET)
+Received: from localhost ([::1]:52660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR7dR-0000rC-0B
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 02:18:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33036)
+	id 1nR7eq-0002S5-JK
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 02:19:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7UQ-0006xB-LS
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:09:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7UN-0001W4-Ti
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:09:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646636943;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3fEjqPNyhNHkvuPhu1pumSkdFp1WMIkiBoDRBZ5vakQ=;
- b=DusuVkVLsP7Tw8jxBhM0FvDSfw/bBm58+gqq+sJpjyarHKUPgWZ9WyhSKP0NUJZSzHKjIz
- XQdwt7L0TWtxnfruscE3hPw9WHcSkKeRFWT/YcY3YiEU5b3Vrr29R1Q/aSit5niOEW5Uh6
- lzRCET7yH+lF9hh0xf7AiAhQ5joEJJg=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-XZSMBgpCPX2QNXz1X-ryuQ-1; Mon, 07 Mar 2022 02:09:00 -0500
-X-MC-Unique: XZSMBgpCPX2QNXz1X-ryuQ-1
-Received: by mail-pj1-f71.google.com with SMTP id
- g19-20020a17090a579300b001b9d80f3714so9242183pji.7
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 23:09:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shan.gavin@gmail.com>)
+ id 1nR7ZH-0006Gx-Ou; Mon, 07 Mar 2022 02:14:09 -0500
+Received: from [2607:f8b0:4864:20::631] (port=42506
+ helo=mail-pl1-x631.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shan.gavin@gmail.com>)
+ id 1nR7ZG-0002F3-AD; Mon, 07 Mar 2022 02:14:07 -0500
+Received: by mail-pl1-x631.google.com with SMTP id p17so12959469plo.9;
+ Sun, 06 Mar 2022 23:14:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=M376ZoWuJVPIrPaAWwAv2L61Ez2Yca85DioMcP11gPc=;
+ b=lqA4Gy/ujeQUEE/0lfuFCGUSNxkXnM6/cdIesnv3F2BvxJXhrh+9UYevUJAq9RBj+9
+ vIAAVoNSggOzwfcRDwUiX/o2FgpBJ2X7Ax3lbLWHmJt/T5cAxO+q8psGoDlxh0JeeRh+
+ E1UcleI5+FsvY0iavxdo7xxsAsskfNDf9YdGpZ4PZHkJ064DF+MC9cnlrly+d+5LJ0ha
+ nY0Z+Vm/hS0UjYB+ZY7+1Yhmq6rbutZ/z59UwxUjZCuU9/St8tlHnSF9JYzcCyO5U6oB
+ 9zdSdgP3FaAGvANU38vXz0BpIKiev2oBlD4AWboGmeAkdUWOpM6tCT3vGxQII7aXWvpo
+ 1gkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=3fEjqPNyhNHkvuPhu1pumSkdFp1WMIkiBoDRBZ5vakQ=;
- b=sl27ZFBiDwthvWnxzSGHb1cY5rNDROYtpFbjUE69ngSnFQ4WhvER8a0RYE20p6nlNu
- iNWXBoiavAakJI2686twHcc+Yvc46N0xXodWsJky/Lb3gjC3TFibrK7pekuDQwMG+eaN
- mLDgXEYOcYT0DBxmZ2vDWg8KRAikS33YQXpxqC+sFp4mQU9gSTbeHfJIOYyVkhGe1iZt
- pWRI+TXUk+f8ZXBH3rsheyPGUefgua84pvORNMHl8Ww2o1SKIrqgmtBiThSqx113m6tY
- wOHQct+vCeiz6CyD7SsTXW6Tfxt/aNLquzaou0ll32mz4cnqKb1pfQ/xknNeCoBud/BI
- mXXw==
-X-Gm-Message-State: AOAM532TndOnHyUQFuVzd4hunxobuZgzk9t/alNIolP0G3/kQ38FZcpq
- 94Fdmke8jvAm5ujdGioeR7ja2cHW0EpbK6CvOf21bWfD/LlieKsyXvH52g1hUFqrItjtpztIocH
- KHdYvKDbdOZEWH/E=
-X-Received: by 2002:a17:90a:4b0d:b0:1bc:f9da:f334 with SMTP id
- g13-20020a17090a4b0d00b001bcf9daf334mr23869995pjh.75.1646636939072; 
- Sun, 06 Mar 2022 23:08:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCjhh8Skdgs9ttspceav1EW5wP0ASDgsFjyqs0tbmwGUQ0fvz1ydSkDiTmcrwPXfpYQokW5w==
-X-Received: by 2002:a17:90a:4b0d:b0:1bc:f9da:f334 with SMTP id
- g13-20020a17090a4b0d00b001bcf9daf334mr23869970pjh.75.1646636938812; 
- Sun, 06 Mar 2022 23:08:58 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.47]) by smtp.gmail.com with ESMTPSA id
- h22-20020a056a00231600b004e1784925e5sm14889356pfh.97.2022.03.06.23.08.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 23:08:58 -0800 (PST)
-Date: Mon, 7 Mar 2022 15:08:53 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 07/18] migration: fix use of TLS PSK credentials with a
- UNIX socket
-Message-ID: <YiWvhXEZrC/p4/2j@xz-m1.local>
-References: <20220302174932.2692378-1-berrange@redhat.com>
- <20220302174932.2692378-8-berrange@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=M376ZoWuJVPIrPaAWwAv2L61Ez2Yca85DioMcP11gPc=;
+ b=h+SanQjKtMfPVUhnqycTM/3IR1884jDIh4Qse6RUGVrN9ejhb0yK+m3LurXNQBMmtF
+ uKDoEU8Ga2CD6vp7c6nVTwS9CtBfyahRc/5y6CCDfc3ute7r3gUM1SP8/tH9vzL1wRVB
+ axirQ/2JaUTK5U7fBiIk291s45PtWt7Su60QAnbYKK+v21pC5JJXXRPfn4WCyWqvMSmv
+ OGdjVoCmG7Kl1xDxoW4xCNPLLblK5F/pBxwmCdLNCbBzD1qFpSjuZ4wT4W22AzaS2dy6
+ d7DnybC7xvQ0zv6zPtsmxiV32sARPGmG1lByB9OQyotHYfOQuAHUW0AEM52zA+uBcPVd
+ Tc8w==
+X-Gm-Message-State: AOAM531ZTQFmw2637lsY9zsJGXjTUfh32oY0C2aejbLn/uap8qdEDtkw
+ ppbfSp3GkgmTjXOMhnv8dnIoxuoTdZ70jzHhAMw=
+X-Google-Smtp-Source: ABdhPJzQDjIH6u+Yf7JqVZQfuMaTAEqrGjNpazNlNryqh2wRO/mrLsT5B9gIOkFgyqhxa0bXrPjRYR68nK6r0UJ+eU4=
+X-Received: by 2002:a17:90a:880e:b0:1bc:650b:6be5 with SMTP id
+ s14-20020a17090a880e00b001bc650b6be5mr23641595pjn.34.1646637243429; Sun, 06
+ Mar 2022 23:14:03 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220302174932.2692378-8-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220228075203.60064-1-gshan@redhat.com>
+ <20220228100820.477e2311@redhat.com>
+ <41eb791c-a74a-7ed6-df05-cd1867ecbb5f@redhat.com>
+ <20220301114257.2bppjnjqj7dgxztc@sirius.home.kraxel.org>
+ <ee76dcac-8914-2f24-9920-9d93aa29c22d@redhat.com>
+ <20220304115240.71d241ad@redhat.com>
+ <CAFEAcA8BwRnziYaO2ZP7e_hNuAPBV7UOViX-nDu=ae2_7CemKw@mail.gmail.com>
+ <1abedac8-00c8-3039-ccfe-783f5eab9439@redhat.com>
+In-Reply-To: <1abedac8-00c8-3039-ccfe-783f5eab9439@redhat.com>
+From: Shan Gavin <shan.gavin@gmail.com>
+Date: Mon, 7 Mar 2022 15:13:52 +0800
+Message-ID: <CAOL5Tw=E1iEALPt3H5-T9Tizg3DMpUH8dueiPuuiSvz51AY8UQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: Validate memory size on the first NUMA node
+To: Laszlo Ersek <lersek@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=shan.gavin@gmail.com; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,28 +88,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Gavin Shan <gshan@redhat.com>, richard.henderson@linaro.org,
+ QEMU <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 02, 2022 at 05:49:21PM +0000, Daniel P. Berrangé wrote:
-> The migration TLS code has a check mandating that a hostname be
-> available when starting a TLS session. This is expected when using
-> x509 credentials, but is bogus for PSK and anonymous credentials
-> as neither involve hostname validation.
-> 
-> The TLS crdentials object gained suitable error reporting in the
-> case of TLS with x509 credentials, so there is no longer any need
-> for the migration code to do its own (incorrect) validation.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Hi Laszlo,
 
-Do we need a Fixes tag for this?
+Yes, I think it's enough to provide the user-friendly error message in EDK2=
+.
+The command lines to start the VM/guest can be adjusted to have more than
+128MB memory associated for NUMA node#0 when it's seen by users.
 
--- 
-Peter Xu
+Thanks,
+Gavin
 
+Laszlo Ersek <lersek@redhat.com> =E4=BA=8E2022=E5=B9=B43=E6=9C=884=E6=97=A5=
+=E5=91=A8=E4=BA=94 22:24=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Gerd,
+>
+> On 03/04/22 11:58, Peter Maydell wrote:
+> > On Fri, 4 Mar 2022 at 10:52, Igor Mammedov <imammedo@redhat.com> wrote:
+> >> if firmware is not an option, I wouldn't opposed to printing warning
+> >> message from QEMU if you can detect that you are running broken edk2
+> >> and under condition that no new infa/hooks are invented for this.
+> >> (assuming it's worth all the effort at all)
+> >
+> > I am definitely not in favour of that. QEMU should provide the
+> > emulated hardware and let the firmware deal with detecting if
+> > it's missing important stuff. It should as far as is possible
+> > not have special-case detection-of-broken-guests handling.
+> >
+> > thanks
+> > -- PMM
+> >
+>
+> It's probably simplest if you replace the ASSERT()s in question; please
+> see the attachment. (Only smoke tested.) Gavin indicated up-thread he'd
+> be OK with an easier-to-understand error message.
+>
+> Laszlo
 
