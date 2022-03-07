@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA144D0B5B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:46:49 +0100 (CET)
-Received: from localhost ([::1]:48850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42AD54D0B5A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:46:48 +0100 (CET)
+Received: from localhost ([::1]:48762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRM7s-000748-GB
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:46:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52374)
+	id 1nRM7q-000702-PG
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:46:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM5m-0004dq-Be
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31288)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM5l-0004dp-Li
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM5i-00057p-Kt
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM5i-00057t-Vp
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693072;
+ s=mimecast20190719; t=1646693074;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=g3DN9ReoWxiF2vk0dIGkbs/PK1+2q8I5AgkauaQXxAc=;
- b=iMV8r4eoRuNnJIQYhX6WwLtgf58JE9wzof0tl72ro8H0ONouySlA1BSdWlH0YdgMoeeY9w
- 9vtWovjlgYmGBBlu1ALo7EdY4cYkdVfCcIA6oRSndfUdRzEKEK7zGS6S3EEu9jqA6zwi5l
- wtVQFPdr5LJlXL6vbuT3V4blOaiT1QU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ in-reply-to:in-reply-to:references:references;
+ bh=t4EYi98Ftt5LJhR9VhEfDFIVBGMtEa4o0BZ3KdoQjXY=;
+ b=LAwR8GZmfNZQaQWW3vJvcZ0q0hgeh8uMoNrHh3s63ZXLKb9rgEcRonPVYEfLp1xALs+K4B
+ vZV43GwjOP+zx+GB9fgZrlIQcYZdT/PpfnXZNhCpZsV3Fvvav0td8KgWPEi/04uVxJT3Rh
+ l7QuSFgcM6hpHEYkMQMUEg3+UTnMtFQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-318-9egrLua9PzGYUGs7G61pjA-1; Mon, 07 Mar 2022 17:44:29 -0500
-X-MC-Unique: 9egrLua9PzGYUGs7G61pjA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w17-20020adfec51000000b001f068bc3342so2735327wrn.6
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:44:29 -0800 (PST)
+ us-mta-133-WYYDBf0TPe6S5LULlz1vvw-1; Mon, 07 Mar 2022 17:44:33 -0500
+X-MC-Unique: WYYDBf0TPe6S5LULlz1vvw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i83-20020a1c3b56000000b00389a203e5adso1099546wma.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:44:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=g3DN9ReoWxiF2vk0dIGkbs/PK1+2q8I5AgkauaQXxAc=;
- b=noUVhs54V6SpDS/slnTmd1I333g85fuQBu3FckefXawaK39T0nAZxTWIUBsTzvjcfV
- Yl0ThV5FvEhPwKb7w6mjrCpt7UENKt6leFcTGxAqcCNMcA+nc1U1to3Sapj3WJE2VFSi
- NDsBQb8PXD3jbpSPJFaPCt9mlpADrPqxLdNojoG8GptLH+QKSAYas8Hg1Ug0HEn7NXCc
- iSMkcp9kuTQ9vWjQy0PWOo6qcLEVGKByl+9xQdJVNor7v1i+e5TLkv85TPXApH89Ie5h
- qi14koBlIK2/f+JNQmFnKBibjnZX62zseDxW3mPnS0gSRVzKTT9HyLdYKb1LVVaITPkJ
- TYdw==
-X-Gm-Message-State: AOAM533LUEiCwqjGpIhe06Eyqi75NvcU0xD4+fhy/Ul0hou5rf1yzzcR
- BsTRv9IJ85olC7AWlrw/Tp5MrHmaSuOBbYtC+u8vpBsd+26WmyCBXwFmwv4lL+7RLX7kEu4pZ6y
- 7ii7lG0xTX+6SPKW9m5N4ajxkf5ngMmWn17lwe73ItyX9YAiWKIJdDFpojsYL
-X-Received: by 2002:a05:600c:2846:b0:389:9347:9aaf with SMTP id
- r6-20020a05600c284600b0038993479aafmr958469wmb.87.1646693067878; 
- Mon, 07 Mar 2022 14:44:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyrEPrw2dQuWdXHpGonMKc/cylcSw726frJPOaZJntq5ognn2WrGbP3cPZi2m2DtnSnW/XHSA==
-X-Received: by 2002:a05:600c:2846:b0:389:9347:9aaf with SMTP id
- r6-20020a05600c284600b0038993479aafmr958450wmb.87.1646693067428; 
- Mon, 07 Mar 2022 14:44:27 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=t4EYi98Ftt5LJhR9VhEfDFIVBGMtEa4o0BZ3KdoQjXY=;
+ b=OQ+MwGkRLnf7mpuWGQ9aUHxXSJTtZc63u5Lps+d0Jnym/S8l4wpMIAHJL1UXeIhiJp
+ CizmbhF4K+mbZwr7jiSFk2huJdkTsvyHzdPbQCC+k5pNAugV3uC5Hp/lB674ID0e3YoO
+ Udm0kio8estD7MsKHW1l0E26YqulXcNdJWpFdJF5AvntDWvLQeg3cTiAxfU0lTzbjBWo
+ ImkCqzxw86kMFWfi6QWunWYWIy7QYxus+8HDg6Fl5YFHjx/pGQqxnIwzbXraxERzoFRC
+ 18wPhdjuI7ttnbGWXghwyqmQFDz4ewOdlSvsAAMqR0hhD00zQkvHKwzWdeCsobkHfk77
+ JdSA==
+X-Gm-Message-State: AOAM532cc6BWEmrI7Bp0sFEmG1nQ2oOd7pXZHshPmR61YNWdUGAcOIGV
+ zLlBRfUa4qfAGmxgJttl7TcUtKY3tjQaT4YNpyxeMPQrSG4KIVMlg2JdJDIKJvY47JmPmMLM3WY
+ V5X3+HdBlV5MQq4J33gKf+nLZif1bOoAK+jM2g0BsDNTjA729axhlwbLCivnp
+X-Received: by 2002:adf:c792:0:b0:1f0:769:9ef3 with SMTP id
+ l18-20020adfc792000000b001f007699ef3mr9542890wrg.336.1646693072033; 
+ Mon, 07 Mar 2022 14:44:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw3YVgoYHE33IK1MAB4NxcNb6Bt8HDOgyFgSjiZrYpJG41hGh69MyCtBC9LSE93xoVPgpC4eQ==
+X-Received: by 2002:adf:c792:0:b0:1f0:769:9ef3 with SMTP id
+ l18-20020adfc792000000b001f007699ef3mr9542879wrg.336.1646693071767; 
+ Mon, 07 Mar 2022 14:44:31 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- v2-20020adf8b42000000b001edc38024c9sm13549732wra.65.2022.03.07.14.44.26
+ n8-20020adf8b08000000b001f046cc8891sm12568893wra.24.2022.03.07.14.44.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:44:26 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:44:24 -0500
+ Mon, 07 Mar 2022 14:44:31 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:44:27 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 00/47] virtio,pc,pci: features, cleanups, fixes
-Message-ID: <20220307224357.682101-1-mst@redhat.com>
+Subject: [PULL v4 01/47] qom: assert integer does not overflow
+Message-ID: <20220307224357.682101-2-mst@redhat.com>
+References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -96,202 +97,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 6629bf78aac7e53f83fd0bcbdbe322e2302dfd1f:
+QOM reference counting is not designed with an infinite amount of
+references in mind, trying to take a reference in a loop without
+dropping a reference will overflow the integer.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220302' into staging (2022-03-03 14:46:48 +0000)
+It is generally a symptom of a reference leak (a missing deref, commonly
+as part of error handling - such as one fixed here:
+https://lore.kernel.org/r/20220228095058.27899-1-sgarzare%40redhat.com ).
 
-are available in the Git repository at:
+All this can lead to either freeing the object too early (memory
+corruption) or never freeing it (memory leak).
 
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+If we happen to dereference at just the right time (when it's wrapping
+around to 0), we might eventually assert when dereferencing, but the
+real problem is an extra object_ref so let's assert there to make such
+issues cleaner and easier to debug.
 
-for you to fetch changes up to 128e050d41794e61e5849c6c507160da5556ea61:
+Some micro-benchmarking shows using fetch and add this is essentially
+free on x86.
 
-  hw/acpi/microvm: turn on 8042 bit in FADT boot architecture flags if present (2022-03-07 17:43:14 -0500)
-
-----------------------------------------------------------------
-virtio,pc,pci: features, cleanups, fixes
-
-vhost-user enabled on non-linux systems
-beginning of nvme sriov support
-bigger tx queue for vdpa
-virtio iommu bypass
-FADT flag to detect legacy keyboards
-
-Fixes, cleanups all over the place
+Since multiple threads could be incrementing in parallel, we assert
+around INT_MAX to make sure none of these approach the wrap around
+point: this way we get a memory leak and not a memory corruption, the
+former is generally easier to debug.
 
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ qom/object.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-----------------------------------------------------------------
-Ani Sinha (7):
-      MAINTAINERS: no need to add my name explicitly as a reviewer for VIOT tables
-      docs/acpi/erst: add device id for ACPI ERST device in pci-ids.txt
-      hw/acpi/erst: clean up unused IS_UEFI_CPER_RECORD macro
-      hw/smbios: code cleanup - use macro definitions for table header handles
-      hw/smbios: fix overlapping table handle numbers with large memory vms
-      hw/smbios: add assertion to ensure handles of tables 19 and 32 do not collide
-      hw/acpi/microvm: turn on 8042 bit in FADT boot architecture flags if present
-
-Dov Murik (2):
-      hw/i386: Improve bounds checking in OVMF table parsing
-      hw/i386: Replace magic number with field length calculation
-
-Eric DeVolder (1):
-      ACPI ERST: specification for ERST support
-
-Eugenio Pérez (1):
-      virtio-net: Unlimit tx queue size if peer is vdpa
-
-Halil Pasic (1):
-      virtio: fix the condition for iommu_platform not supported
-
-Igor Mammedov (4):
-      pci: expose TYPE_XIO3130_DOWNSTREAM name
-      acpi: pcihp: pcie: set power on cap on parent slot
-      x86: cleanup unused compat_apic_id_mode
-      pci: drop COMPAT_PROP_PCP for 2.0 machine types
-
-Jason Wang (1):
-      intel_iommu: support snoop control
-
-Jean-Philippe Brucker (3):
-      virtio-iommu: Default to bypass during boot
-      virtio-iommu: Support bypass domain
-      tests/qtest/virtio-iommu-test: Check bypass config
-
-Joelle van Dyne (1):
-      pc: add option to disable PS/2 mouse/keyboard
-
-Jonathan Cameron (3):
-      hw/pci-bridge/pxb: Fix missing swizzle
-      pci-bridge/xio3130_upstream: Fix error handling
-      pci-bridge/xio3130_downstream: Fix error handling
-
-Knut Omang (2):
-      pcie: Add support for Single Root I/O Virtualization (SR/IOV)
-      pcie: Add some SR/IOV API documentation in docs/pcie_sriov.txt
-
-Laurent Vivier (2):
-      hw/virtio: vdpa: Fix leak of host-notifier memory-region
-      vhost-vdpa: make notifiers _init()/_uninit() symmetric
-
-Liav Albani (3):
-      tests/acpi: i386: allow FACP acpi table changes
-      hw/acpi: add indication for i8042 in IA-PC boot flags of the FADT table
-      tests/acpi: i386: update FACP table differences
-
-Michael S. Tsirkin (1):
-      qom: assert integer does not overflow
-
-Patrick Venture (1):
-      hw/smbios: Add table 4 parameter, "processor-id"
-
-Sergio Lopez (4):
-      event_notifier: add event_notifier_get_wfd()
-      vhost: use wfd on functions setting vring call fd
-      configure, meson: allow enabling vhost-user on all POSIX systems
-      docs: vhost-user: add subsection for non-Linux platforms
-
-Stefano Garzarella (1):
-      vhost-vsock: detach the virqueue element in case of error
-
-Thomas Huth (1):
-      hw/i386/pc_piix: Mark the machine types from version 1.4 to 1.7 as deprecated
-
-Viresh Kumar (1):
-      hw/vhost-user-i2c: Add support for VIRTIO_I2C_F_ZERO_LENGTH_REQUEST
-
-Xueming Li (2):
-      vhost-user: remove VirtQ notifier restore
-      vhost-user: fix VirtQ notifier cleanup
-
-Zhenwei Pi (2):
-      headers: Add pvpanic.h
-      hw/misc/pvpanic: Use standard headers instead
-
-Zhenzhong Duan (1):
-      pci: show id info when pci BDF conflict
-
-Łukasz Gieryk (2):
-      pcie: Add a helper to the SR/IOV API
-      pcie: Add 1.2 version token for the Power Management Capability
-
- docs/pcie_sriov.txt                        | 115 +++++++++++
- docs/specs/pci-ids.txt                     |   1 +
- configure                                  |   4 +-
- hw/i386/intel_iommu_internal.h             |   1 +
- include/hw/acpi/acpi-defs.h                |   1 +
- include/hw/i386/intel_iommu.h              |   1 +
- include/hw/i386/pc.h                       |   2 +
- include/hw/i386/x86.h                      |   2 -
- include/hw/input/i8042.h                   |  15 ++
- include/hw/misc/pvpanic.h                  |   8 -
- include/hw/pci-bridge/xio3130_downstream.h |  15 ++
- include/hw/pci/pci.h                       |  12 +-
- include/hw/pci/pci_regs.h                  |   1 +
- include/hw/pci/pcie.h                      |   7 +
- include/hw/pci/pcie_sriov.h                |  77 ++++++++
- include/hw/virtio/vhost-user-i2c.h         |   3 +
- include/hw/virtio/vhost-user.h             |   3 +-
- include/hw/virtio/virtio-iommu.h           |   1 +
- include/qemu/event_notifier.h              |   1 +
- include/qemu/typedefs.h                    |   2 +
- include/standard-headers/linux/pvpanic.h   |   9 +
- hw/acpi/aml-build.c                        |   8 +-
- hw/acpi/erst.c                             |   5 -
- hw/acpi/pcihp.c                            |  12 +-
- hw/i386/acpi-build.c                       |   8 +
- hw/i386/acpi-microvm.c                     |   6 +
- hw/i386/intel_iommu.c                      |  14 +-
- hw/i386/pc.c                               |  30 ++-
- hw/i386/pc_piix.c                          |   1 +
- hw/i386/pc_sysfw_ovmf.c                    |  18 +-
- hw/i386/x86.c                              |  16 +-
- hw/misc/pvpanic-isa.c                      |   4 +-
- hw/misc/pvpanic-pci.c                      |   4 +-
- hw/misc/pvpanic.c                          |   5 +-
- hw/net/virtio-net.c                        |  13 +-
- hw/pci-bridge/pci_expander_bridge.c        |   6 +
- hw/pci-bridge/xio3130_downstream.c         |   5 +-
- hw/pci-bridge/xio3130_upstream.c           |   2 +-
- hw/pci/pci.c                               | 104 +++++++---
- hw/pci/pcie.c                              |  16 ++
- hw/pci/pcie_sriov.c                        | 302 +++++++++++++++++++++++++++++
- hw/smbios/smbios.c                         |  80 ++++++--
- hw/virtio/vhost-user-i2c.c                 |  11 +-
- hw/virtio/vhost-user.c                     |  61 +++---
- hw/virtio/vhost-vdpa.c                     |  21 +-
- hw/virtio/vhost-vsock-common.c             |  10 +-
- hw/virtio/vhost.c                          |   6 +-
- hw/virtio/virtio-bus.c                     |  12 +-
- hw/virtio/virtio-iommu.c                   |  99 ++++++++--
- qom/object.c                               |   6 +-
- tests/qtest/virtio-iommu-test.c            |   2 +
- util/event_notifier-posix.c                |   5 +
- MAINTAINERS                                |   1 -
- docs/about/deprecated.rst                  |   8 +
- docs/interop/vhost-user.rst                |  20 ++
- docs/specs/acpi_erst.rst                   | 200 +++++++++++++++++++
- docs/specs/index.rst                       |   1 +
- hw/pci/meson.build                         |   1 +
- hw/pci/trace-events                        |   5 +
- hw/virtio/trace-events                     |   4 +-
- meson.build                                |   2 +-
- qemu-options.hx                            |   3 +-
- scripts/update-linux-headers.sh            |   3 +-
- tests/data/acpi/q35/FACP                   | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.nosmm             | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.slic              | Bin 244 -> 244 bytes
- tests/data/acpi/q35/FACP.xapic             | Bin 244 -> 244 bytes
- 67 files changed, 1243 insertions(+), 178 deletions(-)
- create mode 100644 docs/pcie_sriov.txt
- create mode 100644 include/hw/pci-bridge/xio3130_downstream.h
- create mode 100644 include/hw/pci/pcie_sriov.h
- create mode 100644 include/standard-headers/linux/pvpanic.h
- create mode 100644 hw/pci/pcie_sriov.c
- create mode 100644 docs/specs/acpi_erst.rst
+diff --git a/qom/object.c b/qom/object.c
+index 9f7a33139d..a27532a6ba 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -1167,10 +1167,14 @@ GSList *object_class_get_list_sorted(const char *implements_type,
+ Object *object_ref(void *objptr)
+ {
+     Object *obj = OBJECT(objptr);
++    uint32_t ref;
++
+     if (!obj) {
+         return NULL;
+     }
+-    qatomic_inc(&obj->ref);
++    ref = qatomic_fetch_inc(&obj->ref);
++    /* Assert waaay before the integer overflows */
++    g_assert(ref < INT_MAX);
+     return obj;
+ }
+ 
+-- 
+MST
 
 
