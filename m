@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3282C4CF253
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 07:57:45 +0100 (CET)
-Received: from localhost ([::1]:42032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9544CF257
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 08:01:39 +0100 (CET)
+Received: from localhost ([::1]:51092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR7JQ-0000qw-5m
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 01:57:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58392)
+	id 1nR7NC-000700-SV
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 02:01:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nR7HX-0006Ss-NG; Mon, 07 Mar 2022 01:55:48 -0500
-Received: from [2607:f8b0:4864:20::429] (port=37580
- helo=mail-pf1-x429.google.com)
+ id 1nR7Ha-0006Y6-WE; Mon, 07 Mar 2022 01:55:51 -0500
+Received: from [2607:f8b0:4864:20::52c] (port=37838
+ helo=mail-pg1-x52c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1nR7HV-0007m4-SX; Mon, 07 Mar 2022 01:55:47 -0500
-Received: by mail-pf1-x429.google.com with SMTP id t5so12931714pfg.4;
- Sun, 06 Mar 2022 22:55:45 -0800 (PST)
+ id 1nR7HY-0007n0-UI; Mon, 07 Mar 2022 01:55:50 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id bc27so12804929pgb.4;
+ Sun, 06 Mar 2022 22:55:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lpDM4L25PmAWayO1hL2DYngZR5Lp/VHzuF6P8QmGy70=;
- b=S3wdy/SKYS4ya+Lv8XkOkdvWiDLhiBKPud6nW6g+xGt7uu0DsHYDjRJPfPJv/jgK+j
- ld31c+y0utbJVYp5qdyOT5wx9xHa8XWTjuhGd0Nd/GBMLXzRTkzCGnseltlC6AGEVu/m
- G8j0jXnZm/DVOXQaoypO3VvpLgHRi1l/B1o61aUwWIgtHl031f7EemDE/j3k9m+ImJvk
- vP7JbIPm4VgyZATCznNGhOAF0CgyDXUlyQxB8Ln2Vl7PZsdaDm6duAvDFkpf6jv9ir5m
- eK5+SFP9G7YLl0QOYJkwn1e/9l/j7KZEghy7PVRVUP7z2jOFeYvsFVk/bVk6X8Z5eB37
- 2hBw==
+ bh=x8ZCoo2efyiNDexpOcLRIp3ABlWpDbFRfAphz0mONfA=;
+ b=WgToOIU9v0y6SXDS0poekAztT+hxXcTYS5uA28QqCIbPAVhxLttUbykmFEjAfaLij/
+ drQcw8KUzZQAjSIJLhDWYGl8exrir4q7ONeMnNDmJEdyhSlusFtdmzhWVfNMqbM1Ke9O
+ g/RqOZfqvFnVBzWFspgsVQOgEcXSqQ4Vx9RTwqtZZ47MMCoYerVkWFqCtQOgNVSyu+kt
+ cskfyZy9I7avHz/lAoDg++fuYbWjkNPMmTtZoWwQhJSyKyRdZBKSKBgNr5qpN1MRJh+T
+ 8/s1HTm+VgBD0D5v/l8nECHd+kGPTgNJhw+tJ2YTRurxkl39D+0ZEwQwgpvSMNCQCQ+i
+ ys2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lpDM4L25PmAWayO1hL2DYngZR5Lp/VHzuF6P8QmGy70=;
- b=KESy8w1QKwNO08tJ0brLqescAKvFQOPvm95p6oktvGbOyzhw0DnR5c6T7dU6jAlgAM
- cmWCbjqnXCGij0y7sXKXNneDN22qlIVu8gCxmZgWWubfLNpIt3ZVtEryb7enU6UfCViY
- B/zrNU1d6rxp0EimBQbol6xAGOSYwlrGRn6xBSccJLQNs6Pk29z4AGaJHzFAKSY2eZPj
- IDFx5Uf2/cSd61pvFn7pulpAFgVpWW+zjPB0I0m71IqLUok8yXEYA0eRyn9Vw6GrLupc
- p9UpqpS1HF9pyWlgkqDuT890u4koCFot21+B1IsxA/2j6S3LTBf01R+TbFFEqKIay46G
- AV6A==
-X-Gm-Message-State: AOAM5318Jqj/00JzbLg6DvPE7/R/Bprg1dIJw2JicAks6NDigNWmDi72
- n3To9K8HoBN5irA8zQC2LnDIrC/Br1k=
-X-Google-Smtp-Source: ABdhPJzhHudDb8PCvb6Y9oFs4JCxjYm92bV11Ey1lZIMzgmunfeqzDbQNf1KLvCcNA+vXSHUoj6+4g==
-X-Received: by 2002:a63:81c7:0:b0:37c:8bd7:f7ff with SMTP id
- t190-20020a6381c7000000b0037c8bd7f7ffmr8627259pgd.202.1646636144105; 
- Sun, 06 Mar 2022 22:55:44 -0800 (PST)
+ bh=x8ZCoo2efyiNDexpOcLRIp3ABlWpDbFRfAphz0mONfA=;
+ b=nUqql/gpsJq+/4kCWYPXQxUp9f0Rm0l7osWm9cqZkLE2Ihdf6OI4X6BymY8piE/SL4
+ eqQdG0oXyGTiQMaINrd6pLRyKysIeIe8OoiYWCEA5miBpx7WmeGzpB3Z+9/qqXNWmjiB
+ LhGDkLD78sCGuHN7stq+Koo/63fBcUVylkntMsqgBjLxNLHtkZ0wEnlJ4ZfNk0TLQpms
+ MVMUJE8fVgb8V7dh3MoJ0y9AFJXNIlA/Sa5uBPCBurjcGNoKIoQsSHF4rB9ghhO3mjIJ
+ DP/NGGGZhA6GYYR4HGc9K8bVAfPMGN130WMbjesolyaEexRNetTG8IP7s0E7xGuDbaNS
+ Dkiw==
+X-Gm-Message-State: AOAM530DTLmSOAtmVgvbz5KQ5+FfViWidylyXhMGeYmrXzUCCw2mP7vy
+ cX9t2wbA/zDBOE+7mt3IcJvyDxxQxA4=
+X-Google-Smtp-Source: ABdhPJz1pCzWjzZtNjOw39Cs1AGJre2KebZxW1qdXsPxH1aervyrZTKz/QT0+ssJ/Y0RvOmpf0urUA==
+X-Received: by 2002:a63:471f:0:b0:373:9b10:886e with SMTP id
+ u31-20020a63471f000000b003739b10886emr8553273pga.307.1646636147203; 
+ Sun, 06 Mar 2022 22:55:47 -0800 (PST)
 Received: from bobo.ibm.com (61-68-211-196.tpgi.com.au. [61.68.211.196])
  by smtp.gmail.com with ESMTPSA id
- o1-20020a637e41000000b003804d0e2c9esm1902477pgn.35.2022.03.06.22.55.41
+ o1-20020a637e41000000b003804d0e2c9esm1902477pgn.35.2022.03.06.22.55.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 22:55:43 -0800 (PST)
+ Sun, 06 Mar 2022 22:55:47 -0800 (PST)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
-Subject: [PATCH v3 3/4] target/ppc: Add POWER9 DD2.2 model
-Date: Mon,  7 Mar 2022 16:55:26 +1000
-Message-Id: <20220307065527.156132-4-npiggin@gmail.com>
+Subject: [PATCH v3 4/4] spapr: Add SPAPR_CAP_AIL_MODE_3 for AIL mode 3 support
+ for H_SET_MODE hcall
+Date: Mon,  7 Mar 2022 16:55:27 +1000
+Message-Id: <20220307065527.156132-5-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20220307065527.156132-1-npiggin@gmail.com>
 References: <20220307065527.156132-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=npiggin@gmail.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=npiggin@gmail.com; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,174 +94,263 @@ Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-POWER9 DD2.1 and earlier had significant limitations when running KVM,
-including lack of "mixed mode" MMU support (ability to run HPT and RPT
-mode on threads of the same core), and a translation prefetch issue
-which is worked around by disabling "AIL" mode for the guest.
+The behaviour of the Address Translation Mode on Interrupt resource is
+not consistently supported by all CPU versions or all KVM versions:
+KVM-HV does not support mode 2, and does not support mode 3 on POWER7 or
+early POWER9 processesors. KVM PR only supports mode 0. TCG supports all
+modes (0, 2, 3). This leads to inconsistencies in guest behaviour and
+could cause problems migrating guests.
 
-These processors are not widely available, and it's difficult to deal
-with all these quirks in qemu +/- KVM, so create a POWER9 DD2.2 CPU
-and make it the default POWER9 CPU.
+This was not noticable for Linux guests for a long time because the
+kernel only uses modes 0 and 3, and it used to consider AIL-3 to be
+advisory in that it would always keep the AIL-0 vectors around. Recent
+Linux guests depend on the AIL mode working as specified in order to
+support the SCV facility interrupt. If AIL-3 can not be provided, then
+Linux must be given an error so it can disable the SCV facility, rather
+than silently failing.
 
+Add the ail-mode-3 capability to specify that AIL-3 is supported. AIL-0
+is implied as the baseline, and AIL-2 is no longer supported by spapr.
+AIL-2 is not known to be used by any software, but support in TCG could
+be restored with an ail-mode-2 capability quite easily if a regression
+is reported.
+
+Modify the H_SET_MODE Address Translation Mode on Interrupt resource
+handler to check capabilities and correctly return error if not
+supported.
+
+A heuristic is added for KVM to determine AIL-3 support before the
+introduction of a new KVM CAP, because blanket disabling AIL-3 has too
+much performance cost.
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hw/ppc/pnv.c                   |  2 +-
- hw/ppc/pnv_core.c              |  2 +-
- hw/ppc/spapr.c                 |  2 +-
- hw/ppc/spapr_cpu_core.c        |  1 +
- include/hw/ppc/pnv.h           |  2 +-
- target/ppc/cpu-models.c        |  4 +++-
- target/ppc/cpu-models.h        |  1 +
- target/ppc/cpu_init.c          | 21 +++++++++++++++++++--
- tests/qtest/device-plug-test.c |  4 ++--
- 9 files changed, 30 insertions(+), 9 deletions(-)
+ hw/ppc/spapr.c         |  5 +++++
+ hw/ppc/spapr_caps.c    | 37 +++++++++++++++++++++++++++++++++++++
+ hw/ppc/spapr_hcall.c   | 24 +++++++++++++-----------
+ include/hw/ppc/spapr.h |  4 +++-
+ target/ppc/kvm.c       | 32 ++++++++++++++++++++++++++++++++
+ target/ppc/kvm_ppc.h   |  6 ++++++
+ 6 files changed, 96 insertions(+), 12 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 0ac86e104f..a7217b6ffd 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -2144,7 +2144,7 @@ static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
-     static const char compat[] = "qemu,powernv9\0ibm,powernv";
- 
-     mc->desc = "IBM PowerNV (Non-Virtualized) POWER9";
--    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power9_v2.0");
-+    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power9_v2.2");
-     xfc->match_nvt = pnv_match_nvt;
- 
-     mc->alias = "powernv";
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index 19e8eb885f..a350cfc0b6 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -346,7 +346,7 @@ static const TypeInfo pnv_core_infos[] = {
-     DEFINE_PNV_CORE_TYPE(power8, "power8e_v2.1"),
-     DEFINE_PNV_CORE_TYPE(power8, "power8_v2.0"),
-     DEFINE_PNV_CORE_TYPE(power8, "power8nvl_v1.0"),
--    DEFINE_PNV_CORE_TYPE(power9, "power9_v2.0"),
-+    DEFINE_PNV_CORE_TYPE(power9, "power9_v2.2"),
-     DEFINE_PNV_CORE_TYPE(power10, "power10_v2.0"),
- };
- 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 4cc204f90d..69b0a6f6d6 100644
+index 69b0a6f6d6..6789c8a38d 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -4599,7 +4599,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
- 
-     smc->dr_lmb_enabled = true;
-     smc->update_dt_enabled = true;
--    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power9_v2.0");
-+    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power9_v2.2");
-     mc->has_hotpluggable_cpus = true;
-     mc->nvdimm_supported = true;
-     smc->resize_hpt_default = SPAPR_RESIZE_HPT_ENABLED;
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index ed84713960..fe18127d1d 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -387,6 +387,7 @@ static const TypeInfo spapr_cpu_core_type_infos[] = {
-     DEFINE_SPAPR_CPU_CORE_TYPE("power8nvl_v1.0"),
-     DEFINE_SPAPR_CPU_CORE_TYPE("power9_v1.0"),
-     DEFINE_SPAPR_CPU_CORE_TYPE("power9_v2.0"),
-+    DEFINE_SPAPR_CPU_CORE_TYPE("power9_v2.2"),
-     DEFINE_SPAPR_CPU_CORE_TYPE("power10_v1.0"),
-     DEFINE_SPAPR_CPU_CORE_TYPE("power10_v2.0"),
- #ifdef CONFIG_KVM
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 1e34ddd502..7f7b8ec4df 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -180,7 +180,7 @@ DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER8,
- DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER8NVL,
-                          TYPE_PNV_CHIP_POWER8NVL)
- 
--#define TYPE_PNV_CHIP_POWER9 PNV_CHIP_TYPE_NAME("power9_v2.0")
-+#define TYPE_PNV_CHIP_POWER9 PNV_CHIP_TYPE_NAME("power9_v2.2")
- DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER9,
-                          TYPE_PNV_CHIP_POWER9)
- 
-diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
-index 976be5e0d1..3d136859f0 100644
---- a/target/ppc/cpu-models.c
-+++ b/target/ppc/cpu-models.c
-@@ -732,6 +732,8 @@
-                 "POWER9 v1.0")
-     POWERPC_DEF("power9_v2.0",   CPU_POWERPC_POWER9_DD20,            POWER9,
-                 "POWER9 v2.0")
-+    POWERPC_DEF("power9_v2.2",   CPU_POWERPC_POWER9_DD22,            POWER9,
-+                "POWER9 v2.2")
-     POWERPC_DEF("power10_v1.0",  CPU_POWERPC_POWER10_DD1,            POWER10,
-                 "POWER10 v1.0")
-     POWERPC_DEF("power10_v2.0",  CPU_POWERPC_POWER10_DD20,           POWER10,
-@@ -908,7 +910,7 @@ PowerPCCPUAlias ppc_cpu_aliases[] = {
-     { "power8e", "power8e_v2.1" },
-     { "power8", "power8_v2.0" },
-     { "power8nvl", "power8nvl_v1.0" },
--    { "power9", "power9_v2.0" },
-+    { "power9", "power9_v2.2" },
-     { "power10", "power10_v2.0" },
- #endif
- 
-diff --git a/target/ppc/cpu-models.h b/target/ppc/cpu-models.h
-index b42f2ab162..20be2a4348 100644
---- a/target/ppc/cpu-models.h
-+++ b/target/ppc/cpu-models.h
-@@ -350,6 +350,7 @@ enum {
-     CPU_POWERPC_POWER9_BASE        = 0x004E0000,
-     CPU_POWERPC_POWER9_DD1         = 0x004E0100,
-     CPU_POWERPC_POWER9_DD20        = 0x004E0200,
-+    CPU_POWERPC_POWER9_DD22        = 0x004E0202,
-     CPU_POWERPC_POWER10_BASE       = 0x00800000,
-     CPU_POWERPC_POWER10_DD1        = 0x00800100,
-     CPU_POWERPC_POWER10_DD20       = 0x00800200,
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 83ca741bea..eee5d9cffb 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -6283,9 +6283,26 @@ static bool ppc_pvr_match_power9(PowerPCCPUClass *pcc, uint32_t pvr)
-         return false;
+@@ -4641,6 +4641,11 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+     smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_ON;
+     smc->default_caps.caps[SPAPR_CAP_FWNMI] = SPAPR_CAP_ON;
+     smc->default_caps.caps[SPAPR_CAP_RPT_INVALIDATE] = SPAPR_CAP_OFF;
++
++    /* This cap specifies whether the AIL 3 mode for H_SET_RESOURCE is
++     * supported. The default is modified by default_caps_with_cpu().
++     */
++    smc->default_caps.caps[SPAPR_CAP_AIL_MODE_3] = SPAPR_CAP_ON;
+     spapr_caps_add_properties(smc);
+     smc->irq = &spapr_irq_dual;
+     smc->dr_phb_enabled = true;
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index 655ab856a0..fe9a04b638 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -614,6 +614,33 @@ static void cap_rpt_invalidate_apply(SpaprMachineState *spapr,
      }
+ }
  
--    if ((pvr & 0x0f00) == (pcc->pvr & 0x0f00)) {
--        /* Major DD version matches to power9_v1.0 and power9_v2.0 */
-+    if ((pvr & 0x0f00) != (pcc->pvr & 0x0f00)) {
-+        /* Major DD version does not match */
-+        return false;
++static void cap_ail_mode_3_apply(SpaprMachineState *spapr,
++                                     uint8_t val, Error **errp)
++{
++    ERRP_GUARD();
++    PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
++    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
++
++    if (!val) {
++        return;
 +    }
 +
-+    if ((pvr & 0x0f00) == 0x100) {
-+        /* DD1.x always matches power9_v1.0 */
-         return true;
-+    } else if ((pvr & 0x0f00) == 0x200) {
-+        if ((pvr & 0xf) < 2) {
-+            /* DD2.0, DD2.1 match power9_v2.0 */
-+            if ((pcc->pvr & 0xf) == 0) {
-+                return true;
-+            }
-+        } else {
-+            /* DD2.2, DD2.3 (and any higher) match power9_v2.2 */
-+            if ((pcc->pvr & 0xf) == 2) {
-+                return true;
-+            }
++    if (tcg_enabled()) {
++        /* AIL-3 is only supported on POWER8 and above CPUs. */
++        if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
++            error_setg(errp, "TCG only supports cap-ail-mode-3 on POWER8 and later CPUs");
++            error_append_hint(errp, "Try appending -machine cap-ail-mode-3=off\n");
++            return;
++        }
++    } else if (kvm_enabled()) {
++        if (!kvmppc_supports_ail_3()) {
++            error_setg(errp, "KVM implementation does not support cap-ail-mode-3");
++            error_append_hint(errp, "Try appending -machine cap-ail-mode-3=off\n");
++            return;
++        }
++    }
++}
++
+ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
+     [SPAPR_CAP_HTM] = {
+         .name = "htm",
+@@ -731,6 +758,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
+         .type = "bool",
+         .apply = cap_rpt_invalidate_apply,
+     },
++    [SPAPR_CAP_AIL_MODE_3] = {
++        .name = "ail-mode-3",
++        .description = "Alternate Interrupt Location (AIL) mode 3 support",
++        .index = SPAPR_CAP_AIL_MODE_3,
++        .get = spapr_cap_get_bool,
++        .set = spapr_cap_set_bool,
++        .type = "bool",
++        .apply = cap_ail_mode_3_apply,
++    },
+ };
+ 
+ static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
+@@ -750,6 +786,7 @@ static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
+                                0, spapr->max_compat_pvr)) {
+         caps.caps[SPAPR_CAP_HTM] = SPAPR_CAP_OFF;
+         caps.caps[SPAPR_CAP_CFPC] = SPAPR_CAP_BROKEN;
++        caps.caps[SPAPR_CAP_AIL_MODE_3] = SPAPR_CAP_OFF;
+     }
+ 
+     if (!ppc_type_check_compat(cputype, CPU_POWERPC_LOGICAL_2_06_PLUS,
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index f008290787..e183892287 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -812,30 +812,32 @@ static target_ulong h_set_mode_resource_le(PowerPCCPU *cpu,
+ }
+ 
+ static target_ulong h_set_mode_resource_addr_trans_mode(PowerPCCPU *cpu,
++                                                        SpaprMachineState *spapr,
+                                                         target_ulong mflags,
+                                                         target_ulong value1,
+                                                         target_ulong value2)
+ {
+-    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+-
+-    if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
+-        return H_P2;
+-    }
+     if (value1) {
+         return H_P3;
+     }
++
+     if (value2) {
+         return H_P4;
+     }
+ 
+-    if (mflags == 1) {
+-        /* AIL=1 is reserved in POWER8/POWER9/POWER10 */
++    /*
++     * AIL-1 is not architected, and AIL-2 is not supported by QEMU spapr.
++     * It is supported for faithful emulation of bare metal systems, but for
++     * compatibility concerns we leave it out of the pseries machine.
++     */
++    if (mflags != 0 && mflags != 3) {
+         return H_UNSUPPORTED_FLAG;
+     }
+ 
+-    if (mflags == 2 && (pcc->insns_flags2 & PPC2_ISA310)) {
+-        /* AIL=2 is reserved in POWER10 (ISA v3.1) */
+-        return H_UNSUPPORTED_FLAG;
++    if (mflags == 3) {
++        if (!spapr_get_cap(spapr, SPAPR_CAP_AIL_MODE_3)) {
++            return H_UNSUPPORTED_FLAG;
 +        }
      }
  
-     return false;
-diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-index 404a92e132..30adc91d12 100644
---- a/tests/qtest/device-plug-test.c
-+++ b/tests/qtest/device-plug-test.c
-@@ -124,8 +124,8 @@ static void test_spapr_cpu_unplug_request(void)
+     spapr_set_all_lpcrs(mflags << LPCR_AIL_SHIFT, LPCR_AIL);
+@@ -854,7 +856,7 @@ static target_ulong h_set_mode(PowerPCCPU *cpu, SpaprMachineState *spapr,
+         ret = h_set_mode_resource_le(cpu, spapr, args[0], args[2], args[3]);
+         break;
+     case H_SET_MODE_RESOURCE_ADDR_TRANS_MODE:
+-        ret = h_set_mode_resource_addr_trans_mode(cpu, args[0],
++        ret = h_set_mode_resource_addr_trans_mode(cpu, spapr, args[0],
+                                                   args[2], args[3]);
+         break;
+     }
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index f5c33dcc86..7c090d54b0 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -77,8 +77,10 @@ typedef enum {
+ #define SPAPR_CAP_FWNMI                 0x0A
+ /* Support H_RPT_INVALIDATE */
+ #define SPAPR_CAP_RPT_INVALIDATE        0x0B
++/* Support for AIL modes */
++#define SPAPR_CAP_AIL_MODE_3            0x0C
+ /* Num Caps */
+-#define SPAPR_CAP_NUM                   (SPAPR_CAP_RPT_INVALIDATE + 1)
++#define SPAPR_CAP_NUM                   (SPAPR_CAP_AIL_MODE_3 + 1)
+ 
+ /*
+  * Capability Values
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index dc93b99189..e984474608 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -2563,6 +2563,38 @@ int kvmppc_has_cap_rpt_invalidate(void)
+     return cap_rpt_invalidate;
+ }
+ 
++bool kvmppc_supports_ail_3(void)
++{
++    PowerPCCPUClass *pcc = kvm_ppc_get_host_cpu_class();
++
++    /*
++     * KVM PR only supports AIL-0
++     */
++    if (kvmppc_is_pr(kvm_state)) {
++        return false;
++    }
++
++    /*
++     * KVM HV hosts support AIL-3 on POWER8 and above, except for radix
++     * mode on some early POWER9s.
++     */
++    if (!(pcc->insns_flags2 & PPC2_ISA207S)) {
++        return false;
++    }
++
++    /*
++     * These tests match the CPU_FTR_P9_RADIX_PREFETCH_BUG flag in Linux.
++     * DD2.0 and 2.1 has it, DD2.2 and 2.3 does not, but we have no 2.1 or
++     * 2.3 CPU model.
++     */
++    if (((pcc->pvr & 0xffff0fff) == CPU_POWERPC_POWER9_DD1) ||
++        ((pcc->pvr & 0xffff0fff) == CPU_POWERPC_POWER9_DD20)) {
++        return false;
++    }
++
++    return true;
++}
++
+ PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void)
  {
-     QTestState *qtest;
+     uint32_t host_pvr = mfpvr();
+diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+index ee9325bf9a..7bba26d1da 100644
+--- a/target/ppc/kvm_ppc.h
++++ b/target/ppc/kvm_ppc.h
+@@ -73,6 +73,7 @@ int kvmppc_set_cap_nested_kvm_hv(int enable);
+ int kvmppc_get_cap_large_decr(void);
+ int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
+ int kvmppc_has_cap_rpt_invalidate(void);
++bool kvmppc_supports_ail_3(void);
+ int kvmppc_enable_hwrng(void);
+ int kvmppc_put_books_sregs(PowerPCCPU *cpu);
+ PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
+@@ -393,6 +394,11 @@ static inline int kvmppc_has_cap_rpt_invalidate(void)
+     return false;
+ }
  
--    qtest = qtest_initf("-cpu power9_v2.0 -smp 1,maxcpus=2 "
--                        "-device power9_v2.0-spapr-cpu-core,core-id=1,id=dev0");
-+    qtest = qtest_initf("-cpu power9_v2.2 -smp 1,maxcpus=2 "
-+                        "-device power9_v2.2-spapr-cpu-core,core-id=1,id=dev0");
- 
-     /* similar to test_pci_unplug_request */
-     device_del(qtest, "dev0");
++static inline bool kvmppc_supports_ail_3(void)
++{
++    return false;
++}
++
+ static inline int kvmppc_enable_hwrng(void)
+ {
+     return -1;
 -- 
 2.23.0
 
