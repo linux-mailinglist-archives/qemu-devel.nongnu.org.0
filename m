@@ -2,94 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983934CFED0
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:34:18 +0100 (CET)
-Received: from localhost ([::1]:38652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBEE04CFEDB
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:35:23 +0100 (CET)
+Received: from localhost ([::1]:41552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCZ7-0000Ki-0s
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:34:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39422)
+	id 1nRCaA-0002Gn-W8
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:35:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nRCTO-00028W-D8
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:28:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33834)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1nRCWl-0007pt-OM
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:31:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1nRCTM-0001mt-Ke
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:28:22 -0500
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1nRCWi-0002dc-1J
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:31:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646656099;
+ s=mimecast20190719; t=1646656307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZCcxPYCaMKIG9ujGg1h4+mnJNq9gDXZb+TNSbPMdjuc=;
- b=Mw5UCsJUESeRz10xleRag/4gMIyZIPxprXkWkk9oc3rfVEwstzrTbBpRGR8zjUF8fxSQj8
- v1mOZm8xbrftgPx9qRi3RReJCXtq7Sdj0o/MRhd+OnFJDYioCeMPPQ/NDxBs6XcOOrCXE1
- aJs5MXHlVS+qpMo3s4lbIx2loGK7GCc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0Qyf9MbJyCiH8z4kDT7piiWSc0/eY799o24iXcIhmkc=;
+ b=hCHejM0nH7fsV/vs+l/haqzvYVNuHcB0jb8UZvQZ8AXlMTqWUkRpxl8uZVAnM58aIvIrIX
+ itPp5teaY2JddKEKysxXiJdAqRwLD/rYWDEcMZiWIKGThefzZF8xGtpTJDDh2vzsGl/4Kp
+ Wk9gzAaAXbl8ZMtd1YJD7olfs242/Sk=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-498-nsYEvY7WOp-nbEcxiLcNsw-1; Mon, 07 Mar 2022 07:28:18 -0500
-X-MC-Unique: nsYEvY7WOp-nbEcxiLcNsw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- a26-20020a7bc1da000000b003857205ec7cso6165930wmj.2
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 04:28:18 -0800 (PST)
+ us-mta-265-hvmDOt6TPC2NeTsUD7Ly7A-1; Mon, 07 Mar 2022 07:31:43 -0500
+X-MC-Unique: hvmDOt6TPC2NeTsUD7Ly7A-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ 67-20020ab00449000000b0034774edf0f1so8081057uav.23
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 04:31:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=ZCcxPYCaMKIG9ujGg1h4+mnJNq9gDXZb+TNSbPMdjuc=;
- b=bB5LH4NgDYkRGXeBduSiY3SaglUkR2O9qkXHJz1Xb0uYU1QoNWJyYkGGNfRQTyJY4K
- zmhsKO+Uyyalxbgfz7VDD1N14zh0lIZ9P68iFJC0+GXxtMTmNCJOOzNv8awnBPBX6372
- tsGD6hBkcZplenVtjcfJgvkYJJpe0mDwHaqXloh69v3cllnrKwqsl+Ip2MZf0V6YPWRi
- teMClzUqqkXl4I5j0cYlP/4PCksaMMMNNvcV1DTsu32m21f6hSrVkjp1bdT2FfIkRTnw
- BCXfsMgiaXPsmUxq1a22lNQSXamkGMgYJx0MpmmXMnOZxHtjEkvYpMDNII6FUQuHQgH2
- A3HA==
-X-Gm-Message-State: AOAM533tBdi9CTpssEzO6PxCSUvwTvg0E1IeY6tqoqy2I/q15beBjhNC
- sp2bb76BWjX9c3FCW8ZhQV8bap3rXEgpdZtS3pKf4jIWsZ6ysFP4SZfuS+7NWJJTyVN8JULg15+
- X/OP5/SOgaJQi+bk=
-X-Received: by 2002:adf:ef82:0:b0:1f0:1227:a38e with SMTP id
- d2-20020adfef82000000b001f01227a38emr7737168wro.596.1646656096828; 
- Mon, 07 Mar 2022 04:28:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwdDaZZcQa3Yy+V0J9n0FGBA9BM5jTn1mYhCcwaXPKJgewoa6oKXR8yJrDsuM1iuz9gjxh3+Q==
-X-Received: by 2002:adf:ef82:0:b0:1f0:1227:a38e with SMTP id
- d2-20020adfef82000000b001f01227a38emr7737151wro.596.1646656096499; 
- Mon, 07 Mar 2022 04:28:16 -0800 (PST)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- v2-20020adf8b42000000b001edc38024c9sm12289621wra.65.2022.03.07.04.28.15
+ :mime-version:content-disposition:in-reply-to;
+ bh=0Qyf9MbJyCiH8z4kDT7piiWSc0/eY799o24iXcIhmkc=;
+ b=301CWkPpG6tvWDqpuFgpg0k7jxSKrsVoBvB38Mx5gj13TJhCZaVDauuDR12hUY1gKO
+ 649VIm0Oxt6g5MoPn6G6ITS2FlDmuyK0i0ZRIcAo3i7XF3SDEvmXk/5sj0M27hO5xaVZ
+ 3v4+m0vBfF8ZBxbcAFXwB/khpTazmmje4Cms2Sk5gDc09bj6I5l+v5YTfDFdbPMQZ9pJ
+ 9idTj3tcde2EH4n9m9bMFpYCq0QhskrXVlK7xXDFzxSQKjKoZb+WWWlob8/+s5hCrLwv
+ X/UXFzfdwxy5t9u8C92/koYQF22QXI2i9de21USTFeW6RKH4cV/OCg5tzzRJ1z+PdjXT
+ YP7Q==
+X-Gm-Message-State: AOAM532cFMaAaxW2gpOfXk2kf4rl48U1GbET/FscDya1ix1XoFA9CBy2
+ qxzUiPxVgIvVzYBDc66l9bvBSOmCkvGhI/bmXAttaRQL9h33o5u9c+tzlWDzOPU70le6dofDKGf
+ pNjjKSYMd6K0U1bc=
+X-Received: by 2002:a05:6102:3a64:b0:320:91a3:f093 with SMTP id
+ bf4-20020a0561023a6400b0032091a3f093mr3270802vsb.58.1646656303349; 
+ Mon, 07 Mar 2022 04:31:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxRl/Fuj2GU81xEViIg7zpw4uo1qIxzPQpivIgkzRcUH89rUtUbLD7QdptCnyThfrdnzCYG6Q==
+X-Received: by 2002:a05:6102:3a64:b0:320:91a3:f093 with SMTP id
+ bf4-20020a0561023a6400b0032091a3f093mr3270793vsb.58.1646656303077; 
+ Mon, 07 Mar 2022 04:31:43 -0800 (PST)
+Received: from localhost ([191.181.58.94]) by smtp.gmail.com with ESMTPSA id
+ e21-20020ab031d5000000b0033ffa5785cfsm2184868uan.16.2022.03.07.04.31.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 04:28:16 -0800 (PST)
-Date: Mon, 7 Mar 2022 12:28:13 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: starting to look at qemu savevm performance, a first regression
- detected
-Message-ID: <YiX6XSlVNw183PTV@work-vm>
-References: <8826b03d-e5e9-0e65-cab7-ea1829f48e6c@suse.de>
- <YiXQHIWtHx5BocxK@redhat.com>
- <62ba8b1e-d641-5b10-c1b3-54b7d5a652e7@suse.de>
- <YiXVh1P4oJNuEtFM@redhat.com>
- <1f70a086-2b72-bd83-414b-476f5e6d0094@suse.de>
- <YiXzw8pF9If2/M7M@redhat.com>
- <5f318297-51c0-366b-758b-733ba27684ba@suse.de>
- <YiX4gfBtgDq/uZpu@redhat.com>
- <5b3d17d2-f07f-8cb1-54ff-6a517dc4eaef@suse.de>
+ Mon, 07 Mar 2022 04:31:42 -0800 (PST)
+Date: Mon, 7 Mar 2022 09:31:40 -0300
+From: Beraldo Leal <bleal@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/avocado: Cancel BootLinux tests in case there is
+ no free port
+Message-ID: <20220307123140.vykrynrmpdybst3y@laptop.redhat>
+References: <20220228114325.818294-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5b3d17d2-f07f-8cb1-54ff-6a517dc4eaef@suse.de>
-User-Agent: Mutt/2.1.5 (2021-12-30)
+In-Reply-To: <20220228114325.818294-1-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=bleal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -111,123 +96,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Claudio Fontana (cfontana@suse.de) wrote:
-> On 3/7/22 1:20 PM, Daniel P. Berrangé wrote:
-> > On Mon, Mar 07, 2022 at 01:09:55PM +0100, Claudio Fontana wrote:
-> >> On 3/7/22 1:00 PM, Daniel P. Berrangé wrote:
-> >>> On Mon, Mar 07, 2022 at 12:19:22PM +0100, Claudio Fontana wrote:
-> >>>> On 3/7/22 10:51 AM, Daniel P. Berrangé wrote:
-> >>>>> On Mon, Mar 07, 2022 at 10:44:56AM +0100, Claudio Fontana wrote:
-> >>>>>> Hello Daniel,
-> >>>>>>
-> >>>>>> On 3/7/22 10:27 AM, Daniel P. Berrangé wrote:
-> >>>>>>> On Sat, Mar 05, 2022 at 02:19:39PM +0100, Claudio Fontana wrote:
-> >>>>>>>>
-> >>>>>>>> Hello all,
-> >>>>>>>>
-> >>>>>>>> I have been looking at some reports of bad qemu savevm performance in large VMs (around 20+ Gb),
-> >>>>>>>> when used in libvirt commands like:
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>> virsh save domain /dev/null
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>> I have written a simple test to run in a Linux centos7-minimal-2009 guest, which allocates and touches 20G mem.
-> >>>>>>>>
-> >>>>>>>> With any qemu version since around 2020, I am not seeing more than 580 Mb/Sec even in the most ideal of situations.
-> >>>>>>>>
-> >>>>>>>> This drops to around 122 Mb/sec after commit: cbde7be900d2a2279cbc4becb91d1ddd6a014def .
-> >>>>>>>>
-> >>>>>>>> Here is the bisection for this particular drop in throughput:
-> >>>>>>>>
-> >>>>>>>> commit cbde7be900d2a2279cbc4becb91d1ddd6a014def (HEAD, refs/bisect/bad)
-> >>>>>>>> Author: Daniel P. Berrangé <berrange@redhat.com>
-> >>>>>>>> Date:   Fri Feb 19 18:40:12 2021 +0000
-> >>>>>>>>
-> >>>>>>>>     migrate: remove QMP/HMP commands for speed, downtime and cache size
-> >>>>>>>>     
-> >>>>>>>>     The generic 'migrate_set_parameters' command handle all types of param.
-> >>>>>>>>     
-> >>>>>>>>     Only the QMP commands were documented in the deprecations page, but the
-> >>>>>>>>     rationale for deprecating applies equally to HMP, and the replacements
-> >>>>>>>>     exist. Furthermore the HMP commands are just shims to the QMP commands,
-> >>>>>>>>     so removing the latter breaks the former unless they get re-implemented.
-> >>>>>>>>     
-> >>>>>>>>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >>>>>>>>     Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> >>>>>>>
-> >>>>>>> That doesn't make a whole lot of sense as a bisect result.
-> >>>>>>> How reliable is that bisect end point ? Have you bisected
-> >>>>>>> to that point more than once ?
-> >>>>>>
-> >>>>>> I did run through the bisect itself only once, so I'll double check that.
-> >>>>>> The results seem to be reproducible almost to the second though, a savevm that took 35 seconds before the commit takes 2m 48 seconds after.
-> >>>>>>
-> >>>>>> For this test I am using libvirt v6.0.0.
-> >>>
-> >>> I've just noticed this.  That version of libvirt is 2 years old and
-> >>> doesn't have full support for migrate_set_parameters.
-> >>>
-> >>>
-> >>>> 2022-03-07 10:47:20.145+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-19"}^M
-> >>>>  len=93 ret=93 errno=0
-> >>>> 2022-03-07 10:47:20.146+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"id": "libvirt-19", "error": {"class": "CommandNotFound", "desc": "The command migrate_set_speed has not been found"}}
-> >>>> 2022-03-07 10:47:20.147+0000: 134391: error : qemuMonitorJSONCheckError:412 : internal error: unable to execute QEMU command 'migrate_set_speed': The command migrate_set_speed has not been found
-> >>>
-> >>> We see the migrate_set_speed failing and libvirt obviously ignores that
-> >>> failure.
-> >>>
-> >>> In current libvirt migrate_set_speed is not used as it properly
-> >>> handles migrate_set_parameters AFAICT.
-> >>>
-> >>> I think you just need to upgrade libvirt if you want to use this
-> >>> newer QEMU version
-> >>>
-> >>> Regards,
-> >>> Daniel
-> >>>
-> >>
-> >> Got it, this explains it, sorry for the noise on this.
-> >>
-> >> I'll continue to investigate the general issue of low throughput with virsh save / qemu savevm .
-> > 
-> > BTW, consider measuring with the --bypass-cache flag to virsh save.
-> > This causes libvirt to use a I/O helper that uses O_DIRECT when
-> > saving the image. This should give more predictable results by
-> > avoiding the influence of host I/O cache which can be in a differnt
-> > state of usage each time you measure.  It was also intended that
-> > by avoiding hitting cache, saving the memory image of a large VM
-> > will not push other useful stuff out of host I/O  cache which can
-> > negatively impact other running VMs.
-> > 
-> > Also it is possible to configure compression on the libvirt side
-> > which may be useful if you have spare CPU cycles, but your storage
-> > is slow. See 'save_image_format' in the /etc/libvirt/qemu.conf
-> > 
-> > With regards,
-> > Daniel
-> > 
-> 
-> Hi Daniel, thanks for these good info,
-> 
-> regarding slow storage, for these tests I am saving to /dev/null to avoid having to take storage into account
-> (and still getting low bandwidth unfortunately) so I guess compression is out of the question.
+Hi, Thomas, sorry for the late reply, I was in PTO.
 
-What type of speeds do you get if you try a migrate to a netcat socket?
+Just in case it is still needed:
 
-Dave
+On Mon, Feb 28, 2022 at 12:43:25PM +0100, Thomas Huth wrote:
+> The BootLinux tests are currently failing with an ugly python
+> stack trace on my RHEL8 system since they cannot get a free port
+> (likely due to the firewall settings on my system). Let's properly
+> check the return value of find_free_port() instead and cancel the
+> test gracefully if it cannot get a free port.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  Unfortunately, it still takes > 70 seconds for each and every
+>  tests from tests/avocado/boot_linux.py to get canceled, so
+>  tests/avocado/boot_linux.py still renders "make check-avocado"
+>  for me pretty unusable... looking at the implementation of
+>  find_free_port() in Avocado, I wonder whether there isn't a
+>  better way to get a free port number in Python? Brute-forcing
+>  all ports between 1024 and 65536 seems just quite cumbersome
+>  to me...
 
-> Thanks!
+This is something that also bothers me with this method, and maybe we
+could get a free port using something like this:
+
+```
+with socket() as s: 
+    s.bind(('',0)) 
+    port = s.getsockname()[1]
+```  
+
+I haven't benchmarked both solutions yet nor looked at socket module
+code, but I just created an issue[1] on Avocado's side so that we can
+evaluate alternatives.
+
+[1] - https://github.com/avocado-framework/avocado/issues/5273
+
+>  tests/avocado/avocado_qemu/__init__.py | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Claudio
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+> index 75063c0c30..9b056b5ce5 100644
+> --- a/tests/avocado/avocado_qemu/__init__.py
+> +++ b/tests/avocado/avocado_qemu/__init__.py
+> @@ -603,6 +603,8 @@ def prepare_cloudinit(self, ssh_pubkey=None):
+>          try:
+>              cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
+>              self.phone_home_port = network.find_free_port()
+> +            if not self.phone_home_port:
+> +                self.cancel('Failed to get a free port')
+>              pubkey_content = None
+>              if ssh_pubkey:
+>                  with open(ssh_pubkey) as pubkey:
+
+In any case, this LGTM.
+
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
+
+--
+Beraldo
 
 
