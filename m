@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252304D006B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 14:49:17 +0100 (CET)
-Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FB54D0074
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 14:52:17 +0100 (CET)
+Received: from localhost ([::1]:55722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRDjg-0000DW-4w
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 08:49:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58724)
+	id 1nRDma-0004js-CW
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 08:52:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRDfc-0005kM-Ai
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:45:04 -0500
-Received: from [2607:f8b0:4864:20::433] (port=37681
- helo=mail-pf1-x433.google.com)
+ id 1nRDfk-0005rk-IB
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:45:19 -0500
+Received: from [2607:f8b0:4864:20::62f] (port=42623
+ helo=mail-pl1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRDfY-0006wA-Uv
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:45:02 -0500
-Received: by mail-pf1-x433.google.com with SMTP id t5so13818545pfg.4
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 05:45:00 -0800 (PST)
+ id 1nRDfi-00078F-N1
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 08:45:12 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id p17so13787234plo.9
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 05:45:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zKnK2u0z+UoUHu8ipnwT4tgVhDExVvLYNczURL/a2ws=;
- b=RDOQpYAZKwN1GJw9hVV3xKwHeXRUbhxpRPKcHmHuJWWaDPUxqbndqfyMlFXZTYdURa
- 9LipCi0lECcc49+XZgnJoOCYfDO2EJ+xv2S4gPMlZMGbIV5PXA3mJMi8gnqUCe65amm0
- 9EtBaMSeKn9i+vO2XFCvGMVFLikg4EUtS9FJ9bPzADCfZnLgzkKu353suvlluEIJp7rh
- Hirk8EPA1FYVC+0ZX3ZUhCr1WkValIcSdf7Uovp9v5dDq941/EtKb68BsoHC2HJnDVC8
- epRQJCBv7qg1qON6403n2Yi/6nlWPxBVPJl6HBnrUh0A+EVGd+8yJmzUF+AWclt087Ac
- TzeA==
+ bh=zwKcr0BxuWom7IkiNcPhPZK4xdCumUneF31LB5FuiUY=;
+ b=FTWS8r+qT2P8YQtKyxyMVLQVQxUPhylwXu1xm1615AHMmCeqo2r45flU5aZS26vpjP
+ ZZWXgOIP4LQhdrCD0rvZb6fA7akvzgZSJOukotwHHhsdQS4VyZFmHZOfF6TUfIjXaHvQ
+ pL9Vn6ESHgSnmHGclhMO9AgowffKpfNPpyZUYKctvHCcP1uJawpQoT12e0u4xOLGQ9vQ
+ dPC/xyhxsE7HfCohq0BQRIFcEKnuyMNCVByMo+Ml2ZETyrTd1SuDMJfOvJQ+fJ2stIpN
+ UEG1eYf108T3XDz1w+hWf4w9hiZFmnRm7lFFzJ2clIHCx5UmwVGkvo/PyVrkp+Z8x3mu
+ /i9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zKnK2u0z+UoUHu8ipnwT4tgVhDExVvLYNczURL/a2ws=;
- b=sqBED8wRP8dJl/HsIZg86lmqa2HR++Gyb8QJ/bLsKRJfBdrz3hSU7u4CjewAd5UrZA
- eyrjGN5evEFE5R5uj5W0xlYNIwn/AkOUy3XzABSyPIvFZvdKnmlkPNNedhnVHjaWW6MP
- mY6vLXPwXfdwdPAzaBe4uW24QxBpFQvpRSqCrwZK44i7r8x9yRU4pbHSpjZEVnOyglsO
- Ki+GAV2vcPl5FUlqMJptbu7Xl/4z/HXFJckAVksWkcGLcZ1uDAmWb6eV394MZMNJN5a6
- +uen2GlwBM8VWqvwkSYUJWGh8vVtDEKM0Btre8svUp08Mz59ji1RqzYPj0078/v+Bbwl
- bdkg==
-X-Gm-Message-State: AOAM5319zEIPXkFZY1b5Ybs3jsiOBPpQSIYWzhTGp3hacMKqAmfKdJYA
- h5fHgf+1uWmCZfpM0U/ZZlY=
-X-Google-Smtp-Source: ABdhPJziCRTE7xVBAv1VOQzj5UavukC0W6JQzoK21VIzVd/MYdhmXz30vutdBuSH1qx0siMa1+KFgw==
-X-Received: by 2002:a63:5124:0:b0:375:9f87:f881 with SMTP id
- f36-20020a635124000000b003759f87f881mr9510362pgb.578.1646660699687; 
- Mon, 07 Mar 2022 05:44:59 -0800 (PST)
+ bh=zwKcr0BxuWom7IkiNcPhPZK4xdCumUneF31LB5FuiUY=;
+ b=SkAePnbleZ6dkh3nOiDbGMDQ7goF3SwLoKtB/Ik/PFLxsM/lv7dB6WwAc4ThXYjq6G
+ Ct0fxtO3+SvRNxfcUp6VJoYatkOGoPEA05rkhb8beDKsNANDf7WgClhV3rx0YmgT0TFp
+ Xb9qXt7d7REDH07iFPWEN67yOCuYzuDvZc+L6+NfH2yEV5wX2X2g7wUiLcbkfWSquD1o
+ 13GI8rebBsMxolmanockUmEyFXV0DeWGRS5xZOKS/hmf59ZOwfeTSiUxtU42FkpmYXf5
+ evYBTFYQb0IxuxYLMRJ4aruUE3EL6kesu8RxqhnGsVcUIKdv/aUh4TtIn1DipFn1Sv2D
+ ReAg==
+X-Gm-Message-State: AOAM533FNQ3euh7tl31abMn4wqiolsZF5+RAY/g4GIGS3qyG5YCS/wNS
+ IhN/Npafe+82WDnxjanjrmyUUKyXSVo=
+X-Google-Smtp-Source: ABdhPJxI0atuqn4Zy44NulTlNt7LX+h0TvlPdb6h84ketXUINiPjYkoz8KQkK3UAXxdpcQsqB2jE2w==
+X-Received: by 2002:a17:902:e302:b0:151:bfe9:da34 with SMTP id
+ q2-20020a170902e30200b00151bfe9da34mr11648433plc.100.1646660707971; 
+ Mon, 07 Mar 2022 05:45:07 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u37-20020a056a0009a500b004e1414d69besm16487758pfg.151.2022.03.07.05.44.57
+ x1-20020a637c01000000b0038007eeee0bsm6224092pgc.22.2022.03.07.05.45.05
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Mar 2022 05:44:59 -0800 (PST)
+ Mon, 07 Mar 2022 05:45:07 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: Bernhard Beschow <shentey@gmail.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH 07/13] hw/mips/gt64xxx_pci: Resolve gt64120_register()
-Date: Mon,  7 Mar 2022 14:43:47 +0100
-Message-Id: <20220307134353.1950-8-philippe.mathieu.daude@gmail.com>
+Subject: [PATCH 08/13] hw/rtc/mc146818rtc: QOM'ify IRQ number
+Date: Mon,  7 Mar 2022 14:43:48 +0100
+Message-Id: <20220307134353.1950-9-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307134353.1950-1-philippe.mathieu.daude@gmail.com>
 References: <20220307134353.1950-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,98 +97,124 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-Now that gt64120_register() lost its pic parameter, there is an
-opportunity to remove it. gt64120_register() is old style by wrapping
-qdev API, and the new style is to use qdev directly. So take the
-opportunity and modernize the code.
+Exposing the IRQ number as a QOM property not only allows it to be
+configurable but also to be displayed in HMP:
 
-Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Before:
+
+(qemu) info qtree
+       ...
+          dev: mc146818rtc, id ""
+            gpio-out "" 1
+            base_year = 0 (0x0)
+            lost_tick_policy = "discard"
+
+After:
+
+          dev: mc146818rtc, id ""
+            gpio-out "" 1
+            base_year = 0 (0x0)
+            irq = 8 (0x8)
+            lost_tick_policy = "discard"
+
+The reason the IRQ number didn's show up before is that this device does not
+call isa_init_irq().
+
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <20220217101924.15347-8-shentey@gmail.com>
+Message-Id: <20220301220037.76555-2-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/gt64xxx_pci.c  | 21 ++++-----------------
- hw/mips/malta.c        |  3 ++-
- include/hw/mips/mips.h |  3 ---
- 3 files changed, 6 insertions(+), 21 deletions(-)
+ hw/isa/piix4.c               |  2 +-
+ hw/rtc/mc146818rtc.c         | 13 +++++++++++--
+ include/hw/rtc/mc146818rtc.h |  1 +
+ 3 files changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index eb205d6d70..e0ff1b5566 100644
---- a/hw/mips/gt64xxx_pci.c
-+++ b/hw/mips/gt64xxx_pci.c
-@@ -26,7 +26,6 @@
- #include "qapi/error.h"
- #include "qemu/units.h"
- #include "qemu/log.h"
--#include "hw/mips/mips.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_host.h"
- #include "migration/vmstate.h"
-@@ -1151,30 +1150,18 @@ static void gt64120_reset(DeviceState *dev)
- static void gt64120_realize(DeviceState *dev, Error **errp)
- {
-     GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
-+    PCIHostState *phb = PCI_HOST_BRIDGE(dev);
- 
-     memory_region_init_io(&s->ISD_mem, OBJECT(dev), &isd_mem_ops, s,
-                           "gt64120-isd", 0x1000);
--}
--
--PCIBus *gt64120_register(void)
--{
--    GT64120State *d;
--    PCIHostState *phb;
--    DeviceState *dev;
--
--    dev = qdev_new(TYPE_GT64120_PCI_HOST_BRIDGE);
--    d = GT64120_PCI_HOST_BRIDGE(dev);
--    phb = PCI_HOST_BRIDGE(dev);
--    memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
--    address_space_init(&d->pci0_mem_as, &d->pci0_mem, "pci0-mem");
-+    memory_region_init(&s->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
-+    address_space_init(&s->pci0_mem_as, &s->pci0_mem, "pci0-mem");
-     phb->bus = pci_root_bus_new(dev, "pci",
--                                &d->pci0_mem,
-+                                &s->pci0_mem,
-                                 get_system_io(),
-                                 PCI_DEVFN(18, 0), TYPE_PCI_BUS);
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
- 
-     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
--    return phb->bus;
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index f876c71750..fc3c8b3fd1 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -216,7 +216,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+         return;
+     }
+-    isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc.irq, RTC_ISA_IRQ);
++    isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc.irq, s->rtc.isairq);
  }
  
- static void gt64120_pci_realize(PCIDevice *d, Error **errp)
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 13254dbc89..55037eb90f 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1390,7 +1390,8 @@ void mips_malta_init(MachineState *machine)
-     stl_p(memory_region_get_ram_ptr(bios_copy) + 0x10, 0x00000420);
+ static void piix4_init(Object *obj)
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index ac9a60c90e..f235c2ddbe 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -912,6 +912,11 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+         s->base_year = 0;
+     }
  
-     /* Northbridge */
--    pci_bus = gt64120_register();
-+    dev = sysbus_create_simple("gt64120", -1, NULL);
-+    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci"));
-     /*
-      * The whole address space decoded by the GT-64120A doesn't generate
-      * exception when accessing invalid memory. Create an empty slot to
-diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
-index ff88942e63..101799f7d3 100644
---- a/include/hw/mips/mips.h
-+++ b/include/hw/mips/mips.h
-@@ -9,9 +9,6 @@
++    if (s->isairq >= ISA_NUM_IRQS) {
++        error_setg(errp, "Maximum value for \"irq\" is: %u", ISA_NUM_IRQS - 1);
++        return;
++    }
++
+     rtc_set_date_from_host(isadev);
  
- #include "exec/memory.h"
+     switch (s->lost_tick_policy) {
+@@ -957,15 +962,17 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
+ {
+     DeviceState *dev;
+     ISADevice *isadev;
++    RTCState *s;
  
--/* gt64xxx.c */
--PCIBus *gt64120_register(void);
--
- /* bonito.c */
- PCIBus *bonito_init(qemu_irq *pic);
+     isadev = isa_new(TYPE_MC146818_RTC);
+     dev = DEVICE(isadev);
++    s = MC146818_RTC(isadev);
+     qdev_prop_set_int32(dev, "base_year", base_year);
+     isa_realize_and_unref(isadev, bus, &error_fatal);
+     if (intercept_irq) {
+         qdev_connect_gpio_out(dev, 0, intercept_irq);
+     } else {
+-        isa_connect_gpio_out(isadev, 0, RTC_ISA_IRQ);
++        isa_connect_gpio_out(isadev, 0, s->isairq);
+     }
  
+     object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(isadev),
+@@ -976,6 +983,7 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
+ 
+ static Property mc146818rtc_properties[] = {
+     DEFINE_PROP_INT32("base_year", RTCState, base_year, 1980),
++    DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
+     DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
+                                lost_tick_policy, LOST_TICK_POLICY_DISCARD),
+     DEFINE_PROP_END_OF_LIST(),
+@@ -1011,6 +1019,7 @@ static void rtc_reset_hold(Object *obj)
+ 
+ static void rtc_build_aml(ISADevice *isadev, Aml *scope)
+ {
++    RTCState *s = MC146818_RTC(isadev);
+     Aml *dev;
+     Aml *crs;
+ 
+@@ -1021,7 +1030,7 @@ static void rtc_build_aml(ISADevice *isadev, Aml *scope)
+     crs = aml_resource_template();
+     aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
+                            0x01, 0x08));
+-    aml_append(crs, aml_irq_no_flags(RTC_ISA_IRQ));
++    aml_append(crs, aml_irq_no_flags(s->isairq));
+ 
+     dev = aml_device("RTC");
+     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0B00")));
+diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+index 5b45b22924..deef93f89a 100644
+--- a/include/hw/rtc/mc146818rtc.h
++++ b/include/hw/rtc/mc146818rtc.h
+@@ -25,6 +25,7 @@ struct RTCState {
+     MemoryRegion coalesced_io;
+     uint8_t cmos_data[128];
+     uint8_t cmos_index;
++    uint8_t isairq;
+     int32_t base_year;
+     uint64_t base_rtc;
+     uint64_t last_update;
 -- 
 2.34.1
 
