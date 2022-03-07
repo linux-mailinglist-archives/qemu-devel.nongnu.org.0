@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BE24CF313
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 08:58:59 +0100 (CET)
-Received: from localhost ([::1]:34524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC574CF354
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 09:11:05 +0100 (CET)
+Received: from localhost ([::1]:55418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR8Gg-0005qk-Cu
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 02:58:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39424)
+	id 1nR8SP-0003MD-0T
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 03:11:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nR888-0001bd-V0
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:50:09 -0500
-Received: from [2607:f8b0:4864:20::633] (port=43998
- helo=mail-pl1-x633.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nR887-0007XZ-4K
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:50:08 -0500
-Received: by mail-pl1-x633.google.com with SMTP id e2so13028379pls.10
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 23:50:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Y6AVoKg94+mWL5MWBhHsPQ4sRRq7OrimnTtK7TbWXwo=;
- b=hab/Wxn3CNT3D1vym1Kc9nD0tb6OIGo1DOGekjRVH61iQM1OqzDrov2MiEtNps8Rn2
- 5yLkVrrCcz8UmYCFjIyembZbQVO55PJJGzVRyhdl6mK+w+TySnvnPTyVF0oVz00uVGM5
- 3fKskA2pc//l+N+CTPKP9ikQpjutVvIAC3roxcVSYrscVMojS7qvxcXA+oRgjAYM/DHo
- ABg95VJcd1mbRGHb7d7S15nv8QLwIs17t49CxyB9qtJv8YwbhehkCr1Y4ikgYozs5NeA
- UpzFp28GU8mcAkulBZ1oqzZszNJU2pJbOE8PzrmT8bWiJV4MH48CUG5706yOGc7DAxIu
- FLUA==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nR88P-0001o6-Eq
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:50:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nR88M-0007jj-Jt
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:50:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646639421;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2yaT4KWWHe0kc9Yqi+AHfq2KH+PXBS2LUvy+KUKG+WY=;
+ b=ax6OCX1071VdHyJpPIcMkm8+IWXQQSL+9X0HBbCzMrLCQGVwZ2d0J1TRd0vtXodQ2+FPMY
+ 7C16JKoZ3En2E44nSGQ73G/mjTyCr58S6CYj0TKSI/YMW1vE6kTpGN8IiZVgNGz/XkPc0v
+ A48LRYz2dLvYomqPvfaRI7GGDgwVYO8=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-607-NBIiXlNFOfCt3DLnrEKCLA-1; Mon, 07 Mar 2022 02:50:21 -0500
+X-MC-Unique: NBIiXlNFOfCt3DLnrEKCLA-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ l16-20020a25bf90000000b00628c3a412cdso9950356ybk.10
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 23:50:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Y6AVoKg94+mWL5MWBhHsPQ4sRRq7OrimnTtK7TbWXwo=;
- b=8OR2H3NGS/bxZRx5Q21L1IZ9scP0H8OZOUXwvqV1PF4wKGOx5oDDx7wruLvJ8xEWf8
- PQwx5RFJtkydWiWYUDAdWcTbcXkr6epuWFKZCmAcOZTKCG+XkkVraoBiLgNPtDzB9A0m
- sVj8mDNjGh5pr3kF9GiBQVljEmm+DfiBrtTXZEQeV4MHVJ4pb0cWL7Ph6uN6ElxS5hUe
- mrM/QTE2hl2Y/f/Lc4CIJRp8Ao8XV/UTJTz65J/P549f3qyZoayG5Sm2uZ7cDU+1JcUx
- pG8iUQQDnCFWf993Nvmo1i6WMnEyDIQR7Y5lomZ+xeZy4+SRmhJzF2yHyIhh46/Xzu7K
- ui3w==
-X-Gm-Message-State: AOAM532ZQ0GpFv7PFo34gZodaUvR8TtQ2t0lnGRuqa4OMLSsfoVqEDxb
- ZUm2ojcEoHH2VYwdL8oG8us=
-X-Google-Smtp-Source: ABdhPJwP6TwgKwrWM1WSxMtrkBRfBcgU6KxdixtCA7P0VyclulMChJ5HIekdJ+xfqCxkACBijl36hw==
-X-Received: by 2002:a17:902:f54a:b0:151:9c5a:3c7a with SMTP id
- h10-20020a170902f54a00b001519c5a3c7amr11260616plf.118.1646639405631; 
- Sun, 06 Mar 2022 23:50:05 -0800 (PST)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- t9-20020a656089000000b00372c36604a7sm10951971pgu.13.2022.03.06.23.50.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Mar 2022 23:50:05 -0800 (PST)
-Message-ID: <4c171d81-576f-e2ff-787f-9b9744f79013@gmail.com>
-Date: Mon, 7 Mar 2022 16:50:01 +0900
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2yaT4KWWHe0kc9Yqi+AHfq2KH+PXBS2LUvy+KUKG+WY=;
+ b=2UQTIWD83DDS1LRzjYK2CfEvTn1sb2c/sAazIST5iJX8BwPg9UEakl7iQHlmA6G6OC
+ Y8JJLg9dlfgwfe6RuVL1m57lke9Cz9/fhaBJUEDpOAKKG9n9bu75oKnJAGjw0w4BKl9U
+ S4N38+9MENcxy7mt5d+URhQbituVX+3cOx7m/rJp/eHUsJ5mufWiAfs3S9jyns0NJ5KM
+ ujlTQOwr5T5ekS5DRfo1y7P+wD+L2niECkM1phma0xKgN+mmVm2xv8nWMex/WoJKmFxK
+ AIkHz0yvhrWcx/bVUCJHGvQ1gvYRuCchphpUGwcfYw+3bxhxho5kXoZo92+7LhkYIwFs
+ qEyQ==
+X-Gm-Message-State: AOAM532Y9rsuDNdY1u1o6cVexKi/klkQTlu8FGp1z7RNA8UY2XxbJCoO
+ kOcPVxvUK6e9cAHpJS+Q7kb10AuH9Up/COc57W3M86ez03eGuknl6BlZN318WTbsRMXPIUIW6fo
+ RGxRqO/KecXyQcpluo6H8OiQI057FCZE=
+X-Received: by 2002:a81:8c7:0:b0:2db:fddb:e82a with SMTP id
+ 190-20020a8108c7000000b002dbfddbe82amr7408870ywi.445.1646639420247; 
+ Sun, 06 Mar 2022 23:50:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyQPB6fbVCBP5zC1na4++NZhwJn4IzS5EfRHeFOUMPqhKOgdiVxF/lz0tRh8O59PhLrFQNdf/GYBEg52Kc20S4=
+X-Received: by 2002:a81:8c7:0:b0:2db:fddb:e82a with SMTP id
+ 190-20020a8108c7000000b002dbfddbe82amr7408863ywi.445.1646639420044; Sun, 06
+ Mar 2022 23:50:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/2] ui/cocoa: add option to swap Option and Command
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, BALATON Zoltan
- <balaton@eik.bme.hu>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20220306111114.18285-1-akihiko.odaki@gmail.com>
- <20220306111114.18285-3-akihiko.odaki@gmail.com>
- <a2a389c-b253-133b-9415-ecc5a352c2e@eik.bme.hu> <87lexmw7t8.fsf@pond.sub.org>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <87lexmw7t8.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220307042108.296428-1-vivek.kasireddy@intel.com>
+In-Reply-To: <20220307042108.296428-1-vivek.kasireddy@intel.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 7 Mar 2022 11:50:09 +0400
+Message-ID: <CAMxuvawcUYkjPt-iopJhJ8seO_3tJJGqkECqZfEPb3_7SSWpkg@mail.gmail.com>
+Subject: Re: [PATCH v1] ui/gtk-egl: Check for a valid context before making
+ EGL calls
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,71 +95,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Gustavo Noronha Silva <gustavo@noronha.dev.br>
+Cc: Dongwon Kim <dongwon.kim@intel.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/03/07 16:17, Markus Armbruster wrote:
-> BALATON Zoltan <balaton@eik.bme.hu> writes:
-> 
->> On Sun, 6 Mar 2022, Akihiko Odaki wrote:
->>> From: Gustavo Noronha Silva <gustavo@noronha.dev.br>
->>>
->>> On Mac OS X the Option key maps to Alt and Command to Super/Meta. This change
->>> swaps them around so that Alt is the key closer to the space bar and Meta/Super
->>> is between Control and Alt, like on non-Mac keyboards.
->>>
->>> It is a cocoa display option, disabled by default.
->>>
->>> Acked-by: Markus Armbruster <armbru@redhat.com>
->>> Signed-off-by: Gustavo Noronha Silva <gustavo@noronha.dev.br>
->>> Message-Id: <20210713213200.2547-3-gustavo@noronha.dev.br>
->>> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
->>> ---
->>> qapi/ui.json    |  8 ++++++-
->>> qemu-options.hx |  3 ++-
->>> ui/cocoa.m      | 64 ++++++++++++++++++++++++++++++++++++++++++-------
->>> 3 files changed, 65 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/qapi/ui.json b/qapi/ui.json
->>> index 1e9893419fe..b082e1a7dee 100644
->>> --- a/qapi/ui.json
->>> +++ b/qapi/ui.json
->>> @@ -1270,10 +1270,16 @@
->>> #             a global grab on key events. (default: off)
->>> #             See https://support.apple.com/en-in/guide/mac-help/mh32356/mac
->>> #
->>> +# @swap-option-command: Swap the Option and Command keys so that their key
->>> +#                       codes match their position on non-Mac keyboards and
->>> +#                       you can use Meta/Super and Alt where you expect them.
->>> +#                       (default: off)
->>> +#
->>> # Since: 6.1
->>> ##
->>> { 'struct'  : 'DisplayCocoa',
->>> -  'data'    : { '*full-grab'     : 'bool' } }
->>> +  'data'    : { '*full-grab'           : 'bool',
->>> +                '*swap-option-command' : 'bool' } }
->>
->> This option name is too long to type. Could we abbreviate it somehow?
-> 
-> We've largely avoided abbreviations in the QAPI schema, for better or
-> worse.
-> 
->> Like swap-opt-cmd or swap-alt-meta?
-> 
-> We should stick to how the keys are generally called on this platform.
-> I can't say (I'm not using it).
-> 
+Hi Vivek
 
-The patch series is now in:
-https://patchew.org/QEMU/20220306231753.50277-1-philippe.mathieu.daude@gmail.com/
+On Mon, Mar 7, 2022 at 8:39 AM Vivek Kasireddy
+<vivek.kasireddy@intel.com> wrote:
+>
+> Since not all listeners (i.e VirtualConsoles) of GL events have
+> a valid EGL context, make sure that there is a valid context
+> before making EGL calls.
+>
+> This fixes the following crash seen while launching the VM with
+> "-device virtio-gpu-pci,max_outputs=3D1,blob=3Dtrue -display gtk,gl=3Don"
+>
+> No provider of eglCreateImageKHR found.  Requires one of:
+> EGL_KHR_image
+> EGL_KHR_image_base
+>
+> Fixes: 7cc712e9862ff ("ui: dispatch GL events to all listeners")
 
-It uses swap-opt-cmd for the name. Please reply to the series if it is 
-problematic.
+I am not able to reproduce on current master.
 
-Regards,
-Akihiko Odaki
+Isn't it fixed with commit a9fbce5e9 ("ui/console: fix crash when
+using gl context with non-gl listeners") ?
+
+Could you also check after "[PATCH v3 00/12] GL & D-Bus display related fix=
+es" ?
+
+thanks
+
+>
+> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Dongwon Kim <dongwon.kim@intel.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> ---
+>  ui/gtk-egl.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+> index e3bd4bc274..31175827d0 100644
+> --- a/ui/gtk-egl.c
+> +++ b/ui/gtk-egl.c
+> @@ -244,6 +244,10 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dc=
+l,
+>  #ifdef CONFIG_GBM
+>      VirtualConsole *vc =3D container_of(dcl, VirtualConsole, gfx.dcl);
+>
+> +    if (!vc->gfx.ectx || !vc->gfx.esurface) {
+> +        return;
+> +    }
+> +
+>      eglMakeCurrent(qemu_egl_display, vc->gfx.esurface,
+>                     vc->gfx.esurface, vc->gfx.ectx);
+>
+> @@ -269,6 +273,10 @@ void gd_egl_cursor_dmabuf(DisplayChangeListener *dcl=
+,
+>  #ifdef CONFIG_GBM
+>      VirtualConsole *vc =3D container_of(dcl, VirtualConsole, gfx.dcl);
+>
+> +    if (!vc->gfx.ectx || !vc->gfx.esurface) {
+> +        return;
+> +    }
+> +
+>      if (dmabuf) {
+>          egl_dmabuf_import_texture(dmabuf);
+>          if (!dmabuf->texture) {
+> --
+> 2.35.1
+>
+
 
