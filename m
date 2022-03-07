@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3E04D01E9
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 15:51:24 +0100 (CET)
-Received: from localhost ([::1]:60132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CAD4D039F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 17:02:24 +0100 (CET)
+Received: from localhost ([::1]:51916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nREhn-0001tJ-9Z
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 09:51:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52346)
+	id 1nRFoV-0007RO-K5
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 11:02:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
- id 1nREgV-00018K-Hl
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 09:50:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53493)
+ (Exim 4.90_1) (envelope-from <laokz@foxmail.com>)
+ id 1nREN0-00052A-CM; Mon, 07 Mar 2022 09:29:56 -0500
+Received: from out203-205-221-155.mail.qq.com ([203.205.221.155]:33249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
- id 1nREgR-0003OL-5W
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 09:50:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646664597;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4oU3swpK55/m2gfZjuNO5cps++qfdC2yYN24S4bUBzo=;
- b=T9Osr3L29V41XLBEPHdK59rFzXlHSIp7kBT390ji3/emniYlNuCsEaWk3S0d4+cpKfOdLx
- hPtoLCnpVPnb5rENfig7LgesoM0Fr3ySxAqA1gX7CPxxcevdhzeuRklQy9cZdi5BuiwA10
- 6I30rxjQTDrx+QxhBtiILf3JUI6XW9A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-336-RGBj5D10MOOFT-idO8ADlA-1; Mon, 07 Mar 2022 09:49:54 -0500
-X-MC-Unique: RGBj5D10MOOFT-idO8ADlA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC50E1006AA5;
- Mon,  7 Mar 2022 14:49:52 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A74383588;
- Mon,  7 Mar 2022 14:49:39 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Stefan Hajnoczi via Gdb <gdb@sourceware.org>
-Subject: Re: How to backtrace an separate stack?
-References: <YiCk+NNtAGQPhyK5@stefanha-x1.localdomain>
-Date: Mon, 07 Mar 2022 15:49:37 +0100
-In-Reply-To: <YiCk+NNtAGQPhyK5@stefanha-x1.localdomain> (Stefan Hajnoczi via
- Gdb's message of "Thu, 3 Mar 2022 11:22:32 +0000")
-Message-ID: <87sfrtakce.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <laokz@foxmail.com>)
+ id 1nREMr-0008Bd-NJ; Mon, 07 Mar 2022 09:29:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1646663369;
+ bh=yrvN8v1TFiD5RxXA7Vmqy7h2sTO7KmkAuhVGEAwSAas=;
+ h=From:To:Cc:Subject:Date;
+ b=JGZhBYgkTgaZvMplKm9wQcXJylJhR/xmSnsTWIpbSHxffcJYHxI5RNlBfnFqOvOux
+ SWqmkXxwLRswJMwZyAeoOL4n+5R3w1qt5E0K50SVzVi74rfm+Bal/ljE4accL4Z9OW
+ u4LGfXnpfotJqPDNI/4SYThfTqkI4q/mEKtONLsU=
+Received: from swind.os ([60.17.11.82])
+ by newxmesmtplogicsvrsza7.qq.com (NewEsmtp) with SMTP
+ id 3699BCA4; Mon, 07 Mar 2022 22:13:41 +0800
+X-QQ-mid: xmsmtpt1646662421tix75l6x5
+Message-ID: <tencent_451EA141786954DB4F7E4D7D4F9334EE1106@qq.com>
+X-QQ-XMAILINFO: OakVxA/3u/8RQ/cySogOheUVDSVvbxXlqynx6Nd2MQggWWz2+1ghclaSTlncon
+ i8d5iwJgXlE0QmJfPGtJgnozWj2bP+8FJ7ycRNCIhsxRCx18EqmtJuIKKNkwDRuLq8eK9WKuQbpx
+ tIosLlFwaueStx8kkZnEg6AUJArMhSJwVYKPHKqdTNjjBcaWGIeitqByZA1CA10ucFT9nJIXy0EX
+ fMl+9YDSQiVHX8PCcvATHNJ2bBLzrMcTxC0ZebDUUB5cnwBXHZXjKjaOPlniaz+Tsjb82oj16dkd
+ 7FrB3FHdx0QKj/s4RF5L/ZKcBLMFRzTozFHr5bTCygMvT0277/4Ii33/1ormy5a2EiL1YG9jkkuo
+ AyJMEjIy93OydqUMo8sNIHc4zTHGAS7Hi6HLCyrzXvhSyFqupgf2I88UHGBHMnKli0f53HahRD/N
+ e2jK3MjhhhbSiQQBJi7yKHEVJtrO73Y4g2jytoGy87AsDbmmqXafIje2H3NiSfI6XdxzI119azMt
+ 1/D+XZM/PMi16uqLO2ujcT+N6gXteflcttZJNS0MWRIHL87273Tbsf7DUNSPz3cJvsTi6XmSJ+de
+ 2ZGsmDJIaduKgrtLHf98wC1M6UjbKOGgXrHcHMmuAnZCe0AwFmwaNEyhBGndZ30cQHnEuX6vsKGx
+ TwXBGw4mo2wTcbpTP9bzBRwtpPaNBKf0zLRZ++v/tX5LtJGuxXFJclyZdDFUgCWJLgE5QHC1PJEP
+ pgt2jgwdqRx+GF3tv3SZ/8EPIe8fjCziO/GwNdbbB30tBw83Q+rPgkybD1l0sNoUEdxro/k/OvK6
+ cWv3edabwpzgM0lWZ+rrOZiUgazDdPdYdx3suIqt4lDX4vN5B6DFIcEGBZP7qfBgresBrrM7P4PN
+ 5n25xejmopLTEiiBS06iYaJwO6N6mcBQc8zVJzrGSkNtVUVmcDgSc=
+From: laokz <laokz@foxmail.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH] tests: add (riscv virt) machine mapping to testenv
+Date: Mon,  7 Mar 2022 22:13:36 +0800
+X-OQ-MSGID: <20220307141336.19896-1-laokz@foxmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=fweimer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=fweimer@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=203.205.221.155; envelope-from=laokz@foxmail.com;
+ helo=out203-205-221-155.mail.qq.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HELO_DYNAMIC_IPADDR=1.951, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_DYNAMIC=0.982,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 07 Mar 2022 10:59:52 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,39 +74,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pedro@palves.net, tom@tromey.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: kwolf@redhat.com, laokz <laokz@foxmail.com>, hreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi via Gdb:
+Some qemu-iotests(040 etc) use PCI disk to do test. Without the
+mapping, RISC-V flavor use spike as default machine which has no
+PCI bus, causing test failure.
 
-> The QEMU emulator uses coroutines with separate stacks. It can be
-> challenging to debug coroutines that have yielded because GDB is not
-> aware of them (no thread is currently executing them).
->
-> QEMU has a GDB Python script that helps. It "creates" a stack frame for
-> a given coroutine by temporarily setting register values and then using
-> the "bt" command. This works on a live process under ptrace control but
-> not for coredumps where registers can't be set.
->
-> Here is the script (or see the bottom of this email for an inline copy
-> of the relevant code):
-> https://gitlab.com/qemu-project/qemu/-/blob/master/scripts/qemugdb/coroutine.py
->
-> I hoped that "select-frame address ADDRESS" could be used instead so
-> this would work on coredumps too. Unfortunately "select-frame" only
-> searches stack frames that GDB is already aware of, so it cannot be used
-> to backtrace coroutine stacks.
->
-> Is there a way to backtrace a stack at an arbitrary address in GDB?
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/894
 
-I'm a bit surprised by this.  Conceptually, why would GDB need to know
-about stack boundaries?  Is there some heuristic to detect broken
-frames?
+Signed-off-by: laokz <laokz@foxmail.com>
+---
+ tests/qemu-iotests/testenv.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks,
-Florian
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index 0f32897fe8..975f26a785 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -238,6 +238,8 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
+             ('aarch64', 'virt'),
+             ('avr', 'mega2560'),
+             ('m68k', 'virt'),
++            ('riscv32', 'virt'),
++            ('riscv64', 'virt'),
+             ('rx', 'gdbsim-r5f562n8'),
+             ('tricore', 'tricore_testboard')
+         )
+-- 
+2.34.1
 
 
