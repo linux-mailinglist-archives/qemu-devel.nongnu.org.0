@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2834D069B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:33:25 +0100 (CET)
-Received: from localhost ([::1]:36032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EAE64D0695
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:31:34 +0100 (CET)
+Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRIAe-0003BP-L8
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:33:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55486)
+	id 1nRI8r-00070P-Fj
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:31:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHuk-0001GM-Tf
+ id 1nRHuk-0001GK-Tg
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:58 -0500
-Received: from [2a00:1450:4864:20::633] (port=33723
- helo=mail-ej1-x633.google.com)
+Received: from [2a00:1450:4864:20::532] (port=46710
+ helo=mail-ed1-x532.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHue-0005OG-90
+ id 1nRHuf-0005OM-2P
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:58 -0500
-Received: by mail-ej1-x633.google.com with SMTP id kt27so33957231ejb.0
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:51 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id y12so1429790edc.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gXFzbYmSw9uySnU8dK/fYNVpZ7je0zBcwVMUebDYEEQ=;
- b=Fo+DpLkAuxnIYZ5YHZo4TJA9BcDELiD/WeDZVhWc408h3MH9sWFAQ1P/wdsUHbWYDk
- +zGchvQE96hOqpu+Q7W5cI4XOQ75lm6nrXzb6WMKh5QcqutHbTOyAYD15QtH9r8DJAMf
- vtonKXmuKssYSXssGmYO57BKSx1iWNfDBQAaZ68DAChp/vlDHhPRhfDp/hhWBgkwDlI8
- 6ww/dQBrXWc5g21+LXiZxJpiIygn42kxR2Cl3iD52wxfRwRu8LWp8JKvwn0ckaaxKRJ4
- q4r9moXB0RYfWNw9+sdlJ3S61HqNXY0VthiCggvRfxG1BpMWnx9pZiLK4CzEo8k6R/+0
- q6Jw==
+ bh=ZfOpyFRoufciIywj58YNuToW8FcorvQ7w95GMuMr8Iw=;
+ b=DuiOKZ/wBafdC6eTxaKfZ/L3x4BKXxd4qPPoZT310+Rf0aqL8T+BOsnHx3qXwUOt9i
+ zcPlJuJyLZG7kJUebINv17/Vmzj/qItdZFbd8eSGaerb/tylud7H6fRlSkiee+F59uK9
+ zyiOE+GUkAV1CbMZCdTovrgSOHwVwkMTldts6AsEivn2cnkj4BF27G1WRSXOsEVXsMW9
+ FzY3hT3mPdbZnqYGYYi7ik/7jqRbyDLNRzwPQH+MiNqh5MwPI/U0AQX2UAZgUNjeyhyi
+ gWwwACaZKq5OI9MaimHPJ5S8rkMwJoCovdfL3lAR8csZsygrMZrdELfsqFgI0GNwZoWF
+ 18mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gXFzbYmSw9uySnU8dK/fYNVpZ7je0zBcwVMUebDYEEQ=;
- b=wC2R5el6OtDK1rL/A1PGurx0bYT+YYUlrMp8PGtkjPdAmolmZuHphLLJgmrjAluRFM
- JLg3laCDGN5qtZHM5/j4p9mrj6iv4eacHfkdSGezBqM4LVe88u5PC9hza5Ds1+qpkqlN
- oSek/rA9cSVH4ZhmTJX6Nr5Z6wUxeoreLWAXMuCc/Psw8/qUcFSRn84hspxhryMpKuKH
- jRVCpJQXP1y0bq72hxTFQCaZZdvlJA73vK/Ic9YHQTWN6wx40Jt2FIOu1ywniN2PKnw8
- Qv1oVpGRT+8J7E3fVMMxbDvTVduy8Ko+XSCIB4pncbGGPNKDUUCbAd+b8vy5pnktD3Iy
- xp4Q==
-X-Gm-Message-State: AOAM533eko9K5VHGvavg7nLLmabmGbgJE+HBH0e3TAW6vcLbf4GUmQHx
- 6sPHVGzEmSZ1hu1EPNh4F4HRDQsgF38=
-X-Google-Smtp-Source: ABdhPJxtTTYQQwf5jqsmb++EJ77FF03b/n3PzefUrcC09MGjKVoVJBXRKtzuGNRo/WokANZ3leGnIw==
-X-Received: by 2002:a17:907:da9:b0:6da:beb8:fdac with SMTP id
- go41-20020a1709070da900b006dabeb8fdacmr10346753ejc.364.1646677010923; 
- Mon, 07 Mar 2022 10:16:50 -0800 (PST)
+ bh=ZfOpyFRoufciIywj58YNuToW8FcorvQ7w95GMuMr8Iw=;
+ b=N17fZs5ErpAmUSOEeGu7UzLW4x5z1PvPo6f95rt7rIEI6P8WoR87z73YSACw8ipBXa
+ yWfJK6BRcLj8yDLLxd4Rlz1UtSMOmuzylDGfQMclTz6S/hunAQEmARfo2GKHiwo2zBsE
+ ThhRMABxWqX/c7IrXR/7R6Snz0Zva/oyeZWl9whQZt//TT/FR3Rhz9ieWhE0okojEXkt
+ KgGQL+BFpr6IDd2OmZvzzSNy6Fua7J26BfHXV0+NmLOvpeUwc3RefVqX1txfQPpdZvvQ
+ cVhuKnzSED9dAOVfQJGDAWDVR0y49z5lxiS6V1y8OawNhXkRT+v/oasz7kcxeOwU49ru
+ LCxw==
+X-Gm-Message-State: AOAM531R+lg5EQ87TU2ws+D80Zx0vuV8eUe8Q+RJBxoRH5USdYZ4YkQo
+ 4x7YB7p42uP7oBOSsFd0wK3u3RORDJc=
+X-Google-Smtp-Source: ABdhPJyuSrLX6Hr+Mm+n7wALN3Tbt5JGNZxnwqcpPFq4mmUjdf0LGCTeSUID/Z1Jw1NoRSomOApcvA==
+X-Received: by 2002:aa7:cac8:0:b0:410:cc6c:6512 with SMTP id
+ l8-20020aa7cac8000000b00410cc6c6512mr12407748edt.408.1646677011743; 
+ Mon, 07 Mar 2022 10:16:51 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.50
+ d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 10:16:50 -0800 (PST)
+ Mon, 07 Mar 2022 10:16:51 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/23] x86: Support XFD and AMX xsave data migration
-Date: Mon,  7 Mar 2022 19:16:29 +0100
-Message-Id: <20220307181633.596898-20-pbonzini@redhat.com>
+Subject: [PULL 20/23] i386: Add Icelake-Server-v6 CPU model with 5-level EPT
+ support
+Date: Mon,  7 Mar 2022 19:16:30 +0100
+Message-Id: <20220307181633.596898-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307181633.596898-1-pbonzini@redhat.com>
 References: <20220307181633.596898-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::633
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -89,173 +90,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Zeng Guang <guang.zeng@intel.com>,
- Wei Wang <wei.w.wang@intel.com>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zeng Guang <guang.zeng@intel.com>
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-XFD(eXtended Feature Disable) allows to enable a
-feature on xsave state while preventing specific
-user threads from using the feature.
+Windows 11 with WSL2 enabled (Hyper-V) fails to boot with Icelake-Server
+{-v5} CPU model but boots well with '-cpu host'. Apparently, it expects
+5-level paging and 5-level EPT support to come in pair but QEMU's
+Icelake-Server CPU model lacks the later. Introduce 'Icelake-Server-v6'
+CPU model with 'vmx-page-walk-5' enabled by default.
 
-Support save and restore XFD MSRs if CPUID.D.1.EAX[4]
-enumerate to be valid. Likewise migrate the MSRs and
-related xsave state necessarily.
-
-Signed-off-by: Zeng Guang <guang.zeng@intel.com>
-Signed-off-by: Wei Wang <wei.w.wang@intel.com>
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20220217060434.52460-8-yang.zhong@intel.com>
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Message-Id: <20220221145316.576138-1-vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h     |  9 +++++++++
- target/i386/kvm/kvm.c | 18 +++++++++++++++++
- target/i386/machine.c | 46 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 73 insertions(+)
+ target/i386/cpu.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 8c850e74b8..efea2c78ec 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -507,6 +507,9 @@ typedef enum X86Seg {
- 
- #define MSR_VM_HSAVE_PA                 0xc0010117
- 
-+#define MSR_IA32_XFD                    0x000001c4
-+#define MSR_IA32_XFD_ERR                0x000001c5
-+
- #define MSR_IA32_BNDCFGS                0x00000d90
- #define MSR_IA32_XSS                    0x00000da0
- #define MSR_IA32_UMWAIT_CONTROL         0xe1
-@@ -872,6 +875,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_1_EAX_AVX_VNNI          (1U << 4)
- /* AVX512 BFloat16 Instruction */
- #define CPUID_7_1_EAX_AVX512_BF16       (1U << 5)
-+/* XFD Extend Feature Disabled */
-+#define CPUID_D_1_EAX_XFD               (1U << 4)
- 
- /* Packets which contain IP payload have LIP values */
- #define CPUID_14_0_ECX_LIP              (1U << 31)
-@@ -1616,6 +1621,10 @@ typedef struct CPUX86State {
-     uint64_t msr_rtit_cr3_match;
-     uint64_t msr_rtit_addrs[MAX_RTIT_ADDRS];
- 
-+    /* Per-VCPU XFD MSRs */
-+    uint64_t msr_xfd;
-+    uint64_t msr_xfd_err;
-+
-     /* exception/interrupt handling */
-     int error_code;
-     int exception_is_int;
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 0fbdeacbb7..debac04e91 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -3276,6 +3276,13 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-                               env->msr_ia32_sgxlepubkeyhash[3]);
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 351a1e4f2a..916d3354fe 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -3526,6 +3526,14 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+                     { /* end of list */ }
+                 },
+             },
++            {
++                .version = 6,
++                .note = "5-level EPT",
++                .props = (PropValue[]) {
++                    { "vmx-page-walk-5", "on" },
++                    { /* end of list */ }
++                },
++            },
+             { /* end of list */ }
          }
- 
-+        if (env->features[FEAT_XSAVE] & CPUID_D_1_EAX_XFD) {
-+            kvm_msr_entry_add(cpu, MSR_IA32_XFD,
-+                              env->msr_xfd);
-+            kvm_msr_entry_add(cpu, MSR_IA32_XFD_ERR,
-+                              env->msr_xfd_err);
-+        }
-+
-         /* Note: MSR_IA32_FEATURE_CONTROL is written separately, see
-          *       kvm_put_msr_feature_control. */
-     }
-@@ -3668,6 +3675,11 @@ static int kvm_get_msrs(X86CPU *cpu)
-         kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH3, 0);
-     }
- 
-+    if (env->features[FEAT_XSAVE] & CPUID_D_1_EAX_XFD) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_XFD, 0);
-+        kvm_msr_entry_add(cpu, MSR_IA32_XFD_ERR, 0);
-+    }
-+
-     ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, cpu->kvm_msr_buf);
-     if (ret < 0) {
-         return ret;
-@@ -3964,6 +3976,12 @@ static int kvm_get_msrs(X86CPU *cpu)
-             env->msr_ia32_sgxlepubkeyhash[index - MSR_IA32_SGXLEPUBKEYHASH0] =
-                            msrs[i].data;
-             break;
-+        case MSR_IA32_XFD:
-+            env->msr_xfd = msrs[i].data;
-+            break;
-+        case MSR_IA32_XFD_ERR:
-+            env->msr_xfd_err = msrs[i].data;
-+            break;
-         }
-     }
- 
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 6202f47793..7c54bada81 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -1483,6 +1483,48 @@ static const VMStateDescription vmstate_pdptrs = {
-     }
- };
- 
-+static bool xfd_msrs_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return !!(env->features[FEAT_XSAVE] & CPUID_D_1_EAX_XFD);
-+}
-+
-+static const VMStateDescription vmstate_msr_xfd = {
-+    .name = "cpu/msr_xfd",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = xfd_msrs_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.msr_xfd, X86CPU),
-+        VMSTATE_UINT64(env.msr_xfd_err, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+#ifdef TARGET_X86_64
-+static bool amx_xtile_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return !!(env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_AMX_TILE);
-+}
-+
-+static const VMStateDescription vmstate_amx_xtile = {
-+    .name = "cpu/intel_amx_xtile",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = amx_xtile_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8_ARRAY(env.xtilecfg, X86CPU, 64),
-+        VMSTATE_UINT8_ARRAY(env.xtiledata, X86CPU, 8192),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+#endif
-+
- const VMStateDescription vmstate_x86_cpu = {
-     .name = "cpu",
-     .version_id = 12,
-@@ -1622,6 +1664,10 @@ const VMStateDescription vmstate_x86_cpu = {
-         &vmstate_msr_tsx_ctrl,
-         &vmstate_msr_intel_sgx,
-         &vmstate_pdptrs,
-+        &vmstate_msr_xfd,
-+#ifdef TARGET_X86_64
-+        &vmstate_amx_xtile,
-+#endif
-         NULL
-     }
- };
+     },
 -- 
 2.34.1
 
