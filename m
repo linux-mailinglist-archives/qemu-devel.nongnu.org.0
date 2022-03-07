@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F1C4CFF9B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 14:08:43 +0100 (CET)
-Received: from localhost ([::1]:54208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55274CFF86
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 14:04:39 +0100 (CET)
+Received: from localhost ([::1]:49416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRD6Q-00067B-Mq
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 08:08:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43152)
+	id 1nRD2U-0002U0-QE
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 08:04:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <1983d8b0d6b013f025905c7d37e3f0261edc328b@lizzy.crudebyte.com>)
- id 1nRCgq-0000rI-GI
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:42:19 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:47275)
+ (envelope-from <d3671fd972cd185a6923433aa4802f54d8b62112@lizzy.crudebyte.com>)
+ id 1nRCGe-000174-29
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:15:12 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:34619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <1983d8b0d6b013f025905c7d37e3f0261edc328b@lizzy.crudebyte.com>)
- id 1nRCga-0004DK-BP
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:42:06 -0500
+ (envelope-from <d3671fd972cd185a6923433aa4802f54d8b62112@lizzy.crudebyte.com>)
+ id 1nRCGc-0007a4-5E
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:15:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=m3rxyJIWUSZsunwAVPLXFSOKT6ApHv/hF1xLM+mgQMU=; b=c+zU1
- RBYqDRDhiX5cB1m/b7e+ZvHAjkJuEGGiNKHaz13PceIVMzCIdzU+WzuH0XxtMpi1bKu+tQTPXdyID
- 408fMeSL7BJidM2eCHfhDUoMXarAkDNT/ugQqHjqDEmd5T7JxAhRrRpVxjssiIodWOYxAQWOqF+uV
- 5ntn8UfEJIXHuk/Ti0hH3fntdPKMYQiZe3PHI8C9iJOnvA1WScTOx0i8dP11y1XjTO7r4aPJ87xPY
- KQ3EfCx8SURqtviHbGD8jkPg+lC3GhdTqOntu1GqQcr5LS7AgQKT/esgTvh0C27C+a2xuixZqxcL/
- JBUO20ngqRGhC8hUgLHW4NMT2DsWg==;
-Message-Id: <1983d8b0d6b013f025905c7d37e3f0261edc328b.1646651700.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=yKS8v7D5O2e+Blqy1u72eKRpQqfklC5OzihiNL/eqwU=; b=K0Tf2
+ xJWKJ63wYH0w8sAad6vlqIP7L8OzX7nmkL6VmH4oA0zYA+YdexvNo2VQLDoXiTyLUKko4LqxfZUwa
+ N12RiMpSJ1OpfCJ26uiNha1/+jMG3FT8nl/Kg83AfPvfboX5ghkauOlD3GWTwz2qplL+5Jbq5Kipu
+ YuAxW333uzm5UFpYlglN8WpPXMBtie5/UNXGLyadk5j31XW9Tj+GO1870GhgfjeDyN5HcNKA2YjfH
+ d5a3aQqHNdVQknU0eO2ERvA4CSqgTXoyhS1/K4rI/GrwZ8nW23yK9uxBKM/EwnLH3f5MZHv9LPe42
+ voMf/erklSLj990B2F6F55V5cFvhA==;
+Message-Id: <d3671fd972cd185a6923433aa4802f54d8b62112.1646651700.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646651700.git.qemu_oss@crudebyte.com>
 References: <cover.1646651700.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 07 Mar 2022 12:15:00 +0100
-Subject: [PULL v2 12/19] 9pfs: move qemu_dirent_dup() from osdep -> 9p-util
+Subject: [PULL v2 10/19] 9p: darwin: Adjust assumption on virtio-9p-test
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
@@ -44,7 +44,7 @@ Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
  Fabian Franz <fabianfranz.oss@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=1983d8b0d6b013f025905c7d37e3f0261edc328b@lizzy.crudebyte.com;
+ envelope-from=d3671fd972cd185a6923433aa4802f54d8b62112@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -67,121 +67,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Function qemu_dirent_dup() is currently only used by 9pfs server, so move
-it from project global header osdep.h to 9pfs specific header 9p-util.h.
+From: Will Cohen <wwcohen@gmail.com>
 
-Link: https://lore.kernel.org/qemu-devel/CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com/
-Based-on: <20220227223522.91937-12-wwcohen@gmail.com>
+The previous test depended on the assumption that P9_DOTL_AT_REMOVEDIR
+and AT_REMOVEDIR have the same value.
+
+While this is true on Linux, it is not true everywhere, and leads to an
+incorrect test failure on unlink_at, noticed when adding 9p to darwin:
+
+Received response 7 (RLERROR) instead of 77 (RUNLINKAT)
+Rlerror has errno 22 (Invalid argument)
+**
+
+ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
+failed (hdr.id == id): (7 == 77) Bail out!
+
+ERROR:../tests/qtest/virtio-9p-test.c:305:v9fs_req_recv: assertion
+failed (hdr.id == id): (7 == 77)
+
+Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
+[Will Cohen: - Add explanation of patch and description
+               of pre-patch test failure]
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+[Will Cohen: - Move this patch before 9p: darwin: meson
+               patch to avoid qtest breakage during
+               bisecting]
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20220227223522.91937-11-wwcohen@gmail.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
 ---
- hw/9pfs/9p-util.h    | 30 ++++++++++++++++++++++++++++++
- include/qemu/osdep.h | 13 -------------
- util/osdep.c         | 21 ---------------------
- 3 files changed, 30 insertions(+), 34 deletions(-)
+ tests/qtest/virtio-9p-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 73b08c5561..408d71c8f7 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -114,6 +114,36 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
- #endif
- }
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 502e5ad0c7..01ca076afe 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -1253,7 +1253,7 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
+     /* ... and is actually a directory */
+     g_assert((st.st_mode & S_IFMT) == S_IFDIR);
  
-+/**
-+ * Duplicate directory entry @dent.
-+ *
-+ * It is highly recommended to use this function instead of open coding
-+ * duplication of @c dirent objects, because the actual @c struct @c dirent
-+ * size may be bigger or shorter than @c sizeof(struct dirent) and correct
-+ * handling is platform specific (see gitlab issue #841).
-+ *
-+ * @dent - original directory entry to be duplicated
-+ * @returns duplicated directory entry which should be freed with g_free()
-+ */
-+static inline struct dirent *qemu_dirent_dup(struct dirent *dent)
-+{
-+    size_t sz = 0;
-+#if defined _DIRENT_HAVE_D_RECLEN
-+    /* Avoid use of strlen() if platform supports d_reclen. */
-+    sz = dent->d_reclen;
-+#endif
-+    /*
-+     * Test sz for zero even if d_reclen is available
-+     * because some drivers may set d_reclen to zero.
-+     */
-+    if (sz == 0) {
-+        /* Fallback to the most portable way. */
-+        sz = offsetof(struct dirent, d_name) +
-+                      strlen(dent->d_name) + 1;
-+    }
-+    return g_memdup(dent, sz);
-+}
-+
- /*
-  * As long as mknodat is not available on macOS, this workaround
-  * using pthread_fchdir_np is needed. qemu_mknodat is defined in
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 7bcce3bceb..650ba1aa50 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -673,19 +673,6 @@ static inline int platform_does_not_support_system(const char *command)
+-    do_unlinkat(v9p, "/", "02", AT_REMOVEDIR);
++    do_unlinkat(v9p, "/", "02", P9_DOTL_AT_REMOVEDIR);
+     /* directory should be gone now */
+     g_assert(stat(new_dir, &st) != 0);
  }
- #endif /* !HAVE_SYSTEM_FUNCTION */
- 
--/**
-- * Duplicate directory entry @dent.
-- *
-- * It is highly recommended to use this function instead of open coding
-- * duplication of @c dirent objects, because the actual @c struct @c dirent
-- * size may be bigger or shorter than @c sizeof(struct dirent) and correct
-- * handling is platform specific (see gitlab issue #841).
-- *
-- * @dent - original directory entry to be duplicated
-- * @returns duplicated directory entry which should be freed with g_free()
-- */
--struct dirent *qemu_dirent_dup(struct dirent *dent);
--
- #ifdef __cplusplus
- }
- #endif
-diff --git a/util/osdep.c b/util/osdep.c
-index 723cdcb004..7c4deda6fe 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -33,7 +33,6 @@
- extern int madvise(char *, size_t, int);
- #endif
- 
--#include <dirent.h>
- #include "qemu-common.h"
- #include "qemu/cutils.h"
- #include "qemu/sockets.h"
-@@ -619,23 +618,3 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
-     return readv_writev(fd, iov, iov_cnt, true);
- }
- #endif
--
--struct dirent *
--qemu_dirent_dup(struct dirent *dent)
--{
--    size_t sz = 0;
--#if defined _DIRENT_HAVE_D_RECLEN
--    /* Avoid use of strlen() if platform supports d_reclen. */
--    sz = dent->d_reclen;
--#endif
--    /*
--     * Test sz for zero even if d_reclen is available
--     * because some drivers may set d_reclen to zero.
--     */
--    if (sz == 0) {
--        /* Fallback to the most portable way. */
--        sz = offsetof(struct dirent, d_name) +
--                      strlen(dent->d_name) + 1;
--    }
--    return g_memdup(dent, sz);
--}
 -- 
 2.20.1
 
