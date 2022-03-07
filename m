@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D70A4CFB1E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:29:47 +0100 (CET)
-Received: from localhost ([::1]:41068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277934CFB20
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:31:07 +0100 (CET)
+Received: from localhost ([::1]:42942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRAca-0001UI-34
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:29:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35550)
+	id 1nRAdu-0002ip-6U
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:31:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRADM-0002zQ-UF
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27022)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRADQ-00030I-4N
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRADH-0002xq-Mb
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:40 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRADO-0002yX-H4
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:03:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647415;
+ s=mimecast20190719; t=1646647421;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=mfut9rC7QohOum5PUWB9hEyCkgjB7g4mFdlV9wDnfyg=;
- b=iWcHjFthOBWeq9QojI00bRLMIIKCGB+szaT9WxPYRUaQqfS9xhIt3cfi6u44Q0z/j3dlxv
- yYbACkbJL+HiFeL9pDHdHKVx0wMDfDO8iyJRuVx48wwJ/7KgX28VEUgtx+gcv23bkwyHdM
- FZZXIKqg+wjPax2HAqxs1w40MZrcWbE=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=odDd977IILxM571sNSlSsG8vIH/vMjvB2fzKvFQoxXM=;
+ b=gRTeGZkN+t6fQ0tB6EncsTxdl6NQE987RJM5LlKkr11o+g0Lcf5IZKZH3dYd0/EncnVIAc
+ DqmOP5O3RJkvQl4h5Fa9Ln6/djQM770f5ZQ4b1wjeNexnGO4EH3U55SqHV+cPqqjyKCRby
+ RMAzoAVXFsqvv9ZOCPA2KZhmf2UaU2o=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-583-KSA5j78xOr6vJwPO7VtnKQ-1; Mon, 07 Mar 2022 05:03:34 -0500
-X-MC-Unique: KSA5j78xOr6vJwPO7VtnKQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- l14-20020aa7cace000000b003f7f8e1cbbdso8293466edt.20
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:03:34 -0800 (PST)
+ us-mta-75-Ub1fh2HhNbiBmycQF1QaDg-1; Mon, 07 Mar 2022 05:03:40 -0500
+X-MC-Unique: Ub1fh2HhNbiBmycQF1QaDg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ i14-20020a17090639ce00b006dabe6a112fso3006761eje.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:03:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=mfut9rC7QohOum5PUWB9hEyCkgjB7g4mFdlV9wDnfyg=;
- b=avpYeufPy6ACNx10S3JLABzaTJ+EaMFyE8wXT8Lu+WsU2esGKt07PQGx409y9Nj/Cb
- rGrBrx5OWG8Ho7BF5udEUv7fTqXVf58pYmWj9KnqozyV1kwv6N14yid825DhTqobvSrE
- aIe/EG/S/+cx+X5MOPyrYzVtXsmfy4CYIQjJm+043vVE0pNtk7pS2pyNwm3U0ZH0DJgs
- d9kwxZA0mXQSNMuTRVsV/jVZE6smYBSuaw+IRcxb066MPNCMohxehiANutzpLaozHa2C
- hbm0eHPDJIF3JI8A05YaORS4Yh3ENb5Hz1gWhyFthopUnKYZtvntuVjf0CKQ5gmLzNcI
- zS6A==
-X-Gm-Message-State: AOAM532T0hNOAXXYaA5wF3624T9HzOckDxwdKAP1rPSYTY+Nk5FQftr/
- gDa+ZZZGXMHK0E90Y4KKjkB3LrYop9e41EwZzmo4pz0z6elTT0Yt1uSIbpz4kvqB96fSthK1pi4
- ZBZxaqUTQ6wC1Mtsz/6ml4WWXEXM5g2eYv9RhG+PVj9IZnZC6Xqz9kMlB2JXH
-X-Received: by 2002:a17:907:168a:b0:6da:9177:9fdd with SMTP id
- hc10-20020a170907168a00b006da91779fddmr8464709ejc.757.1646647412628; 
- Mon, 07 Mar 2022 02:03:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyXBsVqcLXfllFfltaNNsB3P0ZdvHCkNbiFGQrSpRY7zr9v5/uNxdZnsUlPlZknyMwHzTGyuw==
-X-Received: by 2002:a17:907:168a:b0:6da:9177:9fdd with SMTP id
- hc10-20020a170907168a00b006da91779fddmr8464696ejc.757.1646647412325; 
- Mon, 07 Mar 2022 02:03:32 -0800 (PST)
+ bh=odDd977IILxM571sNSlSsG8vIH/vMjvB2fzKvFQoxXM=;
+ b=6FxT0Svpq9d/2StlSyNSbqWcyHwMXCju6PJzuQJ7W/IUfiVlhNsK6F16ejaHXFZanf
+ Hzkmsp+Zaxj5QPTO0g5qG5DIc1NH0HQzHsbSfJ3l7LexXVZkzuydekdnpi9H1d7NwOb/
+ r3JJiwD+EY02wgWEWKHfQNeMmu/4Pe/fhmDkvvdU1kmUxNCQqt/jdOqVGsfpe/hPKVEu
+ 30bPKSNFw5tQ18Cq0DfjF82+SjmmN1LrK6ATDYnFDCiAP8nbuwdh3tl+EWCiYrXOtrDP
+ ts8v1o64VC7miDpKFh7mfYnAMfzl529Cp9tPSbV+6l5aI92/xhs/aEW473gW8Q5MQMxJ
+ JNQQ==
+X-Gm-Message-State: AOAM5314TTMtELMirfPzbKjxWBD/TOQ+G+KbEe0v9IE1LBVnyJhbXVv1
+ NKuO+M4aZNkdgtDbzFxTvMwyM3S1r6L1TLq/dCZq4LWGQ9bTxkyPUnspuEo4J1cGdwapSn3Q4ao
+ FkzrK2kDTBkOBX4GJt0XhgjZoSloF7HPGTK4qd/jr9eX9WvcpdME64rxbCXGA
+X-Received: by 2002:a17:907:94cd:b0:6d9:89e1:3036 with SMTP id
+ dn13-20020a17090794cd00b006d989e13036mr8846785ejc.231.1646647418709; 
+ Mon, 07 Mar 2022 02:03:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyE/kdc+fCaJvOr94euzhySTfI7DczRtWzZj/P342lcDm0XrRW4vj/dTSV62cXa4CW421b08Q==
+X-Received: by 2002:a17:907:94cd:b0:6d9:89e1:3036 with SMTP id
+ dn13-20020a17090794cd00b006d989e13036mr8846753ejc.231.1646647418365; 
+ Mon, 07 Mar 2022 02:03:38 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- m7-20020aa7c487000000b00413a99bf3a3sm6141958edq.56.2022.03.07.02.03.30
+ s15-20020a056402520f00b00415e50f8ce1sm5702479edd.54.2022.03.07.02.03.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 02:03:31 -0800 (PST)
-Date: Mon, 7 Mar 2022 05:03:29 -0500
+ Mon, 07 Mar 2022 02:03:37 -0800 (PST)
+Date: Mon, 7 Mar 2022 05:03:35 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 44/47] tests/acpi: i386: allow FACP acpi table changes
-Message-ID: <20220307100058.449628-45-mst@redhat.com>
+Subject: [PULL v2 46/47] tests/acpi: i386: update FACP table differences
+Message-ID: <20220307100058.449628-47-mst@redhat.com>
 References: <20220307100058.449628-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307100058.449628-1-mst@redhat.com>
@@ -104,30 +104,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liav Albani <liavalb@gmail.com>
 
-The FACP table is going to be changed for x86/q35 machines. To be sure
-the following changes are not breaking any QEMU test this change follows
-step 2 from the bios-tables-test.c guide on changes that affect ACPI
-tables.
+After changing the IAPC boot flags register to indicate support of i8042
+in the machine chipset to help the guest OS to determine its existence
+"faster", we need to have the updated FACP ACPI binary images in tree.
+
+The ASL changes introduced are shown by the following diff:
+
+@@ -42,35 +42,35 @@
+ [059h 0089   1]     PM1 Control Block Length : 02
+ [05Ah 0090   1]     PM2 Control Block Length : 00
+ [05Bh 0091   1]        PM Timer Block Length : 04
+ [05Ch 0092   1]            GPE0 Block Length : 10
+ [05Dh 0093   1]            GPE1 Block Length : 00
+ [05Eh 0094   1]             GPE1 Base Offset : 00
+ [05Fh 0095   1]                 _CST Support : 00
+ [060h 0096   2]                   C2 Latency : 0FFF
+ [062h 0098   2]                   C3 Latency : 0FFF
+ [064h 0100   2]               CPU Cache Size : 0000
+ [066h 0102   2]           Cache Flush Stride : 0000
+ [068h 0104   1]            Duty Cycle Offset : 00
+ [069h 0105   1]             Duty Cycle Width : 00
+ [06Ah 0106   1]          RTC Day Alarm Index : 00
+ [06Bh 0107   1]        RTC Month Alarm Index : 00
+ [06Ch 0108   1]            RTC Century Index : 32
+-[06Dh 0109   2]   Boot Flags (decoded below) : 0000
++[06Dh 0109   2]   Boot Flags (decoded below) : 0002
+                Legacy Devices Supported (V2) : 0
+-            8042 Present on ports 60/64 (V2) : 0
++            8042 Present on ports 60/64 (V2) : 1
+                         VGA Not Present (V4) : 0
+                       MSI Not Supported (V4) : 0
+                 PCIe ASPM Not Supported (V4) : 0
+                    CMOS RTC Not Present (V5) : 0
+ [06Fh 0111   1]                     Reserved : 00
+ [070h 0112   4]        Flags (decoded below) : 000084A5
+       WBINVD instruction is operational (V1) : 1
+               WBINVD flushes all caches (V1) : 0
+                     All CPUs support C1 (V1) : 1
+                   C2 works on MP system (V1) : 0
+             Control Method Power Button (V1) : 0
+             Control Method Sleep Button (V1) : 1
+         RTC wake not in fixed reg space (V1) : 0
+             RTC can wake system from S4 (V1) : 1
+                         32-bit PM Timer (V1) : 0
+                       Docking Supported (V1) : 0
 
 Signed-off-by: Liav Albani <liavalb@gmail.com>
 Acked-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20220304154032.2071585-2-ani@anisinha.ca>
+Message-Id: <20220304154032.2071585-4-ani@anisinha.ca>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
+ tests/data/acpi/q35/FACP                    | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/FACP.nosmm              | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/FACP.slic               | Bin 244 -> 244 bytes
+ tests/data/acpi/q35/FACP.xapic              | Bin 244 -> 244 bytes
+ 5 files changed, 4 deletions(-)
 
 diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..7570e39369 100644
+index 7570e39369..dfb8523c8b 100644
 --- a/tests/qtest/bios-tables-test-allowed-diff.h
 +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,5 @@
+@@ -1,5 +1 @@
  /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/FACP",
-+"tests/data/acpi/q35/FACP.nosmm",
-+"tests/data/acpi/q35/FACP.slic",
-+"tests/data/acpi/q35/FACP.xapic",
+-"tests/data/acpi/q35/FACP",
+-"tests/data/acpi/q35/FACP.nosmm",
+-"tests/data/acpi/q35/FACP.slic",
+-"tests/data/acpi/q35/FACP.xapic",
+diff --git a/tests/data/acpi/q35/FACP b/tests/data/acpi/q35/FACP
+index f6a864cc863c7763f6c09d3814ad184a658fa0a0..a8f6a8961109d01059aceef9f1869cde09a2f10c 100644
+GIT binary patch
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^Y)2c$&5@B^V$GgGY3Ne
+
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^UjG}$&3sW^V$GgJqJSo
+
+diff --git a/tests/data/acpi/q35/FACP.nosmm b/tests/data/acpi/q35/FACP.nosmm
+index 6a9aa5f370eb9af6a03dc739d8a159be58fdee01..c4e6d18ee5fc64159160d4589aa96b4d648c913a 100644
+GIT binary patch
+delta 23
+ecmeyu_=S<n&CxmF3j+fKbKXR*WJacmd2Ik#q6Yc^
+
+delta 23
+ecmeyu_=S<n&CxmF3j+fKbHPNeWJZRGd2Ik#tOoi3
+
+diff --git a/tests/data/acpi/q35/FACP.slic b/tests/data/acpi/q35/FACP.slic
+index 15986e095cf2db7ee92f7ce113c1d46d54018c62..48bbb1cf5ad0ceda1d2f6d56edf5c1e207bd1a04 100644
+GIT binary patch
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^M#3A$&5@B^V$Gh6bD=Y
+
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^QDPg$&3sW^V$Gh9tT_i
+
+diff --git a/tests/data/acpi/q35/FACP.xapic b/tests/data/acpi/q35/FACP.xapic
+index 2d3659c9c6753d07c3d48742343cb8e8cc034de7..31fa5dd19c213034eef4eeefa6a04e61dadd8a2a 100644
+GIT binary patch
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^X7?M$&5@B^V$Gg4+lR0
+
+delta 23
+ecmeyu_=S<n&CxmF3j+fK^VW%6$&3sW^V$Gg83#WA
+
 -- 
 MST
 
