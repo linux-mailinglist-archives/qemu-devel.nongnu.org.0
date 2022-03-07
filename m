@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569DD4CFB13
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:26:01 +0100 (CET)
-Received: from localhost ([::1]:55892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49954CFA74
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:17:18 +0100 (CET)
+Received: from localhost ([::1]:60052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRAYy-0000ve-E7
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:26:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34618)
+	id 1nRAQW-0001QW-GZ
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:17:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRAC0-0000YW-23
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:02:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39166)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRAC1-0000dV-D2
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:02:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRABw-0002iV-JN
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:02:14 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRABz-0002in-OI
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:02:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647331;
+ s=mimecast20190719; t=1646647335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0lVkB02NxWofYSS4as/4ncAO6TZl7kf9saq/7ls1Nww=;
- b=FWB1sGnQyr3TKx3spM21/DZX8G1/nLs6rk/ke0bvNSXKwShd2uF2Kgnv+TBH+GfPBdl+0h
- G0K0JxehHEX3MCOd54RfFrkonK6lNO9DLoYKwAORdwcL1TBEdlCagS5MIGPbXMkhcLaQ6P
- caWPPvItnecdPO3PZKub7McuRcN/5rs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hG63fk2e7vwNR105jMKcH2PAlFDWHa3moRydXJnnvuY=;
+ b=J1aEWKft+Megn95gk2jxc6SeIP+eXqh/0jBvPFtHTwkDYuUQt6Rlj4OaxcLsjVURNo1Pr0
+ cL7FY/to5jHOJULWxQgjsYVriL+9HdCh1IHaN05f18UVAnED0dLTVkN8fRK1TGujhRzMh1
+ 7+QR2hChUtphu3fZGXfBBKGB7DIIusc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-pEuWaoMdNQixhhiYmEVEiA-1; Mon, 07 Mar 2022 05:02:10 -0500
-X-MC-Unique: pEuWaoMdNQixhhiYmEVEiA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- m12-20020a1709062acc00b006cfc98179e2so6769183eje.6
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:02:10 -0800 (PST)
+ us-mta-127-XIH1NRjFO5iW-VQJM7azsA-1; Mon, 07 Mar 2022 05:02:14 -0500
+X-MC-Unique: XIH1NRjFO5iW-VQJM7azsA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ r18-20020a17090609d200b006a6e943d09eso6720851eje.20
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:02:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0lVkB02NxWofYSS4as/4ncAO6TZl7kf9saq/7ls1Nww=;
- b=khtsWhLdjT8Njqz4cMqvRzaqGmlFZjLXbJLY9apZ1VOdiXP9T9ZsQV1JHpViut1o0U
- mmiAlYQ3SvIvgeQzctgPf9vclc4W5AWR+9qpMDaeOZA/RQqQNziQxuYLTFPgcsjzbNNf
- enp9oryuxlc6fct0yedqnXYhOnf0WEl+kl6DcdL+FM1v49hM682ZunBh3Q7NvHnVSRB2
- PXqAc74E+KssSWqGtpbur4g4oIEzn/Dso7F26azSSSsuqmgBcqs4yNTekW9p86bYq4Hm
- is9YKnJUcTXDaMIkFs5ggVxfwr/pMrBxmOGwPGtzxPY/N2oeIxC/syZKJKuNaRh2S6kQ
- azJw==
-X-Gm-Message-State: AOAM532m6QRA3l8hTDYIneGO0mjsAYU+cUYpCXlibzfRn7z77EvLHp9/
- cRPiw4UCg7MeajwRZ6nTgzS7s8ebqQFy+rMx5XAfo+fKz0BZ0xcVgj/YUZ2S6ZXCDWD6PX9IDqK
- 0FFRJVf8Q5PQdg9T+/zFE8PNTcdep5alGomR4FK47C48EvT5eXg6RsSLpM+hu
-X-Received: by 2002:a17:906:584:b0:6b0:8987:90af with SMTP id
- 4-20020a170906058400b006b0898790afmr8797658ejn.264.1646647328814; 
- Mon, 07 Mar 2022 02:02:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyPXPh//W4NXGBD7YFX6xt9HwjVSgRIpLSg3ijZBGyYYsGqlZ3WhZPLATdoSM2Qn0sixoVHpg==
-X-Received: by 2002:a17:906:584:b0:6b0:8987:90af with SMTP id
- 4-20020a170906058400b006b0898790afmr8797629ejn.264.1646647328446; 
- Mon, 07 Mar 2022 02:02:08 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=hG63fk2e7vwNR105jMKcH2PAlFDWHa3moRydXJnnvuY=;
+ b=798Au8A8ThzC2EEz9jmQ2ppBTKo9q48JcOPRx989fa+2BEmF7oCkm5hbT9NyICnpfu
+ 8yzTzXl1XphOEv1ED+6H8JxORUD/V1E28OIQOuyfZZg4DOXD+VvAxFBTnAOUdbY8Cuse
+ xWNkbF/B3bi1aEuYrN/AuiJGQRjjIhYLBsIXIoGSwmjIdhxPuBeb+XkfmK5CKNBhbx0J
+ 1tKWhPEMfhn8w2qoYpnwHFolJTWCwgsyqWORfCkDUtI4d4t8BPDwOPnHdN9TsCcp4uxP
+ 29A76AxHTMvyYVCYduroxNf5BWYAZPDKeuk1vilXWPKyrJIRxA3UgGWdbfOLn78b8DFh
+ E15g==
+X-Gm-Message-State: AOAM530sWBFFH3QIIFffzPBbu+JWUjkVa8gQrDg9YBs+g2HXfUnSsyAP
+ yBBNn6/qyYE4T7pxD+hB7EUBRmuxtxfUNT2tIn+feP53fRWmqsFVDV0o7xNS0ptZ4W8VX2Nrz3X
+ Sk+6Ko5iTfC0l8/DWXNZlcY32unyyB4rTctpVQ1i83JM5T7Ut07cRz5K6HbOv
+X-Received: by 2002:a17:906:18b2:b0:6d0:ee54:1add with SMTP id
+ c18-20020a17090618b200b006d0ee541addmr8489607ejf.499.1646647332445; 
+ Mon, 07 Mar 2022 02:02:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwD352Zlh1g3fU5ES686TgbT2PT1ZWrTE6EmIhj1uw0EOmgqGn30dq/fXC8MZ4ZoWpDZJ2v3A==
+X-Received: by 2002:a17:906:18b2:b0:6d0:ee54:1add with SMTP id
+ c18-20020a17090618b200b006d0ee541addmr8489581ejf.499.1646647332219; 
+ Mon, 07 Mar 2022 02:02:12 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- et3-20020a170907294300b006d6534ef273sm4481168ejc.156.2022.03.07.02.02.06
+ l20-20020a1709066b9400b006dabdbc8350sm3287698ejr.30.2022.03.07.02.02.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 02:02:07 -0800 (PST)
-Date: Mon, 7 Mar 2022 05:02:05 -0500
+ Mon, 07 Mar 2022 02:02:11 -0800 (PST)
+Date: Mon, 7 Mar 2022 05:02:08 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 15/47] intel_iommu: support snoop control
-Message-ID: <20220307100058.449628-16-mst@redhat.com>
+Subject: [PULL v2 16/47] hw/i386: Improve bounds checking in OVMF table parsing
+Message-ID: <20220307100058.449628-17-mst@redhat.com>
 References: <20220307100058.449628-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307100058.449628-1-mst@redhat.com>
@@ -73,9 +75,10 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -98,107 +101,68 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
 
-SC is required for some kernel features like vhost-vDPA. So this patch
-implements basic SC feature. The idea is pretty simple, for software
-emulated DMA it would be always coherent. In this case we can simple
-advertise ECAP_SC bit. For VFIO and vhost, thing will be more much
-complicated, so this patch simply fail the IOMMU notifier
-registration.
+When pc_system_parse_ovmf_flash() parses the optional GUIDed table in
+the end of the OVMF flash memory area, the table length field is checked
+for sizes that are too small, but doesn't error on sizes that are too
+big (bigger than the flash content itself).
 
-In the future, we may want to have a dedicated notifiers flag or
-similar mechanism to demonstrate the coherency so VFIO could advertise
-that if it has VFIO_DMA_CC_IOMMU, for vhost kernel backend we don't
-need that since it's a software backend.
+Add a check for maximal size of the OVMF table, and add an error report
+in case the size is invalid.  In such a case, an error like this will be
+displayed during launch:
 
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20220214060346.72455-1-jasowang@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+    qemu-system-x86_64: OVMF table has invalid size 4047
+
+and the table parsing is skipped.
+
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+Message-Id: <20220222071906.2632426-2-dovmurik@linux.ibm.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/i386/intel_iommu_internal.h |  1 +
- include/hw/i386/intel_iommu.h  |  1 +
- hw/i386/intel_iommu.c          | 14 +++++++++++++-
- 3 files changed, 15 insertions(+), 1 deletion(-)
+ hw/i386/pc_sysfw_ovmf.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/intel_iommu_internal.h b/hw/i386/intel_iommu_internal.h
-index a6c788049b..1ff13b40f9 100644
---- a/hw/i386/intel_iommu_internal.h
-+++ b/hw/i386/intel_iommu_internal.h
-@@ -188,6 +188,7 @@
- #define VTD_ECAP_IR                 (1ULL << 3)
- #define VTD_ECAP_EIM                (1ULL << 4)
- #define VTD_ECAP_PT                 (1ULL << 6)
-+#define VTD_ECAP_SC                 (1ULL << 7)
- #define VTD_ECAP_MHMV               (15ULL << 20)
- #define VTD_ECAP_SRS                (1ULL << 31)
- #define VTD_ECAP_SMTS               (1ULL << 43)
-diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
-index 41783ee46d..3b5ac869db 100644
---- a/include/hw/i386/intel_iommu.h
-+++ b/include/hw/i386/intel_iommu.h
-@@ -228,6 +228,7 @@ struct IntelIOMMUState {
+diff --git a/hw/i386/pc_sysfw_ovmf.c b/hw/i386/pc_sysfw_ovmf.c
+index f4dd92c588..df15c9737b 100644
+--- a/hw/i386/pc_sysfw_ovmf.c
++++ b/hw/i386/pc_sysfw_ovmf.c
+@@ -24,6 +24,7 @@
+  */
  
-     bool caching_mode;              /* RO - is cap CM enabled? */
-     bool scalable_mode;             /* RO - is Scalable Mode supported? */
-+    bool snoop_control;             /* RO - is SNP filed supported? */
+ #include "qemu/osdep.h"
++#include "qemu/error-report.h"
+ #include "hw/i386/pc.h"
+ #include "cpu.h"
  
-     dma_addr_t root;                /* Current root table pointer */
-     bool root_scalable;             /* Type of root table (scalable or not) */
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 4c6c016388..32471a44cb 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3030,6 +3030,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
-     VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
-     IntelIOMMUState *s = vtd_as->iommu_state;
+@@ -66,7 +67,13 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
+     ptr -= sizeof(uint16_t);
+     tot_len = le16_to_cpu(*(uint16_t *)ptr) - sizeof(guid) - sizeof(uint16_t);
  
-+    /* TODO: add support for VFIO and vhost users */
-+    if (s->snoop_control) {
-+        error_setg_errno(errp, -ENOTSUP,
-+                         "Snoop Control with vhost or VFIO is not supported");
-+        return -ENOTSUP;
+-    if (tot_len <= 0) {
++    if (tot_len < 0 || tot_len > (ptr - flash_ptr)) {
++        error_report("OVMF table has invalid size %d", tot_len);
++        return;
 +    }
 +
-     /* Update per-address-space notifier flags */
-     vtd_as->notifier_flags = new;
- 
-@@ -3113,6 +3120,7 @@ static Property vtd_properties[] = {
-                       VTD_HOST_ADDRESS_WIDTH),
-     DEFINE_PROP_BOOL("caching-mode", IntelIOMMUState, caching_mode, FALSE),
-     DEFINE_PROP_BOOL("x-scalable-mode", IntelIOMMUState, scalable_mode, FALSE),
-+    DEFINE_PROP_BOOL("snoop-control", IntelIOMMUState, snoop_control, false),
-     DEFINE_PROP_BOOL("dma-drain", IntelIOMMUState, dma_drain, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -3643,7 +3651,7 @@ static void vtd_init(IntelIOMMUState *s)
-     vtd_spte_rsvd_large[3] = VTD_SPTE_LPAGE_L3_RSVD_MASK(s->aw_bits,
-                                                          x86_iommu->dt_supported);
- 
--    if (s->scalable_mode) {
-+    if (s->scalable_mode || s->snoop_control) {
-         vtd_spte_rsvd[1] &= ~VTD_SPTE_SNP;
-         vtd_spte_rsvd_large[2] &= ~VTD_SPTE_SNP;
-         vtd_spte_rsvd_large[3] &= ~VTD_SPTE_SNP;
-@@ -3674,6 +3682,10 @@ static void vtd_init(IntelIOMMUState *s)
-         s->ecap |= VTD_ECAP_SMTS | VTD_ECAP_SRS | VTD_ECAP_SLTS;
++    if (tot_len == 0) {
++        /* no entries in the OVMF table */
+         return;
      }
  
-+    if (s->snoop_control) {
-+        s->ecap |= VTD_ECAP_SC;
-+    }
-+
-     vtd_reset_caches(s);
- 
-     /* Define registers with default values and bit semantics */
 -- 
 MST
 
