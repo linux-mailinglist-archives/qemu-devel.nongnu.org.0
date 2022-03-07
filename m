@@ -2,99 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038D14CFDEA
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:13:52 +0100 (CET)
-Received: from localhost ([::1]:41500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F9304CFD69
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:50:46 +0100 (CET)
+Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCFL-00066C-2o
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:13:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54698)
+	id 1nRBsz-0003Yu-90
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:50:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nRBYq-0003dJ-It
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:29:56 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39376)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nRBaz-0005zs-RM
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:32:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1nRBYo-00089m-67
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:29:56 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 227Ao1M2015691; 
- Mon, 7 Mar 2022 11:29:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=OaxzEh9iGRA7dHQCkOMpdCJLmGGLMzDQl+UqCh6J5pQ=;
- b=EfCdli9pbUVyZ2vBe+LAjrv2c8av2jbH6RBKJ/UNLBI0dZNGvhcX/bqlbx4848z8MxWk
- YoNEb6uQTiQ/umn9F/YUWqH/7xAcdUr97xOZhAjeQPMxYQBuSG1zMEWOtB5GU9Reqxpf
- ImBOyXyyFtMOYMWBwgQYLpqvZC/GFI1CbX1lc34ZhoFyXozIHjvjR3ZvZ03rdJ/JwBEy
- i5+LT++/6LDRnOjRXDs84wcWTmD9shludb1ruWfnEELgWSxHbB6y2+9c+2js0PqchakJ
- b0IU6+mRzfqA2F2gXYx1TJvyhLij4/eIlF66oXc0pvjSvGTbF+FOw1n8wgWGtnwyhszK 0g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3engn58pf9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Mar 2022 11:29:50 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 227BD7gn003110;
- Mon, 7 Mar 2022 11:29:49 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3engn58pe6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Mar 2022 11:29:49 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 227BSQPl024658;
- Mon, 7 Mar 2022 11:29:46 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma01fra.de.ibm.com with ESMTP id 3ekyg8buk4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Mar 2022 11:29:46 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 227BTiV133292678
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 7 Mar 2022 11:29:44 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5253811C04C;
- Mon,  7 Mar 2022 11:29:44 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 170B411C04A;
- Mon,  7 Mar 2022 11:29:44 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  7 Mar 2022 11:29:44 +0000 (GMT)
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH v3 1/1] virtio: fix feature negotiation for ACCESS_PLATFORM
-Date: Mon,  7 Mar 2022 12:29:39 +0100
-Message-Id: <20220307112939.2780117-1-pasic@linux.ibm.com>
-X-Mailer: git-send-email 2.32.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: SR7PLm6UxxlEJu_ALqDcsQG5FcBtrt-U
-X-Proofpoint-GUID: g1SPXZRQsbUGDLxyRnw7yIL3Ewko16Pq
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nRBaw-00009d-9E
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:32:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646652725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tvqJ82Zc5Ormem//5KJuv2ek7NC0CCFHKhMzuCs4rbc=;
+ b=d2Tg994ZhvWPd5TG4yBgDq5OJJZ0ZUsGGXU76j6MW7ERbUIpBBjacZLu/l5sHTUYMsl73r
+ o1o+6NTcijg0Lx3yVZGPoNlj1Fxc5LGwGQYC+xUkzEnyCmFQHY1bE5+ZJ+9fICOYNyzQQ8
+ sLNN6XOYpqmI3FzKGOJZe7+9s15ifLk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-110-jZ9GPjNoPeKxNdNaEv-OMA-1; Mon, 07 Mar 2022 06:32:02 -0500
+X-MC-Unique: jZ9GPjNoPeKxNdNaEv-OMA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 20-20020a05600c231400b00389886f6b23so4509964wmo.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 03:32:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=tvqJ82Zc5Ormem//5KJuv2ek7NC0CCFHKhMzuCs4rbc=;
+ b=KJPSszY5QJsehoXjx5xbai0Msz6oTpLRdwWvOXRwdG41RfsKZbMu9YbkrgcYEd+1Yj
+ 7hByC/TQ7gnSrMPKI+AJpwJXCMypES9k7QT5c2aG/lpJZ0GpcIeD2rkfnpT9T1FBNP2x
+ bFt6z4Yta0Q6YzsCDshp8DbaYK+4c41hzn/qaG6faROgtk+C1rWW9pCVLuJwL7kU2qXZ
+ uBMLah3fCvetZNPu4kMJnxTzGMXFxi5UN2Uv7J4NuoAlu32A49wdR8tyDywRiLkCZG3b
+ cB4CqdypLkvXJVjk0N6qq6Vuw0jmJ0kFIeF/R4H341WILDHxFDeDvyVWjswstZsKEnwK
+ lZ+w==
+X-Gm-Message-State: AOAM530UHDxn2XhDxe8sWhZ9d+quHpcuEKLoLUOnx0rHWIO+LiYY9/5r
+ E0+RTmTpDlxMP8pILdxixBDpRrJDuP0qIr3S7PSSBNwPVPBHGmp8FqTtrfW+lCB4eB8lRZlx9K2
+ y2Gm5I80rQsFFh/M=
+X-Received: by 2002:a5d:5850:0:b0:1fc:a7d7:e33b with SMTP id
+ i16-20020a5d5850000000b001fca7d7e33bmr716173wrf.157.1646652720544; 
+ Mon, 07 Mar 2022 03:32:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzPUWMqRT1jURDw7N1Mw2kr+wTTNjlADCxURO7fjBg72FFd0JgmuY16XZYJW0/Uj+CrYILqNg==
+X-Received: by 2002:a5d:5850:0:b0:1fc:a7d7:e33b with SMTP id
+ i16-20020a5d5850000000b001fca7d7e33bmr716149wrf.157.1646652720264; 
+ Mon, 07 Mar 2022 03:32:00 -0800 (PST)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ o15-20020a05600c4fcf00b00381614e5b60sm20335696wmq.34.2022.03.07.03.31.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 03:31:59 -0800 (PST)
+Date: Mon, 7 Mar 2022 11:31:57 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: starting to look at qemu savevm performance, a first regression
+ detected
+Message-ID: <YiXtLZxyTMfEZ384@work-vm>
+References: <0ffe2660-4bae-9a84-e981-687b2c7a8877@suse.de>
+ <5c028590-d71b-91a8-9ee6-d43cd162ec13@suse.de>
+ <YiXfRe9qRHC+dVi5@work-vm>
+ <29a4b12d-a4b9-1652-22ea-0a273ca8f1b5@suse.de>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-07_04,2022-03-04_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- impostorscore=0 malwarescore=0 phishscore=0 priorityscore=1501
- mlxlogscore=999 adultscore=0 mlxscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203070064
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <29a4b12d-a4b9-1652-22ea-0a273ca8f1b5@suse.de>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,115 +106,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unlike most virtio features ACCESS_PLATFORM is considered mandatory by
-QEMU, i.e. the driver must accept it if offered by the device. The
-virtio specification says that the driver SHOULD accept the
-ACCESS_PLATFORM feature if offered, and that the device MAY fail to
-operate if ACCESS_PLATFORM was offered but not negotiated.
+* Claudio Fontana (cfontana@suse.de) wrote:
+> On 3/7/22 11:32 AM, Dr. David Alan Gilbert wrote:
+> > * Claudio Fontana (cfontana@suse.de) wrote:
+> >> On 3/5/22 2:20 PM, Claudio Fontana wrote:
+> >>>
+> >>> Hello all,
+> >>>
+> >>> I have been looking at some reports of bad qemu savevm performance in large VMs (around 20+ Gb),
+> >>> when used in libvirt commands like:
+> >>>
+> >>>
+> >>> virsh save domain /dev/null
+> >>>
+> >>>
+> >>>
+> >>> I have written a simple test to run in a Linux centos7-minimal-2009 guest, which allocates and touches 20G mem.
+> >>>
+> >>> With any qemu version since around 2020, I am not seeing more than 580 Mb/Sec even in the most ideal of situations.
+> >>>
+> >>> This drops to around 122 Mb/sec after commit: cbde7be900d2a2279cbc4becb91d1ddd6a014def .
+> >>>
+> >>> Here is the bisection for this particular drop in throughput:
+> >>>
+> >>> commit cbde7be900d2a2279cbc4becb91d1ddd6a014def (HEAD, refs/bisect/bad)
+> >>> Author: Daniel P. Berrangé <berrange@redhat.com>
+> >>> Date:   Fri Feb 19 18:40:12 2021 +0000
+> >>>
+> >>>     migrate: remove QMP/HMP commands for speed, downtime and cache size
+> >>>     
+> >>>     The generic 'migrate_set_parameters' command handle all types of param.
+> >>>     
+> >>>     Only the QMP commands were documented in the deprecations page, but the
+> >>>     rationale for deprecating applies equally to HMP, and the replacements
+> >>>     exist. Furthermore the HMP commands are just shims to the QMP commands,
+> >>>     so removing the latter breaks the former unless they get re-implemented.
+> >>>     
+> >>>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >>>     Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> >>>
+> >>>
+> >>> git bisect start
+> >>> # bad: [5c8463886d50eeb0337bd121ab877cf692731e36] Merge remote-tracking branch 'remotes/kraxel/tags/kraxel-20220304-pull-request' into staging
+> >>> git bisect bad 5c8463886d50eeb0337bd121ab877cf692731e36
+> >>> # good: [6cdf8c4efa073eac7d5f9894329e2d07743c2955] Update version for 4.2.1 release
+> >>> git bisect good 6cdf8c4efa073eac7d5f9894329e2d07743c2955
+> >>> # good: [b0ca999a43a22b38158a222233d3f5881648bb4f] Update version for v4.2.0 release
+> >>> git bisect good b0ca999a43a22b38158a222233d3f5881648bb4f
+> >>> # skip: [e2665f314d80d7edbfe7f8275abed7e2c93c0ddc] target/mips: Alias MSA vector registers on FPU scalar registers
+> >>> git bisect skip e2665f314d80d7edbfe7f8275abed7e2c93c0ddc
+> >>> # good: [4762c82cbda22b1036ce9dd2c5e951ac0ed0a7d3] tests/docker: Install static libc package in CentOS 7
+> >>> git bisect good 4762c82cbda22b1036ce9dd2c5e951ac0ed0a7d3
+> >>> # bad: [d4127349e316b5c78645f95dba5922196ac4cc23] Merge remote-tracking branch 'remotes/berrange-gitlab/tags/crypto-and-more-pull-request' into staging
+> >>> git bisect bad d4127349e316b5c78645f95dba5922196ac4cc23
+> >>> # bad: [d90f154867ec0ec22fd719164b88716e8fd48672] Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.1-20210504' into staging
+> >>> git bisect bad d90f154867ec0ec22fd719164b88716e8fd48672
+> >>> # good: [dd5af6ece9b101d29895851a7441d848b7ccdbff] tests/docker: add a test-tcg for building then running check-tcg
+> >>> git bisect good dd5af6ece9b101d29895851a7441d848b7ccdbff
+> >>> # bad: [90ec1cff768fcbe1fa2870d2018f378376f4f744] target/riscv: Adjust privilege level for HLV(X)/HSV instructions
+> >>> git bisect bad 90ec1cff768fcbe1fa2870d2018f378376f4f744
+> >>> # good: [373969507a3dc7de2d291da7e1bd03acf46ec643] migration: Replaced qemu_mutex_lock calls with QEMU_LOCK_GUARD
+> >>> git bisect good 373969507a3dc7de2d291da7e1bd03acf46ec643
+> >>> # good: [4083904bc9fe5da580f7ca397b1e828fbc322732] Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210317' into staging
+> >>> git bisect good 4083904bc9fe5da580f7ca397b1e828fbc322732
+> >>> # bad: [009ff89328b1da3ea8ba316bf2be2125bc9937c5] vl: allow passing JSON to -object
+> >>> git bisect bad 009ff89328b1da3ea8ba316bf2be2125bc9937c5
+> >>> # bad: [50243407457a9fb0ed17b9a9ba9fc9aee09495b1] qapi/qom: Drop deprecated 'props' from object-add
+> >>> git bisect bad 50243407457a9fb0ed17b9a9ba9fc9aee09495b1
+> >>> # bad: [1b507e55f8199eaad99744613823f6929e4d57c6] Merge remote-tracking branch 'remotes/berrange-gitlab/tags/dep-many-pull-request' into staging
+> >>> git bisect bad 1b507e55f8199eaad99744613823f6929e4d57c6
+> >>> # bad: [24e13a4dc1eb1630eceffc7ab334145d902e763d] chardev: reject use of 'wait' flag for socket client chardevs
+> >>> git bisect bad 24e13a4dc1eb1630eceffc7ab334145d902e763d
+> >>> # good: [8becb36063fb14df1e3ae4916215667e2cb65fa2] monitor: remove 'query-events' QMP command
+> >>> git bisect good 8becb36063fb14df1e3ae4916215667e2cb65fa2
+> >>> # bad: [8af54b9172ff3b9bbdbb3191ed84994d275a0d81] machine: remove 'query-cpus' QMP command
+> >>> git bisect bad 8af54b9172ff3b9bbdbb3191ed84994d275a0d81
+> >>> # bad: [cbde7be900d2a2279cbc4becb91d1ddd6a014def] migrate: remove QMP/HMP commands for speed, downtime and cache size
+> >>> git bisect bad cbde7be900d2a2279cbc4becb91d1ddd6a014def
+> >>> # first bad commit: [cbde7be900d2a2279cbc4becb91d1ddd6a014def] migrate: remove QMP/HMP commands for speed, downtime and cache size
+> >>>
+> >>>
+> >>> Are there some obvious settings / options I am missing to regain the savevm performance after this commit?
+> >>
+> >> Answering myself: 
+> > 
+> > <oops we seem to have split this thread into two>
+> > 
+> >> this seems to be due to a resulting different default xbzrle cache size (probably interactions between libvirt/qemu versions?).
+> >>
+> >> When forcing the xbzrle cache size to a larger value, the performance is back.
+> > 
+> > That's weird that 'virsh save' is ending up using xbzrle.
+> 
+> virsh save (or qemu savevm..) seems to me like it uses a subset of the migration code and migration parameters but not all..
+> 
+> > 
+> >>>
+> >>> I have seen projects attempting to improve other aspects of performance (snapshot performance, etc), is there something going on to improve the transfer of RAM in savevm too?
+> >>
+> >>
+> >> Still I would think that we should be able to do better than 600ish Mb/s , any ideas, prior work on this,
+> >> to improve savevm performance, especially looking at RAM regions transfer speed?
+> > 
+> > My normal feeling is ~10Gbps for a live migrate over the wire; I rarely
+> > try virsh save though.
+> > If you're using xbzrle that might explain it; it's known to eat cpu -
+> > but I'd never expect it to have been used with 'virsh save'.
+> 
+> some valgrind shows it among the top cpu eaters;
+> 
+> I wonder why we are able to do more than 2x better for actual live migration, compared with virsh save /dev/null ...
 
-While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
-the device when the driver fences ACCESS_PLATFORM. With commit
-2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM") we already made the
-decision to do so whenever the get_dma_as() callback is implemented (by
-the bus), which in practice means for the entirety of virtio-pci.
+What speed do you get if you force xbzrle off?
 
-That means, if the device needs to translate I/O addresses, then
-ACCESS_PLATFORM is mandatory. The aforementioned commit tells us in the
-commit message that this is for security reasons. More precisely if we
-were to allow a less then trusted driver (e.g. an user-space driver, or
-a nested guest) to make the device bypass the IOMMU by not negotiating
-ACCESS_PLATFORM, then the guest kernel would have no ability to
-control/police (by programming the IOMMU) what pieces of guest memory
-the driver may manipulate using the device. Which would break security
-assumptions within the guest.
+Dave
 
-If ACCESS_PLATFORM is offered not because we want the device to utilize
-an IOMMU and do address translation, but because the device does not
-have access to the entire guest RAM, and needs the driver to grant
-access to the bits it needs access to (e.g. confidential guest support),
-we still require the guest to have the corresponding logic and to accept
-ACCESS_PLATFORM. If the driver does not accept ACCESS_PLATFORM, then
-things are bound to go wrong, and we may see failures much less graceful
-than failing the device because the driver didn't negotiate
-ACCESS_PLATFORM.
-
-So let us make ACCESS_PLATFORM mandatory for the driver regardless
-of whether the get_dma_as() callback is implemented or not.
-
-Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-Fixes: 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM")
-
----
-v2 -> v3:
-* Rebased onto the next branch of the git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git
-  repository
-v1 -> v2:
-* Change comment: reflect that this is not about the verify
-  but also about the device features as seen by the driver (Connie)
-RFC -> v1:
-* Tweaked the commit message and fixed typos (Connie)
-* Added two sentences discussing the security implications (Michael)
-
-This patch is based on:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg866199.html
-
-During the review of "virtio: fix the condition for iommu_platform not
-supported" Daniel raised the question why do we "force IOMMU_PLATFORM"
-iff has_iommu && !!klass->get_dma_as. My answer to that was, that
-this logic ain't right.
-
-While at it I used the opportunity to re-organize the code a little
-and provide an explanatory comment.
----
- hw/virtio/virtio-bus.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
-
-diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-index 0f69d1c742..d7ec023adf 100644
---- a/hw/virtio/virtio-bus.c
-+++ b/hw/virtio/virtio-bus.c
-@@ -78,17 +78,23 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
-         return;
-     }
- 
--    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
--    if (klass->get_dma_as != NULL && has_iommu) {
-+    vdev->dma_as = &address_space_memory;
-+    if (has_iommu) {
-+        vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-+        /*
-+         * Present IOMMU_PLATFORM to the driver iff iommu_plattform=on and
-+         * device operational. If the driver does not accept IOMMU_PLATFORM
-+         * we fail the device.
-+         */
-         virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
--        vdev->dma_as = klass->get_dma_as(qbus->parent);
--        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
--            error_setg(errp,
-+        if (klass->get_dma_as) {
-+            vdev->dma_as = klass->get_dma_as(qbus->parent);
-+            if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
-+                error_setg(errp,
-                        "iommu_platform=true is not supported by the device");
--            return;
-+                return;
-+            }
-         }
--    } else {
--        vdev->dma_as = &address_space_memory;
-     }
- }
- 
-
-base-commit: 41d137fc631bd9315ff84727d780757d25054c58
+> Thanks,
+> 
+> Claudio
+> 
 -- 
-2.32.0
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
