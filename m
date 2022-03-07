@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0DC4D083F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:20:55 +0100 (CET)
-Received: from localhost ([::1]:36782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CD44D0837
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:17:39 +0100 (CET)
+Received: from localhost ([::1]:55944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRJqg-0001Mq-Aj
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:20:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50882)
+	id 1nRJnW-0003ZF-Jp
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:17:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <31WUmYgYKClID2DECB08805y.w86Ay6E-xyFy578707E.8B0@flex--titusr.bounces.google.com>)
- id 1nRJkr-0000S6-A9
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:14:53 -0500
-Received: from [2607:f8b0:4864:20::34a] (port=47790
- helo=mail-ot1-x34a.google.com)
+ <312UmYgYKClQF4FGED2AA270.yA8C08G-z0H079A929G.AD2@flex--titusr.bounces.google.com>)
+ id 1nRJjj-0005qq-R8
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:13:43 -0500
+Received: from [2607:f8b0:4864:20::114a] (port=44780
+ helo=mail-yw1-x114a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <31WUmYgYKClID2DECB08805y.w86Ay6E-xyFy578707E.8B0@flex--titusr.bounces.google.com>)
- id 1nRJkp-00075E-OQ
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:14:53 -0500
-Received: by mail-ot1-x34a.google.com with SMTP id
- b19-20020a056830105300b005b23d3eb1daso1898911otp.14
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 12:14:50 -0800 (PST)
+ <312UmYgYKClQF4FGED2AA270.yA8C08G-z0H079A929G.AD2@flex--titusr.bounces.google.com>)
+ id 1nRJji-0006zs-91
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:13:43 -0500
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-2dbda4f6331so141480427b3.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 12:13:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=ED0XesU2EOorz+/tkc1bsLG8fKPtIRFenTTRv8zMjw0=;
- b=KBzld8kBnZKY26jrShM62gFJYsFBqztoNHuVwoI0Qxmmk/hyUAivAUgEIA/0fpjELB
- +FfUyp0r4w4Y9DzKxaXyBgUu6Bjn9ye/FkrhptBJ16TAvNs1vW0KOd/+e7VmABETWVWT
- TT6/A7at90b8KZXuH3uIFp9L0sbykUu99UPGXXoOKwcefD1F1eJDvhI8KD6TdZR8+xCL
- Sprej8n2VXOs3SBnKhUvV39OO6o6XdvA1rT1hnuRikHnOujw1yX5vjcRtcxINGR8cYfI
- zJFEyT1fWzjCrXo59uorrjMf40sYRT62vwH+ucFUfN5qUjConzN1o4d1WcsgLQCeoir6
- Ci1Q==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc:content-transfer-encoding;
+ bh=DFLEp4Au2YK6sqW100Dvh40Za2h5jBDX8hDsOCFY3nA=;
+ b=sah0XZFobUuI+nX7oWDSHtPpbC3WUTm1yejcvByzYxPLm8tCzcfpacwSqkCuU66+z8
+ HfTjD/NP7nmx13dMulblEpR332F9FtXkY4i81MrKdruDxu+BSXR5tgofhCGJq6c004V9
+ NT4PBavuN08AyRz11Pmybbj2aiU9rQ8EaClclpD5UJboecgkW9emN+Ulz3sPwtp1j01F
+ 5OwQ9HbWdBSqgNNtiQYMitQdvh/mAwYOTRsf6vV/9VHanPFALOkiu7PeT1CTpCCbRl96
+ NQHV0ZPBNaQEVax7q6YVFVzEuVVYDmH1QIYVANxDmjul17BDLq1589cRCvMAkUotlFu8
+ 0VNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=ED0XesU2EOorz+/tkc1bsLG8fKPtIRFenTTRv8zMjw0=;
- b=Vamki4FAWC2vZptqg+v9Z41qFqHn13tRJOIUtWPZfULK/wE8whchTFM2izPu9B6eoZ
- Yn+IWyg0PEGtQfnLqvx/ozi/21LBTuD8JPmbVNND0+DTpSvmHmx9R/PLoIIcN1Z/PS8D
- qGmAHkY3g4WJ94EMoujc0TEq9kBkMkya48wILpF7q/9wsNI1054OCpsvwsxXMpIhEh8g
- ogKYLWOlZYP+ZS1XQSOHLa1F5OUzE/8yR4C3EYeNYJ8jzFWzzSh6zi+v5Hs2SZ3vXHk6
- oOfqhpbpUy5e901/fyfaQH25R6n4hBFIaTfEqcoU0dFryAPAIssFL60Phs4KEJ7Uyr43
- aOuQ==
-X-Gm-Message-State: AOAM5339+pZmcy4U+BuKCqan4sMG/4Ybl1ic+yp1leNDGXwL4HxeW697
- P4xBW2KWJ9bum958Zfdf6qIZ5JwrXVk=
-X-Google-Smtp-Source: ABdhPJwrPZmFCqO2lTGRDIz/xw8uITk9+iYrw0gI4ZelRmYWEikQIVPyWc/OPgHhFpboCKGwgCvY1io2V2g=
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc:content-transfer-encoding;
+ bh=DFLEp4Au2YK6sqW100Dvh40Za2h5jBDX8hDsOCFY3nA=;
+ b=UuDr4yVEdDVtcVSX2T67XiL4QflCFQTrMQKSdo6zKlR9uu3N1i4sh4R96mne+USWKF
+ A3VyG8796ttEqzQVYd6C/M7DZ12T5Eda38B9L97CX6KSkAgaQrBY7BOulq3R+WPxJxWZ
+ /9Cz3QP6RbYCZ+83+eHC4bMhBxlQyOu99QRsIEb3xW+bYEtG35gPl2ibcosYpSE7MvqK
+ Ai1G8t9bU1KjiuZHw+by55tJVSu9ynuYhLjy9bKS9tzSyjldkALezja2ZwODaxNwQrfh
+ BvhdOa2Zub11znp5tskxm8G6JlvuBhAvXZAza9cF5WBDYa91+xj3rqLSViIafuiPk6aa
+ zwag==
+X-Gm-Message-State: AOAM532cR3ry2WY9tfxq3ybvY1am9tm4Z3XZQxywgMGR8nhezqE2mA2g
+ AaUU5ecoyadOjzWSmpQHCnh/M+NfN58=
+X-Google-Smtp-Source: ABdhPJwzZZWT6pSifp0jy4tmxheRbQ58qhVZeeKK2J2/NvCLYeWaNnOZ8r0hYqUu7clnPtNuMMObcNiLx2I=
 X-Received: from titusr.svl.corp.google.com
  ([2620:15c:2a3:201:3c4a:fc8b:1418:53ce])
- (user=titusr job=sendgmr) by 2002:a25:5090:0:b0:628:b76b:b9d3 with SMTP id
- e138-20020a255090000000b00628b76bb9d3mr9692826ybb.128.1646683605304; Mon, 07
- Mar 2022 12:06:45 -0800 (PST)
-Date: Mon,  7 Mar 2022 12:05:56 -0800
-Message-Id: <20220307200605.4001451-1-titusr@google.com>
+ (user=titusr job=sendgmr) by 2002:a81:5dd5:0:b0:2dc:19cf:17ac with SMTP id
+ r204-20020a815dd5000000b002dc19cf17acmr9940903ywb.312.1646683607906; Mon, 07
+ Mar 2022 12:06:47 -0800 (PST)
+Date: Mon,  7 Mar 2022 12:05:57 -0800
+In-Reply-To: <20220307200605.4001451-1-titusr@google.com>
+Message-Id: <20220307200605.4001451-2-titusr@google.com>
 Mime-Version: 1.0
+References: <20220307200605.4001451-1-titusr@google.com>
 X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
-Subject: [PATCH v4 0/9] Fixups for PMBus and new sensors
+Subject: [PATCH v4 1/9] hw/i2c: pmbus: add registers
 From: Titus Rwantare <titusr@google.com>
 To: Corey Minyard <minyard@acm.org>, 
  "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <f4bug@amsat.org>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
  venture@google.com, Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::34a
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::114a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::34a;
- envelope-from=31WUmYgYKClID2DECB08805y.w86Ay6E-xyFy578707E.8B0@flex--titusr.bounces.google.com;
- helo=mail-ot1-x34a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::114a;
+ envelope-from=312UmYgYKClQF4FGED2AA270.yA8C08G-z0H079A929G.AD2@flex--titusr.bounces.google.com;
+ helo=mail-yw1-x114a.google.com
 X-Spam_score_int: -81
 X-Spam_score: -8.2
 X-Spam_bar: --------
@@ -91,54 +96,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series contains updates to PMBus in QEMU along with some PMBus
-device models for Renesas regulators.
-I have also added myself to MAINTAINERS as this code is in use daily,
-where I am responsible for it.
+   - add the VOUT_MIN and STATUS_MFR registers
 
-v2:
-  - split PMBus commit with updates into individual fixes
-  - renamed isl_pmbus[.ch] adding _vr for voltage regulators
+Signed-off-by: Titus Rwantare <titusr@google.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+---
+ hw/i2c/pmbus_device.c         | 24 ++++++++++++++++++++++++
+ include/hw/i2c/pmbus_device.h |  3 +++
+ 2 files changed, 27 insertions(+)
 
-v3:
-  - split uint refactor commit and removed commit renaming files
-  - rename rolled into preceding commits
-  - update commit description for uint refactoring change
-
-v4:
-  - responding to reviewer suggestions
-  - added PMBUS_ERR_BYTE for consistent error returns
-
-Shengtan Mao (1):
-  hw/i2c: Added linear mode translation for pmbus devices
-
-Titus Rwantare (8):
-  hw/i2c: pmbus: add registers
-  hw/i2c: pmbus: fix error returns and guard against out of range
-    accesses
-  hw/i2c: pmbus: add PEC unsupported warning
-  hw/i2c: pmbus: refactor uint handling
-  hw/i2c: pmbus: update MAINTAINERS
-  hw/sensor: add Intersil ISL69260 device model
-  hw/sensor: add Renesas raa229004 PMBus device
-  hw/sensor: add Renesas raa228000 device
-
- MAINTAINERS                      |  13 +
- hw/arm/Kconfig                   |   1 +
- hw/i2c/pmbus_device.c            | 112 +++++++-
- hw/sensor/Kconfig                |   5 +
- hw/sensor/isl_pmbus_vr.c         | 279 ++++++++++++++++++
- hw/sensor/meson.build            |   1 +
- include/hw/i2c/pmbus_device.h    |  25 +-
- include/hw/sensor/isl_pmbus_vr.h |  52 ++++
- tests/qtest/isl_pmbus_vr-test.c  | 474 +++++++++++++++++++++++++++++++
- tests/qtest/meson.build          |   1 +
- 10 files changed, 949 insertions(+), 14 deletions(-)
- create mode 100644 hw/sensor/isl_pmbus_vr.c
- create mode 100644 include/hw/sensor/isl_pmbus_vr.h
- create mode 100644 tests/qtest/isl_pmbus_vr-test.c
-
--- 
+diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+index 24f8f522d9..07a45c99f9 100644
+--- a/hw/i2c/pmbus_device.c
++++ b/hw/i2c/pmbus_device.c
+@@ -368,6 +368,14 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
+         }
+         break;
+=20
++    case PMBUS_VOUT_MIN:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_min);
++        } else {
++            goto passthough;
++        }
++        break;
++
+     /* TODO: implement coefficients support */
+=20
+     case PMBUS_POUT_MAX:                  /* R/W word */
+@@ -708,6 +716,10 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
+         pmbus_send8(pmdev, pmdev->pages[index].status_other);
+         break;
+=20
++    case PMBUS_STATUS_MFR_SPECIFIC:       /* R/W byte */
++        pmbus_send8(pmdev, pmdev->pages[index].status_mfr_specific);
++        break;
++
+     case PMBUS_READ_EIN:                  /* Read-Only block 5 bytes */
+         if (pmdev->pages[index].page_flags & PB_HAS_EIN) {
+             pmbus_send(pmdev, pmdev->pages[index].read_ein, 5);
+@@ -1149,6 +1161,14 @@ static int pmbus_write_data(SMBusDevice *smd, uint8_=
+t *buf, uint8_t len)
+         }
+         break;
+=20
++    case PMBUS_VOUT_MIN:                  /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_RATING) {
++            pmdev->pages[index].vout_min =3D pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
+     case PMBUS_POUT_MAX:                  /* R/W word */
+         if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
+             pmdev->pages[index].pout_max =3D pmbus_receive16(pmdev);
+@@ -1482,6 +1502,10 @@ static int pmbus_write_data(SMBusDevice *smd, uint8_=
+t *buf, uint8_t len)
+         pmdev->pages[index].status_other =3D pmbus_receive8(pmdev);
+         break;
+=20
++    case PMBUS_STATUS_MFR_SPECIFIC:        /* R/W byte */
++        pmdev->pages[index].status_mfr_specific =3D pmbus_receive8(pmdev);
++        break;
++
+     case PMBUS_PAGE_PLUS_READ:            /* Block Read-only */
+     case PMBUS_CAPABILITY:                /* Read-Only byte */
+     case PMBUS_COEFFICIENTS:              /* Read-only block 5 bytes */
+diff --git a/include/hw/i2c/pmbus_device.h b/include/hw/i2c/pmbus_device.h
+index 62bd38c83f..72c0483149 100644
+--- a/include/hw/i2c/pmbus_device.h
++++ b/include/hw/i2c/pmbus_device.h
+@@ -43,6 +43,7 @@ enum pmbus_registers {
+     PMBUS_VOUT_DROOP                =3D 0x28, /* R/W word */
+     PMBUS_VOUT_SCALE_LOOP           =3D 0x29, /* R/W word */
+     PMBUS_VOUT_SCALE_MONITOR        =3D 0x2A, /* R/W word */
++    PMBUS_VOUT_MIN                  =3D 0x2B, /* R/W word */
+     PMBUS_COEFFICIENTS              =3D 0x30, /* Read-only block 5 bytes *=
+/
+     PMBUS_POUT_MAX                  =3D 0x31, /* R/W word */
+     PMBUS_MAX_DUTY                  =3D 0x32, /* R/W word */
+@@ -255,6 +256,7 @@ OBJECT_DECLARE_TYPE(PMBusDevice, PMBusDeviceClass,
+ #define PB_HAS_TEMP3               BIT_ULL(42)
+ #define PB_HAS_TEMP_RATING         BIT_ULL(43)
+ #define PB_HAS_MFR_INFO            BIT_ULL(50)
++#define PB_HAS_STATUS_MFR_SPECIFIC BIT_ULL(51)
+=20
+ struct PMBusDeviceClass {
+     SMBusDeviceClass parent_class;
+@@ -295,6 +297,7 @@ typedef struct PMBusPage {
+     uint16_t vout_droop;               /* R/W word */
+     uint16_t vout_scale_loop;          /* R/W word */
+     uint16_t vout_scale_monitor;       /* R/W word */
++    uint16_t vout_min;                 /* R/W word */
+     uint8_t coefficients[5];           /* Read-only block 5 bytes */
+     uint16_t pout_max;                 /* R/W word */
+     uint16_t max_duty;                 /* R/W word */
+--=20
 2.35.1.616.g0bdcbb4464-goog
 
 
