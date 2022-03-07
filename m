@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E62E4D0777
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:18:18 +0100 (CET)
-Received: from localhost ([::1]:35350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DFA4D0798
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:23:01 +0100 (CET)
+Received: from localhost ([::1]:43986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRIs5-00010B-FX
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:18:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38586)
+	id 1nRIwe-0006nK-Ms
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:23:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nRIq2-0006WS-JE; Mon, 07 Mar 2022 14:16:11 -0500
-Received: from [2607:f8b0:4864:20::234] (port=39668
- helo=mail-oi1-x234.google.com)
+ id 1nRIq4-0006X2-Oa; Mon, 07 Mar 2022 14:16:12 -0500
+Received: from [2607:f8b0:4864:20::c2a] (port=39529
+ helo=mail-oo1-xc2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nRIq1-0005w8-AF; Mon, 07 Mar 2022 14:16:10 -0500
-Received: by mail-oi1-x234.google.com with SMTP id j83so5638724oih.6;
- Mon, 07 Mar 2022 11:16:08 -0800 (PST)
+ id 1nRIq3-0005wU-5C; Mon, 07 Mar 2022 14:16:12 -0500
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ q1-20020a4a7d41000000b003211b63eb7bso818367ooe.6; 
+ Mon, 07 Mar 2022 11:16:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YZqC2tqWRaEws4L76k5C4aX9zCjhx7iXS9FGXRr/OCs=;
- b=G7IR0GQGsNGLj2x21XHD12uCVJArLAudFG3Qwidk565OsvTLzChHItAAKMzys/FbFM
- iQNdzWkBmCQLsoGbuHbYRqavVerodCPnpGwzveDoevI574eXf0LdWgGpma66clMARsFj
- NlRKlb7s/0zUzh6/z6hPiwn9LXWWjSH1tbktjRNnOgeYAwflObW/9bL5qVTeEIqsmMAH
- ghgsLZTH+dVDE9DyOZRo8v2yKvg0A7terAZgWvH2KH98gOY9PBmRzozKp/+vg+IFdEM8
- CoOYTghpMjgUY5W7CoCJjtnO2MFzReZ1oYwIM0HUkzXv73w8S5MFHzRko2HOiEKk0m9Y
- /v/Q==
+ bh=Hg5wMiiCQQI9fvTqpQhv1av6PEraDSZthGbyDg+4i7g=;
+ b=pCBQwszgfXP8AuxsdfvwGqMxegu5pxOkGSTWnbu3bXblEuasjqjNJ3ccqT0AB1+usf
+ 3BSarbA0b8ZSozDSET+bkAtTZfFD6x0y8JoJ6ngzyI+7yG+hq2qOAYWA7bGScw34HHnz
+ MLLxcHYJLg3XwTBvdKs7v2V6Cu4YUzz26ZMZPryUB5GoSOL2vxu2TSG8fV+RegzQ3c/T
+ lHD5zAoKXEsR0jh1tXCeLUVIaonqUQHwcKqN5M5UnUXnJok0uIQdG5apaxYyznJiLUFi
+ OBSfnCHT1u78H3JZmn7mECC8q5rfnaEraqIjjukUdEdlJcE/4Psdzx9MWxKMPnfD7GgT
+ X4WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YZqC2tqWRaEws4L76k5C4aX9zCjhx7iXS9FGXRr/OCs=;
- b=RkNzi0DlztqcNqguVv+M8VCNEmw9Vh+73w7gc2T/WNSQCoXJENec86/0bNZZgJ5fVB
- Bf3rkCZvZ2V4AvW3S0T+Rz5yu4rV2r/yBnSzFHa1v47nNi32YfPQqcKThvalBwC66pY6
- qeVd8CxTPD4RJdN57FMGn4PA7jqSmr0ZzocYdDb/vA6LdjRvh5K0EiZJXU0dDCBlbNY1
- sqn6i8kVPfKwtwD7jH8ePBKKl8+yIOrt2AsRATl+rquDgu7YNnwWgSMB5A7uVQ7Nlbz2
- 4NdLlLydUwU2i51Zst/WJWlAXklNoO/YagrwTVtK98NBZV6ize0B8d7b8jye0ayZSGf5
- E8vQ==
-X-Gm-Message-State: AOAM532S92mRVSh3e25VJJ0rwHUUeaqJCBUeFudKqtC9OWuIs5dcVONA
- D9VGO3q+cyRA81JjzBySZ0yX2FwQzyA=
-X-Google-Smtp-Source: ABdhPJxnCNsoDA4aZ8pk6cc0aIHl8Bdgq3blAsZi7R0wcNpuH08Z/ZA6hxKh4wTXO4yC9568itcCQg==
-X-Received: by 2002:a05:6808:140c:b0:2cf:90b8:ad91 with SMTP id
- w12-20020a056808140c00b002cf90b8ad91mr279144oiv.33.1646680567648; 
- Mon, 07 Mar 2022 11:16:07 -0800 (PST)
+ bh=Hg5wMiiCQQI9fvTqpQhv1av6PEraDSZthGbyDg+4i7g=;
+ b=J1b8j14n251Q8UTFddScCPXEm4YLm9AfaJ1czlnw7LpzsgPFtTaPvMGrriJHV8JkxJ
+ OyX8fp0IKWDzvIAlX9ZJIyWhKhsbQCywOo+wSwYW4tUQbJMlrlbUWNIPw6eq2IshpzxT
+ x29G/b9JeqwuAAUCn8MvGMaKjGOSpTEvI3pGFPH4VgkFSD55VczJBtWbEteIliR7Ufo9
+ 4WKC1/hzdLd/jEdLfx3/w1wRd5DGQgMcF+IJ2Tl34JUXZ5VlU8oyu6pzn8Ce8uZKj9ea
+ st4sdoivamsed5PgauBtx1+FFDUzNwUZSPoI13AUqNYB1Cg2Xkekfs5q9UkKQbrDPRKI
+ MVnA==
+X-Gm-Message-State: AOAM532K/Ad0xu2cqKL6/lQey0qZv7P5K39CjNiEZceeQjfx0XC2y75B
+ ta2IFWWTq7wX57zOR3LQUQeCaoAM9zI=
+X-Google-Smtp-Source: ABdhPJyIAKeoVVlwwamcLJdfZfqGD2c4/FmfcglwYUWDSc0JF4SgWicnKN1/gXt+9u4JWdMHEKMlPA==
+X-Received: by 2002:a4a:5295:0:b0:2ed:96b4:8efa with SMTP id
+ d143-20020a4a5295000000b002ed96b48efamr5307642oob.38.1646680569723; 
+ Mon, 07 Mar 2022 11:16:09 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:3b4a:a86f:f27d:30ef:6eb6])
  by smtp.gmail.com with ESMTPSA id
- t40-20020a05680815a800b002d48ffad94bsm7283093oiw.2.2022.03.07.11.16.05
+ t40-20020a05680815a800b002d48ffad94bsm7283093oiw.2.2022.03.07.11.16.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 11:16:07 -0800 (PST)
+ Mon, 07 Mar 2022 11:16:09 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/9] hw/ppc/spapr_hcall.c: log h_clean_slb() as unsupported
-Date: Mon,  7 Mar 2022 16:15:46 -0300
-Message-Id: <20220307191553.429236-3-danielhb413@gmail.com>
+Subject: [PATCH 3/9] hw/ppc/spapr_hcall.c: log h_invalidate_pid() as
+ unsupported
+Date: Mon,  7 Mar 2022 16:15:47 -0300
+Message-Id: <20220307191553.429236-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220307191553.429236-1-danielhb413@gmail.com>
 References: <20220307191553.429236-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::234
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2a.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -97,16 +99,16 @@ Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index f008290787..f6778d6857 100644
+index f6778d6857..5839b6a749 100644
 --- a/hw/ppc/spapr_hcall.c
 +++ b/hw/ppc/spapr_hcall.c
-@@ -865,7 +865,7 @@ static target_ulong h_set_mode(PowerPCCPU *cpu, SpaprMachineState *spapr,
- static target_ulong h_clean_slb(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                                 target_ulong opcode, target_ulong *args)
+@@ -873,7 +873,7 @@ static target_ulong h_clean_slb(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ static target_ulong h_invalidate_pid(PowerPCCPU *cpu, SpaprMachineState *spapr,
+                                      target_ulong opcode, target_ulong *args)
  {
 -    qemu_log_mask(LOG_UNIMP, "Unimplemented SPAPR hcall 0x"TARGET_FMT_lx"%s\n",
 +    qemu_log_mask(LOG_UNSUPP, "Unsupported SPAPR hcall 0x"TARGET_FMT_lx"%s\n",
-                   opcode, " (H_CLEAN_SLB)");
+                   opcode, " (H_INVALIDATE_PID)");
      return H_FUNCTION;
  }
 -- 
