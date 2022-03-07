@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9926A4CFEB0
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:33:41 +0100 (CET)
-Received: from localhost ([::1]:37158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB204CFE79
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:29:30 +0100 (CET)
+Received: from localhost ([::1]:58710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCYW-0007g1-N4
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:33:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48006)
+	id 1nRCUT-00035H-O9
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:29:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRB9N-0008UH-7F
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:03:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48356)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRB99-0007pL-8x
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:03:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRB9L-0003mj-JM
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:03:36 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRB96-0003m7-Rc
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:03:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646651014;
+ s=mimecast20190719; t=1646650999;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=eUVb8mdhgXF3j93ujDXuaXNQHGs3QgISf+3jZyTmH+g=;
- b=AE+q98DEm8qATOxNkYJw6lVI62piAy+cH7H0JF+7I+R1kNYx0+Cj9YJa1bhCNgDLRaDb5I
- b7YIm9nUlWBlYflxdOxIFFPMZHCEJQjggpjvB3Obej5O1BcVnYSM9zUiRAGEU+xEAAhWd9
- bC12maPfzZ4DWfvF6UGTSbwX+Ltyjxk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LLFXaEWGHb0M1LynjuQ03ZjDtfCkU4TnhRsU2793o5Y=;
+ b=YntNu5/x7Eu4gV7FH+/Vnm3DGjrJcz3KeNOKv34JgVRLHTbuqmeJ3zSONxp4QHY/IIBwjL
+ tmeOTZCjdj6ClH80P8E9/VifGiso5wjHlJweb4rs6jJOm6/tqk0EF6OkjIvQrwx6xitFD8
+ 1qLrh1o17T5eeLtHXAmxYJecaNrIqoU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-206-MpKbIuYKNDa97IjuYG2pEw-1; Mon, 07 Mar 2022 06:03:33 -0500
-X-MC-Unique: MpKbIuYKNDa97IjuYG2pEw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-298-DwMDbAkuOYmJQbZ8YTPU_A-1; Mon, 07 Mar 2022 06:03:18 -0500
+X-MC-Unique: DwMDbAkuOYmJQbZ8YTPU_A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B907F180FCD1
- for <qemu-devel@nongnu.org>; Mon,  7 Mar 2022 11:03:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4929B180FCD8
+ for <qemu-devel@nongnu.org>; Mon,  7 Mar 2022 11:03:17 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A91C78212;
- Mon,  7 Mar 2022 11:03:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FE9483091;
+ Mon,  7 Mar 2022 11:03:06 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 22ABF1800612; Mon,  7 Mar 2022 12:03:03 +0100 (CET)
+ id 2CCD71800616; Mon,  7 Mar 2022 12:03:03 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Seabios 20220307 patches
-Date: Mon,  7 Mar 2022 12:03:01 +0100
-Message-Id: <20220307110303.1698186-1-kraxel@redhat.com>
+Subject: [PULL 1/2] update seabios submodule to 1.16.0
+Date: Mon,  7 Mar 2022 12:03:02 +0100
+Message-Id: <20220307110303.1698186-2-kraxel@redhat.com>
+In-Reply-To: <20220307110303.1698186-1-kraxel@redhat.com>
+References: <20220307110303.1698186-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -81,46 +84,39 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' in=
-to staging (2022-03-05 18:03:15 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.kraxel.org/qemu tags/seabios-20220307-pull-request=0D
-=0D
-for you to fetch changes up to d877ada1b8c768d10c39b63bb70c9e5ed1c0a4bc:=0D
-=0D
-  update seabios binaries to 1.16.0 (2022-03-07 11:20:21 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-update seabios to 1.16.0=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Gerd Hoffmann (2):=0D
-  update seabios submodule to 1.16.0=0D
-  update seabios binaries to 1.16.0=0D
-=0D
- pc-bios/bios-256k.bin             | Bin 262144 -> 262144 bytes=0D
- pc-bios/bios-microvm.bin          | Bin 131072 -> 131072 bytes=0D
- pc-bios/bios.bin                  | Bin 131072 -> 131072 bytes=0D
- pc-bios/vgabios-ati.bin           | Bin 39936 -> 39936 bytes=0D
- pc-bios/vgabios-bochs-display.bin | Bin 28672 -> 28672 bytes=0D
- pc-bios/vgabios-cirrus.bin        | Bin 39424 -> 39424 bytes=0D
- pc-bios/vgabios-qxl.bin           | Bin 39424 -> 39424 bytes=0D
- pc-bios/vgabios-ramfb.bin         | Bin 28672 -> 28672 bytes=0D
- pc-bios/vgabios-stdvga.bin        | Bin 39424 -> 39424 bytes=0D
- pc-bios/vgabios-virtio.bin        | Bin 39424 -> 39424 bytes=0D
- pc-bios/vgabios-vmware.bin        | Bin 39424 -> 39424 bytes=0D
- pc-bios/vgabios.bin               | Bin 38912 -> 38912 bytes=0D
- roms/seabios                      |   2 +-=0D
- 13 files changed, 1 insertion(+), 1 deletion(-)=0D
-=0D
---=20=0D
-2.35.1=0D
-=0D
+git shortlog 6a62e0cb0dfe..rel-1.16.0
+-------------------------------------
+
+Florian Larysch (1):
+      nvme: fix LBA format data structure
+
+Jan Beulich via SeaBIOS (1):
+      nvme: avoid use-after-free in nvme_controller_enable()
+
+Kevin O'Connor (9):
+      smm: Suppress gcc array-bounds warnings
+      nvme: Rework nvme_io_readwrite() to return -1 on error
+      nvme: Add nvme_bounce_xfer() helper function
+      nvme: Convert nvme_build_prpl() to nvme_prpl_xfer()
+      nvme: Pass prp1 and prp2 directly to nvme_io_xfer()
+      nvme: Build the page list in the existing dma buffer
+      nvme: Only allocate one dma bounce buffer for all nvme drives
+      sercon: Fix missing GET_LOW() to access rx_bytes
+      docs: Note v1.16.0 release
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ roms/seabios | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/roms/seabios b/roms/seabios
+index 6a62e0cb0dfe..d239552ce722 160000
+--- a/roms/seabios
++++ b/roms/seabios
+@@ -1 +1 @@
+-Subproject commit 6a62e0cb0dfe9cd28b70547dbea5caf76847c3a9
++Subproject commit d239552ce7220e448ae81f41515138f7b9e3c4db
+-- 
+2.35.1
 
 
