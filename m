@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8678B4CFD83
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:58:58 +0100 (CET)
-Received: from localhost ([::1]:38188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 513334CFE28
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:22:59 +0100 (CET)
+Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRC0v-0000aU-Am
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:58:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32954)
+	id 1nRCOA-00045x-CG
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:22:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <57b3910bc3513ab515296692daafd1c546f3c115@lizzy.crudebyte.com>)
- id 1nRByU-0006Bx-6Q
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:56:26 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:54591)
+ (envelope-from <029ed1bd9defa33a80bb40cdcd003699299af8db@lizzy.crudebyte.com>)
+ id 1nRCHg-0002jm-Kr
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:16:16 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:34619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <57b3910bc3513ab515296692daafd1c546f3c115@lizzy.crudebyte.com>)
- id 1nRByS-0004Im-L0
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:56:25 -0500
+ (envelope-from <029ed1bd9defa33a80bb40cdcd003699299af8db@lizzy.crudebyte.com>)
+ id 1nRCHe-0007a4-M1
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:16:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=89Gbgq/kest9e+BQG9UtS5uVE2I3QP9MTMPZSp2J16Y=; b=XB3b1
- p6bpOwAu2A5dBE6PQF+EJYKUmPtYaWyuoyzGyMKn3KZNZfVpzbqOQRw0gNO8zw0Dul4HqnctZhBlz
- APAHQ9H5ppu+EJy/b6x9dQnKvLP3J46xCUcxF7js2M9q8x4fXkfqyfhea2Rja9wBX9XUN2G1KQB+a
- oIvSwfQqzjUPsnCEp++gvCY+av39WyjlRt0dcVDxfSB+MqV6avhu65HFuLZdDmB5gdeIF3UqLaUro
- lEoyDy5Fx6dP4XP9RSWiexdUMLzegJnlQl0VYCVRt7RGxUtOHCymmUXcnJqRJCSWu9bztGb1NYeC7
- Zio3borJ6rtcXv2bVZjdRQ8Qwsjjg==;
-Message-Id: <57b3910bc3513ab515296692daafd1c546f3c115.1646651700.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=MSuNWzMRc8KYD7UTwnKgKBQ7UJltx57Fx3duo5Tg36A=; b=Kj7oB
+ 1tRxT9Zo6AAF4fYBINqvDSn26D1XbsrMGDDBLUQvsAMkvQiEoTp4W+QQ4FOKRaN3jQFUfJN38mII3
+ jubsI+LEw6ppdK7DpXE08PRnzdlbpXH+L6e1Kkkt4L1vcscWw2IVm4gxJT97kgTHcMV0VD0ydWSIM
+ uGNyn2xDvZlNnaXHnOUaN1Ub9QqT6watpdqff0BSVlas07iN7Hucn5PewTl6DgLK2xf/SOeKCBgMk
+ KKCYWXW8iqPiXUS4etEkd8YeEvzoH1RELt9Cs05x0hz/1jydxY14rRWneEDye4HRa19gz8AGh5KUV
+ MO+lg/6sXGmlLVUH0DxNagd9OMjRg==;
+Message-Id: <029ed1bd9defa33a80bb40cdcd003699299af8db.1646651700.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646651700.git.qemu_oss@crudebyte.com>
 References: <cover.1646651700.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 07 Mar 2022 12:15:00 +0100
-Subject: [PULL v2 07/19] 9p: darwin: *xattr_nofollow implementations
+Subject: [PULL v2 09/19] 9p: darwin: Implement compatibility for mknodat
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
@@ -44,7 +44,7 @@ Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
  Fabian Franz <fabianfranz.oss@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=57b3910bc3513ab515296692daafd1c546f3c115@lizzy.crudebyte.com;
+ envelope-from=029ed1bd9defa33a80bb40cdcd003699299af8db@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,105 +69,163 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
-This implements the darwin equivalent of the functions that were
-moved to 9p-util(-linux) earlier in this series in the new
-9p-util-darwin file.
+Darwin does not support mknodat. However, to avoid race conditions
+with later setting the permissions, we must avoid using mknod on
+the full path instead. We could try to fchdir, but that would cause
+problems if multiple threads try to call mknodat at the same time.
+However, luckily there is a solution: Darwin includes a function
+that sets the cwd for the current thread only.
+This should suffice to use mknod safely.
+
+This function (pthread_fchdir_np) is protected by a check in
+meson in a patch later in this series.
 
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-[Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+[Will Cohen: - Adjust coding style
+             - Replace clang references with gcc
+             - Note radar filed with Apple for missing syscall
+             - Replace direct syscall with pthread_fchdir_np and
+               adjust patch notes accordingly
+             - Declare pthread_fchdir_np with
+             - __attribute__((weak_import)) to allow checking for
+               its presence before usage
+             - Move declarations above cplusplus guard
+             - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
+               presence in 9p-util
+             - Rebase to apply cleanly on top of the 2022-02-10
+               changes to 9pfs
+             - Fix line over 90 characters formatting error]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Message-Id: <20220227223522.91937-8-wwcohen@gmail.com>
+Message-Id: <20220227223522.91937-10-wwcohen@gmail.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p-util-darwin.c | 64 ++++++++++++++++++++++++++++++++++++++++
- hw/9pfs/meson.build      |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 hw/9pfs/9p-util-darwin.c
+ hw/9pfs/9p-local.c       |  4 ++--
+ hw/9pfs/9p-util-darwin.c | 33 +++++++++++++++++++++++++++++++++
+ hw/9pfs/9p-util-linux.c  |  6 ++++++
+ hw/9pfs/9p-util.h        | 11 +++++++++++
+ meson.build              |  1 +
+ 5 files changed, 53 insertions(+), 2 deletions(-)
 
-diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-new file mode 100644
-index 0000000000..cdb4c9e24c
---- /dev/null
-+++ b/hw/9pfs/9p-util-darwin.c
-@@ -0,0 +1,64 @@
-+/*
-+ * 9p utilities (Darwin Implementation)
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/xattr.h"
-+#include "9p-util.h"
-+
-+ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const char *name,
-+                             void *value, size_t size)
-+{
-+    int ret;
-+    int fd = openat_file(dirfd, filename,
-+                         O_RDONLY | O_PATH_9P_UTIL | O_NOFOLLOW, 0);
-+    if (fd == -1) {
-+        return -1;
-+    }
-+    ret = fgetxattr(fd, name, value, size, 0, 0);
-+    close_preserve_errno(fd);
-+    return ret;
-+}
-+
-+ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
-+                              char *list, size_t size)
-+{
-+    int ret;
-+    int fd = openat_file(dirfd, filename,
-+                         O_RDONLY | O_PATH_9P_UTIL | O_NOFOLLOW, 0);
-+    if (fd == -1) {
-+        return -1;
-+    }
-+    ret = flistxattr(fd, list, size, 0);
-+    close_preserve_errno(fd);
-+    return ret;
-+}
-+
-+ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
-+                                const char *name)
-+{
-+    int ret;
-+    int fd = openat_file(dirfd, filename, O_PATH_9P_UTIL | O_NOFOLLOW, 0);
-+    if (fd == -1) {
-+        return -1;
-+    }
-+    ret = fremovexattr(fd, name, 0);
-+    close_preserve_errno(fd);
-+    return ret;
-+}
-+
-+int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
-+                         void *value, size_t size, int flags)
-+{
-+    int ret;
-+    int fd = openat_file(dirfd, filename, O_PATH_9P_UTIL | O_NOFOLLOW, 0);
-+    if (fd == -1) {
-+        return -1;
-+    }
-+    ret = fsetxattr(fd, name, value, size, 0, flags);
-+    close_preserve_errno(fd);
-+    return ret;
-+}
-diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
-index 1b28e70040..12443b6ad5 100644
---- a/hw/9pfs/meson.build
-+++ b/hw/9pfs/meson.build
-@@ -14,6 +14,7 @@ fs_ss.add(files(
-   'coxattr.c',
- ))
- fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-util-linux.c'))
-+fs_ss.add(when: 'CONFIG_DARWIN', if_true: files('9p-util-darwin.c'))
- fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
- softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index a0d08e5216..d42ce6d8b8 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
  
+     if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
+         fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+-        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
++        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
+         if (err == -1) {
+             goto out;
+         }
+@@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
+         }
+     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+                fs_ctx->export_flags & V9FS_SM_NONE) {
+-        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
++        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+         if (err == -1) {
+             goto out;
+         }
+diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
+index cdb4c9e24c..bec0253474 100644
+--- a/hw/9pfs/9p-util-darwin.c
++++ b/hw/9pfs/9p-util-darwin.c
+@@ -7,6 +7,8 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/xattr.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
+ #include "9p-util.h"
+ 
+ ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+@@ -62,3 +64,34 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+     close_preserve_errno(fd);
+     return ret;
+ }
++
++/*
++ * As long as mknodat is not available on macOS, this workaround
++ * using pthread_fchdir_np is needed.
++ *
++ * Radar filed with Apple for implementing mknodat:
++ * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
++ */
++#if defined CONFIG_PTHREAD_FCHDIR_NP
++
++int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
++{
++    int preserved_errno, err;
++    if (!pthread_fchdir_np) {
++        error_report_once("pthread_fchdir_np() not available on this version of macOS");
++        return -ENOTSUP;
++    }
++    if (pthread_fchdir_np(dirfd) < 0) {
++        return -1;
++    }
++    err = mknod(filename, mode, dev);
++    preserved_errno = errno;
++    /* Stop using the thread-local cwd */
++    pthread_fchdir_np(-1);
++    if (err < 0) {
++        errno = preserved_errno;
++    }
++    return err;
++}
++
++#endif
+diff --git a/hw/9pfs/9p-util-linux.c b/hw/9pfs/9p-util-linux.c
+index 398614a5d0..db451b0784 100644
+--- a/hw/9pfs/9p-util-linux.c
++++ b/hw/9pfs/9p-util-linux.c
+@@ -61,4 +61,10 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
+     ret = lsetxattr(proc_path, name, value, size, flags);
+     g_free(proc_path);
+     return ret;
++
++}
++
++int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
++{
++    return mknodat(dirfd, filename, mode, dev);
+ }
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index be8dc1a43a..73b08c5561 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -114,5 +114,16 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
+ #endif
+ }
+ 
++/*
++ * As long as mknodat is not available on macOS, this workaround
++ * using pthread_fchdir_np is needed. qemu_mknodat is defined in
++ * os-posix.c. pthread_fchdir_np is weakly linked here as a guard
++ * in case it disappears in future macOS versions, because it is
++ * is a private API.
++ */
++#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
++int pthread_fchdir_np(int fd) __attribute__((weak_import));
++#endif
++int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
+ 
+ #endif
+diff --git a/meson.build b/meson.build
+index 038502714a..40598630e6 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1622,6 +1622,7 @@ config_host_data.set('CONFIG_POSIX_FALLOCATE', cc.has_function('posix_fallocate'
+ config_host_data.set('CONFIG_POSIX_MEMALIGN', cc.has_function('posix_memalign'))
+ config_host_data.set('CONFIG_PPOLL', cc.has_function('ppoll'))
+ config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
++config_host_data.set('CONFIG_PTHREAD_FCHDIR_NP', cc.has_function('pthread_fchdir_np'))
+ config_host_data.set('CONFIG_SEM_TIMEDWAIT', cc.has_function('sem_timedwait', dependencies: threads))
+ config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
+ config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and cc.has_function('unshare'))
 -- 
 2.20.1
 
