@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2594D0B75
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:50:23 +0100 (CET)
-Received: from localhost ([::1]:58656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C1D4D0B5E
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:47:18 +0100 (CET)
+Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRMBK-0005N2-2l
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:50:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52472)
+	id 1nRM8K-0000L8-Pk
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:47:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM68-0005Zd-Ex
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43703)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6A-0005fG-Q7
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM66-0005BP-MD
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:00 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM69-0005Bc-5d
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693098;
+ s=mimecast20190719; t=1646693100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vqmzhFEM37dr6U0Ojjhlq+BZMQJdriqtIDbTT9ZpStw=;
- b=KmbSC+Z2+KmfLwRd27NJR7lR3F2QXIDdrqiM6b5USMwExmgndogtnc/RCqDtEQR3WQJbEZ
- A4r8Y9rSuIjxtmE5YN4U5kvvdbXLLVkaSgGlE8b5KLrlMrkmbjNF5dYDmCydEVUkllcx4J
- MjLwQCyw+uRm1/QXbi9eqQ3LP5vXkG8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5n/FHmC/Dor0xLSEuoyybbuicDeG0aqX5h3Rj+dixSE=;
+ b=B6E65T3L5kqMb76mSsPyBZGHLWf6U3Ta+rI/FuuVeAJF6yI9xI7Cnki28KLI3yuIx6JVDF
+ zDnzMoKGxjaK9xDBPiApBugNJoKCxx3QjEmbtTjjz7JCeaGkBjOUDAQqfg8f39OLuShuO8
+ Hsiln2fDkjCaPCgBIkp+CPAEv6+Whf8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-355-59ijM4-LNm6BbtC1cZlLLQ-1; Mon, 07 Mar 2022 17:44:57 -0500
-X-MC-Unique: 59ijM4-LNm6BbtC1cZlLLQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f189-20020a1c38c6000000b0037d1bee4847so244618wma.9
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:44:56 -0800 (PST)
+ us-mta-501-qmCP-15GPTmIyKG2B5i2bw-1; Mon, 07 Mar 2022 17:44:59 -0500
+X-MC-Unique: qmCP-15GPTmIyKG2B5i2bw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j42-20020a05600c1c2a00b00381febe402eso277650wms.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:44:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=vqmzhFEM37dr6U0Ojjhlq+BZMQJdriqtIDbTT9ZpStw=;
- b=EFsOIWepoEa5u6P+R0rfqDsAwvcqNIhDcJkRl9h46Rm8P9WbWVDpQZ6dpZ1Bt49dw9
- AoF1+zMrg+t27bcGdlu13Fe0OhjUfRIrJaixIQU6KGVNbw7ivo4NQUgyhuZPlhRTZ7N6
- NhdMgu/3ed1nqWopE8HKMvoRa5yx8q0x9R3mgDXVCNvqKSkDQRjhRCiZFMDnssltN5bU
- sz1yqkIp3bCmcrecRZuTrMCE84WyIbC39J8XjMo4I5wMs4nsJi3UICxo4gk6X0/ZveFd
- Sk/uHUhLmxC+a2Ws9Mjc/oht+w03UUhWy1WEyljLzoUqNHzV697UYva125Yp9gSIM4oy
- 3Zhg==
-X-Gm-Message-State: AOAM533xpAHc69gSoYfbFmuSpM7+Y9Gwvu1QforkhQMTPgjjIBPRR6CX
- yPqwWGOWZ++yGfW11oVwa5/ktztt1000pXQecT1xK3R4e8HjPzy7tBG6Pig3DuR42wsSx94VEat
- qZUmh6u+Ow+Ns5WinbvQmNxRguqV5BnrO1N7EUrcGNMg38yFusCTHHtBxij0D
-X-Received: by 2002:a5d:4bcc:0:b0:1f1:d6f8:89f5 with SMTP id
- l12-20020a5d4bcc000000b001f1d6f889f5mr9891846wrt.713.1646693095520; 
- Mon, 07 Mar 2022 14:44:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJySd38TeVyVOHwscoMxxdGABDHFKaEcY5RseWSQs4jg+cpGq6xFOUrhImgy942xcm4JRt4pqw==
-X-Received: by 2002:a5d:4bcc:0:b0:1f1:d6f8:89f5 with SMTP id
- l12-20020a5d4bcc000000b001f1d6f889f5mr9891834wrt.713.1646693095216; 
- Mon, 07 Mar 2022 14:44:55 -0800 (PST)
+ bh=5n/FHmC/Dor0xLSEuoyybbuicDeG0aqX5h3Rj+dixSE=;
+ b=E33WJy2oc77KuxFV4Jo1b4FOJm9wHzvCkiYlOTUDAv1QbX6HpSS4qN6pEvNn7AMDfo
+ 15j1m/fVXam0NRNq/ZK5qGab3AG6hc1IQm9d0kRQ713NuioDY9RlcvRS6WQ4LCrG1k+9
+ JXKEGUcR2OyQ58T3q/EoCkX47Hjw5jJxf2ilKEn/iH5FjNsugMCMaQa1dYU7u5g4dBQn
+ uGmxoMXgbq6kgTCGmHDNLcdpqvsoxTzn9/8Z4gcubs1VbGLizTjZ4zdInqZfDBLEfPs+
+ BcgLhDQ5NL1mUgF0VXOV1nhyDu9e5EoMkx74/UEAWJ+u6olUNb9iR2/Y1gqftrWeAj5S
+ b/Bw==
+X-Gm-Message-State: AOAM530FOFuiEN1jJ3Oe5bmIItB41wkuN+2UYdb6bgNShjrNXfBmd8PR
+ M0P2vJtEVzubDQRRu0Y4LZAq7ENTUGQPUDqkpEptetdrfK4cWQqXkqbprnacYxh8ELerRi31Mr5
+ XJon3TLx9IgArJh+mFdgbsA9bRWHQJYWy6ls0+x9e33Lg9e83l7safyVgRlwG
+X-Received: by 2002:a5d:6251:0:b0:1ea:9412:fc8b with SMTP id
+ m17-20020a5d6251000000b001ea9412fc8bmr9696542wrv.657.1646693098157; 
+ Mon, 07 Mar 2022 14:44:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy9QpEJ2I5ppjKApkbgSZm2QTNENduLUwByX0eEsHTwCKsUU3IdzYOq6WKK51yisp8BZWv6/w==
+X-Received: by 2002:a5d:6251:0:b0:1ea:9412:fc8b with SMTP id
+ m17-20020a5d6251000000b001ea9412fc8bmr9696530wrv.657.1646693097877; 
+ Mon, 07 Mar 2022 14:44:57 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- m13-20020a05600c4f4d00b00386744cb31bsm510995wmq.35.2022.03.07.14.44.53
+ y4-20020adff144000000b001f022290737sm12192179wro.6.2022.03.07.14.44.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:44:54 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:44:51 -0500
+ Mon, 07 Mar 2022 14:44:57 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:44:55 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 07/47] hw/smbios: fix overlapping table handle numbers with
- large memory vms
-Message-ID: <20220307224357.682101-8-mst@redhat.com>
+Subject: [PULL v4 08/47] hw/smbios: add assertion to ensure handles of tables
+ 19 and 32 do not collide
+Message-ID: <20220307224357.682101-9-mst@redhat.com>
 References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
@@ -105,96 +105,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ani Sinha <ani@anisinha.ca>
 
-The current smbios table implementation splits the main memory in 16 GiB
-(DIMM like) chunks. With the current smbios table assignment code, we can have
-only 512 such chunks before the 16 bit handle numbers in the header for tables
-17 and 19 conflict. A guest with more than 8 TiB of memory will hit this
-limitation and would fail with the following assertion in isa-debugcon:
-
-ASSERT_EFI_ERROR (Status = Already started)
-ASSERT /builddir/build/BUILD/edk2-ca407c7246bf/OvmfPkg/SmbiosPlatformDxe/SmbiosPlatformDxe.c(125): !EFI_ERROR (Status)
-
-This change adds an additional offset between tables 17 and 19 handle numbers
-when configuring VMs larger than 8 TiB of memory. The value of the offset is
-calculated to be equal to the additional space required to be reserved
-in order to accomodate more DIMM entries without the table handles colliding.
-In normal cases where the VM memory is smaller or equal to 8 TiB, this offset
-value is 0. Hence in this case, no additional handle numbers are reserved and
-table handle values remain as before.
-
-Since smbios memory is not transmitted over the wire during migration,
-this change can break migration for large memory vms if the guest is in the
-middle of generating the tables during migration. However, in those
-situations, qemu generates invalid table handles anyway with or without this
-fix. Hence, we do not preserve the old bug by introducing compat knobs/machine
-types.
-
-Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2023977
+Since change dcf359832eec02 ("hw/smbios: fix table memory corruption with large memory vms")
+we reserve additional space between handle numbers of tables 17 and 19 for
+large VMs. This may cause table 19 to collide with table 32 in their handle
+numbers for those large VMs. This change adds an assertion to ensure numbers
+do not collide. If they do, qemu crashes with useful debug information for
+taking additional steps.
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220223143322.927136-7-ani@anisinha.ca>
+Message-Id: <20220223143322.927136-8-ani@anisinha.ca>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/smbios/smbios.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ hw/smbios/smbios.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 56b412ce35..44c53797a4 100644
+index 44c53797a4..1f8d5c252f 100644
 --- a/hw/smbios/smbios.c
 +++ b/hw/smbios/smbios.c
-@@ -799,12 +799,13 @@ static void smbios_build_type_17_table(unsigned instance, uint64_t size)
-     SMBIOS_BUILD_TABLE_POST;
- }
- 
--static void smbios_build_type_19_table(unsigned instance,
-+static void smbios_build_type_19_table(unsigned instance, unsigned offset,
-                                        uint64_t start, uint64_t size)
- {
-     uint64_t end, start_kb, end_kb;
- 
--    SMBIOS_BUILD_TABLE_PRE(19, T19_BASE + instance, true); /* required */
-+    SMBIOS_BUILD_TABLE_PRE(19, T19_BASE + offset + instance,
-+                           true); /* required */
- 
-     end = start + size - 1;
-     assert(end > start);
-@@ -996,7 +997,7 @@ void smbios_get_tables(MachineState *ms,
-                        uint8_t **anchor, size_t *anchor_len,
-                        Error **errp)
- {
--    unsigned i, dimm_cnt;
-+    unsigned i, dimm_cnt, offset;
- 
-     if (smbios_legacy) {
-         *tables = *anchor = NULL;
-@@ -1026,6 +1027,16 @@ void smbios_get_tables(MachineState *ms,
- 
-         dimm_cnt = QEMU_ALIGN_UP(current_machine->ram_size, MAX_DIMM_SZ) / MAX_DIMM_SZ;
- 
-+        /*
-+         * The offset determines if we need to keep additional space betweeen
-+         * table 17 and table 19 header handle numbers so that they do
-+         * not overlap. For example, for a VM with larger than 8 TB guest
-+         * memory and DIMM like chunks of 16 GiB, the default space between
-+         * the two tables (T19_BASE - T17_BASE = 512) is not enough.
-+         */
-+        offset = (dimm_cnt > (T19_BASE - T17_BASE)) ? \
-+                 dimm_cnt - (T19_BASE - T17_BASE) : 0;
-+
-         smbios_build_type_16_table(dimm_cnt);
- 
-         for (i = 0; i < dimm_cnt; i++) {
-@@ -1033,7 +1044,7 @@ void smbios_get_tables(MachineState *ms,
-         }
- 
-         for (i = 0; i < mem_array_size; i++) {
--            smbios_build_type_19_table(i, mem_array[i].address,
-+            smbios_build_type_19_table(i, offset, mem_array[i].address,
+@@ -1048,6 +1048,12 @@ void smbios_get_tables(MachineState *ms,
                                         mem_array[i].length);
          }
  
++        /*
++         * make sure 16 bit handle numbers in the headers of tables 19
++         * and 32 do not overlap.
++         */
++        assert((mem_array_size + offset) < (T32_BASE - T19_BASE));
++
+         smbios_build_type_32_table();
+         smbios_build_type_38_table();
+         smbios_build_type_41_table(errp);
 -- 
 MST
 
