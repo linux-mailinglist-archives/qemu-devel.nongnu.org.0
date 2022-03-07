@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AF54CFC39
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:05:43 +0100 (CET)
-Received: from localhost ([::1]:44086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB4C4CFC49
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:08:18 +0100 (CET)
+Received: from localhost ([::1]:53388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBBO-0001s3-DQ
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:05:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42492)
+	id 1nRBDt-00087j-VA
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:08:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nRAi5-0004dO-M8; Mon, 07 Mar 2022 05:35:26 -0500
-Received: from [2a00:1450:4864:20::334] (port=36463
- helo=mail-wm1-x334.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nRAi2-0007x9-36; Mon, 07 Mar 2022 05:35:24 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- h127-20020a1c2185000000b003898fc06f1eso125665wmh.1; 
- Mon, 07 Mar 2022 02:35:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SAZw8WcPttI5xmtuhJmhhIQHpuJtr1CT1njg9FXf8M4=;
- b=D8rI7MHQ4Fp79amCmf3UwfNMyQ+Homd2t3wXtZ314gHpnKuMQhkbqy57QgHJHqpGpa
- C2lZXJIJqOxio/DMZYNYlzaBQnZdjQoI9x844oGWnWIfFi5G9A06IluADlZO6sOBlG2Q
- k1xn2nt1cTeHSocCDNrqYIYGvZFzbzGQvk43sYVc5SJ+5yPMdup4MgIpilAFM+U3vsje
- PRwrS8s1MIrXMjJlx/oXycUkJdcSP6aKVjs0FL2zQnxfOCCnu8QEOF99xyFNVX/xxxXy
- mQo83MveruXoPU1nATwTLtqnvoOcMSVuFcOYKt2EgVjYbOmTxQo41Y8q3YD6KwumqRDh
- Mb8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SAZw8WcPttI5xmtuhJmhhIQHpuJtr1CT1njg9FXf8M4=;
- b=pOUOppNcODEXwvDfKSd8AkUQcCbMkx5NGUmDAJnbxWMf6P0x5VZsr7GHnliOkV1gvD
- J7xUe8WKnjy4MFWkmRHzKFbZc7ON7DGm95rAi6r9Yzma9QUU+BBJFXsnrbsDzoG8w7Dr
- E71HSV0J+FWyB/iQK6vw5PeNmGdFlU3wpzwg9e7fG+b75ILzFZY180R2SXxOdOJ+P7/F
- TXqw2ruEkwUxuo53OYj3rlSNLODSYzyMUmTumBhHSBjChFt3irg9J61bioUtDb1P1LT+
- FrnUCr708h9DKgquPm4V+nzT+f4dXUWJzLn+wrjWbV/WhfyHCKWCL7EUG1kShFxHv3iA
- iwOQ==
-X-Gm-Message-State: AOAM531xiLR/oGgdLdXh8NxbANaQGrUX9cl05ozxLVQZ+nQXa5UIYQAb
- 02+CXhOg/g8XqISYjH/mE288BpKc1ldl5dHw7GU=
-X-Google-Smtp-Source: ABdhPJysWYhBfygsM9UTQFbkVbtwtxkMDN+lSILeyd6TjyrZCKKE4rFBUpMZwnFD86hdxXVxCEX0HZgtrchDwNsNSnY=
-X-Received: by 2002:a05:600c:2d06:b0:389:9d61:421 with SMTP id
- x6-20020a05600c2d0600b003899d610421mr6556496wmf.190.1646649314196; Mon, 07
- Mar 2022 02:35:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAil-0004qf-Qz
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27793)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAik-0008C2-8o
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646649365;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kZqxgNPTY9BHeT7GCjTAP0aB3/jRKNhmRImFi+ZHg7M=;
+ b=OxTIYp5v9xBwca7DWOM/Z1yF0g/BWguvlS1HQ3yHz848a01/7lxFKAMIGYeMr8UG57Fk+5
+ xJs8ouWo9HLoRRksq5zDIsH45jDtAwNe3GqZgnGmeyRk0k2pgHDOG6s2XOalpJhu1RmAYk
+ 3JiHW0Lv7vOiYGqN48706u++F+KrSzA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-398-FLl5EvD-Nd2Ry4P7YweAng-1; Mon, 07 Mar 2022 05:35:52 -0500
+X-MC-Unique: FLl5EvD-Nd2Ry4P7YweAng-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D84DE805EE8;
+ Mon,  7 Mar 2022 10:35:51 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 777C7783AA;
+ Mon,  7 Mar 2022 10:35:51 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/23] Block patches
+Date: Mon,  7 Mar 2022 11:35:26 +0100
+Message-Id: <20220307103549.808809-1-hreitz@redhat.com>
 MIME-Version: 1.0
-References: <20220304211618.3715999-1-marcandre.lureau@redhat.com>
- <20220304211618.3715999-5-marcandre.lureau@redhat.com>
- <CAMxuvaz_uCxtL+0e-=AFZsuomNAz6H7Y+6RbdkSzfbxcMSLGrg@mail.gmail.com>
- <960fea17-c5e7-fa6f-c185-8a892998cff7@vivier.eu>
-In-Reply-To: <960fea17-c5e7-fa6f-c185-8a892998cff7@vivier.eu>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 7 Mar 2022 14:35:01 +0400
-Message-ID: <CAJ+F1CLd+6Zkyr5MzZjhQN2uLjYMYxOJc3q2et+Stks3TqTw9Q@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] Replace qemu_gettimeofday() with g_get_real_time()
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: multipart/alternative; boundary="00000000000071418205d99e6bce"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,179 +75,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Marek Vasut <marex@denx.de>,
- Thomas Huth <thuth@redhat.com>, Chris Wulff <crwulff@gmail.com>,
- qemu-block <qemu-block@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Michael Roth <michael.roth@amd.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000071418205d99e6bce
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5:
 
-Hi
+  Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' into staging (2022-03-05 18:03:15 +0000)
 
-On Mon, Mar 7, 2022 at 2:13 PM Laurent Vivier <laurent@vivier.eu> wrote:
+are available in the Git repository at:
 
-> Le 05/03/2022 =C3=A0 20:17, Marc-Andr=C3=A9 Lureau a =C3=A9crit :
-> > On Sat, Mar 5, 2022 at 1:18 AM <marcandre.lureau@redhat.com> wrote:
-> >>
-> >> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >>
-> >> GLib g_get_real_time() is an alternative to gettimeofday() which allow=
-s
-> >> to simplify our code.
-> >>
-> >> For semihosting, a few bits are lost on POSIX host, but this shouldn't
-> >> be a big concern.
-> >>
-> >> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> >> ---
-> >>   blockdev.c                 |  8 ++++----
-> >>   hw/rtc/m41t80.c            |  6 +++---
-> >>   hw/virtio/virtio-balloon.c |  9 +--------
-> >>   qapi/qmp-event.c           | 12 +++++-------
-> >>   qemu-img.c                 |  8 ++++----
-> >>   target/m68k/m68k-semi.c    | 22 ++++++++++------------
-> >>   target/nios2/nios2-semi.c  | 23 ++++++++++-------------
-> >>   7 files changed, 37 insertions(+), 51 deletions(-)
-> >>
-> ...
-> >> index 19d3cd003833..025716b3ec37 100644
-> >> --- a/qapi/qmp-event.c
-> >> +++ b/qapi/qmp-event.c
-> >> @@ -20,15 +20,13 @@
-> >>
-> >>   static void timestamp_put(QDict *qdict)
-> >>   {
-> >> -    int err;
-> >>       QDict *ts;
-> >> -    qemu_timeval tv;
-> >> +    int64_t rt =3D g_get_real_time();
-> >>
-> >> -    err =3D qemu_gettimeofday(&tv);
-> >> -    /* Put -1 to indicate failure of getting host time */
-> >> -    ts =3D qdict_from_jsonf_nofail("{ 'seconds': %lld, 'microseconds'=
-:
-> %lld }",
-> >> -                                 err < 0 ? -1LL : (long long)tv.tv_se=
-c,
-> >> -                                 err < 0 ? -1LL : (long
-> long)tv.tv_usec);
-> >> +    ts =3D qdict_from_jsonf_nofail("{ 'seconds': %" G_GINT64_FORMAT
-> >> +                                 ", 'microseconds': %" G_GINT64_FORMA=
-T
-> "}",
-> >> +                                 rt / G_USEC_PER_SEC,
-> >> +                                 rt % G_USEC_PER_SEC);
-> >
-> > NACK this, fixed in v3
->
-> Why keeping the %lld is better than moving to %G_GINT64_FORMAT?
->
->
-It's not supported by json-parser.c parse_interpolation(). We could address
-this in a different patch.
+  https://gitlab.com/hreitz/qemu.git tags/pull-block-2022-03-07
 
---=20
-Marc-Andr=C3=A9 Lureau
+for you to fetch changes up to 743da0b401cdc3ee94bc519975e339a3cdbe0ad1:
 
---00000000000071418205d99e6bce
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  iotests/image-fleecing: test push backup with fleecing (2022-03-07 09:33:31 +0100)
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 7, 2022 at 2:13 PM Laur=
-ent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu">laurent@vivier.eu</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Le 05/=
-03/2022 =C3=A0 20:17, Marc-Andr=C3=A9 Lureau a =C3=A9crit=C2=A0:<br>
-&gt; On Sat, Mar 5, 2022 at 1:18 AM &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:<br=
->
-&gt;&gt;<br>
-&gt;&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; GLib g_get_real_time() is an alternative to gettimeofday() which a=
-llows<br>
-&gt;&gt; to simplify our code.<br>
-&gt;&gt;<br>
-&gt;&gt; For semihosting, a few bits are lost on POSIX host, but this shoul=
-dn&#39;t<br>
-&gt;&gt; be a big concern.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcan=
-dre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt=
-;<br>
-&gt;&gt; Reviewed-by: Laurent Vivier &lt;<a href=3D"mailto:laurent@vivier.e=
-u" target=3D"_blank">laurent@vivier.eu</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 =C2=A0blockdev.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 8 ++++----<br>
-&gt;&gt;=C2=A0 =C2=A0hw/rtc/m41t80.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 6 +++---<br>
-&gt;&gt;=C2=A0 =C2=A0hw/virtio/virtio-balloon.c |=C2=A0 9 +--------<br>
-&gt;&gt;=C2=A0 =C2=A0qapi/qmp-event.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 12 +++++-------<br>
-&gt;&gt;=C2=A0 =C2=A0qemu-img.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 8 ++++----<br>
-&gt;&gt;=C2=A0 =C2=A0target/m68k/m68k-semi.c=C2=A0 =C2=A0 | 22 ++++++++++--=
-----------<br>
-&gt;&gt;=C2=A0 =C2=A0target/nios2/nios2-semi.c=C2=A0 | 23 ++++++++++-------=
-------<br>
-&gt;&gt;=C2=A0 =C2=A07 files changed, 37 insertions(+), 51 deletions(-)<br>
-&gt;&gt;<br>
-...<br>
-&gt;&gt; index 19d3cd003833..025716b3ec37 100644<br>
-&gt;&gt; --- a/qapi/qmp-event.c<br>
-&gt;&gt; +++ b/qapi/qmp-event.c<br>
-&gt;&gt; @@ -20,15 +20,13 @@<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0static void timestamp_put(QDict *qdict)<br>
-&gt;&gt;=C2=A0 =C2=A0{<br>
-&gt;&gt; -=C2=A0 =C2=A0 int err;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0QDict *ts;<br>
-&gt;&gt; -=C2=A0 =C2=A0 qemu_timeval tv;<br>
-&gt;&gt; +=C2=A0 =C2=A0 int64_t rt =3D g_get_real_time();<br>
-&gt;&gt;<br>
-&gt;&gt; -=C2=A0 =C2=A0 err =3D qemu_gettimeofday(&amp;tv);<br>
-&gt;&gt; -=C2=A0 =C2=A0 /* Put -1 to indicate failure of getting host time =
-*/<br>
-&gt;&gt; -=C2=A0 =C2=A0 ts =3D qdict_from_jsonf_nofail(&quot;{ &#39;seconds=
-&#39;: %lld, &#39;microseconds&#39;: %lld }&quot;,<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0err &lt; 0 ? -1LL : =
-(long long)tv.tv_sec,<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0err &lt; 0 ? -1LL : =
-(long long)tv.tv_usec);<br>
-&gt;&gt; +=C2=A0 =C2=A0 ts =3D qdict_from_jsonf_nofail(&quot;{ &#39;seconds=
-&#39;: %&quot; G_GINT64_FORMAT<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;, &#39;microse=
-conds&#39;: %&quot; G_GINT64_FORMAT &quot;}&quot;,<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rt / G_USEC_PER_SEC,=
-<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rt % G_USEC_PER_SEC)=
-;<br>
-&gt; <br>
-&gt; NACK this, fixed in v3<br>
-<br>
-Why keeping the %lld is better than moving to %G_GINT64_FORMAT?<br>
-<br></blockquote><div><br></div>It&#39;s not supported by json-parser.c par=
-se_interpolation(). We could address this in a different patch.<br clear=3D=
-"all"></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
+----------------------------------------------------------------
+Block patches for 7.0-rc0:
+- New fleecing backup scheme
+- iotest fixes
+- Fixes for the curl block driver
+- Fix for the preallocate block driver
+- IDE fix for zero-length TRIM requests
 
---00000000000071418205d99e6bce--
+----------------------------------------------------------------
+Hanna Reitz (2):
+  ide: Increment BB in-flight counter for TRIM BH
+  iotests: Write test output to TEST_DIR
+
+Peter Maydell (2):
+  block/curl.c: Set error message string if curl_init_state() fails
+  block/curl.c: Check error return from curl_easy_setopt()
+
+Thomas Huth (2):
+  tests/qemu-iotests/040: Skip TestCommitWithFilters without 'throttle'
+  tests/qemu-iotests/testrunner: Quote "case not run" lines in TAP mode
+
+Vladimir Sementsov-Ogievskiy (17):
+  block: fix preallocate filter: don't do unaligned preallocate requests
+  block/block-copy: move copy_bitmap initialization to
+    block_copy_state_new()
+  block/dirty-bitmap: bdrv_merge_dirty_bitmap(): add return value
+  block/block-copy: block_copy_state_new(): add bitmap parameter
+  block/copy-before-write: add bitmap open parameter
+  block/block-copy: add block_copy_reset()
+  block: intoduce reqlist
+  block/reqlist: reqlist_find_conflict(): use ranges_overlap()
+  block/dirty-bitmap: introduce bdrv_dirty_bitmap_status()
+  block/reqlist: add reqlist_wait_all()
+  block/io: introduce block driver snapshot-access API
+  block: introduce snapshot-access block driver
+  block: copy-before-write: realize snapshot-access API
+  iotests/image-fleecing: add test-case for fleecing format node
+  iotests.py: add qemu_io_pipe_and_status()
+  iotests/image-fleecing: add test case with bitmap
+  iotests/image-fleecing: test push backup with fleecing
+
+ qapi/block-core.json                        |  14 +-
+ include/block/block-common.h                |   3 +-
+ include/block/block-copy.h                  |   2 +
+ include/block/block_int-common.h            |  24 ++
+ include/block/block_int-io.h                |   9 +
+ include/block/dirty-bitmap.h                |   4 +-
+ include/block/reqlist.h                     |  75 ++++++
+ include/qemu/hbitmap.h                      |  12 +
+ block/block-copy.c                          | 150 +++++------
+ block/copy-before-write.c                   | 265 +++++++++++++++++++-
+ block/curl.c                                |  92 ++++---
+ block/dirty-bitmap.c                        |  15 +-
+ block/io.c                                  |  76 ++++++
+ block/monitor/bitmap-qmp-cmds.c             |   5 +-
+ block/preallocate.c                         |  15 +-
+ block/reqlist.c                             |  85 +++++++
+ block/snapshot-access.c                     | 132 ++++++++++
+ hw/ide/core.c                               |   7 +
+ util/hbitmap.c                              |  33 +++
+ MAINTAINERS                                 |   5 +-
+ block/meson.build                           |   2 +
+ tests/qemu-iotests/040                      |   1 +
+ tests/qemu-iotests/257.out                  | 224 +++++++++++++++++
+ tests/qemu-iotests/common.rc                |   6 +-
+ tests/qemu-iotests/iotests.py               |   8 +-
+ tests/qemu-iotests/testenv.py               |   5 +-
+ tests/qemu-iotests/testrunner.py            |  19 +-
+ tests/qemu-iotests/tests/image-fleecing     | 185 +++++++++++---
+ tests/qemu-iotests/tests/image-fleecing.out | 221 +++++++++++++++-
+ 29 files changed, 1499 insertions(+), 195 deletions(-)
+ create mode 100644 include/block/reqlist.h
+ create mode 100644 block/reqlist.c
+ create mode 100644 block/snapshot-access.c
+
+-- 
+2.34.1
+
 
