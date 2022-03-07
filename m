@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6924F4CF24C
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 07:53:28 +0100 (CET)
-Received: from localhost ([::1]:60492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA37C4CF24D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 07:54:25 +0100 (CET)
+Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR7FH-0002ez-0B
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 01:53:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57764)
+	id 1nR7GC-0003gn-UU
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 01:54:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7DU-0001ov-En
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 01:51:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23279)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7EN-0002KK-TG
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 01:52:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7DQ-0007Gt-Uz
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 01:51:34 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7EK-0007Oa-HL
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 01:52:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646635890;
+ s=mimecast20190719; t=1646635948;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VRChV+CBkas0erQ+WzjtpRUsCYhBWtxz54nAxwJav+c=;
- b=gkWjE8NBrQQTPuLgw5vkVoDjgN/Yhb9o5i35/vVCvm59Js4r5SfJImSjw6Rp+Qbm19ni66
- pq6nBVKci/pJ79YNkKci7SXsweAuzUT9KoJIAl8bvt3REnwJT0vOMJ1iWZPaMgkZ2cPNYM
- fL2QLq2jrMKVxVRMYIISNJQ4lCZ0MeI=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=u4mQ2rMxEqphQMQ2Uw22CRBGYN/1SipVPThgzv20/P4=;
+ b=Dszrcr9acWLnop3hOhSKJEPddawgjcyI4m2PDuPKTKMMpumgEvyi493k3uiUK+EdR+CJlU
+ 4MXQcxp16WJ5OU2tiu21G+zQDyIT/72/KFcSnVuZZN3TpN32gB3gj3BxOGwJhg/U6VXbY+
+ DQfmgSaBj8v+1jVIEyqgOJBfZRBMvAw=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-301-8BYsEG5QNeWqw4xVTrfKoQ-1; Mon, 07 Mar 2022 01:51:29 -0500
-X-MC-Unique: 8BYsEG5QNeWqw4xVTrfKoQ-1
-Received: by mail-pg1-f197.google.com with SMTP id
- h12-20020a63530c000000b0037c8f45bf1bso5137268pgb.7
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 22:51:29 -0800 (PST)
+ us-mta-61-kE9e_lBRPNCBMjA02LqJtQ-1; Mon, 07 Mar 2022 01:52:26 -0500
+X-MC-Unique: kE9e_lBRPNCBMjA02LqJtQ-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ w68-20020a62dd47000000b004f6aa5e4824so6675552pff.4
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 22:52:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=VRChV+CBkas0erQ+WzjtpRUsCYhBWtxz54nAxwJav+c=;
- b=J8v0z8583ThHJTRigIXq+9h2Gc986G0cIOSht1b8q8L6A3/6HCdR5GDKS0AbOsaJwg
- vBoj8Mfl/mAagUoqGj3z17jdmCB2Yls/JTDalj4MhElzRcpVmEzXNCgk5HI5YrdbUUQE
- E5O4PKQC5sLgbdxqvjQBwIIg9Lt8S+uaa7Gz6mnT3/zxE9jyNoH6rMDmBuEngbfqrRIF
- hv0zFmPieQFbUmTXBPJDDjmxRKi2gvrncrwglye+Q1WS2HOtCaiXWbrz7IQdsU6kARB7
- HnfSQdsQXxAAsreuSPf7iFoDH+StOWQaeVT+3Om0b+48laS3IiXz1eTnXBAskeIy+mHt
- BcVw==
-X-Gm-Message-State: AOAM533TDbM7iTRZoULYFHQsrmHeSDfX1zMOhb40fkV4NMza7oKGPlIM
- XeG4MdtgPb317bw8d31WjidTqgfmEdXJKwpxLJLgS5wTKWg6NlH0ZvWiR3ELC7ysWv09BW6qNlg
- ghckwdTj1r/woF6c=
-X-Received: by 2002:a62:dd03:0:b0:4f1:1bfa:134c with SMTP id
- w3-20020a62dd03000000b004f11bfa134cmr11415177pff.14.1646635888571; 
- Sun, 06 Mar 2022 22:51:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzivX8AfzGm2DfbZlXm+G0yrfEtpYyi9+rEFOA+ZUvAsoQl0bYreZUYtQcDF0xXcj+5ol2YZw==
-X-Received: by 2002:a62:dd03:0:b0:4f1:1bfa:134c with SMTP id
- w3-20020a62dd03000000b004f11bfa134cmr11415156pff.14.1646635888308; 
- Sun, 06 Mar 2022 22:51:28 -0800 (PST)
+ bh=u4mQ2rMxEqphQMQ2Uw22CRBGYN/1SipVPThgzv20/P4=;
+ b=56dwu2ynj0w9GRnzd1TY2LeECbQKk+0Ig8mI061/3b6JxLdaUFYDZwde5h5IYdBWsb
+ EiJo2FCP4lBcVvf+uGk5AcojCXt6ZCaKxkf3JeWqheTM7iNfpEI0NzTDLoEOKi7XccsV
+ bp6U6jJ42QUaS9oQCpSYK8w2yK2Gg6TVn54MmLwKdyykw5/0P2H11e7Jy/PUFCkvRlwD
+ fkwvAsR/cc6hAAKTnqcgmjTGqiZmaFoaBdSiiKIFBVMKNcztcApPoGiCNk75rVdtuQOo
+ 2fk54i1DVGZj0LVWJabniEVgFKuWttlme9lv7zP9p8bW+mSHFppEM5n8hz5SbuhPBEk/
+ sxgQ==
+X-Gm-Message-State: AOAM531IMlMHxbCTvUcn3fzUl1iKa/JeiSeqGEnQX/GvkHdESifR8uAS
+ FndFo5VjFxMWRFHSuIiYsBowXl7464a58XzIAYEHLUnyfk2nxMEB9LcJtR7GImUsyPRfsYXBv1/
+ CZSw6eNHKfdbLYiw=
+X-Received: by 2002:a17:902:ec81:b0:151:f1c5:2f9f with SMTP id
+ x1-20020a170902ec8100b00151f1c52f9fmr1264212plg.123.1646635945782; 
+ Sun, 06 Mar 2022 22:52:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy7Mc+WrBVpTUQ3dfWto9qg0PujUVcIYiVq9OTMJAjLU+7XqEfHgzgJRqNLFSb8w7KK6F3Rfw==
+X-Received: by 2002:a17:902:ec81:b0:151:f1c5:2f9f with SMTP id
+ x1-20020a170902ec8100b00151f1c52f9fmr1264199plg.123.1646635945571; 
+ Sun, 06 Mar 2022 22:52:25 -0800 (PST)
 Received: from xz-m1.local ([94.177.118.47]) by smtp.gmail.com with ESMTPSA id
- f20-20020a056a001ad400b004f6e8f8f90bsm5021959pfv.109.2022.03.06.22.51.25
+ l5-20020a056a0016c500b004f140564a00sm14979803pfc.203.2022.03.06.22.52.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 22:51:27 -0800 (PST)
-Date: Mon, 7 Mar 2022 14:51:23 +0800
+ Sun, 06 Mar 2022 22:52:25 -0800 (PST)
+Date: Mon, 7 Mar 2022 14:52:20 +0800
 From: Peter Xu <peterx@redhat.com>
 To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 04/18] tests: print newline after QMP response in qtest
- logs
-Message-ID: <YiWra21XaVV9Fdv/@xz-m1.local>
+Subject: Re: [PATCH 02/18] tests: improve error message when saving TLS PSK
+ file fails
+Message-ID: <YiWrpD7zPvV8t7yv@xz-m1.local>
 References: <20220302174932.2692378-1-berrange@redhat.com>
- <20220302174932.2692378-5-berrange@redhat.com>
+ <20220302174932.2692378-3-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220302174932.2692378-5-berrange@redhat.com>
+In-Reply-To: <20220302174932.2692378-3-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -107,29 +107,10 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 02, 2022 at 05:49:18PM +0000, Daniel P. Berrangé wrote:
-> The QMP commands have a trailing newline, but the response does not.
-> This makes the qtest logs hard to follow as the next QMP command
-> appears in the same line as the previous QMP response.
-> 
+On Wed, Mar 02, 2022 at 05:49:16PM +0000, Daniel P. Berrangé wrote:
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  tests/qtest/libqtest.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> index a85f8a6d05..79c3edcf4b 100644
-> --- a/tests/qtest/libqtest.c
-> +++ b/tests/qtest/libqtest.c
-> @@ -629,6 +629,9 @@ QDict *qmp_fd_receive(int fd)
->          }
->          json_message_parser_feed(&qmp.parser, &c, 1);
->      }
-> +    if (log) {
-> +        g_assert(write(2, "\n", 1) == 1);
-> +    }
 
-Drop the g_assert() to remove side effect of G_DISABLE_ASSERT?
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
