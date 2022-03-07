@@ -2,43 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C914CFDA0
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:04:39 +0100 (CET)
-Received: from localhost ([::1]:47094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131A34CFDC9
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:07:02 +0100 (CET)
+Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRC6Q-0006Wq-FD
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:04:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33194)
+	id 1nRC8j-000292-54
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:07:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e0bd743bb2dd4985791d4de880446bdbb4e04fed@lizzy.crudebyte.com>)
- id 1nRBzY-0000iH-NU
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:57:32 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:34857)
+ (envelope-from <f41db099c71151291c269bf48ad006de9cbd9ca6@lizzy.crudebyte.com>)
+ id 1nRBUL-0005Ot-43
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:25:19 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:57653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e0bd743bb2dd4985791d4de880446bdbb4e04fed@lizzy.crudebyte.com>)
- id 1nRBzX-0004Q5-6i
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:57:32 -0500
+ (envelope-from <f41db099c71151291c269bf48ad006de9cbd9ca6@lizzy.crudebyte.com>)
+ id 1nRBUC-00070d-PV
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:25:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
- Content-Description; bh=KO3uCcDtoP8ypvHqVZeogjqwQxCYF7uWlWLOucj+apQ=; b=CDT90
- R1XMJyayWqWK9zOA+/nAsoQJ24iB5jJpi1HigtE+rL/zUtGxHqV79pqB3vUSMTLTM+4aQj41Fn9jC
- owuyKYiOOCS/iQvfqcdTPSzzWFLb8cadhgK/SHhsZjwy8p++v/VPnJFa7ZcdT+ktRQAtCFdCWvt4x
- En6Y/WR6mNZdGnAMh63qVrg8dmSJRxMCLgB/ywbTPHc0u2GqltDTdKmy+SRWGmXXQ4w0ANk0iymBn
- udtPmWbwAgBYxN1Ij97eSgF4lk4QnkdjpVCXQrXgIn1aD9EqDrR/xjYlNmpzaiOcggtL+npz1+Ook
- vJKXPb0q7B0V/LmLrTlpbFTHQmi9Q==;
-Message-Id: <e0bd743bb2dd4985791d4de880446bdbb4e04fed.1646651700.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=Q5FQJ2Reo2gOK3Lkjz7qs1014MSz8wpQlPECzV97A/A=; b=YdKgI
+ PWP7bYzbszzc0rtInaHSXvZaoM/NAzZSTvuxQpL+6xFWyxMuCGi/U+anmbCYRTZSx3V49z/4jNs/K
+ lnlUi09hQq79fsOXGrf45GHIgMSoTnxjITdNpRTla0V6U+FbURygWd2SnzLZvsWxTxE3h2UsYuAWN
+ uxy0CneR+DWoqmGCx4YXy+nejfc3po3bJVtQeOz4SZRHXd3ZPI4O/XM9Z/wOx1G+nnD81hjN0968F
+ Vq+pOFplQmQDezM2PlmIR1wjFjiaNmtNnie/5U9PCMBsNryQMS1mig1DU39kG6tywUZOWBQi9OvuI
+ A9YDwwro+YHcRj2AaY1y0mxZJz5GQ==;
+Message-Id: <f41db099c71151291c269bf48ad006de9cbd9ca6.1646651700.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646651700.git.qemu_oss@crudebyte.com>
 References: <cover.1646651700.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 07 Mar 2022 12:15:00 +0100
-Subject: [PULL v2 01/19] 9p: linux: Fix a couple Linux assumptions
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PULL v2 03/19] 9p: darwin: Handle struct stat(fs) differences
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
@@ -47,7 +44,7 @@ Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
  Fabian Franz <fabianfranz.oss@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=e0bd743bb2dd4985791d4de880446bdbb4e04fed@lizzy.crudebyte.com;
+ envelope-from=f41db099c71151291c269bf48ad006de9cbd9ca6@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -72,110 +69,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
- - Guard Linux only headers.
- - Add qemu/statfs.h header to abstract over the which
-   headers are needed for struct statfs
- - Define `ENOATTR` only if not only defined
-   (it's defined in system headers on Darwin).
-
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
-[Michael Roitzsch: - Rebase for NixOS]
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
-
-While it might at first appear that fsdev/virtfs-proxy-header.c would
-need similar adjustment for darwin as file-op-9p here, a later patch in
-this series disables virtfs-proxy-helper for non-Linux. Allowing
-virtfs-proxy-helper on darwin could potentially be an additional
-optimization later.
-
-[Will Cohen: - Fix headers for Alpine
-             - Integrate statfs.h back into file-op-9p.h
-             - Remove superfluous header guards from file-opt-9p
-             - Add note about virtfs-proxy-helper being disabled
-               on non-Linux for this patch series]
+[Will Cohen: - Note lack of f_namelen and f_frsize on Darwin
+             - Ensure that tv_sec and tv_nsec are both
+               initialized for Darwin and non-Darwin]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20220227223522.91937-2-wwcohen@gmail.com>
+Message-Id: <20220227223522.91937-4-wwcohen@gmail.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- fsdev/file-op-9p.h   | 9 ++++++++-
- hw/9pfs/9p-local.c   | 2 ++
- hw/9pfs/9p.c         | 4 ++++
- include/qemu/xattr.h | 4 +++-
- 4 files changed, 17 insertions(+), 2 deletions(-)
+ hw/9pfs/9p-proxy.c | 22 ++++++++++++++++++++--
+ hw/9pfs/9p-synth.c |  2 ++
+ hw/9pfs/9p.c       | 16 ++++++++++++++--
+ 3 files changed, 36 insertions(+), 4 deletions(-)
 
-diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
-index 8fd89f0447..4997677460 100644
---- a/fsdev/file-op-9p.h
-+++ b/fsdev/file-op-9p.h
-@@ -16,10 +16,17 @@
- 
- #include <dirent.h>
- #include <utime.h>
--#include <sys/vfs.h>
- #include "qemu-fsdev-throttle.h"
- #include "p9array.h"
- 
-+#ifdef CONFIG_LINUX
-+# include <sys/vfs.h>
-+#endif
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 09bd9f1464..b1664080d8 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -123,10 +123,16 @@ static void prstatfs_to_statfs(struct statfs *stfs, ProxyStatFS *prstfs)
+     stfs->f_bavail = prstfs->f_bavail;
+     stfs->f_files = prstfs->f_files;
+     stfs->f_ffree = prstfs->f_ffree;
 +#ifdef CONFIG_DARWIN
-+# include <sys/param.h>
-+# include <sys/mount.h>
++    /* f_namelen and f_frsize do not exist on Darwin */
++    stfs->f_fsid.val[0] = prstfs->f_fsid[0] & 0xFFFFFFFFU;
++    stfs->f_fsid.val[1] = prstfs->f_fsid[1] >> 32 & 0xFFFFFFFFU;
++#else
+     stfs->f_fsid.__val[0] = prstfs->f_fsid[0] & 0xFFFFFFFFU;
+     stfs->f_fsid.__val[1] = prstfs->f_fsid[1] >> 32 & 0xFFFFFFFFU;
+     stfs->f_namelen = prstfs->f_namelen;
+     stfs->f_frsize = prstfs->f_frsize;
 +#endif
-+
- #define SM_LOCAL_MODE_BITS    0600
- #define SM_LOCAL_DIR_MODE_BITS    0700
+ }
  
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 210d9e7705..1a5e3eed73 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -32,10 +32,12 @@
- #include "qemu/error-report.h"
- #include "qemu/option.h"
- #include <libgen.h>
-+#ifdef CONFIG_LINUX
- #include <linux/fs.h>
- #ifdef CONFIG_LINUX_MAGIC_H
- #include <linux/magic.h>
- #endif
+ /* Converts proxy_stat structure to VFS stat structure */
+@@ -143,12 +149,24 @@ static void prstat_to_stat(struct stat *stbuf, ProxyStat *prstat)
+    stbuf->st_size = prstat->st_size;
+    stbuf->st_blksize = prstat->st_blksize;
+    stbuf->st_blocks = prstat->st_blocks;
++   stbuf->st_atime = prstat->st_atim_sec;
++   stbuf->st_mtime = prstat->st_mtim_sec;
++   stbuf->st_ctime = prstat->st_ctim_sec;
++#ifdef CONFIG_DARWIN
++   stbuf->st_atimespec.tv_sec = prstat->st_atim_sec;
++   stbuf->st_mtimespec.tv_sec = prstat->st_mtim_sec;
++   stbuf->st_ctimespec.tv_sec = prstat->st_ctim_sec;
++   stbuf->st_atimespec.tv_nsec = prstat->st_atim_nsec;
++   stbuf->st_mtimespec.tv_nsec = prstat->st_mtim_nsec;
++   stbuf->st_ctimespec.tv_nsec = prstat->st_ctim_nsec;
++#else
+    stbuf->st_atim.tv_sec = prstat->st_atim_sec;
++   stbuf->st_mtim.tv_sec = prstat->st_mtim_sec;
++   stbuf->st_ctim.tv_sec = prstat->st_ctim_sec;
+    stbuf->st_atim.tv_nsec = prstat->st_atim_nsec;
+-   stbuf->st_mtime = prstat->st_mtim_sec;
+    stbuf->st_mtim.tv_nsec = prstat->st_mtim_nsec;
+-   stbuf->st_ctime = prstat->st_ctim_sec;
+    stbuf->st_ctim.tv_nsec = prstat->st_ctim_nsec;
 +#endif
- #include <sys/ioctl.h>
+ }
  
- #ifndef XFS_SUPER_MAGIC
+ /*
+diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+index 7a7cd5c5ba..bf9b0c5ddd 100644
+--- a/hw/9pfs/9p-synth.c
++++ b/hw/9pfs/9p-synth.c
+@@ -439,7 +439,9 @@ static int synth_statfs(FsContext *s, V9fsPath *fs_path,
+     stbuf->f_bsize = 512;
+     stbuf->f_blocks = 0;
+     stbuf->f_files = synth_node_count;
++#ifndef CONFIG_DARWIN
+     stbuf->f_namelen = NAME_MAX;
++#endif
+     return 0;
+ }
+ 
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 15b3f4d385..9c63e14b28 100644
+index 9c63e14b28..1563d7b7c6 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -32,7 +32,11 @@
- #include "migration/blocker.h"
- #include "qemu/xxhash.h"
- #include <math.h>
-+#ifdef CONFIG_LINUX
- #include <linux/limits.h>
+@@ -1313,11 +1313,17 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+     v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
+     v9lstat->st_blocks = stbuf->st_blocks;
+     v9lstat->st_atime_sec = stbuf->st_atime;
+-    v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
+     v9lstat->st_mtime_sec = stbuf->st_mtime;
+-    v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
+     v9lstat->st_ctime_sec = stbuf->st_ctime;
++#ifdef CONFIG_DARWIN
++    v9lstat->st_atime_nsec = stbuf->st_atimespec.tv_nsec;
++    v9lstat->st_mtime_nsec = stbuf->st_mtimespec.tv_nsec;
++    v9lstat->st_ctime_nsec = stbuf->st_ctimespec.tv_nsec;
 +#else
-+#include <limits.h>
++    v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
++    v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
+     v9lstat->st_ctime_nsec = stbuf->st_ctim.tv_nsec;
++#endif
+     /* Currently we only support BASIC fields in stat */
+     v9lstat->st_result_mask = P9_STATS_BASIC;
+ 
+@@ -3519,9 +3525,15 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
+     f_bavail = stbuf->f_bavail / bsize_factor;
+     f_files  = stbuf->f_files;
+     f_ffree  = stbuf->f_ffree;
++#ifdef CONFIG_DARWIN
++    fsid_val = (unsigned int)stbuf->f_fsid.val[0] |
++               (unsigned long long)stbuf->f_fsid.val[1] << 32;
++    f_namelen = NAME_MAX;
++#else
+     fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
+                (unsigned long long)stbuf->f_fsid.__val[1] << 32;
+     f_namelen = stbuf->f_namelen;
 +#endif
  
- int open_fd_hw;
- int total_open_fd;
-diff --git a/include/qemu/xattr.h b/include/qemu/xattr.h
-index a83fe8e749..f1d0f7be74 100644
---- a/include/qemu/xattr.h
-+++ b/include/qemu/xattr.h
-@@ -22,7 +22,9 @@
- #ifdef CONFIG_LIBATTR
- #  include <attr/xattr.h>
- #else
--#  define ENOATTR ENODATA
-+#  if !defined(ENOATTR)
-+#    define ENOATTR ENODATA
-+#  endif
- #  include <sys/xattr.h>
- #endif
- 
+     return pdu_marshal(pdu, offset, "ddqqqqqqd",
+                        f_type, f_bsize, f_blocks, f_bfree,
 -- 
 2.20.1
 
