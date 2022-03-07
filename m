@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99514D082A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:10:59 +0100 (CET)
-Received: from localhost ([::1]:44440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365714D0835
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:17:04 +0100 (CET)
+Received: from localhost ([::1]:53082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRJh4-0003mF-JW
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:10:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49392)
+	id 1nRJmx-0001a0-4B
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:17:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <36GUmYgYKCmUWLWXVUJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--titusr.bounces.google.com>)
- id 1nRJdL-0007W5-PS
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:07:07 -0500
-Received: from [2607:f8b0:4864:20::b49] (port=38584
- helo=mail-yb1-xb49.google.com)
+ <36mUmYgYKCmcYNYZXWLTTLQJ.HTRVJRZ-IJaJQSTSLSZ.TWL@flex--titusr.bounces.google.com>)
+ id 1nRJkH-0007Bo-EB
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:14:17 -0500
+Received: from [2607:f8b0:4864:20::b4a] (port=45924
+ helo=mail-yb1-xb4a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <36GUmYgYKCmUWLWXVUJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--titusr.bounces.google.com>)
- id 1nRJdK-0006C6-1H
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:07:07 -0500
-Received: by mail-yb1-xb49.google.com with SMTP id
- 190-20020a2505c7000000b00629283fec72so4925385ybf.5
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 12:07:05 -0800 (PST)
+ <36mUmYgYKCmcYNYZXWLTTLQJ.HTRVJRZ-IJaJQSTSLSZ.TWL@flex--titusr.bounces.google.com>)
+ id 1nRJkF-00072T-Je
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:14:17 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ n66-20020a254045000000b0062883b59ddbso14529687yba.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 12:14:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
  :cc:content-transfer-encoding;
- bh=fuxeolvYtT1rUv8+RAPBHndV9yAA+6y/PMueIP2IGFk=;
- b=o5HMJdarodHjxhR/ededmVSY4ZjLBiLSo171hePa9wj8Q+/oq42xr30UQgOmXZF0/p
- 8tgv0CmCJooDPWMpmYl0mZrAEmKOt+Z019/+RkVYr+gVU1SHGWIQlXzQOQWJaoI5kery
- Cal1V6gA6I09F5p54AQUmykz4zMq4na3wWLd0lBEIldg6Txk7/GODTeEYm/kkvyLQRxx
- TbqQPsQTDDSGrSHMymVZATcSpTwIT41SYT+TpOGGUe3DUWw0FCoBT6L+YDE0+E008eLV
- uP1MFDAsCDL5cypwcrUWA6l3UYZ5xQ8MVSN57+KGxXp19oa6MCuIIWYK6ENvodyiZpM4
- 22GA==
+ bh=NI9wq2DideEAjgeOyBrnujlyjn4IddOI7Xe9VuBweBw=;
+ b=RQIzzO8iPUWP/TXt0c8Fa21Y7fMOdwGlGN57KbdgVzeNNc3pzmtIb3UTUONT7my5bQ
+ JXe+LnSB6PC2k1OskXTr989HL95BE+r7BBcJ4P5G7udfMnUAsxM6IwYw/Br1euBV/3WF
+ aWtwXbIIuSPEf6TDnV2Lsqanu2XJJNIygjXMzVSns4zI/anfz2hKsL1JrYNzKdvTmGxC
+ IC4pDOTfqWe2Kzok6BeXZPEHP/8knrHEXzE8zqeqwrXahXxoq7i0JzvUUELlptSz2JxV
+ MyXkMy5kxOuNBs0xYI1jqcOx8zVITOz/ohTWt521vneUaPOIzdWE7dASM70U7g5IAmeS
+ RV/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc:content-transfer-encoding;
- bh=fuxeolvYtT1rUv8+RAPBHndV9yAA+6y/PMueIP2IGFk=;
- b=Oz82tML9Tv+MvkDksvPJeL9cxNp2dchy09Zqdt//8TgHP9GbWuld0VVgSfzYYJv06w
- 6HtQfoy5HUKPmLVbpo37wY3aXkdhZbHgqE7wxlmd9YJrhfZ77+6mlFJwEVgyIQb5QTPI
- UNTNudEE5XsTTt1KBPRkhkcBQE9gPujGJ5z/piqZkRIfsyTONS/zQeL3cJj07+tmHS06
- DOYLL5rPWA4ePXaDS/oXSrzNK28iFUu4dfVMTbVmkhqcfit+lhmvlefi8d2YAcZMsfX7
- j04aE9LuSuUvXiK/KuGrgy5liwAgder9mBvOKWSB3JIJSDJ+6p8/wJMcHhpiutDJD7PA
- czuw==
-X-Gm-Message-State: AOAM533IYUYQh+rDx4hVNBEz0tF2XV5JN4D5t2ec9YMSZas/SYuaoLrX
- CabZehgZS3bZUKR2wHjHNj3zgMVytq4=
-X-Google-Smtp-Source: ABdhPJzHBjIUvQ+oHsYUsiRDxEzynfKmhGEXSZjAuPI2svJahuOoV82FvfbQAhhCXFi/Nx4o3WBkRpKDWBs=
+ bh=NI9wq2DideEAjgeOyBrnujlyjn4IddOI7Xe9VuBweBw=;
+ b=xTZb9+Y8b/9T2W37f5zpKXVhxpgNP3FlhiG9eD2788gBh9FpRE4D1Z2J55M7cMN446
+ sW1jN4SCapfuICOGb4i14If9sE9GWvf7/OPslLlJpyZTplI0HHyDo49yozzB/GmNhmqJ
+ tH8hPZVvgV2Dh7ox554NxU17kXhKF5dYAlajTNSOFewvuvjmalRoDSR3Mhe4YWffAEc3
+ ygNekdu06UbYjVP0W1nkkBnp6F7hmdOjrrtrkWFcxeZNDwJRKihvHgJDUtiwhscpEmhV
+ jfbwFHb04qGogqsP/LgvthQ1kkPYgdutUOdEFcQqO5dRWPj6qLdarxitjji7Dy7lsd9C
+ rQWw==
+X-Gm-Message-State: AOAM531iVXpn2t7ZxVeNyT6LK3pSmfwPFsOuHvmkIoh9bTg1W/npGswg
+ 74ptztYB1SPoBixrlySwWHEz0XZAqec=
+X-Google-Smtp-Source: ABdhPJzdJQUTCfTnLDGV80y80kiAujpEI/uE6bEW3ylvwi6TciEP9u6559ut6tsiBEptDJCTPkd3C6yGv+s=
 X-Received: from titusr.svl.corp.google.com
  ([2620:15c:2a3:201:3c4a:fc8b:1418:53ce])
- (user=titusr job=sendgmr) by 2002:a25:8c8b:0:b0:627:f4a2:5a47 with SMTP id
- m11-20020a258c8b000000b00627f4a25a47mr9015905ybl.543.1646683624537; Mon, 07
- Mar 2022 12:07:04 -0800 (PST)
-Date: Mon,  7 Mar 2022 12:06:04 -0800
+ (user=titusr job=sendgmr) by 2002:a25:e307:0:b0:628:a6d3:1f6b with SMTP id
+ z7-20020a25e307000000b00628a6d31f6bmr9251261ybd.338.1646683626935; Mon, 07
+ Mar 2022 12:07:06 -0800 (PST)
+Date: Mon,  7 Mar 2022 12:06:05 -0800
 In-Reply-To: <20220307200605.4001451-1-titusr@google.com>
-Message-Id: <20220307200605.4001451-9-titusr@google.com>
+Message-Id: <20220307200605.4001451-10-titusr@google.com>
 Mime-Version: 1.0
 References: <20220307200605.4001451-1-titusr@google.com>
 X-Mailer: git-send-email 2.35.1.616.g0bdcbb4464-goog
-Subject: [PATCH v4 8/9] hw/sensor: add Renesas raa229004 PMBus device
+Subject: [PATCH v4 9/9] hw/sensor: add Renesas raa228000 device
 From: Titus Rwantare <titusr@google.com>
 To: Corey Minyard <minyard@acm.org>, 
  "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <f4bug@amsat.org>
@@ -68,11 +68,11 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com,
  venture@google.com, Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b49
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
- envelope-from=36GUmYgYKCmUWLWXVUJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--titusr.bounces.google.com;
- helo=mail-yb1-xb49.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=36mUmYgYKCmcYNYZXWLTTLQJ.HTRVJRZ-IJaJQSTSLSZ.TWL@flex--titusr.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
 X-Spam_score_int: -81
 X-Spam_score: -8.2
 X-Spam_bar: --------
@@ -96,87 +96,211 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Renesas RAA229004 is a PMBus Multiphase Voltage Regulator
-
 Signed-off-by: Titus Rwantare <titusr@google.com>
 Reviewed-by: Hao Wu <wuhaotsh@google.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
- hw/sensor/isl_pmbus_vr.c         | 18 ++++++++++++++++++
+ hw/sensor/isl_pmbus_vr.c         | 50 ++++++++++++++++++++++
  include/hw/sensor/isl_pmbus_vr.h |  1 +
- tests/qtest/isl_pmbus_vr-test.c  |  8 ++++++++
- 3 files changed, 27 insertions(+)
+ tests/qtest/isl_pmbus_vr-test.c  | 72 ++++++++++++++++++++++++++++++++
+ 3 files changed, 123 insertions(+)
 
 diff --git a/hw/sensor/isl_pmbus_vr.c b/hw/sensor/isl_pmbus_vr.c
-index f8cc75fc31..53187d619a 100644
+index 53187d619a..e11e028884 100644
 --- a/hw/sensor/isl_pmbus_vr.c
 +++ b/hw/sensor/isl_pmbus_vr.c
-@@ -195,6 +195,15 @@ static void isl69260_class_init(ObjectClass *klass, vo=
+@@ -89,6 +89,24 @@ static void isl_pmbus_vr_exit_reset(Object *obj)
+     }
+ }
+=20
++/* The raa228000 uses different direct mode coefficents from most isl devi=
+ces */
++static void raa228000_exit_reset(Object *obj)
++{
++    PMBusDevice *pmdev =3D PMBUS_DEVICE(obj);
++
++    isl_pmbus_vr_exit_reset(obj);
++
++    pmdev->pages[0].read_iout =3D 0;
++    pmdev->pages[0].read_pout =3D 0;
++    pmdev->pages[0].read_vout =3D 0;
++    pmdev->pages[0].read_vin =3D 0;
++    pmdev->pages[0].read_iin =3D 0;
++    pmdev->pages[0].read_pin =3D 0;
++    pmdev->pages[0].read_temperature_1 =3D 0;
++    pmdev->pages[0].read_temperature_2 =3D 0;
++    pmdev->pages[0].read_temperature_3 =3D 0;
++}
++
+ static void isl_pmbus_vr_add_props(Object *obj, uint64_t *flags, uint8_t p=
+ages)
+ {
+     PMBusDevice *pmdev =3D PMBUS_DEVICE(obj);
+@@ -177,6 +195,20 @@ static void raa22xx_init(Object *obj)
+     isl_pmbus_vr_add_props(obj, flags, ARRAY_SIZE(flags));
+ }
+=20
++static void raa228000_init(Object *obj)
++{
++    PMBusDevice *pmdev =3D PMBUS_DEVICE(obj);
++    uint64_t flags[1];
++
++    flags[0] =3D PB_HAS_VIN | PB_HAS_VOUT | PB_HAS_VOUT_MODE |
++               PB_HAS_VOUT_RATING | PB_HAS_VOUT_MARGIN | PB_HAS_IIN |
++               PB_HAS_IOUT | PB_HAS_PIN | PB_HAS_POUT | PB_HAS_TEMPERATURE=
+ |
++               PB_HAS_TEMP2 | PB_HAS_TEMP3 | PB_HAS_STATUS_MFR_SPECIFIC;
++
++    pmbus_page_config(pmdev, 0, flags[0]);
++    isl_pmbus_vr_add_props(obj, flags, 1);
++}
++
+ static void isl_pmbus_vr_class_init(ObjectClass *klass, void *data,
+                                     uint8_t pages)
+ {
+@@ -195,6 +227,15 @@ static void isl69260_class_init(ObjectClass *klass, vo=
 id *data)
      isl_pmbus_vr_class_init(klass, data, 2);
  }
 =20
-+static void raa229004_class_init(ObjectClass *klass, void *data)
++static void raa228000_class_init(ObjectClass *klass, void *data)
 +{
 +    ResettableClass *rc =3D RESETTABLE_CLASS(klass);
 +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    dc->desc =3D "Renesas 229004 Digital Multiphase Voltage Regulator";
-+    rc->phases.exit =3D isl_pmbus_vr_exit_reset;
-+    isl_pmbus_vr_class_init(klass, data, 2);
++    dc->desc =3D "Renesas 228000 Digital Multiphase Voltage Regulator";
++    rc->phases.exit =3D raa228000_exit_reset;
++    isl_pmbus_vr_class_init(klass, data, 1);
 +}
 +
- static const TypeInfo isl69260_info =3D {
-     .name =3D TYPE_ISL69260,
-     .parent =3D TYPE_PMBUS_DEVICE,
-@@ -203,9 +212,18 @@ static const TypeInfo isl69260_info =3D {
-     .class_init =3D isl69260_class_init,
+ static void raa229004_class_init(ObjectClass *klass, void *data)
+ {
+     ResettableClass *rc =3D RESETTABLE_CLASS(klass);
+@@ -220,9 +261,18 @@ static const TypeInfo raa229004_info =3D {
+     .class_init =3D raa229004_class_init,
  };
 =20
-+static const TypeInfo raa229004_info =3D {
-+    .name =3D TYPE_RAA229004,
++static const TypeInfo raa228000_info =3D {
++    .name =3D TYPE_RAA228000,
 +    .parent =3D TYPE_PMBUS_DEVICE,
 +    .instance_size =3D sizeof(ISLState),
-+    .instance_init =3D raa22xx_init,
-+    .class_init =3D raa229004_class_init,
++    .instance_init =3D raa228000_init,
++    .class_init =3D raa228000_class_init,
 +};
 +
  static void isl_pmbus_vr_register_types(void)
  {
      type_register_static(&isl69260_info);
-+    type_register_static(&raa229004_info);
++    type_register_static(&raa228000_info);
+     type_register_static(&raa229004_info);
  }
 =20
- type_init(isl_pmbus_vr_register_types)
 diff --git a/include/hw/sensor/isl_pmbus_vr.h b/include/hw/sensor/isl_pmbus=
 _vr.h
-index 4e12e95efb..233916f70a 100644
+index 233916f70a..3e47ff7e48 100644
 --- a/include/hw/sensor/isl_pmbus_vr.h
 +++ b/include/hw/sensor/isl_pmbus_vr.h
 @@ -13,6 +13,7 @@
  #include "qom/object.h"
 =20
  #define TYPE_ISL69260   "isl69260"
-+#define TYPE_RAA229004  "raa229004"
++#define TYPE_RAA228000  "raa228000"
+ #define TYPE_RAA229004  "raa229004"
 =20
  struct ISLState {
-     PMBusDevice parent;
 diff --git a/tests/qtest/isl_pmbus_vr-test.c b/tests/qtest/isl_pmbus_vr-tes=
 t.c
-index f77732ae96..dc0ccae2aa 100644
+index dc0ccae2aa..5553ea410a 100644
 --- a/tests/qtest/isl_pmbus_vr-test.c
 +++ b/tests/qtest/isl_pmbus_vr-test.c
-@@ -390,5 +390,13 @@ static void isl_pmbus_vr_register_nodes(void)
-     qos_add_test("test_pages_rw", "isl69260", test_pages_rw, NULL);
-     qos_add_test("test_ro_regs", "isl69260", test_ro_regs, NULL);
-     qos_add_test("test_ov_faults", "isl69260", test_voltage_faults, NULL);
+@@ -150,6 +150,70 @@ static void test_defaults(void *obj, void *data, QGues=
+tAllocator *alloc)
+     g_assert_cmphex(i2c_value, =3D=3D, ISL_REVISION_DEFAULT);
+ }
+=20
++static void raa228000_test_defaults(void *obj, void *data,
++                                    QGuestAllocator *alloc)
++{
++    uint16_t value, i2c_value;
++    QI2CDevice *i2cdev =3D (QI2CDevice *)obj;
 +
-+    qos_node_create_driver("raa229004", i2c_device_create);
-+    qos_node_consumes("raa229004", "i2c-bus", &opts);
++    value =3D qmp_isl_pmbus_vr_get(TEST_ID, "vout[0]");
++    g_assert_cmpuint(value, =3D=3D, 0);
 +
-+    qos_add_test("test_tx_rx", "raa229004", test_tx_rx, NULL);
-+    qos_add_test("test_rw_regs", "raa229004", test_rw_regs, NULL);
-+    qos_add_test("test_pages_rw", "raa229004", test_pages_rw, NULL);
-+    qos_add_test("test_ov_faults", "raa229004", test_voltage_faults, NULL)=
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_READ_IOUT);
++    g_assert_cmpuint(i2c_value, =3D=3D, 0);
++
++    value =3D qmp_isl_pmbus_vr_get(TEST_ID, "pout[0]");
++    g_assert_cmpuint(value, =3D=3D, 0);
++
++    i2c_value =3D i2c_get8(i2cdev, PMBUS_CAPABILITY);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_CAPABILITY_DEFAULT);
++
++    i2c_value =3D i2c_get8(i2cdev, PMBUS_OPERATION);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_OPERATION_DEFAULT);
++
++    i2c_value =3D i2c_get8(i2cdev, PMBUS_ON_OFF_CONFIG);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_ON_OFF_CONFIG_DEFAULT);
++
++    i2c_value =3D i2c_get8(i2cdev, PMBUS_VOUT_MODE);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_VOUT_MODE_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_COMMAND);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_VOUT_COMMAND_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_MAX);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_VOUT_MAX_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_HIGH);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_VOUT_MARGIN_HIGH_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_LOW);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_VOUT_MARGIN_LOW_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_TRANSITION_RAT=
+E);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_VOUT_TRANSITION_RATE_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT=
+);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_VOUT_OV_FAULT_LIMIT_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_OT_FAULT_LIMIT);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_OT_FAULT_LIMIT_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_OT_WARN_LIMIT);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_OT_WARN_LIMIT_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VIN_OV_WARN_LIMIT);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_VIN_OV_WARN_LIMIT_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VIN_UV_WARN_LIMIT);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_VIN_UV_WARN_LIMIT_DEFAULT);
++
++    i2c_value =3D isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_IIN_OC_FAULT_LIMIT)=
+;
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_IIN_OC_FAULT_LIMIT_DEFAULT);
++
++    i2c_value =3D i2c_get8(i2cdev, PMBUS_REVISION);
++    g_assert_cmphex(i2c_value, =3D=3D, ISL_REVISION_DEFAULT);
++}
++
+ /* test qmp access */
+ static void test_tx_rx(void *obj, void *data, QGuestAllocator *alloc)
+ {
+@@ -398,5 +462,13 @@ static void isl_pmbus_vr_register_nodes(void)
+     qos_add_test("test_rw_regs", "raa229004", test_rw_regs, NULL);
+     qos_add_test("test_pages_rw", "raa229004", test_pages_rw, NULL);
+     qos_add_test("test_ov_faults", "raa229004", test_voltage_faults, NULL)=
+;
++
++    qos_node_create_driver("raa228000", i2c_device_create);
++    qos_node_consumes("raa228000", "i2c-bus", &opts);
++
++    qos_add_test("test_defaults", "raa228000", raa228000_test_defaults, NU=
+LL);
++    qos_add_test("test_tx_rx", "raa228000", test_tx_rx, NULL);
++    qos_add_test("test_rw_regs", "raa228000", test_rw_regs, NULL);
++    qos_add_test("test_ov_faults", "raa228000", test_voltage_faults, NULL)=
 ;
  }
  libqos_init(isl_pmbus_vr_register_nodes);
