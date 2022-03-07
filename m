@@ -2,95 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6484CFCA2
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:23:04 +0100 (CET)
-Received: from localhost ([::1]:33380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F684CFD30
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:40:41 +0100 (CET)
+Received: from localhost ([::1]:48716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBSB-0007Xs-Ei
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:23:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37366)
+	id 1nRBjE-00039x-NU
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:40:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRAM3-0003V8-PC
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54513)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nRAT7-00077x-SE
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:19:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRAM2-0004Km-91
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:39 -0500
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1nRAT6-0005LE-3k
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:19:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647957;
+ s=mimecast20190719; t=1646648394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W198XCKyrEiFvXIDRqf0EdVpQ1H108txwr8Pw29Sh2A=;
- b=eCzqtkB0/Q5tH0rF3h7zx4MiTzYkvqx3y464ppSttpxeX++KHNsV8gXHjILmQEwQ0JIA92
- Qd1M8TCsvoLEpK1Tef3GbBrltz16iCI0aJQokBloS7U5dio/9dUEstWBvFPdyu9DckwkhS
- 5fqFsI9DdbalIP3OecE8Hu4MBMTLW9E=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UdqlJIQZWTPSPAQkFZKmUuEAz9DfQIJ1RJ58xtykh90=;
+ b=AbtyIwDROgdj82woZUCAFu2Zb9V/QmJ5JN7t6XW+eVTu0Co0wYBGy/Cb7Ey97zwRhtQvjL
+ uRMN2iJB8xbwhSmSTI4P0EPTj01A9B6QJTdLA9UajaUBiSdZ+vTOTGB2n8334+QHH9RY/W
+ /0zMmqKRuFZVh2QawG/V19tjfFXCz0U=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-UeJL6Fj9Nb2TUc8NNzKnAg-1; Mon, 07 Mar 2022 05:12:35 -0500
-X-MC-Unique: UeJL6Fj9Nb2TUc8NNzKnAg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t15-20020adfdc0f000000b001ef93643476so4353911wri.2
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:35 -0800 (PST)
+ us-mta-220-5OmN1GfFN1S25X26nReU0A-1; Mon, 07 Mar 2022 05:19:52 -0500
+X-MC-Unique: 5OmN1GfFN1S25X26nReU0A-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ p69-20020a257448000000b006295d07115bso693840ybc.14
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:19:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=W198XCKyrEiFvXIDRqf0EdVpQ1H108txwr8Pw29Sh2A=;
- b=aOfLoZYqJkDuUQ5hMyz25bsG+6xaL3Xd0ci/kFBgH3UC+7m7myPGlyK+vgbW8Kpfvg
- iE5s5w9wn0EyT0i2elJwYeJ/Fsjdj3p9E9IgFu4lmjEhCyiY89H/eJdjW8g9lm76IPy0
- wX2l3tTxf9FcRx9sfd/mU1kIWtYG+FJzqIKgbK8kEmJQgjsV2n/7MBEb/sW5UapEyNmp
- uNKnJSZ7pAgH2SNfwijwzJPDAHPcJ8dWacPCx/0RKMiEs/McLFVKiiw6LNbv686q/X9f
- /TYEvrrDnrMkQL0DT+LrVdljIK9AQj0UN5LdrHE+ngpaSuegYhd1dMS5B2ty598VCJCm
- LYrg==
-X-Gm-Message-State: AOAM530HwVAvuF8lEsU+lyjc84XV30Lgd9y0GwN9s3JpqvWF/y4MkGRY
- Ev+Z/3GJVx6k7aCAiF0nsUafxlkLba15BH7KWyE6OIBIEWvyTNuXYJzGB2mNCouVR94pPBEULOE
- A5vkuoPxumdd6AXY=
-X-Received: by 2002:a05:600c:4615:b0:386:9f67:8c63 with SMTP id
- m21-20020a05600c461500b003869f678c63mr17637972wmo.12.1646647954570; 
- Mon, 07 Mar 2022 02:12:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxW85DSIM6D9YSpU20v6+ndkJDMc4hp5a7YROzTtfSawHlyvbQXfe5kDTLaxTN+zhWL2j3azA==
-X-Received: by 2002:a05:600c:4615:b0:386:9f67:8c63 with SMTP id
- m21-20020a05600c461500b003869f678c63mr17637959wmo.12.1646647954389; 
- Mon, 07 Mar 2022 02:12:34 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- l16-20020a05600c1d1000b003816edb5711sm19955037wms.26.2022.03.07.02.12.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 02:12:33 -0800 (PST)
-Message-ID: <87bded92-530f-7cbe-eefe-2aefd5457957@redhat.com>
-Date: Mon, 7 Mar 2022 11:12:33 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=UdqlJIQZWTPSPAQkFZKmUuEAz9DfQIJ1RJ58xtykh90=;
+ b=aa29WsskkDy26z5kZKOjGkUn7NLk/MGuq+01usGxpcb+kdeHa3wOxwyRA+wJojN6bi
+ pu+5KC9pV9fRUXOIVOqBHGzXP2N+Gu6TZzOQZp3mqEO8kr+W0xT/WujV7Nc7PXFF+B1J
+ wGa+/zE5eX867tGppl6qmlxVlEImQHOq8dA6b4CxdStpi/zc6Ns5HCaUiJBUtsk1hEx2
+ gGWhwC7OWvssmApIYN4EKVUS7BiF8sqFFtBw25MKx32zFvf0U16iKxQLRRfia59P5J12
+ gpxFw40jVWE8wSR7Ufdkb9c56o3zsBSp5tZZOmlH8JXezL+yLupnpqJxixxf3nE4Tjks
+ kcgg==
+X-Gm-Message-State: AOAM531yF6L8LYYmpPuMGQVDsDrpt4jDqSQ8zu19wfahJxRxi3vcLiKW
+ WdKBeKCISxzwus1cr09UU+NEs3rQSVFjyJ0PrdW6EhuXEmxU02+IdPrEM30DZn0SIHyWV7Rnf8w
+ ZFFt7JP6JXmZe7BnrFACg+sdC9sMGAEQ=
+X-Received: by 2002:a25:af92:0:b0:628:b791:281b with SMTP id
+ g18-20020a25af92000000b00628b791281bmr7218811ybh.87.1646648392271; 
+ Mon, 07 Mar 2022 02:19:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyxWj9Bxif4jUhH1jrzXzZD9eDKvzbgHcR0CmPkfnBQMJqdyFs8twxtuPaowhea6lSWbRNmrAO5K6H1LeK5InQ=
+X-Received: by 2002:a25:af92:0:b0:628:b791:281b with SMTP id
+ g18-20020a25af92000000b00628b791281bmr7218804ybh.87.1646648392102; Mon, 07
+ Mar 2022 02:19:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 12/18] tests: add migration tests of TLS with PSK
- credentials
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20220302174932.2692378-1-berrange@redhat.com>
- <20220302174932.2692378-13-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220302174932.2692378-13-berrange@redhat.com>
+References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
+ <20220307074632.238049-13-marcandre.lureau@redhat.com>
+ <c80fde18-bb3e-e780-356c-f935e7390e4d@gmail.com>
+In-Reply-To: <c80fde18-bb3e-e780-356c-f935e7390e4d@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 7 Mar 2022 14:19:41 +0400
+Message-ID: <CAMxuvaw_QT4wEGLZRNJEd1m-58JV-8AOc6CHKkMw4i_yrVNgew@mail.gmail.com>
+Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
+ current scanout is GL
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,36 +97,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/03/2022 18.49, Daniel P. Berrangé wrote:
-> This validates that we correctly handle migration success and failure
-> scenarios when using TLS with pre shared keys.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   roms/seabios                        |   2 +-
->   tests/qtest/meson.build             |   7 +-
->   tests/qtest/migration-test.c        | 180 ++++++++++++++++++++++++++--
->   tests/unit/crypto-tls-psk-helpers.c |  18 ++-
->   tests/unit/crypto-tls-psk-helpers.h |   1 +
->   5 files changed, 190 insertions(+), 18 deletions(-)
-> 
-> diff --git a/roms/seabios b/roms/seabios
-> index 2dd4b9b3f8..6a62e0cb0d 160000
-> --- a/roms/seabios
-> +++ b/roms/seabios
-> @@ -1 +1 @@
-> -Subproject commit 2dd4b9b3f84019668719344b40dba79d681be41c
-> +Subproject commit 6a62e0cb0dfe9cd28b70547dbea5caf76847c3a9
+Hi Akihiko
 
-Ah, here is the revert - so the previous change was by accident, indeed!
+On Mon, Mar 7, 2022 at 12:09 PM Akihiko Odaki <akihiko.odaki@gmail.com> wro=
+te:
+>
+> On 2022/03/07 16:46, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > egl-headless depends on the backing surface to be set before texture ar=
+e
+> > set and updated. Display it (update=3Dtrue) iff the current scanout kin=
+d
+> > is SURFACE.
+>
+> egl-headless does not dynamically call register_displaychangelistener
+> and has console associated (console_select would not affect egl-headless
+> itself) so this should not be necessary.
 
-  Thomas
+Could you help me understand, what should not be necessary?
 
+> The remaining problem with egl-headless is that egl-headless renders the
+> image to DisplaySurface, and a non-OpenGL display (namely vnc) has to
+> consume it instead of texture even when con->scanout.kind is
+> SCANOUT_TEXTURE or SCANOUT_DMABUF.
+
+This is already happening, because egl-headless calls dpy_gfx_update().
+
+thanks
+
+> Regards,
+> Akihiko Odaki
+>
+> >
+> > Reported-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >   ui/console.c | 7 ++++---
+> >   1 file changed, 4 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/ui/console.c b/ui/console.c
+> > index 5bfecea4549e..16a0b0909ba2 100644
+> > --- a/ui/console.c
+> > +++ b/ui/console.c
+> > @@ -1112,6 +1112,10 @@ static void displaychangelistener_display_consol=
+e(DisplayChangeListener *dcl,
+> >           return;
+> >       }
+> >
+> > +    dpy_gfx_create_texture(con, con->surface);
+> > +    displaychangelistener_gfx_switch(dcl, con->surface,
+> > +                                     con->scanout.kind =3D=3D SCANOUT_=
+SURFACE);
+> > +
+> >       if (con->scanout.kind =3D=3D SCANOUT_DMABUF &&
+> >           displaychangelistener_has_dmabuf(dcl)) {
+> >           dcl->ops->dpy_gl_scanout_dmabuf(dcl, con->scanout.dmabuf);
+> > @@ -1126,9 +1130,6 @@ static void displaychangelistener_display_console=
+(DisplayChangeListener *dcl,
+> >                                            con->scanout.texture.y,
+> >                                            con->scanout.texture.width,
+> >                                            con->scanout.texture.height)=
+;
+> > -    } else if (con->scanout.kind =3D=3D SCANOUT_SURFACE) {
+> > -        dpy_gfx_create_texture(con, con->surface);
+> > -        displaychangelistener_gfx_switch(dcl, con->surface, TRUE);
+> >       }
+> >   }
+> >
+>
 
 
