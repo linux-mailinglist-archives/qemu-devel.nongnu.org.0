@@ -2,87 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282284CF2A2
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 08:34:00 +0100 (CET)
-Received: from localhost ([::1]:48104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5CAA4CF2CA
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 08:44:01 +0100 (CET)
+Received: from localhost ([::1]:57290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR7sV-0001pc-94
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 02:33:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36440)
+	id 1nR82C-0008Nu-QV
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 02:44:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nR7pa-0008CH-W8
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:30:59 -0500
-Received: from [2607:f8b0:4864:20::436] (port=37798
- helo=mail-pf1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nR7pY-00051G-AC
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:30:58 -0500
-Received: by mail-pf1-x436.google.com with SMTP id t5so12996216pfg.4
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 23:30:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kdeU+sjY6VX/2oE75mtjm4Y8EaSVUCRuD/mTH+0DUKE=;
- b=Gz/psIc9SqsuB36SvkJesXClyv/GZuiy3AoYH8SqbXNDtnEBdhSYSCDyrhk3K75PIn
- u5f17am4wVCeoMEKWd1ez/5WAK90iB4XG5+sVuYyNHsYZgBW6VMoaNpqHhDr6i5JkJTM
- /76bh+ScIzQnqjKMgOl7BwOXLUyilU0QJj+URHuhY0Gn9I5mFRn6t5w26SgdLLHERvkr
- L5ne+1+PjM2jTEuzrF1Zr4dLlWkYiybygAdCkXyv6ZuDTrCnPXWgJP2W0sD/Nb/l1yM+
- kytJ8esuyu3wDpHMSom01vq048WmNHhwlFiejEGi1CB9M1ojZ1J0lKA08yXaD5aMk918
- dHIQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7xw-0006ql-Rq
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:39:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53531)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7xu-00063X-2s
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:39:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646638772;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VOPb3Gg9+sXHDDWjpJTYKpaa4k8o4cscY+rOAYVVIeQ=;
+ b=Q6KKyO4CirkyW5GF/oYv6hMeiXHN6c1FoQpDCwGxocf7SXYD+aeXtnqral4mtpTdG/IBYx
+ jjGbAqHDxj6qNrwXm5GcskqxDAnCVl5rFouD+WxjyCx8MQvSs1rzk2DfCfPGpPLKkcp+SV
+ C5fE2gj/+na/WsD8hTmnivQG3BlspD8=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-400-jXfmL3TvPzi3DLOc7DpCSA-1; Mon, 07 Mar 2022 02:39:29 -0500
+X-MC-Unique: jXfmL3TvPzi3DLOc7DpCSA-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ h128-20020a625386000000b004f10a219a98so9979156pfb.0
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 23:39:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kdeU+sjY6VX/2oE75mtjm4Y8EaSVUCRuD/mTH+0DUKE=;
- b=w7JuKzlyjbdnNqCOi70jJBDIMYqYYiH/wgtTDRmOUjelH86DuY0suKv4o9LCLBNbts
- OASpP6cM66UeveFCkfR/NolIs5CzqbkdHFQAacd/cIVF17A5JMU115xdYpZqA653Icg+
- gQn5W51yaLbPpY7WlJpheWqz2Gl56150qfQa2NyM3BR716rNZpRij0J/8r5XCuFMettA
- DbaS8e07sLnsQjx9IenNCjW6vwoocDsOvpidR1Cya74r4fJRthIP4MPFZqflFb/xpsvB
- zcrnBavk/MfH6CMmOa0CHxsvtdYN1oopO8r5xNg9g9Dtt6sWnFa/gZHEiQ1gJc8ofOQw
- gsDw==
-X-Gm-Message-State: AOAM531np2d09cZlywG0hAz6V4CeozMIhvFWUKEVFei4UQ0sU92niHMz
- 0J028noLGDaqEI0lv9mTQOFBobuOZNVhiw==
-X-Google-Smtp-Source: ABdhPJwvm/raXQGHYt5rq5IF1yL8HbVP3kbtlK1FPpOzpIys7qQqLTtvT+AAx3TWjym+RgG1FtHmKg==
-X-Received: by 2002:a05:6a00:1950:b0:4f6:369b:4c4d with SMTP id
- s16-20020a056a00195000b004f6369b4c4dmr11385753pfk.79.1646638253280; 
- Sun, 06 Mar 2022 23:30:53 -0800 (PST)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com.
- [209.85.214.171]) by smtp.gmail.com with ESMTPSA id
- f6-20020a056a00228600b004f709f5f3c1sm1520730pfe.28.2022.03.06.23.30.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Mar 2022 23:30:52 -0800 (PST)
-Received: by mail-pl1-f171.google.com with SMTP id s1so12984806plg.12;
- Sun, 06 Mar 2022 23:30:52 -0800 (PST)
-X-Received: by 2002:a17:902:d48b:b0:151:a5a0:e117 with SMTP id
- c11-20020a170902d48b00b00151a5a0e117mr10814166plg.119.1646638251769; Sun, 06
- Mar 2022 23:30:51 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=VOPb3Gg9+sXHDDWjpJTYKpaa4k8o4cscY+rOAYVVIeQ=;
+ b=4Fak6+uUZ8fhVp/UexoULDPCtSLpNVMVQyHDUMJ6z0AbjRbYn4nJM0TkBPGZF4p0Fr
+ yiTnL4EtVo5IBwfb18gbGW5GNPyjIoXkOxlTSzCwc1J70Wbw0avKKQY/pBMNbIsEcupL
+ xQHt9yAnktgRbq+ggZQ6DQoRP5vcW3W/J4DFqvDyf3aqocVrELP3mXR8F7WL5PcWATar
+ aDbdVMd+6QJz1SHGjoebZ/rfrUwfFTfad7xc2u9/R+ys6yw5joeEdj4EAxwGkOqXm/Af
+ ykJrJdHy5LogyPG8DqAgU/MuvxyqTrB8YkjN110n5NKfvs6wJ0yNypFJJCEpBJcE10K+
+ 1xlA==
+X-Gm-Message-State: AOAM532yN/eJFUgVZQqeuNhGfMIfbrBpH6E8J99oR9sPQvNXfdXBNN+Q
+ i62CKd4m8YpE81d8Up9HBqA8dBU0/MM7z59Q19K/grDBqVdAIDXAbcdP2OuTdC2PYKJTzGeyiZU
+ zHM1jkuc2/so3/yU=
+X-Received: by 2002:a17:902:7c0e:b0:151:6f68:6a46 with SMTP id
+ x14-20020a1709027c0e00b001516f686a46mr10503779pll.62.1646638767989; 
+ Sun, 06 Mar 2022 23:39:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyvY+45ZImwdWDbHb/hIXGch6uwZtThQaMhRFhFUjAgTuCcO5axSOYu5qpxro8bPdu06bXWQg==
+X-Received: by 2002:a17:902:7c0e:b0:151:6f68:6a46 with SMTP id
+ x14-20020a1709027c0e00b001516f686a46mr10503757pll.62.1646638767697; 
+ Sun, 06 Mar 2022 23:39:27 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.47]) by smtp.gmail.com with ESMTPSA id
+ o5-20020a056a00214500b004bd7036b50asm14527062pfk.172.2022.03.06.23.39.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Mar 2022 23:39:27 -0800 (PST)
+Date: Mon, 7 Mar 2022 15:39:22 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH 11/18] tests: expand the migration precopy helper to
+ support failures
+Message-ID: <YiW2qjiy+QQHlR6o@xz-m1.local>
+References: <20220302174932.2692378-1-berrange@redhat.com>
+ <20220302174932.2692378-12-berrange@redhat.com>
 MIME-Version: 1.0
-References: <20220216154839.1024927-1-cmuellner@linux.com>
- <20220216154839.1024927-3-cmuellner@linux.com>
- <2c0fcafe-868a-ba7a-bf42-3a4ed2df19ba@iscas.ac.cn>
- <CAHB2gtTOrFWq7=Y-ALCtp6H6JAUKDG1fhojxQ-xNV8LLxcop4w@mail.gmail.com>
-In-Reply-To: <CAHB2gtTOrFWq7=Y-ALCtp6H6JAUKDG1fhojxQ-xNV8LLxcop4w@mail.gmail.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Mon, 7 Mar 2022 15:30:40 +0800
-X-Gmail-Original-Message-ID: <CANzO1D32StU_rteH5J+Xfd5hCzE99MKbCnscw=HaJeOS6w+KcQ@mail.gmail.com>
-Message-ID: <CANzO1D32StU_rteH5J+Xfd5hCzE99MKbCnscw=HaJeOS6w+KcQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] target/riscv: Enable Zicbo[m,z,p] instructions
-To: =?UTF-8?Q?Christoph_M=C3=BCllner?= <cmuellner@linux.com>
-Content-Type: multipart/alternative; boundary="0000000000001202fa05d99bd865"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220302174932.2692378-12-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,367 +100,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup@brainfault.org>,
- Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?= <frederic.petrot@univ-grenoble-alpes.fr>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001202fa05d99bd865
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Mar 02, 2022 at 05:49:25PM +0000, Daniel P. Berrangé wrote:
+> The migration precopy testing helper function always expects the
+> migration to run to a completion state. There will be test scenarios
+> for TLS where expect either the client or server to fail the migration.
+> This expands the helper to cope with these scenarios.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  tests/qtest/migration-test.c | 47 +++++++++++++++++++++++++++++-------
+>  1 file changed, 38 insertions(+), 9 deletions(-)
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 2082c58e8b..e40b408988 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -827,17 +827,32 @@ typedef void (*TestMigrateFinishHook)(QTestState *from,
+>   * @connect_uri: the URI for the src QEMU to connect to
+>   * @start_hook: (optional) callback to run at start to set migration parameters
+>   * @finish_hook: (optional) callback to run at finish to cleanup
+> + * @expect_fail: true if we expect migration to fail
+> + * @dst_quit: true if we expect the dst QEMU to quit with an
+> + *            abnormal exit status on failure
 
-Christoph M=C3=BCllner <cmuellner@linux.com> =E6=96=BC 2022=E5=B9=B42=E6=9C=
-=8817=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8812:00=E5=AF=AB=E9=81=93=
-=EF=BC=9A
+"dst_quit" sounds a bit confusing to me, as setting dst_quit=false seems to
+mean "dest qemu should not quit" but it's actually for checking an abnormal
+quit only.
 
->
->
-> On Thu, Feb 17, 2022 at 3:15 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
->>
->> =E5=9C=A8 2022/2/16 =E4=B8=8B=E5=8D=8811:48, Christoph Muellner =E5=86=
-=99=E9=81=93:
->> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> > index 39ffb883fc..04500fe352 100644
->> > --- a/target/riscv/cpu.c
->> > +++ b/target/riscv/cpu.c
->> > @@ -764,6 +764,10 @@ static Property riscv_cpu_properties[] =3D {
->> >       DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->> >       DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->> >       DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->> > +    DEFINE_PROP_BOOL("zicbom", RISCVCPU, cfg.ext_icbom, true),
->> > +    DEFINE_PROP_BOOL("zicboz", RISCVCPU, cfg.ext_icboz, true),
->> > +    DEFINE_PROP_UINT16("cbom_blocksize", RISCVCPU, cfg.cbom_blocksize=
-,
->> 64),
->> > +    DEFINE_PROP_UINT16("cboz_blocksize", RISCVCPU, cfg.cboz_blocksize=
-,
->> 64),
->> Why use two different cache block size here? Is there any new spec
->> update for this?
->>
->
-> No, we are talking about the same specification.
->
-> Section 2.7 states the following:
-> """
-> The initial set of CMO extensions requires the following information to b=
-e
-> discovered by software:
-> * The size of the cache block for management and prefetch instructions
-> * The size of the cache block for zero instructions
-> * CBIE support at each privilege level
-> """
->
-> So at least the spec authors did differentiate between the two block size=
-s
-> as well.
->
->
->> >       DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->> >       DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
->> >       DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
->> > +
->> > +/* helper_zicbom_access
->> > + *
->> > + * Check access permissions (LOAD, STORE or FETCH as specified in
->> section
->> > + * 2.5.2 of the CMO specification) for Zicbom, raising either store
->> > + * page-fault (non-virtualised) or store guest-page fault
->> (virtualised).
->> > + */
->> > +static void helper_zicbom_access(CPURISCVState *env, target_ulong
->> address,
->> > +                                 uintptr_t ra)
->> > +{
->> > +    int ret;
->> > +    void* phost;
->> > +    int mmu_idx =3D cpu_mmu_index(env, false);
->> > +
->> > +    /* Get the size of the cache block for management instructions. *=
-/
->> > +    RISCVCPU *cpu =3D env_archcpu(env);
->> > +    uint16_t cbomlen =3D cpu->cfg.cbom_blocksize;
->> > +
->> > +    /* Mask off low-bits to align-down to the cache-block. */
->> > +    address &=3D ~(cbomlen - 1);
->> > +
->> > +    /* A cache-block management instruction is permitted to access
->> > +     * the specified cache block whenever a load instruction, store
->> > +     * instruction, or instruction fetch is permitted to access the
->> > +     * corresponding physical addresses.
->> > +     */
->> > +    ret =3D probe_access_range_flags(env, address, cbomlen,
->> MMU_DATA_LOAD,
->> > +                                   mmu_idx, true, &phost, ra);
->> > +    if (ret =3D=3D TLB_INVALID_MASK)
->> > +        ret =3D probe_access_range_flags(env, address, cbomlen,
->> MMU_INST_FETCH,
->> > +                                       mmu_idx, true, &phost, ra);
->> > +    if (ret =3D=3D TLB_INVALID_MASK)
->> > +        probe_access_range_flags(env, address, cbomlen, MMU_DATA_STOR=
-E,
->> > +                                 mmu_idx, false, &phost, ra);
->> > +}
->> > +
->>
->>
->> I think it's a little different here. Probe_access_range_flags may
->> trigger different execptions for different access_type. For example:
->>
->> If  the page for the address  is executable and readable but not
->> writable,  and the access cannot pass the pmp check for all access_type,
->>
->> it may trigger access fault for load/fetch access, and  trigger page
->> fault for  store access.
->>
->
-> Just to be clear:
-> The patch does not trigger any fault for LOAD or FETCH because nonfault i=
-s
-> set
-> to true (6th argument of probe_access_range_flags()).
-> Only the last call to probe_access_range_flags() raises an exception.
->
-> Section 2.5.2 states the following:
-> """
-> If access to the cache block is not permitted, a cache-block management
-> instruction raises a store page fault or store guest-page fault exception
-> if address translation does not permit any
-> access or raises a store access fault exception otherwise.
-> """
->
-> In your scenario we have (1...allowed; 0...not allowed):
-> * read: perm:1, pmp:0
-> * fetch: perm:1: pmp:0
-> * write: perm:0, pmp:0
->
-> Address translation would allow read and fetch access, but PMP blocks tha=
-t.
-> So the "does not permit any"-part is wrong, therefore we should raise a
-> store page fault.
->
-> In fact, I can't predict what will happen, because the code in
-> target/riscv/cpu_helper.c does
-> not really prioritize page faults or PMP faults. it returns one of them,
-> once they are encountered.
->
+Rename may work. Or, IMHO it's nicer if we could merge the two parameters:
 
-Hi Christoph,
+  @expected_result: What is the expectation of this migration test
 
-May I ask what does "page faults or PMP faults are not prioritized" here
-mean?
+  typedef enum {
+    /* This test should succeed, the default */
+    MIG_TEST_SUCCEED = 0,
+    /* This test should fail, dest qemu should keep alive */
+    MIG_TEST_FAIL,
+    /* This test should fail, dest qemu should fail with abnormal status */
+    MIG_TEST_FAIL_DEST_QUIT_ERR,
+  };
 
-In target/riscv/cpu_helper.c, if "pmp_violation" flag is not set to true,
-page fault will be picked.
-So as long as the TRANSLATE_PMP_FAIL is returned, it will be indicated as a
-PMP fault.
-(The only exception I can see is that TRANSLATE_PMP_FAIL may be converted
-to TRANSLATE_G_STAGE_FAIL
-  if it's the second stage translation and PMP fault on PTE entry's PA.)
-As the "final PA" is checked only after the page table is walked,
-shouldn't the "pmp_violation" flag only be set after all the translation
-accesses are checked and granted?
+Because fundamentally the two parameters are correlated, e.g. there is no
+combination of expect_fail==false && dst_quit==true.
 
-Regards,
-Frank Chang
+No strong opinion, though.
 
+Thanks,
 
->
-> In order to model this properly, we would have to refactor cpu_helper.c t=
-o
-> separate page permissions
-> from PMP. However, that seems a bit out of scope for a Zicbo* support
-> patchset.
->
->
->
->>
->> I think the final exception should be access fault instead of the page
->> fault caused by probe_access_range_flags with MMU_DATA_STORE.
->>
->> Regards,
->>
->> Weiwei Li
->>
->>
+-- 
+Peter Xu
 
---0000000000001202fa05d99bd865
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Christoph M=C3=BCllner &lt;<a href=3D"mai=
-lto:cmuellner@linux.com">cmuellner@linux.com</a>&gt; =E6=96=BC 2022=E5=B9=
-=B42=E6=9C=8817=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8812:00=E5=AF=
-=AB=E9=81=93=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></di=
-v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On T=
-hu, Feb 17, 2022 at 3:15 AM Weiwei Li &lt;<a href=3D"mailto:liweiwei@iscas.=
-ac.cn" target=3D"_blank">liweiwei@iscas.ac.cn</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex"><br>
-=E5=9C=A8 2022/2/16 =E4=B8=8B=E5=8D=8811:48, Christoph Muellner =E5=86=99=
-=E9=81=93:<br>
-&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-&gt; index 39ffb883fc..04500fe352 100644<br>
-&gt; --- a/target/riscv/cpu.c<br>
-&gt; +++ b/target/riscv/cpu.c<br>
-&gt; @@ -764,6 +764,10 @@ static Property riscv_cpu_properties[] =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Counters&quot;, RISCV=
-CPU, cfg.ext_counters, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zifencei&quot;, RISCV=
-CPU, cfg.ext_ifencei, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zicsr&quot;, RISCVCPU=
-, cfg.ext_icsr, true),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;zicbom&quot;, RISCVCPU, cfg.ext_=
-icbom, true),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;zicboz&quot;, RISCVCPU, cfg.ext_=
-icboz, true),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_UINT16(&quot;cbom_blocksize&quot;, RISCVCPU=
-, cfg.cbom_blocksize, 64),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_UINT16(&quot;cboz_blocksize&quot;, RISCVCPU=
-, cfg.cboz_blocksize, 64),<br>
-Why use two different cache block size here? Is there any new spec <br>
-update for this?<br></blockquote><div><br></div><div>No, we are talking abo=
-ut the same specification.</div><div><br></div><div>Section 2.7 states the =
-following:<br></div><div>&quot;&quot;&quot;</div><div>The initial set of CM=
-O extensions requires the following information to be discovered by softwar=
-e:<br>* The size of the cache block for management and prefetch instruction=
-s<br>* The size of the cache block for zero instructions<br>* CBIE support =
-at each privilege level<br></div><div>&quot;&quot;&quot;</div><div><br></di=
-v><div>So at least the spec authors did differentiate between the two block=
- sizes as well.</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zfh&quot;, RISCVCPU, =
-cfg.ext_zfh, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zfhmin&quot;, RISCVCP=
-U, cfg.ext_zfhmin, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zve32f&quot;, RISCVCP=
-U, cfg.ext_zve32f, false),<br>
-&gt; +<br>
-&gt; +/* helper_zicbom_access<br>
-&gt; + *<br>
-&gt; + * Check access permissions (LOAD, STORE or FETCH as specified in sec=
-tion<br>
-&gt; + * 2.5.2 of the CMO specification) for Zicbom, raising either store<b=
-r>
-&gt; + * page-fault (non-virtualised) or store guest-page fault (virtualise=
-d).<br>
-&gt; + */<br>
-&gt; +static void helper_zicbom_access(CPURISCVState *env, target_ulong add=
-ress,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uintptr_t ra)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 int ret;<br>
-&gt; +=C2=A0 =C2=A0 void* phost;<br>
-&gt; +=C2=A0 =C2=A0 int mmu_idx =3D cpu_mmu_index(env, false);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* Get the size of the cache block for management instr=
-uctions. */<br>
-&gt; +=C2=A0 =C2=A0 RISCVCPU *cpu =3D env_archcpu(env);<br>
-&gt; +=C2=A0 =C2=A0 uint16_t cbomlen =3D cpu-&gt;cfg.cbom_blocksize;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* Mask off low-bits to align-down to the cache-block. =
-*/<br>
-&gt; +=C2=A0 =C2=A0 address &amp;=3D ~(cbomlen - 1);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* A cache-block management instruction is permitted to=
- access<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* the specified cache block whenever a load instr=
-uction, store<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* instruction, or instruction fetch is permitted =
-to access the<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* corresponding physical addresses.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 ret =3D probe_access_range_flags(env, address, cbomlen,=
- MMU_DATA_LOAD,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mmu_idx, true, &amp=
-;phost, ra);<br>
-&gt; +=C2=A0 =C2=A0 if (ret =3D=3D TLB_INVALID_MASK)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D probe_access_range_flags(env, add=
-ress, cbomlen, MMU_INST_FETCH,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mmu_i=
-dx, true, &amp;phost, ra);<br>
-&gt; +=C2=A0 =C2=A0 if (ret =3D=3D TLB_INVALID_MASK)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 probe_access_range_flags(env, address, cb=
-omlen, MMU_DATA_STORE,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mmu_idx, false, &amp;phost=
-, ra);<br>
-&gt; +}<br>
-&gt; +<br>
-<br>
-<br>
-I think it&#39;s a little different here. Probe_access_range_flags may <br>
-trigger different execptions for different access_type. For example:<br>
-<br>
-If=C2=A0 the page for the address=C2=A0 is executable and readable but not =
-<br>
-writable,=C2=A0 and the access cannot pass the pmp check for all access_typ=
-e,<br>
-<br>
-it may trigger access fault for load/fetch access, and=C2=A0 trigger page <=
-br>
-fault for=C2=A0 store access.<br></blockquote><div><br></div><div>Just to b=
-e clear:</div><div>The patch does not trigger any fault for LOAD or FETCH b=
-ecause nonfault=C2=A0is set</div><div>to true (6th argument of probe_access=
-_range_flags()).</div><div>Only the last call to probe_access_range_flags()=
- raises an exception.</div><div><br></div><div>Section 2.5.2 states the fol=
-lowing:<br></div><div>&quot;&quot;&quot;</div><div>If access to the cache b=
-lock is not permitted, a cache-block management<br>instruction raises a sto=
-re page fault or store guest-page fault exception if address translation do=
-es not permit any<br>access or raises a store access fault exception otherw=
-ise.<br></div><div>&quot;&quot;&quot;</div><div><br></div><div>In your scen=
-ario we have (1...allowed; 0...not allowed):</div><div>* read: perm:1, pmp:=
-0</div><div>* fetch: perm:1: pmp:0</div><div>* write: perm:0, pmp:0</div><d=
-iv><br></div><div>Address translation would allow read and fetch access, bu=
-t PMP blocks that.</div><div>So the &quot;does not permit any&quot;-part is=
- wrong, therefore we should raise a store page fault.</div><div><br></div><=
-div>In fact, I can&#39;t predict what will happen, because the code in targ=
-et/riscv/cpu_helper.c does</div><div>not really prioritize page faults or P=
-MP faults. it returns one of them, once they are encountered.</div></div></=
-div></blockquote><div><br></div><div>Hi Christoph,</div><div><br></div><div=
->May I ask what does &quot;page faults or PMP faults are not prioritized&qu=
-ot; here mean?</div><div><br></div><div>In target/riscv/cpu_helper.c, if &q=
-uot;pmp_violation&quot; flag is not set to true, page fault will be picked.=
-</div><div>So as long as the=C2=A0TRANSLATE_PMP_FAIL is returned, it will b=
-e indicated as a PMP fault.</div><div>(The only exception I can see is that=
-=C2=A0TRANSLATE_PMP_FAIL may be converted to=C2=A0TRANSLATE_G_STAGE_FAIL</d=
-iv><div>=C2=A0 if it&#39;s the second stage translation and PMP fault on PT=
-E entry&#39;s PA.)</div><div>As the &quot;final PA&quot; is checked only af=
-ter the page table is walked,<br></div><div>shouldn&#39;t the &quot;pmp_vio=
-lation&quot; flag only be set after all the translation accesses are checke=
-d and granted?</div><div><br></div><div>Regards,</div><div>Frank Chang<br>=
-=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"ltr"><div class=3D"gmail_quote"><div><br></div><div>In order to model t=
-his properly, we would have to refactor cpu_helper.c to separate page permi=
-ssions</div><div>from PMP. However, that seems a bit out of scope for a Zic=
-bo* support patchset.</div><div><br></div><div>=C2=A0</div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
-<br>
-I think the final exception should be access fault instead of the page <br>
-fault caused by probe_access_range_flags with MMU_DATA_STORE.<br>
-<br>
-Regards,<br>
-<br>
-Weiwei Li<br>
-<br>
-</blockquote></div></div>
-</blockquote></div></div>
-
---0000000000001202fa05d99bd865--
 
