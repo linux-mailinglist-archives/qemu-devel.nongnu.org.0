@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B2B4D083E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:20:46 +0100 (CET)
-Received: from localhost ([::1]:36228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DE34D0842
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 21:23:19 +0100 (CET)
+Received: from localhost ([::1]:41396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRJqX-0000xm-DM
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:20:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51624)
+	id 1nRJt1-0004bq-1O
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 15:23:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRJpE-0007tp-F0; Mon, 07 Mar 2022 15:19:24 -0500
-Received: from [2607:f8b0:4864:20::102c] (port=46016
- helo=mail-pj1-x102c.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRJrK-0003Et-DG
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:21:36 -0500
+Received: from [2607:f8b0:4864:20::1136] (port=38374
+ helo=mail-yw1-x1136.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRJpD-0007rA-1e; Mon, 07 Mar 2022 15:19:24 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- m11-20020a17090a7f8b00b001beef6143a8so263047pjl.4; 
- Mon, 07 Mar 2022 12:19:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=S5e4NIMPuDjjEsNf5G9G6wKlkNj2irvtivE0fghr8Gc=;
- b=Bg8G0xqoE861PmjF4+VaszbdtSMTJJunqr9IwmX2xiOEp+224r/K+kJGha80iM9g8O
- axy4clvwrwX/b9jekpaQS0lDEELtvhOjPuPZTgd/kNjCMf8KGvae1FvUydPFMUuDX+Vl
- B+E1T9Vj/7gV+ywTx/CGQ9o+NliaZWGQ+DcUpurVTXX4ryLEg9PZRNS1PVaqdvhOB41z
- iVeSWotYyv/oURI2Ie6Clu9H6PsSirnwt4c4zeQgmlgWqpFzlgpScJ4b0DER1j2B0w1g
- u/eIS8spJK2DS+dGyb67x+TJyRZUM2LI27QNaOiqY3WymKE0q2Bj8V2IsmHWE3Umcxhg
- 3c2Q==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRJrI-0008KI-Gz
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 15:21:33 -0500
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-2dbc48104beso178426527b3.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 12:21:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BTQ/utWAFYxXsy3F1wvvLF7VfAeHAAn62FoS3Q7VmaM=;
+ b=WzT2NlRJJDb7WULwwmUWXNAx478efS+E3j8vkB2UXvPKTpqQ2LXrQbMTHDNcFnCdr+
+ L/tQHjT+1NR6q7rYmfM+QOuUSqUeu330Nk/oQg82Qk56BU4Apu4j0UJE/NoTcGoolSdq
+ VBXla5E8m0dExy6FEX8ESVgzGnU/N/9Uth5vfg4zMFsO2EUusx7RgNFZPEyXJgOXpv9+
+ JyzVOKKmyp4M3CYJ+xIdJmK0JAyK5QLw/xKY8SBmUFN29KOWfRPUPtEJH+Tfubd+REnG
+ dTwkb05L47AweymUmcus6hGN1Wc6A3sz0q2uJxyV6urn+Q3XrsT/sz/wu6HgMjCuo6q5
+ Pl0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=S5e4NIMPuDjjEsNf5G9G6wKlkNj2irvtivE0fghr8Gc=;
- b=56iIpSrkN102mWDOLa6T8hSe1d4VzZDxbqRpqyausNEKnFeHFeCII9dh/6d8nHOi99
- tgy27HttSML5w414XafxyDqK5mplZmLInpP8gVbH/5N1UKnRlKSSh57CqpqztFnOvvL+
- r9K1MxPrKftYusDUDG6G6jS609aqE21sU8jeS40Qufp21xyFoyRrSfqJCkiLDPpwS23Y
- +281N7G3hL7oUW8lATvGm+eVJOzrLlNxHN69EEGjCoOcLuW3AHIfUs7RtCnuTOYD0bMc
- lp84W1LpcRi4AKXQ3hz/xYie/Ge0HcCFkwcKagdIpaz9oXJPEKdcjxnQ19A5Cnkd5gsX
- GG1g==
-X-Gm-Message-State: AOAM532mP1ZAd2mH43C03kxmdO3TpjGVmT+cmzBC4VUI8Ub1/c1mrj5x
- nqvsYdvxhEcxOCrLFD+O9XM=
-X-Google-Smtp-Source: ABdhPJyPUuvhY2kqwrR6b6qtCTsCYpW8iE+r6+psq9c1NtHeXfVzunAGLUw9brKqwzcuigyX1r73yA==
-X-Received: by 2002:a17:902:a713:b0:151:efb5:76f with SMTP id
- w19-20020a170902a71300b00151efb5076fmr4934301plq.117.1646684361206; 
- Mon, 07 Mar 2022 12:19:21 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- v7-20020a637a07000000b0037c9268a310sm10350743pgc.3.2022.03.07.12.19.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 12:19:20 -0800 (PST)
-Message-ID: <cf546a48-6dd4-bbfc-0293-94f84def9c45@gmail.com>
-Date: Mon, 7 Mar 2022 21:19:15 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BTQ/utWAFYxXsy3F1wvvLF7VfAeHAAn62FoS3Q7VmaM=;
+ b=06LS7tAkntUYa9i5GrMjgLgrfLijy5jGo9i7RbBoPFw0Ha8uJJ4zp20BBNn0N4/GEK
+ 9gL7UQqC173EJm83PBD4SYWHnjk0mRsPu0RUZ4NtLGKvD5iWWQ0zluzKKWruTeP+PEZJ
+ BNXlyBkrwfC/y9/1lsco6OVAskBnu1IH1u0xfxorBPYlZh7qNTfHfBBH2xBENFWr3I9c
+ wSBcAomAI7t+jTr0pUbqa3tuic0ja+RkbjMPYS3ci/HGYTx4Nla/Xg/PjSYU6KGwhOMP
+ dH+OvxBU61oGlc4sPZHb3GS6rpg8jKcWa7n13P8/g8cIPchboeo1m6yLbZLv3dUYfPpM
+ TL0w==
+X-Gm-Message-State: AOAM533oHSmGJ67guMGHF0cs8JAp+thU5/wGifm2Ya4qXeBAndmFLN0i
+ nTTQHr0jQq2ynfCQPDg8urBz1efMnm7woMmCM8Ij6Q==
+X-Google-Smtp-Source: ABdhPJyhwYWC57LEQURiVkYi9GjERik+hrPaD35IVcJqy0vb/FX4UKuBMjfh/5PXC6b0wAA1wBanqiyvDiM5HyeZLmw=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr10564415ywb.257.1646684483796; Mon, 07
+ Mar 2022 12:21:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v4 3/9] hw/i2c: pmbus: add PEC unsupported warning
-Content-Language: en-US
-To: Titus Rwantare <titusr@google.com>, Corey Minyard <minyard@acm.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220307200605.4001451-1-titusr@google.com>
- <20220307200605.4001451-4-titusr@google.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220307200605.4001451-4-titusr@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+References: <20220307191553.429236-1-danielhb413@gmail.com>
+In-Reply-To: <20220307191553.429236-1-danielhb413@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Mar 2022 20:21:12 +0000
+Message-ID: <CAFEAcA-=--vfvh9ZddyRKfcXqoW7fnjLVcqZpyP2tM8b8vhO=A@mail.gmail.com>
+Subject: Re: [PATCH 0/9] add LOG_UNSUPP log type + mark hcalls as unsupp
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1136
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,33 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wuhaotsh@google.com, venture@google.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/3/22 21:05, Titus Rwantare wrote:
-> Signed-off-by: Titus Rwantare <titusr@google.com>
-> ---
->   hw/i2c/pmbus_device.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
-> index c7ec8e5499..ff644c1d4a 100644
-> --- a/hw/i2c/pmbus_device.c
-> +++ b/hw/i2c/pmbus_device.c
-> @@ -307,6 +307,11 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
->   
->       case PMBUS_CAPABILITY:
->           pmbus_send8(pmdev, pmdev->capability);
-> +        if (pmdev->capability & BIT(7)) {
-> +            qemu_log_mask(LOG_UNIMP,
-> +                          "%s: PEC is enabled but not yet supported.\n",
-> +                          __func__);
-> +        }
->           break;
->   
->       case PMBUS_VOUT_MODE:                 /* R/W byte */
+On Mon, 7 Mar 2022 at 19:19, Daniel Henrique Barboza
+<danielhb413@gmail.com> wrote:
+>
+> Hi,
+>
+> I got a lot of noise trying to debug an AIX guest in a pseries machine when running with
+> '-d unimp'. The reason is that there is no distinction between features
+> (in my case, hypercalls) that are unimplemented because we never considered,
+> versus features that we made a design choice not to implement.
+>
+> This series adds a new log type, LOG_UNSUPP, as a way to filter the
+> second case. After changing the log level of existing unsupported
+> pseries hypercalls, -d unimp was reporting just the ones that I need to
+> worry about and decide whether we should implement it or mark as
+> unsupported in our model. After this series there's still one hypercall
+> thgat is being thrown by AIX. We'll deal with that another day.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+So the intention of the distinction is:
+  LOG_UNIMP: we don't implement this, but we should
+  LOG_UNSUPP: we don't implement this, and that's OK because it's optional
+
+?
+
+I think I'd be happier about adding a new log category if we had
+some examples of where we should be using it other than just in
+the spapr hcall code, to indicate that it's a bit more broadly
+useful. If this is a distinction that only makes sense for that
+narrow use case, then as Philippe says a tracepoint might be a
+better choice.
+
+thanks
+-- PMM
 
