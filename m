@@ -2,95 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF744CF355
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 09:12:11 +0100 (CET)
-Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA004CF35D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 09:15:49 +0100 (CET)
+Received: from localhost ([::1]:37290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR8TS-00061Y-IE
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 03:12:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43658)
+	id 1nR8Wy-0001lS-Db
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 03:15:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nR8Rx-000483-TK
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:10:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52354)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nR8Ua-00084E-MD
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:13:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nR8Ru-0002Ua-8G
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:10:35 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nR8UY-0002st-TX
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:13:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646640633;
+ s=mimecast20190719; t=1646640798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QpV30/bf7B0nS8FxxwdguyGe8Qn2gJzzLd6v92Ugt60=;
- b=Aus/IwK5vmtMfzaqpDIMy+H40ob3CtDb6AesoE8eiUEvv0VqBMOka457l1UrvTuYLxhdqz
- xTJYrZo8ls1Q9wiehcGReq/dFZPFfVI/aQpFDASGLwjaA+HvdAF6XKR2vAoFJ+vznjnr7H
- Bw/cgDgzDf6Fdt5qc+LdgcRS1qyVG1U=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mR336Amv0h3l9cd+gHN3VXXKFqIF+Nb1EZ1ssYWXx8k=;
+ b=QMd2VGj6lbRZULwJ9XuVYmTWGsm9ScxysMUrZaff8c/836wgy/N103vtHOF3Gr9XQot09Z
+ eh4Z8a460K9LGxnchyXtW9IytFLuZtNr9fG8dPSzEgXgThMy6oj+BjhTSSmS9KurToQxYw
+ lYcU3hYU5vgttyG7NJk0NsdUi+3dPik=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-0JtKMa5RMiOAU-LXsQPgrg-1; Mon, 07 Mar 2022 03:10:30 -0500
-X-MC-Unique: 0JtKMa5RMiOAU-LXsQPgrg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- f17-20020a05620a069100b0060dfbbb52cfso10932233qkh.1
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 00:10:30 -0800 (PST)
+ us-mta-407-hNERkCVVN16rCaufrd3XGA-1; Mon, 07 Mar 2022 03:13:16 -0500
+X-MC-Unique: hNERkCVVN16rCaufrd3XGA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ p9-20020adf9589000000b001e333885ac1so4232590wrp.10
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 00:13:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QpV30/bf7B0nS8FxxwdguyGe8Qn2gJzzLd6v92Ugt60=;
- b=0EEGnoRLqDFt/2hEb2pt5a29ZQ30GQStL1oebjriN3CEX6VO9hGIblqLU64Gr8a6bS
- +TRwyXOecqC09YahTOBi/T+qbGfKbapLbrW/UWi3LetDIB+n8mD0qniI34FZ5lmrSgBc
- 96hOYUSCJQJIENjwDeC1akJLtaAFym3bm7izhA7HA1QUJWXDxljzf/EimJRto0E0hHno
- /e69feDzSQOQHCkPMM7h6xDG6160m+aNA5EnEO19p9Iv+wXnWKJs6OAVxGEgEre4Mwtb
- msByDSKxxaAlfd5SOqPyCnk55L1Ofdp1dJgHJKKVsfm0e68i31iIBCCvroF8DWdLZ1US
- tYuQ==
-X-Gm-Message-State: AOAM533bMnabdPmJZspHz0JygHgxOAxXvUPhi9oOVPCIAq0LtkAOSuLZ
- yyiomFG9sWFPF+wEDw7BbektCgCQ/LQ0KB9e6KMWdTfj3OYfgOw6nP7bCwb26OmSp3uzsiMl5/v
- AkiDML5rYGOU4iBs=
-X-Received: by 2002:ac8:57d0:0:b0:2de:3de3:340e with SMTP id
- w16-20020ac857d0000000b002de3de3340emr8656378qta.621.1646640629962; 
- Mon, 07 Mar 2022 00:10:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzl53oQbFJ6/j6mDaL8GINB/zHvz+ZGSf1Juym/czU5FgxZsDFtmJ/WvFBk7+tmSQ6bjH+oBA==
-X-Received: by 2002:ac8:57d0:0:b0:2de:3de3:340e with SMTP id
- w16-20020ac857d0000000b002de3de3340emr8656370qta.621.1646640629698; 
- Mon, 07 Mar 2022 00:10:29 -0800 (PST)
-Received: from sgarzare-redhat
- (host-212-171-187-184.pool212171.interbusiness.it. [212.171.187.184])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mR336Amv0h3l9cd+gHN3VXXKFqIF+Nb1EZ1ssYWXx8k=;
+ b=W35EOKV/UHuV6I4/2I1E+gDwLNm5YbVH68Qn9aWuaK8b9x9Hlva8q8RX5Mz6j56eXV
+ aA0qZIWYKGFclBM5iw68QgicloJ1fXJOFfRzcIQ4FBW3Ftr3qQzIGXsVz7TRV712+MVn
+ pQdgEG+R3neBTp6/p8lSvI8VQB6tQiQGm/tuQrW0YSsN35HUeB8FRtErWNOEVooxyUh3
+ DkhNH1Ax1HEORcP3oK1NOk/A4oXf+zbBGpuoVmd/qeY4RRnWLetoSmAeMUp3QY+laffN
+ CPJPjmyT3BEt2I8ybHuJknVgX12V9psrXBUXkF4iwufJKQw9BrQm/1vJ3c6nU+AHxYru
+ 5cDg==
+X-Gm-Message-State: AOAM530P+hoQeGgJnLtuRZoHasG9bWT0t7wKcMXMNru2mI5M8wPYZfEP
+ y/efKA+YtLOG4ICQWIYrCs/LzeG9cWI97YPRuUa+aoGcq2RUd2e2F9l0JObp4lvRFP1N8L6oDwi
+ /9uz/JaprHu4zIKI=
+X-Received: by 2002:a05:6000:1847:b0:1f1:f134:4333 with SMTP id
+ c7-20020a056000184700b001f1f1344333mr3840890wri.292.1646640795301; 
+ Mon, 07 Mar 2022 00:13:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyoBu0j09xiChcu/H85SY8DE9ZlYKgEQEqKQbyF6VjUg+y0I0WZO3p+zZSxJYteL20mgNw9/g==
+X-Received: by 2002:a05:6000:1847:b0:1f1:f134:4333 with SMTP id
+ c7-20020a056000184700b001f1f1344333mr3840872wri.292.1646640795049; 
+ Mon, 07 Mar 2022 00:13:15 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- v13-20020ac8578d000000b002de94b94741sm8458699qta.22.2022.03.07.00.10.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 00:10:29 -0800 (PST)
-Date: Mon, 7 Mar 2022 09:10:20 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Longpeng (Mike,
- Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
-Subject: Re: [PATCH v2 04/10] vdpa-dev: implement the
- instance_init/class_init interface
-Message-ID: <20220307081020.xzfuyquqrxvca2dw@sgarzare-redhat>
-References: <20220117124331.1642-1-longpeng2@huawei.com>
- <20220117124331.1642-5-longpeng2@huawei.com>
- <20220119112344.5tj3ccnoeotc5abb@steredhat>
- <ad7c799715714ec990ea82c8fbef4963@huawei.com>
+ bg42-20020a05600c3caa00b00380deeaae72sm28731803wmb.1.2022.03.07.00.13.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Mar 2022 00:13:14 -0800 (PST)
+Message-ID: <3137076a-d0b2-510e-8da5-446281dce70d@redhat.com>
+Date: Mon, 7 Mar 2022 09:13:13 +0100
 MIME-Version: 1.0
-In-Reply-To: <ad7c799715714ec990ea82c8fbef4963@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] Revert "check-block: replace -makecheck with TAP output"
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220208124432.84924-1-pbonzini@redhat.com>
+ <YiJE5n8CkFTX4Zqn@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <YiJE5n8CkFTX4Zqn@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,114 +103,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mst@redhat.com" <mst@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Yechuan <yechuan@huawei.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Huangzhichao <huangzhichao@huawei.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Longpeng,
-
-On Sat, Mar 05, 2022 at 06:06:42AM +0000, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
->Hi Stefano,
->
->> -----Original Message-----
->> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
->> Sent: Wednesday, January 19, 2022 7:24 PM
->> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
->> <longpeng2@huawei.com>
->> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
->> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
->> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
->> qemu-devel@nongnu.org
->> Subject: Re: [PATCH v2 04/10] vdpa-dev: implement the instance_init/class_init
->> interface
+On 04/03/2022 17.57, Daniel P. Berrangé wrote:
+> On Tue, Feb 08, 2022 at 07:44:32AM -0500, Paolo Bonzini wrote:
+>> This reverts commit d316859f4e28c74ab8b618895d2a5e0a865d3cf1.  The
+>> TAP output is inferior in that it does not include the diff for
+>> failed tests.
 >>
->> On Mon, Jan 17, 2022 at 08:43:25PM +0800, Longpeng(Mike) via wrote:
->> >From: Longpeng <longpeng2@huawei.com>
->> >
->> >Implements the .instance_init and the .class_init interface.
->> >
->> >Signed-off-by: Longpeng <longpeng2@huawei.com>
->> >---
->> > hw/virtio/vdpa-dev-pci.c     | 52 ++++++++++++++++++++++-
->> > hw/virtio/vdpa-dev.c         | 81 +++++++++++++++++++++++++++++++++++-
->> > include/hw/virtio/vdpa-dev.h |  5 +++
->> > 3 files changed, 134 insertions(+), 4 deletions(-)
->> >
->> >diff --git a/hw/virtio/vdpa-dev-pci.c b/hw/virtio/vdpa-dev-pci.c
->> >index a5a7b528a9..257538dbdd 100644
->> >--- a/hw/virtio/vdpa-dev-pci.c
->> >+++ b/hw/virtio/vdpa-dev-pci.c
->> >@@ -25,12 +25,60 @@ struct VhostVdpaDevicePCI {
->> >
->> > static void vhost_vdpa_device_pci_instance_init(Object *obj)
->> > {
->> >-    return;
->> >+    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(obj);
->> >+
->> >+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
->> >+                                TYPE_VHOST_VDPA_DEVICE);
->> >+    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
->> >+                              "bootindex");
->> >+}
->> >+
->> >+static Property vhost_vdpa_device_pci_properties[] = {
->> >+    DEFINE_PROP_END_OF_LIST(),
->> >+};
->> >+
->> >+static void
->> >+vhost_vdpa_device_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->> >+{
->> >+    VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(vpci_dev);
->> >+    DeviceState *vdev = DEVICE(&dev->vdev);
->> >+    uint32_t vdev_id;
->> >+    uint32_t num_queues;
->> >+    int fd;
->> >+
->> >+    fd = qemu_open(dev->vdev.vdpa_dev, O_RDWR, errp);
->>
->> We should use `vdpa_dev_fd` if the user set it, and I think we should
->> also check that `vdpa_dev` is not null.
->>
->
->The user can set both 'vdpa_dev_fd' and 'vdpa_dev' now, but how
->to make sure the 'vdpa_dev_fd' is really a FD of the 'vdpa_dev' ?
->Maybe we should remove 'vdpa_dev_fd' from 
->'vhost_vdpa_device_properties',
->so the user can only set 'vdpa_dev'.
+>> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>   tests/check-block.sh             |  6 ++--
+>>   tests/qemu-iotests/check         |  6 ++--
+>>   tests/qemu-iotests/meson.build   |  1 -
+>>   tests/qemu-iotests/testenv.py    | 30 +++++++++----------
+>>   tests/qemu-iotests/testrunner.py | 49 +++++++++++++++-----------------
+>>   5 files changed, 44 insertions(+), 48 deletions(-)
+> 
+> Peter mentioned that he's seeing the CentOS 8 CI job fail
+> continuously: eg
+> 
+> https://gitlab.com/qemu-project/qemu/-/jobs/2163919781
+> 
+> [quote]
+> 1/1 qemu:block / qemu-iotests qcow2 ERROR          163.04s   120 subtests passed
+> Summary of Failures:
+> 1/1 qemu:block / qemu-iotests qcow2 ERROR          163.04s   120 subtests passed
+> Ok:                 0
+> Expected Fail:      0
+> Fail:               1
+> Unexpected Pass:    0
+> Skipped:            0
+> Timeout:            0
+> Full log written to /home/gitlab-runner/builds/Jpwtyaz7/0/qemu-project/qemu/build/meson-logs/iotestslog.txt
+> make: *** [/home/gitlab-runner/builds/Jpwtyaz7/0/qemu-project/qemu/tests/Makefile.include:156: check-block] Error 1
+> 
+> [/quote]
+> 
+> None of the individual tests are showing ERROR though, only the final
+> status is error.
+> 
+> We also don't have access to iotestslog.txt which is very annoying.
+> 
+> When i run it locally I got the iotests.log and found that it
+> contained an error message saying the TAP outout was malformed
+> and couldn't be parsed.
+> 
+> When I ran the iotests manually I confirmed this, it prints:
+> 
+> ok qcow2 037
+> ok qcow2 038
+> ok qcow2 039
+> ok qcow2 040
+> ok qcow2 041
+>      [case not run] test_after_a_quorum_snapshot (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_cancel (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_cancel_after_ready (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_complete (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_device_not_found (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_image_not_found (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_medium_not_found (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_no_node_name (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_nonexistent_replaces (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_pause (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_with_other_parent (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_with_other_parents_after_mirror_start (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+>      [case not run] test_wrong_sync_mode (__main__.TestRepairQuorum): formats ['quorum'] are not whitelisted
+> 
+> ok qcow2 042
+> ok qcow2 043
+> ok qcow2 046
+> 
+> 
+> All those '[case not run]' lines are invalid tap output.  The
+> need to start with a leading '#' to be treated as a diagnostic
+> message. I briefly considered sending a patch, until I remember
+> this change to stop using TAP.
 
-This is the same problem that would happen if the user passed a path any 
-file or device (e.g. /dev/null). I believe that on the first operation 
-on it (e.g. an ioctl) we would get an error and exit.
+A patch for fixing the TAP problem is already on the list and has been 
+queued by Hanna:
 
-I think we should allow to specify an fd (as we already do for other 
-vhost devices), because it's a common use case when qemu is launched 
-from higher layers (e.g. libvirt).
+  https://lists.gnu.org/archive/html/qemu-devel/2022-02/msg05074.html
 
->
->> >+    if (*errp) {
->> >+        return;
->> >+    }
->> >+
->> >+    vdev_id = vhost_vdpa_device_get_u32(fd, VHOST_VDPA_GET_DEVICE_ID, errp);
->> >+    if (*errp) {
->> >+        qemu_close(fd);
->> >+        return;
->> >+    }
->> >+
->> >+    num_queues = vhost_vdpa_device_get_u32(fd, VHOST_VDPA_GET_VQS_NUM,
->> errp);
->>                                                   ^
->> The build fails here, I think this should be VHOST_VDPA_GET_VQS_COUNT
->>
->
->Yes, I sent a wrong version, I'll send v3 later.
+So that should hopefully fix the problem with the CentOS 8 CI job once it 
+gets merged.
 
-Thanks,
-Stefano
+  Thomas
 
 
