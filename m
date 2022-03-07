@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17014CFDEE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:14:21 +0100 (CET)
-Received: from localhost ([::1]:42088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7054C4CFE17
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:22:13 +0100 (CET)
+Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCFo-0006Ur-JM
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:14:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35840)
+	id 1nRCNQ-0001qV-G5
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:22:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nRCBa-0001gB-Qm
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:09:59 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:47502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nRCBZ-0006gp-35
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:09:58 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E95A71F37D;
- Mon,  7 Mar 2022 12:09:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1646654995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nRCEV-0006FN-Aw
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:12:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38155)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nRCEQ-0007jD-D9
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:12:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646655173;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kqJfLIvm2LhwzNT0MNFrcpeAcBeHvd712ei/vn3t/2Q=;
- b=LIx95JtMWoWjeiYyspc05iC5xkLRf0poxFIocUizDT5TuTf2HlLzgPKbMsYU98xXXGMSWR
- YomosnuZUkUYAQO5xl5BHpTR4bD+OTi0K1QGIo4dNM+73Vobq3dd87gYDyZ9ZmgOjZzAkx
- ik877mLoA7iKIazsTwE/YSixxM65nKo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1646654995;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kqJfLIvm2LhwzNT0MNFrcpeAcBeHvd712ei/vn3t/2Q=;
- b=Ypkppn1HglCnRN41WSzJVy46bLt4KuKgk07X4XkKkP30rOQKslJmurx5BspnitMSITgVpy
- PRFvolyYCByliZCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=unTuSTXXzWyT02Kzlwcjl7PZtpXkorxxSgqu+oo86lw=;
+ b=g003sOjABEqDe9b9I0Y/M0qdeUTDJ2Ib67Be5GMj3JzTy19cnb/+g3YTOs/M2ogdQJbpuJ
+ iptOgkc9VIe5+w6jLddbPRKjTfjFEUKQ3qAI9XMGO9BchzlTtZzbYdIHhFPHh9dP/mtgVz
+ 2NZkp6zhcwi7zbIbj/wDwDULLrlww+U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-56-Stq0KI2iPXmMQVNxCaQO4A-1; Mon, 07 Mar 2022 07:12:48 -0500
+X-MC-Unique: Stq0KI2iPXmMQVNxCaQO4A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B97EE13AD8;
- Mon,  7 Mar 2022 12:09:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id O9yVKxP2JWJdYAAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 07 Mar 2022 12:09:55 +0000
-Subject: Re: starting to look at qemu savevm performance, a first regression
- detected
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <8826b03d-e5e9-0e65-cab7-ea1829f48e6c@suse.de>
- <YiXQHIWtHx5BocxK@redhat.com> <62ba8b1e-d641-5b10-c1b3-54b7d5a652e7@suse.de>
- <YiXVh1P4oJNuEtFM@redhat.com> <1f70a086-2b72-bd83-414b-476f5e6d0094@suse.de>
- <YiXzw8pF9If2/M7M@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <5f318297-51c0-366b-758b-733ba27684ba@suse.de>
-Date: Mon, 7 Mar 2022 13:09:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA119824FA7;
+ Mon,  7 Mar 2022 12:12:46 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B4CF84943;
+ Mon,  7 Mar 2022 12:12:44 +0000 (UTC)
+Date: Mon, 7 Mar 2022 12:12:41 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/33] Abstract ArchCPU
+Message-ID: <YiX2uVVtuj6+l3R4@redhat.com>
+References: <20220306130000.8104-1-philippe.mathieu.daude@gmail.com>
+ <CAFEAcA_Gedun4yL_DcfK9Pk7e5j5gYpHuue139gq3rYH3zbETQ@mail.gmail.com>
+ <ad3118f9-0079-16cc-8a9d-51b8e32e7b2c@gmail.com>
+ <CAFEAcA_rLaphLoyZNUGOPoj5n2z7X+RJNSpnJGqhu9ujAMduEQ@mail.gmail.com>
+ <ec456ba2-71ed-7cbd-ae3a-595131962918@gmail.com>
+ <CAFEAcA9tzq6atDCFDSmFZ2FhNgn7dXt21=GazcXZ9+3WYVtWuA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YiXzw8pF9If2/M7M@redhat.com>
+In-Reply-To: <CAFEAcA9tzq6atDCFDSmFZ2FhNgn7dXt21=GazcXZ9+3WYVtWuA@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,91 +88,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/7/22 1:00 PM, Daniel P. Berrangé wrote:
-> On Mon, Mar 07, 2022 at 12:19:22PM +0100, Claudio Fontana wrote:
->> On 3/7/22 10:51 AM, Daniel P. Berrangé wrote:
->>> On Mon, Mar 07, 2022 at 10:44:56AM +0100, Claudio Fontana wrote:
->>>> Hello Daniel,
->>>>
->>>> On 3/7/22 10:27 AM, Daniel P. Berrangé wrote:
->>>>> On Sat, Mar 05, 2022 at 02:19:39PM +0100, Claudio Fontana wrote:
->>>>>>
->>>>>> Hello all,
->>>>>>
->>>>>> I have been looking at some reports of bad qemu savevm performance in large VMs (around 20+ Gb),
->>>>>> when used in libvirt commands like:
->>>>>>
->>>>>>
->>>>>> virsh save domain /dev/null
->>>>>>
->>>>>>
->>>>>>
->>>>>> I have written a simple test to run in a Linux centos7-minimal-2009 guest, which allocates and touches 20G mem.
->>>>>>
->>>>>> With any qemu version since around 2020, I am not seeing more than 580 Mb/Sec even in the most ideal of situations.
->>>>>>
->>>>>> This drops to around 122 Mb/sec after commit: cbde7be900d2a2279cbc4becb91d1ddd6a014def .
->>>>>>
->>>>>> Here is the bisection for this particular drop in throughput:
->>>>>>
->>>>>> commit cbde7be900d2a2279cbc4becb91d1ddd6a014def (HEAD, refs/bisect/bad)
->>>>>> Author: Daniel P. Berrangé <berrange@redhat.com>
->>>>>> Date:   Fri Feb 19 18:40:12 2021 +0000
->>>>>>
->>>>>>     migrate: remove QMP/HMP commands for speed, downtime and cache size
->>>>>>     
->>>>>>     The generic 'migrate_set_parameters' command handle all types of param.
->>>>>>     
->>>>>>     Only the QMP commands were documented in the deprecations page, but the
->>>>>>     rationale for deprecating applies equally to HMP, and the replacements
->>>>>>     exist. Furthermore the HMP commands are just shims to the QMP commands,
->>>>>>     so removing the latter breaks the former unless they get re-implemented.
->>>>>>     
->>>>>>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>>>>>     Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>>>>
->>>>> That doesn't make a whole lot of sense as a bisect result.
->>>>> How reliable is that bisect end point ? Have you bisected
->>>>> to that point more than once ?
->>>>
->>>> I did run through the bisect itself only once, so I'll double check that.
->>>> The results seem to be reproducible almost to the second though, a savevm that took 35 seconds before the commit takes 2m 48 seconds after.
->>>>
->>>> For this test I am using libvirt v6.0.0.
+On Mon, Mar 07, 2022 at 11:51:20AM +0000, Peter Maydell wrote:
+> On Sun, 6 Mar 2022 at 21:13, Philippe Mathieu-Daudé
+> <philippe.mathieu.daude@gmail.com> wrote:
+> >
+> > +Daniel/Alex
+> >
+> > On 6/3/22 20:56, Peter Maydell wrote:
+> > > On Sun, 6 Mar 2022 at 19:06, Philippe Mathieu-Daudé
+> > > <philippe.mathieu.daude@gmail.com> wrote:
+> > >> I see. I only have access to aarch64 Darwin, not x86_64; I was relying
+> > >> on our CI for that (my GitLab CI is green). I'll work a fix, thanks.
+> > >
+> > > This was on my ad-hoc stuff -- I guess our gitlab CI for macos
+> > > doesn't build hvf ?
+> >
+> > No, it does:
+> >
+> > https://gitlab.com/philmd/qemu/-/jobs/2167582776#L6444
+> >
+> >    Targets and accelerators
+> >      KVM support                  : NO
+> >      HAX support                  : YES
+> >      HVF support                  : YES
+> >      WHPX support                 : NO
+> >      NVMM support                 : NO
+> >      Xen support                  : NO
+> >      TCG support                  : YES
+> >
+> > But the Cirrus job are allowed to fail:
 > 
-> I've just noticed this.  That version of libvirt is 2 years old and
-> doesn't have full support for migrate_set_parameters.
-> 
-> 
->> 2022-03-07 10:47:20.145+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-19"}^M
->>  len=93 ret=93 errno=0
->> 2022-03-07 10:47:20.146+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"id": "libvirt-19", "error": {"class": "CommandNotFound", "desc": "The command migrate_set_speed has not been found"}}
->> 2022-03-07 10:47:20.147+0000: 134391: error : qemuMonitorJSONCheckError:412 : internal error: unable to execute QEMU command 'migrate_set_speed': The command migrate_set_speed has not been found
-> 
-> We see the migrate_set_speed failing and libvirt obviously ignores that
-> failure.
-> 
-> In current libvirt migrate_set_speed is not used as it properly
-> handles migrate_set_parameters AFAICT.
-> 
-> I think you just need to upgrade libvirt if you want to use this
-> newer QEMU version
-> 
-> Regards,
-> Daniel
-> 
+> Overall I am starting to feel that we should stop having
+> these CI jobs that are in the "allowed to fail" category.
+> All that happens is that they eat a lot of CPU on our CI
+> hosts, but they don't actually find bugs because everybody
+> (rightly) treats "allowed-to-fail-and-failed" as "ignore me".
+> I think our CI jobs should either be "must pass", or else
+> "run only manually", with that latter category being rarely
+> used and only where there's a good reason (eg somebody
+> specific has taken responsibility for debugging some
+> intermittent failure and having it still available in the
+> CI UI for them to trigger is helpful).
 
-Got it, this explains it, sorry for the noise on this.
+The cirrus CI jobs were introduced as allow-fail as we were
+not sure the cirrus-run integration with gitlab would be
+entirely stable. There was a blip a month or so ago due
+to Cirrus CI breaking their REST API, but on the QEMU side
+we seem to be OK. So I think we can toggle the flag to
+make these Cirrus CI jobs gating.
 
-I'll continue to investigate the general issue of low throughput with virsh save / qemu savevm .
+> Plus we really need to get on top of all the intermittent
+> failures. The current state of the world is that we have
+> some intermittents, which makes it easy for new intermittents
+> to get into the tree, because everybody is in the habit of
+> "just hit retry"...
 
-Thanks,
+A big issue IMHO is that the pain/impact hits the wrong people.
+It is most seriously impacts & disrupts Peter when merging, and
+less impacts the subsystem maintainers, and even less the
+original authors.
 
-CLaudio
+If we consider a alternative world where we used merge requests
+for subsystem maintainers just to send pull requests. The subsystem
+maintainer would open a MR and it would be their responsibility
+to get a green pipeline. Peter (or the person approving pulls for
+merge at the time) shouldn't even have to consider a MR until it
+has got a green pipeline. That would put the primary impact of
+unreliable CI onto the subsystem maintainers, blocking their work
+from being considered for merge. This creates a direct incentive
+on the subsystem maintainers to contribute to ensuring reliable
+CI, instead of considering it somebody else's problem.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
