@@ -2,96 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBB34CFB4F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:35:00 +0100 (CET)
-Received: from localhost ([::1]:54800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3860F4CFB93
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:40:06 +0100 (CET)
+Received: from localhost ([::1]:35182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRAhf-0002Gb-Qf
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:34:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37104)
+	id 1nRAmb-0008Pp-7r
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:40:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRAKh-0000x8-4B
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:11:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45306)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRAKe-0004DD-AY
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:11:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646647871;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IWw6FgwYx7bv6PZP+h9r4mJsOY7iZMaFopfnU6wShhU=;
- b=da1mplcrVPhJQvaSEdCa6el9zACH2Nk1wW9ehii0VSaT+mgNEyH8gpCgbzdamtmOJ4zLS0
- vtWaMn3+5zz86FeLM9gKKj4/6hZsN56R/9OOLyQ1Jpqy989sDNN1XdqCkzYtssRHXv3Hwz
- o9B3HDmhOvRTS0RHjjmteA+gYgHHnxs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-127-bHxbRU2kPFOdUpNY9YkFIQ-1; Mon, 07 Mar 2022 05:11:09 -0500
-X-MC-Unique: bHxbRU2kPFOdUpNY9YkFIQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v125-20020a1cac83000000b0037e3d70e7e1so7680800wme.1
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:11:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRALg-0002qU-PF
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:18 -0500
+Received: from [2a00:1450:4864:20::434] (port=34668
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRALf-0004HP-9w
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:16 -0500
+Received: by mail-wr1-x434.google.com with SMTP id j26so11989340wrb.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=W8OlnKGBcJmp8ZSBDdM9hwxfl+ILOgzIJHWHqjOQrx0=;
+ b=nmBaKEbT+EaNDb12oP2syZp4IAXvLANNAbEQxjdr2Y38w4Zhmb8gjnQlPp5iySi7t4
+ Dsgexwxk/QaoxMGwoxCi0ygmGpmtAwM7AVqGd2lHDdR9ID0vq66UX7M86VP14AClaZ2r
+ ppkx1TRaSuoOx5L6RFrkt10r3XvrbOCRePUhAAUphgGlYpocVBy0qeUQ5XMJ9jKEa0yj
+ p/BeIb6UmkaOFaPjpL2eo0QMaaoHTUzd2RNekEEB4yha68GRIPLSObmwlS1vwpLwhAE9
+ hMmjZmPXRnhqQK6ekVPbl26jb/WHx26Q3W+v2ZABWtRErPXIG/2W9m2rL4cTSlincrh1
+ ZX2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IWw6FgwYx7bv6PZP+h9r4mJsOY7iZMaFopfnU6wShhU=;
- b=Xh2IS35FUjYnJ9cAVJCEqHq95AuhtSVOLsa9eLTeZkvt8kMIkLKn0nCnneoKrcBDoh
- xG4zPB+eRcnhs1pL5Ue9wzYw/J4iIaYrarHjDQ4e3gQ6gVVyBMvpWuTUDRgQaztixUpF
- biMTBDF53kdQWGqdC96w0nOhpYEfMXZiEje92WVrew3wdIbwHZLSb9sYr9Q3gwFGQFQ3
- NQtVFXswHfgRFBSBbUDNJ5XyYRYYaxX5nly90mvDnMOx0F6ex0AWaKGNxlNwJqkOkNaN
- 9Xc3fU/0DOzC21A5NISqHLOvbzeKBrpJ7j0ZAyy2km1AzW521uYWpWyCxXhY3jnDlqrl
- fHUQ==
-X-Gm-Message-State: AOAM530faa+Jgx0Fng9DjUtWFF1P8MP+qbIKla7v8ucBD6+faK39/0i7
- ro0RLN/OgNi88jIg9jF/XxsL4p+/XlfYuCpNx1jZETaBYxB6KcTbXnbVVErn8HDi88tK+/RkPYf
- AKsu4l6f0WdaSYgs=
-X-Received: by 2002:a05:600c:588:b0:389:9e5f:59d3 with SMTP id
- o8-20020a05600c058800b003899e5f59d3mr5869067wmd.35.1646647868793; 
- Mon, 07 Mar 2022 02:11:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJydUzMDFSybbuZNEpR2onfZ5VlZrj5dHtzfIjK2l7hp2jD1Zl2NVynKGmlUDhIhe3+pGz7fSQ==
-X-Received: by 2002:a05:600c:588:b0:389:9e5f:59d3 with SMTP id
- o8-20020a05600c058800b003899e5f59d3mr5869044wmd.35.1646647868473; 
- Mon, 07 Mar 2022 02:11:08 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=W8OlnKGBcJmp8ZSBDdM9hwxfl+ILOgzIJHWHqjOQrx0=;
+ b=pHQJdxhZgo2oyTdyVQmHWqXGuFdS1YNmiWERoVvfKEb8zNeE3bR4G1lEtVUf/ao/k5
+ a87XE6Eeub3tdbQCi9LOV56J6ml+clk6M5grzDCom6Q4/uZpHkw0WJB7hLPAb3FLVKWY
+ 189KbF4byCdPh8xc5oDAvDT2ZkYxGNVWS21qKffZfMvia2jT96b/kHyoXVyrh7QjLPcc
+ HEynJg/X93AIXAo54PPyx+U0XSN+2bfebU7pkWX6DWVwS9XN5l8V/FeJW7YkoY7yxm1Q
+ 2HzcCaMevjW0djpcEgRyesQhRSYQEuC6h2IrwOszTyGIMrep4/3HaT7I0Pt8ADVQ8yeN
+ K47g==
+X-Gm-Message-State: AOAM5334E8MYb+tosATKBXp1pNaQB+4E63IGj+ZWf7c742OVOxKWVvOZ
+ /55BlXXtKj0Jj5HjGQoS5oQrfCRFeGE=
+X-Google-Smtp-Source: ABdhPJxW6umkoOY9QxXMNjx3Yfjp7u1eXTY/54Kn5SZ93m4f/zPD3a1JeO2riVyRvbBJXNeqEn3yoA==
+X-Received: by 2002:adf:bc09:0:b0:1f0:2483:48b with SMTP id
+ s9-20020adfbc09000000b001f02483048bmr7991671wrg.118.1646647933648; 
+ Mon, 07 Mar 2022 02:12:13 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- q14-20020a1cf30e000000b0038986a18ec8sm8647869wmq.46.2022.03.07.02.11.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 02:11:08 -0800 (PST)
-Message-ID: <e4a80a6d-ab9b-8d9d-11d4-dd395ac7d347@redhat.com>
-Date: Mon, 7 Mar 2022 11:11:07 +0100
+ bg20-20020a05600c3c9400b0037fa5c422c8sm21859356wmb.48.2022.03.07.02.12.12
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 07 Mar 2022 02:12:13 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 01/16] target/mips: Fix cycle counter timing calculations
+Date: Mon,  7 Mar 2022 11:11:52 +0100
+Message-Id: <20220307101207.90369-2-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
+References: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 08/18] tests: merge code for UNIX and TCP migration
- pre-copy tests
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20220302174932.2692378-1-berrange@redhat.com>
- <20220302174932.2692378-9-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220302174932.2692378-9-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,34 +90,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Simon Burge <simonb@NetBSD.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/03/2022 18.49, Daniel P. Berrangé wrote:
-> The test cases differ only in the URI they provide to the migration
-> commands, and the ability to set the dirty_ring mode. This code is
-> trivially merged into a common helper.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   roms/seabios                 |  2 +-
->   tests/qtest/migration-test.c | 86 ++++++++++++++++--------------------
->   2 files changed, 40 insertions(+), 48 deletions(-)
-> 
-> diff --git a/roms/seabios b/roms/seabios
-> index 6a62e0cb0d..2dd4b9b3f8 160000
-> --- a/roms/seabios
-> +++ b/roms/seabios
-> @@ -1 +1 @@
-> -Subproject commit 6a62e0cb0dfe9cd28b70547dbea5caf76847c3a9
-> +Subproject commit 2dd4b9b3f84019668719344b40dba79d681be41c
+From: Simon Burge <simonb@NetBSD.org>
 
-Did you really want to update the submodule here?
+The cp0_count_ns value is calculated from the CP0_COUNT_RATE_DEFAULT
+constant in target/mips/cpu.c.  The cycle counter resolution is defined
+per-CPU in target/mips/cpu-defs.c.inc; use this value for calculating
+cp0_count_ns.  Fixings timing problems on guest OSs for the 20Kc CPU
+which has a CCRes of 1.
 
-  Thomas
+Signed-off-by: Simon Burge <simonb@NetBSD.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20211213135125.18378-1-simonb@NetBSD.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 4aae23934b..0766e25693 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -440,8 +440,9 @@ static void mips_cp0_period_set(MIPSCPU *cpu)
+ {
+     CPUMIPSState *env = &cpu->env;
+ 
++    /* env->CCRes isn't initialised this early, use env->cpu_model->CCRes. */
+     env->cp0_count_ns = clock_ticks_to_ns(MIPS_CPU(cpu)->clock,
+-                                          cpu->cp0_count_rate);
++                                          env->cpu_model->CCRes);
+     assert(env->cp0_count_ns);
+ }
+ 
+-- 
+2.34.1
 
 
