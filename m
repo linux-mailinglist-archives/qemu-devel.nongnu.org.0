@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07DD4D0B5D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:47:07 +0100 (CET)
-Received: from localhost ([::1]:50292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218B24D0B71
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:49:40 +0100 (CET)
+Received: from localhost ([::1]:57454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRM8B-00087E-1s
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:47:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52444)
+	id 1nRMAd-0004Wz-5V
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:49:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM61-0005BF-G2
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23072)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM64-0005Lo-OI
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM5z-00059o-Ut
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:53 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM63-0005BA-0K
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:44:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693091;
+ s=mimecast20190719; t=1646693094;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1o/co5SzJ3afQc19M+6XwM/OcyfK5XPAzn/pSwX2qvQ=;
- b=dJk4N9cfHx8iC/f/gW6XfwUp1mU09ndBS5B7XunZz+SAJfonWPI+dYf1nNQDWdeaH+CK9L
- A06vWohta9OTjD/Ru0ZVPBDKodx4ed0+4ukng0d50NaqaowycC+WkfnAG7jnjJvcnVoisJ
- Hv+Hpd8uajeR2nmOYvZbHaQdNs2sCP4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UdCEFmroOMq8HjIXyQ0uo/r5UiIIhp1W/Xv1KnE50ho=;
+ b=cz2AlnyMOPos7XtIg6Pt3lpC9VTbNolhb9WXaGMONe0Oug/+hRu0zvt0WKpUJBcmCgBSJD
+ 4IEL7ntlWRS+4z50EcgUrGc1txPErSClrpZZrRjMF6EZz9OtTAjZyZoMaleBuDeH6oWLAZ
+ MeeBAuxUEyfgcgnFWlL/7oiu6jbdS4s=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-_bGtdt5YOcW2FrWRwlXBrg-1; Mon, 07 Mar 2022 17:44:50 -0500
-X-MC-Unique: _bGtdt5YOcW2FrWRwlXBrg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k41-20020a05600c1ca900b00389a2b983efso1522349wms.4
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:44:50 -0800 (PST)
+ us-mta-399-fumoszzqNK6AsARJE-kn3A-1; Mon, 07 Mar 2022 17:44:53 -0500
+X-MC-Unique: fumoszzqNK6AsARJE-kn3A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p9-20020adf9589000000b001e333885ac1so4959308wrp.10
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:44:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1o/co5SzJ3afQc19M+6XwM/OcyfK5XPAzn/pSwX2qvQ=;
- b=MyzvcjufwFKiTg/fC1HuGlwxIB3rEN3/F6L59Nb7lj7UFu1uaKuOPy4EqWPav4BjyC
- QuuSYkkjS6KRbtF/L5bwf/qorGF0tWfClyB10RO6hzEYQBprg/vJ6QuE7yBjzFrJNNjW
- 1FYBrx8+pXOamNM03sgjjE1jGmuhurMIBxRkBldJ380aJ65u0dGphMblFqTBDNRGF09i
- gUbrZeDtyKzc4v5iPmPLpHr43GikkrU9nLvWAgkANZdsx+xiAiA0dJND9WcQVKgPyFDs
- FuE66cQZJfNO/aoWX6fODAWsHrpaY4zlnfco00f9FloS+OzQNXBHmcuTjAXEAOH0i1R8
- ijWg==
-X-Gm-Message-State: AOAM531iVCdhUvxkH2XJeaxb2CjXgSjwnfD/TDia40sEae8mWEzypMYb
- +QIMZRqqNf5S7OPXFKGHT/33nxspnJuMlH0GkH3yn7oXbKT2IcuBY0xUQprh369wMWOs6PGNwy9
- XphsC9SrNUhhcQrKxVgZSSeNpWRF2fbPTpWKCslzl0kiYfMpTnK/M786F51j9
-X-Received: by 2002:adf:fd87:0:b0:1ed:e0c3:a2d4 with SMTP id
- d7-20020adffd87000000b001ede0c3a2d4mr9793226wrr.374.1646693088991; 
- Mon, 07 Mar 2022 14:44:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyXjZMkZBEl3acmUYbbTCGqNDvce3SIqqoITJH0nA4i8M5V2jv/60u0wK/RHWjWVxuNDiMkzg==
-X-Received: by 2002:adf:fd87:0:b0:1ed:e0c3:a2d4 with SMTP id
- d7-20020adffd87000000b001ede0c3a2d4mr9793212wrr.374.1646693088693; 
- Mon, 07 Mar 2022 14:44:48 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=UdCEFmroOMq8HjIXyQ0uo/r5UiIIhp1W/Xv1KnE50ho=;
+ b=kRZFw7hWVh6lX0ElCbpT7xQrWtchkaJT0C3wVCvPJL5p1FQSJXBJhIOLe3KeDYDSQo
+ RufbxpNMWE5JpFCrFBw5NOZP1hs9vGnvOu0SO4EbxD6CPGWzbHin0jxtUsdo4NOUMheA
+ /gqctAS3i/ULk0z05OSnD1SZcmtAa17xkmNsOaxoKGkvKHf1ZxHMkUjOabQOd6jYVB4J
+ 1wgsIM1d3MOerVOGJ6FsRqhneoH0PboOHqq77J6Px2nauA5tlSr5RmZU+ObGEJLJxS2O
+ bpev/Wlle4SaCGf+mXkZshg/BUnQ9cC6upWZK0t3K3j+o78669dI/M5v2w2T1NR4zfTv
+ 7GZA==
+X-Gm-Message-State: AOAM533MzrMW5TqZEgZFHd/tUuGKgKiK/6Nx7u2pfsy3rGtF84zFpn/Q
+ yZ2YZr1kt5UyIFXfBG5bBCUGRCbrEPIc9AT6tzlSLr+2BSzrXevAcdWYr7F2WTRBLuDbuMaZfRX
+ s/8BoC38GD9XGtNX9Vga1+lKEAPgZI60N3xosL/UQbmx2F3RICVDxVKi6Dkrv
+X-Received: by 2002:a1c:7518:0:b0:37c:7eb:f255 with SMTP id
+ o24-20020a1c7518000000b0037c07ebf255mr965729wmc.29.1646693091897; 
+ Mon, 07 Mar 2022 14:44:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyffPg7hlkRcMB12+KPBtPjghljemO9pZamnHJDhVZZ38Fuw0gAyz6syyhOF/wS0D4PV5XvHg==
+X-Received: by 2002:a1c:7518:0:b0:37c:7eb:f255 with SMTP id
+ o24-20020a1c7518000000b0037c07ebf255mr965711wmc.29.1646693091554; 
+ Mon, 07 Mar 2022 14:44:51 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- l1-20020a05600c4f0100b00387369f380bsm559485wmq.41.2022.03.07.14.44.47
+ a10-20020a7bc1ca000000b00389bc87db45sm511219wmj.7.2022.03.07.14.44.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:44:48 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:44:45 -0500
+ Mon, 07 Mar 2022 14:44:51 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:44:49 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 05/47] hw/acpi/erst: clean up unused IS_UEFI_CPER_RECORD
- macro
-Message-ID: <20220307224357.682101-6-mst@redhat.com>
+Subject: [PULL v4 06/47] hw/smbios: code cleanup - use macro definitions for
+ table header handles
+Message-ID: <20220307224357.682101-7-mst@redhat.com>
 References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
@@ -74,9 +76,10 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -99,41 +102,156 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Eric DeVolder <eric.devolder@oracle.com>, Igor Mammedov <imammedo@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ani Sinha <ani@anisinha.ca>
 
-This change is cosmetic. IS_UEFI_CPER_RECORD macro definition that was added
-as a part of the ERST implementation seems to be unused. Remove it.
+This is a minor cleanup. Using macro definitions makes the code more
+readable. It is at once clear which tables use which handle numbers in their
+header. It also makes it easy to calculate the gaps between the numbers and
+update them if needed.
 
-CC: Eric DeVolder <eric.devolder@oracle.com>
-Reviewed-by: Eric DeVolder <eric.devolder@oracle.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20220223143322.927136-5-ani@anisinha.ca>
+Message-Id: <20220223143322.927136-6-ani@anisinha.ca>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/acpi/erst.c | 5 -----
- 1 file changed, 5 deletions(-)
+ hw/smbios/smbios.c | 38 ++++++++++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 12 deletions(-)
 
-diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-index c0a23cf467..de509c2b48 100644
---- a/hw/acpi/erst.c
-+++ b/hw/acpi/erst.c
-@@ -80,11 +80,6 @@
- #define UEFI_CPER_RECORD_MIN_SIZE 128U
- #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
- #define UEFI_CPER_RECORD_ID_OFFSET 96U
--#define IS_UEFI_CPER_RECORD(ptr) \
--    (((ptr)[0] == 'C') && \
--     ((ptr)[1] == 'P') && \
--     ((ptr)[2] == 'E') && \
--     ((ptr)[3] == 'R'))
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 6013df1698..56b412ce35 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -549,9 +549,23 @@ bool smbios_skip_table(uint8_t type, bool required_table)
+     return true;
+ }
  
- /*
-  * NOTE that when accessing CPER fields within a record, memcpy()
++#define T0_BASE 0x000
++#define T1_BASE 0x100
++#define T2_BASE 0x200
++#define T3_BASE 0x300
++#define T4_BASE 0x400
++#define T11_BASE 0xe00
++
++#define T16_BASE 0x1000
++#define T17_BASE 0x1100
++#define T19_BASE 0x1300
++#define T32_BASE 0x2000
++#define T41_BASE 0x2900
++#define T127_BASE 0x7F00
++
+ static void smbios_build_type_0_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(0, 0x000, false); /* optional, leave up to BIOS */
++    SMBIOS_BUILD_TABLE_PRE(0, T0_BASE, false); /* optional, leave up to BIOS */
+ 
+     SMBIOS_TABLE_SET_STR(0, vendor_str, type0.vendor);
+     SMBIOS_TABLE_SET_STR(0, bios_version_str, type0.version);
+@@ -599,7 +613,7 @@ static void smbios_encode_uuid(struct smbios_uuid *uuid, QemuUUID *in)
+ 
+ static void smbios_build_type_1_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(1, 0x100, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(1, T1_BASE, true); /* required */
+ 
+     SMBIOS_TABLE_SET_STR(1, manufacturer_str, type1.manufacturer);
+     SMBIOS_TABLE_SET_STR(1, product_name_str, type1.product);
+@@ -619,7 +633,7 @@ static void smbios_build_type_1_table(void)
+ 
+ static void smbios_build_type_2_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(2, 0x200, false); /* optional */
++    SMBIOS_BUILD_TABLE_PRE(2, T2_BASE, false); /* optional */
+ 
+     SMBIOS_TABLE_SET_STR(2, manufacturer_str, type2.manufacturer);
+     SMBIOS_TABLE_SET_STR(2, product_str, type2.product);
+@@ -637,7 +651,7 @@ static void smbios_build_type_2_table(void)
+ 
+ static void smbios_build_type_3_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(3, 0x300, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(3, T3_BASE, true); /* required */
+ 
+     SMBIOS_TABLE_SET_STR(3, manufacturer_str, type3.manufacturer);
+     t->type = 0x01; /* Other */
+@@ -662,7 +676,7 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+ {
+     char sock_str[128];
+ 
+-    SMBIOS_BUILD_TABLE_PRE(4, 0x400 + instance, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(4, T4_BASE + instance, true); /* required */
+ 
+     snprintf(sock_str, sizeof(sock_str), "%s%2x", type4.sock_pfx, instance);
+     SMBIOS_TABLE_SET_STR(4, socket_designation_str, sock_str);
+@@ -702,7 +716,7 @@ static void smbios_build_type_11_table(void)
+         return;
+     }
+ 
+-    SMBIOS_BUILD_TABLE_PRE(11, 0xe00, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(11, T11_BASE, true); /* required */
+ 
+     snprintf(count_str, sizeof(count_str), "%zu", type11.nvalues);
+     t->count = type11.nvalues;
+@@ -722,7 +736,7 @@ static void smbios_build_type_16_table(unsigned dimm_cnt)
+ {
+     uint64_t size_kb;
+ 
+-    SMBIOS_BUILD_TABLE_PRE(16, 0x1000, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(16, T16_BASE, true); /* required */
+ 
+     t->location = 0x01; /* Other */
+     t->use = 0x03; /* System memory */
+@@ -749,7 +763,7 @@ static void smbios_build_type_17_table(unsigned instance, uint64_t size)
+     char loc_str[128];
+     uint64_t size_mb;
+ 
+-    SMBIOS_BUILD_TABLE_PRE(17, 0x1100 + instance, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(17, T17_BASE + instance, true); /* required */
+ 
+     t->physical_memory_array_handle = cpu_to_le16(0x1000); /* Type 16 above */
+     t->memory_error_information_handle = cpu_to_le16(0xFFFE); /* Not provided */
+@@ -790,7 +804,7 @@ static void smbios_build_type_19_table(unsigned instance,
+ {
+     uint64_t end, start_kb, end_kb;
+ 
+-    SMBIOS_BUILD_TABLE_PRE(19, 0x1300 + instance, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(19, T19_BASE + instance, true); /* required */
+ 
+     end = start + size - 1;
+     assert(end > start);
+@@ -814,7 +828,7 @@ static void smbios_build_type_19_table(unsigned instance,
+ 
+ static void smbios_build_type_32_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(32, 0x2000, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(32, T32_BASE, true); /* required */
+ 
+     memset(t->reserved, 0, 6);
+     t->boot_status = 0; /* No errors detected */
+@@ -828,7 +842,7 @@ static void smbios_build_type_41_table(Error **errp)
+     struct type41_instance *t41;
+ 
+     QTAILQ_FOREACH(t41, &type41, next) {
+-        SMBIOS_BUILD_TABLE_PRE(41, 0x2900 + instance, true);
++        SMBIOS_BUILD_TABLE_PRE(41, T41_BASE + instance, true);
+ 
+         SMBIOS_TABLE_SET_STR(41, reference_designation_str, t41->designation);
+         t->device_type = t41->kind;
+@@ -871,7 +885,7 @@ static void smbios_build_type_41_table(Error **errp)
+ 
+ static void smbios_build_type_127_table(void)
+ {
+-    SMBIOS_BUILD_TABLE_PRE(127, 0x7F00, true); /* required */
++    SMBIOS_BUILD_TABLE_PRE(127, T127_BASE, true); /* required */
+     SMBIOS_BUILD_TABLE_POST;
+ }
+ 
 -- 
 MST
 
