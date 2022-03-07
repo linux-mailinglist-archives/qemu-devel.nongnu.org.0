@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFF04D0776
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:18:17 +0100 (CET)
-Received: from localhost ([::1]:35232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDF74D0779
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:18:58 +0100 (CET)
+Received: from localhost ([::1]:36116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRIs4-0000vY-9B
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:18:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38552)
+	id 1nRIsk-0001Vu-03
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:18:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nRIq0-0006WP-VT; Mon, 07 Mar 2022 14:16:10 -0500
-Received: from [2607:f8b0:4864:20::230] (port=44699
- helo=mail-oi1-x230.google.com)
+ id 1nRIq2-0006WQ-73; Mon, 07 Mar 2022 14:16:11 -0500
+Received: from [2607:f8b0:4864:20::c2f] (port=36361
+ helo=mail-oo1-xc2f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nRIpy-0005vg-9g; Mon, 07 Mar 2022 14:16:07 -0500
-Received: by mail-oi1-x230.google.com with SMTP id j24so16281881oii.11;
- Mon, 07 Mar 2022 11:16:04 -0800 (PST)
+ id 1nRIq0-0005vq-1R; Mon, 07 Mar 2022 14:16:09 -0500
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ n5-20020a4a9545000000b0031d45a442feso19015179ooi.3; 
+ Mon, 07 Mar 2022 11:16:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0fYpMuA68OXbuijMMrBNh4HbVkbPX/oWCD6OEX7sqbw=;
- b=UgNkz+ywC8VN5EFuII8RbT0H4BvEcKbynHlG7Yy4vQ9W//DGT3b0lnvKGfmYQLkiNZ
- lJmVGc/uC3uixgSEmgEufNFoUljxMWLsbYljlVgQkeRxev+DKWCHPsfdV08sfTI8vryh
- 4YhpRnYZnJsca5MarOqzTrdK/dYl0Srp8pVjCw59teoLy/20zFGHdZ3sx8YllOaAlA+I
- JGW8hrOH+/5iuEQlJ1MOGkPr7y7lBj6EN+gSwSHsbsDWAyau2OcGLU8Rods38D96i3zs
- 0OJlnUb9cAbXz+LlMbBwmtdRySiLxSDjreCOHntaj4jlWwFvn01yoT3oEJhWHheld32r
- fq1Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=DkWCadGq3jWunLQWL70TerHXhNjwuuhn9DOc5h+GCHo=;
+ b=MIqPuC+I39sCBhp5ZM3tmg3O9heypKiE7YBVHZT/JYI5e5SmGuTDtZR7fTgAQ3c35O
+ NApCLguuuwM+RgctUsRCLFUOtyEAziAmjXOLXP0J08TttvS9b9wCExREs1f4JDM2Z+Rm
+ tU9ZW+5DNnRdsX22PSLWBHIOjRghZd1zdI5ZVOGR6I98gP7sQCZ0HQ3TFb649Or1k46w
+ dlPId/43lLH0OJt5KwoB2abCwq4Tmv+N0wUhr623b8TqSQ508uz/wKNIvKwK5LFQBSmU
+ 7ulBpkQFU4f2HdjicxzLS052d2YPxjuZb6WhcJw/CM0CA0Eo7BRRDvX7kP54uBxuTTmO
+ feYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0fYpMuA68OXbuijMMrBNh4HbVkbPX/oWCD6OEX7sqbw=;
- b=0s7IfyF9vQ8yp9CiA8sy8glVYrUrtPftNeqgZZjGxAZjxy0oDxuE5WADNJhbL1ihAa
- 6J7Dmi1DDDes8S7hT4eGBJssUFOWvhyWPl9CvL8rhjYMW2w4gE64UI8sArNSeFD+G3VM
- YHC+7T9tHYjb1OVTo/QgmgimWMn8+PxFVVFEPbopoABdEjCCF4s5jdMzHkQwLFXAYiUy
- NkXXO6zf2TLQesV55/bC0lKhPUPzaMmVelqTJGU9ipdmnAP9e6wAeZ8BT8r4uJAJ0yHl
- WHCxRmlmWg5/nK7MM+8VYaprLSu4jhVFEdyJhcVmiSXp5rLKBP3TpQ/exCcCMNLVWyBO
- WT8Q==
-X-Gm-Message-State: AOAM530AJLbLsjIweCQh2yZJnU9JWz8hrRNoDkUB0uLnUctnqur6/x9I
- S6ScYOCD6vPqJMRkciaC7rsPeIAd7dw=
-X-Google-Smtp-Source: ABdhPJyENFDZz3l/Y2QsNbU9dVaYp2elgdBwhAwaqD5ND8GyRyNYHxgOztD2ZzUjVLYeREHne4VQoA==
-X-Received: by 2002:a05:6808:2026:b0:2d5:409e:1dc2 with SMTP id
- q38-20020a056808202600b002d5409e1dc2mr316238oiw.130.1646680563528; 
- Mon, 07 Mar 2022 11:16:03 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=DkWCadGq3jWunLQWL70TerHXhNjwuuhn9DOc5h+GCHo=;
+ b=MUEkRuD1ws6bjGWxIhWxCrVO5M+Z3hdyaQEfkKAZw5QiVtPGFELJe7n1GARdLdHCMf
+ JDtNpjp/bDJxVagBnpzG0zf8bqKxMpZNkfBWznhGFWtMnTTBYMp9W9iPeNXRVgLLhH/r
+ NYLe1p4G8JUjbvV09ow+wGVai7/lNPXH6KYbbXx8ZVskMnmzycgZQz+F+k7UJX/6uft9
+ THwk5QI8OKz/GWcIZl5prHHO64faKT5OyGPdV4hM+PAQH4VkUOxkVAK288nRlUTB18Ix
+ h/kIWo1MZ83ASOBMyvYM4d7JvBWOD6V91lzfBSki6XjK/PX9UYpP1x5DXfrlc6fTcUCV
+ 9bMg==
+X-Gm-Message-State: AOAM533/xOk/aokWupFw0C8W5iJ76StdOsERUdTh5nOC7kGQ0I9eE6t0
+ mqTPOBRzP5Xe3ZeOeM1G/Iq5LjTJdcI=
+X-Google-Smtp-Source: ABdhPJyeMgr1OqpyhFJLL97FKIB3ZHeaopybZj38a6OKL3zhSKs94aMh1xUGvYUPO/PcGp8KvAmFGQ==
+X-Received: by 2002:a05:6870:a986:b0:da:b3f:3279 with SMTP id
+ ep6-20020a056870a98600b000da0b3f3279mr240587oab.297.1646680565587; 
+ Mon, 07 Mar 2022 11:16:05 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:3b4a:a86f:f27d:30ef:6eb6])
  by smtp.gmail.com with ESMTPSA id
- t40-20020a05680815a800b002d48ffad94bsm7283093oiw.2.2022.03.07.11.16.01
+ t40-20020a05680815a800b002d48ffad94bsm7283093oiw.2.2022.03.07.11.16.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 11:16:03 -0800 (PST)
+ Mon, 07 Mar 2022 11:16:05 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/9] add LOG_UNSUPP log type + mark hcalls as unsupp
-Date: Mon,  7 Mar 2022 16:15:44 -0300
-Message-Id: <20220307191553.429236-1-danielhb413@gmail.com>
+Subject: [PATCH 1/9] util/log.c: add LOG_UNSUPP type
+Date: Mon,  7 Mar 2022 16:15:45 -0300
+Message-Id: <20220307191553.429236-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220307191553.429236-1-danielhb413@gmail.com>
+References: <20220307191553.429236-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2f;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2f.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -89,44 +92,62 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The existing log type 'LOG_UNIMP' is being used as a way to indicate
+that a certain feature is not implemented, and to indicate that a
+feature is unsupported. Most of the time both cases are similar, until
+you want to debug a guest that is running a not so common OS (e.g. AIX
+guest in a pseries machine).
 
-I got a lot of noise trying to debug an AIX guest in a pseries machine when running with 
-'-d unimp'. The reason is that there is no distinction between features
-(in my case, hypercalls) that are unimplemented because we never considered,
-versus features that we made a design choice not to implement.
+The result is that you can be overwhelmed with lots of '-d unimp'
+messages of hypercalls and have to do code searches to verify  whether a
+specific hypercall is something we never considered adding versus
+something that we decided to not support. Note that while the first case
+is eligible for further investigation the second is already settled. It
+would be helpful to able to distinguish between both.
 
-This series adds a new log type, LOG_UNSUPP, as a way to filter the
-second case. After changing the log level of existing unsupported
-pseries hypercalls, -d unimp was reporting just the ones that I need to
-worry about and decide whether we should implement it or mark as
-unsupported in our model. After this series there's still one hypercall
-thgat is being thrown by AIX. We'll deal with that another day.
+This patch adds a new log type called LOG_UNSUPP to represent this
+subset of features that we are aware of and we decided to not support.
 
-I am posting this a little too close of the soft freeze. If we manage
-to get it reviewed in time, since it's a debug QoL change that doesn't
-break anything, I'd say we take it. 
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ include/qemu/log.h | 3 ++-
+ util/log.c         | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-Also, I didn't find the maintainer for the util/log.c file. Let me know
-if I need to CC someone in special for this file.
-
-Daniel Henrique Barboza (9):
-  util/log.c: add LOG_UNSUPP type
-  hw/ppc/spapr_hcall.c: log h_clean_slb() as unsupported
-  hw/ppc/spapr_hcall.c: log h_invalidate_pid() as unsupported
-  hw/ppc/spapr_hcall.c: log h_copy_tofrom_guest() as unsupported
-  hw/ppc/spapr_hcall.c: log H_GET_EM_PARMS as unsupported
-  hw/ppc/spapr_hcall.c: log H_BEST_ENERGY as unsupported
-  hw/ppc/spapr_hcall.c: log H_QUERY_VAS_CAPABILITIES as unsupported
-  hw/ppc/spapr_hcall.c: log H_GET_PPP as unsupported
-  hw/ppc/spapr_hcall.c: log H_VIOCTL as unsupported
-
- hw/ppc/spapr_hcall.c   | 98 +++++++++++++++++++++++++++++++++++++++++-
- include/hw/ppc/spapr.h |  3 ++
- include/qemu/log.h     |  3 +-
- util/log.c             |  2 +
- 4 files changed, 103 insertions(+), 3 deletions(-)
-
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index 9b80660207..884a81495b 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -14,7 +14,7 @@ typedef struct QemuLogFile {
+ extern QemuLogFile *qemu_logfile;
+ 
+ 
+-/* 
++/*
+  * The new API:
+  *
+  */
+@@ -64,6 +64,7 @@ static inline bool qemu_log_separate(void)
+ #define CPU_LOG_PLUGIN     (1 << 18)
+ /* LOG_STRACE is used for user-mode strace logging. */
+ #define LOG_STRACE         (1 << 19)
++#define LOG_UNSUPP         (1 << 20)
+ 
+ /* Lock output for a series of related logs.  Since this is not needed
+  * for a single qemu_log / qemu_log_mask / qemu_log_mask_and_addr, we
+diff --git a/util/log.c b/util/log.c
+index 2ee1500bee..3e19859ab3 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -334,6 +334,8 @@ const QEMULogItem qemu_log_items[] = {
+ #endif
+     { LOG_STRACE, "strace",
+       "log every user-mode syscall, its input, and its result" },
++    { LOG_UNSUPP, "unsupp",
++      "log unsupported functionality" },
+     { 0, NULL, NULL },
+ };
+ 
 -- 
 2.35.1
 
