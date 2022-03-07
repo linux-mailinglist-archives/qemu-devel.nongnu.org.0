@@ -2,82 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6424CFD04
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:34:02 +0100 (CET)
-Received: from localhost ([::1]:58746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6484CFCA2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:23:04 +0100 (CET)
+Received: from localhost ([::1]:33380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBcn-0007ql-PN
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:34:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37600)
+	id 1nRBSB-0007Xs-Ei
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:23:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRAMd-0004jo-G8
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:13:15 -0500
-Received: from [2a00:1450:4864:20::432] (port=37635
- helo=mail-wr1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRAMb-0004Ng-Of
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:13:15 -0500
-Received: by mail-wr1-x432.google.com with SMTP id q14so6808587wrc.4
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:13:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2EWxsRqGLmu+y9a9we3MPYsnUoSssM0/xVYg8aJ1C4w=;
- b=Idfz7Fpq17OOZyFdhWdQNdYa8M9BR+1BzVohsRr0YQGvSp1BAU9saHlnLK7rYBu3Xt
- Fr5uHxdda+UgJkAF0Z7zI9FqiiL2ylfBzc+bdz1/akaIn1VcDh1qdJIXjCjdkCXvh/sa
- vKK3b7wTeDD5KuKOly4BGtirBja6YnOHqtD9n9eM4VffMx2iVS10DYPXavhk9c3XMNAr
- gWAaQjc/iXLiCB1d+WNEdX0BdpS2OHBdIzg+HOxRTMz0t0gjPw6fye2BjMp2WLNRA67m
- dNl7RsACeaeNd4nZmZNsmm184WWDNhxpWG9jUSouhL9/7+gjR62dxqU0+V9jVvEFLeP/
- Ot5g==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRAM3-0003V8-PC
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54513)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRAM2-0004Km-91
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646647957;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=W198XCKyrEiFvXIDRqf0EdVpQ1H108txwr8Pw29Sh2A=;
+ b=eCzqtkB0/Q5tH0rF3h7zx4MiTzYkvqx3y464ppSttpxeX++KHNsV8gXHjILmQEwQ0JIA92
+ Qd1M8TCsvoLEpK1Tef3GbBrltz16iCI0aJQokBloS7U5dio/9dUEstWBvFPdyu9DckwkhS
+ 5fqFsI9DdbalIP3OecE8Hu4MBMTLW9E=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-501-UeJL6Fj9Nb2TUc8NNzKnAg-1; Mon, 07 Mar 2022 05:12:35 -0500
+X-MC-Unique: UeJL6Fj9Nb2TUc8NNzKnAg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ t15-20020adfdc0f000000b001ef93643476so4353911wri.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2EWxsRqGLmu+y9a9we3MPYsnUoSssM0/xVYg8aJ1C4w=;
- b=7xZ28fnLYAt9VAb5pTjxctlBtRUX3mEipfd8UrryeT7F7cZrkiB98CZpor9920dVRE
- ZkAZt1HPNTWZGNUaeuJFgzJPiBsipXObA9UhMt4oo95NVbfCbLWFjfV7Ps6ty3bkEK0+
- PnJi1VSdnJi1OCD/Sa3Q796nFymdulX9UdtVGTG/3GcneLUQK/JdRT8yKj8VerZTdOgl
- X8uJ1DQZES5KxYICeMLSZpMxJZnBSq7dcAg4U3ASX8u7hZos+S79tKZM2HcNXQGtAsxt
- dBfvlwN/Ir8txfwuSgd3mR1DbLRa6nwj/Z4l/WeM8Ms9h7YC5pVlVcOIEs2dLyVwdhuV
- QJEA==
-X-Gm-Message-State: AOAM533CNMKp6jvntpJSySIFcv7hMdgMDuaoH8QoscvdHIWq8ywUGx6s
- vHx3ygOMIv40w2dVgU/NdaGvMTVkVvM=
-X-Google-Smtp-Source: ABdhPJyi0D5oD+uY2x5+VaRnA+ljORrELvKd0gcj8mAzMk3DliDtb6n8YNxcyGMcJJ3W1rpBF+e/JA==
-X-Received: by 2002:a05:6000:1c06:b0:1f1:ed99:8143 with SMTP id
- ba6-20020a0560001c0600b001f1ed998143mr4278556wrb.163.1646647991988; 
- Mon, 07 Mar 2022 02:13:11 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=W198XCKyrEiFvXIDRqf0EdVpQ1H108txwr8Pw29Sh2A=;
+ b=aOfLoZYqJkDuUQ5hMyz25bsG+6xaL3Xd0ci/kFBgH3UC+7m7myPGlyK+vgbW8Kpfvg
+ iE5s5w9wn0EyT0i2elJwYeJ/Fsjdj3p9E9IgFu4lmjEhCyiY89H/eJdjW8g9lm76IPy0
+ wX2l3tTxf9FcRx9sfd/mU1kIWtYG+FJzqIKgbK8kEmJQgjsV2n/7MBEb/sW5UapEyNmp
+ uNKnJSZ7pAgH2SNfwijwzJPDAHPcJ8dWacPCx/0RKMiEs/McLFVKiiw6LNbv686q/X9f
+ /TYEvrrDnrMkQL0DT+LrVdljIK9AQj0UN5LdrHE+ngpaSuegYhd1dMS5B2ty598VCJCm
+ LYrg==
+X-Gm-Message-State: AOAM530HwVAvuF8lEsU+lyjc84XV30Lgd9y0GwN9s3JpqvWF/y4MkGRY
+ Ev+Z/3GJVx6k7aCAiF0nsUafxlkLba15BH7KWyE6OIBIEWvyTNuXYJzGB2mNCouVR94pPBEULOE
+ A5vkuoPxumdd6AXY=
+X-Received: by 2002:a05:600c:4615:b0:386:9f67:8c63 with SMTP id
+ m21-20020a05600c461500b003869f678c63mr17637972wmo.12.1646647954570; 
+ Mon, 07 Mar 2022 02:12:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxW85DSIM6D9YSpU20v6+ndkJDMc4hp5a7YROzTtfSawHlyvbQXfe5kDTLaxTN+zhWL2j3azA==
+X-Received: by 2002:a05:600c:4615:b0:386:9f67:8c63 with SMTP id
+ m21-20020a05600c461500b003869f678c63mr17637959wmo.12.1646647954389; 
+ Mon, 07 Mar 2022 02:12:34 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- r16-20020a05600c35d000b00389a826abd3sm1807742wmq.42.2022.03.07.02.13.11
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Mar 2022 02:13:11 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 13/16] hw/isa/isa-bus: Remove isabus_dev_print()
-Date: Mon,  7 Mar 2022 11:12:04 +0100
-Message-Id: <20220307101207.90369-14-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
-References: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
+ l16-20020a05600c1d1000b003816edb5711sm19955037wms.26.2022.03.07.02.12.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Mar 2022 02:12:33 -0800 (PST)
+Message-ID: <87bded92-530f-7cbe-eefe-2aefd5457957@redhat.com>
+Date: Mon, 7 Mar 2022 11:12:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 12/18] tests: add migration tests of TLS with PSK
+ credentials
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220302174932.2692378-1-berrange@redhat.com>
+ <20220302174932.2692378-13-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220302174932.2692378-13-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,290 +104,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bernhard Beschow <shentey@gmail.com>
+On 02/03/2022 18.49, Daniel P. Berrangé wrote:
+> This validates that we correctly handle migration success and failure
+> scenarios when using TLS with pre shared keys.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   roms/seabios                        |   2 +-
+>   tests/qtest/meson.build             |   7 +-
+>   tests/qtest/migration-test.c        | 180 ++++++++++++++++++++++++++--
+>   tests/unit/crypto-tls-psk-helpers.c |  18 ++-
+>   tests/unit/crypto-tls-psk-helpers.h |   1 +
+>   5 files changed, 190 insertions(+), 18 deletions(-)
+> 
+> diff --git a/roms/seabios b/roms/seabios
+> index 2dd4b9b3f8..6a62e0cb0d 160000
+> --- a/roms/seabios
+> +++ b/roms/seabios
+> @@ -1 +1 @@
+> -Subproject commit 2dd4b9b3f84019668719344b40dba79d681be41c
+> +Subproject commit 6a62e0cb0dfe9cd28b70547dbea5caf76847c3a9
 
-All isabus_dev_print() did was to print up to two IRQ numbers per
-device. This is redundant if the IRQ numbers are present as QOM
-properties (see e.g. the modified tests/qemu-iotests/172.out).
+Ah, here is the revert - so the previous change was by accident, indeed!
 
-Now that the last devices relying on isabus_dev_print() had their IRQ
-numbers QOM'ified, the contribution of this function ultimately became
-redundant. Remove it.
+  Thomas
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220301220037.76555-5-shentey@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/isa/isa-bus.c           | 16 ----------------
- tests/qemu-iotests/172.out | 26 --------------------------
- 2 files changed, 42 deletions(-)
-
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 6c31398dda..af5add6a26 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -21,21 +21,18 @@
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
--#include "monitor/monitor.h"
- #include "hw/sysbus.h"
- #include "sysemu/sysemu.h"
- #include "hw/isa/isa.h"
- 
- static ISABus *isabus;
- 
--static void isabus_dev_print(Monitor *mon, DeviceState *dev, int indent);
- static char *isabus_get_fw_dev_path(DeviceState *dev);
- 
- static void isa_bus_class_init(ObjectClass *klass, void *data)
- {
-     BusClass *k = BUS_CLASS(klass);
- 
--    k->print_dev = isabus_dev_print;
-     k->get_fw_dev_path = isabus_get_fw_dev_path;
- }
- 
-@@ -222,19 +219,6 @@ void isa_build_aml(ISABus *bus, Aml *scope)
-     }
- }
- 
--static void isabus_dev_print(Monitor *mon, DeviceState *dev, int indent)
--{
--    ISADevice *d = ISA_DEVICE(dev);
--
--    if (d->isairq[1] != -1) {
--        monitor_printf(mon, "%*sisa irqs %d,%d\n", indent, "",
--                       d->isairq[0], d->isairq[1]);
--    } else if (d->isairq[0] != -1) {
--        monitor_printf(mon, "%*sisa irq %d\n", indent, "",
--                       d->isairq[0]);
--    }
--}
--
- static void isabus_bridge_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
-index 4cf4d536b4..9479b92185 100644
---- a/tests/qemu-iotests/172.out
-+++ b/tests/qemu-iotests/172.out
-@@ -15,7 +15,6 @@ Testing:
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -43,7 +42,6 @@ Testing: -fda TEST_DIR/t.qcow2
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -81,7 +79,6 @@ Testing: -fdb TEST_DIR/t.qcow2
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -135,7 +132,6 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -190,7 +186,6 @@ Testing: -fdb
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -230,7 +225,6 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -268,7 +262,6 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -322,7 +315,6 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -380,7 +372,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -418,7 +409,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,unit=1
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -456,7 +446,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -520,7 +509,6 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -575,7 +563,6 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -630,7 +617,6 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -685,7 +671,6 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -749,7 +734,6 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -804,7 +788,6 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -865,7 +848,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global floppy.drive=none0 -device
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -933,7 +915,6 @@ Testing: -device floppy
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -958,7 +939,6 @@ Testing: -device floppy,drive-type=120
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -983,7 +963,6 @@ Testing: -device floppy,drive-type=144
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -1008,7 +987,6 @@ Testing: -device floppy,drive-type=288
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -1036,7 +1014,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -1074,7 +1051,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -1115,7 +1091,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,logical
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
-@@ -1153,7 +1128,6 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physica
-             fdtypeA = "auto"
-             fdtypeB = "auto"
-             fallback = "288"
--            isa irq 6
-             bus: floppy-bus.0
-               type floppy-bus
-               dev: floppy, id ""
--- 
-2.34.1
 
 
