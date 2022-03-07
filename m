@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C009E4CEEEB
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 01:15:42 +0100 (CET)
-Received: from localhost ([::1]:59632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF6A4CEEF8
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 01:35:34 +0100 (CET)
+Received: from localhost ([::1]:36340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR12L-00052w-Ap
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 19:15:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57914)
+	id 1nR1LY-0000wj-Rr
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 19:35:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR10a-0004MU-Q4
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 19:13:52 -0500
-Received: from [2a00:1450:4864:20::42b] (port=37780
- helo=mail-wr1-x42b.google.com)
+ id 1nR1Kb-000803-4G
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 19:34:33 -0500
+Received: from [2a00:1450:4864:20::435] (port=33674
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR10V-0007QZ-Rv
- for qemu-devel@nongnu.org; Sun, 06 Mar 2022 19:13:48 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id q14so5201145wrc.4
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 16:13:47 -0800 (PST)
+ id 1nR1KZ-0001lh-IJ
+ for qemu-devel@nongnu.org; Sun, 06 Mar 2022 19:34:32 -0500
+Received: by mail-wr1-x435.google.com with SMTP id j17so20867815wrc.0
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 16:34:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ozMp5rzXMEAHcl2Pk33PF4ER/L0fON4NGa8B2E0PfDs=;
- b=TImg02SP9MFhjj4i/W9EZZkEHTNscu156StazP9yxHVHcEh9GmHbGxv+jB+7JWIiN3
- yZFlHXSpcmVYOY+MYSp1yog5cecpvFdB3voBwKBuTmPpH7HzeVVgd6npzq6QXuPxqX70
- qASXzX+q22GdyA8ttPBUVtr/qS/2Dc/ACTOU4QKgzJlC2viQuK5F8wQtuM6hJ9Gpd9Dh
- dx5KFib/QpBrl63DU5GbndUsC7gxwYuyW/yCXomHs4lItaDaQrI9ZqYDGDFWcOANfB6L
- m3E0zDi8fW64CS2AiFr3/ymA7L4jC4Z1eUu7o9S0GbDii+hO7/lPjtgy4MRSGqof2G5T
- BnYg==
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=jQ1nEaCziBwqjFUS8hoMmZ0At6Eit46uCxim4vhyeMU=;
+ b=ZEYulUMpP2PZT4+yUcyBZmh396cj/k4bAP4a6nzyryuG0d6aEQ/CEuz1u7Od8yh4QC
+ VA3ZBnI4ueQeTSYoTcWZiSuAAJpJgRjj0R5yY+vrjpfKejq8rS3zb+hykOIeQqRXyDk4
+ fSilxDqNkQc29fbw3Ok17fHTQClM3j/fu+PrDSRdRbgjY+23HzWNyMqndL75Jw+P5KRT
+ NPS9/el5NohbemwY8R/TE9tpdURznV4lE39cb0cV5TFvTCqiOPFMHSOuTso7oueA91Qw
+ B/glv5UiyL041xlE1/46WODJemhbIDvdriSgNJ6FITuDUbMw7fR7MNj285o10mBI9V8u
+ 8EMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ozMp5rzXMEAHcl2Pk33PF4ER/L0fON4NGa8B2E0PfDs=;
- b=PMsUerfnewLK39eYoDIsEmbS/gASNGoS+Om3TQB38JL8TQiffkUJDXhH17rO8zKOXC
- MSiyYivjiWyJx3VR641ZXb5qphXZRmPeL7oFm9YtFA3YxfTyuHmciOllwcHfqkROZutb
- MECk5nvoaIQguCo1JgzHQPnzglISQrhYqvE9AtTWOGBjcXVN6+bJOU1U/BffEUwPrWd1
- Dz23qYszEFVMT5kUvCngCc7hhDI8hqsyqOPpIBLA5DQwhmyJHMKn3pFSIiMZrBRxij4W
- PX2UW8vSbstUlxNEaOs+Rmh5iDEkJyRZ3g8ml7+VSaeUiDNA+ln8wJOOfXtMTYFFs6ny
- V43g==
-X-Gm-Message-State: AOAM532wEVqF5gmt443ihfYGd7DjCS+Nl1THaYUL6xnkDHGrGWUXRp7A
- hIrpuc1j4Hgd5tIsosFcl3s=
-X-Google-Smtp-Source: ABdhPJwzAfU+NJEZVOyiodzs2ILq5r/UD1Y4ewhXQCcmZ93BWlQZALaYyXiHoDL54CmYxuyy+SNIVA==
-X-Received: by 2002:a5d:48d1:0:b0:1e3:2401:f229 with SMTP id
- p17-20020a5d48d1000000b001e32401f229mr6444797wrs.694.1646612025867; 
- Sun, 06 Mar 2022 16:13:45 -0800 (PST)
+ bh=jQ1nEaCziBwqjFUS8hoMmZ0At6Eit46uCxim4vhyeMU=;
+ b=LqAI2EvaFAF4ttYOl/L4pMucoCE/WRrMdygDw+37j8PL7ljqcLM5lzeoVbQmZJZfpT
+ AfaxzqRbO9yum+5XwnRp61bwNIVXsp7ycJDOWwKHBW84rT5aH/8ltQVqBS06j/Zfg3jY
+ HOEVkYA2LWgrYN0YW7djNo9NxDacLK+z5UKmKy2H78u/wuTmva9c+/4WwC3X/iHE64jY
+ deqJqB7zwgUfXbFH+AbG6jjrudqcJ5KOwH8DqbjOfawwWRK2NQg1GwG6lkruBrKJHNGL
+ ai5l2VBFC97A+r0p+lQscW1G58D/ekNZuPZBpRExbtrcFGQLSaGfegMSMNPCHDQEOXZb
+ 07Ng==
+X-Gm-Message-State: AOAM5325iVqKW8l1+GQaL2yZmgxJ2Ex4CCEIT1fqJtnOCCj+pR3iNg6C
+ 7GFD/2hHHMN+GKU4eQkuYX4=
+X-Google-Smtp-Source: ABdhPJyh9Acy78XHrnXEB400xJi91/FfYaPQi3t8NYiZkG0vulK0Qnweh8unRAcF8GQIztcxcXc4Ig==
+X-Received: by 2002:a5d:63cf:0:b0:1f0:7916:6a39 with SMTP id
+ c15-20020a5d63cf000000b001f079166a39mr6672673wrw.500.1646613269585; 
+ Sun, 06 Mar 2022 16:34:29 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- t184-20020a1c46c1000000b003814de297fcsm5629264wma.16.2022.03.06.16.13.44
+ l8-20020a5d6688000000b001f04ae0bb6csm9810891wru.58.2022.03.06.16.34.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Mar 2022 16:13:45 -0800 (PST)
-Message-ID: <5990c4ce-9882-6c96-c19d-830f343ae7ff@gmail.com>
-Date: Mon, 7 Mar 2022 01:13:43 +0100
+ Sun, 06 Mar 2022 16:34:28 -0800 (PST)
+Message-ID: <43235477-83c2-1101-93df-25d52a9ac529@gmail.com>
+Date: Mon, 7 Mar 2022 01:34:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH] [RESEND] docs: Add spec of OVMF GUIDed table for SEV
- guests
+Subject: Re: [PATCH v3 0/7] isa: Resolve unneeded IRQ attributes from ISADevice
 Content-Language: en-US
-To: Dov Murik <dovmurik@linux.ibm.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220103091413.2869-1-dovmurik@linux.ibm.com>
- <YdSM8wFu4xiRcKMt@redhat.com>
- <acbcbb8a-3b50-a380-ad58-0d1545c8715a@linux.ibm.com>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+References: <20220301220037.76555-1-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <acbcbb8a-3b50-a380-ad58-0d1545c8715a@linux.ibm.com>
+In-Reply-To: <20220301220037.76555-1-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,37 +93,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/2/22 07:21, Dov Murik wrote:
-> On 04/01/2022 20:07, Daniel P. Berrangé wrote:
->> On Mon, Jan 03, 2022 at 11:14:13AM +0200, Dov Murik wrote:
->>> Add docs/specs/sev-guest-firmware.rst which describes the GUIDed table
->>> in the end of OVMF's image which is parsed by QEMU, and currently used
->>> to describe some values for SEV and SEV-ES guests.
->>>
->>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
->>> ---
->>>   docs/specs/index.rst              |   1 +
->>>   docs/specs/sev-guest-firmware.rst | 125 ++++++++++++++++++++++++++++++
->>>   2 files changed, 126 insertions(+)
->>>   create mode 100644 docs/specs/sev-guest-firmware.rst
->>
->> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->>
-> 
-> Phil,
-> 
-> Can you please add this to your queue? (I assume this is yours
-> because this is documentation of OVMF-QEMU interface)
+On 1/3/22 23:00, Bernhard Beschow wrote:
 
-Catching up for 7.0 I see Gerd merged it as 0a2a40da4f. Thank you Gerd!
+> The IRQ attributes are mostly used for printing ('info qtree') and there is one
+> user, hw/ppc/pnv, to use the attributes directly. As it turns out, the printing
+> is redundant if the IRQ numbers are exposed as QOM properties and hw/ppc/pnv
+> can be easily ported away.
+> 
+> The patch series is structured as follows: Patch 1-3 QOM'ify the last devices
+> which rely on printing their IRQ numbers via the ISADevice attributes. Patch
+> 4 and 5 remove the last users of the ISADevice attributes such that they can be
+> removed in patch 6. The remainder of the patch series is cleanup.
+> 
+> Patch 6 turns isa_init_irq() into a trivial wrapper for isa_get_irq(). That is,
+> the former function becomes redundant. All users are therefore converted to use
+> isa_get_irq() directly. Finally, the last patch removes the now unused
+> isa_init_irq().
+> 
+> 
+> Bernhard Beschow (7):
+>    hw/rtc/mc146818rtc: QOM'ify IRQ number
+>    hw/rtc/m48t59-isa: QOM'ify IRQ number
+>    hw/input/pckbd: QOM'ify IRQ numbers
+>    hw/isa/isa-bus: Remove isabus_dev_print()
+>    hw/ppc/pnv: Determine ns16550's IRQ number from QOM property
+>    isa: Drop unused attributes from ISADevice
+>    isa: Inline and remove one-line isa_init_irq()
+> 
+>   hw/audio/cs4231a.c           |  2 +-
+>   hw/audio/gus.c               |  2 +-
+>   hw/audio/sb16.c              |  2 +-
+>   hw/block/fdc-isa.c           |  2 +-
+>   hw/char/parallel.c           |  2 +-
+>   hw/char/serial-isa.c         |  2 +-
+>   hw/ide/isa.c                 |  2 +-
+>   hw/input/pckbd.c             | 26 +++++++++++++++++++++----
+>   hw/ipmi/isa_ipmi_bt.c        |  2 +-
+>   hw/ipmi/isa_ipmi_kcs.c       |  2 +-
+>   hw/isa/isa-bus.c             | 37 +-----------------------------------
+>   hw/isa/piix4.c               |  2 +-
+>   hw/net/ne2000-isa.c          |  2 +-
+>   hw/ppc/pnv.c                 |  5 ++++-
+>   hw/rtc/m48t59-isa.c          |  9 ++++++++-
+>   hw/rtc/mc146818rtc.c         | 13 +++++++++++--
+>   hw/tpm/tpm_tis_isa.c         |  2 +-
+>   include/hw/isa/isa.h         |  3 ---
+>   include/hw/rtc/mc146818rtc.h |  1 +
+>   tests/qemu-iotests/172.out   | 26 -------------------------
+>   20 files changed, 59 insertions(+), 85 deletions(-)
+> 
 
+Please avoid posting 2 series going in different directions but touching
+the same files, and expect the same person to take them both and resolve
+resulting conflicts. Post one, then the second one based on the previous
+one (and so on if multiple steps). Anyway, for now I adapted this series
+on top of your "malta: Fix PCI IRQ levels" series and queued to mips.
+
+Thanks,
+
+Phil.
 
