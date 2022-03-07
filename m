@@ -2,63 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BA04CF9D6
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:14:39 +0100 (CET)
-Received: from localhost ([::1]:53516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6296A4CFB16
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:26:22 +0100 (CET)
+Received: from localhost ([::1]:57546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRANy-0005SL-Fb
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:14:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34794)
+	id 1nRAZJ-00020X-6e
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:26:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nRACO-0001bC-0r; Mon, 07 Mar 2022 05:02:40 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:51925)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRACH-0001Jg-2h
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:02:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1nRACM-0002mS-6F; Mon, 07 Mar 2022 05:02:39 -0500
-Received: from [192.168.100.1] ([82.142.8.122]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M72wZ-1nWv5Z2JWZ-008XPZ; Mon, 07 Mar 2022 11:02:26 +0100
-Message-ID: <960fea17-c5e7-fa6f-c185-8a892998cff7@vivier.eu>
-Date: Mon, 7 Mar 2022 11:02:24 +0100
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRACF-0002ll-F7
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:02:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646647350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ezHczUZNer51n68XHQRo+8Gd2wahCXeNyLSEi3/WKiI=;
+ b=eZNG6wZa+kQBHujfVuxdh7IwEgPKOsfYGhYcr/XNFi2zAjAfpvu+o521dF01cDQFkvjDU+
+ ORWY9qbxagkOpc8oLg0fNAZ8cT9AgK7++BZBzhp78fJPorq8tvQGrP6y4WxhmRsezZEIP9
+ pY6vbA+Wn5uQqkuhFn+syU0HA3F2iBg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-155-e_17FIE4M6W963GgLMyAbQ-1; Mon, 07 Mar 2022 05:02:30 -0500
+X-MC-Unique: e_17FIE4M6W963GgLMyAbQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ h17-20020a05640250d100b004133863d836so8343253edb.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:02:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ezHczUZNer51n68XHQRo+8Gd2wahCXeNyLSEi3/WKiI=;
+ b=UfJ9IHMZPbhh5QBEQW/06qDcBdy4gDFKo+Uxr7STAmtPWnDYnSKgMEbBnsRw8iODxu
+ ddpPEPZCSo4em3K9gtMB817uHv8GJV9hlB2LYIFuZaXmltahHMxI+lnjeAmMa7h/uJvT
+ XAIEbvek1GrGgXORFfFyJGlORBF2KIHr8+wna2mp+2edcgXhMjscIZqWQRbbGclwQv1f
+ +1oa/9gkV98bnmu/Qk/TbnoqxUmNYybqa4X7+jD2Nlry9bakvMbBhtkFQXA0o9kYHlD6
+ sKIuWSeSffKa2K8hMk6/ySYNcGWxBiERT5nOOLCa2eL/VPQfEuCXN5s+YTDmLIP6O3+2
+ PEyA==
+X-Gm-Message-State: AOAM532uudn9xL3uvHf0hbFoZD3yYZMCZMrF8n0+HVCxbpGSuHF93Tyl
+ IIGcmRan/+coTVcOzpylJbcVIPOTI1dOobX7xX5L89s51oSxI+ZEZ4ln8gxlCISTzWqWlUbsB7n
+ n+6fF9NleY53rfsElM3BJ8YmPSDV1L0xc31C3F1KWWyjPgIVa5idT6cBOc/ad
+X-Received: by 2002:a05:6402:369b:b0:416:5aa6:1584 with SMTP id
+ ej27-20020a056402369b00b004165aa61584mr1275491edb.28.1646647348337; 
+ Mon, 07 Mar 2022 02:02:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8NSoNdCBJEvuxslFeIuYJa0LnUNKJGCVvEpmN+UzsM2Y11gPFuVXoO/OVw1pbmwEKHkJV5Q==
+X-Received: by 2002:a05:6402:369b:b0:416:5aa6:1584 with SMTP id
+ ej27-20020a056402369b00b004165aa61584mr1275476edb.28.1646647348120; 
+ Mon, 07 Mar 2022 02:02:28 -0800 (PST)
+Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
+ hg11-20020a1709072ccb00b006cee4fb36c7sm4618430ejc.64.2022.03.07.02.02.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 02:02:27 -0800 (PST)
+Date: Mon, 7 Mar 2022 05:02:25 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 21/47] hw/i386/pc_piix: Mark the machine types from version
+ 1.4 to 1.7 as deprecated
+Message-ID: <20220307100058.449628-22-mst@redhat.com>
+References: <20220307100058.449628-1-mst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 4/5] Replace qemu_gettimeofday() with g_get_real_time()
-Content-Language: fr
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <20220304211618.3715999-1-marcandre.lureau@redhat.com>
- <20220304211618.3715999-5-marcandre.lureau@redhat.com>
- <CAMxuvaz_uCxtL+0e-=AFZsuomNAz6H7Y+6RbdkSzfbxcMSLGrg@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <CAMxuvaz_uCxtL+0e-=AFZsuomNAz6H7Y+6RbdkSzfbxcMSLGrg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XiqdCrs+a+zw0feEHZ08/vNiZ7cwEZCKMqXpEh5Egw4ImupKnpd
- uk8JCJWQ9ZNpVY/vZxTAfU7wDZArq4EnDSASwPXg2UOGx24QbqHo61CGOxJCBR0UB9aTtJq
- OwUqtQWKwQ5RedWu0qO7F8xJQ+ea4FiqMUv11qx5G6jj8HM9DyjkXEytsGWNLlGEUl9Zr3x
- YIdNk2n5Fr7azOundkumg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zD3pgXZo1Lk=:rJi0pFal5hMim7KaT84itX
- dgksCEOBqaGta8sgELk5W7vq3I3LH+j7/YVOSVNOKPJR2HWnjUaqtBnnxurJEXNUSAHbmEJsN
- E/gJ4+sUJH7ZgeiCp2Nn/0J2KE1QaUKd1o8Ppdk5rcrShiIo1sGay3y3h+oJGRH4YDzTgCton
- dAj6MHWoJ8v/dj3qWDePbAq/W8QsdmLVRzyLHXH24VmgbAtuga/xmoOSvWlgeXV2L8K8pP/WY
- XAEeGnBEFVjz/0PQAYnYh3yzDX9cmGSuPX0cq6B8z62YMP2cukVgOttdDmGGLS98ZMdP1UQ0V
- yOcmxBz1bN6TC671QqM6hUwFUSbm+v90LyVERuieicPNrEjeFsnmsJSFtf/my+wT5m33SA8h1
- hyAt5wo2AwHiqatu1U5tx9NokFjK+23LaFnQqS5iiIsa2jfVzQr9bqnusfGnh23zofktNaOLF
- 1YwNPMvzmMMxMcbDjK5FiaayrHRflrF6Lf++GGMS7vrqgBRRJvOspeqN0hoYCIW1sItoHmKu4
- 7xflmcVSB+qRuzelbWG8XqCr14Gk9mpGLKUJz/P8SzvACPV187nxCWwkx7IOkQ9mWTr9CPfuB
- KuWjDpcoQPUtBE6367eAu1QxV5nSroQDsSW229+ndjGwosU8s4twbrd0gDbt+lzC5Myngjd95
- pW6vy46DTrGVtPnvpfzhcyw18fH5TNpYPbqjofF552YyM8svPQ07PGW8Ra6yP/40VSYs=
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+In-Reply-To: <20220307100058.449628-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,67 +98,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Marek Vasut <marex@denx.de>,
- Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Chris Wulff <crwulff@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ libvir-list@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 05/03/2022 à 20:17, Marc-André Lureau a écrit :
-> On Sat, Mar 5, 2022 at 1:18 AM <marcandre.lureau@redhat.com> wrote:
->>
->> From: Marc-André Lureau <marcandre.lureau@redhat.com>
->>
->> GLib g_get_real_time() is an alternative to gettimeofday() which allows
->> to simplify our code.
->>
->> For semihosting, a few bits are lost on POSIX host, but this shouldn't
->> be a big concern.
->>
->> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->> ---
->>   blockdev.c                 |  8 ++++----
->>   hw/rtc/m41t80.c            |  6 +++---
->>   hw/virtio/virtio-balloon.c |  9 +--------
->>   qapi/qmp-event.c           | 12 +++++-------
->>   qemu-img.c                 |  8 ++++----
->>   target/m68k/m68k-semi.c    | 22 ++++++++++------------
->>   target/nios2/nios2-semi.c  | 23 ++++++++++-------------
->>   7 files changed, 37 insertions(+), 51 deletions(-)
->>
-...
->> index 19d3cd003833..025716b3ec37 100644
->> --- a/qapi/qmp-event.c
->> +++ b/qapi/qmp-event.c
->> @@ -20,15 +20,13 @@
->>
->>   static void timestamp_put(QDict *qdict)
->>   {
->> -    int err;
->>       QDict *ts;
->> -    qemu_timeval tv;
->> +    int64_t rt = g_get_real_time();
->>
->> -    err = qemu_gettimeofday(&tv);
->> -    /* Put -1 to indicate failure of getting host time */
->> -    ts = qdict_from_jsonf_nofail("{ 'seconds': %lld, 'microseconds': %lld }",
->> -                                 err < 0 ? -1LL : (long long)tv.tv_sec,
->> -                                 err < 0 ? -1LL : (long long)tv.tv_usec);
->> +    ts = qdict_from_jsonf_nofail("{ 'seconds': %" G_GINT64_FORMAT
->> +                                 ", 'microseconds': %" G_GINT64_FORMAT "}",
->> +                                 rt / G_USEC_PER_SEC,
->> +                                 rt % G_USEC_PER_SEC);
-> 
-> NACK this, fixed in v3
+From: Thomas Huth <thuth@redhat.com>
 
-Why keeping the %lld is better than moving to %G_GINT64_FORMAT?
+The list of machine types grows larger and larger each release ... and
+it is unlikely that many people still use the very old ones for live
+migration. QEMU v1.7 has been released more than 8 years ago, so most
+people should have updated their machines to a newer version in those
+8 years at least once. Thus let's mark the very old 1.x machine types
+as deprecated now.
 
-Thanks,
-Laurent
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220117191639.278497-1-thuth@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/i386/pc_piix.c         | 1 +
+ docs/about/deprecated.rst | 8 ++++++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 8d33cf689d..b72c03d0a6 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -757,6 +757,7 @@ static void pc_i440fx_1_7_machine_options(MachineClass *m)
+     m->hw_version = "1.7.0";
+     m->default_machine_opts = NULL;
+     m->option_rom_has_mr = true;
++    m->deprecation_reason = "old and unattended - use a newer version instead";
+     compat_props_add(m->compat_props, pc_compat_1_7, pc_compat_1_7_len);
+     pcmc->smbios_defaults = false;
+     pcmc->gigabyte_align = false;
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 85773db631..cf02ef6821 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -324,6 +324,14 @@ machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
+ been implemented), so there is not much value added by this board. Use the
+ ``ref405ep`` machine instead.
+ 
++``pc-i440fx-1.4`` up to ``pc-i440fx-1.7`` (since 7.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++These old machine types are quite neglected nowadays and thus might have
++various pitfalls with regards to live migration. Use a newer machine type
++instead.
++
++
+ Backend options
+ ---------------
+ 
+-- 
+MST
+
 
