@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3D54CF568
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 10:28:36 +0100 (CET)
-Received: from localhost ([::1]:54376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72C04CF6A1
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 10:42:03 +0100 (CET)
+Received: from localhost ([::1]:38600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR9fP-00018C-Qx
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 04:28:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57396)
+	id 1nR9sO-0000J1-UN
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 04:42:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nR9dT-0008KL-9Y
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 04:26:35 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3468)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nR9q3-0007OJ-2v
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 04:39:35 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nR9dQ-0005oy-6e
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 04:26:34 -0500
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4KBtN21MYyzdb09;
- Mon,  7 Mar 2022 17:25:06 +0800 (CST)
-Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1nR9pr-0007XR-Ud
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 04:39:34 -0500
+Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KBtfs2RYZz67cHq;
+ Mon,  7 Mar 2022 17:37:57 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Mon, 7 Mar 2022 17:25:57 +0800
-Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
- dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.021;
- Mon, 7 Mar 2022 17:25:57 +0800
-To: Stefano Garzarella <sgarzare@redhat.com>
-CC: "stefanha@redhat.com" <stefanha@redhat.com>, "mst@redhat.com"
- <mst@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Gonglei (Arei)"
- <arei.gonglei@huawei.com>, Yechuan <yechuan@huawei.com>, Huangzhichao
- <huangzhichao@huawei.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v2 04/10] vdpa-dev: implement the instance_init/class_init
- interface
-Thread-Topic: [PATCH v2 04/10] vdpa-dev: implement the
- instance_init/class_init interface
-Thread-Index: AQHYC5/ZdHV3vKWLpkmweJSMX9QfraxpsK0AgEbkkMCAAsL6AIAAkP2Q//+AnoCAAImEcA==
-Date: Mon, 7 Mar 2022 09:25:57 +0000
-Message-ID: <0e29a1e4d0b441b4a3fecae630ffd5c2@huawei.com>
-References: <20220117124331.1642-1-longpeng2@huawei.com>
- <20220117124331.1642-5-longpeng2@huawei.com>
- <20220119112344.5tj3ccnoeotc5abb@steredhat>
- <ad7c799715714ec990ea82c8fbef4963@huawei.com>
- <20220307081020.xzfuyquqrxvca2dw@sgarzare-redhat>
- <40c8c74f3bfb4527934c9e082f848593@huawei.com>
- <20220307091321.3mw2wsinl7xakoos@sgarzare-redhat>
-In-Reply-To: <20220307091321.3mw2wsinl7xakoos@sgarzare-redhat>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.148.223]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 15.1.2308.21; Mon, 7 Mar 2022 10:39:20 +0100
+Received: from localhost (10.202.226.41) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Mon, 7 Mar
+ 2022 09:39:19 +0000
+Date: Mon, 7 Mar 2022 09:39:18 +0000
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Peter Maydell <peter.maydell@linaro.org>, Ben Widawsky
+ <ben.widawsky@intel.com>, <qemu-devel@nongnu.org>, Samarth Saxena
+ <samarths@cadence.com>, Chris Browy <cbrowy@avery-design.com>,
+ <linuxarm@huawei.com>, <linux-cxl@vger.kernel.org>, Markus Armbruster
+ <armbru@redhat.com>, Shreyas Shah <shreyas.shah@elastics.cloud>, "Saransh
+ Gupta1" <saransh@ibm.com>, Shameerali Kolothum Thodi
+ <shameerali.kolothum.thodi@huawei.com>, Marcel Apfelbaum <marcel@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>, 
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>, David Hildenbrand
+ <david@redhat.com>
+Subject: Re: [PATCH v7 00/46] CXl 2.0 emulation Support
+Message-ID: <20220307093918.00002f20@Huawei.com>
+In-Reply-To: <20220306163119-mutt-send-email-mst@kernel.org>
+References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
+ <20220306163119-mutt-send-email-mst@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.202.226.41]
+X-ClientProxiedBy: lhreml729-chm.china.huawei.com (10.201.108.80) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,143 +80,323 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
+On Sun, 6 Mar 2022 16:33:40 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-
-> -----Original Message-----
-> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
-> Sent: Monday, March 7, 2022 5:13 PM
-> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> <longpeng2@huawei.com>
-> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
-> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
-> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
-> qemu-devel@nongnu.org
-> Subject: Re: [PATCH v2 04/10] vdpa-dev: implement the instance_init/class=
-_init
-> interface
+> On Sun, Mar 06, 2022 at 05:40:51PM +0000, Jonathan Cameron wrote:
+> > Ideally I'd love it if we could start picking up the earlier
+> > sections of this series as I think those have been reasonably
+> > well reviewed and should not be particularly controversial.
+> > (perhaps up to patch 15 inline with what Michael Tsirkin suggested
+> > on v5). =20
 >=20
-> On Mon, Mar 07, 2022 at 08:55:35AM +0000, Longpeng (Mike, Cloud Infrastru=
-cture
-> Service Product Dept.) wrote:
-> >
-> >
-> >> -----Original Message-----
-> >> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
-> >> Sent: Monday, March 7, 2022 4:10 PM
-> >> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> >> <longpeng2@huawei.com>
-> >> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
-> >> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
-> >> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
-> >> qemu-devel@nongnu.org
-> >> Subject: Re: [PATCH v2 04/10] vdpa-dev: implement the
-> instance_init/class_init
-> >> interface
-> >>
-> >> Hi Longpeng,
-> >>
-> >> On Sat, Mar 05, 2022 at 06:06:42AM +0000, Longpeng (Mike, Cloud Infras=
-tructure
-> >> Service Product Dept.) wrote:
-> >> >Hi Stefano,
-> >> >
-> >> >> -----Original Message-----
-> >> >> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
-> >> >> Sent: Wednesday, January 19, 2022 7:24 PM
-> >> >> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> >> >> <longpeng2@huawei.com>
-> >> >> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
-> >> >> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yech=
-uan
-> >> >> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
-> >> >> qemu-devel@nongnu.org
-> >> >> Subject: Re: [PATCH v2 04/10] vdpa-dev: implement the
-> >> instance_init/class_init
-> >> >> interface
-> >> >>
-> >> >> On Mon, Jan 17, 2022 at 08:43:25PM +0800, Longpeng(Mike) via wrote:
-> >> >> >From: Longpeng <longpeng2@huawei.com>
-> >> >> >
-> >> >> >Implements the .instance_init and the .class_init interface.
-> >> >> >
-> >> >> >Signed-off-by: Longpeng <longpeng2@huawei.com>
-> >> >> >---
-> >> >> > hw/virtio/vdpa-dev-pci.c     | 52 ++++++++++++++++++++++-
-> >> >> > hw/virtio/vdpa-dev.c         | 81 +++++++++++++++++++++++++++++++=
-++++-
-> >> >> > include/hw/virtio/vdpa-dev.h |  5 +++
-> >> >> > 3 files changed, 134 insertions(+), 4 deletions(-)
-> >> >> >
-> >> >> >diff --git a/hw/virtio/vdpa-dev-pci.c b/hw/virtio/vdpa-dev-pci.c
-> >> >> >index a5a7b528a9..257538dbdd 100644
-> >> >> >--- a/hw/virtio/vdpa-dev-pci.c
-> >> >> >+++ b/hw/virtio/vdpa-dev-pci.c
-> >> >> >@@ -25,12 +25,60 @@ struct VhostVdpaDevicePCI {
-> >> >> >
-> >> >> > static void vhost_vdpa_device_pci_instance_init(Object *obj)
-> >> >> > {
-> >> >> >-    return;
-> >> >> >+    VhostVdpaDevicePCI *dev =3D VHOST_VDPA_DEVICE_PCI(obj);
-> >> >> >+
-> >> >> >+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev=
-),
-> >> >> >+                                TYPE_VHOST_VDPA_DEVICE);
-> >> >> >+    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev=
-),
-> >> >> >+                              "bootindex");
-> >> >> >+}
-> >> >> >+
-> >> >> >+static Property vhost_vdpa_device_pci_properties[] =3D {
-> >> >> >+    DEFINE_PROP_END_OF_LIST(),
-> >> >> >+};
-> >> >> >+
-> >> >> >+static void
-> >> >> >+vhost_vdpa_device_pci_realize(VirtIOPCIProxy *vpci_dev, Error **e=
-rrp)
-> >> >> >+{
-> >> >> >+    VhostVdpaDevicePCI *dev =3D VHOST_VDPA_DEVICE_PCI(vpci_dev);
-> >> >> >+    DeviceState *vdev =3D DEVICE(&dev->vdev);
-> >> >> >+    uint32_t vdev_id;
-> >> >> >+    uint32_t num_queues;
-> >> >> >+    int fd;
-> >> >> >+
-> >> >> >+    fd =3D qemu_open(dev->vdev.vdpa_dev, O_RDWR, errp);
-> >> >>
-> >> >> We should use `vdpa_dev_fd` if the user set it, and I think we shou=
-ld
-> >> >> also check that `vdpa_dev` is not null.
-> >> >>
-> >> >
-> >> >The user can set both 'vdpa_dev_fd' and 'vdpa_dev' now, but how
-> >> >to make sure the 'vdpa_dev_fd' is really a FD of the 'vdpa_dev' ?
-> >> >Maybe we should remove 'vdpa_dev_fd' from
-> >> >'vhost_vdpa_device_properties',
-> >> >so the user can only set 'vdpa_dev'.
-> >>
-> >> This is the same problem that would happen if the user passed a path a=
-ny
-> >> file or device (e.g. /dev/null). I believe that on the first operation
-> >> on it (e.g. an ioctl) we would get an error and exit.
-> >>
-> >
-> >Yes, but how about the 'vdpa_dev_fd' refers to /dev/vhost-vdpa-0 but
-> >the 'vdpa_dev' refers to /dev/vhost-vdpa-1 ? Should we need to consider
-> >this case ?
->=20
-> I think we can do as we already do in vhost-scsi and vhost-vsock. If fd
-> is set we use that otherwise we use path.
->=20
-> If we want we can also print an error and exit if both are set, since
-> IMHO should be set only one of the two.
->=20
+> Well true but given we are entering freeze this will leave
+> us with a half baked devices which cant be used.
+> At this point if we can't merge it up to documentation then
+> I think we should wait until after the release.
 
-Make sense, I'll try. Thanks.
+Makes sense.
 
-> Thanks,
-> Stefano
+If any of the memory maintainers can take a look at patch 34 that would
+be great as to my mind that and the related interleave decoding in general =
+is
+the big unknown in this set. I just realized I haven't cc'd everyone
+I should have for that - added them here and I'll make sure to CC them
+all on V8.
+
+Thanks.
+
+Jonathan
+
+>=20
+> > There is one core memory handling related patch (34) marked as RFC.
+> > Whilst it's impact seems small to me, I'm not sure it is the best way
+> > to meet our requirements wrt interleaving.
+> >=20
+> > Changes since v7:
+> >=20
+> > Thanks to all who have taken a look.
+> > Small amount of reordering was necessary due to LSA fix in patch 17.
+> > Test moved forwards to patch 22 and so all intermediate patches
+> > move -1 in the series.
+> >=20
+> > (New stuff)
+> > - Switch support.  Needed to support more interesting topologies.
+> > (Ben Widawsky)
+> > - Patch 17: Fix reversed condition on presence of LSA that meant these =
+never
+> >   got properly initialized. Related change needed to ensure test for cx=
+l_type3
+> >   always needs an LSA. We can relax this later when adding volatile mem=
+ory
+> >   support.
+> > (Markus Armbuster)
+> > - Patch 27: Change -cxl-fixed-memory-window option handling to use
+> >   qobject_input_visitor_new_str().  This changed the required handling =
+of
+> >   targets parameter to require an array index and hence test and docs u=
+pdates.
+> >   e.g. targets.1=3Dcxl_hb0,targets.2=3Dcxl_hb1
+> >   (Patches 38,40,42,43)
+> > - Missing structure element docs and version number (optimisitic :)
+> > (Alex Benn=E9e)
+> > - Added Reviewed-by tags.  Thanks!.
+> > - Series wise: Switch to compiler.h QEMU_BUILD_BUG_ON/MSG QEMU_PACKED
+> >   and QEMU_ALIGNED as Alex suggested in patch 20.
+> > - Patch 6: Dropped documentation for a non-existent lock.
+> >            Added error code suitable for unimplemented commands.
+> > 	   Reordered code for better readability.
+> > - Patch 9: Reorder as suggested to avoid a goto.
+> > - Patch 16: Add LOG_UNIMP message where feature not yet implemented.
+> >             Drop "Explain" comment that doesn't explain anything.
+> > - Patch 18: Drop pointless void * cast.
+> >             Add assertion as suggested (without divide)
+> > - Patch 19: Use pstrcpy rather than snprintf for a fixed string.
+> >             The compiler.h comment was in this patch but affects a
+> > 	    number of other patches as well.
+> > - Patch 20: Move structure CXLType3Dev to header when originally
+> >             introduced so changes are more obvious in this patch.
+> > - Patch 21: Substantial refactor to resolve unclear use of sizeof
+> >             on the LSA command header. Now uses a variable length
+> > 	    last element so we can use offsetof()
+> > - Patch 22: Use g_autoptr() to avoid need for explicit free in tests
+> >   	    Similar in later patches.
+> > - Patch 29: Minor reorganziation as suggested.
+> > 	   =20
+> > (Tidy up from me)
+> > - Trivial stuff like moving header includes to patch where first used.
+> > - Patch 17: Drop ifndef protections from TYPE_CXL_TYPE3_DEV as there
+> >             doesn't seem to be a reason.
+> >=20
+> > Series organized to allow it to be taken in stages if the maintainers
+> > prefer that approach. Most sets end with the addition of appropriate
+> > tests (TBD for final set)
+> >=20
+> > Patches 0-15 - CXL PXB
+> > Patches 16-22 - Type 3 Device, Root Port
+> > Patches 23-40 - ACPI, board elements and interleave decoding to enable =
+x86 hosts
+> > Patches 41-42 - arm64 support on virt.
+> > Patch 43 - Initial documentation
+> > Patches 44-46 - Switch support.
+> >=20
+> > Gitlab CI is proving challenging to get a completely clean bill of heal=
+th
+> > as there seem to be some intermittent failures in common with the
+> > main QEMU gitlab. In particular an ASAN leak error that appears in some
+> > upstream CI runs and build-oss-fuzz timeouts.
+> > Results at http://gitlab.com/jic23/qemu cxl-v7-draft-2-for-test
+> > which also includes the DOE/CDAT patches serial number support which
+> > will form part of a future series.
+> >=20
+> > Updated background info:
+> >=20
+> > Looking in particular for:
+> > * Review of the PCI interactions
+> > * x86 and ARM machine interactions (particularly the memory maps)
+> > * Review of the interleaving approach - is the basic idea
+> >   acceptable?
+> > * Review of the command line interface.
+> > * CXL related review welcome but much of that got reviewed
+> >   in earlier versions and hasn't changed substantially.
+> >=20
+> > Big TODOs:
+> >=20
+> > * Volatile memory devices (easy but it's more code so left for now).
+> > * Hotplug?  May not need much but it's not tested yet!
+> > * More tests and tighter verification that values written to hardware
+> >   are actually valid - stuff that real hardware would check.
+> > * Testing, testing and more testing.  I have been running a basic
+> >   set of ARM and x86 tests on this, but there is always room for
+> >   more tests and greater automation.
+> > * CFMWS flags as requested by Ben.
+> >=20
+> > Why do we want QEMU emulation of CXL?
+> >=20
+> > As Ben stated in V3, QEMU support has been critical to getting OS
+> > software written given lack of availability of hardware supporting the
+> > latest CXL features (coupled with very high demand for support being
+> > ready in a timely fashion). What has become clear since Ben's v3
+> > is that situation is a continuous one. Whilst we can't talk about
+> > them yet, CXL 3.0 features and OS support have been prototyped on
+> > top of this support and a lot of the ongoing kernel work is being
+> > tested against these patches. The kernel CXL mocking code allows
+> > some forms of testing, but QEMU provides a more versatile and
+> > exensible platform.
+> >=20
+> > Other features on the qemu-list that build on these include PCI-DOE
+> > /CDAT support from the Avery Design team further showing how this
+> > code is useful. Whilst not directly related this is also the test
+> > platform for work on PCI IDE/CMA + related DMTF SPDM as CXL both
+> > utilizes and extends those technologies and is likely to be an early
+> > adopter.
+> > Refs:
+> > CMA Kernel: https://lore.kernel.org/all/20210804161839.3492053-1-Jonath=
+an.Cameron@huawei.com/
+> > CMA Qemu: https://lore.kernel.org/qemu-devel/1624665723-5169-1-git-send=
+-email-cbrowy@avery-design.com/
+> > DOE Qemu: https://lore.kernel.org/qemu-devel/1623329999-15662-1-git-sen=
+d-email-cbrowy@avery-design.com/
+> >=20
+> > As can be seen there is non trivial interaction with other areas of
+> > Qemu, particularly PCI and keeping this set up to date is proving
+> > a burden we'd rather do without :)
+> >=20
+> > Ben mentioned a few other good reasons in v3:
+> > https://lore.kernel.org/qemu-devel/20210202005948.241655-1-ben.widawsky=
+@intel.com/
+> >=20
+> > What we have here is about what you need for it to be useful for testing
+> > currently kernel code.  Note the kernel code is moving fast so
+> > since v4, some features have been introduced we don't yet support in
+> > QEMU (e.g. use of the PCIe serial number extended capability).
+> >=20
+> > All comments welcome.
+> >=20
+> > Additional info that was here in v5 is now in the documentation patch.
+> >=20
+> > Thanks,
+> >=20
+> > Jonathan
+> >=20
+> > Ben Widawsky (24):
+> >   hw/pci/cxl: Add a CXL component type (interface)
+> >   hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
+> >   hw/cxl/device: Introduce a CXL device (8.2.8)
+> >   hw/cxl/device: Implement the CAP array (8.2.8.1-2)
+> >   hw/cxl/device: Implement basic mailbox (8.2.8.4)
+> >   hw/cxl/device: Add memory device utilities
+> >   hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
+> >   hw/cxl/device: Timestamp implementation (8.2.9.3)
+> >   hw/cxl/device: Add log commands (8.2.9.4) + CEL
+> >   hw/pxb: Use a type for realizing expanders
+> >   hw/pci/cxl: Create a CXL bus type
+> >   hw/pxb: Allow creation of a CXL PXB (host bridge)
+> >   hw/cxl/rp: Add a root port
+> >   hw/cxl/device: Add a memory device (8.2.8.5)
+> >   hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
+> >   hw/cxl/device: Add some trivial commands
+> >   hw/cxl/device: Plumb real Label Storage Area (LSA) sizing
+> >   hw/cxl/device: Implement get/set Label Storage Area (LSA)
+> >   hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
+> >   acpi/cxl: Add _OSC implementation (9.14.2)
+> >   acpi/cxl: Create the CEDT (9.14.1)
+> >   acpi/cxl: Introduce CFMWS structures in CEDT
+> >   hw/cxl/component Add a dumb HDM decoder handler
+> >   qtest/cxl: Add more complex test cases with CFMWs
+> >=20
+> > Jonathan Cameron (22):
+> >   MAINTAINERS: Add entry for Compute Express Link Emulation
+> >   cxl: Machine level control on whether CXL support is enabled
+> >   qtest/cxl: Introduce initial test for pxb-cxl only.
+> >   qtests/cxl: Add initial root port and CXL type3 tests
+> >   hw/cxl/component: Add utils for interleave parameter encoding/decoding
+> >   hw/cxl/host: Add support for CXL Fixed Memory Windows.
+> >   hw/pci-host/gpex-acpi: Add support for dsdt construction for pxb-cxl
+> >   pci/pcie_port: Add pci_find_port_by_pn()
+> >   CXL/cxl_component: Add cxl_get_hb_cstate()
+> >   mem/cxl_type3: Add read and write functions for associated hostmem.
+> >   cxl/cxl-host: Add memops for CFMWS region.
+> >   RFC: softmmu/memory: Add ops to memory_region_ram_init_from_file
+> >   i386/pc: Enable CXL fixed memory windows
+> >   tests/acpi: q35: Allow addition of a CXL test.
+> >   qtests/bios-tables-test: Add a test for CXL emulation.
+> >   tests/acpi: Add tables for CXL emulation.
+> >   hw/arm/virt: Basic CXL enablement on pci_expander_bridge instances
+> >     pxb-cxl
+> >   qtest/cxl: Add aarch64 virt test for CXL
+> >   docs/cxl: Add initial Compute eXpress Link (CXL) documentation.
+> >   pci-bridge/cxl_upstream: Add a CXL switch upstream port
+> >   pci-bridge/cxl_downstream: Add a CXL switch downstream port
+> >   cxl/cxl-host: Support interleave decoding with one level of switches.
+> >=20
+> >  MAINTAINERS                         |   7 +
+> >  docs/system/device-emulation.rst    |   1 +
+> >  docs/system/devices/cxl.rst         | 302 +++++++++++++++++
+> >  hw/Kconfig                          |   1 +
+> >  hw/acpi/Kconfig                     |   5 +
+> >  hw/acpi/cxl-stub.c                  |  12 +
+> >  hw/acpi/cxl.c                       | 231 +++++++++++++
+> >  hw/acpi/meson.build                 |   4 +-
+> >  hw/arm/Kconfig                      |   1 +
+> >  hw/arm/virt-acpi-build.c            |  33 ++
+> >  hw/arm/virt.c                       |  40 ++-
+> >  hw/core/machine.c                   |  28 ++
+> >  hw/cxl/Kconfig                      |   3 +
+> >  hw/cxl/cxl-component-utils.c        | 284 ++++++++++++++++
+> >  hw/cxl/cxl-device-utils.c           | 265 +++++++++++++++
+> >  hw/cxl/cxl-host-stubs.c             |  16 +
+> >  hw/cxl/cxl-host.c                   | 262 +++++++++++++++
+> >  hw/cxl/cxl-mailbox-utils.c          | 485 ++++++++++++++++++++++++++++
+> >  hw/cxl/meson.build                  |  12 +
+> >  hw/i386/acpi-build.c                |  57 +++-
+> >  hw/i386/pc.c                        |  57 +++-
+> >  hw/mem/Kconfig                      |   5 +
+> >  hw/mem/cxl_type3.c                  | 352 ++++++++++++++++++++
+> >  hw/mem/meson.build                  |   1 +
+> >  hw/meson.build                      |   1 +
+> >  hw/pci-bridge/Kconfig               |   5 +
+> >  hw/pci-bridge/cxl_downstream.c      | 229 +++++++++++++
+> >  hw/pci-bridge/cxl_root_port.c       | 231 +++++++++++++
+> >  hw/pci-bridge/cxl_upstream.c        | 206 ++++++++++++
+> >  hw/pci-bridge/meson.build           |   1 +
+> >  hw/pci-bridge/pci_expander_bridge.c | 172 +++++++++-
+> >  hw/pci-bridge/pcie_root_port.c      |   6 +-
+> >  hw/pci-host/gpex-acpi.c             |  20 +-
+> >  hw/pci/pci.c                        |  21 +-
+> >  hw/pci/pcie_port.c                  |  25 ++
+> >  include/hw/acpi/cxl.h               |  28 ++
+> >  include/hw/arm/virt.h               |   1 +
+> >  include/hw/boards.h                 |   2 +
+> >  include/hw/cxl/cxl.h                |  54 ++++
+> >  include/hw/cxl/cxl_component.h      | 207 ++++++++++++
+> >  include/hw/cxl/cxl_device.h         | 270 ++++++++++++++++
+> >  include/hw/cxl/cxl_pci.h            | 156 +++++++++
+> >  include/hw/pci/pci.h                |  14 +
+> >  include/hw/pci/pci_bridge.h         |  20 ++
+> >  include/hw/pci/pci_bus.h            |   7 +
+> >  include/hw/pci/pci_ids.h            |   1 +
+> >  include/hw/pci/pcie_port.h          |   2 +
+> >  qapi/machine.json                   |  18 ++
+> >  qemu-options.hx                     |  38 +++
+> >  scripts/device-crash-test           |   1 +
+> >  softmmu/memory.c                    |   9 +
+> >  softmmu/vl.c                        |  42 +++
+> >  tests/data/acpi/q35/CEDT.cxl        | Bin 0 -> 184 bytes
+> >  tests/data/acpi/q35/DSDT.cxl        | Bin 0 -> 9627 bytes
+> >  tests/qtest/bios-tables-test.c      |  44 +++
+> >  tests/qtest/cxl-test.c              | 181 +++++++++++
+> >  tests/qtest/meson.build             |   5 +
+> >  57 files changed, 4456 insertions(+), 25 deletions(-)
+> >  create mode 100644 docs/system/devices/cxl.rst
+> >  create mode 100644 hw/acpi/cxl-stub.c
+> >  create mode 100644 hw/acpi/cxl.c
+> >  create mode 100644 hw/cxl/Kconfig
+> >  create mode 100644 hw/cxl/cxl-component-utils.c
+> >  create mode 100644 hw/cxl/cxl-device-utils.c
+> >  create mode 100644 hw/cxl/cxl-host-stubs.c
+> >  create mode 100644 hw/cxl/cxl-host.c
+> >  create mode 100644 hw/cxl/cxl-mailbox-utils.c
+> >  create mode 100644 hw/cxl/meson.build
+> >  create mode 100644 hw/mem/cxl_type3.c
+> >  create mode 100644 hw/pci-bridge/cxl_downstream.c
+> >  create mode 100644 hw/pci-bridge/cxl_root_port.c
+> >  create mode 100644 hw/pci-bridge/cxl_upstream.c
+> >  create mode 100644 include/hw/acpi/cxl.h
+> >  create mode 100644 include/hw/cxl/cxl.h
+> >  create mode 100644 include/hw/cxl/cxl_component.h
+> >  create mode 100644 include/hw/cxl/cxl_device.h
+> >  create mode 100644 include/hw/cxl/cxl_pci.h
+> >  create mode 100644 tests/data/acpi/q35/CEDT.cxl
+> >  create mode 100644 tests/data/acpi/q35/DSDT.cxl
+> >  create mode 100644 tests/qtest/cxl-test.c
+> >=20
+> > --=20
+> > 2.32.0 =20
+>=20
+>=20
 
 
