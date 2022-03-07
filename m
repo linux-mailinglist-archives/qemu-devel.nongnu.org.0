@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9F74CFDE1
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:10:27 +0100 (CET)
-Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A82DF4CFDCB
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:07:07 +0100 (CET)
+Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCC2-0000aD-DY
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:10:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42912)
+	id 1nRC8o-0002NT-Of
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:07:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAj6-0005A4-O6
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAj8-0005AB-C8
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58622)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAj4-0008Go-O1
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:28 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nRAj6-0008Gz-SP
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:36:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646649386;
+ s=mimecast20190719; t=1646649388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vcY+SeHjKGsbKCPTENBkI0B9SWBZVcKX+ZV8aSjfu3s=;
- b=XkhatBh+fYjwUEGG41Kcp9F0NgbSLkhf0JK5M/+xE+texEd3aSzyXRhsRSRuyBgq4ZQ9so
- 8g+G6KuTND2VkZ2Q4YgEwY+lEOFQpN2OBWHErQtfLN3l7b3XzyiYtfHDW9g0NCOoO1a65r
- ZfnlekZqLfS0/C2X33Sh9qjpK2wVB/s=
+ bh=2eZvbq26MVGxqS7SFMaUlhWFFTXN0Vjdq9fQ8knBlqc=;
+ b=VZfbWpyiKgCPFCJvDYBpLXVASFkzCXgHpT/IFvKdmYBonG6BhMTG5fRkGMGCR1IG4MIro0
+ pnM99rjq9/V8xRTq1/03l6cVokv5O2ezZ9i5/aGrKQf+rTyU/GDm1iRSVk7n/B8H7AGqR6
+ wm81uj22tothuHbUMgpSSvDJYOc04/U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-83-WxBM3RZQN2aGYARkp6wGGA-1; Mon, 07 Mar 2022 05:36:23 -0500
-X-MC-Unique: WxBM3RZQN2aGYARkp6wGGA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-78-HSKUdYgfMV-0e_A5OK_pQQ-1; Mon, 07 Mar 2022 05:36:25 -0500
+X-MC-Unique: HSKUdYgfMV-0e_A5OK_pQQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16300805EEE;
- Mon,  7 Mar 2022 10:36:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 293811006AAC;
+ Mon,  7 Mar 2022 10:36:24 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B06A41017CF1;
- Mon,  7 Mar 2022 10:36:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C11FF7A5C5;
+ Mon,  7 Mar 2022 10:36:23 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/23] block/dirty-bitmap: bdrv_merge_dirty_bitmap(): add
- return value
-Date: Mon,  7 Mar 2022 11:35:35 +0100
-Message-Id: <20220307103549.808809-10-hreitz@redhat.com>
+Subject: [PULL 10/23] block/block-copy: block_copy_state_new(): add bitmap
+ parameter
+Date: Mon,  7 Mar 2022 11:35:36 +0100
+Message-Id: <20220307103549.808809-11-hreitz@redhat.com>
 In-Reply-To: <20220307103549.808809-1-hreitz@redhat.com>
 References: <20220307103549.808809-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -66,7 +66,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,85 +86,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-That simplifies handling failure in existing code and in further new
-usage of bdrv_merge_dirty_bitmap().
+This will be used in the following commit to bring "incremental" mode
+to copy-before-write filter.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220303194349.2304213-3-vsementsov@virtuozzo.com>
+Message-Id: <20220303194349.2304213-4-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- include/block/dirty-bitmap.h    | 2 +-
- block/dirty-bitmap.c            | 9 +++++++--
- block/monitor/bitmap-qmp-cmds.c | 5 +----
- 3 files changed, 9 insertions(+), 7 deletions(-)
+ include/block/block-copy.h |  1 +
+ block/block-copy.c         | 14 +++++++++++++-
+ block/copy-before-write.c  |  2 +-
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
-index 40950ae3d5..f95d350b70 100644
---- a/include/block/dirty-bitmap.h
-+++ b/include/block/dirty-bitmap.h
-@@ -77,7 +77,7 @@ void bdrv_dirty_bitmap_set_persistence(BdrvDirtyBitmap *bitmap,
-                                        bool persistent);
- void bdrv_dirty_bitmap_set_inconsistent(BdrvDirtyBitmap *bitmap);
- void bdrv_dirty_bitmap_set_busy(BdrvDirtyBitmap *bitmap, bool busy);
--void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-+bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-                              HBitmap **backup, Error **errp);
- void bdrv_dirty_bitmap_skip_store(BdrvDirtyBitmap *bitmap, bool skip);
- bool bdrv_dirty_bitmap_get(BdrvDirtyBitmap *bitmap, int64_t offset);
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 0334b85805..9aa5aebaa9 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -884,11 +884,14 @@ bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
-  * Ensures permissions on bitmaps are reasonable; use for public API.
-  *
-  * @backup: If provided, make a copy of dest here prior to merge.
-+ *
-+ * Returns true on success, false on failure. In case of failure bitmaps are
-+ * untouched.
-  */
--void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-+bool bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
-                              HBitmap **backup, Error **errp)
- {
--    bool ret;
-+    bool ret = false;
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index 99370fa38b..b80ad02299 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -25,6 +25,7 @@ typedef struct BlockCopyState BlockCopyState;
+ typedef struct BlockCopyCallState BlockCopyCallState;
  
-     bdrv_dirty_bitmaps_lock(dest->bs);
-     if (src->bs != dest->bs) {
-@@ -916,6 +919,8 @@ out:
-     if (src->bs != dest->bs) {
-         bdrv_dirty_bitmaps_unlock(src->bs);
-     }
-+
-+    return ret;
+ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
++                                     const BdrvDirtyBitmap *bitmap,
+                                      Error **errp);
+ 
+ /* Function should be called prior any actual copy request */
+diff --git a/block/block-copy.c b/block/block-copy.c
+index abda7a80bd..8aa6ee6a5c 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -384,8 +384,10 @@ static int64_t block_copy_calculate_cluster_size(BlockDriverState *target,
  }
  
- /**
-diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
-index 972e8a0afc..8e35616c2e 100644
---- a/block/monitor/bitmap-qmp-cmds.c
-+++ b/block/monitor/bitmap-qmp-cmds.c
-@@ -263,7 +263,6 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
-     BlockDriverState *bs;
-     BdrvDirtyBitmap *dst, *src, *anon;
-     BlockDirtyBitmapMergeSourceList *lst;
--    Error *local_err = NULL;
+ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
++                                     const BdrvDirtyBitmap *bitmap,
+                                      Error **errp)
+ {
++    ERRP_GUARD();
+     BlockCopyState *s;
+     int64_t cluster_size;
+     BdrvDirtyBitmap *copy_bitmap;
+@@ -402,7 +404,17 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+         return NULL;
+     }
+     bdrv_disable_dirty_bitmap(copy_bitmap);
+-    bdrv_set_dirty_bitmap(copy_bitmap, 0, bdrv_dirty_bitmap_size(copy_bitmap));
++    if (bitmap) {
++        if (!bdrv_merge_dirty_bitmap(copy_bitmap, bitmap, NULL, errp)) {
++            error_prepend(errp, "Failed to merge bitmap '%s' to internal "
++                          "copy-bitmap: ", bdrv_dirty_bitmap_name(bitmap));
++            bdrv_release_dirty_bitmap(copy_bitmap);
++            return NULL;
++        }
++    } else {
++        bdrv_set_dirty_bitmap(copy_bitmap, 0,
++                              bdrv_dirty_bitmap_size(copy_bitmap));
++    }
  
-     GLOBAL_STATE_CODE();
+     /*
+      * If source is in backing chain of target assume that target is going to be
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index 8ea2548ed9..1af0c7e5c0 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -170,7 +170,7 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+             ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
+              bs->file->bs->supported_zero_flags);
  
-@@ -303,9 +302,7 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
-             abort();
-         }
- 
--        bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
-+        if (!bdrv_merge_dirty_bitmap(anon, src, NULL, errp)) {
-             dst = NULL;
-             goto out;
-         }
+-    s->bcs = block_copy_state_new(bs->file, s->target, errp);
++    s->bcs = block_copy_state_new(bs->file, s->target, NULL, errp);
+     if (!s->bcs) {
+         error_prepend(errp, "Cannot create block-copy-state: ");
+         return -EINVAL;
 -- 
 2.34.1
 
