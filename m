@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0841D4D00BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 15:09:15 +0100 (CET)
-Received: from localhost ([::1]:60878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F1C4CFF9B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 14:08:43 +0100 (CET)
+Received: from localhost ([::1]:54208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRE30-0004LN-1h
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 09:09:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45874)
+	id 1nRD6Q-00067B-Mq
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 08:08:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alves.ped@gmail.com>)
- id 1nRAw5-0003bP-T9
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:49:53 -0500
-Received: from mail-wm1-f50.google.com ([209.85.128.50]:40820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alves.ped@gmail.com>)
- id 1nRAw4-0001pN-7E
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:49:53 -0500
-Received: by mail-wm1-f50.google.com with SMTP id
- bi14-20020a05600c3d8e00b00386f2897400so5307050wmb.5
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:49:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fqNtIGBI9CdfY2KtLoBrsUJJUf8N++JGIl4B+xgJ5Dg=;
- b=0uWCXywTVnSTzAgFOZVb1K1QZgW6XEWQSS4GJzy7BZe+dcIU0IkPbvuAB1WScYt7dO
- e2eiQvNznNB2D7dFL7veYNT9aVVjAia0iifpV316pxVVo2ZS9i0TWVBsHHGwUL+jkmPR
- L246gSC0JXGsdmoTrqCmrX9hND6Fk5/MPHYO6L3kuMjuddwisvNEZK03MrKtG945zoHn
- X8GhnyFl23CK05UjfxvVPBC9X0lzYoN0Ft2K3wzNzUJMsLqqlJfx/r0CORUWMvoZNWAF
- MEWEa3e3CKK0Kv0cQxDkCf6TLGJNGgoAAurfC1OQ8JiafcBte03pwv9vfFvZi/CmdY7R
- x/Ww==
-X-Gm-Message-State: AOAM532W9lz6w94U8jAywHlnuRDOhwgPLsvG8QpUakErPdaNh6BtVyLV
- GFlY4kCDrm3YWf3ASzRK6K8=
-X-Google-Smtp-Source: ABdhPJyNIyFvw1MciCQLRROo4paTn6DKwQdIA385TQgJ91sMNuH3kb9Fc6hU6UVoBX3DN6+jexsF+g==
-X-Received: by 2002:a1c:f315:0:b0:381:1f6d:6ca6 with SMTP id
- q21-20020a1cf315000000b003811f6d6ca6mr17817059wmq.25.1646650190299; 
- Mon, 07 Mar 2022 02:49:50 -0800 (PST)
-Received: from ?IPV6:2001:8a0:f924:2600:209d:85e2:409e:8726?
- ([2001:8a0:f924:2600:209d:85e2:409e:8726])
- by smtp.gmail.com with ESMTPSA id
- i5-20020a1c3b05000000b00382871cf734sm18552271wma.25.2022.03.07.02.49.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 02:49:49 -0800 (PST)
-Message-ID: <bb91b504-aa47-49fe-9382-2b366449293f@palves.net>
-Date: Mon, 7 Mar 2022 10:49:47 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: How to backtrace an separate stack?
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, gdb@sourceware.org
-References: <YiCk+NNtAGQPhyK5@stefanha-x1.localdomain>
-From: Pedro Alves <pedro@palves.net>
-In-Reply-To: <YiCk+NNtAGQPhyK5@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=209.85.128.50; envelope-from=alves.ped@gmail.com;
- helo=mail-wm1-f50.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ (Exim 4.90_1)
+ (envelope-from <1983d8b0d6b013f025905c7d37e3f0261edc328b@lizzy.crudebyte.com>)
+ id 1nRCgq-0000rI-GI
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:42:19 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:47275)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <1983d8b0d6b013f025905c7d37e3f0261edc328b@lizzy.crudebyte.com>)
+ id 1nRCga-0004DK-BP
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:42:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=m3rxyJIWUSZsunwAVPLXFSOKT6ApHv/hF1xLM+mgQMU=; b=c+zU1
+ RBYqDRDhiX5cB1m/b7e+ZvHAjkJuEGGiNKHaz13PceIVMzCIdzU+WzuH0XxtMpi1bKu+tQTPXdyID
+ 408fMeSL7BJidM2eCHfhDUoMXarAkDNT/ugQqHjqDEmd5T7JxAhRrRpVxjssiIodWOYxAQWOqF+uV
+ 5ntn8UfEJIXHuk/Ti0hH3fntdPKMYQiZe3PHI8C9iJOnvA1WScTOx0i8dP11y1XjTO7r4aPJ87xPY
+ KQ3EfCx8SURqtviHbGD8jkPg+lC3GhdTqOntu1GqQcr5LS7AgQKT/esgTvh0C27C+a2xuixZqxcL/
+ JBUO20ngqRGhC8hUgLHW4NMT2DsWg==;
+Message-Id: <1983d8b0d6b013f025905c7d37e3f0261edc328b.1646651700.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1646651700.git.qemu_oss@crudebyte.com>
+References: <cover.1646651700.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Mon, 07 Mar 2022 12:15:00 +0100
+Subject: [PULL v2 12/19] 9pfs: move qemu_dirent_dup() from osdep -> 9p-util
+To: qemu-devel@nongnu.org,
+    Peter Maydell <peter.maydell@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
+ Keno Fischer <keno@juliacomputing.com>,
+ Michael Roitzsch <reactorcontrol@icloud.com>,
+ Fabian Franz <fabianfranz.oss@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=1983d8b0d6b013f025905c7d37e3f0261edc328b@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 07 Mar 2022 09:06:33 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,42 +64,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tom@tromey.com, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022-03-03 11:22, Stefan Hajnoczi wrote:
-> Hi,
-> The QEMU emulator uses coroutines with separate stacks. It can be
-> challenging to debug coroutines that have yielded because GDB is not
-> aware of them (no thread is currently executing them).
-> 
-> QEMU has a GDB Python script that helps. It "creates" a stack frame for
-> a given coroutine by temporarily setting register values and then using
-> the "bt" command. This works on a live process under ptrace control but
-> not for coredumps where registers can't be set.
-> 
-> Here is the script (or see the bottom of this email for an inline copy
-> of the relevant code):
-> https://gitlab.com/qemu-project/qemu/-/blob/master/scripts/qemugdb/coroutine.py
-> 
-> I hoped that "select-frame address ADDRESS" could be used instead so
-> this would work on coredumps too. Unfortunately "select-frame" only
-> searches stack frames that GDB is already aware of, so it cannot be used
-> to backtrace coroutine stacks.
-> 
-> Is there a way to backtrace a stack at an arbitrary address in GDB?
+Function qemu_dirent_dup() is currently only used by 9pfs server, so move
+it from project global header osdep.h to 9pfs specific header 9p-util.h.
 
-I don't think there's an easy/great answer.  Maybe it could
-be done with a Python unwinder [1]?  See gdb.python/py-unwind-user-regs.py
-in the GDB testsuite for an example you could probably start with.
+Link: https://lore.kernel.org/qemu-devel/CAFEAcA_=HAUNomKD2wurSVaAHa5mrk22A1oHKLWUDjk7v6Khmg@mail.gmail.com/
+Based-on: <20220227223522.91937-12-wwcohen@gmail.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <E1nP9Oz-00043L-KJ@lizzy.crudebyte.com>
+---
+ hw/9pfs/9p-util.h    | 30 ++++++++++++++++++++++++++++++
+ include/qemu/osdep.h | 13 -------------
+ util/osdep.c         | 21 ---------------------
+ 3 files changed, 30 insertions(+), 34 deletions(-)
 
-As for something built-in to GDB, this reminded me of a discussion a while ago
-around a "frame create" command.  Here were my thoughts back then, I think
-still valid:
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 73b08c5561..408d71c8f7 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -114,6 +114,36 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
+ #endif
+ }
+ 
++/**
++ * Duplicate directory entry @dent.
++ *
++ * It is highly recommended to use this function instead of open coding
++ * duplication of @c dirent objects, because the actual @c struct @c dirent
++ * size may be bigger or shorter than @c sizeof(struct dirent) and correct
++ * handling is platform specific (see gitlab issue #841).
++ *
++ * @dent - original directory entry to be duplicated
++ * @returns duplicated directory entry which should be freed with g_free()
++ */
++static inline struct dirent *qemu_dirent_dup(struct dirent *dent)
++{
++    size_t sz = 0;
++#if defined _DIRENT_HAVE_D_RECLEN
++    /* Avoid use of strlen() if platform supports d_reclen. */
++    sz = dent->d_reclen;
++#endif
++    /*
++     * Test sz for zero even if d_reclen is available
++     * because some drivers may set d_reclen to zero.
++     */
++    if (sz == 0) {
++        /* Fallback to the most portable way. */
++        sz = offsetof(struct dirent, d_name) +
++                      strlen(dent->d_name) + 1;
++    }
++    return g_memdup(dent, sz);
++}
++
+ /*
+  * As long as mknodat is not available on macOS, this workaround
+  * using pthread_fchdir_np is needed. qemu_mknodat is defined in
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 7bcce3bceb..650ba1aa50 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -673,19 +673,6 @@ static inline int platform_does_not_support_system(const char *command)
+ }
+ #endif /* !HAVE_SYSTEM_FUNCTION */
+ 
+-/**
+- * Duplicate directory entry @dent.
+- *
+- * It is highly recommended to use this function instead of open coding
+- * duplication of @c dirent objects, because the actual @c struct @c dirent
+- * size may be bigger or shorter than @c sizeof(struct dirent) and correct
+- * handling is platform specific (see gitlab issue #841).
+- *
+- * @dent - original directory entry to be duplicated
+- * @returns duplicated directory entry which should be freed with g_free()
+- */
+-struct dirent *qemu_dirent_dup(struct dirent *dent);
+-
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/util/osdep.c b/util/osdep.c
+index 723cdcb004..7c4deda6fe 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -33,7 +33,6 @@
+ extern int madvise(char *, size_t, int);
+ #endif
+ 
+-#include <dirent.h>
+ #include "qemu-common.h"
+ #include "qemu/cutils.h"
+ #include "qemu/sockets.h"
+@@ -619,23 +618,3 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+     return readv_writev(fd, iov, iov_cnt, true);
+ }
+ #endif
+-
+-struct dirent *
+-qemu_dirent_dup(struct dirent *dent)
+-{
+-    size_t sz = 0;
+-#if defined _DIRENT_HAVE_D_RECLEN
+-    /* Avoid use of strlen() if platform supports d_reclen. */
+-    sz = dent->d_reclen;
+-#endif
+-    /*
+-     * Test sz for zero even if d_reclen is available
+-     * because some drivers may set d_reclen to zero.
+-     */
+-    if (sz == 0) {
+-        /* Fallback to the most portable way. */
+-        sz = offsetof(struct dirent, d_name) +
+-                      strlen(dent->d_name) + 1;
+-    }
+-    return g_memdup(dent, sz);
+-}
+-- 
+2.20.1
 
-  https://sourceware.org/legacy-ml/gdb-patches/2015-09/msg00658.html
-
-[1] https://sourceware.org/gdb/onlinedocs/gdb/Unwinding-Frames-in-Python.html
 
