@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E6D4D04C3
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 17:58:55 +0100 (CET)
-Received: from localhost ([::1]:40250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 286504D04C2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 17:58:54 +0100 (CET)
+Received: from localhost ([::1]:40188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRGhB-0008Q0-TM
+	id 1nRGhB-0008No-8r
 	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 11:58:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34140)
+Received: from eggs.gnu.org ([209.51.188.92]:34178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGW5-0001pG-T7
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:25 -0500
-Received: from [2a00:1450:4864:20::42f] (port=33631
- helo=mail-wr1-x42f.google.com)
+ id 1nRGW6-0001tg-Vr
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:27 -0500
+Received: from [2a00:1450:4864:20::432] (port=37885
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGW4-0007lU-8J
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:25 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id j17so24367559wrc.0
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 08:47:23 -0800 (PST)
+ id 1nRGW5-0007lh-An
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 11:47:26 -0500
+Received: by mail-wr1-x432.google.com with SMTP id q14so8728712wrc.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 08:47:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=k3XXdEEkAT8rtcP4zgQB24XrJWOVDRQK/GtPyU/3Usc=;
- b=qt78X5T32qE3+V+QdB9RtVkOR845+/Wnc0L498DnmiZub4fOypKPtmG0LLhOmjgV/U
- qGxG5vy80ycliH+owJGNW0KW6TI4L6aS22ohN3m6ZsXbpcWnjVgJjAOhFRNwaxZNY5lP
- rhK5Piqub2JazJaY6icSaKtr2VYFZ1AKwrSdP9kNWYgW4w8WtP/yzq8l+bGhugKGR4Y6
- TW2yXQM9XKLBaE1w9eZrMbiIv8g5x+rF7Z7eXyCjOLcnAZq1pt5MTeCfC9ANg0tYfjc1
- f9+J7wCh5oxgI6V3/Zptxjbb9G+Z0Xqt9Ez+F4458ZmmK1QCl9pK46/YvmFrHD+hnNBS
- 3Ojw==
+ bh=GANdenYBNkwkak0rQWxlFry8Hc7CxTND/movhx4GhWc=;
+ b=IKz0htit7869nNO9uEz6541f34HfujznBcbW+adLOt29A8h8YwkVg9eczAnQCHlLyl
+ kcotL+qKhh7rgV7Iw0iM5/UkvCM2ljKMDAXhM2fuuhbbKL5gd+/AnFUWY84EZ9UErDfx
+ m39W+nJqhSMHCCjOYUkjKZaCLRXLPu/9A7II3kPjOtxZBytD6E/Fay+XfoBemoYnlAf4
+ MZ2JujxKEBbZlx++eXa9N5C2q74W5uWcdkxXa3hb/5ATmb4v1xT4hnx6zoOHk0B+dwsH
+ sJq7B29Yenb4YbhA5HZApbx2RDavIn409Cr+k6ljXe7ZSXhC/dnM2V0CjbiIKrE2D2o3
+ M5Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k3XXdEEkAT8rtcP4zgQB24XrJWOVDRQK/GtPyU/3Usc=;
- b=sonNTaJ0rAac+qPe0k7XV8/TLhqzs9E6pATdU7W5jer0gwU90s91fMimCVEy3fb07x
- 3ApXGQVwOWTdpRNT2gH1pEyl0o8Oj73oQg7AcRZDg4QwOyC7Me79JmB5RQwCjIJ2pfgy
- nEJWEgikqwUjsZ3PmmNQX+QhTJeLX0xS4Xa7c4YaTQVzKoLG9hFOM71coZD8yOJIvO2+
- aNKLx6u5zUqlD6dzRxHUjE5LyjSaEZ3rZDkiK1YhUGK7c5P2KjUIfYx6VCp1YPpX8+OV
- KKprYfI+UARB0DKj6YzXIIjs2yJ+8I/GayqEr3YUQBBsVZE3VSkPx6t+9eKSiONu8GFq
- umVQ==
-X-Gm-Message-State: AOAM531Eh/jdJbe1sAS295kfF5+05UECdxlKDpZWlCceDilxkciqAgIx
- iAq1cKpHpMhMOA2YOcBh/s5Cj3EsVsbYEg==
-X-Google-Smtp-Source: ABdhPJzljYG3cVB4SoBuOxWOnbmNx6PCspyLO+PFAvShYiwg3oeLABoFqV9juiwwGlTYLCUwtSLIxg==
-X-Received: by 2002:adf:ea0f:0:b0:1f0:61f6:c3df with SMTP id
- q15-20020adfea0f000000b001f061f6c3dfmr8895702wrm.543.1646671642978; 
- Mon, 07 Mar 2022 08:47:22 -0800 (PST)
+ bh=GANdenYBNkwkak0rQWxlFry8Hc7CxTND/movhx4GhWc=;
+ b=ND+W+04nP0ZUaD1p2/8cqKNKH5a+WpXFICXLCBAHCvNVK1R1jDcKFXPyT0Y1uHXzpd
+ 65dxrV3wBJcQBwta048m7F1hd+jHcufttqxg9Ecv0hAUMQmzOYkPNhsf5/F6m5wojl9s
+ qxD2hT9VZV2WI/drldzyYbdFx6uJ4eJ6hZw7pK7tuPRVGEtH5HdNvwHrTZkFTwPOcXnA
+ dZBSr8sWpkVZH5e152o+2SWv3WCUOvxCVgzkIYlRGLJSYm9Do3bwxIKH7wA2ZBbUf6w3
+ UShnIg6bhJoZI3jSI3C6PBxs/X1RnK0T+jSqOIHkU/gDDTEIb3mn3ZuHQj6WR/RbylED
+ JufA==
+X-Gm-Message-State: AOAM5305/sh+P7h5oq4BnQgSyjEjPDLFjkLWwjO0m1/Vw52VU03qjF1L
+ 2+ZHUSOUi5+90cb43wmSVy4+2M6DjxB5jg==
+X-Google-Smtp-Source: ABdhPJycSbHO1G3ys77xvSARk+BG4byZdwV+fnhvT4N7nzgj0xxI2MRg8iB7TRjhR0WSSxIyT7u8nQ==
+X-Received: by 2002:adf:dc91:0:b0:1f0:728c:8faf with SMTP id
+ r17-20020adfdc91000000b001f0728c8fafmr9151784wrj.287.1646671643781; 
+ Mon, 07 Mar 2022 08:47:23 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- v188-20020a1cacc5000000b00384b71a50d5sm13806652wme.24.2022.03.07.08.47.22
+ v188-20020a1cacc5000000b00384b71a50d5sm13806652wme.24.2022.03.07.08.47.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 08:47:22 -0800 (PST)
+ Mon, 07 Mar 2022 08:47:23 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/18] hw/intc/arm_gicv3: Specify valid and impl in
- MemoryRegionOps
-Date: Mon,  7 Mar 2022 16:47:04 +0000
-Message-Id: <20220307164709.2503250-14-peter.maydell@linaro.org>
+Subject: [PULL 14/18] hw/intc/arm_gicv3: Fix missing spaces in error log
+ messages
+Date: Mon,  7 Mar 2022 16:47:05 +0000
+Message-Id: <20220307164709.2503250-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220307164709.2503250-1-peter.maydell@linaro.org>
 References: <20220307164709.2503250-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,52 +93,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GICv3 has some registers that support byte accesses, and some
-that support 8-byte accesses.  Our TCG implementation implements all
-of this, switching on the 'size' argument and handling the registers
-that must support reads of that size while logging an error for
-attempted accesses to registers that do not support that size access.
-However we forgot to tell the core memory subsystem about this by
-specifying the .impl and .valid fields in the MemoryRegionOps struct,
-so the core was happily simulating 8 byte accesses by combining two 4
-byte accesses.  This doesn't have much guest-visible effect, since
-there aren't many 8 byte registers and they all support being written
-in two 4 byte parts.
+We forgot a space in some log messages, so the output ended
+up looking like
+gicv3_dist_write: invalid guest write at offset 0000000000008000size 8
 
-Set the .impl and .valid fields to say that all sizes from 1 to 8
-bytes are both valid and implemented by the device.
+with a missing space before "size". Add the missing spaces.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220303202341.2232284-4-peter.maydell@linaro.org
+Message-id: 20220303202341.2232284-5-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/intc/arm_gicv3_dist.c | 4 ++--
+ hw/intc/arm_gicv3_its.c  | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3.c b/hw/intc/arm_gicv3.c
-index 6d3c8ee231c..0b8f79a1227 100644
---- a/hw/intc/arm_gicv3.c
-+++ b/hw/intc/arm_gicv3.c
-@@ -369,11 +369,19 @@ static const MemoryRegionOps gic_ops[] = {
-         .read_with_attrs = gicv3_dist_read,
-         .write_with_attrs = gicv3_dist_write,
-         .endianness = DEVICE_NATIVE_ENDIAN,
-+        .valid.min_access_size = 1,
-+        .valid.max_access_size = 8,
-+        .impl.min_access_size = 1,
-+        .impl.max_access_size = 8,
-     },
-     {
-         .read_with_attrs = gicv3_redist_read,
-         .write_with_attrs = gicv3_redist_write,
-         .endianness = DEVICE_NATIVE_ENDIAN,
-+        .valid.min_access_size = 1,
-+        .valid.max_access_size = 8,
-+        .impl.min_access_size = 1,
-+        .impl.max_access_size = 8,
-     }
- };
- 
+diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
+index 4164500ea96..28d913b2114 100644
+--- a/hw/intc/arm_gicv3_dist.c
++++ b/hw/intc/arm_gicv3_dist.c
+@@ -838,7 +838,7 @@ MemTxResult gicv3_dist_read(void *opaque, hwaddr offset, uint64_t *data,
+     if (!r) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid guest read at offset " TARGET_FMT_plx
+-                      "size %u\n", __func__, offset, size);
++                      " size %u\n", __func__, offset, size);
+         trace_gicv3_dist_badread(offset, size, attrs.secure);
+         /* The spec requires that reserved registers are RAZ/WI;
+          * so use MEMTX_ERROR returns from leaf functions as a way to
+@@ -879,7 +879,7 @@ MemTxResult gicv3_dist_write(void *opaque, hwaddr offset, uint64_t data,
+     if (!r) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid guest write at offset " TARGET_FMT_plx
+-                      "size %u\n", __func__, offset, size);
++                      " size %u\n", __func__, offset, size);
+         trace_gicv3_dist_badwrite(offset, data, size, attrs.secure);
+         /* The spec requires that reserved registers are RAZ/WI;
+          * so use MEMTX_ERROR returns from leaf functions as a way to
+diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+index 9f4df6a8cbb..b96b874afdf 100644
+--- a/hw/intc/arm_gicv3_its.c
++++ b/hw/intc/arm_gicv3_its.c
+@@ -1313,7 +1313,7 @@ static MemTxResult gicv3_its_read(void *opaque, hwaddr offset, uint64_t *data,
+     if (!result) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid guest read at offset " TARGET_FMT_plx
+-                      "size %u\n", __func__, offset, size);
++                      " size %u\n", __func__, offset, size);
+         trace_gicv3_its_badread(offset, size);
+         /*
+          * The spec requires that reserved registers are RAZ/WI;
+@@ -1349,7 +1349,7 @@ static MemTxResult gicv3_its_write(void *opaque, hwaddr offset, uint64_t data,
+     if (!result) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid guest write at offset " TARGET_FMT_plx
+-                      "size %u\n", __func__, offset, size);
++                      " size %u\n", __func__, offset, size);
+         trace_gicv3_its_badwrite(offset, data, size);
+         /*
+          * The spec requires that reserved registers are RAZ/WI;
 -- 
 2.25.1
 
