@@ -2,59 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5B44CF7BB
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 10:49:13 +0100 (CET)
-Received: from localhost ([::1]:44512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737C74CF93F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:03:41 +0100 (CET)
+Received: from localhost ([::1]:49948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR9zN-0004U8-0c
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 04:49:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59962)
+	id 1nRADM-0000dT-0u
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:03:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nR9xP-00036e-Nu
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 04:47:11 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:46959)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRA9q-0007Qo-Td
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:00:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nR9xL-0000Ji-35
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 04:47:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=uKSYNOftRL55koW4BoDn5NgLJoM/dQdkgI31dOruGIg=; b=iKYfrmOHSFupM0pn2eaJdZwVkM
- rViiaLZcGZHjPaeGTwwo3o5bNNTHCJbhCPXj24/ES+2mn4soMFOMv+iuWRJQpq4+tZ17qGaRffei2
- O09EcejJZiARYBTcEdQW66HzXV6xFzruha4rEv1HyQLVQejpOmQfJuL9G5wKx0aWsLDjqIdxSj/ic
- P6OnhHMF9NXWWc9kcIhrwvnd/goKP+Vu92EIYWml/0UebQdPRkboBpvESVQ3rrtECv6ptC7qOgv1n
- BgCc1k/Niw2faJ2qmyCuZfz+ONd8SkEjG/Z1qQz2ob72QrkeVy9SUu7DSVZjrUA6T6QVvK8v3no0m
- 42Ap98arV23w8XpbDBeX5tvXhj4fKFiprXc3x24tJrlbtWRgwxfcISl6XpKpCHCqcCkkJBt4tDikz
- Y1ldVWQHLWlOF1hk0WWSxa4b+ZZAIKKxNDxzJ4lN8pUx5fY0EjxXQQVKRON9XkvhyCsc9O/fwHtAi
- CfafJZMHaNtbjbjGN1tAwwGw7u6yhHCT/yym7qjyq6xlLizlgvZuhzUVYZa3F8S++gTAYlsa5dQEQ
- kzmh3BSr6f24U+1Bu9Xkjmo0+ZsiGYcn54lgeTMOkiIEU8QFKn/czEBw9+NJYrCv70x05/z69cFC6
- yiKlSrhbFJCAT5vPtj4eIt74sbl64r7VsYFbDFmaQ=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Will Cohen <wwcohen@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
- Keno Fischer <keno@juliacomputing.com>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PULL 00/19] 9p queue 2022-03-04
-Date: Mon, 07 Mar 2022 10:47:03 +0100
-Message-ID: <26995890.vgOASWZ4Sn@silver>
-In-Reply-To: <CAB26zV061-xniKvdO5x0r9WpLE3Gu2gVjyrp1TWJqQZjcKd9-Q@mail.gmail.com>
-References: <cover.1646396869.git.qemu_oss@crudebyte.com>
- <CAB26zV0PP1Pv0wHBk+qp4C+v-Ykh22VnU5Ridw6WD8rZft7o_Q@mail.gmail.com>
- <CAB26zV061-xniKvdO5x0r9WpLE3Gu2gVjyrp1TWJqQZjcKd9-Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRA9o-00028m-7z
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:00:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646647199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BVupuhISFWlneLp93m3bMYobfcsi2r+SOIEtiHSEsyc=;
+ b=JWF/yqm2jwCKAKuDVrR8Zak+HLbngPdxP3C777DRn50uY4CtGUwPTIO33C6GMrJhoucTBy
+ xxizGrpRshoytEsxAaqzeHXhLF1w69iRHzJqFrhKokS9JiJQn4TzcTz0LTd7zz03o3nJmy
+ VDYSsHRl42k6c10gOHvXfeZsaR7akAk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-443-9lCFfAwjObmtzwsk-6vFAQ-1; Mon, 07 Mar 2022 04:59:58 -0500
+X-MC-Unique: 9lCFfAwjObmtzwsk-6vFAQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ i83-20020a1c3b56000000b00389a203e5adso482205wma.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 01:59:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BVupuhISFWlneLp93m3bMYobfcsi2r+SOIEtiHSEsyc=;
+ b=kdpixoB4XNoV03F0Cy+5xB9eu9z637S9iJS82Zto8oIhHyTPSEZhlKOZQOUHFzNv0k
+ yDfJ8BJToVq7UxwBT3DfafhPDCk2IUk3NuCVDqlb1i4McTK3W0DEP5qOx1snAl+CN0Ay
+ rRgbLSnAYAb/soEVg35s2RQGLe9Zmv+/74UGHA3CCIXhuuVPqezOn3FgtZLA8d5+d5au
+ UrzPWjwxXINg5v6VgUFskliyUZ5h9Irmwc4Z5zJr66sqF4w8XHzOjuscYdwvhKz9iccA
+ hKTEQFlWOCxpYYMMpBL6nxoN0Pb+avc4C6VUSsaOulY2nTwS1h2kznxoZfOaBf3L33A7
+ sImw==
+X-Gm-Message-State: AOAM532vxX1NPxGZLkp14LSAdje2j7amk/fjoLdJBu5iunixesZ80V58
+ HWwr2YZXgeYmimWzMKzO18MdiRFQj7ruf31tm4l9pUZFydBCOLN3ucc2A4gnnuhrxv4qHWw07Q7
+ veN8FoyuRj/cK0AQ=
+X-Received: by 2002:a5d:624d:0:b0:1e6:f18c:d264 with SMTP id
+ m13-20020a5d624d000000b001e6f18cd264mr7792819wrv.546.1646647196991; 
+ Mon, 07 Mar 2022 01:59:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJycox1BXtqbzQn84l2SWg/YIN6r/JBPFwemOq7hJ70SkQeR+kkMbWhpQ5PXQCJXbUzhlOC8Fg==
+X-Received: by 2002:a5d:624d:0:b0:1e6:f18c:d264 with SMTP id
+ m13-20020a5d624d000000b001e6f18cd264mr7792792wrv.546.1646647196695; 
+ Mon, 07 Mar 2022 01:59:56 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ q16-20020a056000137000b001f046a21afcsm11210038wrz.15.2022.03.07.01.59.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Mar 2022 01:59:56 -0800 (PST)
+Message-ID: <6c402144-3ac8-fb62-ac9d-6e5656b51c9c@redhat.com>
+Date: Mon, 7 Mar 2022 10:59:55 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v3 2/5] qtest: replace gettimeofday with GTimer
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <20220307070401.171986-1-marcandre.lureau@redhat.com>
+ <20220307070401.171986-3-marcandre.lureau@redhat.com>
+ <673b8beb-352a-df7e-27af-7f81022d5adc@redhat.com>
+ <CAJ+F1CJgpC5JQ=Duw7vk8oF+fK9M0=ecqv+HVVaZS67FGY8C=A@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAJ+F1CJgpC5JQ=Duw7vk8oF+fK9M0=ecqv+HVVaZS67FGY8C=A@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,137 +104,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Marek Vasut <marex@denx.de>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Chris Wulff <crwulff@gmail.com>,
+ David Hildenbrand <david@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ "open list:sPAPR pseries" <qemu-ppc@nongnu.org>, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sonntag, 6. M=C3=A4rz 2022 21:59:55 CET Will Cohen wrote:
-> On Fri, Mar 4, 2022 at 4:31 PM Will Cohen <wwcohen@gmail.com> wrote:
-> > On Fri, Mar 4, 2022 at 3:16 PM Christian Schoenebeck <
-> >=20
-> > qemu_oss@crudebyte.com> wrote:
-> >> On Freitag, 4. M=C3=A4rz 2022 19:42:18 CET Peter Maydell wrote:
-> >> > On Fri, 4 Mar 2022 at 12:32, Christian Schoenebeck
-> >> >=20
-> >> > <qemu_oss@crudebyte.com> wrote:
-> >> > > The following changes since commit
-> >>=20
-> >> 5959ef7d431ffd02db112209cf55e47b677256fd:
-> >> > >   Merge remote-tracking branch
-> >> > >   'remotes/alistair/tags/pull-riscv-to-apply-20220303' into staging
-> >> > >   (2022-03-03 19:59:38 +0000)>
-> >> > >=20
-> >> > > are available in the Git repository at:
-> >> > >   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220304
-> >> > >=20
-> >> > > for you to fetch changes up to
-> >>=20
-> >> 39edfe337c418995b2932a9a14a612fb0c329dc5:
-> >> > >   fsdev/p9array.h: convert Doxygen -> kerneldoc format (2022-03-04
-> >> > >   13:07:39 +0100)>
-> >> > >=20
-> >> > > ----------------------------------------------------------------
-> >> > > 9pfs: introduce macOS host support and cleanup
-> >> > >=20
-> >> > > * Add support for Darwin (a.k.a. macOS) hosts.
-> >> > >=20
-> >> > > * Code cleanup (move qemu_dirent_dup() from osdep -> 9p-util).
-> >> > >=20
-> >> > > * API doc cleanup (convert Doxygen -> kerneldoc format).
-> >> >=20
-> >> > This fails to build on my OSX box:
-> >> >=20
-> >> > In file included from ../../hw/9pfs/9p-util-darwin.c:12:
-> >> > ../../hw/9pfs/9p-util.h:57:1: error: unused label 'again'
-> >> > [-Werror,-Wunused-label]
-> >> > again:
-> >> > ^~~~~~
-> >> >=20
-> >> > because the use of the label is inside a #ifndef CONFIG_DARWIN
-> >> > but the definition is not.
-> >> >=20
-> >> > thanks
-> >> > -- PMM
-> >>=20
-> >> So basically it needs this change:
-> >>=20
-> >> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-> >> index cfa7af43c5..97e681e167 100644
-> >> --- a/hw/9pfs/9p-util.h
-> >> +++ b/hw/9pfs/9p-util.h
-> >> @@ -54,7 +54,9 @@ static inline int openat_file(int dirfd, const char
-> >> *name,
-> >> int flags,
-> >>=20
-> >>  {
-> >> =20
-> >>      int fd, serrno, ret;
-> >>=20
-> >> +#ifndef CONFIG_DARWIN
-> >>=20
-> >>  again:
-> >> +#endif
-> >>=20
-> >>      fd =3D openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONB=
-LOCK,
-> >>     =20
-> >>                  mode);
-> >>     =20
-> >>      if (fd =3D=3D -1) {
-> >>=20
-> >> Will, can you check why this did not fail there and whether there are
-> >> probably
-> >> more issues?
-> >>=20
-> >> If that's the only one, let me know, then I would fix this on my end a=
-nd
-> >> resend a PR ASAP. Thanks!
-> >=20
-> > These were just warnings for me so I didn=E2=80=99t worry about them. W=
-ill check
-> > where else it appears when building!
->=20
-> When building using 9p.next, here's the full extent of warnings I see. It
-> appears it's just that one again at 9p-util.h:57.
->=20
-> In file included from ../hw/9pfs/9p-xattr.c:23:
-> ../hw/9pfs/9p-util.h:57:1: warning: unused label 'again' [-Wunused-label]
-> again:
-> ^~~~~~
-> 1 warning generated.
-> [3690/6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-synth.c.o
-> [3691/6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-local.c.o
-> In file included from ../hw/9pfs/9p-local.c:22:
-> ../hw/9pfs/9p-util.h:57:1: warning: unused label 'again' [-Wunused-label]
-> again:
-> ^~~~~~
-> 1 warning generated.
-> [3692/6798] Compiling C object libcommon.fa.p/hw_9pfs_codir.c.o
-> In file included from ../hw/9pfs/codir.c:26:
-> ../hw/9pfs/9p-util.h:57:1: warning: unused label 'again' [-Wunused-label]
-> again:
-> ^~~~~~
-> 1 warning generated.
-> [3693/6798] Compiling C object libcommon.fa.p/hw_9pfs_coth.c.o
-> [3694/6798] Compiling C object libcommon.fa.p/hw_9pfs_cofile.c.o
-> [3695/6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-proxy.c.o
-> [3696/6798] Compiling C object libcommon.fa.p/hw_9pfs_9p-util-darwin.c.o
-> In file included from ../hw/9pfs/9p-util-darwin.c:12:
-> ../hw/9pfs/9p-util.h:57:1: warning: unused label 'again' [-Wunused-label]
-> again:
-> ^~~~~~
-> 1 warning generated.
-> In file included from ../hw/9pfs/9p.c:30:
-> ../hw/9pfs/9p-util.h:57:1: warning: unused label 'again' [-Wunused-label]
-> again:
-> ^~~~~~
-> 1 warning generated.
+On 07/03/2022 09.05, Marc-André Lureau wrote:
+> Hi
+> 
+> On Mon, Mar 7, 2022 at 11:46 AM Thomas Huth <thuth@redhat.com 
+> <mailto:thuth@redhat.com>> wrote:
+> 
+>     On 07/03/2022 08.03, marcandre.lureau@redhat.com
+>     <mailto:marcandre.lureau@redhat.com> wrote:
+>      > From: Marc-André Lureau <marcandre.lureau@redhat.com
+>     <mailto:marcandre.lureau@redhat.com>>
+>      >
+>      > glib provides a convenience helper to measure elapsed time. It isn't
+>      > subject to wall-clock time changes.
+>      >
+>      > Note that this changes the initial OPENED time, which used to print the
+>      > current time.
+>     [...]
+>      > @@ -846,21 +828,20 @@ static void qtest_event(void *opaque,
+>     QEMUChrEvent event)
+>      >           for (i = 0; i < ARRAY_SIZE(irq_levels); i++) {
+>      >               irq_levels[i] = 0;
+>      >           }
+>      > -        qemu_gettimeofday(&start_time);
+>      > +
+>      > +        g_clear_pointer(&timer, g_timer_destroy);
+>      > +        timer = g_timer_new();
+>      >           qtest_opened = true;
+>      >           if (qtest_log_fp) {
+>      > -            fprintf(qtest_log_fp, "[I " FMT_timeval "] OPENED\n",
+>      > -                    (long) start_time.tv_sec, (long)
+>     start_time.tv_usec);
+>      > +            fprintf(qtest_log_fp, "[I " FMT_timeval "] OPENED\n",
+>     g_timer_elapsed(timer, NULL));
+>      >           }
+>      >           break;
+> 
+>     The new timestamp here is quite unuseful now, of course ... could you
+>     replace it with g_get_current_time()  instead?
+> 
+> 
+> Eventually, but I wonder why this (and only this) particular timestamp 
+> should be the current time.
 
-OK, I'll fix this (single) issue on my end then exactly as suggested by me,=
-=20
-and I'll send a new PR today. Thanks!
+I assume it was meant as a possibility to sync the times in this log with 
+other things that are going on on the host system in parallel. If you only 
+have the relative time stamps in the log here, you cannot compare the events 
+to other logs anymore.
+(having said that, I wonder why it doesn't simply always use the current 
+wall time and uses the relative time instead, but maybe there is also a 
+reason for that...)
 
-Best regards,
-Christian Schoenebeck
-
+  Thomas
 
 
