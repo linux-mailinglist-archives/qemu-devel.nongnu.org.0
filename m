@@ -2,85 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A234CFBFE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:56:22 +0100 (CET)
-Received: from localhost ([::1]:53706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01AEE4CFBFD
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:55:56 +0100 (CET)
+Received: from localhost ([::1]:52794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRB2L-00063X-UF
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:56:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38990)
+	id 1nRB1v-0005Rx-17
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:55:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRASr-0006p0-O5; Mon, 07 Mar 2022 05:19:42 -0500
-Received: from [2a00:1450:4864:20::42b] (port=35592
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRASq-0005KP-46; Mon, 07 Mar 2022 05:19:41 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id b5so22427829wrr.2;
- Mon, 07 Mar 2022 02:19:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ugN4OVB69Pzb7ae2Ovj1PuLnR10o/eCKGQfhZZtVqzI=;
- b=PgAN4uxoLl65tGsjLZER1fJYHFRN/fpouS8T00rHVoou/7sMuBdwMU/8KguIFJh93T
- 0uocjLSlrA829pBQ/1uDHIqxN+Tu1URHSaPmDIajYmazmbHXad6lbeyQ9QUW08igWS3h
- IqVGZOpvRIxqrd4Q0qrMpR944ELeEDF3YrlSchH/joOxutKB/+zOTUoP84FPhgziCLBK
- lTe58SF/jfVqXl/C2ynexdrElIqS+O3wo2baQ71G0UPjxlifseripSqQ9OLXIi5U8C5h
- xPptnvcTa9OjbUE1/dmiL33ju+XAQuVOCyKaZzCV27qy97UufGtdxz32/T79I66PSt2d
- YlRQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nRAU2-0008Uc-5s
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:20:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35292)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nRAU0-0005gw-Ee
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:20:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646648451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8QcSS6QFNoAmzn+9R89cdlDOldLfQiosayFwoOc7paY=;
+ b=DvPIMj8EE/NgEtlum/ygf4TeC8aT3ILmJIslnmqAOt4GSuIC1qmLcjJotA+wSpi+PW70wG
+ +i3SxnX2YGD2dngzub5VZZdPgkMwLBexTFX/FycpGfhhYAZaNPv6kF9aZ74aUkLQAgdhRK
+ +6O2dHcLjvZ4q2SUkjoC3/iNGpGbFDg=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-57-MYadQoxuMTyFdE7TvZZINQ-1; Mon, 07 Mar 2022 05:20:20 -0500
+X-MC-Unique: MYadQoxuMTyFdE7TvZZINQ-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ mm2-20020a17090b358200b001bf529127dfso2649624pjb.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:20:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ugN4OVB69Pzb7ae2Ovj1PuLnR10o/eCKGQfhZZtVqzI=;
- b=4XyyoXJGm5ih3gkddTHrh/KbeO6Hnuvbrb83kCYXzEctXGKx33PxO+KpS3FpJAu0SK
- 3Qb5T/fw5bEUZ2ebiD2c1ldels8J6RpTPPn9nuC9OMmnldcohSeeAlIzZnrZGFyLTGTF
- GHdIb14vcxDbrvWyECDtFF0YFHLkrVrgEND+W+Qgy+6ZAxA+CI0mgRKAfM+ym0kBD2+F
- MsK7zmtztQB6L/M1emUYsBS4b7ORSu1HzVLkLy9stbmYXeytO5SNuu1oNJXZ2O7yjeq7
- FV2//Szu+tFcxWpIOqccIOZ2pd6nmV1PNchm6C9KTbNYb2wvIZW0d3shmA4Ppzq9usiC
- CFPg==
-X-Gm-Message-State: AOAM530+FAQ4W81Ak2F94OvOaZjAETdlGwgqRR+NgP75g2Jw+1RdCbzy
- 1NS6cqXH4fnkAwL1RiUU5tk=
-X-Google-Smtp-Source: ABdhPJwOYXcow4uTYBufmL1vgh2sZ6AdFNACm4WMGcOVXP4NkVzjQ/1xAFbbEESiW3gV0RdIkL/ryQ==
-X-Received: by 2002:a05:6000:1448:b0:1f0:6620:968f with SMTP id
- v8-20020a056000144800b001f06620968fmr7863312wrx.714.1646648378299; 
- Mon, 07 Mar 2022 02:19:38 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c228700b00389865c646dsm16003865wmf.14.2022.03.07.02.19.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 02:19:37 -0800 (PST)
-Message-ID: <8e649dbd-f410-6b76-e0bf-64415e427186@gmail.com>
-Date: Mon, 7 Mar 2022 11:19:36 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=8QcSS6QFNoAmzn+9R89cdlDOldLfQiosayFwoOc7paY=;
+ b=7LLStl8WKCyt4W5xtGPs0ZDE1DZ4nAwzs8ghlPwIJT86yeXOGCQ5b8EUO7430usE1O
+ He73Kll0z1IPWHGvB1m1peaDEYBfVwPGaQx+ipginaV/G8cTBChoBdOJRg1xRGj7JHIK
+ ybVxFctgwoaErpA8DuRSqH4mXnPWNme+byJuGfGB8zO93y0C0N09VLAsU1GR6rJWldqo
+ Hduf1Kw18ALPDB4FKnkXk36RCoRfazfdqpA2V06WPbIatJxFBFpk6/W9oHcCmsb7Dd1q
+ dvW/a0gnfUuRCXwhdVwpXj1uQiawwa0J3DbARr5SDeql4bYvOrzcUhZhJpl5pdJ3g2RY
+ U3IA==
+X-Gm-Message-State: AOAM5318Fv3dcRIQpS0Sov8knPwcRBlBps8u2TigSatrwfPnPNnoAAJC
+ fd2ZaltaGgp9gJ3ox2MdwRaFlKIZVJeC4z+tJyuSrmzjnmBPmFMdQ2chG05hncy7kP4fiJMvqgU
+ 5BMh/cJFkLubwEio=
+X-Received: by 2002:a17:90a:7f84:b0:1bc:aba8:f281 with SMTP id
+ m4-20020a17090a7f8400b001bcaba8f281mr12129080pjl.101.1646648419509; 
+ Mon, 07 Mar 2022 02:20:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxSBZUzIgq0X8fn1Scvf5gHRIzHRG/kk0ugbGL9bWxL+aJVKmdfG5encVyn/hiULE2JcwhY9g==
+X-Received: by 2002:a17:90a:7f84:b0:1bc:aba8:f281 with SMTP id
+ m4-20020a17090a7f8400b001bcaba8f281mr12129053pjl.101.1646648419167; 
+ Mon, 07 Mar 2022 02:20:19 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.47]) by smtp.gmail.com with ESMTPSA id
+ k12-20020a056a00168c00b004e15818cda3sm16387629pfc.114.2022.03.07.02.20.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 02:20:18 -0800 (PST)
+Date: Mon, 7 Mar 2022 18:20:14 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 04/18] tests: print newline after QMP response in qtest
+ logs
+Message-ID: <YiXcXliJP47nMxhi@xz-m1.local>
+References: <20220302174932.2692378-1-berrange@redhat.com>
+ <20220302174932.2692378-5-berrange@redhat.com>
+ <YiWra21XaVV9Fdv/@xz-m1.local> <YiXZLzqenrNT/uKg@redhat.com>
+ <57b8b146-a197-2f46-bf56-6ab80122e9bd@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 1/6] aspeed/smc: Use max number of CE instead of 'num_cs'
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220307071856.1410731-1-clg@kaod.org>
- <20220307071856.1410731-2-clg@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220307071856.1410731-2-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <57b8b146-a197-2f46-bf56-6ab80122e9bd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,25 +102,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, Joel Stanley <joel@jms.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/3/22 08:18, Cédric Le Goater wrote:
-> The Aspeed SMC model uses the 'num_cs' field to allocate resources
-> fitting the number of devices of the machine. This is a small
-> optimization without real need in the controller. Simplify modelling
-> and use the max_peripherals field instead.
-
-"(which by the way is not very descriptive, but we are going to
-rename it to 'cs_num_max' in a pair of commits)."
-
+On Mon, Mar 07, 2022 at 11:09:37AM +0100, Thomas Huth wrote:
+> On 07/03/2022 11.06, Daniel P. Berrangé wrote:
+> > On Mon, Mar 07, 2022 at 02:51:23PM +0800, Peter Xu wrote:
+> > > On Wed, Mar 02, 2022 at 05:49:18PM +0000, Daniel P. Berrangé wrote:
+> > > > The QMP commands have a trailing newline, but the response does not.
+> > > > This makes the qtest logs hard to follow as the next QMP command
+> > > > appears in the same line as the previous QMP response.
+> > > > 
+> > > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > > > ---
+> > > >   tests/qtest/libqtest.c | 3 +++
+> > > >   1 file changed, 3 insertions(+)
+> > > > 
+> > > > diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> > > > index a85f8a6d05..79c3edcf4b 100644
+> > > > --- a/tests/qtest/libqtest.c
+> > > > +++ b/tests/qtest/libqtest.c
+> > > > @@ -629,6 +629,9 @@ QDict *qmp_fd_receive(int fd)
+> > > >           }
+> > > >           json_message_parser_feed(&qmp.parser, &c, 1);
+> > > >       }
+> > > > +    if (log) {
+> > > > +        g_assert(write(2, "\n", 1) == 1);
+> > > > +    }
+> > > 
+> > > Drop the g_assert() to remove side effect of G_DISABLE_ASSERT?
+> > 
+> > You need to check the return value of write() otherwise you'll get a
+> > compile failure due to a warn_unused_result attribute annotation.
+> > 
+> > I don't think G_DISABLE_ASSERT is a problem as we're not defining
+> > that in our code.
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   hw/ssi/aspeed_smc.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+> You could use g_assert_true() - that's not affected by G_DISABLE_ASSERT.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Ah that's better indeed. :)
+
+We could also fix the write() above this one too - that one captures the
+retcode into len but it simply dropped it, afaict.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
