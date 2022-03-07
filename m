@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91CF14D0924
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 22:01:41 +0100 (CET)
-Received: from localhost ([::1]:58078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E15A4D0941
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 22:17:48 +0100 (CET)
+Received: from localhost ([::1]:40384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRKU8-0001bu-8d
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 16:01:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60058)
+	id 1nRKji-0000zD-Rk
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 16:17:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1nRKSa-0000PC-7s; Mon, 07 Mar 2022 16:00:04 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:42489)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nRKhs-0007fG-MG
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 16:15:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1nRKSX-00065I-LU; Mon, 07 Mar 2022 16:00:03 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id AC7573201591;
- Mon,  7 Mar 2022 15:59:57 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 07 Mar 2022 15:59:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; bh=VfF/lfkCnVIztWt1SfQiW6wBMzSe3jDAyVa65G
- mXEXo=; b=wv0X+Ep26ezFc4zFs/WSsyOtvJC7B3G8B+VfXb6BFtPLBfMlCJ+seV
- BpygneL6M/087XpsmgW9mpoj93e0VCh65l/MtfJ7sjz4w3WaUMzcXNftvzfd4tKJ
- QTFkDcD/5eKdHTOWyirTJEj190fvalwFX5hqUihnBJdtZ3tEHbqe2qKsb0oueHF7
- RxGn7guj+N2Lo+H7TFKPibsUXKgG3Agat2D/vw5leJLK0LI6wEGyPN3F4XuTrmms
- B4yvRnS46f3DIYNfuaAfFfgbyp5cjZySGn6CmyH1ZPsQmSyJfFL+JErYdL0h3YXL
- e3d5EF7pSglpXIwXIuJJGWfYhzsmDaSg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=VfF/lfkCnVIztWt1S
- fQiW6wBMzSe3jDAyVa65GmXEXo=; b=NweEEM01m1hOH8LUB4vQF5i+Ya59XU75Y
- fwzvF6MzC58hyznvM2pGjmT+xqFdIeyctCNOBCIKFxpLXsZgMw16iR2S6VAbk86k
- YWxgAQAQR77JW6jb8d3eYyu01Gjs39uunHAZUxk6AqmpQbr+7RrknNPLsdTYg7FG
- vLS2uh+tLZnPogMZ80UcSa753fYn7AmxvKe1oSUzkjU2m0ar4cWSPfgfBUpPzCpr
- GSdfYuhzjk0dxHMHsA3ZRxGVlA1imbjXYPT609dAJWFekC2fhO4Ur7DPXZeI3KnF
- XH70nZxq54sjatLL7Hv6Aja0luNuJoM2U1B2Za1btXpkGTV3d+QAQ==
-X-ME-Sender: <xms:THImYgrf17bv6XFXfOl80ZRpsVmkS71Hu3r3hijFn37KJvp9K--GRw>
- <xme:THImYmoPe12nuStzrpIrKXfJ3IkFjl6GgaPNBntMqvm7bFQf47FofgJvpLKlETwt8
- ph0OoR_xkEhOjxs33o>
-X-ME-Received: <xmr:THImYlMkV3au5gp9FBTX7RQa0i-xkdlgT6Dh5rUIMv2HYr3UGHW6HhCONs0RJ1dUduMhgD5yJ4GLxWYnQzm14l_GGur1WZj6>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddugedgudegfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enfghrlhcuvffnffculdefhedmnecujfgurhepfffhvffukfhfgggtuggjsehgtderredt
- tddunecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghkse
- hsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpeehgfektdefuedvvdffgeevleej
- vddvgeeltedtfedutdeuheeljeduveeiudeileenucffohhmrghinhepohiilhgrsghsrd
- horhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
- phgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:THImYn51JGn50WR8d0X8Pem2YrV-fKDZdEa4O3yKINFSFz6IWfL0qQ>
- <xmx:THImYv7-gFaEyGxreW02Zx2F38aL8Z1vkEA86kfJ47TPnZ1d6LdaMQ>
- <xmx:THImYnhiE5HR_G1YFlJDXH7UOVtfNRicffErencFsElX6M2La4ggJA>
- <xmx:TXImYi3TW2aPXA5yHZ_HpxjjxlGAUiasTw75M7qR3E3_74Z27qzMUg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Mar 2022 15:59:56 -0500 (EST)
-Date: Mon, 7 Mar 2022 14:59:54 -0600
-From: Patrick Williams <patrick@stwcx.xyz>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 2/2] hw/arm/aspeed: add Bletchley machine type
-Message-ID: <YiZySh+cdxL7ddKI@heinlein>
-References: <20220305000656.1944589-1-patrick@stwcx.xyz>
- <20220305000656.1944589-2-patrick@stwcx.xyz>
- <790dd79a-4c5e-207e-86a9-9351694f0427@kaod.org>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nRKhp-0000JA-O2
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 16:15:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646687748;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LuIRBUJIF3lR1ttcw4d+d9kJl02qfVr8WPni09dQPHw=;
+ b=S44k3cIuA7ZUuyr9+/+nC6TbxeeyntVG4+qtsjY9DthL/X8nWyNWRTU8Ro1W/DUh6Ss/AY
+ aTTcEgjoSjK5zcVFWV8m2YwvP/QhF244yD3fMuhjBH1Qpc1KjoMgFy/yOkWm50b9oGCWiP
+ 5btF8VmL1CErYbNRSSupFEt5bXK6VHA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-86-7Y_23IAjN_KF36dWCWnmeg-1; Mon, 07 Mar 2022 16:15:44 -0500
+X-MC-Unique: 7Y_23IAjN_KF36dWCWnmeg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6773851E0;
+ Mon,  7 Mar 2022 21:15:43 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.39.192.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DED2B1BC7F;
+ Mon,  7 Mar 2022 21:14:40 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, pbonzini@redhat.com,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, mst@redhat.com,
+ david@gibson.dropbear.id.au, clg@kaod.org, eesposit@redhat.com,
+ Coiby.Xu@gmail.com, stefanha@redhat.com
+Subject: [PATCH v4 0/4] qtests/libqos: Allow PCI tests to be run with
+ virt-machine
+Date: Mon,  7 Mar 2022 22:14:35 +0100
+Message-Id: <20220307211439.213133-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hqE6ApmCJkxtP0qK"
-Content-Disposition: inline
-In-Reply-To: <790dd79a-4c5e-207e-86a9-9351694f0427@kaod.org>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=patrick@stwcx.xyz;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_SUSPICIOUS_NTLD=0.499, PDS_OTHER_BAD_TLD=1.997, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,79 +81,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: jean-philippe@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Up to now the virt-machine node only contains a virtio-mmio
+driver node but no driver that eventually produces any pci-bus
+interface.
 
---hqE6ApmCJkxtP0qK
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hence, PCI libqos tests cannot be run with aarch64 binary.
 
-On Sat, Mar 05, 2022 at 08:57:47AM +0100, C=E9dric Le Goater wrote:
-> On 3/5/22 01:06, Patrick Williams wrote:
-> > +    mc->desc       =3D "Facebook Bletchley BMC (Cortex-A7)";
-> > +    amc->soc_name  =3D "ast2600-a3";
-> > +    amc->hw_strap1 =3D BLETCHLEY_BMC_HW_STRAP1;
-> > +    amc->hw_strap2 =3D BLETCHLEY_BMC_HW_STRAP2;
-> > +    amc->fmc_model =3D "w25q01jvq";
->=20
-> So we need this patch :
->=20
-> http://patchwork.ozlabs.org/project/qemu-devel/patch/20220304180920.17809=
-92-1-patrick@stwcx.xyz/
->=20
-> May be I can take it through my queue.
+This series brings the pieces needed to be able to run PCI tests
+with the aarch64 binary: a generic-pcihost driver node gets
+instantiated by the machine. This later contains a pci-bus-generic
+driver which produces a pci-bus interface. Then all tests
+consuming the pci-bus interface can be run with the libqos arm
+virt machine.
 
-Yes, it does.  I had sent that one earlier and probably should have been cl=
-ear
-on the dependency.
+One of the first goal was to be able to run the virtio-iommu-pci
+tests as the virtio-iommu was initially targetting ARM and it
+was awkard to be run the test with the pc machine. This is now
+possible.
 
-> > +    amc->spi_model =3D NULL;
-> > +    amc->num_cs    =3D 1;
->=20
-> There are two flash devices on the FMC. I can fix it inline since
-> it is the only change I would request.
+Only the tests doing hotplug cannot be run yet as hotplug is
+not possible on the root bus. This will be dealt with separately
+by adding a root port to the object tree.
 
-Yes, there are.  I think all of the Facebook systems have dual FMC, for
-redundancy in hardware, but we can get by in QEMU with just a single one.
+Also I have some trouble with 2 of the vhost-user-blk-tests. I am
+obliged to hack them in "tests/qtest/vhost-user-blk-test: Temporary
+hack to get tests passing on aarch64". Looks like a memory
+allocation issue, which at first sight seems unrelated to the
+aarch64 pci libqos enablement but we are never sure. Calling for
+help on this issue, if some vhost-user specialists can dedicate
+some cycles on this. Otherwise I will try my best to further debug.
 
-I'll see however you fix it up and see I can update all the other systems as
-well.  We have an internal patch to expand the CS on FMC to 2 but we haven't
-upstreamed it yet and I'm worried it will break some users w.r.t. the CLI
-changing for adding images.  My recollection is that the Romulus CI on Open=
-BMC
-relies on the PNOR being the 2nd argument.
+To reproduce the issue, revert the above hack and run
 
-> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
+QTEST_QEMU_STORAGE_DAEMON_BINARY=build/storage-daemon/qemu-storage-daemon QTEST_QEMU_BINARY=build/aarch64-softmmu/qemu-system-aarch64 build/tests/qtest/qos-test
 
-Thank you Cedric!
+you should get:
 
---=20
-Patrick Williams
+    ERROR:../tests/qtest/libqos/virtio.c:224:qvirtio_wait_used_elem:
+    assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
+    Bail out! ERROR:../tests/qtest/libqos/virtio.c:224: qvirtio_wait_used_elem:
+    assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
 
---hqE6ApmCJkxtP0qK
-Content-Type: application/pgp-signature; name="signature.asc"
+Best Regards
 
------BEGIN PGP SIGNATURE-----
+Eric
 
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmImckgACgkQqwNHzC0A
-wRl7Og/+OqDSTEVmC7Ws+xKFMeqW0q1Z26F/e390S9q3rfpj5oObDQuWDZh2fwj7
-MeMre1fQS8gdD5R1vJaZeJxedufzDK0Sq0ohe4iajonNYQWGE/Nk8PI8xX1Yl+2Y
-AUGM3qdQg/F+/0vUGnZeO2dCMjbu9cG3WlTRNf7i/TIcP7iMCzTosaFl+LKyoxxE
-Jee6imCtkMf0K33xdWK56LiOBjU/ycPJJjcXoWMBCX3o0UunzqtjpBa7sXeejvha
-YuB0COjcy/oVPacQIS3ajwp58ecPRMMy438XkwCEJ7d0NjB4fNOvmjFoZVojhNK5
-VzKtYmU/xd2yxUb+9YT+tQYMFklNn2YkxgYPuwEe5p69YsMcOqKpyWg6DIxk93Th
-4HDMSmeoH+LQtPMez9unrafpgccWkbBR1JkAIHkq2uXr+EDeFgZBOCqBz1KdavDO
-PcWbFjQxAFokeAlzWglFdELFNoSptvlOLhgoiuzFkbOpvjUNe7wkverrc4NiDc+o
-/DE1DuIgLx66OcDc8pkU/iWRnDH29msDuvssoz+SgWchECxdyj0vKYW8E4fFI0tv
-qL0qbS86QOS5MkXvMHnP1U5hVab8wZ75nNhMVg1HBx4hWqUdUIYJXxmYWyUumXol
-HB7mCkreIULFPuWl5jMyGyyY8vr7tEBp7QEKg/FPi8LC76cRkcY=
-=O0z9
------END PGP SIGNATURE-----
+This series can be found at:
+https://github.com/eauger/qemu/tree/libqos-pci-arm-v4
 
---hqE6ApmCJkxtP0qK--
+History
+
+v3 -> v4:
+- handle endianess when accessing the cfg space (fix PPC64
+  BE failure). Tested on such machine.
+
+v2 -> v3:
+- force -cpu=max along with aarch64/virt
+- reduced the vhost-user-block-pci issue workaround to a
+  single guest_alloc() instead of enabling MSIs. Call for
+  help on this specific issue. The 2 tests which fail are:
+  test_basic and indirect.
+
+v1 -> v2:
+- copyright updated to 2022
+- QPCIBusARM renamed into QGenericPCIBus
+- QGenericPCIHost declarations and definitions moved in the same
+  place as the generic pci implementation
+- rename pci-arm.c/h in generic-pcihost.c/h and remove any ref to
+  ARM there
+- remove qos_node_produces_opts, qpci_new_arm, qpci_free_arm
+- ecam_alloc_ptr now is a field of QGenericPCIBus and not QPCIBus
+- new libqos_init to create generic-pcihost driver that contains
+  pci-bus-generic
+- QGenericPCIHost moved in the same place as the generic pci
+  bindings
+- collected Thomas A-b/R-b
+
+
+Eric Auger (4):
+  tests/qtest/libqos/pci: Introduce pio_limit
+  tests/qtest/libqos: Skip hotplug tests if pci root bus is not
+    hotpluggable
+  tests/qtest/vhost-user-blk-test: Temporary hack to get tests passing
+    on aarch64
+  tests/qtest/libqos: Add generic pci host bridge in arm-virt machine
+
+ tests/qtest/e1000e-test.c             |   6 +
+ tests/qtest/libqos/arm-virt-machine.c |  19 ++-
+ tests/qtest/libqos/generic-pcihost.c  | 231 ++++++++++++++++++++++++++
+ tests/qtest/libqos/generic-pcihost.h  |  54 ++++++
+ tests/qtest/libqos/meson.build        |   1 +
+ tests/qtest/libqos/pci-pc.c           |   1 +
+ tests/qtest/libqos/pci-spapr.c        |   1 +
+ tests/qtest/libqos/pci.c              |  78 +++++----
+ tests/qtest/libqos/pci.h              |   6 +-
+ tests/qtest/vhost-user-blk-test.c     |  16 ++
+ tests/qtest/virtio-blk-test.c         |   5 +
+ tests/qtest/virtio-net-test.c         |   5 +
+ tests/qtest/virtio-rng-test.c         |   5 +
+ 13 files changed, 393 insertions(+), 35 deletions(-)
+ create mode 100644 tests/qtest/libqos/generic-pcihost.c
+ create mode 100644 tests/qtest/libqos/generic-pcihost.h
+
+-- 
+2.26.3
+
 
