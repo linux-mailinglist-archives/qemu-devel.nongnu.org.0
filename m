@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357BC4CFBE4
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:50:11 +0100 (CET)
-Received: from localhost ([::1]:35528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4084CFBDE
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:49:35 +0100 (CET)
+Received: from localhost ([::1]:60948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRAwM-0002Ke-A3
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:50:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37494)
+	id 1nRAvn-0000QU-1n
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:49:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRAMO-0004FO-HS
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:13:00 -0500
-Received: from [2a00:1450:4864:20::32c] (port=44586
- helo=mail-wm1-x32c.google.com)
+ id 1nRAMh-0004rv-Q0
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:13:20 -0500
+Received: from [2a00:1450:4864:20::430] (port=44596
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRAMN-0004MP-0G
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:13:00 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- bg31-20020a05600c3c9f00b00381590dbb33so8942048wmb.3
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:58 -0800 (PST)
+ id 1nRAMg-0004PT-9d
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:13:19 -0500
+Received: by mail-wr1-x430.google.com with SMTP id u1so22336587wrg.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:13:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zwKcr0BxuWom7IkiNcPhPZK4xdCumUneF31LB5FuiUY=;
- b=HkgfJrUF7Lj9+nmVbUNfzF9UP3gz0PeSpBl5h2Htw3Voq6pekfjWHjD6X1K0qa7Bzw
- jBtkzP5AhfcomeuhY3EMeRARyX3VRpLqM89R4gJKCQ39LWgw58xgxsy9SfLDd9S3tfgm
- tSu5K+NQ+P61FSDrnSHELbzFTBTgpemMYowz9WGezL+ZFve9/ApXsETnZEqsOLoS9LGl
- hefg8pZR2G7HyFlKqzd/5AjqmKObBX2tyivFsAMo1jhd6RFlFbXS7GYtFnWKVCaCub+T
- MsZQXzXlWEIkNJXVIXaBNm2R/9rfvrAK793XNAHLBS+jKGy2VDOqCzPhxucd6Cdc1HXd
- XDZg==
+ bh=cJh4PYyUI6xHySX36hONClAaQmYIjo+6gw5rU4C8imM=;
+ b=k5oeEjoo24eXvS4XM+EhxIOQaiwwcyBDR/C6JspQJ3ZL03rK3wPvMsToBZzAbaYpZz
+ is+65AQvdyrwgXujw4oxxutU0+xfmdYCmlo1jZl/NqjOEY0rl2tO1W0mU3+FYahqk5E1
+ disRC11KI0mC7o8Obxqv7HZWJJ3tYNhGipVBLGsjaN1NEK7vTYmcecTM8J729Y2B4gim
+ m80YWyiD6z/lLjm9vsA/5HId6aG2oHQiyPW2licnsqvbRTmt+ouCz2g/Y48X3wKt1bsk
+ 8C++ZWUp4MYzIUBod3wqUH5UnqPE87caRiyNeUQKQsWM2HEbvyUpBOuJikSDLeWL9Fe2
+ XNLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zwKcr0BxuWom7IkiNcPhPZK4xdCumUneF31LB5FuiUY=;
- b=YZkm7RDJ8UayhDxI6cxtNNIMgBgL2QTS+n5SXEv8JnHPdfxK1rqpJ+FCOlkFU72ub4
- Rg4N+VMQdRWp3X7d9hBXsK7ozMruVNfP6sdF32Aoho2cFxD3nlAx/ddnHNHIHV/VHlT3
- XuoqY9K0//QbyB/eAevN78wmVw4GM2saniS0tHpJyPhiku17nF64WtHPi43DI5qC0d3s
- eMlBK5Wv8C3pp0Ja3iKqV3VJ2Zn8W3jTNjp8Rwn3ZJhFMGiHIXJNZftVk6Q/EnKVNHQE
- 2fN5OHlhry2fvOwRg/vEbUkVBVXxYfvOZhvF1jCLi6iRg6ubS9t4f6BWj+7U3f+6Ajns
- OlLQ==
-X-Gm-Message-State: AOAM532kfBdk/ghJnWGoNmN3jcfFAbmzJyYwqezf2zxaYdxsMAm4MJnm
- kMtus9lfSgSrFUFiykRfONzQQIgmyAM=
-X-Google-Smtp-Source: ABdhPJwpAw+/D02VLkC5oW44AssJPO+7fI9hMAa1OAlJp6ECe7se2fPd+geO6QRw/XtxWhq/h0+LkA==
-X-Received: by 2002:a05:600c:1994:b0:389:bcf5:6e79 with SMTP id
- t20-20020a05600c199400b00389bcf56e79mr250439wmq.43.1646647977298; 
- Mon, 07 Mar 2022 02:12:57 -0800 (PST)
+ bh=cJh4PYyUI6xHySX36hONClAaQmYIjo+6gw5rU4C8imM=;
+ b=whuaVqihu1lo6BSNVR3RZUjMzgZsmP2ZYO3ly39zhAbJfOzKJ0wbw+hgLSjSpTz4ob
+ 7OggftuYV11hpYCXu26xmpWrPFaaW1GV3b2cnbw4UMdKaNuv1vN/VMVJeAUY85jsViE2
+ 0mGitU18iEREZnbbO5yjmIw+TVJRGKvBO1ebPaMDTQv9dkGdz5E5xL5fym9CVFQz/PbG
+ Dq+pcqB4/wK+FhbKvmZ5nDlcxdgrV4ERxyua+OoPsVTtg4KuiqJbUEG+EIs75S2My20P
+ 2WGPIV+Imz9ba3CGCxg0j33OvGlKgCgmPHLygq9OfkVM1wJk0xTsHGU8VafrCrMwYDbK
+ qt4A==
+X-Gm-Message-State: AOAM533XPUcnpU5xIuuXHoUvdE4Q59wfoObylPkt3RbGb5tPLbaa3nW4
+ jyiF7Ch5wI7xz/DrghoYgRzvYBjN+fs=
+X-Google-Smtp-Source: ABdhPJy9Q6r4NM8TvlaPdho1rmjPf/mIOw9jOMZpifPuEnmYMlVScM0cHkLGBmE/fU2SenOacv+n4w==
+X-Received: by 2002:a05:6000:114e:b0:1f0:4b8d:457 with SMTP id
+ d14-20020a056000114e00b001f04b8d0457mr7850616wrx.89.1646647996776; 
+ Mon, 07 Mar 2022 02:13:16 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u10-20020adfa18a000000b001f04c24afe7sm10857180wru.41.2022.03.07.02.12.56
+ v2-20020adf8b42000000b001edc38024c9sm11913880wra.65.2022.03.07.02.13.15
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Mar 2022 02:12:56 -0800 (PST)
+ Mon, 07 Mar 2022 02:13:16 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/16] hw/rtc/mc146818rtc: QOM'ify IRQ number
-Date: Mon,  7 Mar 2022 11:12:01 +0100
-Message-Id: <20220307101207.90369-11-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 14/16] isa: Drop unused attributes from ISADevice
+Date: Mon,  7 Mar 2022 11:12:05 +0100
+Message-Id: <20220307101207.90369-15-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
 References: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,124 +98,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-Exposing the IRQ number as a QOM property not only allows it to be
-configurable but also to be displayed in HMP:
-
-Before:
-
-(qemu) info qtree
-       ...
-          dev: mc146818rtc, id ""
-            gpio-out "" 1
-            base_year = 0 (0x0)
-            lost_tick_policy = "discard"
-
-After:
-
-          dev: mc146818rtc, id ""
-            gpio-out "" 1
-            base_year = 0 (0x0)
-            irq = 8 (0x8)
-            lost_tick_policy = "discard"
-
-The reason the IRQ number didn's show up before is that this device does not
-call isa_init_irq().
+Now that the last users of ISADevice::isairq[] have been resolved during the
+previous commits, it can be removed for good.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220301220037.76555-2-shentey@gmail.com>
+Message-Id: <20220301220037.76555-7-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/piix4.c               |  2 +-
- hw/rtc/mc146818rtc.c         | 13 +++++++++++--
- include/hw/rtc/mc146818rtc.h |  1 +
- 3 files changed, 13 insertions(+), 3 deletions(-)
+ hw/isa/isa-bus.c     | 13 -------------
+ include/hw/isa/isa.h |  2 --
+ 2 files changed, 15 deletions(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index f876c71750..fc3c8b3fd1 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -216,7 +216,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
-         return;
-     }
--    isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc.irq, RTC_ISA_IRQ);
-+    isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc.irq, s->rtc.isairq);
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index af5add6a26..c64a14120b 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -87,11 +87,7 @@ qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
+ 
+ void isa_init_irq(ISADevice *dev, qemu_irq *p, unsigned isairq)
+ {
+-    assert(dev->nirqs < ARRAY_SIZE(dev->isairq));
+-    assert(isairq < ISA_NUM_IRQS);
+-    dev->isairq[dev->nirqs] = isairq;
+     *p = isa_get_irq(dev, isairq);
+-    dev->nirqs++;
  }
  
- static void piix4_init(Object *obj)
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index ac9a60c90e..f235c2ddbe 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -912,6 +912,11 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
-         s->base_year = 0;
-     }
+ void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
+@@ -150,14 +146,6 @@ int isa_register_portio_list(ISADevice *dev,
+     return 0;
+ }
  
-+    if (s->isairq >= ISA_NUM_IRQS) {
-+        error_setg(errp, "Maximum value for \"irq\" is: %u", ISA_NUM_IRQS - 1);
-+        return;
-+    }
-+
-     rtc_set_date_from_host(isadev);
- 
-     switch (s->lost_tick_policy) {
-@@ -957,15 +962,17 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
+-static void isa_device_init(Object *obj)
+-{
+-    ISADevice *dev = ISA_DEVICE(obj);
+-
+-    dev->isairq[0] = -1;
+-    dev->isairq[1] = -1;
+-}
+-
+ ISADevice *isa_new(const char *name)
  {
-     DeviceState *dev;
-     ISADevice *isadev;
-+    RTCState *s;
+     return ISA_DEVICE(qdev_new(name));
+@@ -244,7 +232,6 @@ static const TypeInfo isa_device_type_info = {
+     .name = TYPE_ISA_DEVICE,
+     .parent = TYPE_DEVICE,
+     .instance_size = sizeof(ISADevice),
+-    .instance_init = isa_device_init,
+     .abstract = true,
+     .class_size = sizeof(ISADeviceClass),
+     .class_init = isa_device_class_init,
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index d4417b34b6..d80cab5b79 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -83,8 +83,6 @@ struct ISADevice {
+     DeviceState parent_obj;
+     /*< public >*/
  
-     isadev = isa_new(TYPE_MC146818_RTC);
-     dev = DEVICE(isadev);
-+    s = MC146818_RTC(isadev);
-     qdev_prop_set_int32(dev, "base_year", base_year);
-     isa_realize_and_unref(isadev, bus, &error_fatal);
-     if (intercept_irq) {
-         qdev_connect_gpio_out(dev, 0, intercept_irq);
-     } else {
--        isa_connect_gpio_out(isadev, 0, RTC_ISA_IRQ);
-+        isa_connect_gpio_out(isadev, 0, s->isairq);
-     }
+-    int8_t isairq[2];      /* -1 = unassigned */
+-    int nirqs;
+     int ioport_id;
+ };
  
-     object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(isadev),
-@@ -976,6 +983,7 @@ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year, qemu_irq intercept_irq)
- 
- static Property mc146818rtc_properties[] = {
-     DEFINE_PROP_INT32("base_year", RTCState, base_year, 1980),
-+    DEFINE_PROP_UINT8("irq", RTCState, isairq, RTC_ISA_IRQ),
-     DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", RTCState,
-                                lost_tick_policy, LOST_TICK_POLICY_DISCARD),
-     DEFINE_PROP_END_OF_LIST(),
-@@ -1011,6 +1019,7 @@ static void rtc_reset_hold(Object *obj)
- 
- static void rtc_build_aml(ISADevice *isadev, Aml *scope)
- {
-+    RTCState *s = MC146818_RTC(isadev);
-     Aml *dev;
-     Aml *crs;
- 
-@@ -1021,7 +1030,7 @@ static void rtc_build_aml(ISADevice *isadev, Aml *scope)
-     crs = aml_resource_template();
-     aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
-                            0x01, 0x08));
--    aml_append(crs, aml_irq_no_flags(RTC_ISA_IRQ));
-+    aml_append(crs, aml_irq_no_flags(s->isairq));
- 
-     dev = aml_device("RTC");
-     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0B00")));
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index 5b45b22924..deef93f89a 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -25,6 +25,7 @@ struct RTCState {
-     MemoryRegion coalesced_io;
-     uint8_t cmos_data[128];
-     uint8_t cmos_index;
-+    uint8_t isairq;
-     int32_t base_year;
-     uint64_t base_rtc;
-     uint64_t last_update;
 -- 
 2.34.1
 
