@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33EC4D07C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:33:37 +0100 (CET)
-Received: from localhost ([::1]:34640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F5A4D07AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:27:56 +0100 (CET)
+Received: from localhost ([::1]:52570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRJ6u-0003CJ-Qd
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:33:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38736)
+	id 1nRJ1P-0004SJ-4P
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:27:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nRIqH-00076L-40; Mon, 07 Mar 2022 14:16:25 -0500
-Received: from [2607:f8b0:4864:20::22e] (port=42920
- helo=mail-oi1-x22e.google.com)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nRIz4-0002Bs-Jo
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:25:30 -0500
+Received: from [2607:f8b0:4864:20::c2d] (port=40949
+ helo=mail-oo1-xc2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nRIqF-0005yZ-J1; Mon, 07 Mar 2022 14:16:24 -0500
-Received: by mail-oi1-x22e.google.com with SMTP id q189so670040oia.9;
- Mon, 07 Mar 2022 11:16:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nRIz0-0007EZ-Gz
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:25:29 -0500
+Received: by mail-oo1-xc2d.google.com with SMTP id
+ h16-20020a4a6f10000000b00320507b9ccfso19085884ooc.7
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 11:25:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ksVu9IpA+ghWKaCiI8cvIiyWjIJRCNBiEozz6JbHPWs=;
- b=X2ihgi9heGxnhmM5wQ2rNtX+S2aQGQbfeEfbeWD8iUaydaD115zMeL6a23BYbjvKBY
- pfFvqvK/YwDf9j4+w7JrND9q6OnoKTaoIbgzMsVZg+RBm6LYpav+OGLk0L82QCLLcb+Z
- t6dDOJu3Wls9JZHoheetikusueTiJ3WnOUwtBUZy5qUjqAQ5PNP/oxR9R0d/EeiSxdsu
- WMPw44r1yZHSvucKtquzYgaxY3BjxqO+eKHaLsLmwSTPVMa/iMyu/NqLTBY1HGacpU9n
- XFfoFVLbfuXt5Pl5JOKcvBlsiCHVwfsYHii0YpLdQPdEtz5p0A/UQ//IezUb+yK9RJi7
- Afzg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iauKfWgAv6yJu9kMpKHyDF2kBUO0PmGIIQcz4fGDANk=;
+ b=qHkmcDdEvxL+eCnP5FBeT3YSTVfeW0dEtiU41/auETt2DUvFY8IeF94gCpnLf1Az2o
+ cVA9zXsGbV9iTQ9wur4EZtCiT1JBEi3LNW5wHKj5bo5S0WdsdABvTtDDqBHqwGhRn0Zu
+ f56aSOOw1k9lTK9fdSmNsdvdObdo2lx1n2OTMXVztZ1TLtVf0e2u2Wg6qmn7maPDNN/J
+ hsYxvHB0Lr9rqEs8KmwhRyLV/5kTIbBr6srOo+V9ZaZqwYcvj6yMX1eNRoPK6mHMTSDN
+ f+G6CPQXvvYzWr/JqEjsJFPs0SrociLnq/c1ubsubwknBMMjKAE655qc/nKeACaA+a7R
+ 9LJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ksVu9IpA+ghWKaCiI8cvIiyWjIJRCNBiEozz6JbHPWs=;
- b=sKcumWkUfuYQYA/Djnf9OBFfqJ7iFio3ErAt/cXFK863QbCHnLr6X6AZCznwiTJbCc
- pgN2Z/W3B74vl+1FuwB6LqEWhePH2fBDa7zDsTvd2dP43kOMvwCnmeHYaeAshkyPkwfM
- ZbqpGk2rauqTX8huHQAOrk9qpXqmEtRhYTVJBd0HWLzpxtf/hKs3xcBy1+su3PCorgCp
- CXqGF7ukNpTDA6KAf9XPTU+AEt7fCIcOmtWHd4gmlJrJKyKJPZkcAofAkLVZqEk2nL1Q
- xkPfTMGGMBDp8hqPvkcl/N3GlNV1DeURWy9wCCu79LOlBug1BGDqgFOedQwD9BXnki9/
- zn5g==
-X-Gm-Message-State: AOAM532DeezFY3wOi2d2LQ6qnZn474towHUM9X2KeKP2xq4PrC9AeJuS
- sqFNMKwXr8joq1dlzc3c7REPNYOVzrk=
-X-Google-Smtp-Source: ABdhPJyag3Q0edWJNG8j483kQEmrycrQ5gsYIsyiAtH++nxFCB5ughd8GmZ6aUEE++eJfUy8Dbtvlw==
-X-Received: by 2002:a05:6808:23c1:b0:2d7:390e:5c2a with SMTP id
- bq1-20020a05680823c100b002d7390e5c2amr331987oib.108.1646680582168; 
- Mon, 07 Mar 2022 11:16:22 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:3b4a:a86f:f27d:30ef:6eb6])
- by smtp.gmail.com with ESMTPSA id
- t40-20020a05680815a800b002d48ffad94bsm7283093oiw.2.2022.03.07.11.16.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 11:16:21 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 9/9] hw/ppc/spapr_hcall.c: log H_VIOCTL as unsupported
-Date: Mon,  7 Mar 2022 16:15:53 -0300
-Message-Id: <20220307191553.429236-10-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220307191553.429236-1-danielhb413@gmail.com>
-References: <20220307191553.429236-1-danielhb413@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iauKfWgAv6yJu9kMpKHyDF2kBUO0PmGIIQcz4fGDANk=;
+ b=dY6Q/U7e9GlSVZLWW08nUcfA2Qg57id0NA3qNlgBWySi8PP26EfpXHj4eEFOyEKxDQ
+ EfTYOv8Mi/bRQj5CJH2c+PMhz93Jw1D0fegX8biIl/vju1VGKR0Stg7pWi2GkBjJtiOO
+ V/Cj5XKpIc4gpCWhZzvGCBdJo5aKFyebVunUMgqeQ8CqQJw+H4jArQwkm4FNL2XaysKw
+ k+qYmapIE0GGNICryK5urks2loNhHkn3SJhDpwRVifdblIE0AneQrsnRxVOnpJ3IuwqT
+ n8r1ztIphm4N5CoX4/mgu0FRsK3ZYg5UkwmyAfOvtVnvLxxsMN57qLLqu7Jg0mvH1Tws
+ b3lQ==
+X-Gm-Message-State: AOAM5304vrnRkjOp0SFLbWi53Rma2q9+Vm9cO18gYMyn0+2gKY8rkOUF
+ GvlsVvci/hF9jzsdVN1fH9RgOAMglZzVsOvhMNs=
+X-Google-Smtp-Source: ABdhPJw+n/TttlOLzKhKVktlWExVJXLeDxXnZJWxUU3G/SZtTPqu7hpelB3+oGwKVkc13/3UNUUBYVgtzUDBcEwR5fw=
+X-Received: by 2002:a05:6870:4410:b0:da:38cc:e845 with SMTP id
+ u16-20020a056870441000b000da38cce845mr311089oah.88.1646681112562; Mon, 07 Mar
+ 2022 11:25:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::22e
+References: <20220307151004.578069-1-pbonzini@redhat.com>
+ <59f773ed-9a1f-10ff-637e-b41848aa534d@gmail.com>
+ <CAFEAcA8XshU90eKJM_4+_mLRhUCN+ExWzCkPTveLht0bWBb8=w@mail.gmail.com>
+ <CAMVc7JU=easTepCd=j0QHWBcFrry7iYXgX1BbQjs27fmxZGXrA@mail.gmail.com>
+ <CAFEAcA8h0E5i=iJswVwC+v_=vs_u92-s90wMgq_C5ZjSTsrZSw@mail.gmail.com>
+ <CAMVc7JVZSTpD5VL1Ls8CcWZsoEMMzsZsGApZ+tNkuFhMc8_+cA@mail.gmail.com>
+ <89a0316d-7e9a-46d9-31cc-c3507483fffb@redhat.com>
+In-Reply-To: <89a0316d-7e9a-46d9-31cc-c3507483fffb@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Tue, 8 Mar 2022 04:25:01 +0900
+Message-ID: <CAMVc7JVjNOXLuSsgNv4=fw7CiHtUPMbfqKHpF+=gx1QasJ4oeA@mail.gmail.com>
+Subject: Re: [RFC uncompiled PATCH] cocoa: run qemu_init in the main thread
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2d;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-oo1-xc2d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,71 +88,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-H_VIOCTL is one of many VIO (Virtualized I/O) hcalls that we do not
-support in QEMU. An AIX 7.2 guest will attempt to execute this hcall a
-couple of times during boot, receiving H_FUNCTION replies every time,
-and eventually give it up.
+On Tue, Mar 8, 2022 at 2:21 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 3/7/22 17:41, Akihiko Odaki wrote:
+> >> That series doesn't remove the general design that has quite a bit
+> >> of "we know some other thread holds the lock and waits for us" code.
+> > Well, I don't think so. main no longer calls back QEMU code (and it
+> > should never do so in my opinion).
+>
+> That's an arbitrary limitation.  With my patch, until [NSApp run] only
+> the main thread has the lock and therefore it can do anything.  In my
+> patch I decided to minimize the changes, but if
+> register_displaychangelistener() and qemu_clipboard_peer_register() can
+> be moved earlier, then the iothread could even be unlocked before [NSApp
+> run].
 
-There are many VIO hcalls and we don't support none. H_VIOCTL seems to
-be the one that convinces the guest that we don't have VIO support in
-the platform, so let's add this one as unsupported in our model.
+I meant the thread without iothread lock shouldn't call QEMU functions
+even if it is clear that another thread is holding the lock and
+waiting. The rule should apply after unlocking the mutex in
+[-QemuCocoaAppController applicationDidFinishLaunching:].
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr_hcall.c   | 14 ++++++++++++++
- include/hw/ppc/spapr.h |  1 +
- 2 files changed, 15 insertions(+)
+>
+> There's also the advantage that the flow is a lot more similar between
+> "-display cocoa" and "-display none", and also between --enable-cocoa
+> and --disable-cocoa builds.
+>
+> Then main() remains as
+>
+>      /* doesn't hurt in the !cocoa case */
+>      NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+>
+>      qemu_init(argc, argv);
+>      if (!have_cocoa_display) {
+>          qemu_main_loop();
+>          qemu_cleanup();
+>      } else {
+>          QemuCocoaAppController *appController =
+> [[QemuCocoaAppController alloc] init];
+>          [NSApp setDelegate:appController];
+>          [NSApp run];
+>          [appController release];
+>      }
+>      [pool release];
+>      return 0;
+>
+> which is in my opinion the best of both worlds.  But my patch (assuming
+> it works) really fixes the threading model.  Without it, moving menus to
+> the iothread makes it even more complicated.
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index f7240fbd41..ddaeea84fc 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1618,6 +1618,17 @@ static target_ulong h_query_vas_capabilities(PowerPCCPU *cpu,
-     return H_FUNCTION;
- }
- 
-+static target_ulong h_vioctl(PowerPCCPU *cpu,
-+                             SpaprMachineState *spapr,
-+                             target_ulong opcode,
-+                             target_ulong *args)
-+{
-+    /* We do not support any VIO (Virtualized I/O) HCALL */
-+    qemu_log_mask(LOG_UNSUPP, "Unsupported SPAPR hcall 0x"TARGET_FMT_lx"%s\n",
-+                  opcode, " (H_VIOCTL)");
-+    return H_FUNCTION;
-+}
-+
- /*
-  * When this handler returns, the environment is switched to the L2 guest
-  * and TCG begins running that. spapr_exit_nested() performs the switch from
-@@ -1965,6 +1976,9 @@ static void hypercall_register_types(void)
-     /* Unsupported VAS h-calls */
-     spapr_register_hypercall(H_QUERY_VAS_CAPABILITIES,
-                              h_query_vas_capabilities);
-+
-+    /* Unsupported Virtualized I/O (VIO) h-calls */
-+    spapr_register_hypercall(H_VIOCTL, h_vioctl);
- }
- 
- type_init(hypercall_register_types)
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 10df519b0a..232ac7650d 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -530,6 +530,7 @@ struct SpaprMachineState {
- #define H_DEL_CONN              0x288
- #define H_JOIN                  0x298
- #define H_VASI_STATE            0x2A4
-+#define H_VIOCTL                0x2A8
- #define H_ENABLE_CRQ            0x2B0
- #define H_GET_EM_PARMS          0x2B8
- #define H_SET_MPP               0x2D0
--- 
-2.35.1
+I don't think the threading model is broken in the current code. There
+is always the iothread and main thread and ui/cocoa has to be aware of
+that. We could unify them when initializing but it is exceptional. The
+broken part is the menu creation code which touches iothread.
 
+The nice part of this change is that it gives control on how to model
+threading. It can provide a conventional model when running without
+cocoa, and leave a room for changes like moving all of the
+initialization code before [+NSApp run].
+
+>
+> >> It also gives us the opposite problem that we're now calling a lot
+> >> of Cocoa APIs from something other than the main Cocoa thread.
+> > Basically NSView is the only thing prohibited from calling from
+> > another thread so it shouldn't be a problem.
+>
+> I'd rather have a single thread that does all things related to Cocoa.
+> If my patch doesn't work, I would just call qmp_query_block(NULL) from
+> cocoa_display_init() and save the result in a global variable.
+
+The distinction between Cocoa and other platform APIs is arbitrary.
+The APIs of Cocoa are mostly thread-independent and NSView is rather
+exceptional.
+
+Regards,
+Akihiko Odaki
+
+>
+> Paolo
 
