@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403394D0B8B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:57:29 +0100 (CET)
-Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8294D0B8D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 23:57:50 +0100 (CET)
+Received: from localhost ([::1]:56696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRMIC-0005UM-0h
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:57:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52916)
+	id 1nRMIX-0006It-KG
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 17:57:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6x-0007Ly-US
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6z-0007NC-7v
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59429)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6w-0005dU-FJ
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:51 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRM6x-0005df-Hw
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:45:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693147;
+ s=mimecast20190719; t=1646693151;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gahauiWtzKVRJbmFnIa2BytU7N4O8wddJUnc6uKh6Qk=;
- b=dWNvh9OyCWtL++Acco3mxAhwPm7syICK72uX1YBtNhNLfRa/ObNqCtr8aIMB4REtAI9rRe
- DUdnXq+75i5VN2LK755Fk2HjiT4SvxWBBBrXViwyWO1AzHasMvdULJSuVxe/ddjQlXQalb
- penx0IZ/u9Ma13FYOH+0a6DGankpMyA=
+ bh=SoEIyJ3M3ZHGIXoolRVwuQOGPFG25A4XAUBq+1r+Ueo=;
+ b=a2XDSwROL5w7p56O0MvlsBox6QB+I9+0yw10aGaf/geGe2nwgKOeWxvUNeB/P6M1BgfiFM
+ qA4Lfvp/iB/32VJ0YYmq37FjcUj3NHAnA0EW2LqWIdsgY838v8u9r3bP1AIu1TJc2Blpfa
+ i+3DfYQdov/tuBkpGGCFmOaqilG2SZ4=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-259-ULgUNekROo-aBtLqblRJNA-1; Mon, 07 Mar 2022 17:45:46 -0500
-X-MC-Unique: ULgUNekROo-aBtLqblRJNA-1
+ us-mta-361-H8h9EsNBN2WArR7aC05VCg-1; Mon, 07 Mar 2022 17:45:50 -0500
+X-MC-Unique: H8h9EsNBN2WArR7aC05VCg-1
 Received: by mail-wm1-f69.google.com with SMTP id
- l2-20020a1ced02000000b0038482a47e7eso253695wmh.5
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:46 -0800 (PST)
+ 3-20020a05600c230300b00384e15ceae4so248622wmo.7
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:45:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=gahauiWtzKVRJbmFnIa2BytU7N4O8wddJUnc6uKh6Qk=;
- b=5dk9uwmebCcqjYGQKdZQJxiBzspCe4BVyXQ2CqQrthUIPmYP0x2yZfMCp5jnjTkv7C
- UX+j4qcppOyBwarmZ+To23YEo2335Biu6duUnLZ8dWuOqih2coljq3nQNFUHqmmYvA6o
- Z6bi2i5KgtbVIVlUPZI+SkN0HomINwQK76im940lkeAGxHrnI2+96bVzUhysyNJkADLK
- 0gMLvxM34ie16rnnUjPSt0jDtOejDQBwsDsNsQ754CA8hCWttuqOye/+cMh3yojC9+Ve
- f62c/YeJ8/Pu+C2ymUr9T36+pjB00CYJUpPUi8+I6einSCpqXxJlbGluo1WBmegAL6mE
- l0Zw==
-X-Gm-Message-State: AOAM532nVIpI+GCJpt59BU2Bo8b12wwq3t5kWfKZtkmnRTfE3Dm2lMIA
- 3R4z6guOfvyd0csvsyYJr+a9rlV3dDRwU2o2oocf9Ts/vUFVcywamCCa6k3tKP3CM/xMduBvxP1
- ClyPN/A2foKQEp9X27jNgqNYSBy/HrM58+bbGiGZJwEPpm0n41hBuGex/WbBd
-X-Received: by 2002:a05:6000:15cc:b0:1f1:f814:27c4 with SMTP id
- y12-20020a05600015cc00b001f1f81427c4mr5748702wry.630.1646693145264; 
- Mon, 07 Mar 2022 14:45:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyPeuIqQwNR8ax5oKli/Nl48ohu8zY8HLB0eY0cOGmns7ImfUk6e6epk7A9N5KnKkzf/E6wfQ==
-X-Received: by 2002:a05:6000:15cc:b0:1f1:f814:27c4 with SMTP id
- y12-20020a05600015cc00b001f1f81427c4mr5748683wry.630.1646693144970; 
- Mon, 07 Mar 2022 14:45:44 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=SoEIyJ3M3ZHGIXoolRVwuQOGPFG25A4XAUBq+1r+Ueo=;
+ b=qjZlzgp0HkwysnhkVgQtGBrnlEOGOk7VZlfHsa1Qe+Xkn9KwPBZ5D4qliB3mfBDApD
+ FlCV/VllZ6OTFOWNQKyOW+3XrH6clNggXGk0QHPVjxsVWcKiB9FYm4HubdGhMPx9DXbk
+ RcLH4AvMhJJHYAUcmTejn14gU/rEDmvMwxiHivue0Y+JrgoaZ7U2ayGBSrbYo7Q2BAUN
+ uRCeqAy9Egtc4yuKr42eO+OMuLqEhstdalQ4LWUut0zxOVeKRFZBM7U3Thwtx/EoRg73
+ 3k4oOLphUEU5hPZpeczVZOpaiNR7Jebg2Bo6N3Nfgk+D2fwW9nqxBZga7SzWXj8rxonr
+ MgIA==
+X-Gm-Message-State: AOAM533V4fkWgSow+9FOHhJtMiesoY+o/TZIEpgdKS7OIr1l9Es0UnsC
+ nMaDygBPkip4lBzxJyPeecOhy9if3gENfwhTzRvKd4T0XDpmnxBwAP+YiBejrBGln9K89jrCnlr
+ apkUaLyYTv16G3Vup61cOfUqUn147rs0NejKhsszuR+SA5IPJLyOyHT+NA2gW
+X-Received: by 2002:a5d:6481:0:b0:1f0:46c3:e6f with SMTP id
+ o1-20020a5d6481000000b001f046c30e6fmr9813313wri.692.1646693148374; 
+ Mon, 07 Mar 2022 14:45:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy47H1hKhpg3fVe5mpyV+oUIrA5YAWhS8sZYwL0Y1zLzZ5VWU2KLsYjPAwRT4tgDC1LaLzvVw==
+X-Received: by 2002:a5d:6481:0:b0:1f0:46c3:e6f with SMTP id
+ o1-20020a5d6481000000b001f046c30e6fmr9813297wri.692.1646693148093; 
+ Mon, 07 Mar 2022 14:45:48 -0800 (PST)
 Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- r2-20020a5d6942000000b001f0485057c4sm12563396wrw.74.2022.03.07.14.45.43
+ l8-20020a5d6688000000b001f04ae0bb6csm12204928wru.58.2022.03.07.14.45.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:45:44 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:45:42 -0500
+ Mon, 07 Mar 2022 14:45:47 -0800 (PST)
+Date: Mon, 7 Mar 2022 17:45:45 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 22/47] hw/pci-bridge/pxb: Fix missing swizzle
-Message-ID: <20220307224357.682101-23-mst@redhat.com>
+Subject: [PULL v4 23/47] virtio-net: Unlimit tx queue size if peer is vdpa
+Message-ID: <20220307224357.682101-24-mst@redhat.com>
 References: <20220307224357.682101-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
@@ -73,8 +75,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -97,52 +100,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
-pxb_map_irq_fn() handled the necessary removal of the swizzle
-applied to the PXB interrupts by the bus to which it was attached
-but neglected to apply the normal swizzle for PCI root ports
-on the expander bridge.
+The code used to limit the maximum size of tx queue for others backends
+than vhost_user since the introduction of configurable tx queue size in
+9b02e1618cf2 ("virtio-net: enable configurable tx queue size").
 
-Result of this was on ARM virt, the PME interrupts for a second
-RP on a PXB instance were miss-routed to #45 rather than #46.
+As vhost_user, vhost_vdpa devices should deal with memory region
+crosses already, so let's use the full tx size.
 
-Tested with a selection of different configurations with 1 to 5
-RP per PXB instance.  Note on my x86 test setup the PME interrupts
-are not triggered so I haven't been able to test this.
-
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-Id: <20220118174855.19325-1-Jonathan.Cameron@huawei.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Message-Id: <20220217175029.2517071-1-eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci-bridge/pci_expander_bridge.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/net/virtio-net.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index 10e6e7c2ab..de932286b5 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -192,6 +192,12 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int pin)
- {
-     PCIDevice *pxb = pci_get_bus(pci_dev)->parent_dev;
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index cf8ab0f8af..b02a0632df 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -628,17 +628,20 @@ static int virtio_net_max_tx_queue_size(VirtIONet *n)
+     NetClientState *peer = n->nic_conf.peers.ncs[0];
  
-+    /*
-+     * First carry out normal swizzle to handle
-+     * multple root ports on a pxb instance.
-+     */
-+    pin = pci_swizzle_map_irq_fn(pci_dev, pin);
-+
      /*
-      * The bios does not index the pxb slot number when
-      * it computes the IRQ because it resides on bus 0
+-     * Backends other than vhost-user don't support max queue size.
++     * Backends other than vhost-user or vhost-vdpa don't support max queue
++     * size.
+      */
+     if (!peer) {
+         return VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE;
+     }
+ 
+-    if (peer->info->type != NET_CLIENT_DRIVER_VHOST_USER) {
++    switch(peer->info->type) {
++    case NET_CLIENT_DRIVER_VHOST_USER:
++    case NET_CLIENT_DRIVER_VHOST_VDPA:
++        return VIRTQUEUE_MAX_SIZE;
++    default:
+         return VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE;
+-    }
+-
+-    return VIRTQUEUE_MAX_SIZE;
++    };
+ }
+ 
+ static int peer_attach(VirtIONet *n, int index)
 -- 
 MST
 
