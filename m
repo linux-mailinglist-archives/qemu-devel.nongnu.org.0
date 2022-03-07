@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109264CFBC3
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:46:57 +0100 (CET)
-Received: from localhost ([::1]:52414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81ADA4CFBC6
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 11:47:58 +0100 (CET)
+Received: from localhost ([::1]:55126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRAtE-00037P-2w
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:46:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37392)
+	id 1nRAuD-0004zo-D6
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 05:47:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRAM9-0003t1-TN
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:45 -0500
-Received: from [2a00:1450:4864:20::333] (port=56111
- helo=mail-wm1-x333.google.com)
+ id 1nRAME-0004AF-OP
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:50 -0500
+Received: from [2a00:1450:4864:20::335] (port=51794
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRAM8-0004LI-Bi
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:45 -0500
-Received: by mail-wm1-x333.google.com with SMTP id i66so8828411wma.5
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:43 -0800 (PST)
+ id 1nRAMD-0004Lj-9P
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:12:50 -0500
+Received: by mail-wm1-x335.google.com with SMTP id q20so6508046wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:12:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AAr+OMvlkoYQ7CFBaWp4gsKrO37KyhZbmhJyWlgqtm4=;
- b=VACXgPUiSL6mBLKt4ElIPd3BwsepJA0LW/3xV0nsMutjXix6YVeSr+T3SBdqyBA0KB
- hobl2DBrqHDPrhGRa0wofEVzc1rL6IIm562wWLfrqD92/GA+Fym+giFuekHxTIUzr2xj
- 8EAtJNPRKEKe1dtNKzwBqIEWghe4TItI3sJH6XkQbNXNv4gD6RdtKnbuzgYP63qu/6DI
- 9yy5rmTfYM63E79EmtsoUUcM482UklvI6smzEC7AzlsMgBQSfRARMS8F8C+JfEQI3I6c
- z+GhVKt4c5tu0ZIwoSnufkLoI/BxJFF6su321g8EkmI7Cy0QCz85fGuN7Ykl76dNoLVT
- Dfnw==
+ bh=BGq1NvCPKkPo6oZnX28wU6tvhaY2hUXR54Kp2JjpCz4=;
+ b=KzpWKRDPFVk40D/sFzK8l19ejmaDhHs5OcYvbQK0R8CW5EG441rAJIB124ZIToh6n1
+ QWvOvUJB97gYcd9sOoPJbkwDCwSEnWPrmYIds/0MF/08V9w6CmJgLBzR7QMnJt0/9Zn8
+ NS1k7vGw5Yznpnz5LcIJMnOB6kT8JZHx6ivAbBMAKib+siUW9AOdJqxC12D/l2n7/HmQ
+ ExZ5dn+ibMS6GWGKdf8JiFYp8vaMX016h4sMF3y06c24+mAJ2rFJUz169mcvS3V+1QVt
+ crgIuzBk0j2Xfok+zlsjIpV+lKMAXEF3yhGVA7AUab3UUpuvuwumOc9ePaqEMjHVJ2XS
+ tSrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AAr+OMvlkoYQ7CFBaWp4gsKrO37KyhZbmhJyWlgqtm4=;
- b=L23LkW/FZrRiEFgr++zPJMg1jr85GK5y0iyZOhaA0XDI4LJ4ayZh7V2IHTjkQ46KqR
- vekAEFCuuk06n7faidhMgTIFFMT8gEuptO8Q+oXBUpYFuNQCsYNM6NQcEH5D6ebrxBwX
- O6KFWSMaNImxLFpgoUxotSPKLcZTXG0QverJZBTdGY2/HN8SKx1hTTMn3T9cPBk+S71o
- Bw7WOsEybX9n3w8zZTBAtMHDPkjKcJ3+OdOSrvGTv0wi714uiCkA35k9OFctGOC+6jNV
- h1KsghvFqK8HxuazRVUf/fmjS9c8L7f0uIv/VA0JFfBhq/FqUWCVDpdmLeut6s2aEZwz
- L/SQ==
-X-Gm-Message-State: AOAM531p0NqhM4oqIc9ARHqnESJemq2jmSOpSeOE62J38zDVh9BCaOi3
- diJcJZ396tj0tL8haalD6a9NaAPeWBc=
-X-Google-Smtp-Source: ABdhPJzp0rxRKOYql+tJ2dYJiir4Zwt969MV2r3HeVNHQH+rnoDd+dCwzNU+TwSVNUSnkZ3blCOj4Q==
-X-Received: by 2002:a05:600c:2056:b0:389:736a:5631 with SMTP id
- p22-20020a05600c205600b00389736a5631mr14290311wmg.120.1646647962804; 
- Mon, 07 Mar 2022 02:12:42 -0800 (PST)
+ bh=BGq1NvCPKkPo6oZnX28wU6tvhaY2hUXR54Kp2JjpCz4=;
+ b=Mn9OFqIIi0MQSPV8xCdwOccQJ0A5DJ6jXbPA56mO00mb1EeOy1NhPWFGCAd5Xlnhz5
+ d+LKq8mrpe+Ci1Xqc1rK5ph7P+nQ9y4vrUW/TwVISbNnw2ua15NX3PER+VOz3Tsevzow
+ maN8E54BPEyyAhtykSHj5cBJ4XbaR0feNtt3gRNfxKIV2LLW2AEb5iD93FWj8zJDvt0Q
+ g12uINuqdif2TSqVGLt7MsRUvMidW3ruljdbvfMkgoKD5UK+cYJSb5R3CgfiOlrw09xD
+ MyeAITBwoqzXzW849wBS7MoCeJjGm71Vjbn+r0pFJb5tMkm1wEF8RswX8E0Kjw0Bl9hc
+ ppzQ==
+X-Gm-Message-State: AOAM532ffPd40lioUbzVIHvZQXIdXUqP9qNRNdwqUTI3tVtxlm94CiYX
+ qT9XetoSYmH/hkYPc25jx4qEINeGOHs=
+X-Google-Smtp-Source: ABdhPJzBiNLyw+tjvj7zRyNSbxh3m24uUUkGAGgYZYTHeQsJ73GVQkpMg3LkAjhaxADjBTiA6yJ7eA==
+X-Received: by 2002:a7b:c30e:0:b0:37f:a63d:3d1f with SMTP id
+ k14-20020a7bc30e000000b0037fa63d3d1fmr8380488wmj.178.1646647967635; 
+ Mon, 07 Mar 2022 02:12:47 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p12-20020a056000018c00b001f079518150sm7678574wrx.93.2022.03.07.02.12.41
+ p15-20020a05600c1d8f00b003899d50f01csm5022185wms.6.2022.03.07.02.12.46
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Mar 2022 02:12:42 -0800 (PST)
+ Mon, 07 Mar 2022 02:12:47 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/16] hw/isa/piix4: Resolve global instance variable
-Date: Mon,  7 Mar 2022 11:11:58 +0100
-Message-Id: <20220307101207.90369-8-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 08/16] hw/isa/piix4: Replace some magic IRQ constants
+Date: Mon,  7 Mar 2022 11:11:59 +0100
+Message-Id: <20220307101207.90369-9-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
 References: <20220307101207.90369-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,74 +99,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-Now that piix4_set_irq's opaque parameter references own PIIX4State,
-piix4_dev becomes redundant.
+This is a follow-up on patch "malta: Move PCI interrupt handling from
+gt64xxx_pci to piix4". gt64xxx_pci used magic constants, and probably
+didn't want to use piix4-specific constants. Now that the interrupt
+handing resides in piix4, its constants can be used.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20220217101924.15347-6-shentey@gmail.com>
+Message-Id: <20220217101924.15347-7-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/piix4.c                | 10 +++-------
- include/hw/southbridge/piix.h |  2 --
- 2 files changed, 3 insertions(+), 9 deletions(-)
+ hw/isa/piix4.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index caa2002e2c..2e9b5ccada 100644
+index 2e9b5ccada..f876c71750 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -39,8 +39,6 @@
- #include "sysemu/runstate.h"
- #include "qom/object.h"
- 
--PCIDevice *piix4_dev;
--
- struct PIIX4State {
-     PCIDevice dev;
-     qemu_irq cpu_intr;
-@@ -58,16 +56,16 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
- {
-     int i, pic_irq, pic_level;
-     PIIX4State *s = opaque;
--    PCIBus *bus = pci_get_bus(piix4_dev);
-+    PCIBus *bus = pci_get_bus(&s->dev);
- 
+@@ -61,10 +61,10 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
      /* now we change the pic irq level according to the piix irq mappings */
      /* XXX: optimize */
--    pic_irq = piix4_dev->config[PIIX_PIRQCA + irq_num];
-+    pic_irq = s->dev.config[PIIX_PIRQCA + irq_num];
-     if (pic_irq < 16) {
+     pic_irq = s->dev.config[PIIX_PIRQCA + irq_num];
+-    if (pic_irq < 16) {
++    if (pic_irq < ISA_NUM_IRQS) {
          /* The pic level is the logical OR of all the PCI irqs mapped to it. */
          pic_level = 0;
-         for (i = 0; i < 4; i++) {
--            if (pic_irq == piix4_dev->config[PIIX_PIRQCA + i]) {
-+            if (pic_irq == s->dev.config[PIIX_PIRQCA + i]) {
+-        for (i = 0; i < 4; i++) {
++        for (i = 0; i < PIIX_NUM_PIRQS; i++) {
+             if (pic_irq == s->dev.config[PIIX_PIRQCA + i]) {
                  pic_level |= pci_bus_get_irq_level(bus, i);
              }
-         }
-@@ -219,8 +217,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-         return;
+@@ -315,7 +315,7 @@ DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus)
+                                NULL, 0, NULL);
      }
-     isa_init_irq(ISA_DEVICE(&s->rtc), &s->rtc.irq, RTC_ISA_IRQ);
--
--    piix4_dev = dev;
+ 
+-    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, 4);
++    pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
+ 
+     return dev;
  }
- 
- static void piix4_init(Object *obj)
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index 6387f2b612..f63f83e5c6 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -70,8 +70,6 @@ typedef struct PIIXState PIIX3State;
- DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
-                          TYPE_PIIX3_PCI_DEVICE)
- 
--extern PCIDevice *piix4_dev;
--
- PIIX3State *piix3_create(PCIBus *pci_bus, ISABus **isa_bus);
- 
- DeviceState *piix4_create(PCIBus *pci_bus, ISABus **isa_bus, I2CBus **smbus);
 -- 
 2.34.1
 
