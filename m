@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE084D06D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:47:11 +0100 (CET)
-Received: from localhost ([::1]:58358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB7E4D06E5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:51:03 +0100 (CET)
+Received: from localhost ([::1]:35576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRINy-0002Cv-90
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:47:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57364)
+	id 1nRIRf-00068e-2S
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:50:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRI3u-0005vT-8U
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:26:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47968)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRI43-0006De-JC
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:26:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRI3r-0006tB-GM
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:26:24 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRI42-0006tg-09
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:26:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646677582;
+ s=mimecast20190719; t=1646677590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aOA6hzbYeg9F/+fgrAqjiqtkdD1VW3VcKn/1qNtJN2A=;
- b=JT1pLacHITwhFy8NlmdJvz9+cFNw7j4ELwRkkWWUplfnsT+4xW+rNQfoq6pPOxg1XdmBaZ
- d8eNEOX5Xwlqum1TXsfFRBsUkIi0RNSUH82LFsnDeRrL1y5yuZ2Wfgraz49mhbC9TlGNoB
- 6O9bVGZQew2q47vbfmBx2RNrKapaAsc=
+ bh=gJrLNPZDESmyAqScpi0fQ+rhDnlSbbR5bnlAZLWGzJE=;
+ b=JVandOlR74YVHz2auHP5hpHNAMT50EBcd2SNQqBnkLy2fz2pxh4rana0GyKsfuUmJ3WtJ5
+ TmjPm1t5EdfrsS1dD6KqsktP2w3B90NnbnQ2bJrqXFFJ3dh5PZOwFyA1NVij04IAtwDr91
+ JcjzavMb7mQskUJqK02ybTBvohqM10c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-cwgx1AYpM1iWRXBZNCrHyA-1; Mon, 07 Mar 2022 13:26:21 -0500
-X-MC-Unique: cwgx1AYpM1iWRXBZNCrHyA-1
+ us-mta-649-b7y865XQNVek0P6_N4DBKg-1; Mon, 07 Mar 2022 13:26:28 -0500
+X-MC-Unique: b7y865XQNVek0P6_N4DBKg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BD61824FA6;
- Mon,  7 Mar 2022 18:26:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B13751006AA7;
+ Mon,  7 Mar 2022 18:26:21 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B06780FC5;
- Mon,  7 Mar 2022 18:26:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84D79804DB;
+ Mon,  7 Mar 2022 18:26:20 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/7] tests/tcg/s390x: Fix mvc, mvo and pack tests with Clang
-Date: Mon,  7 Mar 2022 19:26:03 +0100
-Message-Id: <20220307182609.94466-2-thuth@redhat.com>
+Subject: [PULL 2/7] tests/tcg/s390x: Fix the exrl-trt* tests with Clang
+Date: Mon,  7 Mar 2022 19:26:04 +0100
+Message-Id: <20220307182609.94466-3-thuth@redhat.com>
 In-Reply-To: <20220307182609.94466-1-thuth@redhat.com>
 References: <20220307182609.94466-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,68 +84,110 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These instructions use addressing with a "base address", meaning
-that if register r0 is used, it is always treated as zero, no matter
-what value is stored in the register. So we have to make sure not
-to use register r0 for these instructions in our tests. There was
-no problem with GCC so far since it seems to always pick other
-registers by default, but Clang likes to chose register r0, too,
-so we have to use the "a" constraint to make sure that it does
-not pick r0 here.
+The exrl-trt* tests use two pre-initialized variables for the
+results of the assembly code:
 
-Message-Id: <20220301093911.1450719-1-thuth@redhat.com>
+    uint64_t r1 = 0xffffffffffffffffull;
+    uint64_t r2 = 0xffffffffffffffffull;
+
+But then the assembly code copies over the full contents
+of the register into the output variable, without taking
+care of this pre-initialized values:
+
+        "    lgr %[r1],%%r1\n"
+        "    lgr %[r2],%%r2\n"
+
+The code then finally compares the register contents to
+a value that apparently depends on the pre-initialized values:
+
+    if (r2 != 0xffffffffffffffaaull) {
+        write(1, "bad r2\n", 7);
+        return 1;
+    }
+
+This all works with GCC, since the 0xffffffffffffffff got into
+the r2 register there by accident, but it fails completely with
+Clang.
+
+Let's fix this by declaring the r1 and r2 variables as proper
+register variables instead, so the pre-initialized values get
+correctly passed into the inline assembly code.
+
+Message-Id: <20220301092431.1448419-1-thuth@redhat.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/tcg/s390x/mvc.c  | 4 ++--
- tests/tcg/s390x/mvo.c  | 4 ++--
- tests/tcg/s390x/pack.c | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ tests/tcg/s390x/exrl-trt.c  | 8 +++-----
+ tests/tcg/s390x/exrl-trtr.c | 8 +++-----
+ 2 files changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/tests/tcg/s390x/mvc.c b/tests/tcg/s390x/mvc.c
-index aa552d52e5..7ae4c44550 100644
---- a/tests/tcg/s390x/mvc.c
-+++ b/tests/tcg/s390x/mvc.c
-@@ -20,8 +20,8 @@ static inline void mvc_256(const char *dst, const char *src)
-     asm volatile (
-         "    mvc 0(256,%[dst]),0(%[src])\n"
-         :
--        : [dst] "d" (dst),
--          [src] "d" (src)
-+        : [dst] "a" (dst),
-+          [src] "a" (src)
-         : "memory");
- }
+diff --git a/tests/tcg/s390x/exrl-trt.c b/tests/tcg/s390x/exrl-trt.c
+index 16711a3181..451f777b9d 100644
+--- a/tests/tcg/s390x/exrl-trt.c
++++ b/tests/tcg/s390x/exrl-trt.c
+@@ -5,8 +5,8 @@ int main(void)
+ {
+     char op1[] = "hello";
+     char op2[256];
+-    uint64_t r1 = 0xffffffffffffffffull;
+-    uint64_t r2 = 0xffffffffffffffffull;
++    register uint64_t r1 asm("r1") = 0xffffffffffffffffull;
++    register uint64_t r2 asm("r2") = 0xffffffffffffffffull;
+     uint64_t cc;
+     int i;
  
-diff --git a/tests/tcg/s390x/mvo.c b/tests/tcg/s390x/mvo.c
-index 5546fe2a97..0c3ecdde2e 100644
---- a/tests/tcg/s390x/mvo.c
-+++ b/tests/tcg/s390x/mvo.c
-@@ -11,8 +11,8 @@ int main(void)
-     asm volatile (
-         "    mvo 0(4,%[dest]),0(3,%[src])\n"
-         :
--        : [dest] "d" (dest + 1),
--          [src] "d" (src + 1)
-+        : [dest] "a" (dest + 1),
-+          [src] "a" (src + 1)
-         : "memory");
+@@ -21,8 +21,6 @@ int main(void)
+         "    j 2f\n"
+         "1:  trt 0(1,%[op1]),%[op2]\n"
+         "2:  exrl %[op1_len],1b\n"
+-        "    lgr %[r1],%%r1\n"
+-        "    lgr %[r2],%%r2\n"
+         "    ipm %[cc]\n"
+         : [r1] "+r" (r1),
+           [r2] "+r" (r2),
+@@ -30,7 +28,7 @@ int main(void)
+         : [op1] "a" (&op1),
+           [op1_len] "a" (5),
+           [op2] "Q" (op2)
+-        : "r1", "r2", "cc");
++        : "cc");
+     cc = (cc >> 28) & 3;
+     if (cc != 2) {
+         write(1, "bad cc\n", 7);
+diff --git a/tests/tcg/s390x/exrl-trtr.c b/tests/tcg/s390x/exrl-trtr.c
+index 5f30cda6bd..422f7f385a 100644
+--- a/tests/tcg/s390x/exrl-trtr.c
++++ b/tests/tcg/s390x/exrl-trtr.c
+@@ -5,8 +5,8 @@ int main(void)
+ {
+     char op1[] = {0, 1, 2, 3};
+     char op2[256];
+-    uint64_t r1 = 0xffffffffffffffffull;
+-    uint64_t r2 = 0xffffffffffffffffull;
++    register uint64_t r1 asm("r1") = 0xffffffffffffffffull;
++    register uint64_t r2 asm("r2") = 0xffffffffffffffffull;
+     uint64_t cc;
+     int i;
  
-     for (i = 0; i < sizeof(expected); i++) {
-diff --git a/tests/tcg/s390x/pack.c b/tests/tcg/s390x/pack.c
-index 4be36f29a7..55e7e214e8 100644
---- a/tests/tcg/s390x/pack.c
-+++ b/tests/tcg/s390x/pack.c
-@@ -9,7 +9,7 @@ int main(void)
-     asm volatile(
-         "    pack 2(4,%[data]),2(4,%[data])\n"
-         :
--        : [data] "r" (&data[0])
-+        : [data] "a" (&data[0])
-         : "memory");
-     for (i = 0; i < 8; i++) {
-         if (data[i] != exp[i]) {
+@@ -21,8 +21,6 @@ int main(void)
+         "    j 2f\n"
+         "1:  trtr 3(1,%[op1]),%[op2]\n"
+         "2:  exrl %[op1_len],1b\n"
+-        "    lgr %[r1],%%r1\n"
+-        "    lgr %[r2],%%r2\n"
+         "    ipm %[cc]\n"
+         : [r1] "+r" (r1),
+           [r2] "+r" (r2),
+@@ -30,7 +28,7 @@ int main(void)
+         : [op1] "a" (&op1),
+           [op1_len] "a" (3),
+           [op2] "Q" (op2)
+-        : "r1", "r2", "cc");
++        : "cc");
+     cc = (cc >> 28) & 3;
+     if (cc != 1) {
+         write(1, "bad cc\n", 7);
 -- 
 2.27.0
 
