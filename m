@@ -2,95 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40BE4CF34F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 09:10:08 +0100 (CET)
-Received: from localhost ([::1]:52878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC384CF32D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 09:07:56 +0100 (CET)
+Received: from localhost ([::1]:47858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR8RU-0001iN-0B
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 03:10:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41252)
+	id 1nR8PK-0006au-Vz
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 03:07:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nR8IL-0001go-3Y
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:00:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38689)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR8JN-0002TI-Gx
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:01:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nR8II-0000xG-Hr
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:00:40 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR8JL-00017w-QE
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 03:01:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646640037;
+ s=mimecast20190719; t=1646640103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HSqMEG+WKukEoVOQE7tTDUf93ay6xNNFS4SBj2CjUvI=;
- b=G5/j1mANIJnnD0g0mKNUaHy3p7dpYTiJ1wyTGbNo1Q0a+kCxCbEMM1x9uB/uMyPOooCi7f
- KOLQlGHQe50yYKrwwxKgeYpqVJ0DE89qJ17XgDYA2sWC7pxmpPayefJ8IU+o40p9mj0aod
- hTD7Y0/3H0zRD576WvJYyFE29us2Z8A=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ij6L38iN0WAgIZmYyyiAINpWMXQSSt+HMxpB4VYzFcg=;
+ b=aApeKc+GR4BfNzz74Pu3/HlBCXbbkN/TCb6y8JWGLN9xaYyUUDx59et82RdsTBgsPGfbaZ
+ 9jXw2QDya6zc/xpbesGuAq/5h/a4C0q7lIiY1kETVWRmY/GVG/cEwz3y4eAgC44K5VdbF9
+ XYE6KOIAOHW1l7H0hUEXH6txsLVsss4=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-KmC6enXgMFGmMi30vXPVog-1; Mon, 07 Mar 2022 03:00:36 -0500
-X-MC-Unique: KmC6enXgMFGmMi30vXPVog-1
-Received: by mail-wr1-f72.google.com with SMTP id
- t8-20020adfa2c8000000b001e8f6889404so4237601wra.0
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 00:00:36 -0800 (PST)
+ us-mta-361-d5GzCtCqN5mIfTpdGMKhdA-1; Mon, 07 Mar 2022 03:01:42 -0500
+X-MC-Unique: d5GzCtCqN5mIfTpdGMKhdA-1
+Received: by mail-pf1-f199.google.com with SMTP id
+ z194-20020a627ecb000000b004f6db380a59so3694605pfc.19
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 00:01:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HSqMEG+WKukEoVOQE7tTDUf93ay6xNNFS4SBj2CjUvI=;
- b=oW1W5BW82HwgH+xxachUEhWXFZzOw8Mo7ZXj1wuuwDSdjDafmnNYNNUo7Vlj0n7XVk
- phgU1o1ODZEMvPBKLSzM297kwVZ7uWrAWPV4I6slVvrI73D1mEmPE5MALhHrzCp/LHO3
- FHFbmft/iOHh/yIq0+VEXSgqMr9niE013SNetAfK5Q4GuufOfKViFOVxipA2il40zeT7
- 9P9wGv+tpMeFdLKDTsxhvAiz4w5eivUIK4Oiqwc0KOdKQkRuu1iKgpiCE195Azf4OgDC
- E1bCDH/7oHKEikJMsHCdTLlQXLkKc0CP0D0/rh6nF9jwDD/S1Yn0E69yPSjx4Vnlialn
- iSYA==
-X-Gm-Message-State: AOAM531FJe1Bopt2qDcIebPAzXh5J1rZWtyoK6tfa/6ZQT0YOz7ocdpx
- jGl7XpjlZJ0EaQKIzmZi8KnbUtdVZAuLvqjVNczsB+GlnWX50/vLd0fAyW7T7jA8HrBW1eUlCG+
- QA+KEJGtSEhohDsc=
-X-Received: by 2002:a7b:c256:0:b0:389:bbf5:9941 with SMTP id
- b22-20020a7bc256000000b00389bbf59941mr668488wmj.157.1646640035005; 
- Mon, 07 Mar 2022 00:00:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzN3B1Ybu6IbBWZXMFMm6AIUq+uZnmnBuGil+/mXXJcSXTBKghG/AjIcOMZ3ktqVI/WaE8bAA==
-X-Received: by 2002:a7b:c256:0:b0:389:bbf5:9941 with SMTP id
- b22-20020a7bc256000000b00389bbf59941mr668458wmj.157.1646640034715; 
- Mon, 07 Mar 2022 00:00:34 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- i8-20020a7bc948000000b003898dfd7990sm7004322wml.29.2022.03.07.00.00.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Mar 2022 00:00:34 -0800 (PST)
-Message-ID: <9a95bfd3-24d2-bc8a-d723-3675eedadeb7@redhat.com>
-Date: Mon, 7 Mar 2022 09:00:33 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=ij6L38iN0WAgIZmYyyiAINpWMXQSSt+HMxpB4VYzFcg=;
+ b=OTL9m7VCpeWJhQUW1kJogvbS0T80NQoltbwMeyFsKUITfx5R82jr6PBOYqJjYMMBs8
+ yrIGxyyvSYSYV1/Uu2slRyTjQOSAYhdhRdiA9shnGyeALmClkKnWzSuF5eP6zOhUnZ+5
+ pRo1OTHBiSgxZfR1Myv6mq/8yd/JysSlJMyHWEkHI6XrSDixynf1Mj/jR0iks5oEkjV1
+ XOhcdDq9FDVwB37xMVIYg39+sqzuFUlHt/OiB/6lwa2L68Z0isuXcAmEmIEzDCOxgfmk
+ gxovUvXjZzLw0kMcO+Zm7B6SUfH6VoYU0SfrsLKS84NQ4o3eoX8Zb+k5k9gfiOVq5CzI
+ v9Ew==
+X-Gm-Message-State: AOAM532OzeWc89yzslsogF3zP1q6cl024+GtopqX1c/nuwCMBdTvP8ro
+ s68Ujs0Ps4K/mwXHPd/N4Ej3k/IbK6aR8/tdpCiHPtCL72b3KY9OHTa9+zDPTXBlkNTA1qGkNBW
+ 8f4ml0dv8yOKm4Bw=
+X-Received: by 2002:a17:903:1210:b0:14f:973e:188d with SMTP id
+ l16-20020a170903121000b0014f973e188dmr10914276plh.61.1646640100461; 
+ Mon, 07 Mar 2022 00:01:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy67TLseImS1Ko2NjHi+s0TvghVNNx7yWnycvM5/DxsFZq1ezOTGWGQTPp2DvNsXLv1FC0nWw==
+X-Received: by 2002:a17:903:1210:b0:14f:973e:188d with SMTP id
+ l16-20020a170903121000b0014f973e188dmr10914252plh.61.1646640100118; 
+ Mon, 07 Mar 2022 00:01:40 -0800 (PST)
+Received: from xz-m1.local ([94.177.118.47]) by smtp.gmail.com with ESMTPSA id
+ lk13-20020a17090b33cd00b001bf72ab711asm1581734pjb.35.2022.03.07.00.01.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 00:01:39 -0800 (PST)
+Date: Mon, 7 Mar 2022 16:01:35 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH 14/18] tests: convert XBZRLE migration test to use common
+ helper
+Message-ID: <YiW737sCTsUfu+D4@xz-m1.local>
+References: <20220302174932.2692378-1-berrange@redhat.com>
+ <20220302174932.2692378-15-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 2/5] qtest/meson.build: check CONFIG_TCG for
- boot-serial-test in qtests_ppc
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20220303153517.168943-1-danielhb413@gmail.com>
- <20220303153517.168943-3-danielhb413@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220303153517.168943-3-danielhb413@gmail.com>
+In-Reply-To: <20220302174932.2692378-15-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,52 +100,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: crosa@redhat.com, qemu-ppc@nongnu.org, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/03/2022 16.35, Daniel Henrique Barboza wrote:
-> 'boot-serial-test' does not work with a QEMU built with --disable-tcg in
-> a IBM POWER9 host. The reason is that without TCG QEMU will default to
-> KVM acceleration, but then the KVM module in IBM POWER hosts aren't able
-> to handle other CPUs.
-> 
-> The result is that the test will break with a KVM error when trying to
-> ruin the ppce500 test:
-> 
-> $ QTEST_QEMU_BINARY=./qemu-system-ppc64 ./tests/qtest/boot-serial-test
-> /ppc64/boot-serial/ppce500: qemu-system-ppc64: -accel tcg: invalid accelerator tcg
-> error: kvm run failed Invalid argument
-> NIP 0000000000f00000   LR 0000000000000000 CTR 0000000000000000 XER 0000000000000000 CPU#0
-> MSR 0000000000000000 HID0 0000000000000000  HF 24020002 iidx 1 didx 1
-> TB 00000000 00000000 DECR 0
-> (...)
-> ** (./tests/qtest/boot-serial-test:1935760): ERROR **: 07:44:03.010: Failed to find expected string. Please check '/tmp/qtest-boot-serial-sJ78sqg'
-> 
-> Fix it by checking CONFIG_TCG before compiling boot-serial-test.
-> 
-> Cc: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   tests/qtest/meson.build | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 0c2f2d94e1..deed640d7f 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -161,7 +161,8 @@ qtests_ppc = \
->     (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
->     (config_all_devices.has_key('CONFIG_M48T59') ? ['m48t59-test'] : []) +                     \
->     (config_all_devices.has_key('CONFIG_TCG') ? ['prom-env-test'] : []) +                      \
-> -  ['boot-order-test', 'boot-serial-test']
-> +  (config_all_devices.has_key('CONFIG_TCG') ? ['boot-serial-test'] : []) +                   \
-> +  ['boot-order-test']
->   
->   qtests_ppc64 = \
->     qtests_ppc + \
+On Wed, Mar 02, 2022 at 05:49:28PM +0000, Daniel P. Berrangé wrote:
+> @@ -1255,6 +1259,7 @@ static void test_precopy_unix_common(TestMigrateStartHook start_hook,
+>                                       TestMigrateFinishHook finish_hook,
+>                                       bool expect_fail,
+>                                       bool dst_quit,
+> +                                     unsigned int iterations,
+>                                       bool dirty_ring)
+>  {
+>      g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> @@ -1265,6 +1270,7 @@ static void test_precopy_unix_common(TestMigrateStartHook start_hook,
+>                          finish_hook,
+>                          expect_fail,
+>                          dst_quit,
+> +                        iterations,
+>                          dirty_ring);
+>  }
+>  
+> @@ -1274,6 +1280,7 @@ static void test_precopy_unix_plain(void)
+>                               NULL, /* finish_hook */
+>                               false, /* expect_fail */
+>                               false, /* dst_quit */
+> +                             1, /* iterations */
+>                               false /* dirty_ring */);
+>  }
+>  
+> @@ -1283,6 +1290,7 @@ static void test_precopy_unix_dirty_ring(void)
+>                               NULL, /* finish_hook */
+>                               false, /* clientReject */
+>                               false, /* dst_quit */
+> +                             1, /* iterations */
+>                               true /* dirty_ring */);
+>  }
+>  
+> @@ -1293,6 +1301,7 @@ static void test_precopy_unix_tls_psk(void)
+>                               test_migrate_tls_psk_finish,
+>                               false, /* expect_fail */
+>                               false, /* dst_quit */
+> +                             1, /* iterations */
+>                               false /* dirty_ring */);
+>  }
+>  
+> @@ -1303,6 +1312,7 @@ static void test_precopy_unix_tls_x509_default_host(void)
+>                               test_migrate_tls_x509_finish,
+>                               true, /* expect_fail */
+>                               true, /* dst_quit */
+> +                             1, /* iterations */
+>                               false /* dirty_ring */);
+>  }
+>  
+> @@ -1312,6 +1322,7 @@ static void test_precopy_unix_tls_x509_override_host(void)
+>                               test_migrate_tls_x509_finish,
+>                               false, /* expect_fail */
+>                               false, /* dst_quit */
+> +                             1, /* iterations */
+>                               false /* dirty_ring */);
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Another side benefit to merge parameters (e.g. the new "iterations") into
+MigrateStart (which I mentioned in the other thread) is that we don't need
+to touch the value in every test if there's a default, because we will set
+the default in migrate_start_new() and we only need a tweak on tests that
+want to overwrite the default values.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
