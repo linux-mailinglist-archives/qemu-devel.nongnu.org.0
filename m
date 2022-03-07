@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354644CFF2C
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:52:47 +0100 (CET)
-Received: from localhost ([::1]:56716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 617F04CFD54
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:47:11 +0100 (CET)
+Received: from localhost ([::1]:36960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCr0-00050v-9h
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:52:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51412)
+	id 1nRBpW-0005r6-DO
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:47:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nRBOh-0002pk-4t
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:19:27 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:43982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nRBOe-0006CB-JQ
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:19:26 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DA1071F396;
- Mon,  7 Mar 2022 11:19:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1646651962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nRBW0-0006Zy-9r
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:27:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nRBVv-0007ov-0n
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:26:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646652403;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Vl5xN4HtNxVpxsBpqTO1mxg1ulwSlC7b9hV0ok5NfiY=;
- b=klCMHqL4/kUQkS8+Inp76mcmARGq45mgg549E2H62NqwqocwFMndDRmj8yaUl069g+4JCN
- 5hzFe7m5GdCb+5TlDbF4tb9qooviqH9GKbKIvEy4TA0tlU57AaScwarjxLaTvOmmHm+yqL
- R768R1stp97i9T9QszYQFKdty2XBAqk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1646651962;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vl5xN4HtNxVpxsBpqTO1mxg1ulwSlC7b9hV0ok5NfiY=;
- b=JzaHOkBwIgkdveRxxvYIpiH3Lpd0oQhu+RJ8OYc3+5ai3NklzsncD/ysMQWdIR2DshTsO7
- 6LMudAAupW63a9BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=i5eKSsUgdystLLm6hSMv+Y6+nVLeRK9CHwmIh9Sif9E=;
+ b=M6zFbyVKcxzpyYXRt/b4aYGscl+8lVmAbx05vUQvvdtehOOwqGD4Hqp8l1CktjtEser3OK
+ bID2glWnvMJXnZq6ohThpI0RH5eLpwExL5Pby4wAAtCQZQdKgoIYBoMTBNPXvlzddCLpG/
+ YolfHfVqKH0iS4Yyz0Be955wjhZvrY0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-531-9VsCVBIhMkOoi6epOoDIjQ-1; Mon, 07 Mar 2022 06:26:40 -0500
+X-MC-Unique: 9VsCVBIhMkOoi6epOoDIjQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B001713AF0;
- Mon,  7 Mar 2022 11:19:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id b01VKTrqJWJyRwAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 07 Mar 2022 11:19:22 +0000
-From: Claudio Fontana <cfontana@suse.de>
-Subject: Re: starting to look at qemu savevm performance, a first regression
- detected
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <8826b03d-e5e9-0e65-cab7-ea1829f48e6c@suse.de>
- <YiXQHIWtHx5BocxK@redhat.com> <62ba8b1e-d641-5b10-c1b3-54b7d5a652e7@suse.de>
- <YiXVh1P4oJNuEtFM@redhat.com>
-Message-ID: <1f70a086-2b72-bd83-414b-476f5e6d0094@suse.de>
-Date: Mon, 7 Mar 2022 12:19:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 528AA1091DA0;
+ Mon,  7 Mar 2022 11:26:38 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C5D578874;
+ Mon,  7 Mar 2022 11:26:20 +0000 (UTC)
+Date: Mon, 7 Mar 2022 11:26:19 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v6 17/19] vfio-user: register handlers to facilitate
+ migration
+Message-ID: <YiXr23ffiLrIDMQw@stefanha-x1.localdomain>
+References: <cover.1645079934.git.jag.raman@oracle.com>
+ <2f2921668f8b3d05bb1ce1dcc10e90e61cd20405.1645079934.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <YiXVh1P4oJNuEtFM@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KwmPQQewKxkzU0O4"
+Content-Disposition: inline
+In-Reply-To: <2f2921668f8b3d05bb1ce1dcc10e90e61cd20405.1645079934.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,163 +78,832 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: eduardo@habkost.net, elena.ufimtseva@oracle.com, john.g.johnson@oracle.com,
+ berrange@redhat.com, bleal@redhat.com, john.levon@nutanix.com, mst@redhat.com,
+ armbru@redhat.com, quintela@redhat.com, f4bug@amsat.org, qemu-devel@nongnu.org,
+ alex.williamson@redhat.com, kanth.ghatraju@oracle.com,
+ thanos.makatos@nutanix.com, pbonzini@redhat.com, eblake@redhat.com,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/7/22 10:51 AM, Daniel P. Berrangé wrote:
-> On Mon, Mar 07, 2022 at 10:44:56AM +0100, Claudio Fontana wrote:
->> Hello Daniel,
->>
->> On 3/7/22 10:27 AM, Daniel P. Berrangé wrote:
->>> On Sat, Mar 05, 2022 at 02:19:39PM +0100, Claudio Fontana wrote:
->>>>
->>>> Hello all,
->>>>
->>>> I have been looking at some reports of bad qemu savevm performance in large VMs (around 20+ Gb),
->>>> when used in libvirt commands like:
->>>>
->>>>
->>>> virsh save domain /dev/null
->>>>
->>>>
->>>>
->>>> I have written a simple test to run in a Linux centos7-minimal-2009 guest, which allocates and touches 20G mem.
->>>>
->>>> With any qemu version since around 2020, I am not seeing more than 580 Mb/Sec even in the most ideal of situations.
->>>>
->>>> This drops to around 122 Mb/sec after commit: cbde7be900d2a2279cbc4becb91d1ddd6a014def .
->>>>
->>>> Here is the bisection for this particular drop in throughput:
->>>>
->>>> commit cbde7be900d2a2279cbc4becb91d1ddd6a014def (HEAD, refs/bisect/bad)
->>>> Author: Daniel P. Berrangé <berrange@redhat.com>
->>>> Date:   Fri Feb 19 18:40:12 2021 +0000
->>>>
->>>>     migrate: remove QMP/HMP commands for speed, downtime and cache size
->>>>     
->>>>     The generic 'migrate_set_parameters' command handle all types of param.
->>>>     
->>>>     Only the QMP commands were documented in the deprecations page, but the
->>>>     rationale for deprecating applies equally to HMP, and the replacements
->>>>     exist. Furthermore the HMP commands are just shims to the QMP commands,
->>>>     so removing the latter breaks the former unless they get re-implemented.
->>>>     
->>>>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>>>     Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>>
->>> That doesn't make a whole lot of sense as a bisect result.
->>> How reliable is that bisect end point ? Have you bisected
->>> to that point more than once ?
->>
->> I did run through the bisect itself only once, so I'll double check that.
->> The results seem to be reproducible almost to the second though, a savevm that took 35 seconds before the commit takes 2m 48 seconds after.
->>
->> For this test I am using libvirt v6.0.0.
->>
->> If it helps, these are the current_migration->parameters pre-commit (captured in qemu_savevm_state_iterate):
->>
->>
->> pre-commit: in qemu_savevm_state_iterate:
->>
->> (gdb) p current_migration->parameters
-> 
->>   tls_authz = 0x0, has_max_bandwidth = true, max_bandwidth = 9223372036853727232, has_downtime_limit = true, downtime_limit = 300,
-> 
-> snip
-> 
->> and post-commit: in qemu_savevm_state_iterate:
->>
->> (gdb) p current_migration->parameters
-> 
-> snip
-> 
->>   tls_authz = 0x0, has_max_bandwidth = true, max_bandwidth = 134217728, has_downtime_limit = true, downtime_limit = 300,
-> 
->> so there seems to be a difference in the max_bandwidth parameter,
->> do we have a limit suddenly having effect for max_bandwidth after the commit?
-> 
-> Yes, that's very strange. I think we'll need to capture the QMP commands that
-> libvirt is sending to QEMU, so see if there';s a difference in what it sends.
-> This might indicate a latent bug in libvirt.
 
+--KwmPQQewKxkzU0O4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In the pre-commit case I see:
+On Thu, Feb 17, 2022 at 02:49:04AM -0500, Jagannathan Raman wrote:
+> Store and load the device's state during migration. use libvfio-user's
+> handlers for this purpose
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>  include/block/block.h       |   1 +
+>  include/migration/vmstate.h |   2 +
+>  migration/savevm.h          |   2 +
+>  block.c                     |   5 +
+>  hw/remote/machine.c         |   7 +
+>  hw/remote/vfio-user-obj.c   | 467 ++++++++++++++++++++++++++++++++++++
+>  migration/savevm.c          |  89 +++++++
+>  migration/vmstate.c         |  19 ++
+>  8 files changed, 592 insertions(+)
+>=20
+> diff --git a/include/block/block.h b/include/block/block.h
+> index e1713ee306..02b89e0668 100644
+> --- a/include/block/block.h
+> +++ b/include/block/block.h
+> @@ -495,6 +495,7 @@ int generated_co_wrapper bdrv_invalidate_cache(BlockD=
+riverState *bs,
+>                                                 Error **errp);
+>  void bdrv_invalidate_cache_all(Error **errp);
+>  int bdrv_inactivate_all(void);
+> +int bdrv_inactivate(BlockDriverState *bs);
+> =20
+>  /* Ensure contents are flushed to disk.  */
+>  int generated_co_wrapper bdrv_flush(BlockDriverState *bs);
+> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+> index 017c03675c..68bea576ea 100644
+> --- a/include/migration/vmstate.h
+> +++ b/include/migration/vmstate.h
+> @@ -1165,6 +1165,8 @@ extern const VMStateInfo vmstate_info_qlist;
+>  #define VMSTATE_END_OF_LIST()                                         \
+>      {}
+> =20
+> +uint64_t vmstate_vmsd_size(PCIDevice *pci_dev);
+> +
+>  int vmstate_load_state(QEMUFile *f, const VMStateDescription *vmsd,
+>                         void *opaque, int version_id);
+>  int vmstate_save_state(QEMUFile *f, const VMStateDescription *vmsd,
+> diff --git a/migration/savevm.h b/migration/savevm.h
+> index 6461342cb4..8007064ff2 100644
+> --- a/migration/savevm.h
+> +++ b/migration/savevm.h
+> @@ -67,5 +67,7 @@ int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomi=
+ngState *mis);
+>  int qemu_load_device_state(QEMUFile *f);
+>  int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+>          bool in_postcopy, bool inactivate_disks);
+> +int qemu_remote_savevm(QEMUFile *f, DeviceState *dev);
+> +int qemu_remote_loadvm(QEMUFile *f);
+> =20
+>  #endif
+> diff --git a/block.c b/block.c
+> index b54d59d1fa..e90aaee30c 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -6565,6 +6565,11 @@ static int bdrv_inactivate_recurse(BlockDriverStat=
+e *bs)
+>      return 0;
+>  }
+> =20
+> +int bdrv_inactivate(BlockDriverState *bs)
+> +{
+> +    return bdrv_inactivate_recurse(bs);
+> +}
+> +
+>  int bdrv_inactivate_all(void)
+>  {
+>      BlockDriverState *bs =3D NULL;
+> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
+> index a8b4a3aef3..31ef401e43 100644
+> --- a/hw/remote/machine.c
+> +++ b/hw/remote/machine.c
+> @@ -24,6 +24,7 @@
+>  #include "hw/qdev-core.h"
+>  #include "hw/remote/iommu.h"
+>  #include "hw/remote/vfio-user-obj.h"
+> +#include "sysemu/sysemu.h"
+> =20
+>  static void remote_machine_init(MachineState *machine)
+>  {
+> @@ -86,6 +87,11 @@ static void remote_machine_set_vfio_user(Object *obj, =
+bool value, Error **errp)
+>      s->vfio_user =3D value;
+>  }
+> =20
+> +static void remote_machine_instance_init(Object *obj)
+> +{
+> +    set_deferred_backend_init();
+> +}
+> +
+>  static void remote_machine_class_init(ObjectClass *oc, void *data)
+>  {
+>      MachineClass *mc =3D MACHINE_CLASS(oc);
+> @@ -105,6 +111,7 @@ static const TypeInfo remote_machine =3D {
+>      .name =3D TYPE_REMOTE_MACHINE,
+>      .parent =3D TYPE_MACHINE,
+>      .instance_size =3D sizeof(RemoteMachineState),
+> +    .instance_init =3D remote_machine_instance_init,
+>      .class_init =3D remote_machine_class_init,
+>      .interfaces =3D (InterfaceInfo[]) {
+>          { TYPE_HOTPLUG_HANDLER },
+> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+> index d79bab87f1..2304643003 100644
+> --- a/hw/remote/vfio-user-obj.c
+> +++ b/hw/remote/vfio-user-obj.c
+> @@ -57,6 +57,13 @@
+>  #include "hw/pci/msi.h"
+>  #include "hw/pci/msix.h"
+>  #include "hw/remote/vfio-user-obj.h"
+> +#include "migration/qemu-file.h"
+> +#include "migration/savevm.h"
+> +#include "migration/vmstate.h"
+> +#include "migration/global_state.h"
+> +#include "block/block.h"
+> +#include "sysemu/block-backend.h"
+> +#include "net/net.h"
+> =20
+>  #define TYPE_VFU_OBJECT "x-vfio-user-server"
+>  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
+> @@ -108,12 +115,49 @@ struct VfuObject {
+>      Error *unplug_blocker;
+> =20
+>      int vfu_poll_fd;
+> +
+> +    /*
+> +     * vfu_mig_buf holds the migration data. In the remote server, this
+> +     * buffer replaces the role of an IO channel which links the source
+> +     * and the destination.
+> +     *
+> +     * Whenever the client QEMU process initiates migration, the remote
+> +     * server gets notified via libvfio-user callbacks. The remote server
+> +     * sets up a QEMUFile object using this buffer as backend. The remote
+> +     * server passes this object to its migration subsystem, which slurps
+> +     * the VMSD of the device ('devid' above) referenced by this object
+> +     * and stores the VMSD in this buffer.
+> +     *
+> +     * The client subsequetly asks the remote server for any data that
+> +     * needs to be moved over to the destination via libvfio-user
+> +     * library's vfu_migration_callbacks_t callbacks. The remote hands
+> +     * over this buffer as data at this time.
+> +     *
+> +     * A reverse of this process happens at the destination.
+> +     */
+> +    uint8_t *vfu_mig_buf;
+> +
+> +    uint64_t vfu_mig_buf_size;
+> +
+> +    uint64_t vfu_mig_buf_pending;
+> +
+> +    uint64_t vfu_mig_data_written;
+> +
+> +    uint64_t vfu_mig_section_offset;
+> +
+> +    QEMUFile *vfu_mig_file;
+> +
+> +    vfu_migr_state_t vfu_state;
+>  };
+> =20
+>  static GHashTable *vfu_object_bdf_to_ctx_table;
+> =20
+>  #define INT2VOIDP(i) (void *)(uintptr_t)(i)
+> =20
+> +#define KB(x)    ((size_t) (x) << 10)
+> +
+> +#define VFU_OBJECT_MIG_WINDOW KB(64)
 
-2022-03-07 10:41:00.928+0000: 132544: info : qemuMonitorJSONIOProcessLine:235 : QEMU_MONITOR_RECV_EVENT: mon=0x7f0fd00028a0 event={"timestamp": {"seconds": 1646649660, "microseconds": 927920}, "event": "STOP"}
-2022-03-07 10:41:00.929+0000: 132544: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7f0fd00028a0 reply={"return": {}, "id": "libvirt-13"}
-2022-03-07 10:41:00.934+0000: 132549: info : qemuMonitorSend:995 : QEMU_MONITOR_SEND_MSG: mon=0x7f0fd00028a0 msg={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-14"}^M
- fd=-1
-2022-03-07 10:41:00.934+0000: 132544: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7f0fd00028a0 buf={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-14"}^M
- len=93 ret=93 errno=0
-2022-03-07 10:41:00.935+0000: 132544: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7f0fd00028a0 reply={"return": {}, "id": "libvirt-14"}
-2022-03-07 10:41:00.936+0000: 132549: info : qemuMonitorSend:995 : QEMU_MONITOR_SEND_MSG: mon=0x7f0fd00028a0 msg={"execute":"getfd","arguments":{"fdname":"migrate"},"id":"libvirt-15"}^M
- fd=32
-2022-03-07 10:41:00.936+0000: 132544: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7f0fd00028a0 buf={"execute":"getfd","arguments":{"fdname":"migrate"},"id":"libvirt-15"}^M
- len=72 ret=72 errno=0
-2022-03-07 10:41:00.936+0000: 132544: info : qemuMonitorIOWrite:457 : QEMU_MONITOR_IO_SEND_FD: mon=0x7f0fd00028a0 fd=32 ret=72 errno=0
-2022-03-07 10:41:00.937+0000: 132544: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7f0fd00028a0 reply={"return": {}, "id": "libvirt-15"}
-2022-03-07 10:41:00.937+0000: 132549: info : qemuMonitorSend:995 : QEMU_MONITOR_SEND_MSG: mon=0x7f0fd00028a0 msg={"execute":"migrate","arguments":{"detach":true,"blk":false,"inc":false,"uri":"fd:migrate"},"id":"libvirt-16"}^M
- fd=-1
-2022-03-07 10:41:00.937+0000: 132544: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7f0fd00028a0 buf={"execute":"migrate","arguments":{"detach":true,"blk":false,"inc":false,"uri":"fd:migrate"},"id":"libvirt-16"}^M
- len=112 ret=112 errno=0
+Please use "qemu/units.h":
 
+  #include "qemu/units.h"
+  ...
+  #define VFU_OBJECT_MIG_WINDOW_SIZE (64 * KiB)
 
-In the post-commit case I see:
+(Adding "_SIZE" to the name makes the purpose of the constant clearer.)
 
+> +
+>  static void vfu_object_init_ctx(VfuObject *o, Error **errp);
+> =20
+>  static void vfu_object_set_socket(Object *obj, Visitor *v, const char *n=
+ame,
+> @@ -163,6 +207,394 @@ static void vfu_object_set_device(Object *obj, cons=
+t char *str, Error **errp)
+>      vfu_object_init_ctx(o, errp);
+>  }
+> =20
+> +/**
+> + * Migration helper functions
+> + *
+> + * vfu_mig_buf_read & vfu_mig_buf_write are used by QEMU's migration
+> + * subsystem - qemu_remote_loadvm & qemu_remote_savevm. loadvm/savevm
+> + * call these functions via QEMUFileOps to load/save the VMSD of a
+> + * device into vfu_mig_buf
+> + *
+> + */
+> +static ssize_t vfu_mig_buf_read(void *opaque, uint8_t *buf, int64_t pos,
+> +                                size_t size, Error **errp)
+> +{
+> +    VfuObject *o =3D opaque;
+> +
+> +    if (pos > o->vfu_mig_buf_size) {
+> +        size =3D 0;
+> +    } else if ((pos + size) > o->vfu_mig_buf_size) {
+> +        size =3D o->vfu_mig_buf_size - pos;
+> +    }
+> +
+> +    memcpy(buf, (o->vfu_mig_buf + pos), size);
+> +
+> +    return size;
+> +}
+> +
+> +static ssize_t vfu_mig_buf_write(void *opaque, struct iovec *iov, int io=
+vcnt,
+> +                                 int64_t pos, Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +    VfuObject *o =3D opaque;
+> +    uint64_t end =3D pos + iov_size(iov, iovcnt);
+> +    int i;
+> +
+> +    if (o->vfu_mig_buf_pending) {
+> +        error_setg(errp, "Migration is ongoing");
+> +        return 0;
+> +    }
+> +
+> +    if (end > o->vfu_mig_buf_size) {
+> +        o->vfu_mig_buf =3D g_realloc(o->vfu_mig_buf, end);
+> +    }
+> +
+> +    for (i =3D 0; i < iovcnt; i++) {
+> +        memcpy((o->vfu_mig_buf + o->vfu_mig_buf_size), iov[i].iov_base,
+> +               iov[i].iov_len);
+> +        o->vfu_mig_buf_size +=3D iov[i].iov_len;
+> +    }
+> +
+> +    return iov_size(iov, iovcnt);
+> +}
+> +
+> +static int vfu_mig_buf_shutdown(void *opaque, bool rd, bool wr, Error **=
+errp)
+> +{
+> +    VfuObject *o =3D opaque;
+> +
+> +    o->vfu_mig_buf_size =3D 0;
+> +
+> +    g_free(o->vfu_mig_buf);
+> +
+> +    o->vfu_mig_buf =3D NULL;
+> +
+> +    o->vfu_mig_buf_pending =3D 0;
+> +
+> +    o->vfu_mig_data_written =3D 0;
+> +
+> +    o->vfu_mig_section_offset =3D 0;
+> +
+> +    return 0;
+> +}
+> +
+> +static const QEMUFileOps vfu_mig_fops_save =3D {
+> +    .writev_buffer  =3D vfu_mig_buf_write,
+> +    .shut_down      =3D vfu_mig_buf_shutdown,
+> +};
+> +
+> +static const QEMUFileOps vfu_mig_fops_load =3D {
+> +    .get_buffer     =3D vfu_mig_buf_read,
+> +    .shut_down      =3D vfu_mig_buf_shutdown,
+> +};
+> +
+> +static BlockDriverState *vfu_object_find_bs_by_dev(DeviceState *dev)
+> +{
+> +    BlockBackend *blk =3D blk_by_dev(dev);
+> +
+> +    if (!blk) {
+> +        return NULL;
+> +    }
+> +
+> +    return blk_bs(blk);
+> +}
+> +
+> +static int vfu_object_bdrv_invalidate_cache_by_dev(DeviceState *dev)
+> +{
+> +    BlockDriverState *bs =3D NULL;
+> +    Error *local_err =3D NULL;
+> +
+> +    bs =3D vfu_object_find_bs_by_dev(dev);
+> +    if (!bs) {
+> +        return 0;
+> +    }
+> +
+> +    bdrv_invalidate_cache(bs, &local_err);
+> +    if (local_err) {
+> +        error_report_err(local_err);
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static int vfu_object_bdrv_inactivate_by_dev(DeviceState *dev)
+> +{
+> +    BlockDriverState *bs =3D NULL;
+> +
+> +    bs =3D vfu_object_find_bs_by_dev(dev);
+> +    if (!bs) {
+> +        return 0;
+> +    }
+> +
+> +    return bdrv_inactivate(bs);
+> +}
+> +
+> +static void vfu_object_start_stop_netdev(DeviceState *dev, bool start)
+> +{
+> +    NetClientState *nc =3D NULL;
+> +    Error *local_err =3D NULL;
+> +    char *netdev =3D NULL;
+> +
+> +    netdev =3D object_property_get_str(OBJECT(dev), "netdev", &local_err=
+);
+> +    if (local_err) {
+> +        /**
+> +         * object_property_get_str() sets Error if netdev property is
+> +         * not found, not necessarily an error in the context of
+> +         * this function
+> +         */
+> +        error_free(local_err);
+> +        return;
+> +    }
+> +
+> +    if (!netdev) {
+> +        return;
+> +    }
+> +
+> +    nc =3D qemu_find_netdev(netdev);
+> +
+> +    if (!nc) {
+> +        return;
+> +    }
+> +
+> +    if (!start) {
+> +        qemu_flush_or_purge_queued_packets(nc, true);
+> +
+> +        if (nc->info && nc->info->cleanup) {
+> +            nc->info->cleanup(nc);
+> +        }
 
-2022-03-07 10:47:07.316+0000: 134386: info : qemuMonitorJSONIOProcessLine:235 : QEMU_MONITOR_RECV_EVENT: mon=0x7fa4380028a0 event={"timestamp": {"seconds": 1646650027, "microseconds": 316537}, "event": "STOP"}
-2022-03-07 10:47:07.317+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"return": {}, "id": "libvirt-13"}
-2022-03-07 10:47:07.322+0000: 134391: info : qemuMonitorSend:995 : QEMU_MONITOR_SEND_MSG: mon=0x7fa4380028a0 msg={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-14"}^M
- fd=-1
-2022-03-07 10:47:07.322+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-14"}^M
- len=93 ret=93 errno=0
-2022-03-07 10:47:07.324+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"id": "libvirt-14", "error": {"class": "CommandNotFound", "desc": "The command migrate_set_speed has not been found"}}
-2022-03-07 10:47:07.324+0000: 134391: error : qemuMonitorJSONCheckError:412 : internal error: unable to execute QEMU command 'migrate_set_speed': The command migrate_set_speed has not been found
-2022-03-07 10:47:07.324+0000: 134391: info : qemuMonitorSend:995 : QEMU_MONITOR_SEND_MSG: mon=0x7fa4380028a0 msg={"execute":"getfd","arguments":{"fdname":"migrate"},"id":"libvirt-15"}^M
- fd=32
-2022-03-07 10:47:07.324+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"getfd","arguments":{"fdname":"migrate"},"id":"libvirt-15"}^M
- len=72 ret=72 errno=0
-2022-03-07 10:47:07.324+0000: 134386: info : qemuMonitorIOWrite:457 : QEMU_MONITOR_IO_SEND_FD: mon=0x7fa4380028a0 fd=32 ret=72 errno=0
-2022-03-07 10:47:07.325+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"return": {}, "id": "libvirt-15"}
-2022-03-07 10:47:07.326+0000: 134391: info : qemuMonitorSend:995 : QEMU_MONITOR_SEND_MSG: mon=0x7fa4380028a0 msg={"execute":"migrate","arguments":{"detach":true,"blk":false,"inc":false,"uri":"fd:migrate"},"id":"libvirt-16"}^M
- fd=-1
-2022-03-07 10:47:07.326+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"migrate","arguments":{"detach":true,"blk":false,"inc":false,"uri":"fd:migrate"},"id":"libvirt-16"}^M
- len=112 ret=112 errno=0
-2022-03-07 10:47:07.328+0000: 134386: info : qemuMonitorJSONIOProcessLine:235 : QEMU_MONITOR_RECV_EVENT: mon=0x7fa4380028a0 event={"timestamp": {"seconds": 1646650027, "microseconds": 327843}, "event": "MIGRATION", "data": {"status": "setup"}}
-2022-03-07 10:47:07.328+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"return": {}, "id": "libvirt-16"}
-2022-03-07 10:47:07.449+0000: 134386: info : qemuMonitorJSONIOProcessLine:235 : QEMU_MONITOR_RECV_EVENT: mon=0x7fa4380028a0 event={"timestamp": {"seconds": 1646650027, "microseconds": 449199}, "event": "MIGRATION_PASS", "data": {"pass": 1}}
-2022-03-07 10:47:07.449+0000: 134386: info : qemuMonitorJSONIOProcessLine:235 : QEMU_MONITOR_RECV_EVENT: mon=0x7fa4380028a0 event={"timestamp": {"seconds": 1646650027, "microseconds": 449363}, "event": "MIGRATION", "data": {"status": "active"}}
-2022-03-07 10:47:07.807+0000: 134387: info : qemuMonitorSend:995 : QEMU_MONITOR_SEND_MSG: mon=0x7fa4380028a0 msg={"execute":"query-migrate","id":"libvirt-17"}^M
- fd=-1
-2022-03-07 10:47:07.807+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"query-migrate","id":"libvirt-17"}^M
- len=47 ret=47 errno=0
-2022-03-07 10:47:07.809+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"return": {"blocked": false, "expected-downtime": 300, "status": "active", "setup-time": 121, "total-time": 481, "ram": {"total": 32213049344, "postcopy-requests": 0, "dirty-sync-count": 1, "multifd-bytes": 0, "pages-per-second": 971380, "page-size": 4096, "remaining": 31357165568, "mbps": 70.597440000000006, "transferred": 28723376, "duplicate": 202401, "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 26849280, "normal": 6555}}, "id": "libvirt-17"}
-2022-03-07 10:47:20.063+0000: 134386: info : qemuMonitorJSONIOProcessLine:235 : QEMU_MONITOR_RECV_EVENT: mon=0x7fa4380028a0 event={"timestamp": {"seconds": 1646650040, "microseconds": 63299}, "event": "MIGRATION_PASS", "data": {"pass": 2}}
-2022-03-07 10:47:20.068+0000: 134386: info : qemuMonitorJSONIOProcessLine:235 : QEMU_MONITOR_RECV_EVENT: mon=0x7fa4380028a0 event={"timestamp": {"seconds": 1646650040, "microseconds": 68660}, "event": "MIGRATION_PASS", "data": {"pass": 3}}
-2022-03-07 10:47:20.142+0000: 134386: info : qemuMonitorJSONIOProcessLine:235 : QEMU_MONITOR_RECV_EVENT: mon=0x7fa4380028a0 event={"timestamp": {"seconds": 1646650040, "microseconds": 142735}, "event": "MIGRATION", "data": {"status": "completed"}}
-2022-03-07 10:47:20.143+0000: 134391: info : qemuMonitorSend:995 : QEMU_MONITOR_SEND_MSG: mon=0x7fa4380028a0 msg={"execute":"query-migrate","id":"libvirt-18"}^M
- fd=-1
-2022-03-07 10:47:20.143+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"query-migrate","id":"libvirt-18"}^M
- len=47 ret=47 errno=0
-2022-03-07 10:47:20.145+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"return": {"blocked": false, "status": "completed", "setup-time": 121, "downtime": 79, "total-time": 12815, "ram": {"total": 32213049344, "postcopy-requests": 0, "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 32710, "page-size": 4096, "remaining": 0, "mbps": 584.63040491570825, "transferred": 927267953, "duplicate": 7655360, "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 856694784, "normal": 209154}}, "id": "libvirt-18"}
-2022-03-07 10:47:20.145+0000: 134391: info : qemuMonitorSend:995 : QEMU_MONITOR_SEND_MSG: mon=0x7fa4380028a0 msg={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-19"}^M
- fd=-1
-2022-03-07 10:47:20.145+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-19"}^M
- len=93 ret=93 errno=0
-2022-03-07 10:47:20.146+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"id": "libvirt-19", "error": {"class": "CommandNotFound", "desc": "The command migrate_set_speed has not been found"}}
-2022-03-07 10:47:20.147+0000: 134391: error : qemuMonitorJSONCheckError:412 : internal error: unable to execute QEMU command 'migrate_set_speed': The command migrate_set_speed has not been found
-2022-03-07 10:47:20.150+0000: 134391: info : qemuMonitorClose:917 : QEMU_MONITOR_CLOSE: mon=0x7fa4380028a0 refs=2
+I'm not sure if this is correct. Do we actually want to clean up the
+NetClient (e.g. close the tap file descriptor)? If yes, why isn't the
+NetClient removed from the net_clients tailq?
 
+> +    } else if (nc->peer) {
+> +        qemu_flush_or_purge_queued_packets(nc->peer, false);
+> +    }
+> +}
+> +
+> +static int vfu_object_start_devs(DeviceState *dev, void *opaque)
+> +{
+> +    int ret =3D vfu_object_bdrv_invalidate_cache_by_dev(dev);
+> +
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    vfu_object_start_stop_netdev(dev, true);
+> +
+> +    return ret;
+> +}
+> +
+> +static int vfu_object_stop_devs(DeviceState *dev, void *opaque)
+> +{
+> +    int ret =3D vfu_object_bdrv_inactivate_by_dev(dev);
+> +
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    vfu_object_start_stop_netdev(dev, false);
+> +
+> +    return ret;
+> +}
+> +
+> +/**
+> + * handlers for vfu_migration_callbacks_t
+> + *
+> + * The libvfio-user library accesses these handlers to drive the migrati=
+on
+> + * at the remote end, and also to transport the data stored in vfu_mig_b=
+uf
+> + *
+> + */
+> +static void vfu_mig_state_stop_and_copy(vfu_ctx_t *vfu_ctx)
+> +{
+> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> +    int ret;
+> +
+> +    if (!o->vfu_mig_file) {
+> +        o->vfu_mig_file =3D qemu_fopen_ops(o, &vfu_mig_fops_save, false);
+> +    }
+> +
+> +    ret =3D qemu_remote_savevm(o->vfu_mig_file, DEVICE(o->pci_dev));
+> +    if (ret) {
+> +        qemu_file_shutdown(o->vfu_mig_file);
+> +        o->vfu_mig_file =3D NULL;
+> +        return;
+> +    }
+> +
+> +    qemu_fflush(o->vfu_mig_file);
+> +}
+> +
+> +static void vfu_mig_state_running(vfu_ctx_t *vfu_ctx)
+> +{
+> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> +    int ret;
+> +
+> +    if (o->vfu_state !=3D VFU_MIGR_STATE_RESUME) {
+> +        goto run_ctx;
+> +    }
+> +
+> +    if (!o->vfu_mig_file) {
+> +        o->vfu_mig_file =3D qemu_fopen_ops(o, &vfu_mig_fops_load, false);
+> +    }
+> +
+> +    ret =3D qemu_remote_loadvm(o->vfu_mig_file);
+> +    if (ret) {
+> +        VFU_OBJECT_ERROR(o, "vfu: failed to restore device state");
+> +        return;
+> +    }
+> +
+> +    qemu_file_shutdown(o->vfu_mig_file);
+> +    o->vfu_mig_file =3D NULL;
+> +
+> +run_ctx:
+> +    ret =3D qdev_walk_children(DEVICE(o->pci_dev), NULL, NULL,
+> +                             vfu_object_start_devs,
+> +                             NULL, NULL);
+> +    if (ret) {
+> +        VFU_OBJECT_ERROR(o, "vfu: failed to setup backends for %s",
+> +                         o->device);
+> +        return;
+> +    }
+> +}
+> +
+> +static void vfu_mig_state_stop(vfu_ctx_t *vfu_ctx)
+> +{
+> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> +    int ret;
+> +
+> +    ret =3D qdev_walk_children(DEVICE(o->pci_dev), NULL, NULL,
+> +                             vfu_object_stop_devs,
+> +                             NULL, NULL);
+> +    if (ret) {
+> +        VFU_OBJECT_ERROR(o, "vfu: failed to inactivate backends for %s",
+> +                         o->device);
+> +    }
+> +}
+> +
+> +static int vfu_mig_transition(vfu_ctx_t *vfu_ctx, vfu_migr_state_t state)
+> +{
+> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> +
+> +    if (o->vfu_state =3D=3D state) {
+> +        return 0;
+> +    }
+> +
+> +    switch (state) {
+> +    case VFU_MIGR_STATE_RESUME:
+> +        break;
+> +    case VFU_MIGR_STATE_STOP_AND_COPY:
+> +        vfu_mig_state_stop_and_copy(vfu_ctx);
+> +        break;
+> +    case VFU_MIGR_STATE_STOP:
+> +        vfu_mig_state_stop(vfu_ctx);
+> +        break;
+> +    case VFU_MIGR_STATE_PRE_COPY:
+> +        break;
+> +    case VFU_MIGR_STATE_RUNNING:
+> +        vfu_mig_state_running(vfu_ctx);
+> +        break;
+> +    default:
+> +        warn_report("vfu: Unknown migration state %d", state);
+> +    }
+> +
+> +    o->vfu_state =3D state;
+> +
+> +    return 0;
+> +}
+> +
+> +static uint64_t vfu_mig_get_pending_bytes(vfu_ctx_t *vfu_ctx)
+> +{
+> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> +    static bool mig_ongoing;
+> +
+> +    if (!mig_ongoing && !o->vfu_mig_buf_pending) {
+> +        o->vfu_mig_buf_pending =3D o->vfu_mig_buf_size;
+> +        mig_ongoing =3D true;
+> +    }
+> +
+> +    if (mig_ongoing && !o->vfu_mig_buf_pending) {
+> +        mig_ongoing =3D false;
+> +    }
+> +
+> +    return o->vfu_mig_buf_pending;
+> +}
+> +
+> +static int vfu_mig_prepare_data(vfu_ctx_t *vfu_ctx, uint64_t *offset,
+> +                                uint64_t *size)
+> +{
+> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> +    uint64_t data_size =3D o->vfu_mig_buf_pending;
+> +
+> +    if (data_size > VFU_OBJECT_MIG_WINDOW) {
+> +        data_size =3D VFU_OBJECT_MIG_WINDOW;
+> +    }
+> +
+> +    o->vfu_mig_section_offset =3D o->vfu_mig_buf_size - o->vfu_mig_buf_p=
+ending;
+> +
+> +    o->vfu_mig_buf_pending -=3D data_size;
+> +
+> +    if (offset) {
+> +        *offset =3D 0;
+> +    }
+> +
+> +    if (size) {
+> +        *size =3D data_size;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static ssize_t vfu_mig_read_data(vfu_ctx_t *vfu_ctx, void *buf,
+> +                                 uint64_t size, uint64_t offset)
+> +{
+> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> +    uint64_t read_offset =3D o->vfu_mig_section_offset + offset;
+> +
+> +    if (read_offset > o->vfu_mig_buf_size) {
+> +        warn_report("vfu: buffer overflow - offset outside range");
+> +        return -1;
+> +    }
+> +
+> +    if ((read_offset + size) > o->vfu_mig_buf_size) {
+> +        warn_report("vfu: buffer overflow - size outside range");
+> +        size =3D o->vfu_mig_buf_size - read_offset;
+> +    }
+> +
+> +    memcpy(buf, (o->vfu_mig_buf + read_offset), size);
+> +
+> +    return size;
+> +}
+> +
+> +static ssize_t vfu_mig_write_data(vfu_ctx_t *vfu_ctx, void *data,
+> +                                  uint64_t size, uint64_t offset)
+> +{
+> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> +    uint64_t end =3D o->vfu_mig_data_written + offset + size;
+> +
+> +    if (end > o->vfu_mig_buf_size) {
+> +        o->vfu_mig_buf =3D g_realloc(o->vfu_mig_buf, end);
+> +        o->vfu_mig_buf_size =3D end;
+> +    }
+> +
+> +    memcpy((o->vfu_mig_buf + o->vfu_mig_data_written + offset), data, si=
+ze);
+> +
+> +    return size;
+> +}
+> +
+> +static int vfu_mig_data_written(vfu_ctx_t *vfu_ctx, uint64_t count)
+> +{
+> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
+> +
+> +    o->vfu_mig_data_written +=3D count;
+> +
+> +    return 0;
+> +}
+> +
+> +static const vfu_migration_callbacks_t vfu_mig_cbs =3D {
+> +    .version =3D VFU_MIGR_CALLBACKS_VERS,
+> +    .transition =3D &vfu_mig_transition,
+> +    .get_pending_bytes =3D &vfu_mig_get_pending_bytes,
+> +    .prepare_data =3D &vfu_mig_prepare_data,
+> +    .read_data =3D &vfu_mig_read_data,
+> +    .data_written =3D &vfu_mig_data_written,
+> +    .write_data =3D &vfu_mig_write_data,
+> +};
+> +
+>  static void vfu_object_ctx_run(void *opaque)
+>  {
+>      VfuObject *o =3D opaque;
+> @@ -550,6 +982,13 @@ void vfu_object_set_bus_irq(PCIBus *pci_bus)
+>      pci_bus_irqs(pci_bus, vfu_object_set_irq, vfu_object_map_irq, NULL, =
+1);
+>  }
+> =20
+> +static bool vfu_object_migratable(VfuObject *o)
+> +{
+> +    DeviceClass *dc =3D DEVICE_GET_CLASS(o->pci_dev);
+> +
+> +    return dc->vmsd && !dc->vmsd->unmigratable;
+> +}
+> +
+>  /*
+>   * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'devi=
+ce'
+>   * properties. It also depends on devices instantiated in QEMU. These
+> @@ -575,6 +1014,7 @@ static void vfu_object_init_ctx(VfuObject *o, Error =
+**errp)
+>      ERRP_GUARD();
+>      DeviceState *dev =3D NULL;
+>      vfu_pci_type_t pci_type =3D VFU_PCI_TYPE_CONVENTIONAL;
+> +    uint64_t migr_regs_size, migr_size;
+>      int ret;
+> =20
+>      if (o->vfu_ctx || !o->socket || !o->device ||
+> @@ -653,6 +1093,31 @@ static void vfu_object_init_ctx(VfuObject *o, Error=
+ **errp)
+>          goto fail;
+>      }
+> =20
+> +    migr_regs_size =3D vfu_get_migr_register_area_size();
+> +    migr_size =3D migr_regs_size + VFU_OBJECT_MIG_WINDOW;
+> +
+> +    ret =3D vfu_setup_region(o->vfu_ctx, VFU_PCI_DEV_MIGR_REGION_IDX,
+> +                           migr_size, NULL,
+> +                           VFU_REGION_FLAG_RW, NULL, 0, -1, 0);
+> +    if (ret < 0) {
+> +        error_setg(errp, "vfu: Failed to register migration BAR %s- %s",
+> +                   o->device, strerror(errno));
+> +        goto fail;
+> +    }
+> +
+> +    if (!vfu_object_migratable(o)) {
+> +        goto realize_ctx;
+> +    }
+> +
+> +    ret =3D vfu_setup_device_migration_callbacks(o->vfu_ctx, &vfu_mig_cb=
+s,
+> +                                               migr_regs_size);
+> +    if (ret < 0) {
+> +        error_setg(errp, "vfu: Failed to setup migration %s- %s",
+> +                   o->device, strerror(errno));
+> +        goto fail;
+> +    }
+> +
+> +realize_ctx:
+>      ret =3D vfu_realize_ctx(o->vfu_ctx);
+>      if (ret < 0) {
+>          error_setg(errp, "vfu: Failed to realize device %s- %s",
+> @@ -700,6 +1165,8 @@ static void vfu_object_init(Object *obj)
+>      }
+> =20
+>      o->vfu_poll_fd =3D -1;
+> +
+> +    o->vfu_state =3D VFU_MIGR_STATE_STOP;
 
-> 
-> If you libvirt_log_filters=2:qemu_monitor   then it ought to capture the
-> QMP commands.
-> 
-> Regards,
-> Daniel
-> 
+I was expecting RUNNING instead of STOP. Can you explain the state
+machine? Perhaps --object x-vfio-user-server needs an incoming=3Don|off
+parameter that defaults to off?
+
+>  }
+> =20
+>  static void vfu_object_finalize(Object *obj)
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 1599b02fbc..2cc3b74287 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -66,6 +66,7 @@
+>  #include "net/announce.h"
+>  #include "qemu/yank.h"
+>  #include "yank_functions.h"
+> +#include "hw/qdev-core.h"
+> =20
+>  const unsigned int postcopy_ram_discard_version;
+> =20
+> @@ -1606,6 +1607,64 @@ static int qemu_savevm_state(QEMUFile *f, Error **=
+errp)
+>      return ret;
+>  }
+> =20
+> +static SaveStateEntry *find_se_from_dev(DeviceState *dev)
+> +{
+> +    SaveStateEntry *se;
+> +
+> +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+> +        if (se->opaque =3D=3D dev) {
+> +            return se;
+> +        }
+> +    }
+> +
+> +    return NULL;
+> +}
+> +
+> +static int qemu_remote_savevm_section_full(DeviceState *dev, void *opaqu=
+e)
+> +{
+> +    QEMUFile *f =3D opaque;
+> +    SaveStateEntry *se;
+> +    int ret;
+> +
+> +    se =3D find_se_from_dev(dev);
+> +    if (!se) {
+> +        return 0;
+> +    }
+> +
+> +    if (!se->vmsd || !vmstate_save_needed(se->vmsd, se->opaque) ||
+> +        se->vmsd->unmigratable) {
+> +        return 0;
+> +    }
+> +
+> +    save_section_header(f, se, QEMU_VM_SECTION_FULL);
+> +
+> +    ret =3D vmstate_save(f, se, NULL);
+> +    if (ret) {
+> +        qemu_file_set_error(f, ret);
+> +        return ret;
+> +    }
+> +
+> +    save_section_footer(f, se);
+> +
+> +    return 0;
+> +}
+> +
+> +int qemu_remote_savevm(QEMUFile *f, DeviceState *dev)
+> +{
+> +    int ret =3D qdev_walk_children(dev, NULL, NULL,
+> +                                 qemu_remote_savevm_section_full,
+> +                                 NULL, f);
+> +
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    qemu_put_byte(f, QEMU_VM_EOF);
+> +    qemu_fflush(f);
+> +
+> +    return 0;
+> +}
+> +
+>  void qemu_savevm_live_state(QEMUFile *f)
+>  {
+>      /* save QEMU_VM_SECTION_END section */
+> @@ -2447,6 +2506,36 @@ qemu_loadvm_section_start_full(QEMUFile *f, Migrat=
+ionIncomingState *mis)
+>      return 0;
+>  }
+> =20
+> +int qemu_remote_loadvm(QEMUFile *f)
+> +{
+> +    uint8_t section_type;
+> +    int ret =3D 0;
+> +
+> +    while (true) {
+> +        section_type =3D qemu_get_byte(f);
+> +
+> +        ret =3D qemu_file_get_error(f);
+> +        if (ret) {
+> +            break;
+> +        }
+> +
+> +        switch (section_type) {
+> +        case QEMU_VM_SECTION_FULL:
+> +            ret =3D qemu_loadvm_section_start_full(f, NULL);
+> +            if (ret < 0) {
+> +                break;
+> +            }
+> +            break;
+> +        case QEMU_VM_EOF:
+> +            return ret;
+> +        default:
+> +            return -EINVAL;
+> +        }
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+>  static int
+>  qemu_loadvm_section_part_end(QEMUFile *f, MigrationIncomingState *mis)
+>  {
+> diff --git a/migration/vmstate.c b/migration/vmstate.c
+> index 05f87cdddc..83f8562792 100644
+> --- a/migration/vmstate.c
+> +++ b/migration/vmstate.c
+> @@ -63,6 +63,25 @@ static int vmstate_size(void *opaque, const VMStateFie=
+ld *field)
+>      return size;
+>  }
+> =20
+> +uint64_t vmstate_vmsd_size(PCIDevice *pci_dev)
+
+This function is no longer used and can be dropped.
+
+--KwmPQQewKxkzU0O4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIl69sACgkQnKSrs4Gr
+c8hFQwf/e6uNr+0Ia3E2q6Oc9jazE1GiPj7huPfjE1RiPlDxpnXrKU4//bHGPsUK
+9feaw7QqOjfAj/zJiCo7goux9gC9c1pzBN/G0z6eNh6ZXdWxSLdhHG8sMWZ27zdG
+Fr2Uc8LEdYBTFm4F33QwST0gcc8xYI9H/Sz4dM/nywJVgAIgIc7vd+N8to2Jiry1
+A8GroMD1WNVIHjXWHr+VU8a9lfQfujHnYt8mbHznYT1j8yhE5xxMMxPc2RqewVYg
+hHRn5LdtFnpnO6T2zVkkZEyAxzNV3hylpaH6R+yr48RrgDFlmcRUJ4Ur28zHCMF6
+Xdo6m1wr0rGpK9g/tBgaVFCW5XWgFg==
+=UDHC
+-----END PGP SIGNATURE-----
+
+--KwmPQQewKxkzU0O4--
 
 
