@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78ED4D066B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:23:51 +0100 (CET)
-Received: from localhost ([::1]:60720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0F94D067C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 19:26:41 +0100 (CET)
+Received: from localhost ([::1]:41064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRI1O-0006pE-Uv
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:23:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55394)
+	id 1nRI48-00047F-Aq
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 13:26:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHui-000184-RB
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:56 -0500
-Received: from [2a00:1450:4864:20::62a] (port=44941
- helo=mail-ej1-x62a.google.com)
+ id 1nRHuj-00019P-3g
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:57 -0500
+Received: from [2a00:1450:4864:20::635] (port=42731
+ helo=mail-ej1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRHud-0005Nd-7j
+ id 1nRHud-0005Nj-8l
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 13:16:56 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id qt6so33797542ejb.11
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:45 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id hw13so33710040ejc.9
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 10:16:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ohuOj7/RPeB7VtN1AquejguYaBzi1b7GC1f/dw4ahVU=;
- b=dgVUNGpfOMpSYcgiLZ87A1qpx0qYLarLdZPLI4orYikX2XwFJKJwNqCr+jjlZSNDNo
- AD639bORQCsbvz4JCdRvDsT5m8SVfKRm0HWhLhthhHeix31uiJiLOsKOAYoU/sgOBDDA
- +/9BbvheXRh1VJJYq4LHJbdmEr0JMKaR0jkWe2dWQ8YStd8Y+9Ck4FURNPbd3uydR/5J
- 8Oz2FPzf7o/TVP6GgE5/WiAcRf3NXPKy2zS0oEJdPhKUIh46/N8glvHuazM/EmuGthXn
- vBU8MWU++t4cTqyZH/2JA+fhmsj8JgkqH3AHd2qOEJt8ev7mYWF0Ukjj690qvTpg/bOV
- HXzw==
+ bh=waGBxRYL0CRLQIlQJnrfINtyYKriftnKcMnSxcPeoYo=;
+ b=F44uYW0assdFRkogJ4AgMCiM9zSUSCjQOWEgqBBHdKgAWqRkU4wSI5OdcLz+9uSUjQ
+ y3VoG2kjZuI+BpeQkQT4Dcj136AnR8yyndoHJZCAJDjftK8jgFUjeXlqBPCMSeD3vtHi
+ +AHyKqh7gwITSR3nS75wD3OEVbujGoKmrqODEy+U8xqgj7gsL1flwXPrFIgOIgYnill3
+ dhaNGBprwH7zwPbijebPmGweOm2pH6OLNDx5w24AevwHKEydDYORxxoaUgIAbHWHAcNO
+ PWerhG3LizsHPvxepfiCzHUFR26QK7kWCeMHEgO4xdImeExitqLf3DLS+QFWmav3NeES
+ CqjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ohuOj7/RPeB7VtN1AquejguYaBzi1b7GC1f/dw4ahVU=;
- b=7dok4O8yZy1Bu1fU3YR73Am8lGic6Sk4BVY1fEd4BRVjU76dcov7XF2GVxGfpz8FI1
- x/WWIyGQ234xxkglhm58u9Vb2Ivxe4xdbWKjBYAJJ4xoL0Fz3RGHcPrf2NPgwiPM1bX6
- lqIrYgf5KbQIDebcAFyewRNXmV42wgNxFUcloEGWO/5xI5spisG5+KvEJmUNKJN8AqYL
- kQXYp0UHFt1r2x9X5M5suWFWaaJ6Ts8h1TO2O2FeOEhmecUbvT8JQnCIBKuuqzusUfVE
- H+Ix66/ciGa/zhG3uMQyhf5yZxfwxa95m+iXQPCeN37kUF/8tnZ3cdMxncxL09qdMN1Q
- XyOA==
-X-Gm-Message-State: AOAM532HDbMTSrUKV/QoOgFcSjNL7TiBm6b5Y5tIKsdvTQnXej9Drk+D
- 9ZFaZYJQD96yhMDmjhYs2HJgawgIhwA=
-X-Google-Smtp-Source: ABdhPJwcUh2s6uA32HOG02zhAF55i8cleYHz0FaUzmRwVYYrFloWzHMeJ7KODHYs5BlTuQzjR2fkqw==
-X-Received: by 2002:a17:906:402:b0:6d5:c6bc:3150 with SMTP id
- d2-20020a170906040200b006d5c6bc3150mr10176662eja.403.1646677005056; 
+ bh=waGBxRYL0CRLQIlQJnrfINtyYKriftnKcMnSxcPeoYo=;
+ b=3c9YmoEu2KikWI03Pyb6UT1cznPIcfA/Ydgp+S7c3ZeB+hns7yAtkHsihLHUU6OUck
+ ktDkk9xQ7KAJL2W/a6Y/I0S9BvhnEz9q9aSEFu4190RtSP3wbSH5LCqGm0zbxcTDGPzG
+ xv9bm953oceK78ntlZOqGn+Y48+CNy+tIfux/Oc8CZ0PaSrQQkuuPQRb6mg+qgrkjYZu
+ ZhohrI8F4d5n1Jz2eVHGVoNQ3MzsAKJ2yimj/C6N542d6+u68zuPB8WGWjHDw1SdMAqC
+ 2OUwpk913sV3tErqnthKZECgCe16j7MXT/+L1tYVgBizt4DyJT7neMCKVd/stlucapVs
+ UwXw==
+X-Gm-Message-State: AOAM532wbANKyIXCVoRU0yNhAJGKN5aU6g3ZKp+6sOS5hmaDUHC5u2i0
+ YRtep8SBA1PnkD5xdEPkfFkEw+sDSeI=
+X-Google-Smtp-Source: ABdhPJztGOeKxR6fnNNS0dOdJU8XovrzUf54l0kqRtCqaiAqopD5FurCWnxob8BH9P7HeU7qyMEmSg==
+X-Received: by 2002:a17:906:1e42:b0:6d6:df12:7f8d with SMTP id
+ i2-20020a1709061e4200b006d6df127f8dmr10453906ejj.15.1646677005884; 
  Mon, 07 Mar 2022 10:16:45 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.44
- for <qemu-devel@nongnu.org>
+ d8-20020a170906304800b006cdf8a1e146sm4983382ejd.217.2022.03.07.10.16.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 10:16:44 -0800 (PST)
+ Mon, 07 Mar 2022 10:16:45 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/23] linux-headers: include missing changes from 5.17
-Date: Mon,  7 Mar 2022 19:16:22 +0100
-Message-Id: <20220307181633.596898-13-pbonzini@redhat.com>
+Subject: [PULL 13/23] x86: Fix the 64-byte boundary enumeration for extended
+ state
+Date: Mon,  7 Mar 2022 19:16:23 +0100
+Message-Id: <20220307181633.596898-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220307181633.596898-1-pbonzini@redhat.com>
 References: <20220307181633.596898-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -90,49 +90,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yang Zhong <yang.zhong@intel.com>, Jing Liu <jing2.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Jing Liu <jing2.liu@intel.com>
+
+The extended state subleaves (EAX=0Dh, ECX=n, n>1).ECX[1]
+indicate whether the extended state component locates
+on the next 64-byte boundary following the preceding state
+component when the compacted format of an XSAVE area is
+used.
+
+Right now, they are all zero because no supported component
+needed the bit to be set, but the upcoming AMX feature will
+use it.  Fix the subleaves value according to KVM's supported
+cpuid.
+
+Signed-off-by: Jing Liu <jing2.liu@intel.com>
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+Message-Id: <20220217060434.52460-2-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- linux-headers/asm-x86/kvm.h | 3 +++
- linux-headers/linux/kvm.h   | 4 ++++
- 2 files changed, 7 insertions(+)
+ target/i386/cpu.c         | 1 +
+ target/i386/cpu.h         | 6 ++++++
+ target/i386/kvm/kvm-cpu.c | 1 +
+ 3 files changed, 8 insertions(+)
 
-diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
-index 2da3316bb5..bf6e96011d 100644
---- a/linux-headers/asm-x86/kvm.h
-+++ b/linux-headers/asm-x86/kvm.h
-@@ -452,6 +452,9 @@ struct kvm_sync_regs {
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6c7ef1099b..0f3c477dfc 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5488,6 +5488,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                 const ExtSaveArea *esa = &x86_ext_save_areas[count];
+                 *eax = esa->size;
+                 *ebx = esa->offset;
++                *ecx = esa->ecx & ESA_FEATURE_ALIGN64_MASK;
+             }
+         }
+         break;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index e69ab5dd78..7bd9d58505 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -550,6 +550,11 @@ typedef enum X86Seg {
+ #define XSTATE_Hi16_ZMM_MASK            (1ULL << XSTATE_Hi16_ZMM_BIT)
+ #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
  
- #define KVM_STATE_VMX_PREEMPTION_TIMER_DEADLINE	0x00000001
- 
-+/* attributes for system fd (group 0) */
-+#define KVM_X86_XCOMP_GUEST_SUPP	0
++#define ESA_FEATURE_ALIGN64_BIT         1
 +
- struct kvm_vmx_nested_state_data {
- 	__u8 vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
- 	__u8 shadow_vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 00af3bc333..d232feaae9 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1133,6 +1133,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_VM_MOVE_ENC_CONTEXT_FROM 206
- #define KVM_CAP_VM_GPA_BITS 207
- #define KVM_CAP_XSAVE2 208
-+#define KVM_CAP_SYS_ATTRIBUTES 209
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
-@@ -2047,4 +2048,7 @@ struct kvm_stats_desc {
- 
- #define KVM_GET_STATS_FD  _IO(KVMIO,  0xce)
- 
-+/* Available with KVM_CAP_XSAVE2 */
-+#define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct kvm_xsave)
++#define ESA_FEATURE_ALIGN64_MASK        (1U << ESA_FEATURE_ALIGN64_BIT)
 +
- #endif /* __LINUX_KVM_H */
++
+ /* CPUID feature words */
+ typedef enum FeatureWord {
+     FEAT_1_EDX,         /* CPUID[1].EDX */
+@@ -1356,6 +1361,7 @@ QEMU_BUILD_BUG_ON(sizeof(XSavePKRU) != 0x8);
+ typedef struct ExtSaveArea {
+     uint32_t feature, bits;
+     uint32_t offset, size;
++    uint32_t ecx;
+ } ExtSaveArea;
+ 
+ #define XSAVE_STATE_AREA_COUNT (XSTATE_PKRU_BIT + 1)
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index d95028018e..ce27d3b1df 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -104,6 +104,7 @@ static void kvm_cpu_xsave_init(void)
+             if (sz != 0) {
+                 assert(esa->size == sz);
+                 esa->offset = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EBX);
++                esa->ecx = kvm_arch_get_supported_cpuid(s, 0xd, i, R_ECX);
+             }
+         }
+     }
 -- 
 2.34.1
 
