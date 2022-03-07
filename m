@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3824CFEB7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:33:45 +0100 (CET)
-Received: from localhost ([::1]:37490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635204CFE7A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:29:39 +0100 (CET)
+Received: from localhost ([::1]:59048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCYa-0007x1-KN
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:33:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37400)
+	id 1nRCUc-0003J8-E4
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:29:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <041b0945f98821fe4b1a3caf5c081ca35032279c@lizzy.crudebyte.com>)
- id 1nRCJo-0007iL-5e
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:18:32 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:33137)
+ (envelope-from <0fb1e19d78536e23b650ca72decdc29c98f2dcc1@lizzy.crudebyte.com>)
+ id 1nRCFb-0008S2-AH
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:14:07 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:34619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <041b0945f98821fe4b1a3caf5c081ca35032279c@lizzy.crudebyte.com>)
- id 1nRCJm-0008SA-Lt
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:18:27 -0500
+ (envelope-from <0fb1e19d78536e23b650ca72decdc29c98f2dcc1@lizzy.crudebyte.com>)
+ id 1nRCFZ-0007a4-Gv
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:14:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=rknlHOgpwDruDxO5phb53nMbnqNJL5CSSyJUNGTZy5I=; b=UnK2A
- Npj8ybRMv+c8G00unkXTeLA6VscoeHw66GNb1pknCJYiQlErCni4bxdmYweC4fMxYCMzfaBM2l28z
- 3PcKSRvQLIIq2oCqjA/+yuuCS5oDSv/OmzI3d1Nhmh1MyNKKRcfKTuEv6BCaNBDnXCi5x0RzOAxPN
- OCiVrFeqF6MaMfjBtGcPseOpy3xu1OD6zx/9N1OGUtcezi4QoqiGpvKh1bFC4gC4lYga1v065pyjt
- dM5f20tKGWfBKbGEJTH0zk/2Adlio+oJ8SsmvfOR/bhXLOcVYwtD5joRHwXokj7nFEg8N4OkBDIb5
- 653JLix3/rDbalaupYAUr57TrFUog==;
-Message-Id: <041b0945f98821fe4b1a3caf5c081ca35032279c.1646651700.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=InoFH/i7Y64UnxSHU/aQSNBQnxBKbIBG0d1DlNHVBsc=; b=Wve5b
+ wwKIrY5pk3BXCdgohdKVOVZwixvN8E9S0Y5Dxk3rwfROYzoSxVDE1r/Nt3OMZvw5o34UoAVT37iRg
+ kMM0AWmfylmsqydNPKoh8wJZU5P8tyLGkV//X96mDrD8K0obo6Wa1kLdzUDje3pK5C7Vs0TQJn/BC
+ g39pddvu6pJ+Q48rO2NxgkTo34UxzQNgmS8rSF7vxQNC1ffvRmY0phbGK7kNFVPqfmU3JIIQsODY5
+ yssB/MDD0u4eRxcSh5sJW5FLtjmNM0dZxjoYzpB3/aH3ULXfphNVkMJgM5KJJhg1CtWfX8QzjSebM
+ Cay/qwu6Kmd4gAeP7hh6/ZMOvEy2g==;
+Message-Id: <0fb1e19d78536e23b650ca72decdc29c98f2dcc1.1646651700.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646651700.git.qemu_oss@crudebyte.com>
 References: <cover.1646651700.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 07 Mar 2022 12:15:00 +0100
-Subject: [PULL v2 17/19] 9pfs/9p-util.h: convert Doxygen -> kerneldoc format
+Subject: [PULL v2 11/19] 9p: darwin: meson: Allow VirtFS on Darwin
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
@@ -44,7 +44,7 @@ Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
  Fabian Franz <fabianfranz.oss@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=041b0945f98821fe4b1a3caf5c081ca35032279c@lizzy.crudebyte.com;
+ envelope-from=0fb1e19d78536e23b650ca72decdc29c98f2dcc1@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -67,49 +67,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-API doc comments in QEMU are supposed to be in kerneldoc format, so
-convert API doc comments from Doxygen format to kerneldoc format.
+From: Keno Fischer <keno@juliacomputing.com>
 
+To allow VirtFS on darwin, we need to check that pthread_fchdir_np is
+available, which has only been available since macOS 10.12.
+
+Additionally, virtfs_proxy_helper is disabled on Darwin. This patch
+series does not currently provide an implementation of the proxy-helper,
+but this functionality could be implemented later on.
+
+Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+[Michael Roitzsch: - Rebase for NixOS]
+Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+[Will Cohen: - Rebase to master]
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+[Will Cohen: - Add check for pthread_fchdir_np to virtfs
+             - Add comments to patch commit
+             - Note that virtfs_proxy_helper does not work
+               on macOS
+             - Fully adjust meson virtfs error note to specify
+               macOS
+             - Rebase to master]
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Message-Id: <20220227223522.91937-12-wwcohen@gmail.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <dc1c4a85e233f5884ee5f6ec96b87db286083df7.1646314856.git.qemu_oss@crudebyte.com>
+Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p-util.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ fsdev/meson.build |  1 +
+ meson.build       | 12 +++++++-----
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index d0de6be3e2..97e681e167 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -99,7 +99,7 @@ ssize_t flistxattrat_nofollow(int dirfd, const char *filename,
- ssize_t fremovexattrat_nofollow(int dirfd, const char *filename,
-                                 const char *name);
+diff --git a/fsdev/meson.build b/fsdev/meson.build
+index adf57cc43e..b632b66348 100644
+--- a/fsdev/meson.build
++++ b/fsdev/meson.build
+@@ -7,6 +7,7 @@ fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
+   'qemu-fsdev.c',
+ ), if_false: files('qemu-fsdev-dummy.c'))
+ softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
++softmmu_ss.add_all(when: 'CONFIG_DARWIN', if_true: fsdev_ss)
  
--/**
-+/*
-  * Darwin has d_seekoff, which appears to function similarly to d_off.
-  * However, it does not appear to be supported on all file systems,
-  * so ensure it is manually injected earlier and call here when
-@@ -115,15 +115,15 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
- }
+ if have_virtfs_proxy_helper
+   executable('virtfs-proxy-helper',
+diff --git a/meson.build b/meson.build
+index 40598630e6..8a50ec191f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1462,14 +1462,16 @@ dbus_display = get_option('dbus_display') \
+   .allowed()
  
- /**
-- * Duplicate directory entry @dent.
-+ * qemu_dirent_dup() - Duplicate directory entry @dent.
-+ *
-+ * @dent: original directory entry to be duplicated
-+ * Return: duplicated directory entry which should be freed with g_free()
-  *
-  * It is highly recommended to use this function instead of open coding
-  * duplication of dirent objects, because the actual struct dirent
-  * size may be bigger or shorter than sizeof(struct dirent) and correct
-  * handling is platform specific (see gitlab issue #841).
-- *
-- * @dent - original directory entry to be duplicated
-- * @returns duplicated directory entry which should be freed with g_free()
-  */
- static inline struct dirent *qemu_dirent_dup(struct dirent *dent)
- {
+ have_virtfs = get_option('virtfs') \
+-    .require(targetos == 'linux',
+-             error_message: 'virtio-9p (virtfs) requires Linux') \
+-    .require(libattr.found() and libcap_ng.found(),
+-             error_message: 'virtio-9p (virtfs) requires libcap-ng-devel and libattr-devel') \
++    .require(targetos == 'linux' or targetos == 'darwin',
++             error_message: 'virtio-9p (virtfs) requires Linux or macOS') \
++    .require(targetos == 'linux' or cc.has_function('pthread_fchdir_np'),
++             error_message: 'virtio-9p (virtfs) on macOS requires the presence of pthread_fchdir_np') \
++    .require(targetos == 'darwin' or (libattr.found() and libcap_ng.found()),
++             error_message: 'virtio-9p (virtfs) on Linux requires libcap-ng-devel and libattr-devel') \
+     .disable_auto_if(not have_tools and not have_system) \
+     .allowed()
+ 
+-have_virtfs_proxy_helper = have_virtfs and have_tools
++have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
+ 
+ foreach k : get_option('trace_backends')
+   config_host_data.set('CONFIG_TRACE_' + k.to_upper(), true)
 -- 
 2.20.1
 
