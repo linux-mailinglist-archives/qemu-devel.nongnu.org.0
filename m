@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9C34CEEDB
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 00:58:53 +0100 (CET)
-Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2494CEEDD
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 01:01:51 +0100 (CET)
+Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR0m4-0007xD-6Y
-	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 18:58:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55032)
+	id 1nR0ow-0001SG-Hd
+	for lists+qemu-devel@lfdr.de; Sun, 06 Mar 2022 19:01:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR0l0-0006nh-AP; Sun, 06 Mar 2022 18:57:46 -0500
-Received: from [2a00:1450:4864:20::331] (port=45983
- helo=mail-wm1-x331.google.com)
+ id 1nR0nH-0000So-EG; Sun, 06 Mar 2022 19:00:07 -0500
+Received: from [2a00:1450:4864:20::42f] (port=35570
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nR0ky-00055w-Su; Sun, 06 Mar 2022 18:57:46 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- k29-20020a05600c1c9d00b003817fdc0f00so8316727wms.4; 
- Sun, 06 Mar 2022 15:57:43 -0800 (PST)
+ id 1nR0nF-0005WD-TV; Sun, 06 Mar 2022 19:00:07 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id b5so20762808wrr.2;
+ Sun, 06 Mar 2022 16:00:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=FmGKt5Ps8WkmvlQS52E59Eh5O0glI+V8imZ9k49DHxc=;
- b=dj7fDrSbEaeuHyaV9gkz2aKUEgcAgNCyWtYNEq6zt+TT3ytxp6/5ET6pmvM0/icJfL
- UN2bbO8X3WaQD4dAAy/5s/7/lIvemgeiVCfm5rZ7iimqQ207vbLdsDY7NzO4By0qOwGM
- g5UtMcju4adhcZ96R98gDPTHIItu7rV65Q7kUQCyXsRQMjOWTT5l0VBZ30PVAtfg+q7v
- WF0Oz/LuIkD9bOUFaWV2bgBeUPiKawzP8HtU9w0WPXiWw6zMeYd9mTlYPqRuV8ZnB7lQ
- 733ZtdDX4rTAVhi5LLWcVI5MCCM5qu3CYf9Sj8bANlJ+2Wl7Y8nV0IGQHcTSUUOZeCoF
- yRIg==
+ bh=9jUzM3h68dB2doXx5iieL8MIWnihNaAzc5IOtQGPZXM=;
+ b=lTWP00GjQdR0GKejhKwJUk5eR70uHt4KwgMssBVU3QtfaDS3vAMmqQNMTmk3ag7EI0
+ GQGXdetV8g/YyfXOlLbxsectvTgdpQObnS2xPGdE0TXgiOlbaY1i5Vu2hwIiIfpX7hqO
+ HxQldOgNkhzDKL+pafGV3TPXrI2Q8fByR8IryVp6VKqXBZ63Ory8toNrKDWVQdeha6LY
+ Tg4wW40vVqXWvxuGrerbDas2sxKKogPQC2Tk1VKAc+6VhYpXz7yyHGsQsvfTS5txXSdl
+ /LtBi2eaFibJ3/4Dxvxiwku8jQNMJsZzCR7lhchWkVJrL8PvRjT+QYGCv76apJk16NxN
+ NClw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=FmGKt5Ps8WkmvlQS52E59Eh5O0glI+V8imZ9k49DHxc=;
- b=l2ttPv46VY+4lBOzn21KHK7CYjT2nQNqzbF5a01rzxlk0JvCOaCiG08KtAJBafKI0z
- gQKFlZzbGm07r1ANB2pFwz/4w9RpGY2fSX/3dLmD8C1TOBluuV5WSorZWK8PDc+ZGe1R
- k1zQQbrOuofORyj75pfmiZ29DEjORV9IFkXz4uiUgAJnIcZMIS4kOM6B4L/61sPWXybB
- xx5gt+JSCrdE6ZhXUDz8Xy5OyIVKxVYvlp+KjgMwLgk+w0XS0RpEL6xbWn73r0XbBuo3
- RiNKPT88SC4Esp2rqktbZBmDkWUyDgIalLBpK6TpRdFwhE7bBBGWWffOZANRzEHnoB+0
- w69g==
-X-Gm-Message-State: AOAM530u2d+i+lp4DMZcEZ9zU1MYLy0dRU0KC+9ee+MarkfB+zavt4bQ
- AQiJliBjc32nh8NDr9seOOg=
-X-Google-Smtp-Source: ABdhPJxdhuQJ4Pq0gW6+ZNM47/OcltWQ4Zp2crQzg/pAlHwLXbif5ugMVm165ljTo5dAZuwo+oFZfA==
-X-Received: by 2002:a05:600c:35c2:b0:381:6cbc:7192 with SMTP id
- r2-20020a05600c35c200b003816cbc7192mr6767816wmq.146.1646611062561; 
- Sun, 06 Mar 2022 15:57:42 -0800 (PST)
+ bh=9jUzM3h68dB2doXx5iieL8MIWnihNaAzc5IOtQGPZXM=;
+ b=BvinT7fD+z24GJUqYM8B031xR9gi8dBdEacLXEPCgoabn75TOK8ypY7khFOZUd6SW5
+ WHjf/PlTmPRN9F6y2moo20TeqjceJZm4zMLFH5Rxw+jq79m1f8Wz2Tp+iAGa5qYqSMBb
+ oxU5OsfE9SErsbs/SYGxPSS7Z1H4z2zQFiX1O4pEUs+1MdCwljM6XBzuJ97ps5Q/Mh3Y
+ 139SV7bAxWOalHxKOkKfJ9nQBe4H3x49/HNoYUV8Lpq0h2MndHnNF6I8NPMegtg8PAMn
+ jJkeYidhUjwpWTSIwZiuhDCnlPSmPDTuM8jhT88HsjPu8gJ8R83hDXsln/cryow0McZR
+ rIWQ==
+X-Gm-Message-State: AOAM532TcOPs+wqIq3x/EM+8MAnybaRGTPQa4JyIbooHaUCmJOWU9lo4
+ 4qQfFGQ7m+CsviMGyK85wN0=
+X-Google-Smtp-Source: ABdhPJyvobDaPOFCP/7kQlESaKbTQIaxjIswhx3UtTNj1ROzBZY56tfrz3mWM9+ynFhbnMNB0ouoYg==
+X-Received: by 2002:a05:6000:22c:b0:1f0:ff85:948d with SMTP id
+ l12-20020a056000022c00b001f0ff85948dmr6234508wrz.494.1646611203879; 
+ Sun, 06 Mar 2022 16:00:03 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- v124-20020a1cac82000000b0037c3d08e0e7sm18143399wme.29.2022.03.06.15.57.39
+ m3-20020a5d6a03000000b001f06621641fsm7786226wru.96.2022.03.06.16.00.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Mar 2022 15:57:42 -0800 (PST)
-Message-ID: <8f7d11b1-528c-e49d-ee5f-ed64ed5c5336@gmail.com>
-Date: Mon, 7 Mar 2022 00:57:39 +0100
+ Sun, 06 Mar 2022 16:00:03 -0800 (PST)
+Message-ID: <1af23dba-8f7a-8d93-706d-6e16067cdce2@gmail.com>
+Date: Mon, 7 Mar 2022 01:00:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 5/9] tests/avocado/linux_ssh_mips_malta.py: add missing
- accel (tcg) tag
+Subject: Re: [PATCH v3 0/9] This patch series contains updates to PMBus in
+ QEMU along with some PMBus device models for Renesas regulators. I have also
+ added myself to MAINTAINERS as this code is in use daily, where I am
+ responsible for it.
 Content-Language: en-US
-To: Cleber Rosa <crosa@redhat.com>
-References: <20220225210156.2032055-1-crosa@redhat.com>
- <20220225210156.2032055-6-crosa@redhat.com>
- <aa0e1eb4-ef43-b386-e7a3-c034f666181b@gmail.com>
- <8735jzmdib.fsf@p50.localhost.localdomain>
+To: Titus Rwantare <titusr@google.com>, minyard@acm.org
+References: <20220302015053.1984165-1-titusr@google.com>
+ <20220304214354.GL3457@minyard.net>
+ <CAMvPwGpzO3VyCqGJY28QVQoo9AwYxxrvP3RqPS6JTgpTk8ojtw@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <8735jzmdib.fsf@p50.localhost.localdomain>
+In-Reply-To: <CAMvPwGpzO3VyCqGJY28QVQoo9AwYxxrvP3RqPS6JTgpTk8ojtw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,62 +96,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>, Eric Farman <farman@linux.ibm.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alexandre Iooss <erdnaxe@crans.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
- Fabien Chouteau <chouteau@adacore.com>, Eric Auger <eric.auger@redhat.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org, venture@google.com, qemu-devel@nongnu.org,
+ f4bug@amsat.org, wuhaotsh@google.com, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/3/22 13:13, Cleber Rosa wrote:
-> 
-> Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com> writes:
-> 
->> On 25/2/22 22:01, Cleber Rosa wrote:
->>> Being explicit about the accelerator used on these tests is a good
->>> thing in itself, but it will also be used in the filtering rules
->>> applied on "make check-avocado".
->>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->>> ---
->>>    tests/avocado/linux_ssh_mips_malta.py | 3 +++
->>>    1 file changed, 3 insertions(+)
->>> diff --git a/tests/avocado/linux_ssh_mips_malta.py
->>> b/tests/avocado/linux_ssh_mips_malta.py
->>> index c0f0be5ade..0179d8a6ca 100644
->>> --- a/tests/avocado/linux_ssh_mips_malta.py
->>> +++ b/tests/avocado/linux_ssh_mips_malta.py
->>> @@ -23,6 +23,9 @@
->>>    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
+On 5/3/22 00:42, Titus Rwantare wrote:
+> On Fri, 4 Mar 2022 at 13:43, Corey Minyard <minyard@acm.org> wrote:
 >>
->> Should we remove this line then? ^^^
+>> On Tue, Mar 01, 2022 at 05:50:44PM -0800, Titus Rwantare wrote:
+>>> v2:
+>>>    - split PMBus commit with updates into individual fixes
+>>>    - renamed isl_pmbus[.ch] adding _vr for voltage regulators
+>>>
+>>> v3:
+>>>    - split uint refactor commit and removed commit renaming files
+>>>    - rename rolled into preceding commits
+>>>    - update commit description for uint refactoring change
 >>
+>> This all looks good to me:
+>>
+>> Acked-by: Corey Minyard <cminyard@mvista.com>
+>>
+>> Do you have a plan for getting this in to qemu?  Like through the ARM
+>> tree?  I could take it into an I2C tree, but there's really not much
+>> activity or work there.
+>>
+>> -corey
 > 
-> Yes, we definitely should.  But, I thought it should be a next step.
+> In general PMBus is more specific to i2c than ARM, but I'm not sure of
+> the QEMU implications.
 
-OK.
+Titus, could you address my comments?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Corey, if you are busy, I can take care of this series.
 
-And queued to mips-next.
+Regards,
+
+Phil.
 
