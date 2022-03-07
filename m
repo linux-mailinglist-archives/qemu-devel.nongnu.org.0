@@ -2,89 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75904D0BF7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 00:22:05 +0100 (CET)
-Received: from localhost ([::1]:43968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1354D0C38
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 00:47:42 +0100 (CET)
+Received: from localhost ([::1]:55410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRMg0-0005B7-Qq
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 18:22:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54230)
+	id 1nRN4n-0005Y9-Eh
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 18:47:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRMDY-0005QX-OE
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:52:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRMDX-0006hm-3d
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 17:52:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646693558;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BGbaG+rd3UmBgx3zMSteJxCe31rOtUFk6NaV1hamiz0=;
- b=TeE3gNPVBIl6Ik0uiRLTzUQ3MoZDWTMkrKjjcqsMFviJxLFy2KLNToYF4f+xgHUXTldSj4
- FZA8O3VuEJht0vIQfjoThu4WhUZtHppijA6BO6Jdn1MsHGu7HU947joTlSWpl62sGtQ1I4
- RYkOZoXEnLg1DB/AGVRbkoryti4W/OE=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-pA7Edk6IOWGrWcGZI9EsEg-1; Mon, 07 Mar 2022 17:52:36 -0500
-X-MC-Unique: pA7Edk6IOWGrWcGZI9EsEg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- og24-20020a1709071dd800b006dab87bec4fso4221408ejc.0
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 14:52:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRN3P-0003iO-E1
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 18:46:15 -0500
+Received: from [2607:f8b0:4864:20::62d] (port=46757
+ helo=mail-pl1-x62d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRN3N-0006Ed-Ou
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 18:46:15 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id w4so5097320ply.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 15:46:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MvgZZaJkZYucIdaoIODS5ho2iU5kH6olg2lnntdTbtA=;
+ b=K23ISFUW5WXehWajYVkomyx7nSm3lcrU9+KFHnjrhtB1Ty93/gsMA8FPGVDgFD2+WR
+ baJMjpJAV25rqWkUrACGLiLl4Lgth6SCCacbnqRk4L98559NoIXa6v9TDFedqz6YOsf0
+ ynroCxoYuqu9nvw32Kzp4mJ1GlWakGMbxw+bXdIRXvcp7L9ZQiGvACoikZolp8C5awPj
+ D5ShieaHCMtWMtX38CPkjKAKRb59ZF2m4TyNH/PVQP6z9EoflG2lyf1W8yGuUpBb/s9N
+ JxnDU4ggeBlKAT3bhRHKTf/f4GsUtt/x6Ec4D4z5A4rJYPfAkAGXA3JFgTsa4G4HLGDs
+ mlxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=BGbaG+rd3UmBgx3zMSteJxCe31rOtUFk6NaV1hamiz0=;
- b=X0o719tSbBuEcGRqdcctcHybl/HUDV2n7nVkFHNnW1KyZOf3fzeJNGp/fcTNJFIqy5
- 4q3Bh/y8pBIaY1kMMyN8f6JAETM/D6s2qFBmwJ8td3n+kl0REB/Pyl6azu506KCOD+R0
- +KTjrIYcJKHgbmYn6U8wUOKOqq8EnuoYNqLMpE7bOJsLxlughB6fdvCD2b0h3YpO3rb/
- X4i7RqT9hVzgYunlseoO6e7JycqAS277e8aVbhaAIbCQwSRuDYXNhA0DeIL+JVNL+yVi
- bC3/EYJMzWCmbpI/+B2XwJjvGvpvArR5n7Zs9Z1e/WjD3+2TSPtt7udUZvO7btHDnGmI
- EgTw==
-X-Gm-Message-State: AOAM5330LD1kSCZmSqvsFzzKXKKpMpJFDRvYaJh4ZKG0bMw81VhH1luq
- BxBQAGxGAMgf2v+Jq6L1xh0i9XxSCjRLeu3WRVqjzYO2hOcjDvrzu1Q07Aocr6m4oipQgY8l8dv
- tNd93yYLPjvvX+Vg=
-X-Received: by 2002:a17:906:1e91:b0:6ae:99d9:93b1 with SMTP id
- e17-20020a1709061e9100b006ae99d993b1mr10781145ejj.111.1646693555363; 
- Mon, 07 Mar 2022 14:52:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxlvOselvENnEMf3j3M6Ao5V+DWpUvJX9UvTyj86XrfLZ+FLd4Ja6XSmq7jlaoEKFASzxEyQQ==
-X-Received: by 2002:a17:906:1e91:b0:6ae:99d9:93b1 with SMTP id
- e17-20020a1709061e9100b006ae99d993b1mr10781132ejj.111.1646693555043; 
- Mon, 07 Mar 2022 14:52:35 -0800 (PST)
-Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- h7-20020a1709066d8700b006d4b4d137fbsm5167248ejt.50.2022.03.07.14.52.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 14:52:34 -0800 (PST)
-Date: Mon, 7 Mar 2022 17:52:31 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v2 00/47] virtio,pc,pci: features, cleanups, fixes
-Message-ID: <20220307174713-mutt-send-email-mst@kernel.org>
-References: <20220307100058.449628-1-mst@redhat.com>
- <CAFEAcA94Uu=kyinf+pLUT2cY05326EDX=TKUeiSJH_aEY-kPVg@mail.gmail.com>
- <CAFEAcA_wO6dkr6=HUYsOS7RxGErrAvsNnNqhKfM733Q=4v6cdw@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MvgZZaJkZYucIdaoIODS5ho2iU5kH6olg2lnntdTbtA=;
+ b=7gtbp79JTr7BVwF7feNib6RrhLWty2hGX0eOxc/9lCFk35DfxYBY0AEtSu7zMuOS6Y
+ cZXkUrc1Ihp3R3FaxEtdnz9N3cUB5C3LIcnM3biZ82svJAJXPMa5RbUHY2TZT0+wiAEd
+ iikVluK784y0Bn6+QR7/a17FqANGOIB/g2mzDrAKy9FAo6Ig2w3gm0QrRAu2v8z125OM
+ HuzpqGP4RPWFw8sJLdYxOyrEqPdohuZLdwFx50fLXDpzm4L8Le0rCaDJFCGf+OMJv7rd
+ qZSlZY/H2fpUWwgM/nD+3JcjfFbhd8z5pdOl7nKQuoQYjz4le2J3HmA3RWB1H4UnTaaU
+ cBig==
+X-Gm-Message-State: AOAM531w+lzsPijT2IgI3/nf5/CWdhcu+UXTH/1OWI/oBOpVeoWWXgE/
+ xlo10Oyyj6daReSxb/UN9gw6dpFB5VY=
+X-Google-Smtp-Source: ABdhPJwcadNiZ6m318Y1by8w8A83oga4T0cH+mMyth5R2Cf4UOsKgL+X/tEVQ+tFvrVfEPtk7QbB8Q==
+X-Received: by 2002:a17:90a:160f:b0:1b8:ab45:d287 with SMTP id
+ n15-20020a17090a160f00b001b8ab45d287mr1539602pja.91.1646696772005; 
+ Mon, 07 Mar 2022 15:46:12 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ t7-20020a17090a510700b001bf5f79a770sm461168pjh.15.2022.03.07.15.46.09
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 07 Mar 2022 15:46:11 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/16] MIPS patches for 2022-03-07
+Date: Tue,  8 Mar 2022 00:45:56 +0100
+Message-Id: <20220307234557.9081-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_wO6dkr6=HUYsOS7RxGErrAvsNnNqhKfM733Q=4v6cdw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: 23
+X-Spam_score: 2.3
+X-Spam_bar: ++
+X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,91 +88,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 07, 2022 at 05:13:16PM +0000, Peter Maydell wrote:
-> On Mon, 7 Mar 2022 at 17:06, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Mon, 7 Mar 2022 at 10:01, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > The following changes since commit 6629bf78aac7e53f83fd0bcbdbe322e2302dfd1f:
-> > >
-> > >   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220302' into staging (2022-03-03 14:46:48 +0000)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> > >
-> > > for you to fetch changes up to 41d137fc631bd9315ff84727d780757d25054c58:
-> > >
-> > >   hw/acpi/microvm: turn on 8042 bit in FADT boot architecture flags if present (2022-03-06 16:06:16 -0500)
-> > >
-> > > ----------------------------------------------------------------
-> > > virtio,pc,pci: features, cleanups, fixes
-> > >
-> > > vhost-user enabled on non-linux systems
-> > > beginning of nvme sriov support
-> > > bigger tx queue for vdpa
-> > > virtio iommu bypass
-> > > An FADT flag to detect legacy keyboards.
-> > >
-> > > Fixes, cleanups all over the place
-> > >
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >
-> > Fails to build on the build-system-centos job:
-> >
-> > libqemu-ppc64-softmmu.fa.p/hw_virtio_virtio.c.o: In function
-> > `qmp_decode_features':
-> > /builds/qemu-project/qemu/build/../hw/virtio/virtio.c:4155: undefined
-> > reference to `gpu_map'
-> > /builds/qemu-project/qemu/build/../hw/virtio/virtio.c:4155: undefined
-> > reference to `gpu_map'
-> > collect2: error: ld returned 1 exit status
-> >
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2172339948
-> 
-> Also fails on cross-win64-system:
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/2172339938
-> 
-> ../hw/virtio/virtio.c: In function 'qmp_x_query_virtio_vhost_queue_status':
-> ../hw/virtio/virtio.c:4358:30: error: cast from pointer to integer of
-> different size [-Werror=pointer-to-int-cast]
-> 4358 | status->desc = (uint64_t)(unsigned long)hdev->vqs[queue].desc;
-> | ^
-> ../hw/virtio/virtio.c:4359:31: error: cast from pointer to integer of
-> different size [-Werror=pointer-to-int-cast]
-> 4359 | status->avail = (uint64_t)(unsigned long)hdev->vqs[queue].avail;
-> | ^
-> ../hw/virtio/virtio.c:4360:30: error: cast from pointer to integer of
-> different size [-Werror=pointer-to-int-cast]
-> 4360 | status->used = (uint64_t)(unsigned long)hdev->vqs[queue].used;
-> | ^
-> cc1: all warnings being treated as errors
-> 
-> -- PMM
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-I dropped these for now but I really question the value of this warning,
-as you can see the reason we have the buggy cast to unsigned long
-is because someone wanted to shut up the warning on a 32 bit system.
+The following changes since commit b49872aa8fc0f3f5a3036cc37aa2cb5c92866f33:
 
-Now, I could maybe get behind this if it simply warned about a cast that
-loses information (cast to a smaller integer) or integer/pointer cast
-that does not go through uintptr_t without regard to size.
+  Merge remote-tracking branch 'remotes/hreitz-gitlab/tags/pull-block-2022-03-07' into staging (2022-03-07 17:14:09 +0000)
 
-> 
-> 
-> >
-> > thanks
-> > -- PMM
-> 
-> 
-> 
-> -- 
-> 12345678901234567890123456789012345678901234567890123456789012345678901234567890
->          1         2         3         4         5         6         7         8
+are available in the Git repository at:
+
+  https://github.com/philmd/qemu.git tags/mips-20220308
+
+for you to fetch changes up to c35fef9a9c7fd5397bc624d5bba05cef514b5737:
+
+  tests/avocado/linux_ssh_mips_malta.py: add missing accel (tcg) tag (2022-03-07 20:38:41 +0100)
+
+Since v1:
+- Corrected last patch (screwed during git-am conflict)
+
+----------------------------------------------------------------
+MIPS patches queue
+
+- Fix CP0 cycle counter timing
+- Fix VMState of gt64120 IRQs
+- Long due PIIX4 QOM cleanups
+- ISA IRQ QOM'ification / cleanups
+
+----------------------------------------------------------------
+
+Bernhard Beschow (13):
+  hw/mips/gt64xxx_pci: Fix PCI IRQ levels to be preserved during
+    migration
+  malta: Move PCI interrupt handling from gt64xxx_pci to piix4
+  hw/isa/piix4: Resolve redundant i8259[] attribute
+  hw/isa/piix4: Pass PIIX4State as opaque parameter for piix4_set_irq()
+  hw/isa/piix4: Resolve global instance variable
+  hw/isa/piix4: Replace some magic IRQ constants
+  hw/mips/gt64xxx_pci: Resolve gt64120_register()
+  hw/rtc/mc146818rtc: QOM'ify IRQ number
+  hw/rtc/m48t59-isa: QOM'ify IRQ number
+  hw/input/pckbd: QOM'ify IRQ numbers
+  hw/isa/isa-bus: Remove isabus_dev_print()
+  hw/isa: Drop unused attributes from ISADevice
+  hw/isa: Inline and remove one-line isa_init_irq()
+
+Cleber Rosa (1):
+  tests/avocado/linux_ssh_mips_malta.py: add missing accel (tcg) tag
+
+Philippe Mathieu-Daudé (1):
+  target/mips: Remove duplicated MIPSCPU::cp0_count_rate
+
+Simon Burge (1):
+  target/mips: Fix cycle counter timing calculations
+
+ hw/audio/cs4231a.c                    |  2 +-
+ hw/audio/gus.c                        |  2 +-
+ hw/audio/sb16.c                       |  2 +-
+ hw/block/fdc-isa.c                    |  2 +-
+ hw/char/parallel.c                    |  2 +-
+ hw/char/serial-isa.c                  |  2 +-
+ hw/ide/isa.c                          |  2 +-
+ hw/input/pckbd.c                      | 26 +++++++--
+ hw/ipmi/isa_ipmi_bt.c                 |  2 +-
+ hw/ipmi/isa_ipmi_kcs.c                |  2 +-
+ hw/isa/isa-bus.c                      | 37 +------------
+ hw/isa/piix4.c                        | 56 +++++++++++++++++--
+ hw/mips/gt64xxx_pci.c                 | 80 +++------------------------
+ hw/mips/malta.c                       |  7 +--
+ hw/net/ne2000-isa.c                   |  2 +-
+ hw/rtc/m48t59-isa.c                   |  9 ++-
+ hw/rtc/mc146818rtc.c                  | 13 ++++-
+ hw/tpm/tpm_tis_isa.c                  |  2 +-
+ include/hw/isa/isa.h                  |  3 -
+ include/hw/mips/mips.h                |  3 -
+ include/hw/rtc/mc146818rtc.h          |  1 +
+ include/hw/southbridge/piix.h         |  2 -
+ target/mips/cpu.c                     | 11 +---
+ target/mips/cpu.h                     |  9 ---
+ target/mips/internal.h                |  9 +++
+ tests/avocado/linux_ssh_mips_malta.py |  3 +
+ tests/qemu-iotests/172.out            | 26 ---------
+ 27 files changed, 127 insertions(+), 190 deletions(-)
+
+-- 
+2.34.1
 
 
