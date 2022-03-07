@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F684CFD30
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:40:41 +0100 (CET)
-Received: from localhost ([::1]:48716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4CA4CFC63
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:12:36 +0100 (CET)
+Received: from localhost ([::1]:37590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRBjE-00039x-NU
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:40:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39038)
+	id 1nRBI3-00085w-08
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:12:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nRAT7-00077x-SE
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:19:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48459)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nRATQ-0007xy-Mc
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:20:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nRAT6-0005LE-3k
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:19:57 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nRATO-0005YP-RG
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 05:20:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646648394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UdqlJIQZWTPSPAQkFZKmUuEAz9DfQIJ1RJ58xtykh90=;
- b=AbtyIwDROgdj82woZUCAFu2Zb9V/QmJ5JN7t6XW+eVTu0Co0wYBGy/Cb7Ey97zwRhtQvjL
- uRMN2iJB8xbwhSmSTI4P0EPTj01A9B6QJTdLA9UajaUBiSdZ+vTOTGB2n8334+QHH9RY/W
- /0zMmqKRuFZVh2QawG/V19tjfFXCz0U=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1646648414;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=a5r/9Ad9M4LC+CnWwnf0WKIHJ37oVkohITJ/B7EDyPw=;
+ b=F4mrv2l83OtpcJCRw1vruU/8J+tVp2MpDWYxZScvWQ3rlZazGlBRFxRoYcdPvTx9FgubP8
+ eRlTlRNG0JyW2wPXs+zYsKujUE/KFBUJAOBouz1XvV2t8QE9x2KSzrpW5DjrlkWaHr6vgQ
+ nUfIsXR9xDk79c2GNy4i9ygHfcrR4Rg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-220-5OmN1GfFN1S25X26nReU0A-1; Mon, 07 Mar 2022 05:19:52 -0500
-X-MC-Unique: 5OmN1GfFN1S25X26nReU0A-1
-Received: by mail-yb1-f199.google.com with SMTP id
- p69-20020a257448000000b006295d07115bso693840ybc.14
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 02:19:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UdqlJIQZWTPSPAQkFZKmUuEAz9DfQIJ1RJ58xtykh90=;
- b=aa29WsskkDy26z5kZKOjGkUn7NLk/MGuq+01usGxpcb+kdeHa3wOxwyRA+wJojN6bi
- pu+5KC9pV9fRUXOIVOqBHGzXP2N+Gu6TZzOQZp3mqEO8kr+W0xT/WujV7Nc7PXFF+B1J
- wGa+/zE5eX867tGppl6qmlxVlEImQHOq8dA6b4CxdStpi/zc6Ns5HCaUiJBUtsk1hEx2
- gGWhwC7OWvssmApIYN4EKVUS7BiF8sqFFtBw25MKx32zFvf0U16iKxQLRRfia59P5J12
- gpxFw40jVWE8wSR7Ufdkb9c56o3zsBSp5tZZOmlH8JXezL+yLupnpqJxixxf3nE4Tjks
- kcgg==
-X-Gm-Message-State: AOAM531yF6L8LYYmpPuMGQVDsDrpt4jDqSQ8zu19wfahJxRxi3vcLiKW
- WdKBeKCISxzwus1cr09UU+NEs3rQSVFjyJ0PrdW6EhuXEmxU02+IdPrEM30DZn0SIHyWV7Rnf8w
- ZFFt7JP6JXmZe7BnrFACg+sdC9sMGAEQ=
-X-Received: by 2002:a25:af92:0:b0:628:b791:281b with SMTP id
- g18-20020a25af92000000b00628b791281bmr7218811ybh.87.1646648392271; 
- Mon, 07 Mar 2022 02:19:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyxWj9Bxif4jUhH1jrzXzZD9eDKvzbgHcR0CmPkfnBQMJqdyFs8twxtuPaowhea6lSWbRNmrAO5K6H1LeK5InQ=
-X-Received: by 2002:a25:af92:0:b0:628:b791:281b with SMTP id
- g18-20020a25af92000000b00628b791281bmr7218804ybh.87.1646648392102; Mon, 07
- Mar 2022 02:19:52 -0800 (PST)
+ us-mta-462-Kmbl2nckOhSSUSjOxrbFuQ-1; Mon, 07 Mar 2022 05:20:12 -0500
+X-MC-Unique: Kmbl2nckOhSSUSjOxrbFuQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAA09801AFC;
+ Mon,  7 Mar 2022 10:20:11 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CB1E8089A;
+ Mon,  7 Mar 2022 10:20:10 +0000 (UTC)
+Date: Mon, 7 Mar 2022 10:20:07 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Tyler Fanelli <tfanelli@redhat.com>
+Subject: Re: [PATCH v3] i386/sev: Ensure attestation report length is valid
+ before retrieving
+Message-ID: <YiXcV3ObOJulovnN@redhat.com>
+References: <20220304201141.509492-1-tfanelli@redhat.com>
 MIME-Version: 1.0
-References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
- <20220307074632.238049-13-marcandre.lureau@redhat.com>
- <c80fde18-bb3e-e780-356c-f935e7390e4d@gmail.com>
-In-Reply-To: <c80fde18-bb3e-e780-356c-f935e7390e4d@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 7 Mar 2022 14:19:41 +0400
-Message-ID: <CAMxuvaw_QT4wEGLZRNJEd1m-58JV-8AOc6CHKkMw4i_yrVNgew@mail.gmail.com>
-Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
- current scanout is GL
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220304201141.509492-1-tfanelli@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -97,78 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pbonzini@redhat.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Akihiko
+On Fri, Mar 04, 2022 at 03:11:43PM -0500, Tyler Fanelli wrote:
+> The length of the attestation report buffer is never checked to be
+> valid before allocation is made. If the length of the report is returned
+> to be 0, the buffer to retrieve the attestation buffer is allocated with
+> length 0 and passed to the kernel to fill with contents of the attestation
+> report. Leaving this unchecked is dangerous and could lead to undefined
+> behavior.
+> 
+> Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
+> ---
+>  target/i386/sev.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 025ff7a6f8..e82be3e350 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -616,6 +616,8 @@ static SevAttestationReport *sev_get_attestation_report(const char *mnonce,
+>          return NULL;
+>      }
+>  
+> +    input.len = 0;
+> +
+>      /* Query the report length */
+>      ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
+>              &input, &err);
+> @@ -626,6 +628,11 @@ static SevAttestationReport *sev_get_attestation_report(const char *mnonce,
+>                         ret, err, fw_error_to_str(err));
+>              return NULL;
+>          }
+> +    } else if (input.len == 0) {
+> +        error_setg(errp, "SEV: Failed to query attestation report:"
+> +                         " length returned=%u",
+> +                   input.len);
+> +        return NULL;
 
-On Mon, Mar 7, 2022 at 12:09 PM Akihiko Odaki <akihiko.odaki@gmail.com> wro=
-te:
->
-> On 2022/03/07 16:46, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > egl-headless depends on the backing surface to be set before texture ar=
-e
-> > set and updated. Display it (update=3Dtrue) iff the current scanout kin=
-d
-> > is SURFACE.
->
-> egl-headless does not dynamically call register_displaychangelistener
-> and has console associated (console_select would not affect egl-headless
-> itself) so this should not be necessary.
+I still feel the described scenario is a kernel bug, as QEMU handles
+len == 0 safely already AFAICT. I can't see how the upstream kernel
+would end up in the problem state. Can you show the buggy kernel
+code upstream.
 
-Could you help me understand, what should not be necessary?
-
-> The remaining problem with egl-headless is that egl-headless renders the
-> image to DisplaySurface, and a non-OpenGL display (namely vnc) has to
-> consume it instead of texture even when con->scanout.kind is
-> SCANOUT_TEXTURE or SCANOUT_DMABUF.
-
-This is already happening, because egl-headless calls dpy_gfx_update().
-
-thanks
-
-> Regards,
-> Akihiko Odaki
->
-> >
-> > Reported-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   ui/console.c | 7 ++++---
-> >   1 file changed, 4 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/ui/console.c b/ui/console.c
-> > index 5bfecea4549e..16a0b0909ba2 100644
-> > --- a/ui/console.c
-> > +++ b/ui/console.c
-> > @@ -1112,6 +1112,10 @@ static void displaychangelistener_display_consol=
-e(DisplayChangeListener *dcl,
-> >           return;
-> >       }
-> >
-> > +    dpy_gfx_create_texture(con, con->surface);
-> > +    displaychangelistener_gfx_switch(dcl, con->surface,
-> > +                                     con->scanout.kind =3D=3D SCANOUT_=
-SURFACE);
-> > +
-> >       if (con->scanout.kind =3D=3D SCANOUT_DMABUF &&
-> >           displaychangelistener_has_dmabuf(dcl)) {
-> >           dcl->ops->dpy_gl_scanout_dmabuf(dcl, con->scanout.dmabuf);
-> > @@ -1126,9 +1130,6 @@ static void displaychangelistener_display_console=
-(DisplayChangeListener *dcl,
-> >                                            con->scanout.texture.y,
-> >                                            con->scanout.texture.width,
-> >                                            con->scanout.texture.height)=
-;
-> > -    } else if (con->scanout.kind =3D=3D SCANOUT_SURFACE) {
-> > -        dpy_gfx_create_texture(con, con->surface);
-> > -        displaychangelistener_gfx_switch(dcl, con->surface, TRUE);
-> >       }
-> >   }
-> >
->
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
