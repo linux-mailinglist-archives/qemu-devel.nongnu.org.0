@@ -2,73 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B844D04F5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 18:09:38 +0100 (CET)
-Received: from localhost ([::1]:37778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4313D4D0503
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 18:11:42 +0100 (CET)
+Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRGrZ-0000XO-8N
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 12:09:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40840)
+	id 1nRGtZ-0004LM-Bv
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 12:11:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGoy-00060m-Rx
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nRGp0-00063M-8R
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:06:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1nRGoy-0002rz-ID
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:06:57 -0500
-Received: from [2607:f8b0:4864:20::b2b] (port=37828
- helo=mail-yb1-xb2b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRGox-0002rg-4k
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 12:06:56 -0500
-Received: by mail-yb1-xb2b.google.com with SMTP id g1so32316366ybe.4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646672815;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xzQd8B6cIAS9+ifpROyoa4bPM3Lp4lLhsdtI2lG6gns=;
+ b=Y1P6KGA+D3TdQO4WlAbHnoHmhwfnS2FbvF/DMIo+9RnZ1otWQICZ6B3Ll1358EumNb5y6f
+ CTX2I+58Jg4vGGCWaTmdOuNFHezdkUMBa0p139cWzVp2DKpUkBOW/E4cH0ZfO8iJ9oi+zf
+ f1YnCMRlPfRLvfhB48RkV4lcAIwAWBM=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-191-y6_QET32N7uUU_oflSU0Dw-1; Mon, 07 Mar 2022 12:06:54 -0500
+X-MC-Unique: y6_QET32N7uUU_oflSU0Dw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ og24-20020a1709071dd800b006dab87bec4fso3827373ejc.0
  for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 09:06:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3ZzBK0bIAnjN//PNQIaLTbezVQGTaq8H2fgbXF77Zgs=;
- b=C/GPDnxElzqKN4XW8WIHghZf7cZqEDZw7IeeHIyHAchy67yKpU6zc8tnytsS93GW+4
- oI6g58IEpRlcT1MhtMcSgtCoPDIfGTSqtI+BHlzBLKvNDuCvCOCO4Y9Ka94QNIobU4Wa
- yMPlEs0RFCzVSb7tcwUjTzmxPwO8NyuV++Z1iOoGMMnHRPgsRE8/gWpfYW8ttafb4rzA
- XiBiQXjpfrw5RtTGhGWW6exfZQbTBvbtOWwcx9Q5wLKRQpukIm0gKxRQZ5/G3+o+WL5s
- m1QirsK/oVn14OC3h6uBfHuz6ZdFPuPNiWyygLKZrhUREqjRSiTihEO9BbtY0Nszd5fZ
- CYSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3ZzBK0bIAnjN//PNQIaLTbezVQGTaq8H2fgbXF77Zgs=;
- b=OrdHwgZYOXUI27LKFE7Kcph2u3Gmc5LBEi95HRSfFrAwwCsLph2cNc3Nfrpst1s3Au
- vQTVRYgSZhBuIkmJ3x4rD07Q1OnVwPBd1XQkAxnSdAoRQbgRlBLxtSD7AacTrvF7jooC
- IxT/NduR+Wj2K2ykJGbk8wpUB4Q3yZWMmxqWMPzQI6f4zq9jezLksKtUvpufIs933eGr
- yWaV1SfRiKI/fGlop0kpjGJsNhGH6oinWBaR7GkchfnGQscpW+vcye19vOPVzMg9bV9c
- Q1j7dRL1CX1PJKjnwVehAj7lYHWb/4Mr7SFeGOd2c6fOlN+5QVWvBugl4eitU0pBPOb7
- PmYw==
-X-Gm-Message-State: AOAM531fd917wZUyxL0JvAxAa5Ql7ebYaL+0mpNY6OgY4FA4oxUdNwrk
- SEOUZVej1Ds3A1NBXWpdurfT9xjsB8rwLHw9JWFfbz48rcIJasxl
-X-Google-Smtp-Source: ABdhPJzwefq3l5L313f1iRbi5mdV2bqchLIzHpO76XudS7nu97gmavyhwYlVjZs+k/m4DnxYXwRvi3hQaxMnP1lwkUg=
-X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
- q16-20020a5b0350000000b0062886b86e09mr8496702ybp.39.1646672813937; Mon, 07
- Mar 2022 09:06:53 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=xzQd8B6cIAS9+ifpROyoa4bPM3Lp4lLhsdtI2lG6gns=;
+ b=tzErRFpSjFVrVqtVMJNoj+aeFTgX6gldFHFgEOREXidRNQAvW5MMKdRo7/hrWxC5jC
+ a2ZiT7cNswZeSfJ7xVjJvFDPjjRKzNmtt10wFqQMIgK/dnPn78w3DF8pZlVBJR+FolDv
+ xhOjJLyAKjkRXuh6TA/p2Jy1Z5snM+eRilGP8CHk2T995hNau9+lASRd89BAA6Io0lAf
+ eOOTBHq7sIoa1kytqan1nQLMJNXhSdHJPlfLuRCTXeJpiHnsZH5EVslWitcpN0ufc+Q+
+ Tb1Gx/GqKU+H7uQCjbmPMB9TIh5bYJSpE2Zp30kL0gsX/+/T+4RvpkvbJh7B4ekm6Xj1
+ 1Aqg==
+X-Gm-Message-State: AOAM53106W01T95u9RK3SjXbZi+8TZYsxYutIhPN1Wbu/MSIchPAKkMd
+ OhTwaIgF/UceDNQGJ2GKKqiF61y/hozn5Za35Q6W2v5I/JGRdvDzyTxGvDXX5O2E8esVlCAPdfl
+ Os86voDQLQSSX+UDR9L/TVfQRXgepFcl/zTeo3JEFURBpePklIpLHCdGBEto8kpqFu14=
+X-Received: by 2002:a50:9986:0:b0:413:bbdd:d5a1 with SMTP id
+ m6-20020a509986000000b00413bbddd5a1mr12309170edb.26.1646672813282; 
+ Mon, 07 Mar 2022 09:06:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx1WadQqpdv+HdBlPJ/UT8eCs3FDYd2bMnmydePlOd4gU9o0GYbFQStZjMeLBZ3lezllu5aZA==
+X-Received: by 2002:a50:9986:0:b0:413:bbdd:d5a1 with SMTP id
+ m6-20020a509986000000b00413bbddd5a1mr12309145edb.26.1646672813014; 
+ Mon, 07 Mar 2022 09:06:53 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ n13-20020a170906724d00b006cedd6d7e24sm4940207ejk.119.2022.03.07.09.06.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Mar 2022 09:06:52 -0800 (PST)
+Message-ID: <4ea11ddd-1032-3c80-4fbd-02ef08a5ce9a@redhat.com>
+Date: Mon, 7 Mar 2022 18:06:51 +0100
 MIME-Version: 1.0
-References: <20220307100058.449628-1-mst@redhat.com>
-In-Reply-To: <20220307100058.449628-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Mar 2022 17:06:42 +0000
-Message-ID: <CAFEAcA94Uu=kyinf+pLUT2cY05326EDX=TKUeiSJH_aEY-kPVg@mail.gmail.com>
-Subject: Re: [PULL v2 00/47] virtio,pc,pci: features, cleanups, fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC uncompiled PATCH] cocoa: run qemu_init in the main thread
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+References: <20220307151004.578069-1-pbonzini@redhat.com>
+In-Reply-To: <20220307151004.578069-1-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,49 +104,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, akihiko.odaki@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Mar 2022 at 10:01, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit 6629bf78aac7e53f83fd0bcbdbe322e2302dfd1f:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220302' into staging (2022-03-03 14:46:48 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to 41d137fc631bd9315ff84727d780757d25054c58:
->
->   hw/acpi/microvm: turn on 8042 bit in FADT boot architecture flags if present (2022-03-06 16:06:16 -0500)
->
-> ----------------------------------------------------------------
-> virtio,pc,pci: features, cleanups, fixes
->
-> vhost-user enabled on non-linux systems
-> beginning of nvme sriov support
-> bigger tx queue for vdpa
-> virtio iommu bypass
-> An FADT flag to detect legacy keyboards.
->
-> Fixes, cleanups all over the place
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+On 3/7/22 16:10, Paolo Bonzini wrote:
+> +    COCOA_DEBUG("Second thread: calling qemu_main()\n");
+> +    qemu_main_loop();
 
-Fails to build on the build-system-centos job:
+This should do qemu_mutex_lock_iothread() before calling qemu_main_loop().
 
-libqemu-ppc64-softmmu.fa.p/hw_virtio_virtio.c.o: In function
-`qmp_decode_features':
-/builds/qemu-project/qemu/build/../hw/virtio/virtio.c:4155: undefined
-reference to `gpu_map'
-/builds/qemu-project/qemu/build/../hw/virtio/virtio.c:4155: undefined
-reference to `gpu_map'
-collect2: error: ld returned 1 exit status
+Paolo
 
-https://gitlab.com/qemu-project/qemu/-/jobs/2172339948
-
-thanks
--- PMM
 
