@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4EA4D07C7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:33:55 +0100 (CET)
-Received: from localhost ([::1]:35634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A9A4D07DB
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 20:46:37 +0100 (CET)
+Received: from localhost ([::1]:54118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRJ7C-0003qV-BV
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:33:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41222)
+	id 1nRJJT-00072u-Sr
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 14:46:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nRJ4l-0001La-Bw
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:31:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nRJ4h-0008FH-KQ
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:31:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646681478;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HvBhUZPa8muWYjWlb/hAE/7wv/T5Nu7zQD7s9Zst0Dk=;
- b=e03YdssuVG7Zm8ccK59FOgL+b+cWvzO7knWzM3R/GX6XN4acBUIrG44mFHh+N1/c6FgPXB
- FqlVF750lvjd84nigv5O1qw8rD+wCmttvz7IGwgzrxtdgXIKfUcNMEDhk+euGrdTMHQSP4
- jxM8BoAVKZtUOSUDK82xS6hQfS1f7hE=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-408-VQdX1kPkOsGBHjh2SDyEVA-1; Mon, 07 Mar 2022 14:31:15 -0500
-X-MC-Unique: VQdX1kPkOsGBHjh2SDyEVA-1
-Received: by mail-vk1-f199.google.com with SMTP id
- m29-20020ac5cfdd000000b00336e9e4a678so1472004vkf.11
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 11:31:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nRJBW-00006o-3D
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:38:22 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=52943
+ helo=mail-pj1-x1029.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nRJBU-0000lg-1V
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 14:38:21 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id v4so14997487pjh.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 11:38:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=3Ggrf2R5r14ISB7SCfdyW+LSoF8+N1N2bQ3MPuew7jU=;
+ b=QCGbpCO5hnFiEEA17n/YOhQJsDP9wZscKDVtc6MqDWYqyfHMylmFIlu/hmf5Gzl4fo
+ bm6uC1er6O1lom9VCQ+Dr3sJl1F7iJgr/NfCfjPDtWLv0gxQpRlDya5HiJlcqJlbTZWD
+ kTSvqMJravU1Y+XNsEcFlMaTNHiQe2kazx0W2SxS5/119VeJQb1WmaG1uibrubtVdwZu
+ 4zFFnMRFndqi+SBz4hdquWvhrUUGlBPQZzTRP4r6PhyiP1G85kAL5SXqZdpi+D00hc/2
+ JkR1fyT3QJQkIzo+h+7dH1jOkyTBWokxY/T8wSRkiwhCl1dalYdM2oXXOxUrUkrq0UvY
+ eWjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HvBhUZPa8muWYjWlb/hAE/7wv/T5Nu7zQD7s9Zst0Dk=;
- b=tUGLaMo9XohuJBG4ZDloHFuQjh1v6j98x/cj13uclmQ5grrPAu5Y/PUHVdOU/uL6pp
- YF7TmtTk5eUmoERJKufMHugDD8SHxeUfvCZ4Hr0ihBciPwsMsTQNLugNmgExsUoq4B9U
- ItPXvr/ezcCCwsVaDej+9qVRd2erRJG8EJ/ZfSU6DfHu5BFLoDWdn9TeOhGh6CXSoM1s
- I76Mi8avICJVc9rg8vQ9bz4hL9+ihur+3QZdsvc2+KXYdzs4xdkO92xMni6xjiWXVAAY
- 6JzBJ1sniqrv0tPBBnXIzvnl6kT0lUOnKwfgbbpn3ehBLyBTfJuHUn7YHQcTfVM5jB60
- qdGQ==
-X-Gm-Message-State: AOAM5339us9s+aXcP3GsobDSVi9mSO9GEFezEIy0ZFHepByktTeRMQjP
- 8MAnVgESQZfr6W5ZHJpAyoI4a6GrU0qUjnQ4ilxWLwxUY76eCEq7O+XkLMFtAPBMHBOqP+9P7AL
- 1qAC1fdKn/wKMdJ5LXPhUzdsFZrN6wiE=
-X-Received: by 2002:a05:6102:c94:b0:320:7ae0:8fea with SMTP id
- f20-20020a0561020c9400b003207ae08feamr5027174vst.11.1646681474641; 
- Mon, 07 Mar 2022 11:31:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzKUMWbEBtkivJkHe2vSsgHR+WobnHT+20eogAmwxg/JMoi27uT/4ECjA4V/mkE9is82UNZDuXk2vTfR3B8QDw=
-X-Received: by 2002:a05:6102:c94:b0:320:7ae0:8fea with SMTP id
- f20-20020a0561020c9400b003207ae08feamr5027164vst.11.1646681474391; Mon, 07
- Mar 2022 11:31:14 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3Ggrf2R5r14ISB7SCfdyW+LSoF8+N1N2bQ3MPuew7jU=;
+ b=Xh4TWzJPs1MYk1trRZAv9mY6p9NqV4PxHNtWDWB5Q4ZvouC3emLC5WnLWfW6o8gHZd
+ iIZlA3hqLPGSipMCB2aqlWdlFUPX1c2mzZ1lp2Bk4PUptggAdd2lPmZ3n9/KmkAfRNxP
+ gxTYvGxD2U0dgvibIBDr6FQaV2CdjyAQnqI+V2Za4Vs6cNeVU0hCmetoxk+DjlU0fXWa
+ RDorHjU5ya+Q+CjPbDq505U70BgyqB8BcGNYwRshQm7NP0kTSb6eCewn1xICPbzNPAjJ
+ OqIdxK/B8SqCy7Eu7yP7ZmqN7Bj31Nzvpgh42iJZ9Aq4yAjsiCbXcYelXijssa3duNAS
+ pS9w==
+X-Gm-Message-State: AOAM532imvnvWR4BuU/qgZMHFFssFbJMDjVo4pPeJ+TwO7xntA7wipx0
+ Rie6E2/Ta38p52DOrA7wWCdiTw==
+X-Google-Smtp-Source: ABdhPJy5maBTnB+TgvNXy31ogHu8/GH1WB6XXI5UMMhY6fj2Qx/aVHonj1aM+eFeNkbt4Uz1EJVd7Q==
+X-Received: by 2002:a17:902:cec8:b0:151:cac8:f0a2 with SMTP id
+ d8-20020a170902cec800b00151cac8f0a2mr13439045plg.12.1646681898405; 
+ Mon, 07 Mar 2022 11:38:18 -0800 (PST)
+Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
+ [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
+ s7-20020a056a00178700b004e1a15e7928sm18627576pfg.145.2022.03.07.11.38.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Mar 2022 11:38:17 -0800 (PST)
+Message-ID: <c87c046b-b307-1573-3835-60ddfdd503eb@linaro.org>
+Date: Mon, 7 Mar 2022 09:38:14 -1000
 MIME-Version: 1.0
-References: <20220305105743.2384766-1-peter.maydell@linaro.org>
- <20220305105743.2384766-4-peter.maydell@linaro.org>
-In-Reply-To: <20220305105743.2384766-4-peter.maydell@linaro.org>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 7 Mar 2022 14:31:03 -0500
-Message-ID: <CAFn=p-ZkcsWyiGSAY16AvT-DN-x3rs2Lg+N_eUoenjONaA8hRg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] nsis installer: Fix mouse-over descriptions for
- emulators
-To: Peter Maydell <peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 3/7] target/s390x: vxeh2: vector shift {double by bit, 
+ left, right {logical,arithmetic}}
+Content-Language: en-US
+To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220307020327.3003-1-dmiller423@gmail.com>
+ <20220307020327.3003-4-dmiller423@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220307020327.3003-4-dmiller423@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,101 +95,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com, farman@linux.ibm.com,
+ pasic@linux.ibm.com, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 5, 2022 at 5:57 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> We use the nsis.py script to write out an installer script Section
-> for each emulator executable, so the exact set of Sections depends on
-> which executables were built.  However the part of qemu.nsi which
-> specifies mouse-over descriptions for each Section still has a
-> hard-coded and very outdated list (with just i386 and alpha).  This
-> causes two problems.  Firstly, if you build the installer for a
-> configuration where you didn't build the i386 binaries you get
-> warnings like this:
->   warning 6000: unknown variable/constant "{Section_i386}" detected, ignoring (macro:_==:1)
->   warning 6000: unknown variable/constant "{Section_i386w}" detected, ignoring (macro:_==:1)
-> (this happens in our gitlab CI jobs, for instance).
-> Secondly, most of the emulators in the generated installer don't have
-> any mouseover text.
->
-> Make nsis.py generate a second output file which has the necessary
-> MUI_DESCRIPTION_TEXT lines for each Section it creates, so we can
-> include that at the right point in qemu.nsi to set the mouse-over
-> text.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> I opted to put the logic into the Python script, which I think
-> many QEMU contributors understand, rather than investigating
-> whether NSIS installer script magic might for instance allow
-> us to write out only one file rather than two, since I think
-> very few of us understand the NSIS installer...
+On 3/6/22 16:03, David Miller wrote:
+>   }
+> +/**
+> + * deposit8:
+> + * @value: initial value to insert bit field into
+> + * @start: the lowest bit in the bit field (numbered from 0)
+> + * @length: the length of the bit field
+> + * @fieldval: the value to insert into the bit field
+> + *
+> + * Deposit @fieldval into the 8 bit @value at the bit field specified
+> + * by the @start and @length parameters, and return the modified
+> + * @value. Bits of @value outside the bit field are not modified.
+> + * Bits of @fieldval above the least significant @length bits are
+> + * ignored. The bit field must lie entirely within the 8 bit byte.
+> + * It is valid to request that all 8 bits are modified (ie @length
+> + * 8 and @start 0).
+> + *
+> + * Returns: the modified @value.
+> + */
+> +static inline uint8_t deposit8(uint8_t value, int start, int length,
+> +                               uint8_t fieldval)
+> +{
+> +    uint8_t mask;
+> +    assert(start >= 0 && length > 0 && length <= 8 - start);
+> +    mask = (~0ULL >> (8 - length)) << start;
+> +    return (value & ~mask) | ((fieldval << start) & mask);
+> +}
+>   
 
-Makes sense.
+(1) must be a separate patch.
+(2) watch the whitespace at the top.
 
-Python bits:
+Given we have extract8 already, this is indeed missing.
+But I'm surprised you'd need this...
 
-Reviewed-by: John Snow <jsnow@redhat.com>
+Also, this is still doing too much.
+Changes to existing instructions should not be mixed with new instructions.
 
 
-> ---
->  qemu.nsi        |  5 +----
->  scripts/nsis.py | 13 ++++++++++++-
->  2 files changed, 13 insertions(+), 5 deletions(-)
->
-> diff --git a/qemu.nsi b/qemu.nsi
-> index a44d2be32a2..aa93adee396 100644
-> --- a/qemu.nsi
-> +++ b/qemu.nsi
-> @@ -228,10 +228,7 @@ SectionEnd
->  ; Descriptions (mouse-over).
->  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
->      !insertmacro MUI_DESCRIPTION_TEXT ${SectionSystem}  "System emulation."
-> -    !insertmacro MUI_DESCRIPTION_TEXT ${Section_alpha}  "Alpha system emulation."
-> -    !insertmacro MUI_DESCRIPTION_TEXT ${Section_alphaw} "Alpha system emulation (GUI)."
-> -    !insertmacro MUI_DESCRIPTION_TEXT ${Section_i386}   "PC i386 system emulation."
-> -    !insertmacro MUI_DESCRIPTION_TEXT ${Section_i386w}  "PC i386 system emulation (GUI)."
-> +!include "${BINDIR}\system-mui-text.nsh"
->      !insertmacro MUI_DESCRIPTION_TEXT ${SectionTools} "Tools."
->  !ifdef DLLDIR
->      !insertmacro MUI_DESCRIPTION_TEXT ${SectionDll}   "Runtime Libraries (DLL)."
-> diff --git a/scripts/nsis.py b/scripts/nsis.py
-> index 383bef70332..462d6cac3b6 100644
-> --- a/scripts/nsis.py
-> +++ b/scripts/nsis.py
-> @@ -33,7 +33,9 @@ def main():
->          subprocess.run(["make", "install", "DESTDIR=" + destdir + os.path.sep])
->          with open(
->              os.path.join(destdir + args.prefix, "system-emulations.nsh"), "w"
-> -        ) as nsh:
-> +        ) as nsh, open(
-> +            os.path.join(destdir + args.prefix, "system-mui-text.nsh"), "w"
-> +        ) as muinsh:
->              for exe in sorted(glob.glob(
->                  os.path.join(destdir + args.prefix, "qemu-system-*.exe")
->              )):
-> @@ -49,6 +51,15 @@ def main():
->                          arch, exe
->                      )
->                  )
-> +                if arch.endswith('w'):
-> +                    desc = arch[:-1] + " emulation (GUI)."
-> +                else:
-> +                    desc = arch + " emulation."
+>  static DisasJumpType op_vsl(DisasContext *s, DisasOps *o)
+>  {
+> -    TCGv_i64 shift = tcg_temp_new_i64();
+> -
+> -    read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
+> -    if (s->fields.op2 == 0x74) {
+> -        tcg_gen_andi_i64(shift, shift, 0x7);
+> +    const bool B = 0x75 == s->fields.op2;
+
+I really don't like testing opcodes after the fact.  This is the job for insn-data.def. 
+Either pass in data with the DATA element of F(), or use a helper function.
+
+> +static DisasJumpType op_vsld(DisasContext *s, DisasOps *o)
+>  {
+> -    const uint8_t i4 = get_field(s, i4) & 0xf;
+> -    const int left_shift = (i4 & 7) * 8;
+> -    const int right_shift = 64 - left_shift;
+> +    const uint8_t mask = (0x86 == s->fields.op2) ? 7 : 15;
+> +    const uint8_t mul  = (0x86 == s->fields.op2) ? 1 : 8;
+> +    const uint8_t i4   = get_field(s, i4);
+> +    const int shift = 64 - (i4 & 7) * mul;
 > +
-> +                muinsh.write(
-> +                    """
-> +                !insertmacro MUI_DESCRIPTION_TEXT ${{Section_{0}}} "{1}"
-> +                """.format(arch, desc))
->
->          for exe in glob.glob(os.path.join(destdir + args.prefix, "*.exe")):
->              signcode(exe)
-> --
-> 2.25.1
->
+> +    if (i4 & ~mask) {
+> +        gen_program_exception(s, PGM_SPECIFICATION);
+> +        return DISAS_NORETURN;
+> +    }
+>      TCGv_i64 t0 = tcg_temp_new_i64();
+>      TCGv_i64 t1 = tcg_temp_new_i64();
+>      TCGv_i64 t2 = tcg_temp_new_i64();
+> @@ -2053,8 +2060,8 @@ static DisasJumpType op_vsldb(DisasContext *s, DisasOps *o)
+>          read_vec_element_i64(t1, get_field(s, v3), 0, ES_64);
+>          read_vec_element_i64(t2, get_field(s, v3), 1, ES_64);
+>      }
+> -    tcg_gen_extract2_i64(t0, t1, t0, right_shift);
+> -    tcg_gen_extract2_i64(t1, t2, t1, right_shift);
+> +    tcg_gen_extract2_i64(t0, t1, t0, shift);
+> +    tcg_gen_extract2_i64(t1, t2, t1, shift);
 
+The renaming of right_shift to shift is probably misleading, since extract2 *always* 
+performs a right-shift.
+
+> +    tcg_gen_extract2_i64(t0, t1, t0, left_shift);
+> +    tcg_gen_extract2_i64(t1, t2, t1, left_shift);
+
+Which makes this bit from op_vsrd actively misleading (though the code appears to be 
+correct, its just the variable name that's wrong).
+
+> +void HELPER(gvec_vsl_ve2)(void *v1, const void *v2, const void *v3,
+> +                          uint32_t desc)
+> +{
+> +    uint8_t i, v;
+> +    S390Vector tmp = {};
+> +    for (i = 0; i < 16; i++) {
+> +        const uint8_t shift = s390_vec_read_element8(v3, i) & 7;
+> +        v = s390_vec_read_element8(v2, i);
+> +
+> +        if (shift) {
+> +            v <<= shift;
+> +            if (i < 15) {
+> +                v |= extract8(s390_vec_read_element8(v2, i + 1),
+> +                              8 - shift, shift);
+> +            }
+
+Possibly better as
+
+     if (shift) {
+         uint16_t tmp = (uint16_t)v << 8;
+         if (i < 15) {
+             tmp |= s390_vec_read_element8(v2, i + 1);
+         }
+         tmp <<= shift;
+         v = tmp >> 8;
+     }
+
+Similarly for the right shifts.
+
+I wonder if it's worth checking that the values are identical, so that we can use the 
+original vsl implementation, using double-word shifts.  E.g.
+
+     uint64_t v3_0 = s390_vec_read_element64(v3, 0);
+     uint64_t v3_1 = s390_vec_read_element64(v3, 1);
+     uint64_t sh_0 = dup_const(MO_8, v3_0 & 7);
+     uint64_t sh_m = dup_const(MO_8, 7);
+
+     if ((v3_0 & sh_m) == sh_0 && (v3_1 & sh_m) == sh_0) {
+         helper_gvec_vsrl(v1, v2, v3, desc);
+         return;
+     }
+
+
+r~
 
