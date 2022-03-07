@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6EF4CF30D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 08:57:25 +0100 (CET)
-Received: from localhost ([::1]:57970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6167A4CF2F7
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 08:52:51 +0100 (CET)
+Received: from localhost ([::1]:45790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR8FA-0002dp-FA
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 02:57:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39038)
+	id 1nR8Ak-0002si-Fq
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 02:52:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nR86b-0006zp-Gj
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:48:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20747)
+ id 1nR86u-0007MO-M2
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:48:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nR86a-0007JY-2Z
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:48:33 -0500
+ id 1nR86t-0007Lh-Ba
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 02:48:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646639311;
+ s=mimecast20190719; t=1646639330;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BoItAzTjaQBb3pSXRgrn/yKfIqQPSGTiWeJ6lo4kq+w=;
- b=bfgOobxNWVmKWVbab/NDoM+1fYWpRCin61nKPn29Wf499dm7FtQqHeg5FEnBLbUJ3RioEL
- ZxrpS7d2WGYY7mj8y1ISLMgXfoowV7k/pLM4rKiKCpHi715CJUJ4CsdIGXLapcMkezdUZt
- Ev8jClWbaJoc5hhJkpC/YK9oOCG0xgo=
+ bh=hyunsZ1DyNKGpLsMmJdHAJJ+4frXcUWMjNQ3kVsdQ68=;
+ b=FUzV1yxf97yUt3ycixIrvdRhAtTu9pd1olKLAu32FpBA0etpZCX4F1GQ0ItwmIxQi+y/Pl
+ eJl7uakz2nwZsvqxUwD06qHNsLUwNuO2QcH2t/iHHu8ZS3XVeoqyL0ZHunnU2IZV3LseF5
+ DgHQTUGyKmPTToE2x153qeF4a82WeGg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-fuYrSoLhO1CBBzuwy-HLrw-1; Mon, 07 Mar 2022 02:48:27 -0500
-X-MC-Unique: fuYrSoLhO1CBBzuwy-HLrw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-393-HLMe_VdAPR2LMYiVq-QMzQ-1; Mon, 07 Mar 2022 02:48:47 -0500
+X-MC-Unique: HLMe_VdAPR2LMYiVq-QMzQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 558C01006AA5;
- Mon,  7 Mar 2022 07:48:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CBD180A19C;
+ Mon,  7 Mar 2022 07:48:46 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7AEE694A9;
- Mon,  7 Mar 2022 07:48:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD33C6E6F1;
+ Mon,  7 Mar 2022 07:48:30 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/12] ui/shader: fix potential leak of shader on error
-Date: Mon,  7 Mar 2022 11:46:26 +0400
-Message-Id: <20220307074632.238049-7-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 07/12] ui/shader: free associated programs
+Date: Mon,  7 Mar 2022 11:46:27 +0400
+Message-Id: <20220307074632.238049-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20220307074632.238049-1-marcandre.lureau@redhat.com>
 References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,37 +88,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Value of 0 for program and shaders are silently ignored and indicate error.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/shader.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ ui/shader.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/ui/shader.c b/ui/shader.c
-index e8b8d321b7c7..4c80fc831f68 100644
+index 4c80fc831f68..ab448c41d4c6 100644
 --- a/ui/shader.c
 +++ b/ui/shader.c
-@@ -130,15 +130,17 @@ static GLuint qemu_gl_create_link_program(GLuint vert, GLuint frag)
- static GLuint qemu_gl_create_compile_link_program(const GLchar *vert_src,
-                                                   const GLchar *frag_src)
- {
--    GLuint vert_shader, frag_shader, program;
-+    GLuint vert_shader, frag_shader, program = 0;
- 
-     vert_shader = qemu_gl_create_compile_shader(GL_VERTEX_SHADER, vert_src);
-     frag_shader = qemu_gl_create_compile_shader(GL_FRAGMENT_SHADER, frag_src);
-     if (!vert_shader || !frag_shader) {
--        return 0;
-+        goto end;
+@@ -172,5 +172,8 @@ void qemu_gl_fini_shader(QemuGLShader *gls)
+     if (!gls) {
+         return;
      }
- 
-     program = qemu_gl_create_link_program(vert_shader, frag_shader);
-+
-+end:
-     glDeleteShader(vert_shader);
-     glDeleteShader(frag_shader);
- 
++    glDeleteProgram(gls->texture_blit_prog);
++    glDeleteProgram(gls->texture_blit_flip_prog);
++    glDeleteProgram(gls->texture_blit_vao);
+     g_free(gls);
+ }
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
