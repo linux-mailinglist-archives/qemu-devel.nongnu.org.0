@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513334CFE28
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:22:59 +0100 (CET)
-Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2734CFD1D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 12:36:21 +0100 (CET)
+Received: from localhost ([::1]:37648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCOA-00045x-CG
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:22:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37018)
+	id 1nRBf2-00046k-6r
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 06:36:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <029ed1bd9defa33a80bb40cdcd003699299af8db@lizzy.crudebyte.com>)
- id 1nRCHg-0002jm-Kr
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:16:16 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:34619)
+ (envelope-from <38d7fd68b0c8775b5253ab84367419621aa032e6@lizzy.crudebyte.com>)
+ id 1nRBUd-0005Y1-3V
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:25:37 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:41381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <029ed1bd9defa33a80bb40cdcd003699299af8db@lizzy.crudebyte.com>)
- id 1nRCHe-0007a4-M1
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:16:16 -0500
+ (envelope-from <38d7fd68b0c8775b5253ab84367419621aa032e6@lizzy.crudebyte.com>)
+ id 1nRBUY-000761-R6
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 06:25:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=MSuNWzMRc8KYD7UTwnKgKBQ7UJltx57Fx3duo5Tg36A=; b=Kj7oB
- 1tRxT9Zo6AAF4fYBINqvDSn26D1XbsrMGDDBLUQvsAMkvQiEoTp4W+QQ4FOKRaN3jQFUfJN38mII3
- jubsI+LEw6ppdK7DpXE08PRnzdlbpXH+L6e1Kkkt4L1vcscWw2IVm4gxJT97kgTHcMV0VD0ydWSIM
- uGNyn2xDvZlNnaXHnOUaN1Ub9QqT6watpdqff0BSVlas07iN7Hucn5PewTl6DgLK2xf/SOeKCBgMk
- KKCYWXW8iqPiXUS4etEkd8YeEvzoH1RELt9Cs05x0hz/1jydxY14rRWneEDye4HRa19gz8AGh5KUV
- MO+lg/6sXGmlLVUH0DxNagd9OMjRg==;
-Message-Id: <029ed1bd9defa33a80bb40cdcd003699299af8db.1646651700.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=E9U8f+CE/a5/AN3TPLs6/9FG2x5Jkw+GdC7Z0ig5vNY=; b=TieuR
+ 9Hnh238l020bjL+vqLWJvES9vM2rM1NT9J2E6fctWAkLawfEyltvQxGATGMTI4/HD3FScFP72KOPo
+ v4EGKrMldRZzUbHc13cX+YG02Iuzxk63Yt0+8UGTKz/f54Kg0lanlHFPS7IHJkOkm8drkfcnVq1P5
+ ZeIhYy0LQ0DJ/bMbHBi0V1c0cAAiqyzt9MS8Joe0HCelqvVHafm+9wKFfHXv7qSFzTFu7z6JMxQzY
+ A1JJk5FUsPqGqe8aQyiapIu4a2xFdvx7nJ7atRbEQT5SJHTaH1GKH1n3ahxAcFThFASrAp+Djab8I
+ 9toQaAaz6xze8nBQ8g8OAma55mhTw==;
+Message-Id: <38d7fd68b0c8775b5253ab84367419621aa032e6.1646651700.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646651700.git.qemu_oss@crudebyte.com>
 References: <cover.1646651700.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 07 Mar 2022 12:15:00 +0100
-Subject: [PULL v2 09/19] 9p: darwin: Implement compatibility for mknodat
+Subject: [PULL v2 06/19] 9p: darwin: Move XATTR_SIZE_MAX->P9_XATTR_SIZE_MAX
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
@@ -44,7 +44,7 @@ Cc: Greg Kurz <groug@kaod.org>, Will Cohen <wwcohen@gmail.com>,
  Fabian Franz <fabianfranz.oss@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=029ed1bd9defa33a80bb40cdcd003699299af8db@lizzy.crudebyte.com;
+ envelope-from=38d7fd68b0c8775b5253ab84367419621aa032e6@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,163 +69,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keno Fischer <keno@juliacomputing.com>
 
-Darwin does not support mknodat. However, to avoid race conditions
-with later setting the permissions, we must avoid using mknod on
-the full path instead. We could try to fchdir, but that would cause
-problems if multiple threads try to call mknodat at the same time.
-However, luckily there is a solution: Darwin includes a function
-that sets the cwd for the current thread only.
-This should suffice to use mknod safely.
-
-This function (pthread_fchdir_np) is protected by a check in
-meson in a patch later in this series.
-
 Signed-off-by: Keno Fischer <keno@juliacomputing.com>
 Signed-off-by: Michael Roitzsch <reactorcontrol@icloud.com>
+
+Because XATTR_SIZE_MAX is not defined on Darwin,
+create a cross-platform P9_XATTR_SIZE_MAX instead.
+
 [Will Cohen: - Adjust coding style
-             - Replace clang references with gcc
-             - Note radar filed with Apple for missing syscall
-             - Replace direct syscall with pthread_fchdir_np and
-               adjust patch notes accordingly
-             - Declare pthread_fchdir_np with
-             - __attribute__((weak_import)) to allow checking for
-               its presence before usage
-             - Move declarations above cplusplus guard
-             - Add CONFIG_PTHREAD_FCHDIR_NP to meson and check for
-               presence in 9p-util
-             - Rebase to apply cleanly on top of the 2022-02-10
-               changes to 9pfs
-             - Fix line over 90 characters formatting error]
+             - Lower XATTR_SIZE_MAX to 64k
+             - Add explanatory context related to XATTR_SIZE_MAX]
+[Fabian Franz: - Move XATTR_SIZE_MAX reference from 9p.c to
+                 P9_XATTR_SIZE_MAX in 9p.h]
 Signed-off-by: Will Cohen <wwcohen@gmail.com>
-Message-Id: <20220227223522.91937-10-wwcohen@gmail.com>
+Signed-off-by: Fabian Franz <fabianfranz.oss@gmail.com>
+[Will Cohen: - For P9_XATTR_MAX, ensure that Linux uses
+               XATTR_SIZE_MAX, Darwin uses 64k, and error
+               out for undefined hosts]
+Signed-off-by: Will Cohen <wwcohen@gmail.com>
+Message-Id: <20220227223522.91937-7-wwcohen@gmail.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p-local.c       |  4 ++--
- hw/9pfs/9p-util-darwin.c | 33 +++++++++++++++++++++++++++++++++
- hw/9pfs/9p-util-linux.c  |  6 ++++++
- hw/9pfs/9p-util.h        | 11 +++++++++++
- meson.build              |  1 +
- 5 files changed, 53 insertions(+), 2 deletions(-)
+ hw/9pfs/9p.c |  2 +-
+ hw/9pfs/9p.h | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index a0d08e5216..d42ce6d8b8 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -682,7 +682,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 14e84c3bcf..7405352c37 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -3949,7 +3949,7 @@ static void coroutine_fn v9fs_xattrcreate(void *opaque)
+         rflags |= XATTR_REPLACE;
+     }
  
-     if (fs_ctx->export_flags & V9FS_SM_MAPPED ||
-         fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
--        err = mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-+        err = qemu_mknodat(dirfd, name, fs_ctx->fmode | S_IFREG, 0);
-         if (err == -1) {
-             goto out;
-         }
-@@ -697,7 +697,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
-         }
-     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
-                fs_ctx->export_flags & V9FS_SM_NONE) {
--        err = mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
-+        err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
-         if (err == -1) {
-             goto out;
-         }
-diff --git a/hw/9pfs/9p-util-darwin.c b/hw/9pfs/9p-util-darwin.c
-index cdb4c9e24c..bec0253474 100644
---- a/hw/9pfs/9p-util-darwin.c
-+++ b/hw/9pfs/9p-util-darwin.c
-@@ -7,6 +7,8 @@
+-    if (size > XATTR_SIZE_MAX) {
++    if (size > P9_XATTR_SIZE_MAX) {
+         err = -E2BIG;
+         goto out_nofid;
+     }
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 1567b67841..94b273b3d0 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -479,4 +479,22 @@ struct V9fsTransport {
+     void        (*push_and_notify)(V9fsPDU *pdu);
+ };
  
- #include "qemu/osdep.h"
- #include "qemu/xattr.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
- #include "9p-util.h"
- 
- ssize_t fgetxattrat_nofollow(int dirfd, const char *filename, const char *name,
-@@ -62,3 +64,34 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
-     close_preserve_errno(fd);
-     return ret;
- }
-+
++#if defined(XATTR_SIZE_MAX)
++/* Linux */
++#define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX
++#elif defined(CONFIG_DARWIN)
 +/*
-+ * As long as mknodat is not available on macOS, this workaround
-+ * using pthread_fchdir_np is needed.
++ * Darwin doesn't seem to define a maximum xattr size in its user
++ * space header, so manually configure it across platforms as 64k.
 + *
-+ * Radar filed with Apple for implementing mknodat:
-+ * rdar://FB9862426 (https://openradar.appspot.com/FB9862426)
++ * Having no limit at all can lead to QEMU crashing during large g_malloc()
++ * calls. Because QEMU does not currently support macOS guests, the below
++ * preliminary solution only works due to its being a reflection of the limit of
++ * Linux guests.
 + */
-+#if defined CONFIG_PTHREAD_FCHDIR_NP
-+
-+int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-+{
-+    int preserved_errno, err;
-+    if (!pthread_fchdir_np) {
-+        error_report_once("pthread_fchdir_np() not available on this version of macOS");
-+        return -ENOTSUP;
-+    }
-+    if (pthread_fchdir_np(dirfd) < 0) {
-+        return -1;
-+    }
-+    err = mknod(filename, mode, dev);
-+    preserved_errno = errno;
-+    /* Stop using the thread-local cwd */
-+    pthread_fchdir_np(-1);
-+    if (err < 0) {
-+        errno = preserved_errno;
-+    }
-+    return err;
-+}
-+
++#define P9_XATTR_SIZE_MAX 65536
++#else
++#error Missing definition for P9_XATTR_SIZE_MAX for this host system
 +#endif
-diff --git a/hw/9pfs/9p-util-linux.c b/hw/9pfs/9p-util-linux.c
-index 398614a5d0..db451b0784 100644
---- a/hw/9pfs/9p-util-linux.c
-+++ b/hw/9pfs/9p-util-linux.c
-@@ -61,4 +61,10 @@ int fsetxattrat_nofollow(int dirfd, const char *filename, const char *name,
-     ret = lsetxattr(proc_path, name, value, size, flags);
-     g_free(proc_path);
-     return ret;
 +
-+}
-+
-+int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-+{
-+    return mknodat(dirfd, filename, mode, dev);
- }
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index be8dc1a43a..73b08c5561 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -114,5 +114,16 @@ static inline off_t qemu_dirent_off(struct dirent *dent)
  #endif
- }
- 
-+/*
-+ * As long as mknodat is not available on macOS, this workaround
-+ * using pthread_fchdir_np is needed. qemu_mknodat is defined in
-+ * os-posix.c. pthread_fchdir_np is weakly linked here as a guard
-+ * in case it disappears in future macOS versions, because it is
-+ * is a private API.
-+ */
-+#if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
-+int pthread_fchdir_np(int fd) __attribute__((weak_import));
-+#endif
-+int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev);
- 
- #endif
-diff --git a/meson.build b/meson.build
-index 038502714a..40598630e6 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1622,6 +1622,7 @@ config_host_data.set('CONFIG_POSIX_FALLOCATE', cc.has_function('posix_fallocate'
- config_host_data.set('CONFIG_POSIX_MEMALIGN', cc.has_function('posix_memalign'))
- config_host_data.set('CONFIG_PPOLL', cc.has_function('ppoll'))
- config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
-+config_host_data.set('CONFIG_PTHREAD_FCHDIR_NP', cc.has_function('pthread_fchdir_np'))
- config_host_data.set('CONFIG_SEM_TIMEDWAIT', cc.has_function('sem_timedwait', dependencies: threads))
- config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
- config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and cc.has_function('unshare'))
 -- 
 2.20.1
 
