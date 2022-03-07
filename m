@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA37C4CF24D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 07:54:25 +0100 (CET)
-Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438A94CF24E
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 07:55:10 +0100 (CET)
+Received: from localhost ([::1]:36320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nR7GC-0003gn-UU
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 01:54:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57838)
+	id 1nR7Gv-0005MH-Co
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 01:55:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7EN-0002KK-TG
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 01:52:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27691)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7FY-0003ym-5w
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 01:53:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7EK-0007Oa-HL
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 01:52:29 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nR7FW-0007Uw-3n
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 01:53:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646635948;
+ s=mimecast20190719; t=1646636017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u4mQ2rMxEqphQMQ2Uw22CRBGYN/1SipVPThgzv20/P4=;
- b=Dszrcr9acWLnop3hOhSKJEPddawgjcyI4m2PDuPKTKMMpumgEvyi493k3uiUK+EdR+CJlU
- 4MXQcxp16WJ5OU2tiu21G+zQDyIT/72/KFcSnVuZZN3TpN32gB3gj3BxOGwJhg/U6VXbY+
- DQfmgSaBj8v+1jVIEyqgOJBfZRBMvAw=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zPTD0C2F4SfHQNl30AdKKxi/dNtZTlJJtk/vNFrseZU=;
+ b=DRzoA34zIJdN2X96uzo88H6TuC/JdmbITMPeUCNWRTiMe0Q7h57oEL96Npa/wp2ZKhlTwH
+ 7oT+QIOaQViUd46/SephgDB6a1SP20eegQpex45CWp8a7EAYtBSg673I8+j5AB+SHHdDsO
+ 2paT12JONGjs82u0AoItS27J8ZstthU=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-61-kE9e_lBRPNCBMjA02LqJtQ-1; Mon, 07 Mar 2022 01:52:26 -0500
-X-MC-Unique: kE9e_lBRPNCBMjA02LqJtQ-1
-Received: by mail-pf1-f198.google.com with SMTP id
- w68-20020a62dd47000000b004f6aa5e4824so6675552pff.4
- for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 22:52:26 -0800 (PST)
+ us-mta-142-zd1_kSGsNKSxVF42ghSA6Q-1; Mon, 07 Mar 2022 01:53:36 -0500
+X-MC-Unique: zd1_kSGsNKSxVF42ghSA6Q-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ r11-20020a63440b000000b0038068f34b0cso381310pga.0
+ for <qemu-devel@nongnu.org>; Sun, 06 Mar 2022 22:53:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=u4mQ2rMxEqphQMQ2Uw22CRBGYN/1SipVPThgzv20/P4=;
- b=56dwu2ynj0w9GRnzd1TY2LeECbQKk+0Ig8mI061/3b6JxLdaUFYDZwde5h5IYdBWsb
- EiJo2FCP4lBcVvf+uGk5AcojCXt6ZCaKxkf3JeWqheTM7iNfpEI0NzTDLoEOKi7XccsV
- bp6U6jJ42QUaS9oQCpSYK8w2yK2Gg6TVn54MmLwKdyykw5/0P2H11e7Jy/PUFCkvRlwD
- fkwvAsR/cc6hAAKTnqcgmjTGqiZmaFoaBdSiiKIFBVMKNcztcApPoGiCNk75rVdtuQOo
- 2fk54i1DVGZj0LVWJabniEVgFKuWttlme9lv7zP9p8bW+mSHFppEM5n8hz5SbuhPBEk/
- sxgQ==
-X-Gm-Message-State: AOAM531IMlMHxbCTvUcn3fzUl1iKa/JeiSeqGEnQX/GvkHdESifR8uAS
- FndFo5VjFxMWRFHSuIiYsBowXl7464a58XzIAYEHLUnyfk2nxMEB9LcJtR7GImUsyPRfsYXBv1/
- CZSw6eNHKfdbLYiw=
-X-Received: by 2002:a17:902:ec81:b0:151:f1c5:2f9f with SMTP id
- x1-20020a170902ec8100b00151f1c52f9fmr1264212plg.123.1646635945782; 
- Sun, 06 Mar 2022 22:52:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy7Mc+WrBVpTUQ3dfWto9qg0PujUVcIYiVq9OTMJAjLU+7XqEfHgzgJRqNLFSb8w7KK6F3Rfw==
-X-Received: by 2002:a17:902:ec81:b0:151:f1c5:2f9f with SMTP id
- x1-20020a170902ec8100b00151f1c52f9fmr1264199plg.123.1646635945571; 
- Sun, 06 Mar 2022 22:52:25 -0800 (PST)
+ bh=zPTD0C2F4SfHQNl30AdKKxi/dNtZTlJJtk/vNFrseZU=;
+ b=eaJj59KMiUagh4rJQKxIaWvoUuYMe7ecagRwAcJRdTLBH7sbstH2hnJoP892pt5Nqm
+ Qh8CWFuQAmBMR3jmyncsSJxcDPFaKQjtMRlBXRwNYiMzmxCDi5KLV2sGHnnete4FEGBz
+ W3GPG1H8HMel6g5oSPieYDwW7ki1Pyj4cu8Hdh7oTWXZFeMPy+7gipb4RWHJDs7PkpQ/
+ I25cGjXerlM/Nu/bF3wTsPgVNz5x4ymQtwrK3cbXi3coeu/3MMIY0bGHB5svqpfB/ZLj
+ JPFURGPOtkmXSi7x64eXLko+99yzVcu1uF+lLfVv7JcxsowsG/JhBqiurgOpW0gT2YBx
+ k9NA==
+X-Gm-Message-State: AOAM5335slgZxtnO1W/F73Ch/v3chxDL6PXc5FYgEQpkDTstDCgqRW4E
+ sznekS+x6eIJbCD46RiBrOyuS93bWoMxBaZ4fCt/SYWtYcyVLlyykbNxjM88YP1gcVi+qjFtbd6
+ /jNfzS3u/o/9BtbQ=
+X-Received: by 2002:a63:f816:0:b0:37f:f252:9f12 with SMTP id
+ n22-20020a63f816000000b0037ff2529f12mr8893251pgh.318.1646636014980; 
+ Sun, 06 Mar 2022 22:53:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwuM0bnxTrIfsnHQovvZwyXdIc7ia7Oi/f9rgN4FUtHk/k976ZAnSWr6UMjVqTcPm1NvzA5iQ==
+X-Received: by 2002:a63:f816:0:b0:37f:f252:9f12 with SMTP id
+ n22-20020a63f816000000b0037ff2529f12mr8893237pgh.318.1646636014762; 
+ Sun, 06 Mar 2022 22:53:34 -0800 (PST)
 Received: from xz-m1.local ([94.177.118.47]) by smtp.gmail.com with ESMTPSA id
- l5-20020a056a0016c500b004f140564a00sm14979803pfc.203.2022.03.06.22.52.22
+ h17-20020a63df51000000b0036b9776ae5bsm10926652pgj.85.2022.03.06.22.53.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Mar 2022 22:52:25 -0800 (PST)
-Date: Mon, 7 Mar 2022 14:52:20 +0800
+ Sun, 06 Mar 2022 22:53:34 -0800 (PST)
+Date: Mon, 7 Mar 2022 14:53:29 +0800
 From: Peter Xu <peterx@redhat.com>
 To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 02/18] tests: improve error message when saving TLS PSK
- file fails
-Message-ID: <YiWrpD7zPvV8t7yv@xz-m1.local>
+Subject: Re: [PATCH 03/18] tests: support QTEST_TRACE env variable
+Message-ID: <YiWr6QpaVsj0hzEy@xz-m1.local>
 References: <20220302174932.2692378-1-berrange@redhat.com>
- <20220302174932.2692378-3-berrange@redhat.com>
+ <20220302174932.2692378-4-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220302174932.2692378-3-berrange@redhat.com>
+In-Reply-To: <20220302174932.2692378-4-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +77,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -107,7 +106,11 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 02, 2022 at 05:49:16PM +0000, Daniel P. Berrangé wrote:
+On Wed, Mar 02, 2022 at 05:49:17PM +0000, Daniel P. Berrangé wrote:
+> When debugging failing qtests it is useful to be able to turn on trace
+> output to stderr. The QTEST_TRACE env variable contents get injected
+> as a '-trace <str>' command line arg
+> 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
