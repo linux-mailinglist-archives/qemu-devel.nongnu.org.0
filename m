@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55ED34CFEED
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:37:08 +0100 (CET)
-Received: from localhost ([::1]:45390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA1E4CFE74
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Mar 2022 13:27:40 +0100 (CET)
+Received: from localhost ([::1]:51966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRCbr-0004zp-DZ
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:37:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37692)
+	id 1nRCSh-0006zh-EK
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 07:27:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nRCM1-0002q6-7R
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:20:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40493)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nRCLz-0000cQ-DB
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:20:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646655642;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0Pbb0ncDaLob7tbQEWRF/+gPc3sXVfn0KBcDux3pw2Y=;
- b=N80p/md+LRMYptcg89OLD4bNHko19kcOt7zyjJY6ziqAE5AxGf5w3+qmf6U2gumYutaTgU
- Q6xVXbeiI3ReKPiLJJhh5JZcKk9DdhQvRZJcmGLolEWRjM92AnvyhEpGrWwnlNVEEj0jTi
- OCw2IKSUR/Ql0IvkAZzaEfh6f1LgNXE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-73-LAk2y4v5NAGWEbfXbHkn7Q-1; Mon, 07 Mar 2022 07:20:38 -0500
-X-MC-Unique: LAk2y4v5NAGWEbfXbHkn7Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9325180FD71;
- Mon,  7 Mar 2022 12:20:37 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.133])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D8637C0F6;
- Mon,  7 Mar 2022 12:20:20 +0000 (UTC)
-Date: Mon, 7 Mar 2022 12:20:17 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: starting to look at qemu savevm performance, a first regression
- detected
-Message-ID: <YiX4gfBtgDq/uZpu@redhat.com>
-References: <8826b03d-e5e9-0e65-cab7-ea1829f48e6c@suse.de>
- <YiXQHIWtHx5BocxK@redhat.com>
- <62ba8b1e-d641-5b10-c1b3-54b7d5a652e7@suse.de>
- <YiXVh1P4oJNuEtFM@redhat.com>
- <1f70a086-2b72-bd83-414b-476f5e6d0094@suse.de>
- <YiXzw8pF9If2/M7M@redhat.com>
- <5f318297-51c0-366b-758b-733ba27684ba@suse.de>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nRCPM-0000G4-OU
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:24:12 -0500
+Received: from [2607:f8b0:4864:20::631] (port=36643
+ helo=mail-pl1-x631.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nRCPL-00010X-31
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 07:24:12 -0500
+Received: by mail-pl1-x631.google.com with SMTP id e13so13607979plh.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 04:24:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=1lOwkrNNKUEXYo5Ub///6FCTaDaRoMXW7acsQg9w/Jk=;
+ b=E4vzIuGQugzp5WPvINWSCMBWt96xnoDkeYooAdvdr2C4dMaJBuGfo3PeiwVLzWQwsl
+ Jz9BZV/vggkxaU2RGv6skZY8mU9+A6epmoD0TjpCBANqJi84azTNGXgqWfRjhGvJo9Pw
+ BtZh4k1E0p8saLJy90YHZVYDAVI3SIi5BS7PJOBol3XrHxvbkBgLGo/+DnCQv+uBCaLd
+ bTYI1ISN5BTR36cZ/H3GUsGnFT2G1znwWDk9waA65q2uapQrtCxsk3uaGtloXTTxr4Az
+ EAQWMiZQ6rVCdzM1z62w/z0QNCHlBrSDeOFnKB/GNuXPsoBSvJrCM23S4KEux2w7d8Gv
+ hYgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1lOwkrNNKUEXYo5Ub///6FCTaDaRoMXW7acsQg9w/Jk=;
+ b=bEamXd/tM6Yv+d7jha8OitbiBnaj9rCa7ujZ+oISt/k7KN3M6R1N+XUZ5M/ak3RGGR
+ aogfODpPlzsHn81Tv78YTi5hD+2KAlyeU//4C6WittGwh5hMamnfouzG+J6iEVqjUWF2
+ WRWpPLY3t5ZWhNiUfRTRa6ep7KX4cN+SmcGo5R9VA9Zg0Ae9yj0OvAJKEtqlEpTmdVYJ
+ nM3vKbrBwUe1P7dH7Sgyh0LtjGH1Kmu4AZfMAroBndrDl2+c7C8S5aecouUk6lKsqJw9
+ IV06iZT8Ak2UY4S7hlZKb6ERtynmfnXcYPykuEJDxujBI3q21t6O5M8SFutmYXW/r23I
+ bduA==
+X-Gm-Message-State: AOAM5319TYd0kybPHRbIJvht0zjb0vessU8bk7trMpz7+H99bbnRbfjC
+ 5EsKQekW8R6z1M7sKkOxJE8=
+X-Google-Smtp-Source: ABdhPJyT2fmCW6PGCCe3TJckPOd8TnUKz8ErixlORxYcmhoNRAh6iXGOt+p/35LpHzwhCikgr4ffZA==
+X-Received: by 2002:a17:90a:c6:b0:1bc:c0be:4696 with SMTP id
+ v6-20020a17090a00c600b001bcc0be4696mr25082891pjd.7.1646655843750; 
+ Mon, 07 Mar 2022 04:24:03 -0800 (PST)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ 1-20020a17090a1a0100b001bf3ba1508fsm7559103pjk.33.2022.03.07.04.24.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Mar 2022 04:24:03 -0800 (PST)
+Message-ID: <d7df9ba7-40db-7b2a-63d7-eacf811da4f2@gmail.com>
+Date: Mon, 7 Mar 2022 21:24:00 +0900
 MIME-Version: 1.0
-In-Reply-To: <5f318297-51c0-366b-758b-733ba27684ba@suse.de>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
+ current scanout is GL
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
+ <20220307074632.238049-13-marcandre.lureau@redhat.com>
+ <c80fde18-bb3e-e780-356c-f935e7390e4d@gmail.com>
+ <CAMxuvaw_QT4wEGLZRNJEd1m-58JV-8AOc6CHKkMw4i_yrVNgew@mail.gmail.com>
+ <28ef9b06-3225-112f-b664-176e67c824d9@gmail.com>
+ <CAMxuvaz3+ySgiOxawVT=P7x4ikDcap0o5Ux78_HdewL0XXa5Kg@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <CAMxuvaz3+ySgiOxawVT=P7x4ikDcap0o5Ux78_HdewL0XXa5Kg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::631
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,110 +98,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 07, 2022 at 01:09:55PM +0100, Claudio Fontana wrote:
-> On 3/7/22 1:00 PM, Daniel P. Berrangé wrote:
-> > On Mon, Mar 07, 2022 at 12:19:22PM +0100, Claudio Fontana wrote:
-> >> On 3/7/22 10:51 AM, Daniel P. Berrangé wrote:
-> >>> On Mon, Mar 07, 2022 at 10:44:56AM +0100, Claudio Fontana wrote:
-> >>>> Hello Daniel,
-> >>>>
-> >>>> On 3/7/22 10:27 AM, Daniel P. Berrangé wrote:
-> >>>>> On Sat, Mar 05, 2022 at 02:19:39PM +0100, Claudio Fontana wrote:
-> >>>>>>
-> >>>>>> Hello all,
-> >>>>>>
-> >>>>>> I have been looking at some reports of bad qemu savevm performance in large VMs (around 20+ Gb),
-> >>>>>> when used in libvirt commands like:
-> >>>>>>
-> >>>>>>
-> >>>>>> virsh save domain /dev/null
-> >>>>>>
-> >>>>>>
-> >>>>>>
-> >>>>>> I have written a simple test to run in a Linux centos7-minimal-2009 guest, which allocates and touches 20G mem.
-> >>>>>>
-> >>>>>> With any qemu version since around 2020, I am not seeing more than 580 Mb/Sec even in the most ideal of situations.
-> >>>>>>
-> >>>>>> This drops to around 122 Mb/sec after commit: cbde7be900d2a2279cbc4becb91d1ddd6a014def .
-> >>>>>>
-> >>>>>> Here is the bisection for this particular drop in throughput:
-> >>>>>>
-> >>>>>> commit cbde7be900d2a2279cbc4becb91d1ddd6a014def (HEAD, refs/bisect/bad)
-> >>>>>> Author: Daniel P. Berrangé <berrange@redhat.com>
-> >>>>>> Date:   Fri Feb 19 18:40:12 2021 +0000
-> >>>>>>
-> >>>>>>     migrate: remove QMP/HMP commands for speed, downtime and cache size
-> >>>>>>     
-> >>>>>>     The generic 'migrate_set_parameters' command handle all types of param.
-> >>>>>>     
-> >>>>>>     Only the QMP commands were documented in the deprecations page, but the
-> >>>>>>     rationale for deprecating applies equally to HMP, and the replacements
-> >>>>>>     exist. Furthermore the HMP commands are just shims to the QMP commands,
-> >>>>>>     so removing the latter breaks the former unless they get re-implemented.
-> >>>>>>     
-> >>>>>>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >>>>>>     Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> >>>>>
-> >>>>> That doesn't make a whole lot of sense as a bisect result.
-> >>>>> How reliable is that bisect end point ? Have you bisected
-> >>>>> to that point more than once ?
-> >>>>
-> >>>> I did run through the bisect itself only once, so I'll double check that.
-> >>>> The results seem to be reproducible almost to the second though, a savevm that took 35 seconds before the commit takes 2m 48 seconds after.
-> >>>>
-> >>>> For this test I am using libvirt v6.0.0.
-> > 
-> > I've just noticed this.  That version of libvirt is 2 years old and
-> > doesn't have full support for migrate_set_parameters.
-> > 
-> > 
-> >> 2022-03-07 10:47:20.145+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-19"}^M
-> >>  len=93 ret=93 errno=0
-> >> 2022-03-07 10:47:20.146+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"id": "libvirt-19", "error": {"class": "CommandNotFound", "desc": "The command migrate_set_speed has not been found"}}
-> >> 2022-03-07 10:47:20.147+0000: 134391: error : qemuMonitorJSONCheckError:412 : internal error: unable to execute QEMU command 'migrate_set_speed': The command migrate_set_speed has not been found
-> > 
-> > We see the migrate_set_speed failing and libvirt obviously ignores that
-> > failure.
-> > 
-> > In current libvirt migrate_set_speed is not used as it properly
-> > handles migrate_set_parameters AFAICT.
-> > 
-> > I think you just need to upgrade libvirt if you want to use this
-> > newer QEMU version
-> > 
-> > Regards,
-> > Daniel
-> > 
+On 2022/03/07 20:50, Marc-André Lureau wrote:
+> Hi
 > 
-> Got it, this explains it, sorry for the noise on this.
+> On Mon, Mar 7, 2022 at 2:35 PM Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+>>
+>> On 2022/03/07 19:19, Marc-André Lureau wrote:
+>>> Hi Akihiko
+>>>
+>>> On Mon, Mar 7, 2022 at 12:09 PM Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+>>>>
+>>>> On 2022/03/07 16:46, marcandre.lureau@redhat.com wrote:
+>>>>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>>>>
+>>>>> egl-headless depends on the backing surface to be set before texture are
+>>>>> set and updated. Display it (update=true) iff the current scanout kind
+>>>>> is SURFACE.
+>>>>
+>>>> egl-headless does not dynamically call register_displaychangelistener
+>>>> and has console associated (console_select would not affect egl-headless
+>>>> itself) so this should not be necessary.
+>>>
+>>> Could you help me understand, what should not be necessary?
+>>
+>> I read the description as it sets the backing surface for egl-headless
+>> when register_displaychangelistener or console_select is called. The
+>> change is not necessary.
 > 
-> I'll continue to investigate the general issue of low throughput with virsh save / qemu savevm .
+> Without it, gfx_switch is not called to set the new surface. Switching
+> console with VNC would fail (via ctrl+alt+num).
 
-BTW, consider measuring with the --bypass-cache flag to virsh save.
-This causes libvirt to use a I/O helper that uses O_DIRECT when
-saving the image. This should give more predictable results by
-avoiding the influence of host I/O cache which can be in a differnt
-state of usage each time you measure.  It was also intended that
-by avoiding hitting cache, saving the memory image of a large VM
-will not push other useful stuff out of host I/O  cache which can
-negatively impact other running VMs.
+Yes, but that is not because egl-headless requires its dpy_gfx_switch to 
+be called. It is because vnc does not receive the surface. The patch 
+adds a call of dpy_gfx_switch no matter if the receiver is an OpenGL 
+display or not, but an OpenGL display would not need one.
 
-Also it is possible to configure compression on the libvirt side
-which may be useful if you have spare CPU cycles, but your storage
-is slow. See 'save_image_format' in the /etc/libvirt/qemu.conf
+> 
+>>
+>>>
+>>>> The remaining problem with egl-headless is that egl-headless renders the
+>>>> image to DisplaySurface, and a non-OpenGL display (namely vnc) has to
+>>>> consume it instead of texture even when con->scanout.kind is
+>>>> SCANOUT_TEXTURE or SCANOUT_DMABUF.
+>>>
+>>> This is already happening, because egl-headless calls dpy_gfx_update().
+>>
+>> It is not called when register_displaychangelistener or console_select
+>> is called by non-OpenGL display consuming the DisplaySurface.
+> 
+> When displaychangelistener_display_console() is called with
+> con->scanount.kind == SCANOUT_SURFACE, it calls gfx_update(update ==
+> TRUE), and thus calls gfx_update on the whole surface.
+> 
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+con->scanout.kind is SCANOUT_TEXTURE or SCANOUT_DMABUF when egl-headless 
+is rendering to surface. It would not call gfx_update in the case.
 
+Regards,
+Akihiko Odaki
 
