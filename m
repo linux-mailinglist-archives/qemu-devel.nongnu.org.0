@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE084E4BC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 05:06:09 +0100 (CET)
-Received: from localhost ([::1]:41394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8DC44E4B64
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 04:22:28 +0100 (CET)
+Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWsG8-0005Un-Rj
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 00:06:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57356)
+	id 1nWrZr-0006Y1-Qb
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 23:22:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nWs8S-0004vv-6e; Tue, 22 Mar 2022 23:58:13 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:36440)
+ id 1nWrMq-0002eg-0m; Tue, 22 Mar 2022 23:09:00 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:36412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nWs8N-0005xU-4B; Tue, 22 Mar 2022 23:58:11 -0400
+ id 1nWrMn-000391-Nh; Tue, 22 Mar 2022 23:08:59 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 18A0D11F033;
- Wed, 23 Mar 2022 03:58:04 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 2BE4811EFBD;
+ Wed, 23 Mar 2022 03:08:52 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
 Date: Sun, 06 Mar 2022 23:32:57 -0800
-Subject: [PATCH qemu v3 06/14] target/riscv: rvv: Add tail agnostic for vx,
+Subject: [PATCH qemu v2 05/13] target/riscv: rvv: Add tail agnostic for vx,
  vvm, vxm instructions
-Message-ID: <164800788276.12449.15168787569124374586-6@git.sr.ht>
+Message-ID: <164800493107.31817.14053311036718644936-5@git.sr.ht>
 X-Mailer: git.sr.ht
-In-Reply-To: <164800788276.12449.15168787569124374586-0@git.sr.ht>
+In-Reply-To: <164800493107.31817.14053311036718644936-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
