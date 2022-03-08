@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1E54D14AC
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:24:39 +0100 (CET)
-Received: from localhost ([::1]:47190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EA34D14EE
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:35:37 +0100 (CET)
+Received: from localhost ([::1]:54060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRX1C-0000f4-HZ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:24:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54914)
+	id 1nRXBo-0005kz-2K
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:35:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRWyv-0006xc-9a
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:22:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30052)
+ id 1nRX8o-00041L-8T
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:32:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRWys-000269-Lh
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:22:15 -0500
+ id 1nRX8k-0003lt-Td
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:32:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646734932;
+ s=mimecast20190719; t=1646735545;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nM94Z7FQ3m5olVJKGzTCirlYZkpSsGHj7pzCELnL15A=;
- b=V19ptO2oJWBzk+jT50uoR1NorrTk56xLNYDrJjEk/pABJd/zXjKIcwORiynHxF5+GhdOII
- uK/GSsbmC/De5aikxct7Io1luARvQBhoQtd3tIvJYEMebC9th6hNIW0gEvE/JD5nRUm9gA
- 6S4y6/EWBi7DBXBncgqHF0EQX+PjiRs=
+ bh=IQSt7yDjxb8HCv90S4J2zml2/W2H3x/V5P1fnMssPK4=;
+ b=K9RFwTFmr/vq0wz7bXkvaZ3J3KemL6eWE2uK5z74qMJO0ceS2/vcjhC6viqB7utNU3WbQD
+ Tei+XENWmPrXcULKrN6SGTjiCGfq2EuEBYO6onBXidWwIGASYmCXFdydwQl05ssrzACetJ
+ xlhck+3zas5X23a9UwxA1VJeSFjRJDU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-YmhwfHReMFmLDlL-ZvTTgg-1; Tue, 08 Mar 2022 05:22:09 -0500
-X-MC-Unique: YmhwfHReMFmLDlL-ZvTTgg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-637-7eItXFh8MzOe_9mwGeKDkA-1; Tue, 08 Mar 2022 05:32:22 -0500
+X-MC-Unique: 7eItXFh8MzOe_9mwGeKDkA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB2681854E26;
- Tue,  8 Mar 2022 10:22:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18A3D801AEB;
+ Tue,  8 Mar 2022 10:32:21 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 309177A8DA;
- Tue,  8 Mar 2022 10:21:57 +0000 (UTC)
-Date: Tue, 8 Mar 2022 10:21:56 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E4C317B6F5;
+ Tue,  8 Mar 2022 10:31:52 +0000 (UTC)
+Date: Tue, 8 Mar 2022 10:31:51 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v6 18/19] vfio-user: handle reset of remote device
-Message-ID: <YicuRNkZcKkpgKwO@stefanha-x1.localdomain>
-References: <cover.1645079934.git.jag.raman@oracle.com>
- <54278334564d9e9f8d2eb3ff884260ac90da44e5.1645079934.git.jag.raman@oracle.com>
- <YiXuJ2YqCZEbrsHn@stefanha-x1.localdomain>
- <36FEEF91-B3AD-4DCB-B529-546FAF75E9DB@oracle.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: What is the correct way to handle the VirtIO config space in
+ vhost-user?
+Message-ID: <Yicwl4mf7tHgwljE@stefanha-x1.localdomain>
+References: <87ee3q3mos.fsf@linaro.org> <87a6ee3l5e.fsf@linaro.org>
+ <YhzWMMLTZY1e24Uh@stefanha-x1.localdomain>
+ <87mtiblzsc.fsf@linaro.org>
+ <Yh0FV+0SfdPugRRX@stefanha-x1.localdomain>
+ <87tucdhd5w.fsf@linaro.org>
+ <YiXOkOvu7W18MHFZ@stefanha-x1.localdomain>
+ <871qzegdvl.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6VLmUlUGHx2ES/HD"
+ protocol="application/pgp-signature"; boundary="JcwGNPFY5cr2xM37"
 Content-Disposition: inline
-In-Reply-To: <36FEEF91-B3AD-4DCB-B529-546FAF75E9DB@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <871qzegdvl.fsf@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -79,86 +83,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "bleal@redhat.com" <bleal@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "f4bug@amsat.org" <f4bug@amsat.org>, qemu-devel <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Viresh Kumar <viresh.kumar@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Maxime Coquelin <maxime.coquelin@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---6VLmUlUGHx2ES/HD
-Content-Type: text/plain; charset=us-ascii
+--JcwGNPFY5cr2xM37
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 07, 2022 at 03:37:51PM +0000, Jag Raman wrote:
+On Mon, Mar 07, 2022 at 12:09:59PM +0000, Alex Benn=E9e wrote:
 >=20
+> Stefan Hajnoczi <stefanha@redhat.com> writes:
 >=20
-> > On Mar 7, 2022, at 6:36 AM, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >=20
-> > On Thu, Feb 17, 2022 at 02:49:05AM -0500, Jagannathan Raman wrote:
-> >> Adds handler to reset a remote device
+> > [[PGP Signed Part:Undecided]]
+> > On Fri, Mar 04, 2022 at 04:49:30PM +0000, Alex Benn=E9e wrote:
 > >>=20
-> >> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> >> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> >> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> >> ---
-> >> hw/remote/vfio-user-obj.c | 19 +++++++++++++++++++
-> >> 1 file changed, 19 insertions(+)
+> >> Stefan Hajnoczi <stefanha@redhat.com> writes:
 > >>=20
-> >> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-> >> index 2304643003..55f1bf5e0f 100644
-> >> --- a/hw/remote/vfio-user-obj.c
-> >> +++ b/hw/remote/vfio-user-obj.c
-> >> @@ -989,6 +989,19 @@ static bool vfu_object_migratable(VfuObject *o)
-> >>     return dc->vmsd && !dc->vmsd->unmigratable;
-> >> }
+> >> > [[PGP Signed Part:Undecided]]
+> >> > On Mon, Feb 28, 2022 at 04:16:43PM +0000, Alex Benn=E9e wrote:
+> >> >>=20
+> >> >> Stefan Hajnoczi <stefanha@redhat.com> writes:
+> >> >>=20
+> >> >> > [[PGP Signed Part:Undecided]]
+> >> >> > On Fri, Feb 25, 2022 at 05:32:43PM +0000, Alex Benn=E9e wrote:
+> >> >> >>=20
+> >> >> >> [Apologies to CC list for repost due to fat fingering the mailin=
+g list address]
+> >> >> >>=20
+> >> >> <snip>
+> >> >> >>=20
+> >> >> >> (aside: this continues my QOM confusion about when things should=
+ be in a
+> >> >> >> class or instance init, up until this point I hadn't needed it i=
+n my
+> >> >> >> stub).
+> >> >> >
+> >> >> > Class init is a one-time per-class initializer function. It is mo=
+stly
+> >> >> > used for setting up callbacks/overridden methods from the base cl=
+ass.
+> >> >> >
+> >> >> > Instance init is like an object constructor in object-oriented
+> >> >> > programming.
+> >> >>=20
+> >> >> I phrased my statement poorly. What I meant to say is I sometimes f=
+ind
+> >> >> QEMUs approach to using class over instance initialisation inconsis=
+tent.
+> >> >> I think I understand the "policy" as use class init until there is a
+> >> >> case where you can't (e.g. having individual control of each instan=
+ce of
+> >> >> a device).
+> >> >>=20
+> >> >> > This is not a .get_config() method, it's a VIRTIO configuration c=
+hange
+> >> >> > notification handler. The vhost-user-blk device server ("slave") =
+sends
+> >> >> > this notification to notify the driver that configuration space c=
+ontents
+> >> >> > have been updated (e.g. the disk was resized).
+> >> >>=20
+> >> >> So this should come in the initial vhost-user set of handshake mess=
+ages
+> >> >> if the VHOST_USER_PROTOCOL_F_CONFIG is negotiated between the maste=
+r and
+> >> >> slave? I guess without this protocol feature vhost-user can't suppo=
+rt
+> >> >> writeable config spaces?
+> >> >
+> >> > The VHOST_USER_PROTOCOL_F_CONFIG vhost-user protocol feature bit
+> >> > enables:
+> >> > 1. VHOST_USER_GET_CONFIG - reading configuration space
+> >> > 2. VHOST_USER_SET_CONFIG - writing configuration space
+> >> > 3. VHOST_USER_SLAVE_CONFIG_CHANGE_MSG - change notifications
+> >> >
+> >> > If the vhost-user server is supposed to participate in configuration
+> >> > space accesses/notifications, then it needs to implement
+> >> > VHOST_USER_PROTOCOL_F_CONFIG.
+> >> >
+> >> > QEMU's vhost-user-blk assumes the vhost-user server supports
+> >> > VHOST_USER_PROTOCOL_F_CONFIG. It's an optional vhost-user protocol
+> >> > feature but the virtio-blk device relies on configuration space
+> >> > (otherwise QEMU's --device vhost-user-blk wouldn't know the capacity=
+ of
+> >> > the disk). vhost_user_blk_realize_connect() sends VHOST_USER_GET_CON=
+FIG
+> >> > to fetch the configuration space contents when the device is
+> >> > instantiated.
+> >> >
+> >> > Some vhost-user device types don't need VHOST_USER_PROTOCOL_F_CONFIG=
+=2E In
+> >> > that case QEMU's --device vhost-user-FOO implements .get/set_config()
+> >> > itself. virtio-net is an example where this is the case.
 > >>=20
-> >> +static int vfu_object_device_reset(vfu_ctx_t *vfu_ctx, vfu_reset_type=
-_t type)
-> >> +{
-> >> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
-> >> +
-> >> +    if (type =3D=3D VFU_RESET_LOST_CONN) {
-> >> +        return 0;
-> >> +    }
-> >=20
-> > Why is a lost connection ignored? Should there be a QMP monitor event?
+> >> I wonder when the last time this was tested was because since 1c3e5a26=
+17
+> >> (vhost-user: back SET/GET_CONFIG requests with a protocol feature) the
+> >> check in vhost_user_backend_init is:
+> >>=20
+> >>    if (!dev->config_ops || !dev->config_ops->vhost_dev_config_notifier=
+) {
+> >>        /* Don't acknowledge CONFIG feature if device doesn't support i=
+t */
+> >>        dev->protocol_features &=3D ~(1ULL << VHOST_USER_PROTOCOL_F_CON=
+FIG);
+> >>    } else if (!(protocol_features &
+> >>                (1ULL << VHOST_USER_PROTOCOL_F_CONFIG))) {
+> >>        error_setg(errp, "Device expects VHOST_USER_PROTOCOL_F_CONFIG "
+> >>                   "but backend does not support it.");
+> >>        return -EINVAL;
+> >>    }
+> >>=20
+> >> which means I don't think it ever asks the vhost-user backend.
+> >
+> > Can you describe what you have in mind? The issue isn't clear to me.
 >=20
-> We handle the lost connection case in vfu_object_ctx_run(), which is in
-> PATCH 5 of this series. We are sending a QMP monitor event in this case.
+> I had to patch out that config_ops check to get the get_config over
+> vhost to work. Otherwise QEMU keeps complaining:
+>=20
+>   qemu-system-aarch64: VHOST_USER_PROTOCOL_F_CONFIG not supported
+>=20
+> because it itself has squashed the feature in the vhost protocol
+> negotiation.
 
-Great, please add a comment here.
+I see. Currently QEMU only allows 2 cases:
+1. No VHOST_USER_PROTOCOL_F_CONFIG
+2. VHOST_USER_PROTOCOL_F_CONFIG with config change notifications
+   implemented by VirtIODevice
+
+You are adding another (valid) case:
+3. VHOST_USER_PROTOCOL_F_CONFIG without config change notifications
+   implemented by VirtIODevice
+
+Some device types never use config change notifications so I think
+you're correct and QEMU's check is too restrictive.
 
 Stefan
 
---6VLmUlUGHx2ES/HD
+--JcwGNPFY5cr2xM37
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmInLkQACgkQnKSrs4Gr
-c8gv7Af9H7dpstBDuqrZwz3SHZ9Z244I/iq6M4/dRed5vuU2VuCxaYqOg5ufLt+2
-bY8egp+M5XE9iIpQ3lXG6zf+ORP/6kcT3fGOC7CCHDl+HuYJBLqSdgS+HTD+jW9h
-xmUN5fr8IMSmZBkTKRplHUnnHnftE3wnFAKqdNUnUgsjI3GIY6VCLMpPWjAPR2J8
-0i48k0fdP6WRPhQKPRJRAcIBNkOmJMpAR/MhSai2Gv+wSXGNfGiT4d4VWzgUc0gw
-/XT2HZlPRm+63Ice7GHUScDMfNBlVjouTtjWjrC3Tfqo2mdDz9WO+sflE9hF18bF
-B4B9plzDio5JKADoyDn/BgaH2cHcYQ==
-=lrjO
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmInMJcACgkQnKSrs4Gr
+c8iknAf/eNdTAjYSwPPWmzRyspM50vjYQp9awdrdGKZntLJXImSl/uhZchbTQUki
+2t2PVb6JuLe2zmWLM7B8ODoOWvoVblDKoS8eeOfLNPjPZIfU9j74WPMtFQxZfyPm
+jp0G99F41nuJvEwmcpFPP6nIV1HDeLyW6SsIMoBDKdCsIUFRDCZfPb9DD3dA/Aqr
+BC24/lYu6f02p8tT9x20rH3/VDOQL3H7qc3iHWRkNzyhGVIz9bBa0eSbWN6RE9NP
+nl8BFSls3WoD/pg3QlbOeIqTxxgVCl9z9+N0kEosfZ2MA8LA8DBY9KVOUHKvX/90
+dzug5+b9KkUMNzbecEzZyCm+Y/wGyQ==
+=tyqC
 -----END PGP SIGNATURE-----
 
---6VLmUlUGHx2ES/HD--
+--JcwGNPFY5cr2xM37--
 
 
