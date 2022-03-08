@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0214D0DAE
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D1B4D0DAD
 	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 02:49:03 +0100 (CET)
-Received: from localhost ([::1]:48292 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:48172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nROyE-0002yt-Gi
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 20:49:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52724)
+	id 1nROyD-0002u8-S3
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 20:49:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROtq-0008Tq-OX
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROtn-0006LU-ML
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROtp-0008Tp-L9
  for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36083)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROtm-0006LI-T5
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646703867;
+ s=mimecast20190719; t=1646703865;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PXDTZU21xbh6gR8bH7FuT3K/VH1ZkwS3Exw6SntXaMQ=;
- b=TzqP+IJYfu0e6j1cva+B4AOOr4M9efzFapuFYLVspi3S6lNEJ7s7oaQctEjuag8nPJ9jcC
- /wiH/o7Aq76SCFPPm/pP14EQxMfbZ5b/5AJY9DAcrBPW724vyIhGFMWYxFy/R6oV+s2tBL
- sc+CBxtOa48vVxxZUrYVe9eRvw6xclY=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+agItL/XUOQbbSqoHJElHeQQ7syR3OpEBARbARpSXuQ=;
+ b=XTeFLlt5slNMMpzXKjNroai1X+//ic+oSo/VhqTtCb6Iu9ZPZnRJyuJ+1nr0y2Bps7+JHX
+ m1jVL7/ALRBkP3bXPWEPQX8jyu12hnrMFkmTT9Roi28MNA0nYT9Krr1pSdbx8KOJNNHn4v
+ iQOu/9CACmbR1i+VlRwPf6IgV4S/p/k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-111-F1IFr019OBKXBlVXlgKjBQ-1; Mon, 07 Mar 2022 20:44:23 -0500
-X-MC-Unique: F1IFr019OBKXBlVXlgKjBQ-1
+ us-mta-501-_hn9rgWgPnub08K1ktJ1Ew-1; Mon, 07 Mar 2022 20:44:24 -0500
+X-MC-Unique: _hn9rgWgPnub08K1ktJ1Ew-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CD052F35
- for <qemu-devel@nongnu.org>; Tue,  8 Mar 2022 01:44:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 460F01800D50
+ for <qemu-devel@nongnu.org>; Tue,  8 Mar 2022 01:44:23 +0000 (UTC)
 Received: from blue.redhat.com (unknown [10.2.16.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39AB945C87
- for <qemu-devel@nongnu.org>; Tue,  8 Mar 2022 01:44:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCDC045C8C;
+ Tue,  8 Mar 2022 01:44:22 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/15] NBD patches for 7.0-rc0
-Date: Mon,  7 Mar 2022 19:44:04 -0600
-Message-Id: <20220308014419.3056549-1-eblake@redhat.com>
+Subject: [PULL 01/15] crypto: mandate a hostname when checking x509 creds on a
+ client
+Date: Mon,  7 Mar 2022 19:44:05 -0600
+Message-Id: <20220308014419.3056549-2-eblake@redhat.com>
+In-Reply-To: <20220308014419.3056549-1-eblake@redhat.com>
+References: <20220308014419.3056549-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -75,69 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit b49872aa8fc0f3f5a3036cc37aa2cb5c92866f33:
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-  Merge remote-tracking branch 'remotes/hreitz-gitlab/tags/pull-block-2022-03-07' into staging (2022-03-07 17:14:09 +0000)
+Currently the TLS session object assumes that the caller will always
+provide a hostname when using x509 creds on a client endpoint. This
+relies on the caller to detect and report an error if the user has
+configured QEMU with x509 credentials on a UNIX socket. The migration
+code has such a check, but it is too broad, reporting an error when
+the user has configured QEMU with PSK credentials on a UNIX socket,
+where hostnames are irrelevant.
 
-are available in the Git repository at:
+Putting the check into the TLS session object credentials validation
+code ensures we report errors in only the scenario that matters.
 
-  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2022-03-07
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220304193610.3293146-2-berrange@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ crypto/tlssession.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-for you to fetch changes up to 395aecd037dc35d110b8e1e8cc7d20c1082894b5:
-
-  qemu-io: Allow larger write zeroes under no fallback (2022-03-07 19:28:00 -0600)
-
-I'm also trying to get v3 patches posted for my NBD_CAN_MULTI_CONN
-patch series, but given the close proximity of soft freeze, getting
-that into 7.0 may not be feasible.
-
-----------------------------------------------------------------
-nbd patches for 2022-03-07
-
-- Dan Berrange: Allow qemu-nbd to support TLS over Unix sockets
-- Eric Blake: Minor cleanups related to 64-bit block operations
-
-----------------------------------------------------------------
-Daniel P. Berrangé (12):
-      crypto: mandate a hostname when checking x509 creds on a client
-      block: pass desired TLS hostname through from block driver client
-      block/nbd: support override of hostname for TLS certificate validation
-      qemu-nbd: add --tls-hostname option for TLS certificate validation
-      block/nbd: don't restrict TLS usage to IP sockets
-      tests/qemu-iotests: add QEMU_IOTESTS_REGEN=1 to update reference file
-      tests/qemu-iotests: expand _filter_nbd rules
-      tests/qemu-iotests: introduce filter for qemu-nbd export list
-      tests/qemu-iotests: convert NBD TLS test to use standard filters
-      tests/qemu-iotests: validate NBD TLS with hostname mismatch
-      tests/qemu-iotests: validate NBD TLS with UNIX sockets
-      tests/qemu-iotests: validate NBD TLS with UNIX sockets and PSK
-
-Eric Blake (3):
-      nbd/server: Minor cleanups
-      qemu-io: Utilize 64-bit status during map
-      qemu-io: Allow larger write zeroes under no fallback
-
- docs/tools/qemu-nbd.rst          | 13 ++++++
- qapi/block-core.json             |  3 ++
- include/block/nbd.h              |  3 +-
- block/nbd.c                      | 25 ++++++----
- blockdev-nbd.c                   |  6 ---
- crypto/tlssession.c              |  6 +++
- nbd/client-connection.c          | 12 +++--
- nbd/server.c                     | 13 +++---
- qemu-io-cmds.c                   | 16 ++-----
- qemu-nbd.c                       | 25 +++++++---
- tests/qemu-iotests/common.filter |  9 ++++
- tests/qemu-iotests/common.tls    | 31 +++++++++++--
- tests/qemu-iotests/233           | 99 ++++++++++++++++++++++++++++++++++------
- tests/qemu-iotests/233.out       | 58 +++++++++++++++++++----
- tests/qemu-iotests/241           |  6 +--
- tests/qemu-iotests/241.out       |  6 +++
- tests/qemu-iotests/testrunner.py |  6 +++
- 17 files changed, 268 insertions(+), 69 deletions(-)
+diff --git a/crypto/tlssession.c b/crypto/tlssession.c
+index a8db8c76d138..b302d835d215 100644
+--- a/crypto/tlssession.c
++++ b/crypto/tlssession.c
+@@ -373,6 +373,12 @@ qcrypto_tls_session_check_certificate(QCryptoTLSSession *session,
+                                session->hostname);
+                     goto error;
+                 }
++            } else {
++                if (session->creds->endpoint ==
++                    QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT) {
++                    error_setg(errp, "No hostname for certificate validation");
++                    goto error;
++                }
+             }
+         }
 
 -- 
 2.35.1
