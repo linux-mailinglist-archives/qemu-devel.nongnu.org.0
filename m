@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A161B4D1840
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 13:50:49 +0100 (CET)
-Received: from localhost ([::1]:54506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867BB4D1857
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 13:52:55 +0100 (CET)
+Received: from localhost ([::1]:59402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRZIe-00020E-6j
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 07:50:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58894)
+	id 1nRZKg-0005Oa-Ls
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 07:52:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRZ6I-0004Ij-TD
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 07:38:02 -0500
-Received: from [2607:f8b0:4864:20::b32] (port=43669
- helo=mail-yb1-xb32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRZ6H-0000Vl-0G
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 07:38:02 -0500
-Received: by mail-yb1-xb32.google.com with SMTP id g26so37411353ybj.10
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 04:38:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cWk70KvfemKI08Tla2PZZOVXK+UCWpp0/xx7Q1qN3uY=;
- b=S5RkdWEpD+vsX/g0vDFqoPh5+AieFNIoqlu5KNZpaX1np4i12ZAwuWlnME6BSXJ2jJ
- U3G0BMKWzArXAp/5ZiX7y+6IT69qK7mwWUgv8AU63mYvt1lWat2fyXy2v3C8Z2ZsYYjD
- leusbPZt4h6tt0jT99KwKAj6T5hTnj7VqCQ37UPr11DmgpT+X0ooiNqsGUViKHW1pf6E
- fiNaxpjwf/ogvPw9/3mwuzUXq0qvonKkbXy7uc+4hjsWj6/eASBghaejyTb/r2kvew4m
- CHiXDRkE1hNhGAqRrMR6NsOgmbR04tFN/KG/5g8rEab0SaDszOlM5nkjlKJA6ehTKEqS
- MNRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cWk70KvfemKI08Tla2PZZOVXK+UCWpp0/xx7Q1qN3uY=;
- b=frGA8yb61dmWkF1ZJRc98BFRXBz6XmSM9uw0vG2xGhU+mjwxsYwghysnc3Hocnf8ad
- mysc4SntUt+P/nfwP5yvxMW3b66OiYm2eRjH/YnjUU07vOqRqyQf/U6e6wQ29mSyTzBK
- +MXaX+NAL/OxfJo45Cjbv3fbQmAkExMwSvfZVqB+P1abDkanLYOC14vdmTg9lU6hpWHc
- JiXwL0MODg96qFrVgZTv0NpSjgdaAGYtf6sppUmAayjIuZ9f+R0jGwqlLEPFZDghK9zh
- SzM8I5a9MEx/qFYrLTvEH5m7WPDC0egHqXy860f6pLnZucO34lYihSNJ2dSrcR6eba2R
- Mf4Q==
-X-Gm-Message-State: AOAM532HK1u0jO+7nN0nGU+gC+nVO+XzoXKKenSVopAVKiMzndQwmwCk
- WOkzLeIigIiFYb+qIX+Xj0qTwVc7174xPtOENPSDXA==
-X-Google-Smtp-Source: ABdhPJwnSSMaSJ/27gI/yVmGjkatp9v5WtqcKBNcbMeHFjXDz+KHH6vUMEg4bjuW1GlOfYAsCgWUOwKTuu0vttJ1mgc=
-X-Received: by 2002:a25:32c6:0:b0:629:130:a037 with SMTP id
- y189-20020a2532c6000000b006290130a037mr11689341yby.193.1646743079533; Tue, 08
- Mar 2022 04:37:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRZAc-00062i-V3
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 07:42:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRZAZ-0001Df-NT
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 07:42:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646743346;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UdfQgfn4MByN1Ca5FSEAlA7o/VrsqX4RLKSBZV9fino=;
+ b=WhvzFOR4jUG+jSNs+GspzbbKJJ8dNNcu012RbvAxrJvvILJakBR0y7lu+JZa6Y/6zi+sNL
+ LTjGsQFzZ4RICJzzoM00z7QogplcYHy2davDCR21Eb6o6ssTHHDZANrozkTKrFVPIhJTie
+ pVm6ARqWdZRU+pG453gXFFPF2kBJPw4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-665-8fkVLVQnNw-TvxHcNmydQg-1; Tue, 08 Mar 2022 07:42:25 -0500
+X-MC-Unique: 8fkVLVQnNw-TvxHcNmydQg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 497C2800050;
+ Tue,  8 Mar 2022 12:42:23 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E992105C885;
+ Tue,  8 Mar 2022 12:42:07 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D385118003A3; Tue,  8 Mar 2022 13:42:04 +0100 (CET)
+Date: Tue, 8 Mar 2022 13:42:04 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: Analysis of slow distro boots in check-avocado
+ (BootLinuxAarch64.test_virt_tcg*)
+Message-ID: <20220308124204.arfr6yuwojwksizh@sirius.home.kraxel.org>
+References: <874k4xbqvp.fsf@linaro.org> <878ru2nacq.fsf@linaro.org>
+ <YhURfqMvRT4xbiz6@redhat.com>
+ <96bafa75-a0c6-f431-a6d8-fe98d438d0f9@gmail.com>
+ <CAFEAcA8mNt_-nZoV7RL4_UQUV=nPQsDM8KBTA8qAGmiNtXWx9g@mail.gmail.com>
+ <afd92ed6-4392-3181-5875-5e42ad5f41b9@gmail.com>
+ <20220223115042.lvxgrjirr5avzkzw@sirius.home.kraxel.org>
+ <20220224101020.2dd35c16@redhat.com>
 MIME-Version: 1.0
-References: <cover.1646651700.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1646651700.git.qemu_oss@crudebyte.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Mar 2022 12:37:48 +0000
-Message-ID: <CAFEAcA8D2TdZ+Rc4qKiUwGoOL28Y8ZXxERpMGJKe7K_uQ864xQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/19] 9p queue 2022-03-07 (previous 2022-03-04)
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220224101020.2dd35c16@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,44 +86,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fabian Franz <fabianfranz.oss@gmail.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Keno Fischer <keno@juliacomputing.com>,
- Michael Roitzsch <reactorcontrol@icloud.com>, Will Cohen <wwcohen@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Oleg Vasilev <me@svin.in>, Cleber Rosa <cleber@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Idan Horowitz <idan.horowitz@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Emilio Cota <cota@braap.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Mar 2022 at 11:23, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
->
-> The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5:
->
->   Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' into staging (2022-03-05 18:03:15 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20220307
->
-> for you to fetch changes up to 35b6466459f9234b9cb30296f243a70b6f1b44b7:
->
->   fsdev/p9array.h: convert Doxygen -> kerneldoc format (2022-03-07 11:49:31 +0100)
->
-> ----------------------------------------------------------------
-> 9pfs: introduce macOS host support and cleanup
->
-> * Add support for Darwin (a.k.a. macOS) hosts.
->
-> * Code cleanup (move qemu_dirent_dup() from osdep -> 9p-util).
->
-> * API doc cleanup (convert Doxygen -> kerneldoc format).
->
-> ----------------------------------------------------------------
+On Thu, Feb 24, 2022 at 10:10:20AM +0100, Igor Mammedov wrote:
 
+> wrt bios-tables-test, it doesn't need debug version and should work fine
+> with non-debug builds.
 
-Applied, thanks.
+Well, almost.  Using non-debug builds changes the memory layout enough
+that we see a change in the memory hotplug ssdt (patch series should
+follow later today or tomorrow).
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+take care,
+  Gerd
 
--- PMM
 
