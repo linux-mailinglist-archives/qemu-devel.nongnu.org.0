@@ -2,92 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5C84D1EBB
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 18:21:17 +0100 (CET)
-Received: from localhost ([::1]:51530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6832D4D1FB7
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:09:24 +0100 (CET)
+Received: from localhost ([::1]:59968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRdWO-00065U-B4
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 12:21:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50272)
+	id 1nReGx-00008I-HS
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:09:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRdUB-0005KZ-57
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 12:19:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRdU8-0000O0-C0
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 12:18:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646759935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rN6nkv13NukWqfjdoC86Dd80oV5E2SNqNa5MWtTv2P4=;
- b=YUelo13FfjtC1umsvkxjjJRE2apD2kjPWQ0JfVbl+LRWrLAdJpReLxT8MJ31gEZJxp0j+l
- NOJSLQX/AMwokCCnplaIgrDdcq09zjajMZUSBYyf9fQquOS5h5Fzgif6kSfrqEkolSrcYC
- gJKhSFMcGI7y9QQasrdEpr8VwOM10xA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-hQUGLlO8NpOTEXNTwsVpwQ-1; Tue, 08 Mar 2022 12:18:52 -0500
-X-MC-Unique: hQUGLlO8NpOTEXNTwsVpwQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- t2-20020a7bc3c2000000b003528fe59cb9so1369158wmj.5
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 09:18:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nRdXJ-000771-Je
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 12:22:13 -0500
+Received: from [2607:f8b0:4864:20::535] (port=33676
+ helo=mail-pg1-x535.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nRdX0-000170-30
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 12:21:55 -0500
+Received: by mail-pg1-x535.google.com with SMTP id 6so12501027pgg.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 09:21:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=s178kYbz/1pYxP7yDcXtb3upTerNKtjydWGDzNN6GNc=;
+ b=KR41liDHUnRevMXk7SQF7tlxftfhnN4WqLyWMRAWEQOp8WE6Xk74BuCTnUE0hPyvZb
+ 7LjapdI5oX3c/snDTrSmHpxu2j/NrcoAlRZtDkBVa1PWIPVJXS9rEL4DhkDD+xlXAdfG
+ YgZ+Acis5xKyML58WKLiD+Ph9Mk8yUht4tp7sh6xJ4tVODac5xI0pEaJqUTti3lv5Rt7
+ F95Xyad0rheiitRXDZSiTrzYbVd+D8ES624uFxvTTcD7D8fMnqCQc6C6xzAnv/GaUXfG
+ HQ6UHfM7mkJQyFL1zhHBUHLYBL/i4wKQc7DeLWWpLsGl6H17REcegdP+eFFSdqa7FiXu
+ 5oKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rN6nkv13NukWqfjdoC86Dd80oV5E2SNqNa5MWtTv2P4=;
- b=14xBmZGLaS0ebklJRraFGAdpFXSR7dzb1H7W0z+vnJnpkMdHHReTw2zrkvkDI6edyO
- T1wTEVeAvAwShhEUJOhXy2XrTAHyhTNuYkIpaWHYLP/ibcIXbta7Y6EJSBhESNAtKi8v
- AnokDlZRqmURM4BztclEme+su8QhUYMDXMxa/XH5WJB11xi6o96lDNOWnE8+FSzraRTr
- dSD7yxLg6kR6GPZ93jkm3xNWyPUq/ChvNpy3Tv21hpEKyjBqJHLnhOpUjfhI+77GWA7L
- AcspYvxrOUAvSXmYlfBBIwP37WG5sdxaXoOAW2KozJeiGqxlbCC6DPU/P6+kSak6j6kI
- SEFw==
-X-Gm-Message-State: AOAM5307H2GPVGIg78zK8kr4Tzv+5D9zhh+6Kr+XVK5MbDS3iczaQ1g/
- Qcg+iY1DLeT1yQtEqcDVj4kYUjUTLoYh/5hDMgKXO1d7NGy1CwXX9bnuSYv4fA+70XNVLMkwyXo
- aRbDsrzoJLY37+uE=
-X-Received: by 2002:a5d:6610:0:b0:1f1:e606:f097 with SMTP id
- n16-20020a5d6610000000b001f1e606f097mr11022943wru.134.1646759931140; 
- Tue, 08 Mar 2022 09:18:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw66KGw+KCK7WZbh3+tfnnzHny0crElnWD1e2OGKdXkSVIMmjq2L11eLl/fnoy8LBgSv6OQzg==
-X-Received: by 2002:a5d:6610:0:b0:1f1:e606:f097 with SMTP id
- n16-20020a5d6610000000b001f1e606f097mr11022928wru.134.1646759930920; 
- Tue, 08 Mar 2022 09:18:50 -0800 (PST)
-Received: from redhat.com ([2.55.24.184]) by smtp.gmail.com with ESMTPSA id
- bk19-20020a0560001d9300b001a65e479d20sm13701066wrb.83.2022.03.08.09.18.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 09:18:50 -0800 (PST)
-Date: Tue, 8 Mar 2022 12:18:47 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [libvirt] [PATCH RESEND v2 0/4] re-introduce <acpi-hotplug-bridge>
-Message-ID: <20220308121820-mutt-send-email-mst@kernel.org>
-References: <20220308063955.2285902-1-ani@anisinha.ca>
- <399ca3a9-8b95-39af-8376-85f2edf00c7e@redhat.com>
- <f744a5f1-6dde-4b57-d52a-9b6104c5e510@redhat.com>
- <alpine.DEB.2.22.394.2203082212120.2312236@anisinha-lenovo>
- <20220308114638-mutt-send-email-mst@kernel.org>
- <CAARzgwwo6weTL8Q_2vbx9s2+r_LerEgDiWRLEJvgyC=YNVOVFw@mail.gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=s178kYbz/1pYxP7yDcXtb3upTerNKtjydWGDzNN6GNc=;
+ b=0fuF7omgc6YeI6lefKL/hSAvsVnK9kcjYZB+hswshtiRqwW1JNzL01QR2aOEz4poSQ
+ TOR4VMBLdclvqDfSt+Z44omc3CW3wOFd+VCmM2AtVDB0RaoxUwZ+NSih8hnx0fK+5sLA
+ PyK7f/EjAwBiurrVBB7axU3kPVItVhWMwnWvrW4I6+WoZu6g/d7Ys25znx5OtS5GZvKL
+ zRF74Mz1xgObKDrTHJpWshSxn18nAmjESU1ff/mp0REJUiGuhBA3Pj52TiP8h0EERxWj
+ U25pfhGPPPdxTHlZiMSXAPLSfj8mpdYFzcWti2CszFXgPJAclVdAES1azk9xklJkzZnB
+ 4vRA==
+X-Gm-Message-State: AOAM533gEBjaEiFpm/Q7W9v5w+n4giTFBPJIt+u5WFZBjexEp2JCQFBT
+ 1qiI8QnnIeA2RH9wkr3Y0CRgRQ==
+X-Google-Smtp-Source: ABdhPJziKK/P0ijz5vrI6bHcw5w9JIQ6cQZisBalcWU64E+9BQnMy8Chyh4ggEeAd5mJ9HFRpJk+Pw==
+X-Received: by 2002:a63:e716:0:b0:380:85d1:656c with SMTP id
+ b22-20020a63e716000000b0038085d1656cmr5052333pgi.321.1646760112659; 
+ Tue, 08 Mar 2022 09:21:52 -0800 (PST)
+Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
+ [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
+ k21-20020aa788d5000000b004f71bff2893sm5375707pff.67.2022.03.08.09.21.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Mar 2022 09:21:52 -0800 (PST)
+Message-ID: <1293fd43-c952-8c23-a903-485a15ec6366@linaro.org>
+Date: Tue, 8 Mar 2022 07:21:49 -1000
 MIME-Version: 1.0
-In-Reply-To: <CAARzgwwo6weTL8Q_2vbx9s2+r_LerEgDiWRLEJvgyC=YNVOVFw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] hw/misc/npcm7xx_clk: Don't leak string in
+ npcm7xx_clk_sel_init()
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220308170302.2582820-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220308170302.2582820-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::535
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,40 +94,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, imammedo@redhat.com, jusual@redhat.com,
- qemu list <qemu-devel@nongnu.org>, Laine Stump <laine@redhat.com>
+Cc: Tyrone Ting <kfting@nuvoton.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 08, 2022 at 10:23:20PM +0530, Ani Sinha wrote:
-> On Tue, Mar 8, 2022 at 10:17 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Tue, Mar 08, 2022 at 10:15:11PM +0530, Ani Sinha wrote:
-> > >
-> > >
-> > > On Tue, 8 Mar 2022, Laine Stump wrote:
-> > >
-> > > > Aha! the domain of qemu-devel@nongnu.org was incorrect in the original send
-> > > > (it was "nognu.org"), so none of this thread was making it to that list.
-> > >
-> > >
-> > > Not to give any excuses but this happened because on Qemu side I never
-> > > have to type this manually. My git config is set up so that
-> > > the cc in send-email is filled up automatically using
-> > > scripts/get_maintainer.pl. On libvirt side also the domain and mailing
-> > > list is easy to remember. Its only when I have to manually type stuff that
-> > > shit happens :-)
-> >
-> > Donnu about alpine, but with mutt you can easily set up
-> > and alias and then it expands for you.
+On 3/8/22 07:03, Peter Maydell wrote:
+> In npcm7xx_clk_sel_init() we allocate a string with g_strdup_printf().
+> Use g_autofree so we free it rather than leaking it.
 > 
-> I use alpine to only reply/review patches. I use git send-email to
-> actually send the patch. There I am not sure the best way to avoid
-> manually typing in the mailing list address.
+> (Detected with the clang leak sanitizer.)
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   hw/misc/npcm7xx_clk.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-send-email supports aliases too.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- 
-MST
-
+r~
 
