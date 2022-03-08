@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99EE4D202B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:24:05 +0100 (CET)
-Received: from localhost ([::1]:44722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEC94D203D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:27:41 +0100 (CET)
+Received: from localhost ([::1]:52976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nReVA-000473-Oe
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:24:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37942)
+	id 1nReYe-0001NX-45
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:27:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nReSD-00073J-J3
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:21:02 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=55836
- helo=mail-pj1-x1031.google.com)
+ id 1nReT6-00011O-UZ
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:21:56 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=51823
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nReSC-0003Lf-67
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:21:01 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id k92so78470pjh.5
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 10:20:59 -0800 (PST)
+ id 1nReT4-0003XN-7L
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:21:56 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id cx5so112422pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 10:21:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=zmKwPsCHNJ+XTW1FdvOFOwyr1Rapx5Fd0vDmP+tM+Eo=;
- b=lYMk7OawTPylN03ia0EIGliyYCYxQ9B3unCVVvV04n96f+cCJZ8lHy9JGGwqqlJal8
- vj5ZDfskOz81+11PVZ1Xbpb2Ocb6vdN3GKXaJFnfnni8QmJ/+FxNNwhYlDCMfHkJQYr/
- asRvUcFUH1q0LWWnyzbHdfXCwTujaO6FFk453vH8TMVaInPp50Jx7WPK+hOoso6NZC44
- AN9z4gjYu6lMAhHCZCQE5sz0szO1pG5FxMIK6GhIg72tNcyBkZf+bVVwjcpvAaJrcTw7
- 5bIAavnXuQyFHV+aKEbNsfYLsP8pbiBSfPWiq/kt8STVUsuUKu11/9w+OmnWzTpL5CkE
- oLbA==
+ bh=YNG62NJBZiXLlHb7HS+4/KUZoQdA+wY3F7HWgB7ngXE=;
+ b=CSuFUDwKZXDyreqASo6z6TX63wqx6xybeAp+Rxzmqf/u9shR5X9SekGV/nB4GV3YJu
+ vVaTMJ+/1u6QIVUeran3vR5dA+r8xMbEv2A6H+eKwJ5RYrf+K60sutWb7DKvDuYHsYEH
+ vszX2wqD3OS0a7GszsrGJjiHJ9AatU9jRrvd6qZ42wBWg0C7VbwUq980wWFczfsk8DGT
+ 4FRSJMFXyyqs4JQD8Nrkg/qoJrPjqenhOlYIGBxdiyEI97KKIEBTtTJ31wQslbzq2mUk
+ ny1xx78qHd+u7/KdcRxy+czL6Bgw84NaPbS6CfQRa00+fpKoEVedP/nVs+g4IYJ2s+x5
+ ZuTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zmKwPsCHNJ+XTW1FdvOFOwyr1Rapx5Fd0vDmP+tM+Eo=;
- b=kuijVoQlQy2IgGgm9GHMgFfcn68vHjOOzggcOGD3zX8scv0+xUT022w6Xm5x+7t+ZM
- Qb324sekurk1prGVEib02Jl88kuXK1NpWMS5gDWjISxGg6Obzi06km12W2blvdB0Urfr
- kHx26QyaChpOQ6alFhuECUiZz36+a0vGONzkNcSXvmDYnnCgsuqHz9Ix4Y15aW5Lisb8
- 2c/V/OoF+KSwp+bpNddG/d3woq7PfCo6s9QnMw3cxWK8NfMzJDXzaP9q7Q+VjEKd+kMn
- mOs/A56f6hER3azUQTJA0UUNZQT4jyr4AXQQ4tTl1uVuNPxvkuCXFtQeQS966VkbImBg
- 57Ig==
-X-Gm-Message-State: AOAM532jZusNO/wkMz6A5XcUMQQKPphkgbsOkMlaYOu8G+J+VQX7vltA
- hehLGIZ6nFrq+ktboi4SnvHAhA==
-X-Google-Smtp-Source: ABdhPJwG2hiiT48vfvUMj9IVSNz8ZtbFDpWnKUO5iwlCRIhPMVeVHZEF+eL8b5BcspzD46PhoYt3/g==
-X-Received: by 2002:a17:90a:cf:b0:1bf:50c6:64e4 with SMTP id
- v15-20020a17090a00cf00b001bf50c664e4mr6078600pjd.81.1646763658582; 
- Tue, 08 Mar 2022 10:20:58 -0800 (PST)
+ bh=YNG62NJBZiXLlHb7HS+4/KUZoQdA+wY3F7HWgB7ngXE=;
+ b=We5/ouRMTwBGTpAL41L1pvZPmQrkwU9mJRZUxp23/R6JqhFJZT2Djyp6d9JhGnnWz/
+ sMQwZlEK0reNJBMr17rSzn1me0/e5pMYz73TwJT5s1HYx5cb275kIkWikhBgUFJPUa6G
+ uxs9nldmKhA7POIuhIbdX30i7FT0PAXGsQgQouo+/e3l1k6fzS4eeN/GQ3EIqefLre+/
+ THMbyYWBDkMVW+QfIX5bm60apOnPKj8gtetifwB0PaM6EZnQNRVKY6kxw8VDQiR4mwWW
+ rUCzg9XYx4zdaHUN3gemyER38x/UvzcCKdbX8N16KWxkxZePUD6nWj0gLX9IycEIJd13
+ O5NQ==
+X-Gm-Message-State: AOAM532Pmv4rcRiNU5C82TevIbd2zhy3/aFwk0iH9Wu1oHVTfI1+fMnp
+ 7WV1g2M1NOvxDLYmqvQ6CGQ3fPiwt/2hIg==
+X-Google-Smtp-Source: ABdhPJzAoBLM49n9r0W+u7PNUYXXxx1kOD8X54wmwY9EGLH5VlePbTbMNoJmNdruNXxBEvotK+7pnw==
+X-Received: by 2002:a17:90a:7082:b0:1bd:3838:3622 with SMTP id
+ g2-20020a17090a708200b001bd38383622mr6043914pjk.101.1646763712720; 
+ Tue, 08 Mar 2022 10:21:52 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- t2-20020a63a602000000b0038062a0bc6fsm5796459pge.67.2022.03.08.10.20.57
+ q8-20020aa78428000000b004f7281cda23sm4067029pfn.201.2022.03.08.10.21.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 10:20:58 -0800 (PST)
-Message-ID: <b3e44467-1081-387d-929d-5b098ffb796a@linaro.org>
-Date: Tue, 8 Mar 2022 08:20:55 -1000
+ Tue, 08 Mar 2022 10:21:52 -0800 (PST)
+Message-ID: <041a82cd-7d48-c8a8-00c2-b59ce5a3da45@linaro.org>
+Date: Tue, 8 Mar 2022 08:21:49 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 05/13] hw/isa/piix4: Resolve global instance variable
+Subject: Re: [PATCH 06/13] hw/isa/piix4: Replace some magic IRQ constants
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>, Bernhard Beschow <shentey@gmail.com>,
  qemu-devel@nongnu.org
 References: <20220307134353.1950-1-philippe.mathieu.daude@gmail.com>
- <20220307134353.1950-6-philippe.mathieu.daude@gmail.com>
+ <20220307134353.1950-7-philippe.mathieu.daude@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220307134353.1950-6-philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220307134353.1950-7-philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -103,18 +103,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 3/7/22 03:43, Philippe Mathieu-Daudé wrote:
 > From: Bernhard Beschow<shentey@gmail.com>
 > 
-> Now that piix4_set_irq's opaque parameter references own PIIX4State,
-> piix4_dev becomes redundant.
+> This is a follow-up on patch "malta: Move PCI interrupt handling from
+> gt64xxx_pci to piix4". gt64xxx_pci used magic constants, and probably
+> didn't want to use piix4-specific constants. Now that the interrupt
+> handing resides in piix4, its constants can be used.
 > 
 > Signed-off-by: Bernhard Beschow<shentey@gmail.com>
 > Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > Acked-by: Michael S. Tsirkin<mst@redhat.com>
-> Message-Id:<20220217101924.15347-6-shentey@gmail.com>
+> Message-Id:<20220217101924.15347-7-shentey@gmail.com>
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   hw/isa/piix4.c                | 10 +++-------
->   include/hw/southbridge/piix.h |  2 --
->   2 files changed, 3 insertions(+), 9 deletions(-)
+>   hw/isa/piix4.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
