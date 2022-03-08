@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9894D147F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:14:03 +0100 (CET)
-Received: from localhost ([::1]:58242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC394D148B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:16:50 +0100 (CET)
+Received: from localhost ([::1]:34390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRWqw-0005I5-Fg
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:14:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52780)
+	id 1nRWtc-0000KU-Jf
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:16:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRWpw-0003qS-KV
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:13:00 -0500
-Received: from [2607:f8b0:4864:20::b32] (port=39491
- helo=mail-yb1-xb32.google.com)
+ id 1nRWs5-0007Cp-2v
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:15:13 -0500
+Received: from [2607:f8b0:4864:20::b31] (port=38517
+ helo=mail-yb1-xb31.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRWpv-0000N8-6C
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:13:00 -0500
-Received: by mail-yb1-xb32.google.com with SMTP id x200so36688164ybe.6
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:12:58 -0800 (PST)
+ id 1nRWs2-0000kE-Sw
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:15:12 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id u3so36743108ybh.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:15:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jVzQWO6naXDB9Y1lYciTYHtp/ID8m+xF7jrJpL7yTUc=;
- b=PMI1o0xHDJxa9am/MyFwaX1HuQQklJV7VqNueUeC2x7kjk6FqlTOFHs9vSBjrF7cQs
- oxaOZDbNuYKSruRQ1hani77ont6k9jo6C5BZBQl2t/Qz2IpgGGS0v1Qqx2Ykvv/hKFj0
- XK4fa7TFEqcZ9sAx/K24xN2qc1BPiAY1miObB5nTqZLiN4fvibaWnbcw+UyZ226gDVrR
- NYQ/dKaoM5MgleQV2SgvHo8l68UNdy97fBbpbJiYgwdk3vtHDDok45CkulW8jSfjEYHa
- 7vHdAW3ZMoAWePCA1aSEJ+HRfhGQQBl+b2kk9KDwaUVYP7TJ03nEgillsKhkenW/3dqe
- h6bA==
+ :cc; bh=3Yss/VJFwm5khnJagMnoEiRz/27BPGpiki+5HRz3nrs=;
+ b=hWkVnlMA8hsfrMYBG2Wk52pCt2OCEQIJlGAfd+qAirhBRphBrNfYdmH9w6dp0uEZjt
+ v0uBz35/MYNJ7Onb/a9CS7O1k9zREOdWSOc1szfEcF6yvtN9Ho6FQxszLA3Y0CuufeP4
+ Yo96hja94Z3IAnR05ZnufRkaU2dUsj+qbIriyyJv22gVS62OHmor13eNHoWSddYIUksQ
+ tgY3Fi0j905fP+3sMSIfkTKleqqhIyJ+17Nuu0hh/GkS57xjksbpuxsz3dGG+nwaLPns
+ ZX/vFCj0RiDasrl9ClN6OgoieTcqT8mv0iwyymvcqq8NIv+pzxVco0zmSjosorc8BsE1
+ 1QUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jVzQWO6naXDB9Y1lYciTYHtp/ID8m+xF7jrJpL7yTUc=;
- b=BKuokcarsUmbLY6N+q+unPVvTSATjebty6Z2p7pN7h9U+u9g2M6o2e42hBJbwzV6RQ
- yWnVIHA+Br/d08sfeZafsDntCmuEr20nhxW6fmDu7No+V6FJkS4pq/4UW1OvPxqsZweA
- ffRXDkaPkA5ulpMvKeaTAW+d7NhDHCSjwA54HRlRvS6jne9x39YBDfJWBSROjr6N9zS2
- ID54BfPp8IivI2GUpSdID8UJp2matSJucQ53vVZpICX+WZwcebEtsCVZJT2VTT46Vbat
- NpJO1dk26W7l2z4E22YI6fd5rahwClbebtVGdnn4AULHvtgwh44FjQ2Gt7WkIOixIUa+
- 2HSA==
-X-Gm-Message-State: AOAM5332lZ3JHpJrBDXxV9m/P7vF0RByvxP/uNqjENCxlPf/B7ccH6Gz
- bH+VFZBAzVvcqjW7sCEQoE+dlGjoTihuGknYXbpvwJG12hncrw==
-X-Google-Smtp-Source: ABdhPJzu8AKu6ePJFVl0ejvchpqPy12xBL/Ee9EX0nYMbAUY9HTDiapsIZt7TX6esNTonrqrvns+ykVufrfiqcKt7EI=
-X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
- q16-20020a5b0350000000b0062886b86e09mr11082832ybp.39.1646734378209; Tue, 08
- Mar 2022 02:12:58 -0800 (PST)
+ bh=3Yss/VJFwm5khnJagMnoEiRz/27BPGpiki+5HRz3nrs=;
+ b=gEC4VIFTK77WJAAaUSe2gDbSVMa8iM1nDapcExe8B6XGKtB8a12a7eV7l20skxhxmy
+ 4iIyaV7f/MKfKYluquSYtUc1zrf+6PHqww7QMXmKK3yuskAHcCkwqvL+9BMTGuVtujyd
+ Z4j/O7Fqbrvp21p+l//HKbGgEutQ7p3NXpgKzvn7OBSJPjilIDxackGXNAlqIJWZL1ed
+ 9BTaSnVj/9kS2+zaMJ4hzCjnVqFCb2QuDJEwg2bU0bE1cuntEOOaydcN5G1yWFBVgOjH
+ Y6tdQO/s/UMrS8Kks2xBrbFVIc05Z2iI1ooENVAriQ3DIDgpirTT/Rv5mhbTWL9qPIeO
+ Tthg==
+X-Gm-Message-State: AOAM530gjvF99EHS9ESDt13m7hJQMuAR4QHicNlDDqsPgkNSCMICQ9X9
+ 1IdSieE8JDEW3hCUpGi/DPZvFmaCq85ELJeYPaNNUQ==
+X-Google-Smtp-Source: ABdhPJx1d0e4EWeZN8FOYu5ZOisXxmgzCZh54+rQ+JCgqu7zEp3yUmjoSZfHhOMdtZPgVgur3WC4B3YteRA0gcp56x0=
+X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
+ s5-20020a5b0745000000b006221c463c19mr11679627ybq.479.1646734509427; Tue, 08
+ Mar 2022 02:15:09 -0800 (PST)
 MIME-Version: 1.0
 References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-13-richard.henderson@linaro.org>
-In-Reply-To: <20220308072005.307955-13-richard.henderson@linaro.org>
+ <20220308072005.307955-14-richard.henderson@linaro.org>
+In-Reply-To: <20220308072005.307955-14-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Mar 2022 10:12:47 +0000
-Message-ID: <CAFEAcA-5dZyXVZu=opxXxE5b-S8B=vOowHpjCeVS7mbJ9jUNQA@mail.gmail.com>
-Subject: Re: [PATCH v4 12/33] target/nios2: Use hw/registerfields.h for
- CR_EXCEPTION fields
+Date: Tue, 8 Mar 2022 10:14:58 +0000
+Message-ID: <CAFEAcA9sAjiDq0ZmYu3B-ZiZ_C5uOZZh1EJDCNqtPGxL5GTJ_w@mail.gmail.com>
+Subject: Re: [PATCH v4 13/33] target/nios2: Use hw/registerfields.h for
+ CR_TLBADDR fields
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b31
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,26 +90,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 8 Mar 2022 at 07:20, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Sink the set of env->exception to the end of nios2_cpu_do_interrupt.
-
-This splits the two things the patch is doing between the subject line
-and the commit message body; the subject is supposed to be a summary
-and the body should be able to stand alone without the subject.
-
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
 
->      }
-> +
-> +    env->exception = FIELD_DP32(env->exception, CR_EXCEPTION, CAUSE,
-> +                                cs->exception_index);
->  }
-
-This is a behaviour change in the semihosting case, which
-previously did not change env->exception and now does.
-Since that's guest visible I think it's not correct.
-You could fix that by making the semihosting handling end
-with 'return' rather than 'break'.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
