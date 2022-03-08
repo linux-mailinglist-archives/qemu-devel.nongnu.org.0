@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF5A4D202C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:24:08 +0100 (CET)
-Received: from localhost ([::1]:44870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830334D203B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:27:01 +0100 (CET)
+Received: from localhost ([::1]:50582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nReVD-0004D6-3W
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:24:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36130)
+	id 1nReY0-0008BK-5d
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:27:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nReLU-00009I-5g
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:14:04 -0500
-Received: from [2607:f8b0:4864:20::635] (port=45955
- helo=mail-pl1-x635.google.com)
+ id 1nReLa-0000Pv-1O
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:14:10 -0500
+Received: from [2607:f8b0:4864:20::632] (port=37777
+ helo=mail-pl1-x632.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nReLQ-00020h-NI
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:14:03 -0500
-Received: by mail-pl1-x635.google.com with SMTP id q13so1664576plk.12
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 10:14:00 -0800 (PST)
+ id 1nReLY-00021H-Ef
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:14:09 -0500
+Received: by mail-pl1-x632.google.com with SMTP id n2so8296034plf.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 10:14:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RiJi+ZwhoHznG//6WBhvN1I69uJkl1Jx276W7e+HbUw=;
- b=gz7pPAxt/cfUvFSnw1xmeGn/lt/lQZAh0A0JysW5+jeEQ9sTMUQUtsBrR1V0ADQCTy
- nO0KdwKNeaG8Tqthk6DBiqKvkzYoNAn2xqQ9ryUDgJ2ugXkZuLA/zYe91w+qXF2Hi0IJ
- rNUa4TghstaNp/OCWpGc78p5RU/GUrMg6LuRzrbq+Qf+jrXhxFIeIXojESpYwehl+ZjU
- 8niSpr2J11grT5kbk0igf1ucbl9XohxKWKW2k0KKH47/mdMaiMesYR+olECgyIJKefLS
- /WFVVRUpevIxyZ3urqcOTZNyYD+WsNuZhndNZPWVtDxQS4dBfJzsT8isPXoqsQw1swCL
- HRsA==
+ bh=BqJbDF11r+EHejjDPsbfqTXHf2f9UZaSH+bhrconn3U=;
+ b=ZM63irR4XD5lviu6la1pYZtZxv3RCAA0yQEqJGZhnikiC6L3wZnKwaSostGWOcIabp
+ OxgN4QBuCxAikV4JbAiZYz3lP5RBsQKmg9g5AQNkBoyAh4WII0Ja/hu1nYXM/9aEg7W9
+ 32Ry/TzPnuacLiP7NwJem6QZX2603dP44X3TBRkys2r/r3Z44uvqGG9YARBrnBiTic9j
+ Yh3hIqfP2Pytb5Nh0FQvSFhG6YtS3GNBUah+HAKsXc8nKJR3+ojNIqAv2vNtsGP1xDmq
+ Y4GH0DN1THsEswwpCEXaZ0tUNoKLByEpWaT7UKObP6lLLvJSsiS+XXtwxgOAxunNt7P0
+ TTnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RiJi+ZwhoHznG//6WBhvN1I69uJkl1Jx276W7e+HbUw=;
- b=CcfYkOlhc9QYrlbqPM4dHfO6VyqLFI1vNyCq1xwqO4A2G8+c1mTQUn4IxZsuhMmkR8
- gLr5gZruxRnfX5Vw+wKc7+HSpx3WIyjAERyt4LgBK/Ofdvj02JeBoZ7X5SXtW6L257z4
- 9JpprJ7kuYNAL5Us8LFWxu03Mo5fV2JuyZ8+YppCJHQqDUkVyFdqTXIdxKUJ4Tr4CWC+
- UbtIqjz6Bu7Duyds8u2A8JpN9Zwdm4Pz/GNGepd8Ug0riCQ6ggKtLINTu7lIXjCX8wzC
- KFDjUAoUvJup5brGI7s9BZ38nNsAF6TgNtuHonBC00bkhGLRooBKw6NY1URPH5dBr8/N
- V7dg==
-X-Gm-Message-State: AOAM533CPt53iyoqEVAXZHcEN5Rte8G+sDkVCW+FSGCYHwGPD0W5oWPj
- pF3yMprHZ4qyHRB67CwcAYEq1MyM0Bg=
-X-Google-Smtp-Source: ABdhPJxmGkWiVmuZn4pfE+HJTLQdzepXC+ax3VSuOi7erQA1/NHpM2l39OO3lHOEYsVeuT2TVh/S2g==
-X-Received: by 2002:a17:90a:2e08:b0:1bd:59c2:3df5 with SMTP id
- q8-20020a17090a2e0800b001bd59c23df5mr6038793pjd.235.1646763239190; 
- Tue, 08 Mar 2022 10:13:59 -0800 (PST)
+ bh=BqJbDF11r+EHejjDPsbfqTXHf2f9UZaSH+bhrconn3U=;
+ b=eJKewaTyqZTWevxQFvDQtxnA4AgByALg+qd3xwaDlOiYiGKXyHsYRT6RdJbCFj2L9R
+ TaqpaWmjwi4whjtckKnEoUkZgzKo4kj01gyz7wLAMuDB/+CnUMTCGM2IqXRNmULFjpxc
+ rxCBc64cZhWeyXh/3CCdWs3OgQUWjiaC1AohjDhiYh0qkBVsx+yLssaCfg6Y87Ucne+5
+ 6BOs5Z1vhjrxHiT1HFQdkoniCuMkK36Bfywz2xa2RY23Mwj4gPOmXjiSSHkRMvqLksX8
+ dTqoYcpbUi8AhkcRUC7cSc52zHXmG9E0hOcDqw3Yf+46uHGtFbttSeIZRQDzjfQOA0OC
+ wMAw==
+X-Gm-Message-State: AOAM531kwo+In57m5g08Wojqm30sktnfGlBC15/uOL83MTvmGuNywOjg
+ JMOooPSZZjpkVxcSKCgqh+JRqZMMvfQ=
+X-Google-Smtp-Source: ABdhPJx/LpVN8tzjxWO/mQ9nf1IB6zAvZh6DOln9rhDBzaECqjyYcd7cNUM6WzOsO4AVrffL+2wY2A==
+X-Received: by 2002:a17:90a:5a86:b0:1bf:7860:c0f6 with SMTP id
+ n6-20020a17090a5a8600b001bf7860c0f6mr6038049pji.213.1646763247026; 
+ Tue, 08 Mar 2022 10:14:07 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- a12-20020a056a000c8c00b004e1a76f0a8asm21325512pfv.51.2022.03.08.10.13.57
+ z7-20020a056a00240700b004e1cde37bc1sm21050734pfh.84.2022.03.08.10.14.05
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 08 Mar 2022 10:13:58 -0800 (PST)
+ Tue, 08 Mar 2022 10:14:06 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/9] hw/i2c: pmbus: refactor uint handling
-Date: Tue,  8 Mar 2022 19:13:15 +0100
-Message-Id: <20220308181320.79400-5-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 5/9] hw/i2c: pmbus: update MAINTAINERS
+Date: Tue,  8 Mar 2022 19:13:16 +0100
+Message-Id: <20220308181320.79400-6-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220308181320.79400-1-philippe.mathieu.daude@gmail.com>
 References: <20220308181320.79400-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,81 +98,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Titus Rwantare <titusr@google.com>
 
-This change cleans up the inputs to pmbus_receive uint, the length of
-received data is contained in PMBusDevice state and doesn't need to be
-passed around.
+add self to MAINTAINERS for the PMBus subsystem and related sensors,
+and set PMBus as maintained.
 
 Signed-off-by: Titus Rwantare <titusr@google.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Corey Minyard <cminyard@mvista.com>
-Message-Id: <20220307200605.4001451-5-titusr@google.com>
+Message-Id: <20220307200605.4001451-6-titusr@google.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i2c/pmbus_device.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ MAINTAINERS | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
-index ff644c1d4a..8cb9db0f80 100644
---- a/hw/i2c/pmbus_device.c
-+++ b/hw/i2c/pmbus_device.c
-@@ -89,16 +89,16 @@ void pmbus_send_string(PMBusDevice *pmdev, const char *data)
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4f0cc1e448..600bf820da 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3138,6 +3138,16 @@ F: include/hw/i2c/smbus_master.h
+ F: include/hw/i2c/smbus_slave.h
+ F: include/hw/i2c/smbus_eeprom.h
  
- 
--static uint64_t pmbus_receive_uint(const uint8_t *buf, uint8_t len)
-+static uint64_t pmbus_receive_uint(PMBusDevice *pmdev)
- {
-     uint64_t ret = 0;
- 
-     /* Exclude command code from return value */
--    buf++;
--    len--;
-+    pmdev->in_buf++;
-+    pmdev->in_buf_len--;
- 
--    for (int i = len - 1; i >= 0; i--) {
--        ret = ret << 8 | buf[i];
-+    for (int i = pmdev->in_buf_len - 1; i >= 0; i--) {
-+        ret = ret << 8 | pmdev->in_buf[i];
-     }
-     return ret;
- }
-@@ -110,7 +110,7 @@ uint8_t pmbus_receive8(PMBusDevice *pmdev)
-                       "%s: length mismatch. Expected 1 byte, got %d bytes\n",
-                       __func__, pmdev->in_buf_len - 1);
-     }
--    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
-+    return pmbus_receive_uint(pmdev);
- }
- 
- uint16_t pmbus_receive16(PMBusDevice *pmdev)
-@@ -120,7 +120,7 @@ uint16_t pmbus_receive16(PMBusDevice *pmdev)
-                       "%s: length mismatch. Expected 2 bytes, got %d bytes\n",
-                       __func__, pmdev->in_buf_len - 1);
-     }
--    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
-+    return pmbus_receive_uint(pmdev);
- }
- 
- uint32_t pmbus_receive32(PMBusDevice *pmdev)
-@@ -130,7 +130,7 @@ uint32_t pmbus_receive32(PMBusDevice *pmdev)
-                       "%s: length mismatch. Expected 4 bytes, got %d bytes\n",
-                       __func__, pmdev->in_buf_len - 1);
-     }
--    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
-+    return pmbus_receive_uint(pmdev);
- }
- 
- uint64_t pmbus_receive64(PMBusDevice *pmdev)
-@@ -140,7 +140,7 @@ uint64_t pmbus_receive64(PMBusDevice *pmdev)
-                       "%s: length mismatch. Expected 8 bytes, got %d bytes\n",
-                       __func__, pmdev->in_buf_len - 1);
-     }
--    return pmbus_receive_uint(pmdev->in_buf, pmdev->in_buf_len);
-+    return pmbus_receive_uint(pmdev);
- }
- 
- static uint8_t pmbus_out_buf_pop(PMBusDevice *pmdev)
++PMBus
++M: Titus Rwantare <titusr@google.com>
++S: Maintained
++F: hw/i2c/pmbus_device.c
++F: hw/sensor/adm1272.c
++F: hw/sensor/max34451.c
++F: include/hw/i2c/pmbus_device.h
++F: tests/qtest/adm1272-test.c
++F: tests/qtest/max34451-test.c
++
+ Firmware schema specifications
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Daniel P. Berrange <berrange@redhat.com>
 -- 
 2.34.1
 
