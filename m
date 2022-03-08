@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02E44D1A08
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 15:08:21 +0100 (CET)
-Received: from localhost ([::1]:42646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397534D1A18
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 15:11:45 +0100 (CET)
+Received: from localhost ([::1]:48074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRaVh-00077W-0Q
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 09:08:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50760)
+	id 1nRaYy-0002Uo-Ad
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 09:11:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRaTl-00052E-2Q
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:06:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRaTi-0008MI-ID
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:06:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646748377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MmHgnNh6JGBeuEDqY4eMZGsatfRIRB+/ILWnzD39gMg=;
- b=TLRBPdIexWN7/YRHBspkB+vCrAW53eDGB2oK0MKxTwMof1Lzl6TFrMyzAeLcRAPDKogG3c
- SisoBLcecuItv+1TPQkMdlfjeSga6/gSb+m/A+k/9izC4z9XepeJ9p4san6KdSbf/1o41H
- NjFOXDnrmUT0gqnMuJoodsKUZ3wbsBc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-544-gKNnHjRUP0mAcqVeRb3ftg-1; Tue, 08 Mar 2022 09:06:14 -0500
-X-MC-Unique: gKNnHjRUP0mAcqVeRb3ftg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB60E824FA8;
- Tue,  8 Mar 2022 14:06:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B53910640E8;
- Tue,  8 Mar 2022 14:06:08 +0000 (UTC)
-Date: Tue, 8 Mar 2022 14:06:07 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v5 20/20] block_job_query: remove atomic read
-Message-ID: <YidizwocphcWJpt+@stefanha-x1.localdomain>
-References: <20220208143513.1077229-1-eesposit@redhat.com>
- <20220208143513.1077229-21-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nRaXV-0001i5-Uv
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:10:13 -0500
+Received: from [2607:f8b0:4864:20::a2b] (port=43835
+ helo=mail-vk1-xa2b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nRaXT-0000aq-QD
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:10:13 -0500
+Received: by mail-vk1-xa2b.google.com with SMTP id s195so7812032vkb.10
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 06:10:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=77mBmcJKjcECUUhQCIBxcO1N51y+M4OMQisC5DP5rU4=;
+ b=MQcurMvPUpcddQqSq3BGUeaGyJ+uUFfoM/6FTVjTEvS+/QO2SJ/SP+42i0lnnGoB8R
+ QcCKCEApFd41EkKZ0mcGwD5sXRPjcv4eFd2fNcMAmluN3WDhwp91ZVMEn4SVy8UwcvTQ
+ SY8enD5v6xZcEVbzrxwXuhFkN3anHw/h0OnEa0HrFWAetWbpTyuhiMcWQ0hQtvdhbAzk
+ yfk+nwLZMG6QGZzrjHkspIEInQxAKlGIzap8kZlH58udhP70J9QfwetV5SK+zM1r/Ny7
+ Ru1aq0/zoGHiyilR+vyLF2WI2lx6ml67PEdoLcrncgPYvGk5Y86GPo/MAJQNI81dSuOh
+ ZLtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=77mBmcJKjcECUUhQCIBxcO1N51y+M4OMQisC5DP5rU4=;
+ b=SWyMjEDd7A3RUbQgG3qQLczrCYnsEpVyBWzd+FsewFsiv+H+dIMyJpZr5MM5lC3jzl
+ goyegjjtE0zrSn2LbvO1h3AU2lryeNLJJs4tKk7aatioQbJfn2voFcp/i/v/yVMLVxqC
+ 2819chmLpxf9GYgEgjlrWMbP++FkjzK3eLM7yvrGX35KX6sZs9n9mTBmrFdGvxZX4u30
+ TbqsvFhEFFz/FTzSrTypBwIZKVoZx67CzOXUhxpTKlYrfzLf1nH1gD3gW2pbUmwWLd7N
+ tR7TO7bski9v/wgkj8NBR7hAmoD2Ft6Zm4HhIZN282nbBItVOdrEkk4xBwrGYg32Bfy5
+ sasg==
+X-Gm-Message-State: AOAM532UyZZWxmLCKRItSUH0NfPXBl3nOo1KuFeAtANhhML7Zk8FIX9o
+ sOw3Xjel/fn3xeNINzhM7eOiyZWmRv0lggVvYq9nkA==
+X-Google-Smtp-Source: ABdhPJyxLDRrwn+0ukfDbDrFMdSSyNyN/sSSzYbXZUlsCSA7ppfyxPE1U+4rTzPa1xpOxwfuJ84R081eF18Ounp89IM=
+X-Received: by 2002:ac5:c193:0:b0:336:e9e3:f571 with SMTP id
+ z19-20020ac5c193000000b00336e9e3f571mr6683195vkb.26.1646748605990; Tue, 08
+ Mar 2022 06:10:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cmuWaIB02XDt9JwD"
-Content-Disposition: inline
-In-Reply-To: <20220208143513.1077229-21-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <CANCZdfpJVWFjrQDiYJy8xiw-THF8_3GNcu=0Pmbvp_6zAJbfHA@mail.gmail.com>
+ <5bb620d4-96f0-cf7f-5530-af529a32c78d@linaro.org>
+In-Reply-To: <5bb620d4-96f0-cf7f-5530-af529a32c78d@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Tue, 8 Mar 2022 07:09:55 -0700
+Message-ID: <CANCZdfqwA8HbxYhud8pKxF_f=BMoMtrO+R=zg7GiKesz8_YZvg@mail.gmail.com>
+Subject: Re: Question about atomics
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000b1dcdd05d9b5893b"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2b
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::a2b;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2b.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,49 +80,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000b1dcdd05d9b5893b
+Content-Type: text/plain; charset="UTF-8"
 
---cmuWaIB02XDt9JwD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, Mar 7, 2022 at 10:00 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 3/7/22 18:18, Warner Losh wrote:
+> > I have a question related to the user-mode emulation and atomics. I
+> asked on IRC, but
+> > thinking about it, I think it may be too complex to discuss in that
+> medium...
+> >
+> > In FreeBSD we have a system call that uses host atomic operations to
+> interact memory that
+> > userland also interacts with using atomic operations.
+> >
+> > In bsd-user we call the kernel with a special flag for dealing with
+> 32-bit processes
+> > running on a 64-bit kernel. In this case, we use 32-bit-sized atomics to
+> set variables in
+> > the address space of the bsd-user guest. This is used when running armv7
+> binaries on amd64
+> > hosts.
+> >
+> > First question: Is this expected to work? I know I'm a bit vague, so as
+> a followup
+> > question: If there's restrictions on this, what might they be? Do some
+> classes of atomic
+> > operations work, while others may fail or need additional cooperation?
+> Are there any
+> > conformance tests I could compile for FreeBSD/armv7 to test the
+> hypothesis that atomic
+> > operations are misbehaving?
+>
+> Yes, qatomic_foo is expected to work.  It's what we use across threads,
+> and it is expected
+> to work "in kernel mode", i.e. within cpu_loop().
+>
+
+Even when the writers are done in the context of system calls to the kernel?
+
+
+> There are compile-time restrictions on the set of atomic operations,
+> mostly based on what
+> the host supports.  But anything that actually compiles is expected to
+> work (there are a
+> set of ifdefs if you need something more than the default).
+>
+> Beyond that, there is start_exclusive() / end_exclusive() which will
+> stop-the-world and
+> make sure that the current thread is the only one running.
+>
+
+So anything that happens in the BSD host kernel would need to be confined
+to the one
+and only on running thread? It also assumes only one thread is scheduled
+and running
+and that might be a source of 'brokeness' if there's an issue in the BSD
+implementation
+of the mechanisms that are used for that. And if the system call does this
+w/o using
+the start_exclusive/end_exclusive stuff, is that a problem?
+
+
+> > Thanks for any help you might be able to give.
+>
+> Show the code in question?
+>
+
+Which code? The test cases that are failing, or the bsd-user code in the
+branch I suspect?
+
+Warner
+
+--000000000000b1dcdd05d9b5893b
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 08, 2022 at 09:35:13AM -0500, Emanuele Giuseppe Esposito wrote:
-> Not sure what the atomic here was supposed to do, since job.busy
-> is protected by the job lock. Since the whole function
-> is called under job_mutex, just remove the atomic.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  blockjob.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Mar 7, 2022 at 10:00 PM Richa=
+rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
+nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On 3/7/22 18:18, Warner Losh wrote:<br>
+&gt; I have a question related to the user-mode emulation and atomics. I as=
+ked on IRC, but <br>
+&gt; thinking about it, I think it may be too complex to discuss in that me=
+dium...<br>
+&gt; <br>
+&gt; In FreeBSD we have a system call that uses host atomic operations to i=
+nteract memory that <br>
+&gt; userland also interacts with using atomic operations.<br>
+&gt; <br>
+&gt; In bsd-user we call the kernel with a special flag for dealing with 32=
+-bit processes <br>
+&gt; running on a 64-bit kernel. In this case, we use 32-bit-sized atomics =
+to set variables in <br>
+&gt; the address space of the bsd-user guest. This is used when running arm=
+v7 binaries on amd64 <br>
+&gt; hosts.<br>
+&gt; <br>
+&gt; First question: Is this expected to work? I know I&#39;m a bit vague, =
+so as a followup <br>
+&gt; question: If there&#39;s restrictions on this, what might they be? Do =
+some classes of atomic <br>
+&gt; operations work, while others may fail or need additional cooperation?=
+ Are there any <br>
+&gt; conformance tests I could compile for FreeBSD/armv7 to test the hypoth=
+esis that atomic <br>
+&gt; operations are misbehaving?<br>
+<br>
+Yes, qatomic_foo is expected to work.=C2=A0 It&#39;s what we use across thr=
+eads, and it is expected <br>
+to work &quot;in kernel mode&quot;, i.e. within cpu_loop().<br></blockquote=
+><div><br></div><div>Even when the writers are done in the context of syste=
+m calls to the kernel?</div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">
+There are compile-time restrictions on the set of atomic operations, mostly=
+ based on what <br>
+the host supports.=C2=A0 But anything that actually compiles is expected to=
+ work (there are a <br>
+set of ifdefs if you need something more than the default).<br>
+<br>
+Beyond that, there is start_exclusive() / end_exclusive() which will stop-t=
+he-world and <br>
+make sure that the current thread is the only one running.<br></blockquote>=
+<div><br></div><div>So anything that happens in the BSD host kernel would n=
+eed to be confined to the one</div><div>and only on running thread? It also=
+ assumes only one thread is scheduled and running</div><div>and that might =
+be a source of &#39;brokeness&#39; if there&#39;s an issue in the BSD imple=
+mentation</div><div>of the mechanisms that are used for that. And if the sy=
+stem call does this w/o using</div><div>the start_exclusive/end_exclusive s=
+tuff, is that a problem?</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+&gt; Thanks for any help you might be able to give.<br>
+<br>
+Show the code in question?<br></blockquote><div><br></div><div>Which code? =
+The test cases that are failing, or the bsd-user code in the branch I suspe=
+ct?</div><div><br></div><div>Warner</div></div></div>
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---cmuWaIB02XDt9JwD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmInYs8ACgkQnKSrs4Gr
-c8hM0Qf8DyOBkRek30WQDZimOwDrGODV0AVH3yR9BdlWVS7eIiBijw75tCdyuzGd
-KvCmOgqHBQzpO7xMOlyZ2ZaCNGg9v9WlPNnpvOX/lB+JqeoAJ8ckvlrINjbbMsJb
-uKGtPyo2eOkKTLZ+y5Vs9EPiDANJxR65wnONVaAd0ZLsrczPe2RO6BCE2dQRovfg
-Db6P0gTpPre62qPG9rCYQrrfAOcqBYcgheQx4ycRtlavKikktwG6c+6rPWzR0jvs
-BAB6WoI1E/L5igmeFlBPBmiJ3bC5akGX/W7F8EAP68Ja42m114AlvXIfr9WPAsiE
-Pi1qC7U6u79OUpX/gjpJaQFtjaQsGA==
-=OnJi
------END PGP SIGNATURE-----
-
---cmuWaIB02XDt9JwD--
-
+--000000000000b1dcdd05d9b5893b--
 
