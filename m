@@ -2,75 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDB54D144D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:09:54 +0100 (CET)
-Received: from localhost ([::1]:51262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5FD4D1471
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:11:47 +0100 (CET)
+Received: from localhost ([::1]:53168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRWmw-0000NI-1k
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:09:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50634)
+	id 1nRWok-0001eD-A8
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:11:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRWlu-0007wV-OL
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:08:50 -0500
-Received: from [2607:f8b0:4864:20::b35] (port=35766
- helo=mail-yb1-xb35.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRWlt-0007s4-1f
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:08:50 -0500
-Received: by mail-yb1-xb35.google.com with SMTP id z30so23873627ybi.2
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:08:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Nw8Zv08EJuN+srCD0thjmTosxm3yMUH2yGwIdoJXQJA=;
- b=MNvAdUc+LQOV8O/93B9V19qY2oU1kBQsArRTHS2QcthGWmfdJykY0t5IJ5tcvFW60q
- XoS48e+AIj5sy76LW7QX3/FJmkaDiXzxpLnGCzhrt9kDSLXCmYnuLNdMk3dlDbL8G0D4
- FV7A5gQKYVVq0qu144JxBtb4jTPMeuioKlgbn5LpsL5JMVYIKxQ2L92rMjAy7BQiMyFM
- i0nwC/T/WToScWG7RDcH18Rs3bcVeYO4xFL8UTyTaLNGIKf033QDJeaD3Fr0R+nzQjBE
- oIYj0M2P/qtxy2DjYfZ/chT4QwPTxLQsIKN6BUJNHJ9Xl3jfm1jIDbJfUkDkw7Xp6o5l
- HchA==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nRWmO-0000F5-6J
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:09:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45820)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1nRWmM-0007ue-MC
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:09:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646734158;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SMMKVDiBDyJwSO1Zu2AyeyXXTjJwZLcialC0NLO89PM=;
+ b=dpjyN6WbSAYeVSPF/pDF+zU1zxHHFXCjIjKxe4Dc8JJ1xlo/AQG0WbT1JSBpa1mvoOx5Zo
+ gs/DkpPrtHJLZ+Kgx+aUCE7TFv9noDrnGObHq9kq6UFa7gkR9ZtAvnew3b6b1V9iR6zbH4
+ qxTMCTCH//iuNjugTPZI+OkjYiD8nYM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-668-sRAoTRHjOauQ6GqxzN4_aQ-1; Tue, 08 Mar 2022 05:09:17 -0500
+X-MC-Unique: sRAoTRHjOauQ6GqxzN4_aQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l13-20020a7bcf0d000000b0038982c6bf8fso896690wmg.7
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:09:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Nw8Zv08EJuN+srCD0thjmTosxm3yMUH2yGwIdoJXQJA=;
- b=zCpzsa1AGh75xGaD19lWJUiEQeDbrQDP1Wsc7iIZBwMoNz9wT9iQeh+2tyaaPbHnV9
- 0erf/ohG/N+fgnMyWyhoM+iclLM6DqXMGrH+FEI5zvCJ6kbsqy8yHBAE9hteigH+2y2O
- nF9D/liADbvsavwohvniLxm6dQUjweeE2p2H9QoBGDjQ+3Qp+Nbi2gasVDQIObEhEBp+
- 8omydknQj2ixPMYMStZriHEgKc/DkLuAlnhL9ginUdhao8KruZ05Vt6Rni3qIM9ajACd
- HaH46dM1WW48CfZNk7J6dk9nh6r+N4VIv7M7XSFIbUkZuZmibRIqqIV0OFp1uxbvN5ee
- 4tVw==
-X-Gm-Message-State: AOAM532Pq4yaLch3dxHpusOhMcpBUTh3PUkUIAtd+jqd2/BC+3U5qXg8
- ByX53y3ryQsF3gqL7mrfIIFqUp7zAz08+XRqGb9jIQ==
-X-Google-Smtp-Source: ABdhPJy4ox+JNySjrRZtEG0nt6/u70n98MrgFO9vJV0/QjXA+Ud+dEhAvcjFvYGsRr9/ajvzos9iC6RnAitqrtOYg+k=
-X-Received: by 2002:a25:6e84:0:b0:628:97de:9430 with SMTP id
- j126-20020a256e84000000b0062897de9430mr11774633ybc.288.1646734124214; Tue, 08
- Mar 2022 02:08:44 -0800 (PST)
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=SMMKVDiBDyJwSO1Zu2AyeyXXTjJwZLcialC0NLO89PM=;
+ b=BkW+j5bsZk1KpZowM3bsHwWeEK4QXM9nRPvEdfy7QEgqBpXeElXecxB1+cnC7ZFTvv
+ fFMLgR88T7Y9uWqkKo4I+ggDtZf/4ANrfuGsZR2FC+A9T6vvG0zReTBk9frd+B5YU9X+
+ ngrkCXFRhQoPAoJpUVV8sunqBAiGEm0LAJaPGMI82y0dQHRXQaC084dKh1HQ4DMYmKpF
+ 3wqLzS2vmPRs/cOPf1Er2G+WPq0f2E8gWdHbXg98rShPcvDhDrDOgqyc2vhBR2BjVu37
+ VNvt9OOSJJHpRWfPFQzgRMKA6eCGI1Vuqkt7bmd+DzBr4xW9jmv7ZLgIj/SVnMt4paSO
+ 3Rzw==
+X-Gm-Message-State: AOAM531MjyuPr6sQaErFJ8uEU5PPFzk8Hox3f0KkIriN1row5+p+/jT8
+ 35hR/DlvOypMzWOCHj16TLiHZ6HsTg4SmOgD5NP30xmXdojMpVKPYRMYljN0zvhxW3bIJuWgpy7
+ WCBL8B3SPBe8+x9M=
+X-Received: by 2002:a05:6000:90:b0:1f1:e485:8d55 with SMTP id
+ m16-20020a056000009000b001f1e4858d55mr10188406wrx.178.1646734155778; 
+ Tue, 08 Mar 2022 02:09:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxJkNvLvGarg4ll6R9+RqMebPZxKyrsEiCLdsblZFilJU2D2T48V3mOms72dN7rib8hT6GaAw==
+X-Received: by 2002:a05:6000:90:b0:1f1:e485:8d55 with SMTP id
+ m16-20020a056000009000b001f1e4858d55mr10188377wrx.178.1646734155459; 
+ Tue, 08 Mar 2022 02:09:15 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ p26-20020a1c741a000000b00389ab9a53c8sm1794105wmc.36.2022.03.08.02.09.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Mar 2022 02:09:15 -0800 (PST)
+Subject: Re: [PATCH v4 3/4] tests/qtest/vhost-user-blk-test: Temporary hack to
+ get tests passing on aarch64
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20220307211439.213133-1-eric.auger@redhat.com>
+ <20220307211439.213133-4-eric.auger@redhat.com>
+ <YicprIn75glZ0zYe@stefanha-x1.localdomain>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <d85bd084-2856-87d6-3b98-148b2a7fa03a@redhat.com>
+Date: Tue, 8 Mar 2022 11:09:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-12-richard.henderson@linaro.org>
-In-Reply-To: <20220308072005.307955-12-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Mar 2022 10:08:32 +0000
-Message-ID: <CAFEAcA_f0PWGrxGBMSK-jr9MTCk7D1OM5XJ=zYy8eB1HyZitWQ@mail.gmail.com>
-Subject: Re: [PATCH v4 11/33] target/nios2: Use hw/registerfields.h for
- CR_STATUS fields
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b35
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <YicprIn75glZ0zYe@stefanha-x1.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,66 +108,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
+Reply-To: eric.auger@redhat.com
+Cc: eesposit@redhat.com, jean-philippe@linaro.org, mst@redhat.com,
+ qemu-devel@nongnu.org, Coiby.Xu@gmail.com, qemu-arm@nongnu.org, clg@kaod.org,
+ pbonzini@redhat.com, eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Mar 2022 at 07:20, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Add all fields; retain the helper macros for single bit fields.
-> So far there are no uses of the multi-bit status fields.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/nios2/cpu.h | 27 ++++++++++++++++++---------
->  1 file changed, 18 insertions(+), 9 deletions(-)
->
-> diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-> index 5bc0e353b4..26618baa70 100644
-> --- a/target/nios2/cpu.h
-> +++ b/target/nios2/cpu.h
-> @@ -23,6 +23,7 @@
->
->  #include "exec/cpu-defs.h"
->  #include "hw/core/cpu.h"
-> +#include "hw/registerfields.h"
->  #include "qom/object.h"
->
->  typedef struct CPUNios2State CPUNios2State;
-> @@ -80,15 +81,23 @@ struct Nios2CPUClass {
->
->  /* Control register aliases */
->  #define CR_STATUS        0
-> -#define   CR_STATUS_PIE  (1 << 0)
-> -#define   CR_STATUS_U    (1 << 1)
-> -#define   CR_STATUS_EH   (1 << 2)
-> -#define   CR_STATUS_IH   (1 << 3)
-> -#define   CR_STATUS_IL   (63 << 4)
-> -#define   CR_STATUS_CRS  (63 << 10)
-> -#define   CR_STATUS_PRS  (63 << 16)
-> -#define   CR_STATUS_NMI  (1 << 22)
-> -#define   CR_STATUS_RSIE (1 << 23)
-> +
-> +FIELD(CR_STATUS, PIE, 0, 1)
-> +FIELD(CR_STATUS, U, 1, 1)
-> +FIELD(CR_STATUS, EH, 2, 1)
-> +FIELD(CR_STATUS, IH, 3, 1)
-> +FIELD(CR_STATUS, IL, 4, 6)
-> +FIELD(CR_STATUS, CRS, 10, 6)
-> +FIELD(CR_STATUS, PRS, 16, 6)
-> +FIELD(CR_STATUS, NMI, 22, 1)
-> +
-> +#define CR_STATUS_PIE  (1u << R_CR_STATUS_PIE_SHIFT)
-> +#define CR_STATUS_U    (1u << R_CR_STATUS_U_SHIFT)
-> +#define CR_STATUS_EH   (1u << R_CR_STATUS_EH_SHIFT)
-> +#define CR_STATUS_IH   (1u << R_CR_STATUS_IH_SHIFT)
-> +#define CR_STATUS_NMI  (1u << R_CR_STATUS_NMI_SHIFT)
-> +#define CR_STATUS_RSIE (1u << R_CR_STATUS_RSIE_SHIFT)
+Hi Stefan,
 
-Since these are all 1 bit fields you can use
-#define CR_STATUS_PIE R_CR_STATUS_PIE_MASK
-etc rather than manually shifting by the shift count.
+On 3/8/22 11:02 AM, Stefan Hajnoczi wrote:
+> On Mon, Mar 07, 2022 at 10:14:38PM +0100, Eric Auger wrote:
+>> When run on ARM, basic and indirect tests currently fail with the
+>> following error:
+>>
+>> ERROR:../tests/qtest/libqos/virtio.c:224:qvirtio_wait_used_elem:
+>> assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
+>> Bail out! ERROR:../tests/qtest/libqos/virtio.c:224: qvirtio_wait_used_elem:
+>> assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
+>>
+>> I noticed it worked when I set up MSI and I further reduced the
+>> code to a simple guest_alloc() that removes the error. At the moment
+>> I am not able to identify where ths issue is and this blocks the
+>> whole pci/aarch64 enablement.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> ---
+>>  tests/qtest/vhost-user-blk-test.c | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+> What is the plan to identify the root cause?
+To be honest, I have no precise plan yet. However I commit to work on it
+within the next weeks.
 
--- PMM
+If maintainers prefer to delay the introduction of qtest libqos
+pci/aarch64 tests until this gets fixed, I would understand though.
+
+Eric
+>
+> Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+
 
