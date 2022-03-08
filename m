@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5DB4D0DC0
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 02:57:15 +0100 (CET)
-Received: from localhost ([::1]:44008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D7E4D0DC9
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 03:03:17 +0100 (CET)
+Received: from localhost ([::1]:59328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRP6A-0002GT-S0
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 20:57:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52964)
+	id 1nRPC1-0004EB-0p
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 21:03:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROu1-00008a-EH
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26494)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROu5-0000CM-RS
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROty-0006NK-2m
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:40 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROu3-0006Oy-2N
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646703877;
+ s=mimecast20190719; t=1646703881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cxq53dtn45HTRjrQCN5yoDsAm2I/LJ+mwjU0AsyM/Ow=;
- b=KHHVJI4fOxJvHx9o/7/keuEC20bQOKXULrONPY8IX/Cq//IHFwfvHTPtDDfZRGQXZlRzj8
- /kU0ZzJQuCzlmo52nRYzXChi/e8EhoHotaqbu1b+RnIngl+PKKGlCehBrlrhUoR4m29dYp
- jLrUlJMVqoxyX7SBRTkGCCU+pcA2zAY=
+ bh=te9Gf9taRlZ8CnYG94Gi3NVV/+z7OYnmqz6yFEizj5k=;
+ b=Fc268TdF/c9DkGxOcbkrtJ5MgAlhx7fVTTju+9126dNhyEI4badZphjbSoPcgKdWCM2RsO
+ 8OZHVGp6or+JRFViJnHdJGTGwEC+XfsA59saDhk2sP0X/eMWyj42qZ4gMKmfr0lvFEKtFw
+ s8XTcgqUTyGKUIkGqYqeMs8gqBvTyFw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-Hfp5bhoaMzinZ4_roOg4jw-1; Mon, 07 Mar 2022 20:44:36 -0500
-X-MC-Unique: Hfp5bhoaMzinZ4_roOg4jw-1
+ us-mta-385-lHf2uq-cNxijN4DIxIj6bg-1; Mon, 07 Mar 2022 20:44:37 -0500
+X-MC-Unique: lHf2uq-cNxijN4DIxIj6bg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18D66805EE8;
- Tue,  8 Mar 2022 01:44:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31051801FCE;
+ Tue,  8 Mar 2022 01:44:36 +0000 (UTC)
 Received: from blue.redhat.com (unknown [10.2.16.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 525075E480;
- Tue,  8 Mar 2022 01:44:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63D4F5E480;
+ Tue,  8 Mar 2022 01:44:35 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/15] tests/qemu-iotests: convert NBD TLS test to use standard
- filters
-Date: Mon,  7 Mar 2022 19:44:13 -0600
-Message-Id: <20220308014419.3056549-10-eblake@redhat.com>
+Subject: [PULL 10/15] tests/qemu-iotests: validate NBD TLS with hostname
+ mismatch
+Date: Mon,  7 Mar 2022 19:44:14 -0600
+Message-Id: <20220308014419.3056549-11-eblake@redhat.com>
 In-Reply-To: <20220308014419.3056549-1-eblake@redhat.com>
 References: <20220308014419.3056549-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -87,140 +87,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-Using standard filters is more future proof than rolling our own.
+This validates that connections to an NBD server where the certificate
+hostname does not match will fail. It further validates that using the
+new 'tls-hostname' override option can solve the failure.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220304193610.3293146-10-berrange@redhat.com>
+Message-Id: <20220304193610.3293146-11-berrange@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/233     | 29 ++++++++++++++++-------------
- tests/qemu-iotests/233.out |  8 --------
- 2 files changed, 16 insertions(+), 21 deletions(-)
+ tests/qemu-iotests/common.tls |  7 ++++---
+ tests/qemu-iotests/233        | 18 ++++++++++++++++++
+ tests/qemu-iotests/233.out    | 16 ++++++++++++++++
+ 3 files changed, 38 insertions(+), 3 deletions(-)
 
+diff --git a/tests/qemu-iotests/common.tls b/tests/qemu-iotests/common.tls
+index 6ba28a78d3c8..4a5760949d0f 100644
+--- a/tests/qemu-iotests/common.tls
++++ b/tests/qemu-iotests/common.tls
+@@ -118,12 +118,13 @@ tls_x509_create_server()
+     caname=$1
+     name=$2
+
++    # We don't include 'localhost' in the cert, as
++    # we want to keep it unlisted to let tests
++    # validate hostname override
+     mkdir -p "${tls_dir}/$name"
+     cat > "${tls_dir}/cert.info" <<EOF
+ organization = Cthulhu Dark Lord Enterprises $name
+-cn = localhost
+-dns_name = localhost
+-dns_name = localhost.localdomain
++cn = iotests.qemu.org
+ ip_address = 127.0.0.1
+ ip_address = ::1
+ tls_www_server
 diff --git a/tests/qemu-iotests/233 b/tests/qemu-iotests/233
-index 9ca7b68f42cf..050267298d67 100755
+index 050267298d67..c24d877be88e 100755
 --- a/tests/qemu-iotests/233
 +++ b/tests/qemu-iotests/233
-@@ -65,7 +65,7 @@ tls_x509_create_client "ca1" "client3"
- echo
- echo "== preparing image =="
- _make_test_img 64M
--$QEMU_IO -c 'w -P 0x11 1m 1m' "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c 'w -P 0x11 1m 1m' "$TEST_IMG" 2>&1 | _filter_qemu_io
-
- echo
- echo "== check TLS client to plain server fails =="
-@@ -74,9 +74,9 @@ nbd_server_start_tcp_socket -f $IMGFMT "$TEST_IMG" 2> "$TEST_DIR/server.log"
- obj=tls-creds-x509,dir=${tls_dir}/client1,endpoint=client,id=tls0
- $QEMU_IMG info --image-opts --object $obj \
-     driver=nbd,host=$nbd_tcp_addr,port=$nbd_tcp_port,tls-creds=tls0 \
--    2>&1 | sed "s/$nbd_tcp_port/PORT/g"
-+    2>&1 | _filter_nbd
- $QEMU_NBD_PROG -L -b $nbd_tcp_addr -p $nbd_tcp_port --object $obj \
--    --tls-creds=tls0
-+    --tls-creds=tls0 2>&1 | _filter_qemu_nbd_exports
-
- nbd_server_stop
-
-@@ -88,8 +88,10 @@ nbd_server_start_tcp_socket \
-     --tls-creds tls0 \
-     -f $IMGFMT "$TEST_IMG" 2>> "$TEST_DIR/server.log"
-
--$QEMU_IMG info nbd://localhost:$nbd_tcp_port 2>&1 | sed "s/$nbd_tcp_port/PORT/g"
--$QEMU_NBD_PROG -L -b $nbd_tcp_addr -p $nbd_tcp_port
-+$QEMU_IMG info nbd://localhost:$nbd_tcp_port \
-+    2>&1 | _filter_nbd
-+$QEMU_NBD_PROG -L -b $nbd_tcp_addr -p $nbd_tcp_port \
-+    2>&1 | _filter_qemu_nbd_exports
-
- echo
- echo "== check TLS works =="
-@@ -97,21 +99,21 @@ obj1=tls-creds-x509,dir=${tls_dir}/client1,endpoint=client,id=tls0
- obj2=tls-creds-x509,dir=${tls_dir}/client3,endpoint=client,id=tls0
- $QEMU_IMG info --image-opts --object $obj1 \
-     driver=nbd,host=$nbd_tcp_addr,port=$nbd_tcp_port,tls-creds=tls0 \
--    2>&1 | sed "s/$nbd_tcp_port/PORT/g"
-+    2>&1 | _filter_nbd
- $QEMU_IMG info --image-opts --object $obj2 \
-     driver=nbd,host=$nbd_tcp_addr,port=$nbd_tcp_port,tls-creds=tls0 \
--    2>&1 | sed "s/$nbd_tcp_port/PORT/g"
-+    2>&1 | _filter_nbd
+@@ -106,6 +106,24 @@ $QEMU_IMG info --image-opts --object $obj2 \
  $QEMU_NBD_PROG -L -b $nbd_tcp_addr -p $nbd_tcp_port --object $obj1 \
--    --tls-creds=tls0
-+    --tls-creds=tls0 2>&1 | _filter_qemu_nbd_exports
+     --tls-creds=tls0 2>&1 | _filter_qemu_nbd_exports
 
++echo
++echo "== check TLS fail over TCP with mismatched hostname =="
++obj1=tls-creds-x509,dir=${tls_dir}/client1,endpoint=client,id=tls0
++$QEMU_IMG info --image-opts --object $obj1 \
++    driver=nbd,host=localhost,port=$nbd_tcp_port,tls-creds=tls0 \
++    2>&1 | _filter_nbd
++$QEMU_NBD_PROG -L -b localhost -p $nbd_tcp_port --object $obj1 \
++    --tls-creds=tls0 | _filter_qemu_nbd_exports
++
++echo
++echo "== check TLS works over TCP with mismatched hostname and override =="
++obj1=tls-creds-x509,dir=${tls_dir}/client1,endpoint=client,id=tls0
++$QEMU_IMG info --image-opts --object $obj1 \
++    driver=nbd,host=localhost,port=$nbd_tcp_port,tls-creds=tls0,tls-hostname=127.0.0.1 \
++    2>&1 | _filter_nbd
++$QEMU_NBD_PROG -L -b localhost -p $nbd_tcp_port --object $obj1 \
++    --tls-creds=tls0 --tls-hostname=127.0.0.1 | _filter_qemu_nbd_exports
++
  echo
  echo "== check TLS with different CA fails =="
  obj=tls-creds-x509,dir=${tls_dir}/client2,endpoint=client,id=tls0
- $QEMU_IMG info --image-opts --object $obj \
-     driver=nbd,host=$nbd_tcp_addr,port=$nbd_tcp_port,tls-creds=tls0 \
--    2>&1 | sed "s/$nbd_tcp_port/PORT/g"
-+    2>&1 | _filter_nbd
- $QEMU_NBD_PROG -L -b $nbd_tcp_addr -p $nbd_tcp_port --object $obj \
--    --tls-creds=tls0
-+    --tls-creds=tls0 2>&1 | _filter_qemu_nbd_exports
-
- echo
- echo "== perform I/O over TLS =="
-@@ -121,7 +123,8 @@ $QEMU_IO -c 'r -P 0x11 1m 1m' -c 'w -P 0x22 1m 1m' --image-opts \
-     driver=nbd,host=$nbd_tcp_addr,port=$nbd_tcp_port,tls-creds=tls0 \
-     2>&1 | _filter_qemu_io
-
--$QEMU_IO -f $IMGFMT -r -U -c 'r -P 0x22 1m 1m' "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -f $IMGFMT -r -U -c 'r -P 0x22 1m 1m' "$TEST_IMG" \
-+    2>&1 | _filter_qemu_io
-
- echo
- echo "== check TLS with authorization =="
-@@ -139,12 +142,12 @@ nbd_server_start_tcp_socket \
- $QEMU_IMG info --image-opts \
-     --object tls-creds-x509,dir=${tls_dir}/client1,endpoint=client,id=tls0 \
-     driver=nbd,host=$nbd_tcp_addr,port=$nbd_tcp_port,tls-creds=tls0 \
--    2>&1 | sed "s/$nbd_tcp_port/PORT/g"
-+    2>&1 | _filter_nbd
-
- $QEMU_IMG info --image-opts \
-     --object tls-creds-x509,dir=${tls_dir}/client3,endpoint=client,id=tls0 \
-     driver=nbd,host=$nbd_tcp_addr,port=$nbd_tcp_port,tls-creds=tls0 \
--    2>&1 | sed "s/$nbd_tcp_port/PORT/g"
-+    2>&1 | _filter_nbd
-
- echo
- echo "== final server log =="
 diff --git a/tests/qemu-iotests/233.out b/tests/qemu-iotests/233.out
-index 4b1f6a0e1513..67a027d87986 100644
+index 67a027d87986..d42611bf74a6 100644
 --- a/tests/qemu-iotests/233.out
 +++ b/tests/qemu-iotests/233.out
-@@ -17,15 +17,12 @@ wrote 1048576/1048576 bytes at offset 1048576
- qemu-img: Could not open 'driver=nbd,host=127.0.0.1,port=PORT,tls-creds=tls0': Denied by server for option 5 (starttls)
- server reported: TLS not configured
- qemu-nbd: Denied by server for option 5 (starttls)
--server reported: TLS not configured
-
- == check plain client to TLS server fails ==
- qemu-img: Could not open 'nbd://localhost:PORT': TLS negotiation required before option 7 (go)
- Did you forget a valid tls-creds?
- server reported: Option 0x7 not permitted before TLS
- qemu-nbd: TLS negotiation required before option 3 (list)
--Did you forget a valid tls-creds?
--server reported: Option 0x3 not permitted before TLS
-
- == check TLS works ==
- image: nbd://127.0.0.1:PORT
-@@ -39,12 +36,7 @@ disk size: unavailable
- exports available: 1
-  export: ''
+@@ -38,6 +38,20 @@ exports available: 1
    size:  67108864
--  flags: 0xced ( flush fua trim zeroes df cache fast-zero )
    min block: 1
--  opt block: 4096
--  max block: 33554432
--  available meta contexts: 1
--   base:allocation
 
++== check TLS fail over TCP with mismatched hostname ==
++qemu-img: Could not open 'driver=nbd,host=localhost,port=PORT,tls-creds=tls0': Certificate does not match the hostname localhost
++qemu-nbd: Certificate does not match the hostname localhost
++
++== check TLS works over TCP with mismatched hostname and override ==
++image: nbd://localhost:PORT
++file format: nbd
++virtual size: 64 MiB (67108864 bytes)
++disk size: unavailable
++exports available: 1
++ export: ''
++  size:  67108864
++  min block: 1
++
  == check TLS with different CA fails ==
  qemu-img: Could not open 'driver=nbd,host=127.0.0.1,port=PORT,tls-creds=tls0': The certificate hasn't got a known issuer
+ qemu-nbd: The certificate hasn't got a known issuer
+@@ -55,6 +69,8 @@ qemu-img: Could not open 'driver=nbd,host=127.0.0.1,port=PORT,tls-creds=tls0': F
+ qemu-img: Could not open 'driver=nbd,host=127.0.0.1,port=PORT,tls-creds=tls0': Failed to read option reply: Cannot read from TLS channel: Software caused connection abort
+
+ == final server log ==
++qemu-nbd: option negotiation failed: Failed to read opts magic: Cannot read from TLS channel: Software caused connection abort
++qemu-nbd: option negotiation failed: Failed to read opts magic: Cannot read from TLS channel: Software caused connection abort
+ qemu-nbd: option negotiation failed: Verify failed: No certificate was found.
+ qemu-nbd: option negotiation failed: Verify failed: No certificate was found.
+ qemu-nbd: option negotiation failed: TLS x509 authz check for DISTINGUISHED-NAME is denied
 -- 
 2.35.1
 
