@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB8D4D0E43
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 04:21:16 +0100 (CET)
-Received: from localhost ([::1]:47862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E29D4D0E8D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 05:11:24 +0100 (CET)
+Received: from localhost ([::1]:60048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRQPT-00054q-6r
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 22:21:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38940)
+	id 1nRRBy-00087j-OS
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 23:11:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nRQOJ-0003ky-PV
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 22:20:03 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:5110)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1nRQOG-00046v-IE
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 22:20:03 -0500
-Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4KCLB11mRkzBrJW;
- Tue,  8 Mar 2022 11:18:01 +0800 (CST)
-Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Tue, 8 Mar 2022 11:19:55 +0800
-Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
- dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.021;
- Tue, 8 Mar 2022 11:19:55 +0800
-To: Stefano Garzarella <sgarzare@redhat.com>
-CC: "stefanha@redhat.com" <stefanha@redhat.com>, "mst@redhat.com"
- <mst@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Gonglei (Arei)"
- <arei.gonglei@huawei.com>, Yechuan <yechuan@huawei.com>, Huangzhichao
- <huangzhichao@huawei.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v2 05/10] vdpa-dev: implement the realize interface
-Thread-Topic: [PATCH v2 05/10] vdpa-dev: implement the realize interface
-Thread-Index: AQHYC5/ZtDScNT7N4USqi1oqnhFxU6xpsp8AgEbqwrCAAr6QgIAAkLJA//+vxwCAAVhGgA==
-Date: Tue, 8 Mar 2022 03:19:55 +0000
-Message-ID: <c102cbc9856a42c888a64767c3265325@huawei.com>
-References: <20220117124331.1642-1-longpeng2@huawei.com>
- <20220117124331.1642-6-longpeng2@huawei.com>
- <20220119113042.a4dmwe4tnfsabnmn@steredhat>
- <c671639270f6459d8c2f389dfd1cc04a@huawei.com>
- <20220307082341.qr3jwzygqxo7kx3o@sgarzare-redhat>
- <5d8e8b6c4c794be9867be45463251d39@huawei.com>
- <20220307121426.ecuy4doxuz7g6d2o@sgarzare-redhat>
-In-Reply-To: <20220307121426.ecuy4doxuz7g6d2o@sgarzare-redhat>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.148.223]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nRRAU-0006sM-JN; Mon, 07 Mar 2022 23:09:52 -0500
+Received: from [2607:f8b0:4864:20::c2a] (port=35824
+ helo=mail-oo1-xc2a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dmiller423@gmail.com>)
+ id 1nRRAS-0002zr-Tw; Mon, 07 Mar 2022 23:09:50 -0500
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ 189-20020a4a03c6000000b003179d7b30d8so20647809ooi.2; 
+ Mon, 07 Mar 2022 20:09:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JxJsWsKgdIgKmk1x/aw+xNGiU2hipBI93YGHqJNQ284=;
+ b=otTJWOLHjC1trtykywy/xMLzENeSqesxhVZFVUSLcMR0YtlxkksRBD5gab2fWm/kUe
+ psKZ9ba0mWlX3eRzCajY+6AYdg5a2yywp2agdKzs/sx5YHZkdOQBEYoksFQoGOa67hd1
+ ltG7ZSWOIqPqNlz8UJCn8+dAIkOqp9T1+a4tk9q37FZqgyFT/xAzKWAoSlwwqULTObnR
+ dmlefTjKW+h60b6ACjr53wzMDc6La4rpma7dzHeg49Ai1P4qsC0yXJn7ukXX+yH4de7K
+ R8fLC8Kk2FAGTts3Y3F7K262h/RvKfkr5OzH+Itxsl5oYTUZCin6NJNJB5stYKximLaS
+ rSew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JxJsWsKgdIgKmk1x/aw+xNGiU2hipBI93YGHqJNQ284=;
+ b=ycghDvnkYA08ETUV7VWYwOTDUoypkWXUJfEuD6EjjIC8ahkon1xtDcg9EDr6W6pPUF
+ 4wkf5DC7mkfW8Mq43/8D+6Toonz3A/fa0SzyhQqdvIEGYaGRvuZ/gBQDkTb62LAajsoX
+ ornJ34IkPHS+00p2ZukWAP5/0x7ybAZWb+7qtaKbv9NQ5lpoLqKUOwWk8ZF0Pu7U1MLU
+ g++WdDMubfjQAGBp/9TqSGh4cT6T90buzKIEf/s4fKvptTBicBtb6vG97XX1CvIzK9IR
+ k98Tc+FWle1yp0eSCnQMOoSJT7MQTYetaNQ2ytkRxzCFPgCrWhjModMSj6fsXyMIuZpT
+ KP0g==
+X-Gm-Message-State: AOAM530VTyltGfATfRwYTyY7LFdER5NYHHOikMGSgGtRfgoAKaEnp2iw
+ amirqvca9gHoYvS3OxQj13O5NRK406FHnvxwZUs=
+X-Google-Smtp-Source: ABdhPJxZyIK0c2Pe1ogTnh4CeVj+T+uUXVP7ofJwAUaGAahxQbnc7zKEzeevLKQ0URdnIbh5kK3qfHzEBqtwjut/yyM=
+X-Received: by 2002:a05:6870:7a3:b0:d7:5fbf:37b7 with SMTP id
+ en35-20020a05687007a300b000d75fbf37b7mr1332164oab.16.1646712586933; Mon, 07
+ Mar 2022 20:09:46 -0800 (PST)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220308015358.188499-1-richard.henderson@linaro.org>
+In-Reply-To: <20220308015358.188499-1-richard.henderson@linaro.org>
+From: David Miller <dmiller423@gmail.com>
+Date: Mon, 7 Mar 2022 23:09:32 -0500
+Message-ID: <CAEgyohXWk7uFrZmOwZKSYtrHs8_NnAWhvr9DgqnYP0JmLEPP_Q@mail.gmail.com>
+Subject: Re: [PATCH v3 00/11] s390x/tcg: Implement Vector-Enhancements
+ Facility 2
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000ca989305d9ad2666"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
+ envelope-from=dmiller423@gmail.com; helo=mail-oo1-xc2a.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,183 +82,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
 
+--000000000000ca989305d9ad2666
+Content-Type: text/plain; charset="UTF-8"
 
+I've reviewed all changes,  looks good.
+Ran all of my own tests including vstrs, all passed.
 
-> -----Original Message-----
-> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
-> Sent: Monday, March 7, 2022 8:14 PM
-> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> <longpeng2@huawei.com>
-> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
-> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
-> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
-> qemu-devel@nongnu.org
-> Subject: Re: [PATCH v2 05/10] vdpa-dev: implement the realize interface
->=20
-> On Mon, Mar 07, 2022 at 11:13:02AM +0000, Longpeng (Mike, Cloud Infrastru=
-cture
-> Service Product Dept.) wrote:
-> >
-> >
-> >> -----Original Message-----
-> >> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
-> >> Sent: Monday, March 7, 2022 4:24 PM
-> >> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> >> <longpeng2@huawei.com>
-> >> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
-> >> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
-> >> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
-> >> qemu-devel@nongnu.org
-> >> Subject: Re: [PATCH v2 05/10] vdpa-dev: implement the realize interfac=
-e
-> >>
-> >> On Sat, Mar 05, 2022 at 07:07:54AM +0000, Longpeng (Mike, Cloud Infras=
-tructure
-> >> Service Product Dept.) wrote:
-> >> >
-> >> >
-> >> >> -----Original Message-----
-> >> >> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
-> >> >> Sent: Wednesday, January 19, 2022 7:31 PM
-> >> >> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> >> >> <longpeng2@huawei.com>
-> >> >> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
-> >> >> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yech=
-uan
-> >> >> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
-> >> >> qemu-devel@nongnu.org
-> >> >> Subject: Re: [PATCH v2 05/10] vdpa-dev: implement the realize inter=
-face
-> >> >>
-> >> >> On Mon, Jan 17, 2022 at 08:43:26PM +0800, Longpeng(Mike) via wrote:
-> >> >> >From: Longpeng <longpeng2@huawei.com>
-> >> >> >
-> >> >> >Implements the .realize interface.
-> >> >> >
-> >> >> >Signed-off-by: Longpeng <longpeng2@huawei.com>
-> >> >> >---
-> >> >> > hw/virtio/vdpa-dev.c         | 101 ++++++++++++++++++++++++++++++=
-+++++
-> >> >> > include/hw/virtio/vdpa-dev.h |   8 +++
-> >> >> > 2 files changed, 109 insertions(+)
-> >> >> >
-> >> >> >diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
-> >> >> >index b103768f33..bd28cf7a15 100644
-> >> >> >--- a/hw/virtio/vdpa-dev.c
-> >> >> >+++ b/hw/virtio/vdpa-dev.c
-> >> >> >@@ -27,9 +27,109 @@ uint32_t vhost_vdpa_device_get_u32(int fd, uns=
-igned
-> long
-> >> >> int cmd, Error **errp)
-> >> >> >     return val;
-> >> >> > }
-> >> >> >
-> >> >> >+static void
-> >> >> >+vhost_vdpa_device_dummy_handle_output(VirtIODevice *vdev, VirtQue=
-ue
-> *vq)
-> >> >> >+{
-> >> >> >+    /* Nothing to do */
-> >> >> >+}
-> >> >> >+
-> >> >> > static void vhost_vdpa_device_realize(DeviceState *dev, Error **e=
-rrp)
-> >> >> > {
-> >> >> >+    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-> >> >> >+    VhostVdpaDevice *s =3D VHOST_VDPA_DEVICE(vdev);
-> >> >> >+    uint32_t vdev_id, max_queue_size;
-> >> >> >+    struct vhost_virtqueue *vqs;
-> >> >> >+    int i, ret;
-> >> >> >+
-> >> >> >+    if (s->vdpa_dev_fd =3D=3D -1) {
-> >> >> >+        s->vdpa_dev_fd =3D qemu_open(s->vdpa_dev, O_RDWR, errp);
-> >> >>
-> >> >> So, here we are re-opening the `vdpa_dev` again (without checking i=
-f it
-> >> >> is NULL).
-> >> >>
-> >> >> And we re-do the same ioctls already done in
-> >> >> vhost_vdpa_device_pci_realize(), so I think we should do them in a
-> >> >> single place, and that place should be here.
-> >> >>
-> >> >> So, what about doing all the ioctls here, setting appropriate field=
-s in
-> >> >> VhostVdpaDevice, then using that fields in
-> >> >> vhost_vdpa_device_pci_realize() after qdev_realize() to set
-> >> >> `class_code`, `trans_devid`, and `nvectors`?
-> >> >>
-> >> >
-> >> >vhost_vdpa_device_pci_realize()
-> >> >  qdev_realize()
-> >> >    virtio_device_realize()
-> >> >      vhost_vdpa_device_realize()
-> >> >      virtio_bus_device_plugged()
-> >> >        virtio_pci_device_plugged()
-> >> >
-> >> >These three fields would be used in virtio_pci_device_plugged(), so i=
-t's
-> too
-> >> >late to set them after qdev_realize().  And they belong to VirtIOPCIP=
-roxy,
-> so
-> >> >we cannot set them in vhost_vdpa_device_realize() which is transport =
-layer
-> >> >independent.
-> >>
-> >> Maybe I expressed myself wrong, I was saying to open the file and make
-> >> ioctls in vhost_vdpa_device_realize(). Save the values we use on both
-> >> sides in VhostVdpaDevice (e.g. num_queues, queue_size) and use these
-> >> saved values in virtio_pci_device_plugged() without re-opening the fil=
-e
-> >> again.
-> >>
-> >
-> >This means we need to access VhostVdpaDevice in virtio_pci_device_plugge=
-d()?
->=20
-> Yep, or implement some functions to get those values.
->=20
+Thank you for all reviews and changes here.
 
-I prefer not to modify the VIRTIO or the VIRTIO_PCI core too much.
-How about the following proposal?
+- David Miller
 
-struct VhostVdpaDevice {
-    ...
-    void (*post_init)(VhostVdpaDevice *vdpa_dev);
-    ...
-}
+On Mon, Mar 7, 2022 at 8:54 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-vhost_vdpa_device_pci_post_init(VhostVdpaDevice *vdpa_dev)
-{
-    ...
-    vpci_dev->class_code =3D virtio_pci_get_class_id(vdpa_dev->vdev_id);
-    vpci_dev->trans_devid =3D virtio_pci_get_trans_devid(vdpa_dev->vdev_id)=
-;
-    vpci_dev->nvectors =3D vdpa_dev->num_queues + 1;
-    ...
-}
+> Hi David,
+>
+> I've split up the patches a bit, made some improvements to
+> the shifts and reversals, and fixed a few bugs.
+>
+> Please especially review vector string search, as that is
+> has had major changes.
+>
+>
+> r~
+>
+>
+> David Miller (9):
+>   target/s390x: vxeh2: vector convert short/32b
+>   target/s390x: vxeh2: vector string search
+>   target/s390x: vxeh2: Update for changes to vector shifts
+>   target/s390x: vxeh2: vector shift double by bit
+>   target/s390x: vxeh2: vector {load, store} elements reversed
+>   target/s390x: vxeh2: vector {load, store} byte reversed elements
+>   target/s390x: vxeh2: vector {load, store} byte reversed element
+>   target/s390x: add S390_FEAT_VECTOR_ENH2 to cpu max
+>   tests/tcg/s390x: Tests for Vector Enhancements Facility 2
+>
+> Richard Henderson (2):
+>   tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+>   target/s390x: Fix writeback to v1 in helper_vstl
+>
+>  include/tcg/tcg-op.h                 |   6 +
+>  target/s390x/helper.h                |  13 +
+>  target/s390x/gen-features.c          |   2 +
+>  target/s390x/tcg/translate.c         |   3 +-
+>  target/s390x/tcg/vec_fpu_helper.c    |  31 ++
+>  target/s390x/tcg/vec_helper.c        |   2 -
+>  target/s390x/tcg/vec_int_helper.c    |  58 ++++
+>  target/s390x/tcg/vec_string_helper.c | 101 ++++++
+>  tcg/tcg-op.c                         |  30 ++
+>  tests/tcg/s390x/vxeh2_vcvt.c         |  97 ++++++
+>  tests/tcg/s390x/vxeh2_vlstr.c        | 146 +++++++++
+>  tests/tcg/s390x/vxeh2_vs.c           |  91 ++++++
+>  target/s390x/tcg/translate_vx.c.inc  | 442 ++++++++++++++++++++++++---
+>  target/s390x/tcg/insn-data.def       |  40 ++-
+>  tests/tcg/s390x/Makefile.target      |   8 +
+>  15 files changed, 1018 insertions(+), 52 deletions(-)
+>  create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
+>  create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
+>  create mode 100644 tests/tcg/s390x/vxeh2_vs.c
+>
+> --
+> 2.25.1
+>
+>
 
-vhost_vdpa_device_pci_realize():
-    post_init =3D vhost_vdpa_device_pci_post_init;
+--000000000000ca989305d9ad2666
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-vhost_vdpa_device_realize()
-{
-    ...
-    Open the file.
-    Set vdpa_dev->vdev_id, vdpa_dev->vdev_id, vdpa_dev->num_queues
-    ...
-    if (vdpa_dev->post_init) {
-        vdpa_dev->post_init(vdpa_dev);
-    }
-    ...
-}
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:georgia,=
+serif;font-size:small;color:#073763"><br></div><div class=3D"gmail_default"=
+ style=3D"font-family:georgia,serif;font-size:small;color:#073763">I&#39;ve=
+ reviewed all changes,=C2=A0 looks good.</div><div class=3D"gmail_default" =
+style=3D"font-family:georgia,serif;font-size:small;color:#073763">Ran all o=
+f my own tests including vstrs, all passed.</div><div class=3D"gmail_defaul=
+t" style=3D"font-family:georgia,serif;font-size:small;color:#073763"><br></=
+div><div class=3D"gmail_default" style=3D"font-family:georgia,serif;font-si=
+ze:small;color:#073763">Thank you for all reviews and changes here.<br></di=
+v><div class=3D"gmail_default" style=3D"font-family:georgia,serif;font-size=
+:small;color:#073763"><br></div><div class=3D"gmail_default" style=3D"font-=
+family:georgia,serif;font-size:small;color:#073763">- David Miller</div></d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Mon, Mar 7, 2022 at 8:54 PM Richard Henderson &lt;<a href=3D"mailto:richard=
+.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">Hi David,<br>
+<br>
+I&#39;ve split up the patches a bit, made some improvements to<br>
+the shifts and reversals, and fixed a few bugs.<br>
+<br>
+Please especially review vector string search, as that is<br>
+has had major changes.<br>
+<br>
+<br>
+r~<br>
+<br>
+<br>
+David Miller (9):<br>
+=C2=A0 target/s390x: vxeh2: vector convert short/32b<br>
+=C2=A0 target/s390x: vxeh2: vector string search<br>
+=C2=A0 target/s390x: vxeh2: Update for changes to vector shifts<br>
+=C2=A0 target/s390x: vxeh2: vector shift double by bit<br>
+=C2=A0 target/s390x: vxeh2: vector {load, store} elements reversed<br>
+=C2=A0 target/s390x: vxeh2: vector {load, store} byte reversed elements<br>
+=C2=A0 target/s390x: vxeh2: vector {load, store} byte reversed element<br>
+=C2=A0 target/s390x: add S390_FEAT_VECTOR_ENH2 to cpu max<br>
+=C2=A0 tests/tcg/s390x: Tests for Vector Enhancements Facility 2<br>
+<br>
+Richard Henderson (2):<br>
+=C2=A0 tcg: Implement tcg_gen_{h,w}swap_{i32,i64}<br>
+=C2=A0 target/s390x: Fix writeback to v1 in helper_vstl<br>
+<br>
+=C2=A0include/tcg/tcg-op.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 =C2=A06 +<br>
+=C2=A0target/s390x/helper.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 |=C2=A0 13 +<br>
+=C2=A0target/s390x/gen-features.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0=
+ =C2=A02 +<br>
+=C2=A0target/s390x/tcg/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0=
+ =C2=A03 +-<br>
+=C2=A0target/s390x/tcg/vec_fpu_helper.c=C2=A0 =C2=A0 |=C2=A0 31 ++<br>
+=C2=A0target/s390x/tcg/vec_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A02 -<br>
+=C2=A0target/s390x/tcg/vec_int_helper.c=C2=A0 =C2=A0 |=C2=A0 58 ++++<br>
+=C2=A0target/s390x/tcg/vec_string_helper.c | 101 ++++++<br>
+=C2=A0tcg/tcg-op.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 30 ++<br>
+=C2=A0tests/tcg/s390x/vxeh2_vcvt.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0=
+ 97 ++++++<br>
+=C2=A0tests/tcg/s390x/vxeh2_vlstr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 146 ++++++=
++++<br>
+=C2=A0tests/tcg/s390x/vxeh2_vs.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 91 ++++++<br>
+=C2=A0target/s390x/tcg/translate_vx.c.inc=C2=A0 | 442 +++++++++++++++++++++=
++++---<br>
+=C2=A0target/s390x/tcg/insn-data.def=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 40 +=
++-<br>
+=C2=A0tests/tcg/s390x/Makefile.target=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A08 +=
+<br>
+=C2=A015 files changed, 1018 insertions(+), 52 deletions(-)<br>
+=C2=A0create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c<br>
+=C2=A0create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c<br>
+=C2=A0create mode 100644 tests/tcg/s390x/vxeh2_vs.c<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div>
 
-> Stefano
-
+--000000000000ca989305d9ad2666--
 
