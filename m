@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF5E4D2491
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 00:02:11 +0100 (CET)
-Received: from localhost ([::1]:47600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC8E4D24A5
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 00:12:08 +0100 (CET)
+Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRiqI-0003uE-B8
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 18:02:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44434)
+	id 1nRizu-0007Xp-Rw
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 18:12:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1nRinX-00023Z-Cr
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 17:59:19 -0500
-Received: from [2607:f8b0:4864:20::b36] (port=40829
- helo=mail-yb1-xb36.google.com)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1nRivf-0005ml-8Q; Tue, 08 Mar 2022 18:07:43 -0500
+Received: from [2607:f8b0:4864:20::f34] (port=46870
+ helo=mail-qv1-xf34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1nRinV-0007dq-EG
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 17:59:19 -0500
-Received: by mail-yb1-xb36.google.com with SMTP id e186so774419ybc.7
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 14:59:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1nRivd-0000k0-3M; Tue, 08 Mar 2022 18:07:42 -0500
+Received: by mail-qv1-xf34.google.com with SMTP id j5so655648qvs.13;
+ Tue, 08 Mar 2022 15:07:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Aoe3/m3imYoVYAC4DFea/Da8HMROtIpGBIPkHpNY3AQ=;
- b=LS0nUpo63dxiAeJzMLcmswqgx6C+cgfj5F/jrCUm8nQm2VKBRM5uSs7uAI7A8GDaHf
- LGkqi0llZVxNdaq/p9RvfFVNA1T9uDUPhII6wtJ/2/HV+p+jt6wISXPWKKWW5rpe+3GF
- cLHf4YF25dxgoxGrdsWujFgZADkt9vUVn8lA8=
+ bh=x57LrVMiCqoasIMX7qOPQGjVS39cCnI7YTtBC7jqjMw=;
+ b=jTxy4wYdncvKt5UmA4pG9PUdxqeQwsrlgQERnDZjHUXWbHnAZfTDkEhkULzXGXxfuB
+ A7t+s8bGVFjWZlXpWXriQ2mvPMPbb7HhgqIwk0W3ykJCMKzWSBl4IQGKJuc+EydSLHFD
+ IACVNwsCGno+3RrJi7PM7TOGjkX7RpWyabvG8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Aoe3/m3imYoVYAC4DFea/Da8HMROtIpGBIPkHpNY3AQ=;
- b=NLXkLgwPPkt+pALq3f2AhD+S7/wx+oIXYSRz6vGPvEuurudGdVqsfcGTTlq4UZdxJI
- UoXz/aZ7oig544bh2nyf8kYApNfurUCOCo8MHD/vWkSerA/UELEThDY5IneiFPU/o3Yk
- t9j0pckIk0GPhStiuloXjTQedVcshLA76UiQ+lXl8UWyt8Xx5qsIKYC8ZjvV/+IgfdJp
- QiLLyKiHVddWp5lsKOFeCPHOZzNC8rkFNHPXLV8mrS4u4XLXTiABTVZtnSHIy3xr29ro
- f28s0OjZy6p8arcaYg+d5pFV35v5o1Z00a9bwYht8Iy2ZPMxHRem6bDZdLATUHcim1so
- tJiw==
-X-Gm-Message-State: AOAM533Fys4i+e6WNMA8b5Ty5heOZ08gCBMcwj2beHvMKHdZRo2ccJdF
- AyTVOuC0t7OBQThQcgq3YqfkMLVde/GM4GlUPQ0QzJW/HGkc
-X-Google-Smtp-Source: ABdhPJwdsixqzKrRNA9Dp7fRQUEnW7VN7wR6kQl/d+lxtL1omz5dG/AEJFXprXToL3hWZbhIOnIA6jUsi5NV4w6vSsE=
-X-Received: by 2002:a0d:f1c7:0:b0:2db:d2bc:be11 with SMTP id
- a190-20020a0df1c7000000b002dbd2bcbe11mr14881578ywf.62.1646780024842; Tue, 08
- Mar 2022 14:53:44 -0800 (PST)
+ bh=x57LrVMiCqoasIMX7qOPQGjVS39cCnI7YTtBC7jqjMw=;
+ b=q2xaSQDnmB4EWX4Hl8dyH1Mun3bl/Hj/JVLHfcRNpE1WiAywyIFiIO3TPFaESsLpbL
+ YQpf0clpH3Xf0SCbTYeaKGk/xgLAl5X0oZuBRlqe+cuG4HD+zkU2bsEOAZ8V1xUOJ+7U
+ HGki3JD+Y9j4lQDWOpusqCRp03GgkaeBuj8EFTypHANmWw9Fij3DTodTU9ncct4ZznrQ
+ JCP3lZkuy5eLBaa+S/m9Sjb9QzoP1b7SQmDTYkiFUd87xwQaWiJZkr/6sRNphBd0yBTX
+ nxuzsFzU4uBxCylaf6TSkBS1ujNpzQm+XXOV+3eE9PqCswj2H925jja6ll+7dyE2dJML
+ Qxug==
+X-Gm-Message-State: AOAM5326O23c8R6rygCviDW/YkWnfpoVxTCPxuMF41OnpoQ6LoNKBWoE
+ jDUr1y012ZIGbaaYiLZZwIpnoPV+WnUyARAsebI=
+X-Google-Smtp-Source: ABdhPJylqmhxW22ThB+T9GB8ReMYru3MUE20T4zVie3dg+GaRgl3NHSGsMBlRa50CMI9HmRzgw6wzNfqyoH2BGhD9WA=
+X-Received: by 2002:a05:6214:c67:b0:435:bbb2:5c40 with SMTP id
+ t7-20020a0562140c6700b00435bbb25c40mr1558358qvj.21.1646780856340; Tue, 08 Mar
+ 2022 15:07:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20220222223830.2319856-1-atishp@rivosinc.com>
- <CANzO1D05q8_-PSs5KJsnO+MPWVWLrFoYsvhPXGK2eUC8rwBqDw@mail.gmail.com>
- <CAOnJCULn7BbyfyeHpPQkyLTQyTcXrfu9wBheMAXDdFTnnRMphA@mail.gmail.com>
- <5780243.1I65i12eNQ@phil>
- <CAHBxVyE2QRE8+W36AzgQ5=0GJMuPCgcGVzmS-VOLqDWHxPWkug@mail.gmail.com>
- <CAE_xrPhd4L9C_oTTn_Zc==NQ_TeBk+0OBZ7h3cxH7cRXY835BQ@mail.gmail.com>
- <CAHBxVyEe=ecBJOj457U2PKj0RcX23JYurEbhO4_PS-oF-FpaJQ@mail.gmail.com>
- <CAE_xrPjkPjdBvH-+DfmLYZwboFPpxtvQb3upSdE6mMUz+ZwfnQ@mail.gmail.com>
-In-Reply-To: <CAE_xrPjkPjdBvH-+DfmLYZwboFPpxtvQb3upSdE6mMUz+ZwfnQ@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Tue, 8 Mar 2022 14:53:34 -0800
-Message-ID: <CAOnJCUK6KvcN8m8kxPdZULAKKdY7wymZGtVL4z_AuD72H3G1Pg@mail.gmail.com>
-Subject: Re: [PATCH v3] target/riscv: Add isa extenstion strings to the device
- tree
-To: Frank Chang <frank.chang@sifive.com>
+References: <20220305000656.1944589-1-patrick@stwcx.xyz>
+ <20220305000656.1944589-2-patrick@stwcx.xyz>
+ <790dd79a-4c5e-207e-86a9-9351694f0427@kaod.org> <YiZySh+cdxL7ddKI@heinlein>
+ <2b9aed65-5cdf-0647-dc25-7cc9d488aaa6@kaod.org> <YieRIkiREVhRUXxZ@heinlein>
+In-Reply-To: <YieRIkiREVhRUXxZ@heinlein>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 8 Mar 2022 23:07:23 +0000
+Message-ID: <CACPK8XedOz2d4uL3Zti3vOzMSBK1+TVg4eQXsOONC9RXDRoRcA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/arm/aspeed: add Bletchley machine type
+To: Patrick Williams <patrick@stwcx.xyz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b36
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f34
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
+ envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf34.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -89,248 +82,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Heiko Stuebner <heiko@sntech.de>, Bin Meng <bin.meng@windriver.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Mar 5, 2022 at 10:43 PM Frank Chang <frank.chang@sifive.com> wrote:
+On Tue, 8 Mar 2022 at 17:23, Patrick Williams <patrick@stwcx.xyz> wrote:
 >
-> On Sun, Mar 6, 2022 at 2:12 PM Atish Kumar Patra <atishp@rivosinc.com> wr=
-ote:
->>
->>
->>
->> On Sat, Mar 5, 2022 at 9:36 PM Frank Chang <frank.chang@sifive.com> wrot=
-e:
->>>
->>> On Sun, Mar 6, 2022 at 7:42 AM Atish Kumar Patra <atishp@rivosinc.com> =
-wrote:
->>>>
->>>>
->>>>
->>>> On Sat, Mar 5, 2022 at 10:05 AM Heiko Stuebner <heiko@sntech.de> wrote=
-:
->>>>>
->>>>> Hi,
->>>>>
->>>>> Am Donnerstag, 3. M=C3=A4rz 2022, 19:58:38 CET schrieb Atish Patra:
->>>>> > On Fri, Feb 25, 2022 at 11:46 PM Frank Chang <frank.chang@sifive.co=
-m> wrote:
->>>>> > > Atish Patra <atishp@rivosinc.com> =E6=96=BC 2022=E5=B9=B42=E6=9C=
-=8823=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=886:39=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->>>>> > >>
->>>>> > >> The Linux kernel parses the ISA extensions from "riscv,isa" DT
->>>>> > >> property. It used to parse only the single letter base extension=
-s
->>>>> > >> until now. A generic ISA extension parsing framework was propose=
-d[1]
->>>>> > >> recently that can parse multi-letter ISA extensions as well.
->>>>> > >>
->>>>> > >> Generate the extended ISA string by appending  the available ISA=
- extensions
->>>>> > >> to the "riscv,isa" string if it is enabled so that kernel can pr=
-ocess it.
->>>>> > >>
->>>>> > >> [1] https://lkml.org/lkml/2022/2/15/263
->>>>> > >>
->>>>> > >> Suggested-by: Heiko Stubner <heiko@sntech.de>
->>>>> > >> Signed-off-by: Atish Patra <atishp@rivosinc.com>
->>>>> > >> ---
->>>>> > >> Changes from v2->v3:
->>>>> > >> 1. Used g_strconcat to replace snprintf & a max isa string lengt=
-h as
->>>>> > >> suggested by Anup.
->>>>> > >> 2. I have not included the Tested-by Tag from Heiko because the
->>>>> > >> implementation changed from v2 to v3.
->>>>> > >>
->>>>> > >> Changes from v1->v2:
->>>>> > >> 1. Improved the code redability by using arrays instead of indiv=
-idual check
->>>>> > >> ---
->>>>> > >>  target/riscv/cpu.c | 29 +++++++++++++++++++++++++++++
->>>>> > >>  1 file changed, 29 insertions(+)
->>>>> > >>
->>>>> > >> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->>>>> > >> index b0a40b83e7a8..2c7ff6ef555a 100644
->>>>> > >> --- a/target/riscv/cpu.c
->>>>> > >> +++ b/target/riscv/cpu.c
->>>>> > >> @@ -34,6 +34,12 @@
->>>>> > >>
->>>>> > >>  /* RISC-V CPU definitions */
->>>>> > >>
->>>>> > >> +/* This includes the null terminated character '\0' */
->>>>> > >> +struct isa_ext_data {
->>>>> > >> +        const char *name;
->>>>> > >> +        bool enabled;
->>>>> > >> +};
->>>>> > >> +
->>>>> > >>  static const char riscv_exts[26] =3D "IEMAFDQCLBJTPVNSUHKORWXYZ=
-G";
->>>>> > >>
->>>>> > >>  const char * const riscv_int_regnames[] =3D {
->>>>> > >> @@ -881,6 +887,28 @@ static void riscv_cpu_class_init(ObjectClas=
-s *c, void *data)
->>>>> > >>      device_class_set_props(dc, riscv_cpu_properties);
->>>>> > >>  }
->>>>> > >>
->>>>> > >> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str,=
- int max_str_len)
->>>>> > >> +{
->>>>> > >> +    char *old =3D *isa_str;
->>>>> > >> +    char *new =3D *isa_str;
->>>>> > >> +    int i;
->>>>> > >> +    struct isa_ext_data isa_edata_arr[] =3D {
->>>>> > >> +        { "svpbmt", cpu->cfg.ext_svpbmt   },
->>>>> > >> +        { "svinval", cpu->cfg.ext_svinval },
->>>>> > >> +        { "svnapot", cpu->cfg.ext_svnapot },
->>>>> > >
->>>>> > >
->>>>> > > We still have other sub-extensions, e.g. Zfh, Zba, Zbb, Zbc, Zbs.=
-.. etc.
->>>>> > > Do you mind adding them as well?
->>>>> > >
->>>>> >
->>>>> > Do we really need it ? Does any OS actually parse it from the devic=
-e tree ?
->>>>> > AFAIK, Linux kernel doesn't use them. As the device tree is intende=
-d
->>>>> > to keep the information useful
->>>>> > for supervisor software,
->>>>>
->>>>> That actually isn't true ;-) .
->>>>>
->>>>> The devicetree is intended to _describe_ the hardware present in full
->>>>> and has really nothing to do with what the userspace needs.
->>>>> So the argument "Linux doesn't need this" is never true when talking
->>>>> about devicetrees ;-) .
->>>>
->>>>
->>>> Yes. I didn=E2=80=99t mean that way. I was simply asking if these exte=
-nsions currently in use. I just mentioned Linux as an example.
->>>>
->>>> The larger point I was trying to make if we should add all the support=
-ed extensions when they are added to Qemu or on a need basis.
->>>>
->>>> I don=E2=80=99t feel strongly either way. So I am okay with the former=
- approach if that=E2=80=99s what everyone prefers!
->>>
->>>
->>> Linux Kernel itself might not,
->>> but userspace applications may query /proc/cpuinfo to get core's capabi=
-lities, e.g. for those vector applications.
->>> It really depends on how the application is written.
->>>
->>> I still think adding all the enabled extensions into the isa string wou=
-ld be a proper solution, no matter they are used or not.
->>> However, we can leave that beyond this patch.
->>
->>
->>
->> Fair enough. I will update the patch to include all the extension availa=
-ble.
+> On Tue, Mar 08, 2022 at 09:14:07AM +0100, C=C3=A9dric Le Goater wrote:
+> >
+> > >> There are two flash devices on the FMC. I can fix it inline since
+> > >> it is the only change I would request.
+> > >
+> > > Yes, there are.  I think all of the Facebook systems have dual FMC, f=
+or
+> > > redundancy in hardware, but we can get by in QEMU with just a single =
+one.
+> >
+> > yes, the kernel will complain though and I don't know how robust
+> > the spi-nor based driver is. I think you sent a patch for a related
+> > issue.
+> >
+> > The newer spi-mem driver should be fine.
 >
+> Oh yes.  I already forgot that I'm running with that patch since Joel add=
+ed it
+> to our backport 5.15 branch.  One of the reasons I wrote that patch was t=
+o make
+> QEMU not kpanic. :(
 >
-> Thanks, that would be great.
+> >
+> > > I'll see however you fix it up and see I can update all the other sys=
+tems as
+> > > well.
+> >
+> > ok. may be for 7.1 then.
+> >
+> > > We have an internal patch to expand the CS on FMC to 2 but we haven't
+> > > upstreamed it yet and I'm worried it will break some users w.r.t. the=
+ CLI
+> > > changing for adding images.
+> >
+> > Yes. That's the problem. I am afraid some CI systems will break with
+> > these change in a newer QEMU. The command line options will need to
+> > adapt.
 >
-> BTW, I think current QEMU RISC-V isa string includes both "s" and "u":
-> https://github.com/qemu/qemu/blob/master/target/riscv/cpu.c#L37
-> But in fact, they should not be presented in the DTS isa string.
-> Do you think we should exclude them as well?
->
+> My recollection is that the Romulus CI uses a branch of QEMU that at this=
+ point
+> is rather old anyhow.  We should be able to fix up the CI scripts at the =
+same
+> time we upgrade.
 
-There is a patch in the mailing list fixing that issue
+It looks like that branch missed the 7.2 boat. Given it's imminent
+release, we should update the branch to Cedric's aspeed-7.0 when 7.0
+is tagged.
 
-https://lists.nongnu.org/archive/html/qemu-riscv/2022-02/msg00099.html
+With this branch could do CI on Rainier (or S6Q, or transformers) with
+the eMMC image. I think there's value in doing CI on both eMMC and SPI
+machines.
 
-> Regards,
-> Frank Chang
+I'd like to see a boot test added for all of the machines in CI. Most
+(all?) machines will get to bmc standby by booting on a generic Qemu
+machine, such as the evb.
+
+The machines that do have more of the system modelled could boot that
+instead, and in the future add further tests.
+
 >
->>
->>>
->>> Regards,
->>> Frank Chang
->>>
->>>>>
->>>>>
->>>>> On the other hand the devicetree user doesn't need to parse everythin=
-g
->>>>> from DT. So adding code to parse things only really is needed if you
->>>>> need that information.
->>>>
->>>>
->>>> Agreed.
->>>>
->>>>>
->>>>> So if some part of the kernel needs to know about those additional
->>>>> extensions, the array entries for them can also be added in a later p=
-atch.
->>>>
->>>>
->>>> Yes. That was the idea in isa extension framework series where the ext=
-ension specific array entries will only be added when support for that exte=
-nsion is enabled.
->>>>>
->>>>>
->>>>>
->>>>> Heiko
->>>>>
->>>>> > > Also, I think the order of ISA strings should be alphabetical as =
-described:
->>>>> > > https://github.com/riscv/riscv-isa-manual/blob/master/src/naming.=
-tex#L96
->>>>> > >
->>>>> >
->>>>> > Ahh yes. I will order them in alphabetical order and leave a big
->>>>> > comment for future reference as well.
->>>>> >
->>>>> > > Regards,
->>>>> > > Frank Chang
->>>>> > >
->>>>> > >>
->>>>> > >> +    };
->>>>> > >> +
->>>>> > >> +    for (i =3D 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
->>>>> > >> +        if (isa_edata_arr[i].enabled) {
->>>>> > >> +            new =3D g_strconcat(old, "_", isa_edata_arr[i].name=
-, NULL);
->>>>> > >> +            g_free(old);
->>>>> > >> +            old =3D new;
->>>>> > >> +        }
->>>>> > >> +    }
->>>>> > >> +
->>>>> > >> +    *isa_str =3D new;
->>>>> > >> +}
->>>>> > >> +
->>>>> > >>  char *riscv_isa_string(RISCVCPU *cpu)
->>>>> > >>  {
->>>>> > >>      int i;
->>>>> > >> @@ -893,6 +921,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
->>>>> > >>          }
->>>>> > >>      }
->>>>> > >>      *p =3D '\0';
->>>>> > >> +    riscv_isa_string_ext(cpu, &isa_str, maxlen);
->>>>> > >>      return isa_str;
->>>>> > >>  }
->>>>> > >>
->>>>> > >> --
->>>>> > >> 2.30.2
->>>>> > >>
->>>>> >
->>>>> >
->>>>> >
->>>>>
->>>>>
->>>>>
->>>>>
-
-
---=20
-Regards,
-Atish
+> Are you or Andrew J maintaining that branch?
+>
+> > > My recollection is that the Romulus CI on OpenBMC relies on the PNOR
+> > > being the 2nd argument.
+> >
+> > That's the initial assumption made years ago. First mtd device is FMC,
+> > second is the PNOR. It is reaching its limits.
+> >
+> > I am looking at improving the command line argument to support:
+> >
+> >    -drive file=3D<file>,format=3Draw,id=3Ddrive0 -device mx66l1g45g,bus=
+=3Dssi.0,drive=3Ddrive0
+> >
+> > which we would clearly define the topology. Adding a cs=3D[0-5] or and
+> > addr=3D[0-5] is the next step.
+>
+> Seems fine to me.
+>
+> --
+> Patrick Williams
 
