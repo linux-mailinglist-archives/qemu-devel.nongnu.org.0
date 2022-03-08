@@ -2,98 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB09C4D1281
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:43:08 +0100 (CET)
-Received: from localhost ([::1]:45860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E81D34D1290
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:45:54 +0100 (CET)
+Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRVQx-0004yb-SI
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:43:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60502)
+	id 1nRVTd-0007qY-L3
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:45:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nRVPb-0003SO-Ua
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:41:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60509)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nRVR9-0006Bn-Gr
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:43:19 -0500
+Received: from [2001:41c9:1:41f::167] (port=34224
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1nRVPY-0002Af-P0
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:41:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646728899;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CyDwKbLL18SNKBpobpVCGieYbLNPvQSyLpkb+iVp8OY=;
- b=gAMc47d3FRGc2WMtjy/3JUi7ZJTwLuWrp7/B0usTcyDeqiwDryJExqJWPjVobnYSm+GeL8
- DqPluTFCy90N2HIXQeNSkzY888CNg8x7imToaVoUKdrU2Wa+/ijFSyybwJIwuna98syDpy
- jCFjiO/u5JV70B5MldFmoOm2+jmEAsI=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-418-b3CZfzizPBe7jNVStUJ6tg-1; Tue, 08 Mar 2022 03:41:38 -0500
-X-MC-Unique: b3CZfzizPBe7jNVStUJ6tg-1
-Received: by mail-qk1-f199.google.com with SMTP id
- v16-20020a376110000000b0067b2749e0fbso4734984qkb.0
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 00:41:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=CyDwKbLL18SNKBpobpVCGieYbLNPvQSyLpkb+iVp8OY=;
- b=CkriD4IX67NB4XidHhD+FSHLV53sIP+UkBWs/cOEaEyvqwB0FckzivBKjXEkx2TLLs
- FB5Oy2P/hng0Twahh/gmCpCYuov2ra3i+Og7I8ZDqoGmLtSVYJAtEoSBSEMP0VFftU63
- UpmxlrGxWt5AO6Fa2mo1+pJ8r7xowNV8ys/o5cadLERkmGIm6AdRinpa7cmItRdD7TLB
- tg1lVcuqDtm7yNdVTpwWl1Q/Dplp5P6mY+v+1/Axgi1jijlF+HJKaCpMRZc07ZSxtktE
- RIBXmCQeuTupv2Vv4ZHStFqR5qWOIiYwZFj78WFPs2Y0yVrZjQBuBYlGzwGEnFnO9E29
- j3Xg==
-X-Gm-Message-State: AOAM533q3qB3Ej8ASfGxH9jt4jPloQV66iYA5syYAVvOa48AyZyxulrF
- uf62+C+QNMvjugXY0NILRvw3eNJjTGPN4TewigrQ/LQ87v51FsppL99iqS4xNj/RCZjFdy/dm43
- fUGPLWH1r1xzrY5I=
-X-Received: by 2002:ad4:5347:0:b0:42c:4711:5eb5 with SMTP id
- v7-20020ad45347000000b0042c47115eb5mr11203183qvs.101.1646728896891; 
- Tue, 08 Mar 2022 00:41:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx65KHoVioaqDJut+5t9Py1QH18u5GWr9d3FTGTCSrcoRodeRuD2lpXNtNQO25zLYWGZSO/eg==
-X-Received: by 2002:ad4:5347:0:b0:42c:4711:5eb5 with SMTP id
- v7-20020ad45347000000b0042c47115eb5mr11203168qvs.101.1646728896604; 
- Tue, 08 Mar 2022 00:41:36 -0800 (PST)
-Received: from sgarzare-redhat (host-212-171-187-184.retail.telecomitalia.it.
- [212.171.187.184]) by smtp.gmail.com with ESMTPSA id
- x9-20020a05620a01e900b00508a7bf4897sm7049666qkn.130.2022.03.08.00.41.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 00:41:35 -0800 (PST)
-Date: Tue, 8 Mar 2022 09:41:29 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Longpeng (Mike,
- Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
-Subject: Re: [PATCH v2 05/10] vdpa-dev: implement the realize interface
-Message-ID: <20220308084129.jsutymus52nzvft4@sgarzare-redhat>
-References: <20220117124331.1642-1-longpeng2@huawei.com>
- <20220117124331.1642-6-longpeng2@huawei.com>
- <20220119113042.a4dmwe4tnfsabnmn@steredhat>
- <c671639270f6459d8c2f389dfd1cc04a@huawei.com>
- <20220307082341.qr3jwzygqxo7kx3o@sgarzare-redhat>
- <5d8e8b6c4c794be9867be45463251d39@huawei.com>
- <20220307121426.ecuy4doxuz7g6d2o@sgarzare-redhat>
- <c102cbc9856a42c888a64767c3265325@huawei.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nRVR7-0002J7-Gc
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:43:19 -0500
+Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nRVQQ-0004Tj-4T; Tue, 08 Mar 2022 08:42:38 +0000
+Message-ID: <7f7eac6c-a013-1682-1c4f-2b4bb87dc7d6@ilande.co.uk>
+Date: Tue, 8 Mar 2022 08:43:09 +0000
 MIME-Version: 1.0
-In-Reply-To: <c102cbc9856a42c888a64767c3265325@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220308072005.307955-1-richard.henderson@linaro.org>
+ <20220308072005.307955-34-richard.henderson@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220308072005.307955-34-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v4 33/33] hw/nios2: Machine with a Vectored Interrupt
+ Controller
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,254 +67,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mst@redhat.com" <mst@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Yechuan <yechuan@huawei.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Huangzhichao <huangzhichao@huawei.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 08, 2022 at 03:19:55AM +0000, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
->
->
->> -----Original Message-----
->> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
->> Sent: Monday, March 7, 2022 8:14 PM
->> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
->> <longpeng2@huawei.com>
->> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
->> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
->> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
->> qemu-devel@nongnu.org
->> Subject: Re: [PATCH v2 05/10] vdpa-dev: implement the realize interface
->>
->> On Mon, Mar 07, 2022 at 11:13:02AM +0000, Longpeng (Mike, Cloud Infrastructure
->> Service Product Dept.) wrote:
->> >
->> >
->> >> -----Original Message-----
->> >> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
->> >> Sent: Monday, March 7, 2022 4:24 PM
->> >> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
->> >> <longpeng2@huawei.com>
->> >> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
->> >> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
->> >> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
->> >> qemu-devel@nongnu.org
->> >> Subject: Re: [PATCH v2 05/10] vdpa-dev: implement the realize interface
->> >>
->> >> On Sat, Mar 05, 2022 at 07:07:54AM +0000, Longpeng (Mike, Cloud Infrastructure
->> >> Service Product Dept.) wrote:
->> >> >
->> >> >
->> >> >> -----Original Message-----
->> >> >> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
->> >> >> Sent: Wednesday, January 19, 2022 7:31 PM
->> >> >> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
->> >> >> <longpeng2@huawei.com>
->> >> >> Cc: stefanha@redhat.com; mst@redhat.com; cohuck@redhat.com;
->> >> >> pbonzini@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
->> >> >> <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>;
->> >> >> qemu-devel@nongnu.org
->> >> >> Subject: Re: [PATCH v2 05/10] vdpa-dev: implement the realize interface
->> >> >>
->> >> >> On Mon, Jan 17, 2022 at 08:43:26PM +0800, Longpeng(Mike) via wrote:
->> >> >> >From: Longpeng <longpeng2@huawei.com>
->> >> >> >
->> >> >> >Implements the .realize interface.
->> >> >> >
->> >> >> >Signed-off-by: Longpeng <longpeng2@huawei.com>
->> >> >> >---
->> >> >> > hw/virtio/vdpa-dev.c         | 101 +++++++++++++++++++++++++++++++++++
->> >> >> > include/hw/virtio/vdpa-dev.h |   8 +++
->> >> >> > 2 files changed, 109 insertions(+)
->> >> >> >
->> >> >> >diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
->> >> >> >index b103768f33..bd28cf7a15 100644
->> >> >> >--- a/hw/virtio/vdpa-dev.c
->> >> >> >+++ b/hw/virtio/vdpa-dev.c
->> >> >> >@@ -27,9 +27,109 @@ uint32_t vhost_vdpa_device_get_u32(int fd, unsigned
->> long
->> >> >> int cmd, Error **errp)
->> >> >> >     return val;
->> >> >> > }
->> >> >> >
->> >> >> >+static void
->> >> >> >+vhost_vdpa_device_dummy_handle_output(VirtIODevice *vdev, VirtQueue
->> *vq)
->> >> >> >+{
->> >> >> >+    /* Nothing to do */
->> >> >> >+}
->> >> >> >+
->> >> >> > static void vhost_vdpa_device_realize(DeviceState *dev, Error **errp)
->> >> >> > {
->> >> >> >+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
->> >> >> >+    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
->> >> >> >+    uint32_t vdev_id, max_queue_size;
->> >> >> >+    struct vhost_virtqueue *vqs;
->> >> >> >+    int i, ret;
->> >> >> >+
->> >> >> >+    if (s->vdpa_dev_fd == -1) {
->> >> >> >+        s->vdpa_dev_fd = qemu_open(s->vdpa_dev, O_RDWR, errp);
->> >> >>
->> >> >> So, here we are re-opening the `vdpa_dev` again (without checking if it
->> >> >> is NULL).
->> >> >>
->> >> >> And we re-do the same ioctls already done in
->> >> >> vhost_vdpa_device_pci_realize(), so I think we should do them in a
->> >> >> single place, and that place should be here.
->> >> >>
->> >> >> So, what about doing all the ioctls here, setting appropriate fields in
->> >> >> VhostVdpaDevice, then using that fields in
->> >> >> vhost_vdpa_device_pci_realize() after qdev_realize() to set
->> >> >> `class_code`, `trans_devid`, and `nvectors`?
->> >> >>
->> >> >
->> >> >vhost_vdpa_device_pci_realize()
->> >> >  qdev_realize()
->> >> >    virtio_device_realize()
->> >> >      vhost_vdpa_device_realize()
->> >> >      virtio_bus_device_plugged()
->> >> >        virtio_pci_device_plugged()
->> >> >
->> >> >These three fields would be used in virtio_pci_device_plugged(), so it's
->> too
->> >> >late to set them after qdev_realize().  And they belong to VirtIOPCIProxy,
->> so
->> >> >we cannot set them in vhost_vdpa_device_realize() which is 
->> >> >transport layer
->> >> >independent.
->> >>
->> >> Maybe I expressed myself wrong, I was saying to open the file and make
->> >> ioctls in vhost_vdpa_device_realize(). Save the values we use on both
->> >> sides in VhostVdpaDevice (e.g. num_queues, queue_size) and use these
->> >> saved values in virtio_pci_device_plugged() without re-opening the file
->> >> again.
->> >>
->> >
->> >This means we need to access VhostVdpaDevice in virtio_pci_device_plugged()?
->>
->> Yep, or implement some functions to get those values.
->>
->
->I prefer not to modify the VIRTIO or the VIRTIO_PCI core too much.
+On 08/03/2022 07:20, Richard Henderson wrote:
 
-Yeah, I was not thinking of modifying virtio or virtio_pci core either.
+> From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+> 
+> Demonstrate how to use nios2 VIC on a machine.
+> Introduce a new machine property to attach a VIC.
+> 
+> When VIC is present, let the CPU know that it should use the
+> External Interrupt Interface instead of the Internal Interrupt Interface.
+> The devices on the machine are attached to the VIC and not directly to cpu.
+> To allow VIC update EIC fields, we set the "cpu" property of the VIC
+> with a reference to the nios2 cpu.
+> 
+> Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
+> Message-Id: <20220303153906.2024748-6-amir.gonnen@neuroblade.ai>
+> [rth: Put a property on the 10m50-ghrd machine, rather than
+>        create a new machine class.]
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   hw/nios2/10m50_devboard.c | 61 +++++++++++++++++++++++++++++++++------
+>   hw/nios2/Kconfig          |  1 +
+>   2 files changed, 53 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/nios2/10m50_devboard.c b/hw/nios2/10m50_devboard.c
+> index f4931b8a67..bdbc6539c9 100644
+> --- a/hw/nios2/10m50_devboard.c
+> +++ b/hw/nios2/10m50_devboard.c
+> @@ -43,6 +43,8 @@ struct Nios2MachineState {
+>       MemoryRegion phys_tcm_alias;
+>       MemoryRegion phys_ram;
+>       MemoryRegion phys_ram_alias;
+> +
+> +    bool vic;
+>   };
+>   
+>   #define TYPE_NIOS2_MACHINE  MACHINE_TYPE_NAME("10m50-ghrd")
+> @@ -81,10 +83,40 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
+>       memory_region_add_subregion(address_space_mem, 0xc0000000 + ram_base,
+>                                   &nms->phys_ram_alias);
+>   
+> -    /* Create CPU -- FIXME */
+> -    cpu = NIOS2_CPU(cpu_create(TYPE_NIOS2_CPU));
+> -    for (i = 0; i < 32; i++) {
+> -        irq[i] = qdev_get_gpio_in_named(DEVICE(cpu), "IRQ", i);
+> +    /* Create CPU.  We need to set eic_present between init and realize. */
+> +    cpu = NIOS2_CPU(object_new(TYPE_NIOS2_CPU));
+> +
+> +    /* Enable the External Interrupt Controller within the CPU. */
+> +    cpu->eic_present = nms->vic;
+> +
+> +    /* Configure new exception vectors. */
+> +    cpu->reset_addr = 0xd4000000;
+> +    cpu->exception_addr = 0xc8000120;
+> +    cpu->fast_tlb_miss_addr = 0xc0000100;
+> +
+> +    qdev_realize(DEVICE(cpu), NULL, &error_fatal);
+> +    object_unref(CPU(cpu));
 
->How about the following proposal?
->
->struct VhostVdpaDevice {
->    ...
->    void (*post_init)(VhostVdpaDevice *vdpa_dev);
->    ...
->}
->
->vhost_vdpa_device_pci_post_init(VhostVdpaDevice *vdpa_dev)
->{
->    ...
->    vpci_dev->class_code = virtio_pci_get_class_id(vdpa_dev->vdev_id);
->    vpci_dev->trans_devid = 
->    virtio_pci_get_trans_devid(vdpa_dev->vdev_id);
->    vpci_dev->nvectors = vdpa_dev->num_queues + 1;
->    ...
->}
->
->vhost_vdpa_device_pci_realize():
->    post_init = vhost_vdpa_device_pci_post_init;
->
->vhost_vdpa_device_realize()
->{
->    ...
->    Open the file.
->    Set vdpa_dev->vdev_id, vdpa_dev->vdev_id, vdpa_dev->num_queues
->    ...
->    if (vdpa_dev->post_init) {
->        vdpa_dev->post_init(vdpa_dev);
->    }
->    ...
->}
+I believe this can be replaced with qdev_realize_and_unref()?
 
-I was honestly thinking of something simpler: call qdev_realize() to 
-realize the VhostVdpaDevice object and then query VhostVdpaDevice for 
-the id and number of queues.
+> +    if (nms->vic) {
+> +        DeviceState *dev = qdev_new("nios2-vic");
 
-Something like this (untested):
+And with a separate header for nios2_vic.h you can include that and use 
+TYPE_NIOS2_VIC here instead of hard-coding the type name.
 
-diff --git a/include/hw/virtio/vdpa-dev.h b/include/hw/virtio/vdpa-dev.h
-index e0482035cf..9d5f90eacc 100644
---- a/include/hw/virtio/vdpa-dev.h
-+++ b/include/hw/virtio/vdpa-dev.h
-@@ -25,5 +25,7 @@ struct VhostVdpaDevice {
-  };
+> +        MemoryRegion *dev_mr;
+> +        qemu_irq cpu_irq;
+> +
+> +        object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_fatal);
+> +        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +
+> +        cpu_irq = qdev_get_gpio_in_named(DEVICE(cpu), "EIC", 0);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, cpu_irq);
+> +        for (int i = 0; i < 32; i++) {
+> +            irq[i] = qdev_get_gpio_in(dev, i);
+> +        }
+> +
+> +        dev_mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
+> +        memory_region_add_subregion(address_space_mem, 0x18002000, dev_mr);
+> +    } else {
+> +        for (i = 0; i < 32; i++) {
+> +            irq[i] = qdev_get_gpio_in_named(DEVICE(cpu), "IRQ", i);
+> +        }
+>       }
+>   
+>       /* Register: Altera 16550 UART */
+> @@ -105,15 +137,22 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
+>       sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xe0000880);
+>       sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, irq[5]);
+>   
+> -    /* Configure new exception vectors and reset CPU for it to take effect. */
+> -    cpu->reset_addr = 0xd4000000;
+> -    cpu->exception_addr = 0xc8000120;
+> -    cpu->fast_tlb_miss_addr = 0xc0000100;
+> -
+>       nios2_load_kernel(cpu, ram_base, ram_size, nms->parent_obj.initrd_filename,
+>                         BINARY_DEVICE_TREE_FILE, NULL);
+>   }
+>   
+> +static bool get_vic(Object *obj, Error **errp)
+> +{
+> +    Nios2MachineState *nms = NIOS2_MACHINE(obj);
+> +    return nms->vic;
+> +}
+> +
+> +static void set_vic(Object *obj, bool value, Error **errp)
+> +{
+> +    Nios2MachineState *nms = NIOS2_MACHINE(obj);
+> +    nms->vic = value;
+> +}
+> +
+>   static void nios2_10m50_ghrd_class_init(ObjectClass *oc, void *data)
+>   {
+>       MachineClass *mc = MACHINE_CLASS(oc);
+> @@ -121,6 +160,10 @@ static void nios2_10m50_ghrd_class_init(ObjectClass *oc, void *data)
+>       mc->desc = "Altera 10M50 GHRD Nios II design";
+>       mc->init = nios2_10m50_ghrd_init;
+>       mc->is_default = true;
+> +
+> +    object_class_property_add_bool(oc, "vic", get_vic, set_vic);
+> +    object_class_property_set_description(oc, "vic",
+> +        "Set on/off to enable/disable the Vectored Interrupt Controller");
+>   }
+>   
+>   static const TypeInfo nios2_10m50_ghrd_type_info = {
+> diff --git a/hw/nios2/Kconfig b/hw/nios2/Kconfig
+> index b10ea640da..4748ae27b6 100644
+> --- a/hw/nios2/Kconfig
+> +++ b/hw/nios2/Kconfig
+> @@ -3,6 +3,7 @@ config NIOS2_10M50
+>       select NIOS2
+>       select SERIAL
+>       select ALTERA_TIMER
+> +    select NIOS2_VIC
+>   
+>   config NIOS2_GENERIC_NOMMU
+>       bool
 
-  uint32_t vhost_vdpa_device_get_u32(int fd, unsigned long int cmd, Error **errp);
-+uint32_t vhost_vdpa_device_get_vdev_id(VhostVdpaDevice *s);
-+uint32_t vhost_vdpa_device_get_num_queues(VhostVdpaDevice *s);
 
-  #endif
-diff --git a/hw/virtio/vdpa-dev-pci.c b/hw/virtio/vdpa-dev-pci.c
-index 257538dbdd..5eace2f79e 100644
---- a/hw/virtio/vdpa-dev-pci.c
-+++ b/hw/virtio/vdpa-dev-pci.c
-@@ -43,32 +43,16 @@ vhost_vdpa_device_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-      VhostVdpaDevicePCI *dev = VHOST_VDPA_DEVICE_PCI(vpci_dev);
-      DeviceState *vdev = DEVICE(&dev->vdev);
-      uint32_t vdev_id;
--    uint32_t num_queues;
--    int fd;
+ATB,
 
--    fd = qemu_open(dev->vdev.vdpa_dev, O_RDWR, errp);
--    if (*errp) {
-+    if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
-          return;
-      }
-
--    vdev_id = vhost_vdpa_device_get_u32(fd, VHOST_VDPA_GET_DEVICE_ID, errp);
--    if (*errp) {
--        qemu_close(fd);
--        return;
--    }
--
--    num_queues = vhost_vdpa_device_get_u32(fd, VHOST_VDPA_GET_VQS_NUM, errp);
--    if (*errp) {
--        qemu_close(fd);
--        return;
--    }
--
--    dev->vdev.vdpa_dev_fd = fd;
-+    vdev_id = vhost_vdpa_device_get_vdev_id(&dev->vdev);
-      vpci_dev->class_code = virtio_pci_get_class_id(vdev_id);
-      vpci_dev->trans_devid = virtio_pci_get_trans_devid(vdev_id);
-      /* one for config interrupt, one per vq */
--    vpci_dev->nvectors = num_queues + 1;
--    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-+    vpci_dev->nvectors = vhost_vdpa_device_get_num_queues(&dev->vdev) + 1;
-  }
-
-  static void vhost_vdpa_device_pci_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
-index 65511243f9..3bf3040e26 100644
---- a/hw/virtio/vdpa-dev.c
-+++ b/hw/virtio/vdpa-dev.c
-@@ -27,6 +27,14 @@ uint32_t vhost_vdpa_device_get_u32(int fd, unsigned long int cmd, Error **errp)
-      return val;
-  }
-
-+uint32_t vhost_vdpa_device_get_vdev_id(VhostVdpaDevice *s) {
-+    return s->vdev_id;
-+}
-+
-+uint32_t vhost_vdpa_device_get_num_queues(VhostVdpaDevice *s) {
-+    return s->num_queues;
-+}
-+
-  static void
-  vhost_vdpa_device_dummy_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-  {
-
-Cheers,
-Stefano
-
+Mark.
 
