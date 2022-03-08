@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6CF4D16A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:52:29 +0100 (CET)
-Received: from localhost ([::1]:38988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40AC4D16C5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 13:00:37 +0100 (CET)
+Received: from localhost ([::1]:56338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRYOC-0008Uv-Mr
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:52:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44682)
+	id 1nRYW3-0003Pq-Rc
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 07:00:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRY7e-0007pQ-Mv
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:24 -0500
-Received: from [2a00:1450:4864:20::635] (port=41550
- helo=mail-ej1-x635.google.com)
+ id 1nRY7k-0007rd-IC
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:28 -0500
+Received: from [2a00:1450:4864:20::530] (port=34484
+ helo=mail-ed1-x530.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRY7a-000601-JD
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:21 -0500
-Received: by mail-ej1-x635.google.com with SMTP id a8so38523464ejc.8
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:35:13 -0800 (PST)
+ id 1nRY7e-00060F-El
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:26 -0500
+Received: by mail-ed1-x530.google.com with SMTP id g3so11831793edu.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:35:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nKUMmQL3SyZgCE4dlI8uQSgkH/q/tjlHgDtsb/N/8Mc=;
- b=Yr6x5EpWgWo5Fv42D8kaZ4VeI1fNPo3PgrvpMlUmGummFgqtm1pMTPpSewmWrdy2bk
- lz/PL10hlYFa5xH1rKd+wWxRMXfomRJpkejo8Bdo271cDo3+gHbtFjCwLyCMAIZy8TPf
- grok/ejx+JDsZZCwnfbW1DBDEv0Rb4ja3H00Od8a7/Z89R4eZVn6bhuoT1J1fGeOJzLw
- mOgAfTHzGZ4cLRs+/uh20vsgijFeY1ZOf8Ms3HNVSuWb4YHw5D09yqEauD/4zowCajPa
- twPlnTJgPKsWrazxnl3+myZe4ZM6MlCfpbx0N1kMEHRB1ehmSdRNpnAJT1YYRcAcPKAE
- wxew==
+ bh=vN+clp7Q8VAT6jg2uzPLPsUUCcrwWH3qWN2JGe/o84A=;
+ b=oDmwq9Tp3GrmhxhbSpHte3KE0nXUC+5lIlkpQwqGSTHipIRE6y4h8OvnfAzKaHV4xW
+ 2Jmr9dNoJAftVmrZAkC8yUZE9lMGQO5uREzfYEx8WYS0t6/oSXgj/gNSisXAzmHZR7Oe
+ 19DsMc4gdatC2nAlVeARWvWRVw2mVhAF1PbVrtL3av40+W3/f/ftpdga1ugYSepngc4u
+ 79NOTAxfvqFPFbQ9Wobh2lv+JoqMXauTHjSFQfntokHxyu5ykNWeyYdhrwYQoozH3cwA
+ KoPV2zQx3wswVh6v94vCpn2l0VNmF0M74Ly/RgJwdksMjlIZdPtoBCvzR6Fv+KoHCD1n
+ GGCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nKUMmQL3SyZgCE4dlI8uQSgkH/q/tjlHgDtsb/N/8Mc=;
- b=wjd/GoHW99UmiH6SaYURaQKYY6tD/rNfFM6v6NH58AfA2V9kAJNslg2id4MxAX+cKV
- r9wyGEM50AFk0css3BjKXVROXkMNZ+IbxksD8xZmDvn85GpPSrQylyoqL9GX6Bhzchbs
- OEEokxlueQ9zwN9EO4kb57vDYqLjOmFx+olcHaLEgKRLhU7FO8ThAQzKCPfiRpG5zY4g
- 18f3byORWe77hyS9K8DTc3Mf3QzuuuOvdooumW8+V4FhC/8Kzq2LMaee6RHprwAWzEup
- t7KkEoJSmcAADET0YDP1DkNbOiyP18/eMVuzBqc78w1Yyk7wPQJFSwsDha4KT6AuKYRl
- IWtA==
-X-Gm-Message-State: AOAM530stJ55+njU2qlhjxVnnGsUQ0LViegsNwLl1z/RAfQCduwWsgMf
- 79xZy6v9MU9crJdc5P4BFIrmDke4lUg=
-X-Google-Smtp-Source: ABdhPJwsLBOEG1tl7PdUFyM4S89l/pmgLoKrK074AMbSS3cU8EvRPy14EAuW49CCnVo+SXrQZGDBRQ==
-X-Received: by 2002:a17:907:8a04:b0:6cd:2902:8db3 with SMTP id
- sc4-20020a1709078a0400b006cd29028db3mr13009581ejc.530.1646739312247; 
- Tue, 08 Mar 2022 03:35:12 -0800 (PST)
+ bh=vN+clp7Q8VAT6jg2uzPLPsUUCcrwWH3qWN2JGe/o84A=;
+ b=6BXmWc0WGCtwvmkCNO9bRtVoerC5Sz0RQS+ubFAHRbWD9iO3ohMtOaXeLxQAFBda+h
+ rkveEE1qAnV2Ka4PTat2UVPC6Ldw694HDH9evVPqT5DcOMVcb6kjwgfrOXyM+KcJgncm
+ XotEJxkdoEu3Aih0ivRNfdtKplqNXn+Z06iqebYuBeTf9hVmpuUDRm+ZtzrNwYSEihOo
+ IPRQ6qrLWNzOt9Tc349qTXq6LBporMTcdz8DwdHaHb1pwCuQu5fRJekOl2CrIUCAy8y9
+ ZvtfICtBBn8LTJJtrdbyQZXnWCBTS9OJNPa5Kmfis/Hj9UWzaUR6egxjDaTUmgildmPf
+ NS0A==
+X-Gm-Message-State: AOAM531oqlSgj6LixtxwrgmrMMmbcAG7bhXdLlt15Yx2Tr2VmQ0GwEpe
+ lt8XzJbYPQv3KGO4Go+IgIJPFijEyww=
+X-Google-Smtp-Source: ABdhPJxJvBZV56B330+WK37t3qGwraASPfcUfizYmrhfRojdJ1EY6Bg4yfl3nT/iQoEtlvHLO0gabA==
+X-Received: by 2002:a05:6402:442:b0:416:14b7:4d55 with SMTP id
+ p2-20020a056402044200b0041614b74d55mr15471166edw.183.1646739314344; 
+ Tue, 08 Mar 2022 03:35:14 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l2-20020aa7cac2000000b003f9b3ac68d6sm7491868edt.15.2022.03.08.03.35.10
+ l2-20020aa7cac2000000b003f9b3ac68d6sm7491868edt.15.2022.03.08.03.35.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 03:35:11 -0800 (PST)
+ Tue, 08 Mar 2022 03:35:13 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/22] x86: Add AMX XTILECFG and XTILEDATA components
-Date: Tue,  8 Mar 2022 12:34:37 +0100
-Message-Id: <20220308113445.859669-15-pbonzini@redhat.com>
+Subject: [PULL 15/22] x86: Grant AMX permission for guest
+Date: Tue,  8 Mar 2022 12:34:38 +0100
+Message-Id: <20220308113445.859669-16-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220308113445.859669-1-pbonzini@redhat.com>
 References: <20220308113445.859669-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -93,102 +93,205 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Jing Liu <jing2.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jing Liu <jing2.liu@intel.com>
+From: Yang Zhong <yang.zhong@intel.com>
 
-The AMX TILECFG register and the TMMx tile data registers are
-saved/restored via XSAVE, respectively in state component 17
-(64 bytes) and state component 18 (8192 bytes).
+Kernel allocates 4K xstate buffer by default. For XSAVE features
+which require large state component (e.g. AMX), Linux kernel
+dynamically expands the xstate buffer only after the process has
+acquired the necessary permissions. Those are called dynamically-
+enabled XSAVE features (or dynamic xfeatures).
 
-Add AMX feature bits to x86_ext_save_areas array to set
-up AMX components. Add structs that define the layout of
-AMX XSAVE areas and use QEMU_BUILD_BUG_ON to validate the
-structs sizes.
+There are separate permissions for native tasks and guests.
 
-Signed-off-by: Jing Liu <jing2.liu@intel.com>
+Qemu should request the guest permissions for dynamic xfeatures
+which will be exposed to the guest. This only needs to be done
+once before the first vcpu is created.
+
+KVM implemented one new ARCH_GET_XCOMP_SUPP system attribute API to
+get host side supported_xcr0 and Qemu can decide if it can request
+dynamically enabled XSAVE features permission.
+https://lore.kernel.org/all/20220126152210.3044876-1-pbonzini@redhat.com/
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20220217060434.52460-3-yang.zhong@intel.com>
+Signed-off-by: Jing Liu <jing2.liu@intel.com>
+Message-Id: <20220217060434.52460-4-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c |  8 ++++++++
- target/i386/cpu.h | 18 +++++++++++++++++-
- 2 files changed, 25 insertions(+), 1 deletion(-)
+ target/i386/cpu.c          |  7 +++++
+ target/i386/cpu.h          |  4 +++
+ target/i386/kvm/kvm-cpu.c  | 12 ++++----
+ target/i386/kvm/kvm.c      | 57 ++++++++++++++++++++++++++++++++++++++
+ target/i386/kvm/kvm_i386.h |  1 +
+ 5 files changed, 75 insertions(+), 6 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 0f3c477dfc..ec35dd1717 100644
+index ec35dd1717..505ee289bc 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -1402,6 +1402,14 @@ ExtSaveArea x86_ext_save_areas[XSAVE_STATE_AREA_COUNT] = {
-     [XSTATE_PKRU_BIT] =
-           { .feature = FEAT_7_0_ECX, .bits = CPUID_7_0_ECX_PKU,
-             .size = sizeof(XSavePKRU) },
-+    [XSTATE_XTILE_CFG_BIT] = {
-+        .feature = FEAT_7_0_EDX, .bits = CPUID_7_0_EDX_AMX_TILE,
-+        .size = sizeof(XSaveXTILECFG),
-+    },
-+    [XSTATE_XTILE_DATA_BIT] = {
-+        .feature = FEAT_7_0_EDX, .bits = CPUID_7_0_EDX_AMX_TILE,
-+        .size = sizeof(XSaveXTILEDATA)
-+    },
- };
+@@ -6007,6 +6007,7 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
+     CPUX86State *env = &cpu->env;
+     int i;
+     uint64_t mask;
++    static bool request_perm;
  
- static uint32_t xsave_area_size(uint64_t mask)
+     if (!(env->features[FEAT_1_ECX] & CPUID_EXT_XSAVE)) {
+         env->features[FEAT_XSAVE_COMP_LO] = 0;
+@@ -6022,6 +6023,12 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
+         }
+     }
+ 
++    /* Only request permission for first vcpu */
++    if (kvm_enabled() && !request_perm) {
++        kvm_request_xsave_components(cpu, mask);
++        request_perm = true;
++    }
++
+     env->features[FEAT_XSAVE_COMP_LO] = mask;
+     env->features[FEAT_XSAVE_COMP_HI] = mask >> 32;
+ }
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 7bd9d58505..3ff1b49d29 100644
+index 3ff1b49d29..9630f4712a 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -539,6 +539,8 @@ typedef enum X86Seg {
- #define XSTATE_ZMM_Hi256_BIT            6
- #define XSTATE_Hi16_ZMM_BIT             7
- #define XSTATE_PKRU_BIT                 9
-+#define XSTATE_XTILE_CFG_BIT            17
-+#define XSTATE_XTILE_DATA_BIT           18
- 
- #define XSTATE_FP_MASK                  (1ULL << XSTATE_FP_BIT)
- #define XSTATE_SSE_MASK                 (1ULL << XSTATE_SSE_BIT)
-@@ -847,6 +849,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_EDX_TSX_LDTRK         (1U << 16)
- /* AVX512_FP16 instruction */
- #define CPUID_7_0_EDX_AVX512_FP16       (1U << 23)
-+/* AMX tile (two-dimensional register) */
-+#define CPUID_7_0_EDX_AMX_TILE          (1U << 24)
- /* Speculation Control */
- #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
- /* Single Thread Indirect Branch Predictors */
-@@ -1350,6 +1354,16 @@ typedef struct XSavePKRU {
-     uint32_t padding;
- } XSavePKRU;
- 
-+/* Ext. save area 17: AMX XTILECFG state */
-+typedef struct XSaveXTILECFG {
-+    uint8_t xtilecfg[64];
-+} XSaveXTILECFG;
+@@ -551,6 +551,10 @@ typedef enum X86Seg {
+ #define XSTATE_ZMM_Hi256_MASK           (1ULL << XSTATE_ZMM_Hi256_BIT)
+ #define XSTATE_Hi16_ZMM_MASK            (1ULL << XSTATE_Hi16_ZMM_BIT)
+ #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
++#define XSTATE_XTILE_CFG_MASK           (1ULL << XSTATE_XTILE_CFG_BIT)
++#define XSTATE_XTILE_DATA_MASK          (1ULL << XSTATE_XTILE_DATA_BIT)
 +
-+/* Ext. save area 18: AMX XTILEDATA state */
-+typedef struct XSaveXTILEDATA {
-+    uint8_t xtiledata[8][1024];
-+} XSaveXTILEDATA;
++#define XSTATE_DYNAMIC_MASK             (XSTATE_XTILE_DATA_MASK)
+ 
+ #define ESA_FEATURE_ALIGN64_BIT         1
+ 
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index ce27d3b1df..a35a1bf9fe 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -84,7 +84,7 @@ static void kvm_cpu_max_instance_init(X86CPU *cpu)
+ static void kvm_cpu_xsave_init(void)
+ {
+     static bool first = true;
+-    KVMState *s = kvm_state;
++    uint32_t eax, ebx, ecx, edx;
+     int i;
+ 
+     if (!first) {
+@@ -100,11 +100,11 @@ static void kvm_cpu_xsave_init(void)
+         ExtSaveArea *esa = &x86_ext_save_areas[i];
+ 
+         if (esa->size) {
+-            int sz = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EAX);
+-            if (sz != 0) {
+-                assert(esa->size == sz);
+-                esa->offset = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EBX);
+-                esa->ecx = kvm_arch_get_supported_cpuid(s, 0xd, i, R_ECX);
++            host_cpuid(0xd, i, &eax, &ebx, &ecx, &edx);
++            if (eax != 0) {
++                assert(esa->size == eax);
++                esa->offset = ebx;
++                esa->ecx = ecx;
+             }
+         }
+     }
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index cfef36a14e..1e4436ee74 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -17,6 +17,7 @@
+ #include "qapi/error.h"
+ #include <sys/ioctl.h>
+ #include <sys/utsname.h>
++#include <sys/syscall.h>
+ 
+ #include <linux/kvm.h>
+ #include "standard-headers/asm-x86/kvm_para.h"
+@@ -348,6 +349,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+     struct kvm_cpuid2 *cpuid;
+     uint32_t ret = 0;
+     uint32_t cpuid_1_edx;
++    uint64_t bitmask;
+ 
+     cpuid = get_supported_cpuid(s);
+ 
+@@ -405,6 +407,25 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+         if (!has_msr_arch_capabs) {
+             ret &= ~CPUID_7_0_EDX_ARCH_CAPABILITIES;
+         }
++    } else if (function == 0xd && index == 0 &&
++               (reg == R_EAX || reg == R_EDX)) {
++        struct kvm_device_attr attr = {
++            .group = 0,
++            .attr = KVM_X86_XCOMP_GUEST_SUPP,
++            .addr = (unsigned long) &bitmask
++        };
 +
- QEMU_BUILD_BUG_ON(sizeof(XSaveAVX) != 0x100);
- QEMU_BUILD_BUG_ON(sizeof(XSaveBNDREG) != 0x40);
- QEMU_BUILD_BUG_ON(sizeof(XSaveBNDCSR) != 0x40);
-@@ -1357,6 +1371,8 @@ QEMU_BUILD_BUG_ON(sizeof(XSaveOpmask) != 0x40);
- QEMU_BUILD_BUG_ON(sizeof(XSaveZMM_Hi256) != 0x200);
- QEMU_BUILD_BUG_ON(sizeof(XSaveHi16_ZMM) != 0x400);
- QEMU_BUILD_BUG_ON(sizeof(XSavePKRU) != 0x8);
-+QEMU_BUILD_BUG_ON(sizeof(XSaveXTILECFG) != 0x40);
-+QEMU_BUILD_BUG_ON(sizeof(XSaveXTILEDATA) != 0x2000);
++        bool sys_attr = kvm_check_extension(s, KVM_CAP_SYS_ATTRIBUTES);
++        if (!sys_attr) {
++            warn_report("cannot get sys attribute capabilities %d", sys_attr);
++        }
++
++        int rc = kvm_ioctl(s, KVM_GET_DEVICE_ATTR, &attr);
++        if (rc == -1 && (errno == ENXIO || errno == EINVAL)) {
++            warn_report("KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) "
++                        "error: %d", rc);
++        }
++        ret = (reg == R_EAX) ? bitmask : bitmask >> 32;
+     } else if (function == 0x80000001 && reg == R_ECX) {
+         /*
+          * It's safe to enable TOPOEXT even if it's not returned by
+@@ -5150,3 +5171,39 @@ bool kvm_arch_cpu_check_are_resettable(void)
+ {
+     return !sev_es_enabled();
+ }
++
++#define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
++
++void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
++{
++    KVMState *s = kvm_state;
++    uint64_t supported;
++
++    mask &= XSTATE_DYNAMIC_MASK;
++    if (!mask) {
++        return;
++    }
++    /*
++     * Just ignore bits that are not in CPUID[EAX=0xD,ECX=0].
++     * ARCH_REQ_XCOMP_GUEST_PERM would fail, and QEMU has warned
++     * about them already because they are not supported features.
++     */
++    supported = kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EAX);
++    supported |= (uint64_t)kvm_arch_get_supported_cpuid(s, 0xd, 0, R_EDX) << 32;
++    mask &= supported;
++
++    while (mask) {
++        int bit = ctz64(mask);
++        int rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_GUEST_PERM, bit);
++        if (rc) {
++            /*
++             * Older kernel version (<5.17) do not support
++             * ARCH_REQ_XCOMP_GUEST_PERM, but also do not return
++             * any dynamic feature from kvm_arch_get_supported_cpuid.
++             */
++            warn_report("prctl(ARCH_REQ_XCOMP_GUEST_PERM) failure "
++                        "for feature bit %d", bit);
++        }
++        mask &= ~BIT_ULL(bit);
++    }
++}
+diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+index a978509d50..4124912c20 100644
+--- a/target/i386/kvm/kvm_i386.h
++++ b/target/i386/kvm/kvm_i386.h
+@@ -52,5 +52,6 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
+ uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
  
- typedef struct ExtSaveArea {
-     uint32_t feature, bits;
-@@ -1364,7 +1380,7 @@ typedef struct ExtSaveArea {
-     uint32_t ecx;
- } ExtSaveArea;
+ bool kvm_enable_sgx_provisioning(KVMState *s);
++void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask);
  
--#define XSAVE_STATE_AREA_COUNT (XSTATE_PKRU_BIT + 1)
-+#define XSAVE_STATE_AREA_COUNT (XSTATE_XTILE_DATA_BIT + 1)
- 
- extern ExtSaveArea x86_ext_save_areas[XSAVE_STATE_AREA_COUNT];
- 
+ #endif
 -- 
 2.35.1
 
