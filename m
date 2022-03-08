@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C704D1071
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 07:45:17 +0100 (CET)
-Received: from localhost ([::1]:33116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8174C4D1076
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 07:47:40 +0100 (CET)
+Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRTau-0007fp-Ft
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 01:45:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38686)
+	id 1nRTdD-0000d3-Be
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 01:47:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nRTWj-0006bw-2e; Tue, 08 Mar 2022 01:40:57 -0500
-Received: from [2607:f8b0:4864:20::12f] (port=40744
- helo=mail-il1-x12f.google.com)
+ id 1nRTYB-000769-FV; Tue, 08 Mar 2022 01:42:28 -0500
+Received: from [2607:f8b0:4864:20::d36] (port=36576
+ helo=mail-io1-xd36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nRTWg-0000HB-WD; Tue, 08 Mar 2022 01:40:56 -0500
-Received: by mail-il1-x12f.google.com with SMTP id i1so13352260ila.7;
- Mon, 07 Mar 2022 22:40:53 -0800 (PST)
+ id 1nRTY8-0000YA-BT; Tue, 08 Mar 2022 01:42:26 -0500
+Received: by mail-io1-xd36.google.com with SMTP id b16so5529369ioz.3;
+ Mon, 07 Mar 2022 22:42:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jQWWhlj97dz/Glr3McLXROqZ1E1eIQRXyILh7Hl+pMA=;
- b=V6TIuT15ZZVcrKUBnDXibhOWPEYzPhBsUu+rBFd+Mj9FKIdmbtwJryeJ5NH0BW64sh
- Sl+E7lr7/t4Fd95FbHX3yoL2JDkfrHwqLWkoDiYdtHWWxpa9E//zMgO5wG3xyDdTF/tu
- A/fRLYexWa66ApF0zxQfoxraCR/x473lgNSjRE0WZ7gXl77W3vCBJjAJ+ZnxMJIVn2w9
- NaosZ54OTTw6QZx/x6cIlh6PA640/okKKPrNF4Q04MqyNQUr1PkH5q27/SOEBktSHHyi
- VaEqyHAEb3oGW85D2KFjtwnZDx6OoFVkwpXGcAAayZtV3fWD4KvvPYOPO/e/Z4oHfrC5
- XIQg==
+ :cc:content-transfer-encoding;
+ bh=wwQxHg87rgATAIFN138+byD8xJcNZiHztfaTuelWFkw=;
+ b=Bop/v+jasDb1TtUO99hPPyV/57Z5oB0YyD2SB1dIZLD3Pcd4FXj2GEUOM83nxitrEF
+ NXp5XhlNHFFhw2vCQQcFmcoN8hi/eg3JPCqNfCmXpaZe8V0pclcjygOXHjr3MzuGRlIo
+ bv+AwYPtb9DYsCqCwWTi6STzcaA4IUBq3ym2XgLBgsm4hnIX9t/eiU0ghErnVhSr2TuT
+ /1AA956DKRW5Ptoo/4+TpxlIesPN6WhB90S8G571L+ClBWHg6pqFkceXALDW0AT0ZKV9
+ PJ3F0Togv90xRpkAJ04vVGv8ZOiTD3acZ5InPVXiVGzdAHCYGx10t0UHDpturkF73AmX
+ 7oQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jQWWhlj97dz/Glr3McLXROqZ1E1eIQRXyILh7Hl+pMA=;
- b=KigEZsJ1Typp1oNeHz+p7slarnpx51E7A5WxHqG4KOej69qNToh9HqqrJOzaollLFs
- PoTnrCRb7pUjNmDSOuJzFtZ8YrucAVhe/4O7sAX+C3z3wxY8SFkB9YjXI8/8KuNz3Y+h
- 2nyfYOPlzLqL17OJsatoDFmeUrp69mS45qvlseYClpcq+Iky07ozo+4slU5Fw3+r9vue
- iCPyBOdEV8XkB5f4ezsfGxhpNOt2qQ097R6tT++2meoyIUleZSz6gtu5Mm1i5bW0wt+l
- llK25d/dI0Lz+R4lnWkeKhiBLjPgp6jbvy/O7ujITmpvyQEoovu9wZdY0rclWIc1eV1v
- Vtwg==
-X-Gm-Message-State: AOAM5315+sI0R+BT0lWm+QaGH8QEOBokE3934dsZ56Jx116VxDHs3aVF
- ZcNmCpTciasLrxAfP+UPzxAbQFoc5IKcSfmV64c=
-X-Google-Smtp-Source: ABdhPJzwOHdJIU+BkLakpSmHkcVII7jdwwN+ThJ0+EWeylfAFTOjCHUabbtraY3YcJ6LGBPorGS2hqHXZNZlu45CekA=
-X-Received: by 2002:a05:6e02:20ec:b0:2c6:158a:cb33 with SMTP id
- q12-20020a056e0220ec00b002c6158acb33mr14562146ilv.113.1646721652955; Mon, 07
- Mar 2022 22:40:52 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wwQxHg87rgATAIFN138+byD8xJcNZiHztfaTuelWFkw=;
+ b=c5eWt9/TXnXK3FLcSYzuHZYMU5HhQ4vCrV1VSPdG2f6SRnQ/Q+/hgcfypBHNxe37vs
+ zg/SWL24KFnzkmdkbZtE86NsmQhY2h2cmUZUT+a1xQ3FBPuEM7TyleFr9Z1TlV/RdeL0
+ s2xhNVHlyLkvKyyS/tLSUhbcRQfnNtxYX0d/sQ3TZ1dncYOkAYYoLBqp8D9rv8VwVTAA
+ dofCAys6SnQ4cVakUNQw5JxW8MgfXk/yClhByROmFUq6kv6h6xfAvpacMU2pfkike4KM
+ JkyC+nan3fuXnw8osgcQpG7lHZ6ZpTUUOFGMutJnlgfB5s0rHNEOwriBMQIW+PPnIEiU
+ AWXg==
+X-Gm-Message-State: AOAM530aiOd+8LXc3MHCunnQ+rjTY7PCqERgBgZ3uPpkoblfpdfxPe2p
+ wpHEl+DBguQwlqsfINhac/9ZoGGWvAAP9J0bVo8=
+X-Google-Smtp-Source: ABdhPJxy5L7brfuV9icY1dMI6smN1s/r0x/2kl3fxJb/lGcbU35v5EqvUW/dC8+aWkVey275FLxG4DP4oqEjORCM1vQ=
+X-Received: by 2002:a05:6638:15ce:b0:317:b681:157b with SMTP id
+ i14-20020a05663815ce00b00317b681157bmr9521743jat.66.1646721742176; Mon, 07
+ Mar 2022 22:42:22 -0800 (PST)
 MIME-Version: 1.0
-References: <35ea2e99-8049-9b72-b639-744afcdde726@redhat.com>
- <tencent_E4219E870165A978DB5BBE50BD53D33D2E06@qq.com>
-In-Reply-To: <tencent_E4219E870165A978DB5BBE50BD53D33D2E06@qq.com>
+References: <20220307071856.1410731-1-clg@kaod.org>
+ <20220307071856.1410731-6-clg@kaod.org>
+In-Reply-To: <20220307071856.1410731-6-clg@kaod.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 8 Mar 2022 16:40:26 +1000
-Message-ID: <CAKmqyKOsH=wAm2TWswsP-CUW=YAQ=_gY0YFr_tT7AdfugViJfA@mail.gmail.com>
-Subject: Re: [PATCH v2] tests: add (riscv virt) machine mapping to testenv
-To: laokz <laokz@foxmail.com>
+Date: Tue, 8 Mar 2022 16:41:56 +1000
+Message-ID: <CAKmqyKOxi+0VJUd+a2oJCoRoz1=3RE335BySrO8p5UsYM45ofg@mail.gmail.com>
+Subject: Re: [PATCH 5/6] aspeed/smc: Let the SSI core layer define the bus name
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12f
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -80,45 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, hreitz@redhat.com,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 8, 2022 at 2:34 PM laokz <laokz@foxmail.com> wrote:
+On Mon, Mar 7, 2022 at 5:34 PM C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> Some qemu-iotests(040 etc) use PCI disk to do test. Without the
-> mapping, RISC-V flavor use spike as default machine which has no
-> PCI bus, causing test failure.
+> If no id is provided, qdev automatically assigns a unique ename with
+> the following pattern "<type>.<index>".
 >
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/894
->
-> Signed-off-by: Kai Zhang <laokz@foxmail.com>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
-> Thanks for the detailed info. Corrected S-o-b tag.
+>  hw/ssi/aspeed_smc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->  tests/qemu-iotests/testenv.py | 2 ++
->  1 file changed, 2 insertions(+)
+> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+> index f194182beacf..113f31899a6b 100644
+> --- a/hw/ssi/aspeed_smc.c
+> +++ b/hw/ssi/aspeed_smc.c
+> @@ -1130,7 +1130,7 @@ static void aspeed_smc_realize(DeviceState *dev, Er=
+ror **errp)
+>      /* DMA irq. Keep it first for the initialization in the SoC */
+>      sysbus_init_irq(sbd, &s->irq);
 >
-> diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-> index 0f32897fe8..975f26a785 100644
-> --- a/tests/qemu-iotests/testenv.py
-> +++ b/tests/qemu-iotests/testenv.py
-> @@ -238,6 +238,8 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
->              ('aarch64', 'virt'),
->              ('avr', 'mega2560'),
->              ('m68k', 'virt'),
-> +            ('riscv32', 'virt'),
-> +            ('riscv64', 'virt'),
->              ('rx', 'gdbsim-r5f562n8'),
->              ('tricore', 'tricore_testboard')
->          )
+> -    s->spi =3D ssi_create_bus(dev, "spi");
+> +    s->spi =3D ssi_create_bus(dev, NULL);
+>
+>      /* Setup cs_lines for peripherals */
+>      s->cs_lines =3D g_new0(qemu_irq, asc->max_cs);
 > --
 > 2.34.1
 >
