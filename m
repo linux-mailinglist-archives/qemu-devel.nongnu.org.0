@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F154D1B69
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 16:13:14 +0100 (CET)
-Received: from localhost ([::1]:53402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF4694D1B59
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 16:08:58 +0100 (CET)
+Received: from localhost ([::1]:41652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRbWT-0005dw-FD
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 10:13:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37538)
+	id 1nRbSL-0006CO-Rs
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 10:08:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nRbMJ-0006p9-2O
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nRbMJ-0006p8-2U
  for qemu-devel@nongnu.org; Tue, 08 Mar 2022 10:02:43 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:34081)
+Received: from mout.kundenserver.de ([212.227.17.10]:45533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nRbMB-0001P5-7i
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1nRbME-0001Pl-NY
  for qemu-devel@nongnu.org; Tue, 08 Mar 2022 10:02:40 -0500
 Received: from quad ([82.142.8.122]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mc0Aj-1o1EDo0rNf-00dVc1; Tue, 08
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N5n3t-1oFP4O3L35-017FnR; Tue, 08
  Mar 2022 16:02:31 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/3] linux-user: Remove stale "not threadsafe" comments
-Date: Tue,  8 Mar 2022 16:02:26 +0100
-Message-Id: <20220308150228.1616561-2-laurent@vivier.eu>
+Subject: [PULL 2/3] linux-user/ppc: deliver SIGTRAP on POWERPC_EXCP_TRAP
+Date: Tue,  8 Mar 2022 16:02:27 +0100
+Message-Id: <20220308150228.1616561-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220308150228.1616561-1-laurent@vivier.eu>
 References: <20220308150228.1616561-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:g0/m7rk5vgMpUu+DmJ4kO/QPFY6DXLwcCyecfVQ7Aih7NFunlJ7
- s/O7n8B+yKXrg2nIZp+nPxOsPhDCv604zMxlHYrhwkJ1GupY6iTy0GGmAP4UZkK0AZNxH1y
- PTpbEy7eMbmRFCpoviCEfEJmLakupxT9VOXxHADxP33pBVxFvKpn1O9m6jip8rlEZMtun9N
- XE9bjAF1VB/KG+NpFKIhg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LzK3DYsLtJw=:YqFSzsJcTivoiku3HaGCwJ
- ke9x4+iNcNvOKtcGcG4E7Sxvt9vDlmAAVtltHAlaJT+NdhtM15T9KznXoCZRN9WIQ65xtMXSO
- FSmriWdqMN7HXPla6m8VMDJT8yafXheGzgndNVbxt3H2wc+/vexWJMbf2fT/WP0u+BkLuTD8q
- UZ6358R0QryLQIHZS9m4rkApn1mgiFcGi7DOVAut8RDIpPR+kI/cWEJt2tiD1kkOiKtuwN2MU
- jGu76TD4ChVSKb3JKRG5Znp/MffwoNtrGQLkOnjBuw8DWGsaTce6RtHiehMhYvsyex3qH9Ogu
- aylY3XVWD7qEAPFcEqta/DSm1LnfsdsBBpW7JqddvKlBya8bGeQcPQSK36Ltnd2GfwY7GQ4s8
- 5ie2ENPIAHyWNnABRkXdmI1kAus34KQlbKSOyqnuHNAUlLzNZiKdGcz+EpYaluJjMoUPYr1hp
- O7k08BlpooPvFTiWAnM1+S5DUFO/44YjbGPExKrysW2xTpxazbN/oPVkH6tE97Z4ti/25y84o
- 2VPiD7Ay3kKdN7wnrwtn1VScSx1qcY/uAf12adgwOgfLMpVgWJ0SUPfUDqJEELLXKvM19UFCH
- sG15PkBmp2LMFGMqQVcqr9wFoIrnK/yDO4Rc2fNchug7EyCbWS2Ti48O6L6j6h7cLxURVyTKl
- ooHfyQc7LBs+Mu95rv47U4RHuVwel5nFzKA1/CGC+Yi6/3NuL/7+12tmBk3Cj/DHq4sM=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:C0YXGPelNegwDbXFjL5CHv+mmF0Vj+sUCn8WE1MWuK31S2WP+4y
+ fLM4vwhF/KyxJs8y1UFLPGxC6FKd4irhizXr5gFTIQxWbiEUrANcNkrLQE8NIDDviae7V5x
+ OowwfO+fR9e1ro93/JGVdfdZn/xdFY14Wzx3mhH5JuoT6c8uuam8DOfg6pi7AamFhnxKm1I
+ yRJYedc/zmXd7E/h9xlSw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qxUEWptHZkY=:ITqxbkNX78Om62qm7gHpVN
+ zU2fI2/S6ZjNdFW8QOvR8IzVt9Zrf7pc2zsg5NvBpDPP6A/2RbgsXBHfkorqgMNQeOuOTA3ow
+ vKF/1TPmYNlAEMle/qgL4HBKKW6HQIm4EL4HPtu9Ur1+8pWkRJXASqstrHIdU6L55Gq7fh9OW
+ dZnJ6uu630C6m2uoZB8Nne1lsR6kdCFkvRaPujPdfJC1tQ8LUEq0bn9W4XdEf4U3Yk++tCtjX
+ pe6EXUT2T6+7hcqIo8L+YAWLPP7n0T7dRrRZxR9UdyfBO5P3O4wu4B/t/U01fqcHz2Wn+P28G
+ /Hm+Kpy0nRMmu2GzJxE9p2j6WjYlR0JoMHO8NJ6k29b1SrNuQ61XoFoppCzWEzdgpXMPEjvDm
+ 3ioIqcgkMkremmcxgJtplx/32E92X9O4XnNfiYCF7owzUorPXBP25FIU09HQjUmpJO196/U6v
+ Ix2EyucQBFgj1UgL/9CTdgchBYaDFUevQPHNQePpiY1opnr63q2Wb/H9Ff47QsF7zXFrsSrLV
+ M55ovTRYQa88f4zwxNumwHx2/DeY+Oew925rf8K9GYVypQEiCm7+imenD1bgm6+tuMUaZ8DDK
+ /ckysao+VYum0Yv1QzLLEqlq48ByNoy7m5VCqK7Fn3C3pIOaTAPxEX1BWgr+gHUuGYIFkoxcZ
+ WALZn+r18IBvIeE6UvSZRBdTSFg9QEOows5JITXhoGFCr2nyP6Fw1gh2/KROee3UNXUc=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,64 +65,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-In linux-user/signal.c we have two FIXME comments claiming that
-parts of the signal-handling code are not threadsafe. These are
-very old, as they were first introduced in commit 624f7979058
-in 2008. Since then we've radically overhauled the signal-handling
-logic, while carefully preserving these FIXME comments.
+Handle POWERPC_EXCP_TRAP in cpu_loop to deliver SIGTRAP on tw[i]/td[i].
+The si_code comes from do_program_check in the kernel source file
+arch/powerpc/kernel/traps.c
 
-It's unclear exactly what thread-safety issue the original
-author was trying to point out -- the relevant data structures
-are in the TaskStruct, which makes them per-thread and only
-operated on by that thread. The old code at the time of that
-commit did have various races involving signal handlers being
-invoked at awkward times; possibly this was what was meant.
-
-Delete these FIXME comments:
- * they were written at a time when the way we handled
-   signals was completely different
- * the code today appears to us to not have thread-safety issues
- * nobody knows what the problem the comments were trying to
-   point out was
-so they are serving no useful purpose for us today.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-Message-Id: <20220114155032.3767771-1-peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Message-Id: <20220113170456.1796911-2-matheus.ferst@eldorado.org.br>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/signal.c | 2 --
- 1 file changed, 2 deletions(-)
+ linux-user/ppc/cpu_loop.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 27a0ff30e971..2a3f3cc23f92 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -999,7 +999,6 @@ int do_sigaction(int sig, const struct target_sigaction *act,
-         oact->sa_mask = k->sa_mask;
-     }
-     if (act) {
--        /* FIXME: This is not threadsafe.  */
-         __get_user(k->_sa_handler, &act->_sa_handler);
-         __get_user(k->sa_flags, &act->sa_flags);
- #ifdef TARGET_ARCH_HAS_SA_RESTORER
-@@ -1149,7 +1148,6 @@ void process_pending_signals(CPUArchState *cpu_env)
-     sigset_t *blocked_set;
- 
-     while (qatomic_read(&ts->signal_pending)) {
--        /* FIXME: This is not threadsafe.  */
-         sigfillset(&set);
-         sigprocmask(SIG_SETMASK, &set, 0);
- 
+diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+index c5d809916f51..b468f199e4d2 100644
+--- a/linux-user/ppc/cpu_loop.c
++++ b/linux-user/ppc/cpu_loop.c
+@@ -181,7 +181,8 @@ void cpu_loop(CPUPPCState *env)
+                 }
+                 break;
+             case POWERPC_EXCP_TRAP:
+-                cpu_abort(cs, "Tried to call a TRAP\n");
++                si_signo = TARGET_SIGTRAP;
++                si_code = TARGET_TRAP_BRKPT;
+                 break;
+             default:
+                 /* Should not happen ! */
 -- 
 2.35.1
 
