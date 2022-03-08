@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32114D1B70
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 16:14:40 +0100 (CET)
-Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 527C74D1B78
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 16:16:11 +0100 (CET)
+Received: from localhost ([::1]:60806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRbXs-0000EC-1C
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 10:14:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38000)
+	id 1nRbZK-0002Mg-Dc
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 10:16:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRbNi-0001dt-2S
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 10:04:10 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=39436
- helo=mail-pl1-x62c.google.com)
+ id 1nRbSG-0008Ak-AK
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 10:08:52 -0500
+Received: from [2607:f8b0:4864:20::52f] (port=45003
+ helo=mail-pg1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRbNg-0001gs-Is
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 10:04:09 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id 9so17301119pll.6
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 07:04:08 -0800 (PST)
+ id 1nRbSE-0002n2-Hh
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 10:08:51 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id c11so4305671pgu.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 07:08:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8zXt9UCaAezuQQSVuoGZ3qOLW0v6J1oJoAuIkflyJyM=;
- b=EGO7bJ77+ETAdxwrajiE0aJzvuTvXWEJPJRRo5+W/a/xWEjvPqLc98ggCjdDiwA41I
- njSUZsc1C55rMt+SaHAnx5ovBp1hh/6kqR4Gon49iCFIJkB7PQHJwfgDYhex8qqG/N+q
- BEcGcfrFZwQe07tffKNMks5R7LB80vgRyb2jqSLE+Ao417cIZR7NhSaSiJOpnNnYlR28
- DQzRhu83YQdKxMc+LxsVQrjZhsfPzVPoykpmche6Fd0POmYimcjhrYw/oCGMDjgaiw5V
- 5AiPkAhJtTizbTxzC5OnL8jkCes8AX0T7asMQmS2C8h+LoCaAaueJn8DBB5YRbB+zkyL
- wyuQ==
+ bh=92tn9D6CvKOM3YHgm2FPxtPVLIQRccqrPlpyyjK4ysI=;
+ b=AsCr7XYV4p1P6v9WcOdH7PgPohBLBtJQZknIlotrMj/rbmrNmgt1u8HynyUcHANNc1
+ iknwgm8yDXFpBgmv0MTQNtHsX082OMZ9KamIX/LD0UJgHTO/e3i3JYmpCWfrWkgoEacx
+ RwypoMxt9ytdyrFcapsVWVQdvMlRl3UB8zA53psNrjnMg8LECIUDKUKWuyq1JucLDUEk
+ YzYCKwgScd+mCAEmxrWSuU/tfaMtjRg0oHCim8hkmz7OLnEZQ9Aa/2ffbUsewTSj1u3Q
+ 463KxqJ6r/Av2z06FDM+ATzCzcW9gjv9NTWDyC39ADgurWGFrfhvizBtHtEUB/pr5WAN
+ 1qLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8zXt9UCaAezuQQSVuoGZ3qOLW0v6J1oJoAuIkflyJyM=;
- b=G6HB5700w9yWJMbdRU2lVTIH97BL5nNuF/W9kZfMAtMIVsFXaVJf7ONCi+aPaKzZh9
- Lg+Gcc3KWRcD4qO5VQcXRAbUU4XkjQ/DWeoHb5ZQK+3S109gNkaD3eWpWm7Z8KGqbbmA
- SwjJDw8fLbOKHtfcVN8PrYEfCqLmNxz947SCe/3ekMxUzoVP/0vPagiTqFZeqcnHWhEZ
- f+4CTfulP5NcD5QMVc11vhIHZlNbnWTzN25KDyxqxoP1YMecUi0nxX/R56IB+Nw5ceKE
- hWf71sh/ckv3ift91dY4uAXIVsKnEW+Cxa9xTSXjZYtapfBbn+zcbYbi/4GB5EFNe4fJ
- 81Bg==
-X-Gm-Message-State: AOAM531VjeNMEfH1tdEUlHqG1ilA76ACm/hI/GMCQjxfPIqFdDGQNZ2w
- nuuy9btKV1R8PzjCxa59OBk=
-X-Google-Smtp-Source: ABdhPJwyS5lr6gvMYqdRo/IdiA0Y5Le/jb8j2P8wBK0S6DTl+MqzndAcROegqmFrE0SLzg0YsBTv/g==
-X-Received: by 2002:a17:90a:d3d1:b0:1bb:fdc5:182 with SMTP id
- d17-20020a17090ad3d100b001bbfdc50182mr5233039pjw.206.1646751847101; 
- Tue, 08 Mar 2022 07:04:07 -0800 (PST)
+ bh=92tn9D6CvKOM3YHgm2FPxtPVLIQRccqrPlpyyjK4ysI=;
+ b=o0E65jpKnzmIRjJiecONANwKxmQf3vl5il345A5CVURdf9UI+GldM62PkqDGadSH3N
+ c159ESel+yjm1IRCtr8WcsNAMHNqnj/TvUM/z5l/hdh5/eC1MMHlO65M001TH7jNVaHb
+ saQYx5xqZNyVbVefm1pCZCcpz/pS/mJCQ2nTrEi9448r1K8hMWLAgdhBm9NwJXzdVgHI
+ K3TfB47LkcJv3B+MZVIMXItpOkh7SXZstAfABBryY9gJrCQqoYNMtkg/rZuZOlN9Txa5
+ nuccpqHDMFVmG/XqS+D0BGvnBKvsuES7UWlS4DzFhbZgZd2YjwvpdS+1mxqfSwhp3/Kh
+ aWzg==
+X-Gm-Message-State: AOAM530exAD5LMEGdxshb0MntFry+czPoe7AbMEBh/nFO18jSqeSg1WM
+ cKDnaENyXhofd6oarynW2Es=
+X-Google-Smtp-Source: ABdhPJz6Ssx8lX+T7sQlEYUz6nFcVAk1B1aPKxU3dxi98hn1+avzGtZzYdzeAQadTLcCmDk2+1DrdA==
+X-Received: by 2002:a63:8342:0:b0:380:a9f6:b822 with SMTP id
+ h63-20020a638342000000b00380a9f6b822mr558225pge.541.1646752127606; 
+ Tue, 08 Mar 2022 07:08:47 -0800 (PST)
 Received: from [192.168.16.175] (11.red-88-28-24.dynamicip.rima-tde.net.
  [88.28.24.11]) by smtp.gmail.com with ESMTPSA id
- cv15-20020a17090afd0f00b001bedcbca1a9sm3242961pjb.57.2022.03.08.07.04.03
+ q13-20020a056a00088d00b004e1bea9c582sm20785522pfj.43.2022.03.08.07.08.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 07:04:06 -0800 (PST)
-Message-ID: <8eabbe37-9c75-5f74-8e3e-40909c3e2f98@gmail.com>
-Date: Tue, 8 Mar 2022 16:04:02 +0100
+ Tue, 08 Mar 2022 07:08:47 -0800 (PST)
+Message-ID: <cd9a9fda-7187-0601-49ca-20c649ba6cfa@gmail.com>
+Date: Tue, 8 Mar 2022 16:08:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 05/11] edk2: add microvm build
+Subject: Re: [PATCH 11/11] MAINTAINERS: take edk2
 Content-Language: en-US
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 References: <20220308145521.3106395-1-kraxel@redhat.com>
- <20220308145521.3106395-6-kraxel@redhat.com>
+ <20220308145521.3106395-12-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220308145521.3106395-6-kraxel@redhat.com>
+In-Reply-To: <20220308145521.3106395-12-kraxel@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -104,10 +104,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/3/22 15:55, Gerd Hoffmann wrote:
+> Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Hmm?
+
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->   roms/Makefile.edk2 | 11 +++++++++++
->   1 file changed, 11 insertions(+)
+>   MAINTAINERS | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 68adaac373c7..ad1c9a7ea133 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3144,7 +3144,7 @@ F: docs/interop/firmware.json
+>   
+>   EDK2 Firmware
+>   M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> -R: Gerd Hoffmann <kraxel@redhat.com>
+> +M: Gerd Hoffmann <kraxel@redhat.com>
+
+Thanks :)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+>   S: Supported
+>   F: hw/i386/*ovmf*
+>   F: pc-bios/descriptors/??-edk2-*.json
+
 
