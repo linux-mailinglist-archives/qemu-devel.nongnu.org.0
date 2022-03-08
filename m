@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E034D1B52
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 16:06:17 +0100 (CET)
-Received: from localhost ([::1]:35984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340BF4D1B57
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 16:08:40 +0100 (CET)
+Received: from localhost ([::1]:40922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRbPk-0002JJ-RN
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 10:06:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35682)
+	id 1nRbS3-0005jQ-9y
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 10:08:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGH-0005Dr-M2
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:56:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48342)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGq-0005zV-AI
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:57:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGF-0000KB-0D
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:56:29 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGo-0000Nk-UP
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:57:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646751384;
+ s=mimecast20190719; t=1646751422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dcef2qWB9VulLw85l4bpRV98JTl9hUVfDgqAFcPO6mE=;
- b=JuAHf9bEoyOBMuDCSB0PLeFieZi76BaBLrSM9AWq3atJsPNNORhvSafdKyoRBD6cHs8QtL
- lIG2b0J+stiP1szea8IuhM7lbxXt+j67CL2JhBcc6RZbb+EqraApWXWYwrpwu42JRVYiPw
- 0B5AmgdApEv0MFh5LXP9vzxOJClTHn4=
+ bh=csrhNpW2WOoLbRwrpbygyLcLFaOzsJKT9C7UjbOysZI=;
+ b=dx1gVjfUk16jU5csHJO4ugsQltSEioPG58s+FB/aNDYtEcMKWAMkduyN3QwtFUhZsJxqrT
+ GWMFG2TCNUd4tSEiOa6ksec7LDNbrI9tCv9ttlC0CfmZtHXkqYhSR2K1W5yxXtD+52ZhSO
+ 9VVPqW0IwNdQQ2H07mrmuqz53wLAXmc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-rZmmFg6xO-yxefgAEK_xFw-1; Tue, 08 Mar 2022 09:56:23 -0500
-X-MC-Unique: rZmmFg6xO-yxefgAEK_xFw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-647-IoqTbXX6Noua4Ry03dTroQ-1; Tue, 08 Mar 2022 09:56:58 -0500
+X-MC-Unique: IoqTbXX6Noua4Ry03dTroQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BC0E180A08F;
- Tue,  8 Mar 2022 14:56:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CFB91006AB3;
+ Tue,  8 Mar 2022 14:56:51 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B85A0106416D;
- Tue,  8 Mar 2022 14:56:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C5BE7C02F;
+ Tue,  8 Mar 2022 14:56:51 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 29879180099E; Tue,  8 Mar 2022 15:55:22 +0100 (CET)
+ id 73EE318009A1; Tue,  8 Mar 2022 15:55:27 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/11] edk2: add microvm build
-Date: Tue,  8 Mar 2022 15:55:15 +0100
-Message-Id: <20220308145521.3106395-6-kraxel@redhat.com>
+Subject: [PATCH 07/11] tests/acpi: update expected data files
+Date: Tue,  8 Mar 2022 15:55:17 +0100
+Message-Id: <20220308145521.3106395-8-kraxel@redhat.com>
 In-Reply-To: <20220308145521.3106395-1-kraxel@redhat.com>
 References: <20220308145521.3106395-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -92,38 +92,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- roms/Makefile.edk2 | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ tests/data/acpi/virt/SSDT.memhp | Bin 736 -> 736 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
 
-diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
-index a669019fe5b2..57996c968687 100644
---- a/roms/Makefile.edk2
-+++ b/roms/Makefile.edk2
-@@ -33,6 +33,7 @@ flashdevs := \
- 	i386-secure-code \
- 	x86_64-code \
- 	x86_64-secure-code \
-+	x86_64-microvm \
- 	\
- 	arm-vars \
- 	i386-vars
-@@ -145,6 +146,16 @@ submodules:
- 		-D SMM_REQUIRE
- 	cp edk2/Build/Ovmf3264/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
- 
-+../pc-bios/edk2-x86_64-microvm.fd: submodules
-+	+./edk2-build.sh \
-+		x86_64 \
-+		--arch=X64 \
-+		--platform=OvmfPkg/Microvm/MicrovmX64.dsc \
-+		-D NETWORK_IP6_ENABLE \
-+		-D NETWORK_HTTP_BOOT_ENABLE \
-+		-D NETWORK_TLS_ENABLE
-+	cp edk2/Build/MicrovmX64/$(target)_$(call toolchain,x86_64)/FV/MICROVM.fd $@
-+
- ../pc-bios/edk2-arm-vars.fd: ../pc-bios/edk2-arm-code.fd
- 	cp edk2/Build/ArmVirtQemu-ARM/$(target)_$(call toolchain,arm)/FV/QEMU_VARS.fd \
- 		$@
+diff --git a/tests/data/acpi/virt/SSDT.memhp b/tests/data/acpi/virt/SSDT.memhp
+index 375d7b6fc85a484f492a26ccd355c205f2c34473..4c363a6d95a7e2e826568c85f5719127748e7932 100644
+GIT binary patch
+delta 22
+dcmaFB`hb-yIM^lR0TTlQqx43uD@;sZodHo~2HXGu
+
+delta 22
+dcmaFB`hb-yIM^lR0TTlQqy0v%D@;rmodHrj2HXGu
+
 -- 
 2.35.1
 
