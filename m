@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF524D2215
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 20:58:33 +0100 (CET)
-Received: from localhost ([::1]:58846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D112B4D2286
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 21:26:18 +0100 (CET)
+Received: from localhost ([::1]:37516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRfya-0007BG-VD
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 14:58:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58866)
+	id 1nRgPR-0005NO-Fq
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 15:26:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRfxO-0006LF-5H
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:57:18 -0500
-Received: from [2607:f8b0:4864:20::532] (port=42779
- helo=mail-pg1-x532.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRgNm-0004GQ-3B
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 15:24:37 -0500
+Received: from [2607:f8b0:4864:20::112b] (port=42548
+ helo=mail-yw1-x112b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRfxM-0001wk-RK
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:57:17 -0500
-Received: by mail-pg1-x532.google.com with SMTP id o8so53583pgf.9
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 11:57:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRgNj-00063z-C4
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 15:24:33 -0500
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2dbd97f9bfcso347657b3.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 12:24:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=W7H4pN4DcTnqyYSF2ABoCv5Q3TdiCK/cwTHUQChLzt0=;
- b=N54BHVglMd7ZdPIQhL44w6U/fbQG4DqeMy2zOTwg5aXT4U5Sfu5TQphaIm1zjm+ON9
- q28FH4NCCSU+PW5GhnWxdM/BRuDxBqMiJ9mM5HaEAYbmQbh6zHBUjDgWR3+e9PNxtDSE
- AkGw0Zn4MIT3JS62t+RYGXcOYK5BQWCvtAhL82qGjxOumARDXcJb5V3a5Nn+NNK3MTlv
- d/cYh05gT3gYEp2Z7ZbIOqncT41amGyeMNOi4yu3MLb6rxHnVL2gyYoxswo9Ib8gtlEq
- /Vf+anOSkiYALstvYa35TQ98dHNO/D3j88/8CYYLyASGKBB4HAqeuwvVdSy5Go+aK9gm
- a5hQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jYIurjCufGA7DItahGd/qsBDYqH+/JFUxfwXCjvCZew=;
+ b=bWRZyw11gprFTHljxaPmCSQfVRcgPqyx6F2r3uGtkKLP8HQ4jB1FdEYjQZyqsouwz1
+ 4XW1ShBoCJlTZNCxEkh+Gw4Czp8YKPL2VkM4XqAe8PlnPCxdxT5uwzYdfK6sUuV25vLa
+ HKsEVN0+1MOKTIsJuONhsOOXaOcwjuuMgGQkRBACiZI4uonZP57Vcq7RkELmsXbM/9VG
+ UXKnOSlghE2pBj5n3adIPVidgSnMmvI/g89Cmf98bN7ld2mHQ0OgdRKdpBzsbOKZSp12
+ +iDAoM1ny9yfcqV91gekYaMFifwRY71K1uKZ7IUNqQ6Y2v7uxLmfKSVlsYTRMGYxsXAR
+ eanQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=W7H4pN4DcTnqyYSF2ABoCv5Q3TdiCK/cwTHUQChLzt0=;
- b=RLngak0AMat8THFksc2fSPzDZITqCAYTqa6bxGIHBN8LnUla/LcG3VW+Njn3/5qlDf
- j9OFdr8Jc5gkhRKEPXXfGvBtFxYattUPP3y2xl5MeRGljZOi+aJ42j4KeKAqmuwtvYf8
- /Id6hvSKtd3nc+Kjp+GOlM/u5RjjMwtOcJUSAFb6RK117GI0o4GBzhjn5gWgUQUu2HSl
- 71mLJzcWYfvx91hhT4Xu7Y+W5/CqZbnhCLFjkD0O1K5XRkH25Xmcufws5cRxEeTK6zN1
- JohtnNg4kvbmeUT6HCZp7Vgks8yUHtFkWXRXJyvGlBhpqnPoPqfsvG7usJiIuvo73Xb6
- OwSA==
-X-Gm-Message-State: AOAM530bkQ81NLSP7h46Oyb3ELwLG1hmmlQjn0hmSD6mrFKsTly6B14+
- I+o7vwg+E1fkMCqgPBaeHgSCNw==
-X-Google-Smtp-Source: ABdhPJwVkDec6s72V6BcXrusCCmjdpACLkwaMnrQD/Fm6o2K6o63vRXTFYDt6ps6XXEgkvSIZ/+l1A==
-X-Received: by 2002:a62:586:0:b0:4e1:dc81:8543 with SMTP id
- 128-20020a620586000000b004e1dc818543mr19954438pff.0.1646769435505; 
- Tue, 08 Mar 2022 11:57:15 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- q20-20020a056a00151400b004f3cd061d33sm21263966pfu.204.2022.03.08.11.57.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 11:57:14 -0800 (PST)
-Message-ID: <add98c82-d984-74ba-275b-969fb4e558cb@linaro.org>
-Date: Tue, 8 Mar 2022 09:57:11 -1000
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jYIurjCufGA7DItahGd/qsBDYqH+/JFUxfwXCjvCZew=;
+ b=ak4bOq82Vtds07ZKCeIyudjNqt43P9ZNWnB+nCg6JtC1FtqNqRzDj+WVK7Up4CoEIL
+ cQA7mIHVjiXe5znEeN4kzrQosiYzgrPACPsVHhZYOS3FwmXL/jyKhbzvv7sqAyuTo5ek
+ EfSMJ20dSK1m6JZKyPekfXmiQHgBm00E2sK0jrKNi2CnpEoKg0qO1lVqb0kC6RCLuCvA
+ Das2cdLHFrVE7QdWVQn4NNWKVbs8mBckJdhed9re5XbKB0cMKP75ckt/JSaCyXOisOW3
+ HCRRnsMKgreL9R2tLWFMDw/kw3hAFH3iRise2+oyS+xzemJooMX01/tZ7VuPRWRaWV9V
+ cMew==
+X-Gm-Message-State: AOAM532pLSe3zPdc5Yd5OkC72gMexYXbD4xYAfaWrFsxtwUaFyTWVH2a
+ SoDNkw832CquyA1B7C3g2W/zqnd+o/ZzJ00EA7nJvA==
+X-Google-Smtp-Source: ABdhPJwevtidr8yfqNsBw+GOVhg0XYbBayPqikcqTXbbtSESSBYDyzIFnFsEYnr9lKSn69TWbYQIP66wn2LvhcnT3hY=
+X-Received: by 2002:a81:164f:0:b0:2dc:3906:27c0 with SMTP id
+ 76-20020a81164f000000b002dc390627c0mr14201801yww.64.1646771069930; Tue, 08
+ Mar 2022 12:24:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 33/33] hw/nios2: Machine with a Vectored Interrupt
- Controller
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-34-richard.henderson@linaro.org>
- <7f7eac6c-a013-1682-1c4f-2b4bb87dc7d6@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <7f7eac6c-a013-1682-1c4f-2b4bb87dc7d6@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
+ <20220308072005.307955-18-richard.henderson@linaro.org>
+In-Reply-To: <20220308072005.307955-18-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Mar 2022 20:24:18 +0000
+Message-ID: <CAFEAcA-y3H1GP9TFDoUsLTMNWMe0SnVAXHyM2scaRyCafD=Y=w@mail.gmail.com>
+Subject: Re: [PATCH v4 17/33] target/nios2: Prevent writes to read-only or
+ reserved control fields
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -95,26 +84,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/7/22 22:43, Mark Cave-Ayland wrote:
->> +    qdev_realize(DEVICE(cpu), NULL, &error_fatal);
->> +    object_unref(CPU(cpu));
-> 
-> I believe this can be replaced with qdev_realize_and_unref()?
+On Tue, 8 Mar 2022 at 07:20, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Create an array of masks which detail the writable and readonly
+> bits for each control register.  Apply them when writing to
+> control registers.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Oh, nice.  I copied this from hw/arm/virt, which has code between these two points.
+> diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
+> index f2813d3b47..189adf111c 100644
+> --- a/target/nios2/cpu.c
+> +++ b/target/nios2/cpu.c
+> @@ -88,6 +88,55 @@ static void nios2_cpu_initfn(Object *obj)
+>
+>      cpu_set_cpustate_pointers(cpu);
+>
+> +    /* Begin with all fields of all registers are reserved. */
+> +    memset(cpu->cr_state, 0, sizeof(cpu->cr_state));
+> +
+> +    /*
+> +     * The combination of writable and readonly is the set of all
+> +     * non-reserved fields.  We apply writable as a mask to bits,
+> +     * and merge in existing readonly bits, before storing.
+> +     */
+> +#define WR_REG(C)       cpu->cr_state[C].writable = -1
+> +#define RO_REG(C)       cpu->cr_state[C].readonly = -1
+> +#define WR_FIELD(C, F)  cpu->cr_state[C].writable |= R_##C##_##F##_MASK
+> +#define RO_FIELD(C, F)  cpu->cr_state[C].readonly |= R_##C##_##F##_MASK
+> +
+> +    WR_FIELD(CR_STATUS, PIE);
 
->> +    if (nms->vic) {
->> +        DeviceState *dev = qdev_new("nios2-vic");
-> 
-> And with a separate header for nios2_vic.h you can include that and use TYPE_NIOS2_VIC 
-> here instead of hard-coding the type name.
+I think you need to claim (CR_STATUS, RSIE) is a RO bit, because without
+EIC it's should-be-one.
 
-Ok.
+> +    WR_REG(CR_ESTATUS);
+> +    WR_REG(CR_BSTATUS);
+> +    RO_REG(CR_CPUID);
+> +    WR_FIELD(CR_EXCEPTION, CAUSE);
+> +    WR_REG(CR_BADADDR);
+> +
+> +    /* TODO: These control registers are not present with the EIC. */
+> +    WR_REG(CR_IENABLE);
+> +    RO_REG(CR_IPENDING);
 
+Missing CR_CONFIG register ?
 
-r~
+> +
+> +    if (cpu->mmu_present) {
+> +        WR_FIELD(CR_STATUS, U);
+> +        WR_FIELD(CR_STATUS, EH);
+
+True by the documentation, but we don't seem to prevent EH from
+being set to 1 when we take an exception on the no-MMU config...
+
+> +
+> +        WR_FIELD(CR_PTEADDR, VPN);
+> +        WR_FIELD(CR_PTEADDR, PTBASE);
+> +
+> +        RO_FIELD(CR_TLBMISC, D);
+> +        RO_FIELD(CR_TLBMISC, PERM);
+> +        RO_FIELD(CR_TLBMISC, BAD);
+> +        RO_FIELD(CR_TLBMISC, DBL);
+> +        WR_FIELD(CR_TLBMISC, WR);
+
+(the docs call this field 'WE', incidentally)
+
+> +        WR_FIELD(CR_TLBMISC, RD);
+
+If you claim this bit to be writable you'll allow the gdbstub
+to set it, which is probably not what you want. (Actual writes to
+this register are handled via the helper function.)
+
+> +        WR_FIELD(CR_TLBMISC, WAY);
+
+Missing PID field ?
+
+> +
+> +        WR_REG(CR_TLBACC);
+
+> +    }
+
+You don't enforce the reserved/readonly bits on status when
+we copy it from estatus during eret. (That change appears later,
+in patch 26.)
+
+The same *ought* to apply for bret, except that we have a bug in
+our implementation of it, where we fail to copy bstatus into status...
+
+The machinery itself looks OK.
+
+thanks
+-- PMM
 
