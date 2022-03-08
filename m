@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CF84D200A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:22:06 +0100 (CET)
-Received: from localhost ([::1]:38500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F6B4D1FDB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:15:18 +0100 (CET)
+Received: from localhost ([::1]:45082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nReTF-0008MV-KE
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:22:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35880)
+	id 1nReMe-0001Gs-Rr
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:15:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nReKx-0007Zo-I1
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:13:31 -0500
-Received: from [2607:f8b0:4864:20::629] (port=46929
- helo=mail-pl1-x629.google.com)
+ id 1nReL5-0007fn-Vc
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:13:39 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=38868
+ helo=mail-pf1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nReKt-0001vh-G9
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:13:31 -0500
-Received: by mail-pl1-x629.google.com with SMTP id w4so7437421ply.13
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 10:13:27 -0800 (PST)
+ id 1nReL1-0001wU-LW
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:13:39 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id f8so74605pfj.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 10:13:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5XSrHIfpNoZQYynTp2pRlpjeSkrLGOEf28Cr192QW7A=;
- b=PCMgiXLxp5CNG1LTrzvm5qWrAoCRQr6rmzQeARHcOjIlkv/y/2nflRooM0Gs10T4va
- 7+1/Woa5bmMAXeOhUHaaF9NQlkHqmvtM83wJ6UDTRZIhGglz/DtHB2q+SU3XYf1XA1b2
- X1VmbUG/reTBmETik3qOjOKOOx3r/1OEh4Zb2F4/Z6dsB2DVU639xn1quv961864A82u
- NMfGwgQ328jamFyEWcCOGXbOUJoN6a4ARF+apew7lLsqTUn4NCf4l193GrQvj7r+co8x
- 0u1uTVjL13HYz0qbW0yWxuu2/YY+FfNhbsmFtTlKRDV2xTHvYk8yD5Q3BJBOGu+JzJ/z
- npbg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/aRgGA+YSFOUe5BsFmqTLLgWBcBUGKO4PrdFGl92DPc=;
+ b=YOo4ccLgt1HZaFWANMlzlUsde1jmKO3UDYIY8ZEdO8yMpdzg7Q/WmdOLXj0dMtUVFE
+ XxVsrYKsgBl/gApe1jBf6i5nWvAKksjftgOH5wVjCs4fZSXiIYm6p0++CW91JuNaxGZO
+ 2XwuIT1A6fz9EmUylxbE3vIvYexi4KMdusR3dUYNNeSt8ZQTpJanvenoyFuw2grh76Xo
+ kLbzVfWkGENSVxd7czSylSJOqH5FqexfXv7/TmyXXhGwLkO/XVVFbwaV2uX5lu3XhYKW
+ fEkFg6BZjDi/9myyjAbx711giQidIlqHJtiC1On0SdMjGZhO2pLB1m7sYwoxo5weRU8w
+ GH7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5XSrHIfpNoZQYynTp2pRlpjeSkrLGOEf28Cr192QW7A=;
- b=0Sfqt3Xax4QugX6iTdebamW8eoWiqDp9eZNXXKh2qpGc4jWxpnF8aJ7CSzE+A0RnlC
- LcvgvH8K9vdxDm+pEVT2KMVkAxpwUZnHsBWPmiLowGXVmMbJYuGvJFbyRsFq17NXOuet
- UBJOPsYufpy8TGpTqX9BsP7Skv8s2ZVwKjMx8290WSm2cdi9H84jQTHZ7fL7kou+wqlI
- DVhi8WcqW4PN8X1Vw+zSTrvI6FfgCRPc0pw+rcTCphK+JGwLAJzWSLqjO302tdF85DTU
- vB3IC5FNlf3egOX7fqfMIw+hxWwJvWl8gCPtl/90cfhgEJq/wyP2OkftdeAq2m4Ps6CQ
- dbhA==
-X-Gm-Message-State: AOAM533N/G+VhLHLFQsvrEc5DCxT/eoYYTblaw9NVZCUtiyaClWpy5Au
- bNvTP3Mj+jdBz/BauoOqe96FUyGtTEA=
-X-Google-Smtp-Source: ABdhPJyzqeTrTgoin2V+8lSfsnM5ulLFNXYUH1Au1lvgM4N1UaJtFEgIIs8p6WOfNDAT6L7MT2xCfQ==
-X-Received: by 2002:a17:902:ba8e:b0:151:ed65:fda4 with SMTP id
- k14-20020a170902ba8e00b00151ed65fda4mr10717906pls.127.1646763206024; 
- Tue, 08 Mar 2022 10:13:26 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/aRgGA+YSFOUe5BsFmqTLLgWBcBUGKO4PrdFGl92DPc=;
+ b=OniQql48/FMpt+veUXGMr5jUHUjdwJApk+0EHnpXJIVAboMrmzzmH5+6PebMrgi0fA
+ mT90E4ECngBpVzocvAjzQi4EwHZRJOBYlDdFInXhGZ0xdSY1TAL05XcKafvEwPvB8BQS
+ lJtMh2b3lQg4eTRaT7R04akhSrqsJrvqtpiP3394Jn5+hRxzhLcvifQuqMYb82Toi0NG
+ Cp74aRT4v5OzivelIWSLWlHIi0axApm7nqVkp+Pkf6dvh/CxCPjRsXAyB793s2FGypjb
+ blBLH7t4qPp14eTviB1pcel8A0YHwvA03CFsRlx2X7l9CiFeSR/d1G8XSP0moa2mAMYu
+ Tzqw==
+X-Gm-Message-State: AOAM530YxxV2+Pbu2u87wvzMWYmDLjbaCBrIde/GgtsurVdQ0BbItfnT
+ m8KEMg5lwfsYI7YZpy88+PJoBGzuS/8=
+X-Google-Smtp-Source: ABdhPJyLUKHEelpVwN6szJ1kJteZzZ7soAuYa5w4WAmRYBGwwsx1AvS1hch1XWA361lCxmD61s8d7A==
+X-Received: by 2002:a65:5843:0:b0:347:6fca:d6de with SMTP id
+ s3-20020a655843000000b003476fcad6demr15076478pgr.168.1646763214084; 
+ Tue, 08 Mar 2022 10:13:34 -0800 (PST)
 Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- i187-20020a626dc4000000b004f6e0f346e7sm11980779pfc.39.2022.03.08.10.13.24
+ s3-20020a056a00194300b004f6da3a1a3bsm13658094pfk.8.2022.03.08.10.13.32
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 08 Mar 2022 10:13:25 -0800 (PST)
+ Tue, 08 Mar 2022 10:13:33 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/9] I²C / SMBus / PMBus patches for 2022-03-08
-Date: Tue,  8 Mar 2022 19:13:11 +0100
-Message-Id: <20220308181320.79400-1-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 1/9] hw/i2c: pmbus: add registers
+Date: Tue,  8 Mar 2022 19:13:12 +0100
+Message-Id: <20220308181320.79400-2-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220308181320.79400-1-philippe.mathieu.daude@gmail.com>
+References: <20220308181320.79400-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,63 +90,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Titus Rwantare <titusr@google.com>,
+Cc: Titus Rwantare <titusr@google.com>, Corey Minyard <cminyard@mvista.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Corey Minyard <minyard@acm.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Titus Rwantare <titusr@google.com>
 
-The following changes since commit 9740b907a5363c06ecf61e08b21966a81eb0dab4:
+   - add the VOUT_MIN and STATUS_MFR registers
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220307' into staging (2022-03-08 15:26:10 +0000)
+Signed-off-by: Titus Rwantare <titusr@google.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Acked-by: Corey Minyard <cminyard@mvista.com>
+Message-Id: <20220307200605.4001451-2-titusr@google.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/i2c/pmbus_device.c         | 24 ++++++++++++++++++++++++
+ include/hw/i2c/pmbus_device.h |  3 +++
+ 2 files changed, 27 insertions(+)
 
-are available in the Git repository at:
-
-  https://github.com/philmd/qemu.git tags/pmbus-20220308
-
-for you to fetch changes up to 5f14cd7032beab6cac8d7ed1b09efc58baddb48c:
-
-  hw/sensor: add Renesas raa228000 device (2022-03-08 18:46:48 +0100)
-
-----------------------------------------------------------------
-I²C / SMBus / PMBus patches
-
-- Add some Renesas models
-- Add Titus Rwantare to MAINTAINERS
-
-----------------------------------------------------------------
-
-Shengtan Mao (1):
-  hw/i2c: Added linear mode translation for pmbus devices
-
-Titus Rwantare (8):
-  hw/i2c: pmbus: add registers
-  hw/i2c: pmbus: fix error returns and guard against out of range
-    accesses
-  hw/i2c: pmbus: add PEC unsupported warning
-  hw/i2c: pmbus: refactor uint handling
-  hw/i2c: pmbus: update MAINTAINERS
-  hw/sensor: add Intersil ISL69260 device model
-  hw/sensor: add Renesas raa229004 PMBus device
-  hw/sensor: add Renesas raa228000 device
-
- MAINTAINERS                      |  13 +
- hw/arm/Kconfig                   |   1 +
- hw/i2c/pmbus_device.c            | 112 +++++++-
- hw/sensor/Kconfig                |   4 +
- hw/sensor/isl_pmbus_vr.c         | 279 ++++++++++++++++++
- hw/sensor/meson.build            |   1 +
- include/hw/i2c/pmbus_device.h    |  25 +-
- include/hw/sensor/isl_pmbus_vr.h |  52 ++++
- tests/qtest/isl_pmbus_vr-test.c  | 474 +++++++++++++++++++++++++++++++
- tests/qtest/meson.build          |   1 +
- 10 files changed, 948 insertions(+), 14 deletions(-)
- create mode 100644 hw/sensor/isl_pmbus_vr.c
- create mode 100644 include/hw/sensor/isl_pmbus_vr.h
- create mode 100644 tests/qtest/isl_pmbus_vr-test.c
-
+diff --git a/hw/i2c/pmbus_device.c b/hw/i2c/pmbus_device.c
+index 24f8f522d9..07a45c99f9 100644
+--- a/hw/i2c/pmbus_device.c
++++ b/hw/i2c/pmbus_device.c
+@@ -368,6 +368,14 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
+         }
+         break;
+ 
++    case PMBUS_VOUT_MIN:        /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_RATING) {
++            pmbus_send16(pmdev, pmdev->pages[index].vout_min);
++        } else {
++            goto passthough;
++        }
++        break;
++
+     /* TODO: implement coefficients support */
+ 
+     case PMBUS_POUT_MAX:                  /* R/W word */
+@@ -708,6 +716,10 @@ static uint8_t pmbus_receive_byte(SMBusDevice *smd)
+         pmbus_send8(pmdev, pmdev->pages[index].status_other);
+         break;
+ 
++    case PMBUS_STATUS_MFR_SPECIFIC:       /* R/W byte */
++        pmbus_send8(pmdev, pmdev->pages[index].status_mfr_specific);
++        break;
++
+     case PMBUS_READ_EIN:                  /* Read-Only block 5 bytes */
+         if (pmdev->pages[index].page_flags & PB_HAS_EIN) {
+             pmbus_send(pmdev, pmdev->pages[index].read_ein, 5);
+@@ -1149,6 +1161,14 @@ static int pmbus_write_data(SMBusDevice *smd, uint8_t *buf, uint8_t len)
+         }
+         break;
+ 
++    case PMBUS_VOUT_MIN:                  /* R/W word */
++        if (pmdev->pages[index].page_flags & PB_HAS_VOUT_RATING) {
++            pmdev->pages[index].vout_min = pmbus_receive16(pmdev);
++        } else {
++            goto passthrough;
++        }
++        break;
++
+     case PMBUS_POUT_MAX:                  /* R/W word */
+         if (pmdev->pages[index].page_flags & PB_HAS_VOUT) {
+             pmdev->pages[index].pout_max = pmbus_receive16(pmdev);
+@@ -1482,6 +1502,10 @@ static int pmbus_write_data(SMBusDevice *smd, uint8_t *buf, uint8_t len)
+         pmdev->pages[index].status_other = pmbus_receive8(pmdev);
+         break;
+ 
++    case PMBUS_STATUS_MFR_SPECIFIC:        /* R/W byte */
++        pmdev->pages[index].status_mfr_specific = pmbus_receive8(pmdev);
++        break;
++
+     case PMBUS_PAGE_PLUS_READ:            /* Block Read-only */
+     case PMBUS_CAPABILITY:                /* Read-Only byte */
+     case PMBUS_COEFFICIENTS:              /* Read-only block 5 bytes */
+diff --git a/include/hw/i2c/pmbus_device.h b/include/hw/i2c/pmbus_device.h
+index 62bd38c83f..72c0483149 100644
+--- a/include/hw/i2c/pmbus_device.h
++++ b/include/hw/i2c/pmbus_device.h
+@@ -43,6 +43,7 @@ enum pmbus_registers {
+     PMBUS_VOUT_DROOP                = 0x28, /* R/W word */
+     PMBUS_VOUT_SCALE_LOOP           = 0x29, /* R/W word */
+     PMBUS_VOUT_SCALE_MONITOR        = 0x2A, /* R/W word */
++    PMBUS_VOUT_MIN                  = 0x2B, /* R/W word */
+     PMBUS_COEFFICIENTS              = 0x30, /* Read-only block 5 bytes */
+     PMBUS_POUT_MAX                  = 0x31, /* R/W word */
+     PMBUS_MAX_DUTY                  = 0x32, /* R/W word */
+@@ -255,6 +256,7 @@ OBJECT_DECLARE_TYPE(PMBusDevice, PMBusDeviceClass,
+ #define PB_HAS_TEMP3               BIT_ULL(42)
+ #define PB_HAS_TEMP_RATING         BIT_ULL(43)
+ #define PB_HAS_MFR_INFO            BIT_ULL(50)
++#define PB_HAS_STATUS_MFR_SPECIFIC BIT_ULL(51)
+ 
+ struct PMBusDeviceClass {
+     SMBusDeviceClass parent_class;
+@@ -295,6 +297,7 @@ typedef struct PMBusPage {
+     uint16_t vout_droop;               /* R/W word */
+     uint16_t vout_scale_loop;          /* R/W word */
+     uint16_t vout_scale_monitor;       /* R/W word */
++    uint16_t vout_min;                 /* R/W word */
+     uint8_t coefficients[5];           /* Read-only block 5 bytes */
+     uint16_t pout_max;                 /* R/W word */
+     uint16_t max_duty;                 /* R/W word */
 -- 
 2.34.1
 
