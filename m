@@ -2,82 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980964D15E8
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:11:24 +0100 (CET)
-Received: from localhost ([::1]:34148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B52FB4D15F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:14:41 +0100 (CET)
+Received: from localhost ([::1]:36442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRXkR-0007Ex-O5
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:11:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38056)
+	id 1nRXnc-0000Zr-Rs
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:14:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRXiW-0005cp-Fm
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:09:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43392)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nRXmQ-0008GT-T7
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:13:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRXiT-0001HL-CK
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:09:22 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nRXmL-0001zF-Vh
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:13:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646737760;
+ s=mimecast20190719; t=1646738001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KBp2gp1abaxUnkN7haiud1YSCDwr9/GGkjgmdW66tLc=;
- b=Cl9zRI/CqiJqt6/+alruuueZhod9ZuwbIhe87q9PF17su/HQRCgbItyJkv6J++tnBC9SQs
- UzE7Sr1fZFK1jT8dM3y7FFgyPRZRlNnIFDN/7mANnPGPnR3qqC1A/k6lkjzUiI8RTZ1/oz
- Wc9jhFgV+lkaKT9mXCphNdLEOBNuknc=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=u1zA6UE2qgYn3eJrDhUGJlVfrbrXDtcgI4JnWdPHCmc=;
+ b=gZf1nELZwWG15IF69V/VgJQfYKHXQjLRDyUGAcJ5jpBdoF3CrbCrGxkjZrgg3KlAMFDqir
+ 212d3558FBcA9tUTVmdUyK0vDxdbb1gbHe9dldSYTPhP3os1Zbu3AakusNn22OpTGETLjo
+ uqN/i49xeAZ0Rlu57A1zfhL9YPhcWBY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-646-FsNkNc0sNP6DWr_vH1SC0A-1; Tue, 08 Mar 2022 06:09:19 -0500
-X-MC-Unique: FsNkNc0sNP6DWr_vH1SC0A-1
-Received: by mail-ed1-f70.google.com with SMTP id
- i17-20020aa7c711000000b00415ecaefd07so8032625edq.21
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:09:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KBp2gp1abaxUnkN7haiud1YSCDwr9/GGkjgmdW66tLc=;
- b=EO2FpPz1ZaWXhIE19N50jP2L8Q159IYVR03qCGDHlbWfH3+zw48uWfC8jpxDOY/PbQ
- 1cefQ+pmw7pqM+pj2IJ22Uu54QtPGYZbGzKI3P6pbthsA7imfPAXi14mrvQwyYfOILzw
- hCKq133JzlpfuV5PkVq42olIp5ngSuaL7v7gn0nAt07qhvO7UT8u5QMWWNX1EGrQaTUD
- SxWxaNYJwWOBrfTTGqm+uXfFhKZLbBFQlcMKYaD+xbHJ8q2V8URwazkEsxsrkAXVxmb9
- xDbJ6Ma05/fFnOK0XYcKERb1iRi3ezhMq1MdPwuqiTfsarWYCHsJDJGwoUR1ptvMkoEE
- GF8g==
-X-Gm-Message-State: AOAM5338+J9yk2y40YwEGkjLOd/o2/BmnCQjQEXyHI7UfUf9zeNqr81l
- PsaELjX8aJ2isOgh16VH5v/Dr4ytI10S8GCtHfUOitLcNc3BQiYmXGhy1qWOBrXhIEVrW4z/d/U
- 4Aq/uDZddlIotXHA=
-X-Received: by 2002:a17:907:96a8:b0:6db:4c68:1393 with SMTP id
- hd40-20020a17090796a800b006db4c681393mr1799723ejc.87.1646737758294; 
- Tue, 08 Mar 2022 03:09:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxEwTkCqYfFIiO1lOpwA9mwIwKHd7xJqyvs2ZqWkbbtHd6zy4bL/80ubCpOTSbWMLloaSjnTw==
-X-Received: by 2002:a17:907:96a8:b0:6db:4c68:1393 with SMTP id
- hd40-20020a17090796a800b006db4c681393mr1799691ejc.87.1646737757975; 
- Tue, 08 Mar 2022 03:09:17 -0800 (PST)
-Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- l20-20020a1709062a9400b006ce71a88bf5sm5709789eje.183.2022.03.08.03.09.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 03:09:17 -0800 (PST)
-Date: Tue, 8 Mar 2022 06:09:13 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v4 3/4] tests/qtest/vhost-user-blk-test: Temporary hack
- to get tests passing on aarch64
-Message-ID: <20220308060823-mutt-send-email-mst@kernel.org>
-References: <20220307211439.213133-1-eric.auger@redhat.com>
- <20220307211439.213133-4-eric.auger@redhat.com>
- <YicprIn75glZ0zYe@stefanha-x1.localdomain>
- <d85bd084-2856-87d6-3b98-148b2a7fa03a@redhat.com>
+ us-mta-5-iOBfEdjCOhm-ivPInbzBYw-1; Tue, 08 Mar 2022 06:13:20 -0500
+X-MC-Unique: iOBfEdjCOhm-ivPInbzBYw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B79981006AA6;
+ Tue,  8 Mar 2022 11:13:18 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1080C22E14;
+ Tue,  8 Mar 2022 11:13:10 +0000 (UTC)
+Date: Tue, 8 Mar 2022 11:13:09 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH v5 16/20] commit and mirror: create new nodes using
+ bdrv_get_aio_context, and not the job aiocontext
+Message-ID: <Yic6RfILIsNDZ6ex@stefanha-x1.localdomain>
+References: <20220208143513.1077229-1-eesposit@redhat.com>
+ <20220208143513.1077229-17-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d85bd084-2856-87d6-3b98-148b2a7fa03a@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1Jv/y6KoGtoaFVxt"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20220208143513.1077229-17-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -99,47 +78,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eesposit@redhat.com, jean-philippe@linaro.org, qemu-devel@nongnu.org,
- Coiby.Xu@gmail.com, qemu-arm@nongnu.org, clg@kaod.org,
- Stefan Hajnoczi <stefanha@redhat.com>, pbonzini@redhat.com,
- eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 08, 2022 at 11:09:13AM +0100, Eric Auger wrote:
-> Hi Stefan,
-> 
-> On 3/8/22 11:02 AM, Stefan Hajnoczi wrote:
-> > On Mon, Mar 07, 2022 at 10:14:38PM +0100, Eric Auger wrote:
-> >> When run on ARM, basic and indirect tests currently fail with the
-> >> following error:
-> >>
-> >> ERROR:../tests/qtest/libqos/virtio.c:224:qvirtio_wait_used_elem:
-> >> assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
-> >> Bail out! ERROR:../tests/qtest/libqos/virtio.c:224: qvirtio_wait_used_elem:
-> >> assertion failed (got_desc_idx == desc_idx): (50331648 == 0)
-> >>
-> >> I noticed it worked when I set up MSI and I further reduced the
-> >> code to a simple guest_alloc() that removes the error. At the moment
-> >> I am not able to identify where ths issue is and this blocks the
-> >> whole pci/aarch64 enablement.
-> >>
-> >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> >> ---
-> >>  tests/qtest/vhost-user-blk-test.c | 6 ++++++
-> >>  1 file changed, 6 insertions(+)
-> > What is the plan to identify the root cause?
-> To be honest, I have no precise plan yet. However I commit to work on it
-> within the next weeks.
-> 
-> If maintainers prefer to delay the introduction of qtest libqos
-> pci/aarch64 tests until this gets fixed, I would understand though.
-> 
-> Eric
 
-Given soft freeze sounds like a good plan.
+--1Jv/y6KoGtoaFVxt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> >
-> > Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+On Tue, Feb 08, 2022 at 09:35:09AM -0500, Emanuele Giuseppe Esposito wrote:
+> We are always using the given bs AioContext, so there is no need
+> to take the job ones (which is identical anyways).
+> This also reduces the point we need to check when protecting
+> job.aio_context field.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  block/commit.c | 4 ++--
+>  block/mirror.c | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--1Jv/y6KoGtoaFVxt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmInOkUACgkQnKSrs4Gr
+c8i1JQf+Lsu9cNXy9poeDhsRgmjXUPywWCGAoT5uqHmbYGaiTqrz1pTHOiWMXJMn
+MLqjypJ44sdT0pgmWqLSvtS/G21irKuVr6sBr4VVFOwMSf12VEnFy1BZKTDS1W50
+SgDuj7X5lRDu5z9JYLu8gfcanEPsdUpzbkSAOnXtmuZ6ldmX/ZS/YnUkMky0W/ft
+eFQ1bLCLghOJjYV+4Y5/WvBK93d6CLoWtMYIWUEul3Q70Mphhv9hxlKSSbqPWMVg
+qF7SkAAvSUamCWPIgyDSu+GKe96YN3XSCRzdUc3O+wDJCZfJhbGvfEuXIa6lt6+w
+40wwlHVFeuce1XNfk+WkAhRjyfRJnA==
+=TXg2
+-----END PGP SIGNATURE-----
+
+--1Jv/y6KoGtoaFVxt--
 
 
