@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776BB4D1DB7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 17:48:28 +0100 (CET)
-Received: from localhost ([::1]:44852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E744D1DC6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 17:51:12 +0100 (CET)
+Received: from localhost ([::1]:51108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRd0d-000657-Im
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 11:48:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41796)
+	id 1nRd3H-0001vS-Eb
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 11:51:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nRcyj-0004S7-RL
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 11:46:29 -0500
-Received: from [2607:f8b0:4864:20::529] (port=38882
- helo=mail-pg1-x529.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nRcym-0004X5-OH
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 11:46:32 -0500
+Received: from [2607:f8b0:4864:20::62d] (port=40631
+ helo=mail-pl1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nRcyh-0003XG-Mz
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 11:46:29 -0500
-Received: by mail-pg1-x529.google.com with SMTP id 132so16962625pga.5
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 08:46:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nRcyl-0003XZ-2K
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 11:46:32 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id z11so17576991pla.7
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 08:46:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MbU63OWOtcxEsvdUC5/o7MGMGhJWs7jJp/FtJsmzXPg=;
- b=XSXlpr1J/IgTKPmknwqptrsbfUPXEruhe46s8y9eg1LWDVHkC3go4+tkfLl+nJNJNy
- FnIStIR3KD8Weru3XKJSUJsirGQ1mE0C57JceXJpzqpBmx0Ly+S5rH2swGG8+tedxz7J
- Imjzh8GhSvSYsPTVoY9PZNRRLehuLwfIAs3/TwIrAsKwrIgKtEceQTsVHmZNFXwCma/L
- lCPIoCvF3wuP9VVD0iG9qWWwqwInuaWLE+zzJgHDvY01Q8onNBesWK9uBfNk3IX+TR3O
- BPqRtvkAB6GcTEQw1QVQvlWasDP0TYjps4+GFIjssqum4TZNFlRlUXwBAway+WHKP6Wy
- Z3rw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=QnH0u2mloT38DdZYDMhYJlsD1hmCTcvE54mpXM2UaYs=;
+ b=laycV2cqUhWcF/WdTR0EjcMr049ljSsXZtpPYgqjPUKVUdLwEhB+X7x/qmVEPhM53F
+ EZTtERAf5ZYTnB58ig8qXonVXBuivumCdEHUH8vqWEHk0qq8Q1FoTs4abCvdKkXsYOte
+ DCoIyX8FEglja5WYSgwfvOVot3YI8ZGqEZo4MruEDCUSrsSPeFUQMiG0mR0gj/XQvtaw
+ vIB9g47L/2mR5N2dTRiXJpAILPJ7gIViY1glWek1I1NTH3JXF802qzh6QunBsE2liitw
+ BUmh/ooz/amvFQrDuQZYH1zuGFh4UA6yYgGxs69mY1IJ+nrqCriTjBxcYfbOY+SaiHkj
+ Gn6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MbU63OWOtcxEsvdUC5/o7MGMGhJWs7jJp/FtJsmzXPg=;
- b=YcAnBDrbFs0cOvM8SK/GFc4Fp8p0HE9eU8JCI1M0ix1jbbPDnLjqWx+k5gR9KIHAkT
- W6GlgADsMNxwAY6+YpseFS0GDmzPsGgVk5xcKYOzAL96OTEmMWYn9Tscev3eenEvmugC
- /cVeJlpRkRzEjewl6a17xEpV2UNvw4RozKJ6VGsgezC/odhXj+O9cDaB4NfIbx7BSrRs
- T96cPg/F1AYt2pz5dICXRe8hcCTcJh54ZHp4/Pu/Lufh+suYzl/sx9sCXQtw8iGkKrKs
- yOiP1HncEsN38A5efpHkkaonu+Lo9FTmWOX9ZFIQeUocvOZVpdbQ1E8zcpVfMXok+Fkf
- 8dMQ==
-X-Gm-Message-State: AOAM532nQxTnsDfPHIr2Dj6JqhCcLM7gXMQ/w1cMbv0Ogzv1qvVATKeN
- GB/6mWYt1d1XEfots30mEzYbyw==
-X-Google-Smtp-Source: ABdhPJxGqC9qx5sUsPum3lsH6Wssa5z3lYlnBm58PJw7HxpHlUyPCgOwKMEMSGBKHvGgfKvVuOj+6A==
-X-Received: by 2002:a62:1d48:0:b0:4f6:b805:4bad with SMTP id
- d69-20020a621d48000000b004f6b8054badmr19328549pfd.67.1646757986289; 
- Tue, 08 Mar 2022 08:46:26 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=QnH0u2mloT38DdZYDMhYJlsD1hmCTcvE54mpXM2UaYs=;
+ b=hKjc08xdn8gu5Hmib0kDxzwJb3/EB/aee007UHo9mphQ7W+erS4lnf7rAZ2LQp6BSJ
+ RTSqOJdNB0XZJsjHDB+eykF1eGdu3Qqnw6QNvhloCKZI/TJgKxOhe3XQSQyDDRaUXhWH
+ 70hePihJX4S8UgVzktdVTmjWDAemkXdjB5NRRktG3lAqhCU7rKpMrd/0v8scHD/A0rkL
+ UWsLL76p1A6r+R+eRcG3cRsc/mXFwZcvMhAra+nJ0Bt0pimqj1ZAnijAqq0jamQKQNP0
+ nsQAlawUA7DsD/45fUg57NZITIvXfbSsxMeAbpg//pESmJsuL8rULqPqfQ3ApsUpCq1h
+ yE6A==
+X-Gm-Message-State: AOAM531gkXD4ILe96UZQHOt9z9AuhVNUQnPlwf8qwvcXNdvadnioXx9g
+ qBf6QM5E+beadVpK0R2Wdmhlyg==
+X-Google-Smtp-Source: ABdhPJzFeF9W0p4KZqbkXuK/nio/Jnk2dYgaMI+/Ji1Y6TGt3YUl86tUDwaaQehbpZZxkW+o33BJTg==
+X-Received: by 2002:a17:902:7043:b0:14f:47:a455 with SMTP id
+ h3-20020a170902704300b0014f0047a455mr18291726plt.44.1646757989766; 
+ Tue, 08 Mar 2022 08:46:29 -0800 (PST)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.121.168])
  by smtp.googlemail.com with ESMTPSA id
- pi16-20020a17090b1e5000b001bd1ffaf2basm3566459pjb.0.2022.03.08.08.46.23
+ pi16-20020a17090b1e5000b001bd1ffaf2basm3566459pjb.0.2022.03.08.08.46.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 08:46:25 -0800 (PST)
+ Tue, 08 Mar 2022 08:46:29 -0800 (PST)
 From: Ani Sinha <ani@anisinha.ca>
 To: libvir-list@redhat.com
-Subject: [libvirt] [PATCH RESEND v2 0/4] re-introduce <acpi-hotplug-bridge>
-Date: Tue,  8 Mar 2022 22:15:49 +0530
-Message-Id: <20220308164553.2312425-1-ani@anisinha.ca>
+Subject: [libvirt] [PATCH RESEND v2 1/4] qemu: capablities: detect
+ acpi-pci-hotplug-with-bridge-support
+Date: Tue,  8 Mar 2022 22:15:50 +0530
+Message-Id: <20220308164553.2312425-2-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220308164553.2312425-1-ani@anisinha.ca>
+References: <20220308164553.2312425-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::529
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::529;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x529.google.com
-X-Spam_score_int: 5
-X-Spam_score: 0.5
+Received-SPF: none client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- HEXHASH_WORD=1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -89,239 +92,117 @@ Cc: mst@redhat.com, jusual@redhat.com, qemu-devel@nongnu.org, laine@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+qemu added support for i440fx specific global boolean flag
 
-Change log:
-v2: rebased the patchset. Laine's response is appended at the end.
+PIIX4_PM.acpi-pci-hotplug-with-bridge-support
 
-I am re-introducing the patchset for <acpi-hotplug-bridge> which got
-reverted here few months back:
+around version 2.1. This flag is enabled by default. When disabled, it
+turns off acpi pci hotplug for cold plugged pci bridges in i440fx
+machine types.
 
-https://www.spinics.net/linux/fedora/libvir/msg224089.html
+Very recently, in qemu version 6.1, the same global option was also
+added for q35 machine types as well.
 
-The reason for the reversal was that there seemed to be some
-instability/issues around the use of the qemu commandline which this
-patchset tries to support. In particular, some guest operating systems
-did not like the way QEMU was trying to disable native hotplug on pcie
-root ports. Subsequently, in QEMU 6.2, we have changed our mechanism
-using which we disable native hotplug. As I understand, we do not have
-any reported issues so far in 6.2 around this area. QEMU will enter a
-soft feature freeze in the first week of march in prep for 7.0 release.
-Libvirt is also entering a new release cycle phaze. Hence, I am
-introducing this patchset early enough in the release cycles so that if
-we do see any issues on the qemu side during the rc0, rc1 cycles and if
-reversal of this patchset is again required, it can be done in time
-before the next libvirt release end of March.
+ICH9-LPC.acpi-pci-hotplug-with-bridge-support
 
-All the patches in this series had been previously reviewed. Some
-subsequent fixes were made after my initial patches were pushed. I have
-squashed all those fixes and consolidated them into four patches. I have
-also updated the documentation to reflect the new changes from the QEMU
-side and rebased my changes fixing the tests in the process.
+This option turns on or off acpi based hotplug for cold plugged pcie
+bridges like pcie root ports. This flag is also enabled by
+default. Please refer to the following qemu changes:
 
-What changed in QEMU post version 6.1 ?
-=========================================
+c0e427d6eb5fef ("hw/acpi/ich9: Enable ACPI PCI hot-plug")
+17858a16950860 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35")
 
-We have made basically two major changes in QEMU. First is this change:
+This patch adds the corresponding qemu capabilities in libvirt. For
+i440fx, the capability is detected as
+QEMU_CAPS_PIIX_ACPI_HOTPLUG_BRIDGE. For q35, the capability is
+detected as QEMU_CAPS_ICH9_ACPI_HOTPLUG_BRIDGE.
 
-(1) commit 211afe5c69b597acf85fdd577eb497f5be1ffbd8
-Author: Julia Suvorova <jusual@redhat.com>
-Date:   Fri Nov 12 06:08:56 2021 -0500
+Please note that the test specific qemu capabilities .replies files
+has already been updated as a part of regular refreshing them when a
+new qemu version is released. Hence, no updates to those files are
+required.
 
-    hw/i386/acpi-build: Deny control on PCIe Native Hot-plug in _OSC
-    
-    There are two ways to enable ACPI PCI Hot-plug:
-    
-            * Disable the Hot-plug Capable bit on PCIe slots.
-    
-    This was the first approach which led to regression [1-2], as
-    I/O space for a port is allocated only when it is hot-pluggable,
-    which is determined by HPC bit.
-    
-            * Leave the HPC bit on and disable PCIe Native Hot-plug in _OSC
-              method.
-    
-    This removes the (future) ability of hot-plugging switches with PCIe
-    Native hotplug since ACPI PCI Hot-plug only works with cold-plugged
-    bridges. If the user wants to explicitely use this feature, they can
-    disable ACPI PCI Hot-plug with:
-            --global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
-    
-    Change the bit in _OSC method so that the OS selects ACPI PCI Hot-plug
-    instead of PCIe Native.
-    
-    [1] https://gitlab.com/qemu-project/qemu/-/issues/641
-    [2] https://bugzilla.redhat.com/show_bug.cgi?id=2006409
-    
-    Signed-off-by: Julia Suvorova <jusual@redhat.com>
-    Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-    Message-Id: <20211112110857.3116853-5-imammedo@redhat.com>
-    Reviewed-by: Ani Sinha <ani@anisinha.ca>
-    Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-    Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ src/qemu/qemu_capabilities.c                     | 4 ++++
+ src/qemu/qemu_capabilities.h                     | 3 +++
+ tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml | 1 +
+ tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml | 1 +
+ tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml | 1 +
+ 5 files changed, 10 insertions(+)
 
-
-The patch description says it all. Instead of masking out the HPC bit in
-pcie slots, we keep them turned on. Instead, we do not advertize native
-hotplug capability for PCIE using _OSC control method. See section
-6.2.11 in ACPI spec 6.2. At the same time, we turn on ACPI hotplug for
-these slots so now the guest OS can select ACPI hotplug instead.
-
-The second change is introduction of a property with which we keep the
-existing behavior for pc-q35-6.1 machines. This means HPC bit is masked
-and ACPI hotplug is enabled by default for pcie root ports.
-The QEMU commit is:
-
-(2) commit c318bef76206c2ecb6016e8e68c4ac6ff9a4c8cb
-Author: Julia Suvorova <jusual@redhat.com>
-Date:   Fri Nov 12 06:08:54 2021 -0500
-
-    hw/acpi/ich9: Add compat prop to keep HPC bit set for 6.1 machine type
-    
-    To solve issues [1-2] the Hot Plug Capable bit in PCIe Slots will be
-    turned on, while the switch to ACPI Hot-plug will be done in the
-    DSDT table.
-    
-    Introducing 'x-keep-native-hpc' property disables the HPC bit only
-    in 6.1 and as a result keeps the forced 'reserve-io' on
-    pcie-root-ports in 6.1 too.
-    
-    [1] https://gitlab.com/qemu-project/qemu/-/issues/641
-    [2] https://bugzilla.redhat.com/show_bug.cgi?id=2006409
-    
-    Signed-off-by: Julia Suvorova <jusual@redhat.com>
-    Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-    Message-Id: <20211112110857.3116853-3-imammedo@redhat.com>
-    Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-    Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-
-Lastly, as a related side note, because from QEMU 6.2 onwards, we do not
-mask out HPC bit in PCIE, the work done by this patch is no longer
-needed:
-
-(3) commit e2a6290aab578b2170c1f5909fa556385dc0d820
-Author: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date:   Mon Aug 2 12:00:57 2021 +0300
-
-    hw/pcie-root-port: Fix hotplug for PCI devices requiring IO
-    
-    Q35 has now ACPI hotplug enabled by default for PCI(e) devices.
-    As opposed to native PCIe hotplug, guests like Fedora 34
-    will not assign IO range to pcie-root-ports not supporting
-    native hotplug, resulting into a regression.
-    
-    Reproduce by:
-        qemu-bin -M q35 -device pcie-root-port,id=p1 -monitor stdio
-        device_add e1000,bus=p1
-    In the Guest OS the respective pcie-root-port will have the IO range
-    disabled.
-    
-    Fix it by setting the "reserve-io" hint capability of the
-    pcie-root-ports so the firmware will allocate the IO range instead.
-    
-    Acked-by: Igor Mammedov <imammedo@redhat.com>
-    Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-    Message-Id: <20210802090057.1709775-1-marcel@redhat.com>
-    Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-    Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+diff --git a/src/qemu/qemu_capabilities.c b/src/qemu/qemu_capabilities.c
+index 529e9ceaf5..08d5d733ce 100644
+--- a/src/qemu/qemu_capabilities.c
++++ b/src/qemu/qemu_capabilities.c
+@@ -665,6 +665,9 @@ VIR_ENUM_IMPL(virQEMUCaps,
+               "virtio-mem-pci.prealloc", /* QEMU_CAPS_DEVICE_VIRTIO_MEM_PCI_PREALLOC */
+               "calc-dirty-rate", /* QEMU_CAPS_CALC_DIRTY_RATE */
+               "dirtyrate-param.mode", /* QEMU_CAPS_DIRTYRATE_MODE */
++
++              /* 425 */
++              "ich9.acpi-hotplug-bridge", /* QEMU_CAPS_ICH9_ACPI_HOTPLUG_BRIDGE */
+     );
  
-
-This is what commit (2) alludes to. In pc-q35-6.1 machines we do need
-patch (3) since we mask out HPC bit from pcie ports.
-
-
-I know this is convoluted mess. In fairness I am trying all I can in my
-spare time to help from the QEMU side. I am determined to see this
-patchset through into libvirt.
-
-Thanks
-
-Laine's comments ...
-
-My memory isn't completely clear, but I think there was also the issue
-that the option claims to enable ACPI hotplug when set to on, but
-instead what it actually does (in the Q35 case at least) is to enable
-native PCI hotplug when set to off (without actually disabling ACPI
-hotplug) and disable native PCI hotplug when set to on, or something
-like that. This ends up leaving it up to the guest OS to decide which
-type of hotplug to use, meaning its decision could override what's in
-the libvirt config, thus confusing everyone. Again, I probably have the
-details mixed up, but it was something like this.
-
-I asked mst about this this morning, and he suggested something that
-you've already done - Cc'ing the series to qemu-devel and the relevant
-maintainers so we can have a discussion with all involved parties about
-their opinions on whether we really should expose this existing option
-in libvirt, or if we should instead have two new options that are more
-orthogonal about enabling/disabling the two types of hotplug, so that
-libvirt config can more accurately represent what is being presented to
-the guest rather than a "best guess" of what we think the guest is going
-to do with what is presented.
-
-(Michael did also say that, with the current flurry of bug reports for
-the QEMU rc's, this discusion may not happen until closer to release
-when the bug reports die down. I know this doesn't mesh with your desire
-to "push now to allow for testing" (which in general would be a good
-thing if we were certain that we wanted the option like this and were
-just expecting some minor bugs that could be fixed), but my opinion is
-that 1) it's possible for anyone interested to test the functionality
-using <qemu:commandline>, and 2) we should avoid turning libvirt git
-into a revolving door of experiments. The only practical difference
-between using <qemu:commandline> and having a dedicated option is that
-the use of <qemu:commandline> causes the domain to be tainted, and the
-XML is a bit more complicated. But since the people we're talking about
-here will already have built their own libvirt binaries, the tainted
-status of any guests is irrelevant and the extra complexity of using
-<qemu:commandline> is probably trivial to them :-).
-
-
-Ani Sinha (4):
-  qemu: capablities: detect acpi-pci-hotplug-with-bridge-support
-  conf: introduce support for acpi-bridge-hotplug feature
-  qemu: command: add support for acpi-bridge-hotplug feature
-  NEWS: document new acpi pci hotplug config option
-
- NEWS.rst                                      |  8 ++
- docs/formatdomain.rst                         | 32 +++++++
- docs/schemas/domaincommon.rng                 | 15 ++++
- src/conf/domain_conf.c                        | 89 ++++++++++++++++++-
- src/conf/domain_conf.h                        |  9 ++
- src/qemu/qemu_capabilities.c                  |  4 +
- src/qemu/qemu_capabilities.h                  |  3 +
- src/qemu/qemu_command.c                       | 19 ++++
- src/qemu/qemu_validate.c                      | 42 +++++++++
- .../caps_6.1.0.x86_64.xml                     |  1 +
- .../caps_6.2.0.x86_64.xml                     |  1 +
- .../caps_7.0.0.x86_64.xml                     |  1 +
- ...-hotplug-bridge-disable.aarch64-latest.err |  1 +
- .../aarch64-acpi-hotplug-bridge-disable.xml   | 13 +++
- ...-hotplug-bridge-disable.x86_64-latest.args | 35 ++++++++
- .../pc-i440fx-acpi-hotplug-bridge-disable.xml | 36 ++++++++
- .../pc-i440fx-acpi-hotplug-bridge-enable.xml  | 36 ++++++++
- ...pi-hotplug-bridge-disable.x86_64-6.0.0.err |  1 +
- ...-hotplug-bridge-disable.x86_64-latest.args | 38 ++++++++
- .../q35-acpi-hotplug-bridge-disable.xml       | 53 +++++++++++
- .../q35-acpi-hotplug-bridge-enable.xml        | 53 +++++++++++
- tests/qemuxml2argvtest.c                      |  7 ++
- ...i-hotplug-bridge-disable.x86_64-latest.xml |  1 +
- ...pi-hotplug-bridge-enable.x86_64-latest.xml |  1 +
- ...i-hotplug-bridge-disable.x86_64-latest.xml |  1 +
- ...pi-hotplug-bridge-enable.x86_64-latest.xml |  1 +
- tests/qemuxml2xmltest.c                       |  4 +
- 27 files changed, 504 insertions(+), 1 deletion(-)
- create mode 100644 tests/qemuxml2argvdata/aarch64-acpi-hotplug-bridge-disable.aarch64-latest.err
- create mode 100644 tests/qemuxml2argvdata/aarch64-acpi-hotplug-bridge-disable.xml
- create mode 100644 tests/qemuxml2argvdata/pc-i440fx-acpi-hotplug-bridge-disable.x86_64-latest.args
- create mode 100644 tests/qemuxml2argvdata/pc-i440fx-acpi-hotplug-bridge-disable.xml
- create mode 100644 tests/qemuxml2argvdata/pc-i440fx-acpi-hotplug-bridge-enable.xml
- create mode 100644 tests/qemuxml2argvdata/q35-acpi-hotplug-bridge-disable.x86_64-6.0.0.err
- create mode 100644 tests/qemuxml2argvdata/q35-acpi-hotplug-bridge-disable.x86_64-latest.args
- create mode 100644 tests/qemuxml2argvdata/q35-acpi-hotplug-bridge-disable.xml
- create mode 100644 tests/qemuxml2argvdata/q35-acpi-hotplug-bridge-enable.xml
- create mode 120000 tests/qemuxml2xmloutdata/pc-i440fx-acpi-hotplug-bridge-disable.x86_64-latest.xml
- create mode 120000 tests/qemuxml2xmloutdata/pc-i440fx-acpi-hotplug-bridge-enable.x86_64-latest.xml
- create mode 120000 tests/qemuxml2xmloutdata/q35-acpi-hotplug-bridge-disable.x86_64-latest.xml
- create mode 120000 tests/qemuxml2xmloutdata/q35-acpi-hotplug-bridge-enable.x86_64-latest.xml
-
+ 
+@@ -1551,6 +1554,7 @@ static struct virQEMUCapsDevicePropsFlags virQEMUCapsDevicePropsVirtioGpu[] = {
+ static struct virQEMUCapsDevicePropsFlags virQEMUCapsDevicePropsICH9[] = {
+     { "disable_s3", QEMU_CAPS_ICH9_DISABLE_S3, NULL },
+     { "disable_s4", QEMU_CAPS_ICH9_DISABLE_S4, NULL },
++    { "acpi-pci-hotplug-with-bridge-support", QEMU_CAPS_ICH9_ACPI_HOTPLUG_BRIDGE, NULL },
+ };
+ 
+ static struct virQEMUCapsDevicePropsFlags virQEMUCapsDevicePropsUSBNECXHCI[] = {
+diff --git a/src/qemu/qemu_capabilities.h b/src/qemu/qemu_capabilities.h
+index f6188b42de..51dc668913 100644
+--- a/src/qemu/qemu_capabilities.h
++++ b/src/qemu/qemu_capabilities.h
+@@ -641,6 +641,9 @@ typedef enum { /* virQEMUCapsFlags grouping marker for syntax-check */
+     QEMU_CAPS_CALC_DIRTY_RATE, /* accepts calc-dirty-rate */
+     QEMU_CAPS_DIRTYRATE_MODE , /* calc-dirty-rate accepts mode parameter */
+ 
++    /* 425 */
++    QEMU_CAPS_ICH9_ACPI_HOTPLUG_BRIDGE, /* -M q35 ICH9-LPC.acpi-pci-hotplug-with-bridge-support */
++
+     QEMU_CAPS_LAST /* this must always be the last item */
+ } virQEMUCapsFlags;
+ 
+diff --git a/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml
+index ba1aecc37e..51e1e07d2f 100644
+--- a/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml
++++ b/tests/qemucapabilitiesdata/caps_6.1.0.x86_64.xml
+@@ -239,6 +239,7 @@
+   <flag name='rbd-encryption'/>
+   <flag name='sev-inject-launch-secret'/>
+   <flag name='calc-dirty-rate'/>
++  <flag name='ich9.acpi-hotplug-bridge'/>
+   <version>6001000</version>
+   <kvmVersion>0</kvmVersion>
+   <microcodeVersion>43100243</microcodeVersion>
+diff --git a/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml
+index d77907af55..7b665c82e8 100644
+--- a/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml
++++ b/tests/qemucapabilitiesdata/caps_6.2.0.x86_64.xml
+@@ -241,6 +241,7 @@
+   <flag name='sev-inject-launch-secret'/>
+   <flag name='calc-dirty-rate'/>
+   <flag name='dirtyrate-param.mode'/>
++  <flag name='ich9.acpi-hotplug-bridge'/>
+   <version>6002000</version>
+   <kvmVersion>0</kvmVersion>
+   <microcodeVersion>43100244</microcodeVersion>
+diff --git a/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml b/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml
+index ae800abcc4..692e2f14da 100644
+--- a/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml
++++ b/tests/qemucapabilitiesdata/caps_7.0.0.x86_64.xml
+@@ -243,6 +243,7 @@
+   <flag name='virtio-mem-pci.prealloc'/>
+   <flag name='calc-dirty-rate'/>
+   <flag name='dirtyrate-param.mode'/>
++  <flag name='ich9.acpi-hotplug-bridge'/>
+   <version>6002050</version>
+   <kvmVersion>0</kvmVersion>
+   <microcodeVersion>43100243</microcodeVersion>
 -- 
 2.25.1
 
