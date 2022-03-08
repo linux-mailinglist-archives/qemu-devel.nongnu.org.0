@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8B44D13E3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 10:53:07 +0100 (CET)
-Received: from localhost ([::1]:53334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB764D13ED
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 10:54:07 +0100 (CET)
+Received: from localhost ([::1]:56340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRWWg-0007OJ-6h
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 04:53:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46772)
+	id 1nRWXe-0000xD-K1
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 04:54:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRWTF-00058I-5J
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:49:33 -0500
-Received: from [2607:f8b0:4864:20::b32] (port=44936
- helo=mail-yb1-xb32.google.com)
+ id 1nRWV5-0006QC-W0
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:51:29 -0500
+Received: from [2607:f8b0:4864:20::112b] (port=37090
+ helo=mail-yw1-x112b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRWTD-0004fi-R1
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:49:32 -0500
-Received: by mail-yb1-xb32.google.com with SMTP id u61so36588740ybi.11
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 01:49:31 -0800 (PST)
+ id 1nRWV3-0005E9-5W
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:51:27 -0500
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2dc28791ecbso181185657b3.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 01:51:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FaiYas2TRZ/jb6s1hYLda6lER5Z1a4auwJI2+cR77Co=;
- b=W7NWFmz/lproMmQ/bt50HyMx6aOrHDtpudSrDA1eZdfQ0JmcWvQwEcLyCT8ktRXXnn
- fzZhkucHzTUIy1GZT3zi0U7iFlxLpF+ChimHxA3u0np6wLEksLX9n9tOuxsY2o+jqvK0
- Ns4BpkEWjvHapbaZFazEuPOnHhNBwW7LMG4FHj0g2wP/GtXV/yJpnAOtK/kiNMVnJyGT
- pY6tybrds2l9f4cGWpEjFrM+SVcv2FZeMVkWvHDijsSOqSBNGym+JzMnK23zZYJIoSdF
- 3B/W83WKQVJIvyrj9Z8XjeO8Ymq9t/Fvn+lcTTUO+nEVTdmcZuM6tMGvFNWxUVSXNy1s
- Vpig==
+ :cc; bh=afWwvACuA5HffdYKrP3Qegw4d919undKRyIVdRv4Wjk=;
+ b=ntysZt50uJh58Nvm+OILZoXxq+lvcByhuSAUzqLmgeCjbVBRCiyzjPNaKa/O+SDLXv
+ qDg7MiyPUAcMVu3Ks22xQTs97rjv2vej+MZBWHhIL7AqtWVgl8bby3qyj7x/egjf8Ewk
+ NwkPgPs/MhT2IZJ0d6GENrdiNCBh0Of00bfBPbg7Wfw4aJsBYGNU+UuXbxKDhK4sHwh2
+ Nn2bbutsWmniMO6yUkPAx6Era0yBxuZl1dApeAwtFS9xZ8ooGgbkFQaNsgRWwvlA4CJW
+ 3ao0L9U3o06UnVL8TnwQ5aArBQwQ90uAxSjfTIyLqjopc7siw7HkHCK7OpGgUf/O72zw
+ zNMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=FaiYas2TRZ/jb6s1hYLda6lER5Z1a4auwJI2+cR77Co=;
- b=z0wYi/T/YTeTz/1Y+5oQZu3Le7LovT42bju+93U612XkBP9h9vP2XKRmqJ0GCuWRh/
- KM9X/z6BODMSBuientcCRekeMTTjekWOUAisBtZRw+XUHsMl46e2VQyN8Q1AFiTAxUDp
- qOI8tI9d6BlWNpLuOOtKoDsAmzNFYvoRmZCTHT7FvVQXFxtjUA0rA3zp3kMwSE3v1hpf
- TGJW0Lf9fJUrvut1O3YG6/veXlFoAUVkldw5qeK09c7qCKJJLiBsbRptK4BGffYRL6Ay
- usCvnSMw0+KT+QemwCgN7WAJUV7+cOvN1VZbGWrhorVr3WF6Uy3wXurDFMeQWB2vKy5K
- 2y6w==
-X-Gm-Message-State: AOAM530CcINi3fsJ8hVkPuILb4ZtynrfdnkMHLN0exkY7dP9qDgdTd/y
- skJwGuOa0kLAvozyEdCrK9QaUGI1wtnhLPSz2fS8GQ==
-X-Google-Smtp-Source: ABdhPJyQ/V/MmorYXdDBnAfCQ1H95nnBCSLK9FID+dZKp56imjsHLmUE2FfqqlCVCuPZrrZjJ/hzGw9TcOun4OlDMKM=
-X-Received: by 2002:a25:32c6:0:b0:629:130:a037 with SMTP id
- y189-20020a2532c6000000b006290130a037mr11211792yby.193.1646732970864; Tue, 08
- Mar 2022 01:49:30 -0800 (PST)
+ bh=afWwvACuA5HffdYKrP3Qegw4d919undKRyIVdRv4Wjk=;
+ b=HTZx/xLS0TMF6iMlfH8ia+Pn25nIlHZL/eo4aAlAiz50RUI1FERTwinDc4raSOa4JG
+ Ne7RufR4bJ76PmDkewcYugXQifI/xwm6rodwGURBqAfXutyjBFcL1BxGeIHG7HO0cCjS
+ FbMeLYbxvT5EjUImiCglGNu7FPJ4say5MnbPkMIyt5oCdcU3DGpCALhRsCAQbw9s8kIL
+ WXy7yXOYb7dSNS0yGV7vKf3HHCG/ZmR0Ly2eLGJ7MyNoCDBCJhfZVTVCz9hJG8MLWGHf
+ 1afXLRmGHNT6z/R2YSSGS8eCz38rI0zE8OguE3KuhgM51tTdEOFmFJOS9xMygcMzDDm3
+ cT0Q==
+X-Gm-Message-State: AOAM532szN+69rVMfWMxboKswsijiPapV4S4cxbz5oA+8+Kl6d69Ardw
+ s8slZjT6QuTA6Sz0fXaO2KlAqqE78FSE/w19jRjUCg==
+X-Google-Smtp-Source: ABdhPJydTCyhICDsFYmpcEwtpY7LG1duYYKqpBxfYENccCTwP0eOnWpVnTZns+QnMy6zJ9fDePyAnyJ2ABOovGuq9QQ=
+X-Received: by 2002:a0d:f603:0:b0:2d1:57e5:234 with SMTP id
+ g3-20020a0df603000000b002d157e50234mr12522154ywf.469.1646733084313; Tue, 08
+ Mar 2022 01:51:24 -0800 (PST)
 MIME-Version: 1.0
 References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-4-richard.henderson@linaro.org>
-In-Reply-To: <20220308072005.307955-4-richard.henderson@linaro.org>
+ <20220308072005.307955-5-richard.henderson@linaro.org>
+In-Reply-To: <20220308072005.307955-5-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Mar 2022 09:49:19 +0000
-Message-ID: <CAFEAcA9YwNJwjMWUXXSbFD+SSYHz0mF_L-bGPYy6w+RNnCtv4w@mail.gmail.com>
-Subject: Re: [PATCH v4 03/33] target/nios2: Add NUM_GP_REGS and NUM_CP_REGS
+Date: Tue, 8 Mar 2022 09:51:13 +0000
+Message-ID: <CAFEAcA9btrPxA-gY0UPeJvVqtd0b5vxSq0RuuA98k8CJq8Km0Q@mail.gmail.com>
+Subject: Re: [PATCH v4 04/33] target/nios2: Split PC out of env->regs[]
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,15 +90,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 8 Mar 2022 at 07:20, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+> It is cleaner to have a separate name for this variable.
 >
-> Split NUM_CORE_REGS into components that can be used elsewhere.
->
-> Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
-> Message-Id: <20220303153906.2024748-3-amir.gonnen@neuroblade.ai>
-> [rth: Split out of a larger patch for shadow register sets.]
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
+>  target/nios2/cpu.h          | 10 +++-----
+>  linux-user/elfload.c        |  2 +-
+>  linux-user/nios2/cpu_loop.c | 17 ++++++-------
+>  linux-user/nios2/signal.c   |  6 ++---
+>  target/nios2/cpu.c          |  8 +++---
+>  target/nios2/helper.c       | 51 +++++++++++++++++--------------------
+>  target/nios2/translate.c    | 26 ++++++++++---------
+>  7 files changed, 57 insertions(+), 63 deletions(-)
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
