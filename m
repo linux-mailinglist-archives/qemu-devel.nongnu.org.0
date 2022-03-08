@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13194D1128
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 08:38:18 +0100 (CET)
-Received: from localhost ([::1]:33834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5CD4D114F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 08:51:52 +0100 (CET)
+Received: from localhost ([::1]:36746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRUQD-00062g-Uq
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 02:38:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45434)
+	id 1nRUdL-00024l-7j
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 02:51:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRU9O-0005Lt-37
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 02:20:54 -0500
-Received: from [2607:f8b0:4864:20::1031] (port=38510
- helo=mail-pj1-x1031.google.com)
+ id 1nRU9P-0005Pe-68
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 02:20:55 -0500
+Received: from [2607:f8b0:4864:20::433] (port=36736
+ helo=mail-pf1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRU9M-0006UF-Ik
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 02:20:53 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- ge19-20020a17090b0e1300b001bcca16e2e7so1435389pjb.3
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 23:20:51 -0800 (PST)
+ id 1nRU9N-0006UP-Gb
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 02:20:54 -0500
+Received: by mail-pf1-x433.google.com with SMTP id z16so16597919pfh.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 23:20:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ta/28CvyDoU7eRgMKLBRwX53uj2wXJ6ov5bazLvyx9o=;
- b=m7AlE6b9CFOGk+iiHhhOlYXQbmULrN2SHjdikBlv6i0VoSupXvpozaSAaM1f++Dh7v
- u9K5Xvr9HCioqWcKfdk3aL7FLnT+h2V0Lrp9kxiQg9JtKdnAWxGc0zEgiCMfa3bB5jPN
- RJGnFXwlisn9igbPCWA2t8jR/EEKYtk31sRKvDI/XNvh5YFsq6Ieb2VlKrk8xm0jJxtt
- VqECToXHW2pmkoULIt7B2CG7cC3egrZos9WkXh4QjRCSsx3V43JeJbOalsrkGOdb9rwS
- lDH54Jdm46Uo4TKhnOI3rj5S3AQQKC9ESUNSFBz1AZUXzZtgtwcxvFEPXeT7lI79wJp9
- zsTg==
+ bh=xqZvZTH6wFGuxyM1NjswBFnNnEpmS+qPeWcZX7KLadU=;
+ b=rIL1y4EQpEQ7X1sHZUXv4JidRXY804cQfIZePSa37qj60jaj6p8v5QryBdDWQoNhHI
+ BNJ9ft5XEiLArOtNun3Nh3piAm3lX6uoxK9d/PQMmqRlT5nnvRQWbZQobkk+qOmTVPEb
+ A7N7xSdiYCwCH6CquUmdcTqCt9PVGhEEtDg+nJ1s7cBI3O2YDxfgXcjnd1eSc5NdY2qz
+ koVbNkaV7wY8BpMpVRF4LQRFZX9TmJ19JUyfKBdi+02Yf430FclSPSBknAwFXdL4CeQ0
+ dXuK1e8S7b3blObYLdeKXsZQR0sBaJXLB+QMxfhwJYq0kqW2+Xg1nublvaoG0hOW/1Ps
+ LRXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ta/28CvyDoU7eRgMKLBRwX53uj2wXJ6ov5bazLvyx9o=;
- b=UovWt029hKpzcxJZ4TNRC9JNouWpWEj4SFO823zHHdSLiIfjESUhUnuvuMg/aXTYtt
- cithBMuIwF/Xzew0HJtVhq8NOYPrQq35sQw+pYU4flZlNzuhDVv2Lh0aV2s2o/hgBWGG
- kE+sY7ETfL75nk12JgUvh6zkNonnr+gPoYvA+wYj4EKYp9tBLugAE48UolKe8Ut/WHu4
- emqM9XylL1LoLgEHAc350e0vapM/FQ1JDeUXS9cI4zoBviWm1q5A1nt0Xo1d5Lr0Z0gy
- gUamtqgoeoJunjGp/aOQGUBwQ/VjYYgqOhRxp4/+FGWDNlkR8/EyPQwRYz+63V2yUn5A
- JtnA==
-X-Gm-Message-State: AOAM533OCo77XVwFyNYnhULu+gMpv+IOvuBUJnAqwGdjd20YHgO2fG3i
- aIsM0wIkmhiXTVsSOZxMXHk3QSqK2aDjtg==
-X-Google-Smtp-Source: ABdhPJwf+X3kUuE2nxmmxA3mpRP2xr/kqo5Y541HS+7Jt95b4uNbCmEVTf1ZgrBQtHcYcev97dfUNg==
-X-Received: by 2002:a17:902:d481:b0:151:b6e0:34bf with SMTP id
- c1-20020a170902d48100b00151b6e034bfmr15896219plg.140.1646724050676; 
- Mon, 07 Mar 2022 23:20:50 -0800 (PST)
+ bh=xqZvZTH6wFGuxyM1NjswBFnNnEpmS+qPeWcZX7KLadU=;
+ b=KHdenRqNSxEIye2qt7jNMFDVBCeRppkm1bF1Nb79rF3nfmplcByArtW3Jv+i7Qow/8
+ sX+eOUOTcMD/wkLuZ+B2djlvqtrSb9RstnUusPmaF7F0swy4vBoeezzdkwDrVz0RdY/9
+ wKAuCOLo6NFODZpphO8uomM0kL72woI9kxYX8aK/mNEfz8G41lJ05x7Odrl4rEbgD3wc
+ 7K+mvHCvmW8k6wjCfgozocEgNuno4sjjsw9w/a4XwnuPK30Yx7eeLWwStoSnkAnqGpDl
+ YAqvs3aZa3i3Qgmau6qdboOZAIVn/TLZF2v4i5Jco0IXvWu+n+oUPomDgT6v4BR1pyfx
+ zzuw==
+X-Gm-Message-State: AOAM53387Obra18/E3vYa7yOioGgA5mOpcm+y00kTyvfps04sLDmtpa6
+ UJQfJeJo2KLL0WV5fHyHiWcRIcb7SBdURQ==
+X-Google-Smtp-Source: ABdhPJzV0ZBI7Qoj18AnfocDgmXUjvCJ5MH0bsq31W4Gol74YXJ0Y2Dhv17mZVPI8XkB9dp6PQPQ/Q==
+X-Received: by 2002:a63:2a89:0:b0:380:957a:790b with SMTP id
+ q131-20020a632a89000000b00380957a790bmr742401pgq.438.1646724052240; 
+ Mon, 07 Mar 2022 23:20:52 -0800 (PST)
 Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- p125-20020a622983000000b004f6c5d58225sm13790899pfp.90.2022.03.07.23.20.49
+ p125-20020a622983000000b004f6c5d58225sm13790899pfp.90.2022.03.07.23.20.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 23:20:50 -0800 (PST)
+ Mon, 07 Mar 2022 23:20:51 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 26/33] target/nios2: Update helper_eret for shadow registers
-Date: Mon,  7 Mar 2022 21:19:58 -1000
-Message-Id: <20220308072005.307955-27-richard.henderson@linaro.org>
+Subject: [PATCH v4 27/33] target/nios2: Create EXCP_SEMIHOST for semi-hosting
+Date: Mon,  7 Mar 2022 21:19:59 -1000
+Message-Id: <20220308072005.307955-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220308072005.307955-1-richard.henderson@linaro.org>
 References: <20220308072005.307955-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,87 +92,98 @@ Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When CRS = 0, we restore from estatus; otherwise from sstatus.
-Do not allow reserved status bits to be set via this restore.
-Add the fields defined for EIC to status.
+Decode 'break 1' during translation, rather than doing
+it again during exception processing.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  target/nios2/cpu.h       |  1 +
- target/nios2/cpu.c       | 16 ++++++++++++----
- target/nios2/op_helper.c | 20 +++++++++++++++++++-
- 3 files changed, 32 insertions(+), 5 deletions(-)
+ target/nios2/helper.c    | 15 ++++++---------
+ target/nios2/translate.c | 17 ++++++++++++++++-
+ 3 files changed, 23 insertions(+), 10 deletions(-)
 
 diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index efaac274aa..c48daa5640 100644
+index c48daa5640..13e1d49f38 100644
 --- a/target/nios2/cpu.h
 +++ b/target/nios2/cpu.h
-@@ -83,6 +83,7 @@ enum {
-     R_FP     = 28,
-     R_EA     = 29,
-     R_BA     = 30,
-+    R_SSTATUS = 30,
-     R_RA     = 31,
- };
+@@ -162,6 +162,7 @@ FIELD(CR_TLBMISC, EE, 24, 1)
  
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 05f4a7a93a..6ece92a2b8 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -109,10 +109,18 @@ static void nios2_cpu_initfn(Object *obj)
-     WR_FIELD(CR_EXCEPTION, CAUSE);
-     WR_REG(CR_BADADDR);
+ /* Exceptions */
+ #define EXCP_BREAK    0x1000
++#define EXCP_SEMIHOST 0x1001
+ #define EXCP_RESET    0
+ #define EXCP_PRESET   1
+ #define EXCP_IRQ      2
+diff --git a/target/nios2/helper.c b/target/nios2/helper.c
+index 007496b957..a338d02f6b 100644
+--- a/target/nios2/helper.c
++++ b/target/nios2/helper.c
+@@ -146,17 +146,14 @@ void nios2_cpu_do_interrupt(CPUState *cs)
+         env->pc = cpu->exception_addr;
+         break;
  
--    /* TODO: These control registers are not present with the EIC. */
--    RO_FIELD(CR_STATUS, RSIE);
--    WR_REG(CR_IENABLE);
--    RO_REG(CR_IPENDING);
-+    if (cpu->eic_present) {
-+        WR_FIELD(CR_STATUS, RSIE);
-+        RO_FIELD(CR_STATUS, NMI);
-+        WR_FIELD(CR_STATUS, PRS);
-+        RO_FIELD(CR_STATUS, CRS);
-+        WR_FIELD(CR_STATUS, IL);
-+        WR_FIELD(CR_STATUS, IH);
-+    } else {
-+        RO_FIELD(CR_STATUS, RSIE);
-+        WR_REG(CR_IENABLE);
-+        RO_REG(CR_IPENDING);
-+    }
++    case EXCP_SEMIHOST:
++        qemu_log_mask(CPU_LOG_INT, "BREAK semihosting at pc=%x\n", env->pc);
++        env->pc += 4;
++        do_nios2_semihosting(env);
++        return;
++
+     case EXCP_BREAK:
+         qemu_log_mask(CPU_LOG_INT, "BREAK exception at pc=%x\n", env->pc);
+-        /* The semihosting instruction is "break 1".  */
+-        if (semihosting_enabled() &&
+-            cpu_ldl_code(env, env->pc) == 0x003da07a)  {
+-            qemu_log_mask(CPU_LOG_INT, "Entering semihosting\n");
+-            env->pc += 4;
+-            do_nios2_semihosting(env);
+-            break;
+-        }
+-
+         if ((env->status & CR_STATUS_EH) == 0) {
+             env->bstatus = env->status;
+             nios2_crs(env)[R_BA] = env->pc + 4;
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index 7730735639..f9b84e31d7 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -33,6 +33,7 @@
+ #include "exec/translator.h"
+ #include "qemu/qemu-print.h"
+ #include "exec/gen-icount.h"
++#include "semihosting/semihost.h"
  
-     if (cpu->mmu_present) {
-         WR_FIELD(CR_STATUS, U);
-diff --git a/target/nios2/op_helper.c b/target/nios2/op_helper.c
-index e656986e3c..42342f007f 100644
---- a/target/nios2/op_helper.c
-+++ b/target/nios2/op_helper.c
-@@ -34,7 +34,25 @@ void helper_raise_exception(CPUNios2State *env, uint32_t index)
- #ifndef CONFIG_USER_ONLY
- void helper_eret(CPUNios2State *env, uint32_t new_pc)
- {
--    env->status = env->estatus;
-+    Nios2CPU *cpu = env_archcpu(env);
-+    unsigned crs = FIELD_EX32(env->status, CR_STATUS, CRS);
-+    uint32_t val;
-+
-+    if (crs == 0) {
-+        val = env->estatus;
-+    } else {
-+        val = env->shadow_regs[crs][R_SSTATUS];
-+    }
-+
-+    /*
-+     * Both estatus and sstatus have no constraints on write;
-+     * do not allow reserved fields in status to be set.
-+     */
-+    val &= (cpu->cr_state[CR_STATUS].writable |
-+            cpu->cr_state[CR_STATUS].readonly);
-+    env->status = val;
-+    nios2_update_crs(env);
-+
-     env->pc = new_pc;
-     cpu_loop_exit(env_cpu(env));
+ /* is_jmp field values */
+ #define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+@@ -711,6 +712,20 @@ static void trap(DisasContext *dc, uint32_t code, uint32_t flags)
+     t_gen_helper_raise_exception(dc, EXCP_TRAP);
  }
+ 
++static void gen_break(DisasContext *dc, uint32_t code, uint32_t flags)
++{
++#ifndef CONFIG_USER_ONLY
++    /* The semihosting instruction is "break 1".  */
++    R_TYPE(instr, code);
++    if (semihosting_enabled() && instr.imm5 == 1) {
++        t_gen_helper_raise_exception(dc, EXCP_SEMIHOST);
++        return;
++    }
++#endif
++
++    t_gen_helper_raise_exception(dc, EXCP_BREAK);
++}
++
+ static const Nios2Instruction r_type_instructions[] = {
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION(eret),                                /* eret */
+@@ -764,7 +779,7 @@ static const Nios2Instruction r_type_instructions[] = {
+     INSTRUCTION(add),                                 /* add */
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION_ILLEGAL(),
+-    INSTRUCTION_FLG(gen_excp, EXCP_BREAK),            /* break */
++    INSTRUCTION(gen_break),                           /* break */
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION(nop),                                 /* nop */
+     INSTRUCTION_ILLEGAL(),
 -- 
 2.25.1
 
