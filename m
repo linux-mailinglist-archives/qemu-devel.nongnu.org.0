@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00654D1310
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 10:08:48 +0100 (CET)
-Received: from localhost ([::1]:60766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3B24D1312
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 10:11:07 +0100 (CET)
+Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRVpn-0007aU-FG
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 04:08:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37534)
+	id 1nRVrz-0001NR-7E
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 04:11:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRVmo-000684-C2
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:05:45 -0500
-Received: from [2607:f8b0:4864:20::b2e] (port=40796
- helo=mail-yb1-xb2e.google.com)
+ id 1nRVnf-0006aw-BH
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:06:35 -0500
+Received: from [2607:f8b0:4864:20::b34] (port=42588
+ helo=mail-yb1-xb34.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRVmm-00063k-Go
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:05:41 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id e186so36413178ybc.7
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 01:05:40 -0800 (PST)
+ id 1nRVnd-0006E3-9h
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:06:34 -0500
+Received: by mail-yb1-xb34.google.com with SMTP id u10so16584532ybd.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 01:06:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jnqMJsqRxnWJumafq2zGYIZ5YJ8JaxshVzva6gyg5g4=;
- b=FQoSJnxEPO2+J7q7lKe3dHd63/h2LTfj2SX14dxuHua5T2X3FVb1lfc6PI6wX/kquh
- LgHYUX9XCw2ZxMRgvRBUf8qg/5qH+bPP8c/sL7QTWir73iMhd8R9INgMZZ/GPTluydov
- H7VpHfDbUhsj2go5afdx3br9JzYFlAvThzEXPURnAwJlB4wJzaQq7r5elR+N7CKQBaOs
- LX8ZCqAcjJ/H74oc/n8vhO77SwCvQFoKMmRVSKHLREB/DZXT3yrq10LDNiYuo9CN9ZZ+
- zayJxFClQWEcgXeabaHfLv/yK28za0CBrDnT9VJXf9eyCp5odacJ2kY8Ba1DQkK7VHg+
- CAhg==
+ :cc:content-transfer-encoding;
+ bh=UQkTIkOGTYNr1S7Et3ATFxsfZ+FGKqZVSVd+HIw0qRw=;
+ b=ey8/AmuJWQsSokrwEIg7gw+LD/WEeEP+aMKRejmEEYBtAsjZRpeDETgD50arG0uToF
+ HQvcVPA4odiHbdRpISKSxnbvsQUL7nCEIXjH0MmwYwJzHZDNYoEQyDaNt0qc6dM5+xvX
+ MoLwkPHvNdnKNQNWJeIRq9rwdN4p3VpAo79LZ8VYXnxMdi7QXI1Kukj8JVGYQltOOXyW
+ AVBdcid5kHlVjORPKsFc8Sg8RTHxqX35MpJOoRwU6ClRrW0Arz+JCUMj4pN807XKMskI
+ 7IOzTvZ0khQuF/ShGSS66w+6dwO+vcAt9C8b1YgMksJaRVpBWsAnFuiEmA6mNAJvtI3N
+ +F8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jnqMJsqRxnWJumafq2zGYIZ5YJ8JaxshVzva6gyg5g4=;
- b=jdpNkP2dvNtk7/DwB1HKiOFOAU1ar0hI+B3BpBfA8hdxJ/muSte1A4u2ny/LrkTtgD
- V7yOPZzYEbkN1NyYA1GgcTNHQ52X1BPmGQm0bRVvCeHa1VbaNsOoAXKT9J8K0mjVQQKm
- dLqjEYsEs0hF2jxhnr1/rKKRA+2wgBhNU8YL5xdyLnfjDiMvuG548uQTyhV96p2GLv32
- e0e40htI5L/zj+tHU1bF6aQSl6MBn0ciR+LLbMixBFKtIW9Rn9+Af6KNH07Sotppy10V
- dDFh/W+8JdgwgFHRnEaf6dgD7spoJ5w9fbEUQV8899/0O9FrFv9L40bFIZI6DGjwTMQh
- aBkQ==
-X-Gm-Message-State: AOAM531Lh4rVj43Lf0I8hy6OTWo33+7J1QmSKuzX6GEZC9lVZl4k5nts
- eVh83oVCIQDdAs32R0fbKIfY9Exy84Qy/A3H2AMWgg==
-X-Google-Smtp-Source: ABdhPJzloaoeihHOnycCEAk5oMo8ZznUStFagTty43Ns18ZoCFEEH0/a4+369xYUj7omPE+vcZi54+UJDyx0ZNguJ1Q=
-X-Received: by 2002:a25:32c6:0:b0:629:130:a037 with SMTP id
- y189-20020a2532c6000000b006290130a037mr11114177yby.193.1646730339469; Tue, 08
- Mar 2022 01:05:39 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=UQkTIkOGTYNr1S7Et3ATFxsfZ+FGKqZVSVd+HIw0qRw=;
+ b=b+czHPGrZFfZbVB4K6mAxspaM9RfR22bAFXbJaKZ3XUS7WoLZHoJ2e9dLsMp4v4WoO
+ i1xGhux7M8KK9RNtX/OFLs3pZ229Puk3h3y5eohm7UzW99TvbK72tNqwQETYfEKWT2wn
+ a+uGo2ZDLjecFcX20CmlvgPwv9qC8x7b7XVDzirA2VVfXAycNCV6nUdwO34MrrTWMeSn
+ Ald0KfySv04ZtWf+8K85RBiOKrXrnDF+Q67cSpJ9otvXPIbrCQZTNx1yhTU7ftilbtqy
+ 8tRtGFvvl1//Kz/7KyqqtQdV2TC5CWL0oUEQULblHoITKaBxGDdxp7rhmDuHtR5QObIb
+ P+8w==
+X-Gm-Message-State: AOAM531T2BxccFSicxQFYFch3ZF3zo+tl1VraQLWIXgO1MqNXeD/02dP
+ hxnVwjnVWCmriYTmBJ47RzLR3y56hfb/vUNUNZUFDhKKWSlojg==
+X-Google-Smtp-Source: ABdhPJyy//4VPTrO+Tm1AtGjjIIABqNiTlJ/Frwte9ox8jI5z7gDDA6LmaL9z5NxX2X2MuCJUGTjLOdcgSTuQHklBW0=
+X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
+ h3-20020a056902008300b0061a709bd841mr11022077ybs.140.1646730392290; Tue, 08
+ Mar 2022 01:06:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20220307100058.449628-1-mst@redhat.com>
- <CAFEAcA94Uu=kyinf+pLUT2cY05326EDX=TKUeiSJH_aEY-kPVg@mail.gmail.com>
- <CAFEAcA_wO6dkr6=HUYsOS7RxGErrAvsNnNqhKfM733Q=4v6cdw@mail.gmail.com>
- <20220307174713-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220307174713-mutt-send-email-mst@kernel.org>
+References: <20220306232750.41671-1-philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220306232750.41671-1-philippe.mathieu.daude@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Mar 2022 09:05:27 +0000
-Message-ID: <CAFEAcA9qUMuDupNRCYeH5rzBY+J7D3XXN_92PJjhBYxF70kF=w@mail.gmail.com>
-Subject: Re: [PULL v2 00/47] virtio,pc,pci: features, cleanups, fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Tue, 8 Mar 2022 09:06:21 +0000
+Message-ID: <CAFEAcA_o9VN1tvqo8oeusr7-ncQ5XCn9XrXiTKiRnRd6mWwK+Q@mail.gmail.com>
+Subject: Re: [PULL v2 00/33] Abstract ArchCPU
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -84,44 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Mar 2022 at 22:52, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Sun, 6 Mar 2022 at 23:27, Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
 >
-> On Mon, Mar 07, 2022 at 05:13:16PM +0000, Peter Maydell wrote:
-> > Also fails on cross-win64-system:
-> >
-> > https://gitlab.com/qemu-project/qemu/-/jobs/2172339938
-> >
-> > ../hw/virtio/virtio.c: In function 'qmp_x_query_virtio_vhost_queue_status':
-> > ../hw/virtio/virtio.c:4358:30: error: cast from pointer to integer of
-> > different size [-Werror=pointer-to-int-cast]
-> > 4358 | status->desc = (uint64_t)(unsigned long)hdev->vqs[queue].desc;
-> > | ^
-> > ../hw/virtio/virtio.c:4359:31: error: cast from pointer to integer of
-> > different size [-Werror=pointer-to-int-cast]
-> > 4359 | status->avail = (uint64_t)(unsigned long)hdev->vqs[queue].avail;
-> > | ^
-> > ../hw/virtio/virtio.c:4360:30: error: cast from pointer to integer of
-> > different size [-Werror=pointer-to-int-cast]
-> > 4360 | status->used = (uint64_t)(unsigned long)hdev->vqs[queue].used;
-> > | ^
-> > cc1: all warnings being treated as errors
-
-> I dropped these for now but I really question the value of this warning,
-> as you can see the reason we have the buggy cast to unsigned long
-> is because someone wanted to shut up the warning on a 32 bit system.
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >
-> Now, I could maybe get behind this if it simply warned about a cast that
-> loses information (cast to a smaller integer) or integer/pointer cast
-> that does not go through uintptr_t without regard to size.
+> The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33=
+a5:
+>
+>   Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' =
+into staging (2022-03-05 18:03:15 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/abstract-arch-cpu-20220307
+>
+> for you to fetch changes up to 61deada4bf54fddf1bc36e15c16269c33462aa90:
+>
+>   accel/tcg: Remove pointless CPUArchState casts (2022-03-06 22:47:52 +01=
+00)
+>
+> Since v1: Fixed Darwin/x86_64 (HVF)
+>
+> ----------------------------------------------------------------
+> - Re-org accel/ and softmmu/ to have more target-agnostic objects.
+>
+> - Use CPUArchState as an abstract type, defined by each target
+>   (CPUState is our interface with generic code, CPUArchState is
+>    our interface with target-specific code).
+>
+> ----------------------------------------------------------------
+>
 
-This *is* warning about losing information. On 64-bit Windows
-pointers are 64 bits but 'long' is 32 bits, so the path
-pointer -> long -> uint64_t drops the top half of the pointer.
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
 -- PMM
 
