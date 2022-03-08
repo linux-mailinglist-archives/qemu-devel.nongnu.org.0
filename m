@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642614D1338
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 10:20:34 +0100 (CET)
-Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE174D1375
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 10:33:03 +0100 (CET)
+Received: from localhost ([::1]:43702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRW1A-0005TZ-VS
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 04:20:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40472)
+	id 1nRWDG-000818-Dj
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 04:33:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRVzX-0004ec-PI
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:18:52 -0500
-Received: from [2607:f8b0:4864:20::112c] (port=42772
- helo=mail-yw1-x112c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRVzW-0008CW-1S
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:18:51 -0500
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2dbd97f9bfcso194016307b3.9
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 01:18:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bZwS7qjZf0MABCZavxA3Ozg9JBrTH/Si1Lamknriovg=;
- b=Cy9XVh4fVq293gWi3PSMa1xZIxoyskY9okLrRdx1Ovwphz9y4xG5qCdah8CQixBzJn
- B4zC380St01vG97pJGkOMos/Z9TDs6ASVXSNgJf7VZDY2hoLKUbdMjrKaKbbJwcF+0Sh
- NwjsHnpKGVRDn+UuLex5R50+E1oxPqiNe3Fi+ZaO1hNBilYllTMJmK+GMlOnK0G/QTZs
- TYrhmtVdy6xjm7HRRk5qbxD0b32nwghiB5DbdreaPekHwfa79mOn4x56Y8Mkdo3elOS1
- 0BH/U+Jr/LLSZ4+5jI0W0RzUX/gOx9UZBrjLS45HOzRh4pcNLy7R13hylMaKeVCniuNA
- AgnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bZwS7qjZf0MABCZavxA3Ozg9JBrTH/Si1Lamknriovg=;
- b=PgYwgoeR++XJyJfatCprb1H3HWRUB29Vu5xY8kfCsKqBvm6c8oF38ljVF0ntR6cQPU
- Vt4qDaG7abKDxhrrg3uds5kXoLpKTkPFAWYyHcGelSrb2tvudJe+2raQ8wxrksWUh0T9
- ygZlV1JJJy9TBYCP1txkoQuAWy1HINEALQPkbhmTUcum9vyvenNoOw9+RVo/fWu0gbpI
- dZzHL18qeh0ust+BJlZ6vZl6sx0Drp6UadTyfThLpV9QEt43yOrC8/VTwFJqfXA7evYT
- 0ImHpnuqb8McPFIrpSiKy1Wou7g0TEIyIMtiLi5ydhUjuPgjhcB1b9zlQvYThWWx5x70
- urZQ==
-X-Gm-Message-State: AOAM533KZxKZQ96fLyXQPbOpzUu/+zm8npZscVuDa7tI5bizDH6OnU2Z
- 9EuevtRbASzPGCeIc7xSXQiAmKxT13NsWY1W27B3ChnqQgBvZA==
-X-Google-Smtp-Source: ABdhPJxCMgdvN8gJTOIGs+dRPaqJ+HHfYtroGZREPpo3S7tWm4Qlf02YSV07whDcAP5eL/RfiF2yBWWYLhxsGNrcf38=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr12602225ywb.257.1646731129021; Tue, 08
- Mar 2022 01:18:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nRWBP-0007Hh-Dl
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:31:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nRWBM-0001oz-Do
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 04:31:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646731862;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VccWEP3/bGUcCMmKZmSRYQHOZKR7zGtGHtXGeVOPejY=;
+ b=Ffw3rfiR3VoNr53n5xOutdYsXN2rSeb8egYqhD6nj9eWfmYxot0p//apdpiBp5i8Y1h4Cn
+ SkEdz+ZfeYuBJCDYxhd1p7nqXO3Z/JpXSsJxL0uzNFKaBas4EKSPof6htjGqq21F0+8xyp
+ 3oo+x55oQyvqEKkHYOtiUZzHqlxCils=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-364-_FwMMfkPNTugU-yKWVSMrg-1; Tue, 08 Mar 2022 04:30:59 -0500
+X-MC-Unique: _FwMMfkPNTugU-yKWVSMrg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A183FC81;
+ Tue,  8 Mar 2022 09:30:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B378105501E;
+ Tue,  8 Mar 2022 09:29:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3837021E6A00; Tue,  8 Mar 2022 10:29:36 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eugenio =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>
+Subject: Re: [PATCH v5 15/15] vdpa: Add x-svq to NetdevVhostVDPAOptions
+References: <20220307153334.3854134-1-eperezma@redhat.com>
+ <20220307153334.3854134-16-eperezma@redhat.com>
+Date: Tue, 08 Mar 2022 10:29:36 +0100
+In-Reply-To: <20220307153334.3854134-16-eperezma@redhat.com> ("Eugenio
+ =?utf-8?Q?P=C3=A9rez=22's?= message of "Mon, 7 Mar 2022 16:33:34 +0100")
+Message-ID: <87v8wordvj.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220307191553.429236-1-danielhb413@gmail.com>
- <CAFEAcA-=--vfvh9ZddyRKfcXqoW7fnjLVcqZpyP2tM8b8vhO=A@mail.gmail.com>
- <74b35947-b6f2-6155-45de-93777545753c@gmail.com>
-In-Reply-To: <74b35947-b6f2-6155-45de-93777545753c@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Mar 2022 09:18:37 +0000
-Message-ID: <CAFEAcA9koxjGmN1X0JNHfTuAthsy50zfB93XR6OEo48QzCx3pQ@mail.gmail.com>
-Subject: Re: [PATCH 0/9] add LOG_UNSUPP log type + mark hcalls as unsupp
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,83 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- clg@kaod.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ virtualization@lists.linux-foundation.org, Eli Cohen <eli@mellanox.com>,
+ Eric Blake <eblake@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
+ yebiaoxiang@huawei.com, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Parav Pandit <parav@mellanox.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Mar 2022 at 22:00, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
+Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
+
+> Finally offering the possibility to enable SVQ from the command line.
 >
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
+>  qapi/net.json    |  8 +++++++-
+>  net/vhost-vdpa.c | 48 ++++++++++++++++++++++++++++++++++++++++--------
+>  2 files changed, 47 insertions(+), 9 deletions(-)
 >
->
-> On 3/7/22 17:21, Peter Maydell wrote:
-> > On Mon, 7 Mar 2022 at 19:19, Daniel Henrique Barboza
-> > <danielhb413@gmail.com> wrote:
-> >>
-> >> Hi,
-> >>
-> >> I got a lot of noise trying to debug an AIX guest in a pseries machine when running with
-> >> '-d unimp'. The reason is that there is no distinction between features
-> >> (in my case, hypercalls) that are unimplemented because we never considered,
-> >> versus features that we made a design choice not to implement.
-> >>
-> >> This series adds a new log type, LOG_UNSUPP, as a way to filter the
-> >> second case. After changing the log level of existing unsupported
-> >> pseries hypercalls, -d unimp was reporting just the ones that I need to
-> >> worry about and decide whether we should implement it or mark as
-> >> unsupported in our model. After this series there's still one hypercall
-> >> thgat is being thrown by AIX. We'll deal with that another day.
-> >
-> > So the intention of the distinction is:
-> >    LOG_UNIMP: we don't implement this, but we should
-> >    LOG_UNSUPP: we don't implement this, and that's OK because it's optional
-> >
-> > ?
->
-> The idea is that LOG_UNIMP is too broad and it's used to indicate features that are
-> unknown to QEMU and also features that QEMU knows about but does not support it. It's
-> not necessarily a way of telling "we should implement this" but more like "we know/do
-> not know what this is".
+> diff --git a/qapi/net.json b/qapi/net.json
+> index 7fab2e7cd8..d626fa441c 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -445,12 +445,18 @@
+>  # @queues: number of queues to be created for multiqueue vhost-vdpa
+>  #          (default: 1)
+>  #
+> +# @svq: Start device with (experimental) shadow virtqueue. (Since 7.0)
+> +#
+> +# Features:
+> +# @unstable: Member @svq is experimental.
+> +#
+>  # Since: 5.1
+>  ##
+>  { 'struct': 'NetdevVhostVDPAOptions',
+>    'data': {
+>      '*vhostdev':     'str',
+> -    '*queues':       'int' } }
+> +    '*queues':       'int',
+> +    '*svq':          {'type': 'bool', 'features' : [ 'unstable'] } } }
+> =20
+>  ##
+>  # @NetClientDriver:
 
-From the point of view of debugging the guest, I don't care
-whether the QEMU developers know that they've not got round
-to something or whether they've just forgotten it. I care
-about "is this because I, the guest program, did something wrong,
-or is it because QEMU is not completely emulating something
-I should really be able to expect to be present". This is why we
-distinguish LOG_UNIMP from LOG_GUEST_ERROR.
+QAPI schema:
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
-> > I think I'd be happier about adding a new log category if we had
-> > some examples of where we should be using it other than just in
-> > the spapr hcall code, to indicate that it's a bit more broadly
-> > useful. If this is a distinction that only makes sense for that
-> > narrow use case, then as Philippe says a tracepoint might be a
-> > better choice.
->
-> target/arm/translate.c, do_coproc_insn():
-
-> This use of LOG_UNIMP is logging something that we don't know about, it's unknown.
-
-(Some of the things that get logged here will really be things that
-we conceptually "know about" and don't implement -- the logging
-is a catch-all for any kind of unimplemented register, whether the
-specs define it or not.)
-
-> And hw/arm/smmuv3.c, decode_ste():
-
-> This is something we know what it is and are deciding not to support it. Both are being
-> logged as LOG_UNIMP. This is the distinction I was trying to achieve with this new
-> log type. The example in decode_ste() could be logged as LOG_UNSUPP.
-
-I don't see much benefit in distinguishing these two cases, to be
-honest. You could maybe have sold me on "you're accessing something
-that is optional and we happen not to provide it" vs "you're
-accessing something that should be there and isn't", because that's
-a distinction that guest code authors might plausibly care about.
-To the extent that you want to helpfully say "this is because
-QEMU doesn't implement an entire feature" you can say that in the
-free-form text message.
-
--- PMM
 
