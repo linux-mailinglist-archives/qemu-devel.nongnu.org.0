@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FE54D0DAF
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 02:49:05 +0100 (CET)
-Received: from localhost ([::1]:48536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5454D0DBB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 02:54:31 +0100 (CET)
+Received: from localhost ([::1]:36774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nROyG-00038u-5g
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 20:49:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52848)
+	id 1nRP3W-0005jh-HV
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 20:54:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROtx-00006v-Ty
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52523)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROty-00008O-Ts
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROtv-0006MK-O4
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:37 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROtv-0006Mq-RV
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646703874;
+ s=mimecast20190719; t=1646703875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aTzuB/q6HgdeHF6ugqZXRcCJCGcPey0yBryK8lI9kec=;
- b=WCtObU7SOMbrAFRbRTCnGkgn8yM2QVk0WG/3B7k/Xjworah9TH24E+XJVABCrv3K9upEsH
- GrPc5YshuGoowb+EvPeNuPu3E2dQFXALMgAryxaco63Tflke2pQM30Ux/kBCzmC31cd7nd
- KtREPmIyjUgG8oMYZS2p/lhqDZD851s=
+ bh=8wz7nUAnXsOqjCXERDm14GjsCQhr7dwi1/tNmPCXZtg=;
+ b=Cn+gnlAlNy6kkVsSj9XWn6swr8ad9ooJQVAvXXAnVDKb+P09AWawWowj4YpZFebhHXnU+s
+ mIpYqWY0nz9nHQ+CxA3azudOH4HbPsGrsEhO7jMuXl2q9UfgK48XkbD6I9/Zj+pNDBaXTr
+ vtCM6VLn1kT/nmIaWdczQmhnq6kNurk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-XMNCkenYO-6jVyUd2u5F_Q-1; Mon, 07 Mar 2022 20:44:32 -0500
-X-MC-Unique: XMNCkenYO-6jVyUd2u5F_Q-1
+ us-mta-251-ervW_ORuMMiuyjrNlC6XGw-1; Mon, 07 Mar 2022 20:44:34 -0500
+X-MC-Unique: ervW_ORuMMiuyjrNlC6XGw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0B552F35;
- Tue,  8 Mar 2022 01:44:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9CCC1006AA5;
+ Tue,  8 Mar 2022 01:44:32 +0000 (UTC)
 Received: from blue.redhat.com (unknown [10.2.16.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25DD55E480;
- Tue,  8 Mar 2022 01:44:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D12045C88;
+ Tue,  8 Mar 2022 01:44:32 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/15] tests/qemu-iotests: add QEMU_IOTESTS_REGEN=1 to update
- reference file
-Date: Mon,  7 Mar 2022 19:44:10 -0600
-Message-Id: <20220308014419.3056549-7-eblake@redhat.com>
+Subject: [PULL 07/15] tests/qemu-iotests: expand _filter_nbd rules
+Date: Mon,  7 Mar 2022 19:44:11 -0600
+Message-Id: <20220308014419.3056549-8-eblake@redhat.com>
 In-Reply-To: <20220308014419.3056549-1-eblake@redhat.com>
 References: <20220308014419.3056549-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -87,50 +86,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-When developing an I/O test it is typical to add some logic to the
-test script, run it to view the output diff, and then apply the
-output diff to the reference file. This can be drastically simplified
-by letting the test runner update the reference file in place.
-
-By setting 'QEMU_IOTESTS_REGEN=1', the test runner will report the
-failure and show the diff, but at the same time update the reference
-file. So next time the I/O test is run it will succeed.
-
-Continuing to display the diff when updating the reference gives the
-developer a chance to review what was changed.
+Some tests will want to use 'localhost' instead of '127.0.0.1', and
+some will use the image options syntax rather than the classic URI
+syntax.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220304193610.3293146-7-berrange@redhat.com>
+Message-Id: <20220304193610.3293146-8-berrange@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/testrunner.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/qemu-iotests/common.filter | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 41083ff9c6f7..5c207225b140 100644
---- a/tests/qemu-iotests/testrunner.py
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -25,6 +25,7 @@
- import contextlib
- import json
- import termios
-+import shutil
- import sys
- from multiprocessing import Pool
- from contextlib import contextmanager
-@@ -322,6 +323,11 @@ def do_run_test(self, test: str, mp: bool) -> TestResult:
-
-         diff = file_diff(str(f_reference), str(f_bad))
-         if diff:
-+            if os.environ.get("QEMU_IOTESTS_REGEN", None) is not None:
-+                shutil.copyfile(str(f_bad), str(f_reference))
-+                print("########################################")
-+                print("#####    REFERENCE FILE UPDATED    #####")
-+                print("########################################")
-             return TestResult(status='fail', elapsed=elapsed,
-                               description=f'output mismatch (see {f_bad})',
-                               diff=diff, casenotrun=casenotrun)
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index 21819db9c3a5..f53d8cbb9daa 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -301,6 +301,10 @@ _filter_nbd()
+     # Filter out the TCP port number since this changes between runs.
+     sed -e '/nbd\/.*\.c:/d' \
+         -e 's#127\.0\.0\.1:[0-9]*#127.0.0.1:PORT#g' \
++        -e 's#localhost:[0-9]*#localhost:PORT#g' \
++        -e 's#host=127\.0\.0\.1,port=[0-9]*#host=127.0.0.1,port=PORT#g' \
++        -e 's#host=localhost,port=[0-9]*#host=localhost,port=PORT#g' \
++        -e "s#path=$SOCK_DIR#path=SOCK_DIR#g" \
+         -e "s#?socket=$SOCK_DIR#?socket=SOCK_DIR#g" \
+         -e 's#\(foo\|PORT/\?\|.sock\): Failed to .*$#\1#'
+ }
 -- 
 2.35.1
 
