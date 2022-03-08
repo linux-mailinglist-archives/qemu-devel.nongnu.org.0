@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B175D4D1526
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:51:27 +0100 (CET)
-Received: from localhost ([::1]:38004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C174D153E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:54:30 +0100 (CET)
+Received: from localhost ([::1]:43304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRXR8-0006NJ-Qi
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:51:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60874)
+	id 1nRXU5-00021b-DZ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:54:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRXOL-0002sJ-3n
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:48:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30278)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRXOH-0006FC-0F
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:48:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646736508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AnC9ehja7ZSJ6msiheS+nNacdW6wbFxQ3RGKfaD8O5k=;
- b=ShBnyN1D6VcelytBsW4rQgLwQSSyX0+4tfUfhBsZWbib8OnPzPbE7D27f1aM3RQJ0sVB32
- mSmWjOC8QFTAJwYu7+qdxgwr+EjD+qnVEftmBsONvM+NCsP5XAqz56NDWH0eDOi5XwswWV
- 5AZg1ycsp0/CchzDsDEWgDwaVaNno44=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-qYDG_4DvPPunyQVPa-j3oA-1; Tue, 08 Mar 2022 05:48:26 -0500
-X-MC-Unique: qYDG_4DvPPunyQVPa-j3oA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- e10-20020a056402190a00b00410f20467abso10349158edz.14
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:48:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRXSj-0000u0-H0
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:53:05 -0500
+Received: from [2607:f8b0:4864:20::1135] (port=39454
+ helo=mail-yw1-x1135.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRXSh-000770-Qb
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:53:05 -0500
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2dc348dab52so162737387b3.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:53:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CWeprhmNi7k8eIoajUDX7VV2NkshcLBi2Su2KY/sWIE=;
+ b=Q+kJk+G0bHMf4nrBgm5FHHn8i3auglxlce0Ih8KKwCgDip/n5gdIfs8igKtg3qUDCE
+ vy8Q1rU1Cm4mMuIVLLdTejfnpl6aWLBwHmGGgtMW//DLlRF1auG7piZ6r/2OmKjTPExb
+ t+k2/hWKDmRfxKR5CWFDUsWNdNuRJDZM5EsTB0K9YNdc7Zhvf+yUKSIYC9Fh1wzxSTf5
+ mZJYMMeg4/Uz9CiOScz4VP3zjDyspIGPynyqtRPm94bHY4VQSRacuUbBHeT9gmDuZPwK
+ 64Q+Zg3As/bjgONs2gANkCZNYWqwqvMZonTi9jZVcl2nWFR5O0b8WL0WFALwQtuj/TXm
+ wNgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=AnC9ehja7ZSJ6msiheS+nNacdW6wbFxQ3RGKfaD8O5k=;
- b=ffka5JYaqqqPQ7kIsrbd8wgF0veXY98QL5OrTrmhuEWdcx3aGM3LzAZOSixLBmy5Yj
- pvgyV6DairrdgpegDKym8ORx2QT8ARmPtohexyFR8pA2De1Ojl95MRG0kAcrvrsNjEHW
- UnWzDyKYHYAAYjL5BO8cF9Z3g0AsyXlYLzZ6zmlxx1py0jN0ec7CmFyuHeayHcDXc5YZ
- Ho45erhBkmyvJt538+qS53W77kHxYqo92+WgpM1bm8o+Cu3WEFm8CGysx9EaPLBnM7+N
- j7deGA5WZyRBEi8Y+YoeFRyt5BVqXwWU5wBEdNQ6zTL++95rKabj4IiOns1a39dniDzA
- S4OA==
-X-Gm-Message-State: AOAM530Z+ZOSpXRLYbxfGnNb2cnJzodZTG3I+wy6ahPZ3JU43Dk9E+Wj
- v72LODo7EgI1Wxxkvzhua0r5ltqP1iubsy33OfS7o6V4AviMaTY9ILR9vFWhbUuFSapQ/4coaz4
- eI9xcedl3e5u/+po=
-X-Received: by 2002:a17:907:2ce3:b0:6da:b9f4:c100 with SMTP id
- hz3-20020a1709072ce300b006dab9f4c100mr12260257ejc.573.1646736505773; 
- Tue, 08 Mar 2022 02:48:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw73tUo/sc6bSY1rnt1E3h/MWEHU6Uwo/FK7zyJJjJIiZwAoLv6FB1YhFDm08NtbzewiVsZ2A==
-X-Received: by 2002:a17:907:2ce3:b0:6da:b9f4:c100 with SMTP id
- hz3-20020a1709072ce300b006dab9f4c100mr12260238ejc.573.1646736505582; 
- Tue, 08 Mar 2022 02:48:25 -0800 (PST)
-Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- r22-20020a17090638d600b006d584aaa9c9sm5700447ejd.133.2022.03.08.02.48.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 02:48:25 -0800 (PST)
-Date: Tue, 8 Mar 2022 05:48:20 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH v5 00/15] vDPA shadow virtqueue
-Message-ID: <20220308054623-mutt-send-email-mst@kernel.org>
-References: <20220307153334.3854134-1-eperezma@redhat.com>
- <14d4fde4-6ea5-4805-b684-c33f6b448565@redhat.com>
- <20220308020348-mutt-send-email-mst@kernel.org>
- <CACGkMEvY-+XpPWbtiX9dy+fwDxPp7sHFhH_LY0PB2YuusEugyw@mail.gmail.com>
- <20220308022300-mutt-send-email-mst@kernel.org>
- <CACGkMEvuTPCRk7Ng7CbgpPSPgs_QYijzc5fU+cV3kW09W1R7Qg@mail.gmail.com>
- <20220308024724-mutt-send-email-mst@kernel.org>
- <CACGkMEsPBDM8ko1qgnCR1DcofPNJJo3S2j3pOJHk4xaSGQimcQ@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CWeprhmNi7k8eIoajUDX7VV2NkshcLBi2Su2KY/sWIE=;
+ b=YTZrmuz3odwyCYZaEHCmdxVQSRnp2hEPSHogeLNI4aVhNB9M/bc0Yf5WhlUVUFAfSg
+ 1C2cY5O1MV0DRB6E+phXMgQOt2DN0H8NZz3ydvvYe+f5qmgfcTfnuqn86RC9GIhr2wR2
+ RupypnDZPiXil7q5rhIywHboYcA9L6dE5tbv8upWAdFxrwx7gulIoStyZ78NDrnFTz8B
+ ghxJ8thn+m9bpKYhG1aJ5ZQ+PF/QeiEU4sdVGRTrSfob3v4eRojBxBhx0JwovlO0smYA
+ 6HhdDib6UFd6ufyl73S8t+REHwwhY3Ty7FlAw3nONACgbYuVwd3Y/V6Tvlvie3CanBUQ
+ 3cxQ==
+X-Gm-Message-State: AOAM532d3psZVCs7p5pQVPcffPwqNFZai1i0i35sUgltBfiJ7QxaF7U4
+ jEgIiU80CYcIyJ5LzmFHennP/gx2uE913BlANrvurg==
+X-Google-Smtp-Source: ABdhPJzeR5q131IXi8mDDrTfPD8CnWwC6vzyBOOWiPhMN+bVj+zHyL5SNNO4l9Gi7smEqJo5w+Vcxqe2VCPK4gArvks=
+X-Received: by 2002:a81:b49:0:b0:2db:f472:dfca with SMTP id
+ 70-20020a810b49000000b002dbf472dfcamr11849348ywl.455.1646736782927; Tue, 08
+ Mar 2022 02:53:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEsPBDM8ko1qgnCR1DcofPNJJo3S2j3pOJHk4xaSGQimcQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220308072005.307955-1-richard.henderson@linaro.org>
+ <20220308072005.307955-19-richard.henderson@linaro.org>
+In-Reply-To: <20220308072005.307955-19-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Mar 2022 10:52:51 +0000
+Message-ID: <CAFEAcA_BYBgpJOe2_gjdpkPHoy6dk68dNYvo=p5wcJnTqWpknQ@mail.gmail.com>
+Subject: Re: [PATCH v4 18/33] target/nios2: Implement cpuid
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1135
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,45 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Parav Pandit <parav@mellanox.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Lingshan <lingshan.zhu@intel.com>
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 08, 2022 at 04:20:53PM +0800, Jason Wang wrote:
-> > Not by itself but I'm not sure we can guarantee guest will not
-> > attempt to use the IOVA addresses we are reserving down
-> > the road.
-> 
-> The IOVA is allocated via the listeners and stored in the iova tree
-> per GPA range as IOVA->(GPA)->HVA.Guests will only see GPA, Qemu
-> virtio core see GPA to HVA mapping. And we do a reverse lookup to find
-> the HVA->IOVA we allocated previously.  So we have double check here:
-> 
-> 1) Qemu memory core to make sure the GPA that guest uses is valid
-> 2) the IOVA tree that guarantees there will be no HVA beyond what
-> guest can see is used
-> 
-> So technically, there's no way for the guest to use the IOVA address
-> allocated for the shadow virtqueue.
-> 
-> Thanks
+On Tue, 8 Mar 2022 at 07:20, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Copy the existing cpu_index into the space reserved for CR_CPUID.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/nios2/cpu.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
+> index 189adf111c..fbcb4da737 100644
+> --- a/target/nios2/cpu.c
+> +++ b/target/nios2/cpu.c
+> @@ -159,6 +159,7 @@ static ObjectClass *nios2_cpu_class_by_name(const char *cpu_model)
+>  static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
+>  {
+>      CPUState *cs = CPU(dev);
+> +    Nios2CPU *cpu = NIOS2_CPU(cs);
+>      Nios2CPUClass *ncc = NIOS2_CPU_GET_CLASS(dev);
+>      Error *local_err = NULL;
+>
+> @@ -171,6 +172,9 @@ static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
+>      qemu_init_vcpu(cs);
+>      cpu_reset(cs);
+>
+> +    /* We have reserved storage for ctrl[CR_CPUID]; might as well use it. */
+> +    cpu->env.cpuid = cs->cpu_index;
+> +
+>      ncc->parent_realize(dev, errp);
+>  }
 
-I mean, IOVA is programmed in the host hardware to translate to HPA, right?
+I guess. This will have no effect as all our nios2 boards are
+single-CPU.
 
--- 
-MST
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+-- PMM
 
