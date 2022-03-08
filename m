@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F044D1FFA
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:19:28 +0100 (CET)
-Received: from localhost ([::1]:58340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89104D200B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:22:33 +0100 (CET)
+Received: from localhost ([::1]:40636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nReQh-0002fq-T7
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:19:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36372)
+	id 1nReTg-0001NS-Sc
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:22:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nReM7-0001uS-4b
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:14:43 -0500
-Received: from [2607:f8b0:4864:20::530] (port=33475
- helo=mail-pg1-x530.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nReQ0-0003RG-SU
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:18:44 -0500
+Received: from [2607:f8b0:4864:20::636] (port=33493
+ helo=mail-pl1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nReM5-00025v-D2
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:14:42 -0500
-Received: by mail-pg1-x530.google.com with SMTP id 6so12622112pgg.0
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 10:14:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=y05XXGby/Cvt7Tn3LZED0nUSmUlkxxQbYExoorDRCSs=;
- b=a2YmWrbBFcHpwfNp4o3Cqeuf3ERgkqqfz7l7O/DQ/SHu36S7RNi6RVyZnGd8cbDn2h
- g8itJwLvmhOaFXSSW5M7EGpsm4OsS04Pu+d9tuKmeO92wsH5h8S1cqfMwF/vDBOc4Hth
- RF0kVdKvVVgpSlSnBwHvLCLekC272GoT9fxOGehdvEJQt5Q2OaBXZUeqi6bWlTIoTEGJ
- zgITqs+zxcAVhb7M4MKojDG2Tkqiw3XUjV7kd7P2wTE/n4Lw0aXD+YGv8AZtAn48e6fj
- Yu97UlLT1AskZ/euaBpCoLWHhv2pYqdjaWFAwsh9iJPXy7XS5cl/E+nRkLzhQlhOICZb
- cWUQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nRePz-0002rg-7i
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:18:44 -0500
+Received: by mail-pl1-x636.google.com with SMTP id m2so11844615pll.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 10:18:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=2Gpg1kk9TAnA8k22VnLjamGo48aFRo0/nZtzqkXXD8o=;
+ b=vDLDrW3Agapm1340HlcRgPsHRjf7LfG1KeuY+GWY0Aq8BsfYCTEsV9SrvVhWi/pZe/
+ hpBNn2bQNmeRhAqzHjLLFtzxyRqEKWyNz1h1dDd0gSESaBi3bklHZHqgi4ZnHVZW959B
+ dYVbuUT1HO5RXZXmwu051Rl4TSeRDmQku7gi2ZjG9mWnlA7AyN8/cTSEraL45zxzsFbS
+ sic+ce7/bYRhcrwPS9gbBNqe+P+FcOMb9CqSvExPiiri4CFI0kloSyfrKzCU5PUz5BRE
+ lDMd/b6wFu63wCI/bHAKvdmCoovzu1Y2hAASKSF//sDQMN7fNC6CNP7y61f0x3b2UHzd
+ JgOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=y05XXGby/Cvt7Tn3LZED0nUSmUlkxxQbYExoorDRCSs=;
- b=DzTXXrx+8TwlWPklY0HriJN+tj7qfDcPSY0limgx/WtcXfLPGuE0mlfPGTs7ckViFF
- ZJKD4TVV4IGCDEawnghCa+dKn4ZmjTMk+WbU511321YwCoxNwrcsx4xnYU+PLrPZVC9q
- obkUS2SGxGhkj0lptHJMInINl4p7u4GjvmA5vLNvNVroNfJpzmvaFw74tMBTfpJE4qMf
- T5yUJC2DI9vOPHjSO1XYRpfvceokw5O4Fn/HTz5v/uI0Q61OZ9KEcy2jHauR5ZnRugMM
- nopy6qhWI7VIuu790deacz7wl8JJwbt0/XYPKCmz3ffkmbrjUdCTUbSBs4SHLwFMkUu8
- bYRA==
-X-Gm-Message-State: AOAM533sMh0R02wzFCvhqHsaaBvvGhEpKHhERTevtXdJrEr6ShSpRGUn
- 297jM3anxOuC3eFPDBN/97F+oH2eMEA=
-X-Google-Smtp-Source: ABdhPJy4llFAnSELDuY1c7G+qTkfd5Nr1G+OcmLW0kosyVfE85+MP8wFrlHwhtR6AaxcYXkFFNE+2w==
-X-Received: by 2002:a63:8a42:0:b0:37c:872d:c45c with SMTP id
- y63-20020a638a42000000b0037c872dc45cmr14994031pgd.95.1646763280018; 
- Tue, 08 Mar 2022 10:14:40 -0800 (PST)
-Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- m7-20020a056a00080700b004f6ff260c9dsm9086280pfk.154.2022.03.08.10.14.37
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 08 Mar 2022 10:14:39 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 9/9] hw/sensor: add Renesas raa228000 device
-Date: Tue,  8 Mar 2022 19:13:20 +0100
-Message-Id: <20220308181320.79400-10-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220308181320.79400-1-philippe.mathieu.daude@gmail.com>
-References: <20220308181320.79400-1-philippe.mathieu.daude@gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2Gpg1kk9TAnA8k22VnLjamGo48aFRo0/nZtzqkXXD8o=;
+ b=X00N6S9VhUYixXYiiORS2wcCkek2A9Mt14riutriJv4ydZuQIedOKn3uvRUrvG5GKF
+ 3fgUEcbFThuC+2GzvkTjat77cw4kkWK09TYeHZ0ACyiYTnCKN7BnBo+TW+8qdqtZCBH2
+ EykrwHakP/H+W9LjJ2zI0N/3T8YHCff/QADgFjX39voajUY4pA38+fIFGXoJjx4EXD+b
+ /xfkFpCP3IqmRbgxFvyq0OYn+AVrRGWtp5X1JWLSJroEXO7njY89xDCHsYjqwy8qAgC4
+ aA23VL4RKZUqVD909rpv71T5BO+3v7lPB1Y/gai7MgiXCcehO1PLE4GKf5g+eBoREUPs
+ SI1Q==
+X-Gm-Message-State: AOAM530r55ehpMb/FfL6+D4yYUZFsfTIo/yOn4Kdmps5BNmJatO+0mM+
+ /i4Cg8yJ4WG2H0WqMD0hlx6pFi6UXB2KkA==
+X-Google-Smtp-Source: ABdhPJx2+su0+ThCOY5sutb3OuV6igANKeQPr6Scz/QkameIuDwE1wawyvbNj8X1GrGHqeHcj9QlAw==
+X-Received: by 2002:a17:903:22cd:b0:151:a884:d444 with SMTP id
+ y13-20020a17090322cd00b00151a884d444mr18993379plg.141.1646763521786; 
+ Tue, 08 Mar 2022 10:18:41 -0800 (PST)
+Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
+ [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
+ h10-20020a62830a000000b004f73c34f2e8sm1747097pfe.165.2022.03.08.10.18.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Mar 2022 10:18:41 -0800 (PST)
+Message-ID: <5439b085-8cd1-9415-5545-362a7582c4e5@linaro.org>
+Date: Tue, 8 Mar 2022 08:18:38 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 03/13] hw/isa/piix4: Resolve redundant i8259[] attribute
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, Bernhard Beschow <shentey@gmail.com>,
+ qemu-devel@nongnu.org
+References: <20220307134353.1950-1-philippe.mathieu.daude@gmail.com>
+ <20220307134353.1950-4-philippe.mathieu.daude@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220307134353.1950-4-philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::530
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -90,213 +95,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Titus Rwantare <titusr@google.com>, Hao Wu <wuhaotsh@google.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Corey Minyard <minyard@acm.org>, Corey Minyard <cminyard@mvista.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Titus Rwantare <titusr@google.com>
+On 3/7/22 03:43, Philippe Mathieu-Daudé wrote:
+> From: Bernhard Beschow<shentey@gmail.com>
+> 
+> This is a follow-up on patch "malta: Move PCI interrupt handling from
+> gt64xxx_pci to piix4" where i8259[] was moved from MaltaState to
+> PIIX4State to make the code movement more obvious. However, i8259[]
+> seems redundant to *isa, so remove it.
+> 
+> Signed-off-by: Bernhard Beschow<shentey@gmail.com>
+> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> Acked-by: Michael S. Tsirkin<mst@redhat.com>
+> Message-Id:<20220217101924.15347-4-shentey@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   hw/isa/piix4.c | 7 +------
+>   1 file changed, 1 insertion(+), 6 deletions(-)
 
-Signed-off-by: Titus Rwantare <titusr@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: Corey Minyard <cminyard@mvista.com>
-Message-Id: <20220307200605.4001451-10-titusr@google.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sensor/isl_pmbus_vr.c         | 50 ++++++++++++++++++++++
- include/hw/sensor/isl_pmbus_vr.h |  1 +
- tests/qtest/isl_pmbus_vr-test.c  | 72 ++++++++++++++++++++++++++++++++
- 3 files changed, 123 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/hw/sensor/isl_pmbus_vr.c b/hw/sensor/isl_pmbus_vr.c
-index 53187d619a..e11e028884 100644
---- a/hw/sensor/isl_pmbus_vr.c
-+++ b/hw/sensor/isl_pmbus_vr.c
-@@ -89,6 +89,24 @@ static void isl_pmbus_vr_exit_reset(Object *obj)
-     }
- }
- 
-+/* The raa228000 uses different direct mode coefficents from most isl devices */
-+static void raa228000_exit_reset(Object *obj)
-+{
-+    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-+
-+    isl_pmbus_vr_exit_reset(obj);
-+
-+    pmdev->pages[0].read_iout = 0;
-+    pmdev->pages[0].read_pout = 0;
-+    pmdev->pages[0].read_vout = 0;
-+    pmdev->pages[0].read_vin = 0;
-+    pmdev->pages[0].read_iin = 0;
-+    pmdev->pages[0].read_pin = 0;
-+    pmdev->pages[0].read_temperature_1 = 0;
-+    pmdev->pages[0].read_temperature_2 = 0;
-+    pmdev->pages[0].read_temperature_3 = 0;
-+}
-+
- static void isl_pmbus_vr_add_props(Object *obj, uint64_t *flags, uint8_t pages)
- {
-     PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-@@ -177,6 +195,20 @@ static void raa22xx_init(Object *obj)
-     isl_pmbus_vr_add_props(obj, flags, ARRAY_SIZE(flags));
- }
- 
-+static void raa228000_init(Object *obj)
-+{
-+    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-+    uint64_t flags[1];
-+
-+    flags[0] = PB_HAS_VIN | PB_HAS_VOUT | PB_HAS_VOUT_MODE |
-+               PB_HAS_VOUT_RATING | PB_HAS_VOUT_MARGIN | PB_HAS_IIN |
-+               PB_HAS_IOUT | PB_HAS_PIN | PB_HAS_POUT | PB_HAS_TEMPERATURE |
-+               PB_HAS_TEMP2 | PB_HAS_TEMP3 | PB_HAS_STATUS_MFR_SPECIFIC;
-+
-+    pmbus_page_config(pmdev, 0, flags[0]);
-+    isl_pmbus_vr_add_props(obj, flags, 1);
-+}
-+
- static void isl_pmbus_vr_class_init(ObjectClass *klass, void *data,
-                                     uint8_t pages)
- {
-@@ -195,6 +227,15 @@ static void isl69260_class_init(ObjectClass *klass, void *data)
-     isl_pmbus_vr_class_init(klass, data, 2);
- }
- 
-+static void raa228000_class_init(ObjectClass *klass, void *data)
-+{
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    dc->desc = "Renesas 228000 Digital Multiphase Voltage Regulator";
-+    rc->phases.exit = raa228000_exit_reset;
-+    isl_pmbus_vr_class_init(klass, data, 1);
-+}
-+
- static void raa229004_class_init(ObjectClass *klass, void *data)
- {
-     ResettableClass *rc = RESETTABLE_CLASS(klass);
-@@ -220,9 +261,18 @@ static const TypeInfo raa229004_info = {
-     .class_init = raa229004_class_init,
- };
- 
-+static const TypeInfo raa228000_info = {
-+    .name = TYPE_RAA228000,
-+    .parent = TYPE_PMBUS_DEVICE,
-+    .instance_size = sizeof(ISLState),
-+    .instance_init = raa228000_init,
-+    .class_init = raa228000_class_init,
-+};
-+
- static void isl_pmbus_vr_register_types(void)
- {
-     type_register_static(&isl69260_info);
-+    type_register_static(&raa228000_info);
-     type_register_static(&raa229004_info);
- }
- 
-diff --git a/include/hw/sensor/isl_pmbus_vr.h b/include/hw/sensor/isl_pmbus_vr.h
-index 233916f70a..3e47ff7e48 100644
---- a/include/hw/sensor/isl_pmbus_vr.h
-+++ b/include/hw/sensor/isl_pmbus_vr.h
-@@ -13,6 +13,7 @@
- #include "qom/object.h"
- 
- #define TYPE_ISL69260   "isl69260"
-+#define TYPE_RAA228000  "raa228000"
- #define TYPE_RAA229004  "raa229004"
- 
- struct ISLState {
-diff --git a/tests/qtest/isl_pmbus_vr-test.c b/tests/qtest/isl_pmbus_vr-test.c
-index dc0ccae2aa..5553ea410a 100644
---- a/tests/qtest/isl_pmbus_vr-test.c
-+++ b/tests/qtest/isl_pmbus_vr-test.c
-@@ -150,6 +150,70 @@ static void test_defaults(void *obj, void *data, QGuestAllocator *alloc)
-     g_assert_cmphex(i2c_value, ==, ISL_REVISION_DEFAULT);
- }
- 
-+static void raa228000_test_defaults(void *obj, void *data,
-+                                    QGuestAllocator *alloc)
-+{
-+    uint16_t value, i2c_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+
-+    value = qmp_isl_pmbus_vr_get(TEST_ID, "vout[0]");
-+    g_assert_cmpuint(value, ==, 0);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_READ_IOUT);
-+    g_assert_cmpuint(i2c_value, ==, 0);
-+
-+    value = qmp_isl_pmbus_vr_get(TEST_ID, "pout[0]");
-+    g_assert_cmpuint(value, ==, 0);
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_CAPABILITY);
-+    g_assert_cmphex(i2c_value, ==, ISL_CAPABILITY_DEFAULT);
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_OPERATION);
-+    g_assert_cmphex(i2c_value, ==, ISL_OPERATION_DEFAULT);
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_ON_OFF_CONFIG);
-+    g_assert_cmphex(i2c_value, ==, ISL_ON_OFF_CONFIG_DEFAULT);
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_VOUT_MODE);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_MODE_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_COMMAND);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_COMMAND_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_MAX);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_MAX_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_HIGH);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_MARGIN_HIGH_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_LOW);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_MARGIN_LOW_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_TRANSITION_RATE);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_TRANSITION_RATE_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_VOUT_OV_FAULT_LIMIT_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_OT_FAULT_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_OT_FAULT_LIMIT_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_OT_WARN_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_OT_WARN_LIMIT_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VIN_OV_WARN_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_VIN_OV_WARN_LIMIT_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_VIN_UV_WARN_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_VIN_UV_WARN_LIMIT_DEFAULT);
-+
-+    i2c_value = isl_pmbus_vr_i2c_get16(i2cdev, PMBUS_IIN_OC_FAULT_LIMIT);
-+    g_assert_cmphex(i2c_value, ==, ISL_IIN_OC_FAULT_LIMIT_DEFAULT);
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_REVISION);
-+    g_assert_cmphex(i2c_value, ==, ISL_REVISION_DEFAULT);
-+}
-+
- /* test qmp access */
- static void test_tx_rx(void *obj, void *data, QGuestAllocator *alloc)
- {
-@@ -398,5 +462,13 @@ static void isl_pmbus_vr_register_nodes(void)
-     qos_add_test("test_rw_regs", "raa229004", test_rw_regs, NULL);
-     qos_add_test("test_pages_rw", "raa229004", test_pages_rw, NULL);
-     qos_add_test("test_ov_faults", "raa229004", test_voltage_faults, NULL);
-+
-+    qos_node_create_driver("raa228000", i2c_device_create);
-+    qos_node_consumes("raa228000", "i2c-bus", &opts);
-+
-+    qos_add_test("test_defaults", "raa228000", raa228000_test_defaults, NULL);
-+    qos_add_test("test_tx_rx", "raa228000", test_tx_rx, NULL);
-+    qos_add_test("test_rw_regs", "raa228000", test_rw_regs, NULL);
-+    qos_add_test("test_ov_faults", "raa228000", test_voltage_faults, NULL);
- }
- libqos_init(isl_pmbus_vr_register_nodes);
--- 
-2.34.1
-
+r~
 
