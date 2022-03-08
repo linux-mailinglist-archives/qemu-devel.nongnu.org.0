@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2974D1628
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:22:33 +0100 (CET)
-Received: from localhost ([::1]:43186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8A74D15B4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:08:35 +0100 (CET)
+Received: from localhost ([::1]:57640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRXvE-0005RY-Do
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:22:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40426)
+	id 1nRXhi-0003tW-Cg
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:08:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nRXsI-0002uT-0Y
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:19:30 -0500
-Received: from [2a00:1450:4864:20::332] (port=41948
- helo=mail-wm1-x332.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRXgr-0003BM-FZ
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:07:41 -0500
+Received: from [2607:f8b0:4864:20::b2d] (port=36701
+ helo=mail-yb1-xb2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nRXsF-0002xQ-Pd
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:19:29 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- 7-20020a05600c228700b00385fd860f49so1277513wmf.0
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:19:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRXgo-00018t-GK
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:07:39 -0500
+Received: by mail-yb1-xb2d.google.com with SMTP id f38so37026554ybi.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:07:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=i3zhL3Mz9ZuH/lSUEsuZee8ZWW2W9RpZXNfsLPcgN3Q=;
- b=dzoD6pzrJdaoOElCx7lpBrgXaBJmvJWYUgr0MKPiH1lOX7vcwptAIdiHtUdaXkDhC4
- HkuSYp8LfxTtq0ocAyHisEvRPcnbHM4kN507bYG8NuF9YJ6MBLCzJRFM37nYtb+B1qSm
- noIIbLQQZrsAWR6FbW0CVZXpFGWZ4Nzub4xU/XXxlDbEh37SYsRMrwCPZNd8Etn9v1bk
- RaGPiI2ExVxSkcPA8agiBz8vjF9spBNCNQ6p/ZS4Ztpm8N+WkEqIo9vxcfYczRbq6vW6
- ++0fIM9otpA70WmXiTI2JmaxTUmsEJO8EKyswaI8Qbjy0QPyPkhVPvEQ/mZF8mEGqddO
- E4QQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4SodW+AiLqCHViTAxoBWmuJGdFxZiMjRVfs5E9GaITg=;
+ b=ts02Omf2YOsVvmhMxUzhHlCTVA19loxsaNf8c+xboUB6dAPWSIjPNbwHDiCCKRt5i1
+ MF1scXaqwQi+IW4ghbl0n69Yge1OTdg3UpqcLBoBNNKHR4R+D5EGFeJvUVzttQVzk4Si
+ 7hjSO/EEdO6uNyuBRVa8/YcSeuKMkX5O3TvaezqdLk0CtUIlfiNR4glLNykho1eZB5cL
+ o5gOt56mJLkEjzeb/YVCTa4nd6BGE3+srioniLDMd3BAJjWeLJf0INgEzrsmMHTvtaa5
+ eM4qCpOr4FXffCygyqlTuyIExzCCq7GfFLuusbxENUWg5KblOoke7lDcA/uUvo77MjTT
+ ZJ5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=i3zhL3Mz9ZuH/lSUEsuZee8ZWW2W9RpZXNfsLPcgN3Q=;
- b=2AyjObZcw9fmFfGjt2EJx8SZxlfyvZHRKqww5psaWPd4ZoCMKIdAfr087ReGV9VG5E
- OOTSjFLC1qpo9NkojZZHWYY0UuvimLTZW3jik+LMCFYlyXTz7PyKTSfgR2MsecxAA3XQ
- JJ/qIa2FQ/W9FAqcNnHhOEb0HFEfaAdK67efd/mGpJXQe4sRq9VEQE3SuH7OvriC1HQL
- +1iwQOMKhxU2XWYFGa12JcLqMOhsd2PKQ7+1BggjOD1BLMKBHZF1Ux0TM73u39AJicDf
- 9hJKmknzEnz2Van73RvsfGMk8zJGY4TDwKKJbQgXAM5OTAN22efA3WLVgHlcNYjfDdm4
- LW9A==
-X-Gm-Message-State: AOAM532U8VtciTvfd2w+XSnbnU8gqYSt//VESbbIFRm4yuPj4S8VD12r
- WsnACt+7a52xDyyO680LjKmW7w==
-X-Google-Smtp-Source: ABdhPJxV2REXrBBaJF8puV0E6/OxzTBA+fex9VRCMVI81IZkuzosXCswC6HsBoo7BLhNSBSiQjyf0w==
-X-Received: by 2002:a05:600c:4fcb:b0:389:a82b:8f8a with SMTP id
- o11-20020a05600c4fcb00b00389a82b8f8amr3022948wmq.167.1646738365978; 
- Tue, 08 Mar 2022 03:19:25 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- bg42-20020a05600c3caa00b00380deeaae72sm2500504wmb.1.2022.03.08.03.19.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 03:19:25 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 487C81FFB7;
- Tue,  8 Mar 2022 11:19:24 +0000 (GMT)
-References: <20220221030910.3203063-1-dominik.b.czarnota@gmail.com>
- <87ilsvi5a7.fsf@linaro.org>
- <CABEVAa3-JrLpNgYo0yhKPJ7h-P9u_x-K035MrjOJ=nO57HH8Zw@mail.gmail.com>
-User-agent: mu4e 1.7.9; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Dominik Czarnota <dominik.b.czarnota@gmail.com>
-Subject: Re: [PATCH] gdbstub.c: add support for info proc mappings
-Date: Tue, 08 Mar 2022 11:06:59 +0000
-In-reply-to: <CABEVAa3-JrLpNgYo0yhKPJ7h-P9u_x-K035MrjOJ=nO57HH8Zw@mail.gmail.com>
-Message-ID: <87cziwg08z.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4SodW+AiLqCHViTAxoBWmuJGdFxZiMjRVfs5E9GaITg=;
+ b=SEatECj3aTSrFGDY0zGZq8T3kezWIiNYTHLAdZxg1R9BLlEejsTuytgPOU9t92XDFr
+ iQh7U5r/2sJ4SmNdFXybaxjXIlYJK76avK0Ha7iF2KV3dQU1lBD4G/OAk2BZ4lJYUSzS
+ gnjrs1KB5qdb7NdraTZJrtVQy6KWjCVpbTEUvfJaR+JBMQlE7ItTS0vUUF5SAl+fc0xh
+ ZswM9iPD1VK9WxwLCnjhExhYh6Mm3rqtnNyZUvzsSDWuywO7gvtMJdYN8djqlyHpaJX0
+ ankyZW9qk8ZGe9WRqhbpkm6mLNU/pDyfzq22kbES3RXqMH+eXKpJLAxCvYsSnpIszwHC
+ 3QiA==
+X-Gm-Message-State: AOAM5317OHSxLaiQM1GelCLfupIgmeKgB0DqkeDkXBQFbQvyVg/4HKIK
+ VcCkFogpgznLFstZdTSntsx58ZKP9PFyaA0NN+tQkA==
+X-Google-Smtp-Source: ABdhPJxffnSQJnNFTkf8PPobu7xKbM0XmBO7uv3yUdcnCP66OpO7ANxM3UKMvgmfj1cTMNSvwdo5Vd2rTSvFHUB3HJ0=
+X-Received: by 2002:a25:32c6:0:b0:629:130:a037 with SMTP id
+ y189-20020a2532c6000000b006290130a037mr11407180yby.193.1646737657367; Tue, 08
+ Mar 2022 03:07:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+References: <20220308072005.307955-1-richard.henderson@linaro.org>
+ <20220308072005.307955-23-richard.henderson@linaro.org>
+In-Reply-To: <20220308072005.307955-23-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Mar 2022 11:07:26 +0000
+Message-ID: <CAFEAcA9PyqbGEYHbetdrkaCzXnnCUDp61dBWyF=_0PEwRc2HjQ@mail.gmail.com>
+Subject: Re: [PATCH v4 22/33] target/nios2: Introduce dest_gpr
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,236 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Dominik Czarnota <dominik.b.czarnota@gmail.com> writes:
-
-> Hey,
+On Tue, 8 Mar 2022 at 07:20, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> I may work on this next week but I will probably not make it until the 8t=
-h :(.
+> Constrain all references to cpu_R[] to load_gpr and dest_gpr.
+> This will be required for supporting shadow register sets.
 >
-> On Thu, 3 Mar 2022 at 13:34, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->>
->>
->> Disconnect3d <dominik.b.czarnota@gmail.com> writes:
->>
->> > This commit adds support for `info proc mappings` and a few other comm=
-ands into
->> > the QEMU user-mode emulation gdbstub.
->> >
->> > For that, support for the following GDB remote protocol commands has b=
-een added:
->> > * vFile:setfs: pid
->> > * vFile:open: filename, flags, mode
->> > * vFile:pread: fd, count, offset
->> > * vFile:close: fd
->> > * qXfer:exec-file:read:annex:offset,length
->> >
-<snip>
->> > +/*
->> > + *  Set to 1 to enable remote protocol debugging output. This output =
-is similar
->> > + *  to the one produced by the gdbserver's --remote-debug flag with s=
-ome
->> > + *  additions. Anyway, the main debug prints are:
->> > + * - getpkt ("...") which refers to received data (or, send by the GD=
-B client)
->> > + * - putpkt ("...") which refers to sent data
->> > + */
->> > +#define ENABLE_REMOTE_DEBUG 0
->> > +
->> > +#if ENABLE_REMOTE_DEBUG
->> > +#define REMOTE_DEBUG_PRINT printf
->> > +#else
->> > +#define REMOTE_DEBUG_PRINT(...)
->> > +#endif
->>
->> We don't need this. The rest of the gdbstub has been instrumented with
->> tracepoints (try -d trace:gdbstub\* in your command line). See trace-eve=
-nts.
->>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/nios2/translate.c | 144 +++++++++++++++------------------------
+>  1 file changed, 55 insertions(+), 89 deletions(-)
+
+
+
+> @@ -449,15 +435,11 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
+>      g_assert_not_reached();
+>  #else
+>      R_TYPE(instr, code);
+> -    TCGv t1, t2;
+> -
+> -    if (unlikely(instr.c == R_ZERO)) {
+> -        return;
+> -    }
+> +    TCGv t1, t2, dest = dest_gpr(dc, instr.c);
 >
-> It would be convenient to support the gddbserver's --remote-debug flag
-> but I understand it may not be wanted as it also means additional &
-> unnecessary code in a production binary.
-> I will remove this.
+>      /* Reserved registers read as zero. */
+>      if (nios2_cr_reserved(&dc->cr_state[instr.imm5])) {
+> -        tcg_gen_movi_tl(cpu_R[instr.c], 0);
+> +        tcg_gen_movi_tl(dest, 0);
+>          return;
+>      }
 
-If you think the debug information will be useful by all means convert
-the bits you need to tracepoints.=20
-
->
->> > +
->> >  static inline int target_memory_rw_debug(CPUState *cpu, target_ulong =
-addr,
->> >                                           uint8_t *buf, int len, bool =
-is_write)
->> >  {
->> > @@ -554,6 +573,7 @@ static int gdb_continue_partial(char *newstates)
->> >
->> >  static void put_buffer(const uint8_t *buf, int len)
->> >  {
->> > +    REMOTE_DEBUG_PRINT("putpkt (\"%.*s\");\n", len, buf);
->> >  #ifdef CONFIG_USER_ONLY
->> >      int ret;
->> >
->> > @@ -1982,6 +2002,157 @@ static void handle_v_kill(GArray *params, void=
- *user_ctx)
->> >      exit(0);
->> >  }
->> >
->> > +#ifdef CONFIG_USER_ONLY
->> > +/*
->> > + * Handles the `vFile:setfs: pid` command
->> > + *
->> > + * Example call: vFile:setfs:0
->> > + *
->> > + * --- From the GDB remote protocol documentation ---
->> > + * Select the filesystem on which vFile operations with filename argu=
-ments
->> > + * will operate. This is required for GDB to be able to access files =
-on
->> > + * remote targets where the remote stub does not share a common files=
-ystem with
->> > + * the inferior(s). If pid is nonzero, select the filesystem as seen =
-by process
->> > + * pid. If pid is zero, select the filesystem as seen by the remote s=
-tub.
->> > + * Return 0 on success, or -1 if an error occurs. If vFile:setfs: ind=
-icates
->> > + * success, the selected filesystem remains selected until the next s=
-uccessful
->> > + * vFile:setfs: operation.
->> > +*/
->> > +static void handle_v_setfs(GArray *params, void *user_ctx)
->> > +{
->> > +    /*
->> > +     * We do not support different filesystem view for different pids
->> > +     * Return that all is OK, so that GDB can proceed
->> > +     */
->> > +    put_packet("F0");
->> > +}
->> > +
->> > +/*
->> > + * Handle the `vFile:open: filename, flags, mode` command
->> > + *
->> > + * We try to serve the filesystem here from the inferior point of view
->> > +
->> > + * Example call: vFile:open:6a7573742070726f62696e67,0,1c0
->> > + * (tries to open "just probing" with flags=3D0 mode=3D448)
->> > + *
->> > + * --- From the GDB remote protocol documentation ---
->> > + * Open a file at filename and return a file descriptor for it, or re=
-turn
->> > + * -1 if an error occurs. The filename is a string, flags is an integ=
-er
->> > + * indicating a mask of open flags (see Open Flags), and mode is an i=
-nteger
->> > + * indicating a mask of mode bits to use if the file is created
->> > + * (see mode_t Values). See open, for details of the open flags and m=
-ode
->> > + * values.
->> > + */
->> > +static void handle_v_file_open(GArray *params, void *user_ctx)
->> > +{
->> > +    uint64_t flags =3D get_param(params, 1)->val_ull;
->> > +    uint64_t mode =3D get_param(params, 2)->val_ull;
->> > +    const char *hex_filename =3D get_param(params, 0)->data;
->> > +
->> > +    /* Decode the filename & append a null byte so we can use it late=
-r on */
->> > +    hextomem(gdbserver_state.mem_buf, hex_filename, strlen(hex_filena=
-me));
->> > +    const char *null_byte =3D "\0";
->> > +    g_byte_array_append(gdbserver_state.mem_buf, (const guint8 *)null=
-_byte, 1);
->> > +
->> > +    const char *filename =3D (const char *)gdbserver_state.mem_buf->d=
-ata;
->> > +
->> > +    REMOTE_DEBUG_PRINT("vFile:open: filename=3D\"%s\" flags=3D%ld mod=
-e=3D%ld\n",
->> > +                       filename, flags, mode);
->> > +
->> > +    /*
->> > +     * On Linux we call the do_openat syscall on behalf of the inferi=
-or as it
->> > +     * handles special filepaths properly like the /proc/$pid files, =
-which are
->> > +     * fetched by GDB for certain info (such as `info proc mappings`).
->> > +     */
->>
->> This sounds like a massive security hole to introduce without a
->> specific flag the user can explicitly enable. Semihosting has a similar
->> facility but also needs explicit configuration. Can we add a property to
->> the -gdb command line option to enable this:
->>
->>   -gdb tcp::1234,hostio=3Don
->>
->> ?
->
-> It is, but should we really care? Both the execution and debugging of
-> qemu-user emulation
-> does not protect the host from arbitrary code execution and the
-> proposed hostio=3Don flag will
-> only make things less convenient and many people will just not use it
-> due to not knowing that
-> it exists.
-
-Sure - but we are adding potential unexpected behaviour via the debug
-stub not the guest program. The user may (although probably not) have
-audited the binary they are running without realising the attack vector
-the gdbstub introduces.
-
-That said I take your point it's not super different from running
-arbitrary guest code in linux-user. I think for system emulation this
-functionality should definitely be an opt-in though.
-
-Can we at least document the capability and potential security issues in
-docs/system/gdb.rst?
->> > --- a/linux-user/syscall.c
->> > +++ b/linux-user/syscall.c
->> > @@ -8233,7 +8233,7 @@ static int open_hardware(void *cpu_env, int fd)
->> >  }
->> >  #endif
->> >
->> > -static int do_openat(void *cpu_env, int dirfd, const char *pathname, =
-int flags, mode_t mode)
->> > +int do_openat(void *cpu_env, int dirfd, const char *pathname, int
->> > flags, mode_t mode)
->>
->>
->> I wonder if this should be renamed to make the sense more clear?
->>
->> do_guest_openat? do_filtered_openat?
->>
->
-> We can do, but its already in linux-user/syscall.c and I believe all
-> syscalls there are executed
-> "on behalf of guest".
-
-Yes - but now you are exposing it to the wider qemu code base so a more
-definitive name will prevent accidental misuse elsewhere.
-
->
->> >  {
->> >      struct fake_open {
->> >          const char *filename;
->>
->> Otherwise it looks fine. Do you have time to re-spin? I would need to
->> post a pull request with it by the 8th to make 7.0.
->>
->> --
->> Alex Benn=C3=A9e
->
-> Thanks,
-> Dominik 'disconnect3d' Czarnota
+I assume the TCG dead-code elimination will mostly throw away the
+write-to-R_ZERO stuff, but here for rdctl I suspect it won't.
+But probably real code doesn't do that kind of silly thing.
 
 
---=20
-Alex Benn=C3=A9e
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
