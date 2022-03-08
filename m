@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9002B4D0DD9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 03:08:01 +0100 (CET)
-Received: from localhost ([::1]:45560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FD54D0DC1
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 02:57:26 +0100 (CET)
+Received: from localhost ([::1]:44954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRPGa-0005Zj-Lt
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 21:08:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53140)
+	id 1nRP6L-0002ut-NP
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 20:57:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROu8-0000D7-0s
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38954)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nROvX-0001Sq-8V
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:46:16 -0500
+Received: from mga12.intel.com ([192.55.52.136]:3648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nROu6-0006QN-2U
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:44:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646703885;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7p7pFOdgSqGhud7GsIP/QghHbL0OwMTKZyDUpnqoPrk=;
- b=eWCkDca2huFoI1bKrMIxoUfwG+RiR1WBqzRZRxsucQ9dCcJoV10extTsDkyuTGwNRpIE9Q
- ni9PID2S8yQPJB4hNVH2WZz3fl/mx9XnEre5CqYqsQ3bq/PZIuxCnpvLi2gfCpRtlpZ+0S
- fadwM6y8KT4HkpqELdfcN2asX1qg0Dc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-53-u3cpwcaTPnCO6858HwMNlg-1; Mon, 07 Mar 2022 20:44:42 -0500
-X-MC-Unique: u3cpwcaTPnCO6858HwMNlg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AEF12F35;
- Tue,  8 Mar 2022 01:44:41 +0000 (UTC)
-Received: from blue.redhat.com (unknown [10.2.16.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 928BE5E480;
- Tue,  8 Mar 2022 01:44:40 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 15/15] qemu-io: Allow larger write zeroes under no fallback
-Date: Mon,  7 Mar 2022 19:44:19 -0600
-Message-Id: <20220308014419.3056549-16-eblake@redhat.com>
-In-Reply-To: <20220308014419.3056549-1-eblake@redhat.com>
-References: <20220308014419.3056549-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nROvT-0006uW-9e
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:46:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646703971; x=1678239971;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=mHBCi6qAEBh/nnklYLjjX0eLK1S8y5VX77Z1SPbc3yQ=;
+ b=Aq2QDIWcw79S3Lu+GoYzmIQlCE2hvsJ4ydhTOvlrkNJq0z0zk3bzh21h
+ CdHXA8hzN8TqrxalYybQqaAdPOkoxVdqCNMM3ZFvUJIdIPgEthDsFlepe
+ AqPIPm++I3kw+OaKhiWk93y606EqJo+ggxb8QMcl8erbYdn8Tcy+ohPrZ
+ bbNMuAGEzU8oJd0YxesJ8nQMuJXQ4Gv1MXU6zOG0eWsVq46BanyvSugzy
+ DVbzmWmfEo8houLetkDemPyUtdYEdrK7+gB6SF7YSZbdOcTepvnnaYkZE
+ 1QtpjpYFaiRGW25AcDZdBJBrGjTbklq3lnSlsYl8qrglVSszI39xWQDuQ w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="234513544"
+X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; d="scan'208";a="234513544"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2022 17:46:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; d="scan'208";a="495276231"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by orsmga003.jf.intel.com with ESMTP; 07 Mar 2022 17:46:02 -0800
+Date: Tue, 8 Mar 2022 09:45:45 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH v4 03/12] mm: Introduce memfile_notifier
+Message-ID: <20220308014545.GA43625@chaop.bj.intel.com>
+References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
+ <20220118132121.31388-4-chao.p.peng@linux.intel.com>
+ <9ac9a88f-54b4-a49f-0857-c3094d3e0d2b@suse.cz>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9ac9a88f-54b4-a49f-0857-c3094d3e0d2b@suse.cz>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,56 +74,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When writing zeroes can fall back to a slow write, permitting an
-overly large request can become an amplification denial of service
-attack in triggering a large amount of work from a small request.  But
-the whole point of the no fallback flag is to quickly determine if
-writing an entire device to zero can be done quickly (such as when it
-is already known that the device started with zero contents); in those
-cases, artificially capping things at 2G in qemu-io itself doesn't
-help us.
+On Mon, Mar 07, 2022 at 04:42:08PM +0100, Vlastimil Babka wrote:
+> On 1/18/22 14:21, Chao Peng wrote:
+> > This patch introduces memfile_notifier facility so existing memory file
+> > subsystems (e.g. tmpfs/hugetlbfs) can provide memory pages to allow a
+> > third kernel component to make use of memory bookmarked in the memory
+> > file and gets notified when the pages in the memory file become
+> > allocated/invalidated.
+> > 
+> > It will be used for KVM to use a file descriptor as the guest memory
+> > backing store and KVM will use this memfile_notifier interface to
+> > interact with memory file subsystems. In the future there might be other
+> > consumers (e.g. VFIO with encrypted device memory).
+> > 
+> > It consists two sets of callbacks:
+> >   - memfile_notifier_ops: callbacks for memory backing store to notify
+> >     KVM when memory gets allocated/invalidated.
+> >   - memfile_pfn_ops: callbacks for KVM to call into memory backing store
+> >     to request memory pages for guest private memory.
+> > 
+> > Userspace is in charge of guest memory lifecycle: it first allocates
+> > pages in memory backing store and then passes the fd to KVM and lets KVM
+> > register each memory slot to memory backing store via
+> > memfile_register_notifier.
+> > 
+> > The supported memory backing store should maintain a memfile_notifier list
+> > and provide routine for memfile_notifier to get the list head address and
+> > memfile_pfn_ops callbacks for memfile_register_notifier. It also should call
+> > memfile_notifier_fallocate/memfile_notifier_invalidate when the bookmarked
+> > memory gets allocated/invalidated.
+> > 
+> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> 
+> Process nitpick:
+> Here and in patch 4/12 you have Kirill's S-o-b so there should probably be
+> also "From: Kirill ..." as was in v3? Or in case you modified the original
+> patches so much to become the primary author, you should add
+> "Co-developed-by: Kirill ..." here before his S-o-b.
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20211203231539.3900865-4-eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- qemu-io-cmds.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+Thanks. 3/12 is vastly rewritten so the latter case can be applied.
+4/12 should keep Kirill as the primary author.
 
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index 954955c12fb9..45a957093369 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -603,10 +603,6 @@ static int do_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
-         .done   = false,
-     };
-
--    if (bytes > INT_MAX) {
--        return -ERANGE;
--    }
--
-     co = qemu_coroutine_create(co_pwrite_zeroes_entry, &data);
-     bdrv_coroutine_enter(blk_bs(blk), co);
-     while (!data.done) {
-@@ -1160,8 +1156,9 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
-     if (count < 0) {
-         print_cvtnum_err(count, argv[optind]);
-         return count;
--    } else if (count > BDRV_REQUEST_MAX_BYTES) {
--        printf("length cannot exceed %" PRIu64 ", given %s\n",
-+    } else if (count > BDRV_REQUEST_MAX_BYTES &&
-+               !(flags & BDRV_REQ_NO_FALLBACK)) {
-+        printf("length cannot exceed %" PRIu64 " without -n, given %s\n",
-                (uint64_t)BDRV_REQUEST_MAX_BYTES, argv[optind]);
-         return -EINVAL;
-     }
--- 
-2.35.1
-
+Chao
 
