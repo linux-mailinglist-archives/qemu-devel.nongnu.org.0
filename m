@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE634D1B2C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 15:58:43 +0100 (CET)
-Received: from localhost ([::1]:47384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894164D1B30
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 15:59:03 +0100 (CET)
+Received: from localhost ([::1]:48736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRbIQ-0007b3-TC
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 09:58:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35596)
+	id 1nRbIk-0008WS-BF
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 09:59:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGA-00058y-HE
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:56:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49936)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGl-0005le-Sa
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:56:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbG7-0000J8-Hj
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:56:20 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGk-0000N2-Dd
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:56:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646751377;
+ s=mimecast20190719; t=1646751417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NRE5oJc0bvOEBC7++d0MNudD+npOtAS3RWS8jFmcuzw=;
- b=PHJHQpqsyJ5sDCICt5I7qBZzmaoKzL/8y5SNgiP0iNDqSqXnsraSiPLqB9w35cQpnf2dP7
- gLC+BRq/pBnPZvlGZ+j4yfa5g9Mktl3EZusQ+IKlM6USlxMRx8YPnv3sAnGBCInjHGhmYl
- MMTqJCFA3PgxTMV7Tppb16/zhoF51GI=
+ bh=H0ExKWijfIZpNMGT0F8g2YZ64wZ4pyi8bb4STSOz3fE=;
+ b=TH5YLZXGsQ2EYT9bLLBt76vevjreOL6MNEpASs5hjHlgca+Sgcia+NIMRl/mFWEAGONmjh
+ B6YbJFt92tuH7KkVyifkbYg/1bQPT7aYAjgcuZtUdzG57RRbflbaEelEbd6+f3E3EuXKjy
+ LWTXnkn6VkdV43spX9wBDNtIL0MaI/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-493-rz_VKTH8NPiCexs8Qw2cFg-1; Tue, 08 Mar 2022 09:56:16 -0500
-X-MC-Unique: rz_VKTH8NPiCexs8Qw2cFg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-324-I7POXQTRPb2gqxDGUQe4lA-1; Tue, 08 Mar 2022 09:56:54 -0500
+X-MC-Unique: I7POXQTRPb2gqxDGUQe4lA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7321F1006AA6;
- Tue,  8 Mar 2022 14:56:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26D6D1091DB0;
+ Tue,  8 Mar 2022 14:56:53 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BAE1783580;
- Tue,  8 Mar 2022 14:55:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D71EC106416C;
+ Tue,  8 Mar 2022 14:56:52 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EB1A31800993; Tue,  8 Mar 2022 15:55:21 +0100 (CET)
+ id 7552118009A2; Tue,  8 Mar 2022 15:55:27 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/11] tests/acpi: allow virt memory hotplug changes
-Date: Tue,  8 Mar 2022 15:55:11 +0100
-Message-Id: <20220308145521.3106395-2-kraxel@redhat.com>
+Subject: [PATCH 08/11] tests/acpi: disallow virt memory hotplug changes
+Date: Tue,  8 Mar 2022 15:55:18 +0100
+Message-Id: <20220308145521.3106395-9-kraxel@redhat.com>
 In-Reply-To: <20220308145521.3106395-1-kraxel@redhat.com>
 References: <20220308145521.3106395-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -92,16 +92,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8bf4..e569098abddc 100644
+index e569098abddc..dfb8523c8bf4 100644
 --- a/tests/qtest/bios-tables-test-allowed-diff.h
 +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
+@@ -1,2 +1 @@
  /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/SSDT.memhp",
+-"tests/data/acpi/virt/SSDT.memhp",
 -- 
 2.35.1
 
