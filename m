@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF114D0DE7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 03:12:45 +0100 (CET)
-Received: from localhost ([::1]:57086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47C04D0DC4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 03:00:34 +0100 (CET)
+Received: from localhost ([::1]:51944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRPLA-00050F-5V
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 21:12:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54570)
+	id 1nRP9N-0007bK-Vy
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 21:00:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRP3A-0006B2-PT
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:54:08 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=55158
- helo=mail-pj1-x102d.google.com)
+ id 1nRP3C-0006GD-7f
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:54:10 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=37692
+ helo=mail-pj1-x1031.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRP38-0007sw-QU
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:54:08 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id b8so15748085pjb.4
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 17:54:06 -0800 (PST)
+ id 1nRP3A-0007u7-8N
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:54:09 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ p3-20020a17090a680300b001bbfb9d760eso884843pjj.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 17:54:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QDkABqIBPeYpg9kxXDjVZpJ986dx2Kmaj4E006oxpws=;
- b=VzhhisMUa4I7mhf6PnkNk1LAGbjSYA2mABFRJHJcrkl7CoN4ME6KUntQyTrhBKAjCb
- ATneXwx3kJD5SaPS4lN2/mk72QmG5Tr4i1a9GKbBEl65nlAQTrAee6JDJF/igPloMOlw
- O5OB3LOT4hvs1e476z91R5cc5HhObire/H2KIm3jwTo8Af9KLBoxqfajHo5Gaw+Pnysf
- PJ7lYhI43W92JgQlRHmFEsofl9xv3XmASuDJqvZw7nDoyklhSykS5nZix9IYOfFcPjHY
- CmuXaw8tKQ64n+ZYTRWVn8ckXp2bXCpATFv5r6UGZixu3R398C4ZUEocwBmjGDamctQ3
- qCKg==
+ bh=AIkDrKPjIFQDWf/u9lIIkn47c2ajCrHecdrKXw/wTUs=;
+ b=XMtOxnxCfoAL6ctEmMoUTRHa92xlDq0Tg8ZrK64FoRC/5kUa8JMs/Ml9qXkSKYp9+C
+ uDQkU/cFGq31ClH2Tl6vDsjFFsv8MI86MeVtjdaWEw2qANdhUgUZG1MVhD92X5aMQs9r
+ LGuKrXvI13Pupr5+3kVBE191snMLP90gLgsS88V2Q+Jy8KRnJbxWGf4iH/CmoLvVZaDZ
+ i4LZbKxmV7me3rMsg8FLnkMKyzXWrZ1qr1znSqND7S96rdsm64OeMAFY8gIYRFwscTdz
+ J59gpPLcI0T5sW2DKuhKDXKLDfVKNXJGXF+5Z2NcDb+s5fu+MpM4Ss6reVyvffCfMpVh
+ FBcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QDkABqIBPeYpg9kxXDjVZpJ986dx2Kmaj4E006oxpws=;
- b=52eY89tcjEsnQ3oyjOwZ8XR9rmp3y4Fwg/hn9AjUns1Us4VXlc6UmduIR/fU7aXEEb
- iCVMAPVyj7QpePQGmrINFUB31+FsxcDXTTB6n2tRzozaWOp9zTZl69DUTL+mm12rCOgz
- ho3HiMlQ5lhyHa7BWgqazr54mwlGx+citwFcv5H+gYv0woPi3BN6Yocm9FK1MOOL1+lD
- FwAzeZRIyaWdcAiArnyCtLx+afX5WXcU71DJLPwAyAaVOMxrdYQpyUBAAAljQix2FpA5
- 8LTqvTsA8CgFztXbKqaECHLOXvhpZd5UuqWYk6y5Mipajpy92DtBqWmGM1shEeehm5NT
- SrKg==
-X-Gm-Message-State: AOAM533DdJ/w078uSpMmV8wXWCh9K8tq9YQrcHj63wB5L2l/fvnIo5o8
- jo2OpMZOy7rXExPCRN0lwRy8iL/k9UhTfg==
-X-Google-Smtp-Source: ABdhPJwTgjx0hwxOdXfxDEl8M0+KafxN28LNpMjM9pt1Z0wtsdMmnItKQ1vDMj308pZHMlHSD51J7Q==
-X-Received: by 2002:a17:90b:3807:b0:1bf:6c8e:f9b7 with SMTP id
- mq7-20020a17090b380700b001bf6c8ef9b7mr2106123pjb.16.1646704445414; 
- Mon, 07 Mar 2022 17:54:05 -0800 (PST)
+ bh=AIkDrKPjIFQDWf/u9lIIkn47c2ajCrHecdrKXw/wTUs=;
+ b=S+MXyEkJgXXzp//wfQksm7NzzXnmHsJWSlOxMyHzheOvrhuvzVYly+d3RucXJIujcE
+ QN0N2dXzlnvE9Y+rG/z6rTbtVDsS+HDGc4I8ZBxhxDc5A/dRBFbmvGuOrspHUSxUHMSk
+ VEn44/zVqzhzGVZAdEpYt91SeX77HARbXk0yvx4VximBXj7LaPw3ZRKvKoX3AYAjUYF1
+ Mkw6pY8EWE87NiW1z6ulFBhWiG4PiFIDExV2VSIopkL5IXYq7KagrfxFKQQYhet8cIns
+ LCAkvXYairUjztesQjLx6C3nC2u3UC3Tl6SBFrpgyo1tg63gfv3QXp02pAALnei8AzJu
+ EaUA==
+X-Gm-Message-State: AOAM531DnAvyFO5Iuvf70UzciCElnBGXVyXC/SpYyOx+UhK+48T6itT2
+ 6ZVPY6goxJvEHd29mAGK01eKQWNiK25y5g==
+X-Google-Smtp-Source: ABdhPJy7nN40LFO/tN7tDtBkx7FSXCIHR4iCWqKhLa+PTcULJ1fIC7MrO2GoJg4DAXyQRbyVcJSqyg==
+X-Received: by 2002:a17:902:8ec7:b0:14a:c442:8ca2 with SMTP id
+ x7-20020a1709028ec700b0014ac4428ca2mr15334745plo.12.1646704446989; 
+ Mon, 07 Mar 2022 17:54:06 -0800 (PST)
 Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- bh3-20020a056a02020300b00378b62df320sm12775221pgb.73.2022.03.07.17.54.04
+ bh3-20020a056a02020300b00378b62df320sm12775221pgb.73.2022.03.07.17.54.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 17:54:05 -0800 (PST)
+ Mon, 07 Mar 2022 17:54:06 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/11] target/s390x: vxeh2: vector string search
-Date: Mon,  7 Mar 2022 15:53:50 -1000
-Message-Id: <20220308015358.188499-4-richard.henderson@linaro.org>
+Subject: [PATCH v3 04/11] target/s390x: vxeh2: Update for changes to vector
+ shifts
+Date: Mon,  7 Mar 2022 15:53:51 -1000
+Message-Id: <20220308015358.188499-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220308015358.188499-1-richard.henderson@linaro.org>
 References: <20220308015358.188499-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,213 +96,250 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Miller <dmiller423@gmail.com>
 
+Prior to vector enhancements 2, the shift count was supposed to be equal
+for each byte lest the result be unpredictable, which allowed us to assume
+that the shift count was the same, and optimize accordingly.
+
+With vector enhancements 2, the shift count is allowed to be different
+for each byte, and we must cope with that.
+
 Signed-off-by: David Miller <dmiller423@gmail.com>
-Message-Id: <20220307020327.3003-3-dmiller423@gmail.com>
-[rth: Rewrite helpers; fix validation of m6.]
+Message-Id: <20220307020327.3003-4-dmiller423@gmail.com>
+[rth: Split out of larger patch; simplify shift/merge code.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-
-The substring search was incorrect, in that it didn't properly
-restart the search when a match failed.  Split the helper into
-multiple, so that the memory accesses can be optimized.
----
- target/s390x/helper.h                |   6 ++
- target/s390x/tcg/translate.c         |   3 +-
- target/s390x/tcg/vec_string_helper.c | 101 +++++++++++++++++++++++++++
- target/s390x/tcg/translate_vx.c.inc  |  26 +++++++
- target/s390x/tcg/insn-data.def       |   2 +
- 5 files changed, 137 insertions(+), 1 deletion(-)
+ target/s390x/helper.h               |  3 ++
+ target/s390x/tcg/vec_int_helper.c   | 58 ++++++++++++++++++++++
+ target/s390x/tcg/translate_vx.c.inc | 77 ++++++++++++-----------------
+ target/s390x/tcg/insn-data.def      | 12 ++---
+ 4 files changed, 99 insertions(+), 51 deletions(-)
 
 diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-index 7cbcbd7f0b..7412130883 100644
+index 7412130883..bf33d86f74 100644
 --- a/target/s390x/helper.h
 +++ b/target/s390x/helper.h
-@@ -246,6 +246,12 @@ DEF_HELPER_6(gvec_vstrc_cc32, void, ptr, cptr, cptr, cptr, env, i32)
- DEF_HELPER_6(gvec_vstrc_cc_rt8, void, ptr, cptr, cptr, cptr, env, i32)
- DEF_HELPER_6(gvec_vstrc_cc_rt16, void, ptr, cptr, cptr, cptr, env, i32)
- DEF_HELPER_6(gvec_vstrc_cc_rt32, void, ptr, cptr, cptr, cptr, env, i32)
-+DEF_HELPER_6(gvec_vstrs_8, void, ptr, cptr, cptr, cptr, env, i32)
-+DEF_HELPER_6(gvec_vstrs_16, void, ptr, cptr, cptr, cptr, env, i32)
-+DEF_HELPER_6(gvec_vstrs_32, void, ptr, cptr, cptr, cptr, env, i32)
-+DEF_HELPER_6(gvec_vstrs_zs8, void, ptr, cptr, cptr, cptr, env, i32)
-+DEF_HELPER_6(gvec_vstrs_zs16, void, ptr, cptr, cptr, cptr, env, i32)
-+DEF_HELPER_6(gvec_vstrs_zs32, void, ptr, cptr, cptr, cptr, env, i32)
+@@ -203,8 +203,11 @@ DEF_HELPER_FLAGS_3(gvec_vpopct16, TCG_CALL_NO_RWG, void, ptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_verim8, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_verim16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vsl, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
++DEF_HELPER_FLAGS_4(gvec_vsl_ve2, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vsra, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
++DEF_HELPER_FLAGS_4(gvec_vsra_ve2, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vsrl, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
++DEF_HELPER_FLAGS_4(gvec_vsrl_ve2, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vscbi8, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vscbi16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_4(gvec_vtm, void, ptr, cptr, env, i32)
+diff --git a/target/s390x/tcg/vec_int_helper.c b/target/s390x/tcg/vec_int_helper.c
+index 5561b3ed90..a881d5d267 100644
+--- a/target/s390x/tcg/vec_int_helper.c
++++ b/target/s390x/tcg/vec_int_helper.c
+@@ -540,18 +540,76 @@ void HELPER(gvec_vsl)(void *v1, const void *v2, uint64_t count,
+     s390_vec_shl(v1, v2, count);
+ }
  
- /* === Vector Floating-Point Instructions */
- DEF_HELPER_FLAGS_5(gvec_vfa32, TCG_CALL_NO_WG, void, ptr, cptr, cptr, env, i32)
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 904b51542f..d9ac29573d 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -6222,7 +6222,8 @@ enum DisasInsnEnum {
- #define FAC_PCI         S390_FEAT_ZPCI /* z/PCI facility */
- #define FAC_AIS         S390_FEAT_ADAPTER_INT_SUPPRESSION
- #define FAC_V           S390_FEAT_VECTOR /* vector facility */
--#define FAC_VE          S390_FEAT_VECTOR_ENH /* vector enhancements facility 1 */
-+#define FAC_VE          S390_FEAT_VECTOR_ENH  /* vector enhancements facility 1 */
-+#define FAC_VE2         S390_FEAT_VECTOR_ENH2 /* vector enhancements facility 2 */
- #define FAC_MIE2        S390_FEAT_MISC_INSTRUCTION_EXT2 /* miscellaneous-instruction-extensions facility 2 */
- #define FAC_MIE3        S390_FEAT_MISC_INSTRUCTION_EXT3 /* miscellaneous-instruction-extensions facility 3 */
- 
-diff --git a/target/s390x/tcg/vec_string_helper.c b/target/s390x/tcg/vec_string_helper.c
-index ac315eb095..6c0476ecc1 100644
---- a/target/s390x/tcg/vec_string_helper.c
-+++ b/target/s390x/tcg/vec_string_helper.c
-@@ -471,3 +471,104 @@ void HELPER(gvec_vstrc_cc_rt##BITS)(void *v1, const void *v2, const void *v3,  \
- DEF_VSTRC_CC_RT_HELPER(8)
- DEF_VSTRC_CC_RT_HELPER(16)
- DEF_VSTRC_CC_RT_HELPER(32)
-+
-+static int vstrs(S390Vector *v1, const S390Vector *v2, const S390Vector *v3,
-+                 const S390Vector *v4, uint8_t es, bool zs)
++void HELPER(gvec_vsl_ve2)(void *v1, const void *v2, const void *v3,
++                          uint32_t desc)
 +{
-+    int substr_elen, substr_0, str_elen, i, j, k, cc;
-+    int nelem = 16 >> es;
-+    bool eos = false;
++    S390Vector tmp;
++    uint32_t sh, e0, e1 = 0;
 +
-+    substr_elen = s390_vec_read_element8(v4, 7) >> es;
++    for (int i = 15; i >= 0; --i, e1 = e0 << 24) {
++        e0 = s390_vec_read_element8(v2, i);
++        sh = s390_vec_read_element8(v3, i) & 7;
 +
-+    /* If ZS, bound substr length by min(nelem, strlen(v3)). */
-+    if (zs) {
-+        int i;
-+        for (i = 0; i < nelem; i++) {
-+            if (s390_vec_read_element(v3, i, es) == 0) {
-+                break;
-+            }
-+        }
-+        if (i < substr_elen) {
-+            substr_elen = i;
-+        }
++        s390_vec_write_element8(&tmp, i, rol32(e0 | e1, sh));
 +    }
 +
-+    if (substr_elen == 0) {
-+        cc = 2; /* full match for degenerate case of empty substr */
-+        k = 0;
-+        goto done;
-+    }
-+
-+    /* If ZS, look for eos in the searched string. */
-+    if (zs) {
-+        for (k = 0; k < nelem; k++) {
-+            if (s390_vec_read_element(v2, k, es) == 0) {
-+                eos = true;
-+                break;
-+            }
-+        }
-+        str_elen = k;
-+    } else {
-+        str_elen = nelem;
-+    }
-+
-+    substr_0 = s390_vec_read_element(v3, 0, es);
-+
-+    for (k = 0; ; k++) {
-+        for (; k < str_elen; k++) {
-+            if (s390_vec_read_element(v2, k, es) == substr_0) {
-+                break;
-+            }
-+        }
-+
-+        /* If we reached the end of the string, no match. */
-+        if (k == str_elen) {
-+            cc = eos; /* no match (with or without zero char) */
-+            goto done;
-+        }
-+
-+        /* If the substring is only one char, match. */
-+        if (substr_elen == 1) {
-+            cc = 2; /* full match */
-+            goto done;
-+        }
-+
-+        /* If the match begins at the last char, we have a partial match. */
-+        if (k == str_elen - 1) {
-+            cc = 3; /* partial match */
-+            goto done;
-+        }
-+
-+        i = MIN(nelem, k + substr_elen);
-+        for (j = k + 1; j < i; j++) {
-+            uint32_t e2 = s390_vec_read_element(v2, j, es);
-+            uint32_t e3 = s390_vec_read_element(v3, j - k, es);
-+            if (e2 != e3) {
-+                break;
-+            }
-+        }
-+        if (j == i) {
-+            /* Matched up until "end". */
-+            cc = i - k == substr_elen ? 2 : 3; /* full or partial match */
-+            goto done;
-+        }
-+    }
-+
-+ done:
-+    s390_vec_write_element64(v1, 0, k << es);
-+    s390_vec_write_element64(v1, 1, 0);
-+    return cc;
++    *(S390Vector *)v1 = tmp;
 +}
 +
-+#define DEF_VSTRS_HELPER(BITS)                                             \
-+void QEMU_FLATTEN HELPER(gvec_vstrs_##BITS)(void *v1, const void *v2,      \
-+    const void *v3, const void *v4, CPUS390XState *env, uint32_t desc)     \
-+    { env->cc_op = vstrs(v1, v2, v3, v4, MO_##BITS, false); }              \
-+void QEMU_FLATTEN HELPER(gvec_vstrs_zs##BITS)(void *v1, const void *v2,    \
-+    const void *v3, const void *v4, CPUS390XState *env, uint32_t desc)     \
-+    { env->cc_op = vstrs(v1, v2, v3, v4, MO_##BITS, true); }
+ void HELPER(gvec_vsra)(void *v1, const void *v2, uint64_t count,
+                        uint32_t desc)
+ {
+     s390_vec_sar(v1, v2, count);
+ }
+ 
++void HELPER(gvec_vsra_ve2)(void *v1, const void *v2, const void *v3,
++                           uint32_t desc)
++{
++    S390Vector tmp;
++    uint32_t sh, e0, e1;
++    int i = 0;
 +
-+DEF_VSTRS_HELPER(8)
-+DEF_VSTRS_HELPER(16)
-+DEF_VSTRS_HELPER(32)
++    e0 = s390_vec_read_element8(v2, 0);
++    e1 = -(e0 >> 7) << 8;
++
++    for (;;) {
++        sh = s390_vec_read_element8(v3, i) & 7;
++
++        s390_vec_write_element8(&tmp, i, (e0 | e1) >> sh);
++
++        if (++i >= 16) {
++            break;
++        }
++
++        e1 = e0 << 8;
++        e0 = s390_vec_read_element8(v2, i);
++    }
++
++    *(S390Vector *)v1 = tmp;
++}
++
+ void HELPER(gvec_vsrl)(void *v1, const void *v2, uint64_t count,
+                        uint32_t desc)
+ {
+     s390_vec_shr(v1, v2, count);
+ }
+ 
++void HELPER(gvec_vsrl_ve2)(void *v1, const void *v2, const void *v3,
++                           uint32_t desc)
++{
++    S390Vector tmp;
++    uint32_t sh, e0, e1 = 0;
++
++    for (int i = 0; i < 16; ++i, e1 = e0 << 8) {
++        e0 = s390_vec_read_element8(v2, i);
++        sh = s390_vec_read_element8(v3, i) & 7;
++
++        s390_vec_write_element8(&tmp, i, (e0 | e1) >> sh);
++    }
++
++    *(S390Vector *)v1 = tmp;
++}
++
+ #define DEF_VSCBI(BITS)                                                        \
+ void HELPER(gvec_vscbi##BITS)(void *v1, const void *v2, const void *v3,        \
+                               uint32_t desc)                                   \
 diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
-index ea28e40d4f..d514e8b218 100644
+index d514e8b218..967f6213d8 100644
 --- a/target/s390x/tcg/translate_vx.c.inc
 +++ b/target/s390x/tcg/translate_vx.c.inc
-@@ -2497,6 +2497,32 @@ static DisasJumpType op_vstrc(DisasContext *s, DisasOps *o)
+@@ -2018,21 +2018,42 @@ static DisasJumpType op_ves(DisasContext *s, DisasOps *o)
      return DISAS_NEXT;
  }
  
-+static DisasJumpType op_vstrs(DisasContext *s, DisasOps *o)
++static DisasJumpType gen_vsh_bit_byte(DisasContext *s, DisasOps *o,
++                                      gen_helper_gvec_2i *gen,
++                                      gen_helper_gvec_3 *gen_ve2)
 +{
-+    typedef void (*helper_vstrs)(TCGv_ptr, TCGv_ptr, TCGv_ptr,
-+                                 TCGv_ptr, TCGv_ptr, TCGv_i32);
-+    static const helper_vstrs fns[3][2] = {
-+        { gen_helper_gvec_vstrs_8, gen_helper_gvec_vstrs_zs8 },
-+        { gen_helper_gvec_vstrs_16, gen_helper_gvec_vstrs_zs16 },
-+        { gen_helper_gvec_vstrs_32, gen_helper_gvec_vstrs_zs32 },
-+    };
++    bool byte = s->insn->data;
 +
-+    const uint8_t m5 = get_field(s, m5);
-+    const uint8_t m6 = get_field(s, m6);
-+    bool zs = m6 & 2;
++    if (!byte && s390_has_feat(S390_FEAT_VECTOR_ENH2)) {
++        gen_gvec_3_ool(get_field(s, v1), get_field(s, v2),
++                       get_field(s, v3), 0, gen_ve2);
++    } else {
++        TCGv_i64 shift = tcg_temp_new_i64();
 +
-+    if (m5 > ES_32 || m6 & ~2) {
-+        gen_program_exception(s, PGM_SPECIFICATION);
-+        return DISAS_NORETURN;
++        read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
++        tcg_gen_andi_i64(shift, shift, byte ? 0x78 : 7);
++        gen_gvec_2i_ool(get_field(s, v1), get_field(s, v2), shift, 0, gen);
++        tcg_temp_free_i64(shift);
 +    }
-+
-+    gen_gvec_4_ptr(get_field(s, v1), get_field(s, v2),
-+                   get_field(s, v3), get_field(s, v4),
-+                   cpu_env, 0, fns[m5][zs]);
-+    set_cc_static(s);
 +    return DISAS_NEXT;
 +}
 +
- static DisasJumpType op_vfa(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_vsl(DisasContext *s, DisasOps *o)
  {
-     const uint8_t fpf = get_field(s, m4);
+-    TCGv_i64 shift = tcg_temp_new_i64();
++    return gen_vsh_bit_byte(s, o, gen_helper_gvec_vsl,
++                            gen_helper_gvec_vsl_ve2);
++}
+ 
+-    read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
+-    if (s->fields.op2 == 0x74) {
+-        tcg_gen_andi_i64(shift, shift, 0x7);
+-    } else {
+-        tcg_gen_andi_i64(shift, shift, 0x78);
+-    }
++static DisasJumpType op_vsra(DisasContext *s, DisasOps *o)
++{
++    return gen_vsh_bit_byte(s, o, gen_helper_gvec_vsra,
++                            gen_helper_gvec_vsra_ve2);
++}
+ 
+-    gen_gvec_2i_ool(get_field(s, v1), get_field(s, v2),
+-                    shift, 0, gen_helper_gvec_vsl);
+-    tcg_temp_free_i64(shift);
+-    return DISAS_NEXT;
++static DisasJumpType op_vsrl(DisasContext *s, DisasOps *o)
++{
++    return gen_vsh_bit_byte(s, o, gen_helper_gvec_vsrl,
++                            gen_helper_gvec_vsrl_ve2);
+ }
+ 
+ static DisasJumpType op_vsldb(DisasContext *s, DisasOps *o)
+@@ -2064,40 +2085,6 @@ static DisasJumpType op_vsldb(DisasContext *s, DisasOps *o)
+     return DISAS_NEXT;
+ }
+ 
+-static DisasJumpType op_vsra(DisasContext *s, DisasOps *o)
+-{
+-    TCGv_i64 shift = tcg_temp_new_i64();
+-
+-    read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
+-    if (s->fields.op2 == 0x7e) {
+-        tcg_gen_andi_i64(shift, shift, 0x7);
+-    } else {
+-        tcg_gen_andi_i64(shift, shift, 0x78);
+-    }
+-
+-    gen_gvec_2i_ool(get_field(s, v1), get_field(s, v2),
+-                    shift, 0, gen_helper_gvec_vsra);
+-    tcg_temp_free_i64(shift);
+-    return DISAS_NEXT;
+-}
+-
+-static DisasJumpType op_vsrl(DisasContext *s, DisasOps *o)
+-{
+-    TCGv_i64 shift = tcg_temp_new_i64();
+-
+-    read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
+-    if (s->fields.op2 == 0x7c) {
+-        tcg_gen_andi_i64(shift, shift, 0x7);
+-    } else {
+-        tcg_gen_andi_i64(shift, shift, 0x78);
+-    }
+-
+-    gen_gvec_2i_ool(get_field(s, v1), get_field(s, v2),
+-                    shift, 0, gen_helper_gvec_vsrl);
+-    tcg_temp_free_i64(shift);
+-    return DISAS_NEXT;
+-}
+-
+ static DisasJumpType op_vs(DisasContext *s, DisasOps *o)
+ {
+     const uint8_t es = get_field(s, m4);
 diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-index 6c8a8b229f..46add91a0e 100644
+index 46add91a0e..f487a64abf 100644
 --- a/target/s390x/tcg/insn-data.def
 +++ b/target/s390x/tcg/insn-data.def
-@@ -1246,6 +1246,8 @@
-     F(0xe75c, VISTR,   VRR_a, V,   0, 0, 0, 0, vistr, 0, IF_VEC)
- /* VECTOR STRING RANGE COMPARE */
-     F(0xe78a, VSTRC,   VRR_d, V,   0, 0, 0, 0, vstrc, 0, IF_VEC)
-+/* VECTOR STRING SEARCH */
-+    F(0xe78b, VSTRS,   VRR_d, VE2, 0, 0, 0, 0, vstrs, 0, IF_VEC)
- 
- /* === Vector Floating-Point Instructions */
- 
+@@ -1204,19 +1204,19 @@
+     F(0xe778, VESRLV,  VRR_c, V,   0, 0, 0, 0, vesv, 0, IF_VEC)
+     F(0xe738, VESRL,   VRS_a, V,   la2, 0, 0, 0, ves, 0, IF_VEC)
+ /* VECTOR SHIFT LEFT */
+-    F(0xe774, VSL,     VRR_c, V,   0, 0, 0, 0, vsl, 0, IF_VEC)
++    E(0xe774, VSL,     VRR_c, V,   0, 0, 0, 0, vsl, 0, 0, IF_VEC)
+ /* VECTOR SHIFT LEFT BY BYTE */
+-    F(0xe775, VSLB,    VRR_c, V,   0, 0, 0, 0, vsl, 0, IF_VEC)
++    E(0xe775, VSLB,    VRR_c, V,   0, 0, 0, 0, vsl, 0, 1, IF_VEC)
+ /* VECTOR SHIFT LEFT DOUBLE BY BYTE */
+     F(0xe777, VSLDB,   VRI_d, V,   0, 0, 0, 0, vsldb, 0, IF_VEC)
+ /* VECTOR SHIFT RIGHT ARITHMETIC */
+-    F(0xe77e, VSRA,    VRR_c, V,   0, 0, 0, 0, vsra, 0, IF_VEC)
++    E(0xe77e, VSRA,    VRR_c, V,   0, 0, 0, 0, vsra, 0, 0, IF_VEC)
+ /* VECTOR SHIFT RIGHT ARITHMETIC BY BYTE */
+-    F(0xe77f, VSRAB,   VRR_c, V,   0, 0, 0, 0, vsra, 0, IF_VEC)
++    E(0xe77f, VSRAB,   VRR_c, V,   0, 0, 0, 0, vsra, 0, 1, IF_VEC)
+ /* VECTOR SHIFT RIGHT LOGICAL */
+-    F(0xe77c, VSRL,    VRR_c, V,   0, 0, 0, 0, vsrl, 0, IF_VEC)
++    E(0xe77c, VSRL,    VRR_c, V,   0, 0, 0, 0, vsrl, 0, 0, IF_VEC)
+ /* VECTOR SHIFT RIGHT LOGICAL BY BYTE */
+-    F(0xe77d, VSRLB,   VRR_c, V,   0, 0, 0, 0, vsrl, 0, IF_VEC)
++    E(0xe77d, VSRLB,   VRR_c, V,   0, 0, 0, 0, vsrl, 0, 1, IF_VEC)
+ /* VECTOR SUBTRACT */
+     F(0xe7f7, VS,      VRR_c, V,   0, 0, 0, 0, vs, 0, IF_VEC)
+ /* VECTOR SUBTRACT COMPUTE BORROW INDICATION */
 -- 
 2.25.1
 
