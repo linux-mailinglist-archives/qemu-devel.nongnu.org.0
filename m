@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFB24D171D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 13:18:41 +0100 (CET)
-Received: from localhost ([::1]:42556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 964AD4D1730
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 13:24:16 +0100 (CET)
+Received: from localhost ([::1]:48992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRYnY-0006T2-2J
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 07:18:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54268)
+	id 1nRYsx-0002zT-AS
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 07:24:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRYm4-0005AO-6A
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 07:17:08 -0500
-Received: from [2a00:1450:4864:20::634] (port=33639
- helo=mail-ej1-x634.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRYm2-0005QW-Iq
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 07:17:07 -0500
-Received: by mail-ej1-x634.google.com with SMTP id kt27so38913547ejb.0
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 04:17:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OFA2/eM8lwGnQdw8L8HYozWRTs8bN4HRmWhwr7+OpfQ=;
- b=dZxiz91cR9d8+CC4dJkv0i2jFfJ9CP0b3NlEsXD6TPHMGYacNdhru2mSELTl8O+6T+
- FkPBsspyt6yrQV1UNk0fLDyvuyTBbsyYl6/T/V6x+ZilvnI0NzYTKb6PgY7cnu5zGc3W
- z8u6cgybLElr2aEZQqTCU+yd3hjzgyX32dfmIm7l1uFqFRVNXPWDahWbmtxQMKSxUF6t
- mDip2hxkD1fj4trIskXiu0dLQGix1y5LAmHMsfX0r/TW2pyZZX5NoWOICWOAFwOo7IeO
- jpGsIE8IKRoh4awk7E5UsjXtaPmC6jPN5sC8oetFJ5PMyH0bpwZVfBbDUpiUazI2kL/w
- rFpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OFA2/eM8lwGnQdw8L8HYozWRTs8bN4HRmWhwr7+OpfQ=;
- b=Vrc9UzYpUmSCl5v8dZz8GMhFtXPING57757vvK5xzBF35L0r8G1nH8XFudeoQdrJjY
- ABLRjQlL7Ld7Fd5K+6UiNWSq3PrTJDbaS1WPlo5kIeEWE4ozeM33GfxOhZbHjuIvP5NK
- pRuBJiBQUXqlqT9eVxEcxzNx0aJ7vrwS/YmSl4AOYtSQMwTL5VzWO2vxe2CMi67J37f5
- d2u47A4eec+qGnz4QwxgHibd9SK2TjR9QcQ6hiz2SY+9D4uN8hasBVh5W/otm3eelEHx
- 9JacLYdZtYtbA72vmw9rEt259h98PiYFOed6+nREqgmKj5CqIRTnQHsECix3RMvJLD+I
- +QBA==
-X-Gm-Message-State: AOAM532oT/rVhzgZcWJrHoGdtc+k09Y+0YraU754KKX0miJrvjmKW3VO
- kg1etQHN9t1H+74LRuLyOxY=
-X-Google-Smtp-Source: ABdhPJwE9PU5xJ81uImIisWcDcAXQ3ECFtBqwX9p5ItDnR0zlR5H81k8PeGbgOyJEUFk90ZFZol5QQ==
-X-Received: by 2002:a17:907:97cc:b0:6da:a8fb:d1db with SMTP id
- js12-20020a17090797cc00b006daa8fbd1dbmr13315004ejc.267.1646741825187; 
- Tue, 08 Mar 2022 04:17:05 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- r19-20020a17090638d300b006d6e4fc047bsm5886872ejd.11.2022.03.08.04.17.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 04:17:04 -0800 (PST)
-Message-ID: <800a68f8-fbe0-5980-4290-bdc0ed4d05bd@redhat.com>
-Date: Tue, 8 Mar 2022 13:17:02 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nRYqy-0000DS-NF; Tue, 08 Mar 2022 07:22:12 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13322)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nRYqw-0006DN-AQ; Tue, 08 Mar 2022 07:22:12 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 228AFuSi031528; 
+ Tue, 8 Mar 2022 12:21:59 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3eny189j85-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Mar 2022 12:21:59 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 228C8Bhp004875;
+ Tue, 8 Mar 2022 12:21:56 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03fra.de.ibm.com with ESMTP id 3enpk2srsp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Mar 2022 12:21:56 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 228CLs3d40567218
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 8 Mar 2022 12:21:54 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6B88AAE056;
+ Tue,  8 Mar 2022 12:21:54 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 398D6AE053;
+ Tue,  8 Mar 2022 12:21:54 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue,  8 Mar 2022 12:21:54 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.87.238])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 4AA6F2201DC;
+ Tue,  8 Mar 2022 13:21:53 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: [PULL 00/11] aspeed queue
+Date: Tue,  8 Mar 2022 13:21:38 +0100
+Message-Id: <20220308122149.1602798-1-clg@kaod.org>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: aSNagyiQAfnH7XlRsd2DMOL3wpTiGrfz
+X-Proofpoint-ORIG-GUID: aSNagyiQAfnH7XlRsd2DMOL3wpTiGrfz
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4 01/12] mm/shmem: Introduce F_SEAL_INACCESSIBLE
-Content-Language: en-US
-To: Chao Peng <chao.p.peng@linux.intel.com>, Andy Lutomirski <luto@kernel.org>
-References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
- <20220118132121.31388-2-chao.p.peng@linux.intel.com>
- <619547ad-de96-1be9-036b-a7b4e99b09a6@kernel.org>
- <20220217130631.GB32679@chaop.bj.intel.com>
- <2ca78dcb-61d9-4c9d-baa9-955b6f4298bb@www.fastmail.com>
- <20220223114935.GA53733@chaop.bj.intel.com>
- <71a06402-6743-bfd2-bbd4-997f8e256554@arm.com>
- <7cc65bbd-e323-eabb-c576-b5656a3355ac@kernel.org>
- <20220307132602.GA58690@chaop.bj.intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220307132602.GA58690@chaop.bj.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-08_03,2022-03-04_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ adultscore=0 mlxlogscore=479 phishscore=0 mlxscore=0 spamscore=0
+ clxscore=1034 priorityscore=1501 impostorscore=0 malwarescore=0
+ suspectscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203080063
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,41 +93,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, kvm list <kvm@vger.kernel.org>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <ak@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- the arch/x86 maintainers <x86@kernel.org>, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, "Nakajima, Jun" <jun.nakajima@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Jim Mattson <jmattson@google.com>, Dave Hansen <dave.hansen@intel.com>,
- Linux API <linux-api@vger.kernel.org>, Jeff Layton <jlayton@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Yu Zhang <yu.c.zhang@linux.intel.com>, Sean Christopherson <seanjc@google.com>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/7/22 14:26, Chao Peng wrote:
->> In pseudo-Rust, this is the difference between:
->>
->> fn convert_to_private(in: &mut Memfd)
->>
->> and
->>
->> fn convert_to_private(in: Memfd) -> PrivateMemoryFd
->>
->> This doesn't map particularly nicely to the kernel, though.
-> I understand this Rust semantics and the difficulty to handle races.
-> Probably we should not expose F_SEAL_INACCESSIBLE to userspace, instead
-> we can use a new in-kernel flag to indicate the same thing. That flag
-> should be set only when the memfd is created with MFD_INACCESSIBLE.
+The following changes since commit b49872aa8fc0f3f5a3036cc37aa2cb5c92866f33:
 
-Yes, I like this.
+  Merge remote-tracking branch 'remotes/hreitz-gitlab/tags/pull-block-2022-=
+03-07' into staging (2022-03-07 17:14:09 +0000)
 
-Paolo
+are available in the Git repository at:
 
+  https://github.com/legoater/qemu/ tags/pull-aspeed-20220308
+
+for you to fetch changes up to 46179776c292f83848df90de60da5ae1a965ce6a:
+
+  hw: aspeed_gpio: Cleanup stray semicolon after switch (2022-03-08 09:18:1=
+1 +0100)
+
+----------------------------------------------------------------
+aspeed queue:
+
+* Fix for a potential memory leak
+* Aspeed SMC cleanups on the definition of the number of flash devices
+* New bletchley-bmc machine, AST2600 based
+
+----------------------------------------------------------------
+Andrew Jeffery (1):
+      hw: aspeed_gpio: Cleanup stray semicolon after switch
+
+C=C3=A9dric Le Goater (6):
+      aspeed/smc: Use max number of CE instead of 'num_cs'
+      aspeed: Rework aspeed_board_init_flashes() interface
+      aspeed/smc: Remove 'num_cs' field
+      aspeed/smc: Rename 'max_peripherals' to 'cs_num_max'
+      aspeed/smc: Let the SSI core layer define the bus name
+      aspeed/smc: Fix error log
+
+Patrick Williams (3):
+      hw/block: m25p80: Add support for w25q01jvq
+      hw/arm/aspeed: allow missing spi_model
+      hw/arm/aspeed: add Bletchley machine type
+
+Wentao_Liang (1):
+      aspeed: Fix a potential memory leak bug in write_boot_rom()
+
+ include/hw/ssi/aspeed_smc.h |   3 +-
+ hw/arm/aspeed.c             | 100 ++++++++++++++++++++++++++++++++++++++--=
+----
+ hw/arm/aspeed_ast2600.c     |   2 -
+ hw/arm/aspeed_soc.c         |   2 -
+ hw/block/m25p80.c           |   1 +
+ hw/gpio/aspeed_gpio.c       |   2 +-
+ hw/ssi/aspeed_smc.c         |  53 ++++++++++-------------
+ 7 files changed, 114 insertions(+), 49 deletions(-)
 
