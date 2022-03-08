@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E50C24D149C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:19:18 +0100 (CET)
-Received: from localhost ([::1]:37822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 762524D14A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:22:47 +0100 (CET)
+Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRWw1-0002gA-Ub
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:19:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53462)
+	id 1nRWzN-0006J7-4U
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:22:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRWsV-0007V3-3o
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:15:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31022)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRWsR-0000mc-Sb
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:15:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646734533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3KwDmwhwDWTTmP0UZSLpsnS2aUWGC3VBOdIuKfh51DE=;
- b=gLa6qD+7d58fEP/8rkTmAPXt2Myqxjb0bJ1w3JfMwzYbz8Uwt6kwmvMeZwiVPGrDbZdxAN
- jMKqf6a9hcQ7iFrW/zG3qJ0auo1G+gLVRJTGuGysGe3s9JBZCZYGp3wm4RjJ6c0LMKQW1c
- JUIPcJYbuAjn+soGPlaeZOuXegwECPs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-166-F9bUrkr6N-WYWmPA7fNocQ-1; Tue, 08 Mar 2022 05:15:29 -0500
-X-MC-Unique: F9bUrkr6N-WYWmPA7fNocQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 410B2801DDB;
- Tue,  8 Mar 2022 10:15:28 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BF5422DF4;
- Tue,  8 Mar 2022 10:15:27 +0000 (UTC)
-Date: Tue, 8 Mar 2022 10:15:26 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v6 15/19] vfio-user: handle device interrupts
-Message-ID: <Yicsvuie5xZj5IOY@stefanha-x1.localdomain>
-References: <cover.1645079934.git.jag.raman@oracle.com>
- <ba5a32f3def72ce66a894191747dcafd63e7a517.1645079934.git.jag.raman@oracle.com>
- <YiXdUbz3r1xORJKD@stefanha-x1.localdomain>
- <217B92CB-B619-4B09-9ABA-200DA703C617@oracle.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRWwa-0004VB-EL
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:19:53 -0500
+Received: from [2607:f8b0:4864:20::b34] (port=43763
+ helo=mail-yb1-xb34.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRWwY-0001XF-IC
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:19:51 -0500
+Received: by mail-yb1-xb34.google.com with SMTP id g26so36708932ybj.10
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:19:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=66Wc3eUR+qiPSLzaLarj4icG12vt2/6aG2HjcmayIZ8=;
+ b=ZPU2p00ABEeaQiOC51IsMDa9diW5Iu4uKNmFoiERD6ghsmvKIAaIrU8VRmtDypLRsD
+ IJBAIpJgTP6DSkxdbxoPoYHCH7jlzm85b1WEZ/CYKVnIn6N/tVBsdOjusdY6iITlimnJ
+ D3HA6KSlpy+fFqACwXqNfgOATZ9prguowLQZtEWRLCsWNbaR9FhWzJbpjv0hKKCn4icQ
+ /JH8q6W98ciaLoxp0hbg5myjsCkVG/pSDMOSWdE7CptHXMDP2qAswq3s5Si1qDrdSAfn
+ 5g/Zder1EFfKpPpfC9XTbMTnXh9aS7sJFrtkPjf44A8sRVkgR0yjB4dAevvcJoQkQSFw
+ PyLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=66Wc3eUR+qiPSLzaLarj4icG12vt2/6aG2HjcmayIZ8=;
+ b=XFzVl6kCwiBMVksBTdOgTgIogkiydVXg3Hs/EiyKNgPaPrxqemA8PwDa/2M8FhT0UV
+ Qu1+5wsOjSwvIl7R2OqqDycpAeK0/dt2TqodgfBGHyIfq/cprz4WOoG6A9EUJ7MsUWkT
+ g6gsDVmJZV2p+yxrbLQjRUW2YgTGbdr4oa2w7SSvTTIxIEzJmqH5ckFOP+OA+s0zgXpp
+ vtVW1biCu0+TZp39IHF6JHrfma6ViawNOm1UO/ZUdEYbb5F7JZnGK3kVeuVlPiYJSqtn
+ YxyFY7+TO9bAWgy8khnvqQOGH9ms7e3En+2B+ONDAbAP/VlPq3LuJuQqvqgXnwQ0FBVV
+ kiEQ==
+X-Gm-Message-State: AOAM531ZrEsWKgTV8q8rsNPSK6I7N1Jm/WGUnSmnpVSgVGGLk7fpFMLA
+ W6EvTrGt1HiKAhkw3AJ37OASv3YEzAN4xuX0kVBrTw==
+X-Google-Smtp-Source: ABdhPJzVmsMkfHERhIoxl8hg1ldS6olRXGqF9bxyB/dpdH91MMY5Z4dEKK519Frxcgul+azenVc+vJMP5zfqUbD+Av4=
+X-Received: by 2002:a25:32c6:0:b0:629:130:a037 with SMTP id
+ y189-20020a2532c6000000b006290130a037mr11288816yby.193.1646734789369; Tue, 08
+ Mar 2022 02:19:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="J+RMrN4+L6SxvTBL"
-Content-Disposition: inline
-In-Reply-To: <217B92CB-B619-4B09-9ABA-200DA703C617@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220308072005.307955-1-richard.henderson@linaro.org>
+ <20220308072005.307955-15-richard.henderson@linaro.org>
+In-Reply-To: <20220308072005.307955-15-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Mar 2022 10:19:38 +0000
+Message-ID: <CAFEAcA_WezNjvZsWO7Q5kYhi=DvZwKKtHzyu2iKOSuibdeT6CA@mail.gmail.com>
+Subject: Re: [PATCH v4 14/33] target/nios2: Use hw/registerfields.h for
+ CR_TLBACC fields
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,71 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eduardo@habkost.net" <eduardo@habkost.net>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "bleal@redhat.com" <bleal@redhat.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "f4bug@amsat.org" <f4bug@amsat.org>, qemu-devel <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 8 Mar 2022 at 07:20, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
 
---J+RMrN4+L6SxvTBL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Empty body.
 
-On Mon, Mar 07, 2022 at 03:10:41PM +0000, Jag Raman wrote:
-> > On Mar 7, 2022, at 5:24 AM, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > On Thu, Feb 17, 2022 at 02:49:02AM -0500, Jagannathan Raman wrote:
-> >> @@ -332,6 +336,13 @@ void msi_notify(PCIDevice *dev, unsigned int vect=
-or)
-> >>     msi_send_message(dev, msg);
-> >> }
-> >>=20
-> >> +void msi_notify(PCIDevice *dev, unsigned int vector)
-> >> +{
-> >> +    if (dev->msi_notify) {
-> >=20
-> > Can this ever be NULL?
->=20
-> Unlikely in the current code flow, but it could change in the future.
->=20
-> As a matter of principle, I thought that we should check if a function
-> pointer is non-NULL before invoking it in QEMU. Is that not the case?
+You might also mention:
 
-No, it's better to dump core with a backtrace when a program invariant
-is violated than to silently suppress it. If msi_notify() is called but
-the function pointer is NULL then there is a bug in the program that
-needs to be fixed.
+"Since we're rewriting the references to CR_TLBACC_IGN_* anyway,
+we correct the name of this field to IG, which is its name in the
+official CPU documentation."
 
-Stefan
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/nios2/cpu.h | 23 +++++++++++++++--------
+>  target/nios2/mmu.c | 16 ++++++++--------
+>  2 files changed, 23 insertions(+), 16 deletions(-)
+>
+> diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+> index 84138000fa..024ef3ccc0 100644
+> --- a/target/nios2/cpu.h
+> +++ b/target/nios2/cpu.h
+> @@ -115,14 +115,21 @@ FIELD(CR_PTEADDR, VPN, 2, 20)
+>  FIELD(CR_PTEADDR, PTBASE, 22, 10)
+>
+>  #define CR_TLBACC        9
+> -#define   CR_TLBACC_IGN_SHIFT 25
+> -#define   CR_TLBACC_IGN_MASK  (0x7F << CR_TLBACC_IGN_SHIFT)
+> -#define   CR_TLBACC_C         (1 << 24)
+> -#define   CR_TLBACC_R         (1 << 23)
+> -#define   CR_TLBACC_W         (1 << 22)
+> -#define   CR_TLBACC_X         (1 << 21)
+> -#define   CR_TLBACC_G         (1 << 20)
+> -#define   CR_TLBACC_PFN_MASK  0x000FFFFF
+> +
+> +FIELD(CR_TLBACC, PFN, 0, 20)
+> +FIELD(CR_TLBACC, G, 20, 1)
+> +FIELD(CR_TLBACC, X, 21, 1)
+> +FIELD(CR_TLBACC, W, 22, 1)
+> +FIELD(CR_TLBACC, R, 23, 1)
+> +FIELD(CR_TLBACC, C, 24, 1)
+> +FIELD(CR_TLBACC, IG, 25, 7)
+> +
+> +#define CR_TLBACC_C  (1u << R_CR_TLBACC_C_SHIFT)
+> +#define CR_TLBACC_R  (1u << R_CR_TLBACC_R_SHIFT)
+> +#define CR_TLBACC_W  (1u << R_CR_TLBACC_W_SHIFT)
+> +#define CR_TLBACC_X  (1u << R_CR_TLBACC_X_SHIFT)
+> +#define CR_TLBACC_G  (1u << R_CR_TLBACC_G_SHIFT)
 
---J+RMrN4+L6SxvTBL
-Content-Type: application/pgp-signature; name="signature.asc"
+again,
+#define CR_TLBACC_C R_CR_TLBACC_C_MASK
+etc
 
------BEGIN PGP SIGNATURE-----
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmInLL4ACgkQnKSrs4Gr
-c8j1Awf/VQrXVPdWQqqJGj70drIhjyEREfiu8uPEBV9+IjyfAUJLejB+qjlPX47G
-FBz6o5j4Ts/jiRllAiXuoq+xYuiew2rr0phuOAi6cCuQeAcDr23vq+ij2reWlVgA
-BiDGHkS1vAfqJ/FUPzIJIdaxj5KBrIrHEw313tiGtI6xRP/8xLxadyp7F1hF8n4K
-cSz2Hetfo+nlI8z8vJro2Iv0h75mRWq0Y6UuJn/70asgaBzPt+vcRrr1Y4wwnxJd
-cXbE0QILmF164PfE6E/ngDtZW2Yb+sEXvcprkYboDdUMFDV4HBEP37CdEZfRlQlO
-0cxU/pLmt+aQpgjkanGSGTjHTcUM/Q==
-=jgvX
------END PGP SIGNATURE-----
-
---J+RMrN4+L6SxvTBL--
-
+thanks
+-- PMM
 
