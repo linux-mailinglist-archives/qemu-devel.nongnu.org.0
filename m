@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBF74D151D
+	by mail.lfdr.de (Postfix) with ESMTPS id D84A54D151E
 	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:49:07 +0100 (CET)
-Received: from localhost ([::1]:60566 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:60624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRXOr-0002aX-EJ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:49:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60450)
+	id 1nRXOs-0002d9-Vf
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:49:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRXMF-00013z-P0
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:46:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRXMC-00064e-Lj
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:46:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646736378;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ir4eth+8SXEAvu2iu7KvlL909Ar2sGBjZGhyG6OKBvE=;
- b=XE3dJlT/risc6XLCQwmtD+Gp5rBbqZQ+xI1SLkbGeAWWa7jr9wNpWHIFNUv0SjgvkRjPEk
- yotaLQrVmDNnOA/I3D3GJpkUGQ6ZtDQiH+62U7EB/TPk1u6FQq2f/sO09wEdD0Im7wso0S
- LdjFdZyKDSyS81kM7+3zMQyE8Op0dBM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-12-dr7f8dC4PjWCAlO1DsQJuw-1; Tue, 08 Mar 2022 05:46:17 -0500
-X-MC-Unique: dr7f8dC4PjWCAlO1DsQJuw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- go11-20020a1709070d8b00b006cf0d933739so8462814ejc.5
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:46:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRXMJ-00017S-Q1
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:46:27 -0500
+Received: from [2607:f8b0:4864:20::b2e] (port=37420
+ helo=mail-yb1-xb2e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRXMI-00065k-4t
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:46:27 -0500
+Received: by mail-yb1-xb2e.google.com with SMTP id g1so36897016ybe.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:46:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2Yj4KmkyQVHefrV5StxQ4NZmI5feCBifLWCC3lWTmaI=;
+ b=ULWf/V41azw0efwZY2DOMrIj6bKn1QgGT4LCOEnRHA95ZjKDYFOALOpMHLQOvMHCRd
+ 52ZQnTpvHkBEShuznXd2lgf532bSJ/HnyQO9xjNX7x2x0yDCiQX7SEC89TNJAgFISNQw
+ kCzBY4E7yQ3srPNwQNC/jlPy92xnI2E0P7lKFechQ9G4T0hZdaDHNTLWxTHrnZTLGxus
+ h4b5HMjIKPRrK9xls7fT26PUd5c3+Hbq7qwZDjk2wf+kLTqXgpBZC36u5+6tEYU4hSkv
+ FLad/v9WsSVdo9/lHufQX2Qqo+C+FVlYXdkvb/JYltv1DYb9LamsqfZkKiW4VBMtbkvF
+ P8cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ir4eth+8SXEAvu2iu7KvlL909Ar2sGBjZGhyG6OKBvE=;
- b=ufxWVxfqVbi52yrmiOhGUuoFVNG6BOZFNxb1kjk+HBbobsWVwUDjugFx465/IG/aIb
- 4cmj6wQ09F3C0opoLYK9ZYkplk30LHLycdUBfDTD3yFXwhvrxgEWzvacCdEmzsFwxkBh
- n60ijtuEKZ0SNdMYMz6aBEFaEkMowB2C1PR4FfDmDzvp+FnzC5L/qnYd7kjZjzYbJu7n
- j/4yfNTsVVD/tNAS5cLpDnaUwRLlPthSE1rX0wmktZvyqyCpjAwmSP2Xw9nRojQbQtxO
- /QguXefPAaPlIkQhVAwuu/XKLInO5TVG2rdF1Cf8rjfPDC19OBWE9lQr8jtNFu/Yainh
- 6flA==
-X-Gm-Message-State: AOAM530HNQS7+uTfuL9hoszOyKNXeGRWVapLHKNBFES0FG4TsSvm1dFs
- AJqHvZja0yLGJiWK9nzOPzZaPdLRIpa8WIQZyFjGxGWG9TCv9NWZnAShnqb71I+/kKJTOUDFxuh
- pNO8e2EJ/BGp3Rm4=
-X-Received: by 2002:aa7:c5d7:0:b0:415:ee77:d6f2 with SMTP id
- h23-20020aa7c5d7000000b00415ee77d6f2mr15566319eds.208.1646736376539; 
- Tue, 08 Mar 2022 02:46:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJztJ1XPjjMKydcCWNB4A1TRlRhUc+HOKibm3mmtdw3nibRNcdVRjv2cCSorjNhOwjHxV8IHxw==
-X-Received: by 2002:aa7:c5d7:0:b0:415:ee77:d6f2 with SMTP id
- h23-20020aa7c5d7000000b00415ee77d6f2mr15566287eds.208.1646736376326; 
- Tue, 08 Mar 2022 02:46:16 -0800 (PST)
-Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- u9-20020a170906124900b006ce88a505a1sm5851858eja.179.2022.03.08.02.46.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 02:46:15 -0800 (PST)
-Date: Tue, 8 Mar 2022 05:46:10 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH v5 00/15] vDPA shadow virtqueue
-Message-ID: <20220308054213-mutt-send-email-mst@kernel.org>
-References: <20220307153334.3854134-1-eperezma@redhat.com>
- <14d4fde4-6ea5-4805-b684-c33f6b448565@redhat.com>
- <20220308020348-mutt-send-email-mst@kernel.org>
- <CACGkMEvY-+XpPWbtiX9dy+fwDxPp7sHFhH_LY0PB2YuusEugyw@mail.gmail.com>
- <20220308022300-mutt-send-email-mst@kernel.org>
- <CACGkMEvuTPCRk7Ng7CbgpPSPgs_QYijzc5fU+cV3kW09W1R7Qg@mail.gmail.com>
- <20220308024724-mutt-send-email-mst@kernel.org>
- <CACGkMEsPBDM8ko1qgnCR1DcofPNJJo3S2j3pOJHk4xaSGQimcQ@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2Yj4KmkyQVHefrV5StxQ4NZmI5feCBifLWCC3lWTmaI=;
+ b=pHTqFkPJv9pban6LNydbzVTVQw9LS9FkeQp1WxJBf7I+LmBo7J3dnUF1uVQT16U/Y3
+ nOtq8OOHV/dZqniXurePYaetsPlC/XM0EKAzUJqRNXjIe9AZJmx7V5KS0ZoCqSvfs3DA
+ KPShrBfSkpnh5KZKzkwAHYRwWODnvIpm/IiKtRNrSGSYwI4p2ue7eiyCNCuoUdL/vC8u
+ TnsI6NJs3rD8ydFuiSkE6FA+aF1q8j8Hy67h3bj7V3D/cv68kkYFWVf4FhM76Qyo8mjK
+ kX84ypXtrHY6c4omzLen9HUVFUubjxz6VeASV6drC7cEoFCPSXfKlmyy93+2x05SEm7d
+ zGoQ==
+X-Gm-Message-State: AOAM532Q3mApFWhQQElmTyRjaE9XhRndMBE8J+Qn3MpUYqQMfhm47y6K
+ INvYSz9efTs7v2x1rNYJPuSkDKkCbWzfE9CBKBAOhw==
+X-Google-Smtp-Source: ABdhPJxv84g8pKG0jMKEbmdXh4H+8Ilzz8pSm4YpxWS29ClYUcyRbS0WmYeR2ZkQVIq5BdtQ+TU9TNCF15OB08Lcpfc=
+X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
+ q16-20020a5b0350000000b0062886b86e09mr11159765ybp.39.1646736384311; Tue, 08
+ Mar 2022 02:46:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEsPBDM8ko1qgnCR1DcofPNJJo3S2j3pOJHk4xaSGQimcQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220308072005.307955-1-richard.henderson@linaro.org>
+ <20220308072005.307955-16-richard.henderson@linaro.org>
+In-Reply-To: <20220308072005.307955-16-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Mar 2022 10:46:13 +0000
+Message-ID: <CAFEAcA9nJchuHFyyQjfh+fbVBYs6keLz8hmDCKj0-F5zvMSV8A@mail.gmail.com>
+Subject: Re: [PATCH v4 15/33] target/nios2: Use hw/registerfields.h for
+ CR_TLBMISC fields
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,39 +83,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Parav Pandit <parav@mellanox.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Lingshan <lingshan.zhu@intel.com>
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 08, 2022 at 04:20:53PM +0800, Jason Wang wrote:
-> Generally, yes.
+On Tue, 8 Mar 2022 at 07:20, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/nios2/cpu.h       | 28 ++++++++++++++++++----------
+>  target/nios2/helper.c    |  7 ++-----
+>  target/nios2/mmu.c       | 33 +++++++++++++++------------------
+>  target/nios2/translate.c |  2 +-
+>  4 files changed, 36 insertions(+), 34 deletions(-)
+>
+> diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+> index 024ef3ccc0..3857848f7c 100644
+> --- a/target/nios2/cpu.h
+> +++ b/target/nios2/cpu.h
+> @@ -131,16 +131,24 @@ FIELD(CR_TLBACC, IG, 25, 7)
+>  #define CR_TLBACC_G  (1u << R_CR_TLBACC_G_SHIFT)
+>
+>  #define CR_TLBMISC       10
+> -#define   CR_TLBMISC_WAY_SHIFT 20
+> -#define   CR_TLBMISC_WAY_MASK  (0xF << CR_TLBMISC_WAY_SHIFT)
+> -#define   CR_TLBMISC_RD        (1 << 19)
+> -#define   CR_TLBMISC_WR        (1 << 18)
+> -#define   CR_TLBMISC_PID_SHIFT 4
+> -#define   CR_TLBMISC_PID_MASK  (0x3FFF << CR_TLBMISC_PID_SHIFT)
+> -#define   CR_TLBMISC_DBL       (1 << 3)
+> -#define   CR_TLBMISC_BAD       (1 << 2)
+> -#define   CR_TLBMISC_PERM      (1 << 1)
+> -#define   CR_TLBMISC_D         (1 << 0)
+> +
+> +FIELD(CR_TLBMISC, D, 0, 1)
+> +FIELD(CR_TLBMISC, PERM, 1, 1)
+> +FIELD(CR_TLBMISC, BAD, 2, 1)
+> +FIELD(CR_TLBMISC, DBL, 3, 1)
+> +FIELD(CR_TLBMISC, PID, 4, 14)
+> +FIELD(CR_TLBMISC, WR, 18, 1)
+> +FIELD(CR_TLBMISC, RD, 19, 1)
+> +FIELD(CR_TLBMISC, WAY, 20, 4)
+> +FIELD(CR_TLBMISC, EE, 24, 1)
+> +
+> +#define CR_TLBMISC_RD    (1u << R_CR_TLBMISC_RD_SHIFT)
+> +#define CR_TLBMISC_WR    (1u << R_CR_TLBMISC_WR_SHIFT)
+> +#define CR_TLBMISC_DBL   (1u << R_CR_TLBMISC_DBL_SHIFT)
+> +#define CR_TLBMISC_BAD   (1u << R_CR_TLBMISC_BAD_SHIFT)
+> +#define CR_TLBMISC_PERM  (1u << R_CR_TLBMISC_PERM_SHIFT)
+> +#define CR_TLBMISC_D     (1u << R_CR_TLBMISC_D_SHIFT)
+
+Same comment as previous patches.
+
+> +
+>  #define CR_ENCINJ        11
+>  #define CR_BADADDR       12
+>  #define CR_CONFIG        13
+> diff --git a/target/nios2/helper.c b/target/nios2/helper.c
+> index 37fb53dadb..93338e86f0 100644
+> --- a/target/nios2/helper.c
+> +++ b/target/nios2/helper.c
+> @@ -276,11 +276,8 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>          return false;
+>      }
+>
+> -    if (access_type == MMU_INST_FETCH) {
+> -        env->tlbmisc &= ~CR_TLBMISC_D;
+> -    } else {
+> -        env->tlbmisc |= CR_TLBMISC_D;
+> -    }
+> +    env->tlbmisc = FIELD_DP32(env->tlbmisc, CR_TLBMISC, D,
+> +                              access_type == MMU_INST_FETCH);
+
+This inverts the sense -- now we set the D bit for MMU_INST_FETCH,
+which is wrong.
+
+>      env->pteaddr = FIELD_DP32(env->pteaddr, CR_PTEADDR, VPN,
+>                                address >> TARGET_PAGE_BITS);
+>      env->mmu.pteaddr_wr = env->pteaddr;
+
+> @@ -130,24 +128,25 @@ void helper_mmu_write_tlbacc(CPUNios2State *env, uint32_t v)
+>  void helper_mmu_write_tlbmisc(CPUNios2State *env, uint32_t v)
+>  {
+>      Nios2CPU *cpu = env_archcpu(env);
+> +    uint32_t new_pid = FIELD_EX32(v, CR_TLBMISC, PID);
+> +    uint32_t old_pid = FIELD_EX32(env->mmu.tlbmisc_wr, CR_TLBMISC, PID);
+> +    uint32_t way = FIELD_EX32(v, CR_TLBMISC, WAY);
+>
+> -    trace_nios2_mmu_write_tlbmisc(v >> CR_TLBMISC_WAY_SHIFT,
+> +    trace_nios2_mmu_write_tlbmisc(way,
+>                                    (v & CR_TLBMISC_RD) ? 'R' : '.',
+>                                    (v & CR_TLBMISC_WR) ? 'W' : '.',
+>                                    (v & CR_TLBMISC_DBL) ? '2' : '.',
+>                                    (v & CR_TLBMISC_BAD) ? 'B' : '.',
+>                                    (v & CR_TLBMISC_PERM) ? 'P' : '.',
+>                                    (v & CR_TLBMISC_D) ? 'D' : '.',
+> -                                  (v & CR_TLBMISC_PID_MASK) >> 4);
+> +                                  new_pid);
+>
+> -    if ((v & CR_TLBMISC_PID_MASK) !=
+> -        (env->mmu.tlbmisc_wr & CR_TLBMISC_PID_MASK)) {
+> -        mmu_flush_pid(env, (env->mmu.tlbmisc_wr & CR_TLBMISC_PID_MASK) >>
+> -                           CR_TLBMISC_PID_SHIFT);
+> +    if (new_pid != old_pid) {
+> +        mmu_flush_pid(env, old_pid);
+>      }
+> +
+>      /* if tlbmisc.RD == 1 then trigger a TLB read on writes to TLBMISC */
+>      if (v & CR_TLBMISC_RD) {
+> -        int way = (v >> CR_TLBMISC_WAY_SHIFT);
+>          int vpn = FIELD_EX32(env->mmu.pteaddr_wr, CR_PTEADDR, VPN);
+>          Nios2TLBEntry *entry =
+>              &env->mmu.tlb[(way * cpu->tlb_num_ways) +
 
 
-So generally I support the idea of merging code gradually.  And merging
-with an unstable flag to enable it is a reasonable way to do it.
-However we are half a day away from soft freeze, so this will just
-result in the feature getting to users in it's current not really
-useable form. If we just want to simplify upstreaming then
-merging patches 1-14 for now would be one way to do it.
-If you want to do it through your tree then ok
+Any reason for hoisting the declaration of 'way' up to the top of the
+function ?
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-
--- 
-MST
-
+-- PMM
 
