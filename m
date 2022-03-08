@@ -2,93 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A8E4D118E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:06:13 +0100 (CET)
-Received: from localhost ([::1]:38080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721E24D11E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:16:11 +0100 (CET)
+Received: from localhost ([::1]:43234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRUrE-0005Hq-E3
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:06:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52588)
+	id 1nRV0s-0001O1-2J
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:16:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRUnw-0002gB-Cd
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:02:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47211)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nRUz0-0000FL-Qj; Tue, 08 Mar 2022 03:14:14 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:48735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRUns-0004B5-RT
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:02:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646726563;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W35QJgjsnBHR4lcD0q02yu0x8qnsa92tFu5QyCbwiWw=;
- b=azUqfLX8emVUQSi2D9RngpyZBk/4DFHwqdKnsRQEw5pZcMIl7hXuYzfUuDgdNd+0v9lYV1
- 3EKLfNTJPsxSeGzJMr2gznn6OckDljiXuzZUpSM1l043uTw6yKVhaDgZiaYzq4yCH102a/
- 3iStXsvNUPQHRaIhIyhzRj3dP5skhlE=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-53-GTEVheV1PNmnx6WYT-csCg-1; Tue, 08 Mar 2022 03:02:42 -0500
-X-MC-Unique: GTEVheV1PNmnx6WYT-csCg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- x2-20020a1709065ac200b006d9b316257fso8273045ejs.12
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 00:02:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=W35QJgjsnBHR4lcD0q02yu0x8qnsa92tFu5QyCbwiWw=;
- b=UErIS04HIWT3ew/tioI41Y10R6ag7vcM/8JI6xy+1Bo+ru09qgx80ck2zzfk2a3f8d
- yvBHAfsqKym5idR294kLsIpM8SI6OGwGkod0xM3WR1EvwGGkM0x2vgo8klRlhoc/00Ug
- lwvjJwMDLXeKnpTLWjioVtOE29+fimwl0enOaDX4gGE1Y2mSnYtClYygoOMRGJyai39j
- SblRUCC+Ry6GIY7W2Ap2nSUh6AeC178jndQ1ze6Ub2hCqvnBCq9la1A0kKjHk4frrFEW
- jPGsuwGgKdpu9lwO93hlCJ1FB5lw1PsLB5dDtoEA7HQ0v0oYnwsHdtdSMS83st+cQWQY
- uXAQ==
-X-Gm-Message-State: AOAM5328YX8s+TdeA37PqNgNDgqM5dCuRbDXa3pBqFed0kDTCZrfvmKe
- 9H+1ByRagDES6SYBRi/6vTplXRn+D482lm/9AlzwJgQC12KsDqDUUhlnBG1iecbj5SaSXOSEepY
- 4jcedfq4jJj0zsJw=
-X-Received: by 2002:a17:907:7656:b0:6d0:1f5a:2bec with SMTP id
- kj22-20020a170907765600b006d01f5a2becmr12125060ejc.164.1646726560878; 
- Tue, 08 Mar 2022 00:02:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxmwd0vSgr2Yp7qTawkALOqV2wMVU79g/QbkLzI4V+jzZqTxBuiMYnhayZgrg1/rRXY4x2tKg==
-X-Received: by 2002:a17:907:7656:b0:6d0:1f5a:2bec with SMTP id
- kj22-20020a170907765600b006d01f5a2becmr12125014ejc.164.1646726560550; 
- Tue, 08 Mar 2022 00:02:40 -0800 (PST)
-Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- k18-20020a50ce52000000b0040f75ad0e60sm7417963edj.83.2022.03.08.00.02.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 00:02:40 -0800 (PST)
-Date: Tue, 8 Mar 2022 03:02:35 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Subject: Re: [PATCH v5 15/15] vdpa: Add x-svq to NetdevVhostVDPAOptions
-Message-ID: <20220308030140-mutt-send-email-mst@kernel.org>
-References: <20220307153334.3854134-1-eperezma@redhat.com>
- <20220307153334.3854134-16-eperezma@redhat.com>
- <20220308021116-mutt-send-email-mst@kernel.org>
- <CAJaqyWewPYVPDOYTgKs03-LyfMHWkE+OR6tBEQ25rZ3YZmTrsw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1nRUyy-0005za-T7; Tue, 08 Mar 2022 03:14:14 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.206])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6E9D6E75622F;
+ Tue,  8 Mar 2022 09:14:08 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 8 Mar
+ 2022 09:14:07 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G0031cfb967d-7ece-47b4-b5e0-33c4471af5c0,
+ 03E3C14593CA27F822F61C3AD678835CDD198C87) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <2b9aed65-5cdf-0647-dc25-7cc9d488aaa6@kaod.org>
+Date: Tue, 8 Mar 2022 09:14:07 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWewPYVPDOYTgKs03-LyfMHWkE+OR6tBEQ25rZ3YZmTrsw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 2/2] hw/arm/aspeed: add Bletchley machine type
+Content-Language: en-US
+To: Patrick Williams <patrick@stwcx.xyz>
+References: <20220305000656.1944589-1-patrick@stwcx.xyz>
+ <20220305000656.1944589-2-patrick@stwcx.xyz>
+ <790dd79a-4c5e-207e-86a9-9351694f0427@kaod.org> <YiZySh+cdxL7ddKI@heinlein>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <YiZySh+cdxL7ddKI@heinlein>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 23be9215-86d2-4674-be96-fb1253592289
+X-Ovh-Tracer-Id: 1175439504974056230
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudduhedgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,187 +71,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Parav Pandit <parav@mellanox.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Lingshan <lingshan.zhu@intel.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 08, 2022 at 08:32:07AM +0100, Eugenio Perez Martin wrote:
-> On Tue, Mar 8, 2022 at 8:11 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Mon, Mar 07, 2022 at 04:33:34PM +0100, Eugenio Pérez wrote:
-> > > Finally offering the possibility to enable SVQ from the command line.
-> > >
-> > > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> > > ---
-> > >  qapi/net.json    |  8 +++++++-
-> > >  net/vhost-vdpa.c | 48 ++++++++++++++++++++++++++++++++++++++++--------
-> > >  2 files changed, 47 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/qapi/net.json b/qapi/net.json
-> > > index 7fab2e7cd8..d626fa441c 100644
-> > > --- a/qapi/net.json
-> > > +++ b/qapi/net.json
-> > > @@ -445,12 +445,18 @@
-> > >  # @queues: number of queues to be created for multiqueue vhost-vdpa
-> > >  #          (default: 1)
-> > >  #
-> > > +# @svq: Start device with (experimental) shadow virtqueue. (Since 7.0)
-> > > +#
-> > > +# Features:
-> > > +# @unstable: Member @svq is experimental.
-> > > +#
-> > >  # Since: 5.1
-> > >  ##
-> > >  { 'struct': 'NetdevVhostVDPAOptions',
-> > >    'data': {
-> > >      '*vhostdev':     'str',
-> > > -    '*queues':       'int' } }
-> > > +    '*queues':       'int',
-> > > +    '*svq':          {'type': 'bool', 'features' : [ 'unstable'] } } }
-> > >
-> > >  ##
-> > >  # @NetClientDriver:
-> >
-> > I think this should be x-svq same as other unstable features.
-> >
+
+>> There are two flash devices on the FMC. I can fix it inline since
+>> it is the only change I would request.
 > 
-> I'm fine with both, but I was pointed to the other direction at [1] and [2].
-> 
-> Thanks!
-> 
-> [1] https://patchwork.kernel.org/project/qemu-devel/patch/20220302203012.3476835-15-eperezma@redhat.com/
-> [2] https://lore.kernel.org/qemu-devel/20220303185147.3605350-15-eperezma@redhat.com/
+> Yes, there are.  I think all of the Facebook systems have dual FMC, for
+> redundancy in hardware, but we can get by in QEMU with just a single one.
 
+yes, the kernel will complain though and I don't know how robust
+the spi-nor based driver is. I think you sent a patch for a related
+issue.
 
-I think what Markus didn't know is that a bunch of changes in
-behaviour will occur before we rename it to "svq".
-The rename is thus less of a bother more of a bonus.
+The newer spi-mem driver should be fine.
+  
+> I'll see however you fix it up and see I can update all the other systems as
+> well.  
 
-> > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > index 1e9fe47c03..c827921654 100644
-> > > --- a/net/vhost-vdpa.c
-> > > +++ b/net/vhost-vdpa.c
-> > > @@ -127,7 +127,11 @@ err_init:
-> > >  static void vhost_vdpa_cleanup(NetClientState *nc)
-> > >  {
-> > >      VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-> > > +    struct vhost_dev *dev = s->vhost_vdpa.dev;
-> > >
-> > > +    if (dev && dev->vq_index + dev->nvqs == dev->vq_index_end) {
-> > > +        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
-> > > +    }
-> > >      if (s->vhost_net) {
-> > >          vhost_net_cleanup(s->vhost_net);
-> > >          g_free(s->vhost_net);
-> > > @@ -187,13 +191,23 @@ static NetClientInfo net_vhost_vdpa_info = {
-> > >          .check_peer_type = vhost_vdpa_check_peer_type,
-> > >  };
-> > >
-> > > +static int vhost_vdpa_get_iova_range(int fd,
-> > > +                                     struct vhost_vdpa_iova_range *iova_range)
-> > > +{
-> > > +    int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
-> > > +
-> > > +    return ret < 0 ? -errno : 0;
-> > > +}
-> > > +
-> > >  static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-> > > -                                           const char *device,
-> > > -                                           const char *name,
-> > > -                                           int vdpa_device_fd,
-> > > -                                           int queue_pair_index,
-> > > -                                           int nvqs,
-> > > -                                           bool is_datapath)
-> > > +                                       const char *device,
-> > > +                                       const char *name,
-> > > +                                       int vdpa_device_fd,
-> > > +                                       int queue_pair_index,
-> > > +                                       int nvqs,
-> > > +                                       bool is_datapath,
-> > > +                                       bool svq,
-> > > +                                       VhostIOVATree *iova_tree)
-> > >  {
-> > >      NetClientState *nc = NULL;
-> > >      VhostVDPAState *s;
-> > > @@ -211,6 +225,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-> > >
-> > >      s->vhost_vdpa.device_fd = vdpa_device_fd;
-> > >      s->vhost_vdpa.index = queue_pair_index;
-> > > +    s->vhost_vdpa.shadow_vqs_enabled = svq;
-> > > +    s->vhost_vdpa.iova_tree = iova_tree;
-> > >      ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-> > >      if (ret) {
-> > >          qemu_del_net_client(nc);
-> > > @@ -266,6 +282,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-> > >      g_autofree NetClientState **ncs = NULL;
-> > >      NetClientState *nc;
-> > >      int queue_pairs, i, has_cvq = 0;
-> > > +    g_autoptr(VhostIOVATree) iova_tree = NULL;
-> > >
-> > >      assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-> > >      opts = &netdev->u.vhost_vdpa;
-> > > @@ -285,29 +302,44 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-> > >          qemu_close(vdpa_device_fd);
-> > >          return queue_pairs;
-> > >      }
-> > > +    if (opts->svq) {
-> > > +        struct vhost_vdpa_iova_range iova_range;
-> > > +
-> > > +        if (has_cvq) {
-> > > +            error_setg(errp, "vdpa svq does not work with cvq");
-> > > +            goto err_svq;
-> > > +        }
-> > > +        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-> > > +        iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
-> > > +    }
-> > >
-> > >      ncs = g_malloc0(sizeof(*ncs) * queue_pairs);
-> > >
-> > >      for (i = 0; i < queue_pairs; i++) {
-> > >          ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> > > -                                     vdpa_device_fd, i, 2, true);
-> > > +                                     vdpa_device_fd, i, 2, true, opts->svq,
-> > > +                                     iova_tree);
-> > >          if (!ncs[i])
-> > >              goto err;
-> > >      }
-> > >
-> > >      if (has_cvq) {
-> > >          nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> > > -                                 vdpa_device_fd, i, 1, false);
-> > > +                                 vdpa_device_fd, i, 1, false, opts->svq,
-> > > +                                 iova_tree);
-> > >          if (!nc)
-> > >              goto err;
-> > >      }
-> > >
-> > > +    iova_tree = NULL;
-> > >      return 0;
-> > >
-> > >  err:
-> > >      if (i) {
-> > >          qemu_del_net_client(ncs[0]);
-> > >      }
-> > > +
-> > > +err_svq:
-> > >      qemu_close(vdpa_device_fd);
-> > >
-> > >      return -1;
-> > > --
-> > > 2.27.0
-> >
+ok. may be for 7.1 then.
 
+> We have an internal patch to expand the CS on FMC to 2 but we haven't
+> upstreamed it yet and I'm worried it will break some users w.r.t. the CLI
+> changing for adding images.  
+
+Yes. That's the problem. I am afraid some CI systems will break with
+these change in a newer QEMU. The command line options will need to
+adapt.
+
+> My recollection is that the Romulus CI on OpenBMC relies on the PNOR 
+> being the 2nd argument.
+
+That's the initial assumption made years ago. First mtd device is FMC,
+second is the PNOR. It is reaching its limits.
+
+I am looking at improving the command line argument to support:
+
+   -drive file=<file>,format=raw,id=drive0 -device mx66l1g45g,bus=ssi.0,drive=drive0
+
+which we would clearly define the topology. Adding a cs=[0-5] or and
+addr=[0-5] is the next step.
+
+Thanks,
+
+C.
 
