@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF134D203E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:27:43 +0100 (CET)
-Received: from localhost ([::1]:53188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0934F4D2042
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:29:20 +0100 (CET)
+Received: from localhost ([::1]:60820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nReYg-0001Vr-72
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:27:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38982)
+	id 1nReaF-0006Zp-3R
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:29:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nReWA-0007WQ-16
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:25:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27249)
+ id 1nReWB-0007Zq-KM
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:25:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1nReW6-0003qP-Lv
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:25:04 -0500
+ id 1nReW8-0003zq-78
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 13:25:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646763901;
+ s=mimecast20190719; t=1646763903;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9eHzE2Oeiv8GnAde9Vlt7vdxFQ1ZbGYXgwrANjAz7Fo=;
- b=GkM4/6kW8urqhGfdLmrPeKx5+sZGSaFtkbg7co3cQiiCiwdhomuAzXVNR/vAMxcI/k5TOh
- dnMXho5QTK49e8gdHYCrSLp1s/+IDdcOPR3OB/6uQ5tyQbEGfp6qESx3qv501AkabsmKYh
- 4gtfCr/qPVKevSh7g8Pgpw8lTCLjneU=
+ bh=ietZbyI29vSajRMQnOuq1MmdCcl/JxjvJCJZnRqbAYI=;
+ b=f55WTWo9NmvGwN6fgezHTQ5PWN8mEIkxGrnE+w2DriqX0sSreVy1C36boXUErVnC0k5lXp
+ Ksd4ogsbJwLqo9CyPuPJB4V7ORVaSpMrhgITEWSzDGh8xOkyV6OVKicWZrHsAYgXOWMZH6
+ aZl0BYY+w+iwSYDlMoAAmSz8IY5JDeM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-fOlLW5j6MVqtDN7bLz3lTA-1; Tue, 08 Mar 2022 13:24:59 -0500
-X-MC-Unique: fOlLW5j6MVqtDN7bLz3lTA-1
+ us-mta-458-qRDPGujSPdKEew95vIBxqQ-1; Tue, 08 Mar 2022 13:25:01 -0500
+X-MC-Unique: qRDPGujSPdKEew95vIBxqQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C37C1800D50;
- Tue,  8 Mar 2022 18:24:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 994DA1800D50;
+ Tue,  8 Mar 2022 18:25:00 +0000 (UTC)
 Received: from laptop.redhat.com (unknown [10.39.192.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B902886C44;
- Tue,  8 Mar 2022 18:24:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D606586C53;
+ Tue,  8 Mar 2022 18:24:58 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, peter.maydell@linaro.org,
  drjones@redhat.com, f4bug@amsat.org, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/intc: Rename CONFIG_ARM_GIC_TCG into
- CONFIG_ARM_GICV3_TCG
-Date: Tue,  8 Mar 2022 19:24:51 +0100
-Message-Id: <20220308182452.223473-2-eric.auger@redhat.com>
+Subject: [PATCH 2/2] hw/arm/virt: Fix gic-version=max when
+ CONFIG_ARM_GICV3_TCG is unset
+Date: Tue,  8 Mar 2022 19:24:52 +0100
+Message-Id: <20220308182452.223473-3-eric.auger@redhat.com>
 In-Reply-To: <20220308182452.223473-1-eric.auger@redhat.com>
 References: <20220308182452.223473-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -86,50 +86,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CONFIG_ARM_GIC_TCG actually guards the compilation of TCG GICv3
-specific files. So let's rename it into CONFIG_ARM_GICV3_TCG
+In TCG mode, if gic-version=max we always select GICv3 even if
+CONFIG_ARM_GICV3_TCG is unset. We shall rather select GICv2.
+This also brings the benefit of fixing qos tests errors for tests
+using gic-version=max with CONFIG_ARM_GICV3_TCG unset.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- hw/intc/Kconfig     | 2 +-
- hw/intc/meson.build | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index ec8d4cec29..a7cf301eab 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -25,7 +25,7 @@ config APIC
-     select MSI_NONBROKEN
-     select I8259
- 
--config ARM_GIC_TCG
-+config ARM_GICV3_TCG
-     bool
-     default y
-     depends on ARM_GIC && TCG
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index 81ccdb0d78..d6d012fb26 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -6,7 +6,7 @@ softmmu_ss.add(when: 'CONFIG_ARM_GIC', if_true: files(
-   'arm_gicv3_common.c',
-   'arm_gicv3_its_common.c',
- ))
--softmmu_ss.add(when: 'CONFIG_ARM_GIC_TCG', if_true: files(
-+softmmu_ss.add(when: 'CONFIG_ARM_GICV3_TCG', if_true: files(
-   'arm_gicv3.c',
-   'arm_gicv3_dist.c',
-   'arm_gicv3_its.c',
-@@ -28,7 +28,7 @@ softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_PMU', if_true: files('xlnx-pmu-iomod-in
- specific_ss.add(when: 'CONFIG_ALLWINNER_A10_PIC', if_true: files('allwinner-a10-pic.c'))
- specific_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c', 'apic_common.c'))
- specific_ss.add(when: 'CONFIG_ARM_GIC', if_true: files('arm_gicv3_cpuif_common.c'))
--specific_ss.add(when: 'CONFIG_ARM_GIC_TCG', if_true: files('arm_gicv3_cpuif.c'))
-+specific_ss.add(when: 'CONFIG_ARM_GICV3_TCG', if_true: files('arm_gicv3_cpuif.c'))
- specific_ss.add(when: 'CONFIG_ARM_GIC_KVM', if_true: files('arm_gic_kvm.c'))
- specific_ss.add(when: ['CONFIG_ARM_GIC_KVM', 'TARGET_AARCH64'], if_true: files('arm_gicv3_kvm.c', 'arm_gicv3_its_kvm.c'))
- specific_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_nvic.c'))
+---
+
+v2 -> v3:
+- Use module_object_class_by_name() and refer to the renamed
+  CONFIG_ARM_GICV3_TCG config
+---
+ hw/arm/virt.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 46bf7ceddf..39790d29d2 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1852,7 +1852,12 @@ static void finalize_gic_version(VirtMachineState *vms)
+         vms->gic_version = VIRT_GIC_VERSION_2;
+         break;
+     case VIRT_GIC_VERSION_MAX:
+-        vms->gic_version = VIRT_GIC_VERSION_3;
++        if (module_object_class_by_name("arm-gicv3")) {
++            /* CONFIG_ARM_GICV3_TCG was set */
++            vms->gic_version = VIRT_GIC_VERSION_3;
++        } else {
++            vms->gic_version = VIRT_GIC_VERSION_2;
++        }
+         break;
+     case VIRT_GIC_VERSION_HOST:
+         error_report("gic-version=host requires KVM");
 -- 
 2.26.3
 
