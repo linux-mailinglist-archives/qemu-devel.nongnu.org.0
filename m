@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173734D2206
+	by mail.lfdr.de (Postfix) with ESMTPS id 738DB4D2207
 	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 20:53:09 +0100 (CET)
-Received: from localhost ([::1]:50572 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:50558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRftM-0001QX-6f
+	id 1nRftM-0001Pu-1r
 	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 14:53:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57400)
+Received: from eggs.gnu.org ([209.51.188.92]:57556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRfr5-0007yi-O9
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:50:47 -0500
-Received: from [2607:f8b0:4864:20::630] (port=35381
- helo=mail-pl1-x630.google.com)
+ id 1nRfrb-0008PQ-G5
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:51:19 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=43711
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRfr4-0000oa-9u
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:50:47 -0500
-Received: by mail-pl1-x630.google.com with SMTP id n15so70550plh.2
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 11:50:45 -0800 (PST)
+ id 1nRfra-0000wD-11
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:51:19 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ z12-20020a17090ad78c00b001bf022b69d6so309710pju.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 11:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=wChGAO3skxH2xUerExIuYqf0MAVgEVx1IFwbCFdUlpU=;
- b=ghHteS5zGuMc3sp/NHH2xW/qJib2+B2Fy1GlM2WRLHK59N3ohR83QwYxCgmpYujDlw
- x2k8Q2VE+oftD7rhgx/2FS1UiLM7xJYjlSsIfoML2MWFusx92qcWeJ936vINha2HC6IR
- Ix6+X29vgF+goOGachYyA3W/ASGHDudQsCi1e5VxQMib61dRdteMSufA+4yiSmAzysDF
- TOdQN9CFj6X+cY1oOHOPpwLyklkkOFeH4pZbPp2rU0jabAGIN8RWG4qe0hI4plMYprk6
- HmiVoWxLE3a0sSrqQ0dDEC43WD/VQoZi+AmlirerARJb8jnlgt3S+1bkyPwKSt22/VoV
- 8pKw==
+ bh=YO+JrsWcPWazsSGu4L0y+7vVoiuPWoR0tTT/E71Gje8=;
+ b=jP58jfqnfKoRfaqsmkOZI0A0eq6bkysRt9FjwGgKPCxneY8ZQP5JO57TdOuge3I3sd
+ EDvtotdYQHsGdrfc09zjzylQ1thXs1vl9qFQ6hK5bK1OY+j9E9SgRPe7TmesEPtIX3mD
+ mzPQ5WW0vrpD0Mu878s+lueXtGn1pMUDhhhkod2xhogbEHQPG6+E0gMjXvjNpKx6TT1e
+ fni/114RCCDqJ2Cfi8bW4RC/7IZoxiFroWSiM2ZtXu1jjfNQm5HIDDaaxUxnxap+gpZ7
+ jw0PonI6gi1bQ1P+iPhrV7ON8lqP4olWApBOWleFQYJIhH5bW2ORQEO0XdLlGqUQF8ON
+ ViJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=wChGAO3skxH2xUerExIuYqf0MAVgEVx1IFwbCFdUlpU=;
- b=ulJUGEplNYFG9dBjDRhWgT2CNO/qHIjbmDXvOH5WYUsLKrLreSHDS6Q1cEtMQY6h8K
- Gv91JHQlysQAi4hys4cxZDyeFHkKUoAYDV1iFLU2E34l6rIxr+XJy2W4WDfbqTJ3M4wa
- v9tCapIUjPnIGVzDmUt9tjGGjLowOJbLlAcQmdCtfi1aEq20Ig4lBiLv/JWyZ9eCIV97
- nu90rMOYHSU58AyDuXCH0R7lninq1K88OvvUt24JqCcQN7qgedaNqqXlOcrzkthc3FC1
- xpEThE3jWt16kGeNXv2UN3U9V4w0oovfNquYpBicTBtux5F/rm+JJuUTx/rU0+gGWGBa
- eWOw==
-X-Gm-Message-State: AOAM531CHvq82ThsLEHMbe7OypxJUTlGqULs1VP9f1vVRA0KOcFiOILY
- +KChLJ0Ym4cFeVVd5bQportvfw==
-X-Google-Smtp-Source: ABdhPJxCQ+6ZTSPntR8QKTuOrrQjArboovfHnNRlFgwfiMsub1BcnU4o32n9FLj049cM7Qi9B+K+Kw==
-X-Received: by 2002:a17:902:8603:b0:152:7e6:c326 with SMTP id
- f3-20020a170902860300b0015207e6c326mr3195503plo.119.1646769044857; 
- Tue, 08 Mar 2022 11:50:44 -0800 (PST)
+ bh=YO+JrsWcPWazsSGu4L0y+7vVoiuPWoR0tTT/E71Gje8=;
+ b=bPQNuP0tbwD1imUuVLmAjJ0AA23npoc4jv/A4q58zP1krEHYwz9be8JLVxJe7IB7AB
+ xrzsorSDqjE+Lxy+F3PXPAw6MbXoECBEoECOG3Pm6WHGxpHOHNMrOHqBnROKRu5vrtBb
+ 2aDsgRY+ouvdEJzIwFwi62YLvCEwoKOTk5BBli95BITw6Y00nQfYR2xwgEYQf+Hvn5VK
+ QfKSJVsWcQ/lqgtRmQnLIxTp2AuTNJUa/GRoJlI06fRJXtfLuyfNhUA/tl8/9Fia0BDS
+ t0qtuAjoFYsBS9CR0Zd8xgSIttJLX2VyC8DI8PR9Hift1bn7ZXsRB5i3lZD2oi7KliiR
+ gBzQ==
+X-Gm-Message-State: AOAM5303wtJC8MjD38vvrkTke/nzc7QpuBCawcWnMYjsS1udBemNEgaP
+ yZ+Q+4QJJdtzhhfsuDzhlclP8Q==
+X-Google-Smtp-Source: ABdhPJxrIW19oXfR5PVdkMgIhXsm77voaUyPBWC2mW552EpBNEal/tIR3CcQcZv+zV58ikipECXFgg==
+X-Received: by 2002:a17:903:2c5:b0:14f:4a29:1f64 with SMTP id
+ s5-20020a17090302c500b0014f4a291f64mr19465881plk.90.1646769075262; 
+ Tue, 08 Mar 2022 11:51:15 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- 63-20020a17090a09c500b001bef3fd20b3sm3656506pjo.18.2022.03.08.11.50.43
+ x9-20020aa79409000000b004f704d33ca0sm8032835pfo.136.2022.03.08.11.51.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 11:50:44 -0800 (PST)
-Message-ID: <bb334b99-1bb6-90ea-956a-7308db356942@linaro.org>
-Date: Tue, 8 Mar 2022 09:50:41 -1000
+ Tue, 08 Mar 2022 11:51:14 -0800 (PST)
+Message-ID: <a93c2817-ec65-fe63-aa6a-90978a2ecaab@linaro.org>
+Date: Tue, 8 Mar 2022 09:51:11 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 18/33] target/nios2: Implement cpuid
+Subject: Re: [PATCH v4 21/33] target/nios2: Use tcg_constant_tl
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-19-richard.henderson@linaro.org>
- <CAFEAcA_BYBgpJOe2_gjdpkPHoy6dk68dNYvo=p5wcJnTqWpknQ@mail.gmail.com>
+ <20220308072005.307955-22-richard.henderson@linaro.org>
+ <CAFEAcA99Bo0_xGZbpLbf1N09o2Wfv3CmoBqqkt=0+X9RnUqrfA@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_BYBgpJOe2_gjdpkPHoy6dk68dNYvo=p5wcJnTqWpknQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA99Bo0_xGZbpLbf1N09o2Wfv3CmoBqqkt=0+X9RnUqrfA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,14 +99,29 @@ Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/22 00:52, Peter Maydell wrote:
-> I guess. This will have no effect as all our nios2 boards are
-> single-CPU.
+On 3/8/22 01:00, Peter Maydell wrote:
+> On Tue, 8 Mar 2022 at 07:20, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Replace current uses of tcg_const_tl, and remove the frees.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
 > 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> @@ -675,8 +663,8 @@ static void divu(DisasContext *dc, uint32_t code, uint32_t flags)
+>>
+>>       TCGv t0 = tcg_temp_new();
+>>       TCGv t1 = tcg_temp_new();
+>> -    TCGv t2 = tcg_const_tl(0);
+>> -    TCGv t3 = tcg_const_tl(1);
+>> +    TCGv t2 = tcg_constant_tl(0);
+>> +    TCGv t3 = tcg_constant_tl(1);
+> 
+> Maybe just use tcg_constant_tl(0) and (1) in-place at
+> the only two uses of t2, t3 rather than retaining the TCGv
+> local variables ?
 
-Oh, fair enough.  I didn't even think of that (even though I've just spent quite a bit of 
-time on interrupts, and there's no sign of an inter-processor interrupt).
+Sure.
 
 
 r~
