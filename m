@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0694D2165
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 20:27:56 +0100 (CET)
-Received: from localhost ([::1]:58810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E474D218D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 20:32:25 +0100 (CET)
+Received: from localhost ([::1]:33630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRfUx-0002q3-H2
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 14:27:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52620)
+	id 1nRfZI-000595-07
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 14:32:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRfSV-0001wL-BW
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:25:23 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=52170
- helo=mail-pj1-x1030.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRfXz-0004RI-Co
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:31:03 -0500
+Received: from [2607:f8b0:4864:20::112c] (port=44338
+ helo=mail-yw1-x112c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRfST-0005TG-M4
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:25:22 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id cx5so260694pjb.1
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 11:25:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRfXw-0006H4-PW
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:31:02 -0500
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c4so213589637b3.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 11:31:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=YFPwIE/2bnemDv2oi/s9MvMzLWThY0n7DmGocU11ULk=;
- b=tqsn8UbuT2i/y5HQB6F93SV2jLbqog05xoNp0lrOpqKE+IJSW6OWac2JRKLrtvIddD
- hynskBL2BiIP0P/33DaKKkoWdB7k3Y5ZEuXaevFt/9ESYXCdVE7j2RrpVDgjTd4JzIA5
- GlrwKpbJbmhjXGQ9nUqH5Mk5KkYyKJlNECPQYs6hBCDFqoAgBw1okZ7bHX3Vn+dEKY/X
- 6AguhFR8IDwWVTAGFjkU0AzcbU+99vz54kGSV3cNu1W3AWLRy7VPTJ03iJsA6wiy+HUE
- 0E7f7z6mtX2iWmKSQeS4QKwDvu4Xvf+4gy3BIkO6PyHPz04v6l3QGTKtZAmOZ+JM7lZW
- 3x8Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hqE5qluZSZSs+spoSlXzXxzF6JeQCwwiI7MoXHktvIQ=;
+ b=a41HbAUFyza0SX/PhIIoaCYfB/G9lONLPEI6Xr+navNLp2KFboJD/OfHhTqTpYTBL7
+ TSnJaM9j+ZnF2CjY3Hfb2q+NzhC1u5EgtwbaEaKnnnv8xRCwsBkZyT68bELlYwFkEo+r
+ 9bvuWEjyrHO1wCvKkSzH4O70OjXg5M7p8xjAb5lcBPxHTsx13G4vreVG0A+wD5fVvd3o
+ Nm1Jhog5vprAAMDc+GyJ6eiyVTtD/dhKyYGCXTpgQYPpuWZUqKsLHsNtUHtVzj8d793k
+ G/8Z1+nQfM/Any3niUdQnVilvwXwuWLaRuTP69J5naIvwE21QZ7ij4BfAZ4k/WWLE+rA
+ pkQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YFPwIE/2bnemDv2oi/s9MvMzLWThY0n7DmGocU11ULk=;
- b=EVT5B8xL044Brr4veyE6Y5t5RyoFkGPNMa6M5JBuz2vbJ7s8NxGfmF4xSLfLZCnH5/
- J+JMvr/X7/3g/+xXKfjWdP6H04G3b3AMYId7koqpgZL83FMSOAuPo7cBsH+hSsE12QM0
- Rt1TF0k+J99350JHlnqZbMDLcM6gcOxOsKYNYIQCrzgpjr+yi7lEK+IUnaX4aByeiteo
- V/r5br5j2ZGP8L5sAlPSlF8cEVFtc5KkZpH3AGw8/XTaMTbWcOYCFnR1lbDTd7lcgAS6
- LJcZkRUNzCjFcnG1pJjvUmV79OVXyFaAyVisut2RKM2tYKqdhQ9x/G9RVkgNOfCnNuM9
- 0NBw==
-X-Gm-Message-State: AOAM533q04u7+VMYqTqefGbzFP6y0YUI4Eh2SvR/axfbkExUKvGvqj0j
- nHC1vzsQYZC/3RDKIwyAScV2Qg==
-X-Google-Smtp-Source: ABdhPJwDz7G86uR5eauYf9v0USrE9Nj+v5Spn56UsYA+KzQ2E6vQweNrkV8IYq/hxeszUKC3Z/W6Hw==
-X-Received: by 2002:a17:902:e842:b0:151:e3a5:b600 with SMTP id
- t2-20020a170902e84200b00151e3a5b600mr13127966plg.153.1646767519941; 
- Tue, 08 Mar 2022 11:25:19 -0800 (PST)
-Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
- [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- z7-20020a056a00240700b004e1cde37bc1sm21166940pfh.84.2022.03.08.11.25.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 11:25:19 -0800 (PST)
-Message-ID: <67fdaadd-b01a-4215-0c68-8295cd24031d@linaro.org>
-Date: Tue, 8 Mar 2022 09:25:16 -1000
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hqE5qluZSZSs+spoSlXzXxzF6JeQCwwiI7MoXHktvIQ=;
+ b=LycB+AR6J4NTAzurNnZMo83G5zOxJ2U3wZsY4/DYJvn6pUboStgObB21PNYTu+cvz6
+ uV6PdDVD9RjICpSaWG0uoyyUFqcZtVsy+xs4EwFksmlypgkTitAeO8mz0a/MnmuDMApp
+ VGUAJ22PWx8wlb+atddBDX9N765mFFC35f3uLISLW3NijwAu5/lNbkssZNhzXWmnd+Im
+ q0J+MlSVOcYTx8AiTjM2mjp5ENNwLz3nDeECJc4no2YqBStjx/ohWe6I7dTlyEObNhap
+ rFOqI7BaM1RB5jA4BC9OQBRnT5i75MDIicQs4jTnTs0X4mL3mYYBzZwNpk3kdsX6tfTj
+ ZQoA==
+X-Gm-Message-State: AOAM531ZcI0D6IRXEhdT0PeNXImQzZASI/93iNJAfyv3GHSHtix5pmdn
+ DrwVMLpaItmEAocB+0NnSdTnX2HrmVN+5aBR/9znyQ==
+X-Google-Smtp-Source: ABdhPJx0VlDq18fSnKIlr2LOZf/B+T9azjPSynWGiYiESy1kE8PAErft/3XFqot5xEaQ6C8Wo6z6HeXmGIw74PNHEsI=
+X-Received: by 2002:a81:164f:0:b0:2dc:3906:27c0 with SMTP id
+ 76-20020a81164f000000b002dc390627c0mr14016415yww.64.1646767859677; Tue, 08
+ Mar 2022 11:30:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v4] Hexagon (target/hexagon) properly handle NaN in
- dfmin/dfmax/sfmin/sfmax
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <20220308190410.22355-1-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220308190410.22355-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+References: <20220307182609.94466-1-thuth@redhat.com>
+In-Reply-To: <20220307182609.94466-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Mar 2022 19:30:48 +0000
+Message-ID: <CAFEAcA8HMb=54PSncx7Z1krLa0xZ7CYkLy1_vG6uzGAg+aphZg@mail.gmail.com>
+Subject: Re: [PULL 0/7] s390x, tests and misc patches
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -93,24 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, mlambert@quicinc.com, f4bug@amsat.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/22 09:04, Taylor Simpson wrote:
-> The float??_minnum implementation differs from Hexagon for SNaN,
-> it returns NaN, but Hexagon returns the other input.  So, we use
-> float??_minimum_number.
-> 
-> Test cases added to tests/tcg/hexagon/fpstuff.c
-> 
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
-> ---
->   target/hexagon/op_helper.c  | 14 ++-----
->   tests/tcg/hexagon/fpstuff.c | 79 +++++++++++++++++++++++++++++--------
->   2 files changed, 66 insertions(+), 27 deletions(-)
+On Mon, 7 Mar 2022 at 18:26, Thomas Huth <thuth@redhat.com> wrote:
+>
+>  Hi Peter!
+>
+> The following changes since commit 9d662a6b22a0838a85c5432385f35db2488a33a5:
+>
+>   Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220305' into staging (2022-03-05 18:03:15 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/thuth/qemu.git tags/pull-request-2022-03-07
+>
+> for you to fetch changes up to 818e1636080768749dc826acd4825e71828ec7e6:
+>
+>   Check and report for incomplete 'global' option format (2022-03-07 19:00:05 +0100)
+>
+> ----------------------------------------------------------------
+> * Fixes for s390x TCG tests
+> * Update Haiku VM to a usable level
+> * Some other miscellaneous small fixes
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
