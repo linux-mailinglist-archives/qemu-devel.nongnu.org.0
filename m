@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86FDB4D154E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:58:47 +0100 (CET)
-Received: from localhost ([::1]:47596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC464D154F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:59:29 +0100 (CET)
+Received: from localhost ([::1]:49260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRXYE-00053d-LC
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:58:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34860)
+	id 1nRXYu-0006Ck-6v
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:59:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRXWC-0003Kw-IY
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:56:42 -0500
-Received: from [2607:f8b0:4864:20::b2e] (port=36539
- helo=mail-yb1-xb2e.google.com)
+ id 1nRXWo-0003wr-92
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:57:18 -0500
+Received: from [2607:f8b0:4864:20::b2a] (port=35384
+ helo=mail-yb1-xb2a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRXWA-0007mD-Id
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:56:39 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id f38so36969389ybi.3
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:56:37 -0800 (PST)
+ id 1nRXWm-0007qP-SP
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:57:17 -0500
+Received: by mail-yb1-xb2a.google.com with SMTP id z30so24111922ybi.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:57:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GW00JYbHJnT7kQ8jSW4APLoyUp1N174r2npnsP/qfXc=;
- b=l3oIlF4h3M01AbZVBSt8hs4o1Z0wxFoF8n8DLR2Yk75XVZg2qbP76EhsThI0DW74l7
- iZeiye2YTXWWykiImKnwI3mYDDNRtwxif2Gcyy3c8FUuFSOaAnzVzbPwvHA2BbTWdhW8
- bOXoqaBRmlWaHFJeSaliGxS17Xkn8aPRiSiVxx26DUTiFW3Q34svl3/gb+KNhL+ow0J6
- wb84J1XJ3cQ0WP/TZ0oiv6EFD9XtPL39vGaYr7nEQn2dlu/SxwvxDoXDqGvK1H3xClpw
- aO2epYV+2OKinHgA5J6ySPjAmAlD8vCw/HfzhqKc7W7xkVvYzswFi4+cW3PdidUR3UVG
- gWiA==
+ :cc; bh=5P3UPfa7g9z/abjdy0EOmxWpTdoQV9t1dzabbQ8XSxI=;
+ b=MbF80HCmzfRfGjZCE3YxFea1P4wFWSOQQXpDusyDxKC7RA3gOSJdsoJhGje7KKlqU8
+ mfb74TaqQWcew/qOQATxxkeXhzA6x9ysKJYpkpNllzbnha0i6sZvOE+HwsfA5hDvFsqh
+ CnUN7sgyTP4i3F20VHsDY8fT9XgR/fw9R5ne9KYNt33VTVG9hxC6+zumSstWxQnwlnPF
+ NL//0BPaorwJ6XYhyqINGg8vLg8C5lBAC7BsN5hqMKFq4ao0GY73cDVjsApmCtGcE/dI
+ 3nH942q+A7K20xYBUZqnlwhodd2u/8KRIONq4Xb6K3/8KQ7G7xZWbN42neL1kt0JT7JF
+ HdwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GW00JYbHJnT7kQ8jSW4APLoyUp1N174r2npnsP/qfXc=;
- b=f5pb+fmP8MaUyzUMNVi7oyn+Ii4CGJN9aa4HG4KKKe052/7o3W5dZLVMDOMUXs8rC2
- IDQQG+15/oheyBgtjwtwWqD00SWomBoo9leF0bm1Pg+bFOf2f1eB87xQG3zl1cnbbYAC
- QTVAJE3kyszqeW7UAPAwzB+7OUpHCSDdtpv/LaORDXL9CbC4uhmEuDW5kj0klPdTxLrD
- oT6He11Hk78kxumrTWV/l17J5J9v3kGIYvFkBQEV6IhlixEc8obWiXxO1qYredBHuM+h
- EXclcrHTNynfPNWf8WR+wcRYDwDDIwx8FWDKtnSmEmvdzQTA+MPY11ILfN+PhfZfXibK
- f9pg==
-X-Gm-Message-State: AOAM531xo/jEemfCFtI3AZy+CikHAcbn6H3V5165I0vu5KbpYrHwHKL8
- zdbFTUX4sdsh2BOfrsYTidiFL4Vvmq1f+g+58h4ZfqTmuGoQSA==
-X-Google-Smtp-Source: ABdhPJx8hDqZ8mWr1E4puO3SSwW+2Thr1PpkqH4MNuWcq/olQabSeutdR+TQrsux/VL4PGVDmYRtNjS2Ny7qClzDqL8=
-X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
- q16-20020a5b0350000000b0062886b86e09mr11183001ybp.39.1646736996470; Tue, 08
- Mar 2022 02:56:36 -0800 (PST)
+ bh=5P3UPfa7g9z/abjdy0EOmxWpTdoQV9t1dzabbQ8XSxI=;
+ b=hzDfRdjuGF0XXG200JDynhI5S4H7IbSp4Gp842IaTkbf3ZStQNvDIS02PMPS6S3vn1
+ 28r6kJapmPoDfOUL1aW/X0DacZIAPxdlCzUYFJwYlF2GbS32QlR322blFpVDc874a1VV
+ 2Qj+ua8w+8nLLRGrzRngqmJqfe4mSFVj57ukHxINjL/JbLXDbLwYjekBHcJoII29P6Wj
+ lq/1Ysid/JZXXtn3Tg7Ilbgh1jbPWdqnD/TJmMsWLWi37C8X1Vc8OmCSPg4Kz19TxGMY
+ jQ8HZtwM+XyjBEU5ulwDTKsuwjHJn0TipdaWdqyyMLOyiIY579dDtLXslUGHgge/Qf6d
+ +usQ==
+X-Gm-Message-State: AOAM530EY6HUj9XbYzkf/0sM5b1ONWsY8GypQbbTABf99G26YP5pKtiR
+ MqlRZQ5EKItA/WigNDLxXYNojN2Xd9iT+Kw68zChcQ==
+X-Google-Smtp-Source: ABdhPJyTnerBOL+57n4cctL7TzszcP/P1ya8WcyzNfyVwgw1PdEidI+/KZWACB/8wu8kHAjrUFwZadphAMiVMn8yHJ4=
+X-Received: by 2002:a25:d181:0:b0:629:1919:d8e5 with SMTP id
+ i123-20020a25d181000000b006291919d8e5mr10348398ybg.85.1646737035948; Tue, 08
+ Mar 2022 02:57:15 -0800 (PST)
 MIME-Version: 1.0
 References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-21-richard.henderson@linaro.org>
-In-Reply-To: <20220308072005.307955-21-richard.henderson@linaro.org>
+ <20220308072005.307955-18-richard.henderson@linaro.org>
+In-Reply-To: <20220308072005.307955-18-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Mar 2022 10:56:25 +0000
-Message-ID: <CAFEAcA_eAHH9Gwxp6SJBkK3rnRjn+gMFyinT0XYLwhrWt9c=LA@mail.gmail.com>
-Subject: Re: [PATCH v4 20/33] target/nios2: Remove CPU_INTERRUPT_NMI
+Date: Tue, 8 Mar 2022 10:57:05 +0000
+Message-ID: <CAFEAcA9MOa_GfzYM7PmhspY_4kaZhFpZ--eJdny7jf8b=WpQUA@mail.gmail.com>
+Subject: Re: [PATCH v4 17/33] target/nios2: Prevent writes to read-only or
+ reserved control fields
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,17 +90,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 8 Mar 2022 at 07:20, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> This interrupt bit is never set, so testing it in
-> nios2_cpu_has_work is pointless.
+> Create an array of masks which detail the writable and readonly
+> bits for each control register.  Apply them when writing to
+> control registers.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/nios2/cpu.h | 2 --
->  target/nios2/cpu.c | 2 +-
->  2 files changed, 1 insertion(+), 3 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+What's the justification for this extra machinery? Does
+existing guest code rely on writes to r/o bits being ignored ?
 
-thanks
 -- PMM
 
