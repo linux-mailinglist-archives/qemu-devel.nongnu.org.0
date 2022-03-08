@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B404D165F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:38:47 +0100 (CET)
-Received: from localhost ([::1]:34082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937304D166B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:42:12 +0100 (CET)
+Received: from localhost ([::1]:42748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRYAw-0002Oa-Bj
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:38:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44482)
+	id 1nRYEF-0000Pn-NB
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:42:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRY7K-0007kW-3s
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:03 -0500
-Received: from [2a00:1450:4864:20::636] (port=34477
- helo=mail-ej1-x636.google.com)
+ id 1nRY7L-0007kt-JS
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:05 -0500
+Received: from [2a00:1450:4864:20::634] (port=46636
+ helo=mail-ej1-x634.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRY7I-0005nZ-Ev
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:01 -0500
-Received: by mail-ej1-x636.google.com with SMTP id gb39so38477564ejc.1
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:35:00 -0800 (PST)
+ id 1nRY7K-0005nx-0d
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:03 -0500
+Received: by mail-ej1-x634.google.com with SMTP id qx21so38497289ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:35:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eDGHR6/aw919IHNPsHpNFGiuyOPgK+9XmuHPS650QoQ=;
- b=XtuHDseYvoit2Gdj5iawkX2Q0ma4VwP8DzXfRVoK6hzcOWR35t68o1vxb4op9kg5Yl
- Sffhu+9Hlvn0QqmS0fENXtD2Wz+XmQm6fglcQ9RXMEZR7IYegB9+595qVfoNrqL55DUL
- De07PUAU3mAKJsG4xSpOPRCCFSRAk+L3OfBUSNCpyUWUtjoSZ2WOZUnxeO87bW69TNsQ
- L2rAQMfcvhV9K6Ew4ztlfOCuVfLYqi55ZIS2sMUfZW2BDfEs82l1rREgqw5qgegfzUrs
- zanycDXmi4nGQfh629VujqQGBOu8zUPZRSYTbld21qPrcamIFaU3Z9p8igIoT2c1ER5+
- ahrA==
+ bh=5wUS8GH2GpfDxGBxtP6708jGJGpCxaSfYkVvpdgFfqg=;
+ b=pLwvrMQRgfB5WhTLdb1YmnbSbiyldj8+pWxTH2rFqDe7uIT+pOxDWXdWujnQ7N/fKx
+ ekZ8W7xoKvp4n5jhTJkMekGxojF/fUke+PVz9PEmveQXDOvCltai1dxTgcTfgQjsjJB7
+ Dmz5f5KRm/lRR6UqetYqKxWTT4l0gVIx5pJdnn9kRvJXeNA+l5dXaDtVPbkU4XqFSiRR
+ MGiZ6s/+vuUgFrJkWEKPZY9Xjriu6UrCYqVN6GAB7tkoe4QhCA4psQBi0lj3ljfrjA2V
+ k23zdipzOHiI3jA47zZYb9cJCpvnSEdZYi1qNp4c0RqQXlE6Ayj23VgW3BkJyYjtB3XJ
+ /SgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eDGHR6/aw919IHNPsHpNFGiuyOPgK+9XmuHPS650QoQ=;
- b=DQnlXbgfZKJOLHplV96f1oBCbLE4z2sQ45ZRkwOtbA6KO8vAEjCS2+zXzbr0bRnrRb
- AaXhOr3I033ogaf3oA9NpR70EW5mjcG18VQABZx4VRO6R0C/gDdfhFS4/wrDFUo7GLXF
- 5knXg87MAO2ylUUqxFzWOXT4qIT9DFJDXXthcP+a5CWWYlhQbCgDO4WnpSkZh3N/HAEj
- t9uI98HSWU1B8QiIxIganBASFiEREUv4FJ8pryysVzllrd8G2Ffb50Me5frqm4PpipOs
- HBiz8CVAV9nTSCo7LGEbVec2vZDzboiXbw2tTEyL7HykqZe89xxGPYYHRb5tSFBMI0kD
- LbmA==
-X-Gm-Message-State: AOAM533H7ONaDFR03f2tbE4zv+aZMiOD+tTqdJtnEIaSpB3gnw6/MGnI
- wsd8VUxnVwFiH8/4JLADcijyqsEJzUU=
-X-Google-Smtp-Source: ABdhPJx5ZnnmErnzjHt24cKM2UlK97GoTvRe8NV4joaIOo1J62FeYt++JED83XyZ9X2Vh9uVta4gPA==
-X-Received: by 2002:a17:907:9605:b0:6d7:24d1:f4ce with SMTP id
- gb5-20020a170907960500b006d724d1f4cemr12627131ejc.524.1646739299132; 
- Tue, 08 Mar 2022 03:34:59 -0800 (PST)
+ bh=5wUS8GH2GpfDxGBxtP6708jGJGpCxaSfYkVvpdgFfqg=;
+ b=aXCAVxbQECb13TH5uoGoCx3WZ5CTEIpLRMWAHMHUZRNkuqmkSXDs6sdEd7Belxnlfi
+ TyPC1I7QcdRBaJq8oZs+36vkQPkvsQvRJt9I7rcgjF6hKq1V4PWYnlTwlnxJHbHWMCn0
+ C9ZX/uRrm9r/vDg2UzlPhGEjfzbugKfwaWVs5uCeAX5WCVJvUoqIIg8C3o290Ax6V6u4
+ HPzNxByjo2ZSaq49K8dmVoEg4z82eu6iKW4ROymZYvFCom2tFk8KvB0NdyEEQiDkDzem
+ 1dYWa+ZC5xm9Bv99Xa9s79fwg7AcOWQI/nK2yPegotvWTVjkYTQpdWJ6o0hZEuwVoyge
+ tdBw==
+X-Gm-Message-State: AOAM531z14ilkIixIgEwoKZlbAUSnmbJcGFdvuDATKNo0soERiC7YPHB
+ DQ5nBo7HMSmjS/5cTOOvUnl50aZiwVM=
+X-Google-Smtp-Source: ABdhPJy7iONqFpltxcI1mCHeNBAo+TtIkqNs4LDqjJnBiTcVLn4iFhMLKK1DTqVH3enbnzKR/Oqnkw==
+X-Received: by 2002:a17:906:e28a:b0:6d6:e2e9:d39d with SMTP id
+ gg10-20020a170906e28a00b006d6e2e9d39dmr12680887ejb.2.1646739300765; 
+ Tue, 08 Mar 2022 03:35:00 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l2-20020aa7cac2000000b003f9b3ac68d6sm7491868edt.15.2022.03.08.03.34.58
+ l2-20020aa7cac2000000b003f9b3ac68d6sm7491868edt.15.2022.03.08.03.34.59
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 03:34:58 -0800 (PST)
+ Tue, 08 Mar 2022 03:34:59 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/22] qga/vss: update informative message about MinGW
-Date: Tue,  8 Mar 2022 12:34:29 +0100
-Message-Id: <20220308113445.859669-7-pbonzini@redhat.com>
+Subject: [PULL 07/22] update meson-buildoptions.sh
+Date: Tue,  8 Mar 2022 12:34:30 +0100
+Message-Id: <20220308113445.859669-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220308113445.859669-1-pbonzini@redhat.com>
 References: <20220308113445.859669-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -90,35 +90,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
-The headers are now all available in MinGW master branch.
-(commit 13390dbbf885f and earlier) aiming for 10.0.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220222194008.610377-4-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qga/meson.build | 2 +-
+ scripts/meson-buildoptions.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qga/meson.build b/qga/meson.build
-index 54f2da5b07..62472747f1 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -15,7 +15,7 @@ have_qga_vss = get_option('qga_vss') \
-     If your Visual Studio installation doesn't have the VSS headers,
-     Please download and install Microsoft VSS SDK:
-     http://www.microsoft.com/en-us/download/details.aspx?id=23490
--    On POSIX-systems, MinGW doesn't yet provide working headers.
-+    On POSIX-systems, MinGW should provide headers in >=10.0 releases.
-     you can extract the SDK headers by:
-     $ scripts/extract-vsssdk-headers setup.exe
-     The headers are extracted in the directory 'inc/win2003'.
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 9ee684ef03..1e26f4571e 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -20,7 +20,6 @@ meson_options_help() {
+   printf "%s\n" '  --enable-malloc=CHOICE   choose memory allocator to use [system] (choices:'
+   printf "%s\n" '                           jemalloc/system/tcmalloc)'
+   printf "%s\n" '  --enable-profiler        profiler support'
+-  printf "%s\n" '  --enable-qga-vss         build QGA VSS support'
+   printf "%s\n" '  --enable-qom-cast-debug  cast debugging support'
+   printf "%s\n" '  --enable-rng-none        dummy RNG, avoid using /dev/(u)random and'
+   printf "%s\n" '                           getrandom()'
+@@ -97,6 +96,7 @@ meson_options_help() {
+   printf "%s\n" '  parallels       parallels image format support'
+   printf "%s\n" '  qcow1           qcow1 image format support'
+   printf "%s\n" '  qed             qed image format support'
++  printf "%s\n" '  qga-vss         build QGA VSS support (broken with MinGW)'
+   printf "%s\n" '  rbd             Ceph block device driver'
+   printf "%s\n" '  replication     replication support'
+   printf "%s\n" '  sdl             SDL user interface'
 -- 
 2.35.1
 
