@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1764D2212
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 20:56:51 +0100 (CET)
-Received: from localhost ([::1]:56656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF524D2215
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 20:58:33 +0100 (CET)
+Received: from localhost ([::1]:58846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRfww-0005Zs-Jj
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 14:56:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58470)
+	id 1nRfya-0007BG-VD
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 14:58:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRfvH-0004qy-0c
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:55:07 -0500
-Received: from [2607:f8b0:4864:20::536] (port=33309
- helo=mail-pg1-x536.google.com)
+ id 1nRfxO-0006LF-5H
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:57:18 -0500
+Received: from [2607:f8b0:4864:20::532] (port=42779
+ helo=mail-pg1-x532.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRfvF-0001bH-EM
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:55:06 -0500
-Received: by mail-pg1-x536.google.com with SMTP id 6so103910pgg.0
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 11:55:05 -0800 (PST)
+ id 1nRfxM-0001wk-RK
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:57:17 -0500
+Received: by mail-pg1-x532.google.com with SMTP id o8so53583pgf.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 11:57:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=cdUOIDCZsF1SVXJB4DwCSKtAYUbgeNQ3rV6hhpBmSsg=;
- b=QchIc3kuAOOEx/L6Hbn7WomSvZhomt+OSABYmGvBDZycN58nKDZgzV8CTFggtaxEHF
- 1emHJbE78D8BCasURWxIBoPaKylKSFv4yb6TwfjZmezN45xh90F4pQEAhQDAq6ScbG3x
- hgeQ04/4iXsIxXtmLbslmHq/5xdtDzf5Aa/weQPZUIAzGvJ+MDeqqzdbbT5uCLNjogqQ
- Kjl2Ex0Bx4pGe4ao+wUS1iTQAxNtZEt/Nvl2Jz1e6lx+Dw2ViD5ftOg3uGewZtA4+0nB
- APZzkFYU2oh0ZLqe4ikKPe3TgRbZU/BSrYAG+scVjp2V66ob3JQFZi79sn4/Z5d8911Y
- DP4w==
+ bh=W7H4pN4DcTnqyYSF2ABoCv5Q3TdiCK/cwTHUQChLzt0=;
+ b=N54BHVglMd7ZdPIQhL44w6U/fbQG4DqeMy2zOTwg5aXT4U5Sfu5TQphaIm1zjm+ON9
+ q28FH4NCCSU+PW5GhnWxdM/BRuDxBqMiJ9mM5HaEAYbmQbh6zHBUjDgWR3+e9PNxtDSE
+ AkGw0Zn4MIT3JS62t+RYGXcOYK5BQWCvtAhL82qGjxOumARDXcJb5V3a5Nn+NNK3MTlv
+ d/cYh05gT3gYEp2Z7ZbIOqncT41amGyeMNOi4yu3MLb6rxHnVL2gyYoxswo9Ib8gtlEq
+ /Vf+anOSkiYALstvYa35TQ98dHNO/D3j88/8CYYLyASGKBB4HAqeuwvVdSy5Go+aK9gm
+ a5hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cdUOIDCZsF1SVXJB4DwCSKtAYUbgeNQ3rV6hhpBmSsg=;
- b=fKq+xsbo9QIsHxfLdhdQy4nCHgL0LF+hk4343Zz8laGnsSFS4RclYyPO8Xi72ZblQV
- 6VeU5keyToJoEx4mS2Vf0WOid0diGpXf2gnWN+O4qYiN8zv+XTk+J/V7MLaoPWadE1UZ
- GlzdaDLzUHlnpwTXSDczgEYFM2eEQduEVY/0VMNT+VjWA0cItn2F6U7bWEKPOGi3h0ZD
- Vp6eFLs9FXE1GC6QOTKoXT1jqPBtEZ48vGsTwWv1IsV4SE1hgTQk5CzYxjetZ2HHwNgr
- 8ROB2r0WM//h+kSYtZ46VyWk9/HjxCkKZuaOJndzHHI9aou1Tzc06/+ODV9Xo4VwqzMM
- xjxA==
-X-Gm-Message-State: AOAM530R/T5Jt63gcR/UrjpksLXqs5kuygpwsiwneexPPZWJUxyVzN9l
- k1mr7WCGgfcgpF4ADQ38oOW8vw==
-X-Google-Smtp-Source: ABdhPJyGXPgi6flKDA9QNdvsKboUbsCKesjgdEauXFIOIXKFZrTE6sDlAQWQT8z/FjZwVBZrzW07gA==
-X-Received: by 2002:a63:465b:0:b0:374:642c:ab62 with SMTP id
- v27-20020a63465b000000b00374642cab62mr15855427pgk.187.1646769304115; 
- Tue, 08 Mar 2022 11:55:04 -0800 (PST)
+ bh=W7H4pN4DcTnqyYSF2ABoCv5Q3TdiCK/cwTHUQChLzt0=;
+ b=RLngak0AMat8THFksc2fSPzDZITqCAYTqa6bxGIHBN8LnUla/LcG3VW+Njn3/5qlDf
+ j9OFdr8Jc5gkhRKEPXXfGvBtFxYattUPP3y2xl5MeRGljZOi+aJ42j4KeKAqmuwtvYf8
+ /Id6hvSKtd3nc+Kjp+GOlM/u5RjjMwtOcJUSAFb6RK117GI0o4GBzhjn5gWgUQUu2HSl
+ 71mLJzcWYfvx91hhT4Xu7Y+W5/CqZbnhCLFjkD0O1K5XRkH25Xmcufws5cRxEeTK6zN1
+ JohtnNg4kvbmeUT6HCZp7Vgks8yUHtFkWXRXJyvGlBhpqnPoPqfsvG7usJiIuvo73Xb6
+ OwSA==
+X-Gm-Message-State: AOAM530bkQ81NLSP7h46Oyb3ELwLG1hmmlQjn0hmSD6mrFKsTly6B14+
+ I+o7vwg+E1fkMCqgPBaeHgSCNw==
+X-Google-Smtp-Source: ABdhPJwVkDec6s72V6BcXrusCCmjdpACLkwaMnrQD/Fm6o2K6o63vRXTFYDt6ps6XXEgkvSIZ/+l1A==
+X-Received: by 2002:a62:586:0:b0:4e1:dc81:8543 with SMTP id
+ 128-20020a620586000000b004e1dc818543mr19954438pff.0.1646769435505; 
+ Tue, 08 Mar 2022 11:57:15 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- k7-20020a6555c7000000b0034e101ca75csm15791248pgs.6.2022.03.08.11.55.02
+ q20-20020a056a00151400b004f3cd061d33sm21263966pfu.204.2022.03.08.11.57.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 11:55:03 -0800 (PST)
-Message-ID: <dee00b09-6bf3-fe55-e544-3cc45b6841f9@linaro.org>
-Date: Tue, 8 Mar 2022 09:55:00 -1000
+ Tue, 08 Mar 2022 11:57:14 -0800 (PST)
+Message-ID: <add98c82-d984-74ba-275b-969fb4e558cb@linaro.org>
+Date: Tue, 8 Mar 2022 09:57:11 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 31/33] hw/nios2: Introduce Nios2MachineState
+Subject: Re: [PATCH v4 33/33] hw/nios2: Machine with a Vectored Interrupt
+ Controller
 Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-32-richard.henderson@linaro.org>
- <9462028f-3285-a399-4158-068aaaed28cf@ilande.co.uk>
+ <20220308072005.307955-34-richard.henderson@linaro.org>
+ <7f7eac6c-a013-1682-1c4f-2b4bb87dc7d6@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <9462028f-3285-a399-4158-068aaaed28cf@ilande.co.uk>
+In-Reply-To: <7f7eac6c-a013-1682-1c4f-2b4bb87dc7d6@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,36 +99,21 @@ Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/7/22 22:39, Mark Cave-Ayland wrote:
->>   static void nios2_10m50_ghrd_init(MachineState *machine)
->>   {
->> +    Nios2MachineState *nms = NIOS2_MACHINE(machine);
->>       Nios2CPU *cpu;
->>       DeviceState *dev;
->>       MemoryRegion *address_space_mem = get_system_memory();
->> @@ -101,15 +109,29 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
->>       cpu->exception_addr = 0xc8000120;
->>       cpu->fast_tlb_miss_addr = 0xc0000100;
->> -    nios2_load_kernel(cpu, ram_base, ram_size, machine->initrd_filename,
->> +    nios2_load_kernel(cpu, ram_base, ram_size, nms->parent_obj.initrd_filename,
->>                         BINARY_DEVICE_TREE_FILE, NULL);
+On 3/7/22 22:43, Mark Cave-Ayland wrote:
+>> +    qdev_realize(DEVICE(cpu), NULL, &error_fatal);
+>> +    object_unref(CPU(cpu));
 > 
-> I think you should be able to keep this as machine->initrd_filename? Certainly there 
-> should be no direct access to parent_obj here, and if you did need it a QOM cast macro 
-> would be the way to do this.
+> I believe this can be replaced with qdev_realize_and_unref()?
+
+Oh, nice.  I copied this from hw/arm/virt, which has code between these two points.
+
+>> +    if (nms->vic) {
+>> +        DeviceState *dev = qdev_new("nios2-vic");
+> 
+> And with a separate header for nios2_vic.h you can include that and use TYPE_NIOS2_VIC 
+> here instead of hard-coding the type name.
 
 Ok.
-
->> +static const TypeInfo nios2_10m50_ghrd_type_info = {
->> +    .name          = TYPE_NIOS2_MACHINE,
->> +    .parent        = TYPE_MACHINE,
->> +    .instance_size = sizeof(Nios2MachineState),
->> +    .class_size    = sizeof(MachineClass),
-> 
-> Technically you can drop .class_size here since this should be inherited automatically 
-> from MachineClass.
-
-Ok.  This is a leftover from an intermediate when Nios2MachineClass existed.
 
 
 r~
