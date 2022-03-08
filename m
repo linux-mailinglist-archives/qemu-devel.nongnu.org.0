@@ -2,90 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D034D122A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:26:14 +0100 (CET)
-Received: from localhost ([::1]:34626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B0A84D124E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:33:42 +0100 (CET)
+Received: from localhost ([::1]:36822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRVAc-00052G-1W
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:26:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57276)
+	id 1nRVHp-0006r1-II
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:33:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nRV9C-0003oW-T7
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:24:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31846)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nRVGW-0006Aa-6t
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:32:20 -0500
+Received: from [2001:41c9:1:41f::167] (port=34184
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1nRV9A-0007nw-AL
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:24:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646727883;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SwmwTqzYpl0nr3y2BGIMZUByskRaKdsM7+GqIZD5jbs=;
- b=CltPj/bbzufHbKk9wqPshWD6NHOOk3rrik4Pf66aEQ2n0Wq8HBgbxxhztXH9GixjqFrEM2
- WRrLnAucBga9d6n7o6ag3TTwap7YXU3poFySEPXIbp7BVbjp8bjdsl48LW27aeD3rX7wCZ
- 4gGuyvdNoMEokRAf2NUvOgipjToJBkA=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256-M7siXQtEMSembetGIAGJ4g-1; Tue, 08 Mar 2022 03:24:42 -0500
-X-MC-Unique: M7siXQtEMSembetGIAGJ4g-1
-Received: by mail-qv1-f72.google.com with SMTP id
- n8-20020a0ce488000000b0043519e2750cso15113542qvl.4
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 00:24:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SwmwTqzYpl0nr3y2BGIMZUByskRaKdsM7+GqIZD5jbs=;
- b=Ko8Tf4UW130aI/qujTUoUGHGwMRwp00hX+Uy/n0zs0SchVlAiJPoBNqcWWxYABM1aD
- Osw/Pf59+fqbTUZi0Xuoik7Fu0zj8v8tDgyuwrwjm0kwzd5a5h4iq9H8xq9Im9cGVmQ8
- zALgow1uoS7beP7t2U78yEJBJVD7I7HgvDk8XtDBXY7LCK7bXI6S/4fUgnP2eR8QmRNq
- 5ThnIMJL4BQsQGcVh0bF8nshps0evva30e7/83c3qdjXNdkS1KtPFhfQkPEGTXnEeYcO
- keM6i2xHHsBtfuiurqFQO5u+lyWr74MVpfy7FsPVNJq5hw8bYjEmi5SLxqmczYda+Mn/
- mVNg==
-X-Gm-Message-State: AOAM5339r+WRqWCwvb7zETAuyHXRA42ehb7akQJso4SIHgku4Vxb9U0O
- TKsWw8R7JVNb5BSEUndHEypg3MzogaE3xeNj/O73zfDKFySW+qWrtFKeeihvHPh9l5Xhyh8yfh5
- 9eieZmConA0+hlLFi60y1h9Npve+h614=
-X-Received: by 2002:a05:620a:3195:b0:649:2a18:1480 with SMTP id
- bi21-20020a05620a319500b006492a181480mr9340938qkb.308.1646727881779; 
- Tue, 08 Mar 2022 00:24:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw9c6RzGgUBXRSpYYrADE7wzTiZSf1seJqvJD2Qi4YBzmnilpgcs+oL6L6CoeXbxGp9om6CSJno5Xz/2UPwCm4=
-X-Received: by 2002:a05:620a:3195:b0:649:2a18:1480 with SMTP id
- bi21-20020a05620a319500b006492a181480mr9340915qkb.308.1646727881482; Tue, 08
- Mar 2022 00:24:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nRVGT-0000ct-N1
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:32:19 -0500
+Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nRVFl-0004QK-Mj; Tue, 08 Mar 2022 08:31:37 +0000
+Message-ID: <e8648e1d-d1dd-cde5-b8af-214a346e24a7@ilande.co.uk>
+Date: Tue, 8 Mar 2022 08:32:09 +0000
 MIME-Version: 1.0
-References: <20220307153334.3854134-1-eperezma@redhat.com>
- <20220307153334.3854134-16-eperezma@redhat.com>
- <20220308021116-mutt-send-email-mst@kernel.org>
- <CAJaqyWewPYVPDOYTgKs03-LyfMHWkE+OR6tBEQ25rZ3YZmTrsw@mail.gmail.com>
- <20220308030140-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220308030140-mutt-send-email-mst@kernel.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 8 Mar 2022 09:24:05 +0100
-Message-ID: <CAJaqyWeAxjOtvtAD2Ow2MUXQpaBUbP21=CZ4g-S0pPizq_Az-g@mail.gmail.com>
-Subject: Re: [PATCH v5 15/15] vdpa: Add x-svq to NetdevVhostVDPAOptions
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220308072005.307955-1-richard.henderson@linaro.org>
+ <20220308072005.307955-31-richard.henderson@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220308072005.307955-31-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v4 30/33] hw/intc: Vectored Interrupt Controller (VIC)
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,226 +66,412 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Parav Pandit <parav@mellanox.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Lingshan <lingshan.zhu@intel.com>
+Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 8, 2022 at 9:02 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Mar 08, 2022 at 08:32:07AM +0100, Eugenio Perez Martin wrote:
-> > On Tue, Mar 8, 2022 at 8:11 AM Michael S. Tsirkin <mst@redhat.com> wrot=
-e:
-> > >
-> > > On Mon, Mar 07, 2022 at 04:33:34PM +0100, Eugenio P=C3=A9rez wrote:
-> > > > Finally offering the possibility to enable SVQ from the command lin=
-e.
-> > > >
-> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > ---
-> > > >  qapi/net.json    |  8 +++++++-
-> > > >  net/vhost-vdpa.c | 48 ++++++++++++++++++++++++++++++++++++++++----=
-----
-> > > >  2 files changed, 47 insertions(+), 9 deletions(-)
-> > > >
-> > > > diff --git a/qapi/net.json b/qapi/net.json
-> > > > index 7fab2e7cd8..d626fa441c 100644
-> > > > --- a/qapi/net.json
-> > > > +++ b/qapi/net.json
-> > > > @@ -445,12 +445,18 @@
-> > > >  # @queues: number of queues to be created for multiqueue vhost-vdp=
-a
-> > > >  #          (default: 1)
-> > > >  #
-> > > > +# @svq: Start device with (experimental) shadow virtqueue. (Since =
-7.0)
-> > > > +#
-> > > > +# Features:
-> > > > +# @unstable: Member @svq is experimental.
-> > > > +#
-> > > >  # Since: 5.1
-> > > >  ##
-> > > >  { 'struct': 'NetdevVhostVDPAOptions',
-> > > >    'data': {
-> > > >      '*vhostdev':     'str',
-> > > > -    '*queues':       'int' } }
-> > > > +    '*queues':       'int',
-> > > > +    '*svq':          {'type': 'bool', 'features' : [ 'unstable'] }=
- } }
-> > > >
-> > > >  ##
-> > > >  # @NetClientDriver:
-> > >
-> > > I think this should be x-svq same as other unstable features.
-> > >
-> >
-> > I'm fine with both, but I was pointed to the other direction at [1] and=
- [2].
-> >
-> > Thanks!
-> >
-> > [1] https://patchwork.kernel.org/project/qemu-devel/patch/2022030220301=
-2.3476835-15-eperezma@redhat.com/
-> > [2] https://lore.kernel.org/qemu-devel/20220303185147.3605350-15-eperez=
-ma@redhat.com/
->
->
-> I think what Markus didn't know is that a bunch of changes in
-> behaviour will occur before we rename it to "svq".
-> The rename is thus less of a bother more of a bonus.
->
+On 08/03/2022 07:20, Richard Henderson wrote:
 
-I'm totally fine with going back to x-svq. I'm not sure if it's more
-appropriate to do different modes of different parameters (svq=3Doff,
-dynamic-svq=3Don) or different modes of the same parameter (svq=3Don vs
-svq=3Don_migration). Or something totally different.
+> From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+> 
+> Implement nios2 Vectored Interrupt Controller (VIC).
+> VIC is connected to EIC. It needs to update rha, ril, rrs and rnmi
+> fields on Nios2CPU before raising an IRQ.
+> For that purpose, VIC has a "cpu" property which should refer to the
+> nios2 cpu and set by the board that connects VIC.
+> 
+> Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
+> Message-Id: <20220303153906.2024748-5-amir.gonnen@neuroblade.ai>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   hw/intc/nios2_vic.c | 341 ++++++++++++++++++++++++++++++++++++++++++++
+>   hw/intc/Kconfig     |   3 +
+>   hw/intc/meson.build |   1 +
+>   3 files changed, 345 insertions(+)
+>   create mode 100644 hw/intc/nios2_vic.c
+> 
+> diff --git a/hw/intc/nios2_vic.c b/hw/intc/nios2_vic.c
+> new file mode 100644
+> index 0000000000..b59d3f6f4c
+> --- /dev/null
+> +++ b/hw/intc/nios2_vic.c
+> @@ -0,0 +1,341 @@
+> +/*
+> + * Vectored Interrupt Controller for nios2 processor
+> + *
+> + * Copyright (c) 2022 Neuroblade
+> + *
+> + * Interface:
+> + * QOM property "cpu": link to the Nios2 CPU (must be set)
+> + * Unnamed GPIO inputs 0..NIOS2_VIC_MAX_IRQ-1: input IRQ lines
+> + * IRQ should be connected to nios2 IRQ0.
+> + *
+> + * Reference: "Embedded Peripherals IP User Guide
+> + *             for Intel® Quartus® Prime Design Suite: 21.4"
+> + * Chapter 38 "Vectored Interrupt Controller Core"
+> + * See: https://www.intel.com/content/www/us/en/docs/programmable/683130/21-4/vectored-interrupt-controller-core.html
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "hw/irq.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/sysbus.h"
+> +#include "migration/vmstate.h"
+> +#include "qapi/error.h"
+> +#include "qemu/bitops.h"
+> +#include "qemu/log.h"
+> +#include "qom/object.h"
+> +#include "cpu.h"
+> +
+> +#define TYPE_NIOS2_VIC "nios2-vic"
+> +
+> +OBJECT_DECLARE_SIMPLE_TYPE(Nios2Vic, NIOS2_VIC)
+> +
+> +#define NIOS2_VIC_MAX_IRQ 32
+> +
+> +enum {
+> +    INT_CONFIG0 = 0,
+> +    INT_CONFIG31 = 31,
+> +    INT_ENABLE = 32,
+> +    INT_ENABLE_SET = 33,
+> +    INT_ENABLE_CLR = 34,
+> +    INT_PENDING = 35,
+> +    INT_RAW_STATUS = 36,
+> +    SW_INTERRUPT = 37,
+> +    SW_INTERRUPT_SET = 38,
+> +    SW_INTERRUPT_CLR = 39,
+> +    VIC_CONFIG = 40,
+> +    VIC_STATUS = 41,
+> +    VEC_TBL_BASE = 42,
+> +    VEC_TBL_ADDR = 43,
+> +    CSR_COUNT /* Last! */
+> +};
+> +
+> +struct Nios2Vic {
+> +    /*< private >*/
+> +    SysBusDevice parent_obj;
+> +
+> +    /*< public >*/
+> +    qemu_irq output_int;
+> +
+> +    /* properties */
+> +    CPUState *cpu;
+> +    MemoryRegion csr;
+> +
+> +    uint32_t int_config[32];
 
-My impression is that all of the changes are covered with @unstable
-but I can see the advantage of x- prefix since we have not come to an
-agreement on it. I think it's the first time it is mentioned in the
-mail list.
+Is this NIOS2_VIC_MAX_IRQ?
 
-Do you want me to send a new series with x- prefix?
+> +    uint32_t vic_config;
+> +    uint32_t int_raw_status;
+> +    uint32_t int_enable;
+> +    uint32_t sw_int;
+> +    uint32_t vic_status;
+> +    uint32_t vec_tbl_base;
+> +    uint32_t vec_tbl_addr;
+> +};
 
-Thanks!
+I think it's worth splitting the type section above into a separate 
+include/hw/intc/nios2_vic.h header for completeness, plus it will allow you to use 
+TYPE_NIOS2_VIC later in patch 33.
 
-> > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > index 1e9fe47c03..c827921654 100644
-> > > > --- a/net/vhost-vdpa.c
-> > > > +++ b/net/vhost-vdpa.c
-> > > > @@ -127,7 +127,11 @@ err_init:
-> > > >  static void vhost_vdpa_cleanup(NetClientState *nc)
-> > > >  {
-> > > >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > > > +    struct vhost_dev *dev =3D s->vhost_vdpa.dev;
-> > > >
-> > > > +    if (dev && dev->vq_index + dev->nvqs =3D=3D dev->vq_index_end)=
- {
-> > > > +        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_=
-delete);
-> > > > +    }
-> > > >      if (s->vhost_net) {
-> > > >          vhost_net_cleanup(s->vhost_net);
-> > > >          g_free(s->vhost_net);
-> > > > @@ -187,13 +191,23 @@ static NetClientInfo net_vhost_vdpa_info =3D =
-{
-> > > >          .check_peer_type =3D vhost_vdpa_check_peer_type,
-> > > >  };
-> > > >
-> > > > +static int vhost_vdpa_get_iova_range(int fd,
-> > > > +                                     struct vhost_vdpa_iova_range =
-*iova_range)
-> > > > +{
-> > > > +    int ret =3D ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
-> > > > +
-> > > > +    return ret < 0 ? -errno : 0;
-> > > > +}
-> > > > +
-> > > >  static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-> > > > -                                           const char *device,
-> > > > -                                           const char *name,
-> > > > -                                           int vdpa_device_fd,
-> > > > -                                           int queue_pair_index,
-> > > > -                                           int nvqs,
-> > > > -                                           bool is_datapath)
-> > > > +                                       const char *device,
-> > > > +                                       const char *name,
-> > > > +                                       int vdpa_device_fd,
-> > > > +                                       int queue_pair_index,
-> > > > +                                       int nvqs,
-> > > > +                                       bool is_datapath,
-> > > > +                                       bool svq,
-> > > > +                                       VhostIOVATree *iova_tree)
-> > > >  {
-> > > >      NetClientState *nc =3D NULL;
-> > > >      VhostVDPAState *s;
-> > > > @@ -211,6 +225,8 @@ static NetClientState *net_vhost_vdpa_init(NetC=
-lientState *peer,
-> > > >
-> > > >      s->vhost_vdpa.device_fd =3D vdpa_device_fd;
-> > > >      s->vhost_vdpa.index =3D queue_pair_index;
-> > > > +    s->vhost_vdpa.shadow_vqs_enabled =3D svq;
-> > > > +    s->vhost_vdpa.iova_tree =3D iova_tree;
-> > > >      ret =3D vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_=
-index, nvqs);
-> > > >      if (ret) {
-> > > >          qemu_del_net_client(nc);
-> > > > @@ -266,6 +282,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, c=
-onst char *name,
-> > > >      g_autofree NetClientState **ncs =3D NULL;
-> > > >      NetClientState *nc;
-> > > >      int queue_pairs, i, has_cvq =3D 0;
-> > > > +    g_autoptr(VhostIOVATree) iova_tree =3D NULL;
-> > > >
-> > > >      assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> > > >      opts =3D &netdev->u.vhost_vdpa;
-> > > > @@ -285,29 +302,44 @@ int net_init_vhost_vdpa(const Netdev *netdev,=
- const char *name,
-> > > >          qemu_close(vdpa_device_fd);
-> > > >          return queue_pairs;
-> > > >      }
-> > > > +    if (opts->svq) {
-> > > > +        struct vhost_vdpa_iova_range iova_range;
-> > > > +
-> > > > +        if (has_cvq) {
-> > > > +            error_setg(errp, "vdpa svq does not work with cvq");
-> > > > +            goto err_svq;
-> > > > +        }
-> > > > +        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-> > > > +        iova_tree =3D vhost_iova_tree_new(iova_range.first, iova_r=
-ange.last);
-> > > > +    }
-> > > >
-> > > >      ncs =3D g_malloc0(sizeof(*ncs) * queue_pairs);
-> > > >
-> > > >      for (i =3D 0; i < queue_pairs; i++) {
-> > > >          ncs[i] =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name=
-,
-> > > > -                                     vdpa_device_fd, i, 2, true);
-> > > > +                                     vdpa_device_fd, i, 2, true, o=
-pts->svq,
-> > > > +                                     iova_tree);
-> > > >          if (!ncs[i])
-> > > >              goto err;
-> > > >      }
-> > > >
-> > > >      if (has_cvq) {
-> > > >          nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> > > > -                                 vdpa_device_fd, i, 1, false);
-> > > > +                                 vdpa_device_fd, i, 1, false, opts=
-->svq,
-> > > > +                                 iova_tree);
-> > > >          if (!nc)
-> > > >              goto err;
-> > > >      }
-> > > >
-> > > > +    iova_tree =3D NULL;
-> > > >      return 0;
-> > > >
-> > > >  err:
-> > > >      if (i) {
-> > > >          qemu_del_net_client(ncs[0]);
-> > > >      }
-> > > > +
-> > > > +err_svq:
-> > > >      qemu_close(vdpa_device_fd);
-> > > >
-> > > >      return -1;
-> > > > --
-> > > > 2.27.0
-> > >
->
+> +/* Requested interrupt level (INT_CONFIG[0:5]) */
+> +static inline uint32_t vic_int_config_ril(const Nios2Vic *vic, int irq_num)
+> +{
+> +    return extract32(vic->int_config[irq_num], 0, 6);
+> +}
+> +
+> +/* Requested NMI (INT_CONFIG[6]) */
+> +static inline uint32_t vic_int_config_rnmi(const Nios2Vic *vic, int irq_num)
+> +{
+> +    return extract32(vic->int_config[irq_num], 6, 1);
+> +}
+> +
+> +/* Requested register set (INT_CONFIG[7:12]) */
+> +static inline uint32_t vic_int_config_rrs(const Nios2Vic *vic, int irq_num)
+> +{
+> +    return extract32(vic->int_config[irq_num], 7, 6);
+> +}
+> +
+> +static inline uint32_t vic_config_vec_size(const Nios2Vic *vic)
+> +{
+> +    return 1 << (2 + extract32(vic->vic_config, 0, 3));
+> +}
+> +
+> +static inline uint32_t vic_int_pending(const Nios2Vic *vic)
+> +{
+> +    return (vic->int_raw_status | vic->sw_int) & vic->int_enable;
+> +}
+> +
+> +static void vic_update_irq(Nios2Vic *vic)
+> +{
+> +    Nios2CPU *cpu = NIOS2_CPU(vic->cpu);
+> +    uint32_t pending = vic_int_pending(vic);
+> +    int irq = -1;
+> +    int max_ril = 0;
+> +    /* Note that if RIL is 0 for an interrupt it is effectively disabled */
+> +
+> +    vic->vec_tbl_addr = 0;
+> +    vic->vic_status = 0;
+> +
+> +    if (pending == 0) {
+> +        qemu_irq_lower(vic->output_int);
+> +        return;
+> +    }
+> +
+> +    for (int i = 0; i < NIOS2_VIC_MAX_IRQ; i++) {
+> +        if (pending & BIT(i)) {
+> +            int ril = vic_int_config_ril(vic, i);
+> +            if (ril > max_ril) {
+> +                irq = i;
+> +                max_ril = ril;
+> +            }
+> +        }
+> +    }
+> +
+> +    if (irq < 0) {
+> +        qemu_irq_lower(vic->output_int);
+> +        return;
+> +    }
+> +
+> +    vic->vec_tbl_addr = irq * vic_config_vec_size(vic) + vic->vec_tbl_base;
+> +    vic->vic_status = irq | BIT(31);
+> +
+> +    /*
+> +     * In hardware, the interface between the VIC and the CPU is via the
+> +     * External Interrupt Controller interface, where the interrupt controller
+> +     * presents the CPU with a packet of data containing:
+> +     *  - Requested Handler Address (RHA): 32 bits
+> +     *  - Requested Register Set (RRS) : 6 bits
+> +     *  - Requested Interrupt Level (RIL) : 6 bits
+> +     *  - Requested NMI flag (RNMI) : 1 bit
+> +     * In our emulation, we implement this by writing the data directly to
+> +     * fields in the CPU object and then raising the IRQ line to tell
+> +     * the CPU that we've done so.
+> +     */
+> +
+> +    cpu->rha = vic->vec_tbl_addr;
+> +    cpu->ril = max_ril;
+> +    cpu->rrs = vic_int_config_rrs(vic, irq);
+> +    cpu->rnmi = vic_int_config_rnmi(vic, irq);
+> +
+> +    qemu_irq_raise(vic->output_int);
+> +}
+> +
+> +static void vic_set_irq(void *opaque, int irq_num, int level)
+> +{
+> +    Nios2Vic *vic = opaque;
+> +
+> +    if (level) {
+> +        vic->int_raw_status |= BIT(irq_num);
+> +    } else {
+> +        vic->int_raw_status &= ~BIT(irq_num);
+> +    }
+> +
+> +    vic_update_irq(vic);
+> +}
+> +
+> +static void nios2_vic_reset(DeviceState *dev)
+> +{
+> +    Nios2Vic *vic = NIOS2_VIC(dev);
+> +    memset(&vic->int_config, 0, sizeof(vic->int_config));
+> +    vic->vic_config = 0;
+> +    vic->int_raw_status = 0;
+> +    vic->int_enable = 0;
+> +    vic->sw_int = 0;
+> +    vic->vic_status = 0;
+> +    vic->vec_tbl_base = 0;
+> +    vic->vec_tbl_addr = 0;
+> +}
+> +
+> +static uint64_t nios2_vic_csr_read(void *opaque, hwaddr offset, unsigned size)
+> +{
+> +    Nios2Vic *vic = opaque;
+> +    int index = offset / 4;
+> +
+> +    switch (index) {
+> +    case INT_CONFIG0 ... INT_CONFIG31:
+> +        return vic->int_config[index - INT_CONFIG0];
+> +    case INT_ENABLE:
+> +        return vic->int_enable;
+> +    case INT_PENDING:
+> +        return vic_int_pending(vic);
+> +    case INT_RAW_STATUS:
+> +        return vic->int_raw_status;
+> +    case SW_INTERRUPT:
+> +        return vic->sw_int;
+> +    case VIC_CONFIG:
+> +        return vic->vic_config;
+> +    case VIC_STATUS:
+> +        return vic->vic_status;
+> +    case VEC_TBL_BASE:
+> +        return vic->vec_tbl_base;
+> +    case VEC_TBL_ADDR:
+> +        return vic->vec_tbl_addr;
+> +    default:
+> +        return 0;
+> +    }
+> +}
+> +
+> +static void nios2_vic_csr_write(void *opaque, hwaddr offset, uint64_t value,
+> +                                unsigned size)
+> +{
+> +    Nios2Vic *vic = opaque;
+> +    int index = offset / 4;
+> +
+> +    switch (index) {
+> +    case INT_CONFIG0 ... INT_CONFIG31:
+> +        vic->int_config[index - INT_CONFIG0] = value;
+> +        break;
+> +    case INT_ENABLE:
+> +        vic->int_enable = value;
+> +        break;
+> +    case INT_ENABLE_SET:
+> +        vic->int_enable |= value;
+> +        break;
+> +    case INT_ENABLE_CLR:
+> +        vic->int_enable &= ~value;
+> +        break;
+> +    case SW_INTERRUPT:
+> +        vic->sw_int = value;
+> +        break;
+> +    case SW_INTERRUPT_SET:
+> +        vic->sw_int |= value;
+> +        break;
+> +    case SW_INTERRUPT_CLR:
+> +        vic->sw_int &= ~value;
+> +        break;
+> +    case VIC_CONFIG:
+> +        vic->vic_config = value;
+> +        break;
+> +    case VEC_TBL_BASE:
+> +        vic->vec_tbl_base = value;
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +            "nios2-vic: write to invalid CSR address 0x%x\n", (int)offset);
+> +    }
+> +
+> +    vic_update_irq(vic);
+> +}
+> +
+> +static const MemoryRegionOps nios2_vic_csr_ops = {
+> +    .read = nios2_vic_csr_read,
+> +    .write = nios2_vic_csr_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = { .min_access_size = 4, .max_access_size = 4 }
+> +};
+> +
+> +static void nios2_vic_realize(DeviceState *dev, Error **errp)
+> +{
+> +    Nios2Vic *vic = NIOS2_VIC(dev);
+> +
+> +    if (!vic->cpu) {
+> +        /* This is a programming error in the code using this device */
+> +        error_setg(errp, "nios2-vic 'cpu' link property was not set");
+> +        return;
+> +    }
+> +
+> +    sysbus_init_irq(SYS_BUS_DEVICE(dev), &vic->output_int);
+> +    qdev_init_gpio_in(dev, vic_set_irq, NIOS2_VIC_MAX_IRQ);
+> +
+> +    memory_region_init_io(&vic->csr, OBJECT(dev), &nios2_vic_csr_ops, vic,
+> +                          "nios2.vic.csr", CSR_COUNT * sizeof(uint32_t));
+> +    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &vic->csr);
+> +}
+> +
+> +static Property nios2_vic_properties[] = {
+> +    DEFINE_PROP_LINK("cpu", Nios2Vic, cpu, TYPE_CPU, CPUState *),
+> +    DEFINE_PROP_END_OF_LIST()
+> +};
+> +
+> +static const VMStateDescription nios2_vic_vmstate = {
+> +    .name = "nios2-vic",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]){
+> +        VMSTATE_UINT32_ARRAY(int_config, Nios2Vic, 32),
 
+And also NIOS2_VIC_MAX_IRQ here?
+
+> +        VMSTATE_UINT32(vic_config, Nios2Vic),
+> +        VMSTATE_UINT32(int_raw_status, Nios2Vic),
+> +        VMSTATE_UINT32(int_enable, Nios2Vic),
+> +        VMSTATE_UINT32(sw_int, Nios2Vic),
+> +        VMSTATE_UINT32(vic_status, Nios2Vic),
+> +        VMSTATE_UINT32(vec_tbl_base, Nios2Vic),
+> +        VMSTATE_UINT32(vec_tbl_addr, Nios2Vic),
+> +        VMSTATE_END_OF_LIST()
+> +    },
+> +};
+> +
+> +static void nios2_vic_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->reset = nios2_vic_reset;
+> +    dc->realize = nios2_vic_realize;
+> +    dc->vmsd = &nios2_vic_vmstate;
+> +    device_class_set_props(dc, nios2_vic_properties);
+> +}
+> +
+> +static const TypeInfo nios2_vic_info = {
+> +    .name = TYPE_NIOS2_VIC,
+> +    .parent = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(Nios2Vic),
+> +    .class_init = nios2_vic_class_init,
+> +};
+> +
+> +static void nios2_vic_register_types(void)
+> +{
+> +    type_register_static(&nios2_vic_info);
+> +}
+> +
+> +type_init(nios2_vic_register_types);
+> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> index ec8d4cec29..eeb2d6f428 100644
+> --- a/hw/intc/Kconfig
+> +++ b/hw/intc/Kconfig
+> @@ -84,3 +84,6 @@ config GOLDFISH_PIC
+>   
+>   config M68K_IRQC
+>       bool
+> +
+> +config NIOS2_VIC
+> +    bool
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index 81ccdb0d78..167755ac64 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -62,3 +62,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+>   		if_true: files('spapr_xive_kvm.c'))
+>   specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+>   specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
+> +specific_ss.add(when: 'CONFIG_NIOS2_VIC', if_true: files('nios2_vic.c'))
+
+Otherwise seems okay to me.
+
+
+ATB,
+
+Mark.
 
