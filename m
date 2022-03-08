@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3D94D1921
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 14:26:41 +0100 (CET)
-Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710074D1957
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 14:37:51 +0100 (CET)
+Received: from localhost ([::1]:46378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRZrM-00055X-35
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 08:26:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40828)
+	id 1nRa2A-0001Nl-1L
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 08:37:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nRZoP-0003sW-Kv
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 08:23:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50077)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nRZoM-0008V4-GD
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 08:23:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646745813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+BFpMveWz1PM4HPWOdYk4KHbFe/+Wx8MQGLoc1pigYg=;
- b=hAhOwM8g2FmVYMlMkLYDPGZSPMbMwoO8ukDV+m7kEVec9qsLzmTpOv6hf99bEIVVwvNse6
- iuLN6a4w9bRqrY+q9ibS8wR1ac6OIB/x3SZ067mkbtP/TKx0q6dRK4EhMNaQ6biuRwuFG4
- Zx6Huc88Vubr2t+b6imSf4d5vneNmzE=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-118-av4XfypFMZqGLaNo2PtP4w-1; Tue, 08 Mar 2022 08:23:29 -0500
-X-MC-Unique: av4XfypFMZqGLaNo2PtP4w-1
-Received: by mail-lf1-f72.google.com with SMTP id
- m13-20020a19520d000000b00443423ff116so4894322lfb.11
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 05:23:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRZvk-0007TV-5n; Tue, 08 Mar 2022 08:31:12 -0500
+Received: from [2a00:1450:4864:20::330] (port=54836
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRZvf-0001Xk-5d; Tue, 08 Mar 2022 08:31:08 -0500
+Received: by mail-wm1-x330.google.com with SMTP id c192so11150597wma.4;
+ Tue, 08 Mar 2022 05:31:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=d2/nFQdbtw8dz1WR4gf2oW5dDNzUqWSkviggFyOpRdw=;
+ b=ALzkI8uD7JXkpHRqFtsT6saZpUb98Z9qQWvDhAiqYBy9QHBT3oaCD3oNuX4y23W80U
+ Xvb6N3TwctXHkmebFP/o4+j9FbK13kB4W9cZpKS6x3JopXyLXc6TVaxvdRPIcxDXRrFH
+ sfy88OGjyGAB1MwE6laWTwDbR2ZACM7diMgTDUBTlrNqMDw0CIkbVKbS12FpOl/F9299
+ SORuWLb97H0tQWf9sdFa4HV1onGE9XMj41rtyBWZPHBm3mmmFd9LptygWLQIxfjnm/Zm
+ cyjWfimmpKSsIex4xcKi8YAgm36d/zJMWituBi9kubgRH921LEu3+ZuonpRo9vfLhNAY
+ 2bIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+BFpMveWz1PM4HPWOdYk4KHbFe/+Wx8MQGLoc1pigYg=;
- b=Z6csE/7fVgurh57572p7RaS9ZO4DdMRT20xbUTNtD3CGAvl+psEVc1ihGO8MRtRV/h
- 9AKFGfbtIdZRigj40mbj2x5f8kn4zUWJnJQOkMwZxL9wOdj9w9+AIl34UAyRWiX27PGH
- xxsNYE8R5aYI1TrRrlGlwfyP9ksgn9LCrRD2uriEvIoNQqFok0RWujq1b6wLX2dH+Cye
- d1U+tSzrCMIY7S1fXfZJIgSQvAVzcSGNr7rCLhgkrF33wDq0CvTJI0+hfuBCy0LnAWhg
- Ldgn2MWU7kjv4ITSIWf0/vDC4iXgfqz3nXI+fzf75lDz1Wp+xX2zji3LIlty7grY3v4V
- FzcA==
-X-Gm-Message-State: AOAM531vvcDGw6WgDjVaitfa5JKc2lhmmhPUGg/l0W2MFhYim2X8qOlG
- AogsLX4Qp/1xAbDL5WLLxUaPu9KORn2SzGamjRRzidBS2kXNkReuXJdFIkSIc4C9xempt4NIQNC
- x9pep4asG2BhWSpohBlMgUJKTYlMu1z0=
-X-Received: by 2002:ac2:4c4f:0:b0:448:21cd:596f with SMTP id
- o15-20020ac24c4f000000b0044821cd596fmr10919142lfk.257.1646745808203; 
- Tue, 08 Mar 2022 05:23:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw5c0Eg+3oJM/eNirofea31KPsRHlR2kaX0V1EVtxG1oGS7954rRkDe0bQlO3Y0rgGZ9XJ1likpuzCoYv7Jfl0=
-X-Received: by 2002:ac2:4c4f:0:b0:448:21cd:596f with SMTP id
- o15-20020ac24c4f000000b0044821cd596fmr10919108lfk.257.1646745807969; Tue, 08
- Mar 2022 05:23:27 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d2/nFQdbtw8dz1WR4gf2oW5dDNzUqWSkviggFyOpRdw=;
+ b=fRVUSmF4VFh26R1kc0UGkDhb91LYYaMxWMpMXSsj8QqWXaLIEgqOeqWTx+JAZhtcy9
+ m2dSbilr7P2hmdO1ECJnWDgL8jvjOVt4ylX/OZQHR+nlmHOBMArW5b2DyeR6hk42Yej1
+ i4pa5oQXG4AY0F6w9pwQxlZECJlRdVMLXCIAWRa2zbWhoMF+S0DpRnsicapeLl99t3wv
+ B+gOBdG9x2dLBpNKMbITiNFP18+z+FwpKYeChcQBejPWJWXdUfHHuu9NMFwMjz0GEbEN
+ viK+F3xMrCW3Z3s7c5h5GZVQzJIxCR6K1qx3xHEEvvKNG03UaCICQgRfxo65XMXN1f6r
+ NNlA==
+X-Gm-Message-State: AOAM5338cq0/gSsuS9dSgPgg25gm3LxaeyAtB/bSoy0mbySj0WAoItEC
+ +ioB0y712rTwcIQZU0si6kE=
+X-Google-Smtp-Source: ABdhPJz9KiRaZ3sMOMp5DEU7esOeI8woeFYwcwAo9jv3z31UVNN6dTXCgbOTofgcUbAcp+hm5iqqhA==
+X-Received: by 2002:a7b:c154:0:b0:388:8e6e:ff76 with SMTP id
+ z20-20020a7bc154000000b003888e6eff76mr3709574wmi.191.1646746265211; 
+ Tue, 08 Mar 2022 05:31:05 -0800 (PST)
+Received: from [192.168.16.175] (11.red-88-28-24.dynamicip.rima-tde.net.
+ [88.28.24.11]) by smtp.gmail.com with ESMTPSA id
+ i74-20020adf90d0000000b0020373ba7beesm388093wri.0.2022.03.08.05.29.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Mar 2022 05:31:04 -0800 (PST)
+Message-ID: <b004822f-0e12-fcce-1007-a5cecfb5430d@gmail.com>
+Date: Tue, 8 Mar 2022 14:29:22 +0100
 MIME-Version: 1.0
-References: <20220307153334.3854134-1-eperezma@redhat.com>
- <14d4fde4-6ea5-4805-b684-c33f6b448565@redhat.com>
- <20220308020348-mutt-send-email-mst@kernel.org>
- <CACGkMEvY-+XpPWbtiX9dy+fwDxPp7sHFhH_LY0PB2YuusEugyw@mail.gmail.com>
- <20220308022300-mutt-send-email-mst@kernel.org>
- <CACGkMEvuTPCRk7Ng7CbgpPSPgs_QYijzc5fU+cV3kW09W1R7Qg@mail.gmail.com>
- <20220308024724-mutt-send-email-mst@kernel.org>
- <CACGkMEsPBDM8ko1qgnCR1DcofPNJJo3S2j3pOJHk4xaSGQimcQ@mail.gmail.com>
- <20220308054213-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220308054213-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 8 Mar 2022 21:23:16 +0800
-Message-ID: <CACGkMEtRG5cH41MV5gGKyGKtX4Lvok-OQpvkP48qCArr_pOZ3Q@mail.gmail.com>
-Subject: Re: [PATCH v5 00/15] vDPA shadow virtqueue
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000eb874805d9b4e268"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH 0/9] add LOG_UNSUPP log type + mark hcalls as unsupp
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+References: <20220307191553.429236-1-danielhb413@gmail.com>
+ <CAFEAcA-=--vfvh9ZddyRKfcXqoW7fnjLVcqZpyP2tM8b8vhO=A@mail.gmail.com>
+ <74b35947-b6f2-6155-45de-93777545753c@gmail.com>
+ <CAFEAcA9koxjGmN1X0JNHfTuAthsy50zfB93XR6OEo48QzCx3pQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <CAFEAcA9koxjGmN1X0JNHfTuAthsy50zfB93XR6OEo48QzCx3pQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,95 +95,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Parav Pandit <parav@mellanox.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Lingshan <lingshan.zhu@intel.com>
+Cc: clg@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000eb874805d9b4e268
-Content-Type: text/plain; charset="UTF-8"
+On 8/3/22 10:18, Peter Maydell wrote:
+> On Mon, 7 Mar 2022 at 22:00, Daniel Henrique Barboza
+> <danielhb413@gmail.com> wrote:
+>> On 3/7/22 17:21, Peter Maydell wrote:
+>>> On Mon, 7 Mar 2022 at 19:19, Daniel Henrique Barboza
+>>> <danielhb413@gmail.com> wrote:
+>>>>
+>>>> Hi,
+>>>>
+>>>> I got a lot of noise trying to debug an AIX guest in a pseries machine when running with
+>>>> '-d unimp'. The reason is that there is no distinction between features
+>>>> (in my case, hypercalls) that are unimplemented because we never considered,
+>>>> versus features that we made a design choice not to implement.
+>>>>
+>>>> This series adds a new log type, LOG_UNSUPP, as a way to filter the
+>>>> second case. After changing the log level of existing unsupported
+>>>> pseries hypercalls, -d unimp was reporting just the ones that I need to
+>>>> worry about and decide whether we should implement it or mark as
+>>>> unsupported in our model. After this series there's still one hypercall
+>>>> thgat is being thrown by AIX. We'll deal with that another day.
+>>>
+>>> So the intention of the distinction is:
+>>>     LOG_UNIMP: we don't implement this, but we should
+>>>     LOG_UNSUPP: we don't implement this, and that's OK because it's optional
+>>>
+>>> ?
+>>
+>> The idea is that LOG_UNIMP is too broad and it's used to indicate features that are
+>> unknown to QEMU and also features that QEMU knows about but does not support it. It's
+>> not necessarily a way of telling "we should implement this" but more like "we know/do
+>> not know what this is".
+> 
+>  From the point of view of debugging the guest, I don't care
+> whether the QEMU developers know that they've not got round
+> to something or whether they've just forgotten it. I care
+> about "is this because I, the guest program, did something wrong,
+> or is it because QEMU is not completely emulating something
+> I should really be able to expect to be present". This is why we
+> distinguish LOG_UNIMP from LOG_GUEST_ERROR.
 
-On Tue, Mar 8, 2022 at 6:46 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+I agree with this view. Another distinctions:
 
-> On Tue, Mar 08, 2022 at 04:20:53PM +0800, Jason Wang wrote:
-> > Generally, yes.
->
->
-> So generally I support the idea of merging code gradually.  And merging
-> with an unstable flag to enable it is a reasonable way to do it.
-> However we are half a day away from soft freeze, so this will just
-> result in the feature getting to users in it's current not really
-> useable form. If we just want to simplify upstreaming then
-> merging patches 1-14 for now would be one way to do it.
->
+  * tracing API
+    - have multiple backends to send the events
+    - is optional, might be completely disabled in build
+      (which is why we use it to debug or analyze perfs)
 
-Yes.
+  * qemu_log() API
+    - logs to stdout
+    - is present in all build variants
+      (so we can always look at guest misbehavior as
+       Peter described).
 
+LOG_UNSUPP doesn't add value wrt guest misbehavior IMO,
+which is why I'd stick to trace events for this.
 
-> If you want to do it through your tree then ok
->
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->
-
-Thanks. Will send a pull request soon.
-
-
->
->
-> --
-> MST
->
->
-
---000000000000eb874805d9b4e268
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 8, 2022 at 6:46 PM Michae=
-l S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, Ma=
-r 08, 2022 at 04:20:53PM +0800, Jason Wang wrote:<br>
-&gt; Generally, yes.<br>
-<br>
-<br>
-So generally I support the idea of merging code gradually.=C2=A0 And mergin=
-g<br>
-with an unstable flag to enable it is a reasonable way to do it.<br>
-However we are half a day away from soft freeze, so this will just<br>
-result in the feature getting to users in it&#39;s current not really<br>
-useable form. If we just want to simplify upstreaming then<br>
-merging patches 1-14 for now would be one way to do it.<br></blockquote><di=
-v><br></div><div>Yes.</div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
-If you want to do it through your tree then ok<br>
-<br>
-Acked-by: Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" target=
-=3D"_blank">mst@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Than=
-ks. Will send a pull request soon.</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-<br>
--- <br>
-MST<br>
-<br>
-</blockquote></div></div>
-
---000000000000eb874805d9b4e268--
+>>> I think I'd be happier about adding a new log category if we had
+>>> some examples of where we should be using it other than just in
+>>> the spapr hcall code, to indicate that it's a bit more broadly
+>>> useful. If this is a distinction that only makes sense for that
+>>> narrow use case, then as Philippe says a tracepoint might be a
+>>> better choice.
+>>
+>> target/arm/translate.c, do_coproc_insn():
+> 
+>> This use of LOG_UNIMP is logging something that we don't know about, it's unknown.
+> 
+> (Some of the things that get logged here will really be things that
+> we conceptually "know about" and don't implement -- the logging
+> is a catch-all for any kind of unimplemented register, whether the
+> specs define it or not.)
+> 
+>> And hw/arm/smmuv3.c, decode_ste():
+> 
+>> This is something we know what it is and are deciding not to support it. Both are being
+>> logged as LOG_UNIMP. This is the distinction I was trying to achieve with this new
+>> log type. The example in decode_ste() could be logged as LOG_UNSUPP.
+> 
+> I don't see much benefit in distinguishing these two cases, to be
+> honest. You could maybe have sold me on "you're accessing something
+> that is optional and we happen not to provide it" vs "you're
+> accessing something that should be there and isn't", because that's
+> a distinction that guest code authors might plausibly care about.
+> To the extent that you want to helpfully say "this is because
+> QEMU doesn't implement an entire feature" you can say that in the
+> free-form text message.
+> 
+> -- PMM
+> 
 
 
