@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F45A4D1B31
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 15:59:05 +0100 (CET)
-Received: from localhost ([::1]:48942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4D34D1B53
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 16:06:24 +0100 (CET)
+Received: from localhost ([::1]:36382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRbIm-0000Dn-4R
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 09:59:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35758)
+	id 1nRbPr-0002ZK-2z
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 10:06:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGm-0005oP-Vc
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:57:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45551)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGl-0005lb-RI
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:56:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGl-0000NC-Jt
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:57:00 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRbGg-0000Ms-1f
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 09:56:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646751419;
+ s=mimecast20190719; t=1646751413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QIswJnx3Hmm/9Qg0I7I3Dci0fvpu+obFrZS2bBlSD90=;
- b=K/3va+J9sEZcmBLaIHaSr0RLOHzel+x/GLqhK8sRxJLGTJ2qYlZBzIgliMqxFIS4VktZ8f
- loqCPH4yMCYgt5dsOEYlwJj7bxNIrqNyLI8Pqvzva4sPii5rxf54qYalUDW6ML+lg0CFT2
- 57cmaxNpDGUx4/JSn00ebuvhomUluwY=
+ bh=Dx9AYc/Q1qq5YkvvtNeHFvUbDcFV0A34L0cktwWVUAI=;
+ b=P8lQqQ4ezh+4C0sl+msdHkMP9eK6Tihi6714ejM7VQCh+Ug62FwSbgd77/D6rhfQntVNiz
+ ucV19+lDj5NaThRz6NLLIVB+OWZmuKbdmS2BMIJsjV0i2Xk6iejpLwpXLntVcUdDrpAEDi
+ CGFCcyAyz5Hlpq84r9W/c0Ff5SjWAG4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-HZgNOzphMMOAUBJtWfn5Tg-1; Tue, 08 Mar 2022 09:56:56 -0500
-X-MC-Unique: HZgNOzphMMOAUBJtWfn5Tg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-103-R5nNMDyINc6JTzXUNEXb2w-1; Tue, 08 Mar 2022 09:56:50 -0500
+X-MC-Unique: R5nNMDyINc6JTzXUNEXb2w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 127E18066F3;
- Tue,  8 Mar 2022 14:56:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42D18835DE4;
+ Tue,  8 Mar 2022 14:56:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C3B60865B9;
- Tue,  8 Mar 2022 14:56:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EF0D866DF;
+ Tue,  8 Mar 2022 14:56:06 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8597E18009A3; Tue,  8 Mar 2022 15:55:27 +0100 (CET)
+ id 023C81800995; Tue,  8 Mar 2022 15:55:22 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/11] edk2/docker: install python3
-Date: Tue,  8 Mar 2022 15:55:19 +0100
-Message-Id: <20220308145521.3106395-10-kraxel@redhat.com>
+Subject: [PATCH 02/11] edk2: update submodule to stable202202
+Date: Tue,  8 Mar 2022 15:55:12 +0100
+Message-Id: <20220308145521.3106395-3-kraxel@redhat.com>
 In-Reply-To: <20220308145521.3106395-1-kraxel@redhat.com>
 References: <20220308145521.3106395-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,27 +90,18 @@ Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-python2 is not supported any more,
-so go install python3 instead.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- .gitlab-ci.d/edk2/Dockerfile | 2 +-
+ roms/edk2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.gitlab-ci.d/edk2/Dockerfile b/.gitlab-ci.d/edk2/Dockerfile
-index 13029310f6d6..7484b3846d71 100644
---- a/.gitlab-ci.d/edk2/Dockerfile
-+++ b/.gitlab-ci.d/edk2/Dockerfile
-@@ -20,7 +20,7 @@ RUN apt update \
-         iasl \
-         make \
-         nasm \
--        python \
-+        python3 \
-         uuid-dev \
-     && \
-     \
+diff --git a/roms/edk2 b/roms/edk2
+index 06dc822d045c..b24306f15daa 160000
+--- a/roms/edk2
++++ b/roms/edk2
+@@ -1 +1 @@
+-Subproject commit 06dc822d045c2bb42e497487935485302486e151
++Subproject commit b24306f15daa2ff8510b06702114724b33895d3c
 -- 
 2.35.1
 
