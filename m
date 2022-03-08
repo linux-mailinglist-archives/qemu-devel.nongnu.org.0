@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96FD54D0DC1
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 02:57:26 +0100 (CET)
-Received: from localhost ([::1]:44954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A394D0DC6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 03:00:58 +0100 (CET)
+Received: from localhost ([::1]:53046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRP6L-0002ut-NP
-	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 20:57:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53414)
+	id 1nRP9m-0008Ly-19
+	for lists+qemu-devel@lfdr.de; Mon, 07 Mar 2022 21:00:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nROvX-0001Sq-8V
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:46:16 -0500
-Received: from mga12.intel.com ([192.55.52.136]:3648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nROvT-0006uW-9e
- for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:46:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646703971; x=1678239971;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=mHBCi6qAEBh/nnklYLjjX0eLK1S8y5VX77Z1SPbc3yQ=;
- b=Aq2QDIWcw79S3Lu+GoYzmIQlCE2hvsJ4ydhTOvlrkNJq0z0zk3bzh21h
- CdHXA8hzN8TqrxalYybQqaAdPOkoxVdqCNMM3ZFvUJIdIPgEthDsFlepe
- AqPIPm++I3kw+OaKhiWk93y606EqJo+ggxb8QMcl8erbYdn8Tcy+ohPrZ
- bbNMuAGEzU8oJd0YxesJ8nQMuJXQ4Gv1MXU6zOG0eWsVq46BanyvSugzy
- DVbzmWmfEo8houLetkDemPyUtdYEdrK7+gB6SF7YSZbdOcTepvnnaYkZE
- 1QtpjpYFaiRGW25AcDZdBJBrGjTbklq3lnSlsYl8qrglVSszI39xWQDuQ w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="234513544"
-X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; d="scan'208";a="234513544"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2022 17:46:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,163,1643702400"; d="scan'208";a="495276231"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga003.jf.intel.com with ESMTP; 07 Mar 2022 17:46:02 -0800
-Date: Tue, 8 Mar 2022 09:45:45 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH v4 03/12] mm: Introduce memfile_notifier
-Message-ID: <20220308014545.GA43625@chaop.bj.intel.com>
-References: <20220118132121.31388-1-chao.p.peng@linux.intel.com>
- <20220118132121.31388-4-chao.p.peng@linux.intel.com>
- <9ac9a88f-54b4-a49f-0857-c3094d3e0d2b@suse.cz>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nRP36-0005tB-EJ
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:54:04 -0500
+Received: from [2607:f8b0:4864:20::632] (port=34533
+ helo=mail-pl1-x632.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nRP34-0007rc-Or
+ for qemu-devel@nongnu.org; Mon, 07 Mar 2022 20:54:03 -0500
+Received: by mail-pl1-x632.google.com with SMTP id s18so2474822plp.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 17:54:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JF6AHBmnOPxoh7trrOzygx3lbWSFueWYHjXHWxplJPQ=;
+ b=XY4s6SQdD32ImkJbTStsB6o7jeqE+Dhpq6uhLRtmkYFq0QtiLYfwdAT7PqMwGJmeN5
+ kf4Bkgvaegt57os//CRliuRUfP9qTx/Q8oLRsAauIeG0/ExcXihm0voLjQ2eAIUG9Lcj
+ 7t+j4OuZWd9WuGsNQU5LUuvjKK3NKwwsQLN5k6MOt2NOeKBsBN4/XE5UISCH9BeHYxRo
+ kAK2XImv7VFHjZxNpI24P+mIw7b/hGVfRQ6zeH0vynJzJcpYU1WnCaaJmJaU65yvMiya
+ gMDhOpIvfiLhdKLneHgi7UGWNjDLKeBS9ILvXIXZ6Spn+xe0mPq7YUj+VhVV3zPuNKXs
+ ybFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JF6AHBmnOPxoh7trrOzygx3lbWSFueWYHjXHWxplJPQ=;
+ b=bTgTP/jPESeapon3gllF/vzCqrb9Os1e3EjyYmDa2RpbGoIAdV8MSgYp0Rb1ZmKQrt
+ +ksj1hP+gjliYB66Y2X2Be67dorEqHDWUCrfowzjSJKuaORgu/DVfLr0DPbhMuiftdbU
+ iXLIdlLicEje8zJmi4ThmOqr9Ga/dRgkRSicvNXRqlRvIYdp58/Lkx1wvK9le8+N+TRH
+ qXh1T5zuTZXzJLEhPJAUdsXOuLIQcHqvJFG9/t0YLWXr75o/aXk1b6E17zqzzFtuz2zV
+ Ss8bqjb5y4jvzYfM+GDhWZvObMBupfMXSsHbwMLwskDnsEwVzkzkzkapWaek5CADNHh4
+ 7HMA==
+X-Gm-Message-State: AOAM533hPynT1m0Wo8xsiOs1X24Q5xEpfe4eUdS8yK7APqcjblRdtKPB
+ 6hLfpkvQVNCpcc4fbArYK3tb+tYc+4s1zg==
+X-Google-Smtp-Source: ABdhPJzXypJ2+mwpVKMxVarkAddZrxv+RKqFXR0m8bDtRXpPpnZscbiVpc0i/DZ0fLsx+/qeY7P16Q==
+X-Received: by 2002:a17:902:6903:b0:151:6781:9397 with SMTP id
+ j3-20020a170902690300b0015167819397mr15307557plk.137.1646704441211; 
+ Mon, 07 Mar 2022 17:54:01 -0800 (PST)
+Received: from localhost.localdomain (cpe-50-113-46-110.hawaii.res.rr.com.
+ [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
+ bh3-20020a056a02020300b00378b62df320sm12775221pgb.73.2022.03.07.17.53.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Mar 2022 17:54:00 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/11] s390x/tcg: Implement Vector-Enhancements Facility 2
+Date: Mon,  7 Mar 2022 15:53:47 -1000
+Message-Id: <20220308015358.188499-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ac9a88f-54b4-a49f-0857-c3094d3e0d2b@suse.cz>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,64 +86,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: qemu-s390x@nongnu.org, dmiller423@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 07, 2022 at 04:42:08PM +0100, Vlastimil Babka wrote:
-> On 1/18/22 14:21, Chao Peng wrote:
-> > This patch introduces memfile_notifier facility so existing memory file
-> > subsystems (e.g. tmpfs/hugetlbfs) can provide memory pages to allow a
-> > third kernel component to make use of memory bookmarked in the memory
-> > file and gets notified when the pages in the memory file become
-> > allocated/invalidated.
-> > 
-> > It will be used for KVM to use a file descriptor as the guest memory
-> > backing store and KVM will use this memfile_notifier interface to
-> > interact with memory file subsystems. In the future there might be other
-> > consumers (e.g. VFIO with encrypted device memory).
-> > 
-> > It consists two sets of callbacks:
-> >   - memfile_notifier_ops: callbacks for memory backing store to notify
-> >     KVM when memory gets allocated/invalidated.
-> >   - memfile_pfn_ops: callbacks for KVM to call into memory backing store
-> >     to request memory pages for guest private memory.
-> > 
-> > Userspace is in charge of guest memory lifecycle: it first allocates
-> > pages in memory backing store and then passes the fd to KVM and lets KVM
-> > register each memory slot to memory backing store via
-> > memfile_register_notifier.
-> > 
-> > The supported memory backing store should maintain a memfile_notifier list
-> > and provide routine for memfile_notifier to get the list head address and
-> > memfile_pfn_ops callbacks for memfile_register_notifier. It also should call
-> > memfile_notifier_fallocate/memfile_notifier_invalidate when the bookmarked
-> > memory gets allocated/invalidated.
-> > 
-> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> 
-> Process nitpick:
-> Here and in patch 4/12 you have Kirill's S-o-b so there should probably be
-> also "From: Kirill ..." as was in v3? Or in case you modified the original
-> patches so much to become the primary author, you should add
-> "Co-developed-by: Kirill ..." here before his S-o-b.
+Hi David,
 
-Thanks. 3/12 is vastly rewritten so the latter case can be applied.
-4/12 should keep Kirill as the primary author.
+I've split up the patches a bit, made some improvements to
+the shifts and reversals, and fixed a few bugs.
 
-Chao
+Please especially review vector string search, as that is
+has had major changes.
+
+
+r~
+
+
+David Miller (9):
+  target/s390x: vxeh2: vector convert short/32b
+  target/s390x: vxeh2: vector string search
+  target/s390x: vxeh2: Update for changes to vector shifts
+  target/s390x: vxeh2: vector shift double by bit
+  target/s390x: vxeh2: vector {load, store} elements reversed
+  target/s390x: vxeh2: vector {load, store} byte reversed elements
+  target/s390x: vxeh2: vector {load, store} byte reversed element
+  target/s390x: add S390_FEAT_VECTOR_ENH2 to cpu max
+  tests/tcg/s390x: Tests for Vector Enhancements Facility 2
+
+Richard Henderson (2):
+  tcg: Implement tcg_gen_{h,w}swap_{i32,i64}
+  target/s390x: Fix writeback to v1 in helper_vstl
+
+ include/tcg/tcg-op.h                 |   6 +
+ target/s390x/helper.h                |  13 +
+ target/s390x/gen-features.c          |   2 +
+ target/s390x/tcg/translate.c         |   3 +-
+ target/s390x/tcg/vec_fpu_helper.c    |  31 ++
+ target/s390x/tcg/vec_helper.c        |   2 -
+ target/s390x/tcg/vec_int_helper.c    |  58 ++++
+ target/s390x/tcg/vec_string_helper.c | 101 ++++++
+ tcg/tcg-op.c                         |  30 ++
+ tests/tcg/s390x/vxeh2_vcvt.c         |  97 ++++++
+ tests/tcg/s390x/vxeh2_vlstr.c        | 146 +++++++++
+ tests/tcg/s390x/vxeh2_vs.c           |  91 ++++++
+ target/s390x/tcg/translate_vx.c.inc  | 442 ++++++++++++++++++++++++---
+ target/s390x/tcg/insn-data.def       |  40 ++-
+ tests/tcg/s390x/Makefile.target      |   8 +
+ 15 files changed, 1018 insertions(+), 52 deletions(-)
+ create mode 100644 tests/tcg/s390x/vxeh2_vcvt.c
+ create mode 100644 tests/tcg/s390x/vxeh2_vlstr.c
+ create mode 100644 tests/tcg/s390x/vxeh2_vs.c
+
+-- 
+2.25.1
+
 
