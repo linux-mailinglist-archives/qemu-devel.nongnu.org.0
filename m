@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9584D1422
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:03:25 +0100 (CET)
-Received: from localhost ([::1]:37998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08AFD4D1423
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 11:03:26 +0100 (CET)
+Received: from localhost ([::1]:38010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRWgd-000804-AB
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:03:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48810)
+	id 1nRWgf-00080Z-0t
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 05:03:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRWdd-0005wi-Jx
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:00:17 -0500
-Received: from [2607:f8b0:4864:20::1135] (port=46673
- helo=mail-yw1-x1135.google.com)
+ id 1nRWds-0005zN-MK
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:00:35 -0500
+Received: from [2607:f8b0:4864:20::b2f] (port=33731
+ helo=mail-yb1-xb2f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRWdb-0006eQ-V4
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:00:17 -0500
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-2dc585dbb02so131508967b3.13
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:00:15 -0800 (PST)
+ id 1nRWdp-0006l1-Ev
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 05:00:31 -0500
+Received: by mail-yb1-xb2f.google.com with SMTP id j2so36760413ybu.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 02:00:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ItZHFgvMvFyCQJ8hUXjnd47sRHFaIexm+uyZ0OO3gRs=;
- b=ZrqdVnC+ecMU6DGr7JiE3EggKjJZhLWW/3pbFZeCRvz0r8mRVDKfmTGFiODJepJSYO
- zhEcyYHhmVceQSSnyB/naPuIvrZNKI1i5PbZqUcPsJ/3w0idfQgLLeeWsIDKRzi2r/Pe
- vWh0RF5QUPspwQIQ6fvl3jQFcz2djqnHYe66fKamauqjl/mZ2uicPe5DxSlUqO4kZNB3
- ullUWIErZdm7BQxqz3DhEGP2jeg8gkMHUZa2mX9/IzZs34aCyQGkgnchZbfSvXXBFYwU
- VSkSlskZQO766qj+GonuLaW+qVds9CTMXWSN5rPvkA71jRBJ3SejZNZUDYxQHMSSyYBO
- +2jQ==
+ :cc; bh=Y4yt6aKVg1jFu4At2gcY/TrGG9+m5Eya1B1cmCvlpeE=;
+ b=jGLv2KwHEnx77DIeU/OqvABMZObbXjcxS6gSQ909N7LNn2IfkHSXngq6eX+HGluUf0
+ qbydgo+k40zxzL8VNQBwOgmxGnhbiPfsSf51VRzrAmVfWEDHCbugNK/Awy2+B6rs57ZI
+ tYrRVLDeLWUd1R2CSfFG+BRK1Xs4mamEgCgzJNtAGLsqiOAR5TrZHZhAcT1sUXb0kFrc
+ BUd6J886NwAKNJLKruNSRAqrk5oaKrE3BRprK7W85SN0lyMGMGd+61Y1gj43m3JxhQcd
+ BtXVjUOZ9sZRyRH+jvUfUFR38oWpH0SZkdKKs16+TNZEsagCdD3MRWJk5aZlFYZbTm6Z
+ D8ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ItZHFgvMvFyCQJ8hUXjnd47sRHFaIexm+uyZ0OO3gRs=;
- b=Piyw2LKhUpN0ojrSy/oOHcR2EwwYBlR/pPlHbO6VO6Qb62bg5mWBWu+tm4RgYa0NNN
- OMjTzapoUvIHZSlLb75yo8uefbH+sLiPeVZ733jYm3TW26TbOaKciaUM+wMW8TcrH6ia
- TiPgzdMLbuAjEJ7IXLwV9qJx3DggY0vg6uqKrG69uOy1YAjS+xWLaoob7Wj9dSlvwVpG
- CJDp4DVL88i9GRmnXgaIs5d/xVshMEIrKsg0ups6OG8TKhtrE3kvB8sU+pRaYMFx0sJA
- hIWADzxGrdTh7FaxBud+FjJ3c20w93XTvvQ11idTiIr7iDsL4vN2/KKjF5I/+rsA/GqU
- 3JWg==
-X-Gm-Message-State: AOAM5308UFe05UB8Uwzgfnb0/pIQVNabsvqOCa0TecZ/lVYFaAFdOv16
- rBppJOHqAexc/MJe05SGMNpUzDVJNNw3UT1W6GuYfA==
-X-Google-Smtp-Source: ABdhPJzbALGmho1Xd83p3IETX3inx8EQLlpcsdq5dYnQgJeT8phA7nXN7LgImModRxLlWlYA8APUfhrpb/qnWfPzeq0=
-X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
- e69-20020a81a748000000b002d61f8b23a9mr11767022ywh.329.1646733613950; Tue, 08
- Mar 2022 02:00:13 -0800 (PST)
+ bh=Y4yt6aKVg1jFu4At2gcY/TrGG9+m5Eya1B1cmCvlpeE=;
+ b=NOPrOyWMkXX2yS6btAE93BKKT1xcafSzP18djQjlZmvbVWKNL81+0MwCM9bO64HKNK
+ 6v/cNdAMRrSQEkDmMzpMamBuEUljFtQtA30d+dEO6xH/rGjuQehqgCQWWQQZW3PcNZ2/
+ SS4/zsOLwViRKVrSK4m/fZVBcKKd03Q+TaP+wIWFvgGIOp15YXwcLBIdjprNW00z64JP
+ mpVuU92SOpvSLaSK2Wac9+tttDetrKzUbI5tfhY2tWmcFZBuk3Y3vCrA3YZ1Q+LjOGSg
+ rb0HnwBbCJiJtK7sFbAHqxp+h6fkr8pBIWjgZ7LByWnsUDHquh6Mh8hbwBR7KLJlFvza
+ aLEw==
+X-Gm-Message-State: AOAM530JUN+buzsGActHi/N1dWAjzHMFlTsGRtDYG59/nvTuv1B0cklj
+ /ss1Ot7ijXWGEGKnWX2ek70twmlBdQ6DgaaokKt7ZQ==
+X-Google-Smtp-Source: ABdhPJyCGAtMxA2FAE3jbVjHOtDEcIabMbV7D183c4KZllJ4u8SFGmgXat2ks5nUwYxXJc3iCXNSoWcAhIbhnuj8D8k=
+X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
+ q16-20020a5b0350000000b0062886b86e09mr11049506ybp.39.1646733627214; Tue, 08
+ Mar 2022 02:00:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-8-richard.henderson@linaro.org>
-In-Reply-To: <20220308072005.307955-8-richard.henderson@linaro.org>
+ <20220308072005.307955-9-richard.henderson@linaro.org>
+In-Reply-To: <20220308072005.307955-9-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Mar 2022 10:00:03 +0000
-Message-ID: <CAFEAcA-8oE1v0Y3Egr1C0Uo4U3HeX0TwY8H8aMb9geruOAYoKA@mail.gmail.com>
-Subject: Re: [PATCH v4 07/33] linux-user/nios2: Trim target_pc_regs to sp and
- pc
+Date: Tue, 8 Mar 2022 10:00:16 +0000
+Message-ID: <CAFEAcA8L5_nhMExMbYqxrt9Pk_BRpTe=tZ462Ur-3XDxy+MpYg@mail.gmail.com>
+Subject: Re: [PATCH v4 08/33] target/nios2: Remove cpu_interrupts_enabled
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1135
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,25 +89,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 8 Mar 2022 at 07:20, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> The only thing this struct is used for is passing startup values
-> from elfload.c to the cpu.  We do not need all registers to be
-> represented, we do not need the kernel internal stack slots.
->
-> The userland argc, argv, and envp values are passed on
-> the stack, so only SP and PC need updating.
+> This function is unused.  The real computation of this value
+> is located in nios2_cpu_exec_interrupt.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/nios2/target_syscall.h | 25 ++-----------------------
->  linux-user/elfload.c              |  3 +--
->  linux-user/nios2/cpu_loop.c       | 24 +-----------------------
->  3 files changed, 4 insertions(+), 48 deletions(-)
+>  target/nios2/cpu.h | 5 -----
+>  1 file changed, 5 deletions(-)
+>
+> diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+> index 727d31c427..14ed46959e 100644
+> --- a/target/nios2/cpu.h
+> +++ b/target/nios2/cpu.h
+> @@ -227,11 +227,6 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                          bool probe, uintptr_t retaddr);
+>  #endif
+>
+> -static inline int cpu_interrupts_enabled(CPUNios2State *env)
+> -{
+> -    return env->regs[CR_STATUS] & CR_STATUS_PIE;
+> -}
+> -
+>  typedef CPUNios2State CPUArchState;
+>  typedef Nios2CPU ArchCPU;
 
-Well, I guess we're not using it for anything else currently,
-but if you do this then it's not the target arch's pt_regs
-struct any more. And all our other target archs seem to define
-the struct to follow the kernel definition even if we don't
-happen to use it all.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
 -- PMM
 
