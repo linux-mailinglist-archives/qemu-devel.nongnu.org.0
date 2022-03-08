@@ -2,90 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAA34D1FC7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 19:11:29 +0100 (CET)
-Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEE54D1F20
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 18:30:46 +0100 (CET)
+Received: from localhost ([::1]:60582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nReIy-00043q-9c
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 13:11:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51548)
+	id 1nRdfZ-0004Pv-Oo
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 12:30:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1nRdYu-0007tm-CL; Tue, 08 Mar 2022 12:23:52 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:47851)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1nRdYs-0001J4-20; Tue, 08 Mar 2022 12:23:52 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id A96775C023B;
- Tue,  8 Mar 2022 12:23:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 08 Mar 2022 12:23:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; bh=PblPKJKnQsWifKsz1wXrgpG1CM9B25GQuj8v8p
- eIu+w=; b=f+QfS0dSexZ2Dnp7XForvH8kzgYIr/ATtuM1pvUtEdZDE+b3/caowR
- G2md4XB+nL0iTUgf8mzMG8Wr4oyBAkia+7iz0/ZdOfQI5hwbzU4aPM6GyoGzrZX2
- plLSJgkp9Kij2hw2hWBAWEClbb9AZZ+bQubOqNKS+GGUH7NUZlrwtrfkuMKbaxdx
- Ld6gHMwGXK/XNCHVR3gSMtkZ5Dqv8NQHQKmvkNCnCDYONvZr0cbMe5JmHqol6FT7
- 1RBVmPYwQTej7XCOuOu2obl+IUtPpGKRzl98fj0jxemJFSXI9U5mj024kgOGI8M6
- 2veAyJ+KkMPWhCZfvLIKauC3sq/MPu7g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=PblPKJKnQsWifKsz1
- wXrgpG1CM9B25GQuj8v8peIu+w=; b=OUM+5bNEPCvzS1T1fhW2WfLFwd5Jmx0HH
- zg0dtD+Icw0DlPqvJLJKTOgupawG3QK5F4uWMhUVXYuP5aatjBjEECRx+kH53qAR
- MQIydyh4BFExnFmEpu96fCrBmOA40COHz9MhpjXm6LPQ5eidZUwELN6br1bdjw8I
- vCHxIvazLkemrMxIRlmE8nhW308dp9XtsO019BsjORR9xNOgcfPf2CT+LLk/Z3m9
- LxBxs1EuBqYYXnDizYhGzcqp2M0Vso754zjmIcouU9PV5j3PqUiNmsd0NxgZn7FK
- vxpzztkJlgchQU+NinvozfH7++8duSKEL2kbCm+mXuahJparuNdug==
-X-ME-Sender: <xms:JJEnYr99-ni-ocBBpDMS8R2iO-_cJMQ5XmscKKAghWsvsQX7EHxhvg>
- <xme:JJEnYntAq2UZV4E_ZfhWXGQLMAQMK8frmF-H3h-V8IhHwbDOqEAQzXFzLEqpRP-2r
- 7P9nxkf9k-8NcqLMj8>
-X-ME-Received: <xmr:JJEnYpBOnTjGuxQSehPCcPVxJV-1pjj0wieCPSkafuXx4EO0SlELj7cXXn_F3xNrHtnYY9LDlFgXwUlu9ludz3yqxqN8-w45>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduiedgleekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdljedtmdenucfjughrpeffhffvuffkfhggtggujgesghdtroertddt
- udenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
- htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepvddvgedtudffiedugffgveffiefh
- ieevteegieegvdejvdfhgffhudfhgeegfefhnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:JJEnYnc_MwFgfN7YnSRT33jXK3YTX4cczeXyg9RSsmKBQHJoMMwO0g>
- <xmx:JJEnYgO0zn2TAhkZSfkBdWajwJDUD6huJkQLYLYsuCmLmx-lIcpZ9Q>
- <xmx:JJEnYpnzZ1QY7tF-g7Pq3nbgw1Gc74r4P7B7izo936WFDYW3RtkjIQ>
- <xmx:JJEnYtp4cy3Lyoup6YU9HsGNjAKvk4_NqNxdX3AnwUOwipQjFrDICw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Mar 2022 12:23:47 -0500 (EST)
-Date: Tue, 8 Mar 2022 11:23:46 -0600
-From: Patrick Williams <patrick@stwcx.xyz>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 2/2] hw/arm/aspeed: add Bletchley machine type
-Message-ID: <YieRIkiREVhRUXxZ@heinlein>
-References: <20220305000656.1944589-1-patrick@stwcx.xyz>
- <20220305000656.1944589-2-patrick@stwcx.xyz>
- <790dd79a-4c5e-207e-86a9-9351694f0427@kaod.org>
- <YiZySh+cdxL7ddKI@heinlein>
- <2b9aed65-5cdf-0647-dc25-7cc9d488aaa6@kaod.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRdaN-0000WR-2X; Tue, 08 Mar 2022 12:25:23 -0500
+Received: from [2607:f8b0:4864:20::42c] (port=42917
+ helo=mail-pf1-x42c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRdaK-0001hu-JZ; Tue, 08 Mar 2022 12:25:21 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id g19so6333736pfc.9;
+ Tue, 08 Mar 2022 09:25:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Yo6RLMKlExhl4mhzxk7SU7K20iKXhKXw7Ojh6DhB9+w=;
+ b=Zw0y0wE84wQYH/fy0NPciXboxIanJCtXtEPnLNoTmyI6nO5Ojg0dBde31w2BhsYn3D
+ 3nDogmK6OvL3RKG3pJlf9rdmoxOHPykHaaRvbyXZELGevNuC3MgOtamRTGiDU1fGv0VO
+ n5LHpNXEOAEl0WuVFTBcawfjzlXKkW1aufd9kiT/IQZXcj+XvZ+oLY4r/sjYD++ySXPc
+ ylKIkopqNpNNKOQ0kOK9yB3rSUKX5I7tWSZqIxEX9e8aLU1g457LAFGV1/xASqNvsaMu
+ wWP7XGxj24jvimn0Owj+QUo4QCnTRVO3Q1ZBwGTaPue3vB1F4xvvsx1HvTj8RuBYUMxb
+ 86HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Yo6RLMKlExhl4mhzxk7SU7K20iKXhKXw7Ojh6DhB9+w=;
+ b=vEqcz7EYswAXQlRrivKGKkHsAa6rdqsVgXMg3M/vF4Lm6Io/jfwjI5AlWyyymVe+Rw
+ U103sC0jZa7kr+9QM0CMBRpnFf0m/BEBG71SqfJxovQECMqBH5ajugTPTjvEqjDHjZ5Z
+ SF5q29hfreTBbdMOB3f0x/GCWZoOVx4WrPh7J+6rPcsHN7Fg7DpVp+Xdo1x7dv5NJPRM
+ BoomKjcet0o51jEo3CIu57RBc+tbq3aSpXhKayHhvZIKZSPOanOSnvFytMtXSLHkiwdG
+ XC/OmdySUCEFlFkxpHPHYR1qenyufwsYn9L4KRK1rykBYaKcVDXQHilcFkhp6IG8SreI
+ /9+Q==
+X-Gm-Message-State: AOAM531IQ0Q0XX3U9d/g49VOpYpk2kADnpbHcclp4zzwDkaPvTDE+5Ru
+ sHVa070y46Mz67f54avaLU4=
+X-Google-Smtp-Source: ABdhPJyI2YCFzdRzvbhWMMx5kROYlLxSxYqep7AI0CMStPMMtol/oa4mdC+2LI6MiUBYhyBSoFa7uQ==
+X-Received: by 2002:a63:5119:0:b0:37f:8077:ae15 with SMTP id
+ f25-20020a635119000000b0037f8077ae15mr15340956pgb.11.1646760318650; 
+ Tue, 08 Mar 2022 09:25:18 -0800 (PST)
+Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
+ x9-20020aa79409000000b004f704d33ca0sm7800442pfo.136.2022.03.08.09.25.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Mar 2022 09:25:18 -0800 (PST)
+Message-ID: <d8f38bf7-7e85-3c4a-046e-91a8f51edbf9@gmail.com>
+Date: Tue, 8 Mar 2022 18:25:13 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EwE2bW6bcZ26nGcO"
-Content-Disposition: inline
-In-Reply-To: <2b9aed65-5cdf-0647-dc25-7cc9d488aaa6@kaod.org>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=patrick@stwcx.xyz;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH] hw/dma/xlnx_csu_dma: Set TYPE_XLNX_CSU_DMA class_size
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220308150207.2546272-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220308150207.2546272-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_SUSPICIOUS_NTLD=0.499, PDS_OTHER_BAD_TLD=1.997, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,101 +92,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 8/3/22 16:02, Peter Maydell wrote:
+> In commit 00f05c02f9e7342f we gave the TYPE_XLNX_CSU_DMA object its
+> own class struct, but forgot to update the TypeInfo::class_size
+> accordingly.  This meant that not enough memory was allocated for the
+> class struct, and the initialization of xcdc->read in the class init
+> function wrote off the end of the memory. Add the missing line.
+> 
+> Found by running 'check-qtest-aarch64' with a clang
+> address-sanitizer build, which complains:
+> 
+> ==2542634==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61000000ab00 at pc 0x559a20aebc29 bp 0x7fff97df74d0 sp 0x7fff97df74c8
+> WRITE of size 8 at 0x61000000ab00 thread T0
+>      #0 0x559a20aebc28 in xlnx_csu_dma_class_init /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/../../hw/dma/xlnx_csu_dma.c:722:16
+>      #1 0x559a21bf297c in type_initialize /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/../../qom/object.c:365:9
+>      #2 0x559a21bf3442 in object_class_foreach_tramp /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/../../qom/object.c:1070:5
+>      #3 0x7f09bcb641b7 in g_hash_table_foreach (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x401b7)
+>      #4 0x559a21bf3c27 in object_class_foreach /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/../../qom/object.c:1092:5
+>      #5 0x559a21bf3c27 in object_class_get_list /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/../../qom/object.c:1149:5
+>      #6 0x559a2081a2fd in select_machine /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/../../softmmu/vl.c:1661:24
+>      #7 0x559a2081a2fd in qemu_create_machine /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/../../softmmu/vl.c:2146:35
+>      #8 0x559a2081a2fd in qemu_init /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/../../softmmu/vl.c:3706:5
+>      #9 0x559a20720ed5 in main /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/../../softmmu/main.c:49:5
+>      #10 0x7f09baec00b2 in __libc_start_main /build/glibc-sMfBJT/glibc-2.31/csu/../csu/libc-start.c:308:16
+>      #11 0x559a2067673d in _start (/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/qemu-system-aarch64+0xf4b73d)
+> 
+> 0x61000000ab00 is located 0 bytes to the right of 192-byte region [0x61000000aa40,0x61000000ab00)
+> allocated by thread T0 here:
+>      #0 0x559a206eeff2 in calloc (/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/qemu-system-aarch64+0xfc3ff2)
+>      #1 0x7f09bcb7bef0 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x57ef0)
+>      #2 0x559a21bf3442 in object_class_foreach_tramp /mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/san/../../qom/object.c:1070:5
+> 
+> Fixes: 00f05c02f9e7342f ("hw/dma/xlnx_csu_dma: Support starting a read transfer through a class method")
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   hw/dma/xlnx_csu_dma.c | 1 +
+>   1 file changed, 1 insertion(+)
 
---EwE2bW6bcZ26nGcO
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Mar 08, 2022 at 09:14:07AM +0100, C=E9dric Le Goater wrote:
->=20
-> >> There are two flash devices on the FMC. I can fix it inline since
-> >> it is the only change I would request.
-> >=20
-> > Yes, there are.  I think all of the Facebook systems have dual FMC, for
-> > redundancy in hardware, but we can get by in QEMU with just a single on=
-e.
->=20
-> yes, the kernel will complain though and I don't know how robust
-> the spi-nor based driver is. I think you sent a patch for a related
-> issue.
->=20
-> The newer spi-mem driver should be fine.
-
-Oh yes.  I already forgot that I'm running with that patch since Joel added=
- it
-to our backport 5.15 branch.  One of the reasons I wrote that patch was to =
-make
-QEMU not kpanic. :(
-
->  =20
-> > I'll see however you fix it up and see I can update all the other syste=
-ms as
-> > well. =20
->=20
-> ok. may be for 7.1 then.
->=20
-> > We have an internal patch to expand the CS on FMC to 2 but we haven't
-> > upstreamed it yet and I'm worried it will break some users w.r.t. the C=
-LI
-> > changing for adding images. =20
->=20
-> Yes. That's the problem. I am afraid some CI systems will break with
-> these change in a newer QEMU. The command line options will need to
-> adapt.
-
-My recollection is that the Romulus CI uses a branch of QEMU that at this p=
-oint
-is rather old anyhow.  We should be able to fix up the CI scripts at the sa=
-me
-time we upgrade.
-
-Are you or Andrew J maintaining that branch?
-
-> > My recollection is that the Romulus CI on OpenBMC relies on the PNOR=20
-> > being the 2nd argument.
->=20
-> That's the initial assumption made years ago. First mtd device is FMC,
-> second is the PNOR. It is reaching its limits.
->=20
-> I am looking at improving the command line argument to support:
->=20
->    -drive file=3D<file>,format=3Draw,id=3Ddrive0 -device mx66l1g45g,bus=
-=3Dssi.0,drive=3Ddrive0
->=20
-> which we would clearly define the topology. Adding a cs=3D[0-5] or and
-> addr=3D[0-5] is the next step.
-
-Seems fine to me.
-
---=20
-Patrick Williams
-
---EwE2bW6bcZ26nGcO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmInkSAACgkQqwNHzC0A
-wRkw6xAAgPgCGRzRydtSJERruguu810ew1LX32fV8Eqtq82BIOVO3WRc2J4fU8Ah
-Lfa2LamrS261G270uE/udu2Idzv7fxtA2x7hBzUumW+luwR7qE8gvLKCrc1gOPFi
-Zux3I7uOIfnDouuh8X9Is43470HyQTP564JoGUzPjGZ33iZiMABhLmhfKXsZcRj7
-vsuT/cAOxJ6B0EA8e/6G6Z9DZJaC1cPVQdyIkQKwpd24rioPT0sTnjjXUm5aWBpA
-IeKvDg6FXaRvyp6OFz3CyoPUyJiG0gHi3LoNEGCeuDE/HnYgteETFVhs26M+tg4G
-BaV+/eW8QuuzErRTVrMe6ztIYZvQKD+x8Bqu9ETqKPwVYKX9AgKhezHHxldF9NEt
-Z07x463l7Abcs13N4yrFP7iQ2Yyxbpo8bEFVkF1Y8l54dHRnLn4dsU6rbBS6xwVR
-HAbMVViTdFT2sWuF1nVvxXMQHq6wJIofXGJlC9Na0EA1wgoj2b4jn8yut2pj23nn
-HPu+4UZMkTcLoliZ6gFBAxDwdbOY7FDKPaUx7r80exy6PzPe5O8CJXo07QRCm3rA
-T/eoOKdi58xXBIdUx3EKY38lZFrgCRxhnFtVUjOglgZuwymK1aUa3YujveNE6RmC
-QTsctzWmf39JO+Uia/bDQqpiiDliWXLR9GRH7HtfbaqJhdVl38s=
-=QCQj
------END PGP SIGNATURE-----
-
---EwE2bW6bcZ26nGcO--
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
