@@ -2,95 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B735C4D117A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:02:29 +0100 (CET)
-Received: from localhost ([::1]:59346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDFB04D117F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:03:40 +0100 (CET)
+Received: from localhost ([::1]:35120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRUnc-0000dk-Hd
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:02:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50954)
+	id 1nRUol-0003Ic-T2
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:03:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRUgy-0000kQ-Ne
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 02:55:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31928)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nRUnT-0001OT-ED
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:02:19 -0500
+Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:57813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRUgv-0002yy-Sc
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 02:55:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646726132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UFezi77WesJBzFK1fhaAbsIyGgE1choY2kdQrE0mkS4=;
- b=TxSEOjaWCyzaU8p/9BN5E56ld8k2nKKFISXNFYUTZgqqaqJ7I86ME0Jxj0+jYnzVPFPZCN
- uoPYl9KXBb1US+dzIPsBUTnyy6nbextAm3c4B3tFoYWLJzXCJ8/IJNJixyJdglS9UDA/Se
- l/54tXQ5vsnPqsKOzVP7UwpyT5AqfAM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-skTA-VQtMySDyinFBCJNkg-1; Tue, 08 Mar 2022 02:55:31 -0500
-X-MC-Unique: skTA-VQtMySDyinFBCJNkg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- cm27-20020a0564020c9b00b004137effc24bso10135386edb.10
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 23:55:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=UFezi77WesJBzFK1fhaAbsIyGgE1choY2kdQrE0mkS4=;
- b=bvI3KyEyk75F/1+EYvh9rYRIIL+rYowAfGL3HNewOkyS7u6PNfVkIyzFz87kWMpjI9
- Ri9VLc+Ozx6UrUV7JTaggpG6QGANRdgoqKI9T6JeQwHZxttw271bFvfuN3WTj/lH9jOQ
- St9oYVePfE3xA+rSuh6zp6ebsmKeOVPu+80yd0E4pLG86+VueG4uQljhwUD+H3MTviD8
- lxMaMPo47+j081lkg9QBq15BRfaYNaL4X0bZqbKvs+48cIM7CHEkvF4CPFjid10CirdQ
- EPQZRypptYpQ322Xv98NHgiwHlsOGno2ol5eSCnEcwoT6+/SRIDGZwIqIcZ7Ysv1Z3Rd
- vPRA==
-X-Gm-Message-State: AOAM530Fi4q8FgI62mXO/h3CkqBeDIS5ZBHaLXi4OUUCl0S955UPEl0L
- 5X4eyRvulOqr8NzfctW9oC3GCw0TQmiUbz1zdYjxVQbipJSbwPXv/Hteh6vui+VzveyD1G/GVtU
- 620PO+Huf5BwZhXg=
-X-Received: by 2002:a17:907:160d:b0:6db:49bb:2c7a with SMTP id
- hb13-20020a170907160d00b006db49bb2c7amr1760431ejc.228.1646726129745; 
- Mon, 07 Mar 2022 23:55:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzPLIh9zjOVAW9d23M/7A7pRnUKI7iQh9+Zh18H1bTRewg2yW6RP5RnWMHUmqjcD9h29Kldxw==
-X-Received: by 2002:a17:907:160d:b0:6db:49bb:2c7a with SMTP id
- hb13-20020a170907160d00b006db49bb2c7amr1760400ejc.228.1646726129410; 
- Mon, 07 Mar 2022 23:55:29 -0800 (PST)
-Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
- c1-20020a170906762100b006d00ae72b0csm5465608ejn.221.2022.03.07.23.55.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 23:55:28 -0800 (PST)
-Date: Tue, 8 Mar 2022 02:55:23 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH v5 00/15] vDPA shadow virtqueue
-Message-ID: <20220308024724-mutt-send-email-mst@kernel.org>
-References: <20220307153334.3854134-1-eperezma@redhat.com>
- <14d4fde4-6ea5-4805-b684-c33f6b448565@redhat.com>
- <20220308020348-mutt-send-email-mst@kernel.org>
- <CACGkMEvY-+XpPWbtiX9dy+fwDxPp7sHFhH_LY0PB2YuusEugyw@mail.gmail.com>
- <20220308022300-mutt-send-email-mst@kernel.org>
- <CACGkMEvuTPCRk7Ng7CbgpPSPgs_QYijzc5fU+cV3kW09W1R7Qg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nRUnR-00046M-7Y
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:02:19 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.144])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 08B55236A5;
+ Tue,  8 Mar 2022 08:02:07 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 8 Mar
+ 2022 09:02:06 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R0040d039b1d-7864-4a31-bdc7-5e06a849632c,
+ 03E3C14593CA27F822F61C3AD678835CDD198C87) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <9b7c2154-fed8-8e70-2d7e-12ae3c865622@kaod.org>
+Date: Tue, 8 Mar 2022 09:02:05 +0100
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEvuTPCRk7Ng7CbgpPSPgs_QYijzc5fU+cV3kW09W1R7Qg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] hw/block: m25p80: Add support for w25q01jvq
+Content-Language: en-US
+To: Patrick Williams <patrick@stwcx.xyz>
+References: <20220304180920.1780992-1-patrick@stwcx.xyz>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220304180920.1780992-1-patrick@stwcx.xyz>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 867a5726-1bfe-4129-939d-6533b62d1815
+X-Ovh-Tracer-Id: 972214572833147753
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -83
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrudduhedguddufecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfghrlhcuvffnffculddujedmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptdegleduueeivedvudeiffekieffffeiheefveevueeghfekffeftdeugeeifeeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohephhhrvghithiisehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,315 +70,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cindy Lu <lulu@redhat.com>,
- "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Parav Pandit <parav@mellanox.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Lingshan <lingshan.zhu@intel.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Potin Lai <potin.lai@quantatw.com>, Alistair Francis <alistair@alistair23.me>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 08, 2022 at 03:34:17PM +0800, Jason Wang wrote:
-> On Tue, Mar 8, 2022 at 3:28 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Tue, Mar 08, 2022 at 03:14:35PM +0800, Jason Wang wrote:
-> > > On Tue, Mar 8, 2022 at 3:11 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > >
-> > > > On Tue, Mar 08, 2022 at 02:03:32PM +0800, Jason Wang wrote:
-> > > > >
-> > > > > 在 2022/3/7 下午11:33, Eugenio Pérez 写道:
-> > > > > > This series enable shadow virtqueue (SVQ) for vhost-vdpa devices. This
-> > > > > > is intended as a new method of tracking the memory the devices touch
-> > > > > > during a migration process: Instead of relay on vhost device's dirty
-> > > > > > logging capability, SVQ intercepts the VQ dataplane forwarding the
-> > > > > > descriptors between VM and device. This way qemu is the effective
-> > > > > > writer of guests memory, like in qemu's virtio device operation.
-> > > > > >
-> > > > > > When SVQ is enabled qemu offers a new virtual address space to the
-> > > > > > device to read and write into, and it maps new vrings and the guest
-> > > > > > memory in it. SVQ also intercepts kicks and calls between the device
-> > > > > > and the guest. Used buffers relay would cause dirty memory being
-> > > > > > tracked.
-> > > > > >
-> > > > > > This effectively means that vDPA device passthrough is intercepted by
-> > > > > > qemu. While SVQ should only be enabled at migration time, the switching
-> > > > > > from regular mode to SVQ mode is left for a future series.
-> > > > > >
-> > > > > > It is based on the ideas of DPDK SW assisted LM, in the series of
-> > > > > > DPDK's https://patchwork.dpdk.org/cover/48370/ . However, these does
-> > > > > > not map the shadow vq in guest's VA, but in qemu's.
-> > > > > >
-> > > > > > For qemu to use shadow virtqueues the guest virtio driver must not use
-> > > > > > features like event_idx.
-> > > > > >
-> > > > > > SVQ needs to be enabled with cmdline:
-> > > > > >
-> > > > > > -netdev type=vhost-vdpa,vhostdev=vhost-vdpa-0,id=vhost-vdpa0,svq=on
-> > > >
-> > > > A stable API for an incomplete feature is a problem imho.
-> > >
-> > > It should be "x-svq".
-> >
-> >
-> > Well look at patch 15.
+On 3/4/22 19:09, Patrick Williams wrote:
+> The w25q01jvq is a 128MB part.  Support is being added to the kernel[1]
+> and the two have been tested together.
 > 
-> It's a bug that needs to be fixed.
+> 1. https://lore.kernel.org/lkml/20220222092222.23108-1-potin.lai@quantatw.com/
 > 
-> >
-> > > >
-> > > >
-> > > > > >
-> > > > > > The first three patches enables notifications forwarding with
-> > > > > > assistance of qemu. It's easy to enable only this if the relevant
-> > > > > > cmdline part of the last patch is applied on top of these.
-> > > > > >
-> > > > > > Next four patches implement the actual buffer forwarding. However,
-> > > > > > address are not translated from HVA so they will need a host device with
-> > > > > > an iommu allowing them to access all of the HVA range.
-> > > > > >
-> > > > > > The last part of the series uses properly the host iommu, so qemu
-> > > > > > creates a new iova address space in the device's range and translates
-> > > > > > the buffers in it. Finally, it adds the cmdline parameter.
-> > > > > >
-> > > > > > Some simple performance tests with netperf were done. They used a nested
-> > > > > > guest with vp_vdpa, vhost-kernel at L0 host. Starting with no svq and a
-> > > > > > baseline average of ~9009.96Mbps:
-> > > > > > Recv   Send    Send
-> > > > > > Socket Socket  Message  Elapsed
-> > > > > > Size   Size    Size     Time     Throughput
-> > > > > > bytes  bytes   bytes    secs.    10^6bits/sec
-> > > > > > 131072  16384  16384    30.01    9061.03
-> > > > > > 131072  16384  16384    30.01    8962.94
-> > > > > > 131072  16384  16384    30.01    9005.92
-> > > > > >
-> > > > > > To enable SVQ buffers forwarding reduce throughput to about
-> > > > > > Recv   Send    Send
-> > > > > > Socket Socket  Message  Elapsed
-> > > > > > Size   Size    Size     Time     Throughput
-> > > > > > bytes  bytes   bytes    secs.    10^6bits/sec
-> > > > > > 131072  16384  16384    30.01    7689.72
-> > > > > > 131072  16384  16384    30.00    7752.07
-> > > > > > 131072  16384  16384    30.01    7750.30
-> > > > > >
-> > > > > > However, many performance improvements were left out of this series for
-> > > > > > simplicity, so difference should shrink in the future.
-> > > > > >
-> > > > > > Comments are welcome.
-> > > > >
-> > > > >
-> > > > > Hi Michael:
-> > > > >
-> > > > > What do you think of this series? It looks good to me as a start. The
-> > > > > feature could only be enabled as a dedicated parameter. If you're ok, I'd
-> > > > > try to make it for 7.0.
-> > > > >
-> > > > > Thanks
-> > > >
-> > > > Well that's cutting it awfully close, and it's not really useful
-> > > > at the current stage, is it?
-> > >
-> > > This allows vDPA to be migrated when using "x-svq=on".
-> > > But anyhow it's
-> > > experimental.
-> >
-> > it's less experimental than incomplete. It seems pretty clearly not
-> > the way it will work down the road, we don't want svq involved
-> > at all times.
-> 
-> Right, but SVQ could be used for other places e.g providing migration
-> compatibility when the destination lacks some features.
+> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+> Cc: Potin Lai <potin.lai@quantatw.com>
+> ---
+>   hw/block/m25p80.c | 1 +
+>   1 file changed, 1 insertion(+)
 
-In its current form? I don't see how.  Generally? Maybe but I suspect
-we'll have to rework it completely for that.
+If that's ok with the maintainers, I am going to take this patch through
+the aspeed machine queue since the new 'bletchley-bmc' machine depends
+on it :
 
-> >
-> > > >
-> > > > The IOVA trick does not feel complete either.
-> > >
-> > > I don't get here. We don't use any IOVA trick as DPDK (it reserve IOVA
-> > > for shadow vq) did. So we won't suffer from the issues of DPDK.
-> > >
-> > > Thanks
-> >
-> > Maybe I misundrstand how this all works.
-> > I refer to all the iova_tree_alloc_map things.
-> 
-> It's a simple IOVA allocater actually. Anything wrong with that?
+   http://patchwork.ozlabs.org/project/qemu-devel/patch/20220305000656.1944589-2-patrick@stwcx.xyz/
 
-Not by itself but I'm not sure we can guarantee guest will not
-attempt to use the IOVA addresses we are reserving down
-the road.
+I should send the PR today.
 
-> I'm fine with making it for the future release.
-> 
-> Thanks
-> 
-> >
-> > > >
-> > > > >
-> > > > > >
-> > > > > > TODO on future series:
-> > > > > > * Event, indirect, packed, and others features of virtio.
-> > > > > > * To support different set of features between the device<->SVQ and the
-> > > > > >    SVQ<->guest communication.
-> > > > > > * Support of device host notifier memory regions.
-> > > > > > * To sepparate buffers forwarding in its own AIO context, so we can
-> > > > > >    throw more threads to that task and we don't need to stop the main
-> > > > > >    event loop.
-> > > > > > * Support multiqueue virtio-net vdpa.
-> > > > > > * Proper documentation.
-> > > > > >
-> > > > > > Changes from v4:
-> > > > > > * Iterate iova->hva tree instead on maintain own tree so we support HVA
-> > > > > >    overlaps.
-> > > > > > * Fix: Errno completion at failure.
-> > > > > > * Rename x-svq to svq, so changes to stable does not affect cmdline parameter.
-> > > > > >
-> > > > > > Changes from v3:
-> > > > > > * Add @unstable feature to NetdevVhostVDPAOptions.x-svq.
-> > > > > > * Fix uncomplete mapping (by 1 byte) of memory regions if svq is enabled.
-> > > > > > v3 link:
-> > > > > > https://lore.kernel.org/qemu-devel/20220302203012.3476835-1-eperezma@redhat.com/
-> > > > > >
-> > > > > > Changes from v2:
-> > > > > > * Less assertions and more error handling in iova tree code.
-> > > > > > * Better documentation, both fixing errors and making @param: format
-> > > > > > * Homogeneize SVQ avail_idx_shadow and shadow_used_idx to make shadow a
-> > > > > >    prefix at both times.
-> > > > > > * Fix: Fo not use VirtQueueElement->len field, track separatedly.
-> > > > > > * Split vhost_svq_{enable,disable}_notification, so the code looks more
-> > > > > >    like the kernel driver code.
-> > > > > > * Small improvements.
-> > > > > > v2 link:
-> > > > > > https://lore.kernel.org/all/CAJaqyWfXHE0C54R_-OiwJzjC0gPpkE3eX0L8BeeZXGm1ERYPtA@mail.gmail.com/
-> > > > > >
-> > > > > > Changes from v1:
-> > > > > > * Feature set at device->SVQ is now the same as SVQ->guest.
-> > > > > > * Size of SVQ is not max available device size anymore, but guest's
-> > > > > >    negotiated.
-> > > > > > * Add VHOST_FILE_UNBIND kick and call fd treatment.
-> > > > > > * Make SVQ a public struct
-> > > > > > * Come back to previous approach to iova-tree
-> > > > > > * Some assertions are now fail paths. Some errors are now log_guest.
-> > > > > > * Only mask _F_LOG feature at vdpa_set_features svq enable path.
-> > > > > > * Refactor some errors and messages. Add missing error unwindings.
-> > > > > > * Add memory barrier at _F_NO_NOTIFY set.
-> > > > > > * Stop checking for features flags out of transport range.
-> > > > > > v1 link:
-> > > > > > https://lore.kernel.org/virtualization/7d86c715-6d71-8a27-91f5-8d47b71e3201@redhat.com/
-> > > > > >
-> > > > > > Changes from v4 RFC:
-> > > > > > * Support of allocating / freeing iova ranges in IOVA tree. Extending
-> > > > > >    already present iova-tree for that.
-> > > > > > * Proper validation of guest features. Now SVQ can negotiate a
-> > > > > >    different set of features with the device when enabled.
-> > > > > > * Support of host notifiers memory regions
-> > > > > > * Handling of SVQ full queue in case guest's descriptors span to
-> > > > > >    different memory regions (qemu's VA chunks).
-> > > > > > * Flush pending used buffers at end of SVQ operation.
-> > > > > > * QMP command now looks by NetClientState name. Other devices will need
-> > > > > >    to implement it's way to enable vdpa.
-> > > > > > * Rename QMP command to set, so it looks more like a way of working
-> > > > > > * Better use of qemu error system
-> > > > > > * Make a few assertions proper error-handling paths.
-> > > > > > * Add more documentation
-> > > > > > * Less coupling of virtio / vhost, that could cause friction on changes
-> > > > > > * Addressed many other small comments and small fixes.
-> > > > > >
-> > > > > > Changes from v3 RFC:
-> > > > > >    * Move everything to vhost-vdpa backend. A big change, this allowed
-> > > > > >      some cleanup but more code has been added in other places.
-> > > > > >    * More use of glib utilities, especially to manage memory.
-> > > > > > v3 link:
-> > > > > > https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06032.html
-> > > > > >
-> > > > > > Changes from v2 RFC:
-> > > > > >    * Adding vhost-vdpa devices support
-> > > > > >    * Fixed some memory leaks pointed by different comments
-> > > > > > v2 link:
-> > > > > > https://lists.nongnu.org/archive/html/qemu-devel/2021-03/msg05600.html
-> > > > > >
-> > > > > > Changes from v1 RFC:
-> > > > > >    * Use QMP instead of migration to start SVQ mode.
-> > > > > >    * Only accepting IOMMU devices, closer behavior with target devices
-> > > > > >      (vDPA)
-> > > > > >    * Fix invalid masking/unmasking of vhost call fd.
-> > > > > >    * Use of proper methods for synchronization.
-> > > > > >    * No need to modify VirtIO device code, all of the changes are
-> > > > > >      contained in vhost code.
-> > > > > >    * Delete superfluous code.
-> > > > > >    * An intermediate RFC was sent with only the notifications forwarding
-> > > > > >      changes. It can be seen in
-> > > > > >      https://patchew.org/QEMU/20210129205415.876290-1-eperezma@redhat.com/
-> > > > > > v1 link:
-> > > > > > https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05372.html
-> > > > > >
-> > > > > > Eugenio Pérez (20):
-> > > > > >        virtio: Add VIRTIO_F_QUEUE_STATE
-> > > > > >        virtio-net: Honor VIRTIO_CONFIG_S_DEVICE_STOPPED
-> > > > > >        virtio: Add virtio_queue_is_host_notifier_enabled
-> > > > > >        vhost: Make vhost_virtqueue_{start,stop} public
-> > > > > >        vhost: Add x-vhost-enable-shadow-vq qmp
-> > > > > >        vhost: Add VhostShadowVirtqueue
-> > > > > >        vdpa: Register vdpa devices in a list
-> > > > > >        vhost: Route guest->host notification through shadow virtqueue
-> > > > > >        Add vhost_svq_get_svq_call_notifier
-> > > > > >        Add vhost_svq_set_guest_call_notifier
-> > > > > >        vdpa: Save call_fd in vhost-vdpa
-> > > > > >        vhost-vdpa: Take into account SVQ in vhost_vdpa_set_vring_call
-> > > > > >        vhost: Route host->guest notification through shadow virtqueue
-> > > > > >        virtio: Add vhost_shadow_vq_get_vring_addr
-> > > > > >        vdpa: Save host and guest features
-> > > > > >        vhost: Add vhost_svq_valid_device_features to shadow vq
-> > > > > >        vhost: Shadow virtqueue buffers forwarding
-> > > > > >        vhost: Add VhostIOVATree
-> > > > > >        vhost: Use a tree to store memory mappings
-> > > > > >        vdpa: Add custom IOTLB translations to SVQ
-> > > > > >
-> > > > > > Eugenio Pérez (15):
-> > > > > >    vhost: Add VhostShadowVirtqueue
-> > > > > >    vhost: Add Shadow VirtQueue kick forwarding capabilities
-> > > > > >    vhost: Add Shadow VirtQueue call forwarding capabilities
-> > > > > >    vhost: Add vhost_svq_valid_features to shadow vq
-> > > > > >    virtio: Add vhost_svq_get_vring_addr
-> > > > > >    vdpa: adapt vhost_ops callbacks to svq
-> > > > > >    vhost: Shadow virtqueue buffers forwarding
-> > > > > >    util: Add iova_tree_alloc_map
-> > > > > >    util: add iova_tree_find_iova
-> > > > > >    vhost: Add VhostIOVATree
-> > > > > >    vdpa: Add custom IOTLB translations to SVQ
-> > > > > >    vdpa: Adapt vhost_vdpa_get_vring_base to SVQ
-> > > > > >    vdpa: Never set log_base addr if SVQ is enabled
-> > > > > >    vdpa: Expose VHOST_F_LOG_ALL on SVQ
-> > > > > >    vdpa: Add x-svq to NetdevVhostVDPAOptions
-> > > > > >
-> > > > > >   qapi/net.json                      |   8 +-
-> > > > > >   hw/virtio/vhost-iova-tree.h        |  27 ++
-> > > > > >   hw/virtio/vhost-shadow-virtqueue.h |  87 ++++
-> > > > > >   include/hw/virtio/vhost-vdpa.h     |   8 +
-> > > > > >   include/qemu/iova-tree.h           |  38 +-
-> > > > > >   hw/virtio/vhost-iova-tree.c        | 110 +++++
-> > > > > >   hw/virtio/vhost-shadow-virtqueue.c | 637 +++++++++++++++++++++++++++++
-> > > > > >   hw/virtio/vhost-vdpa.c             | 525 +++++++++++++++++++++++-
-> > > > > >   net/vhost-vdpa.c                   |  48 ++-
-> > > > > >   util/iova-tree.c                   | 169 ++++++++
-> > > > > >   hw/virtio/meson.build              |   2 +-
-> > > > > >   11 files changed, 1633 insertions(+), 26 deletions(-)
-> > > > > >   create mode 100644 hw/virtio/vhost-iova-tree.h
-> > > > > >   create mode 100644 hw/virtio/vhost-shadow-virtqueue.h
-> > > > > >   create mode 100644 hw/virtio/vhost-iova-tree.c
-> > > > > >   create mode 100644 hw/virtio/vhost-shadow-virtqueue.c
-> > > > > >
-> > > >
-> >
+Thanks,
+
+C.
+
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index c6bf3c6bfa..7d3d8b12e0 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -340,6 +340,7 @@ static const FlashPartInfo known_devices[] = {
+>       { INFO("w25q80bl",    0xef4014,      0,  64 << 10,  16, ER_4K) },
+>       { INFO("w25q256",     0xef4019,      0,  64 << 10, 512, ER_4K) },
+>       { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K) },
+> +    { INFO("w25q01jvq",   0xef4021,      0,  64 << 10, 2048, ER_4K) },
+>   };
+>   
+>   typedef enum {
 
 
