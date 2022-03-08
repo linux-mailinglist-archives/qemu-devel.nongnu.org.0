@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C174D1696
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:48:48 +0100 (CET)
-Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67804D16B5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:55:26 +0100 (CET)
+Received: from localhost ([::1]:45708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRYKe-0003Sj-0l
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:48:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44824)
+	id 1nRYR3-0004eC-PM
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:55:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRY7k-0007rh-Ia
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:28 -0500
-Received: from [2a00:1450:4864:20::531] (port=38737
- helo=mail-ed1-x531.google.com)
+ id 1nRY7n-0007st-J9
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:32 -0500
+Received: from [2a00:1450:4864:20::62a] (port=46634
+ helo=mail-ej1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nRY7g-00061b-FD
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:26 -0500
-Received: by mail-ed1-x531.google.com with SMTP id h13so11903714ede.5
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:35:24 -0800 (PST)
+ id 1nRY7m-00061x-71
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:35:31 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id qx21so38501122ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:35:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A7sbpjvbdH49qnXY2FpOJVOxJSU0keOkFOijV/ibCMY=;
- b=UwpCjohHYbGqEncIkxb2mGxjPgB3cfwLoPiqVR87V1wJu+nrifjh7WCy/sd8/hZoAa
- L4NCgpNJInCQHQH2ENqIBHtNsYbPwMEuurdq30Q1P+4aXsoVFy/KshzhhfRzUyIhSsh7
- SaGbZ/wAZlzvamJwaxKOfdwTYFWg8juX0/KCT0hW5LIJh5nFxhAm3MMSipgsyaNr1fBx
- FBox/fVY3/FAPgybc4s842f5sG11k1jIUXyzUFuiiZSCwdF2NAog/EwPpacvzdZ00iqb
- GzM/B2OvpSfgYYuVBFIAt1+3Pbg8sBEzhvwns9GO7UO5Q3cHX9gBXfS+ar2w8Gq6CKgv
- QQvQ==
+ bh=2EWNx9oBQd7VD3zT0pyDj06sfYhM3+NSwBMbPhDSDAI=;
+ b=G4fwL4vQ3vCX97KA3mYgHClvRoXYslfOGOCO6LYxPTwF5VIhVg6BFYzY+3bgMX/q2N
+ 9hQj9UIjSwPbAl01zdG/f34pC9v32xwG7X8zg61839gjX3o6ShWk5A+ngDgEcEhSnZAh
+ t4bhea3aqvzKlbJzT9LM7tHuSHBYubXlVD52n0NKx4V5PzXSIv0fd13yqsgJf/CS2qB+
+ MCKOywFmKH/OEANsmrIoXZyJy+fKYfSWV3dSuv29M3ERwgagCJ3BkgQPjAXVKA9jak7e
+ hQGh6jLiIitWt9GVdIQN/jLwuDn99+NYeB3sxGAqmbM/EqtQK1+ZPjafS3FJ34C4wjMm
+ qO4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=A7sbpjvbdH49qnXY2FpOJVOxJSU0keOkFOijV/ibCMY=;
- b=NoNGJS1Qk74XQiOtFcnQzbK/PSSCTwbywWigOsFPb+IUX0OpvFGxWEZ2G4S8BY5bCb
- IdvbPN8MoPGQo5lotHfohprOLMKAIBYb7LmblvxehRyGoBHlK6cRrZtMGbdsoz5GZbft
- A2eTuZQgyk/7TkY+stdCmHysQto2HqcstzoxHiL/NjDM14SMh5U3U/C3FCr80ncale7g
- 06slafbH3a/W7Sa9vI2HT4sf1EpZqeIEf2bbREU1kk2YgvM/jwC9L0aRAv1PUrzKXW1y
- 1s+j157UkG8zTjMqR4K3GlgraEEsmnotm//ZZ3rXV/+Bb3dGijTI+nOp8hQmy8NaBOsI
- BdqA==
-X-Gm-Message-State: AOAM532FZ25GDLOKzj0U5i1Bdk/hJrM3J7HA5Cq5LkaojYrLftQ9rGag
- UMdbM5SR9Hnm/Kn0wu2OwJ/gepRaAzQ=
-X-Google-Smtp-Source: ABdhPJwQJxMHYOI+vFNFSiRBHs1bILcaOucwKWbyN+YRkWO2y8iZ7IrZ3IfVQ52ivgywGWEvN+2COw==
-X-Received: by 2002:a05:6402:1941:b0:413:2822:9c8 with SMTP id
- f1-20020a056402194100b00413282209c8mr15703886edz.13.1646739323115; 
- Tue, 08 Mar 2022 03:35:23 -0800 (PST)
+ bh=2EWNx9oBQd7VD3zT0pyDj06sfYhM3+NSwBMbPhDSDAI=;
+ b=PcKRNbCelF7UfEzJJJ6k6PmdvDBfOMYafa1/sOJN8RR71EqiCRoqBEPbDakG+Hbazz
+ m90j8DftugbL0F8dB//Q0L+jrtTVUIM5JxOsjitjIqklfNarFKfvmpHPPZZrFfJnUGX0
+ z7bA4uvlFZ0iyZiwToA7nd4z9jakviz0pVn4Y3EdpStu5iO35fDnEdjVhFtdudruh7jM
+ IzXbK6nKQNwyQdzgiZ19NJw6nmz294JbTwHYglz6pyeFTubTcjVKfBZtICzgOmh/+g7Q
+ gYuw9EAPKAbiaG5Enoid3tgjNXb4sqVO7tshI3cSfbVmZx54+OB/8QpPOnI4RIPZL2z8
+ zkQQ==
+X-Gm-Message-State: AOAM531GTbDFY6p5567kEaC/rI1aXr8iHKUJOreAYKW3uDn2HTaXwIpW
+ r60AuSqHaoVDle9UDOLllF1/z7Gk6xA=
+X-Google-Smtp-Source: ABdhPJykQcAxNZ7+YAi9kQuYg/5anzlEenLTWw480eIQywSfZHHGBex5wXA9tzyQ4O4zumrPoU+Aqw==
+X-Received: by 2002:a17:907:970e:b0:6da:9224:7fb3 with SMTP id
+ jg14-20020a170907970e00b006da92247fb3mr12941507ejc.502.1646739324859; 
+ Tue, 08 Mar 2022 03:35:24 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l2-20020aa7cac2000000b003f9b3ac68d6sm7491868edt.15.2022.03.08.03.35.22
+ l2-20020aa7cac2000000b003f9b3ac68d6sm7491868edt.15.2022.03.08.03.35.23
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 03:35:22 -0800 (PST)
+ Tue, 08 Mar 2022 03:35:23 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/22] KVM: SVM: always set MSR_AMD64_TSC_RATIO to default value
-Date: Tue,  8 Mar 2022 12:34:44 +0100
-Message-Id: <20220308113445.859669-22-pbonzini@redhat.com>
+Subject: [PULL 22/22] gitlab-ci: do not run tests with address sanitizer
+Date: Tue,  8 Mar 2022 12:34:45 +0100
+Message-Id: <20220308113445.859669-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220308113445.859669-1-pbonzini@redhat.com>
 References: <20220308113445.859669-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -89,40 +90,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+This is flaky and sometimes fails or hangs unexplicably.
 
-Even when the feature is not supported in guest CPUID,
-still set the msr to the default value which will
-be the only value KVM will accept in this case
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-Id: <20220223115824.319821-1-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ .gitlab-ci.d/buildtest.yml | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 916d3354fe..a88d6554c8 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5997,9 +5997,7 @@ static void x86_cpu_reset(DeviceState *dev)
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 0aa70213fb..0aea7ab84c 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -515,8 +515,6 @@ build-oss-fuzz:
+         echo Testing ${fuzzer} ... ;
+         "${fuzzer}" -runs=1 -seed=1 || exit 1 ;
+       done
+-    # Unrelated to fuzzer: run some tests with -fsanitize=address
+-    - cd build-oss-fuzz && make check-qtest-i386 check-unit
  
-     x86_cpu_set_sgxlepubkeyhash(env);
- 
--    if (env->features[FEAT_SVM] & CPUID_SVM_TSCSCALE) {
--        env->amd_tsc_scale_msr =  MSR_AMD64_TSC_RATIO_DEFAULT;
--    }
-+    env->amd_tsc_scale_msr =  MSR_AMD64_TSC_RATIO_DEFAULT;
- 
- #endif
- }
+ build-tci:
+   extends: .native_build_job_template
 -- 
 2.35.1
-
 
 
