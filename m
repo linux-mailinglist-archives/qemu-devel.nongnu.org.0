@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1DF4D1629
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:22:40 +0100 (CET)
-Received: from localhost ([::1]:43560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE24E4D163C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:28:17 +0100 (CET)
+Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRXvL-0005ih-Tj
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:22:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40472)
+	id 1nRY0m-0001TE-H5
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:28:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRXsO-0003AX-Nb
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:19:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27097)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRXwl-0000C4-UH
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:24:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRXsM-00030P-OX
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:19:36 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRXwj-0003tO-Vh
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:24:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646738373;
+ s=mimecast20190719; t=1646738644;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4SurBzF05RIJucpEre2GY8N2HACUkfB8GkSDgrOnuEM=;
- b=HuHq6oS6j8kFISmitvZpx3LjKlKijWS9ytY27jxe2qzcyKOYWuY2rv3s1a12Z7DLFYUHuv
- YppH3FNwsXPXHrubbm25JbRniHXAElrAsAMtugD9rlx+pGEjsbBQ6LMAkkWfaaOuvPFL+V
- GHYn7yGziLJ94DQXeXKVBoo9sGxCreU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3iUi0g74zoEfQnd0AyvrJ5Nmq/RxeCEQfpiO+2h1VeQ=;
+ b=fsShxCt+o+boxEyszelu5NQXwUimpN2x4wlYS7GThdDfS+5DFDJkWxvL1XCP7Q8NDsILm0
+ CTIPx7YXdKqHOJwSfRZNW4Kww5BREel9QAwryMLGcJ4n+DfaKuNnwSFl0sgnSgxR/l3D7+
+ a+/70QxMbqGScFuPOWtunJduvKgzsuU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-279-NTYhtnMPOhOCXM9mPL00zw-1; Tue, 08 Mar 2022 06:19:30 -0500
-X-MC-Unique: NTYhtnMPOhOCXM9mPL00zw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B4BA8145F6;
- Tue,  8 Mar 2022 11:19:29 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFFEF7B6EE;
- Tue,  8 Mar 2022 11:19:28 +0000 (UTC)
-Date: Tue, 8 Mar 2022 11:19:27 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v5 17/20] job: detect change of aiocontext within job
- coroutine
-Message-ID: <Yic7v9tAVdxGml5v@stefanha-x1.localdomain>
-References: <20220208143513.1077229-1-eesposit@redhat.com>
- <20220208143513.1077229-18-eesposit@redhat.com>
+ us-mta-192-R5DXGk0EPpinQIOti37KXw-1; Tue, 08 Mar 2022 06:24:03 -0500
+X-MC-Unique: R5DXGk0EPpinQIOti37KXw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 7-20020a1c1907000000b003471d9bbe8dso821991wmz.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:24:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3iUi0g74zoEfQnd0AyvrJ5Nmq/RxeCEQfpiO+2h1VeQ=;
+ b=AX2/TSZ2VnWTLuUq9K9ruiHXhpQHWn60IUbZo0vJoUfLMKxP4DPRefG1+eJjuO8lHc
+ T78Cdv5XqPzsLqlW5GUP/8FSmPhBKHioIWNll2/tbndt3lETbR9CRDhoo9jOpF+1+HbC
+ ncfmO63ewN/bi47ChdM1ANIx4eRu3FJTzYuNdhJ5+wnH3OAt/Mac4Mp2zbEYBKJTI0Sl
+ aoZ2K5+i4/576XPXj10WDJx+hyHdJv7m1W5ovgJyYgz0Wf99Vjlf1z9DGQrg4DEaOdgY
+ nV1mhIg1PZzHe4kulxpDnp2yYGNWF1AFFfswGvLEWVCpgk1lXSwR4U9Jm6BIAZaxKBK1
+ vgIw==
+X-Gm-Message-State: AOAM531SUOtsLoV2jPugBOWnw0FPqPPbHkE2LzyVmfGoP2EGnQOt+Pup
+ Zt5VYUuAOwKcNMlU/mECf4NX5AHhI3mRmm09JTYuuS3/F8gQwaM+1lHqNZVdnO4Ks1dnlmoEkrI
+ 9oshu9WAlAkmOZug=
+X-Received: by 2002:a5d:6506:0:b0:1f1:da5e:e077 with SMTP id
+ x6-20020a5d6506000000b001f1da5ee077mr11923313wru.405.1646738642020; 
+ Tue, 08 Mar 2022 03:24:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxbmGoQdO40XvIzVPG4dHqMN/1ZIEehMqvDl6wBB/Q8Vg7c5FcSS0D5/BfxtXacebEblozWng==
+X-Received: by 2002:a5d:6506:0:b0:1f1:da5e:e077 with SMTP id
+ x6-20020a5d6506000000b001f1da5ee077mr11923295wru.405.1646738641705; 
+ Tue, 08 Mar 2022 03:24:01 -0800 (PST)
+Received: from redhat.com ([2.55.138.228]) by smtp.gmail.com with ESMTPSA id
+ w9-20020a5d6089000000b001f0256761b9sm22550410wrt.45.2022.03.08.03.24.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Mar 2022 03:24:01 -0800 (PST)
+Date: Tue, 8 Mar 2022 06:23:58 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 00/47] virtio,pc,pci: features, cleanups, fixes
+Message-ID: <20220308061940-mutt-send-email-mst@kernel.org>
+References: <20220307100058.449628-1-mst@redhat.com>
+ <CAFEAcA94Uu=kyinf+pLUT2cY05326EDX=TKUeiSJH_aEY-kPVg@mail.gmail.com>
+ <CAFEAcA_wO6dkr6=HUYsOS7RxGErrAvsNnNqhKfM733Q=4v6cdw@mail.gmail.com>
+ <20220307174713-mutt-send-email-mst@kernel.org>
+ <CAFEAcA9qUMuDupNRCYeH5rzBY+J7D3XXN_92PJjhBYxF70kF=w@mail.gmail.com>
+ <20220308055639-mutt-send-email-mst@kernel.org>
+ <CAFEAcA-3iD3hz2ihSDOir6ByWztAjNUkAvCSbeeX7-osMQLTdg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="caObCPKF/6WU9MBs"
+In-Reply-To: <CAFEAcA-3iD3hz2ihSDOir6ByWztAjNUkAvCSbeeX7-osMQLTdg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220208143513.1077229-18-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -78,94 +101,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Mar 08, 2022 at 11:18:38AM +0000, Peter Maydell wrote:
+> On Tue, 8 Mar 2022 at 11:01, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Tue, Mar 08, 2022 at 09:05:27AM +0000, Peter Maydell wrote:
+> > > On Mon, 7 Mar 2022 at 22:52, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Mon, Mar 07, 2022 at 05:13:16PM +0000, Peter Maydell wrote:
+> > > > > Also fails on cross-win64-system:
+> > > > >
+> > > > > https://gitlab.com/qemu-project/qemu/-/jobs/2172339938
+> > > > >
+> > > > > ../hw/virtio/virtio.c: In function 'qmp_x_query_virtio_vhost_queue_status':
+> > > > > ../hw/virtio/virtio.c:4358:30: error: cast from pointer to integer of
+> > > > > different size [-Werror=pointer-to-int-cast]
+> > > > > 4358 | status->desc = (uint64_t)(unsigned long)hdev->vqs[queue].desc;
+> > > > > | ^
+> > > > > ../hw/virtio/virtio.c:4359:31: error: cast from pointer to integer of
+> > > > > different size [-Werror=pointer-to-int-cast]
+> > > > > 4359 | status->avail = (uint64_t)(unsigned long)hdev->vqs[queue].avail;
+> > > > > | ^
+> > > > > ../hw/virtio/virtio.c:4360:30: error: cast from pointer to integer of
+> > > > > different size [-Werror=pointer-to-int-cast]
+> > > > > 4360 | status->used = (uint64_t)(unsigned long)hdev->vqs[queue].used;
+> > > > > | ^
+> > > > > cc1: all warnings being treated as errors
+> > >
+> > > > I dropped these for now but I really question the value of this warning,
+> > > > as you can see the reason we have the buggy cast to unsigned long
+> > > > is because someone wanted to shut up the warning on a 32 bit system.
+> > > >
+> > > > Now, I could maybe get behind this if it simply warned about a cast that
+> > > > loses information (cast to a smaller integer) or integer/pointer cast
+> > > > that does not go through uintptr_t without regard to size.
+> > >
+> > > This *is* warning about losing information. On 64-bit Windows
+> > > pointers are 64 bits but 'long' is 32 bits, so the path
+> > > pointer -> long -> uint64_t drops the top half of the pointer.
+> 
+> > Yes obviously. My point is that this:
+> > (uint64_t)hdev->vqs[queue].avail
+> > is always harmless but it warns on a 32 bit system.
+> 
+> True, I suppose. But compiler warnings are often like that: we
+> take the hit of having to tweak some things we know to be OK in
+> order to catch the real bugs in other cases.
+> 
+> > And someone trying to fix that *is* what resulted in
+> > (uint64_t)(unsigned long)hdev->vqs[queue].avail
+> 
+> Using 'unsigned long' in a cast (or anything else) is often
+> the wrong thing in QEMU...
+> 
+> > IOW I don't really see how
+> > (uint64_t)(uintptr_t)hdev->vqs[queue].avail
+> > is better than
+> > (uint64_t)hdev->vqs[queue].avail
+> >
+> > except as a way to say "yes I do intend to cast pointer to integer
+> > here, I did not forget to dereference the pointer". But if that
+> > latter is what gcc is trying to warn about, then it should
+> > just warn about any cast to integer except to uintptr_t,
+> > without respect to size.
+> 
+> What is the uint64_t cast bringing to the table? Wouldn't
+> just status->desc = (uintptr_t)hdev->vqs[queue].desc;
+> work ?
+> 
+> thanks
+> -- PMM
 
---caObCPKF/6WU9MBs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+True too. I would be happy if this gave a warning:
 
-On Tue, Feb 08, 2022 at 09:35:10AM -0500, Emanuele Giuseppe Esposito wrote:
-> From: Paolo Bonzini <pbonzini@redhat.com>
->=20
-> We want to make sure access of job->aio_context is always done
-> under either BQL or job_mutex. The problem is that using
-> aio_co_enter(job->aiocontext, job->co) in job_start and job_enter_cond
-> makes the coroutine immediately resume, so we can't hold the job lock.
-> And caching it is not safe either, as it might change.
->=20
-> job_start is under BQL, so it can freely read job->aiocontext, but
-> job_enter_cond is not. In order to fix this, use aio_co_wake():
-> the advantage is that it won't use job->aiocontext, but the
-> main disadvantage is that it won't be able to detect a change of
-> job AioContext.
->=20
-> Calling bdrv_try_set_aio_context() will issue the following calls
-> (simplified):
-> * in terms of  bdrv callbacks:
->   .drained_begin -> .set_aio_context -> .drained_end
-> * in terms of child_job functions:
->   child_job_drained_begin -> child_job_set_aio_context -> child_job_drain=
-ed_end
-> * in terms of job functions:
->   job_pause_locked -> job_set_aio_context -> job_resume_locked
->=20
-> We can see that after setting the new aio_context, job_resume_locked
-> calls again job_enter_cond, which then invokes aio_co_wake(). But
-> while job->aiocontext has been set in job_set_aio_context,
-> job->co->ctx has not changed, so the coroutine would be entering in
-> the wrong aiocontext.
->=20
-> Using aio_co_schedule in job_resume_locked() might seem as a valid
-> alternative, but the problem is that the bh resuming the coroutine
-> is not scheduled immediately, and if in the meanwhile another
-> bdrv_try_set_aio_context() is run (see test_propagate_mirror() in
-> test-block-iothread.c), we would have the first schedule in the
-> wrong aiocontext, and the second set of drains won't even manage
-> to schedule the coroutine, as job->busy would still be true from
-> the previous job_resume_locked().
->=20
-> The solution is to stick with aio_co_wake(), but then detect every time
-> the coroutine resumes back from yielding if job->aio_context
-> has changed. If so, we can reschedule it to the new context.
->=20
-> Check for the aiocontext change in job_do_yield_locked because:
-> 1) aio_co_reschedule_self requires to be in the running coroutine
-> 2) since child_job_set_aio_context allows changing the aiocontext only
->    while the job is paused, this is the exact place where the coroutine
->    resumes, before running JobDriver's code.
->=20
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  job.c | 24 +++++++++++++++++++++---
->  1 file changed, 21 insertions(+), 3 deletions(-)
+struct {
+	uint32_t foo;
+} bar = { .foo = (uintptr_t)hdev->vqs[queue].avail }
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+but of course it doesn't, uintptr_t is just an integer
+type as far as gcc is concerned :(
 
---caObCPKF/6WU9MBs
-Content-Type: application/pgp-signature; name="signature.asc"
+Maybe adding things like that to sparse might be practical.
 
------BEGIN PGP SIGNATURE-----
+Generally sparse seems to mainly gain features from the
+kernel, QEMU's needs are different. Could be useful to collect
+ideas e.g. for a GSoC project.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmInO78ACgkQnKSrs4Gr
-c8gh1QgAwZ4mdKjTSpDXNKHENv6CBFNC9wz0mXJLeEoWJ1eknx5o+LDgm+OCIKV7
-uzuBcilnvF2ziiAi4R3D0fHDTah4AvMqBH7sgw6UCsZ0zfCJAKZZ2SJk9pC5uDuc
-tzIFhxzhGzVh8dImpNtu1+1XPvW/SyD/7xx0Srzv6aiUFAWhfvnVcflmZu5RcpU8
-8EQdf8qr21ncO7H3lv27uKa7N4i9JxfLuGGkV2fWNT1rN5/Vz06WxSh+SZyF6kZl
-yQGWUzP+TEslBAphx2sJgUCxspFw3FGWVvDtoFXG1vCee+U0iBjmd2CGmsn18Ne7
-AQPfyd5ZTUnkv/XJhiHzlPxdgtG31g==
-=eA5h
------END PGP SIGNATURE-----
-
---caObCPKF/6WU9MBs--
+-- 
+MST
 
 
