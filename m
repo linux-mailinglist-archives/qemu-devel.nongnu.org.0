@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046814D1151
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 08:52:53 +0100 (CET)
-Received: from localhost ([::1]:39660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8424D117C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:02:41 +0100 (CET)
+Received: from localhost ([::1]:59896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRUeK-000467-3h
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 02:52:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47016)
+	id 1nRUno-00010J-38
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:02:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nRUMg-0001X5-3x
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 02:34:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29328)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nRUcE-0002R8-RT
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 02:50:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nRUMd-0008CD-Lt
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 02:34:37 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1nRUc9-0002FH-Bx
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 02:50:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646724874;
+ s=mimecast20190719; t=1646725835;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dfKE5Kp7qwEgqHd/rfsj2BcHX1IWW69+V0DA8sWS2/s=;
- b=aRp7P1SD/LUDrx/M70fCLakBbI4YRJE8eIPQqNeselaWYgc7NrNbxJ5WoEwd1Rk1PFiyz0
- JW+SazDC7xTl7S5gCs1pTpLFM5XqyVwAOFLkgo2Wz0OW5nV0DqnnCSrFekXuV4vFspMN95
- jOdv7gWeQvYZ/YLokEuWw73L6ElR8N0=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IzbORBOuWe4RbETPDt9OTXMIygD583qaSU5NrhYRtz8=;
+ b=OSpVevpWyycb+aoMrR1T34VpClqqhkXDofMUgwTAFuSpVmTg1juKGeun3iOVFTa8u0r+Vl
+ Mj209ywYMt8OdYhbg1e+yyAP40SK5Wvfx9yeUF0NJ4PSKyq1K/ETTI1NYCj2v3HjaawlSY
+ hdei/bEk65/mkZCmvYTrRgJx29ZdiHc=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-488-T65b1JtTMcS2h3HEXbokvw-1; Tue, 08 Mar 2022 02:34:31 -0500
-X-MC-Unique: T65b1JtTMcS2h3HEXbokvw-1
-Received: by mail-lj1-f200.google.com with SMTP id
- 20-20020a2e0914000000b0024635d136ddso7468728ljj.22
- for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 23:34:31 -0800 (PST)
+ us-mta-134-nFTkJJw6NFmHIAU2N9kc-Q-1; Tue, 08 Mar 2022 02:50:32 -0500
+X-MC-Unique: nFTkJJw6NFmHIAU2N9kc-Q-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ r13-20020ac85c8d000000b002e0234f9bb5so14701428qta.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Mar 2022 23:50:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=dfKE5Kp7qwEgqHd/rfsj2BcHX1IWW69+V0DA8sWS2/s=;
- b=45VBUjrk8j21qXdye1pktKdDjEPYGfP+qSnWUiq12oBOEj2s85tvu4IWmFGFKvtXVu
- 8D9/MVnrr2jNJASu0M3HqQ48Gqu6Q94TkbfsrRFt9aTD7KT1ujKZugQlj5WZNded8Tx9
- LEGm+t5yqdeDTN54TWR2GXZwT1eiHStIuK+kVNCG6fpyskNRSjgIPy+XHoj/8SoxxjL8
- AGk9fuEydENLHLX7dpOfFHQWopdc5XSvAxJA63sUEGhND663wZ4cDAgPRW4DkHF+/uo5
- yvpxOQg1y4q1cKZ5YS7UURKJiFFXnn8hNN2FZjRtwyp+Z/cfP4SLjNOx4lZMUt7ZvcxQ
- gt4A==
-X-Gm-Message-State: AOAM531D7N3t5TRqwkyn+4AoEORAzIUX0zogUEXnxEb5y+PN5vSMryWZ
- 4hBXGqjr4Sa+hesKFfsSEERW5dN4AjH0vI6JuuwiUoGueYXTUpaRldIXbIJbTfqt9OhX7bLuOiy
- Y+b/I/z5OIGx/zLG13IYLFI7N4log/Wo=
-X-Received: by 2002:a05:6512:3890:b0:448:21bd:28d with SMTP id
- n16-20020a056512389000b0044821bd028dmr9841733lft.376.1646724869601; 
- Mon, 07 Mar 2022 23:34:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJweEt8oq3dJWo9keGtJcmLQBKP6tmkQblYJ9WoLzYvOuHGtpuFBBadzif55GpUgMxivqoE/gWxiXR+IWX280Uo=
-X-Received: by 2002:a05:6512:3890:b0:448:21bd:28d with SMTP id
- n16-20020a056512389000b0044821bd028dmr9841700lft.376.1646724869192; Mon, 07
- Mar 2022 23:34:29 -0800 (PST)
+ bh=IzbORBOuWe4RbETPDt9OTXMIygD583qaSU5NrhYRtz8=;
+ b=cyKzYHHEWonutMrzgKgCzuNK+uKqrQVKCZGBz2YUffCmq6GYv+y+mEyDs1l8pqv7WG
+ 3L7SvIr3MfhGPBOtJiEP1YBdvLGBEGLc2uc1PfN+2uUInOQJ/TC24kmmvz9ryCiYc6d+
+ doiyB5PjeP0ET5QA+XaBu97J/8QGo0cbJ/loh93goLtJA6SdJ3voa4ETvy/thxCKZux0
+ gU5X31Nj1j3IrsCrRERFfS5ZJsCSyVARlEkFI5FSnw5BkYJaf5iYaJGnMf1VuLXZMj8H
+ ZBKfNsx11ssYk6MjPVeuocyNFnaNTP1PBrekK0+/g+JW0sf+P1aBd7hKKnEanLonMHaE
+ VKuA==
+X-Gm-Message-State: AOAM533eykU/mSVtsGv+PCp+Era7LUimvx7H4kgw0HVlQ06ZCbvEoTfj
+ KkZRb3AuDxbsVRAAVAGXnkuF1dwkcFEfCJYyO7P1uvbw0+Zhr0Vfl/RY4DXjb0Nayyp1QH+OuFE
+ Op2r3PjdgIfs9EAxOKErv24B8g9LgFZE=
+X-Received: by 2002:a05:6214:f25:b0:435:9f39:bd97 with SMTP id
+ iw5-20020a0562140f2500b004359f39bd97mr4010423qvb.26.1646725830566; 
+ Mon, 07 Mar 2022 23:50:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwa9mbjQJcgy4EquP7Q16vw84cQGf9FZbW8ieXRb32aL4tcZeL4qBScm2Kb0Z4Ic8kvly+CI7yGfb7sMudnYu4=
+X-Received: by 2002:a05:6214:f25:b0:435:9f39:bd97 with SMTP id
+ iw5-20020a0562140f2500b004359f39bd97mr4010398qvb.26.1646725830167; Mon, 07
+ Mar 2022 23:50:30 -0800 (PST)
 MIME-Version: 1.0
 References: <20220307153334.3854134-1-eperezma@redhat.com>
  <14d4fde4-6ea5-4805-b684-c33f6b448565@redhat.com>
@@ -65,18 +65,18 @@ References: <20220307153334.3854134-1-eperezma@redhat.com>
  <CACGkMEvY-+XpPWbtiX9dy+fwDxPp7sHFhH_LY0PB2YuusEugyw@mail.gmail.com>
  <20220308022300-mutt-send-email-mst@kernel.org>
 In-Reply-To: <20220308022300-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 8 Mar 2022 15:34:17 +0800
-Message-ID: <CACGkMEvuTPCRk7Ng7CbgpPSPgs_QYijzc5fU+cV3kW09W1R7Qg@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 8 Mar 2022 08:49:53 +0100
+Message-ID: <CAJaqyWeiAQ-EcORG0pKsMM1m+5PrfTinAap8jpFLfz=XVexn8w@mail.gmail.com>
 Subject: Re: [PATCH v5 00/15] vDPA shadow virtqueue
 To: "Michael S. Tsirkin" <mst@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -98,13 +98,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>,
  virtualization <virtualization@lists.linux-foundation.org>,
  Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Cindy Lu <lulu@redhat.com>,
  "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
  Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>,
  Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Parav Pandit <parav@mellanox.com>,
@@ -115,7 +115,7 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 8, 2022 at 3:28 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+On Tue, Mar 8, 2022 at 8:28 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
 > On Tue, Mar 08, 2022 at 03:14:35PM +0800, Jason Wang wrote:
 > > On Tue, Mar 8, 2022 at 3:11 PM Michael S. Tsirkin <mst@redhat.com> wrot=
@@ -171,10 +171,14 @@ t use
 >
 >
 > Well look at patch 15.
-
-It's a bug that needs to be fixed.
-
 >
+
+(Adding here for completion)
+
+I was pointed to name it svq and simply mark it as experimental using
+the tag @unstable, since x- prefix was not homogeneous between stable
+and unstable features.
+
 > > >
 > > >
 > > > > >
@@ -242,11 +246,19 @@ k, I'd
 > it's less experimental than incomplete. It seems pretty clearly not
 > the way it will work down the road, we don't want svq involved
 > at all times.
-
-Right, but SVQ could be used for other places e.g providing migration
-compatibility when the destination lacks some features.
-
 >
+
+That's right, but it is the intended way it works at migration time.
+Just the switch from passthrough to migration time is missing, because
+that part is discussed upstream in virtio. But it's pretty close to
+the final form IMO: Both virtual and real devices have been already
+tested with the switching, it's just it will make this series way
+bigger and hard to review.
+
+It already enables the migration of the simpler devices in its current
+form, and the migration with all the machinery to enable svq
+dynamically has been POC based on this.
+
 > > >
 > > > The IOVA trick does not feel complete either.
 > >
@@ -257,14 +269,19 @@ compatibility when the destination lacks some features.
 >
 > Maybe I misundrstand how this all works.
 > I refer to all the iova_tree_alloc_map things.
-
-It's a simple IOVA allocater actually. Anything wrong with that?
-
-I'm fine with making it for the future release.
-
-Thanks
-
 >
+
+It allocates iova ranges any time the device needs to access memory,
+either from guest or for qemu memory like shadow vrings, in the range
+the device supports.
+
+That part is pretty opaque and self-contained from the caller point of
+view, so in my opinion it is not worth changing at the moment; If it
+needs changes like more performance we can use a tree like previous
+versions of this series. But I can give more details of it if needed.
+
+Thanks!
+
 > > >
 > > > >
 > > > > >
