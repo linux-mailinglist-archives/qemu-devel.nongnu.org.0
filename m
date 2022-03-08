@@ -2,59 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81D34D1290
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:45:54 +0100 (CET)
-Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B81A4D1291
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 09:46:24 +0100 (CET)
+Received: from localhost ([::1]:51612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRVTd-0007qY-L3
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:45:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60774)
+	id 1nRVU7-0000UM-Ca
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 03:46:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRVR9-0006Bn-Gr
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:43:19 -0500
-Received: from [2001:41c9:1:41f::167] (port=34224
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nRVRS-0006mC-P3
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:43:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRVR7-0002J7-Gc
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:43:19 -0500
-Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRVQQ-0004Tj-4T; Tue, 08 Mar 2022 08:42:38 +0000
-Message-ID: <7f7eac6c-a013-1682-1c4f-2b4bb87dc7d6@ilande.co.uk>
-Date: Tue, 8 Mar 2022 08:43:09 +0000
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nRVRP-0002Lo-N1
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 03:43:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646729014;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9pMEs9bhfOd0hv6hK29dSqTLjMnxYvHSjfJOhP2PNWQ=;
+ b=GccaCGzlMQixBfdWJ0oLIxtAzZP82zzzDvLa3jup2XkgCqzYBMXYTMEtZSFcpJah4u4gid
+ PmLa+dEyvkfyNUaeEq7CnYP3Z0LOfHsUpaFdf+julsdkMPL8YGH0BvM3u8ICIiDl/TThxk
+ Chc/PcI7TP4OCurOneKcC6kZUoRy7zk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-664-mvtIS3jZNkerj-SwVPiy_w-1; Tue, 08 Mar 2022 03:43:31 -0500
+X-MC-Unique: mvtIS3jZNkerj-SwVPiy_w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20913100CAB5;
+ Tue,  8 Mar 2022 08:43:30 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 500DE83179;
+ Tue,  8 Mar 2022 08:43:28 +0000 (UTC)
+Date: Tue, 8 Mar 2022 08:43:27 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Pedro Alves <pedro@palves.net>
+Subject: Re: How to backtrace an separate stack?
+Message-ID: <YicXL7hKnDy0SzfU@stefanha-x1.localdomain>
+References: <YiCk+NNtAGQPhyK5@stefanha-x1.localdomain>
+ <87mti11yy9.fsf@tromey.com>
+ <950cc915-d5dd-dbcb-67a2-9186792af8fe@palves.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-34-richard.henderson@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220308072005.307955-34-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v4 33/33] hw/nios2: Machine with a Vectored Interrupt
- Controller
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="uTkEYmDFFC4ApIEb"
+Content-Disposition: inline
+In-Reply-To: <950cc915-d5dd-dbcb-67a2-9186792af8fe@palves.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,151 +78,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
+Cc: gdb@sourceware.org, Tom Tromey <tom@tromey.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/03/2022 07:20, Richard Henderson wrote:
 
-> From: Amir Gonnen <amir.gonnen@neuroblade.ai>
-> 
-> Demonstrate how to use nios2 VIC on a machine.
-> Introduce a new machine property to attach a VIC.
-> 
-> When VIC is present, let the CPU know that it should use the
-> External Interrupt Interface instead of the Internal Interrupt Interface.
-> The devices on the machine are attached to the VIC and not directly to cpu.
-> To allow VIC update EIC fields, we set the "cpu" property of the VIC
-> with a reference to the nios2 cpu.
-> 
-> Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
-> Message-Id: <20220303153906.2024748-6-amir.gonnen@neuroblade.ai>
-> [rth: Put a property on the 10m50-ghrd machine, rather than
->        create a new machine class.]
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   hw/nios2/10m50_devboard.c | 61 +++++++++++++++++++++++++++++++++------
->   hw/nios2/Kconfig          |  1 +
->   2 files changed, 53 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/nios2/10m50_devboard.c b/hw/nios2/10m50_devboard.c
-> index f4931b8a67..bdbc6539c9 100644
-> --- a/hw/nios2/10m50_devboard.c
-> +++ b/hw/nios2/10m50_devboard.c
-> @@ -43,6 +43,8 @@ struct Nios2MachineState {
->       MemoryRegion phys_tcm_alias;
->       MemoryRegion phys_ram;
->       MemoryRegion phys_ram_alias;
-> +
-> +    bool vic;
->   };
->   
->   #define TYPE_NIOS2_MACHINE  MACHINE_TYPE_NAME("10m50-ghrd")
-> @@ -81,10 +83,40 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
->       memory_region_add_subregion(address_space_mem, 0xc0000000 + ram_base,
->                                   &nms->phys_ram_alias);
->   
-> -    /* Create CPU -- FIXME */
-> -    cpu = NIOS2_CPU(cpu_create(TYPE_NIOS2_CPU));
-> -    for (i = 0; i < 32; i++) {
-> -        irq[i] = qdev_get_gpio_in_named(DEVICE(cpu), "IRQ", i);
-> +    /* Create CPU.  We need to set eic_present between init and realize. */
-> +    cpu = NIOS2_CPU(object_new(TYPE_NIOS2_CPU));
-> +
-> +    /* Enable the External Interrupt Controller within the CPU. */
-> +    cpu->eic_present = nms->vic;
-> +
-> +    /* Configure new exception vectors. */
-> +    cpu->reset_addr = 0xd4000000;
-> +    cpu->exception_addr = 0xc8000120;
-> +    cpu->fast_tlb_miss_addr = 0xc0000100;
-> +
-> +    qdev_realize(DEVICE(cpu), NULL, &error_fatal);
-> +    object_unref(CPU(cpu));
+--uTkEYmDFFC4ApIEb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I believe this can be replaced with qdev_realize_and_unref()?
+On Mon, Mar 07, 2022 at 05:18:12PM +0000, Pedro Alves wrote:
+> On 2022-03-07 16:58, Tom Tromey wrote:
+> >>>>>> "Stefan" =3D=3D Stefan Hajnoczi <stefanha@redhat.com> writes:
+> >=20
+> > Stefan> I hoped that "select-frame address ADDRESS" could be used inste=
+ad so
+> > Stefan> this would work on coredumps too. Unfortunately "select-frame" =
+only
+> > Stefan> searches stack frames that GDB is already aware of, so it canno=
+t be used
+> > Stefan> to backtrace coroutine stacks.
+> >=20
+> > I wonder if "select-frame view" is closer to what you want.
+> >=20
+> > I can't attest to how well it works or doesn't work.  I've never tried
+> > it.
+>=20
+> A backtrace after "select-frame view" will still start at the
+> current (machine register's) frame.  Maybe it's sufficient to emulate it =
+with
+> a sequence of "up" + "frame", though.  Keep in mind that you'll lose the =
+view
+> with "info threads" or any command that flushes the frame cache internall=
+y,
+> as I mentioned in that ancient discussion.
 
-> +    if (nms->vic) {
-> +        DeviceState *dev = qdev_new("nios2-vic");
+I tried the following with gdb (11.2-1.fc35):
 
-And with a separate header for nios2_vic.h you can include that and use 
-TYPE_NIOS2_VIC here instead of hard-coding the type name.
+  select-frame view STACK_ADDR PC
+  frame <-- this displays the top coroutine stack frame
+  up
+  frame <-- this displays the secondmost main stack frame
 
-> +        MemoryRegion *dev_mr;
-> +        qemu_irq cpu_irq;
-> +
-> +        object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_fatal);
-> +        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> +
-> +        cpu_irq = qdev_get_gpio_in_named(DEVICE(cpu), "EIC", 0);
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, cpu_irq);
-> +        for (int i = 0; i < 32; i++) {
-> +            irq[i] = qdev_get_gpio_in(dev, i);
-> +        }
-> +
-> +        dev_mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-> +        memory_region_add_subregion(address_space_mem, 0x18002000, dev_mr);
-> +    } else {
-> +        for (i = 0; i < 32; i++) {
-> +            irq[i] = qdev_get_gpio_in_named(DEVICE(cpu), "IRQ", i);
-> +        }
->       }
->   
->       /* Register: Altera 16550 UART */
-> @@ -105,15 +137,22 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
->       sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xe0000880);
->       sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, irq[5]);
->   
-> -    /* Configure new exception vectors and reset CPU for it to take effect. */
-> -    cpu->reset_addr = 0xd4000000;
-> -    cpu->exception_addr = 0xc8000120;
-> -    cpu->fast_tlb_miss_addr = 0xc0000100;
-> -
->       nios2_load_kernel(cpu, ram_base, ram_size, nms->parent_obj.initrd_filename,
->                         BINARY_DEVICE_TREE_FILE, NULL);
->   }
->   
-> +static bool get_vic(Object *obj, Error **errp)
-> +{
-> +    Nios2MachineState *nms = NIOS2_MACHINE(obj);
-> +    return nms->vic;
-> +}
-> +
-> +static void set_vic(Object *obj, bool value, Error **errp)
-> +{
-> +    Nios2MachineState *nms = NIOS2_MACHINE(obj);
-> +    nms->vic = value;
-> +}
-> +
->   static void nios2_10m50_ghrd_class_init(ObjectClass *oc, void *data)
->   {
->       MachineClass *mc = MACHINE_CLASS(oc);
-> @@ -121,6 +160,10 @@ static void nios2_10m50_ghrd_class_init(ObjectClass *oc, void *data)
->       mc->desc = "Altera 10M50 GHRD Nios II design";
->       mc->init = nios2_10m50_ghrd_init;
->       mc->is_default = true;
-> +
-> +    object_class_property_add_bool(oc, "vic", get_vic, set_vic);
-> +    object_class_property_set_description(oc, "vic",
-> +        "Set on/off to enable/disable the Vectored Interrupt Controller");
->   }
->   
->   static const TypeInfo nios2_10m50_ghrd_type_info = {
-> diff --git a/hw/nios2/Kconfig b/hw/nios2/Kconfig
-> index b10ea640da..4748ae27b6 100644
-> --- a/hw/nios2/Kconfig
-> +++ b/hw/nios2/Kconfig
-> @@ -3,6 +3,7 @@ config NIOS2_10M50
->       select NIOS2
->       select SERIAL
->       select ALTERA_TIMER
-> +    select NIOS2_VIC
->   
->   config NIOS2_GENERIC_NOMMU
->       bool
+Unfortunately "up" returns to the main stack instead of unwinding the
+coroutine stack.
 
+"i r" and "i lo" still show values from the main stack frame after
+"select-frame view". This makes sense since "select-frame view" only
+sets the stack and PC addresses, not the register contents.
 
-ATB,
+Alas, "select-frame view" isn't quite enough from what I can tell.
 
-Mark.
+Stefan
+
+--uTkEYmDFFC4ApIEb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmInFy4ACgkQnKSrs4Gr
+c8hyxAf9F93RMB1uyXqvrE84in0Tiv6n+5PBbg55/VEg3JLQt2gEzNcAD/3mZIsr
+rPr6tz8AH2ufHoDVdC+D2kaTue4XM51Jd8oxUt/8GO6ZIvrIXk6TlH7UgeJmVfXq
+TLpV0qvjL5tW3jGrtXh1pmXJlfwxAVUXQTYnvdBtKlf3kxibYM+R0y0dXkFFVXzx
+E3elSCADaatju9orpPbwlULmewZ4ixTkqhzICyhgY4w0mFLK2MBMK9JvAXVctPOr
+v5ba8nx1FxBsSpv41F+pPwdOT3JKpj/wZBVakk0LGyzLuEGRz744AfZUxt2PUA6b
+Sxy8rL8cZ+cMejK3/7VOaplYU/zN2Q==
+=SjF7
+-----END PGP SIGNATURE-----
+
+--uTkEYmDFFC4ApIEb--
+
 
