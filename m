@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52FB4D15F6
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:14:41 +0100 (CET)
-Received: from localhost ([::1]:36442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43C44D160F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 12:21:18 +0100 (CET)
+Received: from localhost ([::1]:39910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRXnc-0000Zr-Rs
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:14:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39068)
+	id 1nRXu1-0003DH-PG
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 06:21:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRXmQ-0008GT-T7
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:13:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nRXmL-0001zF-Vh
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:13:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646738001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=u1zA6UE2qgYn3eJrDhUGJlVfrbrXDtcgI4JnWdPHCmc=;
- b=gZf1nELZwWG15IF69V/VgJQfYKHXQjLRDyUGAcJ5jpBdoF3CrbCrGxkjZrgg3KlAMFDqir
- 212d3558FBcA9tUTVmdUyK0vDxdbb1gbHe9dldSYTPhP3os1Zbu3AakusNn22OpTGETLjo
- uqN/i49xeAZ0Rlu57A1zfhL9YPhcWBY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-iOBfEdjCOhm-ivPInbzBYw-1; Tue, 08 Mar 2022 06:13:20 -0500
-X-MC-Unique: iOBfEdjCOhm-ivPInbzBYw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B79981006AA6;
- Tue,  8 Mar 2022 11:13:18 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1080C22E14;
- Tue,  8 Mar 2022 11:13:10 +0000 (UTC)
-Date: Tue, 8 Mar 2022 11:13:09 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH v5 16/20] commit and mirror: create new nodes using
- bdrv_get_aio_context, and not the job aiocontext
-Message-ID: <Yic6RfILIsNDZ6ex@stefanha-x1.localdomain>
-References: <20220208143513.1077229-1-eesposit@redhat.com>
- <20220208143513.1077229-17-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRXrj-0002JX-IT
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:18:55 -0500
+Received: from [2607:f8b0:4864:20::b2d] (port=44649
+ helo=mail-yb1-xb2d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRXrf-0002qi-Pi
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 06:18:53 -0500
+Received: by mail-yb1-xb2d.google.com with SMTP id u61so37030779ybi.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 03:18:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TeVY1arLDhRbry2+j9aS1hpLITx82WJm0ZEXj6E1M80=;
+ b=wu29bfnC+/AWZ8f5UidxKsRytwZS8P1C5TqdcU1rt+5TM/6H5POypo7QNvNQfeg46q
+ rwTkn4iNNEwTKe0MWHwxX01bkfKWuj4O7eHRZv+RCk0q0+DJz4VR1hFkUCUfrB6W8lhH
+ /1m4HanEevTNuK8mM/X3WVG4vccAL3FmZkmWFb9bFNlxWgpnka6XSq4/3qebeStxzflu
+ OxaDtbfLHNwO8ITAgKhAFFpoztOnvZVIY6XtIsS5WkOC7n3uKncQaK0XbwUFaBwOJsjE
+ /IQ5kYrIFIbB3fB79yAzN7++mLOiCS7bTjsKPFWU0S7ukmShgvtvVz8GxXzu/bAPJl1g
+ cWPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TeVY1arLDhRbry2+j9aS1hpLITx82WJm0ZEXj6E1M80=;
+ b=wNvKCOJehltDjN+4ffKgAHVYRodmOiYK25ciH5MUXpKjVslpKm5XNKuwafr78ZeqyQ
+ 3TYwEL6T3WfzaIiiBkc67PVfVvvaMijbYl0dSW6GQjhZsbqujw8TFHZEiJgNVkRl8Cx5
+ ZGeTat4N8EiZCarf/tIvKWUCMcxCXF4Z7HhLtC5sUH75G20tzZhOym6EtaOMHfHjUuch
+ zM/iBzPW4OO/9cn0Dkqei/e569Qzbon1Zzt0TPrRvuzFynLFxXeBIH5TACdfofBASzB6
+ hmPgJylUXLFBnBPnDh5THczQ+nkHK+0I6Pj9fMxPKQQr/p6ELQktH1aTK9Nk1fw0Pq5T
+ U69g==
+X-Gm-Message-State: AOAM5330a75zZSyI+/NWeTiBEUJrF/xBGrpwkeynvhOK8+aB+330dVI0
+ Dj846gsFZhU0OsujdV8dQzfVqibe8pXkuwHaYcJY4w==
+X-Google-Smtp-Source: ABdhPJyeXGE5L6Rp7vjkIJSA7WP+QFqSR/fFdLI5UgkMpKaRj8YKUq2VMHH9tQ9av89YjaRLxRkFCy3VnRRjKJ/UbVk=
+X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
+ s5-20020a5b0745000000b006221c463c19mr11850218ybq.479.1646738329353; Tue, 08
+ Mar 2022 03:18:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1Jv/y6KoGtoaFVxt"
-Content-Disposition: inline
-In-Reply-To: <20220208143513.1077229-17-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220307100058.449628-1-mst@redhat.com>
+ <CAFEAcA94Uu=kyinf+pLUT2cY05326EDX=TKUeiSJH_aEY-kPVg@mail.gmail.com>
+ <CAFEAcA_wO6dkr6=HUYsOS7RxGErrAvsNnNqhKfM733Q=4v6cdw@mail.gmail.com>
+ <20220307174713-mutt-send-email-mst@kernel.org>
+ <CAFEAcA9qUMuDupNRCYeH5rzBY+J7D3XXN_92PJjhBYxF70kF=w@mail.gmail.com>
+ <20220308055639-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220308055639-mutt-send-email-mst@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Mar 2022 11:18:38 +0000
+Message-ID: <CAFEAcA-3iD3hz2ihSDOir6ByWztAjNUkAvCSbeeX7-osMQLTdg@mail.gmail.com>
+Subject: Re: [PULL v2 00/47] virtio,pc,pci: features, cleanups, fixes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,51 +86,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 8 Mar 2022 at 11:01, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Tue, Mar 08, 2022 at 09:05:27AM +0000, Peter Maydell wrote:
+> > On Mon, 7 Mar 2022 at 22:52, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > > On Mon, Mar 07, 2022 at 05:13:16PM +0000, Peter Maydell wrote:
+> > > > Also fails on cross-win64-system:
+> > > >
+> > > > https://gitlab.com/qemu-project/qemu/-/jobs/2172339938
+> > > >
+> > > > ../hw/virtio/virtio.c: In function 'qmp_x_query_virtio_vhost_queue_status':
+> > > > ../hw/virtio/virtio.c:4358:30: error: cast from pointer to integer of
+> > > > different size [-Werror=pointer-to-int-cast]
+> > > > 4358 | status->desc = (uint64_t)(unsigned long)hdev->vqs[queue].desc;
+> > > > | ^
+> > > > ../hw/virtio/virtio.c:4359:31: error: cast from pointer to integer of
+> > > > different size [-Werror=pointer-to-int-cast]
+> > > > 4359 | status->avail = (uint64_t)(unsigned long)hdev->vqs[queue].avail;
+> > > > | ^
+> > > > ../hw/virtio/virtio.c:4360:30: error: cast from pointer to integer of
+> > > > different size [-Werror=pointer-to-int-cast]
+> > > > 4360 | status->used = (uint64_t)(unsigned long)hdev->vqs[queue].used;
+> > > > | ^
+> > > > cc1: all warnings being treated as errors
+> >
+> > > I dropped these for now but I really question the value of this warning,
+> > > as you can see the reason we have the buggy cast to unsigned long
+> > > is because someone wanted to shut up the warning on a 32 bit system.
+> > >
+> > > Now, I could maybe get behind this if it simply warned about a cast that
+> > > loses information (cast to a smaller integer) or integer/pointer cast
+> > > that does not go through uintptr_t without regard to size.
+> >
+> > This *is* warning about losing information. On 64-bit Windows
+> > pointers are 64 bits but 'long' is 32 bits, so the path
+> > pointer -> long -> uint64_t drops the top half of the pointer.
 
---1Jv/y6KoGtoaFVxt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Yes obviously. My point is that this:
+> (uint64_t)hdev->vqs[queue].avail
+> is always harmless but it warns on a 32 bit system.
 
-On Tue, Feb 08, 2022 at 09:35:09AM -0500, Emanuele Giuseppe Esposito wrote:
-> We are always using the given bs AioContext, so there is no need
-> to take the job ones (which is identical anyways).
-> This also reduces the point we need to check when protecting
-> job.aio_context field.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  block/commit.c | 4 ++--
->  block/mirror.c | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+True, I suppose. But compiler warnings are often like that: we
+take the hit of having to tweak some things we know to be OK in
+order to catch the real bugs in other cases.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> And someone trying to fix that *is* what resulted in
+> (uint64_t)(unsigned long)hdev->vqs[queue].avail
 
---1Jv/y6KoGtoaFVxt
-Content-Type: application/pgp-signature; name="signature.asc"
+Using 'unsigned long' in a cast (or anything else) is often
+the wrong thing in QEMU...
 
------BEGIN PGP SIGNATURE-----
+> IOW I don't really see how
+> (uint64_t)(uintptr_t)hdev->vqs[queue].avail
+> is better than
+> (uint64_t)hdev->vqs[queue].avail
+>
+> except as a way to say "yes I do intend to cast pointer to integer
+> here, I did not forget to dereference the pointer". But if that
+> latter is what gcc is trying to warn about, then it should
+> just warn about any cast to integer except to uintptr_t,
+> without respect to size.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmInOkUACgkQnKSrs4Gr
-c8i1JQf+Lsu9cNXy9poeDhsRgmjXUPywWCGAoT5uqHmbYGaiTqrz1pTHOiWMXJMn
-MLqjypJ44sdT0pgmWqLSvtS/G21irKuVr6sBr4VVFOwMSf12VEnFy1BZKTDS1W50
-SgDuj7X5lRDu5z9JYLu8gfcanEPsdUpzbkSAOnXtmuZ6ldmX/ZS/YnUkMky0W/ft
-eFQ1bLCLghOJjYV+4Y5/WvBK93d6CLoWtMYIWUEul3Q70Mphhv9hxlKSSbqPWMVg
-qF7SkAAvSUamCWPIgyDSu+GKe96YN3XSCRzdUc3O+wDJCZfJhbGvfEuXIa6lt6+w
-40wwlHVFeuce1XNfk+WkAhRjyfRJnA==
-=TXg2
------END PGP SIGNATURE-----
+What is the uint64_t cast bringing to the table? Wouldn't
+just status->desc = (uintptr_t)hdev->vqs[queue].desc;
+work ?
 
---1Jv/y6KoGtoaFVxt--
-
+thanks
+-- PMM
 
