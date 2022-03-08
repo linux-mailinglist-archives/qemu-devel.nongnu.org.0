@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874674D21F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 20:50:51 +0100 (CET)
-Received: from localhost ([::1]:47372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173734D2206
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Mar 2022 20:53:09 +0100 (CET)
+Received: from localhost ([::1]:50572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRfr8-0007Sl-B4
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 14:50:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57032)
+	id 1nRftM-0001QX-6f
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 14:53:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRfpa-0006my-9e
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:49:14 -0500
-Received: from [2607:f8b0:4864:20::433] (port=43964
- helo=mail-pf1-x433.google.com)
+ id 1nRfr5-0007yi-O9
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:50:47 -0500
+Received: from [2607:f8b0:4864:20::630] (port=35381
+ helo=mail-pl1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nRfpY-0000OX-Ki
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:49:13 -0500
-Received: by mail-pf1-x433.google.com with SMTP id d187so263591pfa.10
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 11:49:12 -0800 (PST)
+ id 1nRfr4-0000oa-9u
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 14:50:47 -0500
+Received: by mail-pl1-x630.google.com with SMTP id n15so70550plh.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 11:50:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=WsFbymmY7wRV7NzaQoiLLcpqD/+gsTRU2MDxWxyLreU=;
- b=gS/fD0WCicgabs4v4NVahAKmJwLkj6p9vbSdVG3frhvzy6kvmgUlOs+9TL63SWcsQm
- ag0LgHz0ipjpKIuxcKivKnHEGC6p8Enh5BmZ+brjaXXzuoigks9FLxx29v5q4j63E+kt
- 2eT9rBBGLIp0FfqYzJpXuIslPDxqOx9W5NP7pmlE0YzANUOmmoDu4u7QKaiXz4EFw8yv
- IDCZnfwmPSibva2AN0eRkHZ4iHrn29itP1j7S+yW2gMIsxoyrxE3KltDAjwHi7fim09c
- GTFbiZlMPdZn59mAjYPvhk3jwOn7J27bRgkyWWO7DeYgL9hPdRI3wsnQWvIPGwAg0hfg
- rZiQ==
+ bh=wChGAO3skxH2xUerExIuYqf0MAVgEVx1IFwbCFdUlpU=;
+ b=ghHteS5zGuMc3sp/NHH2xW/qJib2+B2Fy1GlM2WRLHK59N3ohR83QwYxCgmpYujDlw
+ x2k8Q2VE+oftD7rhgx/2FS1UiLM7xJYjlSsIfoML2MWFusx92qcWeJ936vINha2HC6IR
+ Ix6+X29vgF+goOGachYyA3W/ASGHDudQsCi1e5VxQMib61dRdteMSufA+4yiSmAzysDF
+ TOdQN9CFj6X+cY1oOHOPpwLyklkkOFeH4pZbPp2rU0jabAGIN8RWG4qe0hI4plMYprk6
+ HmiVoWxLE3a0sSrqQ0dDEC43WD/VQoZi+AmlirerARJb8jnlgt3S+1bkyPwKSt22/VoV
+ 8pKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WsFbymmY7wRV7NzaQoiLLcpqD/+gsTRU2MDxWxyLreU=;
- b=fSM4rLcU24jwLMDU1+Qbq4vKA70HjSysgcwykCse8OJhSyChvG468tV8G4sBSHPbTA
- DOpVyxxuRwKBOPFHQJ8S5VauH9EEw75qLkD52pKZfk7q2lmgbTzeAH6xehN0JqIsjKaz
- 04qkpMGO20vkwZNE6CkjEG0812RsY9shS7UESoMvQ1zfZXZekcUqvs1oA3aoJDDO18ch
- g9eTweVknRwSjBbeV3BVcbecik0WzD+r0TzfNkHwilWYBCquhN66vmqaVhD84zFUY8vd
- /iKgg1qcm1UUpMTa8iQx0IQei11Ht7dbzlq2Hhj6EwECUJrl2AgP+FI0B0Vz6pBxkOBC
- btxA==
-X-Gm-Message-State: AOAM532Wzl3d+jNSSWCvwFT1Ttj+wiTsWwggO4vNaRW6SM91hYXmgNtb
- Ax8Z8Y3WRsWQ6LRm/szEC01Xeg==
-X-Google-Smtp-Source: ABdhPJyVPwWgLN7R2ze5VSjqTGJ9ZTNL9n81dapdgOwd0QQ99/GGvnLUGSsy5/XUFfuRz23JWqj1VA==
-X-Received: by 2002:a65:6d0a:0:b0:373:9242:3a13 with SMTP id
- bf10-20020a656d0a000000b0037392423a13mr15999255pgb.452.1646768951306; 
- Tue, 08 Mar 2022 11:49:11 -0800 (PST)
+ bh=wChGAO3skxH2xUerExIuYqf0MAVgEVx1IFwbCFdUlpU=;
+ b=ulJUGEplNYFG9dBjDRhWgT2CNO/qHIjbmDXvOH5WYUsLKrLreSHDS6Q1cEtMQY6h8K
+ Gv91JHQlysQAi4hys4cxZDyeFHkKUoAYDV1iFLU2E34l6rIxr+XJy2W4WDfbqTJ3M4wa
+ v9tCapIUjPnIGVzDmUt9tjGGjLowOJbLlAcQmdCtfi1aEq20Ig4lBiLv/JWyZ9eCIV97
+ nu90rMOYHSU58AyDuXCH0R7lninq1K88OvvUt24JqCcQN7qgedaNqqXlOcrzkthc3FC1
+ xpEThE3jWt16kGeNXv2UN3U9V4w0oovfNquYpBicTBtux5F/rm+JJuUTx/rU0+gGWGBa
+ eWOw==
+X-Gm-Message-State: AOAM531CHvq82ThsLEHMbe7OypxJUTlGqULs1VP9f1vVRA0KOcFiOILY
+ +KChLJ0Ym4cFeVVd5bQportvfw==
+X-Google-Smtp-Source: ABdhPJxCQ+6ZTSPntR8QKTuOrrQjArboovfHnNRlFgwfiMsub1BcnU4o32n9FLj049cM7Qi9B+K+Kw==
+X-Received: by 2002:a17:902:8603:b0:152:7e6:c326 with SMTP id
+ f3-20020a170902860300b0015207e6c326mr3195503plo.119.1646769044857; 
+ Tue, 08 Mar 2022 11:50:44 -0800 (PST)
 Received: from [192.168.4.112] (cpe-50-113-46-110.hawaii.res.rr.com.
  [50.113.46.110]) by smtp.gmail.com with ESMTPSA id
- f15-20020a056a0022cf00b004f3b99a6c43sm20866153pfj.219.2022.03.08.11.49.09
+ 63-20020a17090a09c500b001bef3fd20b3sm3656506pjo.18.2022.03.08.11.50.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Mar 2022 11:49:10 -0800 (PST)
-Message-ID: <0da08a42-dfd7-ef7e-3f99-34fd1fb8f22d@linaro.org>
-Date: Tue, 8 Mar 2022 09:49:07 -1000
+ Tue, 08 Mar 2022 11:50:44 -0800 (PST)
+Message-ID: <bb334b99-1bb6-90ea-956a-7308db356942@linaro.org>
+Date: Tue, 8 Mar 2022 09:50:41 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v4 17/33] target/nios2: Prevent writes to read-only or
- reserved control fields
+Subject: Re: [PATCH v4 18/33] target/nios2: Implement cpuid
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-18-richard.henderson@linaro.org>
- <CAFEAcA9MOa_GfzYM7PmhspY_4kaZhFpZ--eJdny7jf8b=WpQUA@mail.gmail.com>
+ <20220308072005.307955-19-richard.henderson@linaro.org>
+ <CAFEAcA_BYBgpJOe2_gjdpkPHoy6dk68dNYvo=p5wcJnTqWpknQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA9MOa_GfzYM7PmhspY_4kaZhFpZ--eJdny7jf8b=WpQUA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_BYBgpJOe2_gjdpkPHoy6dk68dNYvo=p5wcJnTqWpknQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,31 +98,14 @@ Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/22 00:57, Peter Maydell wrote:
-> On Tue, 8 Mar 2022 at 07:20, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Create an array of masks which detail the writable and readonly
->> bits for each control register.  Apply them when writing to
->> control registers.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 3/8/22 00:52, Peter Maydell wrote:
+> I guess. This will have no effect as all our nios2 boards are
+> single-CPU.
 > 
-> What's the justification for this extra machinery? Does
-> existing guest code rely on writes to r/o bits being ignored ?
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-During review of a previous edition of this patch set, I asked myself: why isn't Amir 
-changing the shadow register set on WRCTL to STATUS, as the CRS field could change.
-
-The answer is that the architecture disallows this, by making the CRS field read-only from 
-software.  CRS can only be modified by interrupt entry and return.
-
-Then I looked further and found more read-only fields, and lots of fields that are 
-reserved unless the appropriate cpu options are enabled.  Again thining of CRS more so to 
-PRS when shadow register sets are *not* enabled -- we don't want software to put us into 
-some weird state.
-
-I probably should have put all that in the patch description.  :-)
+Oh, fair enough.  I didn't even think of that (even though I've just spent quite a bit of 
+time on interrupts, and there's no sign of an inter-processor interrupt).
 
 
 r~
