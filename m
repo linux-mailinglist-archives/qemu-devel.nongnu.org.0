@@ -2,68 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD1B4D2655
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 05:04:03 +0100 (CET)
-Received: from localhost ([::1]:46698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E6F14D280D
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 06:02:28 +0100 (CET)
+Received: from localhost ([::1]:57682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRnYQ-0005Xs-TR
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 23:04:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34862)
+	id 1nRoSw-00007v-IS
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 00:02:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nRnPS-0003GZ-AN
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 22:54:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42041)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nRnPQ-0002xv-P1
- for qemu-devel@nongnu.org; Tue, 08 Mar 2022 22:54:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646798084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ry1ENCgZDPUVVTcMkZ3v+26XUHnErnWXaNZgkRXd0Pk=;
- b=W9yew4ZUfbJLq7wNvN3GuG/HOi1nkDeM/g8rnVTTexdonloxMftPn1hBMaAn8OEOsCezN8
- bVbQH1GoVj3hToLlJ4PEW5CQUd2cpL7igkX0ybDnE1jJFc1NoMLI3JKd7YGnhX1YNYf2S/
- okWKtZk7zFEMHiveXzpfQhBUMnhK2bo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-IersrFBrNK6pKXKEHh6l5w-1; Tue, 08 Mar 2022 22:54:43 -0500
-X-MC-Unique: IersrFBrNK6pKXKEHh6l5w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 036B71854E26;
- Wed,  9 Mar 2022 03:54:42 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.34.233])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48F306C180;
- Wed,  9 Mar 2022 03:54:41 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 14/14] iotests: make img_info_log() call qemu_img_log()
-Date: Tue,  8 Mar 2022 22:54:07 -0500
-Message-Id: <20220309035407.1848654-15-jsnow@redhat.com>
-In-Reply-To: <20220309035407.1848654-1-jsnow@redhat.com>
-References: <20220309035407.1848654-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1nRoQo-0007Y2-Ek; Wed, 09 Mar 2022 00:00:14 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:46354)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1nRoQm-0004KC-0u; Wed, 09 Mar 2022 00:00:13 -0500
+Received: from [10.12.102.111] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 6904940D403D;
+ Wed,  9 Mar 2022 05:00:03 +0000 (UTC)
+Message-ID: <63454050-add5-a22d-432f-be492a77ff72@ispras.ru>
+Date: Wed, 9 Mar 2022 07:59:59 +0300
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 5/5] avocado/replay_kernel.py: make tcg-icount check in
+ run_vm()
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20220303153517.168943-1-danielhb413@gmail.com>
+ <20220303153517.168943-6-danielhb413@gmail.com>
+ <04d9a7d9-13c7-ee86-96c1-90bf8cf9173f@kaod.org>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+In-Reply-To: <04d9a7d9-13c7-ee86-96c1-90bf8cf9173f@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,68 +57,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org
+Cc: thuth@redhat.com, crosa@redhat.com, qemu-ppc@nongnu.org,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add configurable filters to qemu_img_log(), and re-write img_info_log()
-to call into qemu_img_log() with a custom filter instead.
+On 07.03.2022 11:47, Cédric Le Goater wrote:
+> On 3/3/22 16:35, Daniel Henrique Barboza wrote:
+>> The icount framework relies on TCG availability. If QEMU is built with
+>> --disable-tcg we won't have icount either, and then this test will fail
+>> with the following message in an IBM POWER9 host:
+>>
+>> tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_pseries:
+>> ERROR: ConnectError: Failed to establish session:
+>> (...)
+>> /11-tests_avocado_replay_kernel.py_ReplayKernelNormal.test_ppc64_pseries/replay.bin: 
+>>
+>> cannot configure icount, TCG support not available
+>>
+>> Although this was revealed in a specific ppc64 scenario, the TCG check
+>> is being done in the common code inside run_vm() because all archs need
+>> TCG to have access to icount.
+>>
+>> Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> 
+> 
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> 
+> Pavel,
+> 
+> Should I take this patch through the ppc tree ?
 
-After this patch, every last call to qemu_img() is now guaranteed to
-either have its return code checked for zero, OR have its output
-actually visibly logged somewhere.
+Nobody has queued it yet, so I think it is ok.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- tests/qemu-iotests/iotests.py | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 6af503058f..0c69327c00 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -317,10 +317,14 @@ def qemu_img_info(*args: str) -> Any:
- def qemu_img_map(*args: str) -> Any:
-     return qemu_img_json('map', "--output", "json", *args)
- 
--def qemu_img_log(*args: str) -> subprocess.CompletedProcess[str]:
-+def qemu_img_log(
-+        *args: str,
-+        filters: Iterable[Callable[[str], str]] = (),
-+) -> subprocess.CompletedProcess[str]:
-     """
-     Logged, unchecked variant of qemu_img() that allows non-zero exit codes.
- 
-+    By default, output will be filtered through filter_testfiles().
-     If logging is perceived to be disabled, this function will fall back
-     to prohibiting non-zero return codes.
- 
-@@ -331,7 +335,7 @@ def qemu_img_log(*args: str) -> subprocess.CompletedProcess[str]:
-     :return: a CompletedProcess instance with returncode and console output.
-     """
-     result = qemu_img(*args, check=not logging_enabled())
--    log(result.stdout, filters=[filter_testfiles])
-+    log(result.stdout, filters=filters or [filter_testfiles])
-     return result
- 
- def img_info_log(filename: str, filter_path: Optional[str] = None,
-@@ -345,10 +349,11 @@ def img_info_log(filename: str, filter_path: Optional[str] = None,
-     args += extra_args
-     args.append(filename)
- 
--    output = qemu_img(*args, check=False).stdout
-     if not filter_path:
-         filter_path = filename
--    log(filter_img_info(output, filter_path))
-+    qemu_img_log(
-+        *args,
-+        filters=[lambda output: filter_img_info(output, filter_path)])
- 
- def qemu_io_wrap_args(args: Sequence[str]) -> List[str]:
-     if '-f' in args or '--image-opts' in args:
--- 
-2.34.1
+> 
+> Thanks,
+> 
+> C.
+> 
+> 
+>> ---
+>>   tests/avocado/replay_kernel.py | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/tests/avocado/replay_kernel.py 
+>> b/tests/avocado/replay_kernel.py
+>> index c68a953730..0b2b0dc692 100644
+>> --- a/tests/avocado/replay_kernel.py
+>> +++ b/tests/avocado/replay_kernel.py
+>> @@ -36,6 +36,9 @@ class ReplayKernelBase(LinuxKernelTest):
+>>       def run_vm(self, kernel_path, kernel_command_line, console_pattern,
+>>                  record, shift, args, replay_path):
+>> +        # icount requires TCG to be available
+>> +        self.require_accelerator('tcg')
+>> +
+>>           logger = logging.getLogger('replay')
+>>           start_time = time.time()
+>>           vm = self.get_vm()
+>> @@ -243,6 +246,7 @@ def test_ppc64_pseries(self):
+>>           """
+>>           :avocado: tags=arch:ppc64
+>>           :avocado: tags=machine:pseries
+>> +        :avocado: tags=accel:tcg
+>>           """
+>>           kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+>>                         
+>> '/fedora-secondary/releases/29/Everything/ppc64le/os'
+> 
 
 
