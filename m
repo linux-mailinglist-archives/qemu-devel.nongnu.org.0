@@ -2,85 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC9D4D30D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 15:11:23 +0100 (CET)
-Received: from localhost ([::1]:43178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C59F4D30D8
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 15:13:27 +0100 (CET)
+Received: from localhost ([::1]:46932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRx2A-0007AS-7D
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 09:11:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57708)
+	id 1nRx4A-0001ao-4X
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 09:13:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nRx0X-00062U-Bp
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:09:41 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=39796
- helo=mail-pj1-x102d.google.com)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nRx2f-0000Zq-LW
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:11:54 -0500
+Received: from [2a00:1450:4864:20::336] (port=53086
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1nRx0V-0003Iv-7J
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:09:40 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- mr24-20020a17090b239800b001bf0a375440so5356332pjb.4
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 06:09:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nRx2d-0003n5-Iy
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:11:53 -0500
+Received: by mail-wm1-x336.google.com with SMTP id r65so1455838wma.2
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 06:11:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ocRY2demCAzQIVm6LYEDtNvfSYvn1oxaKSen0amIgyI=;
- b=D4gU2p96yYW/4rXgtdbmNCsp4ZDgOF81vmUYfWKM/6wtp80NC9qYFJKcuQJB3pT65f
- rcJht8axd7AwUzWjUKQO8FI1DpzNCI8QkjnsZ7zmIA+gfohFBmzqO1VB8M/bagfsCgoG
- ZAV5zgmQZIjCdLuGv2JYOmm/YvFhsXgxqRt1LuuYpUmvh6kpnJsPddq7iaR2K1sLMP62
- dIMODmH36mE/EmkrPplPobFXxrgE/tekxmm32FIijruvN6iPukl4Sa+30zrYxVxZn35T
- /piwJDi289Q/l50zmcGqI+CIGJfFs54iZJ2OlqRBGLengCqE5tImznQEhQNcDFRREYsi
- y2eQ==
+ :cc; bh=AOJIUbhOIF5HWWxAWvTpMhivAJ0hyu6bzJtFzR1gwSA=;
+ b=PTm0T9p9EuS1N2RtDL/NpkKI3AEYd0n0Bt/fWtMgmHcrN/UrfF8xT6sl21vT1gBToJ
+ kK4rXd2YKqUgCHWa82clm+JzVssiFUsDk5bC8zBoVUyAN2vzvzqtuKH7X3WY2JBz4oMb
+ sIm/XZ4bbMmUd0n1A7rW++0gpI4v73dGcmIjGx6ONUEC4yqcbl0G+ojjTT1vdv/nhRTb
+ py3E4RyKlMEp9WOfJSfqa9HM+r3KfegVKMMQpW5XrnKxEDyPteu2oBiAd6H2tBUHUzw0
+ SyPOtSspDYjOydQS7cgxwFExOyjIIFQMZjAg3h22p8CjSEgCC1T3Ycl0skgCuOxS7dss
+ y/ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ocRY2demCAzQIVm6LYEDtNvfSYvn1oxaKSen0amIgyI=;
- b=TZsm1GzIqikzQ6FgYsg5f8VEvkofcMwfyFVcpFJ/mU2o+shKoe3eF6REGGhkz0Lznf
- H0ctUy9FLMzPvN62HFs7/z2/BkrfrYbFjTm7m3XUtALjvyRbVj/eRxQHKMW6ZiDWTnLV
- 9u0i5tiNPfZyP2FipsgmHcdtqhPRg+E2gVpmIezZdtPaq/EviIi94B76mgLy1e2EKWRf
- V8RsgqsnVXpa16K9mQkgFB2L40bjq1kCGLsO9Yt6ITr4OQKa00oshIUvqgWlbWPenO0z
- GnqSTj49vkWBK/4v/TCCB/yhtF4v+j031fuQ+cn7P/90SZojrIShXUBQ9Mk+MuufRckp
- wJJg==
-X-Gm-Message-State: AOAM530xPRByDldvuuhBghfOidMy456dRBAROVJNRaMVYTq7LkmC6YEr
- zLNBZBV05dEliTOKyTaLcgmeaQ==
-X-Google-Smtp-Source: ABdhPJys3ehxINisTZ3IwNNFGaLD3ffaXNT5jdlTXVkOw5xelJdyVdFG2xXnOarRu9v/UKKSI+sw7Q==
-X-Received: by 2002:a17:90b:1bc3:b0:1bf:7461:7838 with SMTP id
- oa3-20020a17090b1bc300b001bf74617838mr10538899pjb.3.1646834977541; 
- Wed, 09 Mar 2022 06:09:37 -0800 (PST)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com.
- [209.85.214.176]) by smtp.gmail.com with ESMTPSA id
- y2-20020a17090a474200b001bf65332d29sm2769025pjg.48.2022.03.09.06.09.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 06:09:36 -0800 (PST)
-Received: by mail-pl1-f176.google.com with SMTP id t19so2038906plr.5;
- Wed, 09 Mar 2022 06:09:36 -0800 (PST)
-X-Received: by 2002:a17:90b:4c07:b0:1bf:bb9c:dfeb with SMTP id
- na7-20020a17090b4c0700b001bfbb9cdfebmr1515821pjb.4.1646834976016; Wed, 09 Mar
- 2022 06:09:36 -0800 (PST)
+ bh=AOJIUbhOIF5HWWxAWvTpMhivAJ0hyu6bzJtFzR1gwSA=;
+ b=fW2Nm41GnEMRvSHbi+v+AGQxurLCfSMTw3XUCFJYAuD+FKGLXplsR5IkfFxaICR+3y
+ Xq2+XC48R184hdyIoWinOWyGdm/69pMyiIV5BoIN12mUpF9/EEksEvFLRlMn4I/041Lh
+ zdyD4eFeb3rUmvizJQ09GjdSRFrKYmI3YXQ/2if+F+UmFtp4EVMjyeg02aen1N/XwA2l
+ 4zfx0bZh60kQOquuGmSFNsIpY6ZbcV3sypRTfE8U5uSY0WV74K5HIgjICGjzs8g+NS52
+ dDeIzwCluvicLnGLJiOKw/LhdhFPJiw8qo2DBfAm5lqCFAXNewHh7722/K9+f0vvzXbO
+ UzLw==
+X-Gm-Message-State: AOAM5315+geg2tD2zA/f3DUXtXAKslfCgn1SCpJomJVlOoAvW36xhOH2
+ JQSFp8DvSw08Xn5BCQr0451YCOHyooTwS6pXhAo=
+X-Google-Smtp-Source: ABdhPJyJFUpYqMsHtVhD3NG+XoTEkEHFy5tBazFNyUdYS6tzLAWHl9cp7RsgecBeo2w8qt1RcqG8t2ZZ/6TJGdbK5qU=
+X-Received: by 2002:a05:600c:154e:b0:381:81d1:8e78 with SMTP id
+ f14-20020a05600c154e00b0038181d18e78mr7927018wmg.51.1646835109451; Wed, 09
+ Mar 2022 06:11:49 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1644664443.git.research_trasio@irq.a4lg.com>
- <66cd3545068a8ab9d67bd4bd1f9a68a2c50cbdab.1644664443.git.research_trasio@irq.a4lg.com>
-In-Reply-To: <66cd3545068a8ab9d67bd4bd1f9a68a2c50cbdab.1644664443.git.research_trasio@irq.a4lg.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Wed, 9 Mar 2022 22:09:24 +0800
-X-Gmail-Original-Message-ID: <CANzO1D1D_M2Qom+pK+NY3c2Bw+hUK1jvMLZMfrFMNHd56nCOFw@mail.gmail.com>
-Message-ID: <CANzO1D1D_M2Qom+pK+NY3c2Bw+hUK1jvMLZMfrFMNHd56nCOFw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] target/riscv: misa to ISA string conversion fix
-To: Tsukasa OI <research_trasio@irq.a4lg.com>
-Content-Type: multipart/alternative; boundary="000000000000bfd12b05d9c9a54e"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-12-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1640199934-455149-12-git-send-email-steven.sistare@oracle.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 9 Mar 2022 18:11:37 +0400
+Message-ID: <CAJ+F1C+O91Hohh6MLEaQ3e-3De2Ru1U+OemhX3B3DrJqXzuTMg@mail.gmail.com>
+Subject: Re: [PATCH V7 11/29] qapi: list utility functions
+To: Steve Sistare <steven.sistare@oracle.com>
+Content-Type: multipart/alternative; boundary="000000000000b3dae005d9c9ad2d"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,163 +82,436 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Emmanuel Blot <emmanuel.blot@sifive.com>
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zheng Chuan <zhengchuan@huawei.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bfd12b05d9c9a54e
+--000000000000b3dae005d9c9ad2d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Tsukasa OI <research_trasio@irq.a4lg.com> =E6=96=BC 2022=E5=B9=B42=E6=9C=88=
-12=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8B=E5=8D=8810:55=E5=AF=AB=E9=81=93=EF=
-=BC=9A
+Hi
 
-> Some bits in RISC-V `misa' CSR should not be reflected in the ISA
-> string.  For instance, `S' and `U' (represents existence of supervisor
-> and user mode, respectively) in `misa' CSR must not be copied since
-> neither `S' nor `U' are valid single-letter extensions.
+On Wed, Dec 22, 2021 at 11:42 PM Steve Sistare <steven.sistare@oracle.com>
+wrote:
+
+> Generalize strList_from_comma_list() to take any delimiter character,
+> rename
+> as strList_from_string(), and move it to qapi/util.c.  Also add
+> strv_from_strList() and QAPI_LIST_LENGTH().
 >
-> This commit restricts which bits to copy from `misa' CSR to ISA string
-> with another fix: `C' extension should be preceded by `L' extension.
+
+Looks like you could easily split, and add some tests.
+
+
 >
-> It also clarifies that RISC-V extension order string is actually a
-> single-letter extension order list.
+> No functional change.
 >
-> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 > ---
->  target/riscv/cpu.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  include/qapi/util.h | 28 ++++++++++++++++++++++++++++
+>  monitor/hmp-cmds.c  | 29 ++---------------------------
+>  qapi/qapi-util.c    | 37 +++++++++++++++++++++++++++++++++++++
+>  3 files changed, 67 insertions(+), 27 deletions(-)
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1cb0436187..7a8d6ce104 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -34,7 +34,7 @@
+> diff --git a/include/qapi/util.h b/include/qapi/util.h
+> index 81a2b13..c249108 100644
+> --- a/include/qapi/util.h
+> +++ b/include/qapi/util.h
+> @@ -22,6 +22,8 @@ typedef struct QEnumLookup {
+>      const int size;
+>  } QEnumLookup;
 >
->  /* RISC-V CPU definitions */
+> +struct strList;
+> +
+>  const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
+>  int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
+>                      int def, Error **errp);
+> @@ -31,6 +33,19 @@ bool qapi_bool_parse(const char *name, const char
+> *value, bool *obj,
+>  int parse_qapi_name(const char *name, bool complete);
 >
-> -static const char riscv_exts[26] =3D "IEMAFDQCLBJTPVNSUHKORWXYZG";
-> +static const char riscv_single_letter_exts[] =3D "IEMAFDQLCBJTPVNH";
+>  /*
+> + * Produce and return a NULL-terminated array of strings from @args.
+> + * All strings are g_strdup'd.
+> + */
+> +char **strv_from_strList(const struct strList *args);
 >
->  const char * const riscv_int_regnames[] =3D {
->    "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
-> @@ -831,12 +831,12 @@ static void riscv_cpu_class_init(ObjectClass *c,
-> void *data)
->  char *riscv_isa_string(RISCVCPU *cpu)
++
+>
+
+I'd suggest to use the dedicated glib type GStrv
+
+
+> +/*
+> + * Produce a strList from the character delimited string @in.
+> + * All strings are g_strdup'd.
+> + * A NULL or empty input string returns NULL.
+> + */
+> +struct strList *strList_from_string(const char *in, char delim);
+> +
+> +/*
+>   * For any GenericList @list, insert @element at the front.
+>   *
+>   * Note that this macro evaluates @element exactly once, so it is safe
+> @@ -56,4 +71,17 @@ int parse_qapi_name(const char *name, bool complete);
+>      (tail) =3D &(*(tail))->next; \
+>  } while (0)
+>
+> +/*
+> + * For any GenericList @list, return its length.
+> + */
+> +#define QAPI_LIST_LENGTH(list) \
+> +    ({ \
+> +        int len =3D 0; \
+> +        typeof(list) elem; \
+> +        for (elem =3D list; elem !=3D NULL; elem =3D elem->next) { \
+> +            len++; \
+> +        } \
+> +        len; \
+> +    })
+> +
+>  #endif
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index b8c22da..5ca8b4b 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -43,6 +43,7 @@
+>  #include "qapi/qapi-commands-run-state.h"
+>  #include "qapi/qapi-commands-tpm.h"
+>  #include "qapi/qapi-commands-ui.h"
+> +#include "qapi/util.h"
+>  #include "qapi/qapi-visit-net.h"
+>  #include "qapi/qapi-visit-migration.h"
+>  #include "qapi/qmp/qdict.h"
+> @@ -70,32 +71,6 @@ bool hmp_handle_error(Monitor *mon, Error *err)
+>      return false;
+>  }
+>
+> -/*
+> - * Produce a strList from a comma separated list.
+> - * A NULL or empty input string return NULL.
+> - */
+> -static strList *strList_from_comma_list(const char *in)
+> -{
+> -    strList *res =3D NULL;
+> -    strList **tail =3D &res;
+> -
+> -    while (in && in[0]) {
+> -        char *comma =3D strchr(in, ',');
+> -        char *value;
+> -
+> -        if (comma) {
+> -            value =3D g_strndup(in, comma - in);
+> -            in =3D comma + 1; /* skip the , */
+> -        } else {
+> -            value =3D g_strdup(in);
+> -            in =3D NULL;
+> -        }
+> -        QAPI_LIST_APPEND(tail, value);
+> -    }
+> -
+> -    return res;
+> -}
+> -
+>  void hmp_info_name(Monitor *mon, const QDict *qdict)
 >  {
->      int i;
-> -    const size_t maxlen =3D sizeof("rv128") + sizeof(riscv_exts) + 1;
-> +    const size_t maxlen =3D sizeof("rv128") +
-> sizeof(riscv_single_letter_exts);
->      char *isa_str =3D g_new(char, maxlen);
->      char *p =3D isa_str + snprintf(isa_str, maxlen, "rv%d",
-> TARGET_LONG_BITS);
-> -    for (i =3D 0; i < sizeof(riscv_exts); i++) {
-> -        if (cpu->env.misa_ext & RV(riscv_exts[i])) {
-> -            *p++ =3D qemu_tolower(riscv_exts[i]);
-> +    for (i =3D 0; i < sizeof(riscv_single_letter_exts) - 1; i++) {
-> +        if (cpu->env.misa_ext & RV(riscv_single_letter_exts[i])) {
-> +            *p++ =3D qemu_tolower(riscv_single_letter_exts[i]);
->          }
+>      NameInfo *info;
+> @@ -1103,7 +1078,7 @@ void hmp_announce_self(Monitor *mon, const QDict
+> *qdict)
+>                                              migrate_announce_params());
+>
+>      qapi_free_strList(params->interfaces);
+> -    params->interfaces =3D strList_from_comma_list(interfaces_str);
+> +    params->interfaces =3D strList_from_string(interfaces_str, ',');
+>      params->has_interfaces =3D params->interfaces !=3D NULL;
+>      params->id =3D g_strdup(id);
+>      params->has_id =3D !!params->id;
+> diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
+> index fda7044..edd51b3 100644
+> --- a/qapi/qapi-util.c
+> +++ b/qapi/qapi-util.c
+> @@ -15,6 +15,7 @@
+>  #include "qapi/error.h"
+>  #include "qemu/ctype.h"
+>  #include "qapi/qmp/qerror.h"
+> +#include "qapi/qapi-builtin-types.h"
+>
+>  CompatPolicy compat_policy;
+>
+> @@ -152,3 +153,39 @@ int parse_qapi_name(const char *str, bool complete)
 >      }
->      *p =3D '\0';
+>      return p - str;
+>  }
+> +
+> +char **strv_from_strList(const strList *args)
+> +{
+> +    const strList *arg;
+> +    int i =3D 0;
+> +    char **argv =3D g_malloc((QAPI_LIST_LENGTH(args) + 1) * sizeof(char =
+*));
+> +
+> +    for (arg =3D args; arg !=3D NULL; arg =3D arg->next) {
+> +        argv[i++] =3D g_strdup(arg->value);
+> +    }
+> +    argv[i] =3D NULL;
+> +
+> +    return argv;
+> +}
+> +
+> +strList *strList_from_string(const char *in, char delim)
+> +{
+> +    strList *res =3D NULL;
+> +    strList **tail =3D &res;
+> +
+> +    while (in && in[0]) {
+> +        char *next =3D strchr(in, delim);
+> +        char *value;
+> +
+> +        if (next) {
+> +            value =3D g_strndup(in, next - in);
+> +            in =3D next + 1; /* skip the delim */
+> +        } else {
+> +            value =3D g_strdup(in);
+> +            in =3D NULL;
+> +        }
+> +        QAPI_LIST_APPEND(tail, value);
+> +    }
+> +
+> +    return res;
+> +}
 > --
-> 2.32.0
+> 1.8.3.1
 >
 >
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
+>
 
-BTW, could you please send this patchset again to both
-qemu-devel@nongnu.org and qemu-riscv@nongnu.org
-just like what Atish suggested?
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg874776.html
+--=20
+Marc-Andr=C3=A9 Lureau
 
---000000000000bfd12b05d9c9a54e
+--000000000000b3dae005d9c9ad2d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Tsukasa OI &lt;<a href=3D"mailto:research=
-_trasio@irq.a4lg.com">research_trasio@irq.a4lg.com</a>&gt; =E6=96=BC 2022=
-=E5=B9=B42=E6=9C=8812=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8B=E5=8D=8810:55=
-=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">Some bits in RISC-V `misa&#39; CSR s=
-hould not be reflected in the ISA<br>
-string.=C2=A0 For instance, `S&#39; and `U&#39; (represents existence of su=
-pervisor<br>
-and user mode, respectively) in `misa&#39; CSR must not be copied since<br>
-neither `S&#39; nor `U&#39; are valid single-letter extensions.<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 22, 2021 at 11:42 PM St=
+eve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare=
+@oracle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Generalize strList_from_comma_list() to take any delimiter chara=
+cter, rename<br>
+as strList_from_string(), and move it to qapi/util.c.=C2=A0 Also add<br>
+strv_from_strList() and QAPI_LIST_LENGTH().<br></blockquote><div><br></div>=
+<div>Looks like you could easily split, and add some tests.<br></div><div>=
+=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
-This commit restricts which bits to copy from `misa&#39; CSR to ISA string<=
-br>
-with another fix: `C&#39; extension should be preceded by `L&#39; extension=
-.<br>
+No functional change.<br>
 <br>
-It also clarifies that RISC-V extension order string is actually a<br>
-single-letter extension order list.<br>
-<br>
-Signed-off-by: Tsukasa OI &lt;<a href=3D"mailto:research_trasio@irq.a4lg.co=
-m" target=3D"_blank">research_trasio@irq.a4lg.com</a>&gt;<br>
+Signed-off-by: Steve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.co=
+m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br>
 ---<br>
-=C2=A0target/riscv/cpu.c | 10 +++++-----<br>
-=C2=A01 file changed, 5 insertions(+), 5 deletions(-)<br>
+=C2=A0include/qapi/util.h | 28 ++++++++++++++++++++++++++++<br>
+=C2=A0monitor/hmp-cmds.c=C2=A0 | 29 ++---------------------------<br>
+=C2=A0qapi/qapi-util.c=C2=A0 =C2=A0 | 37 ++++++++++++++++++++++++++++++++++=
++++<br>
+=C2=A03 files changed, 67 insertions(+), 27 deletions(-)<br>
 <br>
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-index 1cb0436187..7a8d6ce104 100644<br>
---- a/target/riscv/cpu.c<br>
-+++ b/target/riscv/cpu.c<br>
-@@ -34,7 +34,7 @@<br>
+diff --git a/include/qapi/util.h b/include/qapi/util.h<br>
+index 81a2b13..c249108 100644<br>
+--- a/include/qapi/util.h<br>
++++ b/include/qapi/util.h<br>
+@@ -22,6 +22,8 @@ typedef struct QEnumLookup {<br>
+=C2=A0 =C2=A0 =C2=A0const int size;<br>
+=C2=A0} QEnumLookup;<br>
 <br>
-=C2=A0/* RISC-V CPU definitions */<br>
++struct strList;<br>
++<br>
+=C2=A0const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);<br>
+=C2=A0int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0int def, Error **errp);<br>
+@@ -31,6 +33,19 @@ bool qapi_bool_parse(const char *name, const char *value=
+, bool *obj,<br>
+=C2=A0int parse_qapi_name(const char *name, bool complete);<br>
 <br>
--static const char riscv_exts[26] =3D &quot;IEMAFDQCLBJTPVNSUHKORWXYZG&quot=
-;;<br>
-+static const char riscv_single_letter_exts[] =3D &quot;IEMAFDQLCBJTPVNH&qu=
-ot;;<br>
+=C2=A0/*<br>
++ * Produce and return a NULL-terminated array of strings from @args.<br>
++ * All strings are g_strdup&#39;d.<br>
++ */<br>
++char **strv_from_strList(const struct strList *args); <br></blockquote><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">+<br></blockquote><div><br><=
+/div><div>I&#39;d suggest to use the dedicated glib type GStrv<br></div><di=
+v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++/*<br>
++ * Produce a strList from the character delimited string @in.<br>
++ * All strings are g_strdup&#39;d.<br>
++ * A NULL or empty input string returns NULL.<br>
++ */<br>
++struct strList *strList_from_string(const char *in, char delim);<br>
++<br>
++/*<br>
+=C2=A0 * For any GenericList @list, insert @element at the front.<br>
+=C2=A0 *<br>
+=C2=A0 * Note that this macro evaluates @element exactly once, so it is saf=
+e<br>
+@@ -56,4 +71,17 @@ int parse_qapi_name(const char *name, bool complete);<br=
+>
+=C2=A0 =C2=A0 =C2=A0(tail) =3D &amp;(*(tail))-&gt;next; \<br>
+=C2=A0} while (0)<br>
 <br>
-=C2=A0const char * const riscv_int_regnames[] =3D {<br>
-=C2=A0 =C2=A0&quot;x0/zero&quot;, &quot;x1/ra&quot;,=C2=A0 &quot;x2/sp&quot=
-;,=C2=A0 &quot;x3/gp&quot;,=C2=A0 &quot;x4/tp&quot;,=C2=A0 &quot;x5/t0&quot=
-;,=C2=A0 =C2=A0&quot;x6/t1&quot;,<br>
-@@ -831,12 +831,12 @@ static void riscv_cpu_class_init(ObjectClass *c, void=
- *data)<br>
-=C2=A0char *riscv_isa_string(RISCVCPU *cpu)<br>
++/*<br>
++ * For any GenericList @list, return its length.<br>
++ */<br>
++#define QAPI_LIST_LENGTH(list) \<br>
++=C2=A0 =C2=A0 ({ \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 int len =3D 0; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 typeof(list) elem; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (elem =3D list; elem !=3D NULL; elem =3D e=
+lem-&gt;next) { \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len++; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 len; \<br>
++=C2=A0 =C2=A0 })<br>
++<br>
+=C2=A0#endif<br>
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c<br>
+index b8c22da..5ca8b4b 100644<br>
+--- a/monitor/hmp-cmds.c<br>
++++ b/monitor/hmp-cmds.c<br>
+@@ -43,6 +43,7 @@<br>
+=C2=A0#include &quot;qapi/qapi-commands-run-state.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-commands-tpm.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-commands-ui.h&quot;<br>
++#include &quot;qapi/util.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-visit-net.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-visit-migration.h&quot;<br>
+=C2=A0#include &quot;qapi/qmp/qdict.h&quot;<br>
+@@ -70,32 +71,6 @@ bool hmp_handle_error(Monitor *mon, Error *err)<br>
+=C2=A0 =C2=A0 =C2=A0return false;<br>
+=C2=A0}<br>
+<br>
+-/*<br>
+- * Produce a strList from a comma separated list.<br>
+- * A NULL or empty input string return NULL.<br>
+- */<br>
+-static strList *strList_from_comma_list(const char *in)<br>
+-{<br>
+-=C2=A0 =C2=A0 strList *res =3D NULL;<br>
+-=C2=A0 =C2=A0 strList **tail =3D &amp;res;<br>
+-<br>
+-=C2=A0 =C2=A0 while (in &amp;&amp; in[0]) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *comma =3D strchr(in, &#39;,&#39;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *value;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (comma) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D g_strndup(in, comma - =
+in);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in =3D comma + 1; /* skip the , =
+*/<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D g_strdup(in);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in =3D NULL;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPI_LIST_APPEND(tail, value);<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 return res;<br>
+-}<br>
+-<br>
+=C2=A0void hmp_info_name(Monitor *mon, const QDict *qdict)<br>
 =C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0int i;<br>
--=C2=A0 =C2=A0 const size_t maxlen =3D sizeof(&quot;rv128&quot;) + sizeof(r=
-iscv_exts) + 1;<br>
-+=C2=A0 =C2=A0 const size_t maxlen =3D sizeof(&quot;rv128&quot;) + sizeof(r=
-iscv_single_letter_exts);<br>
-=C2=A0 =C2=A0 =C2=A0char *isa_str =3D g_new(char, maxlen);<br>
-=C2=A0 =C2=A0 =C2=A0char *p =3D isa_str + snprintf(isa_str, maxlen, &quot;r=
-v%d&quot;, TARGET_LONG_BITS);<br>
--=C2=A0 =C2=A0 for (i =3D 0; i &lt; sizeof(riscv_exts); i++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;env.misa_ext &amp; RV(riscv_exts[i=
-])) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *p++ =3D qemu_tolower(riscv_exts=
-[i]);<br>
-+=C2=A0 =C2=A0 for (i =3D 0; i &lt; sizeof(riscv_single_letter_exts) - 1; i=
-++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;env.misa_ext &amp; RV(riscv_single=
-_letter_exts[i])) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *p++ =3D qemu_tolower(riscv_sing=
-le_letter_exts[i]);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0NameInfo *info;<br>
+@@ -1103,7 +1078,7 @@ void hmp_announce_self(Monitor *mon, const QDict *qdi=
+ct)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0migrate_announce_params());<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0qapi_free_strList(params-&gt;interfaces);<br>
+-=C2=A0 =C2=A0 params-&gt;interfaces =3D strList_from_comma_list(interfaces=
+_str);<br>
++=C2=A0 =C2=A0 params-&gt;interfaces =3D strList_from_string(interfaces_str=
+, &#39;,&#39;);<br>
+=C2=A0 =C2=A0 =C2=A0params-&gt;has_interfaces =3D params-&gt;interfaces !=
+=3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0params-&gt;id =3D g_strdup(id);<br>
+=C2=A0 =C2=A0 =C2=A0params-&gt;has_id =3D !!params-&gt;id;<br>
+diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c<br>
+index fda7044..edd51b3 100644<br>
+--- a/qapi/qapi-util.c<br>
++++ b/qapi/qapi-util.c<br>
+@@ -15,6 +15,7 @@<br>
+=C2=A0#include &quot;qapi/error.h&quot;<br>
+=C2=A0#include &quot;qemu/ctype.h&quot;<br>
+=C2=A0#include &quot;qapi/qmp/qerror.h&quot;<br>
++#include &quot;qapi/qapi-builtin-types.h&quot;<br>
+<br>
+=C2=A0CompatPolicy compat_policy;<br>
+<br>
+@@ -152,3 +153,39 @@ int parse_qapi_name(const char *str, bool complete)<br=
+>
 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0*p =3D &#39;\0&#39;;<br>
+=C2=A0 =C2=A0 =C2=A0return p - str;<br>
+=C2=A0}<br>
++<br>
++char **strv_from_strList(const strList *args)<br>
++{<br>
++=C2=A0 =C2=A0 const strList *arg;<br>
++=C2=A0 =C2=A0 int i =3D 0;<br>
++=C2=A0 =C2=A0 char **argv =3D g_malloc((QAPI_LIST_LENGTH(args) + 1) * size=
+of(char *));<br>
++<br>
++=C2=A0 =C2=A0 for (arg =3D args; arg !=3D NULL; arg =3D arg-&gt;next) {<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 argv[i++] =3D g_strdup(arg-&gt;value);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 argv[i] =3D NULL;<br>
++<br>
++=C2=A0 =C2=A0 return argv;<br>
++}<br>
++<br>
++strList *strList_from_string(const char *in, char delim)<br>
++{<br>
++=C2=A0 =C2=A0 strList *res =3D NULL;<br>
++=C2=A0 =C2=A0 strList **tail =3D &amp;res;<br>
++<br>
++=C2=A0 =C2=A0 while (in &amp;&amp; in[0]) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *next =3D strchr(in, delim);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *value;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (next) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D g_strndup(in, next - i=
+n);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in =3D next + 1; /* skip the del=
+im */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D g_strdup(in);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPI_LIST_APPEND(tail, value);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return res;<br>
++}<br>
 -- <br>
-2.32.0<br><br></blockquote><div><br></div><div>Reviewed-by: Frank Chang &lt=
-;<a href=3D"mailto:frank.chang@sifive.com">frank.chang@sifive.com</a>&gt;</=
-div><div><br></div><div>BTW, could you please send this patchset again to b=
-oth</div><div><a href=3D"mailto:qemu-devel@nongnu.org">qemu-devel@nongnu.or=
-g</a> and=C2=A0<a href=3D"mailto:qemu-riscv@nongnu.org">qemu-riscv@nongnu.o=
-rg</a></div><div>just like what Atish suggested?</div><div><a href=3D"https=
-://www.mail-archive.com/qemu-devel@nongnu.org/msg874776.html">https://www.m=
-ail-archive.com/qemu-devel@nongnu.org/msg874776.html</a></div></div></div>
+1.8.3.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000bfd12b05d9c9a54e--
+--000000000000b3dae005d9c9ad2d--
 
