@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D9E4D2A87
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 09:19:57 +0100 (CET)
-Received: from localhost ([::1]:45072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFD34D2A8B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 09:20:52 +0100 (CET)
+Received: from localhost ([::1]:46282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRrY4-0002ES-It
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 03:19:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59434)
+	id 1nRrYx-0003Nz-HN
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 03:20:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nRrU0-0000bq-FC
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:15:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43505)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRrUW-00014e-Uv
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:16:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nRrTw-0002yK-DI
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:15:42 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRrUU-000352-Bn
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:16:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646813738;
+ s=mimecast20190719; t=1646813773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IQGsDgfSF8Kw9vxZ+gu1l0IplnaO0hq0RNvBXA+sM54=;
- b=TCjQ/KokoodHMfZVowO+9ue4rhGY8AJKdQnrS10bInMkcO/zxckl3659ZdtRSjENHD9DGI
- +wRa7HPxD5qQlsuRsKOvCL9Ba9k2wb/nuyy6CNKNTBjvHC2WQOh1weIzIpp0XaH3GVEcrF
- xmWYkMB3hlnuLbcK2/6P+cn6cgL049U=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yaEJA5aNR2RnPtTYZMcb9wUNcYzmVVwetfTZ7P4SQEo=;
+ b=glu8bS6SxQzSZK2q29kP3mZGuIPPLW8jEX4oC28fQmgyzNBzh/guPSF8EzC//ePkemqFDE
+ sHLIlPCCgMVwvW7MK3JCVMMOSl7GNOR8nsI2rtbOhxBJwMYDopujZ+yCrmrQkKRvLOaAdL
+ 8iGele6EctJLiIR5eDbpXWOlknAWv8I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-212-jyiaqRQlMCCCaPBO00WdfA-1; Wed, 09 Mar 2022 03:15:37 -0500
-X-MC-Unique: jyiaqRQlMCCCaPBO00WdfA-1
-Received: by mail-pl1-f197.google.com with SMTP id
- y3-20020a1709029b8300b0014c8bcb70a1so799628plp.3
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 00:15:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=IQGsDgfSF8Kw9vxZ+gu1l0IplnaO0hq0RNvBXA+sM54=;
- b=5ryc3d22UNST3MoNElMz4OCX7OMLQn1KtmPafoCudZ1nZX/9Mu8pF1Yl3MplksJga1
- h3U7lreFa6KLY16Lj2i0p574VZXXz2w28fPf7VHk2XaQVfV+tyyYC6ZAtLfFeDqsL9Ee
- 3zF5WniDgJU1lirKbk6QjHf77squ25VIEv1mWEKi0pOxFwajOQj4U9gvAuKYC2287wNN
- RzrY8LT50sXTyNooogcz58wmQ3JjEWBwvLrt4THFBLVC0QAjPJOckX+QJlo6XWT2cyR9
- OtPxBQhvPj3o581DKmdUarm4bUC/NWsMF0NfyIYeLKSqHAKof+ySpKSshBqBHRr6bDGu
- /gtw==
-X-Gm-Message-State: AOAM530o2DgehU311LZGbNfrGRwNWb0XhEA/s7T5avnwaY9/PTGkM3vk
- 9x9Mgdrdqrwu2AjW7QBfYeZU69O1f2K4R+gelc/A7Er8Q9g2sh30lMcndnkIpgmhEIIhi1+BAGr
- oxWGzhP9JJOSqAKc=
-X-Received: by 2002:a05:6a00:84b:b0:4f7:439b:64e6 with SMTP id
- q11-20020a056a00084b00b004f7439b64e6mr4208201pfk.51.1646813736306; 
- Wed, 09 Mar 2022 00:15:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwjt7wYmUS6huK2BOrY+8jGjuBaXK2e76PQHDJmizQXhGrpH7EOG83FDPQiglJ8wFF696nACA==
-X-Received: by 2002:a05:6a00:84b:b0:4f7:439b:64e6 with SMTP id
- q11-20020a056a00084b00b004f7439b64e6mr4208159pfk.51.1646813735990; 
- Wed, 09 Mar 2022 00:15:35 -0800 (PST)
-Received: from xz-m1.local ([94.177.118.47]) by smtp.gmail.com with ESMTPSA id
- l13-20020a056a00140d00b004e13da93eaasm1750449pfu.62.2022.03.09.00.15.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Mar 2022 00:15:35 -0800 (PST)
-Date: Wed, 9 Mar 2022 16:15:24 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Subject: Re: [PATCH v7 00/46] CXl 2.0 emulation Support
-Message-ID: <YihiHNxVjDFI0Z8r@xz-m1.local>
-References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
- <20220306163119-mutt-send-email-mst@kernel.org>
- <20220307093918.00002f20@Huawei.com>
+ us-mta-5-YOa9XzwYMWClZWRQSG4uvQ-1; Wed, 09 Mar 2022 03:16:10 -0500
+X-MC-Unique: YOa9XzwYMWClZWRQSG4uvQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74B0A814600;
+ Wed,  9 Mar 2022 08:16:09 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A9B24E2A1;
+ Wed,  9 Mar 2022 08:16:09 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 357001800098; Wed,  9 Mar 2022 09:16:07 +0100 (CET)
+Date: Wed, 9 Mar 2022 09:16:07 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: Re: [PATCH 11/11] MAINTAINERS: take edk2
+Message-ID: <20220309081607.gzoucriu7a3qxtjf@sirius.home.kraxel.org>
+References: <20220308145521.3106395-1-kraxel@redhat.com>
+ <20220308145521.3106395-12-kraxel@redhat.com>
+ <cd9a9fda-7187-0601-49ca-20c649ba6cfa@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220307093918.00002f20@Huawei.com>
+In-Reply-To: <cd9a9fda-7187-0601-49ca-20c649ba6cfa@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -97,41 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Samarth Saxena <samarths@cadence.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, linuxarm@huawei.com,
- Shreyas Shah <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- David Hildenbrand <david@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 07, 2022 at 09:39:18AM +0000, Jonathan Cameron via wrote:
-> If any of the memory maintainers can take a look at patch 34 that would
-> be great as to my mind that and the related interleave decoding in general is
-> the big unknown in this set. I just realized I haven't cc'd everyone
-> I should have for that - added them here and I'll make sure to CC them
-> all on V8.
+On Tue, Mar 08, 2022 at 04:08:40PM +0100, Philippe Mathieu-Daudé wrote:
+> On 8/3/22 15:55, Gerd Hoffmann wrote:
+> > Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> Hmm?
 
-https://lore.kernel.org/qemu-devel/20220306174137.5707-35-Jonathan.Cameron@huawei.com/
+Oops, Cc: prefix missing.
 
-Having mr->ops set but with memory_access_is_direct() returning true sounds
-weird to me.
+> 
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > ---
+> >   MAINTAINERS | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 68adaac373c7..ad1c9a7ea133 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -3144,7 +3144,7 @@ F: docs/interop/firmware.json
+> >   EDK2 Firmware
+> >   M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > -R: Gerd Hoffmann <kraxel@redhat.com>
+> > +M: Gerd Hoffmann <kraxel@redhat.com>
+> 
+> Thanks :)
 
-Sorry to have no understanding of the whole picture, but.. could you share
-more on what's the interleaving requirement on the proxying, and why it
-can't be done with adding some IO memory regions as sub-regions upon the
-file one?
+Any chance you can take over the macos support bits in return?
 
-Thanks,
-
--- 
-Peter Xu
+thanks,
+  Gerd
 
 
