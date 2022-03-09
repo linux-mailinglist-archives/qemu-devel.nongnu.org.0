@@ -2,130 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C6D4D30D2
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 15:08:56 +0100 (CET)
-Received: from localhost ([::1]:40354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC9D4D30D5
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 15:11:23 +0100 (CET)
+Received: from localhost ([::1]:43178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRwzm-0005EG-V2
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 09:08:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57234)
+	id 1nRx2A-0007AS-7D
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 09:11:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <amir.gonnen@neuroblade.ai>)
- id 1nRwyH-0004WJ-0c
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:07:21 -0500
-Received: from mail-eopbgr150094.outbound.protection.outlook.com
- ([40.107.15.94]:64145 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <amir.gonnen@neuroblade.ai>)
- id 1nRwyF-00037s-91
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:07:20 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K5V5woztsINpMJJvVKyD7Usz5FPhR8Q1ipKFPTSw/XGMXg2lBdF+ydipZipPypRDzqgBoXP9kSdDP91toq/GzvIzxaLP+nxHTaNotJvf8bzN7+JGhLfgNuK2RTphIHEQ2T4DDCSeHu18Q93h2V2lI4fbfnt8nd414E++xe1pHUO1JzMyg/8XLLLvAAacJZ6L16hjFR7oopF3CQN30ImWbVvsIwFycA+8XKJ/rTMkjRiHpL2r20VEFDMCd7QfvTCznS52cAKtkEaVZAUTgYbj41x1x69rTHd9iaKOvxsIuBI7AVYguZyffrVkNYsHfJ8aehlc9jjsyn4QoUUrd7IJ4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JDi0RhLXE6Ro0JzvPqD222BfsDhBCnB+JHMR+MDOyfg=;
- b=nWZiHzoqOTB/UITM5XUbpHN2XFJ1Di7CDRC1cXRHtXTRey1fZ/AJxZmd8Nw9D0lvviXnnD69c5JK5Cc1e/F/UHe3tAt5mw0BmM1to4Z1GtLJ47A1RZAzq5XFU0qynbfBoXpBi7OpcZSPCUTG73i79SRhl0+HUFRXQjwGMdwthZdTGDge9IU7vR0pAdNpBfAEtpRv7lQvB2MLL+hlHwBUGKY6ZzTDczdPnVf/aF9ESAN8+BoUu23c2anG0ztlH87XX/kAcQ2HpyNQ7JjHX1wZDmRhxKawco3Fe6aZW+g6yxLpkUHC1EQfN3x37EhPBhWdzhQKiCY3h0ZkqXiaRShkig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=neuroblade.ai; dmarc=pass action=none
- header.from=neuroblade.ai; dkim=pass header.d=neuroblade.ai; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=neuroblade.ai;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JDi0RhLXE6Ro0JzvPqD222BfsDhBCnB+JHMR+MDOyfg=;
- b=iz4T4NF0qMMMcCc3Qn8yHedAAbIeRoP26I/zTp6Nud5pObDkY/VBsJ3HfnHkW+lMy3mTVPw+4tyef/St0hKCVAXDbyrgxJ0O00y4qIEqSAjDQvTUbPubh/JpqxwAl1xFpCw4pMTMG/aOFcR3oBiLi0vVc+Ml+g60fJLeXJAch3Q=
-Received: from PA4PR09MB4880.eurprd09.prod.outlook.com (2603:10a6:102:e0::15)
- by DB8PR09MB4454.eurprd09.prod.outlook.com (2603:10a6:10:153::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Wed, 9 Mar
- 2022 14:02:14 +0000
-Received: from PA4PR09MB4880.eurprd09.prod.outlook.com
- ([fe80::e4d2:93a3:35a5:882b]) by PA4PR09MB4880.eurprd09.prod.outlook.com
- ([fe80::e4d2:93a3:35a5:882b%6]) with mapi id 15.20.5038.027; Wed, 9 Mar 2022
- 14:02:14 +0000
-From: Amir Gonnen <amir.gonnen@neuroblade.ai>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v4 24/33] target/nios2: Introduce shadow register sets
-Thread-Topic: [PATCH v4 24/33] target/nios2: Introduce shadow register sets
-Thread-Index: AQHYMr0UqgfPKlV5WkKXZi2TvuGjqKy3EbGQ
-Date: Wed, 9 Mar 2022 14:02:14 +0000
-Message-ID: <PA4PR09MB4880283917696C2597102A4FEB0A9@PA4PR09MB4880.eurprd09.prod.outlook.com>
-References: <20220308072005.307955-1-richard.henderson@linaro.org>
- <20220308072005.307955-25-richard.henderson@linaro.org>
-In-Reply-To: <20220308072005.307955-25-richard.henderson@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=neuroblade.ai;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7041756e-07d7-46c7-bc98-08da01d56a2e
-x-ms-traffictypediagnostic: DB8PR09MB4454:EE_
-x-microsoft-antispam-prvs: <DB8PR09MB4454EAEA467AA361650ED46EEB0A9@DB8PR09MB4454.eurprd09.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yQKBcEKlRb2d4ZHoJnjvY3lHSygdCeXQh4GNKCdur6Fm+FrrmOE7KNGrPPpjJUzkbHKdl+XjSlPuhQVkJjdsrP8DL1XrSzLmySNFsGRBchbR0ysRobAB3BiFii3lcnRli4FStalE0WHX5HEit0fPO3DpWh4G1tfQ/zK9QfSNXP8eB9+B75f5vjVjZkukdJp6QtA3JQlAKYitGpvT2czP2hG3PVmUkPaASvqimzhfb0HBS9pFnPTTIdq+i4GoYLb3btOQpAtSqP/ViAEyZSyNzBEPanJg+GAn6ijoBAodTZjlwmRvAg1zva0IOYCxxToith67HuInlem32ECc3PelLLybxJwSDtaniRsuv0nELyLu1jIM79OR3iNsCP4rZ8jvG6iKJ8XPdqBt3gtFrQXNteqizpaqRFTAdlnaGCOHdh2xauGshWmRrlq/WBHnnoY3CAP4nGol94EaIZULmcRyHfmDb3cLJsZMVGYdgVu2pX+R/7ch13EPd92Y9FfeY2N8LcjB8COrWsnOW36KjFppuk2o24W2MyuBuCyilmScpN1CZl+naOEOkcBw2tgsNNtAtcM1cMoxwhhxV7mCkYhmwoCZKXrwz5h2djL1LvwycVWu5M/aJ5z2YSt7hcZRVGxnnVUn00eqiUcPhCuTrLS3zxiX3je5/9B6wjM2XMdpEavCT8ReTRpbhJEAcnErOg9+0fc/07OWH8aqJO8BSRGTNg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PA4PR09MB4880.eurprd09.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(346002)(39840400004)(366004)(376002)(396003)(136003)(33656002)(38070700005)(508600001)(316002)(86362001)(54906003)(110136005)(107886003)(83380400001)(71200400001)(122000001)(38100700002)(66556008)(186003)(6506007)(55016003)(7696005)(9686003)(26005)(4326008)(52536014)(5660300002)(44832011)(8936002)(66476007)(2906002)(8676002)(66946007)(76116006)(64756008)(66446008)(4744005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VDnZSYs+05aAE26DdGgErrlC7dIM4CUjldKY15l3j4Ck38btCyqFjG1cPLtg?=
- =?us-ascii?Q?OsDTySX2ikRt+lwMOeOzUVCowK+fE9ltKGkkZWch1n9EY+9mPD6DRNLExpe6?=
- =?us-ascii?Q?Z0OJomx803tsR9My9m1cIS54ZXoQgJAT4gUwkFL1VkR7fouOKa06xmAKI72a?=
- =?us-ascii?Q?Zsi3eAEcecV2qXulo+Huat45ZLF5t0TnyksLD7HPNl1aZWsgk395rrQmEClG?=
- =?us-ascii?Q?RajFmTO8pYyKGff56zarA5UVJkt7QYJi+Cod4K/5rtqeTYsUc3MmUNW87s4Q?=
- =?us-ascii?Q?kxvcWy7VA4otkk31pH4OfEzgBvoaQEUwXpKbysAWehtHsTAn4JZ/qDCEgGNs?=
- =?us-ascii?Q?O8/XXk6ONFgIVsBxkA8USjZ0qLmvn5LjdHm1iWV7r5m00ylexz7SWLW9drt1?=
- =?us-ascii?Q?pbsLBq4shbHGiL+nkFyrNj0UaFtZY1wT5I11EYA/0h09GC8iXyP0uDmOXtpo?=
- =?us-ascii?Q?+/8YdhRXtTVHkZYO1TV0AAsr1YVlqVvqVu9Msk54AFXe4LKENdKyvC3frXi3?=
- =?us-ascii?Q?ZoOmbJ81Kwl7kzw//FUtPi6Q8XSVd+tW6JxI5a/aSfqzstxJXarQL1CKDH3k?=
- =?us-ascii?Q?RUzX58FZyKBfOOKgSaBoQ/0ZdBOemTiMniDX/3r2SpEwMCLpkTNkibTP2yhU?=
- =?us-ascii?Q?G54iokVkxTsQEgg6LzBXWglzOMQdfaWcfSJF8i4uFZQg/SBPNs3kyJhkg8tp?=
- =?us-ascii?Q?aizN9Tn1zXxsl6FeCst1JtF3tMIj0ttFtw7gqkTUYSytoF+/PnGnafzXw5Bf?=
- =?us-ascii?Q?AEwQu7cG9+lsQAx5IACJgXcJMQmVTCcSnZblK7KUi78wgagKptTJ9ssGtfyj?=
- =?us-ascii?Q?6RuGWMpBBClUkvLcCY+hFo12oQEfOl+rPfDndFsiZOx6649877ZPdNhYzaLT?=
- =?us-ascii?Q?H35RNIsAd7EV4QgPgZNUD8d96mN7OLTjQvtlnfIdKeZ8Ur+/rewulTzBYf1I?=
- =?us-ascii?Q?kVLIMVxzUdANTX1TZaAK3lR1jfwo9YOINXPX2HTMSi5GSd5VbaizWX3CbJt8?=
- =?us-ascii?Q?PNwAwhdvknvX41h4Yd5Gj8OqYFIQ5O5qmErFM6AFDLy7WGGADBVc0bfF9Gdy?=
- =?us-ascii?Q?GOjL1btheZuNk9LQkbe3fXN4Gal8VtMSnCoWjWIQQWMpNncxpIsQoKr6pFEr?=
- =?us-ascii?Q?39ksGklDgkXkpZc/01K3ce5XzjUwGXUaaiB+pI58dCeDkJoSu4WCbFJR3ntA?=
- =?us-ascii?Q?UgQ37+N/cGFNQw5Vb2LkRyDLI5q8B8OWg2+D9Sa+OtobgR2TH3rRMu/oIV3h?=
- =?us-ascii?Q?deUeuz4dV8Fyl8xgKs0yjq/UmKgHpFTZOw9DOtdArEeTKGy73HUK3FMBXqVz?=
- =?us-ascii?Q?FSTmCHeJclsUv+wNxM7us2gHv8aL3D56ThRb+L65GkC+RaNHbLMnTQyUK5rX?=
- =?us-ascii?Q?2/OaBNbF4Unjya0LMxeNMaiFkOwXa8FM9z8mLBMaIqBDBa0K+hUhlmqB/YQN?=
- =?us-ascii?Q?IwxM/j/qj1nBwNzssLbaw1e3gdWPVFWZ5jIAEAExbQp8qd96gY8bJS1KKzDB?=
- =?us-ascii?Q?m6LC7YQ8IxOlKM3wAs00kld3vahRYmB7j9MBoHd3X9X0G4ZC3lVCZwap3cIf?=
- =?us-ascii?Q?YDrRC5YLChD9UisAeCCP4n4JbQVw1aDMTomOwAUsQhA1G7TijyrBPPc6JEjC?=
- =?us-ascii?Q?qRnlvgY3jFwWyWmSEL/tCKTy4SDLMm9FgF9XKAQwcWDoUsbLcWsawWv4wiuz?=
- =?us-ascii?Q?1Y41QQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nRx0X-00062U-Bp
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:09:41 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=39796
+ helo=mail-pj1-x102d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nRx0V-0003Iv-7J
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:09:40 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ mr24-20020a17090b239800b001bf0a375440so5356332pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 06:09:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ocRY2demCAzQIVm6LYEDtNvfSYvn1oxaKSen0amIgyI=;
+ b=D4gU2p96yYW/4rXgtdbmNCsp4ZDgOF81vmUYfWKM/6wtp80NC9qYFJKcuQJB3pT65f
+ rcJht8axd7AwUzWjUKQO8FI1DpzNCI8QkjnsZ7zmIA+gfohFBmzqO1VB8M/bagfsCgoG
+ ZAV5zgmQZIjCdLuGv2JYOmm/YvFhsXgxqRt1LuuYpUmvh6kpnJsPddq7iaR2K1sLMP62
+ dIMODmH36mE/EmkrPplPobFXxrgE/tekxmm32FIijruvN6iPukl4Sa+30zrYxVxZn35T
+ /piwJDi289Q/l50zmcGqI+CIGJfFs54iZJ2OlqRBGLengCqE5tImznQEhQNcDFRREYsi
+ y2eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ocRY2demCAzQIVm6LYEDtNvfSYvn1oxaKSen0amIgyI=;
+ b=TZsm1GzIqikzQ6FgYsg5f8VEvkofcMwfyFVcpFJ/mU2o+shKoe3eF6REGGhkz0Lznf
+ H0ctUy9FLMzPvN62HFs7/z2/BkrfrYbFjTm7m3XUtALjvyRbVj/eRxQHKMW6ZiDWTnLV
+ 9u0i5tiNPfZyP2FipsgmHcdtqhPRg+E2gVpmIezZdtPaq/EviIi94B76mgLy1e2EKWRf
+ V8RsgqsnVXpa16K9mQkgFB2L40bjq1kCGLsO9Yt6ITr4OQKa00oshIUvqgWlbWPenO0z
+ GnqSTj49vkWBK/4v/TCCB/yhtF4v+j031fuQ+cn7P/90SZojrIShXUBQ9Mk+MuufRckp
+ wJJg==
+X-Gm-Message-State: AOAM530xPRByDldvuuhBghfOidMy456dRBAROVJNRaMVYTq7LkmC6YEr
+ zLNBZBV05dEliTOKyTaLcgmeaQ==
+X-Google-Smtp-Source: ABdhPJys3ehxINisTZ3IwNNFGaLD3ffaXNT5jdlTXVkOw5xelJdyVdFG2xXnOarRu9v/UKKSI+sw7Q==
+X-Received: by 2002:a17:90b:1bc3:b0:1bf:7461:7838 with SMTP id
+ oa3-20020a17090b1bc300b001bf74617838mr10538899pjb.3.1646834977541; 
+ Wed, 09 Mar 2022 06:09:37 -0800 (PST)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com.
+ [209.85.214.176]) by smtp.gmail.com with ESMTPSA id
+ y2-20020a17090a474200b001bf65332d29sm2769025pjg.48.2022.03.09.06.09.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Mar 2022 06:09:36 -0800 (PST)
+Received: by mail-pl1-f176.google.com with SMTP id t19so2038906plr.5;
+ Wed, 09 Mar 2022 06:09:36 -0800 (PST)
+X-Received: by 2002:a17:90b:4c07:b0:1bf:bb9c:dfeb with SMTP id
+ na7-20020a17090b4c0700b001bfbb9cdfebmr1515821pjb.4.1646834976016; Wed, 09 Mar
+ 2022 06:09:36 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: neuroblade.ai
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR09MB4880.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7041756e-07d7-46c7-bc98-08da01d56a2e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Mar 2022 14:02:14.6675 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 63c61203-65af-4cf8-98e5-d12f35edaefa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6CZpagMm51ZvxtFsLChzOWjVUy+tru80BMaKPpyWo3ktppOdlEsuSDcN60c4C78fPqqJUstmko49uIb8Flc0UZQbMlUY+PUDsdADD0UM1Ss=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR09MB4454
-Received-SPF: pass client-ip=40.107.15.94;
- envelope-from=amir.gonnen@neuroblade.ai;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <cover.1644664443.git.research_trasio@irq.a4lg.com>
+ <66cd3545068a8ab9d67bd4bd1f9a68a2c50cbdab.1644664443.git.research_trasio@irq.a4lg.com>
+In-Reply-To: <66cd3545068a8ab9d67bd4bd1f9a68a2c50cbdab.1644664443.git.research_trasio@irq.a4lg.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Wed, 9 Mar 2022 22:09:24 +0800
+X-Gmail-Original-Message-ID: <CANzO1D1D_M2Qom+pK+NY3c2Bw+hUK1jvMLZMfrFMNHd56nCOFw@mail.gmail.com>
+Message-ID: <CANzO1D1D_M2Qom+pK+NY3c2Bw+hUK1jvMLZMfrFMNHd56nCOFw@mail.gmail.com>
+Subject: Re: [PATCH 1/1] target/riscv: misa to ISA string conversion fix
+To: Tsukasa OI <research_trasio@irq.a4lg.com>
+Content-Type: multipart/alternative; boundary="000000000000bfd12b05d9c9a54e"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -138,27 +94,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "marex@denx.de" <marex@denx.de>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Emmanuel Blot <emmanuel.blot@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+--000000000000bfd12b05d9c9a54e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-How does "cpu_crs_R" work?
-In your version you hold a pointer to the current register set instead of c=
-opying registers back and forth like I did, which makes sense.
+Tsukasa OI <research_trasio@irq.a4lg.com> =E6=96=BC 2022=E5=B9=B42=E6=9C=88=
+12=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8B=E5=8D=8810:55=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 
-But how does TCG know which set to refer to when it generates code?
-It looks like it's always accessing the same cpu_crs_R, so how does it rela=
-te to the correct register set on "shadow_regs"?
+> Some bits in RISC-V `misa' CSR should not be reflected in the ISA
+> string.  For instance, `S' and `U' (represents existence of supervisor
+> and user mode, respectively) in `misa' CSR must not be copied since
+> neither `S' nor `U' are valid single-letter extensions.
+>
+> This commit restricts which bits to copy from `misa' CSR to ISA string
+> with another fix: `C' extension should be preceded by `L' extension.
+>
+> It also clarifies that RISC-V extension order string is actually a
+> single-letter extension order list.
+>
+> Signed-off-by: Tsukasa OI <research_trasio@irq.a4lg.com>
+> ---
+>  target/riscv/cpu.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 1cb0436187..7a8d6ce104 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -34,7 +34,7 @@
+>
+>  /* RISC-V CPU definitions */
+>
+> -static const char riscv_exts[26] =3D "IEMAFDQCLBJTPVNSUHKORWXYZG";
+> +static const char riscv_single_letter_exts[] =3D "IEMAFDQLCBJTPVNH";
+>
+>  const char * const riscv_int_regnames[] =3D {
+>    "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
+> @@ -831,12 +831,12 @@ static void riscv_cpu_class_init(ObjectClass *c,
+> void *data)
+>  char *riscv_isa_string(RISCVCPU *cpu)
+>  {
+>      int i;
+> -    const size_t maxlen =3D sizeof("rv128") + sizeof(riscv_exts) + 1;
+> +    const size_t maxlen =3D sizeof("rv128") +
+> sizeof(riscv_single_letter_exts);
+>      char *isa_str =3D g_new(char, maxlen);
+>      char *p =3D isa_str + snprintf(isa_str, maxlen, "rv%d",
+> TARGET_LONG_BITS);
+> -    for (i =3D 0; i < sizeof(riscv_exts); i++) {
+> -        if (cpu->env.misa_ext & RV(riscv_exts[i])) {
+> -            *p++ =3D qemu_tolower(riscv_exts[i]);
+> +    for (i =3D 0; i < sizeof(riscv_single_letter_exts) - 1; i++) {
+> +        if (cpu->env.misa_ext & RV(riscv_single_letter_exts[i])) {
+> +            *p++ =3D qemu_tolower(riscv_single_letter_exts[i]);
+>          }
+>      }
+>      *p =3D '\0';
+> --
+> 2.32.0
+>
+>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
-In fact, I imagined it would be necessary to change "cpu_get_tb_cpu_state" =
-and set "cs_base" or "flags" to STATUS.CRS such that different code would b=
-e generated for each shadow instance. Otherwise, each gpr access would be i=
-ndirect. I'm probably missing something here.
+BTW, could you please send this patchset again to both
+qemu-devel@nongnu.org and qemu-riscv@nongnu.org
+just like what Atish suggested?
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg874776.html
 
-Thanks,
-Amir
+--000000000000bfd12b05d9c9a54e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">Tsukasa OI &lt;<a href=3D"mailto:research=
+_trasio@irq.a4lg.com">research_trasio@irq.a4lg.com</a>&gt; =E6=96=BC 2022=
+=E5=B9=B42=E6=9C=8812=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8B=E5=8D=8810:55=
+=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">Some bits in RISC-V `misa&#39; CSR s=
+hould not be reflected in the ISA<br>
+string.=C2=A0 For instance, `S&#39; and `U&#39; (represents existence of su=
+pervisor<br>
+and user mode, respectively) in `misa&#39; CSR must not be copied since<br>
+neither `S&#39; nor `U&#39; are valid single-letter extensions.<br>
+<br>
+This commit restricts which bits to copy from `misa&#39; CSR to ISA string<=
+br>
+with another fix: `C&#39; extension should be preceded by `L&#39; extension=
+.<br>
+<br>
+It also clarifies that RISC-V extension order string is actually a<br>
+single-letter extension order list.<br>
+<br>
+Signed-off-by: Tsukasa OI &lt;<a href=3D"mailto:research_trasio@irq.a4lg.co=
+m" target=3D"_blank">research_trasio@irq.a4lg.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/cpu.c | 10 +++++-----<br>
+=C2=A01 file changed, 5 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+index 1cb0436187..7a8d6ce104 100644<br>
+--- a/target/riscv/cpu.c<br>
++++ b/target/riscv/cpu.c<br>
+@@ -34,7 +34,7 @@<br>
+<br>
+=C2=A0/* RISC-V CPU definitions */<br>
+<br>
+-static const char riscv_exts[26] =3D &quot;IEMAFDQCLBJTPVNSUHKORWXYZG&quot=
+;;<br>
++static const char riscv_single_letter_exts[] =3D &quot;IEMAFDQLCBJTPVNH&qu=
+ot;;<br>
+<br>
+=C2=A0const char * const riscv_int_regnames[] =3D {<br>
+=C2=A0 =C2=A0&quot;x0/zero&quot;, &quot;x1/ra&quot;,=C2=A0 &quot;x2/sp&quot=
+;,=C2=A0 &quot;x3/gp&quot;,=C2=A0 &quot;x4/tp&quot;,=C2=A0 &quot;x5/t0&quot=
+;,=C2=A0 =C2=A0&quot;x6/t1&quot;,<br>
+@@ -831,12 +831,12 @@ static void riscv_cpu_class_init(ObjectClass *c, void=
+ *data)<br>
+=C2=A0char *riscv_isa_string(RISCVCPU *cpu)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
+-=C2=A0 =C2=A0 const size_t maxlen =3D sizeof(&quot;rv128&quot;) + sizeof(r=
+iscv_exts) + 1;<br>
++=C2=A0 =C2=A0 const size_t maxlen =3D sizeof(&quot;rv128&quot;) + sizeof(r=
+iscv_single_letter_exts);<br>
+=C2=A0 =C2=A0 =C2=A0char *isa_str =3D g_new(char, maxlen);<br>
+=C2=A0 =C2=A0 =C2=A0char *p =3D isa_str + snprintf(isa_str, maxlen, &quot;r=
+v%d&quot;, TARGET_LONG_BITS);<br>
+-=C2=A0 =C2=A0 for (i =3D 0; i &lt; sizeof(riscv_exts); i++) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;env.misa_ext &amp; RV(riscv_exts[i=
+])) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *p++ =3D qemu_tolower(riscv_exts=
+[i]);<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; sizeof(riscv_single_letter_exts) - 1; i=
+++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;env.misa_ext &amp; RV(riscv_single=
+_letter_exts[i])) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *p++ =3D qemu_tolower(riscv_sing=
+le_letter_exts[i]);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0*p =3D &#39;\0&#39;;<br>
+-- <br>
+2.32.0<br><br></blockquote><div><br></div><div>Reviewed-by: Frank Chang &lt=
+;<a href=3D"mailto:frank.chang@sifive.com">frank.chang@sifive.com</a>&gt;</=
+div><div><br></div><div>BTW, could you please send this patchset again to b=
+oth</div><div><a href=3D"mailto:qemu-devel@nongnu.org">qemu-devel@nongnu.or=
+g</a> and=C2=A0<a href=3D"mailto:qemu-riscv@nongnu.org">qemu-riscv@nongnu.o=
+rg</a></div><div>just like what Atish suggested?</div><div><a href=3D"https=
+://www.mail-archive.com/qemu-devel@nongnu.org/msg874776.html">https://www.m=
+ail-archive.com/qemu-devel@nongnu.org/msg874776.html</a></div></div></div>
+
+--000000000000bfd12b05d9c9a54e--
 
