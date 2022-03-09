@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C59F4D30D8
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 15:13:27 +0100 (CET)
-Received: from localhost ([::1]:46932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAE14D30E4
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 15:18:05 +0100 (CET)
+Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRx4A-0001ao-4X
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 09:13:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58466)
+	id 1nRx8e-0005PW-4F
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 09:18:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nRx2f-0000Zq-LW
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:11:54 -0500
-Received: from [2a00:1450:4864:20::336] (port=53086
- helo=mail-wm1-x336.google.com)
+ id 1nRx76-0004jJ-VW
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:16:29 -0500
+Received: from [2a00:1450:4864:20::436] (port=44798
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nRx2d-0003n5-Iy
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:11:53 -0500
-Received: by mail-wm1-x336.google.com with SMTP id r65so1455838wma.2
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 06:11:50 -0800 (PST)
+ id 1nRx72-0004ZH-H8
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:16:28 -0500
+Received: by mail-wr1-x436.google.com with SMTP id u1so3249230wrg.11
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 06:16:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AOJIUbhOIF5HWWxAWvTpMhivAJ0hyu6bzJtFzR1gwSA=;
- b=PTm0T9p9EuS1N2RtDL/NpkKI3AEYd0n0Bt/fWtMgmHcrN/UrfF8xT6sl21vT1gBToJ
- kK4rXd2YKqUgCHWa82clm+JzVssiFUsDk5bC8zBoVUyAN2vzvzqtuKH7X3WY2JBz4oMb
- sIm/XZ4bbMmUd0n1A7rW++0gpI4v73dGcmIjGx6ONUEC4yqcbl0G+ojjTT1vdv/nhRTb
- py3E4RyKlMEp9WOfJSfqa9HM+r3KfegVKMMQpW5XrnKxEDyPteu2oBiAd6H2tBUHUzw0
- SyPOtSspDYjOydQS7cgxwFExOyjIIFQMZjAg3h22p8CjSEgCC1T3Ycl0skgCuOxS7dss
- y/ow==
+ :cc; bh=eu5q+IF72Dc8i/IzKe8uegFtihYgdmrQT0qWkEpH/b0=;
+ b=VEWhh1vGOU4x6V1UACVsU18z/ifU4DuXU/nlRJEzeSmBrqKIpfGN1bhyTBeBxjVumt
+ /58wayZvjX+rb/drPYb3qH7U3oGtXhttiCbJRRflCup/+eqocQHIhCn4s3ITa7MtQ4QE
+ OcXIjf07GM1C3IPiQJccsFTUMtkh+Dn0049A7C+gKF3Hv4DTvYW5D4J8qWW3VlVPxPBw
+ UogTPRQUnMk78wZwxtDf4ibb4sLUqAsoIL+kgx/4JLh466sIOSPyToK9WOuPZgF5ioC2
+ eU1vmfP7Wc+XuqAEkUgmHSVi8XOj4eyB+NchEbhTDvYpzP40ggMmcbGwl6UOuGt0eeZh
+ 1SBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=AOJIUbhOIF5HWWxAWvTpMhivAJ0hyu6bzJtFzR1gwSA=;
- b=fW2Nm41GnEMRvSHbi+v+AGQxurLCfSMTw3XUCFJYAuD+FKGLXplsR5IkfFxaICR+3y
- Xq2+XC48R184hdyIoWinOWyGdm/69pMyiIV5BoIN12mUpF9/EEksEvFLRlMn4I/041Lh
- zdyD4eFeb3rUmvizJQ09GjdSRFrKYmI3YXQ/2if+F+UmFtp4EVMjyeg02aen1N/XwA2l
- 4zfx0bZh60kQOquuGmSFNsIpY6ZbcV3sypRTfE8U5uSY0WV74K5HIgjICGjzs8g+NS52
- dDeIzwCluvicLnGLJiOKw/LhdhFPJiw8qo2DBfAm5lqCFAXNewHh7722/K9+f0vvzXbO
- UzLw==
-X-Gm-Message-State: AOAM5315+geg2tD2zA/f3DUXtXAKslfCgn1SCpJomJVlOoAvW36xhOH2
- JQSFp8DvSw08Xn5BCQr0451YCOHyooTwS6pXhAo=
-X-Google-Smtp-Source: ABdhPJyJFUpYqMsHtVhD3NG+XoTEkEHFy5tBazFNyUdYS6tzLAWHl9cp7RsgecBeo2w8qt1RcqG8t2ZZ/6TJGdbK5qU=
-X-Received: by 2002:a05:600c:154e:b0:381:81d1:8e78 with SMTP id
- f14-20020a05600c154e00b0038181d18e78mr7927018wmg.51.1646835109451; Wed, 09
- Mar 2022 06:11:49 -0800 (PST)
+ bh=eu5q+IF72Dc8i/IzKe8uegFtihYgdmrQT0qWkEpH/b0=;
+ b=Y1gLzKFYpYe8wYX572ALLDOhne2lr2GrmY8dDx9PRt9ylsKhr8XwUYyBgwDsmjTjph
+ fwtlTOgkV1u3yriER6GA68/CpNxk/BF9BiqsMK0a+AFm4WO850Xzh6XTY1TH+2VoA5Tk
+ wCkDv1Yk1rWoQ4FBDHIDdWuULtjs0zjuiw1cHJOPY3FB4Xzlysn60FF8aafd6f9vVoq3
+ 3LSE6DGP9bP5/uFRzLsAWSqShiJJLQdphszqdcOeIo7Bf2bh99B5JEZNjJYganj2Y7CJ
+ hTfDV1sXTxyD1ecxW7Q3PgCidJDDiybqYLlROnhJ/rjKLyPk8Kb/e1a/udCT21mafcG8
+ zcHg==
+X-Gm-Message-State: AOAM532Hfdn5y/Ei4XOtNDfK5AwEv0fDp3Lk807iUAfDpMiyDIvjJqnL
+ Km0/kRm7VOmbs3ZBql7jW6oRqlJ9HmtJ/vGvBkk=
+X-Google-Smtp-Source: ABdhPJyEchgLpyYCOqfPvLs3Xpa+y4DgyGDTsgprDiCKBH94TnawvY+MUtGJfbQdEn50T4VJlkEXir+UmhQwwaHY4ME=
+X-Received: by 2002:a5d:4cd1:0:b0:1f0:24d5:7c37 with SMTP id
+ c17-20020a5d4cd1000000b001f024d57c37mr16302355wrt.421.1646835383073; Wed, 09
+ Mar 2022 06:16:23 -0800 (PST)
 MIME-Version: 1.0
 References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-12-git-send-email-steven.sistare@oracle.com>
-In-Reply-To: <1640199934-455149-12-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-13-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1640199934-455149-13-git-send-email-steven.sistare@oracle.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 9 Mar 2022 18:11:37 +0400
-Message-ID: <CAJ+F1C+O91Hohh6MLEaQ3e-3De2Ru1U+OemhX3B3DrJqXzuTMg@mail.gmail.com>
-Subject: Re: [PATCH V7 11/29] qapi: list utility functions
+Date: Wed, 9 Mar 2022 18:16:10 +0400
+Message-ID: <CAJ+F1C+kKZS5N2W+T_TLszooj7_eiiPqiE+2zJdjBW21JqDzbg@mail.gmail.com>
+Subject: Re: [PATCH V7 12/29] vl: helper to request re-exec
 To: Steve Sistare <steven.sistare@oracle.com>
-Content-Type: multipart/alternative; boundary="000000000000b3dae005d9c9ad2d"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+Content-Type: multipart/alternative; boundary="00000000000003016e05d9c9bee1"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,200 +96,106 @@ Cc: Jason Zeng <jason.zeng@linux.intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b3dae005d9c9ad2d
+--00000000000003016e05d9c9bee1
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
-
-On Wed, Dec 22, 2021 at 11:42 PM Steve Sistare <steven.sistare@oracle.com>
+On Wed, Dec 22, 2021 at 11:52 PM Steve Sistare <steven.sistare@oracle.com>
 wrote:
 
-> Generalize strList_from_comma_list() to take any delimiter character,
-> rename
-> as strList_from_string(), and move it to qapi/util.c.  Also add
-> strv_from_strList() and QAPI_LIST_LENGTH().
->
-
-Looks like you could easily split, and add some tests.
-
-
->
-> No functional change.
+> Add a qemu_system_exec_request() hook that causes the main loop to exit a=
+nd
+> re-exec qemu using the specified arguments.
 >
 > Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 > ---
->  include/qapi/util.h | 28 ++++++++++++++++++++++++++++
->  monitor/hmp-cmds.c  | 29 ++---------------------------
->  qapi/qapi-util.c    | 37 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 67 insertions(+), 27 deletions(-)
+>  include/sysemu/runstate.h |  1 +
+>  softmmu/runstate.c        | 21 +++++++++++++++++++++
+>  2 files changed, 22 insertions(+)
 >
-> diff --git a/include/qapi/util.h b/include/qapi/util.h
-> index 81a2b13..c249108 100644
-> --- a/include/qapi/util.h
-> +++ b/include/qapi/util.h
-> @@ -22,6 +22,8 @@ typedef struct QEnumLookup {
->      const int size;
->  } QEnumLookup;
->
-> +struct strList;
-> +
->  const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
->  int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
->                      int def, Error **errp);
-> @@ -31,6 +33,19 @@ bool qapi_bool_parse(const char *name, const char
-> *value, bool *obj,
->  int parse_qapi_name(const char *name, bool complete);
->
->  /*
-> + * Produce and return a NULL-terminated array of strings from @args.
-> + * All strings are g_strdup'd.
-> + */
-> +char **strv_from_strList(const struct strList *args);
->
-+
->
-
-I'd suggest to use the dedicated glib type GStrv
-
-
-> +/*
-> + * Produce a strList from the character delimited string @in.
-> + * All strings are g_strdup'd.
-> + * A NULL or empty input string returns NULL.
-> + */
-> +struct strList *strList_from_string(const char *in, char delim);
-> +
-> +/*
->   * For any GenericList @list, insert @element at the front.
->   *
->   * Note that this macro evaluates @element exactly once, so it is safe
-> @@ -56,4 +71,17 @@ int parse_qapi_name(const char *name, bool complete);
->      (tail) =3D &(*(tail))->next; \
->  } while (0)
->
-> +/*
-> + * For any GenericList @list, return its length.
-> + */
-> +#define QAPI_LIST_LENGTH(list) \
-> +    ({ \
-> +        int len =3D 0; \
-> +        typeof(list) elem; \
-> +        for (elem =3D list; elem !=3D NULL; elem =3D elem->next) { \
-> +            len++; \
-> +        } \
-> +        len; \
-> +    })
-> +
->  #endif
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index b8c22da..5ca8b4b 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -43,6 +43,7 @@
->  #include "qapi/qapi-commands-run-state.h"
->  #include "qapi/qapi-commands-tpm.h"
->  #include "qapi/qapi-commands-ui.h"
+> diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+> index b655c7b..198211b 100644
+> --- a/include/sysemu/runstate.h
+> +++ b/include/sysemu/runstate.h
+> @@ -57,6 +57,7 @@ void qemu_system_wakeup_enable(WakeupReason reason, boo=
+l
+> enabled);
+>  void qemu_register_wakeup_notifier(Notifier *notifier);
+>  void qemu_register_wakeup_support(void);
+>  void qemu_system_shutdown_request(ShutdownCause reason);
+> +void qemu_system_exec_request(const strList *args);
+>  void qemu_system_powerdown_request(void);
+>  void qemu_register_powerdown_notifier(Notifier *notifier);
+>  void qemu_register_shutdown_notifier(Notifier *notifier);
+> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+> index 3d344c9..309a4bf 100644
+> --- a/softmmu/runstate.c
+> +++ b/softmmu/runstate.c
+> @@ -38,6 +38,7 @@
+>  #include "monitor/monitor.h"
+>  #include "net/net.h"
+>  #include "net/vhost_net.h"
 > +#include "qapi/util.h"
->  #include "qapi/qapi-visit-net.h"
->  #include "qapi/qapi-visit-migration.h"
->  #include "qapi/qmp/qdict.h"
-> @@ -70,32 +71,6 @@ bool hmp_handle_error(Monitor *mon, Error *err)
->      return false;
->  }
->
-> -/*
-> - * Produce a strList from a comma separated list.
-> - * A NULL or empty input string return NULL.
-> - */
-> -static strList *strList_from_comma_list(const char *in)
-> -{
-> -    strList *res =3D NULL;
-> -    strList **tail =3D &res;
-> -
-> -    while (in && in[0]) {
-> -        char *comma =3D strchr(in, ',');
-> -        char *value;
-> -
-> -        if (comma) {
-> -            value =3D g_strndup(in, comma - in);
-> -            in =3D comma + 1; /* skip the , */
-> -        } else {
-> -            value =3D g_strdup(in);
-> -            in =3D NULL;
-> -        }
-> -        QAPI_LIST_APPEND(tail, value);
-> -    }
-> -
-> -    return res;
-> -}
-> -
->  void hmp_info_name(Monitor *mon, const QDict *qdict)
->  {
->      NameInfo *info;
-> @@ -1103,7 +1078,7 @@ void hmp_announce_self(Monitor *mon, const QDict
-> *qdict)
->                                              migrate_announce_params());
->
->      qapi_free_strList(params->interfaces);
-> -    params->interfaces =3D strList_from_comma_list(interfaces_str);
-> +    params->interfaces =3D strList_from_string(interfaces_str, ',');
->      params->has_interfaces =3D params->interfaces !=3D NULL;
->      params->id =3D g_strdup(id);
->      params->has_id =3D !!params->id;
-> diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
-> index fda7044..edd51b3 100644
-> --- a/qapi/qapi-util.c
-> +++ b/qapi/qapi-util.c
-> @@ -15,6 +15,7 @@
 >  #include "qapi/error.h"
->  #include "qemu/ctype.h"
->  #include "qapi/qmp/qerror.h"
-> +#include "qapi/qapi-builtin-types.h"
+>  #include "qapi/qapi-commands-run-state.h"
+>  #include "qapi/qapi-events-run-state.h"
+> @@ -355,6 +356,7 @@ static NotifierList wakeup_notifiers =3D
+>  static NotifierList shutdown_notifiers =3D
+>      NOTIFIER_LIST_INITIALIZER(shutdown_notifiers);
+>  static uint32_t wakeup_reason_mask =3D ~(1 << QEMU_WAKEUP_REASON_NONE);
+> +static char **exec_argv;
 >
->  CompatPolicy compat_policy;
->
-> @@ -152,3 +153,39 @@ int parse_qapi_name(const char *str, bool complete)
->      }
->      return p - str;
+>  ShutdownCause qemu_shutdown_requested_get(void)
+>  {
+> @@ -371,6 +373,11 @@ static int qemu_shutdown_requested(void)
+>      return qatomic_xchg(&shutdown_requested, SHUTDOWN_CAUSE_NONE);
 >  }
-> +
-> +char **strv_from_strList(const strList *args)
+>
+> +static int qemu_exec_requested(void)
 > +{
-> +    const strList *arg;
-> +    int i =3D 0;
-> +    char **argv =3D g_malloc((QAPI_LIST_LENGTH(args) + 1) * sizeof(char =
-*));
-> +
-> +    for (arg =3D args; arg !=3D NULL; arg =3D arg->next) {
-> +        argv[i++] =3D g_strdup(arg->value);
-> +    }
-> +    argv[i] =3D NULL;
-> +
-> +    return argv;
+> +    return exec_argv !=3D NULL;
 > +}
 > +
-> +strList *strList_from_string(const char *in, char delim)
+>  static void qemu_kill_report(void)
+>  {
+>      if (!qtest_driver() && shutdown_signal) {
+> @@ -641,6 +648,13 @@ void qemu_system_shutdown_request(ShutdownCause
+> reason)
+>      qemu_notify_event();
+>  }
+>
+> +void qemu_system_exec_request(const strList *args)
 > +{
-> +    strList *res =3D NULL;
-> +    strList **tail =3D &res;
+> +    exec_argv =3D strv_from_strList(args);
+>
+
+I would rather make it take a GStrv, since that's what it actually uses.
+
+I would also check if argv[0] is set (or document the expected behaviour).
+
+
+> +    shutdown_requested =3D 1;
+> +    qemu_notify_event();
+> +}
 > +
-> +    while (in && in[0]) {
-> +        char *next =3D strchr(in, delim);
-> +        char *value;
+>  static void qemu_system_powerdown(void)
+>  {
+>      qapi_event_send_powerdown();
+> @@ -689,6 +703,13 @@ static bool main_loop_should_exit(void)
+>      }
+>      request =3D qemu_shutdown_requested();
+>      if (request) {
 > +
-> +        if (next) {
-> +            value =3D g_strndup(in, next - in);
-> +            in =3D next + 1; /* skip the delim */
-> +        } else {
-> +            value =3D g_strdup(in);
-> +            in =3D NULL;
+> +        if (qemu_exec_requested()) {
+> +            execvp(exec_argv[0], exec_argv);
+> +            error_report("execvp %s failed: %s", exec_argv[0],
+> strerror(errno));
+> +            g_strfreev(exec_argv);
+> +            exec_argv =3D NULL;
 > +        }
-> +        QAPI_LIST_APPEND(tail, value);
-> +    }
-> +
-> +    return res;
-> +}
+>          qemu_kill_report();
+>          qemu_system_shutdown(request);
+>          if (shutdown_action =3D=3D SHUTDOWN_ACTION_PAUSE) {
 > --
 > 1.8.3.1
 >
@@ -299,213 +205,111 @@ I'd suggest to use the dedicated glib type GStrv
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000b3dae005d9c9ad2d
+--00000000000003016e05d9c9bee1
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 22, 2021 at 11:42 PM St=
-eve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare=
-@oracle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 22, 2021 at 11:52 PM Stev=
+e Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare@o=
+racle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
 =3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Generalize strList_from_comma_list() to take any delimiter chara=
-cter, rename<br>
-as strList_from_string(), and move it to qapi/util.c.=C2=A0 Also add<br>
-strv_from_strList() and QAPI_LIST_LENGTH().<br></blockquote><div><br></div>=
-<div>Looks like you could easily split, and add some tests.<br></div><div>=
-=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-No functional change.<br>
+-left:1ex">Add a qemu_system_exec_request() hook that causes the main loop =
+to exit and<br>
+re-exec qemu using the specified arguments.<br>
 <br>
 Signed-off-by: Steve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.co=
 m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br>
 ---<br>
-=C2=A0include/qapi/util.h | 28 ++++++++++++++++++++++++++++<br>
-=C2=A0monitor/hmp-cmds.c=C2=A0 | 29 ++---------------------------<br>
-=C2=A0qapi/qapi-util.c=C2=A0 =C2=A0 | 37 ++++++++++++++++++++++++++++++++++=
+=C2=A0include/sysemu/runstate.h |=C2=A0 1 +<br>
+=C2=A0softmmu/runstate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 21 ++++++++++++++++++=
 +++<br>
-=C2=A03 files changed, 67 insertions(+), 27 deletions(-)<br>
+=C2=A02 files changed, 22 insertions(+)<br>
 <br>
-diff --git a/include/qapi/util.h b/include/qapi/util.h<br>
-index 81a2b13..c249108 100644<br>
---- a/include/qapi/util.h<br>
-+++ b/include/qapi/util.h<br>
-@@ -22,6 +22,8 @@ typedef struct QEnumLookup {<br>
-=C2=A0 =C2=A0 =C2=A0const int size;<br>
-=C2=A0} QEnumLookup;<br>
-<br>
-+struct strList;<br>
-+<br>
-=C2=A0const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);<br>
-=C2=A0int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0int def, Error **errp);<br>
-@@ -31,6 +33,19 @@ bool qapi_bool_parse(const char *name, const char *value=
-, bool *obj,<br>
-=C2=A0int parse_qapi_name(const char *name, bool complete);<br>
-<br>
-=C2=A0/*<br>
-+ * Produce and return a NULL-terminated array of strings from @args.<br>
-+ * All strings are g_strdup&#39;d.<br>
-+ */<br>
-+char **strv_from_strList(const struct strList *args); <br></blockquote><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">+<br></blockquote><div><br><=
-/div><div>I&#39;d suggest to use the dedicated glib type GStrv<br></div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+/*<br>
-+ * Produce a strList from the character delimited string @in.<br>
-+ * All strings are g_strdup&#39;d.<br>
-+ * A NULL or empty input string returns NULL.<br>
-+ */<br>
-+struct strList *strList_from_string(const char *in, char delim);<br>
-+<br>
-+/*<br>
-=C2=A0 * For any GenericList @list, insert @element at the front.<br>
-=C2=A0 *<br>
-=C2=A0 * Note that this macro evaluates @element exactly once, so it is saf=
-e<br>
-@@ -56,4 +71,17 @@ int parse_qapi_name(const char *name, bool complete);<br=
->
-=C2=A0 =C2=A0 =C2=A0(tail) =3D &amp;(*(tail))-&gt;next; \<br>
-=C2=A0} while (0)<br>
-<br>
-+/*<br>
-+ * For any GenericList @list, return its length.<br>
-+ */<br>
-+#define QAPI_LIST_LENGTH(list) \<br>
-+=C2=A0 =C2=A0 ({ \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int len =3D 0; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 typeof(list) elem; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (elem =3D list; elem !=3D NULL; elem =3D e=
-lem-&gt;next) { \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len++; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 len; \<br>
-+=C2=A0 =C2=A0 })<br>
-+<br>
-=C2=A0#endif<br>
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c<br>
-index b8c22da..5ca8b4b 100644<br>
---- a/monitor/hmp-cmds.c<br>
-+++ b/monitor/hmp-cmds.c<br>
-@@ -43,6 +43,7 @@<br>
-=C2=A0#include &quot;qapi/qapi-commands-run-state.h&quot;<br>
-=C2=A0#include &quot;qapi/qapi-commands-tpm.h&quot;<br>
-=C2=A0#include &quot;qapi/qapi-commands-ui.h&quot;<br>
+diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h<br>
+index b655c7b..198211b 100644<br>
+--- a/include/sysemu/runstate.h<br>
++++ b/include/sysemu/runstate.h<br>
+@@ -57,6 +57,7 @@ void qemu_system_wakeup_enable(WakeupReason reason, bool =
+enabled);<br>
+=C2=A0void qemu_register_wakeup_notifier(Notifier *notifier);<br>
+=C2=A0void qemu_register_wakeup_support(void);<br>
+=C2=A0void qemu_system_shutdown_request(ShutdownCause reason);<br>
++void qemu_system_exec_request(const strList *args);<br>
+=C2=A0void qemu_system_powerdown_request(void);<br>
+=C2=A0void qemu_register_powerdown_notifier(Notifier *notifier);<br>
+=C2=A0void qemu_register_shutdown_notifier(Notifier *notifier);<br>
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c<br>
+index 3d344c9..309a4bf 100644<br>
+--- a/softmmu/runstate.c<br>
++++ b/softmmu/runstate.c<br>
+@@ -38,6 +38,7 @@<br>
+=C2=A0#include &quot;monitor/monitor.h&quot;<br>
+=C2=A0#include &quot;net/net.h&quot;<br>
+=C2=A0#include &quot;net/vhost_net.h&quot;<br>
 +#include &quot;qapi/util.h&quot;<br>
-=C2=A0#include &quot;qapi/qapi-visit-net.h&quot;<br>
-=C2=A0#include &quot;qapi/qapi-visit-migration.h&quot;<br>
-=C2=A0#include &quot;qapi/qmp/qdict.h&quot;<br>
-@@ -70,32 +71,6 @@ bool hmp_handle_error(Monitor *mon, Error *err)<br>
-=C2=A0 =C2=A0 =C2=A0return false;<br>
-=C2=A0}<br>
-<br>
--/*<br>
-- * Produce a strList from a comma separated list.<br>
-- * A NULL or empty input string return NULL.<br>
-- */<br>
--static strList *strList_from_comma_list(const char *in)<br>
--{<br>
--=C2=A0 =C2=A0 strList *res =3D NULL;<br>
--=C2=A0 =C2=A0 strList **tail =3D &amp;res;<br>
--<br>
--=C2=A0 =C2=A0 while (in &amp;&amp; in[0]) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *comma =3D strchr(in, &#39;,&#39;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *value;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (comma) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D g_strndup(in, comma - =
-in);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in =3D comma + 1; /* skip the , =
-*/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D g_strdup(in);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in =3D NULL;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPI_LIST_APPEND(tail, value);<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 return res;<br>
--}<br>
--<br>
-=C2=A0void hmp_info_name(Monitor *mon, const QDict *qdict)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0NameInfo *info;<br>
-@@ -1103,7 +1078,7 @@ void hmp_announce_self(Monitor *mon, const QDict *qdi=
-ct)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0migrate_announce_params());<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0qapi_free_strList(params-&gt;interfaces);<br>
--=C2=A0 =C2=A0 params-&gt;interfaces =3D strList_from_comma_list(interfaces=
-_str);<br>
-+=C2=A0 =C2=A0 params-&gt;interfaces =3D strList_from_string(interfaces_str=
-, &#39;,&#39;);<br>
-=C2=A0 =C2=A0 =C2=A0params-&gt;has_interfaces =3D params-&gt;interfaces !=
-=3D NULL;<br>
-=C2=A0 =C2=A0 =C2=A0params-&gt;id =3D g_strdup(id);<br>
-=C2=A0 =C2=A0 =C2=A0params-&gt;has_id =3D !!params-&gt;id;<br>
-diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c<br>
-index fda7044..edd51b3 100644<br>
---- a/qapi/qapi-util.c<br>
-+++ b/qapi/qapi-util.c<br>
-@@ -15,6 +15,7 @@<br>
 =C2=A0#include &quot;qapi/error.h&quot;<br>
-=C2=A0#include &quot;qemu/ctype.h&quot;<br>
-=C2=A0#include &quot;qapi/qmp/qerror.h&quot;<br>
-+#include &quot;qapi/qapi-builtin-types.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-commands-run-state.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-events-run-state.h&quot;<br>
+@@ -355,6 +356,7 @@ static NotifierList wakeup_notifiers =3D<br>
+=C2=A0static NotifierList shutdown_notifiers =3D<br>
+=C2=A0 =C2=A0 =C2=A0NOTIFIER_LIST_INITIALIZER(shutdown_notifiers);<br>
+=C2=A0static uint32_t wakeup_reason_mask =3D ~(1 &lt;&lt; QEMU_WAKEUP_REASO=
+N_NONE);<br>
++static char **exec_argv;<br>
 <br>
-=C2=A0CompatPolicy compat_policy;<br>
-<br>
-@@ -152,3 +153,39 @@ int parse_qapi_name(const char *str, bool complete)<br=
->
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0return p - str;<br>
+=C2=A0ShutdownCause qemu_shutdown_requested_get(void)<br>
+=C2=A0{<br>
+@@ -371,6 +373,11 @@ static int qemu_shutdown_requested(void)<br>
+=C2=A0 =C2=A0 =C2=A0return qatomic_xchg(&amp;shutdown_requested, SHUTDOWN_C=
+AUSE_NONE);<br>
 =C2=A0}<br>
-+<br>
-+char **strv_from_strList(const strList *args)<br>
+<br>
++static int qemu_exec_requested(void)<br>
 +{<br>
-+=C2=A0 =C2=A0 const strList *arg;<br>
-+=C2=A0 =C2=A0 int i =3D 0;<br>
-+=C2=A0 =C2=A0 char **argv =3D g_malloc((QAPI_LIST_LENGTH(args) + 1) * size=
-of(char *));<br>
-+<br>
-+=C2=A0 =C2=A0 for (arg =3D args; arg !=3D NULL; arg =3D arg-&gt;next) {<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 argv[i++] =3D g_strdup(arg-&gt;value);<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 argv[i] =3D NULL;<br>
-+<br>
-+=C2=A0 =C2=A0 return argv;<br>
++=C2=A0 =C2=A0 return exec_argv !=3D NULL;<br>
 +}<br>
 +<br>
-+strList *strList_from_string(const char *in, char delim)<br>
+=C2=A0static void qemu_kill_report(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0if (!qtest_driver() &amp;&amp; shutdown_signal) {<br>
+@@ -641,6 +648,13 @@ void qemu_system_shutdown_request(ShutdownCause reason=
+)<br>
+=C2=A0 =C2=A0 =C2=A0qemu_notify_event();<br>
+=C2=A0}<br>
+<br>
++void qemu_system_exec_request(const strList *args)<br>
 +{<br>
-+=C2=A0 =C2=A0 strList *res =3D NULL;<br>
-+=C2=A0 =C2=A0 strList **tail =3D &amp;res;<br>
++=C2=A0 =C2=A0 exec_argv =3D strv_from_strList(args);<br></blockquote><div>=
+<br></div><div>I would rather make it take a GStrv, since that&#39;s what i=
+t actually uses.</div><div><br></div><div>I would also check if argv[0] is =
+set (or document the expected behaviour).<br></div><div>=C2=A0<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 shutdown_requested =3D 1;<br>
++=C2=A0 =C2=A0 qemu_notify_event();<br>
++}<br>
 +<br>
-+=C2=A0 =C2=A0 while (in &amp;&amp; in[0]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *next =3D strchr(in, delim);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *value;<br>
+=C2=A0static void qemu_system_powerdown(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0qapi_event_send_powerdown();<br>
+@@ -689,6 +703,13 @@ static bool main_loop_should_exit(void)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0request =3D qemu_shutdown_requested();<br>
+=C2=A0 =C2=A0 =C2=A0if (request) {<br>
 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (next) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D g_strndup(in, next - i=
-n);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in =3D next + 1; /* skip the del=
-im */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D g_strdup(in);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_exec_requested()) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 execvp(exec_argv[0], exec_argv);=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;execvp %s fai=
+led: %s&quot;, exec_argv[0], strerror(errno));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_strfreev(exec_argv);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_argv =3D NULL;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPI_LIST_APPEND(tail, value);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return res;<br>
-+}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_kill_report();<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_system_shutdown(request);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (shutdown_action =3D=3D SHUTDOWN_ACTIO=
+N_PAUSE) {<br>
 -- <br>
 1.8.3.1<br>
 <br>
@@ -513,5 +317,5 @@ im */<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000b3dae005d9c9ad2d--
+--00000000000003016e05d9c9bee1--
 
