@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB814D2E41
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:40:55 +0100 (CET)
-Received: from localhost ([::1]:38220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E704D2E42
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:41:10 +0100 (CET)
+Received: from localhost ([::1]:39408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRugY-00016Q-Jp
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:40:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46894)
+	id 1nRugn-0001vM-4x
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:41:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nRub1-0001TE-H3
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:35:12 -0500
-Received: from [2a00:1450:4864:20::636] (port=41879
- helo=mail-ej1-x636.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRueC-0007W8-8Q
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:38:28 -0500
+Received: from [2607:f8b0:4864:20::b36] (port=35782
+ helo=mail-yb1-xb36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nRub0-0001bd-1V
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:35:11 -0500
-Received: by mail-ej1-x636.google.com with SMTP id a8so4266857ejc.8
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 03:35:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nRueA-00028n-L8
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:38:27 -0500
+Received: by mail-yb1-xb36.google.com with SMTP id z30so3751405ybi.2
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 03:38:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=9OuiSaszKLqLncvEXwzxRYBAhDD3OEt31GCAEdS1SGE=;
- b=NzE8PvpTspsQ6HaV5jOcmw9GOqbEFpat5UIs4z27HuOUra+gOWZ0xcxfcC5jd5Q3cP
- Q8AmhPJNIFuqPdhXEqIt3QEK8Dyqf/ntU1lhJXhwfnFA8+R5Jmo4e6CaP4xG53zO4bU/
- /h0Cga6Uqldmf+e0vjvIKF7+/beqtxV20ELgezmPa2V513qqx8sbRVq4w2GTa22hi2pM
- HpAL8YkTeeFZSvbGiVDT4pR440jph8NIajaHwiLL2mEW15ErNwOiK36ZO9gJlaD7PL/a
- G/YsSkVW7uKfXN3J4Rp3nETv3tmrAup9il1BM0WdVQg98iOeaGqxh7Wrza4+jPcC07Bu
- PiRg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CCCw1H1qMCOeoLbq8axFLkwUXfKumrSxEH3N1WBDPrk=;
+ b=QeXAScoKHyyb+in/o3k7CFSnebi6VOQ2UNg90rsTacVEwLRn0Nv5pT4+I70Pn58If3
+ bZMwyzBPFL6gBXugD8ssRG6/1Cdf/RolCMnaJbaLlt16vYvcak5ndUhwpMMY8zMcBZlx
+ d7BU1olgg2ojoDdwVkhDPVZ47hoiaEC0VJb4J53tIiPQdkH0xHMcl0NCqP5jsMVhDeox
+ TDGZQxaOMbWTsqjKWcC5K8dGwCWnNqMHnrYmYk846ALDJDdScerv0bPHsKfAWncpNEoP
+ CaEFYzQMLpLzn7EaWO0mDmLF83G2E1oafPqF8bsadtUt8hDRnXor3153oT0cGW8ohIOF
+ s3Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=9OuiSaszKLqLncvEXwzxRYBAhDD3OEt31GCAEdS1SGE=;
- b=x/JyKhFm8UrMooj0v3A5Sk578ht5hD17T8EOS91Lv8qBEQT0rpcitfE25AzQyzl9Dr
- ZEPQzukUVTR+NoZUa6O9AJILsrgwii4VBFn0SCwZWA5uHeoQ61OySQkG4qCeDhfObd/b
- OzAVyPG7u4WYjtsQgYKzHPmqhSnwaAA0UgLATL3Hqe/TgUAXJf6GEV+DuID11X+kW6/S
- zY8jaWel61HDPCI+6JnUtpQ/o99dJSDxr2cbgxfnhZdX5of4KzgZw38r/tnd0f7uVn7W
- BODEflJJU1SzgRwyAdTkJThtXbA+WUrZb2mWlBFcNoWdns2jUfj16ZPvG046hSRADK07
- YSzA==
-X-Gm-Message-State: AOAM530HUlv+mk37rSmO3X1Ksoj1CLuEZEkGtTg3SoxXKUcno19EyjfL
- 1f6yhAcskiKm1yZqKnCt7Z+W6g==
-X-Google-Smtp-Source: ABdhPJzn8m8RrSF3zGRHF10AZVtpoe/8ZtUlLOChwZzts5URWqDXxIUVpV0o/ju1HOE7opTG702cTA==
-X-Received: by 2002:a17:907:97c5:b0:6da:c285:44f5 with SMTP id
- js5-20020a17090797c500b006dac28544f5mr17455776ejc.208.1646825708550; 
- Wed, 09 Mar 2022 03:35:08 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- n27-20020a1709062bdb00b006da975173bfsm637874ejg.170.2022.03.09.03.35.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Mar 2022 03:35:07 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BE8D81FFB7;
- Wed,  9 Mar 2022 11:35:06 +0000 (GMT)
-References: <20220308145521.3106395-1-kraxel@redhat.com>
- <20220308145521.3106395-3-kraxel@redhat.com>
-User-agent: mu4e 1.7.9; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 02/11] edk2: update submodule to stable202202
-Date: Wed, 09 Mar 2022 11:35:01 +0000
-In-reply-to: <20220308145521.3106395-3-kraxel@redhat.com>
-Message-ID: <87v8wn5pg5.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CCCw1H1qMCOeoLbq8axFLkwUXfKumrSxEH3N1WBDPrk=;
+ b=cv2f9H5rLBs59ceejbsEe8PKvkjyazgXrwyQ6bc8MK/Rb/SqKAjTXciCh5WKv2+CxX
+ e9hLO7xEp19GsEKnYs6QUC6e8p45ojk0UesvjyaJZyAjdtJkVNst0Hz7nrtnG58OZBax
+ N58cnGGYdvt5WKE/eQTnaTdTeLtiaqnrS4mWTCE/uCvvd92kwoq8HPD8lfQxlcKAFG79
+ DdBSsjx8c4e+KNjWzSnNvSUO99lGzOnlVRilTI4PxfSMB48y7gK3Qeiv4V4yiNVD6aQ+
+ 6FoPQd1zEap9TfflcHgwv8zyNDKMtFKuZquUqIJtje8GipmCbCOLdcoJFMU0ih0be+hW
+ +esA==
+X-Gm-Message-State: AOAM531qp/fwBmjVObv5SKj7ujYY3KpUewsIGliUa+meEAAGuF4324I2
+ s7YXTpShAKCZ+f3wRB5a+oIn+OYPsrpa79s3vfKkDg==
+X-Google-Smtp-Source: ABdhPJzVHx9f4a2yICNfoMdBnMDuEJJcYCUkrfnsthVlZudMNL94dalbSOLoRfsdezKCRRAyApChaw0crF+1YF+AfZw=
+X-Received: by 2002:a25:d181:0:b0:629:1919:d8e5 with SMTP id
+ i123-20020a25d181000000b006291919d8e5mr14517486ybg.85.1646825905483; Wed, 09
+ Mar 2022 03:38:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220307234557.9081-1-philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220307234557.9081-1-philippe.mathieu.daude@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 9 Mar 2022 11:38:14 +0000
+Message-ID: <CAFEAcA8y8VOTj1paYgCKAK828_2jgqfNNusS0Tc4r0AboRSeZA@mail.gmail.com>
+Subject: Re: [PULL v2 00/16] MIPS patches for 2022-03-07
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b36
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,32 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
+Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Gerd Hoffmann <kraxel@redhat.com> writes:
-
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  roms/edk2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, 7 Mar 2022 at 23:47, Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
 >
-> diff --git a/roms/edk2 b/roms/edk2
-> index 06dc822d045c..b24306f15daa 160000
-> --- a/roms/edk2
-> +++ b/roms/edk2
-> @@ -1 +1 @@
-> -Subproject commit 06dc822d045c2bb42e497487935485302486e151
-> +Subproject commit b24306f15daa2ff8510b06702114724b33895d3c
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> The following changes since commit b49872aa8fc0f3f5a3036cc37aa2cb5c92866f=
+33:
+>
+>   Merge remote-tracking branch 'remotes/hreitz-gitlab/tags/pull-block-202=
+2-03-07' into staging (2022-03-07 17:14:09 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/mips-20220308
+>
+> for you to fetch changes up to c35fef9a9c7fd5397bc624d5bba05cef514b5737:
+>
+>   tests/avocado/linux_ssh_mips_malta.py: add missing accel (tcg) tag (202=
+2-03-07 20:38:41 +0100)
+>
+> Since v1:
+> - Corrected last patch (screwed during git-am conflict)
+>
+> ----------------------------------------------------------------
+> MIPS patches queue
+>
+> - Fix CP0 cycle counter timing
+> - Fix VMState of gt64120 IRQs
+> - Long due PIIX4 QOM cleanups
+> - ISA IRQ QOM'ification / cleanups
+>
+> ----------------------------------------------------------------
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
---=20
-Alex Benn=C3=A9e
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
