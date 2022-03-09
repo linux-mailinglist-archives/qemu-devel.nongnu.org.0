@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7664D39DC
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 20:18:56 +0100 (CET)
-Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73AF4D39DE
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 20:19:21 +0100 (CET)
+Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nS1pm-0005XY-QE
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 14:18:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46892)
+	id 1nS1qC-0005uK-Un
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 14:19:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <f19d6f5fd2b569ebac797f18849710eb22c40984@lizzy.crudebyte.com>)
- id 1nS1ky-00023p-TY
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:13:56 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:37337)
+ (envelope-from <699dea34f26b6f60746a16a35748b65d76515f1a@lizzy.crudebyte.com>)
+ id 1nS1m2-0003nQ-IF
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:15:02 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:58537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <f19d6f5fd2b569ebac797f18849710eb22c40984@lizzy.crudebyte.com>)
- id 1nS1kx-0004oT-CS
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:13:56 -0500
+ (envelope-from <699dea34f26b6f60746a16a35748b65d76515f1a@lizzy.crudebyte.com>)
+ id 1nS1m0-0004ri-Vq
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:15:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=YqbY9vNfa/EmSihxfkUi13kl4TtM5o1x5zqFLwyXJpk=; b=GF+Sn
- 3PCHQjqbbMUJGJgtj6mpia5DXiT/48iB9s6Tg53bpUVcc/HPQ02jAYMUOzMdwJBeYOMXwokHVUKk+
- 55+KnkDAqSl0LSzjRBceWKtemYMyr9YMrL/MTrq8A229DP22QLQNbJwbPEF/VUZt2+zw07bfqxh35
- +IfNZOix1kL+dGLGRkYExAAEGzfTMeUh22cXxiBNKX6As980cD9jUgOuDLXE69hZiqrWiECRXuH7R
- stJybOisSy+uhhy2v1D1audZb2DDYwGuL+nmZ4KicxnGMGlZ3320nRTQDpiaRwub+KwrDYCh+zz2Q
- Pb1UKbQ2zsrp1EgpP59h/VSY9W77g==;
-Message-Id: <f19d6f5fd2b569ebac797f18849710eb22c40984.1646850707.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=8z1sLYd5CDw7cg4PvCyJAi/AJyQA5yqK83lyVZ4XFWY=; b=Vt29E
+ UHy+VB2U1n9YKapf6cDDyAJKmVTq7hUSYdUAZP7G3HFYMYEH2X5USRbL3/QHGDc3wdHeTlIgQPZ51
+ IURMhzHeF5RUQLyMR7AsNm7ZOqgrHbQS9WvyMf9PMZrTta7lRpBETlnda2FtTbcfbqrjI309NrMPF
+ 83aCHPdz9UUZ8SBw6WvuYR0btAJz5pR9WZFGwm6Xe6oCaM5LM07UOMBTbhLw/IvJEAg2kubKllKNj
+ 2d390mEIqggIa2+TTKSywheavRl22dxFePDyvDDMQ+shYXerXhZmUtArZVyC/Bmp5d6xIEGwCKxVm
+ lyDSa1pnmWMCCNIpvsxdur+rLxW1Q==;
+Message-Id: <699dea34f26b6f60746a16a35748b65d76515f1a.1646850707.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1646850707.git.qemu_oss@crudebyte.com>
 References: <cover.1646850707.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Wed, 9 Mar 2022 14:24:24 +0100
-Subject: [PATCH 2/6] tests/9pfs: Twalk with nwname=0
+Date: Wed, 9 Mar 2022 15:49:04 +0100
+Subject: [PATCH 3/6] tests/9pfs: compare QIDs in fs_walk_none() test
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=f19d6f5fd2b569ebac797f18849710eb22c40984@lizzy.crudebyte.com;
+ envelope-from=699dea34f26b6f60746a16a35748b65d76515f1a@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
@@ -63,54 +63,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Send Twalk request with nwname=0. In this case no QIDs should
-be returned by 9p server; this is equivalent to walking to dot.
+Extend previously added fs_walk_none() test by comparing the QID
+of the root fid with the QID of the cloned fid. They should be
+equal.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ tests/qtest/virtio-9p-test.c | 70 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
 diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 22bdd74bc1..6c00da03f4 100644
+index 6c00da03f4..9098e21173 100644
 --- a/tests/qtest/virtio-9p-test.c
 +++ b/tests/qtest/virtio-9p-test.c
-@@ -1002,6 +1002,27 @@ static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
-     do_walk_expect_error(v9p, "non-existent", ENOENT);
+@@ -146,6 +146,11 @@ static void v9fs_uint16_read(P9Req *req, uint16_t *val)
+     le16_to_cpus(val);
  }
  
-+static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
++static void v9fs_int16_read(P9Req *req, int16_t *val)
 +{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    v9fs_qid root_qid;
-+    g_autofree v9fs_qid *wqid = NULL;
-+    P9Req *req;
-+
-+    do_version(v9p);
-+    req = v9fs_tattach(v9p, 0, getuid(), 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rattach(req, &root_qid);
-+
-+    req = v9fs_twalk(v9p, 0, 1, 0, NULL, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rwalk(req, NULL, &wqid);
-+
-+    /* special case: no QID is returned if nwname=0 was sent */
-+    g_assert(wqid == NULL);
++    v9fs_uint16_read(req, (uint16_t *)val);
 +}
 +
- static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
+ static void v9fs_uint32_write(P9Req *req, uint32_t val)
  {
-     QVirtio9P *v9p = obj;
-@@ -1435,6 +1456,7 @@ static void register_virtio_9p_test(void)
-     qos_add_test("synth/walk/basic", "virtio-9p", fs_walk,  &opts);
-     qos_add_test("synth/walk/no_slash", "virtio-9p", fs_walk_no_slash,
-                   &opts);
-+    qos_add_test("synth/walk/none", "virtio-9p", fs_walk_none, &opts);
-     qos_add_test("synth/walk/dotdot_from_root", "virtio-9p",
-                  fs_walk_dotdot,  &opts);
-     qos_add_test("synth/walk/non_existent", "virtio-9p", fs_walk_nonexistent,
+     uint32_t le_val = cpu_to_le32(val);
+@@ -166,12 +171,22 @@ static void v9fs_uint32_read(P9Req *req, uint32_t *val)
+     le32_to_cpus(val);
+ }
+ 
++static void v9fs_int32_read(P9Req *req, int32_t *val)
++{
++    v9fs_uint32_read(req, (uint32_t *)val);
++}
++
+ static void v9fs_uint64_read(P9Req *req, uint64_t *val)
+ {
+     v9fs_memread(req, val, 8);
+     le64_to_cpus(val);
+ }
+ 
++static void v9fs_int64_read(P9Req *req, int64_t *val)
++{
++    v9fs_uint64_read(req, (uint64_t *)val);
++}
++
+ /* len[2] string[len] */
+ static uint16_t v9fs_string_size(const char *string)
+ {
+@@ -425,6 +440,40 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
+     v9fs_req_free(req);
+ }
+ 
++/* size[4] Tstat tag[2] fid[4] */
++static P9Req *v9fs_tstat(QVirtio9P *v9p, uint32_t fid, uint16_t tag)
++{
++    P9Req *req;
++
++    req = v9fs_req_init(v9p, 4, P9_TSTAT, tag);
++    v9fs_uint32_write(req, fid);
++    v9fs_req_send(req);
++    return req;
++}
++
++/* size[4] Rstat tag[2] stat[n] */
++static void v9fs_rstat(P9Req *req, struct V9fsStat *st)
++{
++    v9fs_req_recv(req, P9_RSTAT);
++
++    v9fs_int16_read(req, &st->size);
++    v9fs_int16_read(req, &st->type);
++    v9fs_int32_read(req, &st->dev);
++    v9fs_uint8_read(req, &st->qid.type);
++    v9fs_uint32_read(req, &st->qid.version);
++    v9fs_uint64_read(req, &st->qid.path);
++    v9fs_int32_read(req, &st->mode);
++    v9fs_int32_read(req, &st->mtime);
++    v9fs_int32_read(req, &st->atime);
++    v9fs_int64_read(req, &st->length);
++    v9fs_string_read(req, &st->name.size, &st->name.data);
++    v9fs_string_read(req, &st->uid.size, &st->uid.data);
++    v9fs_string_read(req, &st->gid.size, &st->gid.data);
++    v9fs_string_read(req, &st->muid.size, &st->muid.data);
++
++    v9fs_req_free(req);
++}
++
+ /* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
+ static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t offset,
+                             uint32_t count, uint16_t tag)
+@@ -1009,6 +1058,8 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
+     v9fs_qid root_qid;
+     g_autofree v9fs_qid *wqid = NULL;
+     P9Req *req;
++    struct V9fsStat st[2];
++    int i;
+ 
+     do_version(v9p);
+     req = v9fs_tattach(v9p, 0, getuid(), 0);
+@@ -1021,6 +1072,25 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
+ 
+     /* special case: no QID is returned if nwname=0 was sent */
+     g_assert(wqid == NULL);
++
++    req = v9fs_tstat(v9p, 0, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rstat(req, &st[0]);
++
++    req = v9fs_tstat(v9p, 1, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rstat(req, &st[1]);
++
++    /* don't compare QID version for checking for file ID equalness */
++    g_assert(st[0].qid.type == st[1].qid.type);
++    g_assert(st[0].qid.path == st[1].qid.path);
++
++    for (i = 0; i < 2; ++i) {
++        g_free(st[i].name.data);
++        g_free(st[i].uid.data);
++        g_free(st[i].gid.data);
++        g_free(st[i].muid.data);
++    }
+ }
+ 
+ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
 -- 
 2.30.2
 
