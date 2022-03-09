@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DBA64D2B9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 10:16:33 +0100 (CET)
-Received: from localhost ([::1]:60468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307BD4D2BDF
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 10:28:53 +0100 (CET)
+Received: from localhost ([::1]:39100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRsQn-0001fm-O0
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 04:16:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44612)
+	id 1nRscm-0007bl-9R
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 04:28:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRsO1-0000uJ-Q6
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 04:13:37 -0500
-Received: from [2607:f8b0:4864:20::112f] (port=33460
- helo=mail-yw1-x112f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRsNz-0003pj-UY
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 04:13:37 -0500
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-2dbd8777564so16137917b3.0
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 01:13:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WKpsg2xCGgdebHv0xukRBU9wgJIBuzglAj25nafU8LI=;
- b=N1YDnlVjIOfM5ofl1cBw0GvTVfPON8lIqexgyXFB5xgyD5BnPrQxTEx9mk7ZNaLWJg
- JlKG/RwOcvwjmgzrntIfs92DczD0AQ00QajTySdxpbFZRqXUrUpgsJCVNJKpLdsxI7SX
- UUIcEStuT/+4xLTPd7t/r62feQrF9gYkCXVLwfiawR/+gpVFnUNTf85LKvwG1cOlS3ki
- hz79rT4fPRBg1jed3+73g2ddhUSXorOTh5Lsr9xZzF1PzUR9TtM06hLa5Cor5lnfiWQK
- TzcQrZ8Ntrp3x5mbHgBKPdYZORZVjEyszvAvJCk3o537Gj6WpQlyfuCOrPhhg/devsv2
- MlAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WKpsg2xCGgdebHv0xukRBU9wgJIBuzglAj25nafU8LI=;
- b=mHvVP958011+i/PAuajrzr8h1tkVL6Yv7J+l3aRhzATuKcHg+/Wa0x9AozIPtZrqv/
- AxNoVv/KMu7xR2Hom251nnwYkTpomN6bHu3BUW/4ARHIHivq/Fyi3nW1tktzRkrl6btC
- PDWVatof/Iqq0i+2WrZedAn7B5uoRHB8OnN/uXYQYqjKKpsMofTWBk8FjTqnCmPanKpa
- vz030XPMJ9Eki0kUh+u1OzDk5gj/9E2ApUh3h2fJJ1iiCP+JLMIzZMrVY57DE3YWelu9
- 0bw1E53+5IcVz29qsCtmdgdyINGvHuJDMI0i6C+OWApsPc23Jqn3wA+DztdLjqBCjR5U
- nsEg==
-X-Gm-Message-State: AOAM532BMlhYo51445GCeuCAjERNLfrgeMsavYePEF2czfotMhc76AzD
- W+XUi+AJ0lCB2C6Qk/YHzIPIC43osxrMWLOE4JDR7g==
-X-Google-Smtp-Source: ABdhPJwex+mSAOicrTYLLNn/TDkfAM0gwq308LwFMfQtUfB8FpVBIZwhZJTNrK/d0C2DXDVotAmaJlir2SINGIrrZVE=
-X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
- e69-20020a81a748000000b002d61f8b23a9mr15775309ywh.329.1646817214684; Wed, 09
- Mar 2022 01:13:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRsaK-0006NN-KF
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 04:26:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRsaG-0005uf-Sy
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 04:26:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646817975;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z2e0fdUh4cHQylnG6+Vc7fErZNg3k5mhcbszPx5pDpk=;
+ b=JAX6fT6uTjp2+w+TJO850eiI8rVLB9us8Ex89NQoSBPyNCHMpURzmbq/RKzxQJnOkLoe5f
+ ZUXMo+4e/3wg1eh7LXkHp1aPrQvValDZPlbwLJdL2Acd1F+y4zFsHUKyxRAbcSQWa0sP/K
+ xxAWnOGH5lH122hjT48Q+4nORwOhhbM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-245-Z4HRfK3lMB6Iz0jqdOS8Rw-1; Wed, 09 Mar 2022 04:26:12 -0500
+X-MC-Unique: Z4HRfK3lMB6Iz0jqdOS8Rw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A63F1854E21;
+ Wed,  9 Mar 2022 09:26:11 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B986C72198;
+ Wed,  9 Mar 2022 09:26:10 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 890A91800098; Wed,  9 Mar 2022 10:26:05 +0100 (CET)
+Date: Wed, 9 Mar 2022 10:26:05 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
+ current scanout is GL
+Message-ID: <20220309092605.5izvcbp6pougm6ye@sirius.home.kraxel.org>
+References: <CAMxuvawuMvxWx7xtsf=PbWnu7UypNfVWf+Bufeqbi4J=SjsU9w@mail.gmail.com>
+ <1fa142fb-7988-db25-c283-a6b16278f628@gmail.com>
+ <CAJ+F1CLDm9+myAJdNQdU2y64Fa-2+ew2oGih_cWim1=vO=sLMw@mail.gmail.com>
+ <e1a9ab86-912b-2628-1e60-4aec4eac25d3@gmail.com>
+ <CAJ+F1CKJHqA5DJv1WvY8q0k2rNW+ERFbFgMGKggMuMUJCPs5vg@mail.gmail.com>
+ <2517a6b9-cc34-3bb1-d17e-d4e30f0e68b7@gmail.com>
+ <CAJ+F1CKrDnYdMKNh1nu8LjnQ=gJ9-umgGHW-E1D1sFO1gf=Rdg@mail.gmail.com>
+ <76c68a33-b157-f127-36ee-034290bf3e4b@gmail.com>
+ <CAJ+F1CLvKn3r68f7LvCP-2Rni_0G7Z21jZrPqNCByHoL6WL+8Q@mail.gmail.com>
+ <c080b8ce-c88f-aa37-f47d-1709c9e6dce5@gmail.com>
 MIME-Version: 1.0
-References: <20220307224357.682101-1-mst@redhat.com>
-In-Reply-To: <20220307224357.682101-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Mar 2022 09:13:23 +0000
-Message-ID: <CAFEAcA8LDD_r892R8bN1T0gJxU6ubk_b=KeJPULR--wHoZ8FCg@mail.gmail.com>
-Subject: Re: [PULL v4 00/47] virtio,pc,pci: features, cleanups, fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <c080b8ce-c88f-aa37-f47d-1709c9e6dce5@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,44 +89,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Mar 2022 at 22:44, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit 6629bf78aac7e53f83fd0bcbdbe322e2302dfd1f:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220302' into staging (2022-03-03 14:46:48 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to 128e050d41794e61e5849c6c507160da5556ea61:
->
->   hw/acpi/microvm: turn on 8042 bit in FADT boot architecture flags if present (2022-03-07 17:43:14 -0500)
->
-> ----------------------------------------------------------------
-> virtio,pc,pci: features, cleanups, fixes
->
-> vhost-user enabled on non-linux systems
-> beginning of nvme sriov support
-> bigger tx queue for vdpa
-> virtio iommu bypass
-> FADT flag to detect legacy keyboards
->
-> Fixes, cleanups all over the place
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
-> ----------------------------------------------------------------
+  Hi,
+ 
+> dpy_gfx_switch and dpy_gfx_update need to be called to finish the
+> initialization or switching of the non-OpenGL display. However, the proposed
+> patch only calls dpy_gfx_switch.
+> 
+> vnc actually does not need dpy_gfx_update because the vnc implementation of
+> dpy_gfx_switch implicitly does the work for dpy_gfx_update, but the model of
+> ui/console expects the two of dpy_gfx_switch and dpy_gfx_update is separated
+> and only calling dpy_gfx_switch violates the model. dpy_gfx_update used to
+> be called even in such a case before and it is a regression.
 
+Well, no, the ->dpy_gfx_switch() callback is supposed to do everything
+needed to bring the new surface to the screen.  vnc isn't alone here,
+gtk for example does the same (see gd_switch()).
 
-Applied, thanks.
+Yes, typically this is roughly the same an explicit dpy_gfx_update call
+would do.  So this could be changed if it helps making the opengl code
+paths less confusing, but that should be a separate patch series and
+separate discussion.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+take care,
+  Gerd
 
--- PMM
 
