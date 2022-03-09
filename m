@@ -2,60 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EF14D2CF8
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 11:18:59 +0100 (CET)
-Received: from localhost ([::1]:45282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D16DE4D2CF9
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 11:19:41 +0100 (CET)
+Received: from localhost ([::1]:48714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRtPG-0000Tw-Jk
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 05:18:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57558)
+	id 1nRtPw-0002np-VT
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 05:19:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRtMy-0006qm-3C
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 05:16:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22438)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nRtO0-00082m-TE
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 05:17:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRtMw-0005Ky-HF
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 05:16:35 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nRtNy-0005Yf-7Y
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 05:17:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646820993;
+ s=mimecast20190719; t=1646821054;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ztR8EzopVkIpxowpTtriAjn3jDSjbO2eWUI5fKeOcKA=;
- b=L09G/haVH34B6sjx4kQlgoWqvQJvU51AoJIGYa82Tzapzes5+yCbxwFuwmoiZmEFOUmQoi
- NMZ7qYPaIPcLo1di10UFv+LOGQ9PpduQNLY+XBZxwoWPCbEZNuP0cs/u7NU3zAauDS2RVP
- vYOiw/rq57vLtX90dKjvA2NxL7yoltQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=02Zcveb/W8oRnbelWDZVfvlRce7QUGYpUvmLgp4caGI=;
+ b=Cy/AwgyNvXC2/9mh8xww5TcIY5kLAYC5yxCkIxIQu/qJ3f2uL9UcXCDenIK/lRKEwgfBuE
+ zrTLzucxV/Hm4dH6P+ap/BnZBA5ElCDT41lnjI02ImQdBFT2pPcKl8egwUIr/VOU0qJVMV
+ RYPvhI9xteDZxN7/+trX9d+hZByIE5g=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-n-pSKb52N_CFf_ztbeePlg-1; Wed, 09 Mar 2022 05:16:32 -0500
-X-MC-Unique: n-pSKb52N_CFf_ztbeePlg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D5801006AA6;
- Wed,  9 Mar 2022 10:16:31 +0000 (UTC)
-Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8673B710AB;
- Wed,  9 Mar 2022 10:16:28 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH] tests/qemu-iotests: Use GNU sed in two more spots where it is
- necessary
-Date: Wed,  9 Mar 2022 11:16:26 +0100
-Message-Id: <20220309101626.637836-1-thuth@redhat.com>
+ us-mta-353--V6CLNF2MPmMGLZWUU7xhA-1; Wed, 09 Mar 2022 05:17:33 -0500
+X-MC-Unique: -V6CLNF2MPmMGLZWUU7xhA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ r9-20020a05640251c900b00412d54ea618so1037712edd.3
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 02:17:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=02Zcveb/W8oRnbelWDZVfvlRce7QUGYpUvmLgp4caGI=;
+ b=7G9i8ab/XQwZ+rT8Sgd58t4/UssNEY5jt9HbEb9YTYB7YZE4awILHfLl/u891r9K5N
+ idwvO73oNBgLN1Gz07O/n54aNlHkQMHLNZbzW187MqF9gcuH7AV+89hcYvWy2qKFvdNK
+ MCwNUxL+F+KXvUki3C3quUfYRktWuN4SNGx0gVrNiAnxDtXGrwFNpaxRE0OCsGhg6pN8
+ 6v66owAykDNDnF4yquWj8mTlpAGhCzRupE7gIUr+iJ3Wdll3Q99896z49i6B9gfvM44k
+ Izb1VZpM8d+NNH2FQClbqxsK6pMeNxuOA5YOB8CSDoSd182dqBz+OIHtoIuCyQLi7OLQ
+ POcg==
+X-Gm-Message-State: AOAM531vuRYUtfS0v2ANxtU6bSh/Y2fd1g1Rs+7mXBo38C9vcwMDwI8R
+ VWT8z2TIgMXPsxXzbTuqLYP0Z5LDAS7iRSR88xfIV9jg1V445j8sqPUsY8HIGPIM0WvyhB1LIOc
+ 7NeTo3cJ5m+5djyU=
+X-Received: by 2002:a17:907:3da1:b0:6d7:9f9:8d3c with SMTP id
+ he33-20020a1709073da100b006d709f98d3cmr16860856ejc.503.1646821051511; 
+ Wed, 09 Mar 2022 02:17:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwbHUY3K9luhZVHCKV0HouXgTNYKdh9APi7/mKxsq24MQhoVjG+wXRC2J+3ZpI76gWu1QVKjA==
+X-Received: by 2002:a17:907:3da1:b0:6d7:9f9:8d3c with SMTP id
+ he33-20020a1709073da100b006d709f98d3cmr16860836ejc.503.1646821051316; 
+ Wed, 09 Mar 2022 02:17:31 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ g9-20020aa7c849000000b00412fc6bf26dsm615348edt.80.2022.03.09.02.17.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Mar 2022 02:17:30 -0800 (PST)
+Date: Wed, 9 Mar 2022 11:17:29 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 07/11] tests/acpi: update expected data files
+Message-ID: <20220309111729.2a8ecb5e@redhat.com>
+In-Reply-To: <20220308145521.3106395-8-kraxel@redhat.com>
+References: <20220308145521.3106395-1-kraxel@redhat.com>
+ <20220308145521.3106395-8-kraxel@redhat.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -77,40 +101,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Ani Sinha <ani@anisinha.ca>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These two spots have been missed in commit 9086c7639822 ("Rework the
-checks and spots using GNU sed") - they need GNU sed, too, since they
-are using the "+" address form.
+On Tue,  8 Mar 2022 15:55:17 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qemu-iotests/common.filter | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I'd duplicate table changes fro 6/11 here,
+so whoever looks on this commit later won't have to be a detective.
 
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-index 21819db9c3..f6e6b3bd04 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -106,13 +106,13 @@ _filter_hmp()
- # replace block job offset
- _filter_block_job_offset()
- {
--    sed -e 's/, "offset": [0-9]\+,/, "offset": OFFSET,/'
-+    gsed -e 's/, "offset": [0-9]\+,/, "offset": OFFSET,/'
- }
- 
- # replace block job len
- _filter_block_job_len()
- {
--    sed -e 's/, "len": [0-9]\+,/, "len": LEN,/g'
-+    gsed -e 's/, "len": [0-9]\+,/, "len": LEN,/g'
- }
- 
- # replace actual image size (depends on the host filesystem)
--- 
-2.27.0
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  tests/data/acpi/virt/SSDT.memhp | Bin 736 -> 736 bytes
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+> 
+> diff --git a/tests/data/acpi/virt/SSDT.memhp b/tests/data/acpi/virt/SSDT.memhp
+> index 375d7b6fc85a484f492a26ccd355c205f2c34473..4c363a6d95a7e2e826568c85f5719127748e7932 100644
+> GIT binary patch
+> delta 22
+> dcmaFB`hb-yIM^lR0TTlQqx43uD@;sZodHo~2HXGu
+> 
+> delta 22
+> dcmaFB`hb-yIM^lR0TTlQqy0v%D@;rmodHrj2HXGu
+> 
 
 
