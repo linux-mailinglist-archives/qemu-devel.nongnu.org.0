@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964884D3D14
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 23:36:01 +0100 (CET)
-Received: from localhost ([::1]:45848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF9E4D3D76
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 00:14:33 +0100 (CET)
+Received: from localhost ([::1]:56884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nS4uW-0001Rz-5N
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 17:36:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58436)
+	id 1nS5Vn-0003Jg-Iv
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 18:14:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nS4tb-0000nR-Fx
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 17:35:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nS4tX-0002K1-Pe
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 17:35:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646865297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ln7BYK4FOW5todCisNllt3WsfuG9MlnUd+RENHWamPU=;
- b=CsdZjf7bda/j50SG5boMQNAmHINfxrTQ58+XA7qFXGaufClJtzCxZm5De2aTgGJ2DzTwI2
- lLVnYbmbqc2IKeAADLND7cQRfdLHx+f3tYerXq8sF5hG+2aLkfmsr8yXIbZDZcATti3qJV
- fTkqWtmr6wTzDxUzQLuhG9lUMKF5xE0=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-101-0aU2vH7fMByED7no883_Sw-1; Wed, 09 Mar 2022 17:34:56 -0500
-X-MC-Unique: 0aU2vH7fMByED7no883_Sw-1
-Received: by mail-oo1-f72.google.com with SMTP id
- 185-20020a4a1dc2000000b0031c074ab4b1so2789940oog.14
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 14:34:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1nS5US-0001uj-Sv
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 18:13:08 -0500
+Received: from [2607:f8b0:4864:20::e33] (port=44828
+ helo=mail-vs1-xe33.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1nS5UP-00084T-AF
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 18:13:08 -0500
+Received: by mail-vs1-xe33.google.com with SMTP id y4so4070373vsd.11
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 15:13:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=7QlrusR+Irh8nbj7AwMUwmWUb3AkSKHrIjafic9HSiY=;
+ b=XxsyLFHycXfn0O7dqUnXmMD7l7042m+XphOMEcyGsoMtZkk8CcRKsKVXaRY/bPkAX/
+ cRilwm41JbK+It4S9NAiLIPvHUjeSXxbsHMe5C84ohhhAtFDB3pUbgslJ2cZfCTwocEP
+ 3wARVesYm3Txss3OQni6r+KYFK+6eIUBJqhbUxRilHvtFfRj+cToMtt3Ia/6xClfllE2
+ TWw+nTq5vYbLPs37NSethQeLRcJ4l44Hedg42yklGpKko5++0FNCPb+sxEQj4uaPMU5Z
+ nTKVRwYkTKA8eUhLUZOPyR8C9aTujpS2IBxjiECiz32L9dPxwYei6L0LWcXQnkw7QlkW
+ GEEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=Ln7BYK4FOW5todCisNllt3WsfuG9MlnUd+RENHWamPU=;
- b=oHbQExSLQhujuBNJ2SFa+Cx6QCLUADiVrmkak9O/ef3IyIFiQeZQcBvk8AwHV673hC
- +eDsB6wEFJ67sAyL8GfLYBsqrJtDgYcFF/+aMtGbVj+SkjGR5FSV/jXk8ipM9P8LQw0F
- lX8bZh+QtvnAUsPkhUi3YnW0lCmGVj7dregitrDJ8ZCyerjw1XsiOg5492b/IRhgEq7c
- CYVr3JggvsjRY485cBV8nzfz1pUUBrVHVhd8hFo/5o4tuW+AKdV8ZgSaef6j2WklY3pu
- 10jEQVi8iQpR9k8O94DY8LuMgD+O4BpEi0fAyRLE2O0G8FQQyXO/Hv63yWKNXOibwjt3
- xkiw==
-X-Gm-Message-State: AOAM5324jf9Q22IT27BrhsETYUmMkhcjpr074h+aCsJ1efbkUb9seB6H
- 6xPI6OZMnCuxv9M0anijV4yDsEcm9P1zBkPCLCiPDZK19J2dQJ4X6MU/Ch7vbDKAFFFDnYiMnfk
- oD6V6VQ+eEK/Fh9E=
-X-Received: by 2002:a05:6871:69f:b0:da:294e:2de4 with SMTP id
- l31-20020a056871069f00b000da294e2de4mr6678728oao.123.1646865295989; 
- Wed, 09 Mar 2022 14:34:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyCUwnIZQkre3J/DMq+V0OY4udqtL4Uwxw1osydSps2+a+hH+yBYmCyH8YJa6hJUmPSitYTag==
-X-Received: by 2002:a05:6871:69f:b0:da:294e:2de4 with SMTP id
- l31-20020a056871069f00b000da294e2de4mr6678710oao.123.1646865295627; 
- Wed, 09 Mar 2022 14:34:55 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- y128-20020acae186000000b002d97bda3873sm1618638oig.56.2022.03.09.14.34.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Mar 2022 14:34:55 -0800 (PST)
-Date: Wed, 9 Mar 2022 15:34:53 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: John Johnson <john.g.johnson@oracle.com>
-Subject: Re: [RFC v4 01/21] vfio-user: introduce vfio-user protocol
- specification
-Message-ID: <20220309153453.25eee9dd.alex.williamson@redhat.com>
-In-Reply-To: <a9b696ca38ee2329e371c28bcaa2921cac2a48a2.1641584316.git.john.g.johnson@oracle.com>
-References: <cover.1641584316.git.john.g.johnson@oracle.com>
- <a9b696ca38ee2329e371c28bcaa2921cac2a48a2.1641584316.git.john.g.johnson@oracle.com>
-Organization: Red Hat
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=7QlrusR+Irh8nbj7AwMUwmWUb3AkSKHrIjafic9HSiY=;
+ b=4YNhu3Jhu6jndEqrDvM+DD0oDy7zPiooZIfGDHy6HTpFVaySTEofYR1IQc6Mf/YSMg
+ haz6Kgpwp47MOPND8SttNC074Cjiek6AuQpUPyJCxCKu5MxvkeBogVQR6QOL/rPw0D4C
+ xdEKevCikj0dLcPMHe9YenNnVb6eMgJmBX3pHshKTD8O7LSrXZU1BAU62LFS1zfnCuZ2
+ yjRINObA83HupUZbo5RUQsB29bwg2jI73VcyarBYXQLS4Ph0CMN/hADwVBXW1l46x8GI
+ Y6OGkg2lV0Yuo5u2UxjUb7wHlm06fhUQMAbOIsimcbFEvewSV1g02wjMwabrPkZ6rIoc
+ DPGA==
+X-Gm-Message-State: AOAM530Z8/OJNJOpSWMc1UBR8sWRAxrRXBNxLyQoCyt8YRlGetQa7+y0
+ R0TdaHN6HKPs8twY6kb3hDBY3f8z7NB/hsnbMbdmAA==
+X-Google-Smtp-Source: ABdhPJygPj4cZVLEdjPKokALXlaWcqhICiCrUVFbkxsfo0rhiPpdXG6pbRKQ8omsK3tMIFEJnAZR3zjWgY4GDywCAQ8=
+X-Received: by 2002:a67:fdc9:0:b0:320:c64c:3204 with SMTP id
+ l9-20020a67fdc9000000b00320c64c3204mr938223vsq.36.1646867581937; Wed, 09 Mar
+ 2022 15:13:01 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+From: Patrick Venture <venture@google.com>
+Date: Wed, 9 Mar 2022 15:12:51 -0800
+Message-ID: <CAO=notw1Aacb+EXLOBw4fy3rt2cFSkYmeXtJx6UziBdz7tveTg@mail.gmail.com>
+Subject: Lost patch
+To: Corey Minyard <cminyard@mvista.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000037324d05d9d13d36"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::e33
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
+ envelope-from=venture@google.com; helo=mail-vs1-xe33.google.com
+X-Spam_score_int: -134
+X-Spam_score: -13.5
+X-Spam_bar: -------------
+X-Spam_report: (-13.5 / 5.0 requ) BAYES_50=0.8, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,112 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Jan 2022 16:43:37 -0800
-John Johnson <john.g.johnson@oracle.com> wrote:
-> +VFIO region info cap sparse mmap
-> +""""""""""""""""""""""""""""""""
-> +
-> ++----------+--------+------+
-> +| Name     | Offset | Size |
-> ++==========+========+======+
-> +| nr_areas | 0      | 4    |
-> ++----------+--------+------+
-> +| reserved | 4      | 4    |
-> ++----------+--------+------+
-> +| offset   | 8      | 8    |
-> ++----------+--------+------+
-> +| size     | 16     | 9    |
-> ++----------+--------+------+
+--00000000000037324d05d9d13d36
+Content-Type: text/plain; charset="UTF-8"
 
-Typo, I'm pretty sure size isn't 9 bytes.
+Corey and Peter;
 
-> +| ...      |        |      |
-> ++----------+--------+------+
-> +
-> +* *nr_areas* is the number of sparse mmap areas in the region.
-> +* *offset* and size describe a single area that can be mapped by the client.
-> +  There will be *nr_areas* pairs of offset and size. The offset will be added to
-> +  the base offset given in the ``VFIO_USER_DEVICE_GET_REGION_INFO`` to form the
-> +  offset argument of the subsequent mmap() call.
-> +
-> +The VFIO sparse mmap area is defined in ``<linux/vfio.h>`` (``struct
-> +vfio_region_info_cap_sparse_mmap``).
-> +
-> +VFIO region type cap header
-> +"""""""""""""""""""""""""""
-> +
-> ++------------------+---------------------------+
-> +| Name             | Value                     |
-> ++==================+===========================+
-> +| id               | VFIO_REGION_INFO_CAP_TYPE |
-> ++------------------+---------------------------+
-> +| version          | 0x1                       |
-> ++------------------+---------------------------+
-> +| next             | <next>                    |
-> ++------------------+---------------------------+
-> +| region info type | VFIO region info type     |
-> ++------------------+---------------------------+
-> +
-> +This capability is defined when a region is specific to the device.
-> +
-> +VFIO region info type cap
-> +"""""""""""""""""""""""""
-> +
-> +The VFIO region info type is defined in ``<linux/vfio.h>``
-> +(``struct vfio_region_info_cap_type``).
-> +
-> ++---------+--------+------+
-> +| Name    | Offset | Size |
-> ++=========+========+======+
-> +| type    | 0      | 4    |
-> ++---------+--------+------+
-> +| subtype | 4      | 4    |
-> ++---------+--------+------+
-> +
-> +The only device-specific region type and subtype supported by vfio-user is
-> +``VFIO_REGION_TYPE_MIGRATION`` (3) and ``VFIO_REGION_SUBTYPE_MIGRATION`` (1).
+I was about to submit a fix to the at24c-eeprom device and noticed that my
+v2 patch appears to have been lost to time.  Is there any way we can get
+this pulled into 7.0?
 
-These should be considered deprecated from the kernel interface.  I
-hope there are plans for vfio-user to adopt the new interface that's
-currently available in linux-next and intended for v5.18.
+https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg03485.html
 
-...
-> +Unused VFIO ``ioctl()`` commands
-> +--------------------------------
-> +
-> +The following VFIO commands do not have an equivalent vfio-user command:
-> +
-> +* ``VFIO_GET_API_VERSION``
-> +* ``VFIO_CHECK_EXTENSION``
-> +* ``VFIO_SET_IOMMU``
-> +* ``VFIO_GROUP_GET_STATUS``
-> +* ``VFIO_GROUP_SET_CONTAINER``
-> +* ``VFIO_GROUP_UNSET_CONTAINER``
-> +* ``VFIO_GROUP_GET_DEVICE_FD``
-> +* ``VFIO_IOMMU_GET_INFO``
-> +
-> +However, once support for live migration for VFIO devices is finalized some
-> +of the above commands may have to be handled by the client in their
-> +corresponding vfio-user form. This will be addressed in a future protocol
-> +version.
+Thanks,
+Patrick
 
-As above, I'd go ahead and drop the migration region interface support,
-it's being removed from the kernel.  Dirty page handling might also be
-something you want to pull back on as we're expecting in-kernel vfio to
-essentially deprecate its iommu backends in favor of a new shared
-userspace iommufd interface.  We expect to have backwards compatibility
-via that interface, but as QEMU migration support for vfio-pci devices
-is experimental and there are desires not to consolidate dirty page
-tracking behind the iommu interface in the new model, it's not clear if
-the kernel will continue to expose the current dirty page tracking.
+--00000000000037324d05d9d13d36
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-AIUI, we're expecting to see patches officially proposing the iommufd
-interface in the kernel "soon".  Thanks,
+<div dir=3D"ltr"><div>Corey and Peter;</div><div><br></div><div>I was about=
+ to submit a fix to the at24c-eeprom device and noticed that my v2 patch ap=
+pears=C2=A0to have been lost to time.=C2=A0 Is there any way we can get thi=
+s pulled into 7.0?</div><div><br></div><a href=3D"https://lists.gnu.org/arc=
+hive/html/qemu-devel/2021-12/msg03485.html">https://lists.gnu.org/archive/h=
+tml/qemu-devel/2021-12/msg03485.html</a><br><div><br></div><div>Thanks,</di=
+v><div>Patrick</div></div>
 
-Alex
-
+--00000000000037324d05d9d13d36--
 
