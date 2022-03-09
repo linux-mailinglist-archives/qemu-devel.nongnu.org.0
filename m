@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B03E4D2DB3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:12:24 +0100 (CET)
-Received: from localhost ([::1]:34924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4944D2DE6
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:24:59 +0100 (CET)
+Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRuEx-0001ae-Gr
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:12:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41058)
+	id 1nRuR8-0005jD-5B
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:24:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuCG-0006nD-KL
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:36 -0500
-Received: from [2001:41c9:1:41f::167] (port=35752
+ id 1nRuCK-0006xJ-NE
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:44 -0500
+Received: from [2001:41c9:1:41f::167] (port=35760
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuCF-0005HM-58
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:36 -0500
+ id 1nRuCJ-0005Hb-9v
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:40 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuBY-000CWr-I1; Wed, 09 Mar 2022 11:08:56 +0000
+ id 1nRuBc-000CWr-4b; Wed, 09 Mar 2022 11:09:00 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Wed,  9 Mar 2022 11:08:22 +0000
-Message-Id: <20220309110831.18443-14-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  9 Mar 2022 11:08:23 +0000
+Message-Id: <20220309110831.18443-15-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
 References: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 13/22] macfb: add VMStateDescription for MacfbNubusState and
- MacfbSysBusState
+Subject: [PULL 14/22] macfb: don't use special irq_state and irq_mask
+ variables in MacfbState
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -68,80 +69,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently when QEMU tries to migrate the macfb framebuffer it crashes randomly
-because the opaque provided by the DeviceClass vmsd property for both devices
-is set to MacfbState rather than MacfbNubusState or MacfbSysBusState as
-appropriate.
-
-Resolve the issue by adding new VMStateDescriptions for MacfbNubusState and
-MacfbSysBusState which embed the existing vmstate_macfb VMStateDescription
-within them using VMSTATE_STRUCT.
+The current IRQ state and IRQ mask are handled exactly the same as standard
+register accesses, so store these values directly in the regs array rather
+than having separate variables for them.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220305155530.9265-2-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220305155530.9265-3-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/display/macfb.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ hw/display/macfb.c         | 15 +++++++--------
+ include/hw/display/macfb.h |  2 --
+ 2 files changed, 7 insertions(+), 10 deletions(-)
 
 diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index c9b468c10e..66ceacf1ae 100644
+index 66ceacf1ae..fb54b460c1 100644
 --- a/hw/display/macfb.c
 +++ b/hw/display/macfb.c
-@@ -746,6 +746,16 @@ static Property macfb_sysbus_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
+@@ -476,7 +476,8 @@ static void macfb_update_display(void *opaque)
  
-+static const VMStateDescription vmstate_macfb_sysbus = {
-+    .name = "macfb-sysbus",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_STRUCT(macfb, MacfbSysBusState, 1, vmstate_macfb, MacfbState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static Property macfb_nubus_properties[] = {
-     DEFINE_PROP_UINT32("width", MacfbNubusState, macfb.width, 640),
-     DEFINE_PROP_UINT32("height", MacfbNubusState, macfb.height, 480),
-@@ -755,6 +765,16 @@ static Property macfb_nubus_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-+static const VMStateDescription vmstate_macfb_nubus = {
-+    .name = "macfb-nubus",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_STRUCT(macfb, MacfbNubusState, 1, vmstate_macfb, MacfbState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static void macfb_sysbus_class_init(ObjectClass *klass, void *data)
+ static void macfb_update_irq(MacfbState *s)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -762,7 +782,7 @@ static void macfb_sysbus_class_init(ObjectClass *klass, void *data)
-     dc->realize = macfb_sysbus_realize;
-     dc->desc = "SysBus Macintosh framebuffer";
-     dc->reset = macfb_sysbus_reset;
--    dc->vmsd = &vmstate_macfb;
-+    dc->vmsd = &vmstate_macfb_sysbus;
-     device_class_set_props(dc, macfb_sysbus_properties);
- }
+-    uint32_t irq_state = s->irq_state & s->irq_mask;
++    uint32_t irq_state = s->regs[DAFB_INTR_STAT >> 2] &
++                         s->regs[DAFB_INTR_MASK >> 2];
  
-@@ -777,7 +797,7 @@ static void macfb_nubus_class_init(ObjectClass *klass, void *data)
-                                       &ndc->parent_unrealize);
-     dc->desc = "Nubus Macintosh framebuffer";
-     dc->reset = macfb_nubus_reset;
--    dc->vmsd = &vmstate_macfb;
-+    dc->vmsd = &vmstate_macfb_nubus;
-     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-     device_class_set_props(dc, macfb_nubus_properties);
- }
+     if (irq_state) {
+         qemu_irq_raise(s->irq);
+@@ -496,7 +497,7 @@ static void macfb_vbl_timer(void *opaque)
+     MacfbState *s = opaque;
+     int64_t next_vbl;
+ 
+-    s->irq_state |= DAFB_INTR_VBL;
++    s->regs[DAFB_INTR_STAT >> 2] |= DAFB_INTR_VBL;
+     macfb_update_irq(s);
+ 
+     /* 60 Hz irq */
+@@ -530,10 +531,8 @@ static uint64_t macfb_ctrl_read(void *opaque,
+     case DAFB_MODE_VADDR2:
+     case DAFB_MODE_CTRL1:
+     case DAFB_MODE_CTRL2:
+-        val = s->regs[addr >> 2];
+-        break;
+     case DAFB_INTR_STAT:
+-        val = s->irq_state;
++        val = s->regs[addr >> 2];
+         break;
+     case DAFB_MODE_SENSE:
+         val = macfb_sense_read(s);
+@@ -568,7 +567,7 @@ static void macfb_ctrl_write(void *opaque,
+         macfb_sense_write(s, val);
+         break;
+     case DAFB_INTR_MASK:
+-        s->irq_mask = val;
++        s->regs[addr >> 2] = val;
+         if (val & DAFB_INTR_VBL) {
+             next_vbl = macfb_next_vbl();
+             timer_mod(s->vbl_timer, next_vbl);
+@@ -577,12 +576,12 @@ static void macfb_ctrl_write(void *opaque,
+         }
+         break;
+     case DAFB_INTR_CLEAR:
+-        s->irq_state &= ~DAFB_INTR_VBL;
++        s->regs[DAFB_INTR_STAT >> 2] &= ~DAFB_INTR_VBL;
+         macfb_update_irq(s);
+         break;
+     case DAFB_RESET:
+         s->palette_current = 0;
+-        s->irq_state &= ~DAFB_INTR_VBL;
++        s->regs[DAFB_INTR_STAT >> 2] &= ~DAFB_INTR_VBL;
+         macfb_update_irq(s);
+         break;
+     case DAFB_LUT:
+diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
+index e52775aa21..6d9f0f7869 100644
+--- a/include/hw/display/macfb.h
++++ b/include/hw/display/macfb.h
+@@ -66,8 +66,6 @@ typedef struct MacfbState {
+     uint32_t regs[MACFB_NUM_REGS];
+     MacFbMode *mode;
+ 
+-    uint32_t irq_state;
+-    uint32_t irq_mask;
+     QEMUTimer *vbl_timer;
+     qemu_irq irq;
+ } MacfbState;
 -- 
 2.20.1
 
