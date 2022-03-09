@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915324D2D04
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 11:21:51 +0100 (CET)
-Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8386B4D2D05
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 11:21:52 +0100 (CET)
+Received: from localhost ([::1]:52136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRtS2-00059x-MT
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 05:21:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58328)
+	id 1nRtS3-0005AO-Lf
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 05:21:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRtQh-0003g6-CX; Wed, 09 Mar 2022 05:20:27 -0500
-Received: from [2607:f8b0:4864:20::52d] (port=44687
- helo=mail-pg1-x52d.google.com)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nRtQi-0003gM-EM
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 05:20:28 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=56310
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRtQf-00060L-Id; Wed, 09 Mar 2022 05:20:27 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id c11so1567944pgu.11;
- Wed, 09 Mar 2022 02:20:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nRtQg-00060e-L3
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 05:20:28 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id e3so1762411pjm.5
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 02:20:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=4eV20m2/hSQGTIzVCpEwwitrbw+G6Fg6AbCz/i8BClM=;
- b=mHWxWirKiN2Ahdf3rMO1KfZnvh72fyKCY/dd0CYcaBCJnt5iE5hY8UaQCu7iuNtPtI
- B3xYLN6ItDBhSecUmdiEHee/nsoVCIQXVKj2oYASe+ktHePoyaaU+pd5gx9L5fVxf7id
- ZXUacqLb4G8GTubulLrKpdKxAIY7/BDvODtcmZaB6Cthx9f4HwZOCT0+mj8SeW4Z4+IU
- E3h1iF3gY7CzPGH36aduAqFe8TxgJyzpH5v7601RGZUUd95NkUZ31uCIBzz2q5ZG8Pke
- 39GE2qJ04FdYA3M4lbbx7ZsifKigGE6rU+l9I4Q/75PxOf7ldutwykiQ971fD12IVxgG
- 9/qg==
+ bh=Y/NtJKRNgESeyDm5pcQJRqAMUhQThTA9Vd19qfSJO/4=;
+ b=pUaH1YqWFfM1HRYKwwJ0+O9IaEAUy9czrtfTHFlFq+vuZuDX2pT7Wtj+FsFeWuZ8eG
+ ozVtR9wkvRCCMmkLZXQwPA2DZPlCCLNfblOVI9NfeJ8vU6LEWkfZbKPtcrCwJHplxRB8
+ ccmo45c4iBZdJyyFCQIDyYePF/nDvZDbsFDAIeUOOLAl9DUTLa3FeysXCs098vdJ8mym
+ K38whMl+SdkB3YR3/O5gPOC4upE+Gp1cJrtJfiVpVL20WSKMEPp6W4W7qGA3OZzNTQ9Z
+ 2A8aZHCJfievuNEN+/EvzB0GPyMMoaPZR3cXS4Wh9/dFRxEZ5zsElYES3fMnQnqE78cx
+ yf+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4eV20m2/hSQGTIzVCpEwwitrbw+G6Fg6AbCz/i8BClM=;
- b=VZZqrsnZunRn3YqdOH+QSs9BWC/3YZt/N6w5Iq6Ri+T0NWDoobWmgcodno1i1g68EZ
- lqMI5EzScnIK9D6BmGd81F1F4MBqGdEAaKP1oL9LU/niqFE+hb0SRcvIXIZ5Y93rmCKG
- 4NUCXgj2xocpEWPh2XC5+eVctROkHNA4JKB00Rj1/vhsXyuO5ixlBMBPbQ2Og2W1I1VH
- p+jFEDxAjm53JaCtWbWffSu4Vb51oqOgsPXD0rU0or9YN1SOJZzJdEVNEw3sPAOF19ch
- oxIR/gEDJcD8JNiP9oUcgs07p4m45opgFQX5O5egRpvBMUqOiHVVTpGpYlJey1rAtHGi
- Slqg==
-X-Gm-Message-State: AOAM5326NZHXCPH/ZUBqFI4krllK5JByE5kVczOrIWqpuceCORpgePOG
- /3Mv4Ehqj+l/BULOSCwxhp7ch18b/ow=
-X-Google-Smtp-Source: ABdhPJwFGnaFo57JZU4ku1QwNucTMb4ALyPu/sK9ZGBR/pD4dWl9VQEdwaOK2/7r85t9llDrRZawtA==
-X-Received: by 2002:a62:586:0:b0:4e1:dc81:8543 with SMTP id
- 128-20020a620586000000b004e1dc818543mr22844546pff.0.1646821221935; 
- Wed, 09 Mar 2022 02:20:21 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- q2-20020a056a00084200b004f761a7287dsm1216918pfk.131.2022.03.09.02.20.17
+ bh=Y/NtJKRNgESeyDm5pcQJRqAMUhQThTA9Vd19qfSJO/4=;
+ b=0frcKpjqZb8Raufht8CuhE7Gv6+YZmElpNNWu51m04C2KFTRAHVwcVrGQzvcwzaM5F
+ 5W/ZEaAqcOI7xn1waoy19LXymj6ylLaS7XdfdhYn2YYQjP/A/g0fROMgEqDC6uHqq1ZL
+ xxA4iPSil6nKDW8ZqO02AXO3jI+4gLo9sXE1+ENNvYN7M5uMvs5gB3HvKhHKPOH6x6tB
+ AxP5S85AU5VpPYLaoEUjmvr/LS3M1xVPZ9TJx5sV+aPxjkZyeTTSk09lyA2jAIkrvB6y
+ vyyXw00cgu4CmTdidtAXiIZ0nc+ecwpJkBTMyBWoLuFdIuANrtY2sXfCQg7hc5/ZXvTw
+ iDKg==
+X-Gm-Message-State: AOAM531/DxGLDcoUNfPdYwW/Q7ABBkekMw1pNquUieatojiZ+l6iQD9W
+ HTus9pLIwDJ9u5kme5LEo4s=
+X-Google-Smtp-Source: ABdhPJx9Kt5LY8JVhZ6K+6+JIuMDjFiGew8kfN5cMa6obO4cO/d9EBC/LQL4cDmgV81m7OoonLoG+A==
+X-Received: by 2002:a17:90b:1e0a:b0:1bf:4d46:741c with SMTP id
+ pg10-20020a17090b1e0a00b001bf4d46741cmr9546438pjb.116.1646821225309; 
+ Wed, 09 Mar 2022 02:20:25 -0800 (PST)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ x29-20020aa79a5d000000b004f0ef1822d3sm2248910pfj.128.2022.03.09.02.20.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 02:20:21 -0800 (PST)
-Message-ID: <097ec9aa-ad9d-960e-502b-0f038ebe8a31@gmail.com>
-Date: Wed, 9 Mar 2022 11:20:15 +0100
+ Wed, 09 Mar 2022 02:20:24 -0800 (PST)
+Message-ID: <07871c4c-58bf-b0db-b8b2-da6f0f9acfe2@gmail.com>
+Date: Wed, 9 Mar 2022 19:20:22 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v7 06/22] hvf: Fix OOB write in RDTSCP instruction decode
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
+ current scanout is GL
 Content-Language: en-US
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
- <20220306231753.50277-7-philippe.mathieu.daude@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220306231753.50277-7-philippe.mathieu.daude@gmail.com>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <CAMxuvawuMvxWx7xtsf=PbWnu7UypNfVWf+Bufeqbi4J=SjsU9w@mail.gmail.com>
+ <1fa142fb-7988-db25-c283-a6b16278f628@gmail.com>
+ <CAJ+F1CLDm9+myAJdNQdU2y64Fa-2+ew2oGih_cWim1=vO=sLMw@mail.gmail.com>
+ <e1a9ab86-912b-2628-1e60-4aec4eac25d3@gmail.com>
+ <CAJ+F1CKJHqA5DJv1WvY8q0k2rNW+ERFbFgMGKggMuMUJCPs5vg@mail.gmail.com>
+ <2517a6b9-cc34-3bb1-d17e-d4e30f0e68b7@gmail.com>
+ <CAJ+F1CKrDnYdMKNh1nu8LjnQ=gJ9-umgGHW-E1D1sFO1gf=Rdg@mail.gmail.com>
+ <76c68a33-b157-f127-36ee-034290bf3e4b@gmail.com>
+ <CAJ+F1CLvKn3r68f7LvCP-2Rni_0G7Z21jZrPqNCByHoL6WL+8Q@mail.gmail.com>
+ <c080b8ce-c88f-aa37-f47d-1709c9e6dce5@gmail.com>
+ <20220309092605.5izvcbp6pougm6ye@sirius.home.kraxel.org>
+ <5986332a-1f9c-01bf-e3e7-329cf2d04672@gmail.com>
+ <CAJ+F1CJL_33rgpAG3s2TboxgzsgC1fEcDJ5Y=Cxc1Tbb6w0W6w@mail.gmail.com>
+ <750d1ed6-9c02-bd1b-3988-eb44665e8e5a@gmail.com>
+ <CAJ+F1CJiLdmrZbfQ0z_ObC0_GveAc4jqcj9JYN8uBCpAJUhJXA@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <CAJ+F1CJiLdmrZbfQ0z_ObC0_GveAc4jqcj9JYN8uBCpAJUhJXA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,129 +107,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
- Julian Stecklina <julian.stecklina@cyberus-technology.de>,
- Alexander Graf <agraf@csgraf.de>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Will Cohen <wwcohen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
+On 2022/03/09 19:07, Marc-André Lureau wrote:
+> Hi
+> 
+> On Wed, Mar 9, 2022 at 2:01 PM Akihiko Odaki <akihiko.odaki@gmail.com 
+> <mailto:akihiko.odaki@gmail.com>> wrote:
+> 
+>     On 2022/03/09 18:53, Marc-André Lureau wrote:
+>      > Hi
+>      >
+>      > On Wed, Mar 9, 2022 at 1:32 PM Akihiko Odaki
+>     <akihiko.odaki@gmail.com <mailto:akihiko.odaki@gmail.com>
+>      > <mailto:akihiko.odaki@gmail.com
+>     <mailto:akihiko.odaki@gmail.com>>> wrote:
+>      >
+>      >     On 2022/03/09 18:26, Gerd Hoffmann wrote:
+>      >      >    Hi,
+>      >      >
+>      >      >> dpy_gfx_switch and dpy_gfx_update need to be called to
+>     finish the
+>      >      >> initialization or switching of the non-OpenGL display.
+>     However,
+>      >     the proposed
+>      >      >> patch only calls dpy_gfx_switch.
+>      >      >>
+>      >      >> vnc actually does not need dpy_gfx_update because the vnc
+>      >     implementation of
+>      >      >> dpy_gfx_switch implicitly does the work for
+>     dpy_gfx_update, but
+>      >     the model of
+>      >      >> ui/console expects the two of dpy_gfx_switch and
+>     dpy_gfx_update
+>      >     is separated
+>      >      >> and only calling dpy_gfx_switch violates the model.
+>      >     dpy_gfx_update used to
+>      >      >> be called even in such a case before and it is a regression.
+>      >      >
+>      >      > Well, no, the ->dpy_gfx_switch() callback is supposed to do
+>      >     everything
+>      >      > needed to bring the new surface to the screen.  vnc isn't
+>     alone here,
+>      >      > gtk for example does the same (see gd_switch()).
+>      >      >
+>      >
+>      >
+>      > If dpy_gfx_switch() implies a full dpy_gfx_update(), then we
+>     would need
+>      > another callback to just set the new surface. This would avoid
+>      > intermediary and useless switches to 2d/surface when the scanout
+>     is GL.
+>      >
+>      > For consistency, we should also declare that gl_scanout_texture and
+>      > gl_scanout_dmabuf imply full update as well.
+>      >
+>      >      > Yes, typically this is roughly the same an explicit
+>      >     dpy_gfx_update call
+>      >      > would do.  So this could be changed if it helps making the
+>     opengl
+>      >     code
+>      >      > paths less confusing, but that should be a separate patch
+>     series and
+>      >      > separate discussion.
+>      >      >
+>      >      > take care,
+>      >      >    Gerd
+>      >      >
+>      >
+>      >     Then ui/cocoa is probably wrong. I don't think it does the
+>     update when
+>      >     dpy_gfx_switch is called.
+>      >
+>      >     Please tell me if you think dpy_gfx_switch shouldn't do the
+>     implicit
+>      >     update in the future. I'll write a patch to do the update in
+>     cocoa's
+>      >     dpy_gfx_switch implementation otherwise.
+>      >
+>      >
+>      > Can we ack this series first and iterate on top? It solves a
+>     number of
+>      > issues already and is a better starting point.
+>      >
+>      > thanks
+>      >
+>      > --
+>      > Marc-André Lureau
+> 
+>     The call of dpy_gfx_update in displaychangelistener_display_console
+>     should be removed. It would simplify the patch.
+> 
+>     Also it is still not shown that the series is a better alternative to:
+>     https://patchew.org/QEMU/20220213024222.3548-1-akihiko.odaki@gmail.com/
+>     <https://patchew.org/QEMU/20220213024222.3548-1-akihiko.odaki@gmail.com/>
+> 
+>     The series "ui/dbus: Share one listener for a console" has
+>     significantly
+>     less code than this series and therefore needs some reasoning for that.
+> 
+> 
+> At this point, your change is much larger than the proposed fixes.
 
-I forgot to Cc you. Could you Ack this patch?
+My change does not touch the common code except reverting and minimizes 
+the risk of regression. It also results in the less code when applied to 
+the tree.
 
-On 7/3/22 00:17, Philippe Mathieu-Daudé wrote:
-> From: Cameron Esfahani <dirty@apple.com>
 > 
-> A guest could craft a specific stream of instructions that will have QEMU
-> write 0xF9 to inappropriate locations in memory.  Add additional asserts
-> to check for this.  Generate a #UD if there are more than 14 prefix bytes.
-> 
-> Found by Julian Stecklina <julian.stecklina@cyberus-technology.de>
-> 
-> Signed-off-by: Cameron Esfahani <dirty@apple.com>
-> Message-Id: <20220219063831.35356-1-dirty@apple.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   target/i386/hvf/x86_decode.c | 12 ++++++++++--
->   target/i386/hvf/x86hvf.c     |  8 ++++++++
->   target/i386/hvf/x86hvf.h     |  1 +
->   3 files changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/i386/hvf/x86_decode.c b/target/i386/hvf/x86_decode.c
-> index 062713b1a4..5d051252b4 100644
-> --- a/target/i386/hvf/x86_decode.c
-> +++ b/target/i386/hvf/x86_decode.c
-> @@ -24,8 +24,10 @@
->   #include "vmx.h"
->   #include "x86_mmu.h"
->   #include "x86_descr.h"
-> +#include "x86hvf.h"
->   
->   #define OPCODE_ESCAPE   0xf
-> +#define X86_MAX_INSN_PREFIX_LENGTH (14)
->   
->   static void decode_invalid(CPUX86State *env, struct x86_decode *decode)
->   {
-> @@ -541,7 +543,8 @@ static void decode_lidtgroup(CPUX86State *env, struct x86_decode *decode)
->       };
->       decode->cmd = group[decode->modrm.reg];
->       if (0xf9 == decode->modrm.modrm) {
-> -        decode->opcode[decode->len++] = decode->modrm.modrm;
-> +        VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
-> +        decode->opcode[decode->opcode_len++] = decode->modrm.modrm;
->           decode->cmd = X86_DECODE_CMD_RDTSCP;
->       }
->   }
-> @@ -1847,7 +1850,8 @@ void calc_modrm_operand(CPUX86State *env, struct x86_decode *decode,
->   
->   static void decode_prefix(CPUX86State *env, struct x86_decode *decode)
->   {
-> -    while (1) {
-> +    /* At most X86_MAX_INSN_PREFIX_LENGTH prefix bytes. */
-> +    for (int i = 0; i < X86_MAX_INSN_PREFIX_LENGTH; i++) {
->           /*
->            * REX prefix must come after legacy prefixes.
->            * REX before legacy is ignored.
-> @@ -1892,6 +1896,8 @@ static void decode_prefix(CPUX86State *env, struct x86_decode *decode)
->               return;
->           }
->       }
-> +    /* Too many prefixes!  Generate #UD. */
-> +    hvf_inject_ud(env);
->   }
->   
->   void set_addressing_size(CPUX86State *env, struct x86_decode *decode)
-> @@ -2090,11 +2096,13 @@ static void decode_opcodes(CPUX86State *env, struct x86_decode *decode)
->       uint8_t opcode;
->   
->       opcode = decode_byte(env, decode);
-> +    VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
->       decode->opcode[decode->opcode_len++] = opcode;
->       if (opcode != OPCODE_ESCAPE) {
->           decode_opcode_1(env, decode, opcode);
->       } else {
->           opcode = decode_byte(env, decode);
-> +        VM_PANIC_ON(decode->opcode_len >= sizeof(decode->opcode));
->           decode->opcode[decode->opcode_len++] = opcode;
->           decode_opcode_2(env, decode, opcode);
->       }
-> diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-> index bec9fc5814..a338c207b7 100644
-> --- a/target/i386/hvf/x86hvf.c
-> +++ b/target/i386/hvf/x86hvf.c
-> @@ -423,6 +423,14 @@ bool hvf_inject_interrupts(CPUState *cpu_state)
->               & (CPU_INTERRUPT_INIT | CPU_INTERRUPT_TPR));
->   }
->   
-> +void hvf_inject_ud(CPUX86State *env)
-> +{
-> +    env->exception_nr = EXCP06_ILLOP;
-> +    env->exception_injected = 1;
-> +    env->has_error_code = false;
-> +    env->error_code = 0;
-> +}
-> +
->   int hvf_process_events(CPUState *cpu_state)
->   {
->       X86CPU *cpu = X86_CPU(cpu_state);
-> diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
-> index db6003d6bd..427cdc1c13 100644
-> --- a/target/i386/hvf/x86hvf.h
-> +++ b/target/i386/hvf/x86hvf.h
-> @@ -22,6 +22,7 @@
->   
->   int hvf_process_events(CPUState *);
->   bool hvf_inject_interrupts(CPUState *);
-> +void hvf_inject_ud(CPUX86State *);
->   void hvf_set_segment(struct CPUState *cpu, struct vmx_segment *vmx_seg,
->                        SegmentCache *qseg, bool is_tr);
->   void hvf_get_segment(SegmentCache *qseg, struct vmx_segment *vmx_seg);
+> I already discussed the rationale for the current design. To summarize:
+> - dispatching DCL in the common code allows for greater reuse if an 
+> alternative to dbus emerges, and should help making the code more dynamic
+> - the GL context split also is a separation of concerns and should help 
+> for alternatives to EGL
+> - dbus code only handles dbus specifics
 
+Let me summarize my counterargument:
+- The suggested reuse case is not emerged yet.
+- The GL context split is not aligned with the reality where the display 
+knows the graphics accelerator where the window resides and the context 
+should be created. The alternative to EGL can be introduced in a similar 
+manner with ui/egl-context.c and ui/egl-helpers.c. If several context 
+providers need to be supported, the selection should be passed as a 
+parameter, just as the current code does for EGL rendernode.
+- implementing the dispatching would allow dbus to share more things 
+like e.g. textures converted from DisplaySurface and GunixFDList for 
+DMA-BUF. They are not present in all displays and some are completely 
+specific to dbus.
+
+> 
+> My understanding of your proposal is that you would rather see all this 
+> done within the dbus code. I disagree for the reasons above. I may be 
+> proven wrong, but so far, this works as expected minor the left-over and 
+> regressions you pointed out that should be fixed. Going back to a 
+> different design should be done in a next release if sufficiently motivated.
+
+Reverting the dbus change is the safest option if it does not settle.
+
+Regards,
+Akuhiko Odaki
+
+ > --
+ > Marc-André Lureau
 
