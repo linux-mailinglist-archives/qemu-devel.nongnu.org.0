@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2328F4D2DE1
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:22:22 +0100 (CET)
-Received: from localhost ([::1]:58040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B03E4D2DB3
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:12:24 +0100 (CET)
+Received: from localhost ([::1]:34924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRuOb-00019l-8Y
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:22:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41044)
+	id 1nRuEx-0001ae-Gr
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:12:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuCD-0006f8-KV
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:33 -0500
-Received: from [2001:41c9:1:41f::167] (port=35744
+ id 1nRuCG-0006nD-KL
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:36 -0500
+Received: from [2001:41c9:1:41f::167] (port=35752
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuCB-0005GU-FS
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:33 -0500
+ id 1nRuCF-0005HM-58
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:36 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuBU-000CWr-BZ; Wed, 09 Mar 2022 11:08:52 +0000
+ id 1nRuBY-000CWr-I1; Wed, 09 Mar 2022 11:08:56 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Wed,  9 Mar 2022 11:08:21 +0000
-Message-Id: <20220309110831.18443-13-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  9 Mar 2022 11:08:22 +0000
+Message-Id: <20220309110831.18443-14-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
 References: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 12/22] macio/pmu.c: remove redundant code
+Subject: [PULL 13/22] macfb: add VMStateDescription for MacfbNubusState and
+ MacfbSysBusState
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -67,93 +68,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the logic related to edge-triggered interrupts is all contained within
-the mos6522 device the redundant implementation for the mac99 PMU device can
-be removed.
+Currently when QEMU tries to migrate the macfb framebuffer it crashes randomly
+because the opaque provided by the DeviceClass vmsd property for both devices
+is set to MacfbState rather than MacfbNubusState or MacfbSysBusState as
+appropriate.
+
+Resolve the issue by adding new VMStateDescriptions for MacfbNubusState and
+MacfbSysBusState which embed the existing vmstate_macfb VMStateDescription
+within them using VMSTATE_STRUCT.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220305150957.5053-13-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220305155530.9265-2-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/macio/pmu.c         | 33 ---------------------------------
- include/hw/misc/macio/pmu.h |  2 --
- 2 files changed, 35 deletions(-)
+ hw/display/macfb.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index 5b1ec100e2..336502a84b 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -57,19 +57,6 @@
+diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+index c9b468c10e..66ceacf1ae 100644
+--- a/hw/display/macfb.c
++++ b/hw/display/macfb.c
+@@ -746,6 +746,16 @@ static Property macfb_sysbus_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
- #define VIA_TIMER_FREQ (4700000 / 6)
++static const VMStateDescription vmstate_macfb_sysbus = {
++    .name = "macfb-sysbus",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT(macfb, MacfbSysBusState, 1, vmstate_macfb, MacfbState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static Property macfb_nubus_properties[] = {
+     DEFINE_PROP_UINT32("width", MacfbNubusState, macfb.width, 640),
+     DEFINE_PROP_UINT32("height", MacfbNubusState, macfb.height, 480),
+@@ -755,6 +765,16 @@ static Property macfb_nubus_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
--static void via_update_irq(PMUState *s)
--{
--    MOS6522PMUState *mps = MOS6522_PMU(&s->mos6522_pmu);
--    MOS6522State *ms = MOS6522(mps);
--
--    bool new_state = !!(ms->ifr & ms->ier & (SR_INT | T1_INT | T2_INT));
--
--    if (new_state != s->via_irq_state) {
--        s->via_irq_state = new_state;
--        qemu_set_irq(s->via_irq, new_state);
--    }
--}
--
- static void via_set_sr_int(void *opaque)
++static const VMStateDescription vmstate_macfb_nubus = {
++    .name = "macfb-nubus",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT(macfb, MacfbNubusState, 1, vmstate_macfb, MacfbState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static void macfb_sysbus_class_init(ObjectClass *klass, void *data)
  {
-     PMUState *s = opaque;
-@@ -808,28 +795,9 @@ static void mos6522_pmu_portB_write(MOS6522State *s)
-     MOS6522PMUState *mps = container_of(s, MOS6522PMUState, parent_obj);
-     PMUState *ps = container_of(mps, PMUState, mos6522_pmu);
- 
--    if ((s->pcr & 0xe0) == 0x20 || (s->pcr & 0xe0) == 0x60) {
--        s->ifr &= ~CB2_INT;
--    }
--    s->ifr &= ~CB1_INT;
--
--    via_update_irq(ps);
-     pmu_update(ps);
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -762,7 +782,7 @@ static void macfb_sysbus_class_init(ObjectClass *klass, void *data)
+     dc->realize = macfb_sysbus_realize;
+     dc->desc = "SysBus Macintosh framebuffer";
+     dc->reset = macfb_sysbus_reset;
+-    dc->vmsd = &vmstate_macfb;
++    dc->vmsd = &vmstate_macfb_sysbus;
+     device_class_set_props(dc, macfb_sysbus_properties);
  }
  
--static void mos6522_pmu_portA_write(MOS6522State *s)
--{
--    MOS6522PMUState *mps = container_of(s, MOS6522PMUState, parent_obj);
--    PMUState *ps = container_of(mps, PMUState, mos6522_pmu);
--
--    if ((s->pcr & 0x0e) == 0x02 || (s->pcr & 0x0e) == 0x06) {
--        s->ifr &= ~CA2_INT;
--    }
--    s->ifr &= ~CA1_INT;
--
--    via_update_irq(ps);
--}
--
- static void mos6522_pmu_reset(DeviceState *dev)
- {
-     MOS6522State *ms = MOS6522(dev);
-@@ -853,7 +821,6 @@ static void mos6522_pmu_class_init(ObjectClass *oc, void *data)
-     device_class_set_parent_reset(dc, mos6522_pmu_reset,
-                                   &mdc->parent_reset);
-     mdc->portB_write = mos6522_pmu_portB_write;
--    mdc->portA_write = mos6522_pmu_portA_write;
+@@ -777,7 +797,7 @@ static void macfb_nubus_class_init(ObjectClass *klass, void *data)
+                                       &ndc->parent_unrealize);
+     dc->desc = "Nubus Macintosh framebuffer";
+     dc->reset = macfb_nubus_reset;
+-    dc->vmsd = &vmstate_macfb;
++    dc->vmsd = &vmstate_macfb_nubus;
+     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+     device_class_set_props(dc, macfb_nubus_properties);
  }
- 
- static const TypeInfo mos6522_pmu_type_info = {
-diff --git a/include/hw/misc/macio/pmu.h b/include/hw/misc/macio/pmu.h
-index 78237d99a2..00fcdd23f5 100644
---- a/include/hw/misc/macio/pmu.h
-+++ b/include/hw/misc/macio/pmu.h
-@@ -193,8 +193,6 @@ struct PMUState {
- 
-     MemoryRegion mem;
-     uint64_t frequency;
--    qemu_irq via_irq;
--    bool via_irq_state;
- 
-     /* PMU state */
-     MOS6522PMUState mos6522_pmu;
 -- 
 2.20.1
 
