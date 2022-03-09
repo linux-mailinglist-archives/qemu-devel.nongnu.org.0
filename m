@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099574E4BBC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 05:01:21 +0100 (CET)
-Received: from localhost ([::1]:32926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71F04E4B47
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 04:11:49 +0100 (CET)
+Received: from localhost ([::1]:52882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWsBU-00089Q-3t
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 00:01:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57328)
+	id 1nWrPY-0005NZ-TJ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 23:11:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nWs8R-0004vk-Go; Tue, 22 Mar 2022 23:58:13 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:36434)
+ id 1nWrMo-0002Yy-0K; Tue, 22 Mar 2022 23:08:58 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:36404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nWs8K-0005ws-Qh; Tue, 22 Mar 2022 23:58:08 -0400
+ id 1nWrMk-00038L-Tw; Tue, 22 Mar 2022 23:08:57 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 7C20311EF86;
- Wed, 23 Mar 2022 03:58:03 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 972A811EF83;
+ Wed, 23 Mar 2022 03:08:51 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
 Date: Wed, 09 Mar 2022 00:34:29 -0800
-Subject: [PATCH qemu v3 02/14] target/riscv: rvv: Rename ambiguous esz
-Message-ID: <164800788276.12449.15168787569124374586-2@git.sr.ht>
+Subject: [PATCH qemu v2 01/13] target/riscv: rvv: Rename ambiguous esz
+Message-ID: <164800493107.31817.14053311036718644936-1@git.sr.ht>
 X-Mailer: git.sr.ht
-In-Reply-To: <164800788276.12449.15168787569124374586-0@git.sr.ht>
+In-Reply-To: <164800493107.31817.14053311036718644936-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
