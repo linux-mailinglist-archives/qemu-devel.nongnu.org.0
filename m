@@ -2,76 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D384D3C8C
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 23:03:53 +0100 (CET)
-Received: from localhost ([::1]:36992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 964884D3D14
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 23:36:01 +0100 (CET)
+Received: from localhost ([::1]:45848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nS4PQ-0000gs-B1
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 17:03:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52588)
+	id 1nS4uW-0001Rz-5N
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 17:36:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=yXLS=TU=zx2c4.com=Jason@kernel.org>)
- id 1nS4OC-0007Mw-CY
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 17:02:36 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:48702)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nS4tb-0000nR-Fx
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 17:35:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=yXLS=TU=zx2c4.com=Jason@kernel.org>)
- id 1nS4O9-0005xN-Rr
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 17:02:35 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C240EB823D5
- for <qemu-devel@nongnu.org>; Wed,  9 Mar 2022 22:02:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FCDDC340EC
- for <qemu-devel@nongnu.org>; Wed,  9 Mar 2022 22:02:21 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="T1fuvT6G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1646863339;
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nS4tX-0002K1-Pe
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 17:35:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646865297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=inreFAnh9tqy7Qlx+a012zOsU9dSDc7ob/YEs/Oahuw=;
- b=T1fuvT6GNklQFVlKRs5Fx3/lhU5a5lY+x4d3BmbJ1TqqIVlkrwaQIbxgmi6jwH9EAOFwCQ
- rckR7B4h3E1/mdErRIlTDIzh3wvR1gGfJ9wLYG3LURJpc1KOhyCQRKHvDssSim+a8W5OGT
- Z5JNAqH3kaCA8JlF0U6Vt+/w9ac/tRk=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 38cb4577
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Wed, 9 Mar 2022 22:02:19 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id u3so7245562ybh.5
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 14:02:18 -0800 (PST)
-X-Gm-Message-State: AOAM532lVSxZlOO6ulflDLQvzV3nROKVtzaXhblCXCdshxtUXPftRQpZ
- eCd8oeXKE3gNTEEPRC54BnHtAJUgyrS9gGmfQWQ=
-X-Google-Smtp-Source: ABdhPJyCUVD8T4qqYuq1h5ED6rk/6Kw1l+qk/ag1MpB3SuWxlea1B5XdqPkq5wTPm3WvOPgfJuy34sJfOcw4H5dA8AQ=
-X-Received: by 2002:a25:2312:0:b0:629:60d6:7507 with SMTP id
- j18-20020a252312000000b0062960d67507mr1596488ybj.267.1646863335346; Wed, 09
- Mar 2022 14:02:15 -0800 (PST)
+ bh=Ln7BYK4FOW5todCisNllt3WsfuG9MlnUd+RENHWamPU=;
+ b=CsdZjf7bda/j50SG5boMQNAmHINfxrTQ58+XA7qFXGaufClJtzCxZm5De2aTgGJ2DzTwI2
+ lLVnYbmbqc2IKeAADLND7cQRfdLHx+f3tYerXq8sF5hG+2aLkfmsr8yXIbZDZcATti3qJV
+ fTkqWtmr6wTzDxUzQLuhG9lUMKF5xE0=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-101-0aU2vH7fMByED7no883_Sw-1; Wed, 09 Mar 2022 17:34:56 -0500
+X-MC-Unique: 0aU2vH7fMByED7no883_Sw-1
+Received: by mail-oo1-f72.google.com with SMTP id
+ 185-20020a4a1dc2000000b0031c074ab4b1so2789940oog.14
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 14:34:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=Ln7BYK4FOW5todCisNllt3WsfuG9MlnUd+RENHWamPU=;
+ b=oHbQExSLQhujuBNJ2SFa+Cx6QCLUADiVrmkak9O/ef3IyIFiQeZQcBvk8AwHV673hC
+ +eDsB6wEFJ67sAyL8GfLYBsqrJtDgYcFF/+aMtGbVj+SkjGR5FSV/jXk8ipM9P8LQw0F
+ lX8bZh+QtvnAUsPkhUi3YnW0lCmGVj7dregitrDJ8ZCyerjw1XsiOg5492b/IRhgEq7c
+ CYVr3JggvsjRY485cBV8nzfz1pUUBrVHVhd8hFo/5o4tuW+AKdV8ZgSaef6j2WklY3pu
+ 10jEQVi8iQpR9k8O94DY8LuMgD+O4BpEi0fAyRLE2O0G8FQQyXO/Hv63yWKNXOibwjt3
+ xkiw==
+X-Gm-Message-State: AOAM5324jf9Q22IT27BrhsETYUmMkhcjpr074h+aCsJ1efbkUb9seB6H
+ 6xPI6OZMnCuxv9M0anijV4yDsEcm9P1zBkPCLCiPDZK19J2dQJ4X6MU/Ch7vbDKAFFFDnYiMnfk
+ oD6V6VQ+eEK/Fh9E=
+X-Received: by 2002:a05:6871:69f:b0:da:294e:2de4 with SMTP id
+ l31-20020a056871069f00b000da294e2de4mr6678728oao.123.1646865295989; 
+ Wed, 09 Mar 2022 14:34:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyCUwnIZQkre3J/DMq+V0OY4udqtL4Uwxw1osydSps2+a+hH+yBYmCyH8YJa6hJUmPSitYTag==
+X-Received: by 2002:a05:6871:69f:b0:da:294e:2de4 with SMTP id
+ l31-20020a056871069f00b000da294e2de4mr6678710oao.123.1646865295627; 
+ Wed, 09 Mar 2022 14:34:55 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ y128-20020acae186000000b002d97bda3873sm1618638oig.56.2022.03.09.14.34.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Mar 2022 14:34:55 -0800 (PST)
+Date: Wed, 9 Mar 2022 15:34:53 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: John Johnson <john.g.johnson@oracle.com>
+Subject: Re: [RFC v4 01/21] vfio-user: introduce vfio-user protocol
+ specification
+Message-ID: <20220309153453.25eee9dd.alex.williamson@redhat.com>
+In-Reply-To: <a9b696ca38ee2329e371c28bcaa2921cac2a48a2.1641584316.git.john.g.johnson@oracle.com>
+References: <cover.1641584316.git.john.g.johnson@oracle.com>
+ <a9b696ca38ee2329e371c28bcaa2921cac2a48a2.1641584316.git.john.g.johnson@oracle.com>
+Organization: Red Hat
 MIME-Version: 1.0
-References: <Yh4+9+UpanJWAIyZ@zx2c4.com>
- <c5181fb5-38fb-f261-9de5-24655be1c749@amazon.com>
-In-Reply-To: <c5181fb5-38fb-f261-9de5-24655be1c749@amazon.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Wed, 9 Mar 2022 15:02:04 -0700
-X-Gmail-Original-Message-ID: <CAHmME9rTMDkE7UA3_wg87mrDVYps+YaHw+dZwF0EbM0zC4pQQw@mail.gmail.com>
-Message-ID: <CAHmME9rTMDkE7UA3_wg87mrDVYps+YaHw+dZwF0EbM0zC4pQQw@mail.gmail.com>
-Subject: Re: propagating vmgenid outward and upward
-To: Alexander Graf <graf@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=yXLS=TU=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,111 +102,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Brown, Len" <len.brown@intel.com>, linux-hyperv@vger.kernel.org,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, adrian@parity.io,
- KVM list <kvm@vger.kernel.org>, Jann Horn <jannh@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux PM <linux-pm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Pavel Machek <pavel@ucw.cz>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Theodore Ts'o <tytso@mit.edu>, Colm MacCarthaigh <colmmacc@amazon.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On Tue, 11 Jan 2022 16:43:37 -0800
+John Johnson <john.g.johnson@oracle.com> wrote:
+> +VFIO region info cap sparse mmap
+> +""""""""""""""""""""""""""""""""
+> +
+> ++----------+--------+------+
+> +| Name     | Offset | Size |
+> ++==========+========+======+
+> +| nr_areas | 0      | 4    |
+> ++----------+--------+------+
+> +| reserved | 4      | 4    |
+> ++----------+--------+------+
+> +| offset   | 8      | 8    |
+> ++----------+--------+------+
+> +| size     | 16     | 9    |
+> ++----------+--------+------+
 
-On Wed, Mar 9, 2022 at 3:10 AM Alexander Graf <graf@amazon.com> wrote:
-> > The vmgenid driver basically works, though it is racy, because that ACPI
-> > notification can arrive after the system is already running again. This
->
->
-> I believe enough people already pointed out that this assumption is
-> incorrect. The thing that is racy about VMGenID is the interrupt based
-> notification.
+Typo, I'm pretty sure size isn't 9 bytes.
 
-I'm having a hard time figuring out what's different between your
-statement and mine. I said that the race is due to the notification.
-You said that the race is due to the notification. What subtle thing
-am I missing here that would lead you to say that my assumption is
-incorrect? Or did you just misread?
+> +| ...      |        |      |
+> ++----------+--------+------+
+> +
+> +* *nr_areas* is the number of sparse mmap areas in the region.
+> +* *offset* and size describe a single area that can be mapped by the client.
+> +  There will be *nr_areas* pairs of offset and size. The offset will be added to
+> +  the base offset given in the ``VFIO_USER_DEVICE_GET_REGION_INFO`` to form the
+> +  offset argument of the subsequent mmap() call.
+> +
+> +The VFIO sparse mmap area is defined in ``<linux/vfio.h>`` (``struct
+> +vfio_region_info_cap_sparse_mmap``).
+> +
+> +VFIO region type cap header
+> +"""""""""""""""""""""""""""
+> +
+> ++------------------+---------------------------+
+> +| Name             | Value                     |
+> ++==================+===========================+
+> +| id               | VFIO_REGION_INFO_CAP_TYPE |
+> ++------------------+---------------------------+
+> +| version          | 0x1                       |
+> ++------------------+---------------------------+
+> +| next             | <next>                    |
+> ++------------------+---------------------------+
+> +| region info type | VFIO region info type     |
+> ++------------------+---------------------------+
+> +
+> +This capability is defined when a region is specific to the device.
+> +
+> +VFIO region info type cap
+> +"""""""""""""""""""""""""
+> +
+> +The VFIO region info type is defined in ``<linux/vfio.h>``
+> +(``struct vfio_region_info_cap_type``).
+> +
+> ++---------+--------+------+
+> +| Name    | Offset | Size |
+> ++=========+========+======+
+> +| type    | 0      | 4    |
+> ++---------+--------+------+
+> +| subtype | 4      | 4    |
+> ++---------+--------+------+
+> +
+> +The only device-specific region type and subtype supported by vfio-user is
+> +``VFIO_REGION_TYPE_MIGRATION`` (3) and ``VFIO_REGION_SUBTYPE_MIGRATION`` (1).
 
-> The actual identifier is updated before the VM resumes
-> from its clone operation, so if you match on that you will know whether
-> you are in a new or old world. And that is enough to create
-> transactions: Save the identifier before a "crypto transaction",
-> validate before you finish, if they don't match, abort, reseed and replay.
+These should be considered deprecated from the kernel interface.  I
+hope there are plans for vfio-user to adopt the new interface that's
+currently available in linux-next and intended for v5.18.
 
-Right. But more than just transactions, it's useful to preventing key
-reuse vulnerabilities, in which case, you store the current identifier
-just before an ephemeral key is generated, and then subsequently check
-to see that the identifier hasn't changed before transmitting anything
-related to that key.
+...
+> +Unused VFIO ``ioctl()`` commands
+> +--------------------------------
+> +
+> +The following VFIO commands do not have an equivalent vfio-user command:
+> +
+> +* ``VFIO_GET_API_VERSION``
+> +* ``VFIO_CHECK_EXTENSION``
+> +* ``VFIO_SET_IOMMU``
+> +* ``VFIO_GROUP_GET_STATUS``
+> +* ``VFIO_GROUP_SET_CONTAINER``
+> +* ``VFIO_GROUP_UNSET_CONTAINER``
+> +* ``VFIO_GROUP_GET_DEVICE_FD``
+> +* ``VFIO_IOMMU_GET_INFO``
+> +
+> +However, once support for live migration for VFIO devices is finalized some
+> +of the above commands may have to be handled by the client in their
+> +corresponding vfio-user form. This will be addressed in a future protocol
+> +version.
 
-> If you follow the logic at the beginning of the mail, you can create
-> something race free if you consume the hardware VMGenID counter. You can
-> not make it race free if you rely on the interrupt mechanism.
+As above, I'd go ahead and drop the migration region interface support,
+it's being removed from the kernel.  Dirty page handling might also be
+something you want to pull back on as we're expecting in-kernel vfio to
+essentially deprecate its iommu backends in favor of a new shared
+userspace iommufd interface.  We expect to have backwards compatibility
+via that interface, but as QEMU migration support for vfio-pci devices
+is experimental and there are desires not to consolidate dirty page
+tracking behind the iommu interface in the new model, it's not clear if
+the kernel will continue to expose the current dirty page tracking.
 
-Yes, as mentioned and discussed in depth before. However, your use of
-the word "counter" is problematic. Vmgenid is not a counter. It's a
-unique identifier. That means you can't compare it with a single word
-comparison but have to compare all of the 16 bytes. That seems
-potentially expensive. It's for that reason that I suggested
-augmenting the vmgenid spec with an additional word-sized _counter_
-that could be mapped into the kernels and into userspaces.
+AIUI, we're expecting to see patches officially proposing the iommufd
+interface in the kernel "soon".  Thanks,
 
-> So following that train of thought, if you expose the hardware VMGenID
-> to user space, you could allow user space to act race free based on
-> VMGenID. That means consumers of user space RNGs could validate whether
-> the ID is identical between the beginning of the crypto operation and
-> the end.
+Alex
 
-Right.
-
-> However, there are more complicated cases as well. What do you do with
-> Samba for example? It needs to generate a new SID after the clone.
-> That's a super heavy operation. Do you want to have smbd constantly poll
-> on the VMGenID just to see whether it needs to kick off some
-> administrative actions?
-
-Were it a single word-sized integer, mapped into memory, that wouldn't
-be much of a problem at all. It could constantly read this before and
-after every operation. The problem is that it's 16 bytes and
-understandably applications don't want to deal with that clunkiness.
-
-> In that case, all we would need from the kernel is an easily readable
-> GenID that changes
-
-Actually, no, you need even less than that. All that's required is a
-sysfs/procfs file that can be poll()'d on. It doesn't need to have any
-content. When poll() returns readable, the VM has been forked. Then
-userspace rngs and other things like that can call getrandom() to
-receive a fresh value to mix into whatever their operation is. Since
-all we're talking about here is _event notification_, all we need is
-that event, which is what poll() provides.
-
-> I'm also not a super big fan of putting all that logic into systemd. It
-> means applications need to create their own notification mechanisms to
-> pass that cloning notification into actual processes. Don't we have any
-> mechanism that applications and libraries could use to natively get an
-> event when the GenID changes?
-
-Yes. poll() can do this. For the purposes of discussion, I've posted
-an implementation of this idea here:
-https://lore.kernel.org/lkml/20220309215907.77526-1-Jason@zx2c4.com/
-
-What I'm sort of leaning toward is doing something like that patch,
-and then later if vmgenid ever grows an additional word-sized counter,
-moving to explore the race-free approach. Given the amount of
-programming required to actually implement the race-free approach
-(transactions and careful study of each case), the poll() file
-approach might be a medium-grade compromise for the time being.
-Evidently that's what Microsoft decided too.
-
-Jason
 
