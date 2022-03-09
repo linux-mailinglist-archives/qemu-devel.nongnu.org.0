@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B249F4D2E55
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:42:38 +0100 (CET)
-Received: from localhost ([::1]:43972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275B04D2E37
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:37:42 +0100 (CET)
+Received: from localhost ([::1]:58142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRuiD-00050k-Qw
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:42:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45688)
+	id 1nRudR-0003x4-85
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:37:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nRuUl-0002IG-PM
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:28:43 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2391)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1nRuUi-0000Ni-Qn
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:28:43 -0500
-Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KD8zm0pY0z67TNp;
- Wed,  9 Mar 2022 19:27:00 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.21; Wed, 9 Mar 2022 12:28:30 +0100
-Received: from localhost (10.47.72.217) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.21; Wed, 9 Mar
- 2022 11:28:28 +0000
-Date: Wed, 9 Mar 2022 11:28:27 +0000
-To: Peter Xu <peterx@redhat.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Ben Widawsky <ben.widawsky@intel.com>,
- <qemu-devel@nongnu.org>, Samarth Saxena <samarths@cadence.com>, Chris Browy
- <cbrowy@avery-design.com>, <linuxarm@huawei.com>,
- <linux-cxl@vger.kernel.org>, Markus Armbruster <armbru@redhat.com>, "Shreyas
- Shah" <shreyas.shah@elastics.cloud>, Saransh Gupta1 <saransh@ibm.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>, "Marcel
- Apfelbaum" <marcel@redhat.com>, Igor Mammedov <imammedo@redhat.com>, "Dan
- Williams" <dan.j.williams@intel.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
- <f4bug@amsat.org>, Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand
- <david@redhat.com>
-Subject: Re: [PATCH v7 00/46] CXl 2.0 emulation Support
-Message-ID: <20220309112827.00002c73@Huawei.com>
-In-Reply-To: <YihiHNxVjDFI0Z8r@xz-m1.local>
-References: <20220306174137.5707-1-Jonathan.Cameron@huawei.com>
- <20220306163119-mutt-send-email-mst@kernel.org>
- <20220307093918.00002f20@Huawei.com> <YihiHNxVjDFI0Z8r@xz-m1.local>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nRuaf-00017q-TN
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:34:49 -0500
+Received: from [2a00:1450:4864:20::62a] (port=44911
+ helo=mail-ej1-x62a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nRuae-0001OE-3w
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:34:49 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id qt6so4233856ejb.11
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 03:34:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=e1mCpgZQKVR3X+zPDOzkweeQg6CYkxvTj8dT3AbCpA8=;
+ b=CTDwEhYVwWpl8JwFa5vALzyYrMjMHm+KRXE5HGjTLdionReSN/NKbw0MtcszJbwQuj
+ 1lNMSuhHCgNuzWLMdFq79fZYvjVaeZK7hBKlCaGjI1PDTtd7bn/O/s9gtxVfudma7sSX
+ cm341QOA7I/CW87135kIU28SZhzw6yyX7gXWIZaiD06Ubg21p8/VzzT7rLVvI1tWcwMV
+ tSOsV1jOpv2MgzzA3rjxVShCwUds927MVbOahisg/qn2tGl2vL4X20uGMsx+Oz6YBfw2
+ bhYQA+QioGMfXnzVEflM0Lfp65n/RvogZaJ2Lw4VEf/1ZXG4CTVGxL9CMF09IXlPgrMH
+ d41g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=e1mCpgZQKVR3X+zPDOzkweeQg6CYkxvTj8dT3AbCpA8=;
+ b=vmODFgMr+JT+IbXTuxXxm2k7RZUh1xjSBIDupJkZ2qECkbqiQeGeqxIwXTl9u9LgIG
+ N/1NYSE/LQO9e9WqHiE/CzoDLZTC0NvwusY4QdL5abc2OrM+RBqtKIdP6LQPAIWVaN83
+ 61qHYgqjLiW6jdszMjN2m1219wwo26kjx/r9AJemv4xPRG5E6WsR/oRPLsCuDGo/NGys
+ dGhFWMDwWmWu7aCxG6EsJ9/pmmb65ravuvLAqwy3u/p8KxmbgGHHwTi4/KmEIGQE7LQF
+ +iHsfqx4gHvz3c+EhSeFjkZC4cDSxWUjBsd6ovrMyLpT/1ksUmW7vYKx656arH8YNrI8
+ GT9w==
+X-Gm-Message-State: AOAM530h9gmG/efu89eU0VpjujE5lf283h7TyYXvd61ostC/YwDl7s4Y
+ V+yYKphEr3Rsv1kRz7qJhys86w==
+X-Google-Smtp-Source: ABdhPJyo3Vdv5OrjCA4eURlNsK/eR6zrgUauSCSuAGq2ROif8jO8DRiemKBqTtyCXuP5XzKXARcZTA==
+X-Received: by 2002:a17:906:4987:b0:6c9:e16a:b5bf with SMTP id
+ p7-20020a170906498700b006c9e16ab5bfmr16317520eju.247.1646825686611; 
+ Wed, 09 Mar 2022 03:34:46 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ f15-20020a50e08f000000b004134a121ed2sm713672edl.82.2022.03.09.03.34.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Mar 2022 03:34:45 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D19941FFB7;
+ Wed,  9 Mar 2022 11:34:44 +0000 (GMT)
+References: <20220308145521.3106395-1-kraxel@redhat.com>
+ <20220308145521.3106395-2-kraxel@redhat.com>
+User-agent: mu4e 1.7.9; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 01/11] tests/acpi: allow virt memory hotplug changes
+Date: Wed, 09 Mar 2022 11:34:39 +0000
+In-reply-to: <20220308145521.3106395-2-kraxel@redhat.com>
+Message-ID: <87zglz5pgr.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.72.217]
-X-ClientProxiedBy: lhreml733-chm.china.huawei.com (10.201.108.84) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,156 +93,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
-
-On Wed, 9 Mar 2022 16:15:24 +0800
-Peter Xu <peterx@redhat.com> wrote:
-
-> On Mon, Mar 07, 2022 at 09:39:18AM +0000, Jonathan Cameron via wrote:
-> > If any of the memory maintainers can take a look at patch 34 that would
-> > be great as to my mind that and the related interleave decoding in general is
-> > the big unknown in this set. I just realized I haven't cc'd everyone
-> > I should have for that - added them here and I'll make sure to CC them
-> > all on V8.  
-
-Hi Peter,
-
-> 
-> https://lore.kernel.org/qemu-devel/20220306174137.5707-35-Jonathan.Cameron@huawei.com/
-> 
-> Having mr->ops set but with memory_access_is_direct() returning true sounds
-> weird to me.
-> 
-> Sorry to have no understanding of the whole picture, but.. could you share
-> more on what's the interleaving requirement on the proxying, and why it
-> can't be done with adding some IO memory regions as sub-regions upon the
-> file one?
-
-The proxying requirement is simply a means to read/write to a computed address
-within a memory region. There may well be a better way to do that.
-
-If I understand your suggestion correctly you would need a very high
-number of IO memory regions to be created dynamically when particular sets of
-registers across multiple devices in the topology are all programmed.
-
-The interleave can be 256 bytes across up to 16x, many terabyte, devices.
-So assuming a simple set of 16 1TB devices I think you'd need about 4x10^9
-IO regions.  Even for a minimal useful test case of largest interleave
-set of 16x 256MB devices (256MB is minimum size the specification allows per
-decoded region at the device) and 16 way interleave we'd need 10^6 IO regions.
-Any idea if that approach would scale sensibly to this number of regions?
-
-There are also complexities to getting all the information in one place to
-work out which IO memory regions maps where in PA space. Current solution is
-to do that mapping in the same way the hardware does which is hierarchical,
-so we walk the path to the device, picking directions based on each interleave
-decoder that we meet.
-Obviously this is a bit slow but I only really care about correctness at the
-moment.  I can think of various approaches to speeding it up but I'm not sure
-if we will ever care about performance.
-
-https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/hw/cxl/cxl-host.c#L131
-has the logic for that and as you can see it's fairly simple because we are always
-going down the topology following the decoders.
-
-Below I have mapped out an algorithm I think would work for doing it with
-IO memory regions as subregions.
-
-We could fake the whole thing by limiting ourselves to small host
-memory windows which are always directly backed, but then I wouldn't
-achieve the main aim of this which is to provide a test base for the OS code.
-To do that I need real interleave so I can seed the files with test patterns
-and verify the accesses hit the correct locations. Emulating what the hardware
-is actually doing on a device by device basis is the easiest way I have
-come up with to do that.
-
-Let me try to provide some more background so you hopefully don't have
-to have read the specs to follow what is going on!
-There are an example for directly connected (no switches) topology in the
-docs
-
-https://gitlab.com/jic23/qemu/-/blob/cxl-v7-draft-2-for-test/docs/system/devices/cxl.rst
-
-The overall picture is we have a large number of CXL Type 3 memory devices,
-which at runtime (by OS at boot/on hotplug) are configured into various
-interleaving sets with hierarchical decoding at the host + host bridge
-+ switch levels. For test setups I probably need to go to around 32 devices
-so I can hit various configurations simultaneously.
-No individual device has visibility of the full interleave setup - hence
-the walk in the existing code through the various decoders to find the
-final Device Physical address.
-
-At the host level the host provides a set of Physical Address windows with
-a fixed interleave decoding across the different host bridges in the system
-(CXL Fixed Memory windows, CFMWs)
-On a real system these have to be large enough to allow for any memory
-devices that might be hotplugged and all possible configurations (so
-with 2 host bridges you need at least 3 windows in the many TB range,
-much worse as the number of host bridges goes up). It'll be worse than
-this when we have QoS groups, but the current Qemu code just puts all
-the windows in group 0.  Hence my first thought of just putting memory
-behind those doesn't scale (a similar approach to this was in the
-earliest versions of this patch set - though the full access path
-wasn't wired up).
-
-The granularity can be in powers of 2 from 256 bytes to 16 kbytes
-
-Next each host bridge has programmable address decoders which take the
-incoming (often already interleaved) memory access and direct them to
-appropriate root ports.  The root ports can be connected to a switch
-which has additional address decoders in the upstream port to decide
-which downstream port to route to.  Note we currently only support 1 level
-of switches but it's easy to make this algorithm recursive to support
-multiple switch levels (currently the kernel proposals only support 1 level)
-
-Finally the End Point with the actual memory receives the interleaved request and
-takes the full address and (for power of 2 decoding - we don't yet support
-3,6 and 12 way which is more complex and there is no kernel support yet)
-it drops a few address bits and adds an offset for the decoder used to
-calculate it's own device physical address.  Note device will support
-multiple interleave sets for different parts of it's file once we add
-multiple decoder support (on the todo list).
-
-So the current solution is straight forward (with the exception of that
-proxying) because it follows the same decoding as used in real hardware
-to route the memory accesses. As a result we get a read/write to a
-device physical address and hence proxy that.  If any of the decoders
-along the path are not configured then we error out at that stage.
-
-To create the equivalent as IO subregions I think we'd have to do the
-following from (this might be mediated by some central entity that
-doesn't currently exist, or done on demand from which ever CXL device
-happens to have it's decoder set up last)
-
-1) Wait for a decoder commit (enable) on any component. Goto 2.
-2) Walk the topology (up to host decoder, down to memory device)
-If a complete interleaving path has been configured -
-   i.e. we have committed decoders all the way to the memory
-   device goto step 3, otherwise return to step 1 to wait for
-   more decoders to be committed.
-3) For the memory region being supplied by the memory device,
-   add subregions to map the device physical address (address
-   in the file) for each interleave stride to the appropriate
-   host Physical Address.
-4) Return to step 1 to wait for more decoders to commit.
-
-So summary is we can do it with IO regions, but there are a lot of them
-and the setup is somewhat complex as we don't have one single point in
-time where we know all the necessary information is available to compute
-the right addresses.
-
-Looking forward to your suggestions if I haven't caused more confusion!
-
-Thanks,
-
-Jonathan
 
 
-> 
-> Thanks,
-> 
+Gerd Hoffmann <kraxel@redhat.com> writes:
 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bi=
+os-tables-test-allowed-diff.h
+> index dfb8523c8bf4..e569098abddc 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1 +1,2 @@
+>  /* List of comma-separated changed AML files to ignore */
+> +"tests/data/acpi/virt/SSDT.memhp",
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
