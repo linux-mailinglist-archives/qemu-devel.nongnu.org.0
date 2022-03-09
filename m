@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94C64D2FBB
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 14:12:23 +0100 (CET)
-Received: from localhost ([::1]:51490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE0C4D2FCF
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 14:19:53 +0100 (CET)
+Received: from localhost ([::1]:57444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRw74-0004uA-B7
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 08:12:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40950)
+	id 1nRwEK-0000q9-FN
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 08:19:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRw4k-0003Zi-Ru
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 08:09:58 -0500
-Received: from [2607:f8b0:4864:20::b31] (port=38441
- helo=mail-yb1-xb31.google.com)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nRwB0-0007BE-LI
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 08:16:26 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:60126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRw4j-0001Bd-5N
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 08:09:58 -0500
-Received: by mail-yb1-xb31.google.com with SMTP id u3so4227594ybh.5
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 05:09:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TO0954qr9ez+YuHbFpX9Z1twSNSrjsMggQpEmj8Wz/k=;
- b=vExH4CHyjE0vWqvXrjYBGrtHC5n35H8DYU5CiL1Jv98ltxRvUy5Ty8IpXqUy+RdrQf
- j1teMCXABAJIeAcIr+DWOP8OBPif6czw4y9kjZUiqn6TYlYa+1zUqoIdWcD1SFLPwi2N
- BRopkYNOyZWua4Z5XVwErK/qLTC/DcwJ6VTELtzFx7nmorcItdVVupqL0iwzl9+DyYDn
- E7oSxpl36xIGuu2Hy2xohtRwIi2HqnHL+EAA40WC7AhkYVyDmz5e9MzSfe6r11ZwZY1D
- f/l19nkMG9v53IF+KEmLifwNvsbcVhVlm1t3J43NRnDJxjTPIff0wTzkVrnK//wZTzs1
- urYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TO0954qr9ez+YuHbFpX9Z1twSNSrjsMggQpEmj8Wz/k=;
- b=V4qUAuXMFwo65Sxif1yrQWABoAaoGRxUXUWs2q2/i6nmw3dr8von8/AqkkOS3iv9K4
- F6FrB+NnIJwnoAj9BDkf8giBALjiXpayryhdN4HoYCmXOzIv37rv0nO2aUGAXz01P1Pq
- vIAWmVoFDogs/Vk32qB2Rp3pP9nsOEfzTm2Jh7Gg802ryiw002w7E85GL+LiRWsQIOAF
- k1/fuj3PUsbJDOD+dFQ627UovOFYSxiwNYjstuc7Be6S6jvEcK6e3DMDyGx+Z/ycqS2d
- A2GejULI80dwUPVlc6k2eI9ngaJpSXAPyt+Ry/ZCz0ux+r3uSZ/cSs99fyBXh6Ewaf3J
- FPEg==
-X-Gm-Message-State: AOAM530yHIHUb9Q+UhrUYQSmTf6hUiUcHY0BmtnwB9KvIYFpglXfa0Li
- 33Y56FceKbrdkonXgvLy62gKf0YNQe0WVkwPm0vWAw==
-X-Google-Smtp-Source: ABdhPJzOOQO5Ns26fFnudEgUQ0Zgs5bvwNKjLcsfrnjUU6AGcrP/bf2K15GWN6+BHuZxtOkS/88QLzUjr3x+TcVR9V0=
-X-Received: by 2002:a25:a08d:0:b0:62c:eed:e6c3 with SMTP id
- y13-20020a25a08d000000b0062c0eede6c3mr4829819ybh.67.1646831395322; Wed, 09
- Mar 2022 05:09:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1nRwAy-0002MA-Iu
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 08:16:26 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D6B3D1F380;
+ Wed,  9 Mar 2022 13:16:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1646831782; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ub/j6IDncyAFoF7PvjmnGM/tTLA2BC0/pWogOT1fiE0=;
+ b=bOBCsiAz2ZmL1f0lY7KEYvDek/MwnU5p7SMMmjmDISYc+bM+FK6Vyw5xp/DpolWIv5zUtM
+ ZK2db4JVL8jd+UAF2Pnukf6yazP3RgYtgThGk6VLpKBvX5yJrjUiBP3nDn7IE8Snrz9Tzn
+ wjn2vXW+Ss21dlzEaEDL0xmwMeIY7Dg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1646831782;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ub/j6IDncyAFoF7PvjmnGM/tTLA2BC0/pWogOT1fiE0=;
+ b=w27R0eWDjl4VxVehQMNPOrXEwnSjI+YT/vH0y+BzRyxlhFG+t8rYmr22akqenLylml/kGD
+ ibhD3+br3oFRO/AA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A3CB013D7A;
+ Wed,  9 Mar 2022 13:16:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id dRFdJqaoKGIgHQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Wed, 09 Mar 2022 13:16:22 +0000
+Subject: Re: bad qemu savevm to /dev/null performance (600 MiB/s max) (Was:
+ Re: starting to look at qemu savevm performance, a first regression detected)
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <YiXQHIWtHx5BocxK@redhat.com>
+ <62ba8b1e-d641-5b10-c1b3-54b7d5a652e7@suse.de> <YiXVh1P4oJNuEtFM@redhat.com>
+ <1f70a086-2b72-bd83-414b-476f5e6d0094@suse.de> <YiXzw8pF9If2/M7M@redhat.com>
+ <5f318297-51c0-366b-758b-733ba27684ba@suse.de> <YiX4gfBtgDq/uZpu@redhat.com>
+ <5b3d17d2-f07f-8cb1-54ff-6a517dc4eaef@suse.de> <YiX6XSlVNw183PTV@work-vm>
+ <51b486fc-2c71-e1c6-6412-d462234d67fb@suse.de> <YiiS9HnS0LsiY2Hb@work-vm>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <526d2b58-8c3e-c616-adc9-76c437aed08a@suse.de>
+Date: Wed, 9 Mar 2022 14:16:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
- <20220306231753.50277-23-philippe.mathieu.daude@gmail.com>
- <f2898408-5082-7121-2496-fb296c48244d@gmail.com>
- <b05317e1-3659-2dce-4582-58bc6ca4a79b@redhat.com>
- <YiiehhaRPGWnM2Vn@redhat.com> <ae5f9f7d-e0b3-3d79-1fe1-d8dfdb1ba2b7@gmail.com>
- <YiilTXYgeORlVl96@redhat.com>
-In-Reply-To: <YiilTXYgeORlVl96@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Mar 2022 13:09:43 +0000
-Message-ID: <CAFEAcA85uL4gvUR9gJ7V7+KHYhE+40WjYHngxVyqusR8Xn6LBw@mail.gmail.com>
-Subject: Re: [PATCH v7 22/22] gitlab-ci: Support macOS 12 via cirrus-run
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b31
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <YiiS9HnS0LsiY2Hb@work-vm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,44 +90,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 9 Mar 2022 at 13:02, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
->
-> On Wed, Mar 09, 2022 at 01:50:34PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > Not sure which job to choose yet. Per the first google hits we
-> > still want to cover Catalina first:
-> > https://www.statista.com/statistics/944559/worldwide-macos-version-mark=
-et-share/
+On 3/9/22 12:43 PM, Dr. David Alan Gilbert wrote:
+> * Claudio Fontana (cfontana@suse.de) wrote:
+>> On 3/7/22 1:28 PM, Dr. David Alan Gilbert wrote:
+>>> * Claudio Fontana (cfontana@suse.de) wrote:
+>>>> On 3/7/22 1:20 PM, Daniel P. Berrangé wrote:
+>>>>> On Mon, Mar 07, 2022 at 01:09:55PM +0100, Claudio Fontana wrote:
+>>>>>> On 3/7/22 1:00 PM, Daniel P. Berrangé wrote:
+>>>>>>> On Mon, Mar 07, 2022 at 12:19:22PM +0100, Claudio Fontana wrote:
+>>>>>>>> On 3/7/22 10:51 AM, Daniel P. Berrangé wrote:
+>>>>>>>>> On Mon, Mar 07, 2022 at 10:44:56AM +0100, Claudio Fontana wrote:
+>>>>>>>>>> Hello Daniel,
+>>>>>>>>>>
+>>>>>>>>>> On 3/7/22 10:27 AM, Daniel P. Berrangé wrote:
+>>>>>>>>>>> On Sat, Mar 05, 2022 at 02:19:39PM +0100, Claudio Fontana wrote:
+>>>>>>>>>>>>
+>>>>>>>>>>>> Hello all,
+>>>>>>>>>>>>
+>>>>>>>>>>>> I have been looking at some reports of bad qemu savevm performance in large VMs (around 20+ Gb),
+>>>>>>>>>>>> when used in libvirt commands like:
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> virsh save domain /dev/null
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> I have written a simple test to run in a Linux centos7-minimal-2009 guest, which allocates and touches 20G mem.
+>>>>>>>>>>>>
+>>>>>>>>>>>> With any qemu version since around 2020, I am not seeing more than 580 Mb/Sec even in the most ideal of situations.
+>>>>>>>>>>>>
+>>>>>>>>>>>> This drops to around 122 Mb/sec after commit: cbde7be900d2a2279cbc4becb91d1ddd6a014def .
+>>>>>>>>>>>>
+>>>>>>>>>>>> Here is the bisection for this particular drop in throughput:
+>>>>>>>>>>>>
+>>>>>>>>>>>> commit cbde7be900d2a2279cbc4becb91d1ddd6a014def (HEAD, refs/bisect/bad)
+>>>>>>>>>>>> Author: Daniel P. Berrangé <berrange@redhat.com>
+>>>>>>>>>>>> Date:   Fri Feb 19 18:40:12 2021 +0000
+>>>>>>>>>>>>
+>>>>>>>>>>>>     migrate: remove QMP/HMP commands for speed, downtime and cache size
+>>>>>>>>>>>>     
+>>>>>>>>>>>>     The generic 'migrate_set_parameters' command handle all types of param.
+>>>>>>>>>>>>     
+>>>>>>>>>>>>     Only the QMP commands were documented in the deprecations page, but the
+>>>>>>>>>>>>     rationale for deprecating applies equally to HMP, and the replacements
+>>>>>>>>>>>>     exist. Furthermore the HMP commands are just shims to the QMP commands,
+>>>>>>>>>>>>     so removing the latter breaks the former unless they get re-implemented.
+>>>>>>>>>>>>     
+>>>>>>>>>>>>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>>>>>>>>>>>     Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>>>>>>>>>>>
+>>>>>>>>>>> That doesn't make a whole lot of sense as a bisect result.
+>>>>>>>>>>> How reliable is that bisect end point ? Have you bisected
+>>>>>>>>>>> to that point more than once ?
+>>>>>>>>>>
+>>>>>>>>>> I did run through the bisect itself only once, so I'll double check that.
+>>>>>>>>>> The results seem to be reproducible almost to the second though, a savevm that took 35 seconds before the commit takes 2m 48 seconds after.
+>>>>>>>>>>
+>>>>>>>>>> For this test I am using libvirt v6.0.0.
+>>>>>>>
+>>>>>>> I've just noticed this.  That version of libvirt is 2 years old and
+>>>>>>> doesn't have full support for migrate_set_parameters.
+>>>>>>>
+>>>>>>>
+>>>>>>>> 2022-03-07 10:47:20.145+0000: 134386: info : qemuMonitorIOWrite:452 : QEMU_MONITOR_IO_WRITE: mon=0x7fa4380028a0 buf={"execute":"migrate_set_speed","arguments":{"value":9223372036853727232},"id":"libvirt-19"}^M
+>>>>>>>>  len=93 ret=93 errno=0
+>>>>>>>> 2022-03-07 10:47:20.146+0000: 134386: info : qemuMonitorJSONIOProcessLine:240 : QEMU_MONITOR_RECV_REPLY: mon=0x7fa4380028a0 reply={"id": "libvirt-19", "error": {"class": "CommandNotFound", "desc": "The command migrate_set_speed has not been found"}}
+>>>>>>>> 2022-03-07 10:47:20.147+0000: 134391: error : qemuMonitorJSONCheckError:412 : internal error: unable to execute QEMU command 'migrate_set_speed': The command migrate_set_speed has not been found
+>>>>>>>
+>>>>>>> We see the migrate_set_speed failing and libvirt obviously ignores that
+>>>>>>> failure.
+>>>>>>>
+>>>>>>> In current libvirt migrate_set_speed is not used as it properly
+>>>>>>> handles migrate_set_parameters AFAICT.
+>>>>>>>
+>>>>>>> I think you just need to upgrade libvirt if you want to use this
+>>>>>>> newer QEMU version
+>>>>>>>
+>>>>>>> Regards,
+>>>>>>> Daniel
+>>>>>>>
+>>>>>>
+>>>>>> Got it, this explains it, sorry for the noise on this.
+>>>>>>
+>>>>>> I'll continue to investigate the general issue of low throughput with virsh save / qemu savevm .
+>>>>>
+>>>>> BTW, consider measuring with the --bypass-cache flag to virsh save.
+>>>>> This causes libvirt to use a I/O helper that uses O_DIRECT when
+>>>>> saving the image. This should give more predictable results by
+>>>>> avoiding the influence of host I/O cache which can be in a differnt
+>>>>> state of usage each time you measure.  It was also intended that
+>>>>> by avoiding hitting cache, saving the memory image of a large VM
+>>>>> will not push other useful stuff out of host I/O  cache which can
+>>>>> negatively impact other running VMs.
+>>>>>
+>>>>> Also it is possible to configure compression on the libvirt side
+>>>>> which may be useful if you have spare CPU cycles, but your storage
+>>>>> is slow. See 'save_image_format' in the /etc/libvirt/qemu.conf
+>>>>>
+>>>>> With regards,
+>>>>> Daniel
+>>>>>
+>>>>
+>>>> Hi Daniel, thanks for these good info,
+>>>>
+>>>> regarding slow storage, for these tests I am saving to /dev/null to avoid having to take storage into account
+>>>> (and still getting low bandwidth unfortunately) so I guess compression is out of the question.
+>>>
+>>> What type of speeds do you get if you try a migrate to a netcat socket?
+>>
+>> much faster apparently, 30 sec savevm vs 7 seconds for migration to a netcat socket sent to /dev/null.
+>>
+>> nc -l -U /tmp/savevm.socket
+>>
+>> virsh suspend centos7
+>> Domain centos7 suspended
+>>
+>> virsh qemu-monitor-command --cmd '{ "execute": "migrate", "arguments": { "uri": "unix:///tmp/savevm.socket" } }' centos7
+>>
+>> virt97:/mnt # virsh qemu-monitor-command --cmd '{ "execute": "query-migrate" }' centos7
+>> {"return":{"blocked":false,"status":"completed","setup-time":118,"downtime":257,"total-time":7524,"ram":{"total":32213049344,"postcopy-requests":0,"dirty-sync-count":3,"multifd-bytes":0,"pages-per-second":1057530,"page-size":4096,"remaining":0,"mbps":24215.572437483122,"transferred":22417172290,"duplicate":2407520,"dirty-pages-rate":0,"skipped":0,"normal-bytes":22351847424,"normal":5456994}},"id":"libvirt-438"}
+>>
+>> virt97:/mnt # virsh qemu-monitor-command --cmd '{ "execute": "query-migrate-parameters" }' centos7
+>> {"return":{"cpu-throttle-tailslow":false,"xbzrle-cache-size":67108864,"cpu-throttle-initial":20,"announce-max":550,"decompress-threads":2,"compress-threads":8,"compress-level":0,"multifd-channels":8,"multifd-zstd-level":1,"announce-initial":50,"block-incremental":false,"compress-wait-thread":true,"downtime-limit":300,"tls-authz":"","multifd-compression":"none","announce-rounds":5,"announce-step":100,"tls-creds":"","multifd-zlib-level":1,"max-cpu-throttle":99,"max-postcopy-bandwidth":0,"tls-hostname":"","throttle-trigger-threshold":50,"max-bandwidth":9223372036853727232,"x-checkpoint-delay":20000,"cpu-throttle-increment":10},"id":"libvirt-439"}
+>>
+>>
+>> I did also a run with multifd-channels:1 instead of 8, if it matters:
+> 
+> I suspect you haven't actually got multifd enabled ( check
+> query-migrate-capabilities ?).
+>>
+>> virt97:/mnt # virsh qemu-monitor-command --cmd '{ "execute": "query-migrate" }' centos7
+>> {"return":{"blocked":false,"status":"completed","setup-time":119,"downtime":260,"total-time":8601,"ram":{"total":32213049344,"postcopy-requests":0,"dirty-sync-count":3,"multifd-bytes":0,"pages-per-second":908820,"page-size":4096,"remaining":0,"mbps":21141.861157274227,"transferred":22415264188,"duplicate":2407986,"dirty-pages-rate":0,"skipped":0,"normal-bytes":22349938688,"normal":5456528}},"id":"libvirt-453"}
+>>
+>> virt97:/mnt # virsh qemu-monitor-command --cmd '{ "execute": "query-migrate-parameters" }' centos7
+>> {"return":{"cpu-throttle-tailslow":false,"xbzrle-cache-size":67108864,"cpu-throttle-initial":20,"announce-max":550,"decompress-threads":2,"compress-threads":8,"compress-level":0,"multifd-channels":1,"multifd-zstd-level":1,"announce-initial":50,"block-incremental":false,"compress-wait-thread":true,"downtime-limit":300,"tls-authz":"","multifd-compression":"none","announce-rounds":5,"announce-step":100,"tls-creds":"","multifd-zlib-level":1,"max-cpu-throttle":99,"max-postcopy-bandwidth":0,"tls-hostname":"","throttle-trigger-threshold":50,"max-bandwidth":9223372036853727232,"x-checkpoint-delay":20000,"cpu-throttle-increment":10},"id":"libvirt-454"}
+>>
+>>
+>> Still we are in the 20 Gbps range, or around 2560 MiB/s, way faster than savevm which does around 600 MiB/s when the wind is in its favor..
+> qemu-1646827174
+> Yeh that's what I'd hope for off a decent CPU; hmm there's not that much
+> savevm specific is there?
 
-...that page says that the figures for Catalina are "incorrectly
-high", so not a very useful set of data for these purposes I think.
 
-> My general gut feeling is usually to prioritize testing older versions
-> as they tend to be more widely used, and we want to avoid regresions
-> on stuff that has been around the longest. Compatibility problems with
-> new releases tend to get reported by users/maintainers and would not
-> be regressions, but rather enhancements to support the new platform.
+Hmm not sure. I have a hunch, is the difference just more threads being used to transfer the data?
 
-Note that technically speaking Catalina (10.15) has already fallen off
-the end of our support policy (which currently requires Big Sur (11)
-and Monterey (12) support, as the two most recent versions). My
-personal macos x86 laptop is still running Catalina, though,
-because Big Sur dropped support for that hardware :-/
-That suggests that maybe Big Sur would be what we should go for
-now if we have to pick just one for the CI.
+Is the migration path creating threads, while savevm doesn't? Hmm...
 
-thanks
--- PMM
+Thanks,
+
+Claudio
+
+
+
+
+
+
+
+
+
+
+
 
