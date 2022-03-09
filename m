@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34464D2DB2
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:11:57 +0100 (CET)
-Received: from localhost ([::1]:33802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB0B4D2DBB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:14:47 +0100 (CET)
+Received: from localhost ([::1]:42126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRuEW-0000oN-JZ
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:11:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40844)
+	id 1nRuHF-0006dn-Ve
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:14:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuBd-0006As-6Z
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:08:57 -0500
-Received: from [2001:41c9:1:41f::167] (port=35672
+ id 1nRuBj-0006Ix-61
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:04 -0500
+Received: from [2001:41c9:1:41f::167] (port=35680
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuBb-0005Bp-O4
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:08:56 -0500
+ id 1nRuBf-0005CX-P3
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:01 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuAu-000CWr-Dq; Wed, 09 Mar 2022 11:08:16 +0000
+ id 1nRuAy-000CWr-Js; Wed, 09 Mar 2022 11:08:20 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Wed,  9 Mar 2022 11:08:12 +0000
-Message-Id: <20220309110831.18443-4-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  9 Mar 2022 11:08:13 +0000
+Message-Id: <20220309110831.18443-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
 References: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 03/22] mac_via: use IFR bit flag constants for VIA2 IRQs
+Subject: [PULL 04/22] mos6522: switch over to use qdev gpios for IRQs
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -68,51 +67,254 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows us to easily see how the physical control lines are mapped to the
-IFR bit flags.
+For historical reasons each mos6522 instance implements its own setting and
+update of the IFR flag bits using methods exposed by MOS6522DeviceClass. As
+of today this is no longer required, and it is now possible to implement
+the mos6522 IRQs as standard qdev gpios.
+
+Switch over to use qdev gpios for the mos6522 device and update all instances
+accordingly.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220305150957.5053-4-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220305150957.5053-5-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- include/hw/misc/mac_via.h | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ hw/misc/mac_via.c         | 56 +++++++--------------------------------
+ hw/misc/macio/cuda.c      |  5 ++--
+ hw/misc/macio/pmu.c       |  4 +--
+ hw/misc/mos6522.c         | 15 +++++++++++
+ include/hw/misc/mac_via.h |  5 ----
+ include/hw/misc/mos6522.h |  2 ++
+ 6 files changed, 31 insertions(+), 56 deletions(-)
 
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index 71b74c3372..80eb433044 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -325,10 +325,9 @@ static void via1_sixty_hz(void *opaque)
+ {
+     MOS6522Q800VIA1State *v1s = opaque;
+     MOS6522State *s = MOS6522(v1s);
+-    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
++    qemu_irq irq = qdev_get_gpio_in(DEVICE(s), VIA1_IRQ_60HZ_BIT);
+ 
+-    s->ifr |= VIA1_IRQ_60HZ;
+-    mdc->update_irq(s);
++    qemu_set_irq(irq, 1);
+ 
+     via1_sixty_hz_update(v1s);
+ }
+@@ -337,44 +336,13 @@ static void via1_one_second(void *opaque)
+ {
+     MOS6522Q800VIA1State *v1s = opaque;
+     MOS6522State *s = MOS6522(v1s);
+-    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
++    qemu_irq irq = qdev_get_gpio_in(DEVICE(s), VIA1_IRQ_ONE_SECOND_BIT);
+ 
+-    s->ifr |= VIA1_IRQ_ONE_SECOND;
+-    mdc->update_irq(s);
++    qemu_set_irq(irq, 1);
+ 
+     via1_one_second_update(v1s);
+ }
+ 
+-static void via1_irq_request(void *opaque, int irq, int level)
+-{
+-    MOS6522Q800VIA1State *v1s = opaque;
+-    MOS6522State *s = MOS6522(v1s);
+-    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
+-
+-    if (level) {
+-        s->ifr |= 1 << irq;
+-    } else {
+-        s->ifr &= ~(1 << irq);
+-    }
+-
+-    mdc->update_irq(s);
+-}
+-
+-static void via2_irq_request(void *opaque, int irq, int level)
+-{
+-    MOS6522Q800VIA2State *v2s = opaque;
+-    MOS6522State *s = MOS6522(v2s);
+-    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
+-
+-    if (level) {
+-        s->ifr |= 1 << irq;
+-    } else {
+-        s->ifr &= ~(1 << irq);
+-    }
+-
+-    mdc->update_irq(s);
+-}
+-
+ 
+ static void pram_update(MOS6522Q800VIA1State *v1s)
+ {
+@@ -1061,8 +1029,6 @@ static void mos6522_q800_via1_init(Object *obj)
+     qbus_init((BusState *)&v1s->adb_bus, sizeof(v1s->adb_bus),
+               TYPE_ADB_BUS, DEVICE(v1s), "adb.0");
+ 
+-    qdev_init_gpio_in(DEVICE(obj), via1_irq_request, VIA1_IRQ_NB);
+-
+     /* A/UX mode */
+     qdev_init_gpio_out(DEVICE(obj), &v1s->auxmode_irq, 1);
+ }
+@@ -1150,22 +1116,20 @@ static void mos6522_q800_via2_reset(DeviceState *dev)
+     ms->a = 0x7f;
+ }
+ 
+-static void via2_nubus_irq_request(void *opaque, int irq, int level)
++static void via2_nubus_irq_request(void *opaque, int n, int level)
+ {
+     MOS6522Q800VIA2State *v2s = opaque;
+     MOS6522State *s = MOS6522(v2s);
+-    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
++    qemu_irq irq = qdev_get_gpio_in(DEVICE(s), VIA2_IRQ_NUBUS_BIT);
+ 
+     if (level) {
+         /* Port A nubus IRQ inputs are active LOW */
+-        s->a &= ~(1 << irq);
+-        s->ifr |= 1 << VIA2_IRQ_NUBUS_BIT;
++        s->a &= ~(1 << n);
+     } else {
+-        s->a |= (1 << irq);
+-        s->ifr &= ~(1 << VIA2_IRQ_NUBUS_BIT);
++        s->a |= (1 << n);
+     }
+ 
+-    mdc->update_irq(s);
++    qemu_set_irq(irq, level);
+ }
+ 
+ static void mos6522_q800_via2_init(Object *obj)
+@@ -1177,8 +1141,6 @@ static void mos6522_q800_via2_init(Object *obj)
+                           "via2", VIA_SIZE);
+     sysbus_init_mmio(sbd, &v2s->via_mem);
+ 
+-    qdev_init_gpio_in(DEVICE(obj), via2_irq_request, VIA2_IRQ_NB);
+-
+     qdev_init_gpio_in_named(DEVICE(obj), via2_nubus_irq_request, "nubus-irq",
+                             VIA2_NUBUS_IRQ_NB);
+ }
+diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
+index 233daf1405..693fc82e05 100644
+--- a/hw/misc/macio/cuda.c
++++ b/hw/misc/macio/cuda.c
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "hw/irq.h"
+ #include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+@@ -96,9 +97,9 @@ static void cuda_set_sr_int(void *opaque)
+     CUDAState *s = opaque;
+     MOS6522CUDAState *mcs = &s->mos6522_cuda;
+     MOS6522State *ms = MOS6522(mcs);
+-    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(ms);
++    qemu_irq irq = qdev_get_gpio_in(DEVICE(ms), SR_INT_BIT);
+ 
+-    mdc->set_sr_int(ms);
++    qemu_set_irq(irq, 1);
+ }
+ 
+ static void cuda_delay_set_sr_int(CUDAState *s)
+diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
+index 76c608ee19..b210068ab7 100644
+--- a/hw/misc/macio/pmu.c
++++ b/hw/misc/macio/pmu.c
+@@ -75,9 +75,9 @@ static void via_set_sr_int(void *opaque)
+     PMUState *s = opaque;
+     MOS6522PMUState *mps = MOS6522_PMU(&s->mos6522_pmu);
+     MOS6522State *ms = MOS6522(mps);
+-    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(ms);
++    qemu_irq irq = qdev_get_gpio_in(DEVICE(ms), SR_INT_BIT);
+ 
+-    mdc->set_sr_int(ms);
++    qemu_set_irq(irq, 1);
+ }
+ 
+ static void pmu_update_extirq(PMUState *s)
+diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+index 1c57332b40..6be6853dc2 100644
+--- a/hw/misc/mos6522.c
++++ b/hw/misc/mos6522.c
+@@ -52,6 +52,19 @@ static void mos6522_update_irq(MOS6522State *s)
+     }
+ }
+ 
++static void mos6522_set_irq(void *opaque, int n, int level)
++{
++    MOS6522State *s = MOS6522(opaque);
++
++    if (level) {
++        s->ifr |= 1 << n;
++    } else {
++        s->ifr &= ~(1 << n);
++    }
++
++    mos6522_update_irq(s);
++}
++
+ static uint64_t get_counter_value(MOS6522State *s, MOS6522Timer *ti)
+ {
+     MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
+@@ -488,6 +501,8 @@ static void mos6522_init(Object *obj)
+ 
+     s->timers[0].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer1, s);
+     s->timers[1].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer2, s);
++
++    qdev_init_gpio_in(DEVICE(obj), mos6522_set_irq, VIA_NUM_INTS);
+ }
+ 
+ static void mos6522_finalize(Object *obj)
 diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
-index b0535c84da..0af346366e 100644
+index 0af346366e..5fe7a7f592 100644
 --- a/include/hw/misc/mac_via.h
 +++ b/include/hw/misc/mac_via.h
-@@ -80,19 +80,18 @@ struct MOS6522Q800VIA1State {
+@@ -24,8 +24,6 @@
+ #define VIA1_IRQ_ADB_DATA_BIT   CB2_INT_BIT
+ #define VIA1_IRQ_ADB_CLOCK_BIT  CB1_INT_BIT
  
+-#define VIA1_IRQ_NB             8
+-
+ #define VIA1_IRQ_ONE_SECOND     BIT(VIA1_IRQ_ONE_SECOND_BIT)
+ #define VIA1_IRQ_60HZ           BIT(VIA1_IRQ_60HZ_BIT)
+ #define VIA1_IRQ_ADB_READY      BIT(VIA1_IRQ_ADB_READY_BIT)
+@@ -42,7 +40,6 @@ struct MOS6522Q800VIA1State {
  
- /* VIA 2 */
--#define VIA2_IRQ_SCSI_DATA_BIT  0
--#define VIA2_IRQ_NUBUS_BIT      1
--#define VIA2_IRQ_UNUSED_BIT     2
--#define VIA2_IRQ_SCSI_BIT       3
--#define VIA2_IRQ_ASC_BIT        4
-+#define VIA2_IRQ_SCSI_DATA_BIT  CA2_INT_BIT
-+#define VIA2_IRQ_NUBUS_BIT      CA1_INT_BIT
-+#define VIA2_IRQ_SCSI_BIT       CB2_INT_BIT
-+#define VIA2_IRQ_ASC_BIT        CB1_INT_BIT
+     MemoryRegion via_mem;
  
- #define VIA2_IRQ_NB             8
+-    qemu_irq irqs[VIA1_IRQ_NB];
+     qemu_irq auxmode_irq;
+     uint8_t last_b;
  
--#define VIA2_IRQ_SCSI_DATA      (1 << VIA2_IRQ_SCSI_DATA_BIT)
--#define VIA2_IRQ_NUBUS          (1 << VIA2_IRQ_NUBUS_BIT)
--#define VIA2_IRQ_UNUSED         (1 << VIA2_IRQ_SCSI_BIT)
--#define VIA2_IRQ_SCSI           (1 << VIA2_IRQ_UNUSED_BIT)
--#define VIA2_IRQ_ASC            (1 << VIA2_IRQ_ASC_BIT)
-+#define VIA2_IRQ_SCSI_DATA      BIT(VIA2_IRQ_SCSI_DATA_BIT)
-+#define VIA2_IRQ_NUBUS          BIT(VIA2_IRQ_NUBUS_BIT)
-+#define VIA2_IRQ_UNUSED         BIT(VIA2_IRQ_SCSI_BIT)
-+#define VIA2_IRQ_SCSI           BIT(VIA2_IRQ_UNUSED_BIT)
-+#define VIA2_IRQ_ASC            BIT(VIA2_IRQ_ASC_BIT)
+@@ -85,8 +82,6 @@ struct MOS6522Q800VIA1State {
+ #define VIA2_IRQ_SCSI_BIT       CB2_INT_BIT
+ #define VIA2_IRQ_ASC_BIT        CB1_INT_BIT
  
- #define VIA2_NUBUS_IRQ_NB       7
+-#define VIA2_IRQ_NB             8
+-
+ #define VIA2_IRQ_SCSI_DATA      BIT(VIA2_IRQ_SCSI_DATA_BIT)
+ #define VIA2_IRQ_NUBUS          BIT(VIA2_IRQ_NUBUS_BIT)
+ #define VIA2_IRQ_UNUSED         BIT(VIA2_IRQ_SCSI_BIT)
+diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
+index be5c90d24d..f38ae2b0f0 100644
+--- a/include/hw/misc/mos6522.h
++++ b/include/hw/misc/mos6522.h
+@@ -57,6 +57,8 @@
+ #define T2_INT             BIT(T2_INT_BIT)
+ #define T1_INT             BIT(T1_INT_BIT)
  
++#define VIA_NUM_INTS       5
++
+ /* Bits in ACR */
+ #define T1MODE             0xc0    /* Timer 1 mode */
+ #define T1MODE_CONT        0x40    /*  continuous interrupts */
 -- 
 2.20.1
 
