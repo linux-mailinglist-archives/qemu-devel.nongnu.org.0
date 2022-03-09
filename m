@@ -2,86 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A41E4D2962
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 08:20:26 +0100 (CET)
-Received: from localhost ([::1]:44578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 383354D297F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 08:32:49 +0100 (CET)
+Received: from localhost ([::1]:48550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRqcT-0003tW-Aq
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 02:20:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36752)
+	id 1nRqoR-0007Cf-Pu
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 02:32:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nRqZj-0002OJ-HC
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 02:17:36 -0500
-Received: from [2607:f8b0:4864:20::632] (port=38533
- helo=mail-pl1-x632.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nRqZh-0007hu-Ow
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 02:17:35 -0500
-Received: by mail-pl1-x632.google.com with SMTP id t19so1208417plr.5
- for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 23:17:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=nYGU51qxik7KEWVZ/+CRCkpXw5zWnO9NadXagowA25A=;
- b=6Uyh5vW9gCj4dGul0bOK1P9f+rghQuDuJyqWkn3tpvDpXjEuGPL9YxhEK+g7Lpa0EX
- ENZuGTwTwo0IPCUOAb4AiuaSnCaqLRGpvjhmuFdBzuWibZeHVsPRxMcMKKskKGZtRJz8
- sF2X1/aQsu7bieR8B/4uHwxSYZRX5JhaDPZ9QQcq34RBv31yL1CYnhrGZTQNDEVd5tvn
- 6khiYduGwWTedcglgEyxPppxeZJ5fDPHmyvS2UsTsasabjLhYWiS+L8835DcyB7epumb
- PLpdlLiRcjBEyhTDhkOJPTNDzpWjihEj9WahWIzsMlUEj+D3MPx2IafgPgOABkxaVTx0
- 1AlA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRqmc-0006QM-Bt
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 02:31:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nRqmX-0001XM-QE
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 02:30:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646811047;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BdIMgO+vW+ACu+cUR3GEWxDDEWwgLBRVaOHcVnSPSVs=;
+ b=i2g55pJ4IAcMjx4EzZeR4qkIgLwKfbMLCPCGPgThYmexlAb05D+nyL36X0OQJeLtry+RUM
+ W/WBK/QPLKozHpoG//8EquD0L6Fv4OF+ClI9pXyw4gCRdawQaO5wEou8HtDd31PrPBWOFS
+ LeFD2Gtg9tK6T4z3jwc999AnpDQvLn4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-528-jaBqgR7UOPK6C3N5zkaOMA-1; Wed, 09 Mar 2022 02:30:46 -0500
+X-MC-Unique: jaBqgR7UOPK6C3N5zkaOMA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ a11-20020adffb8b000000b001efe754a488so437546wrr.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 23:30:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=nYGU51qxik7KEWVZ/+CRCkpXw5zWnO9NadXagowA25A=;
- b=ZE4timaI3fULhSdu4gzucFgOT0bPR9/h+4xOf0+OOGuYhDa846qEzsHnKqcKgpRx8K
- 8nR6a9Q5FjFMXKoD7G1AAqafC2vqak62XFUIWy3d6TrOlnQbMbRhNLhxLamT5yzu6xgr
- Pt5hrKaKDYMg1EhwPtRIUU9vjp3qBRH0NfRAUpdzwRYLSsWV6ucPFp0nfMwvBIff8C0h
- t5ROf8Xd1LdI3JJI6zyOU4Osc9tE5y/NdNTsLcjWkSCK+YLv3apOoiuct80HKtqY8cec
- bxf+IexwoNXMzbnkumhzQGXh5SDN0svCbU0ArYWp2Odt4RaumqlcwiRSoRA/h+9JkSd/
- mg7A==
-X-Gm-Message-State: AOAM531trHJaG091rGd5w4r6Kyumg6vMWLRTfJN0o36Yhft7UYnM2lsE
- jd2d/3vrd3ojwd8gW69qOL6DWQ==
-X-Google-Smtp-Source: ABdhPJwWuzi1pC6B/D7sIz1GRC5RIp5jadJA6+TL95qeVZIrC+fEAs2lmKPLpGa1tkiycouGlpvjFg==
-X-Received: by 2002:a17:902:ce08:b0:14f:85c1:773e with SMTP id
- k8-20020a170902ce0800b0014f85c1773emr21396548plg.99.1646810252123; 
- Tue, 08 Mar 2022 23:17:32 -0800 (PST)
-Received: from anisinha-lenovo ([203.212.242.189])
- by smtp.googlemail.com with ESMTPSA id
- q15-20020a63504f000000b0037425262293sm1242743pgl.43.2022.03.08.23.17.29
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=BdIMgO+vW+ACu+cUR3GEWxDDEWwgLBRVaOHcVnSPSVs=;
+ b=p3JwB+VC1rjGecMUrcRrTmPk8+ZL6KD2MYSEsJ/oL1yRghk826PtXjkFv47TyCf8h/
+ p6x9ErrFBoqWmukRLZ+TTSyEwjXb2QBMTInNQbUZz/dx4mClP0libAY0fH4frbBsGlL9
+ +X6I9jliMwaZr2vetO41OFeiqVdKmKJbvUwfM8yxrA2BMWLxMj7VyAQxCKiIUBBboB3C
+ owthD7f8YkZ55Ynl0PtH2EKRZRoeFONld0AFUANMN38NUE5Ec7XDxQCHfqnKuGeiUlBE
+ igYspxTGjPka2nEc2ReKsQPrh4z2XHrpeqI8pIM3EMXk1fLyXzCRnRh4XAZ+hxOZ2Bjv
+ TsOQ==
+X-Gm-Message-State: AOAM530qel+9n1hiEeSa+cNcvB9dw7SSgiUQzt10/E3RZYehsO4q6ITZ
+ 3NHCNHGR/PDh2koDfjFFTBUdVG+IMV8/dPmwTkIdHNbkCTW4qD2PiVzS7723YtvmjfnvKtDjhil
+ UGtUDgdcGYBJAgFc=
+X-Received: by 2002:a5d:49c9:0:b0:1f0:16b2:584f with SMTP id
+ t9-20020a5d49c9000000b001f016b2584fmr14912303wrs.710.1646811045146; 
+ Tue, 08 Mar 2022 23:30:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwnotz408aC23A9IZAD87LSAQWy359msZHiQrQ7WqskF3fUEstezB9Epmp0u54T+VlgDtCoow==
+X-Received: by 2002:a5d:49c9:0:b0:1f0:16b2:584f with SMTP id
+ t9-20020a5d49c9000000b001f016b2584fmr14912264wrs.710.1646811044873; 
+ Tue, 08 Mar 2022 23:30:44 -0800 (PST)
+Received: from redhat.com ([2.55.46.250]) by smtp.gmail.com with ESMTPSA id
+ f13-20020adff8cd000000b001f03439743fsm877350wrq.75.2022.03.08.23.30.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Mar 2022 23:17:31 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Wed, 9 Mar 2022 12:47:26 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [libvirt] [PATCH RESEND v2 0/4] re-introduce <acpi-hotplug-bridge>
-In-Reply-To: <20220308121820-mutt-send-email-mst@kernel.org>
-Message-ID: <alpine.DEB.2.22.394.2203091245190.2312236@anisinha-lenovo>
-References: <20220308063955.2285902-1-ani@anisinha.ca>
- <399ca3a9-8b95-39af-8376-85f2edf00c7e@redhat.com>
- <f744a5f1-6dde-4b57-d52a-9b6104c5e510@redhat.com>
- <alpine.DEB.2.22.394.2203082212120.2312236@anisinha-lenovo>
- <20220308114638-mutt-send-email-mst@kernel.org>
- <CAARzgwwo6weTL8Q_2vbx9s2+r_LerEgDiWRLEJvgyC=YNVOVFw@mail.gmail.com>
- <20220308121820-mutt-send-email-mst@kernel.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ Tue, 08 Mar 2022 23:30:43 -0800 (PST)
+Date: Wed, 9 Mar 2022 02:30:38 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH v5 00/15] vDPA shadow virtqueue
+Message-ID: <20220309023020-mutt-send-email-mst@kernel.org>
+References: <20220308020348-mutt-send-email-mst@kernel.org>
+ <CACGkMEvY-+XpPWbtiX9dy+fwDxPp7sHFhH_LY0PB2YuusEugyw@mail.gmail.com>
+ <20220308022300-mutt-send-email-mst@kernel.org>
+ <CACGkMEvuTPCRk7Ng7CbgpPSPgs_QYijzc5fU+cV3kW09W1R7Qg@mail.gmail.com>
+ <20220308024724-mutt-send-email-mst@kernel.org>
+ <CACGkMEsPBDM8ko1qgnCR1DcofPNJJo3S2j3pOJHk4xaSGQimcQ@mail.gmail.com>
+ <20220308054623-mutt-send-email-mst@kernel.org>
+ <CAJaqyWcuitG+01pjO__tYERN9910fL_JGiHG88xU=fTG3KmpJw@mail.gmail.com>
+ <20220308071253-mutt-send-email-mst@kernel.org>
+ <56b837a6-c67d-5ffc-bd70-ba51d996a6c2@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::632;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <56b837a6-c67d-5ffc-bd70-ba51d996a6c2@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,50 +107,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, jusual@redhat.com,
- qemu list <qemu-devel@nongnu.org>, Laine Stump <laine@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
+ Eugenio Perez Martin <eperezma@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Parav Pandit <parav@mellanox.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Mar 09, 2022 at 11:38:35AM +0800, Jason Wang wrote:
+> 
+> 在 2022/3/8 下午8:16, Michael S. Tsirkin 写道:
+> > On Tue, Mar 08, 2022 at 12:37:33PM +0100, Eugenio Perez Martin wrote:
+> > > On Tue, Mar 8, 2022 at 11:48 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > > On Tue, Mar 08, 2022 at 04:20:53PM +0800, Jason Wang wrote:
+> > > > > > Not by itself but I'm not sure we can guarantee guest will not
+> > > > > > attempt to use the IOVA addresses we are reserving down
+> > > > > > the road.
+> > > > > The IOVA is allocated via the listeners and stored in the iova tree
+> > > > > per GPA range as IOVA->(GPA)->HVA.Guests will only see GPA, Qemu
+> > > > > virtio core see GPA to HVA mapping. And we do a reverse lookup to find
+> > > > > the HVA->IOVA we allocated previously.  So we have double check here:
+> > > > > 
+> > > > > 1) Qemu memory core to make sure the GPA that guest uses is valid
+> > > > > 2) the IOVA tree that guarantees there will be no HVA beyond what
+> > > > > guest can see is used
+> > > > > 
+> > > > > So technically, there's no way for the guest to use the IOVA address
+> > > > > allocated for the shadow virtqueue.
+> > > > > 
+> > > > > Thanks
+> > > > I mean, IOVA is programmed in the host hardware to translate to HPA, right?
+> > > > 
+> > > Yes, that's right if the device uses physical maps. Also to note, SVQ
+> > > vring is allocated in multiples of host huge pages to avoid garbage or
+> > > unintended access from the device.
+> > > 
+> > > If a vdpa device uses physical addresses, kernel vdpa will pin qemu
+> > > memory first and then will send IOVA to HPA translation to hardware.
+> > > But this IOVA space is not controlled by the guest, but by SVQ. If a
+> > > guest's virtqueue buffer cannot be translated first to GPA, it will
+> > > not be forwarded.
+> > > 
+> > > Thanks!
+> > Right. So if guests send a buffer where buffer address overlaps the
+> > range we used for the SVQ, then I think at the moment guest won't work.
+> 
+> 
+> There's no way for a guest to do this, it can only use GPA
 
+With a vIOMMU it can.
 
-On Tue, 8 Mar 2022, Michael S. Tsirkin wrote:
-
-> On Tue, Mar 08, 2022 at 10:23:20PM +0530, Ani Sinha wrote:
-> > On Tue, Mar 8, 2022 at 10:17 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > On Tue, Mar 08, 2022 at 10:15:11PM +0530, Ani Sinha wrote:
-> > > >
-> > > >
-> > > > On Tue, 8 Mar 2022, Laine Stump wrote:
-> > > >
-> > > > > Aha! the domain of qemu-devel@nongnu.org was incorrect in the original send
-> > > > > (it was "nognu.org"), so none of this thread was making it to that list.
-> > > >
-> > > >
-> > > > Not to give any excuses but this happened because on Qemu side I never
-> > > > have to type this manually. My git config is set up so that
-> > > > the cc in send-email is filled up automatically using
-> > > > scripts/get_maintainer.pl. On libvirt side also the domain and mailing
-> > > > list is easy to remember. Its only when I have to manually type stuff that
-> > > > shit happens :-)
-> > >
-> > > Donnu about alpine, but with mutt you can easily set up
-> > > and alias and then it expands for you.
-> >
-> > I use alpine to only reply/review patches. I use git send-email to
-> > actually send the patch. There I am not sure the best way to avoid
-> > manually typing in the mailing list address.
->
-> send-email supports aliases too.
-
-Ah cool. I just set this up with some help from
-https://felipec.wordpress.com/2009/10/25/git-send-email-tricks/ . Now I
-can simply say
-
-$ git send-email --to=qemu-list <patch>
-
-without worrying about typo :-) Thanks for the pointer.
+> but the Qemu
+> won't let vDPA to use GPA as IOVA. Dedicated IOVA ranges were allocated for
+> those GPA ranges so SVQ won't use IOVA that is overlapped with what Guest
+> use.
+> 
+> Thanks
+> 
+> 
+> > 
 
 
