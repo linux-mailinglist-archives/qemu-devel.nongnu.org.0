@@ -2,40 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEFDA4D39A3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 20:14:42 +0100 (CET)
-Received: from localhost ([::1]:53776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2B24D399A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 20:12:00 +0100 (CET)
+Received: from localhost ([::1]:49230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nS1li-0002Mb-0z
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 14:14:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46752)
+	id 1nS1j5-0007UP-AH
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 14:11:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <51e7f12fad3f36ce166e2f6e415784b13c4df5c4@lizzy.crudebyte.com>)
- id 1nS1jx-00011Q-Mr
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:12:53 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:37147)
+ id 1nS1hw-0006fA-Tx
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:10:49 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:53873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <51e7f12fad3f36ce166e2f6e415784b13c4df5c4@lizzy.crudebyte.com>)
- id 1nS1jw-0004jp-6A
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:12:53 -0500
+ id 1nS1hv-0004GZ-Dq
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:10:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=LLaVFJXt6ye6hukG82NJJ1PyuRvSgPlK/UTJCur82V0=; b=eea5d
- MrY7wnzu2+43AZNa0NZ/a+tu9ny7uvet3NwOhBLA/Q7Cevon7C/WytxXOFIv1Fri4nactiCnCd+Jq
- g8saYMwUyVKjEhldbvjiilHF2xWhDObN7Unz6gS1yPJK/k9o15+rAHW/gQD6dEb9FVKm5nCnRLuz5
- XvtF9I32YQXKpeO/9Gs6ev39LvVh8+LOlpi96QMJP7mh1buqk8hioXNIPn/eY9kNrGtGxLm6GXA17
- nwC0uIp2zlqose/9OfRiV1CDe1ubLPHpxOg0vu4rXVjfoLOPEwZLpGdCJXs692j3FF9ainqyQRXEf
- ixWKrPlTKJOKt2dT3ANkw4GcyGgMg==;
-Message-Id: <51e7f12fad3f36ce166e2f6e415784b13c4df5c4.1646850707.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1646850707.git.qemu_oss@crudebyte.com>
-References: <cover.1646850707.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=PzZjm0V43CI2P9SZOhq5QHw2/Pd3QX290y9wEK0E28g=; b=eLkG3
+ cFfw18lzQs1IT9lU+RLGRfxtw+sf9OTMauFFF2i0G7O/mqjWazTU3mIM+f8DxPc7rZeGBeJIFE/td
+ xar0SfKp7zG6ZrPGKGlhhsy/epoV4udOKzWRa4xEhmevWruNPumLpE+wUtrg2Me/fkmAgEq1+Ef4z
+ T0D6UttcQfNf4TsB9bwc7K4AYwwX7fI+opeKYPcER70UkaJZTKNe5Mhr7mL0QcAQK4Se7uYyGfBRl
+ TZ7VzNax+7MS+l8X/1mp0QngSbDvVLOob8zNeTEI8H3T2K1U39r4c11m3AAXLF+XPPkGlAN4Doj69
+ mudKiRBvhuHtesXHLoRb4Rs5sh0rA==;
+Message-Id: <cover.1646850707.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Wed, 9 Mar 2022 19:21:18 +0100
-Subject: [PATCH 6/6] tests/9pfs: guard recent 'Twalk' behaviour fix
+Date: Wed, 9 Mar 2022 19:31:47 +0100
+Subject: [PATCH 0/6] 9pfs: fix 'Twalk' protocol violation
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
@@ -62,102 +60,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous 9p patch fixed 'Twalk' request handling, which was previously not
-behaving as specified by the 9p2000 protocol spec. This patch adds a new test
-case which guards the new 'Twalk' behaviour in question.
+Currently the implementation of 'Twalk' does not behave exactly as specified
+by the 9p2000 protocol specification. Actual fix is patch 5; see the
+description of that patch for details of what this overall fix and series is
+about.
 
-More specifically: it sends a 'Twalk' request where the 1st path component
-is valid, whereas the 2nd path component transmitted to server does not
-exist. The expected behaviour is that 9p server would respond by sending
-a 'Rwalk' response with exactly 1 QID (instead of 'Rlerror' response).
+Patch 4 is a preparatory (pure) refactoring change to make patch 5 better
+readable.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- tests/qtest/virtio-9p-test.c | 42 +++++++++++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 3 deletions(-)
+All the other patches are just additional test cases for guarding 'Twalk'
+behaviour.
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 9098e21173..f29de1ca64 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -638,8 +638,12 @@ static void do_version(QVirtio9P *v9p)
-     g_assert_cmpmem(server_version, server_len, version, strlen(version));
- }
- 
--/* utility function: walk to requested dir and return fid for that dir */
--static uint32_t do_walk(QVirtio9P *v9p, const char *path)
-+/*
-+ * utility function: walk to requested dir and return fid for that dir and
-+ * the QIDs of server response
-+ */
-+static uint32_t do_walk_rqids(QVirtio9P *v9p, const char *path, uint16_t *nwqid,
-+                              v9fs_qid **wqid)
- {
-     char **wnames;
-     P9Req *req;
-@@ -649,12 +653,18 @@ static uint32_t do_walk(QVirtio9P *v9p, const char *path)
- 
-     req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rwalk(req, NULL, NULL);
-+    v9fs_rwalk(req, nwqid, wqid);
- 
-     split_free(&wnames);
-     return fid;
- }
- 
-+/* utility function: walk to requested dir and return fid for that dir */
-+static uint32_t do_walk(QVirtio9P *v9p, const char *path)
-+{
-+    return do_walk_rqids(v9p, path, NULL, NULL);
-+}
-+
- /* utility function: walk to requested dir and expect passed error response */
- static void do_walk_expect_error(QVirtio9P *v9p, const char *path, uint32_t err)
- {
-@@ -1048,9 +1058,33 @@ static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
-     alloc = t_alloc;
- 
-     do_attach(v9p);
-+    /*
-+     * The 9p2000 protocol spec sais: "If the first element cannot be walked
-+     * for any reason, Rerror is returned."
-+     */
-     do_walk_expect_error(v9p, "non-existent", ENOENT);
- }
- 
-+static void fs_walk_2nd_nonexistent(void *obj, void *data,
-+                                    QGuestAllocator *t_alloc)
-+{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    uint16_t nwqid;
-+    g_autofree v9fs_qid *wqid = NULL;
-+    g_autofree char *path = g_strdup_printf(
-+        QTEST_V9FS_SYNTH_WALK_FILE "/non-existent", 0
-+    );
-+
-+    do_attach(v9p);
-+    do_walk_rqids(v9p, path, &nwqid, &wqid);
-+    /*
-+     * The 9p2000 protocol spec sais: "nwqid is therefore either nwname or the
-+     * index of the first elementwise walk that failed."
-+     */
-+    assert(nwqid == 1);
-+}
-+
- static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-@@ -1531,6 +1565,8 @@ static void register_virtio_9p_test(void)
-                  fs_walk_dotdot,  &opts);
-     qos_add_test("synth/walk/non_existent", "virtio-9p", fs_walk_nonexistent,
-                   &opts);
-+    qos_add_test("synth/walk/2nd_non_existent", "virtio-9p",
-+                 fs_walk_2nd_nonexistent, &opts);
-     qos_add_test("synth/lopen/basic", "virtio-9p", fs_lopen,  &opts);
-     qos_add_test("synth/write/basic", "virtio-9p", fs_write,  &opts);
-     qos_add_test("synth/flush/success", "virtio-9p", fs_flush_success,
+Christian Schoenebeck (6):
+  tests/9pfs: walk to non-existent dir
+  tests/9pfs: Twalk with nwname=0
+  tests/9pfs: compare QIDs in fs_walk_none() test
+  9pfs: refactor 'name_idx' -> 'nvalid' in v9fs_walk()
+  9pfs: fix 'Twalk' to only send error if no component walked
+  tests/9pfs: guard recent 'Twalk' behaviour fix
+
+ hw/9pfs/9p.c                 |  43 ++++++----
+ tests/qtest/virtio-9p-test.c | 162 ++++++++++++++++++++++++++++++++++-
+ 2 files changed, 188 insertions(+), 17 deletions(-)
+
 -- 
 2.30.2
 
