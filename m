@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC324D2DBA
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:14:43 +0100 (CET)
-Received: from localhost ([::1]:41982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34464D2DB2
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:11:57 +0100 (CET)
+Received: from localhost ([::1]:33802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRuHD-0006XA-1a
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:14:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40824)
+	id 1nRuEW-0000oN-JZ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:11:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuBb-00067F-9h
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:08:55 -0500
-Received: from [2001:41c9:1:41f::167] (port=35664
+ id 1nRuBd-0006As-6Z
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:08:57 -0500
+Received: from [2001:41c9:1:41f::167] (port=35672
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuBZ-0005BX-3j
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:08:54 -0500
+ id 1nRuBb-0005Bp-O4
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:08:56 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuAu-000CWr-36; Wed, 09 Mar 2022 11:08:12 +0000
+ id 1nRuAu-000CWr-Dq; Wed, 09 Mar 2022 11:08:16 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Wed,  9 Mar 2022 11:08:11 +0000
-Message-Id: <20220309110831.18443-3-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  9 Mar 2022 11:08:12 +0000
+Message-Id: <20220309110831.18443-4-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
 References: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 02/22] mac_via: use IFR bit flag constants for VIA1 IRQs
+Subject: [PULL 03/22] mac_via: use IFR bit flag constants for VIA2 IRQs
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -72,46 +73,46 @@ IFR bit flags.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220305150957.5053-3-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220305150957.5053-4-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- include/hw/misc/mac_via.h | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ include/hw/misc/mac_via.h | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/include/hw/misc/mac_via.h b/include/hw/misc/mac_via.h
-index b445565866..b0535c84da 100644
+index b0535c84da..0af346366e 100644
 --- a/include/hw/misc/mac_via.h
 +++ b/include/hw/misc/mac_via.h
-@@ -18,19 +18,19 @@
- #define VIA_SIZE   0x2000
- 
- /* VIA 1 */
--#define VIA1_IRQ_ONE_SECOND_BIT 0
--#define VIA1_IRQ_60HZ_BIT       1
--#define VIA1_IRQ_ADB_READY_BIT  2
--#define VIA1_IRQ_ADB_DATA_BIT   3
--#define VIA1_IRQ_ADB_CLOCK_BIT  4
-+#define VIA1_IRQ_ONE_SECOND_BIT CA2_INT_BIT
-+#define VIA1_IRQ_60HZ_BIT       CA1_INT_BIT
-+#define VIA1_IRQ_ADB_READY_BIT  SR_INT_BIT
-+#define VIA1_IRQ_ADB_DATA_BIT   CB2_INT_BIT
-+#define VIA1_IRQ_ADB_CLOCK_BIT  CB1_INT_BIT
- 
- #define VIA1_IRQ_NB             8
- 
--#define VIA1_IRQ_ONE_SECOND     (1 << VIA1_IRQ_ONE_SECOND_BIT)
--#define VIA1_IRQ_60HZ           (1 << VIA1_IRQ_60HZ_BIT)
--#define VIA1_IRQ_ADB_READY      (1 << VIA1_IRQ_ADB_READY_BIT)
--#define VIA1_IRQ_ADB_DATA       (1 << VIA1_IRQ_ADB_DATA_BIT)
--#define VIA1_IRQ_ADB_CLOCK      (1 << VIA1_IRQ_ADB_CLOCK_BIT)
-+#define VIA1_IRQ_ONE_SECOND     BIT(VIA1_IRQ_ONE_SECOND_BIT)
-+#define VIA1_IRQ_60HZ           BIT(VIA1_IRQ_60HZ_BIT)
-+#define VIA1_IRQ_ADB_READY      BIT(VIA1_IRQ_ADB_READY_BIT)
-+#define VIA1_IRQ_ADB_DATA       BIT(VIA1_IRQ_ADB_DATA_BIT)
-+#define VIA1_IRQ_ADB_CLOCK      BIT(VIA1_IRQ_ADB_CLOCK_BIT)
+@@ -80,19 +80,18 @@ struct MOS6522Q800VIA1State {
  
  
- #define TYPE_MOS6522_Q800_VIA1 "mos6522-q800-via1"
+ /* VIA 2 */
+-#define VIA2_IRQ_SCSI_DATA_BIT  0
+-#define VIA2_IRQ_NUBUS_BIT      1
+-#define VIA2_IRQ_UNUSED_BIT     2
+-#define VIA2_IRQ_SCSI_BIT       3
+-#define VIA2_IRQ_ASC_BIT        4
++#define VIA2_IRQ_SCSI_DATA_BIT  CA2_INT_BIT
++#define VIA2_IRQ_NUBUS_BIT      CA1_INT_BIT
++#define VIA2_IRQ_SCSI_BIT       CB2_INT_BIT
++#define VIA2_IRQ_ASC_BIT        CB1_INT_BIT
+ 
+ #define VIA2_IRQ_NB             8
+ 
+-#define VIA2_IRQ_SCSI_DATA      (1 << VIA2_IRQ_SCSI_DATA_BIT)
+-#define VIA2_IRQ_NUBUS          (1 << VIA2_IRQ_NUBUS_BIT)
+-#define VIA2_IRQ_UNUSED         (1 << VIA2_IRQ_SCSI_BIT)
+-#define VIA2_IRQ_SCSI           (1 << VIA2_IRQ_UNUSED_BIT)
+-#define VIA2_IRQ_ASC            (1 << VIA2_IRQ_ASC_BIT)
++#define VIA2_IRQ_SCSI_DATA      BIT(VIA2_IRQ_SCSI_DATA_BIT)
++#define VIA2_IRQ_NUBUS          BIT(VIA2_IRQ_NUBUS_BIT)
++#define VIA2_IRQ_UNUSED         BIT(VIA2_IRQ_SCSI_BIT)
++#define VIA2_IRQ_SCSI           BIT(VIA2_IRQ_UNUSED_BIT)
++#define VIA2_IRQ_ASC            BIT(VIA2_IRQ_ASC_BIT)
+ 
+ #define VIA2_NUBUS_IRQ_NB       7
+ 
 -- 
 2.20.1
 
