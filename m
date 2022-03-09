@@ -2,56 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E764D2ACB
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 09:44:39 +0100 (CET)
-Received: from localhost ([::1]:33620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01ABE4D2AE9
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 09:51:14 +0100 (CET)
+Received: from localhost ([::1]:35934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRrvx-0007Ah-MH
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 03:44:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38518)
+	id 1nRs2K-00010s-0M
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 03:51:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nRrsT-0005gC-Q8
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:41:03 -0500
-Received: from [2a00:1450:4864:20::42d] (port=43572
- helo=mail-wr1-x42d.google.com)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nRs0T-000079-He
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:49:17 -0500
+Received: from [2607:f8b0:4864:20::1035] (port=37672
+ helo=mail-pj1-x1035.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nRrsS-0007VM-8i
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:41:01 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id e24so1799028wrc.10
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 00:40:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1nRs0R-0000Ef-W6
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:49:17 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ lj8-20020a17090b344800b001bfaa46bca3so1484618pjb.2
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 00:49:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3X6dm4xwJ4xHnM3RihZ6mkJcQkcSqH3VKovkqhQIvzI=;
- b=WXXgmLXXAOxMmyulZ0KGEDGQHVGjET6AWUP7E6mdvs86vfX48xsJ/P4VSKvi3WSO6A
- 9oyZPzu/uQYHQHAAzzbjG2cCg9BQVYITNajHkVbZoo0/UNkCkbYvWQRByARCaAMZKiKJ
- h0OZmSjsL56fGckHgKctn0vrARD5TUXH7y/2Jxa9sO6VQ722HoXjavlSnObeh0TUaj3J
- wcqB98wlOcOvvHdxaypJ0ULuOF0w2iPfB+wTT0kEvEJYKxVWtG470RfaR2skrSegdAe2
- Uo8GBzdw5JSl7i/nN0D9N4V4LLDzIIXKW+TQTY1Va7bvCk1BL+g9bxE6ovQjD++2zDxr
- jKQA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=gQIIDIjIGRydH3d2lD4vUGVvF7icq8NqLj3rjaxV0KI=;
+ b=b/kcNo4hhSwrNKV4nvDYVNhnnCgVvS5n34g63Qu/F2jxXRj07467zCu2tZkXvvyM0N
+ m2BqkSkBnoif0zsMImScDlCABpltmNZDV4lRlSDg6OL67PRWNNDfbW2KBkR9LkXlmAkX
+ MPMr8oP4QvMextfQniz+Zq7EPjdNKvYBQK8iIcQrtbmCYrAOKfD8jFdlETJhcrHBFaGN
+ 2a8l9YfH2AUKjieqSY5GcPXqKRURJTXn9IBKyKbkJckUDJqpiOh2wIJmXPZO3gBRWW/V
+ l2sJTwc9nkHAhdOy+9DSjVo38sQQy3U5fq5g9qQwTvyVEeY36QTPI4kk7c0j06lCRYCk
+ vPxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3X6dm4xwJ4xHnM3RihZ6mkJcQkcSqH3VKovkqhQIvzI=;
- b=ZH5BLkscUEJycom+fQ0fV/a/uurxY7bWeO8/oT0AQ4mq3bdvcHjt+2LENYwURbiOIq
- cnX3UyMB5xuE28dJhFxxPNOfXELwIZCkdLj8Ts1RoZblw0rqZQnqzW/8pBHoSeKkbjTE
- /zr3H8hKjoJcloqUbtZfFBq10k5kf/2jIT+N9/K1qhw/NThiigkGXBBhCS/g0lzh9O0S
- TSA1CZIQDjprCsWMx6Mx+awBMJPdmIboxq3iGWL1dTQg+s/lmKj/NkFsuDRa+V2kAB3+
- ptMgMe12cZ7CpyCuj7LWVq2kyG67z57q/gLxvel/vM0eiEoaeyHpixxr0nhvb1ZzwWOv
- xH+A==
-X-Gm-Message-State: AOAM530mLQKc5h6RroxvOw6Hj59d8yuLKldKY7IwQJRvvgqU62tM+R3R
- QYFOjr0vwRnau+gAVC1/M5EuScQ6jppQCVrwUHU=
-X-Google-Smtp-Source: ABdhPJyKa2nVQT1dJwWwCmM9XV6TmprRPEBg5qG5f8KgLYEY1LoM6+KVUE6KliXybu/EVSld0Q5ZItviL8WXkXetYKk=
-X-Received: by 2002:a5d:58d3:0:b0:1f1:dfb1:ab63 with SMTP id
- o19-20020a5d58d3000000b001f1dfb1ab63mr15020308wrf.326.1646815258873; Wed, 09
- Mar 2022 00:40:58 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=gQIIDIjIGRydH3d2lD4vUGVvF7icq8NqLj3rjaxV0KI=;
+ b=P5lE4m5fs4eaYvckulMmcRxKgdVommCH71yramXbiLDh1J/ASJLop70D2gKjsYhTKD
+ UMif1WbA9U1fLlRI+jS9jXzw2/WJJ9ijGDvLgs6igljQ8kT7wIdx4RoSC+t+N93Gw3Dh
+ VUYMU8ecVpjRTZHep2jaajCTnfSiywZyU8M1PdMXOBWCeteuTH3M4MuW8mz2kXfe+V/4
+ 3SGA2WXMWBsL2og9Uu4yuPUo6+SbvkmTmmIOuzxd/mvPf/OF2813bnhmM0GAXfGYNFJ9
+ /sE5vsos8PAn5jt0UKrdf+6SBiyvYE9tb03gjSw5XooUsza/naGid6+U6AdqPeTFk/h9
+ UFLA==
+X-Gm-Message-State: AOAM533EvPE+FOqPe7TZsdttjw1Q3s8OBlvMkCmu/YAl3G/mD/dFXJPq
+ PrZdm+dfCif20SJVkw02FCA=
+X-Google-Smtp-Source: ABdhPJz2oNKTwEhNpLp+RqOGlN3oEMTcM4YXIfJmUTdAVlBuwbv2UrvQ0woUv1+KOQDxSyJXRIX0pw==
+X-Received: by 2002:a17:902:f605:b0:14d:9e11:c864 with SMTP id
+ n5-20020a170902f60500b0014d9e11c864mr21796785plg.54.1646815754847; 
+ Wed, 09 Mar 2022 00:49:14 -0800 (PST)
+Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id
+ d14-20020a056a0024ce00b004f7281cda21sm1780394pfv.167.2022.03.09.00.49.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Mar 2022 00:49:14 -0800 (PST)
+Message-ID: <c080b8ce-c88f-aa37-f47d-1709c9e6dce5@gmail.com>
+Date: Wed, 9 Mar 2022 17:49:12 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
+ current scanout is GL
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
 References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
- <20220307074632.238049-13-marcandre.lureau@redhat.com>
- <c80fde18-bb3e-e780-356c-f935e7390e4d@gmail.com>
  <CAMxuvaw_QT4wEGLZRNJEd1m-58JV-8AOc6CHKkMw4i_yrVNgew@mail.gmail.com>
  <28ef9b06-3225-112f-b664-176e67c824d9@gmail.com>
  <CAMxuvaz3+ySgiOxawVT=P7x4ikDcap0o5Ux78_HdewL0XXa5Kg@mail.gmail.com>
@@ -66,24 +80,21 @@ References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
  <2517a6b9-cc34-3bb1-d17e-d4e30f0e68b7@gmail.com>
  <CAJ+F1CKrDnYdMKNh1nu8LjnQ=gJ9-umgGHW-E1D1sFO1gf=Rdg@mail.gmail.com>
  <76c68a33-b157-f127-36ee-034290bf3e4b@gmail.com>
-In-Reply-To: <76c68a33-b157-f127-36ee-034290bf3e4b@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 9 Mar 2022 12:40:46 +0400
-Message-ID: <CAJ+F1CLvKn3r68f7LvCP-2Rni_0G7Z21jZrPqNCByHoL6WL+8Q@mail.gmail.com>
-Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
- current scanout is GL
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000084142d05d9c50ea0"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+ <CAJ+F1CLvKn3r68f7LvCP-2Rni_0G7Z21jZrPqNCByHoL6WL+8Q@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <CAJ+F1CLvKn3r68f7LvCP-2Rni_0G7Z21jZrPqNCByHoL6WL+8Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: 3
-X-Spam_score: 0.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001, FREEMAIL_REPLY=1,
- HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -102,90 +113,66 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000084142d05d9c50ea0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2022/03/09 17:40, Marc-André Lureau wrote:
+> Hi
+> 
+> On Wed, Mar 9, 2022 at 12:34 PM Akihiko Odaki <akihiko.odaki@gmail.com 
+> <mailto:akihiko.odaki@gmail.com>> wrote:
+> 
+>     On 2022/03/09 17:33, Marc-André Lureau wrote:
+>      > Hi
+>      >
+>      > On Wed, Mar 9, 2022 at 12:21 PM Akihiko Odaki
+>     <akihiko.odaki@gmail.com <mailto:akihiko.odaki@gmail.com>
+>      > <mailto:akihiko.odaki@gmail.com
+>     <mailto:akihiko.odaki@gmail.com>>> wrote:
+>      >
+>      >
+>      >     If it is expected that dpy_gfx_update is required, it should call
+>      >     dpy_gfx_update. I agree it is not a right timing to fix vnc
+>     to remove
+>      >     the implicit update as it is pre-existing.
+>      >     However the lack of dpy_gfx_update call is a regression and
+>     should
+>      >     be fixed.
+>      >
+>      >
+>      > Calling dpy_gfx_update is done when the scanount.kind is SURFACE.
+>      >
+>      > dpy_gfx_update is specific to SURFACE, GL uses dpy_gl_update.
+>      >
+>      > --
+>      > Marc-André Lureau
+> 
+>     egl-headless requires non-OpenGL to display the surface content even if
+>     scanout.kind is not SURFACE. Calling dpy_gfx_update is done when the
+>     scanount.kind is SURFACE is not enough.
+> 
+> 
+> We are going in circles... egl-headless call dpy_gfx_update on 
+> dpy_gl_update.
+> -- 
+> Marc-André Lureau
 
-Hi
+Ok, let me summarize the situation.
 
-On Wed, Mar 9, 2022 at 12:34 PM Akihiko Odaki <akihiko.odaki@gmail.com>
-wrote:
+The problem occurs in the following condition.
+1. register_displaychangelistener of console_select is called for a 
+non-OpenGL display.
+2. scanout.kind is SURFACE_TEXTURE or SURFACE_DMABUF.
+3. egl-headless is employed.
 
-> On 2022/03/09 17:33, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
-> >
-> > On Wed, Mar 9, 2022 at 12:21 PM Akihiko Odaki <akihiko.odaki@gmail.com
-> > <mailto:akihiko.odaki@gmail.com>> wrote:
-> >
-> >
-> >     If it is expected that dpy_gfx_update is required, it should call
-> >     dpy_gfx_update. I agree it is not a right timing to fix vnc to remo=
-ve
-> >     the implicit update as it is pre-existing.
-> >     However the lack of dpy_gfx_update call is a regression and should
-> >     be fixed.
-> >
-> >
-> > Calling dpy_gfx_update is done when the scanount.kind is SURFACE.
-> >
-> > dpy_gfx_update is specific to SURFACE, GL uses dpy_gl_update.
-> >
-> > --
-> > Marc-Andr=C3=A9 Lureau
->
-> egl-headless requires non-OpenGL to display the surface content even if
-> scanout.kind is not SURFACE. Calling dpy_gfx_update is done when the
-> scanount.kind is SURFACE is not enough.
->
->
-We are going in circles... egl-headless call dpy_gfx_update on
-dpy_gl_update.
+dpy_gfx_switch and dpy_gfx_update need to be called to finish the 
+initialization or switching of the non-OpenGL display. However, the 
+proposed patch only calls dpy_gfx_switch.
 
---=20
-Marc-Andr=C3=A9 Lureau
+vnc actually does not need dpy_gfx_update because the vnc implementation 
+of dpy_gfx_switch implicitly does the work for dpy_gfx_update, but the 
+model of ui/console expects the two of dpy_gfx_switch and dpy_gfx_update 
+is separated and only calling dpy_gfx_switch violates the model. 
+dpy_gfx_update used to be called even in such a case before and it is a 
+regression.
 
---00000000000084142d05d9c50ea0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 9, 2022 at 12:34 PM Aki=
-hiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gma=
-il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On 2022/03/09 17:33, Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt; Hi<br>
-&gt; <br>
-&gt; On Wed, Mar 9, 2022 at 12:21 PM Akihiko Odaki &lt;<a href=3D"mailto:ak=
-ihiko.odaki@gmail.com" target=3D"_blank">akihiko.odaki@gmail.com</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:akihiko.odaki@gmail.com" target=3D"_blank=
-">akihiko.odaki@gmail.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0If it is expected that dpy_gfx_update is required, =
-it should call<br>
-&gt;=C2=A0 =C2=A0 =C2=A0dpy_gfx_update. I agree it is not a right timing to=
- fix vnc to remove<br>
-&gt;=C2=A0 =C2=A0 =C2=A0the implicit update as it is pre-existing.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0However the lack of dpy_gfx_update call is a regres=
-sion and should<br>
-&gt;=C2=A0 =C2=A0 =C2=A0be fixed.<br>
-&gt; <br>
-&gt; <br>
-&gt; Calling dpy_gfx_update is done when the scanount.kind is SURFACE.<br>
-&gt; <br>
-&gt; dpy_gfx_update is specific to SURFACE, GL uses dpy_gl_update.<br>
-&gt; <br>
-&gt; -- <br>
-&gt; Marc-Andr=C3=A9 Lureau<br>
-<br>
-egl-headless requires non-OpenGL to display the surface content even if <br=
->
-scanout.kind is not SURFACE. Calling dpy_gfx_update is done when the <br>
-scanount.kind is SURFACE is not enough.<br><br></blockquote><div><br></div>=
-<div>We are going in circles... egl-headless call dpy_gfx_update on dpy_gl_=
-update.<br></div><div>=C2=A0</div></div>-- <br><div dir=3D"ltr" class=3D"gm=
-ail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000084142d05d9c50ea0--
+Regards,
+Akihiko Odaki
 
