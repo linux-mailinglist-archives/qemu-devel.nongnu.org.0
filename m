@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B11CE4D3528
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 18:13:14 +0100 (CET)
-Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3B34D3517
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 18:07:30 +0100 (CET)
+Received: from localhost ([::1]:54664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRzs9-0003gZ-5v
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 12:13:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43166)
+	id 1nRzma-0003n5-Je
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 12:07:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRzZI-000280-JT
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 11:53:44 -0500
-Received: from [2607:f8b0:4864:20::b30] (port=44964
- helo=mail-yb1-xb30.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRzk8-0002Bs-KD; Wed, 09 Mar 2022 12:04:56 -0500
+Received: from [2607:f8b0:4864:20::52e] (port=40462
+ helo=mail-pg1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nRzZD-0007nd-Md
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 11:53:44 -0500
-Received: by mail-yb1-xb30.google.com with SMTP id u61so5598400ybi.11
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 08:53:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hnXmu6xyvFFF45iBCk28o5RnNmYk+3t0jKEKASCErL8=;
- b=xiS/r0w5bOZuwi1HZp4JEo480lMPzUE1CWMMyFsbVJAs+ECSo3/9tqRma4hP8UQVYh
- +YnYTUWRNew/ttU+Plsal7uYQ4vqzkyAwdMU/BSADDjJkIMx7XCiA7DBnXNVO+v7UwFa
- 4j5+3V4XgtcUcd242npXNKWCmMMGqYnu4WEi1umnBRnGum5ln/0iRy3EDYMO5dhdhaGt
- ZGWRPXYGeKL7QMTsomxKkDg4YMN0aZ/oDOKheY6aJ9cc3H/ecZzD9y72qa1se7K2vVUq
- KbWeJyMAWTwEr4ixi3ALI6BKHAq+1IglZfunSMazBn4/YVM34/fHhC4SzobgfDTVvmGS
- VjIw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nRzk3-0001EA-Dy; Wed, 09 Mar 2022 12:04:56 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id q29so1504074pgn.7;
+ Wed, 09 Mar 2022 09:04:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=7HPHWv5oAERz9dzMHyqBAcuESdGe8qnLjBk3T9oRTnU=;
+ b=MBSGiKc17qqwtp6B6uZ1Hd5pKFfhP2VsIVZrAPbTXZ93U5zLFRB8RluMeLKCIU9LHS
+ evTQlMsHkt7/s6nZ1/tJw9Fw0GmgfBE5KwD/NXnjwWx0RzVggkdL56vSy6Dwp7n/dIVg
+ xi/b+GdF5LV1Nbt6yntQTjvsuTfErrjifcRI858aWy1D6BVNv8Du4lPkwqHjPJ4sHO6L
+ GftsxBTjaa/LWHJx9RD66NcglLeGEj0+vNbz/sFe8wKlq+ESeeCNjzNlBZc1RxFcBEqO
+ +JEfu7bmeT4S1S1f5WmtE0GweTE986gGIsm2sC8LzZpCdBf5gXMCGiyrUOlq1HFV2cr7
+ jt1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hnXmu6xyvFFF45iBCk28o5RnNmYk+3t0jKEKASCErL8=;
- b=fq5ss3n1VHpd4G8MMOQ8MimVBn3jaIjRf0BPOr9a/U17uRCzEhg1DCpAVsMAmVt88Y
- gXA7NcbwCRNabUm9eLskC7qukCu9RBI0bt/r37FHlrXyMp2YEPjjnwa4Vo3WYnN4dXDu
- qGCAAGfHocxnJM4EOM17UzcsKaZTBrul1hOjkeye7oN14repNeiOGSKRF8ypMdB1AcNQ
- 0h4JA5+AW+qc1X4XxhaInb8P9o0jZ/OEHWiboU8QVq03+qJ8nmPQ9N7yc+j4OufUyJAe
- lO1yaRenHyMiarFL9UVj1ioHRqeBaqwcMeufaYwkfn5NfX7secTVIWDLyoc4C+naQXKm
- O5aw==
-X-Gm-Message-State: AOAM531n2Y0jkkyvxHqwHzXznjxD0Mz4AvBRwK29L5vBrZV/epjATb7c
- s34SFG9Z0lxKd+/aQvCgzBK/oPyBBknjQfFUidXCCQ==
-X-Google-Smtp-Source: ABdhPJwiwv/Co4D5/HVvqYMo+xYL17G1fhAhSHmYi84+aRRflMY6WtN5mJ//C4ico5ioqpGGgVqFD4JJTfSABSQOpcg=
-X-Received: by 2002:a25:d181:0:b0:629:1919:d8e5 with SMTP id
- i123-20020a25d181000000b006291919d8e5mr530024ybg.85.1646844818652; Wed, 09
- Mar 2022 08:53:38 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7HPHWv5oAERz9dzMHyqBAcuESdGe8qnLjBk3T9oRTnU=;
+ b=wDGPHIf2sSQeu0UGlkr55X6hwi2b1vH5GgMPF81hpfh8AAbiott36K7FF3t7icydzz
+ x8RFhGAluuKwCmYhaGTItJ2nJw+VDEiKcNZIX0f2sDUntLPd+hbSsnFB+FHiVTmor6qd
+ 5mB/iJo82Q0RXuZ3LrOSgD8qEraNvev9yLqgxRnfyKgc9c829DW0RKhYrtG5wVziwsUJ
+ G0uXDPAte/z3kqRff87JJEbd5AczB6utq7sziQIU6kGyi7w61DPczjvL1UAwqGPrzJdy
+ oDW0s6u7oa2HBYaaLtQDrSNCYM20XtK5CiS2KsKi3WJwP0zRPN1BLZOubjdpVntgrSAd
+ BAug==
+X-Gm-Message-State: AOAM531JTZKJFFkSeCHjvBRBBIcUSe/vAaay++tR0tUDNHYfRgQ4yNLt
+ AK7teSj39D9M5t57T7Hw5kg=
+X-Google-Smtp-Source: ABdhPJxZ8tCNhx5VPlrk0UB1HuuN1224YLsruWVveO/gRi7tGByTz86IKVIXvn7o1mwNwaWRhlfYoQ==
+X-Received: by 2002:a05:6a00:21c5:b0:4f7:2e26:d142 with SMTP id
+ t5-20020a056a0021c500b004f72e26d142mr654973pfj.83.1646845489773; 
+ Wed, 09 Mar 2022 09:04:49 -0800 (PST)
+Received: from [192.168.1.34] (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
+ b62-20020a633441000000b0037c794cb68fsm2878280pga.9.2022.03.09.09.04.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Mar 2022 09:04:49 -0800 (PST)
+Message-ID: <077efd4c-570e-155e-811a-433c4f201df7@gmail.com>
+Date: Wed, 9 Mar 2022 18:04:45 +0100
 MIME-Version: 1.0
-References: <CAFEAcA87VaeHzW4qbHn+UKjh9gMQbKNcN5ytXBS1MUPSapdhYw@mail.gmail.com>
- <4eb4bb05-814b-c28c-c2f4-0f5f5582301b@redhat.com>
-In-Reply-To: <4eb4bb05-814b-c28c-c2f4-0f5f5582301b@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Mar 2022 16:53:27 +0000
-Message-ID: <CAFEAcA-Wg5LKVRQ4dKX6Hsyb=1VVxfGBDB_=Q6iCxycJzLPRhg@mail.gmail.com>
-Subject: Re: QEMU device refcounting when device creates a container MR
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH] tests/qemu-iotests: Use GNU sed in two more spots where
+ it is necessary
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
+References: <20220309101626.637836-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220309101626.637836-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,33 +93,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 9 Mar 2022 at 16:21, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 3/9/22 11:33, Peter Maydell wrote:
-> > Hi; does anybody know how device reference counting is supposed
-> > to work when the device creates a "container" MemoryRegion which
-> > it then puts some of its own subregions in to?
-> >
-> > As far as I can see when you do memory_region_add_subregion it
-> > increases the refcount on the owner of the subregion. So if a
-> > device creates a container MR in its own init or realize method
-> > and adds sub-MRs that it owns to that container, this increases
-> > the refcount on the device permanently, and so the device won't
-> > ever be deinited.
->
-> The unparent method is supposed to break reference cycles.
->
-> In the case of QOM, unparent calls unrealize, so unrealize should remove
-> the subregions it created.
+On 9/3/22 11:16, Thomas Huth wrote:
+> These two spots have been missed in commit 9086c7639822 ("Rework the
+> checks and spots using GNU sed") - they need GNU sed, too, since they
+> are using the "+" address form.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/qemu-iotests/common.filter | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-It seems asymmetric for unrealize to undo something that was
-done in instance_init, though. I would expect unrealize to
-undo the effects of realize, and instance_finalize to undo
-the effects of instance_init.
-
--- PMM
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
