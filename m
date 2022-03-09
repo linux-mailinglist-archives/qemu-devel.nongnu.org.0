@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B034D2DF2
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:28:52 +0100 (CET)
-Received: from localhost ([::1]:42172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9652D4D2E0B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:31:38 +0100 (CET)
+Received: from localhost ([::1]:46436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRuUt-0001OP-5p
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:28:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41010)
+	id 1nRuXZ-0004GX-Mb
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:31:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuCB-0006Yw-2n
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:31 -0500
-Received: from [2001:41c9:1:41f::167] (port=35720
+ id 1nRuCC-0006c7-Cq
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:32 -0500
+Received: from [2001:41c9:1:41f::167] (port=35728
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuBz-0005Fy-NF
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:22 -0500
+ id 1nRuCA-0005GD-Qi
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:32 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuBI-000CWr-BN; Wed, 09 Mar 2022 11:08:40 +0000
+ id 1nRuBM-000CWr-Ho; Wed, 09 Mar 2022 11:08:44 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Wed,  9 Mar 2022 11:08:18 +0000
-Message-Id: <20220309110831.18443-10-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  9 Mar 2022 11:08:19 +0000
+Message-Id: <20220309110831.18443-11-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
 References: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 09/22] mos6522: record last_irq_levels in mos6522_set_irq()
+Subject: [PULL 10/22] mac_via: make SCSI_DATA (DRQ) bit live rather than
+ latched
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -67,69 +69,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To detect edge-triggered IRQs it is necessary to store the last state of each
-IRQ in a last_irq_levels bitmap.
+The VIA2 on the Q800 machine is not a separate chip as in older Macs but instead
+is integrated into the on-board logic. From analysing the SCSI routines in the
+MacOS toolbox ROM (and to a lesser extent NetBSD and Linux) the expectation seems
+to be that the SCSI_DATA (DRQ) bit is live on the Q800 and not latched.
 
-Note: this is a migration break for machines which use mos6522 instances which
-are g3beige/mac99 (PPC) and q800 (m68k).
+Fortunately we can use the recently introduced mos6522 last_irq_levels variable
+which tracks the edge-triggered state to return the SCSI_DATA (DRQ) bit live to
+the guest OS.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220305150957.5053-10-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220305150957.5053-11-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/mos6522.c         | 11 +++++++++--
- include/hw/misc/mos6522.h |  1 +
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ hw/misc/mac_via.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index 2c20decca1..c67123f864 100644
---- a/hw/misc/mos6522.c
-+++ b/hw/misc/mos6522.c
-@@ -72,6 +72,12 @@ static void mos6522_set_irq(void *opaque, int n, int level)
-     }
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index 3f473c3fcf..d8b35e6ca6 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -906,9 +906,24 @@ static uint64_t mos6522_q800_via2_read(void *opaque, hwaddr addr, unsigned size)
+ {
+     MOS6522Q800VIA2State *s = MOS6522_Q800_VIA2(opaque);
+     MOS6522State *ms = MOS6522(s);
++    uint64_t val;
  
-     mos6522_update_irq(s);
+     addr = (addr >> 9) & 0xf;
+-    return mos6522_read(ms, addr, size);
++    val = mos6522_read(ms, addr, size);
 +
-+    if (level) {
-+        s->last_irq_levels |= 1 << n;
-+    } else {
-+        s->last_irq_levels &= ~(1 << n);
++    switch (addr) {
++    case VIA_REG_IFR:
++        /*
++         * On a Q800 an emulated VIA2 is integrated into the onboard logic. The
++         * expectation of most OSs is that the DRQ bit is live, rather than
++         * latched as it would be on a real VIA so do the same here.
++         */
++        val &= ~VIA2_IRQ_SCSI_DATA;
++        val |= (ms->last_irq_levels & VIA2_IRQ_SCSI_DATA);
++        break;
 +    }
++
++    return val;
  }
  
- static uint64_t get_counter_value(MOS6522State *s, MOS6522Timer *ti)
-@@ -544,8 +550,8 @@ static const VMStateDescription vmstate_mos6522_timer = {
- 
- const VMStateDescription vmstate_mos6522 = {
-     .name = "mos6522",
--    .version_id = 0,
--    .minimum_version_id = 0,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT8(a, MOS6522State),
-         VMSTATE_UINT8(b, MOS6522State),
-@@ -556,6 +562,7 @@ const VMStateDescription vmstate_mos6522 = {
-         VMSTATE_UINT8(pcr, MOS6522State),
-         VMSTATE_UINT8(ifr, MOS6522State),
-         VMSTATE_UINT8(ier, MOS6522State),
-+        VMSTATE_UINT8(last_irq_levels, MOS6522State),
-         VMSTATE_STRUCT_ARRAY(timers, MOS6522State, 2, 0,
-                              vmstate_mos6522_timer, MOS6522Timer),
-         VMSTATE_END_OF_LIST()
-diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
-index 193a3dc870..babea99e06 100644
---- a/include/hw/misc/mos6522.h
-+++ b/include/hw/misc/mos6522.h
-@@ -133,6 +133,7 @@ struct MOS6522State {
-     uint64_t frequency;
- 
-     qemu_irq irq;
-+    uint8_t last_irq_levels;
- };
- 
- #define TYPE_MOS6522 "mos6522"
+ static void mos6522_q800_via2_write(void *opaque, hwaddr addr, uint64_t val,
 -- 
 2.20.1
 
