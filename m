@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FAE14D30E4
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 15:18:05 +0100 (CET)
-Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 079BA4D30EB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 15:20:27 +0100 (CET)
+Received: from localhost ([::1]:54398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRx8e-0005PW-4F
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 09:18:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59690)
+	id 1nRxAw-00075b-0B
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 09:20:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nRx76-0004jJ-VW
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:16:29 -0500
-Received: from [2a00:1450:4864:20::436] (port=44798
- helo=mail-wr1-x436.google.com)
+ id 1nRx9d-0006OE-RB
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:19:05 -0500
+Received: from [2a00:1450:4864:20::331] (port=50735
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1nRx72-0004ZH-H8
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:16:28 -0500
-Received: by mail-wr1-x436.google.com with SMTP id u1so3249230wrg.11
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 06:16:24 -0800 (PST)
+ id 1nRx9c-0004uR-4R
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 09:19:05 -0500
+Received: by mail-wm1-x331.google.com with SMTP id l10so1491217wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 06:19:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eu5q+IF72Dc8i/IzKe8uegFtihYgdmrQT0qWkEpH/b0=;
- b=VEWhh1vGOU4x6V1UACVsU18z/ifU4DuXU/nlRJEzeSmBrqKIpfGN1bhyTBeBxjVumt
- /58wayZvjX+rb/drPYb3qH7U3oGtXhttiCbJRRflCup/+eqocQHIhCn4s3ITa7MtQ4QE
- OcXIjf07GM1C3IPiQJccsFTUMtkh+Dn0049A7C+gKF3Hv4DTvYW5D4J8qWW3VlVPxPBw
- UogTPRQUnMk78wZwxtDf4ibb4sLUqAsoIL+kgx/4JLh466sIOSPyToK9WOuPZgF5ioC2
- eU1vmfP7Wc+XuqAEkUgmHSVi8XOj4eyB+NchEbhTDvYpzP40ggMmcbGwl6UOuGt0eeZh
- 1SBA==
+ :cc; bh=R12VSaEhe448bgNcMknQ6XNwodGUpXf7vRxcwh3KDmQ=;
+ b=kvVbh1g28q6ZK+VNEGmApeYJw8PK54DF2KZL0TW6iuGSqI9k/ljveO9wgLkdIoHJoY
+ BHIJMWEH8zA+DnrbvE7m6XGxt7MoASc62xf870B4y5l8SVb7LC9Q6+wRXthAtGpEpSmD
+ LU9FsVqlHrhUMJitkS0Samp55IGJqwVTUk2KkuFKF7oY4dSnaPPNEokUBEOsXT10wv3X
+ 2xFZ1ImoJxj0D3Y5bD7jmsWZeeuiPmb+fUVWJgxIGBzQAzb2QuBMmpV2vtCR5ai4F+4t
+ UT6kK1u3N51KU45Pap+9GDw/MbnncJV3BJD5mh00j42h7U0uKO9Yfp0a1pwImnpcAhRo
+ sepA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eu5q+IF72Dc8i/IzKe8uegFtihYgdmrQT0qWkEpH/b0=;
- b=Y1gLzKFYpYe8wYX572ALLDOhne2lr2GrmY8dDx9PRt9ylsKhr8XwUYyBgwDsmjTjph
- fwtlTOgkV1u3yriER6GA68/CpNxk/BF9BiqsMK0a+AFm4WO850Xzh6XTY1TH+2VoA5Tk
- wCkDv1Yk1rWoQ4FBDHIDdWuULtjs0zjuiw1cHJOPY3FB4Xzlysn60FF8aafd6f9vVoq3
- 3LSE6DGP9bP5/uFRzLsAWSqShiJJLQdphszqdcOeIo7Bf2bh99B5JEZNjJYganj2Y7CJ
- hTfDV1sXTxyD1ecxW7Q3PgCidJDDiybqYLlROnhJ/rjKLyPk8Kb/e1a/udCT21mafcG8
- zcHg==
-X-Gm-Message-State: AOAM532Hfdn5y/Ei4XOtNDfK5AwEv0fDp3Lk807iUAfDpMiyDIvjJqnL
- Km0/kRm7VOmbs3ZBql7jW6oRqlJ9HmtJ/vGvBkk=
-X-Google-Smtp-Source: ABdhPJyEchgLpyYCOqfPvLs3Xpa+y4DgyGDTsgprDiCKBH94TnawvY+MUtGJfbQdEn50T4VJlkEXir+UmhQwwaHY4ME=
-X-Received: by 2002:a5d:4cd1:0:b0:1f0:24d5:7c37 with SMTP id
- c17-20020a5d4cd1000000b001f024d57c37mr16302355wrt.421.1646835383073; Wed, 09
- Mar 2022 06:16:23 -0800 (PST)
+ bh=R12VSaEhe448bgNcMknQ6XNwodGUpXf7vRxcwh3KDmQ=;
+ b=X4yTCjyR3frLMLA/5FPSnDRlY96/IOLxn1ZFJmLVgWvxdAVdHl5dpP9o+JXO+sfNgH
+ W/rzW829AKld9B2aKKObI8/J5pNa+9zv+0ZLuUgCogbta+ya5LKmrzNzZeU664uZJJfP
+ 2MRMVgrZPWqntB1l7gWKhS64iQnBW2c++LhHO73p9cgwn/pGVo42nfQVlLH+/ERpqfMM
+ /nsJfyhk2IkwipXbaJnSFDiaPgN65myhcM5DCTFEyJ7Vi7H89TNB2I7gQ+1MZmVJxWw8
+ vhZgtLbSEO9lnD6UXOLfwlLfauUIznRGDewiY721eb88Nf6uWuICop86apqGv+Jb16jn
+ 3SEg==
+X-Gm-Message-State: AOAM533aanUUseeiDk0zh4HW2MPe0zSjam5M7e/vooFdMPTpNJicnLkr
+ +hKUiZ6NemvXYACya75CvI+DhZooO36ygRU9FlY=
+X-Google-Smtp-Source: ABdhPJylV2V+9HQVD6EZoMKUFQaRA6ryUqRmtjPRXhUTUkRt6/sDlJDh+0YYkLpznuJc+lI33sh35yS3awr37l61vVc=
+X-Received: by 2002:a05:600c:1c9f:b0:389:cf43:da64 with SMTP id
+ k31-20020a05600c1c9f00b00389cf43da64mr3604638wms.206.1646835542789; Wed, 09
+ Mar 2022 06:19:02 -0800 (PST)
 MIME-Version: 1.0
 References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-13-git-send-email-steven.sistare@oracle.com>
-In-Reply-To: <1640199934-455149-13-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-9-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1640199934-455149-9-git-send-email-steven.sistare@oracle.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 9 Mar 2022 18:16:10 +0400
-Message-ID: <CAJ+F1C+kKZS5N2W+T_TLszooj7_eiiPqiE+2zJdjBW21JqDzbg@mail.gmail.com>
-Subject: Re: [PATCH V7 12/29] vl: helper to request re-exec
+Date: Wed, 9 Mar 2022 18:18:50 +0400
+Message-ID: <CAJ+F1CJXSsGLnozEJLX84tENO9Lw=Hhra0Bwv3oy_4MavTHmVw@mail.gmail.com>
+Subject: Re: [PATCH V7 08/29] memory: flat section iterator
 To: Steve Sistare <steven.sistare@oracle.com>
-Content-Type: multipart/alternative; boundary="00000000000003016e05d9c9bee1"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+Content-Type: multipart/alternative; boundary="00000000000088128105d9c9c7eb"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,226 +96,245 @@ Cc: Jason Zeng <jason.zeng@linux.intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000003016e05d9c9bee1
+--00000000000088128105d9c9c7eb
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 22, 2021 at 11:52 PM Steve Sistare <steven.sistare@oracle.com>
+Hi
+
+On Thu, Dec 23, 2021 at 12:17 AM Steve Sistare <steven.sistare@oracle.com>
 wrote:
 
-> Add a qemu_system_exec_request() hook that causes the main loop to exit a=
-nd
-> re-exec qemu using the specified arguments.
+> Add an iterator over the sections of a flattened address space.
 >
 > Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 > ---
->  include/sysemu/runstate.h |  1 +
->  softmmu/runstate.c        | 21 +++++++++++++++++++++
->  2 files changed, 22 insertions(+)
+>  include/exec/memory.h | 31 +++++++++++++++++++++++++++++++
+>  softmmu/memory.c      | 20 ++++++++++++++++++++
+>  2 files changed, 51 insertions(+)
 >
-> diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
-> index b655c7b..198211b 100644
-> --- a/include/sysemu/runstate.h
-> +++ b/include/sysemu/runstate.h
-> @@ -57,6 +57,7 @@ void qemu_system_wakeup_enable(WakeupReason reason, boo=
-l
-> enabled);
->  void qemu_register_wakeup_notifier(Notifier *notifier);
->  void qemu_register_wakeup_support(void);
->  void qemu_system_shutdown_request(ShutdownCause reason);
-> +void qemu_system_exec_request(const strList *args);
->  void qemu_system_powerdown_request(void);
->  void qemu_register_powerdown_notifier(Notifier *notifier);
->  void qemu_register_shutdown_notifier(Notifier *notifier);
-> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-> index 3d344c9..309a4bf 100644
-> --- a/softmmu/runstate.c
-> +++ b/softmmu/runstate.c
-> @@ -38,6 +38,7 @@
->  #include "monitor/monitor.h"
->  #include "net/net.h"
->  #include "net/vhost_net.h"
-> +#include "qapi/util.h"
->  #include "qapi/error.h"
->  #include "qapi/qapi-commands-run-state.h"
->  #include "qapi/qapi-events-run-state.h"
-> @@ -355,6 +356,7 @@ static NotifierList wakeup_notifiers =3D
->  static NotifierList shutdown_notifiers =3D
->      NOTIFIER_LIST_INITIALIZER(shutdown_notifiers);
->  static uint32_t wakeup_reason_mask =3D ~(1 << QEMU_WAKEUP_REASON_NONE);
-> +static char **exec_argv;
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 137f5f3..9660475 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -2338,6 +2338,37 @@ void
+> memory_region_set_ram_discard_manager(MemoryRegion *mr,
+>                                             RamDiscardManager *rdm);
 >
->  ShutdownCause qemu_shutdown_requested_get(void)
->  {
-> @@ -371,6 +373,11 @@ static int qemu_shutdown_requested(void)
->      return qatomic_xchg(&shutdown_requested, SHUTDOWN_CAUSE_NONE);
+>  /**
+> + * memory_region_section_cb: callback for
+> address_space_flat_for_each_section()
+> + *
+> + * @s: MemoryRegionSection of the range
+> + * @opaque: data pointer passed to address_space_flat_for_each_section()
+> + * @errp: error message, returned to the
+> address_space_flat_for_each_section
+> + *        caller.
+> + *
+> + * Returns: non-zero to stop the iteration, and 0 to continue.  The same
+> + * non-zero value is returned to the address_space_flat_for_each_section
+> caller.
+> + */
+> +
+> +typedef int (*memory_region_section_cb)(MemoryRegionSection *s,
+> +                                        void *opaque,
+> +                                        Error **errp);
+> +
+> +/**
+> + * address_space_flat_for_each_section: walk the ranges in the address
+> space
+> + * flat view and call @func for each.  Return 0 on success, else return
+> non-zero
+> + * with a message in @errp.
+> + *
+> + * @as: target address space
+> + * @func: callback function
+> + * @opaque: passed to @func
+> + * @errp: passed to @func
+> + */
+> +int address_space_flat_for_each_section(AddressSpace *as,
+> +                                        memory_region_section_cb func,
+> +                                        void *opaque,
+> +                                        Error **errp);
+> +
+> +/**
+>   * memory_region_find: translate an address/size relative to a
+>   * MemoryRegion into a #MemoryRegionSection.
+>   *
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 30b2f68..40f3522 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -2663,6 +2663,26 @@ bool memory_region_is_mapped(MemoryRegion *mr)
+>      return mr->container ? true : false;
 >  }
 >
-> +static int qemu_exec_requested(void)
+> +int address_space_flat_for_each_section(AddressSpace *as,
+> +                                        memory_region_section_cb func,
+> +                                        void *opaque,
+> +                                        Error **errp)
 > +{
-> +    return exec_argv !=3D NULL;
-> +}
+> +    FlatView *view =3D address_space_get_flatview(as);
+> +    FlatRange *fr;
+> +    int ret;
 > +
->  static void qemu_kill_report(void)
->  {
->      if (!qtest_driver() && shutdown_signal) {
-> @@ -641,6 +648,13 @@ void qemu_system_shutdown_request(ShutdownCause
-> reason)
->      qemu_notify_event();
->  }
->
-> +void qemu_system_exec_request(const strList *args)
-> +{
-> +    exec_argv =3D strv_from_strList(args);
->
-
-I would rather make it take a GStrv, since that's what it actually uses.
-
-I would also check if argv[0] is set (or document the expected behaviour).
-
-
-> +    shutdown_requested =3D 1;
-> +    qemu_notify_event();
-> +}
-> +
->  static void qemu_system_powerdown(void)
->  {
->      qapi_event_send_powerdown();
-> @@ -689,6 +703,13 @@ static bool main_loop_should_exit(void)
->      }
->      request =3D qemu_shutdown_requested();
->      if (request) {
-> +
-> +        if (qemu_exec_requested()) {
-> +            execvp(exec_argv[0], exec_argv);
-> +            error_report("execvp %s failed: %s", exec_argv[0],
-> strerror(errno));
-> +            g_strfreev(exec_argv);
-> +            exec_argv =3D NULL;
+> +    FOR_EACH_FLAT_RANGE(fr, view) {
+> +        MemoryRegionSection section =3D section_from_flat_range(fr, view=
+);
+> +        ret =3D func(&section, opaque, errp);
+> +        if (ret) {
+> +            return ret;
 > +        }
->          qemu_kill_report();
->          qemu_system_shutdown(request);
->          if (shutdown_action =3D=3D SHUTDOWN_ACTION_PAUSE) {
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  /* Same as memory_region_find, but it does not add a reference to the
+>   * returned region.  It must be called from an RCU critical section.
+>   */
 > --
 > 1.8.3.1
 >
 >
 >
+lgtm,
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000003016e05d9c9bee1
+--00000000000088128105d9c9c7eb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 22, 2021 at 11:52 PM Stev=
-e Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare@o=
-racle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 23, 2021 at 12:17 AM St=
+eve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare=
+@oracle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
 =3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Add a qemu_system_exec_request() hook that causes the main loop =
-to exit and<br>
-re-exec qemu using the specified arguments.<br>
+-left:1ex">Add an iterator over the sections of a flattened address space.<=
+br>
 <br>
 Signed-off-by: Steve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.co=
 m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br>
 ---<br>
-=C2=A0include/sysemu/runstate.h |=C2=A0 1 +<br>
-=C2=A0softmmu/runstate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 21 ++++++++++++++++++=
-+++<br>
-=C2=A02 files changed, 22 insertions(+)<br>
+=C2=A0include/exec/memory.h | 31 +++++++++++++++++++++++++++++++<br>
+=C2=A0softmmu/memory.c=C2=A0 =C2=A0 =C2=A0 | 20 ++++++++++++++++++++<br>
+=C2=A02 files changed, 51 insertions(+)<br>
 <br>
-diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h<br>
-index b655c7b..198211b 100644<br>
---- a/include/sysemu/runstate.h<br>
-+++ b/include/sysemu/runstate.h<br>
-@@ -57,6 +57,7 @@ void qemu_system_wakeup_enable(WakeupReason reason, bool =
-enabled);<br>
-=C2=A0void qemu_register_wakeup_notifier(Notifier *notifier);<br>
-=C2=A0void qemu_register_wakeup_support(void);<br>
-=C2=A0void qemu_system_shutdown_request(ShutdownCause reason);<br>
-+void qemu_system_exec_request(const strList *args);<br>
-=C2=A0void qemu_system_powerdown_request(void);<br>
-=C2=A0void qemu_register_powerdown_notifier(Notifier *notifier);<br>
-=C2=A0void qemu_register_shutdown_notifier(Notifier *notifier);<br>
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c<br>
-index 3d344c9..309a4bf 100644<br>
---- a/softmmu/runstate.c<br>
-+++ b/softmmu/runstate.c<br>
-@@ -38,6 +38,7 @@<br>
-=C2=A0#include &quot;monitor/monitor.h&quot;<br>
-=C2=A0#include &quot;net/net.h&quot;<br>
-=C2=A0#include &quot;net/vhost_net.h&quot;<br>
-+#include &quot;qapi/util.h&quot;<br>
-=C2=A0#include &quot;qapi/error.h&quot;<br>
-=C2=A0#include &quot;qapi/qapi-commands-run-state.h&quot;<br>
-=C2=A0#include &quot;qapi/qapi-events-run-state.h&quot;<br>
-@@ -355,6 +356,7 @@ static NotifierList wakeup_notifiers =3D<br>
-=C2=A0static NotifierList shutdown_notifiers =3D<br>
-=C2=A0 =C2=A0 =C2=A0NOTIFIER_LIST_INITIALIZER(shutdown_notifiers);<br>
-=C2=A0static uint32_t wakeup_reason_mask =3D ~(1 &lt;&lt; QEMU_WAKEUP_REASO=
-N_NONE);<br>
-+static char **exec_argv;<br>
+diff --git a/include/exec/memory.h b/include/exec/memory.h<br>
+index 137f5f3..9660475 100644<br>
+--- a/include/exec/memory.h<br>
++++ b/include/exec/memory.h<br>
+@@ -2338,6 +2338,37 @@ void memory_region_set_ram_discard_manager(MemoryReg=
+ion *mr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 RamDiscardManager *rdm);<br>
 <br>
-=C2=A0ShutdownCause qemu_shutdown_requested_get(void)<br>
-=C2=A0{<br>
-@@ -371,6 +373,11 @@ static int qemu_shutdown_requested(void)<br>
-=C2=A0 =C2=A0 =C2=A0return qatomic_xchg(&amp;shutdown_requested, SHUTDOWN_C=
-AUSE_NONE);<br>
+=C2=A0/**<br>
++ * memory_region_section_cb: callback for address_space_flat_for_each_sect=
+ion()<br>
++ *<br>
++ * @s: MemoryRegionSection of the range<br>
++ * @opaque: data pointer passed to address_space_flat_for_each_section()<b=
+r>
++ * @errp: error message, returned to the address_space_flat_for_each_secti=
+on<br>
++ *=C2=A0 =C2=A0 =C2=A0 =C2=A0 caller.<br>
++ *<br>
++ * Returns: non-zero to stop the iteration, and 0 to continue.=C2=A0 The s=
+ame<br>
++ * non-zero value is returned to the address_space_flat_for_each_section c=
+aller.<br>
++ */<br>
++<br>
++typedef int (*memory_region_section_cb)(MemoryRegionSection *s,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *op=
+aque,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **=
+errp);<br>
++<br>
++/**<br>
++ * address_space_flat_for_each_section: walk the ranges in the address spa=
+ce<br>
++ * flat view and call @func for each.=C2=A0 Return 0 on success, else retu=
+rn non-zero<br>
++ * with a message in @errp.<br>
++ *<br>
++ * @as: target address space<br>
++ * @func: callback function<br>
++ * @opaque: passed to @func<br>
++ * @errp: passed to @func<br>
++ */<br>
++int address_space_flat_for_each_section(AddressSpace *as,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_r=
+egion_section_cb func,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *op=
+aque,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **=
+errp);<br>
++<br>
++/**<br>
+=C2=A0 * memory_region_find: translate an address/size relative to a<br>
+=C2=A0 * MemoryRegion into a #MemoryRegionSection.<br>
+=C2=A0 *<br>
+diff --git a/softmmu/memory.c b/softmmu/memory.c<br>
+index 30b2f68..40f3522 100644<br>
+--- a/softmmu/memory.c<br>
++++ b/softmmu/memory.c<br>
+@@ -2663,6 +2663,26 @@ bool memory_region_is_mapped(MemoryRegion *mr)<br>
+=C2=A0 =C2=A0 =C2=A0return mr-&gt;container ? true : false;<br>
 =C2=A0}<br>
 <br>
-+static int qemu_exec_requested(void)<br>
++int address_space_flat_for_each_section(AddressSpace *as,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_r=
+egion_section_cb func,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *op=
+aque,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **=
+errp)<br>
 +{<br>
-+=C2=A0 =C2=A0 return exec_argv !=3D NULL;<br>
-+}<br>
++=C2=A0 =C2=A0 FlatView *view =3D address_space_get_flatview(as);<br>
++=C2=A0 =C2=A0 FlatRange *fr;<br>
++=C2=A0 =C2=A0 int ret;<br>
 +<br>
-=C2=A0static void qemu_kill_report(void)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0if (!qtest_driver() &amp;&amp; shutdown_signal) {<br>
-@@ -641,6 +648,13 @@ void qemu_system_shutdown_request(ShutdownCause reason=
-)<br>
-=C2=A0 =C2=A0 =C2=A0qemu_notify_event();<br>
-=C2=A0}<br>
-<br>
-+void qemu_system_exec_request(const strList *args)<br>
-+{<br>
-+=C2=A0 =C2=A0 exec_argv =3D strv_from_strList(args);<br></blockquote><div>=
-<br></div><div>I would rather make it take a GStrv, since that&#39;s what i=
-t actually uses.</div><div><br></div><div>I would also check if argv[0] is =
-set (or document the expected behaviour).<br></div><div>=C2=A0<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 shutdown_requested =3D 1;<br>
-+=C2=A0 =C2=A0 qemu_notify_event();<br>
-+}<br>
-+<br>
-=C2=A0static void qemu_system_powerdown(void)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0qapi_event_send_powerdown();<br>
-@@ -689,6 +703,13 @@ static bool main_loop_should_exit(void)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0request =3D qemu_shutdown_requested();<br>
-=C2=A0 =C2=A0 =C2=A0if (request) {<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_exec_requested()) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 execvp(exec_argv[0], exec_argv);=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;execvp %s fai=
-led: %s&quot;, exec_argv[0], strerror(errno));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_strfreev(exec_argv);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_argv =3D NULL;<br>
++=C2=A0 =C2=A0 FOR_EACH_FLAT_RANGE(fr, view) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 MemoryRegionSection section =3D section_from_f=
+lat_range(fr, view);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D func(&amp;section, opaque, errp);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_kill_report();<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_system_shutdown(request);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (shutdown_action =3D=3D SHUTDOWN_ACTIO=
-N_PAUSE) {<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++<br>
+=C2=A0/* Same as memory_region_find, but it does not add a reference to the=
+<br>
+=C2=A0 * returned region.=C2=A0 It must be called from an RCU critical sect=
+ion.<br>
+=C2=A0 */<br>
 -- <br>
 1.8.3.1<br>
 <br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+<br></blockquote><div><br></div><div>lgtm,</div><div><br></div><div>Reviewe=
+d-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.=
+com">marcandre.lureau@redhat.com</a>&gt; <br></div></div><br clear=3D"all">=
+<br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lurea=
+u<br></div></div>
 
---00000000000003016e05d9c9bee1--
+--00000000000088128105d9c9c7eb--
 
