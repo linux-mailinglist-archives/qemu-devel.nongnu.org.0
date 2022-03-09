@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08C74D2E7F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:57:04 +0100 (CET)
-Received: from localhost ([::1]:36004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0ED4D2E88
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:59:49 +0100 (CET)
+Received: from localhost ([::1]:39570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRuwB-0002SB-AR
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:57:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50986)
+	id 1nRuyq-0004yU-D1
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:59:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nRurN-0006Cp-3r
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:52:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nRurK-0004nA-8k
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:52:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646826721;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0Te4ZzHokZhIi8QDoY6k2VmlK0xq5TtH5+juPKl3dmc=;
- b=H4eWblJpGfdNi94yNTJSPgyhL91hzzAVh9HZWcnpcevUlyfYy47ggLMo5jTiiXqwPqSBp5
- ARa6mgpuozjDTA6YqylLQD5EzEAnHHkAds1VVvRN3TzhMInguSHXEkD8Xh507POfYB2AYL
- tIF1hz88b72n6aW6o+hcFF1WfQIdSyE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-299-wrCGg-CdPlKt6u3M6Ju4KQ-1; Wed, 09 Mar 2022 06:52:00 -0500
-X-MC-Unique: wrCGg-CdPlKt6u3M6Ju4KQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F4821091DA2;
- Wed,  9 Mar 2022 11:51:59 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DBFC6827A9;
- Wed,  9 Mar 2022 11:51:57 +0000 (UTC)
-Date: Wed, 9 Mar 2022 11:51:54 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: bad qemu savevm to /dev/null performance (600 MiB/s max) (Was:
- Re: starting to look at qemu savevm performance, a first regression
- detected)
-Message-ID: <YiiU2gCbnJOgpZxp@redhat.com>
-References: <62ba8b1e-d641-5b10-c1b3-54b7d5a652e7@suse.de>
- <YiXVh1P4oJNuEtFM@redhat.com>
- <1f70a086-2b72-bd83-414b-476f5e6d0094@suse.de>
- <YiXzw8pF9If2/M7M@redhat.com>
- <5f318297-51c0-366b-758b-733ba27684ba@suse.de>
- <YiX4gfBtgDq/uZpu@redhat.com>
- <5b3d17d2-f07f-8cb1-54ff-6a517dc4eaef@suse.de>
- <YiX6XSlVNw183PTV@work-vm>
- <51b486fc-2c71-e1c6-6412-d462234d67fb@suse.de>
- <YiiS9HnS0LsiY2Hb@work-vm>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nRuwm-0003T9-Ar
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:57:44 -0500
+Received: from [2a00:1450:4864:20::536] (port=39749
+ helo=mail-ed1-x536.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nRuwk-0005dS-Iq
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:57:39 -0500
+Received: by mail-ed1-x536.google.com with SMTP id g20so2515682edw.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 03:57:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=j7fZmY9MnLrDcpGvcRCVc9M+2/nf5JqSRyVg0kWJM7o=;
+ b=xYQzgwaQ6kj3Ft7Hdzul8stxVN0GW796lloBW6ve++kqDZAQxhYo4uUYZa7k23Nwr/
+ UPZHG1Io+dfDCByCrLUJLsuceNAWiK3vLOQ2m6pO9j0/IDIm+g2RoOI2vOXWkRKBVhgb
+ K3W71v+ukJmL7HT1YcgRyvl5Smy6lX8kg4SSRiiPu3ZUAeBahjB+4WRWNNXdpZ71IB/a
+ PMDlxfXeeWuVZKa1mWjtmezgAvSzc3rLU7bCorvxjSrV5Qe6ccSq0Jv4C+qxmwSkRGRT
+ 0d3HjCUm7FDCxwfIkArXRXBRb2iHXUtR302q2WE5ff8DvaBHL0WkrjC267Acc93pdb8+
+ YY2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=j7fZmY9MnLrDcpGvcRCVc9M+2/nf5JqSRyVg0kWJM7o=;
+ b=CP40LrbpeP2fuftOw+Pd7rgRKz/iAHiGgjd6v/6nrXU47UcevAYveG3FyLcS10HFnY
+ sxu85q1johu5CB8ngs+tBxPtg2u+vVXdfCh8yxxpEot2RfbAcFPJHpQ+CvIf5FrFfAGZ
+ k8SLB24AwomWXwbbMZCZe3DhGfXWXc5qpEFJLPNpRCQvf/cuZAg96oCXBsWrFvpA0Knc
+ EFe7M0KWOrIIn0TzQl/8wgxyjbUF/ALJyy5jflQ7O/tqA3DZgRgjXLuKWnZ5g8hF21nq
+ 38UgUypbaOux14MOu1wMuXd1Lz2OCmUhz4J4/Eb8ysnUzrX/VmVmZIOxweCS9RpBUGJR
+ y38Q==
+X-Gm-Message-State: AOAM531JgQIWMX9K5k7mrpy+DJBDkjD/OXVoNaDWLF2O1prl5XjfYa+I
+ HtIFKC/mglZRDrR58yh+ouUKAw==
+X-Google-Smtp-Source: ABdhPJwhlQ9oJPW5PoUhXpKA0z/u5YnADsjF0d+ixQdq0rZTpH5QxEobSQZMOpjxKvjvQU61g/igeQ==
+X-Received: by 2002:a05:6402:d06:b0:412:eafd:8b9a with SMTP id
+ eb6-20020a0564020d0600b00412eafd8b9amr20869232edb.278.1646827053954; 
+ Wed, 09 Mar 2022 03:57:33 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ o20-20020a056402039400b004167e662c45sm721494edv.60.2022.03.09.03.57.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Mar 2022 03:57:32 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E544A1FFB7;
+ Wed,  9 Mar 2022 11:57:31 +0000 (GMT)
+References: <20220308145521.3106395-1-kraxel@redhat.com>
+ <20220308145521.3106395-6-kraxel@redhat.com>
+User-agent: mu4e 1.7.9; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 05/11] edk2: add microvm build
+Date: Wed, 09 Mar 2022 11:55:26 +0000
+In-reply-to: <20220308145521.3106395-6-kraxel@redhat.com>
+Message-ID: <87mthz5oes.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <YiiS9HnS0LsiY2Hb@work-vm>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,97 +93,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 09, 2022 at 11:43:48AM +0000, Dr. David Alan Gilbert wrote:
-> * Claudio Fontana (cfontana@suse.de) wrote:
-> > On 3/7/22 1:28 PM, Dr. David Alan Gilbert wrote:
-> > > * Claudio Fontana (cfontana@suse.de) wrote:
-> > >> On 3/7/22 1:20 PM, Daniel P. Berrangé wrote:
-> > >>> On Mon, Mar 07, 2022 at 01:09:55PM +0100, Claudio Fontana wrote:
-> > >>>> Got it, this explains it, sorry for the noise on this.
-> > >>>>
-> > >>>> I'll continue to investigate the general issue of low throughput with virsh save / qemu savevm .
-> > >>>
-> > >>> BTW, consider measuring with the --bypass-cache flag to virsh save.
-> > >>> This causes libvirt to use a I/O helper that uses O_DIRECT when
-> > >>> saving the image. This should give more predictable results by
-> > >>> avoiding the influence of host I/O cache which can be in a differnt
-> > >>> state of usage each time you measure.  It was also intended that
-> > >>> by avoiding hitting cache, saving the memory image of a large VM
-> > >>> will not push other useful stuff out of host I/O  cache which can
-> > >>> negatively impact other running VMs.
-> > >>>
-> > >>> Also it is possible to configure compression on the libvirt side
-> > >>> which may be useful if you have spare CPU cycles, but your storage
-> > >>> is slow. See 'save_image_format' in the /etc/libvirt/qemu.conf
-> > >>>
-> > >>> With regards,
-> > >>> Daniel
-> > >>>
-> > >>
-> > >> Hi Daniel, thanks for these good info,
-> > >>
-> > >> regarding slow storage, for these tests I am saving to /dev/null to avoid having to take storage into account
-> > >> (and still getting low bandwidth unfortunately) so I guess compression is out of the question.
-> > > 
-> > > What type of speeds do you get if you try a migrate to a netcat socket?
-> > 
-> > much faster apparently, 30 sec savevm vs 7 seconds for migration to a netcat socket sent to /dev/null.
-> > 
-> > nc -l -U /tmp/savevm.socket
-> > 
-> > virsh suspend centos7
-> > Domain centos7 suspended
-> > 
-> > virsh qemu-monitor-command --cmd '{ "execute": "migrate", "arguments": { "uri": "unix:///tmp/savevm.socket" } }' centos7
-> > 
-> > virt97:/mnt # virsh qemu-monitor-command --cmd '{ "execute": "query-migrate" }' centos7
-> > {"return":{"blocked":false,"status":"completed","setup-time":118,"downtime":257,"total-time":7524,"ram":{"total":32213049344,"postcopy-requests":0,"dirty-sync-count":3,"multifd-bytes":0,"pages-per-second":1057530,"page-size":4096,"remaining":0,"mbps":24215.572437483122,"transferred":22417172290,"duplicate":2407520,"dirty-pages-rate":0,"skipped":0,"normal-bytes":22351847424,"normal":5456994}},"id":"libvirt-438"}
-> > 
-> > virt97:/mnt # virsh qemu-monitor-command --cmd '{ "execute": "query-migrate-parameters" }' centos7
-> > {"return":{"cpu-throttle-tailslow":false,"xbzrle-cache-size":67108864,"cpu-throttle-initial":20,"announce-max":550,"decompress-threads":2,"compress-threads":8,"compress-level":0,"multifd-channels":8,"multifd-zstd-level":1,"announce-initial":50,"block-incremental":false,"compress-wait-thread":true,"downtime-limit":300,"tls-authz":"","multifd-compression":"none","announce-rounds":5,"announce-step":100,"tls-creds":"","multifd-zlib-level":1,"max-cpu-throttle":99,"max-postcopy-bandwidth":0,"tls-hostname":"","throttle-trigger-threshold":50,"max-bandwidth":9223372036853727232,"x-checkpoint-delay":20000,"cpu-throttle-increment":10},"id":"libvirt-439"}
-> > 
-> > 
-> > I did also a run with multifd-channels:1 instead of 8, if it matters:
-> 
-> I suspect you haven't actually got multifd enabled ( check
-> query-migrate-capabilities ?).
-> > 
-> > virt97:/mnt # virsh qemu-monitor-command --cmd '{ "execute": "query-migrate" }' centos7
-> > {"return":{"blocked":false,"status":"completed","setup-time":119,"downtime":260,"total-time":8601,"ram":{"total":32213049344,"postcopy-requests":0,"dirty-sync-count":3,"multifd-bytes":0,"pages-per-second":908820,"page-size":4096,"remaining":0,"mbps":21141.861157274227,"transferred":22415264188,"duplicate":2407986,"dirty-pages-rate":0,"skipped":0,"normal-bytes":22349938688,"normal":5456528}},"id":"libvirt-453"}
-> > 
-> > virt97:/mnt # virsh qemu-monitor-command --cmd '{ "execute": "query-migrate-parameters" }' centos7
-> > {"return":{"cpu-throttle-tailslow":false,"xbzrle-cache-size":67108864,"cpu-throttle-initial":20,"announce-max":550,"decompress-threads":2,"compress-threads":8,"compress-level":0,"multifd-channels":1,"multifd-zstd-level":1,"announce-initial":50,"block-incremental":false,"compress-wait-thread":true,"downtime-limit":300,"tls-authz":"","multifd-compression":"none","announce-rounds":5,"announce-step":100,"tls-creds":"","multifd-zlib-level":1,"max-cpu-throttle":99,"max-postcopy-bandwidth":0,"tls-hostname":"","throttle-trigger-threshold":50,"max-bandwidth":9223372036853727232,"x-checkpoint-delay":20000,"cpu-throttle-increment":10},"id":"libvirt-454"}
-> > 
-> > 
-> > Still we are in the 20 Gbps range, or around 2560 MiB/s, way faster than savevm which does around 600 MiB/s when the wind is in its favor..
-> 
-> Yeh that's what I'd hope for off a decent CPU; hmm there's not that much
-> savevm specific is there?
 
-BTW, quick clarification here.
+Gerd Hoffmann <kraxel@redhat.com> writes:
 
-IIUC, Claudio says the test is 'virsh save $VMNAME /some/file'. This
-is *not* running 'savevm' at the QEMU level. So it is a bit misleading
-refering to it as savevm in the thread here.
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-'virsh save' is simply wired up to the normal QEMU 'migrate' commands,
-with libvirt giving QEMU a pre-opened FD, which libvirt processes the
-other end of to write out to disk.
+Out of interest how do you usually trigger these builds?
 
-IOW, the performance delta is possibly on libvirt's side rather
-than QEMU's.
+=E2=9E=9C  make pc-bios/edk2-x86_64-microvm.fd
+  GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 tests/fp/berk=
+eley-softfloat-3 dtc capstone slirp
+make: *** No rule to make target 'pc-bios/edk2-x86_64-microvm.fd'.  Stop.
+=F0=9F=95=9911:56:30 alex@zen:qemu.git/builds/all  on =EE=82=A0 review/edk2=
+-version-bump [$!?] [=F0=9F=94=B4 USAGE]=20
+=E2=9C=97  cd roms/
+=F0=9F=95=9911:57:07 alex@zen:builds/all/roms  on =EE=82=A0 review/edk2-ver=
+sion-bump [$!?]=20
+=E2=9E=9C  make ../pc-bios/edk2-x86_64-microvm.fd
+make: *** No rule to make target '../pc-bios/edk2-x86_64-microvm.fd'.  Stop.
+=F0=9F=95=9911:57:10 alex@zen:builds/all/roms  on =EE=82=A0 review/edk2-ver=
+sion-bump [$!?] [=F0=9F=94=B4 USAGE]=20
+=E2=9C=97=20=20
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
+
+> ---
+>  roms/Makefile.edk2 | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
+> index a669019fe5b2..57996c968687 100644
+> --- a/roms/Makefile.edk2
+> +++ b/roms/Makefile.edk2
+> @@ -33,6 +33,7 @@ flashdevs :=3D \
+>  	i386-secure-code \
+>  	x86_64-code \
+>  	x86_64-secure-code \
+> +	x86_64-microvm \
+>  	\
+>  	arm-vars \
+>  	i386-vars
+> @@ -145,6 +146,16 @@ submodules:
+>  		-D SMM_REQUIRE
+>  	cp edk2/Build/Ovmf3264/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.=
+fd $@
+>=20=20
+> +../pc-bios/edk2-x86_64-microvm.fd: submodules
+> +	+./edk2-build.sh \
+> +		x86_64 \
+> +		--arch=3DX64 \
+> +		--platform=3DOvmfPkg/Microvm/MicrovmX64.dsc \
+> +		-D NETWORK_IP6_ENABLE \
+> +		-D NETWORK_HTTP_BOOT_ENABLE \
+> +		-D NETWORK_TLS_ENABLE
+> +	cp edk2/Build/MicrovmX64/$(target)_$(call toolchain,x86_64)/FV/MICROVM.=
+fd $@
+> +
+>  ../pc-bios/edk2-arm-vars.fd: ../pc-bios/edk2-arm-code.fd
+>  	cp edk2/Build/ArmVirtQemu-ARM/$(target)_$(call toolchain,arm)/FV/QEMU_V=
+ARS.fd \
+>  		$@
+
+
+--=20
+Alex Benn=C3=A9e
 
