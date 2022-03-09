@@ -2,85 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0ED4D2E88
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:59:49 +0100 (CET)
-Received: from localhost ([::1]:39570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282094D2EA9
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 13:04:43 +0100 (CET)
+Received: from localhost ([::1]:43362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRuyq-0004yU-D1
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:59:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52118)
+	id 1nRv3Z-0007hs-W1
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 07:04:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nRuwm-0003T9-Ar
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:57:44 -0500
-Received: from [2a00:1450:4864:20::536] (port=39749
- helo=mail-ed1-x536.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nRuwk-0005dS-Iq
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:57:39 -0500
-Received: by mail-ed1-x536.google.com with SMTP id g20so2515682edw.6
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 03:57:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=j7fZmY9MnLrDcpGvcRCVc9M+2/nf5JqSRyVg0kWJM7o=;
- b=xYQzgwaQ6kj3Ft7Hdzul8stxVN0GW796lloBW6ve++kqDZAQxhYo4uUYZa7k23Nwr/
- UPZHG1Io+dfDCByCrLUJLsuceNAWiK3vLOQ2m6pO9j0/IDIm+g2RoOI2vOXWkRKBVhgb
- K3W71v+ukJmL7HT1YcgRyvl5Smy6lX8kg4SSRiiPu3ZUAeBahjB+4WRWNNXdpZ71IB/a
- PMDlxfXeeWuVZKa1mWjtmezgAvSzc3rLU7bCorvxjSrV5Qe6ccSq0Jv4C+qxmwSkRGRT
- 0d3HjCUm7FDCxwfIkArXRXBRb2iHXUtR302q2WE5ff8DvaBHL0WkrjC267Acc93pdb8+
- YY2A==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRuxu-0004XG-V9
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:58:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRuxr-0005hc-Pb
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:58:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646827126;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BiXMtQLX8bzCb1dD+c0hiAsDLhGGZ+S5BrnJfXzNTQw=;
+ b=SeIAL3DdADMz2vb/qtMDaSKajBLEC9SwX7OQCj0DrUbe37RMBlnNXgEeiATprBIoWh2yPA
+ 36L5XaoCtMqwOIx/T2dD7MWG+wCABx7lfAJiQDYPsJJ3q3Wru2Cg3bHaw2PMeNuLmNFnyU
+ n3Q4MexURclVHrMDVqjV/oqYSPJ5E2M=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-638-1hIKyN2WMxG-xyqqHfVKow-1; Wed, 09 Mar 2022 06:58:45 -0500
+X-MC-Unique: 1hIKyN2WMxG-xyqqHfVKow-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ d8-20020a05600c34c800b0037e3cd6225eso706385wmq.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 03:58:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=j7fZmY9MnLrDcpGvcRCVc9M+2/nf5JqSRyVg0kWJM7o=;
- b=CP40LrbpeP2fuftOw+Pd7rgRKz/iAHiGgjd6v/6nrXU47UcevAYveG3FyLcS10HFnY
- sxu85q1johu5CB8ngs+tBxPtg2u+vVXdfCh8yxxpEot2RfbAcFPJHpQ+CvIf5FrFfAGZ
- k8SLB24AwomWXwbbMZCZe3DhGfXWXc5qpEFJLPNpRCQvf/cuZAg96oCXBsWrFvpA0Knc
- EFe7M0KWOrIIn0TzQl/8wgxyjbUF/ALJyy5jflQ7O/tqA3DZgRgjXLuKWnZ5g8hF21nq
- 38UgUypbaOux14MOu1wMuXd1Lz2OCmUhz4J4/Eb8ysnUzrX/VmVmZIOxweCS9RpBUGJR
- y38Q==
-X-Gm-Message-State: AOAM531JgQIWMX9K5k7mrpy+DJBDkjD/OXVoNaDWLF2O1prl5XjfYa+I
- HtIFKC/mglZRDrR58yh+ouUKAw==
-X-Google-Smtp-Source: ABdhPJwhlQ9oJPW5PoUhXpKA0z/u5YnADsjF0d+ixQdq0rZTpH5QxEobSQZMOpjxKvjvQU61g/igeQ==
-X-Received: by 2002:a05:6402:d06:b0:412:eafd:8b9a with SMTP id
- eb6-20020a0564020d0600b00412eafd8b9amr20869232edb.278.1646827053954; 
- Wed, 09 Mar 2022 03:57:33 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BiXMtQLX8bzCb1dD+c0hiAsDLhGGZ+S5BrnJfXzNTQw=;
+ b=R5SWgf/XBN87JbShtA7cptULGLJoIuyLqberJk6ZEikycsFb+8HvYrsTYPLWjjKzQi
+ 6987hUy8c26FjYaRM8BmqadJLSpScvTsV+I9cd1Cg6MGyeW/p3s5QmVYmW1k4+g2QtVi
+ xj2pkyVxKXDk7sGUlZSw4kx/r3dDq2FI3aOOytL24iu3+y2QHAjXL+DNjcRAckOtLRg+
+ qbGYMp5AkxlJH6Ricn9RdwzcSC9yG07bJdKImcVkm74wsLbFJxqfPjai1l1HAVokex/S
+ whys5fDNkPD4yEf4xWDS7YIx7YZLiiYE+HunLB+yh9r86lNa79oODe0YLrHDpVv7mtbs
+ E3VQ==
+X-Gm-Message-State: AOAM531bw561BD9J6qOg+8tOnlSuMKGXTAjeI0BjknQCx7eZRQ76VxKR
+ 1AiKYRwylJa1xq0wHfchEfFUB6C+AwOQ/F/SuQ4DpgCkRQR2S9txbtUVAC+rSyLLXQerB/gdQPp
+ qDHl1DdH7+aHjrxA=
+X-Received: by 2002:a5d:52c8:0:b0:1ed:e591:be70 with SMTP id
+ r8-20020a5d52c8000000b001ede591be70mr15683897wrv.436.1646827124372; 
+ Wed, 09 Mar 2022 03:58:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJydelGB9disK4/cU1ljwaex1cWzmV54SpFxAyq6d3EhzP5SwX2KYc1fZqk6ryHutnPioaxLXw==
+X-Received: by 2002:a5d:52c8:0:b0:1ed:e591:be70 with SMTP id
+ r8-20020a5d52c8000000b001ede591be70mr15683888wrv.436.1646827124134; 
+ Wed, 09 Mar 2022 03:58:44 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- o20-20020a056402039400b004167e662c45sm721494edv.60.2022.03.09.03.57.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Mar 2022 03:57:32 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E544A1FFB7;
- Wed,  9 Mar 2022 11:57:31 +0000 (GMT)
-References: <20220308145521.3106395-1-kraxel@redhat.com>
- <20220308145521.3106395-6-kraxel@redhat.com>
-User-agent: mu4e 1.7.9; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 05/11] edk2: add microvm build
-Date: Wed, 09 Mar 2022 11:55:26 +0000
-In-reply-to: <20220308145521.3106395-6-kraxel@redhat.com>
-Message-ID: <87mthz5oes.fsf@linaro.org>
+ p26-20020a1c741a000000b00389ab9a53c8sm1615977wmc.36.2022.03.09.03.58.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Mar 2022 03:58:43 -0800 (PST)
+Message-ID: <b05317e1-3659-2dce-4582-58bc6ca4a79b@redhat.com>
+Date: Wed, 9 Mar 2022 12:58:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v7 22/22] gitlab-ci: Support macOS 12 via cirrus-run
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
+ <20220306231753.50277-23-philippe.mathieu.daude@gmail.com>
+ <f2898408-5082-7121-2496-fb296c48244d@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <f2898408-5082-7121-2496-fb296c48244d@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,76 +104,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Will Cohen <wwcohen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 09/03/2022 11.24, Philippe Mathieu-Daudé wrote:
+> Hi Alex, Thomas, Daniel,
+> 
+> Could you ack this patch?
 
-Gerd Hoffmann <kraxel@redhat.com> writes:
+Basically fine for me, but can we really run additional cirrus-ci jobs by 
+default? IIRC the parallel execution of those were quite limited for the 
+free tier, so did you look close that we don't run into additional timeouts 
+yet, due to delayed cirrus-ci jobs?
 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-
-Out of interest how do you usually trigger these builds?
-
-=E2=9E=9C  make pc-bios/edk2-x86_64-microvm.fd
-  GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 tests/fp/berk=
-eley-softfloat-3 dtc capstone slirp
-make: *** No rule to make target 'pc-bios/edk2-x86_64-microvm.fd'.  Stop.
-=F0=9F=95=9911:56:30 alex@zen:qemu.git/builds/all  on =EE=82=A0 review/edk2=
--version-bump [$!?] [=F0=9F=94=B4 USAGE]=20
-=E2=9C=97  cd roms/
-=F0=9F=95=9911:57:07 alex@zen:builds/all/roms  on =EE=82=A0 review/edk2-ver=
-sion-bump [$!?]=20
-=E2=9E=9C  make ../pc-bios/edk2-x86_64-microvm.fd
-make: *** No rule to make target '../pc-bios/edk2-x86_64-microvm.fd'.  Stop.
-=F0=9F=95=9911:57:10 alex@zen:builds/all/roms  on =EE=82=A0 review/edk2-ver=
-sion-bump [$!?] [=F0=9F=94=B4 USAGE]=20
-=E2=9C=97=20=20
+  Thomas
 
 
+> On 7/3/22 00:17, Philippe Mathieu-Daudé wrote:
+>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> Add support for macOS 12 build on Cirrus-CI, similarly to commit
+>> 0e103a65ba1 ("gitlab: support for ... macOS 11 via cirrus-run"),
+>> but with the following differences:
+>>   - Enable modules (configure --enable-modules)
+>>   - Do not run softfloat3 tests (make check-softfloat)
+>>   - Run Aarch64 qtests instead of x86_64 ones
+>>
+>> Generate the vars file by calling 'make lcitool-refresh'.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   .gitlab-ci.d/cirrus.yml           | 16 ++++++++++++++++
+>>   .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++
+>>   tests/lcitool/refresh             |  1 +
+>>   3 files changed, 33 insertions(+)
+>>   create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
 
-> ---
->  roms/Makefile.edk2 | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
-> index a669019fe5b2..57996c968687 100644
-> --- a/roms/Makefile.edk2
-> +++ b/roms/Makefile.edk2
-> @@ -33,6 +33,7 @@ flashdevs :=3D \
->  	i386-secure-code \
->  	x86_64-code \
->  	x86_64-secure-code \
-> +	x86_64-microvm \
->  	\
->  	arm-vars \
->  	i386-vars
-> @@ -145,6 +146,16 @@ submodules:
->  		-D SMM_REQUIRE
->  	cp edk2/Build/Ovmf3264/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.=
-fd $@
->=20=20
-> +../pc-bios/edk2-x86_64-microvm.fd: submodules
-> +	+./edk2-build.sh \
-> +		x86_64 \
-> +		--arch=3DX64 \
-> +		--platform=3DOvmfPkg/Microvm/MicrovmX64.dsc \
-> +		-D NETWORK_IP6_ENABLE \
-> +		-D NETWORK_HTTP_BOOT_ENABLE \
-> +		-D NETWORK_TLS_ENABLE
-> +	cp edk2/Build/MicrovmX64/$(target)_$(call toolchain,x86_64)/FV/MICROVM.=
-fd $@
-> +
->  ../pc-bios/edk2-arm-vars.fd: ../pc-bios/edk2-arm-code.fd
->  	cp edk2/Build/ArmVirtQemu-ARM/$(target)_$(call toolchain,arm)/FV/QEMU_V=
-ARS.fd \
->  		$@
-
-
---=20
-Alex Benn=C3=A9e
 
