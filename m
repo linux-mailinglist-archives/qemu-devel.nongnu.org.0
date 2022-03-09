@@ -2,98 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C82A4D2607
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 02:26:53 +0100 (CET)
-Received: from localhost ([::1]:50592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEFDE4D263C
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 04:40:14 +0100 (CET)
+Received: from localhost ([::1]:41030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRl6J-0001Rj-Km
-	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 20:26:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42500)
+	id 1nRnBN-0006iU-G2
+	for lists+qemu-devel@lfdr.de; Tue, 08 Mar 2022 22:40:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nRl3s-0008FF-Bm; Tue, 08 Mar 2022 20:24:20 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44582)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nRnA8-0005yj-NP
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 22:38:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nRl3q-0006Om-8s; Tue, 08 Mar 2022 20:24:20 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2290uHAE006563; 
- Wed, 9 Mar 2022 01:24:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=VSFiB0f+1OU/RXWFM/9RoTRnizlDOoesVXb/8cgxbfk=;
- b=b5eQlzo7FJKvg2ON3OmeLmwncfH6vRFkSTyQyhfJZctkcQzgfaaF+ToyQmOnumaUBpxc
- Lev7IMWs67bFKb5mu7ZX3YDso3VnMwTNuAbDr9/4O0Pseb8APEQFh78fzCi0zr1j1BE9
- qgrcXbVvoRWuQXOcOzILnA4g+YwGBaTib/HlommDT7uUJBPqhrjce7JFDF4SUmhKiMER
- 0/fLtUeaMIpylvJH0FQud7ZiBwDsnjjS5iCzZsOMM7Zw2XS47FoR1WcdL7bpmT/61Gfu
- Oq1/751UQ28Us7SGqtTR5Fah97bqbPiwBN11FU8eGCM23pnY2dho0QIumc0sjEiAx0pq 2g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ep03vxuhr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Mar 2022 01:24:09 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2291O8mY017312;
- Wed, 9 Mar 2022 01:24:08 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ep03vxuhd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Mar 2022 01:24:08 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2291CZOw005084;
- Wed, 9 Mar 2022 01:24:07 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma01dal.us.ibm.com with ESMTP id 3emgaksvhq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Mar 2022 01:24:07 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2291O6Qo22020556
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 9 Mar 2022 01:24:06 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DD5F078067;
- Wed,  9 Mar 2022 01:24:05 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CE81C78069;
- Wed,  9 Mar 2022 01:24:03 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.148.106])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  9 Mar 2022 01:24:03 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/2] linux-headers: Add KVM_CAP_PPC_GTSE
-Date: Tue,  8 Mar 2022 22:24:00 -0300
-Message-Id: <20220309012400.2527157-2-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220309012400.2527157-1-farosas@linux.ibm.com>
-References: <20220309012400.2527157-1-farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1nRnA5-0000Uv-AA
+ for qemu-devel@nongnu.org; Tue, 08 Mar 2022 22:38:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646797131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ODc3FvhZAosS2Q9f9lguzl+ofP+AnKzcUi0ij8uSBzM=;
+ b=MeQ+gl3qjdfvtaCouKaOiLwmVtmNEqq2MT/jWWEN/PgN+I6gDp+O9iBBdxa0U7GpBpgvCG
+ C49UMO/VXej2V5LYlKSsqDCjwNWgf0DRqlXSPofcu0wDjdvxGf5lxckPTbBDw4D8Tb+H0J
+ Oq/Y2YhyDtpLfGZz0rRV2TkeVe5BqOY=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-637-KosB5KUfN0q-vaPOrMRcSg-1; Tue, 08 Mar 2022 22:38:48 -0500
+X-MC-Unique: KosB5KUfN0q-vaPOrMRcSg-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ c12-20020a170902848c00b0015025f53e9cso475655plo.7
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 19:38:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ODc3FvhZAosS2Q9f9lguzl+ofP+AnKzcUi0ij8uSBzM=;
+ b=DsZWV9uX9tGWMO44+/0+tC/7/c8Q4gJtJ9quW8hBOLFsPQOX+B47Fz9sQpVY1e2Xaq
+ +g7Rlx8tzxWmW+LgdNMnjq14AYZVRGHmjcqwgOxqknjAHB0VKaC8Di3Av+rNcpu0XZUS
+ Gsm83wwDkNnDKPfsW/3OD8RB9tDA5HGfyxvaRwdcPVaVhrRsMlW6k+QNuqxE55BHQEtr
+ Fn1wToJLLPDxpSnWGPK159XAUOMAvF9CpigHC0Ys1wXMJMYtwwLIFeWpgomWUgnTiSmb
+ O46OvBvoLabA2YkI260ybu9z+XBRWvMuNwBvKh6EkmGkRugshhg1EuK3h1LyYqIE9pwX
+ uM8Q==
+X-Gm-Message-State: AOAM531sVK2bpQ7k+TXiahNYwv7TKMUyqI7yAucQ+Lf4mgRwPB3cTAcP
+ b3wZJfKBSgo/HO/CcPqxHsqaxSXMALVA4213v6SMefbSAjNBt5is4UMRImpiGCs7FOcDB+I3GOW
+ bAlWgME+5IBr1YT0=
+X-Received: by 2002:a17:902:7d81:b0:14f:e18b:2b9e with SMTP id
+ a1-20020a1709027d8100b0014fe18b2b9emr20657997plm.160.1646797127604; 
+ Tue, 08 Mar 2022 19:38:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJytpQxpDYX4liC3oStD1o7SXpi885MfR487ys49o0EV5Fgo3XVsQZXcDvNFiGwB1DEXKXQpSg==
+X-Received: by 2002:a17:902:7d81:b0:14f:e18b:2b9e with SMTP id
+ a1-20020a1709027d8100b0014fe18b2b9emr20657957plm.160.1646797127285; 
+ Tue, 08 Mar 2022 19:38:47 -0800 (PST)
+Received: from [10.72.13.251] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ v22-20020a17090ad59600b001b7deb42251sm4455930pju.15.2022.03.08.19.38.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Mar 2022 19:38:46 -0800 (PST)
+Message-ID: <56b837a6-c67d-5ffc-bd70-ba51d996a6c2@redhat.com>
+Date: Wed, 9 Mar 2022 11:38:35 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH v5 00/15] vDPA shadow virtqueue
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+ Eugenio Perez Martin <eperezma@redhat.com>
+References: <20220307153334.3854134-1-eperezma@redhat.com>
+ <14d4fde4-6ea5-4805-b684-c33f6b448565@redhat.com>
+ <20220308020348-mutt-send-email-mst@kernel.org>
+ <CACGkMEvY-+XpPWbtiX9dy+fwDxPp7sHFhH_LY0PB2YuusEugyw@mail.gmail.com>
+ <20220308022300-mutt-send-email-mst@kernel.org>
+ <CACGkMEvuTPCRk7Ng7CbgpPSPgs_QYijzc5fU+cV3kW09W1R7Qg@mail.gmail.com>
+ <20220308024724-mutt-send-email-mst@kernel.org>
+ <CACGkMEsPBDM8ko1qgnCR1DcofPNJJo3S2j3pOJHk4xaSGQimcQ@mail.gmail.com>
+ <20220308054623-mutt-send-email-mst@kernel.org>
+ <CAJaqyWcuitG+01pjO__tYERN9910fL_JGiHG88xU=fTG3KmpJw@mail.gmail.com>
+ <20220308071253-mutt-send-email-mst@kernel.org>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220308071253-mutt-send-email-mst@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: s1soEv63fChV6Za-KWj5MZtWvVJOWvPx
-X-Proofpoint-ORIG-GUID: Qbv5WKei19M7CvItX_bT8bK3ZOqHCcJY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-08_09,2022-03-04_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 mlxscore=0
- spamscore=0 clxscore=1015 malwarescore=0 bulkscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 phishscore=0 impostorscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203090003
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -108,31 +114,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aneesh.kumar@linux.ibm.com, danielhb413@gmail.com, npiggin@gmail.com,
- qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ "Fangyi \(Eric\)" <eric.fangyi@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>, yebiaoxiang@huawei.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Parav Pandit <parav@mellanox.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gautam Dawar <gdawar@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Lingshan <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
-This is here just to facilitate review/testing of the feature.
----
- linux-headers/linux/kvm.h | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 00af3bc333..15f19fd958 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1133,6 +1133,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_VM_MOVE_ENC_CONTEXT_FROM 206
- #define KVM_CAP_VM_GPA_BITS 207
- #define KVM_CAP_XSAVE2 208
-+#define KVM_CAP_PPC_GTSE 211
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
--- 
-2.34.1
+在 2022/3/8 下午8:16, Michael S. Tsirkin 写道:
+> On Tue, Mar 08, 2022 at 12:37:33PM +0100, Eugenio Perez Martin wrote:
+>> On Tue, Mar 8, 2022 at 11:48 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+>>> On Tue, Mar 08, 2022 at 04:20:53PM +0800, Jason Wang wrote:
+>>>>> Not by itself but I'm not sure we can guarantee guest will not
+>>>>> attempt to use the IOVA addresses we are reserving down
+>>>>> the road.
+>>>> The IOVA is allocated via the listeners and stored in the iova tree
+>>>> per GPA range as IOVA->(GPA)->HVA.Guests will only see GPA, Qemu
+>>>> virtio core see GPA to HVA mapping. And we do a reverse lookup to find
+>>>> the HVA->IOVA we allocated previously.  So we have double check here:
+>>>>
+>>>> 1) Qemu memory core to make sure the GPA that guest uses is valid
+>>>> 2) the IOVA tree that guarantees there will be no HVA beyond what
+>>>> guest can see is used
+>>>>
+>>>> So technically, there's no way for the guest to use the IOVA address
+>>>> allocated for the shadow virtqueue.
+>>>>
+>>>> Thanks
+>>> I mean, IOVA is programmed in the host hardware to translate to HPA, right?
+>>>
+>> Yes, that's right if the device uses physical maps. Also to note, SVQ
+>> vring is allocated in multiples of host huge pages to avoid garbage or
+>> unintended access from the device.
+>>
+>> If a vdpa device uses physical addresses, kernel vdpa will pin qemu
+>> memory first and then will send IOVA to HPA translation to hardware.
+>> But this IOVA space is not controlled by the guest, but by SVQ. If a
+>> guest's virtqueue buffer cannot be translated first to GPA, it will
+>> not be forwarded.
+>>
+>> Thanks!
+> Right. So if guests send a buffer where buffer address overlaps the
+> range we used for the SVQ, then I think at the moment guest won't work.
+
+
+There's no way for a guest to do this, it can only use GPA but the Qemu 
+won't let vDPA to use GPA as IOVA. Dedicated IOVA ranges were allocated 
+for those GPA ranges so SVQ won't use IOVA that is overlapped with what 
+Guest use.
+
+Thanks
+
+
+>
 
 
