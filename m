@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AD44D2F1F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 13:34:58 +0100 (CET)
-Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2674D2F56
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 13:47:14 +0100 (CET)
+Received: from localhost ([::1]:36028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRvWq-00069Z-O0
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 07:34:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59952)
+	id 1nRvij-0000vp-Hx
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 07:47:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nRvVR-0005Ju-6J
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 07:33:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60947)
+ (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
+ id 1nRveM-0007sl-R4; Wed, 09 Mar 2022 07:42:42 -0500
+Received: from mga02.intel.com ([134.134.136.20]:54387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nRvVN-0003i8-Ph
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 07:33:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646829204;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R299cxMkhF8/jOkMghwZIwc7+Jus8nwkcI1sb0s8txE=;
- b=fZXJUjbUbrXhu7HNdQFWvgbvgo9QGZdWtTXKApvMKBVdq/ehq5wNhf+qtkHFJw2NqMqAKJ
- wvLw/dwLZjxJF0RG3hNYZA5XR+nagYwqQLuyO2awFovRYzM4cpSgzLfleaTGPxV00uYHNQ
- vsmpfw3fFoHxG5kRC3AqmeGyFA9ZE0k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-670-o5TCwIjlPM-tOGjmPSDiug-1; Wed, 09 Mar 2022 07:33:21 -0500
-X-MC-Unique: o5TCwIjlPM-tOGjmPSDiug-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87FDD801AFE;
- Wed,  9 Mar 2022 12:33:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E4D77C0E6;
- Wed,  9 Mar 2022 12:33:13 +0000 (UTC)
-Date: Wed, 9 Mar 2022 12:33:10 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v7 22/22] gitlab-ci: Support macOS 12 via cirrus-run
-Message-ID: <YiiehhaRPGWnM2Vn@redhat.com>
-References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
- <20220306231753.50277-23-philippe.mathieu.daude@gmail.com>
- <f2898408-5082-7121-2496-fb296c48244d@gmail.com>
- <b05317e1-3659-2dce-4582-58bc6ca4a79b@redhat.com>
+ (Exim 4.90_1) (envelope-from <lukasz.gieryk@linux.intel.com>)
+ id 1nRveJ-0004os-St; Wed, 09 Mar 2022 07:42:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646829759; x=1678365759;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=6d757HxWda8grfDxytVutvcLtsv+iq/+ApI2e4FgZIQ=;
+ b=SzWezIfrrwIVtHb8628VOwqiGuvnD/YXiuGJElWrnzG3huvzRWLqMAeM
+ sPTpQRNQoQzClN9fXCrivvDz3YxFRk1SZWBjdDgQCV0tJ+iIFYjObzMn5
+ /K7B3JhZkI8g1t+1ynCDCvSnkmqEATgqR3wqMV105Y9AA/WhiTaHBLkQ8
+ ZWI8w366vEbt0ZilAL24VGRa72RYE7jNC3MO7qY/AvEDeQifn/xaUjKUT
+ jG8gRSa/ikOsQMtquXayA6/Nr3zg9+F07bRCq0hp38uMWA096xv3r3kGD
+ PGL0ymPRux7H3tRdvTmfgpQAt861O283ayStknQ+3HnNQ8k0GEQEBbl4C Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10280"; a="242408900"
+X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; d="scan'208";a="242408900"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2022 04:41:36 -0800
+X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; d="scan'208";a="554101629"
+Received: from lgieryk-mobl1.ger.corp.intel.com (HELO lgieryk-VirtualBox)
+ ([10.252.32.116])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2022 04:41:33 -0800
+Date: Wed, 9 Mar 2022 13:41:27 +0100
+From: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v5 13/15] hw/nvme: Add support for the Virtualization
+ Management command
+Message-ID: <20220309124127.GA27213@lgieryk-VirtualBox>
+References: <20220217174504.1051716-1-lukasz.maniak@linux.intel.com>
+ <20220217174504.1051716-14-lukasz.maniak@linux.intel.com>
+ <Yh4afDUJ9Yc0a74Z@apples>
 MIME-Version: 1.0
-In-Reply-To: <b05317e1-3659-2dce-4582-58bc6ca4a79b@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <Yh4afDUJ9Yc0a74Z@apples>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=lukasz.gieryk@linux.intel.com; helo=mga02.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,57 +75,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Lukasz Maniak <lukasz.maniak@linux.intel.com>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 09, 2022 at 12:58:42PM +0100, Thomas Huth wrote:
-> On 09/03/2022 11.24, Philippe Mathieu-Daudé wrote:
-> > Hi Alex, Thomas, Daniel,
+On Tue, Mar 01, 2022 at 02:07:08PM +0100, Klaus Jensen wrote:
+> On Feb 17 18:45, Lukasz Maniak wrote:
+> > From: Łukasz Gieryk <lukasz.gieryk@linux.intel.com>
 > > 
-> > Could you ack this patch?
->
-> Basically fine for me, but can we really run additional cirrus-ci jobs by
-> default? IIRC the parallel execution of those were quite limited for the
-> free tier, so did you look close that we don't run into additional timeouts
-> yet, due to delayed cirrus-ci jobs?
+> > With the new command one can:
+> >  - assign flexible resources (queues, interrupts) to primary and
+> >    secondary controllers,
+> >  - toggle the online/offline state of given controller.
+> > 
+> 
+> QEMU segfaults (or asserts depending on the wind blowing) if the SR-IOV
+> enabled device is hotplugged after being configured (i.e. follow the
+> docs for a simple setup and then do a `device_del <nvme-device>` in the
+> monitor. I suspect this is related to freeing the queues and something
+> getting double-freed.
+> 
 
-You can run 2 jobs in parallel in Cirrus. Beyond that they
-get queued/serialized
+I’ve finally found some time to look at the issue.
 
-We have a 1 hour job timeout.
+Long story short: the hot-plug mechanism deletes all VFs without the PF
+knowing, then PF tries to reset and delete all the already non-existing
+devices.
 
-We have to expect jobs will sometimes run slower than normal.
+I have a solution for the problem, but there’s high a chance it’s not
+the correct one. I’m still reading through the specs, as my knowledge in
+the area of hot-plug/ACPI is quite limited.
 
-IOW if we have a job on Cirrus taking 30 minutes normally, we
-expect it will sometimes take 45 minutes.
+Soon we will release the next patch set, with the fix included. I hope
+the ACPI maintainers will chime in then. Till that happens, this is the
+summary of my findings:
 
-All this means that if we want Cirrus to be reliable and not
-time out, we can really only have 2 jobs by default, unless
-we can get the job execution time down to around 20 minutes
-to allow for serialization.
+1) The current SR-IOV implementation assumes it’s the PF that creates
+   and deletes VFs.
+2) It’s a design decision (the Nvme device at least) for the VFs to be
+   of the same class as PF. Effectively, they share the dc->hotpluggable
+   value.
+3) When a VF is created, it’s added as a child node to PF’s PCI bus
+   slot.
+4) Monitor/device_del triggers the ACPI mechanism. The implementation is
+   not aware of SR/IOV and ejects PF’s PCI slot, directly unrealizing all
+   hot-pluggable (!acpi_pcihp_pc_no_hotplug) children nodes.
+5) VFs are unrealized directly, and it doesn’t work well with (1).
+   SR/IOV structures are not updated, so when it’s PF’s turn to be
+   unrealized, it works on stale pointers to already-deleted VFs.
 
-We used to have terrible problems with cirrus timeouts when
-we were running 4 jobs concurrently (2 on staging and 2 on
-master). We addressed that in 9968de0a4a5470bd7b98dcd2fae5d5269908f16b
-by disabling the jobs on master.
+My proposed ‘fix’ is to make the PCI ACPI code aware of SR/IOV:
 
-IOW, we really need to choose 1 macOS job and 1 FreeBSD job
-and others need to be marked manual.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index f4d706e47d..090bdb8e74 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -196,8 +196,12 @@ static bool acpi_pcihp_pc_no_hotplug(AcpiPciHpState *s, PCIDevice *dev)
+      * ACPI doesn't allow hotplug of bridge devices.  Don't allow
+      * hot-unplug of bridge devices unless they were added by hotplug
+      * (and so, not described by acpi).
++     *
++     * Don't allow hot-unplug of SR-IOV Virtual Functions, as they
++     * will be removed implicitly, when Physical Function is unplugged.
+      */
+-    return (pc->is_bridge && !dev->qdev.hotplugged) || !dc->hotpluggable;
++    return (pc->is_bridge && !dev->qdev.hotplugged) || !dc->hotpluggable ||
++           pci_is_vf(dev);
+ }
 
 
