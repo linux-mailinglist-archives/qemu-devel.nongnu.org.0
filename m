@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F42B4D2E38
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:37:55 +0100 (CET)
-Received: from localhost ([::1]:59408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF434D2E5A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:44:57 +0100 (CET)
+Received: from localhost ([::1]:46376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRude-0004oZ-9h
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:37:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43424)
+	id 1nRukS-0006Yo-Ar
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:44:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRuM2-0008Q9-0S
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:19:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41315)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRuLy-0006us-8p
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:19:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646824776;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uP+Zzl77GQNj1tuVv1MjQEBYR9SZ6cUPwaL6iEUy97o=;
- b=Hn/OMcVCI4htN5yPDlAyuanNph8YS/z6q+57N/gw7GaGjDDnAIdq4+OYcaDELRwVwA5dBX
- Vyr6ZNF1AAfr6j/kkF/UCEA2By2dgS2eYMsSEHdCF3PmVPXzUXs0Z5erXvPO0W3H3N3x8O
- SLp4t4bzdJ97VotRbxqluDvZL9GO1kQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-302-seapXCPiMnWucMGJwZvvbA-1; Wed, 09 Mar 2022 06:19:34 -0500
-X-MC-Unique: seapXCPiMnWucMGJwZvvbA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 738AA801AEB;
- Wed,  9 Mar 2022 11:19:32 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AB7322DE9;
- Wed,  9 Mar 2022 11:18:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 002871800098; Wed,  9 Mar 2022 12:18:53 +0100 (CET)
-Date: Wed, 9 Mar 2022 12:18:53 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
-Subject: Re: MAINTAINERS: macOS host support (was: MAINTAINERS: take edk2)
-Message-ID: <20220309111853.ud7tt4nba2vy2xyr@sirius.home.kraxel.org>
-References: <20220308145521.3106395-1-kraxel@redhat.com>
- <20220308145521.3106395-12-kraxel@redhat.com>
- <cd9a9fda-7187-0601-49ca-20c649ba6cfa@gmail.com>
- <20220309081607.gzoucriu7a3qxtjf@sirius.home.kraxel.org>
- <0fcec2e8-97dc-8cf5-3f9e-285a86c0b566@gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nRuPE-0004M2-8y
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:23:00 -0500
+Received: from [2a00:1450:4864:20::630] (port=43582
+ helo=mail-ej1-x630.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nRuPC-0007cT-Nt
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:22:59 -0500
+Received: by mail-ej1-x630.google.com with SMTP id d10so4167599eje.10
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 03:22:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JvigvJDn1FZr5uqA/8hy8MyfMjAsTr1k5IDRNXfGuFo=;
+ b=Y94WJLDvIQd9F05yQqYDPvmBgaV+ZPeXgEXrlRApGWNah6RPYlInzTfuVr7FxpHxm7
+ rBpoAHgZYHX0efmOMqa2ob9a0tHlUZ0yeCZhFNJw6Ck8aKGBgaoDh978Ae7egM/i2kZP
+ G76UOjWGTFDl8zIX7uDYrX4kLLGTE18+3Yd05k5MjlGYThGBXlM/UiN13cFUNIeota/K
+ 2a3txdeT5+NBy+UNk9yA86JDwGSTfZ08u46Az8C3SQ+UrwWZRfcBXXkMF/z9AD181rG4
+ 2QF0V7KsVAGAAou5k7ORg3za/YIeJQrmVUdZkgsaGRK8nSnYTbdhPrB7Qp7jxLlwqZKi
+ aCew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JvigvJDn1FZr5uqA/8hy8MyfMjAsTr1k5IDRNXfGuFo=;
+ b=a/sFChUcq504paIoyT2UHht4SezBathwkZ+KRaCMKR5KNkFb1YE2Gv6f/NTd0+Qj1A
+ uqKrBUDzDaTqxnVsLcEh5Lcdv99FrtsReCEBRtBuSNe1+OrOK/SVhX1z+awaehvdmY3J
+ IkOlvmobBQSRIkeTlk5PcO2vTC6GuouSG20VbJz/LYkmKgmkyufbURsrlI8fc4t+gviF
+ 2GOKZ/hRbP1RFxGjjYzNKNZ+U5ahu8AKqylOQkvb8zQsa774+8LMkA7PuX2GEin4/3lR
+ pmehAy/ezspCMnxUdC2TkohgdsXm0UC0olJQMuCDjB4qWOCSPYY3JOigBAhmU2B1M+cs
+ PvVg==
+X-Gm-Message-State: AOAM532EiKB8G7pI9l1eL1UG17pRIe6iA3PIs+vTdY8o8XVDvvvwyiqg
+ LGxIfXbG374kzXd6yIMqzqRrZQ==
+X-Google-Smtp-Source: ABdhPJxcp2EmqzYZ4HuyDnmCF2v1QNACLu4qERYUiDNXOoQvLPwS4y2pbqYggY0VnUX6gPu5C4rrqQ==
+X-Received: by 2002:a17:907:3ea6:b0:6db:4b61:b46b with SMTP id
+ hs38-20020a1709073ea600b006db4b61b46bmr6925742ejc.402.1646824977241; 
+ Wed, 09 Mar 2022 03:22:57 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ y12-20020a50eb8c000000b00410f02e577esm697920edr.7.2022.03.09.03.22.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Mar 2022 03:22:56 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C4FFF1FFB7;
+ Wed,  9 Mar 2022 11:22:55 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] tests/tcg: drop -cpu max from s390x sha512-mvx invocation
+Date: Wed,  9 Mar 2022 11:22:48 +0000
+Message-Id: <20220309112248.4083619-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <0fcec2e8-97dc-8cf5-3f9e-285a86c0b566@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,56 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Joelle van Dyne <j@getutm.app>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+With -cpu max we get a warning:
 
-> > Any chance you can take over the macos support bits in return?
-> 
-> I suppose you mean the "Core Audio framework backend" section?
+  qemu-s390x: warning: 'msa5-base' requires 'kimd-sha-512'.
 
-cocoa too.
+But dropping the -cpu max and it still runs fine.
 
-> There is indeed a need for macOS host support maintenance, as patches
-> hang on the list until Peter finally takes them via the arm tree.
-> 
-> Not sure what you have in mind. I'm totally new to the macOS/Darwin
-> world, and have no choice but to use it as primary workstation and
-> for CI builds, so I can help with overall testing / maintenance.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>
+---
+ tests/tcg/s390x/Makefile.target | 2 --
+ 1 file changed, 2 deletions(-)
 
-Having test hardware is more than I have ;)
-
-Also it seems you have collected stuff from the mailing list
-in your macos host patch series.  If that isn't maintenance,
-what is it?
-
-I have only a virtual machine.  Updating that is a major PITA,
-it's stuck at macos 10 so increasingly useless for builds and
-testing, havn't booted it for months.
-
-So I'm sitting here looking at the patches where I often simply
-can't justify whenever they are correct or not because I'm not
-familiar with the macos thread model, macos app bundles etc.
-
-My maintenance model for macos bits is basically sit & wait, now
-and then scan my mail folder for patches & reviews, then trying
-to figure what is ready for merge based on the review comments.
-On top of that I'm often busy with ekd2 stuff so patches can sit
-for quite a while on the list.
-
-This isn't that great for neither me nor the people submitting
-patches ...
-
-take care,
-  Gerd
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 257c568c58..7aa502a557 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -34,6 +34,4 @@ sha512-mvx: CFLAGS=-march=z13 -mvx -O3
+ sha512-mvx: sha512.c
+ 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ 
+-run-sha512-mvx: QEMU_OPTS+=-cpu max
+-
+ TESTS+=sha512-mvx
+-- 
+2.30.2
 
 
