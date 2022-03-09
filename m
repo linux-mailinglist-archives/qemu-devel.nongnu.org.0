@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B314D2CF7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 11:18:16 +0100 (CET)
-Received: from localhost ([::1]:43458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80EF14D2CF8
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 11:18:59 +0100 (CET)
+Received: from localhost ([::1]:45282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRtOZ-0007hl-Nt
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 05:18:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57370)
+	id 1nRtPG-0000Tw-Jk
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 05:18:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRtLz-00060y-PJ
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 05:15:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46743)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRtMy-0006qm-3C
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 05:16:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nRtLw-0005Eg-65
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 05:15:33 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nRtMw-0005Ky-HF
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 05:16:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646820931;
+ s=mimecast20190719; t=1646820993;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XOrOhT6JhFCHOWNlWZubyZb18CtcIVWEG15ZnVN5ngU=;
- b=bzDxLg2J+QPAgGM9LpQBS0QThVEp8CMrisRUpYQ4Gz4Oy41ZVIkiGtaugRecwIdO0KyUF6
- lycYY8qKzOg4mVRmBLnzM9AZ0zyg9vpfm9P9MFoAay8XyiZsGhLqn4QEPxCTGthes0y4WZ
- 044Q6TbaptjY0L5QC4txN/8wplnMvvE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ztR8EzopVkIpxowpTtriAjn3jDSjbO2eWUI5fKeOcKA=;
+ b=L09G/haVH34B6sjx4kQlgoWqvQJvU51AoJIGYa82Tzapzes5+yCbxwFuwmoiZmEFOUmQoi
+ NMZ7qYPaIPcLo1di10UFv+LOGQ9PpduQNLY+XBZxwoWPCbEZNuP0cs/u7NU3zAauDS2RVP
+ vYOiw/rq57vLtX90dKjvA2NxL7yoltQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-AF1d6r65OKS7RaKGFcY62g-1; Wed, 09 Mar 2022 05:15:30 -0500
-X-MC-Unique: AF1d6r65OKS7RaKGFcY62g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-649-n-pSKb52N_CFf_ztbeePlg-1; Wed, 09 Mar 2022 05:16:32 -0500
+X-MC-Unique: n-pSKb52N_CFf_ztbeePlg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76803801AB2;
- Wed,  9 Mar 2022 10:15:29 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 25DA67D703;
- Wed,  9 Mar 2022 10:15:11 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8C2DC18000A6; Wed,  9 Mar 2022 11:15:09 +0100 (CET)
-Date: Wed, 9 Mar 2022 11:15:09 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH v3 00/12] GL & D-Bus display related fixes
-Message-ID: <20220309101509.xtuw7nsn2z7a4syh@sirius.home.kraxel.org>
-References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D5801006AA6;
+ Wed,  9 Mar 2022 10:16:31 +0000 (UTC)
+Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8673B710AB;
+ Wed,  9 Mar 2022 10:16:28 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: [PATCH] tests/qemu-iotests: Use GNU sed in two more spots where it is
+ necessary
+Date: Wed,  9 Mar 2022 11:16:26 +0100
+Message-Id: <20220309101626.637836-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220307074632.238049-1-marcandre.lureau@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -81,19 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, akihiko.odaki@gmail.com
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 07, 2022 at 11:46:20AM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Hi,
-> 
-> Here are pending fixes related to D-Bus and GL, most of them reported thanks to
-> Akihiko Odaki.
-> 
+These two spots have been missed in commit 9086c7639822 ("Rework the
+checks and spots using GNU sed") - they need GNU sed, too, since they
+are using the "+" address form.
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qemu-iotests/common.filter | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index 21819db9c3..f6e6b3bd04 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -106,13 +106,13 @@ _filter_hmp()
+ # replace block job offset
+ _filter_block_job_offset()
+ {
+-    sed -e 's/, "offset": [0-9]\+,/, "offset": OFFSET,/'
++    gsed -e 's/, "offset": [0-9]\+,/, "offset": OFFSET,/'
+ }
+ 
+ # replace block job len
+ _filter_block_job_len()
+ {
+-    sed -e 's/, "len": [0-9]\+,/, "len": LEN,/g'
++    gsed -e 's/, "len": [0-9]\+,/, "len": LEN,/g'
+ }
+ 
+ # replace actual image size (depends on the host filesystem)
+-- 
+2.27.0
 
 
