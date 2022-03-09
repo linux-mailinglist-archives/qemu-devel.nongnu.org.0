@@ -2,66 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525504D2A92
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 09:24:05 +0100 (CET)
-Received: from localhost ([::1]:50944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF994D2AB4
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 09:34:59 +0100 (CET)
+Received: from localhost ([::1]:54952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRrc3-00071k-UH
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 03:24:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34396)
+	id 1nRrmc-0001n2-G1
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 03:34:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nRrZv-0005bw-9N
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:21:51 -0500
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:42501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nRrZt-0004Ok-8y
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:21:50 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.17])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2EEDCE7BE481;
- Wed,  9 Mar 2022 09:21:39 +0100 (CET)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 9 Mar
- 2022 09:21:38 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001355f29fc-391f-4b29-935e-b56e5899f6b8,
- 4C617328B094ABD9DFA4DE296C3C041D1A210FDA) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <03591944-78f4-b855-07e3-5fdf695bc26b@kaod.org>
-Date: Wed, 9 Mar 2022 09:21:37 +0100
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nRrky-00015Y-L7
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:33:16 -0500
+Received: from [2a00:1450:4864:20::42a] (port=40912
+ helo=mail-wr1-x42a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nRrkx-000647-7m
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:33:16 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id k24so1792989wrd.7
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 00:33:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7kRyljUm2v9iP/fUdukWHwL2KXELW7MB8C4/yfbkaPo=;
+ b=GJrjv3km6dYp7UcxmZHcpQmmw2SaPt/n8+BaaE7R7xcFyEVWRME+27V4s9DX0dFS8U
+ qX6bcZq3+iFhOkxiIGRL0hC1QN34jfuQIa+qmySXr72f2EaLJlGBq8sns/kam8OcMekt
+ hSSpSwO1WowjmVllfuJVpBfPcnMpCViABn8lapyCz3bFFThoGfDRGtXIiKptrKxxHHg+
+ 3wqmfUjn30wWfwE8LcbBu5Jrv4WDxaUUVoYobvmJ0BfjLzo5y1CiRHRpRr31JvvW3xj6
+ uT2P7Gxs5ZYOJ2wN0yjQkvF9qK3vdnA7SY/rms7bfRAsYRYNsNzcoFbDtHivhCVOLc82
+ aw+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7kRyljUm2v9iP/fUdukWHwL2KXELW7MB8C4/yfbkaPo=;
+ b=19lEZfY47eeEmIr8TNQ6ADVMtCYU7n1Ro96ezwbScxyEtHEcK3svDrwaXgoGiWrot3
+ 3BHJKYOQ9vAlUGfzEBG7QvJi3kIGS1qSG3d6cUaVBgprkQgMEjsys6RvkplNDXaZW1El
+ yLrvLWBadJpDmmvPosDtYJOgJ8/9tkjneoXRwaK8IJo7OvscWLmXE8wNUSu3B/JlC45n
+ gjbULsMHddCGxuvUn7Hi0eVbQRRwhdnI4dewAcZLtyVOlz5k5PKM/zkZixWPfSxJuwxM
+ 0GfWvPtpMPTGpMV6F3DIfT6meeCtlfrka/baoFJu9MeT2sSjCzg9M/Sa/d2XfSbbyH1l
+ ZxXw==
+X-Gm-Message-State: AOAM532/sxfJLKO9ODRXbeJrdaZ+ciOtOpzQ+H4k3hfY+s6Fn2tc6B6d
+ jwdqlaY7xEs3XNdQKHL+BO9phzNEsvbhxqJmiYo=
+X-Google-Smtp-Source: ABdhPJzzLB9HVYG7pf3l7hVaQRtCiXYaEgcmgYcMiYfwLb5uv+6pava7jxFq4LO/EwkbqRz2rDTmExO+3OzwrWYfXKM=
+X-Received: by 2002:a5d:4704:0:b0:1fb:768d:7b6 with SMTP id
+ y4-20020a5d4704000000b001fb768d07b6mr8120155wrq.187.1646814793867; Wed, 09
+ Mar 2022 00:33:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 5/5] avocado/replay_kernel.py: make tcg-icount check in
- run_vm()
-Content-Language: en-US
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, Daniel Henrique Barboza
- <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220303153517.168943-1-danielhb413@gmail.com>
- <20220303153517.168943-6-danielhb413@gmail.com>
- <04d9a7d9-13c7-ee86-96c1-90bf8cf9173f@kaod.org>
- <63454050-add5-a22d-432f-be492a77ff72@ispras.ru>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <63454050-add5-a22d-432f-be492a77ff72@ispras.ru>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 0116e479-ed3a-4fca-aad7-d9de11ddab30
-X-Ovh-Tracer-Id: 7175078632830634860
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddujedgudduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgrvhgvlhdrughovhhgrghluhhksehishhprhgrshdrrhhu
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220307074632.238049-1-marcandre.lureau@redhat.com>
+ <20220307074632.238049-13-marcandre.lureau@redhat.com>
+ <c80fde18-bb3e-e780-356c-f935e7390e4d@gmail.com>
+ <CAMxuvaw_QT4wEGLZRNJEd1m-58JV-8AOc6CHKkMw4i_yrVNgew@mail.gmail.com>
+ <28ef9b06-3225-112f-b664-176e67c824d9@gmail.com>
+ <CAMxuvaz3+ySgiOxawVT=P7x4ikDcap0o5Ux78_HdewL0XXa5Kg@mail.gmail.com>
+ <d7df9ba7-40db-7b2a-63d7-eacf811da4f2@gmail.com>
+ <CAMxuvaxU56M9AvS9XfZWVBNYSORBTqWmZf3yteK8KfVcdh9Ltw@mail.gmail.com>
+ <f06f3b30-eb9d-17c7-3bac-ee2a31c158f2@gmail.com>
+ <CAMxuvawuMvxWx7xtsf=PbWnu7UypNfVWf+Bufeqbi4J=SjsU9w@mail.gmail.com>
+ <1fa142fb-7988-db25-c283-a6b16278f628@gmail.com>
+ <CAJ+F1CLDm9+myAJdNQdU2y64Fa-2+ew2oGih_cWim1=vO=sLMw@mail.gmail.com>
+ <e1a9ab86-912b-2628-1e60-4aec4eac25d3@gmail.com>
+ <CAJ+F1CKJHqA5DJv1WvY8q0k2rNW+ERFbFgMGKggMuMUJCPs5vg@mail.gmail.com>
+ <2517a6b9-cc34-3bb1-d17e-d4e30f0e68b7@gmail.com>
+In-Reply-To: <2517a6b9-cc34-3bb1-d17e-d4e30f0e68b7@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 9 Mar 2022 12:33:01 +0400
+Message-ID: <CAJ+F1CKrDnYdMKNh1nu8LjnQ=gJ9-umgGHW-E1D1sFO1gf=Rdg@mail.gmail.com>
+Subject: Re: [PATCH v3 12/12] ui/console: call gfx_switch() even if the
+ current scanout is GL
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000cca53d05d9c4f284"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,43 +96,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, crosa@redhat.com, qemu-ppc@nongnu.org,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, david@gibson.dropbear.id.au
+Cc: qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/9/22 05:59, Pavel Dovgalyuk wrote:
-> On 07.03.2022 11:47, Cédric Le Goater wrote:
->> On 3/3/22 16:35, Daniel Henrique Barboza wrote:
->>> The icount framework relies on TCG availability. If QEMU is built with
->>> --disable-tcg we won't have icount either, and then this test will fail
->>> with the following message in an IBM POWER9 host:
->>>
->>> tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_pseries:
->>> ERROR: ConnectError: Failed to establish session:
->>> (...)
->>> /11-tests_avocado_replay_kernel.py_ReplayKernelNormal.test_ppc64_pseries/replay.bin:
->>> cannot configure icount, TCG support not available
->>>
->>> Although this was revealed in a specific ppc64 scenario, the TCG check
->>> is being done in the common code inside run_vm() because all archs need
->>> TCG to have access to icount.
->>>
->>> Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
->>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>
->>
->> Reviewed-by: Cédric Le Goater <clg@kaod.org>
->>
->> Pavel,
->>
->> Should I take this patch through the ppc tree ?
-> 
-> Nobody has queued it yet, so I think it is ok.
+--000000000000cca53d05d9c4f284
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Since these are fixes, I will at end of the week.
+Hi
 
-Thanks,
+On Wed, Mar 9, 2022 at 12:21 PM Akihiko Odaki <akihiko.odaki@gmail.com>
+wrote:
 
-C.
+>
+> If it is expected that dpy_gfx_update is required, it should call
+> dpy_gfx_update. I agree it is not a right timing to fix vnc to remove
+> the implicit update as it is pre-existing.
+> However the lack of dpy_gfx_update call is a regression and should be
+> fixed.
+>
+>
+Calling dpy_gfx_update is done when the scanount.kind is SURFACE.
+
+dpy_gfx_update is specific to SURFACE, GL uses dpy_gl_update.
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000cca53d05d9c4f284
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Mar 9, 2022 at 12:21 PM Aki=
+hiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gma=
+il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex"><br>
+If it is expected that dpy_gfx_update is required, it should call <br>
+dpy_gfx_update. I agree it is not a right timing to fix vnc to remove <br>
+the implicit update as it is pre-existing.<br>
+However the lack of dpy_gfx_update call is a regression and should be fixed=
+.<br clear=3D"all"><br></blockquote></div><div><br></div><div>Calling dpy_g=
+fx_update is done when the scanount.kind is SURFACE.</div><div><br></div><d=
+iv>dpy_gfx_update is specific to SURFACE, GL uses dpy_gl_update.<br></div><=
+div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=
+=C3=A9 Lureau<br></div></div>
+
+--000000000000cca53d05d9c4f284--
 
