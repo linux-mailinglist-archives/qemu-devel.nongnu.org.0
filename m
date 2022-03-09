@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA484D2AFC
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 09:54:34 +0100 (CET)
-Received: from localhost ([::1]:40796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16A24D2B00
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 09:54:36 +0100 (CET)
+Received: from localhost ([::1]:40900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRs5Z-0004PL-Rq
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 03:54:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40732)
+	id 1nRs5c-0004U0-0X
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 03:54:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1nRs2S-0001hF-0m
+ id 1nRs2S-0001hG-BQ
  for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:51:20 -0500
-Received: from mga17.intel.com ([192.55.52.151]:27163)
+Received: from mga17.intel.com ([192.55.52.151]:27159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1nRs2Q-0000Ya-1u
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:51:19 -0500
+ id 1nRs2Q-0000YT-8K
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 03:51:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1646815878; x=1678351878;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BqicbkCklrMW9DQ9hWjf1KkDyWkX8bxlghBMjh+E9pA=;
- b=UFPHH0gDnYjQUH+iXXGBuGDIzlpm4bpWPqqUlGGEqiiBofX/WcO0fJc0
- knDM7pmRokc2vzZuSDTwtubiC5TGm2NzSGeu/I1YzejhrdCclxZSR+Qzo
- 6P3C4PJrok+SoR5fNYqQYkFh7MfalIbACnaOvYLK0H6SCTqi6G9tR7SK+
- Qx1+QQ2qRwBqH8Ddw92Robtn5rwR9zBEFE2dPGJDY2hWf0MrPZ494D1+H
- 31LwRzdxaN0+N4YWRTGAf5mVoQb6NBSZiaIT86AdeYzw4pCaCOUEDBPFv
- bfOPHehkEPp1zSdVtqqdEid09EmFpZqC9kfT7LZtdtqZvj6wWMQKe3UZe g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10280"; a="235532276"
-X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; d="scan'208";a="235532276"
+ bh=xmpZrrHqbl8ZpfhrrCHPXKP4NwmFJQ0+6oDR/IRPkT0=;
+ b=OPDzdmmQfr+BX+TBd8XZppRffmOwGiE8IQvaxXYyl3Ub3abz7tmjXpDG
+ Ivfak2q558v4qIZDX5uk/W6zJB9T78A9KpR7inJAi3LKgOgIMm2wG0KSb
+ QD74lA8bh/t+X7DRN68VuJrojZi0J9ut05W+wFpJ+0z8FWMyS/BdnfAPu
+ TVrIsnMH9siIRQB2slZJg7qvTmfoXyIkNT58tn4H8+inXruUpyJgnPUNB
+ MwESuqp6O9fpyiiH8be0yf7dFwm/TrqPkASr362QYRLemZxpQmoCPhCX5
+ H1dROPkIqA+Q2nyX8FoRVARYxfs0KYO9lklIylvYKh2hK1zp0KmpKsvGA A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10280"; a="235532282"
+X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; d="scan'208";a="235532282"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2022 00:51:15 -0800
-X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; d="scan'208";a="554030858"
+ 09 Mar 2022 00:51:17 -0800
+X-IronPort-AV: E=Sophos;i="5.90,167,1643702400"; d="scan'208";a="554030869"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2022 00:51:14 -0800
+ 09 Mar 2022 00:51:16 -0800
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>,
 	Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: [PATCH 3/4] net/colo.c: No need to track conn_list for filter-rewriter
-Date: Wed,  9 Mar 2022 16:38:57 +0800
-Message-Id: <20220309083858.58117-4-chen.zhang@intel.com>
+Subject: [PATCH 4/4] net/colo.c: fix segmentation fault when packet is not
+ parsed correctly
+Date: Wed,  9 Mar 2022 16:38:58 +0800
+Message-Id: <20220309083858.58117-5-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220309083858.58117-1-chen.zhang@intel.com>
 References: <20220309083858.58117-1-chen.zhang@intel.com>
@@ -72,32 +73,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>
+Cc: Zhang Chen <chen.zhang@intel.com>, Tao Xu <tao3.xu@intel.com>,
+ qemu-dev <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Filter-rewriter no need to track connection in conn_list.
-This patch fix the glib g_queue_is_empty assertion when COLO guest
-keep a lot of network connection.
+When COLO use only one vnet_hdr_support parameter between
+filter-redirector and filter-mirror(or colo-compare), COLO will crash
+with segmentation fault. Back track as follow:
 
+Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+0x0000555555cb200b in eth_get_l2_hdr_length (p=0x0)
+    at /home/tao/project/COLO/colo-qemu/include/net/eth.h:296
+296         uint16_t proto = be16_to_cpu(PKT_GET_ETH_HDR(p)->h_proto);
+(gdb) bt
+0  0x0000555555cb200b in eth_get_l2_hdr_length (p=0x0)
+    at /home/tao/project/COLO/colo-qemu/include/net/eth.h:296
+1  0x0000555555cb22b4 in parse_packet_early (pkt=0x555556a44840) at
+net/colo.c:49
+2  0x0000555555cb2b91 in is_tcp_packet (pkt=0x555556a44840) at
+net/filter-rewriter.c:63
+
+So wrong vnet_hdr_len will cause pkt->data become NULL. Add check to
+raise error and add trace-events to track vnet_hdr_len.
+
+Signed-off-by: Tao Xu <tao3.xu@intel.com>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/colo.c       | 9 ++++++++-
+ net/trace-events | 1 +
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/net/colo.c b/net/colo.c
-index 1f8162f59f..694f3c93ef 100644
+index 694f3c93ef..6b0ff562ad 100644
 --- a/net/colo.c
 +++ b/net/colo.c
-@@ -218,7 +218,7 @@ Connection *connection_get(GHashTable *connection_track_table,
-             /*
-              * clear the conn_list
-              */
--            while (!g_queue_is_empty(conn_list)) {
-+            while (conn_list && !g_queue_is_empty(conn_list)) {
-                 connection_destroy(g_queue_pop_head(conn_list));
-             }
-         }
+@@ -46,7 +46,14 @@ int parse_packet_early(Packet *pkt)
+     static const uint8_t vlan[] = {0x81, 0x00};
+     uint8_t *data = pkt->data + pkt->vnet_hdr_len;
+     uint16_t l3_proto;
+-    ssize_t l2hdr_len = eth_get_l2_hdr_length(data);
++    ssize_t l2hdr_len;
++
++    if (data == NULL) {
++        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
++                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
++        return 1;
++    }
++    l2hdr_len = eth_get_l2_hdr_length(data);
+ 
+     if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
+         trace_colo_proxy_main("pkt->size < ETH_HLEN");
+diff --git a/net/trace-events b/net/trace-events
+index d7a17256cc..6af927b4b9 100644
+--- a/net/trace-events
++++ b/net/trace-events
+@@ -9,6 +9,7 @@ vhost_user_event(const char *chr, int event) "chr: %s got event: %d"
+ 
+ # colo.c
+ colo_proxy_main(const char *chr) ": %s"
++colo_proxy_main_vnet_info(const char *sta, int size) ": %s = %d"
+ 
+ # colo-compare.c
+ colo_compare_main(const char *chr) ": %s"
 -- 
 2.25.1
 
