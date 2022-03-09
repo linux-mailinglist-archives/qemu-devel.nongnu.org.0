@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4ACA4D3AA7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 20:54:16 +0100 (CET)
-Received: from localhost ([::1]:52768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B489B4D3AAB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 20:58:13 +0100 (CET)
+Received: from localhost ([::1]:55444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nS2Nz-00063m-Kg
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 14:54:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54276)
+	id 1nS2Ro-00083L-EZ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 14:58:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tom@tromey.com>) id 1nS2KK-0003tT-B0
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:50:28 -0500
-Received: from gproxy2-pub.mail.unifiedlayer.com ([69.89.18.3]:37491)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tom@tromey.com>) id 1nS2KI-0002HE-B0
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:50:27 -0500
-Received: from cmgw13.mail.unifiedlayer.com (unknown [10.0.90.128])
- by progateway4.mail.pro1.eigbox.com (Postfix) with ESMTP id AB57A100471D8
- for <qemu-devel@nongnu.org>; Wed,  9 Mar 2022 19:50:24 +0000 (UTC)
-Received: from box5379.bluehost.com ([162.241.216.53]) by cmsmtp with ESMTP
- id S2KGn2rabY8ycS2KGnek8H; Wed, 09 Mar 2022 19:50:24 +0000
-X-Authority-Reason: nr=8
-X-Authority-Analysis: v=2.4 cv=Ue6U9IeN c=1 sm=1 tr=0 ts=62290500
- a=ApxJNpeYhEAb1aAlGBBbmA==:117 a=ApxJNpeYhEAb1aAlGBBbmA==:17
- a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=o8Y5sQTvuykA:10:nop_rcvd_month_year
- a=Qbun_eYptAEA:10:endurance_base64_authed_username_1 a=xOBOemYoxZh_mOWJZlwA:9
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tromey.com; 
- s=default;
- h=Content-Type:MIME-Version:Message-ID:In-Reply-To:Date:References
- :Subject:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=/s8WAyehLbw1fBq7BL3kzJeGtiFqFw8d9utJs/FoEyY=; b=dFaZKBZ7huem1HhfeJDCDfr6qk
- 42GxnmEYFKSHBmkyDacUbqLkEvl4wTdobja4BmzLXy6ttUu2BhVeBj5vz9o29NqX5HZj4huoxVrH0
- dz6DJ7b+wvySPm2hfWPqJ38r6;
-Received: from 75-166-141-253.hlrn.qwest.net ([75.166.141.253]:40576
- helo=prentzel) by box5379.bluehost.com with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <tom@tromey.com>)
- id 1nS2KF-002lQe-NK; Wed, 09 Mar 2022 12:50:23 -0700
-From: Tom Tromey <tom@tromey.com>
-To: Florian Weimer <fweimer@redhat.com>
-Subject: Re: How to backtrace an separate stack?
-References: <YiCk+NNtAGQPhyK5@stefanha-x1.localdomain>
- <87sfrtakce.fsf@oldenburg.str.redhat.com> <87fsnt1xhg.fsf@tromey.com>
- <87ilsn784k.fsf@oldenburg.str.redhat.com>
-X-Attribution: Tom
-Date: Wed, 09 Mar 2022 12:50:22 -0700
-In-Reply-To: <87ilsn784k.fsf@oldenburg.str.redhat.com> (Florian Weimer's
- message of "Wed, 09 Mar 2022 11:06:19 +0100")
-Message-ID: <87fsnqgb29.fsf@tromey.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nS2Qp-000764-Au
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:57:11 -0500
+Received: from [2607:f8b0:4864:20::1133] (port=46095
+ helo=mail-yw1-x1133.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nS2Qn-0003PM-Jy
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 14:57:10 -0500
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-2dc585dbb02so35077337b3.13
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 11:57:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=VYqvoSIqxbVHpewAp+40LB1dgKPZNBGLAzsonwDzxmg=;
+ b=eVK8Jg0cYdPDQpqPieCBAN4lRYkwNj18V6S3Stn/S+CM4oWM8TrO0hFnA9vVXIgSgK
+ Q3OqFw3HMqwowLBwAL+LuZHl7fdKmKpM9bPMGfw70tW7xXgNfaL3OU66hvVjTgifqb+l
+ rgN0E0pjIvV/IkCeS+O6xVlbJrkoEULooqVvzJvdV7Rh62TBitDEcLqkIMfwtLnfyzVY
+ dyh2LzTYoTW4hXe0a77Snyr9tiF39z+yZw2ftNAfvwiXsmhxlwgxlB8aLsSTIBTsOBPP
+ 8u1Z13FVSghZjBwj7nmcLdBk6xo0vio82dJr0pMt1eHOEObU7JK9lqBAjCEQYbHHf6bW
+ h9eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VYqvoSIqxbVHpewAp+40LB1dgKPZNBGLAzsonwDzxmg=;
+ b=4HK33KThuc3vC5KHr02U/yvlD2eMzF/fpiyYl3pQFpsWvIHssqD7B34d+oNyRCB9FX
+ 4DaISQywouBbNYpayJSiiG2J7NbVc47dh8sHIjLtuv4b5AJDy7/euyOdOLQ5pAvW7+i1
+ DHJTGxKDoztJYxUHzf0/eh1MiuVOcOUYuDGbyW8uu01HDuwSkUMj5DniNcEaXFso27cJ
+ 6L7N+7sReAmxupAEbmNafYEIr149wZHLT8vRqzsIskFWpJ5D+5HS9rRR8kATTGUlgnYn
+ 45QHzLmi6qr3EGAXcgAp3gktY7AFhJ6mpWlF3nptWGkCHQxpWYZvaCV/VxJz08cFQfhz
+ W2XQ==
+X-Gm-Message-State: AOAM530S8BUa1FKxJT80Oa/7RftDXB4b/g8mMguckRk3nhcF2HsJT9d3
+ IX7Uu5QQNT9Rdd9gKNfCBIQZ8cOOSVlPEzfLwuVrLoNRu1EuCQ==
+X-Google-Smtp-Source: ABdhPJzrCtqVuPFxePZKjPVJofqN6HIaZS9tde+6FArrdRVkS3BS6hPSzgCsnU8gPuFoEpUr0SOruvL42/mm6//NM2Y=
+X-Received: by 2002:a81:12c3:0:b0:2dc:5f5a:38ec with SMTP id
+ 186-20020a8112c3000000b002dc5f5a38ecmr1233819yws.347.1646855828458; Wed, 09
+ Mar 2022 11:57:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - box5379.bluehost.com
-X-AntiAbuse: Original Domain - nongnu.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - tromey.com
-X-BWhitelist: no
-X-Source-IP: 75.166.141.253
-X-Source-L: No
-X-Exim-ID: 1nS2KF-002lQe-NK
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 75-166-141-253.hlrn.qwest.net (prentzel)
- [75.166.141.253]:40576
-X-Source-Auth: tom+tromey.com
-X-Email-Count: 6
-X-Source-Cap: ZWx5bnJvYmk7ZWx5bnJvYmk7Ym94NTM3OS5ibHVlaG9zdC5jb20=
-X-Local-Domain: yes
-Received-SPF: pass client-ip=69.89.18.3; envelope-from=tom@tromey.com;
- helo=gproxy2-pub.mail.unifiedlayer.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+References: <20220308122149.1602798-1-clg@kaod.org>
+In-Reply-To: <20220308122149.1602798-1-clg@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 9 Mar 2022 19:56:57 +0000
+Message-ID: <CAFEAcA_47Y7zLdcQDt4CC1eA-ExQhtKD8UHJ4=k5nA-LkR+Auw@mail.gmail.com>
+Subject: Re: [PULL 00/11] aspeed queue
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1133
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,20 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pedro@palves.net, Stefan Hajnoczi via Gdb <gdb@sourceware.org>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Tom Tromey <tom@tromey.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> Yes, the infamous "previous frame inner to this frame" error message.  I
->> think this is primarily intended to detect stack trashing, but maybe it
->> also serves to work around bad debuginfo or bugs in the unwinders.
+On Tue, 8 Mar 2022 at 12:22, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> The following changes since commit b49872aa8fc0f3f5a3036cc37aa2cb5c92866f=
+33:
+>
+>   Merge remote-tracking branch 'remotes/hreitz-gitlab/tags/pull-block-202=
+2-03-07' into staging (2022-03-07 17:14:09 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/legoater/qemu/ tags/pull-aspeed-20220308
+>
+> for you to fetch changes up to 46179776c292f83848df90de60da5ae1a965ce6a:
+>
+>   hw: aspeed_gpio: Cleanup stray semicolon after switch (2022-03-08 09:18=
+:11 +0100)
+>
+> ----------------------------------------------------------------
+> aspeed queue:
+>
+> * Fix for a potential memory leak
+> * Aspeed SMC cleanups on the definition of the number of flash devices
+> * New bletchley-bmc machine, AST2600 based
+>
 
-Florian> Is there a user-level command to disable the check manually?
 
-I don't think so.  I think it would be fine if someone wanted to add
-one.
+Applied, thanks.
 
-Tom
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
