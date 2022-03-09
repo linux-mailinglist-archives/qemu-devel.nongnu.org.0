@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF9E4D3D76
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 00:14:33 +0100 (CET)
-Received: from localhost ([::1]:56884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99974D3DA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 00:41:42 +0100 (CET)
+Received: from localhost ([::1]:33948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nS5Vn-0003Jg-Iv
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 18:14:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36782)
+	id 1nS5w5-0000WV-9k
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 18:41:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nS5US-0001uj-Sv
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 18:13:08 -0500
-Received: from [2607:f8b0:4864:20::e33] (port=44828
- helo=mail-vs1-xe33.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1nS5UP-00084T-AF
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 18:13:08 -0500
-Received: by mail-vs1-xe33.google.com with SMTP id y4so4070373vsd.11
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 15:13:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=7QlrusR+Irh8nbj7AwMUwmWUb3AkSKHrIjafic9HSiY=;
- b=XxsyLFHycXfn0O7dqUnXmMD7l7042m+XphOMEcyGsoMtZkk8CcRKsKVXaRY/bPkAX/
- cRilwm41JbK+It4S9NAiLIPvHUjeSXxbsHMe5C84ohhhAtFDB3pUbgslJ2cZfCTwocEP
- 3wARVesYm3Txss3OQni6r+KYFK+6eIUBJqhbUxRilHvtFfRj+cToMtt3Ia/6xClfllE2
- TWw+nTq5vYbLPs37NSethQeLRcJ4l44Hedg42yklGpKko5++0FNCPb+sxEQj4uaPMU5Z
- nTKVRwYkTKA8eUhLUZOPyR8C9aTujpS2IBxjiECiz32L9dPxwYei6L0LWcXQnkw7QlkW
- GEEA==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nS5vC-0008Eh-7p
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 18:40:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41123)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nS5v8-0003s2-Km
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 18:40:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646869241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+TUSIHqCGJmabwLWB8aDYJVU3fT5o0iChDiGsi6s7GA=;
+ b=FqRT2ivj/X3Qa/vi/sLsi6L0i5Ewhpohb9gdM3BcZTQExqwX+PY+QKNSCIqpF/TsWz+ok3
+ l53UXL32tH9HG0xAuQh5GSzrusvFUc05TMCChqaVp7l24hB+3TXxaNBWNpCkledta3M/3s
+ OVAXHD5qcLF5bKdz4UO+ePwTwA7S5RI=
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
+ [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-614-rYCyo133M6ymwPQ_5RhZ_w-1; Wed, 09 Mar 2022 18:40:39 -0500
+X-MC-Unique: rYCyo133M6ymwPQ_5RhZ_w-1
+Received: by mail-oo1-f71.google.com with SMTP id
+ r5-20020a4aad05000000b00320df2f7f4dso2930221oon.3
+ for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 15:40:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=7QlrusR+Irh8nbj7AwMUwmWUb3AkSKHrIjafic9HSiY=;
- b=4YNhu3Jhu6jndEqrDvM+DD0oDy7zPiooZIfGDHy6HTpFVaySTEofYR1IQc6Mf/YSMg
- haz6Kgpwp47MOPND8SttNC074Cjiek6AuQpUPyJCxCKu5MxvkeBogVQR6QOL/rPw0D4C
- xdEKevCikj0dLcPMHe9YenNnVb6eMgJmBX3pHshKTD8O7LSrXZU1BAU62LFS1zfnCuZ2
- yjRINObA83HupUZbo5RUQsB29bwg2jI73VcyarBYXQLS4Ph0CMN/hADwVBXW1l46x8GI
- Y6OGkg2lV0Yuo5u2UxjUb7wHlm06fhUQMAbOIsimcbFEvewSV1g02wjMwabrPkZ6rIoc
- DPGA==
-X-Gm-Message-State: AOAM530Z8/OJNJOpSWMc1UBR8sWRAxrRXBNxLyQoCyt8YRlGetQa7+y0
- R0TdaHN6HKPs8twY6kb3hDBY3f8z7NB/hsnbMbdmAA==
-X-Google-Smtp-Source: ABdhPJygPj4cZVLEdjPKokALXlaWcqhICiCrUVFbkxsfo0rhiPpdXG6pbRKQ8omsK3tMIFEJnAZR3zjWgY4GDywCAQ8=
-X-Received: by 2002:a67:fdc9:0:b0:320:c64c:3204 with SMTP id
- l9-20020a67fdc9000000b00320c64c3204mr938223vsq.36.1646867581937; Wed, 09 Mar
- 2022 15:13:01 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=+TUSIHqCGJmabwLWB8aDYJVU3fT5o0iChDiGsi6s7GA=;
+ b=rIShHIDrOe9zffY2PLTVWsi9aKO7CTGsUEuim7zrW4NTi7yBvOuklyugJjT7K76RNo
+ y2VIM4O3S9tdVDp3S8xu5pH29jDbz41LNcVMNB3JaNVED7crO0bqxP+pd2N5h8RY+Zz5
+ 1i/LIDh4kC8pOklakd0phxrPFDqFy8uao3ZAeT0ePmo2CzG3B9aIfUjGiniDo1KfmWPa
+ jYqt2a3QXhGjd8lV8NAbg4IRGZ8wEi9DeXv5EGpx2m/4/yKfEUCDPuhlLBv6oA8O2j6Z
+ IPVL75VVBaC4kv4UwpJpiUZilnsW5DghBnwdlGH+ys40fcDw0y5tjOmzw8fOfkeuZ+Od
+ YowQ==
+X-Gm-Message-State: AOAM5328jGg7W4u48yfl1qy9kCuoCJWQUdG+AIsLGx330qmpiN9ZyEFz
+ w6oy2ZTRkmkc0MEhUFX0dKx0SswDIPJE7zgJmjhn89XOS8r7a1SYQedHlQEvnG7j6vqW6UxQAhM
+ 1rCuFfZIwhFUUNO4=
+X-Received: by 2002:a9d:ed7:0:b0:5b2:236c:b6cd with SMTP id
+ 81-20020a9d0ed7000000b005b2236cb6cdmr1174020otj.31.1646869238674; 
+ Wed, 09 Mar 2022 15:40:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyFTAZKmYSd7Itrj4uNu4WMJx1anR+1YxvQQLi7OmLBgZRu6Fo8gvn0KE/2/LCzydxbVf0BIA==
+X-Received: by 2002:a9d:ed7:0:b0:5b2:236c:b6cd with SMTP id
+ 81-20020a9d0ed7000000b005b2236cb6cdmr1174006otj.31.1646869238341; 
+ Wed, 09 Mar 2022 15:40:38 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ 16-20020a9d0490000000b005ad3c83e927sm1600747otm.60.2022.03.09.15.40.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Mar 2022 15:40:38 -0800 (PST)
+Date: Wed, 9 Mar 2022 16:40:36 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: John Johnson <john.g.johnson@oracle.com>
+Subject: Re: [RFC v4 04/21] vfio-user: add region cache
+Message-ID: <20220309164036.3c598e92.alex.williamson@redhat.com>
+In-Reply-To: <719c102ca37546208637f479054da1ebf00957d5.1641584316.git.john.g.johnson@oracle.com>
+References: <cover.1641584316.git.john.g.johnson@oracle.com>
+ <719c102ca37546208637f479054da1ebf00957d5.1641584316.git.john.g.johnson@oracle.com>
+Organization: Red Hat
 MIME-Version: 1.0
-From: Patrick Venture <venture@google.com>
-Date: Wed, 9 Mar 2022 15:12:51 -0800
-Message-ID: <CAO=notw1Aacb+EXLOBw4fy3rt2cFSkYmeXtJx6UziBdz7tveTg@mail.gmail.com>
-Subject: Lost patch
-To: Corey Minyard <cminyard@mvista.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000037324d05d9d13d36"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::e33
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
- envelope-from=venture@google.com; helo=mail-vs1-xe33.google.com
-X-Spam_score_int: -134
-X-Spam_score: -13.5
-X-Spam_bar: -------------
-X-Spam_report: (-13.5 / 5.0 requ) BAYES_50=0.8, DKIMWL_WL_MED=-0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,34 +101,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000037324d05d9d13d36
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 11 Jan 2022 16:43:40 -0800
+John Johnson <john.g.johnson@oracle.com> wrote:
 
-Corey and Peter;
+> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+> index 0cf69a8..223bd02 100644
+> --- a/hw/vfio/pci-quirks.c
+> +++ b/hw/vfio/pci-quirks.c
+> @@ -1601,16 +1601,14 @@ int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp)
+>  
+>      hdr = vfio_get_region_info_cap(nv2reg, VFIO_REGION_INFO_CAP_NVLINK2_SSATGT);
+>      if (!hdr) {
+> -        ret = -ENODEV;
+> -        goto free_exit;
+> +        return -ENODEV;
+>      }
+>      cap = (void *) hdr;
+>  
+>      p = mmap(NULL, nv2reg->size, PROT_READ | PROT_WRITE,
+>               MAP_SHARED, vdev->vbasedev.fd, nv2reg->offset);
+>      if (p == MAP_FAILED) {
+> -        ret = -errno;
+> -        goto free_exit;
+> +        return -errno;
+>      }
+>  
+>      quirk = vfio_quirk_alloc(1);
+> @@ -1623,7 +1621,7 @@ int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp)
+>                          (void *) (uintptr_t) cap->tgt);
+>      trace_vfio_pci_nvidia_gpu_setup_quirk(vdev->vbasedev.name, cap->tgt,
+>                                            nv2reg->size);
+> -free_exit:
+> +
+>      g_free(nv2reg);
 
-I was about to submit a fix to the at24c-eeprom device and noticed that my
-v2 patch appears to have been lost to time.  Is there any way we can get
-this pulled into 7.0?
+Shouldn't this g_free() be removed as well?
 
-https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg03485.html
+>  
+>      return ret;
+> @@ -1651,16 +1649,14 @@ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp)
+>      hdr = vfio_get_region_info_cap(atsdreg,
+>                                     VFIO_REGION_INFO_CAP_NVLINK2_SSATGT);
+>      if (!hdr) {
+> -        ret = -ENODEV;
+> -        goto free_exit;
+> +        return -ENODEV;
+>      }
+>      captgt = (void *) hdr;
+>  
+>      hdr = vfio_get_region_info_cap(atsdreg,
+>                                     VFIO_REGION_INFO_CAP_NVLINK2_LNKSPD);
+>      if (!hdr) {
+> -        ret = -ENODEV;
+> -        goto free_exit;
+> +        return -ENODEV;
+>      }
+>      capspeed = (void *) hdr;
+>  
+> @@ -1669,8 +1665,7 @@ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp)
+>          p = mmap(NULL, atsdreg->size, PROT_READ | PROT_WRITE,
+>                   MAP_SHARED, vdev->vbasedev.fd, atsdreg->offset);
+>          if (p == MAP_FAILED) {
+> -            ret = -errno;
+> -            goto free_exit;
+> +            return -errno;
+>          }
+>  
+>          quirk = vfio_quirk_alloc(1);
+> @@ -1690,8 +1685,6 @@ int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp)
+>                          (void *) (uintptr_t) capspeed->link_speed);
+>      trace_vfio_pci_nvlink2_setup_quirk_lnkspd(vdev->vbasedev.name,
+>                                                capspeed->link_speed);
+> -free_exit:
+> -    g_free(atsdreg);
 
-Thanks,
-Patrick
+Like was done for this equivalent usage.  Thanks,
 
---00000000000037324d05d9d13d36
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-<div dir=3D"ltr"><div>Corey and Peter;</div><div><br></div><div>I was about=
- to submit a fix to the at24c-eeprom device and noticed that my v2 patch ap=
-pears=C2=A0to have been lost to time.=C2=A0 Is there any way we can get thi=
-s pulled into 7.0?</div><div><br></div><a href=3D"https://lists.gnu.org/arc=
-hive/html/qemu-devel/2021-12/msg03485.html">https://lists.gnu.org/archive/h=
-tml/qemu-devel/2021-12/msg03485.html</a><br><div><br></div><div>Thanks,</di=
-v><div>Patrick</div></div>
-
---00000000000037324d05d9d13d36--
 
