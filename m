@@ -2,47 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6F14D280D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 06:02:28 +0100 (CET)
-Received: from localhost ([::1]:57682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0FDB4D2954
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 08:17:25 +0100 (CET)
+Received: from localhost ([::1]:40686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRoSw-00007v-IS
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 00:02:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43986)
+	id 1nRqZY-00018L-FF
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 02:17:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nRoQo-0007Y2-Ek; Wed, 09 Mar 2022 00:00:14 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:46354)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1nRoQm-0004KC-0u; Wed, 09 Mar 2022 00:00:13 -0500
-Received: from [10.12.102.111] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 6904940D403D;
- Wed,  9 Mar 2022 05:00:03 +0000 (UTC)
-Message-ID: <63454050-add5-a22d-432f-be492a77ff72@ispras.ru>
-Date: Wed, 9 Mar 2022 07:59:59 +0300
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nRqWG-00086i-Gf
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 02:14:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1nRqWD-00073B-60
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 02:13:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646810035;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+sIcVcG1K04jdt2eW0SaKqxow217xIDneM/Sk7LiU+k=;
+ b=jHHhLQRhGxvIzPx1arOi3x3XdXHcJ15oRSjtiELBMiYosojtaFwIhfMV0AJLBDmPD5gWSU
+ ECFVJmr/ITx4rB1f7V+12r+lMqNIPthPdZeveAEw4wVydZqXogy0o18ylAbFeQPpaXvT2N
+ fwJvD3a4UNWRcp1L0k2Q4fU7+WuZn3E=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-58-MMx9QM5dPXK9iSv1Z6RY-g-1; Wed, 09 Mar 2022 02:13:54 -0500
+X-MC-Unique: MMx9QM5dPXK9iSv1Z6RY-g-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ u28-20020a50d51c000000b004159ffb8f24so793511edi.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Mar 2022 23:13:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+sIcVcG1K04jdt2eW0SaKqxow217xIDneM/Sk7LiU+k=;
+ b=x0C8rt5Gm+TMiF8g1CZajtF5iYJXqvgRAs8lUs/nBWZrrHvGTM550/nfarRD4a77Eg
+ r2zh7QGEJYtjp0LgIhKL7B9EItpNat6lj1TMkNfcT5ZNFOusMvb/LRPIuQbGJHs2eaFX
+ BBbEmoJLdtOpsenocL/M79RUhuH3+vrmKKFTVr4xwfB6wEZPXJBNX/Erm5MvV1r8EbDy
+ 2dd2d96OW4rNzjBnuUe03lLP8RIN6Wd2j7/irkBe1njhhzqPYt9XsLJX+nNh55+qyxLs
+ XsIfNQbIaSGKiqMOhobtlG/DlSPoyphNPsIHX0m9sjLppXQBLJTzX878qM5mVu1FJEGN
+ /9Qg==
+X-Gm-Message-State: AOAM533swzWHl6qazJSPFG5vKWXQAODdnikgTs0rW889yc65MPj2+yfg
+ KpE/KRhDXjNRHu76DglL0+nQyCkH3yjemhQx8PfaFF3FYIpfuHtIhIDSUBkfQB+uzOH681QFSMt
+ qt74VfRFJbNL3+MM=
+X-Received: by 2002:a17:907:7205:b0:6db:706e:9453 with SMTP id
+ dr5-20020a170907720500b006db706e9453mr627054ejc.406.1646810033097; 
+ Tue, 08 Mar 2022 23:13:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy/7lw15gxh/KzXzzMnrvgw/ARCo65SYc3v4XYbAB70cqmYawoA8YpWgc2Y24lrjVEodzTOGQ==
+X-Received: by 2002:a17:907:7205:b0:6db:706e:9453 with SMTP id
+ dr5-20020a170907720500b006db706e9453mr627036ejc.406.1646810032749; 
+ Tue, 08 Mar 2022 23:13:52 -0800 (PST)
+Received: from gator (cst-prg-8-40.cust.vodafone.cz. [46.135.8.40])
+ by smtp.gmail.com with ESMTPSA id
+ fd16-20020a1709072a1000b006d90b4c029asm366469ejc.28.2022.03.08.23.13.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Mar 2022 23:13:52 -0800 (PST)
+Date: Wed, 9 Mar 2022 08:13:49 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH 1/2] hw/intc: Rename CONFIG_ARM_GIC_TCG into
+ CONFIG_ARM_GICV3_TCG
+Message-ID: <20220309071349.u2b4hgsprfbymf2z@gator>
+References: <20220308182452.223473-1-eric.auger@redhat.com>
+ <20220308182452.223473-2-eric.auger@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 5/5] avocado/replay_kernel.py: make tcg-icount check in
- run_vm()
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20220303153517.168943-1-danielhb413@gmail.com>
- <20220303153517.168943-6-danielhb413@gmail.com>
- <04d9a7d9-13c7-ee86-96c1-90bf8cf9173f@kaod.org>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-In-Reply-To: <04d9a7d9-13c7-ee86-96c1-90bf8cf9173f@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+In-Reply-To: <20220308182452.223473-2-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -57,73 +100,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, crosa@redhat.com, qemu-ppc@nongnu.org,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ f4bug@amsat.org, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.03.2022 11:47, Cédric Le Goater wrote:
-> On 3/3/22 16:35, Daniel Henrique Barboza wrote:
->> The icount framework relies on TCG availability. If QEMU is built with
->> --disable-tcg we won't have icount either, and then this test will fail
->> with the following message in an IBM POWER9 host:
->>
->> tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_pseries:
->> ERROR: ConnectError: Failed to establish session:
->> (...)
->> /11-tests_avocado_replay_kernel.py_ReplayKernelNormal.test_ppc64_pseries/replay.bin: 
->>
->> cannot configure icount, TCG support not available
->>
->> Although this was revealed in a specific ppc64 scenario, the TCG check
->> is being done in the common code inside run_vm() because all archs need
->> TCG to have access to icount.
->>
->> Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+On Tue, Mar 08, 2022 at 07:24:51PM +0100, Eric Auger wrote:
+> CONFIG_ARM_GIC_TCG actually guards the compilation of TCG GICv3
+> specific files. So let's rename it into CONFIG_ARM_GICV3_TCG
 > 
-> 
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> 
-> Pavel,
-> 
-> Should I take this patch through the ppc tree ?
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  hw/intc/Kconfig     | 2 +-
+>  hw/intc/meson.build | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
 
-Nobody has queued it yet, so I think it is ok.
-
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
->> ---
->>   tests/avocado/replay_kernel.py | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/tests/avocado/replay_kernel.py 
->> b/tests/avocado/replay_kernel.py
->> index c68a953730..0b2b0dc692 100644
->> --- a/tests/avocado/replay_kernel.py
->> +++ b/tests/avocado/replay_kernel.py
->> @@ -36,6 +36,9 @@ class ReplayKernelBase(LinuxKernelTest):
->>       def run_vm(self, kernel_path, kernel_command_line, console_pattern,
->>                  record, shift, args, replay_path):
->> +        # icount requires TCG to be available
->> +        self.require_accelerator('tcg')
->> +
->>           logger = logging.getLogger('replay')
->>           start_time = time.time()
->>           vm = self.get_vm()
->> @@ -243,6 +246,7 @@ def test_ppc64_pseries(self):
->>           """
->>           :avocado: tags=arch:ppc64
->>           :avocado: tags=machine:pseries
->> +        :avocado: tags=accel:tcg
->>           """
->>           kernel_url = ('https://archives.fedoraproject.org/pub/archive'
->>                         
->> '/fedora-secondary/releases/29/Everything/ppc64le/os'
-> 
+ 
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
