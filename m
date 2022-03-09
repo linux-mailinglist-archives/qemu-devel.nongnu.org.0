@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1F24D2DB9
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:14:39 +0100 (CET)
-Received: from localhost ([::1]:41700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77714D2DD2
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:19:10 +0100 (CET)
+Received: from localhost ([::1]:50460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRuH8-0006Ls-T6
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:14:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40888)
+	id 1nRuLV-0004TV-RQ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:19:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuBl-0006JT-A1
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:08 -0500
-Received: from [2001:41c9:1:41f::167] (port=35688
+ id 1nRuBp-0006Jh-0T
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:12 -0500
+Received: from [2001:41c9:1:41f::167] (port=35696
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuBj-0005E8-Sr
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:05 -0500
+ id 1nRuBn-0005ES-He
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:09:08 -0500
 Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1nRuB2-000CWr-Ly; Wed, 09 Mar 2022 11:08:24 +0000
+ id 1nRuB6-000CWr-Sg; Wed, 09 Mar 2022 11:08:28 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	laurent@vivier.eu,
 	qemu-devel@nongnu.org
-Date: Wed,  9 Mar 2022 11:08:14 +0000
-Message-Id: <20220309110831.18443-6-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  9 Mar 2022 11:08:15 +0000
+Message-Id: <20220309110831.18443-7-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
 References: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
@@ -38,8 +38,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 05/22] mos6522: remove update_irq() and set_sr_int() methods
- from MOS6522DeviceClass
+Subject: [PULL 06/22] mos6522: use device_class_set_parent_reset() to
+ propagate reset to parent
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
@@ -68,63 +68,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the mos6522 IRQs are managed using standard qdev gpios these methods
-are no longer required.
+Switch from using a legacy approach to the more formal approach for propagating
+device reset to the parent.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220305150957.5053-6-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220305150957.5053-7-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/mos6522.c         | 9 ---------
- include/hw/misc/mos6522.h | 2 --
- 2 files changed, 11 deletions(-)
+ hw/misc/mac_via.c    | 7 +++++--
+ hw/misc/macio/cuda.c | 3 ++-
+ hw/misc/macio/pmu.c  | 3 ++-
+ hw/misc/mos6522.c    | 1 -
+ 4 files changed, 9 insertions(+), 5 deletions(-)
 
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index 80eb433044..3f473c3fcf 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -1076,9 +1076,11 @@ static Property mos6522_q800_via1_properties[] = {
+ static void mos6522_q800_via1_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
++    MOS6522DeviceClass *mdc = MOS6522_CLASS(oc);
+ 
+     dc->realize = mos6522_q800_via1_realize;
+-    dc->reset = mos6522_q800_via1_reset;
++    device_class_set_parent_reset(dc, mos6522_q800_via1_reset,
++                                  &mdc->parent_reset);
+     dc->vmsd = &vmstate_q800_via1;
+     device_class_set_props(dc, mos6522_q800_via1_properties);
+ }
+@@ -1161,7 +1163,8 @@ static void mos6522_q800_via2_class_init(ObjectClass *oc, void *data)
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     MOS6522DeviceClass *mdc = MOS6522_CLASS(oc);
+ 
+-    dc->reset = mos6522_q800_via2_reset;
++    device_class_set_parent_reset(dc, mos6522_q800_via2_reset,
++                                  &mdc->parent_reset);
+     dc->vmsd = &vmstate_q800_via2;
+     mdc->portB_write = mos6522_q800_via2_portB_write;
+ }
+diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
+index 693fc82e05..1498113cfc 100644
+--- a/hw/misc/macio/cuda.c
++++ b/hw/misc/macio/cuda.c
+@@ -606,7 +606,8 @@ static void mos6522_cuda_class_init(ObjectClass *oc, void *data)
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     MOS6522DeviceClass *mdc = MOS6522_CLASS(oc);
+ 
+-    dc->reset = mos6522_cuda_reset;
++    device_class_set_parent_reset(dc, mos6522_cuda_reset,
++                                  &mdc->parent_reset);
+     mdc->portB_write = mos6522_cuda_portB_write;
+     mdc->get_timer1_counter_value = cuda_get_counter_value;
+     mdc->get_timer2_counter_value = cuda_get_counter_value;
+diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
+index b210068ab7..5b1ec100e2 100644
+--- a/hw/misc/macio/pmu.c
++++ b/hw/misc/macio/pmu.c
+@@ -850,7 +850,8 @@ static void mos6522_pmu_class_init(ObjectClass *oc, void *data)
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     MOS6522DeviceClass *mdc = MOS6522_CLASS(oc);
+ 
+-    dc->reset = mos6522_pmu_reset;
++    device_class_set_parent_reset(dc, mos6522_pmu_reset,
++                                  &mdc->parent_reset);
+     mdc->portB_write = mos6522_pmu_portB_write;
+     mdc->portA_write = mos6522_pmu_portA_write;
+ }
 diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index 6be6853dc2..4c3147a7d1 100644
+index 4c3147a7d1..093cc83dcf 100644
 --- a/hw/misc/mos6522.c
 +++ b/hw/misc/mos6522.c
-@@ -208,13 +208,6 @@ static void mos6522_timer2(void *opaque)
-     mos6522_update_irq(s);
- }
- 
--static void mos6522_set_sr_int(MOS6522State *s)
--{
--    trace_mos6522_set_sr_int();
--    s->ifr |= SR_INT;
--    mos6522_update_irq(s);
--}
--
- static uint64_t mos6522_get_counter_value(MOS6522State *s, MOS6522Timer *ti)
- {
-     return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - ti->load_time,
-@@ -527,10 +520,8 @@ static void mos6522_class_init(ObjectClass *oc, void *data)
+@@ -519,7 +519,6 @@ static void mos6522_class_init(ObjectClass *oc, void *data)
+     dc->reset = mos6522_reset;
      dc->vmsd = &vmstate_mos6522;
      device_class_set_props(dc, mos6522_properties);
-     mdc->parent_reset = dc->reset;
--    mdc->set_sr_int = mos6522_set_sr_int;
+-    mdc->parent_reset = dc->reset;
      mdc->portB_write = mos6522_portB_write;
      mdc->portA_write = mos6522_portA_write;
--    mdc->update_irq = mos6522_update_irq;
      mdc->get_timer1_counter_value = mos6522_get_counter_value;
-     mdc->get_timer2_counter_value = mos6522_get_counter_value;
-     mdc->get_timer1_load_time = mos6522_get_load_time;
-diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
-index f38ae2b0f0..f0a614898e 100644
---- a/include/hw/misc/mos6522.h
-+++ b/include/hw/misc/mos6522.h
-@@ -140,10 +140,8 @@ struct MOS6522DeviceClass {
-     DeviceClass parent_class;
- 
-     DeviceReset parent_reset;
--    void (*set_sr_int)(MOS6522State *dev);
-     void (*portB_write)(MOS6522State *dev);
-     void (*portA_write)(MOS6522State *dev);
--    void (*update_irq)(MOS6522State *dev);
-     /* These are used to influence the CUDA MacOS timebase calibration */
-     uint64_t (*get_timer1_counter_value)(MOS6522State *dev, MOS6522Timer *ti);
-     uint64_t (*get_timer2_counter_value)(MOS6522State *dev, MOS6522Timer *ti);
 -- 
 2.20.1
 
