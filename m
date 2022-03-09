@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD5E4D2D9F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:05:50 +0100 (CET)
-Received: from localhost ([::1]:56826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDB04D2DB0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 12:11:51 +0100 (CET)
+Received: from localhost ([::1]:33286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRu8b-0004yR-GD
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:05:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40002)
+	id 1nRuEQ-0000SV-0A
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 06:11:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nRu6t-0004H9-Ip
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:04:03 -0500
-Received: from [2a00:1450:4864:20::62a] (port=33634
- helo=mail-ej1-x62a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1nRu6r-0004Xc-PZ
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:04:03 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id kt27so4234354ejb.0
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 03:04:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5JHu5o4zsVC4wYCL4Tvl6dJqdB2EofLz8L7lNn/cGVo=;
- b=jH1Ez86gqlrt9M1z1ddqJDmQZ0affM1k3/odkX15mtW7C716a++2kXMku/rFHg5rPI
- oqx3EnvkEXqYCF8hUuj5sJB4hWhwLqR6eR+tNZ4H+VP5HI1+j4sJ4J38BxddMsCCQ8Uq
- qQKvigWiu7hIMcT21mph99vNfXlUej4VfAabyvpgOt+lrXhxBU0oTt8gPUBfxL0+nOES
- yALoQ5q3YWQuruzpzfBtghpajVWvlsq/CprwB3qqj59nQzvn1NO/wI1TfnDdbU9KRiNi
- bXb9Ne20pz/jlArpS3gQBHr0ulNB86/unt30S2PoFtsksOFXZjgkQTmhj45RBlx5b/RA
- 96oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5JHu5o4zsVC4wYCL4Tvl6dJqdB2EofLz8L7lNn/cGVo=;
- b=QUCR/zZ4Za4xxsKtZIOamwsmK3Ee+dLCZrRWYW/U8H11ymXZ0/iecdsuVXKUKe6mnu
- QVHy2IMQ4unJ0Cp+aok7pIR7EsygdwLDgQ6Fhzdv0/BHcwKgyCDu5zyAF8QGiSv3Q0BZ
- UeQalChlW6lUbbK2//PuO6t9PsoePKb+a2+ZZbSEGnMHTAI5aHvCglwGl+AkJqVLVKF4
- JH4sbKjNWzA9is410bNJEtQsp7Ana7YvmFaAJfaMeI67GsDV9J9phNQ7pttALNMF2ojH
- UsApAv5ryUmguCNVR6xgCwCVdaWbA+qgiG2hHMPnn2LfDGwAXKUV5PIQcOOs0LcLMquM
- VI+Q==
-X-Gm-Message-State: AOAM5319dF/ksxdBaT3aSyedXF/H9cKEoJXjnInMXIJVBmrGFyB+h36v
- PuRQi4I1JcXzJWhr+a83xIhj79cpww5IZkrJ2z5Rww==
-X-Google-Smtp-Source: ABdhPJx5m6dveO23hfbXnwuMnemUC11B5Y2bAxHiITTTdKkt8CHLApUjRDI1tEf+6mbagWwz1a3dqQo8SiFq/1TvURk=
-X-Received: by 2002:a17:907:2d29:b0:6db:2b1f:333a with SMTP id
- gs41-20020a1709072d2900b006db2b1f333amr12393955ejc.704.1646823840036; Wed, 09
- Mar 2022 03:04:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nRuBX-00065V-Ds
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:08:52 -0500
+Received: from [2001:41c9:1:41f::167] (port=35648
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nRuBV-0005BJ-9H
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 06:08:50 -0500
+Received: from [2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe] (helo=kentang.home)
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1nRuAl-000CWr-TG; Wed, 09 Mar 2022 11:08:07 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: peter.maydell@linaro.org,
+	laurent@vivier.eu,
+	qemu-devel@nongnu.org
+Date: Wed,  9 Mar 2022 11:08:09 +0000
+Message-Id: <20220309110831.18443-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20220207070233.2632953-1-ani@anisinha.ca>
- <20220207070233.2632953-2-ani@anisinha.ca>
- <c95e764d-60b5-c25a-f32c-33f21fa6724c@oracle.com>
-In-Reply-To: <c95e764d-60b5-c25a-f32c-33f21fa6724c@oracle.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Wed, 9 Mar 2022 16:33:48 +0530
-Message-ID: <CAARzgwyd4fhMVEzOodyg8C759_0zgidBJP=o82XPaAWRiVf-aA@mail.gmail.com>
-Subject: Re: [PATCH v16] ACPI ERST: specification for ERST support
-To: Eric DeVolder <eric.devolder@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62a
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:ca00:d4eb:dbd5:5a41:aefe
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PULL 00/22] q800-updates-for-7.0 queue 20220309
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::62a;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,28 +63,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 1, 2022 at 8:05 PM Eric DeVolder <eric.devolder@oracle.com> wrote:
->
-> Hi, just wondering when this is targeted for merge?
+The following changes since commit 9f0369efb0f2a200f18b1aacd2ef493e22da5351:
 
-It has merged to master.
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2022-03-08 22:27:34 +0000)
 
-$ git log acpi_erst.rst
-commit 0ef0506e559612edd10fe45dfd2f349c224601a1
-Author: Eric DeVolder <eric.devolder@oracle.com>
-Date:   Wed Feb 23 20:03:16 2022 +0530
+are available in the Git repository at:
 
-    ACPI ERST: specification for ERST support
+  git://github.com/mcayland/qemu.git tags/q800-updates-for-7.0-20220309
 
-    Information on the implementation of the ACPI ERST support.
+for you to fetch changes up to a7a2208862bee2bc4fe55adfd947dc4a15ad0216:
 
-    Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-    Acked-by: Ani Sinha <ani@anisinha.ca>
-    Message-Id: <20220223143322.927136-2-ani@anisinha.ca>
-    Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-    Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+  esp: recreate ESPState current_req after migration (2022-03-09 09:29:10 +0000)
+
+----------------------------------------------------------------
+q800-updates-for-7.0 queue
+
+[MCA: this is the current q800 patch queue for 7.0 which I'm picking up on
+behalf of Laurent]
+
+----------------------------------------------------------------
+Mark Cave-Ayland (22):
+      mos6522: add defines for IFR bit flags
+      mac_via: use IFR bit flag constants for VIA1 IRQs
+      mac_via: use IFR bit flag constants for VIA2 IRQs
+      mos6522: switch over to use qdev gpios for IRQs
+      mos6522: remove update_irq() and set_sr_int() methods from MOS6522DeviceClass
+      mos6522: use device_class_set_parent_reset() to propagate reset to parent
+      mos6522: add register names to register read/write trace events
+      mos6522: add "info via" HMP command for debugging
+      mos6522: record last_irq_levels in mos6522_set_irq()
+      mac_via: make SCSI_DATA (DRQ) bit live rather than latched
+      mos6522: implement edge-triggering for CA1/2 and CB1/2 control line IRQs
+      macio/pmu.c: remove redundant code
+      macfb: add VMStateDescription for MacfbNubusState and MacfbSysBusState
+      macfb: don't use special irq_state and irq_mask variables in MacfbState
+      macfb: increase number of registers saved in MacfbState
+      macfb: add VMStateDescription fields for display type and VBL timer
+      macfb: set initial value of mode control registers in macfb_common_realize()
+      esp: introduce esp_set_pdma_cb() function
+      esp: introduce esp_pdma_cb() function
+      esp: convert ESPState pdma_cb from a function pointer to an integer
+      esp: include the current PDMA callback in the migration stream
+      esp: recreate ESPState current_req after migration
+
+ hmp-commands-info.hx         |  15 +++
+ hw/display/macfb.c           |  57 +++++++++--
+ hw/m68k/q800.c               |   9 +-
+ hw/misc/mac_via.c            |  87 +++++++----------
+ hw/misc/macio/cuda.c         |   8 +-
+ hw/misc/macio/pmu.c          |  40 +-------
+ hw/misc/mos6522.c            | 226 ++++++++++++++++++++++++++++++++++++++++---
+ hw/misc/trace-events         |   4 +-
+ hw/scsi/esp.c                |  87 +++++++++++++++--
+ include/hw/display/macfb.h   |   5 +-
+ include/hw/misc/mac_via.h    |  46 ++++-----
+ include/hw/misc/macio/pmu.h  |   2 -
+ include/hw/misc/mos6522.h    |  46 +++++++--
+ include/hw/scsi/esp.h        |  11 ++-
+ include/monitor/hmp-target.h |   1 +
+ 15 files changed, 474 insertions(+), 170 deletions(-)
 
