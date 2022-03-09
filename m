@@ -2,88 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 511074D2EFF
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 13:22:42 +0100 (CET)
-Received: from localhost ([::1]:54888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AD44D2F1F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Mar 2022 13:34:58 +0100 (CET)
+Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nRvKx-0000fk-Ao
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 07:22:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57156)
+	id 1nRvWq-00069Z-O0
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 07:34:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRvJi-0008EM-40
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 07:21:22 -0500
-Received: from [2607:f8b0:4864:20::62d] (port=34318
- helo=mail-pl1-x62d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nRvJg-0001lv-Lc
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 07:21:21 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id r12so1784807pla.1
- for <qemu-devel@nongnu.org>; Wed, 09 Mar 2022 04:21:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=iFp46hXhr510QrB6HKt6X06W7IFpKiGqQrDjMRD5pbM=;
- b=VLRFhkTbqsGx4RSIdYLLkIXlqw9ZNiKnVTUy9rvE8XS99HPqzXbhraoA6L+WcoXiL+
- eqtfIEEYplaLTz3ZeTsuwr+DzxslmkqpaNXZTFq0dGLWBxCFRbGIat+wq6Hs/vaqr/ab
- o+bglei9V+jPxLGjYLsAHOYLK+U8xdnxocm7jLe2xY8u1gHdlu4ttVxx0dvs43ZVUyY5
- pSq33N+BqInioOUCJfiWb9i3/3WFEsq8DmJQHbehCw9bhVWtvd7BMw37yPcV7NFvHZZQ
- QLpLY+yPGXG1VSbWrB3QrzHdSk1gR3BYd/EYiQGHI1sqSXv9rXtJ4qx799j+MgwpiJjV
- UaoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iFp46hXhr510QrB6HKt6X06W7IFpKiGqQrDjMRD5pbM=;
- b=XXYi/bkW2/7XaBzwq8gziEX0UNpjAPapfO200N0CNsYoViHamgjvoFE3x8FBECXrLX
- 1qmTKFH+1nHF9iSgzURrh+0JtwB5iAvikmJkoYqvlJ4yb+5XaIAwo/p8YRumgcpHvpgt
- NjtVLv/Mc2tVBr43RGy39Y7/Ni6X/3iLauwdgnMQcfer30b+uXbpN6Hd7xgH6LROnHyJ
- /LyW1/6LASWfvM4+wCu7uQaDFpEFp5Ooh23nmw0nRiyOebb3mFrj/YIbkp3JSLajQF5z
- kP1qhgkymyqZzodmcOraluwPXWnN5J0ZuTngN5M5S0avD+nH/bnXoz8TErYNoq6gpOdO
- +YPA==
-X-Gm-Message-State: AOAM533bAUB0FnGAwTrrbt2MY1KG1DIFmKADhYEjsGOWJfgUDo0W8I90
- btuRgw/Ss5yNXr5OuEuLCSk=
-X-Google-Smtp-Source: ABdhPJyTXeWRKZ8PEqtdZBWW6ImzBuULkLJ+R22YSqVSWIs6HkdCakOCufnQbg5+jF03987dk9Ydaw==
-X-Received: by 2002:a17:90a:7d10:b0:1be:ef04:43ce with SMTP id
- g16-20020a17090a7d1000b001beef0443cemr9971465pjl.225.1646828479238; 
- Wed, 09 Mar 2022 04:21:19 -0800 (PST)
-Received: from [192.168.1.35] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- j13-20020a056a00130d00b004f1025a4361sm3201835pfu.202.2022.03.09.04.21.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Mar 2022 04:21:18 -0800 (PST)
-Message-ID: <aab02374-474b-a9a6-e493-6ecc5550a24f@gmail.com>
-Date: Wed, 9 Mar 2022 13:21:14 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nRvVR-0005Ju-6J
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 07:33:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nRvVN-0003i8-Ph
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 07:33:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646829204;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R299cxMkhF8/jOkMghwZIwc7+Jus8nwkcI1sb0s8txE=;
+ b=fZXJUjbUbrXhu7HNdQFWvgbvgo9QGZdWtTXKApvMKBVdq/ehq5wNhf+qtkHFJw2NqMqAKJ
+ wvLw/dwLZjxJF0RG3hNYZA5XR+nagYwqQLuyO2awFovRYzM4cpSgzLfleaTGPxV00uYHNQ
+ vsmpfw3fFoHxG5kRC3AqmeGyFA9ZE0k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-670-o5TCwIjlPM-tOGjmPSDiug-1; Wed, 09 Mar 2022 07:33:21 -0500
+X-MC-Unique: o5TCwIjlPM-tOGjmPSDiug-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87FDD801AFE;
+ Wed,  9 Mar 2022 12:33:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E4D77C0E6;
+ Wed,  9 Mar 2022 12:33:13 +0000 (UTC)
+Date: Wed, 9 Mar 2022 12:33:10 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v7 22/22] gitlab-ci: Support macOS 12 via cirrus-run
+Message-ID: <YiiehhaRPGWnM2Vn@redhat.com>
+References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
+ <20220306231753.50277-23-philippe.mathieu.daude@gmail.com>
+ <f2898408-5082-7121-2496-fb296c48244d@gmail.com>
+ <b05317e1-3659-2dce-4582-58bc6ca4a79b@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH 05/11] edk2: add microvm build
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20220308145521.3106395-1-kraxel@redhat.com>
- <20220308145521.3106395-6-kraxel@redhat.com> <87mthz5oes.fsf@linaro.org>
- <20220309121240.dccpwmjno45hdcrc@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220309121240.dccpwmjno45hdcrc@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <b05317e1-3659-2dce-4582-58bc6ca4a79b@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,27 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/22 13:12, Gerd Hoffmann wrote:
-> On Wed, Mar 09, 2022 at 11:55:26AM +0000, Alex Bennée wrote:
->>
->> Gerd Hoffmann <kraxel@redhat.com> writes:
->>
->>> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->>
->> Out of interest how do you usually trigger these builds?
-> 
-> make -C roms efi
-> 
-> (try "make -C roms help" for all firmware build targets).
+On Wed, Mar 09, 2022 at 12:58:42PM +0100, Thomas Huth wrote:
+> On 09/03/2022 11.24, Philippe Mathieu-Daudé wrote:
+> > Hi Alex, Thomas, Daniel,
+> > 
+> > Could you ack this patch?
+>
+> Basically fine for me, but can we really run additional cirrus-ci jobs by
+> default? IIRC the parallel execution of those were quite limited for the
+> free tier, so did you look close that we don't run into additional timeouts
+> yet, due to delayed cirrus-ci jobs?
 
-See also the 'build-edk2' job in .gitlab-ci.d/edk2.yml.
+You can run 2 jobs in parallel in Cirrus. Beyond that they
+get queued/serialized
+
+We have a 1 hour job timeout.
+
+We have to expect jobs will sometimes run slower than normal.
+
+IOW if we have a job on Cirrus taking 30 minutes normally, we
+expect it will sometimes take 45 minutes.
+
+All this means that if we want Cirrus to be reliable and not
+time out, we can really only have 2 jobs by default, unless
+we can get the job execution time down to around 20 minutes
+to allow for serialization.
+
+We used to have terrible problems with cirrus timeouts when
+we were running 4 jobs concurrently (2 on staging and 2 on
+master). We addressed that in 9968de0a4a5470bd7b98dcd2fae5d5269908f16b
+by disabling the jobs on master.
+
+IOW, we really need to choose 1 macOS job and 1 FreeBSD job
+and others need to be marked manual.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
