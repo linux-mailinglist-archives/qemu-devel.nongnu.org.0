@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2064D47E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:16:02 +0100 (CET)
-Received: from localhost ([::1]:58578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51444D4808
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:27:59 +0100 (CET)
+Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSIe9-0005Mm-95
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:16:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41888)
+	id 1nSIpi-0002m9-DB
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:27:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSIA9-0007KA-KT; Thu, 10 Mar 2022 07:45:02 -0500
-Received: from [2a00:1450:4864:20::32b] (port=46718
- helo=mail-wm1-x32b.google.com)
+ id 1nSIAB-0007Ls-7k; Thu, 10 Mar 2022 07:45:03 -0500
+Received: from [2a00:1450:4864:20::329] (port=40815
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSIA7-0005JM-MA; Thu, 10 Mar 2022 07:45:01 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- p184-20020a1c29c1000000b0037f76d8b484so3295093wmp.5; 
- Thu, 10 Mar 2022 04:44:58 -0800 (PST)
+ id 1nSIA8-0005JX-KH; Thu, 10 Mar 2022 07:45:02 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ i9-20020a1c3b09000000b00389d0a5c511so979572wma.5; 
+ Thu, 10 Mar 2022 04:44:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LwEBVC9gS4h6aKzCcykqoukS49LhIwPfJ5VWQl2biiU=;
- b=OshQE2fkLrrlyRIqFmhlGuIQen6+SoW9kOF3dFsIt0SrwtcP+bKTMuhKjebVQUoWGq
- YKWIXE5oD9iOYHVyJgN3/3yS1R5ZjdTRWbQRh47mGl3GCWmpMlNwL27MsJ83+HnKZaoq
- +cpm/W87hm5NpiWgBX0JdE1CRDIiSRM7VZW1ypb1eGGzzajT6xeTet5QQmSu7ZBc6TYZ
- 1Dvyl9JjMMCoaWXxdr7rG10ohmf34felfl+l6aKGmagttTAC1bj9kgAt2clUTxlefq+f
- 94x/0NrMlnrnHNmsbi21WggwWXw0Ga5T1l6WgiPKabcnmlO1iMYsy8Biezk9/j9KKMYZ
- qKaQ==
+ bh=AtYdT8RKivvEG07Jq6tvA5wlDPXFZUyMGRT+nhiso34=;
+ b=gzcNsYE+RBd5MyAIS5jS/+y4OySY7mNgQkm+9y/7w0wLCGo94BwquhgOkBStTvjQdL
+ UN/zEQaYA67DX5JwOoRxsrmYOftmOluhOQyxLNdtklHMdtGKpvAYSKd3WRQl7dO5yjtD
+ hzYpo+uWzgJABn2/RpAUSYdx0tyi2ugXeCLF6OLQtagh6vwZkxcR3N7Gg6ZUecBlGcqw
+ smDj23b9iagt6GE/jyjqG1wVdOWkSFMmFjAV54+j3qNlJdtUX0uzJ9x7qYglXko9y039
+ 8KlYB/8tdFMQ2LWsQixxNm69PSpkaIKBzJRGZyJJWYVl/jt56jTmMZimobv44RnlQEwh
+ veAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LwEBVC9gS4h6aKzCcykqoukS49LhIwPfJ5VWQl2biiU=;
- b=iHzYQwNkHAMnFqi9oUdGtiMlc1kZkt67+9ZKhYnTn1Ni+D9TeH3Z6C8mMNvS1vW25g
- M+eGLTjkZQhcCqOxLXeI8TGZkdVhxhmiqO0DM1ePe28EVP6+Pjb7I7OEq4znMS5iZvuJ
- /lV6+DaCiNFXKMm64nazSVADf9p4fC02SB0NgogC0aDQzwV/G3g0zFmiErHuHSuip/7W
- vbZPydOcC4QqVB5yE7U5IWNfaEVY0c0RJ3+wv4VXzipzwIcjxGIivCsit8d6+koIOyw4
- ChBHeglg0714Fr1ShLT3meNL41rPjNn+y5vxEeH1kdzH6VjV9J7EfnRWyo+fAbN0C3OU
- /HZA==
-X-Gm-Message-State: AOAM530JXbkEZHmg1c7o5nencgVhAajG3IVnbQVOjkDNIP0BDiw7KAQL
- h0KBFkXfOC8fooveE/RL0FEB6yEAemA=
-X-Google-Smtp-Source: ABdhPJyzhl8I1pnuoZW8+fuTcsgpt1pXXF7Me+S6QtJhH+EEIxHR9b5mEnH00vHraDVAcTKyKm7l9w==
-X-Received: by 2002:a05:600c:1c02:b0:389:cf43:da63 with SMTP id
- j2-20020a05600c1c0200b00389cf43da63mr7188652wms.205.1646916298027; 
+ bh=AtYdT8RKivvEG07Jq6tvA5wlDPXFZUyMGRT+nhiso34=;
+ b=wG7tGZT4bhNjEjLb91+WWZvSTGYrwIve4jICw/pwk0SVEj7gcjn1cjjI+np8M7W1lw
+ kjBMFipltstL0nHTljFvu9qcxwWMf9YEgzsyGOE8ndYr6iw1oSFqxN2YfAP2lH1oElJC
+ PIc/Gaz0jGHjUMDJFb4eDsj/6mJ8u4cQMLsE8tIS9rN1tamL8xi+Yf7mYx+mcHwE/4gq
+ LbAbN4L8+5pa1YpBGM76CyGq9qpLlITc1j4QCkjws8FCmm4vOVUZ5wvzSP7t1GjqIihT
+ Ebqru+NBF84j+IOliXZ1klwpO2kDTt0V9ejEyrsmkmVa8HPsgmwlnYlRVAsZksJGGP4b
+ u82Q==
+X-Gm-Message-State: AOAM533DtxPIylDjIsUqwHNBq8BUO2yCHe1sfc87CYCQ2yqSDAi/cJ7m
+ KD2iQPsV+0KUlTVIj7E2CjcHmTHbFUs=
+X-Google-Smtp-Source: ABdhPJxAIHfpt27WvFbaq2ppZ5FNusxMYCQ4BLM3x/Zr2q/z+ciZkwpnkG7yXmgU5+nuxSwUMj112Q==
+X-Received: by 2002:a7b:c5d5:0:b0:37b:fda9:a5e2 with SMTP id
+ n21-20020a7bc5d5000000b0037bfda9a5e2mr3401470wmk.62.1646916298914; 
  Thu, 10 Mar 2022 04:44:58 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.55
+ r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:44:57 -0800 (PST)
+ Thu, 10 Mar 2022 04:44:58 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 34/35] /locking/co-rwlock/upgrade
-Date: Thu, 10 Mar 2022 13:44:12 +0100
-Message-Id: <20220310124413.1102441-35-pbonzini@redhat.com>
+Subject: [PATCH 35/35] /locking/co-rwlock/downgrade
+Date: Thu, 10 Mar 2022 13:44:13 +0100
+Message-Id: <20220310124413.1102441-36-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
 References: <20220310124413.1102441-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -95,32 +95,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/unit/test-coroutine.c | 68 ++++++++++++++++++++++++++++++-------
- 1 file changed, 55 insertions(+), 13 deletions(-)
+ tests/unit/test-coroutine.c | 123 ++++++++++++++++++++++++++++--------
+ 1 file changed, 98 insertions(+), 25 deletions(-)
 
 diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
-index db6718db40..39d0f31492 100644
+index 39d0f31492..174ea8d579 100644
 --- a/tests/unit/test-coroutine.c
 +++ b/tests/unit/test-coroutine.c
-@@ -355,7 +355,6 @@ static void test_co_mutex_lockable(void)
-     g_assert(QEMU_MAKE_CO_LOCKABLE(null_pointer) == NULL);
+@@ -458,41 +458,117 @@ static void test_co_rwlock_upgrade(void)
+     g_assert(c2_done);
  }
  
 -#if 0
- static CoRwlock rwlock;
- 
- /* Test that readers are properly sent back to the queue when upgrading,
-@@ -375,24 +374,66 @@ static CoRwlock rwlock;
-  * | unlock       |            |
-  */
- 
--static void coroutine_fn rwlock_yield_upgrade(void *opaque)
-+CO_DECLARE_FRAME(rwlock_yield_upgrade, bool *done);
-+static CoroutineAction co__rwlock_yield_upgrade(void *_frame)
+-static void coroutine_fn rwlock_rdlock_yield(void *opaque)
++CO_DECLARE_FRAME(rwlock_rdlock_yield, bool *done);
++static CoroutineAction co__rwlock_rdlock_yield(void *_frame)
  {
 -    qemu_co_rwlock_rdlock(&rwlock);
 -    qemu_coroutine_yield();
-+    struct FRAME__rwlock_yield_upgrade *_f = _frame;
++    struct FRAME__rwlock_rdlock_yield *_f = _frame;
 +    CO_ARG(done);
 +switch(_f->_step) {
 +case 0:
@@ -130,16 +123,16 @@ index db6718db40..39d0f31492 100644
 +_f->_step = 2;
 +    return qemu_coroutine_yield();
  
--    qemu_co_rwlock_upgrade(&rwlock);
 -    qemu_co_rwlock_unlock(&rwlock);
+-    qemu_coroutine_yield();
+-
+-    *(bool *)opaque = true;
 +case 2:
 +_f->_step = 3;
-+    return qemu_co_rwlock_upgrade(&rwlock);
++    return qemu_co_rwlock_unlock(&rwlock);
 +case 3:
 +_f->_step = 4;
-+    return qemu_co_rwlock_unlock(&rwlock);
- 
--    *(bool *)opaque = true;
++    return qemu_coroutine_yield();
 +case 4:
 +    *done = true;
 +    break;
@@ -147,30 +140,35 @@ index db6718db40..39d0f31492 100644
 +return stack_free(&_f->common);
  }
  
--static void coroutine_fn rwlock_wrlock_yield(void *opaque)
-+static CoroutineAction rwlock_yield_upgrade(void *opaque)
+-static void coroutine_fn rwlock_wrlock_downgrade(void *opaque)
++static CoroutineAction rwlock_rdlock_yield(void *opaque)
  {
 -    qemu_co_rwlock_wrlock(&rwlock);
--    qemu_coroutine_yield();
-+    bool *done = opaque;
-+    return CO_INIT_FRAME(rwlock_yield_upgrade, done);
-+}
- 
+-
+-    qemu_co_rwlock_downgrade(&rwlock);
 -    qemu_co_rwlock_unlock(&rwlock);
 -    *(bool *)opaque = true;
-+CO_DECLARE_FRAME(rwlock_wrlock_yield, bool *done);
-+static CoroutineAction co__rwlock_wrlock_yield(void *_frame)
-+{
-+    struct FRAME__rwlock_wrlock_yield *_f = _frame;
++    bool *done = opaque;
++    return CO_INIT_FRAME(rwlock_rdlock_yield, done);
+ }
+ 
+-static void coroutine_fn rwlock_rdlock(void *opaque)
++CO_DECLARE_FRAME(rwlock_wrlock_downgrade, bool *done);
++static CoroutineAction co__rwlock_wrlock_downgrade(void *_frame)
+ {
+-    qemu_co_rwlock_rdlock(&rwlock);
++    struct FRAME__rwlock_wrlock_downgrade *_f = _frame;
 +    CO_ARG(done);
 +switch(_f->_step) {
 +case 0:
 +_f->_step = 1;
 +    return qemu_co_rwlock_wrlock(&rwlock);
+ 
+-    qemu_co_rwlock_unlock(&rwlock);
+-    *(bool *)opaque = true;
 +case 1:
 +_f->_step = 2;
-+    return qemu_coroutine_yield();
-+
++    return qemu_co_rwlock_downgrade(&rwlock);
 +case 2:
 +_f->_step = 3;
 +    return qemu_co_rwlock_unlock(&rwlock);
@@ -179,35 +177,90 @@ index db6718db40..39d0f31492 100644
 +    break;
 +}
 +return stack_free(&_f->common);
+ }
+ 
+-static void coroutine_fn rwlock_wrlock(void *opaque)
++static CoroutineAction rwlock_wrlock_downgrade(void *opaque)
+ {
+-    qemu_co_rwlock_wrlock(&rwlock);
++    bool *done = opaque;
++    return CO_INIT_FRAME(rwlock_wrlock_downgrade, done);
++}
+ 
+-    qemu_co_rwlock_unlock(&rwlock);
+-    *(bool *)opaque = true;
++CO_DECLARE_FRAME(rwlock_rdlock, bool *done);
++static CoroutineAction co__rwlock_rdlock(void *_frame)
++{
++    struct FRAME__rwlock_rdlock *_f = _frame;
++    CO_ARG(done);
++switch(_f->_step) {
++case 0:
++_f->_step = 1;
++    return qemu_co_rwlock_rdlock(&rwlock);
++
++case 1:
++_f->_step = 2;
++    return qemu_co_rwlock_unlock(&rwlock);
++case 2:
++    *done = true;
++    break;
++}
++return stack_free(&_f->common);
 +}
 +
-+static CoroutineAction rwlock_wrlock_yield(void *opaque)
++static CoroutineAction rwlock_rdlock(void *opaque)
 +{
 +    bool *done = opaque;
-+    return CO_INIT_FRAME(rwlock_wrlock_yield, done);
++    return CO_INIT_FRAME(rwlock_rdlock, done);
++}
++
++CO_DECLARE_FRAME(rwlock_wrlock, bool *done);
++static CoroutineAction co__rwlock_wrlock(void *_frame)
++{
++    struct FRAME__rwlock_wrlock *_f = _frame;
++    CO_ARG(done);
++switch(_f->_step) {
++case 0:
++_f->_step = 1;
++    return qemu_co_rwlock_wrlock(&rwlock);
++
++case 1:
++_f->_step = 2;
++    return qemu_co_rwlock_unlock(&rwlock);
++case 2:
++    *done = true;
++    break;
++}
++return stack_free(&_f->common);
++}
++
++static CoroutineAction rwlock_wrlock(void *opaque)
++{
++    bool *done = opaque;
++    return CO_INIT_FRAME(rwlock_wrlock, done);
  }
  
- static void test_co_rwlock_upgrade(void)
-@@ -417,6 +458,7 @@ static void test_co_rwlock_upgrade(void)
-     g_assert(c2_done);
- }
+ /*
+@@ -556,7 +632,6 @@ static void test_co_rwlock_downgrade(void)
  
-+#if 0
- static void coroutine_fn rwlock_rdlock_yield(void *opaque)
- {
-     qemu_co_rwlock_rdlock(&rwlock);
-@@ -829,8 +871,8 @@ int main(int argc, char **argv)
-     g_test_add_func("/basic/order", test_order);
+     g_assert(c1_done);
+ }
+-#endif
+ 
+ /*
+  * Check that creation, enter, and return work
+@@ -872,9 +947,7 @@ int main(int argc, char **argv)
      g_test_add_func("/locking/co-mutex", test_co_mutex);
      g_test_add_func("/locking/co-mutex/lockable", test_co_mutex_lockable);
--#if 0
      g_test_add_func("/locking/co-rwlock/upgrade", test_co_rwlock_upgrade);
-+#if 0
+-#if 0
      g_test_add_func("/locking/co-rwlock/downgrade", test_co_rwlock_downgrade);
- #endif
+-#endif
      if (g_test_perf()) {
+         g_test_add_func("/perf/lifecycle", perf_lifecycle);
+         g_test_add_func("/perf/lifecycle/noalloc", perf_lifecycle_noalloc);
 -- 
 2.35.1
-
 
 
