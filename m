@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E1C4D481E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:35:51 +0100 (CET)
-Received: from localhost ([::1]:59730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 729134D4807
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:27:28 +0100 (CET)
+Received: from localhost ([::1]:48460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSIxK-00021P-53
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:35:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47582)
+	id 1nSIpD-0002Mq-9i
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:27:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nSIee-0000El-7K
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 08:16:36 -0500
-Received: from [2607:f8b0:4864:20::b2c] (port=39536
- helo=mail-yb1-xb2c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nSIec-0002GD-At
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 08:16:31 -0500
-Received: by mail-yb1-xb2c.google.com with SMTP id x200so10780165ybe.6
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 05:16:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eBpCDTIwHG6ZjhwNzJ1iOPE7WWJASHMWwsM/g0I7XIE=;
- b=Tx3AaYYMDt4aLLbgzhL4bUgxFxQJOY6FyUcWwsdo2TEW1hDuCNSSs/E7tHq0/aziL8
- Bz34bRDcOoYzXTEXdCGekmo+5je//UKZ9roCx3kyc+ZowR377Is5WysMnoiaTrmZq6Oo
- ZRfh1iB1xcJ0OHlVFmlripLloWcX95zP8V+ZPaIse6QwnSmR0F2q8Ebm4S4LzPajI1Pv
- Jx1T8FFVQSgVJ7wIZVZfYzkkVbzgsJ9LvG5U+SW/92+hWICWjtt//pPDi0ymda4GqsCt
- 12MvCRpWrhshZ41OkffiUZXG4gNciAbbOC/MUfMvmd/0uH0U75RByoqRQtSGoHkd47K7
- WqUw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nSIhs-0003W5-Bh
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 08:19:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nSIhp-0002tV-0a
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 08:19:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646918387;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gT5ZGm+IS3mgtSwmwC8azqhlOMZeUc0EYZitkm4HrKA=;
+ b=M+vyIPqohVNtX+C99l5oJQN/r88/d8I5kRCymc6xisOaDXk7QR51lLR/Fyjf0p3QNensma
+ U5CuQ5CpprLjOdtnZ4TE1pnwDa1hH3hAhNNOSztX7sB5q4I6SdZhkg2PoCJJS26X5gr416
+ YikqDbY3D7mIcPommOP1A6eV0jBz9bE=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-663-wCQaUR0gM4aFom0pZQJTNA-1; Thu, 10 Mar 2022 08:19:46 -0500
+X-MC-Unique: wCQaUR0gM4aFom0pZQJTNA-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ z10-20020a634c0a000000b0036c5eb39076so2928813pga.18
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 05:19:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eBpCDTIwHG6ZjhwNzJ1iOPE7WWJASHMWwsM/g0I7XIE=;
- b=DpIEj555H5DhxqZWu6ukcLsMz+L0uXSjHE9tcpldKlbwTeoTpz9ehDt9tU5rfRFrM0
- Sr1IkDuY/KVhZT7SJxrdj2eZ1Ec5AR5CwZa7nJiE0Y7ZsIx/a2n9xRz+XT6mFXDemrOq
- s+TfP+f65Vx9jM8nEW0tJliZKvXS6dZsEfLxQFgiYCO2B9zz5drbdHKsVs+K0HsWnvdk
- ZV+qSRAUPaSN/XcXKekE7yb/m8tBYdk5o+P9EM8UwcMlrWDoy4XlnpGHDGWTEOyJhPX1
- D0KxuNnoF3WijTNRLSafns33FakCpyK8v/qLFUGHnuV+oYPvWo2/2levFQjbB5KC4vPY
- XPUA==
-X-Gm-Message-State: AOAM531jaiC3EtSknXyC56PrBwa4CoAiShIP9nZcD/lhemUELZiN9SeA
- PXZiZqyJQ/E1ufk7lIVtfM3sOtMN5y/N70FnOYp82g==
-X-Google-Smtp-Source: ABdhPJxXnGIU1+p1FAGdejV+a4qeiXmzqRAxufWmMq/ITNaFxDCa3EDPAsvUy8YB/cm0q/lt6F+t0PYpMjIGIWULt3Y=
-X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
- h3-20020a056902008300b0061a709bd841mr3617349ybs.140.1646918188904; Thu, 10
- Mar 2022 05:16:28 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=gT5ZGm+IS3mgtSwmwC8azqhlOMZeUc0EYZitkm4HrKA=;
+ b=eRpMfFQmFdWcKyIxubq74mY7rpzXnmvK+6VyU3yhXSvUzX1xkw4xcU85/bqeL6VKhD
+ tH0rHdILQbAFRaS3c9eHO3JpqYSvCLkEeUBqBIUC/b6PHd4sXacRmZG63u6bGWCm9Q4M
+ Mk2IZxMgc0fHwH4Aoeygs6U7uMlR5V0iaRtyx2h6pZn5Z+PQVDbjZPfm5hbHzglBQdf+
+ xNp4JJQmDu2niTfOqtJlu/2BiAmBOnnHRJt8sjuJjUKdBeyji3zGgDblnZ9BNFXOieOP
+ RogeSivgVikmzDtmLA1h2dOSkZeTxXjOSZM7ph5vk2UmX+gZfdyaQ4hR3owax7tUl8fS
+ PUJw==
+X-Gm-Message-State: AOAM530qdmNEtm/qidG/Ny358pa1AKXjpCzKLgfH9M59XaIivOu3K6Zt
+ +uPyxPVNzQydKkgYOuEAOoKl82WQRTTDoWbE6cQMnt2K0V1DWgqvQq6NW47Fs3p0m0eu8NtPTsk
+ iCE10mEwQy/hPb7w=
+X-Received: by 2002:a05:6a00:301c:b0:4f6:f04e:ca34 with SMTP id
+ ay28-20020a056a00301c00b004f6f04eca34mr4631302pfb.19.1646918385559; 
+ Thu, 10 Mar 2022 05:19:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwCxYT3EI/SAD6NlvIRU6jzdbHNHwpllY3jDxBZ/cCu/Zln17BJQxX8DCXpranvzvVTmHo/XA==
+X-Received: by 2002:a05:6a00:301c:b0:4f6:f04e:ca34 with SMTP id
+ ay28-20020a056a00301c00b004f6f04eca34mr4631279pfb.19.1646918385271; 
+ Thu, 10 Mar 2022 05:19:45 -0800 (PST)
+Received: from xz-m1.local ([191.101.132.224])
+ by smtp.gmail.com with ESMTPSA id
+ h18-20020a056a00231200b004f72b290994sm7064327pfh.180.2022.03.10.05.19.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Mar 2022 05:19:44 -0800 (PST)
+Date: Thu, 10 Mar 2022 21:19:40 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: Re: QEMU device refcounting when device creates a container MR
+Message-ID: <Yin67GyJWDn5N1ov@xz-m1.local>
+References: <CAFEAcA87VaeHzW4qbHn+UKjh9gMQbKNcN5ytXBS1MUPSapdhYw@mail.gmail.com>
+ <c7f6ffef-8ce1-6ee1-9ad7-a90ed1b54122@gmail.com>
 MIME-Version: 1.0
-References: <20220308215435.21806-1-tsimpson@quicinc.com>
-In-Reply-To: <20220308215435.21806-1-tsimpson@quicinc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Mar 2022 13:16:17 +0000
-Message-ID: <CAFEAcA99YqE01snCWLt8h+FK--4j4QiJ-NczcmpL+1AgVyghNw@mail.gmail.com>
-Subject: Re: [PULL 00/12] Hexagon (target/hexagon) queue
-To: Taylor Simpson <tsimpson@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <c7f6ffef-8ce1-6ee1-9ad7-a90ed1b54122@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,54 +100,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zongyuan.li@smartx.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- f4bug@amsat.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Mar 2022 at 21:55, Taylor Simpson <tsimpson@quicinc.com> wrote:
->
-> The following changes since commit 33d102e92e41a65c817d85ff8bfd5ffa2c16b1d3:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/seabios-20220307-pull-request' into staging (2022-03-08 12:40:58 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/quic/qemu tags/pull-hex-20220308
->
-> for you to fetch changes up to ebbf0ee1335548fe9b42fcd1ff031aea2d27cc1a:
->
->   target/hexagon: remove unused variable (2022-03-08 13:27:00 -0800)
->
-> ----------------------------------------------------------------
-> Hexagon bug fixes and additional tests
->
-> Also includes a patch from Zongyuan Li <zongyuan.li@smartx.com>
-> to remove an unused variable
->
+On Wed, Mar 09, 2022 at 11:40:15AM +0100, Philippe Mathieu-Daudé wrote:
+> Cc'ing David / Peter
+> 
+> On 9/3/22 11:33, Peter Maydell wrote:
+> > Hi; does anybody know how device reference counting is supposed
+> > to work when the device creates a "container" MemoryRegion which
+> > it then puts some of its own subregions in to?
+> > 
+> > As far as I can see when you do memory_region_add_subregion it
+> > increases the refcount on the owner of the subregion. So if a
+> > device creates a container MR in its own init or realize method
+> > and adds sub-MRs that it owns to that container, this increases
+> > the refcount on the device permanently, and so the device won't
+> > ever be deinited.
+> > 
+> > As a specific example, the usb-chipidea device does this in its
+> > init method, so if you run the arm device-introspect-test under
+> > leak-sanitizer it complains about a memory leak that happens
+> > when the device is put through the "init-introspect-deref" cycle.
 
-This fails the build-user-hexagon CI job:
-https://gitlab.com/qemu-project/qemu/-/jobs/2187325916
+I'm not extremely sure about this, but.. does it mean that the device may
+better put any of the add-subregion operations into realize() rather than
+instance_init()?  Then in the unrealize() of the devices we should do
+proper del-subregion to release these refcounts.
 
-BUILD hexagon-linux-user guest-tests with hexagon-unknown-linux-musl-clang
-/builds/qemu-project/qemu/tests/tcg/hexagon/preg_alias.c:68:9: error:
-unknown register name 'c4' in asm
-: "c4", "p0", "p1", "p2", "p3");
-^
-/builds/qemu-project/qemu/tests/tcg/hexagon/preg_alias.c:95:10: error:
-unknown register name 'c4' in asm
-: "c4", "c5", "p0", "p1", "p2", "p3");
-^
-/builds/qemu-project/qemu/tests/tcg/hexagon/preg_alias.c:120:12:
-error: unknown register name 'c4' in asm
-: "c4", "p0", "p1", "p2", "p3");
-^
-/builds/qemu-project/qemu/tests/tcg/hexagon/preg_alias.c:132:12:
-error: unknown register name 'c4' in asm
-: "c4", "p0", "p1", "p2", "p3", "memory");
-^
-4 errors generated.
-make[2]: *** [../Makefile.target:108: preg_alias] Error 1
+Otherwise indeed I don't see a good way to destroy the device anymore,
+because the assumption is after device initialized, only with that will the
+object_unref() continue to work on the device..
 
--- PMM
+That means, perhaps in object_init_with_type() we should make sure the
+object refcount==1 after the ->instance_init() call?
+
+-- 
+Peter Xu
+
 
