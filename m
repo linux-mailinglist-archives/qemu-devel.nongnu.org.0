@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8C54D4782
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:59:25 +0100 (CET)
-Received: from localhost ([::1]:51088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4A44D475B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:54:30 +0100 (CET)
+Received: from localhost ([::1]:33946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSIO4-00053V-FC
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:59:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41388)
+	id 1nSIJJ-0001lv-KS
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:54:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9g-0006ip-SF; Thu, 10 Mar 2022 07:44:33 -0500
-Received: from [2a00:1450:4864:20::431] (port=41652
- helo=mail-wr1-x431.google.com)
+ id 1nSI9i-0006jF-5b; Thu, 10 Mar 2022 07:44:35 -0500
+Received: from [2a00:1450:4864:20::32a] (port=53065
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9f-0005CA-7M; Thu, 10 Mar 2022 07:44:32 -0500
-Received: by mail-wr1-x431.google.com with SMTP id i8so7760353wrr.8;
- Thu, 10 Mar 2022 04:44:30 -0800 (PST)
+ id 1nSI9g-0005CW-Jy; Thu, 10 Mar 2022 07:44:33 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id r65so3176159wma.2;
+ Thu, 10 Mar 2022 04:44:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FQ9jxKI5I1M89vZzYqquoXBdkPU8bHNffna5C1ysXtM=;
- b=SJ/1MNM2DfoliLjnh72Keto3Cinco9tPyaddBuqlsg0Tk6Nh4qs7CrzYfkQmmcm3IV
- g5b5UIA8lBvxmYNrUP4Nt5Y9hbu8oRnQnBBqx1FYTqijvTAatsHm8dFvfRA2fUBs5/t8
- OjapXsrtWf1p+uqytB4JHjaBUWHtUNn6BuMtWz/FTUgrISlMGB0thJe01ObJ/sf5QTO5
- nakfj99SlRu/yb63NSeCdZK2b6E9uhN342o+57n5f83jgKfuXOwhFKBRGjpmx3UBk4Pj
- JDIZgG4j53HTm6t6MdZjzKdXfYXBRBQuONiEuerX4Lzn4V5mPfo1cqaaMsiYMF1Krrh1
- RVoQ==
+ bh=kYPdnwd+qK4GoFiw8vkRkI9044PfsGfCMHgYYSi6n+s=;
+ b=Asl0ewbfMM/ukbbWMQbuxiZ4CmtB6grkbCF0bE1wc/DDROVXwtciEPwh/YshY7E8R5
+ 2w1wMOPTK+I8eZbAswwSyJjW6kWRTPucFKe9LiSBfz51jITrhaD5cz3XCgUi4iiJsmmY
+ WehpaQ/Llmemi+XBDmvfCJC6U4vxp7WDVBjSJ1HCyBGrO0gT0nCkizvvUJyts3Tvmc2F
+ 7H1BClk1OCH8L/tDieSxI4xpP2pXW4ZRIuXlXd7gBMuUKdl7asHyMUlPJ5fdTHLwvcYI
+ FwCHlnmJhxYxr1LVQmqvEN+Y7PoKrcxWEDFZBsdR/z/Sr9orU4fU7NAkEq7Lks62V53l
+ xndA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FQ9jxKI5I1M89vZzYqquoXBdkPU8bHNffna5C1ysXtM=;
- b=i7eF6Jt4VZfi27V0cmZIWQyihJAkDKgx3n9jj4oE5QLqvvC9Vlh42cLxHcpeSyr+/d
- Col1YAUtSm8Qpo14V3LR+gt6fnMpBQ2bMY3IVXTcgXaGisBls515nQ741E6uy5YreAbQ
- Qhe4Wu35HlLiq5fa4RaDThl/SaaUxiFKvMqWERQQfxU9PztHGHQLCm3qI5zwsgUAz0zD
- PgouQD60SkzyOdWNB9NEYVXhTnLeZeVcOV1jHDk4zjdnhcPP1GZKfsE+jupsag6lwVEv
- bYWY7uv342EQ1f4cXoSBWK0F1LM2uR3cuMVv98O/SA/EXt/sJdjTWh+mNXq58CFmV72j
- 7c1Q==
-X-Gm-Message-State: AOAM5306wdmjaUng61GSfyufu0jC4tbx0KvwqWDBNVUah92ns7st6b51
- GU8axmJpYLZW7RcO2O66Ui/TCdUKp5Y=
-X-Google-Smtp-Source: ABdhPJxkzQSj4kBS8gG7J+lU07bK4mSut46oPbrMO3N72RTcDI62sFtQ1z1mOtwJmctwXBjyEokkPg==
-X-Received: by 2002:adf:e5cf:0:b0:203:7a50:98bd with SMTP id
- a15-20020adfe5cf000000b002037a5098bdmr3437946wrn.416.1646916269580; 
- Thu, 10 Mar 2022 04:44:29 -0800 (PST)
+ bh=kYPdnwd+qK4GoFiw8vkRkI9044PfsGfCMHgYYSi6n+s=;
+ b=PWPap2MUvSYxlHDIU0+E6PtXRGdHWDJhYwBMiHrsOIXZ/mekLeGPcMqTcDvv8x1NHh
+ atyRQaA/C1nlhncF8qssn77Sx9PqUZcCVZgqMbfKwQPBIQWUihj7r03jT54oIzUqjvqK
+ OrbwblmI2P4+PeyOnVAqkjs9I5TVh2rEyGKQJpv561g2Pqt1iOcFa0oSJPd1o+yLSy28
+ 3BLNVFauWoAbxv1sLpaMCyHHfaInVM5RwnIbF/rwkjZCPvNEODf6LrX7ZrwSKalMsIsq
+ NmTi9tSsuN4g5o4C4mSQIcRVwLUcfY/nDrwYNmtqNrQicY07VmoVNpMIQilMt6ofrufl
+ 2dxw==
+X-Gm-Message-State: AOAM531STM1AVuPs4Oo3196+N+nIFBRcCvJduh67pG6uFAt+yNZ1wLjc
+ lpXWVelnx1GR5oW2O4/pPGV2K+XCB+8=
+X-Google-Smtp-Source: ABdhPJz0BRZe04EGV6byPUns9Gb4AQ4WOgNMXzkT2bMr5qtAAxcea2CHbqZk99mQG/5kchrfFBuzcw==
+X-Received: by 2002:a1c:e90a:0:b0:381:504e:b57d with SMTP id
+ q10-20020a1ce90a000000b00381504eb57dmr11536979wmc.177.1646916270938; 
+ Thu, 10 Mar 2022 04:44:30 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.28
+ r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:44:29 -0800 (PST)
+ Thu, 10 Mar 2022 04:44:30 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/35] convert CoMutex to stackless coroutines
-Date: Thu, 10 Mar 2022 13:43:49 +0100
-Message-Id: <20220310124413.1102441-12-pbonzini@redhat.com>
+Subject: [PATCH 12/35] define magic macros for stackless coroutines
+Date: Thu, 10 Mar 2022 13:43:50 +0100
+Message-Id: <20220310124413.1102441-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
 References: <20220310124413.1102441-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -92,144 +92,81 @@ Cc: hreitz@redhat.com, stefanha@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Build the frame for qemu_co_mutex_lock_slowpath, because it has code
-that runs after qemu_coroutine_yield().  For qemu_co_mutex_lock() and
-qemu_co_mutex_unlock(), just return COROUTINE_CONTINUE on paths that do
-not go through an awaitable function, which is all of them in the case
-of qemu_co_mutex_unlock().
+Because conversion to stackless coroutines is incredibly repetitive,
+define some magic variable-argument macros that simplify the task:
+
+- CO_DECLARE_FRAME() declares a frame structure, with a couple common fields
+  and the extras coming from variable arguments
+
+- CO_INIT_FRAME() allocates the frame structure, builds it using any arguments
+  provided by the user, and continues with the second part of the
+  awaitable function that takes the frame as its only argument
+
+- CO_ARG() declare variables and load them from the frame structure.  It
+  uses typeof() to avoid repetition of the type of the variable (it is needed
+  only twice, in CO_DECLARE_FRAME() and in the declaration of the user-visible
+  awaitable function)
+
+- CO_DECLARE() also declares variables using typeof, but it's for locals that
+  are not prepared by CO_INIT_FRAME()
+
+- CO_SAVE() and CO_LOAD() copy to and from the frame structure
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/qemu-coroutine-lock.c | 60 ++++++++++++++++++++++++++++++--------
- 1 file changed, 48 insertions(+), 12 deletions(-)
+ include/qemu/coroutine.h | 41 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
-index 048cfcea71..061a376aa4 100644
---- a/util/qemu-coroutine-lock.c
-+++ b/util/qemu-coroutine-lock.c
-@@ -120,6 +120,7 @@ bool qemu_co_queue_empty(CoQueue *queue)
- {
-     return QSIMPLEQ_FIRST(&queue->entries) == NULL;
- }
-+#endif
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index 2f2be6abfe..df148ff80e 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -361,4 +361,45 @@ void qemu_coroutine_decrease_pool_batch_size(unsigned int additional_pool_size);
+ void *coroutine_only_fn stack_alloc(CoroutineImpl *func, size_t bytes);
+ CoroutineAction coroutine_only_fn stack_free(CoroutineFrame *f);
  
- /* The wait records are handled with a multiple-producer, single-consumer
-  * lock-free queue.  There cannot be two concurrent pop_waiter() calls
-@@ -197,15 +198,28 @@ static void coroutine_fn qemu_co_mutex_wake(CoMutex *mutex, Coroutine *co)
-     aio_co_wake(co);
- }
- 
--static void coroutine_fn qemu_co_mutex_lock_slowpath(AioContext *ctx,
--                                                     CoMutex *mutex)
--{
--    Coroutine *self = qemu_coroutine_self();
-+struct FRAME__qemu_co_mutex_lock_slowpath {
-+    CoroutineFrame common;
-+    uint32_t _step;
-+    AioContext *ctx;
-+    CoMutex *mutex;
-+    Coroutine *self;
-     CoWaitRecord w;
-+};
 +
-+static CoroutineAction co__qemu_co_mutex_lock_slowpath(void *_frame)
-+{
-+    struct FRAME__qemu_co_mutex_lock_slowpath *_f = _frame;
-+    AioContext *ctx = _f->ctx;
-+    CoMutex *mutex = _f->mutex;
-+    Coroutine *self;
-     unsigned old_handoff;
- 
-+switch(_f->_step) {
-+case 0: {
-+    self = qemu_coroutine_self();
-     trace_qemu_co_mutex_lock_entry(mutex, self);
--    push_waiter(mutex, &w);
-+    push_waiter(mutex, &_f->w);
- 
-     /* This is the "Responsibility Hand-Off" protocol; a lock() picks from
-      * a concurrent unlock() the responsibility of waking somebody up.
-@@ -221,21 +235,40 @@ static void coroutine_fn qemu_co_mutex_lock_slowpath(AioContext *ctx,
-         Coroutine *co = to_wake->co;
-         if (co == self) {
-             /* We got the lock ourselves!  */
--            assert(to_wake == &w);
-+            assert(to_wake == &_f->w);
-             mutex->ctx = ctx;
--            return;
-+            goto _out;
-         }
- 
-         qemu_co_mutex_wake(mutex, co);
-     }
- 
--    qemu_coroutine_yield();
-+_f->_step = 1;
-+_f->self = self;
-+    return qemu_coroutine_yield();
-+}
-+case 1:
-+self = _f->self;
-     trace_qemu_co_mutex_lock_return(mutex, self);
-     mutex->holder = self;
-     self->locks_held++;
-+    goto _out;
-+}
-+_out:
-+return stack_free(&_f->common);
- }
- 
--void coroutine_fn qemu_co_mutex_lock(CoMutex *mutex)
-+static CoroutineAction qemu_co_mutex_lock_slowpath(AioContext *ctx, CoMutex *mutex)
-+{
-+    struct FRAME__qemu_co_mutex_lock_slowpath *f;
-+    f = stack_alloc(co__qemu_co_mutex_lock_slowpath, sizeof(*f));
-+    f->ctx = ctx;
-+    f->mutex = mutex;
-+    f->_step = 0;
-+    return co__qemu_co_mutex_lock_slowpath(f);
-+}
++#define CO_DO(MACRO, ...) CO_DO_(MACRO, __VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
++#define CO_DO_(MACRO, a0, a1, a2, a3, a4, a5, a6, a7, a8 , a9, n, ...) CO_DO##n(MACRO, a0, a1, a2, a3, a4, a5, a6, a7, a8 , a9)
++#define CO_DO0(MACRO, a0, ...)
++#define CO_DO1(MACRO, a0, ...) MACRO(a0)
++#define CO_DO2(MACRO, a0, ...) MACRO(a0); CO_DO1(MACRO, __VA_ARGS__)
++#define CO_DO3(MACRO, a0, ...) MACRO(a0); CO_DO2(MACRO, __VA_ARGS__)
++#define CO_DO4(MACRO, a0, ...) MACRO(a0); CO_DO3(MACRO, __VA_ARGS__)
++#define CO_DO5(MACRO, a0, ...) MACRO(a0); CO_DO4(MACRO, __VA_ARGS__)
++#define CO_DO6(MACRO, a0, ...) MACRO(a0); CO_DO5(MACRO, __VA_ARGS__)
++#define CO_DO7(MACRO, a0, ...) MACRO(a0); CO_DO6(MACRO, __VA_ARGS__)
++#define CO_DO8(MACRO, a0, ...) MACRO(a0); CO_DO7(MACRO, __VA_ARGS__)
++#define CO_DO9(MACRO, a0, ...) MACRO(a0); CO_DO8(MACRO, __VA_ARGS__)
 +
-+CoroutineAction qemu_co_mutex_lock(CoMutex *mutex)
- {
-     AioContext *ctx = qemu_get_current_aio_context();
-     Coroutine *self = qemu_coroutine_self();
-@@ -270,12 +303,13 @@ retry_fast_path:
-         mutex->ctx = ctx;
-         mutex->holder = self;
-         self->locks_held++;
-+        return COROUTINE_CONTINUE;
-     } else {
--        qemu_co_mutex_lock_slowpath(ctx, mutex);
-+        return qemu_co_mutex_lock_slowpath(ctx, mutex);
-     }
- }
- 
--void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex)
-+CoroutineAction qemu_co_mutex_unlock(CoMutex *mutex)
- {
-     Coroutine *self = qemu_coroutine_self();
- 
-@@ -290,7 +324,7 @@ void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex)
-     self->locks_held--;
-     if (qatomic_fetch_dec(&mutex->locked) == 1) {
-         /* No waiting qemu_co_mutex_lock().  Pfew, that was easy!  */
--        return;
-+        return COROUTINE_CONTINUE;
-     }
- 
-     for (;;) {
-@@ -328,8 +362,10 @@ void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex)
-     }
- 
-     trace_qemu_co_mutex_unlock_return(mutex, self);
-+    return COROUTINE_CONTINUE;
- }
- 
-+#if 0
- struct CoRwTicket {
-     bool read;
-     Coroutine *co;
++#define CO_FRAME1(decl) decl
++#define CO_SAVE1(var) _f->var = var
++#define CO_LOAD1(var) var = _f->var
++#define CO_DECLARE1(var) typeof(_f->var) var
++#define CO_ARG1(var) typeof(_f->var) var = _f->var
++
++#define CO_SAVE(...) CO_DO(CO_SAVE1, __VA_ARGS__)
++#define CO_LOAD(...) CO_DO(CO_LOAD1, __VA_ARGS__)
++#define CO_DECLARE(...) CO_DO(CO_DECLARE1, __VA_ARGS__)
++#define CO_ARG(...) CO_DO(CO_ARG1, __VA_ARGS__)
++
++#define CO_DECLARE_FRAME(func, ...) \
++    struct FRAME__##func { \
++        CoroutineFrame common; \
++        uint32_t _step; \
++        CO_DO(CO_FRAME1, __VA_ARGS__); \
++    }
++
++#define CO_INIT_FRAME(func, ...) \
++    co__##func(({ \
++        struct FRAME__##func *_f; \
++        _f = stack_alloc(co__##func, sizeof(*_f)); \
++        __VA_OPT__(CO_SAVE(__VA_ARGS__);) \
++        _f->_step = 0; \
++        _f; \
++    }))
++
+ #endif /* QEMU_COROUTINE_H */
 -- 
 2.35.1
 
