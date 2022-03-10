@@ -2,55 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23964D4F37
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 17:28:42 +0100 (CET)
-Received: from localhost ([::1]:51688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40594D4F36
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 17:28:04 +0100 (CET)
+Received: from localhost ([::1]:51678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSLeb-0001qR-O2
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 11:28:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48568)
+	id 1nSLdz-0001q9-KZ
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 11:28:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nSLcH-0000SM-52; Thu, 10 Mar 2022 11:26:17 -0500
-Received: from [187.72.171.209] (port=58172 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1nSLcF-0003sr-44; Thu, 10 Mar 2022 11:26:16 -0500
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 10 Mar 2022 13:26:09 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 97B558002AF;
- Thu, 10 Mar 2022 13:26:08 -0300 (-03)
-Message-ID: <5395a9ec-74df-1687-5706-ecee99f47acd@eldorado.org.br>
-Date: Thu, 10 Mar 2022 13:26:08 -0300
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nSLco-0000q2-RS
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 11:26:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nSLcn-0003z7-2q
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 11:26:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646929607;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y9k8J8R0ay59Mrk1Cd+JqCqUfjn1F+9D9vZHU6m7GMs=;
+ b=gQArZqcxS+RU8dIBhkWBLB2EKPzZH/9hVO+1l7/LQ/1uGKVCHebmvUX6QsjPz8PeqIHRMK
+ Gpvs1qSMCWxA2Kit2cBELcXtMj8isRgMgPJ7e5rFR8CdBMKwotXmsAmXTcfRL4gkOGrhTG
+ BDVu4kAxVQQeOVwgDzIwM2Hb/s4sURY=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-384-5j7Y1G7gPjKZ_VJ9UvDg9Q-1; Thu, 10 Mar 2022 11:26:46 -0500
+X-MC-Unique: 5j7Y1G7gPjKZ_VJ9UvDg9Q-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ h22-20020a1709060f5600b006b11a2d3dcfso3402895ejj.4
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 08:26:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Y9k8J8R0ay59Mrk1Cd+JqCqUfjn1F+9D9vZHU6m7GMs=;
+ b=x9Lps8zZy6XbuvvRwR3Hfq5ufWP2MZiS3DYkJ0E5x8kO3piCHooJIRIh842qNKV8q3
+ twhkcAiiwqMI7TenRrSyZTe8QiTTS4tOxHTQ8pfOzQRHNWTH+7GyJyhXVA9okU4S4N55
+ OlSSqVgqTCNZcVgViG0ZKYjkDPBvS62webv1PbRVV/7btBG+QpTIGs3kXMazDETxMgUj
+ hcM3T5L3slYhNEud84dsTYZ6xdnYWiglBbDOnyTt8AuSnsPK7HKPSHdyuxCKpL+aDa3m
+ vK9Qi65E/sjo2v6V3QHp/uNpePqOYJvrkcZC9oG3FJNBFD3bpnDszD9Czb8s1zvO0tT/
+ eu6A==
+X-Gm-Message-State: AOAM531n8eOjDWVlTl/46D6fWJhaLAdDYZeFUnKFjYpHQRt0Jh6ko2Ga
+ e+VqbVTgpwMbm/MKMoe/AEKOwRRyrN7hYxUBFaYhWzdYCVxFbrFhhxq0sOyoxE8YaIIZrShQPFG
+ gBAZgWG5AGkOHkLc=
+X-Received: by 2002:a17:906:3014:b0:6da:f381:4dfe with SMTP id
+ 20-20020a170906301400b006daf3814dfemr4888734ejz.670.1646929604914; 
+ Thu, 10 Mar 2022 08:26:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVcibnj7o1TP+y6r7CRu30K9pVBfxNgVqc/zUhu86REvfXdhErDzlGNrwnml0THa4ixRkIbw==
+X-Received: by 2002:a17:906:3014:b0:6da:f381:4dfe with SMTP id
+ 20-20020a170906301400b006daf3814dfemr4888713ejz.670.1646929604635; 
+ Thu, 10 Mar 2022 08:26:44 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ qb30-20020a1709077e9e00b006d6f8c77695sm1942964ejc.101.2022.03.10.08.26.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Mar 2022 08:26:44 -0800 (PST)
+Date: Thu, 10 Mar 2022 17:26:43 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: any opinion on the patch "[RFC PATCH] hw/i386/e820: remove
+ legacy reserved entries for e820"? EOM
+Message-ID: <20220310172643.39fa20cb@redhat.com>
+In-Reply-To: <CAARzgwximWns6yiWhTUogPjNVN3iGOPfs4z_i5BR2DLTH4ancg@mail.gmail.com>
+References: <CAARzgwyjqEs96QXthDs_yQi_s7qmMsLuH+4YQcq2Hx01_vY3EA@mail.gmail.com>
+ <20220303094134.tuhhrvtstxwpksmh@sirius.home.kraxel.org>
+ <CAARzgwxFuY=xMQmHU0cocG3ecznhVwQVTF0naaA6wwFkhwvOyA@mail.gmail.com>
+ <20220304101846.ct3ge56w6gjq355o@sirius.home.kraxel.org>
+ <CAARzgwy33DZwoXzMMYCd1e4-88hyzChX-VpHH65P71PW6Ko4Ng@mail.gmail.com>
+ <CAARzgwximWns6yiWhTUogPjNVN3iGOPfs4z_i5BR2DLTH4ancg@mail.gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC PATCH v3 3/3] target/ppc: Fix gen_priv_exception error value
- in mfspr/mtspr
-Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20220113170456.1796911-1-matheus.ferst@eldorado.org.br>
- <20220113170456.1796911-4-matheus.ferst@eldorado.org.br>
- <d3c76cc5-90c0-6abd-1f67-9b6b1b0230b7@vivier.eu>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <d3c76cc5-90c0-6abd-1f67-9b6b1b0230b7@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 10 Mar 2022 16:26:09.0031 (UTC)
- FILETIME=[8C90E170:01D8349B]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
-Received-SPF: pass client-ip=187.72.171.209;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,104 +106,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, richard.henderson@linaro.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMDQvMDMvMjAyMiAxMTo0MiwgTGF1cmVudCBWaXZpZXIgd3JvdGU6DQo+IExlIDEzLzAx
-LzIwMjIgw6AgMTg6MDQsIG1hdGhldXMuZmVyc3RAZWxkb3JhZG8ub3JnLmJyIGEgw6ljcml0
-IDoNCj4+IEZyb206IE1hdGhldXMgRmVyc3QgPG1hdGhldXMuZmVyc3RAZWxkb3JhZG8ub3Jn
-LmJyPg0KPj4NCj4+IFRoZSBjb2RlIGluIGxpbnV4LXVzZXIvcHBjL2NwdV9sb29wLmMgZXhw
-ZWN0cyBQT1dFUlBDX0VYQ1BfUFJJVg0KPj4gZXhjZXB0aW9uIHdpdGggZXJyb3IgUE9XRVJQ
-Q19FWENQX1BSSVZfT1BDIG9yIFBPV0VSUENfRVhDUF9QUklWX1JFRywNCj4+IHdoaWxlIFBP
-V0VSUENfRVhDUF9JTlZBTF9TUFIgaXMgZXhwZWN0ZWQgaW4gUE9XRVJQQ19FWENQX0lOVkFM
-DQo+PiBleGNlcHRpb25zLiBUaGlzIG1pc21hdGNoIGNhdXNlZCBhbiBFWENQX0RVTVAgd2l0
-aCB0aGUgbWVzc2FnZSAiVW5rbm93bg0KPj4gcHJpdmlsZWdlIHZpb2xhdGlvbiAoMDMpIiwg
-YXMgc2VlbiBpbiBbMV0uDQo+Pg0KPj4gRml4ZXM6IDliMmZhZGRhM2UwMSAoInBwYzogUmV3
-b3JrIGdlbmVyYXRpb24gb2YgcHJpdiBhbmQgaW52YWwgDQo+PiBpbnRlcnJ1cHRzIikNCj4+
-IFJlc29sdmVzOiBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9pc3N1
-ZXMvNTg4DQo+Pg0KPj4gWzFdIGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3QvcWVt
-dS8tL2lzc3Vlcy81ODgNCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBNYXRoZXVzIEZlcnN0IDxt
-YXRoZXVzLmZlcnN0QGVsZG9yYWRvLm9yZy5icj4NCj4+IC0tLQ0KPj4gSXMgdGhlcmUgYW55
-IGNhc2Ugd2hlcmUgdGhyb3dpbmcgYSBQUklWL0lOVkFMIGV4Y2VwdGlvbiB3aXRoIGENCj4+
-IElOVkFML1BSSVYgZXJyb3IgbWFrZXMgc2Vuc2U/IEl0IHNlZW1zIHdyb25nLCBidXQgbWF5
-YmUgSSdtIG1pc3NpbmcNCj4+IHNvbWV0aGluZy4uLiBlc3BlY2lhbGx5IHdpdGggdGhlIEhW
-X0VNVSB0byBwcm9ncmFtIGNoZWNrIGNvbnZlcnNpb24uDQo+Pg0KPj4gQWxzbywgaWYgdGhp
-cyBwYXRjaCBpcyBjb3JyZWN0LCBpdCBzZWVtcyB0aGF0IGFsbCBpbnZhbGlkIFNQUiBhY2Nl
-c3MNCj4+IHdvdWxkIGJlIG5vcCBvciBwcml2aWxlZ2UgZXhjZXB0aW9ucy4gSW4gdGhpcyBj
-YXNlLCBpcw0KPj4gUE9XRVJQQ19FWENQX0lOVkFMX1NQUiBzdGlsbCBuZWVkZWQ/DQo+PiAt
-LS0NCj4+IMKgIHRhcmdldC9wcGMvdHJhbnNsYXRlLmMgfCA4ICsrKystLS0tDQo+PiDCoCAx
-IGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPj4NCj4+
-IGRpZmYgLS1naXQgYS90YXJnZXQvcHBjL3RyYW5zbGF0ZS5jIGIvdGFyZ2V0L3BwYy90cmFu
-c2xhdGUuYw0KPj4gaW5kZXggNDAyMzIyMDFiYi4uYWJiYzNhNWJiOSAxMDA2NDQNCj4+IC0t
-LSBhL3RhcmdldC9wcGMvdHJhbnNsYXRlLmMNCj4+ICsrKyBiL3RhcmdldC9wcGMvdHJhbnNs
-YXRlLmMNCj4+IEBAIC00ODI3LDExICs0ODI3LDExIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBn
-ZW5fb3BfbWZzcHIoRGlzYXNDb250ZXh0IA0KPj4gKmN0eCkNCj4+IMKgwqDCoMKgwqDCoMKg
-wqDCoMKgICovDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKHNwcm4gJiAweDEwKSB7DQo+
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoY3R4LT5wcikgew0KPj4gLcKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnZW5fcHJpdl9leGNlcHRpb24oY3R4LCBQT1dF
-UlBDX0VYQ1BfSU5WQUxfU1BSKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgZ2VuX3ByaXZfZXhjZXB0aW9uKGN0eCwgUE9XRVJQQ19FWENQX1BSSVZfUkVHKTsNCj4+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0NCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCB9
-IGVsc2Ugew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGN0eC0+cHIgfHwg
-c3BybiA9PSAwIHx8IHNwcm4gPT0gNCB8fCBzcHJuID09IDUgfHwgDQo+PiBzcHJuID09IDYp
-IHsNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ2VuX2h2cHJpdl9leGNl
-cHRpb24oY3R4LCBQT1dFUlBDX0VYQ1BfSU5WQUxfU1BSKTsNCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgZ2VuX2h2cHJpdl9leGNlcHRpb24oY3R4LCBQT1dFUlBDX0VY
-Q1BfUFJJVl9SRUcpOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPj4gwqDC
-oMKgwqDCoMKgwqDCoMKgIH0NCj4+IMKgwqDCoMKgwqAgfQ0KPj4gQEAgLTUwMTQsMTEgKzUw
-MTQsMTEgQEAgc3RhdGljIHZvaWQgZ2VuX210c3ByKERpc2FzQ29udGV4dCAqY3R4KQ0KPj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8NCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoc3By
-biAmIDB4MTApIHsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChjdHgtPnBy
-KSB7DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdlbl9wcml2X2V4Y2Vw
-dGlvbihjdHgsIFBPV0VSUENfRVhDUF9JTlZBTF9TUFIpOw0KPj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBnZW5fcHJpdl9leGNlcHRpb24oY3R4LCBQT1dFUlBDX0VYQ1Bf
-UFJJVl9SRUcpOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPj4gwqDCoMKg
-wqDCoMKgwqDCoMKgIH0gZWxzZSB7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBp
-ZiAoY3R4LT5wciB8fCBzcHJuID09IDApIHsNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgZ2VuX2h2cHJpdl9leGNlcHRpb24oY3R4LCBQT1dFUlBDX0VYQ1BfSU5WQUxf
-U1BSKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ2VuX2h2cHJpdl9l
-eGNlcHRpb24oY3R4LCBQT1dFUlBDX0VYQ1BfUFJJVl9SRUcpOw0KPj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgfQ0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIH0NCj4+IMKgwqDCoMKg
-wqAgfQ0KPiANCj4gSXQgc2VlbXMgbG9naWMgdG8gZW1pdCBhIFBPV0VSUENfRVhDUF9QUklW
-X1hYWCBleGNlcHRpb24gd2l0aCAgDQo+IGdlbl9wcml2X2V4Y2VwdGlvbigpIChQT1dFUlBD
-X0VYQ1BfUFJJVikuDQo+IA0KPiBNb3Jlb3ZlciBpbiBsaW5lIGFib3ZlIHdlIGhhdmUgYcKg
-IGdlbl9wcml2X2V4Y2VwdGlvbihjdHgsIA0KPiBQT1dFUlBDX0VYQ1BfUFJJVl9SRUcpIGlm
-IHRoZSByZWdpc3Rlcg0KPiBjYW5ub3QgYmUgcmVhZCAoU1BSX05PQUNDRVNTKS4NCj4gDQo+
-IEJ1dCBpbiBoZWxwZXJfbG9hZF9kY3IoKSB3ZSBoYXZlIFBPV0VSUENfRVhDUF9QUklWX1JF
-RyB3aXRoIA0KPiBQT1dFUlBDX0VYQ1BfSU5WQUwgKHdoZXJlYXMgaW4gdGhlDQo+IGhlbHBl
-cl9zdG9yZV9kY3IoKSBmdW5jdGlvbiB3ZSBoYXZlIFBPV0VSUENfRVhDUF9JTlZBTCB3aXRo
-IA0KPiBQT1dFUlBDX0VYQ1BfSU5WQUxfSU5WQUwpLg0KPiBJdCBsb29rcyBsaWtlIGFub3Ro
-ZXIgYnVnLg0KDQpUaGUgaW5zdHJ1Y3Rpb25zIHRoYXQgY291bGQgaW52b2tlIHRoZXNlIGhl
-bHBlcnMgaW4gdXNlci1tb2RlIChtZmRjcnV4IA0KYW5kIG10ZGNydXgpIGFyZSBiZWhpbmQg
-UFBDX0RDUlVYLCBhbmQgbm8gQ1BVIGhhcyB0aGlzIGluc25zX2ZsYWcsIHNvIEkgDQpndWVz
-cyB0aGUgY29kZSBpcyB3cm9uZywgYnV0IHdlIGNhbm5vdCBoaXQgdGhlIGJ1ZyBpbiBsaW51
-eC11c2VyLg0KDQpTaW1pbGFybHksIHdlIGhhdmUgZ2VuX2h2cHJpdl9leGNlcHRpb24gd2l0
-aCBQT1dFUlBDX0VYQ1BfSU5WQUxfU1BSIGluIA0Kc3ByX2dyb3VwQV93cml0ZV9hbGxvd2Vk
-IGFuZCBnZW5faW52YWxfZXhjZXB0aW9uIHdpdGggDQpQT1dFUlBDX0VYQ1BfUFJJVl9SRUcg
-aW4gc3ByX3dyaXRlX2V4Y3BfdmVjdG9yLCBidXQgYm90aCBhcmUgYmVoaW5kIA0KIWRlZmlu
-ZWQoQ09ORklHX1VTRVJfT05MWSkuDQoNCj4gYW5kIGluIGdlbl9zbGJmZWUoKSB3ZSBoYXZl
-IGFsc28gYSBQT1dFUlBDX0VYQ1BfUFJJVl9SRUcgd2l0aCANCj4gZ2VuX2ludmFsX2V4Y2Vw
-dGlvbigpDQo+IChQT1dFUlBDX0VYQ1BfSU5WQUwpLg0KDQpUaGlzIG9uZSBpcyBlYXNpZXIg
-dG8gdGVzdC4gTG9va2luZyBhdCBzaV9jb2RlOg0KDQp2b2lkIHNpZ2lsbF9oYW5kbGUoaW50
-IHNpZywgc2lnaW5mb190ICpzaSwgdm9pZCAqdWNvbnRleHQpDQp7DQogICAgIF9leGl0KHNp
-LT5zaV9jb2RlKTsNCn0NCg0KaW50IG1haW4odm9pZCkNCnsNCiAgICAgc3RydWN0IHNpZ2Fj
-dGlvbiBzYSA9IHsuc2Ffc2lnYWN0aW9uID0gc2lnaWxsX2hhbmRsZSwgLnNhX2ZsYWdzID0g
-DQpTQV9TSUdJTkZPfTsNCiAgICAgdWludDY0X3QgdCA9IDAsIGIgPSAwOw0KICAgICBzaWdh
-Y3Rpb24oU0lHSUxMLCAmc2EsIE5VTEwpOw0KICAgICBhc20oInNsYmZlZS4gJTAsICUxIiA6
-ICI9ciIgKHQpIDogInIiIChiKSk7DQogICAgIHJldHVybiAwOw0KfQ0KDQpXZSBoYXZlOg0K
-JCAuL3NsYmVlOyBlY2hvICQ/DQo1ICMgSUxMX1BSVk9QQw0KJCAuL3FlbXUtcHBjNjQgLi9z
-bGJmZWU7IGVjaG8gJD8NCjIgIyBJTExfSUxMT1BODQoNClNvIEkgdGhpbmsgd2Ugc2hvdWxk
-IGJlIHVzaW5nIGdlbl9wcml2X2V4Y2VwdGlvbiBvciBnZW5faHZwcml2X2V4Y2VwdGlvbiAN
-CndpdGggUE9XRVJQQ19FWENQX1BSSVZfT1BDLg0KDQo+IFdoYXQgaXMgaW50ZXJlc3Rpbmcg
-aXMgZ2VuX2ludmFsX2V4Y2VwdGlvbigpIHVzZXMgUE9XRVJQQ19FWENQX0hWX0VNVSANCj4g
-dGhhdCBjb3VsZCBtYWtlIHRoaW5raW5nIHdlDQo+IGNvdWxkIHRyeSB0byBlbXVsYXRlIHRo
-ZSBvcGVyYXRpb24gKGZvciBLVk0gUFIsIGZvciBpbnN0YW5jZSkuDQoNCklJVUMsIHdlIHNo
-b3VsZCB1c2UgZ2VuX2h2cHJpdl9leGNlcHRpb24gaW4gdGhvc2UgY2FzZXMsIHNvIHdlIGhh
-dmUgDQpQT1dFUlBDX0VYQ1BfSFZfRU1VIHdpdGggUE9XRVJQQ19FWENQX1BSSVYgfCBzb21l
-dGhpbmcuDQoNClRoYW5rcywNCk1hdGhldXMgSy4gRmVyc3QNCkluc3RpdHV0byBkZSBQZXNx
-dWlzYXMgRUxET1JBRE8gPGh0dHA6Ly93d3cuZWxkb3JhZG8ub3JnLmJyLz4NCkFuYWxpc3Rh
-IGRlIFNvZnR3YXJlDQpBdmlzbyBMZWdhbCAtIERpc2NsYWltZXIgPGh0dHBzOi8vd3d3LmVs
-ZG9yYWRvLm9yZy5ici9kaXNjbGFpbWVyLmh0bWw+DQo=
+On Fri, 4 Mar 2022 16:16:38 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
+
+> On Fri, Mar 4, 2022 at 4:11 PM Ani Sinha <ani@anisinha.ca> wrote:
+> >
+> > On Fri, Mar 4, 2022 at 3:48 PM Gerd Hoffmann <kraxel@redhat.com> wrote:  
+> > >
+> > > On Thu, Mar 03, 2022 at 03:12:51PM +0530, Ani Sinha wrote:  
+> > > > On Thu, Mar 3, 2022 at 15:11 Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > > >  
+> > > > > Sorry, no.  Noticed the discussions but don't remember the details and
+> > > > > didn't took the time to wade through the code to refresh my memory.  
+> > > >
+> > > > Could you please take a look when you get time? You have the most context
+> > > > in this space I believe.  
+> > >
+> > > Should indeed not be needed unless you use a stone-aged seabios version.
+> > > But I think you can't simply drop it for live migration compatibility
+> > > reasons.  So you'll need do the compatibility dance and drop it for new
+> > > machine types only.  I doubt the benefits outweigh that effort ..
+
+well, it's mostly dead and unused code path that needlessly complicates code
+and silently bit-rots for several years. (on both SeaBIOS and QEMU sides)
+  
+> > Igor what do you think?  
+> Since the static entries are separate from the rom file entries, I
+> think we are in trouble only if the destination is using an old bios?
+> Otherwise, the non-existence of the static entries should be simply
+> ignored right?
+
+If you take into account migration from older QEMU, it will migrate
+with old SeaBIOS (one that VM was started with on source side), then you
+can't just remove interfaces it might access from under its foot.
+So compat knobs are necessary.
+
+Considering that SeaBIOS switched to QEMU provided ACPI tables since 1.7,
+this machine type can serve as point where compat knob should be.
+Newer machine type (though technically possible) and SeaBIOS should
+not build its own ACPI tables and not use legacy interfaces necessary
+for it.
+
+Also since machine types older that 1.7 are deprecated now,
+we can remove them in 2 releases, which rules pre-QEMU-ACPI
+SeaBIOS out of the picture. So I'd think about preparing cleanup
+for SeaBIOS which removes legacy ACPI tables from it, and merge
+that once deprecated machine types are removed on QEMU side.
+And after that drop legacy ABI on QEMU side as no longer used.
+
 
