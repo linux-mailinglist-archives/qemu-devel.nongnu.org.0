@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3164D4859
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:47:25 +0100 (CET)
-Received: from localhost ([::1]:49748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E044D4799
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:03:10 +0100 (CET)
+Received: from localhost ([::1]:33050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSJ8W-0006Ya-Lo
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:47:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41432)
+	id 1nSIRh-0003SS-1X
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:03:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9l-0006lp-4I; Thu, 10 Mar 2022 07:44:38 -0500
-Received: from [2a00:1450:4864:20::42d] (port=36527
- helo=mail-wr1-x42d.google.com)
+ id 1nSI9p-0006pR-RK; Thu, 10 Mar 2022 07:44:42 -0500
+Received: from [2a00:1450:4864:20::42f] (port=43707
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9j-0005D5-1b; Thu, 10 Mar 2022 07:44:36 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id r10so7798767wrp.3;
- Thu, 10 Mar 2022 04:44:34 -0800 (PST)
+ id 1nSI9l-0005Dd-9z; Thu, 10 Mar 2022 07:44:39 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id e24so7741077wrc.10;
+ Thu, 10 Mar 2022 04:44:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cKdtK321kFLCliuzyUSsNRmQeNups2GRo/9a3WM2ZiQ=;
- b=N2O/N0AlcFa0juxfh1qhJeS2JZct9UqxPtNbL+Dz8axsniwxGu6Tgws0JQqyKdFSSH
- 0r61BhSVxyoJdp+EGuDr30Nypr4ln2ofyF7FsaC0mL4MQWl4J8Iywo3WUXO5GGJ+7xEp
- 2W9g+AQrzQ/MizT5kcL/HMI5B4TExXWhVx4pq7lnTwemanqUqu5/n/Pc04FhHXAXUE31
- ENSUDyuSwxfQF2TBWNS4MtM68iWEveydhtuFMy0jrbXpsZYfAc5Pk8uEZjYTJtk5kHv2
- IQLAqq2iaREloj77DBg+CDIDVHG3m+R0a/tAuVY6PuPbhXd6ZaqHSyxtOdIckUno5bOh
- FiRg==
+ bh=NP0Ei/vqiEwTAvjNN9/HZJ4grZhsDkMiqmp8SfogxL4=;
+ b=Npy0igV1JKdWSfZhK8GP8k1T2YAUSTTT0bFcL4gjPelSZnsZmIBAr1ghcUmAIVWYgP
+ IJUgJf73L0xuoc+IBCbFqjgskB3mtYyCKPGUUXj7QY5RV4Y/2mzHCEHa9HiRbKOysFv/
+ j2IHWnrNx4ab2Rv6A2F7THO0peQ1CdBqQTFJecunMBN2h/zqL61yQ4Zvy8+i6bfv8nqR
+ XOmvCaAgtuC0GSbua89zZvkLw6rTARLiCs1A1MMU0uU0C+lSeMkfGooNX1nHPA0CM91A
+ 2DdihHV5+Kl9XrTilaIYYv3clFX+NeJ6VWjcPgK1GKQB5opVnU2++7rhh1HEJWOgN0Kw
+ OLSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cKdtK321kFLCliuzyUSsNRmQeNups2GRo/9a3WM2ZiQ=;
- b=AqWg7uD1MgqQk1GJtrrlUuQhhQmHxjX1ItVq7ZxH7fjFX4sNJ65YWs80zeR98y2GBq
- XEjIJw+61YHSW+JSOzpNOIOmPk0s5AONd4gHxpcE7D5ThNEPvKVbxgDOvRR9epPOINeF
- qY27SwgmM4DN1JYsKcKTZ7aLyE0HwwJ/FG9ZelkIBMlUlt1eq17gl8FLnvDmTa8YJ1Cy
- ja8uc7SzGG+jXXB+Qtctj6BbQqGGddt/AH9rDhKWlit9VRmypepknaXwZrFmR/b8BDS9
- 2X4qCF9qA37D2KLY/Qk1PBwFucJ4FpMf/EmrE3cePrEKbXVc4AC4d5yOcIkX6i3SroTI
- SQ/Q==
-X-Gm-Message-State: AOAM5307KrzWQDBcPnrDuOzXSAB4vzIASpMBEBiVsT62Z0PPMarGUjj+
- V3s2oVeTH5lRaxdQLLmbrXZ00Wjd8E0=
-X-Google-Smtp-Source: ABdhPJzTC9AIksEmISttTayXzZERN9JiC/K5dGXlwOQKjDiv0vusSY5FlMhZjIFCarzE+QPaOFHbHA==
-X-Received: by 2002:adf:fd50:0:b0:1f0:7a8e:c922 with SMTP id
- h16-20020adffd50000000b001f07a8ec922mr3442572wrs.166.1646916273464; 
- Thu, 10 Mar 2022 04:44:33 -0800 (PST)
+ bh=NP0Ei/vqiEwTAvjNN9/HZJ4grZhsDkMiqmp8SfogxL4=;
+ b=pd7RvprZ00HAOfqwgXkbsRDUGRnJMz4qLJ/PQ/pPMZjxPT6x/aN+br4sdE/+DRfiEo
+ AXjD22gDZWm/37c48vcpvNZSiE7+q35VM2+ml6/277BMu9owWD6vTbnamfTuu+nlDISc
+ d84mNdezuqM71imfolSnmlrxBlA3aC/7vZQYFrYkvVe2l4LwwYGlXPg7fx8f04Ex4Kla
+ u7UdgfRJowa6h+pcfYUrk79liHdRTv5Z6BMqHl8kp9WP0avztWznbMZpwURd4oAbh+R6
+ 4Z5FxSg1kCTrYYV6D4vxuT4PBTvnaGo03HPBQu3LsB+3H+mOv4NHtpsB4siNZhqw6piu
+ TWYA==
+X-Gm-Message-State: AOAM530g0hxSt2+nYDIVLow9vbZ+RW9BoImp1Msv+Q6UdA6Pf0h2EJ0V
+ BfddwwcjRKIOZhkKJ+vW1sl1tjKlpt0=
+X-Google-Smtp-Source: ABdhPJyrpxN1Hz/doivErdLN9RTzlQPPiVP0O3SxPoRbP6ylboztxYp0S6jPehe0AL0cJLsPPg5C+Q==
+X-Received: by 2002:a05:6000:2c4:b0:203:7e20:f828 with SMTP id
+ o4-20020a05600002c400b002037e20f828mr3574291wry.232.1646916275743; 
+ Thu, 10 Mar 2022 04:44:35 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.32
+ r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:44:33 -0800 (PST)
+ Thu, 10 Mar 2022 04:44:35 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/35] /basic/nesting
-Date: Thu, 10 Mar 2022 13:43:52 +0100
-Message-Id: <20220310124413.1102441-15-pbonzini@redhat.com>
+Subject: [PATCH 16/35] /basic/entered
+Date: Thu, 10 Mar 2022 13:43:54 +0100
+Message-Id: <20220310124413.1102441-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
 References: <20220310124413.1102441-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -94,56 +94,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/unit/test-coroutine.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ tests/unit/test-coroutine.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
 diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
-index ae06e97c95..7aaadfd31a 100644
+index c701113d77..bc75050463 100644
 --- a/tests/unit/test-coroutine.c
 +++ b/tests/unit/test-coroutine.c
-@@ -93,6 +93,7 @@ static void test_entered(void)
-     g_assert(!qemu_coroutine_entered(coroutine));
+@@ -55,26 +55,40 @@ static void test_self(void)
+     coroutine = qemu_coroutine_create(verify_self, &coroutine);
      qemu_coroutine_enter(coroutine);
  }
-+#endif
+-#if 0
  
  /*
-  * Check that coroutines may nest multiple levels
-@@ -104,7 +105,7 @@ typedef struct {
-     unsigned int max;       /* maximum level of nesting */
- } NestData;
+  * Check that qemu_coroutine_entered() works
+  */
  
--static void coroutine_fn nest(void *opaque)
-+static CoroutineAction nest(void *opaque)
+-static void coroutine_fn verify_entered_step_2(void *opaque)
++CO_DECLARE_FRAME(verify_entered_step_2, Coroutine *caller);
++static CoroutineAction co__verify_entered_step_2(void *_frame)
  {
-     NestData *nd = opaque;
+-    Coroutine *caller = (Coroutine *)opaque;
++    struct FRAME__verify_entered_step_2 *_f = _frame;
++    CO_ARG(caller);
  
-@@ -118,6 +119,7 @@ static void coroutine_fn nest(void *opaque)
-     }
++switch(_f->_step)
++{
++case 0:
+     g_assert(qemu_coroutine_entered(caller));
+     g_assert(qemu_coroutine_entered(qemu_coroutine_self()));
+-    qemu_coroutine_yield();
+-
++    _f->_step = 1;
++    return qemu_coroutine_yield();
++case 1:
+     /* Once more to check it still works after yielding */
+     g_assert(qemu_coroutine_entered(caller));
+     g_assert(qemu_coroutine_entered(qemu_coroutine_self()));
++    break;
++}
++return stack_free(&_f->common);
+ }
  
-     nd->n_return++;
+-static void coroutine_fn verify_entered_step_1(void *opaque)
++static CoroutineAction verify_entered_step_2(void *opaque)
++{
++    Coroutine *caller = (Coroutine *)opaque;
++    return CO_INIT_FRAME(verify_entered_step_2, caller);
++}
++
++static CoroutineAction verify_entered_step_1(void *opaque)
+ {
+     Coroutine *self = qemu_coroutine_self();
+     Coroutine *coroutine;
+@@ -86,6 +100,7 @@ static void coroutine_fn verify_entered_step_1(void *opaque)
+     qemu_coroutine_enter(coroutine);
+     g_assert(!qemu_coroutine_entered(coroutine));
+     qemu_coroutine_enter(coroutine);
 +    return COROUTINE_CONTINUE;
  }
  
- static void test_nesting(void)
-@@ -141,7 +143,6 @@ static void test_nesting(void)
-  * Check that yield/enter transfer control correctly
-  */
- 
+ static void test_entered(void)
+@@ -96,7 +111,6 @@ static void test_entered(void)
+     g_assert(!qemu_coroutine_entered(coroutine));
+     qemu_coroutine_enter(coroutine);
+ }
 -#endif
- CO_DECLARE_FRAME(yield_5_times, void *opaque, int i);
- static CoroutineAction co__yield_5_times(void *_frame)
- {
-@@ -679,8 +680,8 @@ int main(int argc, char **argv)
  
-     g_test_add_func("/basic/lifecycle", test_lifecycle);
+ /*
+  * Check that coroutines may nest multiple levels
+@@ -685,8 +699,8 @@ int main(int argc, char **argv)
      g_test_add_func("/basic/yield", test_yield);
--#if 0
      g_test_add_func("/basic/nesting", test_nesting);
-+#if 0
      g_test_add_func("/basic/self", test_self);
+-#if 0
      g_test_add_func("/basic/entered", test_entered);
++#if 0
      g_test_add_func("/basic/in_coroutine", test_in_coroutine);
+     g_test_add_func("/basic/order", test_order);
+     g_test_add_func("/locking/co-mutex", test_co_mutex);
 -- 
 2.35.1
 
