@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75014D4437
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 11:05:53 +0100 (CET)
-Received: from localhost ([::1]:53144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BDB74D444E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 11:10:49 +0100 (CET)
+Received: from localhost ([::1]:56482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSFg8-0008KJ-K5
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 05:05:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55842)
+	id 1nSFks-0002ZK-3Z
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 05:10:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSFeH-0007Dg-HZ
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 05:03:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59735)
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nSFjb-0001sN-L2
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 05:09:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSFeD-0001cA-PF
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 05:03:55 -0500
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nSFjZ-0002TY-T9
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 05:09:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646906632;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1646906964;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xoEM/zTIrA+ouqqkKilQrOU6RwpehsCB4XrQR1QepKk=;
- b=Q1vP1l/e5nXBCkSoejn3bsTDzO7hlZyxRtRDSyE7TWVgUPn+8FAB3+EdMPZ4u2MhqwdA3Q
- qZax+OzwHTriiD0tEoOLijhaM0K2nxk+0WluyxleH1PyCX/Um3+/WZSZF5gYYsKgOOh3Nx
- N1gXTsGqWEQO7nCcv0CnAi2ihMqu76Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DFhDCh07ZhOsb/s30S7DCGwxPRUfb2MPMrUG2BFIbn0=;
+ b=V9EI4DrL57D7nnX2+isuvPENwn42xKFnJQHoREY2eQINJpiZHGXw+L/ynE1074teIzqE7x
+ hNq7x4TE8gr5EMEo6BFWSGwZ0na3t8lSGcLbHq0lU/fJqlm8gNhQAynCMRuP1BNdrnr7fV
+ SIb2+oWMiupRAD4HRsN6eEz/JAJLHIg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-jKPEPVuMNaqr-75wMDCglQ-1; Thu, 10 Mar 2022 05:03:49 -0500
-X-MC-Unique: jKPEPVuMNaqr-75wMDCglQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18AE9801AB2;
- Thu, 10 Mar 2022 10:03:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B172B100692D;
- Thu, 10 Mar 2022 10:03:34 +0000 (UTC)
-Date: Thu, 10 Mar 2022 10:03:31 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Chenyi Qiang <chenyi.qiang@intel.com>
-Subject: Re: [PATCH 2/2] i386: Add notify VM exit support
-Message-ID: <YinM81dNCN8DDgyl@redhat.com>
-References: <20220310090205.10645-1-chenyi.qiang@intel.com>
- <20220310090205.10645-3-chenyi.qiang@intel.com>
- <YinCH/GbShwG1fRF@redhat.com>
- <43c55ff9-eab6-7dc5-c634-9817b5a523cd@intel.com>
+ us-mta-507-TKKtq7xYNLa27_HBVUvXwg-1; Thu, 10 Mar 2022 05:09:23 -0500
+X-MC-Unique: TKKtq7xYNLa27_HBVUvXwg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a5-20020adfdd05000000b001f023fe32ffso1505539wrm.18
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 02:09:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=DFhDCh07ZhOsb/s30S7DCGwxPRUfb2MPMrUG2BFIbn0=;
+ b=QGDp6ZFixo6yb3NcTEWrGy5CJbwM32lYyVIgjoDwvKgZmza5Y7gNHMLnldpqLjsjm4
+ +2UakfZObwbciTAALoRiXcO/qGLM4U3twQWlacDKlObtagqTVC0GTVmozbJ/sAr2uoWt
+ 1qRiEGJtQWUlUkV72RMUKYhqSnpxh4hVFLcJi3JUvfpOrsK+YCws9evwqpz3iiC4xhE4
+ ddbpljQjeMepnmyI6lJNkf02FfF1CXLHkeCep7Lo+ANCFfrcNN3+ENH7a183lsiMSgF+
+ tOihvKktxDpZ4nEiTvhwz2qcygyPygw3OLw3FJu9c7tWKVYTprNfIHMg/qHEh8AHsKMK
+ hf6Q==
+X-Gm-Message-State: AOAM533Uzmpc0wp/N+Sf2BIVmJr7Gty9TFMACsZ8jzrCrPQrnbZ3IE0j
+ 3EVNZgailkO8BTQZ1S3Qk5RgHpTt3T8LvuM2w+yziMvVwVHiZJdvg5S34HngddPYhMQ1oeWTXRH
+ +3tdzvgVa0p9fU1w=
+X-Received: by 2002:a5d:628d:0:b0:1f1:d81d:c954 with SMTP id
+ k13-20020a5d628d000000b001f1d81dc954mr2928004wru.273.1646906962069; 
+ Thu, 10 Mar 2022 02:09:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw6DKs8Ke7S1xpjBsPK5RfZ6t5O3+A3Ol1D+gqsgpFN1b+pwTyM8tovpE5ec7wYhkc3c8/Vvw==
+X-Received: by 2002:a5d:628d:0:b0:1f1:d81d:c954 with SMTP id
+ k13-20020a5d628d000000b001f1d81dc954mr2927978wru.273.1646906961788; 
+ Thu, 10 Mar 2022 02:09:21 -0800 (PST)
+Received: from ?IPv6:2a0c:5a80:3506:3400:69b5:c807:1d52:ff67?
+ ([2a0c:5a80:3506:3400:69b5:c807:1d52:ff67])
+ by smtp.gmail.com with ESMTPSA id
+ bl20-20020adfe254000000b001f1fa450a3asm5746897wrb.72.2022.03.10.02.09.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Mar 2022 02:09:21 -0800 (PST)
+Message-ID: <4650269bd52046fce571510710ab2b900aa3d404.camel@redhat.com>
+Subject: Re: [PATCH v2 1/4] util/thread-pool: Fix thread pool freeing locking
+From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Date: Thu, 10 Mar 2022 11:09:20 +0100
+In-Reply-To: <YinC7yUHgR+Ing+l@stefanha-x1.localdomain>
+References: <20220303145822.518887-1-nsaenzju@redhat.com>
+ <20220303145822.518887-2-nsaenzju@redhat.com>
+ <YinC7yUHgR+Ing+l@stefanha-x1.localdomain>
+User-Agent: Evolution 3.42.4 (3.42.4-1.fc35)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsaenzju@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <43c55ff9-eab6-7dc5-c634-9817b5a523cd@intel.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=nsaenzju@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -82,100 +103,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Xiaoyao Li <xiaoyao.li@intel.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, berrange@redhat.com,
+ qemu-block@nongnu.org, michael.roth@amd.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, eduardo@habkost.net,
+ hreitz@redhat.com, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 10, 2022 at 05:53:05PM +0800, Chenyi Qiang wrote:
+On Thu, 2022-03-10 at 09:20 +0000, Stefan Hajnoczi wrote:
+> On Thu, Mar 03, 2022 at 03:58:19PM +0100, Nicolas Saenz Julienne wrote:
+> > Upon freeing a thread pool we need to get rid of any remaining worker.
+> > This is achieved by setting the thread pool's topping flag, waking the
 > 
+> s/topping/stopping/
 > 
-> On 3/10/2022 5:17 PM, Daniel P. Berrangé wrote:
-> > On Thu, Mar 10, 2022 at 05:02:05PM +0800, Chenyi Qiang wrote:
-> > > There are cases that malicious virtual machine can cause CPU stuck (due
-> > > to event windows don't open up), e.g., infinite loop in microcode when
-> > > nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
-> > > IRQ) can be delivered. It leads the CPU to be unavailable to host or
-> > > other VMs. Notify VM exit is introduced to mitigate such kind of
-> > > attacks, which will generate a VM exit if no event window occurs in VM
-> > > non-root mode for a specified amount of time (notify window).
-> > > 
-> > > A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
-> > > so that the user can query the capability and set the expected notify
-> > > window when creating VMs.
-> > > 
-> > > If notify VM exit happens with VM_INVALID_CONTEXT, hypervisor should
-> > > exit to user space with the exit reason KVM_EXIT_NOTIFY to inform the
-> > > fatal case. Then user space can inject a SHUTDOWN event to the target
-> > > vcpu. This is implemented by defining a new bit in flags field of
-> > > kvm_vcpu_event in KVM_SET_VCPU_EVENTS ioctl.
-> > > 
-> > > Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
-> > > ---
-> > >   hw/i386/x86.c         | 24 ++++++++++++++++++
-> > >   include/hw/i386/x86.h |  3 +++
-> > >   target/i386/kvm/kvm.c | 58 ++++++++++++++++++++++++++++---------------
-> > >   3 files changed, 65 insertions(+), 20 deletions(-)
-> > > 
-> > > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> > > index b84840a1bb..25e6c50b1e 100644
-> > > --- a/hw/i386/x86.c
-> > > +++ b/hw/i386/x86.c
-> > > @@ -1309,6 +1309,23 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
-> > >       qapi_free_SgxEPCList(list);
-> > >   }
-> > > +static void x86_machine_get_notify_window(Object *obj, Visitor *v,
-> > > +                                const char *name, void *opaque, Error **errp)
-> > > +{
-> > > +    X86MachineState *x86ms = X86_MACHINE(obj);
-> > > +    int32_t notify_window = x86ms->notify_window;
-> > > +
-> > > +    visit_type_int32(v, name, &notify_window, errp);
-> > > +}
-> > > +
-> > > +static void x86_machine_set_notify_window(Object *obj, Visitor *v,
-> > > +                               const char *name, void *opaque, Error **errp)
-> > > +{
-> > > +    X86MachineState *x86ms = X86_MACHINE(obj);
-> > > +
-> > > +    visit_type_int32(v, name, &x86ms->notify_window, errp);
-> > > +}
-> > > +
-> > >   static void x86_machine_initfn(Object *obj)
-> > >   {
-> > >       X86MachineState *x86ms = X86_MACHINE(obj);
-> > > @@ -1319,6 +1336,7 @@ static void x86_machine_initfn(Object *obj)
-> > >       x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
-> > >       x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-> > >       x86ms->bus_lock_ratelimit = 0;
-> > > +    x86ms->notify_window = -1;
-> > >   }
+> > workers up, and waiting for them to exit one by one. The problem is that
+> > currently all this process happens with the thread pool lock held,
+> > effectively blocking the workers from exiting.
 > > 
-> > IIUC from the kernel patch, this negative value leaves the protection
-> > disabled, and thus the host remains vulnerable to the CVE. I would
-> > expect this ought to set a suitable default value to fix the flaw.
+> > So let's release the thread pool lock after signaling a worker thread
+> > that it's time to exit to give it a chance to do so.
 > > 
+> > Fixes: f7311ccc63 ("threadpool: add thread_pool_new() and thread_pool_free()")
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+> > ---
+> >  util/thread-pool.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/util/thread-pool.c b/util/thread-pool.c
+> > index d763cea505..fdb43c2d3b 100644
+> > --- a/util/thread-pool.c
+> > +++ b/util/thread-pool.c
+> > @@ -339,7 +339,9 @@ void thread_pool_free(ThreadPool *pool)
+> >      pool->stopping = true;
+> >      while (pool->cur_threads > 0) {
+> >          qemu_sem_post(&pool->sem);
+> > +        qemu_mutex_unlock(&pool->lock);
+> >          qemu_cond_wait(&pool->worker_stopped, &pool->lock);
+> > +        qemu_mutex_lock(&pool->lock);
 > 
-> Hum, I missed some explanation in commit message.
-> We had some discussion about the default behavior of this feature. There are
-> some concerns. e.g.
-> There's a possibility, however small, that a notify VM exit happens
-> with VM_CONTEXT_INVALID set in exit qualification, which means VM
-> context is corrupted. To avoid the false positive and a well-behaved
-> guest gets killed, we decide to make this feature opt-in.
+> This patch looks incorrect. qemu_cond_wait() (and pthread_cond_wait())
+> take a mutex as the second argument. This mutex is released and the
+> thread blocks to wait (this is done atomically with respect to the
+> condvar check so there are no races).
 
-That is unfortunate. It is not going to be much benefit to add this
-feature, if users are discouraged from using it because of the danger
-of it killing non-malicious guests :-(
+Sorry I completely missed that. It was a late addition, should've thought it
+trough. Patch #4 also needs to take this into account as I follow the same
+pattern.
 
-Regards,
-Daniel
+Thanks,
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Nicolás Sáenz
 
 
