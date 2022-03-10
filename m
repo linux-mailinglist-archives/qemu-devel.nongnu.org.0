@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCB54D432B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 10:08:53 +0100 (CET)
-Received: from localhost ([::1]:60026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F17F4D4331
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 10:11:18 +0100 (CET)
+Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSEmz-0006ZE-24
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 04:08:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43864)
+	id 1nSEpJ-0000Zg-IS
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 04:11:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nSEj9-00052J-9Q
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 04:04:56 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:53035)
+ id 1nSElI-0005fv-3X
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 04:07:08 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:52307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nSEj7-0000un-EO
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 04:04:54 -0500
+ id 1nSElG-0001Ki-Kk
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 04:07:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=XYHpPVtOrSAUr3lWFyg+nv6oV3Nc43WWuns1LSWK/pg=; b=b/YtW7emJY8eGFDBaFTWWxnb6C
- 7PFMmKWMp83JUwFT51GOOundFtmgfB/0YnVMrh0Ep9pfEZjZL9JcYvbHKTfBEYqkEEdnBrN+kQHJ5
- lf+lcHBKFY81wtQhycHeNYn/ah/it+904nm9M73EZvc+t/28LqLgjY3eHasuIpRmJznpLN7NRnX2C
- hyYJpI4W3s8k24lfrBOCS0RwLZZ2i7hhlDhJ/gYxciLUaZMxCtE1i7bDxyL19EIUI5Aqq+jp19jBl
- 3XdBe/3J9/s2lopwCjINLvkpDzFDgw6KH4n1XZBs5FMYV2Gqa9q5QURh96XJzlznwyrRdjhDkqDCo
- jH2ZOXjfK3WU3vrJSSjg/901yA2RQY4FQobRgr2oUUwKArpT7kLbLNDpRn3Rf1IEq4R3W9jcF4XE1
- 7VHXpEXjGxzUyue3u65uj+aaoLM6sab7lAX0VnO2ARsXHOdZGdrG4+x2GK6HEKKFSh1o1KMQ14FR4
- 97N72hhsjVz5oCa7IVluL8AU4s/yUB9zTB9KWDMziAwKJ2a8Dk+LnqzuAHlAU1D/45KkVuAMork4Y
- lkkzbBnaNd8sAHzHhVyLBAkb0Of1bYsYaaF5QudMOmUYrvii0sRnIA+FVmW1iF5tAPm/KQsTMUqKo
- 1vjYZg2KoDkbSKOF8OWJELmz0z21KI5zUAy/mRKmk=;
+ bh=bZJ3IVeU5hGyqhHOcQgMQhDgZWys6DbJL6/SGw/mkRI=; b=LZpcAhvLh0ki0jPk21w30lsefZ
+ OzfG31FZ3SbHJnJIElDFZsl6YXWmw4eZaM/goQ9w+AGFs/nQZXxBJXeoRcZYqh1sd0/cKAw7da98a
+ Y5KEcmmcDkZGEvmKnPBKcOlCDNxdqRa3y+08uWECkKD10MSRlLD0kgqf564ylwBTEYUAzVIqzsDNN
+ FrbRihOO3/fUF20sa2Wx1ctslEi7WPahwpqyxsQ6p4NaO0hmGShjjIQ+KfcIgP3tI4tL+sIx/6+qZ
+ oTHzn/RPSPMVugoLcXOT8mu0cJeS80OH8WFVU+N0bccEw41/nenhpnFmHzoHmvuC2l+yD/CAAAu9A
+ dHBsvzkfcMEkATd1F6nhRKsmPKag0uQH3Uuw0GoNc6IWigJAr2fUY0wGtETMxQ+XPCr7+t/1TcwlS
+ KftvLeGQo/yokStouT6L9lJ03crWDnJcZXyOtoA3UB/at5j5AtRYNDR4aD8DupRjQiB0zG3utKj5U
+ YKFlJ676ZmMZzRf31xkDvZNiSSnNeQZ4KKGtzpKqe/k4h8Z8Q5dWULUnJWI2Th7OGCs4+nah1Gtz1
+ 6vZZvc0Rwvvg6KOMboOeJyXFLIOWsqSR10aVBNyV8r8TGFEoa268EPompPPB1AaeEZiuPh3kusJ2D
+ O1G7Oom196Ac+E9t/ghw0R2APUGqk8TjQfIYXeRzk=;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 3/6] tests/9pfs: compare QIDs in fs_walk_none() test
-Date: Thu, 10 Mar 2022 10:04:50 +0100
-Message-ID: <16470725.T4W6l4s3Qp@silver>
-In-Reply-To: <699dea34f26b6f60746a16a35748b65d76515f1a.1646850707.git.qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 4/6] 9pfs: refactor 'name_idx' -> 'nvalid' in v9fs_walk()
+Date: Thu, 10 Mar 2022 10:07:04 +0100
+Message-ID: <4831323.ZipVpMZSPQ@silver>
+In-Reply-To: <00bee0f7a89147c90c672f07b9a1ebcd9180215b.1646850707.git.qemu_oss@crudebyte.com>
 References: <cover.1646850707.git.qemu_oss@crudebyte.com>
- <699dea34f26b6f60746a16a35748b65d76515f1a.1646850707.git.qemu_oss@crudebyte.com>
+ <00bee0f7a89147c90c672f07b9a1ebcd9180215b.1646850707.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -68,145 +68,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 9. M=E4rz 2022 15:49:04 CET Christian Schoenebeck wrote:
-> Extend previously added fs_walk_none() test by comparing the QID
-> of the root fid with the QID of the cloned fid. They should be
-> equal.
+On Mittwoch, 9. M=E4rz 2022 18:12:17 CET Christian Schoenebeck wrote:
+> The local variable 'name_idx' is used in two loops in function v9fs_walk(=
+).
+> Let the first loop use its own variable 'nvalid' instead, which we will u=
+se
+> in subsequent patches as the number of (requested) path components
+> successfully retrieved/walked by background I/O thread.
 >=20
 > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > ---
->  tests/qtest/virtio-9p-test.c | 70 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 70 insertions(+)
+>  hw/9pfs/9p.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 >=20
-> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> index 6c00da03f4..9098e21173 100644
-> --- a/tests/qtest/virtio-9p-test.c
-> +++ b/tests/qtest/virtio-9p-test.c
-> @@ -146,6 +146,11 @@ static void v9fs_uint16_read(P9Req *req, uint16_t *v=
-al)
-> le16_to_cpus(val);
->  }
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index a6d6b3f835..6cdc566866 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -1764,7 +1764,7 @@ static bool same_stat_id(const struct stat *a, const
+> struct stat *b)
 >=20
-> +static void v9fs_int16_read(P9Req *req, int16_t *val)
-> +{
-> +    v9fs_uint16_read(req, (uint16_t *)val);
-> +}
-> +
->  static void v9fs_uint32_write(P9Req *req, uint32_t val)
+>  static void coroutine_fn v9fs_walk(void *opaque)
 >  {
->      uint32_t le_val =3D cpu_to_le32(val);
-> @@ -166,12 +171,22 @@ static void v9fs_uint32_read(P9Req *req, uint32_t
-> *val) le32_to_cpus(val);
->  }
->=20
-> +static void v9fs_int32_read(P9Req *req, int32_t *val)
-> +{
-> +    v9fs_uint32_read(req, (uint32_t *)val);
-> +}
-> +
->  static void v9fs_uint64_read(P9Req *req, uint64_t *val)
->  {
->      v9fs_memread(req, val, 8);
->      le64_to_cpus(val);
->  }
->=20
-> +static void v9fs_int64_read(P9Req *req, int64_t *val)
-> +{
-> +    v9fs_uint64_read(req, (uint64_t *)val);
-> +}
-> +
->  /* len[2] string[len] */
->  static uint16_t v9fs_string_size(const char *string)
->  {
-> @@ -425,6 +440,40 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid,
-> v9fs_qid **wqid) v9fs_req_free(req);
->  }
->=20
-> +/* size[4] Tstat tag[2] fid[4] */
-> +static P9Req *v9fs_tstat(QVirtio9P *v9p, uint32_t fid, uint16_t tag)
-> +{
-> +    P9Req *req;
-> +
-> +    req =3D v9fs_req_init(v9p, 4, P9_TSTAT, tag);
-> +    v9fs_uint32_write(req, fid);
-> +    v9fs_req_send(req);
-> +    return req;
-> +}
-> +
-> +/* size[4] Rstat tag[2] stat[n] */
-> +static void v9fs_rstat(P9Req *req, struct V9fsStat *st)
-> +{
-> +    v9fs_req_recv(req, P9_RSTAT);
-> +
-> +    v9fs_int16_read(req, &st->size);
-> +    v9fs_int16_read(req, &st->type);
-> +    v9fs_int32_read(req, &st->dev);
-> +    v9fs_uint8_read(req, &st->qid.type);
-> +    v9fs_uint32_read(req, &st->qid.version);
-> +    v9fs_uint64_read(req, &st->qid.path);
-> +    v9fs_int32_read(req, &st->mode);
-> +    v9fs_int32_read(req, &st->mtime);
-> +    v9fs_int32_read(req, &st->atime);
-> +    v9fs_int64_read(req, &st->length);
-> +    v9fs_string_read(req, &st->name.size, &st->name.data);
-> +    v9fs_string_read(req, &st->uid.size, &st->uid.data);
-> +    v9fs_string_read(req, &st->gid.size, &st->gid.data);
-> +    v9fs_string_read(req, &st->muid.size, &st->muid.data);
-> +
-> +    v9fs_req_free(req);
-> +}
-> +
->  /* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
->  static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t offse=
-t,
->                              uint32_t count, uint16_t tag)
-> @@ -1009,6 +1058,8 @@ static void fs_walk_none(void *obj, void *data,
-> QGuestAllocator *t_alloc) v9fs_qid root_qid;
->      g_autofree v9fs_qid *wqid =3D NULL;
->      P9Req *req;
-> +    struct V9fsStat st[2];
-> +    int i;
->=20
->      do_version(v9p);
->      req =3D v9fs_tattach(v9p, 0, getuid(), 0);
-> @@ -1021,6 +1072,25 @@ static void fs_walk_none(void *obj, void *data,
-> QGuestAllocator *t_alloc)
->=20
->      /* special case: no QID is returned if nwname=3D0 was sent */
->      g_assert(wqid =3D=3D NULL);
-> +
-> +    req =3D v9fs_tstat(v9p, 0, 0);
-> +    v9fs_req_wait_for_reply(req, NULL);
-> +    v9fs_rstat(req, &st[0]);
+> -    int name_idx;
+> +    int name_idx, nvalid;
 
-Probably stat-ing the root fid (0) should happen before sending Twalk, to=20
-better counter the 1st fid (0) having become potentially mutated?
+Or rather renaming this nvalid -> nfetched?
 
-> +
-> +    req =3D v9fs_tstat(v9p, 1, 0);
-> +    v9fs_req_wait_for_reply(req, NULL);
-> +    v9fs_rstat(req, &st[1]);
-> +
-> +    /* don't compare QID version for checking for file ID equalness */
-> +    g_assert(st[0].qid.type =3D=3D st[1].qid.type);
-> +    g_assert(st[0].qid.path =3D=3D st[1].qid.path);
-
-I could add a helper function is_same_qid() for this if desired.
-
-> +
-> +    for (i =3D 0; i < 2; ++i) {
-> +        g_free(st[i].name.data);
-> +        g_free(st[i].uid.data);
-> +        g_free(st[i].gid.data);
-> +        g_free(st[i].muid.data);
-> +    }
-
-I didn't find a more elegant way to do this cleanup.
-
->  }
->=20
->  static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_all=
-oc)
+>      g_autofree V9fsQID *qids =3D NULL;
+>      int i, err =3D 0;
+>      V9fsPath dpath, path;
+> @@ -1842,17 +1842,17 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>              break;
+>          }
+>          stbuf =3D fidst;
+> -        for (name_idx =3D 0; name_idx < nwnames; name_idx++) {
+> +        for (nvalid =3D 0; nvalid < nwnames; nvalid++) {
+>              if (v9fs_request_cancelled(pdu)) {
+>                  err =3D -EINTR;
+>                  break;
+>              }
+>              if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
+> -                strcmp("..", wnames[name_idx].data))
+> +                strcmp("..", wnames[nvalid].data))
+>              {
+>                  err =3D s->ops->name_to_path(&s->ctx, &dpath,
+> -                                           wnames[name_idx].data,
+> -                                           &pathes[name_idx]);
+> +                                           wnames[nvalid].data,
+> +                                           &pathes[nvalid]);
+>                  if (err < 0) {
+>                      err =3D -errno;
+>                      break;
+> @@ -1861,13 +1861,13 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>                      err =3D -EINTR;
+>                      break;
+>                  }
+> -                err =3D s->ops->lstat(&s->ctx, &pathes[name_idx], &stbuf=
+);
+> +                err =3D s->ops->lstat(&s->ctx, &pathes[nvalid], &stbuf);
+>                  if (err < 0) {
+>                      err =3D -errno;
+>                      break;
+>                  }
+> -                stbufs[name_idx] =3D stbuf;
+> -                v9fs_path_copy(&dpath, &pathes[name_idx]);
+> +                stbufs[nvalid] =3D stbuf;
+> +                v9fs_path_copy(&dpath, &pathes[nvalid]);
+>              }
+>          }
+>      });
 
 
 
