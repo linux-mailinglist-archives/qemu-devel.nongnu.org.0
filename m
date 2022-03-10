@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BEA4D52F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 21:16:22 +0100 (CET)
-Received: from localhost ([::1]:49826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0A34D5310
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 21:28:56 +0100 (CET)
+Received: from localhost ([::1]:33204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSPCv-0008Pt-6Y
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 15:16:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39876)
+	id 1nSPP4-00007s-IX
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 15:28:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSPAv-0007JG-Sk; Thu, 10 Mar 2022 15:14:18 -0500
-Received: from [2a00:1450:4864:20::32e] (port=46757
- helo=mail-wm1-x32e.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nSPNg-000741-Nb
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 15:27:28 -0500
+Received: from [2a00:1450:4864:20::636] (port=38750
+ helo=mail-ej1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSPAt-0005hI-WC; Thu, 10 Mar 2022 15:14:17 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- p184-20020a1c29c1000000b0037f76d8b484so4071832wmp.5; 
- Thu, 10 Mar 2022 12:14:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2K/OpYAJnCJ0LBCHqCDtZ38b8mUcWaXK6KrIRz0lDr4=;
- b=YrIqXxRL+cXpkMmNINYItLDN5iU4IeN536Bo4M+5Z7pnn6wr0QzaWrR6ed0oABDGWz
- hdrOpRohoK8YJvmYAovs6fvo1z/eOCtqiW0u2IZV2QZO+QyhANz7318NDjDetgB8Opx6
- skE6VOuC60ZO5GgOAkQVDwDvfkuZ4crW9LvdnbL4A7A/EPonzfyb1LmIQqJINp1Q8q0w
- PKcq4+sLfZ9HNYe4d/kQpTPPDhPoJDSYy1P0EMFo8ydiuBQbfOxzrSHRhg0QLX8yFN1K
- LVdY8OxGo05oSkim7P+qJpijiLuaHs/FuHgit+yXcDme7FatIrZe7uLQzHRIH+INFj/w
- b6Zw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nSPNf-00089i-9k
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 15:27:28 -0500
+Received: by mail-ej1-x636.google.com with SMTP id r13so14666049ejd.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 12:27:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=5Jf4a9nQF2v+ZmK/69NE4I8x70TK1v/cbcmbazKZrbk=;
+ b=pzK9MHkSh0/q/CKAxiIrAlMVxUrCScY1DRZca2EG3ZWvvSaRgWTrzE4aPuxcjq5/O9
+ jP5dQxSZbu2+flhiP1XkpDzSsRvtrEn03cHr3DuNz9T/duIOoJvMJF0cpBX+p+CT1qFu
+ VL1NulqTLrrVE4vNi2EQthOCiTBxwCemkRiWLywZlazpCGGJ/aN8zK1+ITC2c5q2gIbR
+ x6QsxDHGaKBrwEdViZqr0ovHolfWCf0DFs1m68JBDGbPQrpJVfSoQ67uIq/GuKzzpRZ2
+ 3pt885XVPb0jiSY/rxVkpyCpctjW3GGoOq/5CJ+f2rTCqncRQfQmfMhzlaBzBiBeRtmJ
+ Py6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2K/OpYAJnCJ0LBCHqCDtZ38b8mUcWaXK6KrIRz0lDr4=;
- b=kA6H2pv0frE0NPUgQFjao/FODxgVqtfEXo0akH4h/Apk6Kp734MDCTG9KcxZR6++W9
- seXVII3ol/7SDheOcxoIFeKdarsB+YHD1AL//5kGHL5LpedocRxy2/QiTeYGLp2tmLSm
- CxP0Qy5s5Vw7zP77hxrUDKt7gh6EZPXkDtjf75C1QTqaSqfi/sdM8u/hU2xfobpcpBuG
- 64EEip3r2Vqek8lJu4HgvkZTTVw61wV3v7BDsCWHNcZ5j7SBqR6GkVPEaOulPD2twCYw
- dCU9r25WqOt0bkJ3xrJgOBblIDgc80x1nZ/p0HlmK+IW4F5LMnSD65IbloUhdtVCM8AZ
- 5bxQ==
-X-Gm-Message-State: AOAM531il6+QUMMgfOBJvLAKI2YWG5E4ZHtl03tDmSEOL4oDWXuZCF27
- BZoFJVbsyioK3R6cvi2mWeU=
-X-Google-Smtp-Source: ABdhPJw0rJ2x06trd2Ipw1fUqe1efbFTlukJvA3Y/rv52W5ZBAmYrEzobQPw6J8oSKBtc+wwsUULgw==
-X-Received: by 2002:a05:600c:4985:b0:389:cc26:6a68 with SMTP id
- h5-20020a05600c498500b00389cc266a68mr10123653wmp.68.1646943253544; 
- Thu, 10 Mar 2022 12:14:13 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- bi9-20020a05600c3d8900b00389a623c80esm4750130wmb.1.2022.03.10.12.14.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 12:14:12 -0800 (PST)
-Message-ID: <a8997433-dfe6-58f7-d5ca-e0ec3e12b7f1@redhat.com>
-Date: Thu, 10 Mar 2022 21:14:07 +0100
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=5Jf4a9nQF2v+ZmK/69NE4I8x70TK1v/cbcmbazKZrbk=;
+ b=AVaiS6LA8Q/FlD4Oht/K6CfnHU4eyQ6uk6+0xtShl2we+f++EB921chKnwRLd+CZQm
+ 3H2MUV60SmyaMosaTXNPiQzYeHOCvO20sjSHkpcffyDcAAnCTbAOeC0LXSc8Rr2zSpSX
+ 3TDJNgPjZ5i458of9YuQEGlqD9VG4xNOGKe/E38Qchu7JvoAclnTmFhGifjxOzo4mPtp
+ oSwRMK0X5YYWdauRQrLnMnlrpE+I9e83l2TQSDKZXgtCtsenKp6ZIsJMd7GJEhW27qdM
+ IQb0GpSui8qDtxp+e9owd2OrjV3xgyvimHtC79XD/W/L1Wv9HLhwW5JPt+3NDTTJhcv3
+ QZpw==
+X-Gm-Message-State: AOAM5313f1allpyHUOo6RrKms/wY6+stOKSFSAecsbvxNF+000998C5D
+ xSokKPy7/h+dKUcV1BJzLJtgyg==
+X-Google-Smtp-Source: ABdhPJxNQimOH/oQepOmL2r9t6aMVPozsUTIchBbbrktFURV8mQp+rC6x8QmaRq8Ng45MiN8HB/BWQ==
+X-Received: by 2002:a17:906:facf:b0:6cd:ed0e:ed7 with SMTP id
+ lu15-20020a170906facf00b006cded0e0ed7mr5652086ejb.376.1646944045522; 
+ Thu, 10 Mar 2022 12:27:25 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ l4-20020a170907914400b006d9e0b46fabsm2132431ejs.193.2022.03.10.12.27.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Mar 2022 12:27:24 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9453C1FFB7;
+ Thu, 10 Mar 2022 20:27:23 +0000 (GMT)
+References: <20220308215435.21806-1-tsimpson@quicinc.com>
+ <CAFEAcA99YqE01snCWLt8h+FK--4j4QiJ-NczcmpL+1AgVyghNw@mail.gmail.com>
+ <SN4PR0201MB8808049705FEC26DEF39294EDE0B9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+User-agent: mu4e 1.7.9; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Taylor Simpson <tsimpson@quicinc.com>
+Subject: Re: [PULL 00/12] Hexagon (target/hexagon) queue
+Date: Thu, 10 Mar 2022 20:26:52 +0000
+In-reply-to: <SN4PR0201MB8808049705FEC26DEF39294EDE0B9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Message-ID: <87r1794kpg.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH experiment 00/35] stackless coroutine backend
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220310124413.1102441-1-pbonzini@redhat.com>
- <Yio4e3FyFHkaZi0B@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Yio4e3FyFHkaZi0B@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -95,25 +94,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: hreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- sguelton@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "zongyuan.li@smartx.com" <zongyuan.li@smartx.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "f4bug@amsat.org" <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/22 18:42, Stefan Hajnoczi wrote:
-> There are a lot of details to decide on in the translator tool and
-> runtime to optimize the code. I think the way the stack frames are
-> organized in this patch series is probably for convenience rather than
-> performance.
 
-Yes, sometimes the optimizations are there but mostly because they made 
-my job easier.
+Taylor Simpson <tsimpson@quicinc.com> writes:
 
-> Out of curiousity, did you run the perf tests and compare against
-> ucontext?
+> My apologies.  I'll investigate the mismatch between the toolchain I'm
+> using and the one CI is using.
 
-Not quite voluntarily, but I noticed I had to add one 0 to make them run 
-for a decent amount of time.  So yeah, it's much faster than siglongjmp.
+I don't recall seeing a new binary docker since the previous one had ABI
+issues with signal handling.
 
-Paolo
+--=20
+Alex Benn=C3=A9e
 
