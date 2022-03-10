@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B23D4D45ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:40:33 +0100 (CET)
-Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3A34D4661
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:01:47 +0100 (CET)
+Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSH9k-0002gn-Go
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:40:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50636)
+	id 1nSHUI-0000QG-A7
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:01:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSGxG-00055C-PQ
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:38 -0500
-Received: from [2607:f8b0:4864:20::42f] (port=33513
- helo=mail-pf1-x42f.google.com)
+ id 1nSGxH-00057e-MG
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:39 -0500
+Received: from [2607:f8b0:4864:20::435] (port=38551
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSGxF-0007w0-6R
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:38 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id s42so4889778pfg.0
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:27:36 -0800 (PST)
+ id 1nSGxG-0007w9-0h
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:39 -0500
+Received: by mail-pf1-x435.google.com with SMTP id f8so4847757pfj.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:27:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hT9+kz2FAkTBjPGP7wP7XlOIGomdVd803xe/PZq0Q4s=;
- b=bWeHWB3vjwbcZuJKqb7uF2HS60ggyIyHzls7IPzcRjRK9xxeKLRxRdWHhMuy+NNt6U
- vK8sjn1QWLsjA8sII0yg0LSIXaYoFFaRkmoXKJaaPeOcNYzv4KT80BX+a/xvcoR5dyDl
- zwrLeOG5mjRGasLC0MWsfjkc0XebbhCumbunuONl2IO6t2u8HufxYZitGon1WWlMXrFD
- IVDZPbDBWhBqM3ncR8h85YMFCkBuw5Onkjfk6VXXyDckB19MZIGUGAunfY64CXQPJsek
- DiMuMYzDcXzs1cW3ufOlz5fZ1Z48jxR+Ja8elMJq5T2uXQZPmDSlNRafNfd/t9wXSjgD
- jBkw==
+ bh=Cj1Mv1TK+d1R4GNVLpYWtLlcIcx/OqQSWvfjy4IfC40=;
+ b=TyNW+pRTW0n2lRdUpmRyrzv2a63QvMUHFkGeDvKbCpKE3RLEBRmaE6MMfJYeAryjxu
+ V+J5+44WMIL7FWT7BVfvG4VcWGtrhNZa+i+yoX1pDNw8swhoULgwCGvlhNiV+BZtWdNI
+ PjqdkJossw9DmX4fA6/PiR8/sVweL610j3czGq2gXzYOVMaKv/ZLYNmGy2l+DQEMCQlF
+ sIjShuN+H6/SsWNFPugCPvxJQXbdx2+yoY/NdUfmSIAOx0w1PvZWc5Duq4Mew9GFoPfD
+ W953yDjgssbrlzTtdt9M66FjCo+DYXsnPd0SQCwXI2EMSDTh1fwCQ4MHyKKFiJLp+iXj
+ y33w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hT9+kz2FAkTBjPGP7wP7XlOIGomdVd803xe/PZq0Q4s=;
- b=4MdOQFJBShuiiPQDK2R25BN9ZCjOb47jXvp8dyYW046cn8Avd6qMlg5uumb29sNnb+
- hy4KHUu0xjN5OiXsP/XKHZIEziOiX/bMU3WPvNv4QxE8Qr2R3kKx/WO1X/BYzgoQQDu9
- jGPDRVUka4aHVyRStSJJ6h0k9Q61iGPwPVF3mumnt4b4Rmbb9Wzh89+JGoHZIsJEraEl
- +6n2vvkk+kGAjY4S7EbklDKrz2f7VY6/Vec2rGDgmyqGrQ8bBcdgEfOVEOPRxCUKmMEW
- RexbdM9Qjuj9duJ6Io1hkavSuZCR53fhp+N69IO61WUSmfZwlrdOHL51lWAyb2eOjgbT
- fGOg==
-X-Gm-Message-State: AOAM533pihM4NgPoEQvxW6ynGwgCEQPmWqpsqMwSGfJXIAoR1uqL6Xs4
- I5yR1ZiKNTwm3wCp617vhzW/kMj+qUXv1Q==
-X-Google-Smtp-Source: ABdhPJzY5Yc/zzyNnpafew8AsGJYvj8cOMwzzAmmrEePRi2MzrDvzKlHWAu1/A/q/EeesTrnvX3JQw==
-X-Received: by 2002:a63:824a:0:b0:37c:94e3:e7de with SMTP id
- w71-20020a63824a000000b0037c94e3e7demr3723745pgd.496.1646911655857; 
- Thu, 10 Mar 2022 03:27:35 -0800 (PST)
+ bh=Cj1Mv1TK+d1R4GNVLpYWtLlcIcx/OqQSWvfjy4IfC40=;
+ b=BLwhnrQ8zxJnmZ44fGFs2pL6tW/+WD76oONDjIlZPNsOu/P11KXOiZ6yu3/7KmlExD
+ LUFE8dMRfvziX5vfv4s0DkgdPUbfq10GeybW1RVwfI+kifpuWU9d+VxAJtCWvMNY1ers
+ Me7bLMoFJdw9W/8OUGPLMqJ3z8EGsSJumP6bRo+x8llSGInktA2Z9fwvTrTbFHsYI79t
+ KkAJKroPXkGLtQZyUUCZjXLhyUQ8QO9YeeduTXT1raX/IXPa6AHtadXiLJYp+9wcvzu8
+ zSk4P4oMaALAqEnMggXVKQFcc/+9lxlVovvjLXqJpne9ll7q600O5ckerU2JAm9iWLOW
+ ED4A==
+X-Gm-Message-State: AOAM533DtOJVD/nzrQ9nJXg2T/c1DRqN79q8zkdqYI19GNF2BiaH1wiB
+ c1B85PzccfsEJY5TRjputPlR/kDcgUyZKw==
+X-Google-Smtp-Source: ABdhPJyDjxkQToW8JUQdOHJgZBlraLjpOzpAHqn7zU3Pluxp+CoPpYYeUrRqWRknmxpDd3XmlaP7xg==
+X-Received: by 2002:a63:4403:0:b0:375:6d5b:5aa7 with SMTP id
+ r3-20020a634403000000b003756d5b5aa7mr3578406pga.269.1646911656721; 
+ Thu, 10 Mar 2022 03:27:36 -0800 (PST)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.27.35
+ js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.27.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 03:27:35 -0800 (PST)
+ Thu, 10 Mar 2022 03:27:36 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 08/48] linux-user/nios2: Only initialize SP and PC in
- target_cpu_copy_regs
-Date: Thu, 10 Mar 2022 03:26:45 -0800
-Message-Id: <20220310112725.570053-9-richard.henderson@linaro.org>
+Subject: [PATCH v5 09/48] target/nios2: Remove cpu_interrupts_enabled
+Date: Thu, 10 Mar 2022 03:26:46 -0800
+Message-Id: <20220310112725.570053-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220310112725.570053-1-richard.henderson@linaro.org>
 References: <20220310112725.570053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,65 +92,31 @@ Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop the set of estatus in init_thread; it was clearly intended
-to be setting the value of CR_STATUS for the application, but we
-never actually performed that copy.  However, the proper value is
-set in nios2_cpu_reset so we don't need to do anything here.
+This function is unused.  The real computation of this value
+is located in nios2_cpu_exec_interrupt.
 
-We only initialize SP and EA in init_thread, there's no value in
-copying other uninitialized data into ENV.
-
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/elfload.c        |  1 -
- linux-user/nios2/cpu_loop.c | 22 ----------------------
- 2 files changed, 23 deletions(-)
+ target/nios2/cpu.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 23ff9659a5..8c85c933b7 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1096,7 +1096,6 @@ static void init_thread(struct target_pt_regs *regs, struct image_info *infop)
- {
-     regs->ea = infop->entry;
-     regs->sp = infop->start_stack;
--    regs->estatus = 0x3;
- }
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index 9be128d63a..59e950dae6 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -226,11 +226,6 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         bool probe, uintptr_t retaddr);
+ #endif
  
- #define LO_COMMPAGE  TARGET_PAGE_SIZE
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index 7b20c024db..fa234cb2af 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -132,28 +132,6 @@ void cpu_loop(CPUNios2State *env)
+-static inline int cpu_interrupts_enabled(CPUNios2State *env)
+-{
+-    return env->regs[CR_STATUS] & CR_STATUS_PIE;
+-}
+-
+ typedef CPUNios2State CPUArchState;
+ typedef Nios2CPU ArchCPU;
  
- void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
- {
--    env->regs[0] = 0;
--    env->regs[1] = regs->r1;
--    env->regs[2] = regs->r2;
--    env->regs[3] = regs->r3;
--    env->regs[4] = regs->r4;
--    env->regs[5] = regs->r5;
--    env->regs[6] = regs->r6;
--    env->regs[7] = regs->r7;
--    env->regs[8] = regs->r8;
--    env->regs[9] = regs->r9;
--    env->regs[10] = regs->r10;
--    env->regs[11] = regs->r11;
--    env->regs[12] = regs->r12;
--    env->regs[13] = regs->r13;
--    env->regs[14] = regs->r14;
--    env->regs[15] = regs->r15;
--    /* TODO: unsigned long  orig_r2; */
--    env->regs[R_RA] = regs->ra;
--    env->regs[R_FP] = regs->fp;
-     env->regs[R_SP] = regs->sp;
--    env->regs[R_GP] = regs->gp;
--    env->regs[CR_ESTATUS] = regs->estatus;
-     env->pc = regs->ea;
--    /* TODO: unsigned long  orig_r7; */
- }
 -- 
 2.25.1
 
