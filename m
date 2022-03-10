@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D2B4D40CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 06:27:05 +0100 (CET)
-Received: from localhost ([::1]:49054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6594D40FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 07:07:56 +0100 (CET)
+Received: from localhost ([::1]:58544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSBKJ-0004Xm-IL
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 00:27:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58080)
+	id 1nSBxq-0005N0-PJ
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 01:07:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1nSBFj-0003bT-My; Thu, 10 Mar 2022 00:22:19 -0500
-Received: from [2607:f8b0:4864:20::436] (port=44608
- helo=mail-pf1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1nSBFh-0000ze-Gd; Thu, 10 Mar 2022 00:22:19 -0500
-Received: by mail-pf1-x436.google.com with SMTP id u17so1987472pfk.11;
- Wed, 09 Mar 2022 21:22:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OBQTtlB0KqlIMhJnql0rNU1+jRIZv2h/2JcGaWNnNiA=;
- b=JIrXjceNk7xl5elE6naIXZ06Umw8/iT7fhV9k6CsQPFEBBM8WSsg+Pp9pkLh+2OdCv
- +ncyV6F0Lmk8mC4OZWi4abmPwq6/+rOQ+VA6n6dSkWR8Tgp+PcpdNhtA4Vz8JU/J6gO5
- PLz1MUDp9JdYNOYQEeEFZrNzZULo2z8n4q7TKEEWH3Uplm46ko82XHodGeTfzINyz2R+
- 5X1vXQSgIAMUpjY5bmBSI3jPJrO7vQ6c4boeICwY/C3ZfJofi+L7IGuJTnbrlP807hTS
- 8Pj8yk1niivYbv5FBjHJVYRX6VU3YIroa0eTea72538oTDLTi/ywX1IucVTjxouawONg
- 1lJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=OBQTtlB0KqlIMhJnql0rNU1+jRIZv2h/2JcGaWNnNiA=;
- b=p4Upw86EkyGNKRohygEqieFuDi+XuBV5gbNG3abPmW595/YrFSpNw9D2BV3t6OcHQA
- j29vE1wjm0DydTNqbRhh3FmhiuEG6Dcx9/APCksCXmPbiJAcr9xfzBMZ1NBpZRppEi5L
- fxBjPLFjYQFOdQYNAUBaAqv37onhyuyBuOSigo3r20J9qKHZayczhKGYExfDz0S0kYst
- YzXkcKSGkB32FFQEdbiqbaBKz7I1/KuHtfm8zr+Ug2+LSyLWJQ5wnD5qc2tdn2J1b2XR
- amdckXHHT/boUzCaeWutWblO5Jw14nwYf+qrnBcBdBstttGDLKQK/b0V07R0qlbbtawQ
- Im5A==
-X-Gm-Message-State: AOAM530vLNW1VKN3y5llHSdTj4ncdvDQBfbJePT4+0zh1yLWbfTed9Ei
- y2JeczRjtoAsYuRClZfatpc=
-X-Google-Smtp-Source: ABdhPJxYH1ZIIftIDgCe8EvOXoHVnt9D4hvdQx62mSmeTddxOh95jKcZVOgEEaJuTqAZxM0mmXII8g==
-X-Received: by 2002:a63:7158:0:b0:37d:f96f:3c78 with SMTP id
- b24-20020a637158000000b0037df96f3c78mr2601238pgn.378.1646889734784; 
- Wed, 09 Mar 2022 21:22:14 -0800 (PST)
-Received: from localhost.localdomain ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id
- o5-20020a056a0015c500b004f76735be68sm2237242pfu.216.2022.03.09.21.22.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Mar 2022 21:22:13 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] aspeed: sbc: Correct default reset values
-Date: Thu, 10 Mar 2022 15:51:59 +1030
-Message-Id: <20220310052159.183975-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <laokz@foxmail.com>)
+ id 1nSBwT-0004Yq-BW; Thu, 10 Mar 2022 01:06:30 -0500
+Received: from out203-205-251-73.mail.qq.com ([203.205.251.73]:58540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laokz@foxmail.com>)
+ id 1nSBwK-00076h-E5; Thu, 10 Mar 2022 01:06:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1646892363;
+ bh=XO778j3A3PKa4Q1BRPGnDrn26wdLV+CIo4sQaq7sBqs=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References;
+ b=xIPxtxRQ8nVpab9PVmMLprQqyqFkSqtXvzf7sd+16MG2wIlrNNKOZq48foyEiqM4U
+ sMi/52I8fU0KpWgt1vmH/otEvqifhmd6Gbi3K14zhLunA5b4HIoUI7lp5Itrg573cy
+ roE7V3+8TQvaley0DvuGGfi3ggwj1ljbnrqithNI=
+Received: from [192.168.216.110] ([113.233.142.128])
+ by newxmesmtplogicsvrsza5.qq.com (NewEsmtp) with SMTP
+ id 18114013; Thu, 10 Mar 2022 14:06:01 +0800
+X-QQ-mid: xmsmtpt1646892361toic1vwbk
+Message-ID: <tencent_B16ADC06BC0803AF52D436BDFCED7A9AA607@qq.com>
+X-QQ-XMAILINFO: NiDupExshEc7KQIFGowtUVGmMBncPCFpgp0vPr6yqITNszus0OV5su5US5ICcp
+ yhFsY8KOTJB2fB2mgWhIEIr4UYT2nuSMa4G4nk+1QG3nRfL0rG8SFTUmzkNWitUvdQrdVYI5G52g
+ j6hJamTlDbtHO9t01BbSDTp8HRsGWbA6HBKqJaAYINkOYxGrN+j3kDnIJ3T92w9PPiPKnTdiJmQS
+ ZDyFm4t9xzscGf4SDqzBUH5fQCAkOj1iJjvS6FAczRqbR1wHDZ9quUSLcmEQ1RthOQyZnKEWYMSg
+ ss/6JeZB+OVTWei4PepBT/LO7icJA7IYE+m7WE24NMnra+Po6dBzzthEx1ydaGLYLwfeJmxKGGAr
+ eV0N1nm+JBh04m0KB/sQNWHbhNloWGT09QxA9gbxwB6KDQOTbFotnsEzEF1TkWjAIOzSQspF//kD
+ qrB4if/qgq/G5QU9t6Y9m97aeme7XrnfjVLSjlcX5YFO6y9ATqfKLdbRlWri9FsdagaXXEzTmnXT
+ YMAU65HQVwnsWzY0IC5OrZvPIfhVulPaFJQrms1qbCg7n0cLzgPjr7RVbHDXjFrkM061Qb0kjL2D
+ GtBp1hlqDwOry+fbe7UwrybyPSd9iEzwFJnJGCzO3Bm9ZZFVh9xRkdPnnxIbdCVjTmATDztx6bkT
+ c4qnWXJwfCzxeASo/6f399UrTyg5ZZNixWjvDlt36lCsdGX3MdO4hamReAGNsDyupGO0zU6KWhyV
+ AJo5GCRiWbgfWjh0hA45ule0QhE+sLVNVBg0HQHP91f9oDlbspraSyMUzBb3CnaxBW1FsuBBWLIO
+ qvgrd0x+tgqm+Tvj1K6Rr8r3q9zEW4zo0TnqvEuDOcAB6sgZ3mF9iji+JaPchInp9KctlM40yp6w
+ ==
+X-OQ-MSGID: <4fadcc303b765e88023c1ec27e0d2ff2e713b48a.camel@foxmail.com>
+Subject: Re: [PATCH v2] tests: add (riscv virt) machine mapping to testenv
+From: laokz <laokz@foxmail.com>
+To: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, 
+ qemu-riscv@nongnu.org
+Date: Thu, 10 Mar 2022 14:05:59 +0800
+In-Reply-To: <5ff007ca-863a-81f9-4f99-3a1edc4106e0@redhat.com>
+References: <35ea2e99-8049-9b72-b639-744afcdde726@redhat.com>
+ <tencent_E4219E870165A978DB5BBE50BD53D33D2E06@qq.com>
+ <5ff007ca-863a-81f9-4f99-3a1edc4106e0@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.43.2-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=joel.stan@gmail.com; helo=mail-pf1-x436.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=203.205.251.73; envelope-from=laokz@foxmail.com;
+ helo=out203-205-251-73.mail.qq.com
+X-Spam_score_int: 17
+X-Spam_score: 1.7
+X-Spam_bar: +
+X-Spam_report: (1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HELO_DYNAMIC_IPADDR=1.951, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_DYNAMIC=0.982,
+ SCC_BODY_URI_ONLY=0.833, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,57 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to correctly report secure boot running firmware, these values
-must be set. They are taken from a running machine when secure boot is
-enabled.
-
-We don't yet have documentation from ASPEED on what they mean. Set the
-raw values for now, and in the future improve the model with properties
-to set these on a per-machine basis.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- hw/misc/aspeed_sbc.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/hw/misc/aspeed_sbc.c b/hw/misc/aspeed_sbc.c
-index 40f2a8c6312f..857a947b68a2 100644
---- a/hw/misc/aspeed_sbc.c
-+++ b/hw/misc/aspeed_sbc.c
-@@ -17,6 +17,7 @@
- 
- #define R_PROT          (0x000 / 4)
- #define R_STATUS        (0x014 / 4)
-+#define R_QSR           (0x040 / 4)
- 
- static uint64_t aspeed_sbc_read(void *opaque, hwaddr addr, unsigned int size)
- {
-@@ -50,6 +51,7 @@ static void aspeed_sbc_write(void *opaque, hwaddr addr, uint64_t data,
- 
-     switch (addr) {
-     case R_STATUS:
-+    case R_QSR:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: write to read only register 0x%" HWADDR_PRIx "\n",
-                       __func__, addr << 2);
-@@ -77,8 +79,9 @@ static void aspeed_sbc_reset(DeviceState *dev)
- 
-     memset(s->regs, 0, sizeof(s->regs));
- 
--    /* Set secure boot enabled, and boot from emmc/spi */
--    s->regs[R_STATUS] = 1 << 6 | 1 << 5;
-+    /* Set secure boot enabled with RSA4096_SHA256 and enable eMMC ABR */
-+    s->regs[R_STATUS] = 0x000044C6;
-+    s->regs[R_QSR] = 0x07C07C89;
- }
- 
- static void aspeed_sbc_realize(DeviceState *dev, Error **errp)
--- 
-2.34.1
-
+On Wed, Mar 09, 2022 at 15:56 +0100=EF=BC=8CHanna Reitz wrote=EF=BC=9A
+> On 08.03.22 05:33, laokz wrote:
+> > Some qemu-iotests(040 etc) use PCI disk to do test. Without the
+> > mapping, RISC-V flavor use spike as default machine which has no
+> > PCI bus, causing test failure.
+> >=20
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/894
+> >=20
+> > Signed-off-by: Kai Zhang <laokz@foxmail.com>
+> > ---
+> > Thanks for the detailed info. Corrected S-o-b tag.
+> >=20
+> > =C2=A0 tests/qemu-iotests/testenv.py | 2 ++
+> > =C2=A0 1 file changed, 2 insertions(+)
+>=20
+> Thanks!
+>=20
+> I=E2=80=99ve applied this patch to my block branch:
+>=20
+> https://gitlab.com/hreitz/qemu/-/commits/block
+>=20
+Got it. Thanks for your help!
 
