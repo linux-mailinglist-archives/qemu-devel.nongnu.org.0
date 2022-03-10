@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51444D4808
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:27:59 +0100 (CET)
-Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DBC04D4816
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:32:55 +0100 (CET)
+Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSIpi-0002m9-DB
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:27:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41900)
+	id 1nSIuU-0007J3-O9
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:32:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSIAB-0007Ls-7k; Thu, 10 Mar 2022 07:45:03 -0500
-Received: from [2a00:1450:4864:20::329] (port=40815
- helo=mail-wm1-x329.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSIA8-0005JX-KH; Thu, 10 Mar 2022 07:45:02 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- i9-20020a1c3b09000000b00389d0a5c511so979572wma.5; 
- Thu, 10 Mar 2022 04:44:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AtYdT8RKivvEG07Jq6tvA5wlDPXFZUyMGRT+nhiso34=;
- b=gzcNsYE+RBd5MyAIS5jS/+y4OySY7mNgQkm+9y/7w0wLCGo94BwquhgOkBStTvjQdL
- UN/zEQaYA67DX5JwOoRxsrmYOftmOluhOQyxLNdtklHMdtGKpvAYSKd3WRQl7dO5yjtD
- hzYpo+uWzgJABn2/RpAUSYdx0tyi2ugXeCLF6OLQtagh6vwZkxcR3N7Gg6ZUecBlGcqw
- smDj23b9iagt6GE/jyjqG1wVdOWkSFMmFjAV54+j3qNlJdtUX0uzJ9x7qYglXko9y039
- 8KlYB/8tdFMQ2LWsQixxNm69PSpkaIKBzJRGZyJJWYVl/jt56jTmMZimobv44RnlQEwh
- veAg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nSIVe-0004iE-P1
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 08:07:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56278)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nSIVa-0000bb-Tg
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 08:07:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646917629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/5dkK1CSNrEirYWMoWyT9UZ8Vm/UeDycPzmqHwpDv4o=;
+ b=iNiH218SNVNPu+Kp4gsMm8ISdARysoRYeZGxwJ2APux17QiFWe22vLa++F9fytjOdCniFP
+ /tZrgzOYNe51wFPDr3qPmVWZIgP+D4SPMESlhpKLC2IAgzxyMxrEN17sUuqPIOEJEo7KCa
+ wNow6sHCqvqnFvFJx8rhor8pIklJGIA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-278-7_oied1SMCGf-K12OxVdVA-1; Thu, 10 Mar 2022 08:07:07 -0500
+X-MC-Unique: 7_oied1SMCGf-K12OxVdVA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ a5-20020adfdd05000000b001f023fe32ffso1668186wrm.18
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 05:07:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AtYdT8RKivvEG07Jq6tvA5wlDPXFZUyMGRT+nhiso34=;
- b=wG7tGZT4bhNjEjLb91+WWZvSTGYrwIve4jICw/pwk0SVEj7gcjn1cjjI+np8M7W1lw
- kjBMFipltstL0nHTljFvu9qcxwWMf9YEgzsyGOE8ndYr6iw1oSFqxN2YfAP2lH1oElJC
- PIc/Gaz0jGHjUMDJFb4eDsj/6mJ8u4cQMLsE8tIS9rN1tamL8xi+Yf7mYx+mcHwE/4gq
- LbAbN4L8+5pa1YpBGM76CyGq9qpLlITc1j4QCkjws8FCmm4vOVUZ5wvzSP7t1GjqIihT
- Ebqru+NBF84j+IOliXZ1klwpO2kDTt0V9ejEyrsmkmVa8HPsgmwlnYlRVAsZksJGGP4b
- u82Q==
-X-Gm-Message-State: AOAM533DtxPIylDjIsUqwHNBq8BUO2yCHe1sfc87CYCQ2yqSDAi/cJ7m
- KD2iQPsV+0KUlTVIj7E2CjcHmTHbFUs=
-X-Google-Smtp-Source: ABdhPJxAIHfpt27WvFbaq2ppZ5FNusxMYCQ4BLM3x/Zr2q/z+ciZkwpnkG7yXmgU5+nuxSwUMj112Q==
-X-Received: by 2002:a7b:c5d5:0:b0:37b:fda9:a5e2 with SMTP id
- n21-20020a7bc5d5000000b0037bfda9a5e2mr3401470wmk.62.1646916298914; 
- Thu, 10 Mar 2022 04:44:58 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.58
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/5dkK1CSNrEirYWMoWyT9UZ8Vm/UeDycPzmqHwpDv4o=;
+ b=YGPuMkT5d+udnEPUmM1qt8hdxbmv/jn5VBZs98ov9rGUISUZruA3rMVgDFPjfY8AZT
+ axe/tskSlkRwnw74Zk/2sUsXaPFeM84av79HN/xZvB2fpD2Nt4RMxXt2Il+bL1tAiyjl
+ Yyc0kh1pY3MRQ+7Bg/H6H9xa1zl6tDcIz4wa01qsRG0ys4NVbuTHCDtgUl7GQuuLdxBN
+ CEm6sKN0XjXY9ua8eM89AXpnBl1BObIcNtotBH+tzW+C4lZaPu/ar7fgZKonx6PzrGzh
+ oTSVxNJfDEE9gjHGxanTictpCR00TzcY+13fmoZHdVPwgLr2EfZSf7/g/GuU3spopG9K
+ LkfQ==
+X-Gm-Message-State: AOAM532Jk9q+s5f+1RZNbzbd9AMWLbrvM6OHo+7KwGGsvbKhkzlLO1r0
+ DVHkrcjNSVPFcjo8GpZTCgdm+L0rMq902iGLx+COl72jjW/iKSE4W5QkUoJlzkIwci5whjNQuuK
+ vPqPbU1K4sXTSRUo=
+X-Received: by 2002:a05:6000:1888:b0:203:75c0:c438 with SMTP id
+ a8-20020a056000188800b0020375c0c438mr3405988wri.469.1646917626459; 
+ Thu, 10 Mar 2022 05:07:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJysb/htCRTtczZGvHhkpRa/8QEbhPKKUMKMAYjrtnC4aqKaw+z9nug1DQmha0s+quyjHeF7tw==
+X-Received: by 2002:a05:6000:1888:b0:203:75c0:c438 with SMTP id
+ a8-20020a056000188800b0020375c0c438mr3405967wri.469.1646917626168; 
+ Thu, 10 Mar 2022 05:07:06 -0800 (PST)
+Received: from redhat.com ([2.53.27.107]) by smtp.gmail.com with ESMTPSA id
+ u4-20020adfdb84000000b001e8d8ac5394sm4506659wri.110.2022.03.10.05.07.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:44:58 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 35/35] /locking/co-rwlock/downgrade
-Date: Thu, 10 Mar 2022 13:44:13 +0100
-Message-Id: <20220310124413.1102441-36-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
-References: <20220310124413.1102441-1-pbonzini@redhat.com>
+ Thu, 10 Mar 2022 05:07:05 -0800 (PST)
+Date: Thu, 10 Mar 2022 08:07:02 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: Re: [PATCH RESEND v1 0/2] i386: Make PIT and PIC the property of
+ common x86 base machine type
+Message-ID: <20220310080630-mutt-send-email-mst@kernel.org>
+References: <20220310122811.807794-1-xiaoyao.li@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220310122811.807794-1-xiaoyao.li@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,179 +96,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: hreitz@redhat.com, stefanha@redhat.com, qemu-block@nongnu.org,
- sguelton@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>, Sergio Lopez <slp@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/unit/test-coroutine.c | 123 ++++++++++++++++++++++++++++--------
- 1 file changed, 98 insertions(+), 25 deletions(-)
+On Thu, Mar 10, 2022 at 08:28:09PM +0800, Xiaoyao Li wrote:
+> For PIT, it's straightforward to merge microvm::pit and
+> pc_machine::pit_enabled into x86ms::pit
+> 
+> For PIC, move microvm::pic to x86ms:pic, which gives PC machine the
+> ability to dis-/en-able PIC and it's the preparation for future TDX
+> support.
 
-diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
-index 39d0f31492..174ea8d579 100644
---- a/tests/unit/test-coroutine.c
-+++ b/tests/unit/test-coroutine.c
-@@ -458,41 +458,117 @@ static void test_co_rwlock_upgrade(void)
-     g_assert(c2_done);
- }
- 
--#if 0
--static void coroutine_fn rwlock_rdlock_yield(void *opaque)
-+CO_DECLARE_FRAME(rwlock_rdlock_yield, bool *done);
-+static CoroutineAction co__rwlock_rdlock_yield(void *_frame)
- {
--    qemu_co_rwlock_rdlock(&rwlock);
--    qemu_coroutine_yield();
-+    struct FRAME__rwlock_rdlock_yield *_f = _frame;
-+    CO_ARG(done);
-+switch(_f->_step) {
-+case 0:
-+_f->_step = 1;
-+    return qemu_co_rwlock_rdlock(&rwlock);
-+case 1:
-+_f->_step = 2;
-+    return qemu_coroutine_yield();
- 
--    qemu_co_rwlock_unlock(&rwlock);
--    qemu_coroutine_yield();
--
--    *(bool *)opaque = true;
-+case 2:
-+_f->_step = 3;
-+    return qemu_co_rwlock_unlock(&rwlock);
-+case 3:
-+_f->_step = 4;
-+    return qemu_coroutine_yield();
-+case 4:
-+    *done = true;
-+    break;
-+}
-+return stack_free(&_f->common);
- }
- 
--static void coroutine_fn rwlock_wrlock_downgrade(void *opaque)
-+static CoroutineAction rwlock_rdlock_yield(void *opaque)
- {
--    qemu_co_rwlock_wrlock(&rwlock);
--
--    qemu_co_rwlock_downgrade(&rwlock);
--    qemu_co_rwlock_unlock(&rwlock);
--    *(bool *)opaque = true;
-+    bool *done = opaque;
-+    return CO_INIT_FRAME(rwlock_rdlock_yield, done);
- }
- 
--static void coroutine_fn rwlock_rdlock(void *opaque)
-+CO_DECLARE_FRAME(rwlock_wrlock_downgrade, bool *done);
-+static CoroutineAction co__rwlock_wrlock_downgrade(void *_frame)
- {
--    qemu_co_rwlock_rdlock(&rwlock);
-+    struct FRAME__rwlock_wrlock_downgrade *_f = _frame;
-+    CO_ARG(done);
-+switch(_f->_step) {
-+case 0:
-+_f->_step = 1;
-+    return qemu_co_rwlock_wrlock(&rwlock);
- 
--    qemu_co_rwlock_unlock(&rwlock);
--    *(bool *)opaque = true;
-+case 1:
-+_f->_step = 2;
-+    return qemu_co_rwlock_downgrade(&rwlock);
-+case 2:
-+_f->_step = 3;
-+    return qemu_co_rwlock_unlock(&rwlock);
-+case 3:
-+    *done = true;
-+    break;
-+}
-+return stack_free(&_f->common);
- }
- 
--static void coroutine_fn rwlock_wrlock(void *opaque)
-+static CoroutineAction rwlock_wrlock_downgrade(void *opaque)
- {
--    qemu_co_rwlock_wrlock(&rwlock);
-+    bool *done = opaque;
-+    return CO_INIT_FRAME(rwlock_wrlock_downgrade, done);
-+}
- 
--    qemu_co_rwlock_unlock(&rwlock);
--    *(bool *)opaque = true;
-+CO_DECLARE_FRAME(rwlock_rdlock, bool *done);
-+static CoroutineAction co__rwlock_rdlock(void *_frame)
-+{
-+    struct FRAME__rwlock_rdlock *_f = _frame;
-+    CO_ARG(done);
-+switch(_f->_step) {
-+case 0:
-+_f->_step = 1;
-+    return qemu_co_rwlock_rdlock(&rwlock);
-+
-+case 1:
-+_f->_step = 2;
-+    return qemu_co_rwlock_unlock(&rwlock);
-+case 2:
-+    *done = true;
-+    break;
-+}
-+return stack_free(&_f->common);
-+}
-+
-+static CoroutineAction rwlock_rdlock(void *opaque)
-+{
-+    bool *done = opaque;
-+    return CO_INIT_FRAME(rwlock_rdlock, done);
-+}
-+
-+CO_DECLARE_FRAME(rwlock_wrlock, bool *done);
-+static CoroutineAction co__rwlock_wrlock(void *_frame)
-+{
-+    struct FRAME__rwlock_wrlock *_f = _frame;
-+    CO_ARG(done);
-+switch(_f->_step) {
-+case 0:
-+_f->_step = 1;
-+    return qemu_co_rwlock_wrlock(&rwlock);
-+
-+case 1:
-+_f->_step = 2;
-+    return qemu_co_rwlock_unlock(&rwlock);
-+case 2:
-+    *done = true;
-+    break;
-+}
-+return stack_free(&_f->common);
-+}
-+
-+static CoroutineAction rwlock_wrlock(void *opaque)
-+{
-+    bool *done = opaque;
-+    return CO_INIT_FRAME(rwlock_wrlock, done);
- }
- 
- /*
-@@ -556,7 +632,6 @@ static void test_co_rwlock_downgrade(void)
- 
-     g_assert(c1_done);
- }
--#endif
- 
- /*
-  * Check that creation, enter, and return work
-@@ -872,9 +947,7 @@ int main(int argc, char **argv)
-     g_test_add_func("/locking/co-mutex", test_co_mutex);
-     g_test_add_func("/locking/co-mutex/lockable", test_co_mutex_lockable);
-     g_test_add_func("/locking/co-rwlock/upgrade", test_co_rwlock_upgrade);
--#if 0
-     g_test_add_func("/locking/co-rwlock/downgrade", test_co_rwlock_downgrade);
--#endif
-     if (g_test_perf()) {
-         g_test_add_func("/perf/lifecycle", perf_lifecycle);
-         g_test_add_func("/perf/lifecycle/noalloc", perf_lifecycle_noalloc);
--- 
-2.35.1
+
+Looks ok but we are in freeze. I will tag this but pls do ping me
+after the release to make sure it's not lost. Thanks!
+> ---
+> Resend:
+>  - collect Reviewed-by;
+>  - rebase to 2048c4eba2b4 ("Merge remote-tracking branch 'remotes/philmd/tags/pmbus-20220308' into staging")
+> 
+> Xiaoyao Li (2):
+>   hw/i386: Make pit a property of common x86 base machine type
+>   hw/i386: Make pic a property of common x86 base machine type
+> 
+>  hw/i386/microvm.c         | 54 ++-------------------------------------
+>  hw/i386/pc.c              | 24 +++--------------
+>  hw/i386/pc_piix.c         |  4 ++-
+>  hw/i386/pc_q35.c          |  4 ++-
+>  hw/i386/x86.c             | 50 ++++++++++++++++++++++++++++++++++++
+>  include/hw/i386/microvm.h |  4 ---
+>  include/hw/i386/pc.h      |  2 --
+>  include/hw/i386/x86.h     |  4 +++
+>  8 files changed, 65 insertions(+), 81 deletions(-)
+> 
+> -- 
+> 2.27.0
 
 
