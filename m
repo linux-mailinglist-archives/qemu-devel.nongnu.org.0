@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18C64D5023
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:23:50 +0100 (CET)
-Received: from localhost ([::1]:50734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BA74D509D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:33:27 +0100 (CET)
+Received: from localhost ([::1]:52134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSMVy-0001Nj-1w
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:23:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60238)
+	id 1nSMfG-000564-8n
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:33:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSMR9-0002CN-Uu
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:18:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58166)
+ id 1nSMSh-0003uO-Da
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:20:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSMR8-0003b6-GG
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:18:51 -0500
+ id 1nSMSZ-0003vB-Ei
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:20:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646932729;
+ s=mimecast20190719; t=1646932818;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GCEyBD5YlxV7XdLZc3OLxbDhdxUfou5JlvKy43kyl70=;
- b=QsWwG1pnepnbY0bbDx1MnCDakQmhi3IRnEw3zuSIjR7aCo/zrRB46WVMmdDtA8A/FrMW6A
- wFc32ZvkhGkVYfL9R87eltfRTYEbcGi+kxlX7ObmdzhYuou1h7BY5XNdmgyxtoEKLIErbc
- vTUQfBRA4zaEOTpGh/PpuA29va3l670=
+ bh=lyqsA/C2h3o3GrzWoO6cYxXIIJX9GVkp3ZT8NiHOghI=;
+ b=KgMHQwQeX3c9YLssuHOZ0MrO1LwDY3GsCo1YHSyslllrMCiDMy00icZIkZPo2sjM04A4j1
+ S8hgqtklG3+SgHJoQ0Aq6lvnWJbM8Y8mPoRGEXnhXfQQObmRysMMAlvfEwKTgxBdqdNsQB
+ cFADYAbnCE6rQouy0nf3aKtvo0sQmgw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-519-baVOHLQ0OlmU2oMr9jCBnw-1; Thu, 10 Mar 2022 12:18:48 -0500
-X-MC-Unique: baVOHLQ0OlmU2oMr9jCBnw-1
+ us-mta-18-Ml0MIiVONKSgrs949pQL5A-1; Thu, 10 Mar 2022 12:18:57 -0500
+X-MC-Unique: Ml0MIiVONKSgrs949pQL5A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A950F801DDB
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 17:18:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE2B2801AFE
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 17:18:49 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF47E105C897;
- Thu, 10 Mar 2022 17:18:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04B6B106F74B;
+ Thu, 10 Mar 2022 17:18:47 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/18] tests: support QTEST_TRACE env variable
-Date: Thu, 10 Mar 2022 17:18:06 +0000
-Message-Id: <20220310171821.3724080-4-berrange@redhat.com>
+Subject: [PATCH v2 04/18] tests: print newline after QMP response in qtest logs
+Date: Thu, 10 Mar 2022 17:18:07 +0000
+Message-Id: <20220310171821.3724080-5-berrange@redhat.com>
 In-Reply-To: <20220310171821.3724080-1-berrange@redhat.com>
 References: <20220310171821.3724080-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -88,49 +88,35 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When debugging failing qtests it is useful to be able to turn on trace
-output to stderr. The QTEST_TRACE env variable contents get injected
-as a '-trace <str>' command line arg
+The QMP commands have a trailing newline, but the response does not.
+This makes the qtest logs hard to follow as the next QMP command
+appears in the same line as the previous QMP response.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qtest/libqtest.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ tests/qtest/libqtest.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 41f4da4e54..a85f8a6d05 100644
+index a85f8a6d05..d5b6558876 100644
 --- a/tests/qtest/libqtest.c
 +++ b/tests/qtest/libqtest.c
-@@ -260,6 +260,9 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-     gchar *qmp_socket_path;
-     gchar *command;
-     const char *qemu_binary = qtest_qemu_binary();
-+    const char *trace = g_getenv("QTEST_TRACE");
-+    g_autofree char *tracearg = trace ?
-+        g_strdup_printf("-trace %s ", trace) : g_strdup("");
+@@ -625,10 +625,13 @@ QDict *qmp_fd_receive(int fd)
+         }
  
-     s = g_new(QTestState, 1);
+         if (log) {
+-            len = write(2, &c, 1);
++            g_assert(write(2, &c, 1) == 1);
+         }
+         json_message_parser_feed(&qmp.parser, &c, 1);
+     }
++    if (log) {
++        g_assert(write(2, "\n", 1) == 1);
++    }
+     json_message_parser_destroy(&qmp.parser);
  
-@@ -282,14 +285,15 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
- 
-     qtest_add_abrt_handler(kill_qemu_hook_func, s);
- 
--    command = g_strdup_printf("exec %s "
-+    command = g_strdup_printf("exec %s %s"
-                               "-qtest unix:%s "
-                               "-qtest-log %s "
-                               "-chardev socket,path=%s,id=char0 "
-                               "-mon chardev=char0,mode=control "
-                               "-display none "
-                               "%s"
--                              " -accel qtest", qemu_binary, socket_path,
-+                              " -accel qtest",
-+                              qemu_binary, tracearg, socket_path,
-                               getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null",
-                               qmp_socket_path,
-                               extra_args ?: "");
+     return qmp.response;
 -- 
 2.34.1
 
