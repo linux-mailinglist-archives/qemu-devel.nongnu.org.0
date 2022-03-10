@@ -2,88 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBC04D4816
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:32:55 +0100 (CET)
-Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E1C4D481E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:35:51 +0100 (CET)
+Received: from localhost ([::1]:59730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSIuU-0007J3-O9
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:32:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46150)
+	id 1nSIxK-00021P-53
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:35:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nSIVe-0004iE-P1
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 08:07:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56278)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nSIVa-0000bb-Tg
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 08:07:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646917629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/5dkK1CSNrEirYWMoWyT9UZ8Vm/UeDycPzmqHwpDv4o=;
- b=iNiH218SNVNPu+Kp4gsMm8ISdARysoRYeZGxwJ2APux17QiFWe22vLa++F9fytjOdCniFP
- /tZrgzOYNe51wFPDr3qPmVWZIgP+D4SPMESlhpKLC2IAgzxyMxrEN17sUuqPIOEJEo7KCa
- wNow6sHCqvqnFvFJx8rhor8pIklJGIA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-7_oied1SMCGf-K12OxVdVA-1; Thu, 10 Mar 2022 08:07:07 -0500
-X-MC-Unique: 7_oied1SMCGf-K12OxVdVA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- a5-20020adfdd05000000b001f023fe32ffso1668186wrm.18
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 05:07:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nSIee-0000El-7K
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 08:16:36 -0500
+Received: from [2607:f8b0:4864:20::b2c] (port=39536
+ helo=mail-yb1-xb2c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nSIec-0002GD-At
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 08:16:31 -0500
+Received: by mail-yb1-xb2c.google.com with SMTP id x200so10780165ybe.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 05:16:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eBpCDTIwHG6ZjhwNzJ1iOPE7WWJASHMWwsM/g0I7XIE=;
+ b=Tx3AaYYMDt4aLLbgzhL4bUgxFxQJOY6FyUcWwsdo2TEW1hDuCNSSs/E7tHq0/aziL8
+ Bz34bRDcOoYzXTEXdCGekmo+5je//UKZ9roCx3kyc+ZowR377Is5WysMnoiaTrmZq6Oo
+ ZRfh1iB1xcJ0OHlVFmlripLloWcX95zP8V+ZPaIse6QwnSmR0F2q8Ebm4S4LzPajI1Pv
+ Jx1T8FFVQSgVJ7wIZVZfYzkkVbzgsJ9LvG5U+SW/92+hWICWjtt//pPDi0ymda4GqsCt
+ 12MvCRpWrhshZ41OkffiUZXG4gNciAbbOC/MUfMvmd/0uH0U75RByoqRQtSGoHkd47K7
+ WqUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/5dkK1CSNrEirYWMoWyT9UZ8Vm/UeDycPzmqHwpDv4o=;
- b=YGPuMkT5d+udnEPUmM1qt8hdxbmv/jn5VBZs98ov9rGUISUZruA3rMVgDFPjfY8AZT
- axe/tskSlkRwnw74Zk/2sUsXaPFeM84av79HN/xZvB2fpD2Nt4RMxXt2Il+bL1tAiyjl
- Yyc0kh1pY3MRQ+7Bg/H6H9xa1zl6tDcIz4wa01qsRG0ys4NVbuTHCDtgUl7GQuuLdxBN
- CEm6sKN0XjXY9ua8eM89AXpnBl1BObIcNtotBH+tzW+C4lZaPu/ar7fgZKonx6PzrGzh
- oTSVxNJfDEE9gjHGxanTictpCR00TzcY+13fmoZHdVPwgLr2EfZSf7/g/GuU3spopG9K
- LkfQ==
-X-Gm-Message-State: AOAM532Jk9q+s5f+1RZNbzbd9AMWLbrvM6OHo+7KwGGsvbKhkzlLO1r0
- DVHkrcjNSVPFcjo8GpZTCgdm+L0rMq902iGLx+COl72jjW/iKSE4W5QkUoJlzkIwci5whjNQuuK
- vPqPbU1K4sXTSRUo=
-X-Received: by 2002:a05:6000:1888:b0:203:75c0:c438 with SMTP id
- a8-20020a056000188800b0020375c0c438mr3405988wri.469.1646917626459; 
- Thu, 10 Mar 2022 05:07:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJysb/htCRTtczZGvHhkpRa/8QEbhPKKUMKMAYjrtnC4aqKaw+z9nug1DQmha0s+quyjHeF7tw==
-X-Received: by 2002:a05:6000:1888:b0:203:75c0:c438 with SMTP id
- a8-20020a056000188800b0020375c0c438mr3405967wri.469.1646917626168; 
- Thu, 10 Mar 2022 05:07:06 -0800 (PST)
-Received: from redhat.com ([2.53.27.107]) by smtp.gmail.com with ESMTPSA id
- u4-20020adfdb84000000b001e8d8ac5394sm4506659wri.110.2022.03.10.05.07.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 05:07:05 -0800 (PST)
-Date: Thu, 10 Mar 2022 08:07:02 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Subject: Re: [PATCH RESEND v1 0/2] i386: Make PIT and PIC the property of
- common x86 base machine type
-Message-ID: <20220310080630-mutt-send-email-mst@kernel.org>
-References: <20220310122811.807794-1-xiaoyao.li@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eBpCDTIwHG6ZjhwNzJ1iOPE7WWJASHMWwsM/g0I7XIE=;
+ b=DpIEj555H5DhxqZWu6ukcLsMz+L0uXSjHE9tcpldKlbwTeoTpz9ehDt9tU5rfRFrM0
+ Sr1IkDuY/KVhZT7SJxrdj2eZ1Ec5AR5CwZa7nJiE0Y7ZsIx/a2n9xRz+XT6mFXDemrOq
+ s+TfP+f65Vx9jM8nEW0tJliZKvXS6dZsEfLxQFgiYCO2B9zz5drbdHKsVs+K0HsWnvdk
+ ZV+qSRAUPaSN/XcXKekE7yb/m8tBYdk5o+P9EM8UwcMlrWDoy4XlnpGHDGWTEOyJhPX1
+ D0KxuNnoF3WijTNRLSafns33FakCpyK8v/qLFUGHnuV+oYPvWo2/2levFQjbB5KC4vPY
+ XPUA==
+X-Gm-Message-State: AOAM531jaiC3EtSknXyC56PrBwa4CoAiShIP9nZcD/lhemUELZiN9SeA
+ PXZiZqyJQ/E1ufk7lIVtfM3sOtMN5y/N70FnOYp82g==
+X-Google-Smtp-Source: ABdhPJxXnGIU1+p1FAGdejV+a4qeiXmzqRAxufWmMq/ITNaFxDCa3EDPAsvUy8YB/cm0q/lt6F+t0PYpMjIGIWULt3Y=
+X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
+ h3-20020a056902008300b0061a709bd841mr3617349ybs.140.1646918188904; Thu, 10
+ Mar 2022 05:16:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220310122811.807794-1-xiaoyao.li@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220308215435.21806-1-tsimpson@quicinc.com>
+In-Reply-To: <20220308215435.21806-1-tsimpson@quicinc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 10 Mar 2022 13:16:17 +0000
+Message-ID: <CAFEAcA99YqE01snCWLt8h+FK--4j4QiJ-NczcmpL+1AgVyghNw@mail.gmail.com>
+Subject: Re: [PULL 00/12] Hexagon (target/hexagon) queue
+To: Taylor Simpson <tsimpson@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,43 +81,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Sergio Lopez <slp@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: zongyuan.li@smartx.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 10, 2022 at 08:28:09PM +0800, Xiaoyao Li wrote:
-> For PIT, it's straightforward to merge microvm::pit and
-> pc_machine::pit_enabled into x86ms::pit
-> 
-> For PIC, move microvm::pic to x86ms:pic, which gives PC machine the
-> ability to dis-/en-able PIC and it's the preparation for future TDX
-> support.
+On Tue, 8 Mar 2022 at 21:55, Taylor Simpson <tsimpson@quicinc.com> wrote:
+>
+> The following changes since commit 33d102e92e41a65c817d85ff8bfd5ffa2c16b1d3:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/seabios-20220307-pull-request' into staging (2022-03-08 12:40:58 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/quic/qemu tags/pull-hex-20220308
+>
+> for you to fetch changes up to ebbf0ee1335548fe9b42fcd1ff031aea2d27cc1a:
+>
+>   target/hexagon: remove unused variable (2022-03-08 13:27:00 -0800)
+>
+> ----------------------------------------------------------------
+> Hexagon bug fixes and additional tests
+>
+> Also includes a patch from Zongyuan Li <zongyuan.li@smartx.com>
+> to remove an unused variable
+>
 
+This fails the build-user-hexagon CI job:
+https://gitlab.com/qemu-project/qemu/-/jobs/2187325916
 
-Looks ok but we are in freeze. I will tag this but pls do ping me
-after the release to make sure it's not lost. Thanks!
-> ---
-> Resend:
->  - collect Reviewed-by;
->  - rebase to 2048c4eba2b4 ("Merge remote-tracking branch 'remotes/philmd/tags/pmbus-20220308' into staging")
-> 
-> Xiaoyao Li (2):
->   hw/i386: Make pit a property of common x86 base machine type
->   hw/i386: Make pic a property of common x86 base machine type
-> 
->  hw/i386/microvm.c         | 54 ++-------------------------------------
->  hw/i386/pc.c              | 24 +++--------------
->  hw/i386/pc_piix.c         |  4 ++-
->  hw/i386/pc_q35.c          |  4 ++-
->  hw/i386/x86.c             | 50 ++++++++++++++++++++++++++++++++++++
->  include/hw/i386/microvm.h |  4 ---
->  include/hw/i386/pc.h      |  2 --
->  include/hw/i386/x86.h     |  4 +++
->  8 files changed, 65 insertions(+), 81 deletions(-)
-> 
-> -- 
-> 2.27.0
+BUILD hexagon-linux-user guest-tests with hexagon-unknown-linux-musl-clang
+/builds/qemu-project/qemu/tests/tcg/hexagon/preg_alias.c:68:9: error:
+unknown register name 'c4' in asm
+: "c4", "p0", "p1", "p2", "p3");
+^
+/builds/qemu-project/qemu/tests/tcg/hexagon/preg_alias.c:95:10: error:
+unknown register name 'c4' in asm
+: "c4", "c5", "p0", "p1", "p2", "p3");
+^
+/builds/qemu-project/qemu/tests/tcg/hexagon/preg_alias.c:120:12:
+error: unknown register name 'c4' in asm
+: "c4", "p0", "p1", "p2", "p3");
+^
+/builds/qemu-project/qemu/tests/tcg/hexagon/preg_alias.c:132:12:
+error: unknown register name 'c4' in asm
+: "c4", "p0", "p1", "p2", "p3", "memory");
+^
+4 errors generated.
+make[2]: *** [../Makefile.target:108: preg_alias] Error 1
 
+-- PMM
 
