@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDDB4D4EE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 17:20:37 +0100 (CET)
-Received: from localhost ([::1]:46036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572EB4D4EE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 17:21:34 +0100 (CET)
+Received: from localhost ([::1]:48280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSLWm-0005s1-Bl
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 11:20:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46324)
+	id 1nSLXh-0007SH-F7
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 11:21:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nSLTn-0002eU-HB; Thu, 10 Mar 2022 11:17:32 -0500
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:44745)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nSLW4-00069e-MA
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 11:19:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nSLTk-0002QQ-Vh; Thu, 10 Mar 2022 11:17:30 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.159])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 22DB2E84CEB9;
- Thu, 10 Mar 2022 17:17:26 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 10 Mar
- 2022 17:17:25 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R00332f87d50-7dca-453c-b249-0851dec43cd3,
- 50FE52C2FF4DE979A383A870B6AFEB2A520DEB89) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 129.41.46.1
-Message-ID: <e2304f0f-aba1-de1d-50c7-6da0cfd25f53@kaod.org>
-Date: Thu, 10 Mar 2022 17:17:24 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nSLW1-0002c3-FY
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 11:19:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646929187;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ygiGEqD1oLUhFDSasiz/jS2ox2jyqTCrA262FBaf2sE=;
+ b=R+l7ikyVuQhuN9zf8K6vk6OZckujijUwIhcWT+Oq1ZOV2PU65iSVqNfH8WVbx97E3u6RFE
+ 6yGKIfF5OAffLhdSUp6kon7DiMJF+rkwPcHsAiBpwFHnzFYMA7KmVv1KPoDFWYsaquw8eF
+ qZaKJFE4g6hnTO3u3p3j5M+Ky2WBDac=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-208-mq2d5hygPLepjE-5JnYyfg-1; Thu, 10 Mar 2022 11:19:28 -0500
+X-MC-Unique: mq2d5hygPLepjE-5JnYyfg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0A60824FAA
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 16:19:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3850E1077C8C;
+ Thu, 10 Mar 2022 16:18:49 +0000 (UTC)
+Date: Thu, 10 Mar 2022 16:18:46 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 11/18] tests: expand the migration precopy helper to
+ support failures
+Message-ID: <Yiok5lioBDtdHmXy@redhat.com>
+References: <20220302174932.2692378-1-berrange@redhat.com>
+ <20220302174932.2692378-12-berrange@redhat.com>
+ <YiW63O5qeye62I9M@xz-m1.local>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 3/3] ppc/pnv: Fix PEC lookup function for POWER10
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, <danielhb413@gmail.com>,
- <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20220310155101.294568-1-fbarrat@linux.ibm.com>
- <20220310155101.294568-4-fbarrat@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220310155101.294568-4-fbarrat@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+In-Reply-To: <YiW63O5qeye62I9M@xz-m1.local>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: b3fc0b00-cec0-41e3-a591-3f548afaacd8
-X-Ovh-Tracer-Id: 2636294632556825568
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddvtddgkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,118 +86,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/10/22 16:51, Frederic Barrat wrote:
-> The PEC array used when looking for the PEC hosting a PHB is stored in
-> the chip structure. The array is at a different offset in Pnv9Chip and
-> Pnv10Chip. The lookup function was therefore not working properly on
-> POWER10.
-> This patch fixes it by introducing a class method to get the correct
-> PEC pointer based on the chip object and PEC index.
+On Mon, Mar 07, 2022 at 03:57:16PM +0800, Peter Xu wrote:
+> On Wed, Mar 02, 2022 at 05:49:25PM +0000, Daniel P. Berrangé wrote:
+> >  static void test_precopy_common(const char *listen_uri,
+> >                                  const char *connect_uri,
+> >                                  TestMigrateStartHook start_hook,
+> >                                  TestMigrateFinishHook finish_hook,
+> > +                                bool expect_fail,
+> > +                                bool dst_quit,
+> >                                  bool dirty_ring)
+> >  {
+> >      MigrateStart *args = migrate_start_new();
+> > @@ -875,24 +890,32 @@ static void test_precopy_common(const char *listen_uri,
+> >  
+> >      migrate_qmp(from, connect_uri, "{}");
+> >  
+> > -    wait_for_migration_pass(from);
+> > +    if (expect_fail) {
+> > +        wait_for_migration_fail(from, !dst_quit);
 > 
-> Fixes: 623575e16cd5 ("ppc/pnv: Add model for POWER10 PHB5 PCIe Host bridge")
-> Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-> ---
->   hw/pci-host/pnv_phb4.c |  5 ++---
->   hw/ppc/pnv.c           | 14 ++++++++++++++
->   include/hw/ppc/pnv.h   |  1 +
->   3 files changed, 17 insertions(+), 3 deletions(-)
+> Two more thoughts..
+> 
+> (1) Shall we move MigrateStart creation to be even upper?  Then we avoid
+>     passing over these parameters but merge these new parameters into
+>     MigrateStart too.  After all we used to have similar long lists of
+>     params and we merged them into MigrateStart.
 
+I don't to use MigrateStart as these new parameters are not common
+to all migration tests. I have come up with an equivalent approach
+though.
 
+> (2) Shall we leverage MigrateStart.hide_stderr?  I saw a bunch of errors
+>     dumped even if all things run as expected.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Yes.
 
-Queued for 7.0.
-
-Thanks,
-
-C.
-
-
-
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index d1a911f988..4732633833 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1548,7 +1548,6 @@ static void pnv_phb4_instance_init(Object *obj)
->   static PnvPhb4PecState *pnv_phb4_get_pec(PnvChip *chip, PnvPHB4 *phb,
->                                            Error **errp)
->   {
-> -    Pnv9Chip *chip9 = PNV9_CHIP(chip);
->       int chip_id = phb->chip_id;
->       int index = phb->phb_id;
->       int i, j;
-> @@ -1556,9 +1555,9 @@ static PnvPhb4PecState *pnv_phb4_get_pec(PnvChip *chip, PnvPHB4 *phb,
->       for (i = 0; i < chip->num_pecs; i++) {
->           /*
->            * For each PEC, check the amount of phbs it supports
-> -         * and see if the given phb4 index matches an index.
-> +         * and see if the given phb index matches an index.
->            */
-> -        PnvPhb4PecState *pec = &chip9->pecs[i];
-> +        PnvPhb4PecState *pec = PNV_CHIP_GET_CLASS(chip)->get_pec(chip, i);
->   
->           for (j = 0; j < pec->num_phbs; j++) {
->               if (index == pnv_phb4_pec_get_phb_id(pec, j)) {
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index df58403a3a..3a676cd570 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1561,6 +1561,12 @@ static uint32_t pnv_chip_power9_xscom_pcba(PnvChip *chip, uint64_t addr)
->       return addr >> 3;
->   }
->   
-> +static PnvPhb4PecState *pnv_chip_power9_get_pec(PnvChip *chip, uint32_t index)
-> +{
-> +    Pnv9Chip *chip9 = PNV9_CHIP(chip);
-> +    return &chip9->pecs[index];
-> +}
-> +
->   static void pnv_chip_power9_class_init(ObjectClass *klass, void *data)
->   {
->       DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -1580,6 +1586,7 @@ static void pnv_chip_power9_class_init(ObjectClass *klass, void *data)
->       k->xscom_pcba = pnv_chip_power9_xscom_pcba;
->       dc->desc = "PowerNV Chip POWER9";
->       k->num_pecs = PNV9_CHIP_MAX_PEC;
-> +    k->get_pec = pnv_chip_power9_get_pec;
->   
->       device_class_set_parent_realize(dc, pnv_chip_power9_realize,
->                                       &k->parent_realize);
-> @@ -1769,6 +1776,12 @@ static uint32_t pnv_chip_power10_xscom_pcba(PnvChip *chip, uint64_t addr)
->       return addr >> 3;
->   }
->   
-> +static PnvPhb4PecState *pnv_chip_power10_get_pec(PnvChip *chip, uint32_t index)
-> +{
-> +    Pnv10Chip *chip10 = PNV10_CHIP(chip);
-> +    return &chip10->pecs[index];
-> +}
-> +
->   static void pnv_chip_power10_class_init(ObjectClass *klass, void *data)
->   {
->       DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -1788,6 +1801,7 @@ static void pnv_chip_power10_class_init(ObjectClass *klass, void *data)
->       k->xscom_pcba = pnv_chip_power10_xscom_pcba;
->       dc->desc = "PowerNV Chip POWER10";
->       k->num_pecs = PNV10_CHIP_MAX_PEC;
-> +    k->get_pec = pnv_chip_power10_get_pec;
->   
->       device_class_set_parent_realize(dc, pnv_chip_power10_realize,
->                                       &k->parent_realize);
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 1e34ddd502..282f76ba08 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -163,6 +163,7 @@ struct PnvChipClass {
->       void (*pic_print_info)(PnvChip *chip, Monitor *mon);
->       uint64_t (*xscom_core_base)(PnvChip *chip, uint32_t core_id);
->       uint32_t (*xscom_pcba)(PnvChip *chip, uint64_t addr);
-> +    PnvPhb4PecState *(*get_pec)(PnvChip *chip, uint32_t index);
->   };
->   
->   #define PNV_CHIP_TYPE_SUFFIX "-" TYPE_PNV_CHIP
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
