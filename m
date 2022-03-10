@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994AC4D479A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:03:25 +0100 (CET)
-Received: from localhost ([::1]:34248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA65F4D4868
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:51:49 +0100 (CET)
+Received: from localhost ([::1]:55604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSIRw-0004Fl-MC
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:03:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41560)
+	id 1nSJCm-0002dE-Ri
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:51:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9t-0006vb-5O; Thu, 10 Mar 2022 07:44:45 -0500
-Received: from [2a00:1450:4864:20::32b] (port=33830
- helo=mail-wm1-x32b.google.com)
+ id 1nSI9u-0006yf-QS; Thu, 10 Mar 2022 07:44:47 -0500
+Received: from [2a00:1450:4864:20::42a] (port=43704
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9r-0005Ee-Lb; Thu, 10 Mar 2022 07:44:44 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- k8-20020a05600c1c8800b003899c7ac55dso4092248wms.1; 
- Thu, 10 Mar 2022 04:44:42 -0800 (PST)
+ id 1nSI9t-0005FB-C0; Thu, 10 Mar 2022 07:44:46 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id e24so7741714wrc.10;
+ Thu, 10 Mar 2022 04:44:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8Ijv45d7frV8RtMMOtg6s/7AI2S2ZexSVTc9afgZNFg=;
- b=qZjGYBp+IgwE83TsDq/liN0yL4g7Pe3hYtefAY7JslSiOC+AVkL0Xr6ZeX2CeRfund
- 5XPN6XSCVkFI+6Lnj72S3gQ4YlWDB4ZLoMklxr/dTyukXxOAwFpdQ/jOZyu3Z6GpJdjj
- hMJdQ2RPZnMFEA3Lh8IHqoSg6/ab/B/Z5Z4Y9lMpfSz39AwVY2AKswOjgkRUFFWktazp
- Mc+4kKD8gz6Z5WgdF2RNg9Qtek4jo42iUomrcfAFoyYHgpeP6l+s837rRE7+f6aWljlD
- SsNutnCWj4tUWm8lh6KL+lXQsrw1eflQcAytnvnAn/+3RFUSZVYgSP8Qad9lkBZAp82b
- a05g==
+ bh=xTGQ7M7ENCkwdO0I0QDKcDyvsgi5YVkLnkk13pgEIBU=;
+ b=WfLCU/mw4ndJOWTq8w9GAz3u8poNeDILAB6ZbuT2aU/uOBGFOAmBeXT7cSnxlBbFv2
+ Qr7+CP3EN8ICyJu/UqtmmLlGNV5aWQFS+2SbprSWcUmWqdNIkGpSLUI2aK3ZFe2tgE4q
+ pehzeZwZV3LcsTpWBUkK0wvx8daTUqbtEdvFSdRnmM5bfgWcejHgH9zZqIuwIe7sW3KJ
+ i4kg8EKWJjGbM+Nuqd7vcHnQwl+xvroJ/eXqGkF4t6TGiE4J1AdvK7UWmMLFfV/QXG9J
+ VCugZd1RvSE9l0QagMQB/1Ann34ZWfkDH3zl1I1UPQrmTXf+QwFrpe+nwfwrE8JJiVYG
+ QVQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8Ijv45d7frV8RtMMOtg6s/7AI2S2ZexSVTc9afgZNFg=;
- b=KkjT8Ez+c5Bgqgbl0aQw5WptPLKzlNGXIL80qr3CXh1mGLMGF9V2wOPtRmsSEVMXOf
- BPomcOoExy8XxjMlXKyevTGdwGd5SYw2PIdP+qbvT6m1DiNhJWWYHZSQOgyRLG45GCOq
- 21MePtghhqFoY6tmsvIj38XlhWUfhH8uWykZ2iXZg49bNxA8U5E/ZFue1aOqKPL9ac5O
- AoRteBFE2ybE6avDmptyQd/ko4bSGC5+ENDibySs6O3ggitq+kNdVZ8alTjbeN0WKXfB
- KMPv3cm6zH28S8tRSw0e3uh+M2F5A4+tmV/ZtTq08j18s0n3C6IYoeBFYCMLDOCB83JK
- GIqQ==
-X-Gm-Message-State: AOAM532t+wCNqKlNNa9v+Lf+Okiau59WhHYSk1ZRJEFjdaARofAEScgx
- 5KnK5gNab6kifs7d/faAHLkJvwp6khg=
-X-Google-Smtp-Source: ABdhPJzpKekIhRMWUg4RutngiEvxOuhh6Kq97EXmrEyWU0N/7IrYY7ROBGx7aeHLRgo/+0VKktoiTw==
-X-Received: by 2002:a05:600c:2c49:b0:384:7202:358e with SMTP id
- r9-20020a05600c2c4900b003847202358emr11661443wmg.108.1646916281975; 
- Thu, 10 Mar 2022 04:44:41 -0800 (PST)
+ bh=xTGQ7M7ENCkwdO0I0QDKcDyvsgi5YVkLnkk13pgEIBU=;
+ b=uqz+uz2BLw0SsmDa1OjxyV5f9MSYbfVXSOLCCuo+wK2YX5G5Q/gy6EJNRqwsp6ruOq
+ UjIEYPWmvdywujhTo3qRzkULdi3VV5BeRgm87ZNzdI+3MoK5uO5tspEWp/dUN5f/7SeI
+ q1+9XiZD0hnaKD1e3thhIMUPQuOzDuhIx7eGosSYtlG0lV3PJ8MAQfsHDrq7HNNQ1ACp
+ I2BrO3QZ6H7WKhJbjCDrvz+tkVIMX55rJZA5bS/4XV4mUGUgf3wKZchWVAHZxVDr8hyU
+ XNnDW11J/CS6eEBRHL9d05rvzttN+ftr1DKGT1mxUgvKeQ1NucBQnutEXKDVuOWKdSAg
+ FRgA==
+X-Gm-Message-State: AOAM533WHrrU8kYrn+qGaM+4FnxJwUl507ejNjDAlml7JkgX0Ciy1tcb
+ aaU+FdA7HyPTiih3l6rHoVTztnc6Dv0=
+X-Google-Smtp-Source: ABdhPJyP8vjiq7p6KkC25x8m0CNcOWFoPk2cWpsV2L18GgTa8CtZptr94zJTuCxdHdd7C1NKDiwi9g==
+X-Received: by 2002:a5d:6da9:0:b0:202:293e:85ff with SMTP id
+ u9-20020a5d6da9000000b00202293e85ffmr3558501wrs.159.1646916283762; 
+ Thu, 10 Mar 2022 04:44:43 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.41
+ r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:44:41 -0800 (PST)
+ Thu, 10 Mar 2022 04:44:43 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/35] /perf/yield
-Date: Thu, 10 Mar 2022 13:43:59 +0100
-Message-Id: <20220310124413.1102441-22-pbonzini@redhat.com>
+Subject: [PATCH 22/35] /perf/function-call
+Date: Thu, 10 Mar 2022 13:44:00 +0100
+Message-Id: <20220310124413.1102441-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
 References: <20220310124413.1102441-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -95,68 +94,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/unit/test-coroutine.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+ tests/unit/test-coroutine.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
-index 75d54e5d29..0b7b4d6ef8 100644
+index 0b7b4d6ef8..c44287bcb0 100644
 --- a/tests/unit/test-coroutine.c
 +++ b/tests/unit/test-coroutine.c
-@@ -639,19 +639,33 @@ static void perf_nesting(void)
-         maxcycles, maxnesting, duration);
- }
- 
--#if 0
- /*
-  * Yield benchmark
-  */
- 
--static void coroutine_fn yield_loop(void *opaque)
-+CO_DECLARE_FRAME(yield_loop, void *opaque);
-+static CoroutineAction co__yield_loop(void *_frame)
- {
-+    struct FRAME__yield_loop *_f = _frame;
-+    CO_ARG(opaque);
-     unsigned int *counter = opaque;
- 
-+switch(_f->_step) {
-+case 0:
-     while ((*counter) > 0) {
-         (*counter)--;
--        qemu_coroutine_yield();
-+_f->_step = 1;
-+        return qemu_coroutine_yield();
-+case 1:
-     }
-+    break;
-+}
-+return stack_free(&_f->common);
-+}
-+
-+static CoroutineAction yield_loop(void *opaque)
-+{
-+    return CO_INIT_FRAME(yield_loop, opaque);
- }
- 
- static void perf_yield(void)
-@@ -672,6 +686,7 @@ static void perf_yield(void)
+@@ -686,7 +686,6 @@ static void perf_yield(void)
      g_test_message("Yield %u iterations: %f s", maxcycles, duration);
  }
  
-+#if 0
+-#if 0
  static __attribute__((noinline)) void dummy(unsigned *i)
  {
      (*i)--;
-@@ -755,8 +770,8 @@ int main(int argc, char **argv)
-         g_test_add_func("/perf/lifecycle", perf_lifecycle);
+@@ -709,6 +708,7 @@ static void perf_baseline(void)
+     g_test_message("Function call %u iterations: %f s", maxcycles, duration);
+ }
+ 
++#if 0
+ static __attribute__((noinline)) void perf_cost_func(void *opaque)
+ {
+     qemu_coroutine_yield();
+@@ -771,8 +771,8 @@ int main(int argc, char **argv)
          g_test_add_func("/perf/lifecycle/noalloc", perf_lifecycle_noalloc);
          g_test_add_func("/perf/nesting", perf_nesting);
--#if 0
          g_test_add_func("/perf/yield", perf_yield);
-+#if 0
+-#if 0
          g_test_add_func("/perf/function-call", perf_baseline);
++#if 0
          g_test_add_func("/perf/cost", perf_cost);
  #endif
+     }
 -- 
 2.35.1
 
