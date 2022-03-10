@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC634D47AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:06:11 +0100 (CET)
-Received: from localhost ([::1]:41274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3134D487C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:59:34 +0100 (CET)
+Received: from localhost ([::1]:38326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSIUc-0000el-LR
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:06:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41712)
+	id 1nSJKH-0002wz-Uy
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:59:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSIA0-00077K-9x; Thu, 10 Mar 2022 07:44:52 -0500
-Received: from [2a00:1450:4864:20::433] (port=42871
- helo=mail-wr1-x433.google.com)
+ id 1nSIA1-000792-2O; Thu, 10 Mar 2022 07:44:53 -0500
+Received: from [2a00:1450:4864:20::42e] (port=36532
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9y-0005Gh-Je; Thu, 10 Mar 2022 07:44:51 -0500
-Received: by mail-wr1-x433.google.com with SMTP id u10so7752295wra.9;
- Thu, 10 Mar 2022 04:44:49 -0800 (PST)
+ id 1nSI9z-0005Gy-Lx; Thu, 10 Mar 2022 07:44:52 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id r10so7800494wrp.3;
+ Thu, 10 Mar 2022 04:44:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BXL2jinMbEzupMfdEPM3XNAu06eQUhqHpIIRQqS3zRU=;
- b=mWLBgw5M4sEElGVI6dlgGo/EmkHZ+och0JMPqlZXw/NR8+vbCNHBZ8RGu9VJ5Ri60j
- mD41k79Qj4tU37thFiDDMbl1tQSBuu6k1heKCtwSFsYkVmviJYMP/Ux+/EiNKYJTea1c
- q2m0nPV/jL/v/moPvtgEpDryfd3Iomi8FDdLZjqZI5KrTGxuLIS1B7hFf8ZwR81rm9Ep
- EYFeAJOb5q92ZydEavGMuvpQgI8kEn6d1BItdIq1SgOGY/y8arpCzlUohshrMWA+/QOC
- IZw0K5HEfME3mtPRSTMOABdEShZQbgp8DqYAF/SW2Op+OqGMC2CJJVJv6pJOQozoQbW7
- H1OA==
+ bh=CoYUWeJfp1u68l+ilOCM3xBlf1E8aY0U6SOmZUzPt1o=;
+ b=aeDa1KF6CLIPSOPbuY4rPaIirID3ooQKWTbqNU+ae6rSMfXifUi3fBqgONSHVXE6XH
+ Aj5Qx5Nb3f+zOgWHHi5vV8kMiBeyiYBCbYsZFUrdv2I4GQwLGqywhTQCJjQiBM+d2v/b
+ +MlXQ7eLvxAtyRNnTm7Uz3dQqff2DrG5wEjc0CsnVmQTUCNHt3or8o96xrrUj0bXklm9
+ HyXC0IV6G9eQ2/oKZlud5kg+0nlFdtOUEx+dxRnTtWYFtgPAziQ63LYFuRKRI5nEk710
+ H15rYh8qJ7pkrJNIe9y4RkBEst69fBAxNnKJGFA77IK+ouWmg853GKtZBAS3oBJvFVVS
+ hr9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BXL2jinMbEzupMfdEPM3XNAu06eQUhqHpIIRQqS3zRU=;
- b=bjMduk0A4CvtuocG642FN+lRS/IV12Vl/ZxshxX8vqdXltOAbY2WCfB7An4DTsDAK8
- IMMljXmJeYHL7UM7f8ixbgOeIV5XUY/k9eou6qAgeAXkAxLIodPS4orxbK/iXQhwZuzV
- 2QlqPZ0LXxBuMmpiuS29nN0GUFgGI0JVGQtDNr7oiUApPzNFxOU0JMn0Ft8r3i3Ojw5j
- Mp//g/O8zk7vL3CJ18/XV2ZImwcN0tFpqZyJFzqrW+2pGAGMeC1+U1EdcLBkrFl/y3D7
- l/CvRNAGagY8YZgM7hkQ1TCQYbVKVbwpd4qhpv0M6QJTFc1kTHq8ePchHvaUl5GbrB5W
- FlLA==
-X-Gm-Message-State: AOAM533cgoPf5Rcif5ARMui3lKDJYAg5oQfxw66IdRAZMHBypEkimvXd
- nXxDq+ICEkMpG2la6x3ZLzPB6WcOmSw=
-X-Google-Smtp-Source: ABdhPJxqhG4plQ7gnYxUVm+UCZMWM6cP/f73FsGvCbHPYVJj3xOucoAVmc79RsXi+AoM2uELVEAZSg==
-X-Received: by 2002:a05:6000:1689:b0:203:71fb:3930 with SMTP id
- y9-20020a056000168900b0020371fb3930mr3366255wrd.122.1646916288972; 
- Thu, 10 Mar 2022 04:44:48 -0800 (PST)
+ bh=CoYUWeJfp1u68l+ilOCM3xBlf1E8aY0U6SOmZUzPt1o=;
+ b=D0TRpKiTETBelnVT4rVHnKjKxST0Zh9kBzG5+w7r29outKcOfXMMPNyA2zaNk2MtDQ
+ U2InK+JYTWskwj8V71dOPAt7VeA8FT2O9Ik/ZFpyAYtjgEj43WEmZ/bVrIiS6A3+XLX/
+ k0VcbjQpu0adPUX6PXazwquq3NOeVtYvVrwNyWqYWB4urHFm7+mRBPoZJdgEwJq+IDWo
+ Uczz331MhcD79zvEJd+13EAnS45013LNrW7rN53/d6ACTyBVXsgW/jZBe26jBa19K39P
+ osCaVOP3/bI8Qj/YoBAS9zYYSfyU3KxZ9yUXGZckhrwWTHgUkWHaiwq+V5tl8wqXIPvy
+ iRLQ==
+X-Gm-Message-State: AOAM533Z92DvspNUkX3QBVR172AJ+1SOkmVbHwdEo+5EzZLznB/E5KgV
+ iR+Ks2LRN5wE2CJJHN25R1Qtbs8nzwM=
+X-Google-Smtp-Source: ABdhPJw06OOcNdfK1B6R1+mlXeo1f8dPFJj4g8cHZWwhZyqJNrbOeNmnagzzNOlDe289h/l32oBI5A==
+X-Received: by 2002:a05:6000:1d89:b0:1ed:b6d5:cbda with SMTP id
+ bk9-20020a0560001d8900b001edb6d5cbdamr3378672wrb.514.1646916290007; 
+ Thu, 10 Mar 2022 04:44:50 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.48
+ r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:44:48 -0800 (PST)
+ Thu, 10 Mar 2022 04:44:49 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 27/35] /locking/co-mutex/lockable
-Date: Thu, 10 Mar 2022 13:44:05 +0100
-Message-Id: <20220310124413.1102441-28-pbonzini@redhat.com>
+Subject: [PATCH 28/35] qemu_co_rwlock_maybe_wake_one
+Date: Thu, 10 Mar 2022 13:44:06 +0100
+Message-Id: <20220310124413.1102441-29-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
 References: <20220310124413.1102441-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -92,85 +92,57 @@ Cc: hreitz@redhat.com, stefanha@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is optimized a bit based on the assumption that
+qemu_co_mutex_unlock() never yields.  In other words,
+qemu_co_mutex_unlock() and qemu_co_rwlock_maybe_wake_one()
+could be declared coroutine_only_fn instead of coroutine_fn.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/unit/test-coroutine.c | 35 ++++++++++++++++++++++++++---------
- 1 file changed, 26 insertions(+), 9 deletions(-)
+ util/qemu-coroutine-lock.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
-index 642ef36bc3..db6718db40 100644
---- a/tests/unit/test-coroutine.c
-+++ b/tests/unit/test-coroutine.c
-@@ -283,19 +283,36 @@ static CoroutineAction mutex_fn(void *opaque)
-     return CO_INIT_FRAME(mutex_fn, m);
+diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+index 51f7da8bda..3b50e1dd5b 100644
+--- a/util/qemu-coroutine-lock.c
++++ b/util/qemu-coroutine-lock.c
+@@ -352,7 +352,6 @@ CoroutineAction qemu_co_mutex_unlock(CoMutex *mutex)
+     return COROUTINE_CONTINUE;
  }
  
 -#if 0
--static void coroutine_fn lockable_fn(void *opaque)
-+CO_DECLARE_FRAME(lockable_fn, QemuCoLockable *x);
-+static CoroutineAction co__lockable_fn(void *_frame)
- {
--    QemuCoLockable *x = opaque;
--    qemu_co_lockable_lock(x);
-+    struct FRAME__lockable_fn *_f = _frame;
-+    CO_ARG(x);
-+switch(_f->_step) {
-+case 0:
-+_f->_step = 1;
-+    return qemu_co_lockable_lock(x);
-+case 1:
-     assert(!locked);
-     locked = true;
--    qemu_coroutine_yield();
-+_f->_step = 2;
-+    return qemu_coroutine_yield();
-+case 2:
-     locked = false;
--    qemu_co_lockable_unlock(x);
-+_f->_step = 3;
-+    return qemu_co_lockable_unlock(x);
-+case 3:
-     done++;
-+    break;
-+}
-+return stack_free(&_f->common);
-+}
-+
-+static CoroutineAction lockable_fn(void *opaque)
-+{
-+    QemuCoLockable *x = opaque;
-+    return CO_INIT_FRAME(lockable_fn, x);
- }
--#endif
- 
- static void do_test_co_mutex(CoroutineEntry *entry, void *opaque)
- {
-@@ -327,7 +344,6 @@ static void test_co_mutex(void)
-     do_test_co_mutex(mutex_fn, &m);
+ struct CoRwTicket {
+     bool read;
+     Coroutine *co;
+@@ -367,7 +366,7 @@ void qemu_co_rwlock_init(CoRwlock *lock)
  }
  
--#if 0
- static void test_co_mutex_lockable(void)
+ /* Releases the internal CoMutex.  */
+-static void qemu_co_rwlock_maybe_wake_one(CoRwlock *lock)
++static CoroutineAction qemu_co_rwlock_maybe_wake_one(CoRwlock *lock)
  {
-     CoMutex m;
-@@ -339,6 +355,7 @@ static void test_co_mutex_lockable(void)
-     g_assert(QEMU_MAKE_CO_LOCKABLE(null_pointer) == NULL);
+     CoRwTicket *tkt = QSIMPLEQ_FIRST(&lock->tickets);
+     Coroutine *co = NULL;
+@@ -393,13 +392,17 @@ static void qemu_co_rwlock_maybe_wake_one(CoRwlock *lock)
+ 
+     if (co) {
+         QSIMPLEQ_REMOVE_HEAD(&lock->tickets, next);
+-        qemu_co_mutex_unlock(&lock->mutex);
++        int action = qemu_co_mutex_unlock(&lock->mutex);
++        assert(action == COROUTINE_CONTINUE);
+         aio_co_wake(co);
+     } else {
+-        qemu_co_mutex_unlock(&lock->mutex);
++        int action = qemu_co_mutex_unlock(&lock->mutex);
++        assert(action == COROUTINE_CONTINUE);
+     }
++    return COROUTINE_CONTINUE;
  }
  
 +#if 0
- static CoRwlock rwlock;
- 
- /* Test that readers are properly sent back to the queue when upgrading,
-@@ -811,8 +828,8 @@ int main(int argc, char **argv)
-     g_test_add_func("/basic/in_coroutine", test_in_coroutine);
-     g_test_add_func("/basic/order", test_order);
-     g_test_add_func("/locking/co-mutex", test_co_mutex);
--#if 0
-     g_test_add_func("/locking/co-mutex/lockable", test_co_mutex_lockable);
-+#if 0
-     g_test_add_func("/locking/co-rwlock/upgrade", test_co_rwlock_upgrade);
-     g_test_add_func("/locking/co-rwlock/downgrade", test_co_rwlock_downgrade);
- #endif
+ void qemu_co_rwlock_rdlock(CoRwlock *lock)
+ {
+     Coroutine *self = qemu_coroutine_self();
 -- 
 2.35.1
 
