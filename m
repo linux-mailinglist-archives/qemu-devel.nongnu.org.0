@@ -2,53 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BCD84D5512
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 00:09:59 +0100 (CET)
-Received: from localhost ([::1]:35458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7E84D556A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 00:31:09 +0100 (CET)
+Received: from localhost ([::1]:47936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSRuw-000143-4e
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 18:09:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55524)
+	id 1nSSFP-0002bx-Gv
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 18:31:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@fromorbit.com>)
- id 1nSRti-0000EI-RG
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 18:08:43 -0500
-Received: from mail105.syd.optusnet.com.au ([211.29.132.249]:57092)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@fromorbit.com>) id 1nSRte-0001Hi-K1
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 18:08:41 -0500
-Received: from dread.disaster.area (pa49-186-150-27.pa.vic.optusnet.com.au
- [49.186.150.27])
- by mail105.syd.optusnet.com.au (Postfix) with ESMTPS id 73D1310E29AA;
- Fri, 11 Mar 2022 10:08:23 +1100 (AEDT)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
- (envelope-from <david@fromorbit.com>)
- id 1nSRtO-003xhf-9L; Fri, 11 Mar 2022 10:08:22 +1100
-Date: Fri, 11 Mar 2022 10:08:22 +1100
-From: Dave Chinner <david@fromorbit.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Subject: Re: [PATCH v5 03/13] mm/shmem: Support memfile_notifier
-Message-ID: <20220310230822.GO661808@dread.disaster.area>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-4-chao.p.peng@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1nSSDN-0001FP-HH; Thu, 10 Mar 2022 18:29:01 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51084)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1nSSDL-0004z9-D9; Thu, 10 Mar 2022 18:29:01 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22AMnm2j026876; 
+ Thu, 10 Mar 2022 23:28:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : reply-to : from : in-reply-to :
+ content-type : content-transfer-encoding : mime-version; s=pp1;
+ bh=TPTqGL+qMRol8rgZjg0os70OdhmtWsURA4zr1qVGIsE=;
+ b=TiK8TQsy7F4tcFonNcVYYv8Sx8/yQyQBCWn12cwd36ob9EPyHFhYXP6Tdz7k1Mm1J43V
+ /eiohjcmLPYHH3+Z7PpUvNB0sjvEopn74003Bh4vFRLxKIYPZr83dmHfySrDlL4uBV/u
+ H/N2+081RtwrH39vqTbICbM0+Yd2PBZyIQ2zhUUTWFOqBpfVNFX1A+UoS9igs4UVZoAV
+ JnpfIVYKq/icXo3ZjTBldz+EuvAadBRR1XCbuA8qJ/OSY0HNhv40PukQ+UXudDyshckB
+ 6JB1QyaE3IlXu3hr0ToWbvhany//2SVYjvhHzry0ebgA7y5VVyIvY3Dpi7b608NehBb2 Vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3eqtfg0ny2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Mar 2022 23:28:47 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22ANRZkW023294;
+ Thu, 10 Mar 2022 23:28:46 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3eqtfg0nxs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Mar 2022 23:28:46 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22ANMijf032137;
+ Thu, 10 Mar 2022 23:28:45 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02wdc.us.ibm.com with ESMTP id 3ekyg9xsd8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Mar 2022 23:28:45 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22ANShQs36897154
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Mar 2022 23:28:43 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 890BE78063;
+ Thu, 10 Mar 2022 23:28:43 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CAF4678067;
+ Thu, 10 Mar 2022 23:28:41 +0000 (GMT)
+Received: from [9.65.240.15] (unknown [9.65.240.15])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Thu, 10 Mar 2022 23:28:41 +0000 (GMT)
+Message-ID: <0b4f0ac2-42e8-daca-919b-b5153b8cd112@linux.ibm.com>
+Date: Thu, 10 Mar 2022 20:28:39 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.6.2
+Subject: Re: [PATCH 0/9] --disable-tcg avocado fixes for ppc-softmmu
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20220310183011.110391-1-danielhb413@gmail.com>
+From: =?UTF-8?Q?Murilo_Opsfelder_Ara=c3=bajo?= <muriloo@linux.ibm.com>
+Organization: IBM
+In-Reply-To: <20220310183011.110391-1-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: xQrbhsYlKWxHfhvRYX0emBKCApwV95af
+X-Proofpoint-GUID: RiwnO4nTFeHH3lElojlegws71QTU9uqQ
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220310140911.50924-4-chao.p.peng@linux.intel.com>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=deDjYVbe c=1 sm=1 tr=0 ts=622a84f0
- a=sPqof0Mm7fxWrhYUF33ZaQ==:117 a=sPqof0Mm7fxWrhYUF33ZaQ==:17
- a=kj9zAlcOel0A:10 a=o8Y5sQTvuykA:10 a=QyXUC8HyAAAA:8 a=7-415B0cAAAA:8
- a=RCrhQ6IY2R1Uy-UsxHgA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
-Received-SPF: none client-ip=211.29.132.249; envelope-from=david@fromorbit.com;
- helo=mail105.syd.optusnet.com.au
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-10_09,2022-03-09_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 malwarescore=0 adultscore=0 clxscore=1011 spamscore=0
+ mlxlogscore=911 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203100116
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=muriloo@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,107 +113,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, linux-api@vger.kernel.org,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
+Reply-To: muriloo@linux.ibm.com
+Cc: muriloo@linux.ibm.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au, farosas@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 10, 2022 at 10:09:01PM +0800, Chao Peng wrote:
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+On 3/10/22 15:30, Daniel Henrique Barboza wrote:
+> Hi,
 > 
-> It maintains a memfile_notifier list in shmem_inode_info structure and
-> implements memfile_pfn_ops callbacks defined by memfile_notifier. It
-> then exposes them to memfile_notifier via
-> shmem_get_memfile_notifier_info.
+> These are more test fixes that I missed from my first series [1]. Thanks
+> Murilo Opsfelder and Fabiano for letting me know that we still had broken
+> tests to deal with.
 > 
-> We use SGP_NOALLOC in shmem_get_lock_pfn since the pages should be
-> allocated by userspace for private memory. If there is no pages
-> allocated at the offset then error should be returned so KVM knows that
-> the memory is not private memory.
+> All these tests were either a case of 'this needs kvm_pr' or 'this needs
+> kvm_hv'. Since avocado doesn't have yet a way of detecting if the host
+> is running kvm_hv or kvm_pr, the workaround for now is to skip them if
+> TCG isn't available.
 > 
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  include/linux/shmem_fs.h |  4 +++
->  mm/shmem.c               | 76 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 80 insertions(+)
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg00866.html
 > 
-> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> index 2dde843f28ef..7bb16f2d2825 100644
-> --- a/include/linux/shmem_fs.h
-> +++ b/include/linux/shmem_fs.h
-> @@ -9,6 +9,7 @@
->  #include <linux/percpu_counter.h>
->  #include <linux/xattr.h>
->  #include <linux/fs_parser.h>
-> +#include <linux/memfile_notifier.h>
->  
->  /* inode in-kernel data */
->  
-> @@ -28,6 +29,9 @@ struct shmem_inode_info {
->  	struct simple_xattrs	xattrs;		/* list of xattrs */
->  	atomic_t		stop_eviction;	/* hold when working on inode */
->  	unsigned int		xflags;		/* shmem extended flags */
-> +#ifdef CONFIG_MEMFILE_NOTIFIER
-> +	struct memfile_notifier_list memfile_notifiers;
-> +#endif
->  	struct inode		vfs_inode;
->  };
->  
-> diff --git a/mm/shmem.c b/mm/shmem.c
-> index 9b31a7056009..7b43e274c9a2 100644
-> --- a/mm/shmem.c
-> +++ b/mm/shmem.c
-> @@ -903,6 +903,28 @@ static struct folio *shmem_get_partial_folio(struct inode *inode, pgoff_t index)
->  	return page ? page_folio(page) : NULL;
->  }
->  
-> +static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
-> +{
-> +#ifdef CONFIG_MEMFILE_NOTIFIER
-> +	struct shmem_inode_info *info = SHMEM_I(inode);
-> +
-> +	memfile_notifier_fallocate(&info->memfile_notifiers, start, end);
-> +#endif
-> +}
+> 
+> Daniel Henrique Barboza (9):
+>    avocado/boot_linux_console.py: check TCG accel in test_ppc_g3beige()
+>    avocado/boot_linux_console.py: check TCG accel in test_ppc_mac99()
+>    avocado/ppc_405.py: remove test_ppc_taihu()
+>    avocado/ppc_405.py: check TCG accel in test_ppc_ref405ep()
+>    avocado/ppc_74xx.py: check TCG accel for all tests
+>    avocado/ppc_bamboo.py: check TCG accel in test_ppc_bamboo()
+>    avocado/ppc_mpc8544ds.py: check TCG accel in test_ppc_mpc8544ds()
+>    avocado/ppc_prep_40p.py: check TCG accel in all tests
+>    avocado/ppc_virtex_ml507.py: check TCG accel in
+>      test_ppc_virtex_ml507()
+> 
+>   tests/avocado/boot_linux_console.py | 12 ++++++++++++
+>   tests/avocado/ppc_405.py            | 10 ++--------
+>   tests/avocado/ppc_74xx.py           | 13 +++++++++++++
+>   tests/avocado/ppc_bamboo.py         |  2 ++
+>   tests/avocado/ppc_mpc8544ds.py      |  2 ++
+>   tests/avocado/ppc_prep_40p.py       |  6 ++++++
+>   tests/avocado/ppc_virtex_ml507.py   |  2 ++
+>   7 files changed, 39 insertions(+), 8 deletions(-)
+> 
 
-*notify_populate(), not fallocate.  This is a notification that a
-range has been populated, not that the fallocate() syscall was run
-to populate the backing store of a file.
+Hi, Daniel.
 
-i.e.  fallocate is the name of a userspace filesystem API that can
-be used to manipulate the backing store of a file in various ways.
-It can both populate and punch away the backing store of a file, and
-some operations that fallocate() can run will do both (e.g.
-FALLOC_FL_ZERO_RANGE) and so could generate both
-notify_invalidate() and a notify_populate() events.
+With this series and series "--disable-tcg qtest/avocado fixes for ppc64" [0]
+applied, check-avocado passed for QEMU built with --disable-tcg --disable-linux-user.
 
-Hence "fallocate" as an internal mm namespace or operation does not
-belong anywhere in core MM infrastructure - it should never get used
-anywhere other than the VFS/filesystem layers that implement the
-fallocate() syscall or use it directly.
+[0] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg00866.html
 
-Cheers,
+So:
 
-Dave.
+Tested-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 
 -- 
-Dave Chinner
-david@fromorbit.com
+Murilo
 
