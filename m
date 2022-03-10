@@ -2,78 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 572EB4D4EE7
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 17:21:34 +0100 (CET)
-Received: from localhost ([::1]:48280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23964D4F37
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 17:28:42 +0100 (CET)
+Received: from localhost ([::1]:51688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSLXh-0007SH-F7
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 11:21:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46838)
+	id 1nSLeb-0001qR-O2
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 11:28:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSLW4-00069e-MA
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 11:19:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSLW1-0002c3-FY
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 11:19:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646929187;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ygiGEqD1oLUhFDSasiz/jS2ox2jyqTCrA262FBaf2sE=;
- b=R+l7ikyVuQhuN9zf8K6vk6OZckujijUwIhcWT+Oq1ZOV2PU65iSVqNfH8WVbx97E3u6RFE
- 6yGKIfF5OAffLhdSUp6kon7DiMJF+rkwPcHsAiBpwFHnzFYMA7KmVv1KPoDFWYsaquw8eF
- qZaKJFE4g6hnTO3u3p3j5M+Ky2WBDac=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-208-mq2d5hygPLepjE-5JnYyfg-1; Thu, 10 Mar 2022 11:19:28 -0500
-X-MC-Unique: mq2d5hygPLepjE-5JnYyfg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0A60824FAA
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 16:19:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3850E1077C8C;
- Thu, 10 Mar 2022 16:18:49 +0000 (UTC)
-Date: Thu, 10 Mar 2022 16:18:46 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 11/18] tests: expand the migration precopy helper to
- support failures
-Message-ID: <Yiok5lioBDtdHmXy@redhat.com>
-References: <20220302174932.2692378-1-berrange@redhat.com>
- <20220302174932.2692378-12-berrange@redhat.com>
- <YiW63O5qeye62I9M@xz-m1.local>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nSLcH-0000SM-52; Thu, 10 Mar 2022 11:26:17 -0500
+Received: from [187.72.171.209] (port=58172 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nSLcF-0003sr-44; Thu, 10 Mar 2022 11:26:16 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 10 Mar 2022 13:26:09 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 97B558002AF;
+ Thu, 10 Mar 2022 13:26:08 -0300 (-03)
+Message-ID: <5395a9ec-74df-1687-5706-ecee99f47acd@eldorado.org.br>
+Date: Thu, 10 Mar 2022 13:26:08 -0300
 MIME-Version: 1.0
-In-Reply-To: <YiW63O5qeye62I9M@xz-m1.local>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC PATCH v3 3/3] target/ppc: Fix gen_priv_exception error value
+ in mfspr/mtspr
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20220113170456.1796911-1-matheus.ferst@eldorado.org.br>
+ <20220113170456.1796911-4-matheus.ferst@eldorado.org.br>
+ <d3c76cc5-90c0-6abd-1f67-9b6b1b0230b7@vivier.eu>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <d3c76cc5-90c0-6abd-1f67-9b6b1b0230b7@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 10 Mar 2022 16:26:09.0031 (UTC)
+ FILETIME=[8C90E170:01D8349B]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,54 +63,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: groug@kaod.org, danielhb413@gmail.com, richard.henderson@linaro.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 07, 2022 at 03:57:16PM +0800, Peter Xu wrote:
-> On Wed, Mar 02, 2022 at 05:49:25PM +0000, Daniel P. Berrangé wrote:
-> >  static void test_precopy_common(const char *listen_uri,
-> >                                  const char *connect_uri,
-> >                                  TestMigrateStartHook start_hook,
-> >                                  TestMigrateFinishHook finish_hook,
-> > +                                bool expect_fail,
-> > +                                bool dst_quit,
-> >                                  bool dirty_ring)
-> >  {
-> >      MigrateStart *args = migrate_start_new();
-> > @@ -875,24 +890,32 @@ static void test_precopy_common(const char *listen_uri,
-> >  
-> >      migrate_qmp(from, connect_uri, "{}");
-> >  
-> > -    wait_for_migration_pass(from);
-> > +    if (expect_fail) {
-> > +        wait_for_migration_fail(from, !dst_quit);
-> 
-> Two more thoughts..
-> 
-> (1) Shall we move MigrateStart creation to be even upper?  Then we avoid
->     passing over these parameters but merge these new parameters into
->     MigrateStart too.  After all we used to have similar long lists of
->     params and we merged them into MigrateStart.
-
-I don't to use MigrateStart as these new parameters are not common
-to all migration tests. I have come up with an equivalent approach
-though.
-
-> (2) Shall we leverage MigrateStart.hide_stderr?  I saw a bunch of errors
->     dumped even if all things run as expected.
-
-Yes.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+T24gMDQvMDMvMjAyMiAxMTo0MiwgTGF1cmVudCBWaXZpZXIgd3JvdGU6DQo+IExlIDEzLzAx
+LzIwMjIgw6AgMTg6MDQsIG1hdGhldXMuZmVyc3RAZWxkb3JhZG8ub3JnLmJyIGEgw6ljcml0
+IDoNCj4+IEZyb206IE1hdGhldXMgRmVyc3QgPG1hdGhldXMuZmVyc3RAZWxkb3JhZG8ub3Jn
+LmJyPg0KPj4NCj4+IFRoZSBjb2RlIGluIGxpbnV4LXVzZXIvcHBjL2NwdV9sb29wLmMgZXhw
+ZWN0cyBQT1dFUlBDX0VYQ1BfUFJJVg0KPj4gZXhjZXB0aW9uIHdpdGggZXJyb3IgUE9XRVJQ
+Q19FWENQX1BSSVZfT1BDIG9yIFBPV0VSUENfRVhDUF9QUklWX1JFRywNCj4+IHdoaWxlIFBP
+V0VSUENfRVhDUF9JTlZBTF9TUFIgaXMgZXhwZWN0ZWQgaW4gUE9XRVJQQ19FWENQX0lOVkFM
+DQo+PiBleGNlcHRpb25zLiBUaGlzIG1pc21hdGNoIGNhdXNlZCBhbiBFWENQX0RVTVAgd2l0
+aCB0aGUgbWVzc2FnZSAiVW5rbm93bg0KPj4gcHJpdmlsZWdlIHZpb2xhdGlvbiAoMDMpIiwg
+YXMgc2VlbiBpbiBbMV0uDQo+Pg0KPj4gRml4ZXM6IDliMmZhZGRhM2UwMSAoInBwYzogUmV3
+b3JrIGdlbmVyYXRpb24gb2YgcHJpdiBhbmQgaW52YWwgDQo+PiBpbnRlcnJ1cHRzIikNCj4+
+IFJlc29sdmVzOiBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9pc3N1
+ZXMvNTg4DQo+Pg0KPj4gWzFdIGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3QvcWVt
+dS8tL2lzc3Vlcy81ODgNCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBNYXRoZXVzIEZlcnN0IDxt
+YXRoZXVzLmZlcnN0QGVsZG9yYWRvLm9yZy5icj4NCj4+IC0tLQ0KPj4gSXMgdGhlcmUgYW55
+IGNhc2Ugd2hlcmUgdGhyb3dpbmcgYSBQUklWL0lOVkFMIGV4Y2VwdGlvbiB3aXRoIGENCj4+
+IElOVkFML1BSSVYgZXJyb3IgbWFrZXMgc2Vuc2U/IEl0IHNlZW1zIHdyb25nLCBidXQgbWF5
+YmUgSSdtIG1pc3NpbmcNCj4+IHNvbWV0aGluZy4uLiBlc3BlY2lhbGx5IHdpdGggdGhlIEhW
+X0VNVSB0byBwcm9ncmFtIGNoZWNrIGNvbnZlcnNpb24uDQo+Pg0KPj4gQWxzbywgaWYgdGhp
+cyBwYXRjaCBpcyBjb3JyZWN0LCBpdCBzZWVtcyB0aGF0IGFsbCBpbnZhbGlkIFNQUiBhY2Nl
+c3MNCj4+IHdvdWxkIGJlIG5vcCBvciBwcml2aWxlZ2UgZXhjZXB0aW9ucy4gSW4gdGhpcyBj
+YXNlLCBpcw0KPj4gUE9XRVJQQ19FWENQX0lOVkFMX1NQUiBzdGlsbCBuZWVkZWQ/DQo+PiAt
+LS0NCj4+IMKgIHRhcmdldC9wcGMvdHJhbnNsYXRlLmMgfCA4ICsrKystLS0tDQo+PiDCoCAx
+IGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPj4NCj4+
+IGRpZmYgLS1naXQgYS90YXJnZXQvcHBjL3RyYW5zbGF0ZS5jIGIvdGFyZ2V0L3BwYy90cmFu
+c2xhdGUuYw0KPj4gaW5kZXggNDAyMzIyMDFiYi4uYWJiYzNhNWJiOSAxMDA2NDQNCj4+IC0t
+LSBhL3RhcmdldC9wcGMvdHJhbnNsYXRlLmMNCj4+ICsrKyBiL3RhcmdldC9wcGMvdHJhbnNs
+YXRlLmMNCj4+IEBAIC00ODI3LDExICs0ODI3LDExIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBn
+ZW5fb3BfbWZzcHIoRGlzYXNDb250ZXh0IA0KPj4gKmN0eCkNCj4+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgICovDQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKHNwcm4gJiAweDEwKSB7DQo+
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoY3R4LT5wcikgew0KPj4gLcKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnZW5fcHJpdl9leGNlcHRpb24oY3R4LCBQT1dF
+UlBDX0VYQ1BfSU5WQUxfU1BSKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgZ2VuX3ByaXZfZXhjZXB0aW9uKGN0eCwgUE9XRVJQQ19FWENQX1BSSVZfUkVHKTsNCj4+
+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0NCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCB9
+IGVsc2Ugew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGN0eC0+cHIgfHwg
+c3BybiA9PSAwIHx8IHNwcm4gPT0gNCB8fCBzcHJuID09IDUgfHwgDQo+PiBzcHJuID09IDYp
+IHsNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ2VuX2h2cHJpdl9leGNl
+cHRpb24oY3R4LCBQT1dFUlBDX0VYQ1BfSU5WQUxfU1BSKTsNCj4+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgZ2VuX2h2cHJpdl9leGNlcHRpb24oY3R4LCBQT1dFUlBDX0VY
+Q1BfUFJJVl9SRUcpOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgIH0NCj4+IMKgwqDCoMKgwqAgfQ0KPj4gQEAgLTUwMTQsMTEgKzUw
+MTQsMTEgQEAgc3RhdGljIHZvaWQgZ2VuX210c3ByKERpc2FzQ29udGV4dCAqY3R4KQ0KPj4g
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgKi8NCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoc3By
+biAmIDB4MTApIHsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChjdHgtPnBy
+KSB7DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdlbl9wcml2X2V4Y2Vw
+dGlvbihjdHgsIFBPV0VSUENfRVhDUF9JTlZBTF9TUFIpOw0KPj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBnZW5fcHJpdl9leGNlcHRpb24oY3R4LCBQT1dFUlBDX0VYQ1Bf
+UFJJVl9SRUcpOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPj4gwqDCoMKg
+wqDCoMKgwqDCoMKgIH0gZWxzZSB7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBp
+ZiAoY3R4LT5wciB8fCBzcHJuID09IDApIHsNCj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgZ2VuX2h2cHJpdl9leGNlcHRpb24oY3R4LCBQT1dFUlBDX0VYQ1BfSU5WQUxf
+U1BSKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ2VuX2h2cHJpdl9l
+eGNlcHRpb24oY3R4LCBQT1dFUlBDX0VYQ1BfUFJJVl9SRUcpOw0KPj4gwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgfQ0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIH0NCj4+IMKgwqDCoMKg
+wqAgfQ0KPiANCj4gSXQgc2VlbXMgbG9naWMgdG8gZW1pdCBhIFBPV0VSUENfRVhDUF9QUklW
+X1hYWCBleGNlcHRpb24gd2l0aCAgDQo+IGdlbl9wcml2X2V4Y2VwdGlvbigpIChQT1dFUlBD
+X0VYQ1BfUFJJVikuDQo+IA0KPiBNb3Jlb3ZlciBpbiBsaW5lIGFib3ZlIHdlIGhhdmUgYcKg
+IGdlbl9wcml2X2V4Y2VwdGlvbihjdHgsIA0KPiBQT1dFUlBDX0VYQ1BfUFJJVl9SRUcpIGlm
+IHRoZSByZWdpc3Rlcg0KPiBjYW5ub3QgYmUgcmVhZCAoU1BSX05PQUNDRVNTKS4NCj4gDQo+
+IEJ1dCBpbiBoZWxwZXJfbG9hZF9kY3IoKSB3ZSBoYXZlIFBPV0VSUENfRVhDUF9QUklWX1JF
+RyB3aXRoIA0KPiBQT1dFUlBDX0VYQ1BfSU5WQUwgKHdoZXJlYXMgaW4gdGhlDQo+IGhlbHBl
+cl9zdG9yZV9kY3IoKSBmdW5jdGlvbiB3ZSBoYXZlIFBPV0VSUENfRVhDUF9JTlZBTCB3aXRo
+IA0KPiBQT1dFUlBDX0VYQ1BfSU5WQUxfSU5WQUwpLg0KPiBJdCBsb29rcyBsaWtlIGFub3Ro
+ZXIgYnVnLg0KDQpUaGUgaW5zdHJ1Y3Rpb25zIHRoYXQgY291bGQgaW52b2tlIHRoZXNlIGhl
+bHBlcnMgaW4gdXNlci1tb2RlIChtZmRjcnV4IA0KYW5kIG10ZGNydXgpIGFyZSBiZWhpbmQg
+UFBDX0RDUlVYLCBhbmQgbm8gQ1BVIGhhcyB0aGlzIGluc25zX2ZsYWcsIHNvIEkgDQpndWVz
+cyB0aGUgY29kZSBpcyB3cm9uZywgYnV0IHdlIGNhbm5vdCBoaXQgdGhlIGJ1ZyBpbiBsaW51
+eC11c2VyLg0KDQpTaW1pbGFybHksIHdlIGhhdmUgZ2VuX2h2cHJpdl9leGNlcHRpb24gd2l0
+aCBQT1dFUlBDX0VYQ1BfSU5WQUxfU1BSIGluIA0Kc3ByX2dyb3VwQV93cml0ZV9hbGxvd2Vk
+IGFuZCBnZW5faW52YWxfZXhjZXB0aW9uIHdpdGggDQpQT1dFUlBDX0VYQ1BfUFJJVl9SRUcg
+aW4gc3ByX3dyaXRlX2V4Y3BfdmVjdG9yLCBidXQgYm90aCBhcmUgYmVoaW5kIA0KIWRlZmlu
+ZWQoQ09ORklHX1VTRVJfT05MWSkuDQoNCj4gYW5kIGluIGdlbl9zbGJmZWUoKSB3ZSBoYXZl
+IGFsc28gYSBQT1dFUlBDX0VYQ1BfUFJJVl9SRUcgd2l0aCANCj4gZ2VuX2ludmFsX2V4Y2Vw
+dGlvbigpDQo+IChQT1dFUlBDX0VYQ1BfSU5WQUwpLg0KDQpUaGlzIG9uZSBpcyBlYXNpZXIg
+dG8gdGVzdC4gTG9va2luZyBhdCBzaV9jb2RlOg0KDQp2b2lkIHNpZ2lsbF9oYW5kbGUoaW50
+IHNpZywgc2lnaW5mb190ICpzaSwgdm9pZCAqdWNvbnRleHQpDQp7DQogICAgIF9leGl0KHNp
+LT5zaV9jb2RlKTsNCn0NCg0KaW50IG1haW4odm9pZCkNCnsNCiAgICAgc3RydWN0IHNpZ2Fj
+dGlvbiBzYSA9IHsuc2Ffc2lnYWN0aW9uID0gc2lnaWxsX2hhbmRsZSwgLnNhX2ZsYWdzID0g
+DQpTQV9TSUdJTkZPfTsNCiAgICAgdWludDY0X3QgdCA9IDAsIGIgPSAwOw0KICAgICBzaWdh
+Y3Rpb24oU0lHSUxMLCAmc2EsIE5VTEwpOw0KICAgICBhc20oInNsYmZlZS4gJTAsICUxIiA6
+ICI9ciIgKHQpIDogInIiIChiKSk7DQogICAgIHJldHVybiAwOw0KfQ0KDQpXZSBoYXZlOg0K
+JCAuL3NsYmVlOyBlY2hvICQ/DQo1ICMgSUxMX1BSVk9QQw0KJCAuL3FlbXUtcHBjNjQgLi9z
+bGJmZWU7IGVjaG8gJD8NCjIgIyBJTExfSUxMT1BODQoNClNvIEkgdGhpbmsgd2Ugc2hvdWxk
+IGJlIHVzaW5nIGdlbl9wcml2X2V4Y2VwdGlvbiBvciBnZW5faHZwcml2X2V4Y2VwdGlvbiAN
+CndpdGggUE9XRVJQQ19FWENQX1BSSVZfT1BDLg0KDQo+IFdoYXQgaXMgaW50ZXJlc3Rpbmcg
+aXMgZ2VuX2ludmFsX2V4Y2VwdGlvbigpIHVzZXMgUE9XRVJQQ19FWENQX0hWX0VNVSANCj4g
+dGhhdCBjb3VsZCBtYWtlIHRoaW5raW5nIHdlDQo+IGNvdWxkIHRyeSB0byBlbXVsYXRlIHRo
+ZSBvcGVyYXRpb24gKGZvciBLVk0gUFIsIGZvciBpbnN0YW5jZSkuDQoNCklJVUMsIHdlIHNo
+b3VsZCB1c2UgZ2VuX2h2cHJpdl9leGNlcHRpb24gaW4gdGhvc2UgY2FzZXMsIHNvIHdlIGhh
+dmUgDQpQT1dFUlBDX0VYQ1BfSFZfRU1VIHdpdGggUE9XRVJQQ19FWENQX1BSSVYgfCBzb21l
+dGhpbmcuDQoNClRoYW5rcywNCk1hdGhldXMgSy4gRmVyc3QNCkluc3RpdHV0byBkZSBQZXNx
+dWlzYXMgRUxET1JBRE8gPGh0dHA6Ly93d3cuZWxkb3JhZG8ub3JnLmJyLz4NCkFuYWxpc3Rh
+IGRlIFNvZnR3YXJlDQpBdmlzbyBMZWdhbCAtIERpc2NsYWltZXIgPGh0dHBzOi8vd3d3LmVs
+ZG9yYWRvLm9yZy5ici9kaXNjbGFpbWVyLmh0bWw+DQo=
 
