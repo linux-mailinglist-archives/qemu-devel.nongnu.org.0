@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2D84D4786
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:01:00 +0100 (CET)
-Received: from localhost ([::1]:53954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6971F4D4794
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:02:26 +0100 (CET)
+Received: from localhost ([::1]:59254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSIPb-0006zs-Bh
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:00:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41548)
+	id 1nSIQz-00027Q-GD
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:02:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9s-0006ti-GY; Thu, 10 Mar 2022 07:44:44 -0500
-Received: from [2a00:1450:4864:20::435] (port=40798
- helo=mail-wr1-x435.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nSHNq-0007IP-UW
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:55:06 -0500
+Received: from [2a00:1450:4864:20::32f] (port=37506
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9p-0005Dy-Tm; Thu, 10 Mar 2022 07:44:44 -0500
-Received: by mail-wr1-x435.google.com with SMTP id k24so7763016wrd.7;
- Thu, 10 Mar 2022 04:44:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nSHNp-0003xN-DZ
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:55:06 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ q7-20020a7bce87000000b00382255f4ca9so5282533wmj.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:55:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ftsEDbeWlZ8knEuqLSqyr0cJ8reRYQXZ8KdP5LCtFtY=;
- b=h7vfPV4a6i/Pi0kVL1v5uu6WcQ8DTmxkHNEayAh817hNeuCAXjeapnsO8VABU4wNp8
- gj4Q2+6lYkdGrW3a7rhDeIJDh+gcRsoIkpa31Ik7tYZ5/9jcJtEOL/dotCnB4iMT8PGZ
- nRO7Koz9Vhxstf560ZSnuBXPsNQCHJSwOga5rgoR8/doDXEDJ6/mgUmuOIKIAHKbi316
- 6el17qfOVuLgTht5idROvVnv2Kkb7cX+NpL1vN8XrBSpni2+gxxH8+NRq52zF+XzG/XJ
- 2nDGUoSk3mSTU/VVJsu3WDf3BLx9fSSkbSSFgzOdmhSbS24mHbQQqtIx4pW2YFW4k7FO
- oWMw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z+VRN1sFvtTMS9CAG9ReHaJC/19bI1hhn4s9TiCXO4E=;
+ b=nxpNCqWhmvSKNgBOGWcQ60iLL1Zq686bTTOfDYzUke/vp2CtRbGuoObRJnpuQg4anM
+ xaytDUdaQTt8+wo9Ly9IffgjnHLoCoLtC06wikFJoN8Xkj/wN97socmmsb5jVDMSGVro
+ sS7PoTPlDf3oeO8cz35Y21LGxw11jqwnr7xv40fo37U3QQd9v+4aFFEp8Xqu+gdlQCgA
+ vi7WD/JakEr8HBTESOn1Ensg4FRgKNyzhxFzRhywHgltW7RblV9fTbeV6fdvjKI/6XCM
+ D/Vk7pMKfTuHtpf9dP9lspaaZ/FSxGZIqxAwVtyrtDrORUu/6vqddTDFroEX6c2uqaZh
+ 6wmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ftsEDbeWlZ8knEuqLSqyr0cJ8reRYQXZ8KdP5LCtFtY=;
- b=gUnyJFH/wGAUq2Gahza/9LtJg1/r5EW9e/KDp7eFeQf1yK6eH5cr3byO64V11k5A4p
- 1Xuz1cntMGRi3o8caWgKmw5egNwZyZiMp40ch/o+02gFN5u+7ZA8Scyu0je/CluZPc6R
- OhTZgK5UsoolGckD0TZWleuidGsa60lvX/EbtEKpxXFNYwBw7JtplJAsqMRK3iU4t98B
- ClskalTZuEGWXbeJSlBumajaHy9m0Bx9QmYKun3sWm3y54hYluPP2oz2DazkGKcX+xuY
- yR+63yjlfneYV92Wx4KjwehRdsN1dWCl1ahYqGxP9avHuzcleOflIyb9B74DTAOo85MX
- TSrg==
-X-Gm-Message-State: AOAM531PTwIRWRyZ79n0nNJcYvX8V+xuM3lOOzPPU2CxBVmroRiW+U4t
- 25oFVtTcWnqgsjF8i4Gu8CD5eQg/08A=
-X-Google-Smtp-Source: ABdhPJxXsvRm4OjNwIQA4INcIpPy/BzFa22chKsWZIl2NJLx2ksAufjr201aWY504pSVUROmO9Q/DA==
-X-Received: by 2002:a5d:6c68:0:b0:203:691f:b95b with SMTP id
- r8-20020a5d6c68000000b00203691fb95bmr3442456wrz.375.1646916277702; 
- Thu, 10 Mar 2022 04:44:37 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:44:37 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z+VRN1sFvtTMS9CAG9ReHaJC/19bI1hhn4s9TiCXO4E=;
+ b=CsxVX4pCopaVkBdFzrMzOCYY1C+/n983hLEv8RVf3QehvLYe9Y85V9VmGHqdVhttBI
+ 4C3MQrDvKKXuE5kOaXr8ZIRnDTJnSCQgBqWj2NENyORqRh2QpDwI0si215CzsQry7blT
+ r4IREmdc/3z1SP6PQkdj/vibj40bN8aje6FkIblguEoNAOsdW/E3nVPxvFZ2PlAXe1qt
+ LBvYku1UlKa+420GC5xSufj049OHa5teDgaqj88gESTpzXrB7zU7FFuH5bGCsB32l6MJ
+ fugbDtXybDMC5QUm9wpY0URASgMxiCrVEaZUmCKrsk3ZdeUJFuIfa5qauOynF3AiGwdt
+ Jgcg==
+X-Gm-Message-State: AOAM531fkaNucSoCsGHIYodAHVa/zr5Gq04Tt7kuM6elqy0+7ZrrWeoK
+ 4f+GcA2CDLuNNfLArJ145CtrS75gbdU=
+X-Google-Smtp-Source: ABdhPJwCpkdpYX53GzIEOofiTlSYb/95AU5iQy/qXwssDP3wO0zBsElIsZk3lwwoaYYEsdEm60PD1w==
+X-Received: by 2002:a7b:c455:0:b0:380:a646:eb0e with SMTP id
+ l21-20020a7bc455000000b00380a646eb0emr11454442wmi.170.1646913303878; 
+ Thu, 10 Mar 2022 03:55:03 -0800 (PST)
+Received: from localhost.localdomain (71.red-83-50-68.dynamicip.rima-tde.net.
+ [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
+ t14-20020a5d49ce000000b001f036a29f42sm3861815wrs.116.2022.03.10.03.55.03
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Thu, 10 Mar 2022 03:55:03 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/35] /basic/order
-Date: Thu, 10 Mar 2022 13:43:56 +0100
-Message-Id: <20220310124413.1102441-19-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
-References: <20220310124413.1102441-1-pbonzini@redhat.com>
+Subject: [PATCH-for-7.0] softmmu: List CPU types again
+Date: Thu, 10 Mar 2022 12:55:02 +0100
+Message-Id: <20220310115502.3311-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: 23
+X-Spam_score: 2.3
+X-Spam_bar: ++
+X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,79 +89,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: hreitz@redhat.com, stefanha@redhat.com, qemu-block@nongnu.org,
- sguelton@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/unit/test-coroutine.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
-index 6ad653adda..3d898d50c6 100644
---- a/tests/unit/test-coroutine.c
-+++ b/tests/unit/test-coroutine.c
-@@ -490,8 +490,6 @@ static void test_lifecycle(void)
-     g_assert(done); /* expect done to be true (second time) */
- }
- 
--#if 0
--
- #define RECORD_SIZE 10 /* Leave some room for expansion */
- struct coroutine_position {
-     int func;
-@@ -508,13 +506,27 @@ static void record_push(int func, int state)
-     cp->state = state;
- }
- 
--static void coroutine_fn co_order_test(void *opaque)
-+CO_DECLARE_FRAME(co_order_test);
-+static CoroutineAction co__co_order_test(void *_frame)
- {
-+    struct FRAME__co_order_test *_f = _frame;
-+switch(_f->_step) {
-+case 0:
-     record_push(2, 1);
-     g_assert(qemu_in_coroutine());
--    qemu_coroutine_yield();
-+_f->_step = 1;
-+    return qemu_coroutine_yield();
-+case 1:
-     record_push(2, 2);
-     g_assert(qemu_in_coroutine());
-+    break;
-+}
-+return stack_free(&_f->common);
-+}
-+
-+static CoroutineAction co_order_test(void *opaque)
-+{
-+    return CO_INIT_FRAME(co_order_test);
- }
- 
- static void do_order_test(void)
-@@ -544,6 +556,7 @@ static void test_order(void)
-         g_assert_cmpint(records[i].state, ==, expected_pos[i].state);
+Commit e0220bb5b2 made cpus.c target-agnostic but didn't notice
+the cpu_list() function is only defined in target-specific code
+in "cpu.h". Extract list_cpus() from the generic cpus.c into a
+new target-specific unit.
+
+Fixes: e0220bb5b2 ("softmmu: Build target-agnostic objects once")
+Reported-by: Max Filippov <jcmvbkbc@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ softmmu/cpus.c      |  8 --------
+ softmmu/cpus_list.c | 36 ++++++++++++++++++++++++++++++++++++
+ softmmu/meson.build |  1 +
+ 3 files changed, 37 insertions(+), 8 deletions(-)
+ create mode 100644 softmmu/cpus_list.c
+
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index e1d84c8ccb..7b75bb66d5 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -728,14 +728,6 @@ int vm_stop_force_state(RunState state)
      }
  }
-+#if 0
- /*
-  * Lifecycle benchmark
-  */
-@@ -700,8 +713,8 @@ int main(int argc, char **argv)
-     g_test_add_func("/basic/self", test_self);
-     g_test_add_func("/basic/entered", test_entered);
-     g_test_add_func("/basic/in_coroutine", test_in_coroutine);
--#if 0
-     g_test_add_func("/basic/order", test_order);
-+#if 0
-     g_test_add_func("/locking/co-mutex", test_co_mutex);
-     g_test_add_func("/locking/co-mutex/lockable", test_co_mutex_lockable);
-     g_test_add_func("/locking/co-rwlock/upgrade", test_co_rwlock_upgrade);
+ 
+-void list_cpus(const char *optarg)
+-{
+-    /* XXX: implement xxx_cpu_list for targets that still miss it */
+-#if defined(cpu_list)
+-    cpu_list();
+-#endif
+-}
+-
+ void qmp_memsave(int64_t addr, int64_t size, const char *filename,
+                  bool has_cpu, int64_t cpu_index, Error **errp)
+ {
+diff --git a/softmmu/cpus_list.c b/softmmu/cpus_list.c
+new file mode 100644
+index 0000000000..59ef604423
+--- /dev/null
++++ b/softmmu/cpus_list.c
+@@ -0,0 +1,36 @@
++/*
++ * QEMU per target CPU list
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/cpus.h"
++#include "cpu.h"
++
++void list_cpus(const char *optarg)
++{
++    /* XXX: implement xxx_cpu_list for targets that still miss it */
++#if defined(cpu_list)
++    cpu_list();
++#endif
++}
++
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+index 8138248661..1df0ad286a 100644
+--- a/softmmu/meson.build
++++ b/softmmu/meson.build
+@@ -1,5 +1,6 @@
+ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
+   'arch_init.c',
++  'cpus_list.c',
+   'ioport.c',
+   'memory.c',
+   'physmem.c',
 -- 
-2.35.1
-
+2.34.1
 
 
