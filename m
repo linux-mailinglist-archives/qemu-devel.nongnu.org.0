@@ -2,95 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B8724D4571
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:15:00 +0100 (CET)
-Received: from localhost ([::1]:52758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A304D4592
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:20:58 +0100 (CET)
+Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSGl1-0007fh-85
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:14:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46450)
+	id 1nSGqn-0002MC-5U
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:20:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1nSGfQ-0007BB-Qv
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:09:12 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22864)
+ id 1nSGfS-0007FF-Dw
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:09:14 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36272
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1nSGfO-0004dm-Py
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:09:12 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22AAO5wi021914
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 11:09:08 GMT
+ id 1nSGfP-0004e3-FQ
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:09:14 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22A9KB1t026729
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 11:09:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=aVBS4vqSja7A6Tgn8Ff+RtPqBPWaWNg0FEO5KMxV1kQ=;
- b=cO37KC+bdJZ0LkuqqoSFfvtDQfGHfyTA9kpgkziABCJzrUMh1vqErSNx31HEiEjHXw1N
- GpR9rSwoOn9R7P/aFta5FY1BHsaAFVze+RPrGQd9sHQJF/S/gIx61Orx4iNZp8dgFLZ7
- bx9aqiI+PVBoAui6WVXWSbF58XypmGdalWUXu8jv+M2qz+gKpaU651wx7EemRZKMDBIf
- tjVQE1sSQQeAPd21Xejag61o+QfIUtp6NVYgsfB2KDh5mEC9djHyIlWhc4O5kqwTceB/
- or9WwkQAb8F2dU7LMTg1/xl676fTAWeuCovHmAQLvOxoQWmtgrNKgvYHH5KFo20imKLP pQ== 
+ bh=XIpDNNT6h59f/HivB7hMUQfCCGq5z25+dE1V9VmAbQs=;
+ b=hNCMkiqx4Pw1aejto0MPRtrsP0l2Sqn7dPegs1nq8p0Lk+QuV6RGC1hgY+XRNIGVoDU0
+ 89zOICUARtxhNVVM4udX3vAA2V76Mhl9l3y1SGqrBBMmnD14wpSmt91JsX12bIt4GNqi
+ rdqBrrUEQJRhk2plDZ46XYh1YZWjbeFJNVenunfJnbu7cEWQuREOy1SmDXKhTfrkNCjF
+ BMqABSy5O7cAHZSqCvrrMQsZGZJGxd42CChqPXvCV8tZkGww27duZrOa28YlwXwv4uEc
+ dRYeQzoe4mw6cm1kWPT3boT0VD1Og+9c9nIHss/8jz2SEmpiZpGrsSYaz2JDYd6RCnMy 8Q== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eqcyy46m6-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3eq7yr1k52-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
  for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 11:09:08 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22AB97ld014107
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22AALAW3009614
  for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 11:09:08 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eqcyy46kg-1
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3eq7yr1k4k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Mar 2022 11:09:07 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22AB31vw010641;
+ Thu, 10 Mar 2022 11:09:08 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22AB34Jv019601;
  Thu, 10 Mar 2022 11:09:06 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06fra.de.ibm.com with ESMTP id 3eky4janj2-1
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04fra.de.ibm.com with ESMTP id 3ep8c3v4vt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 10 Mar 2022 11:09:06 +0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 22AAvo8V15466808
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22AB94e244302766
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Mar 2022 10:57:50 GMT
+ Thu, 10 Mar 2022 11:09:04 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 84FAE11C069;
- Thu, 10 Mar 2022 11:09:03 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 20C2311C06E;
+ Thu, 10 Mar 2022 11:09:04 +0000 (GMT)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1AD5411C066;
+ by IMSVA (Postfix) with ESMTP id AAFD511C06C;
  Thu, 10 Mar 2022 11:09:03 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 10 Mar 2022 11:09:02 +0000 (GMT)
+ Thu, 10 Mar 2022 11:09:03 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/9] dump: Remove the sh_info variable
-Date: Thu, 10 Mar 2022 11:08:47 +0000
-Message-Id: <20220310110854.2701-3-frankja@linux.ibm.com>
+Subject: [PATCH v2 3/9] dump: Introduce shdr_num to decrease complexity
+Date: Thu, 10 Mar 2022 11:08:48 +0000
+Message-Id: <20220310110854.2701-4-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220310110854.2701-1-frankja@linux.ibm.com>
 References: <20220310110854.2701-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: INS0Sz2HCU2iPt8vwkPzmADX6JdiJJkS
-X-Proofpoint-GUID: OfXinevw1D7cG6GwmE60FDZ7gxAFHPe1
+X-Proofpoint-GUID: IDk0yXfBuHTYQs_nAhObh6G9qELtLHdd
+X-Proofpoint-ORIG-GUID: yxCsfBNMBgpOVGjmmaueSBTdEfUW_3uW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-10_03,2022-03-09_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- spamscore=0 bulkscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
- clxscore=1015 adultscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 bulkscore=0
+ clxscore=1011 adultscore=0 suspectscore=0 spamscore=0 impostorscore=0
+ mlxscore=0 mlxlogscore=695 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2203100059
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -114,148 +115,118 @@ Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's no need to have phdr_num and sh_info at the same time. We can
-make phdr_num 32 bit and set PN_XNUM when we write the header if
-phdr_num >= PN_XNUM.
+Let's move from a boolean to a int variable which will later enable us
+to store the number of sections that are in the dump file.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- dump/dump.c           | 34 ++++++++++++++--------------------
- include/sysemu/dump.h |  3 +--
- 2 files changed, 15 insertions(+), 22 deletions(-)
+ dump/dump.c           | 24 ++++++++++++------------
+ include/sysemu/dump.h |  2 +-
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/dump/dump.c b/dump/dump.c
-index ef1700174b..7015c92177 100644
+index 7015c92177..c5ca6027ae 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -124,6 +124,7 @@ static int fd_write_vmcore(const void *buf, size_t size, void *opaque)
- 
- static void write_elf64_header(DumpState *s, Error **errp)
- {
-+    uint16_t phnum = s->phdr_num >= PN_XNUM ? PN_XNUM : s->phdr_num;
-     Elf64_Ehdr elf_header;
-     int ret;
- 
-@@ -138,9 +139,9 @@ static void write_elf64_header(DumpState *s, Error **errp)
-     elf_header.e_ehsize = cpu_to_dump16(s, sizeof(elf_header));
+@@ -140,12 +140,12 @@ static void write_elf64_header(DumpState *s, Error **errp)
      elf_header.e_phoff = cpu_to_dump64(s, sizeof(Elf64_Ehdr));
      elf_header.e_phentsize = cpu_to_dump16(s, sizeof(Elf64_Phdr));
--    elf_header.e_phnum = cpu_to_dump16(s, s->phdr_num);
-+    elf_header.e_phnum = cpu_to_dump16(s, phnum);
-     if (s->have_section) {
--        uint64_t shoff = sizeof(Elf64_Ehdr) + sizeof(Elf64_Phdr) * s->sh_info;
-+        uint64_t shoff = sizeof(Elf64_Ehdr) + sizeof(Elf64_Phdr) * s->phdr_num;
+     elf_header.e_phnum = cpu_to_dump16(s, phnum);
+-    if (s->have_section) {
++    if (s->shdr_num) {
+         uint64_t shoff = sizeof(Elf64_Ehdr) + sizeof(Elf64_Phdr) * s->phdr_num;
  
          elf_header.e_shoff = cpu_to_dump64(s, shoff);
          elf_header.e_shentsize = cpu_to_dump16(s, sizeof(Elf64_Shdr));
-@@ -155,6 +156,7 @@ static void write_elf64_header(DumpState *s, Error **errp)
+-        elf_header.e_shnum = cpu_to_dump16(s, 1);
++        elf_header.e_shnum = cpu_to_dump16(s, s->shdr_num);
+     }
  
- static void write_elf32_header(DumpState *s, Error **errp)
- {
-+    uint16_t phnum = s->phdr_num >= PN_XNUM ? PN_XNUM : s->phdr_num;
-     Elf32_Ehdr elf_header;
-     int ret;
- 
-@@ -169,9 +171,9 @@ static void write_elf32_header(DumpState *s, Error **errp)
-     elf_header.e_ehsize = cpu_to_dump16(s, sizeof(elf_header));
+     ret = fd_write_vmcore(&elf_header, sizeof(elf_header), s);
+@@ -172,12 +172,12 @@ static void write_elf32_header(DumpState *s, Error **errp)
      elf_header.e_phoff = cpu_to_dump32(s, sizeof(Elf32_Ehdr));
      elf_header.e_phentsize = cpu_to_dump16(s, sizeof(Elf32_Phdr));
--    elf_header.e_phnum = cpu_to_dump16(s, s->phdr_num);
-+    elf_header.e_phnum = cpu_to_dump16(s, phnum);
-     if (s->have_section) {
--        uint32_t shoff = sizeof(Elf32_Ehdr) + sizeof(Elf32_Phdr) * s->sh_info;
-+        uint32_t shoff = sizeof(Elf32_Ehdr) + sizeof(Elf32_Phdr) * s->phdr_num;
+     elf_header.e_phnum = cpu_to_dump16(s, phnum);
+-    if (s->have_section) {
++    if (s->shdr_num) {
+         uint32_t shoff = sizeof(Elf32_Ehdr) + sizeof(Elf32_Phdr) * s->phdr_num;
  
          elf_header.e_shoff = cpu_to_dump32(s, shoff);
          elf_header.e_shentsize = cpu_to_dump16(s, sizeof(Elf32_Shdr));
-@@ -358,12 +360,12 @@ static void write_elf_section(DumpState *s, int type, Error **errp)
-     if (type == 0) {
-         shdr_size = sizeof(Elf32_Shdr);
-         memset(&shdr32, 0, shdr_size);
--        shdr32.sh_info = cpu_to_dump32(s, s->sh_info);
-+        shdr32.sh_info = cpu_to_dump32(s, s->phdr_num);
-         shdr = &shdr32;
-     } else {
-         shdr_size = sizeof(Elf64_Shdr);
-         memset(&shdr64, 0, shdr_size);
--        shdr64.sh_info = cpu_to_dump32(s, s->sh_info);
-+        shdr64.sh_info = cpu_to_dump32(s, s->phdr_num);
-         shdr = &shdr64;
+-        elf_header.e_shnum = cpu_to_dump16(s, 1);
++        elf_header.e_shnum = cpu_to_dump16(s, s->shdr_num);
      }
  
-@@ -478,13 +480,6 @@ static void write_elf_loads(DumpState *s, Error **errp)
-     hwaddr offset, filesz;
-     MemoryMapping *memory_mapping;
-     uint32_t phdr_index = 1;
--    uint32_t max_index;
--
--    if (s->have_section) {
--        max_index = s->sh_info;
--    } else {
--        max_index = s->phdr_num;
--    }
- 
-     QTAILQ_FOREACH(memory_mapping, &s->list.head, next) {
-         get_offset_range(memory_mapping->phys_addr,
-@@ -502,7 +497,7 @@ static void write_elf_loads(DumpState *s, Error **errp)
-             return;
+     ret = fd_write_vmcore(&elf_header, sizeof(elf_header), s);
+@@ -556,7 +556,7 @@ static void dump_begin(DumpState *s, Error **errp)
          }
  
--        if (phdr_index >= max_index) {
-+        if (phdr_index >= s->phdr_num) {
-             break;
+         /* write section to vmcore */
+-        if (s->have_section) {
++        if (s->shdr_num) {
+             write_elf_section(s, 1, errp);
+             if (*errp) {
+                 return;
+@@ -582,7 +582,7 @@ static void dump_begin(DumpState *s, Error **errp)
          }
-     }
-@@ -1801,22 +1796,21 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+ 
+         /* write section to vmcore */
+-        if (s->have_section) {
++        if (s->shdr_num) {
+             write_elf_section(s, 0, errp);
+             if (*errp) {
+                 return;
+@@ -1793,11 +1793,11 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+      */
+     s->phdr_num = 1; /* PT_NOTE */
+     if (s->list.num < UINT16_MAX - 2) {
++        s->shdr_num = 0;
          s->phdr_num += s->list.num;
-         s->have_section = false;
+-        s->have_section = false;
      } else {
-+        /* sh_info of section 0 holds the real number of phdrs */
-         s->have_section = true;
--        s->phdr_num = PN_XNUM;
--        s->sh_info = 1; /* PT_NOTE */
+         /* sh_info of section 0 holds the real number of phdrs */
+-        s->have_section = true;
++        s->shdr_num = 1;
  
          /* the type of shdr->sh_info is uint32_t, so we should avoid overflow */
          if (s->list.num <= UINT32_MAX - 1) {
--            s->sh_info += s->list.num;
-+            s->phdr_num += s->list.num;
-         } else {
--            s->sh_info = UINT32_MAX;
-+            s->phdr_num = UINT32_MAX;
-         }
+@@ -1808,19 +1808,19 @@ static void dump_init(DumpState *s, int fd, bool has_format,
      }
  
      if (s->dump_info.d_class == ELFCLASS64) {
-         if (s->have_section) {
+-        if (s->have_section) {
++        if (s->shdr_num) {
              s->memory_offset = sizeof(Elf64_Ehdr) +
--                               sizeof(Elf64_Phdr) * s->sh_info +
-+                               sizeof(Elf64_Phdr) * s->phdr_num +
-                                sizeof(Elf64_Shdr) + s->note_size;
+                                sizeof(Elf64_Phdr) * s->phdr_num +
+-                               sizeof(Elf64_Shdr) + s->note_size;
++                               sizeof(Elf64_Shdr) * s->shdr_num + s->note_size;
          } else {
              s->memory_offset = sizeof(Elf64_Ehdr) +
-@@ -1825,7 +1819,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+                                sizeof(Elf64_Phdr) * s->phdr_num + s->note_size;
+         }
      } else {
-         if (s->have_section) {
+-        if (s->have_section) {
++        if (s->shdr_num) {
              s->memory_offset = sizeof(Elf32_Ehdr) +
--                               sizeof(Elf32_Phdr) * s->sh_info +
-+                               sizeof(Elf32_Phdr) * s->phdr_num +
-                                sizeof(Elf32_Shdr) + s->note_size;
+                                sizeof(Elf32_Phdr) * s->phdr_num +
+-                               sizeof(Elf32_Shdr) + s->note_size;
++                               sizeof(Elf32_Shdr) * s->shdr_num + s->note_size;
          } else {
              s->memory_offset = sizeof(Elf32_Ehdr) +
+                                sizeof(Elf32_Phdr) * s->phdr_num + s->note_size;
 diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index 250143cb5a..b463fc9c02 100644
+index b463fc9c02..19458bffbd 100644
 --- a/include/sysemu/dump.h
 +++ b/include/sysemu/dump.h
-@@ -154,8 +154,7 @@ typedef struct DumpState {
-     GuestPhysBlockList guest_phys_blocks;
+@@ -155,7 +155,7 @@ typedef struct DumpState {
      ArchDumpInfo dump_info;
      MemoryMappingList list;
--    uint16_t phdr_num;
--    uint32_t sh_info;
-+    uint32_t phdr_num;
-     bool have_section;
+     uint32_t phdr_num;
+-    bool have_section;
++    uint32_t shdr_num;
      bool resume;
      bool detached;
+     ssize_t note_size;
 -- 
 2.32.0
 
