@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0A34D5310
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 21:28:56 +0100 (CET)
-Received: from localhost ([::1]:33204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E38D4D5313
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 21:29:46 +0100 (CET)
+Received: from localhost ([::1]:35544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSPP4-00007s-IX
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 15:28:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43260)
+	id 1nSPPt-0001oJ-6j
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 15:29:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nSPNg-000741-Nb
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 15:27:28 -0500
-Received: from [2a00:1450:4864:20::636] (port=38750
- helo=mail-ej1-x636.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nSPO7-00086F-Vf
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 15:27:55 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=56278
+ helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nSPNf-00089i-9k
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 15:27:28 -0500
-Received: by mail-ej1-x636.google.com with SMTP id r13so14666049ejd.5
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 12:27:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nSPO6-0008E7-Ed
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 15:27:55 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id e3so6141684pjm.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 12:27:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=5Jf4a9nQF2v+ZmK/69NE4I8x70TK1v/cbcmbazKZrbk=;
- b=pzK9MHkSh0/q/CKAxiIrAlMVxUrCScY1DRZca2EG3ZWvvSaRgWTrzE4aPuxcjq5/O9
- jP5dQxSZbu2+flhiP1XkpDzSsRvtrEn03cHr3DuNz9T/duIOoJvMJF0cpBX+p+CT1qFu
- VL1NulqTLrrVE4vNi2EQthOCiTBxwCemkRiWLywZlazpCGGJ/aN8zK1+ITC2c5q2gIbR
- x6QsxDHGaKBrwEdViZqr0ovHolfWCf0DFs1m68JBDGbPQrpJVfSoQ67uIq/GuKzzpRZ2
- 3pt885XVPb0jiSY/rxVkpyCpctjW3GGoOq/5CJ+f2rTCqncRQfQmfMhzlaBzBiBeRtmJ
- Py6w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qbVuoKkqrd+UBwfTjPLfg/TnC7WrIGUwZEyQfS06s8Y=;
+ b=sN3fUK0rkOMymwBo/dcKTZBn/Q/eX6Dfha5HRCLxmHcuMCzY64HPtPCJQJCokpMslj
+ nutsKV5vXqzvO/vz7+cyA1rs6vzl9/r98PB93vHZbeK5CXHeUd9qvz3sbtf7hdLqeJ+r
+ vt7vL4DAxskTTGasb0od+vpq3yehW59DfE0F1VxUttVFhBgEZklIf6G0z0kB3t/ZBvs7
+ xcYstn1+8bTsd9j1MjnBl6rx0IsOYuuhGDh7Tv1iMLi2FNULjiWm36d/0kdVKRIhJm1e
+ sDIQkK93oLJ5XppzA4x74qLpS+2N4nZMcf4RAkgkvk1RN5BcdcKq6gU6+AsSTMYOdoQf
+ 5ojw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=5Jf4a9nQF2v+ZmK/69NE4I8x70TK1v/cbcmbazKZrbk=;
- b=AVaiS6LA8Q/FlD4Oht/K6CfnHU4eyQ6uk6+0xtShl2we+f++EB921chKnwRLd+CZQm
- 3H2MUV60SmyaMosaTXNPiQzYeHOCvO20sjSHkpcffyDcAAnCTbAOeC0LXSc8Rr2zSpSX
- 3TDJNgPjZ5i458of9YuQEGlqD9VG4xNOGKe/E38Qchu7JvoAclnTmFhGifjxOzo4mPtp
- oSwRMK0X5YYWdauRQrLnMnlrpE+I9e83l2TQSDKZXgtCtsenKp6ZIsJMd7GJEhW27qdM
- IQb0GpSui8qDtxp+e9owd2OrjV3xgyvimHtC79XD/W/L1Wv9HLhwW5JPt+3NDTTJhcv3
- QZpw==
-X-Gm-Message-State: AOAM5313f1allpyHUOo6RrKms/wY6+stOKSFSAecsbvxNF+000998C5D
- xSokKPy7/h+dKUcV1BJzLJtgyg==
-X-Google-Smtp-Source: ABdhPJxNQimOH/oQepOmL2r9t6aMVPozsUTIchBbbrktFURV8mQp+rC6x8QmaRq8Ng45MiN8HB/BWQ==
-X-Received: by 2002:a17:906:facf:b0:6cd:ed0e:ed7 with SMTP id
- lu15-20020a170906facf00b006cded0e0ed7mr5652086ejb.376.1646944045522; 
- Thu, 10 Mar 2022 12:27:25 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- l4-20020a170907914400b006d9e0b46fabsm2132431ejs.193.2022.03.10.12.27.24
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qbVuoKkqrd+UBwfTjPLfg/TnC7WrIGUwZEyQfS06s8Y=;
+ b=muJcrg52/GJcyGIc6FyG3B1Jy/bVfhvqt7ZJkNuViNIj5G7cQBGD6ju/NsJKDbdklc
+ AgfJcgnjQrALTV3DEuR9vO1qQnXImpZr1nHRaBgNQQCQXtfq/EaZEYJVhYip6Y/BFSjb
+ v80cLOB7VDKaDnOcS6rfZeKmT/gaRi2XSuYTUcfzbdcdkOkBOQ9yt1uuL5YAo5345IGc
+ 79p9Knjvd6+CXpqMrq1Ow1WhIEiBQgJY2rkXoJTGAi9LYlBeEmkxu20FH9wWH6yMQ8/4
+ bt4sY/Ib/SIR5/KjdKh39FBRe5aWmPnc5zXYJCFgsGmHW00wLKw3IqwldbShzaTaOyDs
+ Og8w==
+X-Gm-Message-State: AOAM532I8N+inyTBMmJaUp1cm1GeBoczAdNTGXe/xJRSEcRRtRgo7Fn5
+ UnF/rjwWd/dk02I6SSZnKXIXCj5boFdRsw==
+X-Google-Smtp-Source: ABdhPJx3t4uTM2IJx+Q5W8OIZs6KA0yvqwjZYHKNWGhi0uSj6YdoqGyy9ZEAvsp18HLpt4EFyCMwzQ==
+X-Received: by 2002:a17:90a:77c6:b0:1bd:5ce1:1966 with SMTP id
+ e6-20020a17090a77c600b001bd5ce11966mr6828494pjs.230.1646944072761; 
+ Thu, 10 Mar 2022 12:27:52 -0800 (PST)
+Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
+ [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
+ l9-20020a655609000000b0037589f4337dsm6399938pgs.78.2022.03.10.12.27.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 12:27:24 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9453C1FFB7;
- Thu, 10 Mar 2022 20:27:23 +0000 (GMT)
-References: <20220308215435.21806-1-tsimpson@quicinc.com>
- <CAFEAcA99YqE01snCWLt8h+FK--4j4QiJ-NczcmpL+1AgVyghNw@mail.gmail.com>
- <SN4PR0201MB8808049705FEC26DEF39294EDE0B9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-User-agent: mu4e 1.7.9; emacs 28.0.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Taylor Simpson <tsimpson@quicinc.com>
-Subject: Re: [PULL 00/12] Hexagon (target/hexagon) queue
-Date: Thu, 10 Mar 2022 20:26:52 +0000
-In-reply-to: <SN4PR0201MB8808049705FEC26DEF39294EDE0B9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-Message-ID: <87r1794kpg.fsf@linaro.org>
+ Thu, 10 Mar 2022 12:27:52 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] tcg/s390x vector fixes
+Date: Thu, 10 Mar 2022 12:27:48 -0800
+Message-Id: <20220310202751.594961-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,23 +86,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "zongyuan.li@smartx.com" <zongyuan.li@smartx.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "f4bug@amsat.org" <f4bug@amsat.org>
+Cc: thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These 3 issues were found by running risu on arm neon test cases.
+In the meantime, Thomas encountered one of the same with the new
+tests of vectorized sha512.
 
-Taylor Simpson <tsimpson@quicinc.com> writes:
 
-> My apologies.  I'll investigate the mismatch between the toolchain I'm
-> using and the one CI is using.
+r~
 
-I don't recall seeing a new binary docker since the previous one had ABI
-issues with signal handling.
 
---=20
-Alex Benn=C3=A9e
+Richard Henderson (3):
+  tcg/s390x: Fix tcg_out_dupi_vec vs VGM
+  tcg/s390x: Fix INDEX_op_bitsel_vec vs VSEL
+  tcg/s390x: Fix tcg_out_dup_vec vs general registers
+
+ tcg/s390x/tcg-target.c.inc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+-- 
+2.25.1
+
 
