@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566E84D472E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:44:02 +0100 (CET)
-Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0DA4D4747
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:51:19 +0100 (CET)
+Received: from localhost ([::1]:51396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSI93-0004h0-14
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:44:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34204)
+	id 1nSIGE-0002kJ-LC
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:51:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nSHoR-0003N3-7u
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 07:22:35 -0500
-Received: from mga05.intel.com ([192.55.52.43]:49747)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1nSHoI-0000bD-2C
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 07:22:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646914946; x=1678450946;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=IJjHA8jBLDxHPajmWm+quBmfQOVfT6c5MhN0RjRDbR8=;
- b=WmHuX3SN8l0jTKaAegkEqjd0ff7G6GDcCgnOIFZPPPJjw10g1OeXmDz9
- sF9qxl7R3ldPE6f7yY6jl3EttfNYdbbk4dEDVcOgwVVXZkpUXGaBywcui
- 8D3b62v49cbPLyezypcDBmYxmxyw6hl60XTYjfU2eREOjGOBsYANQcydI
- DIgOpnJklM9FoYqNngmoHp7+07kpf2JDlT2LaZNoRTDdAxy5YBkaboq53
- KHuXVjEO3GALmyd3zBtHhuB6JNF7MxBDlqeS1barcyhxf9/s3F3QnlxEk
- YdNh/GYIqN4lBwKCW6KkMS1GMovm7ugmlhWMfB+tWusaLxxivDD3qtI44 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="341664311"
-X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="341664311"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2022 04:22:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="496236550"
-Received: from lxy-dell.sh.intel.com ([10.239.159.55])
- by orsmga003.jf.intel.com with ESMTP; 10 Mar 2022 04:22:15 -0800
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, mtosatti@redhat.com,
- richard.henderson@linaro.org
-Subject: [PATCH RESEND v1] trace: Split address space and slot id in
- trace_kvm_set_user_memory()
-Date: Thu, 10 Mar 2022 20:22:15 +0800
-Message-Id: <20220310122215.804233-1-xiaoyao.li@intel.com>
-X-Mailer: git-send-email 2.27.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nSHs5-0000mf-OA
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 07:26:21 -0500
+Received: from [2607:f8b0:4864:20::1135] (port=45564
+ helo=mail-yw1-x1135.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nSHs4-0001JX-2Q
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 07:26:21 -0500
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2db569555d6so55381877b3.12
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 04:26:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=os/FWLS7vNBrOpcQdwWCYJ8VWPSxixoPyI+WElCTSgs=;
+ b=VSfFTIzW6biGaz+sagsPctNFjDwXHAzHqw/t2KcMHqvIskoE3wanCpoabx9ylj8TLT
+ /jDZtXe9q8sQnA5p2smWy2JD4IHWZ5L2dW0hvNJ+zD1FvL+uh/Jlpw/d6kn9lbCrRH8O
+ 7Ef3RrtaNECiiM+lc4xPVhSxJisO7Fm2Megksu/J85vqitawwKiwxUVCFDsK9pYcCYm7
+ +QaLLghIQvkmJiZIhSaohr8d09NQ2s/+vbFV7JCJdGTpdG3R82ol1ZmD8W3NLZUBFvgi
+ XiD2gh16BFPK/35sxS3Hy943C3suxZ1yRQQAoxWM1EoVvQZUI7IwcEwsDJ4PDeNaI6U5
+ JVMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=os/FWLS7vNBrOpcQdwWCYJ8VWPSxixoPyI+WElCTSgs=;
+ b=wIJLqHQ5T38uIgl/08qvWOp/Wbv/1okWJPj1gICqm5yb6lsccqmMUW1QyxCBZf1VSa
+ ZW7Y1Nlo1+WkW545nvx4B1hu2XThIiE/EqcrzVQMRTId9BkKh9x47JNTnTTHl27Iqvip
+ SGwiJKw+iQHyFFJcXag3pYQaL5BvDQLwbmmNGBbt93P7W7tIfjPPS+piNsCE10EC+i/W
+ 8yIpspUrWXmQ2Qy3/Yip8hucxDVcWyF+Mps2E8z59lDYaa1fIs3rsHtfj72G4GKZ0laO
+ kSS5N2jowsx7CGIX6+8Ha1J2bR56YiB4+rmRqqoX6fJuUp19ztPI9yk+wbg0Xs4D6+jW
+ prjw==
+X-Gm-Message-State: AOAM533o8WVusZQXIPnMD3aK/EihwXJPnB1LA5j/ya90I0gjm531ucs8
+ bUWdcPotNsW3LTj/t1ZDgu9T8XZz55gI5SvIg7+XXw==
+X-Google-Smtp-Source: ABdhPJxL1OhECXR/lCtm8D4WvdGMrvSAYFkuxPTIlXsJSw1Vq/Zs4ddm/+IkFjd/sTZolbpGDqx5tvebyIb5X9IOKss=
+X-Received: by 2002:a81:164f:0:b0:2dc:3906:27c0 with SMTP id
+ 76-20020a81164f000000b002dc390627c0mr3600855yww.64.1646915179156; Thu, 10 Mar
+ 2022 04:26:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=xiaoyao.li@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_MED=-2.3,
+References: <20220310112725.570053-1-richard.henderson@linaro.org>
+ <20220310112725.570053-15-richard.henderson@linaro.org>
+In-Reply-To: <20220310112725.570053-15-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 10 Mar 2022 12:26:08 +0000
+Message-ID: <CAFEAcA9ruD4OFW+S0_4kjXFQ8zgenui5=uOpygnjsH=dm=eCPA@mail.gmail.com>
+Subject: Re: [PATCH v5 14/48] target/nios2: Use hw/registerfields.h for
+ CR_EXCEPTION fields
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1135
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,52 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoyao.li@intel.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The upper 16 bits of kvm_userspace_memory_region::slot are
-address space id. Parse it separately in trace_kvm_set_user_memory().
+On Thu, 10 Mar 2022 at 11:27, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Use FIELD_DP32 instead of manual shifting and masking.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/nios2/cpu.h    |  4 ++++
+>  target/nios2/helper.c | 37 ++++++++++++++++++++++---------------
+>  2 files changed, 26 insertions(+), 15 deletions(-)
+>
+> diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+> index ecf8cc929f..963cdec161 100644
+> --- a/target/nios2/cpu.h
+> +++ b/target/nios2/cpu.h
+> @@ -105,6 +105,10 @@ FIELD(CR_STATUS, RSIE, 23, 1)
+>  #define CR_CPUID         5
+>  #define CR_CTL6          6
+>  #define CR_EXCEPTION     7
+> +
+> +FIELD(CR_EXCEPTION, CAUSE, 2, 5)
+> +FIELD(CR_EXCEPTION, ECCFTL, 31, 1)
+> +
 
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
----
-Resend: 
- - rebase to 2048c4eba2b4 ("Merge remote-tracking branch 'remotes/philmd/tags/pmbus-20220308' into staging")
----
- accel/kvm/kvm-all.c    | 5 +++--
- accel/kvm/trace-events | 2 +-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+Is this definitely the right bit for ECCFTL? The copy of
+the manual I have has "ECCFTL" as an extra bit to the left of
+bit 31 (!). I'm guessing that's a docs formatting error, though...
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 0e66ebb49717..6b9fd943494b 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -379,8 +379,9 @@ static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, boo
-     ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
-     slot->old_flags = mem.flags;
- err:
--    trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
--                              mem.memory_size, mem.userspace_addr, ret);
-+    trace_kvm_set_user_memory(mem.slot >> 16, (uint16_t)mem.slot, mem.flags,
-+                              mem.guest_phys_addr, mem.memory_size,
-+                              mem.userspace_addr, ret);
-     if (ret < 0) {
-         error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
-                      " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
-diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
-index 399aaeb0ec75..14ebfa1b991c 100644
---- a/accel/kvm/trace-events
-+++ b/accel/kvm/trace-events
-@@ -15,7 +15,7 @@ kvm_irqchip_update_msi_route(int virq) "Updating MSI route virq=%d"
- kvm_irqchip_release_virq(int virq) "virq %d"
- kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%" PRIx64 " val=0x%x assign: %d size: %d match: %d"
- kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%x val=0x%x assign: %d size: %d match: %d"
--kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
-+kvm_set_user_memory(uint16_t as, uint16_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "AddrSpace#%d Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
- kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"PRId32" start 0x%"PRIx64" size 0x%"PRIx32
- kvm_resample_fd_notify(int gsi) "gsi %d"
- kvm_dirty_ring_full(int id) "vcpu %d"
--- 
-2.27.0
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
+-- PMM
 
