@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9FCA4D466C
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:04:07 +0100 (CET)
-Received: from localhost ([::1]:57530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8660C4D46C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:23:11 +0100 (CET)
+Received: from localhost ([::1]:60638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSHWY-0004XS-No
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:04:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51108)
+	id 1nSHp0-0001j4-Jf
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:23:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSGxl-0006Gy-B6
+ id 1nSGxm-0006HQ-AU
  for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:28:10 -0500
-Received: from [2607:f8b0:4864:20::435] (port=36601
- helo=mail-pf1-x435.google.com)
+Received: from [2607:f8b0:4864:20::531] (port=41818
+ helo=mail-pg1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSGxj-00081p-Rx
+ id 1nSGxk-00081x-CC
  for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:28:09 -0500
-Received: by mail-pf1-x435.google.com with SMTP id z16so4860814pfh.3
+Received: by mail-pg1-x531.google.com with SMTP id o26so4484750pgb.8
  for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:28:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q//3kePGgY2lzpncF0BtSDXigvkTy7INMFgUKN7BKXk=;
- b=TJ6zZ/qsnRY/oDfupoqzP27kParNBnJekeH6TmOs+t2BijfY5Yy/U+cN8QjXbTIOSN
- tzo0lI1nO8GiwpdYGJIRIbEQ1h/LqRTFXui4QVjgD6hAXfxpzqX1BA1GWjomYmFgf9UN
- g9KK6KnNpbGBu6hTzhz+uzfMU28CqrFnMmKcMngVWYQIzabZAt3w2/nx3PIrJ7vM054Z
- vfBew+O4c63rDg/9YS7ScLfdqL54mgD0VBQBvwFl5V6gUDdij1mMlPNVApzsDLpIayeO
- tsQat+gcn2LKJ7ijgvLk1BokcIHVA92NAmoEhlfvSGccyXSc31ExDthNUQMnGG4+LvV5
- lLDg==
+ bh=a0Y1+UOzMYE465JAg/1XZp8FHRvlzNh9RDhixInPs2c=;
+ b=UxensK2TuV6aJUw6wTkkqlJOX4X1PpGUrf6kigLv44qOCxM2YeMsKdl4RG6dcmsFle
+ 7lpRu9muFb1Qdh4bxAmsWJD45LlgSn1lRCckHuYXfbrBBlbNDfFLHwVGfcDADMuXn4vJ
+ j1RDFZMXSk+9162990JnbnR6+FTqCh9Hv/YRmqYq3O0jZHJJULbqaoiOMHZJ53nXat5k
+ F6UF5LrkOcxAK1FZBFpx5dS27XMBl/rBxgFTkZl3ZREhf5ocI5ved3veinggAn9UEnQA
+ b0OyAHskLQsD2r7MgCxoNASr9WNK6nBty3344Xo4q/24RVryzdpvBBBR0Y43cVJhrsZp
+ eRXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q//3kePGgY2lzpncF0BtSDXigvkTy7INMFgUKN7BKXk=;
- b=KA3pS8/oWTYQdbuQ2GpOpnkc7NJywV7zPeZxgOjBehUUIIOBLf9JreqkveKZ1Rrrja
- g01CpL9Yq+Z9Zux+KZTENczpWTnykK+e2mon6hd+cJXn3V23Fb2XOGq7fOnprqMS8dCN
- gwQ3oGgTUAQMezUBo5/5UvVdJlW5HfekbGf8cV/0eLPIdYJSpsyIRbTHtuj9+dMGHLzF
- AmjBUdqC4U1q1Q7GjP8skvftBo9kGXCcurbquGJCUtxXU+rvmpfwD6GgSFWhMjRJybUy
- T8X5AYgp5TpC2sxCXen5Pn9EC7RcDi8w604yTVkrXW98zedYmsPaQ0utoQrFGPAItXbJ
- HdPw==
-X-Gm-Message-State: AOAM531QQEhPOBeyZo8J257qLPkVOnlV+UumiZaWa1eJ8HTFeCCMe7BJ
- LyS3wzxJfukSDIcNHhUEYZx2qkjrnKUSEw==
-X-Google-Smtp-Source: ABdhPJwmrRFQNO+TZRhszHG+k+9EKwqhUIAbI6dSW65ZV/176tj+CiIc/4njQptmQEU1nT9evK8rBw==
-X-Received: by 2002:a05:6a00:2166:b0:4f6:67fe:a336 with SMTP id
- r6-20020a056a00216600b004f667fea336mr4533678pff.17.1646911686072; 
- Thu, 10 Mar 2022 03:28:06 -0800 (PST)
+ bh=a0Y1+UOzMYE465JAg/1XZp8FHRvlzNh9RDhixInPs2c=;
+ b=eW38fODZRL+gX1GU7wFTcCultpWuS/tmsz2RMEjdphjvBPF1Ki4Yv+pPD1o39y5qgQ
+ ZuO2KaAzwEcaMwSWrXu/76WPSdKuVuvfTQ291cjywAc3qlftfEhJyQ7crFo+8n1pXZRr
+ 2dwSRHNE4xmytdDVFZt05wqftrKfoCQHIYKxPpxfdNN3dzl8zOeJiQcvHE2bR9GHl2o4
+ nsng3FoU5W2R+OEure3QUUmCe+Vn/k8RCvNzDARswsE9s5ebyGMy+ttvvhkJC094gz8K
+ gUepMZqicYlGG+V53QgCU8ULv3EGiUsz4TDGP1UicgRIn6c29/xGoV56xo2D5N8CLAGn
+ FYcA==
+X-Gm-Message-State: AOAM532c9FZvXC7Iv8M4j8B1WSNoxwUPXztjeE2XE343hh4eond47xEA
+ 2wJdYIVHNXYyDRS4yWT5qMokh/2rRlZ0og==
+X-Google-Smtp-Source: ABdhPJzrtPa2H1UOM26kM5rPAQNvZruo2mY2Xyt7ERzocan5ovgocfyegRHmckeRxrt364otj52xRQ==
+X-Received: by 2002:a65:4845:0:b0:325:c147:146d with SMTP id
+ i5-20020a654845000000b00325c147146dmr3769599pgs.140.1646911687159; 
+ Thu, 10 Mar 2022 03:28:07 -0800 (PST)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.28.05
+ js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.28.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 03:28:05 -0800 (PST)
+ Thu, 10 Mar 2022 03:28:06 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 34/48] target/nios2: Enable unaligned traps for system mode
-Date: Thu, 10 Mar 2022 03:27:11 -0800
-Message-Id: <20220310112725.570053-35-richard.henderson@linaro.org>
+Subject: [PATCH v5 35/48] target/nios2: Create gen_jumpr
+Date: Thu, 10 Mar 2022 03:27:12 -0800
+Message-Id: <20220310112725.570053-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220310112725.570053-1-richard.henderson@linaro.org>
 References: <20220310112725.570053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,41 +92,86 @@ Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unaligned traps are optional, but required with an mmu.
-Turn them on always, because the fallback behaviour is not
-documented (though presumably it discards low bits).
-
-Enable alignment checks in the config file.
-Unwind the guest pc properly from do_unaligned_access.
+Split out a function to perform an indirect branch.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configs/targets/nios2-softmmu.mak | 1 +
- target/nios2/helper.c             | 4 ++--
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ target/nios2/translate.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/configs/targets/nios2-softmmu.mak b/configs/targets/nios2-softmmu.mak
-index 9a372f0717..1e93b54cd1 100644
---- a/configs/targets/nios2-softmmu.mak
-+++ b/configs/targets/nios2-softmmu.mak
-@@ -1 +1,2 @@
- TARGET_ARCH=nios2
-+TARGET_ALIGNED_ONLY=y
-diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index 460032adc0..bf40cff779 100644
---- a/target/nios2/helper.c
-+++ b/target/nios2/helper.c
-@@ -264,8 +264,8 @@ void nios2_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     CPUNios2State *env = &cpu->env;
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index d5f2e98de9..f61ba92052 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -36,7 +36,6 @@
+ #include "semihosting/semihost.h"
  
-     env->ctrl[CR_BADADDR] = addr;
--    env->ctrl[CR_EXCEPTION] = FIELD_DP32(0, CR_EXCEPTION, CAUSE, EXCP_UNALIGN);
--    helper_raise_exception(env, EXCP_UNALIGN);
-+    cs->exception_index = EXCP_UNALIGN;
-+    cpu_loop_exit_restore(cs, retaddr);
+ /* is_jmp field values */
+-#define DISAS_JUMP    DISAS_TARGET_0 /* only pc was modified dynamically */
+ #define DISAS_UPDATE  DISAS_TARGET_1 /* cpu state was modified dynamically */
+ 
+ #define INSTRUCTION_FLG(func, flags) { (func), (flags) }
+@@ -168,6 +167,16 @@ static void gen_goto_tb(DisasContext *dc, int n, uint32_t dest)
+     }
  }
  
- bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++static void gen_jumpr(DisasContext *dc, int regno, bool is_call)
++{
++    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, regno));
++    if (is_call) {
++        tcg_gen_movi_tl(dest_gpr(dc, R_RA), dc->base.pc_next);
++    }
++    tcg_gen_exit_tb(NULL, 0);
++    dc->base.is_jmp = DISAS_NORETURN;
++}
++
+ static void gen_excp(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+     t_gen_helper_raise_exception(dc, flags);
+@@ -387,8 +396,7 @@ static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
+ /* PC <- ra */
+ static void ret(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+-    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, R_RA));
+-    dc->base.is_jmp = DISAS_JUMP;
++    gen_jumpr(dc, R_RA, false);
+ }
+ 
+ /*
+@@ -418,8 +426,7 @@ static void jmp(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+     R_TYPE(instr, code);
+ 
+-    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, instr.a));
+-    dc->base.is_jmp = DISAS_JUMP;
++    gen_jumpr(dc, instr.a, false);
+ }
+ 
+ /* rC <- PC + 4 */
+@@ -438,10 +445,7 @@ static void callr(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+     R_TYPE(instr, code);
+ 
+-    tcg_gen_mov_tl(cpu_pc, load_gpr(dc, instr.a));
+-    tcg_gen_movi_tl(dest_gpr(dc, R_RA), dc->base.pc_next);
+-
+-    dc->base.is_jmp = DISAS_JUMP;
++    gen_jumpr(dc, instr.a, true);
+ }
+ 
+ /* rC <- ctlN */
+@@ -838,11 +842,6 @@ static void nios2_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+         tcg_gen_exit_tb(NULL, 0);
+         break;
+ 
+-    case DISAS_JUMP:
+-        /* The jump will already have updated the PC register */
+-        tcg_gen_exit_tb(NULL, 0);
+-        break;
+-
+     case DISAS_NORETURN:
+         /* nothing more to generate */
+         break;
 -- 
 2.25.1
 
