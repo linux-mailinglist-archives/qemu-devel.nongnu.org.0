@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E9254D54AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 23:37:36 +0100 (CET)
-Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E8B4D54B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 23:39:52 +0100 (CET)
+Received: from localhost ([::1]:54348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSRPb-0006a0-49
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 17:37:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46930)
+	id 1nSRRn-0000yr-LI
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 17:39:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nSRN7-000563-7X
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 17:35:01 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=46073
- helo=mail-pj1-x1034.google.com)
+ id 1nSRPP-0007JD-Bj; Thu, 10 Mar 2022 17:37:23 -0500
+Received: from [2607:f8b0:4864:20::432] (port=38609
+ helo=mail-pf1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nSRN5-0003x0-PK
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 17:35:00 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- m11-20020a17090a7f8b00b001beef6143a8so6504447pjl.4
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 14:34:59 -0800 (PST)
+ id 1nSRPN-0004RG-U8; Thu, 10 Mar 2022 17:37:23 -0500
+Received: by mail-pf1-x432.google.com with SMTP id f8so6332565pfj.5;
+ Thu, 10 Mar 2022 14:37:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=dIplSjvjps7QKRgvAhxJyax1/RX0iCGI4bJAoHNIXQA=;
- b=qN9xTzTvdkj8FIc0iVSOVVTGuExdmHAVdoehzQGfsTrMeAC4/BimeCgZTeMCCsP7gI
- 8+JzU1U5DXIueUVl7ICR6Et8+1Bgg3VltzrubDusa5SrkqsZw56WTBqQPUFfgu1PkStd
- rdXimoVKLe7H62VULwfZXmeCvbUuZR4U9yXHliOqR3eqLnBHlF3JA1mtALAVsfIzdttN
- KCEOVOah7HhPR3GuFgfya4Y7Id9Ft6LZIhy+PFV5cSxRgMbGRzG0AdJ8F18Of4PyA2D1
- Iwn5pZs9ot9+ywy64LnLgChmUO17dI/8D0PAHtG8n3iKjLyTXNUVmGCiJ5OrPBX3iIAm
- Tn9g==
+ bh=WEB5Guoebq/o/GFYDyYRwa2n7RLftrv874f54EF+fs0=;
+ b=EQEPkxpbJj3F9gS+gQmKLakhEebRzthbqr198DY7YPaODrw8099tzQMvosg26uQylP
+ Qfb7QrsieT+HGYELfojNLfsFXQXrzrWQfBUYg/CPLSMEUGjOmYcgYJSIUtEDzYy8Jkd+
+ uqgPO4puYShT3J0PJ/p91axVCByk1lMCS16Y1LICyfEfNBZ2jmfABf4ty7KJI5hZWPNq
+ Tl7azwdLwBsYAWxVVJfxy2EqCSGM4EJu7HLRZfIuByEOorTXqSx87+T7CjgdM9FS/V7l
+ uq9ne+fr253hHZE5JpfMQATdl6LMF9ejsevUpsW3hE9lEc0d/tIuoWOUed5f0nBniw5V
+ 8QmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=dIplSjvjps7QKRgvAhxJyax1/RX0iCGI4bJAoHNIXQA=;
- b=rqQ7vsFsVZsBkpkbY+YbLp+4ilKGAPLfjlEg/x5WXM16nGl5CZR7y0QMygB2hZiDci
- K13rzmQuu/Yql9Xr7F44bjE4aRU/z5zOvPfI/U5Mt3xaXmDenuGgEbBspQcHY72DoA61
- WFtB73k1C2neIGSKXcl8ZobOa589q+d85gX8mX4dkV2TthlgcWpf1cXNKGoid4CCYEYO
- SBE8ee5FxRhLtjbEN3UvMpqlOHdQ//hoCyBxYVMbha5yV9KcY9/SA8GI0tyl3KmOTW42
- StRKzUdnBB7LbGw0MibGkPhfJmUb38WdywqV+lWQUgPUJht/6568KOrIsZ11ebPWxh/V
- CslQ==
-X-Gm-Message-State: AOAM532IGWB9loCheCBiXpmBcxu7uRnEqr6yMu0Wo6kUkNxQv2zUAv/e
- 1OsBqT2v+nJVAKAKzIm1B/M=
-X-Google-Smtp-Source: ABdhPJzz+7pD5o1H+n45ZHvZdv8lyhWgubl0JPOFBLocnKvLyIeppg49YmYv45ceA95uCv6hAh23jQ==
-X-Received: by 2002:a17:90a:4f0b:b0:1be:e31f:bd38 with SMTP id
- p11-20020a17090a4f0b00b001bee31fbd38mr18644045pjh.76.1646951698024; 
- Thu, 10 Mar 2022 14:34:58 -0800 (PST)
+ bh=WEB5Guoebq/o/GFYDyYRwa2n7RLftrv874f54EF+fs0=;
+ b=I9tqRWXP3vLqLAWON8BD5TIwOcaYApeURTXzTeU0eMLUqbzG3OMM7gke566Yvcf8Ya
+ hnIBJA5DbMWSBbG3Yb3ulqcsdll9osqDGE321i7FV11aFQ8eEGeOLgejKcPa95/Fva7e
+ c022MImBbwCFjGrLINHQQys/GxgicUzqU7BlmLp8f54oh0CYYk4WYHhRWlslto0OYhZc
+ Grxb8F960h2HIATkbWZruBDFEVlMQG715ohJ4p5ix5fLJxm1wo7kOBKiy8fhibUvraHr
+ BqqY46kKucJvq0vC3sRb34artM4WICjgW9m9sSy43o4LuRORzVnCB4vASeAsAohD+K9V
+ r3jg==
+X-Gm-Message-State: AOAM533wO+Rft0UbenLuo3HA1u0D1kfNi9w8WNPgSuqsKUU9sITnUb6M
+ IE62hpSNwNCJ9avcf/EWUcM=
+X-Google-Smtp-Source: ABdhPJwdS/ZoTM4HKrK0FQSN7cbqFYBX0M+1in8JB8rpP2GW+3vxWTSVxK6cYviBKOOSd1aNSDIqqw==
+X-Received: by 2002:a63:db14:0:b0:380:e306:de7d with SMTP id
+ e20-20020a63db14000000b00380e306de7dmr4234510pgg.469.1646951840179; 
+ Thu, 10 Mar 2022 14:37:20 -0800 (PST)
 Received: from [192.168.1.34] (71.red-83-50-68.dynamicip.rima-tde.net.
  [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- w27-20020a637b1b000000b00380437ab89asm6549619pgc.50.2022.03.10.14.34.56
+ y5-20020a056a00190500b004f104b5350fsm8356136pfi.93.2022.03.10.14.37.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 14:34:57 -0800 (PST)
-Message-ID: <186013ca-4423-95cb-4b90-c4cc9c43faed@gmail.com>
-Date: Thu, 10 Mar 2022 23:34:53 +0100
+ Thu, 10 Mar 2022 14:37:19 -0800 (PST)
+Message-ID: <ebd6fddb-5549-11e7-fd06-16a2e34f2276@gmail.com>
+Date: Thu, 10 Mar 2022 23:37:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH-for-7.0] linux-user: Fix missing space in error message
+Subject: Re: [PATCH 8/9] avocado/ppc_prep_40p.py: check TCG accel in all tests
 Content-Language: en-US
-To: Patrick Venture <venture@google.com>, laurent@vivier.eu
-References: <20220310192148.1696486-1-venture@google.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20220310183011.110391-1-danielhb413@gmail.com>
+ <20220310183011.110391-9-danielhb413@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220310192148.1696486-1-venture@google.com>
+In-Reply-To: <20220310183011.110391-9-danielhb413@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,32 +92,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fergus Henderson <fergus@google.com>, qemu-devel@nongnu.org
+Cc: muriloo@linux.ibm.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au, farosas@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/3/22 20:21, Patrick Venture wrote:
-> From: Fergus Henderson <fergus@google.com>
+On 10/3/22 19:30, Daniel Henrique Barboza wrote:
+> All tests in the file times out when running in an IBM POWER host and
+> --disable-tcg with an error like the following:
 > 
-> Signed-off-by: Fergus Henderson <fergus@google.com>
-> Signed-off-by: Patrick Venture <venture@google.com>
+>          Command: ./qemu-system-ppc -display none -vga none (...)
+> -machine 40p (...)
+>          Output: qemu-system-ppc: Register sync failed... If you're using
+> kvm-hv.ko, only "-cpu host" is possible
+> qemu-system-ppc: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid argument
+> 
+> Since we don't have a way to detect whether the host is running kvm_hv
+> or kvm_pr, skip all tests if TCG is not available.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->   linux-user/elfload.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 9628a38361..c45da4d633 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -2504,7 +2504,7 @@ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
->       addr = mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
->       if (addr == MAP_FAILED || addr != test) {
->           error_report("Unable to reserve 0x%lx bytes of virtual address "
-> -                     "space at %p (%s) for use as guest address space (check your"
-> +                     "space at %p (%s) for use as guest address space (check your "
->                        "virtual memory ulimit setting, min_mmap_addr or reserve less "
->                        "using -R option)", reserved_va, test, strerror(errno));
->           exit(EXIT_FAILURE);
+>   tests/avocado/ppc_prep_40p.py | 6 ++++++
+>   1 file changed, 6 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
