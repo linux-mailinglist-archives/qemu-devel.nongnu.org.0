@@ -2,86 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5B84D4CA2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 16:11:19 +0100 (CET)
-Received: from localhost ([::1]:57352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362844D4CAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 16:17:57 +0100 (CET)
+Received: from localhost ([::1]:59780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSKRi-0001H8-2e
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 10:11:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56432)
+	id 1nSKY8-0003O4-3U
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 10:17:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nSKQD-0000YX-LY
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 10:09:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45902)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSKX9-0002fJ-Nt
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 10:16:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1nSKQ9-00081i-Kp
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 10:09:44 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSKX7-0000vB-Ni
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 10:16:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646924980;
+ s=mimecast20190719; t=1646925412;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HhrTbJWhVGGGc4ro0PgblOKa9C4xez8T9EAKx6oMdow=;
- b=FP4binWSF+VziJVcjeLL01ixECQeVi8oM342Xo2iQQRbf+WzCDAdnqyRbKuAqGMlMqUPew
- GShixYZKg+DFfLxvr2VzaaJEQ8zKOKQsJF8nia59JZhnqCIhnvInyxIIp/LnojJifZE1oB
- AzgfLh3soOvZaLl2WTSezMODXRZ0tZ0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AHWcolpUKMQ6wo6/RlZBjNidl+CyZv/eYLiqzH4ZFF0=;
+ b=SuqsU5guI0F9K2hDL24PMT/vJprPdx/L6EZBT2DfLRmrja+O1qvWe36hFxL2uJUzHZm+Mm
+ why/rai+u38ZdgEwNhwE2sEVOLmTulIXmgo0KSGuo7QtbvYOPB2D/e4BT3U/Rm84FsJ8zU
+ wORIF3isbVwwqT8BWYOxlt9SQFJ+0GE=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-DRwT1OYQMLKj6uPJekdNVQ-1; Thu, 10 Mar 2022 10:09:38 -0500
-X-MC-Unique: DRwT1OYQMLKj6uPJekdNVQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- o9-20020adfca09000000b001ea79f7edf8so1789314wrh.16
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 07:09:38 -0800 (PST)
+ us-mta-441-h-8TwVVUOVmCQok3yUl2Fw-1; Thu, 10 Mar 2022 10:16:50 -0500
+X-MC-Unique: h-8TwVVUOVmCQok3yUl2Fw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ jy20-20020a170907763400b006db62b6f4e0so3281195ejc.11
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 07:16:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=HhrTbJWhVGGGc4ro0PgblOKa9C4xez8T9EAKx6oMdow=;
- b=2ch63OA5DIhk70EyUw/52udADmNh2HEw/cTv9dxLIrIbJ1oPSLjau8gK/0AD6qBsfJ
- NvJQPLZcJmnthU4Z8hWk0tsI+mcKwX1w6MC7weEO6zHvay1KuShSveQYGXNT5BsfO88I
- HTrN0PR23RYqx8Kk7VsA81Sub4jiqD99pmocmQGF3OdkQIHVu+KtFXk+59WN4+nwvC15
- oECcgeow9GXT++blwfHzCaKX6wOj7ZDHwRWlbU07kNweCUd8MwcXKFt1suWsmXSQQ0o6
- tafFB/rg1iiD19cKXpzrxkMkVS4n/qgNwiGMrJW5P+jXUc1cQiJT84OHGwv+lfxyMDSV
- q62w==
-X-Gm-Message-State: AOAM53215bvBSjKA3ajVngXbPPxMUGk+NmS4Vw0FACzudrWFpS7+0Rvc
- svMmTnem9ttnccxx4ANtIWvYwRIvCdBIyCxwRKg5UiOrd/i4NrzJTlwI73cFW41H5cyuFE/zSxu
- aBcD0qWSqdM11+Lo=
-X-Received: by 2002:a05:600c:3515:b0:389:dfc0:5991 with SMTP id
- h21-20020a05600c351500b00389dfc05991mr2538819wmq.197.1646924977554; 
- Thu, 10 Mar 2022 07:09:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxUAtDuOoH46LcWB+ChIwsr4lgNFAlMGL9Ly+LcaddarOw8dHUhw+9IBzk4ylbSBDvTZa/JQQ==
-X-Received: by 2002:a05:600c:3515:b0:389:dfc0:5991 with SMTP id
- h21-20020a05600c351500b00389dfc05991mr2538799wmq.197.1646924977159; 
- Thu, 10 Mar 2022 07:09:37 -0800 (PST)
-Received: from redhat.com ([2.53.27.107]) by smtp.gmail.com with ESMTPSA id
- q16-20020a056000137000b001f046a21afcsm4494086wrz.15.2022.03.10.07.09.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 07:09:36 -0800 (PST)
-Date: Thu, 10 Mar 2022 10:09:32 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH v3 1/1] virtio: fix feature negotiation for ACCESS_PLATFORM
-Message-ID: <20220310100903-mutt-send-email-mst@kernel.org>
-References: <20220307112939.2780117-1-pasic@linux.ibm.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AHWcolpUKMQ6wo6/RlZBjNidl+CyZv/eYLiqzH4ZFF0=;
+ b=8QGp4psfy+aig9XiLC7fCbyoxIa/pSfwE8uOax2xCk+6eEHFDG/cUe+30j87kC3UmF
+ vK3QxT+NMaN44ZfKvlcWArfir+Ks4M2uUNS8HaRbTA8/bSJeMF2ADHWqscTR6lJ8z1d/
+ K6Cg4tvrqUvag4JBYkxPVDSxuOjoCJtRIPD6NSF+nd095mjV4FiYyMtqnWMN+pZgW9XN
+ FZA7qTdm/aFzhyYSG56KUECk3P6ZchWl5WpvifmyYizJu5ytviw9kGJn4oklKzyxQHR5
+ cFJyFyIn70VMauUB2PvoNixeC7akZ2LyQNBiWkEYJLmMUXhTIQSJAXJ2kTHVFBrci1WZ
+ Cvyg==
+X-Gm-Message-State: AOAM530+wHlziSnYoGjsOySAcIdg2JFxeZWI1WGDnmg7B52kFvZoxnar
+ mGldR08B2qhdaoL561L6GtD0TJ3Br2/Ii03br5kkjjQZHUMuFO6n+ZEacz5Y55brZkUI1pM1azp
+ sXBydH4EF46f8zHY=
+X-Received: by 2002:a05:6402:386:b0:415:ead8:ced with SMTP id
+ o6-20020a056402038600b00415ead80cedmr4870276edv.407.1646925409676; 
+ Thu, 10 Mar 2022 07:16:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzghpTPx063l8aUwvs3kuQOF4o99b2Jt/P0Rv1qJkOI1ZrlBZusp6503kEp/X2rvY+HIj3r0A==
+X-Received: by 2002:a05:6402:386:b0:415:ead8:ced with SMTP id
+ o6-20020a056402038600b00415ead80cedmr4870248edv.407.1646925409450; 
+ Thu, 10 Mar 2022 07:16:49 -0800 (PST)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ qt22-20020a170906ecf600b006da6ef9b820sm1908348ejb.112.2022.03.10.07.16.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Mar 2022 07:16:48 -0800 (PST)
+Message-ID: <4df842b7-5fee-e38a-82e4-638b4f95920f@redhat.com>
+Date: Thu, 10 Mar 2022 16:16:47 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220307112939.2780117-1-pasic@linux.ibm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH-for-7.0 v2] softmmu: List CPU types again
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
+References: <20220310140728.6506-1-philippe.mathieu.daude@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220310140728.6506-1-philippe.mathieu.daude@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,118 +102,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 07, 2022 at 12:29:39PM +0100, Halil Pasic wrote:
-> Unlike most virtio features ACCESS_PLATFORM is considered mandatory by
-> QEMU, i.e. the driver must accept it if offered by the device. The
-> virtio specification says that the driver SHOULD accept the
-> ACCESS_PLATFORM feature if offered, and that the device MAY fail to
-> operate if ACCESS_PLATFORM was offered but not negotiated.
+On 10/03/2022 15.07, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
-> the device when the driver fences ACCESS_PLATFORM. With commit
-> 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM") we already made the
-> decision to do so whenever the get_dma_as() callback is implemented (by
-> the bus), which in practice means for the entirety of virtio-pci.
+> Commit e0220bb5b2 made cpus.c target-agnostic but didn't notice
+> the cpu_list() function is only defined in target-specific code
+> in "cpu.h". Move list_cpus() declaration to "exec/cpu-common.h"
+> because this function is not softmmu-specific and can also be
+> used by user-mode, along with moving its implementation to cpu.c,
+> which is compiled per target.
 > 
-> That means, if the device needs to translate I/O addresses, then
-> ACCESS_PLATFORM is mandatory. The aforementioned commit tells us in the
-> commit message that this is for security reasons. More precisely if we
-> were to allow a less then trusted driver (e.g. an user-space driver, or
-> a nested guest) to make the device bypass the IOMMU by not negotiating
-> ACCESS_PLATFORM, then the guest kernel would have no ability to
-> control/police (by programming the IOMMU) what pieces of guest memory
-> the driver may manipulate using the device. Which would break security
-> assumptions within the guest.
-> 
-> If ACCESS_PLATFORM is offered not because we want the device to utilize
-> an IOMMU and do address translation, but because the device does not
-> have access to the entire guest RAM, and needs the driver to grant
-> access to the bits it needs access to (e.g. confidential guest support),
-> we still require the guest to have the corresponding logic and to accept
-> ACCESS_PLATFORM. If the driver does not accept ACCESS_PLATFORM, then
-> things are bound to go wrong, and we may see failures much less graceful
-> than failing the device because the driver didn't negotiate
-> ACCESS_PLATFORM.
-> 
-> So let us make ACCESS_PLATFORM mandatory for the driver regardless
-> of whether the get_dma_as() callback is implemented or not.
-> 
-> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> Fixes: 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM")
-
-It looks good but I'd like to have Cornelia's ack on the
-comment text.
-
+> Fixes: e0220bb5b2 ("softmmu: Build target-agnostic objects once")
+> Reported-by: Max Filippov <jcmvbkbc@gmail.com>
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
-> v2 -> v3:
-> * Rebased onto the next branch of the git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git
->   repository
-> v1 -> v2:
-> * Change comment: reflect that this is not about the verify
->   but also about the device features as seen by the driver (Connie)
-> RFC -> v1:
-> * Tweaked the commit message and fixed typos (Connie)
-> * Added two sentences discussing the security implications (Michael)
+>   cpu.c                     | 9 +++++++++
+>   include/exec/cpu-common.h | 2 ++
+>   include/sysemu/cpus.h     | 2 --
+>   softmmu/cpus.c            | 8 --------
+>   4 files changed, 11 insertions(+), 10 deletions(-)
 > 
-> This patch is based on:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg866199.html
-> 
-> During the review of "virtio: fix the condition for iommu_platform not
-> supported" Daniel raised the question why do we "force IOMMU_PLATFORM"
-> iff has_iommu && !!klass->get_dma_as. My answer to that was, that
-> this logic ain't right.
-> 
-> While at it I used the opportunity to re-organize the code a little
-> and provide an explanatory comment.
-> ---
->  hw/virtio/virtio-bus.c | 22 ++++++++++++++--------
->  1 file changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-> index 0f69d1c742..d7ec023adf 100644
-> --- a/hw/virtio/virtio-bus.c
-> +++ b/hw/virtio/virtio-bus.c
-> @@ -78,17 +78,23 @@ void virtio_bus_device_plugged(VirtIODevice *vdev, Error **errp)
->          return;
->      }
->  
-> -    vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-> -    if (klass->get_dma_as != NULL && has_iommu) {
-> +    vdev->dma_as = &address_space_memory;
-> +    if (has_iommu) {
-> +        vdev_has_iommu = virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-> +        /*
-> +         * Present IOMMU_PLATFORM to the driver iff iommu_plattform=on and
-> +         * device operational. If the driver does not accept IOMMU_PLATFORM
-> +         * we fail the device.
-> +         */
->          virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
-> -        vdev->dma_as = klass->get_dma_as(qbus->parent);
-> -        if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
-> -            error_setg(errp,
-> +        if (klass->get_dma_as) {
-> +            vdev->dma_as = klass->get_dma_as(qbus->parent);
-> +            if (!vdev_has_iommu && vdev->dma_as != &address_space_memory) {
-> +                error_setg(errp,
->                         "iommu_platform=true is not supported by the device");
-> -            return;
-> +                return;
-> +            }
->          }
-> -    } else {
-> -        vdev->dma_as = &address_space_memory;
->      }
->  }
->  
-> 
-> base-commit: 41d137fc631bd9315ff84727d780757d25054c58
-> -- 
-> 2.32.0
+> diff --git a/cpu.c b/cpu.c
+> index d564886149..d50845f713 100644
+> --- a/cpu.c
+> +++ b/cpu.c
+> @@ -35,6 +35,7 @@
+>   #include "sysemu/tcg.h"
+>   #include "sysemu/kvm.h"
+>   #include "sysemu/replay.h"
+> +#include "exec/cpu-all.h"
+
+Why not cpu-common.h?
+
+>   #include "exec/exec-all.h"
+>   #include "exec/translate-all.h"
+>   #include "exec/log.h"
+> @@ -266,6 +267,14 @@ const char *parse_cpu_option(const char *cpu_option)
+>       return cpu_type;
+>   }
+>   
+> +void list_cpus(const char *optarg)
+> +{
+> +    /* XXX: implement xxx_cpu_list for targets that still miss it */
+> +#if defined(cpu_list)
+> +    cpu_list();
+> +#endif
+> +}
+> +
+>   #if defined(CONFIG_USER_ONLY)
+>   void tb_invalidate_phys_addr(target_ulong addr)
+>   {
+> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+> index 7f7b5943c7..50a7d2912e 100644
+> --- a/include/exec/cpu-common.h
+> +++ b/include/exec/cpu-common.h
+> @@ -158,4 +158,6 @@ int cpu_memory_rw_debug(CPUState *cpu, vaddr addr,
+>   /* vl.c */
+>   extern int singlestep;
+>   
+> +void list_cpus(const char *optarg);
+> +
+>   #endif /* CPU_COMMON_H */
+> diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
+> index 868f1192de..b5c87d48b3 100644
+> --- a/include/sysemu/cpus.h
+> +++ b/include/sysemu/cpus.h
+> @@ -55,6 +55,4 @@ extern int smp_cores;
+>   extern int smp_threads;
+>   #endif
+>   
+> -void list_cpus(const char *optarg);
+> -
+>   #endif
+> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> index e1d84c8ccb..7b75bb66d5 100644
+> --- a/softmmu/cpus.c
+> +++ b/softmmu/cpus.c
+> @@ -728,14 +728,6 @@ int vm_stop_force_state(RunState state)
+>       }
+>   }
+>   
+> -void list_cpus(const char *optarg)
+> -{
+> -    /* XXX: implement xxx_cpu_list for targets that still miss it */
+> -#if defined(cpu_list)
+> -    cpu_list();
+> -#endif
+> -}
+> -
+>   void qmp_memsave(int64_t addr, int64_t size, const char *filename,
+>                    bool has_cpu, int64_t cpu_index, Error **errp)
+>   {
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
