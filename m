@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A97E4D4CCB
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 16:37:11 +0100 (CET)
-Received: from localhost ([::1]:44538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FBC4D4CCC
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 16:37:12 +0100 (CET)
+Received: from localhost ([::1]:44740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSKqj-0005rw-S9
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 10:37:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35910)
+	id 1nSKqm-00060u-3L
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 10:37:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nSKom-0003QL-8O
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 10:35:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35078)
+ id 1nSKoo-0003U3-Qy
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 10:35:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nSKoi-0004DA-Ni
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 10:35:06 -0500
+ id 1nSKom-0004Fm-N5
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 10:35:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646926503;
+ s=mimecast20190719; t=1646926507;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h06i63HZFhSUU2LHoPyhnxTJ86TvpzmPtf/TEmc+3ao=;
- b=TGx3CQTduXgXdPSUx5q89fhImwXs3T4MUOTAIeSvNtfSwmnaOImiF9rm5GLdlmBfNtvV66
- SaRKVfO5UvCUFUqyc7t3TmyCE2otxR5QYPLMfixxVp46IWBhpwULM/ZejvKl+rRthwk067
- LOb1UJ60BzemOFJGoSZshTfxb3/2uvM=
+ bh=V9RNk449/r7UeIupda5e3cnhwEkEAuC+chXFgMfufp8=;
+ b=NW0fynw44MAj3IvQjlrjDGFitVQfZ1LpPzwQCtkpEVrk+uyi+iq+lGvgw3pRYSmXpVHVZn
+ q98HPoLzd4fPcQNjvtjAtMocD6SHHn0lvy4wDyMvuAZHh7r2DNBsz2b/s2tu8cTXtd8IxR
+ 3roUFGDsTx8ePSFFgjCiu1jZNNL33Uo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-se6XiORVObuyZospK_h6xA-1; Thu, 10 Mar 2022 10:35:02 -0500
-X-MC-Unique: se6XiORVObuyZospK_h6xA-1
+ us-mta-183-_lE18LwHOA-7LVLMDcIzSQ-1; Thu, 10 Mar 2022 10:35:04 -0500
+X-MC-Unique: _lE18LwHOA-7LVLMDcIzSQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A9AA1091DA0;
- Thu, 10 Mar 2022 15:35:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 291161091DA0;
+ Thu, 10 Mar 2022 15:35:03 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B1328379E;
- Thu, 10 Mar 2022 15:34:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 157F88379D;
+ Thu, 10 Mar 2022 15:35:00 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 1/8] migration: Export ram_transferred_ram()
-Date: Thu, 10 Mar 2022 16:34:47 +0100
-Message-Id: <20220310153454.3929-2-quintela@redhat.com>
+Subject: [PATCH v5 2/8] multifd: Count the number of sent bytes correctly
+Date: Thu, 10 Mar 2022 16:34:48 +0100
+Message-Id: <20220310153454.3929-3-quintela@redhat.com>
 In-Reply-To: <20220310153454.3929-1-quintela@redhat.com>
 References: <20220310153454.3929-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -87,38 +87,90 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Current code asumes that all pages are whole.  That is not true for
+example for compression already.  Fix it for creating a new field
+->sent_bytes that includes it.
+
+All ram_counters are used only from the migration thread, so we have
+two options:
+- put a mutex and fill everything when we sent it (not only
+ram_counters, also qemu_file->xfer_bytes).
+- Create a local variable that implements how much has been sent
+through each channel.  And when we push another packet, we "add" the
+previous stats.
+
+I choose two due to less changes overall.  On the previous code we
+increase transferred and then we sent.  Current code goes the other
+way around.  It sents the data, and after the fact, it updates the
+counters.  Notice that each channel can have a maximum of half a
+megabyte of data without counting, so it is not very important.
+
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.h | 2 ++
- migration/ram.c | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ migration/multifd.h |  2 ++
+ migration/multifd.c | 15 ++++++---------
+ 2 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/migration/ram.h b/migration/ram.h
-index 2c6dc3675d..2e27c49f90 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -64,6 +64,8 @@ int ram_postcopy_incoming_init(MigrationIncomingState *mis);
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 4dda900a0b..3afba8a198 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -119,6 +119,8 @@ typedef struct {
+     uint32_t normal_num;
+     /* used for compression methods */
+     void *data;
++    /* How many bytes have we sent on the last packet */
++    uint64_t sent_bytes;
+ }  MultiFDSendParams;
  
- void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
+ typedef struct {
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 76b57a7177..ab87879471 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -398,7 +398,6 @@ static int multifd_send_pages(QEMUFile *f)
+     static int next_channel;
+     MultiFDSendParams *p = NULL; /* make happy gcc */
+     MultiFDPages_t *pages = multifd_send_state->pages;
+-    uint64_t transferred;
  
-+void ram_transferred_add(uint64_t bytes);
-+
- int ramblock_recv_bitmap_test(RAMBlock *rb, void *host_addr);
- bool ramblock_recv_bitmap_test_byte_offset(RAMBlock *rb, uint64_t byte_offset);
- void ramblock_recv_bitmap_set(RAMBlock *rb, void *host_addr);
-diff --git a/migration/ram.c b/migration/ram.c
-index 170e522a1f..947ed44c89 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -394,7 +394,7 @@ uint64_t ram_bytes_remaining(void)
+     if (qatomic_read(&multifd_send_state->exiting)) {
+         return -1;
+@@ -433,11 +432,10 @@ static int multifd_send_pages(QEMUFile *f)
+     p->packet_num = multifd_send_state->packet_num++;
+     multifd_send_state->pages = p->pages;
+     p->pages = pages;
+-    transferred = ((uint64_t) pages->num) * qemu_target_page_size()
+-                + p->packet_len;
+-    qemu_file_update_transfer(f, transferred);
+-    ram_counters.multifd_bytes += transferred;
+-    ram_counters.transferred += transferred;
++    ram_transferred_add(p->sent_bytes);
++    ram_counters.multifd_bytes += p->sent_bytes;
++    qemu_file_update_transfer(f, p->sent_bytes);
++    p->sent_bytes = 0;
+     qemu_mutex_unlock(&p->mutex);
+     qemu_sem_post(&p->sem);
  
- MigrationStats ram_counters;
+@@ -597,9 +595,6 @@ void multifd_send_sync_main(QEMUFile *f)
+         p->packet_num = multifd_send_state->packet_num++;
+         p->flags |= MULTIFD_FLAG_SYNC;
+         p->pending_job++;
+-        qemu_file_update_transfer(f, p->packet_len);
+-        ram_counters.multifd_bytes += p->packet_len;
+-        ram_counters.transferred += p->packet_len;
+         qemu_mutex_unlock(&p->mutex);
+         qemu_sem_post(&p->sem);
+     }
+@@ -675,6 +670,8 @@ static void *multifd_send_thread(void *opaque)
+             }
  
--static void ram_transferred_add(uint64_t bytes)
-+void ram_transferred_add(uint64_t bytes)
- {
-     if (runstate_is_running()) {
-         ram_counters.precopy_bytes += bytes;
+             qemu_mutex_lock(&p->mutex);
++            p->sent_bytes += p->packet_len;;
++            p->sent_bytes += p->next_packet_size;
+             p->pending_job--;
+             qemu_mutex_unlock(&p->mutex);
+ 
 -- 
 2.34.1
 
