@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF3A4D4660
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:01:46 +0100 (CET)
-Received: from localhost ([::1]:51586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C399D4D4687
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:13:11 +0100 (CET)
+Received: from localhost ([::1]:43038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSHUH-0000Rd-VN
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:01:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50858)
+	id 1nSHfK-0006Rg-SC
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:13:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSGxV-0005kO-TO
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:53 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=56234
- helo=mail-pj1-x102f.google.com)
+ id 1nSGxX-0005nW-6e
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:55 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=42533
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSGxU-0007zH-AD
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:53 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id e3so4812671pjm.5
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:27:51 -0800 (PST)
+ id 1nSGxV-0007zS-PS
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:54 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ c16-20020a17090aa61000b001befad2bfaaso4970182pjq.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CrZNI1SxmaS+Q1Ja/qtDT6B5V9ddvf4cp0nG/uUGkSI=;
- b=vYrEtOkZvnsHvUObs23VxdT1EAqQKFFhCaHLdLJn540Cz4BByKl70igKU5xKjPk9AE
- VMBIzgJcTSEwOOIi6Wy6DyU8wVt96Hxye3Q70uaOnnAFMtISzwaustld1rpfAUhKwNKD
- 0JAr2xIM/SaofA2XXLR1JWepPRjyW6bpQQafKPfdUFVInQ7HrwS16Xb+2I/zLtKh640Z
- vlcbsc200a4DnoIpL+c11XcSew5x+QEUiTNAp7DFhsvmVqA2PAepziQTKk5yUullIkFs
- meZdpaBFfI6OIbd2oDtsencypQlXYhw89rBbfaebXM0QIYpyaC6yawKPel6dvJ00amkX
- rJuA==
+ bh=GQKtq5EmgHv2pf8acDMhuJ8SB17+NoN37aNM30IhfvE=;
+ b=jtOiGy3FYwQP3MCPQKueM36CjJDClkhfzP7GS1+H6iFjFbaIXyJp1fZpmcMN5vi1JW
+ qhuify425kryo/WWX5g5MFg9FAHMSm6N0SVWagC2XWw25AFjw89Xqa/NnVXZneZpCGgH
+ N15S6EBfr/5VKd9Q9GcD8taM7E3w+wpHQ+FKxE9W2ePy3jht47IGi95b4dz3kE44Ii6z
+ tdzNlpZRh7DUWpWPqUWW9WGK3iB4FgFfaGtW7Qi1ehVWHxwtHUYISBM3yvxWQLAFLJLr
+ O0QRVJrWth9FgbsTf+A9sg4N5TBt/MMoYuK3aaKKsBCKxXzRUIKQcBfS8PF9W9OcWu1M
+ HwyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CrZNI1SxmaS+Q1Ja/qtDT6B5V9ddvf4cp0nG/uUGkSI=;
- b=C1pNl7ri2W9k6SX9RLXhm2G0hR7HDEec+2KyI6GJNHA6SVMJ5uDNqRUfoDduH2ZoDL
- 2oCPiVJf6qdxdV6fSCAOxumZy3HR+iZzuew/7LrWN8YlvsZO6zLcycD4BhNysdotHcwu
- zkIq2YV4182qX8Vju0uyr9wkqXfL8/Tdp3olBuyChtQTKmrmCurasmYis78Eqzrt8XH5
- DleOKnNIMEGmGEBaWNgc/+ZTBDr1NARuHiTEpuKOclxLvci2ADR1S1DDsf0txadZIbTr
- vaAUcqiNK+R9crwcgDrdO25JZQcWxKPU+W1tQ1QfnfUMlRmtg+JcYV5F5zJZvemJo7ic
- j9yA==
-X-Gm-Message-State: AOAM530kqcv7+Ue0L4qUikg9D97Zopr/3bIJ3FoCtO6Ftzo7oj1/kqZ4
- xb/qbt64TgayTzyff9pHNseLa0hNzvYSLw==
-X-Google-Smtp-Source: ABdhPJzlvK36l4oDJLTHcpFP6o7pXUf+mv01N6mypCsjV8x1WkKtRj8A/YDeUs5YC4DckK8SzEyISg==
-X-Received: by 2002:a17:902:e74e:b0:151:c46f:6e18 with SMTP id
- p14-20020a170902e74e00b00151c46f6e18mr4491481plf.32.1646911670987; 
- Thu, 10 Mar 2022 03:27:50 -0800 (PST)
+ bh=GQKtq5EmgHv2pf8acDMhuJ8SB17+NoN37aNM30IhfvE=;
+ b=hjHS8HWjYQr5vKPiMRlfE/QSTH6EDkGr92jpIaUKZteMvxuUUGGXrMcUZdpfMCNr4n
+ PRgXoPd5PMw3OPWVZATo7HorTLBOOkCOcQnQtejB1+50NHwTp4b8A+nJ70cJx63FkBeH
+ Gs216/ZSarLT+dgdPEodCRF2KIfSxYSW8l2i+A/PKSYkMtldsQSUXy4BfXZA2ALiY7sT
+ QhsMT7wZww7JxeIv4HgQMn1kmrhHnjchCrEsiUtB5PH8arynwBGXXBWPlnIQluB3tRE7
+ 7C4XQuJEAbuSUbCHG8+VwjOpnJP2QyvJuQGNr5r/nn4tfy7tunsGKBW5PTfyBW4Lnv+h
+ 1bvA==
+X-Gm-Message-State: AOAM530jmoGLqLDR0tIeCXUyIqeXvVkljgEC39AWGkjUKqpxMZ4ezWn/
+ HG4XSqnrA1jl8SLLlEYUfgg6mSBruA6MHw==
+X-Google-Smtp-Source: ABdhPJzXVUyvhHQDiY4OLa1tBTIAQSusDweAX2LhG57unBu3gnXq7sN4oG25YPSOzuAwct4qTvXbCw==
+X-Received: by 2002:a17:90b:788:b0:1bf:41d:a9ff with SMTP id
+ l8-20020a17090b078800b001bf041da9ffmr4456639pjz.116.1646911672487; 
+ Thu, 10 Mar 2022 03:27:52 -0800 (PST)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.27.50
+ js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.27.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 03:27:50 -0800 (PST)
+ Thu, 10 Mar 2022 03:27:51 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 22/48] target/nios2: Hoist CPU_LOG_INT logging
-Date: Thu, 10 Mar 2022 03:26:59 -0800
-Message-Id: <20220310112725.570053-23-richard.henderson@linaro.org>
+Subject: [PATCH v5 23/48] target/nios2: Handle EXCP_UNALIGN and EXCP_UALIGND
+Date: Thu, 10 Mar 2022 03:27:00 -0800
+Message-Id: <20220310112725.570053-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220310112725.570053-1-richard.henderson@linaro.org>
 References: <20220310112725.570053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,118 +93,40 @@ Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Performing this early means that we can merge more cases
-within the non-logging switch statement.
+These misaligned data and misaligned destination exceptions
+are defined, but not currently raised.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/helper.c | 58 +++++++++++++++++++++++++++++++++++--------
- 1 file changed, 47 insertions(+), 11 deletions(-)
+ target/nios2/helper.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index 6019e2443b..285f3aae1d 100644
+index 285f3aae1d..0392c0ea84 100644
 --- a/target/nios2/helper.c
 +++ b/target/nios2/helper.c
-@@ -90,20 +90,64 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-     Nios2CPU *cpu = NIOS2_CPU(cs);
-     CPUNios2State *env = &cpu->env;
- 
-+    if (qemu_loglevel_mask(CPU_LOG_INT)) {
-+        const char *name = NULL;
-+
-+        switch (cs->exception_index) {
-+        case EXCP_IRQ:
-+            name = "interrupt";
+@@ -119,6 +119,12 @@ void nios2_cpu_do_interrupt(CPUState *cs)
+         case EXCP_ILLEGAL:
+             name = "ILLEGAL insn";
+             break;
++        case EXCP_UNALIGN:
++            name = "Misaligned (data)";
 +            break;
-+        case EXCP_TLBD:
-+            if (env->ctrl[CR_STATUS] & CR_STATUS_EH) {
-+                name = "TLB MISS (double)";
-+            } else {
-+                name = "TLB MISS (fast)";
-+            }
++        case EXCP_UNALIGND:
++            name = "Misaligned (destination)";
 +            break;
-+        case EXCP_TLBR:
-+        case EXCP_TLBW:
-+        case EXCP_TLBX:
-+            name = "TLB PERM";
-+            break;
-+        case EXCP_SUPERA:
-+        case EXCP_SUPERD:
-+            name = "SUPERVISOR (address)";
-+            break;
-+        case EXCP_SUPERI:
-+            name = "SUPERVISOR (insn)";
-+            break;
-+        case EXCP_ILLEGAL:
-+            name = "ILLEGAL insn";
-+            break;
-+        case EXCP_TRAP:
-+            name = "TRAP insn";
-+            break;
-+        case EXCP_BREAK:
-+            name = "TRAP insn";
-+            break;
-+        case EXCP_SEMIHOST:
-+            name = "SEMIHOST insn";
-+            break;
-+        }
-+        if (name) {
-+            qemu_log("%s at pc=0x%08x\n", name, env->pc);
-+        } else {
-+            qemu_log("Unknown exception %d at pc=0x%08x\n",
-+                     cs->exception_index, env->pc);
-+        }
-+    }
-+
-     switch (cs->exception_index) {
-     case EXCP_IRQ:
--        qemu_log_mask(CPU_LOG_INT, "interrupt at pc=%x\n", env->pc);
-         do_iic_irq(cpu);
-         break;
- 
-     case EXCP_TLBD:
-         if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
--            qemu_log_mask(CPU_LOG_INT, "TLB MISS (fast) at pc=%x\n", env->pc);
-             env->ctrl[CR_TLBMISC] &= ~CR_TLBMISC_DBL;
-             env->ctrl[CR_TLBMISC] |= CR_TLBMISC_WE;
-             do_exception(cpu, cpu->fast_tlb_miss_addr, false);
-         } else {
--            qemu_log_mask(CPU_LOG_INT, "TLB MISS (double) at pc=%x\n", env->pc);
-             env->ctrl[CR_TLBMISC] |= CR_TLBMISC_DBL;
-             do_exception(cpu, cpu->exception_addr, false);
-         }
-@@ -112,7 +156,6 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-     case EXCP_TLBR:
-     case EXCP_TLBW:
-     case EXCP_TLBX:
--        qemu_log_mask(CPU_LOG_INT, "TLB PERM at pc=%x\n", env->pc);
-         if ((env->ctrl[CR_STATUS] & CR_STATUS_EH) == 0) {
-             env->ctrl[CR_TLBMISC] |= CR_TLBMISC_WE;
-         }
-@@ -122,23 +165,16 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-     case EXCP_SUPERA:
-     case EXCP_SUPERI:
+         case EXCP_TRAP:
+             name = "TRAP insn";
+             break;
+@@ -167,6 +173,8 @@ void nios2_cpu_do_interrupt(CPUState *cs)
      case EXCP_SUPERD:
--        qemu_log_mask(CPU_LOG_INT, "SUPERVISOR exception at pc=%x\n", env->pc);
--        do_exception(cpu, cpu->exception_addr, false);
--        break;
--
      case EXCP_ILLEGAL:
      case EXCP_TRAP:
--        qemu_log_mask(CPU_LOG_INT, "TRAP exception at pc=%x\n", env->pc);
++    case EXCP_UNALIGN:
++    case EXCP_UNALIGND:
          do_exception(cpu, cpu->exception_addr, false);
          break;
  
-     case EXCP_BREAK:
--        qemu_log_mask(CPU_LOG_INT, "BREAK exception at pc=%x\n", env->pc);
-         do_exception(cpu, cpu->exception_addr, true);
-         break;
- 
-     case EXCP_SEMIHOST:
--        qemu_log_mask(CPU_LOG_INT, "BREAK semihosting at pc=%x\n", env->pc);
-         env->pc += 4;
-         do_nios2_semihosting(env);
-         break;
 -- 
 2.25.1
 
