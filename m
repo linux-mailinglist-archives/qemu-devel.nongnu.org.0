@@ -2,93 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1954D515B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 19:53:01 +0100 (CET)
-Received: from localhost ([::1]:54666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA04A4D516B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 20:29:13 +0100 (CET)
+Received: from localhost ([::1]:42082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSNuG-0001Om-1P
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 13:53:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49758)
+	id 1nSOTI-0006EN-AF
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 14:29:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSNr6-0005Dg-Ny
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 13:49:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39576)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSNr3-0000R9-Vp
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 13:49:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646938181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iBdLlcyG7BJyggkbE0SCqdhGrD8s5H6EmylRkorSYyc=;
- b=AD5zYxR9kwOUlRt55d8nk51FMKtslsaPVMl5rT6Ej52tW9Z0UTyurSZoX6jYsoOo3h1B1U
- hciQZMfh5Y5tGhdB6HJQUvKoTEBZ39FN/AEIWj/OwMZx7OW2ojQvc6Lb2C0SEz1U3fVeEE
- 53LL2aeWTxtK4XjYnX+l8jijujD7bPs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-57-boIHBVv_N7q0BDRD6NBLig-1; Thu, 10 Mar 2022 13:49:38 -0500
-X-MC-Unique: boIHBVv_N7q0BDRD6NBLig-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j42-20020a05600c1c2a00b00381febe402eso4441122wms.0
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 10:49:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <30U8qYgcKCjIjSbhifSUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--venture.bounces.google.com>)
+ id 1nSOS3-0005VR-Ac
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 14:27:55 -0500
+Received: from [2607:f8b0:4864:20::c4a] (port=41518
+ helo=mail-oo1-xc4a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <30U8qYgcKCjIjSbhifSUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--venture.bounces.google.com>)
+ id 1nSOS1-0006g9-Rx
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 14:27:54 -0500
+Received: by mail-oo1-xc4a.google.com with SMTP id
+ h42-20020a4a942d000000b00321739192d0so601139ooi.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 11:27:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=+2YtiVwEZ9RwC/8VBcyI97P419lBNhav2fnGdw/4ndg=;
+ b=aLQ0a9tgWEFsjkpnyS5US9lYMyXE6H5GPqCrffGqtpAAvg9iHh+TT8Ram4PtRhwV05
+ nBlpjvTDNhSJIx0Jnylwb3lKtcW0sPouV0SK0X0VfXAQa2KIHC7xXcvOH+vqJGjiN8ek
+ uKdMp8pD57QSgX6htw/xqD6M61ADltXgwMBr8rMvlsnS3vKdVKBg/5Q5YuurqWFCByIz
+ jmzRfV4FJEJeJazV8mKonxZcEaSneDTeLIspWSZSEP3shDrwrSRfDZQoW02vGu1dc2fV
+ AT2qWsz6GQ27zP0pU2HMmY+Qc3oGEX4/KGAqMdSxs1qkSWCYnNCo2S6zmTfSrBDGDQqw
+ Ri2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iBdLlcyG7BJyggkbE0SCqdhGrD8s5H6EmylRkorSYyc=;
- b=uD4dP4kXo1uxzLDpwp7LjJ9i/dhxAaz/XSnEQXrYWp2B1iKziY++3AJh+9NiJ/sCto
- huUi9c+Ttm9yGxLiJtjnhVi6FL6AbE0S/NlTcq9GNAIDQI9aaiKp6n2EmR0nsyQKKzLl
- MktDvrQhCoc8QJ5I298uhUM5e83zLQ4dnjgtpnvHTrSNEaIo15+BMWib6wgKM01amiiO
- cH4rejHw9FIfUhdNh5i/6uMQe5nwhMKK1sWqM0+yGL+/dsYNZuG6we5RET7Chnd8gKwj
- 9TCJxEvVb46lT7lGBN0P8kfhxCK6rYbQCA0sjE56+wqQ5FrsjXOw4FF625L+z6OnKKHF
- gnow==
-X-Gm-Message-State: AOAM531Hz/ZBBmy5adGEvwZG+X3Dif94C2y218PEhGyLOZ4ZJQe6Pil/
- v7kxhK4UuY/7XYikN2TNIzXh876ym8l7iruESHiKgfvq3/02sC+C0zVBsQgKRitzGzR0FsqpTV7
- YIpAs6YKgLvVmvOo=
-X-Received: by 2002:a05:6000:188f:b0:1f1:e5da:b116 with SMTP id
- a15-20020a056000188f00b001f1e5dab116mr4716697wri.467.1646938177783; 
- Thu, 10 Mar 2022 10:49:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzG/XKfA4sLq3EdWipO/2/ILH9sEQUUXr1Q4Nx+Tgtnw0jlxCIfSze+ceihZUGTKgJYN48l2w==
-X-Received: by 2002:a05:6000:188f:b0:1f1:e5da:b116 with SMTP id
- a15-20020a056000188f00b001f1e5dab116mr4716684wri.467.1646938177544; 
- Thu, 10 Mar 2022 10:49:37 -0800 (PST)
-Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
- [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- i186-20020a1c3bc3000000b00382b25f6c9fsm5580489wma.42.2022.03.10.10.49.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 10:49:37 -0800 (PST)
-Message-ID: <cc037332-a0f5-3acb-396a-49bdac653d2e@redhat.com>
-Date: Thu, 10 Mar 2022 19:49:34 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v5 0/5] user creatable pnv-phb4 devices
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20220111131027.599784-1-danielhb413@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220111131027.599784-1-danielhb413@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=+2YtiVwEZ9RwC/8VBcyI97P419lBNhav2fnGdw/4ndg=;
+ b=j9+iEiWyVpSwVXKoyubUAdd2jFRXBAfqvfZSl7i83yPPMpxtUaz0gnYns17NVoTLgM
+ VI0RF7QcdgZEENup2lTimlLshniVo3NtAFzYbZsnSlmonXFQpoVi0M405LCnfMenZ9aW
+ HVBMoW+mOgAYJYQ4hH22wOXQicJga8coJ03s/8kND5EY/DHNK/+o7bpXT1RIbLtRY28L
+ 7gBtFsPplPIBT28zNSoAZRIV4F8nx30YT2VIEvMDDOIFxWOTV3xTAdqic7Lc49++5eAG
+ Q0gemddMXzw6cESXd0rvOFz7RG2mdHbAIRA9XOQnvB3n3+C+yyESck077Trj9iesJe7d
+ szUw==
+X-Gm-Message-State: AOAM533uyZcShmF4Snp+6SVO6AxDLn6HljUN3IcPq651VHFyliGWtZfS
+ 7hyR7Ua03QhrrwSv2PJ64Xz3Rj0LfBLy
+X-Google-Smtp-Source: ABdhPJxaBps8aY1/Fhc8iqxTvtuoIBmuhAS95C7+qh7lwgHd1GnQESTvPjrlvjXknNVHZNGSyHspuPnSJ29T
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:3dc3:dbf8:5ec1:7fd2])
+ (user=venture job=sendgmr) by 2002:a5b:145:0:b0:629:4ec6:bd74 with SMTP id
+ c5-20020a5b0145000000b006294ec6bd74mr5257183ybp.572.1646940113295; Thu, 10
+ Mar 2022 11:21:53 -0800 (PST)
+Date: Thu, 10 Mar 2022 11:21:48 -0800
+Message-Id: <20220310192148.1696486-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.723.g4982287a31-goog
+Subject: [PATCH] linux-user: Fix missing space in error message
+From: Patrick Venture <venture@google.com>
+To: laurent@vivier.eu
+Cc: qemu-devel@nongnu.org, Fergus Henderson <fergus@google.com>, 
+ Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c4a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c4a;
+ envelope-from=30U8qYgcKCjIjSbhifSUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--venture.bounces.google.com;
+ helo=mail-oo1-xc4a.google.com
+X-Spam_score_int: -81
+X-Spam_score: -8.2
+X-Spam_bar: --------
+X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,45 +87,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/01/2022 14.10, Daniel Henrique Barboza wrote:
-> Hi,
-> 
-> This version implements Cedric's review suggestions from v4. No
-> drastic design changes were made.
-> 
-> Changes from v4:
-> - patches 1,3,5: unchanged
-> - patch 2:
->    * renamed function to pnv_phb4_xscom_realize()
->    * pnv4_phb4_xscom_realize() is now called at the end of phb4_realize()
-> - patch 4:
->    * changed pnv_phb4_get_stack signature to use chip and phb
->    * added a new helper called pnv_pec_stk_default_phb_realize() to
-> realize the default phb when running with defaults
-> - v4 link: https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg02148.html
-> 
-> Daniel Henrique Barboza (5):
->    ppc/pnv: set phb4 properties in stk_realize()
->    ppc/pnv: move PHB4 XSCOM init to phb4_realize()
->    ppc/pnv: turn 'phb' into a pointer in struct PnvPhb4PecStack
->    ppc/pnv: Introduce user creatable pnv-phb4 devices
->    ppc/pnv: turn pnv_phb4_update_regions() into static
+From: Fergus Henderson <fergus@google.com>
 
-It's now possible to crash QEMU with the pnv-phb4 device:
+Signed-off-by: Fergus Henderson <fergus@google.com>
+Signed-off-by: Patrick Venture <venture@google.com>
+---
+ linux-user/elfload.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-$ ./qemu-system-ppc64 -nographic -M powernv9 -device pnv-phb4
-Unexpected error in object_property_try_add() at 
-../../devel/qemu/qom/object.c:1229:
-qemu-system-ppc64: -device pnv-phb4: attempt to add duplicate property 
-'pnv-phb4[0]' to object (type 'power9_v2.0-pnv-chip')
-Aborted (core dumped)
-
-Any ideas how to fix this?
-
-  Thomas
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 9628a38361..c45da4d633 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2504,7 +2504,7 @@ static void pgb_reserved_va(const char *image_name, abi_ulong guest_loaddr,
+     addr = mmap(test, reserved_va, PROT_NONE, flags, -1, 0);
+     if (addr == MAP_FAILED || addr != test) {
+         error_report("Unable to reserve 0x%lx bytes of virtual address "
+-                     "space at %p (%s) for use as guest address space (check your"
++                     "space at %p (%s) for use as guest address space (check your "
+                      "virtual memory ulimit setting, min_mmap_addr or reserve less "
+                      "using -R option)", reserved_va, test, strerror(errno));
+         exit(EXIT_FAILURE);
+-- 
+2.35.1.723.g4982287a31-goog
 
 
