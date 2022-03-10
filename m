@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4284D514C
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 19:36:15 +0100 (CET)
-Received: from localhost ([::1]:35462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC77F4D514F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 19:37:24 +0100 (CET)
+Received: from localhost ([::1]:38956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSNe2-0004MW-49
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 13:36:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46622)
+	id 1nSNf9-0006py-E1
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 13:37:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nSNYU-0007xf-GR; Thu, 10 Mar 2022 13:30:30 -0500
-Received: from [2607:f8b0:4864:20::230] (port=43718
- helo=mail-oi1-x230.google.com)
+ id 1nSNYX-000855-4f; Thu, 10 Mar 2022 13:30:33 -0500
+Received: from [2607:f8b0:4864:20::c2c] (port=38704
+ helo=mail-oo1-xc2c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nSNYS-0006Rb-Up; Thu, 10 Mar 2022 13:30:30 -0500
-Received: by mail-oi1-x230.google.com with SMTP id w127so6817110oig.10;
- Thu, 10 Mar 2022 10:30:28 -0800 (PST)
+ id 1nSNYV-0006Rw-CT; Thu, 10 Mar 2022 13:30:32 -0500
+Received: by mail-oo1-xc2c.google.com with SMTP id
+ x26-20020a4a9b9a000000b003211029e80fso7799032ooj.5; 
+ Thu, 10 Mar 2022 10:30:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yAZAiikDyxve7wBEmtVsELwtGoA6EcbwB2QbKMraC8c=;
- b=PaLuTSss7cS3ZSY/Te3JI25qZ5eSe9KnUt9Ri7qL5cLEcATBT0JlhFkB6X3g2wxIGU
- l7mW/3UP+PYlR/z0BGXUAvn+R9XhbD0jar0+KjydwoZy4BnZUmgAJ2ERaQh+42ckWLRn
- DODrgDgEOtQLrt2SE7LQX9yyR8GjFRORwl4gl1OSOyndgRHEN6QP9psGpRpM3Sx6tJzk
- HMZ9gdYVJuUcJCGzSlASi1Y6H7/oQQMeOgKakJLp4VwX1dFFHSmHy/a0ieMxpXduEH3p
- C74DPdrHMvcnS+6eOyeUzCHCCgTZdxkkaTpKUio7YdOtrJ4UFnGWa5mDZF9QL9+w0oPc
- 9G+g==
+ bh=wVGtHh0scFIFCaqU1H66eFsWF/LxNL0KwdPPDWuxtaQ=;
+ b=FttKeaGM5ukGDDtp4+J+IGRrEq3sQ6VE58HcYE80jI+34MDhTPKQ9Q4WqSs9R6nWTB
+ 6woCQjdiPKGq+MKlFGbe1oMreUvV1ZEA6N1MQNEgQSPG/jfp7OIExDH9/YKQFnRpn+tc
+ wX+PctlzKKRjCRzt2LSPfVJd5LjKjrU64F2R7dZW0rFYgw085/+SqGZoid7ViXwLW3J+
+ kCFZnuCiyJJdsMV/crND4bX8EIhh5CoZ+gQV07yRAWDeBLJLq/6j0XJDG8NT+PxsfVtN
+ q6ROZHAJDJrS1JT9WUhZv3KxbkFkuOmzpq/mZBJHNEeHgrWT0G0HNs7gHSS6uDMyAeTU
+ 7UoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yAZAiikDyxve7wBEmtVsELwtGoA6EcbwB2QbKMraC8c=;
- b=YIk+xkNhdEK4dm7HuVpajttU+d+YgBIU9mvlmjM8xsaTsfG6iHXnPynn/S0cZowEtE
- jga8xiR0CKhsmrOCTKzbDmF0oMeNR4KuE2Nth7sYHYrLcjMnppBD9qCmS/HdLRFs9rN7
- OXSWgkZbFpZRTB1mf9efywcSLqt2/iMN39zBg48Q522NzLgXwdwSyqv3IpQI0zHdKETa
- sYQJU0JQCrUjux5ea1R/iiQhOaBWQhGvqE+f1ybLvI1OGcLkAQtwGcF1V1j0UfPDEjOz
- KLV7TESWBpcdHmaZXfE9O1inkL6lU4YxvY5URRMCeMN7f087zCc8D5WsNns7nsV90wp1
- czUw==
-X-Gm-Message-State: AOAM531Eabt96i7c3drBIotALLlDemBkRoroSkKGjrru8BA+FKh25IHJ
- 8fxNfRsOb0KUiqXkGAdbdI3MyXh4jB0=
-X-Google-Smtp-Source: ABdhPJxa2qP749tTrCZ37Gn4u+FrIiLz6DS8mVD/TfLTokh2EtpSFlE1fm8w/zLSP7Zv9Cr+QNiY5A==
-X-Received: by 2002:a05:6808:1a19:b0:2d9:a01a:4ba1 with SMTP id
- bk25-20020a0568081a1900b002d9a01a4ba1mr4158743oib.200.1646937027173; 
- Thu, 10 Mar 2022 10:30:27 -0800 (PST)
+ bh=wVGtHh0scFIFCaqU1H66eFsWF/LxNL0KwdPPDWuxtaQ=;
+ b=35EFT6h9czMlpX6LYL7WIAYl6NfrHoJlQy4TrimJ5PJWaSgCFqwKzzJxYR7RRcOnwE
+ pK7Y/bfdchtbbrZl9NRMZn3WydMJlJ4oClZiTyVttWk1fFM/A0cViink6XXZ5gN6EmUV
+ /1+ZcpJfnL9XTdb3G6hntpQe3vryVuBR0JmGGQ8f+q12vw5/nqnQ0JXvyQlBX3YJq3cO
+ zOEHGS73KCSPl7592tHR1ELGl32zVbLace5uxBM7udPGbFBQaddo/GDkJc2pUWZvXr58
+ 9xYpM2M0cJ5TKlDlInw7BBgvwhdKFwne27RxycFP2d7XTg5u1Y+39LcuRA8nkVVqzx7t
+ /cSw==
+X-Gm-Message-State: AOAM5310GNRSyQ55I9yi3khF2eNp1loagON89spDhjkJnLv65PlEyV05
+ RAkrV0cyeazQtyY/YzFAOlIWHw1+A4Q=
+X-Google-Smtp-Source: ABdhPJwkIrla6tXtcAmGeA6V5tho6Evtfuk5dPRK/SXYOHzkkTqZQpiFLyA85FWZwv1QpgYbWK0ZfQ==
+X-Received: by 2002:a05:6870:b39c:b0:d1:4a9f:35f9 with SMTP id
+ w28-20020a056870b39c00b000d14a9f35f9mr3492472oap.119.1646937029922; 
+ Thu, 10 Mar 2022 10:30:29 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:5655:fd2a:accf:db6c:e4fd])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a4aae47000000b0031d17643eaasm2763175oon.22.2022.03.10.10.30.24
+ a7-20020a4aae47000000b0031d17643eaasm2763175oon.22.2022.03.10.10.30.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 10:30:26 -0800 (PST)
+ Thu, 10 Mar 2022 10:30:29 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/9] avocado/boot_linux_console.py: check TCG accel in
- test_ppc_mac99()
-Date: Thu, 10 Mar 2022 15:30:04 -0300
-Message-Id: <20220310183011.110391-3-danielhb413@gmail.com>
+Subject: [PATCH 3/9] avocado/ppc_405.py: remove test_ppc_taihu()
+Date: Thu, 10 Mar 2022 15:30:05 -0300
+Message-Id: <20220310183011.110391-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220310183011.110391-1-danielhb413@gmail.com>
 References: <20220310183011.110391-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::230
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x230.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2c.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -93,45 +93,42 @@ Cc: farosas@linux.ibm.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test breaks when run in an IBM POWER host with a QEMU compiled
-with --disable-tcg and the ppc-softmmu target in a similar manner as
-test_ppc_g3beige did.
+Running this test gives us a deprecation warning telling that this
+machine type is no longer supported:
 
-There's also an observation made about kvm_pr in the error message:
+	Output: qemu-system-ppc: Machine type 'taihu' is deprecated:
+incomplete, use 'ref405ep' instead
 
-Command: ./qemu-system-ppc -display none -vga none (...)
--machine mac99 (...)
-        Output: ioctl(KVM_CREATE_VM) failed: 22 Invalid argument
-PPC KVM module is not loaded. Try modprobe kvm_pr.
-qemu-system-ppc: failed to initialize kvm: Invalid argument
+Moreover, this test fails to pass running in an IBM POWER host when
+building QEMU with --disable-tcg.
 
-This means that, when/if we're able to detect kvm_pr support in these
-avocado tests, we can revisit this test to not rely solely on TCG
-availability.
+Since the machine type is already being considered deprecated let's not
+bother fixing the test with --disable-tcg. Remove test_ppc_taihu().
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- tests/avocado/boot_linux_console.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/avocado/ppc_405.py | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index 2f8d8e2fe6..b40a3abc81 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -1228,7 +1228,13 @@ def test_ppc_mac99(self):
+diff --git a/tests/avocado/ppc_405.py b/tests/avocado/ppc_405.py
+index a47f89b934..a69b7c5e97 100644
+--- a/tests/avocado/ppc_405.py
++++ b/tests/avocado/ppc_405.py
+@@ -25,14 +25,6 @@ def do_test_ppc405(self):
+         wait_for_console_pattern(self, 'AMCC PPC405EP Evaluation Board')
+         exec_command_and_wait_for_pattern(self, 'reset', 'AMCC PowerPC 405EP')
+ 
+-    def test_ppc_taihu(self):
+-        """
+-        :avocado: tags=arch:ppc
+-        :avocado: tags=machine:taihu
+-        :avocado: tags=cpu:405ep
+-        """
+-        self.do_test_ppc405()
+-
+     def test_ppc_ref405ep(self):
          """
          :avocado: tags=arch:ppc
-         :avocado: tags=machine:mac99
-+        :avocado: tags=accel:tcg
-         """
-+        # TODO: mac99 works with kvm_pr but we don't have a
-+        # reliable way ATM (e.g. looking at /proc/modules) to detect
-+        # whether we're running kvm_hv or kvm_pr. For now let's
-+        # disable this test if we don't have TCG support.
-+        self.require_accelerator("tcg")
-         tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
-         self.vm.add_args('-M', 'graphics=off')
-         self.do_test_advcal_2018('15', tar_hash, 'invaders.elf')
 -- 
 2.35.1
 
