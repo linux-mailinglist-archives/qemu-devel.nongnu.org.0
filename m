@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F1D4D4307
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 10:03:36 +0100 (CET)
-Received: from localhost ([::1]:54804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCB54D432B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 10:08:53 +0100 (CET)
+Received: from localhost ([::1]:60026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSEhr-0002dI-Nq
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 04:03:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42544)
+	id 1nSEmz-0006ZE-24
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 04:08:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1nSEdk-0000rZ-1d
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 03:59:20 -0500
-Received: from mga09.intel.com ([134.134.136.24]:26958)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nSEj9-00052J-9Q
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 04:04:56 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:53035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1nSEdh-00007F-Vv
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 03:59:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646902758; x=1678438758;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=YQ4QSPDPDFW9bScDCHDZIGKz3XUzqzpZVqrdZLdzL94=;
- b=n4DZ3gvYzrSJoOz1z8EVu7yoDifGxe4qt5jCTcbaHTVsZEj+VPHl5EVP
- ii9ApDHf7E3UcuNOijdcSkkJd1OlMX8o0e1jot5/GKWMKdrdk8rn+hkvO
- zq9YsutwZCW0dvVgRYbsrmLhcjYI0QZVt9rE7tcpmlkKzQCLwsmTz1D53
- L/VPiMdWGFVArdYh8W29wojYvIx3xCkd0cMEmFJtWN9T+AQzgNBHXylNA
- LcheDMzUNJCdNoVzebUJNvbgdg3+icOBp0Iu4dhxueP1qV8i95fW77ehG
- Scy7i9OkkjrJZOBCV6xBjtIIBrUxW46UYj8kk9DzKsLNZ6MmfLrbEqhwq Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="254932812"
-X-IronPort-AV: E=Sophos;i="5.90,169,1643702400"; d="scan'208";a="254932812"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2022 00:59:13 -0800
-X-IronPort-AV: E=Sophos;i="5.90,169,1643702400"; d="scan'208";a="644367228"
-Received: from chenyi-pc.sh.intel.com ([10.239.159.73])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2022 00:59:11 -0800
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Xiaoyao Li <xiaoyao.li@intel.com>
-Subject: [PATCH 2/2] i386: Add notify VM exit support
-Date: Thu, 10 Mar 2022 17:02:05 +0800
-Message-Id: <20220310090205.10645-3-chenyi.qiang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220310090205.10645-1-chenyi.qiang@intel.com>
-References: <20220310090205.10645-1-chenyi.qiang@intel.com>
-Received-SPF: pass client-ip=134.134.136.24;
- envelope-from=chenyi.qiang@intel.com; helo=mga09.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nSEj7-0000un-EO
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 04:04:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=XYHpPVtOrSAUr3lWFyg+nv6oV3Nc43WWuns1LSWK/pg=; b=b/YtW7emJY8eGFDBaFTWWxnb6C
+ 7PFMmKWMp83JUwFT51GOOundFtmgfB/0YnVMrh0Ep9pfEZjZL9JcYvbHKTfBEYqkEEdnBrN+kQHJ5
+ lf+lcHBKFY81wtQhycHeNYn/ah/it+904nm9M73EZvc+t/28LqLgjY3eHasuIpRmJznpLN7NRnX2C
+ hyYJpI4W3s8k24lfrBOCS0RwLZZ2i7hhlDhJ/gYxciLUaZMxCtE1i7bDxyL19EIUI5Aqq+jp19jBl
+ 3XdBe/3J9/s2lopwCjINLvkpDzFDgw6KH4n1XZBs5FMYV2Gqa9q5QURh96XJzlznwyrRdjhDkqDCo
+ jH2ZOXjfK3WU3vrJSSjg/901yA2RQY4FQobRgr2oUUwKArpT7kLbLNDpRn3Rf1IEq4R3W9jcF4XE1
+ 7VHXpEXjGxzUyue3u65uj+aaoLM6sab7lAX0VnO2ARsXHOdZGdrG4+x2GK6HEKKFSh1o1KMQ14FR4
+ 97N72hhsjVz5oCa7IVluL8AU4s/yUB9zTB9KWDMziAwKJ2a8Dk+LnqzuAHlAU1D/45KkVuAMork4Y
+ lkkzbBnaNd8sAHzHhVyLBAkb0Of1bYsYaaF5QudMOmUYrvii0sRnIA+FVmW1iF5tAPm/KQsTMUqKo
+ 1vjYZg2KoDkbSKOF8OWJELmz0z21KI5zUAy/mRKmk=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 3/6] tests/9pfs: compare QIDs in fs_walk_none() test
+Date: Thu, 10 Mar 2022 10:04:50 +0100
+Message-ID: <16470725.T4W6l4s3Qp@silver>
+In-Reply-To: <699dea34f26b6f60746a16a35748b65d76515f1a.1646850707.git.qemu_oss@crudebyte.com>
+References: <cover.1646850707.git.qemu_oss@crudebyte.com>
+ <699dea34f26b6f60746a16a35748b65d76515f1a.1646850707.git.qemu_oss@crudebyte.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,205 +65,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chenyi Qiang <chenyi.qiang@intel.com>, kvm@vger.kernel.org,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are cases that malicious virtual machine can cause CPU stuck (due
-to event windows don't open up), e.g., infinite loop in microcode when
-nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
-IRQ) can be delivered. It leads the CPU to be unavailable to host or
-other VMs. Notify VM exit is introduced to mitigate such kind of
-attacks, which will generate a VM exit if no event window occurs in VM
-non-root mode for a specified amount of time (notify window).
+On Mittwoch, 9. M=E4rz 2022 15:49:04 CET Christian Schoenebeck wrote:
+> Extend previously added fs_walk_none() test by comparing the QID
+> of the root fid with the QID of the cloned fid. They should be
+> equal.
+>=20
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  tests/qtest/virtio-9p-test.c | 70 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 70 insertions(+)
+>=20
+> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+> index 6c00da03f4..9098e21173 100644
+> --- a/tests/qtest/virtio-9p-test.c
+> +++ b/tests/qtest/virtio-9p-test.c
+> @@ -146,6 +146,11 @@ static void v9fs_uint16_read(P9Req *req, uint16_t *v=
+al)
+> le16_to_cpus(val);
+>  }
+>=20
+> +static void v9fs_int16_read(P9Req *req, int16_t *val)
+> +{
+> +    v9fs_uint16_read(req, (uint16_t *)val);
+> +}
+> +
+>  static void v9fs_uint32_write(P9Req *req, uint32_t val)
+>  {
+>      uint32_t le_val =3D cpu_to_le32(val);
+> @@ -166,12 +171,22 @@ static void v9fs_uint32_read(P9Req *req, uint32_t
+> *val) le32_to_cpus(val);
+>  }
+>=20
+> +static void v9fs_int32_read(P9Req *req, int32_t *val)
+> +{
+> +    v9fs_uint32_read(req, (uint32_t *)val);
+> +}
+> +
+>  static void v9fs_uint64_read(P9Req *req, uint64_t *val)
+>  {
+>      v9fs_memread(req, val, 8);
+>      le64_to_cpus(val);
+>  }
+>=20
+> +static void v9fs_int64_read(P9Req *req, int64_t *val)
+> +{
+> +    v9fs_uint64_read(req, (uint64_t *)val);
+> +}
+> +
+>  /* len[2] string[len] */
+>  static uint16_t v9fs_string_size(const char *string)
+>  {
+> @@ -425,6 +440,40 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid,
+> v9fs_qid **wqid) v9fs_req_free(req);
+>  }
+>=20
+> +/* size[4] Tstat tag[2] fid[4] */
+> +static P9Req *v9fs_tstat(QVirtio9P *v9p, uint32_t fid, uint16_t tag)
+> +{
+> +    P9Req *req;
+> +
+> +    req =3D v9fs_req_init(v9p, 4, P9_TSTAT, tag);
+> +    v9fs_uint32_write(req, fid);
+> +    v9fs_req_send(req);
+> +    return req;
+> +}
+> +
+> +/* size[4] Rstat tag[2] stat[n] */
+> +static void v9fs_rstat(P9Req *req, struct V9fsStat *st)
+> +{
+> +    v9fs_req_recv(req, P9_RSTAT);
+> +
+> +    v9fs_int16_read(req, &st->size);
+> +    v9fs_int16_read(req, &st->type);
+> +    v9fs_int32_read(req, &st->dev);
+> +    v9fs_uint8_read(req, &st->qid.type);
+> +    v9fs_uint32_read(req, &st->qid.version);
+> +    v9fs_uint64_read(req, &st->qid.path);
+> +    v9fs_int32_read(req, &st->mode);
+> +    v9fs_int32_read(req, &st->mtime);
+> +    v9fs_int32_read(req, &st->atime);
+> +    v9fs_int64_read(req, &st->length);
+> +    v9fs_string_read(req, &st->name.size, &st->name.data);
+> +    v9fs_string_read(req, &st->uid.size, &st->uid.data);
+> +    v9fs_string_read(req, &st->gid.size, &st->gid.data);
+> +    v9fs_string_read(req, &st->muid.size, &st->muid.data);
+> +
+> +    v9fs_req_free(req);
+> +}
+> +
+>  /* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
+>  static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t offse=
+t,
+>                              uint32_t count, uint16_t tag)
+> @@ -1009,6 +1058,8 @@ static void fs_walk_none(void *obj, void *data,
+> QGuestAllocator *t_alloc) v9fs_qid root_qid;
+>      g_autofree v9fs_qid *wqid =3D NULL;
+>      P9Req *req;
+> +    struct V9fsStat st[2];
+> +    int i;
+>=20
+>      do_version(v9p);
+>      req =3D v9fs_tattach(v9p, 0, getuid(), 0);
+> @@ -1021,6 +1072,25 @@ static void fs_walk_none(void *obj, void *data,
+> QGuestAllocator *t_alloc)
+>=20
+>      /* special case: no QID is returned if nwname=3D0 was sent */
+>      g_assert(wqid =3D=3D NULL);
+> +
+> +    req =3D v9fs_tstat(v9p, 0, 0);
+> +    v9fs_req_wait_for_reply(req, NULL);
+> +    v9fs_rstat(req, &st[0]);
 
-A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
-so that the user can query the capability and set the expected notify
-window when creating VMs.
+Probably stat-ing the root fid (0) should happen before sending Twalk, to=20
+better counter the 1st fid (0) having become potentially mutated?
 
-If notify VM exit happens with VM_INVALID_CONTEXT, hypervisor should
-exit to user space with the exit reason KVM_EXIT_NOTIFY to inform the
-fatal case. Then user space can inject a SHUTDOWN event to the target
-vcpu. This is implemented by defining a new bit in flags field of
-kvm_vcpu_event in KVM_SET_VCPU_EVENTS ioctl.
+> +
+> +    req =3D v9fs_tstat(v9p, 1, 0);
+> +    v9fs_req_wait_for_reply(req, NULL);
+> +    v9fs_rstat(req, &st[1]);
+> +
+> +    /* don't compare QID version for checking for file ID equalness */
+> +    g_assert(st[0].qid.type =3D=3D st[1].qid.type);
+> +    g_assert(st[0].qid.path =3D=3D st[1].qid.path);
 
-Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
----
- hw/i386/x86.c         | 24 ++++++++++++++++++
- include/hw/i386/x86.h |  3 +++
- target/i386/kvm/kvm.c | 58 ++++++++++++++++++++++++++++---------------
- 3 files changed, 65 insertions(+), 20 deletions(-)
+I could add a helper function is_same_qid() for this if desired.
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index b84840a1bb..25e6c50b1e 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1309,6 +1309,23 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
-     qapi_free_SgxEPCList(list);
- }
- 
-+static void x86_machine_get_notify_window(Object *obj, Visitor *v,
-+                                const char *name, void *opaque, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+    int32_t notify_window = x86ms->notify_window;
-+
-+    visit_type_int32(v, name, &notify_window, errp);
-+}
-+
-+static void x86_machine_set_notify_window(Object *obj, Visitor *v,
-+                               const char *name, void *opaque, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    visit_type_int32(v, name, &x86ms->notify_window, errp);
-+}
-+
- static void x86_machine_initfn(Object *obj)
- {
-     X86MachineState *x86ms = X86_MACHINE(obj);
-@@ -1319,6 +1336,7 @@ static void x86_machine_initfn(Object *obj)
-     x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
-     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-     x86ms->bus_lock_ratelimit = 0;
-+    x86ms->notify_window = -1;
- }
- 
- static void x86_machine_class_init(ObjectClass *oc, void *data)
-@@ -1375,6 +1393,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, "sgx-epc",
-         "SGX EPC device");
-+
-+    object_class_property_add(oc, X86_MACHINE_NOTIFY_WINDOW, "int32_t",
-+                                x86_machine_get_notify_window,
-+                                x86_machine_set_notify_window, NULL, NULL);
-+    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_WINDOW,
-+            "Set the notify window required by notify VM exit");
- }
- 
- static const TypeInfo x86_machine_info = {
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index a145a30370..2a4ca21a94 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -82,6 +82,8 @@ struct X86MachineState {
-      * which means no limitation on the guest's bus locks.
-      */
-     uint64_t bus_lock_ratelimit;
-+
-+    int32_t notify_window;
- };
- 
- #define X86_MACHINE_SMM              "smm"
-@@ -89,6 +91,7 @@ struct X86MachineState {
- #define X86_MACHINE_OEM_ID           "x-oem-id"
- #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
- #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
-+#define X86_MACHINE_NOTIFY_WINDOW     "notify-window"
- 
- #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
- OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 83d0988302..65ad370652 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -2299,6 +2299,10 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     int ret;
-     struct utsname utsname;
-     Error *local_err = NULL;
-+    X86MachineState *x86ms;
-+
-+    assert(object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE));
-+    x86ms = X86_MACHINE(ms);
- 
-     /*
-      * Initialize SEV context, if required
-@@ -2394,8 +2398,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     }
- 
-     if (kvm_check_extension(s, KVM_CAP_X86_SMM) &&
--        object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE) &&
--        x86_machine_is_smm_enabled(X86_MACHINE(ms))) {
-+        x86_machine_is_smm_enabled(x86ms)) {
-         smram_machine_done.notify = register_smram_listener;
-         qemu_add_machine_init_done_notifier(&smram_machine_done);
-     }
-@@ -2423,25 +2426,31 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-         }
-     }
- 
--    if (object_dynamic_cast(OBJECT(ms), TYPE_X86_MACHINE)) {
--        X86MachineState *x86ms = X86_MACHINE(ms);
-+    if (x86ms->bus_lock_ratelimit > 0) {
-+        ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
-+        if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
-+            error_report("kvm: bus lock detection unsupported");
-+            return -ENOTSUP;
-+        }
-+        ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
-+                                KVM_BUS_LOCK_DETECTION_EXIT);
-+        if (ret < 0) {
-+            error_report("kvm: Failed to enable bus lock detection cap: %s",
-+                         strerror(-ret));
-+            return ret;
-+        }
-+        ratelimit_init(&bus_lock_ratelimit_ctrl);
-+        ratelimit_set_speed(&bus_lock_ratelimit_ctrl,
-+                            x86ms->bus_lock_ratelimit, BUS_LOCK_SLICE_TIME);
-+    }
- 
--        if (x86ms->bus_lock_ratelimit > 0) {
--            ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
--            if (!(ret & KVM_BUS_LOCK_DETECTION_EXIT)) {
--                error_report("kvm: bus lock detection unsupported");
--                return -ENOTSUP;
--            }
--            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_BUS_LOCK_EXIT, 0,
--                                    KVM_BUS_LOCK_DETECTION_EXIT);
--            if (ret < 0) {
--                error_report("kvm: Failed to enable bus lock detection cap: %s",
--                             strerror(-ret));
--                return ret;
--            }
--            ratelimit_init(&bus_lock_ratelimit_ctrl);
--            ratelimit_set_speed(&bus_lock_ratelimit_ctrl,
--                                x86ms->bus_lock_ratelimit, BUS_LOCK_SLICE_TIME);
-+    if (kvm_check_extension(s, KVM_CAP_X86_NOTIFY_VMEXIT)) {
-+        ret = kvm_vm_enable_cap(s, KVM_CAP_X86_NOTIFY_VMEXIT, 0,
-+                                x86ms->notify_window);
-+        if (ret < 0) {
-+            error_report("kvm: Failed to enable notify vmexit cap: %s",
-+                         strerror(-ret));
-+            return ret;
-         }
-     }
- 
-@@ -4856,6 +4865,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-     X86CPU *cpu = X86_CPU(cs);
-     uint64_t code;
-     int ret;
-+    struct kvm_vcpu_events events = {};
- 
-     switch (run->exit_reason) {
-     case KVM_EXIT_HLT:
-@@ -4911,6 +4921,14 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-         /* already handled in kvm_arch_post_run */
-         ret = 0;
-         break;
-+    case KVM_EXIT_NOTIFY:
-+        ret = 0;
-+        if (run->notify.data & KVM_NOTIFY_CONTEXT_INVALID) {
-+            warn_report("KVM: invalid context due to notify vmexit");
-+            events.flags |= KVM_VCPUEVENT_SHUTDOWN;
-+            ret = kvm_vcpu_ioctl(cs, KVM_SET_VCPU_EVENTS, &events);
-+        }
-+        break;
-     default:
-         fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
-         ret = -1;
--- 
-2.17.1
+> +
+> +    for (i =3D 0; i < 2; ++i) {
+> +        g_free(st[i].name.data);
+> +        g_free(st[i].uid.data);
+> +        g_free(st[i].gid.data);
+> +        g_free(st[i].muid.data);
+> +    }
+
+I didn't find a more elegant way to do this cleanup.
+
+>  }
+>=20
+>  static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_all=
+oc)
+
 
 
