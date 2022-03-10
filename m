@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94784D452E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 11:57:28 +0100 (CET)
-Received: from localhost ([::1]:60784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 626044D454D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:02:46 +0100 (CET)
+Received: from localhost ([::1]:35538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSGU3-0002Jj-Kg
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 05:57:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43904)
+	id 1nSGZB-0004Kz-5Z
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:02:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSGT6-0001fI-B0
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 05:56:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22621)
+ id 1nSGXI-0003Zm-ES
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:00:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSGT3-0002rl-K0
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 05:56:27 -0500
+ id 1nSGXB-0003Zb-QO
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:00:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646909784;
+ s=mimecast20190719; t=1646910039;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fqS9wh2wEANKM5xoxFBlDe8N8NJ7Oic577RTdyQ9r3s=;
- b=iet1KLmHuYD2VXVwVDpwsoe18dXHPaJCatIiwxOTr4vd9za1mdQVn5W8EArl5SVxHr+io9
- ZPubKjKaj+TORLrBbVdIZ5diyd68nAtveZ8Zt8zlMX/61EIjdsy+P0gWL8S6Zc9pvoaLdO
- sSzWTC3LZuhhw4ixsklou0yrAW121Cg=
+ bh=HAKS0Xv0YDZMH53sr9NqYoM0X8IFyh6SZuGRiiuv2Qo=;
+ b=EMHqGiV9lbIaiBFUhvec0dekEliqRYT9+rSNj5Ai6urfxVXuTShtjJ1XQDvpLYiROz7sCi
+ Vn1WuKbDzW0L2ygIJp15PHscI1sZT0gvIvGP4dDVRAqK9/GYGBnpleESppgCbClo72huSZ
+ guvi5p9asOWi96e/yaMOOsLU+t47zXc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-MbS9TDysNgyiPovO62ja2g-1; Thu, 10 Mar 2022 05:56:19 -0500
-X-MC-Unique: MbS9TDysNgyiPovO62ja2g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-658-sAEoYnbsOOivW6F2lfz3og-1; Thu, 10 Mar 2022 06:00:38 -0500
+X-MC-Unique: sAEoYnbsOOivW6F2lfz3og-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A74F28066F3
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 10:56:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EDAD5200
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 11:00:37 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E80726F80E;
- Thu, 10 Mar 2022 10:55:43 +0000 (UTC)
-Date: Thu, 10 Mar 2022 10:55:40 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CE3F1F2E5;
+ Thu, 10 Mar 2022 11:00:08 +0000 (UTC)
+Date: Thu, 10 Mar 2022 11:00:05 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 04/18] tests: print newline after QMP response in qtest
- logs
-Message-ID: <YinZLBo77h9X9kvX@redhat.com>
+Subject: Re: [PATCH 08/18] tests: merge code for UNIX and TCP migration
+ pre-copy tests
+Message-ID: <YinaNTUzZJpepoVz@redhat.com>
 References: <20220302174932.2692378-1-berrange@redhat.com>
- <20220302174932.2692378-5-berrange@redhat.com>
- <YiWra21XaVV9Fdv/@xz-m1.local> <YiXZLzqenrNT/uKg@redhat.com>
- <57b8b146-a197-2f46-bf56-6ab80122e9bd@redhat.com>
+ <20220302174932.2692378-9-berrange@redhat.com>
+ <e4a80a6d-ab9b-8d9d-11d4-dd395ac7d347@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <57b8b146-a197-2f46-bf56-6ab80122e9bd@redhat.com>
+In-Reply-To: <e4a80a6d-ab9b-8d9d-11d4-dd395ac7d347@redhat.com>
 User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -65,7 +64,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -95,48 +94,29 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 07, 2022 at 11:09:37AM +0100, Thomas Huth wrote:
-> On 07/03/2022 11.06, Daniel P. Berrangé wrote:
-> > On Mon, Mar 07, 2022 at 02:51:23PM +0800, Peter Xu wrote:
-> > > On Wed, Mar 02, 2022 at 05:49:18PM +0000, Daniel P. Berrangé wrote:
-> > > > The QMP commands have a trailing newline, but the response does not.
-> > > > This makes the qtest logs hard to follow as the next QMP command
-> > > > appears in the same line as the previous QMP response.
-> > > > 
-> > > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > > > ---
-> > > >   tests/qtest/libqtest.c | 3 +++
-> > > >   1 file changed, 3 insertions(+)
-> > > > 
-> > > > diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> > > > index a85f8a6d05..79c3edcf4b 100644
-> > > > --- a/tests/qtest/libqtest.c
-> > > > +++ b/tests/qtest/libqtest.c
-> > > > @@ -629,6 +629,9 @@ QDict *qmp_fd_receive(int fd)
-> > > >           }
-> > > >           json_message_parser_feed(&qmp.parser, &c, 1);
-> > > >       }
-> > > > +    if (log) {
-> > > > +        g_assert(write(2, "\n", 1) == 1);
-> > > > +    }
-> > > 
-> > > Drop the g_assert() to remove side effect of G_DISABLE_ASSERT?
+On Mon, Mar 07, 2022 at 11:11:07AM +0100, Thomas Huth wrote:
+> On 02/03/2022 18.49, Daniel P. Berrangé wrote:
+> > The test cases differ only in the URI they provide to the migration
+> > commands, and the ability to set the dirty_ring mode. This code is
+> > trivially merged into a common helper.
 > > 
-> > You need to check the return value of write() otherwise you'll get a
-> > compile failure due to a warn_unused_result attribute annotation.
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >   roms/seabios                 |  2 +-
+> >   tests/qtest/migration-test.c | 86 ++++++++++++++++--------------------
+> >   2 files changed, 40 insertions(+), 48 deletions(-)
 > > 
-> > I don't think G_DISABLE_ASSERT is a problem as we're not defining
-> > that in our code.
+> > diff --git a/roms/seabios b/roms/seabios
+> > index 6a62e0cb0d..2dd4b9b3f8 160000
+> > --- a/roms/seabios
+> > +++ b/roms/seabios
+> > @@ -1 +1 @@
+> > -Subproject commit 6a62e0cb0dfe9cd28b70547dbea5caf76847c3a9
+> > +Subproject commit 2dd4b9b3f84019668719344b40dba79d681be41c
 > 
-> You could use g_assert_true() - that's not affected by G_DISABLE_ASSERT.
+> Did you really want to update the submodule here?
 
-I don't think we need to do that, per existing common practice:
-
-$ git grep '\bg_assert('  | wc -l
-2912
-
-$ git grep '\bg_assert(' tests | wc -l
-2296
+Of course not :-(
 
 Regards,
 Daniel
