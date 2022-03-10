@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F17F4D4331
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 10:11:18 +0100 (CET)
-Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15E14D4340
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 10:16:30 +0100 (CET)
+Received: from localhost ([::1]:37750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSEpJ-0000Zg-IS
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 04:11:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44318)
+	id 1nSEuL-0002os-Gg
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 04:16:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nSElI-0005fv-3X
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 04:07:08 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:52307)
+ id 1nSErZ-0001du-Sl
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 04:13:38 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:40377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nSElG-0001Ki-Kk
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 04:07:07 -0500
+ id 1nSErY-0002Hf-6J
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 04:13:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=bZJ3IVeU5hGyqhHOcQgMQhDgZWys6DbJL6/SGw/mkRI=; b=LZpcAhvLh0ki0jPk21w30lsefZ
- OzfG31FZ3SbHJnJIElDFZsl6YXWmw4eZaM/goQ9w+AGFs/nQZXxBJXeoRcZYqh1sd0/cKAw7da98a
- Y5KEcmmcDkZGEvmKnPBKcOlCDNxdqRa3y+08uWECkKD10MSRlLD0kgqf564ylwBTEYUAzVIqzsDNN
- FrbRihOO3/fUF20sa2Wx1ctslEi7WPahwpqyxsQ6p4NaO0hmGShjjIQ+KfcIgP3tI4tL+sIx/6+qZ
- oTHzn/RPSPMVugoLcXOT8mu0cJeS80OH8WFVU+N0bccEw41/nenhpnFmHzoHmvuC2l+yD/CAAAu9A
- dHBsvzkfcMEkATd1F6nhRKsmPKag0uQH3Uuw0GoNc6IWigJAr2fUY0wGtETMxQ+XPCr7+t/1TcwlS
- KftvLeGQo/yokStouT6L9lJ03crWDnJcZXyOtoA3UB/at5j5AtRYNDR4aD8DupRjQiB0zG3utKj5U
- YKFlJ676ZmMZzRf31xkDvZNiSSnNeQZ4KKGtzpKqe/k4h8Z8Q5dWULUnJWI2Th7OGCs4+nah1Gtz1
- 6vZZvc0Rwvvg6KOMboOeJyXFLIOWsqSR10aVBNyV8r8TGFEoa268EPompPPB1AaeEZiuPh3kusJ2D
- O1G7Oom196Ac+E9t/ghw0R2APUGqk8TjQfIYXeRzk=;
+ bh=UtA3BuMUgM/1+K9+nlBhJNFDYrl07g82EWcRfMwTQOE=; b=Pe1KEs9uJR9iA7KwhM3+78os1e
+ VNtIVsckloVhWVjyoJNrtkDoqZIAS7ygH5GNU7NFvZ/0XlgmAbPhQIn1gSZ2EFK+aqlg52jzydvJV
+ 0M4+T2Qc3TLXD4rNdiKYrzCuQ7PUdZ7HkTl9RpW8Xg/0xuSlnOR3SDLbb2sOHguU0ynXPKi1JOIIW
+ b6tHz5claF0FDD/7WQWHSmXqiN4ayqfI/czaqCmezZBoj2zp4SE854JK0Jx6bPVUAgc9IRtfwFLGA
+ 8nOmLuOgMmf9HJ7VFpKhN3HsugCKPL5jYrB73sbu3xUExVZC7I9ytKFmGlwYuWQ6Kx3KHaZ3KTpIg
+ /OFd+49+HtDvDsUDbZMjJfvp1vvRB64cHqWK11vIp1JNHkrGGEeWHw45edPB2E9ZQrkkdETPFpJSe
+ 0qxvGJKiSS5G+wdinBpESOMk/LC39OCNUi/95gvqxTmOdLYMA7gxpitbPmi/2t8B/zlK+wyzB1GTO
+ rq7F9qDVt6fKC+hYsUL9AZCDboRM5oeAyfttt/j5ppJQmDPNdHU2yEKcXPdveYQxBfFMoD62RTej4
+ +THf4D8HLyoK67be9rdqFhfwRTHhKkBKbjZDogUAWONlvArT1FuWyS0NmDVSLE4qF4QLp7F3z6LdP
+ RTVmGUFdOa9ggGAalwmFosixOSPEH53o8pGCkc+VA=;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 4/6] 9pfs: refactor 'name_idx' -> 'nvalid' in v9fs_walk()
-Date: Thu, 10 Mar 2022 10:07:04 +0100
-Message-ID: <4831323.ZipVpMZSPQ@silver>
-In-Reply-To: <00bee0f7a89147c90c672f07b9a1ebcd9180215b.1646850707.git.qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 5/6] 9pfs: fix 'Twalk' to only send error if no component
+ walked
+Date: Thu, 10 Mar 2022 10:13:33 +0100
+Message-ID: <1785989.mTmxrQOLcC@silver>
+In-Reply-To: <1ad002a1fbc2f8e48384673b0545a164afff7ce9.1646850707.git.qemu_oss@crudebyte.com>
 References: <cover.1646850707.git.qemu_oss@crudebyte.com>
- <00bee0f7a89147c90c672f07b9a1ebcd9180215b.1646850707.git.qemu_oss@crudebyte.com>
+ <1ad002a1fbc2f8e48384673b0545a164afff7ce9.1646850707.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -68,76 +69,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 9. M=E4rz 2022 18:12:17 CET Christian Schoenebeck wrote:
-> The local variable 'name_idx' is used in two loops in function v9fs_walk(=
-).
-> Let the first loop use its own variable 'nvalid' instead, which we will u=
-se
-> in subsequent patches as the number of (requested) path components
-> successfully retrieved/walked by background I/O thread.
+On Mittwoch, 9. M=E4rz 2022 18:57:39 CET Christian Schoenebeck wrote:
+> Current implementation of 'Twalk' request handling always sends an 'Rerro=
+r'
+> response if any error occured. The 9p2000 protocol spec sais though:
+>=20
+>   "
+>   If the first element cannot be walked for any reason, Rerror is returne=
+d.
+>   Otherwise, the walk will return an Rwalk message containing nwqid qids
+>   corresponding, in order, to the files that are visited by the nwqid
+>   successful elementwise walks; nwqid is therefore either nwname or the
+> index of the first elementwise walk that failed.
+>   "
+>=20
+>   http://ericvh.github.io/9p-rfc/rfc9p2000.html#anchor33
+>=20
+> For that reason we are no longer leaving from an error path in function
+> v9fs_walk(), unless really no path component could be walked successfully=
+ or
+> if the request has been interrupted.
+>=20
+> Local variable 'nvalid' counts and reflects the number of path components
+> successfully processed by background I/O thread, whereas local variable
+> 'name_idx' subsequently counts and reflects the number of path components
+> eventually accepted successfully by 9p server controller portion.
+>=20
+> New local variable 'any_err' is an aggregate variable reflecting whether =
+any
+> error occurred at all, while already existing variable 'err' only reflects
+> the last error.
+>=20
+> Despite QIDs being delivered to client in a more relaxed way now, it is
+> important to note though that fid still must remain uneffacted if any err=
+or
+
+Typo: should be "unaffected".
+
+> occurred.
 >=20
 > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > ---
->  hw/9pfs/9p.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  hw/9pfs/9p.c | 29 +++++++++++++++++++++--------
+>  1 file changed, 21 insertions(+), 8 deletions(-)
 >=20
 > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index a6d6b3f835..6cdc566866 100644
+> index 6cdc566866..8ccd180608 100644
 > --- a/hw/9pfs/9p.c
 > +++ b/hw/9pfs/9p.c
-> @@ -1764,7 +1764,7 @@ static bool same_stat_id(const struct stat *a, const
-> struct stat *b)
->=20
->  static void coroutine_fn v9fs_walk(void *opaque)
+> @@ -1766,7 +1766,7 @@ static void coroutine_fn v9fs_walk(void *opaque)
 >  {
-> -    int name_idx;
-> +    int name_idx, nvalid;
-
-Or rather renaming this nvalid -> nfetched?
-
+>      int name_idx, nvalid;
 >      g_autofree V9fsQID *qids =3D NULL;
->      int i, err =3D 0;
+> -    int i, err =3D 0;
+> +    int i, err =3D 0, any_err =3D 0;
 >      V9fsPath dpath, path;
-> @@ -1842,17 +1842,17 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>      P9ARRAY_REF(V9fsPath) pathes =3D NULL;
+>      uint16_t nwnames;
+> @@ -1832,6 +1832,7 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>       * driver code altogether inside the following block.
+>       */
+>      v9fs_co_run_in_worker({
+> +        nvalid =3D 0;
+>          if (v9fs_request_cancelled(pdu)) {
+>              err =3D -EINTR;
+>              break;
+> @@ -1842,7 +1843,7 @@ static void coroutine_fn v9fs_walk(void *opaque)
 >              break;
 >          }
 >          stbuf =3D fidst;
-> -        for (name_idx =3D 0; name_idx < nwnames; name_idx++) {
-> +        for (nvalid =3D 0; nvalid < nwnames; nvalid++) {
+> -        for (nvalid =3D 0; nvalid < nwnames; nvalid++) {
+> +        for (; nvalid < nwnames; nvalid++) {
 >              if (v9fs_request_cancelled(pdu)) {
 >                  err =3D -EINTR;
 >                  break;
+> @@ -1874,12 +1875,13 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>      /*
+>       * Handle all the rest of this Twalk request on main thread ...
+>       */
+> -    if (err < 0) {
+> +    if ((err < 0 && !nvalid) || err =3D=3D -EINTR) {
+>          goto out;
+>      }
+>=20
+> +    any_err |=3D err;
+>      err =3D stat_to_qid(pdu, &fidst, &qid);
+> -    if (err < 0) {
+> +    if (err < 0 && !nvalid) {
+>          goto out;
+>      }
+>      stbuf =3D fidst;
+> @@ -1888,20 +1890,30 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>      v9fs_path_copy(&dpath, &fidp->path);
+>      v9fs_path_copy(&path, &fidp->path);
+>=20
+> -    for (name_idx =3D 0; name_idx < nwnames; name_idx++) {
+> +    for (name_idx =3D 0; name_idx < nvalid; name_idx++) {
+>          if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
+>              strcmp("..", wnames[name_idx].data))
+>          {
+>              stbuf =3D stbufs[name_idx];
+>              err =3D stat_to_qid(pdu, &stbuf, &qid);
+>              if (err < 0) {
+> -                goto out;
+> +                break;
 >              }
->              if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
-> -                strcmp("..", wnames[name_idx].data))
-> +                strcmp("..", wnames[nvalid].data))
->              {
->                  err =3D s->ops->name_to_path(&s->ctx, &dpath,
-> -                                           wnames[name_idx].data,
-> -                                           &pathes[name_idx]);
-> +                                           wnames[nvalid].data,
-> +                                           &pathes[nvalid]);
->                  if (err < 0) {
->                      err =3D -errno;
->                      break;
-> @@ -1861,13 +1861,13 @@ static void coroutine_fn v9fs_walk(void *opaque)
->                      err =3D -EINTR;
->                      break;
->                  }
-> -                err =3D s->ops->lstat(&s->ctx, &pathes[name_idx], &stbuf=
-);
-> +                err =3D s->ops->lstat(&s->ctx, &pathes[nvalid], &stbuf);
->                  if (err < 0) {
->                      err =3D -errno;
->                      break;
->                  }
-> -                stbufs[name_idx] =3D stbuf;
-> -                v9fs_path_copy(&dpath, &pathes[name_idx]);
-> +                stbufs[nvalid] =3D stbuf;
-> +                v9fs_path_copy(&dpath, &pathes[nvalid]);
->              }
+>              v9fs_path_copy(&path, &pathes[name_idx]);
+>              v9fs_path_copy(&dpath, &path);
 >          }
->      });
+>          memcpy(&qids[name_idx], &qid, sizeof(qid));
+>      }
+> +    any_err |=3D err;
+> +    if (any_err) {
+
+
+Not sure if there is ever the case err > 0, but as we are already comparing=
+=20
+for "if (err < 0)" everywhere, we should probably also do the same comparis=
+on=20
+for the aggregate error variable here, right?
+
+    if (any_err < 0) {
+        ...
+
+> +        if (!name_idx) {
+> +            /* don't send any QIDs, send Rlerror instead */
+> +            goto out;
+> +        } else {
+> +            /* send QIDs (not Rlerror), but fid MUST remain unaffected */
+> +            goto send_qids;
+> +        }
+> +    }
+>      if (fid =3D=3D newfid) {
+>          if (fidp->fid_type !=3D P9_FID_NONE) {
+>              err =3D -EINVAL;
+> @@ -1919,8 +1931,9 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>          newfidp->uid =3D fidp->uid;
+>          v9fs_path_copy(&newfidp->path, &path);
+>      }
+> -    err =3D v9fs_walk_marshal(pdu, nwnames, qids);
+> -    trace_v9fs_walk_return(pdu->tag, pdu->id, nwnames, qids);
+> +send_qids:
+> +    err =3D v9fs_walk_marshal(pdu, name_idx, qids);
+> +    trace_v9fs_walk_return(pdu->tag, pdu->id, name_idx, qids);
+>  out:
+>      put_fid(pdu, fidp);
+>      if (newfidp) {
 
 
 
