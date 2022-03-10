@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FED34D48B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 15:12:15 +0100 (CET)
-Received: from localhost ([::1]:56144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7445F4D48B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 15:12:18 +0100 (CET)
+Received: from localhost ([::1]:56244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSJWY-0007e4-OL
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 09:12:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35362)
+	id 1nSJWa-0007hy-UB
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 09:12:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nSJU6-00053m-9j
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 09:09:42 -0500
-Received: from mga18.intel.com ([134.134.136.126]:12253)
+ id 1nSJUB-000580-WD
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 09:09:48 -0500
+Received: from mga06.intel.com ([134.134.136.31]:42502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nSJU3-0004bx-Ma
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 09:09:42 -0500
+ id 1nSJU9-0004d4-Ii
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 09:09:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646921379; x=1678457379;
- h=from:to:cc:subject:date:message-id;
- bh=qOgHsb0TerXs6BotdtqnRubNe5gkoi8JAE7y4owcZNM=;
- b=jLZ7rbRFS/vftgFyUwoajOK72CK7nUUssm0bW+ZH94GREGzZPXN62Crb
- kOeJw/XxvqjK7HYfL2X59kNB2snjcYXN7toKfgbKoxVOPFfROhzN+sk4x
- NaNZOuSaYt+a0sZ24as5snHdM2MlbqkMMX5RyumBfJP9WahY4C1S3TCRQ
- qt3CyZlB3NZUbm3cfuuCNmpkM926xwvR34n7svEg+bwo1F4JvBYDJ94U4
- 5zyKcLAJ5NEfA6emY9Ld6C7ivEmMU+MxNKJb9uFvXvd6MCkpc9BbqtDNK
- PeVdo6tmCBwRaXkDQxx6kbAXu7N0OCqvW9o2/jlWNbEXVtK3XbAWKBF0n Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="237426158"
-X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="237426158"
+ t=1646921385; x=1678457385;
+ h=from:to:cc:subject:date:message-id:in-reply-to: references;
+ bh=HfTyQumQLz3rZd208DGi7M1QzPzA68CVqOu0FcAUOfs=;
+ b=lEzIRTv+fBuighTO0sO7ivu5ohNf+B39GtwqINaVo/shdsihwAM2p+RD
+ c8GQN2XJd01agHNfM+U9x1n4mf0HnK3TR+4d9VnEpUiz6oDFQKtaGwd3s
+ jfIMrTWArTRalQayEGcJRS2YEaGUy6f+XRsUsVEwZN3lkrS0L7XthrgyX
+ VjJupVvaPetXyo2psoktwJvM3zjHqx29oLEq9JyA1T5lGixDVZ01Ur8fD
+ 7u+xv9Eq8rK2TP5Bsu9ZS8JtVxhgaBQeWJnYesXjTlc43cv150pQm+S+3
+ KGCN0Z0DrlknXf1cBbr4gyqHn8glja8M8KkewT0wDevb6ZDfyF+iGAbm2 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="315975592"
+X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="315975592"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2022 06:09:36 -0800
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 06:09:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="554654744"
+X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="554654769"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 10 Mar 2022 06:09:27 -0800
+ by orsmga008.jf.intel.com with ESMTP; 10 Mar 2022 06:09:36 -0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
  qemu-devel@nongnu.org
-Subject: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM guest
- private memory 
-Date: Thu, 10 Mar 2022 22:08:58 +0800
-Message-Id: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+Subject: [PATCH v5 01/13] mm/memfd: Introduce MFD_INACCESSIBLE flag
+Date: Thu, 10 Mar 2022 22:08:59 +0800
+Message-Id: <20220310140911.50924-2-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: none client-ip=134.134.136.126;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga18.intel.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+Received-SPF: none client-ip=134.134.136.31;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga06.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,168 +89,257 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the v5 of this series which tries to implement the fd-based KVM
-guest private memory. The patches are based on latest kvm/queue branch
-commit:
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 
-  d5089416b7fb KVM: x86: Introduce KVM_CAP_DISABLE_QUIRKS2
+Introduce a new memfd_create() flag indicating the content of the
+created memfd is inaccessible from userspace through ordinary MMU
+access (e.g., read/write/mmap). However, the file content can be
+accessed via a different mechanism (e.g. KVM MMU) indirectly.
+
+It provides semantics required for KVM guest private memory support
+that a file descriptor with this flag set is going to be used as the
+source of guest memory in confidential computing environments such
+as Intel TDX/AMD SEV but may not be accessible from host userspace.
+
+Since page migration/swapping is not yet supported for such usages
+so these pages are currently marked as UNMOVABLE and UNEVICTABLE
+which makes them behave like long-term pinned pages.
+
+The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
+also impossible for a memfd created with this flag.
+
+At this time only shmem implements this flag.
+
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+---
+ include/linux/shmem_fs.h   |  7 +++++
+ include/uapi/linux/memfd.h |  1 +
+ mm/memfd.c                 | 26 +++++++++++++++--
+ mm/shmem.c                 | 57 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 88 insertions(+), 3 deletions(-)
+
+diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+index e65b80ed09e7..2dde843f28ef 100644
+--- a/include/linux/shmem_fs.h
++++ b/include/linux/shmem_fs.h
+@@ -12,6 +12,9 @@
  
-Introduction
-------------
-In general this patch series introduce fd-based memslot which provides
-guest memory through memory file descriptor fd[offset,size] instead of
-hva/size. The fd can be created from a supported memory filesystem
-like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
-and the the memory backing store exchange callbacks when such memslot
-gets created. At runtime KVM will call into callbacks provided by the
-backing store to get the pfn with the fd+offset. Memory backing store
-will also call into KVM callbacks when userspace fallocate/punch hole
-on the fd to notify KVM to map/unmap secondary MMU page tables.
-
-Comparing to existing hva-based memslot, this new type of memslot allows
-guest memory unmapped from host userspace like QEMU and even the kernel
-itself, therefore reduce attack surface and prevent bugs.
-
-Based on this fd-based memslot, we can build guest private memory that
-is going to be used in confidential computing environments such as Intel
-TDX and AMD SEV. When supported, the memory backing store can provide
-more enforcement on the fd and KVM can use a single memslot to hold both
-the private and shared part of the guest memory. 
-
-mm extension
----------------------
-Introduces new MFD_INACCESSIBLE flag for memfd_create(), the file created
-with these flags cannot read(), write() or mmap() etc via normal
-MMU operations. The file content can only be used with the newly
-introduced memfile_notifier extension.
-
-The memfile_notifier extension provides two sets of callbacks for KVM to
-interact with the memory backing store:
-  - memfile_notifier_ops: callbacks for memory backing store to notify
-    KVM when memory gets allocated/invalidated.
-  - memfile_pfn_ops: callbacks for KVM to call into memory backing store
-    to request memory pages for guest private memory.
-
-The memfile_notifier extension also provides APIs for memory backing
-store to register/unregister itself and to trigger the notifier when the
-bookmarked memory gets fallocated/invalidated.
-
-memslot extension
------------------
-Add the private fd and the fd offset to existing 'shared' memslot so that
-both private/shared guest memory can live in one single memslot. A page in
-the memslot is either private or shared. A page is private only when it's
-already allocated in the backing store fd, all the other cases it's treated
-as shared, this includes those already mapped as shared as well as those
-having not been mapped. This means the memory backing store is the place
-which tells the truth of which page is private.
-
-Private memory map/unmap and conversion
----------------------------------------
-Userspace's map/unmap operations are done by fallocate() ioctl on the
-backing store fd.
-  - map: default fallocate() with mode=0.
-  - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
-The map/unmap will trigger above memfile_notifier_ops to let KVM map/unmap
-secondary MMU page tables.
-
-Test
-----
-To test the new functionalities of this patch TDX patchset is needed.
-Since TDX patchset has not been merged so I did two kinds of test:
-
--  Regresion test on kvm/queue (this patch)
-   Most new code are not covered. I only tested building and booting.
-
--  New Funational test on latest TDX code
-   The patch is rebased to latest TDX code and tested the new
-   funcationalities.
-
-For TDX test please see below repos:
-Linux: https://github.com/chao-p/linux/tree/privmem-v5.1
-QEMU: https://github.com/chao-p/qemu/tree/privmem-v4
-
-And an example QEMU command line:
--object tdx-guest,id=tdx \
--object memory-backend-memfd-private,id=ram1,size=2G \
--machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
-
-Changelog
-----------
-v5:
-  - Removed userspace visible F_SEAL_INACCESSIBLE, instead using an
-    in-kernel flag (SHM_F_INACCESSIBLE for shmem). Private fd can only
-    be created by MFD_INACCESSIBLE.
-  - Introduced new APIs for backing store to register itself to
-    memfile_notifier instead of direct function call.
-  - Added the accounting and restriction for MFD_INACCESSIBLE memory.
-  - Added KVM API doc for new memslot extensions and man page for the new
-    MFD_INACCESSIBLE flag.
-  - Removed the overlap check for mapping the same file+offset into
-    multiple gfns due to perf consideration, warned in document.
-  - Addressed other comments in v4.
-v4:
-  - Decoupled the callbacks between KVM/mm from memfd and use new
-    name 'memfile_notifier'.
-  - Supported register multiple memslots to the same backing store.
-  - Added per-memslot pfn_ops instead of per-system.
-  - Reworked the invalidation part.
-  - Improved new KVM uAPIs (private memslot extension and memory
-    error) per Sean's suggestions.
-  - Addressed many other minor fixes for comments from v3.
-v3:
-  - Added locking protection when calling
-    invalidate_page_range/fallocate callbacks.
-  - Changed memslot structure to keep use useraddr for shared memory.
-  - Re-organized F_SEAL_INACCESSIBLE and MEMFD_OPS.
-  - Added MFD_INACCESSIBLE flag to force F_SEAL_INACCESSIBLE.
-  - Commit message improvement.
-  - Many small fixes for comments from the last version.
-
-Links to previous discussions
------------------------------
-[1] Original design proposal:
-https://lkml.kernel.org/kvm/20210824005248.200037-1-seanjc@google.com/
-[2] Updated proposal and RFC patch v1:
-https://lkml.kernel.org/linux-fsdevel/20211111141352.26311-1-chao.p.peng@linux.intel.com/
-[3] Patch v4: https://lkml.org/lkml/2022/1/18/395
-
-Chao Peng (10):
-  mm: Introduce memfile_notifier
-  mm/shmem: Restrict MFD_INACCESSIBLE memory against RLIMIT_MEMLOCK
-  KVM: Extend the memslot to support fd-based private memory
-  KVM: Use kvm_userspace_memory_region_ext
-  KVM: Add KVM_EXIT_MEMORY_ERROR exit
-  KVM: Use memfile_pfn_ops to obtain pfn for private pages
-  KVM: Handle page fault for private memory
-  KVM: Register private memslot to memory backing store
-  KVM: Zap existing KVM mappings when pages changed in the private fd
-  KVM: Expose KVM_MEM_PRIVATE
-
-Kirill A. Shutemov (2):
-  mm/memfd: Introduce MFD_INACCESSIBLE flag
-  mm/shmem: Support memfile_notifier
-
- Documentation/virt/kvm/api.rst   |  59 +++++++++--
- arch/x86/kvm/Kconfig             |   1 +
- arch/x86/kvm/mmu/mmu.c           |  73 +++++++++++++-
- arch/x86/kvm/mmu/paging_tmpl.h   |  11 ++-
- arch/x86/kvm/x86.c               |  12 +--
- include/linux/kvm_host.h         |  49 ++++++++-
- include/linux/memfile_notifier.h |  64 ++++++++++++
- include/linux/shmem_fs.h         |  11 +++
- include/uapi/linux/kvm.h         |  17 ++++
- include/uapi/linux/memfd.h       |   1 +
- mm/Kconfig                       |   4 +
- mm/Makefile                      |   1 +
- mm/memfd.c                       |  26 ++++-
- mm/memfile_notifier.c            | 114 +++++++++++++++++++++
- mm/shmem.c                       | 156 +++++++++++++++++++++++++++++
- virt/kvm/kvm_main.c              | 165 +++++++++++++++++++++++++++----
- 16 files changed, 717 insertions(+), 47 deletions(-)
- create mode 100644 include/linux/memfile_notifier.h
- create mode 100644 mm/memfile_notifier.c
-
+ /* inode in-kernel data */
+ 
++/* shmem extended flags */
++#define SHM_F_INACCESSIBLE	0x0001  /* prevent ordinary MMU access (e.g. read/write/mmap) to file content */
++
+ struct shmem_inode_info {
+ 	spinlock_t		lock;
+ 	unsigned int		seals;		/* shmem seals */
+@@ -24,6 +27,7 @@ struct shmem_inode_info {
+ 	struct shared_policy	policy;		/* NUMA memory alloc policy */
+ 	struct simple_xattrs	xattrs;		/* list of xattrs */
+ 	atomic_t		stop_eviction;	/* hold when working on inode */
++	unsigned int		xflags;		/* shmem extended flags */
+ 	struct inode		vfs_inode;
+ };
+ 
+@@ -61,6 +65,9 @@ extern struct file *shmem_file_setup(const char *name,
+ 					loff_t size, unsigned long flags);
+ extern struct file *shmem_kernel_file_setup(const char *name, loff_t size,
+ 					    unsigned long flags);
++extern struct file *shmem_file_setup_xflags(const char *name, loff_t size,
++					    unsigned long flags,
++					    unsigned int xflags);
+ extern struct file *shmem_file_setup_with_mnt(struct vfsmount *mnt,
+ 		const char *name, loff_t size, unsigned long flags);
+ extern int shmem_zero_setup(struct vm_area_struct *);
+diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
+index 7a8a26751c23..48750474b904 100644
+--- a/include/uapi/linux/memfd.h
++++ b/include/uapi/linux/memfd.h
+@@ -8,6 +8,7 @@
+ #define MFD_CLOEXEC		0x0001U
+ #define MFD_ALLOW_SEALING	0x0002U
+ #define MFD_HUGETLB		0x0004U
++#define MFD_INACCESSIBLE	0x0008U
+ 
+ /*
+  * Huge page size encoding when MFD_HUGETLB is specified, and a huge page
+diff --git a/mm/memfd.c b/mm/memfd.c
+index 9f80f162791a..74d45a26cf5d 100644
+--- a/mm/memfd.c
++++ b/mm/memfd.c
+@@ -245,16 +245,20 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
+ #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
+ #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
+ 
+-#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
++#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
++		       MFD_INACCESSIBLE)
+ 
+ SYSCALL_DEFINE2(memfd_create,
+ 		const char __user *, uname,
+ 		unsigned int, flags)
+ {
++	struct address_space *mapping;
+ 	unsigned int *file_seals;
++	unsigned int xflags;
+ 	struct file *file;
+ 	int fd, error;
+ 	char *name;
++	gfp_t gfp;
+ 	long len;
+ 
+ 	if (!(flags & MFD_HUGETLB)) {
+@@ -267,6 +271,10 @@ SYSCALL_DEFINE2(memfd_create,
+ 			return -EINVAL;
+ 	}
+ 
++	/* Disallow sealing when MFD_INACCESSIBLE is set. */
++	if (flags & MFD_INACCESSIBLE && flags & MFD_ALLOW_SEALING)
++		return -EINVAL;
++
+ 	/* length includes terminating zero */
+ 	len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
+ 	if (len <= 0)
+@@ -301,8 +309,11 @@ SYSCALL_DEFINE2(memfd_create,
+ 					HUGETLB_ANONHUGE_INODE,
+ 					(flags >> MFD_HUGE_SHIFT) &
+ 					MFD_HUGE_MASK);
+-	} else
+-		file = shmem_file_setup(name, 0, VM_NORESERVE);
++	} else {
++		xflags = flags & MFD_INACCESSIBLE ? SHM_F_INACCESSIBLE : 0;
++		file = shmem_file_setup_xflags(name, 0, VM_NORESERVE, xflags);
++	}
++
+ 	if (IS_ERR(file)) {
+ 		error = PTR_ERR(file);
+ 		goto err_fd;
+@@ -313,6 +324,15 @@ SYSCALL_DEFINE2(memfd_create,
+ 	if (flags & MFD_ALLOW_SEALING) {
+ 		file_seals = memfd_file_seals_ptr(file);
+ 		*file_seals &= ~F_SEAL_SEAL;
++	} else if (flags & MFD_INACCESSIBLE) {
++		mapping = file_inode(file)->i_mapping;
++		gfp = mapping_gfp_mask(mapping);
++		gfp &= ~__GFP_MOVABLE;
++		mapping_set_gfp_mask(mapping, gfp);
++		mapping_set_unevictable(mapping);
++
++		file_seals = memfd_file_seals_ptr(file);
++		*file_seals = F_SEAL_SEAL;
+ 	}
+ 
+ 	fd_install(fd, file);
+diff --git a/mm/shmem.c b/mm/shmem.c
+index a09b29ec2b45..9b31a7056009 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -1084,6 +1084,13 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
+ 		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
+ 			return -EPERM;
+ 
++		if (info->xflags & SHM_F_INACCESSIBLE) {
++			if(oldsize)
++				return -EPERM;
++			if (!PAGE_ALIGNED(newsize))
++				return -EINVAL;
++		}
++
+ 		if (newsize != oldsize) {
+ 			error = shmem_reacct_size(SHMEM_I(inode)->flags,
+ 					oldsize, newsize);
+@@ -1331,6 +1338,8 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
+ 		goto redirty;
+ 	if (!total_swap_pages)
+ 		goto redirty;
++	if (info->xflags & SHM_F_INACCESSIBLE)
++		goto redirty;
+ 
+ 	/*
+ 	 * Our capabilities prevent regular writeback or sync from ever calling
+@@ -2228,6 +2237,9 @@ static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
+ 	if (ret)
+ 		return ret;
+ 
++	if (info->xflags & SHM_F_INACCESSIBLE)
++		return -EPERM;
++
+ 	/* arm64 - allow memory tagging on RAM-based files */
+ 	vma->vm_flags |= VM_MTE_ALLOWED;
+ 
+@@ -2433,6 +2445,8 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
+ 		if ((info->seals & F_SEAL_GROW) && pos + len > inode->i_size)
+ 			return -EPERM;
+ 	}
++	if (unlikely(info->xflags & SHM_F_INACCESSIBLE))
++		return -EPERM;
+ 
+ 	ret = shmem_getpage(inode, index, pagep, SGP_WRITE);
+ 
+@@ -2517,6 +2531,21 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 		end_index = i_size >> PAGE_SHIFT;
+ 		if (index > end_index)
+ 			break;
++
++		/*
++		 * inode_lock protects setting up seals as well as write to
++		 * i_size. Setting SHM_F_INACCESSIBLE only allowed with
++		 * i_size == 0.
++		 *
++		 * Check SHM_F_INACCESSIBLE after i_size. It effectively
++		 * serialize read vs. setting SHM_F_INACCESSIBLE without
++		 * taking inode_lock in read path.
++		 */
++		if (SHMEM_I(inode)->xflags & SHM_F_INACCESSIBLE) {
++			error = -EPERM;
++			break;
++		}
++
+ 		if (index == end_index) {
+ 			nr = i_size & ~PAGE_MASK;
+ 			if (nr <= offset)
+@@ -2648,6 +2677,12 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+ 			goto out;
+ 		}
+ 
++		if ((info->xflags & SHM_F_INACCESSIBLE) &&
++		    (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))) {
++			error = -EINVAL;
++			goto out;
++		}
++
+ 		shmem_falloc.waitq = &shmem_falloc_waitq;
+ 		shmem_falloc.start = (u64)unmap_start >> PAGE_SHIFT;
+ 		shmem_falloc.next = (unmap_end + 1) >> PAGE_SHIFT;
+@@ -4082,6 +4117,28 @@ struct file *shmem_kernel_file_setup(const char *name, loff_t size, unsigned lon
+ 	return __shmem_file_setup(shm_mnt, name, size, flags, S_PRIVATE);
+ }
+ 
++/**
++ * shmem_file_setup_xflags - get an unlinked file living in tmpfs with
++ *      additional xflags.
++ * @name: name for dentry (to be seen in /proc/<pid>/maps
++ * @size: size to be set for the file
++ * @flags: VM_NORESERVE suppresses pre-accounting of the entire object size
++ * @xflags: SHM_F_INACCESSIBLE prevents ordinary MMU access to the file content
++ */
++
++struct file *shmem_file_setup_xflags(const char *name, loff_t size,
++				     unsigned long flags, unsigned int xflags)
++{
++	struct shmem_inode_info *info;
++	struct file *res = __shmem_file_setup(shm_mnt, name, size, flags, 0);
++
++	if(!IS_ERR(res)) {
++		info = SHMEM_I(file_inode(res));
++		info->xflags = xflags & SHM_F_INACCESSIBLE;
++	}
++	return res;
++}
++
+ /**
+  * shmem_file_setup - get an unlinked file living in tmpfs
+  * @name: name for dentry (to be seen in /proc/<pid>/maps
 -- 
 2.17.1
 
