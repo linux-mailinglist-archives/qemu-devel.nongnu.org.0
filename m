@@ -2,76 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A712F4D4562
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:11:52 +0100 (CET)
-Received: from localhost ([::1]:42120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF6D4D4564
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:12:19 +0100 (CET)
+Received: from localhost ([::1]:44334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSGhy-0000FF-9O
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:11:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46274)
+	id 1nSGiQ-0001sw-ME
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:12:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSGen-0006YI-Cp
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:08:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36711)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1nSGfS-0007Dz-5V
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:09:14 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSGej-0004am-Vj
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:08:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646910506;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2WMBAGicb5yIEg8EkNJ5wjjKKF1s+1A0pD3QIa3b0KE=;
- b=gE/61WGl1dSB/Ofe2fimpODippPIwHjtNXYqgEiSz7lD18qYJOBtZBNPz3xP8O+8c+UfUi
- HrqWQVmy4HNZ95oYLFjw+EJsf3e+G46ku3Luekp1I64MayILTz5QBJYUpKlJc0v5GujTmH
- N9UJLYlxFU0w+87LyXIi6qikBTR2lUo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-144-Av4VWhLZNmKY-eQc8-enkw-1; Thu, 10 Mar 2022 06:08:23 -0500
-X-MC-Unique: Av4VWhLZNmKY-eQc8-enkw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B70B8180A088;
- Thu, 10 Mar 2022 11:08:21 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D215F6C92C;
- Thu, 10 Mar 2022 11:07:51 +0000 (UTC)
-Date: Thu, 10 Mar 2022 11:07:48 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: MAINTAINERS: macOS host support (was: MAINTAINERS: take edk2)
-Message-ID: <YincBMmKYK+GzPnN@redhat.com>
-References: <20220308145521.3106395-1-kraxel@redhat.com>
- <2263450.oHEczLTUl7@silver> <YiiTEAAqRIdRAlEf@redhat.com>
- <4171087.x6ZCljQdK5@silver>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1nSGfO-0004eB-Um
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:09:13 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22AA93K4003304
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 11:09:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=D9UqT7h2PmiTjB9H7BtDpskOWyZEwqG/or/0gr3A6gU=;
+ b=EEWQ2bvAaOxlJGyG/Wov8wEaSl/beaZkKfWhlpcNTdCvYIpdv0gnPqqxJVNw1g+5Sp6/
+ tBkD4KK+SPuc72BJkrD3R/ng4Vv2fkB0zRbWlZFRNZCjWG0yq7aln1ChqDzIc2Yw8csC
+ 5iCTh+u+umvFAGw32K+C3vjqDsRh3Fxt6Uefc5srzzwLaTWXej1bHtIsH+PTcVZmQ/pt
+ LCdzDAj0/Bzj3UYJOk75srKCk58kC8oncEvqr3MjvRRjgr9y+0XcdTTP8Pib2vRwhmoO
+ uV7/RFsa025C3QA4bZ8DlkywxdJSpU3a7Z7YuM1y7rmjLRkEN17O4s8OFObFWPGDAVW5 eA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3eq9svqq23-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 11:09:09 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22AAgqoB018181
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 11:09:09 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3eq9svqq1a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Mar 2022 11:09:09 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22AB3uWD032436;
+ Thu, 10 Mar 2022 11:09:07 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma05fra.de.ibm.com with ESMTP id 3epysw9h38-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Mar 2022 11:09:07 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 22AB92P636569490
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Mar 2022 11:09:02 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5816F11C06E;
+ Thu, 10 Mar 2022 11:09:02 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E1D0F11C06C;
+ Thu, 10 Mar 2022 11:09:01 +0000 (GMT)
+Received: from linux6.. (unknown [9.114.12.104])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 10 Mar 2022 11:09:01 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/9] dump: Cleanup and consolidation
+Date: Thu, 10 Mar 2022 11:08:45 +0000
+Message-Id: <20220310110854.2701-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <4171087.x6ZCljQdK5@silver>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: wbRWmxOecgZ5aVA8YG5jR4xkZa6J8vDD
+X-Proofpoint-GUID: fYue-lnwxW9JfLI8NM1C1tfcyDLPaj6w
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-10_03,2022-03-09_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0
+ suspectscore=0 mlxscore=0 phishscore=0 clxscore=1015 mlxlogscore=515
+ lowpriorityscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203100059
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,78 +109,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Joelle van Dyne <j@getutm.app>, Beraldo Leal <bleal@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 10, 2022 at 12:00:35PM +0100, Christian Schoenebeck wrote:
-> On Mittwoch, 9. März 2022 12:44:16 CET Daniel P. Berrangé wrote:
-> > On Wed, Mar 09, 2022 at 11:40:42AM +0100, Christian Schoenebeck wrote:
-> > > On Mittwoch, 9. März 2022 11:05:02 CET Philippe Mathieu-Daudé wrote:
-> > > > Not sure what you have in mind. I'm totally new to the macOS/Darwin
-> > > > world, and have no choice but to use it as primary workstation and
-> > > > for CI builds, so I can help with overall testing / maintenance.
-> > > > 
-> > > > Peter, since you take some macOS patches, would you like to maintain
-> > > > this officially? Since I doubt you want to take yet another
-> > > > responsibility, what about having a co-maintained section, including
-> > > > technical expertise from Akihiko / Joelle / Christian? (Cc'ed)
-> > > > 
-> > > > Regards,
-> > > 
-> > > Also CCing Cameron on this, just in case someone at Apple could spend some
-> > > slices on QEMU macOS patches in general as well.
-> > > 
-> > > As for my part: I try to help out more on the macOS front. As there's now
-> > > macOS host support for 9p I have to start QEMU testing on macOS locally
-> > > anyway. Too bad that macOS CI tests on Github are no longer available BTW.
-> > 
-> > Note QEMU gets macOS CI coverage in GitLab. We use a clever trick by
-> > which we use 'cirrus-run' from the GitLab job to trigger a build in
-> > Cirrus CI's macOS builders, and pull the results back when its done.
-> > 
-> > Any contributor can get this working on their QEMU fork too, if they
-> > configure the needed Cirrus CI API token. See the docs in
-> > 
-> >    .gitlab-ci.d/cirrus/README.rst
-> > 
-> > This is enough for build + automated tests.
-> 
-> Does this mean that people no longer have to pull their credit card just for 
-> running CI tests on Gitlab?
+The dump/dump.c file has lots of duplicated code for handling 64 and
+32 bit elf files. Additionally there are many instances where code can
+be improved by adding a variable to avoid having to specify the same
+calculation or check over and over.
 
-Not really. The CC validation is something GitLab have had to force
-onto all new accounts due to cryptominer abuse of their free shared
-CI runners :-( If you have VMs somewhere you could theoretically
-spin up your own CI runners instead of using the shared runners and
-that could avoid the CC validation need.
+This series is the cleanup step onto which my series that adds custom
+section support and finally the series that introduces PV dump support
+are based on.
 
-> And as this approach seems to use an indirection with Cirrus CI via Github. 
-> Will it be sufficient to just run QEMU CI jobs on Github?
-> 
-> Why have the previously existing QEMU CI jobs been pulled from Github anyway?
+Personal comments:
+It's taken me quite a while to understand how the code works and I
+expect that this patch might improve that but it won't fix every
+issue. Going forward it might make sense to split kdump and elf dump
+code into separate files and also cleanup the kdump code.
 
-We've never used GitHub for CI with QEMU upsteam. Before this we used
-Travis first, and Cirrus CI. Travis effectively killed off their free
-plan for x86 builders, and Cirrus CI is too restrictive to run enough
-jobs.  GitLab is our primary target
+v2:
+	* Added the ERRP_GUARD() patch which converts dump.c to the
+          new error handling methods
+	* Switched patches #2 and #3 around
+	* Added a patch that removes the section if/else
+	* Moved dump_is_64bit() to dump.c
 
-Regards,
-Daniel
+
+Janosch Frank (9):
+  dump: Use ERRP_GUARD()
+  dump: Remove the sh_info variable
+  dump: Introduce shdr_num to decrease complexity
+  dump: Remove the section if when calculating the memory offset
+  dump: Add more offset variables
+  dump: Introduce dump_is_64bit() helper function
+  dump: Consolidate phdr note writes
+  dump: Cleanup dump_begin write functions
+  dump: Consolidate elf note function
+
+ dump/dump.c           | 361 ++++++++++++++++++------------------------
+ include/sysemu/dump.h |   9 +-
+ 2 files changed, 164 insertions(+), 206 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.32.0
 
 
