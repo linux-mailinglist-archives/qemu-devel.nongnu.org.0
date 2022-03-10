@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836B64D4E2B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 17:07:43 +0100 (CET)
-Received: from localhost ([::1]:36236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62AD54D4E46
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 17:14:02 +0100 (CET)
+Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSLKI-00072B-2E
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 11:07:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43696)
+	id 1nSLQP-0000bu-9H
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 11:14:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nSLIJ-0006CL-9o
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 11:05:39 -0500
-Received: from [2607:f8b0:4864:20::b2f] (port=42576
- helo=mail-yb1-xb2f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nSLIH-0000l8-1J
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 11:05:38 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id u10so11766406ybd.9
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 08:05:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Fgen6GqxRzqmfAnAuAPtEs0exSltyoaQR9dNpgN5BQk=;
- b=i0eKt8Eg/qX1/cUrnwggeMvbl7/XkEUKZzjoMnl0kCf4kBMXxJ5UV5FCE/TCP9Fa3G
- scSnzXItpJ2BeAR6J7Kcwccc+dKiZZAnlJoTut+gn2jzrh+g90IN9rnS46cYXESsT41z
- 6gW5fHSqb2uPdPUFZvFjGytoUd/pSauiixlqKhQJFIAGtlSrVztyD2ijDyKxTRL/N95C
- UZ4jScAWe+OPH4Y7aYKxqzgJey8vSda7LL2Zk3VO+oH/Hv9hVH6i15gYJtnyf19wYOhU
- LXPbbnNUBPo/l1JmZW0XcNIOKFRcmFvU8UrFwoCzRpVbAja7eZJYWFkh7u+cCMieQJ7f
- qQJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Fgen6GqxRzqmfAnAuAPtEs0exSltyoaQR9dNpgN5BQk=;
- b=NnnCnAT4mof014/hcRc6AlL6gB7XQcZUK4yPwH7MSFj8jod9o7STXdB2MSzobShzqc
- hGfcFZqlI+fQ7PpQSbYvZMxCQIjcCvCnobNSMeQgGcQr5jNgpS9PIB3McI9eFMr8O1wE
- JOIhDhvmSHkFjFRRtgyNNYR/O0F9AVTjSVmKe3jDKIGB3ZuLOvzhSze2DA0tYwOzHORV
- SB+CtXWI7JeUrj5HrIMhMHHVPLM0fpPayOMVVmibjt7DutervUwiWkkfDcFjzJ63ClHg
- G0FZGzxdeXkYPIrBU044mI6VpJDErukxH/RgmOmc4M0Li2ns4hzIQ6XZpIzKeRh5coEt
- 8cLw==
-X-Gm-Message-State: AOAM531NvcKEsdGhLC6p7PucqgbA6MrmcosEzXa3UfGc+k3C5CklVe3j
- KMvl4um20Cn3iphcTN3N4Y6kAp3ynZFk+nweWCmXMMu/iuzAHQ==
-X-Google-Smtp-Source: ABdhPJz4ty89H5rPNWPSDIX3o4ZfJ3iPmaZ5oUA9yasq6SkcPMJ9WYqt1mw4YmIlPFve4/82BUQC8HmJuS335dmbLJw=
-X-Received: by 2002:a25:d181:0:b0:629:1919:d8e5 with SMTP id
- i123-20020a25d181000000b006291919d8e5mr4402848ybg.85.1646928335981; Thu, 10
- Mar 2022 08:05:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nSLPU-0008LB-9l
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 11:13:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1nSLPQ-0001j2-Un
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 11:13:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646928779;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KryEwts34p25sptO0JKQieQ9Qnksw9bszl7/kvfIhmc=;
+ b=b4UlRzDDTojvGc76Go7UTYaqFM0c7Q9vsg1ILT4tF4GLIgB8Up5Sv3PXZ0wO/jqOo6e5DA
+ sSIj6whgVop+Tv4cFE+Ph3AF05Gsm2/jty/ItWhl3sKgLSdWm3PRNdzj7Y1YlR3p4YH108
+ xdS/T61U5eXxr+CvJSencJeTAIkbdNY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-125-tfrtE4u9OYKwcWhn5Zr5pg-1; Thu, 10 Mar 2022 11:12:56 -0500
+X-MC-Unique: tfrtE4u9OYKwcWhn5Zr5pg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0A0951DC;
+ Thu, 10 Mar 2022 16:12:54 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B6C237FFEE;
+ Thu, 10 Mar 2022 16:12:39 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 1/1] virtio: fix feature negotiation for ACCESS_PLATFORM
+In-Reply-To: <20220307112939.2780117-1-pasic@linux.ibm.com>
+Organization: Red Hat GmbH
+References: <20220307112939.2780117-1-pasic@linux.ibm.com>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date: Thu, 10 Mar 2022 17:12:38 +0100
+Message-ID: <87wnh1hjm1.fsf@redhat.com>
 MIME-Version: 1.0
-References: <CAFEAcA87VaeHzW4qbHn+UKjh9gMQbKNcN5ytXBS1MUPSapdhYw@mail.gmail.com>
- <4eb4bb05-814b-c28c-c2f4-0f5f5582301b@redhat.com>
- <CAFEAcA-Wg5LKVRQ4dKX6Hsyb=1VVxfGBDB_=Q6iCxycJzLPRhg@mail.gmail.com>
- <CAFEAcA8ytELEkGfwCV3WEZYCCtYdyG9_2uANk8UXGV-=iOnfqw@mail.gmail.com>
- <20220310163610.7f782922@redhat.com>
-In-Reply-To: <20220310163610.7f782922@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Mar 2022 16:05:24 +0000
-Message-ID: <CAFEAcA8Nvr-7QYHv2-K+zN37i=ZXa8_Skb53PaTJzSdhXaBq3g@mail.gmail.com>
-Subject: Re: QEMU device refcounting when device creates a container MR
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,35 +79,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Wang <jasowang@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Brijesh Singh <brijesh.singh@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Mar 2022 at 15:36, Igor Mammedov <imammedo@redhat.com> wrote:
+On Mon, Mar 07 2022, Halil Pasic <pasic@linux.ibm.com> wrote:
+
+> Unlike most virtio features ACCESS_PLATFORM is considered mandatory by
+> QEMU, i.e. the driver must accept it if offered by the device. The
+> virtio specification says that the driver SHOULD accept the
+> ACCESS_PLATFORM feature if offered, and that the device MAY fail to
+> operate if ACCESS_PLATFORM was offered but not negotiated.
 >
-> On Wed, 9 Mar 2022 16:56:21 +0000
-> Peter Maydell <peter.maydell@linaro.org> wrote:
-> > ...also, in the device-introspect-test where I see this problem,
-> > unrealize is never going to be called anyway, because the device
-> > is only put through "instance_init" and then dereffed (which
-> > does not result in instance_finalize being called, because the
-> > refcount is still non-zero).
+> While a SHOULD ain't exactly a MUST, we are certainly allowed to fail
+> the device when the driver fences ACCESS_PLATFORM. With commit
+> 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM") we already made the
+> decision to do so whenever the get_dma_as() callback is implemented (by
+> the bus), which in practice means for the entirety of virtio-pci.
 >
-> question is why introspected device is deferred instead of being
-> destroyed if it's no longer needed?
+> That means, if the device needs to translate I/O addresses, then
+> ACCESS_PLATFORM is mandatory. The aforementioned commit tells us in the
+> commit message that this is for security reasons. More precisely if we
+> were to allow a less then trusted driver (e.g. an user-space driver, or
+> a nested guest) to make the device bypass the IOMMU by not negotiating
+> ACCESS_PLATFORM, then the guest kernel would have no ability to
+> control/police (by programming the IOMMU) what pieces of guest memory
+> the driver may manipulate using the device. Which would break security
+> assumptions within the guest.
+>
+> If ACCESS_PLATFORM is offered not because we want the device to utilize
+> an IOMMU and do address translation, but because the device does not
+> have access to the entire guest RAM, and needs the driver to grant
+> access to the bits it needs access to (e.g. confidential guest support),
+> we still require the guest to have the corresponding logic and to accept
+> ACCESS_PLATFORM. If the driver does not accept ACCESS_PLATFORM, then
+> things are bound to go wrong, and we may see failures much less graceful
+> than failing the device because the driver didn't negotiate
+> ACCESS_PLATFORM.
+>
+> So let us make ACCESS_PLATFORM mandatory for the driver regardless
+> of whether the get_dma_as() callback is implemented or not.
+>
+> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> Fixes: 2943b53f68 ("virtio: force VIRTIO_F_IOMMU_PLATFORM")
+>
+> ---
+> v2 -> v3:
+> * Rebased onto the next branch of the git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git
+>   repository
+> v1 -> v2:
+> * Change comment: reflect that this is not about the verify
+>   but also about the device features as seen by the driver (Connie)
+> RFC -> v1:
+> * Tweaked the commit message and fixed typos (Connie)
+> * Added two sentences discussing the security implications (Michael)
+>
+> This patch is based on:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg866199.html
+>
+> During the review of "virtio: fix the condition for iommu_platform not
+> supported" Daniel raised the question why do we "force IOMMU_PLATFORM"
+> iff has_iommu && !!klass->get_dma_as. My answer to that was, that
+> this logic ain't right.
+>
+> While at it I used the opportunity to re-organize the code a little
+> and provide an explanatory comment.
+> ---
+>  hw/virtio/virtio-bus.c | 22 ++++++++++++++--------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
 
-...because the reference count is not zero.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-What is supposed to happen is:
- * device is created (inited), and has refcount of 1
- * introspection code does its thing
- * introspection code derefs the device, and it gets deinited
-
-This bug means that when the device is inited it has a refcount
-that is too high, and so despite the code that creates it
-correctly dereffing it, it's still lying around.
-
-thanks
--- PMM
 
