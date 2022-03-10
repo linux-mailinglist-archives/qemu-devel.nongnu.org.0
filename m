@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E644D50A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:34:58 +0100 (CET)
-Received: from localhost ([::1]:55804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833374D50C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:43:46 +0100 (CET)
+Received: from localhost ([::1]:34436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSMgi-0007fK-O8
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:34:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35496)
+	id 1nSMpF-0004Pp-DX
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:43:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nSMeI-0005ed-5C
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:32:28 -0500
-Received: from [2607:f8b0:4864:20::52f] (port=33765
- helo=mail-pg1-x52f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nSMeG-0005oA-J4
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:32:25 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id 6so5335486pgg.0
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 09:32:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=L9LugZ0UPWbfG0XPptpV4TuKIT+1N5KdG71bQT6atwQ=;
- b=MYxNy2VSllwgWN9f7MPG/aobd8hboI4aIFe4pW0f1Fz8x5be5sVJGNArL2iBX3898S
- 8anw3k4Xmz5WP/1HNiMhxYlf8TXBeeZDypC5RNgHZzBH21nuSM6zPjZIxoDe/jxPra/v
- A/ctkISp/xE4o9oSDmq+oQTkU3SalsN1MMIBMFaOn5ANumROcbgpBhExv+fDRblcbDbs
- vrMRTVPFHYC/5wDvy/CEacy6AwMmr9ASu+bPp9lhTCAZdM3Btsh4s5dAJ56yUO/C317E
- yDz8TMvY1LctMa4l6I5PR43gQ7O3DjrqmRSNW5FBd5vF+ENaBpSnFCPZvaMFa7U7Y1kH
- BrAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=L9LugZ0UPWbfG0XPptpV4TuKIT+1N5KdG71bQT6atwQ=;
- b=i4mOZ90c1sbaPdSf5DCEG5epZ3vS8ghooaQZMu+rC3g49CgcRchk6pIHoNabnM426X
- PDLjxiDqhy7hwORLeurzDnCjFocm4R1Z+LV4M5CWnnZj+0toumqUmXIweYucYYvwqeOY
- knWvR4xFTCOqjqhtEaZxNSXGoXhoypCVzrAzCLJPpx0jiRZEHNO4JpsOY+XP2anzt9sb
- XieU2mORsPHccG6/RJ4UUWW9QKAgarjthNLAs/ft/gDeErpOFwaNLZ3tcEBfu7zuzxcs
- PgOkmP1ay6kujk8RIsXQfLIUjBGu5Q6UcVIT566JPBwaagFBpvuBcvqepj8tMB8nRLC+
- /XiQ==
-X-Gm-Message-State: AOAM533rv1vkkC0fy/XgZJ8rrV5dmdmKbxPDQ0US0wcN2/vad9qiog04
- SnDSUiOv6GqTKQ1jRsctR4Q=
-X-Google-Smtp-Source: ABdhPJw6HeoSVHs7CVchf+w0ibAZGWwKDVog2RqqSBGn/umZ+WBBoVk8wxsB/OeH34DFVDNEsn5IAQ==
-X-Received: by 2002:a63:904c:0:b0:37f:fd5c:82dc with SMTP id
- a73-20020a63904c000000b0037ffd5c82dcmr4979637pge.79.1646933543038; 
- Thu, 10 Mar 2022 09:32:23 -0800 (PST)
-Received: from [192.168.1.34] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- s16-20020a63ff50000000b003650ee901e1sm6187906pgk.68.2022.03.10.09.32.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 09:32:22 -0800 (PST)
-Message-ID: <df5f5cda-c5e0-2a81-71be-f1e29c64ef35@gmail.com>
-Date: Thu, 10 Mar 2022 18:32:18 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nSMo1-0003W7-GT
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:42:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nSMo0-0007KV-3H
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:42:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646934147;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ibyVEyhaR0rB+63+9AYTQaox4aoDFxKVSv2X4cyEZ04=;
+ b=Xs8LtuTrtdxnJzvz0LJHOS84XwhlDYwUCMvmOVDHUhqVNe+z+q0mMkIv6QqMrjRpmNDdX3
+ hK2S0cWferbcAg36K42+1oyBINrXIBXUs/0o1ZoeRrTv26cxmpRbifc+rbS0lDqSRHX5I9
+ T45Cl9lQ+zjGsC9xcOblWmu8+JBD9Kw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-275-ZRKJdEpANN2Dd-eyqoA26g-1; Thu, 10 Mar 2022 12:42:23 -0500
+X-MC-Unique: ZRKJdEpANN2Dd-eyqoA26g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C15171091DA0;
+ Thu, 10 Mar 2022 17:42:22 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2899184798;
+ Thu, 10 Mar 2022 17:42:20 +0000 (UTC)
+Date: Thu, 10 Mar 2022 17:42:19 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH experiment 00/35] stackless coroutine backend
+Message-ID: <Yio4e3FyFHkaZi0B@stefanha-x1.localdomain>
+References: <20220310124413.1102441-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH-for-7.0] tulip: Assign default MAC address if not specified
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>
-References: <YiotlroslM5hcR04@p100>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <YiotlroslM5hcR04@p100>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SHVawIQk0GkI/eUj"
+Content-Disposition: inline
+In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,50 +76,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sven Schnelle <svens@stackframe.org>
+Cc: hreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ sguelton@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/3/22 17:55, Helge Deller wrote:
-> The MAC of the tulip card is stored in the EEPROM and at startup
-> tulip_fill_eeprom() is called to initialize the EEPROM with the MAC
-> address given on the command line, e.g.:
->      -device tulip,mac=00:11:22:33:44:55
-> 
-> In case the mac address was not given on the command line,
-> tulip_fill_eeprom() initializes the MAC in EEPROM with 00:00:00:00:00:00
-> which breaks e.g. a HP-UX guest.
-> 
-> Fix this problem by moving qemu_macaddr_default_if_unset() a few lines
-> up, so that a default mac address is assigned before tulip_fill_eeprom()
-> initializes the EEPROM.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--SHVawIQk0GkI/eUj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-> index d5b6cc5ee6..097e905bec 100644
-> --- a/hw/net/tulip.c
-> +++ b/hw/net/tulip.c
-> @@ -967,6 +967,8 @@ static void pci_tulip_realize(PCIDevice *pci_dev, Error **errp)
->       pci_conf = s->dev.config;
->       pci_conf[PCI_INTERRUPT_PIN] = 1; /* interrupt pin A */
-> 
-> +    qemu_macaddr_default_if_unset(&s->c.macaddr);
-> +
->       s->eeprom = eeprom93xx_new(&pci_dev->qdev, 64);
->       tulip_fill_eeprom(s);
-> 
-> @@ -981,8 +983,6 @@ static void pci_tulip_realize(PCIDevice *pci_dev, Error **errp)
-> 
->       s->irq = pci_allocate_irq(&s->dev);
-> 
-> -    qemu_macaddr_default_if_unset(&s->c.macaddr);
-> -
->       s->nic = qemu_new_nic(&net_tulip_info, &s->c,
->                             object_get_typename(OBJECT(pci_dev)),
->                             pci_dev->qdev.id, s);
-> 
+On Thu, Mar 10, 2022 at 01:43:38PM +0100, Paolo Bonzini wrote:
+> Here is an experiment with using stackless coroutines in QEMU.  It
+> only compiles enough code to run tests/unit/test-coroutine, but at
+> least it proves that it's possible to quickly test ideas in the
+> area of coroutine runtimes.  Another idea that could be toyed with
+> in a similar manner could be (whoa) C++ coroutines.
+>=20
+> As expected, this also found some issues in existing code, so I
+> plan to submit patches 1-5 separately.
+>=20
+> The new backend (which is the only one that works, due to the required
+> code changes) is in patch 7.  For the big description of what stackless
+> coroutines are, please refer to that patch.
+>=20
+> Patches 8-11 do some initial conversions.  Patch 12 introduce some
+> preprocessor magic that greatly eases the rest of the work, and then
+> the tests are converted one at a time, until patch 27 where the only
+> ones missing are the CoRwlock tests.
+>=20
+> Therefore, patches 28-33 convert CoRwlock and pathces 34-35 take care
+> of the corresponding tests, thus concluding the experiment.
+
+Nice, the transformation is clear. It's simpler than Continuation
+Passing Style transform because the loops and if statements remain
+unmodified. This is a big advantage with the Duff's device-style
+approach.
+
+There are a lot of details to decide on in the translator tool and
+runtime to optimize the code. I think the way the stack frames are
+organized in this patch series is probably for convenience rather than
+performance.
+
+Out of curiousity, did you run the perf tests and compare against
+ucontext?
+
+Stefan
+
+--SHVawIQk0GkI/eUj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIqOHsACgkQnKSrs4Gr
+c8hxyQgAl/ZgCEXdg1jyZwt0+I8OqXIBTbVxwUwfS2/fyt5C5n8NSrvcETrWtlFc
+9v/gIlbiMEnn9Bqo0IyvDV84rMGJj+8mpMZP/FjSvGJzk7ePJJ6N1UtqrI+KWs8f
+Jg/4diXeGDHy5h6jqVMtKEsqIG5OwqLfIRdWoFQmDsju/WH5clCDJ5JVc9si9443
+cmZkWdnpZrRVQ60KMmHJf6wcFEVs04XGwllTyICReGWLHTzIbPGlXVS/RymzWJeO
+iwUM0dcsfuiJjvef1WH34Umv/WwYITZk1cGXeAONTyrwqR2HHrsGmk2rqq8w9raf
+EppTuYvC46S0oy2mz4p/Zaf5s8ZWwQ==
+=HbQV
+-----END PGP SIGNATURE-----
+
+--SHVawIQk0GkI/eUj--
 
 
