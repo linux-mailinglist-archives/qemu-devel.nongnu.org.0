@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4A44D475B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:54:30 +0100 (CET)
-Received: from localhost ([::1]:33946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 450734D4774
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:56:53 +0100 (CET)
+Received: from localhost ([::1]:42370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSIJJ-0001lv-KS
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:54:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41402)
+	id 1nSILc-0007bj-B6
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:56:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9i-0006jF-5b; Thu, 10 Mar 2022 07:44:35 -0500
-Received: from [2a00:1450:4864:20::32a] (port=53065
- helo=mail-wm1-x32a.google.com)
+ id 1nSI9j-0006jT-Cz; Thu, 10 Mar 2022 07:44:35 -0500
+Received: from [2a00:1450:4864:20::330] (port=55847
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9g-0005CW-Jy; Thu, 10 Mar 2022 07:44:33 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id r65so3176159wma.2;
- Thu, 10 Mar 2022 04:44:31 -0800 (PST)
+ id 1nSI9h-0005Cr-U8; Thu, 10 Mar 2022 07:44:35 -0500
+Received: by mail-wm1-x330.google.com with SMTP id i66so3152097wma.5;
+ Thu, 10 Mar 2022 04:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kYPdnwd+qK4GoFiw8vkRkI9044PfsGfCMHgYYSi6n+s=;
- b=Asl0ewbfMM/ukbbWMQbuxiZ4CmtB6grkbCF0bE1wc/DDROVXwtciEPwh/YshY7E8R5
- 2w1wMOPTK+I8eZbAswwSyJjW6kWRTPucFKe9LiSBfz51jITrhaD5cz3XCgUi4iiJsmmY
- WehpaQ/Llmemi+XBDmvfCJC6U4vxp7WDVBjSJ1HCyBGrO0gT0nCkizvvUJyts3Tvmc2F
- 7H1BClk1OCH8L/tDieSxI4xpP2pXW4ZRIuXlXd7gBMuUKdl7asHyMUlPJ5fdTHLwvcYI
- FwCHlnmJhxYxr1LVQmqvEN+Y7PoKrcxWEDFZBsdR/z/Sr9orU4fU7NAkEq7Lks62V53l
- xndA==
+ bh=s2YITzhm5qYQs7ILNbrpRvxFL3ZwbyQCG5BGW9zcwqo=;
+ b=H3x0GDSwAvHUXDOS+pASrLON+bOZ4CvO04rWjHybUuYo/zRGSxtHupPvbYUV6+M9q3
+ YJDKLmVa2ESEPTNvrmv4ElasbNzb1kL4d+6xvfayiJEg/tXDa02D9Cf36DyUzXKSs2JU
+ DZx40y7avhyUJQnuCeZRZIPulheLvg1t49m15wKASd+7XEWf+LUjGapwJ/l3VeXfBxGP
+ RtCXzUwBAM4rVN6XfzLqQN+GEDGkUV3FKdWhZNsCT7JZrJ04rIJFfxphaHHjtMZ4+bca
+ 4tfkmdPxvF84hWV2KN8iG0DlTuWfQXr8G/PUEl+/mo/kvXgQDVcLtGpDQHC7rSnihrKk
+ G4nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=kYPdnwd+qK4GoFiw8vkRkI9044PfsGfCMHgYYSi6n+s=;
- b=PWPap2MUvSYxlHDIU0+E6PtXRGdHWDJhYwBMiHrsOIXZ/mekLeGPcMqTcDvv8x1NHh
- atyRQaA/C1nlhncF8qssn77Sx9PqUZcCVZgqMbfKwQPBIQWUihj7r03jT54oIzUqjvqK
- OrbwblmI2P4+PeyOnVAqkjs9I5TVh2rEyGKQJpv561g2Pqt1iOcFa0oSJPd1o+yLSy28
- 3BLNVFauWoAbxv1sLpaMCyHHfaInVM5RwnIbF/rwkjZCPvNEODf6LrX7ZrwSKalMsIsq
- NmTi9tSsuN4g5o4C4mSQIcRVwLUcfY/nDrwYNmtqNrQicY07VmoVNpMIQilMt6ofrufl
- 2dxw==
-X-Gm-Message-State: AOAM531STM1AVuPs4Oo3196+N+nIFBRcCvJduh67pG6uFAt+yNZ1wLjc
- lpXWVelnx1GR5oW2O4/pPGV2K+XCB+8=
-X-Google-Smtp-Source: ABdhPJz0BRZe04EGV6byPUns9Gb4AQ4WOgNMXzkT2bMr5qtAAxcea2CHbqZk99mQG/5kchrfFBuzcw==
-X-Received: by 2002:a1c:e90a:0:b0:381:504e:b57d with SMTP id
- q10-20020a1ce90a000000b00381504eb57dmr11536979wmc.177.1646916270938; 
- Thu, 10 Mar 2022 04:44:30 -0800 (PST)
+ bh=s2YITzhm5qYQs7ILNbrpRvxFL3ZwbyQCG5BGW9zcwqo=;
+ b=6nbAcSUJpkJFt/WDXmQFXb8ROYXJuYzgSMGQuUhPqgdTGt51oLThkteaELRjE8xR9z
+ DbEREVyWWKn9awsXdGUa6pP+aN+fccStVSNYikLf2wTmISRs8Wu4I+sZqBgeRZD/2XpQ
+ REUupWvvxRDvFeJHnXpvjtrILU0idsm5x/BP/gF6zdFVFgw0Hmbx/64r8KCpTbWWBLoH
+ F5/x7p5atSKhcWF1hSE0c5OPanzm2I5Kd3dmPVFWCyP6jcg5JAmhwN/Ke4nFWhTfHV/i
+ LvLh5C8PYW0HEWMONrQSDZyo1k25sB2T282DJt9w0qapon7X7XCTbyHks14yFKQHor7g
+ /qcQ==
+X-Gm-Message-State: AOAM530fVqbTm7hS52nZKJJCKvdLO/IvPZfKdkHnIzOV8WVPgFsnE4Q/
+ fCuFxDriOeBKJkr45dcnxvO61b7fRqc=
+X-Google-Smtp-Source: ABdhPJwlHoUFYYTKR0fYEmHJtHntcPx/AHexdX0ohTo8+qcxw48NBgAt3Pk0LMQrw0RrAEy4P2hEDA==
+X-Received: by 2002:a05:600c:1d19:b0:389:bd65:34c8 with SMTP id
+ l25-20020a05600c1d1900b00389bd6534c8mr3504469wms.89.1646916272206; 
+ Thu, 10 Mar 2022 04:44:32 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.29
+ r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:44:30 -0800 (PST)
+ Thu, 10 Mar 2022 04:44:31 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/35] define magic macros for stackless coroutines
-Date: Thu, 10 Mar 2022 13:43:50 +0100
-Message-Id: <20220310124413.1102441-13-pbonzini@redhat.com>
+Subject: [PATCH 13/35] /basic/yield
+Date: Thu, 10 Mar 2022 13:43:51 +0100
+Message-Id: <20220310124413.1102441-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
 References: <20220310124413.1102441-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -92,81 +92,70 @@ Cc: hreitz@redhat.com, stefanha@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because conversion to stackless coroutines is incredibly repetitive,
-define some magic variable-argument macros that simplify the task:
-
-- CO_DECLARE_FRAME() declares a frame structure, with a couple common fields
-  and the extras coming from variable arguments
-
-- CO_INIT_FRAME() allocates the frame structure, builds it using any arguments
-  provided by the user, and continues with the second part of the
-  awaitable function that takes the frame as its only argument
-
-- CO_ARG() declare variables and load them from the frame structure.  It
-  uses typeof() to avoid repetition of the type of the variable (it is needed
-  only twice, in CO_DECLARE_FRAME() and in the declaration of the user-visible
-  awaitable function)
-
-- CO_DECLARE() also declares variables using typeof, but it's for locals that
-  are not prepared by CO_INIT_FRAME()
-
-- CO_SAVE() and CO_LOAD() copy to and from the frame structure
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/coroutine.h | 41 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ tests/unit/test-coroutine.c | 27 +++++++++++++++++++++++----
+ 1 file changed, 23 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index 2f2be6abfe..df148ff80e 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -361,4 +361,45 @@ void qemu_coroutine_decrease_pool_batch_size(unsigned int additional_pool_size);
- void *coroutine_only_fn stack_alloc(CoroutineImpl *func, size_t bytes);
- CoroutineAction coroutine_only_fn stack_free(CoroutineFrame *f);
+diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
+index 3670750c5b..ae06e97c95 100644
+--- a/tests/unit/test-coroutine.c
++++ b/tests/unit/test-coroutine.c
+@@ -141,15 +141,33 @@ static void test_nesting(void)
+  * Check that yield/enter transfer control correctly
+  */
  
+-static void coroutine_fn yield_5_times(void *opaque)
++#endif
++CO_DECLARE_FRAME(yield_5_times, void *opaque, int i);
++static CoroutineAction co__yield_5_times(void *_frame)
+ {
++    struct FRAME__yield_5_times *_f = _frame;
++    CO_ARG(opaque);
+     bool *done = opaque;
+-    int i;
++    CO_DECLARE(i);
+ 
++switch(_f->_step) {
++case 0:
+     for (i = 0; i < 5; i++) {
+-        qemu_coroutine_yield();
++CO_SAVE(i);
++_f->_step = 1;
++        return qemu_coroutine_yield();
++case 1:
++CO_LOAD(i);
+     }
+     *done = true;
++    break;
++}
++return stack_free(&_f->common);
++}
 +
-+#define CO_DO(MACRO, ...) CO_DO_(MACRO, __VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
-+#define CO_DO_(MACRO, a0, a1, a2, a3, a4, a5, a6, a7, a8 , a9, n, ...) CO_DO##n(MACRO, a0, a1, a2, a3, a4, a5, a6, a7, a8 , a9)
-+#define CO_DO0(MACRO, a0, ...)
-+#define CO_DO1(MACRO, a0, ...) MACRO(a0)
-+#define CO_DO2(MACRO, a0, ...) MACRO(a0); CO_DO1(MACRO, __VA_ARGS__)
-+#define CO_DO3(MACRO, a0, ...) MACRO(a0); CO_DO2(MACRO, __VA_ARGS__)
-+#define CO_DO4(MACRO, a0, ...) MACRO(a0); CO_DO3(MACRO, __VA_ARGS__)
-+#define CO_DO5(MACRO, a0, ...) MACRO(a0); CO_DO4(MACRO, __VA_ARGS__)
-+#define CO_DO6(MACRO, a0, ...) MACRO(a0); CO_DO5(MACRO, __VA_ARGS__)
-+#define CO_DO7(MACRO, a0, ...) MACRO(a0); CO_DO6(MACRO, __VA_ARGS__)
-+#define CO_DO8(MACRO, a0, ...) MACRO(a0); CO_DO7(MACRO, __VA_ARGS__)
-+#define CO_DO9(MACRO, a0, ...) MACRO(a0); CO_DO8(MACRO, __VA_ARGS__)
-+
-+#define CO_FRAME1(decl) decl
-+#define CO_SAVE1(var) _f->var = var
-+#define CO_LOAD1(var) var = _f->var
-+#define CO_DECLARE1(var) typeof(_f->var) var
-+#define CO_ARG1(var) typeof(_f->var) var = _f->var
-+
-+#define CO_SAVE(...) CO_DO(CO_SAVE1, __VA_ARGS__)
-+#define CO_LOAD(...) CO_DO(CO_LOAD1, __VA_ARGS__)
-+#define CO_DECLARE(...) CO_DO(CO_DECLARE1, __VA_ARGS__)
-+#define CO_ARG(...) CO_DO(CO_ARG1, __VA_ARGS__)
-+
-+#define CO_DECLARE_FRAME(func, ...) \
-+    struct FRAME__##func { \
-+        CoroutineFrame common; \
-+        uint32_t _step; \
-+        CO_DO(CO_FRAME1, __VA_ARGS__); \
-+    }
-+
-+#define CO_INIT_FRAME(func, ...) \
-+    co__##func(({ \
-+        struct FRAME__##func *_f; \
-+        _f = stack_alloc(co__##func, sizeof(*_f)); \
-+        __VA_OPT__(CO_SAVE(__VA_ARGS__);) \
-+        _f->_step = 0; \
-+        _f; \
-+    }))
-+
- #endif /* QEMU_COROUTINE_H */
++static CoroutineAction yield_5_times(void *opaque)
++{
++    return CO_INIT_FRAME(yield_5_times, opaque);
+ }
+ 
+ static void test_yield(void)
+@@ -166,6 +184,7 @@ static void test_yield(void)
+     g_assert_cmpint(i, ==, 5); /* coroutine must yield 5 times */
+ }
+ 
++#if 0
+ static void coroutine_fn c2_fn(void *opaque)
+ {
+     qemu_coroutine_yield();
+@@ -659,8 +678,8 @@ int main(int argc, char **argv)
+ #endif
+ 
+     g_test_add_func("/basic/lifecycle", test_lifecycle);
+-#if 0
+     g_test_add_func("/basic/yield", test_yield);
++#if 0
+     g_test_add_func("/basic/nesting", test_nesting);
+     g_test_add_func("/basic/self", test_self);
+     g_test_add_func("/basic/entered", test_entered);
 -- 
 2.35.1
 
