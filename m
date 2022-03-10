@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA114D460A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:43:10 +0100 (CET)
-Received: from localhost ([::1]:58138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA934D4652
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:54:42 +0100 (CET)
+Received: from localhost ([::1]:60940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSHCH-00080Y-4L
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:43:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50466)
+	id 1nSHNR-000488-Rp
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:54:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSGx9-0004nP-Bd
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:31 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=35644
+ id 1nSGxA-0004q0-LB
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:32 -0500
+Received: from [2607:f8b0:4864:20::102b] (port=33650
  helo=mail-pj1-x102b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSGx7-0007tn-Ln
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:30 -0500
+ id 1nSGx8-0007u6-Hp
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:32 -0500
 Received: by mail-pj1-x102b.google.com with SMTP id
- mg21-20020a17090b371500b001bef9e4657cso8014949pjb.0
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:27:29 -0800 (PST)
+ v1-20020a17090a088100b001bf25f97c6eso6399331pjc.0
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:27:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NA9HskFqPeLh+02a0cXnYrdAXovGtw+F2Po8AxVhC7E=;
- b=DZUuX833jwyKf25fc16ZvWHBarUREFZrcPPZWxVd51RcBpv1SsMiqwtmWAM+VSSW6v
- ++FmquQQX8uKo/f33hbwCyCbF3YFC6Tsc2BQkxyV8ePOkV8yBNtNKWgGqoBzE6nd+aYi
- +MOqvYZGukQgsJgYD2+Hj6Df9M8AxZgFuiHONNkOt2gZoaVACXatJae755t841LnA6rl
- JdUqhGaTP8uaCjxViT6DHR1VVrx82CgRWATozFDVT7xqjJbHC5Huel7RVTfsUzgTc77Y
- VS3DqzvOvbJv1wwiZZKnJ/IMUj12T5EWMYn6t+SyvjS9oaMttM8tA/sLBME8QIupqsTn
- szxA==
+ bh=bz8zlZqp+XNpUuV3WS3uKIWPzFVnLucU6nOyII1L55M=;
+ b=RquWEd/RQnz2t0dcU7OLl46wGO6Id2FuSV+LR37+8Q+hx+Wb5XQ1DXkwOkszsAMVIL
+ 12iuxBODnyH9s1oIXx/N4sxSbRAD83q7ie7Xzg29F5k5hM8yVBzEUDZe33WhzV9cniHr
+ awO0sle25OFlylGkmg1SKSfCV2c0leJcABisPvrCt3y0dbdw1quDBiIyKSSAQkb9bNpc
+ 7Z8NRCa0Zng8wc++HXtSHqkE4SOlGWzXwB1Xw5jcnFRhKuL86mC+ll0gBgbZt3/16fb3
+ LFCQr/mFfR4AGblBFBugB+ko9v5qK4yLwW7HSif6zBNGLTei59r7pKwFIBeDjM4aDIYj
+ sr9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NA9HskFqPeLh+02a0cXnYrdAXovGtw+F2Po8AxVhC7E=;
- b=aYeAlP2byz3lWpueidM1j2FQPW8iRA8Km+VuM1g9/Zb43X4I56pZNpAynpMOcwtkdL
- AdltOXAkHSDweNm/wERuClh//uh00DgWtGNZhdRLUgVrj+yXDYAUT70UP1yfxsVIGfX+
- VJqFwcEKxc1OXuq+A/nteSV5f8hJRPrVjkKNj+wjezjU8DXK3+yglEdSRxXiiD7ySvv6
- zMM5T8ISImQf4lYsojhS4hbmwjLyu4XnkYvDTgOqzh41EEWdEngWSjxx0A+29S+SL2oY
- FX0RUUnrgY/8DGnUWQOeGJOdEeZf/cUvmPnYksmrd9UO5S59VxGKlvzPJLOg1Zwxeant
- jycA==
-X-Gm-Message-State: AOAM531znU9OEmqVRX5oqWXRtIIjRRX+PnmQl1dY8SFjUX/uJkCyckyk
- /Y8h7hc0YPWYc8RuslvhlIqI6dW1Wq0vog==
-X-Google-Smtp-Source: ABdhPJxpXIcZueN00DZa/PF7a+xeELRODICXUPMxx3tKrFbHMsvqYdr0V9E8hJC6iC5ngjGTpefs3g==
-X-Received: by 2002:a17:902:8491:b0:14e:dad4:5ce5 with SMTP id
- c17-20020a170902849100b0014edad45ce5mr4505167plo.76.1646911648371; 
- Thu, 10 Mar 2022 03:27:28 -0800 (PST)
+ bh=bz8zlZqp+XNpUuV3WS3uKIWPzFVnLucU6nOyII1L55M=;
+ b=rvFbmD/7ZB9DJK32i73pUP7D8wxRP+KKLnsgjke5oF43f14XWyUa+svnwQjAky/m91
+ TqeIXvx/qvVHk+mpd/DISudsMvLh+M9JAQ7R2O/q7pWHKnnubSbHVPFkD4ta5UeVyP0a
+ 5iAN1rSh/cEf/BpreXcxvaMvNmyelwrD05tMx2QyCZ04LTAU0X2pSwi35r6ETkvt1/hr
+ qS4QvVF4JL+WOCSq7VUFSXeKqHl1WZsDhpCcfwZo9FihjTDxp6SUNiG+XFGY1NlsKxF4
+ UFsqfNiCaL2CiNTlSBhZUbh0wNRqj2eknDPo3pMvqgwTpYPPgM+E3l+HRv8DeouEMJPS
+ vtRw==
+X-Gm-Message-State: AOAM530g+wnW1a2pEpB1PyyfwqwnRUpwwEIWisY/ZzFY/DVQlNyvKNRU
+ 0UpHQwVyAqV5F5L6N976tf9eQcsctc0ZbQ==
+X-Google-Smtp-Source: ABdhPJyAIZUYT8bM1X7IdhppA2Wl+H94gLHixmSwJkjG+EPvYLB8xESVAQLzEApQh6oSsLGq5tromg==
+X-Received: by 2002:a17:902:c408:b0:153:176:19a4 with SMTP id
+ k8-20020a170902c40800b00153017619a4mr4693416plk.18.1646911649276; 
+ Thu, 10 Mar 2022 03:27:29 -0800 (PST)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.27.27
+ js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.27.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 03:27:27 -0800 (PST)
+ Thu, 10 Mar 2022 03:27:28 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/48] target/nios2: Check supervisor on eret
-Date: Thu, 10 Mar 2022 03:26:38 -0800
-Message-Id: <20220310112725.570053-2-richard.henderson@linaro.org>
+Subject: [PATCH v5 02/48] target/nios2: Stop generating code if
+ gen_check_supervisor fails
+Date: Thu, 10 Mar 2022 03:26:39 -0800
+Message-Id: <20220310112725.570053-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220310112725.570053-1-richard.henderson@linaro.org>
 References: <20220310112725.570053-1-richard.henderson@linaro.org>
@@ -93,31 +94,74 @@ Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Amir Gonnen <amir.gonnen@neuroblade.ai>
+Whether the cpu is in user-mode or not is something that we
+know at translation-time.  We do not need to generate code
+after having raised an exception.
 
-eret instruction is only allowed in supervisor mode.
-
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
-Message-Id: <20220303153906.2024748-2-amir.gonnen@neuroblade.ai>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/nios2/translate.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
 diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index f89271dbed..341f3a8273 100644
+index 341f3a8273..1e0ab686dc 100644
 --- a/target/nios2/translate.c
 +++ b/target/nios2/translate.c
-@@ -384,6 +384,8 @@ static const Nios2Instruction i_type_instructions[] = {
+@@ -169,12 +169,14 @@ static void gen_excp(DisasContext *dc, uint32_t code, uint32_t flags)
+     t_gen_helper_raise_exception(dc, flags);
+ }
+ 
+-static void gen_check_supervisor(DisasContext *dc)
++static bool gen_check_supervisor(DisasContext *dc)
+ {
+     if (dc->base.tb->flags & CR_STATUS_U) {
+         /* CPU in user mode, privileged instruction called, stop. */
+         t_gen_helper_raise_exception(dc, EXCP_SUPERI);
++        return false;
+     }
++    return true;
+ }
+ 
+ /*
+@@ -384,7 +386,9 @@ static const Nios2Instruction i_type_instructions[] = {
   */
  static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
  {
-+    gen_check_supervisor(dc);
-+
+-    gen_check_supervisor(dc);
++    if (!gen_check_supervisor(dc)) {
++        return;
++    }
+ 
      tcg_gen_mov_tl(cpu_R[CR_STATUS], cpu_R[CR_ESTATUS]);
      tcg_gen_mov_tl(cpu_R[R_PC], cpu_R[R_EA]);
+@@ -447,7 +451,9 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+     R_TYPE(instr, code);
+ 
+-    gen_check_supervisor(dc);
++    if (!gen_check_supervisor(dc)) {
++        return;
++    }
+ 
+     if (unlikely(instr.c == R_ZERO)) {
+         return;
+@@ -474,9 +480,13 @@ static void rdctl(DisasContext *dc, uint32_t code, uint32_t flags)
+ /* ctlN <- rA */
+ static void wrctl(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
+-    gen_check_supervisor(dc);
++    if (!gen_check_supervisor(dc)) {
++        return;
++    }
+ 
+-#ifndef CONFIG_USER_ONLY
++#ifdef CONFIG_USER_ONLY
++    g_assert_not_reached();
++#else
+     R_TYPE(instr, code);
+     TCGv v = load_gpr(dc, instr.a);
  
 -- 
 2.25.1
