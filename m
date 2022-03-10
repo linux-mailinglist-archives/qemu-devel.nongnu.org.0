@@ -2,79 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7874D4FFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:12:37 +0100 (CET)
-Received: from localhost ([::1]:35062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A664D5009
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:16:22 +0100 (CET)
+Received: from localhost ([::1]:38258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSML6-0006sC-93
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:12:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58694)
+	id 1nSMOj-0000kj-6g
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:16:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nSMK2-0006Bw-7a
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:11:30 -0500
-Received: from [2607:f8b0:4864:20::b2d] (port=39661
- helo=mail-yb1-xb2d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nSMJz-0002cM-9C
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:11:29 -0500
-Received: by mail-yb1-xb2d.google.com with SMTP id x200so12169913ybe.6
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 09:11:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hGIIHA+tWoY5Z4usNa5VKY1OGu6t8wWh5CeTN/R/Olc=;
- b=pqVTfvlXuVDa8Cn1hfLVuS80ukrwB16+Ct2ftdVc5c4Mon+gdSeY07rIuhAK1IF5Es
- O3PMA7B65dZQef1AzLp6u6AIC47A2w3OX+55NcC/YxsLyBP8sTOXzD2X5kp8mgCiz1+f
- DPVmgxPIuXWkF7uONbmacudhzU0USRVjcQ1/yuxK6ncqtgHQvlPdV9SUsyUgK5UTCIO9
- IVUzvHShq9ErEvaE4Q11V+Z9cc+cD2DuwD8BNR3BivS1OwDjYHPlVgVRtT9rOrKIGTEs
- fCZ0RpG9oV4j9KQN1I85Bjvy7/QyQOqehDUxcQrQZRk8aNfuNe/573gVt7L4XJYSsXyL
- MPMg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSMN2-0008G0-BA
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:14:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25371)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSMMy-0002tz-M7
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:14:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646932471;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=T3frLnrhnoPgB86XnTDoC6tMl7zXSo5ctC0EVZDbRFk=;
+ b=K/iLTbjkcjmQ9IQ1DVfyWw6sj6aCX4lDDwR8qDSndhwWgQnPezg3j/AkOScq3+AIiM5T9G
+ mDtJ/6Z/IuQlzFrcAX/JFJ3sKKj60U4gqZAqj8BXBW/x3YEJd7wuEsyUo0jY3Axl+E/rry
+ 9kWqKDtX+Et0nRUIiUrXb9zDvPYenlo=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-394-w_shQ3TRPnm4oBZxOrQuFw-1; Thu, 10 Mar 2022 12:14:30 -0500
+X-MC-Unique: w_shQ3TRPnm4oBZxOrQuFw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ x2-20020a1709065ac200b006d9b316257fso3475224ejs.12
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 09:14:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hGIIHA+tWoY5Z4usNa5VKY1OGu6t8wWh5CeTN/R/Olc=;
- b=DtjH8jCJipYEYACUH5g/2FUiCqPBRtKAWcE2TVK07QgMcKGqCzcph7z7BjSG7E2ByP
- BpMsw04FOPy2pjj0Xma+ajy6za7clnQ+k7qTjJ1Kc+9VFNc3RNwCfiAzZJ7mkeIiG1Xb
- W6uz+LhyB1h5J7N1/GSSXvW4Cz2Urms4T+16B2li7e4jsAErTOOXhpLd1/9CpIR1PLq3
- sY4LU/nzo+YU0s57MK41P8CeT6AWICD5J8oSTfPbYzXwbVAMWjT4VS1tY+qHAdQ7V0U4
- kSxRxDicqs+aqPoYoKwaoJQsVjMDoL2GsZ4K/iC3FkaMvkwhPaARXbJzLvPylGoFSkIM
- /Wnw==
-X-Gm-Message-State: AOAM530RFkfayE7MpTm3pgdmHY1yHgMXO2D9sxMEN9AxYqzheMRt0/FO
- O9Sl65HdZkFmrrTQHOnLjBtja3iyiFxKD/d5oHECeCJPJ2xYkzsb
-X-Google-Smtp-Source: ABdhPJxZU1vSdv/Kypl1+OY9Dy6MnyWyYpseHzJ4f+IPpUghYlM24ifJdeM2tO9AjWHn1klfuzzx+oJ7T89J7uFJn7A=
-X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
- s5-20020a5b0745000000b006221c463c19mr4736495ybq.479.1646932285908; Thu, 10
- Mar 2022 09:11:25 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=T3frLnrhnoPgB86XnTDoC6tMl7zXSo5ctC0EVZDbRFk=;
+ b=MLWT/q8m5LjfoSokuWwW/mZxkEa1+h1NKlBPlQWCSLVw+10W0h9aVfO/5b7biITPCO
+ NY8A/xo2NV2gKhFHMXCAKh8V0VZv7Er2BDxHwXn9fSpCGCrHLv7ClmqwjEmnHoufaved
+ +J90XroGymhuKJQTcpvrgxocPorYWrDG+HaQRf2OLs1GKURSqjR+NzkFFSZDDmnSpVVZ
+ Yu7raFU5aG0WF31c+JiDmqGvekyd8ElfWsNVRrfH2xPXaWDeuuvf3cDwahV5PQ/cylh3
+ gPqGRs/W0pw/hPOsQjFYZ+61JB15A5pXmPOHTP/W1r9QT+s+p/eKhx4BEeRtshTt+zbT
+ gunw==
+X-Gm-Message-State: AOAM5314lDmKwHzOthy4REUpXz82Jg++dzOK7SJ7DP7UJT7XdaqbIwNV
+ iIqO/karGp+l2AEcCuGgs3QHGzWiX2UeDWCALYCzD7E9iASSNjh+1ygDErwOBUghWstthEM4Y+S
+ Qlmb1EwKwMktPQV4=
+X-Received: by 2002:a17:907:6e06:b0:6da:889b:321c with SMTP id
+ sd6-20020a1709076e0600b006da889b321cmr4973215ejc.510.1646932468986; 
+ Thu, 10 Mar 2022 09:14:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy0ftCced2J8VlXJ4z7IgjfZVYQM9ZC4hEFt44qPSF4MdGgeJ0g0YXMfG8tAMYNHqsf2l9uFg==
+X-Received: by 2002:a17:907:6e06:b0:6da:889b:321c with SMTP id
+ sd6-20020a1709076e0600b006da889b321cmr4973192ejc.510.1646932468779; 
+ Thu, 10 Mar 2022 09:14:28 -0800 (PST)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ g22-20020a170906395600b006cec40b9cf0sm1983129eje.92.2022.03.10.09.14.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Mar 2022 09:14:27 -0800 (PST)
+Message-ID: <01a68a16-fa01-e7f3-4248-fdec6595cf74@redhat.com>
+Date: Thu, 10 Mar 2022 18:14:25 +0100
 MIME-Version: 1.0
-References: <CAFEAcA87VaeHzW4qbHn+UKjh9gMQbKNcN5ytXBS1MUPSapdhYw@mail.gmail.com>
- <4eb4bb05-814b-c28c-c2f4-0f5f5582301b@redhat.com>
- <CAFEAcA-Wg5LKVRQ4dKX6Hsyb=1VVxfGBDB_=Q6iCxycJzLPRhg@mail.gmail.com>
- <CAFEAcA8ytELEkGfwCV3WEZYCCtYdyG9_2uANk8UXGV-=iOnfqw@mail.gmail.com>
- <20220310163610.7f782922@redhat.com>
- <CAFEAcA8Nvr-7QYHv2-K+zN37i=ZXa8_Skb53PaTJzSdhXaBq3g@mail.gmail.com>
- <20220310173053.5eb97f20@redhat.com>
-In-Reply-To: <20220310173053.5eb97f20@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Mar 2022 17:11:14 +0000
-Message-ID: <CAFEAcA_-VhULZ5v4VeA-NYgSgCdk3HgvfQQg8UzCbCvEY4433g@mail.gmail.com>
-Subject: Re: QEMU device refcounting when device creates a container MR
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH-for-6.2 0/2] hw/block/fdc: Fix CVE-2021-3507
+To: Jon Maloy <jmaloy@redhat.com>, qemu-devel@nongnu.org, f4bug@amsat.org
+References: <20211118115733.4038610-1-philmd@redhat.com>
+ <7153eadf-3c43-b62c-aaa1-919abf0634ca@redhat.com>
+ <1c5dfae3-1c3c-bd2f-d2b5-06dbe75c04c8@redhat.com>
+ <4df33af0-0a28-2e20-1909-25baf87d0565@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <4df33af0-0a28-2e20-1909-25baf87d0565@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,52 +104,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
+ Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Mar 2022 at 16:30, Igor Mammedov <imammedo@redhat.com> wrote:
->
-> Do On Thu, 10 Mar 2022 16:05:24 +0000
-> Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> > On Thu, 10 Mar 2022 at 15:36, Igor Mammedov <imammedo@redhat.com> wrote:
-> > >
-> > > On Wed, 9 Mar 2022 16:56:21 +0000
-> > > Peter Maydell <peter.maydell@linaro.org> wrote:
-> > > > ...also, in the device-introspect-test where I see this problem,
-> > > > unrealize is never going to be called anyway, because the device
-> > > > is only put through "instance_init" and then dereffed (which
-> > > > does not result in instance_finalize being called, because the
-> > > > refcount is still non-zero).
-> > >
-> > > question is why introspected device is deferred instead of being
-> > > destroyed if it's no longer needed?
-> >
-> > ...because the reference count is not zero.
-> >
-> > What is supposed to happen is:
-> >  * device is created (inited), and has refcount of 1
-> >  * introspection code does its thing
-> >  * introspection code derefs the device, and it gets deinited
-> >
-> > This bug means that when the device is inited it has a refcount
-> > that is too high, and so despite the code that creates it
-> > correctly dereffing it, it's still lying around.
->
-> looks like ref count leak somewhere, instance_finalize() take care
-> of cleaning up instance_init() actions.
+On 06/02/2022 20.19, Jon Maloy wrote:
+> Trying again with correct email address.
+> ///jon
+> 
+> On 2/6/22 14:15, Jon Maloy wrote:
+>>
+>>
+>> On 1/27/22 15:14, Jon Maloy wrote:
+>>>
+>>> On 11/18/21 06:57, Philippe Mathieu-Daudé wrote:
+>>>> Trivial fix for CVE-2021-3507.
+>>>>
+>>>> Philippe Mathieu-Daudé (2):
+>>>>    hw/block/fdc: Prevent end-of-track overrun (CVE-2021-3507)
+>>>>    tests/qtest/fdc-test: Add a regression test for CVE-2021-3507
+>>>>
+>>>>   hw/block/fdc.c         |  8 ++++++++
+>>>>   tests/qtest/fdc-test.c | 20 ++++++++++++++++++++
+>>>>   2 files changed, 28 insertions(+)
+>>>>
+>>> Series
+>>> Acked-by: Jon Maloy <jmaloy@redhat.com>
+>>
+>> Philippe,
+>> I hear from other sources that you earlier have qualified this one as 
+>> "incomplete".
+>> I am of course aware that this one, just like my own patch, is just a 
+>> mitigation and not a complete correction of the erroneous calculation.
+>> Or did you have anything else in mind?
 
-If you read the rest of the thread, we know why the refcount
-is too high. And instance_finalize *is never called*, so it
-cannot clean up what instance_init has done.
+Any news on this one? It would be nice to get the CVE fixed for 7.0 ?
 
-> Do you have an example/reproducer?
+  Thomas
 
-Yes, see the thread -- device-introspect-test shows it.
-(You can put printfs in ehci_sysbus_init and ehci_sysbus_finalize
-and see that for some devices we don't ever call finalize.)
-
--- PMM
 
