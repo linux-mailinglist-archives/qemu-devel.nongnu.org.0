@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAD24D4771
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:56:42 +0100 (CET)
-Received: from localhost ([::1]:41702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8C54D4782
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:59:25 +0100 (CET)
+Received: from localhost ([::1]:51088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSILR-0007AN-3c
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:56:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41374)
+	id 1nSIO4-00053V-FC
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:59:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9f-0006fv-Pt; Thu, 10 Mar 2022 07:44:32 -0500
-Received: from [2a00:1450:4864:20::332] (port=46722
- helo=mail-wm1-x332.google.com)
+ id 1nSI9g-0006ip-SF; Thu, 10 Mar 2022 07:44:33 -0500
+Received: from [2a00:1450:4864:20::431] (port=41652
+ helo=mail-wr1-x431.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9d-0005Bl-Rd; Thu, 10 Mar 2022 07:44:31 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- p184-20020a1c29c1000000b0037f76d8b484so3293919wmp.5; 
- Thu, 10 Mar 2022 04:44:29 -0800 (PST)
+ id 1nSI9f-0005CA-7M; Thu, 10 Mar 2022 07:44:32 -0500
+Received: by mail-wr1-x431.google.com with SMTP id i8so7760353wrr.8;
+ Thu, 10 Mar 2022 04:44:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dT+i83yAoZd+9rOLeIq77urD76H3LMrkKX/uEElWQyo=;
- b=T/iGyIUsvFykhWGbbVrd6ncd8YOrMw3wDhzqFhuTT4bR7uz4P8SWZzJ9Q7gHigrmxA
- 6bdXJzXhR2G2+JxPdz49bANFmcO9ZYuIt6aKjeEx3DZPqMqO90BDyKXXVv1Ud/g1dNY9
- aK3MQqDUbWMvQKeuDauKzbfPj2km677cUtrOWt50W8a3lixLNFsmpFAk4IYI55QI9Dxd
- mkciZ9c4ZZBTQhg/TfDbPieMad1A5M1iS+lftAwpUWDMAxYiMQh3kZHC1KURPfFIgwtP
- SkE7Kpfn3TWjXnGfbFBJADuS7OS6F2Edtx92lHnEmBNR2R4SCaeYwgqiE5e9Q1d5wQrh
- QW1A==
+ bh=FQ9jxKI5I1M89vZzYqquoXBdkPU8bHNffna5C1ysXtM=;
+ b=SJ/1MNM2DfoliLjnh72Keto3Cinco9tPyaddBuqlsg0Tk6Nh4qs7CrzYfkQmmcm3IV
+ g5b5UIA8lBvxmYNrUP4Nt5Y9hbu8oRnQnBBqx1FYTqijvTAatsHm8dFvfRA2fUBs5/t8
+ OjapXsrtWf1p+uqytB4JHjaBUWHtUNn6BuMtWz/FTUgrISlMGB0thJe01ObJ/sf5QTO5
+ nakfj99SlRu/yb63NSeCdZK2b6E9uhN342o+57n5f83jgKfuXOwhFKBRGjpmx3UBk4Pj
+ JDIZgG4j53HTm6t6MdZjzKdXfYXBRBQuONiEuerX4Lzn4V5mPfo1cqaaMsiYMF1Krrh1
+ RVoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dT+i83yAoZd+9rOLeIq77urD76H3LMrkKX/uEElWQyo=;
- b=pnsOxRp2xDpu9rvCEEsi1NYHU9FH9KZw5PpESSv5wM45i+9/b2GyWmw3VFwHI84ISr
- unj9DjlaYOTIqEEo9CL28Ws2yLQvTIAYPR7KmzgZiKOT6yVl0DsznAlw3BTY4+C2e8gV
- jt+D7ciwi1zrgYK1tDe1pNfAQ9zzwJb4OrpkYS62qpItaApKRDE6MXLyyMVhTZN5IXPD
- RmfUvJWmgIFbwHENiDI0o6ArTvc2xnoo3AsMh4+br4R4+b1lZZOzjr4HRSNpld9JF4Zk
- g94k33KUeepF2yqYwnzVjHjjFqcUJkadbs6rgKrskM5WjuuXgKUXLBA1w22WEAxbnRYq
- GfUw==
-X-Gm-Message-State: AOAM532rGsx5J4xTtk9Nz5RwafXECc3D7cgPDAnTzTtTKBug/H8goL9x
- cenXwzj7+rdL/1qhWaptEVo6JXKyxP0=
-X-Google-Smtp-Source: ABdhPJwKUWciv+lvHNKs9R92wmAIPItHs9heNkd6/mlgZwI7DWSjmN8PFzdR7mhMcrJCjZ2SXQMjHw==
-X-Received: by 2002:a05:600c:42c1:b0:389:8310:1128 with SMTP id
- j1-20020a05600c42c100b0038983101128mr3482550wme.3.1646916268253; 
- Thu, 10 Mar 2022 04:44:28 -0800 (PST)
+ bh=FQ9jxKI5I1M89vZzYqquoXBdkPU8bHNffna5C1ysXtM=;
+ b=i7eF6Jt4VZfi27V0cmZIWQyihJAkDKgx3n9jj4oE5QLqvvC9Vlh42cLxHcpeSyr+/d
+ Col1YAUtSm8Qpo14V3LR+gt6fnMpBQ2bMY3IVXTcgXaGisBls515nQ741E6uy5YreAbQ
+ Qhe4Wu35HlLiq5fa4RaDThl/SaaUxiFKvMqWERQQfxU9PztHGHQLCm3qI5zwsgUAz0zD
+ PgouQD60SkzyOdWNB9NEYVXhTnLeZeVcOV1jHDk4zjdnhcPP1GZKfsE+jupsag6lwVEv
+ bYWY7uv342EQ1f4cXoSBWK0F1LM2uR3cuMVv98O/SA/EXt/sJdjTWh+mNXq58CFmV72j
+ 7c1Q==
+X-Gm-Message-State: AOAM5306wdmjaUng61GSfyufu0jC4tbx0KvwqWDBNVUah92ns7st6b51
+ GU8axmJpYLZW7RcO2O66Ui/TCdUKp5Y=
+X-Google-Smtp-Source: ABdhPJxkzQSj4kBS8gG7J+lU07bK4mSut46oPbrMO3N72RTcDI62sFtQ1z1mOtwJmctwXBjyEokkPg==
+X-Received: by 2002:adf:e5cf:0:b0:203:7a50:98bd with SMTP id
+ a15-20020adfe5cf000000b002037a5098bdmr3437946wrn.416.1646916269580; 
+ Thu, 10 Mar 2022 04:44:29 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.27
+ r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:44:27 -0800 (PST)
+ Thu, 10 Mar 2022 04:44:29 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/35] enable tail call optimization of qemu_co_mutex_lock
-Date: Thu, 10 Mar 2022 13:43:48 +0100
-Message-Id: <20220310124413.1102441-11-pbonzini@redhat.com>
+Subject: [PATCH 11/35] convert CoMutex to stackless coroutines
+Date: Thu, 10 Mar 2022 13:43:49 +0100
+Message-Id: <20220310124413.1102441-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
 References: <20220310124413.1102441-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -93,41 +92,144 @@ Cc: hreitz@redhat.com, stefanha@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make qemu_co_mutex_lock_slowpath a tail call, so that qemu_co_mutex_lock
-does not need to build a stack frame of its own.
+Build the frame for qemu_co_mutex_lock_slowpath, because it has code
+that runs after qemu_coroutine_yield().  For qemu_co_mutex_lock() and
+qemu_co_mutex_unlock(), just return COROUTINE_CONTINUE on paths that do
+not go through an awaitable function, which is all of them in the case
+of qemu_co_mutex_unlock().
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/qemu-coroutine-lock.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ util/qemu-coroutine-lock.c | 60 ++++++++++++++++++++++++++++++--------
+ 1 file changed, 48 insertions(+), 12 deletions(-)
 
 diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
-index d6c0565ba5..048cfcea71 100644
+index 048cfcea71..061a376aa4 100644
 --- a/util/qemu-coroutine-lock.c
 +++ b/util/qemu-coroutine-lock.c
-@@ -231,6 +231,8 @@ static void coroutine_fn qemu_co_mutex_lock_slowpath(AioContext *ctx,
+@@ -120,6 +120,7 @@ bool qemu_co_queue_empty(CoQueue *queue)
+ {
+     return QSIMPLEQ_FIRST(&queue->entries) == NULL;
+ }
++#endif
  
-     qemu_coroutine_yield();
-     trace_qemu_co_mutex_lock_return(mutex, self);
-+    mutex->holder = self;
-+    self->locks_held++;
+ /* The wait records are handled with a multiple-producer, single-consumer
+  * lock-free queue.  There cannot be two concurrent pop_waiter() calls
+@@ -197,15 +198,28 @@ static void coroutine_fn qemu_co_mutex_wake(CoMutex *mutex, Coroutine *co)
+     aio_co_wake(co);
  }
  
- void coroutine_fn qemu_co_mutex_lock(CoMutex *mutex)
-@@ -266,11 +268,11 @@ retry_fast_path:
-         /* Uncontended.  */
-         trace_qemu_co_mutex_lock_uncontended(mutex, self);
-         mutex->ctx = ctx;
-+        mutex->holder = self;
-+        self->locks_held++;
-     } else {
-         qemu_co_mutex_lock_slowpath(ctx, mutex);
+-static void coroutine_fn qemu_co_mutex_lock_slowpath(AioContext *ctx,
+-                                                     CoMutex *mutex)
+-{
+-    Coroutine *self = qemu_coroutine_self();
++struct FRAME__qemu_co_mutex_lock_slowpath {
++    CoroutineFrame common;
++    uint32_t _step;
++    AioContext *ctx;
++    CoMutex *mutex;
++    Coroutine *self;
+     CoWaitRecord w;
++};
++
++static CoroutineAction co__qemu_co_mutex_lock_slowpath(void *_frame)
++{
++    struct FRAME__qemu_co_mutex_lock_slowpath *_f = _frame;
++    AioContext *ctx = _f->ctx;
++    CoMutex *mutex = _f->mutex;
++    Coroutine *self;
+     unsigned old_handoff;
+ 
++switch(_f->_step) {
++case 0: {
++    self = qemu_coroutine_self();
+     trace_qemu_co_mutex_lock_entry(mutex, self);
+-    push_waiter(mutex, &w);
++    push_waiter(mutex, &_f->w);
+ 
+     /* This is the "Responsibility Hand-Off" protocol; a lock() picks from
+      * a concurrent unlock() the responsibility of waking somebody up.
+@@ -221,21 +235,40 @@ static void coroutine_fn qemu_co_mutex_lock_slowpath(AioContext *ctx,
+         Coroutine *co = to_wake->co;
+         if (co == self) {
+             /* We got the lock ourselves!  */
+-            assert(to_wake == &w);
++            assert(to_wake == &_f->w);
+             mutex->ctx = ctx;
+-            return;
++            goto _out;
+         }
+ 
+         qemu_co_mutex_wake(mutex, co);
      }
--    mutex->holder = self;
--    self->locks_held++;
+ 
+-    qemu_coroutine_yield();
++_f->_step = 1;
++_f->self = self;
++    return qemu_coroutine_yield();
++}
++case 1:
++self = _f->self;
+     trace_qemu_co_mutex_lock_return(mutex, self);
+     mutex->holder = self;
+     self->locks_held++;
++    goto _out;
++}
++_out:
++return stack_free(&_f->common);
  }
  
- void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex)
+-void coroutine_fn qemu_co_mutex_lock(CoMutex *mutex)
++static CoroutineAction qemu_co_mutex_lock_slowpath(AioContext *ctx, CoMutex *mutex)
++{
++    struct FRAME__qemu_co_mutex_lock_slowpath *f;
++    f = stack_alloc(co__qemu_co_mutex_lock_slowpath, sizeof(*f));
++    f->ctx = ctx;
++    f->mutex = mutex;
++    f->_step = 0;
++    return co__qemu_co_mutex_lock_slowpath(f);
++}
++
++CoroutineAction qemu_co_mutex_lock(CoMutex *mutex)
+ {
+     AioContext *ctx = qemu_get_current_aio_context();
+     Coroutine *self = qemu_coroutine_self();
+@@ -270,12 +303,13 @@ retry_fast_path:
+         mutex->ctx = ctx;
+         mutex->holder = self;
+         self->locks_held++;
++        return COROUTINE_CONTINUE;
+     } else {
+-        qemu_co_mutex_lock_slowpath(ctx, mutex);
++        return qemu_co_mutex_lock_slowpath(ctx, mutex);
+     }
+ }
+ 
+-void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex)
++CoroutineAction qemu_co_mutex_unlock(CoMutex *mutex)
+ {
+     Coroutine *self = qemu_coroutine_self();
+ 
+@@ -290,7 +324,7 @@ void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex)
+     self->locks_held--;
+     if (qatomic_fetch_dec(&mutex->locked) == 1) {
+         /* No waiting qemu_co_mutex_lock().  Pfew, that was easy!  */
+-        return;
++        return COROUTINE_CONTINUE;
+     }
+ 
+     for (;;) {
+@@ -328,8 +362,10 @@ void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex)
+     }
+ 
+     trace_qemu_co_mutex_unlock_return(mutex, self);
++    return COROUTINE_CONTINUE;
+ }
+ 
++#if 0
+ struct CoRwTicket {
+     bool read;
+     Coroutine *co;
 -- 
 2.35.1
 
