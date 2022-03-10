@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE3F4D46BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:22:16 +0100 (CET)
-Received: from localhost ([::1]:59510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 566E84D472E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:44:02 +0100 (CET)
+Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSHo7-0000pS-7X
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:22:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33372)
+	id 1nSI93-0004h0-14
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:44:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nSHk1-00065P-2S
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 07:18:01 -0500
-Received: from [2607:f8b0:4864:20::1129] (port=37934
- helo=mail-yw1-x1129.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nSHjz-0008Id-HT
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 07:18:00 -0500
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2dbc48104beso55598767b3.5
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 04:17:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GEWL9mFnpb+ApQhigdzm2s1Rek537wY2YX94UHn+FoM=;
- b=dkjuKFGYbAD81vZ8JMelW/aV/s0IrqMf2+tUUoAL6m6DU+ro3CBa3impXQwRRC/kR+
- KUCsN8iOgqF6sTFMauKGhK9T5F+3AyAZ+vFkPsyMIHhq9/D4szbJ/GEDk9Cxgv/JSf8T
- 6w+x4PsQ6JkrLNZk70z/mZLCYcGu2ECmLTsAO9yVxEoPwaSvDmDxan6+NCZ1zhGiPm+S
- NrwA0F7+XigDNjl0tEKBEjRmW0vJV/Bq8OxgkHQfgvTzxkTH1CVD6kUB+VrsQx+12p6v
- A0sJ/nPoKIar71fcKsHj1piDF8cAqDtuJKJ6OUwciVzZAHEQ9w2m2sJQT2yLxvtHjCHJ
- +ypA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GEWL9mFnpb+ApQhigdzm2s1Rek537wY2YX94UHn+FoM=;
- b=3dwp6OBPZHD96K/rbiQKrbF/Ahk5nUCllGUZgd62GPEgU+v0yR/CAVl0BkHOUhcG2L
- 5eYx1QiVpUaTOMGhoQDF+5cutuOcBV5I4urMx1uftB0WR8IW+AN89eXo6u7PPuPjs6g8
- mUDhihyXujKM50TQHgJuu5ECPoFiOZFaSvHl2a3yuA9ppcI44dLfrknbul0PX346GOvK
- r0YMaIZ4w+Sur5QJJVc9utpWvOgYdD4FA3HAhR47hix6pi7YdZ9lIKgd1dP6o5Z0sM9/
- rnLsKasbeuO/QMLh8elcKtbHCNRqK/unsRUjQOV3rPkpBAFhg0hSbXtmxm9u+BC5mGyg
- 6o3A==
-X-Gm-Message-State: AOAM530UZiboC//ytM9PoXN8Bji6pCuzMNVMtxXg0I+/ZHjO9PN404AS
- YOOC7zotI4BeXosqNIIoxL9mjH17XQDr8XvovRD5FA==
-X-Google-Smtp-Source: ABdhPJwvTbEVp8rglVapBLGciXP8P2fMtMNZsrMCeCT0zTQEHav6tJii7UvKCG2QeCCVhWmIsPemXuz1LudUq2mroOk=
-X-Received: by 2002:a81:b49:0:b0:2db:f472:dfca with SMTP id
- 70-20020a810b49000000b002dbf472dfcamr3492290ywl.455.1646914678473; Thu, 10
- Mar 2022 04:17:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nSHoR-0003N3-7u
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 07:22:35 -0500
+Received: from mga05.intel.com ([192.55.52.43]:49747)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1nSHoI-0000bD-2C
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 07:22:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646914946; x=1678450946;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=IJjHA8jBLDxHPajmWm+quBmfQOVfT6c5MhN0RjRDbR8=;
+ b=WmHuX3SN8l0jTKaAegkEqjd0ff7G6GDcCgnOIFZPPPJjw10g1OeXmDz9
+ sF9qxl7R3ldPE6f7yY6jl3EttfNYdbbk4dEDVcOgwVVXZkpUXGaBywcui
+ 8D3b62v49cbPLyezypcDBmYxmxyw6hl60XTYjfU2eREOjGOBsYANQcydI
+ DIgOpnJklM9FoYqNngmoHp7+07kpf2JDlT2LaZNoRTDdAxy5YBkaboq53
+ KHuXVjEO3GALmyd3zBtHhuB6JNF7MxBDlqeS1barcyhxf9/s3F3QnlxEk
+ YdNh/GYIqN4lBwKCW6KkMS1GMovm7ugmlhWMfB+tWusaLxxivDD3qtI44 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="341664311"
+X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="341664311"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 04:22:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="496236550"
+Received: from lxy-dell.sh.intel.com ([10.239.159.55])
+ by orsmga003.jf.intel.com with ESMTP; 10 Mar 2022 04:22:15 -0800
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, mtosatti@redhat.com,
+ richard.henderson@linaro.org
+Subject: [PATCH RESEND v1] trace: Split address space and slot id in
+ trace_kvm_set_user_memory()
+Date: Thu, 10 Mar 2022 20:22:15 +0800
+Message-Id: <20220310122215.804233-1-xiaoyao.li@intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20220310112725.570053-1-richard.henderson@linaro.org>
- <20220310112725.570053-7-richard.henderson@linaro.org>
-In-Reply-To: <20220310112725.570053-7-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Mar 2022 12:17:47 +0000
-Message-ID: <CAFEAcA_xuqqgExpaBC6y2GW8YpTbK6PVBFX=TsB9xA7_9=Z0LA@mail.gmail.com>
-Subject: Re: [PATCH v5 06/48] target/nios2: Fix BRET instruction
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=xiaoyao.li@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,26 +72,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, amir.gonnen@neuroblade.ai, qemu-devel@nongnu.org
+Cc: xiaoyao.li@intel.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Mar 2022 at 11:27, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We had failed to copy BSTATUS back to STATUS, and diagnose
-> supervisor-only.  The spec is light on the specifics of the
-> implementation of bret, but it is an easy assumption that
-> the restore into STATUS should work the same as eret.
->
-> Therefore, reuse the existing helper_eret.
->
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+The upper 16 bits of kvm_userspace_memory_region::slot are
+address space id. Parse it separately in trace_kvm_set_user_memory().
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+---
+Resend: 
+ - rebase to 2048c4eba2b4 ("Merge remote-tracking branch 'remotes/philmd/tags/pmbus-20220308' into staging")
+---
+ accel/kvm/kvm-all.c    | 5 +++--
+ accel/kvm/trace-events | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-thanks
--- PMM
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 0e66ebb49717..6b9fd943494b 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -379,8 +379,9 @@ static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, boo
+     ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
+     slot->old_flags = mem.flags;
+ err:
+-    trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
+-                              mem.memory_size, mem.userspace_addr, ret);
++    trace_kvm_set_user_memory(mem.slot >> 16, (uint16_t)mem.slot, mem.flags,
++                              mem.guest_phys_addr, mem.memory_size,
++                              mem.userspace_addr, ret);
+     if (ret < 0) {
+         error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
+                      " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
+diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
+index 399aaeb0ec75..14ebfa1b991c 100644
+--- a/accel/kvm/trace-events
++++ b/accel/kvm/trace-events
+@@ -15,7 +15,7 @@ kvm_irqchip_update_msi_route(int virq) "Updating MSI route virq=%d"
+ kvm_irqchip_release_virq(int virq) "virq %d"
+ kvm_set_ioeventfd_mmio(int fd, uint64_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%" PRIx64 " val=0x%x assign: %d size: %d match: %d"
+ kvm_set_ioeventfd_pio(int fd, uint16_t addr, uint32_t val, bool assign, uint32_t size, bool datamatch) "fd: %d @0x%x val=0x%x assign: %d size: %d match: %d"
+-kvm_set_user_memory(uint32_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
++kvm_set_user_memory(uint16_t as, uint16_t slot, uint32_t flags, uint64_t guest_phys_addr, uint64_t memory_size, uint64_t userspace_addr, int ret) "AddrSpace#%d Slot#%d flags=0x%x gpa=0x%"PRIx64 " size=0x%"PRIx64 " ua=0x%"PRIx64 " ret=%d"
+ kvm_clear_dirty_log(uint32_t slot, uint64_t start, uint32_t size) "slot#%"PRId32" start 0x%"PRIx64" size 0x%"PRIx32
+ kvm_resample_fd_notify(int gsi) "gsi %d"
+ kvm_dirty_ring_full(int id) "vcpu %d"
+-- 
+2.27.0
+
 
