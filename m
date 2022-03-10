@@ -2,73 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFEE4D508D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:31:09 +0100 (CET)
-Received: from localhost ([::1]:45924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553A04D50AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:36:41 +0100 (CET)
+Received: from localhost ([::1]:57228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSMd2-0000cn-LJ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:31:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60532)
+	id 1nSMiO-0000Al-B4
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:36:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSMSI-0003eU-P0
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:20:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nSMSH-0003hz-3a
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:20:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646932800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VNmNxGvHxKTPwv8QcX9cJuFt1D6tDOFiamlyqdR555E=;
- b=BN8q9FPj6TTPLcfB/5tlbfGeCugYNTKrCHKkPlxsUjUINWY+FT08CVQ3b21YNU3/XF9upA
- 3nvQURI2JsyldDa/yICCPFHi3SDIGKEzyMeh7Npmnipw6PDtkIsjPLpb3DCkotvDnXVHTW
- mzAz1GMJq/P0lIKPWJMhN0ahx5P9poU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-FBB3b0LhMRuopNMKx7UBQw-1; Thu, 10 Mar 2022 12:19:59 -0500
-X-MC-Unique: FBB3b0LhMRuopNMKx7UBQw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6550281E22C
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 17:19:58 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E6C6106D5DC;
- Thu, 10 Mar 2022 17:19:55 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/18] tests: ensure migration status isn't reported as
- failed
-Date: Thu, 10 Mar 2022 17:18:21 +0000
-Message-Id: <20220310171821.3724080-19-berrange@redhat.com>
-In-Reply-To: <20220310171821.3724080-1-berrange@redhat.com>
-References: <20220310171821.3724080-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nSMTO-0004JB-Th; Thu, 10 Mar 2022 12:21:10 -0500
+Received: from [187.72.171.209] (port=37119 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1nSMTJ-000458-FO; Thu, 10 Mar 2022 12:21:10 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 10 Mar 2022 14:21:00 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 84AF58002AF;
+ Thu, 10 Mar 2022 14:21:00 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH] target/ppc: fix xxspltw for big endian hosts
+Date: Thu, 10 Mar 2022 14:20:46 -0300
+Message-Id: <20220310172047.61094-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 10 Mar 2022 17:21:00.0904 (UTC)
+ FILETIME=[36ACD680:01D834A3]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 187.72.171.209 (failed)
+Received-SPF: pass client-ip=187.72.171.209;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,98 +55,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various methods in the migration test call 'query_migrate' to fetch the
-current status and then access a particular field. Almost all of these
-cases expect the migration to be in a non-failed state. In the case of
-'wait_for_migration_pass' in particular, if the status is 'failed' then
-it will get into an infinite loop. By validating that the status is
-not 'failed' the test suite will assert rather than hang when getting
-into an unexpected state.
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Fix a typo in the host endianness macro and add a simple test to detect
+regressions.
+
+Fixes: 9bb0048ec6f8 ("target/ppc: convert xxspltw to vector operations")
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- tests/qtest/migration-helpers.c | 13 +++++++++++++
- tests/qtest/migration-helpers.h |  1 +
- tests/qtest/migration-test.c    |  6 +++---
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ target/ppc/translate/vsx-impl.c.inc |  2 +-
+ tests/tcg/ppc64/Makefile.target     |  1 +
+ tests/tcg/ppc64le/Makefile.target   |  1 +
+ tests/tcg/ppc64le/xxspltw.c         | 46 +++++++++++++++++++++++++++++
+ 4 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/ppc64le/xxspltw.c
 
-diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-index 4ee26014b7..a6aa59e4e6 100644
---- a/tests/qtest/migration-helpers.c
-+++ b/tests/qtest/migration-helpers.c
-@@ -107,6 +107,19 @@ QDict *migrate_query(QTestState *who)
-     return wait_command(who, "{ 'execute': 'query-migrate' }");
- }
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 48a97b2d7e..e67fbf2bb8 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -1552,7 +1552,7 @@ static bool trans_XXSPLTW(DisasContext *ctx, arg_XX2_uim2 *a)
+     tofs = vsr_full_offset(a->xt);
+     bofs = vsr_full_offset(a->xb);
+     bofs += a->uim << MO_32;
+-#ifndef HOST_WORDS_BIG_ENDIAN
++#ifndef HOST_WORDS_BIGENDIAN
+     bofs ^= 8 | 4;
+ #endif
  
-+QDict *migrate_query_not_failed(QTestState *who)
-+{
-+    const char *status;
-+    QDict *rsp = migrate_query(who);
-+    status = qdict_get_str(rsp, "status");
-+    if (g_str_equal(status, "failed")) {
-+        g_printerr("query-migrate shows failed migration: %s\n",
-+                   qdict_get_str(rsp, "error-desc"));
-+    }
-+    g_assert(!g_str_equal(status, "failed"));
-+    return rsp;
-+}
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+index c9498053df..8197c288a7 100644
+--- a/tests/tcg/ppc64/Makefile.target
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -27,5 +27,6 @@ run-sha512-vector: QEMU_OPTS+=-cpu POWER10
+ run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
+ 
+ PPC64_TESTS += signal_save_restore_xer
++PPC64_TESTS += xxspltw
+ 
+ TESTS += $(PPC64_TESTS)
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+index 12d85e946b..9624bb1e9c 100644
+--- a/tests/tcg/ppc64le/Makefile.target
++++ b/tests/tcg/ppc64le/Makefile.target
+@@ -25,5 +25,6 @@ run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
+ 
+ PPC64LE_TESTS += mtfsf
+ PPC64LE_TESTS += signal_save_restore_xer
++PPC64LE_TESTS += xxspltw
+ 
+ TESTS += $(PPC64LE_TESTS)
+diff --git a/tests/tcg/ppc64le/xxspltw.c b/tests/tcg/ppc64le/xxspltw.c
+new file mode 100644
+index 0000000000..def7321f14
+--- /dev/null
++++ b/tests/tcg/ppc64le/xxspltw.c
+@@ -0,0 +1,46 @@
++#include <stdio.h>
++#include <stdint.h>
++#include <inttypes.h>
++#include <assert.h>
 +
- /*
-  * Note: caller is responsible to free the returned object via
-  * g_free() after use
-diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
-index d63bba9630..b710ece67e 100644
---- a/tests/qtest/migration-helpers.h
-+++ b/tests/qtest/migration-helpers.h
-@@ -26,6 +26,7 @@ GCC_FMT_ATTR(3, 4)
- void migrate_qmp(QTestState *who, const char *uri, const char *fmt, ...);
- 
- QDict *migrate_query(QTestState *who);
-+QDict *migrate_query_not_failed(QTestState *who);
- 
- void wait_for_migration_status(QTestState *who,
-                                const char *goal, const char **ungoals);
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 5ea0b9360a..d9f444ea14 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -181,7 +181,7 @@ static int64_t read_ram_property_int(QTestState *who, const char *property)
-     QDict *rsp_return, *rsp_ram;
-     int64_t result;
- 
--    rsp_return = migrate_query(who);
-+    rsp_return = migrate_query_not_failed(who);
-     if (!qdict_haskey(rsp_return, "ram")) {
-         /* Still in setup */
-         result = 0;
-@@ -198,7 +198,7 @@ static int64_t read_migrate_property_int(QTestState *who, const char *property)
-     QDict *rsp_return;
-     int64_t result;
- 
--    rsp_return = migrate_query(who);
-+    rsp_return = migrate_query_not_failed(who);
-     result = qdict_get_try_int(rsp_return, property, 0);
-     qobject_unref(rsp_return);
-     return result;
-@@ -213,7 +213,7 @@ static void read_blocktime(QTestState *who)
- {
-     QDict *rsp_return;
- 
--    rsp_return = migrate_query(who);
-+    rsp_return = migrate_query_not_failed(who);
-     g_assert(qdict_haskey(rsp_return, "postcopy-blocktime"));
-     qobject_unref(rsp_return);
- }
++#define WORD_A 0xAAAAAAAAUL
++#define WORD_B 0xBBBBBBBBUL
++#define WORD_C 0xCCCCCCCCUL
++#define WORD_D 0xDDDDDDDDUL
++
++#define DWORD_HI (WORD_A << 32 | WORD_B)
++#define DWORD_LO (WORD_C << 32 | WORD_D)
++
++#define TEST(HI, LO, UIM, RES) \
++    do {                                                        \
++        union {                                                 \
++            uint64_t u;                                         \
++            double f;                                           \
++        } h = { .u = HI }, l = { .u = LO };                     \
++        /*                                                      \
++         * Use a pair of FPRs to load the VSR avoiding insns    \
++         * newer than xxswapd.                                  \
++         */                                                     \
++        asm("xxmrghd 32, %0, %1\n\t"                            \
++            "xxspltw 32, 32, %2\n\t"                            \
++            "xxmrghd %0, 32, %0\n\t"                            \
++            "xxswapd 32, 32\n\t"                                \
++            "xxmrghd %1, 32, %1\n\t"                            \
++            : "+f" (h.f), "+f" (l.f)                            \
++            : "i" (UIM)                                         \
++            : "v0");                                            \
++        printf("xxspltw(0x%016" PRIx64 "%016" PRIx64 ", %d) ="  \
++               " %016" PRIx64 "%016" PRIx64 "\n", HI, LO, UIM,  \
++               h.u, l.u);                                       \
++        assert(h.u == (RES));                                   \
++        assert(l.u == (RES));                                   \
++    } while (0)
++
++int main(void)
++{
++    TEST(DWORD_HI, DWORD_LO, 0, WORD_A << 32 | WORD_A);
++    TEST(DWORD_HI, DWORD_LO, 1, WORD_B << 32 | WORD_B);
++    TEST(DWORD_HI, DWORD_LO, 2, WORD_C << 32 | WORD_C);
++    TEST(DWORD_HI, DWORD_LO, 3, WORD_D << 32 | WORD_D);
++    return 0;
++}
 -- 
-2.34.1
+2.25.1
 
 
