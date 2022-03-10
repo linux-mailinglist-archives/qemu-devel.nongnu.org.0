@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C399D4D4687
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:13:11 +0100 (CET)
-Received: from localhost ([::1]:43038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B8A4D46A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:16:49 +0100 (CET)
+Received: from localhost ([::1]:49584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSHfK-0006Rg-SC
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:13:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50874)
+	id 1nSHiq-0002NP-6g
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:16:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSGxX-0005nW-6e
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:55 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=42533
- helo=mail-pj1-x1036.google.com)
+ id 1nSGxY-0005sT-Tu
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:56 -0500
+Received: from [2607:f8b0:4864:20::62d] (port=35569
+ helo=mail-pl1-x62d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSGxV-0007zS-PS
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:54 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- c16-20020a17090aa61000b001befad2bfaaso4970182pjq.1
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:27:53 -0800 (PST)
+ id 1nSGxX-0007ze-8v
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:56 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id n15so4609254plh.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:27:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GQKtq5EmgHv2pf8acDMhuJ8SB17+NoN37aNM30IhfvE=;
- b=jtOiGy3FYwQP3MCPQKueM36CjJDClkhfzP7GS1+H6iFjFbaIXyJp1fZpmcMN5vi1JW
- qhuify425kryo/WWX5g5MFg9FAHMSm6N0SVWagC2XWw25AFjw89Xqa/NnVXZneZpCGgH
- N15S6EBfr/5VKd9Q9GcD8taM7E3w+wpHQ+FKxE9W2ePy3jht47IGi95b4dz3kE44Ii6z
- tdzNlpZRh7DUWpWPqUWW9WGK3iB4FgFfaGtW7Qi1ehVWHxwtHUYISBM3yvxWQLAFLJLr
- O0QRVJrWth9FgbsTf+A9sg4N5TBt/MMoYuK3aaKKsBCKxXzRUIKQcBfS8PF9W9OcWu1M
- HwyA==
+ bh=kC6IYNjsGbxQ1O1vqjxYEFxpw4YN+TjfQjKfECaeneY=;
+ b=E+FqzeMLYkMsGZA46EH5rxCmD2SIxJ64cuBJoFwAqf5xmz6H73ANYIFCxyKAJ7SgH0
+ DDYkf6nzX/ODRTrt2MbcnmWSoMTtgKi9zcjIxqvH4zbblq9mhdG3ew7f9e8jk+QpQzqN
+ H7bW7ls/UK3ZSUmH/lwEUkNawNe6G9rig9yc8xgx9Lb2M7sKxwg4xgv+hhA3IR1p1S6o
+ GiF/YFqrBtJGqJZPUQl5N8pNBy+9ZZAkecj7TtSA597c19Q/anPdRTq96RZvk48D4/+u
+ aUe5iu2lFzs8OyPW7QIuHurt/TEYeyRJxA3a13k8MmouQnSYFLJOjYV15d/nREFN0SW5
+ M6lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GQKtq5EmgHv2pf8acDMhuJ8SB17+NoN37aNM30IhfvE=;
- b=hjHS8HWjYQr5vKPiMRlfE/QSTH6EDkGr92jpIaUKZteMvxuUUGGXrMcUZdpfMCNr4n
- PRgXoPd5PMw3OPWVZATo7HorTLBOOkCOcQnQtejB1+50NHwTp4b8A+nJ70cJx63FkBeH
- Gs216/ZSarLT+dgdPEodCRF2KIfSxYSW8l2i+A/PKSYkMtldsQSUXy4BfXZA2ALiY7sT
- QhsMT7wZww7JxeIv4HgQMn1kmrhHnjchCrEsiUtB5PH8arynwBGXXBWPlnIQluB3tRE7
- 7C4XQuJEAbuSUbCHG8+VwjOpnJP2QyvJuQGNr5r/nn4tfy7tunsGKBW5PTfyBW4Lnv+h
- 1bvA==
-X-Gm-Message-State: AOAM530jmoGLqLDR0tIeCXUyIqeXvVkljgEC39AWGkjUKqpxMZ4ezWn/
- HG4XSqnrA1jl8SLLlEYUfgg6mSBruA6MHw==
-X-Google-Smtp-Source: ABdhPJzXVUyvhHQDiY4OLa1tBTIAQSusDweAX2LhG57unBu3gnXq7sN4oG25YPSOzuAwct4qTvXbCw==
-X-Received: by 2002:a17:90b:788:b0:1bf:41d:a9ff with SMTP id
- l8-20020a17090b078800b001bf041da9ffmr4456639pjz.116.1646911672487; 
- Thu, 10 Mar 2022 03:27:52 -0800 (PST)
+ bh=kC6IYNjsGbxQ1O1vqjxYEFxpw4YN+TjfQjKfECaeneY=;
+ b=JGK3t2DPuqXNyGGdI7d1CKVMs+MCZalaq+Qdg+wbMI5BWI8Nl/WMCGvJb/u2+kT9Er
+ vrVrfm1q0P3RdBBmkrfSnFHPQp82Dg/6sucULgDo5Fxg2vIQSIfRq/AIoii4qJS/tmnD
+ 8XbdesU4KCUnzFR7rO/zxBoR8z6CQBfMB1/BshBw1H178RKs/1ggo9+7BhuMbVb6SVy+
+ kCURpOjfSA2bB9anc3hPYv7qFNArc9uFU3uhvxcBrWh6MNOhqUV2RerM4HOYaIovRSm1
+ 9NLL/C2h7LhY5294CjNTbPELnZ4zzaGsX4xC5yBg9deffxLOtly+jTdU923I+eJcq8wu
+ a62A==
+X-Gm-Message-State: AOAM532UlDsFq+fsyA5SCH6nOdgfNDs7axFngbOMe8guX69WEatMLDLe
+ qYsLrygxOoP4vScobSO2kqlD4k6dZBXkQA==
+X-Google-Smtp-Source: ABdhPJxfjs54To/dsxqoPwUcez210IR7RKzYrtvdry31OcnQ9zY4h/Zzg3hD/pniFVqXOknDODrF4g==
+X-Received: by 2002:a17:902:720a:b0:151:d7d7:6ac0 with SMTP id
+ ba10-20020a170902720a00b00151d7d76ac0mr4410040plb.128.1646911673955; 
+ Thu, 10 Mar 2022 03:27:53 -0800 (PST)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.27.51
+ js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.27.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 03:27:51 -0800 (PST)
+ Thu, 10 Mar 2022 03:27:53 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 23/48] target/nios2: Handle EXCP_UNALIGN and EXCP_UALIGND
-Date: Thu, 10 Mar 2022 03:27:00 -0800
-Message-Id: <20220310112725.570053-24-richard.henderson@linaro.org>
+Subject: [PATCH v5 24/48] target/nios2: Cleanup set of CR_EXCEPTION for
+ do_interrupt
+Date: Thu, 10 Mar 2022 03:27:01 -0800
+Message-Id: <20220310112725.570053-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220310112725.570053-1-richard.henderson@linaro.org>
 References: <20220310112725.570053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,39 +93,34 @@ Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These misaligned data and misaligned destination exceptions
-are defined, but not currently raised.
+The register is entirely read-only for software, and we do not
+implement ECC, so we need not deposit the cause into an existing
+value; just create a new value from scratch.
+
+Furthermore, exception.CAUSE is not written for break exceptions.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/helper.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/nios2/helper.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index 285f3aae1d..0392c0ea84 100644
+index 0392c0ea84..afbafd1fdc 100644
 --- a/target/nios2/helper.c
 +++ b/target/nios2/helper.c
-@@ -119,6 +119,12 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-         case EXCP_ILLEGAL:
-             name = "ILLEGAL insn";
-             break;
-+        case EXCP_UNALIGN:
-+            name = "Misaligned (data)";
-+            break;
-+        case EXCP_UNALIGND:
-+            name = "Misaligned (destination)";
-+            break;
-         case EXCP_TRAP:
-             name = "TRAP insn";
-             break;
-@@ -167,6 +173,8 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-     case EXCP_SUPERD:
-     case EXCP_ILLEGAL:
-     case EXCP_TRAP:
-+    case EXCP_UNALIGN:
-+    case EXCP_UNALIGND:
-         do_exception(cpu, cpu->exception_addr, false);
-         break;
+@@ -74,9 +74,10 @@ static void do_exception(Nios2CPU *cpu, uint32_t exception_addr, bool is_break)
+     new_status &= ~(CR_STATUS_PIE | CR_STATUS_U);
+ 
+     env->ctrl[CR_STATUS] = new_status;
+-    env->ctrl[CR_EXCEPTION] = FIELD_DP32(env->ctrl[CR_EXCEPTION],
+-                                         CR_EXCEPTION, CAUSE,
+-                                         cs->exception_index);
++    if (!is_break) {
++        env->ctrl[CR_EXCEPTION] = FIELD_DP32(0, CR_EXCEPTION, CAUSE,
++                                             cs->exception_index);
++    }
+     env->pc = exception_addr;
+ }
  
 -- 
 2.25.1
