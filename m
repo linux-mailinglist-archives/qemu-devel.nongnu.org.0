@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F9F4D4954
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 15:16:32 +0100 (CET)
-Received: from localhost ([::1]:39204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E674D48BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 15:15:27 +0100 (CET)
+Received: from localhost ([::1]:36706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSJah-0006qd-5z
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 09:16:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35652)
+	id 1nSJZe-0005AX-F9
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 09:15:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nSJUy-0006CS-Qd
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 09:10:37 -0500
-Received: from mga11.intel.com ([192.55.52.93]:24075)
+ id 1nSJV7-0006b4-D7
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 09:10:45 -0500
+Received: from mga04.intel.com ([192.55.52.120]:7825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nSJUw-0004z9-EQ
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 09:10:36 -0500
+ id 1nSJV5-0004zp-EA
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 09:10:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646921434; x=1678457434;
+ t=1646921443; x=1678457443;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=Z4vQdKuwJGnUEOHT5u0YKIBAyF/sX/jaF7InK/l4l/o=;
- b=ORB6pm1Tg5a2uHP7B9VIRJOuf2Oxa3uuMi7eYg2rw4VM0v3lLtf2WObn
- GWehlNF5LskzaY9jlpB5czE3cpxo87ZBS53S9jg110OiIT4LJweJX+jFq
- OtSemtQr0B2p7RiTh4iNQnl5mPmk7PySEYhb9KqNF0t420lidSoNtdGNo
- 8/yxH1uZSQGFvbCpiWtIEdnShRQHkTwImWz6kM04y9zmPu7m9i3J9yxx4
- F3TfldieVFny1B0uXY10c8wZoYoDWswH/3rFnk2objaPwPes2WOfwriMc
- dvWVmY+LZ/TbpFRmBw/H3g/yyGg1q2gr3RozRn7Jrn/xcIZgSeHGgGoTM Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="252823508"
-X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="252823508"
+ bh=/0lWU+5EyoSjlOB1k9o55wX3sxsJiR5VJJRuHs8r7qY=;
+ b=Qcsgzn9bdwIw/5HfryRjiYS45NGxuFgv+dOLMR7MPs3y36xcH0HQ403T
+ 0dtQ/YvyeDj73XYILGr1dUweMftALEfFYIsPowwqYcdHnyIYGF9RRe++R
+ fKhe45xTw2UcaD6PLkjPhBl1FMMKZLgYgEXACiuE+hKt9QRDRyBMVm/Qp
+ xNTJrCAsLpnmMt8x/dQ7CmDAvtAPP4D+mSSmC79w3dL/pBZ9PA41wUbqS
+ VN7rxls19ZgZBO3Ef7HNGwh7ZAaDPfkMoNbbZBothJ2ZgKnYnXCEhGsFB
+ 95L1oRVD+pKkNVKv2qP+jK8Z+aya7+nuzqSWCRjmbi5eOIOLIqBKEmKid w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10281"; a="254084996"
+X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="254084996"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2022 06:10:32 -0800
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2022 06:10:41 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="554655053"
+X-IronPort-AV: E=Sophos;i="5.90,170,1643702400"; d="scan'208";a="554655084"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 10 Mar 2022 06:10:24 -0800
+ by orsmga008.jf.intel.com with ESMTP; 10 Mar 2022 06:10:32 -0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
  qemu-devel@nongnu.org
-Subject: [PATCH v5 07/13] KVM: Add KVM_EXIT_MEMORY_ERROR exit
-Date: Thu, 10 Mar 2022 22:09:05 +0800
-Message-Id: <20220310140911.50924-8-chao.p.peng@linux.intel.com>
+Subject: [PATCH v5 08/13] KVM: Use memfile_pfn_ops to obtain pfn for private
+ pages
+Date: Thu, 10 Mar 2022 22:09:06 +0800
+Message-Id: <20220310140911.50924-9-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
 References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Received-SPF: none client-ip=192.55.52.120;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,96 +90,100 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new KVM exit allows userspace to handle memory-related errors. It
-indicates an error happens in KVM at guest memory range [gpa, gpa+size).
-The flags includes additional information for userspace to handle the
-error. Currently bit 0 is defined as 'private memory' where '1'
-indicates error happens due to private memory access and '0' indicates
-error happens due to shared memory access.
+Private pages are not mmap-ed into userspace so can not reply on
+get_user_pages() to obtain the pfn. Instead we add a memfile_pfn_ops
+pointer pfn_ops in each private memslot and use it to obtain the pfn
+for a gfn. To do that, KVM should convert the gfn to the offset into
+the fd and then call get_lock_pfn callback. Once KVM completes its job
+it should call put_unlock_pfn to unlock the pfn. Note the pfn(page) is
+locked between get_lock_pfn/put_unlock_pfn to ensure pfn is valid when
+KVM uses it to establish the mapping in the secondary MMU page table.
 
-After private memory is enabled, this new exit will be used for KVM to
-exit to userspace for shared memory <-> private memory conversion in
-memory encryption usage.
-
-In such usage, typically there are two kind of memory conversions:
-  - explicit conversion: happens when guest explicitly calls into KVM to
-    map a range (as private or shared), KVM then exits to userspace to
-    do the map/unmap operations.
-  - implicit conversion: happens in KVM page fault handler.
-    * if the fault is due to a private memory access then causes a
-      userspace exit for a shared->private conversion request when the
-      page has not been allocated in the private memory backend.
-    * If the fault is due to a shared memory access then causes a
-      userspace exit for a private->shared conversion request when the
-      page has already been allocated in the private memory backend.
+The pfn_ops is initialized via memfile_register_notifier from the memory
+backing store that provided the private_fd.
 
 Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- Documentation/virt/kvm/api.rst | 22 ++++++++++++++++++++++
- include/uapi/linux/kvm.h       |  9 +++++++++
- 2 files changed, 31 insertions(+)
+ arch/x86/kvm/Kconfig     |  1 +
+ include/linux/kvm_host.h | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index f76ac598606c..bad550c2212b 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6216,6 +6216,28 @@ array field represents return values. The userspace should update the return
- values of SBI call before resuming the VCPU. For more details on RISC-V SBI
- spec refer, https://github.com/riscv/riscv-sbi-doc.
+diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+index e3cbd7706136..ca7b2a6a452a 100644
+--- a/arch/x86/kvm/Kconfig
++++ b/arch/x86/kvm/Kconfig
+@@ -48,6 +48,7 @@ config KVM
+ 	select SRCU
+ 	select INTERVAL_TREE
+ 	select HAVE_KVM_PM_NOTIFIER if PM
++	select MEMFILE_NOTIFIER
+ 	help
+ 	  Support hosting fully virtualized guest machines using hardware
+ 	  virtualization extensions.  You will need a fairly recent
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index c92c70174248..6e1d770d6bf8 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -44,6 +44,7 @@
  
-+::
-+
-+		/* KVM_EXIT_MEMORY_ERROR */
-+		struct {
-+  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
-+			__u32 flags;
-+			__u32 padding;
-+			__u64 gpa;
-+			__u64 size;
-+		} memory;
-+If exit reason is KVM_EXIT_MEMORY_ERROR then it indicates that the VCPU has
-+encountered a memory error which is not handled by KVM kernel module and
-+userspace may choose to handle it. The 'flags' field indicates the memory
-+properties of the exit.
-+
-+ - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
-+   private memory access when the bit is set otherwise the memory error is
-+   caused by shared memory access when the bit is clear.
-+
-+'gpa' and 'size' indicate the memory range the error occurs at. The userspace
-+may handle the error and return to KVM to retry the previous memory access.
-+
- ::
+ #include <asm/kvm_host.h>
+ #include <linux/kvm_dirty_ring.h>
++#include <linux/memfile_notifier.h>
  
- 		/* Fix the size of the union. */
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index a523d834efc8..9ad0c8aa0263 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -278,6 +278,7 @@ struct kvm_xen_exit {
- #define KVM_EXIT_X86_BUS_LOCK     33
- #define KVM_EXIT_XEN              34
- #define KVM_EXIT_RISCV_SBI        35
-+#define KVM_EXIT_MEMORY_ERROR     36
+ #ifndef KVM_MAX_VCPU_IDS
+ #define KVM_MAX_VCPU_IDS KVM_MAX_VCPUS
+@@ -565,6 +566,7 @@ struct kvm_memory_slot {
+ 	u16 as_id;
+ 	struct file *private_file;
+ 	loff_t private_offset;
++	struct memfile_pfn_ops *pfn_ops;
+ };
  
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
-@@ -495,6 +496,14 @@ struct kvm_run {
- 			unsigned long args[6];
- 			unsigned long ret[2];
- 		} riscv_sbi;
-+		/* KVM_EXIT_MEMORY_ERROR */
-+		struct {
-+#define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
-+			__u32 flags;
-+			__u32 padding;
-+			__u64 gpa;
-+			__u64 size;
-+		} memory;
- 		/* Fix the size of the union. */
- 		char padding[256];
- 	};
+ static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
+@@ -915,6 +917,7 @@ static inline void kvm_irqfd_exit(void)
+ {
+ }
+ #endif
++
+ int kvm_init(void *opaque, unsigned vcpu_size, unsigned vcpu_align,
+ 		  struct module *module);
+ void kvm_exit(void);
+@@ -2217,4 +2220,34 @@ static inline void kvm_handle_signal_exit(struct kvm_vcpu *vcpu)
+ /* Max number of entries allowed for each kvm dirty ring */
+ #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
+ 
++#ifdef CONFIG_MEMFILE_NOTIFIER
++static inline long kvm_memfile_get_pfn(struct kvm_memory_slot *slot, gfn_t gfn,
++				       int *order)
++{
++	pgoff_t index = gfn - slot->base_gfn +
++			(slot->private_offset >> PAGE_SHIFT);
++
++	return slot->pfn_ops->get_lock_pfn(file_inode(slot->private_file),
++					   index, order);
++}
++
++static inline void kvm_memfile_put_pfn(struct kvm_memory_slot *slot,
++				       kvm_pfn_t pfn)
++{
++	slot->pfn_ops->put_unlock_pfn(pfn);
++}
++
++#else
++static inline long kvm_memfile_get_pfn(struct kvm_memory_slot *slot, gfn_t gfn,
++				       int *order)
++{
++	return -1;
++}
++
++static inline void kvm_memfile_put_pfn(struct kvm_memory_slot *slot,
++				       kvm_pfn_t pfn)
++{
++}
++#endif /* CONFIG_MEMFILE_NOTIFIER */
++
+ #endif
 -- 
 2.17.1
 
