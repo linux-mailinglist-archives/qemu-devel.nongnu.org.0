@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F824D4724
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 13:37:57 +0100 (CET)
-Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08544D4651
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:54:02 +0100 (CET)
+Received: from localhost ([::1]:59168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSI3I-0002kR-BH
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 07:37:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51846)
+	id 1nSHMn-0002uD-US
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:54:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSH0t-0002X7-5n
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:31:23 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=55228
- helo=mail-pj1-x102d.google.com)
+ id 1nSH0u-0002Y2-9p
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:31:25 -0500
+Received: from [2607:f8b0:4864:20::533] (port=42570
+ helo=mail-pg1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSH0r-0008Ty-FR
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:31:22 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id b8so4954376pjb.4
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:31:21 -0800 (PST)
+ id 1nSH0s-0008U2-Hs
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:31:23 -0500
+Received: by mail-pg1-x533.google.com with SMTP id o8so4487759pgf.9
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:31:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v1XH3xOuF9Qfk4MizuEs6gkvLNvCljLe8Yi99oh17Cc=;
- b=wbkYzWORkFfhf9aL67Y6p1aACPbx+KFgYsOMUAm/Uk9oOmbXj9XxAxGLIpOlhOg4AD
- fn9pu65rRH+XWKqrzE9YQhSFYMC56hgR+Hc51r9GQrRTNaKk64hIva3JZ6m4UJeZTuTE
- h+ajaV1hnSrhBOZLCnbfRYhmJseXWv4FWL6M3vvJGBN9QJoLYxnZThTJLoYY0jQojqS1
- MX3SF2MsX35xTyFO4VQX7oag5I/Q3g+sD3+3JCu0cG8nj/i6+qdE1Tfg6j7CpyGsz0ym
- anFkhHIdW47/GYZ91l9CwYtTV+50AcnYLVZkO+TS8izugjJKkaomNkhQHEGA7NSRCgq7
- eLSQ==
+ bh=k4ozRW6iziM8OJ2TKPPCOH7wy/AQ7zg7VeU+iBKaQYA=;
+ b=j4lwk9V1TdTmTDoAFxfTNgp6AGeLFbXKuUZn5R82+4y+UIvpqL8WKEhFQIFWVF2a3v
+ z281tf0lirswi4TUjXIuaIcRbFAGMzAFZBfIz216ffOtl9GfLFkgRWqpEupCapbWtPWZ
+ +hWZQN95ZDYQQO0jG6/Cc7p3RaGt0G7887ylQxiKIQg9zFCrLrv0NvDh0D56/CPo/tYO
+ jPORA0m5XmtK7a/FRLSoFssWQ0eEvJEwWlycIMbYbkbG/Bk40VloOpHjvPnVo8xYBt1n
+ edIo4xlUxPOc8OLZs7c9506TWnFn5vEIFYAqB7uCK5j/vPrMmZ+VZjWTulBqQ0jm5LCj
+ 1xqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v1XH3xOuF9Qfk4MizuEs6gkvLNvCljLe8Yi99oh17Cc=;
- b=olRZF9/mzCPqXuSpkSAi33u0nEaF+TDHJi4N/yJqe1h+dUOnvCcSmJI8q4wGIIWJDG
- bN3/kn9SOy8arIvKr0YYtkLC6vaxnckqxW6tJ+dptHqvBhjKnHNKXYTcfjJGWImlRLyP
- xmz7kmGKZ+QmolW0BNg+JBSMVh0TwpheWFhRrgs0cOSJ2qE+gTKd5P3L5pG8385IDoO3
- kcboH0raI3irujMoBbR0vJ1XEl8BTjOJqjIkeHckSfFTBwRZ/hSJ+Q0zBCR/2GzmfXyb
- a7w6ZXCpcjVhDg/A84mo+cKDdbAkumwcyBmIJYmsxx4TuoJYh24kN6noXjmO793FPCuJ
- qVzA==
-X-Gm-Message-State: AOAM532Tx9OE3n5fUxQMF4NCcSIkF1/RYFXe1ZdKIMS03iJl+vwbjDMz
- 4NpBJIStr15/+jOPSERPBObV9njVUUupDw==
-X-Google-Smtp-Source: ABdhPJzNwmqdCY6sXmQ3ODhbBWB7XA0Oz6PbpMO1ZEfOyBnMAB8oAwSPiv5XR9CPJEUzQEl8d4uDkQ==
-X-Received: by 2002:a17:90a:2dc6:b0:1bf:654e:e17f with SMTP id
- q6-20020a17090a2dc600b001bf654ee17fmr4511869pjm.64.1646911880118; 
- Thu, 10 Mar 2022 03:31:20 -0800 (PST)
+ bh=k4ozRW6iziM8OJ2TKPPCOH7wy/AQ7zg7VeU+iBKaQYA=;
+ b=WbW9u729+EoNojWIYx+e57D7sSR1/tWGayxr0bPEGLR2RKfKaAaVSdHtReMF4aCAKI
+ 7NX8HHCicHV+0vhjC+uLQ4oKuPGopzUo+3bJuxgiNLGes034crPZKxOA7T0p8VaRTP+9
+ 2dJpEDxFx26sS1fELPB9vckf0DGkureqR1PO/tRAUVDSo6K/yScVetsCWnuTzdBf/Pcs
+ UwtV+jGEh13QM7r+STnVMQs/zubIYr63m7hyL4XHUHdjn/DRaVGjJhO+E/TGb+87hyP4
+ v+oc2AJ48CNSxOwropL34LL3z1nqT/edfP/IHz4OTLVlGf4jmAmHnPaGWemOo0c2Vws4
+ LddA==
+X-Gm-Message-State: AOAM530CIBGtNT+8iUbJ3H0vJg61NS/OjXAo5Ql5dTfZZeBTlN2yqM9G
+ Hlxp7IP5vrTDf1FxesB5ocO6RAJx2sbiBw==
+X-Google-Smtp-Source: ABdhPJxL2RAZxl70B5/iDO4JeTn9MTW52OvI7IOl1Szq9bLJ5VC54FSzvvlrNrveWLmer9VnKSAXhA==
+X-Received: by 2002:a62:30c4:0:b0:4f7:2b29:984 with SMTP id
+ w187-20020a6230c4000000b004f72b290984mr4597010pfw.11.1646911881286; 
+ Thu, 10 Mar 2022 03:31:21 -0800 (PST)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- e14-20020a056a001a8e00b004f75cf1ab6csm6011246pfv.206.2022.03.10.03.31.19
+ e14-20020a056a001a8e00b004f75cf1ab6csm6011246pfv.206.2022.03.10.03.31.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 03:31:19 -0800 (PST)
+ Thu, 10 Mar 2022 03:31:20 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 46/48] hw/nios2: Introduce Nios2MachineState
-Date: Thu, 10 Mar 2022 03:27:23 -0800
-Message-Id: <20220310112725.570053-47-richard.henderson@linaro.org>
+Subject: [PATCH v5 47/48] hw/nios2: Move memory regions into Nios2Machine
+Date: Thu, 10 Mar 2022 03:27:24 -0800
+Message-Id: <20220310112725.570053-48-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220310112725.570053-1-richard.henderson@linaro.org>
 References: <20220310112725.570053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,63 +88,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
+Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to move data from the heap into Nios2MachineState,
-which is not possible with DEFINE_MACHINE.
+Convert to contiguous allocation, as much as possible so far.
+The two timer objects are not exposed for subobject allocation.
 
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/nios2/10m50_devboard.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ hw/nios2/10m50_devboard.c | 30 ++++++++++++++++--------------
+ 1 file changed, 16 insertions(+), 14 deletions(-)
 
 diff --git a/hw/nios2/10m50_devboard.c b/hw/nios2/10m50_devboard.c
-index 3d1205b8bd..bdc3ffd50d 100644
+index bdc3ffd50d..dda4ab2bf5 100644
 --- a/hw/nios2/10m50_devboard.c
 +++ b/hw/nios2/10m50_devboard.c
-@@ -36,6 +36,13 @@
+@@ -38,6 +38,11 @@
  
- #include "boot.h"
+ struct Nios2MachineState {
+     MachineState parent_obj;
++
++    MemoryRegion phys_tcm;
++    MemoryRegion phys_tcm_alias;
++    MemoryRegion phys_ram;
++    MemoryRegion phys_ram_alias;
+ };
  
-+struct Nios2MachineState {
-+    MachineState parent_obj;
-+};
-+
-+#define TYPE_NIOS2_MACHINE  MACHINE_TYPE_NAME("10m50-ghrd")
-+OBJECT_DECLARE_TYPE(Nios2MachineState, MachineClass, NIOS2_MACHINE)
-+
- #define BINARY_DEVICE_TREE_FILE    "10m50-devboard.dtb"
+ #define TYPE_NIOS2_MACHINE  MACHINE_TYPE_NAME("10m50-ghrd")
+@@ -47,13 +52,10 @@ OBJECT_DECLARE_TYPE(Nios2MachineState, MachineClass, NIOS2_MACHINE)
  
  static void nios2_10m50_ghrd_init(MachineState *machine)
-@@ -105,11 +112,24 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
-                       BINARY_DEVICE_TREE_FILE, NULL);
- }
- 
--static void nios2_10m50_ghrd_machine_init(struct MachineClass *mc)
-+static void nios2_10m50_ghrd_class_init(ObjectClass *oc, void *data)
  {
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-     mc->desc = "Altera 10M50 GHRD Nios II design";
-     mc->init = nios2_10m50_ghrd_init;
-     mc->is_default = true;
- }
++    Nios2MachineState *nms = NIOS2_MACHINE(machine);
+     Nios2CPU *cpu;
+     DeviceState *dev;
+     MemoryRegion *address_space_mem = get_system_memory();
+-    MemoryRegion *phys_tcm = g_new(MemoryRegion, 1);
+-    MemoryRegion *phys_tcm_alias = g_new(MemoryRegion, 1);
+-    MemoryRegion *phys_ram = g_new(MemoryRegion, 1);
+-    MemoryRegion *phys_ram_alias = g_new(MemoryRegion, 1);
+     ram_addr_t tcm_base = 0x0;
+     ram_addr_t tcm_size = 0x1000;    /* 1 kiB, but QEMU limit is 4 kiB */
+     ram_addr_t ram_base = 0x08000000;
+@@ -62,22 +64,22 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
+     int i;
  
--DEFINE_MACHINE("10m50-ghrd", nios2_10m50_ghrd_machine_init);
-+static const TypeInfo nios2_10m50_ghrd_type_info = {
-+    .name          = TYPE_NIOS2_MACHINE,
-+    .parent        = TYPE_MACHINE,
-+    .instance_size = sizeof(Nios2MachineState),
-+    .class_init    = nios2_10m50_ghrd_class_init,
-+};
-+
-+static void nios2_10m50_ghrd_type_init(void)
-+{
-+    type_register_static(&nios2_10m50_ghrd_type_info);
-+}
-+type_init(nios2_10m50_ghrd_type_init);
+     /* Physical TCM (tb_ram_1k) with alias at 0xc0000000 */
+-    memory_region_init_ram(phys_tcm, NULL, "nios2.tcm", tcm_size,
++    memory_region_init_ram(&nms->phys_tcm, NULL, "nios2.tcm", tcm_size,
+                            &error_abort);
+-    memory_region_init_alias(phys_tcm_alias, NULL, "nios2.tcm.alias",
+-                             phys_tcm, 0, tcm_size);
+-    memory_region_add_subregion(address_space_mem, tcm_base, phys_tcm);
++    memory_region_init_alias(&nms->phys_tcm_alias, NULL, "nios2.tcm.alias",
++                             &nms->phys_tcm, 0, tcm_size);
++    memory_region_add_subregion(address_space_mem, tcm_base, &nms->phys_tcm);
+     memory_region_add_subregion(address_space_mem, 0xc0000000 + tcm_base,
+-                                phys_tcm_alias);
++                                &nms->phys_tcm_alias);
+ 
+     /* Physical DRAM with alias at 0xc0000000 */
+-    memory_region_init_ram(phys_ram, NULL, "nios2.ram", ram_size,
++    memory_region_init_ram(&nms->phys_ram, NULL, "nios2.ram", ram_size,
+                            &error_abort);
+-    memory_region_init_alias(phys_ram_alias, NULL, "nios2.ram.alias",
+-                             phys_ram, 0, ram_size);
+-    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
++    memory_region_init_alias(&nms->phys_ram_alias, NULL, "nios2.ram.alias",
++                             &nms->phys_ram, 0, ram_size);
++    memory_region_add_subregion(address_space_mem, ram_base, &nms->phys_ram);
+     memory_region_add_subregion(address_space_mem, 0xc0000000 + ram_base,
+-                                phys_ram_alias);
++                                &nms->phys_ram_alias);
+ 
+     /* Create CPU -- FIXME */
+     cpu = NIOS2_CPU(cpu_create(TYPE_NIOS2_CPU));
 -- 
 2.25.1
 
