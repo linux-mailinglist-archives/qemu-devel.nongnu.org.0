@@ -2,48 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE284D446A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 11:22:45 +0100 (CET)
-Received: from localhost ([::1]:35768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1F14D4474
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 11:24:48 +0100 (CET)
+Received: from localhost ([::1]:39408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSFwS-0008QO-5K
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 05:22:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34382)
+	id 1nSFyQ-0002Wf-Pg
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 05:24:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <movement@movementarian.org>)
- id 1nSFue-0007Ze-N7
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 05:20:52 -0500
-Received: from ssh.movementarian.org ([139.162.205.133]:53188
- helo=movementarian.org)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSFvh-0008Oo-2Y
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 05:21:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <movement@movementarian.org>)
- id 1nSFud-00050i-5q
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 05:20:52 -0500
-Received: from movement by movementarian.org with local (Exim 4.94.2)
- (envelope-from <movement@movementarian.org>)
- id 1nSFuW-001QOr-Cq; Thu, 10 Mar 2022 10:20:44 +0000
-Date: Thu, 10 Mar 2022 10:20:44 +0000
-From: John Levon <levon@movementarian.org>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [RFC v4 01/21] vfio-user: introduce vfio-user protocol
- specification
-Message-ID: <YinQ/AU7Z02PFEbk@movementarian.org>
-References: <cover.1641584316.git.john.g.johnson@oracle.com>
- <a9b696ca38ee2329e371c28bcaa2921cac2a48a2.1641584316.git.john.g.johnson@oracle.com>
- <20220309153453.25eee9dd.alex.williamson@redhat.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSFvd-0005AR-U4
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 05:21:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646907712;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=01k/ltqIkI3tp+He1CNgInl6zefU/yO5CV+46B6ZhdE=;
+ b=Np+M4b/L+8d6HL5r9A/BIOp9nWk4TzwGDyK7p0qsq/FVNhRud7rLmcIWhqSsCjWkUphWD3
+ 4n2ERSMt5fJEm/LQ/1uapa0SjL5r/Q36gm3qmbTADh9nUOtML4z1rNyR6tVZWTwC+/R+Nb
+ PcWjKFJHMo56kPRaV+VhrcRcF33kkwo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-511-IJorA54TM96A3cWRgB70Jg-1; Thu, 10 Mar 2022 05:21:50 -0500
+X-MC-Unique: IJorA54TM96A3cWRgB70Jg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r133-20020a1c448b000000b00385c3f3defaso1946937wma.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 02:21:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=01k/ltqIkI3tp+He1CNgInl6zefU/yO5CV+46B6ZhdE=;
+ b=AuNacla70dq2jyzkCWAZxmh9JayKwz3gSaIE3RjYh8SP17g5UcyF6PUnPP16pjMGbv
+ +VRYZXsSdfReTnHiMc9IPDn1O9AV5JEL0pm1a7ifxQkHoPiTr+suFNxlicfHkqpe/YqU
+ Oj2B/fwDL8f3wlpNkqPGaLfgMEUtxcHEqhbPaC3uhKxyllzsrLnKqZNkLryM5mhgI2uR
+ jCKl7OvNXNBGdqO+5jGMmy7x++LyxIukMDsGd0DO9SI1kwCFHv9BnlrN3rywCx+3R/vA
+ g6MnaOrE8/e6ULMreK6XqL9SFYuZk3cBEenb3bJg7a3K3yo6naB7/fjEP+QJChtHS8Nt
+ uAIA==
+X-Gm-Message-State: AOAM532xxuzK1MjUVpo+riYzZ/uZdZrK76ekuxltq6M0We5oNxgQ6pKV
+ omIhgEYhpcD0OoLQdCxwQ8p4ptRQ5uSSN8BqiLa9Y6aqYTScjlU6q5QEUqvJPsDBTwgrccOvPOS
+ 1Y7pPTBo3WoBNjt4=
+X-Received: by 2002:a7b:c250:0:b0:389:7fe5:d34c with SMTP id
+ b16-20020a7bc250000000b003897fe5d34cmr11144224wmj.83.1646907708947; 
+ Thu, 10 Mar 2022 02:21:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyH96ps/3hF5hgcOfsJetoWIb/ibrCytagc/u8xjzpUWVQDusO1Neb1YMIMt9OKuZ3vrR0+UQ==
+X-Received: by 2002:a7b:c250:0:b0:389:7fe5:d34c with SMTP id
+ b16-20020a7bc250000000b003897fe5d34cmr11144192wmj.83.1646907708442; 
+ Thu, 10 Mar 2022 02:21:48 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ l23-20020a05600c1d1700b00389a5735c59sm4578167wms.13.2022.03.10.02.21.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Mar 2022 02:21:47 -0800 (PST)
+Message-ID: <9a47f844-85a3-25ff-38e2-1c6d079cd18d@redhat.com>
+Date: Thu, 10 Mar 2022 11:21:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220309153453.25eee9dd.alex.williamson@redhat.com>
-X-Url: http://www.movementarian.org/
-Received-SPF: pass client-ip=139.162.205.133;
- envelope-from=movement@movementarian.org; helo=movementarian.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [RFC PATCH] tests/tcg: drop -cpu max from s390x sha512-mvx
+ invocation
+From: Thomas Huth <thuth@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+References: <20220309112248.4083619-1-alex.bennee@linaro.org>
+ <5ac2ce87-90a3-05f9-d65e-a8ef9854863c@redhat.com>
+In-Reply-To: <5ac2ce87-90a3-05f9-d65e-a8ef9854863c@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,21 +104,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org
+Cc: "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 09, 2022 at 03:34:53PM -0700, Alex Williamson wrote:
-
-> > +The only device-specific region type and subtype supported by vfio-user is
-> > +``VFIO_REGION_TYPE_MIGRATION`` (3) and ``VFIO_REGION_SUBTYPE_MIGRATION`` (1).
+On 10/03/2022 09.36, Thomas Huth wrote:
+> On 09/03/2022 12.22, Alex Bennée wrote:
+>> With -cpu max we get a warning:
+>>
+>>    qemu-s390x: warning: 'msa5-base' requires 'kimd-sha-512'.
+>>
+>> But dropping the -cpu max and it still runs fine.
+>>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>> Cc: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   tests/tcg/s390x/Makefile.target | 2 --
+>>   1 file changed, 2 deletions(-)
+>>
+>> diff --git a/tests/tcg/s390x/Makefile.target 
+>> b/tests/tcg/s390x/Makefile.target
+>> index 257c568c58..7aa502a557 100644
+>> --- a/tests/tcg/s390x/Makefile.target
+>> +++ b/tests/tcg/s390x/Makefile.target
+>> @@ -34,6 +34,4 @@ sha512-mvx: CFLAGS=-march=z13 -mvx -O3
+>>   sha512-mvx: sha512.c
+>>       $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+>> -run-sha512-mvx: QEMU_OPTS+=-cpu max
+>> -
+>>   TESTS+=sha512-mvx
 > 
-> These should be considered deprecated from the kernel interface.  I
-> hope there are plans for vfio-user to adopt the new interface that's
-> currently available in linux-next and intended for v5.18.
+> Ok, this helps to get rid of the warnings, thus feel free to add:
+> 
+> Tested-by: Thomas Huth <thuth@redhat.com>
+> 
+> However, the error still persists. I now had a closer look by running the 
+> test with "qemu-s390x" on my z15 machine directly, and all tests are 
+> failing! The problem happens with both, gcc v11.2.1 and clang v13.0.1. The 
+> problem goes away (i.e. test works fine) if I compile the code with -O1 
+> instead of -O3, or if I use GCC v8.5 instead. I'll try to find out more, but 
+> as a temporary workaround, we could also switch to -O1 instead of -O3.
 
-https://github.com/nutanix/libvfio-user/issues/654
+I noticed that the problem does not occur when running the test natively
+on my s390x box, or via qemu-s390x on my x86 laptop, or when running it
+via qemu-s390x v6.1.0 on my s390x box. So it's something wrong in the TCG
+backend, I think, and I was able to bisect the issue down to this commit
+here:
 
-regards
-john
+$ git bisect bad
+9bca986df88b8ea46b100e3d21cc9e653c83e0b3 is the first bad commit
+commit 9bca986df88b8ea46b100e3d21cc9e653c83e0b3
+Author: Richard Henderson <richard.henderson@linaro.org>
+Date:   Mon Sep 14 20:36:36 2020 -0700
+
+     tcg/s390x: Implement TCG_TARGET_HAS_bitsel_vec
+
+Richard, could you please have a look? I've uploaded my statically linked
+binary that shows the problem here:
+
+  http://people.redhat.com/~thuth/data/sha512
+
+When running on a z15 s390x host with current QEMU master, the test fails:
+
+$ ./qemu-s390x -cpu max ~/sha512
+qemu-s390x: warning: 'msa5-base' requires 'kimd-sha-512'.
+qemu-s390x: warning: 'msa5-base' requires 'klmd-sha-512'.
+1..1
+h    : 0000:  38 31 a6 a6  15 5e 50 9d  ee 59 a7 f4  51 eb 35 32 81...^P..Y..Q.52
+h    : 0010:  4d 8f 8f 2d  f6 e3 70 88  94 74 0f 98  fd ee 23 88 M..-..p..t....#.
+h    : 0020:  9f 4d e5 ad  b0 c5 01 0d  fb 55 5c da  77 c8 ab 5d .M.......U\.w..]
+h    : 0030:  c9 02 09 4c  52 de 32 78  f3 5a 75 eb  c2 5f 09 3a ...LR.2x.Zu.._.:
+got  : 0000:  7b 47 7b 48  1a 49 1a 49  79 48 7d 7f  7d 47 79 7d {G{H.I.IyH}.}Gy}
+got  : 0010:  1a 7f 7d 40  1a 48 19 4b  7d 48 1a 7b  7b 48 7b 49 ..}@.H.K}H.{{H{I
+got  : 0020:  7f 7d 7f 7f  7f 7f 7b 7d  19 49 1a 48  7f 47 7f 47 .}....{}.I.H.G.G
+got  : 0030:  79 4b 7f 4b  77 7f 79 47  19 7d 1a 7f  7b 48 7f 47 yK.Kw.yG.}..{H.G
+got  : 0040:  79 7f 7f 7d  1a 48 1a 7d  19 47 1c 48  77 48 77 7d y..}.H.}.G.HwHw}
+got  : 0050:  19 7b 7d 48  7d 7f 19 7b  7f 48 1c 47  1a 7b 7d 7d .{}H}..{.H.G.{}}
+got  : 0060:  1c 40 77 49  77 40 7f 7f  7d 49 19 7f  7b 49 7f 47 .@wIw@..}I..{I.G
+got  : 0070:  19 48 7d 7b  7f 48 1a 7b  1c 49 7d 7f  77 40 7b 7b .H}{.H.{.I}.w@{{
+got  : 0080:  00                                                 .
+not ok 1 - do_test(&tests[0])
+#     Failed test (sha512.c:main() at line 1046)
+# Looks like you failed 1 tests of 1.
+
+When running on my x86 laptop, the test succeeds:
+
+$ ./qemu-s390x -cpu max ~/sha512
+qemu-s390x: warning: 'msa5-base' requires 'kimd-sha-512'.
+qemu-s390x: warning: 'msa5-base' requires 'klmd-sha-512'.
+1..1
+h    : 0000:  38 31 a6 a6  15 5e 50 9d  ee 59 a7 f4  51 eb 35 32 81...^P..Y..Q.52
+h    : 0010:  4d 8f 8f 2d  f6 e3 70 88  94 74 0f 98  fd ee 23 88 M..-..p..t....#.
+h    : 0020:  9f 4d e5 ad  b0 c5 01 0d  fb 55 5c da  77 c8 ab 5d .M.......U\.w..]
+h    : 0030:  c9 02 09 4c  52 de 32 78  f3 5a 75 eb  c2 5f 09 3a ...LR.2x.Zu.._.:
+got  : 0000:  33 38 33 31  61 36 61 36  31 35 35 65  35 30 39 64 3831a6a6155e509d
+got  : 0010:  65 65 35 39  61 37 66 34  35 31 65 62  33 35 33 32 ee59a7f451eb3532
+got  : 0020:  34 64 38 66  38 66 32 64  66 36 65 33  37 30 38 38 4d8f8f2df6e37088
+got  : 0030:  39 34 37 34  30 66 39 38  66 64 65 65  32 33 38 38 94740f98fdee2388
+got  : 0040:  39 66 34 64  65 35 61 64  62 30 63 35  30 31 30 64 9f4de5adb0c5010d
+got  : 0050:  66 62 35 35  35 63 64 61  37 37 63 38  61 62 35 64 fb555cda77c8ab5d
+got  : 0060:  63 39 30 32  30 39 34 63  35 32 64 65  33 32 37 38 c902094c52de3278
+got  : 0070:  66 33 35 61  37 35 65 62  63 32 35 66  30 39 33 61 f35a75ebc25f093a
+got  : 0080:  00                                                 .
+ok 1 - do_test(&tests[0])
+
+BTW, we recently also saw some issues with the migration qtest on a s390x
+host, maybe that's related:
+
+  https://app.travis-ci.com/gitlab/qemu-project/qemu/jobs/562674331#L7834
+  https://app.travis-ci.com/github/huth/qemu/jobs/562290832#L7783
+
+?
+
+  Thomas
+
 
