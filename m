@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583CB4D4806
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:26:35 +0100 (CET)
-Received: from localhost ([::1]:47068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008034D4814
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 14:31:40 +0100 (CET)
+Received: from localhost ([::1]:53440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSIoM-0001QC-G2
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:26:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41182)
+	id 1nSItH-0005wA-3Z
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 08:31:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9U-0006bS-Rz; Thu, 10 Mar 2022 07:44:23 -0500
-Received: from [2a00:1450:4864:20::42f] (port=43703
+ id 1nSI9W-0006bT-Gt; Thu, 10 Mar 2022 07:44:23 -0500
+Received: from [2a00:1450:4864:20::42f] (port=37519
  helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nSI9S-00059T-AI; Thu, 10 Mar 2022 07:44:20 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id e24so7739470wrc.10;
- Thu, 10 Mar 2022 04:44:17 -0800 (PST)
+ id 1nSI9U-00059i-IZ; Thu, 10 Mar 2022 07:44:21 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id q14so7786580wrc.4;
+ Thu, 10 Mar 2022 04:44:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=X6K42UfDM1IMF5PNflE3p4SsYa8sU5Qjxltrc0jO2po=;
- b=LEqC/rgfOjNI4g5hEyp9UUYW2sW3h1X629eeWzhKQ0E+IDJ7O6bKWwHidRS3IWTqsL
- lbSu1v9aQgfg5HZScLGzjI4zP16FFVChjZXIUsnECUbqOUUa0hP1oGXf7xqBGfSOBKEk
- teVMET3awlOYoCrTDITLVRd3QDja0kW+fh94AMVpPy0rpXl388dEuXJGFP2INN8QBR1x
- Ey0ClH1kDW4hhm8+pyscD3wCL6CiJQfsmObDIqgK6XbMR6xroNNl+U/23B3pEaMslAkN
- zOIAC1M2emeb+tRDMkFEkMNIV52E8wuMyH0yEJkLIMvKv3lEEixKl5IQY1+U81gGO1+3
- ubxw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cBZTbExiCYKj3VfEz2N2nz7XUaXwl3lG9di4rcEwsYk=;
+ b=fzq40MSt9ngkqD7fL1f19b6QKisFMP0oIcIQsB2+zr7VpE7+PNx34tiqkZtwBXbeRp
+ +rZ0V8ANEnG2UVNGkRDLUgivGN9WUglh/q8xtuiWUFN1g1psZsHMZypHvSggqhtymqMp
+ Ky2SXs+AelTi9ucdWSIG3YDZ+/GbWAEH/DWSh/8wJvsDSvoVQBAGKT5kvKxiZ+r6WB1e
+ YOmEGRdGQ3tiCOFhsJODlixvrcIztYRovOLwq83oRHvKE2JR0KLcatz4Q9kTsgHBypm0
+ 0SZue0A4gbejVWN1/8vl0v13vPvuqeb5qH7t48xQHOrcELb+GCfs5L6hDNkBYyH7WsoV
+ 8XFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=X6K42UfDM1IMF5PNflE3p4SsYa8sU5Qjxltrc0jO2po=;
- b=pQY4w0ubS90PNy6ttsjfnrd7hhGYbrafKK7q5EtwL3aMRGWUQuKOpyV1gCOO0mxsyQ
- c7HudWImsyhaWuR1zGtt4SMrP5vX/s2Uye+epv/GISTEw18V+t3319Ps7MWczuAVdjVm
- p1smIOmCG7bPW+kPIhTiGqbiWSqVOp2wbBhjdbtPd6Wk2g1Vyk5pQEhok+MTYleRXbVy
- +49Ry408zr2UCikuwCTwCI13jJIEgVc1emnB16vOORpZqgI/2+r/Gkknzd27rsN3AGJo
- HRCfCrEHr4eP8DPKm1M6i/7sEyLIvZ2t5hF4ekMwkByjOv950kYBm7SvitfQiaHbTW1w
- BEcg==
-X-Gm-Message-State: AOAM531sbS8ef/3aS67g0nQOErLDa/pHsq6N+w08P/2e7yssVd4VuqoF
- LAJR234KJBLyaGG+nZJDoVEbb/4P2Zw=
-X-Google-Smtp-Source: ABdhPJy6NjvUK0p82fC5Abr7RE2jPv4u72OozrgJVcJ2zh6X2ORC2xVIEj7gqi8+xb55+if+YtSJnA==
-X-Received: by 2002:a5d:64e5:0:b0:1fb:5b9a:1a20 with SMTP id
- g5-20020a5d64e5000000b001fb5b9a1a20mr3431406wri.34.1646916256141; 
- Thu, 10 Mar 2022 04:44:16 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=cBZTbExiCYKj3VfEz2N2nz7XUaXwl3lG9di4rcEwsYk=;
+ b=sIQ7h8O2Ig4dR87eQlcEyY9DoB9V5f+vXKfav/ohaxY1PE0mVW8wjppIOhP3NAZSze
+ TAN9hJN+sENKIWAXDI+SwurXz+F4KLWvCpNw9RSrIyDIe//9Vem6LBCxWQAz5dtchbX2
+ 3/gvGHNRVtdvFOj/Va+oQubafZjViVJuasrZ92vGnBeD4t47ZqaNk78Bjlh+rzAvDrMy
+ 2ZDMUYUMsOEsNde92LSdZOdM8fYdT5hP51PIK9M4SshxSPZ3PBHfz6VcqAPdDx5hIMsv
+ DzVjlQbFHO0iOMKI4BAJZm3OC8LTtY407hIfEmy+oXIyREb1F6x1znkdINwO17n+XTyF
+ eVww==
+X-Gm-Message-State: AOAM532sXCWhVNNFH+oviYKR25/6nrGPQDmMXhK1hPEfsWqnAyF0QA8M
+ IfQ65HiGZ6+/8vCk3WtgYjBbBvoFlEk=
+X-Google-Smtp-Source: ABdhPJxNzCPI7CATy0vuq1yjaWxFsXFfUeiQrXfqc/ai2ZLMef5QLWtZXXZ61m3JeOXWFN+qo0SFPw==
+X-Received: by 2002:a5d:64e3:0:b0:203:85ed:49a2 with SMTP id
+ g3-20020a5d64e3000000b0020385ed49a2mr2742432wri.483.1646916258378; 
+ Thu, 10 Mar 2022 04:44:18 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.14
+ r188-20020a1c2bc5000000b00387c81c32e7sm8063026wmr.8.2022.03.10.04.44.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 04:44:15 -0800 (PST)
+ Thu, 10 Mar 2022 04:44:17 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH experiment 00/35] stackless coroutine backend
-Date: Thu, 10 Mar 2022 13:43:38 +0100
-Message-Id: <20220310124413.1102441-1-pbonzini@redhat.com>
+Subject: [PATCH 01/35] coroutine: add missing coroutine_fn annotations for
+ CoRwlock functions
+Date: Thu, 10 Mar 2022 13:43:39 +0100
+Message-Id: <20220310124413.1102441-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220310124413.1102441-1-pbonzini@redhat.com>
+References: <20220310124413.1102441-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
@@ -90,84 +93,62 @@ Cc: hreitz@redhat.com, stefanha@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here is an experiment with using stackless coroutines in QEMU.  It
-only compiles enough code to run tests/unit/test-coroutine, but at
-least it proves that it's possible to quickly test ideas in the
-area of coroutine runtimes.  Another idea that could be toyed with
-in a similar manner could be (whoa) C++ coroutines.
+CoRwlock can only be taken or released from a coroutine, and it
+can yield.  Mark it as coroutine_fn.
 
-As expected, this also found some issues in existing code, so I
-plan to submit patches 1-5 separately.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ include/qemu/coroutine.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-The new backend (which is the only one that works, due to the required
-code changes) is in patch 7.  For the big description of what stackless
-coroutines are, please refer to that patch.
-
-Patches 8-11 do some initial conversions.  Patch 12 introduce some
-preprocessor magic that greatly eases the rest of the work, and then
-the tests are converted one at a time, until patch 27 where the only
-ones missing are the CoRwlock tests.
-
-Therefore, patches 28-33 convert CoRwlock and pathces 34-35 take care
-of the corresponding tests, thus concluding the experiment.
-
-Paolo
-
-Paolo Bonzini (35):
-  coroutine: add missing coroutine_fn annotations for CoRwlock functions
-  coroutine: qemu_coroutine_get_aio_context is not a coroutine_fn
-  coroutine: introduce QemuCoLockable
-  coroutine: introduce coroutine_only_fn
-  coroutine: small code cleanup in qemu_co_rwlock_wrlock
-  disable some code
-  coroutine: introduce the "stackless coroutine" backend
-  /basic/lifecycle
-  convert qemu-coroutine-sleep.c to stackless coroutines
-  enable tail call optimization of qemu_co_mutex_lock
-  convert CoMutex to stackless coroutines
-  define magic macros for stackless coroutines
-  /basic/yield
-  /basic/nesting
-  /basic/self
-  /basic/entered
-  /basic/in_coroutine
-  /basic/order
-  /perf/lifecycle
-  /perf/nesting
-  /perf/yield
-  /perf/function-call
-  /perf/cost
-  /basic/no-dangling-access
-  /locking/co-mutex
-  convert qemu_co_mutex_lock_slowpath to magic macros
-  /locking/co-mutex/lockable
-  qemu_co_rwlock_maybe_wake_one
-  qemu_co_rwlock_rdlock
-  qemu_co_rwlock_unlock
-  qemu_co_rwlock_downgrade
-  qemu_co_rwlock_wrlock
-  qemu_co_rwlock_upgrade
-  /locking/co-rwlock/upgrade
-  /locking/co-rwlock/downgrade
-
- configure                    |  44 +---
- include/qemu/co-lockable.h   | 110 +++++++++
- include/qemu/coroutine.h     |  99 ++++++--
- include/qemu/coroutine_int.h |   6 -
- include/qemu/lockable.h      |  13 +-
- include/qemu/typedefs.h      |   1 +
- tests/unit/meson.build       |   2 +-
- tests/unit/test-coroutine.c  | 425 +++++++++++++++++++++++++++++------
- util/coroutine-stackless.c   | 159 +++++++++++++
- util/meson.build             |  10 +-
- util/qemu-coroutine-lock.c   | 215 ++++++++++++++----
- util/qemu-coroutine-sleep.c  |  57 ++++-
- util/qemu-coroutine.c        |  18 +-
- 13 files changed, 932 insertions(+), 227 deletions(-)
- create mode 100644 include/qemu/co-lockable.h
- create mode 100644 util/coroutine-stackless.c
-
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index c828a95ee0..da68be5ad2 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -261,7 +261,7 @@ void qemu_co_rwlock_init(CoRwlock *lock);
+  * of a parallel writer, control is transferred to the caller of the current
+  * coroutine.
+  */
+-void qemu_co_rwlock_rdlock(CoRwlock *lock);
++void coroutine_fn qemu_co_rwlock_rdlock(CoRwlock *lock);
+ 
+ /**
+  * Write Locks the CoRwlock from a reader.  This is a bit more efficient than
+@@ -270,7 +270,7 @@ void qemu_co_rwlock_rdlock(CoRwlock *lock);
+  * to the caller of the current coroutine; another writer might run while
+  * @qemu_co_rwlock_upgrade blocks.
+  */
+-void qemu_co_rwlock_upgrade(CoRwlock *lock);
++void coroutine_fn qemu_co_rwlock_upgrade(CoRwlock *lock);
+ 
+ /**
+  * Downgrades a write-side critical section to a reader.  Downgrading with
+@@ -278,20 +278,20 @@ void qemu_co_rwlock_upgrade(CoRwlock *lock);
+  * followed by @qemu_co_rwlock_rdlock.  This makes it more efficient, but
+  * may also sometimes be necessary for correctness.
+  */
+-void qemu_co_rwlock_downgrade(CoRwlock *lock);
++void coroutine_fn qemu_co_rwlock_downgrade(CoRwlock *lock);
+ 
+ /**
+  * Write Locks the mutex. If the lock cannot be taken immediately because
+  * of a parallel reader, control is transferred to the caller of the current
+  * coroutine.
+  */
+-void qemu_co_rwlock_wrlock(CoRwlock *lock);
++void coroutine_fn qemu_co_rwlock_wrlock(CoRwlock *lock);
+ 
+ /**
+  * Unlocks the read/write lock and schedules the next coroutine that was
+  * waiting for this lock to be run.
+  */
+-void qemu_co_rwlock_unlock(CoRwlock *lock);
++void coroutine_fn qemu_co_rwlock_unlock(CoRwlock *lock);
+ 
+ typedef struct QemuCoSleep {
+     Coroutine *to_wake;
 -- 
 2.35.1
+
 
 
