@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2582C4D3F6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 03:56:39 +0100 (CET)
-Received: from localhost ([::1]:39526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A4D4D3F57
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 03:47:21 +0100 (CET)
+Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nS8yk-0004Y1-1J
-	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 21:56:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38908)
+	id 1nS8pk-0000s9-UY
+	for lists+qemu-devel@lfdr.de; Wed, 09 Mar 2022 21:47:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nS8ja-0005Ym-LO
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 21:41:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38862)
+ id 1nS8je-0005at-D2
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 21:41:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nS8jW-0004NV-HY
- for qemu-devel@nongnu.org; Wed, 09 Mar 2022 21:40:58 -0500
+ id 1nS8ja-0004Ua-MD
+ for qemu-devel@nongnu.org; Wed, 09 Mar 2022 21:41:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646880040;
+ s=mimecast20190719; t=1646880058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wP5n6IWD7bxGMTwdS/PEYq6nGiL2247UrJnrny6d8wQ=;
- b=M2U4v5P/7u2nnE/2mQQLR2MuIoIbxra+g8M3qpbTNh2BJBkwHl931mGPZD8ZZ4jpMh2Lpc
- FXVPRmJayKWV43Ie8ppg8e/uuK6lHaqHiKQ3oxXcaf0NBLz/V7Pv8nPVAWmTQK+PmJ9jRr
- PMbVtJbDgcubemIEq1dkv2WAmUiTFIE=
+ bh=q1ZE9srabNE28Eha4w1SjeUT1gLlFqL8O75m3TZfqCI=;
+ b=LQ56Oz/+RRoaTr0PFcnIS7gl1gkmKBRayPyJcs57szLTy6FyjEldKUv1ZosY/drCMCWBQ6
+ /rj8leEJBCfsUyNjl3eJHR1L/KrY13v2JcbE+kLhtZQ5IoytdQQ0+mTqMwameRlv0ypKXl
+ ZsT5FYlUI6gW9dNq6cVuDzlJmeWS52E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-563-pfz-OEljOBmR6iiONwU5UA-1; Wed, 09 Mar 2022 21:40:39 -0500
-X-MC-Unique: pfz-OEljOBmR6iiONwU5UA-1
+ us-mta-235-ZfWH-jgHP-GatTQMuWHo3w-1; Wed, 09 Mar 2022 21:40:56 -0500
+X-MC-Unique: ZfWH-jgHP-GatTQMuWHo3w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F313824FA6;
- Thu, 10 Mar 2022 02:40:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7069824FA8;
+ Thu, 10 Mar 2022 02:40:55 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-194.pek2.redhat.com
  [10.72.13.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1DA80100685F;
- Thu, 10 Mar 2022 02:40:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9930C100685F;
+ Thu, 10 Mar 2022 02:40:38 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL V2 13/15] vdpa: Adapt vhost_vdpa_get_vring_base to SVQ
-Date: Thu, 10 Mar 2022 10:39:05 +0800
-Message-Id: <20220310023907.2443-14-jasowang@redhat.com>
+Subject: [PULL V2 14/15] vdpa: Never set log_base addr if SVQ is enabled
+Date: Thu, 10 Mar 2022 10:39:06 +0800
+Message-Id: <20220310023907.2443-15-jasowang@redhat.com>
 In-Reply-To: <20220310023907.2443-1-jasowang@redhat.com>
 References: <20220310023907.2443-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -89,53 +89,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-This is needed to achieve migration, so the destination can restore its
-index.
-
-Setting base as last used idx, so destination will see as available all
-the entries that the device did not use, including the in-flight
-processing ones.
-
-This is ok for networking, but other kinds of devices might have
-problems with these retransmissions.
+Setting the log address would make the device start reporting invalid
+dirty memory because the SVQ vrings are located in qemu's memory.
 
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ hw/virtio/vhost-vdpa.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index a7db129..12ca10f 100644
+index 12ca10f..669ee20 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -1144,8 +1144,25 @@ static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
- static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
-                                        struct vhost_vring_state *ring)
+@@ -1093,7 +1093,8 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+ static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
+                                      struct vhost_log *log)
  {
+-    if (vhost_vdpa_one_time_request(dev)) {
 +    struct vhost_vdpa *v = dev->opaque;
-     int ret;
++    if (v->shadow_vqs_enabled || vhost_vdpa_one_time_request(dev)) {
+         return 0;
+     }
  
-+    if (v->shadow_vqs_enabled) {
-+        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs,
-+                                                      ring->index);
-+
-+        /*
-+         * Setting base as last used idx, so destination will see as available
-+         * all the entries that the device did not use, including the in-flight
-+         * processing ones.
-+         *
-+         * TODO: This is ok for networking, but other kinds of devices might
-+         * have problems with these retransmissions.
-+         */
-+        ring->num = svq->last_used_idx;
-+        return 0;
-+    }
-+
-     ret = vhost_vdpa_call(dev, VHOST_GET_VRING_BASE, ring);
-     trace_vhost_vdpa_get_vring_base(dev, ring->index, ring->num);
-     return ret;
 -- 
 2.7.4
 
