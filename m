@@ -2,94 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5FD4D4FEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:08:14 +0100 (CET)
-Received: from localhost ([::1]:59440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7874D4FFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:12:37 +0100 (CET)
+Received: from localhost ([::1]:35062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSMGq-0003iN-Ty
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:08:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57702)
+	id 1nSML6-0006sC-93
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:12:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSMFh-0001dl-ST
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:07:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSMFe-0001uQ-Ei
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:07:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646932017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s+6z7fKNtOLJyn/fQpUZKotUh+R62dVr+H8YXd+TCvw=;
- b=Rzg1hQDW2L8FOHJovsYkvZjqodZ+eACm7Uq249ZN5TxYhK7lP+MxP+ZIbW0DD/LWPXv3kH
- 662M60pil2vlqtPP0lBu3ajmOoggIsG4hgKmM3sawJtW+sv5vAc/iyl5bjqFA//IqjJXKD
- XVaVWWUPiQb5NCuHkzAe/1fMAwF1HVc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-md0ysBCcNPGGShaGKZDE9Q-1; Thu, 10 Mar 2022 12:06:51 -0500
-X-MC-Unique: md0ysBCcNPGGShaGKZDE9Q-1
-Received: by mail-ej1-f70.google.com with SMTP id
- hq34-20020a1709073f2200b006d677c94909so3474516ejc.8
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 09:06:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nSMK2-0006Bw-7a
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:11:30 -0500
+Received: from [2607:f8b0:4864:20::b2d] (port=39661
+ helo=mail-yb1-xb2d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nSMJz-0002cM-9C
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:11:29 -0500
+Received: by mail-yb1-xb2d.google.com with SMTP id x200so12169913ybe.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 09:11:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hGIIHA+tWoY5Z4usNa5VKY1OGu6t8wWh5CeTN/R/Olc=;
+ b=pqVTfvlXuVDa8Cn1hfLVuS80ukrwB16+Ct2ftdVc5c4Mon+gdSeY07rIuhAK1IF5Es
+ O3PMA7B65dZQef1AzLp6u6AIC47A2w3OX+55NcC/YxsLyBP8sTOXzD2X5kp8mgCiz1+f
+ DPVmgxPIuXWkF7uONbmacudhzU0USRVjcQ1/yuxK6ncqtgHQvlPdV9SUsyUgK5UTCIO9
+ IVUzvHShq9ErEvaE4Q11V+Z9cc+cD2DuwD8BNR3BivS1OwDjYHPlVgVRtT9rOrKIGTEs
+ fCZ0RpG9oV4j9KQN1I85Bjvy7/QyQOqehDUxcQrQZRk8aNfuNe/573gVt7L4XJYSsXyL
+ MPMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=s+6z7fKNtOLJyn/fQpUZKotUh+R62dVr+H8YXd+TCvw=;
- b=1ryNAa8GG8QXA1hKggfwz1BT2pSpJQ2h6MZZtZywb/G+P9FjQGAowyt5F+yOxzcSRv
- ecQEOZzaC4xSnZx1FwnZnK2rXZbHBkTGU6yvwuIWTpuQW4kYyY132rxXKMoV20gUVIvz
- 8lFu1KKK6hMHgjFfzTY7CMG3QzfH4IKaIiQpEtkjhqGLIRgbhUSPWH3uviw26sLDTeWO
- AB6q+sTc6NO7aMDT+YpA4iu1OlaKNwL1ju/81hN6rbrtlfJsS/K8FxUKYtwOQsYl8Se5
- ++3wBgxQPGY6Y6TYZmHZciecwB3QyFGl6EP+X+Fkv/96m7eyCMa/BV4ubPp2Ivhe9cGR
- eVWA==
-X-Gm-Message-State: AOAM531/P3+MdpzD7GX0LX2c2u+eYpKrfFfr1xw/4BfApr9b2/IYdTz1
- WdifKjrFP/uBwMXNUZPZ0bxzeA+z/QhPU/qzQT3OvrkbM2VwCgw25leIhxKLmI2b1ciELzxioWH
- 37DTsjYQSBolKFl4jBNdNUfZKmEEomFAYJ8Ws0ec/rOGYQVBXHajlyikebv6Kc2s=
-X-Received: by 2002:aa7:db07:0:b0:415:d33e:a8ea with SMTP id
- t7-20020aa7db07000000b00415d33ea8eamr5299944eds.342.1646932009852; 
- Thu, 10 Mar 2022 09:06:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxQY1NrFl/hVHw4PMq7TvHUmPeOK95uirIg7hdKrMys0+A/OljdAV0vbdIxntzUFEbtJRdS7A==
-X-Received: by 2002:aa7:db07:0:b0:415:d33e:a8ea with SMTP id
- t7-20020aa7db07000000b00415d33ea8eamr5299914eds.342.1646932009537; 
- Thu, 10 Mar 2022 09:06:49 -0800 (PST)
-Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
- [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- x18-20020a05640226d200b00416a502c147sm1608413edd.10.2022.03.10.09.06.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 09:06:48 -0800 (PST)
-Message-ID: <bc14f172-eeda-a5a9-6c99-b9e198bb8bc5@redhat.com>
-Date: Thu, 10 Mar 2022 18:06:46 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hGIIHA+tWoY5Z4usNa5VKY1OGu6t8wWh5CeTN/R/Olc=;
+ b=DtjH8jCJipYEYACUH5g/2FUiCqPBRtKAWcE2TVK07QgMcKGqCzcph7z7BjSG7E2ByP
+ BpMsw04FOPy2pjj0Xma+ajy6za7clnQ+k7qTjJ1Kc+9VFNc3RNwCfiAzZJ7mkeIiG1Xb
+ W6uz+LhyB1h5J7N1/GSSXvW4Cz2Urms4T+16B2li7e4jsAErTOOXhpLd1/9CpIR1PLq3
+ sY4LU/nzo+YU0s57MK41P8CeT6AWICD5J8oSTfPbYzXwbVAMWjT4VS1tY+qHAdQ7V0U4
+ kSxRxDicqs+aqPoYoKwaoJQsVjMDoL2GsZ4K/iC3FkaMvkwhPaARXbJzLvPylGoFSkIM
+ /Wnw==
+X-Gm-Message-State: AOAM530RFkfayE7MpTm3pgdmHY1yHgMXO2D9sxMEN9AxYqzheMRt0/FO
+ O9Sl65HdZkFmrrTQHOnLjBtja3iyiFxKD/d5oHECeCJPJ2xYkzsb
+X-Google-Smtp-Source: ABdhPJxZU1vSdv/Kypl1+OY9Dy6MnyWyYpseHzJ4f+IPpUghYlM24ifJdeM2tO9AjWHn1klfuzzx+oJ7T89J7uFJn7A=
+X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
+ s5-20020a5b0745000000b006221c463c19mr4736495ybq.479.1646932285908; Thu, 10
+ Mar 2022 09:11:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v3] vga: don't abort when adding a duplicate isa-vga device
-To: qemu-devel@nongnu.org, kraxel@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20210816135504.9089-1-jziviani@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20210816135504.9089-1-jziviani@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <CAFEAcA87VaeHzW4qbHn+UKjh9gMQbKNcN5ytXBS1MUPSapdhYw@mail.gmail.com>
+ <4eb4bb05-814b-c28c-c2f4-0f5f5582301b@redhat.com>
+ <CAFEAcA-Wg5LKVRQ4dKX6Hsyb=1VVxfGBDB_=Q6iCxycJzLPRhg@mail.gmail.com>
+ <CAFEAcA8ytELEkGfwCV3WEZYCCtYdyG9_2uANk8UXGV-=iOnfqw@mail.gmail.com>
+ <20220310163610.7f782922@redhat.com>
+ <CAFEAcA8Nvr-7QYHv2-K+zN37i=ZXa8_Skb53PaTJzSdhXaBq3g@mail.gmail.com>
+ <20220310173053.5eb97f20@redhat.com>
+In-Reply-To: <20220310173053.5eb97f20@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 10 Mar 2022 17:11:14 +0000
+Message-ID: <CAFEAcA_-VhULZ5v4VeA-NYgSgCdk3HgvfQQg8UzCbCvEY4433g@mail.gmail.com>
+Subject: Re: QEMU device refcounting when device creates a container MR
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,65 +87,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jose R. Ziviani" <jziviani@suse.de>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/08/2021 15.55, Jose R. Ziviani wrote:
-> If users try to add an isa-vga device that was already registered,
-> still in command line, qemu will crash:
-> 
-> $ qemu-system-mips64el -M pica61 -device isa-vga
-> RAMBlock "vga.vram" already registered, abort!
-> Aborted (core dumped)
-> 
-> That particular board registers the device automaticaly, so it's
-> not obvious that a VGA device already exists. This patch changes
-> this behavior by displaying a message and exiting without crashing.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/44
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
-> ---
-> v2 to v3: Improved error message
-> v1 to v2: Use error_setg instead of error_report
-> 
->   hw/display/vga-isa.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
-> 
-> diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
-> index 90851e730b..30d55b41c3 100644
-> --- a/hw/display/vga-isa.c
-> +++ b/hw/display/vga-isa.c
-> @@ -33,6 +33,7 @@
->   #include "hw/loader.h"
->   #include "hw/qdev-properties.h"
->   #include "qom/object.h"
-> +#include "qapi/error.h"
->   
->   #define TYPE_ISA_VGA "isa-vga"
->   OBJECT_DECLARE_SIMPLE_TYPE(ISAVGAState, ISA_VGA)
-> @@ -61,6 +62,15 @@ static void vga_isa_realizefn(DeviceState *dev, Error **errp)
->       MemoryRegion *vga_io_memory;
->       const MemoryRegionPortio *vga_ports, *vbe_ports;
->   
-> +    /*
-> +     * make sure this device is not being added twice, if so
-> +     * exit without crashing qemu
-> +     */
-> +    if (qemu_ram_block_by_name("vga.vram")) {
-> +        error_setg(errp, "'isa-vga' device already registered");
-> +        return;
-> +    }
-> +
->       s->global_vmstate = true;
->       vga_common_init(s, OBJECT(dev));
->       s->legacy_address_space = isa_address_space(isadev);
+On Thu, 10 Mar 2022 at 16:30, Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> Do On Thu, 10 Mar 2022 16:05:24 +0000
+> Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> > On Thu, 10 Mar 2022 at 15:36, Igor Mammedov <imammedo@redhat.com> wrote:
+> > >
+> > > On Wed, 9 Mar 2022 16:56:21 +0000
+> > > Peter Maydell <peter.maydell@linaro.org> wrote:
+> > > > ...also, in the device-introspect-test where I see this problem,
+> > > > unrealize is never going to be called anyway, because the device
+> > > > is only put through "instance_init" and then dereffed (which
+> > > > does not result in instance_finalize being called, because the
+> > > > refcount is still non-zero).
+> > >
+> > > question is why introspected device is deferred instead of being
+> > > destroyed if it's no longer needed?
+> >
+> > ...because the reference count is not zero.
+> >
+> > What is supposed to happen is:
+> >  * device is created (inited), and has refcount of 1
+> >  * introspection code does its thing
+> >  * introspection code derefs the device, and it gets deinited
+> >
+> > This bug means that when the device is inited it has a refcount
+> > that is too high, and so despite the code that creates it
+> > correctly dereffing it, it's still lying around.
+>
+> looks like ref count leak somewhere, instance_finalize() take care
+> of cleaning up instance_init() actions.
 
-v4 of this patch had other issues ... Philippe's rework of the vga-mmio code 
-also did not fix the crash ... shall we just go with this v3 of the patch 
-again to fix the issue?
+If you read the rest of the thread, we know why the refcount
+is too high. And instance_finalize *is never called*, so it
+cannot clean up what instance_init has done.
 
-  Thomas
+> Do you have an example/reproducer?
 
+Yes, see the thread -- device-introspect-test shows it.
+(You can put printfs in ehci_sysbus_init and ehci_sysbus_finalize
+and see that for some devices we don't ever call finalize.)
+
+-- PMM
 
