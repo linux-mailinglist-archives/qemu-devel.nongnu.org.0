@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA4E4D5146
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 19:32:24 +0100 (CET)
-Received: from localhost ([::1]:51204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4446D4D514B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 19:34:21 +0100 (CET)
+Received: from localhost ([::1]:58134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSNaJ-0003wx-O3
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 13:32:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46788)
+	id 1nSNcC-0000ap-CT
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 13:34:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nSNYh-0000Df-3e; Thu, 10 Mar 2022 13:30:43 -0500
-Received: from [2607:f8b0:4864:20::c35] (port=38715
- helo=mail-oo1-xc35.google.com)
+ id 1nSNYj-0000Oe-Su; Thu, 10 Mar 2022 13:30:45 -0500
+Received: from [2607:f8b0:4864:20::c29] (port=34663
+ helo=mail-oo1-xc29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nSNYf-0006TO-Ii; Thu, 10 Mar 2022 13:30:42 -0500
-Received: by mail-oo1-xc35.google.com with SMTP id
- x26-20020a4a9b9a000000b003211029e80fso7799762ooj.5; 
- Thu, 10 Mar 2022 10:30:40 -0800 (PST)
+ id 1nSNYi-0006Tv-98; Thu, 10 Mar 2022 13:30:45 -0500
+Received: by mail-oo1-xc29.google.com with SMTP id
+ k13-20020a4a948d000000b003172f2f6bdfso7840215ooi.1; 
+ Thu, 10 Mar 2022 10:30:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cws2rcOAAtRNO3jJK+A1VPeuM4fzirt/2n3rW/BbZEQ=;
- b=HLtd5bVYwaRKo+9yTPaYZIAs2l0HivGDhfvJO+bVgmv10bQjGqMSvama3/Ae3AisX2
- S5YlDDqE3f1krpYNCXbqI0rVxN33RaY0A+uYQblVk6/p1jGFg2N0KGxjJW26YFFpIoq4
- 1i4KRnukqSeBl6pO58rtLv18bJBfbF+ncM3XiLRFTeY9bu8Pl3KPJF63MyD573XMDoZE
- NeCQjijwSLlLCpnX7E3CLYqH32rV/YCjRkykVZb0h4Of9dZ9msBkBsSst3g2Bu+TXMDf
- m9Vc9AQlzVFHL9YG1RjEiduaqh/bitX3ZHoAo0zvziNlvvkYEXBswdTgfRN0KuMEi0HM
- diJQ==
+ bh=A7TNNcbiHZAJatj3f+7nXd+QmFjxeAk/3gHOIwo7h7g=;
+ b=eBDCTDAUFKg3iOkdhDi39o103IYY4b8xH+cjPRuVh3YRA4KKcNnR5QMeXtEF59CTcR
+ cTaq1SsloakQPWIom0KBUPZuY4iQdOWBNMCijCV5JWWPw4O5l210cXGpcUkcizjA5SR0
+ KRASAkKdfznyYgXM9Xy+AqtkmMryjIXBIdWZkWdEkvrOwb0g0+Gqr2OpzAjVwEv9ISpV
+ JTsa6LH24nHzldaRGbFbhFQNAw/uDEodB1ljt0CIcnr7M9SLu/t33JyadCICyQ6IHwu4
+ x9cVMd5r96c3b6YYlXYmHIu0lPTm3knGtz2m+vESXAHrmPqNxrL0l/oE0SyNIPK4Rdqq
+ KB3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cws2rcOAAtRNO3jJK+A1VPeuM4fzirt/2n3rW/BbZEQ=;
- b=2AhFK2g0DhGfcdhhUIWGaC96R9FYl62XnRXSujI3QF8qEsSnpaXlU/GH+WI+rYQsXp
- 7C5eqPQvvEPAtaCkc05qlne7JFyeJeYW+qBcUvkt2LDgMnz0TqgwgxXtMh0fLDRpjnpb
- nIb+x84bkQ+MOdt8Ka/tJiRG43FyoynWHpcLFHSS6cKzBvceKbfE3MH2TJJHvhandIMf
- 5bA9X6jYDG5+vq9CqQ/1btncAG4CMLbWbr4cTr7DHLYGASntctG0L2+HAWukR4G0Hqmx
- 4KqMZWEve0uMMPaLlyAN9HOov02rPrcGx1cYydiaqOx7FJie0oBv37IbRTNvWVJugSHm
- JInQ==
-X-Gm-Message-State: AOAM53394VSeKQpTFFlhLnYmgwukfpYb6FIAWlk1aJLiZWNBuBF4Ru4g
- 9mOLdLrJSDiDekcsxecfrzQbER/iaCc=
-X-Google-Smtp-Source: ABdhPJxwYWs0nVJkrQai1Xvfhz1wwdo6sySMbiqI6CE4naLWoLNSHXKjW6QbtpLWTYZDTuPJXl2Znw==
-X-Received: by 2002:a05:6870:238c:b0:d6:f796:c98e with SMTP id
- e12-20020a056870238c00b000d6f796c98emr3681142oap.82.1646937040074; 
- Thu, 10 Mar 2022 10:30:40 -0800 (PST)
+ bh=A7TNNcbiHZAJatj3f+7nXd+QmFjxeAk/3gHOIwo7h7g=;
+ b=1UTgb6y7HLTJxLw2c28flL7tSYAIsdEIVL/v6d7axFq2jGxyC6y533nPWk++3KFs0e
+ JlqbTvdEVNC5TuO03sdLOj+MrEJMNIwyb3fGS9BtRZJIaU16bmzhOJtcz9cQIt/fXvy3
+ UN8vHIO3FfmTjRFPDlQ3LvMTvgfbxlKeugqXc03tXJsebyO/cUyP7ymMiXjEFzEqs/7n
+ qy6XaY6I9trssNFgN7nNB1pxvezHbrgHB1AeGNMmjbRxQ10cYo6RhbNA1y4lb4vm99pe
+ vV0ITbbZCmvldi3jYs8S0Rs2ioBN4DY5rlYhJb9UCaAtiZfXY2auVh4JQu6BNO9/WlxH
+ U9HQ==
+X-Gm-Message-State: AOAM5321d/7LMZK+N6ilaUgeA5leQaB/CK/RaGARd8RpdK8Hpiu8jNHD
+ LIpHZ/7zCt9lThyeB28LoZ36YqqpxpE=
+X-Google-Smtp-Source: ABdhPJy0xL0BDvX8vgFIn8HF46fCXWVNh8Ex2OtBiVS6k9tkX+6EBjgrO3fmBtgEhE4EgZm0ZTx6uA==
+X-Received: by 2002:a05:6870:2486:b0:d4:164a:a230 with SMTP id
+ s6-20020a056870248600b000d4164aa230mr9119437oaq.152.1646937042810; 
+ Thu, 10 Mar 2022 10:30:42 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:5655:fd2a:accf:db6c:e4fd])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a4aae47000000b0031d17643eaasm2763175oon.22.2022.03.10.10.30.37
+ a7-20020a4aae47000000b0031d17643eaasm2763175oon.22.2022.03.10.10.30.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 10:30:39 -0800 (PST)
+ Thu, 10 Mar 2022 10:30:42 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/9] avocado/ppc_mpc8544ds.py: check TCG accel in
- test_ppc_mpc8544ds()
-Date: Thu, 10 Mar 2022 15:30:09 -0300
-Message-Id: <20220310183011.110391-8-danielhb413@gmail.com>
+Subject: [PATCH 8/9] avocado/ppc_prep_40p.py: check TCG accel in all tests
+Date: Thu, 10 Mar 2022 15:30:10 -0300
+Message-Id: <20220310183011.110391-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220310183011.110391-1-danielhb413@gmail.com>
 References: <20220310183011.110391-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c35
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c29
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc29.google.com
 X-Spam_score_int: -3
 X-Spam_score: -0.4
 X-Spam_bar: /
@@ -94,28 +93,57 @@ Cc: farosas@linux.ibm.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests times out in an IBM POWER host when compiled with
---disable-tcg.
+All tests in the file times out when running in an IBM POWER host and
+--disable-tcg with an error like the following:
+
+        Command: ./qemu-system-ppc -display none -vga none (...)
+-machine 40p (...)
+        Output: qemu-system-ppc: Register sync failed... If you're using
+kvm-hv.ko, only "-cpu host" is possible
+qemu-system-ppc: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid argument
+
+Since we don't have a way to detect whether the host is running kvm_hv
+or kvm_pr, skip all tests if TCG is not available.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- tests/avocado/ppc_mpc8544ds.py | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/avocado/ppc_prep_40p.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tests/avocado/ppc_mpc8544ds.py b/tests/avocado/ppc_mpc8544ds.py
-index 886f967b15..8d6a749201 100644
---- a/tests/avocado/ppc_mpc8544ds.py
-+++ b/tests/avocado/ppc_mpc8544ds.py
-@@ -19,7 +19,9 @@ def test_ppc_mpc8544ds(self):
-         """
-         :avocado: tags=arch:ppc
-         :avocado: tags=machine:mpc8544ds
+diff --git a/tests/avocado/ppc_prep_40p.py b/tests/avocado/ppc_prep_40p.py
+index 4bd956584d..d4f1eb7e1d 100644
+--- a/tests/avocado/ppc_prep_40p.py
++++ b/tests/avocado/ppc_prep_40p.py
+@@ -28,7 +28,9 @@ def test_factory_firmware_and_netbsd(self):
+         :avocado: tags=machine:40p
+         :avocado: tags=os:netbsd
+         :avocado: tags=slowness:high
 +        :avocado: tags=accel:tcg
          """
 +        self.require_accelerator("tcg")
-         tar_url = ('https://www.qemu-advent-calendar.org'
-                    '/2020/download/day17.tar.gz')
-         tar_hash = '7a5239542a7c4257aa4d3b7f6ddf08fb6775c494'
+         bios_url = ('http://ftpmirror.your.org/pub/misc/'
+                     'ftp.software.ibm.com/rs6000/firmware/'
+                     '7020-40p/P12H0456.IMG')
+@@ -51,7 +53,9 @@ def test_openbios_192m(self):
+         """
+         :avocado: tags=arch:ppc
+         :avocado: tags=machine:40p
++        :avocado: tags=accel:tcg
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.add_args('-m', '192') # test fw_cfg
+ 
+@@ -65,7 +69,9 @@ def test_openbios_and_netbsd(self):
+         :avocado: tags=arch:ppc
+         :avocado: tags=machine:40p
+         :avocado: tags=os:netbsd
++        :avocado: tags=accel:tcg
+         """
++        self.require_accelerator("tcg")
+         drive_url = ('https://archive.netbsd.org/pub/NetBSD-archive/'
+                      'NetBSD-7.1.2/iso/NetBSD-7.1.2-prep.iso')
+         drive_hash = 'ac6fa2707d888b36d6fa64de6e7fe48e'
 -- 
 2.35.1
 
