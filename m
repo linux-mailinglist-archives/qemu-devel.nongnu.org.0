@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18DCE4D50F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:55:27 +0100 (CET)
-Received: from localhost ([::1]:46964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBEA84D50FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:57:08 +0100 (CET)
+Received: from localhost ([::1]:52210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSN0Y-0004pU-6C
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:55:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39352)
+	id 1nSN2C-0008PP-0D
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:57:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jmaloy@redhat.com>) id 1nSMya-0003D3-OQ
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:53:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52754)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSN0h-0006rp-1b
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:55:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jmaloy@redhat.com>) id 1nSMyZ-0000Qr-7m
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:53:24 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSN0f-0000v8-Du
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:55:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646934802;
+ s=mimecast20190719; t=1646934932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FPWqp0JKJRox7vGQlh6WYABIvEj94ECUA04bBWItKCM=;
- b=HX5WvN6C+IrTtK+hSNaSPEP8UkNz5jd6+ZvUwwdCV6fvT7G7FSqvaCPILjSZL3bpiuxe75
- 1MV9EVcyIsIJUe6wG2WmSx/O9m8C8Go83r2CI97ahpdQhzEvbaTao+KudXxZLAyjTQr3HG
- FLb1XwfLnhEqMCLEL4EmCjBS/iOnXDM=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PdDmE8hMRMyIY5U24Y3b2yJ7fjk2BxSaK8PFXLCKIpA=;
+ b=Ra5dPmsWK9jqyHpyorE8R5Cva6meaywpNq8V1NCljGxdz34ThSpovAtgNIYGWluTpI9b7q
+ FFt4dlAST5IqH0JrdLORVbK2ezIdtNOqqMcS3ve+mvWSgxFvQtDgu9QywH4RMGsv0LjEPm
+ en009g4xzuV7KYQW48AznxzuexQvxK4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-17-pL6ZEQlBMyaufh8-0LWlKg-1; Thu, 10 Mar 2022 12:53:21 -0500
-X-MC-Unique: pL6ZEQlBMyaufh8-0LWlKg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- f11-20020a05620a20cb00b0067b3fedce10so4362908qka.15
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 09:53:21 -0800 (PST)
+ us-mta-494-kCxQznSIM1e0becVm20kgw-1; Thu, 10 Mar 2022 12:55:31 -0500
+X-MC-Unique: kCxQznSIM1e0becVm20kgw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ t15-20020adfdc0f000000b001ef93643476so1944558wri.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 09:55:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=FPWqp0JKJRox7vGQlh6WYABIvEj94ECUA04bBWItKCM=;
- b=dQvGNaoBboblBXlQi4eyaMAHMwQ0JskUU1yzHWLa3SVKgghOQB485491yh5ICyiSLH
- AYGEQkh67lpqvsxkw/54Bcsl0FicLT+POT44Vz0USfDBUH51Bv5eA78f3nGhWCCITi0l
- ZUDGX+p/g0zMRiI93Q7VJ8EbWvfj4srYhVGoybDVOUu4NdnMG/QIPSg4/dvPcIiapILB
- ED/5bGR4LM+bk0B4PsaY/p0HjYaSd7RstLXiJ+jdRKWC5DBkcpPkJ7Ur4q2tZy1/O2kQ
- NIvT3k+EfH1kk/hy5uZmqX3IP3EThlNZNBnsE8jQTeKEEPblWPX9ayL+WqFCFLpSBqDo
- WVlA==
-X-Gm-Message-State: AOAM530vVpwQktt2E6O9q7HdL9YNYVGE5/nck/pBv83Eioczxlk4IaoC
- Z4atiZ2ysxwmuY8ueKsWfkBaMlV+aqlsh9LbhJNh1s+/zmkb+t4CeYYgmDTE9mJGL+qYiCxQ0mw
- fIfxSuEJB5JCgXPA=
-X-Received: by 2002:a05:622a:1452:b0:2e1:a12b:ef6 with SMTP id
- v18-20020a05622a145200b002e1a12b0ef6mr4896944qtx.579.1646934800687; 
- Thu, 10 Mar 2022 09:53:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJynKFKyYYZqiTCcYpsBYqHTF83kz2IRsdKH4q1TqYVysu5MxlnQ2tZBM/5TELNkPePBrpegXg==
-X-Received: by 2002:a05:622a:1452:b0:2e1:a12b:ef6 with SMTP id
- v18-20020a05622a145200b002e1a12b0ef6mr4896925qtx.579.1646934800421; 
- Thu, 10 Mar 2022 09:53:20 -0800 (PST)
-Received: from [10.0.0.97] ([24.225.241.171]) by smtp.gmail.com with ESMTPSA id
- l126-20020a37bb84000000b0067b3c2bcc0dsm2640861qkf.1.2022.03.10.09.53.18
+ bh=PdDmE8hMRMyIY5U24Y3b2yJ7fjk2BxSaK8PFXLCKIpA=;
+ b=GKFBwA1EBa0uCXgp6xty2JrNBv5OBwxusL+XoJijHdRIw9wJ/95n5EP2aaVZIsvei8
+ xhtoOahHG6oPCdxR+x+Hr3QijrOzrJ6EQMsAZNw5m05MU1Jzok18aUrj19aQW3Dwt5Gy
+ IfV1m0heJpA4iQdrShsEvxjiiXDOPaxyBFooEbre40tUdBs9XMX7GuST0vMnr/C9WnPw
+ domiU3dNfsiVzVdEeEIE+RnmwmgPmvWCdS57J2sm2rDrMvlFfFwMFksQJnnJ9D+dihC0
+ ProeD5N6uVSzq1qMX6oZ9Vo6YUXPN2NMbMM3sCmRS8/Pv6DzlWeyQq90Dbf+r9q0jhQu
+ BnKw==
+X-Gm-Message-State: AOAM533a3+DV5LIQkFcv5WyqzsJI8fyG8e88ZbQQ9wSJ46Sy4lnOU1pg
+ ePKgLEF3MN3HZOe6Ncagd3FvgG9he8lD+Mffrcunun564xAql/2SMqJO24jP4YGhqiza0tid5eY
+ kTqVUl8ewHblkHOk=
+X-Received: by 2002:adf:c188:0:b0:1e6:8ecb:ea5a with SMTP id
+ x8-20020adfc188000000b001e68ecbea5amr4393186wre.711.1646934930299; 
+ Thu, 10 Mar 2022 09:55:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxacsvRu7Tm8O0XHEWl/foBOEUoajFzpMnrjSVBxlrHGsJnk1mlpx+6uqRQrMWG2B9z2RyTzA==
+X-Received: by 2002:adf:c188:0:b0:1e6:8ecb:ea5a with SMTP id
+ x8-20020adfc188000000b001e68ecbea5amr4393164wre.711.1646934929936; 
+ Thu, 10 Mar 2022 09:55:29 -0800 (PST)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ r187-20020a1c44c4000000b0038377fb18f8sm7445993wma.5.2022.03.10.09.55.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 09:53:19 -0800 (PST)
-Message-ID: <38386efc-1e83-63d4-703d-10c7650e7829@redhat.com>
-Date: Thu, 10 Mar 2022 12:53:18 -0500
+ Thu, 10 Mar 2022 09:55:29 -0800 (PST)
+Message-ID: <df27854b-8f41-b83c-600e-72e52416c787@redhat.com>
+Date: Thu, 10 Mar 2022 18:55:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH-for-6.2 0/2] hw/block/fdc: Fix CVE-2021-3507
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, f4bug@amsat.org
-References: <20211118115733.4038610-1-philmd@redhat.com>
- <7153eadf-3c43-b62c-aaa1-919abf0634ca@redhat.com>
- <1c5dfae3-1c3c-bd2f-d2b5-06dbe75c04c8@redhat.com>
- <4df33af0-0a28-2e20-1909-25baf87d0565@redhat.com>
- <01a68a16-fa01-e7f3-4248-fdec6595cf74@redhat.com>
-From: Jon Maloy <jmaloy@redhat.com>
-In-Reply-To: <01a68a16-fa01-e7f3-4248-fdec6595cf74@redhat.com>
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v4 01/18] ppc/xive2: Introduce a XIVE2 core framework
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220228155222.643974-1-clg@kaod.org>
+ <20220228155222.643974-2-clg@kaod.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220228155222.643974-2-clg@kaod.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jmaloy@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jmaloy@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -104,57 +103,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
- Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>,
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Frederic Barrat <fbarrat@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 28/02/2022 16.52, Cédric Le Goater wrote:
+> The XIVE2 interrupt controller of the POWER10 processor as the same
+> logic as on POWER9 but its SW interface has been largely reworked. The
+> interrupt controller has a new register interface, different BARs,
+> extra VSDs. These will be described when we add the device model for
+> the baremetal machine.
+> 
+> The XIVE internal structures for the EAS, END, NVT have different
+> layouts which is a problem for the current core XIVE framework. To
+> avoid adding too much complexity in the XIVE models, a new XIVE2 core
+> framework is introduced. It duplicates the models which are closely
+> linked to the XIVE internal structures : Xive2Router and
+> Xive2ENDSource and reuses the XiveSource, XivePresenter, XiveTCTX
+> models, as they are more generic.
+> 
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+[...]
+> +static Property xive2_end_source_properties[] = {
+> +    DEFINE_PROP_UINT32("nr-ends", Xive2EndSource, nr_ends, 0),
+> +    DEFINE_PROP_UINT32("shift", Xive2EndSource, esb_shift, XIVE_ESB_64K),
+> +    DEFINE_PROP_LINK("xive", Xive2EndSource, xrtr, TYPE_XIVE2_ROUTER,
+> +                     Xive2Router *),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void xive2_end_source_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->desc    = "XIVE END Source";
+> +    device_class_set_props(dc, xive2_end_source_properties);
+> +    dc->realize = xive2_end_source_realize;
+> +}
+> +
+> +static const TypeInfo xive2_end_source_info = {
+> +    .name          = TYPE_XIVE2_END_SOURCE,
+> +    .parent        = TYPE_DEVICE,
+> +    .instance_size = sizeof(Xive2EndSource),
+> +    .class_init    = xive2_end_source_class_init,
+> +};
 
-On 3/10/22 12:14, Thomas Huth wrote:
-> On 06/02/2022 20.19, Jon Maloy wrote:
->> Trying again with correct email address.
->> ///jon
->>
->> On 2/6/22 14:15, Jon Maloy wrote:
->>>
->>>
->>> On 1/27/22 15:14, Jon Maloy wrote:
->>>>
->>>> On 11/18/21 06:57, Philippe Mathieu-Daudé wrote:
->>>>> Trivial fix for CVE-2021-3507.
->>>>>
->>>>> Philippe Mathieu-Daudé (2):
->>>>>    hw/block/fdc: Prevent end-of-track overrun (CVE-2021-3507)
->>>>>    tests/qtest/fdc-test: Add a regression test for CVE-2021-3507
->>>>>
->>>>>   hw/block/fdc.c         |  8 ++++++++
->>>>>   tests/qtest/fdc-test.c | 20 ++++++++++++++++++++
->>>>>   2 files changed, 28 insertions(+)
->>>>>
->>>> Series
->>>> Acked-by: Jon Maloy <jmaloy@redhat.com>
->>>
->>> Philippe,
->>> I hear from other sources that you earlier have qualified this one 
->>> as "incomplete".
->>> I am of course aware that this one, just like my own patch, is just 
->>> a mitigation and not a complete correction of the erroneous 
->>> calculation.
->>> Or did you have anything else in mind?
->
-> Any news on this one? It would be nice to get the CVE fixed for 7.0 ?
->
->  Thomas
->
-The ball is currently with John Snow, as I understand it.
-The concern is that this fix may not take the driver back to a 
-consistent state, so that we may have other problems later.
-Maybe Philippe can chip in with a comment here?
+This device can be used to crash QEMU:
 
-///jon
+$ ./qemu-system-ppc64 -nographic  -device xive2-end-source
+qemu-system-ppc64: ../../devel/qemu/hw/intc/xive2.c:966: 
+xive2_end_source_realize: Assertion `xsrc->xrtr' failed.
+Aborted (core dumped)
+
+Should it be user_creatable = false ?
+
+  Thomas
 
 
