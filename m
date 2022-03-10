@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAAE4D50E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:52:04 +0100 (CET)
-Received: from localhost ([::1]:42112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 932194D4FEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 18:08:09 +0100 (CET)
+Received: from localhost ([::1]:59094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSMxH-0001Tz-UV
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:52:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38746)
+	id 1nSMGm-0003UT-7N
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 12:08:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nSMvN-0000Zc-Q3
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:50:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51784)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nSMvK-0008HX-3o
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:50:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646934597;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=edUbd8/9sXM5WXruEFNWLeKNdadzwBGnlPtiCxQ4P7I=;
- b=Z9Lwz8IyGaWwRkIrtyr8GZb9JtCUD+jxHoWqwYuc+rLCQvXlqHElQvbq7MwK0jncpa1SBs
- 1biRLvy4AApDjGdDPocbMnyVzZlkB0xXtyKS9+PoFoE3z1GPqOJFVk8sKIL2WbtFV2uBrk
- viSPVXpg2dBaX+7mwOflEKTFcorFZUw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-306-DOcRlAPeNQ-q05vZtRKMoQ-1; Thu, 10 Mar 2022 12:49:54 -0500
-X-MC-Unique: DOcRlAPeNQ-q05vZtRKMoQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BF221006AA5;
- Thu, 10 Mar 2022 17:49:53 +0000 (UTC)
-Received: from p50.localhost.localdomain.some.host.somewhere.org (unknown
- [10.22.32.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C521877D52;
- Thu, 10 Mar 2022 17:49:36 +0000 (UTC)
-References: <20220228114325.818294-1-thuth@redhat.com>
-User-agent: mu4e 1.6.6; emacs 27.2
-From: Cleber Rosa <crosa@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] tests/avocado: Cancel BootLinux tests in case there is
- no free port
-Date: Thu, 10 Mar 2022 10:28:41 -0500
-In-reply-to: <20220228114325.818294-1-thuth@redhat.com>
-Message-ID: <87wnh1puj7.fsf@p50.localhost.localdomain>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nSMFd-0001XP-B1
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:06:57 -0500
+Received: from [2607:f8b0:4864:20::b2f] (port=35385
+ helo=mail-yb1-xb2f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nSMFb-0001uB-An
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 12:06:56 -0500
+Received: by mail-yb1-xb2f.google.com with SMTP id z30so12186748ybi.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 09:06:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iij4P0GFdyUk6m9jeH4aSihE31BwscvbERLIRrODD4Q=;
+ b=YnbaxJBa8m4purod8IEt24zwVaX+l8Pof0+4aL2EBelmbdm2XkBr6aFesBxBBtEXYq
+ +VxPYtZeGCM3LsedIZXOnSKmoYx9QobbgZ6OnxxdvfFsRnzBqPBJclRr243Ysr9lbhM6
+ 712g5bCMQ7TDCEoeu2C2X2jyvRwEXNb1IcibX+SeMme10ZqnI53LE5/POjVF0ymXt9Gu
+ 6zjem0b7Siw4Q2dy3vY/x0Dvb620U6EIOMWkV3+Cay+EjlS6xxfDHRRpRRXJCpPMJglG
+ BAOTGoR8eULeTwXnX4TWMBt+zOGgcteGJxgxmeJ0MYfD2vUHGNWzP49zZKAOee2C944Q
+ XadA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iij4P0GFdyUk6m9jeH4aSihE31BwscvbERLIRrODD4Q=;
+ b=gJYXsvLRuXXY8UhitgGqgov8qfeEURzznwuE317h0FNcnB0EYSMj34k7QdBlM7fZSb
+ XbU++Re0Kg7c0snxILl8yrDzvrzUabN/EwiUxelel/fPn1sevO1hRHeryqaFbu8NX8aW
+ Bjna9fXuOhm3yJ7uuG04qxZeewxa+o8RZ3lUFcE8wUKkqyslBaXoi1U5f8xhPywl6TIl
+ fYksGfJpjLN09PuWL6EldldN2rcgMUq88lsQiwXL3zkr28sLJ6FpLQsVCOcfoPt2GuxD
+ 8ZUyKdYPb2mRUBAZ6BGvOAgalhQW5sxuUCFjT/EKDhwi2r/ygc2LVPcgbtlxt5wpXHg2
+ Bzcg==
+X-Gm-Message-State: AOAM532sOEI4Z5BwI0x59k/58jAzO4/1Y7GIAk52JFjpjJokYQxRWOK4
+ a05rf7IjGfoOsHKUfCjXmxfR+yiTLayYFUxZPEewdA==
+X-Google-Smtp-Source: ABdhPJxdvl78+wXeKthwB3uQD8LG+iKK6rNT6vLnbRg3pgWNVuqoMJzsOOzqOEIDaN0/uuXkWw5ZzT0UgKTAgPhoBQo=
+X-Received: by 2002:a25:32c6:0:b0:629:130:a037 with SMTP id
+ y189-20020a2532c6000000b006290130a037mr4556121yby.193.1646932014229; Thu, 10
+ Mar 2022 09:06:54 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220310023907.2443-1-jasowang@redhat.com>
+In-Reply-To: <20220310023907.2443-1-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 10 Mar 2022 17:06:43 +0000
+Message-ID: <CAFEAcA9gqfve-qdYzP_VrA0=fcCXGnNpFbi82y0AWCRKpAz+-A@mail.gmail.com>
+Subject: Re: [PULL V2 00/15] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,38 +81,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Thomas Huth <thuth@redhat.com> writes:
-
-> The BootLinux tests are currently failing with an ugly python
-> stack trace on my RHEL8 system since they cannot get a free port
-> (likely due to the firewall settings on my system). Let's properly
-> check the return value of find_free_port() instead and cancel the
-> test gracefully if it cannot get a free port.
+On Thu, 10 Mar 2022 at 02:39, Jason Wang <jasowang@redhat.com> wrote:
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  Unfortunately, it still takes > 70 seconds for each and every
->  tests from tests/avocado/boot_linux.py to get canceled, so
->  tests/avocado/boot_linux.py still renders "make check-avocado"
->  for me pretty unusable... looking at the implementation of
->  find_free_port() in Avocado, I wonder whether there isn't a
->  better way to get a free port number in Python? Brute-forcing
->  all ports between 1024 and 65536 seems just quite cumbersome
->  to me...
+> The following changes since commit d9ccf33f9479201e5add8db0af68ca9ca8da358b:
 >
->  tests/avocado/avocado_qemu/__init__.py | 2 ++
->  1 file changed, 2 insertions(+)
+>   Merge remote-tracking branch 'remotes/lvivier-gitlab/tags/linux-user-for-7.0-pull-request' into staging (2022-03-09 20:01:17 +0000)
+>
+> are available in the git repository at:
+>
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
+>
+> for you to fetch changes up to eea40402ecf895ed345f8e8eb07dbb484f4542c5:
+>
+>   vdpa: Expose VHOST_F_LOG_ALL on SVQ (2022-03-10 10:26:32 +0800)
+>
+> ----------------------------------------------------------------
 >
 
-LGTM, despite  the root issue is being addressed in Avocado.
+Lots of 32-bit compile issues: this is 32-bit arm:
+https://gitlab.com/qemu-project/qemu/-/jobs/2188500721
+i386 the same:
+https://gitlab.com/qemu-project/qemu/-/jobs/2188500747
+and 32-bit mips:
+https://gitlab.com/qemu-project/qemu/-/jobs/2188500753
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+../hw/virtio/vhost-shadow-virtqueue.c: In function 'vhost_svq_valid_features':
+../hw/virtio/vhost-shadow-virtqueue.c:43:28: error: passing argument 2
+of 'set_bit' from incompatible pointer type
+[-Werror=incompatible-pointer-types]
+set_bit(b, &svq_features);
+^~~~~~~~~~~~~
+In file included from /builds/qemu-project/qemu/include/qemu/bitmap.h:16,
+from /builds/qemu-project/qemu/include/hw/qdev-core.h:5,
+from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:18,
+from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,
+from ../hw/virtio/vhost-shadow-virtqueue.c:11:
+/builds/qemu-project/qemu/include/qemu/bitops.h:36:52: note: expected
+'long unsigned int *' but argument is of type 'uint64_t *' {aka 'long
+long unsigned int *'}
+static inline void set_bit(long nr, unsigned long *addr)
+~~~~~~~~~~~~~~~^~~~
+../hw/virtio/vhost-shadow-virtqueue.c:50:30: error: passing argument 2
+of 'clear_bit' from incompatible pointer type
+[-Werror=incompatible-pointer-types]
+clear_bit(b, &svq_features);
+^~~~~~~~~~~~~
+In file included from /builds/qemu-project/qemu/include/qemu/bitmap.h:16,
+from /builds/qemu-project/qemu/include/hw/qdev-core.h:5,
+from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:18,
+from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,
+from ../hw/virtio/vhost-shadow-virtqueue.c:11:
+/builds/qemu-project/qemu/include/qemu/bitops.h:62:54: note: expected
+'long unsigned int *' but argument is of type 'uint64_t *' {aka 'long
+long unsigned int *'}
+static inline void clear_bit(long nr, unsigned long *addr)
+~~~~~~~~~~~~~~~^~~~
+../hw/virtio/vhost-shadow-virtqueue.c: In function 'vhost_svq_translate_addr':
+../hw/virtio/vhost-shadow-virtqueue.c:91:32: error: cast from pointer
+to integer of different size [-Werror=pointer-to-int-cast]
+.translated_addr = (hwaddr)iovec[i].iov_base,
+^
+../hw/virtio/vhost-shadow-virtqueue.c:109:20: error: cast to pointer
+from integer of different size [-Werror=int-to-pointer-cast]
+addrs[i] = (void *)(map->iova + off);
+^
+In file included from /builds/qemu-project/qemu/include/qemu/osdep.h:37,
+from ../hw/virtio/vhost-shadow-virtqueue.c:10:
+../hw/virtio/vhost-shadow-virtqueue.c:111:49: error: incompatible type
+for argument 1 of 'int128_add'
+if (unlikely(int128_gt(int128_add(needle.translated_addr,
+~~~~~~^~~~~~~~~~~~~~~~
+/builds/qemu-project/qemu/include/qemu/compiler.h:43:43: note: in
+definition of macro 'unlikely'
+#define unlikely(x) __builtin_expect(!!(x), 0)
+^
+In file included from /builds/qemu-project/qemu/include/exec/memory.h:26,
+from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:17,
+from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,
+from ../hw/virtio/vhost-shadow-virtqueue.c:11:
+/builds/qemu-project/qemu/include/qemu/int128.h:313:40: note: expected
+'Int128' {aka 'struct Int128'} but argument is of type 'hwaddr' {aka
+'long long unsigned int'}
+static inline Int128 int128_add(Int128 a, Int128 b)
+~~~~~~~^
+In file included from /builds/qemu-project/qemu/include/qemu/osdep.h:37,
+from ../hw/virtio/vhost-shadow-virtqueue.c:10:
+../hw/virtio/vhost-shadow-virtqueue.c:112:51: error: incompatible type
+for argument 2 of 'int128_add'
+iovec[i].iov_len),
+~~~~~~~~^~~~~~~~
+/builds/qemu-project/qemu/include/qemu/compiler.h:43:43: note: in
+definition of macro 'unlikely'
+#define unlikely(x) __builtin_expect(!!(x), 0)
+^
+In file included from /builds/qemu-project/qemu/include/exec/memory.h:26,
+from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:17,
+from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,
+from ../hw/virtio/vhost-shadow-virtqueue.c:11:
+/builds/qemu-project/qemu/include/qemu/int128.h:313:50: note: expected
+'Int128' {aka 'struct Int128'} but argument is of type 'size_t' {aka
+'const unsigned int'}
+static inline Int128 int128_add(Int128 a, Int128 b)
+~~~~~~~^
+In file included from /builds/qemu-project/qemu/include/qemu/osdep.h:37,
+from ../hw/virtio/vhost-shadow-virtqueue.c:10:
+../hw/virtio/vhost-shadow-virtqueue.c:113:53: error: incompatible type
+for argument 2 of 'int128_gt'
+map->translated_addr + map->size))) {
+~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+/builds/qemu-project/qemu/include/qemu/compiler.h:43:43: note: in
+definition of macro 'unlikely'
+#define unlikely(x) __builtin_expect(!!(x), 0)
+^
+In file included from /builds/qemu-project/qemu/include/exec/memory.h:26,
+from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:17,
+from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,
+from ../hw/virtio/vhost-shadow-virtqueue.c:11:
+/builds/qemu-project/qemu/include/qemu/int128.h:367:47: note: expected
+'Int128' {aka 'struct Int128'} but argument is of type 'long long
+unsigned int'
+static inline bool int128_gt(Int128 a, Int128 b)
+~~~~~~~^
+../hw/virtio/vhost-shadow-virtqueue.c: In function 'vhost_vring_write_descs':
+../hw/virtio/vhost-shadow-virtqueue.c:143:37: error: cast from pointer
+to integer of different size [-Werror=pointer-to-int-cast]
+descs[i].addr = cpu_to_le64((hwaddr)sg[n]);
+^
+../hw/virtio/vhost-shadow-virtqueue.c: In function 'vhost_svq_get_vring_addr':
+../hw/virtio/vhost-shadow-virtqueue.c:465:28: error: cast from pointer
+to integer of different size [-Werror=pointer-to-int-cast]
+addr->desc_user_addr = (uint64_t)svq->vring.desc;
+^
+../hw/virtio/vhost-shadow-virtqueue.c:466:29: error: cast from pointer
+to integer of different size [-Werror=pointer-to-int-cast]
+addr->avail_user_addr = (uint64_t)svq->vring.avail;
+^
+../hw/virtio/vhost-shadow-virtqueue.c:467:28: error: cast from pointer
+to integer of different size [-Werror=pointer-to-int-cast]
+addr->used_user_addr = (uint64_t)svq->vring.used;
+^
+cc1: all warnings being treated as errors
 
+
+-- PMM
 
