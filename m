@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FCC4D4645
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:48:59 +0100 (CET)
-Received: from localhost ([::1]:44256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA114D460A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Mar 2022 12:43:10 +0100 (CET)
+Received: from localhost ([::1]:58138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSHHu-0000ye-FJ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:48:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50184)
+	id 1nSHCH-00080Y-4L
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 06:43:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nSGwN-0004Rg-Pn
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:26:45 -0500
-Received: from [2a00:1450:4864:20::436] (port=45706
- helo=mail-wr1-x436.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nSGx9-0004nP-Bd
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:31 -0500
+Received: from [2607:f8b0:4864:20::102b] (port=35644
+ helo=mail-pj1-x102b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nSGwL-0007mL-Q4
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:26:43 -0500
-Received: by mail-wr1-x436.google.com with SMTP id p9so7402922wra.12
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:26:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=aKHoOFjIX4NhYzDzBTayK8VIsR23Yx/ZpfRDkISyCu8=;
- b=lWn07VFeB4J21i+D2dgUESl29NN4OIBx5qOWBsDIe3QNqEZVXFvWpx9P2bxLvEUHmu
- LhI7qB4d2/Jgg3j7oCUw0xh7jR+X+MFCnR+vII5JTc5z7LhVHewcuxuO3ijn4qdG1ikd
- PvweyLNz7Sdk+ZkgH6Y4wzqqVFHI/1UGdgj6SXeFcNftFZJh1Zh2UnkHGbgxuzLQgsAM
- +31vMIFfCKvx0RH9vzR72kwYnDO8+T6QhjAMlsaGTroSGsL8VxDaQNEyVfHgQ4XjwP61
- +t5e7LwpWl1J3jz2JRokIvEuTI/AbT/o+PRlHHMWHwOy6v+YwARy59aJVdC4CIskKcO+
- VFdQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nSGx7-0007tn-Ln
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 06:27:30 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ mg21-20020a17090b371500b001bef9e4657cso8014949pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 03:27:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NA9HskFqPeLh+02a0cXnYrdAXovGtw+F2Po8AxVhC7E=;
+ b=DZUuX833jwyKf25fc16ZvWHBarUREFZrcPPZWxVd51RcBpv1SsMiqwtmWAM+VSSW6v
+ ++FmquQQX8uKo/f33hbwCyCbF3YFC6Tsc2BQkxyV8ePOkV8yBNtNKWgGqoBzE6nd+aYi
+ +MOqvYZGukQgsJgYD2+Hj6Df9M8AxZgFuiHONNkOt2gZoaVACXatJae755t841LnA6rl
+ JdUqhGaTP8uaCjxViT6DHR1VVrx82CgRWATozFDVT7xqjJbHC5Huel7RVTfsUzgTc77Y
+ VS3DqzvOvbJv1wwiZZKnJ/IMUj12T5EWMYn6t+SyvjS9oaMttM8tA/sLBME8QIupqsTn
+ szxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=aKHoOFjIX4NhYzDzBTayK8VIsR23Yx/ZpfRDkISyCu8=;
- b=B59zNZNsMuDUxpC9n9MOGWLSglUnTYHz+3fz0PX7AGE7DY2ZMhtbvgRYzUdThaeYEs
- 92mk3U5GkdjWnOt49PH6W4FBKHKtoWdM4phxb55vUNEu0cqzPleoL+rwHi6V6TEH1V/o
- 1GzUoEFedDWACqEKCS6KMQcvr8omW+pdOzerRTQpPbDvN/UI1VdhENVmWFiff1JOvvM6
- 9yIr33ADcJcoBsgiSILhcw/DmVcZAdlnZFfanyTz4amE5J1D6m3HtiKSObyRerz0tQqb
- ofnNCSybvkoH6N+VxGDdSRN5vmXdUnjcvUaLIdtFzAYbS/T8nvWrgyrCQ+TAyqON1gMh
- diFQ==
-X-Gm-Message-State: AOAM531XsgU93e5hSkbBff7kQQ6dJf+gqL5tSxKpaM8PUGnqv73V3XAI
- CvfzeeJkpBwR3xBg4Ormuro=
-X-Google-Smtp-Source: ABdhPJwFJPjQm5+/IqJltFyfXn8sadEQWREJcpVYGmh6ccYjB9gcuOseKSgzJ7Sr3ecaN9MTEYIsSg==
-X-Received: by 2002:a5d:6241:0:b0:1ed:b534:e04e with SMTP id
- m1-20020a5d6241000000b001edb534e04emr3313905wrv.68.1646911600032; 
- Thu, 10 Mar 2022 03:26:40 -0800 (PST)
-Received: from [192.168.1.34] (71.red-83-50-68.dynamicip.rima-tde.net.
- [83.50.68.71]) by smtp.gmail.com with ESMTPSA id
- t14-20020a5d49ce000000b001f036a29f42sm3799429wrs.116.2022.03.10.03.26.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 03:26:39 -0800 (PST)
-Message-ID: <df92c6ff-1ea2-98de-09a8-716a3e7cea60@gmail.com>
-Date: Thu, 10 Mar 2022 12:26:38 +0100
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NA9HskFqPeLh+02a0cXnYrdAXovGtw+F2Po8AxVhC7E=;
+ b=aYeAlP2byz3lWpueidM1j2FQPW8iRA8Km+VuM1g9/Zb43X4I56pZNpAynpMOcwtkdL
+ AdltOXAkHSDweNm/wERuClh//uh00DgWtGNZhdRLUgVrj+yXDYAUT70UP1yfxsVIGfX+
+ VJqFwcEKxc1OXuq+A/nteSV5f8hJRPrVjkKNj+wjezjU8DXK3+yglEdSRxXiiD7ySvv6
+ zMM5T8ISImQf4lYsojhS4hbmwjLyu4XnkYvDTgOqzh41EEWdEngWSjxx0A+29S+SL2oY
+ FX0RUUnrgY/8DGnUWQOeGJOdEeZf/cUvmPnYksmrd9UO5S59VxGKlvzPJLOg1Zwxeant
+ jycA==
+X-Gm-Message-State: AOAM531znU9OEmqVRX5oqWXRtIIjRRX+PnmQl1dY8SFjUX/uJkCyckyk
+ /Y8h7hc0YPWYc8RuslvhlIqI6dW1Wq0vog==
+X-Google-Smtp-Source: ABdhPJxpXIcZueN00DZa/PF7a+xeELRODICXUPMxx3tKrFbHMsvqYdr0V9E8hJC6iC5ngjGTpefs3g==
+X-Received: by 2002:a17:902:8491:b0:14e:dad4:5ce5 with SMTP id
+ c17-20020a170902849100b0014edad45ce5mr4505167plo.76.1646911648371; 
+ Thu, 10 Mar 2022 03:27:28 -0800 (PST)
+Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
+ [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
+ js15-20020a17090b148f00b001bfc8614b93sm3114977pjb.1.2022.03.10.03.27.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Mar 2022 03:27:27 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 01/48] target/nios2: Check supervisor on eret
+Date: Thu, 10 Mar 2022 03:26:38 -0800
+Message-Id: <20220310112725.570053-2-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220310112725.570053-1-richard.henderson@linaro.org>
+References: <20220310112725.570053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: =?UTF-8?Q?Re=3a_=5bPULL_0/9=5d_I=c2=b2C_/_SMBus_/_PMBus_patches_for?=
- =?UTF-8?Q?_2022-03-08?=
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Titus Rwantare <titusr@google.com>
-References: <20220308181320.79400-1-philippe.mathieu.daude@gmail.com>
- <CAFEAcA8ZuxcFYc-=27YyWNr8_x1m8VKSjJEPYAzV1yMAnpr6wg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <CAFEAcA8ZuxcFYc-=27YyWNr8_x1m8VKSjJEPYAzV1yMAnpr6wg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,53 +89,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Corey Minyard <minyard@acm.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: marex@denx.de, peter.maydell@linaro.org, amir.gonnen@neuroblade.ai
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/3/22 10:18, Peter Maydell wrote:
-> On Tue, 8 Mar 2022 at 18:22, Philippe Mathieu-Daudé
-> <philippe.mathieu.daude@gmail.com> wrote:
->>
->> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> The following changes since commit 9740b907a5363c06ecf61e08b21966a81eb0dab4:
->>
->>    Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20220307' into staging (2022-03-08 15:26:10 +0000)
->>
->> are available in the Git repository at:
->>
->>    https://github.com/philmd/qemu.git tags/pmbus-20220308
->>
->> for you to fetch changes up to 5f14cd7032beab6cac8d7ed1b09efc58baddb48c:
->>
->>    hw/sensor: add Renesas raa228000 device (2022-03-08 18:46:48 +0100)
->>
->> ----------------------------------------------------------------
->> I²C / SMBus / PMBus patches
->>
->> - Add some Renesas models
->> - Add Titus Rwantare to MAINTAINERS
->>
->> ----------------------------------------------------------------
-> 
-> 
-> 
-> Applied, thanks.
+From: Amir Gonnen <amir.gonnen@neuroblade.ai>
 
-Thanks.
+eret instruction is only allowed in supervisor mode.
 
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-> for any user-visible changes.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Amir Gonnen <amir.gonnen@neuroblade.ai>
+Message-Id: <20220303153906.2024748-2-amir.gonnen@neuroblade.ai>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/nios2/translate.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Titus, could you add the new devices there?
-
-Also it would be nice if you could create docs/system/devices/i2c.rst
-and list them :)
-
-Regards,
-
-Phil.
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index f89271dbed..341f3a8273 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -384,6 +384,8 @@ static const Nios2Instruction i_type_instructions[] = {
+  */
+ static void eret(DisasContext *dc, uint32_t code, uint32_t flags)
+ {
++    gen_check_supervisor(dc);
++
+     tcg_gen_mov_tl(cpu_R[CR_STATUS], cpu_R[CR_ESTATUS]);
+     tcg_gen_mov_tl(cpu_R[R_PC], cpu_R[R_EA]);
+ 
+-- 
+2.25.1
 
 
