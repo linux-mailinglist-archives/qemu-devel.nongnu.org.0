@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C6B4D5C39
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 08:24:25 +0100 (CET)
-Received: from localhost ([::1]:40028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D5E4D5CA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 08:42:16 +0100 (CET)
+Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSZdQ-0002bG-FU
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 02:24:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60000)
+	id 1nSZub-0000My-5r
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 02:42:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nSZU9-0006od-DS; Fri, 11 Mar 2022 02:14:49 -0500
-Received: from [2607:f8b0:4864:20::12c] (port=37829
- helo=mail-il1-x12c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nSZU7-00064e-9m; Fri, 11 Mar 2022 02:14:48 -0500
-Received: by mail-il1-x12c.google.com with SMTP id j29so5400378ila.4;
- Thu, 10 Mar 2022 23:14:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fb4RMpQdI11GTLJ+5IjzyChRL6lwFloiycOPCuKl/C8=;
- b=hBAIjDkqFTD1O18BS16AEElhItM0Re+lKPrVHvpThGI+Akxc8XE3MIPV+a9Mni//qp
- nXyoJkX71iZ3hyhKgnO7RzD+be9Ny8jV2ZMSG2nZ7TN1MixJZfD9Qrqfl7jBM5kPqlOE
- KEgpdlPewMLjrAhh5UAzFqNtHscu7TY+K/X6QxlfCjwk43CyX5o7R1fepm3IigV2X1CO
- VncFtJkFlg5TspyypNcLt4TtEdI8ox1oObW+p0CM5MkWIYm38O2YwqfUEuK2bfjLgzs1
- aRQrNeB8kurBLfTZ6JwuRXn5YWwOuSRqe12Eq9y75t5Khbw6cwbOLiszTJ+MhohbVivX
- +C2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fb4RMpQdI11GTLJ+5IjzyChRL6lwFloiycOPCuKl/C8=;
- b=0HmJEHI65Tl82MiSOYvoGytmnhcoVplQZW8hgb4atw6q6XI6dovekcrx0A7cGMqbkq
- 8QuN864UunjpRfKvqjktPD5QE6LT3qVFF38v52C8GxGA0/OmMhnJpPltb7Z2uHVp2NCZ
- JnBe+fmMWvwMTZDt+G7LZy368CaNnVr+ToDwRgubmSAppDIvJeS3vg8S1hbzoNI5Js1H
- J+Ib2+GJx4k2TizH5/a0U5gh1bLE6um6pm/kBLNDRTIJks0bX15vk8YeiSGHuWxee2tF
- znb1mI5ZyTraLcvWhnLVVXrYsoSB6ZD8FJyudVqXE5hwzBnH4xcXqaHNWSlr8lVFUsyQ
- SZWw==
-X-Gm-Message-State: AOAM532jWYSrXh/7iD1R1VT7oA2ImCHhiyztYy2s6NKmyf/yhG+hrtbK
- 1L37CkSv43ngJb+saD+hzQG7KLkOahmCQDp6/OI=
-X-Google-Smtp-Source: ABdhPJyHSkqo+8f9nos0G2jxoH2XuQMJOTiDqsUaMq+GnMRlzyXW1jFdFp7EYh/NBBt1PhvvsmxROu+nDz3fNgOik/c=
-X-Received: by 2002:a05:6e02:20ec:b0:2c6:158a:cb33 with SMTP id
- q12-20020a056e0220ec00b002c6158acb33mr6738576ilv.113.1646982885767; Thu, 10
- Mar 2022 23:14:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nSZrJ-0007Br-Bq
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 02:38:45 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:41639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nSZrH-0005zh-GL
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 02:38:44 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.108])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A3959E881248;
+ Fri, 11 Mar 2022 08:38:40 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 11 Mar
+ 2022 08:38:40 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0055cb8906e-c843-4be6-9e43-79acbed20434,
+ 79B1F22DAD7DBC473036ED04AB85CFE0B7BEDBC1) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <71dbc23a-a56c-f685-cd9a-6ce3b7395a5f@kaod.org>
+Date: Fri, 11 Mar 2022 08:38:39 +0100
 MIME-Version: 1.0
-References: <20220301115828.355-1-liweiwei@iscas.ac.cn>
- <20220301115828.355-10-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220301115828.355-10-liweiwei@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 11 Mar 2022 17:14:19 +1000
-Message-ID: <CAKmqyKPioFgCJtyts9pF8EXjigOmTyvvhu937am-CNOJKLeavQ@mail.gmail.com>
-Subject: Re: [PATCH v8 09/14] target/riscv: rvk: add support for sha512
- related instructions for RV32 in zknh extension
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 01/18] ppc/xive2: Introduce a XIVE2 core framework
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20220228155222.643974-1-clg@kaod.org>
+ <20220228155222.643974-2-clg@kaod.org>
+ <df27854b-8f41-b83c-600e-72e52416c787@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <df27854b-8f41-b83c-600e-72e52416c787@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: aedf1e0c-3459-4039-aaaf-36be78c8fe5a
+X-Ovh-Tracer-Id: 18194542496556944166
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddvuddguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhm
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,157 +72,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, lustrew@foxmail.com,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Frederic Barrat <fbarrat@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 1, 2022 at 10:01 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
->  - add sha512sum0r, sha512sig0l, sha512sum1r, sha512sig1l, sha512sig0h and sha512sig1h instructions
->
-> Co-authored-by: Zewen Ye <lustrew@foxmail.com>
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> +static const TypeInfo xive2_end_source_info = {
+>> +    .name          = TYPE_XIVE2_END_SOURCE,
+>> +    .parent        = TYPE_DEVICE,
+>> +    .instance_size = sizeof(Xive2EndSource),
+>> +    .class_init    = xive2_end_source_class_init,
+>> +};
+> 
+> This device can be used to crash QEMU:
+> 
+> $ ./qemu-system-ppc64 -nographic  -device xive2-end-source
+> qemu-system-ppc64: ../../devel/qemu/hw/intc/xive2.c:966: xive2_end_source_realize: Assertion `xsrc->xrtr' failed.
+> Aborted (core dumped)
+> 
+> Should it be user_creatable = false ?
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Clearly yes.
 
-Alistair
+Thanks,
 
-> ---
->  target/riscv/insn32.decode              |   6 ++
->  target/riscv/insn_trans/trans_rvk.c.inc | 100 ++++++++++++++++++++++++
->  2 files changed, 106 insertions(+)
->
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index db28ecdd2b..02a0c71890 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -862,3 +862,9 @@ sha256sig0  00 01000 00010 ..... 001 ..... 0010011 @r2
->  sha256sig1  00 01000 00011 ..... 001 ..... 0010011 @r2
->  sha256sum0  00 01000 00000 ..... 001 ..... 0010011 @r2
->  sha256sum1  00 01000 00001 ..... 001 ..... 0010011 @r2
-> +sha512sum0r 01 01000 ..... ..... 000 ..... 0110011 @r
-> +sha512sum1r 01 01001 ..... ..... 000 ..... 0110011 @r
-> +sha512sig0l 01 01010 ..... ..... 000 ..... 0110011 @r
-> +sha512sig0h 01 01110 ..... ..... 000 ..... 0110011 @r
-> +sha512sig1l 01 01011 ..... ..... 000 ..... 0110011 @r
-> +sha512sig1h 01 01111 ..... ..... 000 ..... 0110011 @r
-> diff --git a/target/riscv/insn_trans/trans_rvk.c.inc b/target/riscv/insn_trans/trans_rvk.c.inc
-> index beea7f8e96..bb89a53f52 100644
-> --- a/target/riscv/insn_trans/trans_rvk.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvk.c.inc
-> @@ -167,3 +167,103 @@ static bool trans_sha256sum1(DisasContext *ctx, arg_sha256sum1 *a)
->      REQUIRE_ZKNH(ctx);
->      return gen_sha256(ctx, a, EXT_NONE, tcg_gen_rotri_i32, 6, 11, 25);
->  }
-> +
-> +static bool gen_sha512_rv32(DisasContext *ctx, arg_r *a, DisasExtend ext,
-> +                            void (*func1)(TCGv_i64, TCGv_i64, int64_t),
-> +                            void (*func2)(TCGv_i64, TCGv_i64, int64_t),
-> +                            int64_t num1, int64_t num2, int64_t num3)
-> +{
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, ext);
-> +    TCGv src2 = get_gpr(ctx, a->rs2, ext);
-> +    TCGv_i64 t0 = tcg_temp_new_i64();
-> +    TCGv_i64 t1 = tcg_temp_new_i64();
-> +    TCGv_i64 t2 = tcg_temp_new_i64();
-> +
-> +    tcg_gen_concat_tl_i64(t0, src1, src2);
-> +    func1(t1, t0, num1);
-> +    func2(t2, t0, num2);
-> +    tcg_gen_xor_i64(t1, t1, t2);
-> +    tcg_gen_rotri_i64(t2, t0, num3);
-> +    tcg_gen_xor_i64(t1, t1, t2);
-> +    tcg_gen_trunc_i64_tl(dest, t1);
-> +
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +    tcg_temp_free_i64(t0);
-> +    tcg_temp_free_i64(t1);
-> +    tcg_temp_free_i64(t2);
-> +    return true;
-> +}
-> +
-> +static bool trans_sha512sum0r(DisasContext *ctx, arg_sha512sum0r *a)
-> +{
-> +    REQUIRE_32BIT(ctx);
-> +    REQUIRE_ZKNH(ctx);
-> +    return gen_sha512_rv32(ctx, a, EXT_NONE, tcg_gen_rotli_i64,
-> +                           tcg_gen_rotli_i64, 25, 30, 28);
-> +}
-> +
-> +static bool trans_sha512sum1r(DisasContext *ctx, arg_sha512sum1r *a)
-> +{
-> +    REQUIRE_32BIT(ctx);
-> +    REQUIRE_ZKNH(ctx);
-> +    return gen_sha512_rv32(ctx, a, EXT_NONE, tcg_gen_rotli_i64,
-> +                           tcg_gen_rotri_i64, 23, 14, 18);
-> +}
-> +
-> +static bool trans_sha512sig0l(DisasContext *ctx, arg_sha512sig0l *a)
-> +{
-> +    REQUIRE_32BIT(ctx);
-> +    REQUIRE_ZKNH(ctx);
-> +    return gen_sha512_rv32(ctx, a, EXT_NONE, tcg_gen_rotri_i64,
-> +                           tcg_gen_rotri_i64, 1, 7, 8);
-> +}
-> +
-> +static bool trans_sha512sig1l(DisasContext *ctx, arg_sha512sig1l *a)
-> +{
-> +    REQUIRE_32BIT(ctx);
-> +    REQUIRE_ZKNH(ctx);
-> +    return gen_sha512_rv32(ctx, a, EXT_NONE, tcg_gen_rotli_i64,
-> +                           tcg_gen_rotri_i64, 3, 6, 19);
-> +}
-> +
-> +static bool gen_sha512h_rv32(DisasContext *ctx, arg_r *a, DisasExtend ext,
-> +                             void (*func)(TCGv_i64, TCGv_i64, int64_t),
-> +                             int64_t num1, int64_t num2, int64_t num3)
-> +{
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, ext);
-> +    TCGv src2 = get_gpr(ctx, a->rs2, ext);
-> +    TCGv_i64 t0 = tcg_temp_new_i64();
-> +    TCGv_i64 t1 = tcg_temp_new_i64();
-> +    TCGv_i64 t2 = tcg_temp_new_i64();
-> +
-> +    tcg_gen_concat_tl_i64(t0, src1, src2);
-> +    func(t1, t0, num1);
-> +    tcg_gen_ext32u_i64(t2, t0);
-> +    tcg_gen_shri_i64(t2, t2, num2);
-> +    tcg_gen_xor_i64(t1, t1, t2);
-> +    tcg_gen_rotri_i64(t2, t0, num3);
-> +    tcg_gen_xor_i64(t1, t1, t2);
-> +    tcg_gen_trunc_i64_tl(dest, t1);
-> +
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +    tcg_temp_free_i64(t0);
-> +    tcg_temp_free_i64(t1);
-> +    tcg_temp_free_i64(t2);
-> +    return true;
-> +}
-> +
-> +static bool trans_sha512sig0h(DisasContext *ctx, arg_sha512sig0h *a)
-> +{
-> +    REQUIRE_32BIT(ctx);
-> +    REQUIRE_ZKNH(ctx);
-> +    return gen_sha512h_rv32(ctx, a, EXT_NONE, tcg_gen_rotri_i64, 1, 7, 8);
-> +}
-> +
-> +static bool trans_sha512sig1h(DisasContext *ctx, arg_sha512sig1h *a)
-> +{
-> +    REQUIRE_32BIT(ctx);
-> +    REQUIRE_ZKNH(ctx);
-> +    return gen_sha512h_rv32(ctx, a, EXT_NONE, tcg_gen_rotli_i64, 3, 6, 19);
-> +}
-> --
-> 2.17.1
->
->
+C.
 
