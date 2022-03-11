@@ -2,73 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB0A4D5C20
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 08:17:22 +0100 (CET)
-Received: from localhost ([::1]:33638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D634D5C26
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 08:20:00 +0100 (CET)
+Received: from localhost ([::1]:36246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSZWb-0006IP-BV
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 02:17:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59172)
+	id 1nSZZ9-0008Iv-4U
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 02:19:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nSZOz-0003DE-7y; Fri, 11 Mar 2022 02:09:29 -0500
-Received: from [2607:f8b0:4864:20::133] (port=39777
- helo=mail-il1-x133.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nSZOx-0005J8-D2; Fri, 11 Mar 2022 02:09:28 -0500
-Received: by mail-il1-x133.google.com with SMTP id b14so5399220ilf.6;
- Thu, 10 Mar 2022 23:09:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=U9Cg9LDGRSRNWKVhIi8Dgou251u7kPB1hbhTCK5s5nQ=;
- b=fC7xaP+a08/PMhHa6IrXw73fBmxXg0Tu6p3TxdZBAtgZx6FPaSpqzwl9fzXFqMwup0
- JG2me98AvVgUe2QNOhe1fP3X6CywwtuHltaIu8whFWLOIZBM3mk3ahrEMtjmdSJYBa3O
- qjlwKYGs0aK4wYVW1WI3FU//wcqLiBKWGgbX5sHRwbMAjCvz1OerscrHprlFtMrLY7ZH
- cfmJ3Mhq8Ao4Jy8h0cjUDLlo46+i4lf7sopzhVtUOfe+CS5FNdAtQnvaZHPPrDr8fdlC
- QJqYPXupPom6Sy20p/g7vcfpCBTHxfZAoOYmNGWddDcCmHKOLvkjzIB6DVRpsFD+L83h
- 8bPQ==
+ (Exim 4.90_1) (envelope-from <eskultet@redhat.com>)
+ id 1nSZSv-0005eq-PG
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 02:13:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27349)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eskultet@redhat.com>)
+ id 1nSZSs-0005zI-3Q
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 02:13:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646982809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=L9I2rwedEouBd+Sfp8dtYJGTeR+i0ngykZ7941DaD4A=;
+ b=K2Ufe5qGCqbvvitmkRcDzDTr7lYJ4frqlQgdr83xIUUQRuy0VF6GgwwqSi4BA3Kex71FzF
+ an4D69Xpd/aXIEX04Fs10TAfyfTkNPQMA2MMYZraA2nmdrr54BdZ2GwPudo+iiDPP/IpA0
+ ONGOg4vVGL6MqGAYDn/gZ6vAWvH78Dc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-572-Z6qCyg_GNNOzLyXPH4_hNQ-1; Fri, 11 Mar 2022 02:12:15 -0500
+X-MC-Unique: Z6qCyg_GNNOzLyXPH4_hNQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ hq34-20020a1709073f2200b006d677c94909so4460825ejc.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 23:12:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U9Cg9LDGRSRNWKVhIi8Dgou251u7kPB1hbhTCK5s5nQ=;
- b=ScCuCK4S1w1oK27vP2uaeHUNVylZezG/SFBsQAjCMHDN0tRt2ZAY/Qe8hf8qMRoLpO
- jmGl3ofAfrfIKyiwvzCK8gAlNSauhl9iGFMc09UotVsjDp2L3G6d6qoTUdZVz7eQ/2MD
- MQR/W6UgtCBOirowFxtZDY7mcihdnijr7AWTA0sf8EqnhgWKrZb84Gb8tknAtGj84Azz
- +VwRIZXjPXbEAwAMvKdwvt1upD3GxasyNoGaSjavm/AnVhIy0L1tU5/ZiMjyPXYa/ydp
- 4PC48kAeTjAj7ddNMgQId0OTf6W3+4h5A6zMd8o8xoRYZnbgIF9ty+cxL9LLx97KnTbY
- B4fQ==
-X-Gm-Message-State: AOAM5333WaH6W+PNHvh+HQpdk6AJGzvOQ4fHDFPRq0nbw7MMWe9vqr+V
- LOLdk2rNjnnDbgEI+wx+15+VsGpdQtUeJmh0N04=
-X-Google-Smtp-Source: ABdhPJwHJc5C+bUErPToP3p1NZubn1EZcfCSTN23ps2C9DurAme3kE81M1R+qpCosM/twIJ+2iCPMw1M94jytf/qQu4=
-X-Received: by 2002:a05:6e02:154c:b0:2c6:4ffa:57ec with SMTP id
- j12-20020a056e02154c00b002c64ffa57ecmr6502688ilu.55.1646982555655; Thu, 10
- Mar 2022 23:09:15 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=L9I2rwedEouBd+Sfp8dtYJGTeR+i0ngykZ7941DaD4A=;
+ b=Vu5T8f33nqOaeOdF00AlFIa6dFG8cOdZJ5qq7RwCy4fnoyTs3Quo8SP2ocbKQ1joU6
+ GKVBii8A1GAyZl7v0DOHdqsAySpdRjxdhOwzPBivwjVzHlaqc3ohVtiqaCBbM2EVHrWP
+ 1zRk6eTpp5R6ZE/qxXKZ/M626h3JubV39dbaGHmefADq+eSZG39u0qva6OcOY4ZHOxCK
+ GX4aJh3KF+cznjydF89DpdZQUCBVukEgd/w75bgVwVlQpzHTJAJigj3I7eSkZF8zKY0V
+ DssP9Fhuo3HUIzbbj07qYYSI3ym30zA6AlhY18d0I4GNB3O/+qI0hZh5x7cdqcpPrQR8
+ TJXA==
+X-Gm-Message-State: AOAM532yJzjHnVDi2UrdMyeaVGpc0hb818QL8V8wgIXKr44Ujz8QQ4gy
+ CTnnbOoSRKdhKboIDQpfpBKuPPHn6vj9sMnrJURn9Imvxxjli2uV5BtMnZTmUQXVaXuw7aeS17G
+ LWr2yXZNpl36hm7g=
+X-Received: by 2002:a17:906:7751:b0:6ce:e3c:81a6 with SMTP id
+ o17-20020a170906775100b006ce0e3c81a6mr7074667ejn.278.1646982734296; 
+ Thu, 10 Mar 2022 23:12:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyGqBzeOKavdBzLUZM1NH84FRYOa1IFwmHjVAHG4WufGvmqiaOf4A8brnzVTmrEINwxBkWN3Q==
+X-Received: by 2002:a17:906:7751:b0:6ce:e3c:81a6 with SMTP id
+ o17-20020a170906775100b006ce0e3c81a6mr7074660ejn.278.1646982734071; 
+ Thu, 10 Mar 2022 23:12:14 -0800 (PST)
+Received: from nautilus ([95.82.134.59]) by smtp.gmail.com with ESMTPSA id
+ gv9-20020a170906f10900b006d7128b2e6fsm2611348ejb.162.2022.03.10.23.12.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Mar 2022 23:12:13 -0800 (PST)
+Date: Fri, 11 Mar 2022 08:12:11 +0100
+From: Erik Skultety <eskultet@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [libvirt] [PATCH RESEND v2 0/4] re-introduce <acpi-hotplug-bridge>
+Message-ID: <Yir2SxvhTskJgOda@nautilus>
+References: <20220308063955.2285902-1-ani@anisinha.ca>
+ <399ca3a9-8b95-39af-8376-85f2edf00c7e@redhat.com>
+ <f744a5f1-6dde-4b57-d52a-9b6104c5e510@redhat.com>
+ <alpine.DEB.2.22.394.2203082212120.2312236@anisinha-lenovo>
+ <20220308114638-mutt-send-email-mst@kernel.org>
+ <CAARzgwwo6weTL8Q_2vbx9s2+r_LerEgDiWRLEJvgyC=YNVOVFw@mail.gmail.com>
+ <20220308121820-mutt-send-email-mst@kernel.org>
+ <alpine.DEB.2.22.394.2203091245190.2312236@anisinha-lenovo>
 MIME-Version: 1.0
-References: <20220301115828.355-1-liweiwei@iscas.ac.cn>
- <20220301115828.355-9-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220301115828.355-9-liweiwei@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 11 Mar 2022 17:08:49 +1000
-Message-ID: <CAKmqyKMWF2ebp2SmRNg0SNCxXo3nvWDdGmnLi9418zveukSktg@mail.gmail.com>
-Subject: Re: [PATCH v8 08/14] target/riscv: rvk: add support for sha256
- related instructions in zknh extension
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::133
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <alpine.DEB.2.22.394.2203091245190.2312236@anisinha-lenovo>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eskultet@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eskultet@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,119 +103,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, lustrew@foxmail.com,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: libvir-list@redhat.com, qemu list <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 1, 2022 at 10:09 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
->  - add sha256sig0, sha256sig1, sha256sum0 and sha256sum1 instructions
->
-> Co-authored-by: Zewen Ye <lustrew@foxmail.com>
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Wed, Mar 09, 2022 at 12:47:26PM +0530, Ani Sinha wrote:
+> 
+> 
+> On Tue, 8 Mar 2022, Michael S. Tsirkin wrote:
+> 
+> > On Tue, Mar 08, 2022 at 10:23:20PM +0530, Ani Sinha wrote:
+> > > On Tue, Mar 8, 2022 at 10:17 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Tue, Mar 08, 2022 at 10:15:11PM +0530, Ani Sinha wrote:
+> > > > >
+> > > > >
+> > > > > On Tue, 8 Mar 2022, Laine Stump wrote:
+> > > > >
+> > > > > > Aha! the domain of qemu-devel@nongnu.org was incorrect in the original send
+> > > > > > (it was "nognu.org"), so none of this thread was making it to that list.
+> > > > >
+> > > > >
+> > > > > Not to give any excuses but this happened because on Qemu side I never
+> > > > > have to type this manually. My git config is set up so that
+> > > > > the cc in send-email is filled up automatically using
+> > > > > scripts/get_maintainer.pl. On libvirt side also the domain and mailing
+> > > > > list is easy to remember. Its only when I have to manually type stuff that
+> > > > > shit happens :-)
+> > > >
+> > > > Donnu about alpine, but with mutt you can easily set up
+> > > > and alias and then it expands for you.
+> > >
+> > > I use alpine to only reply/review patches. I use git send-email to
+> > > actually send the patch. There I am not sure the best way to avoid
+> > > manually typing in the mailing list address.
+> >
+> > send-email supports aliases too.
+> 
+> Ah cool. I just set this up with some help from
+> https://felipec.wordpress.com/2009/10/25/git-send-email-tricks/ . Now I
+> can simply say
+> 
+> $ git send-email --to=qemu-list <patch>
+> 
+> without worrying about typo :-) Thanks for the pointer.
+> 
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+So, in context of sending patches to mailing lists, especially with libvirt and
+QEMU, you could utilize 'git publish'. Both QEMU and libvirt have a .gitpublish
+config in the repo which sets some git-send email options, especially the
+QEMU's one is nice listing a bunch of common profile templates as well.
+I'd say that if you're contributing to a project which doesn't have a
+.gitpublish config yet, then rather than not using 'git publish', the project
+should adopt the config instead :).
 
-Alistair
+Regards,
+Erik
 
-> ---
->  target/riscv/insn32.decode              |  5 +++
->  target/riscv/insn_trans/trans_rvk.c.inc | 55 +++++++++++++++++++++++++
->  2 files changed, 60 insertions(+)
->
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 0b800b4093..db28ecdd2b 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -857,3 +857,8 @@ aes64esm    00 11011 ..... ..... 000 ..... 0110011 @r
->  # *** RV64 Zkne/zknd Standard Extension ***
->  aes64ks2    01 11111 ..... ..... 000 ..... 0110011 @r
->  aes64ks1i   00 11000 1.... ..... 001 ..... 0010011 @i_aes
-> +# *** RV32 Zknh Standard Extension ***
-> +sha256sig0  00 01000 00010 ..... 001 ..... 0010011 @r2
-> +sha256sig1  00 01000 00011 ..... 001 ..... 0010011 @r2
-> +sha256sum0  00 01000 00000 ..... 001 ..... 0010011 @r2
-> +sha256sum1  00 01000 00001 ..... 001 ..... 0010011 @r2
-> diff --git a/target/riscv/insn_trans/trans_rvk.c.inc b/target/riscv/insn_trans/trans_rvk.c.inc
-> index b86f931b13..beea7f8e96 100644
-> --- a/target/riscv/insn_trans/trans_rvk.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvk.c.inc
-> @@ -29,6 +29,12 @@
->      }                                           \
->  } while (0)
->
-> +#define REQUIRE_ZKNH(ctx) do {                  \
-> +    if (!ctx->cfg_ptr->ext_zknh) {              \
-> +        return false;                           \
-> +    }                                           \
-> +} while (0)
-> +
->  static bool gen_aes32_sm4(DisasContext *ctx, arg_k_aes *a,
->                            void (*func)(TCGv, TCGv, TCGv, TCGv))
->  {
-> @@ -112,3 +118,52 @@ static bool trans_aes64im(DisasContext *ctx, arg_aes64im *a)
->      REQUIRE_ZKND(ctx);
->      return gen_unary(ctx, a, EXT_NONE, gen_helper_aes64im);
->  }
-> +
-> +static bool gen_sha256(DisasContext *ctx, arg_r2 *a, DisasExtend ext,
-> +                       void (*func)(TCGv_i32, TCGv_i32, int32_t),
-> +                       int32_t num1, int32_t num2, int32_t num3)
-> +{
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, ext);
-> +    TCGv_i32 t0 = tcg_temp_new_i32();
-> +    TCGv_i32 t1 = tcg_temp_new_i32();
-> +    TCGv_i32 t2 = tcg_temp_new_i32();
-> +
-> +    tcg_gen_trunc_tl_i32(t0, src1);
-> +    tcg_gen_rotri_i32(t1, t0, num1);
-> +    tcg_gen_rotri_i32(t2, t0, num2);
-> +    tcg_gen_xor_i32(t1, t1, t2);
-> +    func(t2, t0, num3);
-> +    tcg_gen_xor_i32(t1, t1, t2);
-> +    tcg_gen_ext_i32_tl(dest, t1);
-> +
-> +    gen_set_gpr(ctx, a->rd, dest);
-> +    tcg_temp_free_i32(t0);
-> +    tcg_temp_free_i32(t1);
-> +    tcg_temp_free_i32(t2);
-> +    return true;
-> +}
-> +
-> +static bool trans_sha256sig0(DisasContext *ctx, arg_sha256sig0 *a)
-> +{
-> +    REQUIRE_ZKNH(ctx);
-> +    return gen_sha256(ctx, a, EXT_NONE, tcg_gen_shri_i32, 7, 18, 3);
-> +}
-> +
-> +static bool trans_sha256sig1(DisasContext *ctx, arg_sha256sig1 *a)
-> +{
-> +    REQUIRE_ZKNH(ctx);
-> +    return gen_sha256(ctx, a, EXT_NONE, tcg_gen_shri_i32, 17, 19, 10);
-> +}
-> +
-> +static bool trans_sha256sum0(DisasContext *ctx, arg_sha256sum0 *a)
-> +{
-> +    REQUIRE_ZKNH(ctx);
-> +    return gen_sha256(ctx, a, EXT_NONE, tcg_gen_rotri_i32, 2, 13, 22);
-> +}
-> +
-> +static bool trans_sha256sum1(DisasContext *ctx, arg_sha256sum1 *a)
-> +{
-> +    REQUIRE_ZKNH(ctx);
-> +    return gen_sha256(ctx, a, EXT_NONE, tcg_gen_rotri_i32, 6, 11, 25);
-> +}
-> --
-> 2.17.1
->
->
 
