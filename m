@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 738084D59C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 05:45:57 +0100 (CET)
-Received: from localhost ([::1]:35696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E334D5A28
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 05:59:06 +0100 (CET)
+Received: from localhost ([::1]:38560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSXA4-00014u-0u
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 23:45:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35172)
+	id 1nSXMm-0003y2-GI
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 23:59:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nSX8Q-0000OR-MY
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 23:44:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22258)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nSX8M-0003pL-Ny
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 23:44:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646973848;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=u1sGsBtavNy6e3uzcZSoErW6YrIPiiEOqMhoGq2/wJM=;
- b=JyGfYYxXqh60aNgSrIkXwll3NLpb7npN5VHK4kWKgATg23stfDZcFJJovy/l+cT5ggAlge
- LxycaEMEWFaW7dmyWso3fHmMVNH8raZoVAvWA8RoIg9o+HoTZGRpgSEaDRcqNwMvIUgUAJ
- xUbyeRFQQYAXFLKJYS+uEFYM06XiDZc=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-trCjWC_iO4mr4mTLXLnN7A-1; Thu, 10 Mar 2022 23:44:05 -0500
-X-MC-Unique: trCjWC_iO4mr4mTLXLnN7A-1
-Received: by mail-lf1-f71.google.com with SMTP id
- u2-20020a056512128200b004484c08894aso2660625lfs.12
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 20:44:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=u1sGsBtavNy6e3uzcZSoErW6YrIPiiEOqMhoGq2/wJM=;
- b=KPHaiYy6EX4/1BxIJCWOePP66EztyjypjOVsSPE46Wxq9kdpe/PvWjMadtw8agNkE6
- haLJ79g9f48l2kjAd1cvLP1NY3pRvSpqv3w52rMDg1J2IuO6ynIHhi5Qw1atoDoANCmA
- tutwW8C/SITio3JPAzdn3xQQ5UFCBmWyMaHVlImJrTA72aFGXmiha7SOo6lGPjaXJwJt
- C1YCLRHYymDdH1YyVfv46gwirc0ev7ezNP3p3lkhamrNQ1+pAwycYrdDbfpuuPAc4+E2
- 3MPXMxwdWVEQm92OZ5Z9Ht2FhECcRQ0+RuO5cWJWVPdWSgKNDjIschBv9s2bc64U42Ej
- EsYQ==
-X-Gm-Message-State: AOAM531Rd+uq9snU6CBybfrnfqZB8u1tJYu4H51NYgJ0Z8Tr2vL7vbDG
- HM+bfszx9GFswXPW4pDQKpA2XlZa9V2z3+14cpjQjTDmvk0EjHtokcyXsh2FFtI2cDvgFqsb/7y
- WpMmeHlpG7kf5ABOXmmWZYV6Jiu349JE=
-X-Received: by 2002:a05:6512:ba0:b0:448:60f9:ae45 with SMTP id
- b32-20020a0565120ba000b0044860f9ae45mr4264710lfv.257.1646973843860; 
- Thu, 10 Mar 2022 20:44:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwgTBppi3WDIGGTDsROZGhni10D2BABzhWHHd3dBsqWvvzx73egBjR8CLmUfl0O5EIZpeiA9wLAQ/g1JJzngm0=
-X-Received: by 2002:a05:6512:ba0:b0:448:60f9:ae45 with SMTP id
- b32-20020a0565120ba000b0044860f9ae45mr4264700lfv.257.1646973843613; Thu, 10
- Mar 2022 20:44:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nSXLf-0002mu-2s; Thu, 10 Mar 2022 23:57:56 -0500
+Received: from smtp84.cstnet.cn ([159.226.251.84]:55466 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nSXLc-0000kB-7W; Thu, 10 Mar 2022 23:57:54 -0500
+Received: from [192.168.0.105] (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAC3v9vE1ipiSBXpAg--.35079S2;
+ Fri, 11 Mar 2022 12:57:42 +0800 (CST)
+Subject: Re: [PATCH] target/riscv: write back unmodified value for csrrc/csrrs
+ with rs1 is not x0 but holding zero
+To: Alistair Francis <alistair23@gmail.com>
+References: <20220302122946.29635-1-liweiwei@iscas.ac.cn>
+ <CAKmqyKOgJA49Mc4H=WFN+soxaFKtJc+d+nviKiro7eCdMg7hcA@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <bde533f4-e55d-1058-9cad-6b0aca2fd70d@iscas.ac.cn>
+Date: Fri, 11 Mar 2022 12:57:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20220310023907.2443-1-jasowang@redhat.com>
- <CAFEAcA9gqfve-qdYzP_VrA0=fcCXGnNpFbi82y0AWCRKpAz+-A@mail.gmail.com>
-In-Reply-To: <CAFEAcA9gqfve-qdYzP_VrA0=fcCXGnNpFbi82y0AWCRKpAz+-A@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 11 Mar 2022 12:43:52 +0800
-Message-ID: <CACGkMEsyUvO4YZVkhKpdDPq1YO6Nn6Z9Vqh9xxzuyiWuVTkrUw@mail.gmail.com>
-Subject: Re: [PULL V2 00/15] Net patches
-To: Peter Maydell <peter.maydell@linaro.org>,
- Eugenio Perez Martin <eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000e73cf505d9e9fa7c"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <CAKmqyKOgJA49Mc4H=WFN+soxaFKtJc+d+nviKiro7eCdMg7hcA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: zQCowAC3v9vE1ipiSBXpAg--.35079S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtryxJF4fAry3WF45tr48Crg_yoWxWFWxpr
+ 48Jr1UJryUJr18Gr1UJr1UJryUJr1UJw1UJr1UJF1UJr15Jryjqr1UXr1jgr1UJr48Jr1U
+ JF1jyr1xZr4UJFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
+ IcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0D
+ MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUj0JPtUUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,366 +74,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e73cf505d9e9fa7c
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Mar 11, 2022 at 1:07 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+在 2022/3/11 上午10:58, Alistair Francis 写道:
+> On Wed, Mar 2, 2022 at 11:50 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>>       For csrrs and csrrc, if rs1 specifies a register other than x0, holding
+>>       a zero value, the instruction will still attempt to write the unmodified
+>>       value back to the csr and will cause side effects
+>>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> ---
+>>   target/riscv/csr.c       | 46 ++++++++++++++++++++++++++++------------
+>>   target/riscv/op_helper.c |  7 +++++-
+>>   2 files changed, 39 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index aea82dff4a..f4774ca07b 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -2872,7 +2872,7 @@ static RISCVException write_upmbase(CPURISCVState *env, int csrno,
+>>
+>>   static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>>                                                  int csrno,
+>> -                                               bool write_mask,
+>> +                                               bool write_csr,
+>>                                                  RISCVCPU *cpu)
+>>   {
+>>       /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
+>> @@ -2895,7 +2895,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>   #endif
+>> -    if (write_mask && read_only) {
+>> +    if (write_csr && read_only) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> @@ -2915,7 +2915,8 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>>   static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+>>                                          target_ulong *ret_value,
+>>                                          target_ulong new_value,
+>> -                                       target_ulong write_mask)
+>> +                                       target_ulong write_mask,
+>> +                                       bool write_csr)
+>>   {
+>>       RISCVException ret;
+>>       target_ulong old_value;
+>> @@ -2935,8 +2936,8 @@ static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+>>           return ret;
+>>       }
+>>
+>> -    /* write value if writable and write mask set, otherwise drop writes */
+>> -    if (write_mask) {
+>> +    /* write value if needed, otherwise drop writes */
+>> +    if (write_csr) {
+>>           new_value = (old_value & ~write_mask) | (new_value & write_mask);
+>>           if (csr_ops[csrno].write) {
+>>               ret = csr_ops[csrno].write(env, csrno, new_value);
+>> @@ -2960,18 +2961,27 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+>>   {
+>>       RISCVCPU *cpu = env_archcpu(env);
+>>
+>> -    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu);
+>> +    /*
+>> +     * write value when write_mask is set or rs1 is not x0 but holding zero
+>> +     * value for csrrc(new_value is zero) and csrrs(new_value is all-ones)
+> I don't understand this. Won't write_mask also be zero and when reading?
+>
+> Alistair
+>
+Yeah. It's true. To distinguish only-read operation with the special 
+write case(write_mask = 0), I also modified the new_value of riscv_csrrw 
+from 0 to 1 in helper_csrr :
 
-> On Thu, 10 Mar 2022 at 02:39, Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > The following changes since commit
-> d9ccf33f9479201e5add8db0af68ca9ca8da358b:
-> >
-> >   Merge remote-tracking branch
-> 'remotes/lvivier-gitlab/tags/linux-user-for-7.0-pull-request' into staging
-> (2022-03-09 20:01:17 +0000)
-> >
-> > are available in the git repository at:
-> >
-> >   https://github.com/jasowang/qemu.git tags/net-pull-request
-> >
-> > for you to fetch changes up to eea40402ecf895ed345f8e8eb07dbb484f4542c5:
-> >
-> >   vdpa: Expose VHOST_F_LOG_ALL on SVQ (2022-03-10 10:26:32 +0800)
-> >
-> > ----------------------------------------------------------------
-> >
->
-> Lots of 32-bit compile issues: this is 32-bit arm:
-> https://gitlab.com/qemu-project/qemu/-/jobs/2188500721
-> i386 the same:
-> https://gitlab.com/qemu-project/qemu/-/jobs/2188500747
-> and 32-bit mips:
-> https://gitlab.com/qemu-project/qemu/-/jobs/2188500753
+  target_ulong helper_csrr(CPURISCVState *env, int csr)
+  {
+      target_ulong val = 0;
+-    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0);
++
++    /*
++     * new_value here should be none-zero or none-all-ones here to
++     * distinguish with csrrc/csrrs with rs1 is not x0 but holding zero value
++     */
++    RISCVException ret = riscv_csrrw(env, csr, &val, 1, 0);
+
+      if (ret != RISCV_EXCP_NONE) {
+          riscv_raise_exception(env, ret, GETPC());
 
 
-Eugenio, please fix those warnings and send a new version.
+After modification, the cases for all csr related instructions is as follows:
 
-Thanks
+index     instruction                   helper write_mask      
+new_value        Read/Write     write_csr
+
+1              csrrw                         csrrw/csrw all-ones         
+         src1 (R)W                 true
+
+2             csrrs(rs1=0) csrr                      zero 
+1                           R                      false
+
+3              csrrs(rs1!=0)               csrrw                   src1 
+                  all-ones RW                   true
+
+4              csrrs(rs1=0) csrr                     zero 
+1                           R                     false
+
+5              csrrc(rs1!=0)               csrrw                   src1 
+                       zero                     RW                  true
+
+6              csrrc(rs1=0) csrr                      zero 
+1                           R                    false
+
+7              csrrwi                     csrrw/csrw 
+all-ones                rs1 (R)W                  true
+
+8              csrrsi(rs1=0) csrr                      zero 
+1                           R                    false
+
+9              csrrsi(rs1!=0)               csrrw                    rs1 
+                  all-ones RW                   true
+
+10           csrrci(rs1=0) csrr                      zero 
+1                           R                    false
+
+11           csrrci(rs1!=0)               csrrw                    rs1 
+                         zero                   RW                    true
 
 
->
->
-> ../hw/virtio/vhost-shadow-virtqueue.c: In function
-> 'vhost_svq_valid_features':
-> ../hw/virtio/vhost-shadow-virtqueue.c:43:28: error: passing argument 2
-> of 'set_bit' from incompatible pointer type
-> [-Werror=incompatible-pointer-types]
-> set_bit(b, &svq_features);
-> ^~~~~~~~~~~~~
-> In file included from /builds/qemu-project/qemu/include/qemu/bitmap.h:16,
-> from /builds/qemu-project/qemu/include/hw/qdev-core.h:5,
-> from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:18,
-> from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,
-> from ../hw/virtio/vhost-shadow-virtqueue.c:11:
-> /builds/qemu-project/qemu/include/qemu/bitops.h:36:52: note: expected
-> 'long unsigned int *' but argument is of type 'uint64_t *' {aka 'long
-> long unsigned int *'}
-> static inline void set_bit(long nr, unsigned long *addr)
-> ~~~~~~~~~~~~~~~^~~~
-> ../hw/virtio/vhost-shadow-virtqueue.c:50:30: error: passing argument 2
-> of 'clear_bit' from incompatible pointer type
-> [-Werror=incompatible-pointer-types]
-> clear_bit(b, &svq_features);
-> ^~~~~~~~~~~~~
-> In file included from /builds/qemu-project/qemu/include/qemu/bitmap.h:16,
-> from /builds/qemu-project/qemu/include/hw/qdev-core.h:5,
-> from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:18,
-> from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,
-> from ../hw/virtio/vhost-shadow-virtqueue.c:11:
-> /builds/qemu-project/qemu/include/qemu/bitops.h:62:54: note: expected
-> 'long unsigned int *' but argument is of type 'uint64_t *' {aka 'long
-> long unsigned int *'}
-> static inline void clear_bit(long nr, unsigned long *addr)
-> ~~~~~~~~~~~~~~~^~~~
-> ../hw/virtio/vhost-shadow-virtqueue.c: In function
-> 'vhost_svq_translate_addr':
-> ../hw/virtio/vhost-shadow-virtqueue.c:91:32: error: cast from pointer
-> to integer of different size [-Werror=pointer-to-int-cast]
-> .translated_addr = (hwaddr)iovec[i].iov_base,
-> ^
-> ../hw/virtio/vhost-shadow-virtqueue.c:109:20: error: cast to pointer
-> from integer of different size [-Werror=int-to-pointer-cast]
-> addrs[i] = (void *)(map->iova + off);
-> ^
-> In file included from /builds/qemu-project/qemu/include/qemu/osdep.h:37,
-> from ../hw/virtio/vhost-shadow-virtqueue.c:10:
-> ../hw/virtio/vhost-shadow-virtqueue.c:111:49: error: incompatible type
-> for argument 1 of 'int128_add'
-> if (unlikely(int128_gt(int128_add(needle.translated_addr,
-> ~~~~~~^~~~~~~~~~~~~~~~
-> /builds/qemu-project/qemu/include/qemu/compiler.h:43:43: note: in
-> definition of macro 'unlikely'
-> #define unlikely(x) __builtin_expect(!!(x), 0)
-> ^
-> In file included from /builds/qemu-project/qemu/include/exec/memory.h:26,
-> from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:17,
-> from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,
-> from ../hw/virtio/vhost-shadow-virtqueue.c:11:
-> /builds/qemu-project/qemu/include/qemu/int128.h:313:40: note: expected
-> 'Int128' {aka 'struct Int128'} but argument is of type 'hwaddr' {aka
-> 'long long unsigned int'}
-> static inline Int128 int128_add(Int128 a, Int128 b)
-> ~~~~~~~^
-> In file included from /builds/qemu-project/qemu/include/qemu/osdep.h:37,
-> from ../hw/virtio/vhost-shadow-virtqueue.c:10:
-> ../hw/virtio/vhost-shadow-virtqueue.c:112:51: error: incompatible type
-> for argument 2 of 'int128_add'
-> iovec[i].iov_len),
-> ~~~~~~~~^~~~~~~~
-> /builds/qemu-project/qemu/include/qemu/compiler.h:43:43: note: in
-> definition of macro 'unlikely'
-> #define unlikely(x) __builtin_expect(!!(x), 0)
-> ^
-> In file included from /builds/qemu-project/qemu/include/exec/memory.h:26,
-> from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:17,
-> from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,
-> from ../hw/virtio/vhost-shadow-virtqueue.c:11:
-> /builds/qemu-project/qemu/include/qemu/int128.h:313:50: note: expected
-> 'Int128' {aka 'struct Int128'} but argument is of type 'size_t' {aka
-> 'const unsigned int'}
-> static inline Int128 int128_add(Int128 a, Int128 b)
-> ~~~~~~~^
-> In file included from /builds/qemu-project/qemu/include/qemu/osdep.h:37,
-> from ../hw/virtio/vhost-shadow-virtqueue.c:10:
-> ../hw/virtio/vhost-shadow-virtqueue.c:113:53: error: incompatible type
-> for argument 2 of 'int128_gt'
-> map->translated_addr + map->size))) {
-> ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-> /builds/qemu-project/qemu/include/qemu/compiler.h:43:43: note: in
-> definition of macro 'unlikely'
-> #define unlikely(x) __builtin_expect(!!(x), 0)
-> ^
-> In file included from /builds/qemu-project/qemu/include/exec/memory.h:26,
-> from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:17,
-> from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,
-> from ../hw/virtio/vhost-shadow-virtqueue.c:11:
-> /builds/qemu-project/qemu/include/qemu/int128.h:367:47: note: expected
-> 'Int128' {aka 'struct Int128'} but argument is of type 'long long
-> unsigned int'
-> static inline bool int128_gt(Int128 a, Int128 b)
-> ~~~~~~~^
-> ../hw/virtio/vhost-shadow-virtqueue.c: In function
-> 'vhost_vring_write_descs':
-> ../hw/virtio/vhost-shadow-virtqueue.c:143:37: error: cast from pointer
-> to integer of different size [-Werror=pointer-to-int-cast]
-> descs[i].addr = cpu_to_le64((hwaddr)sg[n]);
-> ^
-> ../hw/virtio/vhost-shadow-virtqueue.c: In function
-> 'vhost_svq_get_vring_addr':
-> ../hw/virtio/vhost-shadow-virtqueue.c:465:28: error: cast from pointer
-> to integer of different size [-Werror=pointer-to-int-cast]
-> addr->desc_user_addr = (uint64_t)svq->vring.desc;
-> ^
-> ../hw/virtio/vhost-shadow-virtqueue.c:466:29: error: cast from pointer
-> to integer of different size [-Werror=pointer-to-int-cast]
-> addr->avail_user_addr = (uint64_t)svq->vring.avail;
-> ^
-> ../hw/virtio/vhost-shadow-virtqueue.c:467:28: error: cast from pointer
-> to integer of different size [-Werror=pointer-to-int-cast]
-> addr->used_user_addr = (uint64_t)svq->vring.used;
-> ^
-> cc1: all warnings being treated as errors
->
->
-> -- PMM
->
->
+Only row 3 and 5 can be Write-operation with write_mask = 0 when src1 = 
+0.  And it's the special case will be identified by :
 
---000000000000e73cf505d9e9fa7c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+((write_mask == 0) && ((new_value == 0) || (new_value == (target_ulong)-1)));
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 11, 2022 at 1:07 AM Peter=
- Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Thu, 10 Mar 2022 at 02:39, Jason Wang &lt;<a href=3D"mailto:jasowa=
-ng@redhat.com" target=3D"_blank">jasowang@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; The following changes since commit d9ccf33f9479201e5add8db0af68ca9ca8d=
-a358b:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0Merge remote-tracking branch &#39;remotes/lvivier-gitlab/t=
-ags/linux-user-for-7.0-pull-request&#39; into staging (2022-03-09 20:01:17 =
-+0000)<br>
-&gt;<br>
-&gt; are available in the git repository at:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0<a href=3D"https://github.com/jasowang/qemu.git" rel=3D"no=
-referrer" target=3D"_blank">https://github.com/jasowang/qemu.git</a> tags/n=
-et-pull-request<br>
-&gt;<br>
-&gt; for you to fetch changes up to eea40402ecf895ed345f8e8eb07dbb484f4542c=
-5:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0vdpa: Expose VHOST_F_LOG_ALL on SVQ (2022-03-10 10:26:32 +=
-0800)<br>
-&gt;<br>
-&gt; ----------------------------------------------------------------<br>
-&gt;<br>
-<br>
-Lots of 32-bit compile issues: this is 32-bit arm:<br>
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/2188500721" rel=3D"n=
-oreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jobs/21=
-88500721</a><br>
-i386 the same:<br>
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/2188500747" rel=3D"n=
-oreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jobs/21=
-88500747</a><br>
-and 32-bit mips:<br>
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/2188500753" rel=3D"n=
-oreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jobs/21=
-88500753</a></blockquote><div><br></div><div>Eugenio, please fix those warn=
-ings and send a new version.</div><div><br></div><div>Thanks</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-../hw/virtio/vhost-shadow-virtqueue.c: In function &#39;vhost_svq_valid_fea=
-tures&#39;:<br>
-../hw/virtio/vhost-shadow-virtqueue.c:43:28: error: passing argument 2<br>
-of &#39;set_bit&#39; from incompatible pointer type<br>
-[-Werror=3Dincompatible-pointer-types]<br>
-set_bit(b, &amp;svq_features);<br>
-^~~~~~~~~~~~~<br>
-In file included from /builds/qemu-project/qemu/include/qemu/bitmap.h:16,<b=
-r>
-from /builds/qemu-project/qemu/include/hw/qdev-core.h:5,<br>
-from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:18,<br>
-from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,<br>
-from ../hw/virtio/vhost-shadow-virtqueue.c:11:<br>
-/builds/qemu-project/qemu/include/qemu/bitops.h:36:52: note: expected<br>
-&#39;long unsigned int *&#39; but argument is of type &#39;uint64_t *&#39; =
-{aka &#39;long<br>
-long unsigned int *&#39;}<br>
-static inline void set_bit(long nr, unsigned long *addr)<br>
-~~~~~~~~~~~~~~~^~~~<br>
-../hw/virtio/vhost-shadow-virtqueue.c:50:30: error: passing argument 2<br>
-of &#39;clear_bit&#39; from incompatible pointer type<br>
-[-Werror=3Dincompatible-pointer-types]<br>
-clear_bit(b, &amp;svq_features);<br>
-^~~~~~~~~~~~~<br>
-In file included from /builds/qemu-project/qemu/include/qemu/bitmap.h:16,<b=
-r>
-from /builds/qemu-project/qemu/include/hw/qdev-core.h:5,<br>
-from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:18,<br>
-from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,<br>
-from ../hw/virtio/vhost-shadow-virtqueue.c:11:<br>
-/builds/qemu-project/qemu/include/qemu/bitops.h:62:54: note: expected<br>
-&#39;long unsigned int *&#39; but argument is of type &#39;uint64_t *&#39; =
-{aka &#39;long<br>
-long unsigned int *&#39;}<br>
-static inline void clear_bit(long nr, unsigned long *addr)<br>
-~~~~~~~~~~~~~~~^~~~<br>
-../hw/virtio/vhost-shadow-virtqueue.c: In function &#39;vhost_svq_translate=
-_addr&#39;:<br>
-../hw/virtio/vhost-shadow-virtqueue.c:91:32: error: cast from pointer<br>
-to integer of different size [-Werror=3Dpointer-to-int-cast]<br>
-.translated_addr =3D (hwaddr)iovec[i].iov_base,<br>
-^<br>
-../hw/virtio/vhost-shadow-virtqueue.c:109:20: error: cast to pointer<br>
-from integer of different size [-Werror=3Dint-to-pointer-cast]<br>
-addrs[i] =3D (void *)(map-&gt;iova + off);<br>
-^<br>
-In file included from /builds/qemu-project/qemu/include/qemu/osdep.h:37,<br=
->
-from ../hw/virtio/vhost-shadow-virtqueue.c:10:<br>
-../hw/virtio/vhost-shadow-virtqueue.c:111:49: error: incompatible type<br>
-for argument 1 of &#39;int128_add&#39;<br>
-if (unlikely(int128_gt(int128_add(needle.translated_addr,<br>
-~~~~~~^~~~~~~~~~~~~~~~<br>
-/builds/qemu-project/qemu/include/qemu/compiler.h:43:43: note: in<br>
-definition of macro &#39;unlikely&#39;<br>
-#define unlikely(x) __builtin_expect(!!(x), 0)<br>
-^<br>
-In file included from /builds/qemu-project/qemu/include/exec/memory.h:26,<b=
-r>
-from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:17,<br>
-from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,<br>
-from ../hw/virtio/vhost-shadow-virtqueue.c:11:<br>
-/builds/qemu-project/qemu/include/qemu/int128.h:313:40: note: expected<br>
-&#39;Int128&#39; {aka &#39;struct Int128&#39;} but argument is of type &#39=
-;hwaddr&#39; {aka<br>
-&#39;long long unsigned int&#39;}<br>
-static inline Int128 int128_add(Int128 a, Int128 b)<br>
-~~~~~~~^<br>
-In file included from /builds/qemu-project/qemu/include/qemu/osdep.h:37,<br=
->
-from ../hw/virtio/vhost-shadow-virtqueue.c:10:<br>
-../hw/virtio/vhost-shadow-virtqueue.c:112:51: error: incompatible type<br>
-for argument 2 of &#39;int128_add&#39;<br>
-iovec[i].iov_len),<br>
-~~~~~~~~^~~~~~~~<br>
-/builds/qemu-project/qemu/include/qemu/compiler.h:43:43: note: in<br>
-definition of macro &#39;unlikely&#39;<br>
-#define unlikely(x) __builtin_expect(!!(x), 0)<br>
-^<br>
-In file included from /builds/qemu-project/qemu/include/exec/memory.h:26,<b=
-r>
-from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:17,<br>
-from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,<br>
-from ../hw/virtio/vhost-shadow-virtqueue.c:11:<br>
-/builds/qemu-project/qemu/include/qemu/int128.h:313:50: note: expected<br>
-&#39;Int128&#39; {aka &#39;struct Int128&#39;} but argument is of type &#39=
-;size_t&#39; {aka<br>
-&#39;const unsigned int&#39;}<br>
-static inline Int128 int128_add(Int128 a, Int128 b)<br>
-~~~~~~~^<br>
-In file included from /builds/qemu-project/qemu/include/qemu/osdep.h:37,<br=
->
-from ../hw/virtio/vhost-shadow-virtqueue.c:10:<br>
-../hw/virtio/vhost-shadow-virtqueue.c:113:53: error: incompatible type<br>
-for argument 2 of &#39;int128_gt&#39;<br>
-map-&gt;translated_addr + map-&gt;size))) {<br>
-~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~<br>
-/builds/qemu-project/qemu/include/qemu/compiler.h:43:43: note: in<br>
-definition of macro &#39;unlikely&#39;<br>
-#define unlikely(x) __builtin_expect(!!(x), 0)<br>
-^<br>
-In file included from /builds/qemu-project/qemu/include/exec/memory.h:26,<b=
-r>
-from /builds/qemu-project/qemu/include/hw/virtio/virtio.h:17,<br>
-from /builds/qemu-project/qemu/hw/virtio/vhost-shadow-virtqueue.h:14,<br>
-from ../hw/virtio/vhost-shadow-virtqueue.c:11:<br>
-/builds/qemu-project/qemu/include/qemu/int128.h:367:47: note: expected<br>
-&#39;Int128&#39; {aka &#39;struct Int128&#39;} but argument is of type &#39=
-;long long<br>
-unsigned int&#39;<br>
-static inline bool int128_gt(Int128 a, Int128 b)<br>
-~~~~~~~^<br>
-../hw/virtio/vhost-shadow-virtqueue.c: In function &#39;vhost_vring_write_d=
-escs&#39;:<br>
-../hw/virtio/vhost-shadow-virtqueue.c:143:37: error: cast from pointer<br>
-to integer of different size [-Werror=3Dpointer-to-int-cast]<br>
-descs[i].addr =3D cpu_to_le64((hwaddr)sg[n]);<br>
-^<br>
-../hw/virtio/vhost-shadow-virtqueue.c: In function &#39;vhost_svq_get_vring=
-_addr&#39;:<br>
-../hw/virtio/vhost-shadow-virtqueue.c:465:28: error: cast from pointer<br>
-to integer of different size [-Werror=3Dpointer-to-int-cast]<br>
-addr-&gt;desc_user_addr =3D (uint64_t)svq-&gt;vring.desc;<br>
-^<br>
-../hw/virtio/vhost-shadow-virtqueue.c:466:29: error: cast from pointer<br>
-to integer of different size [-Werror=3Dpointer-to-int-cast]<br>
-addr-&gt;avail_user_addr =3D (uint64_t)svq-&gt;vring.avail;<br>
-^<br>
-../hw/virtio/vhost-shadow-virtqueue.c:467:28: error: cast from pointer<br>
-to integer of different size [-Werror=3Dpointer-to-int-cast]<br>
-addr-&gt;used_user_addr =3D (uint64_t)svq-&gt;vring.used;<br>
-^<br>
-cc1: all warnings being treated as errors<br>
-<br>
-<br>
--- PMM<br>
-<br>
-</blockquote></div></div>
+for other only-read instructions, the write_mask is zero, but the new_value is changed to 1 (none-zero and none-all-ones), so they will make write_csr to be false.
 
---000000000000e73cf505d9e9fa7c--
+Regards,
+Weiwei Li
+
+>> +     */
+>> +    bool write_csr = write_mask || ((write_mask == 0) &&
+>> +                                    ((new_value == 0) ||
+>> +                                     (new_value == (target_ulong)-1)));
+>> +
+>>
+>> --
+>> 2.17.1
+>>
+>>
 
 
