@@ -2,100 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0E14D6412
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 15:47:30 +0100 (CET)
-Received: from localhost ([::1]:59324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F4A4D6465
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 16:16:52 +0100 (CET)
+Received: from localhost ([::1]:48334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSgYD-0002Lm-7v
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 09:47:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47952)
+	id 1nSh0X-00056z-78
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 10:16:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nSgWt-0001Sc-6y; Fri, 11 Mar 2022 09:46:07 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37744)
+ (Exim 4.90_1) (envelope-from
+ <BATV+2e0eb6378acbfab39836+6774+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1nSgjH-0000j6-1a
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 09:58:55 -0500
+Received: from casper.infradead.org ([90.155.50.34]:42458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1nSgWo-0005SC-Ez; Fri, 11 Mar 2022 09:46:06 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22BE9vVa029623; 
- Fri, 11 Mar 2022 14:45:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- mime-version; s=pp1; bh=LdjDx3yONPcNm6p95PySs2FqcxQ6PZJJgmsrZX3Nk+E=;
- b=gT2CGqZSzT6TOQuro2qzkWjY6gIu3Wx+YtusCL3cmu1rbJFm5Q6i95CG2ik25OSK9ijs
- humpRAApifh9MKsO1Ri2qQyfW1HespuPgXfZa3hisPZXc0zmimntRn5BipvCpHn2FB8Q
- C1vHTLspa0+wSG1g9+E0cJdAldf+HeUT244+XhsPPJ/eD422s4OCcY6BhX74KkOYcOek
- adlKutOwSsw3caoc7+CsAMGaU+Wlr0dCWFhYwBL1OoOafqittOts1MvFyRZbX723x1dG
- 4Rr0pdHBO+patcRkCqPM0Mo9JO1sysNxgb3eILEPCEADlgvQoe2i/2iZ4m6st4wilb1s jA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eqnccwwdu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Mar 2022 14:45:49 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22BEiHif007729;
- Fri, 11 Mar 2022 14:45:48 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3eqnccwwdm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Mar 2022 14:45:48 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22BEjNXw003562;
- Fri, 11 Mar 2022 14:45:47 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04dal.us.ibm.com with ESMTP id 3epb9d1r7s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Mar 2022 14:45:47 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22BEjk7724772900
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 11 Mar 2022 14:45:46 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 84094BE058;
- Fri, 11 Mar 2022 14:45:46 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E0CE9BE059;
- Fri, 11 Mar 2022 14:45:45 +0000 (GMT)
-Received: from localhost (unknown [9.163.19.144])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Fri, 11 Mar 2022 14:45:45 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH 1/2] spapr: Report correct GTSE support via ov5
-In-Reply-To: <d9cb6b05-9c06-8081-ee7f-a44f3a85848b@gmail.com>
-References: <20220309012400.2527157-1-farosas@linux.ibm.com>
- <d9cb6b05-9c06-8081-ee7f-a44f3a85848b@gmail.com>
-Date: Fri, 11 Mar 2022 11:45:44 -0300
-Message-ID: <87o82c35uv.fsf@linux.ibm.com>
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: peyFMYTxlrjlno_ATHEQGMhrBMHqcuYR
-X-Proofpoint-GUID: 1_8_Z0VxUzyTaEVdHQDm9efqwEzWj72k
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from
+ <BATV+2e0eb6378acbfab39836+6774+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1nSgjE-0001GI-7o
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 09:58:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=ihlS29DXin8Jn5Fdy47LRNYz7ylmK7RKDdvALLFPJdE=; b=UpJlqlnjwQGm8ujBJtS7Hj5o/G
+ ZxY7BrBPJzumybX7QrKhEWv+k/XqxJDClL1hAtIl3uSHmIsuVmY6SpprYv2chxsbJMFJeal2L9Wjz
+ jIN5HJLnZvrMutgDgLFT6Df5dPx3zLDjMiRQCyyVwxriqCbqaZ+gnfahyGl55WewiQDdDV9rGzOYA
+ 4wGRtN3tBw2/cEO3uRMVo79Y/3QwZ/y7m3q9aaw53S5JjpCmwSxPfjb7uNT9/GVBRomEIf/NTH28n
+ oJHAV56/H9qXLEfZPanZ4oRbqZCqQR6PL1zfS8o4tfzm+VszPwfLFBG8vDA0pR0zWMOYvm7QYL4WB
+ 2uzsXzLg==;
+Received: from [2001:8b0:10b:1::3ae] (helo=u3832b3a9db3152.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nSgj4-001eXs-Sf; Fri, 11 Mar 2022 14:58:42 +0000
+Message-ID: <8d4912d595bcaca36013e22060c22c1bfe3c44c1.camel@infradead.org>
+Subject: Re: [PATCH] x86: q35: require split irqchip for large CPU count
+From: David Woodhouse <dwmw2@infradead.org>
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+Date: Fri, 11 Mar 2022 14:58:41 +0000
+In-Reply-To: <20220311143901.96481-1-imammedo@redhat.com>
+References: <20220311143901.96481-1-imammedo@redhat.com>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-fbDnesVMmXMIKirEARek"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-11_06,2022-03-11_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- lowpriorityscore=0 adultscore=0 clxscore=1015 priorityscore=1501
- impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203110071
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=90.155.50.34;
+ envelope-from=BATV+2e0eb6378acbfab39836+6774+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,125 +69,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aneesh.kumar@linux.ibm.com, qemu-ppc@nongnu.org, clg@kaod.org,
- npiggin@gmail.com, david@gibson.dropbear.id.au
+Cc: pbonzini@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel Henrique Barboza <danielhb413@gmail.com> writes:
 
-> On 3/8/22 22:23, Fabiano Rosas wrote:
->> QEMU reports MMU support to the guest via the ibm,architecture-vec-5
->> property of the /chosen node. Byte number 26 specifies Radix Table
->> Expansions, currently only GTSE (Guest Translation Shootdown
->> Enable). This feature determines whether the tlbie instruction (and
->> others) are HV privileged.
->> 
->> Up until now, we always reported GTSE=1 to guests. Even after the
->> support for GTSE=0 was added. As part of that support, a kernel
->> command line radix_hcall_invalidate=on was introduced that overrides
->> the GTSE value received via CAS. So a guest can run with GTSE=0 and
->> use the H_RPT_INVALIDATE hcall instead of tlbie.
->> 
->> In this scenario, having GTSE always set to 1 by QEMU leads to a crash
->> when running nested KVM guests because KVM does not allow a nested
->> hypervisor to set GTSE support for its nested guests. So a nested
->> guest always uses the same value for LPCR_GTSE as its HV. Since the
->> nested HV disabled GTSE, but the L2 QEMU always reports GTSE=1, we run
->> into a crash when:
->> 
->> L1 LPCR_GTSE=0
->> L2 LPCR_GTSE=0
->> L2 CAS GTSE=1
->> 
->> The nested guest will run 'tlbie' and crash because the HW looks at
->> LPCR_GTSE, which is clear.
->> 
->> Having GTSE disabled in the L1 and enabled in the L2 is not an option
->> because the whole purpose of GTSE is to disallow access to tlbie and
->> we cannot allow L1 to spawn L2s that can access features that L1
->> itself cannot.
->> 
->> We also cannot have the guest check the LPCR bit, because LPCR is
->> HV-privileged.
->> 
->> So this patch goes through the most intuitive route which is to have
->> QEMU ask KVM about GTSE support and advertise the correct value to the
->> guest. A new KVM_CAP_PPC_GTSE capability is being added.
->> 
->> TCG continues to always enable GTSE.
->> 
->> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->> ---
->
->
-> I'm not sure if I fully understood the situation, so let me recap. Once upon a time,
-> QEMU advertised GTSE=1 and the host would never advertise other value, and everyone
-> was happy.
->
-> The host started to support GTSE=0, but QEMU kept advertising GTSE=1 regardless, and no
-> KVM GTSE cap was added to reflect the host support. I'll then assume that:
->
->
-> - all guests would break if running in a GTSE=0 host prior to rpt_invalidate support (which
-> is necessary to allow the guest to run in GTSE=0)
->
-> - apparently no one ever tried to run a KVM guest in a GTSE=0 host, so no bugs were opened
+--=-fbDnesVMmXMIKirEARek
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There's a slight misconception in the above statements which is the
-separation of QEMU vs. the host. GTSE is advertised via CAS, so the
-guest on one side and the HV on the other. QEMU is not merely
-advertising what the host GTSE value is, QEMU *is* the host.
+On Fri, 2022-03-11 at 09:39 -0500, Igor Mammedov wrote:
+> if VM is started with:
+>=20
+>    -enable-kvm -smp 256
+>=20
+> without specifying 'split' irqchip, VM might eventually boot
+> but no more than 255 CPUs will be operational and following
+> error messages in guest could be observed:
+>    ...
+>    smpboot: native_cpu_up: bad cpu 256
+>    ...
+> It's a regression introduced by [1], which removed dependency
+> on intremap=3Don that were implicitly requiring 'split' irqchip
+> and forgot to check for 'split' irqchip.
+> Instead of letting VM boot a broken VM, error out and tell
+> user how to fix CLI.
 
-Now, of course we could have done this in a way that QEMU asked the
-kernel what GTSE value to use, but since we always thought of GTSE as
-required for Radix, that was would have been useless. No HV ever
-reported GTSE=0 via CAS, either PowerVM or QEMU/KVM, so having the value
-hardcoded in QEMU and in the kernel was never an issue.
+Hm, wasn't that already fixed in the patches I posted in December?
 
-> After commit 82123b756a1a2f1 (target/ppc: Support for H_RPT_INVALIDATE hcall) we added
-> cap-rpt-invalidate. I didn't follow the discussions of this cap but it seems like, as with
-> almost every other cap we have, there would be a migration problem for a guest that was in
-> a rpt_invalidate aware host to migrate to another where this wouldn't be true, and the cap
-> solves that.
 
-Yes, cap-rpt-invalidate works just as we would expect. When I mentioned
-to you in private about migration I meant the kernel-side change:
+--=-fbDnesVMmXMIKirEARek
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-https://git.kernel.org/torvalds/c/bf6b7661f41615
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIwMzExMTQ1ODQyWjAvBgkqhkiG9w0BCQQxIgQgkXkYCGGL
+lBatU7qa8yfRf7zMH9HBrWj+NybT5CtElDQwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCMIntvfwz4FrrYJVvaFNQc/cLM7W4GCGMt
+pAeNTNT8BgBhhTMO3ox7eLIhLZ4lphgeZH/TL9QLuVNpFEWejv2u+Un4qeLvybJDBznp10rZMhXM
+Em0UuyZ/8pYDlI7CQWCuihbvLpFXun3GW5fF+GWV+FMW+klVZ1ehtByoE4sGrJJrrrN4wbUmNsry
+pVtYI1Msy+plq8+KjKsSEZNbgXRWOSEsvNPyar7PCz9gxy9B2MHAK+e82Q1KnWWfMdvZXnpChmfB
+9kPaioM2xLd8w0IAG2uxn7Gdpbq3jjjP9JcDDDatNH0NPdH0LBVRfOLMkMM+JWNInMJJ5+FALtCj
+VS00T2usNUyKSqZpRk72JwawK/mbxUZR2jBVfY+UFQgycqqaMZJYBtFldWd0Ze3dO3bxjIXvFJpG
+Y0YV4bSFYHl+wqg1jjfBnKjoztOJ5fWQAs3FBj8ZnhHuPzMHgzdl/GM3zliiHbLbaJBmW6KshMq+
+pBBo60/UPqk9NwnC4ciEAjHMNrWlG/5ZM0g74nWp7CsN/8uHojoTQFgCswuAQTyuB1z9IXm+BCJ5
+b82u8dEP/5oC6tEqV3VZAofffVKR9hQRco8ktbB4661Eb1hTEOK9GhmBVcHTTFvX+NdofhR34JVD
+G0mfFrITyfgHjqxXlk96Su85pWFi8qhfW7+lPxY6FgAAAAAAAA==
 
-What that change does is add a kernel cmdline option to allow the kernel
-to disable GTSE even when running along with an HV that allows GTSE.
 
-> What I'm not following is why, even after having cap-rpt-invalidate, we are still "lying"
-> about the GTSE=1 regardless of what the host supports. We could've added the GTSE KVM cap
-> at the same time rpt_invalidate was introduced, and guests that want to ignore this setting
-> can use the cap to bypass it.
+--=-fbDnesVMmXMIKirEARek--
 
-We're still reporting GTSE=1 because that is a design decision from
-Linux/KVM. The work to support GTSE=0 was just adding the support, not
-deciding whether we should disable GTSE. So QEMU/kernel kept hardcoding
-the value without issue.
-
-> In the end this patch is a needed fix IMHO. My confusion is why we're doing this just now.
-
-The bug only surfaces when we run an L1 guest that decided to disable
-GTSE via kernel cmdline and a nested guest on top of it. The QEMU inside
-the L1 continues to force GTSE=1 as always. That is why the capability
-now seem so compelling when previously it might have not.
-
-> The patch itself LGTM.
-
-Unfortunately, this patch as it is cannot work. We always ran with
-GTSE=1 so any kernel that does not know about CAP_GTSE will report
-GTSE=0 and break any guest that is older than the initial H_RPT
-enablement. And the trick of checking for cap-rpt-invalidate first does
-not always work because there's a window between when that cap was added
-and now.
-
-So what I am going to do is to change the kernel side to always report
-values different than 0 so that QEMU can use the 0 value to
-unequivocally tell older kernels apart from ones that disable the
-feature. That way we will continue to send GTSE=1 via CAS when KVM is
-too old.
 
