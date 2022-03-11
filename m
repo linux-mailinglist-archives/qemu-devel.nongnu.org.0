@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F494D692A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 20:43:23 +0100 (CET)
-Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2E34D692C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 20:43:59 +0100 (CET)
+Received: from localhost ([::1]:41648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSlAX-0002P4-Tr
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 14:43:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55770)
+	id 1nSlB8-00033X-PA
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 14:43:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSl7u-0000ed-W0
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 14:40:39 -0500
-Received: from [2607:f8b0:4864:20::635] (port=38435
- helo=mail-pl1-x635.google.com)
+ id 1nSl8t-0001VM-T0
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 14:41:40 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=39806
+ helo=mail-pj1-x102a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSl7t-0007fX-E9
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 14:40:38 -0500
-Received: by mail-pl1-x635.google.com with SMTP id n18so5811467plg.5
- for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 11:40:36 -0800 (PST)
+ id 1nSl8s-0007kW-F5
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 14:41:39 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ mr24-20020a17090b239800b001bf0a375440so11946043pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 11:41:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=uB3cOPdTVSaEFJNKrtqZlo87hT/sMt7iDUZgZ61GsV4=;
- b=Spzcpt8CLLmOOtRsxS7RNnci2qSQ87DCRRzLK1CVP3Fmrrp3LieMHk42EtPOdd3gJx
- 5ajKUjSBFvsQrrWQ141qz2kx8TpkSkXqHkvsLDncQGiCER65mSpk05IrIJbIlLRn9DH8
- NlSSemux1pefFWNKB11xbREy8IM0VVt/4zOVKt93pm1d0rQ8Td0eMHW+ACWvN8uZzEAL
- XVHvETBcHgITchGzk/WenN2EGEvIOt8+klq28Aa3RvpO4mL1I4qecpvFgHVM9RKEk6YE
- Yl6VEOtDe7zwVZ+szv33ZXgIJfw3v8gW66ujrkjOEfEfE7gDq2r7hV+kQP96MgoHqNDc
- ZuVg==
+ bh=JtflmEVuKWeMD8q+pW6jlGFp7yVRUVZn0LtjAO2YjrQ=;
+ b=DfjZX/RqYucKPzVWiATuB+7YMPmtZjAtAIR8t0i4pd56lVNdXijhtoexzG1SvIsBoS
+ /H3uXjMUMpTa4Lgurrs0rHJh3GUjAcHpqYjOtDW/Yg3q0O1WhjJpMeVsRToQQBdmYvlC
+ lcBE2WlFpr2RXdSR4j6bKOxAFFqMBl5+KLRoNKtpmjkTIf/fkN/DuJg702lwirTHWKC6
+ 6ZzlHZAfhJzkwH4FVK3vdhLdoTZDqWHPEpvZ8PunIsO1MtdrGUMOUrSbe6hRJAIKJjY6
+ 6ykHjnRhX26/WhFTCPjFTrb6JtKdLUDkqiXW7A1wYjxtzEy6v0NdgAVtpSQhMhK+tLNk
+ 8CFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uB3cOPdTVSaEFJNKrtqZlo87hT/sMt7iDUZgZ61GsV4=;
- b=tVBXJkO2tGgz9EF347go0ekXr+ALO/CG4fk5abrFkXuR2uOlZOqoAyXnr6jkyS/fCu
- kc3j2pMcxDQUWNvQU7q2Njk8HOqUs7rb70dotgTrwJR+VW7MvJ3TpbZFJlMr9B4KNY3m
- rGDDT6udaYJSjtAs3JtFRZwcXpim5sD2xSn6Wn08tonVQYhFi5htKCJg9SCwhJEfA4aj
- e5t7Xbk9hHtvfk/pYQty6yREHodh2Z6cbrm1S/W0WYbq4/A3k1dskD5JFAuSrFgm0ku0
- 7aP7bpfnUbSrntPPrX0MWlhZM/+jQp4UEn8U1FAsOhWKFZtEszD2cqRPZ1JhjRNf1TVI
- EXPQ==
-X-Gm-Message-State: AOAM530nEdYGl1+5aRIl658zOWDg3xZz+rPEH4tlbhYbVJ9Kvr693n6c
- lEU5Pk150SbM1/gYPx08DImnhg==
-X-Google-Smtp-Source: ABdhPJwd85/stYy1b5Cx22GDTs50M98HlWgnuPq5d8mTwddUhjaLsBA8xfQfyPmjcs7BBByHnDqF5w==
-X-Received: by 2002:a17:902:9690:b0:14f:fc09:fd02 with SMTP id
- n16-20020a170902969000b0014ffc09fd02mr11669358plp.66.1647027635752; 
- Fri, 11 Mar 2022 11:40:35 -0800 (PST)
+ bh=JtflmEVuKWeMD8q+pW6jlGFp7yVRUVZn0LtjAO2YjrQ=;
+ b=QyZDT98ZZyUH+h+PPKSiTA0ek884C5I1nlQpxbh7A4MxcoC10eCZHdAaWAJwkbN6wk
+ HzVPcY6UEVn5F3p8E6hN0OYGCX9lV9k/vU00H1l1J0ym4CtEL5KxhBSveT2/Jthk3jU/
+ I7c4vN3+HxZfhRMRQcwq+UTcFydJKqeDTQZsrN6/B9YTVv3uuOkgGy5Yx/JktsTto+RJ
+ DZQZrFUGprPAW359vjzROOKsfqB6kRVYYmwdHmGdTa6lgZKVDF0hxVOl0X0aGdzyWPjM
+ tLWx5Qb8EqsDuGjYFy1YKd9TS3W4Zk6ZPJfDdYDPRWdD0cxBglc2ab1GFjTzNQGTIUIB
+ P9MQ==
+X-Gm-Message-State: AOAM533VTM1sETLzObdbbvE4SZad+7InhcBmdA5B0J9pOnsL+5MWH5Gf
+ gPEjRkyl5aGAB5C+hkh0k18t1A==
+X-Google-Smtp-Source: ABdhPJzqBpjrcabVj75EPhgDDfraLP/THsU/nyJ7ELg3PL4jPeeXN+oYy8F8OctQn/q6lNz1CE1zgQ==
+X-Received: by 2002:a17:903:1247:b0:151:9602:b5a4 with SMTP id
+ u7-20020a170903124700b001519602b5a4mr11903764plh.14.1647027696091; 
+ Fri, 11 Mar 2022 11:41:36 -0800 (PST)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- h5-20020a056a001a4500b004e177b8cbfdsm12025701pfv.197.2022.03.11.11.40.34
+ f13-20020a056a001acd00b004f7a2f18e61sm178725pfv.137.2022.03.11.11.41.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Mar 2022 11:40:35 -0800 (PST)
-Message-ID: <2f27f08d-c28c-7ae7-d5da-d41d5b617963@linaro.org>
-Date: Fri, 11 Mar 2022 11:40:33 -0800
+ Fri, 11 Mar 2022 11:41:35 -0800 (PST)
+Message-ID: <6de0d42b-7fe6-8ab0-c1a6-277c67228450@linaro.org>
+Date: Fri, 11 Mar 2022 11:41:33 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/9] dump: Remove the sh_info variable
+Subject: Re: [PATCH v2 3/9] dump: Introduce shdr_num to decrease complexity
 Content-Language: en-US
 To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20220310110854.2701-1-frankja@linux.ibm.com>
- <20220310110854.2701-3-frankja@linux.ibm.com>
+ <20220310110854.2701-4-frankja@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220310110854.2701-3-frankja@linux.ibm.com>
+In-Reply-To: <20220310110854.2701-4-frankja@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,17 +99,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/10/22 03:08, Janosch Frank wrote:
-> There's no need to have phdr_num and sh_info at the same time. We can
-> make phdr_num 32 bit and set PN_XNUM when we write the header if
-> phdr_num >= PN_XNUM.
+> Let's move from a boolean to a int variable which will later enable us
+> to store the number of sections that are in the dump file.
 > 
 > Signed-off-by: Janosch Frank<frankja@linux.ibm.com>
 > ---
->   dump/dump.c           | 34 ++++++++++++++--------------------
->   include/sysemu/dump.h |  3 +--
->   2 files changed, 15 insertions(+), 22 deletions(-)
-
-Nice.
+>   dump/dump.c           | 24 ++++++++++++------------
+>   include/sysemu/dump.h |  2 +-
+>   2 files changed, 13 insertions(+), 13 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
