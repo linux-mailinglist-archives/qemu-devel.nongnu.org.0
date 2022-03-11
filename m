@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D684D4D62A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 14:53:40 +0100 (CET)
-Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 793B94D62D4
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 15:06:38 +0100 (CET)
+Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSfi7-0000QK-EY
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 08:53:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36758)
+	id 1nSfuf-0007p9-3Z
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 09:06:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nSfh0-0007qK-Bj
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 08:52:30 -0500
-Received: from [2a00:1450:4864:20::533] (port=38403
- helo=mail-ed1-x533.google.com)
+ id 1nSftH-0006cv-28
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 09:05:11 -0500
+Received: from [2a00:1450:4864:20::429] (port=39460
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nSfgy-0005gf-MC
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 08:52:30 -0500
-Received: by mail-ed1-x533.google.com with SMTP id h13so10994719ede.5
- for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 05:52:27 -0800 (PST)
+ id 1nSftD-0001am-M8
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 09:05:10 -0500
+Received: by mail-wr1-x429.google.com with SMTP id h15so13100640wrc.6
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 06:05:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SAcaA+xc4yxAPK9nO2P/jx+6jiZeDY//zxKI1koGKoQ=;
- b=MJ5RqoO5uF3mEfs8uIgpUM0ThpobExR2+sUUORaEn1fAV9/hc8NG81tYUbD6d2Kd5n
- HxvGcIG5sHV+MJLFNogPtOK/CknhOwYKXUE12N/hpin1A94ukz8VlfLwgYpj/n+N9jaz
- aMj66nezeB9gmYUS1El5pefpH8RTXGBryGXr7KVWrB3OCTRCMP36rcW5ROE4noNDF68Z
- iWqIyP7yfwGlztxDqjmzjouwzeZV6WD4ycopPLiLQwIB7z9N6VnrYqyW4fbCx73ANXHv
- 51cPqfGYnuq67iz1Ng9TfiGmZDLi/FNf6BYf5DHqGUCGfgCIKIsH32Dc692mPo1enzTm
- 5ZOg==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Jt75aQHHM+fJPVgM/IAZG2xFHy1kUJjKdQTVgGZzI+g=;
+ b=tAFL14JcLBnqTum99R+O4a1I3d+oiRtvdgMhLPec9BxgDs7xSUjm8cLq6Y7XJl7HGe
+ dqBIZaOn9CIqN6f+06iMyN9JXhk66hPMuPtwhcCJfg77da0M0DhWQf6qkXFrWG7G1EM7
+ 18+ozxAxsSubpKEpVxJ2T1H0Uy/xYaui/gr8uOUhp6ssuZrArwl++1aO/mGMvSv7qh81
+ TG0dRS8GfFPdnDEeHGi21UQAmSKw3tbNZoWZROWUkDu27ybGC7iOjMGgq8TPdLgUSEqm
+ Am7lBZlZd9LTcORxl8SoohHCY8rwwRIpNJZ5CaKPsVoE32uZMseNjOsAWeLt/08bPWqw
+ tRPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SAcaA+xc4yxAPK9nO2P/jx+6jiZeDY//zxKI1koGKoQ=;
- b=Gu08UVndnIYmMG8Hw6ViAKomaeSkvG75rVYLf3VRks0G5njvv38wvamX6i33O9Bh+K
- XbZWCm9SrvF+alKSX4U1wYi5jealIDU8BlSE4gXCVZTAR6McxapHX+qIvqT6RCqk3G/N
- J2QME0WDDYqMAekVpnkbtxQaEhR9oED9Vj9W+j0gLXGsMqdRrRH1jy4mkRjSDiX6lFQ6
- hqX3yIy3h0wH3bIs+e+kK9hSrQRxROkQ27iK2AUoevbmNSu/ieWCxpVrkzHvKcfgfxil
- WlaKvgEzJ9DgUpcZyBCjbFAMEu2SM1EDbN7JOmwE8oBvZ34KmkyA1idwXMAUXFvAaX7F
- ir4g==
-X-Gm-Message-State: AOAM532TxW1EnCzMTKHJCxwca7c9vih7gV1VUsZsh3s7PrP+dit773sM
- eOp7RNiKBwjSFEvC8W45LJFLSsoh6uXlZQ==
-X-Google-Smtp-Source: ABdhPJwz7N1EZ1bIrvnUYiJgx8ENXMdqOOEFwEHaE6GYEf1uivG7EnMs9oX5ZheqAbAvU9PgQIlBww==
-X-Received: by 2002:a05:6402:518a:b0:416:b50e:3c7d with SMTP id
- q10-20020a056402518a00b00416b50e3c7dmr7147163edd.177.1647006746006; 
- Fri, 11 Mar 2022 05:52:26 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Jt75aQHHM+fJPVgM/IAZG2xFHy1kUJjKdQTVgGZzI+g=;
+ b=FnT/9TwFZyo9e4OJN4atPgO2cm7b0VACr8lGtbvQdwCd9TwjFocBu1V608UeFMLnB/
+ uN/G/I+9Ld8ZGavPDnGZfNyfu0B4oflq5LiBCm22oZBOJ48VFlzVoewaiz+KOt1OEi3h
+ 7XuEX48oU7OzNQoNJCLSemmluKeGHOCJoBrh4FeYYfiZIu9Uwd0XIHEoqmh8AvsMmKhX
+ FKAN/bn1X6L/hv0JbMM3CUKtA2dP7i4tWOnzRotj8tubr13hsq5Cs61D7rFA0RDn9taW
+ 49NZYEn7bYcm1+3zcnYawCvbDZRvVhMGsuMkGTH3XlDkLXP59FCvRYjCVZNgdChx3d5O
+ bxTQ==
+X-Gm-Message-State: AOAM5339vScqeMdjRTHTm54UaBybfJF3GKkB2gcmyDTdOXN3w3MWFyaE
+ V5R9pfeiOQWKPE2wsOmbDe0gJw==
+X-Google-Smtp-Source: ABdhPJwDZ/lHyw7zLSH864l/8GdbcpdDXU+IeCphj4KvJfyGREjIqk+BwKXkkizjy2qLeSDqvgu2IA==
+X-Received: by 2002:a05:6000:16c2:b0:203:7bb6:38e8 with SMTP id
+ h2-20020a05600016c200b002037bb638e8mr7603414wrf.140.1647007506025; 
+ Fri, 11 Mar 2022 06:05:06 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- p24-20020a1709061b5800b006da6435cedcsm2941471ejg.132.2022.03.11.05.52.24
+ f1-20020a056000128100b001f04a47762dsm6741356wrx.109.2022.03.11.06.04.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Mar 2022 05:52:24 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 06DDC1FFB7;
- Fri, 11 Mar 2022 13:52:24 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] mailmap/gitdm: more fixes for bad tags and authors
-Date: Fri, 11 Mar 2022 13:52:00 +0000
-Message-Id: <20220311135200.680127-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ Fri, 11 Mar 2022 06:04:48 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 577FC1FFB7;
+ Fri, 11 Mar 2022 14:04:47 +0000 (GMT)
+References: <20220311075300.609094-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.9; emacs 28.0.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] tcg/arm: Don't emit UNPREDICTABLE LDRD with Rm == Rt or
+ Rt+1
+Date: Fri, 11 Mar 2022 14:02:24 +0000
+In-reply-to: <20220311075300.609094-1-richard.henderson@linaro.org>
+Message-ID: <87mthw4mbk.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,91 +93,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Michael Ellerman <michael@ellerman.id.au>,
- =?UTF-8?q?Andreas=20F=C3=A4rber?= <andreas.faerber@web.de>,
- Peter Chubb <peter.chubb@nicta.com.au>, Aaron Larson <alarson@ddci.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I was running some historical tags for the last 10 years and got the
-following warnings:
 
-  git log --use-mailmap --numstat --since "June 2010" | ~/src/gitdm.git/gitdm -n -l 5
-  alarson@ddci.com is an author name, probably not what you want
-  bad utf-8 ('utf-8' codec can't decode byte 0xe4 in position 552: invalid continuation byte) in patchm skipping
-  bad utf-8 ('utf-8' codec can't decode byte 0xe4 in position 342: invalid continuation byte) in patchm skipping
-  michael@ozlabs.org  is an author name, probably not what you want
-  Oops...funky email nicta.com.au
-  bad utf-8 ('utf-8' codec can't decode byte 0xe9 in position 232: invalid continuation byte) in patchm skipping
-  Oops...funky email andreas.faerber
-  Grabbing changesets...done
-  Processed 76422 csets from 1902 developers
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-The following fixes try and alleviate that although I still get a
-warning for Aaron which I think is from 9743cd5736.
+> The LDRD (register) instruction is UNPREDICTABLE if the Rm register
+> is the same as either Rt or Rt+1 (the two registers being loaded to).
+> We weren't making sure we avoided this, with the result that on some
+> host CPUs like the Cortex-A7 we would get a SIGILL because the CPU
+> chooses to UNDEF for this particular UNPREDICTABLE case.
+>
+> Since we've already checked that datalo is aligned, we can simplify
+> the test vs the Rm operand by aligning it before comparison.  Check
+> for the two orderings before falling back to two ldr instructions.
+>
+> We don't bother to do anything similar for tcg_out_ldrd_rwb(),
+> because it is only used in tcg_out_tlb_read() with a fixed set of
+> registers which don't overlap.
+>
+> There is no equivalent UNPREDICTABLE case for STRD.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/896
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Aaron Larson <alarson@ddci.com>
-Cc: Andreas Färber <andreas.faerber@web.de>
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Michael Ellerman <michael@ellerman.id.au>
-Cc: Peter Chubb <peter.chubb@nicta.com.au>
----
- .mailmap              | 6 ++++++
- contrib/gitdm/aliases | 5 ++++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+The fix looks sane to me (although I can't test because it seems my
+aarch32 on the SynQuacer does try it's best). So:
 
-diff --git a/.mailmap b/.mailmap
-index 5113f55b3a..5dc168b199 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -28,7 +28,11 @@ Thiemo Seufer <ths@networkno.de> ths <ths@c046a42c-6fe2-441c-8c8c-71466251a162>
- malc <av1474@comtv.ru> malc <malc@c046a42c-6fe2-441c-8c8c-71466251a162>
- 
- # Corrupted Author fields
-+Aaron Larson <alarson@ddci.com> alarson@ddci.com
-+Andreas Färber <andreas.faerber@web.de> Andreas Färber <andreas.faerber>
-+Jason Wang <jasowang@redhat.com> Jason Wang <jasowang>
- Marek Dolata <mkdolata@us.ibm.com> mkdolata@us.ibm.com <mkdolata@us.ibm.com>
-+Michael Ellerman <michael@ellerman.id.au> michael@ozlabs.org <michael@ozlabs.org>
- Nick Hudson <hnick@vmware.com> hnick@vmware.com <hnick@vmware.com>
- 
- # There is also a:
-@@ -70,6 +74,7 @@ Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
- # Also list preferred name forms where people have changed their
- # git author config, or had utf8/latin1 encoding issues.
- Aaron Lindsay <aaron@os.amperecomputing.com>
-+Aaron Larson <alarson@ddci.com>
- Alexey Gerasimenko <x1917x@gmail.com>
- Alex Chen <alex.chen@huawei.com>
- Alex Ivanov <void@aleksoft.net>
-@@ -144,6 +149,7 @@ Pan Nengyuan <pannengyuan@huawei.com>
- Pavel Dovgaluk <dovgaluk@ispras.ru>
- Pavel Dovgaluk <pavel.dovgaluk@gmail.com>
- Pavel Dovgaluk <Pavel.Dovgaluk@ispras.ru>
-+Peter Chubb <peter.chubb@nicta.com.au>
- Peter Crosthwaite <crosthwaite.peter@gmail.com>
- Peter Crosthwaite <peter.crosthwaite@petalogix.com>
- Peter Crosthwaite <peter.crosthwaite@xilinx.com>
-diff --git a/contrib/gitdm/aliases b/contrib/gitdm/aliases
-index 4792413ce7..5b31635c15 100644
---- a/contrib/gitdm/aliases
-+++ b/contrib/gitdm/aliases
-@@ -34,8 +34,11 @@ malc@c046a42c-6fe2-441c-8c8c-71466251a162 av1474@comtv.ru
- # canonical emails
- liq3ea@163.com liq3ea@gmail.com
- 
--# some broken tags
-+# some broken DCO tags
- yuval.shaia.ml.gmail.com yuval.shaia.ml@gmail.com
-+jasowang jasowang@redhat.com
-+nicta.com.au peter.chubb@nicta.com.au
-+alarson@ddci.com alarson@ddci.com
- 
- # There is also a:
- #    (no author) <(no author)@c046a42c-6fe2-441c-8c8c-71466251a162>
--- 
-2.30.2
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+A wider question. Is this something that can be handled the constraints
+done by the register allocator? I assume that avoid direct aliasing if
+needed?
+
+--=20
+Alex Benn=C3=A9e
 
