@@ -2,84 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856324D5B60
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 07:11:10 +0100 (CET)
-Received: from localhost ([::1]:45996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E11354D5BC6
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 07:51:14 +0100 (CET)
+Received: from localhost ([::1]:52768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSYUX-0007jJ-2r
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 01:11:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47786)
+	id 1nSZ7J-0006mh-NY
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 01:51:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1nSYPj-0006aa-S0
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 01:06:13 -0500
-Received: from [2607:f8b0:4864:20::534] (port=39449
- helo=mail-pg1-x534.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1nSYPY-0003OM-4b
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 01:06:06 -0500
-Received: by mail-pg1-x534.google.com with SMTP id q19so6654940pgm.6
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 22:05:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=9yovt+bpZJddHz8p17XAoi+ffXoYhLKNII5hsBTAke8=;
- b=MAumF1TMfs1IAli6aax+7WlfzUj2cEdk08h8YcRLTP+4+P26D9hyArTWptoP2qfhZN
- 6rq4HZHDNVJvdfzzlw9UgMW8nCDKMIrxKFoR8hiv7UDArbB8s85lMgWfPs8NHH969GBL
- 04h/it8j9Q5gFGf/o1+NlfX0JpX4+Ihl5BIVctYaQioVFLQh5eShfzLT6hDH1hxKbgIO
- BRETM1UUczonmI3zWtImMx+IYODCliGahHZqvMF/UalRqA8MhP/xRD89O84XkpI3heYD
- rbH6SyE/KvkjuPhiTg9TW36YdILHjLwf0O81IZJyADOKavCfXcB6Sdu9DBNc4CRAiLhH
- +xBA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSZ0h-0005rN-TS
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 01:44:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nSZ0e-0005A8-QC
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 01:44:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646981056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/2FHVB0ONcC7Fi4VANNQ7ctOpG/P6AaF5qMuHBHXY18=;
+ b=SKJ+kQT+ilVHUBjdwCqh73pxQDXbnSkWFmQIETJ4IovVMY8rCILmN7TiPRUGlEozmqKrSR
+ MyrL1nZTBis5vGqibDaV60FqC2Mqy6QtEp58+jIGgTaXGlBuuz44NvhG8rRj5h/LfG4X3T
+ VtAae5WmZZbVbjIlmE5Nzi+7NMH6k8M=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-630-XUts2mA2NUCTObeYs4DlqQ-1; Fri, 11 Mar 2022 01:44:15 -0500
+X-MC-Unique: XUts2mA2NUCTObeYs4DlqQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ o9-20020adfca09000000b001ea79f7edf8so2447709wrh.16
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 22:44:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9yovt+bpZJddHz8p17XAoi+ffXoYhLKNII5hsBTAke8=;
- b=H9O8BS2I9OuYXlx75gop5jP5oz+4RbNtQzeMZN9j84XLleDE1rqK1G6eyELngje8V/
- tk7o50326zQnUjhVQLs1LnQ5at5Rktq0Oq+WGgX+HfE8c8K1MYMfRZgHidu4IoSyVa6l
- caOUlPKAaC3IpoYi+I7sUN08ag2CeEMXfO1clqEPDh3TRN1u2hFI4xwshfE2Xrf+05cu
- 48UHteyo8C9D5td/praw6D8P3lXkBxhdr84WIV/fbmZEoKQ9QJbEivCNLGAS/PKraD9F
- qVX2PVK6axSVdLCWuSwET6zVZJFhwJiNuclaXgyv4foEORYHCC67kO9qBm8IppDdsYFu
- P5NA==
-X-Gm-Message-State: AOAM531XSk2sBgtPrHxMyg92hSswxFWTEUVY1qcfvgYY4UuyFCdzdX3A
- FzmM6Xa5qksC7DJmAwjjuhB/+Q==
-X-Google-Smtp-Source: ABdhPJy94tiUJlyq/YZrSZxrz053VHllnzeqDfKghJHGFElqjL9+/rSfMLTDxzIk7JX6BbU+aTXM5g==
-X-Received: by 2002:a05:6a00:1902:b0:4f6:939d:179c with SMTP id
- y2-20020a056a00190200b004f6939d179cmr8415912pfi.43.1646978755087; 
- Thu, 10 Mar 2022 22:05:55 -0800 (PST)
-Received: from [10.61.2.177] (110-175-254-242.static.tpgi.com.au.
- [110.175.254.242]) by smtp.gmail.com with ESMTPSA id
- ot13-20020a17090b3b4d00b001bf0b8a1ee7sm12137271pjb.11.2022.03.10.22.05.31
+ bh=/2FHVB0ONcC7Fi4VANNQ7ctOpG/P6AaF5qMuHBHXY18=;
+ b=vd/S1ckzg6oFGQfhik5bJISxQKj/Jsbd1yM8wcXl94jZogqadT0jA72MNHQnphr0SZ
+ 0kcSIVPrvdoyFuxTGWqnR2VvK5AA1bYdTAXELkRByyyHanKg72SCPjp10rqm/7BTKApG
+ mwRr5y3NO7xHdpuTPJnokijN5u3gW9AbbfCr5QGhCFD8M9ASbBllig8WCf/FFbzYAuKf
+ OzXj6tdhajWEj5xgREo4JOPMOMGfK61Wx3QtwPEzfoZsd2z86aypQhusc/O2ByvNqcEH
+ qdPQX56VQR5mqTCCrr/peiXAehgGZ3UNzTizsYtQBQRaikxY6ZL5qe0RA/06r0YeG1xu
+ LAIQ==
+X-Gm-Message-State: AOAM5303uqIGc+/2yLeaa0jWhk6TIZ4RMa6pYi4v1MP8R+NJhX0bnMEb
+ DwnES7VcRMkdsxVdal9A1cZvy27gxiSQDel4LwPok3bLI+sab8juPpgxBjC2JvAYQYgi35p38GE
+ 81a3W7imo3GTp+K4=
+X-Received: by 2002:a1c:2544:0:b0:381:18a:a46d with SMTP id
+ l65-20020a1c2544000000b00381018aa46dmr6309394wml.26.1646981054112; 
+ Thu, 10 Mar 2022 22:44:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy5Te5X0oIfldoJv1alB83QgcA35pAu+aj9Mpn/o5oAoWHtETHTeYI/JX37Np3TRsDVk2nQ3g==
+X-Received: by 2002:a1c:2544:0:b0:381:18a:a46d with SMTP id
+ l65-20020a1c2544000000b00381018aa46dmr6309379wml.26.1646981053856; 
+ Thu, 10 Mar 2022 22:44:13 -0800 (PST)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ f15-20020a0560001a8f00b0020397ea11d2sm460529wry.20.2022.03.10.22.44.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 22:05:54 -0800 (PST)
-Message-ID: <abeceb72-903b-3d24-dd09-c20e4279a3b7@ozlabs.ru>
-Date: Fri, 11 Mar 2022 17:05:28 +1100
+ Thu, 10 Mar 2022 22:44:13 -0800 (PST)
+Message-ID: <dd0dfcb5-30ca-c998-4899-fe9e353ef179@redhat.com>
+Date: Fri, 11 Mar 2022 07:44:11 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:98.0) Gecko/20100101
- Thunderbird/98.0
-Subject: Re: [PATCH v4 07/18] ppc/pnv: Add a HOMER model to POWER10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 2/3] tcg/s390x: Fix INDEX_op_bitsel_vec vs VSEL
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220310202751.594961-1-richard.henderson@linaro.org>
+ <20220310202751.594961-3-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220310202751.594961-3-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220228155222.643974-1-clg@kaod.org>
- <20220228155222.643974-8-clg@kaod.org>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <20220228155222.643974-8-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=aik@ozlabs.ru; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,199 +102,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-What is that HOMER thing anyway? skiboot and qemu mention it a lot but I 
-cannot find traces in any available spec.
-
-
-On 3/1/22 02:52, Cédric Le Goater wrote:
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   include/hw/ppc/pnv.h       | 10 ++++++
->   include/hw/ppc/pnv_homer.h |  3 ++
->   include/hw/ppc/pnv_xscom.h |  3 ++
->   hw/ppc/pnv.c               | 20 ++++++++++++
->   hw/ppc/pnv_homer.c         | 64 ++++++++++++++++++++++++++++++++++++++
->   5 files changed, 100 insertions(+)
+On 10/03/2022 21.27, Richard Henderson wrote:
+> The operands are output in the wrong order: the tcg selector
+> argument is first, whereas the s390x selector argument is last.
 > 
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index e5141851faed..1e34ddd502d8 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -129,6 +129,7 @@ struct Pnv10Chip {
->       Pnv9Psi      psi;
->       PnvLpcController lpc;
->       PnvOCC       occ;
-> +    PnvHomer     homer;
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/898
+> Fixes: 9bca986df88 ("tcg/s390x: Implement TCG_TARGET_HAS_bitsel_vec")
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tcg/s390x/tcg-target.c.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
+> index 508f1bccc7..3b185b3c96 100644
+> --- a/tcg/s390x/tcg-target.c.inc
+> +++ b/tcg/s390x/tcg-target.c.inc
+> @@ -2868,7 +2868,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+>           break;
 >   
->       uint32_t     nr_quads;
->       PnvQuad      *quads;
-> @@ -364,4 +365,13 @@ void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor);
->   #define PNV10_XIVE2_END_SIZE        0x0000020000000000ull
->   #define PNV10_XIVE2_END_BASE(chip)  PNV10_CHIP_BASE(chip, 0x0006060000000000ull)
+>       case INDEX_op_bitsel_vec:
+> -        tcg_out_insn(s, VRRe, VSEL, a0, a1, a2, args[3]);
+> +        tcg_out_insn(s, VRRe, VSEL, a0, a2, args[3], a1);
+>           break;
 >   
-> +#define PNV10_OCC_COMMON_AREA_SIZE  0x0000000000800000ull
-> +#define PNV10_OCC_COMMON_AREA_BASE  0x300fff800000ull
-> +#define PNV10_OCC_SENSOR_BASE(chip) (PNV10_OCC_COMMON_AREA_BASE +       \
-> +    PNV_OCC_SENSOR_DATA_BLOCK_BASE((chip)->chip_id))
-> +
-> +#define PNV10_HOMER_SIZE              0x0000000000400000ull
-> +#define PNV10_HOMER_BASE(chip)                                           \
-> +    (0x300ffd800000ll + ((uint64_t)(chip)->chip_id) * PNV10_HOMER_SIZE)
-> +
->   #endif /* PPC_PNV_H */
-> diff --git a/include/hw/ppc/pnv_homer.h b/include/hw/ppc/pnv_homer.h
-> index 1889e3083c57..07e8b193116e 100644
-> --- a/include/hw/ppc/pnv_homer.h
-> +++ b/include/hw/ppc/pnv_homer.h
-> @@ -32,6 +32,9 @@ DECLARE_INSTANCE_CHECKER(PnvHomer, PNV8_HOMER,
->   #define TYPE_PNV9_HOMER TYPE_PNV_HOMER "-POWER9"
->   DECLARE_INSTANCE_CHECKER(PnvHomer, PNV9_HOMER,
->                            TYPE_PNV9_HOMER)
-> +#define TYPE_PNV10_HOMER TYPE_PNV_HOMER "-POWER10"
-> +DECLARE_INSTANCE_CHECKER(PnvHomer, PNV10_HOMER,
-> +                         TYPE_PNV10_HOMER)
->   
->   struct PnvHomer {
->       DeviceState parent;
-> diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-> index 75db33d46af6..7c7440de0c40 100644
-> --- a/include/hw/ppc/pnv_xscom.h
-> +++ b/include/hw/ppc/pnv_xscom.h
-> @@ -134,6 +134,9 @@ struct PnvXScomInterfaceClass {
->   #define PNV10_XSCOM_OCC_BASE       PNV9_XSCOM_OCC_BASE
->   #define PNV10_XSCOM_OCC_SIZE       PNV9_XSCOM_OCC_SIZE
->   
-> +#define PNV10_XSCOM_PBA_BASE       0x01010CDA
-> +#define PNV10_XSCOM_PBA_SIZE       0x40
-> +
->   #define PNV10_XSCOM_XIVE2_BASE     0x2010800
->   #define PNV10_XSCOM_XIVE2_SIZE     0x400
->   
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 8ecdfb1884b4..0b53406fe29c 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1595,6 +1595,7 @@ static void pnv_chip_power10_instance_init(Object *obj)
->       object_initialize_child(obj, "psi", &chip10->psi, TYPE_PNV10_PSI);
->       object_initialize_child(obj, "lpc", &chip10->lpc, TYPE_PNV10_LPC);
->       object_initialize_child(obj, "occ",  &chip10->occ, TYPE_PNV10_OCC);
-> +    object_initialize_child(obj, "homer", &chip10->homer, TYPE_PNV10_HOMER);
->   
->       if (defaults_enabled()) {
->           chip->num_pecs = pcc->num_pecs;
-> @@ -1731,6 +1732,25 @@ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
->       pnv_xscom_add_subregion(chip, PNV10_XSCOM_OCC_BASE,
->                               &chip10->occ.xscom_regs);
->   
-> +    /* OCC SRAM model */
-> +    memory_region_add_subregion(get_system_memory(),
-> +                                PNV10_OCC_SENSOR_BASE(chip),
-> +                                &chip10->occ.sram_regs);
-> +
-> +    /* HOMER */
-> +    object_property_set_link(OBJECT(&chip10->homer), "chip", OBJECT(chip),
-> +                             &error_abort);
-> +    if (!qdev_realize(DEVICE(&chip10->homer), NULL, errp)) {
-> +        return;
-> +    }
-> +    /* Homer Xscom region */
-> +    pnv_xscom_add_subregion(chip, PNV10_XSCOM_PBA_BASE,
-> +                            &chip10->homer.pba_regs);
-> +
-> +    /* Homer mmio region */
-> +    memory_region_add_subregion(get_system_memory(), PNV10_HOMER_BASE(chip),
-> +                                &chip10->homer.regs);
-> +
->       /* PHBs */
->       pnv_chip_power10_phb_realize(chip, &local_err);
->       if (local_err) {
-> diff --git a/hw/ppc/pnv_homer.c b/hw/ppc/pnv_homer.c
-> index 9a262629b73a..ea73919e54ca 100644
-> --- a/hw/ppc/pnv_homer.c
-> +++ b/hw/ppc/pnv_homer.c
-> @@ -332,6 +332,69 @@ static const TypeInfo pnv_homer_power9_type_info = {
->       .class_init    = pnv_homer_power9_class_init,
->   };
->   
-> +static uint64_t pnv_homer_power10_pba_read(void *opaque, hwaddr addr,
-> +                                          unsigned size)
-> +{
-> +    PnvHomer *homer = PNV_HOMER(opaque);
-> +    PnvChip *chip = homer->chip;
-> +    uint32_t reg = addr >> 3;
-> +    uint64_t val = 0;
-> +
-> +    switch (reg) {
-> +    case PBA_BAR0:
-> +        val = PNV10_HOMER_BASE(chip);
-> +        break;
-> +    case PBA_BARMASK0: /* P10 homer region mask */
-> +        val = (PNV10_HOMER_SIZE - 1) & 0x300000;
-> +        break;
-> +    case PBA_BAR2: /* P10 occ common area */
-> +        val = PNV10_OCC_COMMON_AREA_BASE;
-> +        break;
-> +    case PBA_BARMASK2: /* P10 occ common area size */
-> +        val = (PNV10_OCC_COMMON_AREA_SIZE - 1) & 0x700000;
-> +        break;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP, "PBA: read to unimplemented register: Ox%"
-> +                      HWADDR_PRIx "\n", addr >> 3);
-> +    }
-> +    return val;
-> +}
-> +
-> +static void pnv_homer_power10_pba_write(void *opaque, hwaddr addr,
-> +                                         uint64_t val, unsigned size)
-> +{
-> +    qemu_log_mask(LOG_UNIMP, "PBA: write to unimplemented register: Ox%"
-> +                  HWADDR_PRIx "\n", addr >> 3);
-> +}
-> +
-> +static const MemoryRegionOps pnv_homer_power10_pba_ops = {
-> +    .read = pnv_homer_power10_pba_read,
-> +    .write = pnv_homer_power10_pba_write,
-> +    .valid.min_access_size = 8,
-> +    .valid.max_access_size = 8,
-> +    .impl.min_access_size = 8,
-> +    .impl.max_access_size = 8,
-> +    .endianness = DEVICE_BIG_ENDIAN,
-> +};
-> +
-> +static void pnv_homer_power10_class_init(ObjectClass *klass, void *data)
-> +{
-> +    PnvHomerClass *homer = PNV_HOMER_CLASS(klass);
-> +
-> +    homer->pba_size = PNV10_XSCOM_PBA_SIZE;
-> +    homer->pba_ops = &pnv_homer_power10_pba_ops;
-> +    homer->homer_size = PNV10_HOMER_SIZE;
-> +    homer->homer_ops = &pnv_power9_homer_ops; /* TODO */
-> +    homer->core_max_base = PNV9_CORE_MAX_BASE;
-> +}
-> +
-> +static const TypeInfo pnv_homer_power10_type_info = {
-> +    .name          = TYPE_PNV10_HOMER,
-> +    .parent        = TYPE_PNV_HOMER,
-> +    .instance_size = sizeof(PnvHomer),
-> +    .class_init    = pnv_homer_power10_class_init,
-> +};
-> +
->   static void pnv_homer_realize(DeviceState *dev, Error **errp)
->   {
->       PnvHomer *homer = PNV_HOMER(dev);
-> @@ -377,6 +440,7 @@ static void pnv_homer_register_types(void)
->       type_register_static(&pnv_homer_type_info);
->       type_register_static(&pnv_homer_power8_type_info);
->       type_register_static(&pnv_homer_power9_type_info);
-> +    type_register_static(&pnv_homer_power10_type_info);
->   }
->   
->   type_init(pnv_homer_register_types);
+>       case INDEX_op_cmp_vec:
+
+Thank you very much, this indeed fixes the sha512 tet for me!
+
+Tested-by: Thomas Huth <thuth@redhat.com>
+
 
