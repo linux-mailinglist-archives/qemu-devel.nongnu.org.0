@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676CA4D5812
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 03:20:57 +0100 (CET)
-Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B274D5814
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 03:23:00 +0100 (CET)
+Received: from localhost ([::1]:55840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSUtj-0006vk-RL
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 21:20:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41228)
+	id 1nSUvj-0008Ab-8V
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 21:22:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nSUrq-0005wZ-LO; Thu, 10 Mar 2022 21:18:59 -0500
-Received: from [2607:f8b0:4864:20::c36] (port=37707
- helo=mail-oo1-xc36.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nSUrl-0001Y5-Cd; Thu, 10 Mar 2022 21:18:58 -0500
-Received: by mail-oo1-xc36.google.com with SMTP id
- x26-20020a4a621a000000b00320d7d4af22so9071302ooc.4; 
- Thu, 10 Mar 2022 18:18:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3hNOL83u7KspnPU2duOmv6QXwr5lbggstXopvOq99F0=;
- b=fZt7ExUg9TPb2H76knAj0odGQI1tWl7BY3bQ07xychCSrcJYCzsjz0IbeWWkpEl5hg
- eEEXNjDaFLZjWuxWCFsq0ZGRjQRbwGRIWevNNL/guexET7VCrEL950HQu1Hq7YR3HPiL
- tfAMLr10RyrTGcR6hseE6bxaeaEsOB7LEJx0/pnKdP5S5BD9KJYoHgf4LZUBv8SeetlI
- tzLlS5YH4Sp93M4jCVpxviqCafwfqq08oPIDv2JokRraQZBGb2gz3DiUGTtqgB2I1qut
- 5JkxkslujnJZqjMZjwUgcqEeElsSCUiEkW9bmqx+cW6vHjkccBxs5SpEDrGUAXreA0ZE
- T4Qw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nSUsu-0006nV-Iv
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 21:20:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nSUsq-0001kw-Tc
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 21:20:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646965200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TbxQEMQVzLEgUANHiODBk2sJKm4ffjXIEqTYDkedQgE=;
+ b=YX3ahT70JvONFftr/6Uf5d1eDwv3irOIvUXLNRpgl04ffytKWQFWPE27bujcUsbA7Wu3sN
+ nPqobLJ6CcxN9tsUqXnElOE3gtTi6+ytXl7RRrlq0thzWrVL+MxClv5+H/E2mn2WEcbEjN
+ 6jq6C3Q0xqnFqRsQVidxzyIdOJYkzEU=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-30-r_M9_49pNk63yZvwlkjQag-1; Thu, 10 Mar 2022 21:19:59 -0500
+X-MC-Unique: r_M9_49pNk63yZvwlkjQag-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ cl16-20020a17090af69000b001beea61ada4so4413326pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 18:19:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3hNOL83u7KspnPU2duOmv6QXwr5lbggstXopvOq99F0=;
- b=PIfaI8LXbXs/+2JldHTGFrFMyltd+/ZgWECISwVDcWQ5Xa788p9kSV+uNEkEoPxXn8
- TNIURwcxYZNDUlIhl+4CjGw19+dwPnm2thUMaXv4g5LMogdVP2mIa3XZYEE1wr/ajZQ4
- GmZlzYK7ubOqoz4f5Z9WzHHmCMg7giV5YSYFHHdYWvXxTSmQQb94fftUqTSsY0tvO7X0
- leNwevzMK3/+lhzjhS+LG+XXydsuwukL+pzzOUYjOsfejHMHZJirK0ohezeibXqXEoTy
- G/8S7AgTCj4xzIrDPaBdkrt7Uy8MjedodX0XkaPNCiyiL+5vHnGu7CN7xFVWMfpYiW9c
- 5V+A==
-X-Gm-Message-State: AOAM532g/kz3UmQi01QQdR3Wmu3ZOH0pWaiwUwoqt5EEo1XW5zT0FOcF
- DGeakyCTMdP+DJI/6EizQiI=
-X-Google-Smtp-Source: ABdhPJy6CDNyrilvqwuestn6oTjLUVJeHaTWbrhviem4Sp8EcQZskIamyn0rbuOBxGIlY48QhGbTcw==
-X-Received: by 2002:a05:6870:d585:b0:da:b3f:2b72 with SMTP id
- u5-20020a056870d58500b000da0b3f2b72mr10566775oao.273.1646965131940; 
- Thu, 10 Mar 2022 18:18:51 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c6:5655:fd2a:accf:db6c:e4fd?
- ([2804:431:c7c6:5655:fd2a:accf:db6c:e4fd])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=TbxQEMQVzLEgUANHiODBk2sJKm4ffjXIEqTYDkedQgE=;
+ b=24u3Ncw1xxl/0y9NX58fPM8X6hUfXlTviH1WANvWK04yOPLg+CSm5r+CUwCpkM0Mer
+ KB3e/GZT4ltffPyU8flBqfZm3bZpwIXZ5Z+DptdCk0zq2rbXAmDi6nOw7+kNoJhQAJmP
+ y/nkFmUAhv9lVMx4z0B4nTbO908z7124RdsX1fHMY1AoZhnK1V4fOPvaPUwnCn5+el0C
+ ARXA6uRbVqYfBkXBdGu+ejK/NwVQ9eCnY8PFpVsBe1hZXwu1GOkPJziiImvkJ9JDTyl8
+ cqakPO511/cj902yPTSvm88hXeg+8X1aM8PNJc6erQSHiyAYHZqsoR1HyhaPoyYQ3z1e
+ JDPw==
+X-Gm-Message-State: AOAM5335JZVmBODqFJbcBXrzGFxHoAYa4CvnRR1S/sHd2a6k6V09q6Y1
+ 8ulODO+WMQeCqX/S7lwFT4PJeyPUvzcBBchsNNzQUdwWUlN9joOwDMFutYPO+TFwevh1zXfOkT6
+ wELN3abyPdAQd/eo=
+X-Received: by 2002:a63:91ca:0:b0:380:484:f2f0 with SMTP id
+ l193-20020a6391ca000000b003800484f2f0mr6520867pge.297.1646965197916; 
+ Thu, 10 Mar 2022 18:19:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzLjyIeHIz+Z3DZHPv+VoRV865sR1karM23/cvNlXSdDmr3mJHXXBAnv8a7KYbjxHuTnrXOdw==
+X-Received: by 2002:a63:91ca:0:b0:380:484:f2f0 with SMTP id
+ l193-20020a6391ca000000b003800484f2f0mr6520848pge.297.1646965197633; 
+ Thu, 10 Mar 2022 18:19:57 -0800 (PST)
+Received: from xz-m1.local ([191.101.132.227])
  by smtp.gmail.com with ESMTPSA id
- e17-20020a9d7311000000b005b23b11fed3sm2907594otk.70.2022.03.10.18.18.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 18:18:51 -0800 (PST)
-Message-ID: <0afba7b7-3778-2799-a77b-54091386a42a@gmail.com>
-Date: Thu, 10 Mar 2022 23:18:48 -0300
+ hg1-20020a17090b300100b001bf70e72794sm10863067pjb.40.2022.03.10.18.19.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Mar 2022 18:19:57 -0800 (PST)
+Date: Fri, 11 Mar 2022 10:19:52 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: QEMU device refcounting when device creates a container MR
+Message-ID: <YiqxyCDw/76lTaNA@xz-m1.local>
+References: <CAFEAcA87VaeHzW4qbHn+UKjh9gMQbKNcN5ytXBS1MUPSapdhYw@mail.gmail.com>
+ <c7f6ffef-8ce1-6ee1-9ad7-a90ed1b54122@gmail.com>
+ <Yin67GyJWDn5N1ov@xz-m1.local>
+ <CAFEAcA_tfxE2kRtbLraXS3+fW8D7UNNJ2QkGSSvLReqt2G=KjQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 0/5] user creatable pnv-phb4 devices
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20220111131027.599784-1-danielhb413@gmail.com>
- <cc037332-a0f5-3acb-396a-49bdac653d2e@redhat.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <cc037332-a0f5-3acb-396a-49bdac653d2e@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c36
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c36;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc36.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <CAFEAcA_tfxE2kRtbLraXS3+fW8D7UNNJ2QkGSSvLReqt2G=KjQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,73 +99,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Mar 10, 2022 at 01:45:31PM +0000, Peter Maydell wrote:
+> The other theory I had was "maybe if you put an MR into another
+> MR and they both have the same owner then don't bump the refcount"
+> but I haven't thought that through at all.
 
-
-On 3/10/22 15:49, Thomas Huth wrote:
-> On 11/01/2022 14.10, Daniel Henrique Barboza wrote:
->> Hi,
->>
->> This version implements Cedric's review suggestions from v4. No
->> drastic design changes were made.
->>
->> Changes from v4:
->> - patches 1,3,5: unchanged
->> - patch 2:
->>    * renamed function to pnv_phb4_xscom_realize()
->>    * pnv4_phb4_xscom_realize() is now called at the end of phb4_realize()
->> - patch 4:
->>    * changed pnv_phb4_get_stack signature to use chip and phb
->>    * added a new helper called pnv_pec_stk_default_phb_realize() to
->> realize the default phb when running with defaults
->> - v4 link: https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg02148.html
->>
->> Daniel Henrique Barboza (5):
->>    ppc/pnv: set phb4 properties in stk_realize()
->>    ppc/pnv: move PHB4 XSCOM init to phb4_realize()
->>    ppc/pnv: turn 'phb' into a pointer in struct PnvPhb4PecStack
->>    ppc/pnv: Introduce user creatable pnv-phb4 devices
->>    ppc/pnv: turn pnv_phb4_update_regions() into static
-> 
-> It's now possible to crash QEMU with the pnv-phb4 device:
-> 
-> $ ./qemu-system-ppc64 -nographic -M powernv9 -device pnv-phb4
-> Unexpected error in object_property_try_add() at ../../devel/qemu/qom/object.c:1229:
-> qemu-system-ppc64: -device pnv-phb4: attempt to add duplicate property 'pnv-phb4[0]' to object (type 'power9_v2.0-pnv-chip')
-> Aborted (core dumped)
-> 
-> Any ideas how to fix this?
-
-Thanks for catching this up.
-
-The issue here is that we're not handling the case where an user adds a pnv-phb4 device
-when running default settings (no -nodefaults). With default settings we are adding all
-pnv-phb4 devices that are available to the machine, having no room for any additional
-user creatable pnv-phb4 devices.
-
-A similar situation happens with the powernv8 machine which errors out with a different
-error message:
-
-$ ./qemu-system-ppc64 -nographic -M powernv8 -device pnv-phb3
-qemu-system-ppc64: -device pnv-phb3: Can't add chassis slot, error -16
-
-
-Adding all possible phbs by default is a behavior these machines had since they were introduced,
-and I don't think we want to change it. Thus, a fix would be to forbid user created pnv-phb devices
-when running with defaults.
-
-
-I'll see what I can do. Thanks,
-
-
-
-Daniel
-
+Maybe it'll work, it just sounds a bit more tricky.
 
 > 
->   Thomas
+> > That means, perhaps in object_init_with_type() we should make sure the
+> > object refcount==1 after the ->instance_init() call?
 > 
+> That's probably a useful invariant, which I bet we don't
+> currently get right for every object :-)
+
+Yeah same feeling.. :)
+
+We could have looped over each device and try creating them and fix one by
+one?  But I think that doesn't cover all the cases, because instance_init()
+could have some sub-regions conditionally added depending on the device
+parameters and so on, so they may not be covered by the default values
+being tested with.
+
+-- 
+Peter Xu
+
 
