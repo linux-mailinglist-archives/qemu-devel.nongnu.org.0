@@ -2,58 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D674D5EC9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 10:51:22 +0100 (CET)
-Received: from localhost ([::1]:46040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF07C4D5EE2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 10:56:16 +0100 (CET)
+Received: from localhost ([::1]:48312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSbvd-0003x0-Av
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 04:51:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39778)
+	id 1nSc0N-0005jL-IQ
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 04:56:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nSbqx-0002tb-3p; Fri, 11 Mar 2022 04:46:31 -0500
-Received: from smtp23.cstnet.cn ([159.226.251.23]:44176 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nSbqs-0003A2-Pb; Fri, 11 Mar 2022 04:46:30 -0500
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowAA3P8NpGitiZadtAg--.1143S2;
- Fri, 11 Mar 2022 17:46:18 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: richard.henderson@linaro.org, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2] target/riscv: write back unmodified value for csrrc/csrrs
- with rs1 is not x0 but holding zero
-Date: Fri, 11 Mar 2022 17:46:01 +0800
-Message-Id: <20220311094601.30440-1-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: rQCowAA3P8NpGitiZadtAg--.1143S2
-X-Coremail-Antispam: 1UD129KBjvAXoW3CFW5urWUtFWDZFW5KFy5CFg_yoW8CF4kXo
- Z5XFWSvr4YkwsxKF929F1xtr17Wrn8uws5Zr1vyrZ3Gw17Wr43Xr17tr9av3W3trZxKFW8
- J3Z2qa47Ca4kJa43n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjp_UUU5E7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
- j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
- x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWx
- JVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
- xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAK
- I48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
- xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
- 0EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
- 7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nSbyh-0004yJ-Uq
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 04:54:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56707)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nSbye-0000hZ-1M
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 04:54:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1646992466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5IpaCJxgxxhW4P/ev/e+INtlmJRMNqryGgU7iPwZhkQ=;
+ b=RXhmBMeFuy6XsxA6Gkbm1Uz1GVO8D0k/Y30o34fgrT2XkikXw+wf24wYXGHnhYaXJuPjuJ
+ buFkjvFg0H1NK2tZ8D1b0o8OfW2cl7aip/pYdX+d2Yn6UB34UAY+c8SMC5GA1FQE5Rha37
+ by5kOP46yBm+1hvcOR4BpJdZHlNTJ4c=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-451-9L3ABe2UNsu8uD7fbbGScw-1; Fri, 11 Mar 2022 04:54:24 -0500
+X-MC-Unique: 9L3ABe2UNsu8uD7fbbGScw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ c19-20020a05600c0ad300b00385bb3db625so5306329wmr.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 01:54:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:organization:subject
+ :in-reply-to:content-transfer-encoding;
+ bh=5IpaCJxgxxhW4P/ev/e+INtlmJRMNqryGgU7iPwZhkQ=;
+ b=1Vem6tmRHXuMIsFWK7M7p1C0j13jv7NZBkpmvtnNRpi06X100QUfGOVomLoMTQ164i
+ 58rhYufSdPSi6tg/K1RaumQeCnD5GwTphT3jW4Cd01z660fBGKetQAHoj1tC3P6KFgD0
+ 028WeItAVZIrst4DxuOUS9vS7V43A4r/TYeAhBom/tBRRUrr15CN1cP2fRvTmqfJwH0K
+ StC9KaSUWGUrAmI+veBZtqUMtRTEBPQt4d0JtVCDSvSVlzOYMpeX97sn70JMKTTyZ+bl
+ f2bRKlAL7WLUg+QzRH9Ddj8uyK6Rfgth179f7b1iQZML09mKd4QQTpLZPIkRMbR4UXHG
+ pthw==
+X-Gm-Message-State: AOAM53127MQm13gmu5LFWUwg21kighCkGtEeovoR1YDSJ01fmleW6A7j
+ h/3HIjEmbiVlWLgbljeXOuKPfsumZKNpyzC6Zfjb8QkjjAno75/LCuHJPEnJpk3D4/JxQlsIUOF
+ o2Bhq6L3mYRXT5FU=
+X-Received: by 2002:adf:816e:0:b0:1e4:ad2b:cb24 with SMTP id
+ 101-20020adf816e000000b001e4ad2bcb24mr6873333wrm.521.1646992463154; 
+ Fri, 11 Mar 2022 01:54:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx4l6TjTeakWz9/w6I6J/sx69JskB/tKQ1I9P6IOhAXHtYm2WNoZOMkm+861X0YXWqjIZYIjA==
+X-Received: by 2002:adf:816e:0:b0:1e4:ad2b:cb24 with SMTP id
+ 101-20020adf816e000000b001e4ad2bcb24mr6873308wrm.521.1646992462821; 
+ Fri, 11 Mar 2022 01:54:22 -0800 (PST)
+Received: from ?IPV6:2003:cb:c707:8200:163d:7a08:6e61:87a5?
+ (p200300cbc7078200163d7a086e6187a5.dip0.t-ipconnect.de.
+ [2003:cb:c707:8200:163d:7a08:6e61:87a5])
+ by smtp.gmail.com with ESMTPSA id
+ h36-20020a05600c49a400b00382aa0b1619sm6573310wmp.45.2022.03.11.01.54.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Mar 2022 01:54:22 -0800 (PST)
+Message-ID: <d6984635-6ebd-ab24-6f14-e1a732d8c13c@redhat.com>
+Date: Fri, 11 Mar 2022 10:54:21 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+To: Steve Sistare <steven.sistare@oracle.com>, qemu-devel@nongnu.org
+References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-11-git-send-email-steven.sistare@oracle.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH V7 10/29] machine: memfd-alloc option
+In-Reply-To: <1640199934-455149-11-git-send-email-steven.sistare@oracle.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,556 +104,259 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
- lazyparser@gmail.com
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Zheng Chuan <zhengchuan@huawei.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For csrrs and csrrc, if rs1 specifies a register other than x0, holding
-a zero value, the instruction will still attempt to write the unmodified
-value back to the csr and will cause side effects
+On 22.12.21 20:05, Steve Sistare wrote:
+> Allocate anonymous memory using memfd_create if the memfd-alloc machine
+> option is set.
 
-v2:
-* change to explictly pass "bool write_op" argument in riscv_csrrw*, do
-  write permission check and write operation depend on it
-* extend riscv_csr_predicate_fn to pass "write_op" argument which will
-  be checked by seed csr or other future "write-only" csr
+Hi,
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
----
- target/riscv/cpu.c       |   3 +-
- target/riscv/cpu.h       |  15 +++---
- target/riscv/csr.c       | 101 +++++++++++++++++++++------------------
- target/riscv/gdbstub.c   |  15 +++---
- target/riscv/op_helper.c |  12 ++---
- 5 files changed, 79 insertions(+), 67 deletions(-)
+late to the party (thanks Igor for CCing)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ddda4906ff..76ad9bffac 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -314,7 +314,8 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-         for (int i = 0; i < ARRAY_SIZE(dump_csrs); ++i) {
-             int csrno = dump_csrs[i];
-             target_ulong val = 0;
--            RISCVException res = riscv_csrrw_debug(env, csrno, &val, 0, 0);
-+            RISCVException res = riscv_csrrw_debug(env, csrno, &val, 0, 0,
-+                                                   false);
- 
-             /*
-              * Rely on the smode, hmode, etc, predicates within csr.c
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 9ba05042ed..971d193d61 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -610,27 +610,29 @@ void riscv_cpu_update_mask(CPURISCVState *env);
- 
- RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-                            target_ulong *ret_value,
--                           target_ulong new_value, target_ulong write_mask);
-+                           target_ulong new_value, target_ulong write_mask,
-+                           bool write_op);
- RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
-                                  target_ulong *ret_value,
-                                  target_ulong new_value,
--                                 target_ulong write_mask);
-+                                 target_ulong write_mask, bool write_op);
- 
- static inline void riscv_csr_write(CPURISCVState *env, int csrno,
-                                    target_ulong val)
- {
--    riscv_csrrw(env, csrno, NULL, val, MAKE_64BIT_MASK(0, TARGET_LONG_BITS));
-+    riscv_csrrw(env, csrno, NULL, val, MAKE_64BIT_MASK(0, TARGET_LONG_BITS),
-+                true);
- }
- 
- static inline target_ulong riscv_csr_read(CPURISCVState *env, int csrno)
- {
-     target_ulong val = 0;
--    riscv_csrrw(env, csrno, &val, 0, 0);
-+    riscv_csrrw(env, csrno, &val, 0, 0, false);
-     return val;
- }
- 
- typedef RISCVException (*riscv_csr_predicate_fn)(CPURISCVState *env,
--                                                 int csrno);
-+                                                 int csrno, bool write_op);
- typedef RISCVException (*riscv_csr_read_fn)(CPURISCVState *env, int csrno,
-                                             target_ulong *ret_value);
- typedef RISCVException (*riscv_csr_write_fn)(CPURISCVState *env, int csrno,
-@@ -642,7 +644,8 @@ typedef RISCVException (*riscv_csr_op_fn)(CPURISCVState *env, int csrno,
- 
- RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
-                                 Int128 *ret_value,
--                                Int128 new_value, Int128 write_mask);
-+                                Int128 new_value, Int128 write_mask,
-+                                bool write_op);
- 
- typedef RISCVException (*riscv_csr_read128_fn)(CPURISCVState *env, int csrno,
-                                                Int128 *ret_value);
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index aea82dff4a..1907481fb1 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -36,7 +36,7 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
- }
- 
- /* Predicates */
--static RISCVException fs(CPURISCVState *env, int csrno)
-+static RISCVException fs(CPURISCVState *env, int csrno, bool write_op)
- {
- #if !defined(CONFIG_USER_ONLY)
-     if (!env->debugger && !riscv_cpu_fp_enabled(env) &&
-@@ -47,7 +47,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
-     return RISCV_EXCP_NONE;
- }
- 
--static RISCVException vs(CPURISCVState *env, int csrno)
-+static RISCVException vs(CPURISCVState *env, int csrno, bool write_op)
- {
-     CPUState *cs = env_cpu(env);
-     RISCVCPU *cpu = RISCV_CPU(cs);
-@@ -64,7 +64,7 @@ static RISCVException vs(CPURISCVState *env, int csrno)
-     return RISCV_EXCP_ILLEGAL_INST;
- }
- 
--static RISCVException ctr(CPURISCVState *env, int csrno)
-+static RISCVException ctr(CPURISCVState *env, int csrno, bool write_op)
- {
- #if !defined(CONFIG_USER_ONLY)
-     CPUState *cs = env_cpu(env);
-@@ -135,50 +135,50 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-     return RISCV_EXCP_NONE;
- }
- 
--static RISCVException ctr32(CPURISCVState *env, int csrno)
-+static RISCVException ctr32(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (riscv_cpu_mxl(env) != MXL_RV32) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    return ctr(env, csrno);
-+    return ctr(env, csrno, write_op);
- }
- 
- #if !defined(CONFIG_USER_ONLY)
--static RISCVException any(CPURISCVState *env, int csrno)
-+static RISCVException any(CPURISCVState *env, int csrno, bool write_op)
- {
-     return RISCV_EXCP_NONE;
- }
- 
--static RISCVException any32(CPURISCVState *env, int csrno)
-+static RISCVException any32(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (riscv_cpu_mxl(env) != MXL_RV32) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    return any(env, csrno);
-+    return any(env, csrno, write_op);
- 
- }
- 
--static int aia_any(CPURISCVState *env, int csrno)
-+static int aia_any(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    return any(env, csrno);
-+    return any(env, csrno, write_op);
- }
- 
--static int aia_any32(CPURISCVState *env, int csrno)
-+static int aia_any32(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    return any32(env, csrno);
-+    return any32(env, csrno, write_op);
- }
- 
--static RISCVException smode(CPURISCVState *env, int csrno)
-+static RISCVException smode(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (riscv_has_ext(env, RVS)) {
-         return RISCV_EXCP_NONE;
-@@ -187,34 +187,34 @@ static RISCVException smode(CPURISCVState *env, int csrno)
-     return RISCV_EXCP_ILLEGAL_INST;
- }
- 
--static int smode32(CPURISCVState *env, int csrno)
-+static int smode32(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (riscv_cpu_mxl(env) != MXL_RV32) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    return smode(env, csrno);
-+    return smode(env, csrno, write_op);
- }
- 
--static int aia_smode(CPURISCVState *env, int csrno)
-+static int aia_smode(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    return smode(env, csrno);
-+    return smode(env, csrno, write_op);
- }
- 
--static int aia_smode32(CPURISCVState *env, int csrno)
-+static int aia_smode32(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    return smode32(env, csrno);
-+    return smode32(env, csrno, write_op);
- }
- 
--static RISCVException hmode(CPURISCVState *env, int csrno)
-+static RISCVException hmode(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (riscv_has_ext(env, RVS) &&
-         riscv_has_ext(env, RVH)) {
-@@ -230,7 +230,7 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
-     return RISCV_EXCP_ILLEGAL_INST;
- }
- 
--static RISCVException hmode32(CPURISCVState *env, int csrno)
-+static RISCVException hmode32(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (riscv_cpu_mxl(env) != MXL_RV32) {
-         if (!riscv_cpu_virt_enabled(env)) {
-@@ -240,12 +240,13 @@ static RISCVException hmode32(CPURISCVState *env, int csrno)
-         }
-     }
- 
--    return hmode(env, csrno);
-+    return hmode(env, csrno, write_op);
- 
- }
- 
- /* Checks if PointerMasking registers could be accessed */
--static RISCVException pointer_masking(CPURISCVState *env, int csrno)
-+static RISCVException pointer_masking(CPURISCVState *env, int csrno,
-+                                      bool write_op)
- {
-     /* Check if j-ext is present */
-     if (riscv_has_ext(env, RVJ)) {
-@@ -254,25 +255,25 @@ static RISCVException pointer_masking(CPURISCVState *env, int csrno)
-     return RISCV_EXCP_ILLEGAL_INST;
- }
- 
--static int aia_hmode(CPURISCVState *env, int csrno)
-+static int aia_hmode(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-         return RISCV_EXCP_ILLEGAL_INST;
-      }
- 
--     return hmode(env, csrno);
-+     return hmode(env, csrno, write_op);
- }
- 
--static int aia_hmode32(CPURISCVState *env, int csrno)
-+static int aia_hmode32(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    return hmode32(env, csrno);
-+    return hmode32(env, csrno, write_op);
- }
- 
--static RISCVException pmp(CPURISCVState *env, int csrno)
-+static RISCVException pmp(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (riscv_feature(env, RISCV_FEATURE_PMP)) {
-         return RISCV_EXCP_NONE;
-@@ -281,7 +282,7 @@ static RISCVException pmp(CPURISCVState *env, int csrno)
-     return RISCV_EXCP_ILLEGAL_INST;
- }
- 
--static RISCVException epmp(CPURISCVState *env, int csrno)
-+static RISCVException epmp(CPURISCVState *env, int csrno, bool write_op)
- {
-     if (env->priv == PRV_M && riscv_feature(env, RISCV_FEATURE_EPMP)) {
-         return RISCV_EXCP_NONE;
-@@ -2873,7 +2874,8 @@ static RISCVException write_upmbase(CPURISCVState *env, int csrno,
- static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-                                                int csrno,
-                                                bool write_mask,
--                                               RISCVCPU *cpu)
-+                                               RISCVCPU *cpu,
-+                                               bool write_op)
- {
-     /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
-     int read_only = get_field(csrno, 0xC00) == 3;
-@@ -2895,7 +2897,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- #endif
--    if (write_mask && read_only) {
-+    if (write_op && read_only) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -2909,13 +2911,13 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
--    return csr_ops[csrno].predicate(env, csrno);
-+    return csr_ops[csrno].predicate(env, csrno, write_op);
- }
- 
- static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
-                                        target_ulong *ret_value,
-                                        target_ulong new_value,
--                                       target_ulong write_mask)
-+                                       target_ulong write_mask, bool write_op)
- {
-     RISCVException ret;
-     target_ulong old_value;
-@@ -2935,8 +2937,8 @@ static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
-         return ret;
-     }
- 
--    /* write value if writable and write mask set, otherwise drop writes */
--    if (write_mask) {
-+    /* write value if writable and write_op set, otherwise drop writes */
-+    if (write_op) {
-         new_value = (old_value & ~write_mask) | (new_value & write_mask);
-         if (csr_ops[csrno].write) {
-             ret = csr_ops[csrno].write(env, csrno, new_value);
-@@ -2956,22 +2958,25 @@ static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
- 
- RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-                            target_ulong *ret_value,
--                           target_ulong new_value, target_ulong write_mask)
-+                           target_ulong new_value, target_ulong write_mask,
-+                           bool write_op)
- {
-     RISCVCPU *cpu = env_archcpu(env);
- 
--    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu);
-+    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu,
-+                                           write_op);
-     if (ret != RISCV_EXCP_NONE) {
-         return ret;
-     }
- 
--    return riscv_csrrw_do64(env, csrno, ret_value, new_value, write_mask);
-+    return riscv_csrrw_do64(env, csrno, ret_value, new_value, write_mask,
-+                            write_op);
- }
- 
- static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
-                                         Int128 *ret_value,
-                                         Int128 new_value,
--                                        Int128 write_mask)
-+                                        Int128 write_mask, bool write_op)
- {
-     RISCVException ret;
-     Int128 old_value;
-@@ -2982,8 +2987,8 @@ static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
-         return ret;
-     }
- 
--    /* write value if writable and write mask set, otherwise drop writes */
--    if (int128_nz(write_mask)) {
-+    /* write value if writable and write_op set, otherwise drop writes */
-+    if (write_op) {
-         new_value = int128_or(int128_and(old_value, int128_not(write_mask)),
-                               int128_and(new_value, write_mask));
-         if (csr_ops[csrno].write128) {
-@@ -3010,18 +3015,20 @@ static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
- 
- RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
-                                 Int128 *ret_value,
--                                Int128 new_value, Int128 write_mask)
-+                                Int128 new_value, Int128 write_mask,
-+                                bool write_op)
- {
-     RISCVException ret;
-     RISCVCPU *cpu = env_archcpu(env);
- 
--    ret = riscv_csrrw_check(env, csrno, int128_nz(write_mask), cpu);
-+    ret = riscv_csrrw_check(env, csrno, int128_nz(write_mask), cpu, write_op);
-     if (ret != RISCV_EXCP_NONE) {
-         return ret;
-     }
- 
-     if (csr_ops[csrno].read128) {
--        return riscv_csrrw_do128(env, csrno, ret_value, new_value, write_mask);
-+        return riscv_csrrw_do128(env, csrno, ret_value, new_value, write_mask,
-+                                 write_op);
-     }
- 
-     /*
-@@ -3033,7 +3040,7 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
-     target_ulong old_value;
-     ret = riscv_csrrw_do64(env, csrno, &old_value,
-                            int128_getlo(new_value),
--                           int128_getlo(write_mask));
-+                           int128_getlo(write_mask), write_op);
-     if (ret == RISCV_EXCP_NONE && ret_value) {
-         *ret_value = int128_make64(old_value);
-     }
-@@ -3047,13 +3054,13 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
- RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
-                                  target_ulong *ret_value,
-                                  target_ulong new_value,
--                                 target_ulong write_mask)
-+                                 target_ulong write_mask, bool write_op)
- {
-     RISCVException ret;
- #if !defined(CONFIG_USER_ONLY)
-     env->debugger = true;
- #endif
--    ret = riscv_csrrw(env, csrno, ret_value, new_value, write_mask);
-+    ret = riscv_csrrw(env, csrno, ret_value, new_value, write_mask, write_op);
- #if !defined(CONFIG_USER_ONLY)
-     env->debugger = false;
- #endif
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index 9ed049c29e..5e37ea12cb 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -124,7 +124,7 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
-          * This also works for CSR_FRM and CSR_FCSR.
-          */
-         result = riscv_csrrw_debug(env, n - 32, &val,
--                                   0, 0);
-+                                   0, 0, false);
-         if (result == RISCV_EXCP_NONE) {
-             return gdb_get_regl(buf, val);
-         }
-@@ -147,7 +147,7 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
-          * This also works for CSR_FRM and CSR_FCSR.
-          */
-         result = riscv_csrrw_debug(env, n - 32, NULL,
--                                   val, -1);
-+                                   val, -1, true);
-         if (result == RISCV_EXCP_NONE) {
-             return sizeof(target_ulong);
-         }
-@@ -209,7 +209,7 @@ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
-     }
- 
-     target_ulong val = 0;
--    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0);
-+    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0, false);
- 
-     if (result == 0) {
-         return gdb_get_regl(buf, val);
-@@ -236,7 +236,7 @@ static int riscv_gdb_set_vector(CPURISCVState *env, uint8_t *mem_buf, int n)
-     }
- 
-     target_ulong val = ldtul_p(mem_buf);
--    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1);
-+    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1, true);
- 
-     if (result == 0) {
-         return sizeof(target_ulong);
-@@ -251,7 +251,7 @@ static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
-         target_ulong val = 0;
-         int result;
- 
--        result = riscv_csrrw_debug(env, n, &val, 0, 0);
-+        result = riscv_csrrw_debug(env, n, &val, 0, 0, false);
-         if (result == RISCV_EXCP_NONE) {
-             return gdb_get_regl(buf, val);
-         }
-@@ -265,7 +265,7 @@ static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
-         target_ulong val = ldtul_p(mem_buf);
-         int result;
- 
--        result = riscv_csrrw_debug(env, n, NULL, val, -1);
-+        result = riscv_csrrw_debug(env, n, NULL, val, -1, true);
-         if (result == RISCV_EXCP_NONE) {
-             return sizeof(target_ulong);
-         }
-@@ -319,7 +319,8 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
- 
-     for (i = 0; i < CSR_TABLE_SIZE; i++) {
-         predicate = csr_ops[i].predicate;
--        if (predicate && (predicate(env, i) == RISCV_EXCP_NONE)) {
-+        if (predicate && ((predicate(env, i, false) == RISCV_EXCP_NONE) ||
-+                          (predicate(env, i, true) == RISCV_EXCP_NONE))) {
-             if (csr_ops[i].name) {
-                 g_string_append_printf(s, "<reg name=\"%s\"", csr_ops[i].name);
-             } else {
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 1a75ba11e6..e0d708091e 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -40,7 +40,7 @@ void helper_raise_exception(CPURISCVState *env, uint32_t exception)
- target_ulong helper_csrr(CPURISCVState *env, int csr)
- {
-     target_ulong val = 0;
--    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0);
-+    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0, false);
- 
-     if (ret != RISCV_EXCP_NONE) {
-         riscv_raise_exception(env, ret, GETPC());
-@@ -51,7 +51,7 @@ target_ulong helper_csrr(CPURISCVState *env, int csr)
- void helper_csrw(CPURISCVState *env, int csr, target_ulong src)
- {
-     target_ulong mask = env->xl == MXL_RV32 ? UINT32_MAX : (target_ulong)-1;
--    RISCVException ret = riscv_csrrw(env, csr, NULL, src, mask);
-+    RISCVException ret = riscv_csrrw(env, csr, NULL, src, mask, true);
- 
-     if (ret != RISCV_EXCP_NONE) {
-         riscv_raise_exception(env, ret, GETPC());
-@@ -62,7 +62,7 @@ target_ulong helper_csrrw(CPURISCVState *env, int csr,
-                           target_ulong src, target_ulong write_mask)
- {
-     target_ulong val = 0;
--    RISCVException ret = riscv_csrrw(env, csr, &val, src, write_mask);
-+    RISCVException ret = riscv_csrrw(env, csr, &val, src, write_mask, true);
- 
-     if (ret != RISCV_EXCP_NONE) {
-         riscv_raise_exception(env, ret, GETPC());
-@@ -75,7 +75,7 @@ target_ulong helper_csrr_i128(CPURISCVState *env, int csr)
-     Int128 rv = int128_zero();
-     RISCVException ret = riscv_csrrw_i128(env, csr, &rv,
-                                           int128_zero(),
--                                          int128_zero());
-+                                          int128_zero(), false);
- 
-     if (ret != RISCV_EXCP_NONE) {
-         riscv_raise_exception(env, ret, GETPC());
-@@ -90,7 +90,7 @@ void helper_csrw_i128(CPURISCVState *env, int csr,
- {
-     RISCVException ret = riscv_csrrw_i128(env, csr, NULL,
-                                           int128_make128(srcl, srch),
--                                          UINT128_MAX);
-+                                          UINT128_MAX, true);
- 
-     if (ret != RISCV_EXCP_NONE) {
-         riscv_raise_exception(env, ret, GETPC());
-@@ -104,7 +104,7 @@ target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
-     Int128 rv = int128_zero();
-     RISCVException ret = riscv_csrrw_i128(env, csr, &rv,
-                                           int128_make128(srcl, srch),
--                                          int128_make128(maskl, maskh));
-+                                          int128_make128(maskl, maskh), true);
- 
-     if (ret != RISCV_EXCP_NONE) {
-         riscv_raise_exception(env, ret, GETPC());
+... in which case it's no longer anonymous memory (because it's now
+MAP_SHARED). So you're converting all private memory to shared memory.
+
+For example, memory ballooning will no longer work as expected. There is
+no shared zeropage. KSM won't work. This brings a lot of "surprises".
+
+
+This patch begs for a proper description why this is required and why we
+cannot simply let the user handle that by properly using
+memory-backend-memfd manually.
+
+Especially the "memfd-alloc option" doesn't even express to a user
+what's actually happening and what the implications are.
+
+
+Long story short: this patch description has to be seriously extended.
+
+> 
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> ---
+>  hw/core/machine.c   | 19 +++++++++++++++++++
+>  include/hw/boards.h |  1 +
+>  qemu-options.hx     |  6 ++++++
+>  softmmu/physmem.c   | 47 ++++++++++++++++++++++++++++++++++++++---------
+>  softmmu/vl.c        |  1 +
+>  trace-events        |  1 +
+>  util/qemu-config.c  |  4 ++++
+>  7 files changed, 70 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 53a99ab..7739d88 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -392,6 +392,20 @@ static void machine_set_mem_merge(Object *obj, bool value, Error **errp)
+>      ms->mem_merge = value;
+>  }
+>  
+> +static bool machine_get_memfd_alloc(Object *obj, Error **errp)
+> +{
+> +    MachineState *ms = MACHINE(obj);
+> +
+> +    return ms->memfd_alloc;
+> +}
+> +
+> +static void machine_set_memfd_alloc(Object *obj, bool value, Error **errp)
+> +{
+> +    MachineState *ms = MACHINE(obj);
+> +
+> +    ms->memfd_alloc = value;
+> +}
+> +
+>  static bool machine_get_usb(Object *obj, Error **errp)
+>  {
+>      MachineState *ms = MACHINE(obj);
+> @@ -829,6 +843,11 @@ static void machine_class_init(ObjectClass *oc, void *data)
+>      object_class_property_set_description(oc, "mem-merge",
+>          "Enable/disable memory merge support");
+>  
+> +    object_class_property_add_bool(oc, "memfd-alloc",
+> +        machine_get_memfd_alloc, machine_set_memfd_alloc);
+> +    object_class_property_set_description(oc, "memfd-alloc",
+> +        "Enable/disable allocating anonymous memory using memfd_create");
+> +
+>      object_class_property_add_bool(oc, "usb",
+>          machine_get_usb, machine_set_usb);
+>      object_class_property_set_description(oc, "usb",
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 9c1c190..a57d7a0 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -327,6 +327,7 @@ struct MachineState {
+>      char *dt_compatible;
+>      bool dump_guest_core;
+>      bool mem_merge;
+> +    bool memfd_alloc;
+>      bool usb;
+>      bool usb_disabled;
+>      char *firmware;
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 7d47510..33c8173 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -30,6 +30,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+>      "                vmport=on|off|auto controls emulation of vmport (default: auto)\n"
+>      "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
+>      "                mem-merge=on|off controls memory merge support (default: on)\n"
+> +    "                memfd-alloc=on|off controls allocating anonymous guest RAM using memfd_create (default: off)\n"
+>      "                aes-key-wrap=on|off controls support for AES key wrapping (default=on)\n"
+>      "                dea-key-wrap=on|off controls support for DEA key wrapping (default=on)\n"
+>      "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
+> @@ -76,6 +77,11 @@ SRST
+>          supported by the host, de-duplicates identical memory pages
+>          among VMs instances (enabled by default).
+>  
+> +    ``memfd-alloc=on|off``
+> +        Enables or disables allocation of anonymous guest RAM using
+> +        memfd_create.  Any associated memory-backend objects are created with
+> +        share=on.  The memfd-alloc default is off.
+> +
+>      ``aes-key-wrap=on|off``
+>          Enables or disables AES key wrapping support on s390-ccw hosts.
+>          This feature controls whether AES wrapping keys will be created
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 3524c04..95e2b49 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -41,6 +41,7 @@
+>  #include "qemu/config-file.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/qemu-print.h"
+> +#include "qemu/memfd.h"
+>  #include "exec/memory.h"
+>  #include "exec/ioport.h"
+>  #include "sysemu/dma.h"
+> @@ -1964,35 +1965,63 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
+>      const bool shared = qemu_ram_is_shared(new_block);
+>      RAMBlock *block;
+>      RAMBlock *last_block = NULL;
+> +    struct MemoryRegion *mr = new_block->mr;
+>      ram_addr_t old_ram_size, new_ram_size;
+>      Error *err = NULL;
+> +    const char *name;
+> +    void *addr = 0;
+> +    size_t maxlen;
+> +    MachineState *ms = MACHINE(qdev_get_machine());
+>  
+>      old_ram_size = last_ram_page();
+>  
+>      qemu_mutex_lock_ramlist();
+> -    new_block->offset = find_ram_offset(new_block->max_length);
+> +    maxlen = new_block->max_length;
+> +    new_block->offset = find_ram_offset(maxlen);
+>  
+>      if (!new_block->host) {
+>          if (xen_enabled()) {
+> -            xen_ram_alloc(new_block->offset, new_block->max_length,
+> -                          new_block->mr, &err);
+> +            xen_ram_alloc(new_block->offset, maxlen, new_block->mr, &err);
+>              if (err) {
+>                  error_propagate(errp, err);
+>                  qemu_mutex_unlock_ramlist();
+>                  return;
+>              }
+>          } else {
+> -            new_block->host = qemu_anon_ram_alloc(new_block->max_length,
+> -                                                  &new_block->mr->align,
+> -                                                  shared, noreserve);
+> -            if (!new_block->host) {
+> +            name = memory_region_name(mr);
+> +            if (ms->memfd_alloc) {
+> +                Object *parent = &mr->parent_obj;
+> +                int mfd = -1;          /* placeholder until next patch */
+> +                mr->align = QEMU_VMALLOC_ALIGN;
+> +                if (mfd < 0) {
+> +                    mfd = qemu_memfd_create(name, maxlen + mr->align,
+> +                                            0, 0, 0, &err);
+> +                    if (mfd < 0) {
+> +                        return;
+> +                    }
+> +                }
+> +                qemu_set_cloexec(mfd);
+> +                /* The memory backend already set its desired flags. */
+> +                if (!object_dynamic_cast(parent, TYPE_MEMORY_BACKEND)) {
+> +                    new_block->flags |= RAM_SHARED;
+> +                }
+> +                addr = file_ram_alloc(new_block, maxlen, mfd,
+> +                                      false, false, 0, errp);
+> +                trace_anon_memfd_alloc(name, maxlen, addr, mfd);
+> +            } else {
+> +                addr = qemu_anon_ram_alloc(maxlen, &mr->align,
+> +                                           shared, noreserve);
+> +            }
+> +
+> +            if (!addr) {
+>                  error_setg_errno(errp, errno,
+>                                   "cannot set up guest memory '%s'",
+> -                                 memory_region_name(new_block->mr));
+> +                                 name);
+>                  qemu_mutex_unlock_ramlist();
+>                  return;
+>              }
+> -            memory_try_enable_merging(new_block->host, new_block->max_length);
+> +            memory_try_enable_merging(addr, maxlen);
+> +            new_block->host = addr;
+>          }
+>      }
+>  
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 620a1f1..ab3648a 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2440,6 +2440,7 @@ static void create_default_memdev(MachineState *ms, const char *path)
+>          object_property_set_str(obj, "mem-path", path, &error_fatal);
+>      }
+>      object_property_set_int(obj, "size", ms->ram_size, &error_fatal);
+> +    object_property_set_bool(obj, "share", ms->memfd_alloc, &error_fatal);
+>      object_property_add_child(object_get_objects_root(), mc->default_ram_id,
+>                                obj);
+>      /* Ensure backend's memory region name is equal to mc->default_ram_id */
+> diff --git a/trace-events b/trace-events
+> index a637a61..770a9ac 100644
+> --- a/trace-events
+> +++ b/trace-events
+> @@ -45,6 +45,7 @@ ram_block_discard_range(const char *rbname, void *hva, size_t length, bool need_
+>  # accel/tcg/cputlb.c
+>  memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
+>  memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
+> +anon_memfd_alloc(const char *name, size_t size, void *ptr, int fd) "%s size %zu ptr %p fd %d"
+>  
+>  # gdbstub.c
+>  gdbstub_op_start(const char *device) "Starting gdbstub using device %s"
+> diff --git a/util/qemu-config.c b/util/qemu-config.c
+> index 436ab63..3606e5c 100644
+> --- a/util/qemu-config.c
+> +++ b/util/qemu-config.c
+> @@ -207,6 +207,10 @@ static QemuOptsList machine_opts = {
+>              .type = QEMU_OPT_BOOL,
+>              .help = "enable/disable memory merge support",
+>          },{
+> +            .name = "memfd-alloc",
+> +            .type = QEMU_OPT_BOOL,
+> +            .help = "enable/disable memfd_create for anonymous memory",
+> +        },{
+>              .name = "usb",
+>              .type = QEMU_OPT_BOOL,
+>              .help = "Set on/off to enable/disable usb",
+
+
 -- 
-2.17.1
+Thanks,
+
+David / dhildenb
 
 
