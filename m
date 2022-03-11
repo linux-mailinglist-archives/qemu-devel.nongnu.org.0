@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127444D5DA0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 09:42:19 +0100 (CET)
-Received: from localhost ([::1]:49520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B27F4D5DB2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 09:46:45 +0100 (CET)
+Received: from localhost ([::1]:51952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSaqm-00087S-Fo
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 03:42:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48264)
+	id 1nSav6-0001UU-Ii
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 03:46:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nSaoG-0007D1-Uj; Fri, 11 Mar 2022 03:39:40 -0500
-Received: from smtp23.cstnet.cn ([159.226.251.23]:34036 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1nSaoD-0007xI-K1; Fri, 11 Mar 2022 03:39:40 -0500
-Received: from [192.168.0.105] (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowAB3f5u+CitiFE5sAg--.6240S2;
- Fri, 11 Mar 2022 16:39:28 +0800 (CST)
-Subject: Re: [PATCH] target/riscv: write back unmodified value for csrrc/csrrs
- with rs1 is not x0 but holding zero
-To: Alistair Francis <alistair23@gmail.com>
-References: <20220302122946.29635-1-liweiwei@iscas.ac.cn>
- <CAKmqyKOgJA49Mc4H=WFN+soxaFKtJc+d+nviKiro7eCdMg7hcA@mail.gmail.com>
- <bde533f4-e55d-1058-9cad-6b0aca2fd70d@iscas.ac.cn>
- <CAKmqyKOPDi12pQh5EUCEFHO0kudiFUqyESXELvGR00-CkX_nAQ@mail.gmail.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <4f95b797-42de-13d5-b08f-ab7e1b4e0671@iscas.ac.cn>
-Date: Fri, 11 Mar 2022 16:39:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nSar8-0000az-By
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 03:42:39 -0500
+Received: from mga17.intel.com ([192.55.52.151]:33871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1nSar5-00009A-Hj
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 03:42:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1646988155; x=1678524155;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=rnnCy0Hbi4uhBKWJV93SLPhz7c/vwnMymNdqjK9CGiI=;
+ b=miqjQIXSg7SBUVK1bladzPXtFnsYMGTfCeW/IGf8ddiKkxw6YS7i6rQe
+ ebbu9NljOQ1mCMyOHjUqDi8UQaMDyA4ajI/0dLykmDLGEfGUAUXnezG/g
+ xvQpr9XeM9Cy1ksiGX7q1Gtysrvkrl0XVL1HmZqendsN1aVNMWj3oa2II
+ OQKxYV0iVNqVeAZ9p6u5YMQrwqAQhTItOctv2XTiO8cvz/5aLI8qS27cL
+ 5wIfd/NA+mkXmtSc/IFUp6zTAM430ThB9Vt6BeVNEJL3EM1b9KYo6+L2o
+ j65s9K3kc7YvPi5dD9Gc5exRO3X7yTBm7xSN2brCUPODJVymoka6QHEpO Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="236133833"
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; d="scan'208";a="236133833"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2022 00:42:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; d="scan'208";a="538926645"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by orsmga007.jf.intel.com with ESMTP; 11 Mar 2022 00:42:24 -0800
+Date: Fri, 11 Mar 2022 16:42:08 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Dave Chinner <david@fromorbit.com>
+Subject: Re: [PATCH v5 03/13] mm/shmem: Support memfile_notifier
+Message-ID: <20220311084208.GB56193@chaop.bj.intel.com>
+References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
+ <20220310140911.50924-4-chao.p.peng@linux.intel.com>
+ <20220310230822.GO661808@dread.disaster.area>
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKOPDi12pQh5EUCEFHO0kudiFUqyESXELvGR00-CkX_nAQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: rQCowAB3f5u+CitiFE5sAg--.6240S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xw1xJr43Jw43XrWDWrW3Jrb_yoWxJF1fpr
- W5Kan8CF4vqr9F93ZFv3WDXF1rt3y8GrWxXwn7t345Xwn8tFyFqF4DJa1IkFykZr4fWr40
- vFs0yFyxuw4jyFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
- IcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
- v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
- 1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
- AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0D
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
- VFxhVjvjDU0xZFpf9x0JU2fOwUUUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220310230822.GO661808@dread.disaster.area>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=192.55.52.151;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga17.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,200 +74,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Borislav Petkov <bp@alien8.de>, luto@kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, linux-api@vger.kernel.org,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Sean Christopherson <seanjc@google.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Mar 11, 2022 at 10:08:22AM +1100, Dave Chinner wrote:
+> On Thu, Mar 10, 2022 at 10:09:01PM +0800, Chao Peng wrote:
+> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > 
+> > It maintains a memfile_notifier list in shmem_inode_info structure and
+> > implements memfile_pfn_ops callbacks defined by memfile_notifier. It
+> > then exposes them to memfile_notifier via
+> > shmem_get_memfile_notifier_info.
+> > 
+> > We use SGP_NOALLOC in shmem_get_lock_pfn since the pages should be
+> > allocated by userspace for private memory. If there is no pages
+> > allocated at the offset then error should be returned so KVM knows that
+> > the memory is not private memory.
+> > 
+> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  include/linux/shmem_fs.h |  4 +++
+> >  mm/shmem.c               | 76 ++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 80 insertions(+)
+> > 
+> > diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> > index 2dde843f28ef..7bb16f2d2825 100644
+> > --- a/include/linux/shmem_fs.h
+> > +++ b/include/linux/shmem_fs.h
+> > @@ -9,6 +9,7 @@
+> >  #include <linux/percpu_counter.h>
+> >  #include <linux/xattr.h>
+> >  #include <linux/fs_parser.h>
+> > +#include <linux/memfile_notifier.h>
+> >  
+> >  /* inode in-kernel data */
+> >  
+> > @@ -28,6 +29,9 @@ struct shmem_inode_info {
+> >  	struct simple_xattrs	xattrs;		/* list of xattrs */
+> >  	atomic_t		stop_eviction;	/* hold when working on inode */
+> >  	unsigned int		xflags;		/* shmem extended flags */
+> > +#ifdef CONFIG_MEMFILE_NOTIFIER
+> > +	struct memfile_notifier_list memfile_notifiers;
+> > +#endif
+> >  	struct inode		vfs_inode;
+> >  };
+> >  
+> > diff --git a/mm/shmem.c b/mm/shmem.c
+> > index 9b31a7056009..7b43e274c9a2 100644
+> > --- a/mm/shmem.c
+> > +++ b/mm/shmem.c
+> > @@ -903,6 +903,28 @@ static struct folio *shmem_get_partial_folio(struct inode *inode, pgoff_t index)
+> >  	return page ? page_folio(page) : NULL;
+> >  }
+> >  
+> > +static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
+> > +{
+> > +#ifdef CONFIG_MEMFILE_NOTIFIER
+> > +	struct shmem_inode_info *info = SHMEM_I(inode);
+> > +
+> > +	memfile_notifier_fallocate(&info->memfile_notifiers, start, end);
+> > +#endif
+> > +}
+> 
+> *notify_populate(), not fallocate.  This is a notification that a
+> range has been populated, not that the fallocate() syscall was run
+> to populate the backing store of a file.
+> 
+> i.e.  fallocate is the name of a userspace filesystem API that can
+> be used to manipulate the backing store of a file in various ways.
+> It can both populate and punch away the backing store of a file, and
+> some operations that fallocate() can run will do both (e.g.
+> FALLOC_FL_ZERO_RANGE) and so could generate both
+> notify_invalidate() and a notify_populate() events.
 
-在 2022/3/11 下午3:54, Alistair Francis 写道:
-> On Fri, Mar 11, 2022 at 2:58 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->>
->> 在 2022/3/11 上午10:58, Alistair Francis 写道:
->>> On Wed, Mar 2, 2022 at 11:50 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->>>>        For csrrs and csrrc, if rs1 specifies a register other than x0, holding
->>>>        a zero value, the instruction will still attempt to write the unmodified
->>>>        value back to the csr and will cause side effects
->>>>
->>>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->>>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->>>> ---
->>>>    target/riscv/csr.c       | 46 ++++++++++++++++++++++++++++------------
->>>>    target/riscv/op_helper.c |  7 +++++-
->>>>    2 files changed, 39 insertions(+), 14 deletions(-)
->>>>
->>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>> index aea82dff4a..f4774ca07b 100644
->>>> --- a/target/riscv/csr.c
->>>> +++ b/target/riscv/csr.c
->>>> @@ -2872,7 +2872,7 @@ static RISCVException write_upmbase(CPURISCVState *env, int csrno,
->>>>
->>>>    static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->>>>                                                   int csrno,
->>>> -                                               bool write_mask,
->>>> +                                               bool write_csr,
->>>>                                                   RISCVCPU *cpu)
->>>>    {
->>>>        /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
->>>> @@ -2895,7 +2895,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->>>>            return RISCV_EXCP_ILLEGAL_INST;
->>>>        }
->>>>    #endif
->>>> -    if (write_mask && read_only) {
->>>> +    if (write_csr && read_only) {
->>>>            return RISCV_EXCP_ILLEGAL_INST;
->>>>        }
->>>>
->>>> @@ -2915,7 +2915,8 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->>>>    static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
->>>>                                           target_ulong *ret_value,
->>>>                                           target_ulong new_value,
->>>> -                                       target_ulong write_mask)
->>>> +                                       target_ulong write_mask,
->>>> +                                       bool write_csr)
->>>>    {
->>>>        RISCVException ret;
->>>>        target_ulong old_value;
->>>> @@ -2935,8 +2936,8 @@ static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
->>>>            return ret;
->>>>        }
->>>>
->>>> -    /* write value if writable and write mask set, otherwise drop writes */
->>>> -    if (write_mask) {
->>>> +    /* write value if needed, otherwise drop writes */
->>>> +    if (write_csr) {
->>>>            new_value = (old_value & ~write_mask) | (new_value & write_mask);
->>>>            if (csr_ops[csrno].write) {
->>>>                ret = csr_ops[csrno].write(env, csrno, new_value);
->>>> @@ -2960,18 +2961,27 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
->>>>    {
->>>>        RISCVCPU *cpu = env_archcpu(env);
->>>>
->>>> -    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu);
->>>> +    /*
->>>> +     * write value when write_mask is set or rs1 is not x0 but holding zero
->>>> +     * value for csrrc(new_value is zero) and csrrs(new_value is all-ones)
->>> I don't understand this. Won't write_mask also be zero and when reading?
->>>
->>> Alistair
->>>
->> Yeah. It's true. To distinguish only-read operation with the special
->> write case(write_mask = 0), I also modified the new_value of riscv_csrrw
->> from 0 to 1 in helper_csrr :
->>
->>    target_ulong helper_csrr(CPURISCVState *env, int csr)
->>    {
->>        target_ulong val = 0;
->> -    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0);
->> +
->> +    /*
->> +     * new_value here should be none-zero or none-all-ones here to
->> +     * distinguish with csrrc/csrrs with rs1 is not x0 but holding zero value
->> +     */
->> +    RISCVException ret = riscv_csrrw(env, csr, &val, 1, 0);
-> This is confusing though and I worry a future change will break this.
-> I think we should be explicit instead of using special combinations of
-> masks. What if a write operation occurred that wanted to write 1 with
-> a mark of 0?
+Yes, I fully agreed fallocate syscall has both populating and hole
+punching semantics so notify_fallocate can be misleading since we
+actually mean populate here.
 
-  When we write csr, if the mask is zero,  the new_value will be ignored 
-and write back the original value.
+> 
+> Hence "fallocate" as an internal mm namespace or operation does not
+> belong anywhere in core MM infrastructure - it should never get used
+> anywhere other than the VFS/filesystem layers that implement the
+> fallocate() syscall or use it directly.
 
-So choose any none-zero and none-all-ones value here is OK. and a new 
-instruction to write 1 with a mark of 0
+Will use your suggestion through the series where applied. Thanks for
+your suggestion.
 
-seems  unnecessary. I have no idea what future change may break this 
-currently.
-
->
-> The two options seem to either add a check for the seed CSR in
-> helper_csrr() to fault if the address matches. That's not the best as
-> then we have specific code, but this requirement seems pretty specific
-> as well so it's probably ok.
-
-The side effect of writing CSR with original value is ignored in 
-previous code.  So I think it's a missing function,
-
-not only the requirement of seed csr.
-
->
-> The other option would be to modify riscv_csrrw() to explicitly pass
-> in a `bool write_op` that you check against.
-
-I agree that it may be more intuitive and easy to understand if we 
-explicitly pass a new "write_op" argument.
-
-I'll try this. Maybe we can judge which one is better later.
-
->
-> Alistair
->
->>        if (ret != RISCV_EXCP_NONE) {
->>            riscv_raise_exception(env, ret, GETPC());
->>
->>
->> After modification, the cases for all csr related instructions is as follows:
->>
->> index     instruction                   helper write_mask
->> new_value        Read/Write     write_csr
->>
->> 1              csrrw                         csrrw/csrw all-ones
->>           src1 (R)W                 true
->>
->> 2             csrrs(rs1=0) csrr                      zero
->> 1                           R                      false
->>
->> 3              csrrs(rs1!=0)               csrrw                   src1
->>                    all-ones RW                   true
->>
->> 4              csrrs(rs1=0) csrr                     zero
->> 1                           R                     false
->>
->> 5              csrrc(rs1!=0)               csrrw                   src1
->>                         zero                     RW                  true
->>
->> 6              csrrc(rs1=0) csrr                      zero
->> 1                           R                    false
->>
->> 7              csrrwi                     csrrw/csrw
->> all-ones                rs1 (R)W                  true
->>
->> 8              csrrsi(rs1=0) csrr                      zero
->> 1                           R                    false
->>
->> 9              csrrsi(rs1!=0)               csrrw                    rs1
->>                    all-ones RW                   true
->>
->> 10           csrrci(rs1=0) csrr                      zero
->> 1                           R                    false
->>
->> 11           csrrci(rs1!=0)               csrrw                    rs1
->>                           zero                   RW                    true
->>
->>
->> Only row 3 and 5 can be Write-operation with write_mask = 0 when src1 =
->> 0.  And it's the special case will be identified by :
->>
->> ((write_mask == 0) && ((new_value == 0) || (new_value == (target_ulong)-1)));
->>
->> for other only-read instructions, the write_mask is zero, but the new_value is changed to 1 (none-zero and none-all-ones), so they will make write_csr to be false.
->>
->> Regards,
->> Weiwei Li
->>
->>>> +     */
->>>> +    bool write_csr = write_mask || ((write_mask == 0) &&
->>>> +                                    ((new_value == 0) ||
->>>> +                                     (new_value == (target_ulong)-1)));
->>>> +
->>>>
->>>> --
->>>> 2.17.1
->>>>
->>>>
-
+Chao
+> 
+> Cheers,
+> 
+> Dave.
+> 
+> -- 
+> Dave Chinner
+> david@fromorbit.com
 
