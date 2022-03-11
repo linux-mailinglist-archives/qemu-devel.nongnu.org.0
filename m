@@ -2,65 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565074D5E9F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 10:39:14 +0100 (CET)
-Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4A94D5EAC
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 10:45:49 +0100 (CET)
+Received: from localhost ([::1]:43570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSbjs-0007Ei-Iq
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 04:39:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36828)
+	id 1nSbqG-00024J-0n
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 04:45:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nSbeU-00040j-0w
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 04:33:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60477)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nSbna-0001HS-KC
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 04:43:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nSbeR-00011A-Lc
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 04:33:37 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1nSbnW-0002bj-PJ
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 04:43:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646991213;
+ s=mimecast20190719; t=1646991777;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xkKLA18gMVa7W7AgiM/KCG+u+BQy3mwdH2FAdoOq2uw=;
- b=WEh6tqYikQDZaq0mQx4S+QHNIc288HU5LIAbcONzGx9+v7Sdrhn5K1vIKAG3gnh7EF+yCc
- 9w9Xmf07Hf3Qk0k1D0uCt4VUC8nxb8RjjAufvZ44wY4FvSMgazqMYriiU+644bh7u7aWwB
- DuP0X90okr7GUCiVNMYVcfO15ZeROS8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YcGrufNeDkTeCDPEexa+NiZ8YM+VOaf0poXqngmMbNk=;
+ b=TncbE0ppBbzldFX2WUzOrSnZpm9gXbRyVsCQHRop1z+tLUxE4zMN2YnId9BfeZ5qs5jd3t
+ jZgH8oRB9BCe7jLRs1ZReO8H+H8+7I+/Ll0X3J5g5luNSNT98hS/LZE1g/ngTFKLjy4Vdd
+ +Kxba8sc8vCMq4BypXZXrmbRNgb6wqQ=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-3t5RRusvM-egOVKLegthzw-1; Fri, 11 Mar 2022 04:33:32 -0500
-X-MC-Unique: 3t5RRusvM-egOVKLegthzw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F7011006AA7;
- Fri, 11 Mar 2022 09:33:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8458610246E3;
- Fri, 11 Mar 2022 09:33:28 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 144D921E6A00; Fri, 11 Mar 2022 10:33:27 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Subject: Re: [PATCH] block-qdict: Fix -Werror=maybe-uninitialized build failure
-References: <20220310200511.44746-1-muriloo@linux.ibm.com>
-Date: Fri, 11 Mar 2022 10:33:27 +0100
-In-Reply-To: <20220310200511.44746-1-muriloo@linux.ibm.com> (Murilo Opsfelder
- Araujo's message of "Thu, 10 Mar 2022 17:05:11 -0300")
-Message-ID: <87a6dwesuw.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-561-8FB9moQVMoe4dIoQ8HQdGA-1; Fri, 11 Mar 2022 04:42:56 -0500
+X-MC-Unique: 8FB9moQVMoe4dIoQ8HQdGA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ lf15-20020a170906ae4f00b006da86a43346so4637529ejb.14
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 01:42:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YcGrufNeDkTeCDPEexa+NiZ8YM+VOaf0poXqngmMbNk=;
+ b=DCxRHG8WydXK7PT9lPNfGAsCjO5nWUJy2BHBgvxX4y318aSBvONM9PstYq6jpEuia9
+ 3EnoVDKlD29OBZrHsWg57HBIpSYzAMEyyJ3YNbxKBg3cs21w0ND97gvhqgxvKDUbDwI4
+ A1Q3o+rc/tue2ySjX2SzPtEusGQm1kGOT54fXGwFWDqilM2NyDf/yCBRKfyj3Z9tNL8C
+ GPMoG3pd4Gi19X79UhRB4clThtLPZFXh1z9EeNbQczkaPRDHehVAv2XoRWb6cs6AUbXq
+ sSp/pGLRSzfQp8ipCwOfIFZ3ud356McUh2d/mTU/JRzuZ5y/CqujmDeYaHCCbnTGB9cW
+ LrRA==
+X-Gm-Message-State: AOAM532tEnCkJsg5J9ADan5+eOW/ky+egEuSu6/q4/bEYCwu9S/5z1k2
+ Rm0Lj570yx4f8w2MeAdc2AEVDs6Hlmw30AwYo1XK3/mYshzyGPGc2T7BAHn1i4N7e0kpcFP3vWr
+ bB7Ls4DnR5ZOxQa0=
+X-Received: by 2002:a05:6402:3510:b0:418:509e:8a79 with SMTP id
+ b16-20020a056402351000b00418509e8a79mr34282edd.294.1646991774985; 
+ Fri, 11 Mar 2022 01:42:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+cx21PAjgjD/8FmQG5hlGJNaJ1bXIhjEg+koG6M38/cs7jNTRsFdtKVHxNFRZ/cqKUtxEOQ==
+X-Received: by 2002:a05:6402:3510:b0:418:509e:8a79 with SMTP id
+ b16-20020a056402351000b00418509e8a79mr34249edd.294.1646991774638; 
+ Fri, 11 Mar 2022 01:42:54 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ h7-20020a1709066d8700b006d4b4d137fbsm2763885ejt.50.2022.03.11.01.42.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Mar 2022 01:42:54 -0800 (PST)
+Date: Fri, 11 Mar 2022 10:42:52 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Steven Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V7 10/29] machine: memfd-alloc option
+Message-ID: <20220311104252.548c5fb4@redhat.com>
+In-Reply-To: <88be3aa0-0d7f-08c5-8278-07a3c5b701c8@oracle.com>
+References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-11-git-send-email-steven.sistare@oracle.com>
+ <20220303121534-mutt-send-email-mst@kernel.org>
+ <20220304114124.6fe97646@redhat.com>
+ <c42748ca-3e06-d57e-dcfb-a2a97006d2fc@oracle.com>
+ <20220307184045-mutt-send-email-mst@kernel.org>
+ <20220308082048.1783adbc@redhat.com>
+ <3e0803ef-392a-b863-3474-3f76dcd27ae1@oracle.com>
+ <20220310170025.33b9f6f0@redhat.com>
+ <d62b16fc-f01a-586d-9fcf-d44abc100cb2@oracle.com>
+ <88be3aa0-0d7f-08c5-8278-07a3c5b701c8@oracle.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -81,124 +109,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- mopsfelder@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zheng Chuan <zhengchuan@huawei.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Murilo Opsfelder Araujo <muriloo@linux.ibm.com> writes:
+On Thu, 10 Mar 2022 13:18:35 -0500
+Steven Sistare <steven.sistare@oracle.com> wrote:
 
-> Building QEMU on Fedora 37 (Rawhide Prerelease) ppc64le failed with the
-> following error:
->
->     $ ../configure --prefix=3D/usr/local/qemu-disabletcg --target-list=3D=
-ppc-softmmu,ppc64-softmmu --disable-tcg --disable-linux-user
->     ...
->     $ make -j$(nproc)
->     ...
->     FAILED: libqemuutil.a.p/qobject_block-qdict.c.o
->     cc -m64 -mlittle-endian -Ilibqemuutil.a.p -I. -I.. -Isubprojects/libv=
-host-user -I../subprojects/libvhost-user -Iqapi -Itrace -Iui -Iui/shader -I=
-/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-=
-4 -I/usr/include/lib
->     mount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -I/usr/include=
-/p11-kit-1 -I/usr/include/pixman-1 -fdiagnostics-color=3Dauto -Wall -Winval=
-id-pch -Werror -std=3Dgnu11 -O2 -g -isystem /root/qemu/linux-headers -isyst=
-em linux-headers -iquote
->      . -iquote /root/qemu -iquote /root/qemu/include -iquote /root/qemu/d=
-isas/libvixl -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_GNU_SOURCE=
- -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredunda=
-nt-decls -Wundef -Wwrite
->     -strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrap=
-v -Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat-sec=
-urity -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-e=
-xterns -Wendif-label
->     s -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-missing-incl=
-ude-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPI=
-E -MD -MQ libqemuutil.a.p/qobject_block-qdict.c.o -MF libqemuutil.a.p/qobje=
-ct_block-qdict.c.o.d -
->     o libqemuutil.a.p/qobject_block-qdict.c.o -c ../qobject/block-qdict.c
->     In file included from /root/qemu/include/qapi/qmp/qdict.h:16,
->                      from /root/qemu/include/block/qdict.h:13,
->                      from ../qobject/block-qdict.c:11:
->     /root/qemu/include/qapi/qmp/qobject.h: In function =E2=80=98qdict_arr=
-ay_split=E2=80=99:
->     /root/qemu/include/qapi/qmp/qobject.h:49:17: error: =E2=80=98subqdict=
-=E2=80=99 may be used uninitialized [-Werror=3Dmaybe-uninitialized]
->        49 |     typeof(obj) _obj =3D (obj);                              =
-     \
->           |                 ^~~~
->     ../qobject/block-qdict.c:227:16: note: =E2=80=98subqdict=E2=80=99 dec=
-lared here
->       227 |         QDict *subqdict;
->           |                ^~~~~~~~
->     cc1: all warnings being treated as errors
->
-> Fix build failure by initializing the QDict variable with NULL.
->
-> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Hanna Reitz <hreitz@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> ---
->  qobject/block-qdict.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/qobject/block-qdict.c b/qobject/block-qdict.c
-> index 1487cc5dd8..b26524429c 100644
-> --- a/qobject/block-qdict.c
-> +++ b/qobject/block-qdict.c
-> @@ -224,7 +224,7 @@ void qdict_array_split(QDict *src, QList **dst)
->      for (i =3D 0; i < UINT_MAX; i++) {
->          QObject *subqobj;
->          bool is_subqdict;
-> -        QDict *subqdict;
-> +        QDict *subqdict =3D NULL;
->          char indexstr[32], prefix[32];
->          size_t snprintf_ret;
+> On 3/10/2022 12:28 PM, Steven Sistare wrote:
+> > On 3/10/2022 11:00 AM, Igor Mammedov wrote:  
+> >> On Thu, 10 Mar 2022 10:36:08 -0500
+> >> Steven Sistare <steven.sistare@oracle.com> wrote:
+> >>  
+> >>> On 3/8/2022 2:20 AM, Igor Mammedov wrote:  
+> >>>> On Tue, 8 Mar 2022 01:50:11 -0500
+> >>>> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >>>>     
+> >>>>> On Mon, Mar 07, 2022 at 09:41:44AM -0500, Steven Sistare wrote:    
+> >>>>>> On 3/4/2022 5:41 AM, Igor Mammedov wrote:      
+> >>>>>>> On Thu, 3 Mar 2022 12:21:15 -0500
+> >>>>>>> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >>>>>>>       
+> >>>>>>>> On Wed, Dec 22, 2021 at 11:05:15AM -0800, Steve Sistare wrote:      
+> >>>>>>>>> Allocate anonymous memory using memfd_create if the memfd-alloc machine
+> >>>>>>>>> option is set.
+> >>>>>>>>>
+> >>>>>>>>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> >>>>>>>>> ---
+> >>>>>>>>>  hw/core/machine.c   | 19 +++++++++++++++++++
+> >>>>>>>>>  include/hw/boards.h |  1 +
+> >>>>>>>>>  qemu-options.hx     |  6 ++++++
+> >>>>>>>>>  softmmu/physmem.c   | 47 ++++++++++++++++++++++++++++++++++++++---------
+> >>>>>>>>>  softmmu/vl.c        |  1 +
+> >>>>>>>>>  trace-events        |  1 +
+> >>>>>>>>>  util/qemu-config.c  |  4 ++++
+> >>>>>>>>>  7 files changed, 70 insertions(+), 9 deletions(-)
+> >>>>>>>>>
+> >>>>>>>>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> >>>>>>>>> index 53a99ab..7739d88 100644
+> >>>>>>>>> --- a/hw/core/machine.c
+> >>>>>>>>> +++ b/hw/core/machine.c
+> >>>>>>>>> @@ -392,6 +392,20 @@ static void machine_set_mem_merge(Object *obj, bool value, Error **errp)
+> >>>>>>>>>      ms->mem_merge = value;
+> >>>>>>>>>  }
+> >>>>>>>>>  
+> >>>>>>>>> +static bool machine_get_memfd_alloc(Object *obj, Error **errp)
+> >>>>>>>>> +{
+> >>>>>>>>> +    MachineState *ms = MACHINE(obj);
+> >>>>>>>>> +
+> >>>>>>>>> +    return ms->memfd_alloc;
+> >>>>>>>>> +}
+> >>>>>>>>> +
+> >>>>>>>>> +static void machine_set_memfd_alloc(Object *obj, bool value, Error **errp)
+> >>>>>>>>> +{
+> >>>>>>>>> +    MachineState *ms = MACHINE(obj);
+> >>>>>>>>> +
+> >>>>>>>>> +    ms->memfd_alloc = value;
+> >>>>>>>>> +}
+> >>>>>>>>> +
+> >>>>>>>>>  static bool machine_get_usb(Object *obj, Error **errp)
+> >>>>>>>>>  {
+> >>>>>>>>>      MachineState *ms = MACHINE(obj);
+> >>>>>>>>> @@ -829,6 +843,11 @@ static void machine_class_init(ObjectClass *oc, void *data)
+> >>>>>>>>>      object_class_property_set_description(oc, "mem-merge",
+> >>>>>>>>>          "Enable/disable memory merge support");
+> >>>>>>>>>  
+> >>>>>>>>> +    object_class_property_add_bool(oc, "memfd-alloc",
+> >>>>>>>>> +        machine_get_memfd_alloc, machine_set_memfd_alloc);
+> >>>>>>>>> +    object_class_property_set_description(oc, "memfd-alloc",
+> >>>>>>>>> +        "Enable/disable allocating anonymous memory using memfd_create");
+> >>>>>>>>> +
+> >>>>>>>>>      object_class_property_add_bool(oc, "usb",
+> >>>>>>>>>          machine_get_usb, machine_set_usb);
+> >>>>>>>>>      object_class_property_set_description(oc, "usb",
+> >>>>>>>>> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> >>>>>>>>> index 9c1c190..a57d7a0 100644
+> >>>>>>>>> --- a/include/hw/boards.h
+> >>>>>>>>> +++ b/include/hw/boards.h
+> >>>>>>>>> @@ -327,6 +327,7 @@ struct MachineState {
+> >>>>>>>>>      char *dt_compatible;
+> >>>>>>>>>      bool dump_guest_core;
+> >>>>>>>>>      bool mem_merge;
+> >>>>>>>>> +    bool memfd_alloc;
+> >>>>>>>>>      bool usb;
+> >>>>>>>>>      bool usb_disabled;
+> >>>>>>>>>      char *firmware;
+> >>>>>>>>> diff --git a/qemu-options.hx b/qemu-options.hx
+> >>>>>>>>> index 7d47510..33c8173 100644
+> >>>>>>>>> --- a/qemu-options.hx
+> >>>>>>>>> +++ b/qemu-options.hx
+> >>>>>>>>> @@ -30,6 +30,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+> >>>>>>>>>      "                vmport=on|off|auto controls emulation of vmport (default: auto)\n"
+> >>>>>>>>>      "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
+> >>>>>>>>>      "                mem-merge=on|off controls memory merge support (default: on)\n"
+> >>>>>>>>> +    "                memfd-alloc=on|off controls allocating anonymous guest RAM using memfd_create (default: off)\n"        
+> >>>>>>>>
+> >>>>>>>> Question: are there any disadvantages associated with using
+> >>>>>>>> memfd_create? I guess we are using up an fd, but that seems minor.  Any
+> >>>>>>>> reason not to set to on by default? maybe with a fallback option to
+> >>>>>>>> disable that?      
+> >>>>>>
+> >>>>>> Old Linux host kernels, circa 4.1, do not support huge pages for shared memory.
+> >>>>>> Also, the tunable to enable huge pages for share memory is different than for
+> >>>>>> anon memory, so there could be performance loss if it is not set correctly.
+> >>>>>>     /sys/kernel/mm/transparent_hugepage/enabled
+> >>>>>>     vs
+> >>>>>>     /sys/kernel/mm/transparent_hugepage/shmem_enabled      
+> >>>>>
+> >>>>> I guess we can test this when launching the VM, and select
+> >>>>> a good default.
+> >>>>>    
+> >>>>>> It might make sense to use memfd_create by default for the secondary segments.      
+> >>>>>
+> >>>>> Well there's also KSM now you mention it.    
+> >>>>
+> >>>> then another quest, is there downside to always using memfd_create
+> >>>> without any knobs being involved?    
+> >>>
+> >>> Lower performance if small pages are used (but Michael suggests qemu could 
+> >>> automatically check the tunable and use anon memory instead)
+> >>>
+> >>> KSM (same page merging) is not supported for shared memory, so ram_block_add ->
+> >>> memory_try_enable_merging will not enable it.
+> >>>
+> >>> In both cases, I expect the degradation would be negligible if memfd_create is
+> >>> only automatically applied to the secondary segments, which are typically small.
+> >>> But, someone's secondary segment could be larger, and it is time consuming to
+> >>> prove innocence when someone claims your change caused their performance regression.  
+> >>
+> >> Adding David as memory subsystem maintainer, maybe he will a better
+> >> idea instead of introducing global knob that would also magically alter 
+> >> backends' behavior despite of its their configured settings.  
+> > 
+> > OK, in ram_block_add I can set the RAM_SHARED flag based on the memory-backend object's
+> > shared flag.  I already set the latter in create_default_memdev when memfd-alloc is
+> > specified.  With that change, we do not override configured settings.  Users can no longer
+> > use memory-backend-ram for CPR, and must change all memory-backend-ram to memory-backend-memfd
+> > in the command-line arguments.  That is fine.
+> > 
+> > With that change, are you OK with this patch?  
+> 
+> Sorry, I mis-read my own code in ram_block_add.  The existing code is correct and does 
+> not alter any backend's behavior.   It only sets the shared flag when the ram is *not* 
+> being allocated for a backend:
+> 
+>                 if (!object_dynamic_cast(parent, TYPE_MEMORY_BACKEND)) {
+>                     new_block->flags |= RAM_SHARED;
+>                 }
+> 
 
-The compiler's warning is actually spurious.  Your patch is the
-minimally invasive way to shut it up.  But I wonder whether we can
-make the code clearer instead.  Let's have a look:
+ok, maybe instead of introducing a generic option, introduce the high level
+feature one that turns this and other necessary quirks for it to work (i.e.
+something like live-update=on|off).
+That will not make QEMU internals any better but at least it will hide obscure
+memfd-alloc from users.
+Is there a patch that makes QEMU error out if backend without
+shared=on is used?
 
-           /*
-            * There may be either a single subordinate object (named
-            * "%u") or multiple objects (each with a key prefixed "%u."),
-            * but not both.
-            */
-           if (!subqobj =3D=3D !is_subqdict) {
-               break;
+Also, can you answer question below, pls
+or point to a patch in series that takes care of that invariant?
 
-Because of this, ...
+[...]
 
-           }
-
-           if (is_subqdict) {
-
-... subqobj is non-null here, and ...
-
-               qdict_extract_subqdict(src, &subqdict, prefix);
-               assert(qdict_size(subqdict) > 0);
-           } else {
-
-... null here.
-
-               qobject_ref(subqobj);
-               qdict_del(src, indexstr);
-           }
-
-           qlist_append_obj(*dst, subqobj ?: QOBJECT(subqdict));
-
-What about this:
-
-           if (is_subqdict) {
-               qdict_extract_subqdict(src, &subqdict, prefix);
-               assert(qdict_size(subqdict) > 0);
-               qlist_append_obj(*dst, subqobj);
-           } else {
-               qobject_ref(subqobj);
-               qdict_del(src, indexstr);
-               qlist_append_obj(*dst, QOBJECT(subqdict));
-           }
+> >>>>>> There is currently no way to specify memory backends for the secondary memory
+> >>>>>> segments (vram, roms, etc), and IMO it would be onerous to specify a backend for
+> >>>>>> each of them.  On x86_64, these include pc.bios, vga.vram, pc.rom, vga.rom,
+> >>>>>> /rom@etc/acpi/tables, /rom@etc/table-loader, /rom@etc/acpi/rsdp.  
+> >>
+> >> MemoryRegion is not the only place where state is stored.
+> >> If we only talk about fwcfg entries state, it can also reference
+> >> plain malloced memory allocated elsewhere or make a deep copy internally.
+> >> Similarly devices also may store state outside of RamBlock framework.
+> >>
+> >> How are you dealing with that?
+[...]
 
 
