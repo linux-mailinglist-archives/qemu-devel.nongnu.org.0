@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB104D5AB6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 06:43:50 +0100 (CET)
-Received: from localhost ([::1]:54414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1F04D5AB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 06:41:43 +0100 (CET)
+Received: from localhost ([::1]:49874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSY45-0000pL-6L
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 00:43:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43446)
+	id 1nSY22-00069Y-4U
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 00:41:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nSXz0-00030y-NZ
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 00:38:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27599)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nSXzO-0003PH-Cd
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 00:38:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nSXyx-0003C4-PE
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 00:38:32 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nSXzM-0003Dx-CU
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 00:38:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646977111;
+ s=mimecast20190719; t=1646977135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2J+h4lMsE44APxJCoNAGLwyfc1DbRiB3bCJyq3wE+LM=;
- b=MX2dUU72CKP7nA3vvrk0whycSA13c9PMf9LAY40XSn0IjV0tIrQHUdKAL/3ufr8Fzv43Zy
- II7JQjntrmndl39BP5s/RM9KtUh2gUyCqUWVp1tu5G6yK4aZlZrwltz9zQ9fRhpR0LI6yl
- Sj4ZmWO5dQ/5ErkOgoWLVESkw8o77q4=
+ bh=NoUkNu2dSwCD2SyNhVoKtvOhxpjz9pzttNj0iAj7PkE=;
+ b=U4hP2m+y+jfkp0Jp66XsfswSo5vC2Ga3F8YmWQdNY8hRBXuFs4CQBJjaTES/kr16VOLXAa
+ L3T+vfCJuTD7gegesh2TkPmbVdR6BUa8IJNwOcVlIrsesBWf2DltnRxj1DvAm05NGbl4da
+ 1spV6wNjPEEg7EZ2a6775b7FipY1eAU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-292-kVYS6lKHO_G1LyGVftPlqA-1; Fri, 11 Mar 2022 00:38:27 -0500
-X-MC-Unique: kVYS6lKHO_G1LyGVftPlqA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-282-6ktoe1HMOuWDoxvq-rOGkA-1; Fri, 11 Mar 2022 00:38:48 -0500
+X-MC-Unique: 6ktoe1HMOuWDoxvq-rOGkA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3339551DC;
- Fri, 11 Mar 2022 05:38:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90F381091DA3;
+ Fri, 11 Mar 2022 05:38:47 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.196.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 562EE78C15;
- Fri, 11 Mar 2022 05:38:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CBAB5DBA2;
+ Fri, 11 Mar 2022 05:38:28 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6716E1800608; Fri, 11 Mar 2022 06:37:59 +0100 (CET)
+ id 753431800612; Fri, 11 Mar 2022 06:37:59 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/11] edk2: update submodule to stable202202
-Date: Fri, 11 Mar 2022 06:37:50 +0100
-Message-Id: <20220311053759.875785-3-kraxel@redhat.com>
+Subject: [PATCH v2 03/11] edk2: switch to release builds
+Date: Fri, 11 Mar 2022 06:37:51 +0100
+Message-Id: <20220311053759.875785-4-kraxel@redhat.com>
 In-Reply-To: <20220311053759.875785-1-kraxel@redhat.com>
 References: <20220311053759.875785-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,18 +91,101 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- roms/edk2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ roms/Makefile.edk2 | 17 +++++++++--------
+ roms/edk2-build.sh |  2 +-
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/roms/edk2 b/roms/edk2
-index 06dc822d045c..b24306f15daa 160000
---- a/roms/edk2
-+++ b/roms/edk2
-@@ -1 +1 @@
--Subproject commit 06dc822d045c2bb42e497487935485302486e151
-+Subproject commit b24306f15daa2ff8510b06702114724b33895d3c
+diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
+index fdae0b511f59..3d75a842a4df 100644
+--- a/roms/Makefile.edk2
++++ b/roms/Makefile.edk2
+@@ -13,6 +13,7 @@
+ 
+ SHELL = /bin/bash
+ 
++target = RELEASE
+ toolchain = $(shell source ./edk2-funcs.sh && qemu_edk2_get_toolchain $(1))
+ 
+ licenses := \
+@@ -73,7 +74,7 @@ submodules:
+ 		-D NETWORK_TLS_ENABLE \
+ 		-D TPM2_ENABLE \
+ 		-D TPM2_CONFIG_ENABLE
+-	cp edk2/Build/ArmVirtQemu-AARCH64/DEBUG_$(call toolchain,aarch64)/FV/QEMU_EFI.fd \
++	cp edk2/Build/ArmVirtQemu-AARCH64/$(target)_$(call toolchain,aarch64)/FV/QEMU_EFI.fd \
+ 		$@
+ 	truncate --size=64M $@
+ 
+@@ -87,7 +88,7 @@ submodules:
+ 		-D NETWORK_TLS_ENABLE \
+ 		-D TPM2_ENABLE \
+ 		-D TPM2_CONFIG_ENABLE
+-	cp edk2/Build/ArmVirtQemu-ARM/DEBUG_$(call toolchain,arm)/FV/QEMU_EFI.fd \
++	cp edk2/Build/ArmVirtQemu-ARM/$(target)_$(call toolchain,arm)/FV/QEMU_EFI.fd \
+ 		$@
+ 	truncate --size=64M $@
+ 
+@@ -101,7 +102,7 @@ submodules:
+ 		-D NETWORK_TLS_ENABLE \
+ 		-D TPM_ENABLE \
+ 		-D TPM_CONFIG_ENABLE
+-	cp edk2/Build/OvmfIa32/DEBUG_$(call toolchain,i386)/FV/OVMF_CODE.fd $@
++	cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_CODE.fd $@
+ 
+ ../pc-bios/edk2-i386-secure-code.fd: submodules
+ 	+./edk2-build.sh \
+@@ -115,7 +116,7 @@ submodules:
+ 		-D TPM_CONFIG_ENABLE \
+ 		-D SECURE_BOOT_ENABLE \
+ 		-D SMM_REQUIRE
+-	cp edk2/Build/OvmfIa32/DEBUG_$(call toolchain,i386)/FV/OVMF_CODE.fd $@
++	cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_CODE.fd $@
+ 
+ ../pc-bios/edk2-x86_64-code.fd: submodules
+ 	+./edk2-build.sh \
+@@ -127,7 +128,7 @@ submodules:
+ 		-D NETWORK_TLS_ENABLE \
+ 		-D TPM_ENABLE \
+ 		-D TPM_CONFIG_ENABLE
+-	cp edk2/Build/OvmfX64/DEBUG_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
++	cp edk2/Build/OvmfX64/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
+ 
+ ../pc-bios/edk2-x86_64-secure-code.fd: submodules
+ 	+./edk2-build.sh \
+@@ -142,15 +143,15 @@ submodules:
+ 		-D TPM_CONFIG_ENABLE \
+ 		-D SECURE_BOOT_ENABLE \
+ 		-D SMM_REQUIRE
+-	cp edk2/Build/Ovmf3264/DEBUG_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
++	cp edk2/Build/Ovmf3264/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
+ 
+ ../pc-bios/edk2-arm-vars.fd: ../pc-bios/edk2-arm-code.fd
+-	cp edk2/Build/ArmVirtQemu-ARM/DEBUG_$(call toolchain,arm)/FV/QEMU_VARS.fd \
++	cp edk2/Build/ArmVirtQemu-ARM/$(target)_$(call toolchain,arm)/FV/QEMU_VARS.fd \
+ 		$@
+ 	truncate --size=64M $@
+ 
+ ../pc-bios/edk2-i386-vars.fd: ../pc-bios/edk2-i386-code.fd
+-	cp edk2/Build/OvmfIa32/DEBUG_$(call toolchain,i386)/FV/OVMF_VARS.fd $@
++	cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_VARS.fd $@
+ 
+ # The license file accumulates several individual licenses from under edk2,
+ # prefixing each individual license with a header (generated by "tail") that
+diff --git a/roms/edk2-build.sh b/roms/edk2-build.sh
+index d5391c763728..ea79dc27a269 100755
+--- a/roms/edk2-build.sh
++++ b/roms/edk2-build.sh
+@@ -50,6 +50,6 @@ qemu_edk2_set_cross_env "$emulation_target"
+ build \
+   --cmd-len=65536 \
+   -n "$edk2_thread_count" \
+-  --buildtarget=DEBUG \
++  --buildtarget=RELEASE \
+   --tagname="$edk2_toolchain" \
+   "${args[@]}"
 -- 
 2.35.1
 
