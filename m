@@ -2,98 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8754D64C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 16:39:05 +0100 (CET)
-Received: from localhost ([::1]:53992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E6C4D65D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 17:12:25 +0100 (CET)
+Received: from localhost ([::1]:38214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nShM8-0001hF-2w
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 10:39:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33358)
+	id 1nShsM-0002T5-7E
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 11:12:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nShKy-0000vB-5u
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 10:37:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54271)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nShrZ-0001nr-Eq
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 11:11:33 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:22979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1nShKu-0007F3-5l
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 10:37:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647013067;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4L8zjOE8R1y/kIuhg4Hq71F2pEFtqgwj8lfSEGL55o8=;
- b=bKB7ERWMilNyAoFfyI3ehhzYPlhDbfWI5X7dc65hEXmtdZMFO/9myxsPTb/qFVrK+YcMAP
- OyrXL4GcVkpRcxrc1shJsSYf5idPaf3+qZBhBtz9G0IYq0MC73Y8yZQVVXCPQOwVxu0FRp
- GCJJCGuVEVtQ8jjepXxf8WSDwZ2nLuc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nShrX-0000lo-Bn
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 11:11:33 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-j-pFS001OcqCD8-ZdMMd6A-1; Fri, 11 Mar 2022 10:37:45 -0500
-X-MC-Unique: j-pFS001OcqCD8-ZdMMd6A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v67-20020a1cac46000000b00383e71bb26fso3127440wme.1
- for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 07:37:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=4L8zjOE8R1y/kIuhg4Hq71F2pEFtqgwj8lfSEGL55o8=;
- b=XmgCp6y2i1eJX57Rs9S2jnc/ZVk3pfEFun0RwFRNZ2xVChEQrhpP6qz1gLbsc0Iolc
- ctxA3lk7ogbAHWj/kVSjAk0hcIwWU+ja2RyEmP9WYSwITP0HJ5yY3orJhMguuhJohL05
- YcEX9WEGHQffDw+S83J8tk6il35oTFQ96BiqXgeI07ca+vdLIdJGBTq2yJrNhC+OECsV
- CP71uyUz61YaMdPul8E4Twq9epl2Q50vCFboElaByGJ/BWyfBdLqAlWsD4XYQqRcIXKQ
- AzcIPaVaObVtka+VlgxK3Kf4jQwHRTdtR+LIK4IRFkcWHtJ7RRHpjNEfb7jOz88wdXOx
- CRDQ==
-X-Gm-Message-State: AOAM531KOtgUYVKw7RZ95+gcm7EbaAtrgFfBIxi53B2b/fhOWgir1X/Z
- F9vbamc/sTSJ4ikZ7eN5or3sVFGOWpd+VP1OkGbzJYH5thaow0QvlPzjCsZouHLhi2HQOJep0Yp
- KKg5Z0JcvTD4fuSk=
-X-Received: by 2002:adf:eb86:0:b0:1e6:8c92:af6b with SMTP id
- t6-20020adfeb86000000b001e68c92af6bmr7678752wrn.116.1647013064126; 
- Fri, 11 Mar 2022 07:37:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzyXKAadP2Aad8zqJkfrKXZZhlGV7a+wPJqNlOxmrg9iXqlZ7vKGnto24wt4grc3VY6jllsWw==
-X-Received: by 2002:adf:eb86:0:b0:1e6:8c92:af6b with SMTP id
- t6-20020adfeb86000000b001e68c92af6bmr7678740wrn.116.1647013063903; 
- Fri, 11 Mar 2022 07:37:43 -0800 (PST)
-Received: from ?IPV6:2003:cb:c707:8200:163d:7a08:6e61:87a5?
- (p200300cbc7078200163d7a086e6187a5.dip0.t-ipconnect.de.
- [2003:cb:c707:8200:163d:7a08:6e61:87a5])
- by smtp.gmail.com with ESMTPSA id
- bj7-20020a0560001e0700b001f1d7822865sm6694926wrb.43.2022.03.11.07.37.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Mar 2022 07:37:43 -0800 (PST)
-Message-ID: <c501a55a-ca01-8750-3bbd-473d142923b0@redhat.com>
-Date: Fri, 11 Mar 2022 16:37:36 +0100
+ us-mta-567-uQXJZxYdPkWB63Tpt9pCTg-1; Fri, 11 Mar 2022 11:11:27 -0500
+X-MC-Unique: uQXJZxYdPkWB63Tpt9pCTg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FEE61854E21;
+ Fri, 11 Mar 2022 16:11:26 +0000 (UTC)
+Received: from bahia (unknown [10.39.192.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE6EB1073038;
+ Fri, 11 Mar 2022 16:11:25 +0000 (UTC)
+Date: Fri, 11 Mar 2022 17:11:24 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 3/6] tests/9pfs: compare QIDs in fs_walk_none() test
+Message-ID: <20220311171124.4197a7fd@bahia>
+In-Reply-To: <16470725.T4W6l4s3Qp@silver>
+References: <cover.1646850707.git.qemu_oss@crudebyte.com>
+ <699dea34f26b6f60746a16a35748b65d76515f1a.1646850707.git.qemu_oss@crudebyte.com>
+ <16470725.T4W6l4s3Qp@silver>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 1/7] target/s390x: vxeh2: vector convert short/32b
-To: David Miller <dmiller423@gmail.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220307020327.3003-1-dmiller423@gmail.com>
- <20220307020327.3003-2-dmiller423@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220307020327.3003-2-dmiller423@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,26 +66,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
- farman@linux.ibm.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.03.22 03:03, David Miller wrote:
-> Signed-off-by: David Miller <dmiller423@gmail.com>
-> ---
->  target/s390x/helper.h               |  4 +++
->  target/s390x/tcg/translate_vx.c.inc | 44 ++++++++++++++++++++++++++---
->  target/s390x/tcg/vec_fpu_helper.c   | 31 ++++++++++++++++++++
->  3 files changed, 75 insertions(+), 4 deletions(-)
-> 
+On Thu, 10 Mar 2022 10:04:50 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+> On Mittwoch, 9. M=C3=A4rz 2022 15:49:04 CET Christian Schoenebeck wrote:
+> > Extend previously added fs_walk_none() test by comparing the QID
+> > of the root fid with the QID of the cloned fid. They should be
+> > equal.
+> >=20
 
+Ha, I understand your suggestion of changing the name now :-) but I'll
+personally leave it named according to the test scenario of "sending
+a Twalk with no names" and checking everything that is expected in this
+case.
 
--- 
-Thanks,
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> >  tests/qtest/virtio-9p-test.c | 70 ++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 70 insertions(+)
+> >=20
+> > diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.=
+c
+> > index 6c00da03f4..9098e21173 100644
+> > --- a/tests/qtest/virtio-9p-test.c
+> > +++ b/tests/qtest/virtio-9p-test.c
+> > @@ -146,6 +146,11 @@ static void v9fs_uint16_read(P9Req *req, uint16_t =
+*val)
+> > le16_to_cpus(val);
+> >  }
+> >=20
+> > +static void v9fs_int16_read(P9Req *req, int16_t *val)
+> > +{
+> > +    v9fs_uint16_read(req, (uint16_t *)val);
+> > +}
+> > +
+> >  static void v9fs_uint32_write(P9Req *req, uint32_t val)
+> >  {
+> >      uint32_t le_val =3D cpu_to_le32(val);
+> > @@ -166,12 +171,22 @@ static void v9fs_uint32_read(P9Req *req, uint32_t
+> > *val) le32_to_cpus(val);
+> >  }
+> >=20
+> > +static void v9fs_int32_read(P9Req *req, int32_t *val)
+> > +{
+> > +    v9fs_uint32_read(req, (uint32_t *)val);
+> > +}
+> > +
+> >  static void v9fs_uint64_read(P9Req *req, uint64_t *val)
+> >  {
+> >      v9fs_memread(req, val, 8);
+> >      le64_to_cpus(val);
+> >  }
+> >=20
+> > +static void v9fs_int64_read(P9Req *req, int64_t *val)
+> > +{
+> > +    v9fs_uint64_read(req, (uint64_t *)val);
+> > +}
+> > +
+> >  /* len[2] string[len] */
+> >  static uint16_t v9fs_string_size(const char *string)
+> >  {
+> > @@ -425,6 +440,40 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid=
+,
+> > v9fs_qid **wqid) v9fs_req_free(req);
+> >  }
+> >=20
+> > +/* size[4] Tstat tag[2] fid[4] */
+> > +static P9Req *v9fs_tstat(QVirtio9P *v9p, uint32_t fid, uint16_t tag)
 
-David / dhildenb
+Tstat/Rstat aren't part of 9p2000.L, you should use Tgetattr/Rgetattr
+instead (see https://github.com/chaos/diod/blob/master/protocol.md).
+
+> > +{
+> > +    P9Req *req;
+> > +
+> > +    req =3D v9fs_req_init(v9p, 4, P9_TSTAT, tag);
+> > +    v9fs_uint32_write(req, fid);
+> > +    v9fs_req_send(req);
+> > +    return req;
+> > +}
+> > +
+> > +/* size[4] Rstat tag[2] stat[n] */
+> > +static void v9fs_rstat(P9Req *req, struct V9fsStat *st)
+> > +{
+> > +    v9fs_req_recv(req, P9_RSTAT);
+> > +
+
+For the records, this is a stat[n], i.e. "n[2] followed by n bytes of
+data forming the parameter", so you should read an uint16_t first.
+
+> > +    v9fs_int16_read(req, &st->size);
+> > +    v9fs_int16_read(req, &st->type);
+> > +    v9fs_int32_read(req, &st->dev);
+> > +    v9fs_uint8_read(req, &st->qid.type);
+> > +    v9fs_uint32_read(req, &st->qid.version);
+> > +    v9fs_uint64_read(req, &st->qid.path);
+> > +    v9fs_int32_read(req, &st->mode);
+> > +    v9fs_int32_read(req, &st->mtime);
+> > +    v9fs_int32_read(req, &st->atime);
+> > +    v9fs_int64_read(req, &st->length);
+> > +    v9fs_string_read(req, &st->name.size, &st->name.data);
+> > +    v9fs_string_read(req, &st->uid.size, &st->uid.data);
+> > +    v9fs_string_read(req, &st->gid.size, &st->gid.data);
+> > +    v9fs_string_read(req, &st->muid.size, &st->muid.data);
+> > +
+> > +    v9fs_req_free(req);
+> > +}
+> > +
+> >  /* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
+> >  static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t off=
+set,
+> >                              uint32_t count, uint16_t tag)
+> > @@ -1009,6 +1058,8 @@ static void fs_walk_none(void *obj, void *data,
+> > QGuestAllocator *t_alloc) v9fs_qid root_qid;
+> >      g_autofree v9fs_qid *wqid =3D NULL;
+> >      P9Req *req;
+> > +    struct V9fsStat st[2];
+> > +    int i;
+> >=20
+> >      do_version(v9p);
+> >      req =3D v9fs_tattach(v9p, 0, getuid(), 0);
+> > @@ -1021,6 +1072,25 @@ static void fs_walk_none(void *obj, void *data,
+> > QGuestAllocator *t_alloc)
+> >=20
+> >      /* special case: no QID is returned if nwname=3D0 was sent */
+> >      g_assert(wqid =3D=3D NULL);
+> > +
+> > +    req =3D v9fs_tstat(v9p, 0, 0);
+> > +    v9fs_req_wait_for_reply(req, NULL);
+> > +    v9fs_rstat(req, &st[0]);
+>=20
+> Probably stat-ing the root fid (0) should happen before sending Twalk, to=
+=20
+> better counter the 1st fid (0) having become potentially mutated?
+>=20
+
+You already have the root qid from Rattach, no need to stat.
+
+> > +
+> > +    req =3D v9fs_tstat(v9p, 1, 0);
+> > +    v9fs_req_wait_for_reply(req, NULL);
+> > +    v9fs_rstat(req, &st[1]);
+> > +
+> > +    /* don't compare QID version for checking for file ID equalness */
+> > +    g_assert(st[0].qid.type =3D=3D st[1].qid.type);
+> > +    g_assert(st[0].qid.path =3D=3D st[1].qid.path);
+>=20
+> I could add a helper function is_same_qid() for this if desired.
+>=20
+
+Rgetattr provides a qid[13] like Rattach. Since we control everything,
+the version bits won't change and I think is_same_qid() could be
+something as simple as:
+
+static inline bool is_same_qid(v9fs_qid qid1, v9fs_qid qid2)
+{
+    return memcmp(qid1, qid2, 13) =3D=3D 0;
+}
+
+> > +
+> > +    for (i =3D 0; i < 2; ++i) {
+> > +        g_free(st[i].name.data);
+> > +        g_free(st[i].uid.data);
+> > +        g_free(st[i].gid.data);
+> > +        g_free(st[i].muid.data);
+> > +    }
+>=20
+> I didn't find a more elegant way to do this cleanup.
+>=20
+
+You won't need that with Tgetattr.
+=20
+> >  }
+> >=20
+> >  static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_a=
+lloc)
+>=20
+>=20
 
 
