@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12744D5F2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 11:09:43 +0100 (CET)
-Received: from localhost ([::1]:34898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9174D5F32
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 11:11:12 +0100 (CET)
+Received: from localhost ([::1]:38424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nScDO-000830-I2
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 05:09:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44206)
+	id 1nScEp-00022U-7X
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 05:11:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nSc9D-0005Cg-DD
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 05:05:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36378)
+ id 1nScBa-0007nT-Ab
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 05:07:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60389)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1nSc9C-0002ev-0H
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 05:05:23 -0500
+ id 1nScBU-00033u-SV
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 05:07:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646993121;
+ s=mimecast20190719; t=1646993264;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ndzpuLrxwEcueCMrsHu2Ct89DqE+b+e/Nd1reRLRMi4=;
- b=Nlvm2B5KCyBvck7Ucb/1Xb1qa4jyjqhmaitv1KUf9t5IUBQ2uYUO/zv39OHEM4XmidOcCD
- gx5Ij1UT6vjnA9O+KhJxoP1o0Um8xGun2YWytPXEte1bU+cvb2OBZKRgZJ2xUHVr7TEbGv
- ZWmRNO9OQ35bbGsBZ5Vbotmu2eSz7j4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=f4CCojAbKprqiDXgJsBxQi1dboqNYmrDe8hXqe7epzI=;
+ b=gDncSFisaP9BjIoDt8wuh9tC1jkjOlQ6zXIPLIZMYfS+rYtL2hVFaGM/x0BHIgBYiUMm6Y
+ uTfxmUso9G9ajhcnXQMa6fTuhCPQaaw8psFCFsgX4hWQshHfrkdAzSMFSc5LVB0p2ZMWMx
+ RhvkrOvMGddX1K51Al02+Rpghr1Z1Co=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-QDlzCDEJO-CkfUSbbh80rA-1; Fri, 11 Mar 2022 05:05:20 -0500
-X-MC-Unique: QDlzCDEJO-CkfUSbbh80rA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p18-20020adfba92000000b001e8f7697cc7so2625975wrg.20
- for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 02:05:20 -0800 (PST)
+ us-mta-372-21iSeB7nOhWHXuDNKmbtfg-1; Fri, 11 Mar 2022 05:07:43 -0500
+X-MC-Unique: 21iSeB7nOhWHXuDNKmbtfg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f24-20020a1c6a18000000b00388874b17a8so3309577wmc.3
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 02:07:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ndzpuLrxwEcueCMrsHu2Ct89DqE+b+e/Nd1reRLRMi4=;
- b=B3w3GKEzLlXgDgXJ1KxiI+y1Bh8/R/dNiY1lJNmYC+UJAXzY6OIppBwcMLucIs2UCI
- tSuuUDs/xWZQMy1Un06L0MhEnIYGMNUf3FG7+l5mFkTxF3b4WT51lS3ge29Haq8DQ0WI
- dHkjF/WY3VCiNtWEDE7nbvohbLydoeGm5f/sqCAeVPTxJy9BRTsm6DnFBzhD34yj/KVu
- E5hiRnzivJMo3yUQC77MyU3eK/IwMq82lDba4r2ShoIR517xmxlCzo5Xr+TY2ARZttAn
- izLYy9d+N85+bmDIE/JdEfQBTSct1EZxpS2cH7xBjNIj/eFIwnMKCLUV8ZgbSPftlzSh
- 2CRQ==
-X-Gm-Message-State: AOAM532UTqluJqBxZPsyoZGutM1xgGxySJrZCSCfRiEtK5VBCqCZURwa
- urFuLr6n+skIR/BqZPjEwrtF/EDWL4meJlRaU3qa8vwZUZyofv2ScO5R85YsTg54jpFM4q3nTpO
- pRuUhszKvOwPazqQ=
-X-Received: by 2002:a5d:52c8:0:b0:1ed:e591:be70 with SMTP id
- r8-20020a5d52c8000000b001ede591be70mr6738184wrv.436.1646993119144; 
- Fri, 11 Mar 2022 02:05:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzz+Rkl7XRAHbeHLDp4RIWz1Q1v4pLYvgy9NRow2IyPYBVYcx5rKi5vEoTkOpr10OLt5p9+JQ==
-X-Received: by 2002:a5d:52c8:0:b0:1ed:e591:be70 with SMTP id
- r8-20020a5d52c8000000b001ede591be70mr6738166wrv.436.1646993118875; 
- Fri, 11 Mar 2022 02:05:18 -0800 (PST)
+ bh=f4CCojAbKprqiDXgJsBxQi1dboqNYmrDe8hXqe7epzI=;
+ b=06Y+PzC5d+Wkv+lHCmSkdzY0ADqxSPOuY70VCqd1dP5N3la4xaT/oIbb6AF8ACkNLM
+ xLpWXT0sg7WEWc/sl6vfziX/t+uPbtgWpLW4g83Gopb3KEty4Ha8mN6ha7WMeyomZg1a
+ hZQJZH3tZBj1exPfo9/6qkeuS4nHl6kG6nK25lVyuck6FAKI22kFbD6ZYmu1B+ujX/TH
+ qnW/kQS3yCJdR4REGzJRyArDbSILO0chvM/JrysjmMk+g1+2CoglEKh9TInicf5ryhQw
+ 7PAh9QHkJ0SQ/5WvgkogJ7aanYr98tTPhdnxGV8cxUgBqqLxF+tac4AISNX9mOyWZ/Im
+ ebwA==
+X-Gm-Message-State: AOAM530KHXvg8upWILI0nYDeLH+mYEGhj1ItNhOg1khSdxgPg1C89hp7
+ pL0GzG1Qy4yhQ8wi7mvK2CRl93So0rVvAtOO9glz9+yUZko4Qb2XXCf6R/YpGP2vmu9bw0Hnh4c
+ 86cHT9SYnqYONPyc=
+X-Received: by 2002:adf:dc43:0:b0:203:771e:1c1d with SMTP id
+ m3-20020adfdc43000000b00203771e1c1dmr6775619wrj.609.1646993261848; 
+ Fri, 11 Mar 2022 02:07:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxNo0V4EbDG9qcoFeDYc2bSvpI6LY27MjYp32ZOwlddG/rzE7+vWWhyIz7zXu0PHe4a2GiiGQ==
+X-Received: by 2002:adf:dc43:0:b0:203:771e:1c1d with SMTP id
+ m3-20020adfdc43000000b00203771e1c1dmr6775611wrj.609.1646993261675; 
+ Fri, 11 Mar 2022 02:07:41 -0800 (PST)
 Received: from localhost (nat-252.udc.es. [193.144.61.252])
  by smtp.gmail.com with ESMTPSA id
- l7-20020adfe9c7000000b001f06f8ec92dsm6230933wrn.30.2022.03.11.02.05.18
+ u25-20020a05600c211900b00389d4bdb3d2sm8067951wml.36.2022.03.11.02.07.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Mar 2022 02:05:18 -0800 (PST)
+ Fri, 11 Mar 2022 02:07:41 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 04/18] tests: print newline after QMP response in
- qtest logs
-In-Reply-To: <20220310171821.3724080-5-berrange@redhat.com> ("Daniel
- P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 10 Mar 2022 17:18:07
+Subject: Re: [PATCH v2 06/18 for-7.0] migration: fix use of TLS PSK
+ credentials with a UNIX socket
+In-Reply-To: <20220310171821.3724080-7-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Thu, 10 Mar 2022 17:18:09
  +0000")
 References: <20220310171821.3724080-1-berrange@redhat.com>
- <20220310171821.3724080-5-berrange@redhat.com>
+ <20220310171821.3724080-7-berrange@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Fri, 11 Mar 2022 11:05:16 +0100
-Message-ID: <87tuc4iz37.fsf@secure.mitica>
+Date: Fri, 11 Mar 2022 11:07:40 +0100
+Message-ID: <87pmmsiyz7.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -115,13 +115,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> The QMP commands have a trailing newline, but the response does not.
-> This makes the qtest logs hard to follow as the next QMP command
-> appears in the same line as the previous QMP response.
+> The migration TLS code has a check mandating that a hostname be
+> available when starting a TLS session. This is expected when using
+> x509 credentials, but is bogus for PSK and anonymous credentials
+> as neither involve hostname validation.
 >
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> The TLS crdentials object gained suitable error reporting in the
+> case of TLS with x509 credentials, so there is no longer any need
+> for the migration code to do its own (incorrect) validation.
+>
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+Should be safe for current one (famous last words).
 
 
