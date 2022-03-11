@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D254D56C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 01:33:03 +0100 (CET)
-Received: from localhost ([::1]:40214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804414D56FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 01:52:27 +0100 (CET)
+Received: from localhost ([::1]:46662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSTDJ-0004ef-S8
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 19:33:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51780)
+	id 1nSTW6-0001cq-1B
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 19:52:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nSTAy-0003bz-O9; Thu, 10 Mar 2022 19:30:38 -0500
-Received: from [2607:f8b0:4864:20::c2f] (port=39522
- helo=mail-oo1-xc2f.google.com)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nSTQj-0007ho-Dg
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 19:46:53 -0500
+Received: from [2a00:1450:4864:20::631] (port=37593
+ helo=mail-ej1-x631.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1nSTAw-0007vD-MW; Thu, 10 Mar 2022 19:30:36 -0500
-Received: by mail-oo1-xc2f.google.com with SMTP id
- q1-20020a4a7d41000000b003211b63eb7bso8826489ooe.6; 
- Thu, 10 Mar 2022 16:30:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=NQtIlu5bwRCc2oxKcMGxeh4ESJ2UgZxynvOHF4M+lb0=;
- b=cRXv08Scpbzgu0/TSWTGyJVwFnGgLCdKU35OeHXOuRzVCIG++2Icd2O4cs7ZaHgglI
- tGFY6C6XyXz4d2v+Y75t1wJ3CrhlV6KjsbfZ0tQjXkjkGz+zBoWAHFeof252I2f6X8j+
- xEIL87p8mvkBTh5h1yWr6ywhUC/WkwUQp78VSarrgM4TVtV1pXxeOMrxN5mwkP8k7cDs
- HaxmSM/jEJhwETm16E9DS7JdX1i8YzArhYYYsZ72NLCCqIERvjk2kpBwHaT1Uxdw2PzS
- QxCHSAz0hy7FYPyfuesStaynPvj3MAmmvptXFGotNaPWM+qapMHRggmhPCoZOOjkJ/Hm
- gedw==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1nSTQg-0001Zm-G3
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 19:46:52 -0500
+Received: by mail-ej1-x631.google.com with SMTP id bg10so15852750ejb.4
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 16:46:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ChR2C10SD9fxJfcusGvvTGmu3JRxnZPf1C8418GBhw4=;
+ b=kxDGuNcQe/FUzwvcW4LBeBVT3DgmozmaH7o5sud4UpVt/T/kzc6Ryd1DR9hDrlMdkT
+ 5ormReMHoFEpTITn6V2i/vWoZ+wkqXOW2iTA/pIPKUxY8zQJICWJkZ3JrHIitPZ+z4JJ
+ mdE+lDv+x8obn1kNQ21RzhE6KKWjhMjKcLwv/MlLP7XHgujfRtJeWv0gMX/MyQFPRULb
+ XmYHKXwWJha9T5iiZh1ZMGMBiww8usITBG2h5NagZu0nJ9bCi3OgF2moUwb2muAceikK
+ 6bcbwyQt6jEkz8Q4WFoYRo55I4P9joD65QJQH4oApiv62S775Ggec057gODla2wI6/Y2
+ yeZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=NQtIlu5bwRCc2oxKcMGxeh4ESJ2UgZxynvOHF4M+lb0=;
- b=ZsLQCQQopn+zc2ed/WVb5+cLnFWtFYm7JghOxDou6cv1ASewxWX3cQOLXi0MBh0M3L
- mjr3iCAt3q82ZOGWczpsgEn5BsFsvNaXcuOk9+29Oeb5CCbmkae1MiOLq1KXz9H/Qytf
- Uw1mqjFnB6EQMEeVIERlh4ujD4rgzruOve4IdGSPYDQF7LSkEpLMbKwMNNk4ucstcYpC
- zHnLmcDHrdpE8lKxW+IuQijPpTVFslT800XZEgeqcnk1H5+me56sIJby6LclA4NlwfZS
- RZuFBMWvGb42GAPHvO+xPWWtUgTl/XimjDyXIU9vgaShryS8RMrfeMbH2U/QjPOD370q
- 5B9Q==
-X-Gm-Message-State: AOAM5315rRit717iYdxjYbYXoFoGiTk/r+2XCVZyGGaM9REQLZjSXQI5
- 0Tb7Fv3DWd/EAaSoydLLrC0=
-X-Google-Smtp-Source: ABdhPJw6CmQH5GNkSj2G+wp/jeMZFeDsAQgQQf7uA31emc7eiDibES4JccTFXiSZAtl2ws6i9oRiUQ==
-X-Received: by 2002:a05:6870:e0ce:b0:da:b3f:3219 with SMTP id
- a14-20020a056870e0ce00b000da0b3f3219mr4256605oab.201.1646958631689; 
- Thu, 10 Mar 2022 16:30:31 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c6:5655:fd2a:accf:db6c:e4fd?
- ([2804:431:c7c6:5655:fd2a:accf:db6c:e4fd])
- by smtp.gmail.com with ESMTPSA id
- j9-20020a056830270900b005b22854f3besm2971838otu.39.2022.03.10.16.30.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Mar 2022 16:30:31 -0800 (PST)
-Message-ID: <44006828-b313-6ba3-efce-5eaff87809dc@gmail.com>
-Date: Thu, 10 Mar 2022 21:30:27 -0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ChR2C10SD9fxJfcusGvvTGmu3JRxnZPf1C8418GBhw4=;
+ b=091u6HSZATSsLjABcg34XvA+m9dhTnbRphOQFQsY/8XrzJIisk7W1gaF8x+O95L6sg
+ OBOci7tnW4/dtomzioCg+ajZH0SwQCmpMhw1GZjodKmAFQHm/FEdl9u/rWgWzo1A+bOt
+ VN9SaYJMntNN9mKVNVL6M9esZZnn0TJHOsIKNrsDuThrUKhDSD/l/TaovvX10pbDB31V
+ 1iOuqPorMxttj2MQhST1Nv0Utd2SyzIKgmcygGxBrDmYnXfmtBn/IA0duVIgsQSZ1wbI
+ kBXXiPkxTAFAJGKN6c7iEC9Tde348EpzpUdyPwFxwZUmhxJcOGPTKIazvQHsY/e5LCRr
+ z+Fw==
+X-Gm-Message-State: AOAM5306GcKgrYHWLp3XEPKM1y/oD7wiE0fehk/JcQD4PCHV+DcVcMiO
+ IXISmX6sJsaka1N6CrLiKiCrrNVVYW3Ilig6AfzttA==
+X-Google-Smtp-Source: ABdhPJyMdRcqC6Moob3XtOo9eK6sDLHq1FVNCdM1uhdB/h+NfmGjM+P6P2xijlgKROkmllNU2smONGMKPUoHbTOkQU0=
+X-Received: by 2002:a17:906:2486:b0:6cf:ced9:e4cc with SMTP id
+ e6-20020a170906248600b006cfced9e4ccmr6631438ejb.201.1646959608044; Thu, 10
+ Mar 2022 16:46:48 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [RFC PATCH 1/2] spapr: Report correct GTSE support via ov5
-Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20220309012400.2527157-1-farosas@linux.ibm.com>
- <87wnh1a8mu.fsf@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <87wnh1a8mu.fsf@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::c2f
+References: <20220309005302.315656-1-atishp@rivosinc.com>
+ <CANzO1D3aM4+fDRbr7KeQm4E=Ghe-QMh=DFZZP-MN46=rmkuqcQ@mail.gmail.com>
+ <CAHBxVyEmTthJdArjgdmmtyD31UWhtcXr+4zTkZ9-dZO9QXkYjQ@mail.gmail.com>
+In-Reply-To: <CAHBxVyEmTthJdArjgdmmtyD31UWhtcXr+4zTkZ9-dZO9QXkYjQ@mail.gmail.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Fri, 11 Mar 2022 08:46:37 +0800
+Message-ID: <CAE_xrPi+n5YEhLQbe5p0epcCWsS=L6o8_MB2cArJBLJ8SEKyfQ@mail.gmail.com>
+Subject: Re: [PATCH v4] target/riscv: Add isa extenstion strings to the device
+ tree
+To: Atish Kumar Patra <atishp@rivosinc.com>
+Content-Type: multipart/alternative; boundary="00000000000065b23105d9e6aa34"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::631
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2f;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2f.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=frank.chang@sifive.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -94,202 +84,424 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aneesh.kumar@linux.ibm.com, qemu-ppc@nongnu.org, clg@kaod.org,
- npiggin@gmail.com, david@gibson.dropbear.id.au
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Heiko Stubner <heiko@sntech.de>,
+ Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000065b23105d9e6aa34
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Mar 11, 2022 at 2:42 AM Atish Kumar Patra <atishp@rivosinc.com>
+wrote:
+
+> On Wed, Mar 9, 2022 at 5:47 AM Frank Chang <frank.chang@sifive.com> wrote=
+:
+> >
+> > Atish Patra <atishp@rivosinc.com> =E6=96=BC 2022=E5=B9=B43=E6=9C=889=E6=
+=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=888:53=E5=AF=AB=E9=81=93=EF=BC=9A
+> >>
+> >> The Linux kernel parses the ISA extensions from "riscv,isa" DT
+> >> property. It used to parse only the single letter base extensions
+> >> until now. A generic ISA extension parsing framework was proposed[1]
+> >> recently that can parse multi-letter ISA extensions as well.
+> >>
+> >> Generate the extended ISA string by appending  the available ISA
+> extensions
+> >> to the "riscv,isa" string if it is enabled so that kernel can process
+> it.
+> >>
+> >> [1] https://lkml.org/lkml/2022/2/15/263
+> >>
+> >> Reviewed-by: Anup Patel <anup@brainfault.org>
+> >> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >> Suggested-by: Heiko Stubner <heiko@sntech.de>
+> >> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> >> ---
+> >>
+> >> Changes from v3->v4:
+> >> 1. Fixed the order of the extension names.
+> >> 2. Added all the available ISA extensions in Qemu.
+> >>
+> >> Changes from v2->v3:
+> >> 1. Used g_strconcat to replace snprintf & a max isa string length as
+> >> suggested by Anup.
+> >> 2. I have not included the Tested-by Tag from Heiko because the
+> >> implementation changed from v2 to v3.
+> >>
+> >> Changes from v1->v2:
+> >> 1. Improved the code redability by using arrays instead of individual
+> check
+> >> ---
+> >>  target/riscv/cpu.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+> >>  1 file changed, 43 insertions(+)
+> >>
+> >> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> >> index ddda4906ffb7..2521a6f31f9f 100644
+> >> --- a/target/riscv/cpu.c
+> >> +++ b/target/riscv/cpu.c
+> >> @@ -34,6 +34,12 @@
+> >>
+> >>  /* RISC-V CPU definitions */
+> >>
+> >> +/* This includes the null terminated character '\0' */
+> >> +struct isa_ext_data {
+> >> +        const char *name;
+> >> +        bool enabled;
+> >> +};
+> >> +
+> >>  static const char riscv_exts[26] =3D "IEMAFDQCLBJTPVNSUHKORWXYZG";
+> >>
+> >>  const char * const riscv_int_regnames[] =3D {
+> >> @@ -898,6 +904,42 @@ static void riscv_cpu_class_init(ObjectClass *c,
+> void *data)
+> >>      device_class_set_props(dc, riscv_cpu_properties);
+> >>  }
+> >>
+> >> +#define ISA_EDATA_ENTRY(name, prop) {#name, cpu->cfg.prop}
+> >> +
+> >> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int
+> max_str_len)
+> >> +{
+> >> +    char *old =3D *isa_str;
+> >> +    char *new =3D *isa_str;
+> >> +    int i;
+> >> +    struct isa_ext_data isa_edata_arr[] =3D {
+> >> +        ISA_EDATA_ENTRY(svinval, ext_svinval),
+> >> +        ISA_EDATA_ENTRY(svnapot, ext_svnapot),
+> >> +        ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
+> >> +        ISA_EDATA_ENTRY(zba, ext_zba),
+> >> +        ISA_EDATA_ENTRY(zbb, ext_zbb),
+> >> +        ISA_EDATA_ENTRY(zbc, ext_zbc),
+> >> +        ISA_EDATA_ENTRY(zbs, ext_zbs),
+> >> +        ISA_EDATA_ENTRY(zdinx, ext_zdinx),
+> >> +        ISA_EDATA_ENTRY(zfh, ext_zfhmin),
+> >> +        ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
+> >> +        ISA_EDATA_ENTRY(zfinx, ext_zfinx),
+> >> +        ISA_EDATA_ENTRY(zhinx, ext_zhinx),
+> >> +        ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
+> >> +        ISA_EDATA_ENTRY(zve32f, ext_zve32f),
+> >> +        ISA_EDATA_ENTRY(zve64f, ext_zve64f),
+> >> +    };
+> >
+> >
+> > Hi Atish,
+> >
+> > According to RISC-V Unpriviledge spec, Section 28.6:
+> > https://github.com/riscv/riscv-isa-manual/blob/master/src/naming.tex#L8=
+5
+> >
+> > "The first letter following the =E2=80=9CZ=E2=80=9D conventionally indi=
+cates the most
+> closely
+> > related alphabetical extension category, IMAFDQLCBKJTPV.
+> > For the =E2=80=9CZam=E2=80=9D extension for misaligned atomics,
+> > for example, the letter =E2=80=9Ca=E2=80=9D indicates the extension is =
+related to the
+> =E2=80=9CA=E2=80=9D standard extension.
+> > If multiple =E2=80=9CZ=E2=80=9D extensions are named, they should be or=
+dered first by
+> category,
+> > then alphabetically within a category=E2=80=94for example, =E2=80=9CZic=
+sr Zifencei Zam=E2=80=9D."
+> >
+>
+> Yes. Sorry I missed that part. Will fix it.
+>
+> > So I think the order of "Z" extensions should be:
+> > zfh, zfhmin, zfinx, zdinx, zba, zbb, zbc, zbs, zve32f, zve64f, zhinx,
+> zhinxmin
+> >
+> > Also, I think "Zifencei" and "Zicsr" should also be covered as well,
+> > and all extensions should follow the order defined in Table 28.11:
+> >
+> https://github.com/riscv/riscv-isa-manual/blob/master/src/naming.tex#L141
+> >
+>
+> I thought about that earlier as well. Zifencei & Zicsr was already
+> part of the ISA and carved out as an extension later.
+> Qemu/Any supervisor support that by default and won't work without
+> that. We can't possibly disable those and boot anything.
+>
+> Do you think there is any benefit adding it ?
+>
+
+I believe Zifencei & Zicsr are mostly supported by default.
+They do appear in our internal hardware-generated DTS.
+So... it's fine to either add them or not.
+I don't see any penalty (as well as the benefit) to add them.
+
+Regards,
+Frank Chang
 
 
-On 3/10/22 16:51, Fabiano Rosas wrote:
-> Fabiano Rosas <farosas@linux.ibm.com> writes:
-> 
->> QEMU reports MMU support to the guest via the ibm,architecture-vec-5
->> property of the /chosen node. Byte number 26 specifies Radix Table
->> Expansions, currently only GTSE (Guest Translation Shootdown
->> Enable). This feature determines whether the tlbie instruction (and
->> others) are HV privileged.
->>
->> Up until now, we always reported GTSE=1 to guests. Even after the
->> support for GTSE=0 was added. As part of that support, a kernel
->> command line radix_hcall_invalidate=on was introduced that overrides
->> the GTSE value received via CAS. So a guest can run with GTSE=0 and
->> use the H_RPT_INVALIDATE hcall instead of tlbie.
->>
->> In this scenario, having GTSE always set to 1 by QEMU leads to a crash
->> when running nested KVM guests because KVM does not allow a nested
->> hypervisor to set GTSE support for its nested guests. So a nested
->> guest always uses the same value for LPCR_GTSE as its HV. Since the
->> nested HV disabled GTSE, but the L2 QEMU always reports GTSE=1, we run
->> into a crash when:
->>
->> L1 LPCR_GTSE=0
->> L2 LPCR_GTSE=0
->> L2 CAS GTSE=1
->>
->> The nested guest will run 'tlbie' and crash because the HW looks at
->> LPCR_GTSE, which is clear.
->>
->> Having GTSE disabled in the L1 and enabled in the L2 is not an option
->> because the whole purpose of GTSE is to disallow access to tlbie and
->> we cannot allow L1 to spawn L2s that can access features that L1
->> itself cannot.
->>
->> We also cannot have the guest check the LPCR bit, because LPCR is
->> HV-privileged.
->>
->> So this patch goes through the most intuitive route which is to have
->> QEMU ask KVM about GTSE support and advertise the correct value to the
->> guest. A new KVM_CAP_PPC_GTSE capability is being added.
->>
->> TCG continues to always enable GTSE.
->>
->> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->> ---
->>   hw/ppc/spapr.c       | 38 +++++++++++++++++++++++++++++++-------
->>   target/ppc/kvm.c     |  8 ++++++++
->>   target/ppc/kvm_ppc.h |  6 ++++++
->>   3 files changed, 45 insertions(+), 7 deletions(-)
->>
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index 4cc204f90d..3e95a1831f 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -971,7 +971,7 @@ static void spapr_dt_ov5_platform_support(SpaprMachineState *spapr, void *fdt,
->>           23, 0x00, /* XICS / XIVE mode */
->>           24, 0x00, /* Hash/Radix, filled in below. */
->>           25, 0x00, /* Hash options: Segment Tables == no, GTSE == no. */
->> -        26, 0x40, /* Radix options: GTSE == yes. */
->> +        26, 0x00, /* Radix options, filled in below. */
->>       };
->>   
->>       if (spapr->irq->xics && spapr->irq->xive) {
->> @@ -1000,10 +1000,16 @@ static void spapr_dt_ov5_platform_support(SpaprMachineState *spapr, void *fdt,
->>           } else {
->>               val[3] = 0x00; /* Hash */
->>           }
->> +
->> +        if (kvmppc_has_cap_gtse()) {
->> +            val[7] = 0x40 /* OV5_MMU_RADIX_GTSE */;
->> +        }
-> 
-> This needs the same treatment as below to support kernels that don't
-> know about the cap. Also, look at that semicolon! =D
+>
+>
+> > "The table also defines the canonical order in which extension names
+> must appear in the name string,
+> > with top-to-bottom in table indicating first-to-last in the name string=
+,
+> > e.g., RV32IMACV is legal, whereas RV32IMAVC is not."
+> >
+> > So the overall order would be:
+> > zicsr, zifencei, zfh, zfhmin, zfinx, zdinx, zba, zbb, zbc, zbs, zve32f,
+> zve64f, zhinx, zhinxmin, svinval, svnapot, svpbmt,
+> >
+> > Regards,
+> > Frank Chang
+> >
+> >>
+> >> +
+> >> +    for (i =3D 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+> >> +        if (isa_edata_arr[i].enabled) {
+> >> +            new =3D g_strconcat(old, "_", isa_edata_arr[i].name, NULL=
+);
+> >> +            g_free(old);
+> >> +            old =3D new;
+> >> +        }
+> >> +    }
+> >> +
+> >> +    *isa_str =3D new;
+> >> +}
+> >> +
+> >>  char *riscv_isa_string(RISCVCPU *cpu)
+> >>  {
+> >>      int i;
+> >> @@ -910,6 +952,7 @@ char *riscv_isa_string(RISCVCPU *cpu)
+> >>          }
+> >>      }
+> >>      *p =3D '\0';
+> >> +    riscv_isa_string_ext(cpu, &isa_str, maxlen);
+> >>      return isa_str;
+> >>  }
+> >>
+> >> --
+> >> 2.30.2
+> >>
+> >>
+>
 
+--00000000000065b23105d9e6aa34
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-hahaha. There's another one down ...
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Mar 11, 2022 at 2:42 AM Atish Kum=
+ar Patra &lt;<a href=3D"mailto:atishp@rivosinc.com">atishp@rivosinc.com</a>=
+&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">On Wed, Mar 9, 2022 at 5:47 AM Frank Chang &lt;<a hr=
+ef=3D"mailto:frank.chang@sifive.com" target=3D"_blank">frank.chang@sifive.c=
+om</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" target=3D"_blan=
+k">atishp@rivosinc.com</a>&gt; =E6=96=BC 2022=E5=B9=B43=E6=9C=889=E6=97=A5 =
+=E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=888:53=E5=AF=AB=E9=81=93=EF=BC=9A<br>
+&gt;&gt;<br>
+&gt;&gt; The Linux kernel parses the ISA extensions from &quot;riscv,isa&qu=
+ot; DT<br>
+&gt;&gt; property. It used to parse only the single letter base extensions<=
+br>
+&gt;&gt; until now. A generic ISA extension parsing framework was proposed[=
+1]<br>
+&gt;&gt; recently that can parse multi-letter ISA extensions as well.<br>
+&gt;&gt;<br>
+&gt;&gt; Generate the extended ISA string by appending=C2=A0 the available =
+ISA extensions<br>
+&gt;&gt; to the &quot;riscv,isa&quot; string if it is enabled so that kerne=
+l can process it.<br>
+&gt;&gt;<br>
+&gt;&gt; [1] <a href=3D"https://lkml.org/lkml/2022/2/15/263" rel=3D"norefer=
+rer" target=3D"_blank">https://lkml.org/lkml/2022/2/15/263</a><br>
+&gt;&gt;<br>
+&gt;&gt; Reviewed-by: Anup Patel &lt;<a href=3D"mailto:anup@brainfault.org"=
+ target=3D"_blank">anup@brainfault.org</a>&gt;<br>
+&gt;&gt; Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.franc=
+is@wdc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+&gt;&gt; Suggested-by: Heiko Stubner &lt;<a href=3D"mailto:heiko@sntech.de"=
+ target=3D"_blank">heiko@sntech.de</a>&gt;<br>
+&gt;&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.c=
+om" target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;<br>
+&gt;&gt; Changes from v3-&gt;v4:<br>
+&gt;&gt; 1. Fixed the order of the extension names.<br>
+&gt;&gt; 2. Added all the available ISA extensions in Qemu.<br>
+&gt;&gt;<br>
+&gt;&gt; Changes from v2-&gt;v3:<br>
+&gt;&gt; 1. Used g_strconcat to replace snprintf &amp; a max isa string len=
+gth as<br>
+&gt;&gt; suggested by Anup.<br>
+&gt;&gt; 2. I have not included the Tested-by Tag from Heiko because the<br=
+>
+&gt;&gt; implementation changed from v2 to v3.<br>
+&gt;&gt;<br>
+&gt;&gt; Changes from v1-&gt;v2:<br>
+&gt;&gt; 1. Improved the code redability by using arrays instead of individ=
+ual check<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 target/riscv/cpu.c | 43 ++++++++++++++++++++++++++++++++++++=
++++++++<br>
+&gt;&gt;=C2=A0 1 file changed, 43 insertions(+)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+&gt;&gt; index ddda4906ffb7..2521a6f31f9f 100644<br>
+&gt;&gt; --- a/target/riscv/cpu.c<br>
+&gt;&gt; +++ b/target/riscv/cpu.c<br>
+&gt;&gt; @@ -34,6 +34,12 @@<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 /* RISC-V CPU definitions */<br>
+&gt;&gt;<br>
+&gt;&gt; +/* This includes the null terminated character &#39;\0&#39; */<br=
+>
+&gt;&gt; +struct isa_ext_data {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *name;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool enabled;<br>
+&gt;&gt; +};<br>
+&gt;&gt; +<br>
+&gt;&gt;=C2=A0 static const char riscv_exts[26] =3D &quot;IEMAFDQCLBJTPVNSU=
+HKORWXYZG&quot;;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 const char * const riscv_int_regnames[] =3D {<br>
+&gt;&gt; @@ -898,6 +904,42 @@ static void riscv_cpu_class_init(ObjectClass =
+*c, void *data)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 device_class_set_props(dc, riscv_cpu_propertie=
+s);<br>
+&gt;&gt;=C2=A0 }<br>
+&gt;&gt;<br>
+&gt;&gt; +#define ISA_EDATA_ENTRY(name, prop) {#name, cpu-&gt;cfg.prop}<br>
+&gt;&gt; +<br>
+&gt;&gt; +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, i=
+nt max_str_len)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 char *old =3D *isa_str;<br>
+&gt;&gt; +=C2=A0 =C2=A0 char *new =3D *isa_str;<br>
+&gt;&gt; +=C2=A0 =C2=A0 int i;<br>
+&gt;&gt; +=C2=A0 =C2=A0 struct isa_ext_data isa_edata_arr[] =3D {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svinval, ext_svinval)=
+,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svnapot, ext_svnapot)=
+,<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),<=
+br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zba, ext_zba),<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbb, ext_zbb),<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbc, ext_zbc),<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zbs, ext_zbs),<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zdinx, ext_zdinx),<br=
+>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfh, ext_zfhmin),<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),<=
+br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zfinx, ext_zfinx),<br=
+>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zhinx, ext_zhinx),<br=
+>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmi=
+n),<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zve32f, ext_zve32f),<=
+br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ISA_EDATA_ENTRY(zve64f, ext_zve64f),<=
+br>
+&gt;&gt; +=C2=A0 =C2=A0 };<br>
+&gt;<br>
+&gt;<br>
+&gt; Hi Atish,<br>
+&gt;<br>
+&gt; According to RISC-V Unpriviledge spec, Section 28.6:<br>
+&gt; <a href=3D"https://github.com/riscv/riscv-isa-manual/blob/master/src/n=
+aming.tex#L85" rel=3D"noreferrer" target=3D"_blank">https://github.com/risc=
+v/riscv-isa-manual/blob/master/src/naming.tex#L85</a><br>
+&gt;<br>
+&gt; &quot;The first letter following the =E2=80=9CZ=E2=80=9D conventionall=
+y indicates the most closely<br>
+&gt; related alphabetical extension category, IMAFDQLCBKJTPV.<br>
+&gt; For the =E2=80=9CZam=E2=80=9D extension for misaligned atomics,<br>
+&gt; for example, the letter =E2=80=9Ca=E2=80=9D indicates the extension is=
+ related to the =E2=80=9CA=E2=80=9D standard extension.<br>
+&gt; If multiple =E2=80=9CZ=E2=80=9D extensions are named, they should be o=
+rdered first by category,<br>
+&gt; then alphabetically within a category=E2=80=94for example, =E2=80=9CZi=
+csr Zifencei Zam=E2=80=9D.&quot;<br>
+&gt;<br>
+<br>
+Yes. Sorry I missed that part. Will fix it.<br>
+<br>
+&gt; So I think the order of &quot;Z&quot; extensions should be:<br>
+&gt; zfh, zfhmin, zfinx, zdinx, zba, zbb, zbc, zbs, zve32f, zve64f, zhinx, =
+zhinxmin<br>
+&gt;<br>
+&gt; Also, I think &quot;Zifencei&quot; and &quot;Zicsr&quot; should also b=
+e covered as well,<br>
+&gt; and all extensions should follow the order defined in Table 28.11:<br>
+&gt; <a href=3D"https://github.com/riscv/riscv-isa-manual/blob/master/src/n=
+aming.tex#L141" rel=3D"noreferrer" target=3D"_blank">https://github.com/ris=
+cv/riscv-isa-manual/blob/master/src/naming.tex#L141</a><br>
+&gt;<br>
+<br>
+I thought about that earlier as well. Zifencei &amp; Zicsr was already<br>
+part of the ISA and carved out as an extension later.<br>
+Qemu/Any supervisor support that by default and won&#39;t work without<br>
+that. We can&#39;t possibly disable those and boot anything.<br>
+<br>
+Do you think there is any benefit adding it ?<br></blockquote><div><br></di=
+v><div>I believe=C2=A0Zifencei &amp; Zicsr=C2=A0are mostly supported by def=
+ault.</div><div>They do appear in our internal hardware-generated DTS.</div=
+><div>So... it&#39;s fine to either add them or not.</div><div>I don&#39;t =
+see any penalty (as well as the benefit) to add them.<br></div><div><br></d=
+iv><div>Regards,</div><div>Frank Chang</div><div>=C2=A0</div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+<br>
+<br>
+&gt; &quot;The table also defines the canonical order in which extension na=
+mes must appear in the name string,<br>
+&gt; with top-to-bottom in table indicating first-to-last in the name strin=
+g,<br>
+&gt; e.g., RV32IMACV is legal, whereas RV32IMAVC is not.&quot;<br>
+&gt;<br>
+&gt; So the overall order would be:<br>
+&gt; zicsr, zifencei, zfh, zfhmin, zfinx, zdinx, zba, zbb, zbc, zbs, zve32f=
+, zve64f, zhinx, zhinxmin, svinval, svnapot, svpbmt,<br>
+&gt;<br>
+&gt; Regards,<br>
+&gt; Frank Chang<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(isa_edata_arr); i++=
+) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (isa_edata_arr[i].enabled) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 new =3D g_strconcat(old=
+, &quot;_&quot;, isa_edata_arr[i].name, NULL);<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(old);<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 old =3D new;<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt; +=C2=A0 =C2=A0 }<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 *isa_str =3D new;<br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt;=C2=A0 char *riscv_isa_string(RISCVCPU *cpu)<br>
+&gt;&gt;=C2=A0 {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 int i;<br>
+&gt;&gt; @@ -910,6 +952,7 @@ char *riscv_isa_string(RISCVCPU *cpu)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 *p =3D &#39;\0&#39;;<br>
+&gt;&gt; +=C2=A0 =C2=A0 riscv_isa_string_ext(cpu, &amp;isa_str, maxlen);<br=
+>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 return isa_str;<br>
+&gt;&gt;=C2=A0 }<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.30.2<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+</blockquote></div></div>
 
-> 
->>       } else {
->>           /* V3 MMU supports both hash and radix in tcg (with dynamic switching) */
->>           val[3] = 0xC0;
->> +        val[7] = 0x40 /* OV5_MMU_RADIX_GTSE */;
-
-^ here
-
-
-
-Daniel
-
->>       }
->> +
->>       _FDT(fdt_setprop(fdt, chosen, "ibm,arch-vec-5-platform-support",
->>                        val, sizeof(val)));
->>   }
->> @@ -2824,14 +2830,32 @@ static void spapr_machine_init(MachineState *machine)
->>       /* Init numa_assoc_array */
->>       spapr_numa_associativity_init(spapr, machine);
->>   
->> -    if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
->> -        ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_3_00, 0,
->> +    if (ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_3_00, 0,
->>                                 spapr->max_compat_pvr)) {
->> -        spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_300);
->> -        /* KVM and TCG always allow GTSE with radix... */
->> -        spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_GTSE);
->> +
->> +        /* TCG always supports Radix w/ GTSE */
->> +        if (!kvm_enabled()) {
->> +            spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_300);
->> +            spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_GTSE);
->> +        } else {
->> +            if (kvmppc_has_cap_mmu_radix()) {
->> +                spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_300);
->> +            }
->> +
->> +            /*
->> +             * Only disable Guest Translation Shootdown if KVM
->> +             * supports the H_RPT_INVALIDATE hypercall, otherwise we'd
->> +             * leave the guest with no way to make TLB invalidations.
->> +             */
->> +            if (kvmppc_has_cap_rpt_invalidate()) {
->> +                if (kvmppc_has_cap_gtse()) {
->> +                    spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_GTSE);
->> +                }
->> +            } else {
->> +                spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_GTSE);
->> +            }
->> +        }
->>       }
->> -    /* ... but not with hash (currently). */
->>   
->>       if (kvm_enabled()) {
->>           /* Enable H_LOGICAL_CI_* so SLOF can talk to in-kernel devices */
->> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
->> index dc93b99189..91582c4b15 100644
->> --- a/target/ppc/kvm.c
->> +++ b/target/ppc/kvm.c
->> @@ -90,6 +90,7 @@ static int cap_ppc_nested_kvm_hv;
->>   static int cap_large_decr;
->>   static int cap_fwnmi;
->>   static int cap_rpt_invalidate;
->> +static int cap_gtse;
->>   
->>   static uint32_t debug_inst_opcode;
->>   
->> @@ -154,6 +155,8 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>       }
->>   
->>       cap_rpt_invalidate = kvm_vm_check_extension(s, KVM_CAP_PPC_RPT_INVALIDATE);
->> +    cap_gtse = kvm_vm_check_extension(s, KVM_CAP_PPC_GTSE);
->> +
->>       kvm_ppc_register_host_cpu_type();
->>   
->>       return 0;
->> @@ -2397,6 +2400,11 @@ bool kvmppc_has_cap_mmu_hash_v3(void)
->>       return cap_mmu_hash_v3;
->>   }
->>   
->> +bool kvmppc_has_cap_gtse(void)
->> +{
->> +    return cap_gtse;
->> +}
->> +
->>   static bool kvmppc_power8_host(void)
->>   {
->>       bool ret = false;
->> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
->> index ee9325bf9a..7d6980edb7 100644
->> --- a/target/ppc/kvm_ppc.h
->> +++ b/target/ppc/kvm_ppc.h
->> @@ -63,6 +63,7 @@ bool kvmppc_has_cap_fixup_hcalls(void);
->>   bool kvmppc_has_cap_htm(void);
->>   bool kvmppc_has_cap_mmu_radix(void);
->>   bool kvmppc_has_cap_mmu_hash_v3(void);
->> +bool kvmppc_has_cap_gtse(void);
->>   bool kvmppc_has_cap_xive(void);
->>   int kvmppc_get_cap_safe_cache(void);
->>   int kvmppc_get_cap_safe_bounds_check(void);
->> @@ -343,6 +344,11 @@ static inline bool kvmppc_has_cap_mmu_hash_v3(void)
->>       return false;
->>   }
->>   
->> +static inline bool kvmppc_has_cap_gtse(void)
->> +{
->> +    return false;
->> +}
->> +
->>   static inline bool kvmppc_has_cap_xive(void)
->>   {
->>       return false;
+--00000000000065b23105d9e6aa34--
 
