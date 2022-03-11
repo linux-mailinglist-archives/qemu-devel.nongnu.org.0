@@ -2,60 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E9D4D65E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 17:18:18 +0100 (CET)
-Received: from localhost ([::1]:45344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB87E4D6657
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 17:29:31 +0100 (CET)
+Received: from localhost ([::1]:59236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nShy5-0007bl-Ew
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 11:18:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41720)
+	id 1nSi8w-0000iJ-9G
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 11:29:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nShwa-0005Yo-QG
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 11:16:45 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:52083)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nSi88-0008SZ-ND
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 11:28:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1nShwY-0001UC-Ek
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 11:16:43 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1nSi85-0008DO-El
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 11:28:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647016116;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1y8V67u4igVwpWW3GUaYZ3rxt1WMzkwqB/lgjJHcBzk=;
+ b=Vmxu05ITlxuIwSG1FewD+Zkkm09AG0uvSRJZ5iP8lx7n7otJvxPRnTF52nEW+lWan6nUZa
+ czYRlT66D6vEO+u20IwUNif9oNvtInJqie9T/OFFtA+SVbYcP287u7MuaBTXqUN/P3wnYw
+ xR4Ur80ZcQ69GEgvdJv05/4cPC9JZmo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-325-7btgcp5LOIeWyiBbHmeLew-1; Fri, 11 Mar 2022 11:16:38 -0500
-X-MC-Unique: 7btgcp5LOIeWyiBbHmeLew-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-421-XkMdhR0GNYmzUvEkL4svvg-1; Fri, 11 Mar 2022 11:28:32 -0500
+X-MC-Unique: XkMdhR0GNYmzUvEkL4svvg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED2921854E26;
- Fri, 11 Mar 2022 16:16:36 +0000 (UTC)
-Received: from bahia (unknown [10.39.192.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 202F57B8E3;
- Fri, 11 Mar 2022 16:16:35 +0000 (UTC)
-Date: Fri, 11 Mar 2022 17:16:34 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 4/6] 9pfs: refactor 'name_idx' -> 'nvalid' in v9fs_walk()
-Message-ID: <20220311171634.2a085396@bahia>
-In-Reply-To: <4831323.ZipVpMZSPQ@silver>
-References: <cover.1646850707.git.qemu_oss@crudebyte.com>
- <00bee0f7a89147c90c672f07b9a1ebcd9180215b.1646850707.git.qemu_oss@crudebyte.com>
- <4831323.ZipVpMZSPQ@silver>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C197F1854E27;
+ Fri, 11 Mar 2022 16:28:31 +0000 (UTC)
+Received: from p50.localhost.localdomain.some.host.somewhere.org (unknown
+ [10.22.9.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EB4B865B2;
+ Fri, 11 Mar 2022 16:28:16 +0000 (UTC)
+References: <20220311130919.2120958-1-bleal@redhat.com>
+ <875yokpnbn.fsf@p50.localhost.localdomain>
+ <20220311150054.tfn4wtbzm6uhflcu@laptop.redhat>
+User-agent: mu4e 1.6.6; emacs 27.2
+From: Cleber Rosa <crosa@redhat.com>
+To: Beraldo Leal <bleal@redhat.com>
+Subject: Re: [PATCH] tests/avocado: starts PhoneServer upfront
+Date: Fri, 11 Mar 2022 11:18:38 -0500
+In-reply-to: <20220311150054.tfn4wtbzm6uhflcu@laptop.redhat>
+Message-ID: <87wnh0xxlz.fsf@p50.localhost.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,98 +81,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: thuth@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Mar 2022 10:07:04 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> On Mittwoch, 9. M=C3=A4rz 2022 18:12:17 CET Christian Schoenebeck wrote:
-> > The local variable 'name_idx' is used in two loops in function v9fs_wal=
-k().
-> > Let the first loop use its own variable 'nvalid' instead, which we will=
- use
-> > in subsequent patches as the number of (requested) path components
-> > successfully retrieved/walked by background I/O thread.
+Beraldo Leal <bleal@redhat.com> writes:
 
-I think walked is clear enough.
+> On Fri, Mar 11, 2022 at 09:28:24AM -0500, Cleber Rosa wrote:
+>>=20
+>> Beraldo Leal <bleal@redhat.com> writes:
+>>=20
+>> > Race conditions can happen with the current code, because the port tha=
+t
+>> > was available might not be anymore by the time the server is started.
+>> >
+>> > By setting the port to 0, PhoneServer it will use the OS default
+>> > behavior to get a free port, then we save this information so we can
+>> > later configure the guest.
+>> >
+>> > Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> > Signed-off-by: Beraldo Leal <bleal@redhat.com>
+>> > ---
+>> >  tests/avocado/avocado_qemu/__init__.py | 13 ++++++++-----
+>> >  1 file changed, 8 insertions(+), 5 deletions(-)
+>> >
+>> > diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/av=
+ocado_qemu/__init__.py
+>> > index 9b056b5ce5..e830d04b84 100644
+>> > --- a/tests/avocado/avocado_qemu/__init__.py
+>> > +++ b/tests/avocado/avocado_qemu/__init__.py
+>> > @@ -602,9 +602,8 @@ def prepare_cloudinit(self, ssh_pubkey=3DNone):
+>> >          self.log.info('Preparing cloudinit image')
+>> >          try:
+>> >              cloudinit_iso =3D os.path.join(self.workdir, 'cloudinit.i=
+so')
+>> > -            self.phone_home_port =3D network.find_free_port()
+>> > -            if not self.phone_home_port:
+>> > -                self.cancel('Failed to get a free port')
+>> > +            if not self.phone_server:
+>> > +                self.cancel('Failed to get port used by the PhoneServ=
+er.')
+>>=20
+>> Can you think of a condition where `self.phone_server` would not
+>> evaluate to True?  `network.find_free_port()` could return None, so this
+>> check was valid.  But now with `cloudinit.PhoneHomeServer`, I can not
+>> see how we'd end up with a similar condition.  Instantiating
+>> `cloudinit.PhoneHomeServer` where a port can not be alloccated, AFAICT,
+>> would raise a socket exception instead.
+>
+> Since this is a public method and could be called anytime before
+> set_up_cloudinit(), I decided to keep the check just for safety reasons.
+> Ideally, I would prefer not to have this dependency and add a new
+> argument, but I didn't want to change the method signature since it
+> would be required.
+>
 
-> >=20
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
-> >  hw/9pfs/9p.c | 16 ++++++++--------
-> >  1 file changed, 8 insertions(+), 8 deletions(-)
-> >=20
-> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > index a6d6b3f835..6cdc566866 100644
-> > --- a/hw/9pfs/9p.c
-> > +++ b/hw/9pfs/9p.c
-> > @@ -1764,7 +1764,7 @@ static bool same_stat_id(const struct stat *a, co=
-nst
-> > struct stat *b)
-> >=20
-> >  static void coroutine_fn v9fs_walk(void *opaque)
-> >  {
-> > -    int name_idx;
-> > +    int name_idx, nvalid;
->=20
-> Or rather renaming this nvalid -> nfetched?
->=20
+I'm not sure I follow your point.  Let me try to rephrase mine, in case
+I failed to communicate it: I can't see how "if not self.phone_server"
+is a valid check given that it will either:
 
-or simply nwalked ?
+* Contain an instance with a port that is already allocated, OR
+* Not get assigned if cloudinit.PhoneHomeServer() fails (and raises an
+  exception).
 
-Anyway,
+Instead of this check, it'd make sense to have a try/except block
+protecting the PhoneHomeServer instantiation, and canceling the test if
+it fails.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Or maybe you meant to check for self.phone_server.server_port instead?
 
-> >      g_autofree V9fsQID *qids =3D NULL;
-> >      int i, err =3D 0;
-> >      V9fsPath dpath, path;
-> > @@ -1842,17 +1842,17 @@ static void coroutine_fn v9fs_walk(void *opaque=
-)
-> >              break;
-> >          }
-> >          stbuf =3D fidst;
-> > -        for (name_idx =3D 0; name_idx < nwnames; name_idx++) {
-> > +        for (nvalid =3D 0; nvalid < nwnames; nvalid++) {
-> >              if (v9fs_request_cancelled(pdu)) {
-> >                  err =3D -EINTR;
-> >                  break;
-> >              }
-> >              if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
-> > -                strcmp("..", wnames[name_idx].data))
-> > +                strcmp("..", wnames[nvalid].data))
-> >              {
-> >                  err =3D s->ops->name_to_path(&s->ctx, &dpath,
-> > -                                           wnames[name_idx].data,
-> > -                                           &pathes[name_idx]);
-> > +                                           wnames[nvalid].data,
-> > +                                           &pathes[nvalid]);
-> >                  if (err < 0) {
-> >                      err =3D -errno;
-> >                      break;
-> > @@ -1861,13 +1861,13 @@ static void coroutine_fn v9fs_walk(void *opaque=
-)
-> >                      err =3D -EINTR;
-> >                      break;
-> >                  }
-> > -                err =3D s->ops->lstat(&s->ctx, &pathes[name_idx], &stb=
-uf);
-> > +                err =3D s->ops->lstat(&s->ctx, &pathes[nvalid], &stbuf=
-);
-> >                  if (err < 0) {
-> >                      err =3D -errno;
-> >                      break;
-> >                  }
-> > -                stbufs[name_idx] =3D stbuf;
-> > -                v9fs_path_copy(&dpath, &pathes[name_idx]);
-> > +                stbufs[nvalid] =3D stbuf;
-> > +                v9fs_path_copy(&dpath, &pathes[nvalid]);
-> >              }
-> >          }
-> >      });
->=20
->=20
+Cheers,
+- Cleber.
 
 
