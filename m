@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C525E4D6477
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 16:23:00 +0100 (CET)
-Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B604D6476
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 16:22:29 +0100 (CET)
+Received: from localhost ([::1]:58058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSh6Z-0003b5-Ua
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 10:22:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52412)
+	id 1nSh63-00026l-QZ
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 10:22:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1nSglV-0002Ev-Fh
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 10:01:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30161)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nSh4D-0000gi-ED
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 10:20:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1nSglK-0002xe-FS
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 10:01:08 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nSh49-0002sP-I5
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 10:20:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647010861;
+ s=mimecast20190719; t=1647012028;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DvZvYdhSGG6DPKYtnXYvZ1fKv4aw7t9Xx0wXbrtqW2Q=;
- b=edGRKkkWpwEDF1UI6Dc+7usaaVORoF5xZmsS+fxqoR9oZk9Fp9Jup002THzjpD6jakm9vB
- x8cy6Zn8MPt3peLuBljnFTFH/mSTcv5oBjrtyoQj/JAVNd4MsN+HVvU41UJunB2+ts61lv
- SvaL3FvRgMBQmGW3EtH/iDVb4WPyf7g=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UMHGI5jabFQ6x5EkD5fm14VD67ayavK7Sxx1E4+9xeg=;
+ b=JjCWp5bIHBy+qEyVHVfPGSmt9IxaiYcA824yRuqmUwpmhZK62QbXd5nN8ZV6FSaDhO0avm
+ bN4LpXe4fAdIrjZTO70sJ6+jIcOB0yrcmCOpn9FvJXFWPikiBdvYXbJyuo5Z8KAoUcREXP
+ GCC4cWyq5qlaTiolvcaxEMu2EfTeSc8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-NLC466PdO820PKKYtljCVg-1; Fri, 11 Mar 2022 10:00:58 -0500
-X-MC-Unique: NLC466PdO820PKKYtljCVg-1
-Received: by mail-oo1-f71.google.com with SMTP id
- t31-20020a4a96e2000000b00320f7e020c3so6833439ooi.13
- for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 07:00:58 -0800 (PST)
+ us-mta-443-mh0ZZ9c7Pz6-qG1oAJwRng-1; Fri, 11 Mar 2022 10:20:26 -0500
+X-MC-Unique: mh0ZZ9c7Pz6-qG1oAJwRng-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ ga31-20020a1709070c1f00b006cec400422fso5080982ejc.22
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 07:20:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=DvZvYdhSGG6DPKYtnXYvZ1fKv4aw7t9Xx0wXbrtqW2Q=;
- b=mu/UmRXHib8WIjXP02smSe+xLigACy61JxbS9Sb2o2IuDd1EXPYEadNHX95nIZAuhY
- hhXBu+J1QRrimnQEETlNd06Mj6UTYttTgIn0ZsntQtOFGqK1722w0FfFFiu89mcsVukv
- YUGYJplkx7TPLEz01RnBjtrvg24P/z3gb9npC9fhmiX0Rz0xnlbWXO/KJVxBKrkyazQa
- RaThxD28oNf6AjY6O8E8n5RAyN25eNRDx0im8TacGvEDrMGaRn45P9mwp1Aj5kR9Ya2M
- LENnu5vh6nF3AliNuupywfTLgpkQBAA82E6vsPOBQRh9a+AR+/PxXl1lly8ieB78sm/k
- D1nA==
-X-Gm-Message-State: AOAM531sJjXw+XAvlOnKtKEKjTYHwNdOb5nanePEkADHsQl16sIn6sEg
- jcAqZ116SvSMc9JtgEuJdtNZjhS2zCfY4i6Cv9LTfPBum5Miy1vE/S9k4UdK2d1EMc7e4QvVlp9
- IiqXA1etrLVpHgGc=
-X-Received: by 2002:a05:6870:5a4:b0:da:b3f:2b17 with SMTP id
- m36-20020a05687005a400b000da0b3f2b17mr11220341oap.182.1647010858065; 
- Fri, 11 Mar 2022 07:00:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxpy2oGDcbrV6agnH8UmISZF59edpD9ibYfHqu1hNa+Gxf+YCtroZXQF9EHHLYhy/pNu5CoDQ==
-X-Received: by 2002:a05:6870:5a4:b0:da:b3f:2b17 with SMTP id
- m36-20020a05687005a400b000da0b3f2b17mr11220304oap.182.1647010857292; 
- Fri, 11 Mar 2022 07:00:57 -0800 (PST)
-Received: from localhost ([191.181.58.94]) by smtp.gmail.com with ESMTPSA id
- q125-20020acac083000000b002da28e15501sm3747692oif.13.2022.03.11.07.00.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Mar 2022 07:00:56 -0800 (PST)
-Date: Fri, 11 Mar 2022 12:00:54 -0300
-From: Beraldo Leal <bleal@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH] tests/avocado: starts PhoneServer upfront
-Message-ID: <20220311150054.tfn4wtbzm6uhflcu@laptop.redhat>
-References: <20220311130919.2120958-1-bleal@redhat.com>
- <875yokpnbn.fsf@p50.localhost.localdomain>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UMHGI5jabFQ6x5EkD5fm14VD67ayavK7Sxx1E4+9xeg=;
+ b=Q80CbbyKWiiUF2s3dJ4fwcbg7xI5jv0TkZyf2JABieNesK31qAzILA4BXEcluglRcZ
+ ZfR/fXyZmcK3b5+B0cJVDSUxpd7h0SQCr7Ogg+TTYaZ0x6EC8GEnOMUQXwE5ANZIvlb0
+ RdLNSiSZVmtn8uPnhC9gJSce4TIpstNm7BKKQOls7ja5eQKLevaDnY6IsK5uTsEE+Wxd
+ VMhgq92wdooY+hWhWZKygz+MPZIOaQ1XYzD7eeukDEhP0Xi0WLPCnhxElwm58x4bAQQR
+ nlmjK43JprZVHK+8mQFnav6wmsr5l0/1VXA73Pv9o+rbBepMcIDC1ptsoQo4FsBceNJs
+ 5Smw==
+X-Gm-Message-State: AOAM533uYb3emt+BFf2Uf8XK3eTd1euV5CVf559GyDAsb9LbUGyU/eAI
+ 8wTWcIXfFkYWZ1IH/lKNUE0SaHAyBTVyixtM3Aj1QW4hjglYC76KRJcDT9ta1Wx4RvAZhlSDBie
+ 7jhb7T2AwvwXfPw4=
+X-Received: by 2002:a17:906:848f:b0:6cf:7234:8ae with SMTP id
+ m15-20020a170906848f00b006cf723408aemr9251299ejx.620.1647012018862; 
+ Fri, 11 Mar 2022 07:20:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx9hWx4V4DXsxz21pUnhgz5O0hlRAJI0Ay912wDgSnvTz6Yuetc6LFyEgftqVNn2Cm5gwKUFg==
+X-Received: by 2002:a17:906:848f:b0:6cf:7234:8ae with SMTP id
+ m15-20020a170906848f00b006cf723408aemr9251006ejx.620.1647012012163; 
+ Fri, 11 Mar 2022 07:20:12 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id
+ lj2-20020a170906f9c200b006da6f29bc01sm3006837ejb.158.2022.03.11.07.20.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Mar 2022 07:20:10 -0800 (PST)
+Message-ID: <37a0d9e9-c72c-3524-1a68-d47967d33dcf@redhat.com>
+Date: Fri, 11 Mar 2022 16:20:09 +0100
 MIME-Version: 1.0
-In-Reply-To: <875yokpnbn.fsf@p50.localhost.localdomain>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] block: Fix BB.root changing across bdrv_next()
+To: qemu-block@nongnu.org
+References: <20220301173914.12279-1-hreitz@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220301173914.12279-1-hreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=bleal@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,72 +101,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 11, 2022 at 09:28:24AM -0500, Cleber Rosa wrote:
-> 
-> Beraldo Leal <bleal@redhat.com> writes:
-> 
-> > Race conditions can happen with the current code, because the port that
-> > was available might not be anymore by the time the server is started.
-> >
-> > By setting the port to 0, PhoneServer it will use the OS default
-> > behavior to get a free port, then we save this information so we can
-> > later configure the guest.
-> >
-> > Suggested-by: Daniel P. Berrang� <berrange@redhat.com>
-> > Signed-off-by: Beraldo Leal <bleal@redhat.com>
-> > ---
-> >  tests/avocado/avocado_qemu/__init__.py | 13 ++++++++-----
-> >  1 file changed, 8 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-> > index 9b056b5ce5..e830d04b84 100644
-> > --- a/tests/avocado/avocado_qemu/__init__.py
-> > +++ b/tests/avocado/avocado_qemu/__init__.py
-> > @@ -602,9 +602,8 @@ def prepare_cloudinit(self, ssh_pubkey=None):
-> >          self.log.info('Preparing cloudinit image')
-> >          try:
-> >              cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
-> > -            self.phone_home_port = network.find_free_port()
-> > -            if not self.phone_home_port:
-> > -                self.cancel('Failed to get a free port')
-> > +            if not self.phone_server:
-> > +                self.cancel('Failed to get port used by the PhoneServer.')
-> 
-> Can you think of a condition where `self.phone_server` would not
-> evaluate to True?  `network.find_free_port()` could return None, so this
-> check was valid.  But now with `cloudinit.PhoneHomeServer`, I can not
-> see how we'd end up with a similar condition.  Instantiating
-> `cloudinit.PhoneHomeServer` where a port can not be alloccated, AFAICT,
-> would raise a socket exception instead.
+On 01.03.22 18:39, Hanna Reitz wrote:
+> bdrv_next() has no guarantee that its caller has stopped all block graph
+> operations; for example, bdrv_flush_all() does not.
+>
+> The latter can actually provoke such operations, because its
+> bdrv_flush() call, which runs a coroutine (bdrv_co_flush()), may run
+> this coroutine in a different AioContext than the main one, and then
+> when this coroutine is done and invokes aio_wait_kick(), the monitor may
+> get a chance to run and start executing some graph-modifying QMP
+> command.
+>
+> One example for this is when the VM encounters an I/O error on a block
+> device and stops, triggering a bdrv_flush_all(), and a blockdev-mirror
+> is started simultaneously on a block node in an I/O thread.  When
+> bdrv_flush_all() comes to that node[1] and flushes it, the
+> aio_wait_kick() at the end of bdrv_co_flush_entry() may cause the
+> monitor to process the mirror request, and mirror_start_job() will then
+> replace the node by a mirror filter node, before bdrv_flush_all()
+> resumes and can invoke bdrv_next() again to continue iterating.
+>
+> [1] Say there is a BlockBackend on top of the node in question, and so
+> bdrv_next() finds that BB and returns the node as the BB's blk_bs().
+> bdrv_next() will bdrv_ref() the node such that it remains valid through
+> bdrv_flush_all()'s iteration, and drop the reference when it is called
+> the next time.
+>
+> The problem is that bdrv_next() does not store to which BDS it retains a
+> strong reference when the BDS is a BB's child, so on the subsequent
+> call, it will just invoke blk_bs() again and bdrv_unref() the returned
+> node -- but as the example above shows, this node might be a different
+> one than the one that was bdrv_ref()-ed before.  This can lead to a
+> use-after-free (for the mirror filter node in our example), because this
+> negligent bdrv_unref() would steal a strong reference from someone else.
+>
+> We can solve this problem by always storing the returned (and strongly
+> referenced) BDS in BdrvNextIterator.bs.  When we want to drop the strong
+> reference of a BDS previously returned, always drop BdrvNextIterator.bs
+> instead of using other ways of trying to figure out what that BDS was
+> that we returned last time.
 
-Since this is a public method and could be called anytime before
-set_up_cloudinit(), I decided to keep the check just for safety reasons.
-Ideally, I would prefer not to have this dependency and add a new
-argument, but I didn't want to change the method signature since it
-would be required.
+So a week ago, Kevin and me talked about this on IRC, and he was rather 
+apprehensive of this approach, because (1) it fixes a probably 
+high-level problem in one specific low-level place, and (2) it’s not 
+even quite clear whether even this specific problem is really fixed.
 
-> Also, the name of the utility class is PhoneHomeServer.  Using a
-> different name in the message will make cross references into the
-> Avocado docs harder.
-> 
-> Finally, a nitpick: I'd drop the leading dot in such a test cancelation
-> message.
+(For (2): If bdrv_next() can cope with graph changes, then if such a 
+change occurs during bdrv_flush_all(), it isn’t entirely clear whether 
+we’ve truly iterated over all nodes and flushed them all.)
 
-Makes sense.
+I’ve put a more detailed description of what I think is happening step 
+by step here: https://bugzilla.redhat.com/show_bug.cgi?id=2058457#c7
 
-> Other than those points, the direction of those changes are indeed a
-> great improvement.
+So, the question came up whether we shouldn’t put bdrv_flush_all() into 
+a drained section (there is a bdrv_drain_all() before, it’s just not a 
+section), and ensure that no QMP commands can be executed in drained 
+sections.  I fiddled around a bit, just wanting to send an extremely 
+rough RFC to see whether the direction I’d be going in made any sense at 
+all, but I’m not really making progress:
 
-Thank you all, I will also remove the unused 'network' import on a v2,
-that I just notice after sending the patch.
+I wanted to basically introduce an Rwlock for QMP request processing, 
+and take a read lock while we’re in a drained section. That doesn’t work 
+so well, though, because when a QMP command (i.e. Rwlock is taken for a 
+writer) uses drain (trying to take it as a reader), there’s a deadlock.  
+I don’t really have a good idea to consolidate this, because if running 
+QMP commands during drains is forbidden, then, well, a QMP command 
+cannot use drain.  We’d need some way to identify that the drain is 
+based in the currently running QMP command, and allow that, but I really 
+don’t know how.
 
---
-Beraldo
+
+While looking into the STOP behavior further, something else came up.  
+Summarizing part of my comment linked above, part of the problem is that 
+vm_stop() runs, and concurrently the guest device requests another STOP; 
+therefore, the next main loop iteration will try to STOP again.  That 
+seems to be why the monitor makes some progress during one main loop 
+iteration, and then the next unfortunate sequence of polling can lead to 
+the monitor processing a QMP command.
+
+So other things to consider could be whether we should ensure that the 
+monitor is not in danger of processing QMP requests when 
+main_loop_should_exit() runs, e.g. by polling until it’s back at the top 
+of its main loop (in monitor_qmp_dispatcher_co()).
+
+Or whether we could make qemu_system_vmstop_request() prevent double 
+stop requests, by forbidding STOP requests while a previous STOP request 
+has not yet been completely processed (i.e. accepting another one only 
+once the VM has been stopped one time).
+
+The simplest way to fix this very issue I’m seeing at least would be 
+just to pull do_vm_stop()’s bdrv_drain_all()+bdrv_flush_all() into its 
+conditional path; i.e. to only do this if the VM hadn’t been already 
+stopped.  (I don’t think we need to flush here if the VM was already 
+stopped before.  Might be wrong, though.)  I doubt that’s a great 
+solution, but it’d be simple at least.
+
+Hanna
 
 
