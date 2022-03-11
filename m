@@ -2,104 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989334D68BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 19:51:29 +0100 (CET)
-Received: from localhost ([::1]:33798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B544D68CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 19:55:08 +0100 (CET)
+Received: from localhost ([::1]:44060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSkMK-00011X-J4
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 13:51:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46832)
+	id 1nSkPr-00087V-Os
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 13:55:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1nSkKS-0007L3-PV; Fri, 11 Mar 2022 13:49:32 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18310
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <tpearson@raptorengineering.com>)
+ id 1nSkOn-0006j4-E7
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 13:54:01 -0500
+Received: from mail.rptsys.com ([23.155.224.45]:41331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1nSkKR-0007R7-0L; Fri, 11 Mar 2022 13:49:32 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22BGKrja006821; 
- Fri, 11 Mar 2022 18:49:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=iqvkK969h6sUZLKTp5hV90rR77w7kCt5U9CHSe8tYeM=;
- b=s6Hm1Ig9gMB1LS+LT9q5PqkjoBedcZmtF7WTXqH+/7QR3pgDMS9a65/R8eIQrxR+eNrr
- ibP1rF4ZVFCLISxkdRhB7BUlTpasQZ6mm485ELaJGB4NynSpYoPrnoy9hm85/x9Gz7/Q
- ABHe807V8iG1TnHdOky9J0HhTORh8uqsXK+tGqOHDmJ3RYSs9hh4jQfP7kT5wov2nkcz
- 7IlKBVjGvr1rH0uf8BbpzYqhdMwi4b0L/IaKLtOZ5qMnmuRlpBPvFe1reDbTTe1/TTma
- JBpSbjkfyugZn5WlQDv3w1d3Nf1/i82r7hlsuASbgLoKOh71B9JRqjQTV/9BjBH8oVAw Wg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3eqg9ejjj8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Mar 2022 18:49:29 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22BImhXI003323;
- Fri, 11 Mar 2022 18:49:28 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3eqg9ejjhv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Mar 2022 18:49:28 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22BIhp6O003551;
- Fri, 11 Mar 2022 18:49:27 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3ekyg97mne-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Mar 2022 18:49:27 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 22BInOSj39321872
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 11 Mar 2022 18:49:24 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B7262AE056;
- Fri, 11 Mar 2022 18:49:23 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 53A54AE04D;
- Fri, 11 Mar 2022 18:49:23 +0000 (GMT)
-Received: from heavy.lan (unknown [9.171.29.97])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 11 Mar 2022 18:49:23 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 3/3] tests/tcg/s390x: Test BRASL and BRCL with large negative
- offsets
-Date: Fri, 11 Mar 2022 19:49:11 +0100
-Message-Id: <20220311184911.557245-4-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220311184911.557245-1-iii@linux.ibm.com>
-References: <20220311184911.557245-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <tpearson@raptorengineering.com>)
+ id 1nSkOj-0008TO-I1
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 13:53:59 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rptsys.com (Postfix) with ESMTP id 47B3337C3747CD
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 12:53:56 -0600 (CST)
+Received: from mail.rptsys.com ([127.0.0.1])
+ by localhost (vali.starlink.edu [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id u_AY0poWl0sF for <qemu-devel@nongnu.org>;
+ Fri, 11 Mar 2022 12:53:55 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rptsys.com (Postfix) with ESMTP id 5753B37C3747C9
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 12:53:55 -0600 (CST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rptsys.com 5753B37C3747C9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raptorengineering.com; s=B8E824E6-0BE2-11E6-931D-288C65937AAD;
+ t=1647024835; bh=I1MghsF3vr3uvwYSbkUkCbi1zN3JmlwsLo4txxvT/jY=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=tfUsvhiaAGby2D7zFnPztjiCHCUeYWVVrXtXZBYay+R5fTjWU7i9p8KvwOB55v+9V
+ 1kDjhDQSVfsWGXmfp2FbD+VwhobqYWK81k/p9S8Vh96mtxrAI3B1fC5gGR5vELbVTy
+ cCfEOU4l2dAURopfVlGLUY2zqoDLkoJI41GfYbWE=
+X-Virus-Scanned: amavisd-new at rptsys.com
+Received: from mail.rptsys.com ([127.0.0.1])
+ by localhost (vali.starlink.edu [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id jekYhfGef6ku for <qemu-devel@nongnu.org>;
+ Fri, 11 Mar 2022 12:53:55 -0600 (CST)
+Received: from vali.starlink.edu (unknown [192.168.3.2])
+ by mail.rptsys.com (Postfix) with ESMTP id 2364037C3747C6
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 12:53:55 -0600 (CST)
+Date: Fri, 11 Mar 2022 12:53:53 -0600 (CST)
+From: Timothy Pearson <tpearson@raptorengineering.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Message-ID: <146714397.449437.1647024833769.JavaMail.zimbra@raptorengineeringinc.com>
+In-Reply-To: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
+References: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
+Subject: Re: XIVE VFIO kernel resample failure in INTx mode under heavy load
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: XzHDyxvJ_MbH1XxLZ_mKMkW4O268uQwS
-X-Proofpoint-ORIG-GUID: 7BNGdsFr8nmJ6oyxY0gVMn0RrWYmqseP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-11_07,2022-03-11_02,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 malwarescore=0 clxscore=1015 adultscore=0 spamscore=0
- impostorscore=0 bulkscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203110091
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: Zimbra 8.5.0_GA_3042 (ZimbraWebClient - GC99 (Linux)/8.5.0_GA_3042)
+Thread-Topic: XIVE VFIO kernel resample failure in INTx mode under heavy load
+Thread-Index: eEcr6sfC50Umkvs72f1FlQPuKTH8xtW/gV7x
+Received-SPF: pass client-ip=23.155.224.45;
+ envelope-from=tpearson@raptorengineering.com; helo=mail.rptsys.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,68 +78,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a small test in order to prevent regressions.
+Correction -- the desynchronization appears to be on the DisINTx line.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/s390x/Makefile.target        |  1 +
- tests/tcg/s390x/branch-relative-long.c | 29 ++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 tests/tcg/s390x/branch-relative-long.c
+Host:
+        Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr+ Stepping- SERR+ FastB2B- DisINTx+
+        Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=slow >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 257c568c58..fd34b130f7 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -15,6 +15,7 @@ TESTS+=mvc
- TESTS+=shift
- TESTS+=trap
- TESTS+=signals-s390x
-+TESTS+=branch-relative-long
- 
- ifneq ($(HAVE_GDB_BIN),)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
-diff --git a/tests/tcg/s390x/branch-relative-long.c b/tests/tcg/s390x/branch-relative-long.c
-new file mode 100644
-index 0000000000..b9fcee9873
---- /dev/null
-+++ b/tests/tcg/s390x/branch-relative-long.c
-@@ -0,0 +1,29 @@
-+#include <assert.h>
-+#include <stddef.h>
-+#include <sys/mman.h>
-+
-+int main(void)
-+{
-+    const unsigned short opcodes[] = {
-+        0xc005,  /* brasl %r0 */
-+        0xc0f4,  /* brcl 0xf */
-+    };
-+    size_t length = 0x100000006;
-+    unsigned char *buf;
-+    int i;
-+
-+    buf = mmap(NULL, length, PROT_READ | PROT_WRITE | PROT_EXEC,
-+               MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+    assert(buf != MAP_FAILED);
-+
-+    *(unsigned short *)&buf[0] = 0x07fe;  /* br %r14 */
-+    *(unsigned int *)&buf[0x100000002] = 0x80000000;
-+    for (i = 0; i < sizeof(opcodes) / sizeof(opcodes[0]); i++) {
-+        *(unsigned short *)&buf[0x100000000] = opcodes[i];
-+        ((void (*)(void))&buf[0x100000000])();
-+    }
-+
-+    munmap(buf, length);
-+
-+    return 0;
-+}
--- 
-2.35.1
+Guest:
+        Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr+ Stepping- SERR+ FastB2B- DisINTx-
+        Status: Cap- 66MHz- UDF- FastB2B- ParErr- DEVSEL=slow >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
 
+This is with the driver stuck, not receiving any interrupts in the guest despite the card issuing them every 1ms.
+
+----- Original Message -----
+> From: "Timothy Pearson" <tpearson@raptorengineering.com>
+> To: "qemu-devel" <qemu-devel@nongnu.org>
+> Sent: Friday, March 11, 2022 12:35:45 PM
+> Subject: XIVE VFIO kernel resample failure in INTx mode under heavy load
+
+> All,
+> 
+> I've been struggling for some time with what is looking like a potential bug in
+> QEMU/KVM on the POWER9 platform.  It appears that in XIVE mode, when the
+> in-kernel IRQ chip is enabled, an external device that rapidly asserts IRQs via
+> the legacy INTx level mechanism will only receive one interrupt in the KVM
+> guest.
+> 
+> Changing any one of those items appears to avoid the glitch, e.g. XICS mode with
+> the in-kernel IRQ chip works (all interrupts are passed through), and XIVE mode
+> with the in-kernel IRQ chip disabled also works.  We are also not seeing any
+> problems in XIVE mode with the in-kernel chip from MSI/MSI-X devices.
+> 
+> The device in question is a real time card that needs to raise an interrupt
+> every 1ms.  It works perfectly on the host, but fails in the guest -- with the
+> in-kernel IRQ chip and XIVE enabled, it receives exactly one interrupt, at
+> which point the host continues to see INTx+ but the guest sees INTX-, and the
+> IRQ handler in the guest kernel is never reentered.
+> 
+> We have also seen some very rare glitches where, over a long period of time, we
+> can enter a similar deadlock in XICS mode.  Disabling the in-kernel IRQ chip in
+> XIVE mode will also lead to the lockup with this device, since the userspace
+> IRQ emulation cannot keep up with the rapid interrupt firing (measurements show
+> around 100ms required for processing each interrupt in the user mode).
+> 
+> My understanding is the resample mechanism does some clever tricks with level
+> IRQs, but that QEMU needs to check if the IRQ is still asserted by the device
+> on guest EOI.  Since a failure here would explain these symptoms I'm wondering
+> if there is a bug in either QEMU or KVM for POWER / pSeries (SPAPr) where the
+> IRQ is not resampled and therefore not re-fired in the guest?
+> 
+> Unfortunately I lack the resources at the moment to dig through the QEMU
+> codebase and try to find the bug.  Any IBMers here that might be able to help
+> out?  I can provide access to a test setup if desired.
+> 
+> Thanks!
 
