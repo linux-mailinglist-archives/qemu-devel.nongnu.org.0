@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B27F4D5DB2
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 09:46:45 +0100 (CET)
-Received: from localhost ([::1]:51952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD224D5E20
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 10:16:20 +0100 (CET)
+Received: from localhost ([::1]:57088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSav6-0001UU-Ii
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 03:46:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48986)
+	id 1nSbNi-00073j-SK
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 04:16:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nSar8-0000az-By
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 03:42:39 -0500
-Received: from mga17.intel.com ([192.55.52.151]:33871)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nSbL0-0006L0-QM
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 04:13:30 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:38423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1nSar5-00009A-Hj
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 03:42:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646988155; x=1678524155;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=rnnCy0Hbi4uhBKWJV93SLPhz7c/vwnMymNdqjK9CGiI=;
- b=miqjQIXSg7SBUVK1bladzPXtFnsYMGTfCeW/IGf8ddiKkxw6YS7i6rQe
- ebbu9NljOQ1mCMyOHjUqDi8UQaMDyA4ajI/0dLykmDLGEfGUAUXnezG/g
- xvQpr9XeM9Cy1ksiGX7q1Gtysrvkrl0XVL1HmZqendsN1aVNMWj3oa2II
- OQKxYV0iVNqVeAZ9p6u5YMQrwqAQhTItOctv2XTiO8cvz/5aLI8qS27cL
- 5wIfd/NA+mkXmtSc/IFUp6zTAM430ThB9Vt6BeVNEJL3EM1b9KYo6+L2o
- j65s9K3kc7YvPi5dD9Gc5exRO3X7yTBm7xSN2brCUPODJVymoka6QHEpO Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10282"; a="236133833"
-X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; d="scan'208";a="236133833"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2022 00:42:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,173,1643702400"; d="scan'208";a="538926645"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga007.jf.intel.com with ESMTP; 11 Mar 2022 00:42:24 -0800
-Date: Fri, 11 Mar 2022 16:42:08 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Dave Chinner <david@fromorbit.com>
-Subject: Re: [PATCH v5 03/13] mm/shmem: Support memfile_notifier
-Message-ID: <20220311084208.GB56193@chaop.bj.intel.com>
-References: <20220310140911.50924-1-chao.p.peng@linux.intel.com>
- <20220310140911.50924-4-chao.p.peng@linux.intel.com>
- <20220310230822.GO661808@dread.disaster.area>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1nSbKy-0001Ja-4T
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 04:13:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=3WH6q8+OxRBTHeAnWu79R6VbAc4iNykav9VDZHJQZaM=; b=uYDJgMHe2ZSTheh1Nad4jPlDiF
+ JldLSvh01RudvGhMoVQw64BkQOr8Gm6W1a4K1hF5UoLjG6QeUizGGaKQLnKADuT8lg9sQJR0hSYP6
+ FWBVqvXH0fd4PYWAtI0EnnEVf9Rb8apHUVpFmCtkAU/YVnKVO0U4DMvvevFWjZo4Nc0sHLSdXvo4J
+ C7QcgNygib2qhRVDOiiJfrv0OZLFfFyMM4wHk46XN+nsDJJMFxhg8Fs/mXXZzyavT9bs+hC9Rewn1
+ 3apoEhlfqAdk1O7YIuQS6vVU0b3SL2t+O5f+gSOXS7x1/pp6OwfttUnc+IN3P6gp3OfLxWKuiVvua
+ hGBlP/4ibxsOl60rmvpAE8/a1uvaGUJr1tL94v2isshJ6jasdjAq/S9fCrTEdeCEmMcNswksaagqr
+ 2+h8vDdV2XZM5pQmZD3jCfboJniGwhFHInHtEx98oObIqlYpaQXEuI6klAHsJTyig6uRSfogLRQ48
+ tncOBv/l+DgI8De6jR9DwbLO93O/W1SB49W/qXHbFPzqu9zbxh/nn1ngf0FrgxL6avYuNNCnyZUXO
+ BvwwKsz+bqVqb5xDvZfQ21xnRPNtGbnn2j+43MrOV7almOlJyU0jgtfOZrUE8aKKvV6dXKj5Z2SKB
+ tsldWXyBQkV0gMbSCJZn9mGjYc9nEgHtD7kWXrO+E=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?=
+ <philippe.mathieu.daude@gmail.com>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Joelle van Dyne <j@getutm.app>, Cameron Esfahani <dirty@apple.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: MAINTAINERS: macOS host support (was: MAINTAINERS: take edk2)
+Date: Fri, 11 Mar 2022 10:13:24 +0100
+Message-ID: <1799774.TS5kVz7OSp@silver>
+In-Reply-To: <b3438511-abad-b9bd-5343-7e6dacabda3c@gmail.com>
+References: <20220308145521.3106395-1-kraxel@redhat.com>
+ <YincBMmKYK+GzPnN@redhat.com>
+ <b3438511-abad-b9bd-5343-7e6dacabda3c@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220310230822.GO661808@dread.disaster.area>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=192.55.52.151;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga17.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,119 +77,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Steven Price <steven.price@arm.com>, Ingo Molnar <mingo@redhat.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, linux-api@vger.kernel.org,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- Vishal Annapurve <vannapurve@google.com>, Mike Rapoport <rppt@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Mar 11, 2022 at 10:08:22AM +1100, Dave Chinner wrote:
-> On Thu, Mar 10, 2022 at 10:09:01PM +0800, Chao Peng wrote:
-> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > 
-> > It maintains a memfile_notifier list in shmem_inode_info structure and
-> > implements memfile_pfn_ops callbacks defined by memfile_notifier. It
-> > then exposes them to memfile_notifier via
-> > shmem_get_memfile_notifier_info.
-> > 
-> > We use SGP_NOALLOC in shmem_get_lock_pfn since the pages should be
-> > allocated by userspace for private memory. If there is no pages
-> > allocated at the offset then error should be returned so KVM knows that
-> > the memory is not private memory.
-> > 
-> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  include/linux/shmem_fs.h |  4 +++
-> >  mm/shmem.c               | 76 ++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 80 insertions(+)
-> > 
-> > diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-> > index 2dde843f28ef..7bb16f2d2825 100644
-> > --- a/include/linux/shmem_fs.h
-> > +++ b/include/linux/shmem_fs.h
-> > @@ -9,6 +9,7 @@
-> >  #include <linux/percpu_counter.h>
-> >  #include <linux/xattr.h>
-> >  #include <linux/fs_parser.h>
-> > +#include <linux/memfile_notifier.h>
-> >  
-> >  /* inode in-kernel data */
-> >  
-> > @@ -28,6 +29,9 @@ struct shmem_inode_info {
-> >  	struct simple_xattrs	xattrs;		/* list of xattrs */
-> >  	atomic_t		stop_eviction;	/* hold when working on inode */
-> >  	unsigned int		xflags;		/* shmem extended flags */
-> > +#ifdef CONFIG_MEMFILE_NOTIFIER
-> > +	struct memfile_notifier_list memfile_notifiers;
-> > +#endif
-> >  	struct inode		vfs_inode;
-> >  };
-> >  
-> > diff --git a/mm/shmem.c b/mm/shmem.c
-> > index 9b31a7056009..7b43e274c9a2 100644
-> > --- a/mm/shmem.c
-> > +++ b/mm/shmem.c
-> > @@ -903,6 +903,28 @@ static struct folio *shmem_get_partial_folio(struct inode *inode, pgoff_t index)
-> >  	return page ? page_folio(page) : NULL;
-> >  }
-> >  
-> > +static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
-> > +{
-> > +#ifdef CONFIG_MEMFILE_NOTIFIER
-> > +	struct shmem_inode_info *info = SHMEM_I(inode);
-> > +
-> > +	memfile_notifier_fallocate(&info->memfile_notifiers, start, end);
-> > +#endif
-> > +}
-> 
-> *notify_populate(), not fallocate.  This is a notification that a
-> range has been populated, not that the fallocate() syscall was run
-> to populate the backing store of a file.
-> 
-> i.e.  fallocate is the name of a userspace filesystem API that can
-> be used to manipulate the backing store of a file in various ways.
-> It can both populate and punch away the backing store of a file, and
-> some operations that fallocate() can run will do both (e.g.
-> FALLOC_FL_ZERO_RANGE) and so could generate both
-> notify_invalidate() and a notify_populate() events.
+On Donnerstag, 10. M=E4rz 2022 12:40:06 CET Philippe Mathieu-Daud=E9 wrote:
+> +Stefan for overall project resources.
+>=20
+> On 10/3/22 12:07, Daniel P. Berrang=E9 wrote:
+> > On Thu, Mar 10, 2022 at 12:00:35PM +0100, Christian Schoenebeck wrote:
+> >> On Mittwoch, 9. M=E4rz 2022 12:44:16 CET Daniel P. Berrang=E9 wrote:
+> >>> On Wed, Mar 09, 2022 at 11:40:42AM +0100, Christian Schoenebeck wrote:
+> >>>> On Mittwoch, 9. M=E4rz 2022 11:05:02 CET Philippe Mathieu-Daud=E9 wr=
+ote:
+> >>>>> Not sure what you have in mind. I'm totally new to the macOS/Darwin
+> >>>>> world, and have no choice but to use it as primary workstation and
+> >>>>> for CI builds, so I can help with overall testing / maintenance.
+> >>>>>=20
+> >>>>> Peter, since you take some macOS patches, would you like to maintain
+> >>>>> this officially? Since I doubt you want to take yet another
+> >>>>> responsibility, what about having a co-maintained section, including
+> >>>>> technical expertise from Akihiko / Joelle / Christian? (Cc'ed)
+> >>>>>=20
+> >>>>> Regards,
+> >>>>=20
+> >>>> Also CCing Cameron on this, just in case someone at Apple could spend
+> >>>> some
+> >>>> slices on QEMU macOS patches in general as well.
+> >>>>=20
+> >>>> As for my part: I try to help out more on the macOS front. As there's
+> >>>> now
+> >>>> macOS host support for 9p I have to start QEMU testing on macOS loca=
+lly
+> >>>> anyway. Too bad that macOS CI tests on Github are no longer available
+> >>>> BTW.
+> >>>=20
+> >>> Note QEMU gets macOS CI coverage in GitLab. We use a clever trick by
+> >>> which we use 'cirrus-run' from the GitLab job to trigger a build in
+> >>> Cirrus CI's macOS builders, and pull the results back when its done.
+> >>>=20
+> >>> Any contributor can get this working on their QEMU fork too, if they
+> >>> configure the needed Cirrus CI API token. See the docs in
+> >>>=20
+> >>>     .gitlab-ci.d/cirrus/README.rst
+> >>>=20
+> >>> This is enough for build + automated tests.
+> >>=20
+> >> Does this mean that people no longer have to pull their credit card ju=
+st
+> >> for running CI tests on Gitlab?
+> >=20
+> > Not really. The CC validation is something GitLab have had to force
+> > onto all new accounts due to cryptominer abuse of their free shared
+> > CI runners :-( If you have VMs somewhere you could theoretically
+> > spin up your own CI runners instead of using the shared runners and
+> > that could avoid the CC validation need.
+>=20
+> Not that trivial, first you need to figure out the list of dependencies
+> GitLab images come with, then you realize you need 50GiB+ of available
+> storage a single pipeline (due to all the Docker images pulled / built)
+> and you also need a decent internet link otherwise various jobs timeout
+> randomly, then you have to wait 20h+ with a quad-core CPU / 16GiB RAM,
 
-Yes, I fully agreed fallocate syscall has both populating and hole
-punching semantics so notify_fallocate can be misleading since we
-actually mean populate here.
+Considering that CI jobs currently take about 1 hour on Gitlab, which=20
+processor generation are you referring to that would take 20 hours?
 
-> 
-> Hence "fallocate" as an internal mm namespace or operation does not
-> belong anywhere in core MM infrastructure - it should never get used
-> anywhere other than the VFS/filesystem layers that implement the
-> fallocate() syscall or use it directly.
+> and eventually you realize you lost 3 days of your life to not register
+> your CC which you'll be forced to give anyway.
 
-Will use your suggestion through the series where applied. Thanks for
-your suggestion.
+It's an obstacle. And that keeps people away. Plus the trend seems to be th=
+at=20
+free CI services disappear one by one, so I am not so sure that giving your=
+=20
+credit card once solves this issue for good.
 
-Chao
-> 
-> Cheers,
-> 
-> Dave.
-> 
-> -- 
-> Dave Chinner
-> david@fromorbit.com
+> Long term maintainers don't realize that because they had the luxury to
+> open their GitLab account soon enough and are now privileged.
+
+Would it be possible to deploy all CI jobs via Cirrus-CI?
+
+> It is unfortunate the project strongly suggest new maintainers to pass
+> by that hassle and doesn't provide access to project resources instead.
+>=20
+> But then I know, while the project has access to FOSS hardware resources
+> it doesn't have human resources to maintain them so can't use them, back
+> to square one.
+>=20
+> Regards,
+>=20
+> Phil.
+
+
 
