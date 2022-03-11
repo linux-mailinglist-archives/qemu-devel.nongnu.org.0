@@ -2,57 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9344D627D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 14:36:49 +0100 (CET)
-Received: from localhost ([::1]:56610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D684D4D62A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 14:53:40 +0100 (CET)
+Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSfRo-0000ZP-HR
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 08:36:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32986)
+	id 1nSfi7-0000QK-EY
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 08:53:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nSfOp-0007Og-Vp
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 08:33:44 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:38079)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nSfOo-00074A-8H
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 08:33:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=9tfbyWhK6zFHs2rqdZxrupEcKNcUAy+gHeLfTB+CAQg=; b=c8b8UVxIUbpQ3SEsRLgWGdYXxL
- 672FZuyk7dnxGE2edhXN24PYvV7XkA4qcUKpdw6f6lfjEG4WoUzxP4ctZKYW7x+lRJTjQJ6Aznalj
- POx1VFD0rBfCCq3YYTTGyzr7CMtAyZjzUqbgQcFX2dRzXZ9b+iAh3+xsdYDP8Icu/aFLt30kCCmkJ
- PtJ2WshnX6m7wOku+0hAEKyzUuesjPV6bEQoKmBTzN34OLy1Rvu9WY+v4jq9nhmMTVJQViRqPdI6q
- pbVhYsFX7hHez9EVZ0/tUQaodgGc1XWO7Fynp+iTs7Zsr90Xj33sqn38OswBoR/St2ARR3JZgL5Dr
- SwJTNBSjUDCEwYUl3cybHLvtua00uEu6w25NqvINdia9ABwe+/Ec1+vIFk+85IS/i9fGBb8hJZwnO
- gAtNptJQn6QUhY2DT2asBm7nBCothsY7ypN+YybovJbINlFw0nt7F78pcKwWwHET5Y9QaYC93f7v9
- Y9cPcaefyVrexljryxGe3I67h+4wnw0xRJCyIJ43gmuSYGyT+hxC/QE5ohlPGIE5M6iGyLpRBxdtP
- TG03EY7WqeDSQCQ7ovGJsgbRXn2cskHBRelxMXN0kYDhHqpxwSeOK/oGaA6tImbN5C4Oe3N2BWYzc
- ul/YAg0YIfVnbAgz5UztvrcBgFus+ut7egY56a2s8=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nSfh0-0007qK-Bj
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 08:52:30 -0500
+Received: from [2a00:1450:4864:20::533] (port=38403
+ helo=mail-ed1-x533.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nSfgy-0005gf-MC
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 08:52:30 -0500
+Received: by mail-ed1-x533.google.com with SMTP id h13so10994719ede.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 05:52:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SAcaA+xc4yxAPK9nO2P/jx+6jiZeDY//zxKI1koGKoQ=;
+ b=MJ5RqoO5uF3mEfs8uIgpUM0ThpobExR2+sUUORaEn1fAV9/hc8NG81tYUbD6d2Kd5n
+ HxvGcIG5sHV+MJLFNogPtOK/CknhOwYKXUE12N/hpin1A94ukz8VlfLwgYpj/n+N9jaz
+ aMj66nezeB9gmYUS1El5pefpH8RTXGBryGXr7KVWrB3OCTRCMP36rcW5ROE4noNDF68Z
+ iWqIyP7yfwGlztxDqjmzjouwzeZV6WD4ycopPLiLQwIB7z9N6VnrYqyW4fbCx73ANXHv
+ 51cPqfGYnuq67iz1Ng9TfiGmZDLi/FNf6BYf5DHqGUCGfgCIKIsH32Dc692mPo1enzTm
+ 5ZOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SAcaA+xc4yxAPK9nO2P/jx+6jiZeDY//zxKI1koGKoQ=;
+ b=Gu08UVndnIYmMG8Hw6ViAKomaeSkvG75rVYLf3VRks0G5njvv38wvamX6i33O9Bh+K
+ XbZWCm9SrvF+alKSX4U1wYi5jealIDU8BlSE4gXCVZTAR6McxapHX+qIvqT6RCqk3G/N
+ J2QME0WDDYqMAekVpnkbtxQaEhR9oED9Vj9W+j0gLXGsMqdRrRH1jy4mkRjSDiX6lFQ6
+ hqX3yIy3h0wH3bIs+e+kK9hSrQRxROkQ27iK2AUoevbmNSu/ieWCxpVrkzHvKcfgfxil
+ WlaKvgEzJ9DgUpcZyBCjbFAMEu2SM1EDbN7JOmwE8oBvZ34KmkyA1idwXMAUXFvAaX7F
+ ir4g==
+X-Gm-Message-State: AOAM532TxW1EnCzMTKHJCxwca7c9vih7gV1VUsZsh3s7PrP+dit773sM
+ eOp7RNiKBwjSFEvC8W45LJFLSsoh6uXlZQ==
+X-Google-Smtp-Source: ABdhPJwz7N1EZ1bIrvnUYiJgx8ENXMdqOOEFwEHaE6GYEf1uivG7EnMs9oX5ZheqAbAvU9PgQIlBww==
+X-Received: by 2002:a05:6402:518a:b0:416:b50e:3c7d with SMTP id
+ q10-20020a056402518a00b00416b50e3c7dmr7147163edd.177.1647006746006; 
+ Fri, 11 Mar 2022 05:52:26 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ p24-20020a1709061b5800b006da6435cedcsm2941471ejg.132.2022.03.11.05.52.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Mar 2022 05:52:24 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 06DDC1FFB7;
+ Fri, 11 Mar 2022 13:52:24 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 2/6] tests/9pfs: Twalk with nwname=0
-Date: Fri, 11 Mar 2022 14:33:29 +0100
-Message-ID: <3174746.CFxLxtX5Ws@silver>
-In-Reply-To: <20220311124132.522fa396@bahia>
-References: <cover.1646850707.git.qemu_oss@crudebyte.com>
- <22257136.YvWK5Ti9pE@silver> <20220311124132.522fa396@bahia>
+Subject: [RFC PATCH] mailmap/gitdm: more fixes for bad tags and authors
+Date: Fri, 11 Mar 2022 13:52:00 +0000
+Message-Id: <20220311135200.680127-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,56 +90,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Wang <jasowang@redhat.com>, Michael Ellerman <michael@ellerman.id.au>,
+ =?UTF-8?q?Andreas=20F=C3=A4rber?= <andreas.faerber@web.de>,
+ Peter Chubb <peter.chubb@nicta.com.au>, Aaron Larson <alarson@ddci.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 11. M=E4rz 2022 12:41:32 CET Greg Kurz wrote:
-> On Thu, 10 Mar 2022 09:57:25 +0100
->=20
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Mittwoch, 9. M=E4rz 2022 14:24:24 CET Christian Schoenebeck wrote:
-> > > Send Twalk request with nwname=3D0. In this case no QIDs should
-> > > be returned by 9p server; this is equivalent to walking to dot.
-> > >=20
-> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > ---
-> > >=20
-> > >  tests/qtest/virtio-9p-test.c | 22 ++++++++++++++++++++++
-> > >  1 file changed, 22 insertions(+)
-> > >=20
-> > > diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-tes=
-t.c
-> > > index 22bdd74bc1..6c00da03f4 100644
-> > > --- a/tests/qtest/virtio-9p-test.c
-> > > +++ b/tests/qtest/virtio-9p-test.c
-> > > @@ -1002,6 +1002,27 @@ static void fs_walk_nonexistent(void *obj, void
-> > > *data, QGuestAllocator *t_alloc) do_walk_expect_error(v9p,
-> > > "non-existent",
-> > > ENOENT);
-> > >=20
-> > >  }
-> > >=20
-> > > +static void fs_walk_none(void *obj, void *data, QGuestAllocator
-> > > *t_alloc)
-> > > +{
-> >=20
-> > Or maybe calling this function fs_walk_clone_fid and the test case name
-> > "synth/walk/clone_fid" respectively instead?
->=20
-> I agree that Twalk with nwname=3D0 does clone the fid in practice but
-> the test doesn't explicitly check that. In its present form, I'd
-> suggest a "no_names" wording but it is already fine as is, so:
+I was running some historical tags for the last 10 years and got the
+following warnings:
 
-It actually does; not with this patch 2 yet, but with patch 3 (which compar=
-es=20
-QIDs).
+  git log --use-mailmap --numstat --since "June 2010" | ~/src/gitdm.git/gitdm -n -l 5
+  alarson@ddci.com is an author name, probably not what you want
+  bad utf-8 ('utf-8' codec can't decode byte 0xe4 in position 552: invalid continuation byte) in patchm skipping
+  bad utf-8 ('utf-8' codec can't decode byte 0xe4 in position 342: invalid continuation byte) in patchm skipping
+  michael@ozlabs.org  is an author name, probably not what you want
+  Oops...funky email nicta.com.au
+  bad utf-8 ('utf-8' codec can't decode byte 0xe9 in position 232: invalid continuation byte) in patchm skipping
+  Oops...funky email andreas.faerber
+  Grabbing changesets...done
+  Processed 76422 csets from 1902 developers
 
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+The following fixes try and alleviate that although I still get a
+warning for Aaron which I think is from 9743cd5736.
 
-Thanks!
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Aaron Larson <alarson@ddci.com>
+Cc: Andreas Färber <andreas.faerber@web.de>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Michael Ellerman <michael@ellerman.id.au>
+Cc: Peter Chubb <peter.chubb@nicta.com.au>
+---
+ .mailmap              | 6 ++++++
+ contrib/gitdm/aliases | 5 ++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-Best regards,
-Christian Schoenebeck
-
+diff --git a/.mailmap b/.mailmap
+index 5113f55b3a..5dc168b199 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -28,7 +28,11 @@ Thiemo Seufer <ths@networkno.de> ths <ths@c046a42c-6fe2-441c-8c8c-71466251a162>
+ malc <av1474@comtv.ru> malc <malc@c046a42c-6fe2-441c-8c8c-71466251a162>
+ 
+ # Corrupted Author fields
++Aaron Larson <alarson@ddci.com> alarson@ddci.com
++Andreas Färber <andreas.faerber@web.de> Andreas Färber <andreas.faerber>
++Jason Wang <jasowang@redhat.com> Jason Wang <jasowang>
+ Marek Dolata <mkdolata@us.ibm.com> mkdolata@us.ibm.com <mkdolata@us.ibm.com>
++Michael Ellerman <michael@ellerman.id.au> michael@ozlabs.org <michael@ozlabs.org>
+ Nick Hudson <hnick@vmware.com> hnick@vmware.com <hnick@vmware.com>
+ 
+ # There is also a:
+@@ -70,6 +74,7 @@ Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
+ # Also list preferred name forms where people have changed their
+ # git author config, or had utf8/latin1 encoding issues.
+ Aaron Lindsay <aaron@os.amperecomputing.com>
++Aaron Larson <alarson@ddci.com>
+ Alexey Gerasimenko <x1917x@gmail.com>
+ Alex Chen <alex.chen@huawei.com>
+ Alex Ivanov <void@aleksoft.net>
+@@ -144,6 +149,7 @@ Pan Nengyuan <pannengyuan@huawei.com>
+ Pavel Dovgaluk <dovgaluk@ispras.ru>
+ Pavel Dovgaluk <pavel.dovgaluk@gmail.com>
+ Pavel Dovgaluk <Pavel.Dovgaluk@ispras.ru>
++Peter Chubb <peter.chubb@nicta.com.au>
+ Peter Crosthwaite <crosthwaite.peter@gmail.com>
+ Peter Crosthwaite <peter.crosthwaite@petalogix.com>
+ Peter Crosthwaite <peter.crosthwaite@xilinx.com>
+diff --git a/contrib/gitdm/aliases b/contrib/gitdm/aliases
+index 4792413ce7..5b31635c15 100644
+--- a/contrib/gitdm/aliases
++++ b/contrib/gitdm/aliases
+@@ -34,8 +34,11 @@ malc@c046a42c-6fe2-441c-8c8c-71466251a162 av1474@comtv.ru
+ # canonical emails
+ liq3ea@163.com liq3ea@gmail.com
+ 
+-# some broken tags
++# some broken DCO tags
+ yuval.shaia.ml.gmail.com yuval.shaia.ml@gmail.com
++jasowang jasowang@redhat.com
++nicta.com.au peter.chubb@nicta.com.au
++alarson@ddci.com alarson@ddci.com
+ 
+ # There is also a:
+ #    (no author) <(no author)@c046a42c-6fe2-441c-8c8c-71466251a162>
+-- 
+2.30.2
 
 
