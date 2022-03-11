@@ -2,58 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51ED44D67B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 18:38:04 +0100 (CET)
-Received: from localhost ([::1]:33568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2ECC4D6811
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 18:54:29 +0100 (CET)
+Received: from localhost ([::1]:37804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSjDG-0002Ag-OS
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 12:38:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58972)
+	id 1nSjTA-00061s-Dj
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 12:54:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nSjCF-0001Ux-Rh
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 12:36:59 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:47161)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nSjCB-0003CA-C7
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 12:36:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=OlKyidNxhhzn3dOH6hsEqu5x2JFJ6ait63jygVMeaQQ=; b=ui+8NP5NKKNxKXq2sSB3hCM4Ue
- GfKsB8ynvA4rhCMtz909eiHQ9TcIklIqxmc8ciy6EftuT7npBrqjL6CIncSiz0I4fpAXkiygi8+/F
- KiEqv0uhvAxnnVrLx/1tsylaU4ejIDGds7O9Q6w8EIAA0DSOdxd+wR+i/N8cYwvmcRj0wjFm2AanS
- n9B2pi8IwiLgsNTZSG/87s64qaw7cbi3fLFc3HR5H2l/8X+o9WCvKTNjpMN1jpBRwcTNqWAU7+oOy
- 8XOl/ZdBAP2pk5q5Sv0rwrnD9uKm9q4YDncFbhUP3dqlG0mV6PdKksZDxa60AOKs9gHyXOCr2emuo
- 343D+6lbj68GYNVwAn+vE8mPO/NxQTWJ1sOE7BSNYdlZZKwA0iH7T0XASgxPRJoRRMepB69om5T5z
- A3I+RpCvBepVSybI67LDYRKCxFaXRswW2a7OT02bJZY+4uXcR2tRnKYJxPzLDgQb++nntcuHXbzVb
- GqI0e4sd18XYBr2uc4z3xtHj4mb+cDovfVGUtxsMGm1Y4T51YzLb+dtgGA+syIShh3L4kk41vU+3U
- JS/mS04u7fXYb2p29Iz+K8NhW8Gh56Cvvqb3Cq9xZd8WL5zRfwMi3OgGKlVAPywteWu5D6DkC/1kf
- 5c6nfxxUrST1G25lZkCDcCVJAqs0K7uBfDRmNqAtM=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 5/6] 9pfs: fix 'Twalk' to only send error if no component
- walked
-Date: Fri, 11 Mar 2022 18:36:51 +0100
-Message-ID: <5565587.G5MRNFoPhR@silver>
-In-Reply-To: <20220311180838.3a8c9f74@bahia>
-References: <cover.1646850707.git.qemu_oss@crudebyte.com>
- <3685932.ieBdHTVF6f@silver> <20220311180838.3a8c9f74@bahia>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nSjRO-0004jz-Vp
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 12:52:39 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=52148
+ helo=mail-pj1-x1031.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nSjRN-0006hc-H5
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 12:52:38 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id cx5so8819539pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 09:52:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=H22LKxt9oIc/s29MW07gH9j3Xg5M/haxMeIR9n7aSGY=;
+ b=Je9i20mkiqEpQd05VyfwdnP3aJwCMxdiySuCBSReajjiWMLE+oRsrqa9fwjPACweBF
+ 9eHf+sTIY9zaZxglHPy14x9vfaha/NvVQfj0l5Isulnetf451NtUeLAFoE6RFxrBmUYf
+ S2ziBS9cfULhB9zBqGssWWNBeTH7XWr0MZStXhkKGp5kX1PiOXbop+jH9bGIqrTXnfa9
+ DQB0rB2cvQuD+o4UrtlWGIbFT2v3SkdyTx+vIb1IcK2j5XLu+cqR4EOmiYsnQ3B1x1Ll
+ /alg8JHvMjTuXzhZKc5pHvEy/WoAeYqdaN5Z459Mm9m5apmembWRww5kzxLAntVNLsWm
+ VgLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=H22LKxt9oIc/s29MW07gH9j3Xg5M/haxMeIR9n7aSGY=;
+ b=L+cvT7Sa/5MVMxXuyzCPInVTkZA6CSZ082tAR1S+e0/mVnn8hgqIJAZVs4Buhbf/MQ
+ G61+go5GAZazWybtVSn8Vq2NP5RGCsnScCJYiy2xFYkanlVpwgray+MMXD4yh29dBVzR
+ tPN5K2FZhEPKfahyN8h1L/iwY6II5ogJLy441aTTNtPPVF3gvzRTXhbC4lxIFeHvuM2v
+ e1db/jVxs5t5f5uOfTAUIA9n54FRKCTcAzQd5eS2IJELbu824OF1ZZ3LAAbE1t+Bl8LO
+ XexAbzJ539nsp8NhVUef1NBLYSNB/jV2W86Rap4xYbvKrj7b5vUlM2ZJ97CHjFIB/uM7
+ u/qg==
+X-Gm-Message-State: AOAM532lbw6XqOxqbDEaJeP3wWELlSz22g1fVaB3IpvNpXtzSFumATV9
+ ZD8Dj2KahLSIy3r9/h6pvwqm/Q==
+X-Google-Smtp-Source: ABdhPJz+Wihg1b9NNDeYZW3rp1+NUmM/MulETsta2i2RDIHTUthTxCMc7rdllEEzaGZNPm5eZtPd4g==
+X-Received: by 2002:a17:90b:4b4a:b0:1bf:83d:6805 with SMTP id
+ mi10-20020a17090b4b4a00b001bf083d6805mr23624593pjb.174.1647021155747; 
+ Fri, 11 Mar 2022 09:52:35 -0800 (PST)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ r32-20020a17090a43a300b001bf48047434sm9881173pjg.32.2022.03.11.09.52.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Mar 2022 09:52:35 -0800 (PST)
+Message-ID: <9de9866a-658a-6ecc-6e78-be6ab35dc18c@linaro.org>
+Date: Fri, 11 Mar 2022 09:52:32 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] tcg/arm: Don't emit UNPREDICTABLE LDRD with Rm == Rt or
+ Rt+1
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20220311075300.609094-1-richard.henderson@linaro.org>
+ <87mthw4mbk.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87mthw4mbk.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,219 +94,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 11. M=E4rz 2022 18:08:38 CET Greg Kurz wrote:
-> On Fri, 11 Mar 2022 17:44:54 +0100
->=20
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Freitag, 11. M=E4rz 2022 17:35:41 CET Greg Kurz wrote:
-> > > On Thu, 10 Mar 2022 10:13:33 +0100
-> > >=20
-> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > On Mittwoch, 9. M=E4rz 2022 18:57:39 CET Christian Schoenebeck wrot=
-e:
-> > > > > Current implementation of 'Twalk' request handling always sends an
-> > > > > 'Rerror'
-> > > > >=20
-> > > > > response if any error occured. The 9p2000 protocol spec sais thou=
-gh:
-> > > > >   "
-> > > > >   If the first element cannot be walked for any reason, Rerror is
-> > > > >   returned.
-> > > > >   Otherwise, the walk will return an Rwalk message containing nwq=
-id
-> > > > >   qids
-> > > > >   corresponding, in order, to the files that are visited by the
-> > > > >   nwqid
-> > > > >   successful elementwise walks; nwqid is therefore either nwname =
-or
-> > > > >   the
-> > > > >=20
-> > > > > index of the first elementwise walk that failed.
-> > > > >=20
-> > > > >   "
-> > > > >  =20
-> > > > >   http://ericvh.github.io/9p-rfc/rfc9p2000.html#anchor33
-> > > > >=20
-> > > > > For that reason we are no longer leaving from an error path in
-> > > > > function
-> > > > > v9fs_walk(), unless really no path component could be walked
-> > > > > successfully or if the request has been interrupted.
-> > > > >=20
-> > > > > Local variable 'nvalid' counts and reflects the number of path
-> > > > > components
-> > > > > successfully processed by background I/O thread, whereas local
-> > > > > variable
-> > > > > 'name_idx' subsequently counts and reflects the number of path
-> > > > > components
-> > > > > eventually accepted successfully by 9p server controller portion.
-> > > > >=20
-> > > > > New local variable 'any_err' is an aggregate variable reflecting
-> > > > > whether
-> > > > > any error occurred at all, while already existing variable 'err'
-> > > > > only
-> > > > > reflects the last error.
-> > > > >=20
-> > > > > Despite QIDs being delivered to client in a more relaxed way now,=
- it
-> > > > > is
-> > > > > important to note though that fid still must remain uneffacted if
-> > > > > any
-> > > > > error
-> > > >=20
-> > > > Typo: should be "unaffected".
-> > > >=20
-> > > > > occurred.
-> > > > >=20
-> > > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > > > ---
-> > > > >=20
-> > > > >  hw/9pfs/9p.c | 29 +++++++++++++++++++++--------
-> > > > >  1 file changed, 21 insertions(+), 8 deletions(-)
-> > > > >=20
-> > > > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > > > > index 6cdc566866..8ccd180608 100644
-> > > > > --- a/hw/9pfs/9p.c
-> > > > > +++ b/hw/9pfs/9p.c
-> > > > > @@ -1766,7 +1766,7 @@ static void coroutine_fn v9fs_walk(void
-> > > > > *opaque)
-> > > > >=20
-> > > > >  {
-> > > > > =20
-> > > > >      int name_idx, nvalid;
-> > > > >      g_autofree V9fsQID *qids =3D NULL;
-> > > > >=20
-> > > > > -    int i, err =3D 0;
-> > > > > +    int i, err =3D 0, any_err =3D 0;
-> > > > >=20
-> > > > >      V9fsPath dpath, path;
-> > > > >      P9ARRAY_REF(V9fsPath) pathes =3D NULL;
-> > > > >      uint16_t nwnames;
-> > > > >=20
-> > > > > @@ -1832,6 +1832,7 @@ static void coroutine_fn v9fs_walk(void
-> > > > > *opaque)
-> > > > >=20
-> > > > >       * driver code altogether inside the following block.
-> > > > >       */
-> > > > >     =20
-> > > > >      v9fs_co_run_in_worker({
-> > > > >=20
-> > > > > +        nvalid =3D 0;
-> > > > >=20
-> > > > >          if (v9fs_request_cancelled(pdu)) {
-> > > > >         =20
-> > > > >              err =3D -EINTR;
-> > > > >              break;
-> > > > >=20
-> > > > > @@ -1842,7 +1843,7 @@ static void coroutine_fn v9fs_walk(void
-> > > > > *opaque)
-> > > > >=20
-> > > > >              break;
-> > > > >         =20
-> > > > >          }
-> > > > >          stbuf =3D fidst;
-> > > > >=20
-> > > > > -        for (nvalid =3D 0; nvalid < nwnames; nvalid++) {
-> > > > > +        for (; nvalid < nwnames; nvalid++) {
-> > > > >=20
-> > > > >              if (v9fs_request_cancelled(pdu)) {
-> > > > >             =20
-> > > > >                  err =3D -EINTR;
-> > > > >                  break;
-> > > > >=20
-> > > > > @@ -1874,12 +1875,13 @@ static void coroutine_fn v9fs_walk(void
-> > > > > *opaque)
-> > > > >=20
-> > > > >      /*
-> > > > >     =20
-> > > > >       * Handle all the rest of this Twalk request on main thread =
-=2E..
-> > > > >       */
-> > > > >=20
-> > > > > -    if (err < 0) {
-> > > > > +    if ((err < 0 && !nvalid) || err =3D=3D -EINTR) {
-> > > > >=20
-> > > > >          goto out;
-> > > > >     =20
-> > > > >      }
-> > > > >=20
-> > > > > +    any_err |=3D err;
-> > > > >=20
-> > > > >      err =3D stat_to_qid(pdu, &fidst, &qid);
-> > > > >=20
-> > > > > -    if (err < 0) {
-> > > > > +    if (err < 0 && !nvalid) {
-> > > > >=20
-> > > > >          goto out;
-> > > > >     =20
-> > > > >      }
-> > > > >      stbuf =3D fidst;
-> > > > >=20
-> > > > > @@ -1888,20 +1890,30 @@ static void coroutine_fn v9fs_walk(void
-> > > > > *opaque)
-> > > > >=20
-> > > > >      v9fs_path_copy(&dpath, &fidp->path);
-> > > > >      v9fs_path_copy(&path, &fidp->path);
-> > > > >=20
-> > > > > -    for (name_idx =3D 0; name_idx < nwnames; name_idx++) {
-> > > > > +    for (name_idx =3D 0; name_idx < nvalid; name_idx++) {
-> > > > >=20
-> > > > >          if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
-> > > > >         =20
-> > > > >              strcmp("..", wnames[name_idx].data))
-> > > > >         =20
-> > > > >          {
-> > > > >         =20
-> > > > >              stbuf =3D stbufs[name_idx];
-> > > > >              err =3D stat_to_qid(pdu, &stbuf, &qid);
-> > > > >              if (err < 0) {
-> > > > >=20
-> > > > > -                goto out;
-> > > > > +                break;
-> > > > >=20
-> > > > >              }
-> > > > >              v9fs_path_copy(&path, &pathes[name_idx]);
-> > > > >              v9fs_path_copy(&dpath, &path);
-> > > > >         =20
-> > > > >          }
-> > > > >          memcpy(&qids[name_idx], &qid, sizeof(qid));
-> > > > >     =20
-> > > > >      }
-> > > > >=20
-> > > > > +    any_err |=3D err;
-> > > > > +    if (any_err) {
-> > > >=20
-> > > > Not sure if there is ever the case err > 0, but as we are already
-> > > > comparing
-> > > > for "if (err < 0)" everywhere, we should probably also do the same
-> > > > comparison for the aggregate error variable here, right?
-> > >=20
-> > > It seems that you could drop any_err and just check name_idx !=3D nwn=
-ames
-> > > ?
-> >=20
-> > Mmm, what about the special case 'Twalk nwnames=3D0' (i.e. fid cloning),
-> > that
-> > implementation would then skip errors, no?
->=20
-> Ouch you're right... honestly, v9fs_walk() is really a mess and it
-> is getting harder to fix. What about having a totally separate
-> path for the cloning case (as a preparatory patch) ?
+On 3/11/22 06:02, Alex Bennée wrote:
+> A wider question. Is this something that can be handled the constraints
+> done by the register allocator? I assume that avoid direct aliasing if
+> needed?
 
-You suggested that before, somehow I did not get to simpler code when tryin=
-g=20
-that, rather the opposite. But you definitely have a better eye on identify=
-ing=20
-redundant pathes than me.
+No.  We do have "allocate a non-overlapping register"; we don't have "allocate an aligned 
+register pair", which *would* be helpful.
 
-There are some things that can still be wiped away, like the path vs. dpath=
-=20
-variables, but I thought to do that a bit later.
-
-Best regards,
-Christian Schoenebeck
+However, in this specific case "addend" is completely invisible to the register allocator, 
+coming entirely from the backend's tlb implementation (or guest_base).
 
 
+r~
 
