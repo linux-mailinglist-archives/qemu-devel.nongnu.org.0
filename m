@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960FE4D6932
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 20:46:59 +0100 (CET)
-Received: from localhost ([::1]:46588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 773E84D6934
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 20:49:37 +0100 (CET)
+Received: from localhost ([::1]:49634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSlE2-0006Ni-OA
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 14:46:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56402)
+	id 1nSlGa-0008WN-Bb
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 14:49:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSlBa-0004lB-Qv
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 14:44:26 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=38444
- helo=mail-pl1-x62c.google.com)
+ id 1nSlEH-0007g5-TR
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 14:47:14 -0500
+Received: from [2607:f8b0:4864:20::52b] (port=46752
+ helo=mail-pg1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nSlBZ-0007xK-EU
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 14:44:26 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id n18so5818559plg.5
- for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 11:44:25 -0800 (PST)
+ id 1nSlEE-00006H-4a
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 14:47:12 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id o23so8251898pgk.13
+ for <qemu-devel@nongnu.org>; Fri, 11 Mar 2022 11:47:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=aEz7vATZEcbpbCje8x8I5COZ92MC+mkIR64bXy4VBU4=;
- b=BhNFnPE33ghIPVNoczDx6JoCuQotos+fM8LBZ4jpZSfRTUoA16JrQZy6iloK/b/e71
- KMgvQgQPA9CUoVP0BmkYFPGgVoP1d6JJKysJLBwsi+MInRMB0SZl/2nzp9bMnpL5KfhM
- g7RQTnUSLTSjNIZnitKjOJMLQs1X8eBWVXlcw6nHvv3ZgIglwwJ2b5vw3OOhXjKQmoW6
- wqe22RW6X0XFdphZ2bsJClkYPWsQP7m8pk1WAGpdJ2SqkfbzjtR+ojU1Yoif3oO/ZX1k
- Uwx1RRa7cAb8Hj6HE8EvW+xqg+awAAC533upeKYLmvyGTbSTD/Ctwv4ZWP3RK/QLYPGn
- f0KA==
+ bh=D5FgLNX3TUKzQdNoEEHT6Yym6MDSZ7zRBDaUM3HI9GI=;
+ b=IYqGi296aLWGU+qad2T1L5MpHDO5lVmEIcYfi6N1YkKhF1qqvosSifGfsN+fHh4mqc
+ Quu0Uz/6Vm77wECWPAh+ht7ix5IVMH3omtYvHhmcuMGRPs9odwPYTSV7XWz6IvdfMIP3
+ 8PufYquSpYC4454YS+fQTGa7kTM3tCQPzTBkMpt0PodBK657DxbYBkkw+TlGGbaaMAOx
+ eZxFssZV1Tq3RMgaj1hSjP+5QkHyXLtf/QNTN75jAhaDusDawQXDuWVlx5IK9kpVXmR/
+ XIUfN6wrsS1MXqIUcKi4WmeDlAnDgtS4OmfMZ/KJzKgjUMUeI+yKGcvALEwJEqYRBYOs
+ wWDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=aEz7vATZEcbpbCje8x8I5COZ92MC+mkIR64bXy4VBU4=;
- b=nPTUWTZFMiAQzMs+jZ+Pc79gigqItBLfUMyA6+EMBRHR4542r+99Ch1aIoYYZKgeet
- PEAm0FGDzs30s+toUmHk84nVrfQ5q96cJuezvVoFcJ/dcd3NHrL5ldIhkdNR4BcJrAjE
- +uBgWCm2AlGxGGyHvAh4ba5IXEVnV6NP48Sw8ZhXRx3przTircRsVy384cQeotzfSMvV
- apBJyKvNAVFPTIMLOmshGLYWrXMM+sII6VGBqtNGyHZ2wzfR3W+NqnQQ3p1z+Drl3Mjy
- UDvEXEL0V1uGuybnvgRn6VDii69VIf4J+JMR/zn3A/dgCv26IrdXCv2BcdAMUks4Jmwu
- ffIA==
-X-Gm-Message-State: AOAM533MFR09g5NpXQklvqCxQxGur+9a8ottMfP1l6yljHLoVH+psxTN
- Nhz0bIeI9fsBYlL4Vv/hfFGuGw==
-X-Google-Smtp-Source: ABdhPJxujSEdHuCzDawYULLExUblmvUO+N0JGQP1hqf09mNqcUb9yrcbAwvAv30wPU6s0alEZ2cpAA==
-X-Received: by 2002:a17:90b:3802:b0:1c1:b62b:c4ea with SMTP id
- mq2-20020a17090b380200b001c1b62bc4eamr9496455pjb.193.1647027863988; 
- Fri, 11 Mar 2022 11:44:23 -0800 (PST)
+ bh=D5FgLNX3TUKzQdNoEEHT6Yym6MDSZ7zRBDaUM3HI9GI=;
+ b=z+bxlBFQfpZejBM9wReBQL9DjyqurEdy5GCTfGQ+pZkHs7w/ck574Yn6QwHe+G9V+2
+ ngt9pYliNIOMvw/HQYlgJn3hQC2Tf7H0DU0c98cPELrkGIAey7rGZSDsWSiwdA5RCWQS
+ ixZUty5wOa41VICEApFgfQBDBy3bmEGBpRyeuijO/aFY8wm+wFopwMxC03HmFQ6cs2lc
+ jbN8/eM6Fip+wDGvmv97m8BFmNHcoeBTA6BUBfYWw8TL3GMsJq/++PuRX3kGBkjUGDbk
+ IBM/48qG/mqaTU2xLpuyd8qNNYNG+/hO4BoD/KX3RnKY8TbTp4I3QoBSZdQ+iqDvRwwQ
+ Y1zw==
+X-Gm-Message-State: AOAM532R0ITJGx1Q1pqEvPJRqEgim6nrvwJb5oc3YfZDUqA86BWG8F+j
+ PPDaFjDY+lDzIr051/aYS3V3uw==
+X-Google-Smtp-Source: ABdhPJxRtiHf+JLPm79fnY1XSeDZIvGn0RD0Yf4xMY30PZFR44kqaywpT7HX+swyn4fGx2QV5WtZ+A==
+X-Received: by 2002:a05:6a00:1703:b0:4f7:9d5d:800b with SMTP id
+ h3-20020a056a00170300b004f79d5d800bmr2122277pfc.56.1647028028611; 
+ Fri, 11 Mar 2022 11:47:08 -0800 (PST)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- z14-20020aa7888e000000b004f79f59827asm918060pfe.139.2022.03.11.11.44.23
+ q13-20020a056a00084d00b004f79504ef9csm2690228pfk.3.2022.03.11.11.47.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Mar 2022 11:44:23 -0800 (PST)
-Message-ID: <0e7e36a9-3157-7ff6-e865-d942f848150e@linaro.org>
-Date: Fri, 11 Mar 2022 11:44:21 -0800
+ Fri, 11 Mar 2022 11:47:08 -0800 (PST)
+Message-ID: <740d048c-0cd6-6730-f371-eae473d7e2b9@linaro.org>
+Date: Fri, 11 Mar 2022 11:47:06 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 5/9] dump: Add more offset variables
+Subject: Re: [PATCH v2 6/9] dump: Introduce dump_is_64bit() helper function
 Content-Language: en-US
 To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20220310110854.2701-1-frankja@linux.ibm.com>
- <20220310110854.2701-6-frankja@linux.ibm.com>
+ <20220310110854.2701-7-frankja@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220310110854.2701-6-frankja@linux.ibm.com>
+In-Reply-To: <20220310110854.2701-7-frankja@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,17 +98,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/10/22 03:08, Janosch Frank wrote:
-> Offset calculations are easy enough to get wrong. Let's add a few
-> variables to make moving around elf headers and data sections easier.
+> Checking d_class in dump_info leads to lengthy conditionals so let's
+> shorten things a bit by introducing a helper function.
 > 
-> Signed-off-by: Janosch Frank<frankja@linux.ibm.com>
-> Reviewed-by: Marc-André Lureau<marcandre.lureau@redhat.com>
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 > ---
->   dump/dump.c           | 35 +++++++++++++++--------------------
->   include/sysemu/dump.h |  4 ++++
->   2 files changed, 19 insertions(+), 20 deletions(-)
+>   dump/dump.c | 19 ++++++++++++-------
+>   1 file changed, 12 insertions(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+> @@ -1007,7 +1012,7 @@ out:
+>   
+>   static void write_dump_header(DumpState *s, Error **errp)
+>   {
+> -    if (s->dump_info.d_class == ELFCLASS32) {
+> +    if (!dump_is_64bit(s)) {
+>           create_header32(s, errp);
+>       } else {
+>           create_header64(s, errp);
+> @@ -1697,7 +1702,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+>           uint32_t size;
+>           uint16_t format;
+>   
+> -        note_head_size = s->dump_info.d_class == ELFCLASS32 ?
+> +        note_head_size = !dump_is_64bit(s) ?
+>               sizeof(Elf32_Nhdr) : sizeof(Elf64_Nhdr);
+
+It would be nice to standardize on positive tests, which in this case would reverse these 
+two conditionals.
+
 
 r~
 
