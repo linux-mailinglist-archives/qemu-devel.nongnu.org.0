@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1E24D6795
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 18:26:32 +0100 (CET)
-Received: from localhost ([::1]:56978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51ED44D67B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 18:38:04 +0100 (CET)
+Received: from localhost ([::1]:33568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSj26-0006mr-S5
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 12:26:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55846)
+	id 1nSjDG-0002Ag-OS
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 12:38:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nSizZ-0004vo-Nu
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 12:23:53 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:39813)
+ id 1nSjCF-0001Ux-Rh
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 12:36:59 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:47161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nSizX-0000yN-Do
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 12:23:53 -0500
+ id 1nSjCB-0003CA-C7
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 12:36:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=4JFPMhiCuH/TKFGibBm02vxpAkugH6oQjbSMlZNMkNE=; b=pXx9LOrs4wUOLGu06UpGdr5LBV
- sxmtbjdgYAdtcWSxSqpPpgrlU4iA9YdV3p1i0HL2iyATKbzUaMkwtlXY8KGXevCCPy61ZZ4mUoq7E
- YpcQ5wPtjXbAd92F6Zacw6t6c3hQlRUN1ozXPnQAKV3SIoekpS5dpA1Hhi0WdsYZH6oROM4zlGaRc
- +h+lGtFQ+olut3dGmGQz8YeVRO3+xAlH369k76sZjkkLw6H3q66F8Ca4+V2Nlj5pQswZ7N3AEoJ3y
- 5OqHAMBxZOsYzp00rnoZVMPvRI4VUrn3Ix3eiZG79hC0K6MYVNsUtBwnuUsFsHvr2LkTbF6yIZkgG
- esf+TYho5U6LJSTDeMXL7gF9xvH0NsoQSY5iZciuTWwuJJIJCrJm7uPoiDPTBNxvNnY0yiqG+mfqB
- IxIxZHyGweMHJIeoe/s4byEmxm/cl5ln8SwiHYwQFwkw7ZsY8x2uX44tjdMw7TYA+VyS/k583Uvzw
- tW7/K3kakT0WiFlrjNpWBgXjvW7aDhg0uG8HP5t7dAK67+1qyr/rHiqLkPZdQiD/izpNILMnfxQFX
- BS/DHTu4lgSKAkPS6gIo+oeowQnJ24shU0TsyvXiyJJtPlaFI/lhCLw0+u7Zzt9CfcpIC8/dqgxAz
- p4pJk3TV5CQE7wicDQLMsGaT9SxKV2LJ21T98XqCc=;
+ bh=OlKyidNxhhzn3dOH6hsEqu5x2JFJ6ait63jygVMeaQQ=; b=ui+8NP5NKKNxKXq2sSB3hCM4Ue
+ GfKsB8ynvA4rhCMtz909eiHQ9TcIklIqxmc8ciy6EftuT7npBrqjL6CIncSiz0I4fpAXkiygi8+/F
+ KiEqv0uhvAxnnVrLx/1tsylaU4ejIDGds7O9Q6w8EIAA0DSOdxd+wR+i/N8cYwvmcRj0wjFm2AanS
+ n9B2pi8IwiLgsNTZSG/87s64qaw7cbi3fLFc3HR5H2l/8X+o9WCvKTNjpMN1jpBRwcTNqWAU7+oOy
+ 8XOl/ZdBAP2pk5q5Sv0rwrnD9uKm9q4YDncFbhUP3dqlG0mV6PdKksZDxa60AOKs9gHyXOCr2emuo
+ 343D+6lbj68GYNVwAn+vE8mPO/NxQTWJ1sOE7BSNYdlZZKwA0iH7T0XASgxPRJoRRMepB69om5T5z
+ A3I+RpCvBepVSybI67LDYRKCxFaXRswW2a7OT02bJZY+4uXcR2tRnKYJxPzLDgQb++nntcuHXbzVb
+ GqI0e4sd18XYBr2uc4z3xtHj4mb+cDovfVGUtxsMGm1Y4T51YzLb+dtgGA+syIShh3L4kk41vU+3U
+ JS/mS04u7fXYb2p29Iz+K8NhW8Gh56Cvvqb3Cq9xZd8WL5zRfwMi3OgGKlVAPywteWu5D6DkC/1kf
+ 5c6nfxxUrST1G25lZkCDcCVJAqs0K7uBfDRmNqAtM=;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 3/6] tests/9pfs: compare QIDs in fs_walk_none() test
-Date: Fri, 11 Mar 2022 18:23:48 +0100
-Message-ID: <14199773.npIleLrFe0@silver>
-In-Reply-To: <20220311180236.3d1af56c@bahia>
+Subject: Re: [PATCH 5/6] 9pfs: fix 'Twalk' to only send error if no component
+ walked
+Date: Fri, 11 Mar 2022 18:36:51 +0100
+Message-ID: <5565587.G5MRNFoPhR@silver>
+In-Reply-To: <20220311180838.3a8c9f74@bahia>
 References: <cover.1646850707.git.qemu_oss@crudebyte.com>
- <1807269.KYXYKYZXWi@silver> <20220311180236.3d1af56c@bahia>
+ <3685932.ieBdHTVF6f@silver> <20220311180838.3a8c9f74@bahia>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -68,259 +69,216 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 11. M=E4rz 2022 18:02:36 CET Greg Kurz wrote:
-> On Fri, 11 Mar 2022 17:39:56 +0100
+On Freitag, 11. M=E4rz 2022 18:08:38 CET Greg Kurz wrote:
+> On Fri, 11 Mar 2022 17:44:54 +0100
 >=20
 > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Freitag, 11. M=E4rz 2022 17:11:24 CET Greg Kurz wrote:
-> > > On Thu, 10 Mar 2022 10:04:50 +0100
+> > On Freitag, 11. M=E4rz 2022 17:35:41 CET Greg Kurz wrote:
+> > > On Thu, 10 Mar 2022 10:13:33 +0100
 > > >=20
 > > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > On Mittwoch, 9. M=E4rz 2022 15:49:04 CET Christian Schoenebeck wrot=
+> > > > On Mittwoch, 9. M=E4rz 2022 18:57:39 CET Christian Schoenebeck wrot=
 e:
-> > > > > Extend previously added fs_walk_none() test by comparing the QID
-> > > > > of the root fid with the QID of the cloned fid. They should be
-> > > > > equal.
-> > >=20
-> > > Ha, I understand your suggestion of changing the name now :-) but I'll
-> > > personally leave it named according to the test scenario of "sending
-> > > a Twalk with no names" and checking everything that is expected in th=
-is
-> > > case.
-> >=20
-> > NP
-> >=20
+> > > > > Current implementation of 'Twalk' request handling always sends an
+> > > > > 'Rerror'
+> > > > >=20
+> > > > > response if any error occured. The 9p2000 protocol spec sais thou=
+gh:
+> > > > >   "
+> > > > >   If the first element cannot be walked for any reason, Rerror is
+> > > > >   returned.
+> > > > >   Otherwise, the walk will return an Rwalk message containing nwq=
+id
+> > > > >   qids
+> > > > >   corresponding, in order, to the files that are visited by the
+> > > > >   nwqid
+> > > > >   successful elementwise walks; nwqid is therefore either nwname =
+or
+> > > > >   the
+> > > > >=20
+> > > > > index of the first elementwise walk that failed.
+> > > > >=20
+> > > > >   "
+> > > > >  =20
+> > > > >   http://ericvh.github.io/9p-rfc/rfc9p2000.html#anchor33
+> > > > >=20
+> > > > > For that reason we are no longer leaving from an error path in
+> > > > > function
+> > > > > v9fs_walk(), unless really no path component could be walked
+> > > > > successfully or if the request has been interrupted.
+> > > > >=20
+> > > > > Local variable 'nvalid' counts and reflects the number of path
+> > > > > components
+> > > > > successfully processed by background I/O thread, whereas local
+> > > > > variable
+> > > > > 'name_idx' subsequently counts and reflects the number of path
+> > > > > components
+> > > > > eventually accepted successfully by 9p server controller portion.
+> > > > >=20
+> > > > > New local variable 'any_err' is an aggregate variable reflecting
+> > > > > whether
+> > > > > any error occurred at all, while already existing variable 'err'
+> > > > > only
+> > > > > reflects the last error.
+> > > > >=20
+> > > > > Despite QIDs being delivered to client in a more relaxed way now,=
+ it
+> > > > > is
+> > > > > important to note though that fid still must remain uneffacted if
+> > > > > any
+> > > > > error
+> > > >=20
+> > > > Typo: should be "unaffected".
+> > > >=20
+> > > > > occurred.
+> > > > >=20
 > > > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > > > > > ---
 > > > > >=20
-> > > > >  tests/qtest/virtio-9p-test.c | 70
-> > > > >  ++++++++++++++++++++++++++++++++++++
-> > > > >  1 file changed, 70 insertions(+)
+> > > > >  hw/9pfs/9p.c | 29 +++++++++++++++++++++--------
+> > > > >  1 file changed, 21 insertions(+), 8 deletions(-)
 > > > > >=20
-> > > > > diff --git a/tests/qtest/virtio-9p-test.c
-> > > > > b/tests/qtest/virtio-9p-test.c
-> > > > > index 6c00da03f4..9098e21173 100644
-> > > > > --- a/tests/qtest/virtio-9p-test.c
-> > > > > +++ b/tests/qtest/virtio-9p-test.c
-> > > > > @@ -146,6 +146,11 @@ static void v9fs_uint16_read(P9Req *req,
-> > > > > uint16_t
-> > > > > *val) le16_to_cpus(val);
+> > > > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > > > > index 6cdc566866..8ccd180608 100644
+> > > > > --- a/hw/9pfs/9p.c
+> > > > > +++ b/hw/9pfs/9p.c
+> > > > > @@ -1766,7 +1766,7 @@ static void coroutine_fn v9fs_walk(void
+> > > > > *opaque)
 > > > > >=20
-> > > > >  }
-> > > > >=20
-> > > > > +static void v9fs_int16_read(P9Req *req, int16_t *val)
-> > > > > +{
-> > > > > +    v9fs_uint16_read(req, (uint16_t *)val);
-> > > > > +}
-> > > > > +
-> > > > >=20
-> > > > >  static void v9fs_uint32_write(P9Req *req, uint32_t val)
 > > > > >  {
 > > > > > =20
-> > > > >      uint32_t le_val =3D cpu_to_le32(val);
+> > > > >      int name_idx, nvalid;
+> > > > >      g_autofree V9fsQID *qids =3D NULL;
 > > > > >=20
-> > > > > @@ -166,12 +171,22 @@ static void v9fs_uint32_read(P9Req *req,
-> > > > > uint32_t
-> > > > > *val) le32_to_cpus(val);
+> > > > > -    int i, err =3D 0;
+> > > > > +    int i, err =3D 0, any_err =3D 0;
 > > > > >=20
-> > > > >  }
+> > > > >      V9fsPath dpath, path;
+> > > > >      P9ARRAY_REF(V9fsPath) pathes =3D NULL;
+> > > > >      uint16_t nwnames;
 > > > > >=20
-> > > > > +static void v9fs_int32_read(P9Req *req, int32_t *val)
-> > > > > +{
-> > > > > +    v9fs_uint32_read(req, (uint32_t *)val);
-> > > > > +}
-> > > > > +
+> > > > > @@ -1832,6 +1832,7 @@ static void coroutine_fn v9fs_walk(void
+> > > > > *opaque)
 > > > > >=20
-> > > > >  static void v9fs_uint64_read(P9Req *req, uint64_t *val)
-> > > > >  {
-> > > > > =20
-> > > > >      v9fs_memread(req, val, 8);
-> > > > >      le64_to_cpus(val);
-> > > > > =20
-> > > > >  }
+> > > > >       * driver code altogether inside the following block.
+> > > > >       */
+> > > > >     =20
+> > > > >      v9fs_co_run_in_worker({
 > > > > >=20
-> > > > > +static void v9fs_int64_read(P9Req *req, int64_t *val)
-> > > > > +{
-> > > > > +    v9fs_uint64_read(req, (uint64_t *)val);
-> > > > > +}
-> > > > > +
+> > > > > +        nvalid =3D 0;
 > > > > >=20
-> > > > >  /* len[2] string[len] */
-> > > > >  static uint16_t v9fs_string_size(const char *string)
-> > > > >  {
+> > > > >          if (v9fs_request_cancelled(pdu)) {
+> > > > >         =20
+> > > > >              err =3D -EINTR;
+> > > > >              break;
 > > > > >=20
-> > > > > @@ -425,6 +440,40 @@ static void v9fs_rwalk(P9Req *req, uint16_t
-> > > > > *nwqid,
-> > > > > v9fs_qid **wqid) v9fs_req_free(req);
+> > > > > @@ -1842,7 +1843,7 @@ static void coroutine_fn v9fs_walk(void
+> > > > > *opaque)
 > > > > >=20
-> > > > >  }
+> > > > >              break;
+> > > > >         =20
+> > > > >          }
+> > > > >          stbuf =3D fidst;
 > > > > >=20
-> > > > > +/* size[4] Tstat tag[2] fid[4] */
-> > > > > +static P9Req *v9fs_tstat(QVirtio9P *v9p, uint32_t fid, uint16_t
-> > > > > tag)
-> > >=20
-> > > Tstat/Rstat aren't part of 9p2000.L, you should use Tgetattr/Rgetattr
-> > > instead (see https://github.com/chaos/diod/blob/master/protocol.md).
-> >=20
-> > Ah right, I forgot.
-> >=20
-> > > > > +{
-> > > > > +    P9Req *req;
-> > > > > +
-> > > > > +    req =3D v9fs_req_init(v9p, 4, P9_TSTAT, tag);
-> > > > > +    v9fs_uint32_write(req, fid);
-> > > > > +    v9fs_req_send(req);
-> > > > > +    return req;
-> > > > > +}
-> > > > > +
-> > > > > +/* size[4] Rstat tag[2] stat[n] */
-> > > > > +static void v9fs_rstat(P9Req *req, struct V9fsStat *st)
-> > > > > +{
-> > > > > +    v9fs_req_recv(req, P9_RSTAT);
-> > > > > +
-> > >=20
-> > > For the records, this is a stat[n], i.e. "n[2] followed by n bytes of
-> > > data forming the parameter", so you should read an uint16_t first.
-> > >=20
-> > > > > +    v9fs_int16_read(req, &st->size);
-> >=20
-> > Which I did here? --^
->=20
-> From the BUGS section of
-> https://ericvh.github.io/9p-rfc/rfc9p2000.html#anchor32 :
->=20
->      BUGS
->           To make the contents of a directory, such as returned by
->           read(5), easy to parse, each directory entry begins with a
->           size field.  For consistency, the entries in Twstat and
->           Rstat messages also contain their size, which means the size
->                                                                   ^^^^
->           appears twice.  For example, the Rstat message is formatted
->           ^^^^^^^^^^^^^
->           as ``(4+1+2+2+n)[4] Rstat tag[2] n[2] (n-2)[2] type[2]
->           dev[4]...,'' where n is the value returned by Styx->packdir.
->=20
-> I realized that when giving a try to convert a v9fs_qid to a V9fsQID on
-> top of this patch.
-
-Ouch, what a trap. Yeah, I didn't realize that.
-
-> > > > > +    v9fs_int16_read(req, &st->type);
-> > > > > +    v9fs_int32_read(req, &st->dev);
-> > > > > +    v9fs_uint8_read(req, &st->qid.type);
-> > > > > +    v9fs_uint32_read(req, &st->qid.version);
-> > > > > +    v9fs_uint64_read(req, &st->qid.path);
-> > > > > +    v9fs_int32_read(req, &st->mode);
-> > > > > +    v9fs_int32_read(req, &st->mtime);
-> > > > > +    v9fs_int32_read(req, &st->atime);
-> > > > > +    v9fs_int64_read(req, &st->length);
-> > > > > +    v9fs_string_read(req, &st->name.size, &st->name.data);
-> > > > > +    v9fs_string_read(req, &st->uid.size, &st->uid.data);
-> > > > > +    v9fs_string_read(req, &st->gid.size, &st->gid.data);
-> > > > > +    v9fs_string_read(req, &st->muid.size, &st->muid.data);
-> > > > > +
-> > > > > +    v9fs_req_free(req);
-> > > > > +}
-> > > > > +
+> > > > > -        for (nvalid =3D 0; nvalid < nwnames; nvalid++) {
+> > > > > +        for (; nvalid < nwnames; nvalid++) {
 > > > > >=20
-> > > > >  /* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
-> > > > >  static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64=
-_t
-> > > > >  offset,
-> > > > > =20
-> > > > >                              uint32_t count, uint16_t tag)
+> > > > >              if (v9fs_request_cancelled(pdu)) {
+> > > > >             =20
+> > > > >                  err =3D -EINTR;
+> > > > >                  break;
 > > > > >=20
-> > > > > @@ -1009,6 +1058,8 @@ static void fs_walk_none(void *obj, void
-> > > > > *data,
-> > > > > QGuestAllocator *t_alloc) v9fs_qid root_qid;
+> > > > > @@ -1874,12 +1875,13 @@ static void coroutine_fn v9fs_walk(void
+> > > > > *opaque)
 > > > > >=20
-> > > > >      g_autofree v9fs_qid *wqid =3D NULL;
-> > > > >      P9Req *req;
+> > > > >      /*
+> > > > >     =20
+> > > > >       * Handle all the rest of this Twalk request on main thread =
+=2E..
+> > > > >       */
 > > > > >=20
-> > > > > +    struct V9fsStat st[2];
-> > > > > +    int i;
+> > > > > -    if (err < 0) {
+> > > > > +    if ((err < 0 && !nvalid) || err =3D=3D -EINTR) {
 > > > > >=20
-> > > > >      do_version(v9p);
-> > > > >      req =3D v9fs_tattach(v9p, 0, getuid(), 0);
+> > > > >          goto out;
+> > > > >     =20
+> > > > >      }
 > > > > >=20
-> > > > > @@ -1021,6 +1072,25 @@ static void fs_walk_none(void *obj, void
-> > > > > *data,
-> > > > > QGuestAllocator *t_alloc)
+> > > > > +    any_err |=3D err;
 > > > > >=20
-> > > > >      /* special case: no QID is returned if nwname=3D0 was sent */
-> > > > >      g_assert(wqid =3D=3D NULL);
+> > > > >      err =3D stat_to_qid(pdu, &fidst, &qid);
 > > > > >=20
-> > > > > +
-> > > > > +    req =3D v9fs_tstat(v9p, 0, 0);
-> > > > > +    v9fs_req_wait_for_reply(req, NULL);
-> > > > > +    v9fs_rstat(req, &st[0]);
+> > > > > -    if (err < 0) {
+> > > > > +    if (err < 0 && !nvalid) {
+> > > > >=20
+> > > > >          goto out;
+> > > > >     =20
+> > > > >      }
+> > > > >      stbuf =3D fidst;
+> > > > >=20
+> > > > > @@ -1888,20 +1890,30 @@ static void coroutine_fn v9fs_walk(void
+> > > > > *opaque)
+> > > > >=20
+> > > > >      v9fs_path_copy(&dpath, &fidp->path);
+> > > > >      v9fs_path_copy(&path, &fidp->path);
+> > > > >=20
+> > > > > -    for (name_idx =3D 0; name_idx < nwnames; name_idx++) {
+> > > > > +    for (name_idx =3D 0; name_idx < nvalid; name_idx++) {
+> > > > >=20
+> > > > >          if (!same_stat_id(&pdu->s->root_st, &stbuf) ||
+> > > > >         =20
+> > > > >              strcmp("..", wnames[name_idx].data))
+> > > > >         =20
+> > > > >          {
+> > > > >         =20
+> > > > >              stbuf =3D stbufs[name_idx];
+> > > > >              err =3D stat_to_qid(pdu, &stbuf, &qid);
+> > > > >              if (err < 0) {
+> > > > >=20
+> > > > > -                goto out;
+> > > > > +                break;
+> > > > >=20
+> > > > >              }
+> > > > >              v9fs_path_copy(&path, &pathes[name_idx]);
+> > > > >              v9fs_path_copy(&dpath, &path);
+> > > > >         =20
+> > > > >          }
+> > > > >          memcpy(&qids[name_idx], &qid, sizeof(qid));
+> > > > >     =20
+> > > > >      }
+> > > > >=20
+> > > > > +    any_err |=3D err;
+> > > > > +    if (any_err) {
 > > > >=20
-> > > > Probably stat-ing the root fid (0) should happen before sending Twa=
-lk,
-> > > > to
-> > > > better counter the 1st fid (0) having become potentially mutated?
+> > > > Not sure if there is ever the case err > 0, but as we are already
+> > > > comparing
+> > > > for "if (err < 0)" everywhere, we should probably also do the same
+> > > > comparison for the aggregate error variable here, right?
 > > >=20
-> > > You already have the root qid from Rattach, no need to stat.
+> > > It seems that you could drop any_err and just check name_idx !=3D nwn=
+ames
+> > > ?
 > >=20
-> > Yes, this was about easy comparison with qid.version in mind, i.e. ...
-> >=20
-> > > > > +
-> > > > > +    req =3D v9fs_tstat(v9p, 1, 0);
-> > > > > +    v9fs_req_wait_for_reply(req, NULL);
-> > > > > +    v9fs_rstat(req, &st[1]);
-> > > > > +
-> > > > > +    /* don't compare QID version for checking for file ID equaln=
-ess
-> > > > > */
-> > > > > +    g_assert(st[0].qid.type =3D=3D st[1].qid.type);
-> > > > > +    g_assert(st[0].qid.path =3D=3D st[1].qid.path);
-> > > >=20
-> > > > I could add a helper function is_same_qid() for this if desired.
-> > >=20
-> > > Rgetattr provides a qid[13] like Rattach. Since we control everything,
-> > > the version bits won't change and I think is_same_qid() could be
-> > > something as simple as:
-> > >=20
-> > > static inline bool is_same_qid(v9fs_qid qid1, v9fs_qid qid2)
-> > > {
-> > >=20
-> > >     return memcmp(qid1, qid2, 13) =3D=3D 0;
-> > >=20
-> > > }
-> >=20
-> > Yes I know, the version definitely won't change with the synth driver. =
-But
-> > I thought to add code so it could be used for 'local' driver tests as
-> > well in future.
+> > Mmm, what about the special case 'Twalk nwnames=3D0' (i.e. fid cloning),
+> > that
+> > implementation would then skip errors, no?
 >=20
-> FWIW, even when using local, only an external cause could do that, which
-> would mean that the test environment is compromised, no ?
->=20
-> You can also ignore version and just compare the first byte and the 8 last
-> ones.
+> Ouch you're right... honestly, v9fs_walk() is really a mess and it
+> is getting harder to fix. What about having a totally separate
+> path for the cloning case (as a preparatory patch) ?
 
-OK, I'll come up with some more simple code (raw byte comparison) in the wa=
-y=20
-suggested by you. No big deal.
+You suggested that before, somehow I did not get to simpler code when tryin=
+g=20
+that, rather the opposite. But you definitely have a better eye on identify=
+ing=20
+redundant pathes than me.
 
-Thanks!
+There are some things that can still be wiped away, like the path vs. dpath=
+=20
+variables, but I thought to do that a bit later.
 
-> > > > > +
-> > > > > +    for (i =3D 0; i < 2; ++i) {
-> > > > > +        g_free(st[i].name.data);
-> > > > > +        g_free(st[i].uid.data);
-> > > > > +        g_free(st[i].gid.data);
-> > > > > +        g_free(st[i].muid.data);
-> > > > > +    }
-> > > >=20
-> > > > I didn't find a more elegant way to do this cleanup.
-> > >=20
-> > > You won't need that with Tgetattr.
-> > >=20
-> > > > >  }
-> > > > > =20
-> > > > >  static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator
-> > > > >  *t_alloc)
+Best regards,
+Christian Schoenebeck
 
 
 
