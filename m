@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663954D57A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 02:53:50 +0100 (CET)
-Received: from localhost ([::1]:35464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08AD24D57E3
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 03:05:21 +0100 (CET)
+Received: from localhost ([::1]:47696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSUTV-0000r5-GA
-	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 20:53:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36100)
+	id 1nSUed-0001pM-Qm
+	for lists+qemu-devel@lfdr.de; Thu, 10 Mar 2022 21:05:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nSUQn-0006Y6-Vm
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 20:51:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52839)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nSUY8-0007yx-13
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 20:58:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nSUQm-0004Np-Hm
- for qemu-devel@nongnu.org; Thu, 10 Mar 2022 20:51:01 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nSUY5-0006Pk-PE
+ for qemu-devel@nongnu.org; Thu, 10 Mar 2022 20:58:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1646963460;
+ s=mimecast20190719; t=1646963912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O76iypipIIa3kyHAgLCJLKsFvDrF8T+mg6HK1a1U1NA=;
- b=Vw4RRw4pPHSVJArulnqy7uBKRjlrHqmbnyYTDeHGOdyh3Cfi3GpVfr8qM9d9slxWNLkoQz
- e7EBr6Aa3p0diyNETa8F2U+z+QofjSFT2yyGFNjBlX+ebACqnHkv6Abb7Dqjk5OFuwkzBU
- taR+Dp7JV+jNyULaJHSKB5GTB6hXppI=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=u2nRRRFHwKDvR8XUW+GAIhMOfTyvuNDRKVlvWBH0N+w=;
+ b=G9Ypno/wGaLuOedE+IrDHKCdSxSW7cioTIcjWmmhZN48obECoqw/OoOCwluUu2V23n/RSu
+ NIHQhnsQdTnyET4m4c7WoKowy79WgLTCSOrE6LprIIq78XKKADYIY8pPt/926aZgi1dU1L
+ j9i0Ap/hqodGIUA0PpC7bghV7FzjyGI=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-TsAYLR5TOgW8Z1OWSxMlLA-1; Thu, 10 Mar 2022 20:50:58 -0500
-X-MC-Unique: TsAYLR5TOgW8Z1OWSxMlLA-1
-Received: by mail-pf1-f198.google.com with SMTP id
- f18-20020a623812000000b004f6a259bbf4so4313228pfa.7
- for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 17:50:58 -0800 (PST)
+ us-mta-61-lAjZjenPPaK604uoQJn_tQ-1; Thu, 10 Mar 2022 20:58:31 -0500
+X-MC-Unique: lAjZjenPPaK604uoQJn_tQ-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ r64-20020a17090a43c600b001bf8e05847eso6288742pjg.4
+ for <qemu-devel@nongnu.org>; Thu, 10 Mar 2022 17:58:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=O76iypipIIa3kyHAgLCJLKsFvDrF8T+mg6HK1a1U1NA=;
- b=tUCjy1Shxah2oUXgs5WO94Z/uB4zFGOYF+Dd7XiKWoUkcTvKtYmJg15QDHsZyo/4SF
- JuZFMr6pYjWzd7kuueKEJenTrVzju8ZuTVt37mgyZQARD2QW2TvXAzxBj7OcphbkL5YU
- ux+N+doi3iZvAHUWfL3MlPx5ZzQ6VQYjiyfSHzKb8xJJaAH8bMBKTX4inOpgcN1hatsC
- 80OQg+qg6buZxbCjIEk+3ep/jTakkDnKK1oVeIkALUaPYpa1LW81sV96YZP980PIBz00
- nIo8CdQI3IGRmOh4vhSIpk3PVJE0D+q+Xw0wXZHcipFAD3A+yzbIsjSMxhLZW+bepjGP
- Fwtg==
-X-Gm-Message-State: AOAM530dzGeZ8DRso1pwCZuDllqFI1t0hb3XuN1p1LDgAAThAVU4JkGW
- QV38RDW8MFIG2+x0Uf/tHNJkoSq/1t46behWPZaAO/4kkE5NPh1uWY7Lc8Obcfea+UfJ1y7cn7k
- adBk1Dc8ZxxVytNY=
-X-Received: by 2002:a17:90b:1812:b0:1bf:2395:8d53 with SMTP id
- lw18-20020a17090b181200b001bf23958d53mr8114988pjb.178.1646963457816; 
- Thu, 10 Mar 2022 17:50:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwXHjvhKtBwDgSWrFEo3qOc9IXecvuVCP1XbOXMG+fLZOQhcKmvyIvcaV+28xuOrjkSqy371Q==
-X-Received: by 2002:a17:90b:1812:b0:1bf:2395:8d53 with SMTP id
- lw18-20020a17090b181200b001bf23958d53mr8114975pjb.178.1646963457566; 
- Thu, 10 Mar 2022 17:50:57 -0800 (PST)
+ bh=u2nRRRFHwKDvR8XUW+GAIhMOfTyvuNDRKVlvWBH0N+w=;
+ b=N/BEi1kI27uIiLmJUW1pOYfl2FmjhezJPEE7+bq3Tk5b/yUN8npnVmBj9KcV72DRzR
+ K5UPoho+5JAubf+VvL29+QKL4e89ZZ/9oo5mie1ty6KWE7KjcD9wgqEa1VC6HyYIABw4
+ OfnkQVkatfCqVA2uuLGRzSzw5oZP2KPF+S2qE0SI2Ct2hCfAN85k59NzuydWo0GsUoU9
+ f8+6RpB5xVgD0trDOjB1qysRCTPhtyRQIB5W2XiwSL680QQ8Agy4hfZ8SVfC5oUpcgo6
+ pTcOQPOxRBvYiF5xNqBQFq8LPm7zj8n0FOFWt6/jCEWr6vpKf13yeBv+Ah5ZXrH/2jvU
+ Wr2g==
+X-Gm-Message-State: AOAM530jBipvESm8bGyyA6LYH37hKISXZh0/V8bm6yb8vcBeEOmx1Ahb
+ BMMy5z62nI4mDQAJJLROyaxScKLe0VosWmWzrEDSs/zwN3pKg6BLavPaPhPdtGzewhslxF+PHIl
+ 7voKzPhss2at7t8k=
+X-Received: by 2002:a17:903:2349:b0:153:9b5:c468 with SMTP id
+ c9-20020a170903234900b0015309b5c468mr8117672plh.163.1646963910255; 
+ Thu, 10 Mar 2022 17:58:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxSe1ztufq7kC10nmeYiels9Id3PiYoBtLu83y9LQ+bF1FXxSyvgxW7XpzC7jvPY4WrMHqx2Q==
+X-Received: by 2002:a17:903:2349:b0:153:9b5:c468 with SMTP id
+ c9-20020a170903234900b0015309b5c468mr8117656plh.163.1646963909962; 
+ Thu, 10 Mar 2022 17:58:29 -0800 (PST)
 Received: from xz-m1.local ([191.101.132.227])
  by smtp.gmail.com with ESMTPSA id
- m7-20020a056a00080700b004f6ff260c9dsm8794209pfk.154.2022.03.10.17.50.54
+ j9-20020a056a00130900b004f73df40914sm8496828pfu.82.2022.03.10.17.58.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Mar 2022 17:50:57 -0800 (PST)
-Date: Fri, 11 Mar 2022 09:50:51 +0800
+ Thu, 10 Mar 2022 17:58:29 -0800 (PST)
+Date: Fri, 11 Mar 2022 09:58:24 +0800
 From: Peter Xu <peterx@redhat.com>
 To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 15/18] tests: convert multifd migration tests to use
- common helper
-Message-ID: <Yiqq+xXIUBaQ55U5@xz-m1.local>
+Subject: Re: [PATCH v2 00/18] tests: introduce testing coverage for TLS with
+ migration
+Message-ID: <YiqswPa/VV/lY6yN@xz-m1.local>
 References: <20220310171821.3724080-1-berrange@redhat.com>
- <20220310171821.3724080-16-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220310171821.3724080-16-berrange@redhat.com>
+In-Reply-To: <20220310171821.3724080-1-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -108,15 +107,29 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Mar 10, 2022 at 05:18:18PM +0000, Daniel P. Berrangé wrote:
-> Most of the multifd migration test logic is common with the rest of the
-> precopy tests, so it can use the helper without difficulty. The only
-> exception of the multifd cancellation test which tries to run multiple
-> migrations in a row.
+On Thu, Mar 10, 2022 at 05:18:03PM +0000, Daniel P. Berrangé wrote:
+> This significantly expands the migration test suite to cover testing
+> with TLS over TCP and UNIX sockets, with both PSK (pre shared keys)
+> and x509 credentials, and for both single and multifd scenarios.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> It identified one bug in handling PSK credentials with UNIX sockets,
+> but other than that everything was operating as expected.
+> 
+> To minimize the impact on code duplication alopt of refactoring is
+> done of the migration tests to introduce a common helper for running
+> the migration process. The various tests mostly just have to provide
+> a callback to set a few parameters/capabilities before migration
+> starts, and sometimes a callback to cleanup or validate after
+> completion/failure.
+> 
+> There is one functional bugfix in patch 6, I would like to see
+> in 7.0. The rest is all test suite additions, and I don't mind
+> if they are in 7.0 or 7.1
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+At least patch 1-4, 6-10 look already good candidates for 7.0, imho, if not
+all..
+
+Thanks for doing this, Daniel.
 
 -- 
 Peter Xu
