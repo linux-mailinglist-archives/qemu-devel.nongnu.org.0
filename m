@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8364D61C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 13:51:30 +0100 (CET)
-Received: from localhost ([::1]:55070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A53A4D61C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Mar 2022 13:51:36 +0100 (CET)
+Received: from localhost ([::1]:55344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSejx-0003Va-0v
-	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 07:51:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51420)
+	id 1nSek2-0003hf-SW
+	for lists+qemu-devel@lfdr.de; Fri, 11 Mar 2022 07:51:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nSeeg-0001Le-52
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 07:46:04 -0500
-Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:53825)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nSeey-0001WG-4h
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 07:46:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nSeeb-0005KH-2q
- for qemu-devel@nongnu.org; Fri, 11 Mar 2022 07:46:01 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E47B2234CF;
- Fri, 11 Mar 2022 12:45:53 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 11 Mar
- 2022 13:45:53 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R00226434384-ad00-43ca-b7b9-c5c40a046124,
- 7C3D6D083EE6638E86D496FBA76E9F7F92D857AA) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <8421661c-58b7-a448-9294-474524098650@kaod.org>
-Date: Fri, 11 Mar 2022 13:45:51 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nSeeu-0005Oc-JT
+ for qemu-devel@nongnu.org; Fri, 11 Mar 2022 07:46:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647002775;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=laKojkpIyQ0VHsN6aDdj17w9V67ADMCuESGn1QVTAgI=;
+ b=IWidhDpjMmfdIo97qRwWTEU9QJ5hyY5acXQH+gGlfCA+UOckk1YjVvFIe6gaEy08A5OcvF
+ F8gvohRh6am/OY1AQh/SLxq4PG0yPnN0LwLZP23I8F/LEiq2Mg0qBsXYKwyH3mELVpsLje
+ sWdVDrsERdtSRpOuMMY1vTIVd/BlKQ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-288-IXMIJ8yhP8-Z5BhKMpN0hQ-1; Fri, 11 Mar 2022 07:46:11 -0500
+X-MC-Unique: IXMIJ8yhP8-Z5BhKMpN0hQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A28F11854E3D;
+ Fri, 11 Mar 2022 12:46:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E77926DF0;
+ Fri, 11 Mar 2022 12:46:10 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BEDE321E6A00; Fri, 11 Mar 2022 13:46:08 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 1/2] ui/cocoa: add option to disable left-command
+ forwarding to guest
+References: <20220102174153.70043-1-carwynellis@gmail.com>
+ <20220102174153.70043-2-carwynellis@gmail.com>
+ <CAFEAcA9VDAOJf22RkF5nkKKcvDXWoJ=YmEKY13N_GULkZAwb-Q@mail.gmail.com>
+ <a32bb6e3-f7ea-b736-f5c5-95fbbd067a4d@amsat.org>
+Date: Fri, 11 Mar 2022 13:46:08 +0100
+In-Reply-To: <a32bb6e3-f7ea-b736-f5c5-95fbbd067a4d@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 18 Feb 2022 21:21:27
+ +0100")
+Message-ID: <87sfro7j3j.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 0/5] user creatable pnv-phb4 devices
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, Thomas Huth
- <thuth@redhat.com>, <qemu-devel@nongnu.org>
-References: <20220111131027.599784-1-danielhb413@gmail.com>
- <cc037332-a0f5-3acb-396a-49bdac653d2e@redhat.com>
- <0afba7b7-3778-2799-a77b-54091386a42a@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <0afba7b7-3778-2799-a77b-54091386a42a@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 9ee7c91f-b2b9-4ee8-8a17-81caa75c694d
-X-Ovh-Tracer-Id: 4936226669048335209
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddvvddggedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeeuheelfeevheehtdefvdevvdfggfekueekheffjeevhfevudevveeljeethfeunecuffhomhgrihhnpehgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehfrhgvuggvrhhitgdrsggrrhhrrghtsehfrhdrihgsmhdrtghomh
-Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
- helo=2.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,113 +87,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Frederic Barrat <frederic.barrat@fr.ibm.com>, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
+ Carwyn Ellis <carwynellis@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-In 3/11/22 03:18, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 3/10/22 15:49, Thomas Huth wrote:
->> On 11/01/2022 14.10, Daniel Henrique Barboza wrote:
->>> Hi,
+> On 18/2/22 19:55, Peter Maydell wrote:
+>> On Sun, 2 Jan 2022 at 17:42, Carwyn Ellis <carwynellis@gmail.com> wrote:
 >>>
->>> This version implements Cedric's review suggestions from v4. No
->>> drastic design changes were made.
+>>> When switching between guest and host on a Mac using command-tab the
+>>> command key is sent to the guest which can trigger functionality in the
+>>> guest OS. Specifying left-command-key=3Doff disables forwarding this ke=
+y
+>>> to the guest. Defaults to enabled.
 >>>
->>> Changes from v4:
->>> - patches 1,3,5: unchanged
->>> - patch 2:
->>>    * renamed function to pnv_phb4_xscom_realize()
->>>    * pnv4_phb4_xscom_realize() is now called at the end of phb4_realize()
->>> - patch 4:
->>>    * changed pnv_phb4_get_stack signature to use chip and phb
->>>    * added a new helper called pnv_pec_stk_default_phb_realize() to
->>> realize the default phb when running with defaults
->>> - v4 link: https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg02148.html
+>>> Also updated the cocoa display documentation to reference the new
+>>> left-command-key option along with the existing show-cursor option.
 >>>
->>> Daniel Henrique Barboza (5):
->>>    ppc/pnv: set phb4 properties in stk_realize()
->>>    ppc/pnv: move PHB4 XSCOM init to phb4_realize()
->>>    ppc/pnv: turn 'phb' into a pointer in struct PnvPhb4PecStack
->>>    ppc/pnv: Introduce user creatable pnv-phb4 devices
->>>    ppc/pnv: turn pnv_phb4_update_regions() into static
->>
->> It's now possible to crash QEMU with the pnv-phb4 device:
->>
->> $ ./qemu-system-ppc64 -nographic -M powernv9 -device pnv-phb4
->> Unexpected error in object_property_try_add() at ../../devel/qemu/qom/object.c:1229:
->> qemu-system-ppc64: -device pnv-phb4: attempt to add duplicate property 'pnv-phb4[0]' to object (type 'power9_v2.0-pnv-chip')
->> Aborted (core dumped)
->>
->> Any ideas how to fix this?
-> 
-> Thanks for catching this up.
-> 
-> The issue here is that we're not handling the case where an user adds a pnv-phb4 device
-> when running default settings (no -nodefaults). With default settings we are adding all
-> pnv-phb4 devices that are available to the machine, having no room for any additional
-> user creatable pnv-phb4 devices.
-> 
-> A similar situation happens with the powernv8 machine which errors out with a different
-> error message:
-> 
-> $ ./qemu-system-ppc64 -nographic -M powernv8 -device pnv-phb3
-> qemu-system-ppc64: -device pnv-phb3: Can't add chassis slot, error -16
-> 
-> 
-> Adding all possible phbs by default is a behavior these machines had since they were introduced,
-> and I don't think we want to change it. Thus, a fix would be to forbid user created pnv-phb devices
-> when running with defaults.
+>>> Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
+>> Ccing the QAPI folks for review on the QAPI parts of this.
+>> -- PMM
+>>=20
+>>> ---
+>>>   qapi/ui.json    | 17 +++++++++++++++++
+>>>   qemu-options.hx | 12 ++++++++++++
+>>>   ui/cocoa.m      |  8 +++++++-
+>>>   3 files changed, 36 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/qapi/ui.json b/qapi/ui.json
+>>> index 2b4371da37..764480e145 100644
+>>> --- a/qapi/ui.json
+>>> +++ b/qapi/ui.json
+>>> @@ -1107,6 +1107,22 @@
+>>>     'data'    : { '*grab-on-hover' : 'bool',
+>>>                   '*zoom-to-fit'   : 'bool'  } }
+>>>
+>>> +##
+>>> +# @DisplayCocoa:
+>>> +#
+>>> +# Cocoa display options.
+>>> +#
+>>> +# @left-command-key: Enable/disable forwarding of left command key to
+>>> +#                    guest. Allows command-tab window switching on the
+>>> +#                    host without sending this key to the guest when
+>>> +#                    "off". Defaults to "on"
+>>> +#
+>>> +# Since: 6.2.50
+>
+> Not a QAPI folk, but LGTM using 7.0 here instead of 6.2.50 (this the
+> number of the *released* QEMU version which contains this new type).
 
+Yes.
 
-On a real system with POWER{8,9,10} processors, PHBs are sub-units of
-the processor, they can be deactivated by firmware but not plugged in
-or out like a PCI adapter on a slot. Nevertheless, it seemed to be
-good idea to have user-created PHBs for testing purposes.
+>>> +#
+>>> +##
+>>> +{ 'struct'  : 'DisplayCocoa',
+>>> +  'data'    : { '*left-command-key' : 'bool' } }
+>>> +
+>>>   ##
+>>>   # @DisplayEGLHeadless:
+>>>   #
+>>> @@ -1254,6 +1270,7 @@
+>>>     'discriminator' : 'type',
+>>>     'data'    : {
+>>>         'gtk': { 'type': 'DisplayGTK', 'if': 'CONFIG_GTK' },
+>>> +      'cocoa': { 'type': 'DisplayCocoa', 'if': 'CONFIG_COCOA' },
+>>>         'curses': { 'type': 'DisplayCurses', 'if': 'CONFIG_CURSES' },
+>>>         'egl-headless': { 'type': 'DisplayEGLHeadless',
+>>>                           'if': { 'all': ['CONFIG_OPENGL', 'CONFIG_GBM'=
+] } },
+>>> diff --git a/qemu-options.hx b/qemu-options.hx
+>>> index fd1f8135fb..6fa9c38c83 100644
+>>> --- a/qemu-options.hx
+>>> +++ b/qemu-options.hx
+>>> @@ -1912,6 +1912,9 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
+>>>   #if defined(CONFIG_DBUS_DISPLAY)
+>>>       "-display dbus[,addr=3D<dbusaddr>]\n"
+>>>       "             [,gl=3Don|core|es|off][,rendernode=3D<file>]\n"
+>>> +#endif
+>>> +#if defined(CONFIG_COCOA)
+>>> +    "-display cocoa[,show-cursor=3Don|off][,left-command-key=3Don|off]=
+\n"
+>>>   #endif
+>>>       "-display none\n"
+>>>       "                select display backend type\n"
+>>> @@ -1999,6 +2002,15 @@ SRST
+>>>           ``charset=3DCP850`` for IBM CP850 encoding. The default is
+>>>           ``CP437``.
+>>>
+>>> +    ``cocoa``
+>>> +        Display video output in a Cocoa window. Mac only. This interfa=
+ce
+>>> +        provides drop-down menus and other UI elements to configure an=
+d
+>>> +        control the VM during runtime. Valid parameters are:
+>>> +
+>>> +        ``show-cursor=3Don|off`` :  Force showing the mouse cursor
+>>> +
+>>> +        ``left-command-key=3Don|off`` : Disable forwarding left comman=
+d key to host
+>>> +
+>>>       ``egl-headless[,rendernode=3D<file>]``
+>>>           Offload all OpenGL operations to a local DRI device. For any
+>>>           graphical display, this display needs to be paired with eithe=
+r
 
-Let's come back to the PowerNV requirements.
+In the QAPI schema, @full-screen, @window-close and @show-cursor are
+common to all display types.  Here, @full-screen is only documented with
+gtk, @window-close with gtk and sdl, @show-cursor with gtk, sdl and now
+cocoa.
 
-  1. having a limited set of PHBs speedups boot time.
-  2. it is useful to be able to mimic a partially broken topology you
-     some time have to deal with during bring-up.
+What's going on here?
 
-PowerNV is also used for distro install tests and having libvirt
-support eases these tasks. libvirt prefers to run the machine with
--nodefaults to be sure not to drag unexpected devices which would need
-to be defined in the domain file without being specified on the QEMU
-command line. For this reason :
-
-  3. -nodefaults should not include default PHBs
-
-The solution we came with was to introduce user-created PHB{3,4,5}
-devices on the powernv{8,9,10} machines. Reality proves to be a bit
-more complex, internally when modeling such devices, and externally
-when dealing with the user interface.
-
-So, to make sure that we don't ship a crappy feature in QEMU 7.0,
-I think we should step back a little.
-
-Req 1. and 2. can be simply addressed differently with a machine option:
-"phb-mask=<uint>", which QEMU would use to enable/disable PHB device
-nodes when creating the device tree.
-
-For Req 3., we need to make sure we are taking the right approach. It
-seems that we should expose a new type of user-created PHB device,
-a generic virtualized one, that libvirt would use and not one depending
-on the processor revision. This needs more thinking.
-
-Hence, I am proposing we drop user-created PHB{3,4,5} for QEMU-7.0.
-All the cleanups we did are not lost and they will be useful for the
-next steps in QEMU 7.1.
-
-
-Thanks,
-
-C.
+[...]
 
 
