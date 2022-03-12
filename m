@@ -2,89 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63BA4D6DC5
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Mar 2022 10:37:54 +0100 (CET)
-Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28674D6DC8
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Mar 2022 10:40:08 +0100 (CET)
+Received: from localhost ([::1]:43498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSyC9-0001Xn-R3
-	for lists+qemu-devel@lfdr.de; Sat, 12 Mar 2022 04:37:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52584)
+	id 1nSyEJ-00044v-5x
+	for lists+qemu-devel@lfdr.de; Sat, 12 Mar 2022 04:40:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1nSy0Y-0002Zr-SQ; Sat, 12 Mar 2022 04:25:54 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64256)
+ id 1nSy0Z-0002aj-R7; Sat, 12 Mar 2022 04:25:55 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1nSy0X-0007KP-2D; Sat, 12 Mar 2022 04:25:54 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22C4V1Yb010719; 
- Sat, 12 Mar 2022 09:25:50 GMT
+ id 1nSy0X-0007KT-9x; Sat, 12 Mar 2022 04:25:55 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22C4V1o6015358; 
+ Sat, 12 Mar 2022 09:25:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=GoBu0QJSzfUmdBKJbCpyw2H5xKfQiBZ7+GZr3AOa/OA=;
- b=YrjU1Q4czTvpG3zXd8mBo8X5DqGaOwVW2Vo3Zw83ODkwmTxO6ylKPgmZ5SCLS/ZUMc5K
- Y55V7su9JDxL5Zc+QXowKO4LOxoVOae00q7ZV3ZRNeLMZxhG6HWZJc0gHWAZka91WfT4
- MJdfkkxBlPlp20UaKUabfO2oJ3zxosD8XloPj3V5UbBMH25JqYIlHwcALePNUbIqGHyP
- etefSB2ABa1WtZZ2D+L6WodFIYpWAlaBshdGU6TMcdfaiUcNVDW/NnJuH6PIo2Mxd+Cw
- KPAdCUm+eFPEQbEBEutgtT3k5GE4ETRHN5wMjwBKuyDhEZFRCBSYgXuLSAL0B4TcNEp7 0g== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=QCxcymB9ZJY6i8WSNIC4qwTn3KnmWC1zF/X1ZIbb/O0=;
+ b=pb83VmyGJRaTbZkleu9jFA6O/dsblJoze5jFqg596Vg1DUDIHQhAO4q5gkLZ7Cyx7RSL
+ 0+beaq9QevxVj0JeaS9kbJLQ68K46yTAuhHBAgI3MkEWvpF+6PxbyVz+5kx2b9fmk4T7
+ Q9qKMGfxnFHySZnzd8ELstifc+WcqIaEVTbhtkdPqtKwxH1x2v+LoSEt+nXaDbEPBM2f
+ 4x3EaKnDBRy7bK3tRyuKE8NNqfvLMLQdXTzpmtS00GsljWP1GZMOEBppobJnbFqLg74W
+ ta591o4PMCm7yB29LiFFY1vHHQQma+H0wq1x0H+focQ7iTMQQfUFyOq5yMmxT0ckBqo4 wA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3erm30ke4h-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3erjas4tt6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Sat, 12 Mar 2022 09:25:50 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22C9PniK019175;
- Sat, 12 Mar 2022 09:25:49 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3erm30ke45-1
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22C9PoSi018215;
+ Sat, 12 Mar 2022 09:25:50 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3erjas4tsu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 12 Mar 2022 09:25:49 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22C9DsO7024340;
+ Sat, 12 Mar 2022 09:25:50 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22C9DuqK018676;
  Sat, 12 Mar 2022 09:25:47 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04fra.de.ibm.com with ESMTP id 3erk58ge3w-1
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3erjshghsj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 12 Mar 2022 09:25:46 +0000
+ Sat, 12 Mar 2022 09:25:47 +0000
 Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 22C9Piac45744588
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 22C9EQae23003420
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 12 Mar 2022 09:25:44 GMT
+ Sat, 12 Mar 2022 09:14:26 GMT
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 948BA42041;
- Sat, 12 Mar 2022 09:25:43 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 8AE4242041;
+ Sat, 12 Mar 2022 09:25:44 +0000 (GMT)
 Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 29E6C42042;
- Sat, 12 Mar 2022 09:25:43 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 23E6A4203F;
+ Sat, 12 Mar 2022 09:25:44 +0000 (GMT)
 Received: from heavy.lan (unknown [9.171.29.97])
  by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Sat, 12 Mar 2022 09:25:43 +0000 (GMT)
+ Sat, 12 Mar 2022 09:25:44 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v2 0/3] Fix BRASL and BRCL with large negative offsets
-Date: Sat, 12 Mar 2022 10:25:38 +0100
-Message-Id: <20220312092541.585282-1-iii@linux.ibm.com>
+Subject: [PATCH v2 1/3] s390x/tcg: Fix BRASL with a large negative offset
+Date: Sat, 12 Mar 2022 10:25:39 +0100
+Message-Id: <20220312092541.585282-2-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.35.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: qajPUHtKPo_mSiJ5qeOiUu6EOWh7cZrk
-X-Proofpoint-ORIG-GUID: 3tdP3kx1T3FsTPSayTtFZ9lu-Fc36L91
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20220312092541.585282-1-iii@linux.ibm.com>
+References: <20220312092541.585282-1-iii@linux.ibm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: felI48hXF8KqfefXlBxSn98Stk3bMayq
+X-Proofpoint-GUID: hIbI-8-RbDMms3_ORD3pP9QStxQqDaqb
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-12_03,2022-03-11_02,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- suspectscore=0 impostorscore=0 phishscore=0 adultscore=0 mlxlogscore=999
- lowpriorityscore=0 bulkscore=0 mlxscore=0 malwarescore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
+ bulkscore=0 mlxlogscore=920 clxscore=1015 spamscore=0 impostorscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2203120053
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -112,35 +114,29 @@ Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+When RI2 is 0x80000000, qemu enters an infinite loop instead of jumping
+backwards. Fix by adding a missing cast, like in in2_ri2().
 
-I noticed that sometimes jumping backwards leads to crashes or hangs.
-The problem is a missing cast.
-Patches 1 and 2 fix the problem, patch 3 adds a test.
+Fixes: 8ac33cdb8bfb ("Convert BRANCH AND SAVE")
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ target/s390x/tcg/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-v1: https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03356.html
-v1 -> v2:
-- Skip the test if mmap() fails (Richard).
-- Replace test opcodes with inline asm (David). Since we now want to
-  skip the test if the code cannot be mapped (e.g. on a 31-bit host),
-  we shouldn't be asking the loader to map the code right away. So
-  the mmap() approach stays.
-
-Best regards,
-Ilya
-
-Ilya Leoshkevich (3):
-  s390x/tcg: Fix BRASL with a large negative offset
-  s390x/tcg: Fix BRCL with a large negative offset
-  tests/tcg/s390x: Test BRASL and BRCL with large negative offsets
-
- target/s390x/tcg/translate.c           |  4 +-
- tests/tcg/s390x/Makefile.target        |  1 +
- tests/tcg/s390x/branch-relative-long.c | 60 ++++++++++++++++++++++++++
- 3 files changed, 63 insertions(+), 2 deletions(-)
- create mode 100644 tests/tcg/s390x/branch-relative-long.c
-
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 904b51542f..41c8696185 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -1597,7 +1597,7 @@ static DisasJumpType op_bal(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_basi(DisasContext *s, DisasOps *o)
+ {
+     pc_to_link_info(o->out, s, s->pc_tmp);
+-    return help_goto_direct(s, s->base.pc_next + 2 * get_field(s, i2));
++    return help_goto_direct(s, s->base.pc_next + (int64_t)get_field(s, i2) * 2);
+ }
+ 
+ static DisasJumpType op_bc(DisasContext *s, DisasOps *o)
 -- 
 2.35.1
 
