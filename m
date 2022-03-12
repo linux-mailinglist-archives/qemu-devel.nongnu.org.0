@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644534D6DC3
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Mar 2022 10:36:53 +0100 (CET)
-Received: from localhost ([::1]:35892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120724D6DBF
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Mar 2022 10:26:34 +0100 (CET)
+Received: from localhost ([::1]:55226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nSyB9-0007F4-Vs
-	for lists+qemu-devel@lfdr.de; Sat, 12 Mar 2022 04:36:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51658)
+	id 1nSy1A-0000tR-LF
+	for lists+qemu-devel@lfdr.de; Sat, 12 Mar 2022 04:26:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nSxvD-0007CU-FE; Sat, 12 Mar 2022 04:20:24 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:59147)
+ id 1nSxvC-0007C7-4b; Sat, 12 Mar 2022 04:20:22 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:46583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1nSxv9-0005a3-0Z; Sat, 12 Mar 2022 04:20:22 -0500
+ id 1nSxv8-0005a1-W7; Sat, 12 Mar 2022 04:20:21 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4KFy1z2cmwz4xMW; Sat, 12 Mar 2022 20:20:07 +1100 (AEDT)
+ id 4KFy1z35pNz4xLT; Sat, 12 Mar 2022 20:20:07 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1647076807;
- bh=8u994h1WNs/hrkh4rEdS9ntSPZ5+rALmmEHL+xmMW1o=;
+ bh=d7iAK8zbGmRuTUjOgJkkSUuYq3sGQGfFsVxTDMxkcTE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gWQfChF871VP6KO2R5/Wx0ImGtL36YMO2mk8VhzCtzJYigslfJTkvf3EDTsmcHjCx
- PWgEZvBMgzPLGXU2O/RzGPJ054VgE+ddRk+npBUJM3KU7/4EVMnheWGCWwirAD2VMZ
- KhDybj9lgge29N5gsdsXHfqRvTTUBhFPstvZL0co=
-Date: Sat, 12 Mar 2022 19:45:58 +1100
+ b=bioZaj8nzhDNwFwDsllDwa5k3phOc+i7fv7YkAnHvxfVpEc3ZekfpRyQRmjuQa7Ts
+ LcJxd+nMg7w+ZpNWG92ibQboLh48u2WxWhBUTNaigUNzdSZdlU2XbaWbRoFo9WU/Rj
+ tNNndPI08vY0dPehBI/dUa18CiLe5NBR+zctx01I=
+Date: Sat, 12 Mar 2022 19:50:56 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH v3 1/4] target/ppc: Fix masked PVR matching
-Message-ID: <YixdxnawYgQi9b1H@yekko>
+Subject: Re: [PATCH v3 2/4] target/ppc: Remove chip type field from POWER9
+ DD2.0 PVR
+Message-ID: <Yixe8IpDkrtoAuJW@yekko>
 References: <20220307065527.156132-1-npiggin@gmail.com>
- <20220307065527.156132-2-npiggin@gmail.com>
+ <20220307065527.156132-3-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6mQLb1fX6awFzEFv"
+ protocol="application/pgp-signature"; boundary="rFqM1Z/HrNA3wAaz"
 Content-Disposition: inline
-In-Reply-To: <20220307065527.156132-2-npiggin@gmail.com>
+In-Reply-To: <20220307065527.156132-3-npiggin@gmail.com>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -66,129 +67,43 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---6mQLb1fX6awFzEFv
+--rFqM1Z/HrNA3wAaz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 07, 2022 at 04:55:24PM +1000, Nicholas Piggin wrote:
-> The pvr_match for a CPU class is not supposed to just match for any
-> CPU in the family, but rather whether this particular CPU class is the
-> best match in the family.
+On Mon, Mar 07, 2022 at 04:55:25PM +1000, Nicholas Piggin wrote:
+> The POWER9 DD2.0 PVR does not follow the same format as the other
+> POWER9/10 PVRs, it includes a non-zero value in the "chip type" field.
 
-Ok... but I don't see how that question can possibly be answered
-without reference to all the available options.
+I'm unclear whether you're describing the hardware PVR here, or the
+value in qemu.
 
-> Prior to this fix, e.g., a POWER9 DD2.3 KVM host matches to the
-> power9_v1.0 class (because that's first in the list). After the patch,
-> it matches the power9_v2.0 class.
+> This does not cause problems because the pvr check is masks it out and
+> matches against the base, but it's a small inconsistency. Zero the
+> field.
 
-=2E. so, doesn't this indicate a problem in the check order, rather than
-a problem with the matching function?
+I assume this is making the qemu model match the hardware, but that's
+not entirely clear to me from the commit message.
 
->=20
-> Fixes: 03ae4133ab8 ("target-ppc: Add pvr_match() callback")
 > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 > ---
->  target/ppc/cpu_init.c | 51 ++++++++++++++++++++++++++++---------------
->  1 file changed, 34 insertions(+), 17 deletions(-)
+>  target/ppc/cpu-models.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 073fd10168..83ca741bea 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -5910,13 +5910,14 @@ static void init_proc_POWER7(CPUPPCState *env)
-> =20
->  static bool ppc_pvr_match_power7(PowerPCCPUClass *pcc, uint32_t pvr)
->  {
-> -    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) =3D=3D CPU_POWERPC_POWER7P=
-_BASE) {
-> -        return true;
-> -    }
-> -    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) =3D=3D CPU_POWERPC_POWER7_=
-BASE) {
-> -        return true;
-> +    uint32_t base =3D pvr & CPU_POWERPC_POWER_SERVER_MASK;
-> +    uint32_t pcc_base =3D pcc->pvr & CPU_POWERPC_POWER_SERVER_MASK;
-> +
-> +    if (base !=3D pcc_base) {
-> +        return false;
->      }
-> -    return false;
-> +
-> +    return true;
->  }
-> =20
->  static bool cpu_has_work_POWER7(CPUState *cs)
-> @@ -6070,16 +6071,14 @@ static void init_proc_POWER8(CPUPPCState *env)
-> =20
->  static bool ppc_pvr_match_power8(PowerPCCPUClass *pcc, uint32_t pvr)
->  {
-> -    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) =3D=3D CPU_POWERPC_POWER8N=
-VL_BASE) {
-> -        return true;
-> -    }
-> -    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) =3D=3D CPU_POWERPC_POWER8E=
-_BASE) {
-> -        return true;
-> -    }
-> -    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) =3D=3D CPU_POWERPC_POWER8_=
-BASE) {
-> -        return true;
-> +    uint32_t base =3D pvr & CPU_POWERPC_POWER_SERVER_MASK;
-> +    uint32_t pcc_base =3D pcc->pvr & CPU_POWERPC_POWER_SERVER_MASK;
-> +
-> +    if (base !=3D pcc_base) {
-> +        return false;
->      }
-> -    return false;
-> +
-> +    return true;
->  }
-> =20
->  static bool cpu_has_work_POWER8(CPUState *cs)
-> @@ -6277,9 +6276,18 @@ static void init_proc_POWER9(CPUPPCState *env)
-> =20
->  static bool ppc_pvr_match_power9(PowerPCCPUClass *pcc, uint32_t pvr)
->  {
-> -    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) =3D=3D CPU_POWERPC_POWER9_=
-BASE) {
-> +    uint32_t base =3D pvr & CPU_POWERPC_POWER_SERVER_MASK;
-> +    uint32_t pcc_base =3D pcc->pvr & CPU_POWERPC_POWER_SERVER_MASK;
-> +
-> +    if (base !=3D pcc_base) {
-> +        return false;
-> +    }
-> +
-> +    if ((pvr & 0x0f00) =3D=3D (pcc->pvr & 0x0f00)) {
-> +        /* Major DD version matches to power9_v1.0 and power9_v2.0 */
->          return true;
->      }
-> +
->      return false;
->  }
-> =20
-> @@ -6489,9 +6497,18 @@ static void init_proc_POWER10(CPUPPCState *env)
-> =20
->  static bool ppc_pvr_match_power10(PowerPCCPUClass *pcc, uint32_t pvr)
->  {
-> -    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) =3D=3D CPU_POWERPC_POWER10=
-_BASE) {
-> +    uint32_t base =3D pvr & CPU_POWERPC_POWER_SERVER_MASK;
-> +    uint32_t pcc_base =3D pcc->pvr & CPU_POWERPC_POWER_SERVER_MASK;
-> +
-> +    if (base !=3D pcc_base) {
-> +        return false;
-> +    }
-> +
-> +    if ((pvr & 0x0f00) =3D=3D (pcc->pvr & 0x0f00)) {
-> +        /* Major DD version matches to power10_v1.0 and power10_v2.0 */
->          return true;
->      }
-> +
->      return false;
->  }
-> =20
+> diff --git a/target/ppc/cpu-models.h b/target/ppc/cpu-models.h
+> index 76775a74a9..b42f2ab162 100644
+> --- a/target/ppc/cpu-models.h
+> +++ b/target/ppc/cpu-models.h
+> @@ -349,7 +349,7 @@ enum {
+>      CPU_POWERPC_POWER8NVL_v10      =3D 0x004C0100,
+>      CPU_POWERPC_POWER9_BASE        =3D 0x004E0000,
+>      CPU_POWERPC_POWER9_DD1         =3D 0x004E0100,
+> -    CPU_POWERPC_POWER9_DD20        =3D 0x004E1200,
+> +    CPU_POWERPC_POWER9_DD20        =3D 0x004E0200,
+>      CPU_POWERPC_POWER10_BASE       =3D 0x00800000,
+>      CPU_POWERPC_POWER10_DD1        =3D 0x00800100,
+>      CPU_POWERPC_POWER10_DD20       =3D 0x00800200,
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -196,25 +111,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---6mQLb1fX6awFzEFv
+--rFqM1Z/HrNA3wAaz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIsXZYACgkQgypY4gEw
-YSKHGRAAkYyyD2qRgkOChI/b4XLUCUQ9/5uYjiDLKrK/oAQ7slNjRR0tRp5OlmJ9
-JiniJrBAVpV57dfwfKgIHI11QDIDq5BqNOLOXdulropzBzxPlWmm7kKKQwraar9e
-AO5vvkYwjXFb3aDGBOwx8aXTRCijEK2HxElKLIlDws+2G/quTgsjeX3sNmHOKr0p
-c6y4r3wsondHPluduB7WIqGy2IIuIsHIMILUnQsZAIKXYZkegC+CS1sKjqBCUYKW
-y+PF+QGFmwQ0C70nf+QiqBizBJtNrhIfsxqQIo+MndOAao5U4IT4aPRZSxGJjCi/
-zKn5ixGbPBSoT9oZjumAn2BeYuoPpV7bPfUauImo1Usl4QmxJF5c5cyVLnz3j9U3
-BIRNfgU7rW6r4fZoSZKdUvTsU7AfC6lJNoVhP7WXjcfvYkykWywpBouKRMZnr7t4
-/lIpWYEEyDYy457Zd2BMbvVPsbZ/ywIK6/p+iTwlBk6NSNJrchbFj3OQNhxr1TSU
-VCixhjE8s0S680xMA62jwmXmhSUmJORr5mTEig+y9UyUQMEHa8KsUUeV8GsGHLmK
-pTwbaAUqb3ZpKGgj6VvCI03yo3ZE6ndS+K42+gx5+kBTLgLEz13l9yM0JlIf3wx/
-J2hRoPIhhCpueBDGnQC6YdUnzvNbKMyuGLeuX7Y0SwCAWsBWkFI=
-=RoV8
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmIsXucACgkQgypY4gEw
+YSJRkQ/+OPwS+BaQZGQLY0RYgzvCwlH+piPoYLe4O4Yg2YYznEkIqDYxj+8gBxJu
++8VIjm7L+/JOgq0iJe2g0VBXt0cJsU662nBxoD/0FuE5H/Wcv22EpuP3d5E7WnJe
+KOfwNUrCeijAj2YWISJtOwETnbqoihZqTm2IFVB5wQF4U2zZaO9HaZLn0GqisJf4
+GAPUNSMdBhnpXFHHdTKHKQZd5tW5/r8cOdyz83qxnz5bW956GvQCkQTqbRRARhlh
+IZswspslCay34NGoYq4GwBQ7rXpLOVok6dlXoRWqVck87Dp2eKnVEk00Er0kh7d8
+Vd7uF8hSk/08UDFWI/rg9+kI6jdGCbSjvjYHdByHrgzxN5i4bo53SNmUkE2GAPDm
+XEVaKGtSChoWMJoF/RHSTTsORrv0rYZQR+S9UbM+R6xwJz2ZFk8hVlq2Sguxnekv
+1nu2fh4n1WhZzpwMasnjVnjhNtwRjARL5QhdpeYkUQDRCUDnhT/AJEOesQwW0P9I
+gYuqdreFBc11GJzPwlCxf1kr7sm+IcinRt/Fp3/meTzVz8T6IjcA39RF+J2b3sWM
+c7HSLL2zcZ98pQu8K8mD/ryW5o+bKvzUl68sOCvBRC4iiNG1378CeAVgh3RGYMSk
+rmJZMRKADAJvpmp2zYIAig8CG6+y+8r5SHMv2/YHDgJajZqeOY8=
+=n1l8
 -----END PGP SIGNATURE-----
 
---6mQLb1fX6awFzEFv--
+--rFqM1Z/HrNA3wAaz--
 
