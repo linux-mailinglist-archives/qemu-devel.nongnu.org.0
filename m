@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1414E4BB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 05:01:06 +0100 (CET)
-Received: from localhost ([::1]:60456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED90C4E4B59
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Mar 2022 04:17:27 +0100 (CET)
+Received: from localhost ([::1]:40160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nWsBE-0007hE-Q5
-	for lists+qemu-devel@lfdr.de; Wed, 23 Mar 2022 00:01:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57268)
+	id 1nWrV1-0007TO-2b
+	for lists+qemu-devel@lfdr.de; Tue, 22 Mar 2022 23:17:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nWs8M-0004um-M9; Tue, 22 Mar 2022 23:58:08 -0400
-Received: from mail-b.sr.ht ([173.195.146.151]:36436)
+ id 1nWrMo-0002ZF-61; Tue, 22 Mar 2022 23:08:58 -0400
+Received: from mail-b.sr.ht ([173.195.146.151]:36406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1nWs8K-0005wt-Lj; Tue, 22 Mar 2022 23:58:06 -0400
+ id 1nWrMl-00038M-6x; Tue, 22 Mar 2022 23:08:57 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id A2EFC11EF8F;
- Wed, 23 Mar 2022 03:58:03 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id B9DEA11EF86;
+ Wed, 23 Mar 2022 03:08:51 +0000 (UTC)
 From: ~eopxd <eopxd@git.sr.ht>
 Date: Fri, 11 Mar 2022 22:28:22 -0800
-Subject: [PATCH qemu v3 03/14] target/riscv: rvv: Early exit when vstart >= vl
+Subject: [PATCH qemu v2 02/13] target/riscv: rvv: Early exit when vstart >= vl
 MIME-Version: 1.0
-Message-ID: <164800788276.12449.15168787569124374586-3@git.sr.ht>
+Message-ID: <164800493107.31817.14053311036718644936-2@git.sr.ht>
 X-Mailer: git.sr.ht
-In-Reply-To: <164800788276.12449.15168787569124374586-0@git.sr.ht>
+In-Reply-To: <164800493107.31817.14053311036718644936-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
