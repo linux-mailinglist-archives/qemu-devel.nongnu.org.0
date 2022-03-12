@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568854D6E97
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Mar 2022 13:08:14 +0100 (CET)
-Received: from localhost ([::1]:46436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163194D6EA3
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Mar 2022 13:16:18 +0100 (CET)
+Received: from localhost ([::1]:34082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nT0Xc-0000cY-Uq
-	for lists+qemu-devel@lfdr.de; Sat, 12 Mar 2022 07:08:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34644)
+	id 1nT0fR-00048G-6l
+	for lists+qemu-devel@lfdr.de; Sat, 12 Mar 2022 07:16:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <f368bd48488fa6bd6fab27ffab732e4a7dadda2c@lizzy.crudebyte.com>)
- id 1nT0Vj-0007Xi-Sf
- for qemu-devel@nongnu.org; Sat, 12 Mar 2022 07:06:15 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:44045)
+ (envelope-from <f0d56d86f4d16f6aa712307eeee6964a33f16839@lizzy.crudebyte.com>)
+ id 1nT0ao-0006Fl-I6
+ for qemu-devel@nongnu.org; Sat, 12 Mar 2022 07:11:34 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:35833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <f368bd48488fa6bd6fab27ffab732e4a7dadda2c@lizzy.crudebyte.com>)
- id 1nT0Vi-0004m3-Bs
- for qemu-devel@nongnu.org; Sat, 12 Mar 2022 07:06:15 -0500
+ (envelope-from <f0d56d86f4d16f6aa712307eeee6964a33f16839@lizzy.crudebyte.com>)
+ id 1nT0an-00065Y-4G
+ for qemu-devel@nongnu.org; Sat, 12 Mar 2022 07:11:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=9WTeueT/DgDLw9J91KuUL3y+mEvtLvanX/LDVRueNLY=; b=DJtuR
- aN3vSR9IQCjtGJoeDZV6GnQWDtiNbSGMygUo1Op8njtCkj4vxrdKzJ9wofoBI/xdsz7+xo8CWpCdv
- 87JXkEf2X45c2H4vzKzoeYriEVY2iqbGiqXYbGVy0GOz6dkblPVAPTDcvicsGLlqRCwP6IUWLvClX
- yMJ6nqnS3JgE0yMIYAHwVwM8QNS9I3vaYTsG1x6xcWdZalYXydQtUA4dKNJJ7/XvmdoVrUbfiAMIl
- UR6aVQXeWEYHT/XIOc248M2iVkMB7n3Ewy8qAsZH4Co1RDg1V8CNGYi6ZNCyHJjJrZpBKp+RXfqGG
- YAAW5cRDGd1zOPOB3yHA9w168I3JA==;
-Message-Id: <f368bd48488fa6bd6fab27ffab732e4a7dadda2c.1647083430.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=TJAeDlUJJUlZd5EXAz9aRvXtuj5klvD+5R2Ki1HIheQ=; b=dfeEm
+ iXa4OD0kZSWXjKSDCjUqwjrpRTfUEhnyuxT8xP/52am/eDZpUYrC6ob56ss2mSgvgUengfUD0h3q0
+ W9o8DGgqlZtjdi3gKLhCnyPpXYU7EaXwF8xKUfqwOnz0Mf17E7rjEK6/bHsXGTmK5p0oZAJlvC9ED
+ CFjmjfu6mhJ9WdYur6pr6UBryoINGcfgfIAVysQb/Zs8lZyUiWWPhP9MUSl5ZP/Je6cwnd8fTpaSx
+ AujteIbZwqG9iAoVLq9CH4Z8b54pxfVw1P/EiO6XMqL6RP+trkVwgLUDnSirzbHS9/VXhe6RGfGTW
+ iFi3XcBuwltDh1NliJZhzHhmSqnkA==;
+Message-Id: <f0d56d86f4d16f6aa712307eeee6964a33f16839.1647083430.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1647083430.git.qemu_oss@crudebyte.com>
 References: <cover.1647083430.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sat, 12 Mar 2022 12:06:35 +0100
-Subject: [PATCH v2 1/7] tests/9pfs: walk to non-existent dir
+Date: Sat, 12 Mar 2022 12:06:39 +0100
+Subject: [PATCH v2 2/7] tests/9pfs: Twalk with nwname=0
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=f368bd48488fa6bd6fab27ffab732e4a7dadda2c@lizzy.crudebyte.com;
+ envelope-from=f0d56d86f4d16f6aa712307eeee6964a33f16839@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,70 +62,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Expect ENOENT Rlerror response when trying to walk to a
-non-existent directory.
+Send Twalk request with nwname=0. In this case no QIDs should
+be returned by 9p server; this is equivalent to walking to dot.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- tests/qtest/virtio-9p-test.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ tests/qtest/virtio-9p-test.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 01ca076afe..22bdd74bc1 100644
+index 22bdd74bc1..6c00da03f4 100644
 --- a/tests/qtest/virtio-9p-test.c
 +++ b/tests/qtest/virtio-9p-test.c
-@@ -606,6 +606,25 @@ static uint32_t do_walk(QVirtio9P *v9p, const char *path)
-     return fid;
+@@ -1002,6 +1002,27 @@ static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
+     do_walk_expect_error(v9p, "non-existent", ENOENT);
  }
  
-+/* utility function: walk to requested dir and expect passed error response */
-+static void do_walk_expect_error(QVirtio9P *v9p, const char *path, uint32_t err)
-+{
-+    char **wnames;
-+    P9Req *req;
-+    uint32_t _err;
-+    const uint32_t fid = genfid();
-+
-+    int nwnames = split(path, "/", &wnames);
-+
-+    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rlerror(req, &_err);
-+
-+    g_assert_cmpint(_err, ==, err);
-+
-+    split_free(&wnames);
-+}
-+
- static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     alloc = t_alloc;
-@@ -974,6 +993,15 @@ static void fs_walk_no_slash(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(wnames[0]);
- }
- 
-+static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
++static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
 +{
 +    QVirtio9P *v9p = obj;
 +    alloc = t_alloc;
++    v9fs_qid root_qid;
++    g_autofree v9fs_qid *wqid = NULL;
++    P9Req *req;
 +
-+    do_attach(v9p);
-+    do_walk_expect_error(v9p, "non-existent", ENOENT);
++    do_version(v9p);
++    req = v9fs_tattach(v9p, 0, getuid(), 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rattach(req, &root_qid);
++
++    req = v9fs_twalk(v9p, 0, 1, 0, NULL, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rwalk(req, NULL, &wqid);
++
++    /* special case: no QID is returned if nwname=0 was sent */
++    g_assert(wqid == NULL);
 +}
 +
  static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
  {
      QVirtio9P *v9p = obj;
-@@ -1409,6 +1437,8 @@ static void register_virtio_9p_test(void)
+@@ -1435,6 +1456,7 @@ static void register_virtio_9p_test(void)
+     qos_add_test("synth/walk/basic", "virtio-9p", fs_walk,  &opts);
+     qos_add_test("synth/walk/no_slash", "virtio-9p", fs_walk_no_slash,
                    &opts);
++    qos_add_test("synth/walk/none", "virtio-9p", fs_walk_none, &opts);
      qos_add_test("synth/walk/dotdot_from_root", "virtio-9p",
                   fs_walk_dotdot,  &opts);
-+    qos_add_test("synth/walk/non_existent", "virtio-9p", fs_walk_nonexistent,
-+                  &opts);
-     qos_add_test("synth/lopen/basic", "virtio-9p", fs_lopen,  &opts);
-     qos_add_test("synth/write/basic", "virtio-9p", fs_write,  &opts);
-     qos_add_test("synth/flush/success", "virtio-9p", fs_flush_success,
+     qos_add_test("synth/walk/non_existent", "virtio-9p", fs_walk_nonexistent,
 -- 
 2.30.2
 
