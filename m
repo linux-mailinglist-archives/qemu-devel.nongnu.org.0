@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7692F4D75A2
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 14:56:54 +0100 (CET)
-Received: from localhost ([::1]:33154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DD754D7597
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 14:55:45 +0100 (CET)
+Received: from localhost ([::1]:58262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTOiL-0004nP-JD
-	for lists+qemu-devel@lfdr.de; Sun, 13 Mar 2022 09:56:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56744)
+	id 1nTOhE-0002b1-Jj
+	for lists+qemu-devel@lfdr.de; Sun, 13 Mar 2022 09:55:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nTOeG-0000sa-7U
- for qemu-devel@nongnu.org; Sun, 13 Mar 2022 09:52:40 -0400
-Received: from [2a00:1450:4864:20::335] (port=51786
- helo=mail-wm1-x335.google.com)
+ id 1nTOeY-00018i-Kh
+ for qemu-devel@nongnu.org; Sun, 13 Mar 2022 09:52:58 -0400
+Received: from [2a00:1450:4864:20::435] (port=42775
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nTOeE-0007vu-Jx
- for qemu-devel@nongnu.org; Sun, 13 Mar 2022 09:52:39 -0400
-Received: by mail-wm1-x335.google.com with SMTP id q20so7839503wmq.1
- for <qemu-devel@nongnu.org>; Sun, 13 Mar 2022 06:52:38 -0700 (PDT)
+ id 1nTOeX-0007wH-7e
+ for qemu-devel@nongnu.org; Sun, 13 Mar 2022 09:52:58 -0400
+Received: by mail-wr1-x435.google.com with SMTP id u10so19995041wra.9
+ for <qemu-devel@nongnu.org>; Sun, 13 Mar 2022 06:52:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=xuBl6ONcrrYUe0G7Un7MfcnOroaOedQhWvSGb+OOvz0=;
- b=a2P+9yAi17hL1ziBrk+NRpeGf4U61nKKj2iYX1xR3uhRJWLfet1Pbn1Hg6B4LBZMIb
- Q1A/SUePSuXwA99yky5Z9+wCNBLZIZcFV3oD4TaMi3Zs/TEQB7Bm1Zu3FU3zGZWz9q+W
- MMn9gx3aIYgZjLmxouXs/t6ZedCyaLSlpCvIJxE+zsRz/je5VIuLH/pbFnZkirsv5apu
- 6WoQ+43pu7LlB1EyojMD6DriCWRM1XtQBWo3NjJiMn2tROgLqq8BSAje0H8QHWo0bWbb
- k0YLW78MMuhQeOzcZ6p2X2VXPKO+ncKoVZFsAIBIJej1uUQoRJ7+cBeuPbXBNkMcGfOg
- x1jA==
+ bh=BNofb4MaZ852m/U+b+LFeTpgLo7VsXCBdDYC4kRXAAY=;
+ b=XMSQydBM9+6U3LxGwYlzUkcWYo16fwmy1YmAuUnFnpgHcm0UpFtdH9CU0E+fHofHLp
+ PX6zPKmz4azJWli1/MEw07xCHrxPtj52GDiaNYWpIWJAB0Csvvbj3k3C6uSlx9N1EFAq
+ cBtqcgsvrpBryQy1vSJ58ThZmoje8TTdMpfoSxUhxT2uV83j92O3PGYrHB5qm/OFwCqS
+ D032LTaIzL7mscR3hgB8SfLHZTcPO7TKfdfnFNdOQzGvIC3C8EK8njJehXTN8bv243Z/
+ E0XPEOXynxVxXh1HUMxrGo82qUWn+B4Y9yi6xEzYBFNoyKgasdPegQ38yPjXQtcD6o7j
+ fQKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=xuBl6ONcrrYUe0G7Un7MfcnOroaOedQhWvSGb+OOvz0=;
- b=TSd+KhtwPwYNvixYDCiDgQ6qOJCBIgj1Xha46EHNaPe2SgTaroec3P6/SBnC0jBBId
- 3m85MTwaE/9SxX+nxN8Dh8j+lWOQ4FcpZK/bQZ6M5588ypsWG6OlA6xg82NWfDPrBvG3
- bb/GZbZRlbzTjJyrTVPkBp2rZjEbbDtvFDtR7yRcTt/CV7DdDihoGf25NRzsd06L5arh
- JNT0wQHfN1FfJ4YOmOuNi0IlhipBQI5FwvVqpwE360Ca4L0JubjaimxUScUBJUeP0nYP
- jrLimpGlCjo/9eMKmgMzKp/cgeyNDVqvUdxZsxf5L5xqUOPdU7jKdcfHLU53YXuFOexe
- F+Cw==
-X-Gm-Message-State: AOAM530ueaLm2DTpviw6D54JvjUwqzRp1pgzd8zE25qusCJb8eaabY3V
- wXjsB6vPBP1hxzsYbzDGH28=
-X-Google-Smtp-Source: ABdhPJw4LSmFxG7624DoAoziGICLhrXNZd5NT1BaRO2aHsn2gSITqpmlHiubebl7CbNHrtgjLpLewA==
-X-Received: by 2002:a05:600c:588:b0:389:9e5f:59d3 with SMTP id
- o8-20020a05600c058800b003899e5f59d3mr22071565wmd.35.1647179556827; 
- Sun, 13 Mar 2022 06:52:36 -0700 (PDT)
+ bh=BNofb4MaZ852m/U+b+LFeTpgLo7VsXCBdDYC4kRXAAY=;
+ b=Zu7Aq9+w809yCi7LeAKl59hNRA48niBNWQ4lfb+6CYfsey6HxMcW3wU0ben0fabf95
+ 5TkYp+33ICCzx+3cFZDcuQtINgSsX3iSnt3s/hH5n2KqSdVa+XyIO2FQWjLYSUN3zufq
+ K5Yzn3pdocE3NjjcnwBzcMsWhQI3Qp/M6BB/OVxL7NYE30ZzZDB8qDqgUII2pwxnG7Xz
+ bXGMykOmSwYf3mUe+QokbqEHq3HTpBwssnRAKlHq86jYVQ9swM974PwFNSJa3T4od985
+ xuZrCI+xjhjtzt1gP5WL1ppmSBR5h4E8xpSEj42sEEl754ukhSq/O3xekbJ6LhFOrkgK
+ voTQ==
+X-Gm-Message-State: AOAM530MPyTODcspP5AVu6D9gbbv8bLAnsJg3TGJ8nTwUffknwsKQrGr
+ 7LRDhqinPVATCC9qh9NttF0=
+X-Google-Smtp-Source: ABdhPJwdDpD4O+swyFkHU/fSbLpulN2x9Y3zmRLA8q0E5aruftECPwPDrR8/hKxG95a8+EJeN9li/A==
+X-Received: by 2002:a5d:6506:0:b0:1f1:da5e:e077 with SMTP id
+ x6-20020a5d6506000000b001f1da5ee077mr13558602wru.405.1647179573052; 
+ Sun, 13 Mar 2022 06:52:53 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n9-20020a1c7209000000b00389a616615csm16931612wmc.2.2022.03.13.06.52.35
+ w9-20020a5d6089000000b001f0256761b9sm17587869wrt.45.2022.03.13.06.52.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 13 Mar 2022 06:52:36 -0700 (PDT)
-Message-ID: <4df6dd33-a2dd-01f9-2277-51e68afc9b8e@gmail.com>
-Date: Sun, 13 Mar 2022 14:52:35 +0100
+ Sun, 13 Mar 2022 06:52:52 -0700 (PDT)
+Message-ID: <704d7a63-9e97-32ff-6bba-635c9b4a523f@gmail.com>
+Date: Sun, 13 Mar 2022 14:52:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v2 10/11] edk2/docker: use ubuntu 18.04
+Subject: Re: [PATCH v2 09/11] edk2/docker: install python3
 Content-Language: en-US
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 References: <20220311053759.875785-1-kraxel@redhat.com>
- <20220311053759.875785-11-kraxel@redhat.com>
+ <20220311053759.875785-10-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220311053759.875785-11-kraxel@redhat.com>
+In-Reply-To: <20220311053759.875785-10-kraxel@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -104,8 +104,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/3/22 06:37, Gerd Hoffmann wrote:
-> Upstream CI uses ubuntu 18.04 too, so pick
-> that version (instead of something newer).
+> python2 is not supported any more,
+> so go install python3 instead.
 > 
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
@@ -114,5 +114,6 @@ On 11/3/22 06:37, Gerd Hoffmann wrote:
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
 
