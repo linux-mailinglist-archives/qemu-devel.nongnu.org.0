@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4C84D7415
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 10:49:14 +0100 (CET)
-Received: from localhost ([::1]:49954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06964D7416
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 10:49:18 +0100 (CET)
+Received: from localhost ([::1]:50258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTKqg-0001J3-0E
-	for lists+qemu-devel@lfdr.de; Sun, 13 Mar 2022 05:49:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48690)
+	id 1nTKqj-0001VR-Kl
+	for lists+qemu-devel@lfdr.de; Sun, 13 Mar 2022 05:49:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <4166692e9162e81a5ccf9b8302d1aee309dbd7fc@lizzy.crudebyte.com>)
- id 1nTKmq-00074J-8k
- for qemu-devel@nongnu.org; Sun, 13 Mar 2022 05:45:16 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:43671)
+ (envelope-from <106089550cb1dc0f38c9de145f5ef605d7548a04@lizzy.crudebyte.com>)
+ id 1nTKmv-00078s-Kh
+ for qemu-devel@nongnu.org; Sun, 13 Mar 2022 05:45:21 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:36143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <4166692e9162e81a5ccf9b8302d1aee309dbd7fc@lizzy.crudebyte.com>)
- id 1nTKmo-0004gJ-PV
- for qemu-devel@nongnu.org; Sun, 13 Mar 2022 05:45:15 -0400
+ (envelope-from <106089550cb1dc0f38c9de145f5ef605d7548a04@lizzy.crudebyte.com>)
+ id 1nTKmu-0004gQ-15
+ for qemu-devel@nongnu.org; Sun, 13 Mar 2022 05:45:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=TJAeDlUJJUlZd5EXAz9aRvXtuj5klvD+5R2Ki1HIheQ=; b=h8jyz
- 38LvOO3o9XHw7DHB1uacyxlrEHY0Nfo5kq2Au1Fw7wKDBVPxwQjLzUD/WgIbC3aoK2Q0pQIaSOiqr
- +nID0+PcGh5sFFmCDUBUcYctsFdIVRMWygiUTY3VXJnNAXSIPtroTd8/0jp5jld3RRdbxtAXAi/54
- 4iprPAqTb2tb+O7j2XTSXhYYWzFws+zvWigFDeFZK3z6I1DwcrPgnUCzIuD+TUx5hb2f3LfdQt6D2
- ps2VAPpNqKpE7ebPBYfzfb3vkIiQNneb0e+7ONogE/8Caj/kcrMTfbRrnLwcSE7Q4E/5dQwxIpaKj
- WJrgb4OQJcPpUbXepbUlNE7LVloWw==;
-Message-Id: <4166692e9162e81a5ccf9b8302d1aee309dbd7fc.1647163863.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=GQkHOSaKS6+6Wsk7lghzVN6F9aWBoWHorE82nJWkimU=; b=TMdtc
+ usLRSifMv7/p9AhdNd6q38Ze7JIGyqCN7arphb+7tPUPdCE3RRSYlUG77UGifaT52SxUaUYEmpo/k
+ gHY3B2OHb/UdB13gZSdMRAY2WDyorJ7uNvyd9swBgE4eb+6TNPXmI3UxNay5e11Ia4H904/fcUCq3
+ XBHpoyMFZXkrBCo1S0ipGzdp1fz6iSEkMLW8nMQpR1oupW08zr8tFImFI/KnT9BYAq/FFeizFylt8
+ sFZMsbg9lyonKFxdOw0FBNtPxZlZydk7h1Ef9Fsm8J/G82pZH2MVwD0OZZScZ+uqUj8w0UnJEllol
+ u0WjT0TVV2FM4167Lz6ywxzyOfpNA==;
+Message-Id: <106089550cb1dc0f38c9de145f5ef605d7548a04.1647163863.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1647163863.git.qemu_oss@crudebyte.com>
 References: <cover.1647163863.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 13 Mar 2022 10:28:20 +0100
-Subject: [PATCH v3 2/7] tests/9pfs: Twalk with nwname=0
+Date: Sun, 13 Mar 2022 10:28:23 +0100
+Subject: [PATCH v3 3/7] tests/9pfs: compare QIDs in fs_walk_none() test
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=4166692e9162e81a5ccf9b8302d1aee309dbd7fc@lizzy.crudebyte.com;
+ envelope-from=106089550cb1dc0f38c9de145f5ef605d7548a04@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,55 +62,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Send Twalk request with nwname=0. In this case no QIDs should
-be returned by 9p server; this is equivalent to walking to dot.
+Extend previously added fs_walk_none() test by comparing the QID
+of the root fid with the QID of the cloned fid. They should be
+equal.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- tests/qtest/virtio-9p-test.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ tests/qtest/virtio-9p-test.c | 87 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
 
 diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 22bdd74bc1..6c00da03f4 100644
+index 6c00da03f4..a1160f4659 100644
 --- a/tests/qtest/virtio-9p-test.c
 +++ b/tests/qtest/virtio-9p-test.c
-@@ -1002,6 +1002,27 @@ static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
-     do_walk_expect_error(v9p, "non-existent", ENOENT);
+@@ -371,8 +371,15 @@ static P9Req *v9fs_tattach(QVirtio9P *v9p, uint32_t fid, uint32_t n_uname,
+     return req;
  }
  
-+static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
++/* type[1] version[4] path[8] */
+ typedef char v9fs_qid[13];
+ 
++static inline bool is_same_qid(v9fs_qid a, v9fs_qid b)
 +{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    v9fs_qid root_qid;
-+    g_autofree v9fs_qid *wqid = NULL;
-+    P9Req *req;
-+
-+    do_version(v9p);
-+    req = v9fs_tattach(v9p, 0, getuid(), 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rattach(req, &root_qid);
-+
-+    req = v9fs_twalk(v9p, 0, 1, 0, NULL, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rwalk(req, NULL, &wqid);
-+
-+    /* special case: no QID is returned if nwname=0 was sent */
-+    g_assert(wqid == NULL);
++    /* don't compare QID version for checking for file ID equalness */
++    return a[0] == b[0] && memcmp(&a[5], &b[5], 8) == 0;
 +}
 +
- static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
+ /* size[4] Rattach tag[2] qid[13] */
+ static void v9fs_rattach(P9Req *req, v9fs_qid *qid)
  {
-     QVirtio9P *v9p = obj;
-@@ -1435,6 +1456,7 @@ static void register_virtio_9p_test(void)
-     qos_add_test("synth/walk/basic", "virtio-9p", fs_walk,  &opts);
-     qos_add_test("synth/walk/no_slash", "virtio-9p", fs_walk_no_slash,
-                   &opts);
-+    qos_add_test("synth/walk/none", "virtio-9p", fs_walk_none, &opts);
-     qos_add_test("synth/walk/dotdot_from_root", "virtio-9p",
-                  fs_walk_dotdot,  &opts);
-     qos_add_test("synth/walk/non_existent", "virtio-9p", fs_walk_nonexistent,
+@@ -425,6 +432,79 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
+     v9fs_req_free(req);
+ }
+ 
++/* size[4] Tgetattr tag[2] fid[4] request_mask[8] */
++static P9Req *v9fs_tgetattr(QVirtio9P *v9p, uint32_t fid, uint64_t request_mask,
++                            uint16_t tag)
++{
++    P9Req *req;
++
++    req = v9fs_req_init(v9p, 4 + 8, P9_TGETATTR, tag);
++    v9fs_uint32_write(req, fid);
++    v9fs_uint64_write(req, request_mask);
++    v9fs_req_send(req);
++    return req;
++}
++
++typedef struct v9fs_attr {
++    uint64_t valid;
++    v9fs_qid qid;
++    uint32_t mode;
++    uint32_t uid;
++    uint32_t gid;
++    uint64_t nlink;
++    uint64_t rdev;
++    uint64_t size;
++    uint64_t blksize;
++    uint64_t blocks;
++    uint64_t atime_sec;
++    uint64_t atime_nsec;
++    uint64_t mtime_sec;
++    uint64_t mtime_nsec;
++    uint64_t ctime_sec;
++    uint64_t ctime_nsec;
++    uint64_t btime_sec;
++    uint64_t btime_nsec;
++    uint64_t gen;
++    uint64_t data_version;
++} v9fs_attr;
++
++#define P9_GETATTR_BASIC    0x000007ffULL /* Mask for fields up to BLOCKS */
++
++/*
++ * size[4] Rgetattr tag[2] valid[8] qid[13] mode[4] uid[4] gid[4] nlink[8]
++ *                  rdev[8] size[8] blksize[8] blocks[8]
++ *                  atime_sec[8] atime_nsec[8] mtime_sec[8] mtime_nsec[8]
++ *                  ctime_sec[8] ctime_nsec[8] btime_sec[8] btime_nsec[8]
++ *                  gen[8] data_version[8]
++ */
++static void v9fs_rgetattr(P9Req *req, v9fs_attr *attr)
++{
++    v9fs_req_recv(req, P9_RGETATTR);
++
++    v9fs_uint64_read(req, &attr->valid);
++    v9fs_memread(req, &attr->qid, 13);
++    v9fs_uint32_read(req, &attr->mode);
++    v9fs_uint32_read(req, &attr->uid);
++    v9fs_uint32_read(req, &attr->gid);
++    v9fs_uint64_read(req, &attr->nlink);
++    v9fs_uint64_read(req, &attr->rdev);
++    v9fs_uint64_read(req, &attr->size);
++    v9fs_uint64_read(req, &attr->blksize);
++    v9fs_uint64_read(req, &attr->blocks);
++    v9fs_uint64_read(req, &attr->atime_sec);
++    v9fs_uint64_read(req, &attr->atime_nsec);
++    v9fs_uint64_read(req, &attr->mtime_sec);
++    v9fs_uint64_read(req, &attr->mtime_nsec);
++    v9fs_uint64_read(req, &attr->ctime_sec);
++    v9fs_uint64_read(req, &attr->ctime_nsec);
++    v9fs_uint64_read(req, &attr->btime_sec);
++    v9fs_uint64_read(req, &attr->btime_nsec);
++    v9fs_uint64_read(req, &attr->gen);
++    v9fs_uint64_read(req, &attr->data_version);
++
++    v9fs_req_free(req);
++}
++
+ /* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
+ static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t offset,
+                             uint32_t count, uint16_t tag)
+@@ -1009,6 +1089,7 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
+     v9fs_qid root_qid;
+     g_autofree v9fs_qid *wqid = NULL;
+     P9Req *req;
++    struct v9fs_attr attr;
+ 
+     do_version(v9p);
+     req = v9fs_tattach(v9p, 0, getuid(), 0);
+@@ -1021,6 +1102,12 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
+ 
+     /* special case: no QID is returned if nwname=0 was sent */
+     g_assert(wqid == NULL);
++
++    req = v9fs_tgetattr(v9p, 1, P9_GETATTR_BASIC, 0);
++    v9fs_req_wait_for_reply(req, NULL);
++    v9fs_rgetattr(req, &attr);
++
++    g_assert(is_same_qid(root_qid, attr.qid));
+ }
+ 
+ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
 -- 
 2.30.2
 
