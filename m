@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89D34D764E
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 16:20:26 +0100 (CET)
-Received: from localhost ([::1]:44622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E7D4D76F8
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 17:48:39 +0100 (CET)
+Received: from localhost ([::1]:43824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTQ1B-0003vc-IH
-	for lists+qemu-devel@lfdr.de; Sun, 13 Mar 2022 11:20:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38908)
+	id 1nTROY-0002WP-C0
+	for lists+qemu-devel@lfdr.de; Sun, 13 Mar 2022 12:48:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTPzl-0002lw-0y; Sun, 13 Mar 2022 11:18:57 -0400
-Received: from [2a00:1450:4864:20::32f] (port=54862
- helo=mail-wm1-x32f.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nTRNH-0001pq-Al
+ for qemu-devel@nongnu.org; Sun, 13 Mar 2022 12:47:19 -0400
+Received: from [2607:f8b0:4864:20::52b] (port=42685
+ helo=mail-pg1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTPzj-00032w-7b; Sun, 13 Mar 2022 11:18:56 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id r64so194988wmr.4;
- Sun, 13 Mar 2022 08:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1+SJBNUyj3jJZjSCBuNAgCSmt+VFGxXbGY6oE4tuiak=;
- b=UqOUGeqO0gp/OO5wx6W5Kh1iyftjvtTvymSVQyYad4FJpJ0d5NQV4TEGvo1grYV0nt
- eFA8usK8o2LnXRE0AhCZ86OqYbwD0Q0r2G+bdsTBtuEqvFH+UkFIAdibvkPDmx8sqQp1
- wRRgLdqYs21OiH5iaZf0P3AXn0QK0GPAft01VgW5g/+7p0VlA7Uir0twpUcHDnDilzeu
- UWeHlW2GyE2P1tZt3lPyZ9t0vGUlc5qvj8y47L3nO92+AqTEj8buQpnjlfQuYWvlGNyT
- KUTLCXL6ugDxlB9X6tsgJfwl55PkOkVX61Ycx9526oUa+oEYWbpfVyGLlZrdqqMv2CuB
- RXAQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nTRNF-0006M2-QR
+ for qemu-devel@nongnu.org; Sun, 13 Mar 2022 12:47:18 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id o8so11780409pgf.9
+ for <qemu-devel@nongnu.org>; Sun, 13 Mar 2022 09:47:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=JDJmDE3VU/AxiuLUUK4eUdYyjGz+Jh8F19D1ZDHn0PQ=;
+ b=b1cf8Kjk7Zx8SDXNey1jffnoFYUWsMDxzKnl3Mhjng295uicspY17DQGXTKlKEZslT
+ sQb8o/QM+wEKr9jMN3qWNRkGORuFlOco3gWkWQAiCNsvjEQKLKh78BrRlUYCR9Qm9GUD
+ V0bv7pWI63TE0Rjbk26tPXHYLzmr7+nkicjCD/mXnhjZdymi8WHJKjU4bC+7X4wS0M7p
+ z30DLjUSgHexVlJwgkhGwziiWco8yBYcVHqrVETTZo3FOL/hs4mtT/JuIb+isq2rFyfa
+ +YVfKJNYq/jZCGlYCuLMlleZzVaCLbYgZt54CsBU91r4+Im773ckIHqJ7rP42jPzIosL
+ 84eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=1+SJBNUyj3jJZjSCBuNAgCSmt+VFGxXbGY6oE4tuiak=;
- b=YdKnr1Ygd3LsRiSn3RZCCfqx3HtJhIJ4+p1Yh9qZzUdPqFw1TQRkES+LP3ABbVqLhu
- Yxq09O+yHCFemZjoss2ncjW1CbRV+icRjpEMwZ0d/yZ13ejf2jph7PngQXOrFOub+Dtb
- oG0BUcisKh5CBo4gywJ1bYAeQ8WUtRHg3xwQJvDRWYw66XMAjY/dYm1AWtW8hYlBcyi4
- 18njU9+03sRXW6xEMCjyNzfT6hD3tHZtgHlQRKvs9DCQJtgGs4/8xyoJ16uD94T5i4jB
- kNTYk6Ergt4PWqLz2bXJLycPh6xgYewbeBDABzLeFmjgniY8G5kdmp6WSr2E1sGxrE7a
- QMzQ==
-X-Gm-Message-State: AOAM5311Mm144qHDSsSvom6Leh9oVuA3rTFjYMY6vYk9YGUAwN0vmWHN
- jYESDRkkdCn5kLpSNXfakHA=
-X-Google-Smtp-Source: ABdhPJwXj8raSmLK3G9eW5T2NiuO3HEE4sFcnm9yD0YyocBT92BwT9FcGdOFgENsaBg9ZQcnVEFA+A==
-X-Received: by 2002:a1c:4489:0:b0:389:8b0f:9a67 with SMTP id
- r131-20020a1c4489000000b003898b0f9a67mr14552996wma.40.1647184732869; 
- Sun, 13 Mar 2022 08:18:52 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.googlemail.com with ESMTPSA id
- p125-20020a1c2983000000b00389cc36a3bfsm14881763wmp.6.2022.03.13.08.18.49
+ bh=JDJmDE3VU/AxiuLUUK4eUdYyjGz+Jh8F19D1ZDHn0PQ=;
+ b=iEWsEz+jFgVPzG26DlwSLMTFV/oIzLQ7kg1sgBDhPDvf0nWaxCfJjCQIGsKrG5ux9H
+ yWmH44mj3BPe/zYoWTI+zFo8Lb4ZdUzb/rIFO1/EBMdVm3qAvY+tAsnNnTpckX2kJgI7
+ OJhNND1Qqwocn8IOb5W2dNT3Zz03ne1mtFegavsBpf8jYXpf18SyGtnSuZkDKdEyktTJ
+ RKWC/wZpnS8SV0zd6dDFxokFzg9dCAer4xf/dCtt7/ESzy5AAKAzX6gezuFsGg+DFxaH
+ MxutszMn3tsjFX2KqwKyCnbSN+MuDxjNZy+Oick5Dxha3rCIKCJETCSQG/vmukZIsOxM
+ 4Z+w==
+X-Gm-Message-State: AOAM5316o24HoiLcSyIp1SBoMQ7tt9WzNxY9XFYLPk/VB3MP/amxSh5v
+ LybauoUyQ/JIbDXYRf5zla3v/g==
+X-Google-Smtp-Source: ABdhPJzxuwfhMFgz64ZhZnCJQAFFusaWM/XdcY6nUroMJS2TFa4uFQDsTZJ11rZKyeY3p0OpyAreqw==
+X-Received: by 2002:a63:1d6:0:b0:380:a063:660c with SMTP id
+ 205-20020a6301d6000000b00380a063660cmr16963509pgb.149.1647190035808; 
+ Sun, 13 Mar 2022 09:47:15 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ q13-20020a056a00084d00b004f79504ef9csm8702059pfk.3.2022.03.13.09.47.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 13 Mar 2022 08:18:52 -0700 (PDT)
-Message-ID: <1b458cc0-08a0-578d-83f3-90d5d94bd245@redhat.com>
-Date: Sun, 13 Mar 2022 16:18:40 +0100
+ Sun, 13 Mar 2022 09:47:15 -0700 (PDT)
+Message-ID: <da134ea5-ffe9-d544-62b4-1914aad15ab5@linaro.org>
+Date: Sun, 13 Mar 2022 09:47:12 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH experiment 00/35] stackless coroutine backend
+Subject: Re: Question about atomics
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220310124413.1102441-1-pbonzini@redhat.com>
- <Yio4e3FyFHkaZi0B@stefanha-x1.localdomain>
- <a8997433-dfe6-58f7-d5ca-e0ec3e12b7f1@redhat.com>
- <YisWGCF9oIkr5yeB@stefanha-x1.localdomain>
- <a92b23e8-e545-a43d-7283-6c6d215a10f8@redhat.com>
- <Yis9wszzwwu2CGmZ@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Yis9wszzwwu2CGmZ@redhat.com>
+To: Warner Losh <imp@bsdimp.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <CANCZdfpJVWFjrQDiYJy8xiw-THF8_3GNcu=0Pmbvp_6zAJbfHA@mail.gmail.com>
+ <5bb620d4-96f0-cf7f-5530-af529a32c78d@linaro.org>
+ <CANCZdfqwA8HbxYhud8pKxF_f=BMoMtrO+R=zg7GiKesz8_YZvg@mail.gmail.com>
+ <e60a4298-17f3-d3e7-bf94-bf2dbbe83141@redhat.com>
+ <CANCZdfqDSNhQYnb1PWi-753cJ4FvO-JBFmTW_mAAdezOQSDF1g@mail.gmail.com>
+ <CANCZdfp61n8M8Qc9szvfqYcHnqnUADpkPmL9QHW0uDKDffJ2NA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CANCZdfp61n8M8Qc9szvfqYcHnqnUADpkPmL9QHW0uDKDffJ2NA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -98,87 +97,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: hreitz@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, sguelton@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/11/22 13:17, Daniel P. Berrangé wrote:
->> Only files that define or use a coroutine_fn (which includes callers of
->> qemu_coroutine_create) would have to be compiled as C++.
-> Unless I'm misunderstanding what you mean, "define a coroutine_fn"
-> is a very large number of functions/files
-> 
->    $ git grep coroutine_fn | wc -l
->    806
->    $ git grep -l coroutine_fn | wc -l
->    132
-> 
-> Dominated by the block layer of course, but tentacles spreading
-> out into alot of other code.
+On 3/12/22 20:59, Warner Losh wrote:
+> FreeBSD's pthread_mutex is shared between the kernel and user land.
+> So it does a compare and set to take the lock. Uncontested and unheld
+> locks will mean we've taken the lock and return. Contested locks
+> are kicked to the kernel to wait. When userland releases the lock
+> it signals the kernel to wakeup via a system call. The kernel then
+> does a cas to try to acquire the lock. It either returns with the lock
+> held, or goes back to sleep. This we have atomics operating both in
+> the kernel (via standard host atomics) and userland atomics done
+> via start/end_exclusive.
 
-The main other user is 9pfs, then there is:
+You need to use standard host atomics for this case.
 
-hw/remote/message.c
-io/channel.c
-job.c
-migration/savevm.c
-monitor/hmp-cmds.c
-monitor/monitor-internal.h
-monitor/qmp.c
-nbd/client-connection.c
-nbd/client.c
-nbd/server.c
-net/colo-compare.c
-net/filter-mirror.c
-scsi/pr-manager.c
-scsi/qemu-pr-helper.c
-ui/console.c
-util/vhost-user-server.c
-
-> Feels like identifying all callers would be tedious/unpleasant enough,
-> that practically speaking we would have to just compile all of QEMU
-> as C++.
-
-Yes, it's a large amount of code, but it's relatively self-contained. 
-In io/ for example only three functions would have to become C++ 
-(qio_channel_readv_full_all_eof, qio_channel_writev_full_all, 
-qio_channel_yield), and it's easy to move them to a separate file 
-io/channel-coroutine.cc.
-
-Likewise for e.g. util/async.c or util/thread-pool.c (one function each).
-
-The block layer would almost entirely move to C++, that's for sure.  The 
-monitor would be a bit more in the middle, but hardware emulation can 
-remain 100% C.
-
-I haven't gotten the thing to compile or run yet, and I'm not sure how 
-much time I'll have this week, but the change for test-coroutine.c to 
-run should be in the ballpark of this:
-
-  include/qemu/coroutine.h                                 |  26
-  tests/unit/meson.build                                   |   6
-  tests/unit/{test-coroutine.c => test-coroutine.cc}       | 106
-  util/meson.build                                         |   4
-  util/{qemu-coroutine-lock.c => qemu-coroutine-lock.cc}   |  65
-  util/{qemu-coroutine-sleep.c => qemu-coroutine-sleep.cc} |  10
-
-where the changes are for a good part mechanical: switching from "x 
-coroutine_fn" to CoroutineFn<x> entirely so, while adding co_await in 
-front of coroutine calls is half mechanical.  For non-void functions, 
-the compiler can identify all callers (because the old type "int" is not 
-compatible with the new type CoroutineFn<int>).  For void function one 
-could use warn_unused_result.
-
-The question is what is easier to maintain, stack switching code that is 
-becoming less and less portable (status quo with SafeStack, CET and the 
-TLS issues that Stefan has worked on), a mixed C/C++ codebase (C++ 
-coroutines), a custom source-to-source translator (this series).  The 
-third might be more fun, but it would be quite a large enterprise and 
-the C++ compiler writers have already done the work.
-
-A part of the changes is common in both cases, since you cannot have 
-code that can run both inside or outside a coroutine.
-
-Paolo
+r~
 
