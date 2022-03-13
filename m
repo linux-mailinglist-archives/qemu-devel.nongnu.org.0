@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7744F4D76FD
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 17:55:48 +0100 (CET)
-Received: from localhost ([::1]:46562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0E34D7700
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 17:58:28 +0100 (CET)
+Received: from localhost ([::1]:49046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTRVT-0004cP-5w
-	for lists+qemu-devel@lfdr.de; Sun, 13 Mar 2022 12:55:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49092)
+	id 1nTRY3-0006QP-7S
+	for lists+qemu-devel@lfdr.de; Sun, 13 Mar 2022 12:58:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nTRTV-0003w4-1H
- for qemu-devel@nongnu.org; Sun, 13 Mar 2022 12:53:45 -0400
-Received: from [2607:f8b0:4864:20::102f] (port=53951
- helo=mail-pj1-x102f.google.com)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nTRX5-0005lt-3e
+ for qemu-devel@nongnu.org; Sun, 13 Mar 2022 12:57:27 -0400
+Received: from [2607:f8b0:4864:20::a33] (port=35340
+ helo=mail-vk1-xa33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nTRTT-00071z-8R
- for qemu-devel@nongnu.org; Sun, 13 Mar 2022 12:53:44 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id bx5so12411099pjb.3
- for <qemu-devel@nongnu.org>; Sun, 13 Mar 2022 09:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=1Cjjf9SoWMvRO3aE4aQcP2K0+iv0SKlHdL37Bz1vm0g=;
- b=J9blsIS32WDlUqw8uLocrHBksDDjvHHkTLW2zWwvRWbSRatIMUG1IT9tZEEK82LbsY
- tSD0/Rju+dhT0/sYYlBNH0vh3Qi/Dm8T5FN9ivsfk1ijemUn+0udeusivIWUCmKQBNDC
- 9riBocPfoKmGfa3C6+HdL9w60KYJl1Islx4IPyhvu7fCwUBQb+diES+dQNxN0igajgPQ
- uqpVeZoeQgTA7N4UmqD6zuGhcDZuOxFOAgLjYheJzkYDlvIqf3OVuiG678eBCmXiHlVJ
- /5v6D5S7elYD5OkA8H/gI8QylLYBY6CmMjJHdnMALLHZSqeS8wTybVpm5yADOajynspC
- pcBg==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1nTRX3-0007Xj-Bm
+ for qemu-devel@nongnu.org; Sun, 13 Mar 2022 12:57:26 -0400
+Received: by mail-vk1-xa33.google.com with SMTP id e188so7199985vkh.2
+ for <qemu-devel@nongnu.org>; Sun, 13 Mar 2022 09:57:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MTkF4JVZobRb4J0WmY4N2HF0Cgj1ct8w5/pvhE4bDhY=;
+ b=VXHjxNjGElnhW1mbrJgBTcQ/dn1ijpLzVFOxfLsOEhJtOD6YIyLLk2dekHWLhLB+Xg
+ BniIokV29cOCH2nPBUvbGu17J6fKnmaRIVtUMkJTamxBOMmb+MaK+IAwM28WcQntajc5
+ VsBt7GdaD440d1AHbHTFEdwjGSKJ1sdsihaYTGuosca0uo/4GGw+dc0y5zd4eG/wU9To
+ PkUz/KE6J//9BGLaRs8RN2spbR4Z/iN5xJebhiflqjclI2ijG5uO4TRKaE5Ixxl0M7lG
+ doKR3hJH96/xR6pDfaYFHZ2ndfst0zW9zw2Vb/1yO0b4S6oxtCbu1dDepFygj/+YfyTC
+ nNmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1Cjjf9SoWMvRO3aE4aQcP2K0+iv0SKlHdL37Bz1vm0g=;
- b=mEighIa0npo1y29LyQPI4QdMtd+vjKYO6uVMSMD6Knp+SXJsiyS3GoS+xLiMv4s0O8
- 44UGTtItIWP5WfIeWDiKCnC3scij6QpjW/3Y/5NG2ZsjHsvDXHu/TBftC/CZ9grZfrv6
- j0GTi7X4dFeCknyWmdX738L/K/MpRWSHOQIGLCmHuBYH6knJ/e/3YA0tuYusyWcUO+zp
- V/QYvPImr2m8bXHr7GiXgoJSl+c84IeX6D5m0DXjfc8ppOvXzfgZCpJZIrtqKgQkBU5/
- IZxHXVT/R26p72nvPsxfZaPCfZwJ8fNAiZbYpoOed3c0cs4RQ+Qdp1BFBNIKhFoHvuKV
- mg/w==
-X-Gm-Message-State: AOAM530N+5zdU8Tqb6bDuV2CQgGgb/p5kNvm45FmIj9zu0mfwhahNui4
- 8m5xlcuk1FX9PdBrViGa7OUE4w==
-X-Google-Smtp-Source: ABdhPJx9mQUCOUFZJdysMxHEcLDdMMG1lqN3v6uTQKGHkHwoKW+ekOuRj/6qGafDtnOlw695lsXykA==
-X-Received: by 2002:a17:902:e2d3:b0:151:f36c:c456 with SMTP id
- l19-20020a170902e2d300b00151f36cc456mr20128659plc.7.1647190413814; 
- Sun, 13 Mar 2022 09:53:33 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- e6-20020a056a001a8600b004f78e446ff5sm9100717pfv.15.2022.03.13.09.53.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 13 Mar 2022 09:53:33 -0700 (PDT)
-Message-ID: <7230a61c-e962-00ea-3e51-f2396a758a65@linaro.org>
-Date: Sun, 13 Mar 2022 09:53:31 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MTkF4JVZobRb4J0WmY4N2HF0Cgj1ct8w5/pvhE4bDhY=;
+ b=JJRVi+1GZ4HJVKLMUgjXPUeJh73TRvgHACeFfxzAsMabcqRPz/brAk5UZ199pb4dPB
+ 9VauKhc0bmh9pJsEFlkqea9UQfrtiwoaiqywheEDVqxUoyrnZdoOyAciTyo8b5e2mvps
+ h3xlXyclxiZK1oabRsHsVWdesvTYdoEMhhVGpW9cdaPr+mj0CYCCsskO4d0UsjilPqHD
+ ToZlezL6DbCCDZ5yEjtwdo0XIVA589iTLSxoLtkGTnRTa2x/NVs0MWFgSYdJr5HWtKqW
+ XOForUHtbP1ST/8qkvGBvGjC3gwp6a8zHyw+O5kM260ZPVnlssCqkzSjaNSaKReAnICL
+ rQTg==
+X-Gm-Message-State: AOAM533AVo5YyDLdQxERySkos43n38gmM+84XCXQjZ3B5jFb+vKTrDIn
+ 8K/m/0bX7WKp2dcasQYjLAaNFFtvmF7L9BfsvC7dkg==
+X-Google-Smtp-Source: ABdhPJypTdoZDEC7A4GHcObpDlOh7Y995z8QxsXEgItGUT5bw3sElpvujdk7aGbpq+k09KkxzWPNC/DupT4TW/LiVOU=
+X-Received: by 2002:a05:6122:2229:b0:32d:1642:b58b with SMTP id
+ bb41-20020a056122222900b0032d1642b58bmr8338903vkb.27.1647190644098; Sun, 13
+ Mar 2022 09:57:24 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v5 41/48] target/nios2: Introduce shadow register sets
-Content-Language: en-US
-To: Amir Gonnen <amir.gonnen@neuroblade.ai>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20220310112725.570053-1-richard.henderson@linaro.org>
- <20220310112725.570053-42-richard.henderson@linaro.org>
- <PA4PR09MB4880000D11F64087C24E795DEB0E9@PA4PR09MB4880.eurprd09.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <PA4PR09MB4880000D11F64087C24E795DEB0E9@PA4PR09MB4880.eurprd09.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+References: <CANCZdfpJVWFjrQDiYJy8xiw-THF8_3GNcu=0Pmbvp_6zAJbfHA@mail.gmail.com>
+ <5bb620d4-96f0-cf7f-5530-af529a32c78d@linaro.org>
+ <CANCZdfqwA8HbxYhud8pKxF_f=BMoMtrO+R=zg7GiKesz8_YZvg@mail.gmail.com>
+ <e60a4298-17f3-d3e7-bf94-bf2dbbe83141@redhat.com>
+ <CANCZdfqDSNhQYnb1PWi-753cJ4FvO-JBFmTW_mAAdezOQSDF1g@mail.gmail.com>
+ <CANCZdfp61n8M8Qc9szvfqYcHnqnUADpkPmL9QHW0uDKDffJ2NA@mail.gmail.com>
+ <da134ea5-ffe9-d544-62b4-1914aad15ab5@linaro.org>
+In-Reply-To: <da134ea5-ffe9-d544-62b4-1914aad15ab5@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Sun, 13 Mar 2022 10:57:12 -0600
+Message-ID: <CANCZdfoC8ArxyvD3PpBWiYdqONR32oeqioqk42CeoMeKRgecZQ@mail.gmail.com>
+Subject: Re: Question about atomics
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000003819d305da1c75e5"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a33
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: none client-ip=2607:f8b0:4864:20::a33;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa33.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,31 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "marex@denx.de" <marex@denx.de>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/13/22 04:55, Amir Gonnen wrote:
-> (Continue discussion from Re: [PATCH v4 24/33] target/nios2: Introduce shadow register sets)
-> 
->>> How does "cpu_crs_R" work?
->>> ... Otherwise, each gpr access would be indirect. I'm probably missing something here.
-> 
->> They are indirect, but with some optimization.
-> 
-> Why not always access directly?
-> With an EIC each interrupt handler is associated with a specific shadow register set, so we can expect that (on a sane use case) each block always executes on the same register set.
-> If we update cpu_get_tb_cpu_state to translate differently based on STATUS.CRS we would still end up with a single translation for each block.
-> This way the translator could emit direct registers access for shadow registers, and we won't need to rely on optimizations to lower indirect access.
+--0000000000003819d305da1c75e5
+Content-Type: text/plain; charset="UTF-8"
 
-We could do that if we support fewer than 64 shadow register sets:
+On Sun, Mar 13, 2022, 10:47 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-#define TCG_MAX_TEMPS 512
+> On 3/12/22 20:59, Warner Losh wrote:
+> > FreeBSD's pthread_mutex is shared between the kernel and user land.
+> > So it does a compare and set to take the lock. Uncontested and unheld
+> > locks will mean we've taken the lock and return. Contested locks
+> > are kicked to the kernel to wait. When userland releases the lock
+> > it signals the kernel to wakeup via a system call. The kernel then
+> > does a cas to try to acquire the lock. It either returns with the lock
+> > held, or goes back to sleep. This we have atomics operating both in
+> > the kernel (via standard host atomics) and userland atomics done
+> > via start/end_exclusive.
+>
+> You need to use standard host atomics for this case.
+>
 
-Global temps (e.g. cpu_R[]) count against that limit, and 64 * 32 == 2048.
-The maximum number of shadow reg sets you could support like this would be about 8.
+Or use the start/end_exclusive for both by emulating the kernel call, I
+presume? It's the mixing that's the problem, right?
 
+Warner
 
-r~
+>
+
+--0000000000003819d305da1c75e5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Sun, Mar 13, 2022, 10:47 AM Richard Henderson &lt;<=
+a href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 3/12/22 20:59, W=
+arner Losh wrote:<br>
+&gt; FreeBSD&#39;s pthread_mutex is shared between the kernel and user land=
+.<br>
+&gt; So it does a compare and set to take the lock. Uncontested and unheld<=
+br>
+&gt; locks will mean we&#39;ve taken the lock and return. Contested locks<b=
+r>
+&gt; are kicked to the kernel to wait. When userland releases the lock<br>
+&gt; it signals the kernel to wakeup via a system call. The kernel then<br>
+&gt; does a cas to try to acquire the lock. It either returns with the lock=
+<br>
+&gt; held, or goes back to sleep. This we have atomics operating both in<br=
+>
+&gt; the kernel (via standard host atomics) and userland atomics done<br>
+&gt; via start/end_exclusive.<br>
+<br>
+You need to use standard host atomics for this case.<br></blockquote></div>=
+</div><div dir=3D"auto"><br></div><div dir=3D"auto">Or use the start/end_ex=
+clusive for both by emulating the kernel call, I presume? It&#39;s the mixi=
+ng that&#39;s the problem, right?</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Warner=C2=A0</div><div dir=3D"auto"><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex">
+</blockquote></div></div></div>
+
+--0000000000003819d305da1c75e5--
 
