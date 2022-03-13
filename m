@@ -2,59 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DB74D751B
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 13:06:30 +0100 (CET)
-Received: from localhost ([::1]:35474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FEA4D7590
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 14:53:56 +0100 (CET)
+Received: from localhost ([::1]:56338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTMzU-0004Gs-Nb
-	for lists+qemu-devel@lfdr.de; Sun, 13 Mar 2022 08:06:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44114)
+	id 1nTOfT-0001Eq-7y
+	for lists+qemu-devel@lfdr.de; Sun, 13 Mar 2022 09:53:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nTMyE-0003Rj-Lv
- for qemu-devel@nongnu.org; Sun, 13 Mar 2022 08:05:10 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:39871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1nTMyB-0000ZC-Lj
- for qemu-devel@nongnu.org; Sun, 13 Mar 2022 08:05:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=qyszWsz7kVDbaSUHZRprswgzSPXC4AX+i7GaFyFYBDk=; b=MdoHBLFwKXb5I9xhm4VxoI79nX
- 3KScbQID0zA5/GcGzeSrA1wcnbRR1Y3PHMzpHWN4OTeAzuVVQ7oUTOCt1dCynDjHa+68+ZFd/cALo
- B6AW0VZwttsafX4LLW9YsoSMMKgp4DJNQzsEi98vvAWBTm+puhz7pALPTQCNtx51716j/MjlXe20I
- FWhc7nwoBaG6hlJL0Epa6MsJRZS7leFsIsqRFlLJgmoG6Pqb7AhMcXe3ZjYI1keoTUaAtyVnzMsWG
- fetkqrJoxuWSCL1nCNopd9+X+Eh/R85a0n5sLbFFD7PksvZ5fAYGE6c/izAcOz9cn+9eAwc1nSdCA
- QvzlZ2IN26BE8k3XH68b90kFSTB0LXZBNbsBx4e0w9Svr2oESe10CpHZHvqeFT/rdZ9TBDLXTnDxt
- PpgxWYzbTTv4cKQuGv8S3Z1V46nIOWM6fFtWJX0EThJAfabCVkt5hCpWuwE6efWEWvZAlcOq4ZZzQ
- kKSwdzxJTINPBJxIzDCh+bRCwffO0qwJLmzFW5FL2EDatXZvd1V1iDGs7quWXk9jdT2YTAK9gJ+Xk
- rnza0ue1Uye8a9UoPcbmP48v0n4b2QJE493+FgfVT33XVlYMtn/mZZaaYVWmynta8gKGm2VxVSfxk
- zydZM077l6mr9j9b1LV1m82CY++DYk76bDaVGLjYw=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v3 7/7] tests/9pfs: check fid being unaffected in
- fs_walk_2nd_nonexistent
-Date: Sun, 13 Mar 2022 13:05:04 +0100
-Message-ID: <3859307.hTDP4D0zbi@silver>
-In-Reply-To: <29415460.1Kctidrl30@silver>
-References: <cover.1647163863.git.qemu_oss@crudebyte.com>
- <c553fe1cfcfef7560240a40638b5ebc40a992863.1647163863.git.qemu_oss@crudebyte.com>
- <29415460.1Kctidrl30@silver>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nTOdi-0000Pp-1X
+ for qemu-devel@nongnu.org; Sun, 13 Mar 2022 09:52:06 -0400
+Received: from [2a00:1450:4864:20::42b] (port=37858
+ helo=mail-wr1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nTOdg-0007mV-I7
+ for qemu-devel@nongnu.org; Sun, 13 Mar 2022 09:52:05 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id q14so20013458wrc.4
+ for <qemu-devel@nongnu.org>; Sun, 13 Mar 2022 06:52:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=1Tl/He1pzd+/RWUpL52ieckt1dBNj0T4Pgz9XGeAGnU=;
+ b=BKKMIFntubvG04s376l0zii0cMHafIO/snnyAuuHkqQEMrlSm3NZcnlotDA/AbZQBg
+ dHBv19oDuQ3pcGMh0bg+5tv5dcImwiMFCdGcvnjgHoFYTF3EXZp/QpLH+zexhsW2WhkS
+ qSlqaCHtSGyQXCO+hkNKIhcTfHVfm71zLWqtio/bGVUFnowwmoCSc2B21pfLoVy3HdMr
+ 4RCLEOYcty5yXR4hG4LlFneekOfPfk3QSfF5cEbjS90nLK3WCh0TWXypXgfmPQNmEdai
+ DfLYA4P2/9Z8QaU/5L0c/ybG4vkVgNT5axcEqKCPvPFR4cLBBZZlFqQHn8zmKz49scef
+ 0jhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1Tl/He1pzd+/RWUpL52ieckt1dBNj0T4Pgz9XGeAGnU=;
+ b=eKug3masPqiSuazEM9V3sdj6aqS0Jul2rKVys/BC80togxKfX5ooUeVEXnseCdY38Q
+ KVq/i43O5gouTot1Xejc0fHlhgrb5QvS2JsCAFvEobXFTfcUrlkkcqewyO0Aw6peZSFd
+ LOEqVVLzB/blfXemQ+gDeCpxhNG2kJq4YJ7X9nuco4GyzEAstiHAhceyijdAam06UmBv
+ VPCHsKOmFVHH1C1ev/ZeY9HnARTnDQcCCumq1G/X5Bf/TIEYlKiKJFtebSB6Lk/RyHHV
+ T8Mzw/yiqFHksCPTvC/BDqW0HzYSogE0VdjqKLvYOsXJB93vvzQFyhaH3e/ydb+gIQ+V
+ UObg==
+X-Gm-Message-State: AOAM531DuqH5rifH0Hl7OIr7H9E8xAdvvila3sJMkKIZXemIwfXn3bjB
+ JTxNg/vmXaDnKZ9qMorHe9c=
+X-Google-Smtp-Source: ABdhPJzo5GxpLwPCVEyFe3gVvbRqjSffUmSckTTLkt+I1Qr+k0Bz7upJhGJ0eXxop4o2CNzRgkiDHQ==
+X-Received: by 2002:a5d:5918:0:b0:1f0:3295:f4ec with SMTP id
+ v24-20020a5d5918000000b001f03295f4ecmr13435920wrd.451.1647179522617; 
+ Sun, 13 Mar 2022 06:52:02 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ r13-20020a05600c35cd00b00389e8aaad51sm9664318wmq.12.2022.03.13.06.52.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 13 Mar 2022 06:52:02 -0700 (PDT)
+Message-ID: <7d1bde36-7d4b-2ebc-68b1-c8adfbdc5473@gmail.com>
+Date: Sun, 13 Mar 2022 14:52:00 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH v2 04/11] edk2: .git can be a file
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20220311053759.875785-1-kraxel@redhat.com>
+ <20220311053759.875785-5-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220311053759.875785-5-kraxel@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,141 +94,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sonntag, 13. M=E4rz 2022 11:27:56 CET Christian Schoenebeck wrote:
-> On Sonntag, 13. M=E4rz 2022 10:28:32 CET Christian Schoenebeck wrote:
-> > Extend previously added test case by checking that fid is unaffected
-> > by 'Twalk' request (i.e. when 2nd path component of request being
-> > invalid). Do that by comparing the QID of root fid with QID of walked
-> > fid; they should be identical.
-> >=20
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
-> >=20
-> >  tests/qtest/virtio-9p-test.c | 14 +++++++++++---
-> >  1 file changed, 11 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> > index f6e78d388e..b9c6819d01 100644
-> > --- a/tests/qtest/virtio-9p-test.c
-> > +++ b/tests/qtest/virtio-9p-test.c
-> > @@ -721,14 +721,19 @@ static void fs_version(void *obj, void *data,
-> > QGuestAllocator *t_alloc) do_version(obj);
-> >=20
-> >  }
-> >=20
-> > -static void do_attach(QVirtio9P *v9p)
-> > +static void do_attach_rqid(QVirtio9P *v9p, v9fs_qid *qid)
-> >=20
-> >  {
-> > =20
-> >      P9Req *req;
-> >     =20
-> >      do_version(v9p);
-> >      req =3D v9fs_tattach(v9p, 0, getuid(), 0);
-> >      v9fs_req_wait_for_reply(req, NULL);
-> >=20
-> > -    v9fs_rattach(req, NULL);
-> > +    v9fs_rattach(req, qid);
-> > +}
-> > +
-> > +static void do_attach(QVirtio9P *v9p)
-> > +{
-> > +    do_attach_rqid(v9p, NULL);
-> >=20
-> >  }
-> > =20
-> >  static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
-> >=20
-> > @@ -1101,19 +1106,22 @@ static void fs_walk_2nd_nonexistent(void *obj,
-> > void
-> > *data, {
-> >=20
-> >      QVirtio9P *v9p =3D obj;
-> >      alloc =3D t_alloc;
-> >=20
-> > +    v9fs_qid root_qid;
-> >=20
-> >      uint16_t nwqid;
-> >      g_autofree v9fs_qid *wqid =3D NULL;
-> >      g_autofree char *path =3D g_strdup_printf(
-> >     =20
-> >          QTEST_V9FS_SYNTH_WALK_FILE "/non-existent", 0
-> >     =20
-> >      );
-> >=20
-> > -    do_attach(v9p);
-> > +    do_attach_rqid(v9p, &root_qid);
-> >=20
-> >      do_walk_rqids(v9p, path, &nwqid, &wqid);
-> >      /*
-> >     =20
-> >       * The 9p2000 protocol spec says: "nwqid is therefore either nwname
-> >       or
-> >=20
-> > the * index of the first elementwise walk that failed."
-> >=20
-> >       */
-> >     =20
-> >      assert(nwqid =3D=3D 1);
-> >=20
-> > +    /* expect fid being unaffected by walk */
-> > +    g_assert(wqid && wqid[0] && is_same_qid(root_qid, wqid[0]));
->=20
-> Mmm, that's actually not checking whether fid was unaffected by the walk.=
- It
-> just checks whether the QID returned by Rwalk equals the root QID, period.
->=20
-> I suggest I leave this check here (just remove the false comment there),
-> it's still OK to do that check, but additionally I would send a Tgetatrr =
-on
-> the walked fid to do the actual "fid unaffected" check?
->=20
-> I'll wait to see if you spot something else before posting any v4.
+On 11/3/22 06:37, Gerd Hoffmann wrote:
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>   roms/Makefile.edk2 | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-There is something more cheesy: wqid[0] (i.e. first subdir) should actually=
-=20
-*NOT* be equal to the root QID. The g_assert check above however does not=20
-fail.
-
-After debugging this, the root cause seems to be that the 'synth' driver's=
-=20
-root node has the same inode number (zero) as the first subdirectory. The=20
-following fixes this synth driver bug for me:
-
-=2D-- a/hw/9pfs/9p-synth.c
-+++ b/hw/9pfs/9p-synth.c
-@@ -92,7 +92,7 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mode,
-         }
-     }
-     /* Add the name */
-=2D    node =3D v9fs_add_dir_node(parent, mode, name, NULL, synth_node_coun=
-t++);
-+    node =3D v9fs_add_dir_node(parent, mode, name, NULL, ++synth_node_coun=
-t);
-     v9fs_add_dir_node(node, parent->attr->mode, "..",
-                       parent->attr, parent->attr->inode);
-     v9fs_add_dir_node(node, node->attr->mode, ".",
-@@ -130,7 +130,7 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int=
-=20
-mode,
-     mode =3D ((mode & 0777) | S_IFREG);
-     node =3D g_malloc0(sizeof(V9fsSynthNode));
-     node->attr         =3D &node->actual_attr;
-=2D    node->attr->inode  =3D synth_node_count++;
-+    node->attr->inode  =3D ++synth_node_count;
-     node->attr->nlink  =3D 1;
-     node->attr->read   =3D read;
-     node->attr->write  =3D write;
-
-That way root node would have inode number zero, 1st subdir inode 1, and so=
-=20
-on.
-
-Best regards,
-Christian Schoenebeck
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
