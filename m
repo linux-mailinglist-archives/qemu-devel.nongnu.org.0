@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7F74D7135
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Mar 2022 22:56:39 +0100 (CET)
-Received: from localhost ([::1]:41296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213CC4D7228
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Mar 2022 03:13:58 +0100 (CET)
+Received: from localhost ([::1]:52824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nT9j3-0006lq-VD
-	for lists+qemu-devel@lfdr.de; Sat, 12 Mar 2022 16:56:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42728)
+	id 1nTDk4-0006OM-Pr
+	for lists+qemu-devel@lfdr.de; Sat, 12 Mar 2022 21:13:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nT9iB-00062e-GL
- for qemu-devel@nongnu.org; Sat, 12 Mar 2022 16:55:43 -0500
-Received: from [2a00:1450:4864:20::534] (port=41664
- helo=mail-ed1-x534.google.com)
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nTDiS-0005hw-Qa
+ for qemu-devel@nongnu.org; Sat, 12 Mar 2022 21:12:17 -0500
+Received: from mta02.hs-regensburg.de ([194.95.104.12]:56810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1nT9i9-0002n4-S9
- for qemu-devel@nongnu.org; Sat, 12 Mar 2022 16:55:43 -0500
-Received: by mail-ed1-x534.google.com with SMTP id c20so15048924edr.8
- for <qemu-devel@nongnu.org>; Sat, 12 Mar 2022 13:55:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:subject:in-reply-to:references:message-id:mime-version
- :content-transfer-encoding;
- bh=HPG4oh+zTxIr6OUOo88QsbxwEUjR8fhgfOa5FU4EAOw=;
- b=YBWQsbCvEC2rmzC/0y13XthqifyqvGsOE0zhH2y6YlwOZ91XM6v2+ib8jymFGPiybW
- HGWP/BU4a9s+w4aB2R9pn506zhJaWLqxTZ+bK0PwwGa7Yv8Ms6OObQaBAxKZ3sClncLW
- hKjkMhZk5ZWgUe911P0gJZZhQ/SQ0TLHCWEHeFo7ssfY6H+MCL5IyKrH9L0dVsWY4NN9
- YATq0fRGkwVBZc43SJs4+04ld5Qcp62u6051yZkhipFrYUQ9aUSvGl1+e0O4ajsNCT75
- RBlcELXV3OzKSeNWxVXr3NELBiqXPw8QYG2vaV/AcmJfbs/LBFdbIrvr0NnRmH2g9CSb
- 5A4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:subject:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=HPG4oh+zTxIr6OUOo88QsbxwEUjR8fhgfOa5FU4EAOw=;
- b=xj6XC7RXVr0PFddB6lW5gUUgRoV3z2o7+KuyMURa2Q2YRIGU7LC+KA5LVs8mHTmsKl
- Raj3lhjO9t2B4nOZxTaKS3j7UL8e6DrYATOtAReEH8cairN6JVNWCIpydJkZX1wqBX8I
- LLmXQ7bR9x7983NRym7telHQ6OFlkHClma5+HnCSNqi8b+H/Zr02V475dBtwjg9EJdVN
- tcNqK+RExKbKwYCZA5hZlR+QD5frVl9YeRYEGio7aIfCuElDGduYG+TAVWhvq1r0g6IC
- f9s90+IDzB7UJDcloDE0Gnr24jr8G1bUOtuDYPEm6jg8t+8kZPc4PESv9HNhjClxVCh2
- qXEQ==
-X-Gm-Message-State: AOAM5329NG7L+FFmdiRb1KvGWjydFoLQnap1MNxNhFHmgjlE2Sbpbq6y
- Uy5TJUAwDs4OUSLd0OdOMo4=
-X-Google-Smtp-Source: ABdhPJx7De/6MQCaGie1SwWrgMMh3lkxwHDSDXUz6Jb58zZNO6PaCI964/Gd8rhhLRyqpTfS1AgOoA==
-X-Received: by 2002:a05:6402:34ce:b0:417:7a71:c4b9 with SMTP id
- w14-20020a05640234ce00b004177a71c4b9mr7786067edc.329.1647122139330; 
- Sat, 12 Mar 2022 13:55:39 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-089-014-178-143.89.14.pool.telefonica.de.
- [89.14.178.143]) by smtp.gmail.com with ESMTPSA id
- gv9-20020a170906f10900b006d7128b2e6fsm4789510ejb.162.2022.03.12.13.55.38
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 12 Mar 2022 13:55:38 -0800 (PST)
-Date: Sat, 12 Mar 2022 21:54:46 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_0/7=5D_isa=3A_Resolve_unn?=
- =?US-ASCII?Q?eeded_IRQ_attributes_from_ISADevice?=
-In-Reply-To: <43235477-83c2-1101-93df-25d52a9ac529@gmail.com>
-References: <20220301220037.76555-1-shentey@gmail.com>
- <43235477-83c2-1101-93df-25d52a9ac529@gmail.com>
-Message-ID: <E2FAC791-3706-401C-BD6C-AF9874B91DFA@gmail.com>
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nTDiQ-0003hJ-BP
+ for qemu-devel@nongnu.org; Sat, 12 Mar 2022 21:12:16 -0500
+Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
+ [IPv6:2001:638:a01:8013::93])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "E16S03", Issuer "E16S03" (not verified))
+ by mta02.hs-regensburg.de (Postfix) with ESMTPS id 4KGNTZ4tfnzxws
+ for <qemu-devel@nongnu.org>; Sun, 13 Mar 2022 03:12:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
+ s=mta02-20211122; t=1647137522;
+ bh=ymEKHJa6velwPY9BWuJz2srxSdQiWqKmWoVKHeBrrc0=;
+ h=Date:From:Subject:To:CC:From;
+ b=jcLsOiiXmnVEolOWJrcBhO1aWUWwOU7wwnc2XQSWy+aIWKV7VuU1vusST6S6ftR3L
+ SgFFMN4GjelApcjrkiMkGuEHRaS9F22CCxn6+KPuVf/zauL6saBq5rmw8tIrSqL4GN
+ PYLUJG4socaMoWgzTIvNU3Nx11IHGFMDYK/N823dceNhWf7Oy3m3JT4nsYTxRogLP/
+ OAywsUx8NFW0k1U4ImiNS3+prunSd7F4ZX3QFAfjGL+nWQejCYsZUdf/6DmUaeBbCV
+ 2oIG5z8i/NiKSqxbklC13W7TxKnriYPV8tixRyz9j7F0u2WX0lqowf4HJ1DJUofHf9
+ 2ZRSJs94AiibA==
+Received: from [IPV6:2a02:810d:8fc0:44bc::36bc] (2001:638:a01:8013::138) by
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sun, 13 Mar 2022 03:12:02 +0100
+Message-ID: <57412635-6b46-823b-14a4-0ee694ace5b8@oth-regensburg.de>
+Date: Sun, 13 Mar 2022 03:12:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+Subject: QEMU+KVM on RISC-V + Hypervisor Extension
+To: <qemu-devel@nongnu.org>
+Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [2001:638:a01:8013::138]
+X-ClientProxiedBy: E16S03.hs-regensburg.de (2001:638:a01:8013::93) To
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93)
+Received-SPF: pass client-ip=194.95.104.12;
+ envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta02.hs-regensburg.de
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HEXHASH_WORD=1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,97 +75,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefan Huber <stefan.huber@oth-regensburg.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 7=2E M=C3=A4rz 2022 00:34:27 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
-philippe=2Emathieu=2Edaude@gmail=2Ecom>:
->On 1/3/22 23:00, Bernhard Beschow wrote:
->
->> The IRQ attributes are mostly used for printing ('info qtree') and ther=
-e is one
->> user, hw/ppc/pnv, to use the attributes directly=2E As it turns out, th=
-e printing
->> is redundant if the IRQ numbers are exposed as QOM properties and hw/pp=
-c/pnv
->> can be easily ported away=2E
->>=20
->> The patch series is structured as follows: Patch 1-3 QOM'ify the last d=
-evices
->> which rely on printing their IRQ numbers via the ISADevice attributes=
-=2E Patch
->> 4 and 5 remove the last users of the ISADevice attributes such that the=
-y can be
->> removed in patch 6=2E The remainder of the patch series is cleanup=2E
->>=20
->> Patch 6 turns isa_init_irq() into a trivial wrapper for isa_get_irq()=
-=2E That is,
->> the former function becomes redundant=2E All users are therefore conver=
-ted to use
->> isa_get_irq() directly=2E Finally, the last patch removes the now unuse=
-d
->> isa_init_irq()=2E
->>=20
->>=20
->> Bernhard Beschow (7):
->>    hw/rtc/mc146818rtc: QOM'ify IRQ number
->>    hw/rtc/m48t59-isa: QOM'ify IRQ number
->>    hw/input/pckbd: QOM'ify IRQ numbers
->>    hw/isa/isa-bus: Remove isabus_dev_print()
->>    hw/ppc/pnv: Determine ns16550's IRQ number from QOM property
->>    isa: Drop unused attributes from ISADevice
->>    isa: Inline and remove one-line isa_init_irq()
->>=20
->>   hw/audio/cs4231a=2Ec           |  2 +-
->>   hw/audio/gus=2Ec               |  2 +-
->>   hw/audio/sb16=2Ec              |  2 +-
->>   hw/block/fdc-isa=2Ec           |  2 +-
->>   hw/char/parallel=2Ec           |  2 +-
->>   hw/char/serial-isa=2Ec         |  2 +-
->>   hw/ide/isa=2Ec                 |  2 +-
->>   hw/input/pckbd=2Ec             | 26 +++++++++++++++++++++----
->>   hw/ipmi/isa_ipmi_bt=2Ec        |  2 +-
->>   hw/ipmi/isa_ipmi_kcs=2Ec       |  2 +-
->>   hw/isa/isa-bus=2Ec             | 37 +--------------------------------=
----
->>   hw/isa/piix4=2Ec               |  2 +-
->>   hw/net/ne2000-isa=2Ec          |  2 +-
->>   hw/ppc/pnv=2Ec                 |  5 ++++-
->>   hw/rtc/m48t59-isa=2Ec          |  9 ++++++++-
->>   hw/rtc/mc146818rtc=2Ec         | 13 +++++++++++--
->>   hw/tpm/tpm_tis_isa=2Ec         |  2 +-
->>   include/hw/isa/isa=2Eh         |  3 ---
->>   include/hw/rtc/mc146818rtc=2Eh |  1 +
->>   tests/qemu-iotests/172=2Eout   | 26 -------------------------
->>   20 files changed, 59 insertions(+), 85 deletions(-)
->>=20
->
->Please avoid posting 2 series going in different directions but touching
->the same files, and expect the same person to take them both and resolve
->resulting conflicts=2E Post one, then the second one based on the previou=
-s
->one (and so on if multiple steps)=2E Anyway, for now I adapted this serie=
-s
->on top of your "malta: Fix PCI IRQ levels" series and queued to mips=2E
+Hi,
 
-Hi Phil,
+I'm trying to run Linux/QEMU+KVM inside an emulated
+qemu-system-riscv64 VM (x86 host). On latest&greatest QEMU (1416688c53), 
+I run Linux inside QEMU. On host side:
 
-I'm sorry to have caused you issues with my two patch series=2E In hindsig=
-ht I should have communicated the merge conflict beforehand=2E I didn't bec=
-ause I considered it a special case where two logically independent series =
-happened to be created by the same person=2E Now I know that communicating =
-it earlier had allowed us to find a solution beforehand=2E After all, I'm m=
-ore than happy helping out to accellerate integration of my patches=2E
+qemu-system-riscv64 -nographic \
+         -machine virt \
+         -cpu 'rv64,h=true' \
+         -smp 8 -m 8G \
+         -bios $latest_opensbi \
+         -kernel $latest_upstream_linux \
+	[…snip…]
 
-Anyway, thanks for having picked this up and also thanks a lot for your st=
-eady stream of motivating review comments!
+Inside that machine, I boot Linux with KVM enabled:
 
-Best regards,
-Bernhard
+[…]
+[    0.228939] kvm [1]: hypervisor extension available
+[    0.229000] kvm [1]: using Sv48x4 G-stage page table format
+[    0.229033] kvm [1]: VMID 14 bits available
+[…]
 
->
->Thanks,
->
->Phil=2E
+KVM seems to load correctly. Inside that machine, I compiled QEMU from 
+the same sources with the KVM accelerator enabled. When I try to start 
+QEMU with KVM enabled, I get
 
+./qemu-system-riscv64 -nographic \
+	-monitor none \
+	-machine virt \
+	-smp 1 -m 1G \
+	-bios ./pc-bios/opensbi-riscv64-generic-fw_dynamic.bin \
+	-serial stdio \
+	-enable-kvm
+
+[ 4860.559194] kvm [9942]: VCPU exit error -95
+[ 4860.584262] kvm [9942]: SEPC=0x0 SSTATUS=0x200004120 HSTATUS=0x2002001c0
+[ 4860.586839] kvm [9942]: SCAUSE=0x14 STVAL=0x0 HTVAL=0x0 HTINST=0x0
+
+on the ringbuffer, together with a register dump of qemu [1] on the 
+console. Needless to say, but without -enable-kvm, it works fine.
+
+As far as I see that, SCAUSE=0x14 reports a 'Instruction Guest PF', 
+which would be kind of correct, if the guest's PC really tries to 
+execute at phys 0x0. DRAM of the 'virt' machine definition should start 
+at 0x80000000, where OpenSBI resides. So I wonder if an erroneous reset 
+PC might be the culprit…
+
+Before digging deeper into that issue, I wanted to ask if Qemu/KVM 
+inside an emulated riscv64+H-extension is actually supported, or if this 
+is a known bug and has some ongoing work.
+
+Thanks
+   Ralf
+
+[1]
+
+  pc       0000000000000000
+  mhartid  0000000000000000
+  mstatus  0000000200000000
+  mip      0000000000000000
+  mie      0000000000000000
+  mideleg  0000000000000000
+  medeleg  0000000000000000
+  mtvec    0000000000000000
+  stvec    0000000000000000
+  mepc     0000000000000000
+  sepc     0000000000000000
+  mcause   0000000000000000
+  scause   0000000000000000
+  mtval    0000000000000000
+  stval    0000000000000000
+  mscratch 0000000000000000
+  sscratch 0000000000000000
+  satp     0000000000000000
+  x0/zero  0000000000000000 x1/ra    0000000000000000 x2/sp 
+0000000000000000 x3/gp    0000000000000000
+  x4/tp    0000000000000000 x5/t0    0000000000000000 x6/t1 
+0000000000000000 x7/t2    0000000000000000
+  x8/s0    0000000000000000 x9/s1    0000000000000000 x10/a0 
+0000000000000000 x11/a1   00000000bf000000
+  x12/a2   0000000000000000 x13/a3   0000000000000000 x14/a4 
+0000000000000000 x15/a5   0000000000000000
+  x16/a6   0000000000000000 x17/a7   0000000000000000 x18/s2 
+0000000000000000 x19/s3   0000000000000000
+  x20/s4   0000000000000000 x21/s5   0000000000000000 x22/s6 
+0000000000000000 x23/s7   0000000000000000
+  x24/s8   0000000000000000 x25/s9   0000000000000000 x26/s10 
+0000000000000000 x27/s11  0000000000000000
+  x28/t3   0000000000000000 x29/t4   0000000000000000 x30/t5 
+0000000000000000 x31/t6   0000000000000000
 
