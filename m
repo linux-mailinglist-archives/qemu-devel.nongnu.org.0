@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676E24D7F05
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:51:45 +0100 (CET)
-Received: from localhost ([::1]:36848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F7D4D7F30
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:54:41 +0100 (CET)
+Received: from localhost ([::1]:45192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nThMe-0002Ao-EP
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:51:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49400)
+	id 1nThPU-0007qa-UJ
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:54:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3r-00086w-I4; Mon, 14 Mar 2022 05:32:21 -0400
-Received: from [2a00:1450:4864:20::32c] (port=44888
- helo=mail-wm1-x32c.google.com)
+ id 1nTh3s-00087E-5e; Mon, 14 Mar 2022 05:32:21 -0400
+Received: from [2a00:1450:4864:20::329] (port=51729
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3o-00086U-RZ; Mon, 14 Mar 2022 05:32:18 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- bg31-20020a05600c3c9f00b00381590dbb33so9212226wmb.3; 
+ id 1nTh3p-000874-UT; Mon, 14 Mar 2022 05:32:19 -0400
+Received: by mail-wm1-x329.google.com with SMTP id q20so8921478wmq.1;
  Mon, 14 Mar 2022 02:32:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Mg5iWtD7MOJT8Ls3DbxLZ9+nVrhyeni7925+IBj1RuU=;
- b=LdGmA48D/mmgSlDiR9XEI1NoUicM6uAxEnnsqJq3z+j50D/v20b8WwWWvbF3yUPOdY
- U6ausHt8VBjhVx0F+xJjXjk4MI1rF4dFXqhWRgOv8z4EEmtceBhM1Dh6HzcJHujivS1s
- rk+sQJgPrEAjLVVUezzc5inROIeoPnsCvcDTg1DNg2Aa8uxUFpFxMtQyPl80+DluUUji
- cgeikx6gr2G6L98wbxrbYdvTcozAdBFurIe5bpJfHUkRMklPd8kYVhP62GTKd39xJnku
- hrDV6MpLFUIlZnFB3Fdukhx6wKpoxKU7B1MIbS1lJc3afVOt4786Av7q+xow+hUkUwjj
- W92g==
+ bh=5gKynCMYyRNRTzQclqK3xFMvugJIfkouCQrKO97fTI4=;
+ b=WZiPNWaiGbpN+9Pp2TgnEssqPq6a9zrMCRdoeEOw6D/GWIpXapQSNwbYLceWPf4+8T
+ YnxJnRoBYxG7C0Xq0c2au6houlv7kaM+3zocLKNgOOgpvLzd3ZIPxa0Q0ruL5ZgibVgQ
+ jSe3Vl5tmgDMzqei/N9Nctab3m+/Sn+3H+sHfua/SueAqL4+JBRQ6w1fnBKm7mxz0wa/
+ 0orxS9hzqq4GocYZkdXWsQN2EPVtUwKAzBR9pjg+q816NM0+4SCSBDXQO6vDZx5gzkjz
+ zE4AERdmQjxKz6RTOr3pf8gE/YRk9d/n7FlA8ctgcKOABfQzSq/QFHg75Fl8fxUvTthW
+ FLRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Mg5iWtD7MOJT8Ls3DbxLZ9+nVrhyeni7925+IBj1RuU=;
- b=uEUWaSOQcFSt4Jzj2/hK5iGi/ZcgFbXkh7U1aoGFMryGrUf9UOIzUw6ksRW+XK3AWW
- SpwmwFI8nVaCWKYiKNLEalm8u+0QJ3Nh1squpHiJq9kSUDBN7a1y0/qzqDeISHgKrPCY
- EPRpBfEWUUrCOOywoq8RloowjgbJdRwH7aR48/qT9bpsOVnJsL9BlRMhkuHX8+DYCwmA
- DX4+nw7KkSqPTGe9gb4WiyXqeF23rpjXS+CHchF3MKm1x0TPzmtTLskLjErm2jE6RsKt
- SdkAwuoJzwL/7+Ox9FZscP0rG3O/sjJ/9NNYYruo/pC2JCPb/PQ/y1GvN47zl/HJwgd1
- p2mQ==
-X-Gm-Message-State: AOAM533smjR2tMqXGxHF05NihKm0QA/1SFItef6+/Q9kfwho8dMWRaua
- wuuyYvsh4zBqxDSnnaPdSzo7bGw52U4=
-X-Google-Smtp-Source: ABdhPJzN9rHnWdPKTIszXt7Mhfd15gCG1Cxh/84bpMzlBXmtSPTitrxs5UX229IedfcADlkam/YjZQ==
-X-Received: by 2002:a05:600c:1548:b0:389:cde3:35cc with SMTP id
- f8-20020a05600c154800b00389cde335ccmr21552810wmg.133.1647250335115; 
+ bh=5gKynCMYyRNRTzQclqK3xFMvugJIfkouCQrKO97fTI4=;
+ b=SQP9IZHOm4/xdSD8FYLGgUFywKpRHM3D4qeTly4HdDuEw74+eOzTNUS3QIhf9WWS9L
+ 1cd6CnLLJHO8IVu5tOgRi/LwqFnifCCJUAbs85eWx89dhdEs56G7n+HzesnYUODVDbbi
+ BcL/pIbVWTlXEHYd6KkyYLQN+FMBl7gPZBzDmoBJVqfT+wkw9JQvzXUkrqqAFvfvjZ14
+ zUmiB3bkwB9rc36DvrdzREZcsuopOCu9H52Bi/aYzNKyF+p2cAKMY7OHGHmpU4X3ky+x
+ P/Ulrd84J50itM5ii40kmAsCzk++c2ysG4suvUYLXqr9AvmNIWrsCY9dJXOuXPz2coI8
+ 2NTw==
+X-Gm-Message-State: AOAM531w+e4qeKELQTuBLr1tsW6a465vZWKYYnr5szREPvI0ywHH49rl
+ GQ7tWq13DO3Qkz0Mbz+VcmzRKwW4Uog=
+X-Google-Smtp-Source: ABdhPJyez6RJGmYyN90MhV/5NxgGRfoke0e31FjTx1+vLcIlyeMO9FdHgRBEKlZbZTgjBHJ3j45a1w==
+X-Received: by 2002:a7b:c150:0:b0:389:95ee:4a20 with SMTP id
+ z16-20020a7bc150000000b0038995ee4a20mr16829799wmi.145.1647250335942; 
  Mon, 14 Mar 2022 02:32:15 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.14
+ l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 02:32:14 -0700 (PDT)
+ Mon, 14 Mar 2022 02:32:15 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH experiment 12/16] remove "new" keyword from trace-events
-Date: Mon, 14 Mar 2022 10:31:59 +0100
-Message-Id: <20220314093203.1420404-13-pbonzini@redhat.com>
+Subject: [PATCH experiment 13/16] disable some code
+Date: Mon, 14 Mar 2022 10:32:00 +0100
+Message-Id: <20220314093203.1420404-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314093203.1420404-1-pbonzini@redhat.com>
 References: <20220314093203.1420404-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -93,48 +92,208 @@ Cc: kwolf@redhat.com, hreitz@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is invalid in C++.
+Disable a lot of code that I can't be bothered to convert right now.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/trace-events | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ include/qemu/coroutine.h    |  2 ++
+ qapi/qmp-dispatch.c         |  2 ++
+ tests/unit/meson.build      |  2 +-
+ tests/unit/test-coroutine.c |  6 ++++++
+ util/async.c                |  2 ++
+ util/meson.build            | 10 +++++-----
+ util/qemu-coroutine-lock.c  |  2 ++
+ util/qemu-coroutine-sleep.c |  2 ++
+ util/thread-pool.c          |  2 ++
+ 9 files changed, 24 insertions(+), 6 deletions(-)
 
-diff --git a/util/trace-events b/util/trace-events
-index 5bc718eff7..9e23c11d11 100644
---- a/util/trace-events
-+++ b/util/trace-events
-@@ -3,8 +3,8 @@
- # aio-posix.c
- run_poll_handlers_begin(void *ctx, int64_t max_ns, int64_t timeout) "ctx %p max_ns %" PRId64 " timeout %" PRId64
- run_poll_handlers_end(void *ctx, bool progress, int64_t timeout) "ctx %p progress %d new timeout %" PRId64
--poll_shrink(void *ctx, int64_t old, int64_t new) "ctx %p old %" PRId64" new %" PRId64
--poll_grow(void *ctx, int64_t old, int64_t new) "ctx %p old %" PRId64" new %" PRId64
-+poll_shrink(void *ctx, int64_t prev, int64_t curr) "ctx %p old %" PRId64" new %" PRId64
-+poll_grow(void *ctx, int64_t prev, int64_t curr) "ctx %p old %" PRId64" new %" PRId64
- poll_add(void *ctx, void *node, int fd, unsigned revents) "ctx %p node %p fd %d revents 0x%x"
- poll_remove(void *ctx, void *node, int fd) "ctx %p node %p fd %d"
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index 428e97d946..ac9891502e 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -200,6 +200,7 @@ typedef struct CoQueue {
+  */
+ void qemu_co_queue_init(CoQueue *queue);
  
-@@ -57,13 +57,13 @@ hbitmap_reset(void *hb, uint64_t start, uint64_t count, uint64_t sbit, uint64_t
- hbitmap_set(void *hb, uint64_t start, uint64_t count, uint64_t sbit, uint64_t ebit) "hb %p items %" PRIu64",%" PRIu64" bits %" PRIu64"..%" PRIu64
++#if 0
+ /**
+  * Adds the current coroutine to the CoQueue and transfers control to the
+  * caller of the coroutine.  The mutex is unlocked during the wait and
+@@ -208,6 +209,7 @@ void qemu_co_queue_init(CoQueue *queue);
+ #define qemu_co_queue_wait(queue, lock) \
+     qemu_co_queue_wait_impl(queue, QEMU_MAKE_CO_LOCKABLE(lock))
+ void coroutine_fn qemu_co_queue_wait_impl(CoQueue *queue, QemuCoLockable *lock);
++#endif
  
- # lockcnt.c
--lockcnt_fast_path_attempt(const void *lockcnt, int expected, int new) "lockcnt %p fast path %d->%d"
--lockcnt_fast_path_success(const void *lockcnt, int expected, int new) "lockcnt %p fast path %d->%d succeeded"
--lockcnt_unlock_attempt(const void *lockcnt, int expected, int new) "lockcnt %p unlock %d->%d"
--lockcnt_unlock_success(const void *lockcnt, int expected, int new) "lockcnt %p unlock %d->%d succeeded"
--lockcnt_futex_wait_prepare(const void *lockcnt, int expected, int new) "lockcnt %p preparing slow path %d->%d"
-+lockcnt_fast_path_attempt(const void *lockcnt, int expected, int newval) "lockcnt %p fast path %d->%d"
-+lockcnt_fast_path_success(const void *lockcnt, int expected, int newval) "lockcnt %p fast path %d->%d succeeded"
-+lockcnt_unlock_attempt(const void *lockcnt, int expected, int newval) "lockcnt %p unlock %d->%d"
-+lockcnt_unlock_success(const void *lockcnt, int expected, int newval) "lockcnt %p unlock %d->%d succeeded"
-+lockcnt_futex_wait_prepare(const void *lockcnt, int expected, int newval) "lockcnt %p preparing slow path %d->%d"
- lockcnt_futex_wait(const void *lockcnt, int val) "lockcnt %p waiting on %d"
--lockcnt_futex_wait_resume(const void *lockcnt, int new) "lockcnt %p after wait: %d"
-+lockcnt_futex_wait_resume(const void *lockcnt, int newval) "lockcnt %p after wait: %d"
- lockcnt_futex_wake(const void *lockcnt) "lockcnt %p waking up one waiter"
+ /**
+  * Removes the next coroutine from the CoQueue, and wake it up.
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index d378bccac7..6a4633c133 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -235,7 +235,9 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+         };
+         aio_bh_schedule_oneshot(qemu_get_aio_context(), do_qmp_dispatch_bh,
+                                 &data);
++#if 0
+         qemu_coroutine_yield();
++#endif
+     }
+     qobject_unref(args);
+     if (err) {
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index 96b295263e..4ca5fdb699 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -61,7 +61,7 @@ endif
  
- # qemu-sockets.c
+ if have_block
+   tests += {
+-    'test-coroutine': [testblock],
++    'test-coroutine': [],
+     'test-aio': [testblock],
+     'test-aio-multithread': [testblock],
+     'test-throttle': [testblock],
+diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
+index 82e22db070..c230c2fa6e 100644
+--- a/tests/unit/test-coroutine.c
++++ b/tests/unit/test-coroutine.c
+@@ -16,6 +16,7 @@
+ #include "qemu/coroutine_int.h"
+ #include "qemu/lockable.h"
+ 
++#if 0
+ /*
+  * Check that qemu_in_coroutine() works
+  */
+@@ -638,11 +639,13 @@ static void perf_cost(void)
+                    duration, ops,
+                    (unsigned long)(1000000000.0 * duration / maxcycles));
+ }
++#endif
+ 
+ int main(int argc, char **argv)
+ {
+     g_test_init(&argc, &argv, NULL);
+ 
++#if 0
+     /* This test assumes there is a freelist and marks freed coroutine memory
+      * with a sentinel value.  If there is no freelist this would legitimately
+      * crash, so skip it.
+@@ -650,7 +653,9 @@ int main(int argc, char **argv)
+     if (CONFIG_COROUTINE_POOL) {
+         g_test_add_func("/basic/no-dangling-access", test_no_dangling_access);
+     }
++#endif
+ 
++#if 0
+     g_test_add_func("/basic/lifecycle", test_lifecycle);
+     g_test_add_func("/basic/yield", test_yield);
+     g_test_add_func("/basic/nesting", test_nesting);
+@@ -669,5 +674,6 @@ int main(int argc, char **argv)
+         g_test_add_func("/perf/function-call", perf_baseline);
+         g_test_add_func("/perf/cost", perf_cost);
+     }
++#endif
+     return g_test_run();
+ }
+diff --git a/util/async.c b/util/async.c
+index 2ea1172f3e..95a9e0f95f 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -595,6 +595,7 @@ void aio_co_schedule(AioContext *ctx, Coroutine *co)
+     aio_context_unref(ctx);
+ }
+ 
++#if 0
+ typedef struct AioCoRescheduleSelf {
+     Coroutine *co;
+     AioContext *new_ctx;
+@@ -624,6 +625,7 @@ void coroutine_fn aio_co_reschedule_self(AioContext *new_ctx)
+         qemu_coroutine_yield();
+     }
+ }
++#endif
+ 
+ void aio_co_wake(struct Coroutine *co)
+ {
+diff --git a/util/meson.build b/util/meson.build
+index f6ee74ad0c..30949cd481 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -76,13 +76,13 @@ if have_block
+   util_ss.add(files('lockcnt.c'))
+   util_ss.add(files('main-loop.c'))
+   util_ss.add(files('nvdimm-utils.c'))
+-  util_ss.add(files('qemu-coroutine.c', 'qemu-coroutine-lock.c', 'qemu-coroutine-io.c'))
+-  util_ss.add(when: 'CONFIG_LINUX', if_true: [
+-    files('vhost-user-server.c'), vhost_user
+-  ])
++  util_ss.add(files('qemu-coroutine.c', 'qemu-coroutine-lock.c')) # 'qemu-coroutine-io.c'
++# util_ss.add(when: 'CONFIG_LINUX', if_true: [
++#   files('vhost-user-server.c'), vhost_user
++# ])
+   util_ss.add(files('block-helpers.c'))
+   util_ss.add(files('qemu-coroutine-sleep.c'))
+-  util_ss.add(files('qemu-co-shared-resource.c'))
++# util_ss.add(files('qemu-co-shared-resource.c'))
+   util_ss.add(files('thread-pool.c', 'qemu-timer.c'))
+   util_ss.add(files('readline.c'))
+   util_ss.add(files('throttle.c'))
+diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+index 3f12b53a31..d6c0565ba5 100644
+--- a/util/qemu-coroutine-lock.c
++++ b/util/qemu-coroutine-lock.c
+@@ -34,6 +34,7 @@
+ #include "block/aio.h"
+ #include "trace.h"
+ 
++#if 0
+ void qemu_co_queue_init(CoQueue *queue)
+ {
+     QSIMPLEQ_INIT(&queue->entries);
+@@ -465,3 +466,4 @@ void qemu_co_rwlock_upgrade(CoRwlock *lock)
+         assert(lock->owners == -1);
+     }
+ }
++#endif
+diff --git a/util/qemu-coroutine-sleep.c b/util/qemu-coroutine-sleep.c
+index 571ab521ff..b5bfb4ad18 100644
+--- a/util/qemu-coroutine-sleep.c
++++ b/util/qemu-coroutine-sleep.c
+@@ -17,6 +17,7 @@
+ #include "qemu/timer.h"
+ #include "block/aio.h"
+ 
++#if 0
+ static const char *qemu_co_sleep_ns__scheduled = "qemu_co_sleep_ns";
+ 
+ void qemu_co_sleep_wake(QemuCoSleep *w)
+@@ -78,3 +79,4 @@ void coroutine_fn qemu_co_sleep_ns_wakeable(QemuCoSleep *w,
+     qemu_co_sleep(w);
+     timer_del(&ts);
+ }
++#endif
+diff --git a/util/thread-pool.c b/util/thread-pool.c
+index d763cea505..f621f69a91 100644
+--- a/util/thread-pool.c
++++ b/util/thread-pool.c
+@@ -266,6 +266,7 @@ BlockAIOCB *thread_pool_submit_aio(ThreadPool *pool,
+     return &req->common;
+ }
+ 
++#if 0
+ typedef struct ThreadPoolCo {
+     Coroutine *co;
+     int ret;
+@@ -288,6 +289,7 @@ int coroutine_fn thread_pool_submit_co(ThreadPool *pool, ThreadPoolFunc *func,
+     qemu_coroutine_yield();
+     return tpc.ret;
+ }
++#endif
+ 
+ void thread_pool_submit(ThreadPool *pool, ThreadPoolFunc *func, void *arg)
+ {
 -- 
 2.35.1
 
