@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0E04D8524
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 13:38:13 +0100 (CET)
-Received: from localhost ([::1]:43880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D1E4D852A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 13:43:55 +0100 (CET)
+Received: from localhost ([::1]:46080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTjxj-0002n2-HP
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 08:38:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57444)
+	id 1nTk3G-0004c0-Db
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 08:43:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nTjvO-0001j4-Ur
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 08:35:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41467)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nTk1D-0003nB-K4
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 08:41:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nTjvK-0007G1-KH
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 08:35:44 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nTk1A-00084m-SH
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 08:41:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647261341;
+ s=mimecast20190719; t=1647261700;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kkIQkTPpgnE2yF+vtW+XsPNjLd2BCNHoV2rrvGjk49o=;
- b=THG42CDwirRcKITRrf7BGJ8ofN+2iN6frI9hKHqtd/EXBEAOUvrzgAE+9pAUQlSZBXfpYq
- VO//4LgvZUuptX9HIopp1XoHEYXWHcnDeeEDjOWHCDyOUL0+IsAEACFIrC8VvFsPt+fOg/
- zwloA4wd1G42l0mT72ptaO04dON3ay0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XV08VuWR39lb8P+ZPKMnq2DqMFK/TBQUukFMupwTY0A=;
+ b=RQg05U6NUYKDhgWQtQYUFX4+f7UnSgknSGVt7nzLMvfHFSAgnufM7NgRqatL9LsgHQqOB5
+ aVN5UbtuB1cKLcerrwbUY3b+ZfG/8sRUJHck1WL29y/NKBboOct+f3B7SCmWbx2NfjX6LG
+ 63sp4DUeQq63222jqs+I5NpokUhJc4I=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-549-6BknvNn2MQWFIGO6yV_E3A-1; Mon, 14 Mar 2022 08:35:39 -0400
-X-MC-Unique: 6BknvNn2MQWFIGO6yV_E3A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l10-20020a05600012ca00b001f1e4669c98so4289185wrx.23
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 05:35:39 -0700 (PDT)
+ us-mta-187-sT8KTf4gP3isOpwIlnV-0A-1; Mon, 14 Mar 2022 08:41:39 -0400
+X-MC-Unique: sT8KTf4gP3isOpwIlnV-0A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n62-20020a1ca441000000b0038124c99ebcso5656084wme.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 05:41:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:cc:from:in-reply-to
  :content-transfer-encoding;
- bh=kkIQkTPpgnE2yF+vtW+XsPNjLd2BCNHoV2rrvGjk49o=;
- b=zOhWm2l8NC2K4fp3U5pWpF0Co5rQWBdAIFNkuHO0dOgPj/x7IHwqgmEAHNDzj3TLGh
- 42KjplPlDcaENdnC8DjfxSWtEdxLYUkVhY5CqgKZClT+1T790aDcwBGnkJMiMCF19wOe
- kONBnu2AA7M65/YkMa8RL29B8ljeiiMyxdvjt5tquXocqXd6ZlPRaN8ZnbXwO/fUB8hd
- WawU+kHRiMgyIZawIdI9NsiPlaKM42txlQXsTyyPe6UBvLT6Ggkv59d8outVyigs+oBE
- 2Sw/dMkKyaDdVX3uBlr2sAarwDU34pi0bMKlODxSOjPGWTHcaRNo2ZaJ+Tn88crp1bCR
- WaLA==
-X-Gm-Message-State: AOAM530GXqWDN5NeP7CXizBbYc2bZVhLN6rzvouqnNU558KSMf0ij339
- 2xzAcGKhSoOsTxE9pUg72G+eC4Ij4wp4BDPMkzcxhnmL7/7H2pjpEQMlIBCFhQ4Oef2dBiVDn3k
- Ygo9QHuzZ61mfINU=
-X-Received: by 2002:adf:f18f:0:b0:1f0:761:491d with SMTP id
- h15-20020adff18f000000b001f00761491dmr16029284wro.505.1647261337667; 
- Mon, 14 Mar 2022 05:35:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzx/DEohZXdCs4x6OFxNJA0hARAtJLSZDnD4aGSAq6yl90SPMh17tLKKVRnlPi514MhPVq/YA==
-X-Received: by 2002:adf:f18f:0:b0:1f0:761:491d with SMTP id
- h15-20020adff18f000000b001f00761491dmr16029269wro.505.1647261337434; 
- Mon, 14 Mar 2022 05:35:37 -0700 (PDT)
+ bh=XV08VuWR39lb8P+ZPKMnq2DqMFK/TBQUukFMupwTY0A=;
+ b=Y/iSrwFLG769cNHvAKvJZOgei8ftl46nhYkffNdsL5T2wz0idPAyIWHkqvvX0PVYSV
+ YyTlBcoh58E3WCJeFtrc1jDBnmZTMftTfNlsu3xo4fPxseCE8P07//qDfgsU/eWmWU2o
+ O1iYo3LoYo5irKo1XUiptdzg6MZpmS9iUWu8WUsFKtBCxOdiwfgBceEYc5xWXyX0dy5d
+ 3eJGAJH0LBUKeY1U/WwzLLwiXezMwVir+/EKwxIvSyRYEGFeBZUwbpJjPCIoCyrgvunZ
+ 8BOCg5O0SzJHcaMukrHxke8Gd3ABa3QazTcooUCObD8BPg7OrpQhSqu6yH/TuItJWm4B
+ NtAw==
+X-Gm-Message-State: AOAM531HiJ0LIL8RjPuEANDlQKtxu4hR7Lpp1Bd1lJ/Q5muWVuNencCo
+ EAhdl5ceFpkfcXSfXaDLVpXfJnqqgG/HpNLvhZn1814I8RfS71dHSEOsU99zjPslMCVlfhsT2Be
+ DtstihPghjBSE71w=
+X-Received: by 2002:adf:ee4b:0:b0:1f6:3413:282b with SMTP id
+ w11-20020adfee4b000000b001f63413282bmr16479425wro.354.1647261698536; 
+ Mon, 14 Mar 2022 05:41:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypOx58yZA+oxltUsEi0Q65d1AgusaNSXcyrzuqbHcbH6VG2nzpoSqfTQT3Q40SpzJ3Nw+oWw==
+X-Received: by 2002:adf:ee4b:0:b0:1f6:3413:282b with SMTP id
+ w11-20020adfee4b000000b001f63413282bmr16479414wro.354.1647261698309; 
+ Mon, 14 Mar 2022 05:41:38 -0700 (PDT)
 Received: from [192.168.42.76] (tmo-099-109.customers.d1-online.com.
  [80.187.99.109]) by smtp.gmail.com with ESMTPSA id
- l18-20020adfe592000000b001f064ae9830sm13032836wrm.37.2022.03.14.05.35.36
+ l12-20020a05600012cc00b001f059bcbd7asm12950590wrx.31.2022.03.14.05.41.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Mar 2022 05:35:37 -0700 (PDT)
-Message-ID: <704ca662-60c7-9f8e-93dc-e71b28ba443d@redhat.com>
-Date: Mon, 14 Mar 2022 13:35:35 +0100
+ Mon, 14 Mar 2022 05:41:37 -0700 (PDT)
+Message-ID: <74689a0a-6b7c-6797-f701-5e122f68e418@redhat.com>
+Date: Mon, 14 Mar 2022 13:41:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.0
-Subject: Re: [PATCH v3 0/3] Fix BRASL and BRCL with large negative offsets
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20220314104232.675863-1-iii@linux.ibm.com>
+Subject: Re: [PATCH 0/3] tcg/s390x vector fixes
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220310202751.594961-1-richard.henderson@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220314104232.675863-1-iii@linux.ibm.com>
+In-Reply-To: <20220310202751.594961-1-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -102,49 +100,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/03/2022 11.42, Ilya Leoshkevich wrote:
-> Hi,
-> 
-> I noticed that sometimes jumping backwards leads to crashes or hangs.
-> The problem is a missing cast.
-> Patches 1 and 2 fix the problem, patch 3 adds a test.
-> 
-> 
-> v1: https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03356.html
-> v1 -> v2:
-> - Skip the test if mmap() fails (Richard).
-> - Replace test opcodes with inline asm (David). Since we now want to
->    skip the test if the code cannot be mapped (e.g. on a 31-bit host),
->    we shouldn't be asking the loader to map the code right away. So
->    the mmap() approach stays.
-> 
-> v2: https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03387.html
-> v2 -> v3:
-> - Use MAP_NORESERVE (Christian / David).
-> - Unhardcode 0x100000006 (Richard).
-> 
-> Best regards,
-> Ilya
-> 
-> Ilya Leoshkevich (3):
->    s390x/tcg: Fix BRASL with a large negative offset
->    s390x/tcg: Fix BRCL with a large negative offset
->    tests/tcg/s390x: Test BRASL and BRCL with large negative offsets
-> 
->   target/s390x/tcg/translate.c           |  4 +-
->   tests/tcg/s390x/Makefile.target        |  1 +
->   tests/tcg/s390x/branch-relative-long.c | 68 ++++++++++++++++++++++++++
->   3 files changed, 71 insertions(+), 2 deletions(-)
->   create mode 100644 tests/tcg/s390x/branch-relative-long.c
+On 10/03/2022 21.27, Richard Henderson wrote:
+> These 3 issues were found by running risu on arm neon test cases.
+> In the meantime, Thomas encountered one of the same with the new
+> tests of vectorized sha512.
 
-Thanks, queued to my s390x-next branch now:
+Thanks! If you don't mind (e.g. if you don't have any other TCG patches 
+pending), I can take these through my s390x-next tree (I'm planning another 
+pull request before the rc0 hard freeze tomorrow):
 
-https://gitlab.com/thuth/qemu/-/commits/s390x-next/
+  https://gitlab.com/thuth/qemu/-/commits/s390x-next/
 
   Thomas
 
