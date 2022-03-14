@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB184D86C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 15:18:28 +0100 (CET)
-Received: from localhost ([::1]:44552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CEC4D86F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 15:28:55 +0100 (CET)
+Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTlWk-00027B-Qv
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 10:18:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49058)
+	id 1nTlgs-0002VZ-EO
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 10:28:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nTlGE-0002dB-Ch
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:01:23 -0400
-Received: from [2607:f8b0:4864:20::1035] (port=54165
- helo=mail-pj1-x1035.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nTlGC-0005zO-5L
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:01:21 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id bx5so14774779pjb.3
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 07:01:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3z/auhle10a0P6S2YxzDDIM0Xx+7EqUaf9p0CFMBhds=;
- b=G2T+UKgK1IAiazPoGnHR4FrOzdfDj4Lge7Lz08xAfutPlZXxyDaB2mxfSTvqbVNTUa
- gsGokrubqJpQOAcrZdXw5oR8YN3v9kIxYtul/Iv3in/XJn0/wnKd4qmJTze3eWyE4WqK
- +KJAvd1gyWj1bzp7r/eYAsDXqlcjKlwhB6hOOSCXkzKUHET//l6zo3nmCVJ+3m9Hgs5Y
- v6C+ynbkPwEhNtIrKExC+HtSoKRGQ5NmdEW0IN1HVCeklG+ghF0u0rSJTPS2sQfNwDKd
- 3Q2qOswdr6DeDMmNnOfRkL3ASgXkbTjFczQ/3s7Thl1ATYyfak9LmvL4wBueDb/Vbhkt
- h1wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3z/auhle10a0P6S2YxzDDIM0Xx+7EqUaf9p0CFMBhds=;
- b=UGI8z/nUKfWB9s0aaavpFiEeWUy7NvBhaFWmlC90Yr0Zr3kYJnswtSKB4ncNEik/Tp
- OcFDOCPwXNrDfJ0jaPJW3xoUJMCvWO9l+JB7D6HtXxcRqEwvuuRkcTWWK0LjE/5P532z
- N2wJHFiva3kfiJkky2IqbOu3R1SNK7s4MFVGFDRamMXEmDFZ4IJTf0+IJsLwJfGettmw
- DFMj7QlIRCpm7M2DYsduuBmWgo4l3hNnFJ+NgJLCx8M54j8BehVcYX9dEc7C9da85Bzb
- RTxKPOLBTcQhYAP3FRyg02IGJB9W7e2zJEkSuIXzd+MqaS/sdK9vOj2jdBKrDREnR+rF
- fZ7A==
-X-Gm-Message-State: AOAM5308ym2U66+aWrGzPZnRZKoKOC+q6dQE0ijl0OQ/RjKCGur82FPR
- SrU/zumFkPTXz+c/EC+ETIf9HZGtcK8=
-X-Google-Smtp-Source: ABdhPJyIWKnrT/tS0HqrjwROi1bzZqUvK5/e2mgftJLDep7DimTj2Df7zUE8llB9axR56/kD7i1QrQ==
-X-Received: by 2002:a17:902:9a4b:b0:14f:fe0b:5546 with SMTP id
- x11-20020a1709029a4b00b0014ffe0b5546mr24004545plv.46.1647266475980; 
- Mon, 14 Mar 2022 07:01:15 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- 16-20020a056a00073000b004dfe2217090sm20796055pfm.200.2022.03.14.07.01.12
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Mar 2022 07:01:15 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-7.0 v3] softmmu: List CPU types again
-Date: Mon, 14 Mar 2022 15:01:08 +0100
-Message-Id: <20220314140108.26222-1-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nTlLv-0001Hp-Jr
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:07:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nTlLo-0007Gr-2y
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:07:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647266827;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lmq+Ph1SmiSb9FyYxIHaU++8NBhyCLbEVgQzc9R4N8s=;
+ b=VUeiAjHjNUxcphiIiXP2RLfm723qbsJvEFAnJODLckiJLnCuQOj9BAkmlUn4C/3OylwfJi
+ QOta68atwk1fufAOOL0DPJjK40ShGOsGlh9P58MYfeCPvzeY5P4wJ8b8eqVLSL+ySh0N9i
+ vJMDEzbMmgMqni53mQFRWIVcPEV05JA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-367-hdsiWYuLNk6WUFu99-wEug-1; Mon, 14 Mar 2022 10:07:03 -0400
+X-MC-Unique: hdsiWYuLNk6WUFu99-wEug-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8854118E0044;
+ Mon, 14 Mar 2022 14:07:03 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 464EA5E939F;
+ Mon, 14 Mar 2022 14:07:03 +0000 (UTC)
+Date: Mon, 14 Mar 2022 14:07:00 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
+Message-ID: <Yi9MBGoc3WtOLx82@stefanha-x1.localdomain>
+References: <20220314093203.1420404-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+qq5IgQB+6sM2iX5"
+Content-Disposition: inline
+In-Reply-To: <20220314093203.1420404-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,108 +75,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, hreitz@redhat.com, berrange@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Commit e0220bb5b2 made cpus.c target-agnostic but didn't notice
-the cpu_list() function is only defined in target-specific code
-in "cpu.h". Move list_cpus() declaration to "exec/cpu-common.h"
-because this function is not softmmu-specific and can also be
-used by user-mode, along with moving its implementation to cpu.c,
-which is compiled per target.
+--+qq5IgQB+6sM2iX5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: e0220bb5b2 ("softmmu: Build target-agnostic objects once")
-Reported-by: Max Filippov <jcmvbkbc@gmail.com>
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Tested-by: Max Filippov <jcmvbkbc@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Since v2:
-- include exec/cpu-all.h -> exec/cpu-common.h (thuth)
----
- cpu.c                     | 9 +++++++++
- include/exec/cpu-common.h | 2 ++
- include/sysemu/cpus.h     | 2 --
- softmmu/cpus.c            | 8 --------
- 4 files changed, 11 insertions(+), 10 deletions(-)
+On Mon, Mar 14, 2022 at 10:31:47AM +0100, Paolo Bonzini wrote:
+> However, there  are no ramifications to actual coroutine code, except
+> for the template syntax "CoroutineFn<return_type>" for the function and
+> the mandatory co_await/co_return keywords... both of which are an
+> improvement, really: the fact that a single function cannot run either
+> inside or outside coroutines is checked by the compiler now, because
+> qemu_coroutine_create accepts a function that returns CoroutineFn<void>.
 
-diff --git a/cpu.c b/cpu.c
-index d564886149..be1f8b074c 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -35,6 +35,7 @@
- #include "sysemu/tcg.h"
- #include "sysemu/kvm.h"
- #include "sysemu/replay.h"
-+#include "exec/cpu-common.h"
- #include "exec/exec-all.h"
- #include "exec/translate-all.h"
- #include "exec/log.h"
-@@ -266,6 +267,14 @@ const char *parse_cpu_option(const char *cpu_option)
-     return cpu_type;
- }
- 
-+void list_cpus(const char *optarg)
-+{
-+    /* XXX: implement xxx_cpu_list for targets that still miss it */
-+#if defined(cpu_list)
-+    cpu_list();
-+#endif
-+}
-+
- #if defined(CONFIG_USER_ONLY)
- void tb_invalidate_phys_addr(target_ulong addr)
- {
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 7f7b5943c7..50a7d2912e 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -158,4 +158,6 @@ int cpu_memory_rw_debug(CPUState *cpu, vaddr addr,
- /* vl.c */
- extern int singlestep;
- 
-+void list_cpus(const char *optarg);
-+
- #endif /* CPU_COMMON_H */
-diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
-index 868f1192de..b5c87d48b3 100644
---- a/include/sysemu/cpus.h
-+++ b/include/sysemu/cpus.h
-@@ -55,6 +55,4 @@ extern int smp_cores;
- extern int smp_threads;
- #endif
- 
--void list_cpus(const char *optarg);
--
- #endif
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index e1d84c8ccb..7b75bb66d5 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -728,14 +728,6 @@ int vm_stop_force_state(RunState state)
-     }
- }
- 
--void list_cpus(const char *optarg)
--{
--    /* XXX: implement xxx_cpu_list for targets that still miss it */
--#if defined(cpu_list)
--    cpu_list();
--#endif
--}
--
- void qmp_memsave(int64_t addr, int64_t size, const char *filename,
-                  bool has_cpu, int64_t cpu_index, Error **errp)
- {
--- 
-2.34.1
+Yeah, these are nice.
+
+> One important difference is that C++ coroutines allocate frames on the
+> heap, and that explains why performance is better in /perf/nesting,
+> which has to do many large memory allocations for the stack in the other
+> two backends (and also a makecontext/swapcontext in the ucontext case).
+> C++ coroutines hardly benefit from the coroutine pool; OTOH that also
+> means the coroutine pool could be removed if we went this way.
+
+Removing the pool would be nice.
+
+> Overall this was ~twice the amount of work of the C experiment, but
+> that's because the two are very different ways to achieve the same goal:
+>=20
+> - the design work was substantially smaller in the C experiment, where
+> all the backend does is allocate stack frames and do a loop that invokes
+> a function pointer.  Here the backend has to map between the C++ concepts
+> and the QEMU API.  In the C case, most of the work was really in the
+> manual conversion which I had to do one function at a time.
+>=20
+> - the remaining work is also completely different: a source-to-source
+> translator (and only build system work in QEMU) for the C experiment;
+> making ~100 files compile in C++ for this one (and relatively little
+> work as far as coroutines are concerned).
+>=20
+> This was compiled with GCC 11 only.  Coroutine support was added in
+> GCC 10, released in 2020, which IIRC is much newer than the most recent
+> release we support.
+
+Using C++ coroutines is likely to be lower risk than maintaining our own
+C coroutine source-to-source translator. On the other hand, it exposes
+QEMU developers to C++ whether they like it or not so it may not be
+popular.
+
+If we can reach a consensus about C++ language usage in QEMU then I'm in
+favor of using C++ coroutines. It's probably not realistic to think we
+can limit C++ language usage to just coroutines forever. Someone finds
+another C++ feature they absolutely need and over time the codebase
+becomes C++ - with both its advantages and disadvantages. I'm not sure
+what the best solution is but this sounds like a recipe for an identity
+crisis with the potential to cause friction for years. From that
+perspective I feel it's better to allow C++ and get over it although
+what I'd really like is just C++ coroutines and nothing else :P.
+
+To add some more detail, although you can write C in C++, it's not
+idiomatic modern C++. The language lends itself to a different style of
+programming that some will embrace while others will not. It will be a
+bigger impedance mismatch than anything currently in the codebase (e.g.
+glib vs non-glib code).
+
+On the other hand, a number of projects have already gone through a
+transition like this (gcc, gdb, ...). Maybe we can learn from their
+mistakes?
+
+Stefan
+
+--+qq5IgQB+6sM2iX5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIvTAQACgkQnKSrs4Gr
+c8ik0Qf+KWvt6QKLfa38/IjeSVPd/KhDZHLJEaX6W9tcpPWR+m8CNkjwUcYiYLxz
+xzbjgPxumQO52xAr128jpDH8jLRe9PK7SqM3pfby7Fn3gIjrCU/3DeEyco7OZyWn
+63iWKBrJHyAU17xbt1acL+wnSvOis3yOQhRVlhPB/cw/rFxCxpXoN6HV1nHcEu8+
+ey7b09L3AZsDbxDvSprVYOWrYvgh7HBJRI+VcI2zogVZPojr+oosw0fBqtqDORdl
+CutVyCLAT08upOIALts5TxhvNMd2B62sX2t7gy4Kuz1sNlWzTZEfMwWLLCSLznhU
+C67gUvacB+Ks+PEVa6QjUJXe6B9W6Q==
+=BErU
+-----END PGP SIGNATURE-----
+
+--+qq5IgQB+6sM2iX5--
 
 
