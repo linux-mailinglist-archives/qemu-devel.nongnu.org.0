@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFE44D8DE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 21:09:54 +0100 (CET)
-Received: from localhost ([::1]:43194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419D74D8E22
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 21:29:56 +0100 (CET)
+Received: from localhost ([::1]:57274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTr0q-0000NL-RZ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 16:09:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44250)
+	id 1nTrKE-0002RB-RQ
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 16:29:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@ya.ru>)
- id 1nTqyy-0007UO-MA; Mon, 14 Mar 2022 16:07:56 -0400
-Received: from [2a02:6b8:0:801:2::101] (port=34608
- helo=forward101j.mail.yandex.net)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <v.sementsov-og@ya.ru>)
- id 1nTqyt-0005zJ-0e; Mon, 14 Mar 2022 16:07:55 -0400
-Received: from sas8-3863e163d292.qloud-c.yandex.net
- (sas8-3863e163d292.qloud-c.yandex.net
- [IPv6:2a02:6b8:c1b:290a:0:640:3863:e163])
- by forward101j.mail.yandex.net (Yandex) with ESMTP id D215669B5FAD;
- Mon, 14 Mar 2022 23:07:46 +0300 (MSK)
-Received: from sas1-384d3eaa6677.qloud-c.yandex.net
- (sas1-384d3eaa6677.qloud-c.yandex.net [2a02:6b8:c14:3a29:0:640:384d:3eaa])
- by sas8-3863e163d292.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
- OyG5T4MOZi-7kf8T2ul; Mon, 14 Mar 2022 23:07:46 +0300
-X-Yandex-Fwd: 2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ya.ru; s=mail;
- t=1647288466; bh=YrR5Ot4sGLRv2xF0QG/7/AmQPQxUzrU5g1+O24Gkg9Q=;
- h=In-Reply-To:References:Date:Subject:Cc:To:From:Message-Id;
- b=WvaHVgZgbmLb1/d1zY+CFf6hb6Bji1ljVQ40k6T5rVj+wkUydkfNhLvC03un/dU+a
- PxEC4qjtjtDpknuB7fntVwbqaaW48Bf/kUkciV/kV1ZPimNDybmGb6t4Zi9/umc6yA
- Hzg9T22YRHnePnoPTSlMBYLLhon9+zscJxATwILU=
-Authentication-Results: sas8-3863e163d292.qloud-c.yandex.net;
- dkim=pass header.i=@ya.ru
-Received: by sas1-384d3eaa6677.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id C1cHglIHXL-7kGei3NK; Mon, 14 Mar 2022 23:07:46 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
-To: qemu-block@nongnu.org
-Subject: [PATCH 1/3] qapi: rename BlockDirtyBitmapMergeSource to
- BlockDirtyBitmapOrStr
-Date: Mon, 14 Mar 2022 23:07:21 +0300
-Message-Id: <20220314200723.356816-2-v.sementsov-og@ya.ru>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220314200723.356816-1-v.sementsov-og@ya.ru>
-References: <20220314200723.356816-1-v.sementsov-og@ya.ru>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nTrIF-00008n-1B
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 16:27:51 -0400
+Received: from [2607:f8b0:4864:20::62d] (port=33342
+ helo=mail-pl1-x62d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nTrID-0000RN-Aj
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 16:27:50 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id t22so3275544plo.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 13:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S/1SHTKhae5UFSgHvAVB/gIrFoCZj+VkeA/hnfH1kC4=;
+ b=YLFrjTmt5HZZw8vVbVdIwV5j0EoaZBK8bTkLVUJ4tESxJNOPLw3xQY4fQnT/Kc/sGz
+ 600YQv7IHtxeBpGxDOsvgzGRkAVxphqTlS9CQ2M4ThkWH1J317u550y2L4YXTWSVpwgI
+ XdLFCIaxOyU81j/xXRX5j05NF2ti02NiGV+WjQexFFkxxyFa0yfZ4W/Esa1C5L/v+IB5
+ DuVjumjOi9aLVwBS6OA45c3p5w8L/ZxlRSYvVG7qsFdpPmx0bTEilu4ORmMu5Jsg5/D7
+ is+MGKw1DK/TDkztRPLXOtpb/PGUC309TdK4B6GIYnZrX57egRMFGoTpTnYj8nFjW9VB
+ KhtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S/1SHTKhae5UFSgHvAVB/gIrFoCZj+VkeA/hnfH1kC4=;
+ b=2wEvmKzkbs80yE8tP87ZHhQ558w89xqwrPaitrHbctnt1sahEEwSNrzI7J1wimyGBK
+ W+c2eqbdVHRoIKUUSt0nne9+TT5WCRrWFbZZwmVAB3BJaOyOkUBrCPOpjTYNDCimq4RT
+ 7JIAWUuAg5yEDHyrL9Gts3HNK28m0h8MayK27wy7iXwIFbsOlFAdLWmXoMFbUXKEWBD3
+ iw78McXie/N4bJlAPpEpl7j8IcV6UqYafX8AXcQIQ63zjzzpzkpstYSUyYV//PKhik71
+ 6OXdnRc3QJGpNDamxEnv0N8NHwtu5Lwb+86o45QshakukF2LzsRN6Tx2Yj1f3aY3VsyR
+ TsOw==
+X-Gm-Message-State: AOAM531q3lk8T763U1TfyotHFaY/r2LzOcKNSTcnPLlGr4PLBEiAu86F
+ rLfM1WuaOXYUcuaJf4RAkaMKhSoXtyE=
+X-Google-Smtp-Source: ABdhPJygngu3KKFRLTkWx9De+0cfsKa3U2SCyKtDkPRXkXt+ct6fABlU804VHW8rm2EjQ1bsKFAnyQ==
+X-Received: by 2002:a17:903:120a:b0:153:4723:bb27 with SMTP id
+ l10-20020a170903120a00b001534723bb27mr13478551plh.48.1647289667745; 
+ Mon, 14 Mar 2022 13:27:47 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ p27-20020a056a000a1b00b004f3f63e3cf2sm23023027pfh.58.2022.03.14.13.27.44
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 14 Mar 2022 13:27:47 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] MAINTAINERS: Volunteer to maintain Darwin-based hosts support
+Date: Mon, 14 Mar 2022 21:27:38 +0100
+Message-Id: <20220314202738.33142-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a02:6b8:0:801:2::101
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
  (failed)
-Received-SPF: pass client-ip=2a02:6b8:0:801:2::101;
- envelope-from=v.sementsov-og@ya.ru; helo=forward101j.mail.yandex.net
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: 23
+X-Spam_score: 2.3
+X-Spam_bar: ++
+X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
  RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -74,122 +88,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Rename the type to be reused. Old name is "what is it for". To be
-natively reused for other needs, let's name it exactly "what is it".
+While I am not an experienced Darwin OS user, I now have to
+use a macOS based workstation and alike CI, meaning I should
+easily spot regressions and test fixes. I therefore volunteer
+to collect Darwin related patches and keep QEMU in good state
+on macOS, and to some extent iOS.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+Cc: Joelle van Dyne <j@getutm.app>
+Cc: Alexander Graf <agraf@csgraf.de>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Cameron Esfahani <dirty@apple.com>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- block/monitor/bitmap-qmp-cmds.c        | 6 +++---
- include/block/block_int-global-state.h | 2 +-
- qapi/block-core.json                   | 6 +++---
- qemu-img.c                             | 8 ++++----
- 4 files changed, 11 insertions(+), 11 deletions(-)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
-index 8e35616c2e..2b677c4a2f 100644
---- a/block/monitor/bitmap-qmp-cmds.c
-+++ b/block/monitor/bitmap-qmp-cmds.c
-@@ -257,12 +257,12 @@ void qmp_block_dirty_bitmap_disable(const char *node, const char *name,
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f2e9ce1da2..caea42c259 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -548,6 +548,12 @@ F: include/*/*win32*
+ X: qga/*win32*
+ F: qemu.nsi
  
- BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
--                                          BlockDirtyBitmapMergeSourceList *bms,
-+                                          BlockDirtyBitmapOrStrList *bms,
-                                           HBitmap **backup, Error **errp)
- {
-     BlockDriverState *bs;
-     BdrvDirtyBitmap *dst, *src, *anon;
--    BlockDirtyBitmapMergeSourceList *lst;
-+    BlockDirtyBitmapOrStrList *lst;
++Darwin (macOS, iOS)
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
++S: Odd Fixes
++F: .gitlab-ci.d/cirrus/macos-*
++F: */*.m
++
+ Alpha Machines
+ --------------
+ M: Richard Henderson <richard.henderson@linaro.org>
+@@ -2414,6 +2420,7 @@ F: audio/alsaaudio.c
  
-     GLOBAL_STATE_CODE();
+ Core Audio framework backend
+ M: Gerd Hoffmann <kraxel@redhat.com>
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ R: Akihiko Odaki <akihiko.odaki@gmail.com>
+ S: Odd Fixes
+@@ -2671,6 +2678,7 @@ F: util/drm.c
  
-@@ -317,7 +317,7 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
- }
- 
- void qmp_block_dirty_bitmap_merge(const char *node, const char *target,
--                                  BlockDirtyBitmapMergeSourceList *bitmaps,
-+                                  BlockDirtyBitmapOrStrList *bitmaps,
-                                   Error **errp)
- {
-     block_dirty_bitmap_merge(node, target, bitmaps, NULL, errp);
-diff --git a/include/block/block_int-global-state.h b/include/block/block_int-global-state.h
-index 0f21b0570b..8b2e95f5ff 100644
---- a/include/block/block_int-global-state.h
-+++ b/include/block/block_int-global-state.h
-@@ -262,7 +262,7 @@ BdrvDirtyBitmap *block_dirty_bitmap_lookup(const char *node,
-                                            BlockDriverState **pbs,
-                                            Error **errp);
- BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
--                                          BlockDirtyBitmapMergeSourceList *bms,
-+                                          BlockDirtyBitmapOrStrList *bms,
-                                           HBitmap **backup, Error **errp);
- BdrvDirtyBitmap *block_dirty_bitmap_remove(const char *node, const char *name,
-                                            bool release,
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index e89f2dfb5b..c0eacd66db 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2078,7 +2078,7 @@
-             '*persistent': 'bool', '*disabled': 'bool' } }
- 
- ##
--# @BlockDirtyBitmapMergeSource:
-+# @BlockDirtyBitmapOrStr:
- #
- # @local: name of the bitmap, attached to the same node as target bitmap.
- #
-@@ -2086,7 +2086,7 @@
- #
- # Since: 4.1
- ##
--{ 'alternate': 'BlockDirtyBitmapMergeSource',
-+{ 'alternate': 'BlockDirtyBitmapOrStr',
-   'data': { 'local': 'str',
-             'external': 'BlockDirtyBitmap' } }
- 
-@@ -2105,7 +2105,7 @@
- ##
- { 'struct': 'BlockDirtyBitmapMerge',
-   'data': { 'node': 'str', 'target': 'str',
--            'bitmaps': ['BlockDirtyBitmapMergeSource'] } }
-+            'bitmaps': ['BlockDirtyBitmapOrStr'] } }
- 
- ##
- # @block-dirty-bitmap-add:
-diff --git a/qemu-img.c b/qemu-img.c
-index 5dffb3e616..f853efe6fb 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -1618,16 +1618,16 @@ static void do_dirty_bitmap_merge(const char *dst_node, const char *dst_name,
-                                   const char *src_node, const char *src_name,
-                                   Error **errp)
- {
--    BlockDirtyBitmapMergeSource *merge_src;
--    BlockDirtyBitmapMergeSourceList *list = NULL;
-+    BlockDirtyBitmapOrStr *merge_src;
-+    BlockDirtyBitmapOrStrList *list = NULL;
- 
--    merge_src = g_new0(BlockDirtyBitmapMergeSource, 1);
-+    merge_src = g_new0(BlockDirtyBitmapOrStr, 1);
-     merge_src->type = QTYPE_QDICT;
-     merge_src->u.external.node = g_strdup(src_node);
-     merge_src->u.external.name = g_strdup(src_name);
-     QAPI_LIST_PREPEND(list, merge_src);
-     qmp_block_dirty_bitmap_merge(dst_node, dst_name, list, errp);
--    qapi_free_BlockDirtyBitmapMergeSourceList(list);
-+    qapi_free_BlockDirtyBitmapOrStrList(list);
- }
- 
- enum ImgConvertBlockStatus {
+ Cocoa graphics
+ M: Peter Maydell <peter.maydell@linaro.org>
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Akihiko Odaki <akihiko.odaki@gmail.com>
+ S: Odd Fixes
+ F: ui/cocoa.m
 -- 
-2.35.1
+2.34.1
 
 
