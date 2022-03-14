@@ -2,92 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F924D7FF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 11:37:55 +0100 (CET)
-Received: from localhost ([::1]:60094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E50E4D8025
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 11:45:05 +0100 (CET)
+Received: from localhost ([::1]:36398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTi5K-0004iV-C4
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 06:37:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33624)
+	id 1nTiCG-0008RP-Ji
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 06:45:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nTi3B-0002TH-GY
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 06:35:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30369)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nTiA8-0006v1-WC; Mon, 14 Mar 2022 06:42:53 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1nTi38-00028D-Or
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 06:35:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647254137;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OyCGeTAPawy1k6jp3JiykPwANnVoLqPthRkMuJ9L2z0=;
- b=K92c0cdqov/q2LNFdvJirb8/I6SWUWi/8rh7lCgz08SBF0d8AsfZsMYQCoFInBvJuAud4r
- a8IMGrYGVaMn+ehe2J0VI83Zq/RvPiP80X9QOGk2hv9WAn4l7QK/FIUtN21/sK4yQUtuTc
- QLH8nwJAesseR6yowDOUmBq0Wf9FO7A=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-7jCArfUfP2CbaFYowUz3Kw-1; Mon, 14 Mar 2022 06:35:36 -0400
-X-MC-Unique: 7jCArfUfP2CbaFYowUz3Kw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- l8-20020a056402028800b0041636072ef0so8369739edv.13
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 03:35:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OyCGeTAPawy1k6jp3JiykPwANnVoLqPthRkMuJ9L2z0=;
- b=tlH0/TBX5t1+G+M36LSOGFZjUbWwbsPhtagmiRqi7KdoaKXZOypY8yqO9ruXka5SNv
- Opg/Gpu3nsuK2ewMA1gcF7rq4y3jK3OmFU0bLYzuEYOwiwtcgGhU68T2ba9A+fm/lNqj
- cRmp7Zv6xhKs6oj50TeWC/ZzSpVOG6sp75OXy8NJM6tRlh+DPyHJxUajvMPRq0kmjgFB
- WppzXfftbxZirPinLHHj1E0J3j18d3jShzyZUqlL7XQ4xOSq89Fy5CqcsYBDSmJwNOzr
- Kny6+gknxbEs4RXtMPWviKlRY1c5FRTI8ddkBztUvUBKltH9lhgDZLXwWC2ITH6t0pPT
- +ZcQ==
-X-Gm-Message-State: AOAM532LUDGupdBgwYd/hn/+yzpePzzOPhnMi4gnU6ikyH/V5ESh70Ck
- 7DOLuivkvdgSKREEDaTbPNamMKRdC0K6oQ5ebmW+fmz3s3Nvv3VVwJW9PHzhhYQdrMucVJNzvyu
- 5iFDnHYxcKJO9UHs=
-X-Received: by 2002:a05:6402:d51:b0:416:5f17:990 with SMTP id
- ec17-20020a0564020d5100b004165f170990mr20021432edb.239.1647254134750; 
- Mon, 14 Mar 2022 03:35:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMi7eA2l86Zg20i7nEc/LPR3cDBuMpQlQrPeQDP6U19GDzR5lnT1FFqxSJdtl+hVtbCtWVtg==
-X-Received: by 2002:a05:6402:d51:b0:416:5f17:990 with SMTP id
- ec17-20020a0564020d5100b004165f170990mr20021412edb.239.1647254134505; 
- Mon, 14 Mar 2022 03:35:34 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- z21-20020a1709063a1500b006da6436819dsm6648341eje.173.2022.03.14.03.35.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 03:35:33 -0700 (PDT)
-Date: Mon, 14 Mar 2022 11:35:32 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Subject: Re: [PATCH] x86: q35: require split irqchip for large CPU count
-Message-ID: <20220314113532.10518837@redhat.com>
-In-Reply-To: <8d4912d595bcaca36013e22060c22c1bfe3c44c1.camel@infradead.org>
-References: <20220311143901.96481-1-imammedo@redhat.com>
- <8d4912d595bcaca36013e22060c22c1bfe3c44c1.camel@infradead.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1nTiA3-0003CD-B4; Mon, 14 Mar 2022 06:42:52 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22E9Gaos019857; 
+ Mon, 14 Mar 2022 10:42:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=mHdFNimFGsu6s4QfhzBeXO7qNNN8H0UgX1GjuLnE2e8=;
+ b=Ipsx/tvD8oX1QU+nMSBQ0kmMp3U85/G9dVIrtISkcvJHyJN613fw3oyNEayu1Vc9hs+A
+ iW15o9TDQXQssWzKMrYHrNSy1ZMgYqioHdZa3zCjxxONtkoBvQz4pYxCQXcaO0aIYv1+
+ 720FA6VWiwZvgAYouh209h4V3CBhlqxX7SSx/E6jECTkzn6JcWov50IP+JFYQrGcAJ5p
+ cN77nISHMCY1soh0cdphCJIb4WLgJcOmG4n6CnEAaweFZgrBI7QFwDEez+0k/Rr+VoCb
+ 1avg2uwO4s08BRYpUc6a4oF8B4xm0NyD94ae2Bx4CHkgiCpHV8ImHbB3GC55+n+p33Xm 0A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3es53qqqk3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Mar 2022 10:42:44 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22E9pfIu015075;
+ Mon, 14 Mar 2022 10:42:44 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3es53qqqja-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Mar 2022 10:42:44 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22EAbGvb016751;
+ Mon, 14 Mar 2022 10:42:41 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06fra.de.ibm.com with ESMTP id 3erjshkcvc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Mar 2022 10:42:41 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22EAgbH654133014
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Mar 2022 10:42:38 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 044CB11CFC5;
+ Mon, 14 Mar 2022 10:42:35 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4140B11D0C3;
+ Mon, 14 Mar 2022 10:42:33 +0000 (GMT)
+Received: from heavy.lan (unknown [9.171.29.97])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 14 Mar 2022 10:42:33 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v3 0/3] Fix BRASL and BRCL with large negative offsets
+Date: Mon, 14 Mar 2022 11:42:29 +0100
+Message-Id: <20220314104232.675863-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: BOKyvlF5dTrYTPHVT8RIS5F1vfIw4jUN
+X-Proofpoint-ORIG-GUID: fcRr4FUJSU5f1KjldoEkl5DzFijZloqb
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-14_04,2022-03-14_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0
+ phishscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
+ priorityscore=1501 suspectscore=0 adultscore=0 impostorscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203140065
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,39 +108,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Mar 2022 14:58:41 +0000
-David Woodhouse <dwmw2@infradead.org> wrote:
+Hi,
 
-> On Fri, 2022-03-11 at 09:39 -0500, Igor Mammedov wrote:
-> > if VM is started with:
-> > 
-> >    -enable-kvm -smp 256
-> > 
-> > without specifying 'split' irqchip, VM might eventually boot
-> > but no more than 255 CPUs will be operational and following
-> > error messages in guest could be observed:
-> >    ...
-> >    smpboot: native_cpu_up: bad cpu 256
-> >    ...
-> > It's a regression introduced by [1], which removed dependency
-> > on intremap=on that were implicitly requiring 'split' irqchip
-> > and forgot to check for 'split' irqchip.
-> > Instead of letting VM boot a broken VM, error out and tell
-> > user how to fix CLI.  
-> 
-> Hm, wasn't that already fixed in the patches I posted in December?
-It might be, could you point to the commit/series that fixed it.
+I noticed that sometimes jumping backwards leads to crashes or hangs.
+The problem is a missing cast.
+Patches 1 and 2 fix the problem, patch 3 adds a test.
 
-Regardless of that, fixing it in recent kernels doesn't help
-as still supported kernels are still affected by it.
 
-If there is a way to detect that fix, I can add to q35 a compat
-property and an extra logic to enable kernel-irqchip if fix is present.
-Otherwise the fix does not exist until minimum supported kernel
-version reaches version where it was fixed.
+v1: https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03356.html
+v1 -> v2:
+- Skip the test if mmap() fails (Richard).
+- Replace test opcodes with inline asm (David). Since we now want to
+  skip the test if the code cannot be mapped (e.g. on a 31-bit host),
+  we shouldn't be asking the loader to map the code right away. So
+  the mmap() approach stays.
+
+v2: https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03387.html
+v2 -> v3:
+- Use MAP_NORESERVE (Christian / David).
+- Unhardcode 0x100000006 (Richard).
+
+Best regards,
+Ilya
+
+Ilya Leoshkevich (3):
+  s390x/tcg: Fix BRASL with a large negative offset
+  s390x/tcg: Fix BRCL with a large negative offset
+  tests/tcg/s390x: Test BRASL and BRCL with large negative offsets
+
+ target/s390x/tcg/translate.c           |  4 +-
+ tests/tcg/s390x/Makefile.target        |  1 +
+ tests/tcg/s390x/branch-relative-long.c | 68 ++++++++++++++++++++++++++
+ 3 files changed, 71 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/s390x/branch-relative-long.c
+
+-- 
+2.35.1
 
 
