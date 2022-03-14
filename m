@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA45A4D87DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 16:14:41 +0100 (CET)
-Received: from localhost ([::1]:51572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F184D87ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 16:19:34 +0100 (CET)
+Received: from localhost ([::1]:57202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTmPA-0004rL-F6
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 11:14:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36974)
+	id 1nTmTs-00086G-Su
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 11:19:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nTmLf-0001nC-8o
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 11:11:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26565)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@ya.ru>)
+ id 1nTmRP-00078K-Ni; Mon, 14 Mar 2022 11:17:00 -0400
+Received: from forward501p.mail.yandex.net ([77.88.28.111]:41466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nTmLb-0001v9-Ci
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 11:11:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647270657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u0JBbdA7kyce/NZBES0jzQXzuRQZRDuFZxqyzZ/jyNE=;
- b=YLMW3GT7TNXD+UkMkR9KNf8GKmlrhoRoy9YJkT2JqIY3+2iMpPWRi/03duqL77a7UxPLUM
- JxuavkJjrB2yver97DxzpJXE0WUMwLDSDjYCyk72SwI7TVdj2YXePaivV1fRcvOk8TSoe4
- wXdGu+05/mTpWF4Xo5FpRPQKTo0q0Zs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-hry8vFHEPXKjnZwbfAe7hQ-1; Mon, 14 Mar 2022 11:10:52 -0400
-X-MC-Unique: hry8vFHEPXKjnZwbfAe7hQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1EEAD2999B2A;
- Mon, 14 Mar 2022 15:10:52 +0000 (UTC)
-Received: from paraplu (unknown [10.39.196.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C8834B8D54;
- Mon, 14 Mar 2022 15:10:51 +0000 (UTC)
-Date: Mon, 14 Mar 2022 16:10:49 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?=
- <philippe.mathieu.daude@gmail.com>
-Subject: Re: [PATCH v2 2/3] docs: rSTify MailingLists wiki; move it to QEMU Git
-Message-ID: <Yi9a+cA5lO+tUfIu@paraplu>
-References: <20220314104943.513593-1-kchamart@redhat.com>
- <20220314104943.513593-3-kchamart@redhat.com>
- <a87fc975-ff3b-f7a3-0bb4-9791f2ff3437@gmail.com>
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@ya.ru>)
+ id 1nTmRM-0002p3-3p; Mon, 14 Mar 2022 11:16:59 -0400
+Received: from iva5-24f2fff9e38d.qloud-c.yandex.net
+ (iva5-24f2fff9e38d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:5ca0:0:640:24f2:fff9])
+ by forward501p.mail.yandex.net (Yandex) with ESMTP id 9D0A96212B2E;
+ Mon, 14 Mar 2022 18:16:47 +0300 (MSK)
+Received: from iva1-dcde80888020.qloud-c.yandex.net
+ (iva1-dcde80888020.qloud-c.yandex.net [2a02:6b8:c0c:7695:0:640:dcde:8088])
+ by iva5-24f2fff9e38d.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ z6kb17Fqym-GleeEPgT; Mon, 14 Mar 2022 18:16:47 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ya.ru; s=mail;
+ t=1647271007; bh=virY/u9NZIhlctN9U01QOuV0lpmD6ngRiPE55SjYNo0=;
+ h=In-Reply-To:From:Subject:Cc:References:Date:Message-ID:To;
+ b=QizHihWUdwKfbe6IQmCnEZBk0MXO7UdcUa5ZV9CpELQZK9PE2gokMD3/sTpfpYHBJ
+ SLpwlukYmGeCdypuQe1sCAAxw2Mu4hV5Riyn1ZuS45NbayWrRX5Cvl8aEkvAg77E0F
+ 1MrNr74lTj3/S9w86h9X2X4S6vkryoP6vJ59hBvw=
+Authentication-Results: iva5-24f2fff9e38d.qloud-c.yandex.net;
+ dkim=pass header.i=@ya.ru
+Received: by iva1-dcde80888020.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id 2uxOs8zcWA-GkJChfLD; Mon, 14 Mar 2022 18:16:46 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <126e0c8a-c9d5-384b-f857-e26bfcd9fbf3@ya.ru>
+Date: Mon, 14 Mar 2022 18:16:46 +0300
 MIME-Version: 1.0
-In-Reply-To: <a87fc975-ff3b-f7a3-0bb4-9791f2ff3437@gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] MAINTAINERS: change Vladimir's email address
+Content-Language: en-US
+To: Eric Blake <eblake@redhat.com>
+References: <20220314110415.222496-1-v.sementsov-og@ya.ru>
+ <20220314144715.piqpqta6chosvpcc@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+In-Reply-To: <20220314144715.piqpqta6chosvpcc@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=77.88.28.111; envelope-from=v.sementsov-og@ya.ru;
+ helo=forward501p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,69 +75,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, thuth@redhat.com, eblake@redhat.com,
- qemu-devel@nongnu.org, peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 14, 2022 at 02:45:30PM +0100, Philippe Mathieu-Daudé wrote:
-> Hi Kashyap,
-
-Hi,
-
-> On 14/3/22 11:49, Kashyap Chamarthy wrote:
-
-[...]
-
-> This is a fair conversion from
-> https://wiki.qemu.org/Contribute/MailingLists, but a good opportunity to
-> improve (could be on top).
-
-Yeah, definitely.  I'll make a TODO to add it on top.  (I didn't wanted
-to mix in content edits with conversion changes, as it puts additional
-burden on the reviewers.)
-
-> We could sort as:
+14.03.2022 17:47, Eric Blake wrote:
+> On Mon, Mar 14, 2022 at 02:04:15PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>> Old vsementsov@virtuozzo.com is not accessible anymore.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+>> ---
+>>
+>> Hi all!
+>>
+>> That's my new address: v.sementsov-og@ya.ru , the old one is not
+>> available anymore.
 > 
->  * qemu-discuss
+> I am not envious of your situation when observing the geopolitical
+> forces at work that are likely behind this sudden change of email
+> address.  Best wishes to you and your collegues through these trying
+> times, in dealing with the ripple effects of sanctions for the actions
+> of others.
 > 
->    Meant for users. Ideally help should point at Documentation link,
->    and in case of missing doc we should add it or at least a GitLab
->    @Documentation ticket.
+>>
+>> I've also subscribed this new address for qemu-devel mailing list, but
+>> not yet get any message from it :(
 > 
->  * qemu-devel
-> 
->    Meant for developers. "All patches must be sent there".
-> 
->    Then developer sub-lists:
-> 
->    - qemu-trivial
-> 
->    - qemu-stable (this is kinda borderline, security issue fixes should
->      Cc this list, however it has to be treated as a write-only list
->      - a way to tag patches - no discussion happens there).
+> I can queue this through my NBD tree,
 
-Nit: The term "kinda boderline" here can mean anything from "its
-purpose is questionable" to "it is used for unintended purposes", etc.
-Let's avoid vague phrasing in public-facing text.  We can just be
-descriptive of what the purpose of the list is. :-)
+Good for me, thanks!
 
-Thanks for the review!
+Also, look at
+[PATCH v2] block/nbd.c: Fixed IO request coroutine not being wakeup when kill NBD server
 
->    - susbsystem specific
-> 
->      > block layer
-> 
->      > architecture specific
-> 
->        . ARM
->        . PPC
->        . ...
+Still, I think, let's wait a bit to be sure that everything works with my new address. For example, I've waited ~3 hours until my message get into mailing list. And I still don't see any email from qemu-devel in my inbox (I've subscribed at https://lists.nongnu.org/mailman/listinfo/qemu-devel ), probably pre-moderation process is not yet done. Will see how fast this my answer appear in mailing list archives..
 
-[...]
+> but I will first wait to see if
+> you can at least acknowledge this response (so that I feel more
+> comfortable adding my Reviewed-by).
+> 
+>>
+>> The patch is also available as pgp-signed tag at:
+>>
+>>    https://src.openvz.org/scm/~vsementsov/qemu.git tags/change-address
+>>
+>>
+>>   MAINTAINERS | 12 ++++++------
+>>   1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> 
 
 
 -- 
-/kashyap
-
+Best regards,
+Vladimir
 
