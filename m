@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C990C4D893C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 17:33:02 +0100 (CET)
-Received: from localhost ([::1]:38594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB0E4D8980
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 17:38:31 +0100 (CET)
+Received: from localhost ([::1]:45744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTncz-0000Xb-8o
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 12:33:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53912)
+	id 1nTniH-0005Yc-1U
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 12:38:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nTnXf-0001YD-Gd
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 12:27:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45197)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1nTnXd-0005lT-IX
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 12:27:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647275248;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1R9g94+vMC65XZjqr2KtePUIB0UeFoJjSaSLqLU9Teg=;
- b=QC1K2ZGZ8kGKYYR78fjj6/yllyEumohEAZXaXhx8i/IYwBLSglB/Zag+9zS7gL1Gxxcegh
- vC9CYQevektm3ncu0aJBft2dlQ7oo8p/dxAHvfErEmQB/9SLgJi7qFK+rEFVI9oi7kK3zS
- Dd98pPLAM7E79EM0PiZbptQCffqNUSs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-6-jqjEgSZxNCaHVl3fAQn3VQ-1; Mon, 14 Mar 2022 12:27:24 -0400
-X-MC-Unique: jqjEgSZxNCaHVl3fAQn3VQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C613801585;
- Mon, 14 Mar 2022 16:27:24 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB7102023A09;
- Mon, 14 Mar 2022 16:27:23 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH for-7.0 2/2] iotests/reopen-file: Test reopening file child
-Date: Mon, 14 Mar 2022 17:27:19 +0100
-Message-Id: <20220314162719.65384-3-hreitz@redhat.com>
-In-Reply-To: <20220314162719.65384-1-hreitz@redhat.com>
-References: <20220314162719.65384-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nTng6-0004dq-S8
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 12:36:14 -0400
+Received: from [2607:f8b0:4864:20::b2c] (port=45036
+ helo=mail-yb1-xb2c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nTng4-0007DG-V7
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 12:36:14 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id u61so31870559ybi.11
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 09:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZUeis3qBvb5fTEY81Om7fDOULrWlAPO3HpOWqy6oUQk=;
+ b=Cqm6fuBk4JZQh5dBB5yQ6Z/PHSAMZI8UA3qwCY8tC9AT/wCNfn06GFiD/gersmp/AF
+ GupDbDipLB+tPsZy9Gv3cqQsqfTaA0rMxHLSFdLrMobhDds1dlEJnfpr1SuHIn+2j/zR
+ HOzzjx4fT2mD6lZddiKaFKgm8y52tEBQzOTiW9xIpiLKSetTl/tWNTuoyon2FNknIy8R
+ STVDwS2FXt6eWYYB29c7ofp4Nm9Vrke13lsHjQY0usc184MI2Ey6eRZuG9nfckx/H6Bv
+ JpB+5EEK1TsoNfePrk9oHx0rr5Jsk3BKXTg+XVKQ8eACOuKmitn4LhG8mbGVMXxT2UPD
+ ifmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZUeis3qBvb5fTEY81Om7fDOULrWlAPO3HpOWqy6oUQk=;
+ b=3m4MoCWyx1OQ+OenD/LPQFUohc8nYQd8d5THgQQXpcqt9zSkZNQ1JshQoOYpJjkQZL
+ KaIFsMOVlFYcrx6JyJjODNNAJrgJFv55KOSN+5aey/NsVxgURZ353zU5sVL4gMzYyGlQ
+ U/Is5yhlt8oAipwqogXfaQp0jysS4BLxtP5Gv0JpaW/gCf5OlIzWVGEQRcpJzOQGbZsM
+ VpUD1uyLmucaUtY7wSnIXWjwe+Gb8KYonnVAkeVEkifwQfqDFp2wBskDE7gaPF8en/g0
+ Mfk/OBBL5rDp4ennQw8nIBKKm/D+GrEwfMZ6kVO9UXOR/TINEghJnp1efGXCtmgAWeN9
+ YxFA==
+X-Gm-Message-State: AOAM533vL9uCI6qEoA4s3X+Tj1Hx9l3FSzejNxFXEpqvd6Uxo6n6A4TS
+ Eg3WChOEMl/cvvJDTtudctwZczUgIabuDAxs7LvDLA==
+X-Google-Smtp-Source: ABdhPJwh8QVrevpVXpFHsP6OdXzT5L9ltrKuwg1a6kdaUezDXbtkYWPtF8yiwoyTK9cXjsdmjMMBPwYQykryuVqBnjw=
+X-Received: by 2002:a05:6902:510:b0:630:b29f:ce2e with SMTP id
+ x16-20020a056902051000b00630b29fce2emr13385456ybs.67.1647275771690; Mon, 14
+ Mar 2022 09:36:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220314154557.306-1-adeason@sinenomine.net>
+ <20220314154557.306-2-adeason@sinenomine.net>
+In-Reply-To: <20220314154557.306-2-adeason@sinenomine.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Mar 2022 16:36:00 +0000
+Message-ID: <CAFEAcA8DZby3k7rZ3F4m037b_qjANzEk-ekVQYxAm5tN1_v84w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] util/osdep: Avoid madvise proto on modern Solaris
+To: Andrew Deason <adeason@sinenomine.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,131 +82,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This should work for all format drivers that support reopening, so test
-it.
+On Mon, 14 Mar 2022 at 16:12, Andrew Deason <adeason@sinenomine.net> wrote:
+>
+> On older Solaris releases, we didn't get a protype for madvise, and so
+> util/osdep.c provides its own prototype. Some time between the public
+> Solaris 11.4 release and Solaris 11.4.42 CBE, we started getting an
+> madvise prototype that looks like this:
+>
+>     extern int madvise(void *, size_t, int);
+>
+> Which conflicts with the prototype in util/osdeps.c. Instead of always
+> declaring this prototype, check if madvise() is already declared, so
+> we don't need to declare it ourselves.
+>
+> Signed-off-by: Andrew Deason <adeason@sinenomine.net>
+> ---
+> I'm not sure if a test is needed for this at all; that is, how much qemu
+> cares about earlier Solaris. The madvise prototype exists earlier in
+> Solaris 11 (I'm not sure when it started appearing usefully), but in
+> 11.4 and earlier it was compatible with the char* prototype.
 
-(This serves as a regression test for HEAD^: This test used to fail for
-VMDK before HEAD^.)
+>  #ifdef CONFIG_SOLARIS
+>  #include <sys/statvfs.h>
+> +#ifndef HAVE_MADVISE_PROTO
+>  /* See MySQL bug #7156 (http://bugs.mysql.com/bug.php?id=7156) for
+>     discussion about Solaris header problems */
+>  extern int madvise(char *, size_t, int);
+>  #endif
+> +#endif
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
----
- tests/qemu-iotests/tests/reopen-file     | 88 ++++++++++++++++++++++++
- tests/qemu-iotests/tests/reopen-file.out |  5 ++
- 2 files changed, 93 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/reopen-file
- create mode 100644 tests/qemu-iotests/tests/reopen-file.out
+Rather than keeping this inside a CONFIG_SOLARIS and only doing
+the meson.build test if targetos == sunos, I would prefer it if we
+unconditionally determined two things in meson.build:
+ (1) do we have madvise in the usual way? (this is what we would
+     want CONFIG_MADVISE to be, and might even be what it actually is)
+ (2) do we have madvise but only if we provide a prototype for it
+     ourselves? (maybe CONFIG_MADVISE_NO_PROTO)
 
-diff --git a/tests/qemu-iotests/tests/reopen-file b/tests/qemu-iotests/tests/reopen-file
-new file mode 100755
-index 0000000000..24fd648050
---- /dev/null
-+++ b/tests/qemu-iotests/tests/reopen-file
-@@ -0,0 +1,88 @@
-+#!/usr/bin/env python3
-+# group: rw quick
-+#
-+# Test reopening a format driver's file child
-+#
-+# Copyright (C) 2022 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import iotests
-+from iotests import imgfmt, qemu_img_create, QMPTestCase
-+
-+
-+image_size = 1 * 1024 * 1024
-+test_img = os.path.join(iotests.test_dir, 'test.img')
-+
-+
-+class TestReopenFile(QMPTestCase):
-+    def setUp(self) -> None:
-+        assert qemu_img_create('-f', imgfmt, test_img, str(image_size)) == 0
-+
-+        # Add format driver node ('format') on top of the file ('file'), then
-+        # add another raw node ('raw') on top of 'file' so for the reopen we
-+        # can just switch from 'file' to 'raw'
-+        self.vm = iotests.VM()
-+        self.vm.add_blockdev(self.vm.qmp_to_opts({
-+            'driver': imgfmt,
-+            'node-name': 'format',
-+            'file': {
-+                'driver': 'file',
-+                'node-name': 'file',
-+                'filename': test_img
-+            }
-+        }))
-+        self.vm.add_blockdev(self.vm.qmp_to_opts({
-+            'driver': 'raw',
-+            'node-name': 'raw',
-+            'file': 'file'
-+        }))
-+        self.vm.launch()
-+
-+    def tearDown(self) -> None:
-+        self.vm.shutdown()
-+        os.remove(test_img)
-+
-+        # Check if there was any qemu-io run that failed
-+        if 'Pattern verification failed' in self.vm.get_log():
-+            print('ERROR: Pattern verification failed:')
-+            print(self.vm.get_log())
-+            self.fail('qemu-io pattern verification failed')
-+
-+    def test_reopen_file(self) -> None:
-+        result = self.vm.qmp('blockdev-reopen', options=[{
-+            'driver': imgfmt,
-+            'node-name': 'format',
-+            'file': 'raw'
-+        }])
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Do some I/O to the image to see whether it still works
-+        # (Pattern verification will be checked by tearDown())
-+        result = self.vm.qmp('human-monitor-command',
-+                             command_line='qemu-io format "write -P 42 0 64k"')
-+        self.assert_qmp(result, 'return', '')
-+
-+        result = self.vm.qmp('human-monitor-command',
-+                             command_line='qemu-io format "read -P 42 0 64k"')
-+        self.assert_qmp(result, 'return', '')
-+
-+
-+if __name__ == '__main__':
-+    # Must support creating images and reopen
-+    iotests.main(supported_fmts=['qcow', 'qcow2', 'qed', 'raw', 'vdi', 'vhdx',
-+                                 'vmdk', 'vpc'],
-+                 supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/tests/reopen-file.out b/tests/qemu-iotests/tests/reopen-file.out
-new file mode 100644
-index 0000000000..ae1213e6f8
---- /dev/null
-+++ b/tests/qemu-iotests/tests/reopen-file.out
-@@ -0,0 +1,5 @@
-+.
-+----------------------------------------------------------------------
-+Ran 1 tests
-+
-+OK
--- 
-2.35.1
+and then in osdep.h provide the prototype if CONFIG_MADVISE_NO_PROTO.
+(osdep.h is where we provide "this is a fixup to the system headers"
+portability workarounds, which this seems to be.)
 
+This isn't the only .c file that directly calls madvise() :
+softmmu/physmem.c does also. That looks like maybe a bug though:
+perhaps it should be calling qemu_madvise()...
+
+Side note: do you know why CONFIG_SOLARIS includes sys/statvfs.h ?
+Is that unrelated to madvise() ?
+
+thanks
+-- PMM
 
