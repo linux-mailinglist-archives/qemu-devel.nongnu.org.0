@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559804D7EBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:36:25 +0100 (CET)
-Received: from localhost ([::1]:57772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A554D7ECE
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:39:39 +0100 (CET)
+Received: from localhost ([::1]:38102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTh7n-0002wP-P2
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:36:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49212)
+	id 1nThAw-0000iK-C8
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:39:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3h-0007oG-32; Mon, 14 Mar 2022 05:32:10 -0400
-Received: from [2a00:1450:4864:20::42b] (port=36777
- helo=mail-wr1-x42b.google.com)
+ id 1nTh3j-0007q5-9M; Mon, 14 Mar 2022 05:32:12 -0400
+Received: from [2a00:1450:4864:20::32f] (port=35811
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3f-00082l-Gf; Mon, 14 Mar 2022 05:32:08 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id r10so22865681wrp.3;
- Mon, 14 Mar 2022 02:32:06 -0700 (PDT)
+ id 1nTh3g-00082v-VT; Mon, 14 Mar 2022 05:32:10 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ v2-20020a7bcb42000000b0037b9d960079so11585433wmj.0; 
+ Mon, 14 Mar 2022 02:32:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Oim5iQ8qBT9TSPiOz7152c55oQDOdkTvsjlcgArSA9E=;
- b=HqohyCo27Qv1dCnYneU6AOWVvagd4lO+Cg6W0hCMWJiGJ5grU8SgPr7Jz8CoxwLtUI
- nafxbMG1G0M+/3fQUL9yeSrdXB1OW0hhk5pp66qvNzl8fqsUcEJHob23FrPteolCwMyz
- CFjw6qgdpV7Ihbnjxxqe+eME9Ny1DgTJu5OncByvFv3KKbZ6Jv4MQVQVu2dsISSOfRDy
- avkvR7RZiNspm9DEzmEWVht4/KB1PCssQKn65DmCMo+H0tkrza8KY/Ul+nm1WNIntKGY
- bkcUoF6DvrCnqai/3VFNMhjqAfrqw8kPgbx5gmW1Ps7bpMsxritShmEqClBLGDuARI5a
- XTGg==
+ bh=oXz+BWP/LDeXYvsbVe7m9SlkJdCNLdNyBH4D7wYcyC8=;
+ b=o8F1IfEoqpOSC738PEUwDmuZh8kT2uBtJImIo90Db5uvf48IPBanMaOi8J/9sO9VJW
+ Q/TZgl2hp2r1Ih17AxvUHGlyvUh0lqAi7tzf5ojnRnVAd86CURqYEEoxKCMlEI8vctae
+ P1VUHsGaET30s/bfJfRMpuCMU2Q6ngjT6vIoSySzMX+zca307uxEKerRahxABRz8qAwv
+ jtNANLjBBGzY41qbbzkp+bHuAwYS9CisdgtvmS5elIWl6WO62fND1XxbJ9MXlpfh3KGT
+ tHY/8LERYFq+1RysAT1syQ8Wy8tB5MuVxSmT7MW3ZQdDyWRwBqkT9jOx7m9ulpkpUFnI
+ VrrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Oim5iQ8qBT9TSPiOz7152c55oQDOdkTvsjlcgArSA9E=;
- b=OVVOzBCOTDxc156022Aq+2qiPoOBfpKcRk/4462Pi/M+lkINrq0PeOouS7DEVfpG9y
- z6XeTLP5spdmALvYjerxAQaWPIVhXzNkIBGVlUHdurahTXjBI78WFFaXt6Dn6u6b37vm
- t6xfahrbOL5kJ/CVq26uUpBXlWrxQ/JSGva0DcAxKWz+WgerWli3n07bhwbG/zAsxGNI
- CRlK3Qw2Zl/gH6/eUOv9lR4970iXX2ScQUVIDn7y0+sK9N5DIwBhAsf2MsQPVW8uwGFI
- lUWqHjmiuuX7epV/rXyjrrfw+8hTnCmO5BR7xN78dxSjYAZ75sg8g0qj92ajNOCbBl0C
- j2qQ==
-X-Gm-Message-State: AOAM530815I8gXW7x0Sx66kqnzKIok/KamkaEVcgozWppHteMGfM8KMD
- /Jalj3hqIB9MuVNw5MWqSNSkdgkyVfk=
-X-Google-Smtp-Source: ABdhPJxG6LUP65ZcLzcHjn/HNCrbBf4EqP8vwrCc6h35xeGe1p+hCUW3bje6COdej/CPQMcNPhbTjw==
-X-Received: by 2002:a05:6000:2c4:b0:203:72c9:ef37 with SMTP id
- o4-20020a05600002c400b0020372c9ef37mr15312715wry.387.1647250325891; 
- Mon, 14 Mar 2022 02:32:05 -0700 (PDT)
+ bh=oXz+BWP/LDeXYvsbVe7m9SlkJdCNLdNyBH4D7wYcyC8=;
+ b=xQ5TOjPRPcc+Hspkw2bLr+jOdV9kFN98M4u7V3/iQtOA7Mr690LsdSsW34KzsUHxxa
+ 67lwYIUhGj+hj63RJm2az3NsqYs4J+dCB8LquxDqBGhPfxoJEY3iULbi9OfX/K9LxqwK
+ 6mud4Jle0xFfYtbPWiF/VGKIMgDlrbd+k7AkXN6HdyxMp18zkDe0S8EH8VNoGgyLWd25
+ FThgN44gfazvGRwx9y2COIKZBvhUMbP3m7PgMLMVUAkjCsoGac8iL2zJ+viO+SNux2Cl
+ XwkpDGQACN9N/weIsfD5v8F8qIM33+SU98e8R2ifrvmobg6VOWY68sjXLxf1tKAXznGH
+ TuWQ==
+X-Gm-Message-State: AOAM531+Oldnh8jNEA1Kpv2qPRUkT0cL6CwGw7FIUECKQ6Qi+TYHXq8A
+ 3GzDqZAhY7zM7c0orDfG72GQKmsaZm8=
+X-Google-Smtp-Source: ABdhPJw25U5dVXwMehBIjsC/jR847X3PEYOQqfXBPqZPz2sWP49Yg6F69RyOMlFF0u2n+IeF9rllbw==
+X-Received: by 2002:a05:600c:154a:b0:389:d76c:8a07 with SMTP id
+ f10-20020a05600c154a00b00389d76c8a07mr16595174wmg.60.1647250326748; 
+ Mon, 14 Mar 2022 02:32:06 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
  l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 02:32:05 -0700 (PDT)
+ Mon, 14 Mar 2022 02:32:06 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH experiment 01/16] coroutine: add missing coroutine_fn
- annotations for CoRwlock functions
-Date: Mon, 14 Mar 2022 10:31:48 +0100
-Message-Id: <20220314093203.1420404-2-pbonzini@redhat.com>
+Subject: [PATCH experiment 02/16] coroutine: qemu_coroutine_get_aio_context is
+ not a coroutine_fn
+Date: Mon, 14 Mar 2022 10:31:49 +0100
+Message-Id: <20220314093203.1420404-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314093203.1420404-1-pbonzini@redhat.com>
 References: <20220314093203.1420404-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -93,60 +94,43 @@ Cc: kwolf@redhat.com, hreitz@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CoRwlock can only be taken or released from a coroutine, and it
-can yield.  Mark it as coroutine_fn.
+Since it operates on a given coroutine, qemu_coroutine_get_aio_context
+can be called from outside coroutine context.
+
+This is for example how qio_channel_restart_read uses it.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/coroutine.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ include/qemu/coroutine.h | 2 +-
+ util/qemu-coroutine.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index c828a95ee0..da68be5ad2 100644
+index da68be5ad2..666f3ba0e0 100644
 --- a/include/qemu/coroutine.h
 +++ b/include/qemu/coroutine.h
-@@ -261,7 +261,7 @@ void qemu_co_rwlock_init(CoRwlock *lock);
-  * of a parallel writer, control is transferred to the caller of the current
-  * coroutine.
+@@ -92,7 +92,7 @@ void coroutine_fn qemu_coroutine_yield(void);
+ /**
+  * Get the AioContext of the given coroutine
   */
--void qemu_co_rwlock_rdlock(CoRwlock *lock);
-+void coroutine_fn qemu_co_rwlock_rdlock(CoRwlock *lock);
+-AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co);
++AioContext *qemu_coroutine_get_aio_context(Coroutine *co);
  
  /**
-  * Write Locks the CoRwlock from a reader.  This is a bit more efficient than
-@@ -270,7 +270,7 @@ void qemu_co_rwlock_rdlock(CoRwlock *lock);
-  * to the caller of the current coroutine; another writer might run while
-  * @qemu_co_rwlock_upgrade blocks.
-  */
--void qemu_co_rwlock_upgrade(CoRwlock *lock);
-+void coroutine_fn qemu_co_rwlock_upgrade(CoRwlock *lock);
+  * Get the currently executing coroutine
+diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
+index c03b2422ff..9f2bd96fa0 100644
+--- a/util/qemu-coroutine.c
++++ b/util/qemu-coroutine.c
+@@ -200,7 +200,7 @@ bool qemu_coroutine_entered(Coroutine *co)
+     return co->caller;
+ }
  
- /**
-  * Downgrades a write-side critic section to a reader.  Downgrading with
-@@ -278,20 +278,20 @@ void qemu_co_rwlock_upgrade(CoRwlock *lock);
-  * followed by @qemu_co_rwlock_rdlock.  This makes it more efficient, but
-  * may also sometimes be necessary for correctness.
-  */
--void qemu_co_rwlock_downgrade(CoRwlock *lock);
-+void coroutine_fn qemu_co_rwlock_downgrade(CoRwlock *lock);
- 
- /**
-  * Write Locks the mutex. If the lock cannot be taken immediately because
-  * of a parallel reader, control is transferred to the caller of the current
-  * coroutine.
-  */
--void qemu_co_rwlock_wrlock(CoRwlock *lock);
-+void coroutine_fn qemu_co_rwlock_wrlock(CoRwlock *lock);
- 
- /**
-  * Unlocks the read/write lock and schedules the next coroutine that was
-  * waiting for this lock to be run.
-  */
--void qemu_co_rwlock_unlock(CoRwlock *lock);
-+void coroutine_fn qemu_co_rwlock_unlock(CoRwlock *lock);
- 
- typedef struct QemuCoSleep {
-     Coroutine *to_wake;
+-AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co)
++AioContext *qemu_coroutine_get_aio_context(Coroutine *co)
+ {
+     return co->ctx;
+ }
 -- 
 2.35.1
 
