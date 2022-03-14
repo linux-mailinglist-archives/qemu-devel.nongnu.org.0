@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42EA94D85FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 14:33:33 +0100 (CET)
-Received: from localhost ([::1]:54470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5614D85E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 14:27:43 +0100 (CET)
+Received: from localhost ([::1]:42942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTkpI-0007s9-CN
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 09:33:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38122)
+	id 1nTkje-0000X1-BE
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 09:27:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nTkbS-0001LX-Vx
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 09:19:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28771)
+ id 1nTkbQ-0001KU-Mi
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 09:19:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1nTkbP-0006ZR-Jq
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 09:19:14 -0400
+ id 1nTkbN-0006Yb-NO
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 09:19:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647263951;
+ s=mimecast20190719; t=1647263949;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lzStFwdvLrDQ5LppXBc0Qr/kvfpfQchE3OdsAkM8lKA=;
- b=VQAbBor2pG/seIBWb35CrmsEQ5jMC67g9OblSOl/0HyuHEaZ6VYRrQSeRwp0z3Py6sSUST
- 1u6S0LUuuo2eJZWyPyB14ZnwBvgubSBw6lX+C4fKFxZpPphFs4w5r2vUDKsnC9IpB/28HX
- i790bKsO71LVKzTMg3ztrG28uQYbuio=
+ bh=nwA26UkG2+owWpWiI3GVGo6wBUh4XDA2BdTeqN1ous8=;
+ b=TZpUAVOUDhwsY9YsQDUccb77UgcYhSudrjT16zPXJpLKgYcRcoIeDdYu5/ZhF/GGa7Z5Gr
+ TM4GVuOYXdYAHSuoTZqnk85QKD3zEmedmaUHXa9qBCaFgxVQEf/e+SWxWL4t4mBBbitsr0
+ R6nBKzHcAlR8syfgs8P1KaBFo+LIR/g=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-8_tQy9sAPB2xq-dFU673yw-1; Mon, 14 Mar 2022 09:19:05 -0400
-X-MC-Unique: 8_tQy9sAPB2xq-dFU673yw-1
+ us-mta-668-zmIC4VtjOq-gW49lpS37mg-1; Mon, 14 Mar 2022 09:19:06 -0400
+X-MC-Unique: zmIC4VtjOq-gW49lpS37mg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 663F5833965;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF2A9811E75;
  Mon, 14 Mar 2022 13:19:05 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 221E62EF83;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D0FC2EF83;
  Mon, 14 Mar 2022 13:19:05 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 04/10] block.c: bdrv_replace_child_noperm: first remove the
- child, and then call ->detach()
-Date: Mon, 14 Mar 2022 09:18:48 -0400
-Message-Id: <20220314131854.2202651-5-eesposit@redhat.com>
+Subject: [PATCH v2 05/10] block.c: bdrv_replace_child_noperm: first call
+ ->attach(), and then add child
+Date: Mon, 14 Mar 2022 09:18:49 -0400
+Message-Id: <20220314131854.2202651-6-eesposit@redhat.com>
 In-Reply-To: <20220314131854.2202651-1-eesposit@redhat.com>
 References: <20220314131854.2202651-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -90,58 +90,73 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Doing the opposite can make ->detach() (more precisely
-bdrv_unapply_subtree_drain() in bdrv_child_cb_detach) undo the subtree_drain
-just performed to protect the removal of the child from the graph,
-thus making the fully-enabled assert_bdrv_graph_writable fail.
+Doing the opposite can make adding the child node to a non-drained node,
+as apply_subtree_drain is only done in ->attach() and thus make
+assert_bdrv_graph_writable fail.
 
-Note that assert_bdrv_graph_writable is not yet fully enabled.
+This can happen for example during a transaction rollback (test 245,
+test_io_with_graph_changes):
+1. a node is removed from the graph, thus it is undrained
+2. then something happens, and we need to roll back the transactions
+   through tran_abort()
+3. at this point, the current code would first attach the undrained node
+   to the graph via QLIST_INSERT_HEAD, and then call ->attach() that
+   will take care of restoring the drain with apply_subtree_drain(),
+   leaving the node undrained between the two operations.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ block.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
 diff --git a/block.c b/block.c
-index 372f16f4a0..d870ba5393 100644
+index d870ba5393..c6a550f9c6 100644
 --- a/block.c
 +++ b/block.c
-@@ -1448,6 +1448,11 @@ static void bdrv_child_cb_attach(BdrvChild *child)
-     bdrv_apply_subtree_drain(child, bs);
+@@ -1434,6 +1434,11 @@ static void bdrv_inherited_options(BdrvChildRole role, bool parent_is_format,
+     *child_flags = flags;
  }
  
 +/*
-+ * Unapply the drain in the whole child subtree, as
-+ * it has been already detached, and then remove from
-+ * child->opaque->children.
++ * Add the child node to child->opaque->children list,
++ * and then apply the drain to the whole child subtree,
++ * so that the drain count matches with the parent.
 + */
- static void bdrv_child_cb_detach(BdrvChild *child)
+ static void bdrv_child_cb_attach(BdrvChild *child)
  {
      BlockDriverState *bs = child->opaque;
-@@ -2864,14 +2869,18 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
+@@ -2889,8 +2894,6 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
      }
  
-     if (old_bs) {
--        /* Detach first so that the recursive drain sections coming from @child
--         * are already gone and we only end the drain sections that came from
--         * elsewhere. */
-+        /* First remove child from child->bs->parents list */
-+        assert_bdrv_graph_writable(old_bs);
-+        QLIST_REMOVE(child, next_parent);
+     if (new_bs) {
+-        assert_bdrv_graph_writable(new_bs);
+-        QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
+ 
+         /*
+          * Detaching the old node may have led to the new node's
+@@ -2901,12 +2904,19 @@ static void bdrv_replace_child_noperm(BdrvChild **childp,
+         assert(new_bs->quiesce_counter <= new_bs_quiesce_counter);
+         drain_saldo += new_bs->quiesce_counter - new_bs_quiesce_counter;
+ 
+-        /* Attach only after starting new drained sections, so that recursive
+-         * drain sections coming from @child don't get an extra .drained_begin
+-         * callback. */
 +        /*
-+         * Then call ->detach() cb.
-+         * In child_of_bds case, update the child parent
-+         * (child->opaque) ->children list and
-+         * remove any drain left in the child subtree.
++         * First call ->attach() cb.
++         * In child_of_bds case, add child to the parent
++         * (child->opaque) ->children list and if
++         * necessary add missing drains in the child subtree.
 +         */
-         if (child->klass->detach) {
-             child->klass->detach(child);
+         if (child->klass->attach) {
+             child->klass->attach(child);
          }
--        assert_bdrv_graph_writable(old_bs);
--        QLIST_REMOVE(child, next_parent);
++
++        /* Then add child to new_bs->parents list */
++        assert_bdrv_graph_writable(new_bs);
++        QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
      }
  
-     child->bs = new_bs;
+     /*
 -- 
 2.31.1
 
