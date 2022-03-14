@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DFF4D8A2F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 17:55:54 +0100 (CET)
-Received: from localhost ([::1]:33284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCFD4D8A3D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 17:58:40 +0100 (CET)
+Received: from localhost ([::1]:36602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTnz7-0008Te-47
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 12:55:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59254)
+	id 1nTo1n-0002TW-KX
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 12:58:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nTnw8-0006Yy-UV
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 12:52:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nTnw7-0001Hb-B1
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 12:52:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647276766;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mpMDbZ3EQU1fQZzX91KRI0T2NWpnlm/0FSpQMM1XUq8=;
- b=R3BCBNXBjTpMJzkxVvq9pdxbMe7aZgU0cUWUt/ai68+i79Ly/CDgfESiuFd9i2lzRAbFR8
- rYPrIrBXTCFoKBMR2U+FNza8BvvzbXltIVwD3MF/DjPQkPxKwW0UW0mIxAF6RKmPKLUYYo
- pKmjnZmohDG1n+3BPhDjwgAVC7mbHJc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-455-Cz7_BZVLOsKKZ_xPjyadnw-1; Mon, 14 Mar 2022 12:52:41 -0400
-X-MC-Unique: Cz7_BZVLOsKKZ_xPjyadnw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F4C43C01BB0;
- Mon, 14 Mar 2022 16:52:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 50C6F4B8D58;
- Mon, 14 Mar 2022 16:52:38 +0000 (UTC)
-Date: Mon, 14 Mar 2022 16:52:35 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
-Message-ID: <Yi9y0xQ2O00y1uJ5@redhat.com>
-References: <20220314093203.1420404-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nTnzp-0001e8-GL
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 12:56:37 -0400
+Received: from [2607:f8b0:4864:20::b2f] (port=39483
+ helo=mail-yb1-xb2f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nTnzm-0001sF-NN
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 12:56:36 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id t11so287979ybi.6
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 09:56:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ecueFWflK+huwwfvliOm0ijKswJTGZLiXdfI+lTflsM=;
+ b=SZgRZZXclelNoM3yzX1cZlGSoxyXBiRdLwzeFA7kGoiC8NzkwkHgIIT+3prjelzaB9
+ mpTgoMgHYcGlTqLQeEjx9lZ+mfisLlmhc0j8htkrmWZu93VUZsjG0g3im6v9WZatkje7
+ 4p+FTApYlQ7EXLwBNA3wVMNNtMyuQDTKRNRrK00vCfCrFeo6Fcjidc/WpwzbOBajkZBu
+ 3Vl3BRiqXu122PEfcCPdr7XjAS2djyMUpHgyZtdnIfQ9tjqSbpguUKKA2v2pBmx8cKug
+ d9kuv5gP7lECWV6Zz9a1E+ExPVrhDvQZE7aVkMkL5gWUY0uPqBXUBZV7YJ5ZzNCxQJIO
+ zIFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ecueFWflK+huwwfvliOm0ijKswJTGZLiXdfI+lTflsM=;
+ b=NMMnNEzkhz8oxSXYjVUCoz3XR1ESzE3dQSGcEXF37ajJcz25SwSH45oatrykO+iEM9
+ lJDyhwkbadHmMNBIg3SIsPj2impyXiVgQhf7azIDzKKVVZRkC7Enei+vjJHihcntK7lP
+ mOn6gk7TCEBB2p7a23AumhodgJXAsa+u7FVMH9cSRpEuak28gS9qWjn4/CtgLd0hx3+f
+ VAiBCEYNSYIM+SfJXIfKcpI7hAUAxOGsda6C3XbyQJksI5XclD7GsMSMGXM5FuBFI5vh
+ f+bzjt7O9YZTY4ODGh5ig9CrKvXczvd8/tn3OinFzgd4Xwhl+uyFx2xk8Lfe3Igz55Gn
+ yL2A==
+X-Gm-Message-State: AOAM532Epr0e3fUH4Q/4qOL/9cHV29Q4s2L9Phq/7mL0PRpwfFDqgj09
+ PwlQ8xKMK0qZIQnJkpPAXTlmZTKCwPRc5XYaNZNp2w==
+X-Google-Smtp-Source: ABdhPJwjAGfJTyZzq2Qf87egALk4uBGGF4OdrsKNxYUAdFc/fyb+O4B0wuU6iOZF33bawoF5/2rwJYQOO0NkH7h8Ie0=
+X-Received: by 2002:a25:32c6:0:b0:629:130:a037 with SMTP id
+ y189-20020a2532c6000000b006290130a037mr18355972yby.193.1647276990184; Mon, 14
+ Mar 2022 09:56:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220314093203.1420404-1-pbonzini@redhat.com>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220302182936.227719-1-dgilbert@redhat.com>
+ <CAFEAcA9CrHEu8F7PGGTvsdyLnFJhan9V9FkHDgvapje+_E=hVA@mail.gmail.com>
+ <f750a1a4-223c-9456-ab23-a616f7eb2625@gmail.com> <Yieku+cTxY0Xyp5C@work-vm>
+In-Reply-To: <Yieku+cTxY0Xyp5C@work-vm>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Mar 2022 16:56:18 +0000
+Message-ID: <CAFEAcA-Y_8KTxCPoSN3P0Cgfe6cEN74b-5U1SeKtAP7FdzFvZA@mail.gmail.com>
+Subject: Re: [PULL 00/18] migration queue
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,64 +85,368 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: thuth@redhat.com, quintela@redhat.com, s.reiter@proxmox.com,
+ qemu-devel@nongnu.org, peterx@redhat.com,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ hreitz@redhat.com, f.ebner@proxmox.com, jinpu.wang@ionos.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 14, 2022 at 10:31:47AM +0100, Paolo Bonzini wrote:
-> This was compiled with GCC 11 only.  Coroutine support was added in
-> GCC 10, released in 2020, which IIRC is much newer than the most recent
-> release we support.
+On Tue, 8 Mar 2022 at 18:47, Dr. David Alan Gilbert <dgilbert@redhat.com> w=
+rote:
+>
+> * Philippe Mathieu-Daud=C3=A9 (philippe.mathieu.daude@gmail.com) wrote:
+> > I'm seeing an error on the s390x runner:
+> >
+> > =E2=96=B6  26/547 ERROR:../tests/qtest/migration-test.c:276:check_guest=
+s_ram:
+> > assertion failed: (bad =3D=3D 0) ERROR
+> >
+> >  26/547 qemu:qtest+qtest-i386 / qtest-i386/migration-test            ER=
+ROR
+> > 78.87s   killed by signal 6 SIGABRT
+> >
+> > https://app.travis-ci.com/gitlab/qemu-project/qemu/jobs/562515884#L7848
+>
+> Yeh, thuth mentioned that, it seems to only be s390 which is odd.
+> I'm not seeing anything obviously architecture dependent in that set, or
+> for that matter that plays with the ram migration stream much.
+> Is this reliable enough that someone with a tame s390 could bisect?
 
-Currrently we target 7.4:
+Didn't see a SIGABRT, but here's a gdb backtrace of a hang
+in the migration test on s390 host. I have also observed the
+migration test hanging on macos host, so I don't think this is
+s390-specific.
 
-  commit 2a85a08c998e418a46a308095893f223642f6fc9
-  Author: Daniel P. Berrangé <berrange@redhat.com>
-  Date:   Fri May 14 13:04:15 2021 +0100
+Process tree:
+migration-test(455775)-+-qemu-system-i38(456194)
+                       |-qemu-system-i38(456200)
+                       `-qemu-system-i38(456266)
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+PROCESS: 455775
+linux1    455775  312266  5 14:36 pts/0    00:07:19
+./tests/qtest/migration-test -tap -k
+[New LWP 455776]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+__libc_read (nbytes=3D1, buf=3D0x3ffe69fd816, fd=3D4) at
+../sysdeps/unix/sysv/linux/read.c:26
+26      ../sysdeps/unix/sysv/linux/read.c: No such file or directory.
 
-    configure: bump min required CLang to 6.0 / XCode 10.0
-    
-    Several distros have been dropped since the last time we bumped the
-    minimum required CLang version.
-    
-    Per repology, currently shipping versions are:
-    
-                 RHEL-8: 10.0.1
-          Debian Buster: 7.0.1
-     openSUSE Leap 15.2: 9.0.1
-       Ubuntu LTS 18.04: 6.0.0
-       Ubuntu LTS 20.04: 10.0.0
-             FreeBSD 12: 8.0.1
-              Fedora 33: 11.0.0
-              Fedora 34: 11.1.0
-    
+Thread 2 (Thread 0x3ff9c7ff900 (LWP 455776)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+#1  0x000002aa1e8d24ca in qemu_futex_wait (f=3D0x2aa1e920cbc
+<rcu_call_ready_event>, val=3D4294967295) at
+/home/linux1/qemu/include/qemu/futex.h:29
+#2  0x000002aa1e8d276e in qemu_event_wait (ev=3D0x2aa1e920cbc
+<rcu_call_ready_event>) at ../../util/qemu-thread-posix.c:481
+#3  0x000002aa1e8e6ce2 in call_rcu_thread (opaque=3D0x0) at ../../util/rcu.=
+c:261
+#4  0x000002aa1e8d2998 in qemu_thread_start (args=3D0x2aa200e51e0) at
+../../util/qemu-thread-posix.c:556
+#5  0x000003ff9ca87e66 in start_thread (arg=3D0x3ff9c7ff900) at
+pthread_create.c:477
+#6  0x000003ff9c97cbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
+Thread 1 (Thread 0x3ff9ce75430 (LWP 455775)):
+#0  __libc_read (nbytes=3D1, buf=3D0x3ffe69fd816, fd=3D4) at
+../sysdeps/unix/sysv/linux/read.c:26
+#1  __libc_read (fd=3D<optimized out>, buf=3D0x3ffe69fd816, nbytes=3D1) at
+../sysdeps/unix/sysv/linux/read.c:24
+#2  0x000002aa1e894652 in qmp_fd_receive (fd=3D4) at
+../../tests/qtest/libqtest.c:613
+#3  0x000002aa1e894816 in qtest_qmp_receive_dict (s=3D0x2aa200f6a20) at
+../../tests/qtest/libqtest.c:648
+#4  0x000002aa1e894782 in qtest_qmp_receive (s=3D0x2aa200f6a20) at
+../../tests/qtest/libqtest.c:636
+#5  0x000002aa1e894ede in qtest_vqmp (s=3D0x2aa200f6a20,
+fmt=3D0x2aa1e8f140c "{ 'execute': 'query-migrate' }", ap=3D0x3ffe69fdb80)
+at ../../tests/qtest/libqtest.c:749
+#6  0x000002aa1e891ac0 in wait_command (who=3D0x2aa200f6a20,
+command=3D0x2aa1e8f140c "{ 'execute': 'query-migrate' }") at
+../../tests/qtest/migration-helpers.c:63
+#7  0x000002aa1e891de8 in migrate_query (who=3D0x2aa200f6a20) at
+../../tests/qtest/migration-helpers.c:107
+#8  0x000002aa1e891e1a in migrate_query_status (who=3D0x2aa200f6a20) at
+../../tests/qtest/migration-helpers.c:116
+#9  0x000002aa1e891ef6 in check_migration_status (who=3D0x2aa200f6a20,
+goal=3D0x2aa1e8f0f0e "cancelled", ungoals=3D0x0) at
+../../tests/qtest/migration-helpers.c:132
+#10 0x000002aa1e892150 in wait_for_migration_status
+(who=3D0x2aa200f6a20, goal=3D0x2aa1e8f0f0e "cancelled", ungoals=3D0x0) at
+../../tests/qtest/migration-helpers.c:156
+#11 0x000002aa1e8910fa in test_multifd_tcp_cancel () at
+../../tests/qtest/migration-test.c:1379
+#12 0x000003ff9cc7e608 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#13 0x000003ff9cc7e392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#14 0x000003ff9cc7e392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#15 0x000003ff9cc7e392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#16 0x000003ff9cc7e392 in ?? () from /lib/s390x-linux-gnu/libglib-2.0.so.0
+#17 0x000003ff9cc7eada in g_test_run_suite () from
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#18 0x000003ff9cc7eb10 in g_test_run () from
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#19 0x000002aa1e891578 in main (argc=3D2, argv=3D0x3ffe69fece8) at
+../../tests/qtest/migration-test.c:1491
+[Inferior 1 (process 455775) detached]
 
-Ubuntu 18.04 drops off our list after 7.0 comes out
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+PROCESS: 456194
+linux1    456194  455775 85 14:39 pts/0    01:54:06 ./qemu-system-i386
+-qtest unix:/tmp/qtest-455775.sock -qtest-log /dev/null -chardev
+socket,path=3D/tmp/qtest-455775.qmp,id=3Dchar0 -mon
+chardev=3Dchar0,mode=3Dcontrol -display none -accel kvm -accel tcg -name
+source,debug-threads=3Don -m 150M -serial
+file:/tmp/migration-test-dmqzpM/src_serial -drive
+file=3D/tmp/migration-test-dmqzpM/bootsect,format=3Draw -accel qtest
+[New LWP 456196]
+[New LWP 456197]
+[New LWP 456198]
+[New LWP 456229]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+0x000003ff9a071c9c in __ppoll (fds=3D0x2aa2c46c2f0, nfds=3D5,
+timeout=3D<optimized out>, sigmask=3D0x0) at
+../sysdeps/unix/sysv/linux/ppoll.c:44
+44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
 
-Buster is already  off our list as that hit the 2 year
-mark in AUg 2021.
+Thread 5 (Thread 0x3fee0ff9900 (LWP 456229)):
+#0  futex_abstimed_wait_cancelable (private=3D0, abstime=3D0x0, clockid=3D0=
+,
+expected=3D0, futex_word=3D0x2aa2c46e7e4) at
+../sysdeps/nptl/futex-internal.h:320
+#1  do_futex_wait (sem=3Dsem@entry=3D0x2aa2c46e7e0, abstime=3D0x0,
+clockid=3D0) at sem_waitcommon.c:112
+#2  0x000003ff9a191870 in __new_sem_wait_slow (sem=3D0x2aa2c46e7e0,
+abstime=3D0x0, clockid=3D0) at sem_waitcommon.c:184
+#3  0x000003ff9a19190e in __new_sem_wait (sem=3D<optimized out>) at sem_wai=
+t.c:42
+#4  0x000002aa2923da1e in qemu_sem_wait (sem=3D0x2aa2c46e7e0) at
+../../util/qemu-thread-posix.c:358
+#5  0x000002aa289483cc in multifd_send_sync_main (f=3D0x2aa2b5f92d0) at
+../../migration/multifd.c:610
+#6  0x000002aa28dfa30c in ram_save_iterate (f=3D0x2aa2b5f92d0,
+opaque=3D0x2aa29bf75d0 <ram_state>) at ../../migration/ram.c:3049
+#7  0x000002aa28958fee in qemu_savevm_state_iterate (f=3D0x2aa2b5f92d0,
+postcopy=3Dfalse) at ../../migration/savevm.c:1296
+#8  0x000002aa28942d40 in migration_iteration_run (s=3D0x2aa2b3f9800) at
+../../migration/migration.c:3607
+#9  0x000002aa289434da in migration_thread (opaque=3D0x2aa2b3f9800) at
+../../migration/migration.c:3838
+#10 0x000002aa2923e020 in qemu_thread_start (args=3D0x2aa2b8b29e0) at
+../../util/qemu-thread-posix.c:556
+#11 0x000003ff9a187e66 in start_thread (arg=3D0x3fee0ff9900) at
+pthread_create.c:477
+#12 0x000003ff9a07cbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
-OpenSUSE Leap 15.2 was EOL'd by SUSE themselves in Jan 2022,
-We use it as a proxy for SLES, but I think we can required
-SLES 15 sp3.
+Thread 4 (Thread 0x3ff89f2f900 (LWP 456198)):
+#0  env_neg (env=3D0x2aa2b5f5030) at /home/linux1/qemu/include/exec/cpu-all=
+.h:478
+#1  0x000002aa28f5376a in env_tlb (env=3D0x2aa2b5f5030) at
+/home/linux1/qemu/include/exec/cpu-all.h:502
+#2  0x000002aa28f538a8 in tlb_index (env=3D0x2aa2b5f5030, mmu_idx=3D2,
+addr=3D73265152) at /home/linux1/qemu/include/exec/cpu_ldst.h:366
+#3  0x000002aa28f574bc in tlb_set_page_with_attrs (cpu=3D0x2aa2b5ec750,
+vaddr=3D73265152, paddr=3D73265152, attrs=3D..., prot=3D7, mmu_idx=3D2,
+size=3D4096) at ../../accel/tcg/cputlb.c:1194
+#4  0x000002aa28cdfd3e in handle_mmu_fault (cs=3D0x2aa2b5ec750,
+addr=3D73265152, size=3D1, is_write1=3D0, mmu_idx=3D2) at
+../../target/i386/tcg/sysemu/excp_helper.c:442
+#5  0x000002aa28cdfe90 in x86_cpu_tlb_fill (cs=3D0x2aa2b5ec750,
+addr=3D73265152, size=3D1, access_type=3DMMU_DATA_LOAD, mmu_idx=3D2,
+probe=3Dfalse, retaddr=3D4393820748608) at
+../../target/i386/tcg/sysemu/excp_helper.c:468
+#6  0x000002aa28f5794e in tlb_fill (cpu=3D0x2aa2b5ec750, addr=3D73265152,
+size=3D1, access_type=3DMMU_DATA_LOAD, mmu_idx=3D2, retaddr=3D4393820748608=
+)
+at ../../accel/tcg/cputlb.c:1313
+#7  0x000002aa28f59982 in load_helper (env=3D0x2aa2b5f5030,
+addr=3D73265152, oi=3D3586, retaddr=3D4393820748608, op=3DMO_8,
+code_read=3Dfalse, full_load=3D0x2aa28f59db0 <full_ldub_mmu>) at
+../../accel/tcg/cputlb.c:1934
+#8  0x000002aa28f59e2e in full_ldub_mmu (env=3D0x2aa2b5f5030,
+addr=3D73265152, oi=3D3586, retaddr=3D4393820748608) at
+../../accel/tcg/cputlb.c:2025
+#9  0x000002aa28f59e94 in helper_ret_ldub_mmu (env=3D0x2aa2b5f5030,
+addr=3D73265152, oi=3D3586, retaddr=3D4393820748608) at
+../../accel/tcg/cputlb.c:2031
+#10 0x000003ff041ffbfa in code_gen_buffer ()
+#11 0x000002aa28f3cfba in cpu_tb_exec (cpu=3D0x2aa2b5ec750,
+itb=3D0x3ff441ffa00, tb_exit=3D0x3ff89f2af44) at
+../../accel/tcg/cpu-exec.c:357
+#12 0x000002aa28f3e47e in cpu_loop_exec_tb (cpu=3D0x2aa2b5ec750,
+tb=3D0x3ff441ffa00, last_tb=3D0x3ff89f2af58, tb_exit=3D0x3ff89f2af44) at
+../../accel/tcg/cpu-exec.c:847
+#13 0x000002aa28f3e970 in cpu_exec (cpu=3D0x2aa2b5ec750) at
+../../accel/tcg/cpu-exec.c:1006
+#14 0x000002aa28f71a1e in tcg_cpus_exec (cpu=3D0x2aa2b5ec750) at
+../../accel/tcg/tcg-accel-ops.c:68
+#15 0x000002aa28f71efe in mttcg_cpu_thread_fn (arg=3D0x2aa2b5ec750) at
+../../accel/tcg/tcg-accel-ops-mttcg.c:96
+#16 0x000002aa2923e020 in qemu_thread_start (args=3D0x2aa2b60bb00) at
+../../util/qemu-thread-posix.c:556
+#17 0x000003ff9a187e66 in start_thread (arg=3D0x3ff89f2f900) at
+pthread_create.c:477
+#18 0x000003ff9a07cbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
-FreeBSD 12 is something we still support until April 2023,
-but arguably we only care about CLang there.
+Thread 3 (Thread 0x3ff8a821900 (LWP 456197)):
+#0  0x000003ff9a071b42 in __GI___poll (fds=3D0x3fefc003280, nfds=3D3,
+timeout=3D<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:29
+#1  0x000003ff9c7d4386 in  () at /lib/s390x-linux-gnu/libglib-2.0.so.0
+#2  0x000003ff9c7d4790 in g_main_loop_run () at
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#3  0x000002aa28fd9d56 in iothread_run (opaque=3D0x2aa2b339750) at
+../../iothread.c:73
+#4  0x000002aa2923e020 in qemu_thread_start (args=3D0x2aa2b2e7980) at
+../../util/qemu-thread-posix.c:556
+#5  0x000003ff9a187e66 in start_thread (arg=3D0x3ff8a821900) at
+pthread_create.c:477
+#6  0x000003ff9a07cbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
-NetBSD 9 wasn't listed, but it was reported to required
-GCC 7.4  (commit 3830df5f83b9b52d9496763ce1a50afb9231c998)
-and that is still the latest release of NetBSD.
+Thread 2 (Thread 0x3ff8b1a4900 (LWP 456196)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+#1  0x000002aa2923db52 in qemu_futex_wait (f=3D0x2aa29c14244
+<rcu_call_ready_event>, val=3D4294967295) at
+/home/linux1/qemu/include/qemu/futex.h:29
+#2  0x000002aa2923ddf6 in qemu_event_wait (ev=3D0x2aa29c14244
+<rcu_call_ready_event>) at ../../util/qemu-thread-posix.c:481
+#3  0x000002aa2924cbd2 in call_rcu_thread (opaque=3D0x0) at ../../util/rcu.=
+c:261
+#4  0x000002aa2923e020 in qemu_thread_start (args=3D0x2aa2b26ac90) at
+../../util/qemu-thread-posix.c:556
+#5  0x000003ff9a187e66 in start_thread (arg=3D0x3ff8b1a4900) at
+pthread_create.c:477
+#6  0x000003ff9a07cbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
 
-So NetBSD is our biggest constraint on requiring GCC 10
+Thread 1 (Thread 0x3ff9d5fe440 (LWP 456194)):
+#0  0x000003ff9a071c9c in __ppoll (fds=3D0x2aa2c46c2f0, nfds=3D5,
+timeout=3D<optimized out>, sigmask=3D0x0) at
+../sysdeps/unix/sysv/linux/ppoll.c:44
+#1  0x000002aa2927a3e4 in qemu_poll_ns (fds=3D0x2aa2c46c2f0, nfds=3D5,
+timeout=3D27206167) at ../../util/qemu-timer.c:348
+#2  0x000002aa29272280 in os_host_main_loop_wait (timeout=3D27206167) at
+../../util/main-loop.c:250
+#3  0x000002aa29272434 in main_loop_wait (nonblocking=3D0) at
+../../util/main-loop.c:531
+#4  0x000002aa28901276 in qemu_main_loop () at ../../softmmu/runstate.c:727
+#5  0x000002aa2887d2ce in main (argc=3D25, argv=3D0x3fff647eac8,
+envp=3D0x3fff647eb98) at ../../softmmu/main.c:50
+[Inferior 1 (process 456194) detached]
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+PROCESS: 456200
+linux1    456200  455775  0 14:39 pts/0    00:00:00 [qemu-system-i38] <defu=
+nct>
+/proc/456200/exe: No such file or directory.
+Could not attach to process.  If your uid matches the uid of the target
+process, check the setting of /proc/sys/kernel/yama/ptrace_scope, or try
+again as the root user.  For more details, see /etc/sysctl.d/10-ptrace.conf
+warning: process 456200 is a zombie - the process has already terminated
+ptrace: Operation not permitted.
+/home/linux1/456200: No such file or directory.
 
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+PROCESS: 456266
+linux1    456266  455775  0 14:39 pts/0    00:00:00 ./qemu-system-i386
+-qtest unix:/tmp/qtest-455775.sock -qtest-log /dev/null -chardev
+socket,path=3D/tmp/qtest-455775.qmp,id=3Dchar0 -mon
+chardev=3Dchar0,mode=3Dcontrol -display none -accel kvm -accel tcg -name
+target,debug-threads=3Don -m 150M -serial
+file:/tmp/migration-test-dmqzpM/dest_serial -incoming defer -drive
+file=3D/tmp/migration-test-dmqzpM/bootsect,format=3Draw -accel qtest
+[New LWP 456268]
+[New LWP 456269]
+[New LWP 456270]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
+0x000003ff9a271c9c in __ppoll (fds=3D0x2aa0435eb40, nfds=3D6,
+timeout=3D<optimized out>, sigmask=3D0x0) at
+../sysdeps/unix/sysv/linux/ppoll.c:44
+44      ../sysdeps/unix/sysv/linux/ppoll.c: No such file or directory.
+
+Thread 4 (Thread 0x3ff8a12f900 (LWP 456270)):
+#0  futex_wait_cancelable (private=3D0, expected=3D0,
+futex_word=3D0x2aa0459cbac) at ../sysdeps/nptl/futex-internal.h:183
+#1  __pthread_cond_wait_common (abstime=3D0x0, clockid=3D0,
+mutex=3D0x2aa02ddec88 <qemu_global_mutex>, cond=3D0x2aa0459cb80) at
+pthread_cond_wait.c:508
+#2  __pthread_cond_wait (cond=3D0x2aa0459cb80, mutex=3D0x2aa02ddec88
+<qemu_global_mutex>) at pthread_cond_wait.c:638
+#3  0x000002aa0243d498 in qemu_cond_wait_impl (cond=3D0x2aa0459cb80,
+mutex=3D0x2aa02ddec88 <qemu_global_mutex>, file=3D0x2aa024e81e8
+"../../softmmu/cpus.c", line=3D424) at
+../../util/qemu-thread-posix.c:195
+#4  0x000002aa01af4cc0 in qemu_wait_io_event (cpu=3D0x2aa0457d750) at
+../../softmmu/cpus.c:424
+#5  0x000002aa02172028 in mttcg_cpu_thread_fn (arg=3D0x2aa0457d750) at
+../../accel/tcg/tcg-accel-ops-mttcg.c:124
+#6  0x000002aa0243e020 in qemu_thread_start (args=3D0x2aa0459cbc0) at
+../../util/qemu-thread-posix.c:556
+#7  0x000003ff9a387e66 in start_thread (arg=3D0x3ff8a12f900) at
+pthread_create.c:477
+#8  0x000003ff9a27cbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 3 (Thread 0x3ff8aa21900 (LWP 456269)):
+#0  0x000003ff9a271b42 in __GI___poll (fds=3D0x3fefc003280, nfds=3D3,
+timeout=3D<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:29
+#1  0x000003ff9c9d4386 in  () at /lib/s390x-linux-gnu/libglib-2.0.so.0
+#2  0x000003ff9c9d4790 in g_main_loop_run () at
+/lib/s390x-linux-gnu/libglib-2.0.so.0
+#3  0x000002aa021d9d56 in iothread_run (opaque=3D0x2aa042ca750) at
+../../iothread.c:73
+#4  0x000002aa0243e020 in qemu_thread_start (args=3D0x2aa04278980) at
+../../util/qemu-thread-posix.c:556
+#5  0x000003ff9a387e66 in start_thread (arg=3D0x3ff8aa21900) at
+pthread_create.c:477
+#6  0x000003ff9a27cbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 2 (Thread 0x3ff8b3a4900 (LWP 456268)):
+#0  syscall () at ../sysdeps/unix/sysv/linux/s390/s390-64/syscall.S:37
+#1  0x000002aa0243db52 in qemu_futex_wait (f=3D0x2aa02e14244
+<rcu_call_ready_event>, val=3D4294967295) at
+/home/linux1/qemu/include/qemu/futex.h:29
+#2  0x000002aa0243ddf6 in qemu_event_wait (ev=3D0x2aa02e14244
+<rcu_call_ready_event>) at ../../util/qemu-thread-posix.c:481
+#3  0x000002aa0244cbd2 in call_rcu_thread (opaque=3D0x0) at ../../util/rcu.=
+c:261
+#4  0x000002aa0243e020 in qemu_thread_start (args=3D0x2aa041fbc90) at
+../../util/qemu-thread-posix.c:556
+#5  0x000003ff9a387e66 in start_thread (arg=3D0x3ff8b3a4900) at
+pthread_create.c:477
+#6  0x000003ff9a27cbf6 in thread_start () at
+../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
+
+Thread 1 (Thread 0x3ff9d7fe440 (LWP 456266)):
+#0  0x000003ff9a271c9c in __ppoll (fds=3D0x2aa0435eb40, nfds=3D6,
+timeout=3D<optimized out>, sigmask=3D0x0) at
+../sysdeps/unix/sysv/linux/ppoll.c:44
+#1  0x000002aa0247a3e4 in qemu_poll_ns (fds=3D0x2aa0435eb40, nfds=3D6,
+timeout=3D1000000000) at ../../util/qemu-timer.c:348
+#2  0x000002aa02472280 in os_host_main_loop_wait (timeout=3D1000000000)
+at ../../util/main-loop.c:250
+#3  0x000002aa02472434 in main_loop_wait (nonblocking=3D0) at
+../../util/main-loop.c:531
+#4  0x000002aa01b01276 in qemu_main_loop () at ../../softmmu/runstate.c:727
+#5  0x000002aa01a7d2ce in main (argc=3D27, argv=3D0x3ffe38fe7e8,
+envp=3D0x3ffe38fe8c8) at ../../softmmu/main.c:50
+[Inferior 1 (process 456266) detached]
+
+thanks
+-- PMM
 
