@@ -2,85 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9735D4D8DF8
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 21:12:29 +0100 (CET)
-Received: from localhost ([::1]:48706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 242CF4D8D6A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 20:52:31 +0100 (CET)
+Received: from localhost ([::1]:39046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTr3M-00047x-O6
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 16:12:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44624)
+	id 1nTqk1-0003aS-PP
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 15:52:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nTr0u-0001Yx-9x
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 16:09:56 -0400
-Received: from [2a00:1450:4864:20::532] (port=34626
- helo=mail-ed1-x532.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nTr0r-00069b-2d
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 16:09:55 -0400
-Received: by mail-ed1-x532.google.com with SMTP id g3so21556080edu.1
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 13:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=TyjIR8cu39wafofM+zk55pMOkvXNU/TH+17qM8XX/mo=;
- b=bXMVXacOlW6oQtjRy6EEwOPK02lVKTTyd6/63WJ9myEU1O9NELNBNQFwJwnU1Q+IV4
- a78TJqmzB0yQV61DcsiteBFtBrYAxi4UyScHw46RQ01k7cch+G5Ewh1QQePtNuyWlHgn
- vzFykmfP7UPG0DGfUPYpQGUs3MPI/Uz7x8ZBLCOnfYh841aN/yYy991ZkoY8y96vevQT
- rYgPvCHsucOivuwXVbuFg8WfMPJoEnRA0iEIV6Ki9rvqrDNfEdtjhtuyFT6UDnYOPX1z
- T77pzcl0RkLg4VymdgVZj8xTOFCCNeA8qOc10IeoZnUENHsGsyVB5/919v10tE9Dn4b+
- YYtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=TyjIR8cu39wafofM+zk55pMOkvXNU/TH+17qM8XX/mo=;
- b=ryEXFw/BdqY3ON9Ac/r2p/ILNtJr5LwyXtO+5GkyNW2saKSdL5Z85+vbpNgkJjniE0
- nLRjkEX7WrjaOyx9iMKFd0Eav9vLakdNqeI+Im4OvoKOer8jyWFnjDAH4To0cEVMPDvW
- c6tDy4iDe91pBZ2QcQxBgIX/b/bnVl4ImGy3gmC0btsmUAExrNU1+vIeGhkQS13QBTGc
- jz4TQhhi/YgzVF+PHDuycL5ZUjFT1HKr3Bi/PMzkf1KWOdLYg/kFO52/15vH0BJ1GMRO
- OaeMrbmEUYTTjDi5u3IiuZ+hCO5wNI8sEoQ5qKgzPmHjdnWdZvkR4u5GI/idj7bBKGMO
- 9pEg==
-X-Gm-Message-State: AOAM531ilAnJyAFfjMR0Du62vGpZpZ3CXDK/OTAbvqE38TDw8TEBRjX5
- BM6kymduff8rvDRGu+EmzeEFMg==
-X-Google-Smtp-Source: ABdhPJzoiP+70QZTfjJbS19fTL4Aqo4JVXWpmjHO/0lg4tfXpYs79y9/OcB3nK2PUGv+/u/9Tt6Yvg==
-X-Received: by 2002:a05:6402:d08:b0:418:82ff:5aae with SMTP id
- eb8-20020a0564020d0800b0041882ff5aaemr6605923edb.400.1647288591372; 
- Mon, 14 Mar 2022 13:09:51 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id
- rv11-20020a17090710cb00b006d5c0cd5e0dsm7168399ejb.82.2022.03.14.13.09.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 13:09:49 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1FAB51FFB7;
- Mon, 14 Mar 2022 20:09:49 +0000 (GMT)
-References: <20220314160108.1440470-1-armbru@redhat.com>
- <20220314160108.1440470-4-armbru@redhat.com>
-User-agent: mu4e 1.7.10; emacs 28.0.92
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 3/3] Use g_new() & friends where that makes obvious sense
-Date: Mon, 14 Mar 2022 19:48:47 +0000
-In-reply-to: <20220314160108.1440470-4-armbru@redhat.com>
-Message-ID: <877d8w5m9e.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1nTqhI-0001A7-LM; Mon, 14 Mar 2022 15:49:43 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13740
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1nTqhG-00036I-Ko; Mon, 14 Mar 2022 15:49:40 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22EJlVnM009010; 
+ Mon, 14 Mar 2022 19:49:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=E/oDn7pQI5rqG2up5ajWc98ZO6oaWKVCXd3/R/OuNZE=;
+ b=BB/LPeXt8f7hFOhS/JGaYBo5QP1+qdkN62gza+Bki6hzPolVbThHuautDt6tv1bBHgko
+ uYtiJYvRO7jjFSr7evO+Qwc+ugiglG5Ni7NsB2541uQBDTOgqg0bnvW5zDvjeGMDgecq
+ tOIzkpiumJqr97rktEhhijdRO2sNFHLXyRC//6IzSxa+x0KjYENdAKecsSljA+XQ/4gJ
+ jZELdXj473/SOr93dKqZ1MwEmICqyhc9hUTkOvFdSmudCuq+J6+/NqcsvzhPDDed+P93
+ WZbFBoz9eijohp9QcgyxwHuzMDAdaH2poOuNh4urp/M6GcamHHMTvdOM8sJVCG0awIpV FA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3et6d28p7h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Mar 2022 19:49:31 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22EJnUfd015259;
+ Mon, 14 Mar 2022 19:49:30 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3et6d28p7a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Mar 2022 19:49:30 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22EJltfi010580;
+ Mon, 14 Mar 2022 19:49:29 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma03dal.us.ibm.com with ESMTP id 3erk594d8f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Mar 2022 19:49:29 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+ [9.57.199.109])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22EJnSvN31129980
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Mar 2022 19:49:28 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EB464112070;
+ Mon, 14 Mar 2022 19:49:27 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6CBA4112062;
+ Mon, 14 Mar 2022 19:49:24 +0000 (GMT)
+Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com.com (unknown
+ [9.211.32.184]) by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 14 Mar 2022 19:49:24 +0000 (GMT)
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Subject: [PATCH v4 00/11] s390x/pci: zPCI interpretation support 
+Date: Mon, 14 Mar 2022 15:49:09 -0400
+Message-Id: <20220314194920.58888-1-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 0MtzxKiTTbBVD4dj6RLW9ZBVfNh6rpYk
+X-Proofpoint-GUID: ezghJ_ay3XYxpsJF7OtUizH5_6NFLikC
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-14_13,2022-03-14_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0
+ impostorscore=0 bulkscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 mlxlogscore=999 adultscore=0 clxscore=1011
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203140116
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,141 +106,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Reinoud Zandijk <reinoud@netbsd.org>,
- Eric Blake <eblake@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Juan Quintela <quintela@redhat.com>, Paul Durrant <paul@xen.org>,
- Magnus Damm <magnus.damm@gmail.com>, Kamil Rytarowski <kamil@netbsd.org>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- =?utf-8?Q?Herv=C3=A9?= Poussineau <hpoussin@reactos.org>,
- Michael Roth <michael.roth@amd.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Amit Shah <amit@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, haxm-team@intel.com,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Fabien Chouteau <chouteau@adacore.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
- qemu-ppc@nongnu.org, David Hildenbrand <david@redhat.com>,
- John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
- qemu-s390x@nongnu.org, Patrick Venture <venture@google.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Corey Minyard <cminyard@mvista.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Igor Mammedov <imammedo@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
+ schnelle@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ thuth@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ david@redhat.com, borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+For QEMU, the majority of the work in enabling instruction interpretation       
+is handled via a new KVM ioctls to enable interpretation, interrupt             
+forwarding and registration of the guest IOAT tables.  In order to make         
+use of the KVM-managed IOMMU domain operations on the host, we also add         
+some code to vfio to indicate that a given device wishes to register the        
+alternate domain type for its group.                                            
+                                                                                
+This series also adds a new, optional 'interpret' parameter to zpci which       
+can be used to disable interpretation support (interpret=off) as well as        
+an 'forwarding_assist' parameter to determine whether or not the firmware       
+assist will be used for interrupt delivery (default when interpretation         
+is in use) or whether the host will be responsible for delivering all           
+interrupts (forwarding_assist=off).                                             
+                                                                                
+The ZPCI_INTERP CPU feature is added beginning with the z14 model to            
+enable this support.                                                            
+                                                                                
+As a consequence of implementing zPCI interpretation, ISM devices now           
+become eligible for passthrough (but only when zPCI interpretation is           
+available).                                                                     
+                                                                                
+From the perspective of guest configuration, you passthrough zPCI devices       
+in the same manner as before, with intepretation support being used by          
+default if available in kernel+qemu.                                            
+                                                                                
+Associated kernel series:                                                       
+https://lore.kernel.org/kvm/20220314194451.58266-1-mjrosato@linux.ibm.com/
 
-Markus Armbruster <armbru@redhat.com> writes:
+Changelog v3->v4                                                                
+- Unfortunately I had to remove some Review tags because the userspace API      
+  moved from vfio device feature ioctls to KVM ioctls in response to            
+  feedback from the kernel series.  The vast majority of the QEMU logic         
+  remains intact however, with most changes being to the way we issue           
+  ioctls.                                                                       
+- Additional logic was added to test for availability of the KVM ioctl,         
+  this replaces the probe logic done for the vfio ioctls                        
+- Add code to issue indicate on VFIO_SET_IOMMU that a KVM-managed IOMMU         
+  domain is to be allocated.       
 
-> g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
-> for two reasons.  One, it catches multiplication overflowing size_t.
-> Two, it returns T * rather than void *, which lets the compiler catch
-> more type errors.
->
-> This commit only touches allocations with size arguments of the form
-> sizeof(T).
->
-> Patch created mechanically with:
->
->     $ spatch --in-place --sp-file scripts/coccinelle/use-g_new-etc.cocci \
-> 	     --macro-file scripts/cocci-macro-file.h FILES...
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-<snip>
-> --- a/audio/jackaudio.c
-> +++ b/audio/jackaudio.c
-> @@ -97,9 +97,9 @@ static void qjack_buffer_create(QJackBuffer *buffer, in=
-t channels, int frames)
->      buffer->used     =3D 0;
->      buffer->rptr     =3D 0;
->      buffer->wptr     =3D 0;
-> -    buffer->data     =3D g_malloc(channels * sizeof(float *));
-> +    buffer->data     =3D g_new(float *, channels);
->      for (int i =3D 0; i < channels; ++i) {
-> -        buffer->data[i] =3D g_malloc(frames * sizeof(float));
-> +        buffer->data[i] =3D g_new(float, frames);
+Matthew Rosato (11):
+  Update linux headers
+  vfio: handle KVM-owned IOMMU requests
+  target/s390x: add zpci-interp to cpu models
+  s390x/pci: add routine to get host function handle from CLP info
+  s390x/pci: enable for load/store intepretation
+  s390x/pci: don't fence interpreted devices without MSI-X
+  s390x/pci: enable adapter event notification for interpreted devices
+  s390x/pci: use KVM-managed IOMMU for interpretation
+  s390x/pci: use I/O Address Translation assist when interpreting
+  s390x/pci: use dtsm provided from vfio capabilities for interpreted
+    devices
+  s390x/pci: let intercept devices have separate PCI groups
 
-Are these actually buffers of pointers to floats? I guess I leave that
-to the JACK experts...
+ hw/s390x/meson.build                |   1 +
+ hw/s390x/s390-pci-bus.c             | 125 ++++++++++++++++++++--
+ hw/s390x/s390-pci-inst.c            | 136 +++++++++++++++++++++--
+ hw/s390x/s390-pci-kvm.c             | 160 ++++++++++++++++++++++++++++
+ hw/s390x/s390-pci-vfio.c            | 151 ++++++++++++++++++++++----
+ hw/s390x/s390-virtio-ccw.c          |   1 +
+ hw/vfio/ap.c                        |   2 +-
+ hw/vfio/ccw.c                       |   2 +-
+ hw/vfio/common.c                    |  26 ++++-
+ hw/vfio/pci.c                       |   3 +-
+ hw/vfio/pci.h                       |   1 +
+ hw/vfio/platform.c                  |   2 +-
+ include/hw/s390x/s390-pci-bus.h     |   8 +-
+ include/hw/s390x/s390-pci-inst.h    |   2 +-
+ include/hw/s390x/s390-pci-kvm.h     |  68 ++++++++++++
+ include/hw/s390x/s390-pci-vfio.h    |  11 ++
+ include/hw/vfio/vfio-common.h       |   4 +-
+ linux-headers/asm-s390/kvm.h        |   1 +
+ linux-headers/asm-x86/kvm.h         |   3 +
+ linux-headers/linux/kvm.h           |  51 ++++++++-
+ linux-headers/linux/vfio.h          |   6 ++
+ linux-headers/linux/vfio_zdev.h     |   6 ++
+ target/s390x/cpu_features_def.h.inc |   1 +
+ target/s390x/gen-features.c         |   2 +
+ target/s390x/kvm/kvm.c              |   8 ++
+ target/s390x/kvm/kvm_s390x.h        |   1 +
+ 26 files changed, 731 insertions(+), 51 deletions(-)
+ create mode 100644 hw/s390x/s390-pci-kvm.c
+ create mode 100644 include/hw/s390x/s390-pci-kvm.h
 
->      }
->  }
->=20=20
-> @@ -453,7 +453,7 @@ static int qjack_client_init(QJackClient *c)
->      jack_on_shutdown(c->client, qjack_shutdown, c);
->=20=20
->      /* allocate and register the ports */
-> -    c->port =3D g_malloc(sizeof(jack_port_t *) * c->nchannels);
-> +    c->port =3D g_new(jack_port_t *, c->nchannels);
->      for (int i =3D 0; i < c->nchannels; ++i) {
+-- 
+2.27.0
 
-I guess JACK just likes double indirection...
-
->=20=20
->          char port_name[16];
-<snip>
-> --- a/hw/pci/pcie_sriov.c
-> +++ b/hw/pci/pcie_sriov.c
-> @@ -177,7 +177,7 @@ static void register_vfs(PCIDevice *dev)
->      assert(sriov_cap > 0);
->      num_vfs =3D pci_get_word(dev->config + sriov_cap + PCI_SRIOV_NUM_VF);
->=20=20
-> -    dev->exp.sriov_pf.vf =3D g_malloc(sizeof(PCIDevice *) * num_vfs);
-> +    dev->exp.sriov_pf.vf =3D g_new(PCIDevice *, num_vfs);
->      assert(dev->exp.sriov_pf.vf);
-
-So what I find confusing about the conversion of sizeof(foo *) is that
-while the internal sizeof in g_new is unaffected I think the casting
-ends up as
-
- foo **
-
-but I guess the compiler would have complained so maybe I don't
-understand the magic enough.
-
-<snip>
-> index 42130667a7..598e6adc5e 100644
-> --- a/hw/rdma/vmw/pvrdma_dev_ring.c
-> +++ b/hw/rdma/vmw/pvrdma_dev_ring.c
-> @@ -41,7 +41,7 @@ int pvrdma_ring_init(PvrdmaRing *ring, const char *name=
-, PCIDevice *dev,
->      qatomic_set(&ring->ring_state->cons_head, 0);
->      */
->      ring->npages =3D npages;
-> -    ring->pages =3D g_malloc0(npages * sizeof(void *));
-> +    ring->pages =3D g_new0(void *, npages);
-
-At least here ring->pages agrees about void ** being the result.
-
-<snip>
-
-So other than my queries about the sizeof(foo *) which I'd like someone
-to assuage me of my concerns it looks like the script has done a
-thorough mechanical job as all good scripts should ;-)
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
