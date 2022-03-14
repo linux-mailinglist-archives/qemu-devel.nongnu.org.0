@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630C94D8673
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 15:07:36 +0100 (CET)
-Received: from localhost ([::1]:43558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F914D867D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 15:10:46 +0100 (CET)
+Received: from localhost ([::1]:52232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTlMF-0007sv-3N
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 10:07:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38540)
+	id 1nTlPI-0005T4-U6
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 10:10:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nTkdd-0004Wf-Cf
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 09:21:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40879)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nTkdb-00079Z-En
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 09:21:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647264086;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=QB4ftPMdCxWcQky3kTtE3Iaxc2v0aSw4Gq/MYx20qxE=;
- b=Wwv15TwVPYc0Y43SV8HmJOyEr3qwwGcVYnjjLxSIesKsCHAi1sqvu8/7/IV+BTm+Bp4r3Y
- +xy4yXIQ04A3o24VjNU4EjacbcZsQnNosA1/va5STdbJwsq5ic/Zix9lHofgpCvrOMh+Eo
- mpF9fkR49erBXuvjLfJBCxIf7kR4mg8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-qFtx4hJ4PeGsJGvph4dlfA-1; Mon, 14 Mar 2022 09:21:23 -0400
-X-MC-Unique: qFtx4hJ4PeGsJGvph4dlfA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB9D51C0338B;
- Mon, 14 Mar 2022 13:21:21 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C76EC465034;
- Mon, 14 Mar 2022 13:21:20 +0000 (UTC)
-Date: Mon, 14 Mar 2022 13:21:18 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Subject: Re: [PATCH] x86: q35: require split irqchip for large CPU count
-Message-ID: <Yi9BTkZIM3iZsvdK@redhat.com>
-References: <20220311143901.96481-1-imammedo@redhat.com>
- <8d4912d595bcaca36013e22060c22c1bfe3c44c1.camel@infradead.org>
- <20220314113532.10518837@redhat.com>
- <0d0f10cf1e593be0fb4546749cd7ee11765accb5.camel@infradead.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nTkeP-0005Qo-34
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 09:22:17 -0400
+Received: from [2607:f8b0:4864:20::1133] (port=35115
+ helo=mail-yw1-x1133.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nTkeM-0007Dd-Lj
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 09:22:16 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c0so163059867b3.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 06:22:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ev9xacKU5mXltVgGiAyNsfCdQ1B1yIV78co8uiC3xRk=;
+ b=jRvUP8I4KgBGxEz6MyNz8w9BF1Nn4GtYJfb7AFIXu91PLbi+SGSuxQ8BWkSZnfy0Ar
+ ixyeHt5XJhSndW98gF10PHwAY0tcPwL5rdzAqvOHRbUgwVMRmaMkf47sL5eogTlWMWnc
+ V0GHXuW7QRRA3aDaAP3mEeGuRbp2UOq0OccORgVqrj05yu6FsAgFUZI1L5cTxGC4Xtjs
+ ALmLYNU8RjiF5A8IqmKO0tRmA3MwF96DUt4H2sCegEe7Don2Xd0w5Kr/Ks93mSUNRV80
+ EXjV5gsQ3/LzAEzQJw0ku0taCYhHtBm2Rv5upYW+PfXSmxq0B+Q0ZzpymGPdMqzKIsH/
+ b7mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ev9xacKU5mXltVgGiAyNsfCdQ1B1yIV78co8uiC3xRk=;
+ b=po8Mh5JXzp5+JL39MYH4pZxDPAa49Vlxen6hAXRjO7ZAuMTAifxSS5PZGxm6FCsmRc
+ Yqk+/XD5XHvcxn47IXvx19i2sLHSVzsRcj6L3Fj09SGjR1x7ChZ1nsxKWm4ty/GNu8yr
+ 4mUHWwD1imTJRpoCNwPmHRhbRh9klqTObflcx6IKtlUm82wCYihYQt/zfyfyB9X6RoOY
+ /RqVCjEFJiYTNwAQGYz6+jcOJf+HYB5ts4hPky6x+FA821wxoU2HTl58RLte7PaxUxwJ
+ z4JdNQQotfz6jJCK+nZjS2AuHEwwgp6IhAps5DuzhqQQaMRMH7Thb9NcCyetX1UIc0YQ
+ oOwQ==
+X-Gm-Message-State: AOAM531Hy0vZuWKOktGTQHqMhYfkDRwIK7waKM08mXleFuXpoAceWXu3
+ CQsH/AE8v5sCJFXGjNh8wHRA7Ell1IuREMVhfQAS4Q==
+X-Google-Smtp-Source: ABdhPJxOP2OlIIOqEyasVN/yIBSXlSlVhY0KrnC5chPLfJFbuys6RrEXpeKwsfuswWfUYu1k4K8ifGhkzySEQLJSs3w=
+X-Received: by 2002:a81:12c3:0:b0:2dc:5f5a:38ec with SMTP id
+ 186-20020a8112c3000000b002dc5f5a38ecmr18832479yws.347.1647264133646; Mon, 14
+ Mar 2022 06:22:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0d0f10cf1e593be0fb4546749cd7ee11765accb5.camel@infradead.org>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220312201319.29040-1-tsimpson@quicinc.com>
+In-Reply-To: <20220312201319.29040-1-tsimpson@quicinc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Mar 2022 13:22:02 +0000
+Message-ID: <CAFEAcA9OFB8dFV5x=uQ6O-Fvv29uDy_p9KNnhtMULnya7XUKhA@mail.gmail.com>
+Subject: Re: [PULL v2 00/12] Hexagon (target/hexagon) queue
+To: Taylor Simpson <tsimpson@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1133
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1133.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,93 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com
+Cc: zongyuan.li@smartx.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 14, 2022 at 12:59:38PM +0000, David Woodhouse wrote:
-> On Mon, 2022-03-14 at 11:35 +0100, Igor Mammedov wrote:
-> > On Fri, 11 Mar 2022 14:58:41 +0000
-> > David Woodhouse <
-> > dwmw2@infradead.org
-> > > wrote:
-> > 
-> > > On Fri, 2022-03-11 at 09:39 -0500, Igor Mammedov wrote:
-> > > > if VM is started with:
-> > > > 
-> > > >    -enable-kvm -smp 256
-> > > > 
-> > > > without specifying 'split' irqchip, VM might eventually boot
-> > > > but no more than 255 CPUs will be operational and following
-> > > > error messages in guest could be observed:
-> > > >    ...
-> > > >    smpboot: native_cpu_up: bad cpu 256
-> > > >    ...
-> > > > It's a regression introduced by [1], which removed dependency
-> > > > on intremap=on that were implicitly requiring 'split' irqchip
-> > > > and forgot to check for 'split' irqchip.
-> > > > Instead of letting VM boot a broken VM, error out and tell
-> > > > user how to fix CLI.  
-> > > 
-> > > Hm, wasn't that already fixed in the patches I posted in December?
-> > 
-> > It might be, could you point to the commit/series that fixed it.
-> 
-> https://lore.kernel.org/all/20211209220840.14889-1-dwmw2@infradead.org/
-> is the patch I was thinking of, but although that moves the check to a
-> more useful place and fixes the X2APIC check, it *doesn't* include the
-> fix you're making; it's still using kvm_irqchip_in_kernel().
-> 
-> I can change that and repost the series, which is still sitting (with
-> fixed Reviewed-By/Acked-By attributions that I screwed up last time) in
-> https://git.infradead.org/users/dwmw2/qemu.git
-> 
-> > Regardless of that, fixing it in recent kernels doesn't help
-> > as still supported kernels are still affected by it.
-> > 
-> > If there is a way to detect that fix, I can add to q35 a compat
-> > property and an extra logic to enable kernel-irqchip if fix is present.
-> > Otherwise the fix does not exist until minimum supported kernel
-> > version reaches version where it was fixed.
-> 
-> Hm, I'm not sure I follow here. Do you mean recent versions of *qemu*
-> when you say 'kernels'? 
-> 
-> I'm not even sure I agree with the observation that qemu should error
-> out here. The guest boots fine and the guest can even *use* all the
-> CPUs. IPIs etc. will all work fine. The only thing that doesn't work is
-> delivering *external* interrupts to CPUs above 254.
-> 
-> Ultimately, this is the *guest's* problem. Some operating systems can
-> cope; some can't.
-> 
-> The fact that *Linux* has a fundamental assumption that *all* CPUs can
-> receive all interrupts and that affinity can't be limited in hardware,
-> is a Linux problem. I tried to fix it once but it was distinctly non-
-> trivial and eventually I gave up and took a different approach.
-> https://lore.kernel.org/linux-iommu/87lfgj59mp.fsf@nanos.tec.linutronix.de/T/
-> 
-> But even if we 'fix' the check as you suggest to bail out and refuse to
-> boot a certain configuration because Linux guest wouldn't be able to
-> fully utilize it... Even if we boot with the split IRQ chip and the 15-
-> bit MSI enlightenment, we're still in the same position. Some guests
-> will be able to use it; some won't.
-> 
-> In fact, there are operating systems that don't even know about X2APIC.
-> 
-> Why should qemu refuse to even start up?
+On Sat, 12 Mar 2022 at 20:13, Taylor Simpson <tsimpson@quicinc.com> wrote:
+>
+> The following changes since commit 1416688c53be6535be755b44c15fb2eb9defd20f:
+>
+>   Merge remote-tracking branch 'remotes/mcayland/tags/q800-updates-for-7.0-20220309' into staging (2022-03-10 13:16:37 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/quic/qemu tags/pull-hex-20220312-1
+>
+> for you to fetch changes up to 4a818b3767220dcd21cf5cc7f12e33e28c2073ed:
+>
+>   target/hexagon: remove unused variable (2022-03-12 09:14:22 -0800)
+>
+> ----------------------------------------------------------------
+> Hexagon bug fixes and additional tests
+>
+> Also includes a patch from Zongyuan Li <zongyuan.li@smartx.com> to remove an unused variable
+>
+> ******** Changes in v2 ********
+> Fix problems with build-user-hexagon CI job
 
-We've generally said QEMU should not reject / block startup of valid
-hardware configurations, based on existance of bugs in certain guest
-OS, if the config would be valid for other guest.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
