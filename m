@@ -2,52 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA1E4D8EE2
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 22:35:19 +0100 (CET)
-Received: from localhost ([::1]:42334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C1E4D8EE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 22:36:14 +0100 (CET)
+Received: from localhost ([::1]:44726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTsLV-0000me-Qe
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 17:35:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48534)
+	id 1nTsMP-0002Vp-5F
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 17:36:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
- id 1nTsJZ-0008JF-CW
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 17:33:17 -0400
-Received: from smtp123.iad3a.emailsrvr.com ([173.203.187.123]:38436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
- id 1nTsJX-0006AU-Cu
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 17:33:17 -0400
-X-Auth-ID: adeason@sinenomine.net
-Received: by smtp24.relay.iad3a.emailsrvr.com (Authenticated sender:
- adeason-AT-sinenomine.net) with ESMTPSA id BF90324A62; 
- Mon, 14 Mar 2022 17:33:13 -0400 (EDT)
-Date: Mon, 14 Mar 2022 16:33:13 -0500
-From: Andrew Deason <adeason@sinenomine.net>
-To: Daniel P. =?UTF-8?B?QmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 1/2] util/osdep: Avoid madvise proto on modern Solaris
-Message-Id: <20220314163313.5795fa36206526826fe72d10@sinenomine.net>
-In-Reply-To: <Yi+Q8oBqowBP1Ldw@redhat.com>
-References: <20220314154557.306-1-adeason@sinenomine.net>
- <20220314154557.306-2-adeason@sinenomine.net>
- <CAFEAcA8DZby3k7rZ3F4m037b_qjANzEk-ekVQYxAm5tN1_v84w@mail.gmail.com>
- <20220314131800.89dbb505371e68c7ad382795@sinenomine.net>
- <Yi+Q8oBqowBP1Ldw@redhat.com>
-Organization: Sine Nomine Associates
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+ (Exim 4.90_1) (envelope-from <huettel@www.akhuettel.de>)
+ id 1nTsKY-0000Sd-I5
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 17:34:18 -0400
+Received: from [2001:470:ea4a:1:5054:ff:fec7:86e4] (port=46269
+ helo=smtp.gentoo.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <huettel@www.akhuettel.de>)
+ id 1nTsKW-0006GD-Hf
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 17:34:18 -0400
+Received: (nullmailer pid 2511 invoked by uid 1000);
+ Mon, 14 Mar 2022 21:34:05 -0000
+From: =?UTF-8?q?Andreas=20K=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>
+To: qemu-devel@nongnu.org
+Subject: qemu-binfmt-conf.sh: mips improvements
+Date: Mon, 14 Mar 2022 22:33:53 +0100
+Message-Id: <20220314213355.2477-1-dilfridge@gentoo.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220305000624.1498181-1-dilfridge@gentoo.org>
+References: <20220305000624.1498181-1-dilfridge@gentoo.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Classification-ID: 1d8a0fa7-eb55-4b14-b006-db08e31c35ec-1-1
-Received-SPF: pass client-ip=173.203.187.123;
- envelope-from=adeason@sinenomine.net; helo=smtp123.iad3a.emailsrvr.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2001:470:ea4a:1:5054:ff:fec7:86e4 (failed)
+Received-SPF: none client-ip=2001:470:ea4a:1:5054:ff:fec7:86e4;
+ envelope-from=huettel@www.akhuettel.de; helo=smtp.gentoo.org
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,65 +56,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: alex.bennee@linaro.org, richard.henderson@linaro.org,
+ philippe.mathieu.daude@gmail.com, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Mar 2022 19:01:06 +0000
-Daniel P. Berrangé <berrange@redhat.com> wrote:
+Two patches; the first one has been under review before, the second builds
+on it and extends the binfmt-misc magic to differentiate between o32 and
+n32 binaries (see also issue 843).
 
-> We have a general purpose platform support policy
-> 
->   https://www.qemu.org/docs/master/about/build-platforms.html
-> 
-> where the common rule ends up being "the current major release,
-> and the previous major release for 2 years overlap".
-> 
-> The question is what counts as a major release from a Solaris
-> POV ? In terms of long life distros, our policy gives about
-> 4-5 years of supportable life in the best case. I wouldn't
-> want to go beyond that ballpark for Solaris.  Can we come up
-> with an interpration of our policy to map to Solaris that
-> doesn't tie our hands for longer than 4-5 years worst case.
 
-FWIW, some relevant Solaris version numbers, as I understand it:
 
-11.4.42 CBE: public release March 2022. (Non-production use only,
-rolling release schedule.)
-
-11.4: public release August 2018.
-
-11.3: public release October 2015.
-
-Going by the minor version number (11.3 vs 11.4) sounds similar to Linux
-distros; they've come out every few years in the past. But I don't know
-how this is going to look with the CBE stuff in the future, or if anyone
-knows (it's very new).
-
-> IOW, we certainly do NOT need to support arbitrarily old
-> Solaris. If madvise has done what we need for 4-5 years,
-> then we can likely not need to test for it, and just assume
-> its existance. This just requires someone to specify how
-> we interpret our build platform policy to exclude older
-> Solaris.
-
-Specifically for the madvise() prototype workaround, I looked a little
-bit into what version changes actually matter. I think all of Solaris 11
-is probably okay without the workaround (I can check back to Solaris
-11.1, but just by looking at the mman.h header, not actually testing a
-build), because we specify -D__EXTENSIONS__.
-
-Illumos and Solaris 10 look like they would need the workaround.
-
-So practically speaking for this patchset, it seems more like a question
-of Illumos support.
-
--- 
-Andrew Deason
-adeason@sinenomine.net
 
