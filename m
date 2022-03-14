@@ -2,107 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E014D877E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 15:54:35 +0100 (CET)
-Received: from localhost ([::1]:51528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB3F4D87DD
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 16:15:13 +0100 (CET)
+Received: from localhost ([::1]:40850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTm5i-0007uB-D3
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 10:54:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60776)
+	id 1nTmPf-0007Sf-FX
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 11:15:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1nTm3J-0005pK-Kl; Mon, 14 Mar 2022 10:52:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41844)
+ (Exim 4.90_1) (envelope-from
+ <BATV+a709675fe440e0b94d32+6777+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1nTldu-0006Fs-Pc
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:25:51 -0400
+Received: from [2001:8b0:10b:1236::1] (port=41662 helo=casper.infradead.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1nTm3F-00073w-2a; Mon, 14 Mar 2022 10:52:05 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22EEVHrx031447; 
- Mon, 14 Mar 2022 14:51:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=++Xu0ftn/6Qz+kU2Eu7i1p8i9/Wul/ffxOCuhU9Dnk4=;
- b=HcLQhO1aj7MyPjX+eF16bLZ6utBIAskvXBaIsZO/a1JsH1wdnfc6H4cxArTrzJBVy7i9
- ZXhHex+G29ZLYaeunnjOz8Qf33lkXtMStBgLERF7Mitn52rGya0d2yKmR2crHO8Y1dPE
- 6n3m6op6bMfpsx3TwpD4Ty7CD7VJ6RNtxA5p7xOJ4hMQQTmoayJx78KPHpfUXGT4dn0y
- YdEu4v1Cve+Hki5PtyL0qMPVPh/Il9jKbp0uXrjY8Dru38jAt1C/gth8VMRMgGyfChcS
- YgO9ouu82NEFGR234IhI5dNEQLZR68pYsJo4fwEM8zGvDtMyfHSAJgqJRw6tTK8zwxt/ vg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3et6afu2c0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Mar 2022 14:51:50 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22ED7LeE031759;
- Mon, 14 Mar 2022 14:51:50 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3et6afu2b4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Mar 2022 14:51:49 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22EEbHTa013243;
- Mon, 14 Mar 2022 14:51:47 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma01fra.de.ibm.com with ESMTP id 3erk58ksjk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Mar 2022 14:51:47 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22EEpj9745416882
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Mar 2022 14:51:45 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0470E432E9;
- Mon, 14 Mar 2022 14:51:45 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9EF174329D;
- Mon, 14 Mar 2022 14:51:44 +0000 (GMT)
-Received: from [9.145.89.89] (unknown [9.145.89.89])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 14 Mar 2022 14:51:44 +0000 (GMT)
-Message-ID: <8af6c7e0-47e2-80cf-dd1e-b56e2d6ceba4@linux.ibm.com>
-Date: Mon, 14 Mar 2022 15:51:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] ppc/pnv: Remove user-created PHB{3,4,5} devices
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220314130514.529931-1-clg@kaod.org>
- <09fba24b-95db-fd77-c687-80119fe4f777@linux.ibm.com>
- <1c6a2f86-a577-3bc3-86f6-473c57625b78@kaod.org>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <1c6a2f86-a577-3bc3-86f6-473c57625b78@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: De3eUdcN5cG2fwZpGCkkQ3RNXqUOTU07
-X-Proofpoint-GUID: sJTCt2DdI_gwgy-k1zKymh6J0K7BwLe1
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from
+ <BATV+a709675fe440e0b94d32+6777+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1nTlds-0002Hx-S5
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:25:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=O6xqusn4ODZ2fcJu46nr1a5IoiLNYs+kXPiehf6bvq4=; b=NIckz06LafAcR5n4DH1v4B0SVd
+ P4T9qqpHJ+SYf2UHz6Lu1kl3Pzt1qvhEWVNrvSiSbawq45CZNKWh5DXpkh1q0GbNbeo07bLgs5N2z
+ 61vdo3+4Bvlmt/LJrjAFtdEDoZbHR0UCcd4lsQBQ5/W3g/9rvfBSdbmsP1dWEgiJ8WPQSexOPvzMl
+ lqny7dLSoCC94bShH6ctLG84uwLxr+NS/US2of++2+/RaqdezeA9Eb8rG02bbJ8BK/2x9Vp5p003H
+ 57k8mYlrAri4J+kUJeMfpuPzoioMD/+qBG+YHLO7A4omRNCqpbEaflXH8dGoWVhz6ggqUc4YjMANv
+ NS2kuwUQ==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nTldp-0047ZB-DS; Mon, 14 Mar 2022 14:25:45 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1nTldo-000dAU-KD; Mon, 14 Mar 2022 14:25:44 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/4] target/i386: Fix sanity check on max APIC ID / X2APIC
+ enablement
+Date: Mon, 14 Mar 2022 14:25:41 +0000
+Message-Id: <20220314142544.150555-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-14_08,2022-03-14_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
- adultscore=0 phishscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203140091
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:8b0:10b:1236::1
+ (failed)
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+a709675fe440e0b94d32+6777+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,346 +71,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The check on x86ms->apic_id_limit in pc_machine_done() had two problems.
 
+Firstly, we need KVM to support the X2APIC API in order to allow IRQ
+delivery to APICs >= 255. So we need to call/check kvm_enable_x2apic(),
+which was done elsewhere in *some* cases but not all.
 
-On 14/03/2022 15:38, Cédric Le Goater wrote:
-> On 3/14/22 15:16, Frederic Barrat wrote:
->>
->>
->> On 14/03/2022 14:05, Cédric Le Goater wrote:
->>> On a real system with POWER{8,9,10} processors, PHBs are sub-units of
->>> the processor, they can be deactivated by firmware but not plugged in
->>> or out like a PCI adapter on a slot. Nevertheless, having user-created
->>> PHBs in QEMU seemed to be a good idea for testing purposes :
->>>
->>>   1. having a limited set of PHBs speedups boot time.
->>>   2. it is useful to be able to mimic a partially broken topology you
->>>      some time have to deal with during bring-up.
->>>
->>> PowerNV is also used for distro install tests and having libvirt
->>> support eases these tasks. libvirt prefers to run the machine with
->>> -nodefaults to be sure not to drag unexpected devices which would need
->>> to be defined in the domain file without being specified on the QEMU
->>> command line. For this reason :
->>>
->>>   3. -nodefaults should not include default PHBs
->>>
->>> User-created PHB{3,4,5} devices satisfied all these needs but reality
->>> proves to be a bit more complex, internally when modeling such
->>> devices, and externally when dealing with the user interface.
->>>
->>> Req 1. and 2. can be simply addressed differently with a machine option:
->>> "phb-mask=<uint>", which QEMU would use to enable/disable PHB device
->>> nodes when creating the device tree.
->>>
->>> For Req 3., we need to make sure we are taking the right approach. It
->>> seems that we should expose a new type of user-created PHB device, a
->>> generic virtualized one, that libvirt would use and not one depending
->>> on the processor revision. This needs more thinking.
->>>
->>> For now, remove user-created PHB{3,4,5} devices. All the cleanups we
->>> did are not lost and they will be useful for the next steps.
->>>
->>> Fixes: 5bc67b052b51 ("ppc/pnv: Introduce user creatable pnv-phb4 
->>> devices")
->>> Fixes: 1f6a88fffc75 ("ppc/pnv: Introduce support for user created 
->>> PHB3 devices")
->>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>> ---
->>
->> So with this patch, -nodefaults has basically no effect on the PHBs 
->> and root ports creation. They are always there. It makes sense, since 
->> we are removing the capability to add a subset of them.
-> 
-> yes.
-> 
-> Could you please torture a bit the command line with this patch ?
-> or use the ppc-7.0 branch :
-> 
->   https://gitlab.com/legoater/qemu/-/commit/34fb665f065f26599365f413ebe83cb47a0e5275
+Secondly, microvm needs the same check. So move it from pc_machine_done()
+to x86_cpus_init() where it will work for both.
 
+The check in kvm_cpu_instance_init() is now redundant and can be dropped.
 
-That branch is no longer up to date with the patch being discussed here. 
-The difference is in what we do when "-nodefaults" is set and what 
-prompted my comment above. I wanted to make sure we were in agreement.
-In any case, I've updated my tree with the patch in the mailing list. So 
-far, so good.
+Signed-off-by: David Woodhouse <dwmw2@infradead.org>
+Acked-by: Claudio Fontana <cfontana@suse.de>
+---
+ hw/i386/pc.c              |  8 --------
+ hw/i386/x86.c             | 16 ++++++++++++++++
+ target/i386/kvm/kvm-cpu.c |  2 +-
+ 3 files changed, 17 insertions(+), 9 deletions(-)
 
-   Fred
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index fd55fc725c..d3ab28fec5 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -740,14 +740,6 @@ void pc_machine_done(Notifier *notifier, void *data)
+         /* update FW_CFG_NB_CPUS to account for -device added CPUs */
+         fw_cfg_modify_i16(x86ms->fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus);
+     }
+-
+-
+-    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
+-        !kvm_irqchip_in_kernel()) {
+-        error_report("current -smp configuration requires kernel "
+-                     "irqchip support.");
+-        exit(EXIT_FAILURE);
+-    }
+ }
+ 
+ void pc_guest_info_init(PCMachineState *pcms)
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 4cf107baea..8da55d58ea 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -39,6 +39,7 @@
+ #include "sysemu/replay.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/cpu-timers.h"
++#include "sysemu/xen.h"
+ #include "trace.h"
+ 
+ #include "hw/i386/x86.h"
+@@ -123,6 +124,21 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
+      */
+     x86ms->apic_id_limit = x86_cpu_apic_id_from_index(x86ms,
+                                                       ms->smp.max_cpus - 1) + 1;
++
++    /*
++     * Can we support APIC ID 255 or higher?
++     *
++     * Under Xen: yes.
++     * With userspace emulated lapic: no
++     * With KVM's in-kernel lapic: only if X2APIC API is enabled.
++     */
++    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
++        (!kvm_irqchip_in_kernel() || !kvm_enable_x2apic())) {
++        error_report("current -smp configuration requires kernel "
++                     "irqchip and X2APIC API support.");
++        exit(EXIT_FAILURE);
++    }
++
+     possible_cpus = mc->possible_cpu_arch_ids(ms);
+     for (i = 0; i < ms->smp.cpus; i++) {
+         x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index d95028018e..c60cb2dafb 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -165,7 +165,7 @@ static void kvm_cpu_instance_init(CPUState *cs)
+         /* only applies to builtin_x86_defs cpus */
+         if (!kvm_irqchip_in_kernel()) {
+             x86_cpu_change_kvm_default("x2apic", "off");
+-        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
++        } else if (kvm_irqchip_is_split()) {
+             x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
+         }
+ 
+-- 
+2.33.1
 
-
-> 
-> Thanks,
-> 
-> C.
-> 
->> Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
->>
->>
->>
->>>   include/hw/ppc/pnv.h       |  1 -
->>>   hw/pci-host/pnv_phb3.c     | 33 ++------------------
->>>   hw/pci-host/pnv_phb4.c     | 62 ++------------------------------------
->>>   hw/pci-host/pnv_phb4_pec.c |  7 ++---
->>>   hw/ppc/pnv.c               | 25 +--------------
->>>   5 files changed, 10 insertions(+), 118 deletions(-)
->>>
->>> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
->>> index 1e34ddd502d8..86cb7d7f971b 100644
->>> --- a/include/hw/ppc/pnv.h
->>> +++ b/include/hw/ppc/pnv.h
->>> @@ -190,7 +190,6 @@ DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER10,
->>>   PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir);
->>>   void pnv_phb_attach_root_port(PCIHostState *pci, const char *name);
->>> -void pnv_chip_parent_fixup(PnvChip *chip, Object *obj, int index);
->>>   #define TYPE_PNV_MACHINE       MACHINE_TYPE_NAME("powernv")
->>>   typedef struct PnvMachineClass PnvMachineClass;
->>> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
->>> index aafd46b635e8..ac801ac83582 100644
->>> --- a/hw/pci-host/pnv_phb3.c
->>> +++ b/hw/pci-host/pnv_phb3.c
->>> @@ -994,30 +994,6 @@ static void pnv_phb3_realize(DeviceState *dev, 
->>> Error **errp)
->>>       PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
->>>       int i;
->>> -    /* User created devices */
->>> -    if (!phb->chip) {
->>> -        Error *local_err = NULL;
->>> -        BusState *s;
->>> -
->>> -        phb->chip = pnv_get_chip(pnv, phb->chip_id);
->>> -        if (!phb->chip) {
->>> -            error_setg(errp, "invalid chip id: %d", phb->chip_id);
->>> -            return;
->>> -        }
->>> -
->>> -        /*
->>> -         * Reparent user created devices to the chip to build
->>> -         * correctly the device tree.
->>> -         */
->>> -        pnv_chip_parent_fixup(phb->chip, OBJECT(phb), phb->phb_id);
->>> -
->>> -        s = qdev_get_parent_bus(DEVICE(phb->chip));
->>> -        if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
->>> -            error_propagate(errp, local_err);
->>> -            return;
->>> -        }
->>> -    }
->>> -
->>>       if (phb->phb_id >= PNV_CHIP_GET_CLASS(phb->chip)->num_phbs) {
->>>           error_setg(errp, "invalid PHB index: %d", phb->phb_id);
->>>           return;
->>> @@ -1077,10 +1053,7 @@ static void pnv_phb3_realize(DeviceState *dev, 
->>> Error **errp)
->>>       pci_setup_iommu(pci->bus, pnv_phb3_dma_iommu, phb);
->>> -    if (defaults_enabled()) {
->>> -        pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb),
->>> -                                 TYPE_PNV_PHB3_ROOT_PORT);
->>> -    }
->>> +    pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb), 
->>> TYPE_PNV_PHB3_ROOT_PORT);
->>>   }
->>>   void pnv_phb3_update_regions(PnvPHB3 *phb)
->>> @@ -1131,7 +1104,7 @@ static void pnv_phb3_class_init(ObjectClass 
->>> *klass, void *data)
->>>       dc->realize = pnv_phb3_realize;
->>>       device_class_set_props(dc, pnv_phb3_properties);
->>>       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
->>> -    dc->user_creatable = true;
->>> +    dc->user_creatable = false;
->>>   }
->>>   static const TypeInfo pnv_phb3_type_info = {
->>> @@ -1201,7 +1174,7 @@ static void 
->>> pnv_phb3_root_port_class_init(ObjectClass *klass, void *data)
->>>       device_class_set_parent_realize(dc, pnv_phb3_root_port_realize,
->>>                                       &rpc->parent_realize);
->>> -    dc->user_creatable = true;
->>> +    dc->user_creatable = false;
->>>       k->vendor_id = PCI_VENDOR_ID_IBM;
->>>       k->device_id = 0x03dc;
->>> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
->>> index d1a911f988b7..b30176209303 100644
->>> --- a/hw/pci-host/pnv_phb4.c
->>> +++ b/hw/pci-host/pnv_phb4.c
->>> @@ -1545,70 +1545,14 @@ static void pnv_phb4_instance_init(Object *obj)
->>>       object_initialize_child(obj, "source", &phb->xsrc, 
->>> TYPE_XIVE_SOURCE);
->>>   }
->>> -static PnvPhb4PecState *pnv_phb4_get_pec(PnvChip *chip, PnvPHB4 *phb,
->>> -                                         Error **errp)
->>> -{
->>> -    Pnv9Chip *chip9 = PNV9_CHIP(chip);
->>> -    int chip_id = phb->chip_id;
->>> -    int index = phb->phb_id;
->>> -    int i, j;
->>> -
->>> -    for (i = 0; i < chip->num_pecs; i++) {
->>> -        /*
->>> -         * For each PEC, check the amount of phbs it supports
->>> -         * and see if the given phb4 index matches an index.
->>> -         */
->>> -        PnvPhb4PecState *pec = &chip9->pecs[i];
->>> -
->>> -        for (j = 0; j < pec->num_phbs; j++) {
->>> -            if (index == pnv_phb4_pec_get_phb_id(pec, j)) {
->>> -                return pec;
->>> -            }
->>> -        }
->>> -    }
->>> -
->>> -    error_setg(errp,
->>> -               "pnv-phb4 chip-id %d index %d didn't match any 
->>> existing PEC",
->>> -               chip_id, index);
->>> -
->>> -    return NULL;
->>> -}
->>> -
->>>   static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->>>   {
->>>       PnvPHB4 *phb = PNV_PHB4(dev);
->>> -    PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
->>> -    PnvChip *chip = pnv_get_chip(pnv, phb->chip_id);
->>>       PCIHostState *pci = PCI_HOST_BRIDGE(dev);
->>>       XiveSource *xsrc = &phb->xsrc;
->>> -    BusState *s;
->>> -    Error *local_err = NULL;
->>>       int nr_irqs;
->>>       char name[32];
->>> -    if (!chip) {
->>> -        error_setg(errp, "invalid chip id: %d", phb->chip_id);
->>> -        return;
->>> -    }
->>> -
->>> -    /* User created PHBs need to be assigned to a PEC */
->>> -    if (!phb->pec) {
->>> -        phb->pec = pnv_phb4_get_pec(chip, phb, &local_err);
->>> -        if (local_err) {
->>> -            error_propagate(errp, local_err);
->>> -            return;
->>> -        }
->>> -    }
->>> -
->>> -    /* Reparent the PHB to the chip to build the device tree */
->>> -    pnv_chip_parent_fixup(chip, OBJECT(phb), phb->phb_id);
->>> -
->>> -    s = qdev_get_parent_bus(DEVICE(chip));
->>> -    if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
->>> -        error_propagate(errp, local_err);
->>> -        return;
->>> -    }
->>> -
->>>       /* Set the "big_phb" flag */
->>>       phb->big_phb = phb->phb_id == 0 || phb->phb_id == 3;
->>> @@ -1766,7 +1710,7 @@ static void pnv_phb4_class_init(ObjectClass 
->>> *klass, void *data)
->>>       dc->realize         = pnv_phb4_realize;
->>>       device_class_set_props(dc, pnv_phb4_properties);
->>>       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
->>> -    dc->user_creatable  = true;
->>> +    dc->user_creatable  = false;
->>>       xfc->notify         = pnv_phb4_xive_notify;
->>>   }
->>> @@ -1864,7 +1808,7 @@ static void 
->>> pnv_phb4_root_port_class_init(ObjectClass *klass, void *data)
->>>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(klass);
->>>       dc->desc     = "IBM PHB4 PCIE Root Port";
->>> -    dc->user_creatable = true;
->>> +    dc->user_creatable = false;
->>>       device_class_set_parent_realize(dc, pnv_phb4_root_port_realize,
->>>                                       &rpc->parent_realize);
->>> @@ -1894,7 +1838,7 @@ static void 
->>> pnv_phb5_root_port_class_init(ObjectClass *klass, void *data)
->>>       PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->>>       dc->desc     = "IBM PHB5 PCIE Root Port";
->>> -    dc->user_creatable = true;
->>> +    dc->user_creatable = false;
->>>       k->vendor_id = PCI_VENDOR_ID_IBM;
->>>       k->device_id = PNV_PHB5_DEVICE_ID;
->>> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
->>> index a0dfa77c8432..6f1121a9489a 100644
->>> --- a/hw/pci-host/pnv_phb4_pec.c
->>> +++ b/hw/pci-host/pnv_phb4_pec.c
->>> @@ -120,6 +120,7 @@ static void 
->>> pnv_pec_default_phb_realize(PnvPhb4PecState *pec,
->>>       PnvPHB4 *phb = PNV_PHB4(qdev_new(pecc->phb_type));
->>>       int phb_id = pnv_phb4_pec_get_phb_id(pec, stack_no);
->>> +    object_property_add_child(OBJECT(pec), "phb[*]", OBJECT(phb));
->>>       object_property_set_link(OBJECT(phb), "pec", OBJECT(pec),
->>>                                &error_abort);
->>>       object_property_set_int(OBJECT(phb), "chip-id", pec->chip_id,
->>> @@ -150,10 +151,8 @@ static void pnv_pec_realize(DeviceState *dev, 
->>> Error **errp)
->>>       pec->num_phbs = pecc->num_phbs[pec->index];
->>>       /* Create PHBs if running with defaults */
->>> -    if (defaults_enabled()) {
->>> -        for (i = 0; i < pec->num_phbs; i++) {
->>> -            pnv_pec_default_phb_realize(pec, i, errp);
->>> -        }
->>> +    for (i = 0; i < pec->num_phbs; i++) {
->>> +        pnv_pec_default_phb_realize(pec, i, errp);
->>>       }
->>>       /* Initialize the XSCOM regions for the PEC registers */
->>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
->>> index e7cd8b62ca43..00f57c9678e6 100644
->>> --- a/hw/ppc/pnv.c
->>> +++ b/hw/ppc/pnv.c
->>> @@ -1141,9 +1141,7 @@ static void 
->>> pnv_chip_power8_instance_init(Object *obj)
->>>       object_initialize_child(obj, "homer", &chip8->homer, 
->>> TYPE_PNV8_HOMER);
->>> -    if (defaults_enabled()) {
->>> -        chip8->num_phbs = pcc->num_phbs;
->>> -    }
->>> +    chip8->num_phbs = pcc->num_phbs;
->>>       for (i = 0; i < chip8->num_phbs; i++) {
->>>           object_initialize_child(obj, "phb[*]", &chip8->phbs[i], 
->>> TYPE_PNV_PHB3);
->>> @@ -1974,23 +1972,6 @@ static ICSState *pnv_ics_get(XICSFabric *xi, 
->>> int irq)
->>>       return NULL;
->>>   }
->>> -void pnv_chip_parent_fixup(PnvChip *chip, Object *obj, int index)
->>> -{
->>> -    Object *parent = OBJECT(chip);
->>> -    g_autofree char *default_id =
->>> -        g_strdup_printf("%s[%d]", object_get_typename(obj), index);
->>> -
->>> -    if (obj->parent == parent) {
->>> -        return;
->>> -    }
->>> -
->>> -    object_ref(obj);
->>> -    object_unparent(obj);
->>> -    object_property_add_child(
->>> -        parent, DEVICE(obj)->id ? DEVICE(obj)->id : default_id, obj);
->>> -    object_unref(obj);
->>> -}
->>> -
->>>   PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
->>>   {
->>>       int i;
->>> @@ -2130,8 +2111,6 @@ static void 
->>> pnv_machine_power8_class_init(ObjectClass *oc, void *data)
->>>       pmc->compat = compat;
->>>       pmc->compat_size = sizeof(compat);
->>> -
->>> -    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB3);
->>>   }
->>>   static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
->>> @@ -2150,8 +2129,6 @@ static void 
->>> pnv_machine_power9_class_init(ObjectClass *oc, void *data)
->>>       pmc->compat = compat;
->>>       pmc->compat_size = sizeof(compat);
->>>       pmc->dt_power_mgt = pnv_dt_power_mgt;
->>> -
->>> -    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB4);
->>>   }
->>>   static void pnv_machine_power10_class_init(ObjectClass *oc, void 
->>> *data)
-> 
 
