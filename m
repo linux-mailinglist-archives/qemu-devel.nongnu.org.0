@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A194A4D8F18
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 22:52:50 +0100 (CET)
-Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445DC4D8F55
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 23:11:40 +0100 (CET)
+Received: from localhost ([::1]:42960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTscT-0003hB-F2
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 17:52:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53546)
+	id 1nTsug-00059j-Pi
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 18:11:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raj.khem@gmail.com>)
- id 1nTsbT-0002K7-Te; Mon, 14 Mar 2022 17:51:47 -0400
-Received: from [2607:f8b0:4864:20::636] (port=34354
- helo=mail-pl1-x636.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <raj.khem@gmail.com>)
- id 1nTsbS-00012s-65; Mon, 14 Mar 2022 17:51:47 -0400
-Received: by mail-pl1-x636.google.com with SMTP id r12so14673130pla.1;
- Mon, 14 Mar 2022 14:51:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=in3iROJeFG25tett3Ov3ylKhsKzH7+okoPDqyE0tPOs=;
- b=N6x01I8l81FGlJ58oxZWwfm/Euk69JLPgBU6MF9iQXd+ZhKX1MoEYPxQpq4IVzqfIU
- 39o48SETKeLuhunJ3+F0YztAzts5WWjiVPbCWqEndUHFWwgBl/wjN8Wp2+94sIIb81Jb
- 8kAvEfS1pFFtO99pLPvkTdk4AU6e0+6y83jewfZcOEDr4NvoLQFa8Ym1Raw/TjWTjWXn
- hswfbPTh5GGOdE4WHw0T/kqQT5kW3mtYkFPyXB2T0VMgCV0LoiOL2dvftZvczcM3G+K6
- Nj09DjX3jRZFJhRGU6pwv6zX/LgE6pJ1L9ffrc4Vag7mCNzzK3KN0XMM+LTMeUe/ITDa
- wiWw==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nTst7-0003oy-4a
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 18:10:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nTst4-0004Tq-0P
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 18:09:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647295796;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tIaI4swwnrLQxgEzgNOOjQdW6ldsec82u9CKcVRDQzs=;
+ b=eDFLnsn6QssKrQgPK6p88mVVmhB3Y87/VRPOguvtq0wEe0RvYongVX9hSBN1Eu78GkDgcK
+ aP74YdIEzFj0TNrW3m21/hBhMT9vuTf10mGStnyzN0zsl/rcAs2S+PvAN/QbPOhf2TqPPY
+ v73x7/HvtLyTYyugxSt2tJph02oInG8=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-467-S0JTV61RMZu7VRLoDp3tiw-1; Mon, 14 Mar 2022 18:09:55 -0400
+X-MC-Unique: S0JTV61RMZu7VRLoDp3tiw-1
+Received: by mail-io1-f69.google.com with SMTP id
+ e23-20020a6b6917000000b006406b9433d6so13201880ioc.14
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 15:09:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=in3iROJeFG25tett3Ov3ylKhsKzH7+okoPDqyE0tPOs=;
- b=HNbmi9ZaJCVjm1zF6or9jtKGlmisjkbAvi8hs1v8ua7bKaXtGX8xBydMP45FK+pus5
- lhuqgTGvv9AknAUUbwSZaEcaqPClFqVMuBfcOPgR/XUG1lRHY7ZrRe6WmrZeVicDnrKX
- cf+NZUQRs7BExgq+Ga8qo3uEqhD0F0TZ2hi8P0tIjjuvMM+bh/vMDu5zrFlDWHL61/RF
- mWRtvZ3zqXWCEc92QED5Unc0FgGTlAMRgXbMUbuOrKyQ+UtlptqKXNT9lw4SE1/EAF8o
- w5dN8reeHA876+CGPgcTXjMI4LrZc3flGK/f3bLo9JcsXdwnn/0mEkkOqlZlrnUdkoIx
- 9cIA==
-X-Gm-Message-State: AOAM532FewZiGsw1kbgNJo4CKBJbDYVBM8wn7dXuoi49nkzbZM75KYc0
- bhpnY8S1C+pnn1L9otPmuc3Ik1iv6TZjdA==
-X-Google-Smtp-Source: ABdhPJyHal2lHo4Ylm2ApF7pahWgTmBhRzFzXRUJCw5c87NXx+MScRrcGZqrtsZYPclRdM+TrwtsPQ==
-X-Received: by 2002:a17:902:bd95:b0:14f:40ab:270e with SMTP id
- q21-20020a170902bd9500b0014f40ab270emr25338171pls.101.1647294704106; 
- Mon, 14 Mar 2022 14:51:44 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::781b])
- by smtp.gmail.com with ESMTPSA id
- f6-20020a654006000000b00346193b405fsm17356528pgp.44.2022.03.14.14.51.43
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tIaI4swwnrLQxgEzgNOOjQdW6ldsec82u9CKcVRDQzs=;
+ b=s9Al4u9g+SElyf6B6YBpFBq0Rz6r9D4HLoJ3TIwKTopESdYV2vIcpdCj7NSofhXlFz
+ XPnCftSyYd4zxeVd0IzI7RCOvKrMUiM4MLizQW9ee2Nffwv8DRC7eOgsF2MRJ9KW/NYT
+ UtrPxeFBHqMSNWsxbzDm9JF9ke9Mz/JVfVSrHw+h2u/BRL11HgigvEZVGF188ElJTtwz
+ imCP4Nxrrs1jJ61RpPOTBI/67osgJ/mUSnVnrJ9/y3Si7ilb5uzqc83LUqJ1QHWcudAg
+ V9GEIR9JpTiqtuPtCpHlJXfOzK/nmcG8s1YWmY+cNQdBTj2/kG916rbm6ysjRJ475Z3X
+ wa/g==
+X-Gm-Message-State: AOAM5328Qrq4rxnkR0Uv2zgUCHRDwMcLznpKyclJS9lJsiMqZI/duJ9r
+ 6YN5UFy0hk7MfkfXROxHfN7Cw3fYHRjE7JNir4W1bNcbMeroZVaxs8Rqnaxqqn+KBnUeHjYSgux
+ REtze818DlmIIwUQ=
+X-Received: by 2002:a05:6e02:1b8a:b0:2c7:6aeb:c5f7 with SMTP id
+ h10-20020a056e021b8a00b002c76aebc5f7mr17839512ili.135.1647295794039; 
+ Mon, 14 Mar 2022 15:09:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw5HzCEP8yrpPpxdvq1kt/x0dpAxZ8qKXAIE0ecmU+n0UwB1htNx+S5EfwRWIg49HArDGUdEA==
+X-Received: by 2002:a05:6e02:1b8a:b0:2c7:6aeb:c5f7 with SMTP id
+ h10-20020a056e021b8a00b002c76aebc5f7mr17839503ili.135.1647295793682; 
+ Mon, 14 Mar 2022 15:09:53 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ a6-20020a92d346000000b002c1a6040691sm9459914ilh.70.2022.03.14.15.09.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 14:51:43 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] ppc64: Avoid pt_regs struct definition
-Date: Mon, 14 Mar 2022 14:51:38 -0700
-Message-Id: <20220314215138.1355256-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ Mon, 14 Mar 2022 15:09:53 -0700 (PDT)
+Date: Mon, 14 Mar 2022 16:09:52 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Timothy Pearson <tpearson@raptorengineering.com>
+Subject: Re: XIVE VFIO kernel resample failure in INTx mode under heavy load
+Message-ID: <20220314160952.46d5313a.alex.williamson@redhat.com>
+In-Reply-To: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
+References: <1891893257.448156.1647023745384.JavaMail.zimbra@raptorengineeringinc.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=raj.khem@gmail.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,125 +99,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
- Khem Raj <raj.khem@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove pt_regs indirection and instead reference gp_regs directly, this
-makes it portable across musl/glibc
+[Cc +Alexey]
 
-Move the file to ppc64 subdir and leave ppc empty
+On Fri, 11 Mar 2022 12:35:45 -0600 (CST)
+Timothy Pearson <tpearson@raptorengineering.com> wrote:
 
-Fixes
-../qemu-6.2.0/linux-user/host/ppc64/../ppc/host-signal.h:16:32: error: incomplete definition of type 'struct pt_regs'
-    return uc->uc_mcontext.regs->nip;
-           ~~~~~~~~~~~~~~~~~~~~^
+> All,
+> 
+> I've been struggling for some time with what is looking like a
+> potential bug in QEMU/KVM on the POWER9 platform.  It appears that in
+> XIVE mode, when the in-kernel IRQ chip is enabled, an external device
+> that rapidly asserts IRQs via the legacy INTx level mechanism will
+> only receive one interrupt in the KVM guest.
+> 
+> Changing any one of those items appears to avoid the glitch, e.g.
+> XICS mode with the in-kernel IRQ chip works (all interrupts are
+> passed through), and XIVE mode with the in-kernel IRQ chip disabled
+> also works.  We are also not seeing any problems in XIVE mode with
+> the in-kernel chip from MSI/MSI-X devices.
+> 
+> The device in question is a real time card that needs to raise an
+> interrupt every 1ms.  It works perfectly on the host, but fails in
+> the guest -- with the in-kernel IRQ chip and XIVE enabled, it
+> receives exactly one interrupt, at which point the host continues to
+> see INTx+ but the guest sees INTX-, and the IRQ handler in the guest
+> kernel is never reentered.
+> 
+> We have also seen some very rare glitches where, over a long period
+> of time, we can enter a similar deadlock in XICS mode.  Disabling the
+> in-kernel IRQ chip in XIVE mode will also lead to the lockup with
+> this device, since the userspace IRQ emulation cannot keep up with
+> the rapid interrupt firing (measurements show around 100ms required
+> for processing each interrupt in the user mode).
+> 
+> My understanding is the resample mechanism does some clever tricks
+> with level IRQs, but that QEMU needs to check if the IRQ is still
+> asserted by the device on guest EOI.  Since a failure here would
+> explain these symptoms I'm wondering if there is a bug in either QEMU
+> or KVM for POWER / pSeries (SPAPr) where the IRQ is not resampled and
+> therefore not re-fired in the guest?
+> 
+> Unfortunately I lack the resources at the moment to dig through the
+> QEMU codebase and try to find the bug.  Any IBMers here that might be
+> able to help out?  I can provide access to a test setup if desired.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
----
-v2: Drop ifdef __powerpc__
-v3: Access go_regs directly and move the file to ppc64 dir
+Your experiments with in-kernel vs QEMU irqchip would suggest to me
+that both the device and the generic INTx handling code are working
+correctly, though it's hard to say that definitively given the massive
+timing differences.
 
- linux-user/include/host/ppc/host-signal.h   | 38 --------------------
- linux-user/include/host/ppc64/host-signal.h | 39 ++++++++++++++++++++-
- 2 files changed, 38 insertions(+), 39 deletions(-)
- delete mode 100644 linux-user/include/host/ppc/host-signal.h
+As an experiment, does anything change with the "nointxmask=1" vfio-pci
+module option?
 
-diff --git a/linux-user/include/host/ppc/host-signal.h b/linux-user/include/host/ppc/host-signal.h
-deleted file mode 100644
-index b80384d135..0000000000
---- a/linux-user/include/host/ppc/host-signal.h
-+++ /dev/null
-@@ -1,38 +0,0 @@
--/*
-- * host-signal.h: signal info dependent on the host architecture
-- *
-- * Copyright (c) 2003-2005 Fabrice Bellard
-- * Copyright (c) 2021 Linaro Limited
-- *
-- * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-- * See the COPYING file in the top-level directory.
-- */
--
--#ifndef PPC_HOST_SIGNAL_H
--#define PPC_HOST_SIGNAL_H
--
--/* The third argument to a SA_SIGINFO handler is ucontext_t. */
--typedef ucontext_t host_sigcontext;
--
--static inline uintptr_t host_signal_pc(host_sigcontext *uc)
--{
--    return uc->uc_mcontext.regs->nip;
--}
--
--static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
--{
--    uc->uc_mcontext.regs->nip = pc;
--}
--
--static inline void *host_signal_mask(host_sigcontext *uc)
--{
--    return &uc->uc_sigmask;
--}
--
--static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
--{
--    return uc->uc_mcontext.regs->trap != 0x400
--        && (uc->uc_mcontext.regs->dsisr & 0x02000000);
--}
--
--#endif
-diff --git a/linux-user/include/host/ppc64/host-signal.h b/linux-user/include/host/ppc64/host-signal.h
-index a353c22a90..b46143c2f0 100644
---- a/linux-user/include/host/ppc64/host-signal.h
-+++ b/linux-user/include/host/ppc64/host-signal.h
-@@ -1 +1,38 @@
--#include "../ppc/host-signal.h"
-+/*
-+ * host-signal.h: signal info dependent on the host architecture
-+ *
-+ * Copyright (c) 2003-2005 Fabrice Bellard
-+ * Copyright (c) 2021 Linaro Limited
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef PPC_HOST_SIGNAL_H
-+#define PPC_HOST_SIGNAL_H
-+
-+/* The third argument to a SA_SIGINFO handler is ucontext_t. */
-+typedef ucontext_t host_sigcontext;
-+
-+static inline uintptr_t host_signal_pc(host_sigcontext *uc)
-+{
-+    return uc->uc_mcontext.gp_regs[32];
-+}
-+
-+static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
-+{
-+    uc->uc_mcontext.gp_regs[32] = pc;
-+}
-+
-+static inline void *host_signal_mask(host_sigcontext *uc)
-+{
-+    return &uc->uc_sigmask;
-+}
-+
-+static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
-+{
-+    return uc->uc_mcontext.gp_regs[40] != 0x400
-+        && (uc->uc_mcontext.gp_regs[42] & 0x02000000);
-+}
-+
-+#endif
--- 
-2.35.1
+Adding Alexey, I have zero XIVE knowledge myself. Thanks,
+
+Alex
 
 
