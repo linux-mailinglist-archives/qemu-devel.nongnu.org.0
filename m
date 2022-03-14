@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF7F4D8BEC
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 19:49:30 +0100 (CET)
-Received: from localhost ([::1]:41982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A08A4D8BED
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 19:49:39 +0100 (CET)
+Received: from localhost ([::1]:42262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTpl3-00048I-9P
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 14:49:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55406)
+	id 1nTplC-0004K6-HR
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 14:49:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nTpih-0002ah-Ap
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 14:47:04 -0400
-Received: from [2607:f8b0:4864:20::112c] (port=42924
- helo=mail-yw1-x112c.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nTpj4-0002gm-BE; Mon, 14 Mar 2022 14:47:26 -0400
+Received: from [2607:f8b0:4864:20::42d] (port=37865
+ helo=mail-pf1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nTpif-0002NJ-8P
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 14:47:02 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2dbd97f9bfcso174986147b3.9
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 11:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3S61LlyfUIE02gidO/QCin7HCsbvvsQjDWGyXEKzb+0=;
- b=RkVx9ILycIE320yidWcO7ytoACZL84A7Vfy2A2Q0iVe50jYBeq9Jhb85IM/oBNTa1j
- oPGL3Jo50V5ijytgiWztn0MTYfE2KHeyYvrw+49iD+a8Iq8WEwn/9dsLltDJL2taHl6h
- MV/fZLxYsnUQ0TedOKWuFTuap/j15SwQV+Qsv4lBfm4hmooQC6QQTfZ1x/o8rzm84QSk
- w4YVmRTY+Xxuf7H2f8V2kcL5mMoPq9ts/pfTNlX7g4uuPj7YVSfMgu+UnDr0oF7k0Jdq
- BlIcu4+wadPMIs+N/hZhPSH4tHN8Yh475HwtQxlGl2ZiKLCOJoLRDC4w8wonK0OVyZd1
- z70g==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nTpj2-0002O0-9h; Mon, 14 Mar 2022 14:47:25 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id t5so15529206pfg.4;
+ Mon, 14 Mar 2022 11:47:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=3D0LjBNgeX0U7Mj4vXtRyZDTtfua4bw8Cy52CIrKEcE=;
+ b=bfJjZ7cZndCjiv9SqHZ+gz/0oKTvtPYtt1gyUvSRswS4RFTsSgGz7nyM7i3zTsn0l7
+ TrXxYHSA7bX7Fzgiv1e9Iq6gmhINLk7AIsPQriBACClelMz0NCtN/89NlMGaZHFIEEHe
+ /OhsYPq9qlQnLm0YMaVyIacmu7wCbANhH2Z2P4N0wSykFtKrau7nb3gBpQsmYUKVBk6m
+ E8WpjP0G7/3p45G4eCysz94M/86UmhtbyPnn54CCc6qGUdooPX6Yp49QzyFe0M/Xy3jo
+ 1qqQkUXRdKhFns65phIRg7cAgWHXb57FXw5ZrQBHTbqa96fWU7mOCIdjQB+niAOpUT4z
+ co/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3S61LlyfUIE02gidO/QCin7HCsbvvsQjDWGyXEKzb+0=;
- b=02QOegt58ekGD+xnnfvn/u/o/YrmqP5azNLknLPH/VrSACTyDdWMx5fnTUFat9NT+v
- NujvI4rPowOQo279CMExcWEGRL0M59OyFOiwUs6HTk0DZNaoAYINA7sgbKMjWbwoWz1N
- BnxU88K3ccps3kdAD4mlWQlTtkqqs8SOByeMVwYh35Um11kDucHY1rphCjOJGEPMaYL4
- FSCcFbCE9Jg0YtSqAfYI6NeF4FOLZsuY+gcsfS+yRJ/D6OcyQv4pb/evwcMOG3jjPm5r
- YlN8wLLarzSLsiatI7DnP7VKpEgG57gVwdgqbCa3a47NbVbiKPPAl9b4GX92iDnDC7Xp
- qOMw==
-X-Gm-Message-State: AOAM531DLmvCbIfTWJGeqFCjlbbsKGTZ98DN5zplefhYOZBIA590SQFR
- 99QKNgNaaT2+ojUi7znGeIUGaG3EbA1ZRQcja6pBBg==
-X-Google-Smtp-Source: ABdhPJzIiHtI+hkY2WpVuXoIU5U98RyzYy5EjoXskSrEx2s8GI6kpPWdiNKHn0MRsdOVY13OfNLbcM+HmdiEkT1NWc8=
-X-Received: by 2002:a81:12c3:0:b0:2dc:5f5a:38ec with SMTP id
- 186-20020a8112c3000000b002dc5f5a38ecmr20414374yws.347.1647283620049; Mon, 14
- Mar 2022 11:47:00 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3D0LjBNgeX0U7Mj4vXtRyZDTtfua4bw8Cy52CIrKEcE=;
+ b=HFm7OGWco+CqdYb/JTRVVUK6H0g5O76Bhq2aUHfKRjtydTS7DhS0TGFY2ZufhNUYvY
+ 4sZOJeX5ZzUVkw09dULjxW/SIwqh2GLxce+iKxYrPRPpmF/In0Z5b0tTxmh9fuM0EvbL
+ wi/wLSi5+lXSYvIKsIgsgyroJzuzkt/wg/52TAnmyCMtg3ZhcZe2BeP6BnNMv3f4oOZd
+ U0S/mPWLYa9nMoHPzAI5ks2yqENtOZge+bKNCK2KFtUJZYBZjGZJg9DuCbU1RjBzwVdh
+ OfRvbn8jDm6Q8cBRNqKLYWhQAYQXZitBGojjDnHthgiMZmlCov+28LLWvUNPXKZ7mLS0
+ jefw==
+X-Gm-Message-State: AOAM531Bjl9Pgejqy8PxadYCK8Ta+YdBB/31BQbItaEjde0Q8TX4S3Ng
+ IoOEU0WwWzYfXF3h0BAox40=
+X-Google-Smtp-Source: ABdhPJwzbMEzP8c3c5sDX3mZK/oaJ86+KZMRKvtRIkv5Sn/gYzmdRImdNKkSWPP0IhMCI2ss///OUA==
+X-Received: by 2002:a63:ba47:0:b0:380:493a:7ed6 with SMTP id
+ l7-20020a63ba47000000b00380493a7ed6mr20860797pgu.355.1647283638334; 
+ Mon, 14 Mar 2022 11:47:18 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ k14-20020a056a00134e00b004f83f05608esm2061600pfu.31.2022.03.14.11.47.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Mar 2022 11:47:17 -0700 (PDT)
+Message-ID: <78a0febe-348a-8398-c57a-4b58038d041d@gmail.com>
+Date: Mon, 14 Mar 2022 19:46:59 +0100
 MIME-Version: 1.0
-References: <20220314154557.306-1-adeason@sinenomine.net>
- <20220314154557.306-2-adeason@sinenomine.net>
- <CAFEAcA8DZby3k7rZ3F4m037b_qjANzEk-ekVQYxAm5tN1_v84w@mail.gmail.com>
- <20220314131800.89dbb505371e68c7ad382795@sinenomine.net>
-In-Reply-To: <20220314131800.89dbb505371e68c7ad382795@sinenomine.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Mar 2022 18:46:48 +0000
-Message-ID: <CAFEAcA_3XjOz6T3q0QA=+LyZsruPTdT-vs0TbOM0fN=86+WKFg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] util/osdep: Avoid madvise proto on modern Solaris
-To: Andrew Deason <adeason@sinenomine.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112c
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH 2/3] 9pfs: Use g_new() & friends where that makes obvious
+ sense
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <20220314160108.1440470-1-armbru@redhat.com>
+ <20220314160108.1440470-3-armbru@redhat.com> <2292394.T0kE68JRDY@silver>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <2292394.T0kE68JRDY@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,80 +93,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, haxm-team@intel.com,
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Eric Blake <eblake@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Thomas Huth <thuth@redhat.com>,
+ Corey Minyard <cminyard@mvista.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Klaus Jensen <its@irrelevant.dk>, Amit Shah <amit@kernel.org>,
+ Mich ael Roth <michael.roth@amd.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Colin Xu <colin.xu@intel.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Patrick Venture <venture@google.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org,
+ Wenchao Wang <wenchao.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Mar 2022 at 18:18, Andrew Deason <adeason@sinenomine.net> wrote:
->
-> On Mon, 14 Mar 2022 16:36:00 +0000
-> Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> > On Mon, 14 Mar 2022 at 16:12, Andrew Deason <adeason@sinenomine.net> wrote:
-> > >  #ifdef CONFIG_SOLARIS
-> > >  #include <sys/statvfs.h>
-> > > +#ifndef HAVE_MADVISE_PROTO
-> > >  /* See MySQL bug #7156 (http://bugs.mysql.com/bug.php?id=7156) for
-> > >     discussion about Solaris header problems */
-> > >  extern int madvise(char *, size_t, int);
-> > >  #endif
-> > > +#endif
-> >
-> > Rather than keeping this inside a CONFIG_SOLARIS and only doing
-> > the meson.build test if targetos == sunos, I would prefer it if we
-> > unconditionally determined two things in meson.build:
-> >  (1) do we have madvise in the usual way? (this is what we would
-> >      want CONFIG_MADVISE to be, and might even be what it actually is)
-> >  (2) do we have madvise but only if we provide a prototype for it
-> >      ourselves? (maybe CONFIG_MADVISE_NO_PROTO)
->
-> CONFIG_MADVISE is set if we can cc.links() something that calls
-> madvise(). If we're missing the prototype, that will fail with -Werror,
-> but I expect succeeds otherwise. If cc.links() just uses the cflags for
-> the build, then it seems like it might succeed or fail depending on
-> --enable-werror.
+Hi Christian,
 
-Mmm. I think that we wrote it that way because it was a straight
-translation to meson of the previous configure-script madvise
-detection code. I think it is equivalent to
-config_host_data.set('CONFIG_MEMALIGN', cc.has_function('memalign'))
-which also effectively does a pure "does this link?" test.
-So maybe we want to keep CONFIG_MEMALIGN the way it is and add
-a CONFIG_MISSING_MEMALIGN_PROTOTYPE or something. I think that
-this is rapidly getting out of my depth as far as meson is concerned,
-though.
+On 14/3/22 17:42, Christian Schoenebeck wrote:
+> On Montag, 14. März 2022 17:01:07 CET Markus Armbruster wrote:
+>> g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
+>> for two reasons.  One, it catches multiplication overflowing size_t.
+>> Two, it returns T * rather than void *, which lets the compiler catch
+>> more type errors.
+>>
+>> This commit only touches allocations with size arguments of the form
+>> sizeof(T).
+>>
+>> Patch created mechanically with:
+>>
+>>      $ spatch --in-place --sp-file scripts/coccinelle/use-g_new-etc.cocci \
+>> 	     --macro-file scripts/cocci-macro-file.h FILES...
+>>
+>> Except this uncovers a typing error:
+>>
+>>      ../hw/9pfs/9p.c:855:13: warning: incompatible pointer types assigning to
+>> 'QpfEntry *' from 'QppEntry *' [-Wincompatible-pointer-types] val =
+>> g_new0(QppEntry, 1);
+>> 		^ ~~~~~~~~~~~~~~~~~~~
+>>      1 warning generated.
+>>
+>> Harmless, because QppEntry is larger than QpfEntry.  Fix to allocate a
+>> QpfEntry instead.
+>>
+>> Cc: Greg Kurz <groug@kaod.org>
+>> Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+> 
+> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-> I see some other tests give -Werror as an explicit
-> extra argument (HAVE_BROKEN_SIZE_MAX, and something for fuzzing); should
-> this be doing the same to make sure it fails for a missing prototype?
->
-> Also just to mention, if we don't care about older Solaris, the
-> prototype can just be unconditionally removed. It's pretty annoying to
-> even try to build qemu from git on Solaris 11.4 and earlier, because
-> many of the build requirements need to be installed/compiled manually
-> (notably python 3.6+, but iirc also ninja, meson, etc). So I haven't
-> really tried; there may be many other build issues there.
+FYI your domain is also quarantined by Google:
 
-Hard to say whether we do or don't care. We have had some
-mailing list threads in the past. I think we might also care
-a bit about Illumos, which might still have some issues that
-Solaris proper has since fixed. Sometimes it's easier to hang on
-to the portability workaround than to try to find out :-)
-
-> > Side note: do you know why CONFIG_SOLARIS includes sys/statvfs.h ?
-> > Is that unrelated to madvise() ?
->
-> I think so, it was added in commit 605686cd7ac, which predates madvise()
-> in that file. It does look like it could be removed from a quick glance.
-
-Yeah, I think in commit 4a1418e07bdcfaa31 in 2009 we removed kqemu
-support, which was the only thing using statvfs() in that file,
-but forgot to remove the #include. Since that's an entirely separate
-thing from madvise, feel free to either ignore it or send a separate patch.
-
--- PMM
+ARC-Authentication-Results: i=1; mx.google.com;
+        dkim=fail header.i=@crudebyte.com header.s=lizzy header.b=olij9WvS;
+        spf=softfail (google.com: domain of transitioning 
+qemu_oss@crudebyte.com does not designate 172.105.152.211 as permitted 
+sender) smtp.mailfrom=qemu_oss@crudebyte.com;
+        dmarc=fail (p=QUARANTINE sp=QUARANTINE dis=QUARANTINE) 
+header.from=crudebyte.com
+Received-SPF: softfail (google.com: domain of transitioning 
+qemu_oss@crudebyte.com does not designate 172.105.152.211 as permitted 
+sender) client-ip=172.105.152.211;
+Authentication-Results: mx.google.com;
+        dkim=fail header.i=@crudebyte.com header.s=lizzy header.b=olij9WvS;
+        spf=softfail (google.com: domain of transitioning 
+qemu_oss@crudebyte.com does not designate 172.105.152.211 as permitted 
+sender) smtp.mailfrom=qemu_oss@crudebyte.com;
+        dmarc=fail (p=QUARANTINE sp=QUARANTINE dis=QUARANTINE) 
+header.from=crudebyte.com
+X-Rspamd-Queue-Id: AC61617709E
+X-Spamd-Result: default: False [-2.01 / 7.00]; 
+BAYES_HAM(-3.00)[100.00%]; SUSPICIOUS_RECIPS(1.50)[]; 
+DMARC_POLICY_ALLOW(-0.50)[crudebyte.com,quarantine]; 
+MID_RHS_NOT_FQDN(0.50)[]; R_DKIM_ALLOW(-0.20)[crudebyte.com:s=lizzy]; 
+R_SPF_ALLOW(-0.20)[+ip4:91.194.90.13]; MIME_GOOD(-0.10)[text/plain]; 
+MX_GOOD(-0.01)[]; RCVD_COUNT_ZERO(0.00)[0]; ASN(0.00)[asn:51167, 
+ipnet:91.194.90.0/23, country:DE]; MIME_TRACE(0.00)[0:+]; 
+FREEMAIL_CC(0.00)[redhat.com,linaro.org,gmail.com,vger.kernel.org,irrelevant.dk,adacore.com,anisinha.ca,netbsd.org,microsoft.com,kernel.org,lists.xenproject.org,users.sourceforge.jp,xen.org,huawei.com,reactos.org,amd.com,citrix.com,syrmia.com,ilande.co.uk,intel.com,kaod.org,nongnu.org,ispras.ru,gibson.dropbear.id.au,habkost.net,virtuozzo.com,google.com,amsat.org,tribudubois.net,mvista.com]; 
+FROM_EQ_ENVFROM(0.00)[]; NEURAL_HAM(-0.00)[-0.923]; ARC_NA(0.00)[]; 
+DKIM_TRACE(0.00)[crudebyte.com:+]; FROM_HAS_DN(0.00)[]; 
+RCPT_COUNT_GT_50(0.00)[66]; TO_DN_SOME(0.00)[]; 
+TO_MATCH_ENVRCPT_SOME(0.00)[]; TAGGED_RCPT(0.00)[]; 
+RCVD_IN_DNSWL_FAIL(0.00)[91.194.90.13:server fail]
+X-Rspamd-Server: atlanta189
 
