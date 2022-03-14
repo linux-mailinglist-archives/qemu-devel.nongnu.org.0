@@ -2,73 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB7B4D7F64
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 11:04:24 +0100 (CET)
-Received: from localhost ([::1]:58510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D534D7F69
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 11:07:40 +0100 (CET)
+Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nThYs-0007rj-UG
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 06:04:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51606)
+	id 1nThc2-0001aH-Rh
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 06:07:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nThFT-0001wo-PG; Mon, 14 Mar 2022 05:44:19 -0400
-Received: from [2607:f8b0:4864:20::b31] (port=41741
- helo=mail-yb1-xb31.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nThFR-0001W2-Ur; Mon, 14 Mar 2022 05:44:19 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id l2so29511946ybe.8;
- Mon, 14 Mar 2022 02:44:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GRkBfxRh6rcS1E4aT62MAY87PcXygtZnejM1OB/pFyA=;
- b=Axojaemkl49PZZWvmep9oB4PQqbaJj/dVlHccuIXbDSVjpHaMGhYWom5tr2OlrjFaA
- MG+6W57ZJN0i1N6939gQjFkaDiJiFDAQOUnabULLcK5wWAx9JQ9791h1o7KJElxW9K2n
- tLYj6vuRNSUaVv/t6Our7r5uofVN9ZMB/4R6HxUejRAiFJqF5gLp4BfeYbhcQtaL7Fnh
- Vpxb8WYz8Uet1AsCNPrryLsSeFhWtaOmTVJh1pspDt2Z0n/RSQokwQZJJSiyW1vpA6fe
- yFJFl0fgjAfU+g2bs6kdxC6LMQmjx2owg/I/L+txQH4WIz2TBB9u5ItMztphcl4rYryR
- Dxow==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nThQG-00027e-Tu
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 05:55:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54017)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nThQC-0003bg-0D
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 05:55:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647251719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DOzbHhegizn46HRQcI/GbWl+pnIRJ+riPeMpxF2Vnns=;
+ b=NiTjVi0d1nRW/ymH3j2MpBYGEm59nuUsTFBzPCw2W4ztQ6ykVKuLSAQ8KcunLAP/B/1KIb
+ CjIX20P7IE3stGeK2hzJ3ng0dtekbEp4bGlDrp8XTK8FJToBzUmzN9rZzxGtdrFoncwwSx
+ lqt0pBdKD2q+3YipG19sNCFzplxoZzU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-576-tf_yq_pfMRGY_m7qr-wLoA-1; Mon, 14 Mar 2022 05:55:17 -0400
+X-MC-Unique: tf_yq_pfMRGY_m7qr-wLoA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l13-20020a7bcf0d000000b0038982c6bf8fso6817721wmg.7
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 02:55:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GRkBfxRh6rcS1E4aT62MAY87PcXygtZnejM1OB/pFyA=;
- b=OMuNKbR6FJrV5Grt3BdLx93sy5fxQpfKjs99rK2te0a0OhrDUgLvw5GbWCXLbKlr0v
- tpzh2o/alp+g/If+VWnRqBD0vkk/E/W0YFk6+oilw872JL9RbhUvO5oaEYFfm5HPpZw9
- idZ09Sk5HyKyE/iseQIGaGafnpwAytgWgnXf9WomKe5d4N0RF6IaGrFlk4OGXgMAwhAz
- Ls1RsznhVpVbT9pPYDaA/QbPXLqueJnsVoEISgNuRh0nMnoa2x8ZH0rdkGpW5NXd3rAx
- cS+CVa0jdyXFVg0xo+Ph/BbKw/oFh0oroL4kwx+VtSzMhbFg/JoQ1DY9y0INxHInDNzq
- AL8w==
-X-Gm-Message-State: AOAM532LvKv1XtX1g/7PztnvPhIQkq27TnojONctBw/HW8QhiVqmk4Aw
- vLp+5gPMiQt2Ao1puRQG7JzKxHZOEnF3heXOjgA=
-X-Google-Smtp-Source: ABdhPJxPsLKtWwAaoXj0zaiZCg8I9nT+4EAqgADF7eXh1a72dxlrP3GHlq5D5lj1E0ZRLyhjxoPL73Obau8k6k8u1KU=
-X-Received: by 2002:a25:d2c9:0:b0:62c:1233:a5a5 with SMTP id
- j192-20020a25d2c9000000b0062c1233a5a5mr16836265ybg.643.1647251055823; Mon, 14
- Mar 2022 02:44:15 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DOzbHhegizn46HRQcI/GbWl+pnIRJ+riPeMpxF2Vnns=;
+ b=KVIYm2Vgwrk5xxP3IhlShr8WnbSgTkJwASlSx9GK8ybtkciijPXFnc8Oz3Xzg3AZfu
+ c2UznHEZv8iKyovH71F8fbQ3YtoGPylez/jo5CutJopK65qNDbogTa4bdbQEHGMGmgrr
+ Rf6U5nprgzFukG669NlCkdLhcQdXb3tPNND7yRvGwiOhkVUn/OaFiO036hDeNVOQSxJt
+ 8hWpBapV5K5TKJ43ZZ9Io4j8p0XxOB/UHOPNDVN6RepuZDMK9mrmf36s3WGBYK2uqlFD
+ Y8nuZbsI96cPxrj2mE8h7UC4NhUeBaORKeISSVOiY8Kwy3PzedgDv2/d2U1olfuM9eFl
+ P6+Q==
+X-Gm-Message-State: AOAM531/YvWs4yMA90Bhc6k0n+2As4tf4DKyUPxQ4tNl+hG8v+FJVcvT
+ 0DtVcx8mXkVICWqDVeVBG2emJM3ysp7vhbmEw9dJc6altRndwaMdJORsFese2dMPx24hYJQe+2M
+ sYU/WSlCkgqlxwSE=
+X-Received: by 2002:adf:f38d:0:b0:1f0:490a:92ae with SMTP id
+ m13-20020adff38d000000b001f0490a92aemr15762589wro.497.1647251716133; 
+ Mon, 14 Mar 2022 02:55:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzf3sz5NAF16DNkcB+YST+EfnbO+MH7los4Bgd25O0NgtmEs2kezIzN1tf6qJ3gKTvKCOODKQ==
+X-Received: by 2002:adf:f38d:0:b0:1f0:490a:92ae with SMTP id
+ m13-20020adff38d000000b001f0490a92aemr15762574wro.497.1647251715907; 
+ Mon, 14 Mar 2022 02:55:15 -0700 (PDT)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ z6-20020adfd0c6000000b001f1ffd04672sm12213758wrh.12.2022.03.14.02.55.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Mar 2022 02:55:15 -0700 (PDT)
+Message-ID: <03fd437f-1c34-9abe-6b07-c0a4cf597a04@redhat.com>
+Date: Mon, 14 Mar 2022 10:55:14 +0100
 MIME-Version: 1.0
-References: <20220105030844.780642-1-bmeng.cn@gmail.com>
- <20220105030844.780642-6-bmeng.cn@gmail.com>
- <CAKmqyKMA-s-1=mhAO3ODMUK00aNJkw5u2H2oOGbjbd9ODKw5=w@mail.gmail.com>
-In-Reply-To: <CAKmqyKMA-s-1=mhAO3ODMUK00aNJkw5u2H2oOGbjbd9ODKw5=w@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 14 Mar 2022 17:44:04 +0800
-Message-ID: <CAEUhbmWnzoHSrRKvLBS-zzczwCd_D5maXQP+A9_0QAdnWOWepw@mail.gmail.com>
-Subject: Re: [RESEND PATCH v3 5/7] target/riscv: csr: Hook debug CSR read/write
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b31
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2] tests/avocado: starts PhoneServer upfront
+To: Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
+References: <20220311171127.2189534-1-bleal@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220311171127.2189534-1-bleal@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,181 +102,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: berrange@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 19, 2022 at 11:06 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Wed, Jan 5, 2022 at 1:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > This adds debug CSR read/write support to the RISC-V CSR RW table.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
-> >
-> > Changes in v3:
-> > - add riscv_trigger_init(), moved from patch #1 to this patch
-> >
-> >  target/riscv/debug.h |  2 ++
-> >  target/riscv/cpu.c   |  6 +++++
-> >  target/riscv/csr.c   | 57 ++++++++++++++++++++++++++++++++++++++++++++
-> >  target/riscv/debug.c | 27 +++++++++++++++++++++
-> >  4 files changed, 92 insertions(+)
-> >
-> > diff --git a/target/riscv/debug.h b/target/riscv/debug.h
-> > index d0f63e2414..f4da2db35d 100644
-> > --- a/target/riscv/debug.h
-> > +++ b/target/riscv/debug.h
-> > @@ -109,4 +109,6 @@ void riscv_cpu_debug_excp_handler(CPUState *cs);
-> >  bool riscv_cpu_debug_check_breakpoint(CPUState *cs);
-> >  bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
-> >
-> > +void riscv_trigger_init(CPURISCVState *env);
-> > +
-> >  #endif /* RISCV_DEBUG_H */
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index d36c31ce9a..17dcc3c14f 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -575,6 +575,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-> >
-> >      riscv_cpu_register_gdb_regs_for_features(cs);
-> >
-> > +#ifndef CONFIG_USER_ONLY
-> > +    if (riscv_feature(env, RISCV_FEATURE_DEBUG)) {
-> > +        riscv_trigger_init(env);
-> > +    }
-> > +#endif
-> > +
-> >      qemu_init_vcpu(cs);
-> >      cpu_reset(cs);
-> >
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index 146447eac5..189b9cc8c6 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -220,6 +220,15 @@ static RISCVException epmp(CPURISCVState *env, int csrno)
-> >
-> >      return RISCV_EXCP_ILLEGAL_INST;
-> >  }
-> > +
-> > +static RISCVException debug(CPURISCVState *env, int csrno)
-> > +{
-> > +    if (riscv_feature(env, RISCV_FEATURE_DEBUG)) {
-> > +        return RISCV_EXCP_NONE;
-> > +    }
-> > +
-> > +    return RISCV_EXCP_ILLEGAL_INST;
-> > +}
-> >  #endif
-> >
-> >  /* User Floating-Point CSRs */
-> > @@ -1464,6 +1473,48 @@ static RISCVException write_pmpaddr(CPURISCVState *env, int csrno,
-> >      return RISCV_EXCP_NONE;
-> >  }
-> >
-> > +static RISCVException read_tselect(CPURISCVState *env, int csrno,
-> > +                                   target_ulong *val)
-> > +{
-> > +    *val = tselect_csr_read(env);
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_tselect(CPURISCVState *env, int csrno,
-> > +                                    target_ulong val)
-> > +{
-> > +    tselect_csr_write(env, val);
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException read_tdata(CPURISCVState *env, int csrno,
-> > +                                 target_ulong *val)
-> > +{
-> > +    /* return 0 in tdata1 to end the trigger enumeration */
-> > +    if (env->trigger_cur >= TRIGGER_NUM && csrno == CSR_TDATA1) {
-> > +        *val = 0;
-> > +        return RISCV_EXCP_NONE;
-> > +    }
-> > +
-> > +    if (!tdata_available(env, csrno - CSR_TDATA1)) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    *val = tdata_csr_read(env, csrno - CSR_TDATA1);
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> > +static RISCVException write_tdata(CPURISCVState *env, int csrno,
-> > +                                  target_ulong val)
-> > +{
-> > +    if (!tdata_available(env, csrno - CSR_TDATA1)) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    tdata_csr_write(env, csrno - CSR_TDATA1, val);
-> > +    return RISCV_EXCP_NONE;
-> > +}
-> > +
-> >  /*
-> >   * Functions to access Pointer Masking feature registers
-> >   * We have to check if current priv lvl could modify
-> > @@ -1962,6 +2013,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      [CSR_PMPADDR14] =  { "pmpaddr14", pmp, read_pmpaddr, write_pmpaddr },
-> >      [CSR_PMPADDR15] =  { "pmpaddr15", pmp, read_pmpaddr, write_pmpaddr },
-> >
-> > +    /* Debug CSRs */
-> > +    [CSR_TSELECT]   =  { "tselect", debug, read_tselect, write_tselect },
-> > +    [CSR_TDATA1]    =  { "tdata1",  debug, read_tdata,   write_tdata   },
-> > +    [CSR_TDATA2]    =  { "tdata2",  debug, read_tdata,   write_tdata   },
-> > +    [CSR_TDATA3]    =  { "tdata3",  debug, read_tdata,   write_tdata   },
-> > +
-> >      /* User Pointer Masking */
-> >      [CSR_UMTE]    =    { "umte",    pointer_masking, read_umte,    write_umte    },
-> >      [CSR_UPMMASK] =    { "upmmask", pointer_masking, read_upmmask, write_upmmask },
-> > diff --git a/target/riscv/debug.c b/target/riscv/debug.c
-> > index 7760c4611f..041a0d3a89 100644
-> > --- a/target/riscv/debug.c
-> > +++ b/target/riscv/debug.c
-> > @@ -412,3 +412,30 @@ bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
-> >
-> >      return false;
-> >  }
-> > +
-> > +void riscv_trigger_init(CPURISCVState *env)
-> > +{
-> > +    target_ulong type2 = trigger_type(env, TRIGGER_TYPE_AD_MATCH);
-> > +    int i;
-> > +
-> > +    /* type 2 triggers */
-> > +    for (i = 0; i < TRIGGER_TYPE2_NUM; i++) {
-> > +        /*
-> > +         * type = TRIGGER_TYPE_AD_MATCH
-> > +         * dmode = 0 (both debug and M-mode can write tdata)
-> > +         * maskmax = 0 (unimplemented, always 0)
-> > +         * sizehi = 0 (match against any size, RV64 only)
-> > +         * hit = 0 (unimplemented, always 0)
-> > +         * select = 0 (always 0, perform match on address)
-> > +         * timing = 0 (always 0, trigger before instruction)
-> > +         * sizelo = 0 (match against any size)
-> > +         * action = 0 (always 0, raise a breakpoint exception)
-> > +         * chain = 0 (unimplemented, always 0)
-> > +         * match = 0 (always 0, when any compare value equals tdata2)
-> > +         */
-> > +        env->trigger_type2[i].mcontrol = type2;
-> > +        env->trigger_type2[i].maddress = 0;
-> > +        env->trigger_type2[i].bp = NULL;
-> > +        env->trigger_type2[i].wp = NULL;
-> > +    }
->
-> Should this be called at reset instead?
+On 11/03/2022 18.11, Beraldo Leal wrote:
+> Race conditions can happen with the current code, because the port that
+> was available might not be anymore by the time the server is started.
+> 
+> By setting the port to 0, PhoneServer it will use the OS default
+> behavior to get a free port, then we save this information so we can
+> later configure the guest.
+> 
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Beraldo Leal <bleal@redhat.com>
+> ---
+>   tests/avocado/avocado_qemu/__init__.py | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+> index 9b056b5ce5..ac85e36a4d 100644
+> --- a/tests/avocado/avocado_qemu/__init__.py
+> +++ b/tests/avocado/avocado_qemu/__init__.py
+> @@ -18,7 +18,7 @@
+>   import uuid
+>   
+>   import avocado
+> -from avocado.utils import cloudinit, datadrainer, network, process, ssh, vmimage
+> +from avocado.utils import cloudinit, datadrainer, process, ssh, vmimage
+>   from avocado.utils.path import find_command
+>   
+>   #: The QEMU build root directory.  It may also be the source directory
+> @@ -602,9 +602,6 @@ def prepare_cloudinit(self, ssh_pubkey=None):
+>           self.log.info('Preparing cloudinit image')
+>           try:
+>               cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
+> -            self.phone_home_port = network.find_free_port()
+> -            if not self.phone_home_port:
+> -                self.cancel('Failed to get a free port')
+>               pubkey_content = None
+>               if ssh_pubkey:
+>                   with open(ssh_pubkey) as pubkey:
+> @@ -614,7 +611,7 @@ def prepare_cloudinit(self, ssh_pubkey=None):
+>                             password=self.password,
+>                             # QEMU's hard coded usermode router address
+>                             phone_home_host='10.0.2.2',
+> -                          phone_home_port=self.phone_home_port,
+> +                          phone_home_port=self.phone_server.server_port,
+>                             authorized_key=pubkey_content)
+>           except Exception:
+>               self.cancel('Failed to prepare the cloudinit image')
+> @@ -625,6 +622,8 @@ def set_up_boot(self):
+>           self.vm.add_args('-drive', 'file=%s' % path)
+>   
+>       def set_up_cloudinit(self, ssh_pubkey=None):
+> +        self.phone_server = cloudinit.PhoneHomeServer(('0.0.0.0', 0),
+> +                                                      self.name)
+>           cloudinit_iso = self.prepare_cloudinit(ssh_pubkey)
+>           self.vm.add_args('-drive', 'file=%s,format=raw' % cloudinit_iso)
+>   
+> @@ -635,7 +634,9 @@ def launch_and_wait(self, set_up_ssh_connection=True):
+>                                                    logger=self.log.getChild('console'))
+>           console_drainer.start()
+>           self.log.info('VM launched, waiting for boot confirmation from guest')
+> -        cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), self.name)
+> +        while not self.phone_server.instance_phoned_back:
+> +            self.phone_server.handle_request()
+> +
+>           if set_up_ssh_connection:
+>               self.log.info('Setting up the SSH connection')
+>               self.ssh_connect(self.username, self.ssh_key)
 
-Yes, I think so.
+Thank you very much, this indeed fixes my problem with find_free_port() in 
+the related tests:
 
-Regards,
-Bin
+Tested-by: Thomas Huth <thuth@redhat.com>
+
 
