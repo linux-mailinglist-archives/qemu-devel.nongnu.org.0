@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8AE4D7F07
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:52:06 +0100 (CET)
-Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B784D7EEC
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:44:34 +0100 (CET)
+Received: from localhost ([::1]:49714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nThMz-0002be-7f
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:52:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49372)
+	id 1nThFh-00008y-Kz
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:44:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3p-000854-Sp; Mon, 14 Mar 2022 05:32:18 -0400
-Received: from [2a00:1450:4864:20::434] (port=45882
- helo=mail-wr1-x434.google.com)
+ id 1nTh3p-00085A-TJ; Mon, 14 Mar 2022 05:32:18 -0400
+Received: from [2a00:1450:4864:20::335] (port=41860
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3n-00085i-8O; Mon, 14 Mar 2022 05:32:16 -0400
-Received: by mail-wr1-x434.google.com with SMTP id p9so22808134wra.12;
- Mon, 14 Mar 2022 02:32:14 -0700 (PDT)
+ id 1nTh3o-000862-1H; Mon, 14 Mar 2022 05:32:17 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ 7-20020a05600c228700b00385fd860f49so9255021wmf.0; 
+ Mon, 14 Mar 2022 02:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rJ5t0QlYbGPaQo4OSda80/LOzZ+BH7tVMn0K+fkw8fI=;
- b=fB9G4iQGa9mZ9h7OLfgKwJpJStUCDleGORUdnjA0jDUTGCcg/wcVGIIAs7bJ8PXbqI
- isqR+kIbKx1Z5E0E0Ydhrbgphh6yn0K16SusseJeaU30jA/RzX2U1AqNAXPnx6qg2JYs
- RBeTVTa+jqSs5C6HuoQVn80xa0oIFxAtUhNhwYpddlTr5lrThhlbseLH/oQuDd4QD26L
- 9PT/Sr6MssXYSFUgo1jUgkjcWxbQ9zTcig7rqyp3/WElUMofkBxSn1p4hg+wxlPnEeGF
- /L9i59lgE3irApewua27t6/mIBqHXVHDK9N2uKH+eulOsEPMRvpwOdKE5tOsmQBvt1ig
- fHdQ==
+ bh=EPtGpaZDJxpeZcBYRXdbW8UrBo+5MZXYIoQz3sFLUQM=;
+ b=n1sRa/OUl1U6RriBah+4QMmenl/jw9elqVz70Mm64iHaWJCTCJq7pCOayd3kis6mb1
+ /HVOZYMFCyLziiImYVQy7f+2fdORTvTbG5PsqjvqO2rkSnKo43kIZ5XGtJdicgUK+tIm
+ rxiiViSbZ7QP9Ud+UAN7yzTohcx50d8hZTjyuA88Oz1Ax1PIa07b4SwNaJHMZEhgpwae
+ hQ7xMFnZpuAPkxf/j9tXdOWKwqkN1bawPpEOLiLJP7dqv3qj2U6DwlGkySbgjHVESaW2
+ MHfQFRDGdB9LFQQf0EdwWkVrRuxzyJM0yPV03uukBjrkkumrUCEvmssmMGFFNuR2NaEp
+ PrQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rJ5t0QlYbGPaQo4OSda80/LOzZ+BH7tVMn0K+fkw8fI=;
- b=Gfa5PhcpPd03yBYrNTDwy+PsVXsrkvp237EsXu/uqxT4Grq7+i5Bx0DpHx8muOWEyz
- m9g8Ubn9SWq/CPCBKYXUuptjDswzgMqirtUs6qj4Sb2zKMOvnHDsCfkHSRjef1eq7KiL
- J+ySqGamuU5txHE5ISfnLPKLBgTHHusyt6XZSXJ33Dl3XEQdEcYeHWlsenv7ja2hkXN8
- 8zVSyJiW7/UbqDYK6hPdfsOnyHe81rCCRWcpS8GQxomX+UQ+6lUgzNtZ5n3BC7dj1kUb
- ibF3r68dikrtgVfbw9X/8heq/4dXh0dio0bwpXg6tUydAfg7z7wJ4QS/yM8tGrXsuu5p
- /Tvw==
-X-Gm-Message-State: AOAM530kN7fiKNKJLCAeciiUGF6pf61WqVC/tQy+59pbSfJLSz87SDft
- I/SBsNaKuZpqysqSjR4lScMLYUkZvZ8=
-X-Google-Smtp-Source: ABdhPJwjKowugrRfHHz3dvo3kHlY1QrczUU5e0Vc+qdzIZkp2WAqbVMpS1MPDn3hIJgrKLR0SdjR8w==
-X-Received: by 2002:a5d:6dad:0:b0:203:84b4:da13 with SMTP id
- u13-20020a5d6dad000000b0020384b4da13mr15310651wrs.162.1647250333459; 
- Mon, 14 Mar 2022 02:32:13 -0700 (PDT)
+ bh=EPtGpaZDJxpeZcBYRXdbW8UrBo+5MZXYIoQz3sFLUQM=;
+ b=Js6wri8MYqTt30r9nq3kSWX7OyigB3DDRaEAc7hYE8UI105g0/jUSSuRmeeUFfJSZT
+ lX0WNvfrp8ZWtkV/f5VHkwhqB5xjNFKdH/fsdFqOi8/dGcUnYFD4li4i+5firSojvgYd
+ B5X/8O8NEPdYix3fuTW4YI2Y6QMrhENwBPasyXz+3wCYwVgsVj8+CMo8QjAOg4vXsYUY
+ HDhygwAIQnlp/4ffACX8lNe2eXhOgFbQ1E8/uwCPDvo+Odpn2BNe6FrmPs72w4kJDLxb
+ e/F642pX/GSdSBDqKYLPDjYWl7rwQolKDeCnqpbT9FP0cdzqSMVKLV3GwwYOQsW2kOmr
+ LP8A==
+X-Gm-Message-State: AOAM530JvoncxraGBPhRpZ/9CzROMH8tOfrJqjVmY0RFVnV6Y6yElDqG
+ 5SA74C/8uZahOdg77Czrk5XC9O54hu4=
+X-Google-Smtp-Source: ABdhPJxwBug5TfHrp9f0qVT3Py7ISWc5szQofvBfcW0JrZZ0v5jON2WR/+LexBsLn8QZpGTaE/oSFA==
+X-Received: by 2002:a05:600c:3589:b0:389:cf43:eaf7 with SMTP id
+ p9-20020a05600c358900b00389cf43eaf7mr16764103wmq.200.1647250334252; 
+ Mon, 14 Mar 2022 02:32:14 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.12
+ l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 14 Mar 2022 02:32:13 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH experiment 10/16] add space between liter and string macro
-Date: Mon, 14 Mar 2022 10:31:57 +0100
-Message-Id: <20220314093203.1420404-11-pbonzini@redhat.com>
+Subject: [PATCH experiment 11/16] bump to C++20
+Date: Mon, 14 Mar 2022 10:31:58 +0100
+Message-Id: <20220314093203.1420404-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314093203.1420404-1-pbonzini@redhat.com>
 References: <20220314093203.1420404-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -94,64 +95,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/trace-events | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ configure   | 4 ++--
+ meson.build | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/util/trace-events b/util/trace-events
-index c8f53d7d9f..5bc718eff7 100644
---- a/util/trace-events
-+++ b/util/trace-events
-@@ -1,10 +1,10 @@
- # See docs/devel/tracing.rst for syntax documentation.
+diff --git a/configure b/configure
+index 886000346a..091710ec03 100755
+--- a/configure
++++ b/configure
+@@ -157,8 +157,8 @@ update_cxxflags() {
+     # Set QEMU_CXXFLAGS from QEMU_CFLAGS by filtering out those
+     # options which some versions of GCC's C++ compiler complain about
+     # because they only make sense for C programs.
+-    QEMU_CXXFLAGS="-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
+-    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu11/-std=gnu++11/)
++    QEMU_CXXFLAGS="-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -fcoroutines"
++    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu11/-std=gnu++20/)
+     for arg in $QEMU_CFLAGS; do
+         case $arg in
+             -Wstrict-prototypes|-Wmissing-prototypes|-Wnested-externs|\
+diff --git a/meson.build b/meson.build
+index 2d6601467f..810ebb0865 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,5 +1,5 @@
+ project('qemu', ['c'], meson_version: '>=0.59.3',
+-        default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto',
++        default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++20', 'b_colorout=auto',
+                           'b_staticpic=false', 'stdsplit=false'],
+         version: files('VERSION'))
  
- # aio-posix.c
--run_poll_handlers_begin(void *ctx, int64_t max_ns, int64_t timeout) "ctx %p max_ns %"PRId64 " timeout %"PRId64
--run_poll_handlers_end(void *ctx, bool progress, int64_t timeout) "ctx %p progress %d new timeout %"PRId64
--poll_shrink(void *ctx, int64_t old, int64_t new) "ctx %p old %"PRId64" new %"PRId64
--poll_grow(void *ctx, int64_t old, int64_t new) "ctx %p old %"PRId64" new %"PRId64
-+run_poll_handlers_begin(void *ctx, int64_t max_ns, int64_t timeout) "ctx %p max_ns %" PRId64 " timeout %" PRId64
-+run_poll_handlers_end(void *ctx, bool progress, int64_t timeout) "ctx %p progress %d new timeout %" PRId64
-+poll_shrink(void *ctx, int64_t old, int64_t new) "ctx %p old %" PRId64" new %" PRId64
-+poll_grow(void *ctx, int64_t old, int64_t new) "ctx %p old %" PRId64" new %" PRId64
- poll_add(void *ctx, void *node, int fd, unsigned revents) "ctx %p node %p fd %d revents 0x%x"
- poll_remove(void *ctx, void *node, int fd) "ctx %p node %p fd %d"
- 
-@@ -52,9 +52,9 @@ qemu_vfree(void *ptr) "ptr %p"
- qemu_anon_ram_free(void *ptr, size_t size) "ptr %p size %zu"
- 
- # hbitmap.c
--hbitmap_iter_skip_words(const void *hb, void *hbi, uint64_t pos, unsigned long cur) "hb %p hbi %p pos %"PRId64" cur 0x%lx"
--hbitmap_reset(void *hb, uint64_t start, uint64_t count, uint64_t sbit, uint64_t ebit) "hb %p items %"PRIu64",%"PRIu64" bits %"PRIu64"..%"PRIu64
--hbitmap_set(void *hb, uint64_t start, uint64_t count, uint64_t sbit, uint64_t ebit) "hb %p items %"PRIu64",%"PRIu64" bits %"PRIu64"..%"PRIu64
-+hbitmap_iter_skip_words(const void *hb, void *hbi, uint64_t pos, unsigned long cur) "hb %p hbi %p pos %" PRId64" cur 0x%lx"
-+hbitmap_reset(void *hb, uint64_t start, uint64_t count, uint64_t sbit, uint64_t ebit) "hb %p items %" PRIu64",%" PRIu64" bits %" PRIu64"..%" PRIu64
-+hbitmap_set(void *hb, uint64_t start, uint64_t count, uint64_t sbit, uint64_t ebit) "hb %p items %" PRIu64",%" PRIu64" bits %" PRIu64"..%" PRIu64
- 
- # lockcnt.c
- lockcnt_fast_path_attempt(const void *lockcnt, int expected, int new) "lockcnt %p fast path %d->%d"
-@@ -82,15 +82,15 @@ qemu_vfio_ram_block_added(void *s, void *p, size_t size) "s %p host %p size 0x%z
- qemu_vfio_ram_block_removed(void *s, void *p, size_t size) "s %p host %p size 0x%zx"
- qemu_vfio_dump_mapping(void *host, uint64_t iova, size_t size) "vfio mapping %p to iova 0x%08" PRIx64 " size 0x%zx"
- qemu_vfio_find_mapping(void *s, void *p) "s %p host %p"
--qemu_vfio_new_mapping(void *s, void *host, size_t size, int index, uint64_t iova) "s %p host %p size 0x%zx index %d iova 0x%"PRIx64
--qemu_vfio_do_mapping(void *s, void *host, uint64_t iova, size_t size) "s %p host %p <-> iova 0x%"PRIx64 " size 0x%zx"
-+qemu_vfio_new_mapping(void *s, void *host, size_t size, int index, uint64_t iova) "s %p host %p size 0x%zx index %d iova 0x%" PRIx64
-+qemu_vfio_do_mapping(void *s, void *host, uint64_t iova, size_t size) "s %p host %p <-> iova 0x%" PRIx64 " size 0x%zx"
- qemu_vfio_dma_map(void *s, void *host, size_t size, bool temporary, uint64_t *iova) "s %p host %p size 0x%zx temporary %d &iova %p"
--qemu_vfio_dma_mapped(void *s, void *host, uint64_t iova, size_t size) "s %p host %p <-> iova 0x%"PRIx64" size 0x%zx"
-+qemu_vfio_dma_mapped(void *s, void *host, uint64_t iova, size_t size) "s %p host %p <-> iova 0x%" PRIx64" size 0x%zx"
- qemu_vfio_dma_unmap(void *s, void *host) "s %p host %p"
--qemu_vfio_pci_read_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "read cfg ptr %p ofs 0x%x size 0x%x (region addr 0x%"PRIx64" size 0x%"PRIx64")"
--qemu_vfio_pci_write_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "write cfg ptr %p ofs 0x%x size 0x%x (region addr 0x%"PRIx64" size 0x%"PRIx64")"
--qemu_vfio_region_info(const char *desc, uint64_t region_ofs, uint64_t region_size, uint32_t cap_offset) "region '%s' addr 0x%"PRIx64" size 0x%"PRIx64" cap_ofs 0x%"PRIx32
--qemu_vfio_pci_map_bar(int index, uint64_t region_ofs, uint64_t region_size, int ofs, void *host) "map region bar#%d addr 0x%"PRIx64" size 0x%"PRIx64" ofs 0x%x host %p"
-+qemu_vfio_pci_read_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "read cfg ptr %p ofs 0x%x size 0x%x (region addr 0x%" PRIx64" size 0x%" PRIx64")"
-+qemu_vfio_pci_write_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "write cfg ptr %p ofs 0x%x size 0x%x (region addr 0x%" PRIx64" size 0x%" PRIx64")"
-+qemu_vfio_region_info(const char *desc, uint64_t region_ofs, uint64_t region_size, uint32_t cap_offset) "region '%s' addr 0x%" PRIx64" size 0x%" PRIx64" cap_ofs 0x%" PRIx32
-+qemu_vfio_pci_map_bar(int index, uint64_t region_ofs, uint64_t region_size, int ofs, void *host) "map region bar#%d addr 0x%" PRIx64" size 0x%" PRIx64" ofs 0x%x host %p"
- 
- #userfaultfd.c
- uffd_query_features_nosys(int err) "errno: %i"
 -- 
 2.35.1
 
