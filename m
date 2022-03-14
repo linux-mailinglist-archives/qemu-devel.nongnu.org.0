@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465AB4D8B52
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 19:06:08 +0100 (CET)
-Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E154D8B3B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 19:01:07 +0100 (CET)
+Received: from localhost ([::1]:46010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTp55-0001FC-4j
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 14:06:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43352)
+	id 1nTp0E-0000U9-On
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 14:01:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nTou5-00066F-PA
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 13:54:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24068)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nTouM-00073B-RO
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 13:55:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nTou2-00028h-38
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 13:54:43 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nTouK-0002Ba-DL
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 13:55:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647280480;
+ s=mimecast20190719; t=1647280498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/pSt/XpjoDkMzk4xHjl02HKeZeAzhGl+8korwbM8wcM=;
- b=SfqTJeT5qjziWEwSCiAFLdIKcDC0V17cWtS46j7f2tTaksLHp34gYVf7ksUONWFeHX+QCN
- Y0dsGJ9lnvhMm6wfLZPxk9G/q6OxL73XeS+GtoaaHMmVTf3kJeRB2nsvgF6+0Ee7Ln1FXf
- KFLiQahv6JmGStpDm7DLb3xbmqRiJis=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=akGtW6StEt7GFCylKa1Tz/d7O76OfEjjXXdKurdh5pc=;
+ b=gB6KruTxFj2Smq46Yh4dmD5rRDhGiJ98lshkFfjSGYX/q9IVLTOT8NKCKe8jsKU5fjPpMR
+ Jv6h6WRO3oPb8m5cd+x16gl/DYdxxBEqOlh4WIVW8rzW0uzDOoM7EVXuIhKE5Zhj+Melmr
+ x0Ta5zSKncNe6rf1pCgRbI+OLiJlBcM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-E2E73q8nNgmCi-3ODHYj0g-1; Mon, 14 Mar 2022 13:54:34 -0400
-X-MC-Unique: E2E73q8nNgmCi-3ODHYj0g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 156271C05AE8;
- Mon, 14 Mar 2022 17:54:34 +0000 (UTC)
-Received: from redhat.com (unknown [10.22.17.185])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FFFA40D2820;
- Mon, 14 Mar 2022 17:54:33 +0000 (UTC)
-Date: Mon, 14 Mar 2022 12:54:31 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Nir Soffer <nsoffer@redhat.com>
-Subject: Re: [PATCH v2] nbd/server: Allow MULTI_CONN for shared writable
- exports
-Message-ID: <20220314175431.fehxvysxxhrh32uz@redhat.com>
-References: <20220215171838.2651387-1-eblake@redhat.com>
- <CAMRbyyvdBWMB9bzpkUUMO+SZj6PN8Xy0kJnvqLhB2W6vw+5iWQ@mail.gmail.com>
- <20220215232414.g4l4qoqiqyjvnweg@redhat.com>
- <a36660ff-c7d6-9bd1-bea8-dc0a10b74329@virtuozzo.com>
- <CAMRbyysF6p=_Hdj-b6jdAVqfpQHqjGQ4V_=GfQmAxiPPwHyt0Q@mail.gmail.com>
+ us-mta-600-NKh_2PxyMV2Qh7AG7N0elQ-1; Mon, 14 Mar 2022 13:54:57 -0400
+X-MC-Unique: NKh_2PxyMV2Qh7AG7N0elQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z9-20020a7bc7c9000000b00389bd375677so7338655wmk.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 10:54:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=akGtW6StEt7GFCylKa1Tz/d7O76OfEjjXXdKurdh5pc=;
+ b=t8PiN1T9bhlL9KXuKuAI1xUc82II3I6+upou7C846vr8wZ4tQwgxeiisPXMIhWOMo9
+ D7y+3TlJvO1CTljYVHLf7b73jMu9u5NkEX/jtMUSGMmwZBo+9nnGQ2uI8oUtgglPcodZ
+ GtZeBV2bnbgFmxj8skWt366CL6PWWqnqTWNhHgjuTBQjWaXlAavy6GYS8Ow+SHnmNNua
+ vKlSzZfWmATPbP5H+qN3v8tW9B25yw3iTQaR/ApiU7y9MIcn9JgMRiia/PU2t00u2zSx
+ 375+eIN7xMX/+GeKxESrGWL+tqvsf58NiiNlB8vbTzVGImWVLFWJ55SOpDjZhAa8llXD
+ pbzg==
+X-Gm-Message-State: AOAM531p5tdKBgQttVGqNYO8KOYUp1ZCd1PQDAfcjdC67z53vGBNiPA6
+ fyMLHwqFooICBB7uAkbLG9vP3E4QTuMCmdznjySsmPfNcuaruG2R68QH+MP8yXPUx92VyAUsVNX
+ PiDH83rNJvdvhGR8=
+X-Received: by 2002:a05:6000:1687:b0:1f1:e5ad:7643 with SMTP id
+ y7-20020a056000168700b001f1e5ad7643mr17255597wrd.117.1647280496580; 
+ Mon, 14 Mar 2022 10:54:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwXSW9RM2cnmKXTivTW1m1AhM3GWyEA9b/KGBgHYMSJNPjpnorStOOPdzxBD93qhuGQiQJqw==
+X-Received: by 2002:a05:6000:1687:b0:1f1:e5ad:7643 with SMTP id
+ y7-20020a056000168700b001f1e5ad7643mr17255570wrd.117.1647280496339; 
+ Mon, 14 Mar 2022 10:54:56 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ i9-20020adffdc9000000b001f046861795sm13627344wrs.19.2022.03.14.10.54.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Mar 2022 10:54:55 -0700 (PDT)
+Date: Mon, 14 Mar 2022 17:54:53 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/18] migration queue
+Message-ID: <Yi+BbRJ9lbJ4ku9L@work-vm>
+References: <20220302182936.227719-1-dgilbert@redhat.com>
+ <CAFEAcA9CrHEu8F7PGGTvsdyLnFJhan9V9FkHDgvapje+_E=hVA@mail.gmail.com>
+ <f750a1a4-223c-9456-ab23-a616f7eb2625@gmail.com>
+ <Yieku+cTxY0Xyp5C@work-vm>
+ <CAFEAcA-Y_8KTxCPoSN3P0Cgfe6cEN74b-5U1SeKtAP7FdzFvZA@mail.gmail.com>
+ <Yi92SN2Z3OZi82pS@redhat.com>
+ <CAFEAcA-Chg3LQkh5PHmSyGCkmnYoPnTGMD=zm8jj-jxWeOLTxQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMRbyysF6p=_Hdj-b6jdAVqfpQHqjGQ4V_=GfQmAxiPPwHyt0Q@mail.gmail.com>
-User-Agent: NeoMutt/20211029-427-23b03a
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+In-Reply-To: <CAFEAcA-Chg3LQkh5PHmSyGCkmnYoPnTGMD=zm8jj-jxWeOLTxQ@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -83,130 +108,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block <qemu-block@nongnu.org>, Richard Jones <rjones@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: thuth@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ quintela@redhat.com, s.reiter@proxmox.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philippe.mathieu.daude@gmail.com>,
+ hreitz@redhat.com, f.ebner@proxmox.com, jinpu.wang@ionos.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 16, 2022 at 07:14:58PM +0200, Nir Soffer wrote:
-> > > I'm not the best at writing python iotests; I welcome a language
-> > > translation of this aspect.
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Mon, 14 Mar 2022 at 17:07, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > So the test harness is waiting for a reply to 'query-migrate'.
 > >
-> >
-> >
-> > Let me try:)
+> > This should be fast unless QEMU has hung in the main event
+> > loop servicing monitor commands, or stopped.
 > 
-> Thanks! This is much nicer and will be easier to maintain.
-> 
-> >
-> >
-> > #!/usr/bin/env python3
-> >
-> > import os
-> > import iotests
-> > import nbd
+> I was kind of loose with the terminology -- I don't remember whether
+> it was actually hung in the sense of stopped entirely, or just
+> "sat in a loop waiting for a migration state that never arrives".
+> I'll try to look more closely if I can catch it in the act again.
 
-What happens here if libnbd is not installed?  Is there a way to make
-the test gracefully skip instead of error out?
+Yeh, there's a big difference; still, if it's always in this test at
+that point, then I think it's one for Juan; it looks like multifd cancel
+path.
 
-> >      def check_multi_conn(self, export_name, multi_conn):
-> >          cl = nbd.NBD()
-> >          cl.connect_uri(nbd_uri.format(export_name))
-> >          self.assertEqual(cl.can_multi_conn(), multi_conn)
-> >          cl.shutdown()
-> 
-> The test will be more clear and the code more reusable if the helper
-> was doing only connect/disconnect.
-> 
-> @contextmanager
-> def open_nbd(nbd_uri, export_name):
->      h = nbd.NBD()
->      h.connect_uri(nbd_uri.format(export_name))
+> One thing that makes this bug investigation trickier, incidentally,
+> is that the migration-test code seems to depend on userfaultfd.
+> That means you can't run it under 'rr'.
 
-This can throw an exception if the connect fails; should it be inside
-the try?  I'm comparing to libnbd/python/t/220-opt-list.py, which also
-sets up a context manager.
+That should only be the postcopy tests; the others shouldn't use that.
 
->      try:
->          yield h
->      finally:
->          h.shutdown()
-> 
-> Any test that need nbd handle can do:
-> 
->     with open_nbd(nbd_uri, export_name) as h:
->         use the handle...
-> 
-> Good example when we can use this is the block status cache test,
-> using complicated qemu-img commands instead of opening
-> a client and calling block_status a few times.
-> 
-> And this also cleans up at the end of the test so failure
-> will not affect the next test.
-> 
-> The helper can live in the iotest module instead of inventing it for
-> every new test.
-
-Moving it into iotest makes the question about what to do if libnbd is
-not installed even more important; while we could perhaps catch and
-deal with a failed 'import' for this test, skipping the iotest module
-due to a failed import has knock-on effects to all other iotests even
-when they don't care if libnbd is installed.
+Dave
 
 > 
-> >
-> >      def test_default_settings(self):
-> >          self.server_start()
-> >          self.export_add('r'))
-> >          self.export_add('w', writable=True)
-> >          self.check_multi_conn('r', True)
-> >          self.check_multi_conn('w', False)
+> -- PMM
 > 
-> With the helper suggested, this test will be:
-> 
->     with open_nbd(nbd_uri, "r") as h:
->         self.assertTrue(h.can_multi_conn())
-> 
->     with open_nbd(nbd_uri, "w") as h:
->         self.assertFalse(h.can_multi_conn())
-> 
-> Now you don't need to check what check_multicon() is doing when
-> reading the tests, and it is very clear what open_nbd() does based
-> on the name and usage as context manager.
-
-Yes, I like that aspect of a context manager.
-
-> 
-> >
-> >      def test_multiconn_option(self):
-> >          self.server_start()
-> >          self.export_add('r', multi_conn='off')
-> >          self.export_add('w', writable=True, multi_conn='on')
-> 
-> It will be more natural to use:
-> 
->     self.start_server()
->     self.add_export(...)
-> 
-> In C the other way is more natural because you don't have namespaces
-> or classes.
-> 
-> >          self.check_multi_conn('r', False)
-> >          self.check_multi_conn('w', True)
-> 
-> And I think you agree since you did not use:
-> 
->     self.multi_con_check(...)
->
-
-Useful naming advice.
-
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
