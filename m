@@ -2,53 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE99F4D86A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 15:17:25 +0100 (CET)
-Received: from localhost ([::1]:39124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8984D86EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 15:24:54 +0100 (CET)
+Received: from localhost ([::1]:58518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTlVk-0007F9-L3
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 10:17:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53886)
+	id 1nTlcy-0003Ct-U5
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 10:24:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
- id 1nThQY-0002Cz-5Q; Mon, 14 Mar 2022 05:55:46 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:48745)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@ya.ru>)
+ id 1nTiVQ-0005zw-BK; Mon, 14 Mar 2022 07:04:52 -0400
+Received: from forward105j.mail.yandex.net ([5.45.198.248]:58008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
- id 1nThQU-0003d4-Uu; Mon, 14 Mar 2022 05:55:45 -0400
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 22E9iodD039520;
- Mon, 14 Mar 2022 17:44:50 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from localhost.localdomain (192.168.70.100) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 14 Mar
- 2022 17:54:52 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, Peter Maydell
- <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>
-Subject: [PATCH v1 1/1] hw: aspeed_scu: Add AST2600 hpll calculation function
-Date: Mon, 14 Mar 2022 17:54:49 +0800
-Message-ID: <20220314095449.22089-2-steven_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220314095449.22089-1-steven_lee@aspeedtech.com>
-References: <20220314095449.22089-1-steven_lee@aspeedtech.com>
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@ya.ru>)
+ id 1nTiVN-0006rd-CW; Mon, 14 Mar 2022 07:04:51 -0400
+Received: from sas1-8a23c9b94e43.qloud-c.yandex.net
+ (sas1-8a23c9b94e43.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:2f2a:0:640:8a23:c9b9])
+ by forward105j.mail.yandex.net (Yandex) with ESMTP id E58284EC7D5F;
+ Mon, 14 Mar 2022 14:04:23 +0300 (MSK)
+Received: from sas1-7a2c1d25dbfc.qloud-c.yandex.net
+ (sas1-7a2c1d25dbfc.qloud-c.yandex.net [2a02:6b8:c08:c9f:0:640:7a2c:1d25])
+ by sas1-8a23c9b94e43.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ igmqWUaDKn-4Neqs21i; Mon, 14 Mar 2022 14:04:23 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ya.ru; s=mail;
+ t=1647255863; bh=LjuqOYX2g8THNlGPnkJZsysT+y+IEix4OVp3Odze1yQ=;
+ h=Date:Subject:Cc:To:From:Message-Id;
+ b=oUEustM3YL4GRL4CqLe+JELAUDiDClrlhg5FIL/JO9w3nlFag4TtDEZ2Hz+Bopwdg
+ /28gygXUwFmeAvrkBxjKmBjdqyqAGpPETOv1+x/tZ46YrRX8sXEXOWhpOKLn1ekGbH
+ 8Mg5QQRfjVWpBjD7jx1vDFG0UZcRt46Lxq2GIYFk=
+Authentication-Results: sas1-8a23c9b94e43.qloud-c.yandex.net;
+ dkim=pass header.i=@ya.ru
+Received: by sas1-7a2c1d25dbfc.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id TJ391JcsCb-4NKeVOPP; Mon, 14 Mar 2022 14:04:23 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] MAINTAINERS: change Vladimir's email address
+Date: Mon, 14 Mar 2022 14:04:15 +0300
+Message-Id: <20220314110415.222496-1-v.sementsov-og@ya.ru>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.70.100]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 22E9iodD039520
-Received-SPF: pass client-ip=211.20.114.71;
- envelope-from=steven_lee@aspeedtech.com; helo=twspam01.aspeedtech.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.45.198.248; envelope-from=v.sementsov-og@ya.ru;
+ helo=forward105j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Mon, 14 Mar 2022 10:11:08 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,131 +69,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jamin_lin@aspeedtech.com, troy_lee@aspeedtech.com,
- steven_lee@aspeedtech.com
+Cc: peter.maydell@linaro.org, v.sementsov-og@ya.ru, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AST2600's HPLL register offset and bit definition are different from
-AST2500. Add a hpll calculation function for ast2600 and modify apb frequency
-calculation function based on SCU200 register description in ast2600v11.pdf.
+Old vsementsov@virtuozzo.com is not accessible anymore.
 
-Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
 ---
- hw/misc/aspeed_scu.c         | 43 ++++++++++++++++++++++++++++++++----
- include/hw/misc/aspeed_scu.h | 17 ++++++++++++++
- 2 files changed, 56 insertions(+), 4 deletions(-)
 
-diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-index d06e179a6e..3b11e98d66 100644
---- a/hw/misc/aspeed_scu.c
-+++ b/hw/misc/aspeed_scu.c
-@@ -205,6 +205,8 @@ static const uint32_t ast2500_a1_resets[ASPEED_SCU_NR_REGS] = {
-      [BMC_DEV_ID]      = 0x00002402U
- };
+Hi all!
+
+That's my new address: v.sementsov-og@ya.ru , the old one is not
+available anymore.
+
+I've also subscribed this new address for qemu-devel mailing list, but
+not yet get any message from it :(
+
+The patch is also available as pgp-signed tag at:
+
+  https://src.openvz.org/scm/~vsementsov/qemu.git tags/change-address
+
+
+ MAINTAINERS | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f2e9ce1da2..8488de5c0b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2500,7 +2500,7 @@ F: scsi/*
  
-+static uint32_t aspeed_2600_scu_calc_hpll(AspeedSCUState *s, uint32_t hpll_reg);
-+
- static uint32_t aspeed_scu_get_random(void)
- {
-     uint32_t num;
-@@ -215,9 +217,19 @@ static uint32_t aspeed_scu_get_random(void)
- uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s)
- {
-     AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(s);
--    uint32_t hpll = asc->calc_hpll(s, s->regs[HPLL_PARAM]);
-+    uint32_t hpll, hpll_reg, clk_sel_reg;
-+
-+    if (asc->calc_hpll == aspeed_2600_scu_calc_hpll) {
-+        hpll_reg = s->regs[AST2600_HPLL_PARAM];
-+        clk_sel_reg = s->regs[AST2600_CLK_SEL];
-+    } else {
-+        hpll_reg = s->regs[HPLL_PARAM];
-+        clk_sel_reg = s->regs[CLK_SEL];
-+    }
-+
-+    hpll = asc->calc_hpll(s, hpll_reg);
+ Block Jobs
+ M: John Snow <jsnow@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: blockjob.c
+@@ -2539,7 +2539,7 @@ T: git https://repo.or.cz/qemu/armbru.git block-next
  
--    return hpll / (SCU_CLK_GET_PCLK_DIV(s->regs[CLK_SEL]) + 1)
-+    return hpll / (SCU_CLK_GET_PCLK_DIV(clk_sel_reg) + 1)
-         / asc->apb_divider;
- }
+ Dirty Bitmaps
+ M: Eric Blake <eblake@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+ R: John Snow <jsnow@redhat.com>
+ L: qemu-block@nongnu.org
+ S: Supported
+@@ -2762,13 +2762,13 @@ F: scripts/*.py
+ F: tests/*.py
  
-@@ -357,7 +369,10 @@ static const MemoryRegionOps aspeed_ast2500_scu_ops = {
+ Benchmark util
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+ S: Maintained
+ F: scripts/simplebench/
+ T: git https://src.openvz.org/scm/~vsementsov/qemu.git simplebench
  
- static uint32_t aspeed_scu_get_clkin(AspeedSCUState *s)
- {
--    if (s->hw_strap1 & SCU_HW_STRAP_CLK_25M_IN) {
-+    AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(s);
-+
-+    if (s->hw_strap1 & SCU_HW_STRAP_CLK_25M_IN ||
-+        asc->calc_hpll == aspeed_2600_scu_calc_hpll) {
-         return 25000000;
-     } else if (s->hw_strap1 & SCU_HW_STRAP_CLK_48M_IN) {
-         return 48000000;
-@@ -426,6 +441,26 @@ static uint32_t aspeed_2500_scu_calc_hpll(AspeedSCUState *s, uint32_t hpll_reg)
-     return clkin * multiplier;
- }
+ Transactions helper
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+ S: Maintained
+ F: include/qemu/transactions.h
+ F: util/transactions.c
+@@ -3352,7 +3352,7 @@ F: block/iscsi-opts.c
  
-+static uint32_t aspeed_2600_scu_calc_hpll(AspeedSCUState *s, uint32_t hpll_reg)
-+{
-+    uint32_t multiplier = 1;
-+    uint32_t clkin = aspeed_scu_get_clkin(s);
-+
-+    if (hpll_reg & SCU_AST2600_H_PLL_OFF) {
-+        return 0;
-+    }
-+
-+    if (!(hpll_reg & SCU_H_PLL_BYPASS_EN)) {
-+        uint32_t p = (hpll_reg >> 19) & 0xf;
-+        uint32_t n = (hpll_reg >> 13) & 0x3f;
-+        uint32_t m = hpll_reg & 0x1fff;
-+
-+        multiplier = ((m + 1) / (n + 1)) / (p + 1);
-+    }
-+
-+    return clkin * multiplier;
-+}
-+
- static void aspeed_scu_reset(DeviceState *dev)
- {
-     AspeedSCUState *s = ASPEED_SCU(dev);
-@@ -716,7 +751,7 @@ static void aspeed_2600_scu_class_init(ObjectClass *klass, void *data)
-     dc->desc = "ASPEED 2600 System Control Unit";
-     dc->reset = aspeed_ast2600_scu_reset;
-     asc->resets = ast2600_a3_resets;
--    asc->calc_hpll = aspeed_2500_scu_calc_hpll; /* No change since AST2500 */
-+    asc->calc_hpll = aspeed_2600_scu_calc_hpll;
-     asc->apb_divider = 4;
-     asc->nr_regs = ASPEED_AST2600_SCU_NR_REGS;
-     asc->ops = &aspeed_ast2600_scu_ops;
-diff --git a/include/hw/misc/aspeed_scu.h b/include/hw/misc/aspeed_scu.h
-index c14aff2bcb..91c500c5bc 100644
---- a/include/hw/misc/aspeed_scu.h
-+++ b/include/hw/misc/aspeed_scu.h
-@@ -316,4 +316,21 @@ uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s);
-         SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       \
-         SCU_AST2500_HW_STRAP_RESERVED1)
- 
-+/* SCU200   H-PLL Parameter Register (for Aspeed AST2600 SOC)
-+ *
-+ *  28:26  H-PLL Parameters
-+ *  25     Enable H-PLL reset
-+ *  24     Enable H-PLL bypass mode
-+ *  23     Turn off H-PLL
-+ *  22:19  H-PLL Post Divider (P)
-+ *  18:13   H-PLL Numerator (M)
-+ *  12:0    H-PLL Denumerator (N)
-+ *
-+ *  (Output frequency) = CLKIN(25MHz) * [(M+1) / (N+1)] / (P+1)
-+ *
-+ * The default frequency is 1200Mhz when CLKIN = 25MHz
-+ */
-+#define SCU_AST2600_H_PLL_BYPASS_EN                        (0x1 << 24)
-+#define SCU_AST2600_H_PLL_OFF                              (0x1 << 23)
-+
- #endif /* ASPEED_SCU_H */
+ Network Block Device (NBD)
+ M: Eric Blake <eblake@redhat.com>
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+ L: qemu-block@nongnu.org
+ S: Maintained
+ F: block/nbd*
+@@ -3448,7 +3448,7 @@ F: block/dmg.c
+ parallels
+ M: Stefan Hajnoczi <stefanha@redhat.com>
+ M: Denis V. Lunev <den@openvz.org>
+-M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
++M: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: block/parallels.c
 -- 
-2.17.1
+2.35.1
 
 
