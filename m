@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67F34D79F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 05:45:45 +0100 (CET)
-Received: from localhost ([::1]:43760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FD44D79F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 05:47:03 +0100 (CET)
+Received: from localhost ([::1]:48052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTcaW-0005D2-Ku
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 00:45:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50064)
+	id 1nTcbm-00087x-Qn
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 00:47:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nTcY4-0003DE-Hl
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 00:43:13 -0400
-Received: from [2607:f8b0:4864:20::62d] (port=38872
- helo=mail-pl1-x62d.google.com)
+ id 1nTcYk-0003Rq-NR
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 00:43:55 -0400
+Received: from [2607:f8b0:4864:20::630] (port=41863
+ helo=mail-pl1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nTcY2-0004PB-PS
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 00:43:12 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id n18so9842401plg.5
- for <qemu-devel@nongnu.org>; Sun, 13 Mar 2022 21:43:10 -0700 (PDT)
+ id 1nTcYj-0004Sg-BQ
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 00:43:54 -0400
+Received: by mail-pl1-x630.google.com with SMTP id z3so12514713plg.8
+ for <qemu-devel@nongnu.org>; Sun, 13 Mar 2022 21:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cXCVIH7QbmZmA9NvwqwE9kMzF0Kq89R2K/T6009maKI=;
- b=dz6nzMwVUdsXRCSMZRwfKSBpmM+u9enzfEceZtKo4p2QXg3hc2AJ08K8gLzBlM/n2T
- eve6+J5NO0QBj9RMK2hqkYGGe1NBfIMU+mSMK61AhFoDbfj2JeP80mu5YLzVtey1P+bz
- fat8sT+RQKLby+uCO+E3buy61U4bpBe3III85KVIcbqQesv8kqwV84ruQzPsGkROUS3u
- 1RQ4L04KUj8p7BrBOzt3kA7nAETTLxzmxmfTY4IHJODM4QZLHirq5s8pyZ7EZTbY/5hZ
- EoXchcz7zplHkk8+6xHbdn9wyjCmPV9sRGixOde1b1HxKl+jCENCivgLjEg18KqD7Dv3
- mCxg==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=dEq67PFbYA/WPSzoHgwS6FtrlVD/RRO14HFXNSEfqNE=;
+ b=YPjioEbb1EpggSI9eAncMiQ/rikop0kShT5Zc87UeZ1RkHbb0aFpvheq8jg0OwVIfQ
+ esXu4wSdJo+zco7XjM6KLnoi21BY1eFd5Lf/gq1Zwa02mFeyAX3IRncA6C9JbX0d0XyG
+ 99/Bv9nmaj1n6EP67Q2HvAj/zTV5g7R9HvBVN9tv4tmi1w4Dz5QMwAGkZGAd830CjAL7
+ sGTYng3BbGGqYZWoJ4HtEgNaV9DbY8zwWZTVAhaXIqEtxSz9B5T+5OA42OWKU2mtcIgZ
+ DHLPZuUi84892xywUTRLtbR9vs6w42H1j0h+K3yCPyBOLwlZuoqhVyYaL5QahaNX1RMC
+ EzLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cXCVIH7QbmZmA9NvwqwE9kMzF0Kq89R2K/T6009maKI=;
- b=zU7uzWsNKLXCEZDfWcR+gbQCdinLBEkgDJOkAa25IeESiY1UtgILPj6VS7QnBCwsnk
- JCSg7HTpMK2eneTmYOviT8XfYmqRlYjgxRwSj3BEfN+V3vQ13LHkZbwcwUNqTEj0/QnH
- WaTtDnEBDnaVGHHZdBJUXQAM4eN8Sik+8ZdufopWg4TGRG5rWyFittXtwOvXNxt0eFBH
- Vr2EuP8RlTlgL5yZJXswOxSTSyvvwdKIb6rEFuJhC+xlr3C/LQt6EdszBSSjA8I2ppwN
- D/AkBBxm7LZRHP2Zdt3qhUJYmXNUXU6WgQQVQ6W6zQMQy70I0lj9A+U/D2oa/XBW1Ttz
- Q+Eg==
-X-Gm-Message-State: AOAM530lnnkftX2tlC2TlS5MB44+0FpjQIWrl551QXPxY+RaqizJmaFG
- yuhCiuU8eXWI8ySVSZbI7sukNdbWgxoZ9w==
-X-Google-Smtp-Source: ABdhPJwfgfmS8ezj51x4Nfaxh485i2kv4htzSXa6za7GUtcEgb9QEqUX/ky+7wVCMDqKFzli/85ZQQ==
-X-Received: by 2002:a17:90b:4f4e:b0:1bf:88f6:e5b5 with SMTP id
- pj14-20020a17090b4f4e00b001bf88f6e5b5mr33607904pjb.47.1647232989556; 
- Sun, 13 Mar 2022 21:43:09 -0700 (PDT)
-Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
- [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- l18-20020a056a00141200b004f75395b2cesm18258153pfu.150.2022.03.13.21.43.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Mar 2022 21:43:09 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] linux-user/arm: Implement __kernel_cmpxchg64 with host
- atomics
-Date: Sun, 13 Mar 2022 21:43:05 -0700
-Message-Id: <20220314044305.138794-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220314044305.138794-1-richard.henderson@linaro.org>
-References: <20220314044305.138794-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dEq67PFbYA/WPSzoHgwS6FtrlVD/RRO14HFXNSEfqNE=;
+ b=Xf+2cUrr8SAMHl6D3DwF7fI5Y4tDQU9pTXHlS+yxBpfzeHsdbblg3IMbNQugcT6qAo
+ V7gfkq0xwyYHzS5I85gloffvlGiHUy8XgG/41z7VHZMedXqlNceBBhj7+0XRS7tzq3qu
+ 3TUAiRM92T+5ZIDAsO7eQvNKQmCtmNmG15BHUqSxGG9668n3UpY3WV6PX1DnaDEXrLJb
+ NW9osSLtJ9Wk7Ijx3UXmif/kgMIYi8Wp8rNgmXvxqljmSOWMmXE5NrNf8vFRk0HCYFvh
+ +/JNwhXS94oywBSLGDlkl3VsdgrClpAtRfkbIi53dvavP+IxHmQO0Y7aFVG/AMjhrFZF
+ ktnA==
+X-Gm-Message-State: AOAM532eINuZoTU1Nhwvt97+ai9iVWCswBZQw98PCAiXCdeXfOiYDna6
+ qOGdS6CopuHLoxupb9hby3o1C8HOIFr9/Q==
+X-Google-Smtp-Source: ABdhPJyXN/26SGxAhP7kb+vcnwkySDoOk801r8G8W4/bItYzHiQnOvXP96TwvG1g5X/GIrvyvqRJEg==
+X-Received: by 2002:a17:90b:788:b0:1bf:41d:a9ff with SMTP id
+ l8-20020a17090b078800b001bf041da9ffmr22917979pjz.116.1647233032056; 
+ Sun, 13 Mar 2022 21:43:52 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ f6-20020a654006000000b00346193b405fsm14850151pgp.44.2022.03.13.21.43.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 13 Mar 2022 21:43:51 -0700 (PDT)
+Message-ID: <a4ad47df-3c1b-6487-eabe-1d63ae800e2f@linaro.org>
+Date: Sun, 13 Mar 2022 21:43:49 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Question about atomics
+Content-Language: en-US
+To: Warner Losh <imp@bsdimp.com>
+References: <CANCZdfpJVWFjrQDiYJy8xiw-THF8_3GNcu=0Pmbvp_6zAJbfHA@mail.gmail.com>
+ <5bb620d4-96f0-cf7f-5530-af529a32c78d@linaro.org>
+ <CANCZdfqwA8HbxYhud8pKxF_f=BMoMtrO+R=zg7GiKesz8_YZvg@mail.gmail.com>
+ <e60a4298-17f3-d3e7-bf94-bf2dbbe83141@redhat.com>
+ <CANCZdfqDSNhQYnb1PWi-753cJ4FvO-JBFmTW_mAAdezOQSDF1g@mail.gmail.com>
+ <CANCZdfp61n8M8Qc9szvfqYcHnqnUADpkPmL9QHW0uDKDffJ2NA@mail.gmail.com>
+ <da134ea5-ffe9-d544-62b4-1914aad15ab5@linaro.org>
+ <CANCZdfoC8ArxyvD3PpBWiYdqONR32oeqioqk42CeoMeKRgecZQ@mail.gmail.com>
+ <45371f77-cae6-bf96-802d-6a3e70d5e334@linaro.org>
+ <CANCZdfrMaDY=0u-HAB9GY69NUTHES30V_agvZhCw3Gnr6aOomw@mail.gmail.com>
+ <d8e85004-de8d-fe7f-6bd3-a86ea5bb8e6a@linaro.org>
+ <CANCZdfrTNdXx7xz9mcw5rXK0bbwh0mF2iLX1JGeAXWHv8zn4+Q@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CANCZdfrTNdXx7xz9mcw5rXK0bbwh0mF2iLX1JGeAXWHv8zn4+Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -89,128 +103,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, laurent@vivier.eu
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If CONFIG_ATOMIC64, we can use a host cmpxchg and provide
-atomicity across processes; otherwise we have no choice but
-to continue using start/end_exclusive.
+On 3/13/22 21:09, Warner Losh wrote:
+> Oh? Out of paranoia, how can I verify that this is the case when compiled on FreeBSD?
+> Perhaps the atomic sequence FreeBSD uses differs a little from Linux and we don't trigger
+> that code? Or there's some adjustment that I've not made yet... the code seems to work
+> on 3.1 but not on latest, and there's been a lot of changes to tcg, so I'd like to rule it
+> out since there's a lot of other change too and there's too many variables...
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- linux-user/arm/cpu_loop.c | 79 +++++++++++++++++++--------------------
- 1 file changed, 38 insertions(+), 41 deletions(-)
+Can you point me at this code on your branch?
 
-diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
-index 0122bb34f7..d9651f199f 100644
---- a/linux-user/arm/cpu_loop.c
-+++ b/linux-user/arm/cpu_loop.c
-@@ -136,7 +136,7 @@ static void arm_kernel_cmpxchg32_helper(CPUARMState *env)
- }
- 
- /*
-- * See the Linux kernel's Documentation/arm/kernel_user_helpers.txt
-+ * See the Linux kernel's Documentation/arm/kernel_user_helpers.rst
-  * Input:
-  * r0 = pointer to oldval
-  * r1 = pointer to newval
-@@ -153,57 +153,54 @@ static void arm_kernel_cmpxchg64_helper(CPUARMState *env)
- {
-     uint64_t oldval, newval, val;
-     uint32_t addr, cpsr;
-+    uint64_t *host_addr;
- 
--    /* Based on the 32 bit code in do_kernel_trap */
-+    addr = env->regs[0];
-+    if (get_user_u64(oldval, addr)) {
-+        goto segv;
-+    }
- 
--    /* XXX: This only works between threads, not between processes.
--       It's probably possible to implement this with native host
--       operations. However things like ldrex/strex are much harder so
--       there's not much point trying.  */
--    start_exclusive();
--    cpsr = cpsr_read(env);
-+    addr = env->regs[1];
-+    if (get_user_u64(newval, addr)) {
-+        goto segv;
-+    }
-+
-+    mmap_lock();
-     addr = env->regs[2];
--
--    if (get_user_u64(oldval, env->regs[0])) {
--        env->exception.vaddress = env->regs[0];
--        goto segv;
--    };
--
--    if (get_user_u64(newval, env->regs[1])) {
--        env->exception.vaddress = env->regs[1];
--        goto segv;
--    };
--
--    if (get_user_u64(val, addr)) {
--        env->exception.vaddress = addr;
--        goto segv;
-+    host_addr = atomic_mmu_lookup(env, addr, 8);
-+    if (!host_addr) {
-+        mmap_unlock();
-+        return;
-     }
- 
-+#ifdef CONFIG_ATOMIC64
-+    val = qatomic_cmpxchg__nocheck(host_addr, oldval, newval);
-+    cpsr = (val == oldval) * CPSR_C;
-+#else
-+    /*
-+     * This only works between threads, not between processes, but since
-+     * the host has no 64-bit cmpxchg, it is the best that we can do.
-+     */
-+    start_exclusive();
-+    val = *host_addr;
-     if (val == oldval) {
--        val = newval;
--
--        if (put_user_u64(val, addr)) {
--            env->exception.vaddress = addr;
--            goto segv;
--        };
--
--        env->regs[0] = 0;
--        cpsr |= CPSR_C;
-+        *host_addr = newval;
-+        cpsr = CPSR_C;
-     } else {
--        env->regs[0] = -1;
--        cpsr &= ~CPSR_C;
-+        cpsr = 0;
-     }
--    cpsr_write(env, cpsr, CPSR_C, CPSRWriteByInstr);
-     end_exclusive();
-+#endif
-+    mmap_unlock();
-+
-+    cpsr_write(env, cpsr, CPSR_C, CPSRWriteByInstr);
-+    env->regs[0] = cpsr ? 0 : -1;
-     return;
- 
--segv:
--    end_exclusive();
--    /* We get the PC of the entry address - which is as good as anything,
--       on a real kernel what you get depends on which mode it uses. */
--    /* XXX: check env->error_code */
--    force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR,
--                    env->exception.vaddress);
-+ segv:
-+    force_sig_fault(TARGET_SIGSEGV,
-+                    page_get_flags(addr) & PAGE_VALID ?
-+                    TARGET_SEGV_ACCERR : TARGET_SEGV_MAPERR, addr);
- }
- 
- /* Handle a jump to the kernel code page.  */
--- 
-2.25.1
 
+r~
 
