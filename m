@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432DC4D8B68
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 19:10:54 +0100 (CET)
-Received: from localhost ([::1]:37336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3A24D8B79
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 19:12:14 +0100 (CET)
+Received: from localhost ([::1]:39784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTp9h-0005XG-Bu
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 14:10:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46420)
+	id 1nTpAy-0007Ht-LY
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 14:12:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nTp5p-00033P-Vt
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 14:06:55 -0400
-Received: from [2607:f8b0:4864:20::1134] (port=37804
- helo=mail-yw1-x1134.google.com)
+ id 1nTp80-0005Uh-E3
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 14:09:10 -0400
+Received: from [2607:f8b0:4864:20::112b] (port=44621
+ helo=mail-yw1-x112b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nTp5o-0004Lc-EC
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 14:06:53 -0400
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-2e5757b57caso17975977b3.4
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 11:06:52 -0700 (PDT)
+ id 1nTp7y-0004bk-Pv
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 14:09:07 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-2d07ae0b1c4so173562197b3.11
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 11:09:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kgadmAQsqWPy2QMJBAdQGGwMvwUwieGyeCUC6PkyNRs=;
- b=sWATnI0/HyEyq3I5CD07t7e3Z2uYJqGjsAluDWLN3nsIR48G/FlqJ6/GjtKFPxohas
- gVJNLK9anO8AjFVz9x7RrHxUEbdgw+p48SdfBPv0YWqfGlJVVpJLaprXKwhVRODoHjwk
- g9hVWq2fS2bPV+mheLusz59X7ICXKTkHDYWZiSR/3zZwKdA0pZoCUScPE4hLvU35GQ4a
- 3ti7PAk+uSZPEIoV4It187yUQnpIfO0R0eetVUfDXV3t5waW4BV2Hyd14kvYjKJWvOyp
- b1HB59EYUxUbjKQGvRSqe6ih1F7HKtF4Z21MZKfSWL2ejLnbuHHpywqxlS3qXxpyBPVm
- pN4A==
+ :cc; bh=Ty6Sy8sP7Ea8Gfvwa5eOkubSDB4AYxzjxgqe4xomWq8=;
+ b=c+gEcYN3TKXhLXreyq35NbL5giRtWYfEoD/iDwTAL4bq0SoX7Jg05Syj+B8asm6bRJ
+ eVHKZ/udtYGnh2UXEr/viQ4qeOMlORnWn0lQtvcfbSsG+Jse4ZvtIOU1U2Ng2751dKXp
+ 1WxLpMGUjDGGg7yV96r26rNqCOdqQl3k75CASB1AbH7h6F6tNm09Lg/SjjQgjGZGdz/e
+ +R5ZlAZQPWdwDnurciFbwTJ8esGQ+uUIFIVcujiUSWDyJY98ZlSoWY9mCs2M5fjiPrl7
+ ddHnSwsd+c9EivukLPlyvahumuOv7zMfMg9sCEXTnePzljOm9JU2y90bOXvnMG53zCox
+ nroQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kgadmAQsqWPy2QMJBAdQGGwMvwUwieGyeCUC6PkyNRs=;
- b=jA84vSy0Dz6HbatIb6KmhdE1QeyCnY1pE65i8glRCH8c/hNrwn0XFzdZTjQcSOX2oQ
- QveJ0CeUy06G6W0jq7CqloVQHf8jUoujQ692EKQT+iMIXiYmylFURgv1q10RX6fNngh8
- fGcvUMxHjZ9UqI6Mk1grO/o5zR1lqByuG6RdoirHlp31YQxdPe2avoPw+8mRYF42JVaV
- o3c5+36rl2lTS7LBXOSD4XW7AIHceLhLM81DkLcz9W2+4Qm3Gzjw0Nni9JVAgW3MNRhR
- 1y9fnL3UA+B5D0ftuu4d7tW8pYUhet29Uwq8qZPpvectdCND8BRfR1JphphWkx1tDp0w
- FU9w==
-X-Gm-Message-State: AOAM532ls6iJP0DJlCDZjeG6ic9a4Nn5FYr1g3PXr7yCrg+4ClgddW4y
- 6Ra044HF5K0ByJ1mK6YjUqEw4mEjhFVoX/li9SZcYsRzxT00Gw==
-X-Google-Smtp-Source: ABdhPJye9kLatmydnlr3AFQK6gQmYjKcGpgRE1Tn3L9oDkp+zaH8okFZ38bsdxU3EHG9LSa1iY9bweKrTM5FwoSecis=
-X-Received: by 2002:a0d:e2c9:0:b0:2dc:1f22:e349 with SMTP id
- l192-20020a0de2c9000000b002dc1f22e349mr20368398ywe.10.1647281211432; Mon, 14
- Mar 2022 11:06:51 -0700 (PDT)
+ bh=Ty6Sy8sP7Ea8Gfvwa5eOkubSDB4AYxzjxgqe4xomWq8=;
+ b=FUBqh3ZkBQtDfoKljqCX/VncEzkVbJlfTRRCq42riBnev6dCfsFemegV4kEEwgonFo
+ zBPHCNr7ijcwVAzIqMITJRBnvm0YB/wXvFVkU/p6rKP13nL7EZhRp9Yj+BrDQNLSMoef
+ goizQ+T1W+8prnlJDkx/0VLoE4k7VWN5Mrol3dSzkWA0GBT1YWxEQiBTPJKb8gP9cU5p
+ i+wpo48UdJ5S11EFY2cUH9lvzW57ggMVLHhmoHNCs4leMxRRoYlJriqNfxcMLCKQaovZ
+ nhA8ftIs3yazg2D947ce7iOWtR7dnyRaGXJp70Jbl0zNGvm83tTS996c1LJVFfF39Mac
+ 824Q==
+X-Gm-Message-State: AOAM530/sWWUgTePs7w/PYvknYcjJUFcrChxuPdJCeTc5+BR+Hkg4UGN
+ 0e+HBf6E3/x1ngFmfhrznltsX00Lt3i46YNn7pR3cg==
+X-Google-Smtp-Source: ABdhPJwgDkihNGUO+dpFr/wAEj0YM3XcjsFcOSLdLQnIZB2bJrHVPFsWmLzF4NXaQOIp/y01Pghp6pm0c3ChfozeTEw=
+X-Received: by 2002:a81:a748:0:b0:2d6:1f8b:23a9 with SMTP id
+ e69-20020a81a748000000b002d61f8b23a9mr19693637ywh.329.1647281345601; Mon, 14
+ Mar 2022 11:09:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220314172508.816110-1-raj.khem@gmail.com>
- <edb07e42-fbe0-2eed-48cb-adeade84d416@gmail.com>
-In-Reply-To: <edb07e42-fbe0-2eed-48cb-adeade84d416@gmail.com>
+References: <20220302182936.227719-1-dgilbert@redhat.com>
+ <CAFEAcA9CrHEu8F7PGGTvsdyLnFJhan9V9FkHDgvapje+_E=hVA@mail.gmail.com>
+ <f750a1a4-223c-9456-ab23-a616f7eb2625@gmail.com> <Yieku+cTxY0Xyp5C@work-vm>
+ <CAFEAcA-Y_8KTxCPoSN3P0Cgfe6cEN74b-5U1SeKtAP7FdzFvZA@mail.gmail.com>
+ <Yi92SN2Z3OZi82pS@redhat.com>
+ <CAFEAcA-Chg3LQkh5PHmSyGCkmnYoPnTGMD=zm8jj-jxWeOLTxQ@mail.gmail.com>
+ <Yi+BbRJ9lbJ4ku9L@work-vm>
+In-Reply-To: <Yi+BbRJ9lbJ4ku9L@work-vm>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Mar 2022 18:06:40 +0000
-Message-ID: <CAFEAcA8bKnYQ4KroudyEowv-7A+ru6A6RTrRVgjqbtEafrPJnQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ppc: Include asm/ptrace.h for pt_regs struct definition
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Date: Mon, 14 Mar 2022 18:08:54 +0000
+Message-ID: <CAFEAcA_z2M2_MyWXT7iUKAFzpj1vWsw0DPV7o4YHp2d-1scf9g@mail.gmail.com>
+Subject: Re: [PULL 00/18] migration queue
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1134
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -83,20 +88,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Khem Raj <raj.khem@gmail.com>, qemu-devel@nongnu.org
+Cc: thuth@redhat.com,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ quintela@redhat.com, s.reiter@proxmox.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ hreitz@redhat.com, f.ebner@proxmox.com, jinpu.wang@ionos.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Mar 2022 at 17:59, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
-> I am intrigued about why we didn't hit this before, especially considering that ppc64 header is just a
-> pointer to this file.
+On Mon, 14 Mar 2022 at 17:55, Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
+>
+> Peter Maydell (peter.maydell@linaro.org) wrote:
+> > One thing that makes this bug investigation trickier, incidentally,
+> > is that the migration-test code seems to depend on userfaultfd.
+> > That means you can't run it under 'rr'.
+>
+> That should only be the postcopy tests; the others shouldn't use that.
 
-It's specific to musl, which does different things with its
-system includes than glibc does.
+tests/qtest/migration-test.c:main() exits immediately without adding
+any of the test cases if ufd_version_check() fails, so no userfaultfd
+means no tests run at all, currently.
 
 -- PMM
 
