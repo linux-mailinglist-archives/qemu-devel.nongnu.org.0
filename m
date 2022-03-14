@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CB34D875E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 15:50:29 +0100 (CET)
-Received: from localhost ([::1]:43248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CB54D876E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 15:53:02 +0100 (CET)
+Received: from localhost ([::1]:47944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTm1k-0003DX-N2
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 10:50:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46662)
+	id 1nTm4D-0005kx-4m
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 10:53:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nTl6O-0000t2-66
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 09:51:13 -0400
-Received: from [2607:f8b0:4864:20::52d] (port=39851
- helo=mail-pg1-x52d.google.com)
+ id 1nTlEw-0000tA-Tw
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:00:02 -0400
+Received: from [2607:f8b0:4864:20::1034] (port=36491
+ helo=mail-pj1-x1034.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nTl6M-0004Ca-6r
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 09:51:11 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id q19so13887677pgm.6
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 06:51:08 -0700 (PDT)
+ id 1nTlEv-0005eN-57
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:00:02 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ kx6-20020a17090b228600b001bf859159bfso17559856pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 06:59:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=huXSmdPLoqd95yuOAwGhtZu+mRG2tOF4xQxmLaDhgCo=;
- b=JR/ncsmu509HyiAwHuYKI4bSg6vYPs00nfCzKkdLmcDbgEhpvoLFZC0Z69+XYEb2Ia
- K+jDjm3jiFqzpwEP6qmxXaduNezijmB76TLPQWnMo4YrmQB13es/eZoKoWNph3t15bae
- ODSqZC7ojG+uNbaYdMZ81QdNM1ZQLY4y3QmHZcB+AydbC01jL7uTI8JSPy6E73GStYWJ
- iN00U1K4sxV29lSZ3SmM0LfbA5eVBXa4yzqo6T8eg0daqhYNXj0wzgLgAkwbh4M4w8aX
- YwlrwZ2TRC82ghzSvl86rgM5PHBzjKF7/NW/h3NzU6crw1QVPizKVl79E2ERa6t2BZS8
- MF7A==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=THQBNdkOGSwvixpJpgQp3dhhi/BVzHqcrgjeexYw3lY=;
+ b=DQYAB5AQ0VMJA/uRskF6z8k2hoMefnti2i1aCQ6xjHQbP7nokrUPHV9hTcMT1VxgIo
+ bxyPFFida2ao9qWBS9cGaaXhjepxdRpUkYDE2aloeyTXYiRSGDiu+eIhsb8/5sfYIviE
+ rkmp9o2u3pGDymQh2tASs8e7rbImimrIZ/LxwZkUhFBphkQtpfiYLj0lQugFbG/3w8T/
+ Q0nXeHepfvd7Fw9bZ3r0N70OMehsnVUOFWNEVMnZyvi/uo04UzGN6veKgMJeZ5VsRqte
+ C4LxOnrNbuxxGyF/7ilxToeM1dFf8x4WIXS8MPn/g3NIuOYUuJhAu42Inpl5FPk4PaoJ
+ +xfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=huXSmdPLoqd95yuOAwGhtZu+mRG2tOF4xQxmLaDhgCo=;
- b=789sC8g2WWqzd5PseceyIBXlYsWwM250QtZQ86TFHFtfXzGEMWbQ9miHbclGZyjgWa
- ZmGs2b3MDyu5bbTToxIZ1txPpPXvM7RHrCnBVIGC9VsKhjZ0qUHl/rCu38msbXPOrrwB
- jSsbXE75PpFrkS+Mbg4+tKDutOtB4EFQXOxNRVvCFOq9V6J10gap6tbl4BvpQ8OKYg9q
- BFCjNjJUehXNFoJpnYUcJv51q177OC/Ijvy5yiCPfwnLhYNE1sGTN2yTJEKiC9y0SD71
- 9T5g3GE9a85ZepgiiV5Jha1/4Yv/LZXUaGaeFLdX54+PHsEtgs8stDgHIyJkGUMn4rci
- Q8LA==
-X-Gm-Message-State: AOAM531wC+FOR4/p6QVkMB1/JHQ0MRkmGcpMFCxpZB8E2uDaDB7Z6lwP
- FFrUF1zb5Nk5GZIgCk6DIN7nRMdv/FM=
-X-Google-Smtp-Source: ABdhPJwaBDGzeJTCgA3UHTST/BmN///5WpFtXiV68ckgU49mOvS/UKWL0v3tDbvQ1w7nMylxIbKYXg==
-X-Received: by 2002:a63:1223:0:b0:381:32e6:e56b with SMTP id
- h35-20020a631223000000b0038132e6e56bmr6392917pgl.375.1647265867685; 
- Mon, 14 Mar 2022 06:51:07 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=THQBNdkOGSwvixpJpgQp3dhhi/BVzHqcrgjeexYw3lY=;
+ b=NzNR8e+QoS7Kr+ZwxSsqvjdEpOwEgjOnaU4+Z+Wi/nm+UpndntEEO7jmXfAwx6HNa/
+ B/Oel0uBDhQ0Ml2ZoHkEF5KjLa0vj/IS18dNJLeeDU5Vc2qHgXSean6LznKTRMLz7Fbe
+ 7BJeEWFlLYhK2xR7dfuOYikJbzXGw5O6OXlDTGmHs4YjBFiFWJiUXdXJqT0iiCBdNgIQ
+ 7R/RGZFIDb2oha+BFSm7oBwF1ri3mUIyfeObiHRaJ2qCSZtfmf9NNckVr0RppFZX413O
+ Hzap8+qHhMqpM6CRhcm4UUGsAZIc+8Goa1+QosVwNPKrZAaWlB+LOjfDdZk7W+0fNVjA
+ AtcQ==
+X-Gm-Message-State: AOAM530I9A0Y2jAbxa7KrvQ9vaS6xcR8ix60DykB9VbAMmgVPmv1vUjo
+ /zOyOEBGiYVLI1hejHqE5aU=
+X-Google-Smtp-Source: ABdhPJxSQW7kbcM1mJiizpLTeWRhwqQNTyoZCRPkI/XA/MZm9ThcRQtEAVNxkDPmBFT54+gn/VKSqQ==
+X-Received: by 2002:a17:90a:9106:b0:1b9:115a:a2c1 with SMTP id
+ k6-20020a17090a910600b001b9115aa2c1mr36393982pjo.80.1647266397337; 
+ Mon, 14 Mar 2022 06:59:57 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- q13-20020a056a00088d00b004e1bea9c582sm20875140pfj.43.2022.03.14.06.51.05
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Mar 2022 06:51:07 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] hw/nvram: at24 return 0xff if 1 byte address
-Date: Mon, 14 Mar 2022 14:50:54 +0100
-Message-Id: <20220314135054.25261-2-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220314135054.25261-1-philippe.mathieu.daude@gmail.com>
-References: <20220314135054.25261-1-philippe.mathieu.daude@gmail.com>
+ cv15-20020a17090afd0f00b001bedcbca1a9sm21877367pjb.57.2022.03.14.06.59.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Mar 2022 06:59:56 -0700 (PDT)
+Message-ID: <66621e30-4304-7d27-cc14-829eccbb6290@gmail.com>
+Date: Mon, 14 Mar 2022 14:59:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH-for-7.0 v2] softmmu: List CPU types again
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20220310140728.6506-1-philippe.mathieu.daude@gmail.com>
+ <4df842b7-5fee-e38a-82e4-638b4f95920f@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <4df842b7-5fee-e38a-82e4-638b4f95920f@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,57 +95,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Patrick Venture <venture@google.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Patrick Venture <venture@google.com>
+On 10/3/22 16:16, Thomas Huth wrote:
+> On 10/03/2022 15.07, Philippe Mathieu-Daudé wrote:
+>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> Commit e0220bb5b2 made cpus.c target-agnostic but didn't notice
+>> the cpu_list() function is only defined in target-specific code
+>> in "cpu.h". Move list_cpus() declaration to "exec/cpu-common.h"
+>> because this function is not softmmu-specific and can also be
+>> used by user-mode, along with moving its implementation to cpu.c,
+>> which is compiled per target.
+>>
+>> Fixes: e0220bb5b2 ("softmmu: Build target-agnostic objects once")
+>> Reported-by: Max Filippov <jcmvbkbc@gmail.com>
+>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   cpu.c                     | 9 +++++++++
+>>   include/exec/cpu-common.h | 2 ++
+>>   include/sysemu/cpus.h     | 2 --
+>>   softmmu/cpus.c            | 8 --------
+>>   4 files changed, 11 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/cpu.c b/cpu.c
+>> index d564886149..d50845f713 100644
+>> --- a/cpu.c
+>> +++ b/cpu.c
+>> @@ -35,6 +35,7 @@
+>>   #include "sysemu/tcg.h"
+>>   #include "sysemu/kvm.h"
+>>   #include "sysemu/replay.h"
+>> +#include "exec/cpu-all.h"
+> 
+> Why not cpu-common.h?
 
-The at24 eeproms are 2 byte devices that return 0xff when they are read
-from with a partial (1-byte) address written.  This distinction was
-found comparing model behavior to real hardware testing.
+Copy/paste mistake I presume.
 
-Tested: `i2ctransfer -f -y 45 w1@85 0 r1` returns 0xff instead of next
-byte
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Signed-off-by: Patrick Venture <venture@google.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20211220212137.1244511-1-venture@google.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/nvram/eeprom_at24c.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-index da435500ba..01a3093600 100644
---- a/hw/nvram/eeprom_at24c.c
-+++ b/hw/nvram/eeprom_at24c.c
-@@ -58,9 +58,10 @@ int at24c_eeprom_event(I2CSlave *s, enum i2c_event event)
- 
-     switch (event) {
-     case I2C_START_SEND:
--    case I2C_START_RECV:
-     case I2C_FINISH:
-         ee->haveaddr = 0;
-+        /* fallthrough */
-+    case I2C_START_RECV:
-         DPRINTK("clear\n");
-         if (ee->blk && ee->changed) {
-             int len = blk_pwrite(ee->blk, 0, ee->mem, ee->rsize, 0);
-@@ -84,6 +85,10 @@ uint8_t at24c_eeprom_recv(I2CSlave *s)
-     EEPROMState *ee = AT24C_EE(s);
-     uint8_t ret;
- 
-+    if (ee->haveaddr == 1) {
-+        return 0xff;
-+    }
-+
-     ret = ee->mem[ee->cur];
- 
-     ee->cur = (ee->cur + 1u) % ee->rsize;
--- 
-2.34.1
+Thanks!
 
 
