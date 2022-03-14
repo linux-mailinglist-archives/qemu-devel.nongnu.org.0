@@ -2,48 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88E004D8EE8
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 22:37:05 +0100 (CET)
-Received: from localhost ([::1]:48696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D1B24D8EFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 22:46:29 +0100 (CET)
+Received: from localhost ([::1]:51968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTsNE-0005Di-Lv
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 17:37:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48916)
+	id 1nTsWK-0007tR-DU
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 17:46:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huettel@www.akhuettel.de>)
- id 1nTsKc-0000aI-B7
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 17:34:22 -0400
-Received: from woodpecker.gentoo.org ([140.211.166.183]:44216
- helo=smtp.gentoo.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <huettel@www.akhuettel.de>)
- id 1nTsKa-0006Gj-Ge
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 17:34:22 -0400
-Received: (nullmailer pid 2516 invoked by uid 1000);
- Mon, 14 Mar 2022 21:34:10 -0000
-From: =?UTF-8?q?Andreas=20K=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] qemu-binfmt-conf.sh: Extend magic to distinguish mips
- o32 and n32 ABI
-Date: Mon, 14 Mar 2022 22:33:55 +0100
-Message-Id: <20220314213355.2477-3-dilfridge@gentoo.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220314213355.2477-1-dilfridge@gentoo.org>
-References: <20220305000624.1498181-1-dilfridge@gentoo.org>
- <20220314213355.2477-1-dilfridge@gentoo.org>
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@ya.ru>)
+ id 1nTsV7-0006yH-Ae; Mon, 14 Mar 2022 17:45:14 -0400
+Received: from forward500o.mail.yandex.net ([37.140.190.195]:42332)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@ya.ru>)
+ id 1nTsV4-00088z-Ep; Mon, 14 Mar 2022 17:45:12 -0400
+Received: from myt6-43c1316fdabf.qloud-c.yandex.net
+ (myt6-43c1316fdabf.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:370d:0:640:43c1:316f])
+ by forward500o.mail.yandex.net (Yandex) with ESMTP id 300519419C3;
+ Tue, 15 Mar 2022 00:45:05 +0300 (MSK)
+Received: from myt6-efff10c3476a.qloud-c.yandex.net
+ (myt6-efff10c3476a.qloud-c.yandex.net [2a02:6b8:c12:13a3:0:640:efff:10c3])
+ by myt6-43c1316fdabf.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ vWFGaELZbJ-j4emYxZU; Tue, 15 Mar 2022 00:45:05 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ya.ru; s=mail;
+ t=1647294305; bh=WB1qKPiWaSu7gFevukClf2VCux02xMeNPswwZip5UiE=;
+ h=In-Reply-To:From:Subject:Cc:References:Date:Message-ID:To;
+ b=HTZEFptYiDUciYk2KagaQHluJ13BJezshhnVEAHCAJFl5ZD4h7X4Ks+ulzTBTpmMZ
+ aqhHtgp/xySll9bYznXrz7R/h9me5/3QeUOpIw5G+3eFZHo//6QQKTR0e5laYwgnYX
+ llszINikNfc2G93zrWE8erqO76EFM+cN2rSxU8MY=
+Authentication-Results: myt6-43c1316fdabf.qloud-c.yandex.net;
+ dkim=pass header.i=@ya.ru
+Received: by myt6-efff10c3476a.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id EXLNEAHdIZ-j4JORWXl; Tue, 15 Mar 2022 00:45:04 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <f6d36eb5-2dd7-6139-a021-40733d6482b1@ya.ru>
+Date: Tue, 15 Mar 2022 00:45:04 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=140.211.166.183;
- envelope-from=huettel@www.akhuettel.de; helo=smtp.gentoo.org
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, FORGED_SPF_HELO=1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 for-7.1 0/3] qapi: nbd-export: select bitmap by
+ node/name pair
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ qemu-block@nongnu.org
+References: <20220314213226.362217-1-v.sementsov-og@mail.ru>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+In-Reply-To: <20220314213226.362217-1-v.sementsov-og@mail.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=37.140.190.195; envelope-from=v.sementsov-og@ya.ru;
+ helo=forward500o.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,56 +76,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, richard.henderson@linaro.org,
- philippe.mathieu.daude@gmail.com, laurent@vivier.eu,
- =?UTF-8?q?Andreas=20K=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, hreitz@redhat.com, yuriy.vasiliev@virtuozzo.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This information is given by the EF_MIPS_ABI2 (0x20) bit in the
-e_flags field of the ELF header (a 4-byte value at offset 0x24 for
-the here applicable ELFCLASS32).
+15.03.2022 00:32, Vladimir Sementsov-Ogievskiy wrote:
+> From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+> 
+> Hi all!
+> 
+> Here is small improvement for bitmap exporting interface.
+> 
+> v2: Sorry for the noise, me trying to find a email service, that don't
+> consider sending patch series by git-send-email as as spam :/
 
-See-also: https://www.mail-archive.com/qemu-devel@nongnu.org/msg732572.html
-Signed-off-by: Andreas K. Hüttel <dilfridge@gentoo.org>
----
- scripts/qemu-binfmt-conf.sh | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Aha, and @mail.ru works a lot better. So, that's a candidate for v2 of my "[PATCH] MAINTAINERS: change Vladimir's email address".
 
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index fc2f856800..5f44346166 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -60,20 +60,20 @@ m68k_family=m68k
- 
- # FIXME: We could use the other endianness on a MIPS host.
- 
--mips_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
--mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xfe\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
-+mips_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-+mips_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xfe\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
- mips_family=mips
- 
--mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
--mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xfe\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-+mipsel_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-+mipsel_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xfe\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
- mipsel_family=mips
- 
--mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
--mipsn32_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
-+mipsn32_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
-+mipsn32_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xfe\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20'
- mipsn32_family=mips
- 
--mipsn32el_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00'
--mipsn32el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-+mipsn32el_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
-+mipsn32el_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xfe\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\x00\x00\x00'
- mipsn32el_family=mips
- 
- mips64_magic='\x7fELF\x02\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x08'
+This series itself is OK for reviewing, but email in s-o-b mark may change in v3.
+
+> 
+> Vladimir Sementsov-Ogievskiy (3):
+>    qapi: rename BlockDirtyBitmapMergeSource to BlockDirtyBitmapOrStr
+>    qapi: nbd-export: allow select bitmaps by node/name pair
+>    iotests/223: check new possibility of exporting bitmaps by node/name
+> 
+>   block/monitor/bitmap-qmp-cmds.c        |  6 +--
+>   blockdev-nbd.c                         |  8 +++-
+>   include/block/block_int-global-state.h |  2 +-
+>   nbd/server.c                           | 63 +++++++++++++++++---------
+>   qapi/block-core.json                   |  6 +--
+>   qapi/block-export.json                 |  5 +-
+>   qemu-img.c                             |  8 ++--
+>   qemu-nbd.c                             | 11 ++++-
+>   tests/qemu-iotests/223                 | 16 +++++++
+>   tests/qemu-iotests/223.out             | 47 ++++++++++++++++++-
+>   10 files changed, 133 insertions(+), 39 deletions(-)
+> 
+
+
 -- 
-2.34.1
-
+Best regards,
+Vladimir
 
