@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D534D7F69
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 11:07:40 +0100 (CET)
-Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C6B4D7F56
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 11:00:51 +0100 (CET)
+Received: from localhost ([::1]:54048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nThc2-0001aH-Rh
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 06:07:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53808)
+	id 1nThVR-000532-4u
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 06:00:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nThQG-00027e-Tu
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 05:55:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54017)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nThT2-0004HK-H4
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 05:58:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nThQC-0003bg-0D
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 05:55:27 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nThSz-00047Q-37
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 05:58:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647251719;
+ s=mimecast20190719; t=1647251894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DOzbHhegizn46HRQcI/GbWl+pnIRJ+riPeMpxF2Vnns=;
- b=NiTjVi0d1nRW/ymH3j2MpBYGEm59nuUsTFBzPCw2W4ztQ6ykVKuLSAQ8KcunLAP/B/1KIb
- CjIX20P7IE3stGeK2hzJ3ng0dtekbEp4bGlDrp8XTK8FJToBzUmzN9rZzxGtdrFoncwwSx
- lqt0pBdKD2q+3YipG19sNCFzplxoZzU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ik2AfLJgl/0b3K/1mv6przejnNUJd9nfFmJPHggEb6Q=;
+ b=X6g2GdMKyvAhuZqXlj2T5O6HESYe/rUw/chRmQw6UqM7ZhMVGJfHi6Sp6oYsaOwJN/YXBJ
+ ZY0hjP9vGPYDhRi+yQYTwS4yaNjuqyjcJ6FWngNL21beSAJ9PFHNUtfYCdUkgnojc22H8A
+ z9z55gYMc/tNw+oe+uMbPiixEHNvtKk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-576-tf_yq_pfMRGY_m7qr-wLoA-1; Mon, 14 Mar 2022 05:55:17 -0400
-X-MC-Unique: tf_yq_pfMRGY_m7qr-wLoA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l13-20020a7bcf0d000000b0038982c6bf8fso6817721wmg.7
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 02:55:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DOzbHhegizn46HRQcI/GbWl+pnIRJ+riPeMpxF2Vnns=;
- b=KVIYm2Vgwrk5xxP3IhlShr8WnbSgTkJwASlSx9GK8ybtkciijPXFnc8Oz3Xzg3AZfu
- c2UznHEZv8iKyovH71F8fbQ3YtoGPylez/jo5CutJopK65qNDbogTa4bdbQEHGMGmgrr
- Rf6U5nprgzFukG669NlCkdLhcQdXb3tPNND7yRvGwiOhkVUn/OaFiO036hDeNVOQSxJt
- 8hWpBapV5K5TKJ43ZZ9Io4j8p0XxOB/UHOPNDVN6RepuZDMK9mrmf36s3WGBYK2uqlFD
- Y8nuZbsI96cPxrj2mE8h7UC4NhUeBaORKeISSVOiY8Kwy3PzedgDv2/d2U1olfuM9eFl
- P6+Q==
-X-Gm-Message-State: AOAM531/YvWs4yMA90Bhc6k0n+2As4tf4DKyUPxQ4tNl+hG8v+FJVcvT
- 0DtVcx8mXkVICWqDVeVBG2emJM3ysp7vhbmEw9dJc6altRndwaMdJORsFese2dMPx24hYJQe+2M
- sYU/WSlCkgqlxwSE=
-X-Received: by 2002:adf:f38d:0:b0:1f0:490a:92ae with SMTP id
- m13-20020adff38d000000b001f0490a92aemr15762589wro.497.1647251716133; 
- Mon, 14 Mar 2022 02:55:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzf3sz5NAF16DNkcB+YST+EfnbO+MH7los4Bgd25O0NgtmEs2kezIzN1tf6qJ3gKTvKCOODKQ==
-X-Received: by 2002:adf:f38d:0:b0:1f0:490a:92ae with SMTP id
- m13-20020adff38d000000b001f0490a92aemr15762574wro.497.1647251715907; 
- Mon, 14 Mar 2022 02:55:15 -0700 (PDT)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- z6-20020adfd0c6000000b001f1ffd04672sm12213758wrh.12.2022.03.14.02.55.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Mar 2022 02:55:15 -0700 (PDT)
-Message-ID: <03fd437f-1c34-9abe-6b07-c0a4cf597a04@redhat.com>
-Date: Mon, 14 Mar 2022 10:55:14 +0100
+ us-mta-227-qeuWVfInP-SPpm34PCNDFw-1; Mon, 14 Mar 2022 05:58:11 -0400
+X-MC-Unique: qeuWVfInP-SPpm34PCNDFw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE3F985A5BC;
+ Mon, 14 Mar 2022 09:58:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 944AD1466C50;
+ Mon, 14 Mar 2022 09:58:10 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 42EEC21E66CE; Mon, 14 Mar 2022 10:58:09 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+Subject: Re: [PATCH v2] block-qdict: Fix -Werror=maybe-uninitialized build
+ failure
+References: <20220311221634.58288-1-muriloo@linux.ibm.com>
+Date: Mon, 14 Mar 2022 10:58:09 +0100
+In-Reply-To: <20220311221634.58288-1-muriloo@linux.ibm.com> (Murilo Opsfelder
+ Araujo's message of "Fri, 11 Mar 2022 19:16:34 -0300")
+Message-ID: <87o8283lfy.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2] tests/avocado: starts PhoneServer upfront
-To: Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
-References: <20220311171127.2189534-1-bleal@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220311171127.2189534-1-bleal@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,83 +82,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ mopsfelder@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/03/2022 18.11, Beraldo Leal wrote:
-> Race conditions can happen with the current code, because the port that
-> was available might not be anymore by the time the server is started.
-> 
-> By setting the port to 0, PhoneServer it will use the OS default
-> behavior to get a free port, then we save this information so we can
-> later configure the guest.
-> 
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Beraldo Leal <bleal@redhat.com>
+Murilo Opsfelder Araujo <muriloo@linux.ibm.com> writes:
+
+> Building QEMU on Fedora 37 (Rawhide Prerelease) ppc64le failed with the
+> following error:
+>
+>     $ ../configure --prefix=3D/usr/local/qemu-disabletcg --target-list=3D=
+ppc-softmmu,ppc64-softmmu --disable-tcg --disable-linux-user
+>     ...
+>     $ make -j$(nproc)
+>     ...
+>     FAILED: libqemuutil.a.p/qobject_block-qdict.c.o
+>     cc -m64 -mlittle-endian -Ilibqemuutil.a.p -I. -I.. -Isubprojects/libv=
+host-user -I../subprojects/libvhost-user -Iqapi -Itrace -Iui -Iui/shader -I=
+/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-=
+4 -I/usr/include/lib
+>     mount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -I/usr/include=
+/p11-kit-1 -I/usr/include/pixman-1 -fdiagnostics-color=3Dauto -Wall -Winval=
+id-pch -Werror -std=3Dgnu11 -O2 -g -isystem /root/qemu/linux-headers -isyst=
+em linux-headers -iquote
+>      . -iquote /root/qemu -iquote /root/qemu/include -iquote /root/qemu/d=
+isas/libvixl -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_GNU_SOURCE=
+ -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredunda=
+nt-decls -Wundef -Wwrite
+>     -strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrap=
+v -Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat-sec=
+urity -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-e=
+xterns -Wendif-label
+>     s -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-missing-incl=
+ude-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPI=
+E -MD -MQ libqemuutil.a.p/qobject_block-qdict.c.o -MF libqemuutil.a.p/qobje=
+ct_block-qdict.c.o.d -
+>     o libqemuutil.a.p/qobject_block-qdict.c.o -c ../qobject/block-qdict.c
+>     In file included from /root/qemu/include/qapi/qmp/qdict.h:16,
+>                      from /root/qemu/include/block/qdict.h:13,
+>                      from ../qobject/block-qdict.c:11:
+>     /root/qemu/include/qapi/qmp/qobject.h: In function =E2=80=98qdict_arr=
+ay_split=E2=80=99:
+>     /root/qemu/include/qapi/qmp/qobject.h:49:17: error: =E2=80=98subqdict=
+=E2=80=99 may be used uninitialized [-Werror=3Dmaybe-uninitialized]
+>        49 |     typeof(obj) _obj =3D (obj);                              =
+     \
+>           |                 ^~~~
+>     ../qobject/block-qdict.c:227:16: note: =E2=80=98subqdict=E2=80=99 dec=
+lared here
+>       227 |         QDict *subqdict;
+>           |                ^~~~~~~~
+>     cc1: all warnings being treated as errors
+>
+> Fix build failure by expanding the ternary operation.
+> Tested with `make check-unit` (the check-block-qdict test passed).
+>
+> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Hanna Reitz <hreitz@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
 > ---
->   tests/avocado/avocado_qemu/__init__.py | 13 +++++++------
->   1 file changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-> index 9b056b5ce5..ac85e36a4d 100644
-> --- a/tests/avocado/avocado_qemu/__init__.py
-> +++ b/tests/avocado/avocado_qemu/__init__.py
-> @@ -18,7 +18,7 @@
->   import uuid
->   
->   import avocado
-> -from avocado.utils import cloudinit, datadrainer, network, process, ssh, vmimage
-> +from avocado.utils import cloudinit, datadrainer, process, ssh, vmimage
->   from avocado.utils.path import find_command
->   
->   #: The QEMU build root directory.  It may also be the source directory
-> @@ -602,9 +602,6 @@ def prepare_cloudinit(self, ssh_pubkey=None):
->           self.log.info('Preparing cloudinit image')
->           try:
->               cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
-> -            self.phone_home_port = network.find_free_port()
-> -            if not self.phone_home_port:
-> -                self.cancel('Failed to get a free port')
->               pubkey_content = None
->               if ssh_pubkey:
->                   with open(ssh_pubkey) as pubkey:
-> @@ -614,7 +611,7 @@ def prepare_cloudinit(self, ssh_pubkey=None):
->                             password=self.password,
->                             # QEMU's hard coded usermode router address
->                             phone_home_host='10.0.2.2',
-> -                          phone_home_port=self.phone_home_port,
-> +                          phone_home_port=self.phone_server.server_port,
->                             authorized_key=pubkey_content)
->           except Exception:
->               self.cancel('Failed to prepare the cloudinit image')
-> @@ -625,6 +622,8 @@ def set_up_boot(self):
->           self.vm.add_args('-drive', 'file=%s' % path)
->   
->       def set_up_cloudinit(self, ssh_pubkey=None):
-> +        self.phone_server = cloudinit.PhoneHomeServer(('0.0.0.0', 0),
-> +                                                      self.name)
->           cloudinit_iso = self.prepare_cloudinit(ssh_pubkey)
->           self.vm.add_args('-drive', 'file=%s,format=raw' % cloudinit_iso)
->   
-> @@ -635,7 +634,9 @@ def launch_and_wait(self, set_up_ssh_connection=True):
->                                                    logger=self.log.getChild('console'))
->           console_drainer.start()
->           self.log.info('VM launched, waiting for boot confirmation from guest')
-> -        cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port), self.name)
-> +        while not self.phone_server.instance_phoned_back:
-> +            self.phone_server.handle_request()
-> +
->           if set_up_ssh_connection:
->               self.log.info('Setting up the SSH connection')
->               self.ssh_connect(self.username, self.ssh_key)
+> v1: https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03224.htm=
+l
+>
+>  qobject/block-qdict.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/qobject/block-qdict.c b/qobject/block-qdict.c
+> index 1487cc5dd8..4a83bda2c3 100644
+> --- a/qobject/block-qdict.c
+> +++ b/qobject/block-qdict.c
+> @@ -251,12 +251,12 @@ void qdict_array_split(QDict *src, QList **dst)
+>          if (is_subqdict) {
+>              qdict_extract_subqdict(src, &subqdict, prefix);
+>              assert(qdict_size(subqdict) > 0);
+> +            qlist_append_obj(*dst, QOBJECT(subqdict));
+>          } else {
+>              qobject_ref(subqobj);
+>              qdict_del(src, indexstr);
+> +            qlist_append_obj(*dst, subqobj);
+>          }
+> -
+> -        qlist_append_obj(*dst, subqobj ?: QOBJECT(subqdict));
+>      }
+>  }
 
-Thank you very much, this indeed fixes my problem with find_free_port() in 
-the related tests:
-
-Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
