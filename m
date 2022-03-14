@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE75A4D7EF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:47:37 +0100 (CET)
-Received: from localhost ([::1]:56474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8AE4D7F07
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:52:06 +0100 (CET)
+Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nThIe-0004mS-WC
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:47:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49354)
+	id 1nThMz-0002be-7f
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:52:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3o-00083l-81; Mon, 14 Mar 2022 05:32:16 -0400
-Received: from [2a00:1450:4864:20::32e] (port=33508
- helo=mail-wm1-x32e.google.com)
+ id 1nTh3p-000854-Sp; Mon, 14 Mar 2022 05:32:18 -0400
+Received: from [2a00:1450:4864:20::434] (port=45882
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3m-000859-Bu; Mon, 14 Mar 2022 05:32:15 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- n33-20020a05600c3ba100b003832caf7f3aso8093804wms.0; 
- Mon, 14 Mar 2022 02:32:13 -0700 (PDT)
+ id 1nTh3n-00085i-8O; Mon, 14 Mar 2022 05:32:16 -0400
+Received: by mail-wr1-x434.google.com with SMTP id p9so22808134wra.12;
+ Mon, 14 Mar 2022 02:32:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v6AAK7o1izgyXxVFjUo5ZTWnlTq6OePo73jaya5LDSw=;
- b=ZC+ghCA0sQkxOVnD5Sm0atvhREOOZcHZ9Fv+ZaLZsk15moyfWzSbWBCSjEaocy7a45
- 0PsNSIhQT9o/4YmzNdcadvbLozV7DauyMehLBC6JObYgOUWYwsUArehVSJoiZ4RkI2kX
- 2NuCCwt3eZg6Khky4kG23kl1hLmnxDmJFy5vi9R7rKcCrLPKRFGG1Fwo9cDwq3qnCjxO
- FN9bSh324p8285iiBz3W/iX3e58SAHRS2ugFthx3uEUEf6ofYETCzaDeaL8afhPVcKlj
- 8idV9QID621BEpZ6HdjhnHuQcCgg0yc1Dyqv5pYcKLHTlAOzv4iYuioszaS7rR7rf3BQ
- Ke/w==
+ bh=rJ5t0QlYbGPaQo4OSda80/LOzZ+BH7tVMn0K+fkw8fI=;
+ b=fB9G4iQGa9mZ9h7OLfgKwJpJStUCDleGORUdnjA0jDUTGCcg/wcVGIIAs7bJ8PXbqI
+ isqR+kIbKx1Z5E0E0Ydhrbgphh6yn0K16SusseJeaU30jA/RzX2U1AqNAXPnx6qg2JYs
+ RBeTVTa+jqSs5C6HuoQVn80xa0oIFxAtUhNhwYpddlTr5lrThhlbseLH/oQuDd4QD26L
+ 9PT/Sr6MssXYSFUgo1jUgkjcWxbQ9zTcig7rqyp3/WElUMofkBxSn1p4hg+wxlPnEeGF
+ /L9i59lgE3irApewua27t6/mIBqHXVHDK9N2uKH+eulOsEPMRvpwOdKE5tOsmQBvt1ig
+ fHdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=v6AAK7o1izgyXxVFjUo5ZTWnlTq6OePo73jaya5LDSw=;
- b=pePD6Hn4mtty1AoNZcW+2KT7WiP8Uj/WHkg2i2RECecuikRT5xa2pLWQEBNIIIhW+P
- 4rTYjbcMhL5ep4ieCoxQwY/h5VbIPTfOx7R8rA8CjXWXowFYAu+i69MBUeWA1NlB4miP
- ERvm2JNaLW45PY7g5X48ttR4C+7yj9PmoD7fcp3uRQaj2Chro4RNl0f5XtuuLaGvMTv9
- oWHbElM0nFdwpTlFLSylQXQbQ22wBw8wdUip2qaO+F69Kgx4ty9BxVW7sl0mAfD9xTTE
- GsiwAGbytN9lEouO1GGy+BlmQQtF8MMxByz2jPrmIfyvrWBh4o/r39C2q/r7/ag+uwxV
- MsYg==
-X-Gm-Message-State: AOAM531L6yjBt72lysIIZPQAhGc+6COSIyOePeYseNryb5zF1+IKbqRN
- R2uYUxHjFumwBPQc1Ouo6kCgC1SKwEk=
-X-Google-Smtp-Source: ABdhPJzUE1GJrynC/zKxD8D79o3S4V1GshO7oPGbhKNvMFpj3NlHAHBVYDx2fKr3Jf3zelhtN8gADA==
-X-Received: by 2002:a05:600c:54a:b0:389:90f7:1b15 with SMTP id
- k10-20020a05600c054a00b0038990f71b15mr16673368wmc.156.1647250332609; 
- Mon, 14 Mar 2022 02:32:12 -0700 (PDT)
+ bh=rJ5t0QlYbGPaQo4OSda80/LOzZ+BH7tVMn0K+fkw8fI=;
+ b=Gfa5PhcpPd03yBYrNTDwy+PsVXsrkvp237EsXu/uqxT4Grq7+i5Bx0DpHx8muOWEyz
+ m9g8Ubn9SWq/CPCBKYXUuptjDswzgMqirtUs6qj4Sb2zKMOvnHDsCfkHSRjef1eq7KiL
+ J+ySqGamuU5txHE5ISfnLPKLBgTHHusyt6XZSXJ33Dl3XEQdEcYeHWlsenv7ja2hkXN8
+ 8zVSyJiW7/UbqDYK6hPdfsOnyHe81rCCRWcpS8GQxomX+UQ+6lUgzNtZ5n3BC7dj1kUb
+ ibF3r68dikrtgVfbw9X/8heq/4dXh0dio0bwpXg6tUydAfg7z7wJ4QS/yM8tGrXsuu5p
+ /Tvw==
+X-Gm-Message-State: AOAM530kN7fiKNKJLCAeciiUGF6pf61WqVC/tQy+59pbSfJLSz87SDft
+ I/SBsNaKuZpqysqSjR4lScMLYUkZvZ8=
+X-Google-Smtp-Source: ABdhPJwjKowugrRfHHz3dvo3kHlY1QrczUU5e0Vc+qdzIZkp2WAqbVMpS1MPDn3hIJgrKLR0SdjR8w==
+X-Received: by 2002:a5d:6dad:0:b0:203:84b4:da13 with SMTP id
+ u13-20020a5d6dad000000b0020384b4da13mr15310651wrs.162.1647250333459; 
+ Mon, 14 Mar 2022 02:32:13 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.11
+ l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 02:32:12 -0700 (PDT)
+ Mon, 14 Mar 2022 02:32:13 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH experiment 09/16] start adding extern "C" markers
-Date: Mon, 14 Mar 2022 10:31:56 +0100
-Message-Id: <20220314093203.1420404-10-pbonzini@redhat.com>
+Subject: [PATCH experiment 10/16] add space between liter and string macro
+Date: Mon, 14 Mar 2022 10:31:57 +0100
+Message-Id: <20220314093203.1420404-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314093203.1420404-1-pbonzini@redhat.com>
 References: <20220314093203.1420404-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -95,235 +94,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/block/aio.h           |  5 +++++
- include/fpu/softfloat-types.h |  4 ++++
- include/qemu/bitops.h         |  3 +++
- include/qemu/bswap.h          | 10 +++-------
- include/qemu/coroutine.h      |  4 ++++
- include/qemu/host-utils.h     |  4 ++++
- include/qemu/notify.h         |  4 ++++
- include/qemu/qsp.h            |  4 ++++
- include/qemu/thread.h         |  4 ++++
- include/qemu/timer.h          |  4 ++++
- 10 files changed, 39 insertions(+), 7 deletions(-)
+ util/trace-events | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 5634173b12..4b21d95f0b 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -17,12 +17,15 @@
- #ifdef CONFIG_LINUX_IO_URING
- #include <liburing.h>
- #endif
-+
- #include "qemu/coroutine.h"
- #include "qemu/queue.h"
- #include "qemu/event_notifier.h"
- #include "qemu/thread.h"
- #include "qemu/timer.h"
+diff --git a/util/trace-events b/util/trace-events
+index c8f53d7d9f..5bc718eff7 100644
+--- a/util/trace-events
++++ b/util/trace-events
+@@ -1,10 +1,10 @@
+ # See docs/devel/tracing.rst for syntax documentation.
  
-+G_BEGIN_DECLS
-+
- typedef struct BlockAIOCB BlockAIOCB;
- typedef void BlockCompletionFunc(void *opaque, int ret);
+ # aio-posix.c
+-run_poll_handlers_begin(void *ctx, int64_t max_ns, int64_t timeout) "ctx %p max_ns %"PRId64 " timeout %"PRId64
+-run_poll_handlers_end(void *ctx, bool progress, int64_t timeout) "ctx %p progress %d new timeout %"PRId64
+-poll_shrink(void *ctx, int64_t old, int64_t new) "ctx %p old %"PRId64" new %"PRId64
+-poll_grow(void *ctx, int64_t old, int64_t new) "ctx %p old %"PRId64" new %"PRId64
++run_poll_handlers_begin(void *ctx, int64_t max_ns, int64_t timeout) "ctx %p max_ns %" PRId64 " timeout %" PRId64
++run_poll_handlers_end(void *ctx, bool progress, int64_t timeout) "ctx %p progress %d new timeout %" PRId64
++poll_shrink(void *ctx, int64_t old, int64_t new) "ctx %p old %" PRId64" new %" PRId64
++poll_grow(void *ctx, int64_t old, int64_t new) "ctx %p old %" PRId64" new %" PRId64
+ poll_add(void *ctx, void *node, int fd, unsigned revents) "ctx %p node %p fd %d revents 0x%x"
+ poll_remove(void *ctx, void *node, int fd) "ctx %p node %p fd %d"
  
-@@ -769,4 +772,6 @@ void aio_context_set_poll_params(AioContext *ctx, int64_t max_ns,
- void aio_context_set_aio_params(AioContext *ctx, int64_t max_batch,
-                                 Error **errp);
+@@ -52,9 +52,9 @@ qemu_vfree(void *ptr) "ptr %p"
+ qemu_anon_ram_free(void *ptr, size_t size) "ptr %p size %zu"
  
-+G_END_DECLS
-+
- #endif
-diff --git a/include/fpu/softfloat-types.h b/include/fpu/softfloat-types.h
-index 8abd9ab4ec..aaf7b0b5fa 100644
---- a/include/fpu/softfloat-types.h
-+++ b/include/fpu/softfloat-types.h
-@@ -80,6 +80,8 @@ this code that are retained.
- #ifndef SOFTFLOAT_TYPES_H
- #define SOFTFLOAT_TYPES_H
+ # hbitmap.c
+-hbitmap_iter_skip_words(const void *hb, void *hbi, uint64_t pos, unsigned long cur) "hb %p hbi %p pos %"PRId64" cur 0x%lx"
+-hbitmap_reset(void *hb, uint64_t start, uint64_t count, uint64_t sbit, uint64_t ebit) "hb %p items %"PRIu64",%"PRIu64" bits %"PRIu64"..%"PRIu64
+-hbitmap_set(void *hb, uint64_t start, uint64_t count, uint64_t sbit, uint64_t ebit) "hb %p items %"PRIu64",%"PRIu64" bits %"PRIu64"..%"PRIu64
++hbitmap_iter_skip_words(const void *hb, void *hbi, uint64_t pos, unsigned long cur) "hb %p hbi %p pos %" PRId64" cur 0x%lx"
++hbitmap_reset(void *hb, uint64_t start, uint64_t count, uint64_t sbit, uint64_t ebit) "hb %p items %" PRIu64",%" PRIu64" bits %" PRIu64"..%" PRIu64
++hbitmap_set(void *hb, uint64_t start, uint64_t count, uint64_t sbit, uint64_t ebit) "hb %p items %" PRIu64",%" PRIu64" bits %" PRIu64"..%" PRIu64
  
-+G_BEGIN_DECLS
-+
- /*
-  * Software IEC/IEEE floating-point types.
-  */
-@@ -197,4 +199,6 @@ typedef struct float_status {
-     bool no_signaling_nans;
- } float_status;
+ # lockcnt.c
+ lockcnt_fast_path_attempt(const void *lockcnt, int expected, int new) "lockcnt %p fast path %d->%d"
+@@ -82,15 +82,15 @@ qemu_vfio_ram_block_added(void *s, void *p, size_t size) "s %p host %p size 0x%z
+ qemu_vfio_ram_block_removed(void *s, void *p, size_t size) "s %p host %p size 0x%zx"
+ qemu_vfio_dump_mapping(void *host, uint64_t iova, size_t size) "vfio mapping %p to iova 0x%08" PRIx64 " size 0x%zx"
+ qemu_vfio_find_mapping(void *s, void *p) "s %p host %p"
+-qemu_vfio_new_mapping(void *s, void *host, size_t size, int index, uint64_t iova) "s %p host %p size 0x%zx index %d iova 0x%"PRIx64
+-qemu_vfio_do_mapping(void *s, void *host, uint64_t iova, size_t size) "s %p host %p <-> iova 0x%"PRIx64 " size 0x%zx"
++qemu_vfio_new_mapping(void *s, void *host, size_t size, int index, uint64_t iova) "s %p host %p size 0x%zx index %d iova 0x%" PRIx64
++qemu_vfio_do_mapping(void *s, void *host, uint64_t iova, size_t size) "s %p host %p <-> iova 0x%" PRIx64 " size 0x%zx"
+ qemu_vfio_dma_map(void *s, void *host, size_t size, bool temporary, uint64_t *iova) "s %p host %p size 0x%zx temporary %d &iova %p"
+-qemu_vfio_dma_mapped(void *s, void *host, uint64_t iova, size_t size) "s %p host %p <-> iova 0x%"PRIx64" size 0x%zx"
++qemu_vfio_dma_mapped(void *s, void *host, uint64_t iova, size_t size) "s %p host %p <-> iova 0x%" PRIx64" size 0x%zx"
+ qemu_vfio_dma_unmap(void *s, void *host) "s %p host %p"
+-qemu_vfio_pci_read_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "read cfg ptr %p ofs 0x%x size 0x%x (region addr 0x%"PRIx64" size 0x%"PRIx64")"
+-qemu_vfio_pci_write_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "write cfg ptr %p ofs 0x%x size 0x%x (region addr 0x%"PRIx64" size 0x%"PRIx64")"
+-qemu_vfio_region_info(const char *desc, uint64_t region_ofs, uint64_t region_size, uint32_t cap_offset) "region '%s' addr 0x%"PRIx64" size 0x%"PRIx64" cap_ofs 0x%"PRIx32
+-qemu_vfio_pci_map_bar(int index, uint64_t region_ofs, uint64_t region_size, int ofs, void *host) "map region bar#%d addr 0x%"PRIx64" size 0x%"PRIx64" ofs 0x%x host %p"
++qemu_vfio_pci_read_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "read cfg ptr %p ofs 0x%x size 0x%x (region addr 0x%" PRIx64" size 0x%" PRIx64")"
++qemu_vfio_pci_write_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "write cfg ptr %p ofs 0x%x size 0x%x (region addr 0x%" PRIx64" size 0x%" PRIx64")"
++qemu_vfio_region_info(const char *desc, uint64_t region_ofs, uint64_t region_size, uint32_t cap_offset) "region '%s' addr 0x%" PRIx64" size 0x%" PRIx64" cap_ofs 0x%" PRIx32
++qemu_vfio_pci_map_bar(int index, uint64_t region_ofs, uint64_t region_size, int ofs, void *host) "map region bar#%d addr 0x%" PRIx64" size 0x%" PRIx64" ofs 0x%x host %p"
  
-+G_END_DECLS
-+
- #endif /* SOFTFLOAT_TYPES_H */
-diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
-index 03213ce952..677884bead 100644
---- a/include/qemu/bitops.h
-+++ b/include/qemu/bitops.h
-@@ -12,6 +12,7 @@
- #ifndef BITOPS_H
- #define BITOPS_H
- 
-+G_BEGIN_DECLS
- 
- #include "host-utils.h"
- #include "atomic.h"
-@@ -618,4 +619,6 @@ static inline uint64_t half_unshuffle64(uint64_t x)
-     return x;
- }
- 
-+G_END_DECLS
-+
- #endif
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 2d3bb8bbed..439e755ed4 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -15,12 +15,10 @@
- #define BSWAP_FROM_FALLBACKS
- #endif /* ! CONFIG_MACHINE_BSWAP_H */
- 
--#ifdef __cplusplus
--extern "C" {
--#endif
--
- #include "fpu/softfloat-types.h"
- 
-+G_BEGIN_DECLS
-+
- #ifdef BSWAP_FROM_BYTESWAP
- static inline uint16_t bswap16(uint16_t x)
- {
-@@ -508,8 +506,6 @@ DO_STN_LDN_P(be)
- #undef le_bswaps
- #undef be_bswaps
- 
--#ifdef __cplusplus
--}
--#endif
-+G_END_DECLS
- 
- #endif /* BSWAP_H */
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index 6f4596fc5b..428e97d946 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -18,6 +18,8 @@
- #include "qemu/queue.h"
- #include "qemu/timer.h"
- 
-+G_BEGIN_DECLS
-+
- /**
-  * Coroutines are a mechanism for stack switching and can be used for
-  * cooperative userspace threading.  These functions provide a simple but
-@@ -341,6 +343,8 @@ void qemu_coroutine_increase_pool_batch_size(unsigned int additional_pool_size);
-  */
- void qemu_coroutine_decrease_pool_batch_size(unsigned int additional_pool_size);
- 
-+G_END_DECLS
-+
- #include "qemu/lockable.h"
- #include "qemu/co-lockable.h"
- 
-diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index ca979dc6cc..406e593dff 100644
---- a/include/qemu/host-utils.h
-+++ b/include/qemu/host-utils.h
-@@ -30,6 +30,8 @@
- #ifndef HOST_UTILS_H
- #define HOST_UTILS_H
- 
-+G_BEGIN_DECLS
-+
- #include "qemu/compiler.h"
- #include "qemu/bswap.h"
- 
-@@ -849,4 +851,6 @@ static inline uint64_t udiv_qrnnd(uint64_t *r, uint64_t n1,
- #endif
- }
- 
-+G_END_DECLS
-+
- #endif
-diff --git a/include/qemu/notify.h b/include/qemu/notify.h
-index bcfa70fb2e..a8effa39b7 100644
---- a/include/qemu/notify.h
-+++ b/include/qemu/notify.h
-@@ -14,6 +14,8 @@
- #ifndef QEMU_NOTIFY_H
- #define QEMU_NOTIFY_H
- 
-+G_BEGIN_DECLS
-+
- #include "qemu/queue.h"
- 
- typedef struct Notifier Notifier;
-@@ -71,4 +73,6 @@ void notifier_with_return_remove(NotifierWithReturn *notifier);
- int notifier_with_return_list_notify(NotifierWithReturnList *list,
-                                      void *data);
- 
-+G_END_DECLS
-+
- #endif
-diff --git a/include/qemu/qsp.h b/include/qemu/qsp.h
-index bf36aabfa8..65389837a1 100644
---- a/include/qemu/qsp.h
-+++ b/include/qemu/qsp.h
-@@ -16,6 +16,8 @@ enum QSPSortBy {
-     QSP_SORT_BY_AVG_WAIT_TIME,
- };
- 
-+G_BEGIN_DECLS
-+
- void qsp_report(size_t max, enum QSPSortBy sort_by,
-                 bool callsite_coalesce);
- 
-@@ -24,4 +26,6 @@ void qsp_enable(void);
- void qsp_disable(void);
- void qsp_reset(void);
- 
-+G_END_DECLS
-+
- #endif /* QEMU_QSP_H */
-diff --git a/include/qemu/thread.h b/include/qemu/thread.h
-index 460568d67d..ec27b7ec58 100644
---- a/include/qemu/thread.h
-+++ b/include/qemu/thread.h
-@@ -22,6 +22,8 @@ typedef struct QemuThread QemuThread;
- #define QEMU_THREAD_JOINABLE 0
- #define QEMU_THREAD_DETACHED 1
- 
-+G_BEGIN_DECLS
-+
- void qemu_mutex_init(QemuMutex *mutex);
- void qemu_mutex_destroy(QemuMutex *mutex);
- int qemu_mutex_trylock_impl(QemuMutex *mutex, const char *file, const int line);
-@@ -397,4 +399,6 @@ void qemu_lockcnt_inc_and_unlock(QemuLockCnt *lockcnt);
-  */
- unsigned qemu_lockcnt_count(QemuLockCnt *lockcnt);
- 
-+G_END_DECLS
-+
- #endif
-diff --git a/include/qemu/timer.h b/include/qemu/timer.h
-index ee071e07d1..236c45f1c6 100644
---- a/include/qemu/timer.h
-+++ b/include/qemu/timer.h
-@@ -5,6 +5,8 @@
- #include "qemu/notify.h"
- #include "qemu/host-utils.h"
- 
-+G_BEGIN_DECLS
-+
- #define NANOSECONDS_PER_SECOND 1000000000LL
- 
- /* timers */
-@@ -998,4 +1000,6 @@ static inline int64_t profile_getclock(void)
- extern int64_t dev_time;
- #endif
- 
-+G_END_DECLS
-+
- #endif
+ #userfaultfd.c
+ uffd_query_features_nosys(int err) "errno: %i"
 -- 
 2.35.1
 
