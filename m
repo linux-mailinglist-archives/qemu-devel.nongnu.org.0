@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8684D7ECD
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:39:23 +0100 (CET)
-Received: from localhost ([::1]:37316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E61124D7EE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:43:12 +0100 (CET)
+Received: from localhost ([::1]:47360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nThAg-00008x-Oq
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:39:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49288)
+	id 1nThEN-0006zx-TO
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:43:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3k-0007rm-Nq; Mon, 14 Mar 2022 05:32:12 -0400
-Received: from [2a00:1450:4864:20::429] (port=38791
- helo=mail-wr1-x429.google.com)
+ id 1nTh3l-0007uU-JA; Mon, 14 Mar 2022 05:32:13 -0400
+Received: from [2a00:1450:4864:20::336] (port=40799
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3j-00083N-35; Mon, 14 Mar 2022 05:32:12 -0400
-Received: by mail-wr1-x429.google.com with SMTP id t11so22822543wrm.5;
- Mon, 14 Mar 2022 02:32:10 -0700 (PDT)
+ id 1nTh3j-00083e-QL; Mon, 14 Mar 2022 05:32:13 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ v130-20020a1cac88000000b00389d0a5c511so5150981wme.5; 
+ Mon, 14 Mar 2022 02:32:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oZRbnlR7DjztUlVfB6oMsIzJvB2h7pYihmVs7iTF1As=;
- b=O79ZkC9X/GkBsetuasaEaNf+EOoFXfOAaLa1d9En2CFXFi45NgfnNFGbACbJ7/de2L
- LQzG4IKgD9QzfIedPqFipfcCwYE4w/6g+XxhecYebQFUTtJabi86rp28PtdYsBbROfzm
- 8IzMY1XGBCAMFCAEaqCTUmrP4a016iJaKge3TSqcRkgTlgb/CPbrf5O0hAzMMf5ceWU4
- wCqv/WUlP+YUBP+xlyNAA/sKvJ36/Qtj1V8OaomkzKi0Qv7b5O2TJCwRiaC964/koCUM
- oeyOLyOW7KxeZol+CJ9GSTNGjHdXYpRrvVRYDB49QdzzfnLT1LQqDqoBjANQelvMaUeD
- 0mHg==
+ bh=rUBWDQ1MHU3Pn3HW3FwHGboOdfSq/DM6oeM/jIcjVcg=;
+ b=mfzAQVuBUl2Z9DRMwbtL2vr5ZYMW+o6eS43a2yvv2ISDTSqSUFOMP8xNMUiFVvTsIx
+ 8iz3viyDPl13cxaymkTZ4VgnJcdzpZHZXwtYDfanoScZ0RB3wokEWvC2saoNs41mt+I2
+ xf9BuQN2XlEhIo0J7DGgsNXVzVYrvi2zfVs0YcQr42myJ7B+d9jpLYIbhYZQVY51yokp
+ jRSO2/0G4mKnK6gjN2sAwnNtKtHpj9UiME0eom5obDiViIPJCuYzIH3CUr7IMcWYlGsS
+ 62KgXaAzAkKebG4/PO6pbPkTTFpuajLOAn2Z4IeMZ3OH2V3cL6lq4ebwXwsVGjI4HKsN
+ zu8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oZRbnlR7DjztUlVfB6oMsIzJvB2h7pYihmVs7iTF1As=;
- b=QZiBGdkbaIKrGqYhuXWQ0eDVByBqsEQyyUTgb4vjtYAY3ulP3+9UHh9CUlqXwDYOo3
- 2fUi0l+ZaXvh9e7lYwporIM/2rL2J2cjEde7TRtwISvs1Xrj/MLgmXe5vTrgfvgIbP/7
- vF+9Zv/zXpWwPORr50Pi7Te58RF6BEfnPWDiQ1z4cX57hQT7dizxK4g6nQeIJ+7eTYpU
- 6CmwvFafnQ8Ro8TGhzH/DMxW7nUpUwONA5/9MAfQJwPhuLm+H/IQ8hhp0VpiQ5NlPeMf
- azvbEiRpgL3Qv4QASmRIRqosPBMNLIosFZST4xpdsFucl+O46SFpAg9kM5WOwEWf3rwX
- XTMQ==
-X-Gm-Message-State: AOAM530YPM3cFOo4/imLG5gPpfSTG/chY5ItOBgG5tSPE+Z596T9Q8Yp
- QdcDD+YFtJxd2JVgs4j+JQhhEffikS4=
-X-Google-Smtp-Source: ABdhPJz8HPzEP1qNbOr8O06CTUEjeJIIjDTdgMw0n15K26z5LfSBgJcOe3n1WAqmtRAHJojMUnJNfw==
-X-Received: by 2002:a5d:4089:0:b0:1f0:4819:61ba with SMTP id
- o9-20020a5d4089000000b001f0481961bamr16194002wrp.307.1647250329301; 
- Mon, 14 Mar 2022 02:32:09 -0700 (PDT)
+ bh=rUBWDQ1MHU3Pn3HW3FwHGboOdfSq/DM6oeM/jIcjVcg=;
+ b=eYbrSMFwsLZTAqYCoonshtU7ugwXB6u/WMyPUXH+Zn6g2yOVsfPCqM1wdt76fypt/h
+ t4IBrcBy8JGvencAMS58Xi1C1H75TUwQtBWiVjcm9WAJ1J7rJ1WEBs/RS1UIvmQkGPHV
+ iHL2Fr5gAAIdixR42li5DSk6G6FjYQAT1QbhiImun83ZIltT0VRxekD+3Sw+kzMLExxt
+ AY22EczYj5PB2mAu/fe2mb1iHoXlw8TL4ZPviEOKL42PnYm2sPQPuqJ6bdOl1n79dJGn
+ l66SLQB03Byu7nVfTwjoaEIcikITilGIcU9CMbyD0E4kJ5ghJJKG4rHZbXp2PMIfuQ+T
+ 01sw==
+X-Gm-Message-State: AOAM530PpK6Rwoj1SvR4aXdSzaZKnq1tIuVf1/c+NAdlQRbHUuCkbyMh
+ 0N0X6WLYrjQLZzciBcEFB3E5i0t2fH8=
+X-Google-Smtp-Source: ABdhPJwNZVW1x3zeBJCGK6iCZOLufI1tMaRo0XdAFJEY5vdGbsqjxVSoAtMUW0GkCH25vNJREigNLg==
+X-Received: by 2002:a1c:f616:0:b0:37d:1e1c:f90a with SMTP id
+ w22-20020a1cf616000000b0037d1e1cf90amr25065840wmc.148.1647250330113; 
+ Mon, 14 Mar 2022 02:32:10 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.08
+ l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 02:32:08 -0700 (PDT)
+ Mon, 14 Mar 2022 02:32:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH experiment 05/16] port atomic.h to C++
-Date: Mon, 14 Mar 2022 10:31:52 +0100
-Message-Id: <20220314093203.1420404-6-pbonzini@redhat.com>
+Subject: [PATCH experiment 06/16] use g_new0 instead of g_malloc0
+Date: Mon, 14 Mar 2022 10:31:53 +0100
+Message-Id: <20220314093203.1420404-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314093203.1420404-1-pbonzini@redhat.com>
 References: <20220314093203.1420404-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -92,49 +93,26 @@ Cc: kwolf@redhat.com, hreitz@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The functionality of typeof_strip_qual is provided by the standard library.
+Casting to/from void* must be explicit in C++.  g_new0 takes care of that.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/atomic.h | 5 +++++
- include/qemu/osdep.h  | 1 +
- 2 files changed, 6 insertions(+)
+ include/qemu/timer.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
-index 112a29910b..0889a9c5d2 100644
---- a/include/qemu/atomic.h
-+++ b/include/qemu/atomic.h
-@@ -26,6 +26,10 @@
-  * implicit promotion.  int and larger types, as well as pointers, can be
-  * converted to a non-qualified type just by applying a binary operator.
-  */
-+#ifdef __cplusplus
-+#define typeof_strip_qual(expr)                                                    \
-+	std::remove_cv<typeof(expr)>::type
-+#else
- #define typeof_strip_qual(expr)                                                    \
-   typeof(                                                                          \
-     __builtin_choose_expr(                                                         \
-@@ -59,6 +63,7 @@
-         __builtin_types_compatible_p(typeof(expr), const volatile unsigned short), \
-         (unsigned short)1,                                                         \
-       (expr)+0))))))
-+#endif
- 
- #ifndef __ATOMIC_RELAXED
- #error "Expecting C11 atomic ops"
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index c9ec7830c9..28707bbde3 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -140,6 +140,7 @@ QEMU_EXTERN_C int daemon(int, int);
- #endif
- 
- #ifdef __cplusplus
-+#include <type_traits>
- extern "C" {
- #endif
- 
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+index 88ef114689..ee071e07d1 100644
+--- a/include/qemu/timer.h
++++ b/include/qemu/timer.h
+@@ -520,7 +520,7 @@ static inline QEMUTimer *timer_new_full(QEMUTimerListGroup *timer_list_group,
+                                         int scale, int attributes,
+                                         QEMUTimerCB *cb, void *opaque)
+ {
+-    QEMUTimer *ts = g_malloc0(sizeof(QEMUTimer));
++    QEMUTimer *ts = g_new0(QEMUTimer, 1);
+     timer_init_full(ts, timer_list_group, type, scale, attributes, cb, opaque);
+     return ts;
+ }
 -- 
 2.35.1
 
