@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8974D7EE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:43:38 +0100 (CET)
-Received: from localhost ([::1]:48010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801534D7EF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:47:28 +0100 (CET)
+Received: from localhost ([::1]:55922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nThEn-0007QL-6z
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:43:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49320)
+	id 1nThIV-0004MU-Jj
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:47:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3m-0007xV-85; Mon, 14 Mar 2022 05:32:14 -0400
-Received: from [2a00:1450:4864:20::333] (port=53866
- helo=mail-wm1-x333.google.com)
+ id 1nTh3n-00080Y-42; Mon, 14 Mar 2022 05:32:15 -0400
+Received: from [2a00:1450:4864:20::433] (port=39932
+ helo=mail-wr1-x433.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3k-000847-Kc; Mon, 14 Mar 2022 05:32:13 -0400
-Received: by mail-wm1-x333.google.com with SMTP id 19so8916148wmy.3;
- Mon, 14 Mar 2022 02:32:11 -0700 (PDT)
+ id 1nTh3l-00084K-GW; Mon, 14 Mar 2022 05:32:14 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h15so22823814wrc.6;
+ Mon, 14 Mar 2022 02:32:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mgS0yqg5itQxnRZrVxOmDEh/QmjiF5PASZvzhfZjpWA=;
- b=qNiT9UgNABIa0d2EOKhKeZxZJR9lcou/4kLgmg61OwS4ZwifyyppFoj0K3WUBbPFW1
- OC2IxtMsM6qkOmvmx4XrjYg2+3Bi/2U1g6zFALes3dDksEULs5xIuAEu34WF7dVb0eFT
- UraGGhLkZQQdHdXH92A2t0QiQIXxlXry7tAuz5PawfVV7U+1SEJ8r3oHRXC4LI8mlNvS
- TxGK6Nykvr268URgwnedO+h8XkTrmmlasxk1Oqjs7e0CzpOzG+wlHm4Vdw/vRPbTwMHo
- uKKTIaNFxw3XHzw0MNdWwtpYPWud3BYroT5sqEL0CGcfJ7Zjok820PonIe+QF9nXy8KE
- Ab8A==
+ bh=eB39o4/uwR51SPBmuaJYSqmO/4adg9neg9PXYqCJatM=;
+ b=KRbwa5XFX1jvx3hMGzpxUyTv0MknmsfBKj5epd1w6ryw/96X70VAxj8tCBogDb3imn
+ hJrl5j/YIPNvuiLia0EsP1k7/HzVR5MEQ9ebWQSGd7f2ARhy0iiyzJTVtOayXhJ1oeoj
+ 76a0EQKm1KiQ7cXGIOjJQZN+0E/utdBcnI8yfMWLvn/RigtVBr+34OQiTRCu96lsZIFR
+ jIP+cTv0FN+lamecsum+a2vwTh+zl1YzdA+hSJuki3PrKCqmJ1rOH70Q07vmUmbQ/U5C
+ IJdPxWwyTgddUJxKBNhPKhLUk0WfOGVktWk511tTXJCTmaXTieD4Cw9LtpVB2FPffWUS
+ Eyhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=mgS0yqg5itQxnRZrVxOmDEh/QmjiF5PASZvzhfZjpWA=;
- b=h49JJjq+8yfYafcGE5jbzpmzNbhWDala43/RSMMz7gtlFSiizv3JSTkbdeNDUpW2hS
- GEsu7DqL3SxAnGj1YYRXbRuBPEipNb8I0XMaG9wfp91+bpowWtdSvq2sA8MepuKNQBJb
- BsB7QUkbF6zNhZVPgtdiUk60raOQoXjdgiFa8TG8/EiZj943aQInsh2NEeFLgOmyLWxV
- mEWfH+shB6Lr913hM+Qole0KlkbYKlmeN7ZDXPHOi7nNYcpc4Z5cTpeqg/IPgFMtdrOy
- aFFDzqS3vZ7fNZgXFm5m7JBd//ISBPUvC05bBgCT4O94xntbZDGKjTS6/WOv5OHsg1nU
- VFIQ==
-X-Gm-Message-State: AOAM532eENUr8ufQP4W9ldJ3sSn8mciZhyPo2A5DbPwb/l0dV9jicKk2
- Mk2u1LkraIGayagom0UROTZgvSbIfRk=
-X-Google-Smtp-Source: ABdhPJw0XTtZ7aXzK19kw0oMi++lKujp8hvPaYdAUa8+WTVI5svp3wFE8NKR/7BqJ+bzmdrLoMFM0Q==
-X-Received: by 2002:a05:600c:4a12:b0:389:d7f7:fbcf with SMTP id
- c18-20020a05600c4a1200b00389d7f7fbcfmr16974363wmp.158.1647250330984; 
- Mon, 14 Mar 2022 02:32:10 -0700 (PDT)
+ bh=eB39o4/uwR51SPBmuaJYSqmO/4adg9neg9PXYqCJatM=;
+ b=rC7Xs7kYKJTcWLJgafQJfuKHxys3fK6M5H+fKUsbKx//Ank20OKutYZC3RRD84ftAW
+ JeAy6al/VIFlypUxpwzs7uVJFNbo+jNNIb17rb5I6H2gyXsHQmeFcHILIsyqYWWKGNfh
+ Q08sK0ZMlT9GSD6UwV/5AWrLulLnvg0xf0wvHpw/i16c/Zasf1pNNBCRDizaby6txBQ8
+ niVmDWhTLi2AwKArRsCTdLr3nvk5HQnH/0gv4fEHiglmFj/znI+n1InSEkntkqg41LnA
+ HKqr6rRxGmlwM4aiqMGQjjkEwXrV4C/PhRUzDEqUwO4+59hvGltfRnTN7G5aQT0MZl58
+ mvZg==
+X-Gm-Message-State: AOAM5331sNSPTRjVC2N7IU/uymNs5/jq4GobjAxBFXXR/XFPEyP5EiS1
+ wZMAlqaBRxUrvN5iXpBJddSW9So5s1o=
+X-Google-Smtp-Source: ABdhPJzFeo/F69T5fsNRGJukNo4HsgzqvDBZp2zkD34fz7mcD+RC+P2mp+iovV0kdmkld7lzwwLt3g==
+X-Received: by 2002:a5d:50c5:0:b0:1f0:2111:8f74 with SMTP id
+ f5-20020a5d50c5000000b001f021118f74mr15721192wrt.211.1647250331814; 
+ Mon, 14 Mar 2022 02:32:11 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.10
+ l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 02:32:10 -0700 (PDT)
+ Mon, 14 Mar 2022 02:32:11 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH experiment 07/16] start porting compiler.h to C++
-Date: Mon, 14 Mar 2022 10:31:54 +0100
-Message-Id: <20220314093203.1420404-8-pbonzini@redhat.com>
+Subject: [PATCH experiment 08/16] tracetool: add extern "C" around generated
+ headers
+Date: Mon, 14 Mar 2022 10:31:55 +0100
+Message-Id: <20220314093203.1420404-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314093203.1420404-1-pbonzini@redhat.com>
 References: <20220314093203.1420404-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -94,24 +95,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/compiler.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/tracetool/format/h.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index 3baa5e3790..18848f0d49 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -72,6 +72,10 @@
-         int:(x) ? -1 : 1; \
-     }
+diff --git a/scripts/tracetool/format/h.py b/scripts/tracetool/format/h.py
+index e94f0be7da..2d92fa8bd2 100644
+--- a/scripts/tracetool/format/h.py
++++ b/scripts/tracetool/format/h.py
+@@ -27,6 +27,9 @@ def generate(events, backend, group):
+         '#define TRACE_%s_GENERATED_TRACERS_H' % group.upper(),
+         '',
+         '#include "%s"' % header,
++        '#ifdef __cplusplus',
++        'extern "C" {',
++        '#endif'
+         '')
  
-+#ifdef __cplusplus
-+#define _Static_assert static_assert
-+#endif
-+
- #define QEMU_BUILD_BUG_MSG(x, msg) _Static_assert(!(x), msg)
+     for e in events:
+@@ -100,4 +103,7 @@ def generate(events, backend, group):
  
- #define QEMU_BUILD_BUG_ON(x) QEMU_BUILD_BUG_MSG(x, "not expecting: " #x)
+     backend.generate_end(events, group)
+ 
+-    out('#endif /* TRACE_%s_GENERATED_TRACERS_H */' % group.upper())
++    out('#ifdef __cplusplus',
++        '}',
++        '#endif',
++        '#endif /* TRACE_%s_GENERATED_TRACERS_H */' % group.upper())
 -- 
 2.35.1
 
