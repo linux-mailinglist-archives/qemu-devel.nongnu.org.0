@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFC54D8684
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 15:14:56 +0100 (CET)
-Received: from localhost ([::1]:33186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DB14D8621
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 14:40:50 +0100 (CET)
+Received: from localhost ([::1]:40444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTlTK-0003GW-OP
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 10:14:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40992)
+	id 1nTkwL-0000kc-As
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 09:40:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nTkmh-0006lc-31; Mon, 14 Mar 2022 09:30:51 -0400
-Received: from [2607:f8b0:4864:20::52c] (port=40647
- helo=mail-pg1-x52c.google.com)
+ id 1nTknx-0007lq-1q; Mon, 14 Mar 2022 09:32:10 -0400
+Received: from [2607:f8b0:4864:20::436] (port=33388
+ helo=mail-pf1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nTkmf-0000br-Gm; Mon, 14 Mar 2022 09:30:50 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id q29so12849323pgn.7;
- Mon, 14 Mar 2022 06:30:48 -0700 (PDT)
+ id 1nTknv-0000hA-2Y; Mon, 14 Mar 2022 09:32:08 -0400
+Received: by mail-pf1-x436.google.com with SMTP id s42so14424156pfg.0;
+ Mon, 14 Mar 2022 06:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=xzZsFMqNgaZEAKyJs05PDsW3TMdcxOzBatBXdgcUIbE=;
- b=P2VB8UvFMGk6dbmlfcOTMKmv+C9pPr5OqX0VAbeMl7cE6fLFdYtGdxHQfw/qh9ks6Y
- R/VpsoHMAKv5Ca4GkWF+c0iKWEjGj1APEQo8EKQMwqBhDYD8p+DY/fOb1Y0afpSSVyY2
- sJiMFerBPcj47lw0DNZsyMHdo7COuqN/Z3wAJxo8RS/CGhGCXqMPle7rg930TMe+KD8q
- WfrWyzNrEeNYM9MeGp3nxKbwto1U6HruNB7ya43ZzTF8jJCcoo7YcFIPru+lGNjydUWb
- CSZOYo2tFoLlr4z0QtbXLrFmPsOSipRE9ATAPAjXhCU4h2Mtixb4AB0lMSxi6gaJnlpE
- a1Jw==
+ bh=IYr3BnSh3HYPK5/1IEn/hV/ey+g51O8EYVhjFu3jJeI=;
+ b=YmV60HICAZdZnOkB3sk+be/RAk1bqGAt08/klYbc/6Zk2aXkCKTHZ95Uhs+R74guj/
+ Mk26V0m3DkC9XC6rCqbcALJUlPXH6ZJa36GlIW8r2uBjvMiD8rkm1Ih538TceHqWn95D
+ LS3JnGemXoMP2xJ+51mGf+3zurRpH672NaFPHcm+zNrxn0dJHSCEXcD//UdeKsPKzJ/P
+ 8XyiSnpW/NVc4FgBwaAF7QOTyXIuujDZtRxaYyhuD+S2A7WG2GVFHhPEhL8IKkmBmqkL
+ nEvW4QGP/TcxBHonkeQQ7d2GFfNLs+ro57I7bbvT5yPRfssSB0EoAeQwMb+NeY2pezu0
+ aspw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=xzZsFMqNgaZEAKyJs05PDsW3TMdcxOzBatBXdgcUIbE=;
- b=WB26hIHc54IQGVxbYjWit0cJGxyb5odlMeAOBFMNY2Ol20rEF0vEuJ/6aWUluqedxk
- ByoQpC84FNLy/d/AkxzcOTUMZ9L4IanNAeJwL5bqXjq5ekavrrk/CR2ETzw2R/nuA2HV
- lEBLLrx4qB4Gr5JGW6kKyApV8WzGEDGHcITyNr8txh8h0vMdxfIrOW+27/TjJpo7Qi73
- K+Ah+gX/ncxyLiv4btUosJ5eDJ5CFZ00If8Wu9izdxjNTfWLP5wxnwYb2DHUy4GUAKXF
- eo1IkoNvLM7tQgCr0knIWz4lzaKinwmqjY7i8k8UI8HwibrpOeJLqbrh4rwDd0BYjC16
- O1lw==
-X-Gm-Message-State: AOAM532xr8qyJJEdlnUR485DYY3xmHn/2M3kSbw2amytlGWoTZm4GGHE
- /tjYFV+QBlm2fnBMDAHFKog=
-X-Google-Smtp-Source: ABdhPJxuPUsgpVKNJKF2Ahg+hyuOcrR5/V1z66TGvXfQWgGzNZIy8K9vq+lmQs9FUaX0hPhZNXrjHg==
-X-Received: by 2002:a05:6a00:814:b0:4f7:4c6:1227 with SMTP id
- m20-20020a056a00081400b004f704c61227mr24075928pfk.54.1647264647609; 
- Mon, 14 Mar 2022 06:30:47 -0700 (PDT)
+ bh=IYr3BnSh3HYPK5/1IEn/hV/ey+g51O8EYVhjFu3jJeI=;
+ b=pbEAEF6MQvuUHrCGI1UX/tuFGSsan4o35Pc1N48hFKPijxYDhcnXBpOoHJu1CKq4g3
+ QDwNe4h1dQGL59iC4ooapV25dsCrFb0zy6yiis9PnBdQbZ+5PB+j6ni9CViOEcMjKn2j
+ xk5rKHSAWwlVb5gklPylNnQmD03jJxkIYS95KD+ohCifAe718SBzcsSww72fRKLQRVyD
+ Iptu9VX0sGk1c/lkYtcE/YBB2xumzYaEo78kq3vTszZ5iSbWY7/56pEkrq86GWWPdU9i
+ D7ScCSiz2yDt3ogSGkZL4FouCJ35+49hmKANOM8HvblqTkLEKtVgtukISz8/Gy18+Fw+
+ oR0w==
+X-Gm-Message-State: AOAM530+1gCa8ii344YwN8F/E9UqNkXqlwlJ4czobh+7R/GM+6o5n1kW
+ Lc7zuTCwoiCCpVhODP8UjiGmIqlxJlU=
+X-Google-Smtp-Source: ABdhPJzea0LtinKK4vdE6EbMSfCEy8GvrRZLf+8iqaE0qz0JnONhWBBSQ5bW3GvUE/hBNlwEzI3q/A==
+X-Received: by 2002:a63:87c2:0:b0:380:9259:e10e with SMTP id
+ i185-20020a6387c2000000b003809259e10emr19662469pge.521.1647264725525; 
+ Mon, 14 Mar 2022 06:32:05 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- cv15-20020a17090afd0f00b001bedcbca1a9sm21796284pjb.57.2022.03.14.06.30.45
+ e6-20020a63aa06000000b00380c8bed5a6sm16576219pgf.46.2022.03.14.06.32.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Mar 2022 06:30:47 -0700 (PDT)
-Message-ID: <a63c1972-964c-ba04-5485-f910d8407dd5@gmail.com>
-Date: Mon, 14 Mar 2022 14:30:42 +0100
+ Mon, 14 Mar 2022 06:32:05 -0700 (PDT)
+Message-ID: <3737c49c-188e-723d-9841-5c038ceae9e7@gmail.com>
+Date: Mon, 14 Mar 2022 14:32:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH experiment 12/16] remove "new" keyword from trace-events
+Subject: Re: [PATCH experiment 03/16] coroutine: small code cleanup in
+ qemu_co_rwlock_wrlock
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20220314093203.1420404-1-pbonzini@redhat.com>
- <20220314093203.1420404-13-pbonzini@redhat.com>
+ <20220314093203.1420404-4-pbonzini@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220314093203.1420404-13-pbonzini@redhat.com>
+In-Reply-To: <20220314093203.1420404-4-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,12 +99,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14/3/22 10:31, Paolo Bonzini wrote:
-> This is invalid in C++.
+> qemu_co_rwlock_wrlock stores the current coroutine in a loc variable,
+> use it instead of calling qemu_coroutine_self() again.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   util/trace-events | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+>   util/qemu-coroutine-lock.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
