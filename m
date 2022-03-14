@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCE64D8899
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 16:54:58 +0100 (CET)
-Received: from localhost ([::1]:54874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861704D88BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 17:04:43 +0100 (CET)
+Received: from localhost ([::1]:44048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTn28-0005Vg-V2
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 11:54:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45430)
+	id 1nTnBa-00073O-68
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 12:04:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nTmzy-0003vK-2Y
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 11:52:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58775)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nTn8L-0003UH-LE
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 12:01:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1nTmzv-0000Ay-BK
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 11:52:40 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nTn8H-0001dd-G3
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 12:01:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647273157;
+ s=mimecast20190719; t=1647273676;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HtHfg2EbiVy315eL+aN//Mxmn1fKsPtntse4mtYoFZo=;
- b=f0WHI8ZA/JL6rFZgmm+f2BSzPfG2RjdjeYwoeYZ6LSbycTfWCY2nm8I9fKdRY5G3t6bRAD
- fJzvr1IJlRxxexYOhwz1OlXPo06MLa4bwvlADDrRm/3O9lfh2ZCFlJmeRztgxJ6lcWB9MF
- 28unyPMgAn6LmpDeKgXXI8A/O2Vr7wY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LjuojNlljLxHI2R7532V3Nrcf8uo+00tFTpTU3tAPp8=;
+ b=C/wqKWVeFh2EezhqK9KdTSC8PPrYpMLi4Veu07P6l4sTXYG/o5DecU04Wa5l0ZPnqriV6q
+ hk0Ou9j8l0wOThiAJHgbY1jxF5YwunTjH3+FfzwAvE/IFilyuoRX44/mM+zGYca3XVVJYX
+ TU6AxWvN7Fy8vqkx1yW27ZCB0Fel8yQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-a_LwVYu1Pa-HhJeYQy-pgw-1; Mon, 14 Mar 2022 11:52:35 -0400
-X-MC-Unique: a_LwVYu1Pa-HhJeYQy-pgw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-626-M2Tne6xGPg2n2NYdBr40Ew-1; Mon, 14 Mar 2022 12:01:13 -0400
+X-MC-Unique: M2Tne6xGPg2n2NYdBr40Ew-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E247106655C;
- Mon, 14 Mar 2022 15:52:35 +0000 (UTC)
-Received: from redhat.com (unknown [10.22.17.185])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DAE9C400F748;
- Mon, 14 Mar 2022 15:52:34 +0000 (UTC)
-Date: Mon, 14 Mar 2022 10:52:33 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- v.sementsov-og@ya.ru
-Subject: Re: [PATCH v2] nbd/server: Allow MULTI_CONN for shared writable
- exports
-Message-ID: <20220314155233.3wv64ipm72khftos@redhat.com>
-References: <20220215171838.2651387-1-eblake@redhat.com>
- <CAMRbyyvdBWMB9bzpkUUMO+SZj6PN8Xy0kJnvqLhB2W6vw+5iWQ@mail.gmail.com>
- <20220215232414.g4l4qoqiqyjvnweg@redhat.com>
- <a36660ff-c7d6-9bd1-bea8-dc0a10b74329@virtuozzo.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 226C32999B2F;
+ Mon, 14 Mar 2022 16:01:11 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 114ACC44AE7;
+ Mon, 14 Mar 2022 16:01:10 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A1CFC21E66D4; Mon, 14 Mar 2022 17:01:08 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] Use g_new() & friends where that makes obvious
+Date: Mon, 14 Mar 2022 17:01:05 +0100
+Message-Id: <20220314160108.1440470-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a36660ff-c7d6-9bd1-bea8-dc0a10b74329@virtuozzo.com>
-User-Agent: NeoMutt/20211029-410-d8ee8c
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -70,7 +64,7 @@ X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,86 +77,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Richard Jones <rjones@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Nir Soffer <nsoffer@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Eric Blake <eblake@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ Paul Durrant <paul@xen.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Amit Shah <amit@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, haxm-team@intel.com,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ qemu-ppc@nongnu.org, David Hildenbrand <david@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-s390x@nongnu.org, Patrick Venture <venture@google.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Corey Minyard <cminyard@mvista.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 16, 2022 at 11:08:06AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 16.02.2022 02:24, Eric Blake wrote:
+g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
+for two reasons.  One, it catches multiplication overflowing size_t.
+Two, it returns T * rather than void *, which lets the compiler catch
+more type errors.
 
-> > > > +++ b/tests/qemu-iotests/tests/nbd-multiconn
-> > > > @@ -0,0 +1,188 @@
-> > > > +#!/usr/bin/env bash
-> > > > +# group: rw auto quick
-> > > > +#
-> > > > +# Test that qemu-nbd MULTI_CONN works
-> > > > +#
-> > > > +echo
-> > > > +echo "=== Initial image setup ==="
-> > > > +echo
-> > > > +
-> > > > +_make_test_img 4M
-> > > > +$QEMU_IO -c 'w -P 1 0 2M' -c 'w -P 2 2M 2M' "$TEST_IMG" | _filter_qemu_io
-> > > > +_launch_qemu 2> >(_filter_nbd)
-> > > > +_send_qemu_cmd $QEMU_HANDLE '{"execute":"qmp_capabilities"}' "return"
-> > > > +_send_qemu_cmd $QEMU_HANDLE '{"execute":"blockdev-add",
-> > > > +  "arguments":{"driver":"qcow2", "node-name":"n",
-> > > > +    "file":{"driver":"file", "filename":"'"$TEST_IMG"'"}}}' "return"
-> > 
-> > I'm not the best at writing python iotests; I welcome a language
-> > translation of this aspect.
-> 
-> 
-> 
-> Let me try:)
-> 
-> 
-> #!/usr/bin/env python3
-> 
-> import os
-> import iotests
-> import nbd
-> from iotests import qemu_img_create, qemu_io_silent
-> 
-> 
-> disk = os.path.join(iotests.test_dir, 'disk')
-> size = '4M'
-> nbd_sock = os.path.join(iotests.test_dir, 'nbd_sock')
-> nbd_uri = 'nbd+unix:///{}?socket=' + nbd_sock
+This series only touches allocations with size arguments of the form
+sizeof(T).  It's mechanical, except for a tiny fix in PATCH 2.
 
-...
+PATCH 1 adds the Coccinelle script.
 
-Thanks; I'm playing with this (and the improvements suggested in
-followup messages) in preparation for a v3 posting.
+PATCH 2 cleans up the virtio-9p subsystem, and fixes a harmless typing
+error uncovered by the cleanup.
 
-> > > > +nbdsh -u "nbd+unix:///r?socket=$nbd_unix_socket" -c '
-> > > > +assert h.can_multi_conn()
-> > > > +h.shutdown()
-> > > > +print("nbdsh passed")'
-> > > > +nbdsh -u "nbd+unix:///w?socket=$nbd_unix_socket" -c '
-> > > > +assert not h.can_multi_conn()
-> > > > +h.shutdown()
-> > > > +print("nbdsh passed")'
-> > > > 
-> > > 
-> > > Mixing of shell and python is very confusing. Wouldn't it be much cleaner
-> > > to write the test in python?
-> > 
-> > Here, nbdsh -c 'python snippet' is used as a shell command line
-> > parameter.  Writing python code to call out to a system() command
-> > where one of the arguments to that command is a python script snippet
-> > is going to be just as annoying as writing it in bash.
+PATCH 3 cleans up everything else.  I started to split it up, but
+splitting is a lot of decisions, and I just can't see the value.
 
-Then again, since libnbd already includes python bindings, we wouldn't
-have to detour through nbdsh, but just use the python bindings
-directly (and I see that your translation did that).
+For instance, MAINTAINERS tells me to split for subsystem "virtio",
+patching
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+    hw/char/virtio-serial-bus.c
+    hw/display/virtio-gpu.c
+    hw/net/virtio-net.c
+    hw/virtio/virtio-crypto.c
+    hw/virtio/virtio-iommu.c
+    hw/virtio/virtio.c
+
+But it also tells me to split for subsystem "Character devices",
+patching
+
+    hw/char/parallel.c                       |  2 +-
+    hw/char/riscv_htif.c                     |  2 +-
+    hw/char/virtio-serial-bus.c              |  6 +-
+
+and for subsystem "Network devices", patching
+
+    hw/net/virtio-net.c
+
+and for subsystem "virtio-gpu", patching
+
+    hw/display/virtio-gpu.c
+
+I guess I'd go with "virtio".  Six files down, 103 to go.  Thanks, but
+no thanks.
+
+Since the transformation is local to a function call, dropping is
+completely safe.  We can deal with conflicts by dropping conflicting
+hunks, with "git-pull -s recursive -X ours".  Or drop entire files
+with conflicts.
+
+If you want me to split off certain parts, please tell me exactly what
+you want split off, and I'll gladly do the splitting.  I don't mind
+the splitting part, I do mind the *thinking* part.
+
+Markus Armbruster (3):
+  scripts/coccinelle: New use-g_new-etc.cocci
+  9pfs: Use g_new() & friends where that makes obvious sense
+  Use g_new() & friends where that makes obvious sense
+
+ scripts/coccinelle/use-g_new-etc.cocci   | 75 ++++++++++++++++++++++++
+ include/qemu/timer.h                     |  2 +-
+ accel/kvm/kvm-all.c                      |  6 +-
+ accel/tcg/tcg-accel-ops-mttcg.c          |  2 +-
+ accel/tcg/tcg-accel-ops-rr.c             |  4 +-
+ audio/audio.c                            |  4 +-
+ audio/audio_legacy.c                     |  6 +-
+ audio/dsoundaudio.c                      |  2 +-
+ audio/jackaudio.c                        |  6 +-
+ audio/paaudio.c                          |  4 +-
+ backends/cryptodev.c                     |  2 +-
+ contrib/vhost-user-gpu/vhost-user-gpu.c  |  2 +-
+ cpus-common.c                            |  4 +-
+ dump/dump.c                              |  2 +-
+ hw/9pfs/9p-proxy.c                       |  2 +-
+ hw/9pfs/9p-synth.c                       |  4 +-
+ hw/9pfs/9p.c                             |  8 +--
+ hw/9pfs/codir.c                          |  6 +-
+ hw/acpi/hmat.c                           |  2 +-
+ hw/audio/intel-hda.c                     |  2 +-
+ hw/char/parallel.c                       |  2 +-
+ hw/char/riscv_htif.c                     |  2 +-
+ hw/char/virtio-serial-bus.c              |  6 +-
+ hw/core/irq.c                            |  2 +-
+ hw/core/reset.c                          |  2 +-
+ hw/display/pxa2xx_lcd.c                  |  2 +-
+ hw/display/tc6393xb.c                    |  2 +-
+ hw/display/virtio-gpu.c                  |  4 +-
+ hw/display/xenfb.c                       |  4 +-
+ hw/dma/rc4030.c                          |  4 +-
+ hw/i2c/core.c                            |  4 +-
+ hw/i2c/i2c_mux_pca954x.c                 |  2 +-
+ hw/i386/amd_iommu.c                      |  4 +-
+ hw/i386/intel_iommu.c                    |  2 +-
+ hw/i386/xen/xen-hvm.c                    | 10 ++--
+ hw/i386/xen/xen-mapcache.c               | 14 ++---
+ hw/input/lasips2.c                       |  2 +-
+ hw/input/pckbd.c                         |  2 +-
+ hw/input/ps2.c                           |  4 +-
+ hw/input/pxa2xx_keypad.c                 |  2 +-
+ hw/input/tsc2005.c                       |  3 +-
+ hw/intc/riscv_aclint.c                   |  6 +-
+ hw/intc/xics.c                           |  2 +-
+ hw/m68k/virt.c                           |  2 +-
+ hw/mips/mipssim.c                        |  2 +-
+ hw/misc/applesmc.c                       |  2 +-
+ hw/misc/imx6_src.c                       |  2 +-
+ hw/misc/ivshmem.c                        |  4 +-
+ hw/net/virtio-net.c                      |  4 +-
+ hw/nvme/ns.c                             |  2 +-
+ hw/pci-host/pnv_phb3.c                   |  2 +-
+ hw/pci-host/pnv_phb4.c                   |  2 +-
+ hw/pci/pcie_sriov.c                      |  2 +-
+ hw/ppc/e500.c                            |  2 +-
+ hw/ppc/ppc.c                             |  8 +--
+ hw/ppc/ppc405_boards.c                   |  4 +-
+ hw/ppc/ppc405_uc.c                       | 18 +++---
+ hw/ppc/ppc4xx_devs.c                     |  2 +-
+ hw/ppc/ppc_booke.c                       |  4 +-
+ hw/ppc/spapr.c                           |  2 +-
+ hw/ppc/spapr_events.c                    |  2 +-
+ hw/ppc/spapr_hcall.c                     |  2 +-
+ hw/ppc/spapr_numa.c                      |  3 +-
+ hw/rdma/vmw/pvrdma_dev_ring.c            |  2 +-
+ hw/rdma/vmw/pvrdma_qp_ops.c              |  6 +-
+ hw/sh4/r2d.c                             |  4 +-
+ hw/sh4/sh7750.c                          |  2 +-
+ hw/sparc/leon3.c                         |  2 +-
+ hw/sparc64/sparc64.c                     |  4 +-
+ hw/timer/arm_timer.c                     |  2 +-
+ hw/timer/slavio_timer.c                  |  2 +-
+ hw/vfio/pci.c                            |  4 +-
+ hw/vfio/platform.c                       |  4 +-
+ hw/virtio/virtio-crypto.c                |  2 +-
+ hw/virtio/virtio-iommu.c                 |  2 +-
+ hw/virtio/virtio.c                       |  5 +-
+ hw/xtensa/xtfpga.c                       |  2 +-
+ linux-user/syscall.c                     |  2 +-
+ migration/dirtyrate.c                    |  4 +-
+ migration/multifd-zlib.c                 |  4 +-
+ migration/ram.c                          |  2 +-
+ monitor/misc.c                           |  2 +-
+ monitor/qmp-cmds.c                       |  2 +-
+ qga/commands-win32.c                     |  8 +--
+ qga/commands.c                           |  2 +-
+ qom/qom-qmp-cmds.c                       |  2 +-
+ replay/replay-char.c                     |  4 +-
+ replay/replay-events.c                   | 10 ++--
+ scripts/coverity-scan/model.c            |  2 +-
+ semihosting/config.c                     |  2 +-
+ softmmu/bootdevice.c                     |  4 +-
+ softmmu/dma-helpers.c                    |  4 +-
+ softmmu/memory_mapping.c                 |  2 +-
+ target/i386/cpu-sysemu.c                 |  2 +-
+ target/i386/hax/hax-accel-ops.c          |  4 +-
+ target/i386/nvmm/nvmm-accel-ops.c        |  4 +-
+ target/i386/whpx/whpx-accel-ops.c        |  4 +-
+ target/i386/whpx/whpx-all.c              |  2 +-
+ target/s390x/cpu-sysemu.c                |  2 +-
+ tests/qtest/virtio-9p-test.c             |  4 +-
+ tests/unit/test-hbitmap.c                |  2 +-
+ tests/unit/test-qmp-cmds.c               | 14 ++---
+ tests/unit/test-qobject-output-visitor.c |  2 +-
+ tests/unit/test-vmstate.c                | 42 ++++++-------
+ ui/vnc-enc-tight.c                       |  2 +-
+ util/envlist.c                           |  2 +-
+ util/hbitmap.c                           |  2 +-
+ util/main-loop.c                         |  2 +-
+ util/qemu-timer.c                        |  2 +-
+ util/vfio-helpers.c                      |  4 +-
+ 110 files changed, 284 insertions(+), 214 deletions(-)
+ create mode 100644 scripts/coccinelle/use-g_new-etc.cocci
+
+--
+2.35.1
 
 
