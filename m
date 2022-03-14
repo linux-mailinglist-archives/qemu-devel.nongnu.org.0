@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BF04D7EFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:48:57 +0100 (CET)
-Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F974D7EFA
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:48:48 +0100 (CET)
+Received: from localhost ([::1]:58224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nThJw-0006G6-Lh
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:48:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49434)
+	id 1nThJn-0005xW-Sx
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:48:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3t-00088M-LL; Mon, 14 Mar 2022 05:32:23 -0400
-Received: from [2a00:1450:4864:20::32f] (port=44891
- helo=mail-wm1-x32f.google.com)
+ id 1nTh3u-00088T-Bb; Mon, 14 Mar 2022 05:32:23 -0400
+Received: from [2a00:1450:4864:20::336] (port=55178
+ helo=mail-wm1-x336.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3r-00088O-Js; Mon, 14 Mar 2022 05:32:21 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- bg31-20020a05600c3c9f00b00381590dbb33so9212287wmb.3; 
- Mon, 14 Mar 2022 02:32:18 -0700 (PDT)
+ id 1nTh3s-00088t-7L; Mon, 14 Mar 2022 05:32:22 -0400
+Received: by mail-wm1-x336.google.com with SMTP id r64so1198941wmr.4;
+ Mon, 14 Mar 2022 02:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ExEH4xtYaoZGau968X+DeYwuLSF3XzIknX+VU1gzoqc=;
- b=dYt/jm22WE+k/jM6ojixaBIheLqxpVtZ/AEdoKOerepmGm3LXo/atnhPkZQMjXDN46
- 8c9iFYtjMVqUwxv/PS/WgHMXhdZ41X7kla9jQLx7NfHfEOSKXMu/sTaDKvT1R5fU1vPH
- TybINLr+yik8+16X+b3hXweXCx6JEDJnK0lwYWwN1xX8vSn+jlsiHaA0crLcaxGTAZa9
- 0ZPFF73GDW4dpR51x4mg3yU3YJCDmwuJbJbhY7hFkIe/oiWBt5Ku5I1+omznRkPcgs1A
- ktiQiKupsIJ894Pkh1ovqiSYRXSembyWJ35K6CrvP9hILbNCM7/NFoYnjYx1Q73G0KW2
- bJZQ==
+ bh=H8NfUo8sx1eIDedHt7en4kF8wuAhW0z5/z8YFwGyH44=;
+ b=L75qzcZFj+3sXqMC0ffqzKrh02Ph1eK9qH7XS4spkfh6a07D5FwEk6n2IjcBtKjEx7
+ wzGPtI344aFBRSTqRIfcCH6eRv8cFW+rmOvHoSL8fo1YZYekrq2mIsRC0foZjBkZlWuU
+ duQcwc39knwMYW5AjkTe0ML7YrPdjUSJFt9EtX1ddKvRzlO+aaLevNBk0qlOorQSr2/y
+ 3rvK2sMlpMUV558RzrBg8OrB+0dm0dGEEaqiYubCsukXJHDNGJU/yOYAcZ1e/NyL2k7k
+ v1NcI5NUhTHG6AcWtNdU+wXb4jba89QaSSfBHsdWocrK3AhiJw4qlS07NpfuYxnHh4y2
+ aT7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ExEH4xtYaoZGau968X+DeYwuLSF3XzIknX+VU1gzoqc=;
- b=e+9QBZtwL1uyJRDC0uSzSNKF2aWrFOIKCi5wVfawD6kOxuY49m5TWs7l3FR1fnXNCF
- 2CDL7ll/4f0pBr/TTmb1NWYkQXPHHdjYjUBSw0ybTjMmreQI4tjHo8t+r+S+VClMhoub
- Nk6d5sV+UdLs/elD86/ux4VPEtaEzm8A8QYOmIIofGEt+SlD/L168I6sDpLnuHDTnee+
- KeSmZYVuT/jnZK+kPDW/vhYq9R6IwezAxfHKPBgVMfouzcAoCjkwi3SQlI/6LP6E3zun
- n8KHGeiqQdRqAphO5VixAJcVHkhRm1otFbgmw2Ahvpdf9996bLWkutCi+GQRWVUxfNm+
- xrJw==
-X-Gm-Message-State: AOAM533bpdbpggPoG8w7jb3VxbsNuWtNbWc0IoSZuiT/r+XLxLuVL4uC
- nLpPSN38IE1DOWEg6fWwg1n3zJzZZGI=
-X-Google-Smtp-Source: ABdhPJw2xDuQBqU/+PV5UvxA79cQzwQ/XamOV+xtqJOojK/TAEN1nmTdQT+KI5nInTK41WQl+BZh0Q==
-X-Received: by 2002:a05:600c:508:b0:389:8dfd:7994 with SMTP id
- i8-20020a05600c050800b003898dfd7994mr17001003wmc.115.1647250337707; 
- Mon, 14 Mar 2022 02:32:17 -0700 (PDT)
+ bh=H8NfUo8sx1eIDedHt7en4kF8wuAhW0z5/z8YFwGyH44=;
+ b=OFDu206F8fb2yfVsLB03LYWy5QG/bcSTkk5K4Xv2zKFqz5PM1vugQddfba3SUradD+
+ pznp6EfKAc8bXiRT1Z8f3iiOtclt/ppMg9Hl94woqIIYFn00jNSaaLnBAw6kdsa4bIGs
+ I/XXCTcSiO8eJuu7S8J9534DO4HPreuiJsc17GG+VkUeV7+7ihNUS1sQZpv6eT02Bw7k
+ qea/lIohIFM2f4ytDqc3YoGUwFQ/rs2JsJx/dwcbjEhSsf5yy38wNG7sCoopHsFy0ldT
+ DEE8Y8c5NGuorfVJE5wVkRVvTpuRsc86nQP8iIPuzGA0FR2Om9RUh+k/jRmjIMhSj2n3
+ B+CA==
+X-Gm-Message-State: AOAM533ZnsUEC/HkSHzEu+OHn05A1KPhVU+xsG0dyaUfUVoH/BHb+Uqp
+ rhj0EgUASufjpn7pHBr3nC3PisOarJ8=
+X-Google-Smtp-Source: ABdhPJwazsjNiQL0mcBehDO/7EyhLJEDH7tuePmLghhZCUNaH29V8N4xkaggzTADWFAeG1AjtSIAWg==
+X-Received: by 2002:a7b:c950:0:b0:389:5328:aaa8 with SMTP id
+ i16-20020a7bc950000000b003895328aaa8mr24559316wml.181.1647250338531; 
+ Mon, 14 Mar 2022 02:32:18 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.16
+ l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 02:32:17 -0700 (PDT)
+ Mon, 14 Mar 2022 02:32:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH experiment 15/16] port QemuCoLockable to C++ coroutines
-Date: Mon, 14 Mar 2022 10:32:02 +0100
-Message-Id: <20220314093203.1420404-16-pbonzini@redhat.com>
+Subject: [PATCH experiment 16/16] port test-coroutine to C++ coroutines
+Date: Mon, 14 Mar 2022 10:32:03 +0100
+Message-Id: <20220314093203.1420404-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314093203.1420404-1-pbonzini@redhat.com>
 References: <20220314093203.1420404-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -93,161 +92,405 @@ Cc: kwolf@redhat.com, hreitz@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert "T coroutine_fn" annotations to the new type CoroutineFn<T>,
-and add co_await as needed.
-
-_Generic is replaced by an overloaded constructor.  C++ also does
-not like & on a temporary, so that is replaced by a function
-qemu_make_co_lockable_nonnull that hides it from the compiler.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/co-lockable.h | 111 ++++++++++++++++++-------------------
- 1 file changed, 53 insertions(+), 58 deletions(-)
+ tests/unit/meson.build                        |   6 +-
+ .../{test-coroutine.c => test-coroutine.cc}   | 140 +++++++++---------
+ 2 files changed, 76 insertions(+), 70 deletions(-)
+ rename tests/unit/{test-coroutine.c => test-coroutine.cc} (81%)
 
-diff --git a/include/qemu/co-lockable.h b/include/qemu/co-lockable.h
-index 09f4620017..13e3cc7a69 100644
---- a/include/qemu/co-lockable.h
-+++ b/include/qemu/co-lockable.h
-@@ -16,83 +16,78 @@
- #include "qemu/coroutine.h"
- #include "qemu/thread.h"
- 
--typedef void coroutine_fn QemuCoLockUnlockFunc(void *);
-+typedef CoroutineFn<void> QemuCoLockUnlockFunc(void *);
-+
-+extern CoroutineFn<void> qemu_mutex_co_lock(QemuMutex *m);
-+extern CoroutineFn<void> qemu_mutex_co_unlock(QemuMutex *m);
- 
- struct QemuCoLockable {
-     void *object;
-     QemuCoLockUnlockFunc *lock;
-     QemuCoLockUnlockFunc *unlock;
-+
-+    QemuCoLockable() :
-+        object{NULL},
-+        lock{(QemuCoLockUnlockFunc *) NULL},
-+        unlock{(QemuCoLockUnlockFunc *) NULL} {}
-+    QemuCoLockable(QemuMutex *x) :
-+        object{x},
-+        lock{(QemuCoLockUnlockFunc *) qemu_mutex_co_lock},
-+        unlock{(QemuCoLockUnlockFunc *) qemu_mutex_co_unlock} {}
-+    QemuCoLockable(CoMutex *x) :
-+        object{x},
-+        lock{(QemuCoLockUnlockFunc *) qemu_co_mutex_lock},
-+        unlock{(QemuCoLockUnlockFunc *) qemu_co_mutex_unlock} {}
- };
- 
--static inline __attribute__((__always_inline__)) QemuCoLockable *
--qemu_make_co_lockable(void *x, QemuCoLockable *lockable)
-+template<typename T>
-+static inline QemuCoLockable qcml_obj_nonnull_(T *x)
- {
--    /*
--     * We cannot test this in a macro, otherwise we get compiler
--     * warnings like "the address of 'm' will always evaluate as 'true'".
--     */
--    return x ? lockable : NULL;
-+    return QemuCoLockable{x};
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index 4ca5fdb699..675b5323dd 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -168,7 +168,11 @@ slow_tests = {
  }
  
--static inline __attribute__((__always_inline__)) QemuCoLockable *
--qemu_null_co_lockable(void *x)
-+static inline QemuCoLockable const *qemu_make_co_lockable_nonnull(QemuCoLockable const &x)
+ foreach test_name, extra: tests
+-  src = [test_name + '.c']
++  if test_name == 'test-coroutine'
++    src = [test_name + '.cc']
++  else
++    src = [test_name + '.c']
++  endif
+   deps = [qemuutil]
+   if extra.length() > 0
+     # use a sourceset to quickly separate sources and deps
+diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.cc
+similarity index 81%
+rename from tests/unit/test-coroutine.c
+rename to tests/unit/test-coroutine.cc
+index c230c2fa6e..8f9ddc50da 100644
+--- a/tests/unit/test-coroutine.c
++++ b/tests/unit/test-coroutine.cc
+@@ -16,14 +16,14 @@
+ #include "qemu/coroutine_int.h"
+ #include "qemu/lockable.h"
+ 
+-#if 0
+ /*
+  * Check that qemu_in_coroutine() works
+  */
+ 
+-static void coroutine_fn verify_in_coroutine(void *opaque)
++static CoroutineFn<void> verify_in_coroutine(void *opaque)
  {
-+    return &x;
-+}
-+
-+template<typename T>
-+static inline QemuCoLockable qcml_obj_(T *x)
-+{
-+    return QemuCoLockable{x};
-+}
-+extern void build_not_reached();
-+
-+template<> inline
-+QemuCoLockable qcml_obj_(void *x)
-+{
-+#ifdef __OPTIMIZE__
-     if (x != NULL) {
--        qemu_build_not_reached();
-+        build_not_reached();
+     g_assert(qemu_in_coroutine());
++    co_return;
+ }
+ 
+ static void test_in_coroutine(void)
+@@ -40,10 +40,11 @@ static void test_in_coroutine(void)
+  * Check that qemu_coroutine_self() works
+  */
+ 
+-static void coroutine_fn verify_self(void *opaque)
++static CoroutineFn<void> verify_self(void *opaque)
+ {
+-    Coroutine **p_co = opaque;
++    Coroutine **p_co = (Coroutine **)opaque;
+     g_assert(qemu_coroutine_self() == *p_co);
++    co_return;
+ }
+ 
+ static void test_self(void)
+@@ -58,20 +59,20 @@ static void test_self(void)
+  * Check that qemu_coroutine_entered() works
+  */
+ 
+-static void coroutine_fn verify_entered_step_2(void *opaque)
++static CoroutineFn<void> verify_entered_step_2(void *opaque)
+ {
+     Coroutine *caller = (Coroutine *)opaque;
+ 
+     g_assert(qemu_coroutine_entered(caller));
+     g_assert(qemu_coroutine_entered(qemu_coroutine_self()));
+-    qemu_coroutine_yield();
++    co_await qemu_coroutine_yield();
+ 
+     /* Once more to check it still works after yielding */
+     g_assert(qemu_coroutine_entered(caller));
+     g_assert(qemu_coroutine_entered(qemu_coroutine_self()));
+ }
+ 
+-static void coroutine_fn verify_entered_step_1(void *opaque)
++static CoroutineFn<void> verify_entered_step_1(void *opaque)
+ {
+     Coroutine *self = qemu_coroutine_self();
+     Coroutine *coroutine;
+@@ -83,6 +84,7 @@ static void coroutine_fn verify_entered_step_1(void *opaque)
+     qemu_coroutine_enter(coroutine);
+     g_assert(!qemu_coroutine_entered(coroutine));
+     qemu_coroutine_enter(coroutine);
++    co_return;
+ }
+ 
+ static void test_entered(void)
+@@ -104,9 +106,9 @@ typedef struct {
+     unsigned int max;       /* maximum level of nesting */
+ } NestData;
+ 
+-static void coroutine_fn nest(void *opaque)
++static CoroutineFn<void> nest(void *opaque)
+ {
+-    NestData *nd = opaque;
++    NestData *nd = (NestData *)opaque;
+ 
+     nd->n_enter++;
+ 
+@@ -118,6 +120,7 @@ static void coroutine_fn nest(void *opaque)
      }
--    return NULL;
-+#endif
-+    return QemuCoLockable{};
+ 
+     nd->n_return++;
++    co_return;
  }
  
--/*
-- * In C, compound literals have the lifetime of an automatic variable.
-- * In C++ it would be different, but then C++ wouldn't need QemuCoLockable
-- * either...
-- */
--#define QMCL_OBJ_(x, name) (&(QemuCoLockable) {                         \
--        .object = (x),                                                  \
--        .lock = (QemuCoLockUnlockFunc *) qemu_ ## name ## _lock,        \
--        .unlock = (QemuCoLockUnlockFunc *) qemu_ ## name ## _unlock     \
--    })
--
--/**
-- * QEMU_MAKE_CO_LOCKABLE - Make a polymorphic QemuCoLockable
-- *
-- * @x: a lock object (currently one of QemuMutex, CoMutex).
-- *
-- * Returns a QemuCoLockable object that can be passed around
-- * to a function that can operate with locks of any kind, or
-- * NULL if @x is %NULL.
-- *
-- * Note the speci case for void *, so that we may pass "NULL".
-- */
--#define QEMU_MAKE_CO_LOCKABLE(x)                                            \
--    _Generic((x), QemuCoLockable *: (x),                                    \
--             void *: qemu_null_co_lockable(x),                              \
--             QemuMutex *: qemu_make_co_lockable(x, QMCL_OBJ_(x, mutex)),    \
--             CoMutex *: qemu_make_co_lockable(x, QMCL_OBJ_(x, co_mutex)))   \
--
--/**
-- * QEMU_MAKE_CO_LOCKABLE_NONNULL - Make a polymorphic QemuCoLockable
-- *
-- * @x: a lock object (currently one of QemuMutex, QemuRecMutex,
-- *     CoMutex, QemuSpin).
-- *
-- * Returns a QemuCoLockable object that can be passed around
-- * to a function that can operate with locks of any kind.
-- */
--#define QEMU_MAKE_CO_LOCKABLE_NONNULL(x)                        \
--    _Generic((x), QemuCoLockable *: (x),                        \
--                  QemuMutex *: QMCL_OBJ_(x, mutex),             \
--                  CoMutex *: QMCL_OBJ_(x, co_mutex))
--
--static inline void coroutine_fn qemu_co_lockable_lock(QemuCoLockable *x)
-+static inline QemuCoLockable const *qemu_make_co_lockable(QemuCoLockable const &x)
+ static void test_nesting(void)
+@@ -141,13 +144,13 @@ static void test_nesting(void)
+  * Check that yield/enter transfer control correctly
+  */
+ 
+-static void coroutine_fn yield_5_times(void *opaque)
++static CoroutineFn<void> yield_5_times(void *opaque)
  {
--    x->lock(x->object);
-+    if (x.object)
-+        return &x;
-+    else
-+        return NULL;
+-    bool *done = opaque;
++    bool *done = (bool *)opaque;
+     int i;
+ 
+     for (i = 0; i < 5; i++) {
+-        qemu_coroutine_yield();
++        co_await qemu_coroutine_yield();
+     }
+     *done = true;
+ }
+@@ -166,15 +169,16 @@ static void test_yield(void)
+     g_assert_cmpint(i, ==, 5); /* coroutine must yield 5 times */
  }
  
--static inline void coroutine_fn qemu_co_lockable_unlock(QemuCoLockable *x)
-+#define QEMU_MAKE_CO_LOCKABLE_NONNULL(x) qemu_make_co_lockable_nonnull(qcml_obj_nonnull_(x))
-+#define QEMU_MAKE_CO_LOCKABLE(x)         qemu_make_co_lockable(qcml_obj_(x))
-+
-+static inline CoroutineFn<void> qemu_co_lockable_lock(const QemuCoLockable *x)
+-static void coroutine_fn c2_fn(void *opaque)
++static CoroutineFn<void> c2_fn(void *opaque)
  {
--    x->unlock(x->object);
-+    co_await x->lock(x->object);
-+}
-+
-+static inline CoroutineFn<void> qemu_co_lockable_unlock(const QemuCoLockable *x)
-+{
-+    co_await x->unlock(x->object);
+-    qemu_coroutine_yield();
++    co_await qemu_coroutine_yield();
  }
  
- #endif
+-static void coroutine_fn c1_fn(void *opaque)
++static CoroutineFn<void> c1_fn(void *opaque)
+ {
+-    Coroutine *c2 = opaque;
++    Coroutine *c2 = (Coroutine *)opaque;
+     qemu_coroutine_enter(c2);
++    co_return;
+ }
+ 
+ static void test_no_dangling_access(void)
+@@ -200,34 +204,35 @@ static void test_no_dangling_access(void)
+ static bool locked;
+ static int done;
+ 
+-static void coroutine_fn mutex_fn(void *opaque)
++static CoroutineFn<void> mutex_fn(void *opaque)
+ {
+-    CoMutex *m = opaque;
+-    qemu_co_mutex_lock(m);
++    CoMutex *m = (CoMutex *)opaque;
++    co_await qemu_co_mutex_lock(m);
+     assert(!locked);
+     locked = true;
+-    qemu_coroutine_yield();
++    co_await qemu_coroutine_yield();
+     locked = false;
+-    qemu_co_mutex_unlock(m);
++    co_await qemu_co_mutex_unlock(m);
+     done++;
+ }
+ 
+-static void coroutine_fn lockable_fn(void *opaque)
++static CoroutineFn<void> lockable_fn(void *opaque)
+ {
+-    QemuCoLockable *x = opaque;
+-    qemu_co_lockable_lock(x);
++    QemuCoLockable *x = (QemuCoLockable *)opaque;
++    co_await qemu_co_lockable_lock(x);
+     assert(!locked);
+     locked = true;
+-    qemu_coroutine_yield();
++    co_await qemu_coroutine_yield();
+     locked = false;
+-    qemu_co_lockable_unlock(x);
++    co_await qemu_co_lockable_unlock(x);
+     done++;
+ }
+ 
+-static void do_test_co_mutex(CoroutineEntry *entry, void *opaque)
++template<typename T>
++static void do_test_co_mutex(CoroutineEntry *entry, const T *opaque)
+ {
+-    Coroutine *c1 = qemu_coroutine_create(entry, opaque);
+-    Coroutine *c2 = qemu_coroutine_create(entry, opaque);
++    Coroutine *c1 = qemu_coroutine_create(entry, (void *)opaque);
++    Coroutine *c2 = qemu_coroutine_create(entry, (void *)opaque);
+ 
+     done = 0;
+     qemu_coroutine_enter(c1);
+@@ -284,23 +289,23 @@ static CoRwlock rwlock;
+  * | unlock       |            |
+  */
+ 
+-static void coroutine_fn rwlock_yield_upgrade(void *opaque)
++static CoroutineFn<void> rwlock_yield_upgrade(void *opaque)
+ {
+-    qemu_co_rwlock_rdlock(&rwlock);
+-    qemu_coroutine_yield();
++    co_await qemu_co_rwlock_rdlock(&rwlock);
++    co_await qemu_coroutine_yield();
+ 
+-    qemu_co_rwlock_upgrade(&rwlock);
+-    qemu_co_rwlock_unlock(&rwlock);
++    co_await qemu_co_rwlock_upgrade(&rwlock);
++    co_await qemu_co_rwlock_unlock(&rwlock);
+ 
+     *(bool *)opaque = true;
+ }
+ 
+-static void coroutine_fn rwlock_wrlock_yield(void *opaque)
++static CoroutineFn<void> rwlock_wrlock_yield(void *opaque)
+ {
+-    qemu_co_rwlock_wrlock(&rwlock);
+-    qemu_coroutine_yield();
++    co_await qemu_co_rwlock_wrlock(&rwlock);
++    co_await qemu_coroutine_yield();
+ 
+-    qemu_co_rwlock_unlock(&rwlock);
++    co_await qemu_co_rwlock_unlock(&rwlock);
+     *(bool *)opaque = true;
+ }
+ 
+@@ -326,39 +331,39 @@ static void test_co_rwlock_upgrade(void)
+     g_assert(c2_done);
+ }
+ 
+-static void coroutine_fn rwlock_rdlock_yield(void *opaque)
++static CoroutineFn<void> rwlock_rdlock_yield(void *opaque)
+ {
+-    qemu_co_rwlock_rdlock(&rwlock);
+-    qemu_coroutine_yield();
++    co_await qemu_co_rwlock_rdlock(&rwlock);
++    co_await qemu_coroutine_yield();
+ 
+-    qemu_co_rwlock_unlock(&rwlock);
+-    qemu_coroutine_yield();
++    co_await qemu_co_rwlock_unlock(&rwlock);
++    co_await qemu_coroutine_yield();
+ 
+     *(bool *)opaque = true;
+ }
+ 
+-static void coroutine_fn rwlock_wrlock_downgrade(void *opaque)
++static CoroutineFn<void> rwlock_wrlock_downgrade(void *opaque)
+ {
+-    qemu_co_rwlock_wrlock(&rwlock);
++    co_await qemu_co_rwlock_wrlock(&rwlock);
+ 
+-    qemu_co_rwlock_downgrade(&rwlock);
+-    qemu_co_rwlock_unlock(&rwlock);
++    co_await qemu_co_rwlock_downgrade(&rwlock);
++    co_await qemu_co_rwlock_unlock(&rwlock);
+     *(bool *)opaque = true;
+ }
+ 
+-static void coroutine_fn rwlock_rdlock(void *opaque)
++static CoroutineFn<void> rwlock_rdlock(void *opaque)
+ {
+-    qemu_co_rwlock_rdlock(&rwlock);
++    co_await qemu_co_rwlock_rdlock(&rwlock);
+ 
+-    qemu_co_rwlock_unlock(&rwlock);
++    co_await qemu_co_rwlock_unlock(&rwlock);
+     *(bool *)opaque = true;
+ }
+ 
+-static void coroutine_fn rwlock_wrlock(void *opaque)
++static CoroutineFn<void> rwlock_wrlock(void *opaque)
+ {
+-    qemu_co_rwlock_wrlock(&rwlock);
++    co_await qemu_co_rwlock_wrlock(&rwlock);
+ 
+-    qemu_co_rwlock_unlock(&rwlock);
++    co_await qemu_co_rwlock_unlock(&rwlock);
+     *(bool *)opaque = true;
+ }
+ 
+@@ -428,11 +433,12 @@ static void test_co_rwlock_downgrade(void)
+  * Check that creation, enter, and return work
+  */
+ 
+-static void coroutine_fn set_and_exit(void *opaque)
++static CoroutineFn<void> set_and_exit(void *opaque)
+ {
+-    bool *done = opaque;
++    bool *done = (bool *)opaque;
+ 
+     *done = true;
++    co_return;
+ }
+ 
+ static void test_lifecycle(void)
+@@ -459,7 +465,7 @@ struct coroutine_position {
+     int state;
+ };
+ static struct coroutine_position records[RECORD_SIZE];
+-static unsigned record_pos;
++static int record_pos;
+ 
+ static void record_push(int func, int state)
+ {
+@@ -469,11 +475,11 @@ static void record_push(int func, int state)
+     cp->state = state;
+ }
+ 
+-static void coroutine_fn co_order_test(void *opaque)
++static CoroutineFn<void> co_order_test(void *opaque)
+ {
+     record_push(2, 1);
+     g_assert(qemu_in_coroutine());
+-    qemu_coroutine_yield();
++    co_await qemu_coroutine_yield();
+     record_push(2, 2);
+     g_assert(qemu_in_coroutine());
+ }
+@@ -509,9 +515,10 @@ static void test_order(void)
+  * Lifecycle benchmark
+  */
+ 
+-static void coroutine_fn empty_coroutine(void *opaque)
++static CoroutineFn<void> empty_coroutine(void *opaque)
+ {
+     /* Do nothing */
++    co_return;
+ }
+ 
+ static void perf_lifecycle(void)
+@@ -561,13 +568,13 @@ static void perf_nesting(void)
+  * Yield benchmark
+  */
+ 
+-static void coroutine_fn yield_loop(void *opaque)
++static CoroutineFn<void> yield_loop(void *opaque)
+ {
+-    unsigned int *counter = opaque;
++    unsigned int *counter = (unsigned int *)opaque;
+ 
+     while ((*counter) > 0) {
+         (*counter)--;
+-        qemu_coroutine_yield();
++        co_await qemu_coroutine_yield();
+     }
+ }
+ 
+@@ -611,9 +618,9 @@ static void perf_baseline(void)
+     g_test_message("Function call %u iterations: %f s", maxcycles, duration);
+ }
+ 
+-static __attribute__((noinline)) void perf_cost_func(void *opaque)
++static __attribute__((noinline)) CoroutineFn<void> perf_cost_func(void *opaque)
+ {
+-    qemu_coroutine_yield();
++    co_await qemu_coroutine_yield();
+ }
+ 
+ static void perf_cost(void)
+@@ -639,13 +646,11 @@ static void perf_cost(void)
+                    duration, ops,
+                    (unsigned long)(1000000000.0 * duration / maxcycles));
+ }
+-#endif
+ 
+ int main(int argc, char **argv)
+ {
+     g_test_init(&argc, &argv, NULL);
+ 
+-#if 0
+     /* This test assumes there is a freelist and marks freed coroutine memory
+      * with a sentinel value.  If there is no freelist this would legitimately
+      * crash, so skip it.
+@@ -653,9 +658,7 @@ int main(int argc, char **argv)
+     if (CONFIG_COROUTINE_POOL) {
+         g_test_add_func("/basic/no-dangling-access", test_no_dangling_access);
+     }
+-#endif
+ 
+-#if 0
+     g_test_add_func("/basic/lifecycle", test_lifecycle);
+     g_test_add_func("/basic/yield", test_yield);
+     g_test_add_func("/basic/nesting", test_nesting);
+@@ -674,6 +677,5 @@ int main(int argc, char **argv)
+         g_test_add_func("/perf/function-call", perf_baseline);
+         g_test_add_func("/perf/cost", perf_cost);
+     }
+-#endif
+     return g_test_run();
+ }
 -- 
 2.35.1
-
-
 
