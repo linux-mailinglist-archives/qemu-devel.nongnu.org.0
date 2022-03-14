@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A554D7ECE
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:39:39 +0100 (CET)
-Received: from localhost ([::1]:38102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459034D7EEA
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:44:03 +0100 (CET)
+Received: from localhost ([::1]:48470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nThAw-0000iK-C8
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:39:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49252)
+	id 1nThFB-0007jg-4w
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:44:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3j-0007q5-9M; Mon, 14 Mar 2022 05:32:12 -0400
-Received: from [2a00:1450:4864:20::32f] (port=35811
- helo=mail-wm1-x32f.google.com)
+ id 1nTh3k-0007qq-Fx; Mon, 14 Mar 2022 05:32:12 -0400
+Received: from [2a00:1450:4864:20::435] (port=43654
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nTh3g-00082v-VT; Mon, 14 Mar 2022 05:32:10 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- v2-20020a7bcb42000000b0037b9d960079so11585433wmj.0; 
- Mon, 14 Mar 2022 02:32:07 -0700 (PDT)
+ id 1nTh3i-000834-1p; Mon, 14 Mar 2022 05:32:11 -0400
+Received: by mail-wr1-x435.google.com with SMTP id e24so22799468wrc.10;
+ Mon, 14 Mar 2022 02:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oXz+BWP/LDeXYvsbVe7m9SlkJdCNLdNyBH4D7wYcyC8=;
- b=o8F1IfEoqpOSC738PEUwDmuZh8kT2uBtJImIo90Db5uvf48IPBanMaOi8J/9sO9VJW
- Q/TZgl2hp2r1Ih17AxvUHGlyvUh0lqAi7tzf5ojnRnVAd86CURqYEEoxKCMlEI8vctae
- P1VUHsGaET30s/bfJfRMpuCMU2Q6ngjT6vIoSySzMX+zca307uxEKerRahxABRz8qAwv
- jtNANLjBBGzY41qbbzkp+bHuAwYS9CisdgtvmS5elIWl6WO62fND1XxbJ9MXlpfh3KGT
- tHY/8LERYFq+1RysAT1syQ8Wy8tB5MuVxSmT7MW3ZQdDyWRwBqkT9jOx7m9ulpkpUFnI
- VrrQ==
+ bh=JhDIQxDqCPprjiFX7fjeM02MtJUWpp9N84+HyMb6wac=;
+ b=Y/s0zR1dMmEFDpz4kUDfGIcFaYjAnxdOENjV1ZKQqSLtg3nAORLh/0PBamC+Zlv1Nw
+ iNz3jXtJPaXvFbqctqkWieZlii/jAvYEKeHe9vErHYA2Exi3583+kbHh0PQf8mavSRCl
+ HgpDsJMSSYF2tkqBoWKggXwk7olY03pHuwVMash97/tYKA35iAp0wuEBV5ezLihnwphP
+ s/B+hlaYWJ8NR96uFEdW/m8eDaGGP1Ka98CO6A/Cm2aFa90Z4sJBFIvHKCH6csPy5ZJC
+ mD8Kp62k3zk7EotB+BmxfM31+j5RNxCpIve7tAERbRv9XLXnFeHmIc2DCIKu7MFrK6tw
+ 8Ldg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oXz+BWP/LDeXYvsbVe7m9SlkJdCNLdNyBH4D7wYcyC8=;
- b=xQ5TOjPRPcc+Hspkw2bLr+jOdV9kFN98M4u7V3/iQtOA7Mr690LsdSsW34KzsUHxxa
- 67lwYIUhGj+hj63RJm2az3NsqYs4J+dCB8LquxDqBGhPfxoJEY3iULbi9OfX/K9LxqwK
- 6mud4Jle0xFfYtbPWiF/VGKIMgDlrbd+k7AkXN6HdyxMp18zkDe0S8EH8VNoGgyLWd25
- FThgN44gfazvGRwx9y2COIKZBvhUMbP3m7PgMLMVUAkjCsoGac8iL2zJ+viO+SNux2Cl
- XwkpDGQACN9N/weIsfD5v8F8qIM33+SU98e8R2ifrvmobg6VOWY68sjXLxf1tKAXznGH
- TuWQ==
-X-Gm-Message-State: AOAM531+Oldnh8jNEA1Kpv2qPRUkT0cL6CwGw7FIUECKQ6Qi+TYHXq8A
- 3GzDqZAhY7zM7c0orDfG72GQKmsaZm8=
-X-Google-Smtp-Source: ABdhPJw25U5dVXwMehBIjsC/jR847X3PEYOQqfXBPqZPz2sWP49Yg6F69RyOMlFF0u2n+IeF9rllbw==
-X-Received: by 2002:a05:600c:154a:b0:389:d76c:8a07 with SMTP id
- f10-20020a05600c154a00b00389d76c8a07mr16595174wmg.60.1647250326748; 
- Mon, 14 Mar 2022 02:32:06 -0700 (PDT)
+ bh=JhDIQxDqCPprjiFX7fjeM02MtJUWpp9N84+HyMb6wac=;
+ b=12vvCGfjpRyd7I06pH6Ohzp4pcjgJDiWac+JPZ8vXnFDg45X/hC8cwDTTEfyK63zcg
+ Dj66HDyQd+8JnXLfjb5mrHbVLGaBS/XhBQ+3+4Qji5zFihmgCnMu3GMrNvjg/1jtunhC
+ SS0NXoLP86a/CP6a8FXxwgDuMkix0BDgOro+f4xanxuMK3CTD7RFrxeg5Oq2h77GkNCj
+ pXulrO1UFDoNx4bErrqkHm+VCFU6lGugaj9nca5gMx9wQ0x3mipNOFMi53DS/c1Qj8Ap
+ 5PXhkgLtMniGTxsReKOeMtR5J2jNtXr3NAfFVnuP1lFOwAls6stNjGViy7445k6Lpx7e
+ yWmA==
+X-Gm-Message-State: AOAM532A4Hec7Gj3cEPJ1V85EBHrb0BgyS+nf/tRdW8OD66rYnTG9fsK
+ aTZPggvVdV4un83UOPYV0Jb6MIx/5R0=
+X-Google-Smtp-Source: ABdhPJzNAOdkpRZj5cwb/dKz7LS/QE4wZ8t5+3cSMBQBObSKFA+6eqY1/T5qcnmGzNoU66mKvP3sHA==
+X-Received: by 2002:adf:e8ca:0:b0:1f1:d8be:e20c with SMTP id
+ k10-20020adfe8ca000000b001f1d8bee20cmr16366190wrn.373.1647250327618; 
+ Mon, 14 Mar 2022 02:32:07 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.05
+ l7-20020adfe9c7000000b001f06f8ec92dsm12707517wrn.30.2022.03.14.02.32.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 02:32:06 -0700 (PDT)
+ Mon, 14 Mar 2022 02:32:07 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH experiment 02/16] coroutine: qemu_coroutine_get_aio_context is
- not a coroutine_fn
-Date: Mon, 14 Mar 2022 10:31:49 +0100
-Message-Id: <20220314093203.1420404-3-pbonzini@redhat.com>
+Subject: [PATCH experiment 03/16] coroutine: small code cleanup in
+ qemu_co_rwlock_wrlock
+Date: Mon, 14 Mar 2022 10:31:50 +0100
+Message-Id: <20220314093203.1420404-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220314093203.1420404-1-pbonzini@redhat.com>
 References: <20220314093203.1420404-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -94,43 +93,27 @@ Cc: kwolf@redhat.com, hreitz@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since it operates on a given coroutine, qemu_coroutine_get_aio_context
-can be called from outside coroutine context.
-
-This is for example how qio_channel_restart_read uses it.
+qemu_co_rwlock_wrlock stores the current coroutine in a loc variable,
+use it instead of calling qemu_coroutine_self() again.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/coroutine.h | 2 +-
- util/qemu-coroutine.c    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ util/qemu-coroutine-lock.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index da68be5ad2..666f3ba0e0 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -92,7 +92,7 @@ void coroutine_fn qemu_coroutine_yield(void);
- /**
-  * Get the AioContext of the given coroutine
-  */
--AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co);
-+AioContext *qemu_coroutine_get_aio_context(Coroutine *co);
+diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+index 2669403839..490fb32891 100644
+--- a/util/qemu-coroutine-lock.c
++++ b/util/qemu-coroutine-lock.c
+@@ -436,7 +436,7 @@ void qemu_co_rwlock_wrlock(CoRwlock *lock)
+         lock->owners = -1;
+         qemu_co_mutex_unlock(&lock->mutex);
+     } else {
+-        CoRwTicket my_ticket = { false, qemu_coroutine_self() };
++        CoRwTicket my_ticket = { false, self };
  
- /**
-  * Get the currently executing coroutine
-diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
-index c03b2422ff..9f2bd96fa0 100644
---- a/util/qemu-coroutine.c
-+++ b/util/qemu-coroutine.c
-@@ -200,7 +200,7 @@ bool qemu_coroutine_entered(Coroutine *co)
-     return co->caller;
- }
- 
--AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co)
-+AioContext *qemu_coroutine_get_aio_context(Coroutine *co)
- {
-     return co->ctx;
- }
+         QSIMPLEQ_INSERT_TAIL(&lock->tickets, &my_ticket, next);
+         qemu_co_mutex_unlock(&lock->mutex);
 -- 
 2.35.1
 
