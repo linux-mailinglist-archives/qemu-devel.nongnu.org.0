@@ -2,49 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C374A4D8C09
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 20:06:30 +0100 (CET)
-Received: from localhost ([::1]:33180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6814D8C05
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 20:03:17 +0100 (CET)
+Received: from localhost ([::1]:56722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTq1V-00017v-4B
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 15:06:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58362)
+	id 1nTpyO-00068P-0N
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 15:03:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <8053872006a4f18068bfb1825f21a108643f242e@lizzy.crudebyte.com>)
- id 1nTpzW-00008N-WA
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 15:04:27 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:56821)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nTpwc-0005Ll-2v
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 15:01:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <8053872006a4f18068bfb1825f21a108643f242e@lizzy.crudebyte.com>)
- id 1nTpzV-0004ig-1s
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 15:04:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=M6ewKKtFxas3C9txmsGWiOoZhKeVCxeGfx7klVYpVMk=; b=P013M
- F6u2rwjyWyhc00yEW/vRzTiqKlgwfZDuys7EcVUyDd+16X7CATCQ41CAPd1u5AXU49TfQQEaimHTa
- UvT0RHFxTWkErAl1onZDEv+2wEekJ7+G1XZNowXB3/5BeMV2SOZhP6ongTzB7CgRlJN+ITfP7Rq+h
- FdcbUHhz5qOZ8nmF6eJGbcFvc65f8V5hVGjcbVjxMRzGhe69XYsx8Ge9IOe5/N1iz0xLMRQ7JpzBQ
- HDqraKF9w07IDUYUF3ikH2kBfvpTpn32a2mXhiIZ8TDdoFNaZuyjwjR4xK8rnQgbf2UEti0L9hyr6
- 9QzrnQckGIpPaZ8FkDp8W8+owkqGQ==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Mon, 14 Mar 2022 19:58:11 +0100
-Subject: [PATCH] 9pfs: fix inode sequencing in 'synth' driver
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Message-Id: <E1nTpyU-0000yR-9o@lizzy.crudebyte.com>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=8053872006a4f18068bfb1825f21a108643f242e@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nTpwa-0004WD-5I
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 15:01:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647284482;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=5btzAa4+VFr81OO+gvbpBXPnzdfv2idYQv/Im6A5dtU=;
+ b=glVvQpwvVqurPsIJ4l1muppb5fXuqEXP4jOQx2BnxygS7dSHBzIzBSdaFszBLWC2B050rN
+ GmbfEaLAYnZBjmZoxZwD4qEhIcZrPyw3M6ulXzva6DPdnIgmL9zGlMKwZWUcrAqrqECzyI
+ CvMTrXupLIhf4TxD9fsZZOJQh6Q8/Wo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-Z03PoIzANbyhlrYgQ3SZGA-1; Mon, 14 Mar 2022 15:01:11 -0400
+X-MC-Unique: Z03PoIzANbyhlrYgQ3SZGA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56EEE3803915;
+ Mon, 14 Mar 2022 19:01:11 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F7E64B8D4F;
+ Mon, 14 Mar 2022 19:01:09 +0000 (UTC)
+Date: Mon, 14 Mar 2022 19:01:06 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Andrew Deason <adeason@sinenomine.net>
+Subject: Re: [PATCH 1/2] util/osdep: Avoid madvise proto on modern Solaris
+Message-ID: <Yi+Q8oBqowBP1Ldw@redhat.com>
+References: <20220314154557.306-1-adeason@sinenomine.net>
+ <20220314154557.306-2-adeason@sinenomine.net>
+ <CAFEAcA8DZby3k7rZ3F4m037b_qjANzEk-ekVQYxAm5tN1_v84w@mail.gmail.com>
+ <20220314131800.89dbb505371e68c7ad382795@sinenomine.net>
+MIME-Version: 1.0
+In-Reply-To: <20220314131800.89dbb505371e68c7ad382795@sinenomine.net>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,47 +83,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'synth' driver's root node and the 'synth' driver's first
-subdirectory node falsely share the same inode number (zero), which
-makes it impossible for 9p clients (i.e. 9p test cases) to distinguish
-root node and first subdirectory from each other by comparing their QIDs
-(which are derived by 9p server from driver's inode numbers).
+On Mon, Mar 14, 2022 at 01:18:00PM -0500, Andrew Deason wrote:
+> On Mon, 14 Mar 2022 16:36:00 +0000
+> Peter Maydell <peter.maydell@linaro.org> wrote:
+> 
+> > On Mon, 14 Mar 2022 at 16:12, Andrew Deason <adeason@sinenomine.net> wrote:
+> > >  #ifdef CONFIG_SOLARIS
+> > >  #include <sys/statvfs.h>
+> > > +#ifndef HAVE_MADVISE_PROTO
+> > >  /* See MySQL bug #7156 (http://bugs.mysql.com/bug.php?id=7156) for
+> > >     discussion about Solaris header problems */
+> > >  extern int madvise(char *, size_t, int);
+> > >  #endif
+> > > +#endif
+> > 
+> > Rather than keeping this inside a CONFIG_SOLARIS and only doing
+> > the meson.build test if targetos == sunos, I would prefer it if we
+> > unconditionally determined two things in meson.build:
+> >  (1) do we have madvise in the usual way? (this is what we would
+> >      want CONFIG_MADVISE to be, and might even be what it actually is)
+> >  (2) do we have madvise but only if we provide a prototype for it
+> >      ourselves? (maybe CONFIG_MADVISE_NO_PROTO)
+> 
+> CONFIG_MADVISE is set if we can cc.links() something that calls
+> madvise(). If we're missing the prototype, that will fail with -Werror,
+> but I expect succeeds otherwise. If cc.links() just uses the cflags for
+> the build, then it seems like it might succeed or fail depending on
+> --enable-werror. I see some other tests give -Werror as an explicit
+> extra argument (HAVE_BROKEN_SIZE_MAX, and something for fuzzing); should
+> this be doing the same to make sure it fails for a missing prototype?
+> 
+> Also just to mention, if we don't care about older Solaris, the
+> prototype can just be unconditionally removed. It's pretty annoying to
+> even try to build qemu from git on Solaris 11.4 and earlier, because
+> many of the build requirements need to be installed/compiled manually
+> (notably python 3.6+, but iirc also ninja, meson, etc). So I haven't
+> really tried; there may be many other build issues there.
 
-Fix this issue by using prefix-increment instead of postfix-increment
-operator while generating new inode numbers for subdirectories and files.
+If we had a tiered support status, Solaris  would be tier 3
+right now, as we have no testing of it at all. If it compiles
+at any given point in time it is luck.
 
-Link: https://lore.kernel.org/qemu-devel/3859307.hTDP4D0zbi@silver/
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- hw/9pfs/9p-synth.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+We have a general purpose platform support policy
 
-diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-index b3080e415b..f3c73d3b0b 100644
---- a/hw/9pfs/9p-synth.c
-+++ b/hw/9pfs/9p-synth.c
-@@ -92,7 +92,7 @@ int qemu_v9fs_synth_mkdir(V9fsSynthNode *parent, int mode,
-         }
-     }
-     /* Add the name */
--    node = v9fs_add_dir_node(parent, mode, name, NULL, synth_node_count++);
-+    node = v9fs_add_dir_node(parent, mode, name, NULL, ++synth_node_count);
-     v9fs_add_dir_node(node, parent->attr->mode, "..",
-                       parent->attr, parent->attr->inode);
-     v9fs_add_dir_node(node, node->attr->mode, ".",
-@@ -130,7 +130,7 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
-     mode = ((mode & 0777) | S_IFREG);
-     node = g_malloc0(sizeof(V9fsSynthNode));
-     node->attr         = &node->actual_attr;
--    node->attr->inode  = synth_node_count++;
-+    node->attr->inode  = ++synth_node_count;
-     node->attr->nlink  = 1;
-     node->attr->read   = read;
-     node->attr->write  = write;
+  https://www.qemu.org/docs/master/about/build-platforms.html
+
+where the common rule ends up being "the current major release,
+and the previous major release for 2 years overlap".
+
+The question is what counts as a major release from a Solaris
+POV ? In terms of long life distros, our policy gives about
+4-5 years of supportable life in the best case. I wouldn't
+want to go beyond that ballpark for Solaris.  Can we come up
+with an interpration of our policy to map to Solaris that
+doesn't tie our hands for longer than 4-5 years worst case.
+
+
+IOW, we certainly do NOT need to support arbitrarily old
+Solaris. If madvise has done what we need for 4-5 years,
+then we can likely not need to test for it, and just assume
+its existance. This just requires someone to specify how
+we interpret our build platform policy to exclude older
+Solaris.
+
+Regards,
+Daniel
 -- 
-2.30.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
