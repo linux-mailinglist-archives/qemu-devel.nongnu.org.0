@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CC84D884D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 16:38:48 +0100 (CET)
-Received: from localhost ([::1]:55820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC544D8846
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 16:37:27 +0100 (CET)
+Received: from localhost ([::1]:53600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTmmV-0005rB-7r
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 11:38:47 -0400
+	id 1nTmlC-0004Mx-MK
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 11:37:26 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:59396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nTlyK-0006vk-6t
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:46:56 -0400
-Received: from [2607:f8b0:4864:20::1033] (port=47100
- helo=mail-pj1-x1033.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nTljX-0003OF-0y
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:31:40 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- 15-20020a17090a098f00b001bef0376d5cso14746980pjo.5
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 07:31:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FYL+LkLxs4Z2PgrcW/dEQ3VTA5KvjJzMDgm7bH/Tmtw=;
- b=KP4MjbsOtiDefOi2Byngi/NtD19/dNLcfm32riwHch/+LDRTb5kz9KNFd77VR4hH9X
- sFNX5YqsWnSr3sclSppUIRwEzI4ImJRRYq8pMLyDVXhS58L9NiEWtLl54sdvLC8A+bjw
- 0zZ+ONS9ahI9C5fbCTE7j+1+zP2HoZL8wvVZ+AQ5IJCKNxDYi1ForsHl9WntH66mfg50
- lC1+wbTq7bn3v1VjyXCTFVP8WFjoM3/U/jLNJGIytsiXh8LZbFR1euv3INoMVYoIrspj
- dWgRHywLlZHSbqRFlljMkau8a6ZaYfWPefi1awRGuXFyv604T9jwqqsMZ9rjySXJVwHd
- sw1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FYL+LkLxs4Z2PgrcW/dEQ3VTA5KvjJzMDgm7bH/Tmtw=;
- b=l51yw9CflK3RB4sEo0fkznVL68Ukrm7Z3PIsdgKRQiOpFX8NSfjK0zcb5Xr+Sd1DoO
- hOphpkJmtGffosp4myIkoWu2UA9zX6O6QRZFmhTWc55VoXwaOabwyaeD83PgZyWMm40d
- L6UDoFLa1Y3znw+5G8NPyFZq0ZhV2iqyrTIiyn4X5kvmLhw5F2xZgLxmKjq8K0sDDC9H
- 7U29ZQjI0juyPrQml70yqOf7djmjlOrgtIiFxDE+BOMviuMpEagC7Gt0Lpge+nxt23h6
- b90qe0BGpWPhv3e2nEIQGeXvmD//mcU9Z3r0b/WTXi62foS6xU7az+LTwTIDFA0f6VXk
- u7KA==
-X-Gm-Message-State: AOAM531FpgSK+ZF3YRWwLu/Ol+jRV2OEI1nx2/YiXyzNnT5Sx2kTtvId
- 7fnSzQAD2TkpnLAqLL1fptt+J2LEMAI=
-X-Google-Smtp-Source: ABdhPJxdmNXVsxTPHSCIUlUvN+UE/qNcT6h3k6lZNHMWKBFTFC52ifU4lkcqzpdqKK3zO23EXQchEQ==
-X-Received: by 2002:a17:90a:ccd:b0:1bc:76eb:ea73 with SMTP id
- 13-20020a17090a0ccd00b001bc76ebea73mr36189566pjt.178.1647268297387; 
- Mon, 14 Mar 2022 07:31:37 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- x7-20020a17090a1f8700b001bf1db72189sm18019123pja.23.2022.03.14.07.31.34
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 14 Mar 2022 07:31:37 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gitlab-ci: Allow adding manual jobs on cirrus-ci
-Date: Mon, 14 Mar 2022 15:31:30 +0100
-Message-Id: <20220314143130.28503-1-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nTlyG-0006vk-4r
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:46:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nTlp2-0004Fd-7u
+ for qemu-devel@nongnu.org; Mon, 14 Mar 2022 10:37:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647268638;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qknTPTbkHS67ZgxxOT1slZihXOg/IrdICn+nrjawq8I=;
+ b=TOnYtT3dxpql8VbmDZBfd63qHpDCpLT4jU5TJJuQnSUo6/IZsusm4QTUfBYrxxfJ2ElgYw
+ HEVIbx3CA4xVwF4lHF/CmX0PqIaDqYbGrP7H5PsJXi+/vm0iFbb4OEWKqtEvtaifnmY81R
+ raIG0WDkKgIpslozKoPcGru1vpsp9xo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-368-a_7I3qcuPm6-CQzr-xbE1Q-1; Mon, 14 Mar 2022 10:37:17 -0400
+X-MC-Unique: a_7I3qcuPm6-CQzr-xbE1Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E42363C1EA56;
+ Mon, 14 Mar 2022 14:37:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C48C698CCC;
+ Mon, 14 Mar 2022 14:37:16 +0000 (UTC)
+Date: Mon, 14 Mar 2022 14:37:15 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH experiment 14/16] util: introduce C++ stackless coroutine
+ backend
+Message-ID: <Yi9TG2/f6baWIiiR@stefanha-x1.localdomain>
+References: <20220314093203.1420404-1-pbonzini@redhat.com>
+ <20220314093203.1420404-15-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zNjTROfzkLm1tPsA"
+Content-Disposition: inline
+In-Reply-To: <20220314093203.1420404-15-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,54 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: kwolf@redhat.com, hreitz@redhat.com, berrange@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-By default, all Cirrus-CI jobs are added as 'on_success' (the
-default value). Add a ${MANUAL_JOB} variable (default to 0)
-to be able to add manual jobs.
+--zNjTROfzkLm1tPsA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .gitlab-ci.d/cirrus.yml       | 2 ++
- .gitlab-ci.d/cirrus/build.yml | 1 +
- 2 files changed, 3 insertions(+)
+On Mon, Mar 14, 2022 at 10:32:01AM +0100, Paolo Bonzini wrote:
+> +// ------------------------
+> +
+> +// CoroutineFn does not even need anything more than what
+> +// BaseCoroutine provides, so it's just a type alias.  The magic
+> +// is all in ValuePromise<T>.
+> +//
+> +// Suspended CoroutineFns are chained between themselves.  Whenever a
+> +// coroutine is suspended, all those that have done a co_await are
+> +// also suspended, and whenever a coroutine finishes, it has to
+> +// check if its parent can now be resumed.
+> +//
+> +// The two auxiliary classes Awaiter and ResumeAndFinish take
+> +// care of the two sides of this.  Awaiter's await_suspend() stores
+> +// the parent coroutine into ValuePromise; ResumeAndFinish's runs
+> +// after a coroutine returns, and resumes the parent coroutine.
+> +
+> +template<typename T> struct ValuePromise;
+> +template<typename T>
+> +using CoroutineFn = BaseCoroutine<ValuePromise<T>>;
+> +
+> +typedef CoroutineFn<void> CoroutineFunc(void *);
 
-diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-index b96b22e269..9e640019dd 100644
---- a/.gitlab-ci.d/cirrus.yml
-+++ b/.gitlab-ci.d/cirrus.yml
-@@ -44,6 +44,8 @@
-     # Allow on 'staging' branch and 'stable-X.Y-staging' branches only
-     - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH !~ /staging/'
-       when: never
-+    - if: '$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN && $MANUAL_JOB == "1"'
-+      when: manual
-     - if: "$CIRRUS_GITHUB_REPO && $CIRRUS_API_TOKEN"
- 
- x64-freebsd-12-build:
-diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
-index c555f5d36e..c58dc86855 100644
---- a/.gitlab-ci.d/cirrus/build.yml
-+++ b/.gitlab-ci.d/cirrus/build.yml
-@@ -14,6 +14,7 @@ env:
-   MAKE: "@MAKE@"
-   CONFIGURE_ARGS: "@CONFIGURE_ARGS@"
-   TEST_TARGETS: "@TEST_TARGETS@"
-+  MANUAL_JOB: 0
- 
- build_task:
-   install_script:
--- 
-2.34.1
+CoroutineFunc looks like a coroutine entry point function. If that's
+correct then I suggest naming it CoroutineEntryFunc to avoid confusion
+between CoroutineFn vs CoroutineFunc (their names are too similar).
+
+Also, where is CoroutineFunc used?
+
+> +// The actu promises, respectively for non-void and void types.
+
+s/actu/actual/?
+
+--zNjTROfzkLm1tPsA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIvUxsACgkQnKSrs4Gr
+c8jF7QgAqX5b8uamZ1k+kPo9GUxCsShnsOTE+C+pQWp9twPqHWWTGIgSEg2BROKU
+zOkB+DM8ZNr79cJIqzjubCwhUi9m1lgEYnYti15mNeq5UmvKf/op/Uju7PZM7Eyy
+faP2voGvNlZihU8ob5XvrkWIDyK3wPptI/jYuVL5YS1eh+jQmfARza8rcaHHtXeP
+LwNFKfSc9jnlIpo1a2aApe0ZcexSwLQybLvC0RiZejApNK9uQtiu9haYYpSyvtlk
++0cplH6SiVn2tgiwIUD0JYZWqJMazHyC5AOK7x+ZSlf5N4lDnSzeDzYSurFm34QV
+NZQMgzGenQGEF/BKIO9ChRwt06HfAA==
+=89F3
+-----END PGP SIGNATURE-----
+
+--zNjTROfzkLm1tPsA--
 
 
