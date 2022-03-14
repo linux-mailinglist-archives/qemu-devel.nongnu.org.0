@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D9A4D7DDA
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 09:54:28 +0100 (CET)
-Received: from localhost ([::1]:59740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C754D7E73
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Mar 2022 10:28:12 +0100 (CET)
+Received: from localhost ([::1]:48108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTgTD-0008TZ-6w
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 04:54:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41102)
+	id 1nTgzq-0004Rl-LJ
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 05:28:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1nTgQ6-0007iU-Cx
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 04:51:14 -0400
-Received: from mga01.intel.com ([192.55.52.88]:22862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1nTgQ0-0001dv-4X
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 04:51:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1647247868; x=1678783868;
- h=from:to:cc:subject:date:message-id;
- bh=oH+JQ3Ge5jcgmTDJ/wIkgnttOgJpj/M+MAnPKnHK+gA=;
- b=Gl9QG1/V7UuiJ54NIRB+yUu+RBZAeR2uqzSUEVhga8nNlgaDDcaAqWG2
- GQFLttww1MI3hBD4UhzlRIWkg5uSV7DYppOvpJ22dSZYtZx9CGpp/rbuV
- 7b59F0vNbxgEiqIxaJrZc8TnwJgZO63Pcg0mHDKT8lZra3uSEOngIk5v+
- XNqOteH4auhWWTKcR1QCkF94neWYkzy+CLCnmlkwtmVOd53T0uJXYWjqF
- smoQNHOmbPoMmZrB5KgNIBd5OvRHT+sizna7/2WisVSXODF9qBVgNRf9Z
- OKu/7zzmnV5102U7MiINTAnx4WrSgJ+cNkLOvHQuc17BNy4pls9T2lZU4 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10285"; a="280730035"
-X-IronPort-AV: E=Sophos;i="5.90,180,1643702400"; d="scan'208";a="280730035"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2022 01:51:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,180,1643702400"; d="scan'208";a="782601711"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by fmsmga006.fm.intel.com with ESMTP; 14 Mar 2022 01:51:02 -0700
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: imammedo@redhat.com
-Subject: [PATCH] i386/cpu: Remove the deprecated cpu model 'Icelake-Client'
-Date: Mon, 14 Mar 2022 16:50:59 +0800
-Message-Id: <1647247859-4947-1-git-send-email-robert.hu@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Received-SPF: none client-ip=192.55.52.88;
- envelope-from=robert.hu@linux.intel.com; helo=mga01.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nTgxi-0003If-Rk; Mon, 14 Mar 2022 05:25:59 -0400
+Received: from [2607:f8b0:4864:20::b29] (port=41484
+ helo=mail-yb1-xb29.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nTgxd-0007Gh-8m; Mon, 14 Mar 2022 05:25:54 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id l2so29429307ybe.8;
+ Mon, 14 Mar 2022 02:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YF0JGdnxmsYwxS5Nzngg02RsY4AJGfw0wT8VGU9BJjk=;
+ b=bKNhYKJC60FOhGOKcMc30SJMUtA6TjETf7YMjjZGnbuwpAcs37nv8zjIE6jukr4aUi
+ 1sQBSGRtL7waXfzvCweDgVEPlamsAVJ20UZazFRVf7mW2gWIK3EUbaJ0weigSqBKw3ko
+ b6MQkoqmkjt/aK4vxST7LLq7JBgwCaEhseHlWo1waakGJYXzy7yn9ccTTqBqbzMcTM6N
+ 2r94O9n4p23krebA9RhplfFIpprUEZzacPX497L+gViHacOVQjGhFJ0uNRlPfoU4k2Pi
+ ThTMrk8/46+rx2kPIm8PWG6/q5GUQGEhsWhljepOD8XLVV46NZVeY+Ur9HYAh+ICUkbc
+ RsRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YF0JGdnxmsYwxS5Nzngg02RsY4AJGfw0wT8VGU9BJjk=;
+ b=Lt1RQoEmDs/BjmWhgABmOtlfaiszui6QzXUR/HGDqWs8h4a+FJTDvrGCJGALex7Hc/
+ mmigMZ8B4XxLpvmJt5iR0uUjdaGcHA/u5Fg7KfnuIOuIvbDj1qbf9/2vMmNyN993G7UA
+ x8uvgY7x2HqViqzeQgw1HM0C1M7PNgoHrCWn4RmM3OeZuJ8VIoU9tjzw98tUptCuoIRd
+ 3fNJfovkjgZ2xXnwKABr+CBLERHTr2n0/HsugfDPCHQrCmtuR11wGglOkJ4i6El2RZXO
+ dB/PScOXA8z5fkiEt/Z/Kn5nQAESM62Ca8aQv84/9oCZDOgtRMYf+cJlkSh1q23Gf0Sq
+ On+g==
+X-Gm-Message-State: AOAM533FRzfw41zSURYaZKwreTxOTC5+m417e7EAmymzm/+hNq8/NzMx
+ Du1vhES6guJSPGabvrTjSQEsJSwt9E6sVSc5nIs=
+X-Google-Smtp-Source: ABdhPJwNRhpp0jAndb40/LXgnFc5HM+s+Ali3gEyzYyTQ1TCefbf8/eW0z293Xi1mxk0aVtCrri8tQK8+0cKQ/wHXqU=
+X-Received: by 2002:a25:d2c9:0:b0:62c:1233:a5a5 with SMTP id
+ j192-20020a25d2c9000000b0062c1233a5a5mr16795046ybg.643.1647249951365; Mon, 14
+ Mar 2022 02:25:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220105030844.780642-1-bmeng.cn@gmail.com>
+ <20220105030844.780642-2-bmeng.cn@gmail.com>
+ <CAKmqyKNfdKkCk20ycZyayUuLd-FYvx-s-8zVgKs+qpQzhZXVeg@mail.gmail.com>
+In-Reply-To: <CAKmqyKNfdKkCk20ycZyayUuLd-FYvx-s-8zVgKs+qpQzhZXVeg@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 14 Mar 2022 17:25:39 +0800
+Message-ID: <CAEUhbmXCr=BfEB-pqErAjUE4aHkLfWO-M7aibx67exN_zTSU-A@mail.gmail.com>
+Subject: Re: [RESEND PATCH v3 1/7] target/riscv: Add initial support for
+ native debug
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b29
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,199 +82,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Robert Hoo <robert.hu@linux.intel.com>, robert.hu@intel.com,
- pbonzini@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Icelake, is the codename for Intel 3rd generation Xeon Scalable server
-processors. There isn't ever client variants. This "Icelake-Client" CPU
-model was added wrongly and imaginarily.
+On Wed, Jan 19, 2022 at 11:16 AM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Wed, Jan 5, 2022 at 1:09 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > This adds initial support for the native debug via the Trigger Module,
+> > as defined in the RISC-V Debug Specification [1].
+>
+> Doesn't this mean we are just supporting the Sdtrig extension?
 
-It has been deprecated since v5.2, now it's time to remove it completely
-from code.
+I was looking at where Sdtrig is defined. It turns out this new name
+was assigned in a later debug spec and when this patch series was
+worked on the Sdtrig extention was not invented yet ...
 
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
----
-Note: This patch is a reword, rebase and resend of
-https://lore.kernel.org/qemu-devel/1619660147-136679-1-git-send-email-robert.hu@linux.intel.com/
----
- docs/about/deprecated.rst       |   6 --
- docs/about/removed-features.rst |   6 ++
- target/i386/cpu.c               | 122 --------------------------------
- 3 files changed, 6 insertions(+), 128 deletions(-)
+So the answer is yes, only Sdtrig is supported. Sdext does not make
+sense in the QEMU context as it is for the on-chip-debugging.
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index cf02ef6821..1adc762958 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -289,12 +289,6 @@ from Linux upstream kernel, declare it deprecated.
- System emulator CPUS
- --------------------
- 
--``Icelake-Client`` CPU Model (since 5.2)
--''''''''''''''''''''''''''''''''''''''''
--
--``Icelake-Client`` CPU Models are deprecated. Use ``Icelake-Server`` CPU
--Models instead.
--
- MIPS ``I7200`` CPU Model (since 5.2)
- ''''''''''''''''''''''''''''''''''''
- 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 4b831ea291..3fb5b28518 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -538,6 +538,12 @@ Support for this CPU was removed from the upstream Linux kernel, and
- there is no available upstream toolchain to build binaries for it.
- Removed without replacement.
- 
-+x86 ``Icelake-Client`` CPU (removed in 7.1)
-+'''''''''''''''''''''''''''''''''''''''''''
-+
-+There isn't ever Icelake Client CPU, it is some wrong and imaginary one.
-+Use ``Icelake-Server`` instead.
-+
- System emulator machines
- ------------------------
- 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6c7ef1099b..82f1cecf76 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3238,128 +3238,6 @@ static const X86CPUDefinition builtin_x86_defs[] = {
-             { /* end of list */ }
-         }
-     },
--    {
--        .name = "Icelake-Client",
--        .level = 0xd,
--        .vendor = CPUID_VENDOR_INTEL,
--        .family = 6,
--        .model = 126,
--        .stepping = 0,
--        .features[FEAT_1_EDX] =
--            CPUID_VME | CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX |
--            CPUID_CLFLUSH | CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID_MCA |
--            CPUID_PGE | CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 |
--            CPUID_MCE | CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE |
--            CPUID_DE | CPUID_FP87,
--        .features[FEAT_1_ECX] =
--            CPUID_EXT_AVX | CPUID_EXT_XSAVE | CPUID_EXT_AES |
--            CPUID_EXT_POPCNT | CPUID_EXT_X2APIC | CPUID_EXT_SSE42 |
--            CPUID_EXT_SSE41 | CPUID_EXT_CX16 | CPUID_EXT_SSSE3 |
--            CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
--            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_FMA | CPUID_EXT_MOVBE |
--            CPUID_EXT_PCID | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
--        .features[FEAT_8000_0001_EDX] =
--            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_NX |
--            CPUID_EXT2_SYSCALL,
--        .features[FEAT_8000_0001_ECX] =
--            CPUID_EXT3_ABM | CPUID_EXT3_LAHF_LM | CPUID_EXT3_3DNOWPREFETCH,
--        .features[FEAT_8000_0008_EBX] =
--            CPUID_8000_0008_EBX_WBNOINVD,
--        .features[FEAT_7_0_EBX] =
--            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
--            CPUID_7_0_EBX_HLE | CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP |
--            CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVPCID |
--            CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX |
--            CPUID_7_0_EBX_SMAP,
--        .features[FEAT_7_0_ECX] =
--            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
--            CPUID_7_0_ECX_AVX512_VBMI2 | CPUID_7_0_ECX_GFNI |
--            CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
--            CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
--            CPUID_7_0_ECX_AVX512_VPOPCNTDQ,
--        .features[FEAT_7_0_EDX] =
--            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
--        /* XSAVES is added in version 3 */
--        .features[FEAT_XSAVE] =
--            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
--            CPUID_XSAVE_XGETBV1,
--        .features[FEAT_6_EAX] =
--            CPUID_6_EAX_ARAT,
--        /* Missing: Mode-based execute control (XS/XU), processor tracing, TSC scaling */
--        .features[FEAT_VMX_BASIC] = MSR_VMX_BASIC_INS_OUTS |
--             MSR_VMX_BASIC_TRUE_CTLS,
--        .features[FEAT_VMX_ENTRY_CTLS] = VMX_VM_ENTRY_IA32E_MODE |
--             VMX_VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL | VMX_VM_ENTRY_LOAD_IA32_PAT |
--             VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS | VMX_VM_ENTRY_LOAD_IA32_EFER,
--        .features[FEAT_VMX_EPT_VPID_CAPS] = MSR_VMX_EPT_EXECONLY |
--             MSR_VMX_EPT_PAGE_WALK_LENGTH_4 | MSR_VMX_EPT_WB | MSR_VMX_EPT_2MB |
--             MSR_VMX_EPT_1GB | MSR_VMX_EPT_INVEPT |
--             MSR_VMX_EPT_INVEPT_SINGLE_CONTEXT | MSR_VMX_EPT_INVEPT_ALL_CONTEXT |
--             MSR_VMX_EPT_INVVPID | MSR_VMX_EPT_INVVPID_SINGLE_ADDR |
--             MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT | MSR_VMX_EPT_INVVPID_ALL_CONTEXT |
--             MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT_NOGLOBALS | MSR_VMX_EPT_AD_BITS,
--        .features[FEAT_VMX_EXIT_CTLS] =
--             VMX_VM_EXIT_ACK_INTR_ON_EXIT | VMX_VM_EXIT_SAVE_DEBUG_CONTROLS |
--             VMX_VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |
--             VMX_VM_EXIT_LOAD_IA32_PAT | VMX_VM_EXIT_LOAD_IA32_EFER |
--             VMX_VM_EXIT_SAVE_IA32_PAT | VMX_VM_EXIT_SAVE_IA32_EFER |
--             VMX_VM_EXIT_SAVE_VMX_PREEMPTION_TIMER,
--        .features[FEAT_VMX_MISC] = MSR_VMX_MISC_ACTIVITY_HLT |
--             MSR_VMX_MISC_STORE_LMA | MSR_VMX_MISC_VMWRITE_VMEXIT,
--        .features[FEAT_VMX_PINBASED_CTLS] = VMX_PIN_BASED_EXT_INTR_MASK |
--             VMX_PIN_BASED_NMI_EXITING | VMX_PIN_BASED_VIRTUAL_NMIS |
--             VMX_PIN_BASED_VMX_PREEMPTION_TIMER,
--        .features[FEAT_VMX_PROCBASED_CTLS] = VMX_CPU_BASED_VIRTUAL_INTR_PENDING |
--             VMX_CPU_BASED_USE_TSC_OFFSETING | VMX_CPU_BASED_HLT_EXITING |
--             VMX_CPU_BASED_INVLPG_EXITING | VMX_CPU_BASED_MWAIT_EXITING |
--             VMX_CPU_BASED_RDPMC_EXITING | VMX_CPU_BASED_RDTSC_EXITING |
--             VMX_CPU_BASED_CR8_LOAD_EXITING | VMX_CPU_BASED_CR8_STORE_EXITING |
--             VMX_CPU_BASED_TPR_SHADOW | VMX_CPU_BASED_MOV_DR_EXITING |
--             VMX_CPU_BASED_UNCOND_IO_EXITING | VMX_CPU_BASED_USE_IO_BITMAPS |
--             VMX_CPU_BASED_MONITOR_EXITING | VMX_CPU_BASED_PAUSE_EXITING |
--             VMX_CPU_BASED_VIRTUAL_NMI_PENDING | VMX_CPU_BASED_USE_MSR_BITMAPS |
--             VMX_CPU_BASED_CR3_LOAD_EXITING | VMX_CPU_BASED_CR3_STORE_EXITING |
--             VMX_CPU_BASED_MONITOR_TRAP_FLAG |
--             VMX_CPU_BASED_ACTIVATE_SECONDARY_CONTROLS,
--        .features[FEAT_VMX_SECONDARY_CTLS] =
--             VMX_SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES |
--             VMX_SECONDARY_EXEC_WBINVD_EXITING | VMX_SECONDARY_EXEC_ENABLE_EPT |
--             VMX_SECONDARY_EXEC_DESC | VMX_SECONDARY_EXEC_RDTSCP |
--             VMX_SECONDARY_EXEC_ENABLE_VPID | VMX_SECONDARY_EXEC_UNRESTRICTED_GUEST |
--             VMX_SECONDARY_EXEC_RDRAND_EXITING | VMX_SECONDARY_EXEC_ENABLE_INVPCID |
--             VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS |
--             VMX_SECONDARY_EXEC_RDSEED_EXITING | VMX_SECONDARY_EXEC_ENABLE_PML,
--        .features[FEAT_VMX_VMFUNC] = MSR_VMX_VMFUNC_EPT_SWITCHING,
--        .xlevel = 0x80000008,
--        .model_id = "Intel Core Processor (Icelake)",
--        .versions = (X86CPUVersionDefinition[]) {
--            {
--                .version = 1,
--                .note = "deprecated"
--            },
--            {
--                .version = 2,
--                .note = "no TSX, deprecated",
--                .alias = "Icelake-Client-noTSX",
--                .props = (PropValue[]) {
--                    { "hle", "off" },
--                    { "rtm", "off" },
--                    { /* end of list */ }
--                },
--            },
--            {
--                .version = 3,
--                .note = "no TSX, XSAVES, deprecated",
--                .props = (PropValue[]) {
--                    { "xsaves", "on" },
--                    { "vmx-xsaves", "on" },
--                    { /* end of list */ }
--                },
--            },
--            { /* end of list */ }
--        },
--        .deprecation_note = "use Icelake-Server instead"
--    },
-     {
-         .name = "Icelake-Server",
-         .level = 0xd,
+>
+> >
+> > Only "Address / Data Match" trigger (type 2) is implemented as of now,
+> > which is mainly used for hardware breakpoint and watchpoint. The number
+> > of type 2 triggers implemented is 2, which is the number that we can
+> > find in the SiFive U54/U74 cores.
+> >
+> > [1] https://github.com/riscv/riscv-debug-spec/raw/master/riscv-debug-stable.pdf
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> > Changes in v3:
+> > - drop riscv_trigger_init(), which will be moved to patch #5
+> >
+> >  target/riscv/cpu.h       |   5 +
+> >  target/riscv/debug.h     | 108 +++++++++++++
+> >  target/riscv/debug.c     | 339 +++++++++++++++++++++++++++++++++++++++
+> >  target/riscv/meson.build |   1 +
+> >  4 files changed, 453 insertions(+)
+> >  create mode 100644 target/riscv/debug.h
+> >  create mode 100644 target/riscv/debug.c
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index dc10f27093..0f3b3a4219 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -98,6 +98,7 @@ typedef struct CPURISCVState CPURISCVState;
+> >
+> >  #if !defined(CONFIG_USER_ONLY)
+> >  #include "pmp.h"
+> > +#include "debug.h"
+> >  #endif
+> >
+> >  #define RV_VLEN_MAX 1024
+> > @@ -234,6 +235,10 @@ struct CPURISCVState {
+> >      pmp_table_t pmp_state;
+> >      target_ulong mseccfg;
+> >
+> > +    /* trigger module */
+> > +    target_ulong trigger_cur;
+> > +    trigger_type2_t trigger_type2[TRIGGER_TYPE2_NUM];
+> > +
+> >      /* machine specific rdtime callback */
+> >      uint64_t (*rdtime_fn)(uint32_t);
+> >      uint32_t rdtime_fn_arg;
+> > diff --git a/target/riscv/debug.h b/target/riscv/debug.h
+> > new file mode 100644
+> > index 0000000000..0a3fda6c72
+> > --- /dev/null
+> > +++ b/target/riscv/debug.h
+> > @@ -0,0 +1,108 @@
+> > +/*
+> > + * QEMU RISC-V Native Debug Support
+> > + *
+> > + * Copyright (c) 2022 Wind River Systems, Inc.
+> > + *
+> > + * Author:
+> > + *   Bin Meng <bin.meng@windriver.com>
+> > + *
+> > + * This program is free software; you can redistribute it and/or modify it
+> > + * under the terms and conditions of the GNU General Public License,
+> > + * version 2 or later, as published by the Free Software Foundation.
+> > + *
+> > + * This program is distributed in the hope it will be useful, but WITHOUT
+> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> > + * more details.
+> > + *
+> > + * You should have received a copy of the GNU General Public License along with
+> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> > + */
+> > +
+> > +#ifndef RISCV_DEBUG_H
+> > +#define RISCV_DEBUG_H
+> > +
+> > +/* trigger indexes implemented */
+> > +enum {
+> > +    TRIGGER_TYPE2_IDX_0 = 0,
+> > +    TRIGGER_TYPE2_IDX_1,
+> > +    TRIGGER_TYPE2_NUM,
+> > +    TRIGGER_NUM = TRIGGER_TYPE2_NUM
+> > +};
+> > +
+> > +/* register index of tdata CSRs */
+> > +enum {
+> > +    TDATA1 = 0,
+> > +    TDATA2,
+> > +    TDATA3,
+> > +    TDATA_NUM
+> > +};
+> > +
+> > +typedef enum {
+> > +    TRIGGER_TYPE_NO_EXIST = 0,      /* trigger does not exist */
+> > +    TRIGGER_TYPE_AD_MATCH = 2,      /* address/data match trigger */
+> > +    TRIGGER_TYPE_INST_CNT = 3,      /* instruction count trigger */
+> > +    TRIGGER_TYPE_INT = 4,           /* interrupt trigger */
+> > +    TRIGGER_TYPE_EXCP = 5,          /* exception trigger */
+> > +    TRIGGER_TYPE_AD_MATCH6 = 6,     /* new address/data match trigger */
+> > +    TRIGGER_TYPE_EXT_SRC = 7,       /* external source trigger */
+> > +    TRIGGER_TYPE_UNAVAIL = 15       /* trigger exists, but unavailable */
+> > +} trigger_type_t;
+> > +
+> > +typedef struct {
+> > +    target_ulong mcontrol;
+> > +    target_ulong maddress;
+> > +    struct CPUBreakpoint *bp;
+> > +    struct CPUWatchpoint *wp;
+> > +} trigger_type2_t;
+>
+> This is a confusing name
+>
 
-base-commit: 1416688c53be6535be755b44c15fb2eb9defd20f
--- 
-2.31.1
+I will change it to type2_tigger,
 
+Regards,
+Bin
 
