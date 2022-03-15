@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16AC4D9E02
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 15:44:43 +0100 (CET)
-Received: from localhost ([::1]:35292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C30934D9E14
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 15:50:40 +0100 (CET)
+Received: from localhost ([::1]:45818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU8Pi-0001XU-Qa
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 10:44:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57132)
+	id 1nU8VT-0000Ya-SN
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 10:50:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nU8MO-0007bH-72
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 10:41:16 -0400
-Received: from [2607:f8b0:4864:20::b33] (port=37768
- helo=mail-yb1-xb33.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nU8MM-0001Dc-Jd
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 10:41:15 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id m67so4319111ybm.4
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 07:41:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9NfrRLd27h4YLK6YPh+oWIyzCQb1i6CCNG8PhawKCB8=;
- b=rxTzrmsgfuK+p1ZRMVtLTK8YnqBO1YTtOEO5OFecauGGeb6Iop7B2Xy58vkYwTDXwo
- 4/Np9iUpBL9yga6EqWKkFAB1vfresrRUNbSZ7mOCbyRU3Tr5WYARY1RITbACXFQ1OYTh
- mns1LfIf2SbHGs53jT9OFnxDZOfUaMcl8b3Fb3DnPDD0A18aBx1hIwHnBUCLsEnWjtFX
- vnzpQPN8vot1I6q0xNWBLNVEloSmJzeJrMBn4jCqxYot7IajbRUNJdR108hE/cO8r6ol
- XkR+igT6wa4x95GyZPsWmkmyfcqgV7pJEEHEHyYI+etRdfnHIEZZdW7ILT/CFN4qMdjY
- 5R/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9NfrRLd27h4YLK6YPh+oWIyzCQb1i6CCNG8PhawKCB8=;
- b=KOtAceJi7qOMg1c9MLpb+fhNDY8DLJgKWQaewJN0qz4wjhWMPejVamII/xem7UwJ49
- /aLa+F108z60jLF/OBG577X/xwiWV8l8zbWh7tRkSqeA6Oj2gRRd9xgXmkP46L68nXKJ
- fnhtQiHwt3yBX0VlaxsiwEKqMAeU9R5BctLbyBJ//CI2dAG++KvgLPnCbXjg1seD8/un
- iJ06aJj+Ryk1WmcNeYAFLGsOAFxA6dUkur20sDhNDmaEJ24KZti1VdsXF/DQtrmZ3IRD
- xOkxH8qXmEF51COKnWsk5RwVAZNEcm3nxS5pkARYg7H2i/j596XTS2HZPzHRhJt4TibO
- +dVw==
-X-Gm-Message-State: AOAM530wlW31TOHG261PSWfd+npPqlChDIcDlKtmJf2wrBkmT35s8avZ
- R2UMdF3pHsplAmVqCy0Uqpyy+vruOKzJ9dAPHMIZnQ==
-X-Google-Smtp-Source: ABdhPJwmzO0SKd5e720TG9CEg0wUAV1xRdlm6wY//7VJX0284/HSbolhzUv57R8vsRSRcHAnVgOS4IcFgsmEcCOTi4U=
-X-Received: by 2002:a05:6902:510:b0:630:b29f:ce2e with SMTP id
- x16-20020a056902051000b00630b29fce2emr18142668ybs.67.1647355273017; Tue, 15
- Mar 2022 07:41:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nU8MT-0007g1-8D
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 10:41:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nU8MQ-0001FM-0n
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 10:41:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647355277;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GpLAuFA5vT75sGSG5OQ8FPkF5tQT2epJyXCoizc7WTE=;
+ b=fV5jRXxx8VxZ0KIawocFmUMegjTA0uPjTaTqb/1GJDvHcGjBjhG2UYa9l5Gn++8Nko7eJi
+ i6IIAuA/Ee2+6635Fy57uwTjS1gqzG5LNpREkZVopc1Ul4cIsjFlKY+ombHvVzrFBljxA6
+ 8eTmGm+9kSWZbgMDTk0YSaFefyTBx6k=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-557-pxtGn3DQPo-c7JCbB1OG1A-1; Tue, 15 Mar 2022 10:41:12 -0400
+X-MC-Unique: pxtGn3DQPo-c7JCbB1OG1A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3C983C16503;
+ Tue, 15 Mar 2022 14:41:11 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 87B3EC202C9;
+ Tue, 15 Mar 2022 14:41:10 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Don't include sysemu/tcg.h if it is not necessary
+Date: Tue, 15 Mar 2022 15:41:07 +0100
+Message-Id: <20220315144107.1012530-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20220315083656.1949517-1-kraxel@redhat.com>
-In-Reply-To: <20220315083656.1949517-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 14:41:01 +0000
-Message-ID: <CAFEAcA_JjE355gveoLx1AYNZbgOww2cWSKRGBDLVGLhC5aBCCQ@mail.gmail.com>
-Subject: Re: [PULL 00/11] Edk2 20220315 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b33
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,38 +75,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 08:43, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 352998df1c53b366413690d95b35f76d0721ebed:
->
->   Merge tag 'i2c-20220314' of https://github.com/philmd/qemu into staging (2022-03-14 14:39:33 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/edk2-20220315-pull-request
->
-> for you to fetch changes up to 9b437cd0f95398198852f25d7847a605370f984d:
->
->   MAINTAINERS: take edk2 (2022-03-15 09:32:22 +0100)
->
-> ----------------------------------------------------------------
-> edk2: update to stable202202
->
+This header only defines the tcg_allowed variable and the tcg_enabled()
+function - which are not required in many files that include this
+header. Drop the #include statement there.
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ accel/tcg/hmp.c                  | 1 -
+ accel/tcg/tcg-accel-ops-icount.c | 1 -
+ bsd-user/main.c                  | 1 -
+ hw/virtio/vhost.c                | 1 -
+ linux-user/main.c                | 1 -
+ monitor/misc.c                   | 1 -
+ target/arm/helper.c              | 1 -
+ target/s390x/cpu_models_sysemu.c | 1 -
+ target/s390x/helper.c            | 1 -
+ 9 files changed, 9 deletions(-)
 
-Applied, thanks.
+diff --git a/accel/tcg/hmp.c b/accel/tcg/hmp.c
+index d2ea352655..bb67941420 100644
+--- a/accel/tcg/hmp.c
++++ b/accel/tcg/hmp.c
+@@ -4,7 +4,6 @@
+ #include "qapi/qapi-commands-machine.h"
+ #include "exec/exec-all.h"
+ #include "monitor/monitor.h"
+-#include "sysemu/tcg.h"
+ 
+ static void hmp_tcg_register(void)
+ {
+diff --git a/accel/tcg/tcg-accel-ops-icount.c b/accel/tcg/tcg-accel-ops-icount.c
+index bdaf2c943b..8827e1d2cc 100644
+--- a/accel/tcg/tcg-accel-ops-icount.c
++++ b/accel/tcg/tcg-accel-ops-icount.c
+@@ -25,7 +25,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+-#include "sysemu/tcg.h"
+ #include "sysemu/replay.h"
+ #include "sysemu/cpu-timers.h"
+ #include "qemu/main-loop.h"
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 88d347d05e..e274dd92d7 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -27,7 +27,6 @@
+ #include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qemu/accel.h"
+-#include "sysemu/tcg.h"
+ #include "qemu-version.h"
+ #include <machine/trap.h>
+ 
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index b643f42ea4..c9bf01a424 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -26,7 +26,6 @@
+ #include "migration/blocker.h"
+ #include "migration/qemu-file-types.h"
+ #include "sysemu/dma.h"
+-#include "sysemu/tcg.h"
+ #include "trace.h"
+ 
+ /* enabled until disconnected backend stabilizes */
+diff --git a/linux-user/main.c b/linux-user/main.c
+index fbc9bcfd5f..f1711b82ec 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -21,7 +21,6 @@
+ #include "qemu-common.h"
+ #include "qemu/units.h"
+ #include "qemu/accel.h"
+-#include "sysemu/tcg.h"
+ #include "qemu-version.h"
+ #include <sys/syscall.h>
+ #include <sys/resource.h>
+diff --git a/monitor/misc.c b/monitor/misc.c
+index b1839cb8ee..b5ca141e1d 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -48,7 +48,6 @@
+ #include "qapi/util.h"
+ #include "sysemu/blockdev.h"
+ #include "sysemu/sysemu.h"
+-#include "sysemu/tcg.h"
+ #include "sysemu/tpm.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qerror.h"
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 088956eecf..94221a3e8d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -27,7 +27,6 @@
+ #include "sysemu/cpus.h"
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/kvm.h"
+-#include "sysemu/tcg.h"
+ #include "qemu/range.h"
+ #include "qapi/qapi-commands-machine-target.h"
+ #include "qapi/error.h"
+diff --git a/target/s390x/cpu_models_sysemu.c b/target/s390x/cpu_models_sysemu.c
+index 05c3ccaaff..d8a141a023 100644
+--- a/target/s390x/cpu_models_sysemu.c
++++ b/target/s390x/cpu_models_sysemu.c
+@@ -15,7 +15,6 @@
+ #include "s390x-internal.h"
+ #include "kvm/kvm_s390x.h"
+ #include "sysemu/kvm.h"
+-#include "sysemu/tcg.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+ #include "qapi/qmp/qerror.h"
+diff --git a/target/s390x/helper.c b/target/s390x/helper.c
+index 6e35473c7f..473c8e51b0 100644
+--- a/target/s390x/helper.c
++++ b/target/s390x/helper.c
+@@ -27,7 +27,6 @@
+ #include "hw/s390x/pv.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/runstate.h"
+-#include "sysemu/tcg.h"
+ 
+ void s390x_tod_timer(void *opaque)
+ {
+-- 
+2.27.0
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
-
--- PMM
 
