@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD184D9A46
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:22:27 +0100 (CET)
-Received: from localhost ([::1]:59712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 947D24D9A10
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:11:37 +0100 (CET)
+Received: from localhost ([::1]:59144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU5Fy-0002Mb-52
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:22:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36476)
+	id 1nU55U-0007cj-NM
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:11:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU52d-0004hx-8q
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:08:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40251)
+ id 1nU52g-0004lm-Si
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:08:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU52b-0005lK-KI
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:08:39 -0400
+ id 1nU52f-0005lu-GG
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:08:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647342516;
+ s=mimecast20190719; t=1647342520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QR1CwZ64IIIxQL/lJwTdtyD/ZBJy8+qjCBYnTNCFmZo=;
- b=RPWu1pR27NiB0ZJLgRfFZ3UmG6CLZuXKqnAAFySfjbqbJdj5iIHiEXA6aX0qtkOmSew6JK
- 6bGdDeHftK3YfgnzzkODMkbWfSVMLzQvTAPGp9/nmOLGPzKOu0HiQzJhoHGYYi7No3CKE8
- aIHxXsFktctQ+S3asATW7iTisuOfWxc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ow2T12UgMkr9jPaFKMWSsZHcAQuUHyxTS6a7PG+DSSE=;
+ b=aHrJz7fLtjanxdd0tUM7UcOE0LWEQdryr+KJp5EUtzsH86s3aZQB8vB82xXsg5QK/uzi/1
+ 7Im1uDZWNPvT3EW4qOVrBNwtoP81nB3agONyq+Z+XXoAe0eni416EdNxWQ3JrXBUPPk9cg
+ oF9+r/ysHnxsgz20GAD9i+1BOBECsLQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207-kYslmTR-ND-uMGEegS5wEw-1; Tue, 15 Mar 2022 07:08:33 -0400
-X-MC-Unique: kYslmTR-ND-uMGEegS5wEw-1
+ us-mta-333-qtFJtKYAMPCrPsy0ASBfmw-1; Tue, 15 Mar 2022 07:08:37 -0400
+X-MC-Unique: qtFJtKYAMPCrPsy0ASBfmw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC8EB1C01E82;
- Tue, 15 Mar 2022 11:08:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 77AEF811E76;
+ Tue, 15 Mar 2022 11:08:37 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 24C024B8D42;
- Tue, 15 Mar 2022 11:08:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 546D94B8D42;
+ Tue, 15 Mar 2022 11:08:36 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 05/12] ui/console: move console compatibility check to
- dcl_display_console()
-Date: Tue, 15 Mar 2022 15:07:32 +0400
-Message-Id: <20220315110739.2095676-6-marcandre.lureau@redhat.com>
+Subject: [PULL v2 06/12] ui/shader: fix potential leak of shader on error
+Date: Tue, 15 Mar 2022 15:07:33 +0400
+Message-Id: <20220315110739.2095676-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 References: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -89,92 +88,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The current checks are done at registration time only. However, if a DCL
-has no specific console specified, it may be switched dynamically with
-console_select() later on.
-
-Let's move the checks when displaychangelistener_display_console() is
-called, which includes registration time and remains fatal if the
-specified console is incompatible.
-
-Note: we may want to display the compatibility error to the DCL, this is
-left for a future improvement.
+Value of 0 for program and shaders are silently ignored and indicate error.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/console.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ ui/shader.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/ui/console.c b/ui/console.c
-index c9318552871b..d3ecbb215736 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -148,6 +148,8 @@ static DisplayState *get_alloc_displaystate(void);
- static void text_console_update_cursor_timer(void);
- static void text_console_update_cursor(void *opaque);
- static bool displaychangelistener_has_dmabuf(DisplayChangeListener *dcl);
-+static bool console_compatible_with(QemuConsole *con,
-+                                    DisplayChangeListener *dcl, Error **errp);
- 
- static void gui_update(void *opaque)
+diff --git a/ui/shader.c b/ui/shader.c
+index e8b8d321b7c7..4c80fc831f68 100644
+--- a/ui/shader.c
++++ b/ui/shader.c
+@@ -130,15 +130,17 @@ static GLuint qemu_gl_create_link_program(GLuint vert, GLuint frag)
+ static GLuint qemu_gl_create_compile_link_program(const GLchar *vert_src,
+                                                   const GLchar *frag_src)
  {
-@@ -1057,13 +1059,14 @@ static void console_putchar(QemuConsole *s, int ch)
- }
+-    GLuint vert_shader, frag_shader, program;
++    GLuint vert_shader, frag_shader, program = 0;
  
- static void displaychangelistener_display_console(DisplayChangeListener *dcl,
--                                                  QemuConsole *con)
-+                                                  QemuConsole *con,
-+                                                  Error **errp)
- {
-     static const char nodev[] =
-         "This VM has no graphic display device.";
-     static DisplaySurface *dummy;
- 
--    if (!con) {
-+    if (!con || !console_compatible_with(con, dcl, errp)) {
-         if (!dcl->ops->dpy_gfx_switch) {
-             return;
-         }
-@@ -1114,7 +1117,7 @@ void console_select(unsigned int index)
-                 if (dcl->con != NULL) {
-                     continue;
-                 }
--                displaychangelistener_display_console(dcl, s);
-+                displaychangelistener_display_console(dcl, s, NULL);
-             }
-         }
-         if (ds->have_text) {
-@@ -1475,8 +1478,8 @@ static bool displaychangelistener_has_dmabuf(DisplayChangeListener *dcl)
-     return false;
- }
- 
--static bool dpy_compatible_with(QemuConsole *con,
--                                DisplayChangeListener *dcl, Error **errp)
-+static bool console_compatible_with(QemuConsole *con,
-+                                    DisplayChangeListener *dcl, Error **errp)
- {
-     int flags;
- 
-@@ -1522,10 +1525,6 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
- 
-     assert(!dcl->ds);
- 
--    if (dcl->con) {
--        dpy_compatible_with(dcl->con, dcl, &error_fatal);
--    }
--
-     trace_displaychangelistener_register(dcl, dcl->ops->dpy_name);
-     dcl->ds = get_alloc_displaystate();
-     QLIST_INSERT_HEAD(&dcl->ds->listeners, dcl, next);
-@@ -1536,7 +1535,7 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
-     } else {
-         con = active_console;
+     vert_shader = qemu_gl_create_compile_shader(GL_VERTEX_SHADER, vert_src);
+     frag_shader = qemu_gl_create_compile_shader(GL_FRAGMENT_SHADER, frag_src);
+     if (!vert_shader || !frag_shader) {
+-        return 0;
++        goto end;
      }
--    displaychangelistener_display_console(dcl, con);
-+    displaychangelistener_display_console(dcl, con, dcl->con ? &error_fatal : NULL);
-     text_console_update_cursor(NULL);
- }
+ 
+     program = qemu_gl_create_link_program(vert_shader, frag_shader);
++
++end:
+     glDeleteShader(vert_shader);
+     glDeleteShader(frag_shader);
  
 -- 
 2.35.1.273.ge6ebfd0e8cbb
