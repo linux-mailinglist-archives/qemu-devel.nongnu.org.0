@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1E64D9B26
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:27:38 +0100 (CET)
-Received: from localhost ([::1]:47810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B5C4D9B09
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:23:13 +0100 (CET)
+Received: from localhost ([::1]:41370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6H3-0003JP-Mi
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:27:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51740)
+	id 1nU6Cm-0007Ii-AC
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:23:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nU62w-0005uU-BI
+ id 1nU62w-0005uV-CY
  for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:13:02 -0400
-Received: from [2a00:1450:4864:20::636] (port=40763
- helo=mail-ej1-x636.google.com)
+Received: from [2a00:1450:4864:20::52f] (port=44667
+ helo=mail-ed1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nU62s-0000Zv-RY
+ id 1nU62u-0000aG-Fm
  for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:13:01 -0400
-Received: by mail-ej1-x636.google.com with SMTP id p15so40810699ejc.7
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:12:58 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id w25so279186edi.11
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:13:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tD8IAl7BOvpXp/PNf1EXMNzGWS3hw5xVYsSN61BgM9Q=;
- b=pIHVvepbo9AO2g7mVnHATsEq7YiKS9C4WSt/c6rFHBzezu5dvP1KyF56JQPIumxMHL
- fV1G44YYdYQ19rZrOgX43fyyw5x5t7u18iz3Z/J0Cu2BiGtTqhZut5ZQvEANsXf/Nzfy
- 8BBDNxlFkuXDIDLYSzTdFBVe7rkTYQpHQecrF1k6Y7K326LXU9mrJLv2JTjUXofYjweb
- WWQfKr6Dm7QUwPS9lbHDS8EmwJ4+CukUJnoyVKk87Ukmmtx1Nr5t9sy2fUUBCQJvmEa1
- 23jgLrVRa4DhzhBrOSuHO8nR3nhbt1XCgR3UctIjaX5mLLpJXbJqu16LFs53s5FS9s3/
- PDug==
+ bh=Q6ICQahoGgWROzFtEM9kF20mPI+V4fHTOd7Dw8tvNbA=;
+ b=ugVDMp6K8jWbis4g8nzq5ICH15M/aV28SCIyMZ7vfJM9zyoe7b9I236z1lydZ3TFxz
+ u/ibTh/a6zCg+UReZsZPeTvg6EKLJsE9niamt56Yj5Q3NcM4yMTBPn7sMY1J0pUb5lN7
+ yUGP8JTxooe6YHDuzDnVTSq73Q2H9oWfRaKnHC9Jj1Z1P/CIsoA91W4oMyw5RFYZlXIN
+ fV+URM02cUPyLOXAtA/xZWADXL51jtt1i6IH/1sKpTMRlSC3Q/IERrgTGBEoxUTQAHel
+ lcIALZXkM/H4cyxzP1usuCsw+TBhFPTrn+HdU7iLo/hwOdm0ZnypEb/GfognxTJ/PKkF
+ ymAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tD8IAl7BOvpXp/PNf1EXMNzGWS3hw5xVYsSN61BgM9Q=;
- b=IwsLrEytuCETsmGl5tejj9KUtiA3gKr/gcZUPvSVubFVIkR0Rs6nt24teWfHOkjKJE
- IH8Ux8KDziy964c/QzkBAZGlsV51E3zIsZ/u1h+MgRq0/0wRkQ65zEm87ZMGrE1lSMxd
- cZ07+LYplhlAv9r+kLsQRaPtYU9jWJWZXC7Nvrhvt8CvzJoTa4/Z1aAalO1sxYxDj5R1
- 0u8VjC5HELuDbzAsfb5AEWpbRkjgtU8OOtGq+guPzsingPJ6OSrbRpykyzaty61ff7I8
- onWahHbK7Fgo63eY+A5YFlKvRMFnG1zq59NcTbAcgD6Nh1dDFD1+SL1MPHXzzyFiR3hn
- +Fww==
-X-Gm-Message-State: AOAM530XpLGfX2pWcMWX5c8mYeqpg12l5jhkbrd0/AuQJoURYzQlarx0
- +MPDqWgLIHdEzCV01XNoqUsx4A==
-X-Google-Smtp-Source: ABdhPJyZvAVwKjZZ9xBoeh6eK7QXEWGf/4XvXEKD0iVKqGZGs1Z5h8xskTnrLxSkB9lwR76YZwdsgw==
-X-Received: by 2002:a17:907:d90:b0:6db:a372:e61c with SMTP id
- go16-20020a1709070d9000b006dba372e61cmr16591336ejc.276.1647346377355; 
- Tue, 15 Mar 2022 05:12:57 -0700 (PDT)
+ bh=Q6ICQahoGgWROzFtEM9kF20mPI+V4fHTOd7Dw8tvNbA=;
+ b=2skIdN0CHET5mh2YZpTydAslbg6bw8w233vxYDf6jXKxd7CSEqRhKWxOdZbxADu7+K
+ gZxhUgWBt0DVjiNX47YBQswLLOd1G7P6ee1oPTr6jTtTzV/A+Q9xr8xPADN1vtyOq7c3
+ ZH3Y2fM2rWuIv0bBSebfSJ6f3bzq2BRcwRBOTJxCtkfLYPc8HYA+Dz8iI58u42e7B9RD
+ NDb79l9FGmtW9UV3rGBpXh6FbfLXnUVfjMl7Lhs3GCTsUn/6nT+CwFGMe2mqQhSw5qYr
+ wK0HvPgG5Uqwcweaj/BQRmkIbracLUKI2nS4Izv5KUn0M3W/hJBcj8k5I+Sq4fLDe451
+ 4DHg==
+X-Gm-Message-State: AOAM531zHTl8xFxfK+39kVCuTP+wJ6Bx3wWZ4PNvmZh8BgvNbVbDKr6G
+ Jhm5IzdkKHXqLUbOqVTnyVg8WQ==
+X-Google-Smtp-Source: ABdhPJx5XxiK9tf0xUrhBcB+/JqOTTi5z/F5HZJLnVQdZamwxg0vBRLX+wdHlO5ARYSdkrFHWW4xZg==
+X-Received: by 2002:a50:bf0f:0:b0:410:c512:cb6f with SMTP id
+ f15-20020a50bf0f000000b00410c512cb6fmr25540996edk.262.1647346379243; 
+ Tue, 15 Mar 2022 05:12:59 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- n15-20020a05640206cf00b0041655b577f1sm9718271edy.25.2022.03.15.05.12.52
+ gv9-20020a170906f10900b006d7128b2e6fsm8061677ejb.162.2022.03.15.05.12.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 05:12:52 -0700 (PDT)
+ Tue, 15 Mar 2022 05:12:58 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3E0B81FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 4A01D1FFBC;
  Tue, 15 Mar 2022 12:12:52 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/8] target/i386: force maximum rounding precision for
- fildl[l]
-Date: Tue, 15 Mar 2022 12:12:46 +0000
-Message-Id: <20220315121251.2280317-4-alex.bennee@linaro.org>
+Subject: [PATCH v1 4/8] tests/tcg: drop -cpu max from s390x sha512-mvx
+ invocation
+Date: Tue, 15 Mar 2022 12:12:47 +0000
+Message-Id: <20220315121251.2280317-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220315121251.2280317-1-alex.bennee@linaro.org>
 References: <20220315121251.2280317-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,67 +93,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Eduardo Habkost <eduardo@habkost.net>, berrange@redhat.com,
- sw@weilnetz.de, richard.henderson@linaro.org, f4bug@amsat.org,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ David Hildenbrand <david@redhat.com>, sw@weilnetz.de,
+ Cornelia Huck <cohuck@redhat.com>, richard.henderson@linaro.org,
+ f4bug@amsat.org, "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
  qemu-arm@nongnu.org, stefanha@redhat.com, crosa@redhat.com,
  pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The instruction description says "It is loaded without rounding
-errors." which implies we should have the widest rounding mode
-possible.
+With -cpu max we get a warning:
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/888
+  qemu-s390x: warning: 'msa5-base' requires 'kimd-sha-512'.
+
+But dropping the -cpu max and it still runs fine.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
 ---
- target/i386/tcg/fpu_helper.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ tests/tcg/s390x/Makefile.target | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index cdd8e9f947..ebf5e73df9 100644
---- a/target/i386/tcg/fpu_helper.c
-+++ b/target/i386/tcg/fpu_helper.c
-@@ -237,24 +237,37 @@ void helper_fldl_ST0(CPUX86State *env, uint64_t val)
-     merge_exception_flags(env, old_flags);
- }
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 257c568c58..7aa502a557 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -34,6 +34,4 @@ sha512-mvx: CFLAGS=-march=z13 -mvx -O3
+ sha512-mvx: sha512.c
+ 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
  
-+static FloatX80RoundPrec tmp_maximise_precision(float_status *st)
-+{
-+    FloatX80RoundPrec old = get_floatx80_rounding_precision(st);
-+    set_floatx80_rounding_precision(floatx80_precision_x, st);
-+    return old;
-+}
-+
- void helper_fildl_ST0(CPUX86State *env, int32_t val)
- {
-     int new_fpstt;
-+    FloatX80RoundPrec old = tmp_maximise_precision(&env->fp_status);
- 
-     new_fpstt = (env->fpstt - 1) & 7;
-     env->fpregs[new_fpstt].d = int32_to_floatx80(val, &env->fp_status);
-     env->fpstt = new_fpstt;
-     env->fptags[new_fpstt] = 0; /* validate stack entry */
-+
-+    set_floatx80_rounding_precision(old, &env->fp_status);
- }
- 
- void helper_fildll_ST0(CPUX86State *env, int64_t val)
- {
-     int new_fpstt;
-+    FloatX80RoundPrec old = tmp_maximise_precision(&env->fp_status);
- 
-     new_fpstt = (env->fpstt - 1) & 7;
-     env->fpregs[new_fpstt].d = int64_to_floatx80(val, &env->fp_status);
-     env->fpstt = new_fpstt;
-     env->fptags[new_fpstt] = 0; /* validate stack entry */
-+
-+    set_floatx80_rounding_precision(old, &env->fp_status);
- }
- 
- uint32_t helper_fsts_ST0(CPUX86State *env)
+-run-sha512-mvx: QEMU_OPTS+=-cpu max
+-
+ TESTS+=sha512-mvx
 -- 
 2.30.2
 
