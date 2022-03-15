@@ -2,106 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9EB4D950A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 08:12:13 +0100 (CET)
-Received: from localhost ([::1]:44868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753D44D950D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 08:13:13 +0100 (CET)
+Received: from localhost ([::1]:47460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU1Lo-0008Qv-Ki
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 03:12:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44872)
+	id 1nU1Mm-0001mI-H8
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 03:13:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=066bbe4b2=alistair.francis@opensource.wdc.com>)
- id 1nU0r6-0004KM-9a
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:40:28 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:18524)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=066bbe4b2=alistair.francis@opensource.wdc.com>)
- id 1nU0r3-0008FH-LR
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:40:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1647326426; x=1678862426;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=+E1qD2QSY6CJKqpndhQML7d+praVidtrikxaw0zJfUE=;
- b=K4J200e1Z9Ru6agwJvowNPIKDXqI/nWWDW/ggmiZAO5b9FtI4E//qsKs
- FGFlHHPjKgIF1bUn7iOAqMow4QVjjf9m31KIo86WMeCUd1Kg3hPnSwmXX
- xaqM4lL5421stgjH8+4Gf9+b4jIh/twNZFi/b8R5Ik01F6S5Rab25GqiZ
- C138ZwkWO5XWNpA/K49ZtyC2FNZMkwWw3ZU+QanP/UcPn81rd2PwqlMPU
- Oyps1ITGwHiazE0kORVsG05qXkmi8gpTaxGUh9hWQ7xPGPf9yex/8pU9J
- rCSVVtf1L2rp8CDbzpvwQLghEsQ23WP/S6tDNB6qFAu8KNd2fHBKcgm14 g==;
-X-IronPort-AV: E=Sophos;i="5.90,182,1643644800"; d="scan'208";a="196320406"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 15 Mar 2022 14:40:23 +0800
-IronPort-SDR: GfZRE40+Jw0f9LrfLvcbq/UiGXW1zXwxfwlaV/qglHhuLEH61IE5RK07nW37vL0mGTaTkBWEv0
- LJLt1rAhsT+5TJiYnWXQv2b0BykjiUXQQClEKVaH2PQnaiT5rdV63qjXZh4Gh5bLK3ngn1146e
- LOceyX02KAQ+MAdayY5TkubyxYAp2OXbjDGNfVErFC86jvLWbZFBVYLuYOPUk76YRFbJMg+pEC
- Z4KDdpDtweVIdXLnuBBI6zj9KL7muAa0v+L2kZPg7kLQcA5a9t9eL/7w0w66K4WE0dz+HXRAjn
- yaMr1ydlmxvnWwc61XOvVSIX
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2022 23:12:28 -0700
-IronPort-SDR: U4SvdkmI8dmU/HJnuASkHLVVpHeKEsBkJAlHs+qj0MH6r/uTuwoY4ACHn6YWIgf+HRmjV+DiHP
- 08VKb9vExdCrU42lAXMMOazryynhb9ezspIDf1snX5odBssImbJw9G3cXRJ0dqVCwJbYBw0lyF
- EpquQAIKiemEY74IcuAL7f5O7ACjsf6FRF2JnjMNnCNPQfA0G961MhdJCaUjQvxlR+qMduOBUc
- eo0HE0iRgToPLHZlBsIABYGsLi9ONiaP+fiE5aod4RiiK6YSrh9F337hujjIlaspaZIlA+fNRk
- iCo=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2022 23:40:22 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KHkLF6CyMz1SVnx
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 23:40:21 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1647326421; x=1649918422; bh=+E1qD2QSY6CJKqpndh
- QML7d+praVidtrikxaw0zJfUE=; b=iwPCo48cXJPo3XkE/SNzxsWaXaN2YGERAo
- 7at21QHc7bhi+0AfN1m+KpELeeVo9NJbg7WG+S2L7P214l9nfh3pMBVesxosUPcp
- atG72IndQk66dBSVDXp19ACTJ06FulngKbzJmSBQtaSQ0QdWm7Sza+hz0RNNlGQH
- 9q5Ei27CGNgDlVTKoM6v+VBrRbqWoOOqD0h+IuDLuTKHP7zICPFlGlYEyJVHbSZm
- Y1ppe4aouJ08Sh1vYIDnbHb79fh92lEVHmjru6DE3RVQrRki8E9OPLJ/1Hfl39xR
- YzIcWmT/qMHspxGw03xNgkmvQH0BplzI+og9uewEmvAb+9b44dGA==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id CMiwBiddbsZp for <qemu-devel@nongnu.org>;
- Mon, 14 Mar 2022 23:40:21 -0700 (PDT)
-Received: from toolbox.wdc.com (unknown [10.225.165.107])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KHkLB2TdBz1Rvlx;
- Mon, 14 Mar 2022 23:40:17 -0700 (PDT)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, alistair23@gmail.com,
- Bin Meng <bin.meng@windriver.com>, bmeng.cn@gmail.com,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH 2/2] target/riscv: Allow software access to MIP SEIP
-Date: Tue, 15 Mar 2022 16:40:07 +1000
-Message-Id: <20220315064007.3600746-3-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220315064007.3600746-1-alistair.francis@opensource.wdc.com>
-References: <20220315064007.3600746-1-alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nU0zD-00067V-Ne
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:48:51 -0400
+Received: from [2607:f8b0:4864:20::12c] (port=36651
+ helo=mail-il1-x12c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1nU0zA-0000n6-Er
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:48:51 -0400
+Received: by mail-il1-x12c.google.com with SMTP id x9so6095474ilc.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 23:48:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Azo+OspJCIzLOeoQrZ6w+72uR3leXLiEBVL+mQ4xrl0=;
+ b=V7GaJkAHGy5MsWFVBoNMZuqk2T7DRlD7PxP0UPsGTiV/yEHl+9teN6GzMlR7kAVano
+ 0DFN+hO+QdOns86RdwaU0p3DAhbJ9mIpCPyyePtwE6iYByQXCXnUuqFFhSVNqQLRZxoK
+ 0/6ktWMc5vKl+eLD0VdYeBkzhbhE+gAUxU/+6CjEdxdd42TTvrsLtZHjjGBLBCNaKN6Z
+ 928aW3xp7Tpsi0/WIpwqbIm1bTDawv5PcCeVRYgCwtxBcUbmEOE7Puvxc0xH+ac2ZoS1
+ RhmATbHrd9dZod5l92EK9JS2BnjV4bksJ12Ic7FClCmXl64HTD7Ek2Bx1OyY9woOPYrG
+ 8ieA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Azo+OspJCIzLOeoQrZ6w+72uR3leXLiEBVL+mQ4xrl0=;
+ b=ZznBRBAfLjIxjgie6omxD1V9r0crA8023nZ3IhYbVLMjWl77DJL0Cv5NHzBTYy7qrq
+ THao5PizepTM8dQalFzMr3s0mCdP0Mgx8SNuoeWc3i9nkCg1e/nmKAMVVMz/hjaGbfOK
+ iCMQgpmcgmkEl6qcPC6qTeHvnZBaBJdr65+dTwSZjVoVcFqTrv9MTgqFrlXF2EocN6V3
+ v2B0WZ5lv4+oj3bq0Oorlnt+Zz/DosGE3T/ZBVaArLFp5E5EGwpOzWBdhSL26OW6kzzV
+ nB/oHAoL5qfUifus6Rf9j0tFtLZOJj0/SWz7rVX4jMyDlsYQstqcHEExnHmo5dn95R5P
+ WNrg==
+X-Gm-Message-State: AOAM533gJ+PyWVL1Opy9eUUU3Ha6B7QLbWXKlObnsIO+s6hVh1FM5JHn
+ 990ZxlWcgyoexPuJ6SzkaPgshYfoQHsvHcdhgz0=
+X-Google-Smtp-Source: ABdhPJwIgWH0YilxWnPdsZDq+Ii4TgU089Xa+8bQELyyN8ulWupWGQNWEbjCC8+zzKaJEVz0Obn5IGnSZsYvtpca3/Y=
+X-Received: by 2002:a92:d80c:0:b0:2c2:c40c:7bd4 with SMTP id
+ y12-20020a92d80c000000b002c2c40c7bd4mr20653160ilm.310.1647326926781; Mon, 14
+ Mar 2022 23:48:46 -0700 (PDT)
 MIME-Version: 1.0
+References: <57412635-6b46-823b-14a4-0ee694ace5b8@oth-regensburg.de>
+In-Reply-To: <57412635-6b46-823b-14a4-0ee694ace5b8@oth-regensburg.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 15 Mar 2022 16:48:21 +1000
+Message-ID: <CAKmqyKOZN=hS73TfgHfMtxktZ9kkw4kBBA4-gjGAV8Q0Kw+KHw@mail.gmail.com>
+Subject: Re: QEMU+KVM on RISC-V + Hypervisor Extension
+To: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+ Jiangyifei <jiangyifei@huawei.com>, 
+ Anup Patel <anup@brainfault.org>, Anup Patel <apatel@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=066bbe4b2=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,111 +85,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Stefan Huber <stefan.huber@oth-regensburg.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+On Sun, Mar 13, 2022 at 12:12 PM Ralf Ramsauer
+<ralf.ramsauer@oth-regensburg.de> wrote:
+>
+> Hi,
+>
+> I'm trying to run Linux/QEMU+KVM inside an emulated
+> qemu-system-riscv64 VM (x86 host). On latest&greatest QEMU (1416688c53),
+> I run Linux inside QEMU. On host side:
+>
+> qemu-system-riscv64 -nographic \
+>          -machine virt \
+>          -cpu 'rv64,h=3Dtrue' \
+>          -smp 8 -m 8G \
+>          -bios $latest_opensbi \
+>          -kernel $latest_upstream_linux \
+>         [=E2=80=A6snip=E2=80=A6]
+>
+> Inside that machine, I boot Linux with KVM enabled:
+>
+> [=E2=80=A6]
+> [    0.228939] kvm [1]: hypervisor extension available
+> [    0.229000] kvm [1]: using Sv48x4 G-stage page table format
+> [    0.229033] kvm [1]: VMID 14 bits available
+> [=E2=80=A6]
+>
+> KVM seems to load correctly. Inside that machine, I compiled QEMU from
+> the same sources with the KVM accelerator enabled. When I try to start
+> QEMU with KVM enabled, I get
+>
+> ./qemu-system-riscv64 -nographic \
+>         -monitor none \
+>         -machine virt \
+>         -smp 1 -m 1G \
+>         -bios ./pc-bios/opensbi-riscv64-generic-fw_dynamic.bin \
+>         -serial stdio \
+>         -enable-kvm
+>
+> [ 4860.559194] kvm [9942]: VCPU exit error -95
+> [ 4860.584262] kvm [9942]: SEPC=3D0x0 SSTATUS=3D0x200004120 HSTATUS=3D0x2=
+002001c0
+> [ 4860.586839] kvm [9942]: SCAUSE=3D0x14 STVAL=3D0x0 HTVAL=3D0x0 HTINST=
+=3D0x0
+>
+> on the ringbuffer, together with a register dump of qemu [1] on the
+> console. Needless to say, but without -enable-kvm, it works fine.
+>
+> As far as I see that, SCAUSE=3D0x14 reports a 'Instruction Guest PF',
+> which would be kind of correct, if the guest's PC really tries to
+> execute at phys 0x0. DRAM of the 'virt' machine definition should start
+> at 0x80000000, where OpenSBI resides. So I wonder if an erroneous reset
+> PC might be the culprit=E2=80=A6
+>
+> Before digging deeper into that issue, I wanted to ask if Qemu/KVM
+> inside an emulated riscv64+H-extension is actually supported, or if this
+> is a known bug and has some ongoing work.
 
-The RISC-V specification states that:
-  "Supervisor-level external interrupts are made pending based on the
-  logical-OR of the software-writable SEIP bit and the signal from the
-  external interrupt controller."
+RISC-V KVM should work. I haven't had a chance to try it myself though.
 
-We currently only allow either the interrupt controller or software to
-set the bit, which is incorrect.
+I have CCed two people who hopefully can help.
 
-This patch removes the miclaim mask when writing MIP to allow M-mode
-software to inject interrupts, even with an interrupt controller.
+Alistair
 
-We then also need to keep track of which source is setting MIP_SEIP. The
-final value is a OR of both, so we add two bools and use that to keep
-track of the current state. This way either source can change without
-loosing the correct value.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/904
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.h |  8 ++++++++
- target/riscv/cpu.c | 10 +++++++++-
- target/riscv/csr.c |  8 ++++++--
- 3 files changed, 23 insertions(+), 3 deletions(-)
-
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index c069fe85fa..05d40f8dbd 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -173,6 +173,14 @@ struct CPUArchState {
-     uint64_t mstatus;
-=20
-     uint64_t mip;
-+    /*
-+     * MIP contains the software writable version of SEIP ORed with the
-+     * external interrupt value. The MIP register is always up-to-date.
-+     * To keep track of the current source, we also save booleans of the=
- values
-+     * here.
-+     */
-+    bool external_seip;
-+    bool software_seip;
-=20
-     uint64_t miclaim;
-=20
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index a4120c7fb4..0bd19e16a2 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -706,7 +706,6 @@ static void riscv_cpu_set_irq(void *opaque, int irq, =
-int level)
-         case IRQ_VS_TIMER:
-         case IRQ_M_TIMER:
-         case IRQ_U_EXT:
--        case IRQ_S_EXT:
-         case IRQ_VS_EXT:
-         case IRQ_M_EXT:
-             if (kvm_enabled()) {
-@@ -715,6 +714,15 @@ static void riscv_cpu_set_irq(void *opaque, int irq,=
- int level)
-                 riscv_cpu_update_mip(cpu, 1 << irq, BOOL_TO_MASK(level))=
-;
-             }
-              break;
-+        case IRQ_S_EXT:
-+            if (kvm_enabled()) {
-+                kvm_riscv_set_irq(cpu, irq, level);
-+            } else {
-+                env->external_seip =3D level;
-+                riscv_cpu_update_mip(cpu, 1 << irq,
-+                                     BOOL_TO_MASK(level | env->software_=
-seip));
-+            }
-+            break;
-         default:
-             g_assert_not_reached();
-         }
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 0606cd0ea8..48e78cf91e 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1403,10 +1403,14 @@ static RISCVException rmw_mip64(CPURISCVState *en=
-v, int csrno,
-                                 uint64_t new_val, uint64_t wr_mask)
- {
-     RISCVCPU *cpu =3D env_archcpu(env);
--    /* Allow software control of delegable interrupts not claimed by har=
-dware */
--    uint64_t old_mip, mask =3D wr_mask & delegable_ints & ~env->miclaim;
-+    uint64_t old_mip, mask =3D wr_mask & delegable_ints;
-     uint32_t gin;
-=20
-+    if (mask & MIP_SEIP) {
-+        env->software_seip =3D new_val & MIP_SEIP;
-+    }
-+    new_val |=3D env->external_seip << IRQ_S_EXT;
-+
-     if (mask) {
-         old_mip =3D riscv_cpu_update_mip(cpu, mask, (new_val & mask));
-     } else {
---=20
-2.35.1
-
+>
+> Thanks
+>    Ralf
+>
+> [1]
+>
+>   pc       0000000000000000
+>   mhartid  0000000000000000
+>   mstatus  0000000200000000
+>   mip      0000000000000000
+>   mie      0000000000000000
+>   mideleg  0000000000000000
+>   medeleg  0000000000000000
+>   mtvec    0000000000000000
+>   stvec    0000000000000000
+>   mepc     0000000000000000
+>   sepc     0000000000000000
+>   mcause   0000000000000000
+>   scause   0000000000000000
+>   mtval    0000000000000000
+>   stval    0000000000000000
+>   mscratch 0000000000000000
+>   sscratch 0000000000000000
+>   satp     0000000000000000
+>   x0/zero  0000000000000000 x1/ra    0000000000000000 x2/sp
+> 0000000000000000 x3/gp    0000000000000000
+>   x4/tp    0000000000000000 x5/t0    0000000000000000 x6/t1
+> 0000000000000000 x7/t2    0000000000000000
+>   x8/s0    0000000000000000 x9/s1    0000000000000000 x10/a0
+> 0000000000000000 x11/a1   00000000bf000000
+>   x12/a2   0000000000000000 x13/a3   0000000000000000 x14/a4
+> 0000000000000000 x15/a5   0000000000000000
+>   x16/a6   0000000000000000 x17/a7   0000000000000000 x18/s2
+> 0000000000000000 x19/s3   0000000000000000
+>   x20/s4   0000000000000000 x21/s5   0000000000000000 x22/s6
+> 0000000000000000 x23/s7   0000000000000000
+>   x24/s8   0000000000000000 x25/s9   0000000000000000 x26/s10
+> 0000000000000000 x27/s11  0000000000000000
+>   x28/t3   0000000000000000 x29/t4   0000000000000000 x30/t5
+> 0000000000000000 x31/t6   0000000000000000
+>
 
