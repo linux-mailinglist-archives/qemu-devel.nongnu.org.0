@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F052E4D952D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 08:24:33 +0100 (CET)
-Received: from localhost ([::1]:39656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4AA4D9515
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 08:18:46 +0100 (CET)
+Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU1Xl-0007eY-3Z
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 03:24:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48168)
+	id 1nU1S9-000154-J7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 03:18:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
- id 1nU1CU-0003Kr-6L
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 03:02:35 -0400
-Received: from shasxm03.verisilicon.com ([101.89.135.44]:15347)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
- id 1nU1CR-0002wM-Ez
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 03:02:33 -0400
-Content-Language: zh-CN
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
- c=simple/simple; t=1647327042; h=from:subject:to:date:message-id;
- bh=iDmgicFu/tzBLXA2VA9CL81oGF5WoIiKaJ4kKSiN13g=;
- b=SyoD7xDeqRRERV4wPCpELuMZ76fnb03NW+w0WgjPMj08CFG6Y0HYv/dC5e8LL4IZjwxilTOxg60
- fpaoq8679Gw2QM27w3C+K4vwxqehi5oPDLh/0Kp8JbN2PZyIqotS51Z1sDaoNOlkZ/UAL0/M8nRmH
- bg+BrmE6kAyWnRbr29I=
-Received: from SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda]) by
- SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa%14]) with mapi id
- 14.03.0408.000; Tue, 15 Mar 2022 14:50:37 +0800
-From: "Wen, Jianxian" <Jianxian.Wen@verisilicon.com>
-To: "kraxel@redhat.com" <kraxel@redhat.com>
-Subject: [PATCH] ui: avoid unnecessary memory operations in
- vnc_refresh_server_surface()
-Thread-Topic: [PATCH] ui: avoid unnecessary memory operations in
- vnc_refresh_server_surface()
-Thread-Index: Adg4OPlZnb51yqzsQNCAQREvOkQzEw==
-Date: Tue, 15 Mar 2022 06:50:37 +0000
-Message-ID: <4C23C17B8E87E74E906A25A3254A03F4FA22100C@SHASXM06.verisilicon.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.166.98]
-x-tm-as-product-ver: SMEX-11.0.0.4283-8.100.1062-25628.004
-x-tm-as-result: No--1.990800-0.000000-31
-x-tm-as-matchedid: 700225-703140-701090-703503-105250-700535-704938-703279-7
- 00737-701910-700065-703115-702395-188019-704477-702328-703213-704959-705078
- -702876-701104-188199-63-148004-148133-42000-42003-63
-x-tm-as-user-approved-sender: Yes
-x-tm-as-user-blocked-sender: No
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nU15l-0007Gt-9b; Tue, 15 Mar 2022 02:55:37 -0400
+Received: from [2607:f8b0:4864:20::102f] (port=50732
+ helo=mail-pj1-x102f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1nU15j-0001qX-Fp; Tue, 15 Mar 2022 02:55:36 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id m22so17023878pja.0;
+ Mon, 14 Mar 2022 23:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QINsg88gur5+u8KCOb6QGNv//zb924eXdW/zk8Yg7yk=;
+ b=CeSiQ61PSVVBALbPFcFX9umdJL7Q56Eyz8/gItda8vpFQdLmllVZBudwakT6EDapYL
+ yIeq9bZPE0WTlAB4zWjdnfm0lUrsCPXVuuDzOXC0ByurtVkK8vcwxTeGLFfhytWv+mjT
+ IVg206EAuY58tGgFby0Ebc2Iwblw6xIlMdpizas+VzVLhu/3OleCoU0JL10qgSUAoJ3S
+ cZdMsJUD21UMXuqL8Fh/HhjUE1oynzemhHEefkBpmA3bsRxZWg31lddtuLgCYz7UinM4
+ wxkF3wl0767BWDKqNzJqpz4iyFYXT3z9dtyrmOw6LQsNdHrerVZ3BGwrLe426WkORjcR
+ PTiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QINsg88gur5+u8KCOb6QGNv//zb924eXdW/zk8Yg7yk=;
+ b=hVewO/PooBVMcnywvK0ju2GCQ1b5crpHLbLwfudJV9TJx4nf/2OiFyuh37Ohlnk3Ll
+ bP6ns5ngYK92gwH5bddPeLCxuqCHMXp61J0kzWscGktm9FZZEN+vd3Ii/A8o+YMg5GbD
+ eiwVzsLbHLi6d+xkWf0hEr8WS1Mvc9PZDygp/+irh/I6YBOWI9p4WFM3PDDJwub0zp03
+ viMZI46aYGFkhK0Fk+mMa4kYo7T37M3K7cuDSexR7XcGEz4IUdf3VSIV2pIg2rlli1TQ
+ m+lBXJ5hqX45q4GlKxO8wdaRYH8BXobt8S8dNf4Poj1J6DOrdhiAZvFRcKZXiQiGDfbV
+ srwA==
+X-Gm-Message-State: AOAM530Dc9AppunR9z5NQ0TmFY3CWJOBxvWE/HG7Gq+7x+6XX8oU3aB/
+ iy+TE1j2YGRsDTRkdTEyuAg=
+X-Google-Smtp-Source: ABdhPJxMvd30uo5JoUxyamF1J6yuJoN+JU94NjnuGrPHGymk35EBJKOkATOLUlXWdWe1jEdFxFcZXg==
+X-Received: by 2002:a17:902:e74f:b0:151:c20b:5f39 with SMTP id
+ p15-20020a170902e74f00b00151c20b5f39mr26285808plf.43.1647327333596; 
+ Mon, 14 Mar 2022 23:55:33 -0700 (PDT)
+Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
+ [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
+ g12-20020a056a001a0c00b004e1307b249csm22970500pfv.69.2022.03.14.23.55.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Mar 2022 23:55:33 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v4 0/7] target/riscv: Initial support for the Sdtrig extension
+ via M-mode CSRs
+Date: Tue, 15 Mar 2022 14:55:22 +0800
+Message-Id: <20220315065529.62198-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=101.89.135.44;
- envelope-from=Jianxian.Wen@verisilicon.com; helo=shasxm03.verisilicon.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,85 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check the dirty bits in advance to avoid unnecessary memory operations.
-In the case that guest surface has different format than the server,
-but it does not have dirty bits which means no refresh is actually needed,
-the memory operations is not necessary.
 
-Signed-off-by: Jianxian Wen <jianxian.wen@verisilicon.com>
-Signed-off-by: Lu Gao <lu.gao@verisilicon.com>
----
- ui/vnc.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+This adds initial support for the Sdtrig extension via the Trigger Module,
+as defined in the RISC-V Debug Specification [1].
 
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 3ccd33dedc..310a873c21 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -3098,6 +3098,9 @@ static int vnc_refresh_server_surface(VncDisplay *vd)
-     VncState *vs;
-     int has_dirty =3D 0;
-     pixman_image_t *tmpbuf =3D NULL;
-+    unsigned long offset;
-+    int x;
-+    uint8_t *guest_ptr, *server_ptr;
-=20
-     struct timeval tv =3D { 0, 0 };
-=20
-@@ -3106,6 +3109,13 @@ static int vnc_refresh_server_surface(VncDisplay *vd=
-)
-         has_dirty =3D vnc_update_stats(vd, &tv);
-     }
-=20
-+    offset =3D find_next_bit((unsigned long *) &vd->guest.dirty,
-+                           height * VNC_DIRTY_BPL(&vd->guest), 0);
-+    if (offset =3D=3D height * VNC_DIRTY_BPL(&vd->guest)) {
-+        /* no dirty bits in guest surface */
-+        return has_dirty;
-+    }
-+
-     /*
-      * Walk through the guest dirty map.
-      * Check and copy modified bits from guest to server surface.
-@@ -3130,15 +3140,6 @@ static int vnc_refresh_server_surface(VncDisplay *vd=
-)
-     line_bytes =3D MIN(server_stride, guest_ll);
-=20
-     for (;;) {
--        int x;
--        uint8_t *guest_ptr, *server_ptr;
--        unsigned long offset =3D find_next_bit((unsigned long *) &vd->gues=
-t.dirty,
--                                             height * VNC_DIRTY_BPL(&vd->g=
-uest),
--                                             y * VNC_DIRTY_BPL(&vd->guest)=
-);
--        if (offset =3D=3D height * VNC_DIRTY_BPL(&vd->guest)) {
--            /* no more dirty bits */
--            break;
--        }
-         y =3D offset / VNC_DIRTY_BPL(&vd->guest);
-         x =3D offset % VNC_DIRTY_BPL(&vd->guest);
-=20
-@@ -3177,6 +3178,13 @@ static int vnc_refresh_server_surface(VncDisplay *vd=
-)
-         }
-=20
-         y++;
-+        offset =3D find_next_bit((unsigned long *) &vd->guest.dirty,
-+                               height * VNC_DIRTY_BPL(&vd->guest),
-+                               y * VNC_DIRTY_BPL(&vd->guest));
-+        if (offset =3D=3D height * VNC_DIRTY_BPL(&vd->guest)) {
-+            /* no more dirty bits */
-+            break;
-+        }
-     }
-     qemu_pixman_image_unref(tmpbuf);
-     return has_dirty;
---=20
-2.33.0
+Only "Address / Data Match" trigger (type 2) is implemented as of now,
+which is mainly used for hardware breakpoint and watchpoint. The number
+of type 2 triggers implemented is 2, which is the number that we can
+find in the SiFive U54/U74 cores.
+
+[1] https://github.com/riscv/riscv-debug-spec/raw/master/riscv-debug-stable.pdf
+
+Changes in v4:
+- mention Sdtrig extension in the commit
+- rename 'struct trigger_type2_t' to 'type2_trigger_t'
+- move riscv_trigger_init() call to riscv_cpu_reset()
+
+Changes in v3:
+- drop riscv_trigger_init(), which will be moved to patch #5
+- add riscv_trigger_init(), moved from patch #1 to this patch
+- enable debug feature by default for all CPUs
+
+Changes in v2:
+- new patch: add debug state description
+- use 0 instead of GETPC()
+- change the config option to 'disabled' by default
+
+Bin Meng (7):
+  target/riscv: Add initial support for the Sdtrig extension
+  target/riscv: machine: Add debug state description
+  target/riscv: debug: Implement debug related TCGCPUOps
+  target/riscv: cpu: Add a config option for native debug
+  target/riscv: csr: Hook debug CSR read/write
+  target/riscv: cpu: Enable native debug feature
+  hw/core: tcg-cpu-ops.h: Update comments of debug_check_watchpoint()
+
+ include/hw/core/tcg-cpu-ops.h |   1 +
+ target/riscv/cpu.h            |   9 +-
+ target/riscv/debug.h          | 114 +++++++++
+ target/riscv/cpu.c            |  12 +
+ target/riscv/csr.c            |  57 +++++
+ target/riscv/debug.c          | 441 ++++++++++++++++++++++++++++++++++
+ target/riscv/machine.c        |  32 +++
+ target/riscv/meson.build      |   1 +
+ 8 files changed, 666 insertions(+), 1 deletion(-)
+ create mode 100644 target/riscv/debug.h
+ create mode 100644 target/riscv/debug.c
+
+-- 
+2.25.1
+
 
