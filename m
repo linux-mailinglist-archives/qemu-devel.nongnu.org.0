@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243F54D9EEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 16:42:45 +0100 (CET)
-Received: from localhost ([::1]:50528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA73D4D9EF7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 16:44:19 +0100 (CET)
+Received: from localhost ([::1]:56996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU9Js-0002A5-0r
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 11:42:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41284)
+	id 1nU9LO-0006XF-M0
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 11:44:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nU9AD-0002I0-4K
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:32:45 -0400
-Received: from [2a00:1450:4864:20::32f] (port=53832
- helo=mail-wm1-x32f.google.com)
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nU9AE-0002Jr-8F
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:32:46 -0400
+Received: from [2a00:1450:4864:20::436] (port=36669
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nU9AB-0001Sk-E7
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:32:44 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id 19so11483951wmy.3
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 08:32:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nU9AC-0001Su-9v
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:32:45 -0400
+Received: by mail-wr1-x436.google.com with SMTP id r10so29607591wrp.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 08:32:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gQ+SPI8DlX8R5OXn6tZX8wNcLhtVnAJlGDpOU9dhe1E=;
- b=A82ZnAkwPyxxdzwwCSOR3cRlCOWX15pdGFVnQP4LeN9bnKpImw9B+qKlZ5rHDD7dt1
- r+CqB7MqsIW92Cp9IDzyrugyyhmxYeBVHtzxOyOc7rcDPgGO7/LdLebUyGY2+0BJ+og7
- oDleBu+maw4DOV0AZRgSeAlXlSXK5q+n4sW7xY5m4/27hII+w9BWvx8xUn4aW3qq3aCe
- woFotCKVxEmW+cV8UcDfeUQdw0/96wqqQfr8hFVYLRCnj1vOaqyg/ju2SdO1RTmXtRZd
- 5g9ML9AU3cY/hm5CQkrsMC84lw/Gw13jeGHPelmfbpUdQzGMGm/7bDoGAUCIq8kEQheh
- ku+g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1f8hCRLthINhl3l+RAG9dFAydcAUirfaLTx1rrRHfIk=;
+ b=n5/Gy1uZkTAWKCf3KSlDFlB84+xvL6sU26QWdip6zLB8uzUM6q6yCrK+cSqsMgBSWP
+ /bCxZeYoPDvV8IClVOo1MdwfMGCV+g5UJDvzkHfy2e1cacUMOtxrkpKMC/IXUELQIOAB
+ zTpGrdHQ506T1OpphTpld8ZDPhjn2iFzwFVzcrPfI2+j3wZmph4GONGkHkjjKrKlbXtS
+ 9xBhvkZA+tKO9UNc+yrzCsU+96u+wl3knPwHBR88YH+IZT6l4AFj851ubs4ApjcKvodT
+ B5llevYcFUfY10gz539n7vOnEHdwApVuJ8ubsT3rE/k0pR0elblkHV8CR4mXsL/RKu0a
+ DtIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gQ+SPI8DlX8R5OXn6tZX8wNcLhtVnAJlGDpOU9dhe1E=;
- b=UWjfiZuO8HP04lKV5MwL9j+V/tfFfnyRj9l2R5dTw/mfClgLCXSvtSMunL04kIaEj3
- vcF7Y5MPwfx//4MOvWS62k4xpB7zFPqlbbGZ6j4SWvczXJ7f2JuxlePvK3CPTg6/27/U
- 5stFz9jndKFXGIHOrH771tu2Xrqh2eBrUQ9viPf6p6HWGNBdocSzU9ddBupP4ugWOVxa
- QgyWyzlIYxhDAsl7AnY1lXk3nzDnWGmbsPKuxb4eE8PM/33fbuvuspk9n6f4laX5Jy0V
- rLLS9gbTug9DC/hyGrd0hqc6ai34Ey7sgJ0C8G4f6RNjitzG53iVDdXnJBpzvhdto4oh
- ju9A==
-X-Gm-Message-State: AOAM532l/Cq37w5/PL5S3t+v+EowPTIZ521Bqf2nJXnDI2KkDI7rsENI
- HOBZbxidouc+sPGtJxkJ+h24b1r9JV8=
-X-Google-Smtp-Source: ABdhPJw6kzLGwk+ldC/ReT6GXVBfoX8UnkTXkFYaFJ0Lb+I5z4Ehi4vfQG0u59aBZDkXT9QX5bqQJA==
-X-Received: by 2002:a1c:6a15:0:b0:38b:57e8:dd5c with SMTP id
- f21-20020a1c6a15000000b0038b57e8dd5cmr3272579wmc.160.1647358360612; 
- Tue, 15 Mar 2022 08:32:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1f8hCRLthINhl3l+RAG9dFAydcAUirfaLTx1rrRHfIk=;
+ b=WCkPfdLrxP/T87/RLefBFGTGd6oLpx+WfG2wAMUHz/d50aMv3nqK1RPAYqgh4L+aBS
+ TMaSm0rHr8HNp3agcdNYzb6IC8T0DA/aExKBWwJz6SU3aKfVj747qalTl8WCa5M/k9k6
+ Uf2wHFNlbgI9PvBdtARoKlAPKZ/PpLhvsMOiEPgo95mD4fE/dpSKfjP2B/ted3EI5BZK
+ YmhgN90nwsm0ELFa6a5RDxMb6aKwrveVSAEmE8rzZvyKUWpEzLOSPVIJgWUhIur8fVRk
+ yqeKdfthioRaBaohZ6mZojRTpGt9qD1GI7/11sK+c8wA+i7OmMrgBISxFPTdOJXtIHo3
+ F3Aw==
+X-Gm-Message-State: AOAM531Re7Nrb+Kk5R4/hNm5CvsYnfntVBf8TS/MhO1WDfhlNq+CtkFc
+ qJsDHMnsWosd4IlsQtHpktuBuFtQr0E=
+X-Google-Smtp-Source: ABdhPJy+3tzdH2wNUPOQivX/aLPABbXdul33J6Y6wvc4coUVOoJwJaHBhhxJkJ70EsChxyT1rSvgnw==
+X-Received: by 2002:a5d:588a:0:b0:1f1:e6fb:4e7 with SMTP id
+ n10-20020a5d588a000000b001f1e6fb04e7mr20929375wrf.716.1647358362517; 
+ Tue, 15 Mar 2022 08:32:42 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a0d:6fc2:4af1:7d00:5e41:a6ea:ffaa:548c])
  by smtp.gmail.com with ESMTPSA id
- j34-20020a05600c1c2200b0038995cb915fsm4468021wms.9.2022.03.15.08.32.39
+ j34-20020a05600c1c2200b0038995cb915fsm4468021wms.9.2022.03.15.08.32.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 08:32:39 -0700 (PDT)
+ Tue, 15 Mar 2022 08:32:42 -0700 (PDT)
 From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/4] HyperV: Synthetic Debugging device
-Date: Tue, 15 Mar 2022 17:32:16 +0200
-Message-Id: <20220315153220.953556-1-arilou@gmail.com>
+Subject: [PATCH v3 1/4] hyperv: SControl is optional to enable SynIc
+Date: Tue, 15 Mar 2022 17:32:17 +0200
+Message-Id: <20220315153220.953556-2-arilou@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220315153220.953556-1-arilou@gmail.com>
+References: <20220315153220.953556-1-arilou@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=arilou@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=arilou@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -89,69 +91,284 @@ Cc: pbonzini@redhat.com, vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset adds support for the synthetic debugging device.
+SynIc can be enabled regardless of the SControl mechanisim which can
+register a GSI for a given SintRoute.
 
-HyperV supports a special transport layer for the kernel debugger when
-running in HyperV.
+This behaviour can achived by setting enabling SIMP and then the guest
+will poll on the message slot.
 
-This patchset add supports for this device so you could have a setup
-fast windows kernel debugging.
+Once there is another message pending the host will set the message slot
+with the pending flag.
+When the guest polls from the message slot, in case the pending flag is
+set it will write to the HV_X64_MSR_EOM indicating it has cleared the
+slot and we can try and push our message again.
 
-At this point of time, DHCP is not implmeneted so to set this up few
-things need to be noted.
+Signed-off-by: Jon Doron <arilou@gmail.com>
+---
+ hw/hyperv/hyperv.c | 109 +++++++++++++++++++++++++++++++--------------
+ 1 file changed, 76 insertions(+), 33 deletions(-)
 
-The scenario I used to test is having 2 VMs in the same virtual network
-i.e a Debugger VM with the NIC:
--nic tap,model=virtio,mac=02:ca:01:01:01:01,script=/etc/qemu-ifup
-And it's IP is going to be static 192.168.53.12
-And the VM we want to debug, to which we need to have the englightments
-and vmbus configured:
- -cpu host,hv-relaxed,hv_spinlocks=0x1fff,hv_time,+vmx,invtsc,hv-vapic,hv-vpindex,hv-synic,hv-syndbg \
- -device vmbus-bridge \
- -device hv-syndbg,host_ip=192.168.53.12,host_port=50000,use_hcalls=false \
- -nic tap,model=virtio,mac=02:ca:01:01:01:02,script=/etc/qemu-ifup \
-
-Then in the debuggee VM we would setup the kernel debugging in the
-following way:
-
-If the VM is older than Win8:
-* Copy the proper platform kdvm.dll (make sure it's called kdvm.dll even if platform is 32bit)
-bcdedit /set {GUID} dbgtransport kdvm.dll
-bcdedit /set {GUID} loadoptions host_ip="1.2.3.4",host_port="50000",nodhcp
-bcdedit /set {GUID} debug on
-bcdedit /set {GUID} halbreakpoint on
-
-Win8 and late:
-bcdedit /dbgsettings net hostip:7.7.7.7 port:50000 nodhcp
-
-This is all the setup that is required to get the synthetic debugger
-configured correctly.
-
-v3:
-Fixed review from Paolo changes from QLIST*RCU to non RCU
-
-Jon Doron (4):
-  hyperv: SControl is optional to enable SynIc
-  hyperv: Add definitions for syndbg
-  hyperv: Add support to process syndbg commands
-  hw: hyperv: Initial commit for Synthetic Debugging device
-
- docs/hyperv.txt                  |  15 ++
- hw/hyperv/Kconfig                |   5 +
- hw/hyperv/hyperv.c               | 352 ++++++++++++++++++++++++---
- hw/hyperv/meson.build            |   1 +
- hw/hyperv/syndbg.c               | 402 +++++++++++++++++++++++++++++++
- include/hw/hyperv/hyperv-proto.h |  52 ++++
- include/hw/hyperv/hyperv.h       |  58 +++++
- target/i386/cpu.c                |   2 +
- target/i386/cpu.h                |   7 +
- target/i386/kvm/hyperv-proto.h   |  37 +++
- target/i386/kvm/hyperv-stub.c    |   6 +
- target/i386/kvm/hyperv.c         |  52 +++-
- target/i386/kvm/kvm.c            |  76 +++++-
- 13 files changed, 1024 insertions(+), 41 deletions(-)
- create mode 100644 hw/hyperv/syndbg.c
-
+diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
+index cb1074f234..8b832566c1 100644
+--- a/hw/hyperv/hyperv.c
++++ b/hw/hyperv/hyperv.c
+@@ -27,13 +27,16 @@ struct SynICState {
+ 
+     CPUState *cs;
+ 
+-    bool enabled;
++    bool sctl_enabled;
+     hwaddr msg_page_addr;
+     hwaddr event_page_addr;
+     MemoryRegion msg_page_mr;
+     MemoryRegion event_page_mr;
+     struct hyperv_message_page *msg_page;
+     struct hyperv_event_flags_page *event_page;
++
++    QemuMutex sint_routes_mutex;
++    QLIST_HEAD(, HvSintRoute) sint_routes;
+ };
+ 
+ #define TYPE_SYNIC "hyperv-synic"
+@@ -51,11 +54,11 @@ static SynICState *get_synic(CPUState *cs)
+     return SYNIC(object_resolve_path_component(OBJECT(cs), "synic"));
+ }
+ 
+-static void synic_update(SynICState *synic, bool enable,
++static void synic_update(SynICState *synic, bool sctl_enable,
+                          hwaddr msg_page_addr, hwaddr event_page_addr)
+ {
+ 
+-    synic->enabled = enable;
++    synic->sctl_enabled = sctl_enable;
+     if (synic->msg_page_addr != msg_page_addr) {
+         if (synic->msg_page_addr) {
+             memory_region_del_subregion(get_system_memory(),
+@@ -80,7 +83,7 @@ static void synic_update(SynICState *synic, bool enable,
+     }
+ }
+ 
+-void hyperv_synic_update(CPUState *cs, bool enable,
++void hyperv_synic_update(CPUState *cs, bool sctl_enable,
+                          hwaddr msg_page_addr, hwaddr event_page_addr)
+ {
+     SynICState *synic = get_synic(cs);
+@@ -89,7 +92,7 @@ void hyperv_synic_update(CPUState *cs, bool enable,
+         return;
+     }
+ 
+-    synic_update(synic, enable, msg_page_addr, event_page_addr);
++    synic_update(synic, sctl_enable, msg_page_addr, event_page_addr);
+ }
+ 
+ static void synic_realize(DeviceState *dev, Error **errp)
+@@ -110,16 +113,20 @@ static void synic_realize(DeviceState *dev, Error **errp)
+                            sizeof(*synic->event_page), &error_abort);
+     synic->msg_page = memory_region_get_ram_ptr(&synic->msg_page_mr);
+     synic->event_page = memory_region_get_ram_ptr(&synic->event_page_mr);
++    qemu_mutex_init(&synic->sint_routes_mutex);
++    QLIST_INIT(&synic->sint_routes);
+ 
+     g_free(msgp_name);
+     g_free(eventp_name);
+ }
++
+ static void synic_reset(DeviceState *dev)
+ {
+     SynICState *synic = SYNIC(dev);
+     memset(synic->msg_page, 0, sizeof(*synic->msg_page));
+     memset(synic->event_page, 0, sizeof(*synic->event_page));
+     synic_update(synic, false, 0, 0);
++    assert(QLIST_EMPTY(&synic->sint_routes));
+ }
+ 
+ static void synic_class_init(ObjectClass *klass, void *data)
+@@ -214,6 +221,7 @@ struct HvSintRoute {
+     HvSintStagedMessage *staged_msg;
+ 
+     unsigned refcount;
++    QLIST_ENTRY(HvSintRoute) link;
+ };
+ 
+ static CPUState *hyperv_find_vcpu(uint32_t vp_index)
+@@ -259,7 +267,7 @@ static void cpu_post_msg(CPUState *cs, run_on_cpu_data data)
+ 
+     assert(staged_msg->state == HV_STAGED_MSG_BUSY);
+ 
+-    if (!synic->enabled || !synic->msg_page_addr) {
++    if (!synic->msg_page_addr) {
+         staged_msg->status = -ENXIO;
+         goto posted;
+     }
+@@ -343,7 +351,7 @@ int hyperv_set_event_flag(HvSintRoute *sint_route, unsigned eventno)
+     if (eventno > HV_EVENT_FLAGS_COUNT) {
+         return -EINVAL;
+     }
+-    if (!synic->enabled || !synic->event_page_addr) {
++    if (!synic->sctl_enabled || !synic->event_page_addr) {
+         return -ENXIO;
+     }
+ 
+@@ -364,11 +372,12 @@ int hyperv_set_event_flag(HvSintRoute *sint_route, unsigned eventno)
+ HvSintRoute *hyperv_sint_route_new(uint32_t vp_index, uint32_t sint,
+                                    HvSintMsgCb cb, void *cb_data)
+ {
+-    HvSintRoute *sint_route;
+-    EventNotifier *ack_notifier;
++    HvSintRoute *sint_route = NULL;
++    EventNotifier *ack_notifier = NULL;
+     int r, gsi;
+     CPUState *cs;
+     SynICState *synic;
++    bool ack_event_initialized = false;
+ 
+     cs = hyperv_find_vcpu(vp_index);
+     if (!cs) {
+@@ -381,57 +390,77 @@ HvSintRoute *hyperv_sint_route_new(uint32_t vp_index, uint32_t sint,
+     }
+ 
+     sint_route = g_new0(HvSintRoute, 1);
+-    r = event_notifier_init(&sint_route->sint_set_notifier, false);
+-    if (r) {
+-        goto err;
++    if (!sint_route) {
++        return NULL;
+     }
+ 
++    sint_route->synic = synic;
++    sint_route->sint = sint;
++    sint_route->refcount = 1;
+ 
+     ack_notifier = cb ? &sint_route->sint_ack_notifier : NULL;
+     if (ack_notifier) {
+         sint_route->staged_msg = g_new0(HvSintStagedMessage, 1);
++        if (!sint_route->staged_msg) {
++            goto cleanup_err_sint;
++        }
+         sint_route->staged_msg->cb = cb;
+         sint_route->staged_msg->cb_data = cb_data;
+ 
+         r = event_notifier_init(ack_notifier, false);
+         if (r) {
+-            goto err_sint_set_notifier;
++            goto cleanup_err_sint;
+         }
+-
+         event_notifier_set_handler(ack_notifier, sint_ack_handler);
++        ack_event_initialized = true;
++    }
++
++    /* See if we are done or we need to setup a GSI for this SintRoute */
++    if (!synic->sctl_enabled) {
++        goto cleanup;
++    }
++
++    /* We need to setup a GSI for this SintRoute */
++    r = event_notifier_init(&sint_route->sint_set_notifier, false);
++    if (r) {
++        goto cleanup_err_sint;
+     }
+ 
+     gsi = kvm_irqchip_add_hv_sint_route(kvm_state, vp_index, sint);
+     if (gsi < 0) {
+-        goto err_gsi;
++        goto cleanup_err_sint_notifier;
+     }
+ 
+     r = kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
+                                            &sint_route->sint_set_notifier,
+                                            ack_notifier, gsi);
+     if (r) {
+-        goto err_irqfd;
++        goto cleanup_err_irqfd;
+     }
+     sint_route->gsi = gsi;
+-    sint_route->synic = synic;
+-    sint_route->sint = sint;
+-    sint_route->refcount = 1;
+-
++cleanup:
++    qemu_mutex_lock(&synic->sint_routes_mutex);
++    QLIST_INSERT_HEAD(&synic->sint_routes, sint_route, link);
++    qemu_mutex_unlock(&synic->sint_routes_mutex);
+     return sint_route;
+ 
+-err_irqfd:
++cleanup_err_irqfd:
+     kvm_irqchip_release_virq(kvm_state, gsi);
+-err_gsi:
++
++cleanup_err_sint_notifier:
++    event_notifier_cleanup(&sint_route->sint_set_notifier);
++
++cleanup_err_sint:
+     if (ack_notifier) {
+-        event_notifier_set_handler(ack_notifier, NULL);
+-        event_notifier_cleanup(ack_notifier);
++        if (ack_event_initialized) {
++            event_notifier_set_handler(ack_notifier, NULL);
++            event_notifier_cleanup(ack_notifier);
++        }
++
+         g_free(sint_route->staged_msg);
+     }
+-err_sint_set_notifier:
+-    event_notifier_cleanup(&sint_route->sint_set_notifier);
+-err:
+-    g_free(sint_route);
+ 
++    g_free(sint_route);
+     return NULL;
+ }
+ 
+@@ -442,6 +471,8 @@ void hyperv_sint_route_ref(HvSintRoute *sint_route)
+ 
+ void hyperv_sint_route_unref(HvSintRoute *sint_route)
+ {
++    SynICState *synic;
++
+     if (!sint_route) {
+         return;
+     }
+@@ -452,21 +483,33 @@ void hyperv_sint_route_unref(HvSintRoute *sint_route)
+         return;
+     }
+ 
+-    kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state,
+-                                          &sint_route->sint_set_notifier,
+-                                          sint_route->gsi);
+-    kvm_irqchip_release_virq(kvm_state, sint_route->gsi);
++    synic = sint_route->synic;
++    qemu_mutex_lock(&synic->sint_routes_mutex);
++    QLIST_REMOVE(sint_route, link);
++    qemu_mutex_unlock(&synic->sint_routes_mutex);
++
++    if (sint_route->gsi) {
++        kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state,
++                                              &sint_route->sint_set_notifier,
++                                              sint_route->gsi);
++        kvm_irqchip_release_virq(kvm_state, sint_route->gsi);
++        event_notifier_cleanup(&sint_route->sint_set_notifier);
++    }
++
+     if (sint_route->staged_msg) {
+         event_notifier_set_handler(&sint_route->sint_ack_notifier, NULL);
+         event_notifier_cleanup(&sint_route->sint_ack_notifier);
+         g_free(sint_route->staged_msg);
+     }
+-    event_notifier_cleanup(&sint_route->sint_set_notifier);
+     g_free(sint_route);
+ }
+ 
+ int hyperv_sint_route_set_sint(HvSintRoute *sint_route)
+ {
++    if (!sint_route->gsi) {
++        return 0;
++    }
++
+     return event_notifier_set(&sint_route->sint_set_notifier);
+ }
+ 
 -- 
 2.35.1
 
