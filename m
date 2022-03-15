@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01A84D9B9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:51:47 +0100 (CET)
-Received: from localhost ([::1]:52606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42014D9BAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:57:11 +0100 (CET)
+Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6eR-0001dQ-13
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:51:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59446)
+	id 1nU6je-0004Q3-Ob
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:57:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6cg-0008VH-Px
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:49:58 -0400
-Received: from [2607:f8b0:4864:20::42d] (port=34592
- helo=mail-pf1-x42d.google.com)
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nU6eC-00024P-NA
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:51:36 -0400
+Received: from mta02.hs-regensburg.de ([194.95.104.12]:54458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6cf-0006gs-8w
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:49:58 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id l8so9009192pfu.1
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=327XM/aBhYQuTx9URqUGZSSanqSbDxIFXK31XaZ3dJc=;
- b=mfITWVW74/7+GUZbCx30cGqh4kz3cKSW9sXR7M/cMjZmv4FNU6TPWPbuAIrM9DiPiV
- RDLS9oAAN5/wEeELJcDB261Y1fJCJje2ZBDKKl7IxIKlRxXnXGfaVJqG1/zH5Xbd1RKS
- lgX+9S5qjIPg4TBLVz4o5SOhxBFQiNOQ26CH+ZADd9+7ZpBmiEWclT5RPJrnheXtDLIv
- 3QXAOiBFWicSn0dc7I+RQEaTWRjttmELKa//4XUKMTLfP69QXTm2jSm1p1IYCrN6xKJF
- 5oayOmq2WXUUjlTDCP8+Ybh6J6TfJ6rSPvYCiZrPt+j9jx3fzVyMp1vH0f8dAaCDt7aG
- oacw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=327XM/aBhYQuTx9URqUGZSSanqSbDxIFXK31XaZ3dJc=;
- b=rvMcAZH+UuY2jMu1lOQc2KwGgIpeP39XMFX+v6vabFV+yte6t2KADq/pm9LS9bl0W/
- GqPqaZuZuykGwMQ6Ito1hSqxRYZQyS7oqS87BKmv+z7iMPRRzavncL1qsOpmHjj9He0T
- Vx8hfl/orgK5L15Jsh1Lt1lFWgYMTfsIxanFxCM2yuLc0E+rI/Aau1befr0XhJ9Zp31F
- c4mExGhBJkN9RBcJmaz5GQ/NIOMWE1PtdswWC1rm4D3pipa6F1zs0kDMJyEd+sy997BH
- CkjBgWCj2EdaN95BT3girwbA8LEruopXr5cnptEmWEnZkoD+eaiM7JwQxdPnWD2wguz4
- 2XRQ==
-X-Gm-Message-State: AOAM530ANAhkDFeK+N0TOHRNBp1zetu3OLdAExEGKOqFN+1XFxLIATTP
- q1jf1IoT5+sRdn2FuYIoLhc=
-X-Google-Smtp-Source: ABdhPJyFtpe13zzLmiuvtGTJIB57y0DsAKi5DMTBfjqjA2Nq95hxhIw7N3lD/SPRVN9a2XssFfvO8w==
-X-Received: by 2002:a63:f315:0:b0:376:2310:ffed with SMTP id
- l21-20020a63f315000000b003762310ffedmr23745502pgh.23.1647348594793; 
- Tue, 15 Mar 2022 05:49:54 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- w23-20020a627b17000000b004f6cf170070sm23806671pfc.186.2022.03.15.05.49.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 05:49:54 -0700 (PDT)
-Message-ID: <05a48fb2-0d67-4e1d-6e3a-e61262196ea9@gmail.com>
-Date: Tue, 15 Mar 2022 13:49:49 +0100
+ (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
+ id 1nU6eA-0007AE-AC
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:51:32 -0400
+Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
+ [IPv6:2001:638:a01:8013::93])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "E16S03", Issuer "E16S03" (not verified))
+ by mta02.hs-regensburg.de (Postfix) with ESMTPS id 4KHtZR0MM6zxvr;
+ Tue, 15 Mar 2022 13:51:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
+ s=mta02-20211122; t=1647348687;
+ bh=w7nncRMr6drHQr7pnqtm+LGuzUw5f+XH1HzbCMPMW2Y=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To:From;
+ b=FefjYjkPNYaLXDZF5GDYnxB+G5VibESBQ0Ml68El22oJgdwL8qCwRY8BDyQRFx0l5
+ uHjdE/ObEQHaw/flyBnCXQeKMk/eGlID88x9IqQDeE2CsD7VyNChAVdZ8mC27OAh/B
+ O1JCeIccLABapKUXFWrhQCDGmloqOg5dgHwS94Cx9E8/zd01kG+GmH0oyBl/wbDymk
+ R6BqZ3vIK766DmI5k4vkaZeS26ovKUG8jVRJc8s4YgjzjCmRDmdgIS+wP5hHy5f7kg
+ 0IJyQwQOWDJzVH/ihGqFdQZFQo6f7sEcTM2PiV2QK1L9T/oAuUTPEc4tZLCBDl26SG
+ C0I7ZGmRJwWAA==
+Received: from [IPV6:2a02:810d:8fc0:44bc::2592] (2001:638:a01:8013::138) by
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 15 Mar 2022 13:51:26 +0100
+Message-ID: <3783dce0-0c5b-824e-2097-bbc3367281a6@oth-regensburg.de>
+Date: Tue, 15 Mar 2022 13:51:24 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH] MAINTAINERS: Volunteer to maintain Darwin-based hosts
- support
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [EXT] Re: QEMU+KVM on RISC-V + Hypervisor Extension
 Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20220314202738.33142-1-philippe.mathieu.daude@gmail.com>
- <20220315062708.p2xgxda46wou4uom@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220315062708.p2xgxda46wou4uom@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <57412635-6b46-823b-14a4-0ee694ace5b8@oth-regensburg.de>
+ <CAKmqyKOZN=hS73TfgHfMtxktZ9kkw4kBBA4-gjGAV8Q0Kw+KHw@mail.gmail.com>
+ <CAAhSdy23Ag=ZqUj82aZ6BNA2SJq54rbCDjeX=1cHtbq7LR8jaQ@mail.gmail.com>
+ <a840f9ac-7315-4381-4c85-719efb413b18@oth-regensburg.de>
+ <CAFEAcA98VQmM_ETpNuhq31Y7xLkS_AjVRsTeCdnqzMZG-3uxBA@mail.gmail.com>
+From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+In-Reply-To: <CAFEAcA98VQmM_ETpNuhq31Y7xLkS_AjVRsTeCdnqzMZG-3uxBA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [2001:638:a01:8013::138]
+X-ClientProxiedBy: E16S01.hs-regensburg.de (2001:638:a01:8013::91) To
+ E16S03.hs-regensburg.de (2001:638:a01:8013::93)
+Received-SPF: pass client-ip=194.95.104.12;
+ envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta02.hs-regensburg.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,39 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Joelle van Dyne <j@getutm.app>, Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Anup Patel <apatel@ventanamicro.com>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Jiangyifei <jiangyifei@huawei.com>,
+ Stefan Huber <stefan.huber@oth-regensburg.de>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/3/22 07:27, Gerd Hoffmann wrote:
-> On Mon, Mar 14, 2022 at 09:27:38PM +0100, Philippe Mathieu-Daudé wrote:
->> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+
+On 15/03/2022 13:42, Peter Maydell wrote:
+> On Tue, 15 Mar 2022 at 12:29, Ralf Ramsauer
+> <ralf.ramsauer@oth-regensburg.de> wrote:
+>> I have no kernel specified in the guest, so I'd then expect to boot into
+>> an completely empty machine (besides the tiny startup stub in the MROM).
+>> However, I still get the exact same error as mentioned in my initial mail.
 >>
->> While I am not an experienced Darwin OS user, I now have to
->> use a macOS based workstation and alike CI, meaning I should
->> easily spot regressions and test fixes. I therefore volunteer
->> to collect Darwin related patches and keep QEMU in good state
->> on macOS, and to some extent iOS.
->>
->> Cc: Joelle van Dyne <j@getutm.app>
->> Cc: Alexander Graf <agraf@csgraf.de>
->> Cc: Gerd Hoffmann <kraxel@redhat.com>
->> Cc: Cameron Esfahani <dirty@apple.com>
->> Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
->> Cc: Roman Bolshakov <r.bolshakov@yadro.com>
->> Cc: Daniel P. Berrangé <berrange@redhat.com>
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Again, without "-enable-kvm", everything works as expected (i.e., I
+>> don't see any output, because there's basically no guest code to execute).
 > 
-> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> Well, you'll always be trying to execute something, even if it's
+> all-zeroes. I dunno what RISC-V does with its encodings, but you
+> typically either end up in an infinite loop of taking exceptions
+> (if all-0s isn't a valid instruction) or else you just execute
+> through all of guest RAM (if it is something similar to a no-op).
+> In the latter scenario it's quite plausible that the guest ends
+> up doing something KVM doesn't expect, such as trying to execute
+> from an area of the address space where there is no RAM, or a device.
+> If so, "return failure from VCPU_RUN and QEMU aborts" is what I
+> think I would expect to see.
+> 
+> If I were you I would try it with some actual guest code loaded
+> at a location where there is RAM...
 
-Thanks, patch queued.
+I guess you are right, and I think, together with the other mail, I now 
+understand why I experienced a failure:
 
+As Anup explained, there is no M-Mode, but I passed an OpenSBI BIOS. The 
+initial MROM handed over to OpenSBI (located at RAM base 0x80000000). At 
+some point, OpenSBI threw an exception (maybe it accessed an CSR it is 
+not allowed to, whatever), because it is in S-Mode. Exception vectors 
+were not (yet) installed, but initialized with 0x0.
+
+This is how I ended up with the PC at 0x0. Behind 0x0, there's no 
+physical backing, and KVM threw an Instruction Guest PF (SCAUSE=0x14).
+
+Didn't verify this, but this somehow sounds plausible to me.
+
+Thanks!
+   Ralf
+
+> 
+> -- PMM
 
