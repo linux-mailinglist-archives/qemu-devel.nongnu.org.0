@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2534D9A99
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:48:01 +0100 (CET)
-Received: from localhost ([::1]:40644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F224D9AB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:54:04 +0100 (CET)
+Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU5ei-0002pU-DX
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:48:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44236)
+	id 1nU5kY-0008SP-T9
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:54:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nU5VR-0000la-Kf
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:38:27 -0400
-Received: from [2a00:1450:4864:20::632] (port=46993
- helo=mail-ej1-x632.google.com)
+ id 1nU5iq-0006TB-Dq
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:52:18 -0400
+Received: from [2a00:1450:4864:20::531] (port=35376
+ helo=mail-ed1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nU5VN-00035I-FS
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:38:23 -0400
-Received: by mail-ej1-x632.google.com with SMTP id qx21so40521432ejb.13
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 04:38:19 -0700 (PDT)
+ id 1nU5im-0005N3-Fv
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:52:14 -0400
+Received: by mail-ed1-x531.google.com with SMTP id y22so23859840eds.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 04:52:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hW1upnVTk/L4TDU9J3Q1TPeyvZob6hkipnQ+HzDDFss=;
- b=6FUDMWdYdY9i4/ximgTcI5vkW/T6lYUWX9STpbCBZRt0wsJAy7bTIChj7I3HNaYRxw
- E2vtEM2lXx0PHOUv0ZKPobRswfHoR1AGL7/AkwV3te+XEWcj3shIDrvgL6O3vIIuo90s
- 5DryMxrSi3DTLAE42/Yg2xuWoXPJbAfNaSlbPPy20r8WZINBrkcJs5CPpy3B67cBFjIa
- 0UYZUB0xkFtFZaasafpZJlAr1jt89ivch7QatmCO76XLk1YjU2nMWcyrYGkf8K+NtRIi
- YlkOhw7R0SGBcjWNZMi/2BOHP9ISw2lcZq7s0Ce+KK8z0/4JArdGN3FxrZd80iD6Joz+
- 6RkQ==
+ :cc; bh=cldBqeYkdo4ue1+sKJGyFquHYb4kFdFp03pwC4dwsJw=;
+ b=xkris++SFXskGN7cRjo7aOMu/l4957zY9i5Vb+X2Quy0tlx9sBYQcjLq1p4irhWaOa
+ p0T3LiByJhyxZHF+zszj5AZb31+A/QRiJW4RVUN1XG9cf9h77UQo/yK7i2H+HYHhlsGd
+ J3x/AGb4ITbDwFLpZ6Zyx3Z2EYMBzmKCr96d6huYzctKkdYWaML6gWKxb0al+FmlWdy/
+ 2HIMnAXKsrvpIYLGVXT55A47jxv2YlRfFOSYi/OCobSlp69skcldgCUvnAIy+muKkAkY
+ sKJLRVRyp1XnDuAlcaj8qqJ14HE0K26QbPy3KCNPoahzZE3OO6r5qq9tMMpivvBDcEIh
+ 5RNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=hW1upnVTk/L4TDU9J3Q1TPeyvZob6hkipnQ+HzDDFss=;
- b=kUcq1O5GUIIpDOVxYYAiweMUWxVKdWDm5Cd2RC6XLDbfxdboOveA9Pv67FAFlX/rO6
- /bkXybZr1k9mdJ78F3uxzuW+Yq5S5/OTfo3T4p8MoxVlR/XWTuWW3Bbg4dLE3bGB7BEv
- UJZNx46V8NFu1LYVspQ3UqW6s91TW8xAjZZMVpDtfFDr13lzm0XsIZSrhlmPbodY4o5f
- LHZuCxJjXpSADMRk1kiIWjvgipQmtQ3PDsjaVHgrwjpjAmF18AGFwSm8kNiJghQF7b8I
- 8tHl9slp/XFBOLnzPx/wiE5RH4lDd2bx4MERR6YZd+sV1Ruifj17aQ+O4nwTIFTUtiTK
- SjhQ==
-X-Gm-Message-State: AOAM5336J3b7iXwQ2Vc6TGceUl/QWJhOwT2vnG3moIwWUIOvqJSYmP25
- atS5DM1vZJ1om6d5wD/XFtDdlNB6Ft+VCh0PUX3o
-X-Google-Smtp-Source: ABdhPJzp152yErfD7ae8P+nReNBdcwK4Si9RiF1Gz0Uurvm20ni9u5R34z4ntDlCS9JZXJpMo6oYeH/pGImjcmKRpgk=
-X-Received: by 2002:a17:907:9706:b0:6db:566a:4408 with SMTP id
- jg6-20020a170907970600b006db566a4408mr22311602ejc.374.1647344298503; Tue, 15
- Mar 2022 04:38:18 -0700 (PDT)
+ bh=cldBqeYkdo4ue1+sKJGyFquHYb4kFdFp03pwC4dwsJw=;
+ b=UrI0bf1WDwQeYTcJpRytutO9EKJbzNPekgy8MgaDSkW9oICze8ebYCtEABRTA7R5kA
+ cG82ngkuf7OhKzKNAs6tFT1cLod2bt1uyNB/1sw5CGA3frED+deFWhCLkSLbFJSFMcPK
+ /ZNJHFKBqysPFyCh+8KiC8oKQBo2i/0Z57a4sqUyg6IAwh9aFdP1nSIFL2ySiM+xmVXL
+ 9mSCCks3BA7xTnraCrW3+EvAhT4BvOwKVJFF6eLNhhMuNrWjW0/fBxbEcoFoibHIqGI8
+ MgVr48yBWJjdF44W4e++buI3dRzshajWLEykxsyn0KZdsGfngmfQU1B+KaTQK6XhjkRC
+ 7sHw==
+X-Gm-Message-State: AOAM530C4Cj2pF2VZaJUDKWIUqDL2lklxvjhGomCPsaShopLN5IC0kcR
+ hAsPUdj4SNTtikVnjnKqrA/Fny5e8QUtgKI2IhhC
+X-Google-Smtp-Source: ABdhPJzgHX1x7jiLRT1BO9Pf8juejYPsGC7f+vNxGg6J4izvCFRH43PSw3zfn4KtcKej2eH7QtMQNtB4lW8eLMxD4+o=
+X-Received: by 2002:aa7:c99a:0:b0:416:290:415a with SMTP id
+ c26-20020aa7c99a000000b004160290415amr24566850edt.64.1647345130321; Tue, 15
+ Mar 2022 04:52:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220215105943.90-1-xieyongji@bytedance.com>
- <20220215105943.90-4-xieyongji@bytedance.com>
- <YjBg3QnSnpY2cAdL@stefanha-x1.localdomain>
-In-Reply-To: <YjBg3QnSnpY2cAdL@stefanha-x1.localdomain>
+ <20220215105943.90-5-xieyongji@bytedance.com>
+ <YjBzxAvvUuXBfGPn@stefanha-x1.localdomain>
+In-Reply-To: <YjBzxAvvUuXBfGPn@stefanha-x1.localdomain>
 From: Yongji Xie <xieyongji@bytedance.com>
-Date: Tue, 15 Mar 2022 19:38:12 +0800
-Message-ID: <CACycT3s7cgHBAqmpy=RZPwPZz4uptr0REzJ9fhM1qv+G_miS1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] libvduse: Add VDUSE (vDPA Device in Userspace)
- library
+Date: Tue, 15 Mar 2022 19:52:03 +0800
+Message-ID: <CACycT3t-eJBLsTKWJ85Ho0hoG4KuQCHV6Hwk6=KJXTY9=eYMDA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] vduse-blk: implements vduse-blk export
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::632
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -91,38 +90,67 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 15, 2022 at 5:48 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Tue, Mar 15, 2022 at 7:08 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> On Tue, Feb 15, 2022 at 06:59:40PM +0800, Xie Yongji wrote:
-> > VDUSE [1] is a linux framework that makes it possible to implement
-> > software-emulated vDPA devices in userspace. This adds a library
-> > as a subproject to help implementing VDUSE backends in QEMU.
+> On Tue, Feb 15, 2022 at 06:59:41PM +0800, Xie Yongji wrote:
+> > This implements a VDUSE block backends based on
+> > the libvduse library. We can use it to export the BDSs
+> > for both VM and container (host) usage.
 > >
-> > [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
+> > The new command-line syntax is:
 > >
-> > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> > ---
-> >  meson.build                                 |   15 +
-> >  meson_options.txt                           |    2 +
-> >  scripts/meson-buildoptions.sh               |    3 +
-> >  subprojects/libvduse/include/atomic.h       |    1 +
-> >  subprojects/libvduse/libvduse.c             | 1152 +++++++++++++++++++
-> >  subprojects/libvduse/libvduse.h             |  225 ++++
-> >  subprojects/libvduse/linux-headers/linux    |    1 +
-> >  subprojects/libvduse/meson.build            |   10 +
-> >  subprojects/libvduse/standard-headers/linux |    1 +
-> >  9 files changed, 1410 insertions(+)
-> >  create mode 120000 subprojects/libvduse/include/atomic.h
-> >  create mode 100644 subprojects/libvduse/libvduse.c
-> >  create mode 100644 subprojects/libvduse/libvduse.h
-> >  create mode 120000 subprojects/libvduse/linux-headers/linux
-> >  create mode 100644 subprojects/libvduse/meson.build
-> >  create mode 120000 subprojects/libvduse/standard-headers/linux
+> > $ qemu-storage-daemon \
+> >     --blockdev file,node-name=drive0,filename=test.img \
+> >     --export vduse-blk,node-name=drive0,id=vduse-export0,writable=on
+> >
+> > After the qemu-storage-daemon started, we need to use
+> > the "vdpa" command to attach the device to vDPA bus:
+> >
+> > $ vdpa dev add name vduse-export0 mgmtdev vduse
 >
-> Please update the ./MAINTAINERS file when adding new source files.
+> The per-QEMU export id is used as the global vdpa device name. If this
+> becomes a problem in the future then a new --export
+> vduse-blk,vdpa-dev-name= option can be added.
+>
 
-OK, sure. And would you mind being one of the maintainers since I'm
-not sure if I can do this job well.
+Yes.
+
+> > +    case VIRTIO_BLK_T_GET_ID: {
+> > +        size_t size = MIN(iov_size(&elem->in_sg[0], in_num),
+> > +                          VIRTIO_BLK_ID_BYTES);
+> > +        snprintf(elem->in_sg[0].iov_base, size, "%s", vblk_exp->export.id);
+>
+> Please use iov_from_buf(). The driver is allowed to submit as many
+> in_sg[] elements as it wants and a compliant virtio-blk device
+> implementation must support that.
+>
+
+Got it.
+
+> Here is the VIRTIO specification section that covers message framing:
+> https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x1-280004
+>
+> > +    features = (1ULL << VIRTIO_F_IOMMU_PLATFORM) |
+> > +               (1ULL << VIRTIO_F_VERSION_1) |
+> > +               (1ULL << VIRTIO_RING_F_EVENT_IDX) |
+> > +               (1ULL << VIRTIO_F_NOTIFY_ON_EMPTY) |
+> > +               (1ULL << VIRTIO_RING_F_INDIRECT_DESC) |
+> > +               (1ULL << VIRTIO_BLK_F_SIZE_MAX) |
+> > +               (1ULL << VIRTIO_BLK_F_SEG_MAX) |
+> > +               (1ULL << VIRTIO_BLK_F_TOPOLOGY) |
+> > +               (1ULL << VIRTIO_BLK_F_BLK_SIZE);
+>
+> The VIRTIO_F_ and VIRTIO_RING_F_ feature bits report the capabilities of
+> libvduse. They should probably be defined in libvduse. That way no
+> changes to vduse-blk.c are required when libvduse changes:
+>
+>   features = LIBVDUSE_VIRTIO_FEATURES |
+>              (1ULL << VIRTIO_BLK_F_SIZE_MAX) |
+>              ...;
+
+It's OK to define the VIRTIO_F_* feature bits in libvduse since daemon
+might not want to disable it. But maybe not including VIRTIO_RING_F_*
+feature bits since daemon might want to disable them in some cases.
 
 Thanks,
 Yongji
