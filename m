@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9F44D99E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:03:57 +0100 (CET)
-Received: from localhost ([::1]:45516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7C24D99F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:07:07 +0100 (CET)
+Received: from localhost ([::1]:49574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU4y4-0006CG-BW
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:03:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59374)
+	id 1nU518-0000tk-Oi
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:07:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nU4pN-0007Wv-33
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:54:58 -0400
-Received: from [2a00:1450:4864:20::535] (port=41636
- helo=mail-ed1-x535.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nU4pK-0002JG-Rb
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:54:56 -0400
-Received: by mail-ed1-x535.google.com with SMTP id c20so23617673edr.8
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 03:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=c35fIfHlUurVNU5oiXgpvaZuMKMY1HzDBarpdEzAlns=;
- b=b3SAVBQhB7StKnrAqfNfRamTqFN5Fa3kjiyEakMiBzJlCJpSUEk5k1S1oYafJA0G7c
- FUxgGZxhK8nBF5N+EjkBIISkyTcBlOd6Hz/mNsP8ilLIWGxMHchHLwgkiho1BbZRGxkC
- rXSG4jM8lZbAGo1BTX3XNhN7+k7d4L1fZGhwlIcRb77yVLFgoRY++qoJKlmRlm2D/tIJ
- mQVe/yr+nNp+pWUbD0TARiZ9YmI1jGpsJbpEjBpl4Ci3k2ncuhEnblTsXBVVdUNRWt19
- EbJKaih1gV0Tz2Bwt3NV6r478AkDM/aSC38CVmcIcoQbzLnX4SKdMxGfojyXBvSoYJfA
- 7IuQ==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nU4sz-0003d3-Lt
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:58:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59205)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1nU4su-00035j-EK
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:58:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647341915;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j4q1mDkTkfU3rhMwSrf7xL1WLfewGHyjSGlrtIXdyt8=;
+ b=T7EDu2xV275NETyx7EG9BEbB+wO4fU9kQnmfUAsW5KXsY2bPrdqAMjN80fndtWGiVyVxSp
+ Dfi1veKNTP0twdnT3vIPv8kr//a24jtyl8WbM3yDUG4c05PB7asyNU1Kb3GvLM4NYIT7KW
+ wsMeecsMTnMUmjaLcPitSUqa8nRoweQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-306-M7nMWUoJN-OJvKsvgwFp0g-1; Tue, 15 Mar 2022 06:58:34 -0400
+X-MC-Unique: M7nMWUoJN-OJvKsvgwFp0g-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ o9-20020adfca09000000b001ea79f7edf8so5169273wrh.16
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 03:58:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=c35fIfHlUurVNU5oiXgpvaZuMKMY1HzDBarpdEzAlns=;
- b=wX0738UvJcBF7X5mDQhWPPJHynyc1zDJIGW+LPCwkQI1+lNomYkEe9FP246ilLpUht
- mZ3OfNKWlZzkBYFZiksxNvKDjT/nDa3O4rvT3t8IB5LDas+rYjPuqfotTVIprtf4pCng
- W9AV1w2kvxC55TJhy4lBnmFooPtHKcK/o3UWG2+Abf7l1zLnvXalRmA6C1FLTWeC+PIF
- 3sz0f/wxrdLRHQr1p4TFlqTUhtol5BzWwB+O/YViGZ+gPdo4mt3/02quYHm5Jrup2x9v
- YyVOnbryG9VRW9WZaDt59NudesQ40YWo8qDlpVRYhq31b5SW5/sCmGghuASChc/qsUTY
- ELZA==
-X-Gm-Message-State: AOAM5323OC9DychrKweowTmtfRZ9PPQJ1r3kXY9Jeae7bas5v9NIJc6m
- AmnOt+CXw1UA8W4CJhRmpsA/1EAVWyQ=
-X-Google-Smtp-Source: ABdhPJw/OCQ+WfZYliuYZkIxC2qW4tlZvGkTadpOO70WADwBR7AudV3Bf0m1j10yXTON+at+IJ3zzw==
-X-Received: by 2002:aa7:de0e:0:b0:416:607c:6d45 with SMTP id
- h14-20020aa7de0e000000b00416607c6d45mr24885882edv.127.1647341692773; 
- Tue, 15 Mar 2022 03:54:52 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- qa44-20020a17090786ac00b006dbe1ca23casm1731344ejc.45.2022.03.15.03.54.51
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=j4q1mDkTkfU3rhMwSrf7xL1WLfewGHyjSGlrtIXdyt8=;
+ b=taXgiUhC1kjpgGGbvTqMrdF3sQ62amepGBI1XhRkV/Shw0GOrtydniMhgyebFNJKw0
+ PGHIvwKq09Co6lMZKSss8jVMKKMKf9nS3x72xPzsDhz5NqmDhzpR5bUCwXpxCcrwdWFe
+ E7j+SZfKRV3GYUY9lneOA3SUN8TwB0TWVovCai79sUmkiTW1HoSD4wRmcTM97szawF0c
+ 5ykD6CnEBE7h0GrrH4L9U4ubwm0g+4+q329SBJ8xtJSHLIbLpQgA6DMfHMAdy5D4gP9e
+ rJcRStp2SyH2CMdhgGo5w4sz6jiviFh6xnaiJ0OongAbo6ZWLFgkYLoZRBjdrO8rASIR
+ h25Q==
+X-Gm-Message-State: AOAM532HggnP8yWU0qsoPVe0O/0LOHl5j20ef+g+0h1cD/JUee0fChN8
+ btGBnNmeJcN+hjtQwfRePFmwQFKf6tbvGorlSoeoLp2pBDRLtYkvZBf/WYwHrWuyT5eXtywjuO3
+ BuFmY2dFNu4NWgyA=
+X-Received: by 2002:adf:e704:0:b0:203:750b:3d8 with SMTP id
+ c4-20020adfe704000000b00203750b03d8mr19437740wrm.623.1647341912944; 
+ Tue, 15 Mar 2022 03:58:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8F5reu0obf+EcRrMdtMT6tiW8zTCLp5lDbrl9sclZsfIDBUU+L8B96ElFqtFOlRiqihEQ9A==
+X-Received: by 2002:adf:e704:0:b0:203:750b:3d8 with SMTP id
+ c4-20020adfe704000000b00203750b03d8mr19437702wrm.623.1647341912687; 
+ Tue, 15 Mar 2022 03:58:32 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ l41-20020a05600c1d2900b00389d3e18f8esm2188196wms.26.2022.03.15.03.58.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 03:54:52 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v3 00/22] QEMU changes for 7.0 soft freeze
-Date: Tue, 15 Mar 2022 11:54:49 +0100
-Message-Id: <20220315105450.1587293-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.35.1
+ Tue, 15 Mar 2022 03:58:31 -0700 (PDT)
+Date: Tue, 15 Mar 2022 10:58:28 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 3/3] Use g_new() & friends where that makes obvious sense
+Message-ID: <YjBxVFUw2DtBniYS@work-vm>
+References: <20220314160108.1440470-1-armbru@redhat.com>
+ <20220314160108.1440470-4-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220314160108.1440470-4-armbru@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,106 +100,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Eric Blake <eblake@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ Paul Durrant <paul@xen.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Amit Shah <amit@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, haxm-team@intel.com,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ qemu-ppc@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-s390x@nongnu.org, Patrick Venture <venture@google.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Corey Minyard <cminyard@mvista.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 6f4fe14b46f0a161f94e3f6e98690ac38184b0be:
+* Markus Armbruster (armbru@redhat.com) wrote:
+> g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
+> for two reasons.  One, it catches multiplication overflowing size_t.
+> Two, it returns T * rather than void *, which lets the compiler catch
+> more type errors.
+> 
+> This commit only touches allocations with size arguments of the form
+> sizeof(T).
+> 
+> Patch created mechanically with:
+> 
+>     $ spatch --in-place --sp-file scripts/coccinelle/use-g_new-etc.cocci \
+> 	     --macro-file scripts/cocci-macro-file.h FILES...
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-  Merge tag 'pull-tcg-20220314' of https://gitlab.com/rth7680/qemu into staging (2022-03-14 18:11:36 +0000)
+Just a small patch then...
 
-are available in the Git repository at:
+> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+> index d65e744af9..aace12a787 100644
+> --- a/migration/dirtyrate.c
+> +++ b/migration/dirtyrate.c
+> @@ -91,7 +91,7 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+>  {
+>      int i;
+>      int64_t dirty_rate = DirtyStat.dirty_rate;
+> -    struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
+> +    struct DirtyRateInfo *info = g_new0(DirtyRateInfo, 1);
+>      DirtyRateVcpuList *head = NULL, **tail = &head;
+>  
+>      info->status = CalculatingState;
+> @@ -112,7 +112,7 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+>              info->sample_pages = 0;
+>              info->has_vcpu_dirty_rate = true;
+>              for (i = 0; i < DirtyStat.dirty_ring.nvcpu; i++) {
+> -                DirtyRateVcpu *rate = g_malloc0(sizeof(DirtyRateVcpu));
+> +                DirtyRateVcpu *rate = g_new0(DirtyRateVcpu, 1);
+>                  rate->id = DirtyStat.dirty_ring.rates[i].id;
+>                  rate->dirty_rate = DirtyStat.dirty_ring.rates[i].dirty_rate;
+>                  QAPI_LIST_APPEND(tail, rate);
+> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+> index aba1c88a0c..3a7ae44485 100644
+> --- a/migration/multifd-zlib.c
+> +++ b/migration/multifd-zlib.c
+> @@ -43,7 +43,7 @@ struct zlib_data {
+>   */
+>  static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
+>  {
+> -    struct zlib_data *z = g_malloc0(sizeof(struct zlib_data));
+> +    struct zlib_data *z = g_new0(struct zlib_data, 1);
+>      z_stream *zs = &z->zs;
+>  
+>      zs->zalloc = Z_NULL;
+> @@ -164,7 +164,7 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+>   */
+>  static int zlib_recv_setup(MultiFDRecvParams *p, Error **errp)
+>  {
+> -    struct zlib_data *z = g_malloc0(sizeof(struct zlib_data));
+> +    struct zlib_data *z = g_new0(struct zlib_data, 1);
+>      z_stream *zs = &z->zs;
+>  
+>      p->data = z;
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 170e522a1f..3532f64ecb 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2059,7 +2059,7 @@ int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len)
+>      }
+>  
+>      struct RAMSrcPageRequest *new_entry =
+> -        g_malloc0(sizeof(struct RAMSrcPageRequest));
+> +        g_new0(struct RAMSrcPageRequest, 1);
+>      new_entry->rb = ramblock;
+>      new_entry->offset = start;
+>      new_entry->len = len;
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 8a5606f6449c90a0731790ed03eebedcf7045070:
-
-  gitlab-ci: do not run tests with address sanitizer (2022-03-15 11:50:50 +0100)
-
-----------------------------------------------------------------
-* whpx fixes in preparation for GDB support (Ivan)
-* VSS header fixes (Marc-André)
-* 5-level EPT support (Vitaly)
-* AMX support (Jing Liu & Yang Zhong)
-* Bundle changes to MSI routes (Longpeng)
-* More precise emulation of #SS
-* Disable ASAN testing
-
-----------------------------------------------------------------
-Sorry for this being so late.  If you want to delay it to 7.1 I won't complain.
-
-v3->v4: fix sign extension in "target/i386: Throw a
-        #SS when loading a non-canonical IST"
-
-Gareth Webb (1):
-      target/i386: Throw a #SS when loading a non-canonical IST
-
-Ivan Shcherbakov (2):
-      whpx: Fixed reporting of the CPU context to GDB for 64-bit
-      whpx: Fixed incorrect CR8/TPR synchronization
-
-Jing Liu (5):
-      x86: Fix the 64-byte boundary enumeration for extended state
-      x86: Add AMX XTILECFG and XTILEDATA components
-      x86: Add XFD faulting bit for state components
-      x86: Add AMX CPUIDs enumeration
-      x86: add support for KVM_CAP_XSAVE2 and AMX state migration
-
-Longpeng (Mike) (2):
-      kvm-irqchip: introduce new API to support route change
-      kvm/msi: do explicit commit when adding msi routes
-
-Marc-André Lureau (3):
-      meson: fix generic location of vss headers
-      qga/vss-win32: check old VSS SDK headers
-      qga/vss: update informative message about MinGW
-
-Maxim Levitsky (1):
-      KVM: SVM: always set MSR_AMD64_TSC_RATIO to default value
-
-Paolo Bonzini (4):
-      update meson-buildoptions.sh
-      target/i386: only include bits in pg_mode if they are not ignored
-      linux-headers: include missing changes from 5.17
-      gitlab-ci: do not run tests with address sanitizer
-
-Vitaly Kuznetsov (2):
-      vmxcap: Add 5-level EPT bit
-      i386: Add Icelake-Server-v6 CPU model with 5-level EPT support
-
-Yang Zhong (1):
-      x86: Grant AMX permission for guest
-
-Zeng Guang (1):
-      x86: Support XFD and AMX xsave data migration
-
- .gitlab-ci.d/buildtest.yml           |   2 -
- accel/kvm/kvm-all.c                  |   7 +-
- accel/stubs/kvm-stub.c               |   2 +-
- hw/misc/ivshmem.c                    |   5 +-
- hw/vfio/pci.c                        |   5 +-
- hw/virtio/virtio-pci.c               |   4 +-
- include/sysemu/kvm.h                 |  23 ++++++-
- linux-headers/asm-x86/kvm.h          |   3 +
- linux-headers/linux/kvm.h            |   4 ++
- meson.build                          |   5 +-
- qga/meson.build                      |   2 +-
- qga/vss-win32/install.cpp            |   4 ++
- qga/vss-win32/provider.cpp           |   4 ++
- qga/vss-win32/vss-common.h           |   3 +-
- scripts/kvm/vmxcap                   |   1 +
- scripts/meson-buildoptions.sh        |   2 +-
- target/i386/cpu.c                    |  84 +++++++++++++++++++++--
- target/i386/cpu.h                    |  43 +++++++++++-
- target/i386/kvm/kvm-cpu.c            |  11 +--
- target/i386/kvm/kvm.c                | 125 ++++++++++++++++++++++++++++++-----
- target/i386/kvm/kvm_i386.h           |   1 +
- target/i386/machine.c                |  46 +++++++++++++
- target/i386/tcg/seg_helper.c         |  52 ++++++++++++++-
- target/i386/tcg/sysemu/excp_helper.c |  40 +----------
- target/i386/whpx/whpx-all.c          |  30 ++++++++-
- target/i386/xsave_helper.c           |  28 ++++++++
- 26 files changed, 451 insertions(+), 85 deletions(-)
+For migration:
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 -- 
-2.35.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
