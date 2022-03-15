@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509074D98A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 11:24:16 +0100 (CET)
-Received: from localhost ([::1]:43314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27ABB4D98EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 11:39:05 +0100 (CET)
+Received: from localhost ([::1]:42334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU4Lf-0006vT-Cm
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 06:24:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46482)
+	id 1nU4a0-0000P7-8e
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 06:39:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nU4Hs-0003f4-OX
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:20:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1nU4Ho-0003up-OI
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:20:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647339615;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=XxMvkuC7USB+drxSX+n5zFqn1B+31AoJHzEuA0BmT7k=;
- b=cLoNirlKyOZ6rYNxml2F63Ot43xLcpGuvotGS2EXINkKWDa/SHyWcnmh2BkzjnIglvPhZI
- JMsZST6/y1rwMDALu3dZigxhdBAHx2sa+04dFZgNmDZ0PgRLmAgGEhU+9pNndNuaxjNC/j
- lbrNSp7uq/CJ/Lo0FvL9YfL2UzC2fn0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-530-Ov5DNooGMuGuwkonKYHGyA-1; Tue, 15 Mar 2022 06:20:06 -0400
-X-MC-Unique: Ov5DNooGMuGuwkonKYHGyA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A7E603C1855C;
- Tue, 15 Mar 2022 10:20:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4802E2156A5A;
- Tue, 15 Mar 2022 10:19:58 +0000 (UTC)
-Date: Tue, 15 Mar 2022 10:19:55 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 2/2] Added parameter to take screenshot with
- screendump as PNG.
-Message-ID: <YjBoS6qvjE6EHokR@redhat.com>
-References: <20220301064424.136234-1-kshitij.suri@nutanix.com>
- <20220301064424.136234-2-kshitij.suri@nutanix.com>
- <871qz88yu7.fsf@pond.sub.org>
- <30e38de3-3b07-b440-ad32-a189720db301@nutanix.com>
- <87r173o7h4.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nU4T1-0001Ce-5m
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:31:51 -0400
+Received: from [2607:f8b0:4864:20::b2a] (port=41827
+ helo=mail-yb1-xb2a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nU4Sz-0005yI-8s
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:31:50 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id l2so36326616ybe.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 03:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zlrlh5TPi5kXMaNYiTVC+b6+c9SpiZrArsIVr9lcH2Q=;
+ b=BCAtmwOgPhisi0WP+dBKxYtWh7mCf55b1HK+HBs5qrR3RYx/lLJ/6nsDyVwvpmgAUZ
+ UpCTwJ45x+o2MDydkMtnEi7EKuHzDWbrS+zEI5W1To8ZbDctbcJnR1fb9BjrrtMZwzf5
+ WKUr65CFh93+LF00/fiNHadT+HGebtSAAHeYFzyPopd40UuOaAmrzWliLY5zQ2GSVJNb
+ PDaCTtrDtVB4YrfaQxfp+Aas7botCs8m2njZ/g8lHMTRoOr+eJc7AXjo5lGys4RNbdwa
+ A+9/BMk4qXKHgsbBT7cvhDBgiUiAxgbaNIhXoHmDzWIi860oKv9yRZO3zZjzpNygIptE
+ TofQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zlrlh5TPi5kXMaNYiTVC+b6+c9SpiZrArsIVr9lcH2Q=;
+ b=oj95dbkUKiiGJweIfmbQ2sHm6cpvAt2EJrwHd38uU1TvJo4snNCDxqjzrMwbtZqYgf
+ TYAWi4VuvP4RalrpYb13kwgXJf8ILObmavhFYgrwNmE0+JIR5C9/ivSaBHbXdsc8gcqw
+ AIQnFOJt6VO/nZJIBiyZN6fihv7YX9NiTfQmNQnMsxbwrtVNDWfLmhDuFZJEKtFG+w4m
+ lPPCVf5ZuED9ng1mBX1/WRLx4VYUQIZfl9D/ZX8Ug3y9ZKmhAA+mRjjNhZr/VScNyrdH
+ tL1YPygb/eUALimuTRu1KRsgzaifo+rJ6yKtMjVoFjBnd9EBVAi5WgJO+T3iYqTBOYkC
+ ZXWg==
+X-Gm-Message-State: AOAM530iz5JgpWxM3VMTrRrXuiszTkZdLKd/3H/cafSy6NH555CWlPOG
+ 493/LakzQeS5ynUCzItlRYi665e5r7Do8f4Z7TbbIA==
+X-Google-Smtp-Source: ABdhPJwwjSQ1cvWecIZihzIxojaupN/dtGJqOzAi7Q4Fz4L8KcVGKQYNRDsozuHBqjzH5IZlZrIW4H3VAGlGjI2U8C8=
+X-Received: by 2002:a25:2d27:0:b0:633:7521:4794 with SMTP id
+ t39-20020a252d27000000b0063375214794mr2133796ybt.193.1647340308048; Tue, 15
+ Mar 2022 03:31:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87r173o7h4.fsf@pond.sub.org>
-User-Agent: Mutt/2.1.5 (2021-12-30)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20220315015740.847370-1-raj.khem@gmail.com>
+ <71be7777-9888-18fd-bdd0-3cef3ada8728@linaro.org>
+In-Reply-To: <71be7777-9888-18fd-bdd0-3cef3ada8728@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 15 Mar 2022 10:31:36 +0000
+Message-ID: <CAFEAcA9+ppnpHxjzScesj4ZzNDVJ8bNzb2nkcd8cN5+zMJwJfg@mail.gmail.com>
+Subject: Re: [PATCH v4] ppc64: Avoid pt_regs struct definition
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,71 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: soham.ghosh@nutanix.com, prerna.saxena@nutanix.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, Kshitij Suri <kshitij.suri@nutanix.com>,
- kraxel@redhat.com, thuth@redhat.com, prachatos.mitra@nutanix.com,
- eblake@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Khem Raj <raj.khem@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 15, 2022 at 11:06:31AM +0100, Markus Armbruster wrote:
-> Kshitij Suri <kshitij.suri@nutanix.com> writes:
-> 
-> > On 11/03/22 5:50 pm, Markus Armbruster wrote:
-> >> Kshitij Suri <kshitij.suri@nutanix.com> writes:
-> >>
-> >>> Currently screendump only supports PPM format, which is un-compressed and not
-> >>> standard. Added a "format" parameter to qemu monitor screendump capabilites
-> >>> to support PNG image capture using libpng. The param was added in QAPI schema
-> >>> of screendump present in ui.json along with png_save() function which converts
-> >>> pixman_image to PNG. HMP command equivalent was also modified to support the
-> >>> feature.
-> >>>
-> >>> Example usage:
-> >>> { "execute": "screendump", "arguments": { "filename": "/tmp/image",
-> >>> "format":"png" } }
-> >>>
-> >>> Resolves: https://urldefense.proofpoint.com/v2/url?u=https-3A__gitlab.com_qemu-2Dproject_qemu_-2D_issues_718&d=DwIBAg&c=s883GpUCOChKOHiocYtGcg&r=utjv19Ej9Fb0TB7_DX0o3faQ-OAm2ypPniPyqVSoj_w&m=SxmcA4FlCCy9O9eUaDUiSY37bauF6iJbDRVL--VUyTG5Vze_GFjmJuxgwAVYRjad&s=OIKnm9xXYjeat7TyIJ_-z9EvG2XYXMULNbHe0Bjzyjo&e=
-> >>>
-> >>> Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
-> 
-> [...]
-> 
-> >>> diff --git a/qapi/ui.json b/qapi/ui.json
-> >>> index 9354f4c467..6aa0dd7c1b 100644
-> >>> --- a/qapi/ui.json
-> >>> +++ b/qapi/ui.json
-> 
-> [...]
-> 
-> >>>   ##
-> >>>   # @screendump:
-> >>>   #
-> >>> -# Write a PPM of the VGA screen to a file.
-> >>> +# Write a screenshot of the VGA screen to a file.
-> >>
-> >> Is "VGA screen" accurate?  Or does this work for other displays, too?
+On Tue, 15 Mar 2022 at 02:14, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 3/14/22 18:57, Khem Raj wrote:
+> > Remove pt_regs indirection and instead reference gp_regs directly, this
+> > makes it portable across musl/glibc
 > >
-> > The patch didn't modify any display changes and VGA screen was
-> > previously supported display type.
-> 
-> Let me rephrase my question: was "VGA screen" accurate before your
-> patch?
+> > Use PT_* constants defined in asm/ptrace.h
+> >
+> > Move the file to ppc64 subdir and leave ppc empty
+> >
+> > Fixes
+> > ../qemu-6.2.0/linux-user/host/ppc64/../ppc/host-signal.h:16:32: error: =
+incomplete definition of type 'struct pt_regs'
+> >      return uc->uc_mcontext.regs->nip;
+> >             ~~~~~~~~~~~~~~~~~~~~^
+> >
+> > Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> > Cc: Peter Maydell<peter.maydell@linaro.org>
+> > Cc: Philippe Mathieu-Daud=C3=A9<f4bug@amsat.org>
+> > Cc: Richard Henderson<richard.henderson@linaro.org>
+> > ---
+> > v2: Drop ifdef __powerpc__
+> > v3: Access go_regs directly and move the file to ppc64 dir
+> > v4: Use PT_* constants defined in asm/ptrace.h
+> >
+> >   linux-user/include/host/ppc/host-signal.h   | 38 -------------------
+> >   linux-user/include/host/ppc64/host-signal.h | 42 ++++++++++++++++++++=
+-
+> >   2 files changed, 41 insertions(+), 39 deletions(-)
+> >   delete mode 100644 linux-user/include/host/ppc/host-signal.h
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-No, it would be better phrased as
+I did a compile-check and confirmed that this builds OK
+on glibc headers too.
 
-  "Capture the specified screen contents and write it to a file"
-
-In a multi-head scenario, it can be any of the output heads, and
-whether the head is in a VGA mode or not is irrelevant to the
-command functionality.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
