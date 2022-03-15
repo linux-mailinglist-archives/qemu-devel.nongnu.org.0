@@ -2,108 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8544D9E2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 15:55:33 +0100 (CET)
-Received: from localhost ([::1]:58476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD824D9E4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 16:02:19 +0100 (CET)
+Received: from localhost ([::1]:42984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU8aC-0000ln-Ek
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 10:55:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59902)
+	id 1nU8gj-0001PC-2Z
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 11:02:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1nU8Y7-0006MK-4c; Tue, 15 Mar 2022 10:53:23 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48098)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1nU8Y5-00037E-1v; Tue, 15 Mar 2022 10:53:22 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22FEThrf008618; 
- Tue, 15 Mar 2022 14:53:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=VBmqh0SOSKeu1nlkfViPONHO+nDtRAfOwSoBIJINEKY=;
- b=rP56cPiuVvT8O2T2vJEqN7H6MQGyXFJkA1Igff6E1957mRwFkt/MXGwLcHJUyw3EqZuH
- OQd2xvF9XYo/CuQ2F+wImbifuOvUk8uof+eET6/tJj5KBCQIu07bXv5mAB4WhBpq+rew
- oqXI/pugawE/AzsGG3Ym3AZDXdQ2q7s5oH8TV0TMJKXPYclClyTJe0iXKMSNavl0//i5
- VGbd6PkGioxVztDG6nNLtgYi4R2puWVJhh6xk42L06bFcWGU0MmMSvvX0XpxJ3cI/V8X
- j3jtC+9FF1AvxNg0PSbo2gjmWgMfGHtK3JVWxYTQSKD3yQxg+EM4dzgeUpX+Yhu9oidC 3Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3etvbm90nf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Mar 2022 14:53:16 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22FEq5jC004718;
- Tue, 15 Mar 2022 14:53:16 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3etvbm90ms-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Mar 2022 14:53:16 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22FErEVX030663;
- Tue, 15 Mar 2022 14:53:14 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06fra.de.ibm.com with ESMTP id 3erjshnw5a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Mar 2022 14:53:13 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22FErBr426280214
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Mar 2022 14:53:11 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7BD28A4051;
- Tue, 15 Mar 2022 14:53:11 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 94025A4040;
- Tue, 15 Mar 2022 14:53:10 +0000 (GMT)
-Received: from [9.171.51.74] (unknown [9.171.51.74])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 15 Mar 2022 14:53:10 +0000 (GMT)
-Message-ID: <9a22c060-d22a-8fbf-6939-1f8b02d6f338@linux.ibm.com>
-Date: Tue, 15 Mar 2022 15:53:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PULL 00/18] migration queue
-Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
- thuth@redhat.com
-References: <20220302182936.227719-1-dgilbert@redhat.com>
- <CAFEAcA9CrHEu8F7PGGTvsdyLnFJhan9V9FkHDgvapje+_E=hVA@mail.gmail.com>
- <f750a1a4-223c-9456-ab23-a616f7eb2625@gmail.com> <Yieku+cTxY0Xyp5C@work-vm>
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <Yieku+cTxY0Xyp5C@work-vm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7XGrNp39DOtZLcqWqFxnva_njPIt7YxL
-X-Proofpoint-ORIG-GUID: ULTBeF8N4mPIMi6SCGjfNolq_pcS9R_O
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nU8eb-0000Pb-QR; Tue, 15 Mar 2022 11:00:05 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:35378 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nU8eY-0004Gp-Ky; Tue, 15 Mar 2022 11:00:05 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowAD3_NjmqTBi+CqQAw--.54635S2;
+ Tue, 15 Mar 2022 22:59:51 +0800 (CST)
+Subject: Re: [PATCH 1/2] target/riscv: cpu: Fixup indentation
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20220315064007.3600746-1-alistair.francis@opensource.wdc.com>
+ <20220315064007.3600746-2-alistair.francis@opensource.wdc.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <f3e03984-6e44-4e44-b644-61b72ae4a690@iscas.ac.cn>
+Date: Tue, 15 Mar 2022 22:59:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-15_03,2022-03-15_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- priorityscore=1501 clxscore=1011 phishscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 spamscore=0 impostorscore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203150094
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220315064007.3600746-2-alistair.francis@opensource.wdc.com>
+Content-Type: multipart/alternative;
+ boundary="------------9B4381D7D23E5E871EA66B3C"
+Content-Language: en-US
+X-CM-TRANSID: zQCowAD3_NjmqTBi+CqQAw--.54635S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrurW7CFyDJF47Xr1UtFWxCrg_yoWkZwc_Ga
+ 4IgFZrW3y7Jr40vrWUua18trn3Ga95Wrn2gws7ta1rGry7Ww1rAan7JF18Zr1fuay5CF9a
+ vryxGrW3Cw18tjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbyAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21lYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2
+ jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II
+ 8E6IAqYI8I648v4I1lFcxC0VAYjxAxZF0Ew4CEw7xC0wACY4xI67k04243AVC20s07Mx8G
+ jcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0Ew4C26cxK6c8Ij2
+ 8IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v2
+ 6r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2
+ Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_
+ Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr
+ 1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JwCE64xvF2IEb7IF0Fy7YxBIdaVFxhVjvjDU
+ 0xZFpf9x0JUySoJUUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,62 +75,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ilya Leoshkevich <iii@linux.ibm.com>, quintela@redhat.com,
- s.reiter@proxmox.com, qemu-devel@nongnu.org, peterx@redhat.com,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>, hreitz@redhat.com,
- f.ebner@proxmox.com, jinpu.wang@ionos.com
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 08.03.22 um 19:47 schrieb Dr. David Alan Gilbert:
-> * Philippe Mathieu-Daudé (philippe.mathieu.daude@gmail.com) wrote:
->> On 3/3/22 15:46, Peter Maydell wrote:
->>> On Wed, 2 Mar 2022 at 18:32, Dr. David Alan Gilbert (git)
->>> <dgilbert@redhat.com> wrote:
->>>>
->>>> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->>>>
->>>> The following changes since commit 64ada298b98a51eb2512607f6e6180cb330c47b1:
->>>>
->>>>     Merge remote-tracking branch 'remotes/legoater/tags/pull-ppc-20220302' into staging (2022-03-02 12:38:46 +0000)
->>>>
->>>> are available in the Git repository at:
->>>>
->>>>     https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220302b
->>>>
->>>> for you to fetch changes up to 18621987027b1800f315fb9e29967e7b5398ef6f:
->>>>
->>>>     migration: Remove load_state_old and minimum_version_id_old (2022-03-02 18:20:45 +0000)
->>>>
->>>> ----------------------------------------------------------------
->>>> Migration/HMP/Virtio pull 2022-03-02
->>>>
->>>> A bit of a mix this time:
->>>>     * Minor fixes from myself, Hanna, and Jack
->>>>     * VNC password rework by Stefan and Fabian
->>>>     * Postcopy changes from Peter X that are
->>>>       the start of a larger series to come
->>>>     * Removing the prehistoic load_state_old
->>>>       code from Peter M
->>
->> I'm seeing an error on the s390x runner:
->>
->> ▶  26/547 ERROR:../tests/qtest/migration-test.c:276:check_guests_ram:
->> assertion failed: (bad == 0) ERROR
->>
->>   26/547 qemu:qtest+qtest-i386 / qtest-i386/migration-test            ERROR
->> 78.87s   killed by signal 6 SIGABRT
->>
->> https://app.travis-ci.com/gitlab/qemu-project/qemu/jobs/562515884#L7848
-> 
-> Yeh, thuth mentioned that, it seems to only be s390 which is odd.
-> I'm not seeing anything obviously architecture dependent in that set, or
-> for that matter that plays with the ram migration stream much.
-> Is this reliable enough that someone with a tame s390 could bisect?
+This is a multi-part message in MIME format.
+--------------9B4381D7D23E5E871EA66B3C
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-I just asked Peter to try with DFLTCC=0 to disable the hardware acceleration. Maybe
-the zlib library still has a bug? (We are not aware of any problem right now).
-In case DFLTCC makes a difference, this would be something for Ilya to look at.
+Hi Alistair,
+
+It seems that there is other indentation problem in  cpu.c. Maybe they 
+can be fixed together.
+
+/* Do some ISA extension error checking */
+if(cpu->cfg.ext_i&& cpu->cfg.ext_e) {
+error_setg(errp,
+"I and E extensions are incompatible");
+return;
+}
+if(!cpu->cfg.ext_i&& !cpu->cfg.ext_e) {
+error_setg(errp,
+"Either I or E extension must be set");
+return;
+}
+
+Regards,
+
+Weiwei Li
+
+在 2022/3/15 下午2:40, Alistair Francis 写道:
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>   target/riscv/cpu.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index ddda4906ff..a4120c7fb4 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -709,11 +709,11 @@ static void riscv_cpu_set_irq(void *opaque, int irq, int level)
+>           case IRQ_S_EXT:
+>           case IRQ_VS_EXT:
+>           case IRQ_M_EXT:
+> -             if (kvm_enabled()) {
+> +            if (kvm_enabled()) {
+>                   kvm_riscv_set_irq(cpu, irq, level);
+> -             } else {
+> +            } else {
+>                   riscv_cpu_update_mip(cpu, 1 << irq, BOOL_TO_MASK(level));
+> -             }
+> +            }
+>                break;
+>           default:
+>               g_assert_not_reached();
+
+--------------9B4381D7D23E5E871EA66B3C
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
+
+PGh0bWw+CiAgPGhlYWQ+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUiIGNv
+bnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD1VVEYtOCI+CiAgPC9oZWFkPgogIDxib2R5Pgog
+ICAgPHA+SGkgQWxpc3RhaXIsPC9wPgogICAgPHA+SXQgc2VlbXMgdGhhdCB0aGVyZSBpcyBv
+dGhlciBpbmRlbnRhdGlvbiBwcm9ibGVtIGluwqAgY3B1LmMuwqAKICAgICAgTWF5YmUgdGhl
+eSBjYW4gYmUgZml4ZWQgdG9nZXRoZXIuPC9wPgogICAgPHA+PC9wPgogICAgPHA+PC9wPgog
+ICAgPGRpdiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7YmFja2dyb3VuZC1jb2xvcjogI2ZmZmZm
+Zjtmb250LWZhbWlseTogJ0Ryb2lkIFNhbnMgTW9ubycsICdtb25vc3BhY2UnLCBtb25vc3Bh
+Y2UsICdEcm9pZCBTYW5zIEZhbGxiYWNrJztmb250LXdlaWdodDogbm9ybWFsO2ZvbnQtc2l6
+ZTogMThweDtsaW5lLWhlaWdodDogMjRweDt3aGl0ZS1zcGFjZTogcHJlOyI+PGRpdj48c3Bh
+biBzdHlsZT0iY29sb3I6ICMwMDAwMDA7Ij4gICAgICAgIDwvc3Bhbj48c3BhbiBzdHlsZT0i
+Y29sb3I6ICMwMDgwMDA7Ij4vKiBEbyBzb21lIElTQSBleHRlbnNpb24gZXJyb3IgY2hlY2tp
+bmcgKi88L3NwYW4+PC9kaXY+PGRpdj48c3BhbiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7Ij4g
+ICAgICAgIDwvc3Bhbj48c3BhbiBzdHlsZT0iY29sb3I6ICNhZjAwZGI7Ij5pZjwvc3Bhbj48
+c3BhbiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7Ij4gKDwvc3Bhbj48c3BhbiBzdHlsZT0iY29s
+b3I6ICMwMDEwODA7Ij5jcHU8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAwMDAwOyI+
+LSZndDs8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAxMDgwOyI+Y2ZnPC9zcGFuPjxz
+cGFuIHN0eWxlPSJjb2xvcjogIzAwMDAwMDsiPi48L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9y
+OiAjMDAxMDgwOyI+ZXh0X2k8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAwMDAwOyI+
+ICZhbXA7JmFtcDsgPC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjogIzAwMTA4MDsiPmNwdTwv
+c3Bhbj48c3BhbiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7Ij4tJmd0Ozwvc3Bhbj48c3BhbiBz
+dHlsZT0iY29sb3I6ICMwMDEwODA7Ij5jZmc8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAj
+MDAwMDAwOyI+Ljwvc3Bhbj48c3BhbiBzdHlsZT0iY29sb3I6ICMwMDEwODA7Ij5leHRfZTwv
+c3Bhbj48c3BhbiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7Ij4pIHs8L3NwYW4+PC9kaXY+PGRp
+dj48c3BhbiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7Ij4gICAgICAgICAgICA8L3NwYW4+PHNw
+YW4gc3R5bGU9ImNvbG9yOiAjMDAwMGZmOyI+ZXJyb3Jfc2V0Zzwvc3Bhbj48c3BhbiBzdHls
+ZT0iY29sb3I6ICMwMDAwMDA7Ij4oPC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjogIzAwMTA4
+MDsiPmVycnA8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAwMDAwOyI+LDwvc3Bhbj48
+L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJjb2xvcjogIzAwMDAwMDsiPiAgICAgICAgICAgICAg
+ICAgICAgICAgPC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjogI2EzMTUxNTsiPiJJIGFuZCBF
+IGV4dGVuc2lvbnMgYXJlIGluY29tcGF0aWJsZSI8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9y
+OiAjMDAwMDAwOyI+KTs8L3NwYW4+PC9kaXY+PGRpdj48c3BhbiBzdHlsZT0iY29sb3I6ICMw
+MDAwMDA7Ij4gICAgICAgICAgICAgICAgICAgICAgIDwvc3Bhbj48c3BhbiBzdHlsZT0iY29s
+b3I6ICNhZjAwZGI7Ij5yZXR1cm48L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAwMDAw
+OyI+Ozwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJjb2xvcjogIzAwMDAwMDsiPiAg
+ICAgICB9PC9zcGFuPjwvZGl2Pgo8ZGl2PjxzcGFuIHN0eWxlPSJjb2xvcjogIzAwMDAwMDsi
+PiAgICAgICAgPC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjogI2FmMDBkYjsiPmlmPC9zcGFu
+PjxzcGFuIHN0eWxlPSJjb2xvcjogIzAwMDAwMDsiPiAoITwvc3Bhbj48c3BhbiBzdHlsZT0i
+Y29sb3I6ICMwMDEwODA7Ij5jcHU8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAwMDAw
+OyI+LSZndDs8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAxMDgwOyI+Y2ZnPC9zcGFu
+PjxzcGFuIHN0eWxlPSJjb2xvcjogIzAwMDAwMDsiPi48L3NwYW4+PHNwYW4gc3R5bGU9ImNv
+bG9yOiAjMDAxMDgwOyI+ZXh0X2k8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAwMDAw
+OyI+ICZhbXA7JmFtcDsgITwvc3Bhbj48c3BhbiBzdHlsZT0iY29sb3I6ICMwMDEwODA7Ij5j
+cHU8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAwMDAwOyI+LSZndDs8L3NwYW4+PHNw
+YW4gc3R5bGU9ImNvbG9yOiAjMDAxMDgwOyI+Y2ZnPC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xv
+cjogIzAwMDAwMDsiPi48L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAxMDgwOyI+ZXh0
+X2U8L3NwYW4+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAwMDAwOyI+KSB7PC9zcGFuPjwvZGl2
+PjxkaXY+PHNwYW4gc3R5bGU9ImNvbG9yOiAjMDAwMDAwOyI+ICAgICAgICAgICAgPC9zcGFu
+PjxzcGFuIHN0eWxlPSJjb2xvcjogIzAwMDBmZjsiPmVycm9yX3NldGc8L3NwYW4+PHNwYW4g
+c3R5bGU9ImNvbG9yOiAjMDAwMDAwOyI+KDwvc3Bhbj48c3BhbiBzdHlsZT0iY29sb3I6ICMw
+MDEwODA7Ij5lcnJwPC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjogIzAwMDAwMDsiPiw8L3Nw
+YW4+PC9kaXY+PGRpdj48c3BhbiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7Ij4gICAgICAgICAg
+ICAgICAgICAgICAgIDwvc3Bhbj48c3BhbiBzdHlsZT0iY29sb3I6ICNhMzE1MTU7Ij4iRWl0
+aGVyIEkgb3IgRSBleHRlbnNpb24gbXVzdCBiZSBzZXQiPC9zcGFuPjxzcGFuIHN0eWxlPSJj
+b2xvcjogIzAwMDAwMDsiPik7PC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4gc3R5bGU9ImNvbG9y
+OiAjMDAwMDAwOyI+ICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+PHNwYW4gc3R5bGU9
+ImNvbG9yOiAjYWYwMGRiOyI+cmV0dXJuPC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjogIzAw
+MDAwMDsiPjs8L3NwYW4+PC9kaXY+PGRpdj48c3BhbiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7
+Ij4gICAgICAgfTwvc3Bhbj48L2Rpdj48L2Rpdj4KICAgIDxwPlJlZ2FyZHMsPC9wPgogICAg
+PHA+V2Vpd2VpIExpPGJyPgogICAgPC9wPgogICAgPGRpdiBzdHlsZT0iY29sb3I6ICMwMDAw
+MDA7YmFja2dyb3VuZC1jb2xvcjogI2ZmZmZmZjtmb250LWZhbWlseTogJ0Ryb2lkIFNhbnMg
+TW9ubycsICdtb25vc3BhY2UnLCBtb25vc3BhY2UsICdEcm9pZCBTYW5zIEZhbGxiYWNrJztm
+b250LXdlaWdodDogbm9ybWFsO2ZvbnQtc2l6ZTogMThweDtsaW5lLWhlaWdodDogMjRweDt3
+aGl0ZS1zcGFjZTogcHJlOyI+PGRpdj48c3BhbiBzdHlsZT0iY29sb3I6ICMwMDAwMDA7Ij4K
+PC9zcGFuPjwvZGl2PjwvZGl2PgogICAgPGRpdiBjbGFzcz0ibW96LWNpdGUtcHJlZml4Ij7l
+nKggMjAyMi8zLzE1IOS4i+WNiDI6NDAsIEFsaXN0YWlyIEZyYW5jaXMKICAgICAg5YaZ6YGT
+Ojxicj4KICAgIDwvZGl2PgogICAgPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIKICAgICAgY2l0
+ZT0ibWlkOjIwMjIwMzE1MDY0MDA3LjM2MDA3NDYtMi1hbGlzdGFpci5mcmFuY2lzQG9wZW5z
+b3VyY2Uud2RjLmNvbSI+CiAgICAgIDxwcmUgY2xhc3M9Im1vei1xdW90ZS1wcmUiIHdyYXA9
+IiI+RnJvbTogQWxpc3RhaXIgRnJhbmNpcyA8YSBjbGFzcz0ibW96LXR4dC1saW5rLXJmYzIz
+OTZFIiBocmVmPSJtYWlsdG86YWxpc3RhaXIuZnJhbmNpc0B3ZGMuY29tIj4mbHQ7YWxpc3Rh
+aXIuZnJhbmNpc0B3ZGMuY29tJmd0OzwvYT4KClNpZ25lZC1vZmYtYnk6IEFsaXN0YWlyIEZy
+YW5jaXMgPGEgY2xhc3M9Im1vei10eHQtbGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOmFs
+aXN0YWlyLmZyYW5jaXNAd2RjLmNvbSI+Jmx0O2FsaXN0YWlyLmZyYW5jaXNAd2RjLmNvbSZn
+dDs8L2E+Ci0tLQogdGFyZ2V0L3Jpc2N2L2NwdS5jIHwgNiArKystLS0KIDEgZmlsZSBjaGFu
+Z2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvdGFy
+Z2V0L3Jpc2N2L2NwdS5jIGIvdGFyZ2V0L3Jpc2N2L2NwdS5jCmluZGV4IGRkZGE0OTA2ZmYu
+LmE0MTIwYzdmYjQgMTAwNjQ0Ci0tLSBhL3RhcmdldC9yaXNjdi9jcHUuYworKysgYi90YXJn
+ZXQvcmlzY3YvY3B1LmMKQEAgLTcwOSwxMSArNzA5LDExIEBAIHN0YXRpYyB2b2lkIHJpc2N2
+X2NwdV9zZXRfaXJxKHZvaWQgKm9wYXF1ZSwgaW50IGlycSwgaW50IGxldmVsKQogICAgICAg
+ICBjYXNlIElSUV9TX0VYVDoKICAgICAgICAgY2FzZSBJUlFfVlNfRVhUOgogICAgICAgICBj
+YXNlIElSUV9NX0VYVDoKLSAgICAgICAgICAgICBpZiAoa3ZtX2VuYWJsZWQoKSkgeworICAg
+ICAgICAgICAgaWYgKGt2bV9lbmFibGVkKCkpIHsKICAgICAgICAgICAgICAgICBrdm1fcmlz
+Y3Zfc2V0X2lycShjcHUsIGlycSwgbGV2ZWwpOwotICAgICAgICAgICAgIH0gZWxzZSB7Cisg
+ICAgICAgICAgICB9IGVsc2UgewogICAgICAgICAgICAgICAgIHJpc2N2X2NwdV91cGRhdGVf
+bWlwKGNwdSwgMSAmbHQ7Jmx0OyBpcnEsIEJPT0xfVE9fTUFTSyhsZXZlbCkpOwotICAgICAg
+ICAgICAgIH0KKyAgICAgICAgICAgIH0KICAgICAgICAgICAgICBicmVhazsKICAgICAgICAg
+ZGVmYXVsdDoKICAgICAgICAgICAgIGdfYXNzZXJ0X25vdF9yZWFjaGVkKCk7CjwvcHJlPgog
+ICAgPC9ibG9ja3F1b3RlPgogIDwvYm9keT4KPC9odG1sPgo=
+--------------9B4381D7D23E5E871EA66B3C--
 
 
