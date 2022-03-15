@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF3E4DA34E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 20:32:13 +0100 (CET)
-Received: from localhost ([::1]:51848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08694DA34F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 20:32:22 +0100 (CET)
+Received: from localhost ([::1]:52594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUCtw-0004PH-Df
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 15:32:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37840)
+	id 1nUCu5-0004uC-Lb
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 15:32:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUCs8-0002VL-FK
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 15:30:20 -0400
-Received: from [2607:f8b0:4864:20::112e] (port=37586
- helo=mail-yw1-x112e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUCs5-0005sh-Ck
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 15:30:19 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2e5757b57caso58789887b3.4
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 12:30:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o5LWHKOHu9XWvfgfHgeUFiDZs+3zK+BI+FG6HjGoRs4=;
- b=RmZoJ1x6DSZcozLZkNt8KEH5C2KqhpeTzK4tArSR09eh2O/J2+KHprBaI+hqPrEEco
- htPwabh/3r3sjEg9A5sBnpSQXq+l1UJ4xHqtHgX/nOk4Scaw5v75EYJhC0rw2Mnogiv4
- LiZHbcjCiu1pGWo1O2BPOTAdGIivPkbI1nsPTSbvJCAV+ct5tMJPl91JklHvs9jJqV+3
- Bis5qSCwMAl1YYVDKh0WzPc7LknqwNgpJHNgX9AAXHJau1h7oowGG2iZ+4tEBXmW9QZ1
- wgoSVnoJXdousleieCvO+Mx5y4NVDacZhlr+3NJDmg4ANQVKAdaYJvQGPi3GLcT1r2xX
- i6ew==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUCsU-0002t5-Cs
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 15:30:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48302)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1nUCsQ-00060b-SJ
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 15:30:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647372636;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TJARIoE2FHjZtWN2mN+qXLV8cL6SHOGZpyd9BxhyjmA=;
+ b=b1vWuPzcgqhsRQGX6xsMpguFLBlkxeYuua1BW1dO5zhWmtw9pvjdbagJgoVwDNBMFGaBTC
+ fCXY1bwLb78fOJZ9QS8z7u3yOdF8yUcmJLfTbc+EpRh0xwYNAxXXUFCo0YmLKPEqBER/Y1
+ sRoi0a7gVki5Q+TbMSzbeOKhHVmp/J8=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-581-2mSAmZ7tM0KXyoVqEgmDCQ-1; Tue, 15 Mar 2022 15:30:34 -0400
+X-MC-Unique: 2mSAmZ7tM0KXyoVqEgmDCQ-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ j16-20020ab01850000000b003517f6bb1easo43977uag.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 12:30:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=o5LWHKOHu9XWvfgfHgeUFiDZs+3zK+BI+FG6HjGoRs4=;
- b=0teGErqKhbdYZlqLpHpcxs6n7L8nj9cpLh21errwsFa4chLPlsFmhMsgW0RXok3n8R
- I16YMyDyBKBC5z2WfiHfKZpzqV9QN8Rm/P2cBsiJGt3tRK35PGcNNBaQGacVFiLsaVE7
- asJN6mGvOD+QHqatQ4nzlROffQ9nPygf6XDzqR8Al+vp3BZLpCSuG+biQ+E4C6mgeH8p
- PA2clwWLP0aFCjn2AsSL82rOjsoizevnH0EDQXoahMwUAzV5HmizoiDZ/WtCV2BGq3Ki
- dWgmpYtbJy8/kyTWoFNU/lF3OnWbi0rtjynyJIkM5pqxzummhQ4XpEOKoLT5PwrhAu6B
- ccuA==
-X-Gm-Message-State: AOAM530AEpBfYiPu1ry9hzixdM00HhyDw1gdNL36qnNZtI3vJJi4VoJJ
- FN2uiTggjEy+sqpYRjW08ofQmyGjLqRGUi7fMHollA==
-X-Google-Smtp-Source: ABdhPJyap8vRpVSNSVdBdbGckdNw7mLUH9MUFQlJyf5T/szq6kaMzrrZQvlT69dVS5v8ySeIEGZ7LGMmMwXf9AMVifI=
-X-Received: by 2002:a81:1151:0:b0:2e5:99ec:9933 with SMTP id
- 78-20020a811151000000b002e599ec9933mr2275733ywr.64.1647372616332; Tue, 15 Mar
- 2022 12:30:16 -0700 (PDT)
+ bh=TJARIoE2FHjZtWN2mN+qXLV8cL6SHOGZpyd9BxhyjmA=;
+ b=1jmerDHrR3I+OGFxuIZ1+qHnunEhXeqzXhR82CH6nSedX+VGN+pm2kWxlWIVLe3B+d
+ NmVuzPTvgqexHFstV9zt9RWDdTbnRzsz0nxjGZCanOm1d/ecPAV2tVIwHll1N23wRVkH
+ rUQ8Pth1cDi9S6iVA6ReN6o/CB9xlAcjik/EHKjO0fRkCH1AihkZW8vEd1hehIxpjigY
+ JsYI0rewy3+eSyt9IQ4gIdG8BMkbo5FSEmAYtjUXJsf/DHwVddA3RsKZvP4DKAG91jFi
+ x5683spWnTnBBkEN0IGb+8B2bctLLW31Rksnho0XFqYPIcoCvcNufdrU885q+drkbEuZ
+ nElg==
+X-Gm-Message-State: AOAM5309Bjskys0aqGBAPEFZLizBIZCaP51Gxpm0a4KBzfY101hEsLUl
+ YYctSnhg3E4XfXFs5UuC0+wtkC9Q0J8H2pU+LCkjtXb6OWwWYsEgI6z3E3wUzxfujgR9qU7hPjR
+ 1FTxY1ReOO4eWNx9MTUOm6NlMjjRT/JE=
+X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
+ 7-20020a056122088700b00332699e7e67mr12033463vkf.35.1647372633423; 
+ Tue, 15 Mar 2022 12:30:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxy6/KEoWOAJlKD1myboZSKUvHgMq+MxzDUuQcQzsvMCr7tNDw8dNgI8/ChS4Ea/rRblf1yK+C61VR1ZtJy9Mk=
+X-Received: by 2002:a05:6122:887:b0:332:699e:7e67 with SMTP id
+ 7-20020a056122088700b00332699e7e67mr12033440vkf.35.1647372633118; Tue, 15 Mar
+ 2022 12:30:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220315112052.515467-1-thuth@redhat.com>
- <CAFEAcA8u8G3=V=OVM6v_BaOwfeDu1RJmnwrW+4PXqbnPrAAr_w@mail.gmail.com>
-In-Reply-To: <CAFEAcA8u8G3=V=OVM6v_BaOwfeDu1RJmnwrW+4PXqbnPrAAr_w@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 19:30:04 +0000
-Message-ID: <CAFEAcA-C9Y1RKMfDWr132xCvXkoGovU8aK6Z6fjQ9LEZyeUtyg@mail.gmail.com>
-Subject: Re: [PULL 0/8] s390x and misc fixes
-To: Thomas Huth <thuth@redhat.com>
+References: <20220215105943.90-1-xieyongji@bytedance.com>
+ <20220215105943.90-2-xieyongji@bytedance.com>
+ <Yi959Cf+k8z8gOwm@stefanha-x1.localdomain>
+ <CAFn=p-bcvfOa+vNGXqaiJbg2CUEALJoMGVHN9NCQv2GRrf_D_A@mail.gmail.com>
+ <YjBSp70Ml9p/Z273@stefanha-x1.localdomain>
+In-Reply-To: <YjBSp70Ml9p/Z273@stefanha-x1.localdomain>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 15 Mar 2022 15:30:22 -0400
+Message-ID: <CAFn=p-bkz0prqzjXuoTkCu3eWg6At0QbkjdzZF0+BjypXHFO=A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] block: Support passing NULL ops to
+ blk_set_dev_ops()
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::112e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,108 +95,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez Pascual <slp@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, Michael Tsirkin <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Hanna Reitz <mreitz@redhat.com>, Xie Yongji <xieyongji@bytedance.com>,
+ mlureau@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 18:58, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, Mar 15, 2022 at 4:47 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> On Tue, 15 Mar 2022 at 11:20, Thomas Huth <thuth@redhat.com> wrote:
+> On Mon, Mar 14, 2022 at 03:09:35PM -0400, John Snow wrote:
+> > On Mon, Mar 14, 2022 at 1:23 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > >
+> > > On Tue, Feb 15, 2022 at 06:59:38PM +0800, Xie Yongji wrote:
+> > > > This supports passing NULL ops to blk_set_dev_ops()
+> > > > so that we can remove stale ops in some cases.
+> > > >
+> > > > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
+> > > > ---
+> > > >  block/block-backend.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/block/block-backend.c b/block/block-backend.c
+> > > > index 4ff6b4d785..08dd0a3093 100644
+> > > > --- a/block/block-backend.c
+> > > > +++ b/block/block-backend.c
+> > > > @@ -1015,7 +1015,7 @@ void blk_set_dev_ops(BlockBackend *blk, const BlockDevOps *ops,
+> > > >      blk->dev_opaque = opaque;
+> > > >
+> > > >      /* Are we currently quiesced? Should we enforce this right now? */
+> > > > -    if (blk->quiesce_counter && ops->drained_begin) {
+> > > > +    if (blk->quiesce_counter && ops && ops->drained_begin) {
+> > > >          ops->drained_begin(opaque);
+> > > >      }
+> > > >  }
+> > >
+> > > John: You added this code in f4d9cc88ee6. Does blk_set_dev_ops() need to
+> > > call ->drained_end() when ops is set to NULL?
+> > >
+> > > Stefan
 > >
-> >  Hi Peter!
+> > I'm not sure I trust my memory from five years ago.
 > >
-> > The following changes since commit 352998df1c53b366413690d95b35f76d0721ebed:
+> > From what I recall, the problem was that block jobs weren't getting
+> > drained/paused when the backend was getting quiesced -- we wanted to
+> > be sure that a blockjob wasn't continuing to run and submit requests
+> > against a backend we wanted to have on ice during a sensitive
+> > operation. This conditional stanza here is meant to check if the node
+> > we're already attached to is *already quiesced* and we missed the
+> > signal (so-to-speak), so we replay the drained_begin() request right
+> > there.
 > >
-> >   Merge tag 'i2c-20220314' of https://github.com/philmd/qemu into staging (2022-03-14 14:39:33 +0000)
+> > i.e. there was some case where blockjobs were getting added to an
+> > already quiesced node, and this code here post-hoc relays that drain
+> > request to the blockjob. This gets used in
+> > 600ac6a0ef5c06418446ef2f37407bddcc51b21c to pause/unpause jobs.
+> > Original thread is here:
+> > https://lists.gnu.org/archive/html/qemu-devel/2017-03/msg03416.html
 > >
-> > are available in the Git repository at:
+> > Now, I'm not sure why you want to set ops to NULL here. If we're in a
+> > drained section, that sounds like it might be potentially bad because
+> > we lose track of the operation to end the drained section. If your
+> > intent is to destroy the thing that we'd need to call drained_end on,
+> > I guess it doesn't matter -- provided you've cleaned up the target
+> > object correctly. Just calling drained_end() pre-emptively seems like
+> > it might be bad, what if it unpauses something you're in the middle of
+> > trying to delete?
 > >
-> >   https://gitlab.com/thuth/qemu.git tags/pull-request-2022-03-15
-> >
-> > for you to fetch changes up to 36149534792dcf07a3c59867f967eaee23ab906c:
-> >
-> >   meson: Update to version 0.61.3 (2022-03-15 10:32:36 +0100)
-> >
-> > ----------------------------------------------------------------
-> > * Fixes for s390x branch instruction emulation
-> > * Fixes for the tests/avocado/boot_linux.py:BootLinuxS390X test
-> > * Fix for "-cpu help" output
-> > * Bump meson to 0.61.3 to fix stderr log of the iotests
-> >
-> > ----------------------------------------------------------------
+> > I might need slightly more context to know what you're hoping to
+> > accomplish, but I hope this info helps contextualize this code
+> > somewhat.
 >
-> This results in every "Linking" step on my macos box producing the
-> warning:
+> Setting to NULL in this patch is a subset of blk_detach_dev(), which
+> gets called when a storage controller is hot unplugged.
 >
-> ld: warning: directory not found for option
-> '-Lns/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0'
+> In this patch series there is no DeviceState because a VDUSE export is
+> not a device. The VDUSE code calls blk_set_dev_ops() to
+> register/unregister callbacks (e.g. ->resize_cb()).
 >
-> Obvious suspect here is the new meson version.
+> The reason I asked about ->drained_end() is for symmetry. If the
+> device's ->drained_begin() callback changed state or allocated resources
+> then they may need to be freed/reset. On the other hand, the
+> blk_set_dev_ops(blk, NULL, NULL) call should be made by the dev_ops
+> owner so they can clean up without a ->drained_end() call.
 
-Also, after rolling this merge attempt back, older meson barfs
-on whatever the new one left behind:
+OK, got it... Hm, we don't actually use these for BlockJobs anymore.
+It looks like the only user of these callbacks now is the NBD driver.
 
+ad90febaf22d95e49fb6821bfb3ebd05b4919417 followed not long after my
+initial patch and removed my intended user. I tried just removing the
+fields, but the build chokes on NBD.
+It looks like these usages are pretty modern, Sergio added them in
+fd6afc50 (2021-06-02). So, I guess we do actually still use these
+hooks. (After a period of maybe not using them for 4 years? Wow.)
 
-[0/1] Regenerating build files.
-Traceback (most recent call last):
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/mesonmain.py",
-line 228, in run
-    return options.run_func(options)
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
-line 281, in run
-    app.generate()
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
-line 177, in generate
-    env = environment.Environment(self.source_dir, self.build_dir, self.options)
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/environment.py",
-line 462, in __init__
-    self.coredata = coredata.load(self.get_build_dir())  # type:
-coredata.CoreData
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/coredata.py",
-line 1003, in load
-    obj = pickle.load(f)
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/mesonlib/universal.py",
-line 2076, in __setstate__
-    self.__init__(**state)  # type: ignore
-TypeError: __init__() got an unexpected keyword argument 'module'
-FAILED: build.ninja
-/usr/local/opt/python@3.9/bin/python3.9
-/Users/pm215/src/qemu-for-merges/meson/meson.py --internal regenerate
-/Users/pm215/src/qemu-for-merges
-/Users/pm215/src/qemu-for-merges/build/all --backend ninja
-ninja: error: rebuilding 'build.ninja': subcommand failed
-/usr/local/bin/ninja  build.ninja && touch build.ninja.stamp
-  GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
-tests/fp/berkeley-softfloat-3 dtc capstone slirp
-[0/1] Regenerating build files.
-Traceback (most recent call last):
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/mesonmain.py",
-line 228, in run
-    return options.run_func(options)
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
-line 281, in run
-    app.generate()
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
-line 177, in generate
-    env = environment.Environment(self.source_dir, self.build_dir, self.options)
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/environment.py",
-line 462, in __init__
-    self.coredata = coredata.load(self.get_build_dir())  # type:
-coredata.CoreData
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/coredata.py",
-line 1003, in load
-    obj = pickle.load(f)
-  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/mesonlib/universal.py",
-line 2076, in __setstate__
-    self.__init__(**state)  # type: ignore
-TypeError: __init__() got an unexpected keyword argument 'module'
-FAILED: build.ninja
+I'm not clear on what we *want* to happen here, though. It doesn't
+sound like NBD is the anticipated use case, so maybe just make the
+removal fail if the drained section is active and callbacks are
+defined? That's the safe thing to do, probably.
 
+--js
 
-meson ought to be smart enough to spot that it's got data from an
-incompatible version and just discard its cache rather than
-choking on it.
-
-thanks
--- PMM
 
