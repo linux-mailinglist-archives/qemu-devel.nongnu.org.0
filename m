@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D054D9489
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 07:21:53 +0100 (CET)
-Received: from localhost ([::1]:33438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197CD4D94CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 07:47:19 +0100 (CET)
+Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU0Z6-0000kN-Ru
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 02:21:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40718)
+	id 1nU0xi-0002G7-5K
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 02:47:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nU0Sa-0001FW-7l
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:15:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26352)
+ id 1nU0Se-0001Ob-Iw
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:15:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43148)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nU0SY-0004PM-HN
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:15:07 -0400
+ id 1nU0Sb-0004Qk-Mb
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:15:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647324905;
+ s=mimecast20190719; t=1647324909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Uxo590eJCj/e+T0anvhQ1VfPA8HIuHhWK6RwqnG0wb4=;
- b=VaGqnuQes23eTKUV/hGxY/1nI3A9XUV0RrX28I8QwM0OqhsR4bB42UysPiUuA3eS13ZMiY
- 7OeBL3voHcBI7XZbCXczPIS5AkkedQ9wLlRA63b2YSjC0Y8mG0NUg5RglkzaFbzMOB9z9c
- zXVZQ06T14OvyyTr8lGYBRH2+PpaiiE=
+ bh=ckrbfpyFPjJhflJROh8XzG749V2w6xZfe5JvVzpPQhY=;
+ b=HgvcTAv5+Tk46ZpQvms699C6aa3j087acMnJji7cxMmHVNm8Do8U8p5jUhkg8ixefcuWDr
+ JsLkQkCPkMf9NXCCOGLoc8OL7MZYjYUBA0xQXOqJOf56HX1iqAZbTIUdn7dgKIA5mfhuSx
+ +CZoN2o5Qq6lcCkJElREr+bR5bqns6o=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-HsPRorrQN32pGuKlEtQJ1g-1; Tue, 15 Mar 2022 02:15:03 -0400
-X-MC-Unique: HsPRorrQN32pGuKlEtQJ1g-1
+ us-mta-529-dpCI6qADOBypvZopIhpkgw-1; Tue, 15 Mar 2022 02:15:06 -0400
+X-MC-Unique: dpCI6qADOBypvZopIhpkgw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABAD729AB458;
- Tue, 15 Mar 2022 06:15:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1F7D29AB456;
+ Tue, 15 Mar 2022 06:15:05 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-14-38.pek2.redhat.com [10.72.14.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CD36400E123;
- Tue, 15 Mar 2022 06:15:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5264B400E123;
+ Tue, 15 Mar 2022 06:15:03 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL V3 10/15] util: add iova_tree_find_iova
-Date: Tue, 15 Mar 2022 14:14:15 +0800
-Message-Id: <20220315061420.31910-11-jasowang@redhat.com>
+Subject: [PULL V3 11/15] vhost: Add VhostIOVATree
+Date: Tue, 15 Mar 2022 14:14:16 +0800
+Message-Id: <20220315061420.31910-12-jasowang@redhat.com>
 In-Reply-To: <20220315061420.31910-1-jasowang@redhat.com>
 References: <20220315061420.31910-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -59,15 +59,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,110 +87,194 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-This function does the reverse operation of iova_tree_find: To look for
-a mapping that match a translated address so we can do the reverse.
+This tree is able to look for a translated address from an IOVA address.
 
-This have linear complexity instead of logarithmic, but it supports
-overlapping HVA. Future developments could reduce it.
+At first glance it is similar to util/iova-tree. However, SVQ working on
+devices with limited IOVA space need more capabilities, like allocating
+IOVA chunks or performing reverse translations (qemu addresses to iova).
+
+The allocation capability, as "assign a free IOVA address to this chunk
+of memory in qemu's address space" allows shadow virtqueue to create a
+new address space that is not restricted by guest's addressable one, so
+we can allocate shadow vqs vrings outside of it.
+
+It duplicates the tree so it can search efficiently in both directions,
+and it will signal overlap if iova or the translated address is present
+in any tree.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- include/qemu/iova-tree.h | 20 +++++++++++++++++++-
- util/iova-tree.c         | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 53 insertions(+), 1 deletion(-)
+ hw/virtio/meson.build       |   2 +-
+ hw/virtio/vhost-iova-tree.c | 110 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/virtio/vhost-iova-tree.h |  27 +++++++++++
+ 3 files changed, 138 insertions(+), 1 deletion(-)
+ create mode 100644 hw/virtio/vhost-iova-tree.c
+ create mode 100644 hw/virtio/vhost-iova-tree.h
 
-diff --git a/include/qemu/iova-tree.h b/include/qemu/iova-tree.h
-index d066400..c938fb0 100644
---- a/include/qemu/iova-tree.h
-+++ b/include/qemu/iova-tree.h
-@@ -83,7 +83,7 @@ int iova_tree_remove(IOVATree *tree, const DMAMap *map);
-  * @tree: the iova tree to search from
-  * @map: the mapping to search
-  *
-- * Search for a mapping in the iova tree that overlaps with the
-+ * Search for a mapping in the iova tree that iova overlaps with the
-  * mapping range specified.  Only the first found mapping will be
-  * returned.
-  *
-@@ -96,6 +96,24 @@ int iova_tree_remove(IOVATree *tree, const DMAMap *map);
- const DMAMap *iova_tree_find(const IOVATree *tree, const DMAMap *map);
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index 2dc8761..6047670 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
  
- /**
-+ * iova_tree_find_iova:
+ virtio_ss = ss.source_set()
+ virtio_ss.add(files('virtio.c'))
+-virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c'))
++virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
+diff --git a/hw/virtio/vhost-iova-tree.c b/hw/virtio/vhost-iova-tree.c
+new file mode 100644
+index 0000000..55fed1f
+--- /dev/null
++++ b/hw/virtio/vhost-iova-tree.c
+@@ -0,0 +1,110 @@
++/*
++ * vhost software live migration iova tree
 + *
-+ * @tree: the iova tree to search from
-+ * @map: the mapping to search
++ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
++ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
 + *
-+ * Search for a mapping in the iova tree that translated_addr overlaps with the
-+ * mapping range specified.  Only the first found mapping will be
-+ * returned.
-+ *
-+ * Return: DMAMap pointer if found, or NULL if not found.  Note that
-+ * the returned DMAMap pointer is maintained internally.  User should
-+ * only read the content but never modify or free the content.  Also,
-+ * user is responsible to make sure the pointer is valid (say, no
-+ * concurrent deletion in progress).
++ * SPDX-License-Identifier: GPL-2.0-or-later
 + */
-+const DMAMap *iova_tree_find_iova(const IOVATree *tree, const DMAMap *map);
++
++#include "qemu/osdep.h"
++#include "qemu/iova-tree.h"
++#include "vhost-iova-tree.h"
++
++#define iova_min_addr qemu_real_host_page_size
 +
 +/**
-  * iova_tree_find_address:
-  *
-  * @tree: the iova tree to search from
-diff --git a/util/iova-tree.c b/util/iova-tree.c
-index 139626b..6dff29c 100644
---- a/util/iova-tree.c
-+++ b/util/iova-tree.c
-@@ -37,6 +37,11 @@ struct IOVATreeAllocArgs {
-     bool iova_found;
- };
- 
-+typedef struct IOVATreeFindIOVAArgs {
-+    const DMAMap *needle;
-+    const DMAMap *result;
-+} IOVATreeFindIOVAArgs;
++ * VhostIOVATree, able to:
++ * - Translate iova address
++ * - Reverse translate iova address (from translated to iova)
++ * - Allocate IOVA regions for translated range (linear operation)
++ */
++struct VhostIOVATree {
++    /* First addressable iova address in the device */
++    uint64_t iova_first;
 +
- /**
-  * Iterate args to the next hole
-  *
-@@ -81,6 +86,35 @@ const DMAMap *iova_tree_find(const IOVATree *tree, const DMAMap *map)
-     return g_tree_lookup(tree->tree, map);
- }
- 
-+static gboolean iova_tree_find_address_iterator(gpointer key, gpointer value,
-+                                                gpointer data)
++    /* Last addressable iova address in the device */
++    uint64_t iova_last;
++
++    /* IOVA address to qemu memory maps. */
++    IOVATree *iova_taddr_map;
++};
++
++/**
++ * Create a new IOVA tree
++ *
++ * Returns the new IOVA tree
++ */
++VhostIOVATree *vhost_iova_tree_new(hwaddr iova_first, hwaddr iova_last)
 +{
-+    const DMAMap *map = key;
-+    IOVATreeFindIOVAArgs *args = data;
-+    const DMAMap *needle;
++    VhostIOVATree *tree = g_new(VhostIOVATree, 1);
 +
-+    g_assert(key == value);
++    /* Some devices do not like 0 addresses */
++    tree->iova_first = MAX(iova_first, iova_min_addr);
++    tree->iova_last = iova_last;
 +
-+    needle = args->needle;
-+    if (map->translated_addr + map->size < needle->translated_addr ||
-+        needle->translated_addr + needle->size < map->translated_addr) {
-+        return false;
++    tree->iova_taddr_map = iova_tree_new();
++    return tree;
++}
++
++/**
++ * Delete an iova tree
++ */
++void vhost_iova_tree_delete(VhostIOVATree *iova_tree)
++{
++    iova_tree_destroy(iova_tree->iova_taddr_map);
++    g_free(iova_tree);
++}
++
++/**
++ * Find the IOVA address stored from a memory address
++ *
++ * @tree: The iova tree
++ * @map: The map with the memory address
++ *
++ * Return the stored mapping, or NULL if not found.
++ */
++const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *tree,
++                                        const DMAMap *map)
++{
++    return iova_tree_find_iova(tree->iova_taddr_map, map);
++}
++
++/**
++ * Allocate a new mapping
++ *
++ * @tree: The iova tree
++ * @map: The iova map
++ *
++ * Returns:
++ * - IOVA_OK if the map fits in the container
++ * - IOVA_ERR_INVALID if the map does not make sense (like size overflow)
++ * - IOVA_ERR_NOMEM if tree cannot allocate more space.
++ *
++ * It returns assignated iova in map->iova if return value is VHOST_DMA_MAP_OK.
++ */
++int vhost_iova_tree_map_alloc(VhostIOVATree *tree, DMAMap *map)
++{
++    /* Some vhost devices do not like addr 0. Skip first page */
++    hwaddr iova_first = tree->iova_first ?: qemu_real_host_page_size;
++
++    if (map->translated_addr + map->size < map->translated_addr ||
++        map->perm == IOMMU_NONE) {
++        return IOVA_ERR_INVALID;
 +    }
 +
-+    args->result = map;
-+    return true;
++    /* Allocate a node in IOVA address */
++    return iova_tree_alloc_map(tree->iova_taddr_map, map, iova_first,
++                               tree->iova_last);
 +}
 +
-+const DMAMap *iova_tree_find_iova(const IOVATree *tree, const DMAMap *map)
++/**
++ * Remove existing mappings from iova tree
++ *
++ * @iova_tree: The vhost iova tree
++ * @map: The map to remove
++ */
++void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap *map)
 +{
-+    IOVATreeFindIOVAArgs args = {
-+        .needle = map,
-+    };
-+
-+    g_tree_foreach(tree->tree, iova_tree_find_address_iterator, &args);
-+    return args.result;
++    iova_tree_remove(iova_tree->iova_taddr_map, map);
 +}
+diff --git a/hw/virtio/vhost-iova-tree.h b/hw/virtio/vhost-iova-tree.h
+new file mode 100644
+index 0000000..6a4f24e
+--- /dev/null
++++ b/hw/virtio/vhost-iova-tree.h
+@@ -0,0 +1,27 @@
++/*
++ * vhost software live migration iova tree
++ *
++ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
++ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
 +
- const DMAMap *iova_tree_find_address(const IOVATree *tree, hwaddr iova)
- {
-     const DMAMap map = { .iova = iova, .size = 0 };
++#ifndef HW_VIRTIO_VHOST_IOVA_TREE_H
++#define HW_VIRTIO_VHOST_IOVA_TREE_H
++
++#include "qemu/iova-tree.h"
++#include "exec/memory.h"
++
++typedef struct VhostIOVATree VhostIOVATree;
++
++VhostIOVATree *vhost_iova_tree_new(uint64_t iova_first, uint64_t iova_last);
++void vhost_iova_tree_delete(VhostIOVATree *iova_tree);
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostIOVATree, vhost_iova_tree_delete);
++
++const DMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *iova_tree,
++                                        const DMAMap *map);
++int vhost_iova_tree_map_alloc(VhostIOVATree *iova_tree, DMAMap *map);
++void vhost_iova_tree_remove(VhostIOVATree *iova_tree, const DMAMap *map);
++
++#endif
 -- 
 2.7.4
 
