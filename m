@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7E34D97B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 10:33:09 +0100 (CET)
-Received: from localhost ([::1]:59236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122FF4D98FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 11:42:04 +0100 (CET)
+Received: from localhost ([::1]:46538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU3YC-0002GS-1c
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 05:33:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60960)
+	id 1nU4cs-0003N5-T9
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 06:42:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nU3J1-0008Ei-DS
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 05:17:31 -0400
-Received: from [2a00:1450:4864:20::634] (port=46867
- helo=mail-ej1-x634.google.com)
+ id 1nU3L3-0000xy-6C; Tue, 15 Mar 2022 05:19:34 -0400
+Received: from [2a00:1450:4864:20::52d] (port=36846
+ helo=mail-ed1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nU3Ix-0001zQ-Qk
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 05:17:26 -0400
-Received: by mail-ej1-x634.google.com with SMTP id qx21so39684774ejb.13
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 02:17:23 -0700 (PDT)
+ id 1nU3Kv-0002DS-Rg; Tue, 15 Mar 2022 05:19:27 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id t1so23116163edc.3;
+ Tue, 15 Mar 2022 02:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=byD7wEEVNl+soetw0IPcMCY6ZcyBlBZKGKNSU6rl9CM=;
- b=VK8d/gaUgMOvcMkgRY2sAkNyi9zrO1j89Ndyu7UsFRP0MQExMEh+vVqDSVsN4wHDme
- zpt+o6/rKMb2CCldYC+PMtES4auIc0L+W8Ba6T0h9uTPKMf587VxyNBKlUyFFmwY8BCe
- pXrs2/CJqFjc0P2KR2z93j6BbqZ/YdnCzeUJ4jIjOWH+JIIK8WuxgpJnaiR7sI8XW5xU
- 9THJw1bnvtPA3CqOX9ns3bB7KeNlJ06kgUUilGav9wNZb5+pz8My+OZmlmaVTaR1I4JM
- 5VzA9rbgXUiqrWkbXptneGCoWhSuZ/OpqmJiLimAC1jQLm7Bkvf0Ta/digJCjm8pUdPF
- ifpg==
+ bh=9k1wBD4M/z+XyR+a0K3WzfJHizYpUSBuCpRdCyaUu7E=;
+ b=T0KPB2YWy+17bfRK0R32tY6OkG8nDF4HwXhrHKaERHSolGa8JDd721PIukLRr8pRLq
+ +F6z5O+TWfEvHCA/7f7w9zlwe5FyXy1mSjVv2P6gu2CZMHbh9ojIIHf3/TnT9J5rCELO
+ FjjhX5+94I4yyxSlpo++i0W2eGGPzxYMYtvQBCTyQB9CmV2ZJI/kOsH/T0aAKQDyik6k
+ U3/n5aQNV9gwXVLFNEdHsLY36wuib0en4aYnjSyQ+Xg/0qvwsrmexhhXPIjFF03w9Ar/
+ c8414dlUCw7EkjBY6BmAGGAvk4nlE2U0mO2v/EJn1b4YbbylCkTu0tbzFQTbpwXNmj2c
+ Rc7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=byD7wEEVNl+soetw0IPcMCY6ZcyBlBZKGKNSU6rl9CM=;
- b=jEUK+ZLV8nUDrHV0+UyoPzI48uoMmCbeIuFsfbNdrqhcu5VpyOrSgTRQhNt3qWInDB
- 7A9xYnCW8XfkSkLmRcNYDOyWoBj59xY6RxKqP1DBL1unfDmY0uCWvgfrIpQ2pkSFcl+b
- DZO3OfviWbnj/w6oMlV3VvXSYvbICbFJi8Dv1abw11BXHHGOJeAOaRXqac8zS0iZYBxY
- MOInmSjrjS+6PEmB/acE/8Ul2jKExv8z1yBpv22VcCoqM4tNK/e+tSD0cFoFkqc3jNiN
- 6Davf1333dFLY3zbKsBZ1c1D8D1nCLhkslzpdi8OtjAUx6JKM0OsQP1DFRMbEmvCH1xd
- yoqw==
-X-Gm-Message-State: AOAM5330UUXD/Nl9xyvPFGGo3oy4d2QyLViLEq8TDDPed542ePk/nlPs
- +1Op/ZjY6cc9HRq6g3bjhmQ=
-X-Google-Smtp-Source: ABdhPJybuqB9CLTZR6CZPegwlmfcCTMgiU4SEKPZ/BC1E7KpLTqgCbQLneBtDrTM1YQhl75isPtU6Q==
-X-Received: by 2002:a17:906:a08b:b0:6b9:2e20:f139 with SMTP id
- q11-20020a170906a08b00b006b92e20f139mr22988160ejy.463.1647335842058; 
- Tue, 15 Mar 2022 02:17:22 -0700 (PDT)
+ bh=9k1wBD4M/z+XyR+a0K3WzfJHizYpUSBuCpRdCyaUu7E=;
+ b=aU2zXiNsn4v0bKj/9z3gqsi7bprP1R7ZpOUvk7MeNTSsygsEHGVK/RRlxsQ0gdkbvx
+ w29h48HKf/3cB1tQ2fSwmJphMBmzUbL0bxBav7DpFiK5TVkYUO8IY1Z4jsmbtla4LRKy
+ HcWcaBaXZS8MNHCnIWjE55RUzWLYrQpL3dY7yOctEBilUmlZLJjpfbvfoyz2Py1pZ16q
+ MCATZxooXnSxozmwLdBMz/iEzHRm7JK3z7RM8AXhlteqULhwXt8O8EdAG5JWwCAugQJZ
+ KvEQxzyJDXAmOL8wFEQ6NWeWE0IgJtxDvRajnZQ6On4/vKWzBCsp2ydAR2VyMpkAhC2G
+ DoMA==
+X-Gm-Message-State: AOAM530mLcL1xN206PJTlpq3vrmGF0+yafDzfhdmXRxG2xNAaogGKlXf
+ zPumRKyfehPPRvH0I1A4JYw=
+X-Google-Smtp-Source: ABdhPJxqkabVGPviJNNrvOXxk0Z0SuxqMgvywYRlq1fQG7tP3ZeMv3kR/bDSqhZ8COgbE+s/mLxwyQ==
+X-Received: by 2002:a05:6402:518a:b0:416:b50e:3c7d with SMTP id
+ q10-20020a056402518a00b00416b50e3c7dmr22431015edd.177.1647335962177; 
+ Tue, 15 Mar 2022 02:19:22 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.googlemail.com with ESMTPSA id
- og49-20020a1709071df100b006db0dcf673esm7911258ejc.27.2022.03.15.02.17.19
+ c17-20020a05640227d100b00416bbe8ca69sm7951217ede.89.2022.03.15.02.19.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 02:17:21 -0700 (PDT)
-Message-ID: <e5a29f66-5d9e-3d4c-be41-aa76ea484cae@redhat.com>
-Date: Tue, 15 Mar 2022 10:17:18 +0100
+ Tue, 15 Mar 2022 02:19:21 -0700 (PDT)
+Message-ID: <921d2ca3-7f90-9c7a-bb10-27a5c06a4c4e@redhat.com>
+Date: Tue, 15 Mar 2022 10:19:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/2] Replacing CONFIG_VNC_PNG with CONFIG_PNG
+Subject: Re: [PATCH for-7.0?] meson: Update to version 0.61.3
 Content-Language: en-US
-To: Kshitij Suri <kshitij.suri@nutanix.com>, qemu-devel@nongnu.org
-References: <20220315044740.155268-1-kshitij.suri@nutanix.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20220315083521.280024-1-thuth@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220315044740.155268-1-kshitij.suri@nutanix.com>
+In-Reply-To: <20220315083521.280024-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::634
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -95,32 +93,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: soham.ghosh@nutanix.com, berrange@redhat.com, prerna.saxena@nutanix.com,
- armbru@redhat.com, dgilbert@redhat.com, philippe.mathieu.daude@gmail.com,
- kraxel@redhat.com, thuth@redhat.com, prachatos.mitra@nutanix.com,
- eblake@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/22 05:47, Kshitij Suri wrote:
-> +png = dependency('libpng', required: get_option('png'),
-> +                 method: 'pkg-config', kwargs: static_kwargs)
+On 3/15/22 09:35, Thomas Huth wrote:
+> Meson 0.61.3 contains an important fix which helps to see the
+> output of failed qemu-iotests on the console again:
+> https://gitlab.com/qemu-project/meson/-/commit/7534cf34f83b9c43
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   meson | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meson b/meson
+> index 12f9f04ba0..5cf5575a7c 160000
+> --- a/meson
+> +++ b/meson
+> @@ -1 +1 @@
+> -Subproject commit 12f9f04ba0decfda425dbbf9a501084c153a2d18
+> +Subproject commit 5cf5575a7c76746935dcd9a9e380803c85023c04
 
-The full way to write it would be:
+Please update configure as well:
 
-png = not_found
-if get_option('png').allowed() and have_system
-   png = dependency('libpng', required: get_option('png'),
-                    method: 'pkg-config', kwargs: static_kwargs)
-endif
+-    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.59.3; then
++    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.61.3; then
 
-but we can now also use
+The bump would only apply if --python is specified or if --meson is not
+specified; therefore, it wouldn't change the minimum supported version.
 
-png = dependency('libpng',
-                  required: get_option('png').disable_auto_if(not have_system),
-                  method: 'pkg-config', kwargs: static_kwargs)
-
-Use the one that you prefer.
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
 Paolo
 
