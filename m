@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B2B4DA2D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:59:56 +0100 (CET)
-Received: from localhost ([::1]:48676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989164DA330
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 20:17:49 +0100 (CET)
+Received: from localhost ([::1]:56528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUCOg-0006P0-OF
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:59:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58562)
+	id 1nUCg0-0004jl-7Q
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 15:17:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUCNQ-0005iu-9k
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:58:36 -0400
-Received: from [2607:f8b0:4864:20::1129] (port=41628
- helo=mail-yw1-x1129.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nUCb3-0002X6-7O
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 15:12:41 -0400
+Received: from [2607:f8b0:4864:20::42b] (port=45784
+ helo=mail-pf1-x42b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUCNO-00083Q-KQ
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:58:35 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2e5969bdf31so18976767b3.8
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 11:58:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nUCb0-0001mM-6T
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 15:12:40 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id s8so450820pfk.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 12:12:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VMDQiwNg6AYqrkebokhlK7+etyXfZ+3xgb3vbe5todE=;
- b=DmjeV6QuYzOEP+W+w+S2i5m22YPsCCCq0eJ8VL9iBh/XCZHvtKBFvZaJytqs1egAcg
- oL+is7Uu8met7/1N8F8irMD3vganVrM7e3fiFOU6wKHP7U1ngM9aukBMnwQ5XbfFNsMy
- hHVpVoQT108qzjRruBsAhCwpQytjSzzCabDEEVfllMhGYmA1qpAMpdiK1LAA5gtIKmZ4
- UKZswNYRzNl+RQwNZp9zHQjJHgy+FuAR7wfYxvkt0a3ghy2qDVUgDabdX1ND1n3ABIfB
- Bb7AGeIV1JXU5XaG4mdS0oXqQP/LVTiHXcv0Jx07keeTgw7H1P+3UzUL9nLDsm/BRBvO
- Mo2A==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=/Nwkr4lSxOFBCA+ebItvkqSmennYfkNRPLAcYcYtR3k=;
+ b=EnGZjdw2crm6AwUBdcYYp36Mum0syGd+SVJrjTekOM95Nq+A/+1oBqiBnkxqjTjLMQ
+ ZoN1OdfwENYoOAn7e8m3utnuxcZ6M9+1PtL6ouF8PiFLRzv6qoPaTRR+TJ/wsBF4ck2J
+ 3CY/KFm428WRcwicrdmQwoRc3UoF1YRPJpmUAp5pmtQ/LuSOSZk4uyMfDpiweHMoD7Rl
+ RstVyVWtlN8y37dWsusJhcOJ0CjFVPoSdn1BKG8nTRD0jIv6GPFiSl4C4J5SS5vB2Uz8
+ Wl1qWeZU2Eldn1LUkpBpPa4x3lW9dtu7VMVyxw5A9YoZwZRC0Lbe6HUfP2jeiDJ20+AN
+ bPfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VMDQiwNg6AYqrkebokhlK7+etyXfZ+3xgb3vbe5todE=;
- b=l3pru4xyhnPxsNDmH/Ji6JYKLGOOoxfRqg3S3sGE8xkzUC8Zy0mUGzJ4ZXr6DVYrHN
- ICMpYj3Y5Xx4sKU9cTXa9lSa+lK8uAuFAGJUwDOHLe/hZrjjsZv69uekwmGvOK0FvhRT
- rCu5Z+cXLUN2eRFacsuOhTsIcnwWTsBObClOhXm+MMA13rAu/1AWvi6PSAQdbyYDis53
- 2mCnQMiFLclHZVG2l6/NzhvZToE5YHKaVuypHbC+maw7GvynHqhtHovjB/QXKlIgfSUh
- cjGu0wDw9gFW4vunAfMYj1ogqxTVkQbjYkWALo13Wkp5UsD7d5zMS/TxzB0+wlqfI6e/
- rRuA==
-X-Gm-Message-State: AOAM533PBLzGcKu4WxnN0J+rUtCcNJDcqT1EgokH8BB4muOOOkvB+wcw
- oyefQi6wDOCOXXYlsEUow50F0s11/EGSdDSBJVxaFA==
-X-Google-Smtp-Source: ABdhPJysMc7nscPTsYwDWz4KEUNymzwpNS0jxvZ1i6ECEWzoB887BbtX9sJGx1ZHQHzNAjNIIPYkP3tEQ3tumtrEmvs=
-X-Received: by 2002:a0d:fd02:0:b0:2e5:9617:fda8 with SMTP id
- n2-20020a0dfd02000000b002e59617fda8mr2895636ywf.10.1647370712856; Tue, 15 Mar
- 2022 11:58:32 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/Nwkr4lSxOFBCA+ebItvkqSmennYfkNRPLAcYcYtR3k=;
+ b=2dnMaUez3Sn3MhpwUgeytjAGUIZAmc6psol22J1HNm0GsN/obUl1wJAU+eJ5ESvUnB
+ vsJ67wRZXfbMGe0ypnrpnBQ9RhyM9Gv7y7O2oFF1hFf1/3GyXnm714tV54r2EUQJgm5A
+ HaWMM1aqDCaZOijV37pvac372o2RUNJrpfmHVTY+l1DFQDPT0KP1ahIFdjgZTtnThtcv
+ U+beAlENvzFGdaXIkJ+tYo7N7GkhDxIO3NxIRz0b6qb1GrNCukBbbVc8XAs8u4a4cMzk
+ Iejj/YpMI2Af917k8IS2xRUzyEEtsq3qx9dmdc3SXvC/0PJ9qZ3vh7RWg5T1utGrMJdx
+ J7Gg==
+X-Gm-Message-State: AOAM533j57NQx/l67voF7bFNumwHD/DOGgtpihuDPRGCVfMu6idkAyq6
+ xUx1F4LglTy4tJpPMSbYb5wsYA==
+X-Google-Smtp-Source: ABdhPJzbWBMRmpiJPC22PtiDMzy/4uNuG1xorp6VA8poM8m7wl1aMgmMCEiNWJl+fhOrcMJi9aTrXg==
+X-Received: by 2002:a63:f315:0:b0:376:2310:ffed with SMTP id
+ l21-20020a63f315000000b003762310ffedmr25069129pgh.23.1647371550596; 
+ Tue, 15 Mar 2022 12:12:30 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
+ by smtp.gmail.com with ESMTPSA id
+ w23-20020a627b17000000b004f6cf170070sm24672169pfc.186.2022.03.15.12.12.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Mar 2022 12:12:30 -0700 (PDT)
+Message-ID: <936f391b-6ca7-ed91-6bed-bdb778c1bd26@linaro.org>
+Date: Tue, 15 Mar 2022 12:12:28 -0700
 MIME-Version: 1.0
-References: <20220315112052.515467-1-thuth@redhat.com>
-In-Reply-To: <20220315112052.515467-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 18:58:21 +0000
-Message-ID: <CAFEAcA8u8G3=V=OVM6v_BaOwfeDu1RJmnwrW+4PXqbnPrAAr_w@mail.gmail.com>
-Subject: Re: [PULL 0/8] s390x and misc fixes
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v5 42/48] target/nios2: Implement rdprs, wrprs
+Content-Language: en-US
+To: Amir Gonnen <amir.gonnen@neuroblade.ai>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20220310112725.570053-1-richard.henderson@linaro.org>
+ <20220310112725.570053-43-richard.henderson@linaro.org>
+ <PA4PR09MB4880462F87600A02A5D58629EB109@PA4PR09MB4880.eurprd09.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <PA4PR09MB4880462F87600A02A5D58629EB109@PA4PR09MB4880.eurprd09.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -82,42 +95,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "marex@denx.de" <marex@denx.de>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 11:20, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter!
->
-> The following changes since commit 352998df1c53b366413690d95b35f76d0721ebed:
->
->   Merge tag 'i2c-20220314' of https://github.com/philmd/qemu into staging (2022-03-14 14:39:33 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/thuth/qemu.git tags/pull-request-2022-03-15
->
-> for you to fetch changes up to 36149534792dcf07a3c59867f967eaee23ab906c:
->
->   meson: Update to version 0.61.3 (2022-03-15 10:32:36 +0100)
->
-> ----------------------------------------------------------------
-> * Fixes for s390x branch instruction emulation
-> * Fixes for the tests/avocado/boot_linux.py:BootLinuxS390X test
-> * Fix for "-cpu help" output
-> * Bump meson to 0.61.3 to fix stderr log of the iotests
->
-> ----------------------------------------------------------------
+On 3/15/22 09:26, Amir Gonnen wrote:
+> Something is wrong when translating rdprs in an interrupt handler when CRS is 0x1.
+> I'm hitting "../tcg/tcg.c:3466: tcg_reg_alloc_mov: Assertion `ts->val_type == TEMP_VAL_REG' failed."
+> 
+> When stopped on that assertion I can see that :
+> - ts->val_type  = TEMP_VAL_DEAD
+> - op->opc = INDEX_op_mov_i32
+> - ots->name = "pc"
+> - cpu->ctrl[0] = 0x5f9 (that's STATUS so CRS = 1)
+> - pc = 0xa2d5c
+> 
+> so, it looks related to an assignment to PC a little after rdprs.
 
-This results in every "Linking" step on my macos box producing the
-warning:
+Ok, thanks for the report.  Yes, it's a bug in the indirection lowering.
 
-ld: warning: directory not found for option
-'-Lns/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0'
 
-Obvious suspect here is the new meson version.
-
-thanks
--- PMM
+r~
 
