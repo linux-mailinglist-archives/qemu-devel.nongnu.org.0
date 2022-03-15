@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAD34D9690
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 09:44:21 +0100 (CET)
-Received: from localhost ([::1]:45022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D45F4D9680
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 09:42:25 +0100 (CET)
+Received: from localhost ([::1]:39640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU2my-00081J-9e
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 04:44:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52462)
+	id 1nU2l3-0004JJ-2E
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 04:42:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nU2gF-00008r-D0
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:37:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39052)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nU2gn-0001P7-VI
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:37:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nU2gD-00045k-EX
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:37:22 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nU2gm-0004Aj-Iu
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:37:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647333440;
+ s=mimecast20190719; t=1647333476;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9szhMWJdNu2bCBEvOfVvV8HTqRfYfpHeZoNFrsyP8Ug=;
- b=HKiepstWHPE3/NjTg7wgE2Gr+zpuBJEsuvgkrhxzBwKbSSO8JljwvIvsM0d02pY4EEcU1v
- FUYJ2EnuQ8L79hVzLRAynvOyIdeDADLHYobP3JHw66+yAkna+FlxcqHSxhGKDtcFMwo/Bo
- +nAo5R1Y28gjDklEFzvUuXle7L/4yOQ=
+ bh=+MxF029BNB/m2ksbvlPxu5NM5xZ2UtucxCL0GpVSwMQ=;
+ b=ZN8fl3PoBeEX6YiUJAhyLRY/hHeclhMV3Arj02IMeIwzTyU4LO758ZSKRPdlj+1HYTn4zS
+ Qqwp+ILvpi0ndSzqeojDCxVJh+r4ItfOjKlvRGVmyDUa6yy4IuJd76lAcg0rD4avz/4qni
+ iy8jFGR15v8ku0Tk6IJapSRkjuco51k=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-29-NJltju_KPbiKYQIEDetY8g-1; Tue, 15 Mar 2022 04:37:18 -0400
-X-MC-Unique: NJltju_KPbiKYQIEDetY8g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-195-kTekbZSIMEa85aLmcy9piQ-1; Tue, 15 Mar 2022 04:37:54 -0400
+X-MC-Unique: kTekbZSIMEa85aLmcy9piQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9EAB5811E83;
- Tue, 15 Mar 2022 08:37:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 41E49811E80;
+ Tue, 15 Mar 2022 08:37:54 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.196.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E9361410F3B;
- Tue, 15 Mar 2022 08:37:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B5142112C082;
+ Tue, 15 Mar 2022 08:37:40 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5669F1800612; Tue, 15 Mar 2022 09:37:02 +0100 (CET)
+ id 701201800623; Tue, 15 Mar 2022 09:37:02 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/11] tests/acpi: disallow virt memory hotplug changes
-Date: Tue, 15 Mar 2022 09:36:53 +0100
-Message-Id: <20220315083656.1949517-9-kraxel@redhat.com>
+Subject: [PULL 10/11] edk2/docker: use ubuntu 18.04
+Date: Tue, 15 Mar 2022 09:36:55 +0100
+Message-Id: <20220315083656.1949517-11-kraxel@redhat.com>
 In-Reply-To: <20220315083656.1949517-1-kraxel@redhat.com>
 References: <20220315083656.1949517-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -89,19 +89,29 @@ Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h | 1 -
- 1 file changed, 1 deletion(-)
+Upstream CI uses ubuntu 18.04 too, so pick
+that version (instead of something newer).
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index e569098abddc..dfb8523c8bf4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/SSDT.memhp",
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ .gitlab-ci.d/edk2/Dockerfile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.gitlab-ci.d/edk2/Dockerfile b/.gitlab-ci.d/edk2/Dockerfile
+index 7484b3846d71..bbe50ff8328a 100644
+--- a/.gitlab-ci.d/edk2/Dockerfile
++++ b/.gitlab-ci.d/edk2/Dockerfile
+@@ -1,7 +1,7 @@
+ #
+ # Docker image to cross-compile EDK2 firmware binaries
+ #
+-FROM ubuntu:16.04
++FROM ubuntu:18.04
+ 
+ MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+ 
 -- 
 2.35.1
 
