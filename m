@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560404D99BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 11:56:58 +0100 (CET)
-Received: from localhost ([::1]:37418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9F44D99E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:03:57 +0100 (CET)
+Received: from localhost ([::1]:45516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU4rJ-0000W8-Av
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 06:56:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59412)
+	id 1nU4y4-0006CG-BW
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:03:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nU4pO-0007X2-Uj
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:55:00 -0400
-Received: from [2a00:1450:4864:20::62b] (port=40790
- helo=mail-ej1-x62b.google.com)
+ id 1nU4pN-0007Wv-33
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:54:58 -0400
+Received: from [2a00:1450:4864:20::535] (port=41636
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nU4pL-0002JP-HQ
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:54:58 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id p15so40322130ejc.7
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 03:54:55 -0700 (PDT)
+ id 1nU4pK-0002JG-Rb
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 06:54:56 -0400
+Received: by mail-ed1-x535.google.com with SMTP id c20so23617673edr.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 03:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9mHVQHDIm7DVjpGVzcS7cW2hw0ZLmx4Z+DStqy5tLuI=;
- b=gqeUcyQkEn4M3L/1rm7usPmSFT+/ZPexPTViOUP6ysYy/LivXD/46MHikh51vgsRms
- iYxh9i3hFiNUWl+O36tM9SiKOUQ7RQ2dfqbzw9pe2RQwT5wkDRMtPr3EG/yOI37vTQPP
- nkpnXHY7A9Ngfd4RIjjXblNNXuJh684BUhvP+iO5LrKhi0DlANF6Aq8p1y+BH/xFzeGS
- 3xz9JyHlbaoZy5lrdAguQq8qncrWuZx8TbnMFs8gl9cbjzysMA4NllgH7fZnd8YJi7Th
- cCoPWIAu8VH02AfaJEXdO+xoSXyA326J7EzWGJqrRFWdCtvxkjNu8B87ypeZf/XdA677
- jMyA==
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c35fIfHlUurVNU5oiXgpvaZuMKMY1HzDBarpdEzAlns=;
+ b=b3SAVBQhB7StKnrAqfNfRamTqFN5Fa3kjiyEakMiBzJlCJpSUEk5k1S1oYafJA0G7c
+ FUxgGZxhK8nBF5N+EjkBIISkyTcBlOd6Hz/mNsP8ilLIWGxMHchHLwgkiho1BbZRGxkC
+ rXSG4jM8lZbAGo1BTX3XNhN7+k7d4L1fZGhwlIcRb77yVLFgoRY++qoJKlmRlm2D/tIJ
+ mQVe/yr+nNp+pWUbD0TARiZ9YmI1jGpsJbpEjBpl4Ci3k2ncuhEnblTsXBVVdUNRWt19
+ EbJKaih1gV0Tz2Bwt3NV6r478AkDM/aSC38CVmcIcoQbzLnX4SKdMxGfojyXBvSoYJfA
+ 7IuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9mHVQHDIm7DVjpGVzcS7cW2hw0ZLmx4Z+DStqy5tLuI=;
- b=KkwSMUUvDQB8HsxMqYtfN5vz6OaqwFbhN8pJj2zI7gtghM4cFtldvRGMd0GLRJuHuE
- w2vPTLfsju+PtvB3cfaQ/j9+1hFzkq8f73CTMX69zug+/03owsOeffP8IGAOwODwFsd/
- oPszbdi4dTPZqpEPj11qgVTU5lXXVsaeiUh2Bjokvye1D4YF7k0qm0AXRjta8KqGrWyq
- LIzSyCZfvfNlyKeKb1gwp+cJZ44QTswBo3bLRS0saaU04k31OLwPPgnImKiKk01z5RUT
- Bm7bupg5FQQdWgrAyAwXevJcgREzawmR1NwEYKTGYXEVnXuyeQmOCw2yz5mS96TjJLqV
- 9e1w==
-X-Gm-Message-State: AOAM533wZCkNjSEK6OFAPyaP8GL0MJUSmqK1I0wMuixwLfITaqbd/RgZ
- XgYFNTmiUUlklUrNxkQdj0yjY0x9mDo=
-X-Google-Smtp-Source: ABdhPJwDKMaoDEl3AbLOdOagfzpxVg1hsm8FZRGxWV46B/CuO52EZ5ZO6ZpH4cSgtSck2okzAQF7Tw==
-X-Received: by 2002:a17:907:da1:b0:6db:8e8e:a04 with SMTP id
- go33-20020a1709070da100b006db8e8e0a04mr18916346ejc.285.1647341694004; 
- Tue, 15 Mar 2022 03:54:54 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=c35fIfHlUurVNU5oiXgpvaZuMKMY1HzDBarpdEzAlns=;
+ b=wX0738UvJcBF7X5mDQhWPPJHynyc1zDJIGW+LPCwkQI1+lNomYkEe9FP246ilLpUht
+ mZ3OfNKWlZzkBYFZiksxNvKDjT/nDa3O4rvT3t8IB5LDas+rYjPuqfotTVIprtf4pCng
+ W9AV1w2kvxC55TJhy4lBnmFooPtHKcK/o3UWG2+Abf7l1zLnvXalRmA6C1FLTWeC+PIF
+ 3sz0f/wxrdLRHQr1p4TFlqTUhtol5BzWwB+O/YViGZ+gPdo4mt3/02quYHm5Jrup2x9v
+ YyVOnbryG9VRW9WZaDt59NudesQ40YWo8qDlpVRYhq31b5SW5/sCmGghuASChc/qsUTY
+ ELZA==
+X-Gm-Message-State: AOAM5323OC9DychrKweowTmtfRZ9PPQJ1r3kXY9Jeae7bas5v9NIJc6m
+ AmnOt+CXw1UA8W4CJhRmpsA/1EAVWyQ=
+X-Google-Smtp-Source: ABdhPJw/OCQ+WfZYliuYZkIxC2qW4tlZvGkTadpOO70WADwBR7AudV3Bf0m1j10yXTON+at+IJ3zzw==
+X-Received: by 2002:aa7:de0e:0:b0:416:607c:6d45 with SMTP id
+ h14-20020aa7de0e000000b00416607c6d45mr24885882edv.127.1647341692773; 
+ Tue, 15 Mar 2022 03:54:52 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- qa44-20020a17090786ac00b006dbe1ca23casm1731344ejc.45.2022.03.15.03.54.52
+ qa44-20020a17090786ac00b006dbe1ca23casm1731344ejc.45.2022.03.15.03.54.51
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 03:54:53 -0700 (PDT)
+ Tue, 15 Mar 2022 03:54:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 11/22] target/i386: Throw a #SS when loading a non-canonical
- IST
-Date: Tue, 15 Mar 2022 11:54:50 +0100
-Message-Id: <20220315105450.1587293-2-pbonzini@redhat.com>
+Subject: [PULL v3 00/22] QEMU changes for 7.0 soft freeze
+Date: Tue, 15 Mar 2022 11:54:49 +0100
+Message-Id: <20220315105450.1587293-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220315105450.1587293-1-pbonzini@redhat.com>
-References: <20220315105450.1587293-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
@@ -90,149 +89,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
+The following changes since commit 6f4fe14b46f0a161f94e3f6e98690ac38184b0be:
 
-Loading a non-canonical address into rsp when handling an interrupt or
-performing a far call should raise a #SS not a #GP.
+  Merge tag 'pull-tcg-20220314' of https://gitlab.com/rth7680/qemu into staging (2022-03-14 18:11:36 +0000)
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/870
-Signed-off-by: Gareth Webb <gareth.webb@umbralsoftware.co.uk>
-Message-Id: <164529651121.25406.15337137068584246397-0@git.sr.ht>
-[Move get_pg_mode to seg_helper.c for user-mode emulators. - Paolo]
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/tcg/seg_helper.c         | 52 ++++++++++++++++++++++++++--
- target/i386/tcg/sysemu/excp_helper.c | 36 -------------------
- 2 files changed, 50 insertions(+), 38 deletions(-)
+are available in the Git repository at:
 
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index baa905a0cd..bffd82923f 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -28,6 +28,42 @@
- #include "helper-tcg.h"
- #include "seg_helper.h"
- 
-+int get_pg_mode(CPUX86State *env)
-+{
-+    int pg_mode = 0;
-+    if (!(env->cr[0] & CR0_PG_MASK)) {
-+        return 0;
-+    }
-+    if (env->cr[0] & CR0_WP_MASK) {
-+        pg_mode |= PG_MODE_WP;
-+    }
-+    if (env->cr[4] & CR4_PAE_MASK) {
-+        pg_mode |= PG_MODE_PAE;
-+        if (env->efer & MSR_EFER_NXE) {
-+            pg_mode |= PG_MODE_NXE;
-+        }
-+    }
-+    if (env->cr[4] & CR4_PSE_MASK) {
-+        pg_mode |= PG_MODE_PSE;
-+    }
-+    if (env->cr[4] & CR4_SMEP_MASK) {
-+        pg_mode |= PG_MODE_SMEP;
-+    }
-+    if (env->hflags & HF_LMA_MASK) {
-+        pg_mode |= PG_MODE_LMA;
-+        if (env->cr[4] & CR4_PKE_MASK) {
-+            pg_mode |= PG_MODE_PKE;
-+        }
-+        if (env->cr[4] & CR4_PKS_MASK) {
-+            pg_mode |= PG_MODE_PKS;
-+        }
-+        if (env->cr[4] & CR4_LA57_MASK) {
-+            pg_mode |= PG_MODE_LA57;
-+        }
-+    }
-+    return pg_mode;
-+}
-+
- /* return non zero if error */
- static inline int load_segment_ra(CPUX86State *env, uint32_t *e1_ptr,
-                                uint32_t *e2_ptr, int selector,
-@@ -794,7 +830,9 @@ static void do_interrupt_protected(CPUX86State *env, int intno, int is_int,
- static inline target_ulong get_rsp_from_tss(CPUX86State *env, int level)
- {
-     X86CPU *cpu = env_archcpu(env);
--    int index;
-+    int index, pg_mode;
-+    target_ulong rsp;
-+    int32_t sext;
- 
- #if 0
-     printf("TR: base=" TARGET_FMT_lx " limit=%x\n",
-@@ -808,7 +846,17 @@ static inline target_ulong get_rsp_from_tss(CPUX86State *env, int level)
-     if ((index + 7) > env->tr.limit) {
-         raise_exception_err(env, EXCP0A_TSS, env->tr.selector & 0xfffc);
-     }
--    return cpu_ldq_kernel(env, env->tr.base + index);
-+
-+    rsp = cpu_ldq_kernel(env, env->tr.base + index);
-+
-+    /* test virtual address sign extension */
-+    pg_mode = get_pg_mode(env);
-+    sext = (int64_t)rsp >> (pg_mode & PG_MODE_LA57 ? 56 : 47);
-+    if (sext != 0 && sext != -1) {
-+        raise_exception_err(env, EXCP0C_STACK, 0);
-+    }
-+
-+    return rsp;
- }
- 
- /* 64 bit interrupt */
-diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index 6f1fbe667b..e1b6d88683 100644
---- a/target/i386/tcg/sysemu/excp_helper.c
-+++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -22,42 +22,6 @@
- #include "exec/exec-all.h"
- #include "tcg/helper-tcg.h"
- 
--int get_pg_mode(CPUX86State *env)
--{
--    int pg_mode = 0;
--    if (!(env->cr[0] & CR0_PG_MASK)) {
--        return 0;
--    }
--    if (env->cr[0] & CR0_WP_MASK) {
--        pg_mode |= PG_MODE_WP;
--    }
--    if (env->cr[4] & CR4_PAE_MASK) {
--        pg_mode |= PG_MODE_PAE;
--        if (env->efer & MSR_EFER_NXE) {
--            pg_mode |= PG_MODE_NXE;
--        }
--    }
--    if (env->cr[4] & CR4_PSE_MASK) {
--        pg_mode |= PG_MODE_PSE;
--    }
--    if (env->cr[4] & CR4_SMEP_MASK) {
--        pg_mode |= PG_MODE_SMEP;
--    }
--    if (env->hflags & HF_LMA_MASK) {
--        pg_mode |= PG_MODE_LMA;
--        if (env->cr[4] & CR4_PKE_MASK) {
--            pg_mode |= PG_MODE_PKE;
--        }
--        if (env->cr[4] & CR4_PKS_MASK) {
--            pg_mode |= PG_MODE_PKS;
--        }
--        if (env->cr[4] & CR4_LA57_MASK) {
--            pg_mode |= PG_MODE_LA57;
--        }
--    }
--    return pg_mode;
--}
--
- #define PG_ERROR_OK (-1)
- 
- typedef hwaddr (*MMUTranslateFunc)(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 8a5606f6449c90a0731790ed03eebedcf7045070:
+
+  gitlab-ci: do not run tests with address sanitizer (2022-03-15 11:50:50 +0100)
+
+----------------------------------------------------------------
+* whpx fixes in preparation for GDB support (Ivan)
+* VSS header fixes (Marc-André)
+* 5-level EPT support (Vitaly)
+* AMX support (Jing Liu & Yang Zhong)
+* Bundle changes to MSI routes (Longpeng)
+* More precise emulation of #SS
+* Disable ASAN testing
+
+----------------------------------------------------------------
+Sorry for this being so late.  If you want to delay it to 7.1 I won't complain.
+
+v3->v4: fix sign extension in "target/i386: Throw a
+        #SS when loading a non-canonical IST"
+
+Gareth Webb (1):
+      target/i386: Throw a #SS when loading a non-canonical IST
+
+Ivan Shcherbakov (2):
+      whpx: Fixed reporting of the CPU context to GDB for 64-bit
+      whpx: Fixed incorrect CR8/TPR synchronization
+
+Jing Liu (5):
+      x86: Fix the 64-byte boundary enumeration for extended state
+      x86: Add AMX XTILECFG and XTILEDATA components
+      x86: Add XFD faulting bit for state components
+      x86: Add AMX CPUIDs enumeration
+      x86: add support for KVM_CAP_XSAVE2 and AMX state migration
+
+Longpeng (Mike) (2):
+      kvm-irqchip: introduce new API to support route change
+      kvm/msi: do explicit commit when adding msi routes
+
+Marc-André Lureau (3):
+      meson: fix generic location of vss headers
+      qga/vss-win32: check old VSS SDK headers
+      qga/vss: update informative message about MinGW
+
+Maxim Levitsky (1):
+      KVM: SVM: always set MSR_AMD64_TSC_RATIO to default value
+
+Paolo Bonzini (4):
+      update meson-buildoptions.sh
+      target/i386: only include bits in pg_mode if they are not ignored
+      linux-headers: include missing changes from 5.17
+      gitlab-ci: do not run tests with address sanitizer
+
+Vitaly Kuznetsov (2):
+      vmxcap: Add 5-level EPT bit
+      i386: Add Icelake-Server-v6 CPU model with 5-level EPT support
+
+Yang Zhong (1):
+      x86: Grant AMX permission for guest
+
+Zeng Guang (1):
+      x86: Support XFD and AMX xsave data migration
+
+ .gitlab-ci.d/buildtest.yml           |   2 -
+ accel/kvm/kvm-all.c                  |   7 +-
+ accel/stubs/kvm-stub.c               |   2 +-
+ hw/misc/ivshmem.c                    |   5 +-
+ hw/vfio/pci.c                        |   5 +-
+ hw/virtio/virtio-pci.c               |   4 +-
+ include/sysemu/kvm.h                 |  23 ++++++-
+ linux-headers/asm-x86/kvm.h          |   3 +
+ linux-headers/linux/kvm.h            |   4 ++
+ meson.build                          |   5 +-
+ qga/meson.build                      |   2 +-
+ qga/vss-win32/install.cpp            |   4 ++
+ qga/vss-win32/provider.cpp           |   4 ++
+ qga/vss-win32/vss-common.h           |   3 +-
+ scripts/kvm/vmxcap                   |   1 +
+ scripts/meson-buildoptions.sh        |   2 +-
+ target/i386/cpu.c                    |  84 +++++++++++++++++++++--
+ target/i386/cpu.h                    |  43 +++++++++++-
+ target/i386/kvm/kvm-cpu.c            |  11 +--
+ target/i386/kvm/kvm.c                | 125 ++++++++++++++++++++++++++++++-----
+ target/i386/kvm/kvm_i386.h           |   1 +
+ target/i386/machine.c                |  46 +++++++++++++
+ target/i386/tcg/seg_helper.c         |  52 ++++++++++++++-
+ target/i386/tcg/sysemu/excp_helper.c |  40 +----------
+ target/i386/whpx/whpx-all.c          |  30 ++++++++-
+ target/i386/xsave_helper.c           |  28 ++++++++
+ 26 files changed, 451 insertions(+), 85 deletions(-)
 -- 
 2.35.1
+
 
