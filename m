@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CD94DA4BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 22:42:39 +0100 (CET)
-Received: from localhost ([::1]:60190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0FFF4DA4BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 22:44:13 +0100 (CET)
+Received: from localhost ([::1]:34792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUEwA-0006q9-Bl
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 17:42:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36482)
+	id 1nUExg-0000Iv-H0
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 17:44:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUEu6-0005JU-EW
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 17:40:30 -0400
-Received: from [2607:f8b0:4864:20::1032] (port=51767
+ id 1nUEvA-0006BQ-GC
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 17:41:36 -0400
+Received: from [2607:f8b0:4864:20::1032] (port=42849
  helo=mail-pj1-x1032.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUEu3-0000h7-Kp
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 17:40:30 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id gb19so598720pjb.1
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 14:40:27 -0700 (PDT)
+ id 1nUEv8-0000s3-U5
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 17:41:36 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ rm8-20020a17090b3ec800b001c55791fdb1so674455pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 14:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=hjXGVo064wjC8rfuvzgfaCnjYZ+5mWz2t70gVDLXNMQ=;
- b=oWQX0gu2PiUWxMdgOx+y8q6EGVr1Q1BcOUss3gT61W2FQFtLTtGFudF5s2p1vNREse
- 8AAAzgJHDHXJTL2NCKSr+5mQJe9WG0hmUCF0GQHum9lwkCuCVwkvdvaXhQwTEsNhqWTm
- cZdKbukcajgs04sTF3Nlyl8V38iL6T4QlokanFbOvJGMhyOiqQYWyrMoVGCcRzPWC4DO
- 0mqWnJ7Q0KSycXDpjfT50Kw84gM/tN3VWoPHt9nPGScBS9O5QvDrHV+kqED8oWAp3Uko
- XR+N3qu9Hwy6xE4+Nmk2+zMuQmAbnAB9rGZqgz/41+BQEmLn/xXmBobPj0VpAj6Ld0f1
- tvEw==
+ bh=z03UJPXkvE/wwwDvg5oZwAdXNipbiYnMQgrMp/6flQQ=;
+ b=OVYkDSCJx/7F6cA1QrRYdvO+ldI4gLxCiEKJMSQdJ8tqgXRHd7a007MWhmJCvWJwPm
+ +WKbgYZjWrcCrMawISHWTlWWdNpPimiTMVQIMfM7no82ovYIfyIYUwLC63Yf+5vE1+/F
+ w1e5wvFBnRrx6h0/93UgEXoyNsASctpfk3zhzIAWgwJJ/biVoDorpoeXlaWuxjschD7U
+ biGr+G131mGux1KInPQbtJlN5A++CqSXIvp0qJjP0qBweCAaM81wzkwNpdZfl3+zW9kw
+ edKKn3O9T1pLO4WB95DcLkGybACZtfDmx/RFTb+LZL/vaqRWq6Y0WMLBSXb9Avc+e/6p
+ IQSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hjXGVo064wjC8rfuvzgfaCnjYZ+5mWz2t70gVDLXNMQ=;
- b=r/scshZqXRkI4YtFVWjDE16kYJvMbkMRKxpZ/hR3mvRio579TsXWkOH1eNcRLWVyaU
- TvSHS6xQZejEFo9Nes8GPxC63t8uaPo4a/WYzd33T2aIAEgfSIcNP1W+ERdBHSKOB+O0
- jLU56VPbGl2dqmoFpX105Q2k684NPeTqDvy0b6DVrNHKTIdqq0m0AxfiMpZ0QyhEXns1
- atO1FPdjWjEjQQIxbOb3wXYPhfaxLuIQUVz9uMr4btXPGTqx2gfWjVA1CRkkiEnTnw6P
- WelqURFH1wWy1VgyoxvnvcNEnon1fMI8v5dIBQbGc34z3E2fzTF0JKBHMsIkbcgY3SLi
- 92fQ==
-X-Gm-Message-State: AOAM531cSBibRN/n8mFGHs0WOGwfnrmvA3JZCrlfsj387ODVaXmJLExA
- niSsetBpCtUq5cNTW4x2K+djtw==
-X-Google-Smtp-Source: ABdhPJx4D4kq6YixcFS/hT7/jU0Ba4JGVtgufXO02fWuId6dEI7WQbJGIM3c08/JqShVwi8H8xvvrA==
-X-Received: by 2002:a17:90a:3e42:b0:1bf:53ce:f1ef with SMTP id
- t2-20020a17090a3e4200b001bf53cef1efmr6794382pjm.33.1647380425790; 
- Tue, 15 Mar 2022 14:40:25 -0700 (PDT)
+ bh=z03UJPXkvE/wwwDvg5oZwAdXNipbiYnMQgrMp/6flQQ=;
+ b=iix5Hne/KuPgnuLdzheokVgWHv+SkRWosMqw6CJ7u5cI/YN6XPuV86nYTcXhkXDAhp
+ CTDbe2VJxMqeaGk5/SXHbtX8bI8gCss8vF2xyyEKeJ8Qv4sGk6onhge81q/k/WrdA9FU
+ 6Kmhvrcw4fJouzWwIXJmlK8kLSAfGv9Y2OK1q2/Y5IrMLLJOen8WVuwA+vakHN4gzzRL
+ C1d9hjxD+FRtRlouPrSyYhuTeho73V6kJJpdty3hRW9LJT6XNgoKF+1Dt7BMXY3E4T5a
+ qMo1XJd+cVXpfbXB1jDx93TlvLwPwR3xOtQKXTYPqtJ79JhfHmc8Vxh8B2jUBT03TdCB
+ C6+A==
+X-Gm-Message-State: AOAM530vJyVDLt3qeA38KzL2Ngo1kLYeqCZpDK8VlVxUw0z3j8D+khZs
+ i6AEBz629jwFJEeJAacGzKFS1Q==
+X-Google-Smtp-Source: ABdhPJzT0/nhZgQ/3VepHdTX0dacawZktjLrQuuwOkts5hbSkvzMZ8plSq2H4faOlNGJfv5N63xYIg==
+X-Received: by 2002:a17:90b:2246:b0:1c6:5781:7193 with SMTP id
+ hk6-20020a17090b224600b001c657817193mr1311779pjb.48.1647380493463; 
+ Tue, 15 Mar 2022 14:41:33 -0700 (PDT)
 Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- v7-20020a637a07000000b0037c9268a310sm199135pgc.3.2022.03.15.14.40.24
+ q17-20020aa79831000000b004f769d0c323sm57051pfl.100.2022.03.15.14.41.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 14:40:25 -0700 (PDT)
-Message-ID: <d9d9f8ba-6a8c-972a-ae46-1302ae3d13cb@linaro.org>
-Date: Tue, 15 Mar 2022 14:40:23 -0700
+ Tue, 15 Mar 2022 14:41:32 -0700 (PDT)
+Message-ID: <eb4fee59-8710-fc4f-f5f7-bfcf1131b9fd@linaro.org>
+Date: Tue, 15 Mar 2022 14:41:30 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
-Subject: Re: [PATCH 1/2] target/arm: Log M-profile vector table accesses
+Subject: Re: [PATCH 2/2] target/arm: Log fault address for M-profile faults
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220315204306.2797684-1-peter.maydell@linaro.org>
- <20220315204306.2797684-2-peter.maydell@linaro.org>
+ <20220315204306.2797684-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220315204306.2797684-2-peter.maydell@linaro.org>
+In-Reply-To: <20220315204306.2797684-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
@@ -98,36 +99,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/15/22 13:43, Peter Maydell wrote:
-> Currently the CPU_LOG_INT logging misses some useful information
-> about loads from the vector table.  Add logging where we load vector
-> table entries.  This is particularly helpful for cases where the user
-> has accidentally not put a vector table in their image at all, which
-> can result in confusing guest crashes at startup.
-> 
-> Here's an example of the new logging for a case where
-> the vector table contains garbage:
-> 
-> Loaded reset SP 0x0 PC 0x0 from vector table
-> Loaded reset SP 0xd008f8df PC 0xf000bf00 from vector table
-> Taking exception 3 [Prefetch Abort] on CPU 0
-> ...with CFSR.IACCVIOL
-> ...BusFault with BFSR.STKERR
-> ...taking pending nonsecure exception 3
-> ...loading from element 3 of non-secure vector table at 0xc
-> ...loaded new PC 0x20000558
-> ----------------
-> IN:
-> 0x20000558:  08000079  stmdaeq  r0, {r0, r3, r4, r5, r6}
-> 
-> (The double reset logging is the result of our long-standing
-> "CPUs all get reset twice" weirdness; it looks a bit ugly
-> but it'll go away if we ever fix that :-))
+> For M-profile, the fault address is not always exposed to the guest
+> in a fault register (for instance the BFAR bus fault address register
+> is only updated for bus faults on data accesses, not instruction
+> accesses).  Currently we log the address only if we're putting it
+> into a particular guest-visible register.  Since we always have it,
+> log it generically, to make logs of i-side faults a bit clearer.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/cpu.c      | 5 +++++
->   target/arm/m_helper.c | 5 +++++
->   2 files changed, 10 insertions(+)
+>   target/arm/m_helper.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
