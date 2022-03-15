@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E564D947F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 07:18:06 +0100 (CET)
-Received: from localhost ([::1]:52742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728864D948A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 07:22:03 +0100 (CET)
+Received: from localhost ([::1]:33842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU0VR-0003DJ-B0
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 02:18:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40528)
+	id 1nU0ZG-00010i-Hf
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 02:22:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nU0S2-0000Ga-Sc
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:14:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35616)
+ id 1nU0S4-0000KV-TT
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:14:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1nU0S1-0004M1-9o
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:14:34 -0400
+ id 1nU0S2-0004M8-V8
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 02:14:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647324872;
+ s=mimecast20190719; t=1647324874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UUNHod7JNAJsvRzdTi4PyrDg3lpRDro8zhfqqYajf/U=;
- b=T09IjfOSYpc7lIZWIwauepDfIGO6Dcdm0/i1nS8Pi9Ar5kvCVv4CAVkx/jCfGlVJx7jiQt
- NAd8glCbqF06cAYMQphd5bS29w4yc5q8Q/8vFQ23F3qYtjO6c9asw6WWKn/292UrH967Hw
- TgizhvxH8gXsZSRzdodeW3kJTyhTrIs=
+ bh=8fb2uWdEbJnuUCV7s2fvC+4kroAt1EU4Uu+tEGG3lEc=;
+ b=ZYotloxsXLI+UBAra9+/36uK7dzq1C9hVNwH1iZMQorN161Ir8Vbw6pY56vO2R1tvurkcY
+ 0LAeOXMggduiT4l3R2vtuOA/4fNF7parJkss8JDEsFwwSiB90VStAs19L9+Y+elMhfB9Ri
+ zFmzGCwwEaT+QNh1Pr23Hkk76PGRTbw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-110-Ic-evX6uNcCS30aRvH4Kgw-1; Tue, 15 Mar 2022 02:14:29 -0400
-X-MC-Unique: Ic-evX6uNcCS30aRvH4Kgw-1
+ us-mta-19-qbpkjhVJM76BzBqM9LQMDg-1; Tue, 15 Mar 2022 02:14:32 -0400
+X-MC-Unique: qbpkjhVJM76BzBqM9LQMDg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 546EA185A79C;
- Tue, 15 Mar 2022 06:14:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 61770833942;
+ Tue, 15 Mar 2022 06:14:32 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-14-38.pek2.redhat.com [10.72.14.38])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9CE4E400E43F;
- Tue, 15 Mar 2022 06:14:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 025E7400E123;
+ Tue, 15 Mar 2022 06:14:29 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL V3 01/15] virtio-net: fix map leaking on error during receive
-Date: Tue, 15 Mar 2022 14:14:06 +0800
-Message-Id: <20220315061420.31910-2-jasowang@redhat.com>
+Subject: [PULL V3 02/15] vhost: Add VhostShadowVirtqueue
+Date: Tue, 15 Mar 2022 14:14:07 +0800
+Message-Id: <20220315061420.31910-3-jasowang@redhat.com>
 In-Reply-To: <20220315061420.31910-1-jasowang@redhat.com>
 References: <20220315061420.31910-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -57,17 +57,16 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,42 +80,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Victor Tom <vv474172261@gmail.com>, Jason Wang <jasowang@redhat.com>,
- qemu-stable@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit bedd7e93d0196 ("virtio-net: fix use after unmap/free for sg")
-tries to fix the use after free of the sg by caching the virtqueue
-elements in an array and unmap them at once after receiving the
-packets, But it forgot to unmap the cached elements on error which
-will lead to leaking of mapping and other unexpected results.
+From: Eugenio Pérez <eperezma@redhat.com>
 
-Fixing this by detaching the cached elements on error. This addresses
-CVE-2022-26353.
+Vhost shadow virtqueue (SVQ) is an intermediate jump for virtqueue
+notifications and buffers, allowing qemu to track them. While qemu is
+forwarding the buffers and virtqueue changes, it is able to commit the
+memory it's being dirtied, the same way regular qemu's VirtIO devices
+do.
 
-Reported-by: Victor Tom <vv474172261@gmail.com>
-Cc: qemu-stable@nongnu.org
-Fixes: CVE-2022-26353
-Fixes: bedd7e93d0196 ("virtio-net: fix use after unmap/free for sg")
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+This commit only exposes basic SVQ allocation and free. Next patches of
+the series add functionality like notifications and buffers forwarding.
+
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/virtio-net.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/virtio/meson.build              |  2 +-
+ hw/virtio/vhost-shadow-virtqueue.c | 62 ++++++++++++++++++++++++++++++++++++++
+ hw/virtio/vhost-shadow-virtqueue.h | 28 +++++++++++++++++
+ 3 files changed, 91 insertions(+), 1 deletion(-)
+ create mode 100644 hw/virtio/vhost-shadow-virtqueue.c
+ create mode 100644 hw/virtio/vhost-shadow-virtqueue.h
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index b02a063..2087516 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -1870,6 +1870,7 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index 521f7d6..2dc8761 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
  
- err:
-     for (j = 0; j < i; j++) {
-+        virtqueue_detach_element(q->rx_vq, elems[j], lens[j]);
-         g_free(elems[j]);
-     }
- 
+ virtio_ss = ss.source_set()
+ virtio_ss.add(files('virtio.c'))
+-virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c'))
++virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+new file mode 100644
+index 0000000..c1db02c
+--- /dev/null
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -0,0 +1,62 @@
++/*
++ * vhost shadow virtqueue
++ *
++ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
++ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "hw/virtio/vhost-shadow-virtqueue.h"
++
++#include "qemu/error-report.h"
++
++/**
++ * Creates vhost shadow virtqueue, and instructs the vhost device to use the
++ * shadow methods and file descriptors.
++ *
++ * Returns the new virtqueue or NULL.
++ *
++ * In case of error, reason is reported through error_report.
++ */
++VhostShadowVirtqueue *vhost_svq_new(void)
++{
++    g_autofree VhostShadowVirtqueue *svq = g_new0(VhostShadowVirtqueue, 1);
++    int r;
++
++    r = event_notifier_init(&svq->hdev_kick, 0);
++    if (r != 0) {
++        error_report("Couldn't create kick event notifier: %s (%d)",
++                     g_strerror(errno), errno);
++        goto err_init_hdev_kick;
++    }
++
++    r = event_notifier_init(&svq->hdev_call, 0);
++    if (r != 0) {
++        error_report("Couldn't create call event notifier: %s (%d)",
++                     g_strerror(errno), errno);
++        goto err_init_hdev_call;
++    }
++
++    return g_steal_pointer(&svq);
++
++err_init_hdev_call:
++    event_notifier_cleanup(&svq->hdev_kick);
++
++err_init_hdev_kick:
++    return NULL;
++}
++
++/**
++ * Free the resources of the shadow virtqueue.
++ *
++ * @pvq: gpointer to SVQ so it can be used by autofree functions.
++ */
++void vhost_svq_free(gpointer pvq)
++{
++    VhostShadowVirtqueue *vq = pvq;
++    event_notifier_cleanup(&vq->hdev_kick);
++    event_notifier_cleanup(&vq->hdev_call);
++    g_free(vq);
++}
+diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
+new file mode 100644
+index 0000000..f1519e3
+--- /dev/null
++++ b/hw/virtio/vhost-shadow-virtqueue.h
+@@ -0,0 +1,28 @@
++/*
++ * vhost shadow virtqueue
++ *
++ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
++ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef VHOST_SHADOW_VIRTQUEUE_H
++#define VHOST_SHADOW_VIRTQUEUE_H
++
++#include "qemu/event_notifier.h"
++
++/* Shadow virtqueue to relay notifications */
++typedef struct VhostShadowVirtqueue {
++    /* Shadow kick notifier, sent to vhost */
++    EventNotifier hdev_kick;
++    /* Shadow call notifier, sent to vhost */
++    EventNotifier hdev_call;
++} VhostShadowVirtqueue;
++
++VhostShadowVirtqueue *vhost_svq_new(void);
++
++void vhost_svq_free(gpointer vq);
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostShadowVirtqueue, vhost_svq_free);
++
++#endif
 -- 
 2.7.4
 
