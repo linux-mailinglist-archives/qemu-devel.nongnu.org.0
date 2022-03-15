@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723F14D9A0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:11:37 +0100 (CET)
-Received: from localhost ([::1]:59178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECC44D9A1A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:13:49 +0100 (CET)
+Received: from localhost ([::1]:36426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU55U-0007e2-Gm
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:11:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36150)
+	id 1nU57d-0003OY-12
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:13:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU51n-0002po-3i
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:07:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41223)
+ id 1nU51r-000334-Ie
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:07:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU51l-0005ZF-GR
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:07:46 -0400
+ id 1nU51q-0005bv-1U
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:07:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647342464;
+ s=mimecast20190719; t=1647342469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=sIuYjzP4h/6cJzSgwQP40RvcENeX4fNEjVZjXLHJoOI=;
- b=RE9ltSCO66Jpc0FNZ5VRFNy6c8MMBdJ3hkea1eBE7vRhMxlyzFbKRnlR8qQQHFo18ITY8S
- srV1lIv0Ca2to2oT/BUPZBaGkM92WaoLciv6rDazfCYGp9S/LxDxyoUWbk/G3p9hWmWkvH
- fmI4X+vgCwOYWI9TuFirRNRXMWwRc7g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C2YIpCtdcHjni3WzUJsX14EQ+6PQzw597u7Usputo7M=;
+ b=eLLYxt2ldv5Ci7gLqocVE2JFq7RTWkLPqVbTfft273BjIRab5jeiXtTLsW/kh/q4nA1QdS
+ /77j9cXnu9Bm95PFdQGBfE9nZv5W3k2YhgfcriRp8FSCWM29vqhQsA5xxm8YzEdj8/JhMw
+ n5IcjJiMjlc0lIsOHuZhEUsfFg0wiUE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-woJZM0sXN-KnQPKA0k7-KA-1; Tue, 15 Mar 2022 07:07:43 -0400
-X-MC-Unique: woJZM0sXN-KnQPKA0k7-KA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-563-pXIZ6iqsMX-cV_lbxOhLKw-1; Tue, 15 Mar 2022 07:07:48 -0400
+X-MC-Unique: pXIZ6iqsMX-cV_lbxOhLKw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4BEEA2999B4E;
- Tue, 15 Mar 2022 11:07:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8A2682A6C2;
+ Tue, 15 Mar 2022 11:07:47 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 388697D2BA2;
- Tue, 15 Mar 2022 11:07:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 990A11410F3B;
+ Tue, 15 Mar 2022 11:07:46 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/12] dbus console fixes
-Date: Tue, 15 Mar 2022 15:07:27 +0400
-Message-Id: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
+Subject: [PULL v2 01/12] ui/console: move check for compatible GL context
+Date: Tue, 15 Mar 2022 15:07:28 +0400
+Message-Id: <20220315110739.2095676-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
+References: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,67 +86,63 @@ Cc: peter.maydell@linaro.org, kraxel@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The following changes since commit 1416688c53be6535be755b44c15fb2eb9defd20f=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/mcayland/tags/q800-updates-for-7.0-=
-20220309' into staging (2022-03-10 13:16:37 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git@gitlab.com:marcandre.lureau/qemu.git tags/dbus-pull-request=0D
-=0D
-for you to fetch changes up to e1c676a254b012779db87166a1f26db6886a8bce:=0D
-=0D
-  ui/console: call gfx_switch() even if the current scanout is GL (2022-03-=
-15 12:55:02 +0400)=0D
-=0D
-----------------------------------------------------------------=0D
-GL & D-Bus display related fixes=0D
-=0D
-Hi,=0D
-=0D
-Here are pending fixes related to D-Bus and GL, most of them reported thank=
-s to=0D
-Akihiko Odaki.=0D
-=0D
-v2:=0D
- - fix avocado vnc test regression (crash without associated console)=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Marc-Andr=C3=A9 Lureau (12):=0D
-  ui/console: move check for compatible GL context=0D
-  ui/console: move dcl compatiblity check to a callback=0D
-  ui/console: egl-headless is compatible with non-gl listeners=0D
-  ui/dbus: associate the DBusDisplayConsole listener with the given=0D
-    console=0D
-  ui/console: move console compatibility check to dcl_display_console()=0D
-  ui/shader: fix potential leak of shader on error=0D
-  ui/shader: free associated programs=0D
-  ui/console: add a dpy_gfx_switch callback helper=0D
-  ui/console: optionally update after gfx switch=0D
-  ui/dbus: fix texture sharing=0D
-  ui/dbus: do not send 2d scanout until gfx_update=0D
-  ui/console: call gfx_switch() even if the current scanout is GL=0D
-=0D
- include/ui/console.h |  19 +++++---=0D
- ui/dbus.h            |   3 ++=0D
- ui/console.c         | 104 +++++++++++++++++++++++++++----------------=0D
- ui/dbus-console.c    |  27 ++++++-----=0D
- ui/dbus-listener.c   |  48 +++++++++-----------=0D
- ui/dbus.c            |  35 ++++++++++++++-=0D
- ui/egl-headless.c    |  17 ++++++-=0D
- ui/gtk.c             |  18 +++++++-=0D
- ui/sdl2.c            |   9 +++-=0D
- ui/shader.c          |   9 +++-=0D
- ui/spice-display.c   |   9 +++-=0D
- 11 files changed, 202 insertions(+), 96 deletions(-)=0D
-=0D
---=20=0D
-2.35.1.273.ge6ebfd0e8cbb=0D
-=0D
+Move GL context compatibility check in dpy_compatible_with(), and use
+recommended error reporting.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ ui/console.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
+
+diff --git a/ui/console.c b/ui/console.c
+index 365a2c14b809..57e431d9e609 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1482,6 +1482,12 @@ static bool dpy_compatible_with(QemuConsole *con,
+ 
+     flags = con->hw_ops->get_flags ? con->hw_ops->get_flags(con->hw) : 0;
+ 
++    if (console_has_gl(con) && con->gl->ops->compatible_dcl != dcl->ops) {
++        error_setg(errp, "Display %s is incompatible with the GL context",
++                   dcl->ops->dpy_name);
++        return false;
++    }
++
+     if (flags & GRAPHIC_FLAGS_GL &&
+         !console_has_gl(con)) {
+         error_setg(errp, "The console requires a GL context.");
+@@ -1509,27 +1515,12 @@ void qemu_console_set_display_gl_ctx(QemuConsole *con, DisplayGLCtx *gl)
+     con->gl = gl;
+ }
+ 
+-static bool dpy_gl_compatible_with(QemuConsole *con, DisplayChangeListener *dcl)
+-{
+-    if (!con->gl) {
+-        return true;
+-    }
+-
+-    return con->gl->ops->compatible_dcl == dcl->ops;
+-}
+-
+ void register_displaychangelistener(DisplayChangeListener *dcl)
+ {
+     QemuConsole *con;
+ 
+     assert(!dcl->ds);
+ 
+-    if (dcl->con && !dpy_gl_compatible_with(dcl->con, dcl)) {
+-        error_report("Display %s is incompatible with the GL context",
+-                     dcl->ops->dpy_name);
+-        exit(1);
+-    }
+-
+     if (dcl->con) {
+         dpy_compatible_with(dcl->con, dcl, &error_fatal);
+     }
+-- 
+2.35.1.273.ge6ebfd0e8cbb
 
 
