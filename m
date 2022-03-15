@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72CD4D9A36
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:18:10 +0100 (CET)
-Received: from localhost ([::1]:48106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49344D9A19
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:13:44 +0100 (CET)
+Received: from localhost ([::1]:35852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU5Bq-0002vx-0w
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:18:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36572)
+	id 1nU57X-000318-S5
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:13:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU52r-0005Iz-GC
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:08:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60837)
+ id 1nU53B-0006Ll-OQ
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:09:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU52p-0005mt-Rg
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:08:53 -0400
+ id 1nU539-0005qf-N4
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:09:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647342531;
+ s=mimecast20190719; t=1647342551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v099OcPbOtt9k+lcjiDiAouQgYElAzCtF1EUPr0juPk=;
- b=PPoCdJGVSP2N/n1ATERGSw1eL4JtPiNkujhF81zqxQLjCLORD1SKqyuQOACkM/brDfbEhg
- kCSgsrdMgksUbBQTtUAy8ABKvYnpTfHruzTY9XzlC0xWj8dbOySI58xh1GMi6Lgn6KsLoQ
- ERySaH8RQxZPTTqRbypEG9KysBW1GsY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iAVXlPNa+jsMgCn8+FeHE/cMBbWsepJZw/rNFvwgHHQ=;
+ b=Ve+bVX284vus0/6gWpFU95IS/PIerPBZ3nOglt/bbulJP4Hq0y4lImjkmC2+tzUPutXXBO
+ 7V36mwBvUxffCJn4BUk9H58zGWAl7oK5tBML/tUhfPYI1SEibP0Jo4tSmpRhf1nRrVDKvh
+ 8oBeHoGjmPEp3/IiupIa1gWtHCjLrag=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-401-KrfuY_fCPOubIwIsx_YVPA-1; Tue, 15 Mar 2022 07:08:48 -0400
-X-MC-Unique: KrfuY_fCPOubIwIsx_YVPA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-25--MMvoXoSMJCo5bXcK1aUaw-1; Tue, 15 Mar 2022 07:09:07 -0400
+X-MC-Unique: -MMvoXoSMJCo5bXcK1aUaw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB14F899EC1;
- Tue, 15 Mar 2022 11:08:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 479BC3800500;
+ Tue, 15 Mar 2022 11:09:07 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17E5F4B8D42;
- Tue, 15 Mar 2022 11:08:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53A18111CD4C;
+ Tue, 15 Mar 2022 11:08:51 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 08/12] ui/console: add a dpy_gfx_switch callback helper
-Date: Tue, 15 Mar 2022 15:07:35 +0400
-Message-Id: <20220315110739.2095676-9-marcandre.lureau@redhat.com>
+Subject: [PULL v2 09/12] ui/console: optionally update after gfx switch
+Date: Tue, 15 Mar 2022 15:07:36 +0400
+Message-Id: <20220315110739.2095676-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 References: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,69 +88,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Slight code improvement.
+When switching to the dummy surface, we should also call gfx_update.
+But when using GL, we shouldn't call it.
 
+By making it an argument to displaychangelistener_gfx_switch(), it will
+be explicit, and cannot be forgotten that easily.
+
+Fixes: commit ebced091 ("console: save current scanout details")
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/console.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ ui/console.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
 diff --git a/ui/console.c b/ui/console.c
-index d3ecbb215736..102fcf0a5068 100644
+index 102fcf0a5068..06ba82db61c9 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -1058,6 +1058,15 @@ static void console_putchar(QemuConsole *s, int ch)
-     }
+@@ -1059,11 +1059,18 @@ static void console_putchar(QemuConsole *s, int ch)
  }
  
-+static void displaychangelistener_gfx_switch(DisplayChangeListener *dcl,
-+                                             struct DisplaySurface *new_surface)
-+{
-+    if (dcl->ops->dpy_gfx_switch) {
-+        dcl->ops->dpy_gfx_switch(dcl, new_surface);
+ static void displaychangelistener_gfx_switch(DisplayChangeListener *dcl,
+-                                             struct DisplaySurface *new_surface)
++                                             struct DisplaySurface *new_surface,
++                                             bool update)
+ {
+     if (dcl->ops->dpy_gfx_switch) {
+         dcl->ops->dpy_gfx_switch(dcl, new_surface);
+     }
++
++    if (update && dcl->ops->dpy_gfx_update) {
++        dcl->ops->dpy_gfx_update(dcl, 0, 0,
++                                 surface_width(new_surface),
++                                 surface_height(new_surface));
 +    }
-+}
-+
-+
- static void displaychangelistener_display_console(DisplayChangeListener *dcl,
-                                                   QemuConsole *con,
-                                                   Error **errp)
-@@ -1067,13 +1076,10 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
-     static DisplaySurface *dummy;
+ }
  
-     if (!con || !console_compatible_with(con, dcl, errp)) {
--        if (!dcl->ops->dpy_gfx_switch) {
--            return;
--        }
+ 
+@@ -1079,7 +1086,7 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
          if (!dummy) {
              dummy = qemu_create_placeholder_surface(640, 480, nodev);
          }
--        dcl->ops->dpy_gfx_switch(dcl, dummy);
-+        displaychangelistener_gfx_switch(dcl, dummy);
+-        displaychangelistener_gfx_switch(dcl, dummy);
++        displaychangelistener_gfx_switch(dcl, dummy, TRUE);
          return;
      }
  
-@@ -1091,9 +1097,8 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
-                                          con->scanout.texture.y,
+@@ -1098,12 +1105,8 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
                                           con->scanout.texture.width,
                                           con->scanout.texture.height);
--    } else if (con->scanout.kind == SCANOUT_SURFACE &&
--               dcl->ops->dpy_gfx_switch) {
--        dcl->ops->dpy_gfx_switch(dcl, con->surface);
-+    } else if (con->scanout.kind == SCANOUT_SURFACE) {
-+        displaychangelistener_gfx_switch(dcl, con->surface);
+     } else if (con->scanout.kind == SCANOUT_SURFACE) {
+-        displaychangelistener_gfx_switch(dcl, con->surface);
++        displaychangelistener_gfx_switch(dcl, con->surface, TRUE);
      }
+-
+-    dcl->ops->dpy_gfx_update(dcl, 0, 0,
+-                             qemu_console_get_width(con, 0),
+-                             qemu_console_get_height(con, 0));
+ }
  
-     dcl->ops->dpy_gfx_update(dcl, 0, 0,
-@@ -1677,9 +1682,7 @@ void dpy_gfx_replace_surface(QemuConsole *con,
+ void console_select(unsigned int index)
+@@ -1682,7 +1685,7 @@ void dpy_gfx_replace_surface(QemuConsole *con,
          if (con != (dcl->con ? dcl->con : active_console)) {
              continue;
          }
--        if (dcl->ops->dpy_gfx_switch) {
--            dcl->ops->dpy_gfx_switch(dcl, surface);
--        }
-+        displaychangelistener_gfx_switch(dcl, surface);
+-        displaychangelistener_gfx_switch(dcl, surface);
++        displaychangelistener_gfx_switch(dcl, surface, FALSE);
      }
      qemu_free_displaysurface(old_surface);
  }
