@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA144DA233
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:19:17 +0100 (CET)
-Received: from localhost ([::1]:38674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4EDF4DA23A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:20:59 +0100 (CET)
+Received: from localhost ([::1]:40204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUBlK-0004Cp-Ru
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:19:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47772)
+	id 1nUBmy-0005Ip-Rk
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:20:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUBc6-0007FL-Sn
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:09:42 -0400
-Received: from [2607:f8b0:4864:20::b30] (port=39840
- helo=mail-yb1-xb30.google.com)
+ id 1nUBeJ-00008J-Bz
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:12:03 -0400
+Received: from [2607:f8b0:4864:20::b29] (port=44018
+ helo=mail-yb1-xb29.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUBc5-0000Lz-7D
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:09:42 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id t11so100575ybi.6
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 11:09:40 -0700 (PDT)
+ id 1nUBeH-0000yR-Uw
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:11:59 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id v35so75470ybi.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 11:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q+q1fHTKoAJ5LoKENwJ+pzp10VXd/AEYNtUdotqTQrA=;
- b=IqUWOd8CpMJrTfN37kQbbRWWcpP/SOwuMDXPFnv4zA1Vu6jdixbtFBmugPX0toaN0H
- d2I6H9AY1BYumbw14j+5PP+/V5m1FJHci87REvHMzllRu5HuXr5F63sIkJX0W7VXgVLj
- PVe2IhkJwpBxjGGsxJFINpPQWW4lW51SWEmX5NEb4uOl8r183Uw2K/PEMEb3DMPkt0qU
- 6+8yvVDmKFTfG+GGaRnkLP8fKeymcTHZMQavf+45giRGjx7Z73S93VgjIhLYx7bcVPgZ
- 8amGRtlBe81dSHVvdsDyAktCq+9Sy4NGXkBFlUoMjhvrqnqQEzraqTgZ9qPRDcPIgltS
- Xb5w==
+ :cc; bh=cYrrnYCqdg9IKcw07D572OU+DjPuQoglS2UHEjaMEJM=;
+ b=FlCAdX4yu8Ca9Ai3sRaDEKl89XQf8PlHUUZBsWdG41T9Jcs+K6++IYbFMqHX5CTzry
+ BXy3Wq2rJNb3WUCLLG/dQybECj5p50ISRCwS3tWEJZnWXx9To/u5Fqw6MqT/3dL0yhoJ
+ ocGh96/4VpKZosR5WB7iUYNwA2j+8tdGeK3h4E8P9T39ywVDrFd0nXatCALWTja6nSzr
+ Wu/sJAaOn1sE0Y0FVsu6ajextzTf0Pl+fQehe4dY3Nu3jIJg79icLQ9JRt1jNAEycbY4
+ IOo5toh4tsVf+mw8dAy5PxlEwZcMlkm68104BA3CbFGShvXRwnx5jR7bu6IPfmsq4kbt
+ 4cbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Q+q1fHTKoAJ5LoKENwJ+pzp10VXd/AEYNtUdotqTQrA=;
- b=evioH6BW0wz57songtVdtTJvpGXwiEEdg9c9jc/UDMv9faL28sQd5r7Q5ARnxVDfhp
- 9Cey4grqi5LSBIVnUAqjWgjDbEAhqEBLYt3Bjf9d8TLCqZJQQ1ldCDrtTcw2jUmFsPJ7
- 6sC8zTamWmq/BMwMgQRIIxKwJPPUKwyur82YM2m5Y1ZdfBOO3VMh4RXrbVImiJnW6SLx
- 3emXY0hRqq3pRqNfGgECaGuuhRzr11qMYkn7p3oJZM5BO2ECpJekEk3hhcA+M9B5fNWT
- uPmfVpCE9/GvrkmkG+6Wy84mqUf50kHpjP3uiKOD3icAEur/lP9QjkR08kyUlz11raWs
- 04kQ==
-X-Gm-Message-State: AOAM532g68X4sUb8zSRAE48Z+PVvLdZ6xH3gi0/V8/vlNVmpkPDsK7yJ
- YjWKaPJNK0Oo47quHQ8xaKD5vODClqWIwrBVD8FiUA==
-X-Google-Smtp-Source: ABdhPJw59JHnDwsGvyT/D1QaRoKEDJl9O+duecx8CjgMAA41cGvgGkBhsBMwYbGiaBxEzboVtijaZbd4WU0dQbAv0LQ=
-X-Received: by 2002:a05:6902:83:b0:61a:709b:d841 with SMTP id
- h3-20020a056902008300b0061a709bd841mr23695691ybs.140.1647367780196; Tue, 15
- Mar 2022 11:09:40 -0700 (PDT)
+ bh=cYrrnYCqdg9IKcw07D572OU+DjPuQoglS2UHEjaMEJM=;
+ b=In8uNLzK3e4yUjkQJGweGRnbLeseR5ngLfKubFp1NdpQhkF0/kQJl6Yih1tJlNkj1f
+ 5wZsbvej9QYchKAkcPpo1SWnieTPCNt3pz6mHDgrsaqRMLvKd9H2+zTFgGRqMW493GrK
+ 85Jlj66rWPjBKrWgvi81XAbBZhq3KAnb55nBK7OCrGrC1k+NcO3midY0rGBw9o8yjWgd
+ CpvO2jiJV7WPR7DIizYlCicnP8rpkkgDv9LtCw46689NCq4DgU+Axp7vZF/Mdh3AqED/
+ A7gaFOeRhEI8qKZHFL3WnlIsg5mikYC7MNvGf+gAsFNE7nzqNWELXXSsgOkwYTPSNz85
+ Y5gg==
+X-Gm-Message-State: AOAM532+U/0IrSQcfU3otmBu4ZVFeFQj5UntmkPVGhk7IhAM48jT3ZQY
+ zGacmA3ci6LmuRbP3LOk9Cyycwif0/TUa8pCZ81Llw==
+X-Google-Smtp-Source: ABdhPJyMife60G/axTnRrsqgFrJ0HNQgzqus/Nz1I8NF4NSoJI/qadLC0Z32djPJc7uOnINmXWhfzkOeqp0yMTSa7QE=
+X-Received: by 2002:a25:b11c:0:b0:62c:16d9:c028 with SMTP id
+ g28-20020a25b11c000000b0062c16d9c028mr24858139ybj.288.1647367917112; Tue, 15
+ Mar 2022 11:11:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220308182452.223473-1-eric.auger@redhat.com>
-In-Reply-To: <20220308182452.223473-1-eric.auger@redhat.com>
+References: <20220314044305.138794-1-richard.henderson@linaro.org>
+ <20220314044305.138794-2-richard.henderson@linaro.org>
+In-Reply-To: <20220314044305.138794-2-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 18:09:28 +0000
-Message-ID: <CAFEAcA8fAWcqf6K5pdh2_ufBEkaHESbJ+jC3xvG0b15JSGGUeQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] hw/arm/virt: Fix make check-qtest-aarch64 when
- CONFIG_ARM_GIC_TCG is unset
-To: Eric Auger <eric.auger@redhat.com>
+Date: Tue, 15 Mar 2022 18:11:45 +0000
+Message-ID: <CAFEAcA8iATdOk783sMM16_p-kQQmu+T73trWnuCJiv+2hqmK_g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] linux-user/arm: Implement __kernel_memory_barrier
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b30
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b29
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -82,29 +82,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, drjones@redhat.com, qemu-arm@nongnu.org,
- f4bug@amsat.org, eric.auger.pro@gmail.com
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Mar 2022 at 18:25, Eric Auger <eric.auger@redhat.com> wrote:
+On Mon, 14 Mar 2022 at 04:44, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> When CONFIG_ARM_GIC_TCG is unset, qtests fail with
-> ERROR:../qom/object.c:715:object_new_with_type: assertion failed: (type != NULL)
+> This fallback syscall was stubbed out.
+> It would only matter for emulating pre-armv6.
 >
-> This is due to the fact a bunch tests use gic-version=max which
-> currectly unconditionally selects GICv3, ignoring the fact this
-> latter may have been disabled.
->
-> This series renames CONFIG_ARM_GIC_TCG into CONFIG_ARM_GICv3_TCG.
-> Also it selects GICv2 if gic-version=max and CONFIG_ARM_GICV3_TCG is
-> unset, in TCG mode. With those fixes qtests pass along with
-> virt machine node.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-The use of module_object_class_by_name() looks much neater than
-the ifdefs.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Applied to target-arm.next, thanks.
-
+thanks
 -- PMM
 
