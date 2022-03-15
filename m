@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC944D971F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 10:07:04 +0100 (CET)
-Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834304D98A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 11:24:44 +0100 (CET)
+Received: from localhost ([::1]:44984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU38x-0007s0-Eu
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 05:07:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54348)
+	id 1nU4M7-00085g-Jg
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 06:24:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nU2oi-0003PN-Vy
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:46:09 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:53899)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nU2ok-0003RK-4D
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:46:10 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:40533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nU2od-0005V2-8l
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:46:08 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id F241CEA19B85;
- Tue, 15 Mar 2022 09:45:59 +0100 (CET)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nU2og-0005VQ-Ui
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:46:09 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.180])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DC209EA19B91;
+ Tue, 15 Mar 2022 09:46:02 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 15 Mar
- 2022 09:45:53 +0100
+ 2022 09:46:02 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-96R0019be9d3b2-e1e0-4f4b-aff8-e1ed15652d43,
- 0AA06F5B2DB7430ED15449CA9F1189DB5B14FCF3) smtp.auth=clg@kaod.org
+ (GARM-99G003976f5711-98e0-4acb-b8f3-43dc6153c14e,
+ 5DBA5639B77BD7FE35D3F16CFE7686729AB21D01) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <d7343179-46e0-5ad1-8339-439d59eceaf4@kaod.org>
-Date: Tue, 15 Mar 2022 09:45:51 +0100
+Message-ID: <39ab9dc0-8581-8c27-698c-51ec2c65d104@kaod.org>
+Date: Tue, 15 Mar 2022 09:46:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.2
-Subject: Re: [PATCH v2 1/2] hw: aspeed_scu: Add AST2600 apb_freq and hpll
- calculation function
+Subject: Re: [PATCH v2 2/2] hw: aspeed_scu: Introduce clkin_25Mhz attribute
 Content-Language: en-US
 To: Steven Lee <steven_lee@aspeedtech.com>, Peter Maydell
  <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
  <joel@jms.id.au>, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, "open
  list:All patches CC here" <qemu-devel@nongnu.org>
 References: <20220315075753.8591-1-steven_lee@aspeedtech.com>
- <20220315075753.8591-2-steven_lee@aspeedtech.com>
+ <20220315075753.8591-3-steven_lee@aspeedtech.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220315075753.8591-2-steven_lee@aspeedtech.com>
+In-Reply-To: <20220315075753.8591-3-steven_lee@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 4392ad79-9990-4bf3-a2f0-18e6134551de
-X-Ovh-Tracer-Id: 5928707435723066220
+X-Ovh-Tracer-GUID: b168ada6-2129-4559-9348-38f960535b95
+X-Ovh-Tracer-Id: 5929551860001573740
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddvledguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhgrmhhinhgplhhinhesrghsphgvvgguthgvtghhrdgtohhm
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddvledguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhgrmhhinhgplhhinhesrghsphgvvgguthgvtghhrdgtohhm
 Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
  helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
@@ -79,11 +78,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 3/15/22 08:57, Steven Lee wrote:
-> AST2600's HPLL register offset and bit definition are different from
-> AST2500. Add a hpll calculation function and an apb frequency calculation
-> function based on SCU200 register description in ast2600v11.pdf.
+> AST2600 clkin is always 25MHz, introduce clkin_25Mhz attribute
+> for aspeed_scu_get_clkin() to return the correct clkin for ast2600.
 > 
 > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
@@ -92,129 +91,61 @@ Thanks,
 C.
 
 
+
 > ---
->   hw/misc/aspeed_scu.c         | 39 +++++++++++++++++++++++++++++++++++-
->   include/hw/misc/aspeed_scu.h | 18 +++++++++++++++++
->   2 files changed, 56 insertions(+), 1 deletion(-)
+>   hw/misc/aspeed_scu.c         | 6 +++++-
+>   include/hw/misc/aspeed_scu.h | 1 +
+>   2 files changed, 6 insertions(+), 1 deletion(-)
 > 
 > diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-> index d06e179a6e..d65f86df3d 100644
+> index d65f86df3d..150567f98a 100644
 > --- a/hw/misc/aspeed_scu.c
 > +++ b/hw/misc/aspeed_scu.c
-> @@ -213,6 +213,11 @@ static uint32_t aspeed_scu_get_random(void)
->   }
+> @@ -371,7 +371,8 @@ static const MemoryRegionOps aspeed_ast2500_scu_ops = {
 >   
->   uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s)
-> +{
-> +    return ASPEED_SCU_GET_CLASS(s)->get_apb(s);
-> +}
-> +
-> +static uint32_t aspeed_2400_scu_get_apb_freq(AspeedSCUState *s)
+>   static uint32_t aspeed_scu_get_clkin(AspeedSCUState *s)
 >   {
->       AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(s);
->       uint32_t hpll = asc->calc_hpll(s, s->regs[HPLL_PARAM]);
-> @@ -221,6 +226,15 @@ uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s)
->           / asc->apb_divider;
->   }
->   
-> +static uint32_t aspeed_2600_scu_get_apb_freq(AspeedSCUState *s)
-> +{
-> +    AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(s);
-> +    uint32_t hpll = asc->calc_hpll(s, s->regs[AST2600_HPLL_PARAM]);
-> +
-> +    return hpll / (SCU_CLK_GET_PCLK_DIV(s->regs[AST2600_CLK_SEL]) + 1)
-> +        / asc->apb_divider;
-> +}
-> +
->   static uint64_t aspeed_scu_read(void *opaque, hwaddr offset, unsigned size)
->   {
->       AspeedSCUState *s = ASPEED_SCU(opaque);
-> @@ -426,6 +440,26 @@ static uint32_t aspeed_2500_scu_calc_hpll(AspeedSCUState *s, uint32_t hpll_reg)
->       return clkin * multiplier;
->   }
->   
-> +static uint32_t aspeed_2600_scu_calc_hpll(AspeedSCUState *s, uint32_t hpll_reg)
-> +{
-> +    uint32_t multiplier = 1;
-> +    uint32_t clkin = aspeed_scu_get_clkin(s);
-> +
-> +    if (hpll_reg & SCU_AST2600_H_PLL_OFF) {
-> +        return 0;
-> +    }
-> +
-> +    if (!(hpll_reg & SCU_AST2600_H_PLL_BYPASS_EN)) {
-> +        uint32_t p = (hpll_reg >> 19) & 0xf;
-> +        uint32_t n = (hpll_reg >> 13) & 0x3f;
-> +        uint32_t m = hpll_reg & 0x1fff;
-> +
-> +        multiplier = ((m + 1) / (n + 1)) / (p + 1);
-> +    }
-> +
-> +    return clkin * multiplier;
-> +}
-> +
->   static void aspeed_scu_reset(DeviceState *dev)
->   {
->       AspeedSCUState *s = ASPEED_SCU(dev);
-> @@ -525,6 +559,7 @@ static void aspeed_2400_scu_class_init(ObjectClass *klass, void *data)
->       dc->desc = "ASPEED 2400 System Control Unit";
->       asc->resets = ast2400_a0_resets;
->       asc->calc_hpll = aspeed_2400_scu_calc_hpll;
-> +    asc->get_apb = aspeed_2400_scu_get_apb_freq;
+> -    if (s->hw_strap1 & SCU_HW_STRAP_CLK_25M_IN) {
+> +    if (s->hw_strap1 & SCU_HW_STRAP_CLK_25M_IN ||
+> +        ASPEED_SCU_GET_CLASS(s)->clkin_25Mhz) {
+>           return 25000000;
+>       } else if (s->hw_strap1 & SCU_HW_STRAP_CLK_48M_IN) {
+>           return 48000000;
+> @@ -562,6 +563,7 @@ static void aspeed_2400_scu_class_init(ObjectClass *klass, void *data)
+>       asc->get_apb = aspeed_2400_scu_get_apb_freq;
 >       asc->apb_divider = 2;
 >       asc->nr_regs = ASPEED_SCU_NR_REGS;
+> +    asc->clkin_25Mhz = false;
 >       asc->ops = &aspeed_ast2400_scu_ops;
-> @@ -545,6 +580,7 @@ static void aspeed_2500_scu_class_init(ObjectClass *klass, void *data)
->       dc->desc = "ASPEED 2500 System Control Unit";
->       asc->resets = ast2500_a1_resets;
->       asc->calc_hpll = aspeed_2500_scu_calc_hpll;
-> +    asc->get_apb = aspeed_2400_scu_get_apb_freq;
+>   }
+>   
+> @@ -583,6 +585,7 @@ static void aspeed_2500_scu_class_init(ObjectClass *klass, void *data)
+>       asc->get_apb = aspeed_2400_scu_get_apb_freq;
 >       asc->apb_divider = 4;
 >       asc->nr_regs = ASPEED_SCU_NR_REGS;
+> +    asc->clkin_25Mhz = false;
 >       asc->ops = &aspeed_ast2500_scu_ops;
-> @@ -716,7 +752,8 @@ static void aspeed_2600_scu_class_init(ObjectClass *klass, void *data)
->       dc->desc = "ASPEED 2600 System Control Unit";
->       dc->reset = aspeed_ast2600_scu_reset;
->       asc->resets = ast2600_a3_resets;
-> -    asc->calc_hpll = aspeed_2500_scu_calc_hpll; /* No change since AST2500 */
-> +    asc->calc_hpll = aspeed_2600_scu_calc_hpll;
-> +    asc->get_apb = aspeed_2600_scu_get_apb_freq;
+>   }
+>   
+> @@ -756,6 +759,7 @@ static void aspeed_2600_scu_class_init(ObjectClass *klass, void *data)
+>       asc->get_apb = aspeed_2600_scu_get_apb_freq;
 >       asc->apb_divider = 4;
 >       asc->nr_regs = ASPEED_AST2600_SCU_NR_REGS;
+> +    asc->clkin_25Mhz = true;
 >       asc->ops = &aspeed_ast2600_scu_ops;
+>   }
+>   
 > diff --git a/include/hw/misc/aspeed_scu.h b/include/hw/misc/aspeed_scu.h
-> index c14aff2bcb..6bf67589e8 100644
+> index 6bf67589e8..fdc721846c 100644
 > --- a/include/hw/misc/aspeed_scu.h
 > +++ b/include/hw/misc/aspeed_scu.h
-> @@ -56,6 +56,7 @@ struct AspeedSCUClass {
->   
->       const uint32_t *resets;
->       uint32_t (*calc_hpll)(AspeedSCUState *s, uint32_t hpll_reg);
-> +    uint32_t (*get_apb)(AspeedSCUState *s);
+> @@ -59,6 +59,7 @@ struct AspeedSCUClass {
+>       uint32_t (*get_apb)(AspeedSCUState *s);
 >       uint32_t apb_divider;
 >       uint32_t nr_regs;
+> +    bool clkin_25Mhz;
 >       const MemoryRegionOps *ops;
-> @@ -316,4 +317,21 @@ uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s);
->           SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       \
->           SCU_AST2500_HW_STRAP_RESERVED1)
+>   };
 >   
-> +/* SCU200   H-PLL Parameter Register (for Aspeed AST2600 SOC)
-> + *
-> + *  28:26  H-PLL Parameters
-> + *  25     Enable H-PLL reset
-> + *  24     Enable H-PLL bypass mode
-> + *  23     Turn off H-PLL
-> + *  22:19  H-PLL Post Divider (P)
-> + *  18:13  H-PLL Numerator (M)
-> + *  12:0   H-PLL Denumerator (N)
-> + *
-> + *  (Output frequency) = CLKIN(25MHz) * [(M+1) / (N+1)] / (P+1)
-> + *
-> + * The default frequency is 1200Mhz when CLKIN = 25MHz
-> + */
-> +#define SCU_AST2600_H_PLL_BYPASS_EN                        (0x1 << 24)
-> +#define SCU_AST2600_H_PLL_OFF                              (0x1 << 23)
-> +
->   #endif /* ASPEED_SCU_H */
 
 
