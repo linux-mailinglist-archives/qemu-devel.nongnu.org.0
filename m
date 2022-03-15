@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044634D9ED9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 16:38:15 +0100 (CET)
-Received: from localhost ([::1]:44482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6BD4D9F14
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 16:47:49 +0100 (CET)
+Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU9FV-0006Lz-Q3
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 11:38:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41362)
+	id 1nU9Om-0001wB-DK
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 11:47:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nU9AJ-0002SO-Bg
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:32:51 -0400
-Received: from [2a00:1450:4864:20::42c] (port=45838
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nU9AH-0001Tr-67
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:32:51 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id p9so29549061wra.12
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 08:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=C8pwghmEEL+VIYqRcZiR3UTJrtPstm6oze6Dk4/cC80=;
- b=qJACmlHZ3SmZNebXfUziClETosgLEhyxxg+vY+JLGy7BtI2y/fnkrAm6k4vEzU2YHZ
- mA56tv5QLCe/xpwu4obcNRSAkAdn/VJwmiwjimeJibERPkuVZlBxzDcTbN9FYOJhcQqt
- oSwxabScN3+aItdWxy1hYpo+uNqpY5BxhnZyQe9n87ZPAjzn3VRzZxerQ2BEOENWFaLn
- QpP87XBdccMXJyLtxFmMRdc6LrvaxpelhBFoIx/qpp72jmU/Nf2tJ1EFIG3+bYkVQqZd
- 6XbfcVvsZl2NTpqetX9LcK5nGReedInQODIpY+58QzvAUWFWnmLrW38ApGzzAnaETWII
- BDSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=C8pwghmEEL+VIYqRcZiR3UTJrtPstm6oze6Dk4/cC80=;
- b=sTcx7pMkwyCeix6a6gJ3/c9sSTDtVXM4TuNRab2amq5825IgkFfFexy/vCsl71FtaL
- NfCJFXVGkpzX3/CIvY6EsDNlZdsl+xYg8mKeHr9JyzGa3DAqzHsz5Wz9jIheauw3ItTu
- +uBR205ktLoQP2QJt4g0KfX+rAzfP5h+20V0AOMO1JwBJ6cTFK346d6va5njplEz/hxQ
- 21eKh7Iu9u7Qppfo6rVOtnr+qQ4Jmcb1DlbkO+FswwNQqpv9zXZj+9SpUKAU0cQMPrD9
- GT9ABIQvUA1m0CYnxyodbE42yMdsDrwWDS+xaymcMfQ/ja9R802j/WEmaPMvOW4/Ab6V
- 3cXw==
-X-Gm-Message-State: AOAM531xp3KjjApujNhvTbKQOVB3VdbZ860U8iFBgp5lsq8X7XqqRwFn
- 96n+S8RVVt5ujbNWy/LVYx1TfXm9NhY=
-X-Google-Smtp-Source: ABdhPJwyfoyTdIS8XWdgQg8QM1gXvMdkuRJviiYctYy3/nGMBIUt5joHujX4q740HKv1v1/xMBvhYQ==
-X-Received: by 2002:adf:dc43:0:b0:203:771e:1c1d with SMTP id
- m3-20020adfdc43000000b00203771e1c1dmr20830261wrj.609.1647358367540; 
- Tue, 15 Mar 2022 08:32:47 -0700 (PDT)
-Received: from localhost.localdomain
- ([2a0d:6fc2:4af1:7d00:5e41:a6ea:ffaa:548c])
- by smtp.gmail.com with ESMTPSA id
- j34-20020a05600c1c2200b0038995cb915fsm4468021wms.9.2022.03.15.08.32.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 08:32:47 -0700 (PDT)
-From: Jon Doron <arilou@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] hw: hyperv: Initial commit for Synthetic Debugging
- device
-Date: Tue, 15 Mar 2022 17:32:20 +0200
-Message-Id: <20220315153220.953556-5-arilou@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220315153220.953556-1-arilou@gmail.com>
-References: <20220315153220.953556-1-arilou@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nU9Cl-0004wz-Ff
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:35:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nU9Ci-0001qQ-Ax
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:35:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647358519;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T+of0lAEZm4F8oYTkxASm1iXhQ+huR4kgfBPP0a8qx4=;
+ b=bE4X+07Z7tndTCuw4fGmdXMcWfK+byTRTatMidXk08FkkWcTb2+OTaY+pAA/QpzgQHV80V
+ FCSpdLpeLxeGm2B/Z8W+JcX6wC9n1IKs759YMfTmK88Bgneft4AOdDb380TkXcFYy8fQTt
+ jXKjhLuqIDuRhFbcw5cta+isiNafCqg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-263-mSjvBvSUP-6PHH6Hnje6TQ-1; Tue, 15 Mar 2022 11:35:16 -0400
+X-MC-Unique: mSjvBvSUP-6PHH6Hnje6TQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 548A41C05AF7;
+ Tue, 15 Mar 2022 15:35:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A3EE141DC5F;
+ Tue, 15 Mar 2022 15:35:15 +0000 (UTC)
+Date: Tue, 15 Mar 2022 15:35:14 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
+Message-ID: <YjCyMjmK6wJwc6jN@stefanha-x1.localdomain>
+References: <20220314093203.1420404-1-pbonzini@redhat.com>
+ <Yi9MBGoc3WtOLx82@stefanha-x1.localdomain>
+ <4528e387-8016-0774-9c8b-532a75566d9d@redhat.com>
+ <YjCdKfbQsgfsw76N@stefanha-x1.localdomain>
+ <YjCnss5W5MhZK1Hw@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=arilou@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="v2XpyMh8UVT3L2gr"
+Content-Disposition: inline
+In-Reply-To: <YjCnss5W5MhZK1Hw@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,449 +80,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, hreitz@redhat.com, berrange@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Jon Doron <arilou@gmail.com>
----
- hw/hyperv/Kconfig     |   5 +
- hw/hyperv/meson.build |   1 +
- hw/hyperv/syndbg.c    | 402 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 408 insertions(+)
- create mode 100644 hw/hyperv/syndbg.c
 
-diff --git a/hw/hyperv/Kconfig b/hw/hyperv/Kconfig
-index 3fbfe41c9e..fcf65903bd 100644
---- a/hw/hyperv/Kconfig
-+++ b/hw/hyperv/Kconfig
-@@ -11,3 +11,8 @@ config VMBUS
-     bool
-     default y
-     depends on HYPERV
-+
-+config SYNDBG
-+    bool
-+    default y
-+    depends on VMBUS
-diff --git a/hw/hyperv/meson.build b/hw/hyperv/meson.build
-index 1367e2994f..b43f119ea5 100644
---- a/hw/hyperv/meson.build
-+++ b/hw/hyperv/meson.build
-@@ -1,3 +1,4 @@
- specific_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'))
- specific_ss.add(when: 'CONFIG_HYPERV_TESTDEV', if_true: files('hyperv_testdev.c'))
- specific_ss.add(when: 'CONFIG_VMBUS', if_true: files('vmbus.c'))
-+specific_ss.add(when: 'CONFIG_SYNDBG', if_true: files('syndbg.c'))
-diff --git a/hw/hyperv/syndbg.c b/hw/hyperv/syndbg.c
-new file mode 100644
-index 0000000000..8816bc4082
---- /dev/null
-+++ b/hw/hyperv/syndbg.c
-@@ -0,0 +1,402 @@
-+/*
-+ * QEMU Hyper-V Synthetic Debugging device
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/ctype.h"
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+#include "qemu/main-loop.h"
-+#include "qemu/sockets.h"
-+#include "qemu-common.h"
-+#include "qapi/error.h"
-+#include "migration/vmstate.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/loader.h"
-+#include "cpu.h"
-+#include "hw/hyperv/hyperv.h"
-+#include "hw/hyperv/vmbus-bridge.h"
-+#include "hw/hyperv/hyperv-proto.h"
-+#include "net/net.h"
-+#include "net/eth.h"
-+#include "net/checksum.h"
-+#include "trace.h"
-+
-+#define TYPE_HV_SYNDBG       "hv-syndbg"
-+
-+typedef struct HvSynDbg {
-+    DeviceState parent_obj;
-+
-+    char *host_ip;
-+    uint16_t host_port;
-+    bool use_hcalls;
-+
-+    uint32_t target_ip;
-+    struct sockaddr_in servaddr;
-+    int socket;
-+    bool has_data_pending;
-+    uint64_t pending_page_gpa;
-+} HvSynDbg;
-+
-+#define HVSYNDBG(obj) OBJECT_CHECK(HvSynDbg, (obj), TYPE_HV_SYNDBG)
-+
-+/* returns NULL unless there is exactly one HV Synth debug device */
-+static HvSynDbg *hv_syndbg_find(void)
-+{
-+    /* Returns NULL unless there is exactly one hvsd device */
-+    return HVSYNDBG(object_resolve_path_type("", TYPE_HV_SYNDBG, NULL));
-+}
-+
-+static void set_pending_state(HvSynDbg *syndbg, bool has_pending)
-+{
-+    hwaddr out_len;
-+    void *out_data;
-+
-+    syndbg->has_data_pending = has_pending;
-+
-+    if (!syndbg->pending_page_gpa) {
-+        return;
-+    }
-+
-+    out_len = 1;
-+    out_data = cpu_physical_memory_map(syndbg->pending_page_gpa, &out_len, 1);
-+    if (out_data) {
-+        *(uint8_t *)out_data = !!has_pending;
-+        cpu_physical_memory_unmap(out_data, out_len, 1, out_len);
-+    }
-+}
-+
-+static bool get_udb_pkt_data(void *p, uint32_t len, uint32_t *data_ofs,
-+                             uint32_t *src_ip)
-+{
-+    uint32_t offset, curr_len = len;
-+
-+    if (curr_len < sizeof(struct eth_header) ||
-+        (be16_to_cpu(PKT_GET_ETH_HDR(p)->h_proto) != ETH_P_IP)) {
-+        return false;
-+    }
-+    offset = sizeof(struct eth_header);
-+    curr_len -= sizeof(struct eth_header);
-+
-+    if (curr_len < sizeof(struct ip_header) ||
-+        PKT_GET_IP_HDR(p)->ip_p != IP_PROTO_UDP) {
-+        return false;
-+    }
-+    offset += PKT_GET_IP_HDR_LEN(p);
-+    curr_len -= PKT_GET_IP_HDR_LEN(p);
-+
-+    if (curr_len < sizeof(struct udp_header)) {
-+        return false;
-+    }
-+
-+    offset += sizeof(struct udp_header);
-+    *data_ofs = offset;
-+    *src_ip = PKT_GET_IP_HDR(p)->ip_src;
-+    return true;
-+}
-+
-+static uint16_t handle_send_msg(HvSynDbg *syndbg, uint64_t ingpa,
-+                                uint32_t count, bool is_raw,
-+                                uint32_t *pending_count)
-+{
-+    uint16_t ret;
-+    hwaddr data_len;
-+    void *debug_data = NULL;
-+    uint32_t udp_data_ofs = 0;
-+    const void *pkt_data;
-+    int sent_count;
-+
-+    data_len = count;
-+    debug_data = cpu_physical_memory_map(ingpa, &data_len, 0);
-+    if (!debug_data || data_len < count) {
-+        ret = HV_STATUS_INSUFFICIENT_MEMORY;
-+        goto cleanup;
-+    }
-+
-+    if (is_raw &&
-+        !get_udb_pkt_data(debug_data, count, &udp_data_ofs,
-+                          &syndbg->target_ip)) {
-+        ret = HV_STATUS_SUCCESS;
-+        goto cleanup;
-+    }
-+
-+    pkt_data = (const void *)((uintptr_t)debug_data + udp_data_ofs);
-+    sent_count = qemu_sendto(syndbg->socket, pkt_data, count - udp_data_ofs,
-+                             MSG_NOSIGNAL, NULL, 0);
-+    if (sent_count == -1) {
-+        ret = HV_STATUS_INSUFFICIENT_MEMORY;
-+        goto cleanup;
-+    }
-+
-+    *pending_count = count - (sent_count + udp_data_ofs);
-+    ret = HV_STATUS_SUCCESS;
-+cleanup:
-+    if (debug_data) {
-+        cpu_physical_memory_unmap(debug_data, count, 0, data_len);
-+    }
-+
-+    return ret;
-+}
-+
-+#define UDP_PKT_HEADER_SIZE \
-+    (sizeof(struct eth_header) + sizeof(struct ip_header) +\
-+     sizeof(struct udp_header))
-+
-+static bool create_udp_pkt(HvSynDbg *syndbg, void *pkt, uint32_t pkt_len,
-+                           void *udp_data, uint32_t udp_data_len)
-+{
-+    struct udp_header *udp_part;
-+
-+    if (pkt_len < (UDP_PKT_HEADER_SIZE + udp_data_len)) {
-+        return false;
-+    }
-+
-+    /* Setup the eth */
-+    memset(&PKT_GET_ETH_HDR(pkt)->h_source, 0, ETH_ALEN);
-+    memset(&PKT_GET_ETH_HDR(pkt)->h_dest, 0, ETH_ALEN);
-+    PKT_GET_ETH_HDR(pkt)->h_proto = cpu_to_be16(ETH_P_IP);
-+
-+    /* Setup the ip */
-+    PKT_GET_IP_HDR(pkt)->ip_ver_len =
-+        (4 << 4) | (sizeof(struct ip_header) >> 2);
-+    PKT_GET_IP_HDR(pkt)->ip_tos = 0;
-+    PKT_GET_IP_HDR(pkt)->ip_id = 0;
-+    PKT_GET_IP_HDR(pkt)->ip_off = 0;
-+    PKT_GET_IP_HDR(pkt)->ip_ttl = 64; /* IPDEFTTL */
-+    PKT_GET_IP_HDR(pkt)->ip_p = IP_PROTO_UDP;
-+    PKT_GET_IP_HDR(pkt)->ip_src = syndbg->servaddr.sin_addr.s_addr;
-+    PKT_GET_IP_HDR(pkt)->ip_dst = syndbg->target_ip;
-+    PKT_GET_IP_HDR(pkt)->ip_len =
-+        cpu_to_be16(sizeof(struct ip_header) + sizeof(struct udp_header) +
-+                    udp_data_len);
-+    eth_fix_ip4_checksum(PKT_GET_IP_HDR(pkt), PKT_GET_IP_HDR_LEN(pkt));
-+
-+    udp_part = (struct udp_header *)((uintptr_t)pkt +
-+                                     sizeof(struct eth_header) +
-+                                     PKT_GET_IP_HDR_LEN(pkt));
-+    udp_part->uh_sport = syndbg->servaddr.sin_port;
-+    udp_part->uh_dport = syndbg->servaddr.sin_port;
-+    udp_part->uh_ulen = cpu_to_be16(sizeof(struct udp_header) + udp_data_len);
-+    memcpy(udp_part + 1, udp_data, udp_data_len);
-+    net_checksum_calculate(pkt, UDP_PKT_HEADER_SIZE + udp_data_len, CSUM_ALL);
-+    return true;
-+}
-+
-+static uint16_t handle_recv_msg(HvSynDbg *syndbg, uint64_t outgpa,
-+                                uint32_t count, bool is_raw, uint32_t options,
-+                                uint64_t timeout, uint32_t *retrieved_count)
-+{
-+    uint16_t ret;
-+    uint8_t data_buf[TARGET_PAGE_SIZE - UDP_PKT_HEADER_SIZE];
-+    hwaddr out_len;
-+    void *out_data;
-+    ssize_t recv_byte_count;
-+
-+    /* TODO: Handle options and timeout */
-+    (void)options;
-+    (void)timeout;
-+
-+    if (!syndbg->has_data_pending) {
-+        recv_byte_count = 0;
-+    } else {
-+        recv_byte_count = qemu_recv(syndbg->socket, data_buf,
-+                                    MIN(sizeof(data_buf), count), MSG_WAITALL);
-+        if (recv_byte_count == -1) {
-+            return HV_STATUS_INVALID_PARAMETER;
-+        }
-+    }
-+
-+    if (!recv_byte_count) {
-+        *retrieved_count = 0;
-+        return HV_STATUS_NO_DATA;
-+    }
-+
-+    set_pending_state(syndbg, false);
-+
-+    out_len = recv_byte_count;
-+    if (is_raw) {
-+        out_len += UDP_PKT_HEADER_SIZE;
-+    }
-+    out_data = cpu_physical_memory_map(outgpa, &out_len, 1);
-+    if (!out_data) {
-+        return HV_STATUS_INSUFFICIENT_MEMORY;
-+    }
-+
-+    if (is_raw &&
-+        !create_udp_pkt(syndbg, out_data,
-+                        recv_byte_count + UDP_PKT_HEADER_SIZE,
-+                        data_buf, recv_byte_count)) {
-+        ret = HV_STATUS_INSUFFICIENT_MEMORY;
-+        goto cleanup_out_data;
-+    } else if (!is_raw) {
-+        memcpy(out_data, data_buf, recv_byte_count);
-+    }
-+
-+    *retrieved_count = recv_byte_count;
-+    if (is_raw) {
-+        *retrieved_count += UDP_PKT_HEADER_SIZE;
-+    }
-+    ret = HV_STATUS_SUCCESS;
-+
-+cleanup_out_data:
-+    cpu_physical_memory_unmap(out_data, out_len, 1, out_len);
-+    return ret;
-+}
-+
-+static uint16_t hv_syndbg_handler(void *context, HvSynDbgMsg *msg)
-+{
-+    HvSynDbg *syndbg = context;
-+    uint16_t ret = HV_STATUS_INVALID_HYPERCALL_CODE;
-+
-+    switch (msg->type) {
-+    case HV_SYNDBG_MSG_CONNECTION_INFO:
-+        msg->u.connection_info.host_ip =
-+            ntohl(syndbg->servaddr.sin_addr.s_addr);
-+        msg->u.connection_info.host_port =
-+            ntohs(syndbg->servaddr.sin_port);
-+        ret = HV_STATUS_SUCCESS;
-+        break;
-+    case HV_SYNDBG_MSG_SEND:
-+        ret = handle_send_msg(syndbg, msg->u.send.buf_gpa, msg->u.send.count,
-+                              msg->u.send.is_raw, &msg->u.send.pending_count);
-+        break;
-+    case HV_SYNDBG_MSG_RECV:
-+        ret = handle_recv_msg(syndbg, msg->u.recv.buf_gpa, msg->u.recv.count,
-+                              msg->u.recv.is_raw, msg->u.recv.options,
-+                              msg->u.recv.timeout,
-+                              &msg->u.recv.retrieved_count);
-+        break;
-+    case HV_SYNDBG_MSG_SET_PENDING_PAGE:
-+        syndbg->pending_page_gpa = msg->u.pending_page.buf_gpa;
-+        ret = HV_STATUS_SUCCESS;
-+        break;
-+    case HV_SYNDBG_MSG_QUERY_OPTIONS:
-+        msg->u.query_options.options = 0;
-+        if (syndbg->use_hcalls) {
-+            msg->u.query_options.options = HV_X64_SYNDBG_OPTION_USE_HCALLS;
-+        }
-+        ret = HV_STATUS_SUCCESS;
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    return ret;
-+}
-+
-+static void hv_syndbg_recv_event(void *opaque)
-+{
-+    HvSynDbg *syndbg = opaque;
-+    struct timeval tv;
-+    fd_set rfds;
-+
-+    tv.tv_sec = 0;
-+    tv.tv_usec = 0;
-+    FD_ZERO(&rfds);
-+    FD_SET(syndbg->socket, &rfds);
-+    if (select(syndbg->socket + 1, &rfds, NULL, NULL, &tv) > 0) {
-+        set_pending_state(syndbg, true);
-+    }
-+}
-+
-+static void hv_syndbg_realize(DeviceState *dev, Error **errp)
-+{
-+    HvSynDbg *syndbg = HVSYNDBG(dev);
-+
-+    if (!hv_syndbg_find()) {
-+        error_setg(errp, "at most one %s device is permitted", TYPE_HV_SYNDBG);
-+        return;
-+    }
-+
-+    if (!vmbus_bridge_find()) {
-+        error_setg(errp, "%s device requires vmbus-bridge device",
-+                   TYPE_HV_SYNDBG);
-+        return;
-+    }
-+
-+    /* Parse and host_ip */
-+    if (qemu_isdigit(syndbg->host_ip[0])) {
-+        syndbg->servaddr.sin_addr.s_addr = inet_addr(syndbg->host_ip);
-+    } else {
-+        struct hostent *he = gethostbyname(syndbg->host_ip);
-+        if (!he) {
-+            error_setg(errp, "%s failed to resolve host name %s",
-+                       TYPE_HV_SYNDBG, syndbg->host_ip);
-+            return;
-+        }
-+        syndbg->servaddr.sin_addr = *(struct in_addr *)he->h_addr;
-+    }
-+
-+    syndbg->socket = socket(AF_INET, SOCK_DGRAM, 0);
-+    if (syndbg->socket < 0) {
-+        error_setg(errp, "%s failed to create socket", TYPE_HV_SYNDBG);
-+        return;
-+    }
-+
-+    qemu_set_nonblock(syndbg->socket);
-+
-+    syndbg->servaddr.sin_port = htons(syndbg->host_port);
-+    syndbg->servaddr.sin_family = AF_INET;
-+    if (connect(syndbg->socket, (struct sockaddr *)&syndbg->servaddr,
-+                sizeof(syndbg->servaddr)) < 0) {
-+        closesocket(syndbg->socket);
-+        error_setg(errp, "%s failed to connect to socket", TYPE_HV_SYNDBG);
-+        return;
-+    }
-+
-+    syndbg->pending_page_gpa = 0;
-+    syndbg->has_data_pending = false;
-+    hyperv_set_syndbg_handler(hv_syndbg_handler, syndbg);
-+    qemu_set_fd_handler(syndbg->socket, hv_syndbg_recv_event, NULL, syndbg);
-+}
-+
-+static void hv_syndbg_unrealize(DeviceState *dev)
-+{
-+    HvSynDbg *syndbg = HVSYNDBG(dev);
-+
-+    if (syndbg->socket > 0) {
-+        qemu_set_fd_handler(syndbg->socket, NULL, NULL, NULL);
-+        closesocket(syndbg->socket);
-+    }
-+}
-+
-+static const VMStateDescription vmstate_hv_syndbg = {
-+    .name = TYPE_HV_SYNDBG,
-+    .unmigratable = 1,
-+};
-+
-+static Property hv_syndbg_properties[] = {
-+    DEFINE_PROP_STRING("host_ip", HvSynDbg, host_ip),
-+    DEFINE_PROP_UINT16("host_port", HvSynDbg, host_port, 50000),
-+    DEFINE_PROP_BOOL("use_hcalls", HvSynDbg, use_hcalls, false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void hv_syndbg_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, hv_syndbg_properties);
-+    dc->fw_name = TYPE_HV_SYNDBG;
-+    dc->vmsd = &vmstate_hv_syndbg;
-+    dc->realize = hv_syndbg_realize;
-+    dc->unrealize = hv_syndbg_unrealize;
-+    dc->user_creatable = true;
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+}
-+
-+static const TypeInfo hv_syndbg_type_info = {
-+    .name = TYPE_HV_SYNDBG,
-+    .parent = TYPE_DEVICE,
-+    .instance_size = sizeof(HvSynDbg),
-+    .class_init = hv_syndbg_class_init,
-+};
-+
-+static void hv_syndbg_register_types(void)
-+{
-+    type_register_static(&hv_syndbg_type_info);
-+}
-+
-+type_init(hv_syndbg_register_types)
--- 
-2.35.1
+--v2XpyMh8UVT3L2gr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Mar 15, 2022 at 03:50:26PM +0100, Kevin Wolf wrote:
+> Am 15.03.2022 um 15:05 hat Stefan Hajnoczi geschrieben:
+> > On Mon, Mar 14, 2022 at 05:21:22PM +0100, Paolo Bonzini wrote:
+> > > On 3/14/22 15:07, Stefan Hajnoczi wrote:
+> > > > If we can reach a consensus about C++ language usage in QEMU then I=
+'m in
+> > > > favor of using C++ coroutines. It's probably not realistic to think=
+ we
+> > > > can limit C++ language usage to just coroutines forever. Someone fi=
+nds
+> > > > another C++ feature they absolutely need and over time the codebase
+> > > > becomes C++ - with both its advantages and disadvantages.
+> > > >=20
+> > > > [...] although you can write C in C++, it's not idiomatic modern C+=
++.
+> > > > The language lends itself to a different style of programming that
+> > > > some will embrace while others will not.
+> > >=20
+> > > Yes, this is an important aspect to discuss.  I think coroutines prov=
+ide a
+> > > good blueprint for how QEMU might use C++.
+> > >=20
+> > > I totally agree that, if we go this way, the genie is out of the bott=
+le and
+> > > other uses of C++ will pop up with 100% probability.  But the importa=
+nt
+> > > thing to note is that our dialect of C is already not standard C, and=
+ that
+> > > some of our or GLib's "innovations" are actually based on experience =
+with
+> > > C++.  We can keep on writing "QEMU's C" if we think of C++ as a super=
+charged
+> > > way of writing these quality-of-life improvements that we already wri=
+te.  In
+> > > some sense coroutines are an extreme example of this idea.
+> > >=20
+> > > In fact, a C API would have to remain unless all source files are cha=
+nged to
+> > > C++, so QEMU would remain mostly a C project with C idioms, but that =
+doesn't
+> > > prevent _abstracting_ the use of C++ features (written in modern, idi=
+omatic
+> > > C++) behind an API that C programmers have no problems learning.  Aga=
+in,
+> > > coroutines are an example of this of keeping the familiar create/ente=
+r/yield
+> > > API and hiding the "magic" of C++ coroutines (and when they don't, th=
+at had
+> > > better be an improvement).
+> > >=20
+> > > In the end, C++ is a tool that you can use if it leads to better code=
+=2E For
+> > > example, I don't see much use of C++ for devices for example, and the
+> > > storage devices in particular do not even need coroutines because the=
+y use
+> > > the callback-based interface.  But perhaps someone will try to use te=
+mplates
+> > > to replace repeated inclusion (which is common in hw/display) and oth=
+ers
+> > > will follow suit.  Or perhaps not.
+> > >=20
+> > > One example that was brought up on IRC is type-safe operations on thi=
+ngs
+> > > such as hwaddr (i.e. hwaddr+int is allowed but hwaddr-hwaddr gives ba=
+ck an
+> > > int64_t and might even check for overflow).  These would be opt in (y=
+ou get
+> > > them just by changing a file from .c to .cc), but the actual C++ code=
+ would
+> > > still look very much like C code that uses hwaddr with no type checki=
+ng.
+> > > All the operator overloading gunk would be in include/.
+> > >=20
+> > > A different topic is what would happen if all of QEMU could be compil=
+ed as
+> > > C++, and could inform our selection of C++ idioms even long before we=
+ get
+> > > there.  For example, I'm fine with GLib and our type-safe intrusive l=
+ists,
+> > > so I don't have much interest in STL containers and I would prefer _n=
+ot_ to
+> > > use STL containers even in .cc files[1].  However, perhaps QEMU's hom=
+e-grown
+> > > lock guard might be replaced by something that uses C++ destructors i=
+nstead
+> > > of g_autoptr, so perhaps we should consider using std::lock_guard<>, =
+or
+> > > something like that, instead of QEMU_LOCK_GUARD.  It may be interesti=
+ng to
+> > > pass down lock_guards as arguments to enforce "this lock is taken"
+> > > invariants.
+> > >=20
+> > > But really, coroutines would be enough work so my dish would be full =
+for
+> > > some time and I wouldn't really have time to look at any of this. :)
+> >=20
+> > I think it will be necessary to compile QEMU with a C++ compiler quite
+> > soon. It is possible to provide C APIs like in the case of coroutines,
+> > but sometimes C++ features need to be exposed to the caller (like the
+> > lock guards you mentioned).
+>=20
+> I'm not sure what the C++ lock guards offer that our current lock guards
+> don't? Passing down lock guards makes sense to me, but why can't you do
+> that with QemuLockable? (Hm, or can the C++ version somehow check at
+> compile time that it's the _right_ lock that is held rather than just
+> any lock? It didn't look like it at the first sight.)
+>=20
+> But I do see the benefit of a compiler checked CoroutineFn<> return type
+> compared to the coroutine_fn markers we have today. On the other hand...
+
+Sorry, I made a mistake: the C++ coroutines implementation does not hide
+everything behind a C API. Coroutine functions need to be defined in C++
+source units.
+
+Stefan
+
+--v2XpyMh8UVT3L2gr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIwsjIACgkQnKSrs4Gr
+c8gIJgf/Z7iIH2v8389wMcxzAfGk6KIvk71GGT1lDLvQWzz0p0NJ6zMEXtS4FRdG
+1O16ChUDezkShjP9lQ95jYIqC8KFdzPN+HaeQhUG4r3/0+y7c2t0GJmvtfeKbgFQ
+kU+/3XHDlinK31dTip7P3NxisY5uEXH9z5sNaSTHuWW/OgbDsAtBDXz3HMniAeTq
+yw1wb5ZaVaG+wkphVXcOf/RwPVDau93iHBJiWDSIRIXuvhlY1EvWj0h7PAYwQ+Lr
+1PUrktUyEA2HENn6eWwrLfxVtYqIjuFCoUdqPTj5HG1ZN/2meqUHmdDNJxkql+qj
+gcjyA3FnlGscTm9a5JXSjze9AaEeFw==
+=ObVE
+-----END PGP SIGNATURE-----
+
+--v2XpyMh8UVT3L2gr--
 
 
