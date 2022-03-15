@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CE94D9BD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:08:46 +0100 (CET)
-Received: from localhost ([::1]:49162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4F24D9C07
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:20:31 +0100 (CET)
+Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6ur-0003Av-PX
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:08:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33316)
+	id 1nU76E-0005fn-VB
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:20:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6jZ-0006UK-92
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:57:05 -0400
-Received: from [2607:f8b0:4864:20::42e] (port=42953
- helo=mail-pf1-x42e.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nU6lI-00011P-UU
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:58:52 -0400
+Received: from [2607:f8b0:4864:20::1135] (port=39353
+ helo=mail-yw1-x1135.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6jW-0008Qa-GP
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:57:04 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id g19so19518858pfc.9
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:57:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Zubi5RZ0f61EYBlqb1Tf66OZVOTwoIeVsz9h2LG5oA0=;
- b=gEfDWA3LPAwAJDBs1NlFtlD8hDXb9nb14hIdrTZEVERD88nS2djb4CoRPLBFj4bJXl
- oxjaMitrb0sqnyYbkV29TTPgYQNXLxjpj8VE4A1cfHHD2EB397vcULF0gKl1E4Xe6/Am
- GFT8gASEvzc/7bzpoYilBui/wUWZBK1jKrep+cKGP8sUi4kivEiBC4tctfMbWZF02mQ7
- 85lwwj0E2BBGXqViVcq4NMw8V970FWNjpEsLI/gpsh0WYJPp4Z/vLojop1psSXr9ymI8
- 5zkd8IoLLGVeI2QvTNpFCEVCol9QAynmLR9vEhdSNhNVhNQ1DFq+1G77AZRfeKC9Tocu
- k5mg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nU6lH-0000Ma-Bt
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:58:52 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2e5827a76f4so28967187b3.6
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:58:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=h6vip9cTHB1pKKtO7vkhOOjTC0WY6VAuSkzWcAnBulA=;
+ b=Sr2w5Rpp3IWj8YBJzGKYmOGur/jVg2AWV7KNw7/YDu3avJPAD0WxLlaDcWSmOrEQ0X
+ YOnHPME5MxyTedlXGOFtEB/Qf1/jEyePwYmVHP6u93RdDc40YsQqPGjjPKLdnJE+SwPV
+ r981PzWEvRL5niRtNCl4TPodaVVsXiQrpE563Dn3fOraaiEldyaqjzLGauRQjx6GKAs0
+ BZgSzlA37B7hfGnLlkKI3i8rxLhHkdhkGf5J7YUM7UbflB9lKR2QdEurJVsYkEKkuRoD
+ LKj6DadTZj8YHBLYUifgCvt3p3cTUfcYQNUA9VF5L0Y//VPR27af9RgPsNUCfp5Af4Yv
+ ogMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Zubi5RZ0f61EYBlqb1Tf66OZVOTwoIeVsz9h2LG5oA0=;
- b=QXGiUS8SVNjiAy3d+hRBdgtQxOTQp2mCd4z+U6ORhTE8y7xPtlfYuGTPn1bxBfgDXV
- wO520LchJyFbLlhmC1zIb843g9j6PjAeGkTqxgxjVN57dnTKHuHMeaBi2yCObZYj7Czu
- gtix28IZK6OSxmfKfHItirnoFNTWY6hx+SnD6Z9wcfNx18UbnUpatR+h5OnKAiByNH9e
- N4biI5Yc/nnrnO14q+pKfXWw7CUkPh4E9/K2mBtYnBlL/e8TsEfY1X4BGYm9oITY2MKM
- FDefDqnYPIVtI95SQpvDsHcj547dfCKiE3fCx6g5DMTPwJb2KCIz2qiEU2fGpi0yvxIV
- RzkA==
-X-Gm-Message-State: AOAM5303xzt8RM9k2bkpocbj9yGWo/ta1/tOXVspMh1RkbDrXNhjmJoR
- +TVtYIMwVPb/kAgDjjmQTsAaHUjH7RQ=
-X-Google-Smtp-Source: ABdhPJwP4wxIkUT+evCLNTksATwfFsHyUd83qZS1d4xWiXBMEojdxQOEp/BXz8EXvJPUSAmlHNzUNg==
-X-Received: by 2002:a63:41c5:0:b0:378:3b1e:7ac7 with SMTP id
- o188-20020a6341c5000000b003783b1e7ac7mr24003539pga.266.1647349020774; 
- Tue, 15 Mar 2022 05:57:00 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- z16-20020a056a00241000b004f3a647ae89sm24104971pfh.174.2022.03.15.05.56.57
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 15 Mar 2022 05:57:00 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 21/21] MAINTAINERS: Volunteer to maintain Darwin-based hosts
- support
-Date: Tue, 15 Mar 2022 13:53:50 +0100
-Message-Id: <20220315125350.82452-22-philippe.mathieu.daude@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
-References: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=h6vip9cTHB1pKKtO7vkhOOjTC0WY6VAuSkzWcAnBulA=;
+ b=zUO7gtElb9ZCb5JARWGC7MS7eDl0cAe3uJkawgrWuC5dOv26dTDlmfSBW47rUagix1
+ SMUlCyL0l3rtKB6AuPKWSkCuWy0HwKzgbRy3mYT4mdOofTCzBsnywqwoTGZ8qge8FXbS
+ r/rvBz9ggoJUnIYPASa7W5ncP06XvWpwKzrTT3BPdvEY27IphIFJO0+OtGJBDkWFYp/s
+ MbEuEEz6xNxhKFhc1TXZcpGnPyl8sjU17Qcqe4ySbsVCnK2tTBp5P2ekEzb+uhEAymEq
+ oQrrcwPCY3Czp0qxvE+44+MUHahZP4rowlDUha+BMYAtUNNSP/lKh7y/InAQ6DF16CiJ
+ tGUw==
+X-Gm-Message-State: AOAM532OgZYC6ppzi3LK6PnjRW+q4pk/xWPbjIfBCmnp49YJsAkTaiGr
+ lzBC20THshsnkZMngW8KinuiwvIPPijR6M03QR08vA==
+X-Google-Smtp-Source: ABdhPJwNRDYipeH96jdFV5Ysm++rePprBOM3hjUnHyqUyrJJIqp8BvWq/QNNVdMQVNGEV8JwtZZKUFDla7M5WfhxsTs=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr25185763ywb.257.1647349130426; Tue, 15
+ Mar 2022 05:58:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
+References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
+ <20220306231753.50277-7-philippe.mathieu.daude@gmail.com>
+ <097ec9aa-ad9d-960e-502b-0f038ebe8a31@gmail.com>
+In-Reply-To: <097ec9aa-ad9d-960e-502b-0f038ebe8a31@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 15 Mar 2022 12:58:39 +0000
+Message-ID: <CAFEAcA_3ZHXT4qcs29P5iFqoLbJCyTwe80kPeO3pZrRLEQ7p0w@mail.gmail.com>
+Subject: Re: [PATCH v7 06/22] hvf: Fix OOB write in RDTSCP instruction decode
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1135
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -91,70 +87,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+Cc: Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
+ Julian Stecklina <julian.stecklina@cyberus-technology.de>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Will Cohen <wwcohen@gmail.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Joelle van Dyne <j@getutm.app>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Wed, 9 Mar 2022 at 10:20, Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
+>
+> Hi Paolo,
+>
+> I forgot to Cc you. Could you Ack this patch?
 
-While I am not an experienced Darwin OS user, I now have to
-use a macOS based workstation and alike CI, meaning I should
-easily spot regressions and test fixes. I therefore volunteer
-to collect Darwin related patches and keep QEMU in good state
-on macOS, and to some extent iOS.
+I had review comments on the version of this patch in v5 which
+still need to be addressed:
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: Joelle van Dyne <j@getutm.app>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+https://lore.kernel.org/qemu-devel/CAFEAcA8yaBOD3KXc-DY94oqzC5wkCENPkePgVCy=
+bqR=3D9NmdQFQ@mail.gmail.com/
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f2e9ce1da2..caea42c259 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -548,6 +548,12 @@ F: include/*/*win32*
- X: qga/*win32*
- F: qemu.nsi
- 
-+Darwin (macOS, iOS)
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+S: Odd Fixes
-+F: .gitlab-ci.d/cirrus/macos-*
-+F: */*.m
-+
- Alpha Machines
- --------------
- M: Richard Henderson <richard.henderson@linaro.org>
-@@ -2414,6 +2420,7 @@ F: audio/alsaaudio.c
- 
- Core Audio framework backend
- M: Gerd Hoffmann <kraxel@redhat.com>
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- R: Christian Schoenebeck <qemu_oss@crudebyte.com>
- R: Akihiko Odaki <akihiko.odaki@gmail.com>
- S: Odd Fixes
-@@ -2671,6 +2678,7 @@ F: util/drm.c
- 
- Cocoa graphics
- M: Peter Maydell <peter.maydell@linaro.org>
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- R: Akihiko Odaki <akihiko.odaki@gmail.com>
- S: Odd Fixes
- F: ui/cocoa.m
--- 
-2.34.1
-
+thanks
+-- PMM
 
