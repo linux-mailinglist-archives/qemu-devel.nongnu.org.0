@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47BC4DA1B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 18:55:43 +0100 (CET)
-Received: from localhost ([::1]:42108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA324DA1A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 18:54:31 +0100 (CET)
+Received: from localhost ([::1]:39734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUBOY-0003Kh-Ny
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 13:55:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44066)
+	id 1nUBNO-0001if-Lo
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 13:54:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUBIh-0007MY-LA
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 13:49:45 -0400
-Received: from [2607:f8b0:4864:20::1129] (port=36982
- helo=mail-yw1-x1129.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nUBJY-0007iF-HK; Tue, 15 Mar 2022 13:50:33 -0400
+Received: from [2a00:1450:4864:20::536] (port=33658
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUBIf-0005m9-Mw
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 13:49:38 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2e5757b57caso55602257b3.4
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 10:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=f3T9W0okLz71ZSuhEX5nunMPR4/lZWItcyv+dSE4JU4=;
- b=EAX5NYkrbfxZijVVY7wW/17O7Ao0mB8lhBq0nTIcsAolxHtZZ5MnV5rfF27hWeGdxZ
- a7PT/Hop2LptmSx+APzyHl/1lFJdgvlZhRd5pMHi/AE3D/WqmuJlPabd0tCungXGEONY
- biQiBwlUMJkKjfVaT66G38biDtMj81Ci13W2mEfcBaJ+ZVxyks35hU9cVgkJMSAtoEbE
- ICLe+ne3qZvIifUOVN5/GtfYyq7SORhBh3NexKSjdHpMqif9wOwr2pa0dhpBKUdVSQ3t
- HhRjWKA8V4ctyAeUmLnrAhQq8me3JbF87StZMR4DisB9B473QkTdzZnw6RKzkkGkbV04
- /Hlg==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nUBJW-000665-QU; Tue, 15 Mar 2022 13:50:32 -0400
+Received: by mail-ed1-x536.google.com with SMTP id r23so2788291edb.0;
+ Tue, 15 Mar 2022 10:50:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=r5G0T24ARFItOfc5m5tESdVun+TcM4tTeuzUzh6x4QU=;
+ b=qUrlkzaWsbNU221mnC2aG3Ja2Ykojtw0n5p6MD3KxraI4QsLe+kP9MYI8P7TbRAFf4
+ rLMHtxYnaN5yZ7joCjX118UYeKvO7pQ3zlTo6r88H7MFCzHeS//8rAu/rIzGXSY7KOw6
+ 8E2YdhQ04KIFyMvSok+dqHxN3bf0Tlf7GIcx9C82vTXdxa49lUq0ZmiJ1C+MEWkqpERh
+ BWlTk1n5vfAg2bILin3UJNn8Ceo/xi2sfPZTOinZ63jB576RhBTeaDRal/bOh7dZtV3f
+ 7fpg8EW5UFB+8f05QM3mGshC3gdgKE9gW4LUCPZLqGtM7v0bSr5X4E95O7Q6rNw1ntrX
+ bfhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=f3T9W0okLz71ZSuhEX5nunMPR4/lZWItcyv+dSE4JU4=;
- b=WK5sM40BkDiNsGzpBgMvAfsmfSpWA9BRCQz2+RPvpDqUz7oBA8+WlgFqYtKVPekGE/
- rny5uiQZbplAMbj5UpbOsq82gU2EOvPSi5Ub0X8ybaGL/D+TRD0soPvS6dpQNt+NMKY6
- 7K3dlRcDZYLTQEtP3yU5Cn8wmixubDBzry8XdVBDN1be3iYELxpn6NTeHVZ8AiEY7h7f
- XrwlxCCWlXolLjGI92ObVavFe/ph4Z/zWuffJjqpAu5NBG+LvzDhxDEQqAFHER8ajBwC
- ey/Yaa6i9efxXEUmoY1IRg8jmsyy7CdcyForypvXVZupgMLJvFrnU4Rt0zNKNRFGiwTb
- leHg==
-X-Gm-Message-State: AOAM531ByCjCnuagQX9QQN1fYkyoE+PtaYc5rvs0sg7t4K4HB3RBixaD
- Z7+gLxDtwo/qBF3Tf+szkAPEcZXxhrWMF3SKuGqKiA==
-X-Google-Smtp-Source: ABdhPJyCSmbQpvNZmLlZ4ZXYfYZp8Xv7pF4exglJdET8s0d/+CPgiw9+eEmG5K3eX/W/hHQeGvCmK+yR0TVzT36a9K8=
-X-Received: by 2002:a81:12c3:0:b0:2dc:5f5a:38ec with SMTP id
- 186-20020a8112c3000000b002dc5f5a38ecmr25778384yws.347.1647366576318; Tue, 15
- Mar 2022 10:49:36 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=r5G0T24ARFItOfc5m5tESdVun+TcM4tTeuzUzh6x4QU=;
+ b=26WAutVVUM/jAGhYipfyKstqoXdNHyiMx389B6fdx63AmnDDtwQ1/q/qhVl7DCVzLe
+ gi7cV4RWq1h/Cp88P8eCExNI284f3DP/sLmqVwJejPQgLI5Ml7qfKN2GMk4CeJoqX7LN
+ OX1WEaNEowwI62b3aCNWNX4LAGP5tLqwI8/uwTaTZVERvRw1deeHkcrAB3dNqp6QiEQ0
+ zxJx5ubuY4VnE/CxrhPJdD394U19racwXkI8jC1JKWz8vSOoprjnkh/rfQ0bc2FYeQH3
+ z6M7j8WlNzI+5nNSS/jZaSk4unACdxzLcivZUhSDHbhDOPMcAjzHI+cMvrN94+DqO0zB
+ V6Rw==
+X-Gm-Message-State: AOAM530Kj85f5x8aD6KhzB+Pe1XXZxmYnSOeUDX+58VbQPXnsMHkrRhF
+ CiF82ksJWxNDG7AEEBIsPnc=
+X-Google-Smtp-Source: ABdhPJxmUKewU9mJp69osBLnDcNrhweISAZhwqJ4TlDOcFcHMaEIsk2T7MatDyNc9Zv/tdFokczQow==
+X-Received: by 2002:a05:6402:2753:b0:416:a97:e962 with SMTP id
+ z19-20020a056402275300b004160a97e962mr5481817edd.315.1647366628935; 
+ Tue, 15 Mar 2022 10:50:28 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ c14-20020a170906340e00b006ce98f2581asm8366407ejb.205.2022.03.15.10.50.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Mar 2022 10:50:28 -0700 (PDT)
+Message-ID: <480950c3-b83a-f421-a3d1-0369a69aa70b@redhat.com>
+Date: Tue, 15 Mar 2022 18:50:26 +0100
 MIME-Version: 1.0
-References: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 17:49:24 +0000
-Message-ID: <CAFEAcA_h7GGaYb6ER2HfhBQuFHtgFD+vRCJBD4DaP2D7PWK+tg@mail.gmail.com>
-Subject: Re: [PULL v2 00/12] dbus console fixes
-To: marcandre.lureau@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220314093203.1420404-1-pbonzini@redhat.com>
+ <YjC7sorD36xWfhHD@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YjC7sorD36xWfhHD@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -84,47 +94,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: kwolf@redhat.com, hreitz@redhat.com, stefanha@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 11:07, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The following changes since commit 1416688c53be6535be755b44c15fb2eb9defd2=
-0f:
->
->   Merge remote-tracking branch 'remotes/mcayland/tags/q800-updates-for-7.=
-0-20220309' into staging (2022-03-10 13:16:37 +0000)
->
-> are available in the Git repository at:
->
->   git@gitlab.com:marcandre.lureau/qemu.git tags/dbus-pull-request
->
-> for you to fetch changes up to e1c676a254b012779db87166a1f26db6886a8bce:
->
->   ui/console: call gfx_switch() even if the current scanout is GL (2022-0=
-3-15 12:55:02 +0400)
->
-> ----------------------------------------------------------------
-> GL & D-Bus display related fixes
->
-> Hi,
->
-> Here are pending fixes related to D-Bus and GL, most of them reported tha=
-nks to
-> Akihiko Odaki.
->
-> v2:
->  - fix avocado vnc test regression (crash without associated console)
->
+On 3/15/22 17:15, Daniel P. Berrangé wrote:
+> Bear with me as I suggest something potentially/probably silly
+> given my limited knowledge of C++ coroutines.
+> 
+> Given a function I know about:
+> 
+>    void coroutine_fn qio_channel_yield(QIOChannel *ioc,
+>                                        GIOCondition condition);
+> 
+> IIUC, you previously indicated that the header file declaration,
+> the implementation and any callers of this would need to be in
+> C++ source files.
+> 
+> The caller is what I'm most curious about, because I feel that
+> is where the big ripple effects come into play that cause large
+> parts of QEMU to become C++ code. [...]
+> I presume there is something special about the CoroutineFn<void>
+> prototype preventing that from working as needed, thus requiring
+> the caller to be compiled as C++ ? IIUC compiling as C++ though
+> is not neccessarily the same as using C++ linkage.
 
+Yes, the CoroutineFn<void> function must either be passed to 
+qemu_coroutine_create() or called as "co_await f()".  If you call it as 
+"f()" it does nothing except leak the memory needed by its stack frame, 
+so that only leaves passing the function to qemu_coroutine_create().
 
-Applied, thanks.
+I suppose you could do some games with typedefs, like
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+#ifdef __cplusplus
+typedef CoroutineFn<void> VoidCoroutine
+#else
+typedef struct VoidCoroutine VoidCoroutine;
+#endif
 
--- PMM
+to be able to declare a function that returns CoroutineFn<void> but I'm 
+not sure of the advantage.
+
+> So I'm assuming the caller as C++ requirement is not recursive,
+> otherwise it would immediately mean all of QEMU needs to be C++.
+
+Right, qemu_coroutine_create() must be called from C++ but the caller of 
+qemu_coroutine_create() can be extern "C".  In the particular case of 
+the block layer, callers of qemu_coroutine_create() include 
+callback-based functions such as bdrv_aio_readv(), and synchronous 
+functions such as bdrv_flush().  Both of these can be called from C.
+
+> IOW, can we get it such that the C++ bit is just a thin shim
+> "C -> C++ wrapper -> C++ CoroutineFn -> C", enabling all the
+> C++ bits to be well encapsulated and thus prevent arbitrary
+> usage of C++ features leaking all across the codebase ?
+
+No, unfortunately not.  But in particular, even though the block layer 
+would be C++, device models that use it would not.
+
+Paolo
 
