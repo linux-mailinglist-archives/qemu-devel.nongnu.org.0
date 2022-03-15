@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE33F4DA1B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 18:57:28 +0100 (CET)
-Received: from localhost ([::1]:45428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4BDB4DA1BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:00:16 +0100 (CET)
+Received: from localhost ([::1]:49968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUBQF-0005gG-Ph
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 13:57:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44890)
+	id 1nUBSx-0000Qk-Te
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:00:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nUBNT-0003LA-2p
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 13:54:35 -0400
-Received: from [2607:f8b0:4864:20::432] (port=42907
- helo=mail-pf1-x432.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1nUBNQ-0006Zz-7V
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 13:54:34 -0400
-Received: by mail-pf1-x432.google.com with SMTP id g19so158606pfc.9
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 10:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=c+bT/bNMTdU5k9gRiaZI3x92kc3KPbGnGCnu2+D4nmU=;
- b=X4WCAwOgEABs1oprVyc6utygE9Uwa+p9Se5hqMwe8czIov5cAsyTyCoQ87yhWcNuxr
- 0CYLzpJYipu76SLM/F+femeTXdJmmWmFgIf9yHchNIZYFKhXkw8+ZhrUBugcugDQBzEG
- 9g2IEd6Iv+cLjcyCYiBSj4FT801aTevVR77nSauUmYlMya+pvYtmModAyWhUKaRRpGC6
- p1/YWH8jq3n/bjYuzoJ4uLLpjSzERHLZs+/hdAaY4AkR+q5pBW7rXFTaPRUpe6rs8d+9
- CVkwkloUGcrN/BxIOhzN5BBqzioUpTLyPKTG1x2sy5XeA/FesPddPVwnEP6DrVCrdCx5
- NjXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=c+bT/bNMTdU5k9gRiaZI3x92kc3KPbGnGCnu2+D4nmU=;
- b=23/hRajtpd3sRN8Rcluhfq09MRT2+VHF/ObFs1NdAiBwWMRJo1vnjs9BU7zSZ9i59f
- wbPfw2dGnskb1a2d0nR2mbpPSvE9bvPMjco6mwZZZY9NCazVSsxkEPxPKhgcmemDKit3
- XNgZleiFwftRBEmhJYsFhdXzqZFCUlSYEUrV14dFqW/9S6qxS0dFou58kdx9UvQzklEP
- cwnITBlIXS2PAI+4wDN7o2LMiZyykVYPl85POkjDl7e38vLbwm5W1hd+uME5edPjvukd
- eDd6rFm73UXObehEJbrxZ/32dZrw3E7WxsQzABHNiWgRHC66mpSK8S3ekwi4vG+f0KyW
- avgw==
-X-Gm-Message-State: AOAM531afheUtDqtuVpPKIhEQgMyWgPXCvut0DTGp34XS58uPdeuh+LS
- jdyKuo27/zrthUtbYxlpZtE=
-X-Google-Smtp-Source: ABdhPJx1jVL50QV+Yp/UVgAT3WqZ/8gQqV0vrfLoBHgBnLvSx/y0ybiNq8079qtJdQKi4GozHTvBVg==
-X-Received: by 2002:a62:de82:0:b0:4f7:86e1:869c with SMTP id
- h124-20020a62de82000000b004f786e1869cmr24743889pfg.13.1647366870419; 
- Tue, 15 Mar 2022 10:54:30 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- d27-20020a63735b000000b003813c1e4a52sm6852412pgn.33.2022.03.15.10.54.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 10:54:30 -0700 (PDT)
-Message-ID: <4b421da4-c5a7-b391-be14-8f38cb866256@gmail.com>
-Date: Wed, 16 Mar 2022 02:54:25 +0900
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@ya.ru>)
+ id 1nUBQ2-0006Y6-NA; Tue, 15 Mar 2022 13:57:14 -0400
+Received: from forward107p.mail.yandex.net ([77.88.28.115]:42576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <v.sementsov-og@ya.ru>)
+ id 1nUBPz-0007BZ-FT; Tue, 15 Mar 2022 13:57:14 -0400
+Received: from forward100q.mail.yandex.net (forward100q.mail.yandex.net
+ [IPv6:2a02:6b8:c0e:4b:0:640:4012:bb97])
+ by forward107p.mail.yandex.net (Yandex) with ESMTP id 23AEF556D95D;
+ Tue, 15 Mar 2022 20:57:02 +0300 (MSK)
+Received: from vla1-25221a47e1d2.qloud-c.yandex.net
+ (vla1-25221a47e1d2.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:3c06:0:640:2522:1a47])
+ by forward100q.mail.yandex.net (Yandex) with ESMTP id 1F2986F4000A;
+ Tue, 15 Mar 2022 20:57:02 +0300 (MSK)
+Received: from vla1-ef285479e348.qloud-c.yandex.net
+ (vla1-ef285479e348.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:ef28:5479])
+ by vla1-25221a47e1d2.qloud-c.yandex.net (mxback/Yandex) with ESMTP id
+ XuLrsVvbOl-v1eetCJ4; Tue, 15 Mar 2022 20:57:02 +0300
+X-Yandex-Fwd: 2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ya.ru; s=mail;
+ t=1647367022; bh=VXf1Ulnh0egAcBdibezAQ6riQ4CtvnIi1ibzNj1sDaA=;
+ h=From:To:Subject:Cc:Date:Message-ID;
+ b=UNOrRWK2oZ4SqjSerERdreJP7aGVofJcwpCzZaMxVCH5lPXl6+HAY2sXP5yDDl4N1
+ SM8NpC9gaUtv4m2u3nwsgSr6w8Vh9YM1OwQlin0AwWlg5MTmdva2ZlWiZYIn/XHKPU
+ IkWO00jwXW+vN99kPWjExx+wsp/ZhgXtXe9D9YcA=
+Authentication-Results: vla1-25221a47e1d2.qloud-c.yandex.net;
+ dkim=pass header.i=@ya.ru
+Received: by vla1-ef285479e348.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id M3HWHftW0k-v1JKZL9S; Tue, 15 Mar 2022 20:57:01 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Message-ID: <b68833dd-8864-4d72-7c61-c134a9835036@ya.ru>
+Date: Tue, 15 Mar 2022 20:57:01 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v17 3/7] net/vmnet: implement shared mode (vmnet-shared)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
 Content-Language: en-US
-To: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
-References: <20220315100239.2914-1-Vladislav.Yaroshchuk@jetbrains.com>
- <20220315100239.2914-4-Vladislav.Yaroshchuk@jetbrains.com>
- <475cb18d-7c99-dea9-5a7b-59f72d7ed590@gmail.com>
- <CAGmdLqTCDocwbYAV1cScz6cuCOrFZ0PxpToFkxGhfkaXaCdF0Q@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <CAGmdLqTCDocwbYAV1cScz6cuCOrFZ0PxpToFkxGhfkaXaCdF0Q@mail.gmail.com>
+To: qemu block <qemu-block@nongnu.org>
+From: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+Subject: Summary on new backup interfaces in QEMU
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::432
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=77.88.28.115; envelope-from=v.sementsov-og@ya.ru;
+ helo=forward107p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,732 +75,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, phillip.ennen@gmail.com,
- qemu Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Phillip Tennen <phillip@axleos.com>,
- Roman Bolshakov <roman@roolebo.dev>, Howard Spoelstra <hsp.cat7@gmail.com>,
- Alessio Dionisi <hello@adns.io>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/03/16 2:45, Vladislav Yaroshchuk wrote:
-> 
-> 
-> On Tue, Mar 15, 2022 at 1:18 PM Akihiko Odaki <akihiko.odaki@gmail.com 
-> <mailto:akihiko.odaki@gmail.com>> wrote:
-> 
->     On 2022/03/15 19:02, Vladislav Yaroshchuk wrote:
->      > Interaction with vmnet.framework in different modes
->      > differs only on configuration stage, so we can create
->      > common `send`, `receive`, etc. procedures and reuse them.
->      >
->      > Signed-off-by: Phillip Tennen <phillip@axleos.com
->     <mailto:phillip@axleos.com>>
->      > Signed-off-by: Vladislav Yaroshchuk
->     <Vladislav.Yaroshchuk@jetbrains.com
->     <mailto:Vladislav.Yaroshchuk@jetbrains.com>>
->      > ---
->      >   net/vmnet-common.m | 359
->     +++++++++++++++++++++++++++++++++++++++++++++
->      >   net/vmnet-shared.c |  94 +++++++++++-
->      >   net/vmnet_int.h    |  41 +++++-
->      >   3 files changed, 489 insertions(+), 5 deletions(-)
->      >
->      > diff --git a/net/vmnet-common.m b/net/vmnet-common.m
->      > index 56612c72ce..6af042406b 100644
->      > --- a/net/vmnet-common.m
->      > +++ b/net/vmnet-common.m
->      > @@ -10,6 +10,8 @@
->      >    */
->      >
->      >   #include "qemu/osdep.h"
->      > +#include "qemu/main-loop.h"
->      > +#include "qemu/log.h"
->      >   #include "qapi/qapi-types-net.h"
->      >   #include "vmnet_int.h"
->      >   #include "clients.h"
->      > @@ -17,4 +19,361 @@
->      >   #include "qapi/error.h"
->      >
->      >   #include <vmnet/vmnet.h>
->      > +#include <dispatch/dispatch.h>
->      >
->      > +
->      > +static void vmnet_send_completed(NetClientState *nc, ssize_t len);
->      > +
->      > +
->      > +const char *vmnet_status_map_str(vmnet_return_t status)
->      > +{
->      > +    switch (status) {
->      > +    case VMNET_SUCCESS:
->      > +        return "success";
->      > +    case VMNET_FAILURE:
->      > +        return "general failure (possibly not enough privileges)";
->      > +    case VMNET_MEM_FAILURE:
->      > +        return "memory allocation failure";
->      > +    case VMNET_INVALID_ARGUMENT:
->      > +        return "invalid argument specified";
->      > +    case VMNET_SETUP_INCOMPLETE:
->      > +        return "interface setup is not complete";
->      > +    case VMNET_INVALID_ACCESS:
->      > +        return "invalid access, permission denied";
->      > +    case VMNET_PACKET_TOO_BIG:
->      > +        return "packet size is larger than MTU";
->      > +    case VMNET_BUFFER_EXHAUSTED:
->      > +        return "buffers exhausted in kernel";
->      > +    case VMNET_TOO_MANY_PACKETS:
->      > +        return "packet count exceeds limit";
->      > +#if defined(MAC_OS_VERSION_11_0) && \
->      > +    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
->      > +        case VMNET_SHARING_SERVICE_BUSY:
->      > +        return "conflict, sharing service is in use";
->      > +#endif
->      > +    default:
->      > +        return "unknown vmnet error";
->      > +    }
->      > +}
->      > +
->      > +/**
->      > + * Write packets from QEMU to vmnet interface.
->      > + *
->      > + * vmnet.framework supports iov, but writing more than
->      > + * one iov into vmnet interface fails with
->      > + * 'VMNET_INVALID_ARGUMENT'. Collecting provided iovs into
->      > + * one and passing it to vmnet works fine. That's the
->      > + * reason why receive_iov() left unimplemented. But it still
->      > + * works with good performance having .receive() only.
->      > + */
->      > +ssize_t vmnet_receive_common(NetClientState *nc,
->      > +                             const uint8_t *buf,
->      > +                             size_t size)
->      > +{
->      > +    VmnetCommonState *s = DO_UPCAST(VmnetCommonState, nc, nc);
->      > +    struct vmpktdesc packet;
->      > +    struct iovec iov;
->      > +    int pkt_cnt;
->      > +    vmnet_return_t if_status;
->      > +
->      > +    if (size > s->max_packet_size) {
->      > +        warn_report("vmnet: packet is too big, %zu > %" PRIu64,
->      > +            packet.vm_pkt_size,
->      > +            s->max_packet_size);
->      > +        return -1;
->      > +    }
->      > +
->      > +    iov.iov_base = (char *) buf;
->      > +    iov.iov_len = size;
->      > +
->      > +    packet.vm_pkt_iovcnt = 1;
->      > +    packet.vm_flags = 0;
->      > +    packet.vm_pkt_size = size;
->      > +    packet.vm_pkt_iov = &iov;
->      > +    pkt_cnt = 1;
->      > +
->      > +    if_status = vmnet_write(s->vmnet_if, &packet, &pkt_cnt);
->      > +    if (if_status != VMNET_SUCCESS) {
->      > +        error_report("vmnet: write error: %s\n",
->      > +                     vmnet_status_map_str(if_status));
->      > +        return -1;
->      > +    }
->      > +
->      > +    if (pkt_cnt) {
->      > +        return size;
->      > +    }
->      > +    return 0;
->      > +}
->      > +
->      > +/**
->      > + * Read packets from vmnet interface and write them
->      > + * to temporary buffers in VmnetCommonState.
->      > + *
->      > + * Returns read packets number (may be 0) if read
->      > + * is successful, -1 on error
->      > + */
->      > +static int vmnet_read_packets(VmnetCommonState *s) {
->      > +    assert(s->packets_send_current_pos == s->packets_send_end_pos);
->      > +
->      > +    struct vmpktdesc *packets = s->packets_buf;
->      > +    vmnet_return_t status;
->      > +    int i;
->      > +
->      > +    /* Read as many packets as present */
->      > +    s->packets_send_current_pos = 0;
->      > +    s->packets_send_end_pos = VMNET_PACKETS_LIMIT;
->      > +    for (i = 0; i < s->packets_send_end_pos; ++i) {
->      > +        packets[i].vm_pkt_size = s->max_packet_size;
->      > +        packets[i].vm_pkt_iovcnt = 1;
->      > +        packets[i].vm_flags = 0;
->      > +    }
->      > +
->      > +    status = vmnet_read(s->vmnet_if, packets,
->     &s->packets_send_end_pos);
->      > +    if (status != VMNET_SUCCESS) {
->      > +        error_printf("vmnet: read failed: %s\n",
->      > +                     vmnet_status_map_str(status));
->      > +        s->packets_send_current_pos = 0;
->      > +        s->packets_send_end_pos = 0;
->      > +        return -1;
->      > +    }
->      > +
->      > +    return s->packets_send_end_pos;
->      > +}
->      > +
->      > +/**
->      > + * Write packets from temporary buffers in VmnetCommonState
->      > + * to QEMU.
->      > + */
->      > +static void vmnet_write_packets_to_qemu(VmnetCommonState *s) {
->      > +    ssize_t size;
->      > +
->      > +    /*
->      > +     * Packets to send lay in [current_pos..end_pos)
->      > +     * (including current_pos, excluding end_pos)
->      > +     */
->      > +    while (s->packets_send_current_pos < s->packets_send_end_pos) {
->      > +        size = qemu_send_packet_async(&s->nc,
->      > +                                     
->     s->iov_buf[s->packets_send_current_pos].iov_base,
->      > +                                     
->     s->packets_buf[s->packets_send_current_pos].vm_pkt_size,
->      > +                                      vmnet_send_completed);
->      > +        ++s->packets_send_current_pos;
->      > +        if (size == 0) {
->      > +            /* QEMU is not ready to consume more packets -
->      > +             * stop and wait for completion callback call */
->      > +            s->send_enabled = false;
->      > +            return;
->      > +        }
->      > +    }
->      > +    s->send_enabled = true;
->      > +}
->      > +
->      > +
->      > +/**
->      > + * Bottom half callback that transfers packets from vmnet interface
->      > + * to QEMU.
->      > + *
->      > + * The process of transferring packets is three-staged:
->      > + * 1. Handle vmnet event;
->      > + * 2. Read packets from vmnet interface into temporary buffer;
->      > + * 3. Write packets from temporary buffer to QEMU.
->      > + *
->      > + * QEMU may suspend this process on the last stage, returning 0 from
->      > + * qemu_send_packet_async function. If this happens, we should
->      > + * respectfully wait until it is ready to consume more packets,
->      > + * write left ones in temporary buffer and only after this
->      > + * continue reading more packets from vmnet interface.
->      > + *
->      > + * If QEMU is not ready, send_enabled is set to false.
->      > + *
->      > + * Packets to be transferred are stored into packets_buf,
->      > + * in the window [packets_send_current_pos..packets_send_end_pos)
->      > + * including current_pos, excluding end_pos.
->      > + */
->      > +static void vmnet_send_bh(void *opaque)
->      > +{
->      > +    NetClientState *nc = (NetClientState *) opaque;
->      > +    VmnetCommonState *s = DO_UPCAST(VmnetCommonState, nc, nc);
->      > +
->      > +    /*
->      > +     * Do nothing if QEMU is not ready - wait
->      > +     * for completion callback invocation
->      > +     */
->      > +    if (!s->send_enabled) {
->      > +        return;
->      > +    }
->      > +
->      > +    /* Read packets from vmnet interface */
->      > +    if (vmnet_read_packets(s) > 0) {
->      > +        /* Send them to QEMU */
->      > +        vmnet_write_packets_to_qemu(s);
->      > +    }
->      > +}
->      > +
->      > +/**
->      > + * Completion callback to be invoked by QEMU when it becomes
->      > + * ready to consume more packets.
->      > + */
->      > +static void vmnet_send_completed(NetClientState *nc, ssize_t len)
->      > +{
->      > +    VmnetCommonState *s = DO_UPCAST(VmnetCommonState, nc, nc);
->      > +
->      > +    /* Complete sending packets left in VmnetCommonState buffers */
->      > +    vmnet_write_packets_to_qemu(s);
->      > +
->      > +    /* And read new ones from vmnet interface */
->      > +    if (s->send_enabled) {
->      > +        qemu_bh_schedule(s->send_bh);
->      > +    }
->      > +}
->      > +
->      > +static void vmnet_bufs_init(VmnetCommonState *s)
->      > +{
->      > +    struct vmpktdesc *packets = s->packets_buf;
->      > +    struct iovec *iov = s->iov_buf;
->      > +    int i;
->      > +
->      > +    for (i = 0; i < VMNET_PACKETS_LIMIT; ++i) {
->      > +        iov[i].iov_len = s->max_packet_size;
->      > +        iov[i].iov_base = g_malloc0(iov[i].iov_len);
->      > +        packets[i].vm_pkt_iov = iov + i;
->      > +    }
->      > +}
->      > +
->      > +
->      > +int vmnet_if_create(NetClientState *nc,
->      > +                    xpc_object_t if_desc,
->      > +                    Error **errp)
->      > +{
->      > +    VmnetCommonState *s = DO_UPCAST(VmnetCommonState, nc, nc);
->      > +    dispatch_semaphore_t if_created_sem =
->     dispatch_semaphore_create(0);
->      > +    __block vmnet_return_t if_status;
->      > +
->      > +    s->if_queue = dispatch_queue_create(
->      > +        "org.qemu.vmnet.if_queue",
->      > +        DISPATCH_QUEUE_SERIAL
->      > +    );
->      > +
->      > +    xpc_dictionary_set_bool(
->      > +        if_desc,
->      > +        vmnet_allocate_mac_address_key,
->      > +        false
->      > +    );
->      > +
->      > +#ifdef DEBUG
->      > +    qemu_log("vmnet.start.interface_desc:\n");
->      > +    xpc_dictionary_apply(if_desc,
->      > +                         ^bool(const char *k, xpc_object_t v) {
->      > +                             char *desc = xpc_copy_description(v);
->      > +                             qemu_log("  %s=%s\n", k, desc);
->      > +                             free(desc);
->      > +                             return true;
->      > +                         });
->      > +#endif /* DEBUG */
->      > +
->      > +    s->vmnet_if = vmnet_start_interface(
->      > +        if_desc,
->      > +        s->if_queue,
->      > +        ^(vmnet_return_t status, xpc_object_t interface_param) {
->      > +            if_status = status;
->      > +            if (status != VMNET_SUCCESS || !interface_param) {
->      > +                dispatch_semaphore_signal(if_created_sem);
->      > +                return;
->      > +            }
->      > +
->      > +#ifdef DEBUG
->      > +            qemu_log("vmnet.start.interface_param:\n");
->      > +            xpc_dictionary_apply(interface_param,
->      > +                                 ^bool(const char *k,
->     xpc_object_t v) {
->      > +                                     char *desc =
->     xpc_copy_description(v);
->      > +                                     qemu_log("  %s=%s\n", k, desc);
->      > +                                     free(desc);
->      > +                                     return true;
->      > +                                 });
->      > +#endif /* DEBUG */
->      > +
->      > +            s->mtu = xpc_dictionary_get_uint64(
->      > +                interface_param,
->      > +                vmnet_mtu_key);
->      > +            s->max_packet_size = xpc_dictionary_get_uint64(
->      > +                interface_param,
->      > +                vmnet_max_packet_size_key);
->      > +
->      > +            dispatch_semaphore_signal(if_created_sem);
->      > +        });
->      > +
->      > +    if (s->vmnet_if == NULL) {
->      > +        dispatch_release(s->if_queue);
->      > +        dispatch_release(if_created_sem);
->      > +        error_setg(errp,
->      > +                   "unable to create interface with requested
->     params");
->      > +        return -1;
->      > +    }
->      > +
->      > +    dispatch_semaphore_wait(if_created_sem, DISPATCH_TIME_FOREVER);
->      > +    dispatch_release(if_created_sem);
->      > +
->      > +    if (if_status != VMNET_SUCCESS) {
->      > +        dispatch_release(s->if_queue);
->      > +        error_setg(errp,
->      > +                   "cannot create vmnet interface: %s",
->      > +                   vmnet_status_map_str(if_status));
->      > +        return -1;
->      > +    }
->      > +
->      > +    s->send_bh = aio_bh_new(qemu_get_aio_context(),
->     vmnet_send_bh, nc);
->      > +    s->send_enabled = true;
->      > +    vmnet_bufs_init(s);
->      > +
->      > +    vmnet_interface_set_event_callback(
->      > +        s->vmnet_if,
->      > +        VMNET_INTERFACE_PACKETS_AVAILABLE,
->      > +        s->if_queue,
->      > +        ^(interface_event_t event_id, xpc_object_t event) {
->      > +            assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
->      > +            /*
->      > +             * This function is being called from a non qemu
->     thread, so
->      > +             * we only schedule a BH, and do the rest of the io
->     completion
->      > +             * handling from vmnet_send_bh() which runs in a
->     qemu context.
->      > +             */
->      > +            qemu_bh_schedule(s->send_bh);
->      > +        });
->      > +
->      > +    return 0;
->      > +}
->      > +
->      > +
->      > +void vmnet_cleanup_common(NetClientState *nc)
->      > +{
->      > +    VmnetCommonState *s = DO_UPCAST(VmnetCommonState, nc, nc);
->      > +    dispatch_semaphore_t if_stopped_sem;
->      > +
->      > +    if (s->vmnet_if == NULL) {
->      > +        return;
->      > +    }
->      > +
->      > +    vmnet_interface_set_event_callback(
->      > +        s->vmnet_if,
->      > +        VMNET_INTERFACE_PACKETS_AVAILABLE,
->      > +        NULL,
->      > +        NULL);
-> 
->     As I stated in an earlier comment, it should not call
->     vmnet_interface_set_event_callback and instead let vmnet.framework
->     decide the proper order of deinitialization as it should know the
->     internals. If you are concerned with the case it receives packets while
->     calling qemu_purge_queued_packets(nc), the call can be moved after
->     vmnet_stop_interface.
-> 
-> 
-> Ok, I will update this part.
-> 
->      > +
->      > +    qemu_purge_queued_packets(nc);
->      > +
->      > +    if_stopped_sem = dispatch_semaphore_create(0);
->      > +    vmnet_stop_interface(
->      > +        s->vmnet_if,
->      > +        s->if_queue,
->      > +        ^(vmnet_return_t status) {
->      > +            assert(status == VMNET_SUCCESS);
->      > +            dispatch_semaphore_signal(if_stopped_sem);
->      > +        });
->      > +    dispatch_semaphore_wait(if_stopped_sem, DISPATCH_TIME_FOREVER);
->      > +
->      > +    qemu_bh_delete(s->send_bh);
->      > +    dispatch_release(if_stopped_sem);
->      > +    dispatch_release(s->if_queue);
->      > +
->      > +    for (int i = 0; i < VMNET_PACKETS_LIMIT; ++i) {
->      > +        g_free(s->iov_buf[i].iov_base);
->      > +    }
->      > +}
->      > diff --git a/net/vmnet-shared.c b/net/vmnet-shared.c
->      > index f07afaaf21..e1a7e30acb 100644
->      > --- a/net/vmnet-shared.c
->      > +++ b/net/vmnet-shared.c
->      > @@ -10,16 +10,102 @@
->      >
->      >   #include "qemu/osdep.h"
->      >   #include "qapi/qapi-types-net.h"
->      > +#include "qapi/error.h"
->      >   #include "vmnet_int.h"
->      >   #include "clients.h"
->      > -#include "qemu/error-report.h"
->      > -#include "qapi/error.h"
->      >
->      >   #include <vmnet/vmnet.h>
->      >
->      > +typedef struct VmnetSharedState {
->      > +    VmnetCommonState cs;
->      > +} VmnetSharedState;
->      > +
->      > +
->      > +static bool validate_options(const Netdev *netdev, Error **errp)
->      > +{
->      > +    const NetdevVmnetSharedOptions *options =
->     &(netdev->u.vmnet_shared);
->      > +
->      > +#if !defined(MAC_OS_VERSION_11_0) || \
->      > +    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_11_0
->      > +    if (options->has_isolated) {
->      > +        error_setg(errp,
->      > +                   "vmnet-shared.isolated feature is "
->      > +                   "unavailable: outdated vmnet.framework API");
->      > +        return false;
->      > +    }
->      > +#endif
->      > +
->      > +    if ((options->has_start_address ||
->      > +         options->has_end_address ||
->      > +         options->has_subnet_mask) &&
->      > +        !(options->has_start_address &&
->      > +          options->has_end_address &&
->      > +          options->has_subnet_mask)) {
->      > +        error_setg(errp,
->      > +                   "'start-address', 'end-address', 'subnet-mask' "
->      > +                   "should be provided together"
->      > +        );
->      > +        return false;
->      > +    }
->      > +
->      > +    return true;
->      > +}
->      > +
->      > +static xpc_object_t build_if_desc(const Netdev *netdev)
->      > +{
->      > +    const NetdevVmnetSharedOptions *options =
->     &(netdev->u.vmnet_shared);
->      > +    xpc_object_t if_desc = xpc_dictionary_create(NULL, NULL, 0);
->      > +
->      > +    xpc_dictionary_set_uint64(
->      > +        if_desc,
->      > +        vmnet_operation_mode_key,
->      > +        VMNET_SHARED_MODE
->      > +    );
->      > +
->      > +    if (options->has_nat66_prefix) {
->      > +        xpc_dictionary_set_string(if_desc,
->      > +                                  vmnet_nat66_prefix_key,
->      > +                                  options->nat66_prefix);
->      > +    }
->      > +
->      > +    if (options->has_start_address) {
->      > +        xpc_dictionary_set_string(if_desc,
->      > +                                  vmnet_start_address_key,
->      > +                                  options->start_address);
->      > +        xpc_dictionary_set_string(if_desc,
->      > +                                  vmnet_end_address_key,
->      > +                                  options->end_address);
->      > +        xpc_dictionary_set_string(if_desc,
->      > +                                  vmnet_subnet_mask_key,
->      > +                                  options->subnet_mask);
->      > +    }
->      > +
->      > +#if defined(MAC_OS_VERSION_11_0) && \
->      > +    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
->      > +    xpc_dictionary_set_bool(
->      > +        if_desc,
->      > +        vmnet_enable_isolation_key,
->      > +        options->isolated
->      > +    );
->      > +#endif
->      > +
->      > +    return if_desc;
->      > +}
->      > +
->      > +static NetClientInfo net_vmnet_shared_info = {
->      > +    .type = NET_CLIENT_DRIVER_VMNET_SHARED,
->      > +    .size = sizeof(VmnetSharedState),
->      > +    .receive = vmnet_receive_common,
->      > +    .cleanup = vmnet_cleanup_common,
->      > +};
->      > +
->      >   int net_init_vmnet_shared(const Netdev *netdev, const char *name,
->      >                             NetClientState *peer, Error **errp)
->      >   {
->      > -  error_setg(errp, "vmnet-shared is not implemented yet");
->      > -  return -1;
->      > +    NetClientState *nc = qemu_new_net_client(&net_vmnet_shared_info,
->      > +                                             peer,
->     "vmnet-shared", name);
->      > +    if (!validate_options(netdev, errp)) {
->      > +        return -1;
->      > +    }
->      > +    return vmnet_if_create(nc, build_if_desc(netdev), errp);
->      >   }
->      > diff --git a/net/vmnet_int.h b/net/vmnet_int.h
->      > index aac4d5af64..8f3321ef3e 100644
->      > --- a/net/vmnet_int.h
->      > +++ b/net/vmnet_int.h
->      > @@ -15,11 +15,50 @@
->      >   #include "clients.h"
->      >
->      >   #include <vmnet/vmnet.h>
->      > +#include <dispatch/dispatch.h>
->      > +
->      > +/**
->      > + *  From vmnet.framework documentation
->      > + *
->      > + *  Each read/write call allows up to 200 packets to be
->      > + *  read or written for a maximum of 256KB.
->      > + *
->      > + *  Each packet written should be a complete
->      > + *  ethernet frame.
->      > + *
->      > + * https://developer.apple.com/documentation/vmnet
->     <https://developer.apple.com/documentation/vmnet>
->      > + */
->      > +#define VMNET_PACKETS_LIMIT 200
->      >
->      >   typedef struct VmnetCommonState {
->      > -  NetClientState nc;
->      > +    NetClientState nc;
->      > +    interface_ref vmnet_if;
->      > +
->      > +    uint64_t mtu;
->      > +    uint64_t max_packet_size;
->      >
->      > +    dispatch_queue_t if_queue;
->      > +
->      > +    QEMUBH *send_bh;
->      > +    bool send_enabled;
-> 
->     I'm still not convinced it is preferred to have send_enabled and
->     packets_send_current_pos not to point to the packet currently being
->     sent
->     when qemu_send_packet_async returns 0 either.
->     By incrementing packets_send_current_pos in vmnet_send_completed
->     instead
->     of immediately after calling qemu_send_packet_async, it can always
->     represent the position of the packet currently being sent. It would
->     also
->     allow to directly state the condition to enable sending in
->     vmnet_send_bh
->     without involving indirection with send_enabled.
-> 
-> 
->  > incrementing packets_send_current_pos in vmnet_send_completed
-> 
-> It is a wrong idea I think. QEMU calls callback only if previously
-> qemu_send_packet_async returned 0. If the packet was sent
-> immediately (returned value > 0), the callback won't be invoked.
-> If not (0 is returned), the callback is expected to be called when
-> QEMU is ready. So, the callback is not about "packet sent", but it is
-> about "QEMU is ready now"
+Hi all!
 
-Let me properly describe the whole picture of the idea. (Sorry, I should 
-already have done that.)
-To always represent the position of the packet currently being sent, if 
-qemu_send_packet_async returns 0, vmnet_send_bh will not increment 
-packets_send_current_pos and vmnet_send_completed will instead. 
-Otherwise, vmnet_send_bh will increment packets_send_current_pos. So it 
-should be like:
+Here I want to summarize new interfaces and use cases for backup in QEMU.
 
-vmnet_write_packets_to_qemu:
-     while packets_send_current_pos < packets_end_current_pos:
-         if qemu_send_packet_async() == 0:
-             // The packet pointed by packets_send_current_pos is indeed
-             // currently being sent. Don't increment it yet.
-             break
-          // Move the current source to the next packet.
-          ++packets_send_current_pos
+TODO for me: convert this into good rst documentation in docs/.
 
-vmnet_send_completed:
-     // Move the current source to the next packet.
-     ++packets_send_current_pos
+OK, let's begin.
 
-     vmnet_write_packets_to_qemu()
-     qemu_bh_schedule(s->send_bh)
+First, note that drive-backup qmp command is deprecated.
 
-Regards,
-Akihiko Odaki
+Next, some terminology:
 
-> 
-> A simple proof with some debug printing:
-> 
-> static void vmnet_write_packets_to_qemu(VmnetState *s) {
->      ssize_t size;
->      while (s->packets_send_current_pos < s->packets_send_end_pos) {
->          size = qemu_send_packet_async(&s->nc,
->                                        
-> s->iov_buf[s->packets_send_current_pos].iov_base,
->                                        
-> s->packets_buf[s->packets_send_current_pos].vm_pkt_size,
->                                        vmnet_send_completed);
->          ++s->packets_send_current_pos;
->          if (size == 0) {
->              fprintf(stderr, "stop\n"); // (!)
->              s->send_enabled = false;
->              return;
->          }
->          fprintf(stderr, "ok\n"); // (!)
->      }
->      s->send_enabled = true;
-> }
-> 
-> static void vmnet_send_completed(NetClientState *nc, ssize_t len) {
->      fprintf(stderr, "continue\n"); // (!)
->      VmnetState *s = DO_UPCAST(VmnetState, nc, nc);
->      vmnet_write_packets_to_qemu(s);
->      if (s->send_enabled) {
->          qemu_bh_schedule(s->send_bh);
->      }
-> }
-> 
-> And the result (while both iperf3 + ping flood):
-> ok
-> ok
-> ok
-> ok
-> ok
-> ok
-> ok
-> stop
-> continue
-> ok
-> ok
-> ok
-> stop
-> continue
-> stop
-> continue
-> stop
-> continue
-> ok
-> ok
-> ok
-> stop
-> continue
-> 
-> As you can see, if the packet is sent immediately (ok),
-> the callback is not invoked. If 0 is returned (stop),
-> the callback is invoked (continue) when QEMU is ready.
-> 
-> Taking this into account, I don't see any way to get rid
-> of the send_enabled flag without making implementation
-> more complex.
-> 
-> Best regards,
-> Vladislav Yaroshchuk
-> 
->     Regards,
->     Akihiko Odaki
-> 
->      > +
->      > +    struct vmpktdesc packets_buf[VMNET_PACKETS_LIMIT];
->      > +    int packets_send_current_pos;
->      > +    int packets_send_end_pos;
->      > +
->      > +    struct iovec iov_buf[VMNET_PACKETS_LIMIT];
->      >   } VmnetCommonState;
->      >
->      > +const char *vmnet_status_map_str(vmnet_return_t status);
->      > +
->      > +int vmnet_if_create(NetClientState *nc,
->      > +                    xpc_object_t if_desc,
->      > +                    Error **errp);
->      > +
->      > +ssize_t vmnet_receive_common(NetClientState *nc,
->      > +                             const uint8_t *buf,
->      > +                             size_t size);
->      > +
->      > +void vmnet_cleanup_common(NetClientState *nc);
->      >
->      >   #endif /* VMNET_INT_H */
-> 
+push backup: the whole process is inside QEMU process, also may be called "internal backup"
 
+pull backup: QEMU only exports a kind of snapshot (for example by NBD), and third party software reads this export and stores it somehow, also called "external backup"
+
+copy-before-write operations: We usually do backup of active disk, guest is running and may write to the disk during the process of backup. When guest wants to rewrite data region which is not backed up yet, we must stop this guest write, and copy original data to somewhere before continuing guest write. That's a copy-before-write operation.
+
+image-fleecing: the technique that allows to export a "snapshotted" state of the active disk with help of copy-before-write operations. We create a temporary image - target for copy-before-write operations, and provide an interface to the user to read the "snapshotted" state. And for read, we do read from temporary image the data which is already changed in original active disk, and we read unchanged data directly from active disk. The temporary image itself is also called "reverse delta" or "reversed delta".
+
+
+
+== Simple push backup ==
+
+Just use blockdev-backup, nothing new here. I just note some technical details, that are relatively new:
+
+1. First, backup job inserts copy-before-write filter above source disk, to do copy-before-write operation.
+2. Created copy-before-write filter shares internal block-copy state with backup job, so they work in collaboration, to not copy same things twice.
+
+
+
+== Full pull backup ==
+
+Assume, we are going to do incremental backup in future, so we also need to create a dirty bitmap, to track dirtiness of active disk since full backup.
+
+1. Create empty temporary image for fleecing. It must be of the same size as active disk. It's not necessary to be qcow2, and if it's a qcow2, you shouldn't make the original active disk a backing file for the new temporary qcow2 image (it was necessary in old fleecing scheme).
+
+Example:
+   qemu-img create -f qcow2 temp.qcow2 64G
+
+
+2. Initialize fleecing scheme and create dirty bitmap for future incremental backup.
+
+Assume, disk0 is an active disk, attached to qdev-id sda, to be backed up.
+
+qmp: transaction [
+    block-dirty-bitmap-add {node: disk0, name: bitmap0, persistent: true}
+    blockdev-add* {node-name: tmp-protocol, driver: file, filename: temp.qcow2}
+    blockdev-add {node-name: tmp, driver: qcow2, file: tmp-protocol}
+    blockdev-add {node-name: cbw, driver: copy-before-write, file: disk0, target: tmp}
+    blockdev-replace** {parent-type: qdev, qdev-id: sda, new-child: cbw}
+    blockdev-add {node-name: acc, driver: snapshot-access, file: cbw}
+]
+
+qmp: nbd-server-start {...}
+qmp: nbd-server-add {device: acc, ...}
+
+This way we create the following block-graph:
+
+[guest]                   [NBD export]
+    |                            |
+    | root                       | root
+    v                 file       v
+[copy-before-write]<------[snapshot-access]
+    |           |
+    | file      | target
+    v           v
+[active-disk] [temp.qcow2]
+
+* "[PATCH 0/2] blockdev-add transaction" series needed for this
+** "[PATCH v3 00/11] blockdev-replace" series needed for this
+
+
+Note additional useful options for copy-before-write filter:
+
+"[PATCH 0/3] block: copy-before-write: on-cbw-error behavior" provides possibility of option on-cbw-error=break-snapshot, which means that on failure of CBW operation we will not break guest write, but instead all further reads by NBD client will fail, which formally means: break the backup process, not guest write.
+
+"[PATCH 0/4] block: copy-before-write: cbw-timeout" provides an option cbw-timeout, to set a timeout for CBW operations. That's very useful to avoid guest stuck.
+
+
+3. Now third party backup tool can read data from NBD export
+
+NBD_CMD_TRIM (discard) operation is supported on the export, it has the following effects:
+
+1. discard this data from temp image, if it is stored here
+2. avoid further copy-before-write operation (guest is free to rewrite corresponding data with no extra latency)
+3. all further read requests from discarded areas by NBD client will fail
+
+So, NBD client may discard regions that are already backed up to avoid extra latency for guest writes and to free disk space on the host.
+
+Possible TODO here is to implement NBD protocol extension, that allows to READ & DISCARD in command. In this case we avoid extra command in the wire, but lose possibility of retrying the READ operation if it failed.
+
+4. After backup is complete, we should destroy the fleecing scheme:
+
+qmp: nbd-server-stop
+
+qmp: blockdev-del {node-name: acc}
+qmp: blockdev-replace {parent-type: qdev, qdev-id: sda, new-child: disk0}
+qmp: blockdev-del {node-name: cbw}
+qmp: blockdev-del {node-name: tmp}
+qmp: blockdev-del {node-name: tmp-protocol}
+
+
+5. If backup failed, we should remove created dirty bitmap:
+
+qmp: block-dirty-bitmap-remove {node: disk0, name: bitmap0}
+
+
+
+== Incremental pull backup ==
+
+OK, now we have a bitmap called bitmap0, and want to do incremental backup, accordingly to that bitmap. In short, we want:
+
+  - create a new bitmap to continue dirty tracking for next incremental backup
+  - export "snapshotted" state of disk0 through NBD
+  - export "frozen" bitmap, so that external tool know what to copy
+
+Mostly, all points remains the same, let's go through:
+
+1. Create empty temporary image for fleecing -- same as for full backup, no difference
+
+2. Initialize fleecing scheme and create dirty bitmap for future incremental backup.
+
+qmp: transaction [
+    block-dirty-bitmap-add {node: disk0, name: bitmap1, persistent: true}
+    block-dirty-bitmap-disable {node: disk0, name: bitmap0}
+    blockdev-add {node-name: tmp-protocol, driver: file, filename: temp.qcow2}
+    blockdev-add {node-name: tmp, driver: qcow2, file: tmp-protocol}
+    blockdev-add {node-name: cbw, driver: copy-before-write, file: disk0, target: tmp, bitmap: {node: disk0, name: bitmap0}}
+    blockdev-replace {parent-type: qdev, qdev-id: sda, new-child: cbw}
+    blockdev-add {node-name: acc, driver: snapshot-access, file: cbw}
+]
+
+qmp: nbd-server-start {...}
+qmp: block-export-add {type: nbd, node-name: acc, bitmaps: [{node: disk0, name: bitmap0}]}
+
+3. Now third party backup tool can read data from NBD export
+
+  - Client may negotiate meta contexts, to query exported dirty bitmap by NBD_BLOCK_STATUS commend
+  - If client reads "not-dirty" (by bitmap0) areas, it gets an error.
+  - NBD_CMD_TRIM (discard) works as for full backup, no difference
+
+4. After backup is complete, we should destroy the fleecing scheme:
+
+   - Same as for full backup
+
+5. Next, we should handle dirty bitmaps:
+
+5.1 Failure path
+
+Merge-back bitmap1 to bitmap0 and continue tracking in bitmap0:
+
+qmp: transaction [
+     block-dirty-bitmap-enable {node: disk0, name: bitmap0}
+     block-dirty-bitmap-merge {node: disk0, target: bitmap0, bitmaps: ['bitmap1']}
+     block-dirty-bitmap-remove {node: disk0, name: bitmap1}
+]
+
+5.2 Success path
+
+We have two possible user scenarios on success:
+
+5.2.1 Continue tracking for next incremental backup in bitmap1
+
+In this case, just remove bitmap0:
+qmp: block-dirty-bitmap-remove {node: disk0, name: bitmap0}
+
+Or you may not delete bitmap0 and keep it disabled, to be reused in future for differential backup (see below).
+
+5.2.2 Continue tracking for next incremental backup in bitmap0 (assume, we always work with one bitmap and don't want any kind of differential backups, and don't associate bitmap name with stored backups)
+
+In this case, enable and clear bitmap0, merge bitmap1 to bitmap0 and remove bitmap1:
+
+qmp: transaction [
+     block-dirty-bitmap-enable {node: disk0, name: bitmap0}
+     block-dirty-bitmap-clear {node: disk0, name: bitmap0}
+     block-dirty-bitmap-merge {node: disk0, target: bitmap0, bitmaps: ['bitmap1']}
+     block-dirty-bitmap-remove {node: disk0, name: bitmap1}
+]
+
+
+
+== Push backup with fleecing full/incremental ==
+
+Reasoning: the main problem of simple push backup is that guest writes may be seriously affected by copy-on-write operations, when backup target is slow. To solve this problem, we'll use the scheme like for pull backup: we create local temporary image, which is a target for copy-before-write operations, and instead of exporting the "snapshot-access" node we start internal backup from it to the target.
+
+So, the scheme and commands looks exactly the same as for full and incremental pull backup. The only difference is that we don't need to start nbd export, but instead we should add target node to qemu and start internal backup. And good thing is that it may be done in same transaction with initializing fleecing scheme:
+
+qmp: transaction [
+     ... initialize fleecing scheme for full or incremental backup ...
+
+# Add target node. Here is qcow2 added, but it may be nbd node or something else
+     blockdev-add {node-name: target-protocol, driver: file, filename: target.qcow2}
+     blockdev-add {node-name: target, driver: qcow2, file: target-protocol}
+
+# Start backup
+     blockdev-backup {device: acc, target: target, ...}
+]
+
+If it is an incremental backup, pass also bitmap parameter:
+
+     blockdev-backup {..., bitmap: bitmap0, sync: incremental, bitmap-mode: never}
+
+Note bitmap-mode=never: this means that backup will do nothing with bitmap0, so we have same scheme like for pull backups (handle bitmaps by hand after backup). Still, push-backup scheme may be adopted to use other bitmap modes.
+
+What we lack here is discarding in 'acc' node after successful copying of the block to the target, to safe disk space and avoid extra copy-before-write operations. It's a TODO, should be implemented like discard-source parameter for blockdev-backup.
+
+
+
+== Differential backups ==
+
+I'm not fan of this idea, but I think it should be described.
+
+Assume we have already a chain of incremental backups (represented as qcow2 chain on backup storage server, for example). They corresponds to some points in time: T0, T1, T2, T3. Assume T3 is the last backup.
+
+If we want to create usual incremental backup, it would be diff between T3 and current time (which becomes T4).
+
+Differential backup say: I want to make backup starting from T1 to current time. What's for? Maybe T2 and T3 was removed or somehow damaged..
+
+How to do that in Qemu: on each incremental backup you start a new bitmap, and _keep_ old one as disabled.
+This way we have bitmap0 (which presents diff between T0 and T1), bitmap1 (diff T1 T2), bitmap2 (diff T2 T3), and bitmap3 which shows diff from T3 up to current time. bitmap3 is the only enabled bitmap and others are disabled.
+
+So, to make differential backup, use block-dirty-bitmap-merge command, to merge all bitmaps you need into one, and than use it in any backup scheme.
+
+The drawback is that all these disabled bitmaps eat RAM. Possible solution is to not keep them in RAM, it's OK to keep them in qcow2, and load only on demand. That's not realized now and that's a TODO for thous who want differential backups.
+
+-- 
+Best regards,
+Vladimir
 
