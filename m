@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42014D9BAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:57:11 +0100 (CET)
-Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D60FE4D9BB5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:01:01 +0100 (CET)
+Received: from localhost ([::1]:35444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6je-0004Q3-Ob
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:57:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59988)
+	id 1nU6nM-0001YS-SH
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:01:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1nU6eC-00024P-NA
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:51:36 -0400
-Received: from mta02.hs-regensburg.de ([194.95.104.12]:54458)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nU6ga-0003jb-4t
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:54:00 -0400
+Received: from [2607:f8b0:4864:20::1031] (port=54257
+ helo=mail-pj1-x1031.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1nU6eA-0007AE-AC
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:51:32 -0400
-Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
- [IPv6:2001:638:a01:8013::93])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "E16S03", Issuer "E16S03" (not verified))
- by mta02.hs-regensburg.de (Postfix) with ESMTPS id 4KHtZR0MM6zxvr;
- Tue, 15 Mar 2022 13:51:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
- s=mta02-20211122; t=1647348687;
- bh=w7nncRMr6drHQr7pnqtm+LGuzUw5f+XH1HzbCMPMW2Y=;
- h=Date:Subject:To:CC:References:From:In-Reply-To:From;
- b=FefjYjkPNYaLXDZF5GDYnxB+G5VibESBQ0Ml68El22oJgdwL8qCwRY8BDyQRFx0l5
- uHjdE/ObEQHaw/flyBnCXQeKMk/eGlID88x9IqQDeE2CsD7VyNChAVdZ8mC27OAh/B
- O1JCeIccLABapKUXFWrhQCDGmloqOg5dgHwS94Cx9E8/zd01kG+GmH0oyBl/wbDymk
- R6BqZ3vIK766DmI5k4vkaZeS26ovKUG8jVRJc8s4YgjzjCmRDmdgIS+wP5hHy5f7kg
- 0IJyQwQOWDJzVH/ihGqFdQZFQo6f7sEcTM2PiV2QK1L9T/oAuUTPEc4tZLCBDl26SG
- C0I7ZGmRJwWAA==
-Received: from [IPV6:2a02:810d:8fc0:44bc::2592] (2001:638:a01:8013::138) by
- E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 15 Mar 2022 13:51:26 +0100
-Message-ID: <3783dce0-0c5b-824e-2097-bbc3367281a6@oth-regensburg.de>
-Date: Tue, 15 Mar 2022 13:51:24 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nU6gY-0007dJ-CJ
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:53:59 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id bx5so17724522pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:53:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5B8v95ttoJIHmd1QsV6XLmCILpPGXUYhqkPF7td1dg4=;
+ b=hfDsYj+rOLkhKx6YiaqlB5a/spJ2pTGfu/hb58KPPHmiWZ5ENpk2YHvdTa6s9AF5vw
+ WbeWgz3UDhGxsP6qDWjznqdF0jljh2VNKqMxTr6Mj7gyTAiS8cXxQZZ/gTWfNJD+LVxd
+ 5WOIVe6uREFGH/C5JYigtRBp6sgQV7n33jYRMr0wljWt0D8/H9ga4jB0BFmwS7fRFyFa
+ PPEZ3aStIHJyF0QuKhqQ5rI12O9PfUo/3a8m3WXOpJsRovdex0Li9fowxE7je9w+XITr
+ niw5vrdcQpUEQpIz6KynB/8He4h1cwk8A/7OrqIs5YHyOIRvNiZw1P4zlQQ4xdA/StyT
+ jnDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5B8v95ttoJIHmd1QsV6XLmCILpPGXUYhqkPF7td1dg4=;
+ b=sSskFWu7Xyo1FEmmWOvrNZJV9iK43h19FaT3OS1EovnxUK8IdDuZyNdpI1+7k38M2w
+ dbeHbWe96bBdkLUY3iTir0uVgZwuKQFdEEqvZHYNa33UM4jb14w1yVige3XumjbwEFWf
+ MFjy1RUWl5m6oJYyDw1QMA2YnL4IoGQF0JwP7FQFvEdiAkG2Oh+grsCnwru0z4pvU2et
+ hM+ypCbUF7TzkaW1WQmsVRpoGnu5+nNW69cKUaCERzvgLP8STCqs/vlSwKzexFbY51iQ
+ HmwoTFow+tc7WmIvSnOqvtX5A5aca9k4NnMLBg0BPj3h+BUfgI0vXfKg5QIh7GCkedCW
+ /SVw==
+X-Gm-Message-State: AOAM532tqfWWfMJeAqQ6iGThqUGn3v4jP8x1JzIktwEhMyXgxsfSWpTZ
+ e2chnPh24yOehY6G2s3g8ZiyukqSIWk=
+X-Google-Smtp-Source: ABdhPJyvROpTWCWq3yxR5Ogb///ZqzKL11+OaT3FYQ9cWlTBKJHXMaafkr2V8GqEko+Lfvr0PI5PWg==
+X-Received: by 2002:a17:90b:17d1:b0:1bf:1e3:ded3 with SMTP id
+ me17-20020a17090b17d100b001bf01e3ded3mr4554917pjb.144.1647348836969; 
+ Tue, 15 Mar 2022 05:53:56 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ t11-20020a056a00138b00b004f7664328a0sm22252299pfg.162.2022.03.15.05.53.54
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 15 Mar 2022 05:53:56 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/21] Darwin patches for 2022-03-15
+Date: Tue, 15 Mar 2022 13:53:29 +0100
+Message-Id: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [EXT] Re: QEMU+KVM on RISC-V + Hypervisor Extension
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <57412635-6b46-823b-14a4-0ee694ace5b8@oth-regensburg.de>
- <CAKmqyKOZN=hS73TfgHfMtxktZ9kkw4kBBA4-gjGAV8Q0Kw+KHw@mail.gmail.com>
- <CAAhSdy23Ag=ZqUj82aZ6BNA2SJq54rbCDjeX=1cHtbq7LR8jaQ@mail.gmail.com>
- <a840f9ac-7315-4381-4c85-719efb413b18@oth-regensburg.de>
- <CAFEAcA98VQmM_ETpNuhq31Y7xLkS_AjVRsTeCdnqzMZG-3uxBA@mail.gmail.com>
-From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-In-Reply-To: <CAFEAcA98VQmM_ETpNuhq31Y7xLkS_AjVRsTeCdnqzMZG-3uxBA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [2001:638:a01:8013::138]
-X-ClientProxiedBy: E16S01.hs-regensburg.de (2001:638:a01:8013::91) To
- E16S03.hs-regensburg.de (2001:638:a01:8013::93)
-Received-SPF: pass client-ip=194.95.104.12;
- envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta02.hs-regensburg.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: 23
+X-Spam_score: 2.3
+X-Spam_bar: ++
+X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,57 +88,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jiangyifei <jiangyifei@huawei.com>,
- Stefan Huber <stefan.huber@oth-regensburg.de>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+The following changes since commit a72ada1662ee3105c5d66ddc8930d98e9cab62be:
 
-On 15/03/2022 13:42, Peter Maydell wrote:
-> On Tue, 15 Mar 2022 at 12:29, Ralf Ramsauer
-> <ralf.ramsauer@oth-regensburg.de> wrote:
->> I have no kernel specified in the guest, so I'd then expect to boot into
->> an completely empty machine (besides the tiny startup stub in the MROM).
->> However, I still get the exact same error as mentioned in my initial mail.
->>
->> Again, without "-enable-kvm", everything works as expected (i.e., I
->> don't see any output, because there's basically no guest code to execute).
-> 
-> Well, you'll always be trying to execute something, even if it's
-> all-zeroes. I dunno what RISC-V does with its encodings, but you
-> typically either end up in an infinite loop of taking exceptions
-> (if all-0s isn't a valid instruction) or else you just execute
-> through all of guest RAM (if it is something similar to a no-op).
-> In the latter scenario it's quite plausible that the guest ends
-> up doing something KVM doesn't expect, such as trying to execute
-> from an area of the address space where there is no RAM, or a device.
-> If so, "return failure from VCPU_RUN and QEMU aborts" is what I
-> think I would expect to see.
-> 
-> If I were you I would try it with some actual guest code loaded
-> at a location where there is RAM...
+  Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2022-03-15 09:53:13 +0000)
 
-I guess you are right, and I think, together with the other mail, I now 
-understand why I experienced a failure:
+are available in the Git repository at:
 
-As Anup explained, there is no M-Mode, but I passed an OpenSBI BIOS. The 
-initial MROM handed over to OpenSBI (located at RAM base 0x80000000). At 
-some point, OpenSBI threw an exception (maybe it accessed an CSR it is 
-not allowed to, whatever), because it is in S-Mode. Exception vectors 
-were not (yet) installed, but initialized with 0x0.
+  https://github.com/philmd/qemu.git tags/darwin-20220315
 
-This is how I ended up with the PC at 0x0. Behind 0x0, there's no 
-physical backing, and KVM threw an Instruction Guest PF (SCAUSE=0x14).
+for you to fetch changes up to c82b7ef16f3efa59e28f821f25a9c084ef84ea9d:
 
-Didn't verify this, but this somehow sounds plausible to me.
+  MAINTAINERS: Volunteer to maintain Darwin-based hosts support (2022-03-15 13:36:33 +0100)
 
-Thanks!
-   Ralf
+----------------------------------------------------------------
+Darwin-based host patches
 
-> 
-> -- PMM
+- Remove various build warnings
+- Fix building with modules on macOS
+- Fix mouse/keyboard GUI interactions
+
+----------------------------------------------------------------
+
+Akihiko Odaki (2):
+  audio: Log context for audio bug
+  coreaudio: Always return 0 in handle_voice_change
+
+Cameron Esfahani (1):
+  hvf: Use standard CR0 and CR4 register definitions
+
+Carwyn Ellis (2):
+  ui/cocoa: add option to disable left-command forwarding to guest
+  ui/cocoa: release mouse when user switches away from QEMU window
+
+Gustavo Noronha Silva (2):
+  ui/cocoa: capture all keys and combos when mouse is grabbed
+  ui/cocoa: add option to swap Option and Command
+
+Philippe Mathieu-Daudé (14):
+  configure: Allow passing extra Objective C compiler flags
+  tests/fp/berkeley-testfloat-3: Ignore ignored #pragma directives
+  hvf: Make hvf_get_segments() / hvf_put_segments() local
+  hvf: Remove deprecated hv_vcpu_flush() calls
+  block/file-posix: Remove a deprecation warning on macOS 12
+  audio/coreaudio: Remove a deprecation warning on macOS 12
+  audio/dbus: Fix building with modules on macOS
+  audio: Rename coreaudio extension to use Objective-C compiler
+  osdep: Avoid using Clang-specific __builtin_available()
+  meson: Resolve the entitlement.sh script once for good
+  meson: Log QEMU_CXXFLAGS content in summary
+  configure: Pass filtered QEMU_OBJCFLAGS to meson
+  ui/cocoa: Constify qkeycode translation arrays
+  MAINTAINERS: Volunteer to maintain Darwin-based hosts support
+
+ MAINTAINERS                        |   8 ++
+ audio/audio.c                      |  25 +++---
+ audio/audio_template.h             |  27 +++----
+ audio/{coreaudio.c => coreaudio.m} |  23 +++---
+ audio/meson.build                  |   4 +-
+ block/file-posix.c                 |  14 +++-
+ configure                          |  31 ++++++++
+ include/qemu/osdep.h               |  10 +--
+ meson.build                        |  17 +++-
+ qapi/ui.json                       |  29 +++++++
+ qemu-options.hx                    |  15 ++++
+ target/i386/hvf/vmx.h              |  19 +++--
+ target/i386/hvf/x86.c              |   6 +-
+ target/i386/hvf/x86.h              |  34 --------
+ target/i386/hvf/x86_mmu.c          |   2 +-
+ target/i386/hvf/x86_task.c         |   4 +-
+ target/i386/hvf/x86hvf.c           |   6 +-
+ target/i386/hvf/x86hvf.h           |   2 -
+ tests/fp/meson.build               |   5 ++
+ ui/cocoa.m                         | 122 ++++++++++++++++++++++++++---
+ 20 files changed, 283 insertions(+), 120 deletions(-)
+ rename audio/{coreaudio.c => coreaudio.m} (97%)
+
+-- 
+2.34.1
+
 
