@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5954D9BDA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:11:19 +0100 (CET)
-Received: from localhost ([::1]:56188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F8E4D9BDD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:12:12 +0100 (CET)
+Received: from localhost ([::1]:58646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6xI-0007tq-MU
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:11:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32774)
+	id 1nU6yB-00016v-QG
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:12:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6hn-0005AQ-47
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:16 -0400
-Received: from [2607:f8b0:4864:20::433] (port=43744
- helo=mail-pf1-x433.google.com)
+ id 1nU6hu-0005CC-NN
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:23 -0400
+Received: from [2607:f8b0:4864:20::62b] (port=37830
+ helo=mail-pl1-x62b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6hi-0007y6-Qp
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:12 -0400
-Received: by mail-pf1-x433.google.com with SMTP id t2so16830246pfj.10
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:55:07 -0700 (PDT)
+ id 1nU6ho-00080S-P8
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:18 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id n2so16159434plf.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:55:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LG/c+ztFQy+lUqxAjjhbBGZeuruF9FjjhdwvvjkCJJo=;
- b=Yd1nBQW2mtlGX87fE8YhTjfDA+/bygnMccGLbHCBc5Ic6wzkdc8dtIS7CMnEH4YMNY
- QJN7Y+M/kVm5sqxYWyfp16L0BVkklkq4gmO11ZUddPyHMUtZ/j4fuvf+wIt4FnXvPbJm
- MePeVhDnraBFqSki5UlO4rk1vYaKlyVtTwX6WMrXjWIfMGfwi02xvDga9ro/QQdm1wme
- B1C1Q9iGHuWs9I5O+G9UuLWgDZNkgdAF3jfgLpbrViKMaz1qhc0i3UKAcQ0a21T/wlu8
- BkWImlA8vQUwbNfaITF9f1Ndl4fp7R8zC59L55XceEn7bdvzk3Z2mD16SlKB+jaDX1n2
- 8v4g==
+ bh=46NBNvVoysH9eJqR3eLDXH7RhT1oumyXXssv7c0pDs4=;
+ b=f4io/NGfwhnOScwGHCD+cp9MCtYbVyW/+cdsPMUURlxE0QlKDAkV8aXbxApXnmwpq9
+ HmCfsda5AMaGdBTF1SUpdoOufYFS41oscoau6e/bMPWdtMCY+DrUKokubVXIzEwIvNIK
+ 71+mxYNz1yFI9tAvD3JY99LMvmSnP/C83z9MaA0a2/ICkqObBn6w3zeRpNK8kMxokKsq
+ wJz5ohc+0tPS5HTJLrW0rYEWVkWRigBxJFIN7pmZ0NXDYsxd5z0BDDTj7EO5/Pfom7Sw
+ RhsMgkDg73/snNpaZKy7UZRZmbyMWyUdHcI1GQ9gioHXei2ejxwpcz+J4iCKzi69kq33
+ BDQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LG/c+ztFQy+lUqxAjjhbBGZeuruF9FjjhdwvvjkCJJo=;
- b=3sL1Tr6/bI3aoc0pbBgzS4kPHZ01gjBBW5KxrVU+VyF6ML2stLucxAjHqii9HEcGn2
- v/B+mwoc0jLHyHfnMXdCCYoe8hLoKq8PsoKRjl3Omm22bPs8PwUYjZS6GsatYq8A049V
- hCNcLvkqNliNqATILyFLeht3rsUZEgO/k+50SBTxern0L2rWR52jawa3CPwUgEIHUMRw
- V7UZXthRImRcfIw1huJhruuwdY9GflnIs2I44uTToV5LQAT6/xWJtS7HWdRRaBosAvw5
- yzE6pU2172zCTlVe+HDVWi9ChxMLh24FE7AZLxCHLMmNpyNt/2R4sVcsLD6LSY+W5oOA
- KuMQ==
-X-Gm-Message-State: AOAM532Db7Jvnh5rFxJlVdTfHEV8ZiS6xwbZTLGF8Ijuyc6YBvaMt8hS
- 9qG5IdG3IChYTOimWq8Pk64VXLOcljU=
-X-Google-Smtp-Source: ABdhPJwR2ib+LSWtnmCU6ZJovLr63O7ttgxztHCXBaaMijW7HjmJO6VeYZheR32W+tAtkxDiQHvcXQ==
-X-Received: by 2002:a05:6a00:17a6:b0:4f7:d375:ac4c with SMTP id
- s38-20020a056a0017a600b004f7d375ac4cmr9284541pfg.19.1647348906268; 
- Tue, 15 Mar 2022 05:55:06 -0700 (PDT)
+ bh=46NBNvVoysH9eJqR3eLDXH7RhT1oumyXXssv7c0pDs4=;
+ b=3ms02HaXJG2DAp/sqiv7S87DKlqaHtIFlqnB/3uj56etwvRXtwHNfcIbjVmXaSjDiA
+ HCa900K59nSt0S2/XD9dBTzc+x1LJ6c4i9XfvemRUyHa3vnr3XwEHAs/qXsmP7C2/b8v
+ ejKL5G4YYH03VkY1+E/5KeIrLvqdSq5eSJGk0unfxBK/qzuQfj2eOovcTkQJ0aEjAEG6
+ 19htJLdQ+xiTtAtpAJlQttF3kxuxr7UhSYnz9YUlazQ4HoIXxbqWcU2FnF1JEzyR8nkW
+ d0tR72bdss6bmdRu/H1YUhdIwx5g63WE1g60d1b4WkRa7LppAJlFdZb0fCYoNQUdl4+N
+ Pf9w==
+X-Gm-Message-State: AOAM530oK9lxOx6aZ/VzM2XaSfWIrpycVe3xku46tIP1mT5HmlWFfC5U
+ jrqDqSaZ+7yTtz4YZkAbwYJxY508vgo=
+X-Google-Smtp-Source: ABdhPJzBGKRkVO3KvNuBv2svgV/0Ojcyi9y18VrVjfN/usJJ9x8NBG0yQPfnNGvw3aDjNgJFLcW6xw==
+X-Received: by 2002:a17:90a:5643:b0:1bf:ac1f:a1de with SMTP id
+ d3-20020a17090a564300b001bfac1fa1demr4405183pji.224.1647348914792; 
+ Tue, 15 Mar 2022 05:55:14 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- j6-20020a63b606000000b003808b0ea96fsm19512366pgf.66.2022.03.15.05.55.03
+ w6-20020a17090a460600b001bf355e964fsm3099227pjg.0.2022.03.15.05.55.12
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 15 Mar 2022 05:55:05 -0700 (PDT)
+ Tue, 15 Mar 2022 05:55:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/21] audio/dbus: Fix building with modules on macOS
-Date: Tue, 15 Mar 2022 13:53:37 +0100
-Message-Id: <20220315125350.82452-9-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 09/21] audio: Log context for audio bug
+Date: Tue, 15 Mar 2022 13:53:38 +0100
+Message-Id: <20220315125350.82452-10-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
 References: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,43 +90,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <lizhang@suse.de>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-When configuring QEMU with --enable-modules we get on macOS:
+Without this change audio_bug aborts when the bug condition is met,
+which discards following useful logs. Call abort after such logs.
 
-  --- stderr ---
-  Dependency ui-dbus cannot be satisfied
-
-ui-dbus depends on pixman and opengl, so add these dependencies
-to audio-dbus.
-
-Fixes: 739362d420 ("audio: add "dbus" audio backend")
-Reviewed-by: Li Zhang <lizhang@suse.de>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220306063202.27331-1-akihiko.odaki@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- audio/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ audio/audio.c          | 25 ++++++++++++-------------
+ audio/audio_template.h | 27 ++++++++++++---------------
+ 2 files changed, 24 insertions(+), 28 deletions(-)
 
-diff --git a/audio/meson.build b/audio/meson.build
-index 0ac3791d0b..d9b295514f 100644
---- a/audio/meson.build
-+++ b/audio/meson.build
-@@ -28,7 +28,7 @@ endforeach
+diff --git a/audio/audio.c b/audio/audio.c
+index a88572e713..6bc313d9f5 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -117,7 +117,6 @@ int audio_bug (const char *funcname, int cond)
+             AUD_log (NULL, "I am sorry\n");
+         }
+         AUD_log (NULL, "Context:\n");
+-        abort();
+     }
  
- if dbus_display
-     module_ss = ss.source_set()
--    module_ss.add(when: gio, if_true: files('dbusaudio.c'))
-+    module_ss.add(when: [gio, pixman, opengl, 'CONFIG_GIO'], if_true: files('dbusaudio.c'))
-     audio_modules += {'dbus': module_ss}
- endif
+     return cond;
+@@ -138,7 +137,7 @@ static inline int audio_bits_to_index (int bits)
+     default:
+         audio_bug ("bits_to_index", 1);
+         AUD_log (NULL, "invalid bits %d\n", bits);
+-        return 0;
++        abort();
+     }
+ }
  
+@@ -156,7 +155,7 @@ void *audio_calloc (const char *funcname, int nmemb, size_t size)
+         AUD_log (NULL, "%s passed invalid arguments to audio_calloc\n",
+                  funcname);
+         AUD_log (NULL, "nmemb=%d size=%zu (len=%zu)\n", nmemb, size, len);
+-        return NULL;
++        abort();
+     }
+ 
+     return g_malloc0 (len);
+@@ -543,7 +542,7 @@ static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
+     size_t live = hw->total_samples_captured - audio_pcm_hw_find_min_in (hw);
+     if (audio_bug(__func__, live > hw->conv_buf->size)) {
+         dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
+-        return 0;
++        abort();
+     }
+     return live;
+ }
+@@ -581,7 +580,7 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+     }
+     if (audio_bug(__func__, live > hw->conv_buf->size)) {
+         dolog("live_in=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
+-        return 0;
++        abort();
+     }
+ 
+     rpos = audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
+@@ -656,7 +655,7 @@ static size_t audio_pcm_hw_get_live_out (HWVoiceOut *hw, int *nb_live)
+ 
+         if (audio_bug(__func__, live > hw->mix_buf->size)) {
+             dolog("live=%zu hw->mix_buf->size=%zu\n", live, hw->mix_buf->size);
+-            return 0;
++            abort();
+         }
+         return live;
+     }
+@@ -706,7 +705,7 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t size)
+     live = sw->total_hw_samples_mixed;
+     if (audio_bug(__func__, live > hwsamples)) {
+         dolog("live=%zu hw->mix_buf->size=%zu\n", live, hwsamples);
+-        return 0;
++        abort();
+     }
+ 
+     if (live == hwsamples) {
+@@ -998,7 +997,7 @@ static size_t audio_get_avail (SWVoiceIn *sw)
+     if (audio_bug(__func__, live > sw->hw->conv_buf->size)) {
+         dolog("live=%zu sw->hw->conv_buf->size=%zu\n", live,
+               sw->hw->conv_buf->size);
+-        return 0;
++        abort();
+     }
+ 
+     ldebug (
+@@ -1028,7 +1027,7 @@ static size_t audio_get_free(SWVoiceOut *sw)
+     if (audio_bug(__func__, live > sw->hw->mix_buf->size)) {
+         dolog("live=%zu sw->hw->mix_buf->size=%zu\n", live,
+               sw->hw->mix_buf->size);
+-        return 0;
++        abort();
+     }
+ 
+     dead = sw->hw->mix_buf->size - live;
+@@ -1170,7 +1169,7 @@ static void audio_run_out (AudioState *s)
+ 
+         if (audio_bug(__func__, live > hw->mix_buf->size)) {
+             dolog("live=%zu hw->mix_buf->size=%zu\n", live, hw->mix_buf->size);
+-            continue;
++            abort();
+         }
+ 
+         if (hw->pending_disable && !nb_live) {
+@@ -1203,7 +1202,7 @@ static void audio_run_out (AudioState *s)
+         if (audio_bug(__func__, hw->mix_buf->pos >= hw->mix_buf->size)) {
+             dolog("hw->mix_buf->pos=%zu hw->mix_buf->size=%zu played=%zu\n",
+                   hw->mix_buf->pos, hw->mix_buf->size, played);
+-            hw->mix_buf->pos = 0;
++            abort();
+         }
+ 
+ #ifdef DEBUG_OUT
+@@ -1223,7 +1222,7 @@ static void audio_run_out (AudioState *s)
+             if (audio_bug(__func__, played > sw->total_hw_samples_mixed)) {
+                 dolog("played=%zu sw->total_hw_samples_mixed=%zu\n",
+                       played, sw->total_hw_samples_mixed);
+-                played = sw->total_hw_samples_mixed;
++                abort();
+             }
+ 
+             sw->total_hw_samples_mixed -= played;
+@@ -1346,7 +1345,7 @@ static void audio_run_capture (AudioState *s)
+             if (audio_bug(__func__, captured > sw->total_hw_samples_mixed)) {
+                 dolog("captured=%zu sw->total_hw_samples_mixed=%zu\n",
+                       captured, sw->total_hw_samples_mixed);
+-                captured = sw->total_hw_samples_mixed;
++                abort();
+             }
+ 
+             sw->total_hw_samples_mixed -= captured;
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index d2d348638b..7192b19e73 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -59,12 +59,13 @@ static void glue(audio_init_nb_voices_, TYPE)(AudioState *s,
+     if (audio_bug(__func__, !voice_size && max_voices)) {
+         dolog ("drv=`%s' voice_size=0 max_voices=%d\n",
+                drv->name, max_voices);
+-        glue (s->nb_hw_voices_, TYPE) = 0;
++        abort();
+     }
+ 
+     if (audio_bug(__func__, voice_size && !max_voices)) {
+         dolog ("drv=`%s' voice_size=%d max_voices=0\n",
+                drv->name, voice_size);
++        abort();
+     }
+ }
+ 
+@@ -81,6 +82,7 @@ static void glue(audio_pcm_hw_alloc_resources_, TYPE)(HW *hw)
+         size_t samples = hw->samples;
+         if (audio_bug(__func__, samples == 0)) {
+             dolog("Attempted to allocate empty buffer\n");
++            abort();
+         }
+ 
+         HWBUF = g_malloc0(sizeof(STSampleBuffer) + sizeof(st_sample) * samples);
+@@ -252,12 +254,12 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
+ 
+     if (audio_bug(__func__, !drv)) {
+         dolog ("No host audio driver\n");
+-        return NULL;
++        abort();
+     }
+ 
+     if (audio_bug(__func__, !drv->pcm_ops)) {
+         dolog ("Host audio driver without pcm_ops\n");
+-        return NULL;
++        abort();
+     }
+ 
+     hw = audio_calloc(__func__, 1, glue(drv->voice_size_, TYPE));
+@@ -275,12 +277,13 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
+     QLIST_INIT (&hw->cap_head);
+ #endif
+     if (glue (hw->pcm_ops->init_, TYPE) (hw, as, s->drv_opaque)) {
+-        goto err0;
++        g_free(hw);
++        return NULL;
+     }
+ 
+     if (audio_bug(__func__, hw->samples <= 0)) {
+         dolog("hw->samples=%zd\n", hw->samples);
+-        goto err1;
++        abort();
+     }
+ 
+     if (hw->info.is_float) {
+@@ -309,12 +312,6 @@ static HW *glue(audio_pcm_hw_add_new_, TYPE)(AudioState *s,
+     audio_attach_capture (hw);
+ #endif
+     return hw;
+-
+- err1:
+-    glue (hw->pcm_ops->fini_, TYPE) (hw);
+- err0:
+-    g_free (hw);
+-    return NULL;
+ }
+ 
+ AudiodevPerDirectionOptions *glue(audio_get_pdo_, TYPE)(Audiodev *dev)
+@@ -435,7 +432,7 @@ void glue (AUD_close_, TYPE) (QEMUSoundCard *card, SW *sw)
+     if (sw) {
+         if (audio_bug(__func__, !card)) {
+             dolog ("card=%p\n", card);
+-            return;
++            abort();
+         }
+ 
+         glue (audio_close_, TYPE) (sw);
+@@ -457,7 +454,7 @@ SW *glue (AUD_open_, TYPE) (
+     if (audio_bug(__func__, !card || !name || !callback_fn || !as)) {
+         dolog ("card=%p name=%p callback_fn=%p as=%p\n",
+                card, name, callback_fn, as);
+-        goto fail;
++        abort();
+     }
+ 
+     s = card->state;
+@@ -468,12 +465,12 @@ SW *glue (AUD_open_, TYPE) (
+ 
+     if (audio_bug(__func__, audio_validate_settings(as))) {
+         audio_print_settings (as);
+-        goto fail;
++        abort();
+     }
+ 
+     if (audio_bug(__func__, !s->drv)) {
+         dolog ("Can not open `%s' (no host audio driver)\n", name);
+-        goto fail;
++        abort();
+     }
+ 
+     if (sw && audio_pcm_info_eq (&sw->info, as)) {
 -- 
 2.34.1
 
