@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57944D9BC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:04:57 +0100 (CET)
-Received: from localhost ([::1]:40254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C454D9BD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:09:27 +0100 (CET)
+Received: from localhost ([::1]:52750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6r7-0005TG-Q2
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:04:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32934)
+	id 1nU6vW-0005bj-7P
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:09:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6i8-0005QB-Dr
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:36 -0400
-Received: from [2607:f8b0:4864:20::431] (port=39781
- helo=mail-pf1-x431.google.com)
+ id 1nU6iF-0005ZR-VG
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:45 -0400
+Received: from [2607:f8b0:4864:20::429] (port=36850
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6i6-0008AI-GP
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:36 -0400
-Received: by mail-pf1-x431.google.com with SMTP id h2so15530232pfh.6
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:55:33 -0700 (PDT)
+ id 1nU6iE-0008Bm-Gk
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:43 -0400
+Received: by mail-pf1-x429.google.com with SMTP id z16so19539966pfh.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ldn2Z6B3k3Plt1cJVie4T8Wt19hcp59Igf8ZqI/jiUE=;
- b=Rte72YRN+lAsESV89Z25RtrpkBvAcfUaul4iVNjO/qbKpdNLnEQNsPthtdH3gol4kq
- 0MfMUMogqoSYZXEBuxanFUUQUalVDo20scmQl74N96C51J360TGGASOmaAkFQ9x+cgY9
- VQbjq+I4CgKAt3FYYSmOTf+O+8bzGQkWZ1b4PTQoDfXoiQY5M3ljjXlPBE3s9QEhY3+6
- Cxr+yr7MQ+c/FqlVNtS4fgi0enPAfaV8WCL9MwFeWZrDnEZnX4jVQY5TTNK0QFI/8nCD
- gmnlkhiJ6gvibzxz7c185YShnYgE7Voo63mIWVMW49bDvw8L34bLCgLNmbKSlYfDwxj8
- D2eg==
+ bh=T/cRYsvljJjM7J77pLO7Mi0qGdNpxLyCaN5IKbfOo00=;
+ b=dAbqaDhhfcsAkPwfe/G5FX4sIbY3PkzZmZjGi5k/QILSZNxnmnNcgreRypR8x09vKF
+ QJXXy0wNjLMRPUKFEcH76Isy0oQYJDKv3tvqXDt+IMahyTfv81AtMi3UgVAEn2JRsXn+
+ hpKzjBRUPIVv6Mk9EcBT5VpAHrWzVUmqJKe9gFwKDo1e62c0ImArzXsnIs2L2LY19V1t
+ 4nbQfzW+ArwobFDY/9Q8CsWupZghdT3Co+7T6D0KV5N3/wJdmfL1vv8HKB6EhUAQ3e61
+ AkTo0gNliQ/+M339Ox4X6Hh+zztWz9j/jMU+9J1P1++9oCt8m2CDiglQL/F+aOI+5X/v
+ 1kTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ldn2Z6B3k3Plt1cJVie4T8Wt19hcp59Igf8ZqI/jiUE=;
- b=e/oKGxiGDSx3qnYu1FR7l3E7M/nqrkzsILP5VMASRehxTqSikt/UtYLMgekaBkfOV3
- 2IqW2+pIQckigqyLo9F6yxFw1AAO/mKdQ4h8dq//fO4tmfgF+LNIrCuliLrO4qWBBUyh
- PDodO1jlwvjN+UxZJ0dhm4lgbfnAwmuim8GG2x9LMX+4y/D35hwGWTp0yY40Q6ujuvr/
- 8dCWjxrryzxJZFwqUdjs/oprPOurN3A4EN+PZg7T28w8R8qqxsnSvXRsSWQf3sXJdT0y
- qrUct1zkde7DvgK53n5lWSvw1jkRrn6/0+J/B+OiU+xEDqKsvzg0EslyWTVy0gbZgJGb
- PMRQ==
-X-Gm-Message-State: AOAM533L25gXK+ojcwpwAkNLhbiz1jkuyEw6humBC97AgQwkJoHUiCaF
- DDa30j3wx+JAOL5ivz3Uxxz0p8CtZas=
-X-Google-Smtp-Source: ABdhPJz4414xLW+uPuQKNtVwZBmEoEmsC+Vy1/RkkVdw0NFdFG1wA754cKIXRH67qa2HlF1luTBAhA==
-X-Received: by 2002:a62:f203:0:b0:4f6:f330:7e56 with SMTP id
- m3-20020a62f203000000b004f6f3307e56mr28729241pfh.49.1647348931980; 
- Tue, 15 Mar 2022 05:55:31 -0700 (PDT)
+ bh=T/cRYsvljJjM7J77pLO7Mi0qGdNpxLyCaN5IKbfOo00=;
+ b=X113bSotkqv2VOkJdL5pPy4N684C8m13Wa39Y9R9DOuvQLwmwaJLkvPliO+ZhacNmU
+ j8o1sfy11yAoZGuswaHltehmG6KFWbBo8XMZJXilNzfZkTZ74iN6K4y8mphfvCnS5jbD
+ s8qvOJKxeWrP3HNVnfs53uvGsP7c40ZNGS1crTRRLfbKhpKVCsiOLOag5kpklaHRTl3B
+ 9D98/7EMeNDkdwUBJLZ0pbc+gDFClFxvUrAOjONPPwfsT6fDpaCQ0ONsXkNWuNamnPgS
+ kLFt9w++AR1VGTqAJmDQLRjor3U4bHH7/RB9ZTBrXHH0uVTULd3X76GYOSrZcjVNJ13p
+ vFEw==
+X-Gm-Message-State: AOAM5327CkcKJBa/o5VpDbzHDAXXg/S1b8soSK8A/CDlkEjEjixIabi7
+ b2N6/YsVH0WUiq21V2jS7OuR8U7yK0U=
+X-Google-Smtp-Source: ABdhPJx0m1gMeQ9Lv+CJ+s8cbqOIV+r+IZRPpfEiwhr386lDAQmMuwnFie9iUgWdzbBk15jCHVFFAw==
+X-Received: by 2002:a63:ec16:0:b0:381:6a51:6231 with SMTP id
+ j22-20020a63ec16000000b003816a516231mr1842456pgh.189.1647348940471; 
+ Tue, 15 Mar 2022 05:55:40 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f13-20020a056a0022cd00b004f7eaac852dsm6096212pfj.151.2022.03.15.05.55.29
+ s1-20020a056a00178100b004f731a1a952sm25717785pfg.168.2022.03.15.05.55.38
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 15 Mar 2022 05:55:31 -0700 (PDT)
+ Tue, 15 Mar 2022 05:55:40 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/21] audio: Rename coreaudio extension to use Objective-C
- compiler
-Date: Tue, 15 Mar 2022 13:53:40 +0100
-Message-Id: <20220315125350.82452-12-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 12/21] osdep: Avoid using Clang-specific __builtin_available()
+Date: Tue, 15 Mar 2022 13:53:41 +0100
+Message-Id: <20220315125350.82452-13-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
 References: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -100,48 +99,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The coreaudio library includes Objective-C declarations (using the
-caret '^' symbol to declare block references [*]). When building
-with a C compiler we get:
+Remove the Clang specific __builtin_available() to allow building
+with GCC, otherwise we get:
 
-  [175/839] Compiling C object libcommon.fa.p/audio_coreaudio.c.o
-    In file included from /Library/Developer/CommandLineTools/SDKs/MacOSX12.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/CoreAudio.h:18,
-                     from ../../audio/coreaudio.c:26:
-    /Library/Developer/CommandLineTools/SDKs/MacOSX12.sdk/System/Library/Frameworks/CoreAudio.framework/Headers/AudioHardware.h:162:2: error: expected identifier or '(' before '^' token
-      162 | (^AudioObjectPropertyListenerBlock)(    UInt32                              inNumberAddresses,
-          |  ^
-    FAILED: libcommon.fa.p/audio_coreaudio.c.o
+  include/qemu/osdep.h: In function 'qemu_thread_jit_write':
+  include/qemu/osdep.h:787:9: warning: implicit declaration of function '__builtin_available'; did you mean '__builtin_scalbl'? [-Wimplicit-function-declaration]
+    787 |     if (__builtin_available(macOS 11.0, *)) {
+        |         ^~~~~~~~~~~~~~~~~~~
+        |         __builtin_scalbl
+  include/qemu/osdep.h:787:9: warning: nested extern declaration of '__builtin_available' [-Wnested-externs]
+  include/qemu/osdep.h:787:29: error: 'macOS' undeclared (first use in this function)
+    787 |     if (__builtin_available(macOS 11.0, *)) {
+        |                             ^~~~~
+  include/qemu/osdep.h:787:29: note: each undeclared identifier is reported only once for each function it appears in
+  include/qemu/osdep.h:787:34: error: expected ')' before numeric constant
+    787 |     if (__builtin_available(macOS 11.0, *)) {
+        |                            ~     ^~~~~
+        |                                  )
 
-Rename the file to use the Objective-C default extension (.m) so
-meson calls the correct compiler.
+Beside, on macOS Catalina we get 2254 times:
 
-[*] https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html
+  include/qemu/osdep.h:780:5: warning: 'pthread_jit_write_protect_np' is only available on macOS 11.0 or newer [-Wunguarded-availability-new]
+      pthread_jit_write_protect_np(true);
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Fix by using a stricker toolchain version low range, replacing
+MAC_OS_X_VERSION_MAX_ALLOWED by MAC_OS_X_VERSION_MIN_REQUIRED.
+
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- audio/{coreaudio.c => coreaudio.m} | 0
- audio/meson.build                  | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename audio/{coreaudio.c => coreaudio.m} (100%)
+ include/qemu/osdep.h | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/audio/coreaudio.c b/audio/coreaudio.m
-similarity index 100%
-rename from audio/coreaudio.c
-rename to audio/coreaudio.m
-diff --git a/audio/meson.build b/audio/meson.build
-index d9b295514f..94dab16891 100644
---- a/audio/meson.build
-+++ b/audio/meson.build
-@@ -7,7 +7,7 @@ softmmu_ss.add(files(
-   'wavcapture.c',
- ))
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index c9ec7830c9..322103aadb 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -624,19 +624,15 @@ size_t qemu_get_host_physmem(void);
+  * for the current thread.
+  */
+ #if defined(MAC_OS_VERSION_11_0) && \
+-    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
++    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
+ static inline void qemu_thread_jit_execute(void)
+ {
+-    if (__builtin_available(macOS 11.0, *)) {
+-        pthread_jit_write_protect_np(true);
+-    }
++    pthread_jit_write_protect_np(true);
+ }
  
--softmmu_ss.add(when: coreaudio, if_true: files('coreaudio.c'))
-+softmmu_ss.add(when: coreaudio, if_true: files('coreaudio.m'))
- softmmu_ss.add(when: dsound, if_true: files('dsoundaudio.c', 'audio_win_int.c'))
- 
- audio_modules = {}
+ static inline void qemu_thread_jit_write(void)
+ {
+-    if (__builtin_available(macOS 11.0, *)) {
+-        pthread_jit_write_protect_np(false);
+-    }
++    pthread_jit_write_protect_np(false);
+ }
+ #else
+ static inline void qemu_thread_jit_write(void) {}
 -- 
 2.34.1
 
