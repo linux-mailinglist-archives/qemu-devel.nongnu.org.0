@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887F54D9B5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:37:12 +0100 (CET)
-Received: from localhost ([::1]:59552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58504D9B63
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:40:05 +0100 (CET)
+Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6QJ-0003AV-5R
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:37:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55136)
+	id 1nU6T6-0005mm-ER
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:40:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6Kx-00010J-TY; Tue, 15 Mar 2022 08:31:41 -0400
-Received: from [2607:f8b0:4864:20::435] (port=36542
- helo=mail-pf1-x435.google.com)
+ id 1nU6OA-0003Rt-F5
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:34:58 -0400
+Received: from [2607:f8b0:4864:20::62a] (port=38578
+ helo=mail-pl1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6Kt-0003nT-O7; Tue, 15 Mar 2022 08:31:39 -0400
-Received: by mail-pf1-x435.google.com with SMTP id z16so19436900pfh.3;
- Tue, 15 Mar 2022 05:31:34 -0700 (PDT)
+ id 1nU6O9-00045s-2Z
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:34:58 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id n18so13418306plg.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:34:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=XxgXFFdysbfYbYzd4ACTJnemyMWhUDbxdBW5pvBAIvM=;
- b=TyZSvxdmU0ysT7OTDOKWsfJPPVHBEMNt7tkd4YX7grmK24nnPfm91nA5CJLRU5/+WT
- Jc7KxJIrxWCF+boHKjuoo0VzfYZHGV78FPZbtwBSY+ADFyjJ3ND+Ng2o7oNabWPi0I72
- hNjapYskHSkXpJIgE/up9tj6aisSxo0wJTJR3wlGdW6wB3QyAql5gMkxyRRtRWz2KqUN
- efAiREuu5nDazVDGZQk5UiHFHkfAHTdxbnQvphTZjyrGgQXOW7qCG5ueUm6ryU6u3Y9y
- C0ZNwffvbgxqVAHxEjQc31WeqeFIzb40Hm7enACPP+33iHmn5aEPOraNUyc6lmkhK6x5
- UuWA==
+ bh=fH/BM/oZjx1+DwjFO9M1ASNCXZpM3sSQ7HpM+zL02nQ=;
+ b=dOHkkoJ0h2PJwnT05NrM6c1D3Z7u9n0led+m+82CAyobGtMYNNtKgdh3vNr2F7FrG6
+ ZAOUa28H39+O82FStzimiDEGJxYDBUfKNufqs54cbglmh5gyXtbv8Na1Quu0Bdn9V8wt
+ gz6ZO46KD+7R8BsmIfdy2GhPOA+zdVo3Z8rtffxUtpaB3u4j5uUVYJV5Km1PPILOhi9m
+ Uokc4tzqlCtjS2dtVI8e6PkQTvGBYwObAcghgf5HgmAgv2eFAsjDdvqsTFku6dPDeyFV
+ pikhLFw0IT2766P1c8RdYk6CibZ9LHgAwRH7uB29Zcg5Cc0GdCl+qAFgh3E5WxZhuCLX
+ CsKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=XxgXFFdysbfYbYzd4ACTJnemyMWhUDbxdBW5pvBAIvM=;
- b=nMBe7bZJ3pipKNRDDyltQgm9GXVEiDeu6NPPgy++kg+uJFymA7FrGKUgODNgbQ4j6Z
- 4Z2HZdEAoV8Wv6zi6TxiZfw2e6iPqP7CApSpxNdCTbkUqz4UssiVDxtrr+NzobuGwBu/
- ChOsbo0vYR+pm0Np5WL2p9rCBGiLocySSn4t/6H55CXj7ssIMNYAtcV/5yCDKjRzmMlA
- lpzE1bGsJo0FT//psg1DyfzKfrf2t8Dkq0bMDPYPH95JP0Bk5/kULteO3s3v4548seoZ
- v9bqsUbXeO3dqQeV3bb4wZQayAsJVHNviDYAHH1jRsD+3cFPfMSPPU1tGqjGZhdOzr9Q
- 8MoA==
-X-Gm-Message-State: AOAM530T9+TQENvyZnjcBiVQnTGq369srCVnSCyVOB/UXTH9NYttngPD
- NeptSOf2+KRsdbA/OlJsif0=
-X-Google-Smtp-Source: ABdhPJxH6BQO9KW262SnIfZcHJH0MeVAmcqYv16KaMJV6H5xnNyAFm6co8ESXxOwalUWnJbQmZP7Ng==
-X-Received: by 2002:a63:5051:0:b0:374:5fd0:f131 with SMTP id
- q17-20020a635051000000b003745fd0f131mr24356679pgl.431.1647347493247; 
- Tue, 15 Mar 2022 05:31:33 -0700 (PDT)
+ bh=fH/BM/oZjx1+DwjFO9M1ASNCXZpM3sSQ7HpM+zL02nQ=;
+ b=mEODvDVqBFXwDkco+rFymN5TBDgroRGcVA79GiuIyLlWJ7y0lBpSUmX6asB1WyOdi+
+ cM16OFsOghfglIfBoMDFtSx2dyBmcVZX5vmL6v2OjHAFjWYedmxTybyercflJ/SSrdUh
+ vR8TTrU/7h3qropPZ/iV/9sMnlX1Vol7npoh9XVplOLRuRj2LE2LfXG2nVhnPtOVU/4Z
+ ruRRB52knkpoLqSEx/1OFLV9pqihYb8xO8vzkiFF3BAczmI0UiSCYbZvFgm3w3x8l654
+ fjjxz1J0+Qg1QeJuz/Eh39lXyQI/XUEKoqC4HAWD5JMHNgdG4iMeoVD+T1F7L0OPAk8x
+ mCRg==
+X-Gm-Message-State: AOAM5322isDRyFYWUw104/Zq53zMLQ9HwBWTMHDO6EucUZY4sLRgMXR4
+ iPnhOAn3rPjeOtD8ZJPuINc=
+X-Google-Smtp-Source: ABdhPJwdYgEZePVkVVpr3GJDJay9V51y9V8U3cASaBGGeWgcgdHEKaYKSVG2YpKKz+1kQPfzPmwWGA==
+X-Received: by 2002:a17:90a:ea83:b0:1bc:2cb6:78e0 with SMTP id
+ h3-20020a17090aea8300b001bc2cb678e0mr4406429pjz.20.1647347694257; 
+ Tue, 15 Mar 2022 05:34:54 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- a38-20020a056a001d2600b004f72acd4dadsm24366525pfx.81.2022.03.15.05.31.29
+ 9-20020a621909000000b004f6f40195f8sm23075992pfz.133.2022.03.15.05.34.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 05:31:32 -0700 (PDT)
-Message-ID: <6c7bdb98-ad58-e48e-caa5-a9747b8ad90b@gmail.com>
-Date: Tue, 15 Mar 2022 13:31:26 +0100
+ Tue, 15 Mar 2022 05:34:53 -0700 (PDT)
+Message-ID: <531d5dba-31d6-a777-dd33-dcc59beacc7e@gmail.com>
+Date: Tue, 15 Mar 2022 13:34:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PATCH v1 7/8] semihosting: clean up handling of expanded argv
+Subject: Re: [PATCH v2] gitlab: include new aarch32 job in custom-runners
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-References: <20220315121251.2280317-1-alex.bennee@linaro.org>
- <20220315121251.2280317-8-alex.bennee@linaro.org>
+References: <20220315121251.2280317-9-alex.bennee@linaro.org>
+ <20220315121954.2283887-1-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220315121251.2280317-8-alex.bennee@linaro.org>
+In-Reply-To: <20220315121954.2283887-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,52 +95,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, sw@weilnetz.de,
- richard.henderson@linaro.org, f4bug@amsat.org, qemu-arm@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/3/22 13:12, Alex Bennée wrote:
-> Another cleanup patch tripped over the fact we weren't being careful
-> in our casting. Fix the casts, allow for a non-const and switch from
-> g_realloc to g_renew.
+On 15/3/22 13:19, Alex Bennée wrote:
+> Without linking it in it won't be presented on the UI. Also while
+> doing that fix the misnamed job from 20.40 to 20.04.
 > 
-> The whole semihosting argument handling could do with some tests
-> though.
-> 
+> Fixes: cc44a16002 ("gitlab: add a new aarch32 custom runner definition")
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   semihosting/config.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/semihosting/config.c b/semihosting/config.c
-> index 137171b717..50d82108e6 100644
-> --- a/semihosting/config.c
-> +++ b/semihosting/config.c
-> @@ -51,7 +51,7 @@ typedef struct SemihostingConfig {
->       bool enabled;
->       SemihostingTarget target;
->       Chardev *chardev;
-> -    const char **argv;
-> +    char **argv;
->       int argc;
->       const char *cmdline; /* concatenated argv */
->   } SemihostingConfig;
-> @@ -98,8 +98,8 @@ static int add_semihosting_arg(void *opaque,
->       if (strcmp(name, "arg") == 0) {
->           s->argc++;
->           /* one extra element as g_strjoinv() expects NULL-terminated array */
-> -        s->argv = g_realloc(s->argv, (s->argc + 1) * sizeof(void *));
-> -        s->argv[s->argc - 1] = val;
-> +        s->argv = g_renew(char *, s->argv, s->argc + 1);
-> +        s->argv[s->argc - 1] = g_strdup(val);
-
-Why strdup()?
-
->           s->argv[s->argc] = NULL;
->       }
->       return 0;
-
+> ---
+> v2
+>    - argggggg!!!!!
+> ---
+>   .gitlab-ci.d/custom-runners.yml                                  | 1 +
+>   .../{ubuntu-20.40-aarch32.yml => ubuntu-20.04-aarch32.yml}       | 0
+>   2 files changed, 1 insertion(+)
+>   rename .gitlab-ci.d/custom-runners/{ubuntu-20.40-aarch32.yml => ubuntu-20.04-aarch32.yml} (100%)
+> 
+> diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
+> index 3e76a2034a..15aaccc481 100644
+> --- a/.gitlab-ci.d/custom-runners.yml
+> +++ b/.gitlab-ci.d/custom-runners.yml
+> @@ -16,4 +16,5 @@ variables:
+>   include:
+>     - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml'
+>     - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml'
+> +  - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml'
+>     - local: '/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml'
+> diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.40-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
+> similarity index 100%
+> rename from .gitlab-ci.d/custom-runners/ubuntu-20.40-aarch32.yml
+> rename to .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.ym
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
