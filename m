@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C454D9BD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:09:27 +0100 (CET)
-Received: from localhost ([::1]:52750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4764D9BEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:13:26 +0100 (CET)
+Received: from localhost ([::1]:33032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6vW-0005bj-7P
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:09:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32974)
+	id 1nU6zN-0002wV-0s
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:13:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6iF-0005ZR-VG
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:45 -0400
-Received: from [2607:f8b0:4864:20::429] (port=36850
- helo=mail-pf1-x429.google.com)
+ id 1nU6iR-0005dA-Hg
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:57 -0400
+Received: from [2607:f8b0:4864:20::636] (port=40511
+ helo=mail-pl1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6iE-0008Bm-Gk
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:43 -0400
-Received: by mail-pf1-x429.google.com with SMTP id z16so19539966pfh.3
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:55:41 -0700 (PDT)
+ id 1nU6iM-0008Cd-Eg
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:55:51 -0400
+Received: by mail-pl1-x636.google.com with SMTP id h5so14792143plf.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:55:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T/cRYsvljJjM7J77pLO7Mi0qGdNpxLyCaN5IKbfOo00=;
- b=dAbqaDhhfcsAkPwfe/G5FX4sIbY3PkzZmZjGi5k/QILSZNxnmnNcgreRypR8x09vKF
- QJXXy0wNjLMRPUKFEcH76Isy0oQYJDKv3tvqXDt+IMahyTfv81AtMi3UgVAEn2JRsXn+
- hpKzjBRUPIVv6Mk9EcBT5VpAHrWzVUmqJKe9gFwKDo1e62c0ImArzXsnIs2L2LY19V1t
- 4nbQfzW+ArwobFDY/9Q8CsWupZghdT3Co+7T6D0KV5N3/wJdmfL1vv8HKB6EhUAQ3e61
- AkTo0gNliQ/+M339Ox4X6Hh+zztWz9j/jMU+9J1P1++9oCt8m2CDiglQL/F+aOI+5X/v
- 1kTg==
+ bh=KNSrqoEq2GhUevDTVk/vUxoGKtaQfRE5FRcTgjCh7JE=;
+ b=D16b8kP7WZ0UZar4yxnBdthqem5/SJs9xdC6OPinOWKfjNU7yhnKCySKQcAKVZs1DF
+ 9ZjSwKD0lr3N6qTAp2modP4OXYUuAkDH+dq+1sJlHmsIC2xNMcS+Vtvne5zkW7GKhKNb
+ uSKbZRJY+RKEuRMn8Q7zWdkTN3I2DO4NxGxdA5OE6XMrcccgKaLPSKq0XXfrMms226eM
+ a+2J25v4gFmFtZUrK6l9Gn5cLFEiJhTmXo68HdO30IYnK2SalW1n8Ke8mZ7IPAIl9rgu
+ LHhC9gNFhy2Y6djnECwlOnTnCmZ4PsS7vRnAHk7gwM7QOWP8UI71hraIIr4/Y+hKuwxl
+ /Ivg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T/cRYsvljJjM7J77pLO7Mi0qGdNpxLyCaN5IKbfOo00=;
- b=X113bSotkqv2VOkJdL5pPy4N684C8m13Wa39Y9R9DOuvQLwmwaJLkvPliO+ZhacNmU
- j8o1sfy11yAoZGuswaHltehmG6KFWbBo8XMZJXilNzfZkTZ74iN6K4y8mphfvCnS5jbD
- s8qvOJKxeWrP3HNVnfs53uvGsP7c40ZNGS1crTRRLfbKhpKVCsiOLOag5kpklaHRTl3B
- 9D98/7EMeNDkdwUBJLZ0pbc+gDFClFxvUrAOjONPPwfsT6fDpaCQ0ONsXkNWuNamnPgS
- kLFt9w++AR1VGTqAJmDQLRjor3U4bHH7/RB9ZTBrXHH0uVTULd3X76GYOSrZcjVNJ13p
- vFEw==
-X-Gm-Message-State: AOAM5327CkcKJBa/o5VpDbzHDAXXg/S1b8soSK8A/CDlkEjEjixIabi7
- b2N6/YsVH0WUiq21V2jS7OuR8U7yK0U=
-X-Google-Smtp-Source: ABdhPJx0m1gMeQ9Lv+CJ+s8cbqOIV+r+IZRPpfEiwhr386lDAQmMuwnFie9iUgWdzbBk15jCHVFFAw==
-X-Received: by 2002:a63:ec16:0:b0:381:6a51:6231 with SMTP id
- j22-20020a63ec16000000b003816a516231mr1842456pgh.189.1647348940471; 
- Tue, 15 Mar 2022 05:55:40 -0700 (PDT)
+ bh=KNSrqoEq2GhUevDTVk/vUxoGKtaQfRE5FRcTgjCh7JE=;
+ b=ldCeBDbJvdp8TsMuBwafkgecC4pRn8gyzNv5z62YWZP0GsdIXAS2bpAdP2dMpz7Y9Y
+ xcB+PG6F9fPhxW8T/Mmc7CEl0yGbcm2k27PfH8oNuHbx1+tG2dqnD51bBgSwrCD/LpYb
+ mYmJuw0kVjaalefV2etJfm7eTnQOshiB9Ft15h0KVhEdtP+RcNvSPEVEs7912uxvYHgO
+ Mk1m4U4v+KQ2UlzocbVROEOckjki+D3dMHUSr+J1905/vEhEvRWzfnh/mrL71PqPtva7
+ L379S9aBiODXrGPM7lUBhhu7xSs3LaOfpe45iRLQ6F4i5fQsiDQo5a5ePJCtrmhV6yNy
+ Gd7w==
+X-Gm-Message-State: AOAM53250GeiaiyLcQrMooaZKGFizBMrJ27kYzA+X8QcANGYYQy7MsCi
+ WHdMVaZVK5kJ/FwIsMvg2ZUrQNQcqnY=
+X-Google-Smtp-Source: ABdhPJzDuxlfZfC/cIa0mt/e6k0NVvj86L+eOm4gjjABp9ahjUdRqRo4lSJ5m312vBsgHrjBIX5eIA==
+X-Received: by 2002:a17:902:d4c6:b0:151:d21c:7eb7 with SMTP id
+ o6-20020a170902d4c600b00151d21c7eb7mr28120340plg.148.1647348949008; 
+ Tue, 15 Mar 2022 05:55:49 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- s1-20020a056a00178100b004f731a1a952sm25717785pfg.168.2022.03.15.05.55.38
+ d16-20020a17090ad99000b001bcbc4247a0sm3034474pjv.57.2022.03.15.05.55.46
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 15 Mar 2022 05:55:40 -0700 (PDT)
+ Tue, 15 Mar 2022 05:55:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/21] osdep: Avoid using Clang-specific __builtin_available()
-Date: Tue, 15 Mar 2022 13:53:41 +0100
-Message-Id: <20220315125350.82452-13-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 13/21] meson: Resolve the entitlement.sh script once for good
+Date: Tue, 15 Mar 2022 13:53:42 +0100
+Message-Id: <20220315125350.82452-14-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
 References: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -99,67 +99,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Remove the Clang specific __builtin_available() to allow building
-with GCC, otherwise we get:
-
-  include/qemu/osdep.h: In function 'qemu_thread_jit_write':
-  include/qemu/osdep.h:787:9: warning: implicit declaration of function '__builtin_available'; did you mean '__builtin_scalbl'? [-Wimplicit-function-declaration]
-    787 |     if (__builtin_available(macOS 11.0, *)) {
-        |         ^~~~~~~~~~~~~~~~~~~
-        |         __builtin_scalbl
-  include/qemu/osdep.h:787:9: warning: nested extern declaration of '__builtin_available' [-Wnested-externs]
-  include/qemu/osdep.h:787:29: error: 'macOS' undeclared (first use in this function)
-    787 |     if (__builtin_available(macOS 11.0, *)) {
-        |                             ^~~~~
-  include/qemu/osdep.h:787:29: note: each undeclared identifier is reported only once for each function it appears in
-  include/qemu/osdep.h:787:34: error: expected ')' before numeric constant
-    787 |     if (__builtin_available(macOS 11.0, *)) {
-        |                            ~     ^~~~~
-        |                                  )
-
-Beside, on macOS Catalina we get 2254 times:
-
-  include/qemu/osdep.h:780:5: warning: 'pthread_jit_write_protect_np' is only available on macOS 11.0 or newer [-Wunguarded-availability-new]
-      pthread_jit_write_protect_np(true);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Fix by using a stricker toolchain version low range, replacing
-MAC_OS_X_VERSION_MAX_ALLOWED by MAC_OS_X_VERSION_MIN_REQUIRED.
+Commit 235b523dba ("meson: Use find_program() to resolve the
+entitlement.sh script") didn't correctly fixed the issue, as
+the script is still resolved for each target. Move the check
+earlier, before processing each target.
 
 Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/qemu/osdep.h | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ meson.build | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index c9ec7830c9..322103aadb 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -624,19 +624,15 @@ size_t qemu_get_host_physmem(void);
-  * for the current thread.
-  */
- #if defined(MAC_OS_VERSION_11_0) && \
--    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
-+    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
- static inline void qemu_thread_jit_execute(void)
- {
--    if (__builtin_available(macOS 11.0, *)) {
--        pthread_jit_write_protect_np(true);
--    }
-+    pthread_jit_write_protect_np(true);
- }
+diff --git a/meson.build b/meson.build
+index 351f9f4360..6e8fa4ab31 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3073,6 +3073,10 @@ common_all = static_library('common',
  
- static inline void qemu_thread_jit_write(void)
- {
--    if (__builtin_available(macOS 11.0, *)) {
--        pthread_jit_write_protect_np(false);
--    }
-+    pthread_jit_write_protect_np(false);
- }
- #else
- static inline void qemu_thread_jit_write(void) {}
+ feature_to_c = find_program('scripts/feature_to_c.sh')
+ 
++if targetos == 'darwin'
++  entitlement = find_program('scripts/entitlement.sh')
++endif
++
+ emulators = {}
+ foreach target : target_dirs
+   config_target = config_target_mak[target]
+@@ -3230,7 +3234,6 @@ foreach target : target_dirs
+         install_input += meson.current_source_dir() / entitlements
+       endif
+ 
+-      entitlement = find_program('scripts/entitlement.sh')
+       emulators += {exe['name'] : custom_target(exe['name'],
+                    input: build_input,
+                    output: exe['name'],
 -- 
 2.34.1
 
