@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 348734D974E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 10:13:40 +0100 (CET)
-Received: from localhost ([::1]:38756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDCE4D977B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 10:18:40 +0100 (CET)
+Received: from localhost ([::1]:43350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU3FK-0004Ps-NW
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 05:13:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52814)
+	id 1nU3KB-0007pN-95
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 05:18:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nU2hH-0002AN-9V
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:38:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51186)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nU2hF-0004F6-RQ
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:38:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647333505;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6hYdYQQasBbsnnXbHKiWh0+oqiYIKPUs/diyZxNtFZ0=;
- b=YOcKctK8KjIhke+91nh2I87QM78lOXBmTpO82vCnobxuTtBkieTmb5LXojQv9LEkucKf+/
- 6GXCNXzUVbq0wmXgk9LEZGMjU7opToXiBXFdtWoGnglqZZfKYanweCuRp3VUq2VxJiWwvK
- IvXtNRRKDYrWflA4Dsx4OirLMM50bMU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-382-Dd-ioL9TNj6xOpxcYTWU6g-1; Tue, 15 Mar 2022 04:38:23 -0400
-X-MC-Unique: Dd-ioL9TNj6xOpxcYTWU6g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F58480281B;
- Tue, 15 Mar 2022 08:38:23 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.196.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D5FFE2156A59;
- Tue, 15 Mar 2022 08:38:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7C09F1800632; Tue, 15 Mar 2022 09:37:02 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 11/11] MAINTAINERS: take edk2
-Date: Tue, 15 Mar 2022 09:36:56 +0100
-Message-Id: <20220315083656.1949517-12-kraxel@redhat.com>
-In-Reply-To: <20220315083656.1949517-1-kraxel@redhat.com>
-References: <20220315083656.1949517-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nU2if-00044R-1N
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:39:53 -0400
+Received: from [2a00:1450:4864:20::535] (port=45953
+ helo=mail-ed1-x535.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nU2id-0004NU-9K
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:39:52 -0400
+Received: by mail-ed1-x535.google.com with SMTP id m12so23157527edc.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 01:39:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=kRsXDeGyu9BjmiMfolmcIbRNt2Qm8VZZW3M3fMvl2hM=;
+ b=tJ51LNi8b5jg9xMDGEKOO7vHjU5DdmjvEZTGK8C7OSuZp5xLL62q03mgKWUlyApze0
+ iIcgKn6fyD9dHwtgGqLFUjw8LqfwHkfc3g8lDnWxgSwZkgm4wuM/Hxh9w4SYlA2QCkfF
+ A10hfpjAEg0wurTXPo30ode1jD1QldmftoqCQDd8RUpEW9D+ysLqR+qlYPwnLbvygjqp
+ oDGiBCUlncgRIc/Sthbq21O106AbtEVb9x8sne4uKs/ceUtYnT9qazGOgXzDKgWXVk5Z
+ 904RHkCcgLfnMj79vmfGXX+IQxC35OESDksv2ZTzgA78g8zXWbo3EKH6x8GKRyxRiHmz
+ 7Ycg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=kRsXDeGyu9BjmiMfolmcIbRNt2Qm8VZZW3M3fMvl2hM=;
+ b=BVOc5WforQ8mwKP83mDCPRRJKiaLJgHZLRODnIkFoRls3oGSsoGO5IqryMLI0HXapZ
+ YHx17/sZh4XJFKkKo2wUocHYd3ZwpHtmogRfAPGktdP+OucEP7R5KM98N7cW3BJ+rKV4
+ hhV9MuXdT86QDvESI/DfXlfEUVY8TBAaxvYo7QFrvSrEaAX6ZHjP6akEwP8NN2JEC9v1
+ d0Iui/vN/zU8VMOSZXqV1NTNUiesE728bc5YC8JtIP8rrhqeF1+KhpBXZ7vADy5DMdpX
+ xcH+VZ2HaAjPkdLwrjpXtKf04p7rDjuo+hBWuatiKzeaBbfvMdRXvgRCksL0cPNXV8xn
+ 4qPQ==
+X-Gm-Message-State: AOAM530AIZOZD8DsAcM+EBUup4jWmkZsXTniRqZ/qO0JUwdHTFFQgo+k
+ aZtcUjg/NaEFqRsxHcpAzqVrcQ==
+X-Google-Smtp-Source: ABdhPJwgXpv+S1EX4kmLClrSA8O3MX2abL4tIXsU+8dSQX93k9kWhMQ3JmNNhw1kVwyqFHQRMVvsYg==
+X-Received: by 2002:a05:6402:5173:b0:415:f1e2:8d53 with SMTP id
+ d19-20020a056402517300b00415f1e28d53mr23966505ede.95.1647333589777; 
+ Tue, 15 Mar 2022 01:39:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id
+ f26-20020a50ee9a000000b004160c295356sm9145809edr.5.2022.03.15.01.39.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Mar 2022 01:39:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0D60B1FFB7;
+ Tue, 15 Mar 2022 08:39:48 +0000 (GMT)
+References: <87a6ds40ke.fsf@mpe.ellerman.id.au>
+ <OF08FB7AFF.45C7DDEB-ON07258805.00803474-07258805.00803575@ddci.com>
+User-agent: mu4e 1.7.10; emacs 28.0.92
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: alarson@ddci.com
+Subject: Re: [RFC PATCH] mailmap/gitdm: more fixes for bad tags and authors
+Date: Tue, 15 Mar 2022 08:38:45 +0000
+In-reply-to: <OF08FB7AFF.45C7DDEB-ON07258805.00803474-07258805.00803575@ddci.com>
+Message-ID: <87tubz4njg.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,37 +93,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Jason Wang <jasowang@redhat.com>, Michael Ellerman <michael@ellerman.id.au>,
+ Andreas =?utf-8?Q?F=C3=A4rber?= <andreas.faerber@web.de>,
+ Peter Chubb <peter.chubb@nicta.com.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f2e9ce1da2ac..b976a942dcfd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3159,7 +3159,7 @@ F: docs/interop/firmware.json
- 
- EDK2 Firmware
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
--R: Gerd Hoffmann <kraxel@redhat.com>
-+M: Gerd Hoffmann <kraxel@redhat.com>
- S: Supported
- F: hw/i386/*ovmf*
- F: pc-bios/descriptors/??-edk2-*.json
--- 
-2.35.1
+alarson@ddci.com writes:
 
+>>Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>
+>> I was running some historical tags for the last 10 years and got the
+>> following warnings:
+>>=20
+>>   git log --use-mailmap --numstat --since "June 2010" | ~/src/gitdm.git/=
+gitdm=20
+>> -n -l 5
+>>   alarson@ddci.com is an author name, probably not what you want
+>> ...
+>> The following fixes try and alleviate that although I still get a
+>> warning for Aaron which I think is from 9743cd5736.
+>
+> Alex, I'm not sure what I can do to help, but my email address hasn't
+> changed, still works, and I lack any sort of accent (just ask me :-).
+
+An Acked-by is fine. I'll see if I can work out which route gitdm uses
+to translate badly formed DCO tags so you can get proper attribution in
+the stats.
+
+
+
+--=20
+Alex Benn=C3=A9e
 
