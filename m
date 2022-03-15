@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913E24D94E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 07:56:48 +0100 (CET)
-Received: from localhost ([::1]:36168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40DF94D94E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 07:56:27 +0100 (CET)
+Received: from localhost ([::1]:34254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU16t-0008Up-Lw
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 02:56:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44344)
+	id 1nU16X-0007AS-Ug
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 02:56:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nU0oi-0002Aj-MZ; Tue, 15 Mar 2022 02:38:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27100)
+ id 1nU0q1-0003iO-Gj; Tue, 15 Mar 2022 02:39:21 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52826
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nU0og-0007qc-Rm; Tue, 15 Mar 2022 02:38:00 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22F5I1PB033663; 
- Tue, 15 Mar 2022 06:37:49 GMT
+ id 1nU0py-0007yw-8o; Tue, 15 Mar 2022 02:39:19 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22F5fmN4013911; 
+ Tue, 15 Mar 2022 06:39:15 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3etmhesb4h-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3etmvf8xxu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Mar 2022 06:37:49 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22F6QvU2008595;
- Tue, 15 Mar 2022 06:37:48 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3etmhesb3x-1
+ Tue, 15 Mar 2022 06:39:15 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22F6Q2cm001000;
+ Tue, 15 Mar 2022 06:39:14 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3etmvf8xx1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Mar 2022 06:37:48 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22F6XEYB016056;
- Tue, 15 Mar 2022 06:37:46 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06fra.de.ibm.com with ESMTP id 3erjshn09h-1
+ Tue, 15 Mar 2022 06:39:14 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22F6WrXB027501;
+ Tue, 15 Mar 2022 06:39:12 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 3et95ws5wu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Mar 2022 06:37:46 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22F6bh1g58458432
+ Tue, 15 Mar 2022 06:39:12 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 22F6RjTr52232558
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Mar 2022 06:37:44 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8756DA50C3;
- Tue, 15 Mar 2022 06:37:42 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C68CA51AF;
+ Tue, 15 Mar 2022 06:27:45 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 19EB242981;
+ Tue, 15 Mar 2022 06:37:43 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DB48C42966;
  Tue, 15 Mar 2022 06:37:42 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Tue, 15 Mar 2022 06:37:42 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.77.144])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 91E2B220383;
- Tue, 15 Mar 2022 07:37:41 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 3B4C522008A;
+ Tue, 15 Mar 2022 07:37:42 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 06/20] avocado/boot_linux_console.py: check TCG accel in
- test_ppc_g3beige()
-Date: Tue, 15 Mar 2022 07:37:22 +0100
-Message-Id: <20220315063736.592808-7-clg@kaod.org>
+Subject: [PULL 07/20] avocado/boot_linux_console.py: check TCG accel in
+ test_ppc_mac99()
+Date: Tue, 15 Mar 2022 07:37:23 +0100
+Message-Id: <20220315063736.592808-8-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220315063736.592808-1-clg@kaod.org>
 References: <20220315063736.592808-1-clg@kaod.org>
@@ -71,25 +71,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: V_J4e1MtqEMMqKWlFQrGACcPlXBlKi7V
-X-Proofpoint-ORIG-GUID: qoX-47cyXtkx_u2rB0zPxKyO70QIe5tV
+X-Proofpoint-GUID: 91OdeySyMTTMyq27ba7ZsYd9xq-9LcUR
+X-Proofpoint-ORIG-GUID: Env0_RruM_Naa9gwKHekHIk1JGUkVFn_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-14_14,2022-03-14_02,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=714 mlxscore=0
- clxscore=1034 malwarescore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 phishscore=0
+ phishscore=0
+ priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0 suspectscore=0
+ mlxlogscore=473 bulkscore=0 lowpriorityscore=0 clxscore=1034 mlxscore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2203150042
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.187,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,38 +104,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
 This test breaks when run in an IBM POWER host with a QEMU compiled
-with --disable-tcg and the ppc-softmmu target.
+with --disable-tcg and the ppc-softmmu target in a similar manner as
+test_ppc_g3beige did.
 
-One thing to note is that the error message explictly mentions kvm_pr
-support:
+There's also an observation made about kvm_pr in the error message:
 
 Command: ./qemu-system-ppc -display none -vga none (...)
--machine g3beige (...)
+-machine mac99 (...)
         Output: ioctl(KVM_CREATE_VM) failed: 22 Invalid argument
 PPC KVM module is not loaded. Try modprobe kvm_pr.
 qemu-system-ppc: failed to initialize kvm: Invalid argument
 
-The host was running kvm_hv, not kvm_pr, and the machine failed to load.
+This means that, when/if we're able to detect kvm_pr support in these
+avocado tests, we can revisit this test to not rely solely on TCG
+availability.
 
-Unfortunately we don't have a way to detect whether the KVM module loaded
-is kvm_hv or kvm_pr - we do a check for /dev/kvm to detect KVM support bu=
-t
-both modules create this file so that's not helpful.
-
-Let's skip this test for now until we have a way of detecting kvm_pr supp=
-ort in the host.
-
-Reported-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220310183011.110391-2-danielhb413@gmail.com>
+Message-Id: <20220310183011.110391-3-danielhb413@gmail.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
  tests/avocado/boot_linux_console.py | 6 ++++++
@@ -143,16 +135,16 @@ Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_lin=
 ux_console.py
-index 6d6e748572f2..2f8d8e2fe6aa 100644
+index 2f8d8e2fe6aa..b40a3abc8171 100644
 --- a/tests/avocado/boot_linux_console.py
 +++ b/tests/avocado/boot_linux_console.py
-@@ -1213,7 +1213,13 @@ def test_ppc_g3beige(self):
+@@ -1228,7 +1228,13 @@ def test_ppc_mac99(self):
          """
          :avocado: tags=3Darch:ppc
-         :avocado: tags=3Dmachine:g3beige
+         :avocado: tags=3Dmachine:mac99
 +        :avocado: tags=3Daccel:tcg
          """
-+        # TODO: g3beige works with kvm_pr but we don't have a
++        # TODO: mac99 works with kvm_pr but we don't have a
 +        # reliable way ATM (e.g. looking at /proc/modules) to detect
 +        # whether we're running kvm_hv or kvm_pr. For now let's
 +        # disable this test if we don't have TCG support.
