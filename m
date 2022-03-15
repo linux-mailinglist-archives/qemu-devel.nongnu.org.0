@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9364D9B06
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:21:53 +0100 (CET)
-Received: from localhost ([::1]:39456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1E64D9B26
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:27:38 +0100 (CET)
+Received: from localhost ([::1]:47810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6BT-0005w4-Or
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:21:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51676)
+	id 1nU6H3-0003JP-Mi
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:27:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nU62u-0005tX-6C
+ id 1nU62w-0005uU-BI
  for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:13:02 -0400
-Received: from [2a00:1450:4864:20::62e] (port=37757
- helo=mail-ej1-x62e.google.com)
+Received: from [2a00:1450:4864:20::636] (port=40763
+ helo=mail-ej1-x636.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1nU62s-0000Zg-3k
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:12:59 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id bg10so40836844ejb.4
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:12:57 -0700 (PDT)
+ id 1nU62s-0000Zv-RY
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:13:01 -0400
+Received: by mail-ej1-x636.google.com with SMTP id p15so40810699ejc.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:12:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=00fkJAMSPWjEO2aeQpLIdfkZ1JsNH7QRi3pDHneeZfA=;
- b=IyosvKHzgY5xtHkXcMV2lxEKfsYPc61YbrfwOtu8RCvj8bMul/OuAbc8TM5q/iAVqi
- iSkyIBV3gltWtW+wcTkK3458bgLwR1utJoOY2s2vHzoK0ihwpJrS9GuFIEVU+NbQAfVt
- 1clPcQ8L/oa+gHILkPTJUsYgqKKuWh1YYsG/EnSNqSnWu2OmXvsfHWmYoeuoqCrKz0lE
- J5Xtdg+lNZOyn/hqzKM0RPF+dCFKQzCOELL3P3E7ZEgjIeedPV/0G8NwlMkDSXxEXqB+
- 9s8vWM4IMEu/t7lB/HH8oc7y4LWNnJGdONJA7VG+RxlrCkj587tgwrsLVvLK6DnI/Tz6
- DG1g==
+ bh=tD8IAl7BOvpXp/PNf1EXMNzGWS3hw5xVYsSN61BgM9Q=;
+ b=pIHVvepbo9AO2g7mVnHATsEq7YiKS9C4WSt/c6rFHBzezu5dvP1KyF56JQPIumxMHL
+ fV1G44YYdYQ19rZrOgX43fyyw5x5t7u18iz3Z/J0Cu2BiGtTqhZut5ZQvEANsXf/Nzfy
+ 8BBDNxlFkuXDIDLYSzTdFBVe7rkTYQpHQecrF1k6Y7K326LXU9mrJLv2JTjUXofYjweb
+ WWQfKr6Dm7QUwPS9lbHDS8EmwJ4+CukUJnoyVKk87Ukmmtx1Nr5t9sy2fUUBCQJvmEa1
+ 23jgLrVRa4DhzhBrOSuHO8nR3nhbt1XCgR3UctIjaX5mLLpJXbJqu16LFs53s5FS9s3/
+ PDug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=00fkJAMSPWjEO2aeQpLIdfkZ1JsNH7QRi3pDHneeZfA=;
- b=I7Jek6ct+oOLy57Uk9sdWqCLBA0dOeq3gLvg9Rph5+IQbfqaqLH3Gm9fKUFIedcDn0
- piHrpgFfXVLuRX43ZleU7z1DtPAbNGMWDDf08TXChcg6H314DbTGZwH9Y87CWDDGc4e/
- yeeSyzJ3Osxkt3E3mrcIJqSqeF57VtRD9o78/havYOEwWcUCbPMeUt+hJnqisvWZHT9B
- rxXZAeL2q+XbGP+AKg3BMvKuSbAqcrg4jxK0VoN8dVyMxHl31y+780vX4Csmxx6k5Pbl
- SSBYmI7D9ZNFyQUB5DgjNtJnZLOHGvOpPnSpeBoYHfNiXa071sl1mcaxXTXCrIyvOAOj
- OPgw==
-X-Gm-Message-State: AOAM531bTYtWYFsYgQpSUZJ4vRZOjWN/r8INUiX974D79s5mlMO2WFw+
- xDlwoffZ42r+gIPtgg0Z0pcEcw==
-X-Google-Smtp-Source: ABdhPJyWlkWQ68Rjp9OlbIu0iGjVQq+DiklBOYhS0UvdXbAQf34Gz4JAQJAMqFV9V4fyfQGsvzRtdg==
-X-Received: by 2002:a17:906:4711:b0:6d0:67bb:59e1 with SMTP id
- y17-20020a170906471100b006d067bb59e1mr21401497ejq.211.1647346376373; 
- Tue, 15 Mar 2022 05:12:56 -0700 (PDT)
+ bh=tD8IAl7BOvpXp/PNf1EXMNzGWS3hw5xVYsSN61BgM9Q=;
+ b=IwsLrEytuCETsmGl5tejj9KUtiA3gKr/gcZUPvSVubFVIkR0Rs6nt24teWfHOkjKJE
+ IH8Ux8KDziy964c/QzkBAZGlsV51E3zIsZ/u1h+MgRq0/0wRkQ65zEm87ZMGrE1lSMxd
+ cZ07+LYplhlAv9r+kLsQRaPtYU9jWJWZXC7Nvrhvt8CvzJoTa4/Z1aAalO1sxYxDj5R1
+ 0u8VjC5HELuDbzAsfb5AEWpbRkjgtU8OOtGq+guPzsingPJ6OSrbRpykyzaty61ff7I8
+ onWahHbK7Fgo63eY+A5YFlKvRMFnG1zq59NcTbAcgD6Nh1dDFD1+SL1MPHXzzyFiR3hn
+ +Fww==
+X-Gm-Message-State: AOAM530XpLGfX2pWcMWX5c8mYeqpg12l5jhkbrd0/AuQJoURYzQlarx0
+ +MPDqWgLIHdEzCV01XNoqUsx4A==
+X-Google-Smtp-Source: ABdhPJyZvAVwKjZZ9xBoeh6eK7QXEWGf/4XvXEKD0iVKqGZGs1Z5h8xskTnrLxSkB9lwR76YZwdsgw==
+X-Received: by 2002:a17:907:d90:b0:6db:a372:e61c with SMTP id
+ go16-20020a1709070d9000b006dba372e61cmr16591336ejc.276.1647346377355; 
+ Tue, 15 Mar 2022 05:12:57 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
  by smtp.gmail.com with ESMTPSA id
- cn27-20020a0564020cbb00b00418b0c7fbbfsm777256edb.32.2022.03.15.05.12.52
+ n15-20020a05640206cf00b0041655b577f1sm9718271edy.25.2022.03.15.05.12.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 15 Mar 2022 05:12:52 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 23B081FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id 3E0B81FFBB;
  Tue, 15 Mar 2022 12:12:52 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/8] tests/avocado: update aarch64_virt test to exercise
- -cpu max
-Date: Tue, 15 Mar 2022 12:12:45 +0000
-Message-Id: <20220315121251.2280317-3-alex.bennee@linaro.org>
+Subject: [PATCH v1 3/8] target/i386: force maximum rounding precision for
+ fildl[l]
+Date: Tue, 15 Mar 2022 12:12:46 +0000
+Message-Id: <20220315121251.2280317-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220315121251.2280317-1-alex.bennee@linaro.org>
 References: <20220315121251.2280317-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::636
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,80 +93,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Beraldo Leal <bleal@redhat.com>,
+Cc: fam@euphon.net, Eduardo Habkost <eduardo@habkost.net>, berrange@redhat.com,
  sw@weilnetz.de, richard.henderson@linaro.org, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+ qemu-arm@nongnu.org, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Fedora 29 kernel is quite old and importantly fails when running
-in LPA2 scenarios. As it's not really exercising much of the CPU space
-replace it with a custom 5.16.12 kernel with all the architecture
-options turned on. There is a minimal buildroot initramfs included in
-the kernel which has a few tools for stress testing the memory
-subsystem. The userspace also targets the Neoverse N1 processor so
-will fail without additional v8.x+ features.
+The instruction description says "It is loaded without rounding
+errors." which implies we should have the widest rounding mode
+possible.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/888
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220307172249.3125779-1-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/avocado/boot_linux_console.py | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ target/i386/tcg/fpu_helper.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index 9c618d4809..ca3a40e91d 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -12,6 +12,7 @@
- import lzma
- import gzip
- import shutil
-+import time
+diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+index cdd8e9f947..ebf5e73df9 100644
+--- a/target/i386/tcg/fpu_helper.c
++++ b/target/i386/tcg/fpu_helper.c
+@@ -237,24 +237,37 @@ void helper_fldl_ST0(CPUX86State *env, uint64_t val)
+     merge_exception_flags(env, old_flags);
+ }
  
- from avocado import skip
- from avocado import skipUnless
-@@ -330,25 +331,30 @@ def test_aarch64_virt(self):
-         :avocado: tags=arch:aarch64
-         :avocado: tags=machine:virt
-         :avocado: tags=accel:tcg
--        :avocado: tags=cpu:cortex-a53
-+        :avocado: tags=cpu:max
-         """
--        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
--                      '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
--                      '/vmlinuz')
--        kernel_hash = '8c73e469fc6ea06a58dc83a628fc695b693b8493'
-+        kernel_url = ('https://fileserver.linaro.org/s/'
-+                      'z6B2ARM7DQT3HWN/download')
++static FloatX80RoundPrec tmp_maximise_precision(float_status *st)
++{
++    FloatX80RoundPrec old = get_floatx80_rounding_precision(st);
++    set_floatx80_rounding_precision(floatx80_precision_x, st);
++    return old;
++}
 +
-+        kernel_hash = 'ed11daab50c151dde0e1e9c9cb8b2d9bd3215347'
-         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+ void helper_fildl_ST0(CPUX86State *env, int32_t val)
+ {
+     int new_fpstt;
++    FloatX80RoundPrec old = tmp_maximise_precision(&env->fp_status);
  
-         self.vm.set_console()
-         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-                                'console=ttyAMA0')
-         self.require_accelerator("tcg")
--        self.vm.add_args('-cpu', 'cortex-a53',
-+        self.vm.add_args('-cpu', 'max,pauth-impdef=on',
-                          '-accel', 'tcg',
-                          '-kernel', kernel_path,
-                          '-append', kernel_command_line)
-         self.vm.launch()
--        console_pattern = 'Kernel command line: %s' % kernel_command_line
--        self.wait_for_console_pattern(console_pattern)
-+        self.wait_for_console_pattern('Welcome to Buildroot')
-+        time.sleep(0.1)
-+        exec_command(self, 'root')
-+        time.sleep(0.1)
-+        exec_command(self, 'cat /proc/self/maps')
-+        time.sleep(0.1)
+     new_fpstt = (env->fpstt - 1) & 7;
+     env->fpregs[new_fpstt].d = int32_to_floatx80(val, &env->fp_status);
+     env->fpstt = new_fpstt;
+     env->fptags[new_fpstt] = 0; /* validate stack entry */
 +
++    set_floatx80_rounding_precision(old, &env->fp_status);
+ }
  
-     def test_aarch64_xlnx_versal_virt(self):
-         """
+ void helper_fildll_ST0(CPUX86State *env, int64_t val)
+ {
+     int new_fpstt;
++    FloatX80RoundPrec old = tmp_maximise_precision(&env->fp_status);
+ 
+     new_fpstt = (env->fpstt - 1) & 7;
+     env->fpregs[new_fpstt].d = int64_to_floatx80(val, &env->fp_status);
+     env->fpstt = new_fpstt;
+     env->fptags[new_fpstt] = 0; /* validate stack entry */
++
++    set_floatx80_rounding_precision(old, &env->fp_status);
+ }
+ 
+ uint32_t helper_fsts_ST0(CPUX86State *env)
 -- 
 2.30.2
 
