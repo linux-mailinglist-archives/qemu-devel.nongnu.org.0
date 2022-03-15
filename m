@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53EB4D9A79
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:37:36 +0100 (CET)
-Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50674D9A91
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:45:34 +0100 (CET)
+Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU5Ud-00079N-PR
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:37:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41586)
+	id 1nU5cL-0001i3-OM
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:45:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nU5KU-0002os-5z
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:27:06 -0400
-Received: from [2607:f8b0:4864:20::b29] (port=39690
- helo=mail-yb1-xb29.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nU5NE-0006Iu-2z
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:29:56 -0400
+Received: from [2a00:1450:4864:20::629] (port=46827
+ helo=mail-ej1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nU5KS-00016f-M0
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:27:05 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id t11so4884165ybi.6
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 04:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cWu8xAmbfew/oIaaNAsSZR5yVgdTG+ofUNjzVgtDy5I=;
- b=PHOLhIYFUpZdXkWKOLeqZqcx5rh5yTjfMtwpBYI1f3/zV6KAd6tZ+JBVdUSrn1O16T
- WVjBepe+9aW23DRwHLxckWTD7+FrZ5Ite9aJ01ev8J4LHevOT+H/dCWpl3qcBD0pGdSc
- enC81ctA2aiInVdMZ7WffZujGvSMLbScrzoXBCkj7lDh0z4FDAvMUrBdHz7vFC6MRLg1
- nt2QKpAOQ/fO6KR+nk7tuR9haK+qF/Zx00RA7dlojKra+XkPPvi8vDTDX2l76WILeuS1
- aUyt64dx70JJQJH9TuExtSVPFmEDtOUT6Taorgd7kJ1qHp8SRcToFKNY1qqGJHXtIq7J
- 85ig==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1nU5NC-0001Vc-BZ
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:29:55 -0400
+Received: by mail-ej1-x629.google.com with SMTP id qx21so40467720ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 04:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ETUdU9Cu/udWUMs2R9/xSoMquLBWCNSZoaOLJwCD1kA=;
+ b=DGs2i8x/JR+amYBTn2qeFSOdcB0HdT5/QJSyZGor8kKsvSfDjKrtTcNxgkJ1zJ6NHf
+ VExuR3wHRSqYjLtucp+e1rJqZD78QdlyqC4gm6GtDvO7BoaqFNe1dka/OEgESDNORXPq
+ MEx6C0Uzp0R3zXKAduxOlYin31sIKAgnbyF4a/OwrqdEL2pEiSlOVGWSw0kSTkobH+qO
+ 5EEyvsUIR7ARMUCq6MnlJxuseD+ED7FSvu8APbo6i/gmmWAoW9Lis1tR1uFCLdxkudBP
+ kEYZjMhMPbX0j0LYwJ9bTRhMbL7cdPk82sBKN8bdDD60guomo4Sp5VtgshQFdAo7OW0Z
+ a97w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cWu8xAmbfew/oIaaNAsSZR5yVgdTG+ofUNjzVgtDy5I=;
- b=mSX+gqUK0z83mZAq7q3CS/FZsNhzuMxhrTTgk57ry/N/pTWY/XJgijyHIEHwCQQLHT
- k8zvCF4zIrdzJ21tIp8yz616YHsM6xSh5w6N8QE9qf/bhTA1msnrDy26UX9Zvhet9dWv
- JyqQJgXivL/QZeNyaO7tEFJXfutr+mD9/0m3qLFR6JVGDuI/FqS8kd2qhxNKBEjq4BbJ
- 67GMP7vqdo905sKp3ifjeFl9KZXpVIb6oEvZkBqEMc4//7cXViPjcV4bvKvOJCVOgIkZ
- C19ct3DMNEtOw0yGMb5RpSZQBCKhkrNk9BJO601k8cf1aask7gkgfawkf87o7BMSiS8u
- +7AQ==
-X-Gm-Message-State: AOAM533ny2LHyVrJGlb1YDNCWOQjSCO/G6bpeALYX9d6/Z5avvONRmek
- VkykChn/vcrvqY68bEfOgQvviiaMQ8dkBxedlAQ9VQ==
-X-Google-Smtp-Source: ABdhPJwPkZ+9sLOGb5jRqP8H4FXDRIRMwvIq6xpE3vZQg83qnueDso8foFoRpS+MKSVuiKfHt3/1ENVF4d4Mcgz9teg=
-X-Received: by 2002:a25:b11c:0:b0:62c:16d9:c028 with SMTP id
- g28-20020a25b11c000000b0062c16d9c028mr22825735ybj.288.1647343623716; Tue, 15
- Mar 2022 04:27:03 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ETUdU9Cu/udWUMs2R9/xSoMquLBWCNSZoaOLJwCD1kA=;
+ b=4zHhFxyHeSH/mQdgOf/usWsvDqGoGX71cB6dERgn6Vr4JQZpRZqj50xTRNI8QvX57D
+ REWBCvyUQTsNi2Ptu73jaEO1Idn3BmnimbPFn0xawVpi/b7j2MNkKW8ZIICSfsSgEBrj
+ VXF2sM88wNvTWNUwkueKX1IVH6XoFwqi3nYFsOyY9+GCYC5Bxc1wnCoOSbOxGyGwor6K
+ 15hGd5wEgixEiHWJV2nS6r+d9uGdSqSRsmIwFNfA17jz05d8Tb76O1CFw6rjQ13kQf8T
+ uo9RVTOpG0eBO7fifJexZslxPptxTgMyU7iL8KzHKjZ2+TcfObtXNG25nt1vYHvNI13X
+ 35ig==
+X-Gm-Message-State: AOAM533yHMiBP6XnaHyldqTUs3yC+PkpHQUBY56DegoMr+AGDqCkbSFR
+ JilEVgW0hAPI4lWnzba52LY=
+X-Google-Smtp-Source: ABdhPJwreWIyvd+gmgWjWg4+u1AU+1P7ihXzNxGcnqbcaC9Hv7B/vdKM22aub0Pyk6OyI8hH+s4N0g==
+X-Received: by 2002:a17:906:9b94:b0:6db:67b:a6d6 with SMTP id
+ dd20-20020a1709069b9400b006db067ba6d6mr21583924ejc.367.1647343792092; 
+ Tue, 15 Mar 2022 04:29:52 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id
+ e19-20020a056402105300b004162d0b4cbbsm9450152edu.93.2022.03.15.04.29.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Mar 2022 04:29:51 -0700 (PDT)
+Message-ID: <45bfbd51-7da1-e617-60e6-3584b3485a43@redhat.com>
+Date: Tue, 15 Mar 2022 12:29:50 +0100
 MIME-Version: 1.0
-References: <20220315061420.31910-1-jasowang@redhat.com>
-In-Reply-To: <20220315061420.31910-1-jasowang@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 11:26:52 +0000
-Message-ID: <CAFEAcA9mnoMhfXXf6yrnGcx9UDijEMjW-04RNH+zs-vtoBOv3A@mail.gmail.com>
-Subject: Re: [PULL V3 00/15] Net patches
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b29
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/4] hyperv: SControl is optional to enable SynIc
+Content-Language: en-US
+To: Jon Doron <arilou@gmail.com>, qemu-devel@nongnu.org
+References: <20220216102500.692781-1-arilou@gmail.com>
+ <20220216102500.692781-2-arilou@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220216102500.692781-2-arilou@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -81,35 +96,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: vkuznets@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 06:14, Jason Wang <jasowang@redhat.com> wrote:
->
-> The following changes since commit 352998df1c53b366413690d95b35f76d0721ebed:
->
->   Merge tag 'i2c-20220314' of https://github.com/philmd/qemu into staging (2022-03-14 14:39:33 +0000)
->
-> are available in the git repository at:
->
->   https://github.com/jasowang/qemu.git tags/net-pull-request
->
-> for you to fetch changes up to 12a195fa343aae2ead1301ce04727bd0ae25eb15:
->
->   vdpa: Expose VHOST_F_LOG_ALL on SVQ (2022-03-15 13:57:44 +0800)
->
-> ----------------------------------------------------------------
->
-> Changes since V2:
-> - fix 32bit build errros
->
+On 2/16/22 11:24, Jon Doron wrote:
+> +    qemu_mutex_lock(&synic->sint_routes_mutex);
+> +    QLIST_INSERT_HEAD_RCU(&synic->sint_routes, sint_route, link);
+> +    qemu_mutex_unlock(&synic->sint_routes_mutex);
 
+Hi,
 
-Applied, thanks.
+I don't see any access to sint_routes outside hyperv_sint_route_new and 
+hyperv_sint_route_unref.  Am I missing something or is this just for 
+debugging?  If so, using the _RCU functions is not necessary.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+Otherwise everything looks good, thanks!
 
--- PMM
+Paolo
 
