@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6754D9A29
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:15:57 +0100 (CET)
-Received: from localhost ([::1]:39504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD184D9A46
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:22:27 +0100 (CET)
+Received: from localhost ([::1]:59712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU59g-0005Vf-1n
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:15:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36422)
+	id 1nU5Fy-0002Mb-52
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:22:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU52X-0004c1-Pe
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:08:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41406)
+ id 1nU52d-0004hx-8q
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:08:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU52V-0005jp-Uz
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:08:33 -0400
+ id 1nU52b-0005lK-KI
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:08:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647342511;
+ s=mimecast20190719; t=1647342516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VTLNQ2w+rMItS2fOJeJOBwWN+fp7niRU59e/o1Jngm4=;
- b=Xp9k0YL1Ke33a2e3Z8L5HZ2EZymR6owCZ6fvRUGzW2rgXv5BQHeHMt6ZsHA56zyzt6D1CF
- 9jjSIlbIPTd6/fGfy+l9i0tG+YByab2mhbgX1BSuYMoBB0288E5lril405LCuE2zVZ+91M
- 8HIcRQlzDx5iqQ6xErXOJwuWNGT96uk=
+ bh=QR1CwZ64IIIxQL/lJwTdtyD/ZBJy8+qjCBYnTNCFmZo=;
+ b=RPWu1pR27NiB0ZJLgRfFZ3UmG6CLZuXKqnAAFySfjbqbJdj5iIHiEXA6aX0qtkOmSew6JK
+ 6bGdDeHftK3YfgnzzkODMkbWfSVMLzQvTAPGp9/nmOLGPzKOu0HiQzJhoHGYYi7No3CKE8
+ aIHxXsFktctQ+S3asATW7iTisuOfWxc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-228--hegAM3DO-mFdkz6N_gtpQ-1; Tue, 15 Mar 2022 07:08:28 -0400
-X-MC-Unique: -hegAM3DO-mFdkz6N_gtpQ-1
+ us-mta-207-kYslmTR-ND-uMGEegS5wEw-1; Tue, 15 Mar 2022 07:08:33 -0400
+X-MC-Unique: kYslmTR-ND-uMGEegS5wEw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D27423800503;
- Tue, 15 Mar 2022 11:08:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC8EB1C01E82;
+ Tue, 15 Mar 2022 11:08:32 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C606400F3A;
- Tue, 15 Mar 2022 11:08:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24C024B8D42;
+ Tue, 15 Mar 2022 11:08:31 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 04/12] ui/dbus: associate the DBusDisplayConsole listener
- with the given console
-Date: Tue, 15 Mar 2022 15:07:31 +0400
-Message-Id: <20220315110739.2095676-5-marcandre.lureau@redhat.com>
+Subject: [PULL v2 05/12] ui/console: move console compatibility check to
+ dcl_display_console()
+Date: Tue, 15 Mar 2022 15:07:32 +0400
+Message-Id: <20220315110739.2095676-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 References: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -67,7 +67,7 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,153 +89,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-DBusDisplayConsole is specific to a given QemuConsole.
+The current checks are done at registration time only. However, if a DCL
+has no specific console specified, it may be switched dynamically with
+console_select() later on.
 
-Fixes: commit 142ca628 ("ui: add a D-Bus display backend")
-Reported-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Let's move the checks when displaychangelistener_display_console() is
+called, which includes registration time and remains fatal if the
+specified console is incompatible.
+
+Note: we may want to display the compatibility error to the DCL, this is
+left for a future improvement.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/dbus.h         |  3 +++
- ui/dbus-console.c | 27 +++++++++++++--------------
- ui/dbus.c         |  2 +-
- 3 files changed, 17 insertions(+), 15 deletions(-)
+ ui/console.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/ui/dbus.h b/ui/dbus.h
-index 64c77cab4441..5f5c1f759c9b 100644
---- a/ui/dbus.h
-+++ b/ui/dbus.h
-@@ -79,6 +79,9 @@ dbus_display_console_new(DBusDisplay *display, QemuConsole *con);
- int
- dbus_display_console_get_index(DBusDisplayConsole *ddc);
+diff --git a/ui/console.c b/ui/console.c
+index c9318552871b..d3ecbb215736 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -148,6 +148,8 @@ static DisplayState *get_alloc_displaystate(void);
+ static void text_console_update_cursor_timer(void);
+ static void text_console_update_cursor(void *opaque);
+ static bool displaychangelistener_has_dmabuf(DisplayChangeListener *dcl);
++static bool console_compatible_with(QemuConsole *con,
++                                    DisplayChangeListener *dcl, Error **errp);
  
-+
-+extern const DisplayChangeListenerOps dbus_console_dcl_ops;
-+
- #define DBUS_DISPLAY_TYPE_LISTENER dbus_display_listener_get_type()
- G_DECLARE_FINAL_TYPE(DBusDisplayListener,
-                      dbus_display_listener,
-diff --git a/ui/dbus-console.c b/ui/dbus-console.c
-index e062f721d761..898a4ac8a5ba 100644
---- a/ui/dbus-console.c
-+++ b/ui/dbus-console.c
-@@ -36,7 +36,6 @@ struct _DBusDisplayConsole {
-     DisplayChangeListener dcl;
- 
-     DBusDisplay *display;
--    QemuConsole *con;
-     GHashTable *listeners;
-     QemuDBusDisplay1Console *iface;
- 
-@@ -118,7 +117,7 @@ dbus_gl_scanout_update(DisplayChangeListener *dcl,
+ static void gui_update(void *opaque)
  {
+@@ -1057,13 +1059,14 @@ static void console_putchar(QemuConsole *s, int ch)
  }
  
--static const DisplayChangeListenerOps dbus_console_dcl_ops = {
-+const DisplayChangeListenerOps dbus_console_dcl_ops = {
-     .dpy_name                = "dbus-console",
-     .dpy_gfx_switch          = dbus_gfx_switch,
-     .dpy_gfx_update          = dbus_gfx_update,
-@@ -191,7 +190,7 @@ dbus_console_set_ui_info(DBusDisplayConsole *ddc,
-         .height = arg_height,
-     };
- 
--    if (!dpy_ui_info_supported(ddc->con)) {
-+    if (!dpy_ui_info_supported(ddc->dcl.con)) {
-         g_dbus_method_invocation_return_error(invocation,
-                                               DBUS_DISPLAY_ERROR,
-                                               DBUS_DISPLAY_ERROR_UNSUPPORTED,
-@@ -199,7 +198,7 @@ dbus_console_set_ui_info(DBusDisplayConsole *ddc,
-         return DBUS_METHOD_INVOCATION_HANDLED;
-     }
- 
--    dpy_set_ui_info(ddc->con, &info, false);
-+    dpy_set_ui_info(ddc->dcl.con, &info, false);
-     qemu_dbus_display1_console_complete_set_uiinfo(ddc->iface, invocation);
-     return DBUS_METHOD_INVOCATION_HANDLED;
- }
-@@ -335,8 +334,8 @@ dbus_mouse_rel_motion(DBusDisplayConsole *ddc,
-         return DBUS_METHOD_INVOCATION_HANDLED;
-     }
- 
--    qemu_input_queue_rel(ddc->con, INPUT_AXIS_X, dx);
--    qemu_input_queue_rel(ddc->con, INPUT_AXIS_Y, dy);
-+    qemu_input_queue_rel(ddc->dcl.con, INPUT_AXIS_X, dx);
-+    qemu_input_queue_rel(ddc->dcl.con, INPUT_AXIS_Y, dy);
-     qemu_input_event_sync();
- 
-     qemu_dbus_display1_mouse_complete_rel_motion(ddc->iface_mouse,
-@@ -362,8 +361,8 @@ dbus_mouse_set_pos(DBusDisplayConsole *ddc,
-         return DBUS_METHOD_INVOCATION_HANDLED;
-     }
- 
--    width = qemu_console_get_width(ddc->con, 0);
--    height = qemu_console_get_height(ddc->con, 0);
-+    width = qemu_console_get_width(ddc->dcl.con, 0);
-+    height = qemu_console_get_height(ddc->dcl.con, 0);
-     if (x >= width || y >= height) {
-         g_dbus_method_invocation_return_error(
-             invocation, DBUS_DISPLAY_ERROR,
-@@ -371,8 +370,8 @@ dbus_mouse_set_pos(DBusDisplayConsole *ddc,
-             "Invalid mouse position");
-         return DBUS_METHOD_INVOCATION_HANDLED;
-     }
--    qemu_input_queue_abs(ddc->con, INPUT_AXIS_X, x, 0, width);
--    qemu_input_queue_abs(ddc->con, INPUT_AXIS_Y, y, 0, height);
-+    qemu_input_queue_abs(ddc->dcl.con, INPUT_AXIS_X, x, 0, width);
-+    qemu_input_queue_abs(ddc->dcl.con, INPUT_AXIS_Y, y, 0, height);
-     qemu_input_event_sync();
- 
-     qemu_dbus_display1_mouse_complete_set_abs_position(ddc->iface_mouse,
-@@ -388,7 +387,7 @@ dbus_mouse_press(DBusDisplayConsole *ddc,
+ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
+-                                                  QemuConsole *con)
++                                                  QemuConsole *con,
++                                                  Error **errp)
  {
-     trace_dbus_mouse_press(button);
+     static const char nodev[] =
+         "This VM has no graphic display device.";
+     static DisplaySurface *dummy;
  
--    qemu_input_queue_btn(ddc->con, button, true);
-+    qemu_input_queue_btn(ddc->dcl.con, button, true);
-     qemu_input_event_sync();
- 
-     qemu_dbus_display1_mouse_complete_press(ddc->iface_mouse, invocation);
-@@ -403,7 +402,7 @@ dbus_mouse_release(DBusDisplayConsole *ddc,
- {
-     trace_dbus_mouse_release(button);
- 
--    qemu_input_queue_btn(ddc->con, button, false);
-+    qemu_input_queue_btn(ddc->dcl.con, button, false);
-     qemu_input_event_sync();
- 
-     qemu_dbus_display1_mouse_complete_release(ddc->iface_mouse, invocation);
-@@ -424,7 +423,7 @@ dbus_mouse_mode_change(Notifier *notify, void *data)
- 
- int dbus_display_console_get_index(DBusDisplayConsole *ddc)
- {
--    return qemu_console_get_index(ddc->con);
-+    return qemu_console_get_index(ddc->dcl.con);
+-    if (!con) {
++    if (!con || !console_compatible_with(con, dcl, errp)) {
+         if (!dcl->ops->dpy_gfx_switch) {
+             return;
+         }
+@@ -1114,7 +1117,7 @@ void console_select(unsigned int index)
+                 if (dcl->con != NULL) {
+                     continue;
+                 }
+-                displaychangelistener_display_console(dcl, s);
++                displaychangelistener_display_console(dcl, s, NULL);
+             }
+         }
+         if (ds->have_text) {
+@@ -1475,8 +1478,8 @@ static bool displaychangelistener_has_dmabuf(DisplayChangeListener *dcl)
+     return false;
  }
  
- DBusDisplayConsole *
-@@ -446,7 +445,7 @@ dbus_display_console_new(DBusDisplay *display, QemuConsole *con)
-                         "g-object-path", path,
-                         NULL);
-     ddc->display = display;
--    ddc->con = con;
-+    ddc->dcl.con = con;
-     /* handle errors, and skip non graphics? */
-     qemu_console_fill_device_address(
-         con, device_addr, sizeof(device_addr), NULL);
-diff --git a/ui/dbus.c b/ui/dbus.c
-index f00a44421cf7..22c82d2f323a 100644
---- a/ui/dbus.c
-+++ b/ui/dbus.c
-@@ -52,7 +52,7 @@ static bool
- dbus_is_compatible_dcl(DisplayGLCtx *dgc,
-                        DisplayChangeListener *dcl)
+-static bool dpy_compatible_with(QemuConsole *con,
+-                                DisplayChangeListener *dcl, Error **errp)
++static bool console_compatible_with(QemuConsole *con,
++                                    DisplayChangeListener *dcl, Error **errp)
  {
--    return dcl->ops == &dbus_gl_dcl_ops;
-+    return dcl->ops == &dbus_gl_dcl_ops || dcl->ops == &dbus_console_dcl_ops;
+     int flags;
+ 
+@@ -1522,10 +1525,6 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
+ 
+     assert(!dcl->ds);
+ 
+-    if (dcl->con) {
+-        dpy_compatible_with(dcl->con, dcl, &error_fatal);
+-    }
+-
+     trace_displaychangelistener_register(dcl, dcl->ops->dpy_name);
+     dcl->ds = get_alloc_displaystate();
+     QLIST_INSERT_HEAD(&dcl->ds->listeners, dcl, next);
+@@ -1536,7 +1535,7 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
+     } else {
+         con = active_console;
+     }
+-    displaychangelistener_display_console(dcl, con);
++    displaychangelistener_display_console(dcl, con, dcl->con ? &error_fatal : NULL);
+     text_console_update_cursor(NULL);
  }
  
- static const DisplayGLCtxOps dbus_gl_ops = {
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
