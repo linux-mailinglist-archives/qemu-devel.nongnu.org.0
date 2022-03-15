@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B804D9D69
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 15:24:01 +0100 (CET)
-Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17B84D9D70
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 15:26:26 +0100 (CET)
+Received: from localhost ([::1]:50562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU85g-00065p-I8
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 10:24:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52764)
+	id 1nU881-0008Ci-Mj
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 10:26:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nU82B-0001AG-OM
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 10:20:23 -0400
-Received: from [2607:f8b0:4864:20::b2d] (port=46665
- helo=mail-yb1-xb2d.google.com)
+ id 1nU86E-0007Lx-9G
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 10:24:34 -0400
+Received: from [2607:f8b0:4864:20::b2b] (port=37480
+ helo=mail-yb1-xb2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nU829-0006UO-Tp
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 10:20:23 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id v130so37550356ybe.13
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 07:20:21 -0700 (PDT)
+ id 1nU86C-00075h-Oh
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 10:24:33 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id m67so4216366ybm.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 07:24:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YVr8I6Yaf2Ll04R67Hiej1534JqHavBw2eqlkNxSfEY=;
- b=daty5pFPeKVLwW66A8PTCvY4KwsCtztYM8vcFPHitTiJsJ9KFPZr+6OA0GCM5QiW+q
- Mrbm4D/u9WZvVaQBH9ImqjGPmnb8kWIqkdOo0wuTrY8sbjCDW95Tvhl3mPHg/xnhcyln
- kCknIsip8UZfH9RDt3ikCyx05ZLDGEcRVPdY19tyZ+2Ce+RLwHcQt90I47cckZE/d5rW
- 0/yLVI7H9F4tDTpQp3XA/PG/OLGc+0Eb7xcLSYLyRujHcVmr0oCKqQ4AVmIquJnTLcNj
- bIFWOi3HOZSCy+Xu15OMrMtuW8uooQVKxnfHhiHTu/VUn9meXKpAvtaRIRReWuOBAG/o
- 53hg==
+ :cc; bh=cTIkTj67LJyBCFQiuUXada0ktISuAKDxRtfnBu4K4TI=;
+ b=TNTom1G9VfctFh3CKvTCDZokkvT7s+g3UaXsiN79jrMUz/y8oJym/UUG/7r3zsmO69
+ 8v71UyBpQ6akS3CozOoCbjFIKtaNg72lu1dWZThsY4NU8whyViMdPcSRx4X2wSvQ1vfJ
+ OxqcsuJ9W6sppSK1zogC99P8S4N30yFzF4ivW8BgxhRcev+/0Pd21FGVKYExLihvFjEc
+ /vtKX8+gKULaS64AJBRRu4g3LE9dCM1XW16Kx2kt6DpqShThQA6EIreEXQ5g/McwwMSm
+ LqeQUtl0sebMShb5bw1W/wVevNFQBwJYLALIIXThh9qe8v24xW9KHcCl/1A8Sil0dlbP
+ Hijg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YVr8I6Yaf2Ll04R67Hiej1534JqHavBw2eqlkNxSfEY=;
- b=2uY1akAJ91zT5y2WuZ6LRAUnX13ciYLUje+ElwvQfrZ1ZDjx0f5uBqplhm8HX3aQKK
- a9XL0Y90REX33i5PqS9o0NLvTHj4ESQHLyiiXlxbnZulLICjm5yZi3mXSvR0dGPOqhD/
- uakouf3DN2ZKr6OOuuusiAjAyUovTtaGdiCd5Jg0nI9Kx+Gc4mLA5Bg1Ak0fZg5Ro1dx
- RfZUZZHX5hu1pGljz6jprKzjF5il8OZ32xitLG8D3o08L6Wnj2OFwRkRgrSc12VKs0j6
- yasDJOTZQK0ubuV5P2OY63HBdrSxquR8mKFTMnoTvBhQM6/T22uPTdUGXBWUYjvakKOw
- r2AQ==
-X-Gm-Message-State: AOAM531Tmhp2aPMsGes4qU4iQRpLNd8LX5yG69R61yCFb2USkCISn+36
- FuNhoOhcDE34F7ZFPYnc7Xz7M3c9unEcAhusGQxcOg==
-X-Google-Smtp-Source: ABdhPJzvjXM2jvcOh5i44u6iVG5gYBklqIZZXOvZ+Y1YRlumZgR4PSK0EsoPh2/d73SVdDCoQ1L5AfoX2ozMRyqRDmA=
-X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
- q16-20020a5b0350000000b0062886b86e09mr22961499ybp.39.1647354020849; Tue, 15
- Mar 2022 07:20:20 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=cTIkTj67LJyBCFQiuUXada0ktISuAKDxRtfnBu4K4TI=;
+ b=AZ3C2GAJBFlV4kb4hbwCFvkmQ/lQ3NGQP0/xC/xGl0UAhNt9Pdyo2sfknqjzUvmlUz
+ UnO617bgEpy1Znv0XTGShNggGErMs4rkncPPXbzyGXAF6TlYprMI07u6BNgFK46t7q7d
+ 4NzXqyoAQ6vQQ8H7uUUx7P/MpGigKaAPgw97i8ynXtnrXQmxFQh/Ra3+JxLwgxfWFkpV
+ UNbJI6EPKddp4d3D1aQBx3pik/RvaMS2T/C8K/R3cGtqa5L+zYv8H9Kkep8dD1jkaRyJ
+ MehiC5cWndt8hhl5jFGUDyKvSgGZbA0a2Hdzwc8sKG9rbf2IDkJrKLHkUj9HZsXT8ERA
+ Ax4w==
+X-Gm-Message-State: AOAM530VWixlJ3pQ37xmbroJgIIZn2vxhV6ZSZe4RVsn+Qub5FyVcOA8
+ XWyI6hGRgNQN+apxc7OrNE4aDUoTH6m61Rp+1YWBPfRIsvpzmg==
+X-Google-Smtp-Source: ABdhPJzB2wuJd5Ypc7UoJXpCTkg/Oa/6xjCT8hZy9Saq87A6212lO0sPUFs8Dd2qA7+WB+9JXZVgn1l0I7zGf91YtYo=
+X-Received: by 2002:a05:6902:510:b0:630:b29f:ce2e with SMTP id
+ x16-20020a056902051000b00630b29fce2emr18054295ybs.67.1647354271808; Tue, 15
+ Mar 2022 07:24:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220315121251.2280317-1-alex.bennee@linaro.org>
- <20220315121251.2280317-8-alex.bennee@linaro.org>
- <6c7bdb98-ad58-e48e-caa5-a9747b8ad90b@gmail.com>
- <87a6dr48n2.fsf@linaro.org> <YjCfjmxMnGZYGGv6@redhat.com>
-In-Reply-To: <YjCfjmxMnGZYGGv6@redhat.com>
+References: <20220314093203.1420404-1-pbonzini@redhat.com>
+ <Yi9MBGoc3WtOLx82@stefanha-x1.localdomain>
+ <4528e387-8016-0774-9c8b-532a75566d9d@redhat.com>
+ <YjCdKfbQsgfsw76N@stefanha-x1.localdomain>
+In-Reply-To: <YjCdKfbQsgfsw76N@stefanha-x1.localdomain>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 14:20:09 +0000
-Message-ID: <CAFEAcA9RbUKCKXFwrXDLbsRFF7dzMG8v47XuNcNzzGqtdc2j3g@mail.gmail.com>
-Subject: Re: [PATCH v1 7/8] semihosting: clean up handling of expanded argv
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Date: Tue, 15 Mar 2022 14:24:20 +0000
+Message-ID: <CAFEAcA8zongmSfDAgorr=RfKK6Qsgyi1xNz5KBzdB0RGeSBSWA@mail.gmail.com>
+Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,75 +84,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, sw@weilnetz.de, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, f4bug@amsat.org, qemu-arm@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, hreitz@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 14:16, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> On Tue, Mar 15, 2022 at 01:59:59PM +0000, Alex Benn=C3=A9e wrote:
-> >
-> > Philippe Mathieu-Daud=C3=A9 <philippe.mathieu.daude@gmail.com> writes:
-> >
-> > > On 15/3/22 13:12, Alex Benn=C3=A9e wrote:
-> > >> Another cleanup patch tripped over the fact we weren't being careful
-> > >> in our casting. Fix the casts, allow for a non-const and switch from
-> > >> g_realloc to g_renew.
-> > >> The whole semihosting argument handling could do with some tests
-> > >> though.
-> > >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > >> ---
-> > >>   semihosting/config.c | 6 +++---
-> > >>   1 file changed, 3 insertions(+), 3 deletions(-)
-> > >> diff --git a/semihosting/config.c b/semihosting/config.c
-> > >> index 137171b717..50d82108e6 100644
-> > >> --- a/semihosting/config.c
-> > >> +++ b/semihosting/config.c
-> > >> @@ -51,7 +51,7 @@ typedef struct SemihostingConfig {
-> > >>       bool enabled;
-> > >>       SemihostingTarget target;
-> > >>       Chardev *chardev;
-> > >> -    const char **argv;
-> > >> +    char **argv;
-> > >>       int argc;
-> > >>       const char *cmdline; /* concatenated argv */
-> > >>   } SemihostingConfig;
-> > >> @@ -98,8 +98,8 @@ static int add_semihosting_arg(void *opaque,
-> > >>       if (strcmp(name, "arg") =3D=3D 0) {
-> > >>           s->argc++;
-> > >>           /* one extra element as g_strjoinv() expects NULL-terminat=
-ed array */
-> > >> -        s->argv =3D g_realloc(s->argv, (s->argc + 1) * sizeof(void =
-*));
-> > >> -        s->argv[s->argc - 1] =3D val;
-> > >> +        s->argv =3D g_renew(char *, s->argv, s->argc + 1);
-> > >> +        s->argv[s->argc - 1] =3D g_strdup(val);
-> > >
-> > > Why strdup()?
-> >
-> > The compiler was having issues with adding a const char * into the arra=
-y
-> > and it was the quickest way to stop it complaining. I'm not sure what
-> > guarantees you can make about a const char * after you leave the scope
-> > of the function.
->
-> No guarantees at all. This method was implicitly relying on the caller
-> never free'ing the const arg it passed in. That is indeed the case here,
-> because the arg came from a QemuOpts list. It is bad practice to rely
-> on such things though, so adding the strdup is sane IMHO.
->
-> I would have split the strdup out from the realloc -> renew change
-> though, since it is an independent cleanup.
+On Tue, 15 Mar 2022 at 14:09, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> Also, once C++ is available people will
+> start submitting C++ patches simply because they are more comfortable
+> with C++ (especially one-time/infrequent contributors).
 
-If we ever move the glib minimum-version up to 2.68, we could use
-the g_strv_builder_new()/g_strv_builder_add() APIs in glib which
-do exactly this job of "build up a NULL-terminated array of strings,
-one string at a time".
+This to my mind is the major argument against using C++
+for coroutines...
 
 -- PMM
 
