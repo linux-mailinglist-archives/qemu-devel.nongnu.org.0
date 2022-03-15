@@ -2,98 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBB74D92B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 03:42:59 +0100 (CET)
-Received: from localhost ([::1]:34392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A834D92BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 03:46:54 +0100 (CET)
+Received: from localhost ([::1]:38356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTx9G-0000fd-7I
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 22:42:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57778)
+	id 1nTxD3-0003V4-CE
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 22:46:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nTx7r-0008If-EX
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 22:41:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27426)
+ (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
+ id 1nTxAo-0001mf-DK; Mon, 14 Mar 2022 22:44:34 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:22806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1nTx7l-0005g6-Fy
- for qemu-devel@nongnu.org; Mon, 14 Mar 2022 22:41:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647312084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GiRSKgG3uJx/l7ebIEBJlOXgLMswGZ1PXBJDNVdAB34=;
- b=GktdE4MdDHFiXpSmP/WwMmksAeNOYabcyzWuwVD4s8mf3+L8XJo2z1VMHZksqUnSWeXOl7
- bllVvFFt2iM+FR/784Q5+zFP7sI6IpYuqM3Wit9MlSL1t2YDbjgFVWIBthHelaYBUp4u2O
- 7xKy6qL2+r8ly7uDOoJr39GDvvLPjiA=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-7bictFfpMHmcLVORUgEZUA-1; Mon, 14 Mar 2022 22:41:22 -0400
-X-MC-Unique: 7bictFfpMHmcLVORUgEZUA-1
-Received: by mail-pf1-f197.google.com with SMTP id
- c70-20020a624e49000000b004f69bac03d0so10646513pfb.13
- for <qemu-devel@nongnu.org>; Mon, 14 Mar 2022 19:41:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=GiRSKgG3uJx/l7ebIEBJlOXgLMswGZ1PXBJDNVdAB34=;
- b=6CSEkl4za74AoBgUiw46DJu2owBeiG8r6cmM7MLb68DF+bLHI7+/JC+5lbf1AH5awJ
- opa/kIwc8/V/MnM/E2SxcZ1PFj3i/03NAcNarqoSu6PwFqRpNHSyZe6y2A5tdU1DVXvr
- FjiT2njsrfFY8RoBH/1WBFo0jy7r+KWkXkc54htivJjhh+V9tm4AKTmOQSn5D4eBTMy+
- UFkSZXz6K33Fpx2xlfhe8+wiXLTMpPdKOdGtwbXNYbYXUnrFSnFBu0q05K4DbXd3r1pY
- fON6kNKtSzTEfkSjebhuuGqXdbF/R5xWr8LBY284FXXTVq1+1H/C2pOoxq7qhNHTEx5h
- fXWA==
-X-Gm-Message-State: AOAM53144QrtH0CPCJuOA4+KlGCdVR9La3psTkQw14qTCOjUgL27vlZ/
- YnzzjWSAraqwCkyGaSFc3UZBaj71Z9tFxKvwrXKY0XjlBIKzGiZqICR4mF9oHhzXyQIc/Re/uPv
- lxEV0cyHGQ1rEPhY=
-X-Received: by 2002:a17:90b:1052:b0:1bf:5024:c2a7 with SMTP id
- gq18-20020a17090b105200b001bf5024c2a7mr2142148pjb.218.1647312080323; 
- Mon, 14 Mar 2022 19:41:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlE5Qcy5yUPQHHmxH8+4ITF1dOu6MPNtz5gtsH9h2LmGvSgpWS7aRq/PtkMlHCG4PG91xjcA==
-X-Received: by 2002:a17:90b:1052:b0:1bf:5024:c2a7 with SMTP id
- gq18-20020a17090b105200b001bf5024c2a7mr2142131pjb.218.1647312080025; 
- Mon, 14 Mar 2022 19:41:20 -0700 (PDT)
-Received: from xz-m1.local ([191.101.132.110])
- by smtp.gmail.com with ESMTPSA id
- d27-20020a63735b000000b003813c1e4a52sm4295388pgn.33.2022.03.14.19.41.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 19:41:19 -0700 (PDT)
-Date: Tue, 15 Mar 2022 10:41:12 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PULL 00/18] migration queue
-Message-ID: <Yi/8yJfkTm3ubkWU@xz-m1.local>
-References: <CAFEAcA9CrHEu8F7PGGTvsdyLnFJhan9V9FkHDgvapje+_E=hVA@mail.gmail.com>
- <f750a1a4-223c-9456-ab23-a616f7eb2625@gmail.com>
- <Yieku+cTxY0Xyp5C@work-vm>
- <CAFEAcA-Y_8KTxCPoSN3P0Cgfe6cEN74b-5U1SeKtAP7FdzFvZA@mail.gmail.com>
- <Yi92SN2Z3OZi82pS@redhat.com>
- <CAFEAcA-Chg3LQkh5PHmSyGCkmnYoPnTGMD=zm8jj-jxWeOLTxQ@mail.gmail.com>
- <Yi+BbRJ9lbJ4ku9L@work-vm>
- <CAFEAcA_z2M2_MyWXT7iUKAFzpj1vWsw0DPV7o4YHp2d-1scf9g@mail.gmail.com>
- <Yi+HhvvlurQdW/Oq@work-vm> <Yi+PKfznFlm9MT1A@redhat.com>
+ (Exim 4.90_1) (envelope-from <steven_lee@aspeedtech.com>)
+ id 1nTxAk-00064W-ER; Mon, 14 Mar 2022 22:44:33 -0400
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 22F2XWtx034803;
+ Tue, 15 Mar 2022 10:33:32 +0800 (GMT-8)
+ (envelope-from steven_lee@aspeedtech.com)
+Received: from aspeedtech.com (192.168.70.100) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 15 Mar
+ 2022 10:43:37 +0800
+Date: Tue, 15 Mar 2022 10:42:58 +0800
+From: Steven Lee <steven_lee@aspeedtech.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v1 1/1] hw: aspeed_scu: Add AST2600 hpll calculation
+ function
+Message-ID: <20220315024257.GA6162@aspeedtech.com>
+References: <20220314095449.22089-1-steven_lee@aspeedtech.com>
+ <20220314095449.22089-2-steven_lee@aspeedtech.com>
+ <bd116f19-2110-b4be-8c17-845051d0e2d0@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <Yi+PKfznFlm9MT1A@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <bd116f19-2110-b4be-8c17-845051d0e2d0@kaod.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [192.168.70.100]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 22F2XWtx034803
+Received-SPF: pass client-ip=211.20.114.71;
+ envelope-from=steven_lee@aspeedtech.com; helo=twspam01.aspeedtech.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,63 +63,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, thuth@redhat.com,
- quintela@redhat.com, s.reiter@proxmox.com, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- hreitz@redhat.com, f.ebner@proxmox.com, jinpu.wang@ionos.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Jamin Lin <jamin_lin@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Troy Lee <troy_lee@aspeedtech.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 14, 2022 at 06:53:29PM +0000, Daniel P. Berrangé wrote:
-> On Mon, Mar 14, 2022 at 06:20:54PM +0000, Dr. David Alan Gilbert wrote:
-> > * Peter Maydell (peter.maydell@linaro.org) wrote:
-> > > On Mon, 14 Mar 2022 at 17:55, Dr. David Alan Gilbert
-> > > <dgilbert@redhat.com> wrote:
-> > > >
-> > > > Peter Maydell (peter.maydell@linaro.org) wrote:
-> > > > > One thing that makes this bug investigation trickier, incidentally,
-> > > > > is that the migration-test code seems to depend on userfaultfd.
-> > > > > That means you can't run it under 'rr'.
-> > > >
-> > > > That should only be the postcopy tests; the others shouldn't use that.
-> > > 
-> > > tests/qtest/migration-test.c:main() exits immediately without adding
-> > > any of the test cases if ufd_version_check() fails, so no userfaultfd
-> > > means no tests run at all, currently.
+The 03/14/2022 20:21, Cédric Le Goater wrote:
+> Hello Steven,
+> 
+> On 3/14/22 10:54, Steven Lee wrote:
+> > AST2600's HPLL register offset and bit definition are different from
+> > AST2500. Add a hpll calculation function for ast2600 and modify apb frequency
+> > calculation function based on SCU200 register description in ast2600v11.pdf.
+> 
+> It looks good. A few minor comments on the modeling.
+>   
+> > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> > ---
+> >   hw/misc/aspeed_scu.c         | 43 ++++++++++++++++++++++++++++++++----
+> >   include/hw/misc/aspeed_scu.h | 17 ++++++++++++++
+> >   2 files changed, 56 insertions(+), 4 deletions(-)
 > > 
-> > Ouch! I could swear we had a fix for that.
-
-https://lore.kernel.org/qemu-devel/20210615175523.439830-2-peterx@redhat.com/
-
-I remembered for some reason that pull (containing this patch) got issues
-on applying, and that patch got forgotten.
-
-> > 
-> > Anyway, it would be really good to see what migrate-query was returning;
-> > if it's stuck in running or cancelling then it's a problem with multifd
-> > that needs to learn to let go if someone is trying to cancel.
-> > If it's failed or similar then the test needs fixing to not lockup.
+> > diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+> > index d06e179a6e..3b11e98d66 100644
+> > --- a/hw/misc/aspeed_scu.c
+> > +++ b/hw/misc/aspeed_scu.c
+> > @@ -205,6 +205,8 @@ static const uint32_t ast2500_a1_resets[ASPEED_SCU_NR_REGS] = {
+> >        [BMC_DEV_ID]      = 0x00002402U
+> >   };
+> >   
+> > +static uint32_t aspeed_2600_scu_calc_hpll(AspeedSCUState *s, uint32_t hpll_reg);
+> > +
+> >   static uint32_t aspeed_scu_get_random(void)
+> >   {
+> >       uint32_t num;
+> > @@ -215,9 +217,19 @@ static uint32_t aspeed_scu_get_random(void)
+> >   uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s)
+> >   {
+> >       AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(s);
+> > -    uint32_t hpll = asc->calc_hpll(s, s->regs[HPLL_PARAM]);
+> > +    uint32_t hpll, hpll_reg, clk_sel_reg;
+> > +
+> > +    if (asc->calc_hpll == aspeed_2600_scu_calc_hpll) {
 > 
-> This patch of mine may well be helpful:
+> That's indeed one way to distinguish the AST2600 from the previous SoCs.
+> I would prefer to introduce a new APB freq class handler to deal with
+> the differences in the AST2600. aspeed_scu_get_apb_freq() would become :
 > 
->   https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03192.html
+> 	uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s)
+> 	{
+> 	    return ASPEED_SCU_GET_CLASS(s)->get_apb(s);
+> 	}
 > 
-> when debugging my TLS tests various mistakes meant I ended up with
-> a failed session, but the test was spinning forever on 'query-migrate'.
-> It was waiting for it to finish one iteration, and never bothering to
-> validate that the reported status == active.
+> The current aspeed_scu_get_apb_freq() would become the AST2400 and AST2500
+> handler and you would have to introduce a new one for the AST2600.
 > 
-> If that patch was merged, it might well cause the test to abort in an
-> assertion rather than spining forever, if status == failed.
-> 
-> Of course someone would still need to find out why it failed, but
-> none the less, I think assert is nicer than spin forever.
 
-Agreed.
+Hi Cédric,
 
--- 
-Peter Xu
+Thanks for the review.
+I was wondering if the following implementation is good to you.
 
+1 Modify aspeed_scu_get_apb_freq() as below
+ 	uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s)
+ 	{
+ 	    return ASPEED_SCU_GET_CLASS(s)->get_apb(s);
+ 	}
+
+2. Introduce 2 APB class handlers: aspeed_2400_scu_get_apb_freq() and aspeed_2600_scu_get_apb_freq()
+
+3. Add new attribute get_apb in AspeedSCUClass.
+
+4. In aspeed_2400_scu_class_init() and aspeed_2500_scu_class_init()
+	asc->get_apb = aspeed_2400_scu_get_apb_freq;
+
+   In aspeed_2600_scu_class_init()
+	asc->get_apb = aspeed_2600_scu_get_apb_freq;
+
+> > +        hpll_reg = s->regs[AST2600_HPLL_PARAM];
+> > +        clk_sel_reg = s->regs[AST2600_CLK_SEL];
+> > +    } else {
+> > +        hpll_reg = s->regs[HPLL_PARAM];
+> > +        clk_sel_reg = s->regs[CLK_SEL];
+> > +    }
+> > +
+> > +    hpll = asc->calc_hpll(s, hpll_reg);
+> >   
+> > -    return hpll / (SCU_CLK_GET_PCLK_DIV(s->regs[CLK_SEL]) + 1)
+> > +    return hpll / (SCU_CLK_GET_PCLK_DIV(clk_sel_reg) + 1)
+> >           / asc->apb_divider;>   }
+> >   
+> > @@ -357,7 +369,10 @@ static const MemoryRegionOps aspeed_ast2500_scu_ops = {
+> >   
+> >   static uint32_t aspeed_scu_get_clkin(AspeedSCUState *s)
+> >   {
+> > -    if (s->hw_strap1 & SCU_HW_STRAP_CLK_25M_IN) {
+> > +    AspeedSCUClass *asc = ASPEED_SCU_GET_CLASS(s);
+> > +
+> > +    if (s->hw_strap1 & SCU_HW_STRAP_CLK_25M_IN ||
+> > +        asc->calc_hpll == aspeed_2600_scu_calc_hpll) {
+> 
+> Indeed, the AST2600 CLKIN is always 25Mhz. Instead of testing ->calc_hpll,
+> I would introduce a class attribute, something like 'bool is_25Mhz'.
+> 
+> This change should be in a second patch though.
+> 
+
+will add a new attribute for clkin in the second patch.
+
+Thanks,
+Steven
+
+> Thanks,
+> 
+> C.
+> 
+> >           return 25000000;
+> >       } else if (s->hw_strap1 & SCU_HW_STRAP_CLK_48M_IN) {
+> >           return 48000000;
+> > @@ -426,6 +441,26 @@ static uint32_t aspeed_2500_scu_calc_hpll(AspeedSCUState *s, uint32_t hpll_reg)
+> >       return clkin * multiplier;
+> >   }
+> >   
+> > +static uint32_t aspeed_2600_scu_calc_hpll(AspeedSCUState *s, uint32_t hpll_reg)
+> > +{
+> > +    uint32_t multiplier = 1;
+> > +    uint32_t clkin = aspeed_scu_get_clkin(s);
+> > +
+> > +    if (hpll_reg & SCU_AST2600_H_PLL_OFF) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    if (!(hpll_reg & SCU_H_PLL_BYPASS_EN)) {
+> > +        uint32_t p = (hpll_reg >> 19) & 0xf;
+> > +        uint32_t n = (hpll_reg >> 13) & 0x3f;
+> > +        uint32_t m = hpll_reg & 0x1fff;
+> > +
+> > +        multiplier = ((m + 1) / (n + 1)) / (p + 1);
+> > +    }
+> > +
+> > +    return clkin * multiplier;
+> > +}
+> > +
+> >   static void aspeed_scu_reset(DeviceState *dev)
+> >   {
+> >       AspeedSCUState *s = ASPEED_SCU(dev);
+> > @@ -716,7 +751,7 @@ static void aspeed_2600_scu_class_init(ObjectClass *klass, void *data)
+> >       dc->desc = "ASPEED 2600 System Control Unit";
+> >       dc->reset = aspeed_ast2600_scu_reset;
+> >       asc->resets = ast2600_a3_resets;
+> > -    asc->calc_hpll = aspeed_2500_scu_calc_hpll; /* No change since AST2500 */
+> > +    asc->calc_hpll = aspeed_2600_scu_calc_hpll;
+> >       asc->apb_divider = 4;
+> >       asc->nr_regs = ASPEED_AST2600_SCU_NR_REGS;
+> >       asc->ops = &aspeed_ast2600_scu_ops;
+> > diff --git a/include/hw/misc/aspeed_scu.h b/include/hw/misc/aspeed_scu.h
+> > index c14aff2bcb..91c500c5bc 100644
+> > --- a/include/hw/misc/aspeed_scu.h
+> > +++ b/include/hw/misc/aspeed_scu.h
+> > @@ -316,4 +316,21 @@ uint32_t aspeed_scu_get_apb_freq(AspeedSCUState *s);
+> >           SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       \
+> >           SCU_AST2500_HW_STRAP_RESERVED1)
+> >   
+> > +/* SCU200   H-PLL Parameter Register (for Aspeed AST2600 SOC)
+> > + *
+> > + *  28:26  H-PLL Parameters
+> > + *  25     Enable H-PLL reset
+> > + *  24     Enable H-PLL bypass mode
+> > + *  23     Turn off H-PLL
+> > + *  22:19  H-PLL Post Divider (P)
+> > + *  18:13   H-PLL Numerator (M)
+> > + *  12:0    H-PLL Denumerator (N)
+> > + *
+> > + *  (Output frequency) = CLKIN(25MHz) * [(M+1) / (N+1)] / (P+1)
+> > + *
+> > + * The default frequency is 1200Mhz when CLKIN = 25MHz
+> > + */
+> > +#define SCU_AST2600_H_PLL_BYPASS_EN                        (0x1 << 24)
+> > +#define SCU_AST2600_H_PLL_OFF                              (0x1 << 23)
+> > +
+> >   #endif /* ASPEED_SCU_H */
+> 
 
