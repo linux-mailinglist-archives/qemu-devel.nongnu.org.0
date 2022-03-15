@@ -2,86 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033724D9A2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:16:59 +0100 (CET)
-Received: from localhost ([::1]:44564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42114D9A3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:19:57 +0100 (CET)
+Received: from localhost ([::1]:53164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU5Ag-0000WE-31
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:16:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37236)
+	id 1nU5DY-0006JD-OQ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:19:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU558-0000qz-BZ
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:11:14 -0400
-Received: from [2607:f8b0:4864:20::102f] (port=42920
- helo=mail-pj1-x102f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU552-0006Ng-Ox
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:11:14 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- rm8-20020a17090b3ec800b001c55791fdb1so2100435pjb.1
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 04:11:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=0lQPfA2w0XLK+PeJJT6YJrZWmtZ6iTWFsGlDnwbBRTg=;
- b=IMTsUqInBUaW/M6w7wmxpHBjnr+vT4+G5CuwXx3lcvwVyZn+tISGT1UzWBPKHBK87Q
- gvcvsJDq1RXpyuAARVihOd1FiwIfAzykS8jdoi2/+Asl5S0pAJEkJlqN6pLfGUZRAbuD
- D7o6KuHdQpegKI0g/ZbTtpyxKq7Kd8U+Qc3si7vXAusXB9TZ/077uNizZ20B4Wsehzbn
- F4pCja1V0SMJIFzOkViy+M8wO17py0rPIrQCYildzojpwubBiGY5f1VnPYVX0FNVV3t3
- 9GQ1j3/5Si71RCiHlhk8tSNovqfYpyt/XUVmFBq+4aekIx2kMknwO/8SPZ82+crgz1qH
- lNog==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nU57R-00055n-3N
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:13:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29094)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nU57O-00076i-R4
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:13:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647342800;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s5Tzi3pfoeaxtPsoFltDF8SY8Q0fBVWlg4SBSj9OyFQ=;
+ b=O87aXYw9r7tZUoecHSZqCJ1Y6WQKLaEisJ4fHYRR/5Vnv3r7h1GtztPc2opKAVLasiZh0o
+ Nf356eG7vqbO0zpio5JpHxwuG3OCE/i+ptQsB0fuyo+PC9KdJzRAe4Z76n4ZVJUKgO1fKd
+ UJ7BPGy7UcEc1oTjMyKOncUmbIuCkUQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-36-9lTgXW-xPyOjEiVtmFRYIw-1; Tue, 15 Mar 2022 07:13:19 -0400
+X-MC-Unique: 9lTgXW-xPyOjEiVtmFRYIw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ f24-20020a1c6a18000000b00388874b17a8so1026957wmc.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 04:13:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0lQPfA2w0XLK+PeJJT6YJrZWmtZ6iTWFsGlDnwbBRTg=;
- b=wMCaiU9O45MRZcWCfralQjc93en+tX4ELXCD8QAUv+QcD7QgRC7uTU/X8v0I0HkYPj
- xs+1mhzfm5Bms/PuhpuDOGOhX7gycib1kXsQRQgTzC+pQpAjuFMg+yAiac0FdVOgpLQS
- WyRdtCdwRX57Zkp7lWFMoVaqQYNghZ0/U+Ncq5WQSeEkoY2ThuSp9OwQMXw9dKdaNcIP
- rOLBGzwbGrDxryT5onzWbF577PBjxzlYMJEdgKPuzoPiU1mPAsuUitsXqYMM4l4dc6Fp
- Xf20uDXKg41rnQ995F/7chTbHt7OfllfDjXOEW9PSbhy01lJX1E9mq0tMtIUVDK2hHAu
- RhIQ==
-X-Gm-Message-State: AOAM531llCMyjnrySpBk3G6Eei4cf1JGq1iEXX8Dh/mEnGEzpW4jlqNV
- QFkaz7gP7fAMsqjK+qLxoE/TooTeKsg=
-X-Google-Smtp-Source: ABdhPJwGnpygyU3y4thzSekqT82RijbZoVpiev5e8H8dhwbkoIIk+EwoyYntQprp3vZOfuudTEMr7A==
-X-Received: by 2002:a17:902:ec8e:b0:152:939:ac4a with SMTP id
- x14-20020a170902ec8e00b001520939ac4amr26846884plg.5.1647342666676; 
- Tue, 15 Mar 2022 04:11:06 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- j11-20020a63230b000000b00372a08b584asm19825836pgj.47.2022.03.15.04.11.03
+ bh=s5Tzi3pfoeaxtPsoFltDF8SY8Q0fBVWlg4SBSj9OyFQ=;
+ b=eEHAhx3rY/GbPZq259seyzdwoPp2JfxP4EmLCUGM0baOgFlshJrbk1bUGUMyywJ76Y
+ 53n4qWHaE/TbPmb22cJaC0ZpIIoLOb08xhqdjYpCT8dT7IfFTe22JiWMzaQA3jD6pran
+ Px0aXgfOwOgV4m83YiCD6yjhIfm8GeqgvF+bEUwGLXNHSX0zEyOUsFFaOa7V4i7pRp36
+ 0BQf5HKOIr8UhbAAbkH4p43/pAOXqUNoX8AjVbESN+OaVxCZLzFCqXS6ov5oDhh5qidu
+ M0TaCP5P19oyT2YXwK2xKfDCRUefEaZrT/541Z7V4hBknISZ4YIxa+MKBu1mCSUVCRqY
+ CaWQ==
+X-Gm-Message-State: AOAM5326sqrUSnr0SoptNvgjdjuerx0h85PODEe6gha3Pa0q2zoyRmgp
+ NezOrm5Ir+IouJpymVZM5/RArV8i4+IBXFvG/OUI9bsL9oCEImRIpzcTxWm1lAjV4IVSbraBv8i
+ CGoe9uMagNWn3qCo=
+X-Received: by 2002:a7b:cf30:0:b0:389:89bd:6d32 with SMTP id
+ m16-20020a7bcf30000000b0038989bd6d32mr2946785wmg.12.1647342797935; 
+ Tue, 15 Mar 2022 04:13:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx52ca5faGMQ0j6TCZdL2c65R+PeQOvC7fJAHPGD6z9aBjdkNEVKsFZqhm2FgGB6waqzKSRjQ==
+X-Received: by 2002:a7b:cf30:0:b0:389:89bd:6d32 with SMTP id
+ m16-20020a7bcf30000000b0038989bd6d32mr2946766wmg.12.1647342797730; 
+ Tue, 15 Mar 2022 04:13:17 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ o19-20020a05600c511300b00389c3a281d7sm3480891wms.0.2022.03.15.04.13.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 04:11:06 -0700 (PDT)
-Message-ID: <2334bd32-0494-37e1-e0ec-7ccb48928c0d@gmail.com>
-Date: Tue, 15 Mar 2022 12:11:02 +0100
+ Tue, 15 Mar 2022 04:13:17 -0700 (PDT)
+Message-ID: <93d1e0a6-01f2-af15-d43b-0767f8ec4c30@redhat.com>
+Date: Tue, 15 Mar 2022 12:13:15 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
 Subject: Re: [PATCH-for-7.0 v3] softmmu: List CPU types again
-Content-Language: en-US
-To: qemu-devel@nongnu.org
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
 References: <20220314140108.26222-1-philippe.mathieu.daude@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220314140108.26222-1-philippe.mathieu.daude@gmail.com>
+ <2334bd32-0494-37e1-e0ec-7ccb48928c0d@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <2334bd32-0494-37e1-e0ec-7ccb48928c0d@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,7 +103,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
+Cc: Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  Yanan Wang <wangyanan55@huawei.com>, Max Filippov <jcmvbkbc@gmail.com>,
@@ -102,103 +111,15 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
+On 15/03/2022 12.11, Philippe Mathieu-Daudé wrote:
+> Hi Paolo,
+> 
+> Could you take this patch?
 
-Could you take this patch?
+I'm planning a PR for today ... I can add it there ("-cpu help" also does 
+not work on s390x, so I dare to say that it is related) if Paolo does not 
+plan a PR for rc0.
 
-On 14/3/22 15:01, Philippe Mathieu-Daudé wrote:
-> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> Commit e0220bb5b2 made cpus.c target-agnostic but didn't notice
-> the cpu_list() function is only defined in target-specific code
-> in "cpu.h". Move list_cpus() declaration to "exec/cpu-common.h"
-> because this function is not softmmu-specific and can also be
-> used by user-mode, along with moving its implementation to cpu.c,
-> which is compiled per target.
-> 
-> Fixes: e0220bb5b2 ("softmmu: Build target-agnostic objects once")
-> Reported-by: Max Filippov <jcmvbkbc@gmail.com>
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Tested-by: Max Filippov <jcmvbkbc@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Since v2:
-> - include exec/cpu-all.h -> exec/cpu-common.h (thuth)
-> ---
->   cpu.c                     | 9 +++++++++
->   include/exec/cpu-common.h | 2 ++
->   include/sysemu/cpus.h     | 2 --
->   softmmu/cpus.c            | 8 --------
->   4 files changed, 11 insertions(+), 10 deletions(-)
-> 
-> diff --git a/cpu.c b/cpu.c
-> index d564886149..be1f8b074c 100644
-> --- a/cpu.c
-> +++ b/cpu.c
-> @@ -35,6 +35,7 @@
->   #include "sysemu/tcg.h"
->   #include "sysemu/kvm.h"
->   #include "sysemu/replay.h"
-> +#include "exec/cpu-common.h"
->   #include "exec/exec-all.h"
->   #include "exec/translate-all.h"
->   #include "exec/log.h"
-> @@ -266,6 +267,14 @@ const char *parse_cpu_option(const char *cpu_option)
->       return cpu_type;
->   }
->   
-> +void list_cpus(const char *optarg)
-> +{
-> +    /* XXX: implement xxx_cpu_list for targets that still miss it */
-> +#if defined(cpu_list)
-> +    cpu_list();
-> +#endif
-> +}
-> +
->   #if defined(CONFIG_USER_ONLY)
->   void tb_invalidate_phys_addr(target_ulong addr)
->   {
-> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-> index 7f7b5943c7..50a7d2912e 100644
-> --- a/include/exec/cpu-common.h
-> +++ b/include/exec/cpu-common.h
-> @@ -158,4 +158,6 @@ int cpu_memory_rw_debug(CPUState *cpu, vaddr addr,
->   /* vl.c */
->   extern int singlestep;
->   
-> +void list_cpus(const char *optarg);
-> +
->   #endif /* CPU_COMMON_H */
-> diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
-> index 868f1192de..b5c87d48b3 100644
-> --- a/include/sysemu/cpus.h
-> +++ b/include/sysemu/cpus.h
-> @@ -55,6 +55,4 @@ extern int smp_cores;
->   extern int smp_threads;
->   #endif
->   
-> -void list_cpus(const char *optarg);
-> -
->   #endif
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index e1d84c8ccb..7b75bb66d5 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -728,14 +728,6 @@ int vm_stop_force_state(RunState state)
->       }
->   }
->   
-> -void list_cpus(const char *optarg)
-> -{
-> -    /* XXX: implement xxx_cpu_list for targets that still miss it */
-> -#if defined(cpu_list)
-> -    cpu_list();
-> -#endif
-> -}
-> -
->   void qmp_memsave(int64_t addr, int64_t size, const char *filename,
->                    bool has_cpu, int64_t cpu_index, Error **errp)
->   {
+  Thomas
 
 
