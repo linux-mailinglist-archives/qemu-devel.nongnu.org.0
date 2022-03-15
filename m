@@ -2,90 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750974DA155
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 18:33:12 +0100 (CET)
-Received: from localhost ([::1]:56078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7652D4DA194
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 18:51:52 +0100 (CET)
+Received: from localhost ([::1]:35194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUB2l-0000vJ-Ik
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 13:33:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39206)
+	id 1nUBKp-0006tf-2O
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 13:51:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nUAze-0007gv-07; Tue, 15 Mar 2022 13:30:01 -0400
-Received: from [2a00:1450:4864:20::630] (port=40488
- helo=mail-ej1-x630.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nUAzb-0002j4-9v; Tue, 15 Mar 2022 13:29:57 -0400
-Received: by mail-ej1-x630.google.com with SMTP id p15so43058229ejc.7;
- Tue, 15 Mar 2022 10:29:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GQEyw8EKgjRPNHoOyf+QB+28jSOj5sxLvwhSBq9SEZ4=;
- b=E9sKCH7PpgHP+C2JGjtIa0U5AfC+VA0Jx1SrERPzeQpOWvV0J7+HcDzj1FTJ4sbrbz
- TgVxcYaq+e7ZJdon5U/fNa1GU3OlPIv/6ho8ntwbJc35gEnXcvwwOI6h2Q6s5NV852Kb
- YUW4Si1wpfqzCmqx/YmTTAuqGASamAU8d5pKuWi1levTKPtAB8W/fNNbZKChqh3O8dtL
- jAjT2ABBOPgn6woEoVOb/uwXUraJ6cwLE2c7VsTu6pNOHoN/oGj3YbdODcgyQolR11/1
- vW9bNvHpiZLPkdr2zMT9EOd/5P37M5n1vbkkgFE5L+Ps47s9rlx7BhaK3r8EyIOC4kFU
- 54zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GQEyw8EKgjRPNHoOyf+QB+28jSOj5sxLvwhSBq9SEZ4=;
- b=BQHKE7DWDNUYKgXQLCGTqs/NOr997JmdSm1mU/Y1nRWe9ki8tItMnMQfb+NNMPe9CP
- 07gbKrnL8uAdkfYFpz098ssbWgo6iSUqb2DSyB3D/GS3TpG3gz+c8yqNS/LMKtrRIbwU
- FUPJIjLWIZLAd04LrWMln+7ljXoMKL6Tn9nF+8MeBM+MKY3JMtmhei6K6cvIh3S0cwKI
- CiLxB90M7EGEveNR+Vg00G3MsZ0EBuiRj4D4aHAwcvfsA50CRkXgu/Q/RPdl+fhc2Fti
- Yw8ODH5I20dk6c3AI9I8YeutSNTnajU/4xa6dbvSRIWcGlHeQVnnY/D5K8c8AL4yrgxk
- Iz0Q==
-X-Gm-Message-State: AOAM532IOytihkKuDlRYkWnBP0OYzUNZpbqEN9YX7kRY/LkRg1EkPygt
- zfbnOOAki7rhgiStePgxzoaHbEz31wA=
-X-Google-Smtp-Source: ABdhPJz1H2Dyha4dqZaUulpolI5nONPxSQmM0GYGzDoOy3hqyzLIC9dXkFI6kLS/b7gcoN0Fu7oTQg==
-X-Received: by 2002:a17:906:a152:b0:6cd:3098:18c9 with SMTP id
- bu18-20020a170906a15200b006cd309818c9mr23663563ejb.422.1647365392425; 
- Tue, 15 Mar 2022 10:29:52 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- h21-20020a170906829500b006cef3dcd067sm8458024ejx.174.2022.03.15.10.29.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 10:29:51 -0700 (PDT)
-Message-ID: <dca7d15b-2f24-cfb2-9a31-47b5ffd9c3d5@redhat.com>
-Date: Tue, 15 Mar 2022 18:29:50 +0100
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1nUBDF-0004fZ-QQ; Tue, 15 Mar 2022 13:44:01 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11382
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1nUBDD-0004zg-FX; Tue, 15 Mar 2022 13:44:01 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22FHMHwV022378; 
+ Tue, 15 Mar 2022 17:43:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : reply-to :
+ cc : subject : date : message-id : in-reply-to : references : content-type
+ : content-transfer-encoding : mime-version; s=pp1;
+ bh=Q5ymWDPPHozij2Letzpx94WUzQ8vMduMQgrq2wlsu0M=;
+ b=mVsIriQz4n5HaqPsDMsdDX5uJMPqyyV8xnZaipIu8rpWg9cJuFsZnQqPaNhAX212/rlz
+ T6xtfiANYh1AUk+krBq6G7nod6aFT6AGgb9mBa4Pq9JhFKcM+zEGBCl+3TZroys3MmuH
+ GoJt6R1OM9wMHmLGzqoE4MZV814T+O8XYM2ohIooSGQXk5tKxB1FUKHQpFsuwa/aRFDU
+ QTK61JOPM6EPF975aLRiIofm2EUQv5rjNAgnL38RVQvyzOLObJRY9kKVF7Jn3c7Yq9hO
+ ArEFpsTi1+KdO6bIKyTmA2DriUrcDvcki2y558HeupC6zGaGEyXx8R16SD5S1CyhclJl 3Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ety51gff4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Mar 2022 17:43:52 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22FHhV5Z022564;
+ Tue, 15 Mar 2022 17:43:52 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ety51gfeq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Mar 2022 17:43:52 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22FHX7RB015317;
+ Tue, 15 Mar 2022 17:43:51 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma01wdc.us.ibm.com with ESMTP id 3erk59f8dd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Mar 2022 17:43:51 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 22FHhnVU28246512
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 15 Mar 2022 17:43:50 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DCC0FAC066;
+ Tue, 15 Mar 2022 17:43:49 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3DB91AC064;
+ Tue, 15 Mar 2022 17:43:49 +0000 (GMT)
+Received: from localhost (unknown [9.160.176.198])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Tue, 15 Mar 2022 17:43:48 +0000 (GMT)
+From: Murilo Opsfelder =?ISO-8859-1?Q?Ara=FAjo?= <muriloo@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] block-qdict: Fix -Werror=maybe-uninitialized build
+ failure
+Date: Tue, 15 Mar 2022 14:43:47 -0300
+Message-ID: <11970663.O9o76ZdvQC@localhost.localdomain>
+Organization: IBM
+In-Reply-To: <a7ce477a-ebed-dbb0-3257-8bc82fe27ce4@gmail.com>
+References: <20220311221634.58288-1-muriloo@linux.ibm.com>
+ <a7ce477a-ebed-dbb0-3257-8bc82fe27ce4@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: l9xPIdQsm6U1bmJ0KSQ2HCnxuUxrReji
+X-Proofpoint-ORIG-GUID: qjCxleOnNvqPnjyq6QY_v4TpOUVVylXj
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220314093203.1420404-1-pbonzini@redhat.com>
- <Yi9MBGoc3WtOLx82@stefanha-x1.localdomain>
- <4528e387-8016-0774-9c8b-532a75566d9d@redhat.com>
- <YjCdKfbQsgfsw76N@stefanha-x1.localdomain>
- <CAFEAcA8zongmSfDAgorr=RfKK6Qsgyi1xNz5KBzdB0RGeSBSWA@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA8zongmSfDAgorr=RfKK6Qsgyi1xNz5KBzdB0RGeSBSWA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::630
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-03-15_08,2022-03-15_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ spamscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 phishscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2203150106
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=muriloo@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,38 +112,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, hreitz@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: muriloo@linux.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?=
+ <philippe.mathieu.daude@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/22 15:24, Peter Maydell wrote:
-> On Tue, 15 Mar 2022 at 14:09, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->> Also, once C++ is available people will
->> start submitting C++ patches simply because they are more comfortable
->> with C++ (especially one-time/infrequent contributors).
-> 
-> This to my mind is the major argument against using C++
-> for coroutines...
+Hi, Philippe.
 
-I agree on the need for a policy, but _what_ C++ are they going to be 
-contributing that we should be scared of?  We're talking about:
+On Monday, March 14, 2022 10:47:11 AM -03 Philippe Mathieu-Daud=E9 wrote:
+> On 11/3/22 23:16, Murilo Opsfelder Araujo wrote:
+> > Building QEMU on Fedora 37 (Rawhide Prerelease) ppc64le failed with the
+> > following error:
+> >
+> >      $ ../configure --prefix=3D/usr/local/qemu-disabletcg --target-list=
+=3Dppc-softmmu,ppc64-softmmu --disable-tcg --disable-linux-user
+> >      ...
+> >      $ make -j$(nproc)
+> >      ...
+> >      FAILED: libqemuutil.a.p/qobject_block-qdict.c.o
+>
+> This part >>>
+>
+> >      cc -m64 -mlittle-endian -Ilibqemuutil.a.p -I. -I.. -Isubprojects/l=
+ibvhost-user -I../subprojects/libvhost-user -Iqapi -Itrace -Iui -Iui/shader=
+ -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/syspr=
+of-4 -I/usr/include/lib
+> >      mount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -I/usr/incl=
+ude/p11-kit-1 -I/usr/include/pixman-1 -fdiagnostics-color=3Dauto -Wall -Win=
+valid-pch -Werror -std=3Dgnu11 -O2 -g -isystem /root/qemu/linux-headers -is=
+ystem linux-headers -iquote
+> >       . -iquote /root/qemu -iquote /root/qemu/include -iquote /root/qem=
+u/disas/libvixl -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_GNU_SOU=
+RCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredu=
+ndant-decls -Wundef -Wwrite
+> >      -strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fw=
+rapv -Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat-=
+security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wneste=
+d-externs -Wendif-label
+> >      s -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-missing-i=
+nclude-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -=
+fPIE -MD -MQ libqemuutil.a.p/qobject_block-qdict.c.o -MF libqemuutil.a.p/qo=
+bject_block-qdict.c.o.d -
+> >      o libqemuutil.a.p/qobject_block-qdict.c.o -c ../qobject/block-qdic=
+t.c
+>
+> <<< is noise (doesn't provide any value) and could be stripped.
 
-* major features contributed by one-time/infrequent participants (which 
-is already a once-in-a-year thing or so, at least for me)
+Is this something the committer/maintainer could edit when applying the com=
+mit
+or do you need I resend the v3?
 
-* ... in an area where there are no examples of using C++ in the tree 
-(or presumably the maintainer would be comfortable reviewing it)
+Cheers!
 
-* ... but yet C++ offer killer features (right now there's only C++ 
-coroutines and fpu/)
+>
+> >      In file included from /root/qemu/include/qapi/qmp/qdict.h:16,
+> >                       from /root/qemu/include/block/qdict.h:13,
+> >                       from ../qobject/block-qdict.c:11:
+> >      /root/qemu/include/qapi/qmp/qobject.h: In function =E2=80=98qdict_=
+array_split=E2=80=99:
+> >      /root/qemu/include/qapi/qmp/qobject.h:49:17: error: =E2=80=98subqd=
+ict=E2=80=99 may be used uninitialized [-Werror=3Dmaybe-uninitialized]
+> >         49 |     typeof(obj) _obj =3D (obj);                           =
+        \
+> >            |                 ^~~~
+> >      ../qobject/block-qdict.c:227:16: note: =E2=80=98subqdict=E2=80=99 =
+declared here
+> >        227 |         QDict *subqdict;
+> >            |                ^~~~~~~~
+> >      cc1: all warnings being treated as errors
+> >
+> > Fix build failure by expanding the ternary operation.
+> > Tested with `make check-unit` (the check-block-qdict test passed).
+> >
+> > Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+> > Cc: Kevin Wolf <kwolf@redhat.com>
+> > Cc: Hanna Reitz <hreitz@redhat.com>
+> > Cc: Markus Armbruster <armbru@redhat.com>
+> > ---
+> > v1: https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03224.h=
+tml
+> >
+> >   qobject/block-qdict.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/qobject/block-qdict.c b/qobject/block-qdict.c
+> > index 1487cc5dd8..4a83bda2c3 100644
+> > --- a/qobject/block-qdict.c
+> > +++ b/qobject/block-qdict.c
+> > @@ -251,12 +251,12 @@ void qdict_array_split(QDict *src, QList **dst)
+> >           if (is_subqdict) {
+> >               qdict_extract_subqdict(src, &subqdict, prefix);
+> >               assert(qdict_size(subqdict) > 0);
+> > +            qlist_append_obj(*dst, QOBJECT(subqdict));
+> >           } else {
+> >               qobject_ref(subqobj);
+> >               qdict_del(src, indexstr);
+> > +            qlist_append_obj(*dst, subqobj);
+> >           }
+> > -
+> > -        qlist_append_obj(*dst, subqobj ?: QOBJECT(subqdict));
+> >       }
+> >   }
+> >
+>
+>
+>
+>
 
-* ... and where the one-time contributor has put enough investment in 
-using these killer C++ features, that telling them to remove the 
-features would amount to a rewrite.
+--
+Murilo
 
-That does not seem to be a common situation, and not even a problematic 
-one if it were to happen.
-
-Paolo
 
