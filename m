@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49344D9A19
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:13:44 +0100 (CET)
-Received: from localhost ([::1]:35852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0284D9A44
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:20:59 +0100 (CET)
+Received: from localhost ([::1]:55772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU57X-000318-S5
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:13:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36704)
+	id 1nU5EY-00082o-Bz
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:20:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU53B-0006Ll-OQ
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:09:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25335)
+ id 1nU53J-0006Ro-BI
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:09:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU539-0005qf-N4
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:09:13 -0400
+ id 1nU53G-0005tp-Fv
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:09:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647342551;
+ s=mimecast20190719; t=1647342556;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iAVXlPNa+jsMgCn8+FeHE/cMBbWsepJZw/rNFvwgHHQ=;
- b=Ve+bVX284vus0/6gWpFU95IS/PIerPBZ3nOglt/bbulJP4Hq0y4lImjkmC2+tzUPutXXBO
- 7V36mwBvUxffCJn4BUk9H58zGWAl7oK5tBML/tUhfPYI1SEibP0Jo4tSmpRhf1nRrVDKvh
- 8oBeHoGjmPEp3/IiupIa1gWtHCjLrag=
+ bh=fTGj5EVCzAsDkVMAFh/FnxSpDnoVM9cdBQqpGU0EkzY=;
+ b=Hm0oA+Jv8jRbf3pOFBk/Qxp2e4Ht3UsgEfszW7V8qmMJk9q1LBTzBOfxttzI9vArX3PinP
+ LWcahlSWH13aJ7tHfKMvx5cvhu8B9ExXRKrFBh13Y9zIfSxyzElkZY42WLMOwu30/4A6f3
+ JfPsdhOI2tghkkKKUmTcmM29CMZdT6I=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-25--MMvoXoSMJCo5bXcK1aUaw-1; Tue, 15 Mar 2022 07:09:07 -0400
-X-MC-Unique: -MMvoXoSMJCo5bXcK1aUaw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-197-yVjnorhYPFWI3ghmqSzQGA-1; Tue, 15 Mar 2022 07:09:13 -0400
+X-MC-Unique: yVjnorhYPFWI3ghmqSzQGA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 479BC3800500;
- Tue, 15 Mar 2022 11:09:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D9691C0514D;
+ Tue, 15 Mar 2022 11:09:13 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53A18111CD4C;
- Tue, 15 Mar 2022 11:08:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E499C53741;
+ Tue, 15 Mar 2022 11:09:11 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 09/12] ui/console: optionally update after gfx switch
-Date: Tue, 15 Mar 2022 15:07:36 +0400
-Message-Id: <20220315110739.2095676-10-marcandre.lureau@redhat.com>
+Subject: [PULL v2 10/12] ui/dbus: fix texture sharing
+Date: Tue, 15 Mar 2022 15:07:37 +0400
+Message-Id: <20220315110739.2095676-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 References: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,75 +88,233 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-When switching to the dummy surface, we should also call gfx_update.
-But when using GL, we shouldn't call it.
+The DBus listener naively create, update and destroy textures without
+taking into account other listeners. The texture were shared, but
+texture update was unnecessarily duplicated.
 
-By making it an argument to displaychangelistener_gfx_switch(), it will
-be explicit, and cannot be forgotten that easily.
+Teach DisplayGLCtx to do optionally shared texture handling. This is
+only implemented for DBus display at this point, however the same
+infrastructure could potentially be used for other future combinations.
 
-Fixes: commit ebced091 ("console: save current scanout details")
+Reported-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/console.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ include/ui/console.h | 10 ++++++++++
+ ui/console.c         | 28 ++++++++++++++++++++++++++++
+ ui/dbus-listener.c   | 11 -----------
+ ui/dbus.c            | 26 ++++++++++++++++++++++++++
+ 4 files changed, 64 insertions(+), 11 deletions(-)
 
+diff --git a/include/ui/console.h b/include/ui/console.h
+index 18a10c0b7db0..0f84861933e1 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -290,10 +290,20 @@ typedef struct DisplayGLCtxOps {
+                                QEMUGLContext ctx);
+     int (*dpy_gl_ctx_make_current)(DisplayGLCtx *dgc,
+                                    QEMUGLContext ctx);
++    void (*dpy_gl_ctx_create_texture)(DisplayGLCtx *dgc,
++                                      DisplaySurface *surface);
++    void (*dpy_gl_ctx_destroy_texture)(DisplayGLCtx *dgc,
++                                      DisplaySurface *surface);
++    void (*dpy_gl_ctx_update_texture)(DisplayGLCtx *dgc,
++                                      DisplaySurface *surface,
++                                      int x, int y, int w, int h);
+ } DisplayGLCtxOps;
+ 
+ struct DisplayGLCtx {
+     const DisplayGLCtxOps *ops;
++#ifdef CONFIG_OPENGL
++    QemuGLShader *gls; /* optional shared shader */
++#endif
+ };
+ 
+ DisplayState *init_displaystate(void);
 diff --git a/ui/console.c b/ui/console.c
-index 102fcf0a5068..06ba82db61c9 100644
+index 06ba82db61c9..3b5664535625 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -1059,11 +1059,18 @@ static void console_putchar(QemuConsole *s, int ch)
- }
- 
- static void displaychangelistener_gfx_switch(DisplayChangeListener *dcl,
--                                             struct DisplaySurface *new_surface)
-+                                             struct DisplaySurface *new_surface,
-+                                             bool update)
- {
-     if (dcl->ops->dpy_gfx_switch) {
-         dcl->ops->dpy_gfx_switch(dcl, new_surface);
+@@ -1073,6 +1073,27 @@ static void displaychangelistener_gfx_switch(DisplayChangeListener *dcl,
      }
-+
-+    if (update && dcl->ops->dpy_gfx_update) {
-+        dcl->ops->dpy_gfx_update(dcl, 0, 0,
-+                                 surface_width(new_surface),
-+                                 surface_height(new_surface));
-+    }
  }
  
++static void dpy_gfx_create_texture(QemuConsole *con, DisplaySurface *surface)
++{
++    if (con->gl && con->gl->ops->dpy_gl_ctx_create_texture) {
++        con->gl->ops->dpy_gl_ctx_create_texture(con->gl, surface);
++    }
++}
++
++static void dpy_gfx_destroy_texture(QemuConsole *con, DisplaySurface *surface)
++{
++    if (con->gl && con->gl->ops->dpy_gl_ctx_destroy_texture) {
++        con->gl->ops->dpy_gl_ctx_destroy_texture(con->gl, surface);
++    }
++}
++
++static void dpy_gfx_update_texture(QemuConsole *con, DisplaySurface *surface,
++                                   int x, int y, int w, int h)
++{
++    if (con->gl && con->gl->ops->dpy_gl_ctx_update_texture) {
++        con->gl->ops->dpy_gl_ctx_update_texture(con->gl, surface, x, y, w, h);
++    }
++}
  
-@@ -1079,7 +1086,7 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
+ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
+                                                   QemuConsole *con,
+@@ -1086,6 +1107,9 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
          if (!dummy) {
              dummy = qemu_create_placeholder_surface(640, 480, nodev);
          }
--        displaychangelistener_gfx_switch(dcl, dummy);
-+        displaychangelistener_gfx_switch(dcl, dummy, TRUE);
++        if (con) {
++            dpy_gfx_create_texture(con, dummy);
++        }
+         displaychangelistener_gfx_switch(dcl, dummy, TRUE);
          return;
      }
- 
-@@ -1098,12 +1105,8 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
+@@ -1105,6 +1129,7 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
                                           con->scanout.texture.width,
                                           con->scanout.texture.height);
      } else if (con->scanout.kind == SCANOUT_SURFACE) {
--        displaychangelistener_gfx_switch(dcl, con->surface);
-+        displaychangelistener_gfx_switch(dcl, con->surface, TRUE);
++        dpy_gfx_create_texture(con, con->surface);
+         displaychangelistener_gfx_switch(dcl, con->surface, TRUE);
      }
--
--    dcl->ops->dpy_gfx_update(dcl, 0, 0,
--                             qemu_console_get_width(con, 0),
--                             qemu_console_get_height(con, 0));
  }
+@@ -1637,6 +1662,7 @@ void dpy_gfx_update(QemuConsole *con, int x, int y, int w, int h)
+     if (!qemu_console_is_visible(con)) {
+         return;
+     }
++    dpy_gfx_update_texture(con, con->surface, x, y, w, h);
+     QLIST_FOREACH(dcl, &s->listeners, next) {
+         if (con != (dcl->con ? dcl->con : active_console)) {
+             continue;
+@@ -1681,12 +1707,14 @@ void dpy_gfx_replace_surface(QemuConsole *con,
  
- void console_select(unsigned int index)
-@@ -1682,7 +1685,7 @@ void dpy_gfx_replace_surface(QemuConsole *con,
+     con->scanout.kind = SCANOUT_SURFACE;
+     con->surface = surface;
++    dpy_gfx_create_texture(con, surface);
+     QLIST_FOREACH(dcl, &s->listeners, next) {
          if (con != (dcl->con ? dcl->con : active_console)) {
              continue;
          }
--        displaychangelistener_gfx_switch(dcl, surface);
-+        displaychangelistener_gfx_switch(dcl, surface, FALSE);
+         displaychangelistener_gfx_switch(dcl, surface, FALSE);
      }
++    dpy_gfx_destroy_texture(con, old_surface);
      qemu_free_displaysurface(old_surface);
  }
+ 
+diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
+index 81c119b13a2c..a287edd2fc15 100644
+--- a/ui/dbus-listener.c
++++ b/ui/dbus-listener.c
+@@ -42,7 +42,6 @@ struct _DBusDisplayListener {
+ 
+     DisplayChangeListener dcl;
+     DisplaySurface *ds;
+-    QemuGLShader *gls;
+     int gl_updates;
+ };
+ 
+@@ -240,10 +239,6 @@ static void dbus_gl_gfx_update(DisplayChangeListener *dcl,
+ {
+     DBusDisplayListener *ddl = container_of(dcl, DBusDisplayListener, dcl);
+ 
+-    if (ddl->ds) {
+-        surface_gl_update_texture(ddl->gls, ddl->ds, x, y, w, h);
+-    }
+-
+     ddl->gl_updates++;
+ }
+ 
+@@ -285,15 +280,11 @@ static void dbus_gl_gfx_switch(DisplayChangeListener *dcl,
+ {
+     DBusDisplayListener *ddl = container_of(dcl, DBusDisplayListener, dcl);
+ 
+-    if (ddl->ds) {
+-        surface_gl_destroy_texture(ddl->gls, ddl->ds);
+-    }
+     ddl->ds = new_surface;
+     if (ddl->ds) {
+         int width = surface_width(ddl->ds);
+         int height = surface_height(ddl->ds);
+ 
+-        surface_gl_create_texture(ddl->gls, ddl->ds);
+         /* TODO: lazy send dmabuf (there are unnecessary sent otherwise) */
+         dbus_scanout_texture(&ddl->dcl, ddl->ds->texture, false,
+                              width, height, 0, 0, width, height);
+@@ -403,7 +394,6 @@ dbus_display_listener_dispose(GObject *object)
+     g_clear_object(&ddl->conn);
+     g_clear_pointer(&ddl->bus_name, g_free);
+     g_clear_object(&ddl->proxy);
+-    g_clear_pointer(&ddl->gls, qemu_gl_fini_shader);
+ 
+     G_OBJECT_CLASS(dbus_display_listener_parent_class)->dispose(object);
+ }
+@@ -414,7 +404,6 @@ dbus_display_listener_constructed(GObject *object)
+     DBusDisplayListener *ddl = DBUS_DISPLAY_LISTENER(object);
+ 
+     if (display_opengl) {
+-        ddl->gls = qemu_gl_init_shader();
+         ddl->dcl.ops = &dbus_gl_dcl_ops;
+     } else {
+         ddl->dcl.ops = &dbus_dcl_ops;
+diff --git a/ui/dbus.c b/ui/dbus.c
+index 22c82d2f323a..7a87612379e8 100644
+--- a/ui/dbus.c
++++ b/ui/dbus.c
+@@ -55,11 +55,33 @@ dbus_is_compatible_dcl(DisplayGLCtx *dgc,
+     return dcl->ops == &dbus_gl_dcl_ops || dcl->ops == &dbus_console_dcl_ops;
+ }
+ 
++static void
++dbus_create_texture(DisplayGLCtx *ctx, DisplaySurface *surface)
++{
++    surface_gl_create_texture(ctx->gls, surface);
++}
++
++static void
++dbus_destroy_texture(DisplayGLCtx *ctx, DisplaySurface *surface)
++{
++    surface_gl_destroy_texture(ctx->gls, surface);
++}
++
++static void
++dbus_update_texture(DisplayGLCtx *ctx, DisplaySurface *surface,
++                    int x, int y, int w, int h)
++{
++    surface_gl_update_texture(ctx->gls, surface, x, y, w, h);
++}
++
+ static const DisplayGLCtxOps dbus_gl_ops = {
+     .dpy_gl_ctx_is_compatible_dcl = dbus_is_compatible_dcl,
+     .dpy_gl_ctx_create       = dbus_create_context,
+     .dpy_gl_ctx_destroy      = qemu_egl_destroy_context,
+     .dpy_gl_ctx_make_current = qemu_egl_make_context_current,
++    .dpy_gl_ctx_create_texture = dbus_create_texture,
++    .dpy_gl_ctx_destroy_texture = dbus_destroy_texture,
++    .dpy_gl_ctx_update_texture = dbus_update_texture,
+ };
+ 
+ static NotifierList dbus_display_notifiers =
+@@ -90,6 +112,9 @@ dbus_display_init(Object *o)
+     g_autoptr(GDBusObjectSkeleton) vm = NULL;
+ 
+     dd->glctx.ops = &dbus_gl_ops;
++    if (display_opengl) {
++        dd->glctx.gls = qemu_gl_init_shader();
++    }
+     dd->iface = qemu_dbus_display1_vm_skeleton_new();
+     dd->consoles = g_ptr_array_new_with_free_func(g_object_unref);
+ 
+@@ -126,6 +151,7 @@ dbus_display_finalize(Object *o)
+     g_clear_object(&dd->iface);
+     g_free(dd->dbus_addr);
+     g_free(dd->audiodev);
++    g_clear_pointer(&dd->glctx.gls, qemu_gl_fini_shader);
+     dbus_display = NULL;
+ }
+ 
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
