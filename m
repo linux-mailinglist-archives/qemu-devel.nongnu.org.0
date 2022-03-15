@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F8C4DA42F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 21:45:56 +0100 (CET)
-Received: from localhost ([::1]:42446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44F84DA430
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 21:45:59 +0100 (CET)
+Received: from localhost ([::1]:42732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUE3H-00007Q-Sp
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 16:45:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51834)
+	id 1nUE3K-0000KG-Rk
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 16:45:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUE0e-0006PB-MM
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 16:43:12 -0400
-Received: from [2a00:1450:4864:20::433] (port=35523
- helo=mail-wr1-x433.google.com)
+ id 1nUE0l-0006Vb-UE
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 16:43:19 -0400
+Received: from [2a00:1450:4864:20::335] (port=42945
+ helo=mail-wm1-x335.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUE0c-0008Fe-SO
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 16:43:12 -0400
-Received: by mail-wr1-x433.google.com with SMTP id r6so261080wrr.2
+ id 1nUE0d-0008Fj-Cu
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 16:43:16 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ r190-20020a1c2bc7000000b0038a1013241dso301196wmr.1
  for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 13:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=WjoW4TuhrLDh3vJbD36hIEHEEGiSVoyg+GX+kjzhoEI=;
- b=KboKxyOIUCopYWDgAigdTqExkbNXpYShjD/bZX5N9r2fvO+G17d8vYG+95seS6gyeY
- mxgPtpy3lR3T9UwbUSSQu8GR24GHB54k46peKKypI2VB/4pGGNQ9cA/wK4Aatr3L9Ysm
- n9ya6KkCYdSNXTLgGsARqrpDkHF0KXx3yw16DdlY8heGzgGv3uWD4sKPIfnAd2hOb49O
- eTPOfrmrJSXzpGWboOcE5bRnsRJNaFozQKytGd0/MoxkDOPEYceekV7lD42nxOmeAL4z
- 5fE7/CPDjRIQedwW7TTC1whknIj9MpQftPxAVri1chsp+prbNDsGV3Pb7U01TusCKdkd
- LsuA==
+ bh=SPgrXoGzy3toqKLy1djjjTzE0Y4JQdTSNnsnsRObao8=;
+ b=E5cURpH99duc/CeE31J0jsJDxe1aoqIOe/y6lXjo4eRuSJGXjzCsKwTP6R+gzWq1T5
+ MyHyQKfAQlI1vx7XMcVF/xcRkoWe9Ii6sFUVWmUpOE9V9M288VyIUXvyuPAleRk0Z3Tg
+ FjUKjN5XcoHPPkKzb3jXz7PFe14hsRIJ7eY9GCkHwB87bX76xniBY6eQ/tg9LTKaecrj
+ F12+v+sj3YjJTAyIFBV9q1+7c8ezuR++HKhtwGl2spsfnGBid2NVRcm8sTmKnides5LC
+ f6JrEl3HiHwAB2cHmCEhNkDhbUtXtuO6ePaqIpll4bF4Mvbw2ndo/iFmVtDKNoxSirPT
+ zG5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WjoW4TuhrLDh3vJbD36hIEHEEGiSVoyg+GX+kjzhoEI=;
- b=bL6ulyrRV/Lnfp4plVRQdKOz4bkkThV7GvVctSDIut+l/uaYj0M1fN0ioH1Uh/aQ59
- ovm2E2OC22zKt1Yj/8qlVi2e62IzHMeqiliL39LQwpYGsBxKAIaSOgAA+xkeYTBf//2l
- YAdywzheILZrLpIyGzCsRJBVkvRoI1V91us4RN+8Pc71s8dN265yisaWP7hlnHPPeIbv
- YzYjLH1uzVcFuR52ILA2DnmmhHYWWiz4LT6ipbP+hshclRO5jXx52Q3CQh1tXvJkM3uo
- eQtihV+dfpAKjkZad/3grjySwn2AxcZHRguzFSB5PUh9WUULYDMZi8LZT+56qh0e6bSE
- tduw==
-X-Gm-Message-State: AOAM532ubZSLPj3xU3JOO3ckeqP7fT3eLDocNzUqeZ1UFFR80iMk642h
- EbyqttcpzxjueQG5pIlcVBRgnQ==
-X-Google-Smtp-Source: ABdhPJyT2SEmyCuEeOLVmhaJ0sHmZM0uH/S0xRh49RKWP1wJdoZBKkVowP3uW0UFCCrh6ros2sP+xw==
-X-Received: by 2002:a05:6000:16ca:b0:1f1:dfd6:723d with SMTP id
- h10-20020a05600016ca00b001f1dfd6723dmr21281905wrf.127.1647376988881; 
- Tue, 15 Mar 2022 13:43:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SPgrXoGzy3toqKLy1djjjTzE0Y4JQdTSNnsnsRObao8=;
+ b=iz1o1j3sD+D9yB04jtml9XTaePjkq0Rc9/Yvog37Q1sm4NfhDPIQJAl4oOOd6nRche
+ MdV9WzxU1f3DXSzga5qIfZ/hlOBFPnSa8zn4oVkBv2G+x4KqJGr/PBd2uX7r2soMuf3d
+ 8xazQ3RC/9drB4U9cpWY21WioitsXwVYP/6JkaLnYgNWawaQFSxgN6q7dA9p+3RC9a6x
+ M/T8eKwt+WKARyfIUwaZ7cmShzhVxKRaWCBgcNMMCHLKOLe7+ybMCf4zP7c8nYLjaADq
+ GSA6WLFZLMrHfWdbpco94Kpm2qGH0vwEIZ8/sqqo1rj4GyEASDFUAKleqzgeFJvFs+pq
+ oTXA==
+X-Gm-Message-State: AOAM532t++YG3hDkZa4Oaov4fG5sluLZ0qzUUs8MUQ8mmmhcU/XAwZeP
+ kGf9RjpQcsKMQ+Vf4Fgk2f7Epuws5w6Trg==
+X-Google-Smtp-Source: ABdhPJyjZdCSo3Z4RtxmFZBegGTYpGQXhSsmGhFAsFjO8CJteqyK/EMdJbok4NsPnXXNxoxUg3bcaw==
+X-Received: by 2002:a7b:ca42:0:b0:38c:6d09:1362 with SMTP id
+ m2-20020a7bca42000000b0038c6d091362mr298407wml.103.1647376989709; 
+ Tue, 15 Mar 2022 13:43:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- h11-20020a05600c414b00b0038c6c3eaee9sm465208wmm.1.2022.03.15.13.43.08
+ h11-20020a05600c414b00b0038c6c3eaee9sm465208wmm.1.2022.03.15.13.43.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 13:43:08 -0700 (PDT)
+ Tue, 15 Mar 2022 13:43:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] target/arm: Improve M-profile exception logging
-Date: Tue, 15 Mar 2022 20:43:04 +0000
-Message-Id: <20220315204306.2797684-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] target/arm: Log M-profile vector table accesses
+Date: Tue, 15 Mar 2022 20:43:05 +0000
+Message-Id: <20220315204306.2797684-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220315204306.2797684-1-peter.maydell@linaro.org>
+References: <20220315204306.2797684-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -90,69 +93,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our current logging for M-profile exceptions has a couple of holes
-which are particularly confusing for the case of an exception taken
-immediately out of reset:
- * we don't log the initial PC/SP loaded from the vector table
- * we don't log the PC we load from the vector table when
-   we take an exception
- * we don't log the address for i-side aborts
+Currently the CPU_LOG_INT logging misses some useful information
+about loads from the vector table.  Add logging where we load vector
+table entries.  This is particularly helpful for cases where the user
+has accidentally not put a vector table in their image at all, which
+can result in confusing guest crashes at startup.
 
-This case is quite common where the user has failed to provide a
-vector table in their ELF file and QEMU thus loads garbage for the
-initial PC. At the moment the logging looks like:
+Here's an example of the new logging for a case where
+the vector table contains garbage:
 
-$ qemu-system-arm [...] -d in_asm,cpu,exec,int
-Taking exception 3 [Prefetch Abort] on CPU 0
-...with CFSR.IACCVIOL
-...BusFault with BFSR.STKERR
-...taking pending nonsecure exception 3
-----------------
-IN: 
-0x20000558:  08000079  stmdaeq  r0, {r0, r3, r4, r5, r6}
-
-
-After this patchset it looks like:
-
-$ qemu-system-arm [...] -d in_asm,cpu,exec,int
 Loaded reset SP 0x0 PC 0x0 from vector table
 Loaded reset SP 0xd008f8df PC 0xf000bf00 from vector table
 Taking exception 3 [Prefetch Abort] on CPU 0
-...at fault address 0xf000bf00
 ...with CFSR.IACCVIOL
 ...BusFault with BFSR.STKERR
 ...taking pending nonsecure exception 3
 ...loading from element 3 of non-secure vector table at 0xc
 ...loaded new PC 0x20000558
 ----------------
-IN: 
+IN:
 0x20000558:  08000079  stmdaeq  r0, {r0, r3, r4, r5, r6}
 
-and I think it is somewhat clearer that we loaded a bogus
-PC from the vector table at reset, faulted at that address,
-loaded the HardFault entry point which was bogus but at
-least readable, and started executing code from there.
+(The double reset logging is the result of our long-standing
+"CPUs all get reset twice" weirdness; it looks a bit ugly
+but it'll go away if we ever fix that :-))
 
-The double-logging of the reset loads is the result of
-the way we currently reset the CPU twice on QEMU startup.
-If we ever manage to fix that silliness it'll go away.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/cpu.c      | 5 +++++
+ target/arm/m_helper.c | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-
-(Patchset inspired by a stackexchange question:
-https://stackoverflow.com/questions/71486314/loading-an-elf-file-into-qemu
-)
-
-thanks
--- PMM
-
-Peter Maydell (2):
-  target/arm: Log M-profile vector table accesses
-  target/arm: Log fault address for M-profile faults
-
- target/arm/cpu.c      |  5 +++++
- target/arm/m_helper.c | 11 +++++++++++
- 2 files changed, 16 insertions(+)
-
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 185d4e774d5..498fb9f71b3 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -21,6 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/qemu-print.h"
+ #include "qemu/timer.h"
++#include "qemu/log.h"
+ #include "qemu-common.h"
+ #include "target/arm/idau.h"
+ #include "qemu/module.h"
+@@ -366,6 +367,10 @@ static void arm_cpu_reset(DeviceState *dev)
+             initial_pc = ldl_phys(s->as, vecbase + 4);
+         }
+ 
++        qemu_log_mask(CPU_LOG_INT,
++                      "Loaded reset SP 0x%x PC 0x%x from vector table\n",
++                      initial_msp, initial_pc);
++
+         env->regs[13] = initial_msp & 0xFFFFFFFC;
+         env->regs[15] = initial_pc & ~1;
+         env->thumb = initial_pc & 1;
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 648a3b3fc16..3bd16c0c465 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -679,6 +679,10 @@ static bool arm_v7m_load_vector(ARMCPU *cpu, int exc, bool targets_secure,
+     ARMMMUIdx mmu_idx;
+     bool exc_secure;
+ 
++    qemu_log_mask(CPU_LOG_INT,
++                  "...loading from element %d of %s vector table at 0x%x\n",
++                  exc, targets_secure ? "secure" : "non-secure", addr);
++
+     mmu_idx = arm_v7m_mmu_idx_for_secstate_and_priv(env, targets_secure, true);
+ 
+     /*
+@@ -719,6 +723,7 @@ static bool arm_v7m_load_vector(ARMCPU *cpu, int exc, bool targets_secure,
+         goto load_fail;
+     }
+     *pvec = vector_entry;
++    qemu_log_mask(CPU_LOG_INT, "...loaded new PC 0x%x\n", *pvec);
+     return true;
+ 
+ load_fail:
 -- 
 2.25.1
 
