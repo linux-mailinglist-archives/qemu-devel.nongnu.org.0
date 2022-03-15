@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4577C4DA332
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 20:19:01 +0100 (CET)
-Received: from localhost ([::1]:33352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B964DA340
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 20:27:19 +0100 (CET)
+Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUChA-0008Ar-3E
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 15:19:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34456)
+	id 1nUCpC-0008SI-CR
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 15:27:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
- id 1nUCez-0005cg-CJ
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 15:16:45 -0400
-Received: from smtp109.iad3a.emailsrvr.com ([173.203.187.109]:34051)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <adeason@sinenomine.net>)
- id 1nUCew-0002VS-V6
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 15:16:44 -0400
-X-Auth-ID: adeason@sinenomine.net
-Received: by smtp38.relay.iad3a.emailsrvr.com (Authenticated sender:
- adeason-AT-sinenomine.net) with ESMTPSA id 023765697; 
- Tue, 15 Mar 2022 15:15:06 -0400 (EDT)
-Date: Tue, 15 Mar 2022 14:16:13 -0500
-From: Andrew Deason <adeason@sinenomine.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 1/3] util/osdep: Avoid madvise proto on modern Solaris
-Message-Id: <20220315141613.67bed566f6c6295b73436ca0@sinenomine.net>
-In-Reply-To: <CAFEAcA-FzgoTS=WAhU35v5jW7QbUzrTHSX4r_4nYRdmoGZrpTA@mail.gmail.com>
-References: <20220315022025.18908-1-adeason@sinenomine.net>
- <20220315022025.18908-2-adeason@sinenomine.net>
- <CAFEAcA-FzgoTS=WAhU35v5jW7QbUzrTHSX4r_4nYRdmoGZrpTA@mail.gmail.com>
-Organization: Sine Nomine Associates
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Classification-ID: 06fb7bcf-9cf4-4f64-9cf3-9af91adf7524-1-1
-Received-SPF: pass client-ip=173.203.187.109;
- envelope-from=adeason@sinenomine.net; helo=smtp109.iad3a.emailsrvr.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <idan.horowitz@gmail.com>)
+ id 1nUCla-0004NU-Pd; Tue, 15 Mar 2022 15:23:36 -0400
+Received: from [2a00:1450:4864:20::32a] (port=54023
+ helo=mail-wm1-x32a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idan.horowitz@gmail.com>)
+ id 1nUClZ-0004Cw-4C; Tue, 15 Mar 2022 15:23:34 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id 19so48399wmy.3;
+ Tue, 15 Mar 2022 12:23:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=US53GTadOYF+z0MvG4ovXxzGYSX8MDrLg+DdjZboxdU=;
+ b=idPg629EoW55mBV1/GWazVFOQsjGFl2CrccJyLgm/DqpNZY9zSwIWMbsWu6degkzbL
+ lPG+FIB1lDlVTo5Sh8SSV/+x20Ep50nKKSlnErqYf8f/nSDVh9suUhDR4X4ZARJGWHOJ
+ zrrshzYULmAMqOkU4NPlSTDfJ+73uGqJLJ0ilMvR64+jjAk7vyUaolbDo7WQBHkbi9sk
+ NzJy0Yws6ydQbZjTlH09yIn0lHmCDv6BjgzoDKrRkYy9E1wLNkkSk3LCnbjZThBzHHJt
+ GCmCGoqMJrQaRWO649h1BMoMiH03UclJhEPlfGQrJsnx8w+LIFEgauRCJqiy1In3OrQg
+ 7NCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=US53GTadOYF+z0MvG4ovXxzGYSX8MDrLg+DdjZboxdU=;
+ b=qv824txxk23ZTGg+BFK9Idpbkn1RswljzrQuael56ZlfmIlENKewTwaYRtcaq6qYjk
+ 2c9gr+0OAhWJOsX5O5hG/axkTLeQpl4nk/2LIYVoYtO9G/1p4w83FEb5m1uFNaWJ0Cxg
+ qR/oYXlyCJDUPjsERyiBM+bYe8T+Y79gmlvnKJArIa1Zq/iEirNA8iTcIpe5nVOII4Ln
+ sdQleO96HBvObOp01dVFG5WDNvw25H6xHoRfcfLmA+B5l+CT10XAQImfuNkM5B70ze02
+ +di4Enmh5KpUq/LigRN8E+RdeNhKGSGy1uQvZCMnZcMcK6dCX9vJsif9DwAiXtCaM2Om
+ 8x2Q==
+X-Gm-Message-State: AOAM531jW9LNCsFO6ExbESF2OtTVbIaCNfkRI4s0iQu35rWiiGorYBMi
+ UmhLw3AQcbXr1X1IeuzWXkgqK9kprfkk9Q==
+X-Google-Smtp-Source: ABdhPJzmmKXgiW+5pLMA+dvIpRkVmif0hr2NfWvI4BQzgQOKACZCYk44k5gg2gvn29L/3ZuWSi0VEA==
+X-Received: by 2002:a05:600c:3552:b0:389:95b2:5f4a with SMTP id
+ i18-20020a05600c355200b0038995b25f4amr4616678wmq.24.1647372206762; 
+ Tue, 15 Mar 2022 12:23:26 -0700 (PDT)
+Received: from li-142ea8cc-3370-11b2-a85c-c55585c2aa0e.ibm.com.com
+ (bzq-79-183-80-20.red.bezeqint.net. [79.183.80.20])
+ by smtp.gmail.com with ESMTPSA id
+ i11-20020a05600c354b00b00389f440512esm3266285wmq.32.2022.03.15.12.23.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Mar 2022 12:23:25 -0700 (PDT)
+From: Idan Horowitz <idan.horowitz@gmail.com>
+To: qemu-riscv@nongnu.org
+Subject: [PATCH] target/riscv: Exit current TB after an sfence.vma
+Date: Tue, 15 Mar 2022 21:23:00 +0200
+Message-Id: <20220315192300.250310-1-idan.horowitz@gmail.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=idan.horowitz@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,57 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- "Daniel P . =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-devel@nongnu.org, Idan Horowitz <idan.horowitz@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 18:33:33 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
+If the pages which control the translation of the currently executing
+instructions are changed, and then the TLB is flushed using sfence.vma
+we have to exit the current TB early, to ensure we don't execute stale
+instructions.
 
-> Since this is a little bit tricky, I think a comment here will help
-> future readers:
-> 
-> # Older Solaris/Illumos provide madvise() but forget to prototype it.
+Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
+---
+ target/riscv/insn_trans/trans_privileged.c.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-I don't think it matters much, but just to mention, the prototype is in
-there, but it's deliberately hidden by some #ifdef logic for (older?)
-POSIX/XPG compliance or something. I sometimes try to phrase this in a
-way that reflects that, but it's hard so I probably won't care.
-
-> > +#ifdef HAVE_MADVISE_MISSING_PROTOTYPE
-> >  /* See MySQL bug #7156 (http://bugs.mysql.com/bug.php?id=7156) for
-> >     discussion about Solaris header problems */
-> >  extern int madvise(char *, size_t, int);
-> >  #endif
-> 
-> As you note, this doesn't match the name we picked in meson.build.
-> I don't feel very strongly about the name (we certainly don't manage
-> consistency across the project about CONFIG_ vs HAVE_ !), but my suggestion
-> is HAVE_MADVISE_WITHOUT_PROTOTYPE.
-> 
-> Can you put the prototype in include/qemu/osdep.h, please?
-> (Exact location not very important as long as it's inside
-> the extern-C block, but I suggest just under the bit where we
-> define SIGIO for __HAIKU__.)
-
-Okay, but this will cause callers that call madvise() directly to
-"work", even though they're not going through the qemu_madvise wrapper.
-There's one area in cross-platform code you noted before, in
-softmmu/physmem.c, and that does cause the same build error if the
-prototype is missing. (I'm going to add another commit to make that use
-the wrapper in the next patchset.)
-
-I assume that's not a concern unless I hear otherwise; just pointing it
-out.
-
-And all other comments will be addressed; thanks.
-
+diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
+index 53613682e8..f265e8202d 100644
+--- a/target/riscv/insn_trans/trans_privileged.c.inc
++++ b/target/riscv/insn_trans/trans_privileged.c.inc
+@@ -114,6 +114,13 @@ static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
+ {
+ #ifndef CONFIG_USER_ONLY
+     gen_helper_tlb_flush(cpu_env);
++    /*
++     * The flush might have changed the backing physical memory of
++     * the instructions we're currently executing
++     */
++    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
++    tcg_gen_exit_tb(NULL, 0);
++    ctx->base.is_jmp = DISAS_NORETURN;
+     return true;
+ #endif
+     return false;
 -- 
-Andrew Deason
-adeason@sinenomine.net
+2.35.1
+
 
