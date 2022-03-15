@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B314DA407
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 21:31:05 +0100 (CET)
-Received: from localhost ([::1]:47976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFEAA4DA40E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 21:35:48 +0100 (CET)
+Received: from localhost ([::1]:59706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUDou-0000xN-6i
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 16:31:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48872)
+	id 1nUDtT-0000Va-T3
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 16:35:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vladislav.yaroshchuk@jetbrains.com>)
- id 1nUDmS-0006WK-Rb
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 16:28:32 -0400
-Received: from [2a00:1450:4864:20::42e] (port=42825
- helo=mail-wr1-x42e.google.com)
+ id 1nUDmU-0006bM-9P
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 16:28:34 -0400
+Received: from [2a00:1450:4864:20::329] (port=51899
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <vladislav.yaroshchuk@jetbrains.com>)
- id 1nUDmR-00066U-9Z
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 16:28:32 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id u10so176237wra.9
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 13:28:30 -0700 (PDT)
+ id 1nUDmS-00066m-Ol
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 16:28:34 -0400
+Received: by mail-wm1-x329.google.com with SMTP id q20so147829wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 13:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=jetbrains.com; s=googleapps;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q6wQYYum0IA+IVpKnLyA0/egrVjAIHcrQ3gT/o1CzeI=;
- b=MI3YvQ+fRc9+DQLPtDH9jgBqyTazx5MI6oInV2en40ILzOeoFyBLDRCFKGwgH/QBOG
- vOJqaWvpNLBGD1fpvCFqYV+PWy/CSajO1ziH2zR+Gx+MU/oOKWfrMGf1vTEGaMLB9jH0
- zWLT6ttm+A0bBP4vxY+I5mTWNLAPx6s4kk8VI=
+ bh=PZtF1MQAa4iCSXLHpWS5V+NoLnI3TjzjClkDvwrw+iU=;
+ b=PRg6pQtIWRQokPDcRqyqO9Sr1TbT9bXc2A0s4H1sFDILGnnbl0kDVzMMK+cvr8kNn1
+ QK+/2+E4Q2AWo5b9Qi5WXgQ4ZBYHGrxLwp8Qftefv4GzmkaY+qxsQxuQtJjyBfv5SBiH
+ a5Q4yi0m6/rbL2xRG+jayQYre0J5dEruCPI1Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q6wQYYum0IA+IVpKnLyA0/egrVjAIHcrQ3gT/o1CzeI=;
- b=p5p9pUWIIG/jeoxsiJmMLBMmaxvJQOTb3i+ESxXtFIrCvZEP770hQyWjKt0exFcJa2
- 4l0rCQ1jcl1XOrvlQ+Bo1MD7VsrOnARHUf6KFtIb4RFPk8ImYqby9e/edgVy5Ax9Of8U
- xZXHXB+MODOa+IzGMBscDbtvZGeAk++eL+I0JHercGr9qdBsxzAoRKqUPT5RKiIzB1Dn
- gl5CwhR3FtaVxcNyGw4YtuTgEZb/ACUuy25rkxWA2YkE31YBGCm8awOqxidOMqeN+w9L
- LYEMhebfHDDvirjg2CxC5PnHGWdst0jY2oEm7IPuBAKzDUFEqAkSGiCA9qNpF06C9Oqy
- Q7Qw==
-X-Gm-Message-State: AOAM531jt8WkWSoU8JJ1cGG6thhdZQeTHjQApV1W/lXCQ10KlRDwlc1+
- hPeVmo1cUBA4F0yaV0tK1fK4MtGnV4UpFAhT
-X-Google-Smtp-Source: ABdhPJzvx7XQimRQb/aL2HMWfTO4ibq8Ubp09JI4K3e6h9uDQHBo4oRoSCxmqUAy/Iu/zsDcLURqjw==
-X-Received: by 2002:a5d:688d:0:b0:203:db8c:35f2 with SMTP id
- h13-20020a5d688d000000b00203db8c35f2mr1277378wru.161.1647376109480; 
- Tue, 15 Mar 2022 13:28:29 -0700 (PDT)
+ bh=PZtF1MQAa4iCSXLHpWS5V+NoLnI3TjzjClkDvwrw+iU=;
+ b=rTCodL+KfVkK9lohlH29mvW+epgBl8x3qXL3OsR3NsLCcA5iWUwda+BBlXmfu8NXu8
+ T2S7coooNMbCkkbsGyEcnPeEzDkP173CZKTD74pQxAzvg7iT71Ro1u+Tmg42qRie3I2O
+ E5KBxHJttuahU012i1/MqJH2vZPbit5/ZvkYSgM1afIKHY31I0EN/xsNkvd8ahjAn0zP
+ 8947sjeVFYou1d8Ob2p4/T3rU54/uKWQWMnLvKBwaA6bOibcqUezyo+knUGBNdAofRl6
+ nDlugIY/6hvWhzvZ+lMq/RY1RY6Q4K8kbcMrrXa/DS15Wjd7lr3XlaI4e/Z14/QdFq3S
+ 5s8w==
+X-Gm-Message-State: AOAM532Rmm5u7KFWu8+qkRZy7JyVAauPZDEgEgy98t2LhlcSjFvqB+5z
+ au/wZdZPEj91Lk/afZLNB+8Rg1K2A6Ydjz+V
+X-Google-Smtp-Source: ABdhPJxtiTofgavqOt9HFFAOlFxBuBZSZSsshJdZ9ffScVSLyuD+1grZ1bFSheucDgpgCgRRT2caqw==
+X-Received: by 2002:a7b:ce0f:0:b0:389:a4eb:2520 with SMTP id
+ m15-20020a7bce0f000000b00389a4eb2520mr4850189wmc.9.1647376111208; 
+ Tue, 15 Mar 2022 13:28:31 -0700 (PDT)
 Received: from localhost.localdomain
  (ec2-3-121-162-165.eu-central-1.compute.amazonaws.com. [3.121.162.165])
  by smtp.gmail.com with ESMTPSA id
- e10-20020a056000178a00b0020393321552sm13378166wrg.85.2022.03.15.13.28.27
+ e10-20020a056000178a00b0020393321552sm13378166wrg.85.2022.03.15.13.28.29
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 15 Mar 2022 13:28:29 -0700 (PDT)
+ Tue, 15 Mar 2022 13:28:30 -0700 (PDT)
 From: Vladislav Yaroshchuk <vladislav.yaroshchuk@jetbrains.com>
 X-Google-Original-From: Vladislav Yaroshchuk
  <Vladislav.Yaroshchuk@jetbrains.com>
@@ -64,19 +64,19 @@ Cc: jasowang@redhat.com, r.bolshakov@yadro.com, eblake@redhat.com,
  agraf@csgraf.de, kraxel@redhat.com, alex.bennee@linaro.org,
  qemu_oss@crudebyte.com,
  Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
-Subject: [PATCH v19 4/7] net/vmnet: implement host mode (vmnet-host)
-Date: Tue, 15 Mar 2022 23:27:01 +0300
-Message-Id: <20220315202704.18263-5-Vladislav.Yaroshchuk@jetbrains.com>
+Subject: [PATCH v19 5/7] net/vmnet: implement bridged mode (vmnet-bridged)
+Date: Tue, 15 Mar 2022 23:27:02 +0300
+Message-Id: <20220315202704.18263-6-Vladislav.Yaroshchuk@jetbrains.com>
 X-Mailer: git-send-email 2.34.1.vfs.0.0
 In-Reply-To: <20220315202704.18263-1-Vladislav.Yaroshchuk@jetbrains.com>
 References: <20220315202704.18263-1-Vladislav.Yaroshchuk@jetbrains.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
  envelope-from=vladislav.yaroshchuk@jetbrains.com;
- helo=mail-wr1-x42e.google.com
+ helo=mail-wm1-x329.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -102,18 +102,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Vladislav Yaroshchuk <Vladislav.Yaroshchuk@jetbrains.com>
 ---
- net/vmnet-host.c | 110 ++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 104 insertions(+), 6 deletions(-)
+ net/vmnet-bridged.m | 128 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 123 insertions(+), 5 deletions(-)
 
-diff --git a/net/vmnet-host.c b/net/vmnet-host.c
-index a461d507c5..8f7a638967 100644
---- a/net/vmnet-host.c
-+++ b/net/vmnet-host.c
-@@ -9,16 +9,114 @@
-  */
+diff --git a/net/vmnet-bridged.m b/net/vmnet-bridged.m
+index 91c1a2f2c7..5936c87718 100644
+--- a/net/vmnet-bridged.m
++++ b/net/vmnet-bridged.m
+@@ -10,16 +10,134 @@
  
  #include "qemu/osdep.h"
-+#include "qemu/uuid.h"
  #include "qapi/qapi-types-net.h"
 -#include "vmnet_int.h"
 -#include "clients.h"
@@ -125,110 +123,131 @@ index a461d507c5..8f7a638967 100644
  #include <vmnet/vmnet.h>
  
 +
++static bool validate_ifname(const char *ifname)
++{
++    xpc_object_t shared_if_list = vmnet_copy_shared_interface_list();
++    bool match = false;
++    if (!xpc_array_get_count(shared_if_list)) {
++        goto done;
++    }
++
++    match = !xpc_array_apply(
++        shared_if_list,
++        ^bool(size_t index, xpc_object_t value) {
++            return strcmp(xpc_string_get_string_ptr(value), ifname) != 0;
++        });
++
++done:
++    xpc_release(shared_if_list);
++    return match;
++}
++
++
++static bool get_valid_ifnames(char *output_buf)
++{
++    xpc_object_t shared_if_list = vmnet_copy_shared_interface_list();
++    __block const char *ifname = NULL;
++    __block int str_offset = 0;
++    bool interfaces_available = true;
++
++    if (!xpc_array_get_count(shared_if_list)) {
++        interfaces_available = false;
++        goto done;
++    }
++
++    xpc_array_apply(
++        shared_if_list,
++        ^bool(size_t index, xpc_object_t value) {
++            /* build list of strings like "en0 en1 en2 " */
++            ifname = xpc_string_get_string_ptr(value);
++            strcpy(output_buf + str_offset, ifname);
++            strcpy(output_buf + str_offset + strlen(ifname), " ");
++            str_offset += strlen(ifname) + 1;
++            return true;
++        });
++
++done:
++    xpc_release(shared_if_list);
++    return interfaces_available;
++}
++
++
 +static bool validate_options(const Netdev *netdev, Error **errp)
 +{
-+    const NetdevVmnetHostOptions *options = &(netdev->u.vmnet_host);
-+    QemuUUID uuid;
++    const NetdevVmnetBridgedOptions *options = &(netdev->u.vmnet_bridged);
++    char ifnames[1024];
 +
-+#if defined(MAC_OS_VERSION_11_0) && \
-+    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
-+
-+    if (options->has_net_uuid &&
-+        qemu_uuid_parse(options->net_uuid, &uuid) < 0) {
-+        error_setg(errp, "Invalid UUID provided in 'net-uuid'");
++    if (!validate_ifname(options->ifname)) {
++        if (get_valid_ifnames(ifnames)) {
++            error_setg(errp,
++                       "unsupported ifname '%s', expected one of [ %s]",
++                       options->ifname,
++                       ifnames);
++            return false;
++        }
++        error_setg(errp,
++                   "unsupported ifname '%s', no supported "
++                   "interfaces available",
++                   options->ifname);
 +        return false;
 +    }
-+#else
++
++#if !defined(MAC_OS_VERSION_11_0) || \
++    MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_VERSION_11_0
 +    if (options->has_isolated) {
 +        error_setg(errp,
-+                   "vmnet-host.isolated feature is "
-+                   "unavailable: outdated vmnet.framework API");
-+        return false;
-+    }
-+
-+    if (options->has_net_uuid) {
-+        error_setg(errp,
-+                   "vmnet-host.net-uuid feature is "
++                   "vmnet-bridged.isolated feature is "
 +                   "unavailable: outdated vmnet.framework API");
 +        return false;
 +    }
 +#endif
-+
-+    if ((options->has_start_address ||
-+         options->has_end_address ||
-+         options->has_subnet_mask) &&
-+        !(options->has_start_address &&
-+          options->has_end_address &&
-+          options->has_subnet_mask)) {
-+        error_setg(errp,
-+                   "'start-address', 'end-address', 'subnet-mask' "
-+                   "should be provided together");
-+        return false;
-+    }
-+
 +    return true;
 +}
 +
-+static xpc_object_t build_if_desc(const Netdev *netdev,
-+                                  NetClientState *nc)
++
++static xpc_object_t build_if_desc(const Netdev *netdev)
 +{
-+    const NetdevVmnetHostOptions *options = &(netdev->u.vmnet_host);
++    const NetdevVmnetBridgedOptions *options = &(netdev->u.vmnet_bridged);
 +    xpc_object_t if_desc = xpc_dictionary_create(NULL, NULL, 0);
 +
 +    xpc_dictionary_set_uint64(if_desc,
 +                              vmnet_operation_mode_key,
-+                              VMNET_HOST_MODE);
++                              VMNET_BRIDGED_MODE
++    );
++
++    xpc_dictionary_set_string(if_desc,
++                              vmnet_shared_interface_name_key,
++                              options->ifname);
 +
 +#if defined(MAC_OS_VERSION_11_0) && \
 +    MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_VERSION_11_0
-+
 +    xpc_dictionary_set_bool(if_desc,
 +                            vmnet_enable_isolation_key,
 +                            options->isolated);
-+
-+    QemuUUID network_uuid;
-+    if (options->has_net_uuid) {
-+        qemu_uuid_parse(options->net_uuid, &network_uuid);
-+        xpc_dictionary_set_uuid(if_desc,
-+                                vmnet_network_identifier_key,
-+                                network_uuid.data);
-+    }
 +#endif
-+
-+    if (options->has_start_address) {
-+        xpc_dictionary_set_string(if_desc,
-+                                  vmnet_start_address_key,
-+                                  options->start_address);
-+        xpc_dictionary_set_string(if_desc,
-+                                  vmnet_end_address_key,
-+                                  options->end_address);
-+        xpc_dictionary_set_string(if_desc,
-+                                  vmnet_subnet_mask_key,
-+                                  options->subnet_mask);
-+    }
-+
 +    return if_desc;
 +}
 +
-+static NetClientInfo net_vmnet_host_info = {
-+    .type = NET_CLIENT_DRIVER_VMNET_HOST,
++
++static NetClientInfo net_vmnet_bridged_info = {
++    .type = NET_CLIENT_DRIVER_VMNET_BRIDGED,
 +    .size = sizeof(VmnetState),
 +    .receive = vmnet_receive_common,
 +    .cleanup = vmnet_cleanup_common,
 +};
 +
- int net_init_vmnet_host(const Netdev *netdev, const char *name,
--                        NetClientState *peer, Error **errp) {
--  error_setg(errp, "vmnet-host is not implemented yet");
++
+ int net_init_vmnet_bridged(const Netdev *netdev, const char *name,
+                            NetClientState *peer, Error **errp)
+ {
+-  error_setg(errp, "vmnet-bridged is not implemented yet");
 -  return -1;
-+                        NetClientState *peer, Error **errp)
-+{
-+    NetClientState *nc = qemu_new_net_client(&net_vmnet_host_info,
-+                                             peer, "vmnet-host", name);
++    NetClientState *nc = qemu_new_net_client(&net_vmnet_bridged_info,
++                                             peer, "vmnet-bridged", name);
 +    if (!validate_options(netdev, errp)) {
 +        return -1;
 +    }
-+    return vmnet_if_create(nc, build_if_desc(netdev, nc), errp);
++    return vmnet_if_create(nc, build_if_desc(netdev), errp);
  }
 -- 
 2.34.1.vfs.0.0
