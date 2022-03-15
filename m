@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528974DA5C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 23:54:18 +0100 (CET)
-Received: from localhost ([::1]:54170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 221324DA600
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 00:08:57 +0100 (CET)
+Received: from localhost ([::1]:57444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUG3V-0000yU-5B
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 18:54:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49344)
+	id 1nUGHf-0003yP-LE
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 19:08:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nUG2F-0000Aj-1P; Tue, 15 Mar 2022 18:53:01 -0400
-Received: from [2607:f8b0:4864:20::d2c] (port=35625
- helo=mail-io1-xd2c.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nUGG9-0002tB-WF
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 19:07:22 -0400
+Received: from [2607:f8b0:4864:20::b2d] (port=46041
+ helo=mail-yb1-xb2d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1nUG2C-0002xV-Sp; Tue, 15 Mar 2022 18:52:58 -0400
-Received: by mail-io1-xd2c.google.com with SMTP id l18so535677ioj.2;
- Tue, 15 Mar 2022 15:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nUGG8-000545-AW
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 19:07:21 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id w16so1319693ybi.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 16:07:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XLP/oThFAq+OPDkGOUaEmErSXHSm/3h7AAe8EIwxF/E=;
- b=gKxsxNEftw8AxSJTZkmPPGMrkB/192dj0AD5uYtvUfJCP7J2INijJpfjWI1FrILLtH
- t4i/4tqc4Xt5OUquDjenttt+K0AT70AN5vkjnUOkNJt8SF8sZvDOhdoeA4Rau37kP20Q
- QUylh5gy/PCATcTI8fTRuWUVZG5iHTNN4ZiDhVvf44zGXZ5nF6cuppYnPt6IvMF2GQI9
- SB65p9nfUMwR6UGVNaXgpmi+u462jNtEH7vJukYeYcCCqBZ3CRiJgIHifNKw3mg6KEq0
- jaep7PJ8uZX3pJaxJIupdRZ5Yymd/D6eRX6oUsTeqFXAdqP/RxcaIJ2CRuILdTOBTIDj
- xkdw==
+ :cc:content-transfer-encoding;
+ bh=W2IXTqWVKOOsBwhG3xPB+3mFVuu6gjW5a34pXrMNRTM=;
+ b=kumSXhnJCosQYyui0e1GfB4U30E99S092Sxi8YH5Qj2yegZ7A0DArMnRlD/AlHzv+G
+ JkrtBgwtJ4yeBQ1jUh8GfnLg6xUVMNPsiGqXt46xNrF8O4BQF5RNR8jBcQJD8+tyBr2F
+ Q0TXN7PASHt+b5P0iN+H3ne2fY24qTuNFGVHrh4qq6rWui6t+tczZS0QXOYTN0W+YOvg
+ jHl4DqOaQvSFgGrE5XQqW1I9kljAWNp+iKiD5WxROT26+MIlDE8m1ROMvxKAUdDzVCGg
+ lIKjvR2cgE52JmX2j4zDgZIDv9XB8CdawyQGuwgqxH6lHjFFmOqT5xtW/uFWhGNmVO+t
+ 1VFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XLP/oThFAq+OPDkGOUaEmErSXHSm/3h7AAe8EIwxF/E=;
- b=n/aKH253fh9/Efng2WSFC6o4044+W3V6LJs4Opt1JhxwUMpSvkmLljsXn0XeWG02Qn
- hsQlM3qdpxcv8ICAS49WoiMfMBzDyMFkvjduEAUKLXLxzryZKUa253Ss+Z9F3Q6p84oQ
- 2XBdNznRx+0zW2uPD1vHwnu2uVTXRdZxEiF2dttsVnHxpyJ/a8dv99CWWKVHJCk5N307
- /i4Nja8Cn3XolzWs1tp7NQjF3hBgqiMCNJzWxIgfkQhT2eYYXMyoBF3DmSfrOHgGo+9o
- c56zql7NlQLV3Bz4in6kyhy5l1FwQNWtx5v1ZeUd6nMoUiCMUyTmu34/vuginLX2IlIm
- aTeQ==
-X-Gm-Message-State: AOAM531MGRR8QyalWxtViY68LVKEc0nO+cJiqxTKrDE3pWJrOez5gxCH
- 13Sq+xPvjaDLCE+FG2X84O1ktsNf3cYGn9gT2ko=
-X-Google-Smtp-Source: ABdhPJw+ot+Xmke25PEyc0ZFQNpVFyLowDRI/vmzTrTsqtzRyiJmag+iTPsISJyZaguCf89DUFp7DSGjCL7nH7VewWI=
-X-Received: by 2002:a02:a1dd:0:b0:317:b0c9:254b with SMTP id
- o29-20020a02a1dd000000b00317b0c9254bmr24158389jah.68.1647384775209; Tue, 15
- Mar 2022 15:52:55 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=W2IXTqWVKOOsBwhG3xPB+3mFVuu6gjW5a34pXrMNRTM=;
+ b=fZWYyxIWguU3Qr1/DWowb1uEDWZILnMF92TR6oRJQwQYzzpq4DKOTnE0w4TnFu7l+P
+ FIQP8HP8/HLErd7PblW/VOIqzAsGY+MDg+VoFWbR0O9efxxckLNFM+NM8RLgfrdnzf1J
+ XDATpDB3711J+07DiAXaZ58FWqg3U10sYj1dZHjCvrt3RhocIBaF8xgqV9Ioxk3QPlSg
+ ICoHcswgHjCXcD7vS6C3go+wk4kB42yUnNWfB34t+I/FJQnjz9JhhNzHN4sZvxzlndqU
+ sXqpJcb6pdt2PR+KWtfVZUy2FA+uRGkzDCbsrGCDan3E6Fo6EkSHAvynoJcquNGD+4Ci
+ 1WTA==
+X-Gm-Message-State: AOAM530Nu3+PPerMSRELWNtuJzq9TzobcU46Bh7oCjri4zvFYz+RXl/t
+ vaH4YbQI/N9YO/W7uHb2h5pqu5PfPchdoyO3ebXM7Q==
+X-Google-Smtp-Source: ABdhPJwlpRMgN32gjUcTbZQ1M55CGKDdXSlMH2kUNudxwubEqVhy3ReSbX589kGMCG0Rw/noC/LN2Mln1pp3G/LKxoA=
+X-Received: by 2002:a25:2d27:0:b0:633:7521:4794 with SMTP id
+ t39-20020a252d27000000b0063375214794mr5586677ybt.193.1647385638927; Tue, 15
+ Mar 2022 16:07:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220315192300.250310-1-idan.horowitz@gmail.com>
-In-Reply-To: <20220315192300.250310-1-idan.horowitz@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 16 Mar 2022 08:52:29 +1000
-Message-ID: <CAKmqyKPmYyh8+jnmB0O5GeNtSZPgZ5B=YffvQUmjZNH=K7eXbA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Exit current TB after an sfence.vma
-To: Idan Horowitz <idan.horowitz@gmail.com>
+References: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 15 Mar 2022 23:07:07 +0000
+Message-ID: <CAFEAcA_0f1pYSuUnGHkhpotET8iCRwCW9OtHyDStk_eqSm5w+g@mail.gmail.com>
+Subject: Re: [PULL 00/21] Darwin patches for 2022-03-15
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2c
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
 X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,50 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 16, 2022 at 5:26 AM Idan Horowitz <idan.horowitz@gmail.com> wrote:
+On Tue, 15 Mar 2022 at 13:02, Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
 >
-> If the pages which control the translation of the currently executing
-> instructions are changed, and then the TLB is flushed using sfence.vma
-> we have to exit the current TB early, to ensure we don't execute stale
-> instructions.
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >
-> Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
+> The following changes since commit a72ada1662ee3105c5d66ddc8930d98e9cab62=
+be:
+>
+>   Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into s=
+taging (2022-03-15 09:53:13 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/darwin-20220315
+>
+> for you to fetch changes up to c82b7ef16f3efa59e28f821f25a9c084ef84ea9d:
+>
+>   MAINTAINERS: Volunteer to maintain Darwin-based hosts support (2022-03-=
+15 13:36:33 +0100)
+>
+> ----------------------------------------------------------------
+> Darwin-based host patches
+>
+> - Remove various build warnings
+> - Fix building with modules on macOS
+> - Fix mouse/keyboard GUI interactions
+>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Alistair
+Applied, thanks.
 
-> ---
->  target/riscv/insn_trans/trans_privileged.c.inc | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-> index 53613682e8..f265e8202d 100644
-> --- a/target/riscv/insn_trans/trans_privileged.c.inc
-> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
-> @@ -114,6 +114,13 @@ static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
->  {
->  #ifndef CONFIG_USER_ONLY
->      gen_helper_tlb_flush(cpu_env);
-> +    /*
-> +     * The flush might have changed the backing physical memory of
-> +     * the instructions we're currently executing
-> +     */
-> +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-> +    tcg_gen_exit_tb(NULL, 0);
-> +    ctx->base.is_jmp = DISAS_NORETURN;
->      return true;
->  #endif
->      return false;
-> --
-> 2.35.1
->
->
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
+for any user-visible changes.
+
+-- PMM
 
