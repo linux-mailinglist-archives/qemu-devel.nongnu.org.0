@@ -2,96 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411544DA56E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 23:29:44 +0100 (CET)
-Received: from localhost ([::1]:45188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199A94DA5A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 23:47:24 +0100 (CET)
+Received: from localhost ([::1]:51110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUFfi-0001oc-QO
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 18:29:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44652)
+	id 1nUFwo-00072U-OR
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 18:47:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nUFeV-00018H-Bu
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 18:28:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47355)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1nUFeT-0007fx-FH
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 18:28:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647383304;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qm+uFuNG6wn1Me7iHf4qsqNgdja4P4JhoztTUc0YLag=;
- b=Rm8oEuAOCBBJHzyZLn/oYaeCNZfXd0GblKLtbIwfXDxX4i8afraF54ghtMS+c+zMW862ak
- 4qeZwK8r+YPA6DOaxUPY5sVFfUDkBM54jxKAiX0ccet51i1C9XWOTdDSpG1H9Br5jBPS/3
- WTMZbJpfmUKBw996Cq7RihqWHCHqqdI=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-414-nK1OeeheMjio-p6o--mDpg-1; Tue, 15 Mar 2022 18:28:20 -0400
-X-MC-Unique: nK1OeeheMjio-p6o--mDpg-1
-Received: by mail-oo1-f72.google.com with SMTP id
- n14-20020a4a848e000000b00320fa3f046cso295003oog.23
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 15:28:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nUFuv-0005v6-PA
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 18:45:25 -0400
+Received: from [2607:f8b0:4864:20::629] (port=36836
+ helo=mail-pl1-x629.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nUFut-0001wR-Lp
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 18:45:25 -0400
+Received: by mail-pl1-x629.google.com with SMTP id e13so353898plh.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 15:45:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mdJ9yiQhHKZCmYt8QF75X0yw/2/BsUiW50oWy1jsd8Q=;
+ b=JO7nDHLP++b0bz6NQ1n9cOBCb/sdhlkgADcPv+pGbwG+QgTO6QZaBtUveCXL3drKFK
+ Krgks9DjZLWTqHu65pmkg4PuLuB9pF+yzluNM/JFyzGAP8PL+l4TSfMF+z/GduoHYjLU
+ 1jvSbGE3dIhXG4Gf3CD5YYbyLtC3BPzUD0/NOMNjGH5RWzUI0Gn8AWXa5g/GgDdAUagc
+ idlU2w/R9jeoGYJIOmvn0YipHUt6tv7T1UiADoX5J5wuV3OwjfGILmc7BUwr+HDfUY/t
+ Ypz6yqkwk+QDGh66FxOyzyQUZV0eLP3c0Yz5aiJ6zyX7vBxsnm8AeYEUt27lScZuW5/g
+ 0OWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=qm+uFuNG6wn1Me7iHf4qsqNgdja4P4JhoztTUc0YLag=;
- b=bsyYO/+FXWaenLpUX4WhCZLLxvpOaREjoooXEBqL/P08g6lrx0NLWLpQIYrKvhOpfF
- 3zGu/HuxAtso7Us5fKLL23PTskvMf5OtXxE5wMlpilAGre+6xM5eLi98y0Y20MBow2t1
- sBy34frV85ld+PxTyDzqSIme6Nm730Xy8yNvBOcRPyAHuU3G2VeBu/EDdhbIL7wAqUsx
- 3h66QEXbzPlcYCMAXfD4520XC9pbcZd0MhSvTSi92BZKa9sPSwlKDmNKUhS+8YVVPQAw
- V/U+kKnDdML1Wn+MLnBRYLOcyyaazOs27N3MRROyj1SPMQgpdtg8TNogJ2fmLDD7neTL
- qOMg==
-X-Gm-Message-State: AOAM532oKvgFQQCEYrJmWPLTwANvX8rri6ANqreC8o+W2zFjxLn/BtyZ
- YiTfwq639unpYekb7dAQJEr+LqOHP1Dou442iRddGaSO+svMwEniQP3+283I3F2wEGj9tSVuR21
- Bo4BFlF5NMjsRFyg=
-X-Received: by 2002:a05:6870:328c:b0:da:4485:ec72 with SMTP id
- q12-20020a056870328c00b000da4485ec72mr2450905oac.155.1647383299260; 
- Tue, 15 Mar 2022 15:28:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwjXejGkkwH5pa5QrKNdLPFSdmzfbBLmcpr7zRFtKBkcZx5dpEi4irhit1DbVAEytH3RxfhUA==
-X-Received: by 2002:a05:6870:328c:b0:da:4485:ec72 with SMTP id
- q12-20020a056870328c00b000da4485ec72mr2450900oac.155.1647383299024; 
- Tue, 15 Mar 2022 15:28:19 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- bb39-20020a05680816a700b002d9a8eb89fasm203034oib.46.2022.03.15.15.28.18
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mdJ9yiQhHKZCmYt8QF75X0yw/2/BsUiW50oWy1jsd8Q=;
+ b=7LCT9Z+fPgZPLakSxKjM00rcu+oUWfq6wKMkWTA/VqX1WuWKeDe5fzsz+ua/gYfTun
+ a8wzGzw1Xto6WFgW6wQ3S+LXp13klVAZIfHtGLhfOB/BLizxhgF10CBY+YWxttoCvzX1
+ P8E0cyi+1IRf9YD3VL2SdxPrZ3qvzFBvVmBJnKIre4urV2gXI79f07pDyJwoqv47C6WA
+ miYls8VNSAmOOMjx9ME8kDVaA7jsYxAX5e4gx0gzjZ+q7wRND8bvohH2UNCRbgFWLI4S
+ y9jsRZNNhiL3G53ZSIbKG1nojlPdmlHU8fCmsm7jzAvLpMdutQxS9MqAbhvOBK5xGS2Z
+ fjAQ==
+X-Gm-Message-State: AOAM530/K7n7BDvF5EiQoBN0ejx7rBr2hU9iD4SL+3KYcYTL/1IXovnl
+ SZZZx+xU+5GwBbvqtYOHfvDkpttRk76Azw==
+X-Google-Smtp-Source: ABdhPJyBFtqbsBMjOwblRO0H03xu/g8scU7jOlchUh7vnEWYl8qfHfghYPmfwnZyOBDrW6/uWBZ+yg==
+X-Received: by 2002:a17:90a:e541:b0:1c6:55e5:ae4b with SMTP id
+ ei1-20020a17090ae54100b001c655e5ae4bmr2304289pjb.62.1647384321142; 
+ Tue, 15 Mar 2022 15:45:21 -0700 (PDT)
+Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
+ [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
+ c11-20020a056a000acb00b004f35ee129bbsm143005pfl.140.2022.03.15.15.45.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 15:28:18 -0700 (PDT)
-Date: Tue, 15 Mar 2022 16:28:17 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Thanos Makatos <thanos.makatos@nutanix.com>
-Subject: Re: [RFC v4 01/21] vfio-user: introduce vfio-user protocol
- specification
-Message-ID: <20220315162817.3401a804.alex.williamson@redhat.com>
-In-Reply-To: <DM8PR02MB8005ACC7B26833CC47F9101B8B109@DM8PR02MB8005.namprd02.prod.outlook.com>
-References: <cover.1641584316.git.john.g.johnson@oracle.com>
- <a9b696ca38ee2329e371c28bcaa2921cac2a48a2.1641584316.git.john.g.johnson@oracle.com>
- <20220309153453.25eee9dd.alex.williamson@redhat.com>
- <DM8PR02MB8005ACC7B26833CC47F9101B8B109@DM8PR02MB8005.namprd02.prod.outlook.com>
-Organization: Red Hat
+ Tue, 15 Mar 2022 15:45:20 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Clean up arg_start/arg_end confusion
+Date: Tue, 15 Mar 2022 15:45:19 -0700
+Message-Id: <20220315224519.498463-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,143 +86,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Johnson <john.g.johnson@oracle.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- John Levon <john.levon@nutanix.com>
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 21:43:15 +0000
-Thanos Makatos <thanos.makatos@nutanix.com> wrote:
+We had two sets of variables: arg_start/arg_end, and
+arg_strings/env_strings.  In linuxload.c, we set the
+first pair to the bounds of the argv strings, but in
+elfload.c, we set the first pair to the bounds of the
+argv pointers and the second pair to the bounds of
+the argv strings.
 
-> > -----Original Message-----
-> > From: Qemu-devel <qemu-devel-  
-> > bounces+thanos.makatos=nutanix.com@nongnu.org> On Behalf Of Alex  
-> > Williamson
-> > Sent: 09 March 2022 22:35
-> > To: John Johnson <john.g.johnson@oracle.com>
-> > Cc: qemu-devel@nongnu.org
-> > Subject: Re: [RFC v4 01/21] vfio-user: introduce vfio-user protocol specification
-> > 
-> > On Tue, 11 Jan 2022 16:43:37 -0800
-> > John Johnson <john.g.johnson@oracle.com> wrote:  
-> > > +VFIO region info cap sparse mmap
-> > > +""""""""""""""""""""""""""""""""
-> > > +
-> > > ++----------+--------+------+
-> > > +| Name     | Offset | Size |
-> > > ++==========+========+======+
-> > > +| nr_areas | 0      | 4    |
-> > > ++----------+--------+------+
-> > > +| reserved | 4      | 4    |
-> > > ++----------+--------+------+
-> > > +| offset   | 8      | 8    |
-> > > ++----------+--------+------+
-> > > +| size     | 16     | 9    |
-> > > ++----------+--------+------+  
-> > 
-> > Typo, I'm pretty sure size isn't 9 bytes.
-> >   
-> > > +| ...      |        |      |
-> > > ++----------+--------+------+
-> > > +
-> > > +* *nr_areas* is the number of sparse mmap areas in the region.
-> > > +* *offset* and size describe a single area that can be mapped by the client.
-> > > +  There will be *nr_areas* pairs of offset and size. The offset will be added to
-> > > +  the base offset given in the ``VFIO_USER_DEVICE_GET_REGION_INFO`` to  
-> > form the  
-> > > +  offset argument of the subsequent mmap() call.
-> > > +
-> > > +The VFIO sparse mmap area is defined in ``<linux/vfio.h>`` (``struct
-> > > +vfio_region_info_cap_sparse_mmap``).
-> > > +
-> > > +VFIO region type cap header
-> > > +"""""""""""""""""""""""""""
-> > > +
-> > > ++------------------+---------------------------+
-> > > +| Name             | Value                     |
-> > > ++==================+===========================+
-> > > +| id               | VFIO_REGION_INFO_CAP_TYPE |
-> > > ++------------------+---------------------------+
-> > > +| version          | 0x1                       |
-> > > ++------------------+---------------------------+
-> > > +| next             | <next>                    |
-> > > ++------------------+---------------------------+
-> > > +| region info type | VFIO region info type     |
-> > > ++------------------+---------------------------+
-> > > +
-> > > +This capability is defined when a region is specific to the device.
-> > > +
-> > > +VFIO region info type cap
-> > > +"""""""""""""""""""""""""
-> > > +
-> > > +The VFIO region info type is defined in ``<linux/vfio.h>``
-> > > +(``struct vfio_region_info_cap_type``).
-> > > +
-> > > ++---------+--------+------+
-> > > +| Name    | Offset | Size |
-> > > ++=========+========+======+
-> > > +| type    | 0      | 4    |
-> > > ++---------+--------+------+
-> > > +| subtype | 4      | 4    |
-> > > ++---------+--------+------+
-> > > +
-> > > +The only device-specific region type and subtype supported by vfio-user is
-> > > +``VFIO_REGION_TYPE_MIGRATION`` (3) and  
-> > ``VFIO_REGION_SUBTYPE_MIGRATION`` (1).
-> > 
-> > These should be considered deprecated from the kernel interface.  I
-> > hope there are plans for vfio-user to adopt the new interface that's
-> > currently available in linux-next and intended for v5.18.
-> > 
-> > ...  
-> > > +Unused VFIO ``ioctl()`` commands
-> > > +--------------------------------
-> > > +
-> > > +The following VFIO commands do not have an equivalent vfio-user  
-> > command:  
-> > > +
-> > > +* ``VFIO_GET_API_VERSION``
-> > > +* ``VFIO_CHECK_EXTENSION``
-> > > +* ``VFIO_SET_IOMMU``
-> > > +* ``VFIO_GROUP_GET_STATUS``
-> > > +* ``VFIO_GROUP_SET_CONTAINER``
-> > > +* ``VFIO_GROUP_UNSET_CONTAINER``
-> > > +* ``VFIO_GROUP_GET_DEVICE_FD``
-> > > +* ``VFIO_IOMMU_GET_INFO``
-> > > +
-> > > +However, once support for live migration for VFIO devices is finalized some
-> > > +of the above commands may have to be handled by the client in their
-> > > +corresponding vfio-user form. This will be addressed in a future protocol
-> > > +version.  
-> > 
-> > As above, I'd go ahead and drop the migration region interface support,
-> > it's being removed from the kernel.  Dirty page handling might also be
-> > something you want to pull back on as we're expecting in-kernel vfio to
-> > essentially deprecate its iommu backends in favor of a new shared
-> > userspace iommufd interface.  We expect to have backwards compatibility
-> > via that interface, but as QEMU migration support for vfio-pci devices
-> > is experimental and there are desires not to consolidate dirty page
-> > tracking behind the iommu interface in the new model, it's not clear if
-> > the kernel will continue to expose the current dirty page tracking.
-> > 
-> > AIUI, we're expecting to see patches officially proposing the iommufd
-> > interface in the kernel "soon".  Thanks,  
-> 
-> Are you referring to the "[RFC v2] /dev/iommu uAPI proposal" work (https://lkml.org/lkml/2021/7/9/89)?
+Remove arg_start/arg_end, replacing them with the standard
+argc/argv/envc/envp values.  Retain arg_strings/env_strings.
+Update linuxload.c, elfload.c, and arm-compat-semi.c to match.
 
-There's a more recent proposal here:
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/714
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/qemu.h             | 12 ++++++++----
+ linux-user/elfload.c          | 10 ++++++----
+ linux-user/linuxload.c        | 18 ++++++++++--------
+ linux-user/main.c             |  5 ++---
+ semihosting/arm-compat-semi.c |  4 ++--
+ 5 files changed, 28 insertions(+), 21 deletions(-)
 
-https://lore.kernel.org/all/20210919063848.1476776-1-yi.l.liu@intel.com/
-
-But I suspect based on discussions that it's evolved quite a lot since
-then.  Based on various test robot reports, I gather the current
-pre-release is tracking in Yi's tree here:
-
-https://github.com/luxis1999/iommufd
-
-Thanks,
-
-Alex
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 98dfbf2096..3ac39793e1 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -40,15 +40,19 @@ struct image_info {
+         abi_ulong       data_offset;
+         abi_ulong       saved_auxv;
+         abi_ulong       auxv_len;
+-        abi_ulong       arg_start;
+-        abi_ulong       arg_end;
+-        abi_ulong       arg_strings;
+-        abi_ulong       env_strings;
++        abi_ulong       argc;
++        abi_ulong       argv;
++        abi_ulong       envc;
++        abi_ulong       envp;
+         abi_ulong       file_string;
+         uint32_t        elf_flags;
+         int             personality;
+         abi_ulong       alignment;
+ 
++        /* Generic semihosting knows about these pointers. */
++        abi_ulong       arg_strings;   /* strings for argv */
++        abi_ulong       env_strings;   /* strings for envp; ends arg_strings */
++
+         /* The fields below are used in FDPIC mode.  */
+         abi_ulong       loadmap_addr;
+         uint16_t        nsegs;
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 9628a38361..828ac2d8db 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -1517,8 +1517,8 @@ static inline void init_thread(struct target_pt_regs *regs,
+     regs->iaoq[0] = infop->entry;
+     regs->iaoq[1] = infop->entry + 4;
+     regs->gr[23] = 0;
+-    regs->gr[24] = infop->arg_start;
+-    regs->gr[25] = (infop->arg_end - infop->arg_start) / sizeof(abi_ulong);
++    regs->gr[24] = infop->argv;
++    regs->gr[25] = infop->argc;
+     /* The top-of-stack contains a linkage buffer.  */
+     regs->gr[30] = infop->start_stack + 64;
+     regs->gr[31] = infop->entry;
+@@ -2121,8 +2121,10 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+     u_envp = u_argv + (argc + 1) * n;
+     u_auxv = u_envp + (envc + 1) * n;
+     info->saved_auxv = u_auxv;
+-    info->arg_start = u_argv;
+-    info->arg_end = u_argv + argc * n;
++    info->argc = argc;
++    info->envc = envc;
++    info->argv = u_argv;
++    info->envp = u_envp;
+ 
+     /* This is correct because Linux defines
+      * elf_addr_t as Elf32_Off / Elf64_Off
+diff --git a/linux-user/linuxload.c b/linux-user/linuxload.c
+index 2ed5fc45ed..eb010b0109 100644
+--- a/linux-user/linuxload.c
++++ b/linux-user/linuxload.c
+@@ -92,33 +92,35 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+     envp = sp;
+     sp -= (argc + 1) * n;
+     argv = sp;
++    ts->info->envp = envp;
++    ts->info->envc = envc;
++    ts->info->argv = argv;
++    ts->info->argc = argc;
++
+     if (push_ptr) {
+-        /* FIXME - handle put_user() failures */
+         sp -= n;
+         put_user_ual(envp, sp);
+         sp -= n;
+         put_user_ual(argv, sp);
+     }
++
+     sp -= n;
+-    /* FIXME - handle put_user() failures */
+     put_user_ual(argc, sp);
+-    ts->info->arg_start = stringp;
++
++    ts->info->arg_strings = stringp;
+     while (argc-- > 0) {
+-        /* FIXME - handle put_user() failures */
+         put_user_ual(stringp, argv);
+         argv += n;
+         stringp += target_strlen(stringp) + 1;
+     }
+-    ts->info->arg_end = stringp;
+-    /* FIXME - handle put_user() failures */
+     put_user_ual(0, argv);
++
++    ts->info->env_strings = stringp;
+     while (envc-- > 0) {
+-        /* FIXME - handle put_user() failures */
+         put_user_ual(stringp, envp);
+         envp += n;
+         stringp += target_strlen(stringp) + 1;
+     }
+-    /* FIXME - handle put_user() failures */
+     put_user_ual(0, envp);
+ 
+     return sp;
+diff --git a/linux-user/main.c b/linux-user/main.c
+index fbc9bcfd5f..8995379aa3 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -869,9 +869,8 @@ int main(int argc, char **argv, char **envp)
+         qemu_log("start_stack 0x" TARGET_ABI_FMT_lx "\n", info->start_stack);
+         qemu_log("brk         0x" TARGET_ABI_FMT_lx "\n", info->brk);
+         qemu_log("entry       0x" TARGET_ABI_FMT_lx "\n", info->entry);
+-        qemu_log("argv_start  0x" TARGET_ABI_FMT_lx "\n", info->arg_start);
+-        qemu_log("env_start   0x" TARGET_ABI_FMT_lx "\n",
+-                 info->arg_end + (abi_ulong)sizeof(abi_ulong));
++        qemu_log("argv_start  0x" TARGET_ABI_FMT_lx "\n", info->argv);
++        qemu_log("env_start   0x" TARGET_ABI_FMT_lx "\n", info->envp);
+         qemu_log("auxv_start  0x" TARGET_ABI_FMT_lx "\n", info->saved_auxv);
+     }
+ 
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index 7a51fd0737..b6ddaf863a 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -1106,7 +1106,7 @@ target_ulong do_common_semihosting(CPUState *cs)
+ #else
+             unsigned int i;
+ 
+-            output_size = ts->info->arg_end - ts->info->arg_start;
++            output_size = ts->info->env_strings - ts->info->arg_strings;
+             if (!output_size) {
+                 /*
+                  * We special-case the "empty command line" case (argc==0).
+@@ -1146,7 +1146,7 @@ target_ulong do_common_semihosting(CPUState *cs)
+                 goto out;
+             }
+ 
+-            if (copy_from_user(output_buffer, ts->info->arg_start,
++            if (copy_from_user(output_buffer, ts->info->arg_strings,
+                                output_size)) {
+                 errno = EFAULT;
+                 status = set_swi_errno(cs, -1);
+-- 
+2.25.1
 
 
