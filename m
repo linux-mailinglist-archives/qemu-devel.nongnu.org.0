@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F7C4D97A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 10:29:35 +0100 (CET)
-Received: from localhost ([::1]:55486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B054D989C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 11:21:56 +0100 (CET)
+Received: from localhost ([::1]:38964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU3Uk-0007yW-3k
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 05:29:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53978)
+	id 1nU4JO-0003vo-Uv
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 06:21:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nU2lx-0008Sw-0y
+ id 1nU2lx-0008Sx-0x
  for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:43:19 -0400
-Received: from [2607:f8b0:4864:20::102c] (port=56227
- helo=mail-pj1-x102c.google.com)
+Received: from [2607:f8b0:4864:20::432] (port=41543
+ helo=mail-pf1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nU2lu-000545-1l
+ id 1nU2lu-00054D-Q2
  for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:43:15 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id e3so17031698pjm.5
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 01:43:13 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id p8so18515026pfh.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 01:43:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DEJtNZJacym7P3D55T00OdkxyEJk/tkTx1LWRg3rxNs=;
- b=uI9ItgBWvpWSsUBoL2AvQnXiyn1z3DmL+NHB+QW5SVNdAoA9LyITt8p28bvbiHr0s3
- QefmGlCK+HfFvxL9YAIFFnQUIlRlOVzOXuHcKM2wqEgpDKK4RO+o1JYKNbnbclQqNzju
- 07bu7Uh2QfBrdGAFABtP69KXD5l7Ny79J6n5YAiA+Zov9AXRpezHxIwMB4GdSYuP5I3S
- nMV6+jrsLHS3toxT+2UhL0PuIInco/wgaRI3BdMKFEdwUaKEjhkG3KcCnm6TD3NxhDm7
- rcyLLyt0WFbbkmKZPMZEvvMcmIfln3Z2caDltnzvZxAckZ2ksExlZtYPCHZGH7Nrjcmi
- G5Og==
+ bh=yQiK4Nk/B1NdX9ZTCZaM1xTMTE5yCiEd6wvHx/1Jvzs=;
+ b=hwIu+VrVpvcUA7dlwzLcjRNIGXtyn7iW8vabWJbhCCslVc0fZFvpTdxujiZB1APy+R
+ hRR6m9VK5QmKT2BQurCWqk8rhwxcM5fLCKgKEM/ewC/lBAiK4+SGa7/7a159XRH8e5v3
+ X0Bo1FvWGwHYqzhOwwV2k4mo1k+oSVGeI9PqHea2IKe468AeYpzBlyt1RVOXSfUQr1HC
+ 6ptD9BEuoA1AHjx5p9S1KND7FRUWRn7w2doy64d/ld/YaFrRoy0wRbClkgT7lfsXx2vU
+ hfqIzOlLprTTcxuz7AZrvZQJ0o0UTtRPCUr/tEiGRw56e9foMCDVSW3UVyTxNJ5kUQBL
+ AvLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DEJtNZJacym7P3D55T00OdkxyEJk/tkTx1LWRg3rxNs=;
- b=XLgB2q4dtmxyYD7AIHpdSZIlk39ToWvm7goADls8ZEflWguj26jPh4C+LuC0h8o2og
- EbEDbpOXuvlXXzoMB33J3zE8lZc42Vbnu3PuxhgReZ68kLDmV5KMQT4rD+VPyORewqNL
- ZDLpco1NvM1loOafmUUPmdmAnKi55owBUitEX925yAkuWRVnP2h5hgCaZ659xr7Rc2YM
- wnKx4xLVH+zvnx6Su6O4CyUreoQaUeuPutlFOBB/vVg2dpYeAbGImf5Abky+AHsSN4+3
- dbbTwHV37mAerDagaphDLHVmJ3dWfNSm4EALog6ghFziiAi9W+7PbpbMydSRXXhoHORl
- 3gXA==
-X-Gm-Message-State: AOAM531JXcetTNhXo0oslFQhtwKHclprGHsN383N1uEtoSjL3494RCQv
- CQUVF5Hpom38dE9yyiWSVMqxkzBrrCNYoA==
-X-Google-Smtp-Source: ABdhPJwppdGGo1gjek07i4FD5O5UWEu/56zQfcFQ31+MqkTex1grmns59Pse2SlvHjodAAxTQkBdIg==
-X-Received: by 2002:a17:902:cec2:b0:151:b337:a699 with SMTP id
- d2-20020a170902cec200b00151b337a699mr27885786plg.59.1647333792820; 
- Tue, 15 Mar 2022 01:43:12 -0700 (PDT)
+ bh=yQiK4Nk/B1NdX9ZTCZaM1xTMTE5yCiEd6wvHx/1Jvzs=;
+ b=uzDsJKKnVy7kba7DbZ1wKAIHsK/FDuVNpthCbWw3JxI2uR/NefUC9o9LO76Lfjqv6I
+ lRXUGqW9KcVLHXb6ZZXsMpGoYHAaEYhnK8az7v1zfjkJuvD5uann6+XjdaddHOYPQy9e
+ sA48UtSbzwhSU7uLDE16193/2/fz3e4nVav/cjCieOdCxl2NqX+5RLmK3cIlrkkFaJD6
+ ygLxTbu/m6n6oP2wygQslMLVXmxX8jSr3r4jrXQvfMxbdGYDp1un4cXZTU41loxDP+HT
+ J+xSrX/t1WQMRlkGmZt129bZKzNLuTZPywtC0yAVKaEiGqxy5nP1WEc6yHAJzrlrQuV/
+ 9O5w==
+X-Gm-Message-State: AOAM5323hVOKbO6KO8PdBsGac8/N8eEZzU6tRWwZvmH5FcwwUQeAcxQE
+ XXMJvWWViLCoT1a/mIUfWfAF4gf/ufSuBg==
+X-Google-Smtp-Source: ABdhPJwUyuwhqsp5ZYjpEhh7Wd7jSr9S97z9wkDfPeA5EQiLnOjc3oSSzQ8Zb9gIpI1wPALBOjM1rw==
+X-Received: by 2002:a63:864a:0:b0:375:7999:e83c with SMTP id
+ x71-20020a63864a000000b003757999e83cmr23457367pgd.144.1647333793552; 
+ Tue, 15 Mar 2022 01:43:13 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
  ob13-20020a17090b390d00b001becfd7c6f3sm2233762pjb.27.2022.03.15.01.43.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 01:43:12 -0700 (PDT)
+ Tue, 15 Mar 2022 01:43:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] linux-user: Properly handle sigset arg to epoll_pwait
-Date: Tue, 15 Mar 2022 01:43:07 -0700
-Message-Id: <20220315084308.433109-5-richard.henderson@linaro.org>
+Subject: [PATCH 5/5] linux-user: Properly handle sigset arg to ppoll
+Date: Tue, 15 Mar 2022 01:43:08 -0700
+Message-Id: <20220315084308.433109-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220315084308.433109-1-richard.henderson@linaro.org>
 References: <20220315084308.433109-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -98,50 +98,65 @@ Handle this with the same mechanism as sigsuspend.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+ linux-user/syscall.c | 24 +++++++-----------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8071a5191d..85de4e1bc7 100644
+index 85de4e1bc7..a69b7084f1 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -12694,29 +12694,21 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #if defined(TARGET_NR_epoll_pwait)
-         case TARGET_NR_epoll_pwait:
-         {
--            target_sigset_t *target_set;
--            sigset_t _set, *set = &_set;
-+            sigset_t *set = NULL;
+@@ -1519,8 +1519,7 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+     }
+     if (ppoll) {
+         struct timespec _timeout_ts, *timeout_ts = &_timeout_ts;
+-        target_sigset_t *target_set;
+-        sigset_t _set, *set = &_set;
++        sigset_t *set = NULL;
  
-             if (arg5) {
--                if (arg6 != sizeof(target_sigset_t)) {
--                    ret = -TARGET_EINVAL;
-+                ret = process_sigsuspend_mask(&set, arg5, arg6);
-+                if (ret != 0) {
-                     break;
-                 }
--
--                target_set = lock_user(VERIFY_READ, arg5,
--                                       sizeof(target_sigset_t), 1);
--                if (!target_set) {
--                    ret = -TARGET_EFAULT;
--                    break;
--                }
--                target_to_host_sigset(set, target_set);
--                unlock_user(target_set, arg5, 0);
--            } else {
--                set = NULL;
-             }
- 
-             ret = get_errno(safe_epoll_pwait(epfd, ep, maxevents, timeout,
-                                              set, SIGSET_T_SIZE));
-+
-+            if (set) {
-+                finish_sigsuspend_mask(ret);
-+            }
-             break;
+         if (arg3) {
+             if (time64) {
+@@ -1539,25 +1538,19 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
          }
- #endif
+ 
+         if (arg4) {
+-            if (arg5 != sizeof(target_sigset_t)) {
++            ret = process_sigsuspend_mask(&set, arg4, arg5);
++            if (ret != 0) {
+                 unlock_user(target_pfd, arg1, 0);
+-                return -TARGET_EINVAL;
++                return ret;
+             }
+-
+-            target_set = lock_user(VERIFY_READ, arg4,
+-                                   sizeof(target_sigset_t), 1);
+-            if (!target_set) {
+-                unlock_user(target_pfd, arg1, 0);
+-                return -TARGET_EFAULT;
+-            }
+-            target_to_host_sigset(set, target_set);
+-        } else {
+-            set = NULL;
+         }
+ 
+         ret = get_errno(safe_ppoll(pfd, nfds, timeout_ts,
+                                    set, SIGSET_T_SIZE));
+ 
++        if (set) {
++            finish_sigsuspend_mask(ret);
++        }
+         if (!is_error(ret) && arg3) {
+             if (time64) {
+                 if (host_to_target_timespec64(arg3, timeout_ts)) {
+@@ -1569,9 +1562,6 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+                 }
+             }
+         }
+-        if (arg4) {
+-            unlock_user(target_set, arg4, 0);
+-        }
+     } else {
+           struct timespec ts, *pts;
+ 
 -- 
 2.25.1
 
