@@ -2,80 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBEE4D950E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 08:13:50 +0100 (CET)
-Received: from localhost ([::1]:48514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B7A4D9514
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 08:17:55 +0100 (CET)
+Received: from localhost ([::1]:55234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU1NN-0002T5-18
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 03:13:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47060)
+	id 1nU1RK-00077u-WD
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 03:17:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nU16H-0000HY-3m; Tue, 15 Mar 2022 02:56:09 -0400
-Received: from [2607:f8b0:4864:20::431] (port=41795
- helo=mail-pf1-x431.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1nU16C-00025H-0J; Tue, 15 Mar 2022 02:56:08 -0400
-Received: by mail-pf1-x431.google.com with SMTP id p8so18125548pfh.8;
- Mon, 14 Mar 2022 23:56:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=k03hqsrN3r2DAcpcEZo3Qmaha1XCoOaXcqqhAGM9cU0=;
- b=c7Gal8DI557IDAn7fC7jLhOGB31o7BknPQefKUSIWASKtYZ3wiud/sVngQCG7xv75e
- psNNvl2F+qmv445eR0iyn353P7Rj53O/mnuh2qRIwGYJBawhrA5XOODroeS9FcXSy95q
- 9dn63upwBqGtVlyRj2aS3ct/MaNiGgTnmZlxdf+QOzsqEXicBVnUEvSQB/R4FMiipHL1
- JV1YGkhjy991deROESbU5jkjaciBcfGccvcftfgsWThAIyhjlTzVx+bLg4XDcH5eSgUz
- 6aT6q+tisk0GRr9pnPGv56Pv0ck2PxTzNxX29Z5St7nX6wJ5Ak81YwPQ0kC3vepkCz6b
- 4SeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=k03hqsrN3r2DAcpcEZo3Qmaha1XCoOaXcqqhAGM9cU0=;
- b=iXXOu5nvIdrRpbpE6nURtDrOMivH4DOD+aH0jEtlEGPSTTFu26ni3k2ScyBAsRHwY5
- 0grgyCsTNB8EP8w8tmFrxYgGzZBwnN2kUEBIBarlGJX3kBm9pQVQs6IwLXV2FKc9q7NU
- C5KFyiEnL1lpFHw65uLm6dyZI1JVWixvoay0SOOrZAeYXkfsKA7P+jIUItoDZxjl503c
- DShgSi3PGTy4UhfMsXzj5gz1Fh7P4z5AhL74aOLXQfVmn10fAzTRSJ+TqdIzRT2esCLu
- /Fsz4RyQQnFt78MKv/bxy9ro821h1xq+xDzedm4ydoMhdnXDcOaboqcrWiGFy4E0mwM1
- VWVw==
-X-Gm-Message-State: AOAM531zOyHcopOBzVaFoIkBcUCer59RAkOJzD+1/xrdsCz3YBweosGS
- 20XC+RHYJGjeJ9Yp2E9jjH6lM6xTI6DCjw==
-X-Google-Smtp-Source: ABdhPJz4SRjh3K1lHVQaEubYk88LkkfmEkyeLX4rLdr9C6RBS2CnKoGatPxYiOUz3QctJnO959ISxg==
-X-Received: by 2002:a63:2d05:0:b0:34b:3f1d:2fa8 with SMTP id
- t5-20020a632d05000000b0034b3f1d2fa8mr23200013pgt.447.1647327361892; 
- Mon, 14 Mar 2022 23:56:01 -0700 (PDT)
-Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
- [147.11.176.192]) by smtp.gmail.com with ESMTPSA id
- g12-20020a056a001a0c00b004e1307b249csm22970500pfv.69.2022.03.14.23.55.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Mar 2022 23:56:01 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH v4 7/7] hw/core: tcg-cpu-ops.h: Update comments of
- debug_check_watchpoint()
-Date: Tue, 15 Mar 2022 14:55:29 +0800
-Message-Id: <20220315065529.62198-8-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220315065529.62198-1-bmeng.cn@gmail.com>
-References: <20220315065529.62198-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nU1D7-0003p5-Qj
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 03:03:13 -0400
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:60293)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1nU1D5-00030A-E8
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 03:03:13 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.180])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id B35B4214AF;
+ Tue, 15 Mar 2022 07:03:05 +0000 (UTC)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 15 Mar
+ 2022 08:03:05 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0058afccf4d-8c46-4b24-947a-b1815555f684,
+ 5DBA5639B77BD7FE35D3F16CFE7686729AB21D01) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <fe9de14f-0929-26da-bd95-bf8d7c81babe@kaod.org>
+Date: Tue, 15 Mar 2022 08:03:04 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] target/ppc: Replicate double->int32 result for some
+ vector insns
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, <qemu-devel@nongnu.org>
+References: <20220315053934.377519-1-richard.henderson@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220315053934.377519-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 3048169c-0833-4446-b9bc-8c3b2b30156b
+X-Ovh-Tracer-Id: 4190880931021753126
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddvledguddttdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeekfeehfedvfeehgfejleevkeehieelheduveekfedvhfelteeivdfftddukeenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,39 +70,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, groug@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On 3/15/22 06:39, Richard Henderson wrote:
+> Power ISA v3.1 formalizes the previously undefined result in
+> words 1 and 3 to be a copy of the result in words 0 and 2.
+> 
+> This affects: xscvdpsxws, xscvdpuxws, xvcvdpsxws, xvcvdpuxws.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/852
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-This is now used by RISC-V as well. Update the comments.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Cédric Le Goater <clg@kaod.org>
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
+Thanks,
 
-(no changes since v1)
+C.
 
- include/hw/core/tcg-cpu-ops.h | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index e13898553a..f98671ff32 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -90,6 +90,7 @@ struct TCGCPUOps {
-     /**
-      * @debug_check_watchpoint: return true if the architectural
-      * watchpoint whose address has matched should really fire, used by ARM
-+     * and RISC-V
-      */
-     bool (*debug_check_watchpoint)(CPUState *cpu, CPUWatchpoint *wp);
- 
--- 
-2.25.1
+> ---
+>   target/ppc/fpu_helper.c | 43 +++++++++++++++++++++++++++++++++++------
+>   1 file changed, 37 insertions(+), 6 deletions(-)
+> 
+> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> index bd12db960a..e76d2ae83a 100644
+> --- a/target/ppc/fpu_helper.c
+> +++ b/target/ppc/fpu_helper.c
+> @@ -2891,22 +2891,53 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)             \
+>   
+>   VSX_CVT_FP_TO_INT(xscvdpsxds, 1, float64, int64, VsrD(0), VsrD(0), \
+>                     0x8000000000000000ULL)
+> -VSX_CVT_FP_TO_INT(xscvdpsxws, 1, float64, int32, VsrD(0), VsrW(1), \
+> -                  0x80000000U)
+>   VSX_CVT_FP_TO_INT(xscvdpuxds, 1, float64, uint64, VsrD(0), VsrD(0), 0ULL)
+> -VSX_CVT_FP_TO_INT(xscvdpuxws, 1, float64, uint32, VsrD(0), VsrW(1), 0U)
+>   VSX_CVT_FP_TO_INT(xvcvdpsxds, 2, float64, int64, VsrD(i), VsrD(i), \
+>                     0x8000000000000000ULL)
+> -VSX_CVT_FP_TO_INT(xvcvdpsxws, 2, float64, int32, VsrD(i), VsrW(2 * i), \
+> -                  0x80000000U)
+>   VSX_CVT_FP_TO_INT(xvcvdpuxds, 2, float64, uint64, VsrD(i), VsrD(i), 0ULL)
+> -VSX_CVT_FP_TO_INT(xvcvdpuxws, 2, float64, uint32, VsrD(i), VsrW(2 * i), 0U)
+>   VSX_CVT_FP_TO_INT(xvcvspsxds, 2, float32, int64, VsrW(2 * i), VsrD(i), \
+>                     0x8000000000000000ULL)
+>   VSX_CVT_FP_TO_INT(xvcvspsxws, 4, float32, int32, VsrW(i), VsrW(i), 0x80000000U)
+>   VSX_CVT_FP_TO_INT(xvcvspuxds, 2, float32, uint64, VsrW(2 * i), VsrD(i), 0ULL)
+>   VSX_CVT_FP_TO_INT(xvcvspuxws, 4, float32, uint32, VsrW(i), VsrW(i), 0U)
+>   
+> +/*
+> + * Likewise, except that the result is duplicated into both subwords.
+> + * Power ISA v3.1 has Programming Notes for these insns:
+> + *     Previous versions of the architecture allowed the contents of
+> + *     word 0 of the result register to be undefined. However, all
+> + *     processors that support this instruction write the result into
+> + *     words 0 and 1 (and words 2 and 3) of the result register, as
+> + *     is required by this version of the architecture.
+> + */
+> +#define VSX_CVT_FP_TO_INT2(op, nels, stp, ttp, rnan)                         \
+> +void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)             \
+> +{                                                                            \
+> +    int all_flags = env->fp_status.float_exception_flags, flags;             \
+> +    ppc_vsr_t t = { };                                                       \
+> +    int i;                                                                   \
+> +                                                                             \
+> +    for (i = 0; i < nels; i++) {                                             \
+> +        env->fp_status.float_exception_flags = 0;                            \
+> +        t.VsrW(2 * i) = stp##_to_##ttp##_round_to_zero(xb->VsrD(i), &env->fp_status);  \
+> +        flags = env->fp_status.float_exception_flags;                        \
+> +        if (unlikely(flags & float_flag_invalid)) {                          \
+> +            t.VsrW(2 * i) = float_invalid_cvt(env, flags, t.VsrW(2 * i), rnan, 0, GETPC()); \
+> +        }                                                                    \
+> +        t.VsrW(2 * i + 1) = t.VsrW(2 * i);                                   \
+> +        all_flags |= flags;                                                  \
+> +    }                                                                        \
+> +                                                                             \
+> +    *xt = t;                                                                 \
+> +    env->fp_status.float_exception_flags = all_flags;                        \
+> +    do_float_check_status(env, GETPC());                                     \
+> +}
+> +
+> +VSX_CVT_FP_TO_INT2(xscvdpsxws, 1, float64, int32, 0x80000000U)
+> +VSX_CVT_FP_TO_INT2(xscvdpuxws, 1, float64, uint32, 0U)
+> +VSX_CVT_FP_TO_INT2(xvcvdpsxws, 2, float64, int32, 0x80000000U)
+> +VSX_CVT_FP_TO_INT2(xvcvdpuxws, 2, float64, uint32, 0U)
+> +
+>   /*
+>    * VSX_CVT_FP_TO_INT_VECTOR - VSX floating point to integer conversion
+>    *   op    - instruction mnemonic
 
 
