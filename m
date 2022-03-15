@@ -2,96 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3304D9B94
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:49:47 +0100 (CET)
-Received: from localhost ([::1]:48160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF74E4D9B9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:50:45 +0100 (CET)
+Received: from localhost ([::1]:50058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6cU-0006wr-Q8
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:49:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58958)
+	id 1nU6dR-0008Jk-2h
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:50:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nU6ab-0005Eq-L2
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:47:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23911)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nU6aY-0006Rv-62
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:47:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647348465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f3Iv3neB/KUlr4QTVuCuSFuw4jFM6/q1z9lh++ZB1+0=;
- b=GPJNz+tIheQ6AfMYWlenGzAL46X5yErnS6NUNPcRVGB7DgSG4dkEsmulC65dYfMOvfNaAs
- r7dTcBB0BUyuej2J3XwXCQUKMXzQXotiOzCTWNlOuj+DOMqAi6cPbEsHAHCKKAh/oWAkm8
- mNsXoKKEhbtlPmVWWyNMi1kaEj0MRLE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-177-VBOMYbOeNg6ydUI5UrUu1w-1; Tue, 15 Mar 2022 08:47:42 -0400
-X-MC-Unique: VBOMYbOeNg6ydUI5UrUu1w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l10-20020a05600c27ca00b0038b85cf8a20so887191wmb.6
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:47:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nU6bY-0006X9-Si; Tue, 15 Mar 2022 08:48:49 -0400
+Received: from [2607:f8b0:4864:20::1031] (port=44778
+ helo=mail-pj1-x1031.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nU6bX-0006ZV-F2; Tue, 15 Mar 2022 08:48:48 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ gj15-20020a17090b108f00b001bef86c67c1so2307655pjb.3; 
+ Tue, 15 Mar 2022 05:48:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=bqIaqSwpz0Lyb+niWhJLUXrxjp9Ld/mmeff0WgX7J7s=;
+ b=c4vI5mAdb7zJyshOCxpx8aKIdWBZfyFDE+J6HqqV4wVOzjqVsDcA0p8nqBlfGoqJIz
+ Sle74XNJ+mZowE/T9KgFJob4ok97HOUwrn1chLQRSAiUzyJzHKdFeYEv957MPyGtuzD4
+ GPP3Cb0IZksH7Ov7UNP8W9kR6Mkqa/d0QaEJuoV5bca9LGypO4UMYImUOEJtrAfaVH7s
+ K5cp/VvG76CeERvHN2zHn8JoAaaxZwkkLxPFOogBYZs5GvJJrT7J7BuwfLtnvR90ca3a
+ DQBwn+MfVHp3N4Td7JDDPKCyiodDRj1qfnFqNGCGJpcSmBxYVu8YA0Z6T2Dn0XLkVdMy
+ H2yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=f3Iv3neB/KUlr4QTVuCuSFuw4jFM6/q1z9lh++ZB1+0=;
- b=SjbDv+NP8FdtOamINcQM3jVoN9TNo/Z88YPUmLBs4w8gnZRbzOEG9jfHl7tNmDJZdG
- k82WXwRArOe5RNuDHtdqHN2HB6tikHTbNhFeRXzLFMG6RdCzflSSZvRmuD/VWvr7/kwI
- q377XeyqcJgXlgLt7bjBV7j0Gqq42aKN8Rdw0lLh/wAXThW6HFTqZh3zg8IeMBGFSLRt
- G5xqzHgU4v4MJhb6F1znbnP88xu/Yt3YUF9oTivrMrJgGpdt2z6zDFG+3mJMcgYlZAfP
- jI6u5JWy8J4j7lWFHm+G8Rn8SBPHgJ7HmlbiRtBbmoiN/3u1ZCJEfusYU+xlYW8oKHTL
- jW3A==
-X-Gm-Message-State: AOAM532uJh4OtvYg05v7iyfg8lPOLgc4KrIUceXd+D6t2UjlVQl4en/E
- BEtGedGj65FHyxJBRIzpg+i9fFmYYxVHf6pfEb0gp1q7mqqVSCOWAYi+2iURO5OnZDM8y77YkEA
- I/OnelYabQweYfss=
-X-Received: by 2002:a5d:4bcc:0:b0:1f1:d6f8:89f5 with SMTP id
- l12-20020a5d4bcc000000b001f1d6f889f5mr20131257wrt.713.1647348460845; 
- Tue, 15 Mar 2022 05:47:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzWqbKLFu6TWoG8YSJhbdvEE1JmNQs5jbEldm9whPbebP0dYbh4sLKPNNI5LGvGY7xLR4bv7w==
-X-Received: by 2002:a5d:4bcc:0:b0:1f1:d6f8:89f5 with SMTP id
- l12-20020a5d4bcc000000b001f1d6f889f5mr20131236wrt.713.1647348460547; 
- Tue, 15 Mar 2022 05:47:40 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
- [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- g2-20020a5d46c2000000b001f079ba0158sm15278841wrs.60.2022.03.15.05.47.39
+ bh=bqIaqSwpz0Lyb+niWhJLUXrxjp9Ld/mmeff0WgX7J7s=;
+ b=zyCD7rWcYQzULqh4LwVQ+zdIFzFANK0wEsb1rZXAUKF64YZ9X+v2zX95XLbJrzYcMG
+ e7XqhTahRJj4hmQhAp/Ob3vcfliSgeNeDQiaKnexyqVaY+i5yfv8bey8RUT1h21Lg2yV
+ wHnmM5uHgYfiXbxW/ewS1a6z7rfGXdr806W4RXdl02A6tiB5bACNo9wjFTt8hDAfKHjE
+ mVHhkTgf068yU0QgxJtEBD52qzSgBbvmV3JXZSutEwXmKcXaD159Y/4bZ8iVgT9oBbe9
+ x5AdGdMlBNiZJu5/DO9GmDE1d5DA+Mc+WtzLYnsTCWbW8DfeA/ngdREP8r8A3PYWXFmA
+ 9mtw==
+X-Gm-Message-State: AOAM5315CAj3zRSr5l8DpNdHSa1d15Fmb/2/Il9DqhbThIbsDkLhnYG/
+ qiXXtPmNCwpMkahyXZMiTSo9p6tfGqM=
+X-Google-Smtp-Source: ABdhPJwvQS6Myx4eekxw0ol92TnoKC7PiDTkpefuOicIPa1kpswEJoKXJNTU+IyChBbO3Ws6/CrBIQ==
+X-Received: by 2002:a17:903:192:b0:151:8df9:6cdb with SMTP id
+ z18-20020a170903019200b001518df96cdbmr28462423plg.20.1647348525445; 
+ Tue, 15 Mar 2022 05:48:45 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ a5-20020a621a05000000b004f79f8f795fsm14520780pfa.0.2022.03.15.05.48.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 05:47:39 -0700 (PDT)
-Message-ID: <89c85796-9853-e2fe-977b-2ab321c29af5@redhat.com>
-Date: Tue, 15 Mar 2022 13:47:38 +0100
+ Tue, 15 Mar 2022 05:48:45 -0700 (PDT)
+Message-ID: <5ac6656f-6f31-8b64-c5d9-820f0a7c5360@gmail.com>
+Date: Tue, 15 Mar 2022 13:48:39 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 1/3] docs: rSTify "security-process" page; move it to
- QEMU Git
-To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org,
- qemu-security@nongnu.org
-References: <20220314104943.513593-1-kchamart@redhat.com>
- <20220314104943.513593-2-kchamart@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220314104943.513593-2-kchamart@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH v7 00/22] host: Support macOS 12
 Content-Language: en-US
+To: qemu-devel@nongnu.org
+References: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <20220306231753.50277-1-philippe.mathieu.daude@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,124 +92,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, eblake@redhat.com, peter.maydell@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Will Cohen <wwcohen@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/03/2022 11.49, Kashyap Chamarthy wrote:
-> This is based on Paolo's suggestion[1] that the 'security-process'[2]
-> page being a candidate for docs/devel.
+On 7/3/22 00:17, Philippe Mathieu-Daudé wrote:
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> Converted from Markdown to rST using:
+> Few patches to be able to build QEMU on macOS 12 (Monterey).
 > 
->      $> pandoc -f markdown -t rst security-process.md \
->          -o security-process.rst
-> 
-> It's a 1-1 conversion (I double-checked to the best I could).  I've also
-> checked that the hyperlinks work correctly post-conversion.
-> 
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg04002.html
-> [2] https://www.qemu.org/contribute/security-process
-> 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   docs/devel/index.rst            |   1 +
->   docs/devel/security-process.rst | 190 ++++++++++++++++++++++++++++++++
->   2 files changed, 191 insertions(+)
->   create mode 100644 docs/devel/security-process.rst
-> 
-> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-> index afd937535e..424eff9294 100644
-> --- a/docs/devel/index.rst
-> +++ b/docs/devel/index.rst
-> @@ -48,3 +48,4 @@ modifying QEMU's source code.
->      trivial-patches
->      submitting-a-patch
->      submitting-a-pull-request
-> +   security-process
-> diff --git a/docs/devel/security-process.rst b/docs/devel/security-process.rst
-> new file mode 100644
-> index 0000000000..cc1000fe43
-> --- /dev/null
-> +++ b/docs/devel/security-process.rst
-> @@ -0,0 +1,190 @@
-> +.. _security-process:
-> +
-> +Security Process
-> +================
-> +
-> +Please report any suspected security issue in QEMU to the security
-> +mailing list at:
-> +
-> +-  `<qemu-security@nongnu.org> <https://lists.nongnu.org/mailman/listinfo/qemu-security>`__
-> +
-> +To report an issue via `GPG <https://gnupg.org/>`__ encrypted email,
-> +please send it to the Red Hat Product Security team at:
-> +
-> +-  `<secalert@redhat.com> <https://access.redhat.com/security/team/contact/#contact>`__
-> +
-> +**Note:** after the triage, encrypted issue details shall be sent to the
-> +upstream ‘qemu-security’ mailing list for archival purposes.
-> +
-> +How to report an issue
-> +----------------------
-> +
-> +-  Please include as many details as possible in the issue report. Ex:
-> +
-> +   -  QEMU version, upstream commit/tag
-> +   -  Host & Guest architecture x86/Arm/PPC, 32/64 bit etc.
-> +   -  Affected code area/snippets
-> +   -  Stack traces, crash details
-> +   -  Malicious inputs/reproducer steps etc.
-> +   -  Any configurations/settings required to trigger the issue.
-> +
-> +-  Please share the QEMU command line used to invoke a guest VM.
-> +
-> +-  Please specify whom to acknowledge for reporting this issue.
-> +
-> +How we respond
-> +~~~~~~~~~~~~~~
-> +
-> +-  Process of handling security issues comprises following steps:
-> +
-> +   0) **Acknowledge:**
-> +
-> +   -  A non-automated response email is sent to the reporter(s) to
-> +      acknowledge the reception of the report. (*60 day’s counter starts
-> +      here*)
-> +
-> +   1) **Triage:**
-> +
-> +   -  Examine the issue details and confirm whether the issue is genuine
-> +   -  Validate if it can be misused for malicious purposes
-> +   -  Determine its worst case impact and severity
-> +      [Low/Moderate/Important/Critical]
-> +
-> +   2) **Response:**
-> +
-> +   -  Negotiate embargo timeline (if required, depending on severity)
-> +   -  Request a `CVE <https://cveform.mitre.org/>`__ and open an
-> +      upstream `bug <https://www.qemu.org/contribute/report-a-bug/>`__
-> +   -  Create an upstream fix patch annotated with
-> +
-> +      -  CVE-ID
-> +      -  Link to an upstream bugzilla
-> +      -  Reported-by, Tested-by etc. tags
-> +
-> +   -  Once the patch is merged, close the upstream bug with a link to
-> +      the commit
-> +
-> +      -  Fixed in:
+> Missing review:
+>   0006-hvf-Fix-OOB-write-in-RDTSCP-instruction-decode.patch
+>   0013-osdep-Avoid-using-Clang-specific-__builtin_available.patch
+>   0014-meson-Resolve-the-entitlement.sh-script-once-for-goo.patch
+>   0015-meson-Log-QEMU_CXXFLAGS-content-in-summary.patch
+>   0016-configure-Pass-filtered-QEMU_OBJCFLAGS-to-meson.patch
+>   0017-ui-cocoa-Constify-qkeycode-translation-arrays.patch
+>   0020-ui-cocoa-capture-all-keys-and-combos-when-mouse-is-g.patch
+>   0021-ui-cocoa-add-option-to-swap-Option-and-Command.patch
+>   0022-gitlab-ci-Support-macOS-12-via-cirrus-run.patch
 
-There used to be a "<commit hash/link>" after that "Fixed in" on the 
-original page, seems like you've lost that somewhere along the way?
+Queuing reviewed patches; IOW all except:
 
-Anyway, I'd like to hear from the security folks whether they are OK with 
-moving this page to the main git repo, or whether it rather should stay in 
-the qemu-web repo.
+    0006-hvf-Fix-OOB-write-in-RDTSCP-instruction-decode.patch
+    0022-gitlab-ci-Support-macOS-12-via-cirrus-run.patch
 
-  Thomas
+Thanks,
 
+Phil.
 
