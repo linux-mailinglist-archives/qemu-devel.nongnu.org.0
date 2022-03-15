@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4474D9C26
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:27:01 +0100 (CET)
-Received: from localhost ([::1]:36380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258B94D9C43
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:31:18 +0100 (CET)
+Received: from localhost ([::1]:44478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU7CV-000878-Rr
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:26:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35508)
+	id 1nU7Ge-0005Ok-J0
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:31:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nU6uK-0003FF-5o
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 09:08:12 -0400
-Received: from [2607:f8b0:4864:20::b2e] (port=40844
- helo=mail-yb1-xb2e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nU6uH-0002GH-3N
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 09:08:11 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id z8so189681ybh.7
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 06:08:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pc3lX9dc0xzygBFHqQcQVtp1PXH+SG21+kxfVVFs6XU=;
- b=dGfWri3/PQ3RNbPyYInyla3dWx2NtycNmXrRKR7TVvp6+MZistyb2LDbQ3k3UHWK2S
- 9oCXCATtE86ILzB6RYCIaGlvUye67DWtTy8z5Mb9adXu0genQ4V5mqUpgBrqSeYUavMY
- /njEH4LCrgtpac3sHW3jl0QXROy+R5mAUfFNMgVU6/ldbB118lUc2yqtRcJf0AeSCs5+
- I8VaFmkoV4+LQKSGvCu823WZvrmNYThL97KQhJj5KEnyM6K5/34PmM+OC5qSoIJ1k8N+
- xX6+OjDOmrDj0wzHkqkPsgoN+DvfxUIP9+IS6yUikaXOwe5wD+EUKJawJMCfqF4XV56R
- cMKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pc3lX9dc0xzygBFHqQcQVtp1PXH+SG21+kxfVVFs6XU=;
- b=Z7LvlIq3d9o+BtN4Dtr1sLY+iV20xzEnqiITJOmdE3jxgvfqZ72xUEh5LnngedF/PQ
- QOZtDr1FNsmen8VNcH1Mlbvk1z4b5AzXQlP4fhUvURGdB3TMc41+/KjNJbShzKOGenAV
- Swy5djFFY2mv+b0vmiPrP0HEnahUnFB9BX7A7T4IpwENEVTs4Cmd5+GTvP2MuZ+BmA2r
- NJMaoTF3BFRS6mZuj9bSBwXv9COo2tDn9yBLLAWEsHOBL/Md+ZQ0Z2RSOS6+wbNRYBj5
- Wh6xcGwNQlwp+q7vRAhnc6rwEnuxOeWqe2Zz1ow2ZiM7B5ftFDlXZ+M5n2aUrNSf9QU7
- ZahA==
-X-Gm-Message-State: AOAM5309nRl3aor0SbH59TOs0m6s1oZZNknNGZ5PZBvahdLS4Rm5KXeD
- iH/+ZPM/MheSofFP2CuH+H7b6LB2JOtMwPU0NX+4jA==
-X-Google-Smtp-Source: ABdhPJwslFkW36QQIRLk6uToablFmprYK72OcbtDww6WpxPzWh7vD+wZJa6Rkts+RXRfWzTeEaJKy6FD4cXDSQLJVM0=
-X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
- s5-20020a5b0745000000b006221c463c19mr23305219ybq.479.1647349687869; Tue, 15
- Mar 2022 06:08:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nU70m-00077k-Ui
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 09:14:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51969)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nU70j-00039x-J5
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 09:14:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647350088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PNoq9/JdNRl0RS8m2rRgbL0POusbQqI/+Dyjopp9H18=;
+ b=FdjIAHMKTFH4kPtQGmbsq5OCI3nr5zEy0UqAdZqvJQd2P9KAE0gcEfXw/LC+C7b4q2VgLx
+ tobIcaYSirT8VoJ5rJQz7FvT/8h/bbq+8PeN4TkLTD5fqKntq3CjMvebiwLgs7O5I2JPwR
+ HqCsKg729BhCU/4fErpj/Uj/OyOzOFQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-641-Uqm0SAgNPEWH1qbNPZ4oWQ-1; Tue, 15 Mar 2022 09:14:43 -0400
+X-MC-Unique: Uqm0SAgNPEWH1qbNPZ4oWQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E45C3C19840;
+ Tue, 15 Mar 2022 13:14:43 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 074302EFA3;
+ Tue, 15 Mar 2022 13:14:41 +0000 (UTC)
+Date: Tue, 15 Mar 2022 13:14:41 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v3 3/3] nbd/server: Allow MULTI_CONN for shared writable
+ exports
+Message-ID: <20220315131441.GD1127@redhat.com>
+References: <20220314203818.3681277-1-eblake@redhat.com>
+ <20220314203818.3681277-4-eblake@redhat.com>
 MIME-Version: 1.0
-References: <20220315063736.592808-1-clg@kaod.org>
-In-Reply-To: <20220315063736.592808-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 13:07:56 +0000
-Message-ID: <CAFEAcA_iEYpZK6Tgsp7Mkq3_0zShgEwpEQfWKsk-5bJcq=o6Kw@mail.gmail.com>
-Subject: Re: [PULL 00/20] ppc fixes for 7.0
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2e
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+In-Reply-To: <20220314203818.3681277-4-eblake@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,40 +80,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ nsoffer@redhat.com, Hanna Reitz <hreitz@redhat.com>, v.sementsov-og@ya.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 06:37, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> The following changes since commit 1416688c53be6535be755b44c15fb2eb9defd2=
-0f:
->
->   Merge remote-tracking branch 'remotes/mcayland/tags/q800-updates-for-7.=
-0-20220309' into staging (2022-03-10 13:16:37 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/legoater/qemu/ tags/pull-ppc-20220314
->
-> for you to fetch changes up to 9c10d86fee11d96274ea6f7cda12d2471abe3c47:
->
->   ppc/pnv: Remove user-created PHB{3,4,5} devices (2022-03-14 15:57:17 +0=
-100)
->
-> ----------------------------------------------------------------
-> ppc-7.0 queue :
->
-> * Removal of user-created PHB devices
-> * Avocado fixes for --disable-tcg
-> * Instruction and Radix MMU fixes
->
+The patches seem OK to me, but I don't really know enough about the
+internals of qemu-nbd to give a line-by-line review.  I did however
+build and test qemu-nbd with the patches:
+
+  $ ./build/qemu-nbd /var/tmp/test.qcow2 
+  $ nbdinfo nbd://localhost
+  ...
+	can_multi_conn: false
 
 
-Applied, thanks.
+  $ ./build/qemu-nbd -e 2 /var/tmp/test.qcow2 
+  $ nbdinfo nbd://localhost
+  ...
+	can_multi_conn: false
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.0
-for any user-visible changes.
+^^^ Is this expected?  It also happens with -e 0.
 
--- PMM
+
+  $ ./build/qemu-nbd -e 2 -m on /var/tmp/test.qcow2 
+  $ nbdinfo nbd://localhost
+  ...
+	can_multi_conn: true
+
+
+  $ ./build/qemu-nbd -e 2 -m off /var/tmp/test.qcow2 
+  $ nbdinfo nbd://localhost
+  ...
+	can_multi_conn: false
+
+
+Rich.
+
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
+
 
