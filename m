@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD3E4D971C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 10:05:41 +0100 (CET)
-Received: from localhost ([::1]:33504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348734D974E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 10:13:40 +0100 (CET)
+Received: from localhost ([::1]:38756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU37b-0004ej-Qy
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 05:05:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52570)
+	id 1nU3FK-0004Ps-NW
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 05:13:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nU2gZ-0000sK-JN
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:37:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53196)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nU2hH-0002AN-9V
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:38:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nU2gY-00048Q-4o
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:37:43 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1nU2hF-0004F6-RQ
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:38:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647333461;
+ s=mimecast20190719; t=1647333505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vek69lY+mD34sETLIzrMpknwvwLh9jX1D/ZuWim0b6U=;
- b=BRwnWf/8Fmlv9hYB3PudR/1/iymR9AxqqCFbDSDeeI6Y3RhTRUP6eNOOTiBgaP46rikr4c
- XrD12TFmSW7wCw+PefzZWIRqH9ykAZtO1VQSxW1++r4lt/Mk5vzGtrHkcfNzHVft8cJLAX
- f6i/rwVNOnbY4UcqlFgfHA54ePjizq8=
+ bh=6hYdYQQasBbsnnXbHKiWh0+oqiYIKPUs/diyZxNtFZ0=;
+ b=YOcKctK8KjIhke+91nh2I87QM78lOXBmTpO82vCnobxuTtBkieTmb5LXojQv9LEkucKf+/
+ 6GXCNXzUVbq0wmXgk9LEZGMjU7opToXiBXFdtWoGnglqZZfKYanweCuRp3VUq2VxJiWwvK
+ IvXtNRRKDYrWflA4Dsx4OirLMM50bMU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-570-BJkSsEsSNFixmDgb2-wDdw-1; Tue, 15 Mar 2022 04:37:38 -0400
-X-MC-Unique: BJkSsEsSNFixmDgb2-wDdw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-382-Dd-ioL9TNj6xOpxcYTWU6g-1; Tue, 15 Mar 2022 04:38:23 -0400
+X-MC-Unique: Dd-ioL9TNj6xOpxcYTWU6g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D7241066564;
- Tue, 15 Mar 2022 08:37:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F58480281B;
+ Tue, 15 Mar 2022 08:38:23 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.196.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41554202A423;
- Tue, 15 Mar 2022 08:37:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D5FFE2156A59;
+ Tue, 15 Mar 2022 08:38:01 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6314D180061B; Tue, 15 Mar 2022 09:37:02 +0100 (CET)
+ id 7C09F1800632; Tue, 15 Mar 2022 09:37:02 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/11] edk2/docker: install python3
-Date: Tue, 15 Mar 2022 09:36:54 +0100
-Message-Id: <20220315083656.1949517-10-kraxel@redhat.com>
+Subject: [PULL 11/11] MAINTAINERS: take edk2
+Date: Tue, 15 Mar 2022 09:36:56 +0100
+Message-Id: <20220315083656.1949517-12-kraxel@redhat.com>
 In-Reply-To: <20220315083656.1949517-1-kraxel@redhat.com>
 References: <20220315083656.1949517-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,29 +90,26 @@ Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-python2 is not supported any more,
-so go install python3 instead.
-
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/edk2/Dockerfile | 2 +-
+ MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.gitlab-ci.d/edk2/Dockerfile b/.gitlab-ci.d/edk2/Dockerfile
-index 13029310f6d6..7484b3846d71 100644
---- a/.gitlab-ci.d/edk2/Dockerfile
-+++ b/.gitlab-ci.d/edk2/Dockerfile
-@@ -20,7 +20,7 @@ RUN apt update \
-         iasl \
-         make \
-         nasm \
--        python \
-+        python3 \
-         uuid-dev \
-     && \
-     \
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f2e9ce1da2ac..b976a942dcfd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3159,7 +3159,7 @@ F: docs/interop/firmware.json
+ 
+ EDK2 Firmware
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+-R: Gerd Hoffmann <kraxel@redhat.com>
++M: Gerd Hoffmann <kraxel@redhat.com>
+ S: Supported
+ F: hw/i386/*ovmf*
+ F: pc-bios/descriptors/??-edk2-*.json
 -- 
 2.35.1
 
