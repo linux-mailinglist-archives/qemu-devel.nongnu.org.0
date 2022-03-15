@@ -2,79 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CBB4D9C1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:26:18 +0100 (CET)
-Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47C04D9C49
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:31:40 +0100 (CET)
+Received: from localhost ([::1]:44972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU7Bp-0007HS-Er
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:26:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38508)
+	id 1nU7H0-0005jO-S7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:31:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nU79S-0004MB-29
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 09:23:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37573)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nU7Aq-0006n4-VT
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 09:25:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nU79O-0004nS-6U
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 09:23:48 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nU7An-00056G-J0
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 09:25:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647350624;
+ s=mimecast20190719; t=1647350712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fuk7v2TvHcg+DhTTnrLoH5X3z8TR/xcQmzcuQMI8JtM=;
- b=Xtz7tcRy8EqH9XLoscLMC4ufRvr5rdlHLB45VKC/Hc1zMmcp5N/ixBHYkcgIavdRE9YeNk
- 8Pi37J6PPHJQDIM4+y0usnwsmurhR5S6NICSsVCEPqUdGJAALUxeQ7oBcNgKQpzOvhk3i2
- tdLOc084ut3ze7DYm2m8LtKwVhvxA3M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UMi3WewLyhi7ncul0JwLeOubIDdPL0359zjYep6iYYM=;
+ b=U5FE3sxtQ2fydfGkQpmjMkz/g8Lv2aPbM1p+7h+ZQ4fjN8uKzlBjsjGVttf1lQainzx1b3
+ oBXO9Q9J/lUE+FbmNnDxCfDH7eY1oZtR7OGVi920D3g+nbI6cQ4bsqCGx3mPUfcBecsgt1
+ 6GtMMf71h+/a+5wLql7XYePxJBClG6A=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-302-jlHMVg_OPV61ijDy1RayVQ-1; Tue, 15 Mar 2022 09:23:37 -0400
-X-MC-Unique: jlHMVg_OPV61ijDy1RayVQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E011899EC1;
- Tue, 15 Mar 2022 13:23:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 12C991402400;
- Tue, 15 Mar 2022 13:23:37 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0A93721E66C8; Tue, 15 Mar 2022 14:23:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 2/2] Added parameter to take screenshot with
- screendump as PNG.
-References: <20220301064424.136234-1-kshitij.suri@nutanix.com>
- <20220301064424.136234-2-kshitij.suri@nutanix.com>
- <871qz88yu7.fsf@pond.sub.org>
- <30e38de3-3b07-b440-ad32-a189720db301@nutanix.com>
- <87r173o7h4.fsf@pond.sub.org> <YjBoS6qvjE6EHokR@redhat.com>
-Date: Tue, 15 Mar 2022 14:23:36 +0100
-In-Reply-To: <YjBoS6qvjE6EHokR@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 15 Mar 2022 10:19:55 +0000")
-Message-ID: <87pmmnl57r.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-227-YVoV3XZeN7ehYKOAg5CP5Q-1; Tue, 15 Mar 2022 09:25:08 -0400
+X-MC-Unique: YVoV3XZeN7ehYKOAg5CP5Q-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l10-20020a05600c27ca00b0038b85cf8a20so934532wmb.6
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 06:25:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UMi3WewLyhi7ncul0JwLeOubIDdPL0359zjYep6iYYM=;
+ b=PYANPEX82YSDSh5xflOkPHTjNQOWrMXtFx7b1WF9K+RMlDN6dwXYQDkEP5+AP1h5m8
+ r3AfYfPhZ2P437IhwYowNJrHa+tmVvgFDKbdJM5Yts+bU3i/mYqsSzTk2hJLcmehqxId
+ AQNhr7HlHhok/GzHYbAR4FwA9ltUEupUYT8wUCK21rlLw63lfWnK/9cdYCuG2du4qi+2
+ S9C1JPIgjo/4/h+fJpb+c2rEgpTHohb6pEW72EfPI6L5hcZKHunpyUrG2lkf9KfkVlO2
+ M2+yLZ7TP1Qda451mI9ZuYBo7QIQtiP6NuAsuSjVJqGxF07hMT+xdSekDO8JMfoaCwY4
+ g8JA==
+X-Gm-Message-State: AOAM530zY+Cv8w+gw176MzhkXMom6VXvI2ln3QphneFZBUNgCmsg/ePv
+ jctqw3foFWTqZ9eqrQ6FNl6Vl3VzC+QxbK+YKKowozWjQRQ8CBfPcgQH5a//XtuYhO9hNwrFeHT
+ uD5M3Wea/oQXh/9Q=
+X-Received: by 2002:a5d:5308:0:b0:1f0:6300:f1d0 with SMTP id
+ e8-20020a5d5308000000b001f06300f1d0mr20827544wrv.278.1647350707844; 
+ Tue, 15 Mar 2022 06:25:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyjsKXJfGP7E5SWU/mtU6yQ+6XkuE0ctOoo3gLvyG+RHJvBdwmBn47ncliEWsmUx7yA4WhzEA==
+X-Received: by 2002:a5d:5308:0:b0:1f0:6300:f1d0 with SMTP id
+ e8-20020a5d5308000000b001f06300f1d0mr20827520wrv.278.1647350707604; 
+ Tue, 15 Mar 2022 06:25:07 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
+ [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
+ u4-20020adfdb84000000b001e8d8ac5394sm16802069wri.110.2022.03.15.06.25.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Mar 2022 06:25:06 -0700 (PDT)
+Message-ID: <31ae45f5-e9ce-f905-ea4f-c5d869ecc72b@redhat.com>
+Date: Tue, 15 Mar 2022 14:25:05 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2 2/3] docs: rSTify MailingLists wiki; move it to QEMU Git
+To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
+References: <20220314104943.513593-1-kchamart@redhat.com>
+ <20220314104943.513593-3-kchamart@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220314104943.513593-3-kchamart@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,76 +102,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: soham.ghosh@nutanix.com, prerna.saxena@nutanix.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, Kshitij Suri <kshitij.suri@nutanix.com>,
- kraxel@redhat.com, thuth@redhat.com, prachatos.mitra@nutanix.com,
- eblake@redhat.com
+Cc: pbonzini@redhat.com, eblake@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On 14/03/2022 11.49, Kashyap Chamarthy wrote:
+> This document is referred to from the GettingStartedDevelopers wiki
+> which will be rSTified in a follow-up commit.
+> 
+> Converted from Mediawiki to rST using:
+> 
+>      $> pandoc -f Mediawiki -t rst MailingLists.wiki
+>          -o mailing-lists.rst
+> 
+> It's a 1-1 conversion (I double-checked to the best I could).  I've also
+> checked that the hyperlinks work correctly post-conversion.
+> 
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+>   docs/devel/index.rst         |  1 +
+>   docs/devel/mailing-lists.rst | 53 ++++++++++++++++++++++++++++++++++++
+>   2 files changed, 54 insertions(+)
+>   create mode 100644 docs/devel/mailing-lists.rst
+> 
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index 424eff9294..fb9d9f3a80 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -12,6 +12,7 @@ modifying QEMU's source code.
+>   
+>      code-of-conduct
+>      conflict-resolution
+> +   mailing-lists
+>      build-system
+>      style
+>      kconfig
+> diff --git a/docs/devel/mailing-lists.rst b/docs/devel/mailing-lists.rst
+> new file mode 100644
+> index 0000000000..53dcbfb007
+> --- /dev/null
+> +++ b/docs/devel/mailing-lists.rst
 
-> On Tue, Mar 15, 2022 at 11:06:31AM +0100, Markus Armbruster wrote:
->> Kshitij Suri <kshitij.suri@nutanix.com> writes:
->>=20
->> > On 11/03/22 5:50 pm, Markus Armbruster wrote:
->> >> Kshitij Suri <kshitij.suri@nutanix.com> writes:
->> >>
->> >>> Currently screendump only supports PPM format, which is un-compresse=
-d and not
->> >>> standard. Added a "format" parameter to qemu monitor screendump capa=
-bilites
->> >>> to support PNG image capture using libpng. The param was added in QA=
-PI schema
->> >>> of screendump present in ui.json along with png_save() function whic=
-h converts
->> >>> pixman_image to PNG. HMP command equivalent was also modified to sup=
-port the
->> >>> feature.
->> >>>
->> >>> Example usage:
->> >>> { "execute": "screendump", "arguments": { "filename": "/tmp/image",
->> >>> "format":"png" } }
->> >>>
->> >>> Resolves: https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git=
-lab.com_qemu-2Dproject_qemu_-2D_issues_718&d=3DDwIBAg&c=3Ds883GpUCOChKOHioc=
-YtGcg&r=3Dutjv19Ej9Fb0TB7_DX0o3faQ-OAm2ypPniPyqVSoj_w&m=3DSxmcA4FlCCy9O9eUa=
-DUiSY37bauF6iJbDRVL--VUyTG5Vze_GFjmJuxgwAVYRjad&s=3DOIKnm9xXYjeat7TyIJ_-z9E=
-vG2XYXMULNbHe0Bjzyjo&e=3D
->> >>>
->> >>> Signed-off-by: Kshitij Suri <kshitij.suri@nutanix.com>
->>=20
->> [...]
->>=20
->> >>> diff --git a/qapi/ui.json b/qapi/ui.json
->> >>> index 9354f4c467..6aa0dd7c1b 100644
->> >>> --- a/qapi/ui.json
->> >>> +++ b/qapi/ui.json
->>=20
->> [...]
->>=20
->> >>>   ##
->> >>>   # @screendump:
->> >>>   #
->> >>> -# Write a PPM of the VGA screen to a file.
->> >>> +# Write a screenshot of the VGA screen to a file.
->> >>
->> >> Is "VGA screen" accurate?  Or does this work for other displays, too?
->> >
->> > The patch didn't modify any display changes and VGA screen was
->> > previously supported display type.
->>=20
->> Let me rephrase my question: was "VGA screen" accurate before your
->> patch?
->
-> No, it would be better phrased as
->
->   "Capture the specified screen contents and write it to a file"
->
-> In a multi-head scenario, it can be any of the output heads, and
-> whether the head is in a VGA mode or not is irrelevant to the
-> command functionality.
+At least the "users" mailing list is not related to development, so maybe 
+this should rather go into docs/about/ instead?
 
-Makes sense to me.
+Anyway:
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
