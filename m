@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC174D96E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 09:58:13 +0100 (CET)
-Received: from localhost ([::1]:56372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6144D96B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 09:48:36 +0100 (CET)
+Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU30H-000728-OR
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 04:58:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53946)
+	id 1nU2r5-0003ED-Mz
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 04:48:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nU2lu-0008Rd-EP
+ id 1nU2lu-0008Rq-Rn
  for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:43:14 -0400
-Received: from [2607:f8b0:4864:20::62b] (port=35807
- helo=mail-pl1-x62b.google.com)
+Received: from [2607:f8b0:4864:20::62f] (port=36851
+ helo=mail-pl1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nU2ls-00052d-LU
+ id 1nU2lt-00052l-9V
  for qemu-devel@nongnu.org; Tue, 15 Mar 2022 04:43:14 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id n15so15676396plh.2
+Received: by mail-pl1-x62f.google.com with SMTP id e13so15671822plh.3
  for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 01:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ERpNlhEJI6fLWZOagQ9lWdhLVUwWHMh+hWen+Y5bofU=;
- b=M9M42VU87dQ337HZOgYHvEJvqT+ba1jMjlVApTWDq2/XrlyPGZhLFajsfG/bUmB8zi
- t2HBJljsjd6p+3FeEWONgKtvsQu1QIrRdKQirgXtOlBSaKvfmfKLzooHQEKiCJ6pbwVS
- Mns5caP+mUopqbwrlXyTPqGyby7BYi1IvwhZ4cYgsd8DMUG0t1S4fMB/3kHVbRfMBSkE
- tAPhpvJ5KOebnyvXmjDy0frCRw2/jV+HyfhRj76NqFopj1B6klsmb61H3F2M2cY6ZA3M
- i2Ac+ujyk1oaxsd5o13Ohs+Z1MJHOXHuOP1jgVtJp+0SmEckDBSKvGBfnlWov770NsQp
- Bzbg==
+ bh=h3suoOPDLcx3C2TGXcLsoIqq/PtT5yRHwOoMlS2gYo4=;
+ b=gGOb7A/yBU1OlwmBSHbvFXOR2MtGC+eqBwbtIwffXWOMT7xi/dGHzi7fS+xDAm5z3v
+ iCEg97OWGZO6v5IZ7hQIhxRP2SPUczo6uOv4RmNq0SZfgcBUmeFi24PYCPnGp9BE3mfT
+ kCQD5w0Wtxss6uuYs42HIzuhflqJ7YTEAPwp+jCfrtnQ6/AFgfKyhEiEjt3ZSL7Hqgzf
+ WZu/TqfcXr2FH3cy0YTHRq/lor8dMc97YQgawwpgA7L8HVcOiYEsfLOStBHkx0dZZKeB
+ s0HtdTpyOTYKGq3MTI3NNbo+RMEwxyT/+KTM+hE0GbdoadiozXqppDeTXzGS4hQe6khI
+ l04g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ERpNlhEJI6fLWZOagQ9lWdhLVUwWHMh+hWen+Y5bofU=;
- b=qRas3wKg0n3HVWr0JSPNTZnARfYB3cSjufCnbJPVuWqx0b8+9oPhECi+PfN9HOajTC
- PGwypg43/Pb3Qyc9Sn+rzZr0dViC9r4gC6QVxlFJUtkzU+1lUMHNT61w2ORb1/cgY1nX
- gmd5JhvG3Zja3tGgcePUtVmilEef54hpWzaZShxW+L8HDu2OY1c/WIx0bHpKbT27Azaa
- p5w4cbzYOW8YEca03NSTZYup+4JP+ics9CglSebj9aLmZaWen07md9gzMdt0c/RsURbG
- 1Hkg8gk30JNYOcD1FkzncQzMpYmOqVKx+Of7OYEcThvldMwTBHh0RAtPWRnrRE20d8Ko
- bwvQ==
-X-Gm-Message-State: AOAM53381EmAKWBoW2K9fSIzYoI2usSQbou8LXJ+Y1r/g2/4bWp5DKqy
- WnmAqRmdI6hLOxE619axhZa6jox0+Fk1pw==
-X-Google-Smtp-Source: ABdhPJyAkxmor4lcGc2ZaHneULMNMb+0c6PXWNqpRrtaL2oqdn0pr1DJVFvZWGvr/nLOGMlP/RvONA==
-X-Received: by 2002:a17:902:7296:b0:14b:4bc6:e81 with SMTP id
- d22-20020a170902729600b0014b4bc60e81mr27028751pll.132.1647333791176; 
- Tue, 15 Mar 2022 01:43:11 -0700 (PDT)
+ bh=h3suoOPDLcx3C2TGXcLsoIqq/PtT5yRHwOoMlS2gYo4=;
+ b=mS4zgHZccF9SUmgS2GbAIogyu2BPVD2+Geq+1iJWv0IytAbXqzdQGOBlQ9Ew5oClDi
+ qVxrYE1WJMTn7RhWuH8KbCmpNfMCnncV89NDEX8rg/Vy1Lehc82C4S2iFObBe10CctHJ
+ HmnHngSjPoAZDsCYhCOCv2xc50ELeMuDQgb67v+aNxGUBj32kuIknGEeQKFZJT1tEgXs
+ xcDnhnOcrdoc/8vNKjvCiRoFCRTTdTH98vR5AOg6iMtHG5rqOHSshKPrH1BQA9Oes5/+
+ m2yOLVyTOvzUfMZT2BNmxP/+ok8po6EJRthTV56fpAovyRhopOBfbshtpu9hAfRdqWF+
+ 1O3A==
+X-Gm-Message-State: AOAM532VV+G2pCxZkYdNskVMTU8zYef/p1Fvt1SGC6bZ2EyT+lPSk0rf
+ BjwuKXMUObyvCOfzyFxmpP/KMmXKVW3H7A==
+X-Google-Smtp-Source: ABdhPJxnkBvCyJX2hyv3GYSeTjnTg2tqFPE9yPKAFtDG6e3tIafu2qUNoNsXwq/XL7ERwNqSZWizpA==
+X-Received: by 2002:a17:902:d4cc:b0:153:32a9:2479 with SMTP id
+ o12-20020a170902d4cc00b0015332a92479mr20602063plg.25.1647333792006; 
+ Tue, 15 Mar 2022 01:43:12 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- ob13-20020a17090b390d00b001becfd7c6f3sm2233762pjb.27.2022.03.15.01.43.10
+ ob13-20020a17090b390d00b001becfd7c6f3sm2233762pjb.27.2022.03.15.01.43.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 01:43:10 -0700 (PDT)
+ Tue, 15 Mar 2022 01:43:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] linux-user: Split out helpers for sigsuspend
-Date: Tue, 15 Mar 2022 01:43:05 -0700
-Message-Id: <20220315084308.433109-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/5] linux-user: Properly handle sigset arg to pselect
+Date: Tue, 15 Mar 2022 01:43:06 -0700
+Message-Id: <20220315084308.433109-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220315084308.433109-1-richard.henderson@linaro.org>
 References: <20220315084308.433109-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,145 +92,85 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two new functions: process_sigsuspend_mask and finish_sigsuspend_mask.
-Move the size check and copy-from-user code.
+Unblocked signals are never delivered, because we
+didn't record the new mask for process_pending_signals.
+Handle this with the same mechanism as sigsuspend.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/834
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/signal-common.h | 26 +++++++++++++++++++++++++
- linux-user/signal.c        | 23 ++++++++++++++++++++++
- linux-user/syscall.c       | 40 ++++++++++++++++----------------------
- 3 files changed, 66 insertions(+), 23 deletions(-)
+ linux-user/syscall.c | 30 ++++++++++--------------------
+ 1 file changed, 10 insertions(+), 20 deletions(-)
 
-diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
-index 2113165a75..6a7e4a93fc 100644
---- a/linux-user/signal-common.h
-+++ b/linux-user/signal-common.h
-@@ -92,4 +92,30 @@ abi_long do_swapcontext(CPUArchState *env, abi_ulong uold_ctx,
-  */
- int block_signals(void); /* Returns non zero if signal pending */
- 
-+/**
-+ * process_sigsuspend_mask: read and apply syscall-local signal mask
-+ *
-+ * Read the guest signal mask from @sigset, length @sigsize.
-+ * Convert that to a host signal mask and save it to sigpending_mask.
-+ *
-+ * Return value: negative target errno, or zero;
-+ *               store &sigpending_mask into *pset on success.
-+ */
-+int process_sigsuspend_mask(sigset_t **pset, target_ulong sigset,
-+                            target_ulong sigsize);
-+
-+/**
-+ * finish_sigsuspend_mask: finish a sigsuspend-like syscall
-+ *
-+ * Set in_sigsuspend if we need to use the modified sigset
-+ * during process_pending_signals.
-+ */
-+static inline void finish_sigsuspend_mask(int ret)
-+{
-+    if (ret != -QEMU_ERESTARTSYS) {
-+        TaskState *ts = (TaskState *)thread_cpu->opaque;
-+        ts->in_sigsuspend = 1;
-+    }
-+}
-+
- #endif
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 2a3f3cc23f..092e70b80c 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -1199,3 +1199,26 @@ void process_pending_signals(CPUArchState *cpu_env)
-     }
-     ts->in_sigsuspend = 0;
- }
-+
-+int process_sigsuspend_mask(sigset_t **pset, target_ulong sigset,
-+                            target_ulong sigsize)
-+{
-+    TaskState *ts = (TaskState *)thread_cpu->opaque;
-+    sigset_t *host_set = &ts->sigsuspend_mask;
-+    target_sigset_t *target_sigset;
-+
-+    if (sigsize != sizeof(*target_sigset)) {
-+        /* Like the kernel, we enforce correct size sigsets */
-+        return -TARGET_EINVAL;
-+    }
-+
-+    target_sigset = lock_user(VERIFY_READ, sigset, sigsize, 1);
-+    if (!target_sigset) {
-+        return -TARGET_EFAULT;
-+    }
-+    target_to_host_sigset(host_set, target_sigset);
-+    unlock_user(target_sigset, sigset, 0);
-+
-+    *pset = host_set;
-+    return 0;
-+}
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ecd00382a8..154cb1c7e8 100644
+index 154cb1c7e8..8071a5191d 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -9557,41 +9557,35 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #ifdef TARGET_NR_sigsuspend
-     case TARGET_NR_sigsuspend:
-         {
--            TaskState *ts = cpu->opaque;
-+            sigset_t *set;
-+
- #if defined(TARGET_ALPHA)
-+            TaskState *ts = cpu->opaque;
-             /* target_to_host_old_sigset will bswap back */
-             abi_ulong mask = tswapal(arg1);
--            target_to_host_old_sigset(&ts->sigsuspend_mask, &mask);
-+            set = &ts->sigsuspend_mask;
-+            target_to_host_old_sigset(set, &mask);
- #else
--            if (!(p = lock_user(VERIFY_READ, arg1, sizeof(target_sigset_t), 1)))
--                return -TARGET_EFAULT;
--            target_to_host_old_sigset(&ts->sigsuspend_mask, p);
--            unlock_user(p, arg1, 0);
--#endif
--            ret = get_errno(safe_rt_sigsuspend(&ts->sigsuspend_mask,
--                                               SIGSET_T_SIZE));
--            if (ret != -QEMU_ERESTARTSYS) {
--                ts->in_sigsuspend = 1;
-+            ret = process_sigsuspend_mask(&set, arg1, sizeof(target_sigset_t));
-+            if (ret != 0) {
-+                return ret;
-             }
-+#endif
-+            ret = get_errno(safe_rt_sigsuspend(set, SIGSET_T_SIZE));
-+            finish_sigsuspend_mask(ret);
-         }
-         return ret;
- #endif
-     case TARGET_NR_rt_sigsuspend:
-         {
--            TaskState *ts = cpu->opaque;
-+            sigset_t *set;
+@@ -1391,14 +1391,12 @@ static abi_long do_pselect6(abi_long arg1, abi_long arg2, abi_long arg3,
+      * The 6th arg is actually two args smashed together,
+      * so we cannot use the C library.
+      */
+-    sigset_t set;
+     struct {
+         sigset_t *set;
+         size_t size;
+     } sig, *sig_ptr;
  
--            if (arg2 != sizeof(target_sigset_t)) {
+     abi_ulong arg_sigset, arg_sigsize, *arg7;
+-    target_sigset_t *target_sigset;
+ 
+     n = arg1;
+     rfd_addr = arg2;
+@@ -1439,10 +1437,8 @@ static abi_long do_pselect6(abi_long arg1, abi_long arg2, abi_long arg3,
+     }
+ 
+     /* Extract the two packed args for the sigset */
++    sig_ptr = NULL;
+     if (arg6) {
+-        sig_ptr = &sig;
+-        sig.size = SIGSET_T_SIZE;
+-
+         arg7 = lock_user(VERIFY_READ, arg6, sizeof(*arg7) * 2, 1);
+         if (!arg7) {
+             return -TARGET_EFAULT;
+@@ -1452,28 +1448,22 @@ static abi_long do_pselect6(abi_long arg1, abi_long arg2, abi_long arg3,
+         unlock_user(arg7, arg6, 0);
+ 
+         if (arg_sigset) {
+-            sig.set = &set;
+-            if (arg_sigsize != sizeof(*target_sigset)) {
+-                /* Like the kernel, we enforce correct size sigsets */
 -                return -TARGET_EINVAL;
--            }
--            if (!(p = lock_user(VERIFY_READ, arg1, sizeof(target_sigset_t), 1)))
--                return -TARGET_EFAULT;
--            target_to_host_sigset(&ts->sigsuspend_mask, p);
--            unlock_user(p, arg1, 0);
--            ret = get_errno(safe_rt_sigsuspend(&ts->sigsuspend_mask,
--                                               SIGSET_T_SIZE));
--            if (ret != -QEMU_ERESTARTSYS) {
--                ts->in_sigsuspend = 1;
-+            ret = process_sigsuspend_mask(&set, arg1, arg2);
++            ret = process_sigsuspend_mask(&sig.set, arg_sigset, arg_sigsize);
 +            if (ret != 0) {
 +                return ret;
              }
-+            ret = get_errno(safe_rt_sigsuspend(set, SIGSET_T_SIZE));
-+            finish_sigsuspend_mask(ret);
+-            target_sigset = lock_user(VERIFY_READ, arg_sigset,
+-                                      sizeof(*target_sigset), 1);
+-            if (!target_sigset) {
+-                return -TARGET_EFAULT;
+-            }
+-            target_to_host_sigset(&set, target_sigset);
+-            unlock_user(target_sigset, arg_sigset, 0);
+-        } else {
+-            sig.set = NULL;
++            sig_ptr = &sig;
++            sig.size = SIGSET_T_SIZE;
          }
-         return ret;
- #ifdef TARGET_NR_rt_sigtimedwait
+-    } else {
+-        sig_ptr = NULL;
+     }
+ 
+     ret = get_errno(safe_pselect6(n, rfds_ptr, wfds_ptr, efds_ptr,
+                                   ts_ptr, sig_ptr));
+ 
++    if (sig_ptr) {
++        finish_sigsuspend_mask(ret);
++    }
++
+     if (!is_error(ret)) {
+         if (rfd_addr && copy_to_user_fdset(rfd_addr, &rfds, n)) {
+             return -TARGET_EFAULT;
 -- 
 2.25.1
 
