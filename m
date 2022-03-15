@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E65E4D94D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 07:48:37 +0100 (CET)
-Received: from localhost ([::1]:44596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3FE54D9502
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 08:08:22 +0100 (CET)
+Received: from localhost ([::1]:35236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU0yy-0003HY-Aa
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 02:48:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44378)
+	id 1nU1I6-0001x9-3j
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 03:08:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nU0ok-0002Am-QB; Tue, 15 Mar 2022 02:38:05 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64118)
+ id 1nU0ot-0002E9-NX; Tue, 15 Mar 2022 02:38:15 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1nU0oi-0007r8-Pp; Tue, 15 Mar 2022 02:38:02 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22F5IiUk036425; 
- Tue, 15 Mar 2022 06:37:57 GMT
+ id 1nU0os-0007t8-1Y; Tue, 15 Mar 2022 02:38:11 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22F3fpuY020922; 
+ Tue, 15 Mar 2022 06:37:59 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ete9w79mq-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3etk49jt0d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Mar 2022 06:37:57 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22F6LH6V013964;
- Tue, 15 Mar 2022 06:37:57 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ete9w79m6-1
+ Tue, 15 Mar 2022 06:37:59 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 22F6IsVJ031324;
+ Tue, 15 Mar 2022 06:37:59 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3etk49jsya-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Mar 2022 06:37:57 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22F6WrX0027501;
- Tue, 15 Mar 2022 06:37:55 GMT
+ Tue, 15 Mar 2022 06:37:58 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22F6XMha022957;
+ Tue, 15 Mar 2022 06:37:56 GMT
 Received: from b06cxnps4074.portsmouth.uk.ibm.com
  (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 3et95ws5ut-1
+ by ppma03fra.de.ibm.com with ESMTP id 3erk58mypc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Mar 2022 06:37:55 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
+ Tue, 15 Mar 2022 06:37:56 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
  by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22F6bq9T36241766
+ 22F6br2844630306
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Mar 2022 06:37:52 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5E4784C342;
- Tue, 15 Mar 2022 06:37:52 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1E2154C539;
- Tue, 15 Mar 2022 06:37:52 +0000 (GMT)
+ Tue, 15 Mar 2022 06:37:54 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EE27811C268;
+ Tue, 15 Mar 2022 06:37:44 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A5D9E11C1C2;
+ Tue, 15 Mar 2022 06:37:44 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue, 15 Mar 2022 06:37:52 +0000 (GMT)
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue, 15 Mar 2022 06:37:44 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.77.144])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 5E28D2203FC;
- Tue, 15 Mar 2022 07:37:50 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 021962202F6;
+ Tue, 15 Mar 2022 07:37:43 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 20/20] ppc/pnv: Remove user-created PHB{3,4,5} devices
-Date: Tue, 15 Mar 2022 07:37:36 +0100
-Message-Id: <20220315063736.592808-21-clg@kaod.org>
+Subject: [PULL 10/20] avocado/ppc_74xx.py: check TCG accel for all tests
+Date: Tue, 15 Mar 2022 07:37:26 +0100
+Message-Id: <20220315063736.592808-11-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220315063736.592808-1-clg@kaod.org>
 References: <20220315063736.592808-1-clg@kaod.org>
@@ -70,23 +70,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: WPRZYDdb0VUcTaJ7UTYVX3YnibVLHDsT
-X-Proofpoint-GUID: mRjw00_tRtOvT_Z_uyj1FdJgyFu2r7FC
+X-Proofpoint-ORIG-GUID: dDD-dyeeQjhjfxBJK0_m7r4QfYAUXF6Z
+X-Proofpoint-GUID: xy5Xe-p3DugQZeKuEAnUxLtK0bvlALr9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-14_14,2022-03-14_02,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 malwarescore=0
- suspectscore=0 spamscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
- adultscore=0 phishscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
- definitions=main-2203150042
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0b-001b2d01.pphosted.com
+ impostorscore=0
+ suspectscore=0 clxscore=1034 priorityscore=1501 phishscore=0 spamscore=0
+ mlxlogscore=913 lowpriorityscore=0 bulkscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2203150042
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H4=0.001,
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -101,342 +101,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On a real system with POWER{8,9,10} processors, PHBs are sub-units of
-the processor, they can be deactivated by firmware but not plugged in
-or out like a PCI adapter on a slot. Nevertheless, having user-created
-PHBs in QEMU seemed to be a good idea for testing purposes :
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
- 1. having a limited set of PHBs speedups boot time.
- 2. it is useful to be able to mimic a partially broken topology you
-    some time have to deal with during bring-up.
+All tests of this file, when running in an IBM POWER host and with
+--disable-tcg, fail in a similar manner:
 
-PowerNV is also used for distro install tests and having libvirt
-support eases these tasks. libvirt prefers to run the machine with
--nodefaults to be sure not to drag unexpected devices which would need
-to be defined in the domain file without being specified on the QEMU
-command line. For this reason :
+        Command: ./qemu-system-ppc -display none -vga none (...)
+-cpu 7400 (...)
+        Output: ioctl(KVM_CREATE_VM) failed: 22 Invalid argument
+PPC KVM module is not loaded. Try modprobe kvm_pr.
+qemu-system-ppc: failed to initialize kvm: Invalid argument
 
- 3. -nodefaults should not include default PHBs
+We don't have a way of telling which KVM module is loaded in a Power
+host (kvm_hv or kvm_pr). For now let's make all the tests of this
+file depend on TCG support.
 
-User-created PHB{3,4,5} devices satisfied all these needs but reality
-proves to be a bit more complex, internally when modeling such
-devices, and externally when dealing with the user interface.
-
-Req 1. and 2. can be simply addressed differently with a machine option:
-"phb-mask=3D<uint>", which QEMU would use to enable/disable PHB device
-nodes when creating the device tree.
-
-For Req 3., we need to make sure we are taking the right approach. It
-seems that we should expose a new type of user-created PHB device, a
-generic virtualized one, that libvirt would use and not one depending
-on the processor revision. This needs more thinking.
-
-For now, remove user-created PHB{3,4,5} devices. All the cleanups we
-did are not lost and they will be useful for the next steps.
-
-Fixes: 5bc67b052b51 ("ppc/pnv: Introduce user creatable pnv-phb4 devices"=
-)
-Fixes: 1f6a88fffc75 ("ppc/pnv: Introduce support for user created PHB3 de=
-vices")
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20220314130514.529931-1-clg@kaod.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20220310183011.110391-6-danielhb413@gmail.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/pnv.h       |  1 -
- hw/pci-host/pnv_phb3.c     | 33 ++------------------
- hw/pci-host/pnv_phb4.c     | 62 ++------------------------------------
- hw/pci-host/pnv_phb4_pec.c |  7 ++---
- hw/ppc/pnv.c               | 25 +--------------
- 5 files changed, 10 insertions(+), 118 deletions(-)
+ tests/avocado/ppc_74xx.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 1e34ddd502d8..86cb7d7f971b 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -190,7 +190,6 @@ DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER10,
+diff --git a/tests/avocado/ppc_74xx.py b/tests/avocado/ppc_74xx.py
+index 556a9a7da968..f54757c243f1 100644
+--- a/tests/avocado/ppc_74xx.py
++++ b/tests/avocado/ppc_74xx.py
+@@ -11,6 +11,7 @@
+ class ppc74xxCpu(QemuSystemTest):
+     """
+     :avocado: tags=3Darch:ppc
++    :avocado: tags=3Daccel:tcg
+     """
+     timeout =3D 5
 =20
- PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir);
- void pnv_phb_attach_root_port(PCIHostState *pci, const char *name);
--void pnv_chip_parent_fixup(PnvChip *chip, Object *obj, int index);
-=20
- #define TYPE_PNV_MACHINE       MACHINE_TYPE_NAME("powernv")
- typedef struct PnvMachineClass PnvMachineClass;
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index aafd46b635e8..ac801ac83582 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -994,30 +994,6 @@ static void pnv_phb3_realize(DeviceState *dev, Error=
- **errp)
-     PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
-     int i;
-=20
--    /* User created devices */
--    if (!phb->chip) {
--        Error *local_err =3D NULL;
--        BusState *s;
--
--        phb->chip =3D pnv_get_chip(pnv, phb->chip_id);
--        if (!phb->chip) {
--            error_setg(errp, "invalid chip id: %d", phb->chip_id);
--            return;
--        }
--
--        /*
--         * Reparent user created devices to the chip to build
--         * correctly the device tree.
--         */
--        pnv_chip_parent_fixup(phb->chip, OBJECT(phb), phb->phb_id);
--
--        s =3D qdev_get_parent_bus(DEVICE(phb->chip));
--        if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
--            error_propagate(errp, local_err);
--            return;
--        }
--    }
--
-     if (phb->phb_id >=3D PNV_CHIP_GET_CLASS(phb->chip)->num_phbs) {
-         error_setg(errp, "invalid PHB index: %d", phb->phb_id);
-         return;
-@@ -1077,10 +1053,7 @@ static void pnv_phb3_realize(DeviceState *dev, Err=
-or **errp)
-=20
-     pci_setup_iommu(pci->bus, pnv_phb3_dma_iommu, phb);
-=20
--    if (defaults_enabled()) {
--        pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb),
--                                 TYPE_PNV_PHB3_ROOT_PORT);
--    }
-+    pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb), TYPE_PNV_PHB3_ROOT_PO=
-RT);
- }
-=20
- void pnv_phb3_update_regions(PnvPHB3 *phb)
-@@ -1131,7 +1104,7 @@ static void pnv_phb3_class_init(ObjectClass *klass,=
- void *data)
-     dc->realize =3D pnv_phb3_realize;
-     device_class_set_props(dc, pnv_phb3_properties);
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
--    dc->user_creatable =3D true;
-+    dc->user_creatable =3D false;
- }
-=20
- static const TypeInfo pnv_phb3_type_info =3D {
-@@ -1201,7 +1174,7 @@ static void pnv_phb3_root_port_class_init(ObjectCla=
-ss *klass, void *data)
-=20
-     device_class_set_parent_realize(dc, pnv_phb3_root_port_realize,
-                                     &rpc->parent_realize);
--    dc->user_creatable =3D true;
-+    dc->user_creatable =3D false;
-=20
-     k->vendor_id =3D PCI_VENDOR_ID_IBM;
-     k->device_id =3D 0x03dc;
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index d1a911f988b7..b30176209303 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1545,70 +1545,14 @@ static void pnv_phb4_instance_init(Object *obj)
-     object_initialize_child(obj, "source", &phb->xsrc, TYPE_XIVE_SOURCE)=
-;
- }
-=20
--static PnvPhb4PecState *pnv_phb4_get_pec(PnvChip *chip, PnvPHB4 *phb,
--                                         Error **errp)
--{
--    Pnv9Chip *chip9 =3D PNV9_CHIP(chip);
--    int chip_id =3D phb->chip_id;
--    int index =3D phb->phb_id;
--    int i, j;
--
--    for (i =3D 0; i < chip->num_pecs; i++) {
--        /*
--         * For each PEC, check the amount of phbs it supports
--         * and see if the given phb4 index matches an index.
--         */
--        PnvPhb4PecState *pec =3D &chip9->pecs[i];
--
--        for (j =3D 0; j < pec->num_phbs; j++) {
--            if (index =3D=3D pnv_phb4_pec_get_phb_id(pec, j)) {
--                return pec;
--            }
--        }
--    }
--
--    error_setg(errp,
--               "pnv-phb4 chip-id %d index %d didn't match any existing P=
-EC",
--               chip_id, index);
--
--    return NULL;
--}
--
- static void pnv_phb4_realize(DeviceState *dev, Error **errp)
- {
-     PnvPHB4 *phb =3D PNV_PHB4(dev);
--    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
--    PnvChip *chip =3D pnv_get_chip(pnv, phb->chip_id);
-     PCIHostState *pci =3D PCI_HOST_BRIDGE(dev);
-     XiveSource *xsrc =3D &phb->xsrc;
--    BusState *s;
--    Error *local_err =3D NULL;
-     int nr_irqs;
-     char name[32];
-=20
--    if (!chip) {
--        error_setg(errp, "invalid chip id: %d", phb->chip_id);
--        return;
--    }
--
--    /* User created PHBs need to be assigned to a PEC */
--    if (!phb->pec) {
--        phb->pec =3D pnv_phb4_get_pec(chip, phb, &local_err);
--        if (local_err) {
--            error_propagate(errp, local_err);
--            return;
--        }
--    }
--
--    /* Reparent the PHB to the chip to build the device tree */
--    pnv_chip_parent_fixup(chip, OBJECT(phb), phb->phb_id);
--
--    s =3D qdev_get_parent_bus(DEVICE(chip));
--    if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
--        error_propagate(errp, local_err);
--        return;
--    }
--
-     /* Set the "big_phb" flag */
-     phb->big_phb =3D phb->phb_id =3D=3D 0 || phb->phb_id =3D=3D 3;
-=20
-@@ -1766,7 +1710,7 @@ static void pnv_phb4_class_init(ObjectClass *klass,=
- void *data)
-     dc->realize         =3D pnv_phb4_realize;
-     device_class_set_props(dc, pnv_phb4_properties);
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
--    dc->user_creatable  =3D true;
-+    dc->user_creatable  =3D false;
-=20
-     xfc->notify         =3D pnv_phb4_xive_notify;
- }
-@@ -1864,7 +1808,7 @@ static void pnv_phb4_root_port_class_init(ObjectCla=
-ss *klass, void *data)
-     PCIERootPortClass *rpc =3D PCIE_ROOT_PORT_CLASS(klass);
-=20
-     dc->desc     =3D "IBM PHB4 PCIE Root Port";
--    dc->user_creatable =3D true;
-+    dc->user_creatable =3D false;
-=20
-     device_class_set_parent_realize(dc, pnv_phb4_root_port_realize,
-                                     &rpc->parent_realize);
-@@ -1894,7 +1838,7 @@ static void pnv_phb5_root_port_class_init(ObjectCla=
-ss *klass, void *data)
-     PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
-=20
-     dc->desc     =3D "IBM PHB5 PCIE Root Port";
--    dc->user_creatable =3D true;
-+    dc->user_creatable =3D false;
-=20
-     k->vendor_id =3D PCI_VENDOR_ID_IBM;
-     k->device_id =3D PNV_PHB5_DEVICE_ID;
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index a0dfa77c8432..6f1121a9489a 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -120,6 +120,7 @@ static void pnv_pec_default_phb_realize(PnvPhb4PecSta=
-te *pec,
-     PnvPHB4 *phb =3D PNV_PHB4(qdev_new(pecc->phb_type));
-     int phb_id =3D pnv_phb4_pec_get_phb_id(pec, stack_no);
-=20
-+    object_property_add_child(OBJECT(pec), "phb[*]", OBJECT(phb));
-     object_property_set_link(OBJECT(phb), "pec", OBJECT(pec),
-                              &error_abort);
-     object_property_set_int(OBJECT(phb), "chip-id", pec->chip_id,
-@@ -150,10 +151,8 @@ static void pnv_pec_realize(DeviceState *dev, Error =
-**errp)
-     pec->num_phbs =3D pecc->num_phbs[pec->index];
-=20
-     /* Create PHBs if running with defaults */
--    if (defaults_enabled()) {
--        for (i =3D 0; i < pec->num_phbs; i++) {
--            pnv_pec_default_phb_realize(pec, i, errp);
--        }
-+    for (i =3D 0; i < pec->num_phbs; i++) {
-+        pnv_pec_default_phb_realize(pec, i, errp);
-     }
-=20
-     /* Initialize the XSCOM regions for the PEC registers */
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index e7cd8b62ca43..00f57c9678e6 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1141,9 +1141,7 @@ static void pnv_chip_power8_instance_init(Object *o=
-bj)
-=20
-     object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER=
-);
-=20
--    if (defaults_enabled()) {
--        chip8->num_phbs =3D pcc->num_phbs;
--    }
-+    chip8->num_phbs =3D pcc->num_phbs;
-=20
-     for (i =3D 0; i < chip8->num_phbs; i++) {
-         object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV=
-_PHB3);
-@@ -1974,23 +1972,6 @@ static ICSState *pnv_ics_get(XICSFabric *xi, int i=
-rq)
-     return NULL;
- }
-=20
--void pnv_chip_parent_fixup(PnvChip *chip, Object *obj, int index)
--{
--    Object *parent =3D OBJECT(chip);
--    g_autofree char *default_id =3D
--        g_strdup_printf("%s[%d]", object_get_typename(obj), index);
--
--    if (obj->parent =3D=3D parent) {
--        return;
--    }
--
--    object_ref(obj);
--    object_unparent(obj);
--    object_property_add_child(
--        parent, DEVICE(obj)->id ? DEVICE(obj)->id : default_id, obj);
--    object_unref(obj);
--}
--
- PnvChip *pnv_get_chip(PnvMachineState *pnv, uint32_t chip_id)
- {
-     int i;
-@@ -2130,8 +2111,6 @@ static void pnv_machine_power8_class_init(ObjectCla=
-ss *oc, void *data)
-=20
-     pmc->compat =3D compat;
-     pmc->compat_size =3D sizeof(compat);
--
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB3);
- }
-=20
- static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
-@@ -2150,8 +2129,6 @@ static void pnv_machine_power9_class_init(ObjectCla=
-ss *oc, void *data)
-     pmc->compat =3D compat;
-     pmc->compat_size =3D sizeof(compat);
-     pmc->dt_power_mgt =3D pnv_dt_power_mgt;
--
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB4);
- }
-=20
- static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
+@@ -18,6 +19,7 @@ def test_ppc_7400(self):
+         """
+         :avocado: tags=3Dcpu:7400
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -27,6 +29,7 @@ def test_ppc_7410(self):
+         """
+         :avocado: tags=3Dcpu:7410
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -36,6 +39,7 @@ def test_ppc_7441(self):
+         """
+         :avocado: tags=3Dcpu:7441
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -45,6 +49,7 @@ def test_ppc_7445(self):
+         """
+         :avocado: tags=3Dcpu:7445
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -54,6 +59,7 @@ def test_ppc_7447(self):
+         """
+         :avocado: tags=3Dcpu:7447
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -63,6 +69,7 @@ def test_ppc_7447a(self):
+         """
+         :avocado: tags=3Dcpu:7447a
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -72,6 +79,7 @@ def test_ppc_7448(self):
+         """
+         :avocado: tags=3Dcpu:7448
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -81,6 +89,7 @@ def test_ppc_7450(self):
+         """
+         :avocado: tags=3Dcpu:7450
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -90,6 +99,7 @@ def test_ppc_7451(self):
+         """
+         :avocado: tags=3Dcpu:7451
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -99,6 +109,7 @@ def test_ppc_7455(self):
+         """
+         :avocado: tags=3Dcpu:7455
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -108,6 +119,7 @@ def test_ppc_7457(self):
+         """
+         :avocado: tags=3Dcpu:7457
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
+@@ -117,6 +129,7 @@ def test_ppc_7457a(self):
+         """
+         :avocado: tags=3Dcpu:7457a
+         """
++        self.require_accelerator("tcg")
+         self.vm.set_console()
+         self.vm.launch()
+         wait_for_console_pattern(self, '>> OpenBIOS')
 --=20
 2.34.1
 
