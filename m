@@ -2,70 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0804D9CFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 15:09:16 +0100 (CET)
-Received: from localhost ([::1]:55888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBAC4D9CFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 15:09:58 +0100 (CET)
+Received: from localhost ([::1]:57350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU7rP-0000Di-2S
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 10:09:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49170)
+	id 1nU7s5-0001Fj-JS
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 10:09:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nU7nt-0004xR-GN
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 10:05:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nU7nr-0003qv-TN
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 10:05:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647353134;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jSU1p4IuKJsUelbGvKFQoId5peWkRrgCHptDvZtST4U=;
- b=KQoMIP4pnWHLIXdfxlOfo9Gv+OUgo4IPlGkhct3GZuYCQ4y6PoydXLMaxvInynLEVrMmGc
- oYCLTC8oXrHf6wmQ/98Cuxd2oHvchlIn8ZFNUsv9pWzi/J0GrDe9fCIe0OUZrU4gv8NDt5
- UcwYQQwS2CKQaR7AOwoXwVNw/PEDaec=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-568-wcP6bdG5M2uRWSjuaAQKmQ-1; Tue, 15 Mar 2022 10:05:31 -0400
-X-MC-Unique: wcP6bdG5M2uRWSjuaAQKmQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E94138025E0;
- Tue, 15 Mar 2022 14:05:31 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C143B401E2A;
- Tue, 15 Mar 2022 14:05:30 +0000 (UTC)
-Date: Tue, 15 Mar 2022 14:05:29 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
-Message-ID: <YjCdKfbQsgfsw76N@stefanha-x1.localdomain>
-References: <20220314093203.1420404-1-pbonzini@redhat.com>
- <Yi9MBGoc3WtOLx82@stefanha-x1.localdomain>
- <4528e387-8016-0774-9c8b-532a75566d9d@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nU7qF-000851-Gm; Tue, 15 Mar 2022 10:08:03 -0400
+Received: from [2607:f8b0:4864:20::102c] (port=43579
+ helo=mail-pj1-x102c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nU7qA-0004HP-O1; Tue, 15 Mar 2022 10:08:03 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ z12-20020a17090ad78c00b001bf022b69d6so2518327pju.2; 
+ Tue, 15 Mar 2022 07:07:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=n5RJV7EKOnS1kazx80dECSrxKL3JUdNPyUQ+rH9sbVY=;
+ b=HJForaCGjZ8+I/OPktEd9hFdMN585TTk+jl0Z7jRfAN/CjsP95sSEv7t3CUHUya9Fq
+ cmUxhqCxwnY8Jq9ZkM9jf+mTNdryW8tioEHIGLTnxomd2LGvSvmFeOEFu1+TJUQv/gsA
+ YaORRHawDzG1lXX9EHWybS1bRAYDLNtJF2kJHqL54XciTXijv6ZA3GOWFkvtFiHLZ+SA
+ 4kf26f+rEExuA6NlZ1qB3stka8I1CYBJz/5JQegh/lDX4u2BnNEce4wHmJ5LrJiopGsP
+ QZQsfwz8N7g6wzUwgwsojTXJm7WfA39eegwwQBtQsfwcFCsGITjD3GnOhrtFtvdHKflj
+ KUvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=n5RJV7EKOnS1kazx80dECSrxKL3JUdNPyUQ+rH9sbVY=;
+ b=FqP4nlQr5bRdJPrcjqyQTLiQDopDh1wPSDFC+WrNsJEE5pu9EK8jGLG2dhneO7WIQr
+ fV5I9egx/4kGVRqaQP2O/j7FT59siss/jXScQPWU0/xLf8loJffKdtpJsFhtZyx0mG9f
+ 8choZAU3lYB2OKG1XyFMIxcqMT0DWuoPxuyLmfciQmN2OSFTs+I44Rx49VbbjBq3RjL2
+ fZ91ncBiDWDJozwqWg+vcp52VGgYWZuXBN+c65tD6NzM+qBd7uhpyWVPff4t7Ds3JJDA
+ jp3x7FbnhVN+ZsxRAwN0+sdR/8vQxzv44kZIj1xE9WbnI/vzM1iTCRN7ow9WZu4SDe28
+ Qmjg==
+X-Gm-Message-State: AOAM530zXE0PSLBJKy6rTUjZbnflHzxUJS7TjZCQwrQbCRxf0N/GI5C+
+ /z9nACkiR6dr7h/3X0zR/2o=
+X-Google-Smtp-Source: ABdhPJzx03KXda7KzQgJ08jUr9c6CHZ/lPdQQFMd5dF0oFpdZHS7Vx/Bjs3VhxRjXoejIy7drn4agA==
+X-Received: by 2002:a17:902:9b97:b0:153:85ac:abc0 with SMTP id
+ y23-20020a1709029b9700b0015385acabc0mr7132480plp.100.1647353275700; 
+ Tue, 15 Mar 2022 07:07:55 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ m125-20020a628c83000000b004f7baad5c20sm10671055pfd.144.2022.03.15.07.07.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Mar 2022 07:07:55 -0700 (PDT)
+Message-ID: <02307072-4bff-dbbb-67fb-ca9800c34b3c@gmail.com>
+Date: Tue, 15 Mar 2022 15:07:36 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="m+ylgoGWcp/zwiOo"
-Content-Disposition: inline
-In-Reply-To: <4528e387-8016-0774-9c8b-532a75566d9d@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.1
+Subject: Re: [PATCH 3/3] Use g_new() & friends where that makes obvious sense
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20220314160108.1440470-1-armbru@redhat.com>
+ <20220314160108.1440470-4-armbru@redhat.com> <87y21c401e.fsf@linaro.org>
+ <875yofl3k3.fsf@pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <875yofl3k3.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,123 +95,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, hreitz@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Eric Blake <eblake@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Juan Quintela <quintela@redhat.com>, Paul Durrant <paul@xen.org>,
+ Magnus Damm <magnus.damm@gmail.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Amit Shah <amit@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, haxm-team@intel.com,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ qemu-ppc@nongnu.org, David Hildenbrand <david@redhat.com>,
+ John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Max Filippov <jcmvbkbc@gmail.com>,
+ qemu-s390x@nongnu.org, Patrick Venture <venture@google.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Corey Minyard <cminyard@mvista.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 15/3/22 14:59, Markus Armbruster wrote:
+> Alex Bennée <alex.bennee@linaro.org> writes:
+> 
+>> Markus Armbruster <armbru@redhat.com> writes:
+>>
+>>> g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
+>>> for two reasons.  One, it catches multiplication overflowing size_t.
+>>> Two, it returns T * rather than void *, which lets the compiler catch
+>>> more type errors.
+>>>
+>> <snip>
+>>> diff --git a/semihosting/config.c b/semihosting/config.c
+>>> index 137171b717..6d48ec9566 100644
+>>> --- a/semihosting/config.c
+>>> +++ b/semihosting/config.c
+>>> @@ -98,7 +98,7 @@ static int add_semihosting_arg(void *opaque,
+>>>       if (strcmp(name, "arg") == 0) {
+>>>           s->argc++;
+>>>           /* one extra element as g_strjoinv() expects NULL-terminated array */
+>>> -        s->argv = g_realloc(s->argv, (s->argc + 1) * sizeof(void *));
+>>> +        s->argv = g_renew(void *, s->argv, s->argc + 1);
+>>
+>> This did indeed break CI because s->argv is an array of *char:
+>>
+>> ../semihosting/config.c:101:17: error: assignment to ‘const char **’ from incompatible pointer type ‘void **’ [-Werror=incompatible-pointer-types]
+>>    101 |         s->argv = g_renew(void *, s->argv, s->argc + 1);
+>>        |                 ^
+>> cc1: all warnings being treated as errors
+>>
+>> So it did the job of type checking but failed to build ;-)
+> 
+> You found a hole in my compile testing, thanks!
+> 
+> I got confused about the configuration of my build trees.  Catching such
+> mistakes is what CI is for :)
 
---m+ylgoGWcp/zwiOo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+FYI Alex fixed this here:
+https://lore.kernel.org/qemu-devel/20220315121251.2280317-8-alex.bennee@linaro.org/
 
-On Mon, Mar 14, 2022 at 05:21:22PM +0100, Paolo Bonzini wrote:
-> On 3/14/22 15:07, Stefan Hajnoczi wrote:
-> > If we can reach a consensus about C++ language usage in QEMU then I'm in
-> > favor of using C++ coroutines. It's probably not realistic to think we
-> > can limit C++ language usage to just coroutines forever. Someone finds
-> > another C++ feature they absolutely need and over time the codebase
-> > becomes C++ - with both its advantages and disadvantages.
-> >=20
-> > [...] although you can write C in C++, it's not idiomatic modern C++.
-> > The language lends itself to a different style of programming that
-> > some will embrace while others will not.
->=20
-> Yes, this is an important aspect to discuss.  I think coroutines provide a
-> good blueprint for how QEMU might use C++.
->=20
-> I totally agree that, if we go this way, the genie is out of the bottle a=
-nd
-> other uses of C++ will pop up with 100% probability.  But the important
-> thing to note is that our dialect of C is already not standard C, and that
-> some of our or GLib's "innovations" are actually based on experience with
-> C++.  We can keep on writing "QEMU's C" if we think of C++ as a superchar=
-ged
-> way of writing these quality-of-life improvements that we already write. =
- In
-> some sense coroutines are an extreme example of this idea.
->=20
-> In fact, a C API would have to remain unless all source files are changed=
- to
-> C++, so QEMU would remain mostly a C project with C idioms, but that does=
-n't
-> prevent _abstracting_ the use of C++ features (written in modern, idiomat=
-ic
-> C++) behind an API that C programmers have no problems learning.  Again,
-> coroutines are an example of this of keeping the familiar create/enter/yi=
-eld
-> API and hiding the "magic" of C++ coroutines (and when they don't, that h=
-ad
-> better be an improvement).
->=20
-> In the end, C++ is a tool that you can use if it leads to better code. For
-> example, I don't see much use of C++ for devices for example, and the
-> storage devices in particular do not even need coroutines because they use
-> the callback-based interface.  But perhaps someone will try to use templa=
-tes
-> to replace repeated inclusion (which is common in hw/display) and others
-> will follow suit.  Or perhaps not.
->=20
-> One example that was brought up on IRC is type-safe operations on things
-> such as hwaddr (i.e. hwaddr+int is allowed but hwaddr-hwaddr gives back an
-> int64_t and might even check for overflow).  These would be opt in (you g=
-et
-> them just by changing a file from .c to .cc), but the actual C++ code wou=
-ld
-> still look very much like C code that uses hwaddr with no type checking.
-> All the operator overloading gunk would be in include/.
->=20
-> A different topic is what would happen if all of QEMU could be compiled as
-> C++, and could inform our selection of C++ idioms even long before we get
-> there.  For example, I'm fine with GLib and our type-safe intrusive lists,
-> so I don't have much interest in STL containers and I would prefer _not_ =
-to
-> use STL containers even in .cc files[1].  However, perhaps QEMU's home-gr=
-own
-> lock guard might be replaced by something that uses C++ destructors inste=
-ad
-> of g_autoptr, so perhaps we should consider using std::lock_guard<>, or
-> something like that, instead of QEMU_LOCK_GUARD.  It may be interesting to
-> pass down lock_guards as arguments to enforce "this lock is taken"
-> invariants.
->=20
-> But really, coroutines would be enough work so my dish would be full for
-> some time and I wouldn't really have time to look at any of this. :)
-
-I think it will be necessary to compile QEMU with a C++ compiler quite
-soon. It is possible to provide C APIs like in the case of coroutines,
-but sometimes C++ features need to be exposed to the caller (like the
-lock guards you mentioned). Also, once C++ is available people will
-start submitting C++ patches simply because they are more comfortable
-with C++ (especially one-time/infrequent contributors).
-
-We need to agree on a policy so that people know how and when they can
-use C++.
-
-The policy needs to be simple so it doesn't create hurdles for new
-contributors.
-
-Does anyone have experience with C projects that introduced C++ and what
-worked/didn't work?
-
-Stefan
-
---m+ylgoGWcp/zwiOo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIwnSkACgkQnKSrs4Gr
-c8jZ2gf+KeGczNlfejZ7x+AsTaSXFMqsEs71T5wKisGRMxN1Ry920hBmolnn8dGq
-miJpXzu0npy+eTuuPA0omDqcEWxeayVroK3LXCGDwXkYNyc7QqN4G323q7Hl0H1s
-TsPVs8jIzyMNUwTCRa3uK8pz1k15MmHw6o0L3Up0vciMnl6yF6a9V3ZVudbRPIHw
-hLmG6359dlaaXSurEAT0/bgbcUT+L55b1xHGAzq1Rn/G2frysGj+4ZEGbdFyZLYl
-qrpknIdzPSZ1o/HBOKWQRUAaydnxuAUe1R5w/h6DXc+yFbsmad0j+xKIOrQ0FGqh
-oL/79IWtuor7hgMXjjCz3MZnHc+t1Q==
-=kTaO
------END PGP SIGNATURE-----
-
---m+ylgoGWcp/zwiOo--
+So your series could go on top (modulo the Coverity change).
 
 
