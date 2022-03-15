@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19EDE4D9F9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 17:06:38 +0100 (CET)
-Received: from localhost ([::1]:58110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181354D9FB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 17:14:32 +0100 (CET)
+Received: from localhost ([::1]:40404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU9gr-0001l9-0i
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 12:06:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47112)
+	id 1nU9oc-0000nk-N0
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 12:14:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nU9ap-00070N-8P
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 12:00:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39230)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1nU9an-0005uK-JG
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 12:00:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647360012;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+8urCcpssMKgblYGcdR6iEniVwLaeZ1QBb13qMt/FWY=;
- b=QjQ/c1w+gGtAICsKQFdotuPtZt782edZ8SQCDzIxGar/p88OoV96r/hUt0D3ay/IYeIvh3
- W2nM2mbeeg5YwQ1bqS+Vusy9wtC3+hsUvU/STKezrcdgpIFInNKgTvcMrosT6vINqH58jx
- SgcJa5y34n0S0V6CwilgIuN2V5vXQp0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-344-eaUVBqVlMzKIXHiI5emXSA-1; Tue, 15 Mar 2022 12:00:11 -0400
-X-MC-Unique: eaUVBqVlMzKIXHiI5emXSA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAF8E3802AC5;
- Tue, 15 Mar 2022 16:00:10 +0000 (UTC)
-Received: from paraplu (unknown [10.39.193.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 21147400F752;
- Tue, 15 Mar 2022 16:00:08 +0000 (UTC)
-Date: Tue, 15 Mar 2022 17:00:06 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 2/3] docs: rSTify MailingLists wiki; move it to QEMU Git
-Message-ID: <YjC4Bmr3s96TzYTv@paraplu>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nU9nE-0008Ut-Ro
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 12:13:04 -0400
+Received: from [2607:f8b0:4864:20::b34] (port=33421
+ helo=mail-yb1-xb34.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nU9nD-0007jn-3w
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 12:13:04 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id j2so38407105ybu.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 09:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wEjdZk0RCXOagr7kW4kb/2mLReegxPtMjo1O2+2p9bU=;
+ b=QNc1j2aE36hKVkXbix6RCFfHMWkPam7BUR55RVge0ZZrNoh0yiAVF+HpsCK+zfPEUU
+ MChg/zYAQWsX9Stt5rxLFImdhrY56SckWTRwYwGERJO/sT089Zy8/Ld5Nb14xI8zP24S
+ 7JX9ipbQ30ZE6wqpdc2zdkKhBFWP9cfeMeaZjS844bIRJTQYakfrgOzwYaDGb7JXYsPL
+ 3q4TYviPteedEro8pyJKJBF4Oz6Pk0NZh4edHduwJTZ1GCEzjP2UMmBUiDEAKLDTztTi
+ PWBiUdsCtCjmNswj3ts5tvDslICw7hScFuN5NZkFkgGglxiQZeHrJSAaBJ5BkbsakGfB
+ p4mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wEjdZk0RCXOagr7kW4kb/2mLReegxPtMjo1O2+2p9bU=;
+ b=z1yO/se1II3bZs7VrlDbm44dweEC2F+kSwEc9cOja1K8l3gPeceVlufLdPx+nGfsgm
+ SjvinFkweb4yBiH/W/6R+PZ8Mg/XDAkuZoG2CcO4XEgSEtlOQFSBOFRyDrJjNKkfexT9
+ OxEtr1YjNrdrzOy5C0JGGyv2sl+mq9H0/hVkCbpeknddmsIaPq/iFd6SSxOJOXwIlEgH
+ SEcPtuID+Ao+0ftqMUw1v0rnQw/5+xtL8CUo6WEJHQnEo4/eIN5ZjAlx9gFDA0V3YviD
+ C/JAyln3o4G1jx32RGsZipXfFWCg32ycWU8f+sweVhixRjKxQT3ON1f+SF7qT6Q+e8d6
+ 0+9w==
+X-Gm-Message-State: AOAM533fC3oDkNJ2DUODVdceCoFuC8DXtSEAetHySESBquwsK2n0bhKc
+ rf4CCKnJDZJ67i1I9n8mxzQbd5TxvxGo6uAq+HXfFg==
+X-Google-Smtp-Source: ABdhPJwTjCzUDiNf/MjEGgtc8VI7JNKk91pEkPMU1YGEOV4Qpt4mcPNioDey7isk68J8ce/DaJi282Y1IfQUuSAhbT0=
+X-Received: by 2002:a5b:745:0:b0:622:1c46:3c19 with SMTP id
+ s5-20020a5b0745000000b006221c463c19mr24296587ybq.479.1647360781804; Tue, 15
+ Mar 2022 09:13:01 -0700 (PDT)
+MIME-Version: 1.0
 References: <20220314104943.513593-1-kchamart@redhat.com>
  <20220314104943.513593-3-kchamart@redhat.com>
- <31ae45f5-e9ce-f905-ea4f-c5d869ecc72b@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <31ae45f5-e9ce-f905-ea4f-c5d869ecc72b@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ <31ae45f5-e9ce-f905-ea4f-c5d869ecc72b@redhat.com> <YjC4Bmr3s96TzYTv@paraplu>
+In-Reply-To: <YjC4Bmr3s96TzYTv@paraplu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 15 Mar 2022 16:12:50 +0000
+Message-ID: <CAFEAcA9vqS+2Tou1iK7hqmFXnvsXxABmYW9EQRjGnKKAp=k_xQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] docs: rSTify MailingLists wiki; move it to QEMU Git
+To: Kashyap Chamarthy <kchamart@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b34
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,46 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org,
- peter.maydell@linaro.org
+Cc: pbonzini@redhat.com, Thomas Huth <thuth@redhat.com>, eblake@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 15, 2022 at 02:25:05PM +0100, Thomas Huth wrote:
-> On 14/03/2022 11.49, Kashyap Chamarthy wrote:
+On Tue, 15 Mar 2022 at 16:00, Kashyap Chamarthy <kchamart@redhat.com> wrote:
+>
+> On Tue, Mar 15, 2022 at 02:25:05PM +0100, Thomas Huth wrote:
+> > On 14/03/2022 11.49, Kashyap Chamarthy wrote:
+>
+> [...]
+>
+> > At least the "users" mailing list is not related to development, so maybe
+> > this should rather go into docs/about/ instead?
+>
+> Yeah, makes sense.  I wonder if should create a new doc in docs/about/
+> for user-lists, as none of the existing docs fit the bill:
+>
+>     build-platforms.rst  deprecated.rst  index.rst license.rst
+>     removed-features.rst
 
-[...]
+Yes, I think that about/ should have a document something like
+"Contacting the project" or "Support", which could tell users about not just
+the user-facing mailing lists but also where to file bugs, and so on.
 
-> At least the "users" mailing list is not related to development, so maybe
-> this should rather go into docs/about/ instead?
+In fact, it should probably look rather like the
+https://www.qemu.org/support/ page...
 
-Yeah, makes sense.  I wonder if should create a new doc in docs/about/
-for user-lists, as none of the existing docs fit the bill:
-
-    build-platforms.rst  deprecated.rst  index.rst license.rst
-    removed-features.rst
-
-> Anyway:
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-
-Thank you.
-
-Related: I just sent the below patch to the list and Cced you (it hasn't
-yet appeared on the archives as of this writing):
-
-    "docs/devel: Fix broken internal link to mailing lists"
-
-The above should be merged on top of the current patch[1] you've just
-reviewed.  Otherwise Sphinx will complain (correctly so).
-    
-
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03488.html
-    -- docs: rSTify MailingLists wiki; move it to QEMU Git
-
-
-
--- 
-/kashyap
-
+-- PMM
 
