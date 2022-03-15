@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6BD4D9F14
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 16:47:49 +0100 (CET)
-Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 321CE4D9EF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 16:44:58 +0100 (CET)
+Received: from localhost ([::1]:59150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU9Om-0001wB-DK
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 11:47:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41948)
+	id 1nU9M1-0007zo-7P
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 11:44:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nU9Cl-0004wz-Ff
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:35:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54578)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nU9Ia-00028a-SZ
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:41:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1nU9Ci-0001qQ-Ax
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:35:22 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nU9IW-0002m2-EH
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:41:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647358519;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T+of0lAEZm4F8oYTkxASm1iXhQ+huR4kgfBPP0a8qx4=;
- b=bE4X+07Z7tndTCuw4fGmdXMcWfK+byTRTatMidXk08FkkWcTb2+OTaY+pAA/QpzgQHV80V
- FCSpdLpeLxeGm2B/Z8W+JcX6wC9n1IKs759YMfTmK88Bgneft4AOdDb380TkXcFYy8fQTt
- jXKjhLuqIDuRhFbcw5cta+isiNafCqg=
+ s=mimecast20190719; t=1647358879;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=RYUeyXj55nlsiI/Lt9+BBHG31YHsOA557KfgmExX8Hk=;
+ b=Ah4AtWQCoIN3aJhF3C1xH7ujJ/Re5Xjlr7vsPsMHvZIV/+tFXzJEajEGX5O94ckvOhljwl
+ wZFwfdLTZVET4BwpXEK7oJ7THFcnFIDD7a1/v2aTgsvD+g4/wXgFxed3VkeQV5HIoZ+2ci
+ BjP1zrpfXRxaKS5CBHnAqK2yCyhkdrg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-mSjvBvSUP-6PHH6Hnje6TQ-1; Tue, 15 Mar 2022 11:35:16 -0400
-X-MC-Unique: mSjvBvSUP-6PHH6Hnje6TQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-338-Lmm4Jz00NZqGxdsxfIHSlQ-1; Tue, 15 Mar 2022 11:41:00 -0400
+X-MC-Unique: Lmm4Jz00NZqGxdsxfIHSlQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 548A41C05AF7;
- Tue, 15 Mar 2022 15:35:16 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A3EE141DC5F;
- Tue, 15 Mar 2022 15:35:15 +0000 (UTC)
-Date: Tue, 15 Mar 2022 15:35:14 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
-Message-ID: <YjCyMjmK6wJwc6jN@stefanha-x1.localdomain>
-References: <20220314093203.1420404-1-pbonzini@redhat.com>
- <Yi9MBGoc3WtOLx82@stefanha-x1.localdomain>
- <4528e387-8016-0774-9c8b-532a75566d9d@redhat.com>
- <YjCdKfbQsgfsw76N@stefanha-x1.localdomain>
- <YjCnss5W5MhZK1Hw@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02F032999B45;
+ Tue, 15 Mar 2022 15:41:00 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AC39400F8FE;
+ Tue, 15 Mar 2022 15:40:57 +0000 (UTC)
+Date: Tue, 15 Mar 2022 15:40:54 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: multifd/tcp/zlib intermittent abort (was: Re: [PULL 00/18]
+ migration queue)
+Message-ID: <YjCzhhCLHzpDoKl0@redhat.com>
+References: <f750a1a4-223c-9456-ab23-a616f7eb2625@gmail.com>
+ <Yieku+cTxY0Xyp5C@work-vm>
+ <CAFEAcA-Y_8KTxCPoSN3P0Cgfe6cEN74b-5U1SeKtAP7FdzFvZA@mail.gmail.com>
+ <Yi92SN2Z3OZi82pS@redhat.com>
+ <CAFEAcA-Chg3LQkh5PHmSyGCkmnYoPnTGMD=zm8jj-jxWeOLTxQ@mail.gmail.com>
+ <CAFEAcA-bhoyo+EfQGOuHWeEWC8-M-tGv=fXjEAJ6XX==iiO14w@mail.gmail.com>
+ <CAFEAcA96Jx4XsdveTVgxkqWT-TBVm_K06sN+U+fofnxzGaVOWw@mail.gmail.com>
+ <CAFEAcA-3PRgVaQ_GXg_ZDp6hNUh=_rc3PiY6_6_7wUYi-oqEow@mail.gmail.com>
+ <CAFEAcA_SUCgXCL3yE9e2H=ZUwn24uLvqSeTQVKuT+RUukOKrEQ@mail.gmail.com>
+ <CAFEAcA8vj8NxP0yq_PCofNfn6h_nTaLJJQ6+5Qkcn8U4M0PSGg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="v2XpyMh8UVT3L2gr"
+In-Reply-To: <CAFEAcA8vj8NxP0yq_PCofNfn6h_nTaLJJQ6+5Qkcn8U4M0PSGg@mail.gmail.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YjCnss5W5MhZK1Hw@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,148 +90,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, hreitz@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>, Juan Quintela <quintela@redhat.com>,
+ s.reiter@proxmox.com, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>, f.ebner@proxmox.com,
+ Jinpu Wang <jinpu.wang@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Mar 15, 2022 at 03:30:27PM +0000, Peter Maydell wrote:
+> On Tue, 15 Mar 2022 at 15:03, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > Maybe we're running into this bug
+> > https://bugs.launchpad.net/ubuntu/+source/zlib/+bug/1961427
+> > ("zlib: compressBound() returns an incorrect result on z15") ?
+> 
+> Full repro info, since it's a bit hidden in this long thread:
+> 
+> Build an i386 guest QEMU; I used this configure command:
+> 
+> '../../configure' '--target-list=i386-softmmu' '--enable-debug'
+> '--with-pkgversion=pm215' '--disable-docs'
+> 
+> Then run the multifd/tcp/zlib test in a tight loop:
+> 
+> X=1; while QTEST_QEMU_BINARY=./build/i386/i386-softmmu/qemu-system-i386
+> ./build/i386/tests/qtest/migration-test  -tap -k -p
+> /i386/migration/multifd/tcp/zlib ; do echo $X; X=$((X+1)); done
+> 
+> Without DFLTCC=0 it fails typically within 5 or so iterations;
+> the longest I've ever seen it go is about 32.
 
---v2XpyMh8UVT3L2gr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+So if this is a host OS package bug we punt to OS vendor to fix,
+and just apply workaround in our CI ?  eg
 
-On Tue, Mar 15, 2022 at 03:50:26PM +0100, Kevin Wolf wrote:
-> Am 15.03.2022 um 15:05 hat Stefan Hajnoczi geschrieben:
-> > On Mon, Mar 14, 2022 at 05:21:22PM +0100, Paolo Bonzini wrote:
-> > > On 3/14/22 15:07, Stefan Hajnoczi wrote:
-> > > > If we can reach a consensus about C++ language usage in QEMU then I=
-'m in
-> > > > favor of using C++ coroutines. It's probably not realistic to think=
- we
-> > > > can limit C++ language usage to just coroutines forever. Someone fi=
-nds
-> > > > another C++ feature they absolutely need and over time the codebase
-> > > > becomes C++ - with both its advantages and disadvantages.
-> > > >=20
-> > > > [...] although you can write C in C++, it's not idiomatic modern C+=
-+.
-> > > > The language lends itself to a different style of programming that
-> > > > some will embrace while others will not.
-> > >=20
-> > > Yes, this is an important aspect to discuss.  I think coroutines prov=
-ide a
-> > > good blueprint for how QEMU might use C++.
-> > >=20
-> > > I totally agree that, if we go this way, the genie is out of the bott=
-le and
-> > > other uses of C++ will pop up with 100% probability.  But the importa=
-nt
-> > > thing to note is that our dialect of C is already not standard C, and=
- that
-> > > some of our or GLib's "innovations" are actually based on experience =
-with
-> > > C++.  We can keep on writing "QEMU's C" if we think of C++ as a super=
-charged
-> > > way of writing these quality-of-life improvements that we already wri=
-te.  In
-> > > some sense coroutines are an extreme example of this idea.
-> > >=20
-> > > In fact, a C API would have to remain unless all source files are cha=
-nged to
-> > > C++, so QEMU would remain mostly a C project with C idioms, but that =
-doesn't
-> > > prevent _abstracting_ the use of C++ features (written in modern, idi=
-omatic
-> > > C++) behind an API that C programmers have no problems learning.  Aga=
-in,
-> > > coroutines are an example of this of keeping the familiar create/ente=
-r/yield
-> > > API and hiding the "magic" of C++ coroutines (and when they don't, th=
-at had
-> > > better be an improvement).
-> > >=20
-> > > In the end, C++ is a tool that you can use if it leads to better code=
-=2E For
-> > > example, I don't see much use of C++ for devices for example, and the
-> > > storage devices in particular do not even need coroutines because the=
-y use
-> > > the callback-based interface.  But perhaps someone will try to use te=
-mplates
-> > > to replace repeated inclusion (which is common in hw/display) and oth=
-ers
-> > > will follow suit.  Or perhaps not.
-> > >=20
-> > > One example that was brought up on IRC is type-safe operations on thi=
-ngs
-> > > such as hwaddr (i.e. hwaddr+int is allowed but hwaddr-hwaddr gives ba=
-ck an
-> > > int64_t and might even check for overflow).  These would be opt in (y=
-ou get
-> > > them just by changing a file from .c to .cc), but the actual C++ code=
- would
-> > > still look very much like C code that uses hwaddr with no type checki=
-ng.
-> > > All the operator overloading gunk would be in include/.
-> > >=20
-> > > A different topic is what would happen if all of QEMU could be compil=
-ed as
-> > > C++, and could inform our selection of C++ idioms even long before we=
- get
-> > > there.  For example, I'm fine with GLib and our type-safe intrusive l=
-ists,
-> > > so I don't have much interest in STL containers and I would prefer _n=
-ot_ to
-> > > use STL containers even in .cc files[1].  However, perhaps QEMU's hom=
-e-grown
-> > > lock guard might be replaced by something that uses C++ destructors i=
-nstead
-> > > of g_autoptr, so perhaps we should consider using std::lock_guard<>, =
-or
-> > > something like that, instead of QEMU_LOCK_GUARD.  It may be interesti=
-ng to
-> > > pass down lock_guards as arguments to enforce "this lock is taken"
-> > > invariants.
-> > >=20
-> > > But really, coroutines would be enough work so my dish would be full =
-for
-> > > some time and I wouldn't really have time to look at any of this. :)
-> >=20
-> > I think it will be necessary to compile QEMU with a C++ compiler quite
-> > soon. It is possible to provide C APIs like in the case of coroutines,
-> > but sometimes C++ features need to be exposed to the caller (like the
-> > lock guards you mentioned).
->=20
-> I'm not sure what the C++ lock guards offer that our current lock guards
-> don't? Passing down lock guards makes sense to me, but why can't you do
-> that with QemuLockable? (Hm, or can the C++ version somehow check at
-> compile time that it's the _right_ lock that is held rather than just
-> any lock? It didn't look like it at the first sight.)
->=20
-> But I do see the benefit of a compiler checked CoroutineFn<> return type
-> compared to the coroutine_fn markers we have today. On the other hand...
+$ git diff
+diff --git a/.travis.yml b/.travis.yml
+index c3c8048842..6da4c9f640 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -218,6 +218,7 @@ jobs:
+         - TEST_CMD="make check check-tcg V=1"
+         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
+         - UNRELIABLE=true
++        - DFLTCC=0
+       script:
+         - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
+         - |
 
-Sorry, I made a mistake: the C++ coroutines implementation does not hide
-everything behind a C API. Coroutine functions need to be defined in C++
-source units.
 
-Stefan
 
---v2XpyMh8UVT3L2gr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIwsjIACgkQnKSrs4Gr
-c8gIJgf/Z7iIH2v8389wMcxzAfGk6KIvk71GGT1lDLvQWzz0p0NJ6zMEXtS4FRdG
-1O16ChUDezkShjP9lQ95jYIqC8KFdzPN+HaeQhUG4r3/0+y7c2t0GJmvtfeKbgFQ
-kU+/3XHDlinK31dTip7P3NxisY5uEXH9z5sNaSTHuWW/OgbDsAtBDXz3HMniAeTq
-yw1wb5ZaVaG+wkphVXcOf/RwPVDau93iHBJiWDSIRIXuvhlY1EvWj0h7PAYwQ+Lr
-1PUrktUyEA2HENn6eWwrLfxVtYqIjuFCoUdqPTj5HG1ZN/2meqUHmdDNJxkql+qj
-gcjyA3FnlGscTm9a5JXSjze9AaEeFw==
-=ObVE
------END PGP SIGNATURE-----
-
---v2XpyMh8UVT3L2gr--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
