@@ -2,92 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0F64DA288
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:40:17 +0100 (CET)
-Received: from localhost ([::1]:59858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4393C4DA0CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 18:05:18 +0100 (CET)
+Received: from localhost ([::1]:41718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUC5g-0002T2-Hh
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:40:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53136)
+	id 1nUAbk-0006Tx-TH
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 13:05:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUC1a-0000XG-1F
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:36:05 -0400
-Received: from [2607:f8b0:4864:20::62f] (port=37641
- helo=mail-pl1-x62f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUC1Y-0004WU-3U
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:36:01 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id n2so16929912plf.4
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 11:35:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6Xsgvoqjmha2hwcMnvue8R3lfPgoVYwCT9C4bzuwC3E=;
- b=MFqBIf9QnwppGT+jCkpt+vbiinH+7AkJj32tOXJRI5sepm2d/I5NnX7YVPEZXmXN62
- +a26eB1fXUsd/cwu4Hco3YW+m6JFsDrtYYdUqyMeRuBtMqjvsOSIZhySbElMrv/Fufwn
- md4w6pXnESS9HdGqtbwvGoMxEoDRtYeRaD30G9F8kMxWhzmQagU3CPEYl+QTzl4+AAQF
- nCje7W7oacwXDX1+ZeaSoKuxOWNmWvQKCHr1p3CoAu5YggKsIzgVO0GkAQ8Ac5DUMYvX
- gDMcI6uNSKqHpGi5kWeBqEZxN7cnfXYulY8OwaiF4VziZfOvITh3nq26E9mWisIF1HSb
- w+PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6Xsgvoqjmha2hwcMnvue8R3lfPgoVYwCT9C4bzuwC3E=;
- b=PVf1bqrac+A1TPEFAoCYVJHDyq4npseTOhvmLyV7ozCpwBaDdGoJTIJvJci567WC9J
- kOMcqWiQZnp2XCbxzx5VqyOT40eZa+GpX7vHIgNhqC65UI4x0AWSwcYSAoCB0gDTfFf6
- WbOJGKT1p0rXXEc3GXhdz60DSvddCtJhXPopOD+YNPTWdahrSuYWSUOOCEE4gVjLy7Y2
- Ey/yIJJcnu2Emkc2HCcyE1Jtmypelsfn7kzDrG+d3d4mXPxZqgwd4Fkl8KwkgDau7L2C
- Mm4JTKJU6rFrZZVKNnyvqOxVj8F/ZHuwfZBdNFqz934+ubfxFYQtkRQk7yfj0fvu8oj6
- 57gg==
-X-Gm-Message-State: AOAM5313O1dUOH9/Cmb/C1P3DGnygSDtwijMFvJv3APion8e3nQs3bYE
- GxZZUcolr8DaDpSVzJAEV6U=
-X-Google-Smtp-Source: ABdhPJwOQNgzzsrPDxjtgPn5xWuh50F1VsEnnhdDB1CQaO6X9pZ2Pq62x+pU6a3GD0YNeJj1PkvIWQ==
-X-Received: by 2002:a17:902:f612:b0:14c:e978:f99e with SMTP id
- n18-20020a170902f61200b0014ce978f99emr29086524plg.23.1647369358642; 
- Tue, 15 Mar 2022 11:35:58 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- 2-20020a631342000000b0037487b6b018sm20269448pgt.0.2022.03.15.11.35.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 11:35:58 -0700 (PDT)
-Message-ID: <7dd4fd1f-5575-70f9-c476-b3159cc5990c@gmail.com>
-Date: Tue, 8 Mar 2022 14:19:39 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nUAYX-0004y6-Od
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 13:01:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58601)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1nUAYU-00077B-Bh
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 13:01:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647363713;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8pd1mOyIYOh/jUZg1RDvcMzH0gCyPQYs2Vx858NAv0o=;
+ b=JbYNLFxtPj9exxbYrOm60j1QHLbQ3VVbbj3pGuNdfEmFqC/nio3qpH3ExNGrShgDsUCcgM
+ UhgDxhQiKbqvf1Bx9wPZVU63xqh4MZNhbJC3TzvD3QH4Ruxy4G0yUeDql/ifM9cwCsXliI
+ ojkVU7AfyDWw0m3UhEQrkB+Rs+gOJTU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-344-GquYiujJNUmlv2zwel9BQA-1; Tue, 15 Mar 2022 13:01:38 -0400
+X-MC-Unique: GquYiujJNUmlv2zwel9BQA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B1FE2999B45;
+ Tue, 15 Mar 2022 17:01:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69189C44AE5;
+ Tue, 15 Mar 2022 17:01:35 +0000 (UTC)
+Date: Tue, 15 Mar 2022 17:01:32 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: multifd/tcp/zlib intermittent abort
+Message-ID: <YjDGbFE9cx075lM8@redhat.com>
+References: <CAFEAcA-Y_8KTxCPoSN3P0Cgfe6cEN74b-5U1SeKtAP7FdzFvZA@mail.gmail.com>
+ <Yi92SN2Z3OZi82pS@redhat.com>
+ <CAFEAcA-Chg3LQkh5PHmSyGCkmnYoPnTGMD=zm8jj-jxWeOLTxQ@mail.gmail.com>
+ <CAFEAcA-bhoyo+EfQGOuHWeEWC8-M-tGv=fXjEAJ6XX==iiO14w@mail.gmail.com>
+ <CAFEAcA96Jx4XsdveTVgxkqWT-TBVm_K06sN+U+fofnxzGaVOWw@mail.gmail.com>
+ <CAFEAcA-3PRgVaQ_GXg_ZDp6hNUh=_rc3PiY6_6_7wUYi-oqEow@mail.gmail.com>
+ <CAFEAcA_SUCgXCL3yE9e2H=ZUwn24uLvqSeTQVKuT+RUukOKrEQ@mail.gmail.com>
+ <CAFEAcA8vj8NxP0yq_PCofNfn6h_nTaLJJQ6+5Qkcn8U4M0PSGg@mail.gmail.com>
+ <YjCzhhCLHzpDoKl0@redhat.com>
+ <2c9eab2b-a166-1722-4fc0-68b0e4abdd8e@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-Subject: Re: [PULL v2 00/47] virtio,pc,pci: features, cleanups, fixes
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220307100058.449628-1-mst@redhat.com>
- <CAFEAcA94Uu=kyinf+pLUT2cY05326EDX=TKUeiSJH_aEY-kPVg@mail.gmail.com>
- <CAFEAcA_wO6dkr6=HUYsOS7RxGErrAvsNnNqhKfM733Q=4v6cdw@mail.gmail.com>
- <20220307174713-mutt-send-email-mst@kernel.org>
- <CAFEAcA9qUMuDupNRCYeH5rzBY+J7D3XXN_92PJjhBYxF70kF=w@mail.gmail.com>
- <20220308055639-mutt-send-email-mst@kernel.org>
- <CAFEAcA-3iD3hz2ihSDOir6ByWztAjNUkAvCSbeeX7-osMQLTdg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <CAFEAcA-3iD3hz2ihSDOir6ByWztAjNUkAvCSbeeX7-osMQLTdg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: 27
-X-Spam_score: 2.7
-X-Spam_bar: ++
-X-Spam_report: (2.7 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+In-Reply-To: <2c9eab2b-a166-1722-4fc0-68b0e4abdd8e@redhat.com>
+User-Agent: Mutt/2.1.5 (2021-12-30)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,53 +92,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, f.ebner@proxmox.com,
+ Ilya Leoshkevich <iii@linux.ibm.com>, Juan Quintela <quintela@redhat.com>,
+ s.reiter@proxmox.com, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Jinpu Wang <jinpu.wang@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/3/22 12:18, Peter Maydell wrote:
-> On Tue, 8 Mar 2022 at 11:01, Michael S. Tsirkin <mst@redhat.com> wrote:
->>
->> On Tue, Mar 08, 2022 at 09:05:27AM +0000, Peter Maydell wrote:
->>> On Mon, 7 Mar 2022 at 22:52, Michael S. Tsirkin <mst@redhat.com> wrote:
-
->>>> Now, I could maybe get behind this if it simply warned about a cast that
->>>> loses information (cast to a smaller integer) or integer/pointer cast
->>>> that does not go through uintptr_t without regard to size.
->>>
->>> This *is* warning about losing information. On 64-bit Windows
->>> pointers are 64 bits but 'long' is 32 bits, so the path
->>> pointer -> long -> uint64_t drops the top half of the pointer.
+On Tue, Mar 15, 2022 at 04:44:37PM +0100, Thomas Huth wrote:
+> On 15/03/2022 16.40, Daniel P. Berrangé wrote:
+> > On Tue, Mar 15, 2022 at 03:30:27PM +0000, Peter Maydell wrote:
+> > > On Tue, 15 Mar 2022 at 15:03, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > > > Maybe we're running into this bug
+> > > > https://bugs.launchpad.net/ubuntu/+source/zlib/+bug/1961427
+> > > > ("zlib: compressBound() returns an incorrect result on z15") ?
+> > > 
+> > > Full repro info, since it's a bit hidden in this long thread:
+> > > 
+> > > Build an i386 guest QEMU; I used this configure command:
+> > > 
+> > > '../../configure' '--target-list=i386-softmmu' '--enable-debug'
+> > > '--with-pkgversion=pm215' '--disable-docs'
+> > > 
+> > > Then run the multifd/tcp/zlib test in a tight loop:
+> > > 
+> > > X=1; while QTEST_QEMU_BINARY=./build/i386/i386-softmmu/qemu-system-i386
+> > > ./build/i386/tests/qtest/migration-test  -tap -k -p
+> > > /i386/migration/multifd/tcp/zlib ; do echo $X; X=$((X+1)); done
+> > > 
+> > > Without DFLTCC=0 it fails typically within 5 or so iterations;
+> > > the longest I've ever seen it go is about 32.
+> > 
+> > So if this is a host OS package bug we punt to OS vendor to fix,
+> > and just apply workaround in our CI ?  eg
+> > 
+> > $ git diff
+> > diff --git a/.travis.yml b/.travis.yml
+> > index c3c8048842..6da4c9f640 100644
+> > --- a/.travis.yml
+> > +++ b/.travis.yml
+> > @@ -218,6 +218,7 @@ jobs:
+> >           - TEST_CMD="make check check-tcg V=1"
+> >           - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
+> >           - UNRELIABLE=true
+> > +        - DFLTCC=0
+> >         script:
+> >           - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
+> >           - |
 > 
->> Yes obviously. My point is that this:
->> (uint64_t)hdev->vqs[queue].avail
->> is always harmless but it warns on a 32 bit system.
-> 
-> True, I suppose. But compiler warnings are often like that: we
-> take the hit of having to tweak some things we know to be OK in
-> order to catch the real bugs in other cases.
-> 
->> And someone trying to fix that *is* what resulted in
->> (uint64_t)(unsigned long)hdev->vqs[queue].avail
-> 
-> Using 'unsigned long' in a cast (or anything else) is often
-> the wrong thing in QEMU...
+> Sounds like a good idea - but you should certainly add a proper comment
+> here, too, so that we can later remind ourselves to remove the workaround
+> again.
 
-$ git grep -F '(unsigned long)' | wc -l
-      273
+FYI, I don't have time to actually test this for real with Travis right
+now , so I'll leave it to someone else to test and submit a formal patch.
 
-Ouch :/
 
-These require cleanup:
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-target/i386/sev.c:170:    input.data = (__u64)(unsigned long)data;
-target/i386/sev.c:188:    arg.data = (unsigned long)data;
-target/i386/sev.c:243:    range.addr = (__u64)(unsigned long)host;
-target/i386/sev.c:273:    range.addr = (__u64)(unsigned long)host;
-target/i386/sev.c:730:    update.uaddr = (__u64)(unsigned long)addr;
-
-And we might add a Gitlab issue to look at the hw/ ones:
-
-$ git grep -F '(unsigned long)' hw | wc -l
-       76
 
