@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FB64DA29C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:46:14 +0100 (CET)
-Received: from localhost ([::1]:40912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B2B4DA2D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:59:56 +0100 (CET)
+Received: from localhost ([::1]:48676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUCBR-0000TM-7I
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:46:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54798)
+	id 1nUCOg-0006P0-OF
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:59:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUC6z-0004Uw-LQ
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:41:37 -0400
-Received: from [2607:f8b0:4864:20::b2f] (port=40791
- helo=mail-yb1-xb2f.google.com)
+ id 1nUCNQ-0005iu-9k
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:58:36 -0400
+Received: from [2607:f8b0:4864:20::1129] (port=41628
+ helo=mail-yw1-x1129.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nUC6y-0005J7-4b
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:41:37 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id z8so241810ybh.7
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 11:41:35 -0700 (PDT)
+ id 1nUCNO-00083Q-KQ
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:58:35 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-2e5969bdf31so18976767b3.8
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 11:58:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8qopWmj9wwwO4W8RV0D55EJGTjGtmRDXBSWpTQP2OEg=;
- b=YhQHjQUEFFXxmKmyegYBT0MemdoW1/KYq6SwdcbueVaXR4BfoW/rgKemkHrzER8ydY
- jUv86uNGR1XojZd62LBLaDesnRq3nURotlVDGikBw/oRWFglGMpMVrK9BcredtyAy55q
- Ub18IUbULmO2qC+JjeryAaZB/0LFkj1cWJ4gpKIaysknNyU8EJIef7ZEOsje9PX18xx/
- 4sRPvkjAO7TY7AArpTqcMED6gFuADQYbo9QGstL4allZ0ycI/KFPdqdhLp7e1HdJNPlw
- RrNQyrwc+8B9jJ7MO9KHKsdCebRKB2CeQEvcwSAlfkRgBfBl0xItHLDz5I1rG0lx+b7M
- 6jDA==
+ :cc; bh=VMDQiwNg6AYqrkebokhlK7+etyXfZ+3xgb3vbe5todE=;
+ b=DmjeV6QuYzOEP+W+w+S2i5m22YPsCCCq0eJ8VL9iBh/XCZHvtKBFvZaJytqs1egAcg
+ oL+is7Uu8met7/1N8F8irMD3vganVrM7e3fiFOU6wKHP7U1ngM9aukBMnwQ5XbfFNsMy
+ hHVpVoQT108qzjRruBsAhCwpQytjSzzCabDEEVfllMhGYmA1qpAMpdiK1LAA5gtIKmZ4
+ UKZswNYRzNl+RQwNZp9zHQjJHgy+FuAR7wfYxvkt0a3ghy2qDVUgDabdX1ND1n3ABIfB
+ Bb7AGeIV1JXU5XaG4mdS0oXqQP/LVTiHXcv0Jx07keeTgw7H1P+3UzUL9nLDsm/BRBvO
+ Mo2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8qopWmj9wwwO4W8RV0D55EJGTjGtmRDXBSWpTQP2OEg=;
- b=sFqU9CELCiq5RugWQW0c/1C7nz4L1TejAurRtB9EPr/msSAN39ovHh+c46AbpFJGmt
- KbYVT4WXNrytJ34D7pK0IBRd3+b6P89/pvOr6bKaPcaYc4PHwUrs0GXL7s0LOdurCEz3
- jbIn9ds44zQQrrzzd0MCw0C26DBfF6OXL78tG2ReYMb+MDkuhV0M+uGwYCzPV9fIqeOD
- ZyupsvZZkOFUzvF9Jo1vDHlmaUzIIijSYddMq6gIGlRLM37b8w/+4FU0JThiwoXBLosr
- lzLYxfq+alfDBpX6WBLsNuM4mBKtQri3zu3Eb5Ud101WVSoxuFT1fFn/zNMQZSLR0Pyh
- jYIA==
-X-Gm-Message-State: AOAM532WDU3els3h70ZyP508reKLlIUGAETA7EH6e0TawtQAiEApF5h2
- CA5eAcKkhQ/a+FXp+n7WqBLWiOADfy2EITe4JmNj/Q==
-X-Google-Smtp-Source: ABdhPJzj8A1hVIRmSnBa1NS1wRH8FKEe3jzyfjJxRKC4SasB2F4gvA1yYnfrObCC2+Gq+nG9FdXNiq28fXG4j9vUwqs=
-X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
- q16-20020a5b0350000000b0062886b86e09mr24252679ybp.39.1647369693793; Tue, 15
- Mar 2022 11:41:33 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=VMDQiwNg6AYqrkebokhlK7+etyXfZ+3xgb3vbe5todE=;
+ b=l3pru4xyhnPxsNDmH/Ji6JYKLGOOoxfRqg3S3sGE8xkzUC8Zy0mUGzJ4ZXr6DVYrHN
+ ICMpYj3Y5Xx4sKU9cTXa9lSa+lK8uAuFAGJUwDOHLe/hZrjjsZv69uekwmGvOK0FvhRT
+ rCu5Z+cXLUN2eRFacsuOhTsIcnwWTsBObClOhXm+MMA13rAu/1AWvi6PSAQdbyYDis53
+ 2mCnQMiFLclHZVG2l6/NzhvZToE5YHKaVuypHbC+maw7GvynHqhtHovjB/QXKlIgfSUh
+ cjGu0wDw9gFW4vunAfMYj1ogqxTVkQbjYkWALo13Wkp5UsD7d5zMS/TxzB0+wlqfI6e/
+ rRuA==
+X-Gm-Message-State: AOAM533PBLzGcKu4WxnN0J+rUtCcNJDcqT1EgokH8BB4muOOOkvB+wcw
+ oyefQi6wDOCOXXYlsEUow50F0s11/EGSdDSBJVxaFA==
+X-Google-Smtp-Source: ABdhPJysMc7nscPTsYwDWz4KEUNymzwpNS0jxvZ1i6ECEWzoB887BbtX9sJGx1ZHQHzNAjNIIPYkP3tEQ3tumtrEmvs=
+X-Received: by 2002:a0d:fd02:0:b0:2e5:9617:fda8 with SMTP id
+ n2-20020a0dfd02000000b002e59617fda8mr2895636ywf.10.1647370712856; Tue, 15 Mar
+ 2022 11:58:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220307100058.449628-1-mst@redhat.com>
- <CAFEAcA94Uu=kyinf+pLUT2cY05326EDX=TKUeiSJH_aEY-kPVg@mail.gmail.com>
- <CAFEAcA_wO6dkr6=HUYsOS7RxGErrAvsNnNqhKfM733Q=4v6cdw@mail.gmail.com>
- <20220307174713-mutt-send-email-mst@kernel.org>
- <CAFEAcA9qUMuDupNRCYeH5rzBY+J7D3XXN_92PJjhBYxF70kF=w@mail.gmail.com>
- <20220308055639-mutt-send-email-mst@kernel.org>
- <CAFEAcA-3iD3hz2ihSDOir6ByWztAjNUkAvCSbeeX7-osMQLTdg@mail.gmail.com>
- <7dd4fd1f-5575-70f9-c476-b3159cc5990c@gmail.com>
-In-Reply-To: <7dd4fd1f-5575-70f9-c476-b3159cc5990c@gmail.com>
+References: <20220315112052.515467-1-thuth@redhat.com>
+In-Reply-To: <20220315112052.515467-1-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 18:41:22 +0000
-Message-ID: <CAFEAcA-uV3bj4x65M=MqwSOZdpiUueJ6Yscs4h9=fhPToujoYQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/47] virtio,pc,pci: features, cleanups, fixes
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
- <philippe.mathieu.daude@gmail.com>
+Date: Tue, 15 Mar 2022 18:58:21 +0000
+Message-ID: <CAFEAcA8u8G3=V=OVM6v_BaOwfeDu1RJmnwrW+4PXqbnPrAAr_w@mail.gmail.com>
+Subject: Re: [PULL 0/8] s390x and misc fixes
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1129
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,33 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 18:35, Philippe Mathieu-Daud=C3=A9
-<philippe.mathieu.daude@gmail.com> wrote:
-> On 8/3/22 12:18, Peter Maydell wrote:
-> > Using 'unsigned long' in a cast (or anything else) is often
-> > the wrong thing in QEMU...
+On Tue, 15 Mar 2022 at 11:20, Thomas Huth <thuth@redhat.com> wrote:
 >
-> $ git grep -F '(unsigned long)' | wc -l
->       273
+>  Hi Peter!
 >
-> Ouch :/
+> The following changes since commit 352998df1c53b366413690d95b35f76d0721ebed:
+>
+>   Merge tag 'i2c-20220314' of https://github.com/philmd/qemu into staging (2022-03-14 14:39:33 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/thuth/qemu.git tags/pull-request-2022-03-15
+>
+> for you to fetch changes up to 36149534792dcf07a3c59867f967eaee23ab906c:
+>
+>   meson: Update to version 0.61.3 (2022-03-15 10:32:36 +0100)
+>
+> ----------------------------------------------------------------
+> * Fixes for s390x branch instruction emulation
+> * Fixes for the tests/avocado/boot_linux.py:BootLinuxS390X test
+> * Fix for "-cpu help" output
+> * Bump meson to 0.61.3 to fix stderr log of the iotests
+>
+> ----------------------------------------------------------------
 
-Only "often", not "always" :-) We have some APIs that work on
-'long', usually because they're generic APIs borrowed from the
-Linux kernel like the clear_bit/set_bit functions. And sometimes
-you're interfacing to a host OS API whose types are 'long'.
-So it's only one of those things that I tend to have in the
-back of my head during code review, rather than something I think
-we could enforce automatically.
+This results in every "Linking" step on my macos box producing the
+warning:
 
-The stuff in sev.c you list does look a bit suspicious, but
-it's not actually buggy because that's all KVM code so we
-know 'unsigned long' and pointers are the same size.
-'uintptr_t' would be better, though.
+ld: warning: directory not found for option
+'-Lns/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0'
+
+Obvious suspect here is the new meson version.
 
 thanks
 -- PMM
