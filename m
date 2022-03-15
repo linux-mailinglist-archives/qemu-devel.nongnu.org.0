@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455C44D9253
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 02:52:54 +0100 (CET)
-Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF4D4D9262
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 02:58:37 +0100 (CET)
+Received: from localhost ([::1]:33446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nTwMm-0000Qr-O4
-	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 21:52:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47018)
+	id 1nTwSK-0003hX-6M
+	for lists+qemu-devel@lfdr.de; Mon, 14 Mar 2022 21:58:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <raj.khem@gmail.com>)
- id 1nTwLo-0007p9-D3; Mon, 14 Mar 2022 21:51:52 -0400
-Received: from [2607:f8b0:4864:20::f2b] (port=35328
- helo=mail-qv1-xf2b.google.com)
+ id 1nTwRY-00031d-3i; Mon, 14 Mar 2022 21:57:48 -0400
+Received: from [2607:f8b0:4864:20::435] (port=39615
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <raj.khem@gmail.com>)
- id 1nTwLm-0005lv-UL; Mon, 14 Mar 2022 21:51:52 -0400
-Received: by mail-qv1-xf2b.google.com with SMTP id jx8so13523651qvb.2;
- Mon, 14 Mar 2022 18:51:50 -0700 (PDT)
+ id 1nTwRW-0007au-D2; Mon, 14 Mar 2022 21:57:47 -0400
+Received: by mail-pf1-x435.google.com with SMTP id h2so13156147pfh.6;
+ Mon, 14 Mar 2022 18:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dPu/6SI3fHsVuE9kOC51zGs9UD4hoSbavg2Z51iS1jw=;
- b=hm9gmScImMycDZecSEbvHYjfw9C7PXnP7Rg1GwsER4XIDj7Ic7aTlp9IVXnme/pE6p
- 8GvPjWslNDhs84faPQHwe6ubKMKnWw229K2eH0nz14f/TMOGxsEjKEnlNJsB+aKX91Jn
- 1O5zJYnItO8lZKJTf++IYTkxV9Gjpu+fhsWoCFs9q9z9+B0gl/szEOwIDfJOpT38KLOU
- 125a3p5wLEPbz70Oinz+ooqIoRznRAAaYEyyPidYrM9xd72OLyj5gTTo4GNhk9aAdVDE
- bgIgm7zFGlvUfVVrCftTsBCW3MfCaAxqAmnvDdC9TRbIeWJkUKj4BRjrBQFF3MGpfl8t
- 9UIw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tsXaWPDFCIJL0eFGJmxAgDPaflUaGUSFFZi4g7kU/vk=;
+ b=YyTx60fFksv5WtCaZ24fSHoAx2g2IRHW+FbeD/Jbd60M6evvoPPU8FaZQhSk266U7y
+ LI+OfBUIyuci3uS7iKXnLvdfEGQVJXshPDb0HbkkEvpYohnv+f1T2zJOPJjUG0ji5xSt
+ fWP7jRuk+/fkEyWrG5nOeAWZY6VGZFN2Ug22FBLLW9nfYutTGckcnfgRhgZm8juabD1Z
+ sxemVcpZm9tLh6TDJkGTNR6CeranpXcWn0bpf8re6eujpAoo4RAxuKZIyFYWROhhC8sP
+ 4v63BVnaqz4TIRHUKZ6EaPaC+DKQdWTPj3Lm2hkoWzffETmW8cmYL+8k4XtQ48aotuWY
+ rqug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dPu/6SI3fHsVuE9kOC51zGs9UD4hoSbavg2Z51iS1jw=;
- b=VWaC8gYRgOrCuIIm1wZXIboWQ4icM+gRXizfZhHky6jqk/B5UecY8BbuUPhYz2etUo
- jFCHQM1HoZSbBddF8Q9egSQP5L+mBkTJzQpXZvHwU2eHJs55Cw1wt+SNXOzRVdAkiDKu
- kg6XgB/jByx+N9Y7p+363QO7PJfSHjlusWoiXHtBO9eQTor9poG2hc+kXf9Wie7L37ZW
- IyH14OmEWO9StBSSrx0qYyEuc5V4b1ar0A3guL8pQxN/DyJgQ3YLhZTE8o9r3hIdTFu2
- a7uyyWXlUeYHSOFSZoPOyD+yqF9w+0gLCw5+wJbwEy+WG3hwiiYS1eHhnJiT1/G0Jtpq
- 3Emg==
-X-Gm-Message-State: AOAM531cFYexNb5UmkztR4juUr/gbyRMR9RePa3bQY4131KioCTvZEC7
- okAn+rMigp4ndEQAiM2x7dJagN7nA7J60+NCU3ePxoMR6SA=
-X-Google-Smtp-Source: ABdhPJxiHBpL0ySfnmThzH7ncJHouz2oN7VJoadcQ2FV6/jm51naHthLjKpxNOfr+41C0wXxm2Ysx1roJSQEbClICBE=
-X-Received: by 2002:a05:6214:623:b0:435:c552:65bb with SMTP id
- a3-20020a056214062300b00435c55265bbmr19955920qvx.16.1647309109561; Mon, 14
- Mar 2022 18:51:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220314215138.1355256-1-raj.khem@gmail.com>
- <b6b966c3-dd49-74aa-e9be-7da716d28a3b@linaro.org>
-In-Reply-To: <b6b966c3-dd49-74aa-e9be-7da716d28a3b@linaro.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tsXaWPDFCIJL0eFGJmxAgDPaflUaGUSFFZi4g7kU/vk=;
+ b=m2HI3Lb/XhuY7/6AirmXaUqikm7EFJQGLlqt+YNZqeeQ+xXgc5LLcUjWSLXWvKMlqp
+ VPUYhkvaWMgx2j+Q9woK0ggmya5tFT+pDJY91vRfFh2DVFokQJUOr4eeNj87AxdOy254
+ iAgrOVlTE+i3sNgWGr5c/Ok0Wyep36Q0zp0lnI1Hp5rdZ9OnQNyvTHtTPAzIhHVYv+5q
+ KiHXSGbwhn+MH0YB+Umi+HjMOhZZlt4tEDLsSJc/YZveyc7eN5k006fGVswbK8XqdUqp
+ TfXwIO7mf87fN8Rqe6ct8XdHgXk5VQHO8lhqbPnm/RWCYJ9BLq6oii4uepMz7LHAoXIz
+ ufZQ==
+X-Gm-Message-State: AOAM5310W2otxHdZlylfJVcz+m23nelFOjYazXPz70YBo5LsJ7J81xlt
+ OO8r+38Jkv30VjNLqpq/OoyEzhSnOIqchg==
+X-Google-Smtp-Source: ABdhPJyKbXSZREVR6ff7qdzpq733sNK8n+y6nl4ujacgOvIx4e1KShgz2devTypw57fVOzefoiNyJQ==
+X-Received: by 2002:a05:6a00:2482:b0:4f7:644b:97b5 with SMTP id
+ c2-20020a056a00248200b004f7644b97b5mr26487261pfv.37.1647309464271; 
+ Mon, 14 Mar 2022 18:57:44 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::781b])
+ by smtp.gmail.com with ESMTPSA id
+ 63-20020a630942000000b00372a99c1821sm17617557pgj.21.2022.03.14.18.57.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Mar 2022 18:57:43 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 14 Mar 2022 18:51:22 -0700
-Message-ID: <CAMKF1sqAncDKXunwjS6aNEPk4LNU9OUnPe_eDb+6=rrWTzXqnA@mail.gmail.com>
-Subject: Re: [PATCH v3] ppc64: Avoid pt_regs struct definition
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2b
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4] ppc64: Avoid pt_regs struct definition
+Date: Mon, 14 Mar 2022 18:57:40 -0700
+Message-Id: <20220315015740.847370-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
- envelope-from=raj.khem@gmail.com; helo=mail-qv1-xf2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=raj.khem@gmail.com; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -80,46 +85,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ Khem Raj <raj.khem@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 14, 2022 at 5:13 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 3/14/22 14:51, Khem Raj wrote:
-> > +static inline uintptr_t host_signal_pc(host_sigcontext *uc)
-> > +{
-> > +    return uc->uc_mcontext.gp_regs[32];
-> > +}
-> > +
-> > +static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
-> > +{
-> > +    uc->uc_mcontext.gp_regs[32] = pc;
-> > +}
-> > +
-> > +static inline void *host_signal_mask(host_sigcontext *uc)
-> > +{
-> > +    return &uc->uc_sigmask;
-> > +}
-> > +
-> > +static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
-> > +{
-> > +    return uc->uc_mcontext.gp_regs[40] != 0x400
-> > +        && (uc->uc_mcontext.gp_regs[42] & 0x02000000);
-> > +}
->
-> Oh, dear.
->
-> I didn't realize that the symbolic constants are also in <asm/ptrace.h>. We really don't
-> want magic numbers.  We'll have to have the include and use PT_NIP, PT_TRAP, PT_DSISR.
->
+Remove pt_regs indirection and instead reference gp_regs directly, this
+makes it portable across musl/glibc
 
-yeah :) removing asm/ptrace.h sounded lucrative but it does make it
-cryptic. I will send v4 soon.
+Use PT_* constants defined in asm/ptrace.h
 
->
-> r~
+Move the file to ppc64 subdir and leave ppc empty
+
+Fixes
+../qemu-6.2.0/linux-user/host/ppc64/../ppc/host-signal.h:16:32: error: incomplete definition of type 'struct pt_regs'
+    return uc->uc_mcontext.regs->nip;
+           ~~~~~~~~~~~~~~~~~~~~^
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+---
+v2: Drop ifdef __powerpc__
+v3: Access go_regs directly and move the file to ppc64 dir
+v4: Use PT_* constants defined in asm/ptrace.h
+
+ linux-user/include/host/ppc/host-signal.h   | 38 -------------------
+ linux-user/include/host/ppc64/host-signal.h | 42 ++++++++++++++++++++-
+ 2 files changed, 41 insertions(+), 39 deletions(-)
+ delete mode 100644 linux-user/include/host/ppc/host-signal.h
+
+diff --git a/linux-user/include/host/ppc/host-signal.h b/linux-user/include/host/ppc/host-signal.h
+deleted file mode 100644
+index b80384d135..0000000000
+--- a/linux-user/include/host/ppc/host-signal.h
++++ /dev/null
+@@ -1,38 +0,0 @@
+-/*
+- * host-signal.h: signal info dependent on the host architecture
+- *
+- * Copyright (c) 2003-2005 Fabrice Bellard
+- * Copyright (c) 2021 Linaro Limited
+- *
+- * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef PPC_HOST_SIGNAL_H
+-#define PPC_HOST_SIGNAL_H
+-
+-/* The third argument to a SA_SIGINFO handler is ucontext_t. */
+-typedef ucontext_t host_sigcontext;
+-
+-static inline uintptr_t host_signal_pc(host_sigcontext *uc)
+-{
+-    return uc->uc_mcontext.regs->nip;
+-}
+-
+-static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
+-{
+-    uc->uc_mcontext.regs->nip = pc;
+-}
+-
+-static inline void *host_signal_mask(host_sigcontext *uc)
+-{
+-    return &uc->uc_sigmask;
+-}
+-
+-static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
+-{
+-    return uc->uc_mcontext.regs->trap != 0x400
+-        && (uc->uc_mcontext.regs->dsisr & 0x02000000);
+-}
+-
+-#endif
+diff --git a/linux-user/include/host/ppc64/host-signal.h b/linux-user/include/host/ppc64/host-signal.h
+index a353c22a90..c4ea866472 100644
+--- a/linux-user/include/host/ppc64/host-signal.h
++++ b/linux-user/include/host/ppc64/host-signal.h
+@@ -1 +1,41 @@
+-#include "../ppc/host-signal.h"
++/*
++ * host-signal.h: signal info dependent on the host architecture
++ *
++ * Copyright (c) 2003-2005 Fabrice Bellard
++ * Copyright (c) 2021 Linaro Limited
++ *
++ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef PPC_HOST_SIGNAL_H
++#define PPC_HOST_SIGNAL_H
++
++/* Needed for PT_* constants */
++#include <asm/ptrace.h>
++
++/* The third argument to a SA_SIGINFO handler is ucontext_t. */
++typedef ucontext_t host_sigcontext;
++
++static inline uintptr_t host_signal_pc(host_sigcontext *uc)
++{
++    return uc->uc_mcontext.gp_regs[PT_NIP];
++}
++
++static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.gp_regs[PT_NIP] = pc;
++}
++
++static inline void *host_signal_mask(host_sigcontext *uc)
++{
++    return &uc->uc_sigmask;
++}
++
++static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
++{
++    return uc->uc_mcontext.gp_regs[PT_TRAP] != 0x400
++        && (uc->uc_mcontext.gp_regs[PT_DSISR] & 0x02000000);
++}
++
++#endif
+-- 
+2.35.1
+
 
