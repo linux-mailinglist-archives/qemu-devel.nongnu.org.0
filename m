@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2354DA290
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:43:20 +0100 (CET)
-Received: from localhost ([::1]:36380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692784DA293
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:44:16 +0100 (CET)
+Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUC8d-0005nF-AW
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:43:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54308)
+	id 1nUC9X-0007Ne-IH
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:44:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUC54-0002bq-LF; Tue, 15 Mar 2022 14:39:39 -0400
-Received: from [2607:f8b0:4864:20::102f] (port=51058
- helo=mail-pj1-x102f.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nUC5C-0002gD-9G
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:39:46 -0400
+Received: from [2607:f8b0:4864:20::42a] (port=37686
+ helo=mail-pf1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nUC4z-0004rU-Gv; Tue, 15 Mar 2022 14:39:35 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id m22so270778pja.0;
- Tue, 15 Mar 2022 11:39:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1nUC5A-0004sd-Qi
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:39:45 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id t5so387966pfg.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 11:39:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=1r8IaytRp27ExjX9rB0D2iSm3KjyZx3WPI58s3YMr4A=;
- b=AvSjhMHWAZeWS730g98AZs7HWBYJl0E/OeXqjymZMPCH3TKDaP2ThKl/qPP0xdDhGL
- JLpRnJt2bGbff42ZwV+b24S9ypehOK+MQVuCpY5ISEJSn/YvGG4btG6AA4eLqZYRgUXl
- cjPM5z1qBOIdsuHZtA6xbmRwRMo+mjdl6o9zFSVxHGkHTXKlRKP17xsP0B6bmdT4JlP1
- peBQbKwn6DyW+qg9MSR4DvLYv87VUnotK6iZUrgUq+yvZs3rcHP4lFgvhEktM5dDQdCC
- J9WQL8OYacBZ2agYGeKV08vPlFoCImxxX0fsHskGf4GpLjIE/xM24CqQqC4w8sbTkC31
- +Low==
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=IvtTbkd2W6N4Yl1iox0fIsOdMoPF04bGp//N20X+lAA=;
+ b=J8Z3mz6roKJX1myApqOVcsIN5B1XkZ3Pz2sambs1KGgp6P9nanNaC5yiLhAjytIvJr
+ Lj6qry1wZBwbxVHuZS/L0piYJBLI8nyON5X0rJ6ciVcds0lc41G1NNMxPyP6ptfcSDtD
+ dI+VOaaO3OyUnYR3KpWwiSUD1oeoDMFN5EqDFPyo4ZBSTXn2xjIaS7y9sa/73AqRxAon
+ VX7DR/5aRr6IDiVtGE8N986w1FlV4KIRPUdXXSOZzLh0ps1c+S+qQc+WiPnXoQ8y05ET
+ yFM1HSXtmxmmZYYN6sUBjneV3BZwyDPXiZJB4gF1CFv/tKwS3BW91/UHfDVmScMLGrZm
+ E9qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=1r8IaytRp27ExjX9rB0D2iSm3KjyZx3WPI58s3YMr4A=;
- b=COegzL9mii+HjQevdoxpkUxEYxzxPQTCB+wNTfZkwDGrpCPd1fQfjtPejNiYYEW3/j
- eQnGU9QBgkYZey6odPgCZNnjRQ60ExK6oYXaBlVpDCF2DPrnyUo7PPhoiTfSGOHqwnE3
- VgHzNfddmkig2dtwGXQYogdNUW4CDk3pbKwhPFHZ9fzb5wiw5JY+Peh9oDatsg8++cW8
- EMar/NP14n1rOC3qu/DlVjuMYDFP5/AhGeteWmZeIhuLkG7Syv3IlZxTp2RNpD9G5RqH
- 0N2k+KceB0di8eGtnXsxnvgbzowhh3uWPz89d0M8fa7JSwt1U+6gChDrmh1kVsi67zEU
- OzVw==
-X-Gm-Message-State: AOAM530m+CkCEOhQmvY+bVHVhfIXpQxLBZi45nf5HmHB3SbjywDvCJiM
- erIAwlYEjkTCFyjZ7x8TIoo=
-X-Google-Smtp-Source: ABdhPJwnzgUpSoD5HfW9rYdicaEJMZWKfFcrz7MCU82APn7V3yK7fDsNGdJ7/ajm4DlzenewGNuz+g==
-X-Received: by 2002:a17:902:f686:b0:151:ca86:e1be with SMTP id
- l6-20020a170902f68600b00151ca86e1bemr30105422plg.16.1647369571278; 
- Tue, 15 Mar 2022 11:39:31 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=IvtTbkd2W6N4Yl1iox0fIsOdMoPF04bGp//N20X+lAA=;
+ b=LXwkRhkkRc++zb+9tOHuGOcypDho6ERGHrndT80Pg4XOjrr6f1XOmkPTZZPGFVcXa3
+ UNSIC8zdyj+xli6aLwztG2/Smp6TqlgODEj8rp2pMyAT5RITbR8hL80L4DsN+WKbXlFr
+ EY5VMP7ap/CF+pbPE4JCmj7F8FIaibkV5UQeOYPXPEa5O2IlNbM1MeO9XLS1jI7UmJlw
+ ZbIc5wsKQJsM79k6VNZDVn53pEeYq/J5V8Pi0t+WQCFwUkwJ/8kNVuvGUNJkDpxfPX3P
+ LMdn5kuXRxMmjmBEXvxpyQfDV19xOw7mP7mX4IscOxVaQ8qA1/ctTDEXlq2EXg0hkaKd
+ LjNw==
+X-Gm-Message-State: AOAM5320QCzdH44pqZxB0/N9kDWqCeDyIxdLMfi3J1995q5sLJAao/Fv
+ BRIXaYCD1PQ9X7IBzemtwdorjA==
+X-Google-Smtp-Source: ABdhPJyAXJB1UkJq5WKH4EftL0jm6WytsPArLXl7ZsN9/jKljqxTBav5fv3vfIujajcttYimasZy/g==
+X-Received: by 2002:a63:82c3:0:b0:37c:7976:4dc2 with SMTP id
+ w186-20020a6382c3000000b0037c79764dc2mr25645658pgd.477.1647369582695; 
+ Tue, 15 Mar 2022 11:39:42 -0700 (PDT)
+Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
  by smtp.gmail.com with ESMTPSA id
- oo16-20020a17090b1c9000b001b89e05e2b2sm4118325pjb.34.2022.03.15.11.39.28
+ d16-20020a056a00245000b004f7728a4346sm21497756pfj.79.2022.03.15.11.39.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 11:39:30 -0700 (PDT)
-Message-ID: <206283a0-3977-894f-6907-e9c51db554ba@gmail.com>
-Date: Tue, 15 Mar 2022 19:39:26 +0100
+ Tue, 15 Mar 2022 11:39:42 -0700 (PDT)
+Message-ID: <819d817e-8278-00cd-e609-b6cc2b64c873@linaro.org>
+Date: Tue, 15 Mar 2022 11:39:39 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.7.0
-Subject: Re: [PATCH 2/2] hw/arm/virt: Fix gic-version=max when
- CONFIG_ARM_GICV3_TCG is unset
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] Don't include sysemu/tcg.h if it is not necessary
 Content-Language: en-US
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- peter.maydell@linaro.org, drjones@redhat.com, f4bug@amsat.org,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-References: <20220308182452.223473-1-eric.auger@redhat.com>
- <20220308182452.223473-3-eric.auger@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>
-In-Reply-To: <20220308182452.223473-3-eric.auger@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20220315144107.1012530-1-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220315144107.1012530-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,46 +92,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/3/22 19:24, Eric Auger wrote:
-> In TCG mode, if gic-version=max we always select GICv3 even if
-> CONFIG_ARM_GICV3_TCG is unset. We shall rather select GICv2.
-> This also brings the benefit of fixing qos tests errors for tests
-> using gic-version=max with CONFIG_ARM_GICV3_TCG unset.
+On 3/15/22 07:41, Thomas Huth wrote:
+> This header only defines the tcg_allowed variable and the tcg_enabled()
+> function - which are not required in many files that include this
+> header. Drop the #include statement there.
 > 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> 
+> Signed-off-by: Thomas Huth<thuth@redhat.com>
 > ---
-> 
-> v2 -> v3:
-> - Use module_object_class_by_name() and refer to the renamed
->    CONFIG_ARM_GICV3_TCG config
-> ---
->   hw/arm/virt.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 46bf7ceddf..39790d29d2 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1852,7 +1852,12 @@ static void finalize_gic_version(VirtMachineState *vms)
->           vms->gic_version = VIRT_GIC_VERSION_2;
->           break;
->       case VIRT_GIC_VERSION_MAX:
-> -        vms->gic_version = VIRT_GIC_VERSION_3;
-> +        if (module_object_class_by_name("arm-gicv3")) {
+>   accel/tcg/hmp.c                  | 1 -
+>   accel/tcg/tcg-accel-ops-icount.c | 1 -
+>   bsd-user/main.c                  | 1 -
+>   hw/virtio/vhost.c                | 1 -
+>   linux-user/main.c                | 1 -
+>   monitor/misc.c                   | 1 -
+>   target/arm/helper.c              | 1 -
+>   target/s390x/cpu_models_sysemu.c | 1 -
+>   target/s390x/helper.c            | 1 -
+>   9 files changed, 9 deletions(-)
 
-Too late, but why not use TYPE_ARM_GICV3?
+Thanks.  Queued to tcg-next.
 
-> +            /* CONFIG_ARM_GICV3_TCG was set */
-> +            vms->gic_version = VIRT_GIC_VERSION_3;
-> +        } else {
-> +            vms->gic_version = VIRT_GIC_VERSION_2;
-> +        }
->           break;
->       case VIRT_GIC_VERSION_HOST:
->           error_report("gic-version=host requires KVM");
 
+r~
 
