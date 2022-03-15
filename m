@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692784DA293
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:44:16 +0100 (CET)
-Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FB64DA29C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 19:46:14 +0100 (CET)
+Received: from localhost ([::1]:40912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUC9X-0007Ne-IH
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:44:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54380)
+	id 1nUCBR-0000TM-7I
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 14:46:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUC5C-0002gD-9G
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:39:46 -0400
-Received: from [2607:f8b0:4864:20::42a] (port=37686
- helo=mail-pf1-x42a.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nUC6z-0004Uw-LQ
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:41:37 -0400
+Received: from [2607:f8b0:4864:20::b2f] (port=40791
+ helo=mail-yb1-xb2f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUC5A-0004sd-Qi
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:39:45 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id t5so387966pfg.4
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 11:39:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1nUC6y-0005J7-4b
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 14:41:37 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id z8so241810ybh.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 11:41:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=IvtTbkd2W6N4Yl1iox0fIsOdMoPF04bGp//N20X+lAA=;
- b=J8Z3mz6roKJX1myApqOVcsIN5B1XkZ3Pz2sambs1KGgp6P9nanNaC5yiLhAjytIvJr
- Lj6qry1wZBwbxVHuZS/L0piYJBLI8nyON5X0rJ6ciVcds0lc41G1NNMxPyP6ptfcSDtD
- dI+VOaaO3OyUnYR3KpWwiSUD1oeoDMFN5EqDFPyo4ZBSTXn2xjIaS7y9sa/73AqRxAon
- VX7DR/5aRr6IDiVtGE8N986w1FlV4KIRPUdXXSOZzLh0ps1c+S+qQc+WiPnXoQ8y05ET
- yFM1HSXtmxmmZYYN6sUBjneV3BZwyDPXiZJB4gF1CFv/tKwS3BW91/UHfDVmScMLGrZm
- E9qA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8qopWmj9wwwO4W8RV0D55EJGTjGtmRDXBSWpTQP2OEg=;
+ b=YhQHjQUEFFXxmKmyegYBT0MemdoW1/KYq6SwdcbueVaXR4BfoW/rgKemkHrzER8ydY
+ jUv86uNGR1XojZd62LBLaDesnRq3nURotlVDGikBw/oRWFglGMpMVrK9BcredtyAy55q
+ Ub18IUbULmO2qC+JjeryAaZB/0LFkj1cWJ4gpKIaysknNyU8EJIef7ZEOsje9PX18xx/
+ 4sRPvkjAO7TY7AArpTqcMED6gFuADQYbo9QGstL4allZ0ycI/KFPdqdhLp7e1HdJNPlw
+ RrNQyrwc+8B9jJ7MO9KHKsdCebRKB2CeQEvcwSAlfkRgBfBl0xItHLDz5I1rG0lx+b7M
+ 6jDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IvtTbkd2W6N4Yl1iox0fIsOdMoPF04bGp//N20X+lAA=;
- b=LXwkRhkkRc++zb+9tOHuGOcypDho6ERGHrndT80Pg4XOjrr6f1XOmkPTZZPGFVcXa3
- UNSIC8zdyj+xli6aLwztG2/Smp6TqlgODEj8rp2pMyAT5RITbR8hL80L4DsN+WKbXlFr
- EY5VMP7ap/CF+pbPE4JCmj7F8FIaibkV5UQeOYPXPEa5O2IlNbM1MeO9XLS1jI7UmJlw
- ZbIc5wsKQJsM79k6VNZDVn53pEeYq/J5V8Pi0t+WQCFwUkwJ/8kNVuvGUNJkDpxfPX3P
- LMdn5kuXRxMmjmBEXvxpyQfDV19xOw7mP7mX4IscOxVaQ8qA1/ctTDEXlq2EXg0hkaKd
- LjNw==
-X-Gm-Message-State: AOAM5320QCzdH44pqZxB0/N9kDWqCeDyIxdLMfi3J1995q5sLJAao/Fv
- BRIXaYCD1PQ9X7IBzemtwdorjA==
-X-Google-Smtp-Source: ABdhPJyAXJB1UkJq5WKH4EftL0jm6WytsPArLXl7ZsN9/jKljqxTBav5fv3vfIujajcttYimasZy/g==
-X-Received: by 2002:a63:82c3:0:b0:37c:7976:4dc2 with SMTP id
- w186-20020a6382c3000000b0037c79764dc2mr25645658pgd.477.1647369582695; 
- Tue, 15 Mar 2022 11:39:42 -0700 (PDT)
-Received: from [192.168.1.6] (174-21-142-130.tukw.qwest.net. [174.21.142.130])
- by smtp.gmail.com with ESMTPSA id
- d16-20020a056a00245000b004f7728a4346sm21497756pfj.79.2022.03.15.11.39.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 11:39:42 -0700 (PDT)
-Message-ID: <819d817e-8278-00cd-e609-b6cc2b64c873@linaro.org>
-Date: Tue, 15 Mar 2022 11:39:39 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8qopWmj9wwwO4W8RV0D55EJGTjGtmRDXBSWpTQP2OEg=;
+ b=sFqU9CELCiq5RugWQW0c/1C7nz4L1TejAurRtB9EPr/msSAN39ovHh+c46AbpFJGmt
+ KbYVT4WXNrytJ34D7pK0IBRd3+b6P89/pvOr6bKaPcaYc4PHwUrs0GXL7s0LOdurCEz3
+ jbIn9ds44zQQrrzzd0MCw0C26DBfF6OXL78tG2ReYMb+MDkuhV0M+uGwYCzPV9fIqeOD
+ ZyupsvZZkOFUzvF9Jo1vDHlmaUzIIijSYddMq6gIGlRLM37b8w/+4FU0JThiwoXBLosr
+ lzLYxfq+alfDBpX6WBLsNuM4mBKtQri3zu3Eb5Ud101WVSoxuFT1fFn/zNMQZSLR0Pyh
+ jYIA==
+X-Gm-Message-State: AOAM532WDU3els3h70ZyP508reKLlIUGAETA7EH6e0TawtQAiEApF5h2
+ CA5eAcKkhQ/a+FXp+n7WqBLWiOADfy2EITe4JmNj/Q==
+X-Google-Smtp-Source: ABdhPJzj8A1hVIRmSnBa1NS1wRH8FKEe3jzyfjJxRKC4SasB2F4gvA1yYnfrObCC2+Gq+nG9FdXNiq28fXG4j9vUwqs=
+X-Received: by 2002:a5b:350:0:b0:628:86b8:6e09 with SMTP id
+ q16-20020a5b0350000000b0062886b86e09mr24252679ybp.39.1647369693793; Tue, 15
+ Mar 2022 11:41:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH] Don't include sysemu/tcg.h if it is not necessary
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20220315144107.1012530-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220315144107.1012530-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42a
+References: <20220307100058.449628-1-mst@redhat.com>
+ <CAFEAcA94Uu=kyinf+pLUT2cY05326EDX=TKUeiSJH_aEY-kPVg@mail.gmail.com>
+ <CAFEAcA_wO6dkr6=HUYsOS7RxGErrAvsNnNqhKfM733Q=4v6cdw@mail.gmail.com>
+ <20220307174713-mutt-send-email-mst@kernel.org>
+ <CAFEAcA9qUMuDupNRCYeH5rzBY+J7D3XXN_92PJjhBYxF70kF=w@mail.gmail.com>
+ <20220308055639-mutt-send-email-mst@kernel.org>
+ <CAFEAcA-3iD3hz2ihSDOir6ByWztAjNUkAvCSbeeX7-osMQLTdg@mail.gmail.com>
+ <7dd4fd1f-5575-70f9-c476-b3159cc5990c@gmail.com>
+In-Reply-To: <7dd4fd1f-5575-70f9-c476-b3159cc5990c@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 15 Mar 2022 18:41:22 +0000
+Message-ID: <CAFEAcA-uV3bj4x65M=MqwSOZdpiUueJ6Yscs4h9=fhPToujoYQ@mail.gmail.com>
+Subject: Re: [PULL v2 00/47] virtio,pc,pci: features, cleanups, fixes
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?=
+ <philippe.mathieu.daude@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -92,30 +91,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/22 07:41, Thomas Huth wrote:
-> This header only defines the tcg_allowed variable and the tcg_enabled()
-> function - which are not required in many files that include this
-> header. Drop the #include statement there.
-> 
-> Signed-off-by: Thomas Huth<thuth@redhat.com>
-> ---
->   accel/tcg/hmp.c                  | 1 -
->   accel/tcg/tcg-accel-ops-icount.c | 1 -
->   bsd-user/main.c                  | 1 -
->   hw/virtio/vhost.c                | 1 -
->   linux-user/main.c                | 1 -
->   monitor/misc.c                   | 1 -
->   target/arm/helper.c              | 1 -
->   target/s390x/cpu_models_sysemu.c | 1 -
->   target/s390x/helper.c            | 1 -
->   9 files changed, 9 deletions(-)
+On Tue, 15 Mar 2022 at 18:35, Philippe Mathieu-Daud=C3=A9
+<philippe.mathieu.daude@gmail.com> wrote:
+> On 8/3/22 12:18, Peter Maydell wrote:
+> > Using 'unsigned long' in a cast (or anything else) is often
+> > the wrong thing in QEMU...
+>
+> $ git grep -F '(unsigned long)' | wc -l
+>       273
+>
+> Ouch :/
 
-Thanks.  Queued to tcg-next.
+Only "often", not "always" :-) We have some APIs that work on
+'long', usually because they're generic APIs borrowed from the
+Linux kernel like the clear_bit/set_bit functions. And sometimes
+you're interfacing to a host OS API whose types are 'long'.
+So it's only one of those things that I tend to have in the
+back of my head during code review, rather than something I think
+we could enforce automatically.
 
+The stuff in sev.c you list does look a bit suspicious, but
+it's not actually buggy because that's all KVM code so we
+know 'unsigned long' and pointers are the same size.
+'uintptr_t' would be better, though.
 
-r~
+thanks
+-- PMM
 
