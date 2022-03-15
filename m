@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC3D4D9ED3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 16:36:14 +0100 (CET)
-Received: from localhost ([::1]:39654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243F54D9EEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 16:42:45 +0100 (CET)
+Received: from localhost ([::1]:50528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU9DY-0002vt-LG
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 11:36:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40684)
+	id 1nU9Js-0002A5-0r
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 11:42:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nU98E-0000Qx-4i
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:30:42 -0400
-Received: from [2607:f8b0:4864:20::b2b] (port=43795
- helo=mail-yb1-xb2b.google.com)
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nU9AD-0002I0-4K
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:32:45 -0400
+Received: from [2a00:1450:4864:20::32f] (port=53832
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1nU98C-00016k-Ec
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:30:41 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id v35so1729109ybi.10
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 08:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=80qy3XFyM2TGpNGLSYjRg/46HTnwbfKEq8yIMPRPyiw=;
- b=TbVFjs1qlGIdGLbqqcQgk+W0SacupzTaFELeBowITYikQFBbsof0UtxK6dVBD9Uscg
- J52qKpuvJg5QuWpMRrLVfac29J0kNI4PtXZfNEb/hMyX0r/ED99QKGgiQLaOI5DyxHlX
- LPUnxqiwE9J3CfRS7U51gf97tnO6CgI9RKBRKfAq5bxAIEXOEtSWiLUKLRugbJ0W0sXf
- gdxsROJQKsHh5rYZz0vDOeCXt+F4WW2+cgqk3f29ShM4LS5XVEmYBVMUmFKq6leqrWhN
- x87Nw+Xg7wukjC5F+7e4Q72BQrAiTqBqxG2yk4NZH+EdmBql7N8zZBaKJnhOiperHsFl
- Qm3g==
+ (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1nU9AB-0001Sk-E7
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 11:32:44 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id 19so11483951wmy.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 08:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gQ+SPI8DlX8R5OXn6tZX8wNcLhtVnAJlGDpOU9dhe1E=;
+ b=A82ZnAkwPyxxdzwwCSOR3cRlCOWX15pdGFVnQP4LeN9bnKpImw9B+qKlZ5rHDD7dt1
+ r+CqB7MqsIW92Cp9IDzyrugyyhmxYeBVHtzxOyOc7rcDPgGO7/LdLebUyGY2+0BJ+og7
+ oDleBu+maw4DOV0AZRgSeAlXlSXK5q+n4sW7xY5m4/27hII+w9BWvx8xUn4aW3qq3aCe
+ woFotCKVxEmW+cV8UcDfeUQdw0/96wqqQfr8hFVYLRCnj1vOaqyg/ju2SdO1RTmXtRZd
+ 5g9ML9AU3cY/hm5CQkrsMC84lw/Gw13jeGHPelmfbpUdQzGMGm/7bDoGAUCIq8kEQheh
+ ku+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=80qy3XFyM2TGpNGLSYjRg/46HTnwbfKEq8yIMPRPyiw=;
- b=S7BFQsglnMF/HuT7XgjFIcBOEuJCm3UHIjpMwJTAzFGAmgQAJq5idBIrYuRHyQvUOr
- Bh7dI4YRaWpiCJsXpk9+RCr59olu3CNG99zEi3PpHyMXze4IqWnAKT2NgMOxwKOBnJtN
- OUia4EZY9kbg2iXmGdwV6/x/tqqUQxgVTUpHMhOZfeSKK7KdA5jvftEQWHioOdQnCUxy
- G4wEFHm3c68sldNedGcB3BoCM/ibaaLBc9uM2qMGUHj14e3A+NWLF8d8fS5VsoW8IHFO
- vU64zP9c79sm8bOqZOCuIOmT24FeUvmoMUE3BtGfrk0U6eCGof0XeUeZu8MTRyzdG9Y2
- eGWw==
-X-Gm-Message-State: AOAM532PHoKZyVRI75Kb/AtEHXrK53xT6+ZxkMkAIrnSOkMCEdM8L4r6
- gujbHQ7HFvFjtpuRLPnCS3q5PTUH5qzjjf5Yhrjdgg==
-X-Google-Smtp-Source: ABdhPJwVrvtd4axpElT6mniYFBOWxEJOJ18T6Yja4iZX0R0JBmAntt+4bQ4Aa3Qwzy1DbS59RdaHaF/67TYl85H86yI=
-X-Received: by 2002:a05:6902:510:b0:630:b29f:ce2e with SMTP id
- x16-20020a056902051000b00630b29fce2emr18397102ybs.67.1647358239007; Tue, 15
- Mar 2022 08:30:39 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gQ+SPI8DlX8R5OXn6tZX8wNcLhtVnAJlGDpOU9dhe1E=;
+ b=UWjfiZuO8HP04lKV5MwL9j+V/tfFfnyRj9l2R5dTw/mfClgLCXSvtSMunL04kIaEj3
+ vcF7Y5MPwfx//4MOvWS62k4xpB7zFPqlbbGZ6j4SWvczXJ7f2JuxlePvK3CPTg6/27/U
+ 5stFz9jndKFXGIHOrH771tu2Xrqh2eBrUQ9viPf6p6HWGNBdocSzU9ddBupP4ugWOVxa
+ QgyWyzlIYxhDAsl7AnY1lXk3nzDnWGmbsPKuxb4eE8PM/33fbuvuspk9n6f4laX5Jy0V
+ rLLS9gbTug9DC/hyGrd0hqc6ai34Ey7sgJ0C8G4f6RNjitzG53iVDdXnJBpzvhdto4oh
+ ju9A==
+X-Gm-Message-State: AOAM532l/Cq37w5/PL5S3t+v+EowPTIZ521Bqf2nJXnDI2KkDI7rsENI
+ HOBZbxidouc+sPGtJxkJ+h24b1r9JV8=
+X-Google-Smtp-Source: ABdhPJw6kzLGwk+ldC/ReT6GXVBfoX8UnkTXkFYaFJ0Lb+I5z4Ehi4vfQG0u59aBZDkXT9QX5bqQJA==
+X-Received: by 2002:a1c:6a15:0:b0:38b:57e8:dd5c with SMTP id
+ f21-20020a1c6a15000000b0038b57e8dd5cmr3272579wmc.160.1647358360612; 
+ Tue, 15 Mar 2022 08:32:40 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2a0d:6fc2:4af1:7d00:5e41:a6ea:ffaa:548c])
+ by smtp.gmail.com with ESMTPSA id
+ j34-20020a05600c1c2200b0038995cb915fsm4468021wms.9.2022.03.15.08.32.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Mar 2022 08:32:39 -0700 (PDT)
+From: Jon Doron <arilou@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] HyperV: Synthetic Debugging device
+Date: Tue, 15 Mar 2022 17:32:16 +0200
+Message-Id: <20220315153220.953556-1-arilou@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220302182936.227719-1-dgilbert@redhat.com>
- <CAFEAcA9CrHEu8F7PGGTvsdyLnFJhan9V9FkHDgvapje+_E=hVA@mail.gmail.com>
- <f750a1a4-223c-9456-ab23-a616f7eb2625@gmail.com> <Yieku+cTxY0Xyp5C@work-vm>
- <CAFEAcA-Y_8KTxCPoSN3P0Cgfe6cEN74b-5U1SeKtAP7FdzFvZA@mail.gmail.com>
- <Yi92SN2Z3OZi82pS@redhat.com>
- <CAFEAcA-Chg3LQkh5PHmSyGCkmnYoPnTGMD=zm8jj-jxWeOLTxQ@mail.gmail.com>
- <CAFEAcA-bhoyo+EfQGOuHWeEWC8-M-tGv=fXjEAJ6XX==iiO14w@mail.gmail.com>
- <CAFEAcA96Jx4XsdveTVgxkqWT-TBVm_K06sN+U+fofnxzGaVOWw@mail.gmail.com>
- <CAFEAcA-3PRgVaQ_GXg_ZDp6hNUh=_rc3PiY6_6_7wUYi-oqEow@mail.gmail.com>
- <CAFEAcA_SUCgXCL3yE9e2H=ZUwn24uLvqSeTQVKuT+RUukOKrEQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_SUCgXCL3yE9e2H=ZUwn24uLvqSeTQVKuT+RUukOKrEQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Mar 2022 15:30:27 +0000
-Message-ID: <CAFEAcA8vj8NxP0yq_PCofNfn6h_nTaLJJQ6+5Qkcn8U4M0PSGg@mail.gmail.com>
-Subject: Re: multifd/tcp/zlib intermittent abort (was: Re: [PULL 00/18]
- migration queue)
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=arilou@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
 X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
@@ -91,38 +85,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>, Juan Quintela <quintela@redhat.com>,
- s.reiter@proxmox.com, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
- Hanna Reitz <hreitz@redhat.com>, f.ebner@proxmox.com,
- Jinpu Wang <jinpu.wang@ionos.com>
+Cc: pbonzini@redhat.com, vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Mar 2022 at 15:03, Peter Maydell <peter.maydell@linaro.org> wrote:
-> Maybe we're running into this bug
-> https://bugs.launchpad.net/ubuntu/+source/zlib/+bug/1961427
-> ("zlib: compressBound() returns an incorrect result on z15") ?
+This patchset adds support for the synthetic debugging device.
 
-Full repro info, since it's a bit hidden in this long thread:
+HyperV supports a special transport layer for the kernel debugger when
+running in HyperV.
 
-Build an i386 guest QEMU; I used this configure command:
+This patchset add supports for this device so you could have a setup
+fast windows kernel debugging.
 
-'../../configure' '--target-list=i386-softmmu' '--enable-debug'
-'--with-pkgversion=pm215' '--disable-docs'
+At this point of time, DHCP is not implmeneted so to set this up few
+things need to be noted.
 
-Then run the multifd/tcp/zlib test in a tight loop:
+The scenario I used to test is having 2 VMs in the same virtual network
+i.e a Debugger VM with the NIC:
+-nic tap,model=virtio,mac=02:ca:01:01:01:01,script=/etc/qemu-ifup
+And it's IP is going to be static 192.168.53.12
+And the VM we want to debug, to which we need to have the englightments
+and vmbus configured:
+ -cpu host,hv-relaxed,hv_spinlocks=0x1fff,hv_time,+vmx,invtsc,hv-vapic,hv-vpindex,hv-synic,hv-syndbg \
+ -device vmbus-bridge \
+ -device hv-syndbg,host_ip=192.168.53.12,host_port=50000,use_hcalls=false \
+ -nic tap,model=virtio,mac=02:ca:01:01:01:02,script=/etc/qemu-ifup \
 
-X=1; while QTEST_QEMU_BINARY=./build/i386/i386-softmmu/qemu-system-i386
-./build/i386/tests/qtest/migration-test  -tap -k -p
-/i386/migration/multifd/tcp/zlib ; do echo $X; X=$((X+1)); done
+Then in the debuggee VM we would setup the kernel debugging in the
+following way:
 
-Without DFLTCC=0 it fails typically within 5 or so iterations;
-the longest I've ever seen it go is about 32.
+If the VM is older than Win8:
+* Copy the proper platform kdvm.dll (make sure it's called kdvm.dll even if platform is 32bit)
+bcdedit /set {GUID} dbgtransport kdvm.dll
+bcdedit /set {GUID} loadoptions host_ip="1.2.3.4",host_port="50000",nodhcp
+bcdedit /set {GUID} debug on
+bcdedit /set {GUID} halbreakpoint on
 
--- PMM
+Win8 and late:
+bcdedit /dbgsettings net hostip:7.7.7.7 port:50000 nodhcp
+
+This is all the setup that is required to get the synthetic debugger
+configured correctly.
+
+v3:
+Fixed review from Paolo changes from QLIST*RCU to non RCU
+
+Jon Doron (4):
+  hyperv: SControl is optional to enable SynIc
+  hyperv: Add definitions for syndbg
+  hyperv: Add support to process syndbg commands
+  hw: hyperv: Initial commit for Synthetic Debugging device
+
+ docs/hyperv.txt                  |  15 ++
+ hw/hyperv/Kconfig                |   5 +
+ hw/hyperv/hyperv.c               | 352 ++++++++++++++++++++++++---
+ hw/hyperv/meson.build            |   1 +
+ hw/hyperv/syndbg.c               | 402 +++++++++++++++++++++++++++++++
+ include/hw/hyperv/hyperv-proto.h |  52 ++++
+ include/hw/hyperv/hyperv.h       |  58 +++++
+ target/i386/cpu.c                |   2 +
+ target/i386/cpu.h                |   7 +
+ target/i386/kvm/hyperv-proto.h   |  37 +++
+ target/i386/kvm/hyperv-stub.c    |   6 +
+ target/i386/kvm/hyperv.c         |  52 +++-
+ target/i386/kvm/kvm.c            |  76 +++++-
+ 13 files changed, 1024 insertions(+), 41 deletions(-)
+ create mode 100644 hw/hyperv/syndbg.c
+
+-- 
+2.35.1
+
 
