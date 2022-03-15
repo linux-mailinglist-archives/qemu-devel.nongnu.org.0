@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A42114D9A3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:19:57 +0100 (CET)
-Received: from localhost ([::1]:53164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E3C4D9A61
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:28:56 +0100 (CET)
+Received: from localhost ([::1]:46356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU5DY-0006JD-OQ
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:19:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38106)
+	id 1nU5MF-0003zT-DG
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:28:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nU57R-00055n-3N
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:13:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29094)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1nU57O-00076i-R4
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:13:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647342800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s5Tzi3pfoeaxtPsoFltDF8SY8Q0fBVWlg4SBSj9OyFQ=;
- b=O87aXYw9r7tZUoecHSZqCJ1Y6WQKLaEisJ4fHYRR/5Vnv3r7h1GtztPc2opKAVLasiZh0o
- Nf356eG7vqbO0zpio5JpHxwuG3OCE/i+ptQsB0fuyo+PC9KdJzRAe4Z76n4ZVJUKgO1fKd
- UJ7BPGy7UcEc1oTjMyKOncUmbIuCkUQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-36-9lTgXW-xPyOjEiVtmFRYIw-1; Tue, 15 Mar 2022 07:13:19 -0400
-X-MC-Unique: 9lTgXW-xPyOjEiVtmFRYIw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f24-20020a1c6a18000000b00388874b17a8so1026957wmc.3
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 04:13:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nU59h-0007lq-1b
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:15:57 -0400
+Received: from [2a00:1450:4864:20::42e] (port=44990
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1nU59f-0007bd-0D
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:15:56 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id b19so6072149wrh.11
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 04:15:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Div+G4a29QV/gXVNplpWYz9B2vwv/LmTlnDwcJ0elUU=;
+ b=D0/XrawzDGNKuZsi++/82f+mxXXi9Y44p1+OvUNUFXfGQfNxcjWf6eCYl4zMl9TOyu
+ TPq4THyIqy+D6uTGrovVI6RaoQy2dHpI8LOXfzYqVRdb4PW15hgxePNxKL4N4xuc77lW
+ pt/NYPdtbJVaLd+uSnU70SJehxhOnz+qdfu0QW2DDdJ+f0DuAaxz7461QbqEOJUced6/
+ dh7WH4WFmSGq+vaJn5SzOGIagEH8D4ETIZVP0lIzq7mEPvzBAGu+qMGQfMuUK7jlWOFO
+ uLL/aq6V4bIezDgJ6Yfp81znxk1TwhA78OTlmH2Yv3sTyLUl57huWhK+/RLS0pMYCqh9
+ euog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=s5Tzi3pfoeaxtPsoFltDF8SY8Q0fBVWlg4SBSj9OyFQ=;
- b=eEHAhx3rY/GbPZq259seyzdwoPp2JfxP4EmLCUGM0baOgFlshJrbk1bUGUMyywJ76Y
- 53n4qWHaE/TbPmb22cJaC0ZpIIoLOb08xhqdjYpCT8dT7IfFTe22JiWMzaQA3jD6pran
- Px0aXgfOwOgV4m83YiCD6yjhIfm8GeqgvF+bEUwGLXNHSX0zEyOUsFFaOa7V4i7pRp36
- 0BQf5HKOIr8UhbAAbkH4p43/pAOXqUNoX8AjVbESN+OaVxCZLzFCqXS6ov5oDhh5qidu
- M0TaCP5P19oyT2YXwK2xKfDCRUefEaZrT/541Z7V4hBknISZ4YIxa+MKBu1mCSUVCRqY
- CaWQ==
-X-Gm-Message-State: AOAM5326sqrUSnr0SoptNvgjdjuerx0h85PODEe6gha3Pa0q2zoyRmgp
- NezOrm5Ir+IouJpymVZM5/RArV8i4+IBXFvG/OUI9bsL9oCEImRIpzcTxWm1lAjV4IVSbraBv8i
- CGoe9uMagNWn3qCo=
-X-Received: by 2002:a7b:cf30:0:b0:389:89bd:6d32 with SMTP id
- m16-20020a7bcf30000000b0038989bd6d32mr2946785wmg.12.1647342797935; 
- Tue, 15 Mar 2022 04:13:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx52ca5faGMQ0j6TCZdL2c65R+PeQOvC7fJAHPGD6z9aBjdkNEVKsFZqhm2FgGB6waqzKSRjQ==
-X-Received: by 2002:a7b:cf30:0:b0:389:89bd:6d32 with SMTP id
- m16-20020a7bcf30000000b0038989bd6d32mr2946766wmg.12.1647342797730; 
- Tue, 15 Mar 2022 04:13:17 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-098-218.customers.d1-online.com.
- [80.187.98.218]) by smtp.gmail.com with ESMTPSA id
- o19-20020a05600c511300b00389c3a281d7sm3480891wms.0.2022.03.15.04.13.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Mar 2022 04:13:17 -0700 (PDT)
-Message-ID: <93d1e0a6-01f2-af15-d43b-0767f8ec4c30@redhat.com>
-Date: Tue, 15 Mar 2022 12:13:15 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Div+G4a29QV/gXVNplpWYz9B2vwv/LmTlnDwcJ0elUU=;
+ b=o33Z6rx+oWfiPb3BW40jzfS5N7s3VtISSaDqq7gD/oxAAcwo0nq0So3U6Jl6aQgIK6
+ nRf/vEg/ZSbU6Ko6raceK1qfFm0myXNkZSswc2b3nGoltW4wP8AilzUyo772gOzmPnVz
+ XAcr5tC2mkYs7YZXBCYgExJoIzAfNuPmt9JOgk2lUs2ie03a7xCgu3N/j+9jUq3P+nWP
+ BHjInT5vnUz/2nOrUDV338L4zGX79pTWK8ZfDqB6OhJSBpyWQXZSQyU7LfKp8ZIYUPvW
+ 5FeGgtZQ/62UH6v1O8tz6QSJlJScL87VsOMOi+gLkoKpc512mN3Ku+F62GETpcehLqod
+ YPoQ==
+X-Gm-Message-State: AOAM531/fWkgO/DMpBzfM3JunKi5tf1+fFTHlvp22LduAnAGpjJixoka
+ UNE1N02B3HC4LaGUhcIYsZaqngj/nV62fxKBXWA=
+X-Google-Smtp-Source: ABdhPJxaeK0MMS2zjmrktj5Nwjx3Fdqxuye1H4VU0p61qTMYmw4l/Knmcx5NuFDs2bZq68C9udlqN6wchAsfmD4Vja8=
+X-Received: by 2002:a5d:4cd1:0:b0:1f0:24d5:7c37 with SMTP id
+ c17-20020a5d4cd1000000b001f024d57c37mr19993970wrt.421.1647342952258; Tue, 15
+ Mar 2022 04:15:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH-for-7.0 v3] softmmu: List CPU types again
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philippe.mathieu.daude@gmail.com>, qemu-devel@nongnu.org
-References: <20220314140108.26222-1-philippe.mathieu.daude@gmail.com>
- <2334bd32-0494-37e1-e0ec-7ccb48928c0d@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <2334bd32-0494-37e1-e0ec-7ccb48928c0d@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <4C23C17B8E87E74E906A25A3254A03F4FA22100C@SHASXM06.verisilicon.com>
+In-Reply-To: <4C23C17B8E87E74E906A25A3254A03F4FA22100C@SHASXM06.verisilicon.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 15 Mar 2022 15:15:40 +0400
+Message-ID: <CAJ+F1CJcWJLtPnpXRx09KAq-60Wb1sDd6i0RsBu1YHGTgB+YTg@mail.gmail.com>
+Subject: Re: [PATCH] ui: avoid unnecessary memory operations in
+ vnc_refresh_server_surface()
+To: "Wen, Jianxian" <Jianxian.Wen@verisilicon.com>
+Content-Type: multipart/alternative; boundary="0000000000007e205f05da3febfa"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,23 +82,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "kraxel@redhat.com" <kraxel@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/03/2022 12.11, Philippe Mathieu-Daudé wrote:
-> Hi Paolo,
-> 
-> Could you take this patch?
+--0000000000007e205f05da3febfa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'm planning a PR for today ... I can add it there ("-cpu help" also does 
-not work on s390x, so I dare to say that it is related) if Paolo does not 
-plan a PR for rc0.
+Hi
 
-  Thomas
+On Tue, Mar 15, 2022 at 11:24 AM Wen, Jianxian <Jianxian.Wen@verisilicon.co=
+m>
+wrote:
 
+> Check the dirty bits in advance to avoid unnecessary memory operations.
+> In the case that guest surface has different format than the server,
+> but it does not have dirty bits which means no refresh is actually needed=
+,
+> the memory operations is not necessary.
+>
+> Signed-off-by: Jianxian Wen <jianxian.wen@verisilicon.com>
+> Signed-off-by: Lu Gao <lu.gao@verisilicon.com>
+> ---
+>  ui/vnc.c | 26 +++++++++++++++++---------
+>  1 file changed, 17 insertions(+), 9 deletions(-)
+>
+> diff --git a/ui/vnc.c b/ui/vnc.c
+> index 3ccd33dedc..310a873c21 100644
+> --- a/ui/vnc.c
+> +++ b/ui/vnc.c
+> @@ -3098,6 +3098,9 @@ static int vnc_refresh_server_surface(VncDisplay *v=
+d)
+>      VncState *vs;
+>      int has_dirty =3D 0;
+>      pixman_image_t *tmpbuf =3D NULL;
+> +    unsigned long offset;
+> +    int x;
+> +    uint8_t *guest_ptr, *server_ptr;
+>
+>      struct timeval tv =3D { 0, 0 };
+>
+> @@ -3106,6 +3109,13 @@ static int vnc_refresh_server_surface(VncDisplay
+> *vd)
+>          has_dirty =3D vnc_update_stats(vd, &tv);
+>      }
+>
+> +    offset =3D find_next_bit((unsigned long *) &vd->guest.dirty,
+> +                           height * VNC_DIRTY_BPL(&vd->guest), 0);
+> +    if (offset =3D=3D height * VNC_DIRTY_BPL(&vd->guest)) {
+> +        /* no dirty bits in guest surface */
+> +        return has_dirty;
+> +    }
+> +
+>      /*
+>       * Walk through the guest dirty map.
+>       * Check and copy modified bits from guest to server surface.
+> @@ -3130,15 +3140,6 @@ static int vnc_refresh_server_surface(VncDisplay
+> *vd)
+>      line_bytes =3D MIN(server_stride, guest_ll);
+>
+>      for (;;) {
+> -        int x;
+> -        uint8_t *guest_ptr, *server_ptr;
+> -        unsigned long offset =3D find_next_bit((unsigned long *)
+> &vd->guest.dirty,
+> -                                             height *
+> VNC_DIRTY_BPL(&vd->guest),
+> -                                             y *
+> VNC_DIRTY_BPL(&vd->guest));
+> -        if (offset =3D=3D height * VNC_DIRTY_BPL(&vd->guest)) {
+> -            /* no more dirty bits */
+> -            break;
+> -        }
+>          y =3D offset / VNC_DIRTY_BPL(&vd->guest);
+>          x =3D offset % VNC_DIRTY_BPL(&vd->guest);
+>
+> @@ -3177,6 +3178,13 @@ static int vnc_refresh_server_surface(VncDisplay
+> *vd)
+>          }
+>
+>          y++;
+> +        offset =3D find_next_bit((unsigned long *) &vd->guest.dirty,
+> +                               height * VNC_DIRTY_BPL(&vd->guest),
+> +                               y * VNC_DIRTY_BPL(&vd->guest));
+> +        if (offset =3D=3D height * VNC_DIRTY_BPL(&vd->guest)) {
+> +            /* no more dirty bits */
+> +            break;
+> +        }
+>      }
+>      qemu_pixman_image_unref(tmpbuf);
+>      return has_dirty;
+> --
+> 2.33.0
+>
+>
+lgtm,
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000007e205f05da3febfa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 15, 2022 at 11:24 AM We=
+n, Jianxian &lt;<a href=3D"mailto:Jianxian.Wen@verisilicon.com">Jianxian.We=
+n@verisilicon.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">Check the dirty bits in advance to avoid unnecessary memor=
+y operations.<br>
+In the case that guest surface has different format than the server,<br>
+but it does not have dirty bits which means no refresh is actually needed,<=
+br>
+the memory operations is not necessary.<br>
+<br>
+Signed-off-by: Jianxian Wen &lt;<a href=3D"mailto:jianxian.wen@verisilicon.=
+com" target=3D"_blank">jianxian.wen@verisilicon.com</a>&gt;<br>
+Signed-off-by: Lu Gao &lt;<a href=3D"mailto:lu.gao@verisilicon.com" target=
+=3D"_blank">lu.gao@verisilicon.com</a>&gt;<br>
+---<br>
+=C2=A0ui/vnc.c | 26 +++++++++++++++++---------<br>
+=C2=A01 file changed, 17 insertions(+), 9 deletions(-)<br>
+<br>
+diff --git a/ui/vnc.c b/ui/vnc.c<br>
+index 3ccd33dedc..310a873c21 100644<br>
+--- a/ui/vnc.c<br>
++++ b/ui/vnc.c<br>
+@@ -3098,6 +3098,9 @@ static int vnc_refresh_server_surface(VncDisplay *vd)=
+<br>
+=C2=A0 =C2=A0 =C2=A0VncState *vs;<br>
+=C2=A0 =C2=A0 =C2=A0int has_dirty =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0pixman_image_t *tmpbuf =3D NULL;<br>
++=C2=A0 =C2=A0 unsigned long offset;<br>
++=C2=A0 =C2=A0 int x;<br>
++=C2=A0 =C2=A0 uint8_t *guest_ptr, *server_ptr;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0struct timeval tv =3D { 0, 0 };<br>
+<br>
+@@ -3106,6 +3109,13 @@ static int vnc_refresh_server_surface(VncDisplay *vd=
+)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0has_dirty =3D vnc_update_stats(vd, &amp;t=
+v);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
++=C2=A0 =C2=A0 offset =3D find_next_bit((unsigned long *) &amp;vd-&gt;guest=
+.dirty,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0height * VNC_DIRTY_BPL(&amp;vd-&gt;guest), 0);<br>
++=C2=A0 =C2=A0 if (offset =3D=3D height * VNC_DIRTY_BPL(&amp;vd-&gt;guest))=
+ {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* no dirty bits in guest surface */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return has_dirty;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0/*<br>
+=C2=A0 =C2=A0 =C2=A0 * Walk through the guest dirty map.<br>
+=C2=A0 =C2=A0 =C2=A0 * Check and copy modified bits from guest to server su=
+rface.<br>
+@@ -3130,15 +3140,6 @@ static int vnc_refresh_server_surface(VncDisplay *vd=
+)<br>
+=C2=A0 =C2=A0 =C2=A0line_bytes =3D MIN(server_stride, guest_ll);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0for (;;) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int x;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t *guest_ptr, *server_ptr;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned long offset =3D find_next_bit((unsign=
+ed long *) &amp;vd-&gt;guest.dirty,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0height * VNC_DIRTY_BPL(&amp;vd-&gt;guest),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0y * VNC_DIRTY_BPL(&amp;vd-&gt;guest));<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (offset =3D=3D height * VNC_DIRTY_BPL(&amp;=
+vd-&gt;guest)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* no more dirty bits */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0y =3D offset / VNC_DIRTY_BPL(&amp;vd-&gt;=
+guest);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0x =3D offset % VNC_DIRTY_BPL(&amp;vd-&gt;=
+guest);<br>
+<br>
+@@ -3177,6 +3178,13 @@ static int vnc_refresh_server_surface(VncDisplay *vd=
+)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0y++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 offset =3D find_next_bit((unsigned long *) &am=
+p;vd-&gt;guest.dirty,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0height * VNC_DIRTY_BPL(&amp;vd-&gt;gu=
+est),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0y * VNC_DIRTY_BPL(&amp;vd-&gt;guest))=
+;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (offset =3D=3D height * VNC_DIRTY_BPL(&amp;=
+vd-&gt;guest)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* no more dirty bits */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0qemu_pixman_image_unref(tmpbuf);<br>
+=C2=A0 =C2=A0 =C2=A0return has_dirty;<br>
+-- <br>
+2.33.0<br>
+<br>
+</blockquote></div><div><br></div><div>lgtm,</div><div><br></div><div>Revie=
+wed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redha=
+t.com">marcandre.lureau@redhat.com</a>&gt;<br></div><br>-- <br><div dir=3D"=
+ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000007e205f05da3febfa--
 
