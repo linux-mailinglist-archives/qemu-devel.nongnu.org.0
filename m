@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2034D9B36
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:28:49 +0100 (CET)
-Received: from localhost ([::1]:49860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927FE4D9B42
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:32:03 +0100 (CET)
+Received: from localhost ([::1]:55228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6IC-0004oT-Uv
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:28:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52726)
+	id 1nU6LJ-0008Oc-1L
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:32:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1nU67k-0003nW-4V
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:18:03 -0400
-Received: from mta01.hs-regensburg.de ([194.95.104.11]:54936)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nU698-0005Ue-G6
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:19:29 -0400
+Received: from [2a00:1450:4864:20::12d] (port=34796
+ helo=mail-lf1-x12d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ralf.ramsauer@oth-regensburg.de>)
- id 1nU67h-0001VJ-73
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:17:59 -0400
-Received: from E16S03.hs-regensburg.de (e16s03.hs-regensburg.de
- [IPv6:2001:638:a01:8013::93])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client CN "E16S03", Issuer "E16S03" (not verified))
- by mta01.hs-regensburg.de (Postfix) with ESMTPS id 4KHsqY4CMLzxwx;
- Tue, 15 Mar 2022 13:17:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oth-regensburg.de;
- s=mta01-20211122; t=1647346665;
- bh=YWC49eknsf2PPvGpaET3JJqjaQHdb4kDxPC2UEonxU8=;
- h=Date:Subject:To:CC:References:From:In-Reply-To:From;
- b=YGVSoPI8Fhi8T7HUcMf5U4FD2NQkXYhxK7NtPxn46uZQ5jOKAWyimLSes7UW4P2eK
- VMuxgBS1CbjuNV+w/k0J+z0XDZh6kZg8E3nYaCFYzDSMYDdKdKowx88JfaQujYZJO3
- k0YYlZd5PP8GvhDhKztlYJb6jJ+EmIxNnqb84WhDWqQ/jWFI6QYDFii2rzxBeJwFxk
- elJCpxF0LtR0xuqixDpElxt6BC9drl56c0BadWm7dWeVk08K83hAOaURlu7MIvukEY
- vUhjZ75s5+B4UuAAl4CmcNh021dBDkfgrPy+hEKj/c1BqATmtQqC2FI8wc/emfr/Zd
- mutlXpwCSxnXA==
-Received: from [IPV6:2a02:810d:8fc0:44bc::2592] (2001:638:a01:8013::138) by
- E16S03.hs-regensburg.de (2001:638:a01:8013::93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 15 Mar 2022 13:17:45 +0100
-Message-ID: <a840f9ac-7315-4381-4c85-719efb413b18@oth-regensburg.de>
-Date: Tue, 15 Mar 2022 13:17:44 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1nU696-0001mK-Ss
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:19:26 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id e6so26011776lfc.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:19:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ydYFYE+7nA9D/pceOi8sh8hVJ3Cjr6vb8CMTuO+p+zw=;
+ b=OQHgSDyzPIKhLIjmLyEn7hSPZmoDUUmQhCcFZD9wcQUY7IzOfYr1unzZ2Nallu9v73
+ hsXqFWwXernQXFA4kyFKlnOaIzLTLwPSobxArMDImyISULqEJjZ+W9jtT95DWoE/21I1
+ HwRspOKIbQM4HhH2y0Xdua3j+cQF1yhkn9b0NAsyEYgGsFCAfUXLh4Sx443/cBQSHcJT
+ sbhp0jsp3JjGIdnGoB/PSI8g/enbmAPJY3FRIdi9hOKN+lq4oDAFtdbkdySnov9L50er
+ eLQkcQscdfVYEHYmg8Gp7N2BZiWKP0v+NlzrOUgiG7bK/8r01K0kCe8kyVDpsHFhTh+7
+ ncIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ydYFYE+7nA9D/pceOi8sh8hVJ3Cjr6vb8CMTuO+p+zw=;
+ b=3kGX61Dlyirz0sOHmiR8KBbM7mqp1ar5Dy7fSIJXb2kd1n3QeA59nyj6+iz3sVNi80
+ w9agfby5ORHmoMVDyuXxBsRYhMywGE0GBFYoiwM//lGFJztbNyEhaFaH1MFLrZDFFkLZ
+ C1Vc8eSnHuZ9wRhsAGj1W49DqJWdg+2lWRXc9eNdeXtPa2v1QLMINJVmKz4mnOWRS0X4
+ 20EX/LtQuZ2BvelJHJp+A77nqnLUQGJ0z0qmDBZhguLus6NJKsbgIBhTBKx/rXV7r/L9
+ oNp6CcJKUhPC/BL5WcJSK69ev6qqxIAD8HKpBa0szhBgrXNuiHnQGjs44pXHwSKfOBif
+ yy6A==
+X-Gm-Message-State: AOAM5324MYZidIyw5LdHxV+69xxv7bBVvIcC04rzzcIMkr7ATyKeoF2t
+ hjWzrLcAHsiob3Bea+sDQ3v1/g3D+naIui5O5H1sAWzWluA=
+X-Google-Smtp-Source: ABdhPJyRtOiy9QROOYXkq8ZF6llGHW/pQ1bZAoxr1gCk66J+XkOJQuoxCYwKsfjiaJwhtSow3y+x06ih7TXiHgEW6i0=
+X-Received: by 2002:a05:6512:6ce:b0:448:46c6:b93e with SMTP id
+ u14-20020a05651206ce00b0044846c6b93emr15708320lff.46.1647346761687; Tue, 15
+ Mar 2022 05:19:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [EXT] Re: QEMU+KVM on RISC-V + Hypervisor Extension
-Content-Language: en-US
-To: Anup Patel <anup@brainfault.org>, Alistair Francis <alistair23@gmail.com>
-References: <57412635-6b46-823b-14a4-0ee694ace5b8@oth-regensburg.de>
- <CAKmqyKOZN=hS73TfgHfMtxktZ9kkw4kBBA4-gjGAV8Q0Kw+KHw@mail.gmail.com>
- <CAAhSdy23Ag=ZqUj82aZ6BNA2SJq54rbCDjeX=1cHtbq7LR8jaQ@mail.gmail.com>
-From: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
-In-Reply-To: <CAAhSdy23Ag=ZqUj82aZ6BNA2SJq54rbCDjeX=1cHtbq7LR8jaQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [2001:638:a01:8013::138]
-X-ClientProxiedBy: E16S04.hs-regensburg.de (2001:638:a01:8013::94) To
- E16S03.hs-regensburg.de (2001:638:a01:8013::93)
-Received-SPF: pass client-ip=194.95.104.11;
- envelope-from=ralf.ramsauer@oth-regensburg.de; helo=mta01.hs-regensburg.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220315121251.2280317-1-alex.bennee@linaro.org>
+ <20220315121251.2280317-9-alex.bennee@linaro.org>
+In-Reply-To: <20220315121251.2280317-9-alex.bennee@linaro.org>
+From: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Tue, 15 Mar 2022 12:19:09 +0000
+Message-ID: <CAHDbmO31PZVCaUE5Y00zECXtUEEji49v79XPY73PU4iO9vFvQA@mail.gmail.com>
+Subject: Re: [PATCH v1 8/8] gitlab: include new aarch32 job in custom-runners
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000008d7ef905da40ce1e"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-lf1-x12d.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,143 +82,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <apatel@ventanamicro.com>, Jiangyifei <jiangyifei@huawei.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Stefan Huber <stefan.huber@oth-regensburg.de>
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Beraldo Leal <bleal@redhat.com>, sw@weilnetz.de, richard.henderson@linaro.org,
+ f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-arm@nongnu.org, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000008d7ef905da40ce1e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+And of course after sending I immediately see the aarch32 job is misnamed.
+Will send a v2 follow-up individually
 
-On 15/03/2022 09:33, Anup Patel wrote:
-> On Tue, Mar 15, 2022 at 12:18 PM Alistair Francis <alistair23@gmail.com> wrote:
->>
->> On Sun, Mar 13, 2022 at 12:12 PM Ralf Ramsauer
->> <ralf.ramsauer@oth-regensburg.de> wrote:
->>>
->>> Hi,
->>>
->>> I'm trying to run Linux/QEMU+KVM inside an emulated
->>> qemu-system-riscv64 VM (x86 host). On latest&greatest QEMU (1416688c53),
->>> I run Linux inside QEMU. On host side:
->>>
->>> qemu-system-riscv64 -nographic \
->>>           -machine virt \
->>>           -cpu 'rv64,h=true' \
->>>           -smp 8 -m 8G \
->>>           -bios $latest_opensbi \
->>>           -kernel $latest_upstream_linux \
->>>          […snip…]
->>>
->>> Inside that machine, I boot Linux with KVM enabled:
->>>
->>> […]
->>> [    0.228939] kvm [1]: hypervisor extension available
->>> [    0.229000] kvm [1]: using Sv48x4 G-stage page table format
->>> [    0.229033] kvm [1]: VMID 14 bits available
->>> […]
->>>
->>> KVM seems to load correctly. Inside that machine, I compiled QEMU from
->>> the same sources with the KVM accelerator enabled. When I try to start
->>> QEMU with KVM enabled, I get
->>>
->>> ./qemu-system-riscv64 -nographic \
->>>          -monitor none \
->>>          -machine virt \
->>>          -smp 1 -m 1G \
->>>          -bios ./pc-bios/opensbi-riscv64-generic-fw_dynamic.bin \
->>>          -serial stdio \
->>>          -enable-kvm
-> 
-> The QEMU RISC-V KVM support is quite new so I haven't got a chance
-> to play with it.
+On Tue, 15 Mar 2022 at 12:12, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 
-Btw, the kernel's KVM selftests seem to run.
+> Without linking it in it won't be presented on the UI.
+>
+> Fixes: cc44a16002 ("gitlab: add a new aarch32 custom runner definition")
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  .gitlab-ci.d/custom-runners.yml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/.gitlab-ci.d/custom-runners.yml
+> b/.gitlab-ci.d/custom-runners.yml
+> index 3e76a2034a..15aaccc481 100644
+> --- a/.gitlab-ci.d/custom-runners.yml
+> +++ b/.gitlab-ci.d/custom-runners.yml
+> @@ -16,4 +16,5 @@ variables:
+>  include:
+>    - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml'
+>    - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml'
+> +  - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml'
+>    - local: '/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml'
+> --
+> 2.30.2
+>
+>
 
-> 
-> Nevertheless, we should not pass any firmware when using KVM
-> so can you try "-bios none" ?
+--=20
+Alex Benn=C3=A9e
+KVM/QEMU Hacker for Linaro
 
-I have no kernel specified in the guest, so I'd then expect to boot into 
-an completely empty machine (besides the tiny startup stub in the MROM). 
-However, I still get the exact same error as mentioned in my initial mail.
+--0000000000008d7ef905da40ce1e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Again, without "-enable-kvm", everything works as expected (i.e., I 
-don't see any output, because there's basically no guest code to execute).
+<div dir=3D"ltr">And of course after sending I immediately see the aarch32 =
+job is misnamed. Will send a v2 follow-up individually<br></div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 15 Mar 20=
+22 at 12:12, Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org"=
+>alex.bennee@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">Without linking it in it won&#39;t be presented on t=
+he UI.<br>
+<br>
+Fixes: cc44a16002 (&quot;gitlab: add a new aarch32 custom runner definition=
+&quot;)<br>
+Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.or=
+g" target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0.gitlab-ci.d/custom-runners.yml | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.=
+yml<br>
+index 3e76a2034a..15aaccc481 100644<br>
+--- a/.gitlab-ci.d/custom-runners.yml<br>
++++ b/.gitlab-ci.d/custom-runners.yml<br>
+@@ -16,4 +16,5 @@ variables:<br>
+=C2=A0include:<br>
+=C2=A0 =C2=A0- local: &#39;/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.=
+yml&#39;<br>
+=C2=A0 =C2=A0- local: &#39;/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch6=
+4.yml&#39;<br>
++=C2=A0 - local: &#39;/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml=
+&#39;<br>
+=C2=A0 =C2=A0- local: &#39;/.gitlab-ci.d/custom-runners/centos-stream-8-x86=
+_64.yml&#39;<br>
+-- <br>
+2.30.2<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Alex Benn=C3=A9e<br>KVM/QEMU Hacker for Linaro</div>
 
-Just out of curiosity: if you don't pass a bios to the machine, what 
-would then the boot sequence be?
-
-Thanks
-   Ralf
-
-> 
-> Regards,
-> Anup
-> 
->>>
->>> [ 4860.559194] kvm [9942]: VCPU exit error -95
->>> [ 4860.584262] kvm [9942]: SEPC=0x0 SSTATUS=0x200004120 HSTATUS=0x2002001c0
->>> [ 4860.586839] kvm [9942]: SCAUSE=0x14 STVAL=0x0 HTVAL=0x0 HTINST=0x0
->>>
->>> on the ringbuffer, together with a register dump of qemu [1] on the
->>> console. Needless to say, but without -enable-kvm, it works fine.
->>>
->>> As far as I see that, SCAUSE=0x14 reports a 'Instruction Guest PF',
->>> which would be kind of correct, if the guest's PC really tries to
->>> execute at phys 0x0. DRAM of the 'virt' machine definition should start
->>> at 0x80000000, where OpenSBI resides. So I wonder if an erroneous reset
->>> PC might be the culprit…
->>>
->>> Before digging deeper into that issue, I wanted to ask if Qemu/KVM
->>> inside an emulated riscv64+H-extension is actually supported, or if this
->>> is a known bug and has some ongoing work.
->>
->> RISC-V KVM should work. I haven't had a chance to try it myself though.
->>
->> I have CCed two people who hopefully can help.
->>
->> Alistair
->>
->>>
->>> Thanks
->>>     Ralf
->>>
->>> [1]
->>>
->>>    pc       0000000000000000
->>>    mhartid  0000000000000000
->>>    mstatus  0000000200000000
->>>    mip      0000000000000000
->>>    mie      0000000000000000
->>>    mideleg  0000000000000000
->>>    medeleg  0000000000000000
->>>    mtvec    0000000000000000
->>>    stvec    0000000000000000
->>>    mepc     0000000000000000
->>>    sepc     0000000000000000
->>>    mcause   0000000000000000
->>>    scause   0000000000000000
->>>    mtval    0000000000000000
->>>    stval    0000000000000000
->>>    mscratch 0000000000000000
->>>    sscratch 0000000000000000
->>>    satp     0000000000000000
->>>    x0/zero  0000000000000000 x1/ra    0000000000000000 x2/sp
->>> 0000000000000000 x3/gp    0000000000000000
->>>    x4/tp    0000000000000000 x5/t0    0000000000000000 x6/t1
->>> 0000000000000000 x7/t2    0000000000000000
->>>    x8/s0    0000000000000000 x9/s1    0000000000000000 x10/a0
->>> 0000000000000000 x11/a1   00000000bf000000
->>>    x12/a2   0000000000000000 x13/a3   0000000000000000 x14/a4
->>> 0000000000000000 x15/a5   0000000000000000
->>>    x16/a6   0000000000000000 x17/a7   0000000000000000 x18/s2
->>> 0000000000000000 x19/s3   0000000000000000
->>>    x20/s4   0000000000000000 x21/s5   0000000000000000 x22/s6
->>> 0000000000000000 x23/s7   0000000000000000
->>>    x24/s8   0000000000000000 x25/s9   0000000000000000 x26/s10
->>> 0000000000000000 x27/s11  0000000000000000
->>>    x28/t3   0000000000000000 x29/t4   0000000000000000 x30/t5
->>> 0000000000000000 x31/t6   0000000000000000
->>>
+--0000000000008d7ef905da40ce1e--
 
