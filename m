@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6443E4D9A56
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:26:26 +0100 (CET)
-Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E72F4D9A63
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 12:30:51 +0100 (CET)
+Received: from localhost ([::1]:48468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU5Jp-0008CE-Ew
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:26:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36818)
+	id 1nU5O6-0005QN-FI
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 07:30:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU53S-0006Tf-Kh
+ id 1nU53U-0006U2-HC
  for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:09:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55146)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1nU53J-0005uo-JB
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:09:24 -0400
+ id 1nU53P-0005v3-Ug
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 07:09:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647342561;
+ s=mimecast20190719; t=1647342566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PhJu/fGjs6woppUiaVUm0HazUAIcaTnSY8JXdBoNP7M=;
- b=Vdyan4670YqEMLXVS+YzOb+IcERUXUExj9LKhP+/wNMqx79s5hyEB4x8fx5L5rrJVCCVWk
- amdib82t1BxLvDXje7Vx7q1Tn929T26k5f5MMsM0UeOy7g6j7yV+5QJRc+y0gJT97wFIV+
- tUULbPGvHJF08gP1YgmXzQSvSPRlTGU=
+ bh=BoA6tJMIW8LIVPDF3JpGU+IYeGHULFuVDGVSk3XtsRA=;
+ b=A+3WtIih9toP/v0BLKpFOHkISeipj8PULw1UwD+sqHb11fgDcOW6cGKj7acI1dVn2bQuFH
+ KnNOgjMEuTQUtR9kSVLPhh0v36qwIFdeIDueulflADqQbw4+1lygqqizIkCkAbZyN/f/qG
+ 5IirqV6BJiHw9OSRgAGFyd7yKG+cdMw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-103-KDqxUU6TO4i9WLIwGGRkIQ-1; Tue, 15 Mar 2022 07:09:18 -0400
-X-MC-Unique: KDqxUU6TO4i9WLIwGGRkIQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-665-1P2WlcnhN4uNJufBz05wVA-1; Tue, 15 Mar 2022 07:09:22 -0400
+X-MC-Unique: 1P2WlcnhN4uNJufBz05wVA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80BB2811E7A;
- Tue, 15 Mar 2022 11:09:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F92B18E52D8;
+ Tue, 15 Mar 2022 11:09:22 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 473E540C1257;
- Tue, 15 Mar 2022 11:09:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8094EC53741;
+ Tue, 15 Mar 2022 11:09:21 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 11/12] ui/dbus: do not send 2d scanout until gfx_update
-Date: Tue, 15 Mar 2022 15:07:38 +0400
-Message-Id: <20220315110739.2095676-12-marcandre.lureau@redhat.com>
+Subject: [PULL v2 12/12] ui/console: call gfx_switch() even if the current
+ scanout is GL
+Date: Tue, 15 Mar 2022 15:07:39 +0400
+Message-Id: <20220315110739.2095676-13-marcandre.lureau@redhat.com>
 In-Reply-To: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 References: <20220315110739.2095676-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,77 +89,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-gfx_switch() is called to set the new_surface, not necessarily to
-display it. It should be displayed after gfx_update(). Send the whole
-scanout only in this case.
+egl-headless depends on the backing surface to be set before texture are
+set and updated. Display it (update=true) iff the current scanout kind
+is SURFACE.
 
+Reported-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/dbus-listener.c | 37 ++++++++++++++++++++-----------------
- 1 file changed, 20 insertions(+), 17 deletions(-)
+ ui/console.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
-index a287edd2fc15..f9fc8eda519a 100644
---- a/ui/dbus-listener.c
-+++ b/ui/dbus-listener.c
-@@ -255,6 +255,26 @@ static void dbus_gfx_update(DisplayChangeListener *dcl,
- 
-     trace_dbus_update(x, y, w, h);
- 
-+    if (x == 0 && y == 0 && w == surface_width(ddl->ds) && h == surface_height(ddl->ds)) {
-+        v_data = g_variant_new_from_data(
-+            G_VARIANT_TYPE("ay"),
-+            surface_data(ddl->ds),
-+            surface_stride(ddl->ds) * surface_height(ddl->ds),
-+            TRUE,
-+            (GDestroyNotify)pixman_image_unref,
-+            pixman_image_ref(ddl->ds->image));
-+        qemu_dbus_display1_listener_call_scanout(
-+            ddl->proxy,
-+            surface_width(ddl->ds),
-+            surface_height(ddl->ds),
-+            surface_stride(ddl->ds),
-+            surface_format(ddl->ds),
-+            v_data,
-+            G_DBUS_CALL_FLAGS_NONE,
-+            DBUS_DEFAULT_TIMEOUT, NULL, NULL, NULL);
-+        return;
-+    }
-+
-     /* make a copy, since gvariant only handles linear data */
-     img = pixman_image_create_bits(surface_format(ddl->ds),
-                                    w, h, NULL, stride);
-@@ -295,29 +315,12 @@ static void dbus_gfx_switch(DisplayChangeListener *dcl,
-                             struct DisplaySurface *new_surface)
- {
-     DBusDisplayListener *ddl = container_of(dcl, DBusDisplayListener, dcl);
--    GVariant *v_data = NULL;
- 
-     ddl->ds = new_surface;
-     if (!ddl->ds) {
-         /* why not call disable instead? */
+diff --git a/ui/console.c b/ui/console.c
+index 3b5664535625..da434ce1b2f7 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1114,6 +1114,10 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
          return;
      }
--
--    v_data = g_variant_new_from_data(
--        G_VARIANT_TYPE("ay"),
--        surface_data(ddl->ds),
--        surface_stride(ddl->ds) * surface_height(ddl->ds),
--        TRUE,
--        (GDestroyNotify)pixman_image_unref,
--        pixman_image_ref(ddl->ds->image));
--    qemu_dbus_display1_listener_call_scanout(ddl->proxy,
--        surface_width(ddl->ds),
--        surface_height(ddl->ds),
--        surface_stride(ddl->ds),
--        surface_format(ddl->ds),
--        v_data,
--        G_DBUS_CALL_FLAGS_NONE,
--        DBUS_DEFAULT_TIMEOUT, NULL, NULL, NULL);
+ 
++    dpy_gfx_create_texture(con, con->surface);
++    displaychangelistener_gfx_switch(dcl, con->surface,
++                                     con->scanout.kind == SCANOUT_SURFACE);
++
+     if (con->scanout.kind == SCANOUT_DMABUF &&
+         displaychangelistener_has_dmabuf(dcl)) {
+         dcl->ops->dpy_gl_scanout_dmabuf(dcl, con->scanout.dmabuf);
+@@ -1128,9 +1132,6 @@ static void displaychangelistener_display_console(DisplayChangeListener *dcl,
+                                          con->scanout.texture.y,
+                                          con->scanout.texture.width,
+                                          con->scanout.texture.height);
+-    } else if (con->scanout.kind == SCANOUT_SURFACE) {
+-        dpy_gfx_create_texture(con, con->surface);
+-        displaychangelistener_gfx_switch(dcl, con->surface, TRUE);
+     }
  }
  
- static void dbus_mouse_set(DisplayChangeListener *dcl,
 -- 
 2.35.1.273.ge6ebfd0e8cbb
 
