@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60FE4D9BB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 14:01:01 +0100 (CET)
-Received: from localhost ([::1]:35444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DCF4D9BB0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Mar 2022 13:58:15 +0100 (CET)
+Received: from localhost ([::1]:58532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nU6nM-0001YS-SH
-	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 09:01:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60580)
+	id 1nU6kg-0006Mt-12
+	for lists+qemu-devel@lfdr.de; Tue, 15 Mar 2022 08:58:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6ga-0003jb-4t
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:54:00 -0400
-Received: from [2607:f8b0:4864:20::1031] (port=54257
- helo=mail-pj1-x1031.google.com)
+ id 1nU6gj-0003pt-VP
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:54:10 -0400
+Received: from [2607:f8b0:4864:20::429] (port=46635
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1nU6gY-0007dJ-CJ
- for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:53:59 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id bx5so17724522pjb.3
- for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:53:58 -0700 (PDT)
+ id 1nU6gh-0007e4-QN
+ for qemu-devel@nongnu.org; Tue, 15 Mar 2022 08:54:09 -0400
+Received: by mail-pf1-x429.google.com with SMTP id s11so19477424pfu.13
+ for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 05:54:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5B8v95ttoJIHmd1QsV6XLmCILpPGXUYhqkPF7td1dg4=;
- b=hfDsYj+rOLkhKx6YiaqlB5a/spJ2pTGfu/hb58KPPHmiWZ5ENpk2YHvdTa6s9AF5vw
- WbeWgz3UDhGxsP6qDWjznqdF0jljh2VNKqMxTr6Mj7gyTAiS8cXxQZZ/gTWfNJD+LVxd
- 5WOIVe6uREFGH/C5JYigtRBp6sgQV7n33jYRMr0wljWt0D8/H9ga4jB0BFmwS7fRFyFa
- PPEZ3aStIHJyF0QuKhqQ5rI12O9PfUo/3a8m3WXOpJsRovdex0Li9fowxE7je9w+XITr
- niw5vrdcQpUEQpIz6KynB/8He4h1cwk8A/7OrqIs5YHyOIRvNiZw1P4zlQQ4xdA/StyT
- jnDQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=H3t4JkKVu4nm0xKX1SYsaS01qBX8DSvVvUSoQ9fq1mk=;
+ b=K1cGaLA9q0/2ZwF74aQJkteTvs8UTZSxMorNNVEzT/M+8uoHDLPtY6XFcWaC9inJi1
+ HaZTKXV27FYsPlMjFoa79pPrHsI7kOYIgn42PL9ZFvVcAbFJ/rsUscCH9raimYOTOCk5
+ F/yI+JhvwvojrODI74HazFv8Ha+c+SoAPUP6xaXEUkp7wQ2HAExre/Jtj+ls5EYj4rgc
+ dqwSCfOWfQazO/e96LlZrxKSl5g/0Gw/2hKq1LB80Jr+OeCH0+fHvkvQYDJBnzhaHlxi
+ P+CbJD5WyeDarUUDuZdjtk7NVtKrOc4OEJLt5T1+6X6L0Ym8g4IaINbdXEml7p68ilgb
+ Rttg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5B8v95ttoJIHmd1QsV6XLmCILpPGXUYhqkPF7td1dg4=;
- b=sSskFWu7Xyo1FEmmWOvrNZJV9iK43h19FaT3OS1EovnxUK8IdDuZyNdpI1+7k38M2w
- dbeHbWe96bBdkLUY3iTir0uVgZwuKQFdEEqvZHYNa33UM4jb14w1yVige3XumjbwEFWf
- MFjy1RUWl5m6oJYyDw1QMA2YnL4IoGQF0JwP7FQFvEdiAkG2Oh+grsCnwru0z4pvU2et
- hM+ypCbUF7TzkaW1WQmsVRpoGnu5+nNW69cKUaCERzvgLP8STCqs/vlSwKzexFbY51iQ
- HmwoTFow+tc7WmIvSnOqvtX5A5aca9k4NnMLBg0BPj3h+BUfgI0vXfKg5QIh7GCkedCW
- /SVw==
-X-Gm-Message-State: AOAM532tqfWWfMJeAqQ6iGThqUGn3v4jP8x1JzIktwEhMyXgxsfSWpTZ
- e2chnPh24yOehY6G2s3g8ZiyukqSIWk=
-X-Google-Smtp-Source: ABdhPJyvROpTWCWq3yxR5Ogb///ZqzKL11+OaT3FYQ9cWlTBKJHXMaafkr2V8GqEko+Lfvr0PI5PWg==
-X-Received: by 2002:a17:90b:17d1:b0:1bf:1e3:ded3 with SMTP id
- me17-20020a17090b17d100b001bf01e3ded3mr4554917pjb.144.1647348836969; 
- Tue, 15 Mar 2022 05:53:56 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=H3t4JkKVu4nm0xKX1SYsaS01qBX8DSvVvUSoQ9fq1mk=;
+ b=lysle1YnNBMDmatmqqPlrvki5EZuZM6FiPW18TtlqvpVH6zjc4WE2ADzoxigDLv2PQ
+ yacOVtdtYKRE1IzOU5dj4BfE2jkHMTo8dZ4jPb+B3n+jxgQhpNOpCGUdagE2RLzNTtOn
+ Hc7wSVoz98xs2+iaedw17SsARJSIkrVlOEWZUfv3rPDAbrObWS3ZIivYBb31RU4vVv9B
+ UG4nzYFhakb23VYtk/2Zck94JQ0entzNktVjKTfDZl/FzzSAYnmxpLr/SPGJTbp7WSA+
+ VcksdP+sbnvqkKUv8W8uHApU49mPwkJQp/9uSgRlKPcwSESp/Gf053CX96+eJ7eybbSd
+ kcQQ==
+X-Gm-Message-State: AOAM533PesZDWhbrXTvmBd5OgWSxS6NkGAI/ojP5Tjwx9TFIaaGIoUfN
+ EDD0ELoxU+uoEllcta8AlxF9CRLAYkM=
+X-Google-Smtp-Source: ABdhPJzlJ0NhDwHc9Acce4poCLmRYeHICI27GbCK1xQsKpZyIE5r/GUBcYLO3jjKEsT56qGfR8GjdQ==
+X-Received: by 2002:a05:6a00:1483:b0:4f7:af9a:c807 with SMTP id
+ v3-20020a056a00148300b004f7af9ac807mr14885607pfu.17.1647348845692; 
+ Tue, 15 Mar 2022 05:54:05 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- t11-20020a056a00138b00b004f7664328a0sm22252299pfg.162.2022.03.15.05.53.54
+ a38-20020a056a001d2600b004f72acd4dadsm24445749pfx.81.2022.03.15.05.54.02
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 15 Mar 2022 05:53:56 -0700 (PDT)
+ Tue, 15 Mar 2022 05:54:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philippe.mathieu.daude@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/21] Darwin patches for 2022-03-15
-Date: Tue, 15 Mar 2022 13:53:29 +0100
-Message-Id: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
+Subject: [PULL 01/21] configure: Allow passing extra Objective C compiler flags
+Date: Tue, 15 Mar 2022 13:53:30 +0100
+Message-Id: <20220315125350.82452-2-philippe.mathieu.daude@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
+References: <20220315125350.82452-1-philippe.mathieu.daude@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: 23
-X-Spam_score: 2.3
-X-Spam_bar: ++
-X-Spam_report: (2.3 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,81 +99,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The following changes since commit a72ada1662ee3105c5d66ddc8930d98e9cab62be:
+We can pass C/CPP/LD flags via CFLAGS/CXXFLAGS/LDFLAGS environment
+variables, or via configure --extra-cflags / --extra-cxxflags /
+--extra-ldflags options. Provide similar behavior for Objective C:
+use existing flags from $OBJCFLAGS, or passed via --extra-objcflags.
 
-  Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2022-03-15 09:53:13 +0000)
+Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Tested-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ configure   | 8 ++++++++
+ meson.build | 5 +++++
+ 2 files changed, 13 insertions(+)
 
-are available in the Git repository at:
-
-  https://github.com/philmd/qemu.git tags/darwin-20220315
-
-for you to fetch changes up to c82b7ef16f3efa59e28f821f25a9c084ef84ea9d:
-
-  MAINTAINERS: Volunteer to maintain Darwin-based hosts support (2022-03-15 13:36:33 +0100)
-
-----------------------------------------------------------------
-Darwin-based host patches
-
-- Remove various build warnings
-- Fix building with modules on macOS
-- Fix mouse/keyboard GUI interactions
-
-----------------------------------------------------------------
-
-Akihiko Odaki (2):
-  audio: Log context for audio bug
-  coreaudio: Always return 0 in handle_voice_change
-
-Cameron Esfahani (1):
-  hvf: Use standard CR0 and CR4 register definitions
-
-Carwyn Ellis (2):
-  ui/cocoa: add option to disable left-command forwarding to guest
-  ui/cocoa: release mouse when user switches away from QEMU window
-
-Gustavo Noronha Silva (2):
-  ui/cocoa: capture all keys and combos when mouse is grabbed
-  ui/cocoa: add option to swap Option and Command
-
-Philippe Mathieu-Daudé (14):
-  configure: Allow passing extra Objective C compiler flags
-  tests/fp/berkeley-testfloat-3: Ignore ignored #pragma directives
-  hvf: Make hvf_get_segments() / hvf_put_segments() local
-  hvf: Remove deprecated hv_vcpu_flush() calls
-  block/file-posix: Remove a deprecation warning on macOS 12
-  audio/coreaudio: Remove a deprecation warning on macOS 12
-  audio/dbus: Fix building with modules on macOS
-  audio: Rename coreaudio extension to use Objective-C compiler
-  osdep: Avoid using Clang-specific __builtin_available()
-  meson: Resolve the entitlement.sh script once for good
-  meson: Log QEMU_CXXFLAGS content in summary
-  configure: Pass filtered QEMU_OBJCFLAGS to meson
-  ui/cocoa: Constify qkeycode translation arrays
-  MAINTAINERS: Volunteer to maintain Darwin-based hosts support
-
- MAINTAINERS                        |   8 ++
- audio/audio.c                      |  25 +++---
- audio/audio_template.h             |  27 +++----
- audio/{coreaudio.c => coreaudio.m} |  23 +++---
- audio/meson.build                  |   4 +-
- block/file-posix.c                 |  14 +++-
- configure                          |  31 ++++++++
- include/qemu/osdep.h               |  10 +--
- meson.build                        |  17 +++-
- qapi/ui.json                       |  29 +++++++
- qemu-options.hx                    |  15 ++++
- target/i386/hvf/vmx.h              |  19 +++--
- target/i386/hvf/x86.c              |   6 +-
- target/i386/hvf/x86.h              |  34 --------
- target/i386/hvf/x86_mmu.c          |   2 +-
- target/i386/hvf/x86_task.c         |   4 +-
- target/i386/hvf/x86hvf.c           |   6 +-
- target/i386/hvf/x86hvf.h           |   2 -
- tests/fp/meson.build               |   5 ++
- ui/cocoa.m                         | 122 ++++++++++++++++++++++++++---
- 20 files changed, 283 insertions(+), 120 deletions(-)
- rename audio/{coreaudio.c => coreaudio.m} (97%)
-
+diff --git a/configure b/configure
+index 886000346a..2bf40d9eeb 100755
+--- a/configure
++++ b/configure
+@@ -285,6 +285,7 @@ done
+ 
+ EXTRA_CFLAGS=""
+ EXTRA_CXXFLAGS=""
++EXTRA_OBJCFLAGS=""
+ EXTRA_LDFLAGS=""
+ 
+ xen_ctrl_version="$default_feature"
+@@ -366,9 +367,12 @@ for opt do
+   --extra-cflags=*)
+     EXTRA_CFLAGS="$EXTRA_CFLAGS $optarg"
+     EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $optarg"
++    EXTRA_OBJCFLAGS="$EXTRA_OBJCFLAGS $optarg"
+     ;;
+   --extra-cxxflags=*) EXTRA_CXXFLAGS="$EXTRA_CXXFLAGS $optarg"
+   ;;
++  --extra-objcflags=*) EXTRA_OBJCFLAGS="$EXTRA_OBJCFLAGS $optarg"
++  ;;
+   --extra-ldflags=*) EXTRA_LDFLAGS="$EXTRA_LDFLAGS $optarg"
+   ;;
+   --enable-debug-info) debug_info="yes"
+@@ -748,6 +752,8 @@ for opt do
+   ;;
+   --extra-cxxflags=*)
+   ;;
++  --extra-objcflags=*)
++  ;;
+   --extra-ldflags=*)
+   ;;
+   --enable-debug-info)
+@@ -1172,6 +1178,7 @@ Advanced options (experts only):
+   --objcc=OBJCC            use Objective-C compiler OBJCC [$objcc]
+   --extra-cflags=CFLAGS    append extra C compiler flags CFLAGS
+   --extra-cxxflags=CXXFLAGS append extra C++ compiler flags CXXFLAGS
++  --extra-objcflags=OBJCFLAGS append extra Objective C compiler flags OBJCFLAGS
+   --extra-ldflags=LDFLAGS  append extra linker flags LDFLAGS
+   --cross-cc-ARCH=CC       use compiler when building ARCH guest test cases
+   --cross-cc-cflags-ARCH=  use compiler flags when building ARCH guest tests
+@@ -3137,6 +3144,7 @@ if test "$skip_meson" = no; then
+   echo "[built-in options]" >> $cross
+   echo "c_args = [$(meson_quote $CFLAGS $EXTRA_CFLAGS)]" >> $cross
+   echo "cpp_args = [$(meson_quote $CXXFLAGS $EXTRA_CXXFLAGS)]" >> $cross
++  test -n "$objcc" && echo "objc_args = [$(meson_quote $OBJCFLAGS $EXTRA_OBJCFLAGS)]" >> $cross
+   echo "c_link_args = [$(meson_quote $CFLAGS $LDFLAGS $EXTRA_CFLAGS $EXTRA_LDFLAGS)]" >> $cross
+   echo "cpp_link_args = [$(meson_quote $CXXFLAGS $LDFLAGS $EXTRA_CXXFLAGS $EXTRA_LDFLAGS)]" >> $cross
+   echo "[binaries]" >> $cross
+diff --git a/meson.build b/meson.build
+index 2d6601467f..351f9f4360 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3467,6 +3467,11 @@ if link_language == 'cpp'
+                                                + ['-O' + get_option('optimization')]
+                                                + (get_option('debug') ? ['-g'] : []))}
+ endif
++if targetos == 'darwin'
++  summary_info += {'OBJCFLAGS':       ' '.join(get_option('objc_args')
++                                               + ['-O' + get_option('optimization')]
++                                               + (get_option('debug') ? ['-g'] : []))}
++endif
+ link_args = get_option(link_language + '_link_args')
+ if link_args.length() > 0
+   summary_info += {'LDFLAGS':         ' '.join(link_args)}
 -- 
 2.34.1
 
