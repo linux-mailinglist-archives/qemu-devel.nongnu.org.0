@@ -2,78 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E124DB230
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:09:54 +0100 (CET)
-Received: from localhost ([::1]:41986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3A04DB2DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:20:01 +0100 (CET)
+Received: from localhost ([::1]:34522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUULY-0003zS-UK
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:09:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46402)
+	id 1nUUVL-0001E0-MN
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:19:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nUU1u-00056U-QB
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:49:35 -0400
-Received: from [2a00:1450:4864:20::62d] (port=35523
- helo=mail-ej1-x62d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1nUU1o-00085X-Dp
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:49:30 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id yy13so4345132ejb.2
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=G7uH8bJxhcEID+lfx2mSTgcCmCVHYoXzerhjNUOX344=;
- b=VuLMCtCAkmvJuGs08g6GmeHNEaLSojOBLoL98/SSJLpFnyCaieEO0kXV8m/q2q6QnF
- P7u4+sqxpaJrhhQpkWpAUL/2gjwx6sAk5D9nMNzFNt/jKBsJC/jDBmmYO+jZaIMTuPBl
- gbkVUwaS8ZDU+uRGFy59/upLS0mdZEBLOX7xOxeCBrmQXWj6K+FuGCsDYgPZPm/kHsnN
- aQ2VYqEaLlEPM6zQMob4Ks1Newb3w4eQpivb/KM46UnAKYL/DH55weB/kNGBwdSc4tpv
- NheWuVpIPXm39R/mm3L46Alo4u50q9rwBfafVws6Q9Knh01GswMV7b0Ce+JIMC0IQn/w
- rehA==
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nUU6l-0005Pl-TC
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:54:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50874)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
+ id 1nUU6j-0000cB-8k
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:54:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647438872;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SIKojt/J2ClEiv3g9qx1oy3TyvYSRkJES07vFCdBgKg=;
+ b=CEOGnQXrsJaKjoPdw47FSnro6OxBOR1svBiJgscn8pOUbba4ZLO8tOb0pUg2ZgwqeS+cux
+ oXwDFMwklPw5j1Qxoo2TM0GAGNspd39ZVlr/+yJCN7cwZ1cUq5LxtmhXrUhLpQhdN/NnEe
+ YaLs1U0KAuahJwo5MyfqyrpJTyI8eqg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-664-zVJvhvWoPGycQHCNDuBDoA-1; Wed, 16 Mar 2022 09:54:29 -0400
+X-MC-Unique: zVJvhvWoPGycQHCNDuBDoA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ a5-20020adfdd05000000b001f023fe32ffso582986wrm.18
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:54:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=G7uH8bJxhcEID+lfx2mSTgcCmCVHYoXzerhjNUOX344=;
- b=OTG22yOMmeKVuDRiz5q8sJ15bnAz+Wgb7AlWc61yG/sl0cC6VwwpvPveFfHN/q4H9o
- FtXZIE8UOMJTFeioSEZDajyzdCVeYMOLnOCHB/os5giJCb31KROHfq2fCIYBJKDoOSjB
- eL8xM+ujTeGzaLsgAMZ+ocW+bE+4V+Shz7BqEVkgs83FxwV/0kzc6sFyFaymiGaL11Zn
- 2DWmug8lwlq/Ns45brLwd5dA1+llb208fVaYQjn4y9n9dvTddqqX08/HnsIQFBpkuaf1
- faxm6XZzkSlq3VifbkzGeM1Tqvl3R9uEz0crmNt3egHJRY6kjzAzrkymoPHE82eQkj4T
- Nr8Q==
-X-Gm-Message-State: AOAM531BgVM9F5SdEn6YfyxjJtcQlZ/f9cMjlhkVEObrUZLySpjcbenk
- AQ+HSZajr0TSJ9s0rxvO60vMv3bE+SW7vvYVRlCW
-X-Google-Smtp-Source: ABdhPJzI0erDVwv5jLcmCvx92MKVXdtWnwA9vXEL4FhgqAozNavNIeXpJxPmOS/8L/59cdoJOK8JEbZ9bpIFya8As7Y=
-X-Received: by 2002:a17:907:c05:b0:6db:f118:8834 with SMTP id
- ga5-20020a1709070c0500b006dbf1188834mr77854ejc.536.1647438566253; Wed, 16 Mar
- 2022 06:49:26 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SIKojt/J2ClEiv3g9qx1oy3TyvYSRkJES07vFCdBgKg=;
+ b=LvWn0sAtuRFZIkS0k5/3Yy98NXDo+jGY7OJEDAna2bxGbam8/04d9p+hkr+3U7GNK1
+ jjGZYz7GB84CuQIOro6xTf7uk+iR78LYYpEruT1A4v3PBUbQyHh3PFKBfGWPBXf4nMza
+ Q66bUSz0hW1OZfDaEJYnuODB9IyoCBLKy92P57SuJ6W8q06uySPKdWDPAZq3Jz+QV5ud
+ 99dcVOxhZ7hhvvljyWEF1Pwa1kS2uKXddoOS9aeq98zbPwbq8FBm1mW1Rcz8HLOroWy+
+ YeQAS+s1V4zjqc9qr/1JkUenVO9RIbse6oRLbPZaCR465UtDG6AqiIGBlK6gFgtr3woW
+ F3tg==
+X-Gm-Message-State: AOAM531dq+YNcaP6EUFirn30wYYatql9/CMknO4ZAblXew+mpPvTq/tR
+ 0NfPTvokfBGKJH12+PSpEYwaPxqBE9JolWSlC0qffKFTITbtIFlkwLHp9D5ytQ0M0g/gRoqEIh8
+ eCxB7l/bR++13UeQ=
+X-Received: by 2002:a5d:47c4:0:b0:1f0:25ca:6d81 with SMTP id
+ o4-20020a5d47c4000000b001f025ca6d81mr54061wrc.247.1647438868107; 
+ Wed, 16 Mar 2022 06:54:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxjD1BarhlZWh9Wur8R4XIBRpI+YzKsmxOwqpfFSXidZOY70S19KXDuDQI6CXvSCWWMNXKKAQ==
+X-Received: by 2002:a5d:47c4:0:b0:1f0:25ca:6d81 with SMTP id
+ o4-20020a5d47c4000000b001f025ca6d81mr54040wrc.247.1647438867880; 
+ Wed, 16 Mar 2022 06:54:27 -0700 (PDT)
+Received: from vian.redhat.com ([2a0c:5a80:3506:3400:69b5:c807:1d52:ff67])
+ by smtp.gmail.com with ESMTPSA id
+ w7-20020a1cf607000000b00389a5390180sm1770157wmc.25.2022.03.16.06.54.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Mar 2022 06:54:27 -0700 (PDT)
+From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+To: kwolf@redhat.com,
+	stefanha@redhat.com,
+	berrange@redhat.com
+Subject: [PATCH v3 0/3] util/thread-pool: Expose minimun and maximum size
+Date: Wed, 16 Mar 2022 14:53:20 +0100
+Message-Id: <20220316135321.142850-1-nsaenzju@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220215105943.90-1-xieyongji@bytedance.com>
- <20220215105943.90-4-xieyongji@bytedance.com>
- <YjBg3QnSnpY2cAdL@stefanha-x1.localdomain>
- <CACycT3s7cgHBAqmpy=RZPwPZz4uptr0REzJ9fhM1qv+G_miS1Q@mail.gmail.com>
- <YjHl66pJYw45oKL9@stefanha-x1.localdomain>
-In-Reply-To: <YjHl66pJYw45oKL9@stefanha-x1.localdomain>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Wed, 16 Mar 2022 21:49:19 +0800
-Message-ID: <CACycT3vpQsLG7oxeTHMs3w1qdO7fGJnjGiORfm=t1U2ehgD+bw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] libvduse: Add VDUSE (vDPA Device in Userspace)
- library
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::62d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsaenzju@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsaenzju@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,62 +99,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, mreitz@redhat.com, mlureau@redhat.com,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: fam@euphon.net, eduardo@habkost.net, qemu-block@nongnu.org,
+ michael.roth@amd.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, hreitz@redhat.com, pbonzini@redhat.com,
+ Nicolas Saenz Julienne <nsaenzju@redhat.com>, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 16, 2022 at 9:28 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Tue, Mar 15, 2022 at 07:38:12PM +0800, Yongji Xie wrote:
-> > On Tue, Mar 15, 2022 at 5:48 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > >
-> > > On Tue, Feb 15, 2022 at 06:59:40PM +0800, Xie Yongji wrote:
-> > > > VDUSE [1] is a linux framework that makes it possible to implement
-> > > > software-emulated vDPA devices in userspace. This adds a library
-> > > > as a subproject to help implementing VDUSE backends in QEMU.
-> > > >
-> > > > [1] https://www.kernel.org/doc/html/latest/userspace-api/vduse.html
-> > > >
-> > > > Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
-> > > > ---
-> > > >  meson.build                                 |   15 +
-> > > >  meson_options.txt                           |    2 +
-> > > >  scripts/meson-buildoptions.sh               |    3 +
-> > > >  subprojects/libvduse/include/atomic.h       |    1 +
-> > > >  subprojects/libvduse/libvduse.c             | 1152 +++++++++++++++++++
-> > > >  subprojects/libvduse/libvduse.h             |  225 ++++
-> > > >  subprojects/libvduse/linux-headers/linux    |    1 +
-> > > >  subprojects/libvduse/meson.build            |   10 +
-> > > >  subprojects/libvduse/standard-headers/linux |    1 +
-> > > >  9 files changed, 1410 insertions(+)
-> > > >  create mode 120000 subprojects/libvduse/include/atomic.h
-> > > >  create mode 100644 subprojects/libvduse/libvduse.c
-> > > >  create mode 100644 subprojects/libvduse/libvduse.h
-> > > >  create mode 120000 subprojects/libvduse/linux-headers/linux
-> > > >  create mode 100644 subprojects/libvduse/meson.build
-> > > >  create mode 120000 subprojects/libvduse/standard-headers/linux
-> > >
-> > > Please update the ./MAINTAINERS file when adding new source files.
-> >
-> > OK, sure. And would you mind being one of the maintainers since I'm
-> > not sure if I can do this job well.
->
-> You're welcome to become the maintainer. It means that you will be CCed
-> on patches affecting this code and sometimes people might send you
-> questions about VDUSE exports.
->
+As discussed on the previous RFC[1] the thread-pool's dynamic thread
+management doesn't play well with real-time and latency sensitive
+systems. This series introduces a set of controls that'll permit
+achieving more deterministic behaviours, for example by fixing the
+pool's size.
 
-I see. I will try my best.
+We first introduce a new common interface to event loop configuration by
+moving iothread's already available properties into an abstract class
+called 'EventLooopBackend' and have both 'IOThread' and the newly
+created 'MainLoop' inherit the properties from that class.
 
-> Is the issue lack of time?
->
+With this new configuration interface in place it's relatively simple to
+introduce new options to fix the even loop's thread pool sizes. The
+resulting QAPI looks like this:
 
-I think the time is enough. But since I have no experience, I'm not
-sure if I can do this well.
+    -object main-loop,id=main-loop,thread-pool-min=1,thread-pool-max=1
 
-Thanks,
-Yongji
+Note that all patches are bisect friendly and pass all the tests.
+
+[1] https://patchwork.ozlabs.org/project/qemu-devel/patch/20220202175234.656711-1-nsaenzju@redhat.com/
+
+---
+Changes since v2:
+ - Get rid of wrong locking/waiting
+ - Fix qapi versioning
+ - Better commit messages
+
+Changes since v1:
+ - Address all Stefan's comments
+ - Introduce new fix
+
+Nicolas Saenz Julienne (3):
+  Introduce event-loop-base abstract class
+  util/main-loop: Introduce the main loop into QOM
+  util/event-loop-base: Introduce options to set the thread pool size
+
+ event-loop-base.c                | 140 +++++++++++++++++++++++++++++++
+ include/block/aio.h              |  10 +++
+ include/block/thread-pool.h      |   3 +
+ include/qemu/main-loop.h         |  10 +++
+ include/sysemu/event-loop-base.h |  41 +++++++++
+ include/sysemu/iothread.h        |   6 +-
+ iothread.c                       |  68 +++++----------
+ meson.build                      |  26 +++---
+ qapi/qom.json                    |  34 +++++++-
+ util/aio-posix.c                 |   1 +
+ util/async.c                     |  20 +++++
+ util/main-loop.c                 |  65 ++++++++++++++
+ util/thread-pool.c               |  55 +++++++++++-
+ 13 files changed, 414 insertions(+), 65 deletions(-)
+ create mode 100644 event-loop-base.c
+ create mode 100644 include/sysemu/event-loop-base.h
+
+-- 
+2.35.1
+
 
