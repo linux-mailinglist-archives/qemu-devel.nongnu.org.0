@@ -2,86 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1CC34DB398
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:46:59 +0100 (CET)
-Received: from localhost ([::1]:51454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1274DB3B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:50:52 +0100 (CET)
+Received: from localhost ([::1]:58996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUUvS-0005gb-IM
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:46:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59740)
+	id 1nUUzB-0001kr-Uj
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:50:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nUUtY-0003kF-EA
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:45:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55898)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nUUva-0006mW-Fd
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:47:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nUUtV-0001Qq-Pt
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:44:59 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1nUUvX-0001yT-CS
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 10:47:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647441896;
+ s=mimecast20190719; t=1647442022;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L8f8EsswhKa360FvBPHHo+lmRQ++c2k/VT3utAiK6do=;
- b=BTXdTZXObBSwnuYnAEcBs04+W6ejwoOR523Vl+RfbPJ9t+G+tIeV0yz3VBvKbkRdEg51fV
- svuyyaHMiwGBuXZT3pXEP7oYLDd2iuSs8CETsodYrvyHeCqSZcrT9qsTCxaxp/i+RjA06k
- BLqSs2BmHNypGNShUTsCH8fcWVsFieU=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=d1dqBnQik5aV1QoXWFxduujT7KvfAkxZHKgVvp9Hin8=;
+ b=M7ZXY3FbpnEmpayQ4jAx2UQayJJL9sHtRSwQ/5rK6BqzqLWLWPbPFCuVDzMhQmqueZ4GdI
+ RmjCdCR7FyjkLkVpW0lfcY/pvg7PTcu8CMVO8U8mJH84ePoci6OprIMVXoUFaVOHrbjwwo
+ FU3Pd0B6ugubKEhybTmuvLlG4zSOBtY=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-253-psP_ZW54OU-VldSUAjFefg-1; Wed, 16 Mar 2022 10:44:53 -0400
-X-MC-Unique: psP_ZW54OU-VldSUAjFefg-1
-Received: by mail-yb1-f199.google.com with SMTP id
- b11-20020a5b008b000000b00624ea481d55so2090015ybp.19
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 07:44:53 -0700 (PDT)
+ us-mta-362-zS9RT5IWPveUCxCp-ZFaHA-1; Wed, 16 Mar 2022 10:47:01 -0400
+X-MC-Unique: zS9RT5IWPveUCxCp-ZFaHA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ z2-20020a056214060200b00440d1bc7815so1664437qvw.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 07:47:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=L8f8EsswhKa360FvBPHHo+lmRQ++c2k/VT3utAiK6do=;
- b=Q21ieNfAiT09LY7tiRtntunupNjbuUvorKxHayxNijZof+3SDBT/47hovbPebHaOER
- jE2EVZnfX69TsTU5bQuNeGJMQ1JkHZdT6Ix99yAAdZkE1F5bLEh3DfLT2wAczIslewD4
- LHmDIn/hRuK1Q9YOYM8Kjk4phSvae5xKeOHzJLdM6uXUSO1HWQz8sb2LjEyNBgCgVOZC
- pncEMwj4adZ4jNHr1m+fGYlchzeTBL+aCro0vzg5zN+Ct3tYmawKJtU5QE6NrQ+bXjMq
- xNjVLYDZ4IiEu5SN7GQjLj30m1uYGiRrkG9vbaODyDQc1Dbr+ny3C6U5ENhCAM1F/5yn
- CGyg==
-X-Gm-Message-State: AOAM5314q2sItkhcF+kueasRMUl+UwrcMY6CpVlBwIyxcfoVs6ngs83j
- lG/MzXXfTxIz1mScyEwOY2mPXm14g8TqtXqSoh12oKrUriYQjyVn7SdJJYhqaxPyrbSEOAUD45w
- 9bZooXCY+NgmqmH/5rh2o+k3ICJLGcnI=
-X-Received: by 2002:a81:5dd5:0:b0:2dc:19cf:17ac with SMTP id
- r204-20020a815dd5000000b002dc19cf17acmr427067ywb.312.1647441892787; 
- Wed, 16 Mar 2022 07:44:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFWYn/wtSu246u8Y4CYfKSyUDvMgcKhxu5hgK+YIOdccvoRRaKZhf56K2IxHr0xWfHRxN69qDhHOSHm0DlaKI=
-X-Received: by 2002:a81:5dd5:0:b0:2dc:19cf:17ac with SMTP id
- r204-20020a815dd5000000b002dc19cf17acmr427038ywb.312.1647441892569; Wed, 16
- Mar 2022 07:44:52 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d1dqBnQik5aV1QoXWFxduujT7KvfAkxZHKgVvp9Hin8=;
+ b=UDcXiFccahaYiHDrdOEXkpnMSiaQiRIHd0s+ZebGZmzUKKeA0aZIEwi63oqWgwjjb5
+ 4StxPCaxFAiq6U8/+dmrqXT8ykfSwizL+Kt4cSAbtZ1sJKLT1b3dvcskd16QHEFyIS7b
+ Q2RzWCJ8UZHego+J12RqZ7EzMVMXu3g19orLMjZWNYqoYYwEjMHdNK55UV+K44NV+JZi
+ 2EpaEekFZFqXurPSvtzLNhsV6RBxPu5tkSr2tiC15rgKXEiIOmG+TYkqqLSO9nkO7ZGf
+ e6ZEnPz/30u0yIRy95yzBDAU5nSBl2Cdw86WnClnuoqknzoVXC0gjuwuSHdqsbSXpu31
+ GpOQ==
+X-Gm-Message-State: AOAM532wGuqO8llMnUSMnrR2Bvgf1NttzzWze4yBuSTRjh2rD/bMU28l
+ 0dOOePq2/BUajN27qe4jURqB6zfVV62HLcUE7LqtHe3c0bPMKNqJH7bRw8SxwS/IAZ/Yf3XdmXq
+ UxUwubCAy4Dh+oF0=
+X-Received: by 2002:a05:622a:43:b0:2e1:4e:a784 with SMTP id
+ y3-20020a05622a004300b002e1004ea784mr321684qtw.240.1647442020707; 
+ Wed, 16 Mar 2022 07:47:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwZfrWEY5Tvd21/SBmIgpNHqD2VQLgBROTHEMQ5n4v5mAbEnAM2Vtl4mr0AV5F+L6m62Ldww==
+X-Received: by 2002:a05:622a:43:b0:2e1:4e:a784 with SMTP id
+ y3-20020a05622a004300b002e1004ea784mr321665qtw.240.1647442020471; 
+ Wed, 16 Mar 2022 07:47:00 -0700 (PDT)
+Received: from [192.168.149.119]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ b20-20020a376714000000b0067b21e5d18asm940418qkc.105.2022.03.16.07.46.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Mar 2022 07:46:59 -0700 (PDT)
+Message-ID: <d600ff25-d854-7239-9001-7315b24b9054@redhat.com>
+Date: Wed, 16 Mar 2022 15:46:55 +0100
 MIME-Version: 1.0
-References: <20220316095221.2613526-1-marcandre.lureau@redhat.com>
- <50cece3d-37ac-7fe4-db14-1116e9665594@redhat.com>
-In-Reply-To: <50cece3d-37ac-7fe4-db14-1116e9665594@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 16 Mar 2022 18:44:41 +0400
-Message-ID: <CAMxuvaxwSX4cnVaCFMFad6qFs4CqgKs7KiLntuSVApy4AoZiiw@mail.gmail.com>
-Subject: Re: [PATCH 02/27] meson: remove bsd_oses
-To: Paolo Bonzini <pbonzini@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PULL 21/50] block/block-backend.c: assertions for block-backend
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org
+References: <20220304164711.474713-1-kwolf@redhat.com>
+ <20220304164711.474713-22-kwolf@redhat.com>
+ <c005130e-10f0-b575-4493-2080ba08494b@gmail.com>
+ <cecef6bd-951a-aab6-e603-96e3551e3e9e@gmail.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <cecef6bd-951a-aab6-e603-96e3551e3e9e@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,49 +109,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
 
-On Wed, Mar 16, 2022 at 6:40 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 3/16/22 10:52, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > It is unused.
->
-> It's fine to remove it now, but I'll bring it back in 7.1. :)  You decide=
-.
 
-Whatever, but if noone ack it, let's leave it then.
-thanks
+Am 16/03/2022 um 13:53 schrieb Philippe Mathieu-Daudé:
+> On 16/3/22 13:44, Philippe Mathieu-Daudé wrote:
+>> Hi,
+>>
+>> On 4/3/22 17:46, Kevin Wolf wrote:
+>>> From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>>
+>>> All the global state (GS) API functions will check that
+>>> qemu_in_main_thread() returns true. If not, it means
+>>> that the safety of BQL cannot be guaranteed, and
+>>> they need to be moved to I/O.
+>>
+>> I'm getting this crash:
+>>
+>> $ qemu-system-i386
+>> Assertion failed: (qemu_in_main_thread()), function blk_all_next, file
+>> block-backend.c, line 552.
+>> Abort trap: 6
+>>
+>> Assertion failed: (qemu_in_main_thread()), function blk_all_next, file
+>> block-backend.c, line 552.
+>> qemu-system-i386 was compiled with optimization - stepping may behave
+>> oddly; variables may not be available.
+>> Process 76914 stopped
+>> * thread #1, queue = 'com.apple.main-thread', stop reason = hit
+>> program assert
+>>      frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1
+>> at block-backend.c:552:5 [opt]
+>>     549    */
+>>     550   BlockBackend *blk_all_next(BlockBackend *blk)
+>>     551   {
+>> -> 552       GLOBAL_STATE_CODE();
+>>     553       return blk ? QTAILQ_NEXT(blk, link)
+>>     554                  : QTAILQ_FIRST(&block_backends);
+>>     555   }
+>> Target 1: (qemu-system-i386) stopped.
+> 
+> Forgot to paste the backtrace:
+> 
+> (lldb) bt
+> * thread #1, queue = 'com.apple.main-thread', stop reason = hit program
+> assert
+>     frame #0: 0x00000001908c99b8 libsystem_kernel.dylib`__pthread_kill + 8
+>     frame #1: 0x00000001908fceb0 libsystem_pthread.dylib`pthread_kill + 288
+>     frame #2: 0x000000019083a314 libsystem_c.dylib`abort + 164
+>     frame #3: 0x000000019083972c libsystem_c.dylib`__assert_rtn + 300
+>   * frame #4: 0x000000010057c2d4 qemu-system-i386`blk_all_next.cold.1 at
+> block-backend.c:552:5 [opt]
+>     frame #5: 0x00000001003c00b4
+> qemu-system-i386`blk_all_next(blk=<unavailable>) at
+> block-backend.c:552:5 [opt]
+>     frame #6: 0x00000001003d8f04
+> qemu-system-i386`qmp_query_block(errp=0x0000000000000000) at
+> qapi.c:591:16 [opt]
+>     frame #7: 0x000000010003ab0c qemu-system-i386`main [inlined]
+> addRemovableDevicesMenuItems at cocoa.m:1756:21 [opt]
+>     frame #8: 0x000000010003ab04
+> qemu-system-i386`main(argc=<unavailable>, argv=<unavailable>) at
+> cocoa.m:1980:5 [opt]
+>     frame #9: 0x00000001012690f4 dyld`start + 520
 
->
-> Paolo
->
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   meson.build | 1 -
-> >   1 file changed, 1 deletion(-)
-> >
-> > diff --git a/meson.build b/meson.build
-> > index bae62efc9c33..784e91753630 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -44,7 +44,6 @@ config_host_data =3D configuration_data()
-> >   genh =3D []
-> >   qapi_trace_events =3D []
-> >
-> > -bsd_oses =3D ['gnu/kfreebsd', 'freebsd', 'netbsd', 'openbsd', 'dragonf=
-ly', 'darwin']
-> >   supported_oses =3D ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwi=
-n', 'sunos', 'linux']
-> >   supported_cpus =3D ['ppc', 'ppc64', 's390x', 'riscv', 'x86', 'x86_64'=
-,
-> >     'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc6=
-4']
->
+I think Paolo and Peter talked about this a couple of days ago on #qemu,
+and have already found a solution if I remember correctly.
+
+Maybe it's worth to check with them first.
+
+Emanuele
+> 
+>> Bisected to this patch:
+>>
+>> 0439c5a4623d674efa0c72abd62ca6e98bb7cf87 is the first bad commit
+>>
+>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>> Message-Id: <20220303151616.325444-9-eesposit@redhat.com>
+>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>>> ---
+>>>   block/block-backend.c  | 78 ++++++++++++++++++++++++++++++++++++++++++
+>>>   softmmu/qdev-monitor.c |  2 ++
+>>>   2 files changed, 80 insertions(+)
+> 
 
 
