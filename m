@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A454DB6A8
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 17:48:58 +0100 (CET)
-Received: from localhost ([::1]:36464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71724DB6BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 17:53:44 +0100 (CET)
+Received: from localhost ([::1]:44244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUWpV-0002o6-DU
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 12:48:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39610)
+	id 1nUWu7-0008By-R0
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 12:53:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1nUWnT-0008Uq-BQ; Wed, 16 Mar 2022 12:46:51 -0400
-Received: from [2a00:1450:4864:20::129] (port=45051
- helo=mail-lf1-x129.google.com)
+ id 1nUWnU-00005A-OU; Wed, 16 Mar 2022 12:46:52 -0400
+Received: from [2a00:1450:4864:20::136] (port=34682
+ helo=mail-lf1-x136.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1nUWnR-0006Dy-PX; Wed, 16 Mar 2022 12:46:50 -0400
-Received: by mail-lf1-x129.google.com with SMTP id h14so4692785lfk.11;
- Wed, 16 Mar 2022 09:46:49 -0700 (PDT)
+ id 1nUWnS-0006EA-VX; Wed, 16 Mar 2022 12:46:52 -0400
+Received: by mail-lf1-x136.google.com with SMTP id e6so4760318lfc.1;
+ Wed, 16 Mar 2022 09:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1BoBbs6eeb+lVZErBadnCXOSSUo399tV4x1eLiM8pvc=;
- b=kyPMNs3HxUYGFM5b5xrvWe2iyuic1GspWjsZxQEEE61779Qed8pkrvMEUGkNriwthp
- /ota/YPAOHemWVMQQTaumgbNHdK9MZKXVdUnmtqgTz7dvuKzhibrdU2JEUsIKQTaGU1x
- 2j3hpVc9uLWYPFoMfvaE3y2FV09mKksPZwwtfCuYEUocP6ygIn7FIfjNofh/T7YvfmfX
- cSNAS8LYgm2BdrsOQ2Zo0gWd1UodcvnBgID9vQFvpES+2qsKyCj/FZN29+aHgCiB8+Ij
- llC9M9mrTdYytJ2F9e36a4lszwpQmCqsL0bzlcvZi63bUJy/P+bLnX9O/TAyq0aK27gE
- du4A==
+ bh=wXJE+8HKm+WH7eENzYRh+zhqdDgAS72bn3B7Q+jWeS8=;
+ b=JeJUIbT9x29lYryN9qbT2FQWzH2l8ASsx9DVE3tK5L7EK72GagCCWwduWVGM2FI28k
+ xRwhlLiEhVf40QjADiuwiRuD5RShznnkCnCceEFqdRCwuIhbnicWjh/TritXvosVg09Q
+ rNC1KYly16AtMYOahKVZoYcxP0TKFVWh30SS6cpRQDfvQR/z3GpNxaeLWyKMZKX+ofsu
+ wl0oNzUpCthDCDQgTMqziuhzp4/vzS304LF17PlFAaQKMhJtH4eXT7QJFWA8yyxCMxRy
+ HjLLU7J/+AYR5WhoWF2ju4qxs178aCix65afyDumzQNPU2jLC7wsYaRdbbRfkvLhPvw6
+ jO/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1BoBbs6eeb+lVZErBadnCXOSSUo399tV4x1eLiM8pvc=;
- b=BLvFUooF7XbAPfPdhkoI4E1W7KUy52v06RqPsbnxAUM7YXt7fa/+x6gASMKxXlStvP
- lcP48PssIy1Q6xfXQ26dbxwEmyxvJ+wY8Wc+B3DaX5G4LgYSmPL1d1PicuGO9sARG1nH
- OrdKGTrb8mkqmV/ChvmaiBzQ1w+mt/0dTOYln7ucdK7RcR5ESb+4VAcmxSp6Y9rWArjD
- S0pCDNqSqwSWN3xWLZ77SnDd1MVW4YMe+5V8AAWNa/WelezAC3HqVQlWRFUNJ5zF5qDJ
- Luy5yjfWZInCu1UMxtG9rCX3/kS4aePjT9kQFm4pnGSusccqVlYcRb3rwlUfkecIRMEr
- 7COQ==
-X-Gm-Message-State: AOAM531EB/ilk3QlHHHsKuXDm16VYZl9C1T8m7lFDoESxG+RUbrfac6O
- +MWklvMCU2s0Y3Ule+FkS8hH74CsZL39NA==
-X-Google-Smtp-Source: ABdhPJwNnM6ASpI31XevmVpgt8S3U5e0P2DugZ/f3xFU1lRF3evGR5zxt43h8LyoX8Nw/ckeGj7aeA==
-X-Received: by 2002:a05:6512:3187:b0:448:6a55:954b with SMTP id
- i7-20020a056512318700b004486a55954bmr307485lfe.534.1647449207635; 
- Wed, 16 Mar 2022 09:46:47 -0700 (PDT)
+ bh=wXJE+8HKm+WH7eENzYRh+zhqdDgAS72bn3B7Q+jWeS8=;
+ b=3bFMXoKISK+7cFO18rTPzhdAZqqDVujRdrBJwhGEQVjMHGorySflkbdBMAfaSZPpUc
+ UgM8B07Izqa1stgVB2ceFWTOOII05fYOxalf2bMMC0zzoT89+DRJyE5yXfKsjOvWLt8i
+ G4c7GRngdqw4nrV8P/TzTtiRxT4njM9x0yxcBNcAiOh0jUbLTAULS1Lt4hAvFGH7IZ6O
+ dD84n5bdPTUyRSg8JAZWbzfCBxgDCiC0dSYMXoWWwQH6WkDIRXbiF0mzc0iAMERD7aeg
+ upEc7tnqShp27f6cw5pEH/KtB3DzUSS64c5zZF2+V33L/OZ3pZLvmxnElr2LykjsU/cV
+ EmIQ==
+X-Gm-Message-State: AOAM532Zgmk5Mm4aAwxPALZIjx9XOFtCWaSLxTARlfsbnqpfcg1O+Wmi
+ 1imGsZL/Ws8gGPIwRYbkyZ46aIS/uukqug==
+X-Google-Smtp-Source: ABdhPJzuHifk/HrRguStZ+QGDkmV1uU2kRp5F69RFH2crzjvsU7p1prbo0ggBIymN9ZbljNEmjMgxg==
+X-Received: by 2002:ac2:5fc9:0:b0:448:5df6:5941 with SMTP id
+ q9-20020ac25fc9000000b004485df65941mr282433lfg.281.1647449208907; 
+ Wed, 16 Mar 2022 09:46:48 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
  by smtp.gmail.com with ESMTPSA id
- w19-20020a194913000000b0044821ce7e0fsm219479lfa.148.2022.03.16.09.46.46
+ q17-20020a2e8751000000b00244beaacef1sm218923ljj.18.2022.03.16.09.46.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 09:46:47 -0700 (PDT)
+ Wed, 16 Mar 2022 09:46:48 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/6] hw/arm/xlnx-zynqmp: Add an unimplemented SERDES area
-Date: Wed, 16 Mar 2022 17:46:40 +0100
-Message-Id: <20220316164645.2303510-2-edgar.iglesias@gmail.com>
+Subject: [PATCH v3 2/6] target/arm: Make rvbar settable after realize
+Date: Wed, 16 Mar 2022 17:46:41 +0100
+Message-Id: <20220316164645.2303510-3-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220316164645.2303510-1-edgar.iglesias@gmail.com>
 References: <20220316164645.2303510-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::129
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::136
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x129.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x136.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,52 +96,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Add an unimplemented SERDES (Serializer/Deserializer) area.
+Make the rvbar property settable after realize. This is done
+in preparation to model the ZynqMP's runtime configurable rvbar.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- include/hw/arm/xlnx-zynqmp.h | 2 +-
- hw/arm/xlnx-zynqmp.c         | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ target/arm/cpu.h    |  3 ++-
+ target/arm/cpu.c    | 12 +++++++-----
+ target/arm/helper.c | 10 +++++++---
+ 3 files changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-index 9424f81c37..0552ba18b4 100644
---- a/include/hw/arm/xlnx-zynqmp.h
-+++ b/include/hw/arm/xlnx-zynqmp.h
-@@ -85,7 +85,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
- /*
-  * Unimplemented mmio regions needed to boot some images.
-  */
--#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
-+#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 2
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 157f214cce..23879de5fa 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -447,6 +447,7 @@ typedef struct CPUArchState {
+             uint64_t vbar_el[4];
+         };
+         uint32_t mvbar; /* (monitor) vector base address register */
++        uint64_t rvbar; /* rvbar sampled from rvbar property at reset */
+         struct { /* FCSE PID. */
+             uint32_t fcseidr_ns;
+             uint32_t fcseidr_s;
+@@ -985,7 +986,7 @@ struct ArchCPU {
  
- struct XlnxZynqMPState {
-     /*< private >*/
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 6d0e4116db..47324cdc44 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -52,6 +52,10 @@
- #define QSPI_DMA_ADDR       0xff0f0800
- #define NUM_QSPI_IRQ_LINES  2
+     /* DCZ blocksize, in log_2(words), ie low 4 bits of DCZID_EL0 */
+     uint32_t dcz_blocksize;
+-    uint64_t rvbar;
++    uint64_t rvbar_prop; /* Property/input signals.  */
  
-+/* Serializer/Deserializer.  */
-+#define SERDES_ADDR         0xfd400000
-+#define SERDES_SIZE         0x20000
+     /* Configurable aspects of GIC cpu interface (which is part of the CPU) */
+     int gic_num_lrs; /* number of list registers */
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 185d4e774d..cd2c1fc7da 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -235,7 +235,10 @@ static void arm_cpu_reset(DeviceState *dev)
+         } else {
+             env->pstate = PSTATE_MODE_EL1h;
+         }
+-        env->pc = cpu->rvbar;
 +
- #define DP_ADDR             0xfd4a0000
- #define DP_IRQ              113
++        /* Sample rvbar at reset.  */
++        env->cp15.rvbar = cpu->rvbar_prop;
++        env->pc = env->cp15.rvbar;
+ #endif
+     } else {
+ #if defined(CONFIG_USER_ONLY)
+@@ -1130,9 +1133,6 @@ static Property arm_cpu_reset_cbar_property =
+ static Property arm_cpu_reset_hivecs_property =
+             DEFINE_PROP_BOOL("reset-hivecs", ARMCPU, reset_hivecs, false);
  
-@@ -284,6 +288,7 @@ static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
-         hwaddr size;
-     } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
-         { .name = "apu", APU_ADDR, APU_SIZE },
-+        { .name = "serdes", SERDES_ADDR, SERDES_SIZE },
-     };
-     unsigned int nr;
+-static Property arm_cpu_rvbar_property =
+-            DEFINE_PROP_UINT64("rvbar", ARMCPU, rvbar, 0);
+-
+ #ifndef CONFIG_USER_ONLY
+ static Property arm_cpu_has_el2_property =
+             DEFINE_PROP_BOOL("has_el2", ARMCPU, has_el2, true);
+@@ -1235,7 +1235,9 @@ void arm_cpu_post_init(Object *obj)
+     }
  
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property);
++        object_property_add_uint64_ptr(obj, "rvbar",
++                                       &cpu->rvbar_prop,
++                                       OBJ_PROP_FLAG_READWRITE);
+     }
+ 
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 088956eecf..210db501f1 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7967,7 +7967,8 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             ARMCPRegInfo rvbar = {
+                 .name = "RVBAR_EL1", .state = ARM_CP_STATE_AA64,
+                 .opc0 = 3, .opc1 = 0, .crn = 12, .crm = 0, .opc2 = 1,
+-                .type = ARM_CP_CONST, .access = PL1_R, .resetvalue = cpu->rvbar
++                .access = PL1_R,
++                .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
+             };
+             define_one_arm_cp_reg(cpu, &rvbar);
+         }
+@@ -8011,7 +8012,8 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             ARMCPRegInfo rvbar = {
+                 .name = "RVBAR_EL2", .state = ARM_CP_STATE_AA64,
+                 .opc0 = 3, .opc1 = 4, .crn = 12, .crm = 0, .opc2 = 1,
+-                .type = ARM_CP_CONST, .access = PL2_R, .resetvalue = cpu->rvbar
++                .access = PL2_R,
++                .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
+             };
+             define_one_arm_cp_reg(cpu, &rvbar);
+         }
+@@ -8048,7 +8050,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         ARMCPRegInfo el3_regs[] = {
+             { .name = "RVBAR_EL3", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 6, .crn = 12, .crm = 0, .opc2 = 1,
+-              .type = ARM_CP_CONST, .access = PL3_R, .resetvalue = cpu->rvbar },
++              .access = PL3_R,
++              .fieldoffset = offsetof(CPUARMState, cp15.rvbar),
++            },
+             { .name = "SCTLR_EL3", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 0, .opc2 = 0,
+               .access = PL3_RW,
 -- 
 2.25.1
 
