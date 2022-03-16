@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F3A4DAFFC
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 13:45:04 +0100 (CET)
-Received: from localhost ([::1]:50198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 673D34DB013
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 13:49:33 +0100 (CET)
+Received: from localhost ([::1]:57228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUT1T-0005xY-JT
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 08:45:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57852)
+	id 1nUT5m-0002dH-Mm
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 08:49:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
- id 1nUSx1-0000rV-SP
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:40:27 -0400
-Received: from mail-ed1-f53.google.com ([209.85.208.53]:43879)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <christophm30@gmail.com>)
- id 1nUSx0-0003sd-9U
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:40:27 -0400
-Received: by mail-ed1-f53.google.com with SMTP id b24so2521267edu.10
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 05:40:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=E/uUKfH4GSyC4sG9IEJ213V8GLuVcEFN02PclKhSBFY=;
- b=G3kH3EraUxSW6OoHerhXTzHco/t43lRX7jmZVdKIO2iUJepH/HBbUJJYHBQ5nN5rZ+
- lBPXCDZpjjoflsrI3b+M0ZJPAZaBr8C86fCMhi7gxlfolJerlCwwrcskbGb4CvGEOx9p
- SHW91279vMqSx6WInZfXMyID9JnvL64T0uaw80HVWAkKjsPTnH4X3iZcqf/+38ocMU3l
- pESeXrQOKCppWm44TjnX4X9XlHDT2+nWJLSV1h0uVtVpVhR5lrh9yEXG2Z4hefaq8gLh
- 8tTG6xvWm9BASCvGTbH1LM8SQqPE+Io4OnjM/isR09+ATZSRdA/fjAdbEl29+9MtJ4RB
- sp+g==
-X-Gm-Message-State: AOAM530LK/Ef4S/pYDzDK/srLIGDEUZxI/hzttv+X2pwCP6bmv0oAPtf
- 5jKHKBkVUA9cz0GDixydH3wAOKvlWr0=
-X-Google-Smtp-Source: ABdhPJyCh/DcaqS38+U+QQipu3aGlyNTpVZ/M5TMci3NUdNqY3dNt6cGzUlVukTQYjKNLpbqENrF8w==
-X-Received: by 2002:a05:6402:3492:b0:416:cbed:4f39 with SMTP id
- v18-20020a056402349200b00416cbed4f39mr24110190edc.87.1647434423570; 
- Wed, 16 Mar 2022 05:40:23 -0700 (PDT)
-Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
- [62.178.148.172]) by smtp.gmail.com with ESMTPSA id
- da23-20020a056402177700b0041394d8173csm909277edb.31.2022.03.16.05.40.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 05:40:23 -0700 (PDT)
-From: Christoph Muellner <cmuellner@linux.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs/tcg-plugins: document QEMU_PLUGIN behaviour
-Date: Wed, 16 Mar 2022 13:40:12 +0100
-Message-Id: <20220316124012.1413954-1-cmuellner@linux.com>
-X-Mailer: git-send-email 2.35.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nUSxT-000125-Je
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:40:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55179)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1nUSxP-00040K-Lu
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:40:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647434450;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uvlIsYwCWLyHMkgfcV2NVYsDH0H/EFWO2lVcpMRRFO8=;
+ b=AULLklYpGDT9zZDbO8oXCGN3RErB3RZKReNOi0LDp7j7IHEAzcq4pfqbyp5e4cRvIi5GL2
+ 17739GylET+lChQgI8LlaDCv/rqr0OYdUeZ36Wt7Fyp+SOxrvQHybNqm5UE3MQ6F/6k4v3
+ hZcqA+IomwEEN7eGJbLDxvD3Xwu0t6Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-175-WwE7LJ39OzuVAVp_3n3FsA-1; Wed, 16 Mar 2022 08:40:46 -0400
+X-MC-Unique: WwE7LJ39OzuVAVp_3n3FsA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2953E811E7A;
+ Wed, 16 Mar 2022 12:40:46 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D5B82215688A;
+ Wed, 16 Mar 2022 12:40:45 +0000 (UTC)
+Date: Wed, 16 Mar 2022 12:40:45 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH experiment 00/16] C++20 coroutine backend
+Message-ID: <YjHazSWJEM3lU8j6@stefanha-x1.localdomain>
+References: <20220314093203.1420404-1-pbonzini@redhat.com>
+ <Yi9MBGoc3WtOLx82@stefanha-x1.localdomain>
+ <4528e387-8016-0774-9c8b-532a75566d9d@redhat.com>
+ <YjCdKfbQsgfsw76N@stefanha-x1.localdomain>
+ <YjCnss5W5MhZK1Hw@redhat.com> <YjC2+F2SkNEDOXTe@redhat.com>
+ <7b634dc9-cca5-c9d0-e392-21a594851b0c@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.208.53;
- envelope-from=christophm30@gmail.com; helo=mail-ed1-f53.google.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="fxJCO6oHESiRPBx2"
+Content-Disposition: inline
+In-Reply-To: <7b634dc9-cca5-c9d0-e392-21a594851b0c@redhat.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,38 +81,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christoph Muellner <cmuellner@linux.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Alexandre Iooss <erdnaxe@crans.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, hreitz@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU plugins can be loaded via command line arguments or via
-the QEMU_PLUGIN environment variable. Currently, only the first method
-is documented. Let's document QEMU_PLUGIN.
 
-Signed-off-by: Christoph Muellner <cmuellner@linux.com>
----
- docs/devel/tcg-plugins.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+--fxJCO6oHESiRPBx2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index f93ef4fe52..ba48be18d0 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -34,6 +34,10 @@ Arguments are plugin specific and can be used to modify their
- behaviour. In this case the howvec plugin is being asked to use inline
- ops to count and break down the hint instructions by type.
- 
-+QEMU also evaluates the environment variable ``QEMU_PLUGIN``::
-+
-+  QEMU_PLUGIN="file=tests/plugin/libhowec.so,inline=on,count=hint" $QEMU
-+
- Writing plugins
- ---------------
- 
--- 
-2.35.1
+On Wed, Mar 16, 2022 at 12:08:33AM +0100, Paolo Bonzini wrote:
+> On 3/15/22 16:55, Daniel P. Berrang=E9 wrote:
+> > Expecting maintainers to enforce a subset during code review feels
+> > like it would be a tedious burden, that will inevitably let stuff
+> > through because humans are fallible, especially when presented
+> > with uninspiring, tedious, repetitive tasks.
+> >=20
+> > Restricting ourselves to a subset is only viable if we have
+> > an automated tool that can reliably enforce that subset. I'm not
+> > sure that any such tool exists, and not convinced our time is
+> > best served by trying to write & maintainer one either.
+>=20
+> We don't need to have a policy on which features are used.  We need to ha=
+ve
+> goals for what to use C++ for.  I won't go into further details here,
+> because I had already posted "When and how to use C++"[1] about an hour
+> before your reply.
+>=20
+> > IOW, I fear one we allow C++ in any level, it won't be practical
+> > to constrain it as much we desire. I fear us turning QEMU into
+> > even more of a monster like other big C++ apps I see which take
+> > all hours to compile while using all available RAM in Fedora RPM
+> > build hosts.
+>=20
+> Sorry but this is FUD.  There's plenty of C++ apps and libraries that do =
+not
+> "take hours to compile while using all available RAM".  You're probably
+> thinking of the Chromium/Firefox/Libreoffice triplet but those are an ord=
+er
+> of magnitude larger than QEMU.  And in fact, QEMU is *already* a monster
+> that takes longer to compile than most other packages, no matter the
+> language they're written in.
+>=20
+> Most of KDE and everything that uses Qt is written in C++, and so is
+> Inkscape in GTK+ land.  LLVM and Clang are written in C++.  Hotspot and V8
+> are written in C++.  Kodi, MAME and DolphinEmu are written in C++. GCC and
+> GDB have migrated to C++ and their compile times have not exploded.
+>=20
+> > My other question is whether adoption of C++ would complicate any
+> > desire to make more use of Rust in QEMU ? I know Rust came out of
+> > work by the Mozilla Firefox crew, and Firefox was C++, but I don't
+> > have any idea how they integrated use of Rust with Firefox, so
+> > whether there are any gotcha's for us or not ?
+>=20
+> Any Rust integration would go through C APIs.  Using Rust in the block la=
+yer
+> would certainly be much harder, though perhaps not impossible, if the blo=
+ck
+> layer uses C++ coroutines.  Rust supports something similar, but
+> two-direction interoperability would be hard.
+
+I haven't looked at this in depth but there is a solution for Rust-C++
+interop: https://cxx.rs/
+
+Stefan
+
+--fxJCO6oHESiRPBx2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmIx2swACgkQnKSrs4Gr
+c8gYjQf/TD1PZQO9l/ybMAimzEMewml0C3IulONXAqPF9UTrJXOKXqqdRgz3nWtX
+XcxkdAbuu7CjXmdNp16d25UhuRoYoPB5xShotxNGmShTdTdXAd43vtML085scjXJ
++Xd11xwI8fa3Zr/9TolZu9cqSsH8l/X6CzAWpNMBd4fGZ76sdWgZykoNFMRn3jqk
+3AaY+Ktzeepc/5TivppjEGWq3QCq2SFgwMOB6add4Z4rXrD5m3voRIFDMdKU/5SO
+48By3Hhrqc0/i1GD7DA8oORxeKkURlAm4tCfE+8m/rJyAvqyVM2YGbGhD8nH1ZWN
+GPOHctAJi1Vt5b6SCrQK2JJUk3G77Q==
+=OGvA
+-----END PGP SIGNATURE-----
+
+--fxJCO6oHESiRPBx2--
 
 
