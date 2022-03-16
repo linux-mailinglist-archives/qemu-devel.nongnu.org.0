@@ -2,89 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D190B4DB188
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:32:50 +0100 (CET)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 874A44DB1AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 14:38:03 +0100 (CET)
+Received: from localhost ([::1]:45780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUTlh-0001EU-U8
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:32:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38418)
+	id 1nUTqk-00078j-7y
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 09:38:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nUTR8-00022i-Pe
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:11:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52306)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1nUTR7-0002Au-1w
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:11:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647436292;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UoGDlpDToAbFEpaP06NjgKS3QjlBu7YQ5AglUS9KfP8=;
- b=CG/uNTEW1lHOTKogBf2xy0oJ4Jfs+3s+qygazC6Z18mzm2wG8O1n9fp6HEE6dgf8IEm4U1
- OI//+vp67VOar9aKWjXxI8AtFddbWcwhFuFpvfILg+BMr7t1lc7A4mdf92acP4W4h4e5wK
- vEufksGKHdmD5wdjqIEmRUFGYhcJokw=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-79o3wfbeP0aWu4dji5jdDQ-1; Wed, 16 Mar 2022 09:11:29 -0400
-X-MC-Unique: 79o3wfbeP0aWu4dji5jdDQ-1
-Received: by mail-yb1-f198.google.com with SMTP id
- b12-20020a056902030c00b0061d720e274aso1883545ybs.20
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:11:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nUTRV-0002uy-QK; Wed, 16 Mar 2022 09:12:00 -0400
+Received: from [2a00:1450:4864:20::331] (port=36715
+ helo=mail-wm1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1nUTRS-0002Cp-Db; Wed, 16 Mar 2022 09:11:57 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ n31-20020a05600c3b9f00b003898fc06f1eso3201453wms.1; 
+ Wed, 16 Mar 2022 06:11:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=2i83XDmm2Ev/BgrOHivtFmnY20KZApSWVPqEjlo6vMc=;
+ b=I0LoEtV7ZSyQLZGg+c/ATH4O2ixcWNJOqGH0TXOK79vAFZNjBonSFVp592r0T/7Stp
+ V+v8h5sbrekisgQegIG1FCeFUr22cuWgwFhHMikTRbJ45KfuWPiKQEZUaecWbjihlhrx
+ MENjFnu75doFLFEX9a55JgbJOnVSV6OtSabROElRY3xK6lLAJ0aw2ZocBBCx1KmRY1VD
+ 648ynNf+mKMPV5CTv2HEH+9v293oTdsnnSTnEk0PsarBG61B1m+EG2Rv5QMxNLE7csxd
+ stJ/6g1t4tZgZJ4JBasNOBwNeLtT4Uo9ttgG0df9r/Eq5ADZA5ynkNXA22esMLxs2Ako
+ mZlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UoGDlpDToAbFEpaP06NjgKS3QjlBu7YQ5AglUS9KfP8=;
- b=Bh50J37NLZpQDkL2uEl4Yv9zZHY0kwOOW4ZT2s0kLZvyBzAsF5+p3m6nDzOQkiYhLH
- rEKLEQnxewez1MDAwFmrBUNqlU/ZV6wS5iZRoj21wziXKa6TG3KMR540DeeMZPoZYcYk
- TAE+U4rnH6JIEic+5olwOlZ5oAZcqef9Sdiom6RbZ9O5vw3N5b46rnbdU7vXhOMlVelU
- K5CJM2S4W7onTmpp25T5d5qnF2+KOnCnQ/wkHdvDvnvE5nXW0SDP+21om3IgWDmkaLuc
- BvZ5ZlYQW+xD8hwr5beHQLrz7MtxiLXKkcBBTuaJoKaGvZgyUUDCB+OGMuLsl19TLByl
- IaYA==
-X-Gm-Message-State: AOAM530/gpp/tWVCfbRjhize5T/3xIoLGPxqwk1kCI++XxCkKS8EOIGh
- EGcdqnVKHTLMgmw7MDbJr+k0dGZNeeB0IAXQGgXAsBEVDuKR6IPe+it9wjMmHd1Oag2dCuuEgD2
- aZMWIZeCxTOQ64IOrl8PIrGYQR+28qlw=
-X-Received: by 2002:a5b:152:0:b0:629:2b85:4495 with SMTP id
- c18-20020a5b0152000000b006292b854495mr28715534ybp.559.1647436289145; 
- Wed, 16 Mar 2022 06:11:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIoFpUqBwAubq2hiA39xkE//TZ82xqmTDneQsVk1LTHiD70NtAEPnv8c1kzrWjGyXazSDl6bDh/K8BJDOcRJE=
-X-Received: by 2002:a5b:152:0:b0:629:2b85:4495 with SMTP id
- c18-20020a5b0152000000b006292b854495mr28715508ybp.559.1647436288899; Wed, 16
- Mar 2022 06:11:28 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=2i83XDmm2Ev/BgrOHivtFmnY20KZApSWVPqEjlo6vMc=;
+ b=a1Mbvnrgx5qHe3gDKh2dBQu364y+eI3F/hgtwBAWOKaxF5FP3CzQpaIhCl/+N40/uO
+ iqFy+Fr57ErAKEyKJUfVmtqbU/UM1HgHyijafBXQILkTwWGn71ODRwdyPjFDbFN3FAsy
+ cOCC2LyNeVcEhl5Eco5p8vlUc3jgGAS/a1sXOhyJd/F9t2b0VfDF3YGcOajORaCTDl8Z
+ suFFM9z1XMRat/jU49riL5FjiTX+62jeKfzBEqRE8gwMc7ezD7b8k6FEOjo9+ff0lmuv
+ CMo6Ld0mDFhvlOB/gp771QUCoBO3X6Zah1Gd+eY/usv8mNdpc/+jmb4YA0G2qPjtUj6B
+ zYAQ==
+X-Gm-Message-State: AOAM5316PT3tuaB4oIeBWuDVL102NrqF5BlJtpPuOuNiLyPsbWx9sTt1
+ 9HnAhAf+8JxnQVaj4BbqMZ8=
+X-Google-Smtp-Source: ABdhPJysxaC/TdNQa5HjTO1GOAcmUA/36gHHMfIT3uAptuoqQ0hHz0TwXQvnu9ctJ9Q0e5U7gtlggA==
+X-Received: by 2002:a05:600c:1994:b0:38c:48dd:23ba with SMTP id
+ t20-20020a05600c199400b0038c48dd23bamr4557931wmq.206.1647436311078; 
+ Wed, 16 Mar 2022 06:11:51 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ t14-20020a05600c198e00b0038bb71518c1sm1689996wmq.42.2022.03.16.06.11.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Mar 2022 06:11:50 -0700 (PDT)
+Message-ID: <e1f049be-8f98-04a3-6532-995e55fe7471@gmail.com>
+Date: Wed, 16 Mar 2022 14:11:47 +0100
 MIME-Version: 1.0
-References: <20220316095459.2613885-1-marcandre.lureau@redhat.com>
- <877d8u5b7o.fsf@pond.sub.org>
- <CAMxuvazfG9y4wODW3rHL_Xj9+H1SwDy8aESZKW89hwU=k7LLjg@mail.gmail.com>
- <87bky6xdav.fsf@pond.sub.org>
-In-Reply-To: <87bky6xdav.fsf@pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 16 Mar 2022 17:11:17 +0400
-Message-ID: <CAMxuvax13xYm0=A31VJsuWUhvuj7VLW+4Pg79d0UqAh=VBpxAw@mail.gmail.com>
-Subject: Re: [PATCH 26/27] tests: replace free_all() usage with g_auto
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH 10/27] Replace config-time define HOST_WORDS_BIGENDIAN
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20220316095308.2613651-1-marcandre.lureau@redhat.com>
+ <e709547a-a0c2-d1bd-7145-d03e9fd1776a@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philippe.mathieu.daude@gmail.com>
+In-Reply-To: <e709547a-a0c2-d1bd-7145-d03e9fd1776a@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,44 +93,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Eric Farman <farman@linux.ibm.com>, Peter Xu <peterx@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Yanan Wang <wangyanan55@huawei.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
+ "open list:virtio-blk" <qemu-block@nongnu.org>,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+ Huacai Chen <chenhuacai@kernel.org>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
+ "open list:ARM PrimeCell and..." <qemu-arm@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Coiby Xu <Coiby.Xu@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On 16/3/22 14:04, Philippe Mathieu-Daudé wrote:
+> On 16/3/22 10:53, marcandre.lureau@redhat.com wrote:
+>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>
+>> Replace a config-time define with a compile time condition
+>> define (compatible with clang and gcc) that must be declared prior to
+>> its usage. This avoids having a global configure time define, but also
+>> prevents from bad usage, if the config header wasn't included before.
+>>
+>> This can help to make some code independent from qemu too.
+>>
+>> gcc supports __BYTE_ORDER__ from about 4.6 and clang from 3.2.
+>>
+>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>> ---
+>>   meson.build                             |  1 -
+>>   accel/tcg/atomic_template.h             |  4 +-
+>>   audio/audio.h                           |  2 +-
+>>   hw/display/pl110_template.h             |  6 +--
+>>   hw/net/can/ctucan_core.h                |  2 +-
+>>   hw/net/vmxnet3.h                        |  4 +-
+>>   include/exec/cpu-all.h                  |  4 +-
+>>   include/exec/cpu-common.h               |  2 +-
+>>   include/exec/memop.h                    |  2 +-
+>>   include/exec/memory.h                   |  2 +-
+>>   include/fpu/softfloat-types.h           |  2 +-
+>>   include/hw/core/cpu.h                   |  2 +-
+>>   include/hw/i386/intel_iommu.h           |  6 +--
+>>   include/hw/i386/x86-iommu.h             |  4 +-
+>>   include/hw/virtio/virtio-access.h       |  6 +--
+>>   include/hw/virtio/virtio-gpu-bswap.h    |  2 +-
+>>   include/libdecnumber/dconfig.h          |  2 +-
+>>   include/net/eth.h                       |  2 +-
+>>   include/qemu/bswap.h                    |  8 ++--
+>>   include/qemu/compiler.h                 |  2 +
+>>   include/qemu/host-utils.h               |  2 +-
+>>   include/qemu/int128.h                   |  2 +-
+>>   include/ui/qemu-pixman.h                |  2 +-
+>>   net/util.h                              |  2 +-
+>>   target/arm/cpu.h                        |  8 ++--
+>>   target/arm/translate-a64.h              |  2 +-
+>>   target/arm/vec_internal.h               |  2 +-
+>>   target/i386/cpu.h                       |  2 +-
+>>   target/mips/cpu.h                       |  2 +-
+>>   target/ppc/cpu.h                        |  2 +-
+>>   target/s390x/tcg/vec.h                  |  2 +-
+>>   target/xtensa/cpu.h                     |  2 +-
+>>   tests/fp/platform.h                     |  4 +-
+>>   accel/kvm/kvm-all.c                     |  4 +-
+>>   audio/dbusaudio.c                       |  2 +-
+>>   disas.c                                 |  2 +-
+>>   hw/core/loader.c                        |  4 +-
+>>   hw/display/artist.c                     |  6 +--
+>>   hw/display/pxa2xx_lcd.c                 |  2 +-
+>>   hw/display/vga.c                        | 12 +++---
+>>   hw/display/virtio-gpu-gl.c              |  2 +-
+>>   hw/s390x/event-facility.c               |  2 +-
+>>   hw/virtio/vhost.c                       |  2 +-
+>>   linux-user/arm/nwfpe/double_cpdo.c      |  4 +-
+>>   linux-user/arm/nwfpe/fpa11_cpdt.c       |  4 +-
+>>   linux-user/ppc/signal.c                 |  3 +-
+>>   linux-user/syscall.c                    |  6 +--
+>>   net/net.c                               |  4 +-
+>>   target/alpha/translate.c                |  2 +-
+>>   target/arm/crypto_helper.c              |  2 +-
+>>   target/arm/helper.c                     |  2 +-
+>>   target/arm/kvm64.c                      |  4 +-
+>>   target/arm/neon_helper.c                |  2 +-
+>>   target/arm/sve_helper.c                 |  4 +-
+>>   target/arm/translate-sve.c              |  6 +--
+>>   target/arm/translate-vfp.c              |  2 +-
+>>   target/arm/translate.c                  |  2 +-
+>>   target/hppa/translate.c                 |  2 +-
+>>   target/i386/tcg/translate.c             |  2 +-
+>>   target/mips/tcg/lmmi_helper.c           |  2 +-
+>>   target/mips/tcg/msa_helper.c            | 54 ++++++++++++-------------
+>>   target/ppc/arch_dump.c                  |  2 +-
+>>   target/ppc/int_helper.c                 | 22 +++++-----
+>>   target/ppc/kvm.c                        |  4 +-
+>>   target/ppc/mem_helper.c                 |  2 +-
+>>   target/riscv/vector_helper.c            |  2 +-
+>>   target/s390x/tcg/translate.c            |  2 +-
+>>   target/sparc/vis_helper.c               |  4 +-
+>>   tcg/tcg-op.c                            |  4 +-
+>>   tcg/tcg.c                               | 12 +++---
+>>   tests/qtest/vhost-user-blk-test.c       |  2 +-
+>>   tests/qtest/virtio-blk-test.c           |  2 +-
+>>   ui/vdagent.c                            |  2 +-
+>>   ui/vnc.c                                |  2 +-
+>>   util/bitmap.c                           |  2 +-
+>>   util/host-utils.c                       |  2 +-
+>>   target/ppc/translate/vmx-impl.c.inc     |  4 +-
+>>   target/ppc/translate/vsx-impl.c.inc     |  2 +-
+>>   target/riscv/insn_trans/trans_rvv.c.inc |  4 +-
+>>   target/s390x/tcg/translate_vx.c.inc     |  2 +-
+>>   tcg/aarch64/tcg-target.c.inc            |  4 +-
+>>   tcg/arm/tcg-target.c.inc                |  4 +-
+>>   tcg/mips/tcg-target.c.inc               |  2 +-
+>>   tcg/ppc/tcg-target.c.inc                | 10 ++---
+>>   tcg/riscv/tcg-target.c.inc              |  4 +-
+>>   85 files changed, 173 insertions(+), 173 deletions(-)
+>>
+>> diff --git a/meson.build b/meson.build
+>> index f20712cb93d7..88df1bc42973 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -1591,7 +1591,6 @@ config_host_data.set('QEMU_VERSION_MICRO', 
+>> meson.project_version().split('.')[2]
+>>   config_host_data.set_quoted('CONFIG_HOST_DSOSUF', host_dsosuf)
+>>   config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
+>> -config_host_data.set('HOST_WORDS_BIGENDIAN', host_machine.endian() == 
+>> 'big')
+> 
+> Can we poison HOST_WORDS_BIGENDIAN definition to force cleaning old
+> patches before merging them?
 
-On Wed, Mar 16, 2022 at 5:00 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
->
-> > Hi
-> >
-> > On Wed, Mar 16, 2022 at 4:33 PM Markus Armbruster <armbru@redhat.com> w=
-rote:
-> >>
-> >> marcandre.lureau@redhat.com writes:
-> >>
-> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >> >
-> >> > Use more idiomatic glib/auto-style code.
-> >> >
-> >> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >>
-> >> This is a bit of an improvement, but by its own, it's a rather weak
-> >> justification for the previous patch.  Do you have more uses of
-> >> g_autoptr in the pipe?
-> >
-> >
-> > There are a lot of similar g_auto cleanups to be done in qemu code
-> > base for QObject types. But I started with those tests, because they
-> > use a pretty unorthodox free_all pattern and that shouldn't be
-> > repeated.
->
-> Would it make sense to add this the list of bite-sized tasks?
->
+Now noticed elsewhere a patch #11 doing exactly that.
 
-Yes, g_auto cleanup is already covered:
-https://wiki.qemu.org/Contribute/BiteSizedTasks#Code_Modernization
+Addressing Halil comment in "exec/cpu-all.h":
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
