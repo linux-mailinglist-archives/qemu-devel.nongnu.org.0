@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2471C4DAA75
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:10:10 +0100 (CET)
-Received: from localhost ([::1]:49766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1633D4DAA74
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 07:10:09 +0100 (CET)
+Received: from localhost ([::1]:49686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUMrJ-0005mv-75
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:10:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58884)
+	id 1nUMrI-0005jk-3g
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 02:10:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUMgR-0002Vv-31
+ id 1nUMgR-0002YI-QE
  for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:55 -0400
-Received: from [2607:f8b0:4864:20::636] (port=38667
- helo=mail-pl1-x636.google.com)
+Received: from [2607:f8b0:4864:20::42e] (port=36563
+ helo=mail-pf1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1nUMgP-0006TD-J4
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:54 -0400
-Received: by mail-pl1-x636.google.com with SMTP id n18so967545plg.5
+ id 1nUMgQ-0006TY-C1
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 01:58:55 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id z16so2568217pfh.3
  for <qemu-devel@nongnu.org>; Tue, 15 Mar 2022 22:58:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CgkorKQppvT/5EqF5TZdReeeVVST0AYPM557ltMmWGU=;
- b=Jtg+qJ9+ZrQ6yar+c5O4w+2XDtDas1FuQknsEvfkPpAmmmPwiPhTk6zsp5f2e31U80
- ATU/oM1XQgDP935R87YFijjuOjxxVy54YU9u36AfZuuSqc9EFj7SSIUirMZUqrlpdhLn
- HYzcUz936fRMDFulBpypCjByL7ksOij7dY905SjeIGnFsmTaqu5k3xFivkdNDtIOGyUH
- Z2l4jEKpRiYA8Yk/bf7H5neEE7iDISFWwaJSisPAcCBfLOz15cNXn1TWuSVPgw9CTHY9
- pOx1vIUyyPsDRhBgDwQVh1UImMwVVblBMff2SCgPsSSdyIg5ZgEknTd7HPQothJjqdjO
- O4SQ==
+ bh=mnSb1dxSO3Acb9OpkT5IqwkwlD06Fhi2+q3inDP0gio=;
+ b=UGpebiJbBC4qCDeXRvgaUrpna9hs+ZZlVYLRiBWDjNoNpxyJQaSanZB0nPE6xaQeEy
+ pgIlHAk0N7T/BZEkJPZ9IVAzV6l6BIhvd56IVTi5k5N9gncwDvwMYaZahfR12b4GoQUD
+ I8eJ8Hz7vI+/gkPvVO8oqPr9E7pJRIbd1ACnevA7hD0tXAoEsCbJrqO7jbS2RvZb93T8
+ 6pciwKCktPttrlpKOaTIIhDHO2HhMMtvKrhPfVFmWXcQPr1GybcXXZehCFb3Egqxms4Q
+ r2AUeYkLHPgxcf+VT09ibeY+rlIw31tv7hMPt6JEE5ygqb3OX2R8povvmhsvJlIBea5V
+ crOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CgkorKQppvT/5EqF5TZdReeeVVST0AYPM557ltMmWGU=;
- b=M7h8vKe1c9QAtTO5tkH4WklZBv4ww54yLbpZMBkPfAXqXyslgno0H6Fw9B6qKVnM0A
- FkTDXzvWjcw5ruayqalUPJEqwdDQ8x0w95XeFKts5BGSxTXWASyh4aHp6A9mdSPVK7gs
- uhNAUCH18xmHGpYHX3HR0zQSAW9q3NPZbxte9ESLe75wWwWguiIKu29IauInLE1BJPE+
- up0FJDLCWfLeIawp8fK1PWISnPrXTEEMbY6RYbCy4a+cKx85sMMYz/P/R3G3+ebx5sI4
- 6S+694jk4/OhFZlTLonJOm52Taamo0Bg5lZw82TnU/WDTzjRXt+N3UKtDTghrLyqPsuQ
- lD+A==
-X-Gm-Message-State: AOAM530tv0V8LaJI3Kk+sVh7/YVc4aiDyzmI4JzPr08s75pK3F7yOxMz
- Dmcm53sSfmXnkhiuHMvblBp28KAZ89O1JQ==
-X-Google-Smtp-Source: ABdhPJzYxRvLB55FNyaPg4uvpzk86aBG++4BTqmMyUhS/a5aQlIdi4YlAjhd6HkbbKZCNzxLI96UBQ==
-X-Received: by 2002:a17:902:ec87:b0:151:c3f3:ddd5 with SMTP id
- x7-20020a170902ec8700b00151c3f3ddd5mr31518171plg.154.1647410332337; 
- Tue, 15 Mar 2022 22:58:52 -0700 (PDT)
+ bh=mnSb1dxSO3Acb9OpkT5IqwkwlD06Fhi2+q3inDP0gio=;
+ b=FjvU0X6rtbZE8lHanCdsnUA+bxWaJdh4Ay56NP9dBaH0QnCMqJns5erMDDG9Z5oWhP
+ QguYcFZtPvUmc3BmfNAE5uv7GBdF43W8aPukRGlRGtH7++2G00cFy/1qqLItomkfq6Uu
+ l3MkVBkZUIOQeSSR4j8ghY454QLRzSSpD3/7xGNl4vCv1dxm9iwp8B3rIiF/qOeaoGXO
+ rlRDMGL4zUSabWkmjlRAYAvb8Z759PeSCrgPC6bG50TAj9kXaVM1EQ5/KbYpdecUHi51
+ q7DWtdceSJdvK1Z6pzFGO/tVZniK//bb2VekRaQz1xk50zsMWa5W0Ot47RW479H7T5DO
+ ETqQ==
+X-Gm-Message-State: AOAM533Wajna4e1AMfibH/C8oubC2S7GRSy1JQKxPq84hHmJlT9u2EA9
+ xvr0Z/2rXAZo1hCYFuKGagMBwVKh7cWb9A==
+X-Google-Smtp-Source: ABdhPJyvXTUghb5/g/UZbJ7W9mtlRGodRcBbVXs/VpBAw/+ofTdchBrN7cjnRAimPs+7hQIjc9hgvw==
+X-Received: by 2002:a63:f816:0:b0:37f:f252:9f12 with SMTP id
+ n22-20020a63f816000000b0037ff2529f12mr27571747pgh.318.1647410333157; 
+ Tue, 15 Mar 2022 22:58:53 -0700 (PDT)
 Received: from localhost.localdomain (174-21-142-130.tukw.qwest.net.
  [174.21.142.130]) by smtp.gmail.com with ESMTPSA id
- i24-20020a056a00225800b004f6edabc9f4sm1236290pfu.72.2022.03.15.22.58.51
+ i24-20020a056a00225800b004f6edabc9f4sm1236290pfu.72.2022.03.15.22.58.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Mar 2022 22:58:51 -0700 (PDT)
+ Tue, 15 Mar 2022 22:58:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/17] target/m68k: Implement TPF in terms of TRAPcc
-Date: Tue, 15 Mar 2022 22:58:34 -0700
-Message-Id: <20220316055840.727571-12-richard.henderson@linaro.org>
+Subject: [PATCH v3 12/17] target/m68k: Implement TRAPV
+Date: Tue, 15 Mar 2022 22:58:35 -0700
+Message-Id: <20220316055840.727571-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220316055840.727571-1-richard.henderson@linaro.org>
 References: <20220316055840.727571-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,52 +92,38 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TPF stands for "trap false", and is a long-form nop for ColdFire.
-Re-use the immediate consumption code from trapcc; the insn will
-already expand to a nop because of the TCG_COND_NEVER test
-within do_trapcc.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/translate.c | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+ target/m68k/translate.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index e15b317ddf..86e5e16f71 100644
+index 86e5e16f71..6118f9fcfb 100644
 --- a/target/m68k/translate.c
 +++ b/target/m68k/translate.c
-@@ -3075,22 +3075,6 @@ DISAS_INSN(addsubq)
-     tcg_temp_free(dest);
+@@ -4911,6 +4911,14 @@ DISAS_INSN(trapcc)
+     do_trapcc(s, &c);
  }
  
--DISAS_INSN(tpf)
--{
--    switch (insn & 7) {
--    case 2: /* One extension word.  */
--        s->pc += 2;
--        break;
--    case 3: /* Two extension words.  */
--        s->pc += 4;
--        break;
--    case 4: /* No extension words.  */
--        break;
--    default:
--        disas_undef(env, s, insn);
--    }
--}
--
- DISAS_INSN(branch)
++DISAS_INSN(trapv)
++{
++    DisasCompare c;
++
++    gen_cc_cond(&c, s, 9); /* V set */
++    do_trapcc(s, &c);
++}
++
+ static void gen_load_fcr(DisasContext *s, TCGv res, int reg)
  {
-     int32_t offset;
-@@ -6099,7 +6083,7 @@ void register_m68k_insns (CPUM68KState *env)
-     INSN(scc,       50c0, f0c0, M68000);   /* Scc.B <EA> */
-     INSN(dbcc,      50c8, f0f8, M68000);
-     INSN(trapcc,    50f8, f0f8, TRAPCC);
--    INSN(tpf,       51f8, fff8, CF_ISA_A);
-+    INSN(trapcc,    51f8, fff8, CF_ISA_A); /* TPF (trapf) */
- 
-     /* Branch instructions.  */
-     BASE(branch,    6000, f000);
+     switch (reg) {
+@@ -6074,6 +6082,7 @@ void register_m68k_insns (CPUM68KState *env)
+     BASE(nop,       4e71, ffff);
+     INSN(rtd,       4e74, ffff, RTD);
+     BASE(rts,       4e75, ffff);
++    INSN(trapv,     4e76, ffff, M68000);
+     INSN(rtr,       4e77, ffff, M68000);
+     BASE(jump,      4e80, ffc0);
+     BASE(jump,      4ec0, ffc0);
 -- 
 2.25.1
 
