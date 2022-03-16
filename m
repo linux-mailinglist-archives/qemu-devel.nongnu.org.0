@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E606B4DB23B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:12:28 +0100 (CET)
-Received: from localhost ([::1]:46496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BBA74DB259
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 15:15:09 +0100 (CET)
+Received: from localhost ([::1]:53206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUUO3-00075k-Ts
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:12:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47992)
+	id 1nUUQe-00038t-5Z
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 10:15:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1nUU6m-0005Sq-GG
+ id 1nUU6n-0005Su-CF
  for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:54:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44417)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsaenzju@redhat.com>)
- id 1nUU6k-0000cG-1n
+ id 1nUU6k-0000cO-Q0
  for qemu-devel@nongnu.org; Wed, 16 Mar 2022 09:54:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647438873;
+ s=mimecast20190719; t=1647438874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0n/KToaMwV0MVuk1t9AkE2/GeN2rh/LBvIHjSpamd8c=;
- b=h1BJN+Jv4Crqjfau7HDtfOK9PyHC7YSdeYLVkIQX7QJDmqCWSUCtFu53ovKg0eduGIuxto
- afY6buxV8s5XT/KAEq+qV+Q3IFdEjyMzZ1wBLyeN2MTasA1ZJul6UIT39ItyEQuWLcWzZy
- PoPo/FzKUA6Of9U3TefwfaszwJNm6vQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=o2oHDkXntfXJQYcQDYIHU2biG/79LTv3yT9m6YzK7mg=;
+ b=IspCooUoCJ4wJQ77qv5CGpsw9vUvPiA+Sus+X1LTVZfyGrsuIiB5BCSk1W0RrPVKjqW3jl
+ B1CX29hpv1Le8//OjDEY2eTOxAOrlJ/4NgqXsh6nbogZul0xN1gM+4oYTAG1A/hrAGULa8
+ LdpcF/dyaNMVhTnYnOhMDcA2cwYV8kw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-35-k-pNzb0_Pt6AybizYrK3bQ-1; Wed, 16 Mar 2022 09:54:30 -0400
-X-MC-Unique: k-pNzb0_Pt6AybizYrK3bQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- a26-20020a7bc1da000000b003857205ec7cso1084176wmj.2
+ us-mta-85-EWNHfciFNp66-ialHwF1jA-1; Wed, 16 Mar 2022 09:54:31 -0400
+X-MC-Unique: EWNHfciFNp66-ialHwF1jA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r64-20020a1c2b43000000b0038b59eb1940so1952193wmr.0
  for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 06:54:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0n/KToaMwV0MVuk1t9AkE2/GeN2rh/LBvIHjSpamd8c=;
- b=dAH3mUPoc8sFp/dpty0eIAmUbOOxRfWy+UjpBgJcIU8RRtuPEW3EV8mJZlo8cljBrJ
- AgKjHda/M7W0BZ/13kcr4RamaQ+IEkPh/AwaOxkTi8wmGpiUkQfugfrPHg9gfDh0oWNv
- nN8hLIUeihQc3g0Wd5BLGOhIstmuA4or7Gy4S7E4wwidc37ktGQmyshtu5IynpTCuBmk
- dcR/a+ELQNMVXrrgo4sqTBh60bafzkShPSQKI37wWU+twV0cpkZaPMNxxoaQ0Itry2J7
- LQ5LL/u5TzvguXWeAFfvgNHH4QbhOh1NUtsF6stah+0LjDiOlWJ5YS36TUYvIEREQNFZ
- m6Uw==
-X-Gm-Message-State: AOAM531AwWzQsF1WicFFrDBVI4L8kTIxKbH3XbpdpGt8+PqTAVNXXwGn
- z6hgCB5ibsSii+5ZrPr7l+aPAbPTPf2PoszXHuSP69FSVLS7fEbWX+1Ao2Kq2OoWEVRz8/uKj+q
- 9qo5I9w7A9RVyvT8=
-X-Received: by 2002:a05:600c:3b14:b0:389:e95d:75af with SMTP id
- m20-20020a05600c3b1400b00389e95d75afmr7290433wms.143.1647438869171; 
+ bh=o2oHDkXntfXJQYcQDYIHU2biG/79LTv3yT9m6YzK7mg=;
+ b=JqN7uG0VbWZLnGOzdUPeOZPFUqBPWqJ3Ds3o89MHd1JugfQ1VIYvBATBFMk70lZBjQ
+ VpSqV7n7rQDTjf9qWPKxnMudOtV3Ysh24iy7KuYCQj260rbohDtFWfzNAaxQ9XM9dCQr
+ MjP2bjEr5n8XBLJRxSnevQ9H2e1RIODVfNqTyKLODIMCLkmN1RSztYMsEytNNXxnc9Zu
+ DIJVWHVIoMX0SqATv/TD/oCj2TV0GL/S0g4U7tG5XAb6ABB0BpV6FxeRIL36hpNLCOZ4
+ Q7Dk+Y1M7sCfxbiUhl0YcVeLeiq0nXuoCp+BaaZ51yLmaihoNhOEBAtqbSfDWMUDX7Vv
+ TJ0w==
+X-Gm-Message-State: AOAM531Jb3rOcNr5ICpjlO63lTdMPpGwVo4fxG/w/d9K/5u/8kOZVKdX
+ pN7k+OuqP8vIxk+2pHooCgWyyohrolGreyRX8reuHIzR6DXD1C79STJ7MkedcM7atERcw9lbDpZ
+ iEnzFoyYFfEOUq/k=
+X-Received: by 2002:a5d:4a8f:0:b0:1f0:4af2:4e29 with SMTP id
+ o15-20020a5d4a8f000000b001f04af24e29mr35731wrq.519.1647438869976; 
  Wed, 16 Mar 2022 06:54:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyx/Z21FFYcQBpcOrhTcPFh03170WMwC1HGnpfOQs5pzeR8vWMi9FqxRmtnXtEiRcYSMX2bcA==
-X-Received: by 2002:a05:600c:3b14:b0:389:e95d:75af with SMTP id
- m20-20020a05600c3b1400b00389e95d75afmr7290410wms.143.1647438868884; 
- Wed, 16 Mar 2022 06:54:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9XRrqiTK4yUlFzGasmvX5eicANWWdAHMf72ZcpS7Cjfs5cI6v/UlWZk8HAWNYSKXjUQAIMQ==
+X-Received: by 2002:a5d:4a8f:0:b0:1f0:4af2:4e29 with SMTP id
+ o15-20020a5d4a8f000000b001f04af24e29mr35708wrq.519.1647438869757; 
+ Wed, 16 Mar 2022 06:54:29 -0700 (PDT)
 Received: from vian.redhat.com ([2a0c:5a80:3506:3400:69b5:c807:1d52:ff67])
  by smtp.gmail.com with ESMTPSA id
- w7-20020a1cf607000000b00389a5390180sm1770157wmc.25.2022.03.16.06.54.27
+ w7-20020a1cf607000000b00389a5390180sm1770157wmc.25.2022.03.16.06.54.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Mar 2022 06:54:28 -0700 (PDT)
+ Wed, 16 Mar 2022 06:54:29 -0700 (PDT)
 From: Nicolas Saenz Julienne <nsaenzju@redhat.com>
 To: kwolf@redhat.com,
 	stefanha@redhat.com,
 	berrange@redhat.com
-Subject: [PATCH v3 1/3] Introduce event-loop-base abstract class
-Date: Wed, 16 Mar 2022 14:53:21 +0100
-Message-Id: <20220316135321.142850-2-nsaenzju@redhat.com>
+Subject: [PATCH v3 2/3] util/main-loop: Introduce the main loop into QOM
+Date: Wed, 16 Mar 2022 14:53:22 +0100
+Message-Id: <20220316135321.142850-3-nsaenzju@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220316135321.142850-1-nsaenzju@redhat.com>
 References: <20220316135321.142850-1-nsaenzju@redhat.com>
@@ -109,457 +109,230 @@ Cc: fam@euphon.net, eduardo@habkost.net, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the 'event-loop-base' abstract class, it'll hold the
-properties common to all event loops and provide the necessary hooks for
-their creation and maintenance. Then have iothread inherit from it.
+'event-loop-base' provides basic property handling for all 'AioContext'
+based event loops. So let's define a new 'MainLoopClass' that inherits
+from it. This will permit tweaking the main loop's properties through
+qapi as well as through the command line using the '-object' keyword[1].
+Only one instance of 'MainLoopClass' might be created at any time.
 
-EventLoopBaseClass is defined as user creatable and provides a hook for
-its children to attach themselves to the user creatable class 'complete'
-function. It also provides an update_params() callback to propagate
-property changes onto its children.
+'EventLoopBaseClass' learns a new callback, 'can_be_deleted()' so as to
+mark 'MainLoop' as non-deletable.
 
-The new 'event-loop-base' class will live in the root directory. It is
-built on its own using the 'link_whole' option (there are no direct
-function dependencies between the class and its children, it all happens
-trough 'constructor' magic). And also imposes new compilation
-dependencies:
-
-    qom <- event-loop-base <- blockdev (iothread.c)
-
-And in subsequent patches:
-
-    qom <- event-loop-base <- qemuutil (util/main-loop.c)
-
-All this forced some amount of reordering in meson.build:
-
- - Moved qom build definition before qemuutil. Doing it the other way
-   around (i.e. moving qemuutil after qom) isn't possible as a lot of
-   core libraries that live in between the two depend on it.
-
- - Process the 'hw' subdir earlier, as it introduces files into the
-   'qom' source set.
-
-No functional changes intended.
+[1] For example:
+      -object main-loop,id=main-loop,aio-max-batch=<value>
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzju@redhat.com>
-
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
 
 Changes since v2:
- - reword commit message to better explain compilation dependencies.
+ - Fix mainloop's qapi versioning
 
 Changes since v1:
- - Rename to event-loop-base
- - Move event-loop-base into root directory
- - Build event-loop-base on its own, use link_whole to avoid the problem
-   of the object file not being linked due to lacking direct calls from
-   dependencies.
- - Move poll parameters into iothread, as main loop can't poll
- - Update Authorship (I took what iothread.c had and added myself, I
-   hope that's fine)
- - Introduce update_params() callback
+ - Fix json files to differentiate between iothread and main-loop
+ - Use OBJECT_DECLARE_TYPE()
+ - Fix build dependencies
 
- event-loop-base.c                | 104 +++++++++++++++++++++++++++++++
- include/sysemu/event-loop-base.h |  36 +++++++++++
- include/sysemu/iothread.h        |   6 +-
- iothread.c                       |  65 ++++++-------------
- meson.build                      |  23 ++++---
- 5 files changed, 175 insertions(+), 59 deletions(-)
- create mode 100644 event-loop-base.c
- create mode 100644 include/sysemu/event-loop-base.h
+ event-loop-base.c                | 13 ++++++++
+ include/qemu/main-loop.h         | 10 ++++++
+ include/sysemu/event-loop-base.h |  1 +
+ meson.build                      |  3 +-
+ qapi/qom.json                    | 15 +++++++++
+ util/main-loop.c                 | 56 ++++++++++++++++++++++++++++++++
+ 6 files changed, 97 insertions(+), 1 deletion(-)
 
 diff --git a/event-loop-base.c b/event-loop-base.c
-new file mode 100644
-index 0000000000..a924c73a7c
---- /dev/null
+index a924c73a7c..e7f99a6ec8 100644
+--- a/event-loop-base.c
 +++ b/event-loop-base.c
-@@ -0,0 +1,104 @@
-+/*
-+ * QEMU event-loop base
-+ *
-+ * Copyright (C) 2022 Red Hat Inc
-+ *
-+ * Authors:
-+ *  Stefan Hajnoczi <stefanha@redhat.com>
-+ *  Nicolas Saenz Julienne <nsaenzju@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qom/object_interfaces.h"
-+#include "qapi/error.h"
-+#include "sysemu/event-loop-base.h"
-+
-+typedef struct {
-+    const char *name;
-+    ptrdiff_t offset; /* field's byte offset in EventLoopBase struct */
-+} EventLoopBaseParamInfo;
-+
-+static EventLoopBaseParamInfo aio_max_batch_info = {
-+    "aio-max-batch", offsetof(EventLoopBase, aio_max_batch),
-+};
-+
-+static void event_loop_base_get_param(Object *obj, Visitor *v,
-+        const char *name, void *opaque, Error **errp)
+@@ -73,10 +73,23 @@ static void event_loop_base_complete(UserCreatable *uc, Error **errp)
+     }
+ }
+ 
++static bool event_loop_base_can_be_deleted(UserCreatable *uc)
 +{
-+    EventLoopBase *event_loop_base = EVENT_LOOP_BASE(obj);
-+    EventLoopBaseParamInfo *info = opaque;
-+    int64_t *field = (void *)event_loop_base + info->offset;
++    EventLoopBaseClass *bc = EVENT_LOOP_BASE_GET_CLASS(uc);
++    EventLoopBase *backend = EVENT_LOOP_BASE(uc);
 +
-+    visit_type_int64(v, name, field, errp);
++    if (bc->can_be_deleted) {
++        return bc->can_be_deleted(backend);
++    }
++
++    return true;
 +}
 +
-+static void event_loop_base_set_param(Object *obj, Visitor *v,
-+        const char *name, void *opaque, Error **errp)
+ static void event_loop_base_class_init(ObjectClass *klass, void *class_data)
+ {
+     UserCreatableClass *ucc = USER_CREATABLE_CLASS(klass);
+     ucc->complete = event_loop_base_complete;
++    ucc->can_be_deleted = event_loop_base_can_be_deleted;
+ 
+     object_class_property_add(klass, "aio-max-batch", "int",
+                               event_loop_base_get_param,
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index 7a4d6a0920..0aa36a4f17 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -26,9 +26,19 @@
+ #define QEMU_MAIN_LOOP_H
+ 
+ #include "block/aio.h"
++#include "qom/object.h"
++#include "sysemu/event-loop-base.h"
+ 
+ #define SIG_IPI SIGUSR1
+ 
++#define TYPE_MAIN_LOOP  "main-loop"
++OBJECT_DECLARE_TYPE(MainLoop, MainLoopClass, MAIN_LOOP)
++
++struct MainLoop {
++    EventLoopBase parent_obj;
++};
++typedef struct MainLoop MainLoop;
++
+ /**
+  * qemu_init_main_loop: Set up the process so that it can run the main loop.
+  *
+diff --git a/include/sysemu/event-loop-base.h b/include/sysemu/event-loop-base.h
+index 8e77d8b69f..fced4c9fea 100644
+--- a/include/sysemu/event-loop-base.h
++++ b/include/sysemu/event-loop-base.h
+@@ -25,6 +25,7 @@ struct EventLoopBaseClass {
+ 
+     void (*init)(EventLoopBase *base, Error **errp);
+     void (*update_params)(EventLoopBase *base, Error **errp);
++    bool (*can_be_deleted)(EventLoopBase *base);
+ };
+ 
+ struct EventLoopBase {
+diff --git a/meson.build b/meson.build
+index 281c0691cc..2931904ffe 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2769,7 +2769,8 @@ libqemuutil = static_library('qemuutil',
+                              sources: util_ss.sources() + stub_ss.sources() + genh,
+                              dependencies: [util_ss.dependencies(), libm, threads, glib, socket, malloc, pixman])
+ qemuutil = declare_dependency(link_with: libqemuutil,
+-                              sources: genh + version_res)
++                              sources: genh + version_res,
++                              dependencies: [event_loop_base])
+ 
+ if have_system or have_user
+   decodetree = generator(find_program('scripts/decodetree.py'),
+diff --git a/qapi/qom.json b/qapi/qom.json
+index eeb5395ff3..10800166e8 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -528,6 +528,19 @@
+             '*poll-shrink': 'int',
+             '*aio-max-batch': 'int' } }
+ 
++##
++# @MainLoopProperties:
++#
++# Properties for the main-loop object.
++#
++# @aio-max-batch: maximum number of requests in a batch for the AIO engine,
++#                 0 means that the engine will use its default (default:0)
++#
++# Since: 7.1
++##
++{ 'struct': 'MainLoopProperties',
++  'data': { '*aio-max-batch': 'int' } }
++
+ ##
+ # @MemoryBackendProperties:
+ #
+@@ -818,6 +831,7 @@
+     { 'name': 'input-linux',
+       'if': 'CONFIG_LINUX' },
+     'iothread',
++    'main-loop',
+     { 'name': 'memory-backend-epc',
+       'if': 'CONFIG_LINUX' },
+     'memory-backend-file',
+@@ -883,6 +897,7 @@
+       'input-linux':                { 'type': 'InputLinuxProperties',
+                                       'if': 'CONFIG_LINUX' },
+       'iothread':                   'IothreadProperties',
++      'main-loop':                  'MainLoopProperties',
+       'memory-backend-epc':         { 'type': 'MemoryBackendEpcProperties',
+                                       'if': 'CONFIG_LINUX' },
+       'memory-backend-file':        'MemoryBackendFileProperties',
+diff --git a/util/main-loop.c b/util/main-loop.c
+index 4d5a5b9943..3bf5709374 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -33,6 +33,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/queue.h"
+ #include "qemu/compiler.h"
++#include "qom/object.h"
+ 
+ #ifndef _WIN32
+ #include <sys/wait.h>
+@@ -184,6 +185,61 @@ int qemu_init_main_loop(Error **errp)
+     return 0;
+ }
+ 
++static void main_loop_update_params(EventLoopBase *base, Error **errp)
 +{
-+    EventLoopBaseClass *bc = EVENT_LOOP_BASE_GET_CLASS(obj);
-+    EventLoopBase *base = EVENT_LOOP_BASE(obj);
-+    EventLoopBaseParamInfo *info = opaque;
-+    int64_t *field = (void *)base + info->offset;
-+    int64_t value;
-+
-+    if (!visit_type_int64(v, name, &value, errp)) {
++    if (!qemu_aio_context) {
++        error_setg(errp, "qemu aio context not ready");
 +        return;
 +    }
 +
-+    if (value < 0) {
-+        error_setg(errp, "%s value must be in range [0, %" PRId64 "]",
-+                   info->name, INT64_MAX);
++    aio_context_set_aio_params(qemu_aio_context, base->aio_max_batch, errp);
++}
++
++MainLoop *mloop;
++
++static void main_loop_init(EventLoopBase *base, Error **errp)
++{
++    MainLoop *m = MAIN_LOOP(base);
++
++    if (mloop) {
++        error_setg(errp, "only one main-loop instance allowed");
 +        return;
 +    }
 +
-+    *field = value;
++    main_loop_update_params(base, errp);
 +
-+    if (bc->update_params) {
-+        bc->update_params(base, errp);
-+    }
-+
++    mloop = m;
 +    return;
 +}
 +
-+static void event_loop_base_complete(UserCreatable *uc, Error **errp)
++static bool main_loop_can_be_deleted(EventLoopBase *base)
 +{
-+    EventLoopBaseClass *bc = EVENT_LOOP_BASE_GET_CLASS(uc);
-+    EventLoopBase *base = EVENT_LOOP_BASE(uc);
-+
-+    if (bc->init) {
-+        bc->init(base, errp);
-+    }
++    return false;
 +}
 +
-+static void event_loop_base_class_init(ObjectClass *klass, void *class_data)
++static void main_loop_class_init(ObjectClass *oc, void *class_data)
 +{
-+    UserCreatableClass *ucc = USER_CREATABLE_CLASS(klass);
-+    ucc->complete = event_loop_base_complete;
++    EventLoopBaseClass *bc = EVENT_LOOP_BASE_CLASS(oc);
 +
-+    object_class_property_add(klass, "aio-max-batch", "int",
-+                              event_loop_base_get_param,
-+                              event_loop_base_set_param,
-+                              NULL, &aio_max_batch_info);
++    bc->init = main_loop_init;
++    bc->update_params = main_loop_update_params;
++    bc->can_be_deleted = main_loop_can_be_deleted;
 +}
 +
-+static const TypeInfo event_loop_base_info = {
-+    .name = TYPE_EVENT_LOOP_BASE,
-+    .parent = TYPE_OBJECT,
-+    .instance_size = sizeof(EventLoopBase),
-+    .class_size = sizeof(EventLoopBaseClass),
-+    .class_init = event_loop_base_class_init,
-+    .abstract = true,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_USER_CREATABLE },
-+        { }
-+    }
-+};
-+
-+static void register_types(void)
-+{
-+    type_register_static(&event_loop_base_info);
-+}
-+type_init(register_types);
-diff --git a/include/sysemu/event-loop-base.h b/include/sysemu/event-loop-base.h
-new file mode 100644
-index 0000000000..8e77d8b69f
---- /dev/null
-+++ b/include/sysemu/event-loop-base.h
-@@ -0,0 +1,36 @@
-+/*
-+ * QEMU event-loop backend
-+ *
-+ * Copyright (C) 2022 Red Hat Inc
-+ *
-+ * Authors:
-+ *  Nicolas Saenz Julienne <nsaenzju@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#ifndef QEMU_EVENT_LOOP_BASE_H
-+#define QEMU_EVENT_LOOP_BASE_H
-+
-+#include "qom/object.h"
-+#include "block/aio.h"
-+#include "qemu/typedefs.h"
-+
-+#define TYPE_EVENT_LOOP_BASE         "event-loop-base"
-+OBJECT_DECLARE_TYPE(EventLoopBase, EventLoopBaseClass,
-+                    EVENT_LOOP_BASE)
-+
-+struct EventLoopBaseClass {
-+    ObjectClass parent_class;
-+
-+    void (*init)(EventLoopBase *base, Error **errp);
-+    void (*update_params)(EventLoopBase *base, Error **errp);
-+};
-+
-+struct EventLoopBase {
-+    Object parent;
-+
-+    /* AioContext AIO engine parameters */
-+    int64_t aio_max_batch;
-+};
-+#endif
-diff --git a/include/sysemu/iothread.h b/include/sysemu/iothread.h
-index 7f714bd136..8f8601d6ab 100644
---- a/include/sysemu/iothread.h
-+++ b/include/sysemu/iothread.h
-@@ -17,11 +17,12 @@
- #include "block/aio.h"
- #include "qemu/thread.h"
- #include "qom/object.h"
-+#include "sysemu/event-loop-base.h"
- 
- #define TYPE_IOTHREAD "iothread"
- 
- struct IOThread {
--    Object parent_obj;
-+    EventLoopBase parent_obj;
- 
-     QemuThread thread;
-     AioContext *ctx;
-@@ -37,9 +38,6 @@ struct IOThread {
-     int64_t poll_max_ns;
-     int64_t poll_grow;
-     int64_t poll_shrink;
--
--    /* AioContext AIO engine parameters */
--    int64_t aio_max_batch;
- };
- typedef struct IOThread IOThread;
- 
-diff --git a/iothread.c b/iothread.c
-index 0f98af0f2a..8fa2f3bfb8 100644
---- a/iothread.c
-+++ b/iothread.c
-@@ -17,6 +17,7 @@
- #include "qemu/module.h"
- #include "block/aio.h"
- #include "block/block.h"
-+#include "sysemu/event-loop-base.h"
- #include "sysemu/iothread.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-misc.h"
-@@ -152,10 +153,15 @@ static void iothread_init_gcontext(IOThread *iothread)
-     iothread->main_loop = g_main_loop_new(iothread->worker_context, TRUE);
- }
- 
--static void iothread_set_aio_context_params(IOThread *iothread, Error **errp)
-+static void iothread_set_aio_context_params(EventLoopBase *base, Error **errp)
- {
-+    IOThread *iothread = IOTHREAD(base);
-     ERRP_GUARD();
- 
-+    if (!iothread->ctx) {
-+        return;
-+    }
-+
-     aio_context_set_poll_params(iothread->ctx,
-                                 iothread->poll_max_ns,
-                                 iothread->poll_grow,
-@@ -166,14 +172,15 @@ static void iothread_set_aio_context_params(IOThread *iothread, Error **errp)
-     }
- 
-     aio_context_set_aio_params(iothread->ctx,
--                               iothread->aio_max_batch,
-+                               iothread->parent_obj.aio_max_batch,
-                                errp);
- }
- 
--static void iothread_complete(UserCreatable *obj, Error **errp)
-+
-+static void iothread_init(EventLoopBase *base, Error **errp)
- {
-     Error *local_error = NULL;
--    IOThread *iothread = IOTHREAD(obj);
-+    IOThread *iothread = IOTHREAD(base);
-     char *thread_name;
- 
-     iothread->stopping = false;
-@@ -189,7 +196,7 @@ static void iothread_complete(UserCreatable *obj, Error **errp)
-      */
-     iothread_init_gcontext(iothread);
- 
--    iothread_set_aio_context_params(iothread, &local_error);
-+    iothread_set_aio_context_params(base, &local_error);
-     if (local_error) {
-         error_propagate(errp, local_error);
-         aio_context_unref(iothread->ctx);
-@@ -201,7 +208,7 @@ static void iothread_complete(UserCreatable *obj, Error **errp)
-      * to inherit.
-      */
-     thread_name = g_strdup_printf("IO %s",
--                        object_get_canonical_path_component(OBJECT(obj)));
-+                        object_get_canonical_path_component(OBJECT(base)));
-     qemu_thread_create(&iothread->thread, thread_name, iothread_run,
-                        iothread, QEMU_THREAD_JOINABLE);
-     g_free(thread_name);
-@@ -226,9 +233,6 @@ static IOThreadParamInfo poll_grow_info = {
- static IOThreadParamInfo poll_shrink_info = {
-     "poll-shrink", offsetof(IOThread, poll_shrink),
- };
--static IOThreadParamInfo aio_max_batch_info = {
--    "aio-max-batch", offsetof(IOThread, aio_max_batch),
--};
- 
- static void iothread_get_param(Object *obj, Visitor *v,
-         const char *name, IOThreadParamInfo *info, Error **errp)
-@@ -288,35 +292,12 @@ static void iothread_set_poll_param(Object *obj, Visitor *v,
-     }
- }
- 
--static void iothread_get_aio_param(Object *obj, Visitor *v,
--        const char *name, void *opaque, Error **errp)
--{
--    IOThreadParamInfo *info = opaque;
--
--    iothread_get_param(obj, v, name, info, errp);
--}
--
--static void iothread_set_aio_param(Object *obj, Visitor *v,
--        const char *name, void *opaque, Error **errp)
--{
--    IOThread *iothread = IOTHREAD(obj);
--    IOThreadParamInfo *info = opaque;
--
--    if (!iothread_set_param(obj, v, name, info, errp)) {
--        return;
--    }
--
--    if (iothread->ctx) {
--        aio_context_set_aio_params(iothread->ctx,
--                                   iothread->aio_max_batch,
--                                   errp);
--    }
--}
--
- static void iothread_class_init(ObjectClass *klass, void *class_data)
- {
--    UserCreatableClass *ucc = USER_CREATABLE_CLASS(klass);
--    ucc->complete = iothread_complete;
-+    EventLoopBaseClass *bc = EVENT_LOOP_BASE_CLASS(klass);
-+
-+    bc->init = iothread_init;
-+    bc->update_params = iothread_set_aio_context_params;
- 
-     object_class_property_add(klass, "poll-max-ns", "int",
-                               iothread_get_poll_param,
-@@ -330,23 +311,15 @@ static void iothread_class_init(ObjectClass *klass, void *class_data)
-                               iothread_get_poll_param,
-                               iothread_set_poll_param,
-                               NULL, &poll_shrink_info);
--    object_class_property_add(klass, "aio-max-batch", "int",
--                              iothread_get_aio_param,
--                              iothread_set_aio_param,
--                              NULL, &aio_max_batch_info);
- }
- 
- static const TypeInfo iothread_info = {
-     .name = TYPE_IOTHREAD,
--    .parent = TYPE_OBJECT,
++static const TypeInfo main_loop_info = {
++    .name = TYPE_MAIN_LOOP,
 +    .parent = TYPE_EVENT_LOOP_BASE,
-     .class_init = iothread_class_init,
-     .instance_size = sizeof(IOThread),
-     .instance_init = iothread_instance_init,
-     .instance_finalize = iothread_instance_finalize,
--    .interfaces = (InterfaceInfo[]) {
--        {TYPE_USER_CREATABLE},
--        {}
--    },
- };
- 
- static void iothread_register_types(void)
-@@ -383,7 +356,7 @@ static int query_one_iothread(Object *object, void *opaque)
-     info->poll_max_ns = iothread->poll_max_ns;
-     info->poll_grow = iothread->poll_grow;
-     info->poll_shrink = iothread->poll_shrink;
--    info->aio_max_batch = iothread->aio_max_batch;
-+    info->aio_max_batch = iothread->parent_obj.aio_max_batch;
- 
-     QAPI_LIST_APPEND(*tail, info);
-     return 0;
-diff --git a/meson.build b/meson.build
-index 2d6601467f..281c0691cc 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2741,6 +2741,7 @@ subdir('qom')
- subdir('authz')
- subdir('crypto')
- subdir('ui')
-+subdir('hw')
- 
- 
- if enable_modules
-@@ -2748,6 +2749,18 @@ if enable_modules
-   modulecommon = declare_dependency(link_whole: libmodulecommon, compile_args: '-DBUILD_DSO')
- endif
- 
-+qom_ss = qom_ss.apply(config_host, strict: false)
-+libqom = static_library('qom', qom_ss.sources() + genh,
-+                        dependencies: [qom_ss.dependencies()],
-+                        name_suffix: 'fa')
-+qom = declare_dependency(link_whole: libqom)
++    .class_init = main_loop_class_init,
++    .instance_size = sizeof(MainLoop),
++};
 +
-+event_loop_base = files('event-loop-base.c')
-+event_loop_base = static_library('event-loop-base', sources: event_loop_base,
-+                                 build_by_default: true)
-+event_loop_base = declare_dependency(link_whole: event_loop_base,
-+                                     dependencies: [qom])
++static void main_loop_register_types(void)
++{
++    type_register_static(&main_loop_info);
++}
 +
- stub_ss = stub_ss.apply(config_all, strict: false)
++type_init(main_loop_register_types)
++
+ static int max_priority;
  
- util_ss.add_all(trace_ss)
-@@ -2834,7 +2847,6 @@ subdir('monitor')
- subdir('net')
- subdir('replay')
- subdir('semihosting')
--subdir('hw')
- subdir('tcg')
- subdir('fpu')
- subdir('accel')
-@@ -2959,13 +2971,6 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
-                              capture: true,
-                              command: [undefsym, nm, '@INPUT@'])
- 
--qom_ss = qom_ss.apply(config_host, strict: false)
--libqom = static_library('qom', qom_ss.sources() + genh,
--                        dependencies: [qom_ss.dependencies()],
--                        name_suffix: 'fa')
--
--qom = declare_dependency(link_whole: libqom)
--
- authz_ss = authz_ss.apply(config_host, strict: false)
- libauthz = static_library('authz', authz_ss.sources() + genh,
-                           dependencies: [authz_ss.dependencies()],
-@@ -3018,7 +3023,7 @@ libblockdev = static_library('blockdev', blockdev_ss.sources() + genh,
-                              build_by_default: false)
- 
- blockdev = declare_dependency(link_whole: [libblockdev],
--                              dependencies: [block])
-+                              dependencies: [block, event_loop_base])
- 
- qmp_ss = qmp_ss.apply(config_host, strict: false)
- libqmp = static_library('qmp', qmp_ss.sources() + genh,
+ #ifndef _WIN32
 -- 
 2.35.1
 
