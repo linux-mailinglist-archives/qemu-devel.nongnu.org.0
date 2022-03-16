@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA184DAFD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 13:36:45 +0100 (CET)
-Received: from localhost ([::1]:33158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FCD4DAFD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 13:38:15 +0100 (CET)
+Received: from localhost ([::1]:36720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUStQ-0001jQ-Lx
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 08:36:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54768)
+	id 1nUSus-0004MO-Ix
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 08:38:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nUSnI-0007Mg-MZ
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:30:27 -0400
-Received: from [2a00:1450:4864:20::532] (port=33455
- helo=mail-ed1-x532.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1nUSnD-00029r-HJ
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:30:22 -0400
-Received: by mail-ed1-x532.google.com with SMTP id r23so2566209edb.0
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 05:30:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=no+7Tli8y0E2pX5Lop2OSHgorDB6J269gW/r6e1EI4w=;
- b=nBom3p3AhLR7jOf9WcFmFeHsg8kbuWnBNFqUZ0pKiiITnSdfIU/rzZFK3aelXeoesK
- sONGQirwPvkxB1KLxUvnFlIxlCddmL7OFjFVvCM9derm0kSqY3j2PWBnHIPdaoJaaPCG
- 8KFn/GhOYkojduvjmuxO/xplR1M5xL7IXOWou6hVXGtnRIjmRs/gr71AY1VbE/nK69FE
- ZPOCzB2GdrEmqLR1McczJ7JmTjCUhwrHDZ15tw24OY+cT/MFpkuvCQ/VUBRJhQAVa7rj
- DXh0CiQbt87Z7d0ke/GXrU/Z157yXcGTEDLet2w3RvesZCw7OtEJquA3zdnCbHgQuDli
- HyXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=no+7Tli8y0E2pX5Lop2OSHgorDB6J269gW/r6e1EI4w=;
- b=r3Rf/TysX5EG4Rz5JIxmDv5/nH3LbFb1Ms/fiwkk3VA8CG+/7LR3GMY6NYCWrPCzaH
- /JDYeHO2lFv7RwTz7oafbaW8WWTikw7UMHV8vjyVQDgaA2uyqE2ExMX0eSmGBYPeFtN6
- bQN1xaGRqmOSEbXZ9RZlT1g9Y2vIi3Tbw/KAVXIgKImKv+ITATZuMSQmgHDQG6sqIBgR
- 9mfX8D+rZ6aKIRRvG2qLR7KBhuG5FV06wBRfRqHoq5AC2VJ+V4vTWcZVB+6+Lex6aYpy
- 7h6TPVspcokr4kBggugfInYgn8GZXFsC6YHthvMGixkoz6/LmvxsZfG8+O9JSvevXx1/
- 6zPw==
-X-Gm-Message-State: AOAM530ur/3THBy+tzNsDPoSyJrHr4CqCNG+Vxz1P7Ec5v8Og1pLV7e/
- nLraPHoRbSYezoyTPam87B8=
-X-Google-Smtp-Source: ABdhPJy/R6HvOln+8wPxH4uLbrytPJrA+2PRoErUrZ0hMt7w2P5j54npCyfb73Lc+3YyPsDWhmCGRw==
-X-Received: by 2002:a05:6402:221b:b0:418:eb30:47ff with SMTP id
- cq27-20020a056402221b00b00418eb3047ffmr1894245edb.68.1647433817345; 
- Wed, 16 Mar 2022 05:30:17 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id
- b19-20020aa7dc13000000b00418eef0a019sm235128edu.34.2022.03.16.05.30.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Mar 2022 05:30:16 -0700 (PDT)
-Message-ID: <3614873d-0446-3a6a-08d0-da4b279d2b01@redhat.com>
-Date: Wed, 16 Mar 2022 13:30:11 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUSo2-0007fB-73
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:31:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1nUSnw-0002IL-5L
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 08:31:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1647433862;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gO/OkmDh4Kem0ue7Gg3eE2LlYumXsTvx0QnlYDtAICU=;
+ b=GZ/iAQCv73/wXd6xcp6vtAVSzli6HjwvH0/F3tKMeT3dT4dVO+m6f92dwYQEDoke4gRtNa
+ kF2SJL2JngS0wVGrcQ71wBypXfPH0ppsWeLIjMC1kKETkSvM1MN99JJHq/7+VFHfym/wgm
+ h2Mz1U7AJWnJgr2FXwMNaVYHwRmo2tA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-330-rAS5D717NeyJh1jpOJAm-A-1; Wed, 16 Mar 2022 08:31:01 -0400
+X-MC-Unique: rAS5D717NeyJh1jpOJAm-A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 74D6029AB45B
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 12:31:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.36.112.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB74E2156A5A;
+ Wed, 16 Mar 2022 12:30:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9899F21E66CE; Wed, 16 Mar 2022 13:30:55 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH 25/27] include/qapi: add g_autoptr support for qobject
+ types
+References: <20220316095454.2613871-1-marcandre.lureau@redhat.com>
+Date: Wed, 16 Mar 2022 13:30:55 +0100
+In-Reply-To: <20220316095454.2613871-1-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Wed, 16 Mar 2022 13:54:54 +0400")
+Message-ID: <87bky65bb4.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PULL 0/8] s390x and misc fixes
-Content-Language: en-US
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20220315112052.515467-1-thuth@redhat.com>
- <CAFEAcA8u8G3=V=OVM6v_BaOwfeDu1RJmnwrW+4PXqbnPrAAr_w@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA8u8G3=V=OVM6v_BaOwfeDu1RJmnwrW+4PXqbnPrAAr_w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,50 +83,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/15/22 19:58, Peter Maydell wrote:
-> This results in every "Linking" step on my macos box producing the
-> warning:
-> 
-> ld: warning: directory not found for option
-> '-Lns/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0'
+marcandre.lureau@redhat.com writes:
 
-This was reported already back in January with Meson 0.59:
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Add small inline wrappers for qobject_unref() calls, which is a macro.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  include/qapi/qmp/qbool.h   | 6 ++++++
+>  include/qapi/qmp/qdict.h   | 6 ++++++
+>  include/qapi/qmp/qlist.h   | 8 +++++++-
+>  include/qapi/qmp/qnull.h   | 6 ++++++
+>  include/qapi/qmp/qnum.h    | 6 ++++++
+>  include/qapi/qmp/qstring.h | 6 ++++++
+>  6 files changed, 37 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/qapi/qmp/qbool.h b/include/qapi/qmp/qbool.h
+> index 2f888d10573f..52b1c5c15280 100644
+> --- a/include/qapi/qmp/qbool.h
+> +++ b/include/qapi/qmp/qbool.h
+> @@ -21,6 +21,12 @@ struct QBool {
+>      bool value;
+>  };
+> =20
+> +static inline void qbool_unref(QBool *q) {
+> +    qobject_unref(q);
+> +}
+> +
+> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(QBool, qbool_unref)
+> +
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg861435.html
+You need the wrapper function around the wrapper macro qobject_unref(),
+because
 
-> 1. Linker has corrupted paths to clang directory (happens on all macOS 
-> versions).
-> 
-> Monterey:
-> 
-> [732/737] Linking target qemu-system-mips-unsigned
-> ld: warning: directory not found for option 
-> '-Lns/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0'
-> [733/737] Linking target qemu-system-mips64-unsigned
-> ld: warning: directory not found for option 
-> '-Lns/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0'
-> [737/737] Generating qemu-system-mips64 with a custom command
-> 
-> Catalina:
-> 
-> ld: warning: directory not found for option 
-> '-Lveloper/CommandLineTools/usr/lib/clang/11.0.0'
-> [102/105] Linking target qemu-system-or1k-unsigned
-> ld: warning: directory not found for option 
-> '-Lveloper/CommandLineTools/usr/lib/clang/11.0.0'
-> [104/105] Linking target qemu-system-ppc-unsigned
-> ld: warning: directory not found for option 
-> '-Lveloper/CommandLineTools/usr/lib/clang/11.0.0'
-> [105/105] Generating qemu-system-ppc with a custom command
+   G_DEFINE_AUTOPTR_CLEANUP_FUNC(QBool, qobject_unref_impl)
 
-Roman, was this ever debugged?  Is the broken path to the clang 
-directory included in build.ninja or is this a clang bug that somehow 
-has been latent so far?
+dies with "passing argument 1 of =E2=80=98qobject_unref_impl=E2=80=99 from =
+incompatible
+pointer type [-Wincompatible-pointer-types]".  Okay.
 
-Paolo
+Style nitpick: a function's opening brace goes on its own line:
+
+   static inline void qbool_unref(QBool *q)
+   {
+       qobject_unref(q);
+   }
+
+Moreover, I prefer to put code in headers only when there's a real need.
+I don't see one here.  Most existing uses of
+G_DEFINE_AUTOPTR_CLEANUP_FUNC() use a plain extern function.
+
+>  QBool *qbool_from_bool(bool value);
+>  bool qbool_get_bool(const QBool *qb);
+> =20
+> diff --git a/include/qapi/qmp/qdict.h b/include/qapi/qmp/qdict.h
+> index d5b5430e21a9..9f0a6a6708b5 100644
+> --- a/include/qapi/qmp/qdict.h
+> +++ b/include/qapi/qmp/qdict.h
+> @@ -30,6 +30,12 @@ struct QDict {
+>      QLIST_HEAD(,QDictEntry) table[QDICT_BUCKET_MAX];
+>  };
+> =20
+> +static inline void qdict_unref(QDict *q) {
+> +    qobject_unref(q);
+> +}
+> +
+> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(QDict, qdict_unref)
+> +
+>  /* Object API */
+>  QDict *qdict_new(void);
+>  const char *qdict_entry_key(const QDictEntry *entry);
+> diff --git a/include/qapi/qmp/qlist.h b/include/qapi/qmp/qlist.h
+> index 06e98ad5f498..06c267dfb898 100644
+> --- a/include/qapi/qmp/qlist.h
+> +++ b/include/qapi/qmp/qlist.h
+> @@ -26,7 +26,13 @@ struct QList {
+>      QTAILQ_HEAD(,QListEntry) head;
+>  };
+> =20
+> -#define qlist_append(qlist, obj) \
+> +static inline void qlist_unref(QList *q) {
+> +    qobject_unref(q);
+> +}
+> +
+> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(QList, qlist_unref)
+> +
+> +#define qlist_append(qlist, obj)                \
+
+The whitespace change looks accidental.
+
+>          qlist_append_obj(qlist, QOBJECT(obj))
+> =20
+>  void qlist_append_bool(QList *qlist, bool value);
+> diff --git a/include/qapi/qmp/qnull.h b/include/qapi/qmp/qnull.h
+> index e84ecceedbcb..8c45e08b1c47 100644
+> --- a/include/qapi/qmp/qnull.h
+> +++ b/include/qapi/qmp/qnull.h
+> @@ -26,4 +26,10 @@ static inline QNull *qnull(void)
+>      return qobject_ref(&qnull_);
+>  }
+> =20
+> +static inline void qnull_unref(QNull *q) {
+> +    qobject_unref(q);
+> +}
+> +
+> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(QNull, qnull_unref)
+> +
+>  #endif /* QNULL_H */
+> diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
+> index 7f84e20bfb2c..ebbf9cd5abe8 100644
+> --- a/include/qapi/qmp/qnum.h
+> +++ b/include/qapi/qmp/qnum.h
+> @@ -54,6 +54,12 @@ struct QNum {
+>      } u;
+>  };
+> =20
+> +static inline void qnum_unref(QNum *q) {
+> +    qobject_unref(q);
+> +}
+> +
+> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(QNum, qnum_unref)
+> +
+>  QNum *qnum_from_int(int64_t value);
+>  QNum *qnum_from_uint(uint64_t value);
+>  QNum *qnum_from_double(double value);
+> diff --git a/include/qapi/qmp/qstring.h b/include/qapi/qmp/qstring.h
+> index 1d8ba469368f..a38d2925d757 100644
+> --- a/include/qapi/qmp/qstring.h
+> +++ b/include/qapi/qmp/qstring.h
+> @@ -20,6 +20,12 @@ struct QString {
+>      const char *string;
+>  };
+> =20
+> +static inline void qstring_unref(QString *q) {
+> +    qobject_unref(q);
+> +}
+> +
+> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(QString, qstring_unref)
+> +
+>  QString *qstring_new(void);
+>  QString *qstring_from_str(const char *str);
+>  QString *qstring_from_substr(const char *str, size_t start, size_t end);
+
 
