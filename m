@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7284DBACB
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 00:02:31 +0100 (CET)
-Received: from localhost ([::1]:45036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E764DBAD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Mar 2022 00:10:02 +0100 (CET)
+Received: from localhost ([::1]:47276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUcez-0000Ae-7w
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 19:02:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58490)
+	id 1nUcmH-0001zL-Cn
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 19:10:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nUcdz-0007nO-Ob
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 19:01:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29029)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nUckj-0001J2-AW
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 19:08:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1nUcdv-0003hk-Ks
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 19:01:25 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1nUckg-0004Vc-Qx
+ for qemu-devel@nongnu.org; Wed, 16 Mar 2022 19:08:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1647471681;
+ s=mimecast20190719; t=1647472101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c3TK04KVfyEGC1ZvJX2hcQlWxEMwwQBVvWtjXH4O0S0=;
- b=S1K+QkJ5PY4KsZ1VfuAnd70pbc6SDz2X0R4138K1xJAeV9OEubqCM/nloCZBh5p4mgSi7p
- nO0GnOQ7s6Bd6vcfCNrzMF/AOYQ1DHqNZ6kA+3lpii07nzPj0ufJX+qCqAwE1LVmALh/aq
- 7WbO4+cCXJ+i8HebGkO5A0l1QjMQclM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nPWSlxSn8Fk1m2ZSGmbehJMGyoAlfwasn+EhRzg6RWg=;
+ b=A8evZJqTTt2oKJb7rkLFVl7m8dZS4vSI7oRo1UCTF0pi6jyu0982u8mPejZdl5W1qGKNUT
+ J5nzGeyhBJdGYMVx2bSaC7FvkiRub4+puMNgytDW7RXh1mO1AVaQPMcLM/L4+8IKH9uKno
+ Q4XrG8M21MP/ay1qTnFE/tjh0K3i91E=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-111-6MU9bcknOMS9wgTsN-T_rg-1; Wed, 16 Mar 2022 19:01:19 -0400
-X-MC-Unique: 6MU9bcknOMS9wgTsN-T_rg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A26313804076;
- Wed, 16 Mar 2022 23:01:17 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 362A2112C087;
- Wed, 16 Mar 2022 23:01:10 +0000 (UTC)
-Date: Wed, 16 Mar 2022 23:01:10 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 3/3] nbd/server: Allow MULTI_CONN for shared writable
- exports
-Message-ID: <20220316230110.GL1127@redhat.com>
-References: <20220314203818.3681277-1-eblake@redhat.com>
- <20220314203818.3681277-4-eblake@redhat.com>
- <20220315131441.GD1127@redhat.com>
- <20220316210718.yt3xcaqlg2sduyje@redhat.com>
- <20220316211553.5t5vujgu4rh7zpew@redhat.com>
+ us-mta-613-zAimJDGMOiCi3gW-Ev1y8w-1; Wed, 16 Mar 2022 19:08:20 -0400
+X-MC-Unique: zAimJDGMOiCi3gW-Ev1y8w-1
+Received: by mail-il1-f197.google.com with SMTP id
+ m17-20020a923f11000000b002c10e8f4c44so2096098ila.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 16:08:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=nPWSlxSn8Fk1m2ZSGmbehJMGyoAlfwasn+EhRzg6RWg=;
+ b=drk0OuljJX0CFT5FMi2XIVsCJ2fEVn6fz3cbnYm1sxNR9UB5LoHKmxzLUIvpUSQx82
+ tifLTmS3DGDGJKHt+usZskXsKNRsKY8v+9xakeUmOcD+SXdzm3Jv8T/B16bq2UvkL/Vi
+ b3TOcLECDzQoh7SmGdYqoXMdMX+F4busNDHYF5fJHpkTyANzzjIJk1Xubjk947zu/S46
+ P+1iLg0cyXIo91gSXby4rOB6hH66L/5AAe6lYZDSco+MNzGPvgj4SkKY7rRv5D2nGZ+p
+ SkqcHhqRfwkXOIiL/IIVsCCVd/VUBhOX8fmrsgEfKxggphDHmCOKD0uXmvaVoDZg9T6m
+ 7/aA==
+X-Gm-Message-State: AOAM5306YNUPU6Tg5UcLZqafH+gjePvhl04NzeMNjw8EZ1vrIcqcx/eM
+ Kjt2+tl6/bbsdXYEPi1GLZZTTdzHSiB3zUw6sm7a2hfNKf8WNqGUnCS+dyr9RoHnudq2UGKw9HP
+ rRO9XPZ9m82GZfAk=
+X-Received: by 2002:a5d:8796:0:b0:645:bd36:3833 with SMTP id
+ f22-20020a5d8796000000b00645bd363833mr969932ion.158.1647472100116; 
+ Wed, 16 Mar 2022 16:08:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYebRN82eDjnqFWm2dv5vLEPjiK1/1Mfj2TPJIHUJDQ+stCw3VOa0KCBYOuWHXvkVhFXFZSA==
+X-Received: by 2002:a5d:8796:0:b0:645:bd36:3833 with SMTP id
+ f22-20020a5d8796000000b00645bd363833mr969920ion.158.1647472099848; 
+ Wed, 16 Mar 2022 16:08:19 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ i8-20020a056e020ec800b002c7724b83cbsm1781383ilk.55.2022.03.16.16.08.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Mar 2022 16:08:19 -0700 (PDT)
+Date: Wed, 16 Mar 2022 17:08:18 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH for-7.1] vfio/common: remove spurious tpm-crb-cmd
+ misalignment warning
+Message-ID: <20220316170818.5b4f0032.alex.williamson@redhat.com>
+In-Reply-To: <20220316202951.294860-1-eric.auger@redhat.com>
+References: <20220316202951.294860-1-eric.auger@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-In-Reply-To: <20220316211553.5t5vujgu4rh7zpew@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -83,86 +101,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- nsoffer@redhat.com, Hanna Reitz <hreitz@redhat.com>, v.sementsov-og@ya.ru
+Cc: peter.maydell@linaro.org, stefanb@linux.vnet.ibm.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, eric.auger.pro@gmail.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Mar 16, 2022 at 04:15:53PM -0500, Eric Blake wrote:
-> On Wed, Mar 16, 2022 at 04:07:21PM -0500, Eric Blake wrote:
-> > On Tue, Mar 15, 2022 at 01:14:41PM +0000, Richard W.M. Jones wrote:
-> > > The patches seem OK to me, but I don't really know enough about the
-> > > internals of qemu-nbd to give a line-by-line review.  I did however
-> > > build and test qemu-nbd with the patches:
-> > > 
-> > >   $ ./build/qemu-nbd /var/tmp/test.qcow2 
-> > >   $ nbdinfo nbd://localhost
-> > >   ...
-> > > 	can_multi_conn: false
-> > > 
-> > > 
-> > >   $ ./build/qemu-nbd -e 2 /var/tmp/test.qcow2 
-> > >   $ nbdinfo nbd://localhost
-> > >   ...
-> > > 	can_multi_conn: false
-> > > 
-> > > ^^^ Is this expected?  It also happens with -e 0.
-> > 
-> > Yes, because qemu-nbd defaults to read-write connections, but to be
-> > conservative, this patch defaults '-m auto' to NOT advertise
-> > multi-conn for read-write; you need to be explicit:
-> > 
-> > > 
-> > > 
-> > >   $ ./build/qemu-nbd -e 2 -m on /var/tmp/test.qcow2 
-> > >   $ nbdinfo nbd://localhost
-> > >   ...
-> > > 	can_multi_conn: true
-> > 
-> > either with '-m on' as you did here, or with
-> > 
-> > build/qemu-nbd -r -e 2 /var/tmp/test.qcow2
-> > 
-> > where the '-m auto' default exposes multi-conn for a readonly client.
-> 
-> I hit send prematurely - one more thought I wanted to make clear.  For
-> _this_ series, the behavior of '-m auto' depends solely on readonly
-> vs. read-write; that being the most conservative choice of preserving
-> pre-existing qemu-nbd behavior (that is, if you don't use -m, the only
-> change in behavior should be the fact that --help output now lists
-> -m).
-> 
-> But in future versions of qemu, we might be able to improve '-m auto'
-> to also take into consideration whether the backing image of a
-> read-write device is known-cache-consistent (such as a local file
-> system), where we can then manage to default to advertising multi-conn
-> for those writable images, while still avoiding the advertisement when
-> exposing other devices such as network-mounted devices where we are
-> less confident on whether there are sufficient cache consistency
-> guarantees.  Use of explicit '-m off' or '-m on' gives guaranteed
-> results no matter the qemu version, so it is only explicit (or
-> implied) '-m auto' where we might get smarter defaults over time.
-> 
-> Thus testing whether advertising multi-conn makes a difference in
-> other tools like nbdcopy thus requires checking if qemu-nbd is new
-> enough to support -m, and then being explicit that we are opting in to
-> using it.
+On Wed, 16 Mar 2022 21:29:51 +0100
+Eric Auger <eric.auger@redhat.com> wrote:
 
-I see.  The commit message of patch 3 confused me because
-superficially it seems to say that multi-conn is safe (and therefore I
-assumed safe == enabled) when backed by a local filesystem.  Could the
-commit message be improved to list the default for common combinations
-of flags?
+> The CRB command buffer currently is a RAM MemoryRegion and given
+> its base address alignment, it causes an error report on
+> vfio_listener_region_add(). This region could have been a RAM device
+> region, easing the detection of such safe situation but this option
+> was not well received. So let's add a helper function that uses the
+> memory region name to recognize the region and detect the situation
+> is safe wrt assignment. Other regions can be listed here if such kind
+> of problem occurs again.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  hw/vfio/common.c     | 26 +++++++++++++++++++++++++-
+>  hw/vfio/trace-events |  1 +
+>  2 files changed, 26 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 080046e3f51..b58a38f5c57 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -861,6 +861,22 @@ static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
+>      g_free(vrdl);
+>  }
+>  
+> +static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+> +{
+> +    MemoryRegion *mr = section->mr;
+> +
+> +    if (strcmp(memory_region_name(mr), "tpm-crb-cmd") != 0) {
+> +        return false;
+> +    }
 
-Rich.
+Hi Eric,
 
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-df lists disk usage of guests without needing to install any
-software inside the virtual machine.  Supports Linux and Windows.
-http://people.redhat.com/~rjones/virt-df/
+I was thinking more along the lines that we could use
+memory_region_owner() to get the owning Object, then on
+that we could maybe use INTERFACE_CHECK to look for TYPE_MEMORY_DEVICE,
+then consider anything else optional.  (a) could something like that
+work and (b) do all required mappings currently expose that interface?
+Thanks,
+
+Alex
+
+
+> +
+> +    /* this is a known safe misaligned region, just trace for debug purpose */
+> +    trace_vfio_known_safe_misalignment(memory_region_name(mr),
+> +                                       section->offset_within_address_space,
+> +                                       section->offset_within_region,
+> +                                       qemu_real_host_page_size);
+> +    return true;
+> +}
+> +
+>  static void vfio_listener_region_add(MemoryListener *listener,
+>                                       MemoryRegionSection *section)
+>  {
+> @@ -884,7 +900,15 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>      if (unlikely((section->offset_within_address_space &
+>                    ~qemu_real_host_page_mask) !=
+>                   (section->offset_within_region & ~qemu_real_host_page_mask))) {
+> -        error_report("%s received unaligned region", __func__);
+> +        if (!vfio_known_safe_misalignment(section)) {
+> +            error_report("%s received unaligned region %s iova=0x%"PRIx64
+> +                         " offset_within_region=0x%"PRIx64
+> +                         " qemu_real_host_page_mask=0x%"PRIxPTR,
+> +                         __func__, memory_region_name(section->mr),
+> +                         section->offset_within_address_space,
+> +                         section->offset_within_region,
+> +                         qemu_real_host_page_mask);
+> +        }
+>          return;
+>      }
+>  
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 0ef1b5f4a65..6f38a2e6991 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -100,6 +100,7 @@ vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add
+>  vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
+>  vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
+>  vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
+> +vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_within_region, uint64_t page_size) "Region \"%s\" iova=0x%"PRIx64" offset_within_region=0x%"PRIx64" qemu_real_host_page_mask=0x%"PRIxPTR ": cannot be mapped for DMA"
+>  vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+>  vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
+>  vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
 
 
