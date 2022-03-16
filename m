@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31094DB488
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 16:13:34 +0100 (CET)
-Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FD64DB4AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Mar 2022 16:14:59 +0100 (CET)
+Received: from localhost ([::1]:60892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1nUVLA-0003Gp-UJ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 11:13:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40564)
+	id 1nUVMY-0005Xt-BA
+	for lists+qemu-devel@lfdr.de; Wed, 16 Mar 2022 11:14:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <suratiamol@gmail.com>)
- id 1nUVJQ-0002Mp-A3
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:11:44 -0400
-Received: from [2607:f8b0:4864:20::b32] (port=39859
- helo=mail-yb1-xb32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <suratiamol@gmail.com>)
- id 1nUVJO-0006TR-Ig
- for qemu-devel@nongnu.org; Wed, 16 Mar 2022 11:11:43 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id t11so4969693ybi.6
- for <qemu-devel@nongnu.org>; Wed, 16 Mar 2022 08:11:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=ijUsSEK5vnincOVt8r1Bl+SA1xykgd9yCmKJsvt+ZQQ=;
- b=OapWeztME214ivuNZ0KVDQMjXO9BhPnKVidVqMnE3WovlHIGXlLMTBeMMyPhx4c4iB
- VgmegljetDJJZkySdRoFrT8RHu86c6yXBOzZcCm/P6Vq6ILIcsV1aq362RFbp6U/GQcC
- uBYivedLsSCQ9ZSR55hUcGKizmuo7S8T0Vl4y1RTbkKbwlQdTAqbK+jftXhaOStM/G3c
- c4djUH3HX/zBHqE12it3MukZwsQWXDB9skOxkv2LDlrBAaybQwU788pvBGV6SgZIeeoU
- s26U2VQbf/kbY+q5StDkAKEfjoiiksaBVvQvVLNOP9kc/A2DD3Ip3u1WDNg2+vEkgFMP
- nmTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=ijUsSEK5vnincOVt8r1Bl+SA1xykgd9yCmKJsvt+ZQQ=;
- b=YKHtV8JS8kKi5/YCl7MBRxf0sIoFTS0mhJBmUVL4lCWl6+RSFXmfr4K+685ouf0xqu
- +yDSzwq8htMMeZisPB+uhCxOEzBnWK/IIcTDSXwEAwzRUP5GKrfkZMzJuMEFofEwlTmO
- izTUZ3nHy2oNFORMTCrVrtJrB7L4k08+J955z41ep2AkF7ASLu2uyfLDqOKmQ1O+Z7OP
- Q1B8fzL4vAFwJxd4zP4XfUDnzUY9YnWvc3bVUqB5LI899h4bgwrk8EfPF9C1XgZYAh8K
- AV/70MdRii+EO0lK8e14SNgO/p/Umd4SmgNO7aFYj5Uf/y6rxY0u7GqPmruwM/NZwEnM
- P9Tw==
-X-Gm-Message-State: AOAM533YhbVbox34/WtV83avuKrxPH/nJvh3oT7oe2UiPKgnp0v2zynv
- HKg9RjmnpeUFL0ake4YCNOe6bu5K5IsRZJaxPwwsUP9A
-X-Google-Smtp-Source: ABdhPJwAfxGArEXHtzOYNPXT1RwdX6C6VtsybbdVNn/CDAbttC8rhQPGy3fraQCemEAmkUC9e186Gm6SYWxVeEpMS0Y=
-X-Received: by 2002:a81:b288:0:b0:2d6:39d5:31a1 with SMTP id
- q130-20020a81b288000000b002d639d531a1mr527041ywh.506.1647443138534; Wed, 16
- Mar 2022 08:05:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nUVLM-00048T-1Y; Wed, 16 Mar 2022 11:13:44 -0400
+Received: from smtp23.cstnet.cn ([159.226.251.23]:39972 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1nUVLH-0006hc-WC; Wed, 16 Mar 2022 11:13:43 -0400
+Received: from [192.168.3.6] (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowAB3f5uW_jFikLAMAw--.19596S2;
+ Wed, 16 Mar 2022 23:13:28 +0800 (CST)
+Subject: Re: [PATCH v2] target/riscv: write back unmodified value for
+ csrrc/csrrs with rs1 is not x0 but holding zero
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20220311094601.30440-1-liweiwei@iscas.ac.cn>
+ <CAEUhbmX7wBzhvojSioQnB=T-DDuq9FX7UTPdvtR=oXHDm5Ra4A@mail.gmail.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <769fe78f-e4c0-83c1-d5fc-65fbf40bb5ff@iscas.ac.cn>
+Date: Wed, 16 Mar 2022 23:13:26 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Received: by 2002:a05:7000:13ca:0:0:0:0 with HTTP; Wed, 16 Mar 2022 08:05:38
- -0700 (PDT)
-From: Amol <suratiamol@gmail.com>
-Date: Wed, 16 Mar 2022 20:35:38 +0530
-Message-ID: <CA+nuEB-fNNSgZKPzWR4Ord2QmCrsnpY9Y7Erzw1RLob+eY9ksw@mail.gmail.com>
-Subject: [ppc/pnv9] clarification on QEMU's dtb
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=suratiamol@gmail.com; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- PDS_HP_HELO_NORDNS=0.659, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <CAEUhbmX7wBzhvojSioQnB=T-DDuq9FX7UTPdvtR=oXHDm5Ra4A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: rQCowAB3f5uW_jFikLAMAw--.19596S2
+X-Coremail-Antispam: 1UD129KBjvAXoWftFWrJr4DJry7AF48Xw47urg_yoW8uF4fKo
+ WkJrySvr4Y934akFZF9w17tr17WFn5Xws5ur1vyrZ3Ww12gr43Wr17tr9avF45tFZxKFW8
+ Gas7tayjka4kX3W3n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjp_UUUYq7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
+ j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
+ x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8
+ JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
+ IcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyU
+ JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCT
+ nIWIevJa73UjIFyTuYvjfU8VbyDUUUU
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,90 +74,598 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: suratiamol <suratiamol@gmail.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, lazyparser@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
 
-Below is a part of the dtb file as generated by
-qemu's powernv9 emulation:
+在 2022/3/16 下午9:07, Bin Meng 写道:
+> On Fri, Mar 11, 2022 at 5:46 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>> For csrrs and csrrc, if rs1 specifies a register other than x0, holding
+>> a zero value, the instruction will still attempt to write the unmodified
+>> value back to the csr and will cause side effects
+>>
+>> v2:
+>> * change to explictly pass "bool write_op" argument in riscv_csrrw*, do
+>>    write permission check and write operation depend on it
+>> * extend riscv_csr_predicate_fn to pass "write_op" argument which will
+>>    be checked by seed csr or other future "write-only" csr
+> The changelog should be put below ---
+>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> ---
+>>   target/riscv/cpu.c       |   3 +-
+>>   target/riscv/cpu.h       |  15 +++---
+>>   target/riscv/csr.c       | 101 +++++++++++++++++++++------------------
+>>   target/riscv/gdbstub.c   |  15 +++---
+>>   target/riscv/op_helper.c |  12 ++---
+>>   5 files changed, 79 insertions(+), 67 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index ddda4906ff..76ad9bffac 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -314,7 +314,8 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+>>           for (int i = 0; i < ARRAY_SIZE(dump_csrs); ++i) {
+>>               int csrno = dump_csrs[i];
+>>               target_ulong val = 0;
+>> -            RISCVException res = riscv_csrrw_debug(env, csrno, &val, 0, 0);
+>> +            RISCVException res = riscv_csrrw_debug(env, csrno, &val, 0, 0,
+>> +                                                   false);
+>>
+>>               /*
+>>                * Rely on the smode, hmode, etc, predicates within csr.c
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 9ba05042ed..971d193d61 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -610,27 +610,29 @@ void riscv_cpu_update_mask(CPURISCVState *env);
+>>
+>>   RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+>>                              target_ulong *ret_value,
+>> -                           target_ulong new_value, target_ulong write_mask);
+>> +                           target_ulong new_value, target_ulong write_mask,
+>> +                           bool write_op);
+>>   RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
+>>                                    target_ulong *ret_value,
+>>                                    target_ulong new_value,
+>> -                                 target_ulong write_mask);
+>> +                                 target_ulong write_mask, bool write_op);
+>>
+>>   static inline void riscv_csr_write(CPURISCVState *env, int csrno,
+>>                                      target_ulong val)
+>>   {
+>> -    riscv_csrrw(env, csrno, NULL, val, MAKE_64BIT_MASK(0, TARGET_LONG_BITS));
+>> +    riscv_csrrw(env, csrno, NULL, val, MAKE_64BIT_MASK(0, TARGET_LONG_BITS),
+>> +                true);
+>>   }
+>>
+>>   static inline target_ulong riscv_csr_read(CPURISCVState *env, int csrno)
+>>   {
+>>       target_ulong val = 0;
+>> -    riscv_csrrw(env, csrno, &val, 0, 0);
+>> +    riscv_csrrw(env, csrno, &val, 0, 0, false);
+>>       return val;
+>>   }
+>>
+>>   typedef RISCVException (*riscv_csr_predicate_fn)(CPURISCVState *env,
+>> -                                                 int csrno);
+>> +                                                 int csrno, bool write_op);
+>>   typedef RISCVException (*riscv_csr_read_fn)(CPURISCVState *env, int csrno,
+>>                                               target_ulong *ret_value);
+>>   typedef RISCVException (*riscv_csr_write_fn)(CPURISCVState *env, int csrno,
+>> @@ -642,7 +644,8 @@ typedef RISCVException (*riscv_csr_op_fn)(CPURISCVState *env, int csrno,
+>>
+>>   RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
+>>                                   Int128 *ret_value,
+>> -                                Int128 new_value, Int128 write_mask);
+>> +                                Int128 new_value, Int128 write_mask,
+>> +                                bool write_op);
+>>
+>>   typedef RISCVException (*riscv_csr_read128_fn)(CPURISCVState *env, int csrno,
+>>                                                  Int128 *ret_value);
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index aea82dff4a..1907481fb1 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -36,7 +36,7 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
+>>   }
+>>
+>>   /* Predicates */
+>> -static RISCVException fs(CPURISCVState *env, int csrno)
+>> +static RISCVException fs(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>   #if !defined(CONFIG_USER_ONLY)
+>>       if (!env->debugger && !riscv_cpu_fp_enabled(env) &&
+>> @@ -47,7 +47,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
+>>       return RISCV_EXCP_NONE;
+>>   }
+>>
+>> -static RISCVException vs(CPURISCVState *env, int csrno)
+>> +static RISCVException vs(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       CPUState *cs = env_cpu(env);
+>>       RISCVCPU *cpu = RISCV_CPU(cs);
+>> @@ -64,7 +64,7 @@ static RISCVException vs(CPURISCVState *env, int csrno)
+>>       return RISCV_EXCP_ILLEGAL_INST;
+>>   }
+>>
+>> -static RISCVException ctr(CPURISCVState *env, int csrno)
+>> +static RISCVException ctr(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>   #if !defined(CONFIG_USER_ONLY)
+>>       CPUState *cs = env_cpu(env);
+>> @@ -135,50 +135,50 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>>       return RISCV_EXCP_NONE;
+>>   }
+>>
+>> -static RISCVException ctr32(CPURISCVState *env, int csrno)
+>> +static RISCVException ctr32(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (riscv_cpu_mxl(env) != MXL_RV32) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> -    return ctr(env, csrno);
+>> +    return ctr(env, csrno, write_op);
+>>   }
+>>
+>>   #if !defined(CONFIG_USER_ONLY)
+>> -static RISCVException any(CPURISCVState *env, int csrno)
+>> +static RISCVException any(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       return RISCV_EXCP_NONE;
+>>   }
+>>
+>> -static RISCVException any32(CPURISCVState *env, int csrno)
+>> +static RISCVException any32(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (riscv_cpu_mxl(env) != MXL_RV32) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> -    return any(env, csrno);
+>> +    return any(env, csrno, write_op);
+>>
+>>   }
+>>
+>> -static int aia_any(CPURISCVState *env, int csrno)
+>> +static int aia_any(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> -    return any(env, csrno);
+>> +    return any(env, csrno, write_op);
+>>   }
+>>
+>> -static int aia_any32(CPURISCVState *env, int csrno)
+>> +static int aia_any32(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> -    return any32(env, csrno);
+>> +    return any32(env, csrno, write_op);
+>>   }
+>>
+>> -static RISCVException smode(CPURISCVState *env, int csrno)
+>> +static RISCVException smode(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (riscv_has_ext(env, RVS)) {
+>>           return RISCV_EXCP_NONE;
+>> @@ -187,34 +187,34 @@ static RISCVException smode(CPURISCVState *env, int csrno)
+>>       return RISCV_EXCP_ILLEGAL_INST;
+>>   }
+>>
+>> -static int smode32(CPURISCVState *env, int csrno)
+>> +static int smode32(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (riscv_cpu_mxl(env) != MXL_RV32) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> -    return smode(env, csrno);
+>> +    return smode(env, csrno, write_op);
+>>   }
+>>
+>> -static int aia_smode(CPURISCVState *env, int csrno)
+>> +static int aia_smode(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> -    return smode(env, csrno);
+>> +    return smode(env, csrno, write_op);
+>>   }
+>>
+>> -static int aia_smode32(CPURISCVState *env, int csrno)
+>> +static int aia_smode32(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> -    return smode32(env, csrno);
+>> +    return smode32(env, csrno, write_op);
+>>   }
+>>
+>> -static RISCVException hmode(CPURISCVState *env, int csrno)
+>> +static RISCVException hmode(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (riscv_has_ext(env, RVS) &&
+>>           riscv_has_ext(env, RVH)) {
+>> @@ -230,7 +230,7 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
+>>       return RISCV_EXCP_ILLEGAL_INST;
+>>   }
+>>
+>> -static RISCVException hmode32(CPURISCVState *env, int csrno)
+>> +static RISCVException hmode32(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (riscv_cpu_mxl(env) != MXL_RV32) {
+>>           if (!riscv_cpu_virt_enabled(env)) {
+>> @@ -240,12 +240,13 @@ static RISCVException hmode32(CPURISCVState *env, int csrno)
+>>           }
+>>       }
+>>
+>> -    return hmode(env, csrno);
+>> +    return hmode(env, csrno, write_op);
+>>
+>>   }
+>>
+>>   /* Checks if PointerMasking registers could be accessed */
+>> -static RISCVException pointer_masking(CPURISCVState *env, int csrno)
+>> +static RISCVException pointer_masking(CPURISCVState *env, int csrno,
+>> +                                      bool write_op)
+>>   {
+>>       /* Check if j-ext is present */
+>>       if (riscv_has_ext(env, RVJ)) {
+>> @@ -254,25 +255,25 @@ static RISCVException pointer_masking(CPURISCVState *env, int csrno)
+>>       return RISCV_EXCP_ILLEGAL_INST;
+>>   }
+>>
+>> -static int aia_hmode(CPURISCVState *env, int csrno)
+>> +static int aia_hmode(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>        }
+>>
+>> -     return hmode(env, csrno);
+>> +     return hmode(env, csrno, write_op);
+>>   }
+>>
+>> -static int aia_hmode32(CPURISCVState *env, int csrno)
+>> +static int aia_hmode32(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (!riscv_feature(env, RISCV_FEATURE_AIA)) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> -    return hmode32(env, csrno);
+>> +    return hmode32(env, csrno, write_op);
+>>   }
+>>
+>> -static RISCVException pmp(CPURISCVState *env, int csrno)
+>> +static RISCVException pmp(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (riscv_feature(env, RISCV_FEATURE_PMP)) {
+>>           return RISCV_EXCP_NONE;
+>> @@ -281,7 +282,7 @@ static RISCVException pmp(CPURISCVState *env, int csrno)
+>>       return RISCV_EXCP_ILLEGAL_INST;
+>>   }
+>>
+>> -static RISCVException epmp(CPURISCVState *env, int csrno)
+>> +static RISCVException epmp(CPURISCVState *env, int csrno, bool write_op)
+>>   {
+>>       if (env->priv == PRV_M && riscv_feature(env, RISCV_FEATURE_EPMP)) {
+>>           return RISCV_EXCP_NONE;
+>> @@ -2873,7 +2874,8 @@ static RISCVException write_upmbase(CPURISCVState *env, int csrno,
+>>   static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>>                                                  int csrno,
+>>                                                  bool write_mask,
+>> -                                               RISCVCPU *cpu)
+>> +                                               RISCVCPU *cpu,
+>> +                                               bool write_op)
+>>   {
+>>       /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
+>>       int read_only = get_field(csrno, 0xC00) == 3;
+>> @@ -2895,7 +2897,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>   #endif
+>> -    if (write_mask && read_only) {
+>> +    if (write_op && read_only) {
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> @@ -2909,13 +2911,13 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+>>           return RISCV_EXCP_ILLEGAL_INST;
+>>       }
+>>
+>> -    return csr_ops[csrno].predicate(env, csrno);
+>> +    return csr_ops[csrno].predicate(env, csrno, write_op);
+>>   }
+>>
+>>   static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+>>                                          target_ulong *ret_value,
+>>                                          target_ulong new_value,
+>> -                                       target_ulong write_mask)
+>> +                                       target_ulong write_mask, bool write_op)
+>>   {
+>>       RISCVException ret;
+>>       target_ulong old_value;
+>> @@ -2935,8 +2937,8 @@ static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+>>           return ret;
+>>       }
+>>
+>> -    /* write value if writable and write mask set, otherwise drop writes */
+>> -    if (write_mask) {
+>> +    /* write value if writable and write_op set, otherwise drop writes */
+>> +    if (write_op) {
+>>           new_value = (old_value & ~write_mask) | (new_value & write_mask);
+>>           if (csr_ops[csrno].write) {
+>>               ret = csr_ops[csrno].write(env, csrno, new_value);
+>> @@ -2956,22 +2958,25 @@ static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+>>
+>>   RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+>>                              target_ulong *ret_value,
+>> -                           target_ulong new_value, target_ulong write_mask)
+>> +                           target_ulong new_value, target_ulong write_mask,
+>> +                           bool write_op)
+>>   {
+>>       RISCVCPU *cpu = env_archcpu(env);
+>>
+>> -    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu);
+>> +    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu,
+>> +                                           write_op);
+>>       if (ret != RISCV_EXCP_NONE) {
+>>           return ret;
+>>       }
+>>
+>> -    return riscv_csrrw_do64(env, csrno, ret_value, new_value, write_mask);
+>> +    return riscv_csrrw_do64(env, csrno, ret_value, new_value, write_mask,
+>> +                            write_op);
+>>   }
+>>
+>>   static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
+>>                                           Int128 *ret_value,
+>>                                           Int128 new_value,
+>> -                                        Int128 write_mask)
+>> +                                        Int128 write_mask, bool write_op)
+>>   {
+>>       RISCVException ret;
+>>       Int128 old_value;
+>> @@ -2982,8 +2987,8 @@ static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
+>>           return ret;
+>>       }
+>>
+>> -    /* write value if writable and write mask set, otherwise drop writes */
+>> -    if (int128_nz(write_mask)) {
+>> +    /* write value if writable and write_op set, otherwise drop writes */
+>> +    if (write_op) {
+>>           new_value = int128_or(int128_and(old_value, int128_not(write_mask)),
+>>                                 int128_and(new_value, write_mask));
+>>           if (csr_ops[csrno].write128) {
+>> @@ -3010,18 +3015,20 @@ static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
+>>
+>>   RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
+>>                                   Int128 *ret_value,
+>> -                                Int128 new_value, Int128 write_mask)
+>> +                                Int128 new_value, Int128 write_mask,
+>> +                                bool write_op)
+>>   {
+>>       RISCVException ret;
+>>       RISCVCPU *cpu = env_archcpu(env);
+>>
+>> -    ret = riscv_csrrw_check(env, csrno, int128_nz(write_mask), cpu);
+>> +    ret = riscv_csrrw_check(env, csrno, int128_nz(write_mask), cpu, write_op);
+>>       if (ret != RISCV_EXCP_NONE) {
+>>           return ret;
+>>       }
+>>
+>>       if (csr_ops[csrno].read128) {
+>> -        return riscv_csrrw_do128(env, csrno, ret_value, new_value, write_mask);
+>> +        return riscv_csrrw_do128(env, csrno, ret_value, new_value, write_mask,
+>> +                                 write_op);
+>>       }
+>>
+>>       /*
+>> @@ -3033,7 +3040,7 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
+>>       target_ulong old_value;
+>>       ret = riscv_csrrw_do64(env, csrno, &old_value,
+>>                              int128_getlo(new_value),
+>> -                           int128_getlo(write_mask));
+>> +                           int128_getlo(write_mask), write_op);
+>>       if (ret == RISCV_EXCP_NONE && ret_value) {
+>>           *ret_value = int128_make64(old_value);
+>>       }
+>> @@ -3047,13 +3054,13 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
+>>   RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
+>>                                    target_ulong *ret_value,
+>>                                    target_ulong new_value,
+>> -                                 target_ulong write_mask)
+>> +                                 target_ulong write_mask, bool write_op)
+>>   {
+>>       RISCVException ret;
+>>   #if !defined(CONFIG_USER_ONLY)
+>>       env->debugger = true;
+>>   #endif
+>> -    ret = riscv_csrrw(env, csrno, ret_value, new_value, write_mask);
+>> +    ret = riscv_csrrw(env, csrno, ret_value, new_value, write_mask, write_op);
+>>   #if !defined(CONFIG_USER_ONLY)
+>>       env->debugger = false;
+>>   #endif
+>> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+>> index 9ed049c29e..5e37ea12cb 100644
+>> --- a/target/riscv/gdbstub.c
+>> +++ b/target/riscv/gdbstub.c
+>> @@ -124,7 +124,7 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
+>>            * This also works for CSR_FRM and CSR_FCSR.
+>>            */
+>>           result = riscv_csrrw_debug(env, n - 32, &val,
+>> -                                   0, 0);
+>> +                                   0, 0, false);
+>>           if (result == RISCV_EXCP_NONE) {
+>>               return gdb_get_regl(buf, val);
+>>           }
+>> @@ -147,7 +147,7 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+>>            * This also works for CSR_FRM and CSR_FCSR.
+>>            */
+>>           result = riscv_csrrw_debug(env, n - 32, NULL,
+>> -                                   val, -1);
+>> +                                   val, -1, true);
+>>           if (result == RISCV_EXCP_NONE) {
+>>               return sizeof(target_ulong);
+>>           }
+>> @@ -209,7 +209,7 @@ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
+>>       }
+>>
+>>       target_ulong val = 0;
+>> -    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0);
+>> +    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0, false);
+>>
+>>       if (result == 0) {
+>>           return gdb_get_regl(buf, val);
+>> @@ -236,7 +236,7 @@ static int riscv_gdb_set_vector(CPURISCVState *env, uint8_t *mem_buf, int n)
+>>       }
+>>
+>>       target_ulong val = ldtul_p(mem_buf);
+>> -    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1);
+>> +    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1, true);
+>>
+>>       if (result == 0) {
+>>           return sizeof(target_ulong);
+>> @@ -251,7 +251,7 @@ static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
+>>           target_ulong val = 0;
+>>           int result;
+>>
+>> -        result = riscv_csrrw_debug(env, n, &val, 0, 0);
+>> +        result = riscv_csrrw_debug(env, n, &val, 0, 0, false);
+>>           if (result == RISCV_EXCP_NONE) {
+>>               return gdb_get_regl(buf, val);
+>>           }
+>> @@ -265,7 +265,7 @@ static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
+>>           target_ulong val = ldtul_p(mem_buf);
+>>           int result;
+>>
+>> -        result = riscv_csrrw_debug(env, n, NULL, val, -1);
+>> +        result = riscv_csrrw_debug(env, n, NULL, val, -1, true);
+>>           if (result == RISCV_EXCP_NONE) {
+>>               return sizeof(target_ulong);
+>>           }
+>> @@ -319,7 +319,8 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+>>
+>>       for (i = 0; i < CSR_TABLE_SIZE; i++) {
+>>           predicate = csr_ops[i].predicate;
+>> -        if (predicate && (predicate(env, i) == RISCV_EXCP_NONE)) {
+>> +        if (predicate && ((predicate(env, i, false) == RISCV_EXCP_NONE) ||
+>> +                          (predicate(env, i, true) == RISCV_EXCP_NONE))) {
+>>               if (csr_ops[i].name) {
+>>                   g_string_append_printf(s, "<reg name=\"%s\"", csr_ops[i].name);
+>>               } else {
+>> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+>> index 1a75ba11e6..e0d708091e 100644
+>> --- a/target/riscv/op_helper.c
+>> +++ b/target/riscv/op_helper.c
+>> @@ -40,7 +40,7 @@ void helper_raise_exception(CPURISCVState *env, uint32_t exception)
+>>   target_ulong helper_csrr(CPURISCVState *env, int csr)
+>>   {
+>>       target_ulong val = 0;
+>> -    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0);
+>> +    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0, false);
+>>
+>>       if (ret != RISCV_EXCP_NONE) {
+>>           riscv_raise_exception(env, ret, GETPC());
+>> @@ -51,7 +51,7 @@ target_ulong helper_csrr(CPURISCVState *env, int csr)
+>>   void helper_csrw(CPURISCVState *env, int csr, target_ulong src)
+>>   {
+>>       target_ulong mask = env->xl == MXL_RV32 ? UINT32_MAX : (target_ulong)-1;
+>> -    RISCVException ret = riscv_csrrw(env, csr, NULL, src, mask);
+>> +    RISCVException ret = riscv_csrrw(env, csr, NULL, src, mask, true);
+>>
+>>       if (ret != RISCV_EXCP_NONE) {
+>>           riscv_raise_exception(env, ret, GETPC());
+>> @@ -62,7 +62,7 @@ target_ulong helper_csrrw(CPURISCVState *env, int csr,
+>>                             target_ulong src, target_ulong write_mask)
+>>   {
+>>       target_ulong val = 0;
+>> -    RISCVException ret = riscv_csrrw(env, csr, &val, src, write_mask);
+>> +    RISCVException ret = riscv_csrrw(env, csr, &val, src, write_mask, true);
+>>
+>>       if (ret != RISCV_EXCP_NONE) {
+>>           riscv_raise_exception(env, ret, GETPC());
+>> @@ -75,7 +75,7 @@ target_ulong helper_csrr_i128(CPURISCVState *env, int csr)
+>>       Int128 rv = int128_zero();
+>>       RISCVException ret = riscv_csrrw_i128(env, csr, &rv,
+>>                                             int128_zero(),
+>> -                                          int128_zero());
+>> +                                          int128_zero(), false);
+>>
+>>       if (ret != RISCV_EXCP_NONE) {
+>>           riscv_raise_exception(env, ret, GETPC());
+>> @@ -90,7 +90,7 @@ void helper_csrw_i128(CPURISCVState *env, int csr,
+>>   {
+>>       RISCVException ret = riscv_csrrw_i128(env, csr, NULL,
+>>                                             int128_make128(srcl, srch),
+>> -                                          UINT128_MAX);
+>> +                                          UINT128_MAX, true);
+>>
+>>       if (ret != RISCV_EXCP_NONE) {
+>>           riscv_raise_exception(env, ret, GETPC());
+>> @@ -104,7 +104,7 @@ target_ulong helper_csrrw_i128(CPURISCVState *env, int csr,
+>>       Int128 rv = int128_zero();
+>>       RISCVException ret = riscv_csrrw_i128(env, csr, &rv,
+>>                                             int128_make128(srcl, srch),
+>> -                                          int128_make128(maskl, maskh));
+>> +                                          int128_make128(maskl, maskh), true);
+>>
+>>       if (ret != RISCV_EXCP_NONE) {
+>>           riscv_raise_exception(env, ret, GETPC());
+> I am afraid the adding of "bool write_op" argument was done on many
+> functions, some of which do not look good to me, e.g.: predicate
+> funcs. v1 is much better.
 
-/ {
-	....
-	compatible = "qemu,powernv9\0ibm,powernv";
-	model = "IBM PowerNV (emulated by qemu)";
-	pciex@600c3c0000000 {
-		compatible = "ibm,power9-pciex\0ibm,ioda3-phb";
-		device_type = "pciex";
-		....
-		#address-cells = <0x03>;
-		#size-cells = <0x02>;
-		#interrupt-cells = <0x01>;
-		interrupt-parent = <0x804e>;
-		ranges = <0x2000000 0x00 0x80000000 0x600c0 0x00 0x00 0x7fff0000>;
-		....
-		pci@0 {
-			interrupts = <0x01>;
-			#address-cells = <0x03>;
-			#size-cells = <0x02>;
-			#interrupt-cells = <0x01>;
-			interrupt-map-mask = <0x00 0x00 0x00 0x07>;
-			interrupt-map =
-<0x00 0x00 0x00 0x01 0x804e 0xfeff8 0x01
- 0x00 0x00 0x00 0x02 0x804e 0xfeff9 0x01
- 0x00 0x00 0x00 0x03 0x804e 0xfeffa 0x01
- 0x00 0x00 0x00 0x04 0x804e 0xfeffb 0x01>;
-			ranges = <0x2000000 0x00 0x00 0x2000000 0x00 0x00 0xf0000000 0x00>;
-		};
-	};
+Yeah, I agree adding  argument to predicate is not a good idea. However 
+it seems that the csr(like seed)
 
-Of interest is the "interrupts = <0x01>;" property of the pci@0 node.
-Its parent, the
-ioda3 node, has an "#interrupt-cells = <0x01>;" property which I
-believe drives the
-interrupts specification within the pci@0 node.
+itself cannot  distinguish whether it's to be written or not except 
+these two ways(in v1 and v2).
 
-Then, shouldn't the parent also drive the mapping of pci@0's
-"interrupts = <0x01>;"
-property? That is, shouldn't the parent (ioda3) contain the
-interrupt-map and not
-pci@0?
+Or we can take seed CSR as a special case  in riscv_csrrw_check since no 
+other csr will limit itself
 
-If pci@0 is the proper place to contain the interrupt-map, doesn't
-that conflict with
-the generic handling of its "interrupts" property, since I believe,
-one looks for the
-interrupt-parent to determine the format. Here, the interrupt parent,
-0x804e, has
-#interrupt-cells set to 2, so the "interrupts" specifier of a single
-cell inside pci@0
-seems to be in direct conflict with that handling.
+to be accessed only with read-write instruction currently.
 
-Or is the spec defined such that if a node has interrupt-map property,
-that node's
-interrupt spec need not be according to the parent interrupt
-controllers requirement?
-But then the example inside "Advanced Interrupt Mapping" section of
-[1] seems to be
-wrong.
+>
+> Or maybe, is that possible we do something in trans_csrrs() instead?
 
-I checked a dtb, linked at at [2], seemingly captured from a hardware
-machine, and
-found no such violation at least among the pci nodes. In it, there is
-a pci@0 node with
-"interrupts = <0x01>", but it does have a parent with interrupt-map
-which can translate
-that specifier into one which can be understood by the target
-interrupt controller.
+The read and write operation in trans_csr*  have been truely 
+distinguished in original code:
 
-It seems that qemu is generating (or basing its modifications on) an
-incorrectly specified
-dtb.
+all the read operation will go to  the helper_csrr,  write to 
+helper_csrrw, read/write to helper_csrrw.
 
-Thanks,
-Amol
+However, they all go to the same progress  riscv_csrrw* in the helper 
+with different arguments.
 
-[1] https://elinux.org/Device_Tree_Usage#Advanced_Interrupt_Mapping
-[2] https://people.freebsd.org/~jhibbits/p9_vga_out_devtree.txt
+Regards,
+
+Weiwei Li
+
+>
+> Regards,
+> Bin
+
+
+
+
 
